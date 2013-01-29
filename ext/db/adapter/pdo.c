@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 
 /**
  * Sends SQL statements to the database server returning the success state.
- * Use this method only when the SQL statement sent to the server don't return any row
+ * Use this method only when the SQL statement sent to the server doesn't return any row
  *
  *<code>
  *	//Inserting data
@@ -532,7 +532,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 }
 
 /**
- * Returns the number of affected rows by the last INSERT/UPDATE/DELETE reported by the database system
+ * Returns the number of affected rows by the lastest INSERT/UPDATE/DELETE executed in the database system
  *
  *<code>
  *	$connection->query("DELETE FROM robots");
@@ -548,7 +548,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, affectedRows){
 }
 
 /**
- * Closes active connection returning success. Phalcon automatically closes and destroys active connections when the request ends
+ * Closes the active connection returning success. Phalcon automatically closes and destroys
+ * active connections when the request ends
  *
  * @return boolean
  */
@@ -649,7 +650,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString){
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 
 	zval *sql_statement, *params, *sql = NULL, *pdo, *bind_value = NULL;
-	zval *index = NULL, *is_numeric = NULL, *value = NULL, *place_key = NULL, *replaced_sql = NULL;
+	zval *index = NULL, *value = NULL, *place_key = NULL, *replaced_sql = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -676,13 +677,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 				PHALCON_GET_FOREACH_KEY(index, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(bind_value);
 	
-				PHALCON_INIT_NVAR(is_numeric);
-				PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", bind_value);
-				if (PHALCON_IS_TRUE(is_numeric)) {
+				if (phalcon_is_numeric(bind_value)) {
 					PHALCON_CPY_WRT(value, bind_value);
 				} else {
-					PHALCON_INIT_NVAR(value);
-					PHALCON_CALL_METHOD_PARAMS_1(value, pdo, "quote", bind_value);
+					if (Z_TYPE_P(value) == IS_OBJECT) {
+						PHALCON_INIT_NVAR(value);
+						PHALCON_CALL_FUNC_PARAMS_1(value, "strval", bind_value);
+					} else {
+						PHALCON_INIT_NVAR(value);
+						PHALCON_CALL_METHOD_PARAMS_1(value, pdo, "quote", bind_value);
+					}
 				}
 	
 				/** 
@@ -731,7 +735,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 }
 
 /**
- * Converts bound params such as :name: or ?1 into PDO bind params ?
+ * Converts bound parameters such as :name: or ?1 into PDO bind params ?
  *
  *<code>
  * print_r($connection->convertBoundParams('SELECT * FROM robots WHERE name = :name:', array('Bender')));
@@ -841,7 +845,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 }
 
 /**
- * Returns insert id for the auto_increment/serial column inserted in the last SQL statement
+ * Returns the insert id for the auto_increment/serial column inserted in the lastest executed SQL statement
  *
  *<code>
  * //Inserting a new robot
@@ -1033,7 +1037,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit){
 }
 
 /**
- * Checks whether connection is under database transaction
+ * Checks whether the connection is under a transaction
  *
  *<code>
  * $connection->begin();
@@ -1354,7 +1358,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, tableOptions){
 }
 
 /**
- * Return the default identity value to insert in an identity column
+ * Returns the default identity value to be inserted in an identity column
  *
  *<code>
  * //Inserting a new robot with a valid default value for the column 'id'

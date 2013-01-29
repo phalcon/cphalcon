@@ -951,7 +951,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getRoles){
 /**
  * Return an array with every resource registered in the list
  *
- * @return Phalcon\Acl\Resources[]
+ * @return Phalcon\Acl\Resource[]
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getResources){
 

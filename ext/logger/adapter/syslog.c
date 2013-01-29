@@ -152,7 +152,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 
-	zval *message = NULL, *type = NULL, *time, *formatter, *applied_format;
+	zval *message, *type, *time, *formatter, *applied_format;
+	zval *syslog_type, *syslog_message;
 
 	PHALCON_MM_GROW();
 
@@ -160,10 +161,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(message);
-	
-	PHALCON_SEPARATE_PARAM(type);
-	
 	PHALCON_INIT_VAR(formatter);
 	PHALCON_CALL_METHOD(formatter, this_ptr, "getformatter");
 	
@@ -174,12 +171,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 		return;
 	}
 	
-	PHALCON_OBS_NVAR(type);
-	phalcon_array_fetch_long(&type, applied_format, 0, PH_NOISY_CC);
+	PHALCON_OBS_VAR(syslog_type);
+	phalcon_array_fetch_long(&syslog_type, applied_format, 0, PH_NOISY_CC);
 	
-	PHALCON_OBS_NVAR(message);
-	phalcon_array_fetch_long(&message, applied_format, 1, PH_NOISY_CC);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("syslog", type, message);
+	PHALCON_OBS_VAR(syslog_message);
+	phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY_CC);
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("syslog", syslog_type, syslog_message);
 	
 	PHALCON_MM_RESTORE();
 }

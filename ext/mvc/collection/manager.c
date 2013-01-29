@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized){
 /**
  * Get the latest initialized model
  *
- * @return Phalcon\Mvc\ModelInterface
+ * @return Phalcon\Mvc\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized){
 
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized){
 /**
  * Sets a connection service for a specific model
  *
- * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\CollectionInterface $model
  * @param string $connectionService
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService){
@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService){
 /**
  * Sets if a model must use implicit objects ids
  *
- * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\CollectionInterface $model
  * @param boolean $useImplicitObjectIds
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds){
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds){
 /**
  * Checks if a model is using implicit object ids
  *
- * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\CollectionInterface $model
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
 /**
  * Returns the connection related to a model
  *
- * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\CollectionInterface $model
  * @return Phalcon\Db\AdapterInterface
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
@@ -455,7 +455,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
  * Notify the behaviors that are listening in the model
  *
  * @param string $eventName
- * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\CollectionInterface $model
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent){
 
