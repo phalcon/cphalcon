@@ -953,8 +953,6 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
 
         $actual = $formatter->getFormat();
 
-        $logger->close();
-
         $expected = $format;
 
         $this->assertEquals(
