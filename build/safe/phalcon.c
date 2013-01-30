@@ -11617,7 +11617,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 
 	zval *prefix = NULL, *keys, *type, *prefix_pattern, *iterator;
-	zval *key = NULL;
+	zval *key = NULL, *real_key = NULL;
 	zval *r0 = NULL;
 	zend_class_entry *ce0;
 
@@ -11660,7 +11660,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	
 		PHALCON_INIT_NVAR(key);
 		PHALCON_CALL_METHOD(key, iterator, "key");
-		phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
+	
+		PHALCON_INIT_NVAR(real_key);
+		phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
+		phalcon_array_append(&keys, real_key, PH_SEPARATE TSRMLS_CC);
 		PHALCON_CALL_METHOD_NORETURN(iterator, "next");
 	}
 	
@@ -65455,7 +65458,7 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(version, 9);
 	add_next_index_long(version, 0);
 	add_next_index_long(version, 2);
-	add_next_index_long(version, 1);
+	add_next_index_long(version, 2);
 	RETURN_CTOR(version);
 }
 
