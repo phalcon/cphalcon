@@ -4312,6 +4312,53 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 }
 
 /**
+ * Executes the query returning the first result
+ *
+ * @param array $bindParams
+ * @param array $bindTypes
+ * @return Ṕhalcon\Mvc\ModelInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult){
+
+	zval *bind_params = NULL, *bind_types = NULL, *unique_row;
+	zval *result = NULL, *first_result;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &bind_params, &bind_types) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!bind_params) {
+		PHALCON_INIT_VAR(bind_params);
+	}
+	
+	if (!bind_types) {
+		PHALCON_INIT_VAR(bind_types);
+	}
+	
+	PHALCON_OBS_VAR(unique_row);
+	phalcon_read_property(&unique_row, this_ptr, SL("_uniqueRow"), PH_NOISY_CC);
+	
+	/** 
+	 * The query is already programmed to return just one row
+	 */
+	if (zend_is_true(unique_row)) {
+		PHALCON_INIT_VAR(result);
+		PHALCON_CALL_METHOD_PARAMS_2(result, this_ptr, "execute", bind_params, bind_types);
+		RETURN_CCTOR(result);
+	}
+	
+	PHALCON_INIT_NVAR(result);
+	PHALCON_CALL_METHOD_PARAMS_2(result, this_ptr, "execute", bind_params, bind_types);
+	
+	PHALCON_INIT_VAR(first_result);
+	PHALCON_CALL_METHOD(first_result, result, "getfirst");
+	
+	RETURN_CCTOR(result);
+}
+
+/**
  * Sets the type of PHQL statement to be executed
  *
  * @param int $type

@@ -501,19 +501,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
 
-	zval *count, *pre_count, *valid, *current;
-	zval *t0 = NULL;
+	zval *one, *count, *pre_count, *valid, *current;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(one);
+	ZVAL_LONG(one, 1);
+	
 	PHALCON_INIT_VAR(count);
 	PHALCON_CALL_METHOD(count, this_ptr, "count");
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 1);
-	
 	PHALCON_INIT_VAR(pre_count);
-	sub_function(pre_count, count, t0 TSRMLS_CC);
+	sub_function(pre_count, count, one TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "seek", pre_count);
 	
 	PHALCON_INIT_VAR(valid);
@@ -531,6 +530,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
  * Set if the resultset is fresh or an old one cached
  *
  * @param boolean $isFresh
+ * @return Phalcon\Mvc\Model\Resultset
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
 
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_isFresh"), is_fresh TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
@@ -559,6 +559,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh){
  * Sets the hydration mode in the resultset
  *
  * @param int $hydrateMode
+ * @return Phalcon\Mvc\Model\Resultset
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode){
 
@@ -569,7 +570,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
@@ -597,7 +598,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
 /**
  * Returns current row in the resultset
  *
- * @return object
+ * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, current){
 
@@ -626,7 +627,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 
 	zval *condition_callback = NULL, *transaction = NULL, *record = NULL;
 	zval *connection = NULL, *parameters = NULL, *status = NULL, *messages = NULL;
-	zval *r0 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
+	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -658,17 +660,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 			/** 
 			 * We only can delete resultsets whose every element is a complete object
 			 */
-			if (phalcon_method_exists_ex(record, SS("getconnection") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_NVAR(connection);
-				PHALCON_CALL_METHOD(connection, record, "getconnection");
-				PHALCON_CALL_METHOD_NORETURN(connection, "begin");
-	
-				PHALCON_INIT_NVAR(transaction);
-				ZVAL_BOOL(transaction, 1);
-			} else {
+			PHALCON_INIT_NVAR(c0);
+			ZVAL_STRING(c0, "getConnection", 1);
+			PHALCON_INIT_NVAR(r1);
+			PHALCON_CALL_FUNC_PARAMS_2(r1, "method_exists", record, c0);
+			if (!zend_is_true(r1)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Error Processing Request");
 				return;
 			}
+	
+			PHALCON_INIT_NVAR(connection);
+			PHALCON_CALL_METHOD(connection, record, "getconnection");
+			PHALCON_CALL_METHOD_NORETURN(connection, "begin");
+	
+			PHALCON_INIT_NVAR(transaction);
+			ZVAL_BOOL(transaction, 1);
 		}
 	
 		/** 

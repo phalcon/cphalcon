@@ -17,36 +17,21 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+extern zend_class_entry *phalcon_mvc_model_metadata_strategy_annotations_ce;
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Annotations);
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps);
 
-#include "kernel/main.h"
-#include "kernel/memory.h"
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategy_annotations_getmetadata, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
 
-/**
- * Phalcon\Mvc\User\Module
- *
- * This class can be used to provide user modules easy access to services
- * in the application
- */
-
-
-/**
- * Phalcon\Mvc\User\Module initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Mvc_User_Module){
-
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\User, Module, mvc_user_module, "phalcon\\di\\injectable", NULL, 0);
-
-	return SUCCESS;
-}
+PHALCON_INIT_FUNCS(phalcon_mvc_model_metadata_strategy_annotations_method_entry){
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData, arginfo_phalcon_mvc_model_metadata_strategy_annotations_getmetadata, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps, NULL, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
 

@@ -22,6 +22,10 @@ extern zend_class_entry *phalcon_mvc_model_metadata_ce;
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData);
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex);
@@ -44,6 +48,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setdi, 0, 0, 1)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setstrategy, 0, 0, 1)
+	ZEND_ARG_INFO(0, strategy)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_readmetadata, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
@@ -134,6 +146,10 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_metadata_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_MetaData, _initialize, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData, setDI, arginfo_phalcon_mvc_model_metadata_setdi, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDI, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData, setStrategy, arginfo_phalcon_mvc_model_metadata_setstrategy, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getStrategy, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, readMetaData, arginfo_phalcon_mvc_model_metadata_readmetadata, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, readMetaDataIndex, arginfo_phalcon_mvc_model_metadata_readmetadataindex, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex, arginfo_phalcon_mvc_model_metadata_writemetadataindex, ZEND_ACC_PUBLIC) 

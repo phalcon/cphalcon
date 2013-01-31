@@ -18,10 +18,17 @@
 			<file>unit-tests/DiTest.php</file>
 			<file>unit-tests/EventsTest.php</file>
 			<file>unit-tests/ResponseTest.php</file>
-			<file>unit-tests/RouterMvcTest.php</file>
 			<file>unit-tests/DispatcherMvcTest.php</file>
 			<file>unit-tests/DispatcherMvcEventsTest.php</file>
 			<file>unit-tests/CacheTest.php</file>
+
+			<!-- Annotations -->
+			<file>unit-tests/AnnotationsTest.php</file>
+			<file>unit-tests/AnnotationsAdapterTest.php</file>
+
+			<!-- MVC Routing -->
+			<file>unit-tests/RouterMvcTest.php</file>
+			<file>unit-tests/RouterMvcAnnotationsTest.php</file>
 
 			<!-- Database tests -->
 			<file>unit-tests/DbTest.php</file>
@@ -80,13 +87,6 @@
 			<!-- Micro MVC -->
 			<file>unit-tests/MicroMvcTest.php</file>
 			<file>unit-tests/MicroMvcEventsTest.php</file>
-
-			<!-- Annotations -->
-			<file>unit-tests/AnnotationsTest.php</file>
-			<file>unit-tests/AnnotationsAdapterTest.php</file>
-
-			<!-- Annotations Router -->
-			<file>unit-tests/RouterMvcAnnotationsTest.php</file>
 
 			<!-- CLI tests -->
 			<file>unit-tests/RouterCliTest.php</file>

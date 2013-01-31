@@ -331,6 +331,19 @@ int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint 
 }
 
 /**
+ * Updates an array with a long value using a zval index
+ */
+int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flags TSRMLS_DC) {
+
+	zval *zvalue;
+
+	ALLOC_INIT_ZVAL(zvalue);
+	ZVAL_LONG(zvalue, value);
+
+	return phalcon_array_update_zval(arr, index, &zvalue, flags TSRMLS_CC);
+}
+
+/**
  * Updates values on arrays by string indexes only
  */
 int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC) {

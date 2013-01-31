@@ -233,29 +233,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	/** 
 	 * Models are just initialized once per request
 	 */
-	if (!phalcon_array_isset(initialized, class_name)) {
-	
-		/** 
-		 * Call the 'initialize' method if it's implemented
-		 */
-		if (phalcon_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD_NORETURN(model, "initialize");
-		}
-	
-		/** 
-		 * If an EventsManager is available we pass to it every initialized model
-		 */
-		PHALCON_OBS_VAR(events_manager);
-		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-			PHALCON_INIT_VAR(event_name);
-			ZVAL_STRING(event_name, "modelsManager:afterInitialize", 1);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
-		}
-	
-		phalcon_update_property_array(this_ptr, SL("_initialized"), class_name, model TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
+	if (phalcon_array_isset(initialized, class_name)) {
+		RETURN_MM_NULL();
 	}
+	
+	/** 
+	 * Call the 'initialize' method if it's implemented
+	 */
+	if (phalcon_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD_NORETURN(model, "initialize");
+	}
+	
+	/** 
+	 * If an EventsManager is available we pass to it every initialized model
+	 */
+	PHALCON_OBS_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "modelsManager:afterInitialize", 1);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+	}
+	
+	phalcon_update_property_array(this_ptr, SL("_initialized"), class_name, model TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

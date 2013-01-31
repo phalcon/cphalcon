@@ -38,6 +38,20 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface){
 }
 
 /**
+ * Set the meta-data extraction strategy
+ *
+ * @param Phalcon\Mvc\Model\MetaData\Strategy\Introspection $strategy
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setStrategy);
+
+/**
+ * Return the strategy to obtain the meta-data
+ *
+ * @return Phalcon\Mvc\Model\MetaData\Strategy\Introspection
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getStrategy);
+
+/**
  * Reads meta-data for certain model
  *
  * @param Phalcon\Mvc\ModelInterface $model

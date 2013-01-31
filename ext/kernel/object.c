@@ -278,6 +278,7 @@ int phalcon_class_exists(zval *class_name TSRMLS_DC) {
 		if (zend_lookup_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), &ce TSRMLS_CC) == SUCCESS) {
 			return (((*ce)->ce_flags & ZEND_ACC_INTERFACE) == 0);
 		}
+		return 0;
 	}
 
 	php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
