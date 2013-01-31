@@ -5127,6 +5127,11 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			phalcon_update_property_zval(this_ptr, SL("_modelsManager"), manager TSRMLS_CC);
 	
 			/** 
+			 * Try to initialize the model
+			 */
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(manager, "initialize", this_ptr);
+	
+			/** 
 			 * Update the objects attributes
 			 */
 	

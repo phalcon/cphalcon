@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
  *	print_r($metaData->writeColumnMapIndex(new Robots(), MetaData::MODELS_REVERSE_COLUMN_MAP, array('leName' => 'name')));
  *</code>
  *
- * @param \Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param int $index
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){

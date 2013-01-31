@@ -1908,7 +1908,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
  * Query all the relationships defined on a model
  *
  * @param string $modelName
- * @return Phalcon\Mvc\RelationInterface[]
+ * @return Phalcon\Mvc\Model\RelationInterface[]
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 
@@ -2021,7 +2021,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
  *
  * @param string $first
  * @param string $second
- * @return Phalcon\Mvc\RelationInterface
+ * @return Phalcon\Mvc\Model\RelationInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween){
 

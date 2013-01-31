@@ -202,7 +202,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany);
  * Query all the relationships defined on a model
  *
  * @param string $modelName
- * @return Phalcon\Mvc\RelationInterface[]
+ * @return Phalcon\Mvc\Model\RelationInterface[]
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelations);
 

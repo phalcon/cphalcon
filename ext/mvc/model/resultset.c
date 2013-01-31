@@ -627,8 +627,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 
 	zval *condition_callback = NULL, *transaction = NULL, *record = NULL;
 	zval *connection = NULL, *parameters = NULL, *status = NULL, *messages = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	zval *c0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -660,12 +659,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 			/** 
 			 * We only can delete resultsets whose every element is a complete object
 			 */
-			PHALCON_INIT_NVAR(c0);
-			ZVAL_STRING(c0, "getConnection", 1);
-			PHALCON_INIT_NVAR(r1);
-			PHALCON_CALL_FUNC_PARAMS_2(r1, "method_exists", record, c0);
-			if (!zend_is_true(r1)) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Error Processing Request");
+			if (!phalcon_method_exists_ex(record, SS("getconnection") TSRMLS_CC) == FAILURE) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
 				return;
 			}
 	
