@@ -272,3 +272,43 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData){
 	RETURN_MEMBER(this_ptr, "_reflectionData");
 }
 
+/**
+ * Restores the state of a Phalcon\Annotations\Reflection variable export
+ *
+ * @return array $data
+ */
+PHP_METHOD(Phalcon_Annotations_Reflection, __set_state){
+
+	zval *data, *reflection_data, *reflection = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(data) == IS_ARRAY) { 
+	
+		/** 
+		 * Check for a '_reflectionData' in the array to build the Reflection
+		 */
+		if (phalcon_array_isset_string(data, SS("_reflectionData"))) {
+			PHALCON_OBS_VAR(reflection_data);
+			phalcon_array_fetch_string(&reflection_data, data, SL("_reflectionData"), PH_NOISY_CC);
+	
+			PHALCON_INIT_VAR(reflection);
+			object_init_ex(reflection, phalcon_annotations_reflection_ce);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", reflection_data);
+	
+			RETURN_CTOR(reflection);
+		}
+	}
+	
+	PHALCON_INIT_NVAR(reflection);
+	object_init_ex(reflection, phalcon_annotations_reflection_ce);
+	PHALCON_CALL_METHOD_NORETURN(reflection, "__construct");
+	
+	
+	RETURN_CTOR(reflection);
+}
+

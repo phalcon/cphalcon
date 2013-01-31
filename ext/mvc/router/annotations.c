@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 				 * Process method annotations
 				 */
 				PHALCON_INIT_NVAR(method_annotations);
-				PHALCON_CALL_METHOD(method_annotations, handler_annotations, "getmethodannotations");
+				PHALCON_CALL_METHOD(method_annotations, handler_annotations, "getmethodsannotations");
 				if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
 	
 					PHALCON_INIT_NVAR(lowercased);

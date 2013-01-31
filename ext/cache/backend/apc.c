@@ -292,6 +292,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 		PHALCON_INIT_NVAR(key);
 		PHALCON_CALL_METHOD(key, iterator, "key");
 	
+		/** 
+		 * Remove the _PHCA prefix
+		 */
 		PHALCON_INIT_NVAR(real_key);
 		phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
 		phalcon_array_append(&keys, real_key, PH_SEPARATE TSRMLS_CC);

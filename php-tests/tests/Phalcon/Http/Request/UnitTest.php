@@ -250,12 +250,6 @@ class Http_Request_UnitTest extends Phalcon_Test_UnitTestCase
         );
     }
 
-
-
-
-
-
-
     public function testInput()
     {
 
@@ -435,6 +429,7 @@ class Http_Request_UnitTest extends Phalcon_Test_UnitTestCase
     {
         $_SERVER[$var] = $value;
     }
+
     private function _unsetServerVar($var)
     {
         unset($_SERVER[$var]);

@@ -83,6 +83,10 @@
 
 			<!-- Annotations -->
 			<file>unit-tests/AnnotationsTest.php</file>
+			<file>unit-tests/AnnotationsAdapterTest.php</file>
+
+			<!-- Annotations Router -->
+			<file>unit-tests/RouterMvcAnnotationsTest.php</file>
 
 			<!-- CLI tests -->
 			<file>unit-tests/RouterCliTest.php</file>

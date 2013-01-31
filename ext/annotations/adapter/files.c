@@ -34,10 +34,10 @@
 
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/concat.h"
-#include "kernel/file.h"
-#include "kernel/require.h"
 #include "kernel/fcall.h"
+#include "kernel/file.h"
+#include "kernel/concat.h"
+#include "kernel/require.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 
@@ -106,7 +106,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 
-	zval *key, *annotations_dir, *path, *data;
+	zval *key, *annotations_dir, *separator, *virtual_key;
+	zval *path, *data;
 
 	PHALCON_MM_GROW();
 
@@ -117,8 +118,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 	PHALCON_OBS_VAR(annotations_dir);
 	phalcon_read_property(&annotations_dir, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	
+	PHALCON_INIT_VAR(separator);
+	ZVAL_STRING(separator, "_", 1);
+	
+	PHALCON_INIT_VAR(virtual_key);
+	phalcon_prepare_virtual_path(virtual_key, key, separator TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(path);
-	PHALCON_CONCAT_VVS(path, annotations_dir, key, ".php");
+	PHALCON_CONCAT_VVS(path, annotations_dir, virtual_key, ".php");
 	if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(data);
 		if (phalcon_require_ret(data, path TSRMLS_CC) == FAILURE) {
@@ -138,8 +145,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 
-	zval *key, *data, *annotations_dir, *path, *to_string;
-	zval *export, *php_export, *status;
+	zval *key, *data, *annotations_dir, *separator;
+	zval *virtual_key, *path, *to_string, *export, *php_export;
+	zval *status;
 
 	PHALCON_MM_GROW();
 
@@ -150,8 +158,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 	PHALCON_OBS_VAR(annotations_dir);
 	phalcon_read_property(&annotations_dir, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	
+	PHALCON_INIT_VAR(separator);
+	ZVAL_STRING(separator, "_", 1);
+	
+	PHALCON_INIT_VAR(virtual_key);
+	phalcon_prepare_virtual_path(virtual_key, key, separator TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(path);
-	PHALCON_CONCAT_VVS(path, annotations_dir, key, ".php");
+	PHALCON_CONCAT_VVS(path, annotations_dir, virtual_key, ".php");
 	
 	PHALCON_INIT_VAR(to_string);
 	ZVAL_BOOL(to_string, 1);

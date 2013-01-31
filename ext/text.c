@@ -326,12 +326,3 @@ PHP_METHOD(Phalcon_Text, upper){
 	RETURN_CCTOR(upper);
 }
 
-/**
- *
- */
-PHP_METHOD(Phalcon_Text, x){
-
-
-	
-}
-

@@ -29,7 +29,6 @@ PHP_METHOD(Phalcon_Text, startsWith);
 PHP_METHOD(Phalcon_Text, endsWith);
 PHP_METHOD(Phalcon_Text, lower);
 PHP_METHOD(Phalcon_Text, upper);
-PHP_METHOD(Phalcon_Text, x);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_camelize, 0, 0, 1)
 	ZEND_ARG_INFO(0, str)
@@ -78,7 +77,6 @@ PHALCON_INIT_FUNCS(phalcon_text_method_entry){
 	PHP_ME(Phalcon_Text, endsWith, arginfo_phalcon_text_endswith, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Text, lower, arginfo_phalcon_text_lower, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Text, upper, arginfo_phalcon_text_upper, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Text, x, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
