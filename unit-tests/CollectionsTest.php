@@ -47,7 +47,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 
 		$di = new Phalcon\DI();
 
-		$di->set('mongo', function() {
+		$di->set('mongo', function(){
 			$mongo = new Mongo();
 			return $mongo->phalcon_test;
 		});
@@ -112,13 +112,17 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($song->name, 'Lotus Flower');
 		$this->assertEquals($song->artist, 'Radiohead');
 
-		$song = Songs::findFirst(array(array('artist' => 'Radiohead')));
+		$song = Songs::findFirst(array(array('artist' => 'Massive Attack')));
 		$this->assertInstanceOf('Songs', $song);
-		$this->assertEquals($song->artist, 'Radiohead');
+		$this->assertEquals($song->artist, 'Massive Attack');
 
-		$song = Songs::findFirst(array('conditions' => array('artist' => 'Radiohead')));
+		$song = Songs::findFirst(array('conditions' => array('artist' => 'Massive Attack')));
 		$this->assertInstanceOf('Songs', $song);
-		$this->assertEquals($song->artist, 'Radiohead');
+		$this->assertEquals($song->artist, 'Massive Attack');
+
+		$song = Songs::findFirst(array('conditions' => array('name' => 'Paradise Circus')));
+		$this->assertInstanceOf('Songs', $song);
+		$this->assertEquals($song->name, 'Paradise Circus');
 
 		//No results
 		$song = Songs::findFirst(array(array('artist' => 'Lana')));

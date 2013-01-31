@@ -493,13 +493,18 @@ PHP_METHOD(Phalcon_Http_Request, getScheme){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(https_header);
-	ZVAL_STRING(https_header, "HTTP_HTTPS", 1);
+	ZVAL_STRING(https_header, "HTTPS", 1);
 	
 	PHALCON_INIT_VAR(https);
 	PHALCON_CALL_METHOD_PARAMS_1(https, this_ptr, "getserver", https_header);
-	if (PHALCON_IS_STRING(https, "on")) {
-		PHALCON_INIT_VAR(scheme);
-		ZVAL_STRING(scheme, "https", 1);
+	if (zend_is_true(https)) {
+		if (PHALCON_IS_STRING(https, "off")) {
+			PHALCON_INIT_VAR(scheme);
+			ZVAL_STRING(scheme, "http", 1);
+		} else {
+			PHALCON_INIT_NVAR(scheme);
+			ZVAL_STRING(scheme, "https", 1);
+		}
 	} else {
 		PHALCON_INIT_NVAR(scheme);
 		ZVAL_STRING(scheme, "http", 1);
@@ -689,19 +694,19 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 	PHALCON_CALL_METHOD(scheme, this_ptr, "getscheme");
 	
 	/** 
-	 * Get the server name from _SERVER['HTTP_SERVER_NAME']
+	 * Get the server name from _SERVER['SERVER_NAME']
 	 */
 	PHALCON_INIT_VAR(server_name);
-	ZVAL_STRING(server_name, "HTTP_SERVER_NAME", 1);
+	ZVAL_STRING(server_name, "SERVER_NAME", 1);
 	
 	PHALCON_INIT_VAR(name);
 	PHALCON_CALL_METHOD_PARAMS_1(name, this_ptr, "getserver", server_name);
 	
 	/** 
-	 * Get the server port from _SERVER['HTTP_SERVER_PORT']
+	 * Get the server port from _SERVER['SERVER_PORT']
 	 */
 	PHALCON_INIT_VAR(server_port);
-	ZVAL_STRING(server_port, "HTTP_SERVER_PORT", 1);
+	ZVAL_STRING(server_port, "SERVER_PORT", 1);
 	
 	PHALCON_INIT_VAR(port);
 	PHALCON_CALL_METHOD_PARAMS_1(port, this_ptr, "getserver", server_port);

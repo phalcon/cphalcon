@@ -160,12 +160,12 @@ class Http_Request_UnitTest extends Phalcon_Test_UnitTestCase
      */
     public function testGetScheme()
     {
-        $this->_setServerVar('HTTP_HTTPS', 'on');
+        $this->_setServerVar('HTTPS', 'on');
 
         $expected = 'https';
         $actual   = $this->_request->getScheme();
 
-        $this->_unsetServerVar('HTTP_HTTPS');
+        $this->_unsetServerVar('HTTPS');
 
         $this->assertEquals(
             $expected,
@@ -198,11 +198,11 @@ class Http_Request_UnitTest extends Phalcon_Test_UnitTestCase
      */
     public function testIsSecureRequest()
     {
-        $this->_setServerVar('HTTP_HTTPS', 'on');
+        $this->_setServerVar('HTTPS', 'on');
 
         $actual = $this->_request->isSecureRequest();
 
-        $this->_unsetServerVar('HTTP_HTTPS');
+        $this->_unsetServerVar('HTTPS');
 
         $this->assertTrue(
             $actual,
@@ -316,19 +316,19 @@ class Http_Request_UnitTest extends Phalcon_Test_UnitTestCase
 
     public function testHttpHost()
     {
-        $_SERVER['HTTP_HTTPS'] = 'off';
-        $_SERVER['HTTP_SERVER_NAME'] = 'localhost';
-        $_SERVER['HTTP_SERVER_PORT'] = 80;
+        $_SERVER['HTTPS'] = 'off';
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $_SERVER['SERVER_PORT'] = 80;
         $this->assertEquals($this->_request->getHttpHost(), 'localhost');
 
-        $_SERVER['HTTP_HTTPS'] = 'on';
-        $_SERVER['HTTP_SERVER_NAME'] = 'localhost';
-        $_SERVER['HTTP_SERVER_PORT'] = 80;
+        $_SERVER['HTTPS'] = 'on';
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $_SERVER['SERVER_PORT'] = 80;
         $this->assertEquals($this->_request->getHttpHost(), 'localhost:80');
 
-        $_SERVER['HTTP_HTTPS'] = 'on';
-        $_SERVER['HTTP_SERVER_NAME'] = 'localhost';
-        $_SERVER['HTTP_SERVER_PORT'] = 443;
+        $_SERVER['HTTPS'] = 'on';
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $_SERVER['SERVER_PORT'] = 443;
         $this->assertEquals($this->_request->getHttpHost(), 'localhost');
 
     }
