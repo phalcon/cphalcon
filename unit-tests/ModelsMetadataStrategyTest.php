@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-require '../phalcon/Library/Phalcon/Mvc/Model/MetaData/Strategy/Annotations.php';
-
 class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 {
 
