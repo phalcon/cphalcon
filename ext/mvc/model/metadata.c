@@ -101,10 +101,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 
 	zval *model, *key, *table, *schema, *strategy = NULL, *class_name;
-	zval *meta_data = NULL, *prefix_key = NULL, *data = NULL, *table_metadata;
+	zval *meta_data = NULL, *prefix_key = NULL, *data = NULL, *model_metadata = NULL;
 	zval *exception_message, *dependency_injector = NULL;
-	zval *model_metadata, *key_name, *column_map = NULL;
-	zval *model_column_map;
+	zval *key_name, *column_map = NULL, *model_column_map;
 
 	PHALCON_MM_GROW();
 
@@ -143,29 +142,29 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 				 */
 				if (phalcon_method_exists_ex(model, SS("metadata") TSRMLS_CC) == SUCCESS) {
 	
-					PHALCON_INIT_VAR(table_metadata);
-					PHALCON_CALL_METHOD(table_metadata, model, "metadata");
-					if (Z_TYPE_P(table_metadata) != IS_ARRAY) { 
+					PHALCON_INIT_VAR(model_metadata);
+					PHALCON_CALL_METHOD(model_metadata, model, "metadata");
+					if (Z_TYPE_P(model_metadata) != IS_ARRAY) { 
 						PHALCON_INIT_VAR(exception_message);
 						PHALCON_CONCAT_SV(exception_message, "Invalid meta-data for model ", class_name);
 						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 						return;
 					}
+				} else {
+					PHALCON_OBS_VAR(dependency_injector);
+					phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
+					/** 
+					 * Get the meta-data extraction strategy
+					 */
+					PHALCON_CALL_METHOD(strategy, this_ptr, "getstrategy");
+	
+					/** 
+					 * Get the meta-data
+					 */
+					PHALCON_INIT_NVAR(model_metadata);
+					PHALCON_CALL_METHOD_PARAMS_2(model_metadata, strategy, "getmetadata", model, dependency_injector);
 				}
-	
-				PHALCON_OBS_VAR(dependency_injector);
-				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-				/** 
-				 * Get the meta-data extraction strategy
-				 */
-				PHALCON_CALL_METHOD(strategy, this_ptr, "getstrategy");
-	
-				/** 
-				 * Get the meta-data
-				 */
-				PHALCON_INIT_VAR(model_metadata);
-				PHALCON_CALL_METHOD_PARAMS_2(model_metadata, strategy, "getmetadata", model, dependency_injector);
 	
 				/** 
 				 * Store the meta-data locally
