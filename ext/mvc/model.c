@@ -825,7 +825,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
 	zval *query, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *resultset;
+	zval *resultset, *hydration;
 
 	PHALCON_MM_GROW();
 
@@ -892,6 +892,18 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	 */
 	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_METHOD_PARAMS_2(resultset, query, "execute", bind_params, bind_types);
+	
+	/** 
+	 * Define an hydration mode
+	 */
+	if (Z_TYPE_P(resultset) == IS_OBJECT) {
+		if (phalcon_array_isset_string(params, SS("hydration"))) {
+			PHALCON_OBS_VAR(hydration);
+			phalcon_array_fetch_string(&hydration, params, SL("hydration"), PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(resultset, "sethydratemode", hydration);
+		}
+	}
+	
 	
 	RETURN_CCTOR(resultset);
 }

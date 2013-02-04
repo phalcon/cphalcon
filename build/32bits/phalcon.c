@@ -58491,12 +58491,14 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	
 	PHALCON_INIT_VAR(real_path);
 	PHALCON_CONCAT_VV(real_path, partials_dir, partial_path);
+	phalcon_update_property_null(this_ptr, SL("_content") TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(engines);
 	PHALCON_CALL_METHOD(engines, this_ptr, "_loadtemplateengines");
+	PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, real_path, zfalse, zfalse, zfalse);
 	
-	PHALCON_INIT_VAR(content);
-	PHALCON_CALL_METHOD_PARAMS_5(content, this_ptr, "_enginerender", engines, real_path, zfalse, zfalse, zfalse);
+	PHALCON_OBS_VAR(content);
+	phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
 	RETURN_CCTOR(content);
 }
 
@@ -62250,7 +62252,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
 	zval *query, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *resultset;
+	zval *resultset, *hydration;
 
 	PHALCON_MM_GROW();
 
@@ -62305,6 +62307,15 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	
 	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_METHOD_PARAMS_2_KEY(resultset, query, "execute", bind_params, bind_types, 3117639032UL);
+	
+	if (Z_TYPE_P(resultset) == IS_OBJECT) {
+		if (phalcon_array_isset_quick_string(params, SS("hydration"), 1688432023UL)) {
+			PHALCON_OBS_VAR(hydration);
+			phalcon_array_fetch_quick_string(&hydration, params, SS("hydration"), 1688432023UL, PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(resultset, "sethydratemode", hydration, 46032167UL);
+		}
+	}
+	
 	
 	RETURN_CCTOR(resultset);
 }

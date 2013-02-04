@@ -133,8 +133,7 @@ class ModelsMetadataStrategyTest extends PHPUnit_Framework_TestCase
 
 		$di['modelsMetadata'] = function(){
 			$metaData = new Phalcon\Mvc\Model\Metadata\Memory();
-			$strategy = new Phalcon\Mvc\Model\MetaData\Strategy\Annotations();
-			$metaData->setStrategy($strategy);
+			$metaData->setStrategy(new Phalcon\Mvc\Model\MetaData\Strategy\Annotations());
 			return $metaData;
 		};
 

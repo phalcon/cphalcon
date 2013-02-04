@@ -425,6 +425,17 @@ class Http_Request_UnitTest extends Phalcon_Test_UnitTestCase
 
     }
 
+    public function testClientAddress()
+    {
+        $_SERVER['REMOTE_ADDR'] = '192.168.0.1';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '192.168.7.21';
+        $this->assertEquals($this->_request->getClientAddress(), '192.168.0.1');
+        $this->assertEquals($this->_request->getClientAddress(true), '192.168.7.21');
+
+        $_SERVER['REMOTE_ADDR'] = '86.45.89.47, 214.55.34.56';
+        $this->assertEquals($this->_request->getClientAddress(), '86.45.89.47');
+    }
+
     private function _setServerVar($var, $value)
     {
         $_SERVER[$var] = $value;
