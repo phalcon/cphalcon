@@ -86,8 +86,9 @@ class PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function markTestSkipped()
+	public function markTestSkipped($message)
 	{
+		echo 'Skipped: ' . $message . PHP_EOL;
 	}
 
 	public static function main($className)
