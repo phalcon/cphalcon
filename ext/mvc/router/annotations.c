@@ -172,6 +172,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	
 			if (Z_TYPE_P(scope) == IS_ARRAY) { 
 	
+				/** 
+				 * A prefix (if any) must be in position 0
+				 */
 				PHALCON_OBS_NVAR(prefix);
 				phalcon_array_fetch_long(&prefix, scope, 0, PH_NOISY_CC);
 				if (Z_TYPE_P(prefix) == IS_STRING) {
@@ -197,6 +200,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					PHALCON_CALL_METHOD_PARAMS_1(annotations_service, dependency_injector, "getshared", service);
 				}
 	
+				/** 
+				 * The controller must be in position 1
+				 */
 				PHALCON_OBS_NVAR(handler);
 				phalcon_array_fetch_long(&handler, scope, 1, PH_NOISY_CC);
 				phalcon_update_property_null(this_ptr, SL("_routePrefix") TSRMLS_CC);
