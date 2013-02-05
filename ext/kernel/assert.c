@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -27,7 +27,7 @@
 
 #ifndef PHALCON_RELEASE
 
-int phalcon_assert_class(zval *object, char *class_name TSRMLS_DC){
+int phalcon_assert_class(zval *object, char *class_name TSRMLS_DC) {
 	if (object) {
 		if (Z_TYPE_P(object) != IS_OBJECT) {
 			phalcon_error_space();

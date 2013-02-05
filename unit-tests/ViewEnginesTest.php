@@ -39,7 +39,9 @@ class My_Mustache_Engine extends \Phalcon\Mvc\View\Engine
 		if (!isset($params['content'])) {
 			$params['content'] = $this->_view->getContent();
 		}
-		$this->_view->setContent($this->_mustache->render(file_get_contents($path), $params));
+		$mustache = clone $this->_mustache;
+		$content = $mustache->render(file_get_contents($path), $params);
+		$this->_view->setContent($content);
 	}
 
 }
@@ -65,9 +67,11 @@ class My_Twig_Engine extends \Phalcon\Mvc\View\Engine
 		if (!isset($params['content'])) {
 			$params['content'] = $view->getContent();
 		}
+
 		if (!isset($params['view'])) {
 			$params['view'] = $view;
 		}
+
 		$relativePath = str_replace($view->getViewsDir(), '', $path);
 		$this->_view->setContent($this->_twig->render($relativePath, $params));
 	}
@@ -168,6 +172,33 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($view->getContent(), 'Well, this is the view content: Hello Sonny.');
 	}
 
+	public function testMustacheMixedEnginePartials()
+	{
+
+		if ($this->_loadMustache()==false) {
+			return;
+		}
+
+		$di = new Phalcon\DI();
+
+		$view = new Phalcon\Mvc\View();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+
+		$view->registerEngines(array(
+			'.mhtml' => 'My_Mustache_Engine',
+			'.phtml' => 'Phalcon\Mvc\View\Engine\Php',
+		));
+
+		$view->setParamToView('name', 'Sonny');
+
+		$view->start();
+		$view->setRenderLevel(Phalcon\Mvc\View::LEVEL_LAYOUT);
+		$view->render('test6', 'info');
+		$view->finish();
+		$this->assertEquals($view->getContent(), 'Well, this is the view content: Hello Sonny.');
+	}
+
 	public function testTwigEngine()
 	{
 
@@ -200,6 +231,60 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase
 		$view->render('test7', 'index');
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'Clearly, the song is: Hello Rock n roll!.'."\n");
+	}
+
+	public function testTwigMixedEngine()
+	{
+
+		if ($this->_loadTwig()==false) {
+			return;
+		}
+
+		$di = new Phalcon\DI();
+
+		$view = new Phalcon\Mvc\View();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+
+		$view->registerEngines(array(
+			'.phtml' => 'Phalcon\Mvc\View\Engine\Php',
+			'.twig' => 'My_Twig_Engine'
+		));
+
+		$view->setParamToView('name', 'Sonny');
+
+		$view->start();
+		$view->setRenderLevel(Phalcon\Mvc\View::LEVEL_LAYOUT);
+		$view->render('test12', 'index');
+		$view->finish();
+		$this->assertEquals($view->getContent(), 'Well, this is the view content: Hello Sonny.');
+	}
+
+	public function testTwigMixedEnginePartials()
+	{
+
+		if ($this->_loadTwig()==false) {
+			return;
+		}
+
+		$di = new Phalcon\DI();
+
+		$view = new Phalcon\Mvc\View();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+
+		$view->registerEngines(array(
+			'.twig' => 'My_Twig_Engine',
+			'.phtml' => 'Phalcon\Mvc\View\Engine\Php'
+		));
+
+		$view->setParamToView('name', 'Sonny');
+
+		$view->start();
+		$view->setRenderLevel(Phalcon\Mvc\View::LEVEL_LAYOUT);
+		$view->render('test12', 'info');
+		$view->finish();
+		$this->assertEquals($view->getContent(), 'Well, this is the view content: Hello Sonny.');
 	}
 
 }

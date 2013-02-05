@@ -40,5 +40,9 @@ abstract class Phalcon_Test_FunctionalTestCase extends Phalcon_Test_ModelTestCas
             $dispatcher->setParams(array());
             return $dispatcher;
         });
+
+        $this->_di->set('escaper', function() {
+            return new Phalcon\Escaper();
+        });
     }
 }

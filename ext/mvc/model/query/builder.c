@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI){
 	}
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom){
 	
 	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join){
 	phalcon_array_append(&joins, join, PH_SEPARATE TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_joins"), joins TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -449,7 +449,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere){
 	
 	phalcon_update_property_zval(this_ptr, SL("_conditions"), new_conditions TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -483,7 +483,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere){
 	
 	phalcon_update_property_zval(this_ptr, SL("_conditions"), new_conditions TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -517,7 +517,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_order"), order_by TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -550,11 +550,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_having"), having TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
- * Return the columns to be queried
+ * Return the current having clause
  *
  * @return string|array
  */
@@ -591,8 +591,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit){
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_limit"), limit TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
-	RETURN_CTOR(this_ptr);
+	if (Z_TYPE_P(offset) != IS_NULL) {
+		phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+	}
+	
+	
+	RETURN_THIS();
 }
 
 /**
@@ -604,6 +608,40 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getLimit){
 
 
 	RETURN_MEMBER(this_ptr, "_limit");
+}
+
+/**
+ * Sets an OFFSET clause
+ *
+ *<code>
+ *	$builder->offset(30);
+ *</code>
+ *
+ * @param int $limit
+ * @param int $offset
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, offset){
+
+	zval *offset;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the current OFFSET clause
+ *
+ * @return string|array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOffset){
+
+
+	RETURN_MEMBER(this_ptr, "_offset");
 }
 
 /**
@@ -625,7 +663,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_group"), group TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -653,20 +691,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *first_primary_key, *column_map = NULL, *attribute_field = NULL;
 	zval *exception_message, *primary_key_condition;
 	zval *phql, *columns, *selected_columns = NULL, *column = NULL;
-	zval *joined_columns = NULL, *alias = NULL, *selected_column = NULL;
-	zval *selected_models, *selected_model = NULL, *joined_models;
-	zval *joins, *join = NULL, *join_model = NULL, *join_conditions = NULL;
-	zval *join_alias = NULL, *group, *group_items, *group_item = NULL;
-	zval *escaped_item = NULL, *joined_items = NULL, *having, *order;
-	zval *order_items, *order_item = NULL, *limit, *number;
-	zval *offset = NULL;
+	zval *alias = NULL, *aliased_column = NULL, *joined_columns = NULL;
+	zval *selected_column = NULL, *selected_models, *selected_model = NULL;
+	zval *joined_models, *joins, *join = NULL, *join_model = NULL;
+	zval *join_conditions = NULL, *join_alias = NULL, *group, *group_items;
+	zval *group_item = NULL, *escaped_item = NULL, *joined_items = NULL;
+	zval *having, *order, *order_items, *order_item = NULL;
+	zval *limit, *number, *offset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -728,6 +762,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "modelsMetadata", 1);
 	
+		/** 
+		 * Get the models metadata service to obtain the column names, column map and
+		 * primary key
+		 */
 		PHALCON_INIT_VAR(meta_data);
 		PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service_name);
 		ce0 = phalcon_fetch_class(model TSRMLS_CC);
@@ -804,18 +842,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_VAR(selected_columns);
 			array_init(selected_columns);
 	
-			if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+			if (!phalcon_is_iterable(columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(columns);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
+				PHALCON_GET_FOREACH_KEY(alias, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(column);
 	
-				phalcon_array_append(&selected_columns, column, PH_SEPARATE TSRMLS_CC);
+				if (Z_TYPE_P(alias) == IS_LONG) {
+					phalcon_array_append(&selected_columns, column, PH_SEPARATE TSRMLS_CC);
+				} else {
+					PHALCON_INIT_NVAR(aliased_column);
+					PHALCON_CONCAT_VSV(aliased_column, column, " AS ", alias);
+					phalcon_array_append(&selected_columns, aliased_column, PH_SEPARATE TSRMLS_CC);
+				}
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -832,12 +874,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_NVAR(selected_columns);
 			array_init(selected_columns);
 	
-			if (!phalcon_valid_foreach(models TSRMLS_CC)) {
+			if (!phalcon_is_iterable(models, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah1 = Z_ARRVAL_P(models);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -872,12 +911,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		PHALCON_INIT_VAR(selected_models);
 		array_init(selected_models);
 	
-		if (!phalcon_valid_foreach(models TSRMLS_CC)) {
+		if (!phalcon_is_iterable(models, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah2 = Z_ARRVAL_P(models);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -910,12 +946,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	phalcon_read_property(&joins, this_ptr, SL("_joins"), PH_NOISY_CC);
 	if (Z_TYPE_P(joins) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(joins TSRMLS_CC)) {
+		if (!phalcon_is_iterable(joins, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah3 = Z_ARRVAL_P(joins);
-		zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 		while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -967,12 +1000,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_VAR(group_items);
 			array_init(group_items);
 	
-			if (!phalcon_valid_foreach(group TSRMLS_CC)) {
+			if (!phalcon_is_iterable(group, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah4 = Z_ARRVAL_P(group);
-			zend_hash_internal_pointer_reset_ex(ah4, &hp4);
 	
 			while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -1026,12 +1056,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_VAR(order_items);
 			array_init(order_items);
 	
-			if (!phalcon_valid_foreach(order TSRMLS_CC)) {
+			if (!phalcon_is_iterable(order, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah5 = Z_ARRVAL_P(order);
-			zend_hash_internal_pointer_reset_ex(ah5, &hp5);
 	
 			while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	

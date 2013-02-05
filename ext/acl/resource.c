@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 		PHALCON_INIT_VAR(description);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "*")) {
+	if (PHALCON_IS_STRING(name, "*")) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Resource name cannot be \"*\"");
 		return;
 	}

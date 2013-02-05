@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -37,6 +37,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 /**
@@ -247,7 +248,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 
 	zval *prefix = NULL, *keys, *type, *prefix_pattern, *iterator;
-	zval *key = NULL;
+	zval *key = NULL, *real_key = NULL;
 	zval *r0 = NULL;
 	zend_class_entry *ce0;
 
@@ -290,7 +291,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	
 		PHALCON_INIT_NVAR(key);
 		PHALCON_CALL_METHOD(key, iterator, "key");
-		phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
+	
+		/** 
+		 * Remove the _PHCA prefix
+		 */
+		PHALCON_INIT_NVAR(real_key);
+		phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
+		phalcon_array_append(&keys, real_key, PH_SEPARATE TSRMLS_CC);
 		PHALCON_CALL_METHOD_NORETURN(iterator, "next");
 	}
 	

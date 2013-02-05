@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Loader, setExtensions){
 	}
 	phalcon_update_property_zval(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Loader, registerClasses){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Loader, register){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Loader, unregister){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -451,10 +451,6 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -517,12 +513,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if (Z_TYPE_P(namespaces) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(namespaces TSRMLS_CC)) {
+		if (!phalcon_is_iterable(namespaces, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah0 = Z_ARRVAL_P(namespaces);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -550,12 +543,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					PHALCON_INIT_NVAR(fixed_directory);
 					phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
-					if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
+					if (!phalcon_is_iterable(extensions, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
-	
-					ah1 = Z_ARRVAL_P(extensions);
-					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -624,12 +614,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property(&prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 	if (Z_TYPE_P(prefixes) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(prefixes TSRMLS_CC)) {
+		if (!phalcon_is_iterable(prefixes, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah2 = Z_ARRVAL_P(prefixes);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -660,12 +647,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					PHALCON_INIT_NVAR(fixed_directory);
 					phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
-					if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
+					if (!phalcon_is_iterable(extensions, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 						return;
 					}
-	
-					ah3 = Z_ARRVAL_P(extensions);
-					zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 					while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -732,12 +716,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(directories TSRMLS_CC)) {
+		if (!phalcon_is_iterable(directories, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah4 = Z_ARRVAL_P(directories);
-		zend_hash_internal_pointer_reset_ex(ah4, &hp4);
 	
 		while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -749,12 +730,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_INIT_NVAR(fixed_directory);
 			phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
-			if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
+			if (!phalcon_is_iterable(extensions, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah5 = Z_ARRVAL_P(extensions);
-			zend_hash_internal_pointer_reset_ex(ah5, &hp5);
 	
 			while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	

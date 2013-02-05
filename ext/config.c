@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -88,10 +88,6 @@ PHP_METHOD(Phalcon_Config, __construct){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -105,12 +101,9 @@ PHP_METHOD(Phalcon_Config, __construct){
 	
 	if (Z_TYPE_P(array_config) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(array_config TSRMLS_CC)) {
+		if (!phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah0 = Z_ARRVAL_P(array_config);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -305,10 +298,6 @@ PHP_METHOD(Phalcon_Config, merge){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -324,12 +313,9 @@ PHP_METHOD(Phalcon_Config, merge){
 	PHALCON_INIT_VAR(array_config);
 	PHALCON_CALL_FUNC_PARAMS_1(array_config, "get_object_vars", config);
 	
-	if (!phalcon_valid_foreach(array_config TSRMLS_CC)) {
+	if (!phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
-	ah0 = Z_ARRVAL_P(array_config);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -360,7 +346,7 @@ PHP_METHOD(Phalcon_Config, merge){
 }
 
 /**
- * Converts recursivelly the object to an array
+ * Converts recursively the object to an array
  *
  *<code>
  *	print_r($config->toArray());
@@ -374,24 +360,15 @@ PHP_METHOD(Phalcon_Config, toArray){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(array_config);
 	PHALCON_CALL_FUNC_PARAMS_1(array_config, "get_object_vars", this_ptr);
 	
-	if (!phalcon_valid_foreach(array_config TSRMLS_CC)) {
+	if (!phalcon_is_iterable(array_config, &ah0, &hp0, 1, 0 TSRMLS_CC)) {
 		return;
 	}
-	
-	ALLOC_HASHTABLE(ah0);
-	zend_hash_init(ah0, 0, NULL, NULL, 0);
-	zend_hash_copy(ah0, Z_ARRVAL_P(array_config), NULL, NULL, sizeof(zval*));
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

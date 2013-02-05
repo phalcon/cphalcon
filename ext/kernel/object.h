@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,6 +21,7 @@
 extern int phalcon_class_exists(zval *class_name TSRMLS_DC);
 extern void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC);
 extern void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC);
+extern void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC);
 extern void phalcon_get_called_class(zval *return_value TSRMLS_DC);
 extern zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC);
 

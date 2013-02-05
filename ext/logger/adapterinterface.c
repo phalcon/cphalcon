@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -36,42 +36,6 @@ PHALCON_INIT_CLASS(Phalcon_Logger_AdapterInterface){
 
 	return SUCCESS;
 }
-
-/**
- * Set the log format
- *
- * @param string $format
- */
-PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, setFormat);
-
-/**
- * Returns the log format
- *
- * @return format
- */
-PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getFormat);
-
-/**
- * Returns the string meaning of a logger constant
- *
- * @param  integer $type
- * @return string
- */
-PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getTypeString);
-
-/**
- * Sets the internal date format
- *
- * @param string $date
- */
-PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, setDateFormat);
-
-/**
- * Returns the internal date format
- *
- * @return string
- */
-PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getDateFormat);
 
 /**
  * Sends/Writes messages to the file log

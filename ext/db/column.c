@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -92,6 +92,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Column){
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_CHAR"), 5 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_TEXT"), 6 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_FLOAT"), 7 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_BOOLEAN"), 8 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_NULL"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_INT"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_STR"), 2 TSRMLS_CC);
@@ -125,6 +126,10 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_columnName"), column_name TSRMLS_CC);
+	
+	/** 
+	 * Get the column type, one of the TYPE_* constants
+	 */
 	if (phalcon_array_isset_string(definition, SS("type"))) {
 		PHALCON_OBS_VAR(type);
 		phalcon_array_fetch_string(&type, definition, SL("type"), PH_NOISY_CC);
@@ -134,12 +139,18 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		return;
 	}
 	
+	/** 
+	 * Check if the field is nullable
+	 */
 	if (phalcon_array_isset_string(definition, SS("notNull"))) {
 		PHALCON_OBS_VAR(not_null);
 		phalcon_array_fetch_string(&not_null, definition, SL("notNull"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_notNull"), not_null TSRMLS_CC);
 	}
 	
+	/** 
+	 * Check if the field is primary key
+	 */
 	if (phalcon_array_isset_string(definition, SS("primary"))) {
 		PHALCON_OBS_VAR(primary);
 		phalcon_array_fetch_string(&primary, definition, SL("primary"), PH_NOISY_CC);
@@ -152,6 +163,9 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		phalcon_update_property_zval(this_ptr, SL("_size"), size TSRMLS_CC);
 	}
 	
+	/** 
+	 * Check if the column has a decimal scale
+	 */
 	if (phalcon_array_isset_string(definition, SS("scale"))) {
 	
 		PHALCON_INIT_VAR(t0);
@@ -174,20 +188,29 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		}
 	}
 	
+	/** 
+	 * Check if the field is unsigned (only MySQL)
+	 */
 	if (phalcon_array_isset_string(definition, SS("unsigned"))) {
 		PHALCON_OBS_VAR(dunsigned);
 		phalcon_array_fetch_string(&dunsigned, definition, SL("unsigned"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_unsigned"), dunsigned TSRMLS_CC);
 	}
 	
+	/** 
+	 * Check if the field is numeric
+	 */
 	if (phalcon_array_isset_string(definition, SS("isNumeric"))) {
 		PHALCON_OBS_NVAR(is_numeric);
 		phalcon_array_fetch_string(&is_numeric, definition, SL("isNumeric"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_isNumeric"), is_numeric TSRMLS_CC);
 	}
 	
+	/** 
+	 * Check if the field is auto-increment/serial
+	 */
 	if (phalcon_array_isset_string(definition, SS("autoIncrement"))) {
-		if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(type, 0)) {
 			PHALCON_OBS_VAR(auto_increment);
 			phalcon_array_fetch_string(&auto_increment, definition, SL("autoIncrement"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_autoIncrement"), auto_increment TSRMLS_CC);
@@ -197,18 +220,27 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		}
 	}
 	
+	/** 
+	 * Check if the field is placed at the first position of the table
+	 */
 	if (phalcon_array_isset_string(definition, SS("first"))) {
 		PHALCON_OBS_VAR(first);
 		phalcon_array_fetch_string(&first, definition, SL("first"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_first"), first TSRMLS_CC);
 	}
 	
+	/** 
+	 * Name of the column which is placed before the current field
+	 */
 	if (phalcon_array_isset_string(definition, SS("after"))) {
 		PHALCON_OBS_VAR(after);
 		phalcon_array_fetch_string(&after, definition, SL("after"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_after"), after TSRMLS_CC);
 	}
 	
+	/** 
+	 * The bind type to cast the field when passing it to PDO
+	 */
 	if (phalcon_array_isset_string(definition, SS("bindType"))) {
 		PHALCON_OBS_VAR(bind_type);
 		phalcon_array_fetch_string(&bind_type, definition, SL("bindType"), PH_NOISY_CC);

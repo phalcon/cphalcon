@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -42,14 +42,14 @@
  * Encapsulates validation info generated before save/delete records fails
  *
  * <code>
- * use Phalcon\Mvc\Model\Message as Message;
+ *  use Phalcon\Mvc\Model\Message as Message;
  *
- * class Robots extends Phalcon\Mvc\Model
- *{
+ *  class Robots extends Phalcon\Mvc\Model
+ *  {
  *
- *   public function beforeSave()
- *   {
- *     if (this->name == 'Peter') {
+ *    public function beforeSave()
+ *    {
+ *      if (this->name == 'Peter') {
  *        $text = "A robot cannot be named Peter";
  *        $field = "name";
  *        $type = "InvalidValue";
@@ -74,6 +74,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Message){
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_message"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_field"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_message_ce TSRMLS_CC, 1, phalcon_mvc_model_messageinterface_ce);
 
@@ -86,14 +87,15 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Message){
  * @param string $message
  * @param string $field
  * @param string $type
+ * @param Phalcon\Mvc\ModelInterface $model
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
 
-	zval *message, *field = NULL, *type = NULL;
+	zval *message, *field = NULL, *type = NULL, *model = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &message, &field, &type) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &message, &field, &type, &model) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -105,9 +107,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
 		PHALCON_INIT_VAR(type);
 	}
 	
+	if (!model) {
+		PHALCON_INIT_VAR(model);
+	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_message"), message TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_field"), field TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
+	if (Z_TYPE_P(model) == IS_OBJECT) {
+		phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -127,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -156,7 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_message"), message TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -185,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_field"), field TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -197,6 +206,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getField){
 
 
 	RETURN_MEMBER(this_ptr, "_field");
+}
+
+/**
+ * Set the model who generates the message
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return Phalcon\Mvc\Model\Message
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Message, setModel){
+
+	zval *model;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the model that produced the message
+ *
+ * @return Phalcon\Mvc\ModelInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Message, getModel){
+
+
+	RETURN_MEMBER(this_ptr, "_model");
 }
 
 /**

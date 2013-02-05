@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -53,7 +53,7 @@
  *));
  *
  *\//Check if the update was successful
- *if($status->success()==true){
+ *if ($status->success() == true) {
  *   echo 'OK';
  *}
  *</code>
@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct){
 }
 
 /**
- * Returns the model which executed the action
+ * Returns the model that executed the action
  *
  * @return Phalcon\Mvc\ModelInterface
  */
@@ -106,9 +106,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel){
 }
 
 /**
- * Returns the messages produced by a operation failed
+ * Returns the messages produced by a failed operation
  *
- * @return Phalcon\Mvc\Model\Message[]
+ * @return Phalcon\Mvc\Model\MessageInterface[]
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
 

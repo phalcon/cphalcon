@@ -83,6 +83,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+		$this->_executeTestsFromInput($di);
 	}
 
 	public function testModelsSQLite()
@@ -97,6 +98,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+		$this->_executeTestsFromInput($di);
 	}
 
 	protected function _executeTestsNormal($di)
@@ -110,7 +112,10 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$people = People::find("estado='I'");
 		$this->assertEquals(count($personas), count($people));
 
-		$personas = Personas::query()->where("estado='A'")->order("nombres")->execute();
+		$personas = Personas::query()
+			->where("estado='A'")
+			->order("nombres")
+			->execute();
 		$people = People::find(array(
 			"estado='A'",
 			"order" => "nombres"
@@ -122,7 +127,11 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
 
 		//Order + limit
-		$personas = Personas::query()->where("estado='A'")->order("nombres")->limit(100)->execute();
+		$personas = Personas::query()
+			->where("estado='A'")
+			->order("nombres")
+			->limit(100)
+			->execute();
 		$people = People::find(array(
 			"estado='A'",
 			"order" => "nombres",

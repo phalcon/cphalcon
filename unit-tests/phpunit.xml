@@ -18,10 +18,17 @@
 			<file>unit-tests/DiTest.php</file>
 			<file>unit-tests/EventsTest.php</file>
 			<file>unit-tests/ResponseTest.php</file>
-			<file>unit-tests/RouterMvcTest.php</file>
 			<file>unit-tests/DispatcherMvcTest.php</file>
 			<file>unit-tests/DispatcherMvcEventsTest.php</file>
 			<file>unit-tests/CacheTest.php</file>
+
+			<!-- Annotations -->
+			<file>unit-tests/AnnotationsTest.php</file>
+			<file>unit-tests/AnnotationsAdapterTest.php</file>
+
+			<!-- MVC Routing -->
+			<file>unit-tests/RouterMvcTest.php</file>
+			<file>unit-tests/RouterMvcAnnotationsTest.php</file>
 
 			<!-- Database tests -->
 			<file>unit-tests/DbTest.php</file>
@@ -31,7 +38,7 @@
 			<file>unit-tests/DbProfilerTest.php</file>
 			<file>unit-tests/DbLoggerTest.php</file>
 
-			<!-- ORM tests -->
+			<!-- ORM tests / First Part -->
 			<file>unit-tests/ModelsMetadataTest.php</file>
 			<file>unit-tests/ModelsTest.php</file>
 			<file>unit-tests/ModelsCalculationsTest.php</file>
@@ -40,6 +47,7 @@
 			<file>unit-tests/ModelsValidatorsTest.php</file>
 			<file>unit-tests/ModelsForeignKeysTest.php</file>
 			<file>unit-tests/ModelsMetadataAdaptersTest.php</file>
+			<file>unit-tests/ModelsMetadataStrategyTest.php</file>
 			<file>unit-tests/ModelsMetadataManualTest.php</file>
 			<file>unit-tests/ModelsQueryParsingTest.php</file>
 			<file>unit-tests/ModelsQueryExecuteTest.php</file>
@@ -49,7 +57,9 @@
 			<file>unit-tests/ModelsBehaviorsTest.php</file>
 			<file>unit-tests/ModelsMultipleSourcesTest.php</file>
 			<file>unit-tests/ModelsSerializeTest.php</file>
+			<file>unit-tests/ModelsHydrationTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
+			<file>unit-tests/ModelsRelationsMagicTest.php</file>
 
 			<!-- NoSQL tests -->
 			<file>unit-tests/CollectionsTest.php</file>
@@ -58,6 +68,7 @@
 
 			<!-- Cache Resultsets -->
 			<file>unit-tests/CacheResultsetTest.php</file>
+			<file>unit-tests/ModelsResultsetCacheStaticTest.php</file>
 
 			<!-- View/Templating tests -->
 			<file>unit-tests/ViewTest.php</file>
@@ -84,6 +95,7 @@
 			<file>unit-tests/DispatcherCliTest.php</file>
 			<file>unit-tests/TasksCliTest.php</file>
 			<file>unit-tests/ConsoleCliTest.php</file>
+
 		</testsuite>
 	</testsuites>
 </phpunit>

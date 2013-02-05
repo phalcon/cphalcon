@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -38,6 +38,7 @@ extern int phalcon_array_append_string(zval **arr, char *value, uint value_lengt
 /** Modify arrays */
 extern int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags TSRMLS_DC);
 extern int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags TSRMLS_DC);
+extern int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flags TSRMLS_DC);
 extern int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint value_length, int flags TSRMLS_DC);
 
 extern int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC);

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.62, for debian-linux-gnu (i686)
+-- MySQL dump 10.13  Distrib 5.1.66, for debian-linux-gnu (i686)
 --
 -- Host: localhost    Database: phalcon_test
 -- ------------------------------------------------------
--- Server version	5.1.62-0ubuntu0.11.10.1
+-- Server version	5.1.66-0ubuntu0.11.10.3
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -15,10 +15,63 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-GRANT ALL PRIVILEGES ON phalcon_test.* TO phalcon_user@localhost IDENTIFIED BY '1234';
+--
+-- Table structure for table `albums`
+--
 
+DROP TABLE IF EXISTS `albums`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `albums` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `artists_id` int(10) unsigned NOT NULL,
+  `name` varchar(72) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `artists_id` (`artists_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `albums`
+--
+
+LOCK TABLES `albums` WRITE;
+/*!40000 ALTER TABLE `albums` DISABLE KEYS */;
+INSERT INTO `albums` VALUES (1,1,'Born to Die'),(2,1,'Born to Die - The Paradise Edition');
+/*!40000 ALTER TABLE `albums` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `artists`
+--
+
+DROP TABLE IF EXISTS `artists`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `artists` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(72) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `artists`
+--
+
+LOCK TABLES `artists` WRITE;
+/*!40000 ALTER TABLE `artists` DISABLE KEYS */;
+INSERT INTO `artists` VALUES (1,'Lana del Rey'),(2,'Radiohead');
+/*!40000 ALTER TABLE `artists` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `customers`
+--
+
 DROP TABLE IF EXISTS `customers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customers` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `document_id` int(3) unsigned NOT NULL,
@@ -30,7 +83,7 @@ CREATE TABLE `customers` (
   `instructions` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` enum('A','I','X') COLLATE utf8_unicode_ci NOT NULL,
   `birth_date` date DEFAULT '1970-01-01',
-  `credit_line` decimal(16,2) DEFAULT '0',
+  `credit_line` decimal(16,2) DEFAULT '0.00',
   `created_at` datetime NOT NULL,
   `created_at_user_id` int(10) unsigned DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -38,8 +91,17 @@ CREATE TABLE `customers` (
   KEY `customers_customer_id_idx` (`customer_id`),
   KEY `customers_credit_line_idx` (`credit_line`),
   KEY `customers_status_idx` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `customers`
+--
+
+LOCK TABLES `customers` WRITE;
+/*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customers` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `parts`
@@ -150,7 +212,7 @@ CREATE TABLE `prueba` (
   `estado` char(1) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `estado` (`estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,6 +280,32 @@ INSERT INTO `robots_parts` VALUES (1,1,1),(2,1,2),(3,1,3);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `songs`
+--
+
+DROP TABLE IF EXISTS `songs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `songs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `albums_id` int(10) unsigned NOT NULL,
+  `name` varchar(72) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `albums_id` (`albums_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `songs`
+--
+
+LOCK TABLES `songs` WRITE;
+/*!40000 ALTER TABLE `songs` DISABLE KEYS */;
+INSERT INTO `songs` VALUES (1,1,'Born to Die'),(2,1,'Off to Races'),(3,1,'Blue Jeans'),(4,1,'Video Games'),(5,1,'Diet Mountain Dew'),(6,1,'National Anthem'),(7,1,'Dark Paradise');
+/*!40000 ALTER TABLE `songs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `subscriptores`
 --
 
@@ -276,4 +364,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-05-27 17:30:21
+-- Dump completed on 2013-01-20 14:29:13

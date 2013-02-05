@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -38,9 +38,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ResultInterface){
 }
 
 /**
- * Forces that a model doesn't need to be checked if exists before store it
+ * Sets the object's state
  *
- * @param boolean $forceExists
+ * @param boolean $dirtyState
  */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultInterface, setForceExists);
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultInterface, setDirtyState);
 

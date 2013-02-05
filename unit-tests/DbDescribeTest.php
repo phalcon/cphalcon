@@ -513,16 +513,19 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
 		//List tables
-		$expectedTables = array(
-			0 => 'customers',
-			1 => 'parts',
-			2 => 'personas',
-			3 => 'personnes',
-			4 => 'prueba',
-			5 => 'robots',
-			6 => 'robots_parts',
-			7 => 'subscriptores',
-			8 => 'tipo_documento',
+		$expectedTables = array (
+			0 => 'albums',
+			1 => 'artists',
+			2 => 'customers',
+			3 => 'parts',
+			4 => 'personas',
+			5 => 'personnes',
+			6 => 'prueba',
+			7 => 'robots',
+			8 => 'robots_parts',
+			9 => 'songs',
+			10 => 'subscriptores',
+			11 => 'tipo_documento',
 		);
 
 		$tables = $connection->listTables();

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -120,7 +120,7 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
@@ -135,7 +135,7 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -158,7 +158,7 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
@@ -173,7 +173,7 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -196,7 +196,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	int status = FAILURE;
 	zend_class_entry *ce, *active_scope = NULL;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
@@ -225,7 +225,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	status = phalcon_call_user_function(&ce->function_table, &object, fn, return_value, 0, NULL TSRMLS_CC);
 	#endif
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s()", method_name);
 	}
 	EG(scope) = active_scope;
@@ -241,7 +241,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -288,7 +288,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	int status = FAILURE;
 	zend_class_entry *ce, *active_scope = NULL;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
@@ -317,7 +317,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	status = phalcon_call_user_function(&ce->function_table, &object, fn, return_value, param_count, params TSRMLS_CC);
 	#endif
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		EG(scope) = active_scope;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, ce->name);
 		status = FAILURE;
@@ -336,7 +336,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -428,7 +428,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 	add_next_index_zval(fn, fn_method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}
 
@@ -445,7 +445,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -476,7 +476,7 @@ inline int phalcon_call_static_func(zval *return_value, char *class_name, int cl
 	add_next_index_zval(fn, fn_method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}
 
@@ -493,7 +493,7 @@ inline int phalcon_call_static_func(zval *return_value, char *class_name, int cl
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -672,13 +672,15 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
+	Z_ADDREF_P(mixed_name);
+
 	ALLOC_INIT_ZVAL(fn);
 	array_init_size(fn, 2);
 	add_next_index_zval(fn, mixed_name);
 	add_next_index_stringl(fn, method_name, method_len, 1);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
 		} else {
@@ -715,13 +717,15 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
+	Z_ADDREF_P(mixed_name);
+
 	ALLOC_INIT_ZVAL(fn);
 	array_init_size(fn, 2);
 	add_next_index_zval(fn, mixed_name);
 	add_next_index_stringl(fn, method_name, method_len, 1);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
 		} else {
@@ -788,7 +792,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 	add_next_index_stringl(fn, method_name, method_len, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name);
 	}
 
@@ -800,7 +804,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -892,7 +896,7 @@ int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC){
 		}
 	}
 
-	if (status == SUCCESS) {
+	if (likely(status == SUCCESS)) {
 
 		fci.param_count = 0;
 		fci.retval_ptr_ptr = &retval_ptr;
@@ -910,7 +914,7 @@ int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC){
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -1061,16 +1065,9 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 		return FAILURE;
 	}
 
-	if (EX(function_state).function->common.fn_flags & (ZEND_ACC_ABSTRACT|ZEND_ACC_DEPRECATED)) {
-		if (EX(function_state).function->common.fn_flags & ZEND_ACC_ABSTRACT) {
-			zend_error_noreturn(E_ERROR, "Cannot call abstract method %s::%s()", EX(function_state).function->common.scope->name, EX(function_state).function->common.function_name);
-		}
-		if (EX(function_state).function->common.fn_flags & ZEND_ACC_DEPRECATED) {
- 			zend_error(E_DEPRECATED, "Function %s%s%s() is deprecated",
-				EX(function_state).function->common.scope ? EX(function_state).function->common.scope->name : "",
-				EX(function_state).function->common.scope ? "::" : "",
-				EX(function_state).function->common.function_name);
-		}
+	if (EX(function_state).function->common.fn_flags & ZEND_ACC_ABSTRACT) {
+		zend_error_noreturn(E_ERROR, "Cannot call abstract method %s::%s()", EX(function_state).function->common.scope->name, EX(function_state).function->common.function_name);
+		return FAILURE;
 	}
 
 	ZEND_VM_STACK_GROW_IF_NEEDED(fci->param_count + 1);
@@ -1230,6 +1227,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 			Z_OBJ_HT_P(fci->object_ptr)->call_method(EX(function_state).function->common.function_name, fci->param_count, *fci->retval_ptr_ptr, fci->retval_ptr_ptr, fci->object_ptr, 1 TSRMLS_CC);
 		} else {
 			zend_error_noreturn(E_ERROR, "Cannot call overloaded function for non-object");
+			return FAILURE;
 		}
 
 		if (EX(function_state).function->type == ZEND_OVERLOADED_FUNCTION_TEMPORARY) {
@@ -1368,4 +1366,3 @@ int phalcon_lookup_class(const char *name, int name_length, zend_class_entry ***
 }
 
 #endif
-

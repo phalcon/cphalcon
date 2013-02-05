@@ -3,7 +3,7 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file docs/LICENSE.txt.                        |
@@ -20,14 +20,14 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "0.8.0"
+#define PHP_PHALCON_VERSION "0.9.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_RELEASE 1
 
 #define PHALCON_MAX_MEMORY_STACK 48
 
-/* Memory frame */
+/** Memory frame */
 typedef struct _phalcon_memory_entry {
 	int pointer;
 	zval **addresses[PHALCON_MAX_MEMORY_STACK];
@@ -35,7 +35,14 @@ typedef struct _phalcon_memory_entry {
 	struct _phalcon_memory_entry *next;
 } phalcon_memory_entry;
 
-/* ORM options */
+/** Virtual Symbol Table */
+typedef struct _phalcon_symbol_table {
+	struct _phalcon_memory_entry *scope;
+	HashTable *symbol_table;
+	struct _phalcon_symbol_table *prev;
+} phalcon_symbol_table;
+
+/** ORM options */
 typedef struct _phalcon_orm_options {
 	zend_bool events;
 	zend_bool virtual_foreign_keys;
@@ -43,34 +50,33 @@ typedef struct _phalcon_orm_options {
 	zend_bool not_null_validations;
 } phalcon_orm_options;
 
-/* DB options */
+/** DB options */
 typedef struct _phalcon_db_options {
 	zend_bool escape_identifiers;
 } phalcon_db_options;
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
-	//Memory
+	/** Memory */
 	phalcon_memory_entry *start_memory;
 	phalcon_memory_entry *active_memory;
 
-	//Virtual Symbol Tables
-	unsigned int number_symbol_tables;
-	HashTable **symbol_tables;
+	/** Virtual Symbol Tables */
+	phalcon_symbol_table *active_symbol_table;
 
-	//Function cache
+	/** Function cache */
 	HashTable *function_cache;
 
-	//Stats
+	/** Stats */
 #ifndef PHALCON_RELEASE
 	unsigned int phalcon_stack_stats;
 	unsigned int phalcon_number_grows;
 #endif
 
-	//ORM
+	/** ORM */
 	phalcon_orm_options orm;
 
-	//DB
+	/** DB */
 	phalcon_db_options db;
 
 ZEND_END_MODULE_GLOBALS(phalcon)
@@ -129,4 +135,13 @@ extern zend_module_entry phalcon_module_entry;
 #define PHALCON_EXPERIMENTAL_FCALL 0
 #else
 #define PHALCON_EXPERIMENTAL_FCALL 1
+#endif
+
+/** Macros for branch prediction */
+#if defined(__GNUC__) && ZEND_GCC_VERSION >= 3004 && defined(__i386__)
+#define likely(x)       __builtin_expect((x),1)
+#define unlikely(x)     __builtin_expect((x),0)
+#else
+#define likely(x)       x
+#define unlikely(x)     x
 #endif

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Security, getSaltBytes){
 		break;
 	}
 	
-	RETURN_CCTOR(safe_bytes);
+	RETURN_CTOR(safe_bytes);
 }
 
 /**
@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", key, safe_bytes);
 	
-	RETURN_CCTOR(safe_bytes);
+	RETURN_CTOR(safe_bytes);
 }
 
 /**
@@ -432,17 +432,18 @@ PHP_METHOD(Phalcon_Security, getToken){
  * Check if the CSRF token sent in the request is the same that the current in session
  *
  * @param string $tokenKey
+ * @param string $tokenValue
  * @return boolean
  */
 PHP_METHOD(Phalcon_Security, checkToken){
 
-	zval *token_key = NULL, *dependency_injector, *service = NULL;
-	zval *session, *key = NULL, *request, *token, *session_token;
+	zval *token_key = NULL, *token_value = NULL, *dependency_injector;
+	zval *service = NULL, *session, *key = NULL, *request, *token = NULL, *session_token;
 	zval *same;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &token_key) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &token_key, &token_value) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -450,6 +451,10 @@ PHP_METHOD(Phalcon_Security, checkToken){
 		PHALCON_INIT_VAR(token_key);
 	} else {
 		PHALCON_SEPARATE_PARAM(token_key);
+	}
+	
+	if (!token_value) {
+		PHALCON_INIT_VAR(token_value);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -472,14 +477,21 @@ PHP_METHOD(Phalcon_Security, checkToken){
 		PHALCON_CALL_METHOD_PARAMS_1(token_key, session, "get", key);
 	}
 	
-	PHALCON_INIT_NVAR(service);
-	ZVAL_STRING(service, "request", 1);
+	if (Z_TYPE_P(token_value) == IS_NULL) {
+		PHALCON_INIT_NVAR(service);
+		ZVAL_STRING(service, "request", 1);
 	
-	PHALCON_INIT_VAR(request);
-	PHALCON_CALL_METHOD_PARAMS_1(request, dependency_injector, "getshared", service);
+		PHALCON_INIT_VAR(request);
+		PHALCON_CALL_METHOD_PARAMS_1(request, dependency_injector, "getshared", service);
 	
-	PHALCON_INIT_VAR(token);
-	PHALCON_CALL_METHOD_PARAMS_1(token, request, "getpost", token_key);
+		/** 
+		 * We always check if the value is correct in post
+		 */
+		PHALCON_INIT_VAR(token);
+		PHALCON_CALL_METHOD_PARAMS_1(token, request, "getpost", token_key);
+	} else {
+		PHALCON_CPY_WRT(token, token_value);
+	}
 	
 	PHALCON_INIT_NVAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
@@ -487,9 +499,46 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	PHALCON_INIT_VAR(session_token);
 	PHALCON_CALL_METHOD_PARAMS_1(session_token, session, "get", key);
 	
+	/** 
+	 * The value is the same?
+	 */
 	PHALCON_INIT_VAR(same);
 	is_equal_function(same, token, session_token TSRMLS_CC);
 	
 	RETURN_NCTOR(same);
+}
+
+/**
+ * Returns the value of the CSRF token in session
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Security, getSessionToken){
+
+	zval *dependency_injector, *service, *session;
+	zval *key, *session_token;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "session", 1);
+	
+	PHALCON_INIT_VAR(session);
+	PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service);
+	
+	PHALCON_INIT_VAR(key);
+	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
+	
+	PHALCON_INIT_VAR(session_token);
+	PHALCON_CALL_METHOD_PARAMS_1(session_token, session, "get", key);
+	
+	RETURN_CCTOR(session_token);
 }
 

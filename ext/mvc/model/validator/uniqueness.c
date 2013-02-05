@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -152,12 +152,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		 * The field can be an array of values
 		 */
 	
-		if (!phalcon_valid_foreach(field TSRMLS_CC)) {
+		if (!phalcon_is_iterable(field, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah0 = Z_ARRVAL_P(field);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -261,7 +258,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	 */
 	PHALCON_INIT_VAR(operation_made);
 	PHALCON_CALL_METHOD(operation_made, record, "getoperationmade");
-	if (phalcon_compare_strict_long(operation_made, 2 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(operation_made, 2)) {
 	
 		/** 
 		 * We build a query with the primary key attributes
@@ -276,12 +273,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		PHALCON_INIT_VAR(primary_fields);
 		PHALCON_CALL_METHOD_PARAMS_1(primary_fields, meta_data, "getprimarykeyattributes", record);
 	
-		if (!phalcon_valid_foreach(primary_fields TSRMLS_CC)) {
+		if (!phalcon_is_iterable(primary_fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah1 = Z_ARRVAL_P(primary_fields);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -354,7 +348,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	 * Check using an standard count
 	 */
 	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(number, class_name, "count", params);
-	if (!phalcon_compare_strict_long(number, 0 TSRMLS_CC)) {
+	if (!PHALCON_IS_LONG(number, 0)) {
 	
 		/** 
 		 * Check if the developer has defined a custom message

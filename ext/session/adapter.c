@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -169,8 +169,8 @@ PHP_METHOD(Phalcon_Session_Adapter, getOptions){
  */
 PHP_METHOD(Phalcon_Session_Adapter, get){
 
-	zval *index, *default_value = NULL, *unique_id, *key, *value;
-	zval *g0 = NULL;
+	zval *index, *default_value = NULL, *unique_id, *key, *_SESSION;
+	zval *value;
 
 	PHALCON_MM_GROW();
 
@@ -187,11 +187,11 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	if (phalcon_array_isset(g0, key)) {
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	if (phalcon_array_isset(_SESSION, key)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, g0, key, PH_NOISY_CC);
+		phalcon_array_fetch(&value, _SESSION, key, PH_NOISY_CC);
 		if (PHALCON_IS_NOT_EMPTY(value)) {
 			RETURN_CCTOR(value);
 		}
@@ -213,8 +213,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
  */
 PHP_METHOD(Phalcon_Session_Adapter, set){
 
-	zval *index, *value, *unique_id, *key;
-	zval *g0 = NULL;
+	zval *index, *value, *unique_id, *key, *_SESSION;
 
 	PHALCON_MM_GROW();
 
@@ -227,8 +226,8 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_update_zval(&g0, key, &value, PH_COPY TSRMLS_CC);
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	phalcon_array_update_zval(&_SESSION, key, &value, PH_COPY TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -244,8 +243,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
  */
 PHP_METHOD(Phalcon_Session_Adapter, has){
 
-	zval *index, *unique_id, *key;
-	zval *g0 = NULL;
+	zval *index, *unique_id, *key, *_SESSION;
 
 	PHALCON_MM_GROW();
 
@@ -258,8 +256,8 @@ PHP_METHOD(Phalcon_Session_Adapter, has){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	if (phalcon_array_isset(g0, key)) {
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	if (phalcon_array_isset(_SESSION, key)) {
 		RETURN_MM_TRUE;
 	}
 	
@@ -277,8 +275,7 @@ PHP_METHOD(Phalcon_Session_Adapter, has){
  */
 PHP_METHOD(Phalcon_Session_Adapter, remove){
 
-	zval *index, *unique_id, *key;
-	zval *g0 = NULL;
+	zval *index, *unique_id, *key, *_SESSION;
 
 	PHALCON_MM_GROW();
 
@@ -291,8 +288,8 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_unset(g0, key);
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	phalcon_array_unset(_SESSION, key);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -83,6 +83,13 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset){
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_activeRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_rows"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_errorMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_mvc_model_resultset_ce, SL("_hydrateMode"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("TYPE_RESULT_FULL"), 0 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("TYPE_RESULT_PARTIAL"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_RECORDS"), 0 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_OBJECTS"), 2 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_ARRAYS"), 1 TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 6, phalcon_mvc_model_resultsetinterface_ce, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_serializable);
 
@@ -353,8 +360,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 
-	zval *index, *count, *exists, *pointer, *is_same, *current = NULL;
-	zval *valid;
+	zval *index, *count, *exists, *pointer, *current = NULL, *valid;
 
 	PHALCON_MM_GROW();
 
@@ -374,10 +380,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 		 */
 		PHALCON_OBS_VAR(pointer);
 		phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(is_same);
-		is_equal_function(is_same, pointer, index TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_same)) {
+		if (PHALCON_IS_EQUAL(pointer, index)) {
 			PHALCON_INIT_VAR(current);
 			PHALCON_CALL_METHOD(current, this_ptr, "current");
 			RETURN_CCTOR(current);
@@ -443,6 +446,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset){
 }
 
 /**
+ * Returns the internal type of data retrieval that the resultset is using
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType){
+
+
+	RETURN_MEMBER(this_ptr, "_type");
+}
+
+/**
  * Get first row in the resultset
  *
  * @return Phalcon\Mvc\ModelInterface
@@ -458,7 +472,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 	 */
 	PHALCON_OBS_VAR(pointer);
 	phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
-	if (phalcon_compare_strict_long(pointer, 0 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(pointer, 0)) {
 		PHALCON_INIT_VAR(current);
 		PHALCON_CALL_METHOD(current, this_ptr, "current");
 		RETURN_CCTOR(current);
@@ -487,19 +501,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
 
-	zval *count, *pre_count, *valid, *current;
-	zval *t0 = NULL;
+	zval *one, *count, *pre_count, *valid, *current;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(one);
+	ZVAL_LONG(one, 1);
+	
 	PHALCON_INIT_VAR(count);
 	PHALCON_CALL_METHOD(count, this_ptr, "count");
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 1);
-	
 	PHALCON_INIT_VAR(pre_count);
-	sub_function(pre_count, count, t0 TSRMLS_CC);
+	sub_function(pre_count, count, one TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "seek", pre_count);
 	
 	PHALCON_INIT_VAR(valid);
@@ -517,6 +530,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
  * Set if the resultset is fresh or an old one cached
  *
  * @param boolean $isFresh
+ * @return Phalcon\Mvc\Model\Resultset
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
 
@@ -527,7 +541,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_isFresh"), is_fresh TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
@@ -539,6 +553,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh){
 
 
 	RETURN_MEMBER(this_ptr, "_isFresh");
+}
+
+/**
+ * Sets the hydration mode in the resultset
+ *
+ * @param int $hydrateMode
+ * @return Phalcon\Mvc\Model\Resultset
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode){
+
+	zval *hydrate_mode;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &hydrate_mode) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the current hydration mode
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getHydrateMode){
+
+
+	RETURN_MEMBER(this_ptr, "_hydrateMode");
 }
 
 /**
@@ -555,7 +598,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
 /**
  * Returns current row in the resultset
  *
- * @return object
+ * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, current){
 
@@ -616,17 +659,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 			/** 
 			 * We only can delete resultsets whose every element is a complete object
 			 */
-			if (phalcon_method_exists_ex(record, SS("getconnection") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_NVAR(connection);
-				PHALCON_CALL_METHOD(connection, record, "getconnection");
-				PHALCON_CALL_METHOD_NORETURN(connection, "begin");
-	
-				PHALCON_INIT_NVAR(transaction);
-				ZVAL_BOOL(transaction, 1);
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Error Processing Request");
+			if (!phalcon_method_exists_ex(record, SS("getconnection") TSRMLS_CC) == FAILURE) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
 				return;
 			}
+	
+			PHALCON_INIT_NVAR(connection);
+			PHALCON_CALL_METHOD(connection, record, "getconnection");
+			PHALCON_CALL_METHOD_NORETURN(connection, "begin");
+	
+			PHALCON_INIT_NVAR(transaction);
+			ZVAL_BOOL(transaction, 1);
 		}
 	
 		/** 

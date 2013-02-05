@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -49,11 +49,11 @@
  * define his/her own filters
  *
  *<code>
- *$filter = new Phalcon\Filter();
- *$filter->sanitize("some(one)@exa\\mple.com", "email"); // returns "someone@example.com"
- *$filter->sanitize("hello<<", "string"); // returns "hello"
- *$filter->sanitize("!100a019", "int"); // returns "100019"
- *$filter->sanitize("!100a019.01a", "float"); // returns "100019.01"
+ *	$filter = new Phalcon\Filter();
+ *	$filter->sanitize("some(one)@exa\\mple.com", "email"); // returns "someone@example.com"
+ *	$filter->sanitize("hello<<", "string"); // returns "hello"
+ *	$filter->sanitize("!100a019", "int"); // returns "100019"
+ *	$filter->sanitize("!100a019.01a", "float"); // returns "100019.01"
  *</code>
  *
  */
@@ -111,11 +111,11 @@ PHP_METHOD(Phalcon_Filter, add){
 	
 	phalcon_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
- * Sanizites a value with a specified single or set of filters
+ * Sanitizes a value with a specified single or set of filters
  *
  * @param  mixed $value
  * @param  mixed $filters
@@ -123,10 +123,10 @@ PHP_METHOD(Phalcon_Filter, add){
  */
 PHP_METHOD(Phalcon_Filter, sanitize){
 
-	zval *value, *filters, *new_value = NULL, *filter = NULL, *filter_value = NULL;
-	zval *sanizited_value;
-	HashTable *ah0;
-	HashPosition hp0;
+	zval *value, *filters, *new_value = NULL, *filter = NULL, *array_value = NULL;
+	zval *item_value = NULL, *key = NULL, *filter_value = NULL, *sanizited_value = NULL;
+	HashTable *ah0, *ah1, *ah2;
+	HashPosition hp0, hp1, hp2;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -135,24 +135,51 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * Apply an array of filters
+	 */
 	if (Z_TYPE_P(filters) == IS_ARRAY) { 
 		PHALCON_CPY_WRT(new_value, value);
 		if (Z_TYPE_P(value) != IS_NULL) {
 	
-			if (!phalcon_valid_foreach(filters TSRMLS_CC)) {
+			if (!phalcon_is_iterable(filters, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah0 = Z_ARRVAL_P(filters);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(filter);
 	
-				PHALCON_INIT_NVAR(filter_value);
-				PHALCON_CALL_METHOD_PARAMS_2(filter_value, this_ptr, "_sanitize", new_value, filter);
-				PHALCON_CPY_WRT(new_value, filter_value);
+				/** 
+				 * If the value to filter is an array we apply the filters recursively
+				 */
+				if (Z_TYPE_P(new_value) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(array_value);
+					array_init(array_value);
+	
+					if (!phalcon_is_iterable(new_value, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+						return;
+					}
+	
+					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+						PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
+						PHALCON_GET_FOREACH_VALUE(item_value);
+	
+						PHALCON_INIT_NVAR(filter_value);
+						PHALCON_CALL_METHOD_PARAMS_2(filter_value, this_ptr, "_sanitize", item_value, filter);
+						phalcon_array_update_zval(&array_value, key, &filter_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+						zend_hash_move_forward_ex(ah1, &hp1);
+					}
+	
+					PHALCON_CPY_WRT(new_value, array_value);
+				} else {
+					PHALCON_INIT_NVAR(filter_value);
+					PHALCON_CALL_METHOD_PARAMS_2(filter_value, this_ptr, "_sanitize", new_value, filter);
+					PHALCON_CPY_WRT(new_value, filter_value);
+				}
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -163,14 +190,41 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 		RETURN_CCTOR(new_value);
 	}
 	
-	PHALCON_INIT_VAR(sanizited_value);
-	PHALCON_CALL_METHOD_PARAMS_2(sanizited_value, this_ptr, "_sanitize", value, filters);
+	/** 
+	 * Apply a single filter value
+	 */
+	if (Z_TYPE_P(value) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(sanizited_value);
+		array_init(sanizited_value);
+	
+		if (!phalcon_is_iterable(value, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_KEY(key, ah2, hp2);
+			PHALCON_GET_FOREACH_VALUE(item_value);
+	
+			PHALCON_INIT_NVAR(filter_value);
+			PHALCON_CALL_METHOD_PARAMS_2(filter_value, this_ptr, "_sanitize", item_value, filters);
+			phalcon_array_update_zval(&sanizited_value, key, &filter_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+			zend_hash_move_forward_ex(ah2, &hp2);
+		}
+	
+	} else {
+		PHALCON_INIT_NVAR(sanizited_value);
+		PHALCON_CALL_METHOD_PARAMS_2(sanizited_value, this_ptr, "_sanitize", value, filters);
+	}
+	
 	
 	RETURN_CCTOR(sanizited_value);
 }
 
 /**
- * Internal sanizite wrapper to filter_var
+ * Internal sanitize wrapper to filter_var
  *
  * @param  mixed $value
  * @param  string $filter
@@ -215,7 +269,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 	
 	
-	if (PHALCON_COMPARE_STRING(filter, "email")) {
+	if (PHALCON_IS_STRING(filter, "email")) {
 		/** 
 		 * The 'email' filter uses the filter extension
 		 */
@@ -236,7 +290,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "int")) {
+	if (PHALCON_IS_STRING(filter, "int")) {
 		/** 
 		 * 'int' filter sanitizes a numeric input
 		 */
@@ -248,7 +302,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "string")) {
+	if (PHALCON_IS_STRING(filter, "string")) {
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 513);
 	
@@ -257,7 +311,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "float")) {
+	if (PHALCON_IS_STRING(filter, "float")) {
 		/** 
 		 * The 'float' filter uses the filter extension
 		 */
@@ -276,25 +330,25 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "alphanum")) {
+	if (PHALCON_IS_STRING(filter, "alphanum")) {
 		PHALCON_INIT_NVAR(filtered);
 		phalcon_filter_alphanum(filtered, value);
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "trim")) {
+	if (PHALCON_IS_STRING(filter, "trim")) {
 		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "trim", value);
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "striptags")) {
+	if (PHALCON_IS_STRING(filter, "striptags")) {
 		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "strip_tags", value);
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "lower")) {
+	if (PHALCON_IS_STRING(filter, "lower")) {
 		if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
 			/** 
 			 * 'lower' checks for the mbstring extension to make a correct lowercase
@@ -309,7 +363,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "upper")) {
+	if (PHALCON_IS_STRING(filter, "upper")) {
 		if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
 			/** 
 			 * 'upper' checks for the mbstring extension to make a correct lowercase

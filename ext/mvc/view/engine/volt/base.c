@@ -41,18 +41,22 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_NOTIDENTICAL,  	"NOT IDENTICAL" },
   { PHVOLT_T_NOT,           	"NOT" },
   { PHVOLT_T_RANGE,           	"RANGE" },
+  { PHVOLT_T_COLON,       		"COLON" },
   { PHVOLT_T_LESS,          	"<" },
   { PHVOLT_T_LESSEQUAL,     	"<=" },
   { PHVOLT_T_GREATER,       	">" },
   { PHVOLT_T_GREATEREQUAL,  	">=" },
   { PHVOLT_T_BRACKET_OPEN,  	"(" },
   { PHVOLT_T_BRACKET_CLOSE, 	")" },
+  { PHVOLT_T_SBRACKET_OPEN,  	"[" },
+  { PHVOLT_T_SBRACKET_CLOSE, 	"]" },
   { PHVOLT_T_OPEN_DELIMITER, 	"{%" },
   { PHVOLT_T_CLOSE_DELIMITER, 	"%}" },
   { PHVOLT_T_OPEN_EDELIMITER, 	"{{" },
   { PHVOLT_T_CLOSE_EDELIMITER, 	"}}" },
   { PHVOLT_T_IF,           		"IF" },
   { PHVOLT_T_ELSE,           	"ELSE" },
+  { PHVOLT_T_ELSEIF,           	"ELSEIF" },
   { PHVOLT_T_ENDIF,           	"ENDIF" },
   { PHVOLT_T_FOR,           	"FOR" },
   { PHVOLT_T_IN, 	          	"IN" },
@@ -317,8 +321,8 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			case PHVOLT_T_COMMA:
 				phvolt_(phvolt_parser, PHVOLT_COMMA, NULL, parser_status);
 				break;
-			case PHVOLT_T_DOUBLECOLON:
-				phvolt_(phvolt_parser, PHVOLT_DOUBLECOLON, NULL, parser_status);
+			case PHVOLT_T_COLON:
+				phvolt_(phvolt_parser, PHVOLT_COLON, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_BRACKET_OPEN:
@@ -388,6 +392,9 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 			case PHVOLT_T_ELSE:
 				phvolt_(phvolt_parser, PHVOLT_ELSE, NULL, parser_status);
+				break;
+			case PHVOLT_T_ELSEIF:
+				phvolt_(phvolt_parser, PHVOLT_ELSEIF, NULL, parser_status);
 				break;
 			case PHVOLT_T_ENDIF:
 				state->block_level--;

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -41,8 +41,7 @@
 /**
  * Phalcon\Paginator\Adapter\Model
  *
- * This adapter allows to paginate data using Phalcon\Model resultsets.
- *
+ * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as base
  */
 
 
@@ -117,7 +116,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage){
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 
-	zval *show, *config, *items, *page_number = NULL, *zero, *one;
+	zval *one, *zero, *show, *config, *items, *page_number = NULL;
 	zval *smaller, *n, *page, *last_show_page, *start;
 	zval *last_page, *possible_pages = NULL, *total_pages;
 	zval *compare = NULL, *page_items, *i, *valid = NULL, *current = NULL, *maximum_pages;
@@ -127,6 +126,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(one);
+	ZVAL_LONG(one, 1);
+	
+	PHALCON_INIT_VAR(zero);
+	ZVAL_LONG(zero, 0);
+	
 	PHALCON_OBS_VAR(show);
 	phalcon_read_property(&show, this_ptr, SL("_limitRows"), PH_NOISY_CC);
 	
@@ -139,15 +144,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	PHALCON_OBS_VAR(page_number);
 	phalcon_read_property(&page_number, this_ptr, SL("_page"), PH_NOISY_CC);
 	if (Z_TYPE_P(page_number) == IS_NULL) {
-		PHALCON_INIT_NVAR(page_number);
-		ZVAL_LONG(page_number, 1);
+		PHALCON_CPY_WRT(page_number, one);
 	}
-	
-	PHALCON_INIT_VAR(zero);
-	ZVAL_LONG(zero, 0);
-	
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
 	
 	PHALCON_INIT_VAR(smaller);
 	is_smaller_function(smaller, show, zero TSRMLS_CC);
@@ -182,8 +180,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	}
 	
 	if (Z_TYPE_P(page_number) == IS_NULL) {
-		PHALCON_INIT_NVAR(page_number);
-		ZVAL_LONG(page_number, 0);
+		PHALCON_CPY_WRT(page_number, zero);
 	}
 	
 	PHALCON_INIT_VAR(compare);
@@ -288,7 +285,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	mod_function(remainder, n, show TSRMLS_CC);
 	
 	div_function(possible_pages, n, show TSRMLS_CC);
-	if (!phalcon_compare_strict_long(remainder, 0 TSRMLS_CC)) {
+	if (!PHALCON_IS_LONG(remainder, 0)) {
 		PHALCON_INIT_NVAR(next);
 		phalcon_add_function(next, possible_pages, one TSRMLS_CC);
 	

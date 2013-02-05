@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -113,6 +113,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 	}
 	
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo\\Postgresql", "connect", descriptor);
+	
+	/** 
+	 * Execute the search path in the after connect
+	 */
 	if (Z_TYPE_P(schema) == IS_STRING) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVS(sql, "SET search_path TO '", schema, "'");
@@ -168,12 +172,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	
 	PHALCON_INIT_VAR(old_column);
 	
-	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
+	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
-	ah0 = Z_ARRVAL_P(describe);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -229,12 +230,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 										phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
 										phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
 									} else {
-										if (phalcon_memnstr_str(column_type, SL("uuid") TSRMLS_CC)) {
-											phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-											phalcon_array_update_string_long(&definition, SL("size"), 36, PH_SEPARATE TSRMLS_CC);
+										if (phalcon_memnstr_str(column_type, SL("bool") TSRMLS_CC)) {
+											phalcon_array_update_string_long(&definition, SL("type"), 8, PH_SEPARATE TSRMLS_CC);
+											phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
+											phalcon_array_update_string_long(&definition, SL("bindType"), 5, PH_SEPARATE TSRMLS_CC);
 										} else {
-											phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-											phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+											if (phalcon_memnstr_str(column_type, SL("uuid") TSRMLS_CC)) {
+												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
+												phalcon_array_update_string_long(&definition, SL("size"), 36, PH_SEPARATE TSRMLS_CC);
+											} else {
+												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
+												phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+											}
 										}
 									}
 								}
@@ -257,25 +264,28 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("key"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(attribute, "PRI")) {
+		if (PHALCON_IS_STRING(attribute, "PRI")) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("null"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(attribute, "NO")) {
+		if (PHALCON_IS_STRING(attribute, "NO")) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("extra"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(attribute, "auto_increment")) {
+		if (PHALCON_IS_STRING(attribute, "auto_increment")) {
 			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(column_name);
 		phalcon_array_fetch_string(&column_name, field, SL("field"), PH_NOISY_CC);
 	
+		/** 
+		 * Create a Phalcon\Db\Column to abstract the column
+		 */
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);

@@ -35,6 +35,8 @@
 #define PHQL_T_MUL '*'
 #define PHQL_T_DIV '/'
 #define PHQL_T_MOD '%'
+#define PHQL_T_BITWISE_AND '&'
+#define PHQL_T_BITWISE_OR '|'
 #define PHQL_T_AND 266
 #define PHQL_T_OR 267
 #define PHQL_T_LIKE 268

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -45,36 +45,28 @@ extern PHPAPI zend_class_entry *spl_ce_Countable;
 extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
 #endif
 
-/** Startup functions */
+/* Startup functions */
 extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
 extern zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC);
 
-/** Globals functions */
+/* Globals functions */
 extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
 extern int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC);
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
 extern int phalcon_is_callable(zval *var TSRMLS_DC);
 extern int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
+extern int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC);
 
-/** Count */
+/* Count */
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
 extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
-extern int phalcon_valid_foreach(zval *arr TSRMLS_DC);
+extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
-/* Virtual symbol tables */
-extern void phalcon_create_symbol_table(TSRMLS_D);
-extern void phalcon_restore_symbol_table(TSRMLS_D);
-extern void phalcon_clean_symbol_tables(TSRMLS_D);
-
-/** Export symbols to active symbol table */
-extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
-extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
-
-/** Compatibility with PHP 5.3 */
+/* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
  #define ZVAL_COPY_VALUE(z, v)\
   (z)->value = (v)->value;\
@@ -127,9 +119,7 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
  * Return zval with always ctor
  */
 #define RETURN_CTOR(var) { \
-		*(return_value) = *(var); \
-		phalcon_copy_ctor(return_value, var); \
-		INIT_PZVAL(return_value) \
+		RETVAL_ZVAL(var, 1, 0); \
 	} \
 	PHALCON_MM_RESTORE(); \
 	return;
@@ -138,11 +128,24 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
  * Return zval with always ctor, without restoring the memory stack
  */
 #define RETURN_CTORW(var) { \
-		*(return_value) = *(var); \
-		phalcon_copy_ctor(return_value, var); \
-		INIT_PZVAL(return_value) \
+		RETVAL_ZVAL(var, 1, 0); \
 	} \
 	return;
+
+/**
+ * Return this pointer
+ */
+#define RETURN_THIS() { \
+		RETVAL_ZVAL(this_ptr, 1, 0); \
+	} \
+	PHALCON_MM_RESTORE(); \
+	return;
+
+/**
+ * Return zval with always ctor, without restoring the memory stack
+ */
+#define RETURN_THISW() \
+	RETURN_ZVAL(this_ptr, 1, 0);
 
 /**
  * Returns variables without ctor
@@ -201,13 +204,20 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 
 /** Foreach */
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
-	PHALCON_INIT_NVAR(var); \
-	hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
-	if (hash_type == HASH_KEY_IS_STRING) { \
-		ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
-	} else { \
-		if (hash_type == HASH_KEY_IS_LONG) { \
-			ZVAL_LONG(var, hash_num); \
+	{\
+		int hash_type; \
+		char *hash_index; \
+		uint hash_index_len; \
+		ulong hash_num; \
+		 \
+		PHALCON_INIT_NVAR(var); \
+		hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
+		if (hash_type == HASH_KEY_IS_STRING) { \
+			ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
+		} else { \
+			if (hash_type == HASH_KEY_IS_LONG) { \
+				ZVAL_LONG(var, hash_num); \
+			}\
 		}\
 	}
 

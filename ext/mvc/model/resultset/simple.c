@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -41,9 +41,8 @@
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
  *
- * Simple resultsets only contains a complete object.
- * This class builds every complete object as it's required
- *
+ * Simple resultsets only contains a complete objects
+ * This class builds every complete object as it is required
  */
 
 
@@ -66,9 +65,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
  * Phalcon\Mvc\Model\Resultset\Simple constructor
  *
  * @param array $columnMap
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param Phalcon\Db\Result\Pdo $result
- * @param Phalcon\Cache\Backend $cache
+ * @param Phalcon\Cache\BackendInterface $cache
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 
@@ -128,8 +127,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
-	zval *type, *result = NULL, *row = NULL, *rows = NULL, *model, *column_map;
-	zval *active_row;
+	zval *type, *result = NULL, *row = NULL, *rows = NULL, *hydrate_mode, *column_map;
+	zval *model, *active_row = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -173,33 +172,55 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 		}
 	}
 	
-	if (PHALCON_IS_NOT_FALSE(row)) {
-		PHALCON_OBS_VAR(model);
-		phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
-	
-		PHALCON_OBS_VAR(column_map);
-		phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(active_row);
-		PHALCON_CALL_STATIC_PARAMS_3(active_row, "phalcon\\mvc\\model", "dumpresultmap", model, row, column_map);
-		phalcon_update_property_zval(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
-		RETURN_MM_TRUE;
-	} else {
+	if (Z_TYPE_P(row) != IS_ARRAY) { 
 		phalcon_update_property_bool(this_ptr, SL("_activeRow"), 0 TSRMLS_CC);
+		RETURN_MM_FALSE;
 	}
 	
-	RETURN_MM_FALSE;
+	/** 
+	 * Get current hydration mode
+	 */
+	PHALCON_OBS_VAR(hydrate_mode);
+	phalcon_read_property(&hydrate_mode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(column_map);
+	phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	
+	switch (phalcon_get_intval(hydrate_mode)) {
+	
+		case 0:
+			PHALCON_OBS_VAR(model);
+			phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	
+			/** 
+			 * Performs the standard hydration based on objects
+			 */
+			PHALCON_INIT_VAR(active_row);
+			PHALCON_CALL_STATIC_PARAMS_3(active_row, "phalcon\\mvc\\model", "cloneresultmap", model, row, column_map);
+			break;
+	
+		default:
+			/** 
+			 * Other kinds of hydrations
+			 */
+			PHALCON_INIT_NVAR(active_row);
+			PHALCON_CALL_STATIC_PARAMS_3(active_row, "phalcon\\mvc\\model", "cloneresultmaphydrate", row, column_map, hydrate_mode);
+			break;
+	
+	}
+	phalcon_update_property_zval(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
+	RETURN_MM_TRUE;
 }
 
 /**
- * Serializing a resultset will dump all related rows into a big array
+ * Returns a complete resultset as an array, if the resultset has a big number of rows
+ * it could consume more memory than currently it does.
  *
- * @return string
+ * @return array
  */
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 
 	zval *type, *result = NULL, *active_row = NULL, *records = NULL, *row_count;
-	zval *model, *cache, *column_map, *data, *serialized;
 
 	PHALCON_MM_GROW();
 
@@ -266,6 +287,25 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 		}
 	}
 	
+	
+	RETURN_CCTOR(records);
+}
+
+/**
+ * Serializing a resultset will dump all related rows into a big array
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
+
+	zval *records, *model, *cache, *column_map, *hydrate_mode;
+	zval *data, *serialized;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(records);
+	PHALCON_CALL_METHOD(records, this_ptr, "toarray");
+	
 	PHALCON_OBS_VAR(model);
 	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
 	
@@ -275,12 +315,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	
+	PHALCON_OBS_VAR(hydrate_mode);
+	phalcon_read_property(&hydrate_mode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
+	
 	PHALCON_INIT_VAR(data);
-	array_init_size(data, 4);
+	array_init_size(data, 5);
 	phalcon_array_update_string(&data, SL("model"), &model, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&data, SL("cache"), &cache, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&data, SL("rows"), &records, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&data, SL("columnMap"), &column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&data, SL("hydrateMode"), &hydrate_mode, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	/** 
 	 * Force to re-execute the query
@@ -292,7 +336,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	 */
 	PHALCON_INIT_VAR(serialized);
 	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
-	
 	RETURN_CCTOR(serialized);
 }
 
@@ -304,6 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 
 	zval *data, *resultset, *model, *rows, *cache, *column_map;
+	zval *hydrate_mode;
 
 	PHALCON_MM_GROW();
 
@@ -315,26 +359,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 	
 	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_FUNC_PARAMS_1(resultset, "unserialize", data);
-	if (Z_TYPE_P(resultset) == IS_ARRAY) { 
-		PHALCON_OBS_VAR(model);
-		phalcon_array_fetch_string(&model, resultset, SL("model"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
-	
-		PHALCON_OBS_VAR(rows);
-		phalcon_array_fetch_string(&rows, resultset, SL("rows"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
-	
-		PHALCON_OBS_VAR(cache);
-		phalcon_array_fetch_string(&cache, resultset, SL("cache"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
-	
-		PHALCON_OBS_VAR(column_map);
-		phalcon_array_fetch_string(&column_map, resultset, SL("columnMap"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
-	} else {
+	if (Z_TYPE_P(resultset) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;
 	}
+	
+	PHALCON_OBS_VAR(model);
+	phalcon_array_fetch_string(&model, resultset, SL("model"), PH_NOISY_CC);
+	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(rows);
+	phalcon_array_fetch_string(&rows, resultset, SL("rows"), PH_NOISY_CC);
+	phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(cache);
+	phalcon_array_fetch_string(&cache, resultset, SL("cache"), PH_NOISY_CC);
+	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(column_map);
+	phalcon_array_fetch_string(&column_map, resultset, SL("columnMap"), PH_NOISY_CC);
+	phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(hydrate_mode);
+	phalcon_array_fetch_string(&hydrate_mode, resultset, SL("hydrateMode"), PH_NOISY_CC);
+	phalcon_update_property_zval(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
