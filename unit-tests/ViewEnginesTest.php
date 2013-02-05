@@ -34,14 +34,18 @@ class My_Mustache_Engine extends \Phalcon\Mvc\View\Engine
 		parent::__construct($view, $di);
 	}
 
-	public function render($path, $params)
+	public function render($path, $params, $mustClean=false)
 	{
 		if (!isset($params['content'])) {
 			$params['content'] = $this->_view->getContent();
 		}
-		$mustache = clone $this->_mustache;
-		$content = $mustache->render(file_get_contents($path), $params);
-		$this->_view->setContent($content);
+
+		$content = $this->_mustache->render(file_get_contents($path), $params);
+		if ($mustClean) {
+			$this->_view->setContent($content);
+		} else {
+			echo $content;
+		}
 	}
 
 }
@@ -61,7 +65,7 @@ class My_Twig_Engine extends \Phalcon\Mvc\View\Engine
 		parent::__construct($view, $di);
 	}
 
-	public function render($path, $params)
+	public function render($path, $params, $mustClean=false)
 	{
 		$view = $this->_view;
 		if (!isset($params['content'])) {
@@ -73,7 +77,12 @@ class My_Twig_Engine extends \Phalcon\Mvc\View\Engine
 		}
 
 		$relativePath = str_replace($view->getViewsDir(), '', $path);
-		$this->_view->setContent($this->_twig->render($relativePath, $params));
+		$content = $this->_twig->render($relativePath, $params);
+		if ($mustClean) {
+			$this->_view->setContent($content);
+		} else {
+			echo $content;
+		}
 	}
 
 }
