@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,6 +21,7 @@ extern zend_class_entry *phalcon_http_response_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Response);
 
+PHP_METHOD(Phalcon_Http_Response, __construct);
 PHP_METHOD(Phalcon_Http_Response, setDI);
 PHP_METHOD(Phalcon_Http_Response, getDI);
 PHP_METHOD(Phalcon_Http_Response, setStatusCode);
@@ -41,6 +42,12 @@ PHP_METHOD(Phalcon_Http_Response, getContent);
 PHP_METHOD(Phalcon_Http_Response, isSent);
 PHP_METHOD(Phalcon_Http_Response, sendHeaders);
 PHP_METHOD(Phalcon_Http_Response, send);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, content)
+	ZEND_ARG_INFO(0, code)
+	ZEND_ARG_INFO(0, status)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -92,6 +99,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_appendcontent, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_http_response_method_entry){
+	PHP_ME(Phalcon_Http_Response, __construct, arginfo_phalcon_http_response___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Http_Response, setDI, arginfo_phalcon_http_response_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, setStatusCode, arginfo_phalcon_http_response_setstatuscode, ZEND_ACC_PUBLIC) 

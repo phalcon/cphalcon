@@ -35,8 +35,8 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 
 	public function collectionsAutoloader($className)
 	{
-		if (file_exists('unit-tests/collections/'.$className.'.php')) {
-			require 'unit-tests/collections/'.$className.'.php';
+		if (file_exists('unit-tests/collections/' . $className . '.php')) {
+			require 'unit-tests/collections/' . $className . '.php';
 		}
 	}
 
@@ -83,7 +83,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$success = $song->save();
 		$this->assertTrue($success);
 		$this->assertInstanceOf('MongoId', $song->_id);
-		$this->assertNotEquals($firstSongId->{'$id'}, $song->_id->{'$id'});
+		$this->assertNotEquals((string) $firstSongId->{'$id'}, (string) $song->_id->{'$id'});
 		$secondSongId = $song->_id;
 
 		$songs = Songs::find();
@@ -100,8 +100,8 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$success = $song->save();
 		$this->assertTrue($success);
 		$this->assertInstanceOf('MongoId', $song->_id);
-		$this->assertNotEquals($firstSongId->{'$id'}, $song->_id->{'$id'});
-		$this->assertNotEquals($secondSongId->{'$id'}, $song->_id->{'$id'});
+		$this->assertNotEquals((string) $firstSongId->{'$id'}, (string) $song->_id->{'$id'});
+		$this->assertNotEquals((string) $secondSongId->{'$id'}, (string) $song->_id->{'$id'});
 
 		$songs = Songs::find();
 		$this->assertTrue(is_array($songs));
@@ -112,8 +112,26 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($song->name, 'Lotus Flower');
 		$this->assertEquals($song->artist, 'Radiohead');
 
+		$song = Songs::findFirst(array(array('artist' => 'Massive Attack')));
+		$this->assertInstanceOf('Songs', $song);
+		$this->assertEquals($song->artist, 'Massive Attack');
+
+		$song = Songs::findFirst(array('conditions' => array('artist' => 'Massive Attack')));
+		$this->assertInstanceOf('Songs', $song);
+		$this->assertEquals($song->artist, 'Massive Attack');
+
+		$song = Songs::findFirst(array('conditions' => array('name' => 'Paradise Circus')));
+		$this->assertInstanceOf('Songs', $song);
+		$this->assertEquals($song->name, 'Paradise Circus');
+
 		//No results
+		$song = Songs::findFirst(array(array('artist' => 'Lana')));
+		$this->assertFalse($song);
+
 		$song = Songs::findFirst(array('conditions' => array('artist' => 'Lana')));
+		$this->assertFalse($song);
+
+		$song = Songs::findFirst(array(array('artist' => 'Lana')));
 		$this->assertFalse($song);
 
 		//Passing parameters to find
@@ -171,6 +189,12 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		));
 		$this->assertInstanceOf('Songs', $song);
 		$this->assertEquals($song->name, 'Teardrop');
+
+		//Count
+		$this->assertEquals(Songs::count(), 3);
+		$this->assertEquals(Songs::count(array(
+			array('artist' => 'Massive Attack')
+		)), 2);
 
 	}
 

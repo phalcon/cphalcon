@@ -18,6 +18,28 @@
   +------------------------------------------------------------------------+
 */
 
+class InjectableComponent
+{
+	public $response;
+
+	public $other;
+
+	public function __construct($response=null)
+	{
+		$this->response = $response;
+	}
+
+	public function setResponse($response)
+	{
+		$this->response = $response;
+	}
+
+	public function getResponse()
+	{
+		return $this->response;
+	}
+}
+
 class SimpleComponent
 {
 
@@ -195,6 +217,111 @@ class DiTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($this->_di['simple']), 'SimpleComponent');
 	}
 
+	public function testComplexInjection()
+	{
+
+		$response = new Phalcon\Http\Response();
+		$this->_di->set('response', $response);
+
+		//Injection of parameters in the constructor
+		$this->_di->set('simpleConstructor',
+			array(
+				'className' => 'InjectableComponent',
+				'arguments' => array(
+					array('type' => 'parameter', 'value' => 'response')
+				)
+			)
+    	);
+
+		//Injection of simple setters
+    	$this->_di->set('simpleSetters',
+			array(
+				'className' => 'InjectableComponent',
+				'calls' => array(
+			        array(
+			            'method' => 'setResponse',
+			            'arguments' => array(
+			                array('type' => 'parameter', 'value' => 'response'),
+			            )
+			        ),
+				)
+			)
+    	);
+
+    	//Injection of properties
+    	$this->_di->set('simpleProperties',
+			array(
+				'className' => 'InjectableComponent',
+				'properties' => array(
+        			array(
+            			'name' => 'response', 'value' => array('type' => 'parameter', 'value' => 'response')
+        			),
+        		)
+			)
+    	);
+
+    	//Injection of parameters in the constructor resolving the service parameter
+		$this->_di->set('complexConstructor',
+			array(
+				'className' => 'InjectableComponent',
+				'arguments' => array(
+					array('type' => 'service', 'name' => 'response')
+				)
+			)
+    	);
+
+		//Injection of simple setters resolving the service parameter
+    	$this->_di->set('complexSetters',
+			array(
+				'className' => 'InjectableComponent',
+				'calls' => array(
+			        array(
+			            'method' => 'setResponse',
+			            'arguments' => array(
+			                array('type' => 'service', 'name' => 'response')
+			            )
+			        ),
+				)
+			)
+    	);
+
+    	//Injection of properties resolving the service parameter
+    	$this->_di->set('complexProperties',
+			array(
+				'className' => 'InjectableComponent',
+				'properties' => array(
+        			array(
+            			'name' => 'response', 'value' => array('type' => 'service', 'name' => 'response')
+        			),
+        		)
+			)
+    	);
+
+    	$component = $this->_di->get('simpleConstructor');
+    	$this->assertTrue(is_string($component->getResponse()));
+    	$this->assertEquals($component->getResponse(), 'response');
+
+    	$component = $this->_di->get('simpleSetters');
+    	$this->assertTrue(is_string($component->getResponse()));
+    	$this->assertEquals($component->getResponse(), 'response');
+
+    	$component = $this->_di->get('simpleProperties');
+    	$this->assertTrue(is_string($component->getResponse()));
+    	$this->assertEquals($component->getResponse(), 'response');
+
+    	$component = $this->_di->get('complexConstructor');
+    	$this->assertTrue(is_object($component->getResponse()));
+    	$this->assertEquals($component->getResponse(), $response);
+
+    	$component = $this->_di->get('complexSetters');
+    	$this->assertTrue(is_object($component->getResponse()));
+    	$this->assertEquals($component->getResponse(), $response);
+
+    	$component = $this->_di->get('complexProperties');
+    	$this->assertTrue(is_object($component->getResponse()));
+    	$this->assertEquals($component->getResponse(), $response);
+	}
+
 	public function testFactoryDefault()
 	{
 		$factoryDefault = new Phalcon\DI\FactoryDefault();
@@ -208,6 +335,9 @@ class DiTest extends PHPUnit_Framework_TestCase
 		$filter = $factoryDefault->get('filter');
 		$this->assertEquals(get_class($filter), 'Phalcon\Filter');
 
+		$escaper = $factoryDefault->get('escaper');
+		$this->assertEquals(get_class($escaper), 'Phalcon\Escaper');
+
 		$url = $factoryDefault->get('url');
 		$this->assertEquals(get_class($url), 'Phalcon\Mvc\Url');
 
@@ -219,6 +349,18 @@ class DiTest extends PHPUnit_Framework_TestCase
 
 		$modelsManager = $factoryDefault->get('modelsManager');
 		$this->assertEquals(get_class($modelsManager), 'Phalcon\Mvc\Model\Manager');
+
+		$modelsMetadata = $factoryDefault->get('modelsMetadata');
+		$this->assertEquals(get_class($modelsMetadata), 'Phalcon\Mvc\Model\MetaData\Memory');
+
+		$router = $factoryDefault->get('router');
+		$this->assertEquals(get_class($router), 'Phalcon\Mvc\Router');
+
+		$session = $factoryDefault->get('session');
+		$this->assertEquals(get_class($session), 'Phalcon\Session\Adapter\Files');
+
+		$security = $factoryDefault->get('security');
+		$this->assertEquals(get_class($security), 'Phalcon\Security');
 
 	}
 

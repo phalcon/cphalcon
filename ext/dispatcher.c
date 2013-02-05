@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -36,9 +36,9 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
-#include "kernel/concat.h"
 
 /**
  * Phalcon\Dispatcher
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName){
 }
 
 /**
- * Gets last dispatched action name
+ * Gets the lastest dispatched action name
  *
  * @return string
  */
@@ -389,6 +389,28 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 }
 
 /**
+ * Returns the current method to be/executed in the dispatcher
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Dispatcher, getActiveMethod){
+
+	zval *suffix, *action_name, *method_name;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(suffix);
+	phalcon_read_property(&suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(action_name);
+	phalcon_read_property(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(method_name);
+	PHALCON_CONCAT_VV(method_name, action_name, suffix);
+	RETURN_CTOR(method_name);
+}
+
+/**
  * Checks if the dispatch loop is finished or has more pendent controllers/tasks to disptach
  *
  * @return boolean
@@ -503,7 +525,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		/** 
 		 * Throw an exception after 256 consecutive forwards
 		 */
-		if (phalcon_compare_strict_long(number_dispatches, 256 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(number_dispatches, 256)) {
 			PHALCON_INIT_NVAR(exception_code);
 			ZVAL_LONG(exception_code, 1);
 	
@@ -562,6 +584,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				continue;
 			}
 	
+			/** 
+			 * Check if the user made a forward in the listener
+			 */
 			PHALCON_OBS_NVAR(finished);
 			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 			if (PHALCON_IS_FALSE(finished)) {
@@ -579,11 +604,24 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_CPY_WRT(camelized_class, handler_name);
 		}
 	
-		PHALCON_INIT_NVAR(handler_class);
-		PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
+		/** 
+		 * Create the complete controller class name prepending the namespace
+		 */
+		if (zend_is_true(namespace_name)) {
+			if (phalcon_end_with_str(namespace_name, SL("\\"))) {
+				PHALCON_INIT_NVAR(handler_class);
+				PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
+			} else {
+				PHALCON_INIT_NVAR(handler_class);
+				PHALCON_CONCAT_VSVV(handler_class, namespace_name, "\\", camelized_class, handler_suffix);
+			}
+		} else {
+			PHALCON_INIT_NVAR(handler_class);
+			PHALCON_CONCAT_VV(handler_class, camelized_class, handler_suffix);
+		}
 	
 		/** 
-		 * Handlers are retrieved as shared instances from the Services Container
+		 * Handlers are retrieved as shared instances from the Service Container
 		 */
 		PHALCON_INIT_NVAR(has_service);
 		PHALCON_CALL_METHOD_PARAMS_1(has_service, dependency_injector, "has", handler_class);
@@ -610,6 +648,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
 			if (PHALCON_IS_FALSE(status)) {
 	
+				/** 
+				 * Check if the user made a forward in the listener
+				 */
 				PHALCON_OBS_NVAR(finished);
 				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
@@ -708,6 +749,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					continue;
 				}
 	
+				/** 
+				 * Check if the user made a forward in the listener
+				 */
 				PHALCON_OBS_NVAR(finished);
 				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
@@ -729,6 +773,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					continue;
 				}
 	
+				/** 
+				 * Check if the user made a forward in the listener
+				 */
 				PHALCON_OBS_NVAR(finished);
 				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
@@ -736,6 +783,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				}
 			}
 	
+			/** 
+			 * Create a call handler
+			 */
 			PHALCON_INIT_NVAR(call_object);
 			array_init_size(call_object, 2);
 			phalcon_array_append(&call_object, handler, PH_SEPARATE TSRMLS_CC);

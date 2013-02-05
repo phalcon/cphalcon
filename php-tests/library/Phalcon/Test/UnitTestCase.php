@@ -63,6 +63,13 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
             }
         );
 
+        $di->set(
+            'escaper',
+            function(){
+                return new Phalcon\Escaper();
+            }
+        );
+
         $this->_di = $di;
     }
 

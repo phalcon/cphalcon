@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -35,7 +35,7 @@
 /**
  * Phalcon\Cache\Exception
  *
- * Exceptions thrown in Phalcon_Cache will use this class
+ * Exceptions thrown in Phalcon\Cache will use this class
  *
  */
 

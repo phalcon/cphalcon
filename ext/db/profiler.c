@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 	
 	phalcon_update_property_zval(this_ptr, SL("_activeProfile"), active_profile TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements){
 	
 	PHALCON_INIT_VAR(number_profiles);
 	phalcon_fast_count(number_profiles, all_profiles TSRMLS_CC);
-	RETURN_CCTOR(number_profiles);
+	RETURN_NCTOR(number_profiles);
 }
 
 /**
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Db_Profiler, reset){
 	PHALCON_INIT_VAR(empty_arr);
 	array_init(empty_arr);
 	phalcon_update_property_zval(this_ptr, SL("_allProfiles"), empty_arr TSRMLS_CC);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**

@@ -1,3 +1,27 @@
+0.9.0b2
+ - Support for reusable records. A relation can be marked to cache in memory the records to speedup getting related records
+ - Added 'elseif' statement to Volt
+ - Changed static key in Volt's 'cache' to any valid expression
+ - Added Phalcon\Logger\Adapter\Syslog and Phalcon\Logger\Adapter\Stream to Phalcon\Logger
+ - Added Phalcon\Logger\Multiple to send logs to multiples adapters
+ - Added formatters abstraction to Phalcon\Logger, now including: Phalcon\Logger\Formatter\Line, Phalcon\Logger\Formatter\Json and Phalcon\Logger\Formatter\Syslog
+ - Added Phalcon\Annotations\Adapter\Files to Phalcon\Annotations, this adapter stores the annotations in PHP files
+
+0.9.0b1
+ - Added Phalcon\Annotations, a general purpose component to read annotations from docblocks
+ - Phalcon\Mvc\Model now supports saving related records using magic methods with a unique call to 'save'
+ - Adding autoescaping option to Phalcon\Tag
+ - Added andWhere/orWhere to Phalcon\Mvc\Model\Criteria
+ - Added passing an HTTP body to the Phalcon\Http\Response's constructor
+ - Phalcon\Mvc\View is now able to pass variables to the views using magic methods
+ - Support for slice with filter and built-in syntax in Volt
+ - Added magic methods in the ORM to find/findFirst by a single field
+ - Improved XSS protection in Phalcon\Tag
+ - Implemented queuing events with priorities in Phalcon\Events
+ - Implemented collecting of returned responses in Phalcon\Events
+ - Added toArray method to Phalcon\Mvc\Model\Resultset classes
+ - Added hydration modes to Phalcon\Mvc\Model\Resultset (HYDRATE_RECORDS, HYDRATE_ARRAYS, HYDRATE_OBJECTS)
+
 0.8.0b1
  - Improved Phalcon\Escaper, this component provides contextual escaping of different kinds of texts (CSS, Javascript, URL, HTML Attributes etc)
  - Added serialization of Mvc\Collection instances

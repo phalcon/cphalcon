@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -108,8 +108,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 
-	zval *key, *session = NULL, *suffix, *suffix_key, *meta_data;
-	zval *g0 = NULL;
+	zval *key, *session = NULL, *_SESSION, *suffix, *suffix_key;
+	zval *meta_data;
 	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
@@ -118,8 +118,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	PHALCON_CPY_WRT(session, g0);
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	PHALCON_CPY_WRT(session, _SESSION);
 	
 	PHALCON_OBS_VAR(suffix);
 	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
@@ -150,8 +150,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write){
 
-	zval *key, *data, *suffix, *suffix_key;
-	zval *g0 = NULL;
+	zval *key, *data, *suffix, *suffix_key, *_SESSION;
 
 	PHALCON_MM_GROW();
 
@@ -164,8 +163,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write){
 	
 	PHALCON_INIT_VAR(suffix_key);
 	PHALCON_CONCAT_SV(suffix_key, "$PMM$", suffix);
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_update_multi_2(&g0, suffix_key, key, &data, 0 TSRMLS_CC);
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	phalcon_array_update_multi_2(&_SESSION, suffix_key, key, &data, 0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

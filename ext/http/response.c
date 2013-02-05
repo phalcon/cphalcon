@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -73,6 +73,45 @@ PHALCON_INIT_CLASS(Phalcon_Http_Response){
 }
 
 /**
+ * Phalcon\Http\Response constructor
+ *
+ * @param string $content
+ * @param int $code
+ * @param string $status
+ */
+PHP_METHOD(Phalcon_Http_Response, __construct){
+
+	zval *content = NULL, *code = NULL, *status = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zzz", &content, &code, &status) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!content) {
+		PHALCON_INIT_VAR(content);
+	}
+	
+	if (!code) {
+		PHALCON_INIT_VAR(code);
+	}
+	
+	if (!status) {
+		PHALCON_INIT_VAR(status);
+	}
+	
+	if (Z_TYPE_P(content) != IS_NULL) {
+		phalcon_update_property_zval(this_ptr, SL("_content"), content TSRMLS_CC);
+	}
+	if (Z_TYPE_P(code) != IS_NULL) {
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setstatuscode", code, status);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Sets the dependency injector
  *
  * @param Phalcon\DiInterface $dependencyInjector
@@ -104,7 +143,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
  * Sets the HTTP response code
  *
  *<code>
- *$response->setStatusCode(404, "Not Found");
+ *	$response->setStatusCode(404, "Not Found");
  *</code>
  *
  * @param int $code
@@ -142,7 +181,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 	ZVAL_STRING(status_header, "Status", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", status_header, status_value);
 	phalcon_update_property_zval(this_ptr, SL("_headers"), headers TSRMLS_CC);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -160,7 +199,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeaders){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_headers"), headers TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -207,7 +246,7 @@ PHP_METHOD(Phalcon_Http_Response, setCookies){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_cookies"), cookies TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -245,7 +284,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeader){
 	PHALCON_INIT_VAR(headers);
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders");
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", name, value);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -271,7 +310,7 @@ PHP_METHOD(Phalcon_Http_Response, setRawHeader){
 	PHALCON_INIT_VAR(headers);
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders");
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(headers, "setraw", header);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -288,7 +327,7 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders){
 	PHALCON_INIT_VAR(headers);
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders");
 	PHALCON_CALL_METHOD_NORETURN(headers, "reset");
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -360,7 +399,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 	ZVAL_STRING(expires_header, "Expires", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", expires_header, utc_date);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -380,7 +419,7 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified){
 	PHALCON_INIT_VAR(status);
 	ZVAL_STRING(status, "Not modified", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setstatuscode", code, status);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -423,7 +462,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -501,7 +540,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	ZVAL_STRING(header_name, "Location", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", header_name, header);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -523,7 +562,7 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_content"), content TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -548,7 +587,7 @@ PHP_METHOD(Phalcon_Http_Response, appendContent){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, _content, content TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_content"), r0 TSRMLS_CC);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -591,7 +630,7 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -632,12 +671,10 @@ PHP_METHOD(Phalcon_Http_Response, send){
 		zend_print_zval(content, 0);
 		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
 	
-		RETURN_CTOR(this_ptr);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "Response was already sent");
-		return;
+		RETURN_THIS();
 	}
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "Response was already sent");
+	return;
 }
 

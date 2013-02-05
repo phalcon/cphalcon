@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -36,6 +36,7 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Db\Reference
@@ -84,7 +85,6 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	zval *columns, *referenced_columns, *schema;
 	zval *referenced_schema, *number_columns;
 	zval *number_referenced_columns;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -137,10 +137,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	
 	PHALCON_INIT_VAR(number_referenced_columns);
 	phalcon_fast_count(number_referenced_columns, referenced_columns TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(r0);
-	is_not_equal_function(r0, number_columns, number_referenced_columns TSRMLS_CC);
-	if (zend_is_true(r0)) {
+	if (!PHALCON_IS_EQUAL(number_columns, number_referenced_columns)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Number of columns is not equals than the number of columns referenced");
 		return;
 	}

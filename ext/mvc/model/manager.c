@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -83,6 +83,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_behaviors"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_lastInitialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_lastQuery"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_reusable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_manager_ce TSRMLS_CC, 3, phalcon_mvc_model_managerinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
@@ -233,29 +234,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	/** 
 	 * Models are just initialized once per request
 	 */
-	if (!phalcon_array_isset(initialized, class_name)) {
-	
-		/** 
-		 * Call the 'initialize' method if it's implemented
-		 */
-		if (phalcon_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD_NORETURN(model, "initialize");
-		}
-	
-		/** 
-		 * If an EventsManager is available we pass to it every initialized model
-		 */
-		PHALCON_OBS_VAR(events_manager);
-		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-			PHALCON_INIT_VAR(event_name);
-			ZVAL_STRING(event_name, "modelsManager:afterInitialize", 1);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
-		}
-	
-		phalcon_update_property_array(this_ptr, SL("_initialized"), class_name, model TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
+	if (phalcon_array_isset(initialized, class_name)) {
+		RETURN_MM_NULL();
 	}
+	
+	/** 
+	 * Call the 'initialize' method if it's implemented
+	 */
+	if (phalcon_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD_NORETURN(model, "initialize");
+	}
+	
+	/** 
+	 * If an EventsManager is available we pass to it every initialized model
+	 */
+	PHALCON_OBS_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "modelsManager:afterInitialize", 1);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+	}
+	
+	phalcon_update_property_array(this_ptr, SL("_initialized"), class_name, model TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -535,12 +537,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 			PHALCON_OBS_VAR(models_behaviors);
 			phalcon_array_fetch(&models_behaviors, behaviors, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(models_behaviors TSRMLS_CC)) {
+			if (!phalcon_is_iterable(models_behaviors, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah0 = Z_ARRVAL_P(models_behaviors);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -643,12 +642,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod){
 			PHALCON_OBS_VAR(models_behaviors);
 			phalcon_array_fetch(&models_behaviors, behaviors, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(models_behaviors TSRMLS_CC)) {
+			if (!phalcon_is_iterable(models_behaviors, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah0 = Z_ARRVAL_P(models_behaviors);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1350,15 +1346,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *referenced_fields;
 	zval *position = NULL, *join_conditions, *has_through;
 	zval *dependency_injector, *find_params, *find_arguments = NULL;
-	zval *arguments, *referenced_model, *referenced_entity;
-	zval *type, *retrieve_method = NULL, *call_object, *records;
+	zval *arguments, *referenced_model, *type, *retrieve_method = NULL;
+	zval *reusable, *unique_key, *records = NULL, *referenced_entity;
+	zval *call_object;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -1448,12 +1441,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		PHALCON_INIT_VAR(referenced_fields);
 		PHALCON_CALL_METHOD(referenced_fields, relation, "getreferencedfields");
 	
-		if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+		if (!phalcon_is_iterable(fields, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah0 = Z_ARRVAL_P(fields);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1521,12 +1511,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	PHALCON_CALL_METHOD(referenced_model, relation, "getreferencedmodel");
 	
 	/** 
-	 * Load the referenced model
-	 */
-	PHALCON_INIT_VAR(referenced_entity);
-	PHALCON_CALL_METHOD_PARAMS_1(referenced_entity, this_ptr, "load", referenced_model);
-	
-	/** 
 	 * Check the right method to get the data
 	 */
 	if (Z_TYPE_P(method) == IS_NULL) {
@@ -1556,6 +1540,29 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	}
 	
 	/** 
+	 * Find first results could be reusable
+	 */
+	PHALCON_INIT_VAR(reusable);
+	PHALCON_CALL_METHOD(reusable, relation, "isreusable");
+	if (zend_is_true(reusable)) {
+	
+		PHALCON_INIT_VAR(unique_key);
+		phalcon_unique_key(unique_key, referenced_model, arguments TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(records);
+		PHALCON_CALL_METHOD_PARAMS_2(records, this_ptr, "getreusablerecords", referenced_model, unique_key);
+		if (Z_TYPE_P(records) == IS_ARRAY || Z_TYPE_P(records) == IS_OBJECT) {
+			RETURN_CCTOR(records);
+		}
+	}
+	
+	/** 
+	 * Load the referenced model
+	 */
+	PHALCON_INIT_VAR(referenced_entity);
+	PHALCON_CALL_METHOD_PARAMS_1(referenced_entity, this_ptr, "load", referenced_model);
+	
+	/** 
 	 * Call the function in the model
 	 */
 	PHALCON_INIT_VAR(call_object);
@@ -1563,10 +1570,77 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	phalcon_array_append(&call_object, referenced_entity, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&call_object, retrieve_method, PH_SEPARATE TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(records);
+	PHALCON_INIT_NVAR(records);
 	PHALCON_CALL_USER_FUNC_ARRAY(records, call_object, arguments);
 	
+	/** 
+	 * Store the result in the cache if it's reusable
+	 */
+	if (zend_is_true(reusable)) {
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "setreusablerecords", referenced_model, unique_key, records);
+	}
+	
+	
 	RETURN_CCTOR(records);
+}
+
+/**
+ * Returns a reusable object from the internal list
+ *
+ * @param string $modelName
+ * @param string $key
+ * @return object
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getReusableRecords){
+
+	zval *model_name, *key, *reusable, *records;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model_name, &key) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(reusable);
+	phalcon_read_property(&reusable, this_ptr, SL("_reusable"), PH_NOISY_CC);
+	if (phalcon_array_isset(reusable, key)) {
+		PHALCON_OBS_VAR(records);
+		phalcon_array_fetch(&records, reusable, key, PH_NOISY_CC);
+		RETURN_CCTOR(records);
+	}
+	
+	RETURN_MM_NULL();
+}
+
+/**
+ * Stores a reusable record in the internal list
+ *
+ * @param string $modelName
+ * @param string $key
+ * @return object
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setReusableRecords){
+
+	zval *model_name, *key, *records;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &model_name, &key, &records) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_array(this_ptr, SL("_reusable"), key, records TSRMLS_CC);
+	
+}
+
+/**
+ * Clears the internal reusable list
+ *
+ * @param
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects){
+
+
+	phalcon_update_property_null(this_ptr, SL("_reusable") TSRMLS_CC);
+	
 }
 
 /**
@@ -1920,7 +1994,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
  * Query all the relationships defined on a model
  *
  * @param string $modelName
- * @return Phalcon\Mvc\RelationInterface[]
+ * @return Phalcon\Mvc\Model\RelationInterface[]
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 
@@ -1954,12 +2028,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 			PHALCON_OBS_VAR(relations);
 			phalcon_array_fetch(&relations, belongs_to, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+			if (!phalcon_is_iterable(relations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah0 = Z_ARRVAL_P(relations);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1984,12 +2055,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 			PHALCON_OBS_NVAR(relations);
 			phalcon_array_fetch(&relations, has_many, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+			if (!phalcon_is_iterable(relations, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah1 = Z_ARRVAL_P(relations);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2014,12 +2082,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 			PHALCON_OBS_NVAR(relations);
 			phalcon_array_fetch(&relations, has_one, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+			if (!phalcon_is_iterable(relations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah2 = Z_ARRVAL_P(relations);
-			zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 			while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -2042,7 +2107,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
  *
  * @param string $first
  * @param string $second
- * @return Phalcon\Mvc\RelationInterface
+ * @return Phalcon\Mvc\Model\RelationInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween){
 

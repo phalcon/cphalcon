@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -197,22 +197,19 @@ PHP_METHOD(Phalcon_Mvc_Router, getDI){
  */
 PHP_METHOD(Phalcon_Mvc_Router, _getRewriteUri){
 
-	zval *get = NULL, *url;
-	zval *g0 = NULL;
+	zval *_GET, *url;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_GET") TSRMLS_CC);
-	PHALCON_CPY_WRT(get, g0);
-	if (phalcon_array_isset_string(get, SS("_url"))) {
+	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
+	if (phalcon_array_isset_string(_GET, SS("_url"))) {
 	
 		PHALCON_OBS_VAR(url);
-		phalcon_array_fetch_string(&url, get, SL("_url"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&url, _GET, SL("_url"), PH_NOISY_CC);
 		if (PHALCON_IS_NOT_EMPTY(url)) {
 			RETURN_CCTOR(url);
 		}
 	}
-	
 	PHALCON_MM_RESTORE();
 	RETURN_STRING("/", 1);
 }
@@ -303,7 +300,8 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction){
 }
 
 /**
- * Sets an array of default paths. This defaults apply for all the routes
+ * Sets an array of default paths. If a route is missing a path the router will use the defined here
+ * This method must not be used to set a 404 route
  *
  *<code>
  * $router->setDefaults(array(
@@ -382,6 +380,10 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
  * Handles routing information received from the rewrite engine
  *
  *<code>
+ * //Read the info from the rewrite engine
+ * $router->handle();
+ *
+ * //Manually passing an URL
  * $router->handle('/posts/edit/1');
  *</code>
  *
@@ -402,10 +404,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -459,12 +457,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	PHALCON_OBS_VAR(routes);
 	phalcon_read_property(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(routes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(routes, &ah0, &hp0, 0, 1 TSRMLS_CC)) {
 		return;
 	}
-	
-	ah0 = Z_ARRVAL_P(routes);
-	zend_hash_internal_pointer_end_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -482,7 +477,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				PHALCON_OBS_NVAR(dependency_injector);
 				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_dispatcher_exception_ce, "A dependency injection container is required to access the 'request' service");
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'request' service");
 					return;
 				}
 	
@@ -539,12 +534,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				PHALCON_INIT_NVAR(converters);
 				PHALCON_CALL_METHOD(converters, route, "getconverters");
 	
-				if (!phalcon_valid_foreach(paths TSRMLS_CC)) {
+				if (!phalcon_is_iterable(paths, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 					return;
 				}
-	
-				ah1 = Z_ARRVAL_P(paths);
-				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1132,7 +1124,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRoutes){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 
-	zval *id, *routes, *route = NULL, *route_id = NULL, *is_equal = NULL;
+	zval *id, *routes, *route = NULL, *route_id = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1146,12 +1138,9 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 	PHALCON_OBS_VAR(routes);
 	phalcon_read_property(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(routes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(routes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
-	ah0 = Z_ARRVAL_P(routes);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1159,10 +1148,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 	
 		PHALCON_INIT_NVAR(route_id);
 		PHALCON_CALL_METHOD(route_id, route, "getrouteid");
-	
-		PHALCON_INIT_NVAR(is_equal);
-		is_equal_function(is_equal, route_id, id TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_equal)) {
+		if (PHALCON_IS_EQUAL(route_id, id)) {
 			RETURN_CCTOR(route);
 		}
 	
@@ -1180,7 +1166,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 
-	zval *name, *routes, *route = NULL, *route_name = NULL, *is_equal = NULL;
+	zval *name, *routes, *route = NULL, *route_name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1194,12 +1180,9 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	PHALCON_OBS_VAR(routes);
 	phalcon_read_property(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(routes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(routes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
-	ah0 = Z_ARRVAL_P(routes);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1207,10 +1190,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	
 		PHALCON_INIT_NVAR(route_name);
 		PHALCON_CALL_METHOD(route_name, route, "getname");
-	
-		PHALCON_INIT_NVAR(is_equal);
-		is_equal_function(is_equal, route_name, name TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_equal)) {
+		if (PHALCON_IS_EQUAL(route_name, name)) {
 			RETURN_CCTOR(route);
 		}
 	

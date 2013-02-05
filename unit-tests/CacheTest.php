@@ -337,7 +337,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		//Query keys
 		$keys = $cache->queryKeys();
 		$this->assertEquals($keys, array(
-			0 => '_PHCAtest-output',
+			0 => 'test-output',
 		));
 
 		//Delete entry from cache

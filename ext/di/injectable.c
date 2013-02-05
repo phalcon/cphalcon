@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_DI_Injectable, getEventsManager){
  */
 PHP_METHOD(Phalcon_DI_Injectable, __get){
 
-	zval *property_name, *dependency_injector;
+	zval *property_name, *dependency_injector = NULL;
 	zval *has_service, *service = NULL, *class_name, *arguments;
 	zval *persistent, *error_msg;
 
@@ -145,8 +145,13 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
-		return;
+	
+		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
+			return;
+		}
 	}
 	
 	/** 
@@ -161,7 +166,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		RETURN_CCTOR(service);
 	}
 	
-	if (PHALCON_COMPARE_STRING(property_name, "di")) {
+	if (PHALCON_IS_STRING(property_name, "di")) {
 		phalcon_update_property_zval(this_ptr, SL("di"), dependency_injector TSRMLS_CC);
 		RETURN_CCTOR(dependency_injector);
 	}
@@ -169,7 +174,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	/** 
 	 * Accessing the persistent property will create a session bag in any class
 	 */
-	if (PHALCON_COMPARE_STRING(property_name, "persistent")) {
+	if (PHALCON_IS_STRING(property_name, "persistent")) {
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 	

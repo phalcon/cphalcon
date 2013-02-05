@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -38,8 +38,7 @@
 /**
  * Phalcon\Mvc\Model\Transaction\Failed
  *
- * Phalcon\Mvc\Model\Transaction\Failed will be thrown to exit a try/catch block for transactions
- *
+ * This class will be thrown to exit a try/catch block for isolated transactions
  */
 
 

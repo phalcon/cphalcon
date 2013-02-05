@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -369,4 +369,22 @@ int phalcon_is_numeric(zval *op) {
 	}
 
 	return 0;
+}
+
+/**
+ * Check if two zvals are equal
+ */
+int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_equal_function(&result, op1, op2 TSRMLS_CC);
+	return Z_BVAL(result);
+}
+
+/**
+ * Check if two zvals are identical
+ */
+int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_identical_function(&result, op1, op2 TSRMLS_CC);
+	return Z_BVAL(result);
 }

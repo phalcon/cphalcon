@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -50,13 +50,13 @@
  * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\DI.
  *
  * <code>
- * $dependencyInjector = new Phalcon\DI();
+ * $di = new Phalcon\DI();
  *
- * $dependencyInjector->set('collectionManager', function(){
+ * $di->set('collectionManager', function(){
  *      return new Phalcon\Mvc\Collection\Manager();
  * });
  *
- * $robot = new Robots($dependencyInjector);
+ * $robot = new Robots($di);
  * </code>
  */
 
@@ -74,6 +74,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Manager){
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_customEventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_connectionServices"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_implicitObjectsIds"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_collection_manager_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
@@ -200,7 +201,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager){
 }
 
 /**
- * Initializes a model in the model manager
+ * Initializes a model in the models manager
  *
  * @param Phalcon\Mvc\CollectionInterface $model
  */
@@ -282,9 +283,9 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized){
 }
 
 /**
- * Get the lastest initialized model
+ * Get the latest initialized model
  *
- * @return Phalcon\Mvc\ModelInterface
+ * @return Phalcon\Mvc\CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized){
 
@@ -293,9 +294,9 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized){
 }
 
 /**
- * Set a connection service for a model
+ * Sets a connection service for a specific model
  *
- * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\CollectionInterface $model
  * @param string $connectionService
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService){
@@ -308,6 +309,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService){
 		RETURN_MM_NULL();
 	}
 
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(entity_name);
 	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
 	phalcon_update_property_array(this_ptr, SL("_connectionServices"), entity_name, connection_service TSRMLS_CC);
@@ -316,9 +322,76 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService){
 }
 
 /**
+ * Sets if a model must use implicit objects ids
+ *
+ * @param Phalcon\Mvc\CollectionInterface $model
+ * @param boolean $useImplicitObjectIds
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds){
+
+	zval *model, *use_implicit_object_ids, *entity_name;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &use_implicit_object_ids) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_implicitObjectsIds"), entity_name, use_implicit_object_ids TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Checks if a model is using implicit object ids
+ *
+ * @param Phalcon\Mvc\CollectionInterface $model
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
+
+	zval *model, *entity_name, *implicit_objects_ids;
+	zval *implicit;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+	
+	/** 
+	 * All collections use by default are using implicit object ids
+	 */
+	PHALCON_OBS_VAR(implicit_objects_ids);
+	phalcon_read_property(&implicit_objects_ids, this_ptr, SL("_implicitObjectsIds"), PH_NOISY_CC);
+	if (phalcon_array_isset(implicit_objects_ids, entity_name)) {
+		PHALCON_OBS_VAR(implicit);
+		phalcon_array_fetch(&implicit, implicit_objects_ids, entity_name, PH_NOISY_CC);
+		RETURN_CCTOR(implicit);
+	}
+	
+	RETURN_MM_TRUE;
+}
+
+/**
  * Returns the connection related to a model
  *
- * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\CollectionInterface $model
  * @return Phalcon\Db\AdapterInterface
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
@@ -332,6 +405,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 		RETURN_MM_NULL();
 	}
 
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(service);
 	ZVAL_STRING(service, "mongo", 1);
 	
@@ -377,7 +455,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
  * Notify the behaviors that are listening in the model
  *
  * @param string $eventName
- * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\CollectionInterface $model
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent){
 

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -46,18 +46,18 @@
  *	class PostsController extends \Phalcon\Mvc\Controller
  *	{
  *
- *	public function uploadAction()
- *	{
- *		//Check if the user has uploaded files
- *		if ($this->request->hasFiles() == true) {
- *			//Print the real file names and their sizes
- *			foreach ($this->request->getUploadedFiles() as $file){
- *				echo $file->getName(), " ", $file->getSize(), "\n";
+ *		public function uploadAction()
+ *		{
+ *			//Check if the user has uploaded files
+ *			if ($this->request->hasFiles() == true) {
+ *				//Print the real file names and their sizes
+ *				foreach ($this->request->getUploadedFiles() as $file){
+ *					echo $file->getName(), " ", $file->getSize(), "\n";
+ *				}
  *			}
  *		}
- *	}
  *
- *}
+ *	}
  *</code>
  */
 
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getTempName){
 }
 
 /**
- * Move the temporary file to a destination
+ * Move the temporary file to a destination whithin the application
  *
  * @param string $destination
  * @return boolean

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -199,6 +199,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	ZVAL_STRING(status_message, "Not Found", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(response, "setstatuscode", status_code, status_message);
 	
+	/** 
+	 * Create the real exception
+	 */
 	PHALCON_INIT_NVAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", message, exception_code);
@@ -224,7 +227,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 /**
  * Returns the lastest dispatched controller
  *
- * @return Phalcon\Mvc\Controller
+ * @return Phalcon\Mvc\ControllerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
 
@@ -235,7 +238,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
 /**
  * Returns the active controller in the dispatcher
  *
- * @return Phalcon\Mvc\Controller
+ * @return Phalcon\Mvc\ControllerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController){
 

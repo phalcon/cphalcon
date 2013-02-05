@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -36,6 +36,20 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface){
 
 	return SUCCESS;
 }
+
+/**
+ * Set the meta-data extraction strategy
+ *
+ * @param Phalcon\Mvc\Model\MetaData\Strategy\Introspection $strategy
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setStrategy);
+
+/**
+ * Return the strategy to obtain the meta-data
+ *
+ * @return Phalcon\Mvc\Model\MetaData\Strategy\Introspection
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getStrategy);
 
 /**
  * Reads meta-data for certain model

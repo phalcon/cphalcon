@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -27,6 +27,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, where);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere);
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, order);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit);
@@ -53,6 +55,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_bind, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_where, 0, 0, 1)
+	ZEND_ARG_INFO(0, conditions)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_addwhere, 0, 0, 1)
+	ZEND_ARG_INFO(0, conditions)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_orwhere, 0, 0, 1)
 	ZEND_ARG_INFO(0, conditions)
 ZEND_END_ARG_INFO()
 
@@ -90,6 +100,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_criteria_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getModelName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Criteria, bind, arginfo_phalcon_mvc_model_criteria_bind, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Criteria, where, arginfo_phalcon_mvc_model_criteria_where, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Criteria, addWhere, arginfo_phalcon_mvc_model_criteria_addwhere, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Criteria, orWhere, arginfo_phalcon_mvc_model_criteria_orwhere, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Criteria, conditions, arginfo_phalcon_mvc_model_criteria_conditions, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Criteria, order, arginfo_phalcon_mvc_model_criteria_order, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Criteria, limit, arginfo_phalcon_mvc_model_criteria_limit, ZEND_ACC_PUBLIC) 

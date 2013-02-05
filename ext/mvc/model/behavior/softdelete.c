@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -66,10 +66,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 
-	zval *type, *model, *options, *value, *field, *actual_value;
-	zval *is_same, *update_model, *status, *messages;
-	zval *message = NULL;
-	zval *c0 = NULL;
+	zval *type, *model, *options, *skip, *value, *field, *actual_value;
+	zval *update_model, *status, *messages, *message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -80,7 +78,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 		RETURN_MM_NULL();
 	}
 
-	if (PHALCON_COMPARE_STRING(type, "beforeDelete")) {
+	if (PHALCON_IS_STRING(type, "beforeDelete")) {
 	
 		PHALCON_INIT_VAR(options);
 		PHALCON_CALL_METHOD(options, this_ptr, "getoptions");
@@ -94,12 +92,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			return;
 		}
 	
+		PHALCON_INIT_VAR(skip);
+		ZVAL_BOOL(skip, 1);
+	
 		/** 
 		 * Skip the current operation
 		 */
-		PHALCON_INIT_VAR(c0);
-		ZVAL_BOOL(c0, 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "skipoperation", c0);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "skipoperation", skip);
 	
 		/** 
 		 * 'value' is the value to be updated instead of delete the record
@@ -119,9 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 		/** 
 		 * If the record is already flagged as 'deleted' we don't delete it again
 		 */
-		PHALCON_INIT_VAR(is_same);
-		is_equal_function(is_same, actual_value, value TSRMLS_CC);
-		if (!zend_is_true(is_same)) {
+		if (!PHALCON_IS_EQUAL(actual_value, value)) {
 	
 			/** 
 			 * Clone the current model to make a clean new operation
@@ -145,12 +142,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 				PHALCON_INIT_VAR(messages);
 				PHALCON_CALL_METHOD(messages, update_model, "getmessages");
 	
-				if (!phalcon_valid_foreach(messages TSRMLS_CC)) {
+				if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 					return;
 				}
-	
-				ah0 = Z_ARRVAL_P(messages);
-				zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

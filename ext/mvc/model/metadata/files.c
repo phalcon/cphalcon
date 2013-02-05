@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -34,10 +34,10 @@
 
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/concat.h"
-#include "kernel/file.h"
-#include "kernel/require.h"
 #include "kernel/fcall.h"
+#include "kernel/file.h"
+#include "kernel/concat.h"
+#include "kernel/require.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 
@@ -110,7 +110,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 
-	zval *key, *meta_data_dir, *path, *data;
+	zval *key, *separator, *meta_data_dir, *virtual_key;
+	zval *path, *data;
 
 	PHALCON_MM_GROW();
 
@@ -118,8 +119,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 		RETURN_MM_NULL();
 	}
 
+	PHALCON_INIT_VAR(separator);
+	ZVAL_STRING(separator, "_", 1);
+	
 	PHALCON_OBS_VAR(meta_data_dir);
 	phalcon_read_property(&meta_data_dir, this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(virtual_key);
+	phalcon_prepare_virtual_path(virtual_key, key, separator TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(path);
 	PHALCON_CONCAT_VVS(path, meta_data_dir, key, ".php");
@@ -142,8 +149,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 
-	zval *key, *data, *meta_data_dir, *path, *to_string;
-	zval *export, *php_export, *status;
+	zval *key, *data, *separator, *meta_data_dir, *virtual_key;
+	zval *path, *to_string, *export, *php_export, *status;
 
 	PHALCON_MM_GROW();
 
@@ -151,8 +158,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 		RETURN_MM_NULL();
 	}
 
+	PHALCON_INIT_VAR(separator);
+	ZVAL_STRING(separator, "_", 1);
+	
 	PHALCON_OBS_VAR(meta_data_dir);
 	phalcon_read_property(&meta_data_dir, this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(virtual_key);
+	phalcon_prepare_virtual_path(virtual_key, key, separator TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(path);
 	PHALCON_CONCAT_VVS(path, meta_data_dir, key, ".php");
@@ -169,7 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 	PHALCON_INIT_VAR(status);
 	PHALCON_CALL_FUNC_PARAMS_2(status, "file_put_contents", path, php_export);
 	if (PHALCON_IS_FALSE(status)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Meta-data directory can't be written");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written");
 		return;
 	}
 	

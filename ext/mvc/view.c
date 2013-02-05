@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -126,7 +126,9 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
 		PHALCON_INIT_VAR(options);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -249,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
  *
  * <code>
  * 	//Render the view related to the controller only
- * 	$this->view->setRenderLevel(Phalcon\Mvc\View::LEVEL_VIEW);
+ * 	$this->view->setRenderLevel(View::LEVEL_VIEW);
  * </code>
  *
  * @param string $level
@@ -464,7 +466,7 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView){
  * Set all the render params
  *
  *<code>
- *	$this->view->setParamToView(array('products' => $products));
+ *	$this->view->setVars(array('products' => $products));
  *</code>
  *
  * @param array $params
@@ -492,7 +494,7 @@ PHP_METHOD(Phalcon_Mvc_View, setVars){
  * Set a single view parameter
  *
  *<code>
- *	$this->view->setParamToView('products', $products);
+ *	$this->view->setVar('products', $products);
  *</code>
  *
  * @param string $key
@@ -608,10 +610,6 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -651,12 +649,9 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&arguments, dependency_injector, PH_SEPARATE TSRMLS_CC);
 	
-			if (!phalcon_valid_foreach(registered_engines TSRMLS_CC)) {
+			if (!phalcon_is_iterable(registered_engines, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
-			ah0 = Z_ARRVAL_P(registered_engines);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -727,10 +722,6 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -840,12 +831,9 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	 * Views are rendered in each engine
 	 */
 	
-	if (!phalcon_valid_foreach(engines TSRMLS_CC)) {
+	if (!phalcon_is_iterable(engines, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
-	ah0 = Z_ARRVAL_P(engines);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1143,12 +1131,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 					ZVAL_BOOL(silence, 0);
 	
-					if (!phalcon_valid_foreach(templates_before TSRMLS_CC)) {
+					if (!phalcon_is_iterable(templates_before, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 						return;
 					}
-	
-					ah0 = Z_ARRVAL_P(templates_before);
-					zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 					while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1202,12 +1187,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 					ZVAL_BOOL(silence, 0);
 	
-					if (!phalcon_valid_foreach(templates_after TSRMLS_CC)) {
+					if (!phalcon_is_iterable(templates_after, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
-	
-					ah1 = Z_ARRVAL_P(templates_after);
-					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1264,11 +1246,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	}
 	
 	/** 
-	 * Restore the virtual symbol table
-	 */
-	phalcon_restore_symbol_table(TSRMLS_C);
-	
-	/** 
 	 * Call afterRender event
 	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -1277,11 +1254,11 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_NULL();
 }
 
 /**
- * Choose different to render than last-controller/last-action
+ * Choose a different view to render instead of last-controller/last-action
  *
  * <code>
  * class ProductsController extends Phalcon\Mvc\Controller
@@ -1347,12 +1324,11 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  * </code>
  *
  * @param string $partialPath
- * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, partial){
 
 	zval *partial_path, *zfalse, *partials_dir, *real_path;
-	zval *engines, *content;
+	zval *engines;
 
 	PHALCON_MM_GROW();
 
@@ -1371,10 +1347,9 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	
 	PHALCON_INIT_VAR(engines);
 	PHALCON_CALL_METHOD(engines, this_ptr, "_loadtemplateengines");
+	PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, real_path, zfalse, zfalse, zfalse);
 	
-	PHALCON_INIT_VAR(content);
-	PHALCON_CALL_METHOD_PARAMS_5(content, this_ptr, "_enginerender", engines, real_path, zfalse, zfalse, zfalse);
-	RETURN_CCTOR(content);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -1514,6 +1489,28 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 }
 
 /**
+ * Check if the component is currently caching the output content
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_View, isCaching){
+
+	zval *zero, *cache_level, *is_caching;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(zero);
+	ZVAL_LONG(zero, 0);
+	
+	PHALCON_OBS_VAR(cache_level);
+	phalcon_read_property(&cache_level, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(is_caching);
+	is_smaller_function(is_caching, zero, cache_level TSRMLS_CC);
+	RETURN_NCTOR(is_caching);
+}
+
+/**
  * Returns the cache instance used to cache
  *
  * @return Phalcon\Cache\BackendInterface
@@ -1554,10 +1551,6 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -1591,12 +1584,9 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 		}
 	
 	
-		if (!phalcon_valid_foreach(options TSRMLS_CC)) {
+		if (!phalcon_is_iterable(options, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah0 = Z_ARRVAL_P(options);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1721,5 +1711,58 @@ PHP_METHOD(Phalcon_Mvc_View, reset){
 	phalcon_update_property_long(this_ptr, SL("_cacheLevel"), 0 TSRMLS_CC);
 	phalcon_update_property_null(this_ptr, SL("_content") TSRMLS_CC);
 	
+}
+
+/**
+ * Magic method to pass variables to the views
+ *
+ *<code>
+ *	$this->view->products = $products;
+ *</code>
+ *
+ * @param string $key
+ * @param mixed $value
+ */
+PHP_METHOD(Phalcon_Mvc_View, __set){
+
+	zval *key, *value;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_array(this_ptr, SL("_viewParams"), key, value TSRMLS_CC);
+	
+}
+
+/**
+ * Magic method to retrieve a variable passed to the view
+ *
+ *<code>
+ *	echo $this->view->products;
+ *</code>
+ *
+ * @param string $key
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_View, __get){
+
+	zval *key, *params, *value;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	if (phalcon_array_isset(params, key)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, params, key, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
+	
+	RETURN_MM_NULL();
 }
 

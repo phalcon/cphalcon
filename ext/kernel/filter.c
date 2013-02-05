@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -175,7 +175,7 @@ char *phalcon_longtohex(unsigned long value) {
 /**
  * Perform escaping of non-alphanumeric characters to different formats
  */
-void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, unsigned int escape_length, char escape_extra){
+void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
 
 	unsigned int i;
 	zval copy;
@@ -260,6 +260,40 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
 		}
 
 		/**
+		 * Chararters in the whitelist are leave as they are
+		 */
+		if (use_whitelist) {
+			switch (value) {
+				case ' ':
+				case '/':
+				case '*':
+				case '+':
+				case '-':
+				case '\t':
+				case '\n':
+				case '^':
+				case '$':
+				case '!':
+				case '?':
+				case '\\':
+				case '#':
+				case '}':
+				case '{':
+				case ')':
+				case '(':
+				case ']':
+				case '[':
+				case '.':
+				case ',':
+				case ':':
+				case ';':
+				case '_':
+					smart_str_appendc(&escaped_str, (unsigned char) value);
+					continue;
+			}
+		}
+
+		/**
 		 * Convert character to hexadecimal
 		 */
 		hex = phalcon_longtohex(value);
@@ -295,21 +329,21 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
  * Escapes non-alphanumeric characters to \HH+space
  */
 void phalcon_escape_css(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ');
+	phalcon_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ', 0);
 }
 
 /**
  * Escapes non-alphanumeric characters to \xHH+
  */
 void phalcon_escape_js(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0');
+	phalcon_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0', 1);
 }
 
 /**
  * Escapes non-alphanumeric characters to &xHH;
  */
 void phalcon_escape_htmlattr(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';');
+	phalcon_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';', 1);
 }
 
 /**
@@ -317,7 +351,12 @@ void phalcon_escape_htmlattr(zval *return_value, zval *param) {
  */
 void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
 
+	#if PHP_VERSION_ID < 50400
 	int length;
+	#else
+	unsigned int length;
+	#endif
+
 	char *escaped;
 
 	if (Z_TYPE_P(str) != IS_STRING) {
@@ -335,6 +374,7 @@ void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval 
 		RETURN_ZVAL(str, 1, 0);
 	}
 
-	escaped = php_escape_html_entities((unsigned char*) Z_STRVAL_P(str), Z_STRLEN_P(str), &length, 0, (int) Z_LVAL_P(quote_style), Z_STRVAL_P(charset) TSRMLS_CC);
+	escaped = php_escape_html_entities((unsigned char*) Z_STRVAL_P(str), Z_STRLEN_P(str), &length, 0, Z_LVAL_P(quote_style), Z_STRVAL_P(charset) TSRMLS_CC);
+
 	RETURN_STRINGL(escaped, length, 0);
 }

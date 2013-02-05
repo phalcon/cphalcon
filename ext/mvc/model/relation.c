@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -244,6 +244,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getThrough){
 			PHALCON_OBS_VAR(through);
 			phalcon_array_fetch_string(&through, options, SL("through"), PH_NOISY_CC);
 			RETURN_CCTOR(through);
+		}
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Check if records in belongs-to/has-many are implicitly cached during the current request
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable){
+
+	zval *options, *reusable;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		if (phalcon_array_isset_string(options, SS("reusable"))) {
+			PHALCON_OBS_VAR(reusable);
+			phalcon_array_fetch_string(&reusable, options, SL("reusable"), PH_NOISY_CC);
+			RETURN_CCTOR(reusable);
 		}
 	}
 	

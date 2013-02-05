@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -36,6 +36,13 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface){
 
 	return SUCCESS;
 }
+
+/**
+ * Returns the internal type of data retrieval that the resultset is using
+ *
+ * @return int
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getType);
 
 /**
  * Get first row in the resultset
@@ -71,4 +78,12 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, isFresh);
  * @return Phalcon\Cache\BackendInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getCache);
+
+/**
+ * Returns a complete resultset as an array, if the resultset has a big number of rows
+ * it could consume more memory than currently it does.
+ *
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, toArray);
 

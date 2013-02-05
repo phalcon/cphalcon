@@ -26,208 +26,196 @@ use \Phalcon\Mvc\Url as PhUrl;
 
 class Url_UnitTest extends Phalcon_Test_UnitTestCase
 {
-    /**
-     * Sets the environment
-     */
-    public function setUp()
-    {
-        parent::setUp();
+	/**
+	 * Sets the environment
+	 */
+	public function setUp()
+	{
+		parent::setUp();
 
-        $this->_di->set(
-            'router',
-            function()
-            {
-                $router = new PhRouter(false);
+		$this->_di->set('router', function() {
 
-                $router->add(
-                    '/admin/:controller/p/:action',
-                    array(
-                        'controller' => 1,
-                        'action'     => 2,
-                    )
-                )->setName('adminProducts');
+			$router = new PhRouter(false);
 
-                $router->add('/api/classes/{class}')->setName('classApi');
+			$router->add('/admin/:controller/p/:action', array(
+				'controller' => 1,
+				'action'     => 2,
+			))->setName('adminProducts');
 
-                $router->add('/{year}/{month}/{title}')->setName('blogPost');
+			$router->add('/api/classes/{class}')->setName('classApi');
 
-                $router->add('/wiki/{article:[a-z]+}')->setName('wikipedia');
+			$router->add('/{year}/{month}/{title}')->setName('blogPost');
 
-                $router->add(
-                    '/news/{country:[a-z]{2}}/([a-z+])/([a-z\-+])/{page}',
-                    array(
-                        'section' => 2,
-                        'article' => 3,
-                    )
-                )->setName('news');
+			$router->add('/wiki/{article:[a-z]+}')->setName('wikipedia');
 
-                $router->add(
-                    '/([a-z]{2})/([a-zA-Z0-9_-]+)(/|)',
-                    array(
-                        'lang'       => 1,
-                        'module'     => 'main',
-                        'controller' => 2,
-                        'action'     => 'index',
-                    )
-                )->setName('lang-controller');
+			$router->add('/news/{country:[a-z]{2}}/([a-z+])/([a-z\-+])/{page}', array(
+				'section' => 2,
+				'article' => 3,
+			))->setName('news');
 
-                return $router;
-            }
-        );
-    }
+			$router->add('/([a-z]{2})/([a-zA-Z0-9_-]+)(/|)', array(
+				'lang'       => 1,
+				'module'     => 'main',
+				'controller' => 2,
+				'action'     => 'index',
+			))->setName('lang-controller');
 
-    /**
-     * Tests the base url
-     *
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testUrlBase()
-    {
-        $_SERVER['PHP_SELF'] = '/index.php';
+			return $router;
+		});
+	}
 
-        $url = new PhUrl();
+	/**
+	 * Tests the base url
+	 *
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testUrlBase()
+	{
+		$_SERVER['PHP_SELF'] = '/index.php';
 
-        $expected = '/';
-        $actual   = $url->get();
+		$url = new PhUrl();
 
-        $this->assertEquals($expected, $actual, 'Base Url not correct');
-    }
+		$expected = '/';
+		$actual   = $url->get();
 
-    /**
-     * Tests a different url
-     *
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testUrlOther()
-    {
-        $_SERVER['PHP_SELF'] = '/index.php';
+		$this->assertEquals($expected, $actual, 'Base Url not correct');
+	}
 
-        $url = new PhUrl();
+	/**
+	 * Tests a different url
+	 *
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testUrlOther()
+	{
+		$_SERVER['PHP_SELF'] = '/index.php';
 
-        $expected = '/classes/api/Some';
-        $actual   = $url->get('classes/api/Some');
+		$url = new PhUrl();
 
-        $this->assertEquals($expected, $actual, 'Base Url not correct');
-    }
+		$expected = '/classes/api/Some';
+		$actual   = $url->get('classes/api/Some');
 
-    /**
-     * Tests the url with a controller and action
-     *
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testUrlForControllerAction()
-    {
-        $url = new PhUrl();
+		$this->assertEquals($expected, $actual, 'Base Url not correct');
+	}
 
-        $url->setDI($this->_di);
+	/**
+	 * Tests the url with a controller and action
+	 *
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testUrlForControllerAction()
+	{
+		$url = new PhUrl();
 
-        $params   = array(
-                        'for'        => 'adminProducts',
-                        'controller' => 'products',
-                        'action'     => 'index',
-                    );
-        $expected = '/admin/products/p/index';
-        $actual   = $url->get($params);
+		$url->setDI($this->_di);
 
-        $this->assertEquals($expected, $actual, 'Controller/Action Url not correct');
+		$params   = array(
+			'for'        => 'adminProducts',
+			'controller' => 'products',
+			'action'     => 'index',
+		);
+		$expected = '/admin/products/p/index';
+		$actual   = $url->get($params);
 
-    }
+		$this->assertEquals($expected, $actual, 'Controller/Action Url not correct');
 
-    /**
-     * Tests the url with a controller
-     *
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testUrlForController()
-    {
-        $url = new PhUrl();
+	}
 
-        $url->setDI($this->_di);
+	/**
+	 * Tests the url with a controller
+	 *
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testUrlForController()
+	{
+		$url = new PhUrl();
 
-        $params   = array(
-                        'for'   => 'classApi',
-                        'class' => 'Some',
-                    );
-        $expected = '/api/classes/Some';
-        $actual   = $url->get($params);
+		$url->setDI($this->_di);
 
-        $this->assertEquals($expected, $actual, 'Class Url not correct');
+		$params   = array(
+			'for'   => 'classApi',
+			'class' => 'Some',
+		);
+		$expected = '/api/classes/Some';
+		$actual   = $url->get($params);
 
-    }
+		$this->assertEquals($expected, $actual, 'Class Url not correct');
 
-    /**
-     * Tests the url with a year/month/title
-     *
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testUrlForBlogMixedParameters()
-    {
-        $url = new PhUrl();
+	}
 
-        $url->setDI($this->_di);
+	/**
+	 * Tests the url with a year/month/title
+	 *
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testUrlForBlogMixedParameters()
+	{
+		$url = new PhUrl();
 
-        $params   = array(
-                        'for'        => 'lang-controller',
-                        'lang'       => 'de',
-                        'controller' => 'index',
-                    );
-        $expected = '/de/index';
-        $actual   = $url->get($params);
+		$url->setDI($this->_di);
 
-        $this->assertEquals($expected, $actual, 'Language Url not correct');
+		$params   = array(
+			'for'        => 'lang-controller',
+			'lang'       => 'de',
+			'controller' => 'index',
+		);
+		$expected = '/de/index';
+		$actual   = $url->get($params);
 
-    }
+		$this->assertEquals($expected, $actual, 'Language Url not correct');
 
-    /**
-     * Tests the url with a year/month/title
-     *
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testUrlForDifferentLanguage()
-    {
-        $url = new PhUrl();
+	}
 
-        $url->setDI($this->_di);
+	/**
+	 * Tests the url with a year/month/title
+	 *
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testUrlForDifferentLanguage()
+	{
+		$url = new PhUrl();
 
-        $params   = array(
-                        'for'   => 'blogPost',
-                        'year'  => '2010',
-                        'month' => '10',
-                        'title' => 'cloudflare-anade-recursos-a-tu-servidor',
-                    );
-        $expected = '/2010/10/cloudflare-anade-recursos-a-tu-servidor';
-        $actual   = $url->get($params);
+		$url->setDI($this->_di);
 
-        $this->assertEquals($expected, $actual, 'Mixed Parameters Url not correct');
+		$params   = array(
+			'for'   => 'blogPost',
+			'year'  => '2010',
+			'month' => '10',
+			'title' => 'cloudflare-anade-recursos-a-tu-servidor',
+		);
+		$expected = '/2010/10/cloudflare-anade-recursos-a-tu-servidor';
+		$actual   = $url->get($params);
 
-    }
+		$this->assertEquals($expected, $actual, 'Mixed Parameters Url not correct');
 
-    /**
-     * Tests the url with external website
-     *
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-29
-     */
-    public function testUrlForExternalSite()
-    {
-        $url = new PhUrl();
+	}
 
-        $url->setDI($this->_di);
+	/**
+	 * Tests the url with external website
+	 *
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since  2012-11-29
+	 */
+	public function testUrlForExternalSite()
+	{
+		$url = new PhUrl();
 
-        $params   = array(
-                        'for'     => 'wikipedia',
-                        'article' => 'Television_news',
-                    );
-        $expected = '/wiki/Television_news';
-        $actual   = $url->get($params);
+		$url->setDI($this->_di);
 
-        $this->assertEquals($expected, $actual, 'External Site Url not correct');
+		$params   = array(
+			'for'     => 'wikipedia',
+			'article' => 'Television_news',
+		);
+		$expected = '/wiki/Television_news';
+		$actual   = $url->get($params);
 
-    }
+		$this->assertEquals($expected, $actual, 'External Site Url not correct');
+
+	}
 }

@@ -86,8 +86,9 @@ class PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function markTestSkipped()
+	public function markTestSkipped($message)
 	{
+		echo 'Skipped: ' . $message . PHP_EOL;
 	}
 
 	public static function main($className)
@@ -159,8 +160,8 @@ try {
 }
 catch(Exception $e){
 	echo $e->getMessage(), PHP_EOL;
-	//echo $e->getTraceAsString(), PHP_EOL;
-	print_r($e->getTrace());
+	echo $e->getTraceAsString(), PHP_EOL;
+	//print_r($e->getTrace());
 }
 
 if (function_exists('xhprof_enable')) {

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -45,12 +45,16 @@ extern int phalcon_start_with(zval *str, zval *compared, zval *ignore_case);
 extern int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_length);
 extern int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length);
 extern int phalcon_end_with(zval *str, zval *compared, zval *ignore_case);
+extern int phalcon_end_with_str(zval *str, char *compared, unsigned int compared_length);
 
 /** Random string */
 extern void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC);
 
 /* Strips extra slashes */
 extern void phalcon_remove_extra_slashes(zval *return_value, zval *str);
+
+/** Generates a unique key for an array/object */
+extern void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC);
 
 /** ssprintf */
 extern int phalcon_spprintf(char **message, int max_len, char *format, ...);

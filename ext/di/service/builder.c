@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 	/** 
 	 * If the argument type is 'service', we obtain the service from the DI
 	 */
-	if (PHALCON_COMPARE_STRING(type, "service")) {
+	if (PHALCON_IS_STRING(type, "service")) {
 		if (!phalcon_array_isset_string(argument, SS("name"))) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SV(exception_message, "Service 'name' is required in parameter on position ", position);
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 	/** 
 	 * If the argument type is 'parameter', we assign the value as it is
 	 */
-	if (PHALCON_COMPARE_STRING(type, "parameter")) {
+	if (PHALCON_IS_STRING(type, "parameter")) {
 		if (!phalcon_array_isset_string(argument, SS("value"))) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SV(exception_message, "Service 'value' is required in parameter on position ", position);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 	/** 
 	 * If the argument type is 'instance', we assign the value as it is
 	 */
-	if (PHALCON_COMPARE_STRING(type, "instance")) {
+	if (PHALCON_IS_STRING(type, "instance")) {
 		if (!phalcon_array_isset_string(argument, SS("className"))) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SV(exception_message, "Service 'className' is required in parameter on position ", position);
@@ -201,10 +201,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -223,12 +219,9 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 	PHALCON_INIT_VAR(build_arguments);
 	array_init(build_arguments);
 	
-	if (!phalcon_valid_foreach(arguments TSRMLS_CC)) {
+	if (!phalcon_is_iterable(arguments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
-	ah0 = Z_ARRVAL_P(arguments);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -264,10 +257,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -359,12 +348,9 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		 * The method call has parameters
 		 */
 	
-		if (!phalcon_valid_foreach(param_calls TSRMLS_CC)) {
+		if (!phalcon_is_iterable(param_calls, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah0 = Z_ARRVAL_P(param_calls);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -464,12 +450,9 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		 * The method call has parameters
 		 */
 	
-		if (!phalcon_valid_foreach(param_calls TSRMLS_CC)) {
+		if (!phalcon_is_iterable(param_calls, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
-		ah1 = Z_ARRVAL_P(param_calls);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -529,6 +512,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 	}
 	
 	
-	RETURN_CCTOR(instance);
+	RETURN_CTOR(instance);
 }
 
