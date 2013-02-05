@@ -31,6 +31,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeingKey);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, hasThrough);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getThrough);
+PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation___construct, 0, 0, 4)
 	ZEND_ARG_INFO(0, type)
@@ -51,6 +52,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_relation_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Relation, getForeignKey, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Relation, hasThrough, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Relation, getThrough, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Relation, isReusable, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

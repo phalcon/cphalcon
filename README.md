@@ -19,7 +19,7 @@ For use phalcon on windows you only should to download a DLL library
 
      extension=php_phalcon.dll
 
-Finally restart your webserver. 
+Finally restart your webserver.
 
 ### Linux/Unix/Mac
 
@@ -48,7 +48,7 @@ Follow these instructions to generate a binary extension for your platform:
      # git clone git://github.com/phalcon/cphalcon.git
      # cd cphalcon/build
      # sudo ./install
- 
+
 Add extension to your php.ini
 
      extension=phalcon.so

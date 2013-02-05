@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 
 	zval *resultset, *using, *value, *close_option;
 	zval *code, *using_zero = NULL, *using_one = NULL, *option = NULL, *option_value = NULL;
-	zval *option_text = NULL, *is_equals = NULL;
+	zval *option_text = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -299,9 +299,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		/** 
 		 * If the value is equal to the option's value we mark it as selected
 		 */
-		PHALCON_INIT_NVAR(is_equals);
-		is_equal_function(is_equals, value, option_value TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_equals)) {
+		if (PHALCON_IS_EQUAL(value, option_value)) {
 			PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
 		} else {
 			PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);
@@ -324,7 +322,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 
 	zval *data, *value, *close_option, *code, *option_text = NULL;
-	zval *option_value = NULL, *is_equals = NULL;
+	zval *option_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -347,9 +345,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		PHALCON_GET_FOREACH_KEY(option_value, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(option_text);
 	
-		PHALCON_INIT_NVAR(is_equals);
-		is_equal_function(is_equals, value, option_value TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_equals)) {
+		if (PHALCON_IS_EQUAL(value, option_value)) {
 			PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
 		} else {
 			PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);

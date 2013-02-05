@@ -1,4 +1,5 @@
 0.9.0b2
+ - Support for reusable records. A relation can be marked to cache in memory the records to speedup getting related records
  - Added 'elseif' statement to Volt
  - Changed static key in Volt's 'cache' to any valid expression
  - Added Phalcon\Logger\Adapter\Syslog and Phalcon\Logger\Adapter\Stream to Phalcon\Logger

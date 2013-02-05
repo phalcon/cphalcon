@@ -53,6 +53,9 @@ extern void phalcon_random_string(zval *return_value, zval *type, zval *length T
 /* Strips extra slashes */
 extern void phalcon_remove_extra_slashes(zval *return_value, zval *str);
 
+/** Generates a unique key for an array/object */
+extern void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC);
+
 /** ssprintf */
 extern int phalcon_spprintf(char **message, int max_len, char *format, ...);
 

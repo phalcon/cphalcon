@@ -83,6 +83,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_behaviors"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_lastInitialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_lastQuery"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_reusable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_manager_ce TSRMLS_CC, 3, phalcon_mvc_model_managerinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
@@ -1345,8 +1346,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *referenced_fields;
 	zval *position = NULL, *join_conditions, *has_through;
 	zval *dependency_injector, *find_params, *find_arguments = NULL;
-	zval *arguments, *referenced_model, *referenced_entity;
-	zval *type, *retrieve_method = NULL, *call_object, *records;
+	zval *arguments, *referenced_model, *type, *retrieve_method = NULL;
+	zval *reusable, *unique_key, *records = NULL, *referenced_entity;
+	zval *call_object;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1509,12 +1511,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	PHALCON_CALL_METHOD(referenced_model, relation, "getreferencedmodel");
 	
 	/** 
-	 * Load the referenced model
-	 */
-	PHALCON_INIT_VAR(referenced_entity);
-	PHALCON_CALL_METHOD_PARAMS_1(referenced_entity, this_ptr, "load", referenced_model);
-	
-	/** 
 	 * Check the right method to get the data
 	 */
 	if (Z_TYPE_P(method) == IS_NULL) {
@@ -1544,6 +1540,29 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	}
 	
 	/** 
+	 * Find first results could be reusable
+	 */
+	PHALCON_INIT_VAR(reusable);
+	PHALCON_CALL_METHOD(reusable, relation, "isreusable");
+	if (zend_is_true(reusable)) {
+	
+		PHALCON_INIT_VAR(unique_key);
+		phalcon_unique_key(unique_key, referenced_model, arguments TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(records);
+		PHALCON_CALL_METHOD_PARAMS_2(records, this_ptr, "getreusablerecords", referenced_model, unique_key);
+		if (Z_TYPE_P(records) == IS_ARRAY || Z_TYPE_P(records) == IS_OBJECT) {
+			RETURN_CCTOR(records);
+		}
+	}
+	
+	/** 
+	 * Load the referenced model
+	 */
+	PHALCON_INIT_VAR(referenced_entity);
+	PHALCON_CALL_METHOD_PARAMS_1(referenced_entity, this_ptr, "load", referenced_model);
+	
+	/** 
 	 * Call the function in the model
 	 */
 	PHALCON_INIT_VAR(call_object);
@@ -1551,10 +1570,77 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	phalcon_array_append(&call_object, referenced_entity, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&call_object, retrieve_method, PH_SEPARATE TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(records);
+	PHALCON_INIT_NVAR(records);
 	PHALCON_CALL_USER_FUNC_ARRAY(records, call_object, arguments);
 	
+	/** 
+	 * Store the result in the cache if it's reusable
+	 */
+	if (zend_is_true(reusable)) {
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "setreusablerecords", referenced_model, unique_key, records);
+	}
+	
+	
 	RETURN_CCTOR(records);
+}
+
+/**
+ * Returns a reusable object from the internal list
+ *
+ * @param string $modelName
+ * @param string $key
+ * @return object
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getReusableRecords){
+
+	zval *model_name, *key, *reusable, *records;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model_name, &key) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(reusable);
+	phalcon_read_property(&reusable, this_ptr, SL("_reusable"), PH_NOISY_CC);
+	if (phalcon_array_isset(reusable, key)) {
+		PHALCON_OBS_VAR(records);
+		phalcon_array_fetch(&records, reusable, key, PH_NOISY_CC);
+		RETURN_CCTOR(records);
+	}
+	
+	RETURN_MM_NULL();
+}
+
+/**
+ * Stores a reusable record in the internal list
+ *
+ * @param string $modelName
+ * @param string $key
+ * @return object
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setReusableRecords){
+
+	zval *model_name, *key, *records;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &model_name, &key, &records) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_array(this_ptr, SL("_reusable"), key, records TSRMLS_CC);
+	
+}
+
+/**
+ * Clears the internal reusable list
+ *
+ * @param
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects){
+
+
+	phalcon_update_property_null(this_ptr, SL("_reusable") TSRMLS_CC);
+	
 }
 
 /**

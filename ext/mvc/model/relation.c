@@ -250,3 +250,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getThrough){
 	RETURN_MM_FALSE;
 }
 
+/**
+ * Check if records in belongs-to/has-many are implicitly cached during the current request
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable){
+
+	zval *options, *reusable;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		if (phalcon_array_isset_string(options, SS("reusable"))) {
+			PHALCON_OBS_VAR(reusable);
+			phalcon_array_fetch_string(&reusable, options, SL("reusable"), PH_NOISY_CC);
+			RETURN_CCTOR(reusable);
+		}
+	}
+	
+	RETURN_MM_FALSE;
+}
+
