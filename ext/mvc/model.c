@@ -2878,6 +2878,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 		PHALCON_INIT_VAR(last_insert_id);
 		PHALCON_CALL_METHOD_PARAMS_1(last_insert_id, connection, "lastinsertid", sequence_name);
 		phalcon_update_property_zval_zval(this_ptr, attribute_field, last_insert_id TSRMLS_CC);
+	
+		/** 
+		 * Since the primary key was modified, we delete the _uniqueParams to force any
+		 * future update to re-build the primary key
+		 */
+		phalcon_update_property_null(this_ptr, SL("_uniqueParams") TSRMLS_CC);
 	}
 	
 	
@@ -2899,10 +2905,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	zval *bind_data_types, *non_primary, *automatic_attributes;
 	zval *column_map = NULL, *field = NULL, *exception_message = NULL;
 	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *unique_key;
-	zval *unique_params, *unique_types, *conditions;
-	zval *success;
-	HashTable *ah0;
-	HashPosition hp0;
+	zval *unique_params = NULL, *unique_types, *primary_keys;
+	zval *conditions, *success;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -3008,6 +3014,54 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	
 	PHALCON_OBS_VAR(unique_types);
 	phalcon_read_property(&unique_types, this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
+	
+	/** 
+	 * When unique params is null we need to rebuild the bind params
+	 */
+	if (Z_TYPE_P(unique_params) != IS_ARRAY) { 
+	
+		PHALCON_INIT_NVAR(unique_params);
+		array_init(unique_params);
+	
+		PHALCON_INIT_VAR(primary_keys);
+		PHALCON_CALL_METHOD_PARAMS_1(primary_keys, meta_data, "getprimarykeyattributes", this_ptr);
+	
+		if (!phalcon_is_iterable(primary_keys, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(field);
+	
+			/** 
+			 * Check if the model has a column map
+			 */
+			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+				if (phalcon_array_isset(column_map, field)) {
+					PHALCON_OBS_NVAR(attribute_field);
+					phalcon_array_fetch(&attribute_field, column_map, field, PH_NOISY_CC);
+				} else {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Column '", field, "\" isn't part of the column map");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
+				}
+			} else {
+				PHALCON_CPY_WRT(attribute_field, field);
+			}
+			if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
+				PHALCON_OBS_NVAR(value);
+				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
+				phalcon_array_append(&unique_params, value, PH_SEPARATE TSRMLS_CC);
+			} else {
+				phalcon_array_append(&unique_params, null_value, PH_SEPARATE TSRMLS_CC);
+			}
+	
+			zend_hash_move_forward_ex(ah1, &hp1);
+		}
+	
+	}
 	
 	/** 
 	 * We build the conditions as an array
