@@ -150,6 +150,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getParams);
  * @param Phalcon\DiInterface $dependencyInjector
  * @param string $modelName
  * @param array $data
+ * @return static
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, fromInput);
 
