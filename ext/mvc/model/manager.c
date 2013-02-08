@@ -607,7 +607,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
  *
  * @param Phalcon\Mvc\ModelInterface $model
  * @param string $eventName
- * @param aray $data
+ * @param array $data
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod){
@@ -733,12 +733,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior){
 /**
  * Setup a 1-1 relation between two models
  *
- * @param 	Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\Model $model
  * @param mixed $fields
  * @param string $referencedModel
  * @param mixed $referencedFields
  * @param array $options
- * @return  Phalcon\Mvc\Model\Relation
+ * @return Phalcon\Mvc\Model\Relation
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 
@@ -869,7 +869,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 /**
  * Setup a relation reverse many to one between two models
  *
- * @param 	Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\Model $model
  * @param mixed $fields
  * @param string $referencedModel
  * @param mixed $referencedFields
@@ -1005,11 +1005,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 /**
  * Setup a relation 1-n between two models
  *
- * @param 	Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param mixed $fields
  * @param string $referencedModel
  * @param mixed $referencedFields
  * @param array $options
+ * @return Phalcon\Mvc\Model\RelationInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 
