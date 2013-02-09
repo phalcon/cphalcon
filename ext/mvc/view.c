@@ -1324,6 +1324,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  * </code>
  *
  * @param string $partialPath
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, partial){
 
