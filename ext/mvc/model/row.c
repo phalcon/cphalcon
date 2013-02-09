@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
  * Gets row in a specific position of the row
  *
  * @param int $index
- * @return string|Phalcon\Mvc\ModelInterface
+ * @return string|\Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
 
