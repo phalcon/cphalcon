@@ -1105,7 +1105,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_VAR(enter_level);
 		is_smaller_or_equal_function(enter_level, t0, render_level TSRMLS_CC);
 		if (PHALCON_IS_TRUE(enter_level)) {
-			if (!phalcon_array_isset(disabled_levels, render_level)) {
+			if (!phalcon_array_isset_long(disabled_levels, 1)) {
 				PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, render_view, silence, must_clean, cache);
 			}
 		}
@@ -1119,7 +1119,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_NVAR(enter_level);
 		is_smaller_or_equal_function(enter_level, t1, render_level TSRMLS_CC);
 		if (PHALCON_IS_TRUE(enter_level)) {
-			if (!phalcon_array_isset(disabled_levels, render_level)) {
+			if (!phalcon_array_isset_long(disabled_levels, 2)) {
 	
 				PHALCON_OBS_VAR(templates_before);
 				phalcon_read_property(&templates_before, this_ptr, SL("_templatesBefore"), PH_NOISY_CC);
@@ -1160,7 +1160,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_NVAR(enter_level);
 		is_smaller_or_equal_function(enter_level, t2, render_level TSRMLS_CC);
 		if (PHALCON_IS_TRUE(enter_level)) {
-			if (!phalcon_array_isset(disabled_levels, render_level)) {
+			if (!phalcon_array_isset_long(disabled_levels, 3)) {
 				PHALCON_INIT_NVAR(view_temp_path);
 				PHALCON_CONCAT_VV(view_temp_path, layouts_dir, layout_name);
 				PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, view_temp_path, silence, must_clean, cache);
@@ -1176,7 +1176,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_NVAR(enter_level);
 		is_smaller_or_equal_function(enter_level, t3, render_level TSRMLS_CC);
 		if (PHALCON_IS_TRUE(enter_level)) {
-			if (!phalcon_array_isset(disabled_levels, render_level)) {
+			if (!phalcon_array_isset_long(disabled_levels, 4)) {
 	
 				/** 
 				 * Templates after must be an array
@@ -1216,7 +1216,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_NVAR(enter_level);
 		is_smaller_or_equal_function(enter_level, t4, render_level TSRMLS_CC);
 		if (PHALCON_IS_TRUE(enter_level)) {
-			if (!phalcon_array_isset(disabled_levels, render_level)) {
+			if (!phalcon_array_isset_long(disabled_levels, 5)) {
 				PHALCON_OBS_VAR(main_view);
 				phalcon_read_property(&main_view, this_ptr, SL("_mainView"), PH_NOISY_CC);
 				PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, main_view, silence, must_clean, cache);
