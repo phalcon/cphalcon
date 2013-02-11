@@ -390,66 +390,68 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC);
 int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC);
 
 
-#define PHVOLT_COMMA                           1
-#define PHVOLT_COLON                           2
-#define PHVOLT_SBRACKET_OPEN                   3
-#define PHVOLT_RANGE                           4
-#define PHVOLT_AND                             5
-#define PHVOLT_OR                              6
-#define PHVOLT_IS                              7
-#define PHVOLT_EQUALS                          8
-#define PHVOLT_NOTEQUALS                       9
-#define PHVOLT_LESS                           10
-#define PHVOLT_GREATER                        11
-#define PHVOLT_GREATEREQUAL                   12
-#define PHVOLT_LESSEQUAL                      13
-#define PHVOLT_IDENTICAL                      14
-#define PHVOLT_NOTIDENTICAL                   15
-#define PHVOLT_DIVIDE                         16
-#define PHVOLT_TIMES                          17
-#define PHVOLT_MOD                            18
-#define PHVOLT_PLUS                           19
-#define PHVOLT_MINUS                          20
-#define PHVOLT_CONCAT                         21
-#define PHVOLT_PIPE                           22
-#define PHVOLT_BRACKET_OPEN                   23
-#define PHVOLT_NOT                            24
-#define PHVOLT_DOT                            25
-#define PHVOLT_OPEN_DELIMITER                 26
-#define PHVOLT_IF                             27
-#define PHVOLT_CLOSE_DELIMITER                28
-#define PHVOLT_ENDIF                          29
-#define PHVOLT_ELSE                           30
-#define PHVOLT_ELSEIF                         31
-#define PHVOLT_FOR                            32
-#define PHVOLT_IDENTIFIER                     33
-#define PHVOLT_IN                             34
-#define PHVOLT_ENDFOR                         35
-#define PHVOLT_SET                            36
-#define PHVOLT_ASSIGN                         37
-#define PHVOLT_OPEN_EDELIMITER                38
-#define PHVOLT_CLOSE_EDELIMITER               39
-#define PHVOLT_BLOCK                          40
-#define PHVOLT_ENDBLOCK                       41
-#define PHVOLT_CACHE                          42
-#define PHVOLT_ENDCACHE                       43
-#define PHVOLT_INTEGER                        44
-#define PHVOLT_EXTENDS                        45
-#define PHVOLT_STRING                         46
-#define PHVOLT_INCLUDE                        47
-#define PHVOLT_DO                             48
-#define PHVOLT_AUTOESCAPE                     49
-#define PHVOLT_FALSE                          50
-#define PHVOLT_ENDAUTOESCAPE                  51
-#define PHVOLT_TRUE                           52
-#define PHVOLT_BREAK                          53
-#define PHVOLT_CONTINUE                       54
-#define PHVOLT_RAW_FRAGMENT                   55
-#define PHVOLT_DEFINED                        56
-#define PHVOLT_BRACKET_CLOSE                  57
-#define PHVOLT_SBRACKET_CLOSE                 58
-#define PHVOLT_DOUBLE                         59
-#define PHVOLT_NULL                           60
+#define PHVOLT_OPEN_DELIMITER                  1
+#define PHVOLT_COMMA                           2
+#define PHVOLT_IN                              3
+#define PHVOLT_QUESTION                        4
+#define PHVOLT_COLON                           5
+#define PHVOLT_SBRACKET_OPEN                   6
+#define PHVOLT_RANGE                           7
+#define PHVOLT_AND                             8
+#define PHVOLT_OR                              9
+#define PHVOLT_IS                             10
+#define PHVOLT_EQUALS                         11
+#define PHVOLT_NOTEQUALS                      12
+#define PHVOLT_LESS                           13
+#define PHVOLT_GREATER                        14
+#define PHVOLT_GREATEREQUAL                   15
+#define PHVOLT_LESSEQUAL                      16
+#define PHVOLT_IDENTICAL                      17
+#define PHVOLT_NOTIDENTICAL                   18
+#define PHVOLT_DIVIDE                         19
+#define PHVOLT_TIMES                          20
+#define PHVOLT_MOD                            21
+#define PHVOLT_PLUS                           22
+#define PHVOLT_MINUS                          23
+#define PHVOLT_CONCAT                         24
+#define PHVOLT_PIPE                           25
+#define PHVOLT_BRACKET_OPEN                   26
+#define PHVOLT_NOT                            27
+#define PHVOLT_DOT                            28
+#define PHVOLT_IF                             29
+#define PHVOLT_CLOSE_DELIMITER                30
+#define PHVOLT_ENDIF                          31
+#define PHVOLT_ELSE                           32
+#define PHVOLT_ELSEIF                         33
+#define PHVOLT_ELSEFOR                        34
+#define PHVOLT_FOR                            35
+#define PHVOLT_IDENTIFIER                     36
+#define PHVOLT_ENDFOR                         37
+#define PHVOLT_SET                            38
+#define PHVOLT_ASSIGN                         39
+#define PHVOLT_OPEN_EDELIMITER                40
+#define PHVOLT_CLOSE_EDELIMITER               41
+#define PHVOLT_BLOCK                          42
+#define PHVOLT_ENDBLOCK                       43
+#define PHVOLT_CACHE                          44
+#define PHVOLT_ENDCACHE                       45
+#define PHVOLT_INTEGER                        46
+#define PHVOLT_EXTENDS                        47
+#define PHVOLT_STRING                         48
+#define PHVOLT_INCLUDE                        49
+#define PHVOLT_DO                             50
+#define PHVOLT_AUTOESCAPE                     51
+#define PHVOLT_FALSE                          52
+#define PHVOLT_ENDAUTOESCAPE                  53
+#define PHVOLT_TRUE                           54
+#define PHVOLT_BREAK                          55
+#define PHVOLT_CONTINUE                       56
+#define PHVOLT_RAW_FRAGMENT                   57
+#define PHVOLT_DEFINED                        58
+#define PHVOLT_BRACKET_CLOSE                  59
+#define PHVOLT_SBRACKET_CLOSE                 60
+#define PHVOLT_DOUBLE                         61
+#define PHVOLT_NULL                           62
 
 
 
@@ -502,6 +504,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 #define PHVOLT_T_RANGE 276
 #define PHVOLT_T_ASSIGN '='
 #define PHVOLT_T_COLON 277
+#define PHVOLT_T_QUESTION '?'
 
 #define PHVOLT_T_BRACKET_OPEN '('
 #define PHVOLT_T_BRACKET_CLOSE ')'
@@ -530,6 +533,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 #define PHVOLT_T_ENDAUTOESCAPE 318
 #define PHVOLT_T_CONTINUE 319
 #define PHVOLT_T_BREAK 320
+#define PHVOLT_T_ELSEFOR 321
 
 /** Delimiters */
 #define PHVOLT_T_OPEN_DELIMITER  330
@@ -551,8 +555,11 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 #define PHVOLT_T_ISSET 363
 #define PHVOLT_T_RESOLVED_EXPR 364
 #define PHVOLT_T_SLICE 365
+#define PHVOLT_T_TERNARY 366
+#define PHVOLT_T_NOT_IN 369
 
 #define PHVOLT_T_MINUS 367
+#define PHVOLT_T_PLUS 368
 
 /* List of tokens and their names */
 typedef struct _phvolt_token_names {
@@ -575,6 +582,9 @@ typedef struct _phvolt_scanner_state {
 	char *raw_buffer;
 	unsigned int raw_buffer_cursor;
 	unsigned int raw_buffer_size;
+	unsigned int if_level;
+	unsigned int for_level;
+	int whitespace_control;
 } phvolt_scanner_state;
 
 /* Extra information tokens */
@@ -1595,6 +1605,11 @@ int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC);
 #define PHALCON_SCONCAT_SVV(result, op1, op2, op3) \
 	 phalcon_concat_svv(&result, op1, strlen(op1), op2, op3, 1 TSRMLS_CC);
 
+#define PHALCON_CONCAT_SVVS(result, op1, op2, op3, op4) \
+	 phalcon_concat_svvs(&result, op1, strlen(op1), op2, op3, op4, strlen(op4), 0 TSRMLS_CC);
+#define PHALCON_SCONCAT_SVVS(result, op1, op2, op3, op4) \
+	 phalcon_concat_svvs(&result, op1, strlen(op1), op2, op3, op4, strlen(op4), 1 TSRMLS_CC);
+
 #define PHALCON_CONCAT_VS(result, op1, op2) \
 	 phalcon_concat_vs(&result, op1, op2, strlen(op2), 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VS(result, op1, op2) \
@@ -1684,6 +1699,7 @@ void phalcon_concat_svsvsv(zval **result, char *op1, zend_uint op1_len, zval *op
 void phalcon_concat_svsvsvs(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, char *op5, zend_uint op5_len, zval *op6, char *op7, zend_uint op7_len, int self_var TSRMLS_DC);
 void phalcon_concat_svsvv(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC);
 void phalcon_concat_svv(zval **result, char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC);
+void phalcon_concat_svvs(zval **result, char *op1, zend_uint op1_len, zval *op2, zval *op3, char *op4, zend_uint op4_len, int self_var TSRMLS_DC);
 void phalcon_concat_vs(zval **result, zval *op1, char *op2, zend_uint op2_len, int self_var TSRMLS_DC);
 void phalcon_concat_vsv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC);
 void phalcon_concat_vsvs(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, int self_var TSRMLS_DC);
@@ -7839,6 +7855,66 @@ void phalcon_concat_svv(zval **result, char *op1, zend_uint op1_len, zval *op2, 
 
 }
 
+void phalcon_concat_svvs(zval **result, char *op1, zend_uint op1_len, zval *op2, zval *op3, char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
+
+	zval result_copy, op2_copy, op3_copy;
+	int use_copy = 0, use_copy2 = 0, use_copy3 = 0;
+	uint offset = 0, length;
+
+	if (Z_TYPE_P(op2) != IS_STRING) {
+		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+		if (use_copy2) {
+			op2 = &op2_copy;
+		}
+	}
+
+	if (Z_TYPE_P(op3) != IS_STRING) {
+		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+		if (use_copy3) {
+			op3 = &op3_copy;
+		}
+	}
+
+	length = op1_len + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + op4_len;
+	if (self_var) {
+
+		if (Z_TYPE_PP(result) != IS_STRING) {
+			zend_make_printable_zval(*result, &result_copy, &use_copy);
+			if (use_copy) {
+				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+			}
+		}
+
+		offset = Z_STRLEN_PP(result);
+		length += offset;
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+
+	} else {
+		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
+	}
+
+	memcpy(Z_STRVAL_PP(result)+offset, op1, op1_len);
+	memcpy(Z_STRVAL_PP(result)+offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), op4, op4_len);
+	Z_STRVAL_PP(result)[length] = 0;
+	Z_TYPE_PP(result) = IS_STRING;
+	Z_STRLEN_PP(result) = length;
+
+	if (use_copy2) {
+		zval_dtor(op2);
+	}
+
+	if (use_copy3) {
+		zval_dtor(op3);
+	}
+
+	if (use_copy) {
+		zval_dtor(&result_copy);
+	}
+
+}
+
 void phalcon_concat_vs(zval **result, zval *op1, char *op2, zend_uint op2_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy;
@@ -9114,6 +9190,23 @@ void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_
 		smart_str_free(&virtual_str);
 		RETURN_EMPTY_STRING();
 	}
+}
+
+void phalcon_unique_path_key(zval *return_value, zval *path TSRMLS_DC) {
+
+	unsigned long h;
+	char *strKey;
+
+	if (Z_TYPE_P(path) != IS_STRING) {
+		return;
+	}
+
+	h = zend_hash_func(Z_STRVAL_P(path), Z_STRLEN_P(path) + 1);
+
+	strKey = emalloc(24);
+	sprintf(strKey, "v%lu", h);
+
+	RETURN_STRING(strKey, 0);
 }
 
 
@@ -49229,14 +49322,19 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Compiler){
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_arrayHelpers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_view_engine_volt_compiler_ce, SL("_level"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_mvc_view_engine_volt_compiler_ce, SL("_foreachLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_mvc_view_engine_volt_compiler_ce, SL("_blockLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_view_engine_volt_compiler_ce, SL("_exprLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_view_engine_volt_compiler_ce, SL("_extended"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_view_engine_volt_compiler_ce, SL("_autoescape"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_extendedBlocks"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_currentBlock"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_blocks"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_forElsePointers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_loopPointers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_functions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_currentPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_compiledTemplatePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -49359,11 +49457,64 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFilters){
 	RETURN_MEMBER(this_ptr, "_filters");
 }
 
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setUniquePrefix){
+
+	zval *prefix;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &prefix) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	
+}
+
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix){
+
+	zval *prefix = NULL, *current_path, *parameters, *calculated_prefix;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	
+	if (!zend_is_true(prefix)) {
+		PHALCON_OBS_VAR(current_path);
+		phalcon_read_property(&current_path, this_ptr, SL("_currentPath"), PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(prefix);
+		phalcon_unique_path_key(prefix, current_path TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	}
+	
+	if (Z_TYPE_P(prefix) == IS_OBJECT) {
+		if (phalcon_is_instance_of(prefix, SL("Closure") TSRMLS_CC)) {
+			PHALCON_INIT_VAR(parameters);
+			array_init_size(parameters, 1);
+			phalcon_array_append(&parameters, this_ptr, PH_SEPARATE TSRMLS_CC);
+	
+			PHALCON_INIT_VAR(calculated_prefix);
+			PHALCON_CALL_FUNC_PARAMS_2(calculated_prefix, "call_user_func_array", prefix, parameters);
+			phalcon_update_property_zval(this_ptr, SL("_prefix"), calculated_prefix TSRMLS_CC);
+			PHALCON_CPY_WRT(prefix, calculated_prefix);
+		}
+	}
+	
+	if (Z_TYPE_P(prefix) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The unique compilation prefix is invalid");
+		return;
+	}
+	
+	
+	RETURN_CCTOR(prefix);
+}
+
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 
-	zval *expr, *expr_code, *left, *left_type, *variable;
-	zval *dependency_injector, *is_service, *left_code;
-	zval *right, *right_type, *member, *right_code;
+	zval *expr, *expr_code, *loop_context, *left, *left_type;
+	zval *variable, *level, *prefix, *dependency_injector;
+	zval *is_service, *left_code, *right, *right_type;
+	zval *member, *right_code;
 
 	PHALCON_MM_GROW();
 
@@ -49378,6 +49529,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 	
 	PHALCON_INIT_VAR(expr_code);
 	
+	PHALCON_INIT_VAR(loop_context);
+	
 	PHALCON_OBS_VAR(left);
 	phalcon_array_fetch_string(&left, expr, SL("left"), PH_NOISY_CC);
 	
@@ -49388,19 +49541,29 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 		PHALCON_OBS_VAR(variable);
 		phalcon_array_fetch_string(&variable, left, SL("value"), PH_NOISY_CC);
 	
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+		if (PHALCON_IS_STRING(variable, "loop")) {
+			PHALCON_OBS_VAR(level);
+			phalcon_read_property(&level, this_ptr, SL("_foreachLevel"), PH_NOISY_CC);
 	
-			PHALCON_INIT_VAR(is_service);
-			PHALCON_CALL_METHOD_PARAMS_1(is_service, dependency_injector, "has", variable);
-			if (zend_is_true(is_service)) {
-				PHALCON_SCONCAT_SV(expr_code, "$this->", variable);
+			PHALCON_INIT_VAR(prefix);
+			PHALCON_CALL_METHOD(prefix, this_ptr, "getuniqueprefix");
+			PHALCON_SCONCAT_SVVS(expr_code, "$", prefix, level, "loop");
+			phalcon_update_property_array(this_ptr, SL("_loopPointers"), level, level TSRMLS_CC);
+		} else {
+			PHALCON_OBS_VAR(dependency_injector);
+			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+			if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+	
+				PHALCON_INIT_VAR(is_service);
+				PHALCON_CALL_METHOD_PARAMS_1(is_service, dependency_injector, "has", variable);
+				if (zend_is_true(is_service)) {
+					PHALCON_SCONCAT_SV(expr_code, "$this->", variable);
+				} else {
+					PHALCON_SCONCAT_SV(expr_code, "$", variable);
+				}
 			} else {
 				PHALCON_SCONCAT_SV(expr_code, "$", variable);
 			}
-		} else {
-			PHALCON_SCONCAT_SV(expr_code, "$", variable);
 		}
 	} else {
 		PHALCON_INIT_VAR(left_code);
@@ -50096,8 +50259,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 	zval *single_expr_code = NULL, *name = NULL, *parameter = NULL, *type = NULL;
 	zval *left = NULL, *left_code = NULL, *right_code = NULL, *right = NULL, *value = NULL;
 	zval *single_quote = NULL, *escaped_quoute = NULL, *escaped_string = NULL;
-	zval *start = NULL, *start_code = NULL, *end = NULL, *end_code = NULL, *line = NULL, *file = NULL;
-	zval *exception_message = NULL;
+	zval *start = NULL, *start_code = NULL, *end = NULL, *end_code = NULL, *ternary = NULL;
+	zval *ternary_code = NULL, *line = NULL, *file = NULL, *exception_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -50404,9 +50567,35 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 				PHALCON_CONCAT_SVS(expr_code, "isset(", left_code, ")");
 				break;
 	
+			case 309:
+				PHALCON_INIT_NVAR(expr_code);
+				PHALCON_CONCAT_SVSVS(expr_code, "$this->included(", left_code, ", ", right_code, ")");
+				break;
+	
+			case 369:
+				PHALCON_INIT_NVAR(expr_code);
+				PHALCON_CONCAT_SVSVS(expr_code, "!$this->included(", left_code, ", ", right_code, ")");
+				break;
+	
+			case 366:
+				PHALCON_OBS_NVAR(ternary);
+				phalcon_array_fetch_string(&ternary, expr, SL("ternary"), PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(ternary_code);
+				PHALCON_CALL_METHOD_PARAMS_1(ternary_code, this_ptr, "expression", ternary);
+	
+				PHALCON_INIT_NVAR(expr_code);
+				PHALCON_CONCAT_SVSVSVS(expr_code, "(", ternary_code, " ? ", left_code, " : ", right_code, ")");
+				break;
+	
 			case 367:
 				PHALCON_INIT_NVAR(expr_code);
 				PHALCON_CONCAT_SV(expr_code, "-", right_code);
+				break;
+	
+			case 368:
+				PHALCON_INIT_NVAR(expr_code);
+				PHALCON_CONCAT_SV(expr_code, "+", right_code);
 				break;
 	
 			case 364:
@@ -50488,8 +50677,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 
 	zval *statement, *extends_mode = NULL, *compilation;
-	zval *expr, *expr_code, *variable, *key, *if_expr;
-	zval *if_expr_code, *block_statements, *code;
+	zval *prefix, *level, *prefix_level, *expr, *expr_code;
+	zval *block_statements, *for_else = NULL, *bstatement = NULL;
+	zval *type = NULL, *code, *loop_context, *iterator = NULL, *variable;
+	zval *key, *if_expr, *if_expr_code;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -50504,6 +50698,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 	
 	PHALCON_INIT_VAR(compilation);
 	ZVAL_STRING(compilation, "", 1);
+	phalcon_property_incr(this_ptr, SL("_foreachLevel") TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(prefix);
+	PHALCON_CALL_METHOD(prefix, this_ptr, "getuniqueprefix");
+	
+	PHALCON_OBS_VAR(level);
+	phalcon_read_property(&level, this_ptr, SL("_foreachLevel"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(prefix_level);
+	PHALCON_CONCAT_VV(prefix_level, prefix, level);
 	
 	PHALCON_OBS_VAR(expr);
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
@@ -50511,15 +50715,71 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 	PHALCON_INIT_VAR(expr_code);
 	PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "expression", expr);
 	
+	PHALCON_OBS_VAR(block_statements);
+	phalcon_array_fetch_string(&block_statements, statement, SL("block_statements"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(for_else);
+	ZVAL_BOOL(for_else, 0);
+	if (Z_TYPE_P(block_statements) == IS_ARRAY) { 
+	
+		if (!phalcon_is_iterable(block_statements, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(bstatement);
+	
+			if (Z_TYPE_P(bstatement) != IS_ARRAY) { 
+				break;
+			}
+	
+			if (!phalcon_array_isset_string(bstatement, SS("type"))) {
+				break;
+			}
+	
+			PHALCON_OBS_NVAR(type);
+			phalcon_array_fetch_string(&type, bstatement, SL("type"), PH_NOISY_CC);
+			if (PHALCON_IS_LONG(type, 321)) {
+				PHALCON_SCONCAT_SVS(compilation, "<?php $", prefix_level, "iterated = false; ?>");
+				PHALCON_CPY_WRT(for_else, prefix_level);
+				phalcon_update_property_array(this_ptr, SL("_forElsePointers"), level, for_else TSRMLS_CC);
+				break;
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
+	
+	PHALCON_INIT_VAR(code);
+	PHALCON_CALL_METHOD_PARAMS_2(code, this_ptr, "_statementlist", block_statements, extends_mode);
+	
+	PHALCON_OBS_VAR(loop_context);
+	phalcon_read_property(&loop_context, this_ptr, SL("_loopPointers"), PH_NOISY_CC);
+	
+	if (phalcon_array_isset(loop_context, level)) {
+		PHALCON_SCONCAT_SVSVS(compilation, "<?php $", prefix_level, "iterator = ", expr_code, "; ");
+		PHALCON_SCONCAT_SVS(compilation, "$", prefix_level, "incr = 0; ");
+		PHALCON_SCONCAT_SVS(compilation, "$", prefix_level, "loop = new stdClass(); ");
+		PHALCON_SCONCAT_SVS(compilation, "$", prefix_level, "loop->index = 0; ");
+		PHALCON_SCONCAT_SVSVS(compilation, "$", prefix_level, "loop->length = count($", prefix_level, "iterator); ?>");
+	
+		PHALCON_INIT_VAR(iterator);
+		PHALCON_CONCAT_SVS(iterator, "$", prefix_level, "iterator");
+	} else {
+		PHALCON_CPY_WRT(iterator, expr_code);
+	}
+	
 	PHALCON_OBS_VAR(variable);
 	phalcon_array_fetch_string(&variable, statement, SL("variable"), PH_NOISY_CC);
 	
 	if (phalcon_array_isset_string(statement, SS("key"))) {
 		PHALCON_OBS_VAR(key);
 		phalcon_array_fetch_string(&key, statement, SL("key"), PH_NOISY_CC);
-		PHALCON_SCONCAT_SVSVSVS(compilation, "<?php foreach (", expr_code, " as $", key, " => $", variable, ") { ");
+		PHALCON_SCONCAT_SVSVSVS(compilation, "<?php foreach (", iterator, " as $", key, " => $", variable, ") { ");
 	} else {
-		PHALCON_SCONCAT_SVSVS(compilation, "<?php foreach (", expr_code, " as $", variable, ") { ");
+		PHALCON_SCONCAT_SVSVS(compilation, "<?php foreach (", iterator, " as $", variable, ") { ");
 	}
 	
 	if (phalcon_array_isset_string(statement, SS("if_expr"))) {
@@ -50533,20 +50793,68 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 		phalcon_concat_self_str(&compilation, SL("?>") TSRMLS_CC);
 	}
 	
-	PHALCON_OBS_VAR(block_statements);
-	phalcon_array_fetch_string(&block_statements, statement, SL("block_statements"), PH_NOISY_CC);
+	if (phalcon_array_isset(loop_context, level)) {
+		PHALCON_SCONCAT_SVSVS(compilation, "<?php $", prefix_level, "loop->first = ($", prefix_level, "incr == 0); ");
+		PHALCON_SCONCAT_SVSVS(compilation, "$", prefix_level, "loop->index = $", prefix_level, "incr; ");
+		PHALCON_SCONCAT_SVSVSVS(compilation, "$", prefix_level, "loop->last = ($", prefix_level, "incr == ($", prefix_level, "loop->length - 1)); ?>");
+	}
 	
-	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_METHOD_PARAMS_2(code, this_ptr, "_statementlist", block_statements, extends_mode);
+	if (Z_TYPE_P(for_else) == IS_STRING) {
+		PHALCON_SCONCAT_SVS(compilation, "<?php $", for_else, "iterated = true; ?>");
+	}
+	
 	phalcon_concat_self(&compilation, code TSRMLS_CC);
 	if (phalcon_array_isset_string(statement, SS("if_expr"))) {
-		phalcon_concat_self_str(&compilation, SL("<?php } } ?>") TSRMLS_CC);
-	} else {
 		phalcon_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
 	}
 	
+	if (Z_TYPE_P(for_else) == IS_STRING) {
+		phalcon_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
+	} else {
+		if (phalcon_array_isset(loop_context, level)) {
+			PHALCON_SCONCAT_SVS(compilation, "<?php $", prefix_level, "incr++; } ?>");
+		} else {
+			phalcon_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
+		}
+	}
+	
+	phalcon_property_decr(this_ptr, SL("_foreachLevel") TSRMLS_CC);
 	
 	RETURN_CTOR(compilation);
+}
+
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForElse){
+
+	zval *level, *for_else_pointers, *prefix, *loop_context;
+	zval *compilation = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(level);
+	phalcon_read_property(&level, this_ptr, SL("_foreachLevel"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(for_else_pointers);
+	phalcon_read_property(&for_else_pointers, this_ptr, SL("_forElsePointers"), PH_NOISY_CC);
+	if (phalcon_array_isset(for_else_pointers, level)) {
+	
+		PHALCON_OBS_VAR(prefix);
+		phalcon_array_fetch(&prefix, for_else_pointers, level, PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(loop_context);
+		phalcon_read_property(&loop_context, this_ptr, SL("_loopPointers"), PH_NOISY_CC);
+		if (phalcon_array_isset(loop_context, level)) {
+			PHALCON_INIT_VAR(compilation);
+			PHALCON_CONCAT_SVSVS(compilation, "<?php $", prefix, "incr++; } if (!$", prefix, "iterated) { ?>");
+		} else {
+			PHALCON_INIT_NVAR(compilation);
+			PHALCON_CONCAT_SVS(compilation, "<?php } if (!$", prefix, "iterated) { ?>");
+		}
+	
+	
+		RETURN_CTOR(compilation);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf){
@@ -50877,8 +51185,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	PHALCON_INIT_VAR(block_mode);
 	ZVAL_BOOL(block_mode, zend_is_true(extended) || zend_is_true(extends_mode));
 	if (PHALCON_IS_TRUE(block_mode)) {
-		phalcon_property_incr(this_ptr, SL("_level") TSRMLS_CC);
+		phalcon_property_incr(this_ptr, SL("_blockLevel") TSRMLS_CC);
 	}
+	
+	phalcon_property_incr(this_ptr, SL("_level") TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(compilation);
 	
@@ -51058,6 +51368,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				phalcon_concat_self_str(&compilation, SL("<?php break; ?>") TSRMLS_CC);
 				break;
 	
+			case 321:
+				PHALCON_INIT_NVAR(temp_compilation);
+				PHALCON_CALL_METHOD(temp_compilation, this_ptr, "compileforelse");
+				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
+				break;
+	
 			default:
 				PHALCON_OBS_NVAR(line);
 				phalcon_array_fetch_string(&line, statement, SL("line"), PH_NOISY_CC);
@@ -51078,16 +51394,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	if (PHALCON_IS_TRUE(block_mode)) {
 	
 		PHALCON_OBS_VAR(level);
-		phalcon_read_property(&level, this_ptr, SL("_level"), PH_NOISY_CC);
+		phalcon_read_property(&level, this_ptr, SL("_blockLevel"), PH_NOISY_CC);
 		if (PHALCON_IS_LONG(level, 1)) {
 			if (Z_TYPE_P(compilation) != IS_NULL) {
 				phalcon_update_property_array_append(this_ptr, SL("_blocks"), compilation TSRMLS_CC);
 			}
 		}
 	
-		phalcon_property_decr(this_ptr, SL("_level") TSRMLS_CC);
+		phalcon_property_decr(this_ptr, SL("_blockLevel") TSRMLS_CC);
 	}
 	
+	phalcon_property_decr(this_ptr, SL("_level") TSRMLS_CC);
 	
 	RETURN_CCTOR(compilation);
 }
@@ -51174,7 +51491,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 							PHALCON_INIT_NVAR(block_compilation);
 							PHALCON_CALL_METHOD_PARAMS_1(block_compilation, this_ptr, "_statementlist", local_block);
 						} else {
-							PHALCON_INIT_NVAR(block_compilation);
+							PHALCON_CPY_WRT(block_compilation, block);
 						}
 					}
 					if (PHALCON_IS_TRUE(extends_mode)) {
@@ -51319,6 +51636,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	phalcon_update_property_bool(this_ptr, SL("_extendedBlocks"), 0 TSRMLS_CC);
 	phalcon_update_property_null(this_ptr, SL("_blocks") TSRMLS_CC);
 	phalcon_update_property_long(this_ptr, SL("_level"), 0 TSRMLS_CC);
+	phalcon_update_property_long(this_ptr, SL("_foreachLevel"), 0 TSRMLS_CC);
+	phalcon_update_property_long(this_ptr, SL("_blockLevel"), 0 TSRMLS_CC);
 	phalcon_update_property_long(this_ptr, SL("_exprLevel"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(stat);
@@ -51463,6 +51782,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	RETURN_CCTOR(compilation);
 }
 
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getTemplatePath){
+
+
+	RETURN_MEMBER(this_ptr, "_currentPath");
+}
+
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getCompiledTemplatePath){
 
 
@@ -51496,7 +51821,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse){
 */
 /* First off, code is include which follows the "include" declaration
 ** in the input file. */
-// 38 "parser.lemon"
+// 41 "parser.lemon"
 
 
 #ifdef HAVE_CONFIG_H
@@ -51553,6 +51878,21 @@ static zval *phvolt_ret_elseif_statement(zval *expr, phvolt_scanner_state *state
 	array_init(ret);
 	add_assoc_long(ret, "type", PHVOLT_T_ELSEIF);
 	add_assoc_zval(ret, "expr", expr);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_elsefor_statement(phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_ELSEFOR);
 
 	Z_ADDREF_P(state->active_file);
 	add_assoc_zval(ret, "file", state->active_file);
@@ -51849,13 +52189,17 @@ static zval *phvolt_ret_named_item(phvolt_parser_token *name, zval *expr, phvolt
 	return ret;
 }
 
-static zval *phvolt_ret_expr(int type, zval *left, zval *right, phvolt_scanner_state *state)
+static zval *phvolt_ret_expr(int type, zval *left, zval *right, zval *ternary, phvolt_scanner_state *state)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
+
+	if (ternary) {
+		add_assoc_zval(ret, "ternary", ternary);
+	}
 
 	if (left) {
 		add_assoc_zval(ret, "left", left);
@@ -51918,7 +52262,7 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 }
 
 
-// 441 "parser.c"
+// 460 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -51961,23 +52305,23 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 **                       defined, then do no error processing.
 */
 #define KKCODETYPE unsigned char
-#define KKNOCODE 89
+#define KKNOCODE 92
 #define KKACTIONTYPE unsigned short int
 #define phvolt_KTOKENTYPE phvolt_parser_token*
 typedef union {
   phvolt_KTOKENTYPE kk0;
-  zval* kk24;
-  int kk177;
+  zval* kk176;
+  int kk183;
 } KKMINORTYPE;
 #define KKSTACKDEPTH 100
 #define phvolt_ARG_SDECL phvolt_parser_status *status;
 #define phvolt_ARG_PDECL ,phvolt_parser_status *status
 #define phvolt_ARG_FETCH phvolt_parser_status *status = kkpParser->status
 #define phvolt_ARG_STORE kkpParser->status = status
-#define KKNSTATE 222
-#define KKNRULE 91
-#define KKERRORSYMBOL 61
-#define KKERRSYMDT kk177
+#define KKNSTATE 236
+#define KKNRULE 97
+#define KKERRORSYMBOL 63
+#define KKERRSYMDT kk183
 #define KK_NO_ACTION      (KKNSTATE+KKNRULE+2)
 #define KK_ACCEPT_ACTION  (KKNSTATE+KKNRULE+1)
 #define KK_ERROR_ACTION   (KKNSTATE+KKNRULE)
@@ -52030,321 +52374,356 @@ typedef union {
 **  kk_default[]       Default action for each state.
 */
 static KKACTIONTYPE kk_action[] = {
- /*     0 */    77,   55,   47,   49,   59,   57,   61,   67,   69,   71,
- /*    10 */    73,   63,   65,   43,   41,   45,   39,   36,   51,   53,
- /*    20 */    80,   80,   75,   75,  199,  134,   77,   55,   47,   49,
- /*    30 */    59,   57,   61,   67,   69,   71,   73,   63,   65,   43,
- /*    40 */    41,   45,   39,   36,   51,   53,   80,  222,   75,  118,
- /*    50 */    26,  154,   43,   41,   45,   39,   36,   51,   53,   80,
- /*    60 */   117,   75,   39,   36,   51,   53,   80,  190,   75,   28,
- /*    70 */    75,   77,   55,   47,   49,   59,   57,   61,   67,   69,
- /*    80 */    71,   73,   63,   65,   43,   41,   45,   39,   36,   51,
- /*    90 */    53,   80,  169,   75,  184,  215,  210,   77,   55,   47,
- /*   100 */    49,   59,   57,   61,   67,   69,   71,   73,   63,   65,
- /*   110 */    43,   41,   45,   39,   36,   51,   53,   80,   32,   75,
- /*   120 */    94,  110,   22,   77,   55,   47,   49,   59,   57,   61,
- /*   130 */    67,   69,   71,   73,   63,   65,   43,   41,   45,   39,
- /*   140 */    36,   51,   53,   80,  115,   75,  116,  293,   35,   77,
- /*   150 */    55,   47,   49,   59,   57,   61,   67,   69,   71,   73,
- /*   160 */    63,   65,   43,   41,   45,   39,   36,   51,   53,   80,
- /*   170 */   120,   75,   77,   55,   47,   49,   59,   57,   61,   67,
- /*   180 */    69,   71,   73,   63,   65,   43,   41,   45,   39,   36,
- /*   190 */    51,   53,   80,   81,   75,  107,   91,   96,  105,  113,
- /*   200 */    53,   80,  293,   75,   79,  314,    1,    2,  183,    4,
- /*   210 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*   220 */    15,   16,   17,   18,  294,   78,   86,  119,  122,   96,
- /*   230 */    77,   55,   47,   49,   59,   57,   61,   67,   69,   71,
- /*   240 */    73,   63,   65,   43,   41,   45,   39,   36,   51,   53,
- /*   250 */    80,  106,   75,   90,  123,  143,   77,   55,   47,   49,
- /*   260 */    59,   57,   61,   67,   69,   71,   73,   63,   65,   43,
- /*   270 */    41,   45,   39,   36,   51,   53,   80,  294,   75,  131,
- /*   280 */   138,  167,   77,   55,   47,   49,   59,   57,   61,   67,
- /*   290 */    69,   71,   73,   63,   65,   43,   41,   45,   39,   36,
- /*   300 */    51,   53,   80,  140,   75,   88,   89,   88,  104,   96,
- /*   310 */    92,   96,   21,   81,  141,  146,   96,   96,  181,  108,
- /*   320 */   147,  151,   77,   55,   47,   49,   59,   57,   61,   67,
- /*   330 */    69,   71,   73,   63,   65,   43,   41,   45,   39,   36,
- /*   340 */    51,   53,   80,  158,   75,  160,  161,  201,   77,   55,
- /*   350 */    47,   49,   59,   57,   61,   67,   69,   71,   73,   63,
- /*   360 */    65,   43,   41,   45,   39,   36,   51,   53,   80,  163,
- /*   370 */    75,  164,  170,  217,   77,   55,   47,   49,   59,   57,
- /*   380 */    61,   67,   69,   71,   73,   63,   65,   43,   41,   45,
- /*   390 */    39,   36,   51,   53,   80,  174,   75,   47,   49,   59,
- /*   400 */    57,   61,   67,   69,   71,   73,   63,   65,   43,   41,
- /*   410 */    45,   39,   36,   51,   53,   80,  176,   75,   59,   57,
- /*   420 */    61,   67,   69,   71,   73,   63,   65,   43,   41,   45,
- /*   430 */    39,   36,   51,   53,   80,  178,   75,  185,   23,  183,
- /*   440 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
- /*   450 */    14,   15,   16,   17,   18,   29,  183,    4,    5,    6,
- /*   460 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
- /*   470 */    17,   18,  135,  183,    4,    5,    6,    7,    8,    9,
- /*   480 */    10,   11,   12,   13,   14,   15,   16,   17,   18,  148,
- /*   490 */   183,    4,    5,    6,    7,    8,    9,   10,   11,   12,
- /*   500 */    13,   14,   15,   16,   17,   18,  155,  183,    4,    5,
- /*   510 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
- /*   520 */    16,   17,   18,  171,  183,    4,    5,    6,    7,    8,
- /*   530 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
- /*   540 */   186,  183,    4,    5,    6,    7,    8,    9,   10,   11,
- /*   550 */    12,   13,   14,   15,   16,   17,   18,  192,  183,    4,
- /*   560 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*   570 */    15,   16,   17,   18,  202,  183,    4,    5,    6,    7,
- /*   580 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
- /*   590 */    18,  211,  183,    4,    5,    6,    7,    8,    9,   10,
- /*   600 */    11,   12,   13,   14,   15,   16,   17,   18,  218,  183,
- /*   610 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
- /*   620 */    14,   15,   16,   17,   18,    3,    4,    5,    6,    7,
- /*   630 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
- /*   640 */    18,   20,  144,   25,   27,   33,  130,   34,   19,  129,
- /*   650 */   139,   96,   24,   96,  145,  189,  152,  191,  195,  159,
- /*   660 */   179,  162,  165,  168,  179,  198,  205,  175,  177,   20,
- /*   670 */   144,   31,   38,   33,  130,   40,   96,  182,  139,   96,
- /*   680 */   207,  182,  145,  208,  152,  214,  221,  159,  118,  162,
- /*   690 */   165,  168,  181,  181,  181,  175,  177,   20,  144,  117,
- /*   700 */   181,   33,  130,  181,   30,  137,  139,  181,  136,  181,
- /*   710 */   145,  181,  152,  121,  181,  159,  179,  162,  165,  168,
- /*   720 */   179,  181,  181,  175,  177,   20,  144,   42,  181,   33,
- /*   730 */   130,   96,  196,  182,  139,  181,  181,  182,  145,  150,
- /*   740 */   152,  181,  181,  159,  179,  162,  165,  168,  181,  181,
- /*   750 */   181,  175,  177,   20,  144,   44,  181,   33,  130,   96,
- /*   760 */   149,  182,  139,  181,  156,  181,  145,  181,  152,  157,
- /*   770 */   181,  159,  179,  162,  165,  168,  179,  181,  181,  175,
- /*   780 */   177,   20,  144,   46,  181,   33,  130,   96,  172,  182,
- /*   790 */   139,  181,  181,  182,  145,  181,  152,  181,  181,  159,
- /*   800 */   179,  162,  165,  168,  181,  173,  181,  175,  177,   20,
- /*   810 */   144,   48,  181,   33,  130,   96,  187,  182,  139,  181,
- /*   820 */   193,   50,  145,  181,  152,   96,  181,  159,  179,  162,
- /*   830 */   165,  168,  179,  188,  181,  175,  177,   20,  144,   52,
- /*   840 */   181,   33,  130,   96,  203,  182,  139,  181,  181,  182,
- /*   850 */   145,  181,  152,  194,  181,  159,  179,  162,  165,  168,
- /*   860 */   181,   20,  144,  175,  177,   33,  130,   54,  212,  206,
- /*   870 */   139,   96,  219,  182,  145,  197,  152,  181,  181,  159,
- /*   880 */   179,  162,  165,  168,  179,   20,  144,  175,  177,   33,
- /*   890 */   130,  181,   56,  204,  139,   58,   96,  182,  145,   96,
- /*   900 */   152,  182,  132,  159,   60,  162,  165,  168,   96,   20,
- /*   910 */   144,  175,  177,   33,  130,  181,  181,  213,  139,   62,
- /*   920 */   181,   64,  145,   96,  152,   96,  181,  159,   66,  162,
- /*   930 */   165,  168,   96,   20,  144,  175,  177,   33,  130,  181,
- /*   940 */    68,  220,  139,  223,   96,   70,  145,  181,  152,   96,
- /*   950 */   181,  159,   72,  162,  165,  168,   96,   20,  144,  175,
- /*   960 */   177,   33,  130,  181,   74,   87,  139,   76,   96,   19,
- /*   970 */   145,   96,  152,  181,  181,  159,   83,  162,  165,  168,
- /*   980 */    96,  179,   37,  175,  177,   84,  126,  181,   85,  114,
- /*   990 */    87,  181,   96,   95,  181,   97,  111,   96,  182,  133,
- /*  1000 */    96,  142,  181,   96,  181,   96,   98,   37,   99,  153,
- /*  1010 */    84,   82,  102,   96,  103,   87,  181,  181,  128,  166,
- /*  1020 */   125,  100,  101,   96,  181,  180,  200,  181,  181,   96,
- /*  1030 */    96,  124,   37,   99,  209,   84,   82,  102,   96,  103,
- /*  1040 */    87,  181,  181,  181,  216,   97,  100,  101,   96,  181,
- /*  1050 */   181,  181,  181,  181,  181,  181,   98,   37,  109,  181,
- /*  1060 */    84,   82,  102,  181,  103,   87,  181,  181,  181,  112,
- /*  1070 */    97,  100,  101,  181,  181,  181,  181,  181,  181,  181,
- /*  1080 */   181,   98,   37,   99,  181,   84,   82,  102,  181,  103,
- /*  1090 */    87,  181,  181,  127,  181,   97,  100,  101,  181,  181,
- /*  1100 */   181,  181,  181,  181,  181,  181,   98,   37,   99,  181,
- /*  1110 */    84,   82,  102,  181,  103,   87,  181,  181,  181,  181,
- /*  1120 */    97,  100,  101,  181,  181,  181,  181,  181,  181,  181,
- /*  1130 */   181,   98,   37,   93,  181,   84,   82,  102,  181,  103,
- /*  1140 */   181,  181,  181,  181,  181,   97,  100,  101,  181,  181,
- /*  1150 */   181,  181,  181,  181,  181,  181,   98,  181,  109,  181,
- /*  1160 */   181,  181,  102,  181,  103,  181,  181,  181,  181,  181,
- /*  1170 */   181,  100,  101,
+ /*     0 */    79,   87,  236,   84,   57,   49,   51,   61,   59,   63,
+ /*    10 */    69,   71,   73,   75,   65,   67,   45,   43,   47,   40,
+ /*    20 */    37,   53,   55,   91,   81,   77,  213,  148,   79,   87,
+ /*    30 */    27,   84,   57,   49,   51,   61,   59,   63,   69,   71,
+ /*    40 */    73,   75,   65,   67,   45,   43,   47,   40,   37,   53,
+ /*    50 */    55,   91,   81,   77,   29,  168,   45,   43,   47,   40,
+ /*    60 */    37,   53,   55,   91,   81,   77,   55,   91,   81,   77,
+ /*    70 */    33,  204,   91,   81,   77,   79,   87,   82,   84,   57,
+ /*    80 */    49,   51,   61,   59,   63,   69,   71,   73,   75,   65,
+ /*    90 */    67,   45,   43,   47,   40,   37,   53,   55,   91,   81,
+ /*   100 */    77,  229,  224,   79,   87,  126,   84,   57,   49,   51,
+ /*   110 */    61,   59,   63,   69,   71,   73,   75,   65,   67,   45,
+ /*   120 */    43,   47,   40,   37,   53,   55,   91,   81,   77,   22,
+ /*   130 */    23,   79,   87,  107,   84,   57,   49,   51,   61,   59,
+ /*   140 */    63,   69,   71,   73,   75,   65,   67,   45,   43,   47,
+ /*   150 */    40,   37,   53,   55,   91,   81,   77,   35,   36,   79,
+ /*   160 */    87,  107,   84,   57,   49,   51,   61,   59,   63,   69,
+ /*   170 */    71,   73,   75,   65,   67,   45,   43,   47,   40,   37,
+ /*   180 */    53,   55,   91,   81,   77,   79,   87,   89,   84,   57,
+ /*   190 */    49,   51,   61,   59,   63,   69,   71,   73,   75,   65,
+ /*   200 */    67,   45,   43,   47,   40,   37,   53,   55,   91,   81,
+ /*   210 */    77,   81,   77,  105,   79,   87,   86,   84,   57,   49,
+ /*   220 */    51,   61,   59,   63,   69,   71,   73,   75,   65,   67,
+ /*   230 */    45,   43,   47,   40,   37,   53,   55,   91,   81,   77,
+ /*   240 */    79,   87,  143,   84,   57,   49,   51,   61,   59,   63,
+ /*   250 */    69,   71,   73,   75,   65,   67,   45,   43,   47,   40,
+ /*   260 */    37,   53,   55,   91,   81,   77,  121,  157,   79,   87,
+ /*   270 */    97,   84,   57,   49,   51,   61,   59,   63,   69,   71,
+ /*   280 */    73,   75,   65,   67,   45,   43,   47,   40,   37,   53,
+ /*   290 */    55,   91,   81,   77,  141,  181,   79,   87,  107,   84,
+ /*   300 */    57,   49,   51,   61,   59,   63,   69,   71,   73,   75,
+ /*   310 */    65,   67,   45,   43,   47,   40,   37,   53,   55,   91,
+ /*   320 */    81,   77,   40,   37,   53,   55,   91,   81,   77,   99,
+ /*   330 */   100,   92,  115,  107,  195,  107,  116,  124,   79,   87,
+ /*   340 */   133,   84,   57,   49,   51,   61,   59,   63,   69,   71,
+ /*   350 */    73,   75,   65,   67,   45,   43,   47,   40,   37,   53,
+ /*   360 */    55,   91,   81,   77,   39,  215,   79,   87,  107,   84,
+ /*   370 */    57,   49,   51,   61,   59,   63,   69,   71,   73,   75,
+ /*   380 */    65,   67,   45,   43,   47,   40,   37,   53,   55,   91,
+ /*   390 */    81,   77,  140,  231,   79,   87,  107,   84,   57,   49,
+ /*   400 */    51,   61,   59,   63,   69,   71,   73,   75,   65,   67,
+ /*   410 */    45,   43,   47,   40,   37,   53,   55,   91,   81,   77,
+ /*   420 */    87,  127,   84,   57,   49,   51,   61,   59,   63,   69,
+ /*   430 */    71,   73,   75,   65,   67,   45,   43,   47,   40,   37,
+ /*   440 */    53,   55,   91,   81,   77,   84,   57,   49,   51,   61,
+ /*   450 */    59,   63,   69,   71,   73,   75,   65,   67,   45,   43,
+ /*   460 */    47,   40,   37,   53,   55,   91,   81,   77,   49,   51,
+ /*   470 */    61,   59,   63,   69,   71,   73,   75,   65,   67,   45,
+ /*   480 */    43,   47,   40,   37,   53,   55,   91,   81,   77,  334,
+ /*   490 */     1,    2,  197,    4,    5,    6,    7,    8,    9,   10,
+ /*   500 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   61,
+ /*   510 */    59,   63,   69,   71,   73,   75,   65,   67,   45,   43,
+ /*   520 */    47,   40,   37,   53,   55,   91,   81,   77,   24,  197,
+ /*   530 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
+ /*   540 */    14,   15,   16,   17,   18,   19,   30,  197,    4,    5,
+ /*   550 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
+ /*   560 */    16,   17,   18,   19,  149,  197,    4,    5,    6,    7,
+ /*   570 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   580 */    18,   19,  162,  197,    4,    5,    6,    7,    8,    9,
+ /*   590 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   600 */   169,  197,    4,    5,    6,    7,    8,    9,   10,   11,
+ /*   610 */    12,   13,   14,   15,   16,   17,   18,   19,  185,  197,
+ /*   620 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
+ /*   630 */    14,   15,   16,   17,   18,   19,  200,  197,    4,    5,
+ /*   640 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
+ /*   650 */    16,   17,   18,   19,  206,  197,    4,    5,    6,    7,
+ /*   660 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   670 */    18,   19,  216,  197,    4,    5,    6,    7,    8,    9,
+ /*   680 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   690 */   225,  197,    4,    5,    6,    7,    8,    9,   10,   11,
+ /*   700 */    12,   13,   14,   15,   16,   17,   18,   19,  232,  197,
+ /*   710 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
+ /*   720 */    14,   15,   16,   17,   18,   19,    3,    4,    5,    6,
+ /*   730 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*   740 */    17,   18,   19,   21,  158,   26,   28,   34,  142,  144,
+ /*   750 */   237,   20,  153,   85,  102,  130,  159,  107,  166,  220,
+ /*   760 */   146,  173,   92,  176,  179,  182,  107,  313,  119,  189,
+ /*   770 */   191,   21,  158,   32,  118,   34,  142,  144,   99,   20,
+ /*   780 */   153,  103,  107,   42,  159,  314,  166,  107,  131,  173,
+ /*   790 */   193,  176,  179,  182,  134,   21,  158,  189,  191,   34,
+ /*   800 */   142,  144,   44,  151,  153,   46,  107,  196,  159,  107,
+ /*   810 */   166,  313,  101,  173,  314,  176,  179,  182,  193,   21,
+ /*   820 */   158,  189,  191,   34,  142,  144,  152,   25,  153,  145,
+ /*   830 */   154,  117,  159,  164,  166,  196,   31,  173,  155,  176,
+ /*   840 */   179,  182,  150,   21,  158,  189,  191,   34,  142,  144,
+ /*   850 */   161,  210,  153,   48,  165,  160,  159,  107,  166,  171,
+ /*   860 */   183,  173,  198,  176,  179,  182,  193,   21,  158,  189,
+ /*   870 */   191,   34,  142,  144,  172,  193,  153,  174,  175,  177,
+ /*   880 */   159,  193,  166,  196,  178,  173,  184,  176,  179,  182,
+ /*   890 */   193,  187,  196,  189,  191,   21,  158,  188,  196,   34,
+ /*   900 */   142,  144,   50,  163,  153,   52,  107,  196,  159,  107,
+ /*   910 */   166,  190,  192,  173,  199,  176,  179,  182,  203,  202,
+ /*   920 */   205,  189,  191,   21,  158,  170,   54,   34,  142,  144,
+ /*   930 */   107,  186,  153,   56,  209,  212,  159,  107,  166,  208,
+ /*   940 */   219,  173,  193,  176,  179,  182,  201,   21,  158,  189,
+ /*   950 */   191,   34,  142,  144,   58,  207,  153,  221,  107,  196,
+ /*   960 */   159,  211,  166,  222,  193,  173,  228,  176,  179,  182,
+ /*   970 */   193,   21,  158,  189,  191,   34,  142,  144,  235,  218,
+ /*   980 */   153,  196,  190,  190,  159,  193,  166,  196,  190,  173,
+ /*   990 */   190,  176,  179,  182,  193,   21,  158,  189,  191,   34,
+ /*  1000 */   142,  144,  196,  227,  153,  190,  190,  190,  159,  190,
+ /*  1010 */   166,  196,  190,  173,  190,  176,  179,  182,  190,   21,
+ /*  1020 */   158,  189,  191,   34,  142,  144,  190,  234,  153,  190,
+ /*  1030 */   190,   60,  159,  190,  166,  107,  217,  173,  226,  176,
+ /*  1040 */   179,  182,  190,   21,  158,  189,  191,   34,  142,  144,
+ /*  1050 */   190,   98,  153,   62,  190,   64,  159,  107,  166,  107,
+ /*  1060 */   190,  173,   66,  176,  179,  182,  107,   41,   38,  189,
+ /*  1070 */   191,   95,  137,  233,  129,  193,   68,  193,   70,   72,
+ /*  1080 */   107,  108,  107,  107,  128,   74,   76,  125,   98,  107,
+ /*  1090 */   107,  109,  196,  110,  196,  190,   78,  113,  132,  114,
+ /*  1100 */   107,  129,  190,  139,   41,   38,  111,  112,   95,   93,
+ /*  1110 */    80,  128,  193,   83,  107,  190,   88,  107,  136,  190,
+ /*  1120 */   107,  190,  190,   90,  190,   98,  190,  107,  135,  196,
+ /*  1130 */   110,   94,  190,   96,  113,  107,  114,  107,  190,  190,
+ /*  1140 */   190,   41,   38,  111,  112,   95,   93,  106,  122,  190,
+ /*  1150 */   147,  107,  107,  156,  107,  108,  190,  107,  167,  180,
+ /*  1160 */   194,  190,  107,  107,  107,  109,  190,  120,  190,  190,
+ /*  1170 */   214,  113,   98,  114,  107,  223,  190,  190,  123,  107,
+ /*  1180 */   111,  112,  230,  190,  190,  190,  107,  190,   41,   38,
+ /*  1190 */   190,  190,   95,   93,  190,  190,  190,  190,  190,  190,
+ /*  1200 */   190,  190,  108,  190,  190,  190,  190,  190,  190,   98,
+ /*  1210 */   190,  190,  109,  190,  110,  190,  190,  190,  113,  190,
+ /*  1220 */   114,  190,  190,  190,  138,   41,   38,  111,  112,   95,
+ /*  1230 */    93,  190,  190,  190,  190,  190,  190,  190,  190,  108,
+ /*  1240 */   190,  190,  190,  190,  190,  190,   98,  190,  190,  109,
+ /*  1250 */   190,  110,  190,  190,  190,  113,  190,  114,  190,  190,
+ /*  1260 */   190,  190,   41,   38,  111,  112,   95,   93,  190,  190,
+ /*  1270 */   190,  190,  190,  190,  190,  190,  108,  190,  190,  190,
+ /*  1280 */   190,  190,  190,   98,  190,  190,  109,  190,  104,  190,
+ /*  1290 */   190,  190,  113,  190,  114,  190,  190,  190,  190,   41,
+ /*  1300 */    38,  111,  112,   95,   93,  190,  190,  190,  190,  190,
+ /*  1310 */   190,  190,  190,  108,  190,  190,  190,  190,  190,  190,
+ /*  1320 */   190,  190,  190,  109,  190,  120,  190,  190,  190,  113,
+ /*  1330 */   190,  114,  190,  190,  190,  190,  190,  190,  111,  112,
 };
 static KKCODETYPE kk_lookahead[] = {
- /*     0 */     3,    4,    5,    6,    7,    8,    9,   10,   11,   12,
+ /*     0 */     3,    4,    0,    6,    7,    8,    9,   10,   11,   12,
  /*    10 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
- /*    20 */    23,   23,   25,   25,   27,   28,    3,    4,    5,    6,
- /*    30 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
- /*    40 */    17,   18,   19,   20,   21,   22,   23,    0,   25,   33,
- /*    50 */    28,   28,   16,   17,   18,   19,   20,   21,   22,   23,
- /*    60 */    44,   25,   19,   20,   21,   22,   23,   44,   25,   28,
- /*    70 */    25,    3,    4,    5,    6,    7,    8,    9,   10,   11,
- /*    80 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
- /*    90 */    22,   23,   50,   25,   52,   27,   28,    3,    4,    5,
- /*   100 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
- /*   110 */    16,   17,   18,   19,   20,   21,   22,   23,   28,   25,
- /*   120 */     2,    2,   28,    3,    4,    5,    6,    7,    8,    9,
- /*   130 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
- /*   140 */    20,   21,   22,   23,   83,   25,   58,   58,   28,    3,
- /*   150 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
- /*   160 */    14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
- /*   170 */     2,   25,    3,    4,    5,    6,    7,    8,    9,   10,
- /*   180 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   190 */    21,   22,   23,   81,   25,    1,    1,   85,   86,   87,
- /*   200 */    22,   23,    2,   25,   58,   62,   63,   64,   65,   66,
- /*   210 */    67,   68,   69,   70,   71,   72,   73,   74,   75,   76,
- /*   220 */    77,   78,   79,   80,   58,   81,   57,   83,   83,   85,
- /*   230 */     3,    4,    5,    6,    7,    8,    9,   10,   11,   12,
- /*   240 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
- /*   250 */    23,   57,   25,   58,   58,   28,    3,    4,    5,    6,
- /*   260 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
- /*   270 */    17,   18,   19,   20,   21,   22,   23,    2,   25,   33,
- /*   280 */    28,   28,    3,    4,    5,    6,    7,    8,    9,   10,
- /*   290 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   300 */    21,   22,   23,   33,   25,   81,   82,   81,   84,   85,
- /*   310 */    84,   85,   81,   81,   37,   33,   85,   85,   39,   87,
- /*   320 */    28,   28,    3,    4,    5,    6,    7,    8,    9,   10,
- /*   330 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   340 */    21,   22,   23,   28,   25,   46,   28,   28,    3,    4,
- /*   350 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*   360 */    15,   16,   17,   18,   19,   20,   21,   22,   23,   46,
- /*   370 */    25,   28,   28,   28,    3,    4,    5,    6,    7,    8,
- /*   380 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
- /*   390 */    19,   20,   21,   22,   23,   28,   25,    5,    6,    7,
- /*   400 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
- /*   410 */    18,   19,   20,   21,   22,   23,   28,   25,    7,    8,
- /*   420 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
- /*   430 */    19,   20,   21,   22,   23,   28,   25,   28,   64,   65,
- /*   440 */    66,   67,   68,   69,   70,   71,   72,   73,   74,   75,
- /*   450 */    76,   77,   78,   79,   80,   64,   65,   66,   67,   68,
- /*   460 */    69,   70,   71,   72,   73,   74,   75,   76,   77,   78,
- /*   470 */    79,   80,   64,   65,   66,   67,   68,   69,   70,   71,
- /*   480 */    72,   73,   74,   75,   76,   77,   78,   79,   80,   64,
+ /*    20 */    23,   24,   25,   26,   27,   28,   29,   30,    3,    4,
+ /*    30 */    30,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+ /*    40 */    15,   16,   17,   18,   19,   20,   21,   22,   23,   24,
+ /*    50 */    25,   26,   27,   28,   30,   30,   19,   20,   21,   22,
+ /*    60 */    23,   24,   25,   26,   27,   28,   25,   26,   27,   28,
+ /*    70 */    30,   46,   26,   27,   28,    3,    4,    3,    6,    7,
+ /*    80 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*    90 */    18,   19,   20,   21,   22,   23,   24,   25,   26,   27,
+ /*   100 */    28,   29,   30,    3,    4,   86,    6,    7,    8,    9,
+ /*   110 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   120 */    20,   21,   22,   23,   24,   25,   26,   27,   28,   84,
+ /*   130 */    30,    3,    4,   88,    6,    7,    8,    9,   10,   11,
+ /*   140 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
+ /*   150 */    22,   23,   24,   25,   26,   27,   28,   84,   30,    3,
+ /*   160 */     4,   88,    6,    7,    8,    9,   10,   11,   12,   13,
+ /*   170 */    14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
+ /*   180 */    24,   25,   26,   27,   28,    3,    4,    5,    6,    7,
+ /*   190 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   200 */    18,   19,   20,   21,   22,   23,   24,   25,   26,   27,
+ /*   210 */    28,   27,   28,    5,    3,    4,   60,    6,    7,    8,
+ /*   220 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
+ /*   230 */    19,   20,   21,   22,   23,   24,   25,   26,   27,   28,
+ /*   240 */     3,    4,   30,    6,    7,    8,    9,   10,   11,   12,
+ /*   250 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   260 */    23,   24,   25,   26,   27,   28,    5,   30,    3,    4,
+ /*   270 */    59,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+ /*   280 */    15,   16,   17,   18,   19,   20,   21,   22,   23,   24,
+ /*   290 */    25,   26,   27,   28,   84,   30,    3,    4,   88,    6,
+ /*   300 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*   310 */    17,   18,   19,   20,   21,   22,   23,   24,   25,   26,
+ /*   320 */    27,   28,   22,   23,   24,   25,   26,   27,   28,   84,
+ /*   330 */    85,   84,   87,   88,   41,   88,   89,   90,    3,    4,
+ /*   340 */    86,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+ /*   350 */    15,   16,   17,   18,   19,   20,   21,   22,   23,   24,
+ /*   360 */    25,   26,   27,   28,   84,   30,    3,    4,   88,    6,
+ /*   370 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*   380 */    17,   18,   19,   20,   21,   22,   23,   24,   25,   26,
+ /*   390 */    27,   28,   84,   30,    3,    4,   88,    6,    7,    8,
+ /*   400 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
+ /*   410 */    19,   20,   21,   22,   23,   24,   25,   26,   27,   28,
+ /*   420 */     4,   60,    6,    7,    8,    9,   10,   11,   12,   13,
+ /*   430 */    14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
+ /*   440 */    24,   25,   26,   27,   28,    6,    7,    8,    9,   10,
+ /*   450 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   460 */    21,   22,   23,   24,   25,   26,   27,   28,    8,    9,
+ /*   470 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   480 */    20,   21,   22,   23,   24,   25,   26,   27,   28,   64,
  /*   490 */    65,   66,   67,   68,   69,   70,   71,   72,   73,   74,
- /*   500 */    75,   76,   77,   78,   79,   80,   64,   65,   66,   67,
- /*   510 */    68,   69,   70,   71,   72,   73,   74,   75,   76,   77,
- /*   520 */    78,   79,   80,   64,   65,   66,   67,   68,   69,   70,
- /*   530 */    71,   72,   73,   74,   75,   76,   77,   78,   79,   80,
- /*   540 */    64,   65,   66,   67,   68,   69,   70,   71,   72,   73,
- /*   550 */    74,   75,   76,   77,   78,   79,   80,   64,   65,   66,
- /*   560 */    67,   68,   69,   70,   71,   72,   73,   74,   75,   76,
- /*   570 */    77,   78,   79,   80,   64,   65,   66,   67,   68,   69,
- /*   580 */    70,   71,   72,   73,   74,   75,   76,   77,   78,   79,
- /*   590 */    80,   64,   65,   66,   67,   68,   69,   70,   71,   72,
- /*   600 */    73,   74,   75,   76,   77,   78,   79,   80,   64,   65,
- /*   610 */    66,   67,   68,   69,   70,   71,   72,   73,   74,   75,
- /*   620 */    76,   77,   78,   79,   80,   65,   66,   67,   68,   69,
- /*   630 */    70,   71,   72,   73,   74,   75,   76,   77,   78,   79,
- /*   640 */    80,   27,   28,   29,   30,   31,   32,   81,   26,   81,
- /*   650 */    36,   85,   26,   85,   40,   28,   42,   28,   28,   45,
- /*   660 */    38,   47,   48,   49,   38,   28,   28,   53,   54,   27,
- /*   670 */    28,   29,   81,   31,   32,   81,   85,   55,   36,   85,
- /*   680 */    33,   55,   40,   34,   42,   28,   28,   45,   33,   47,
- /*   690 */    48,   49,   88,   88,   88,   53,   54,   27,   28,   44,
- /*   700 */    88,   31,   32,   88,   26,   35,   36,   88,   26,   88,
- /*   710 */    40,   88,   42,   58,   88,   45,   38,   47,   48,   49,
- /*   720 */    38,   88,   88,   53,   54,   27,   28,   81,   88,   31,
- /*   730 */    32,   85,   26,   55,   36,   88,   88,   55,   40,   41,
- /*   740 */    42,   88,   88,   45,   38,   47,   48,   49,   88,   88,
- /*   750 */    88,   53,   54,   27,   28,   81,   88,   31,   32,   85,
- /*   760 */    26,   55,   36,   88,   26,   88,   40,   88,   42,   43,
- /*   770 */    88,   45,   38,   47,   48,   49,   38,   88,   88,   53,
- /*   780 */    54,   27,   28,   81,   88,   31,   32,   85,   26,   55,
- /*   790 */    36,   88,   88,   55,   40,   88,   42,   88,   88,   45,
- /*   800 */    38,   47,   48,   49,   88,   51,   88,   53,   54,   27,
- /*   810 */    28,   81,   88,   31,   32,   85,   26,   55,   36,   88,
- /*   820 */    26,   81,   40,   88,   42,   85,   88,   45,   38,   47,
- /*   830 */    48,   49,   38,   51,   88,   53,   54,   27,   28,   81,
- /*   840 */    88,   31,   32,   85,   26,   55,   36,   88,   88,   55,
- /*   850 */    40,   88,   42,   43,   88,   45,   38,   47,   48,   49,
- /*   860 */    88,   27,   28,   53,   54,   31,   32,   81,   26,    1,
- /*   870 */    36,   85,   26,   55,   40,   41,   42,   88,   88,   45,
- /*   880 */    38,   47,   48,   49,   38,   27,   28,   53,   54,   31,
- /*   890 */    32,   88,   81,   35,   36,   81,   85,   55,   40,   85,
- /*   900 */    42,   55,   34,   45,   81,   47,   48,   49,   85,   27,
- /*   910 */    28,   53,   54,   31,   32,   88,   88,   35,   36,   81,
- /*   920 */    88,   81,   40,   85,   42,   85,   88,   45,   81,   47,
- /*   930 */    48,   49,   85,   27,   28,   53,   54,   31,   32,   88,
- /*   940 */    81,   35,   36,    0,   85,   81,   40,   88,   42,   85,
- /*   950 */    88,   45,   81,   47,   48,   49,   85,   27,   28,   53,
- /*   960 */    54,   31,   32,   88,   81,    3,   36,   81,   85,   26,
- /*   970 */    40,   85,   42,   88,   88,   45,   81,   47,   48,   49,
- /*   980 */    85,   38,   20,   53,   54,   23,   24,   88,   81,    2,
- /*   990 */     3,   88,   85,   81,   88,   33,   81,   85,   55,   81,
- /*  1000 */    85,   81,   88,   85,   88,   85,   44,   20,   46,   81,
- /*  1010 */    23,   24,   50,   85,   52,    3,   88,   88,   56,   81,
- /*  1020 */    33,   59,   60,   85,   88,   81,   81,   88,   88,   85,
- /*  1030 */    85,   44,   20,   46,   81,   23,   24,   50,   85,   52,
- /*  1040 */     3,   88,   88,   88,   81,   33,   59,   60,   85,   88,
- /*  1050 */    88,   88,   88,   88,   88,   88,   44,   20,   46,   88,
- /*  1060 */    23,   24,   50,   88,   52,    3,   88,   88,   88,   57,
- /*  1070 */    33,   59,   60,   88,   88,   88,   88,   88,   88,   88,
- /*  1080 */    88,   44,   20,   46,   88,   23,   24,   50,   88,   52,
- /*  1090 */     3,   88,   88,   56,   88,   33,   59,   60,   88,   88,
- /*  1100 */    88,   88,   88,   88,   88,   88,   44,   20,   46,   88,
- /*  1110 */    23,   24,   50,   88,   52,    3,   88,   88,   88,   88,
- /*  1120 */    33,   59,   60,   88,   88,   88,   88,   88,   88,   88,
- /*  1130 */    88,   44,   20,   46,   88,   23,   24,   50,   88,   52,
- /*  1140 */    88,   88,   88,   88,   88,   33,   59,   60,   88,   88,
- /*  1150 */    88,   88,   88,   88,   88,   88,   44,   88,   46,   88,
- /*  1160 */    88,   88,   50,   88,   52,   88,   88,   88,   88,   88,
- /*  1170 */    88,   59,   60,
+ /*   500 */    75,   76,   77,   78,   79,   80,   81,   82,   83,   10,
+ /*   510 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   520 */    21,   22,   23,   24,   25,   26,   27,   28,   66,   67,
+ /*   530 */    68,   69,   70,   71,   72,   73,   74,   75,   76,   77,
+ /*   540 */    78,   79,   80,   81,   82,   83,   66,   67,   68,   69,
+ /*   550 */    70,   71,   72,   73,   74,   75,   76,   77,   78,   79,
+ /*   560 */    80,   81,   82,   83,   66,   67,   68,   69,   70,   71,
+ /*   570 */    72,   73,   74,   75,   76,   77,   78,   79,   80,   81,
+ /*   580 */    82,   83,   66,   67,   68,   69,   70,   71,   72,   73,
+ /*   590 */    74,   75,   76,   77,   78,   79,   80,   81,   82,   83,
+ /*   600 */    66,   67,   68,   69,   70,   71,   72,   73,   74,   75,
+ /*   610 */    76,   77,   78,   79,   80,   81,   82,   83,   66,   67,
+ /*   620 */    68,   69,   70,   71,   72,   73,   74,   75,   76,   77,
+ /*   630 */    78,   79,   80,   81,   82,   83,   66,   67,   68,   69,
+ /*   640 */    70,   71,   72,   73,   74,   75,   76,   77,   78,   79,
+ /*   650 */    80,   81,   82,   83,   66,   67,   68,   69,   70,   71,
+ /*   660 */    72,   73,   74,   75,   76,   77,   78,   79,   80,   81,
+ /*   670 */    82,   83,   66,   67,   68,   69,   70,   71,   72,   73,
+ /*   680 */    74,   75,   76,   77,   78,   79,   80,   81,   82,   83,
+ /*   690 */    66,   67,   68,   69,   70,   71,   72,   73,   74,   75,
+ /*   700 */    76,   77,   78,   79,   80,   81,   82,   83,   66,   67,
+ /*   710 */    68,   69,   70,   71,   72,   73,   74,   75,   76,   77,
+ /*   720 */    78,   79,   80,   81,   82,   83,   67,   68,   69,   70,
+ /*   730 */    71,   72,   73,   74,   75,   76,   77,   78,   79,   80,
+ /*   740 */    81,   82,   83,   29,   30,   31,   32,   33,   34,   35,
+ /*   750 */     0,    1,   38,   84,    2,   86,   42,   88,   44,    2,
+ /*   760 */     3,   47,   84,   49,   50,   51,   88,   60,   90,   55,
+ /*   770 */    56,   29,   30,   31,    2,   33,   34,   35,   84,    1,
+ /*   780 */    38,   87,   88,   84,   42,   60,   44,   88,    5,   47,
+ /*   790 */    40,   49,   50,   51,   60,   29,   30,   55,   56,   33,
+ /*   800 */    34,   35,   84,   37,   38,   84,   88,   57,   42,   88,
+ /*   810 */    44,    5,   60,   47,    5,   49,   50,   51,   40,   29,
+ /*   820 */    30,   55,   56,   33,   34,   35,   30,    1,   38,   36,
+ /*   830 */    36,   59,   42,   43,   44,   57,    1,   47,   39,   49,
+ /*   840 */    50,   51,    1,   29,   30,   55,   56,   33,   34,   35,
+ /*   850 */    30,    1,   38,   84,   30,   36,   42,   88,   44,   45,
+ /*   860 */    52,   47,   54,   49,   50,   51,   40,   29,   30,   55,
+ /*   870 */    56,   33,   34,   35,   30,   40,   38,   48,   30,   48,
+ /*   880 */    42,   40,   44,   57,   30,   47,   30,   49,   50,   51,
+ /*   890 */    40,   53,   57,   55,   56,   29,   30,   30,   57,   33,
+ /*   900 */    34,   35,   84,    1,   38,   84,   88,   57,   42,   88,
+ /*   910 */    44,   30,   30,   47,   30,   49,   50,   51,   30,   53,
+ /*   920 */    30,   55,   56,   29,   30,    1,   84,   33,   34,   35,
+ /*   930 */    88,    1,   38,   84,   30,   30,   42,   88,   44,   45,
+ /*   940 */    30,   47,   40,   49,   50,   51,    1,   29,   30,   55,
+ /*   950 */    56,   33,   34,   35,   84,    1,   38,   36,   88,   57,
+ /*   960 */    42,   43,   44,    3,   40,   47,   30,   49,   50,   51,
+ /*   970 */    40,   29,   30,   55,   56,   33,   34,   35,   30,   37,
+ /*   980 */    38,   57,   91,   91,   42,   40,   44,   57,   91,   47,
+ /*   990 */    91,   49,   50,   51,   40,   29,   30,   55,   56,   33,
+ /*  1000 */    34,   35,   57,   37,   38,   91,   91,   91,   42,   91,
+ /*  1010 */    44,   57,   91,   47,   91,   49,   50,   51,   91,   29,
+ /*  1020 */    30,   55,   56,   33,   34,   35,   91,   37,   38,   91,
+ /*  1030 */    91,   84,   42,   91,   44,   88,    1,   47,    1,   49,
+ /*  1040 */    50,   51,   91,   29,   30,   55,   56,   33,   34,   35,
+ /*  1050 */    91,    6,   38,   84,   91,   84,   42,   88,   44,   88,
+ /*  1060 */    91,   47,   84,   49,   50,   51,   88,   22,   23,   55,
+ /*  1070 */    56,   26,   27,    1,   36,   40,   84,   40,   84,   84,
+ /*  1080 */    88,   36,   88,   88,   46,   84,   84,    5,    6,   88,
+ /*  1090 */    88,   46,   57,   48,   57,   91,   84,   52,   60,   54,
+ /*  1100 */    88,   36,   91,   58,   22,   23,   61,   62,   26,   27,
+ /*  1110 */    84,   46,   40,   84,   88,   91,   84,   88,   36,   91,
+ /*  1120 */    88,   91,   91,   84,   91,    6,   91,   88,   46,   57,
+ /*  1130 */    48,   84,   91,   84,   52,   88,   54,   88,   91,   91,
+ /*  1140 */    91,   22,   23,   61,   62,   26,   27,   84,   84,   91,
+ /*  1150 */    84,   88,   88,   84,   88,   36,   91,   88,   84,   84,
+ /*  1160 */    84,   91,   88,   88,   88,   46,   91,   48,   91,   91,
+ /*  1170 */    84,   52,    6,   54,   88,   84,   91,   91,   59,   88,
+ /*  1180 */    61,   62,   84,   91,   91,   91,   88,   91,   22,   23,
+ /*  1190 */    91,   91,   26,   27,   91,   91,   91,   91,   91,   91,
+ /*  1200 */    91,   91,   36,   91,   91,   91,   91,   91,   91,    6,
+ /*  1210 */    91,   91,   46,   91,   48,   91,   91,   91,   52,   91,
+ /*  1220 */    54,   91,   91,   91,   58,   22,   23,   61,   62,   26,
+ /*  1230 */    27,   91,   91,   91,   91,   91,   91,   91,   91,   36,
+ /*  1240 */    91,   91,   91,   91,   91,   91,    6,   91,   91,   46,
+ /*  1250 */    91,   48,   91,   91,   91,   52,   91,   54,   91,   91,
+ /*  1260 */    91,   91,   22,   23,   61,   62,   26,   27,   91,   91,
+ /*  1270 */    91,   91,   91,   91,   91,   91,   36,   91,   91,   91,
+ /*  1280 */    91,   91,   91,    6,   91,   91,   46,   91,   48,   91,
+ /*  1290 */    91,   91,   52,   91,   54,   91,   91,   91,   91,   22,
+ /*  1300 */    23,   61,   62,   26,   27,   91,   91,   91,   91,   91,
+ /*  1310 */    91,   91,   91,   36,   91,   91,   91,   91,   91,   91,
+ /*  1320 */    91,   91,   91,   46,   91,   48,   91,   91,   91,   52,
+ /*  1330 */    91,   54,   91,   91,   91,   91,   91,   91,   61,   62,
 };
 #define KK_SHIFT_USE_DFLT (-4)
 static short kk_shift_ofst[] = {
- /*     0 */   622,   47,  943,   -4,   -4,   -4,   -4,   -4,   -4,   -4,
- /*    10 */    -4,   -4,   -4,   -4,   -4,   -4,   -4,   -4,   -4,  930,
- /*    20 */  1062,   94,  622,  626,  614,   22,   -4,   41,  622,  678,
- /*    30 */   642,   90,   -4, 1062,  120,   -4, 1062, 1062,  178, 1062,
- /*    40 */   178, 1062,   43, 1062,   43, 1062,   43, 1062,  411, 1062,
- /*    50 */   411, 1062,  178, 1062,   -2, 1062,  392, 1062,   36,  962,
- /*    60 */    36, 1062,   36, 1062,   36, 1062,   36, 1062,   36, 1062,
- /*    70 */    36, 1062,   36, 1062,   36, 1062,   -4,  987,  146,   -4,
- /*    80 */  1012,  371, 1062,   45, 1062,  169,   -4, 1087,  371,  195,
- /*    90 */    -4, 1087,   -4,  118, 1062,  371,   -4,   -4,   -4,   -4,
- /*   100 */    -4,   -4,   -4,   -4,   -4,  194,   -4, 1112,   -4,  119,
- /*   110 */  1062,  371,   -4,   -4,   16,   88,   -4,   89,  166,  168,
- /*   120 */   655,   -4,  196,   -4,  200,  275, 1037,   -4,   -4,  178,
- /*   130 */   246,  868, 1062,   -3,  622,  682,  670,  252,   -4,  270,
- /*   140 */   277, 1062,  227,   -4,   -4,  282,  292,  706,  734,  698,
- /*   150 */   293,   -4, 1062,   23,  622,  738,  726,  315,   -4,  299,
- /*   160 */   318,   -4,  323,  343,   -4, 1062,  253,   -4,   42,  344,
- /*   170 */   622,  762,  754,  367,   -4,  388,   -4,  407,   -4, 1062,
- /*   180 */   279,   -4,   -4,   -4,  409,  622,  790,  782,  627,   -4,
- /*   190 */   629,  622,  794,  810,  630,   -4,  834,  637,   -4, 1062,
- /*   200 */   319,  622,  818,  858,  638,   -4,  647,  649, 1062,   68,
- /*   210 */   622,  842,  882,  657,   -4, 1062,  345,  622,  846,  906,
- /*   220 */   658,   -4,
+ /*     0 */   778,    2,  750,   -4,   -4,   -4,   -4,   -4,   -4,   -4,
+ /*    10 */    -4,   -4,   -4,   -4,   -4,   -4,   -4,   -4,   -4,   -4,
+ /*    20 */  1014, 1203,  100,  778,  826,  714,    0,   -4,   24,  778,
+ /*    30 */   835,  742,   40,   -4, 1203,  128,   -4, 1203, 1203,   41,
+ /*    40 */  1203, 1203,   41, 1203,  300, 1203,  300, 1203,  300, 1203,
+ /*    50 */   499, 1203,  499, 1203,   41, 1203,   46, 1203,  460, 1203,
+ /*    60 */    37, 1045,   37, 1203,   37, 1203,   37, 1203,   37, 1203,
+ /*    70 */    37, 1203,   37, 1203,   37, 1203,   37, 1203,   -4, 1203,
+ /*    80 */   416,   74, 1203,  184, 1082,  156,   -4, 1203,  182, 1203,
+ /*    90 */   439, 1119,  391, 1203,  184, 1203,  211,   -4, 1240,  391,
+ /*   100 */   752,   -4, 1240,   -4,  208, 1203,  391,   -4,   -4,   -4,
+ /*   110 */    -4,   -4,   -4,   -4,   -4,   -4,  772,   -4, 1277,   -4,
+ /*   120 */   261, 1203,  391,   -4,   -4, 1065,  361,   -4,  707,  725,
+ /*   130 */   783, 1038,   -4,  734,   -4,  806,  809, 1166,   -4,   -4,
+ /*   140 */    41,   41,  212,   -4,  793,  757, 1203,   -3,  778,  841,
+ /*   150 */   766,  796,   -4,  794,  799, 1203,  237,   -4,   -4,  819,
+ /*   160 */   820,  850,  902,  790,  824,   -4, 1203,   25,  778,  924,
+ /*   170 */   814,  844,   -4,  829,  848,   -4,  831,  854,   -4, 1203,
+ /*   180 */   265,   -4,  808,  856,  778,  930,  838,  867,   -4,  881,
+ /*   190 */    -4,  882,   -4, 1203,  293,   -4,   -4,   -4,  884,  778,
+ /*   200 */   945,  866,  888,   -4,  890,  778,  954,  894,  904,   -4,
+ /*   210 */   918,  905,   -4, 1203,  335,  778, 1035,  942,  910,   -4,
+ /*   220 */   921,  960, 1203,   72,  778, 1037,  966,  936,   -4, 1203,
+ /*   230 */   363,  778, 1072,  990,  948,   -4,
 };
 #define KK_REDUCE_USE_DFLT (-1)
 static short kk_reduce_ofst[] = {
- /*     0 */   143,   -1,  560,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+ /*     0 */   425,   -1,  659,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
  /*    10 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
- /*    20 */   231,   -1,  374,  560,   -1,   -1,   -1,   -1,  391,  560,
- /*    30 */    -1,   -1,   -1,  566,   -1,   -1,  568,  591,   -1,  594,
- /*    40 */    -1,  646,   -1,  674,   -1,  702,   -1,  730,   -1,  740,
- /*    50 */    -1,  758,   -1,  786,   -1,  811,   -1,  814,   -1,  823,
- /*    60 */    -1,  838,   -1,  840,   -1,  847,   -1,  859,   -1,  864,
- /*    70 */    -1,  871,   -1,  883,   -1,  886,   -1,  144,   -1,   -1,
- /*    80 */   112,   -1,  895,   -1,  907,   -1,   -1,  224,   -1,   -1,
- /*    90 */    -1,  226,   -1,   -1,  912,   -1,   -1,   -1,   -1,   -1,
- /*   100 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,  232,   -1,   -1,
- /*   110 */   915,   -1,   -1,   -1,   61,   -1,   -1,   -1,   -1,   -1,
- /*   120 */   145,   -1,   -1,   -1,   -1,   -1,  895,   -1,   -1,   -1,
- /*   130 */    -1,   -1,  918,   -1,  408,  560,   -1,   -1,   -1,   -1,
- /*   140 */    -1,  920,   -1,   -1,   -1,   -1,   -1,  425,  560,   -1,
- /*   150 */    -1,   -1,  928,   -1,  442,  560,   -1,   -1,   -1,   -1,
- /*   160 */    -1,   -1,   -1,   -1,   -1,  938,   -1,   -1,   -1,   -1,
- /*   170 */   459,  560,   -1,   -1,   -1,   -1,   -1,   -1,   -1,  944,
- /*   180 */    -1,   -1,   -1,   -1,   -1,  476,  560,   -1,   -1,   -1,
- /*   190 */    -1,  493,  560,   -1,   -1,   -1,   -1,   -1,   -1,  945,
- /*   200 */    -1,  510,  560,   -1,   -1,   -1,   -1,   -1,  953,   -1,
- /*   210 */   527,  560,   -1,   -1,   -1,  963,   -1,  544,  560,   -1,
- /*   220 */    -1,   -1,
+ /*    20 */    -1,   45,   -1,  462,  659,   -1,   -1,   -1,   -1,  480,
+ /*    30 */   659,   -1,   -1,   -1,   73,   -1,   -1,  210,  280,   -1,
+ /*    40 */   308,  699,   -1,  718,   -1,  721,   -1,  769,   -1,  818,
+ /*    50 */    -1,  821,   -1,  842,   -1,  849,   -1,  870,   -1,  947,
+ /*    60 */    -1,  969,   -1,  971,   -1,  978,   -1,  992,   -1,  994,
+ /*    70 */    -1,  995,   -1, 1001,   -1, 1002,   -1, 1012,   -1, 1026,
+ /*    80 */    -1,   -1, 1029,   -1,  669,   -1,   -1, 1032,   -1, 1039,
+ /*    90 */    -1,  247,   -1, 1047,   -1, 1049,   -1,   -1,  245,   -1,
+ /*   100 */    -1,   -1,  694,   -1,   -1, 1063,   -1,   -1,   -1,   -1,
+ /*   110 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,  678,   -1,
+ /*   120 */    -1, 1064,   -1,   -1,   -1,   19,   -1,   -1,   -1,   -1,
+ /*   130 */    -1,  254,   -1,   -1,   -1,   -1,   -1, 1047,   -1,   -1,
+ /*   140 */    -1,   -1,   -1,   -1,   -1,   -1, 1066,   -1,  498,  659,
+ /*   150 */    -1,   -1,   -1,   -1,   -1, 1069,   -1,   -1,   -1,   -1,
+ /*   160 */    -1,  516,  659,   -1,   -1,   -1, 1074,   -1,  534,  659,
+ /*   170 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1, 1075,
+ /*   180 */    -1,   -1,   -1,   -1,  552,  659,   -1,   -1,   -1,   -1,
+ /*   190 */    -1,   -1,   -1, 1076,   -1,   -1,   -1,   -1,   -1,  570,
+ /*   200 */   659,   -1,   -1,   -1,   -1,  588,  659,   -1,   -1,   -1,
+ /*   210 */    -1,   -1,   -1, 1086,   -1,  606,  659,   -1,   -1,   -1,
+ /*   220 */    -1,   -1, 1091,   -1,  624,  659,   -1,   -1,   -1, 1098,
+ /*   230 */    -1,  642,  659,   -1,   -1,   -1,
 };
 static KKACTIONTYPE kk_default[] = {
- /*     0 */   313,  313,  313,  224,  226,  227,  228,  229,  230,  231,
- /*    10 */   232,  233,  234,  235,  236,  237,  238,  239,  240,  313,
- /*    20 */   313,  313,  313,  313,  313,  313,  241,  313,  313,  313,
- /*    30 */   313,  313,  242,  313,  313,  243,  313,  313,  263,  313,
- /*    40 */   265,  313,  266,  313,  267,  313,  268,  313,  269,  313,
- /*    50 */   270,  313,  271,  313,  272,  313,  273,  313,  274,  313,
- /*    60 */   277,  313,  278,  313,  279,  313,  280,  313,  281,  313,
- /*    70 */   282,  313,  283,  313,  284,  313,  285,  313,  313,  289,
- /*    80 */   313,  304,  313,  286,  313,  313,  287,  313,  298,  313,
- /*    90 */   288,  313,  295,  308,  313,  297,  299,  306,  307,  308,
- /*   100 */   309,  310,  311,  312,  296,  313,  300,  313,  302,  308,
- /*   110 */   313,  305,  301,  303,  313,  313,  290,  313,  313,  313,
- /*   120 */   313,  291,  313,  292,  307,  306,  313,  275,  276,  264,
- /*   130 */   313,  313,  313,  313,  313,  313,  313,  313,  244,  313,
- /*   140 */   313,  313,  313,  248,  249,  313,  313,  313,  313,  313,
- /*   150 */   313,  251,  313,  313,  313,  313,  313,  313,  253,  313,
- /*   160 */   313,  255,  313,  313,  256,  313,  313,  257,  313,  313,
- /*   170 */   313,  313,  313,  313,  258,  313,  260,  313,  261,  313,
- /*   180 */   313,  250,  262,  225,  313,  313,  313,  313,  313,  259,
- /*   190 */   313,  313,  313,  313,  313,  254,  313,  313,  252,  313,
- /*   200 */   313,  313,  313,  313,  313,  245,  313,  313,  313,  313,
- /*   210 */   313,  313,  313,  313,  246,  313,  313,  313,  313,  313,
- /*   220 */   313,  247,
+ /*     0 */   333,  333,  333,  238,  240,  241,  242,  243,  244,  245,
+ /*    10 */   246,  247,  248,  249,  250,  251,  252,  253,  254,  255,
+ /*    20 */   333,  333,  333,  333,  333,  333,  333,  256,  333,  333,
+ /*    30 */   333,  333,  333,  257,  333,  333,  258,  333,  333,  279,
+ /*    40 */   333,  333,  280,  333,  283,  333,  284,  333,  285,  333,
+ /*    50 */   286,  333,  287,  333,  288,  333,  289,  333,  290,  333,
+ /*    60 */   291,  333,  294,  333,  295,  333,  296,  333,  297,  333,
+ /*    70 */   298,  333,  299,  333,  300,  333,  301,  333,  302,  333,
+ /*    80 */   303,  333,  333,  304,  333,  333,  308,  333,  333,  333,
+ /*    90 */   309,  333,  324,  333,  305,  333,  333,  306,  333,  318,
+ /*   100 */   333,  307,  333,  315,  328,  333,  317,  319,  326,  327,
+ /*   110 */   328,  329,  330,  331,  332,  316,  333,  320,  333,  322,
+ /*   120 */   328,  333,  325,  321,  323,  333,  333,  310,  333,  333,
+ /*   130 */   333,  333,  311,  333,  312,  327,  326,  333,  292,  293,
+ /*   140 */   282,  281,  333,  259,  333,  333,  333,  333,  333,  333,
+ /*   150 */   333,  333,  260,  333,  333,  333,  333,  264,  265,  333,
+ /*   160 */   333,  333,  333,  333,  333,  267,  333,  333,  333,  333,
+ /*   170 */   333,  333,  269,  333,  333,  271,  333,  333,  272,  333,
+ /*   180 */   333,  273,  333,  333,  333,  333,  333,  333,  274,  333,
+ /*   190 */   276,  333,  277,  333,  333,  266,  278,  239,  333,  333,
+ /*   200 */   333,  333,  333,  275,  333,  333,  333,  333,  333,  270,
+ /*   210 */   333,  333,  268,  333,  333,  333,  333,  333,  333,  261,
+ /*   220 */   333,  333,  333,  333,  333,  333,  333,  333,  262,  333,
+ /*   230 */   333,  333,  333,  333,  333,  263,
 };
 #define KK_SZ_ACTTAB (sizeof(kk_action)/sizeof(kk_action[0]))
 
@@ -52412,28 +52791,29 @@ void phvolt_Trace(FILE *TraceFILE, char *zTracePrompt){
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
 static const char *kkTokenName[] = { 
-  "$",             "COMMA",         "COLON",         "SBRACKET_OPEN",
-  "RANGE",         "AND",           "OR",            "IS",          
-  "EQUALS",        "NOTEQUALS",     "LESS",          "GREATER",     
-  "GREATEREQUAL",  "LESSEQUAL",     "IDENTICAL",     "NOTIDENTICAL",
-  "DIVIDE",        "TIMES",         "MOD",           "PLUS",        
-  "MINUS",         "CONCAT",        "PIPE",          "BRACKET_OPEN",
-  "NOT",           "DOT",           "OPEN_DELIMITER",  "IF",          
-  "CLOSE_DELIMITER",  "ENDIF",         "ELSE",          "ELSEIF",      
-  "FOR",           "IDENTIFIER",    "IN",            "ENDFOR",      
-  "SET",           "ASSIGN",        "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",
-  "BLOCK",         "ENDBLOCK",      "CACHE",         "ENDCACHE",    
-  "INTEGER",       "EXTENDS",       "STRING",        "INCLUDE",     
-  "DO",            "AUTOESCAPE",    "FALSE",         "ENDAUTOESCAPE",
-  "TRUE",          "BREAK",         "CONTINUE",      "RAW_FRAGMENT",
-  "DEFINED",       "BRACKET_CLOSE",  "SBRACKET_CLOSE",  "DOUBLE",      
-  "NULL",          "error",         "program",       "volt_language",
-  "statement_list",  "statement",     "raw_fragment",  "if_statement",
-  "elseif_statement",  "for_statement",  "set_statement",  "echo_statement",
-  "block_statement",  "cache_statement",  "extends_statement",  "include_statement",
-  "do_statement",  "autoescape_statement",  "break_statement",  "continue_statement",
-  "empty_statement",  "expr",          "array_list",    "slice_offset",
-  "array_item",    "function_call",  "argument_list",  "argument_item",
+  "$",             "OPEN_DELIMITER",  "COMMA",         "IN",          
+  "QUESTION",      "COLON",         "SBRACKET_OPEN",  "RANGE",       
+  "AND",           "OR",            "IS",            "EQUALS",      
+  "NOTEQUALS",     "LESS",          "GREATER",       "GREATEREQUAL",
+  "LESSEQUAL",     "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",      
+  "TIMES",         "MOD",           "PLUS",          "MINUS",       
+  "CONCAT",        "PIPE",          "BRACKET_OPEN",  "NOT",         
+  "DOT",           "IF",            "CLOSE_DELIMITER",  "ENDIF",       
+  "ELSE",          "ELSEIF",        "ELSEFOR",       "FOR",         
+  "IDENTIFIER",    "ENDFOR",        "SET",           "ASSIGN",      
+  "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",         "ENDBLOCK",    
+  "CACHE",         "ENDCACHE",      "INTEGER",       "EXTENDS",     
+  "STRING",        "INCLUDE",       "DO",            "AUTOESCAPE",  
+  "FALSE",         "ENDAUTOESCAPE",  "TRUE",          "BREAK",       
+  "CONTINUE",      "RAW_FRAGMENT",  "DEFINED",       "BRACKET_CLOSE",
+  "SBRACKET_CLOSE",  "DOUBLE",        "NULL",          "error",       
+  "program",       "volt_language",  "statement_list",  "statement",   
+  "raw_fragment",  "if_statement",  "elseif_statement",  "elsefor_statement",
+  "for_statement",  "set_statement",  "echo_statement",  "block_statement",
+  "cache_statement",  "extends_statement",  "include_statement",  "do_statement",
+  "autoescape_statement",  "break_statement",  "continue_statement",  "empty_statement",
+  "expr",          "array_list",    "slice_offset",  "array_item",  
+  "function_call",  "argument_list",  "argument_item",
 };
 #endif /* NDEBUG */
 
@@ -52448,90 +52828,96 @@ static const char *kkRuleName[] = {
  /*   4 */ "statement ::= raw_fragment",
  /*   5 */ "statement ::= if_statement",
  /*   6 */ "statement ::= elseif_statement",
- /*   7 */ "statement ::= for_statement",
- /*   8 */ "statement ::= set_statement",
- /*   9 */ "statement ::= echo_statement",
- /*  10 */ "statement ::= block_statement",
- /*  11 */ "statement ::= cache_statement",
- /*  12 */ "statement ::= extends_statement",
- /*  13 */ "statement ::= include_statement",
- /*  14 */ "statement ::= do_statement",
- /*  15 */ "statement ::= autoescape_statement",
- /*  16 */ "statement ::= break_statement",
- /*  17 */ "statement ::= continue_statement",
- /*  18 */ "statement ::= empty_statement",
- /*  19 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
- /*  20 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ELSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
- /*  21 */ "elseif_statement ::= OPEN_DELIMITER ELSEIF expr CLOSE_DELIMITER",
- /*  22 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
- /*  23 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER IN expr IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
- /*  24 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER COMMA IDENTIFIER IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
- /*  25 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER COMMA IDENTIFIER IN expr IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
- /*  26 */ "set_statement ::= OPEN_DELIMITER SET IDENTIFIER ASSIGN expr CLOSE_DELIMITER",
- /*  27 */ "empty_statement ::= OPEN_DELIMITER CLOSE_DELIMITER",
- /*  28 */ "echo_statement ::= OPEN_EDELIMITER expr CLOSE_EDELIMITER",
- /*  29 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
- /*  30 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
- /*  31 */ "cache_statement ::= OPEN_DELIMITER CACHE expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER",
- /*  32 */ "cache_statement ::= OPEN_DELIMITER CACHE expr INTEGER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER",
- /*  33 */ "extends_statement ::= OPEN_DELIMITER EXTENDS STRING CLOSE_DELIMITER",
- /*  34 */ "include_statement ::= OPEN_DELIMITER INCLUDE STRING CLOSE_DELIMITER",
- /*  35 */ "do_statement ::= OPEN_DELIMITER DO expr CLOSE_DELIMITER",
- /*  36 */ "autoescape_statement ::= OPEN_DELIMITER AUTOESCAPE FALSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER",
- /*  37 */ "autoescape_statement ::= OPEN_DELIMITER AUTOESCAPE TRUE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER",
- /*  38 */ "break_statement ::= OPEN_DELIMITER BREAK CLOSE_DELIMITER",
- /*  39 */ "continue_statement ::= OPEN_DELIMITER CONTINUE CLOSE_DELIMITER",
- /*  40 */ "raw_fragment ::= RAW_FRAGMENT",
- /*  41 */ "expr ::= MINUS expr",
- /*  42 */ "expr ::= expr MINUS expr",
- /*  43 */ "expr ::= expr PLUS expr",
- /*  44 */ "expr ::= expr TIMES expr",
- /*  45 */ "expr ::= expr DIVIDE expr",
- /*  46 */ "expr ::= expr MOD expr",
- /*  47 */ "expr ::= expr AND expr",
- /*  48 */ "expr ::= expr OR expr",
- /*  49 */ "expr ::= expr CONCAT expr",
- /*  50 */ "expr ::= expr PIPE expr",
- /*  51 */ "expr ::= expr RANGE expr",
- /*  52 */ "expr ::= expr EQUALS expr",
- /*  53 */ "expr ::= expr IS NOT DEFINED",
- /*  54 */ "expr ::= expr IS DEFINED",
- /*  55 */ "expr ::= expr IS expr",
- /*  56 */ "expr ::= expr NOTEQUALS expr",
- /*  57 */ "expr ::= expr IDENTICAL expr",
- /*  58 */ "expr ::= expr NOTIDENTICAL expr",
- /*  59 */ "expr ::= expr LESS expr",
- /*  60 */ "expr ::= expr GREATER expr",
- /*  61 */ "expr ::= expr GREATEREQUAL expr",
- /*  62 */ "expr ::= expr LESSEQUAL expr",
- /*  63 */ "expr ::= expr DOT expr",
- /*  64 */ "expr ::= NOT expr",
- /*  65 */ "expr ::= BRACKET_OPEN expr BRACKET_CLOSE",
- /*  66 */ "expr ::= SBRACKET_OPEN array_list SBRACKET_CLOSE",
- /*  67 */ "expr ::= expr SBRACKET_OPEN expr SBRACKET_CLOSE",
- /*  68 */ "expr ::= expr SBRACKET_OPEN COLON slice_offset SBRACKET_CLOSE",
- /*  69 */ "expr ::= expr SBRACKET_OPEN slice_offset COLON SBRACKET_CLOSE",
- /*  70 */ "expr ::= expr SBRACKET_OPEN slice_offset COLON slice_offset SBRACKET_CLOSE",
- /*  71 */ "slice_offset ::= INTEGER",
- /*  72 */ "slice_offset ::= IDENTIFIER",
- /*  73 */ "array_list ::= array_list COMMA array_item",
- /*  74 */ "array_list ::= array_item",
- /*  75 */ "array_item ::= STRING COLON expr",
- /*  76 */ "array_item ::= expr",
- /*  77 */ "expr ::= function_call",
- /*  78 */ "function_call ::= expr BRACKET_OPEN argument_list BRACKET_CLOSE",
- /*  79 */ "function_call ::= expr BRACKET_OPEN BRACKET_CLOSE",
- /*  80 */ "argument_list ::= argument_list COMMA argument_item",
- /*  81 */ "argument_list ::= argument_item",
- /*  82 */ "argument_item ::= expr",
- /*  83 */ "argument_item ::= STRING COLON expr",
- /*  84 */ "expr ::= IDENTIFIER",
- /*  85 */ "expr ::= INTEGER",
- /*  86 */ "expr ::= STRING",
- /*  87 */ "expr ::= DOUBLE",
- /*  88 */ "expr ::= NULL",
- /*  89 */ "expr ::= FALSE",
- /*  90 */ "expr ::= TRUE",
+ /*   7 */ "statement ::= elsefor_statement",
+ /*   8 */ "statement ::= for_statement",
+ /*   9 */ "statement ::= set_statement",
+ /*  10 */ "statement ::= echo_statement",
+ /*  11 */ "statement ::= block_statement",
+ /*  12 */ "statement ::= cache_statement",
+ /*  13 */ "statement ::= extends_statement",
+ /*  14 */ "statement ::= include_statement",
+ /*  15 */ "statement ::= do_statement",
+ /*  16 */ "statement ::= autoescape_statement",
+ /*  17 */ "statement ::= break_statement",
+ /*  18 */ "statement ::= continue_statement",
+ /*  19 */ "statement ::= empty_statement",
+ /*  20 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
+ /*  21 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ELSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
+ /*  22 */ "elseif_statement ::= OPEN_DELIMITER ELSEIF expr CLOSE_DELIMITER",
+ /*  23 */ "elsefor_statement ::= OPEN_DELIMITER ELSEFOR CLOSE_DELIMITER",
+ /*  24 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  25 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER IN expr IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  26 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER COMMA IDENTIFIER IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  27 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER COMMA IDENTIFIER IN expr IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  28 */ "set_statement ::= OPEN_DELIMITER SET IDENTIFIER ASSIGN expr CLOSE_DELIMITER",
+ /*  29 */ "empty_statement ::= OPEN_DELIMITER CLOSE_DELIMITER",
+ /*  30 */ "echo_statement ::= OPEN_EDELIMITER expr CLOSE_EDELIMITER",
+ /*  31 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
+ /*  32 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
+ /*  33 */ "cache_statement ::= OPEN_DELIMITER CACHE expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER",
+ /*  34 */ "cache_statement ::= OPEN_DELIMITER CACHE expr INTEGER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER",
+ /*  35 */ "extends_statement ::= OPEN_DELIMITER EXTENDS STRING CLOSE_DELIMITER",
+ /*  36 */ "include_statement ::= OPEN_DELIMITER INCLUDE STRING CLOSE_DELIMITER",
+ /*  37 */ "do_statement ::= OPEN_DELIMITER DO expr CLOSE_DELIMITER",
+ /*  38 */ "autoescape_statement ::= OPEN_DELIMITER AUTOESCAPE FALSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER",
+ /*  39 */ "autoescape_statement ::= OPEN_DELIMITER AUTOESCAPE TRUE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER",
+ /*  40 */ "break_statement ::= OPEN_DELIMITER BREAK CLOSE_DELIMITER",
+ /*  41 */ "continue_statement ::= OPEN_DELIMITER CONTINUE CLOSE_DELIMITER",
+ /*  42 */ "raw_fragment ::= RAW_FRAGMENT",
+ /*  43 */ "expr ::= MINUS expr",
+ /*  44 */ "expr ::= PLUS expr",
+ /*  45 */ "expr ::= expr MINUS expr",
+ /*  46 */ "expr ::= expr PLUS expr",
+ /*  47 */ "expr ::= expr TIMES expr",
+ /*  48 */ "expr ::= expr DIVIDE expr",
+ /*  49 */ "expr ::= expr MOD expr",
+ /*  50 */ "expr ::= expr AND expr",
+ /*  51 */ "expr ::= expr OR expr",
+ /*  52 */ "expr ::= expr CONCAT expr",
+ /*  53 */ "expr ::= expr PIPE expr",
+ /*  54 */ "expr ::= expr RANGE expr",
+ /*  55 */ "expr ::= expr EQUALS expr",
+ /*  56 */ "expr ::= expr IS NOT DEFINED",
+ /*  57 */ "expr ::= expr IS DEFINED",
+ /*  58 */ "expr ::= expr IS expr",
+ /*  59 */ "expr ::= expr NOTEQUALS expr",
+ /*  60 */ "expr ::= expr IDENTICAL expr",
+ /*  61 */ "expr ::= expr NOTIDENTICAL expr",
+ /*  62 */ "expr ::= expr LESS expr",
+ /*  63 */ "expr ::= expr GREATER expr",
+ /*  64 */ "expr ::= expr GREATEREQUAL expr",
+ /*  65 */ "expr ::= expr LESSEQUAL expr",
+ /*  66 */ "expr ::= expr DOT expr",
+ /*  67 */ "expr ::= expr IN expr",
+ /*  68 */ "expr ::= expr NOT IN expr",
+ /*  69 */ "expr ::= NOT expr",
+ /*  70 */ "expr ::= BRACKET_OPEN expr BRACKET_CLOSE",
+ /*  71 */ "expr ::= SBRACKET_OPEN array_list SBRACKET_CLOSE",
+ /*  72 */ "expr ::= expr SBRACKET_OPEN expr SBRACKET_CLOSE",
+ /*  73 */ "expr ::= expr QUESTION expr COLON expr",
+ /*  74 */ "expr ::= expr SBRACKET_OPEN COLON slice_offset SBRACKET_CLOSE",
+ /*  75 */ "expr ::= expr SBRACKET_OPEN slice_offset COLON SBRACKET_CLOSE",
+ /*  76 */ "expr ::= expr SBRACKET_OPEN slice_offset COLON slice_offset SBRACKET_CLOSE",
+ /*  77 */ "slice_offset ::= INTEGER",
+ /*  78 */ "slice_offset ::= IDENTIFIER",
+ /*  79 */ "array_list ::= array_list COMMA array_item",
+ /*  80 */ "array_list ::= array_item",
+ /*  81 */ "array_item ::= STRING COLON expr",
+ /*  82 */ "array_item ::= expr",
+ /*  83 */ "expr ::= function_call",
+ /*  84 */ "function_call ::= expr BRACKET_OPEN argument_list BRACKET_CLOSE",
+ /*  85 */ "function_call ::= expr BRACKET_OPEN BRACKET_CLOSE",
+ /*  86 */ "argument_list ::= argument_list COMMA argument_item",
+ /*  87 */ "argument_list ::= argument_item",
+ /*  88 */ "argument_item ::= expr",
+ /*  89 */ "argument_item ::= STRING COLON expr",
+ /*  90 */ "expr ::= IDENTIFIER",
+ /*  91 */ "expr ::= INTEGER",
+ /*  92 */ "expr ::= STRING",
+ /*  93 */ "expr ::= DOUBLE",
+ /*  94 */ "expr ::= NULL",
+ /*  95 */ "expr ::= FALSE",
+ /*  96 */ "expr ::= TRUE",
 };
 #endif /* NDEBUG */
 
@@ -52633,7 +53019,9 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 58:
     case 59:
     case 60:
-// 517 "parser.lemon"
+    case 61:
+    case 62:
+// 539 "parser.lemon"
 {
 	if ((kkpminor->kk0)) {
 		if ((kkpminor->kk0)->free_flag) {
@@ -52642,10 +53030,8 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
 		efree((kkpminor->kk0));
 	}
 }
-// 1206 "parser.c"
+// 1269 "parser.c"
       break;
-    case 64:
-    case 65:
     case 66:
     case 67:
     case 68:
@@ -52668,9 +53054,12 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 85:
     case 86:
     case 87:
-// 534 "parser.lemon"
-{ zval_ptr_dtor(&(kkpminor->kk24)); }
-// 1234 "parser.c"
+    case 88:
+    case 89:
+    case 90:
+// 556 "parser.lemon"
+{ zval_ptr_dtor(&(kkpminor->kk176)); }
+// 1298 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -52807,97 +53196,103 @@ static struct {
   KKCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } kkRuleInfo[] = {
-  { 62, 1 },
-  { 63, 1 },
-  { 64, 2 },
   { 64, 1 },
   { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 65, 1 },
-  { 67, 8 },
-  { 67, 12 },
-  { 68, 4 },
-  { 69, 10 },
-  { 69, 12 },
-  { 69, 12 },
-  { 69, 14 },
-  { 70, 6 },
-  { 80, 2 },
-  { 71, 3 },
-  { 72, 8 },
-  { 72, 7 },
-  { 73, 8 },
-  { 73, 9 },
-  { 74, 4 },
-  { 75, 4 },
-  { 76, 4 },
-  { 77, 8 },
-  { 77, 8 },
-  { 78, 3 },
-  { 79, 3 },
+  { 66, 2 },
   { 66, 1 },
-  { 81, 2 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 69, 8 },
+  { 69, 12 },
+  { 70, 4 },
+  { 71, 3 },
+  { 72, 10 },
+  { 72, 12 },
+  { 72, 12 },
+  { 72, 14 },
+  { 73, 6 },
+  { 83, 2 },
+  { 74, 3 },
+  { 75, 8 },
+  { 75, 7 },
+  { 76, 8 },
+  { 76, 9 },
+  { 77, 4 },
+  { 78, 4 },
+  { 79, 4 },
+  { 80, 8 },
+  { 80, 8 },
   { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 4 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 2 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 4 },
-  { 81, 5 },
-  { 81, 5 },
-  { 81, 6 },
-  { 83, 1 },
-  { 83, 1 },
   { 82, 3 },
-  { 82, 1 },
+  { 68, 1 },
+  { 84, 2 },
+  { 84, 2 },
   { 84, 3 },
-  { 84, 1 },
-  { 81, 1 },
-  { 85, 4 },
-  { 85, 3 },
-  { 86, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 4 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 4 },
+  { 84, 2 },
+  { 84, 3 },
+  { 84, 3 },
+  { 84, 4 },
+  { 84, 5 },
+  { 84, 5 },
+  { 84, 5 },
+  { 84, 6 },
   { 86, 1 },
-  { 87, 1 },
+  { 86, 1 },
+  { 85, 3 },
+  { 85, 1 },
   { 87, 3 },
-  { 81, 1 },
-  { 81, 1 },
-  { 81, 1 },
-  { 81, 1 },
-  { 81, 1 },
-  { 81, 1 },
-  { 81, 1 },
+  { 87, 1 },
+  { 84, 1 },
+  { 88, 4 },
+  { 88, 3 },
+  { 89, 3 },
+  { 89, 1 },
+  { 90, 1 },
+  { 90, 3 },
+  { 84, 1 },
+  { 84, 1 },
+  { 84, 1 },
+  { 84, 1 },
+  { 84, 1 },
+  { 84, 1 },
+  { 84, 1 },
 };
 
 static void kk_accept(kkParser*);  /* Forward Declaration */
@@ -52931,11 +53326,11 @@ static void kk_reduce(
   **     break;
   */
       case 0:
-// 526 "parser.lemon"
+// 548 "parser.lemon"
 {
-	status->ret = kkmsp[0].minor.kk24;
+	status->ret = kkmsp[0].minor.kk176;
 }
-// 1542 "parser.c"
+// 1612 "parser.c"
         break;
       case 1:
       case 4:
@@ -52953,643 +53348,688 @@ static void kk_reduce(
       case 16:
       case 17:
       case 18:
-      case 77:
-// 530 "parser.lemon"
+      case 19:
+      case 83:
+// 552 "parser.lemon"
 {
-	kkgotominor.kk24 = kkmsp[0].minor.kk24;
+	kkgotominor.kk176 = kkmsp[0].minor.kk176;
 }
-// 1565 "parser.c"
+// 1636 "parser.c"
         break;
       case 2:
-// 536 "parser.lemon"
+// 558 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_zval_list(kkmsp[-1].minor.kk24, kkmsp[0].minor.kk24);
+	kkgotominor.kk176 = phvolt_ret_zval_list(kkmsp[-1].minor.kk176, kkmsp[0].minor.kk176);
 }
-// 1572 "parser.c"
+// 1643 "parser.c"
         break;
       case 3:
-      case 74:
-      case 81:
-// 540 "parser.lemon"
+      case 80:
+      case 87:
+// 562 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_zval_list(NULL, kkmsp[0].minor.kk24);
+	kkgotominor.kk176 = phvolt_ret_zval_list(NULL, kkmsp[0].minor.kk176);
 }
-// 1581 "parser.c"
-        break;
-      case 19:
-// 608 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_if_statement(kkmsp[-5].minor.kk24, kkmsp[-3].minor.kk24, NULL, status->scanner_state);
-  kk_destructor(26,&kkmsp[-7].minor);
-  kk_destructor(27,&kkmsp[-6].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(29,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
-}
-// 1594 "parser.c"
+// 1652 "parser.c"
         break;
       case 20:
-// 612 "parser.lemon"
+// 634 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_if_statement(kkmsp[-9].minor.kk24, kkmsp[-7].minor.kk24, kkmsp[-3].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-11].minor);
-  kk_destructor(27,&kkmsp[-10].minor);
-  kk_destructor(28,&kkmsp[-8].minor);
-  kk_destructor(26,&kkmsp[-6].minor);
-  kk_destructor(30,&kkmsp[-5].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(29,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_if_statement(kkmsp[-5].minor.kk176, kkmsp[-3].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(1,&kkmsp[-7].minor);
+  kk_destructor(29,&kkmsp[-6].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(31,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1610 "parser.c"
+// 1665 "parser.c"
         break;
       case 21:
-// 618 "parser.lemon"
+// 638 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_elseif_statement(kkmsp[-1].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-3].minor);
-  kk_destructor(31,&kkmsp[-2].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_if_statement(kkmsp[-9].minor.kk176, kkmsp[-7].minor.kk176, kkmsp[-3].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-11].minor);
+  kk_destructor(29,&kkmsp[-10].minor);
+  kk_destructor(30,&kkmsp[-8].minor);
+  kk_destructor(1,&kkmsp[-6].minor);
+  kk_destructor(32,&kkmsp[-5].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(31,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1620 "parser.c"
+// 1681 "parser.c"
         break;
       case 22:
-// 624 "parser.lemon"
+// 644 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, NULL, kkmsp[-5].minor.kk24, NULL, kkmsp[-3].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-9].minor);
-  kk_destructor(32,&kkmsp[-8].minor);
-  kk_destructor(34,&kkmsp[-6].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(35,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
-}
-// 1634 "parser.c"
-        break;
-      case 23:
-// 628 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, NULL, kkmsp[-7].minor.kk24, kkmsp[-5].minor.kk24, kkmsp[-3].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-11].minor);
-  kk_destructor(32,&kkmsp[-10].minor);
-  kk_destructor(34,&kkmsp[-8].minor);
-  kk_destructor(27,&kkmsp[-6].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(35,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
-}
-// 1649 "parser.c"
-        break;
-      case 24:
-// 632 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, kkmsp[-9].minor.kk0, kkmsp[-5].minor.kk24, NULL, kkmsp[-3].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-11].minor);
-  kk_destructor(32,&kkmsp[-10].minor);
-  kk_destructor(1,&kkmsp[-8].minor);
-  kk_destructor(34,&kkmsp[-6].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(35,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
-}
-// 1664 "parser.c"
-        break;
-      case 25:
-// 636 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, kkmsp[-11].minor.kk0, kkmsp[-7].minor.kk24, kkmsp[-5].minor.kk24, kkmsp[-3].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-13].minor);
-  kk_destructor(32,&kkmsp[-12].minor);
-  kk_destructor(1,&kkmsp[-10].minor);
-  kk_destructor(34,&kkmsp[-8].minor);
-  kk_destructor(27,&kkmsp[-6].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(35,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
-}
-// 1680 "parser.c"
-        break;
-      case 26:
-// 642 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_set_statement(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-5].minor);
-  kk_destructor(36,&kkmsp[-4].minor);
-  kk_destructor(37,&kkmsp[-2].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_elseif_statement(kkmsp[-1].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-3].minor);
+  kk_destructor(33,&kkmsp[-2].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
 // 1691 "parser.c"
         break;
-      case 27:
-// 648 "parser.lemon"
+      case 23:
+// 650 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_empty_statement(status->scanner_state);
-  kk_destructor(26,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_elsefor_statement(status->scanner_state);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(34,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1700 "parser.c"
+// 1701 "parser.c"
         break;
-      case 28:
-// 654 "parser.lemon"
+      case 24:
+// 656 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk24, status->scanner_state);
-  kk_destructor(38,&kkmsp[-2].minor);
-  kk_destructor(39,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, NULL, kkmsp[-5].minor.kk176, NULL, kkmsp[-3].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-9].minor);
+  kk_destructor(35,&kkmsp[-8].minor);
+  kk_destructor(3,&kkmsp[-6].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(37,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1709 "parser.c"
+// 1715 "parser.c"
         break;
-      case 29:
+      case 25:
 // 660 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-7].minor);
-  kk_destructor(40,&kkmsp[-6].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(41,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, NULL, kkmsp[-7].minor.kk176, kkmsp[-5].minor.kk176, kkmsp[-3].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-11].minor);
+  kk_destructor(35,&kkmsp[-10].minor);
+  kk_destructor(3,&kkmsp[-8].minor);
+  kk_destructor(29,&kkmsp[-6].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(37,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1722 "parser.c"
+// 1730 "parser.c"
         break;
-      case 30:
+      case 26:
 // 664 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL, status->scanner_state);
-  kk_destructor(26,&kkmsp[-6].minor);
-  kk_destructor(40,&kkmsp[-5].minor);
-  kk_destructor(28,&kkmsp[-3].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(41,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, kkmsp[-9].minor.kk0, kkmsp[-5].minor.kk176, NULL, kkmsp[-3].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-11].minor);
+  kk_destructor(35,&kkmsp[-10].minor);
+  kk_destructor(2,&kkmsp[-8].minor);
+  kk_destructor(3,&kkmsp[-6].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(37,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1735 "parser.c"
+// 1745 "parser.c"
         break;
-      case 31:
-// 670 "parser.lemon"
+      case 27:
+// 668 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_cache_statement(kkmsp[-5].minor.kk24, NULL, kkmsp[-3].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-7].minor);
-  kk_destructor(42,&kkmsp[-6].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(43,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
-}
-// 1748 "parser.c"
-        break;
-      case 32:
-// 674 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_cache_statement(kkmsp[-6].minor.kk24, kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-8].minor);
-  kk_destructor(42,&kkmsp[-7].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(43,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, kkmsp[-11].minor.kk0, kkmsp[-7].minor.kk176, kkmsp[-5].minor.kk176, kkmsp[-3].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-13].minor);
+  kk_destructor(35,&kkmsp[-12].minor);
+  kk_destructor(2,&kkmsp[-10].minor);
+  kk_destructor(3,&kkmsp[-8].minor);
+  kk_destructor(29,&kkmsp[-6].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(37,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
 // 1761 "parser.c"
         break;
-      case 33:
+      case 28:
+// 674 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_set_statement(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-5].minor);
+  kk_destructor(38,&kkmsp[-4].minor);
+  kk_destructor(39,&kkmsp[-2].minor);
+  kk_destructor(30,&kkmsp[0].minor);
+}
+// 1772 "parser.c"
+        break;
+      case 29:
 // 680 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0, status->scanner_state);
-  kk_destructor(26,&kkmsp[-3].minor);
-  kk_destructor(45,&kkmsp[-2].minor);
-  kk_destructor(28,&kkmsp[0].minor);
-}
-// 1771 "parser.c"
-        break;
-      case 34:
-// 686 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_include_statement(kkmsp[-1].minor.kk0, status->scanner_state);
-  kk_destructor(26,&kkmsp[-3].minor);
-  kk_destructor(47,&kkmsp[-2].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_empty_statement(status->scanner_state);
+  kk_destructor(1,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
 // 1781 "parser.c"
         break;
-      case 35:
+      case 30:
+// 686 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk176, status->scanner_state);
+  kk_destructor(40,&kkmsp[-2].minor);
+  kk_destructor(41,&kkmsp[0].minor);
+}
+// 1790 "parser.c"
+        break;
+      case 31:
 // 692 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_do_statement(kkmsp[-1].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-3].minor);
-  kk_destructor(48,&kkmsp[-2].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-7].minor);
+  kk_destructor(42,&kkmsp[-6].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(43,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1791 "parser.c"
+// 1803 "parser.c"
         break;
-      case 36:
-// 698 "parser.lemon"
+      case 32:
+// 696 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_autoescape_statement(0, kkmsp[-3].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-7].minor);
-  kk_destructor(49,&kkmsp[-6].minor);
-  kk_destructor(50,&kkmsp[-5].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(51,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL, status->scanner_state);
+  kk_destructor(1,&kkmsp[-6].minor);
+  kk_destructor(42,&kkmsp[-5].minor);
+  kk_destructor(30,&kkmsp[-3].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(43,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1805 "parser.c"
+// 1816 "parser.c"
         break;
-      case 37:
+      case 33:
 // 702 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_autoescape_statement(1, kkmsp[-3].minor.kk24, status->scanner_state);
-  kk_destructor(26,&kkmsp[-7].minor);
-  kk_destructor(49,&kkmsp[-6].minor);
-  kk_destructor(52,&kkmsp[-5].minor);
-  kk_destructor(28,&kkmsp[-4].minor);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(51,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
-}
-// 1819 "parser.c"
-        break;
-      case 38:
-// 708 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_break_statement(status->scanner_state);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(53,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_cache_statement(kkmsp[-5].minor.kk176, NULL, kkmsp[-3].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-7].minor);
+  kk_destructor(44,&kkmsp[-6].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(45,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
 // 1829 "parser.c"
         break;
-      case 39:
-// 714 "parser.lemon"
+      case 34:
+// 706 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_continue_statement(status->scanner_state);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(54,&kkmsp[-1].minor);
-  kk_destructor(28,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_cache_statement(kkmsp[-6].minor.kk176, kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-8].minor);
+  kk_destructor(44,&kkmsp[-7].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(45,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1839 "parser.c"
+// 1842 "parser.c"
         break;
-      case 40:
-// 720 "parser.lemon"
+      case 35:
+// 712 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0, status->scanner_state);
+	kkgotominor.kk176 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0, status->scanner_state);
+  kk_destructor(1,&kkmsp[-3].minor);
+  kk_destructor(47,&kkmsp[-2].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1846 "parser.c"
+// 1852 "parser.c"
         break;
-      case 41:
-// 726 "parser.lemon"
+      case 36:
+// 718 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(20,&kkmsp[-1].minor);
-}
-// 1854 "parser.c"
-        break;
-      case 42:
-// 730 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(20,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_include_statement(kkmsp[-1].minor.kk0, status->scanner_state);
+  kk_destructor(1,&kkmsp[-3].minor);
+  kk_destructor(49,&kkmsp[-2].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
 // 1862 "parser.c"
         break;
-      case 43:
-// 734 "parser.lemon"
+      case 37:
+// 724 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(19,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_do_statement(kkmsp[-1].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-3].minor);
+  kk_destructor(50,&kkmsp[-2].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1870 "parser.c"
+// 1872 "parser.c"
         break;
-      case 44:
-// 738 "parser.lemon"
+      case 38:
+// 730 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(17,&kkmsp[-1].minor);
-}
-// 1878 "parser.c"
-        break;
-      case 45:
-// 742 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(16,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_autoescape_statement(0, kkmsp[-3].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-7].minor);
+  kk_destructor(51,&kkmsp[-6].minor);
+  kk_destructor(52,&kkmsp[-5].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(53,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
 // 1886 "parser.c"
         break;
-      case 46:
-// 746 "parser.lemon"
+      case 39:
+// 734 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(18,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_autoescape_statement(1, kkmsp[-3].minor.kk176, status->scanner_state);
+  kk_destructor(1,&kkmsp[-7].minor);
+  kk_destructor(51,&kkmsp[-6].minor);
+  kk_destructor(54,&kkmsp[-5].minor);
+  kk_destructor(30,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(53,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
-// 1894 "parser.c"
+// 1900 "parser.c"
         break;
-      case 47:
-// 750 "parser.lemon"
+      case 40:
+// 740 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(5,&kkmsp[-1].minor);
-}
-// 1902 "parser.c"
-        break;
-      case 48:
-// 754 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(6,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_break_statement(status->scanner_state);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(55,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
 }
 // 1910 "parser.c"
         break;
-      case 49:
+      case 41:
+// 746 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_continue_statement(status->scanner_state);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(56,&kkmsp[-1].minor);
+  kk_destructor(30,&kkmsp[0].minor);
+}
+// 1920 "parser.c"
+        break;
+      case 42:
+// 752 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 1927 "parser.c"
+        break;
+      case 43:
 // 758 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(21,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(23,&kkmsp[-1].minor);
 }
-// 1918 "parser.c"
+// 1935 "parser.c"
         break;
-      case 50:
+      case 44:
 // 762 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_PLUS, NULL, kkmsp[0].minor.kk176, NULL, status->scanner_state);
   kk_destructor(22,&kkmsp[-1].minor);
 }
-// 1926 "parser.c"
+// 1943 "parser.c"
         break;
-      case 51:
+      case 45:
 // 766 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(4,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(23,&kkmsp[-1].minor);
 }
-// 1934 "parser.c"
+// 1951 "parser.c"
         break;
-      case 52:
+      case 46:
 // 770 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(8,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(22,&kkmsp[-1].minor);
 }
-// 1942 "parser.c"
+// 1959 "parser.c"
         break;
-      case 53:
+      case 47:
 // 774 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk24, NULL, status->scanner_state);
-  kk_destructor(7,&kkmsp[-2].minor);
-  kk_destructor(24,&kkmsp[-1].minor);
-  kk_destructor(56,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(20,&kkmsp[-1].minor);
 }
-// 1952 "parser.c"
+// 1967 "parser.c"
         break;
-      case 54:
+      case 48:
 // 778 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk24, NULL, status->scanner_state);
-  kk_destructor(7,&kkmsp[-1].minor);
-  kk_destructor(56,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(19,&kkmsp[-1].minor);
 }
-// 1961 "parser.c"
+// 1975 "parser.c"
         break;
-      case 55:
+      case 49:
 // 782 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_IS, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(7,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(21,&kkmsp[-1].minor);
 }
-// 1969 "parser.c"
+// 1983 "parser.c"
         break;
-      case 56:
+      case 50:
 // 786 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(9,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(8,&kkmsp[-1].minor);
 }
-// 1977 "parser.c"
+// 1991 "parser.c"
         break;
-      case 57:
+      case 51:
 // 790 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(14,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(9,&kkmsp[-1].minor);
 }
-// 1985 "parser.c"
+// 1999 "parser.c"
         break;
-      case 58:
+      case 52:
 // 794 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(15,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(24,&kkmsp[-1].minor);
 }
-// 1993 "parser.c"
+// 2007 "parser.c"
         break;
-      case 59:
+      case 53:
 // 798 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(10,&kkmsp[-1].minor);
-}
-// 2001 "parser.c"
-        break;
-      case 60:
-// 802 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(11,&kkmsp[-1].minor);
-}
-// 2009 "parser.c"
-        break;
-      case 61:
-// 806 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(12,&kkmsp[-1].minor);
-}
-// 2017 "parser.c"
-        break;
-      case 62:
-// 810 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(13,&kkmsp[-1].minor);
-}
-// 2025 "parser.c"
-        break;
-      case 63:
-// 814 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_DOT, kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24, status->scanner_state);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
   kk_destructor(25,&kkmsp[-1].minor);
 }
-// 2033 "parser.c"
+// 2015 "parser.c"
         break;
-      case 64:
-// 818 "parser.lemon"
+      case 54:
+// 802 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(24,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(7,&kkmsp[-1].minor);
+}
+// 2023 "parser.c"
+        break;
+      case 55:
+// 806 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(11,&kkmsp[-1].minor);
+}
+// 2031 "parser.c"
+        break;
+      case 56:
+// 810 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk176, NULL, NULL, status->scanner_state);
+  kk_destructor(10,&kkmsp[-2].minor);
+  kk_destructor(27,&kkmsp[-1].minor);
+  kk_destructor(58,&kkmsp[0].minor);
 }
 // 2041 "parser.c"
         break;
-      case 65:
-// 822 "parser.lemon"
+      case 57:
+// 814 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk24, NULL, status->scanner_state);
-  kk_destructor(23,&kkmsp[-2].minor);
-  kk_destructor(57,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk176, NULL, NULL, status->scanner_state);
+  kk_destructor(10,&kkmsp[-1].minor);
+  kk_destructor(58,&kkmsp[0].minor);
 }
 // 2050 "parser.c"
         break;
-      case 66:
+      case 58:
+// 818 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_IS, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(10,&kkmsp[-1].minor);
+}
+// 2058 "parser.c"
+        break;
+      case 59:
+// 822 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(12,&kkmsp[-1].minor);
+}
+// 2066 "parser.c"
+        break;
+      case 60:
 // 826 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk24, NULL, status->scanner_state);
-  kk_destructor(3,&kkmsp[-2].minor);
-  kk_destructor(58,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(17,&kkmsp[-1].minor);
 }
-// 2059 "parser.c"
+// 2074 "parser.c"
         break;
-      case 67:
+      case 61:
 // 830 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk24, kkmsp[-1].minor.kk24, status->scanner_state);
-  kk_destructor(3,&kkmsp[-2].minor);
-  kk_destructor(58,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(18,&kkmsp[-1].minor);
 }
-// 2068 "parser.c"
+// 2082 "parser.c"
         break;
-      case 68:
+      case 62:
 // 834 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_slice(kkmsp[-4].minor.kk24, NULL, kkmsp[-1].minor.kk24, status->scanner_state);
-  kk_destructor(3,&kkmsp[-3].minor);
-  kk_destructor(2,&kkmsp[-2].minor);
-  kk_destructor(58,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(13,&kkmsp[-1].minor);
 }
-// 2078 "parser.c"
+// 2090 "parser.c"
         break;
-      case 69:
+      case 63:
 // 838 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_slice(kkmsp[-4].minor.kk24, kkmsp[-2].minor.kk24, NULL, status->scanner_state);
-  kk_destructor(3,&kkmsp[-3].minor);
-  kk_destructor(2,&kkmsp[-1].minor);
-  kk_destructor(58,&kkmsp[0].minor);
-}
-// 2088 "parser.c"
-        break;
-      case 70:
-// 842 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_slice(kkmsp[-5].minor.kk24, kkmsp[-3].minor.kk24, kkmsp[-1].minor.kk24, status->scanner_state);
-  kk_destructor(3,&kkmsp[-4].minor);
-  kk_destructor(2,&kkmsp[-2].minor);
-  kk_destructor(58,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(14,&kkmsp[-1].minor);
 }
 // 2098 "parser.c"
         break;
-      case 71:
-      case 85:
-// 848 "parser.lemon"
+      case 64:
+// 842 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0, status->scanner_state);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(15,&kkmsp[-1].minor);
 }
 // 2106 "parser.c"
         break;
-      case 72:
-      case 84:
-// 852 "parser.lemon"
+      case 65:
+// 846 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, kkmsp[0].minor.kk0, status->scanner_state);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(16,&kkmsp[-1].minor);
 }
 // 2114 "parser.c"
         break;
-      case 73:
-      case 80:
+      case 66:
+// 850 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_DOT, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(28,&kkmsp[-1].minor);
+}
+// 2122 "parser.c"
+        break;
+      case 67:
+// 854 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_IN, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(3,&kkmsp[-1].minor);
+}
+// 2130 "parser.c"
+        break;
+      case 68:
 // 858 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_zval_list(kkmsp[-2].minor.kk24, kkmsp[0].minor.kk24);
-  kk_destructor(1,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_NOT_IN, kkmsp[-3].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(27,&kkmsp[-2].minor);
+  kk_destructor(3,&kkmsp[-1].minor);
 }
-// 2123 "parser.c"
+// 2139 "parser.c"
         break;
-      case 75:
-      case 83:
-// 868 "parser.lemon"
+      case 69:
+// 862 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk24, status->scanner_state);
-  kk_destructor(2,&kkmsp[-1].minor);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(27,&kkmsp[-1].minor);
 }
-// 2132 "parser.c"
+// 2147 "parser.c"
         break;
-      case 76:
-      case 82:
-// 872 "parser.lemon"
+      case 70:
+// 866 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk24, status->scanner_state);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk176, NULL, NULL, status->scanner_state);
+  kk_destructor(26,&kkmsp[-2].minor);
+  kk_destructor(59,&kkmsp[0].minor);
 }
-// 2140 "parser.c"
+// 2156 "parser.c"
         break;
-      case 78:
-// 882 "parser.lemon"
+      case 71:
+// 870 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_func_call(kkmsp[-3].minor.kk24, kkmsp[-1].minor.kk24, status->scanner_state);
-  kk_destructor(23,&kkmsp[-2].minor);
-  kk_destructor(57,&kkmsp[0].minor);
-}
-// 2149 "parser.c"
-        break;
-      case 79:
-// 886 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_func_call(kkmsp[-2].minor.kk24, NULL, status->scanner_state);
-  kk_destructor(23,&kkmsp[-1].minor);
-  kk_destructor(57,&kkmsp[0].minor);
-}
-// 2158 "parser.c"
-        break;
-      case 86:
-// 918 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0, status->scanner_state);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk176, NULL, NULL, status->scanner_state);
+  kk_destructor(6,&kkmsp[-2].minor);
+  kk_destructor(60,&kkmsp[0].minor);
 }
 // 2165 "parser.c"
         break;
-      case 87:
-// 922 "parser.lemon"
+      case 72:
+// 874 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0, status->scanner_state);
-}
-// 2172 "parser.c"
-        break;
-      case 88:
-// 926 "parser.lemon"
-{
-	kkgotominor.kk24 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL, status->scanner_state);
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk176, kkmsp[-1].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(6,&kkmsp[-2].minor);
   kk_destructor(60,&kkmsp[0].minor);
 }
-// 2180 "parser.c"
+// 2174 "parser.c"
         break;
+      case 73:
+// 878 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_TERNARY, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, kkmsp[-4].minor.kk176, status->scanner_state);
+  kk_destructor(4,&kkmsp[-3].minor);
+  kk_destructor(5,&kkmsp[-1].minor);
+}
+// 2183 "parser.c"
+        break;
+      case 74:
+// 882 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_slice(kkmsp[-4].minor.kk176, NULL, kkmsp[-1].minor.kk176, status->scanner_state);
+  kk_destructor(6,&kkmsp[-3].minor);
+  kk_destructor(5,&kkmsp[-2].minor);
+  kk_destructor(60,&kkmsp[0].minor);
+}
+// 2193 "parser.c"
+        break;
+      case 75:
+// 886 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_slice(kkmsp[-4].minor.kk176, kkmsp[-2].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(6,&kkmsp[-3].minor);
+  kk_destructor(5,&kkmsp[-1].minor);
+  kk_destructor(60,&kkmsp[0].minor);
+}
+// 2203 "parser.c"
+        break;
+      case 76:
+// 890 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_slice(kkmsp[-5].minor.kk176, kkmsp[-3].minor.kk176, kkmsp[-1].minor.kk176, status->scanner_state);
+  kk_destructor(6,&kkmsp[-4].minor);
+  kk_destructor(5,&kkmsp[-2].minor);
+  kk_destructor(60,&kkmsp[0].minor);
+}
+// 2213 "parser.c"
+        break;
+      case 77:
+      case 91:
+// 896 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 2221 "parser.c"
+        break;
+      case 78:
+      case 90:
+// 900 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 2229 "parser.c"
+        break;
+      case 79:
+      case 86:
+// 906 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_zval_list(kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176);
+  kk_destructor(2,&kkmsp[-1].minor);
+}
+// 2238 "parser.c"
+        break;
+      case 81:
       case 89:
+// 916 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk176, status->scanner_state);
+  kk_destructor(5,&kkmsp[-1].minor);
+}
+// 2247 "parser.c"
+        break;
+      case 82:
+      case 88:
+// 920 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk176, status->scanner_state);
+}
+// 2255 "parser.c"
+        break;
+      case 84:
 // 930 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL, status->scanner_state);
-  kk_destructor(50,&kkmsp[0].minor);
+	kkgotominor.kk176 = phvolt_ret_func_call(kkmsp[-3].minor.kk176, kkmsp[-1].minor.kk176, status->scanner_state);
+  kk_destructor(26,&kkmsp[-2].minor);
+  kk_destructor(59,&kkmsp[0].minor);
 }
-// 2188 "parser.c"
+// 2264 "parser.c"
         break;
-      case 90:
+      case 85:
 // 934 "parser.lemon"
 {
-	kkgotominor.kk24 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL, status->scanner_state);
+	kkgotominor.kk176 = phvolt_ret_func_call(kkmsp[-2].minor.kk176, NULL, status->scanner_state);
+  kk_destructor(26,&kkmsp[-1].minor);
+  kk_destructor(59,&kkmsp[0].minor);
+}
+// 2273 "parser.c"
+        break;
+      case 92:
+// 966 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 2280 "parser.c"
+        break;
+      case 93:
+// 970 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 2287 "parser.c"
+        break;
+      case 94:
+// 974 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL, status->scanner_state);
+  kk_destructor(62,&kkmsp[0].minor);
+}
+// 2295 "parser.c"
+        break;
+      case 95:
+// 978 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL, status->scanner_state);
   kk_destructor(52,&kkmsp[0].minor);
 }
-// 2196 "parser.c"
+// 2303 "parser.c"
+        break;
+      case 96:
+// 982 "parser.lemon"
+{
+	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL, status->scanner_state);
+  kk_destructor(54,&kkmsp[0].minor);
+}
+// 2311 "parser.c"
         break;
   };
   kkgoto = kkRuleInfo[kkruleno].lhs;
@@ -53625,7 +54065,7 @@ static void kk_syntax_error(
 ){
   phvolt_ARG_FETCH;
 #define KTOKEN (kkminor.kk0)
-// 471 "parser.lemon"
+// 493 "parser.lemon"
 
 	if (status->scanner_state->start_length) {
 		{
@@ -53671,7 +54111,7 @@ static void kk_syntax_error(
 
 	status->status = PHVOLT_PARSING_FAILED;
 
-// 2284 "parser.c"
+// 2399 "parser.c"
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -53866,6 +54306,7 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_NOT,           	"NOT" },
   { PHVOLT_T_RANGE,           	"RANGE" },
   { PHVOLT_T_COLON,       		"COLON" },
+  { PHVOLT_T_QUESTION,       	"QUESTION MARK" },
   { PHVOLT_T_LESS,          	"<" },
   { PHVOLT_T_LESSEQUAL,     	"<=" },
   { PHVOLT_T_GREATER,       	">" },
@@ -54041,6 +54482,9 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->extends_mode = 0;
 	state->block_level = 0;
 	state->start_length = 0;
+	state->if_level = 0;
+	state->for_level = 0;
+	state->whitespace_control = 0;
 
 	state->end = state->start;
 
@@ -54124,6 +54568,9 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			case PHVOLT_T_COLON:
 				phvolt_(phvolt_parser, PHVOLT_COLON, NULL, parser_status);
 				break;
+			case PHVOLT_T_QUESTION:
+				phvolt_(phvolt_parser, PHVOLT_QUESTION, NULL, parser_status);
+				break;
 
 			case PHVOLT_T_BRACKET_OPEN:
 				phvolt_(phvolt_parser, PHVOLT_BRACKET_OPEN, NULL, parser_status);
@@ -54146,7 +54593,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 
 			case PHVOLT_T_OPEN_EDELIMITER:
-				if (state->extends_mode == 1 && state->block_level == 0){
+				if (state->extends_mode == 1 && state->block_level == 0) {
 					phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
@@ -54186,18 +54633,29 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				} else {
+					state->if_level++;
 					state->block_level++;
 				}
 				phvolt_(phvolt_parser, PHVOLT_IF, NULL, parser_status);
 				break;
 			case PHVOLT_T_ELSE:
-				phvolt_(phvolt_parser, PHVOLT_ELSE, NULL, parser_status);
+				if (state->if_level == 0 && state->for_level > 0) {
+					phvolt_(phvolt_parser, PHVOLT_ELSEFOR, NULL, parser_status);
+				} else {
+					phvolt_(phvolt_parser, PHVOLT_ELSE, NULL, parser_status);
+				}
 				break;
 			case PHVOLT_T_ELSEIF:
+				if (state->if_level == 0) {
+					phvolt_create_error_msg(parser_status, "Unexpected ENDIF");
+					parser_status->status = PHVOLT_PARSING_FAILED;
+					break;
+				}
 				phvolt_(phvolt_parser, PHVOLT_ELSEIF, NULL, parser_status);
 				break;
 			case PHVOLT_T_ENDIF:
 				state->block_level--;
+				state->if_level--;
 				phvolt_(phvolt_parser, PHVOLT_ENDIF, NULL, parser_status);
 				break;
 
@@ -54207,6 +54665,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				} else {
+					state->for_level++;
 					state->block_level++;
 				}
 				phvolt_(phvolt_parser, PHVOLT_FOR, NULL, parser_status);
@@ -54216,23 +54675,28 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 			case PHVOLT_T_ENDFOR:
 				state->block_level--;
+				state->for_level--;
 				phvolt_(phvolt_parser, PHVOLT_ENDFOR, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_RAW_FRAGMENT:
-				if (state->extends_mode == 1 && state->block_level == 0){
-					if(!phvolt_is_blank_string(&token)){
-						phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
-						parser_status->status = PHVOLT_PARSING_FAILED;
+				if (token.len > 0) {
+					if (state->extends_mode == 1 && state->block_level == 0){
+						if(!phvolt_is_blank_string(&token)){
+							phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
+							parser_status->status = PHVOLT_PARSING_FAILED;
+						}
+						efree(token.value);
+						break;
+					} else {
+						if (!phvolt_is_blank_string(&token)) {
+							state->statement_position++;
+						}
 					}
-					efree(token.value);
-					break;
+					phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, &token, parser_status);
 				} else {
-					if(!phvolt_is_blank_string(&token)){
-						state->statement_position++;
-					}
+					efree(token.value);
 				}
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, &token, parser_status);
 				break;
 
 			case PHVOLT_T_SET:
@@ -54248,7 +54712,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 
 			case PHVOLT_T_BLOCK:
-				if(state->block_level > 0){
+				if (state->block_level > 0) {
 					phvolt_create_error_msg(parser_status, "Embedding blocks into other blocks is not supported");
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
@@ -54377,7 +54841,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	return status;
 }
 
-/* Generated by re2c 0.13.5 on Tue Jan 22 20:36:59 2013 */
+/* Generated by re2c 0.13.5 on Mon Feb 11 04:05:30 2013 */
 // 1 "scanner.re"
 
 
@@ -54391,20 +54855,89 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 #define KKLIMIT (s->end)
 #define KKMARKER q
 
+void phvolt_rtrim(phvolt_scanner_token *token) {
+
+	char *cursor, *removed_str;
+	unsigned int i;
+	unsigned char ch;
+
+	if (token->len > 0) {
+
+		cursor = token->value;
+		cursor += (token->len - 1);
+		for (i = token->len; i > 0; i--) {
+			ch = (*cursor);
+			if (ch == '\t' || ch == '\n' || ch == '\r' || ch == ' ' || ch == 11) {
+				cursor--;
+				continue;
+			}
+			break;
+		}
+
+		removed_str = emalloc(i + 1);
+		memcpy(removed_str, token->value, i);
+		removed_str[i] = '\0';
+
+		efree(token->value);
+		token->value = removed_str;
+		token->len = i;
+	}
+
+}
+
+void phvolt_ltrim(phvolt_scanner_token *token) {
+
+	char *cursor, *removed_str;
+	unsigned int i;
+	unsigned char ch;
+
+	if (token->len > 0) {
+
+		cursor = token->value;
+		for (i = 0; i < token->len; i++) {
+			ch = (*cursor);
+			if (ch == '\t' || ch == '\n' || ch == '\r' || ch == ' ' || ch == 11) {
+				cursor++;
+				continue;
+			}
+			break;
+		}
+
+		removed_str = emalloc(token->len - i + 1);
+		memcpy(removed_str, token->value + i, token->len - i);
+		removed_str[token->len - i] = '\0';
+
+		efree(token->value);
+		token->value = removed_str;
+		token->len = token->len - i;
+	}
+
+}
+
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
-	char next, *q = KKCURSOR, *start = KKCURSOR;
+	unsigned char next, double_next;
+	char *q = KKCURSOR, *start = KKCURSOR;
 	int status = PHVOLT_SCANNER_RETCODE_IMPOSSIBLE;
 
 	while (PHVOLT_SCANNER_RETCODE_IMPOSSIBLE == status) {
 
 		if (s->mode == PHVOLT_MODE_RAW || s->mode == PHVOLT_MODE_COMMENT) {
 
+			next = '\0';
+			double_next = '\0';
+
 			if (*KKCURSOR == '\n') {
 				s->active_line++;
 			}
 
-			next = *(KKCURSOR+1);
+			if (*KKCURSOR != '\0') {
+				next = *(KKCURSOR + 1);
+				if (next != '\0') {
+					double_next = *(KKCURSOR + 2);
+				}
+			}
+
 			if (*KKCURSOR == '\0' || (*KKCURSOR == '{' && (next == '%' || next == '{' || next == '#'))) {
 
 				if (next != '#') {
@@ -54412,11 +54945,22 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 					s->mode = PHVOLT_MODE_CODE;
 
 					if (s->raw_buffer_cursor > 0) {
+
 						token->opcode = PHVOLT_T_RAW_FRAGMENT;
-						token->value = emalloc(sizeof(char) * s->raw_buffer_cursor+1);
+						token->value = emalloc(sizeof(char) * s->raw_buffer_cursor + 1);
 						memcpy(token->value, s->raw_buffer, s->raw_buffer_cursor);
 						token->value[s->raw_buffer_cursor] = 0;
 						token->len = s->raw_buffer_cursor;
+
+						if (s->whitespace_control == 1) {
+							phvolt_ltrim(token);
+							s->whitespace_control = 0;
+						}
+
+						if (double_next == '-') {
+							phvolt_rtrim(token);
+						}
+
 						s->raw_buffer_cursor = 0;
 						q = KKCURSOR;
 					} else {
@@ -54426,7 +54970,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 				} else {
 
 					while ((next = *(++KKCURSOR))) {
-						if (next == '#' && *(KKCURSOR+1) == '}') {
+						if (next == '#' && *(KKCURSOR + 1) == '}') {
 							KKCURSOR+=2;
 							token->opcode = PHVOLT_T_IGNORE;
 							return 0;
@@ -54458,28 +55002,28 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		} else {
 
 		
-// 104 "scanner.c"
+// 184 "scanner.c"
 		{
 			KKCTYPE kkch;
 			unsigned int kkaccept = 0;
 
 			kkch = *KKCURSOR;
 			switch (kkch) {
-			case 0x00:	goto kk63;
+			case 0x00:	goto kk65;
 			case '\t':
 			case '\r':
-			case ' ':	goto kk59;
-			case '\n':	goto kk61;
+			case ' ':	goto kk61;
+			case '\n':	goto kk63;
 			case '!':	goto kk53;
-			case '"':	goto kk21;
+			case '"':	goto kk23;
 			case '%':	goto kk18;
-			case '\'':	goto kk22;
+			case '\'':	goto kk24;
 			case '(':	goto kk39;
 			case ')':	goto kk41;
 			case '*':	goto kk29;
-			case '+':	goto kk25;
+			case '+':	goto kk27;
 			case ',':	goto kk37;
-			case '-':	goto kk27;
+			case '-':	goto kk20;
 			case '.':	goto kk35;
 			case '/':	goto kk31;
 			case '0':
@@ -54496,6 +55040,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			case '<':	goto kk47;
 			case '=':	goto kk49;
 			case '>':	goto kk51;
+			case '?':	goto kk59;
 			case 'A':
 			case 'a':	goto kk11;
 			case 'B':
@@ -54537,7 +55082,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk24;
+			case 'z':	goto kk26;
 			case 'I':
 			case 'i':	goto kk4;
 			case 'N':
@@ -54549,20 +55094,20 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			case 'T':
 			case 't':	goto kk10;
 			case '[':	goto kk43;
-			case '\\':	goto kk23;
+			case '\\':	goto kk25;
 			case ']':	goto kk45;
 			case '{':	goto kk16;
 			case '|':	goto kk55;
-			case '}':	goto kk20;
+			case '}':	goto kk22;
 			case '~':	goto kk33;
-			default:	goto kk65;
+			default:	goto kk67;
 			}
 kk2:
 			kkaccept = 0;
 			kkch = *(KKMARKER = ++KKCURSOR);
-			goto kk232;
+			goto kk244;
 kk3:
-// 105 "scanner.re"
+// 185 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_INTEGER;
 			token->value = estrndup(start, KKCURSOR - start);
@@ -54570,20 +55115,20 @@ kk3:
 			q = KKCURSOR;
 			return 0;
 		}
-// 216 "scanner.c"
+// 297 "scanner.c"
 kk4:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case 'F':
-			case 'f':	goto kk218;
+			case 'f':	goto kk230;
 			case 'N':
-			case 'n':	goto kk220;
+			case 'n':	goto kk232;
 			case 'S':
-			case 's':	goto kk222;
-			default:	goto kk85;
+			case 's':	goto kk234;
+			default:	goto kk87;
 			}
 kk5:
-// 304 "scanner.re"
+// 413 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IDENTIFIER;
 			token->value = estrndup(start, KKCURSOR - start);
@@ -54591,137 +55136,152 @@ kk5:
 			q = KKCURSOR;
 			return 0;
 		}
-// 237 "scanner.c"
+// 318 "scanner.c"
 kk6:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
-			case 'l':	goto kk172;
+			case 'l':	goto kk184;
 			case 'N':
-			case 'n':	goto kk173;
+			case 'n':	goto kk185;
 			case 'X':
-			case 'x':	goto kk174;
-			default:	goto kk85;
+			case 'x':	goto kk186;
+			default:	goto kk87;
 			}
 kk7:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'A':
-			case 'a':	goto kk164;
+			case 'a':	goto kk176;
 			case 'O':
-			case 'o':	goto kk165;
-			default:	goto kk85;
+			case 'o':	goto kk177;
+			default:	goto kk87;
 			}
 kk8:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk161;
-			default:	goto kk85;
+			case 'e':	goto kk173;
+			default:	goto kk87;
 			}
 kk9:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'O':
-			case 'o':	goto kk154;
+			case 'o':	goto kk166;
 			case 'U':
-			case 'u':	goto kk155;
-			default:	goto kk85;
+			case 'u':	goto kk167;
+			default:	goto kk87;
 			}
 kk10:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'R':
-			case 'r':	goto kk150;
-			default:	goto kk85;
+			case 'r':	goto kk162;
+			default:	goto kk87;
 			}
 kk11:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'N':
-			case 'n':	goto kk137;
+			case 'n':	goto kk149;
 			case 'U':
-			case 'u':	goto kk138;
-			default:	goto kk85;
+			case 'u':	goto kk150;
+			default:	goto kk87;
 			}
 kk12:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'R':
-			case 'r':	goto kk135;
-			default:	goto kk85;
+			case 'r':	goto kk147;
+			default:	goto kk87;
 			}
 kk13:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
-			case 'l':	goto kk125;
+			case 'l':	goto kk137;
 			case 'R':
-			case 'r':	goto kk126;
-			default:	goto kk85;
+			case 'r':	goto kk138;
+			default:	goto kk87;
 			}
 kk14:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk116;
+			case 'e':	goto kk128;
 			case 'O':
-			case 'o':	goto kk117;
-			default:	goto kk85;
+			case 'o':	goto kk129;
+			default:	goto kk87;
 			}
 kk15:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'A':
-			case 'a':	goto kk103;
+			case 'a':	goto kk115;
 			case 'O':
-			case 'o':	goto kk104;
-			default:	goto kk85;
+			case 'o':	goto kk116;
+			default:	goto kk87;
 			}
 kk16:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '%':	goto kk101;
-			case '{':	goto kk99;
+			case '%':	goto kk109;
+			case '{':	goto kk107;
 			default:	goto kk17;
 			}
 kk17:
-// 458 "scanner.re"
+// 572 "scanner.re"
 			{
 			status = PHVOLT_SCANNER_RETCODE_ERR;
 			break;
 		}
-// 337 "scanner.c"
+// 418 "scanner.c"
 kk18:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '}':	goto kk97;
+			case '}':	goto kk105;
 			default:	goto kk19;
 			}
 kk19:
-// 332 "scanner.re"
+// 441 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_MOD;
 			return 0;
 		}
-// 350 "scanner.c"
+// 431 "scanner.c"
 kk20:
-			kkch = *++KKCURSOR;
+			kkaccept = 1;
+			kkch = *(KKMARKER = ++KKCURSOR);
 			switch (kkch) {
-			case '}':	goto kk95;
-			default:	goto kk17;
+			case '%':	goto kk100;
+			case '}':	goto kk99;
+			default:	goto kk21;
 			}
 kk21:
-			kkaccept = 1;
-			kkch = *(KKMARKER = ++KKCURSOR);
-			if (kkch <= 0x00) goto kk17;
-			goto kk93;
+// 426 "scanner.re"
+			{
+			token->opcode = PHVOLT_T_SUB;
+			return 0;
+		}
+// 446 "scanner.c"
 kk22:
-			kkaccept = 1;
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case '}':	goto kk97;
+			default:	goto kk17;
+			}
+kk23:
+			kkaccept = 2;
 			kkch = *(KKMARKER = ++KKCURSOR);
 			if (kkch <= 0x00) goto kk17;
-			goto kk87;
-kk23:
+			goto kk95;
+kk24:
+			kkaccept = 2;
+			kkch = *(KKMARKER = ++KKCURSOR);
+			if (kkch <= 0x00) goto kk17;
+			goto kk89;
+kk25:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'A':
@@ -54775,293 +55335,293 @@ kk23:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
+			case 'z':	goto kk86;
 			default:	goto kk17;
 			}
-kk24:
+kk26:
 			kkch = *++KKCURSOR;
-			goto kk85;
-kk25:
+			goto kk87;
+kk27:
 			++KKCURSOR;
-// 312 "scanner.re"
+// 421 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ADD;
 			return 0;
 		}
-// 434 "scanner.c"
-kk27:
-			++KKCURSOR;
-// 317 "scanner.re"
-			{
-			token->opcode = PHVOLT_T_SUB;
-			return 0;
-		}
-// 442 "scanner.c"
+// 530 "scanner.c"
 kk29:
 			++KKCURSOR;
-// 322 "scanner.re"
+// 431 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_MUL;
 			return 0;
 		}
-// 450 "scanner.c"
+// 538 "scanner.c"
 kk31:
 			++KKCURSOR;
-// 327 "scanner.re"
+// 436 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DIV;
 			return 0;
 		}
-// 458 "scanner.c"
+// 546 "scanner.c"
 kk33:
 			++KKCURSOR;
-// 337 "scanner.re"
+// 446 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_CONCAT;
 			return 0;
 		}
-// 466 "scanner.c"
+// 554 "scanner.c"
 kk35:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '.':	goto kk82;
+			case '.':	goto kk84;
 			default:	goto kk36;
 			}
 kk36:
-// 347 "scanner.re"
+// 456 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOT;
 			return 0;
 		}
-// 479 "scanner.c"
+// 567 "scanner.c"
 kk37:
 			++KKCURSOR;
-// 352 "scanner.re"
+// 461 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_COMMA;
 			return 0;
 		}
-// 487 "scanner.c"
+// 575 "scanner.c"
 kk39:
 			++KKCURSOR;
-// 357 "scanner.re"
+// 466 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_BRACKET_OPEN;
 			return 0;
 		}
-// 495 "scanner.c"
+// 583 "scanner.c"
 kk41:
 			++KKCURSOR;
-// 362 "scanner.re"
+// 471 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_BRACKET_CLOSE;
 			return 0;
 		}
-// 503 "scanner.c"
+// 591 "scanner.c"
 kk43:
 			++KKCURSOR;
-// 367 "scanner.re"
+// 476 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SBRACKET_OPEN;
 			return 0;
 		}
-// 511 "scanner.c"
+// 599 "scanner.c"
 kk45:
 			++KKCURSOR;
-// 372 "scanner.re"
+// 481 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SBRACKET_CLOSE;
 			return 0;
 		}
-// 519 "scanner.c"
+// 607 "scanner.c"
 kk47:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk80;
-			case '>':	goto kk78;
+			case '=':	goto kk82;
+			case '>':	goto kk80;
 			default:	goto kk48;
 			}
 kk48:
-// 422 "scanner.re"
+// 531 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_LESS;
 			return 0;
 		}
-// 533 "scanner.c"
+// 621 "scanner.c"
 kk49:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk74;
+			case '=':	goto kk76;
 			default:	goto kk50;
 			}
 kk50:
-// 382 "scanner.re"
+// 491 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ASSIGN;
 			return 0;
 		}
-// 546 "scanner.c"
+// 634 "scanner.c"
 kk51:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk72;
+			case '=':	goto kk74;
 			default:	goto kk52;
 			}
 kk52:
-// 427 "scanner.re"
+// 536 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_GREATER;
 			return 0;
 		}
-// 559 "scanner.c"
+// 647 "scanner.c"
 kk53:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk68;
+			case '=':	goto kk70;
 			default:	goto kk54;
 			}
 kk54:
-// 417 "scanner.re"
+// 526 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOT;
 			return 0;
 		}
-// 572 "scanner.c"
+// 660 "scanner.c"
 kk55:
 			++KKCURSOR;
-// 432 "scanner.re"
+// 541 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_PIPE;
 			return 0;
 		}
-// 580 "scanner.c"
+// 668 "scanner.c"
 kk57:
 			++KKCURSOR;
-// 437 "scanner.re"
+// 546 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_COLON;
 			return 0;
 		}
-// 588 "scanner.c"
+// 676 "scanner.c"
 kk59:
 			++KKCURSOR;
+// 551 "scanner.re"
+			{
+			token->opcode = PHVOLT_T_QUESTION;
+			return 0;
+		}
+// 684 "scanner.c"
+kk61:
+			++KKCURSOR;
 			kkch = *KKCURSOR;
-			goto kk67;
-kk60:
-// 442 "scanner.re"
+			goto kk69;
+kk62:
+// 556 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IGNORE;
 			return 0;
 		}
-// 599 "scanner.c"
-kk61:
+// 695 "scanner.c"
+kk63:
 			++KKCURSOR;
-// 447 "scanner.re"
+// 561 "scanner.re"
 			{
 			s->active_line++;
 			token->opcode = PHVOLT_T_IGNORE;
 			return 0;
 		}
-// 608 "scanner.c"
-kk63:
+// 704 "scanner.c"
+kk65:
 			++KKCURSOR;
-// 453 "scanner.re"
+// 567 "scanner.re"
 			{
 			status = PHVOLT_SCANNER_RETCODE_EOF;
 			break;
 		}
-// 616 "scanner.c"
-kk65:
+// 712 "scanner.c"
+kk67:
 			kkch = *++KKCURSOR;
 			goto kk17;
-kk66:
+kk68:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-kk67:
+kk69:
 			switch (kkch) {
 			case '\t':
 			case '\r':
-			case ' ':	goto kk66;
-			default:	goto kk60;
+			case ' ':	goto kk68;
+			default:	goto kk62;
 			}
-kk68:
+kk70:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk70;
-			default:	goto kk69;
+			case '=':	goto kk72;
+			default:	goto kk71;
 			}
-kk69:
-// 397 "scanner.re"
+kk71:
+// 506 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
-// 642 "scanner.c"
-kk70:
+// 738 "scanner.c"
+kk72:
 			++KKCURSOR;
-// 412 "scanner.re"
+// 521 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTIDENTICAL;
 			return 0;
 		}
-// 650 "scanner.c"
-kk72:
+// 746 "scanner.c"
+kk74:
 			++KKCURSOR;
-// 387 "scanner.re"
+// 496 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_GREATEREQUAL;
 			return 0;
 		}
-// 658 "scanner.c"
-kk74:
+// 754 "scanner.c"
+kk76:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk76;
-			default:	goto kk75;
+			case '=':	goto kk78;
+			default:	goto kk77;
 			}
-kk75:
-// 392 "scanner.re"
+kk77:
+// 501 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_EQUALS;
 			return 0;
 		}
-// 671 "scanner.c"
-kk76:
+// 767 "scanner.c"
+kk78:
 			++KKCURSOR;
-// 407 "scanner.re"
+// 516 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IDENTICAL;
 			return 0;
 		}
-// 679 "scanner.c"
-kk78:
+// 775 "scanner.c"
+kk80:
 			++KKCURSOR;
-// 402 "scanner.re"
+// 511 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
-// 687 "scanner.c"
-kk80:
+// 783 "scanner.c"
+kk82:
 			++KKCURSOR;
-// 377 "scanner.re"
+// 486 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_LESSEQUAL;
 			return 0;
 		}
-// 695 "scanner.c"
-kk82:
+// 791 "scanner.c"
+kk84:
 			++KKCURSOR;
-// 342 "scanner.re"
+// 451 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_RANGE;
 			return 0;
 		}
-// 703 "scanner.c"
-kk84:
+// 799 "scanner.c"
+kk86:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-kk85:
+kk87:
 			switch (kkch) {
 			case '0':
 			case '1':
@@ -55126,35 +55686,36 @@ kk85:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
+			case 'z':	goto kk86;
 			default:	goto kk5;
 			}
-kk86:
+kk88:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-kk87:
+kk89:
 			switch (kkch) {
-			case 0x00:	goto kk88;
-			case '\'':	goto kk90;
-			case '\\':	goto kk89;
-			default:	goto kk86;
+			case 0x00:	goto kk90;
+			case '\'':	goto kk92;
+			case '\\':	goto kk91;
+			default:	goto kk88;
 			}
-kk88:
+kk90:
 			KKCURSOR = KKMARKER;
 			switch (kkaccept) {
 			case 0: 	goto kk3;
-			case 1: 	goto kk17;
+			case 1: 	goto kk21;
+			case 2: 	goto kk17;
 			}
-kk89:
+kk91:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
 			switch (kkch) {
-			case '\n':	goto kk88;
-			default:	goto kk86;
+			case '\n':	goto kk90;
+			default:	goto kk88;
 			}
-kk90:
+kk92:
 			++KKCURSOR;
-// 295 "scanner.re"
+// 404 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_STRING;
 			token->value = estrndup(q, KKCURSOR - q - 1);
@@ -55162,389 +55723,172 @@ kk90:
 			q = KKCURSOR;
 			return 0;
 		}
-// 808 "scanner.c"
-kk92:
-			++KKCURSOR;
-			kkch = *KKCURSOR;
-kk93:
-			switch (kkch) {
-			case 0x00:	goto kk88;
-			case '"':	goto kk90;
-			case '\\':	goto kk94;
-			default:	goto kk92;
-			}
+// 905 "scanner.c"
 kk94:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-			switch (kkch) {
-			case '\n':	goto kk88;
-			default:	goto kk92;
-			}
 kk95:
+			switch (kkch) {
+			case 0x00:	goto kk90;
+			case '"':	goto kk92;
+			case '\\':	goto kk96;
+			default:	goto kk94;
+			}
+kk96:
 			++KKCURSOR;
-// 288 "scanner.re"
+			kkch = *KKCURSOR;
+			switch (kkch) {
+			case '\n':	goto kk90;
+			default:	goto kk94;
+			}
+kk97:
+			++KKCURSOR;
+// 383 "scanner.re"
 			{
 			s->mode = PHVOLT_MODE_RAW;
 			token->opcode = PHVOLT_T_CLOSE_EDELIMITER;
 			return 0;
 		}
-// 834 "scanner.c"
-kk97:
+// 931 "scanner.c"
+kk99:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case '}':	goto kk103;
+			default:	goto kk90;
+			}
+kk100:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case '}':	goto kk101;
+			default:	goto kk90;
+			}
+kk101:
 			++KKCURSOR;
-// 276 "scanner.re"
+// 369 "scanner.re"
+			{
+			s->mode = PHVOLT_MODE_RAW;
+			s->whitespace_control = 1;
+			token->opcode = PHVOLT_T_CLOSE_DELIMITER;
+			return 0;
+		}
+// 953 "scanner.c"
+kk103:
+			++KKCURSOR;
+// 396 "scanner.re"
+			{
+			s->mode = PHVOLT_MODE_RAW;
+			s->whitespace_control = 1;
+			token->opcode = PHVOLT_T_CLOSE_EDELIMITER;
+			return 0;
+		}
+// 963 "scanner.c"
+kk105:
+			++KKCURSOR;
+// 357 "scanner.re"
 			{
 			s->mode = PHVOLT_MODE_RAW;
 			token->opcode = PHVOLT_T_CLOSE_DELIMITER;
 			return 0;
 		}
-// 843 "scanner.c"
-kk99:
+// 972 "scanner.c"
+kk107:
 			++KKCURSOR;
-// 282 "scanner.re"
+			switch ((kkch = *KKCURSOR)) {
+			case '-':	goto kk113;
+			default:	goto kk108;
+			}
+kk108:
+// 376 "scanner.re"
 			{
+			s->whitespace_control = 0;
 			s->statement_position++;
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
 			return 0;
 		}
-// 852 "scanner.c"
-kk101:
+// 987 "scanner.c"
+kk109:
 			++KKCURSOR;
-// 271 "scanner.re"
+			switch ((kkch = *KKCURSOR)) {
+			case '-':	goto kk111;
+			default:	goto kk110;
+			}
+kk110:
+// 351 "scanner.re"
 			{
+			s->whitespace_control = 0;
 			token->opcode = PHVOLT_T_OPEN_DELIMITER;
 			return 0;
 		}
-// 860 "scanner.c"
-kk103:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk112;
-			default:	goto kk85;
-			}
-kk104:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'N':
-			case 'n':	goto kk105;
-			default:	goto kk85;
-			}
-kk105:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'T':
-			case 't':	goto kk106;
-			default:	goto kk85;
-			}
-kk106:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'I':
-			case 'i':	goto kk107;
-			default:	goto kk85;
-			}
-kk107:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'N':
-			case 'n':	goto kk108;
-			default:	goto kk85;
-			}
-kk108:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'U':
-			case 'u':	goto kk109;
-			default:	goto kk85;
-			}
-kk109:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk110;
-			default:	goto kk85;
-			}
-kk110:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk111;
-			}
+// 1001 "scanner.c"
 kk111:
-// 259 "scanner.re"
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_CONTINUE;
-			return 0;
-		}
-// 986 "scanner.c"
-kk112:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'H':
-			case 'h':	goto kk113;
-			default:	goto kk85;
-			}
-kk113:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk114;
-			default:	goto kk85;
-			}
-kk114:
 			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk115;
-			}
-kk115:
-// 230 "scanner.re"
+// 363 "scanner.re"
 			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_CACHE;
+			s->whitespace_control = 0;
+			token->opcode = PHVOLT_T_OPEN_DELIMITER;
 			return 0;
 		}
-// 1077 "scanner.c"
+// 1010 "scanner.c"
+kk113:
+			++KKCURSOR;
+// 389 "scanner.re"
+			{
+			s->whitespace_control = 0;
+			s->statement_position++;
+			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
+			return 0;
+		}
+// 1020 "scanner.c"
+kk115:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'C':
+			case 'c':	goto kk124;
+			default:	goto kk87;
+			}
 kk116:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'F':
-			case 'f':	goto kk119;
-			default:	goto kk85;
+			case 'N':
+			case 'n':	goto kk117;
+			default:	goto kk87;
 			}
 kk117:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk118;
+			case 't':	goto kk118;
+			default:	goto kk87;
 			}
 kk118:
-// 241 "scanner.re"
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_DO;
-			return 0;
-		}
-// 1161 "scanner.c"
-kk119:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'I':
-			case 'i':	goto kk120;
-			default:	goto kk85;
+			case 'i':	goto kk119;
+			default:	goto kk87;
+			}
+kk119:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'N':
+			case 'n':	goto kk120;
+			default:	goto kk87;
 			}
 kk120:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'N':
-			case 'n':	goto kk121;
-			default:	goto kk85;
+			case 'U':
+			case 'u':	goto kk121;
+			default:	goto kk87;
 			}
 kk121:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
 			case 'e':	goto kk122;
-			default:	goto kk85;
+			default:	goto kk87;
 			}
 kk122:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'D':
-			case 'd':	goto kk123;
-			default:	goto kk85;
-			}
-kk123:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55610,44 +55954,114 @@ kk123:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk124;
+			case 'z':	goto kk86;
+			default:	goto kk123;
 			}
-kk124:
-// 218 "scanner.re"
+kk123:
+// 339 "scanner.re"
 			{
 			s->statement_position++;
-			token->opcode = PHVOLT_T_DEFINED;
+			token->opcode = PHVOLT_T_CONTINUE;
 			return 0;
 		}
-// 1266 "scanner.c"
+// 1146 "scanner.c"
+kk124:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'H':
+			case 'h':	goto kk125;
+			default:	goto kk87;
+			}
 kk125:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk131;
-			default:	goto kk85;
+			case 'E':
+			case 'e':	goto kk126;
+			default:	goto kk87;
 			}
 kk126:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
 			case 'E':
-			case 'e':	goto kk127;
-			default:	goto kk85;
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			default:	goto kk127;
 			}
 kk127:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'A':
-			case 'a':	goto kk128;
-			default:	goto kk85;
-			}
+// 310 "scanner.re"
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_CACHE;
+			return 0;
+		}
+// 1237 "scanner.c"
 kk128:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'K':
-			case 'k':	goto kk129;
-			default:	goto kk85;
+			case 'F':
+			case 'f':	goto kk131;
+			default:	goto kk87;
 			}
 kk129:
 			++KKCURSOR;
@@ -55715,108 +56129,45 @@ kk129:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
+			case 'z':	goto kk86;
 			default:	goto kk130;
 			}
 kk130:
-// 265 "scanner.re"
+// 321 "scanner.re"
 			{
 			s->statement_position++;
-			token->opcode = PHVOLT_T_BREAK;
+			token->opcode = PHVOLT_T_DO;
 			return 0;
 		}
-// 1371 "scanner.c"
+// 1321 "scanner.c"
 kk131:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk132;
-			default:	goto kk85;
+			case 'I':
+			case 'i':	goto kk132;
+			default:	goto kk87;
 			}
 kk132:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'K':
-			case 'k':	goto kk133;
-			default:	goto kk85;
+			case 'N':
+			case 'n':	goto kk133;
+			default:	goto kk87;
 			}
 kk133:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk134;
+			case 'e':	goto kk134;
+			default:	goto kk87;
 			}
 kk134:
-// 189 "scanner.re"
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_BLOCK;
-			return 0;
-		}
-// 1462 "scanner.c"
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'D':
+			case 'd':	goto kk135;
+			default:	goto kk87;
+			}
 kk135:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -55883,80 +56234,46 @@ kk135:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
+			case 'z':	goto kk86;
 			default:	goto kk136;
 			}
 kk136:
-// 184 "scanner.re"
+// 298 "scanner.re"
 			{
-			token->opcode = PHVOLT_T_OR;
+			s->statement_position++;
+			token->opcode = PHVOLT_T_DEFINED;
 			return 0;
 		}
-// 1538 "scanner.c"
+// 1426 "scanner.c"
 kk137:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'D':
-			case 'd':	goto kk148;
-			default:	goto kk85;
+			case 'O':
+			case 'o':	goto kk143;
+			default:	goto kk87;
 			}
 kk138:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'T':
-			case 't':	goto kk139;
-			default:	goto kk85;
+			case 'E':
+			case 'e':	goto kk139;
+			default:	goto kk87;
 			}
 kk139:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk140;
-			default:	goto kk85;
+			case 'A':
+			case 'a':	goto kk140;
+			default:	goto kk87;
 			}
 kk140:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk141;
-			default:	goto kk85;
+			case 'K':
+			case 'k':	goto kk141;
+			default:	goto kk87;
 			}
 kk141:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'S':
-			case 's':	goto kk142;
-			default:	goto kk85;
-			}
-kk142:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk143;
-			default:	goto kk85;
-			}
-kk143:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'A':
-			case 'a':	goto kk144;
-			default:	goto kk85;
-			}
-kk144:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'P':
-			case 'p':	goto kk145;
-			default:	goto kk85;
-			}
-kk145:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk146;
-			default:	goto kk85;
-			}
-kk146:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56022,18 +56339,325 @@ kk146:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk147;
+			case 'z':	goto kk86;
+			default:	goto kk142;
 			}
+kk142:
+// 345 "scanner.re"
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_BREAK;
+			return 0;
+		}
+// 1531 "scanner.c"
+kk143:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'C':
+			case 'c':	goto kk144;
+			default:	goto kk87;
+			}
+kk144:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'K':
+			case 'k':	goto kk145;
+			default:	goto kk87;
+			}
+kk145:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			default:	goto kk146;
+			}
+kk146:
+// 269 "scanner.re"
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_BLOCK;
+			return 0;
+		}
+// 1622 "scanner.c"
 kk147:
-// 247 "scanner.re"
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			default:	goto kk148;
+			}
+kk148:
+// 264 "scanner.re"
+			{
+			token->opcode = PHVOLT_T_OR;
+			return 0;
+		}
+// 1698 "scanner.c"
+kk149:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'D':
+			case 'd':	goto kk160;
+			default:	goto kk87;
+			}
+kk150:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'T':
+			case 't':	goto kk151;
+			default:	goto kk87;
+			}
+kk151:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'O':
+			case 'o':	goto kk152;
+			default:	goto kk87;
+			}
+kk152:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk153;
+			default:	goto kk87;
+			}
+kk153:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'S':
+			case 's':	goto kk154;
+			default:	goto kk87;
+			}
+kk154:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'C':
+			case 'c':	goto kk155;
+			default:	goto kk87;
+			}
+kk155:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'A':
+			case 'a':	goto kk156;
+			default:	goto kk87;
+			}
+kk156:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'P':
+			case 'p':	goto kk157;
+			default:	goto kk87;
+			}
+kk157:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk158;
+			default:	goto kk87;
+			}
+kk158:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			default:	goto kk159;
+			}
+kk159:
+// 327 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_AUTOESCAPE;
 			return 0;
 		}
-// 1678 "scanner.c"
-kk148:
+// 1838 "scanner.c"
+kk160:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56099,31 +56723,31 @@ kk148:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk149;
+			case 'z':	goto kk86;
+			default:	goto kk161;
 			}
-kk149:
-// 179 "scanner.re"
+kk161:
+// 259 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_AND;
 			return 0;
 		}
-// 1754 "scanner.c"
-kk150:
+// 1914 "scanner.c"
+kk162:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'U':
-			case 'u':	goto kk151;
-			default:	goto kk85;
+			case 'u':	goto kk163;
+			default:	goto kk87;
 			}
-kk151:
+kk163:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk152;
-			default:	goto kk85;
+			case 'e':	goto kk164;
+			default:	goto kk87;
 			}
-kk152:
+kk164:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56189,38 +56813,38 @@ kk152:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk153;
+			case 'z':	goto kk86;
+			default:	goto kk165;
 			}
-kk153:
-// 174 "scanner.re"
+kk165:
+// 254 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_TRUE;
 			return 0;
 		}
-// 1844 "scanner.c"
-kk154:
+// 2004 "scanner.c"
+kk166:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'T':
-			case 't':	goto kk159;
-			default:	goto kk85;
+			case 't':	goto kk171;
+			default:	goto kk87;
 			}
-kk155:
+kk167:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
-			case 'l':	goto kk156;
-			default:	goto kk85;
+			case 'l':	goto kk168;
+			default:	goto kk87;
 			}
-kk156:
+kk168:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
-			case 'l':	goto kk157;
-			default:	goto kk85;
+			case 'l':	goto kk169;
+			default:	goto kk87;
 			}
-kk157:
+kk169:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56286,17 +56910,17 @@ kk157:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk158;
+			case 'z':	goto kk86;
+			default:	goto kk170;
 			}
-kk158:
-// 164 "scanner.re"
+kk170:
+// 244 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NULL;
 			return 0;
 		}
-// 1941 "scanner.c"
-kk159:
+// 2101 "scanner.c"
+kk171:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56362,25 +56986,25 @@ kk159:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk160;
+			case 'z':	goto kk86;
+			default:	goto kk172;
 			}
-kk160:
-// 212 "scanner.re"
+kk172:
+// 292 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_NOT;
 			return 0;
 		}
-// 2018 "scanner.c"
-kk161:
+// 2178 "scanner.c"
+kk173:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'T':
-			case 't':	goto kk162;
-			default:	goto kk85;
+			case 't':	goto kk174;
+			default:	goto kk87;
 			}
-kk162:
+kk174:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56446,31 +57070,31 @@ kk162:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk163;
+			case 'z':	goto kk86;
+			default:	goto kk175;
 			}
-kk163:
-// 159 "scanner.re"
+kk175:
+// 239 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SET;
 			return 0;
 		}
-// 2101 "scanner.c"
-kk164:
+// 2261 "scanner.c"
+kk176:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
-			case 'l':	goto kk168;
-			default:	goto kk85;
+			case 'l':	goto kk180;
+			default:	goto kk87;
 			}
-kk165:
+kk177:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'R':
-			case 'r':	goto kk166;
-			default:	goto kk85;
+			case 'r':	goto kk178;
+			default:	goto kk87;
 			}
-kk166:
+kk178:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56536,32 +57160,32 @@ kk166:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk167;
+			case 'z':	goto kk86;
+			default:	goto kk179;
 			}
-kk167:
-// 143 "scanner.re"
+kk179:
+// 223 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_FOR;
 			return 0;
 		}
-// 2192 "scanner.c"
-kk168:
+// 2352 "scanner.c"
+kk180:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'S':
-			case 's':	goto kk169;
-			default:	goto kk85;
+			case 's':	goto kk181;
+			default:	goto kk87;
 			}
-kk169:
+kk181:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk170;
-			default:	goto kk85;
+			case 'e':	goto kk182;
+			default:	goto kk87;
 			}
-kk170:
+kk182:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56627,66 +57251,66 @@ kk170:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk171;
+			case 'z':	goto kk86;
+			default:	goto kk183;
 			}
-kk171:
-// 169 "scanner.re"
+kk183:
+// 249 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_FALSE;
 			return 0;
 		}
-// 2282 "scanner.c"
-kk172:
+// 2442 "scanner.c"
+kk184:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'S':
-			case 's':	goto kk212;
-			default:	goto kk85;
+			case 's':	goto kk224;
+			default:	goto kk87;
 			}
-kk173:
+kk185:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'D':
-			case 'd':	goto kk181;
-			default:	goto kk85;
+			case 'd':	goto kk193;
+			default:	goto kk87;
 			}
-kk174:
+kk186:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'T':
-			case 't':	goto kk175;
-			default:	goto kk85;
+			case 't':	goto kk187;
+			default:	goto kk87;
 			}
-kk175:
+kk187:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk176;
-			default:	goto kk85;
+			case 'e':	goto kk188;
+			default:	goto kk87;
 			}
-kk176:
+kk188:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'N':
-			case 'n':	goto kk177;
-			default:	goto kk85;
+			case 'n':	goto kk189;
+			default:	goto kk87;
 			}
-kk177:
+kk189:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'D':
-			case 'd':	goto kk178;
-			default:	goto kk85;
+			case 'd':	goto kk190;
+			default:	goto kk87;
 			}
-kk178:
+kk190:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'S':
-			case 's':	goto kk179;
-			default:	goto kk85;
+			case 's':	goto kk191;
+			default:	goto kk87;
 			}
-kk179:
+kk191:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56752,345 +57376,68 @@ kk179:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk180;
+			case 'z':	goto kk86;
+			default:	goto kk192;
 			}
-kk180:
-// 200 "scanner.re"
+kk192:
+// 280 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_EXTENDS;
 			return 0;
 		}
-// 2408 "scanner.c"
-kk181:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'A':
-			case 'a':	goto kk182;
-			case 'B':
-			case 'b':	goto kk183;
-			case 'C':
-			case 'c':	goto kk184;
-			case 'F':
-			case 'f':	goto kk185;
-			case 'I':
-			case 'i':	goto kk186;
-			default:	goto kk85;
-			}
-kk182:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'U':
-			case 'u':	goto kk202;
-			default:	goto kk85;
-			}
-kk183:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'L':
-			case 'l':	goto kk197;
-			default:	goto kk85;
-			}
-kk184:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'A':
-			case 'a':	goto kk192;
-			default:	goto kk85;
-			}
-kk185:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk189;
-			default:	goto kk85;
-			}
-kk186:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'F':
-			case 'f':	goto kk187;
-			default:	goto kk85;
-			}
-kk187:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk188;
-			}
-kk188:
-// 138 "scanner.re"
-			{
-			token->opcode = PHVOLT_T_ENDIF;
-			return 0;
-		}
-// 2534 "scanner.c"
-kk189:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'R':
-			case 'r':	goto kk190;
-			default:	goto kk85;
-			}
-kk190:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk191;
-			}
-kk191:
-// 149 "scanner.re"
-			{
-			token->opcode = PHVOLT_T_ENDFOR;
-			return 0;
-		}
-// 2617 "scanner.c"
-kk192:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk193;
-			default:	goto kk85;
-			}
+// 2568 "scanner.c"
 kk193:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'H':
-			case 'h':	goto kk194;
-			default:	goto kk85;
+			case 'A':
+			case 'a':	goto kk194;
+			case 'B':
+			case 'b':	goto kk195;
+			case 'C':
+			case 'c':	goto kk196;
+			case 'F':
+			case 'f':	goto kk197;
+			case 'I':
+			case 'i':	goto kk198;
+			default:	goto kk87;
 			}
 kk194:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk195;
-			default:	goto kk85;
+			case 'U':
+			case 'u':	goto kk214;
+			default:	goto kk87;
 			}
 kk195:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk196;
+			case 'l':	goto kk209;
+			default:	goto kk87;
 			}
 kk196:
-// 236 "scanner.re"
-			{
-			token->opcode = PHVOLT_T_ENDCACHE;
-			return 0;
-		}
-// 2714 "scanner.c"
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'A':
+			case 'a':	goto kk204;
+			default:	goto kk87;
+			}
 kk197:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'O':
-			case 'o':	goto kk198;
-			default:	goto kk85;
+			case 'o':	goto kk201;
+			default:	goto kk87;
 			}
 kk198:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk199;
-			default:	goto kk85;
+			case 'F':
+			case 'f':	goto kk199;
+			default:	goto kk87;
 			}
 kk199:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'K':
-			case 'k':	goto kk200;
-			default:	goto kk85;
-			}
-kk200:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -57156,73 +57503,218 @@ kk200:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk201;
+			case 'z':	goto kk86;
+			default:	goto kk200;
 			}
-kk201:
-// 195 "scanner.re"
+kk200:
+// 218 "scanner.re"
 			{
-			token->opcode = PHVOLT_T_ENDBLOCK;
+			token->opcode = PHVOLT_T_ENDIF;
 			return 0;
 		}
-// 2811 "scanner.c"
-kk202:
+// 2694 "scanner.c"
+kk201:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
+			case 'R':
+			case 'r':	goto kk202;
+			default:	goto kk87;
+			}
+kk202:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
 			case 'T':
-			case 't':	goto kk203;
-			default:	goto kk85;
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			default:	goto kk203;
 			}
 kk203:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk204;
-			default:	goto kk85;
-			}
+// 229 "scanner.re"
+			{
+			token->opcode = PHVOLT_T_ENDFOR;
+			return 0;
+		}
+// 2777 "scanner.c"
 kk204:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk205;
-			default:	goto kk85;
+			case 'C':
+			case 'c':	goto kk205;
+			default:	goto kk87;
 			}
 kk205:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'S':
-			case 's':	goto kk206;
-			default:	goto kk85;
+			case 'H':
+			case 'h':	goto kk206;
+			default:	goto kk87;
 			}
 kk206:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk207;
-			default:	goto kk85;
+			case 'E':
+			case 'e':	goto kk207;
+			default:	goto kk87;
 			}
 kk207:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
 			case 'A':
-			case 'a':	goto kk208;
-			default:	goto kk85;
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			default:	goto kk208;
 			}
 kk208:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'P':
-			case 'p':	goto kk209;
-			default:	goto kk85;
-			}
+// 316 "scanner.re"
+			{
+			token->opcode = PHVOLT_T_ENDCACHE;
+			return 0;
+		}
+// 2874 "scanner.c"
 kk209:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk210;
-			default:	goto kk85;
+			case 'O':
+			case 'o':	goto kk210;
+			default:	goto kk87;
 			}
 kk210:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'C':
+			case 'c':	goto kk211;
+			default:	goto kk87;
+			}
+kk211:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'K':
+			case 'k':	goto kk212;
+			default:	goto kk87;
+			}
+kk212:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -57288,336 +57780,72 @@ kk210:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk211;
-			}
-kk211:
-// 253 "scanner.re"
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_ENDAUTOESCAPE;
-			return 0;
-		}
-// 2944 "scanner.c"
-kk212:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk213;
-			default:	goto kk85;
+			case 'z':	goto kk86;
+			default:	goto kk213;
 			}
 kk213:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			case 'I':
-			case 'i':	goto kk215;
-			default:	goto kk214;
-			}
-kk214:
-// 128 "scanner.re"
+// 275 "scanner.re"
 			{
-			token->opcode = PHVOLT_T_ELSE;
+			token->opcode = PHVOLT_T_ENDBLOCK;
 			return 0;
 		}
-// 3027 "scanner.c"
+// 2971 "scanner.c"
+kk214:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'T':
+			case 't':	goto kk215;
+			default:	goto kk87;
+			}
 kk215:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'F':
-			case 'f':	goto kk216;
-			default:	goto kk85;
+			case 'O':
+			case 'o':	goto kk216;
+			default:	goto kk87;
 			}
 kk216:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk217;
+			case 'e':	goto kk217;
+			default:	goto kk87;
 			}
 kk217:
-// 133 "scanner.re"
-			{
-			token->opcode = PHVOLT_T_ELSEIF;
-			return 0;
-		}
-// 3110 "scanner.c"
-kk218:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			default:	goto kk219;
+			case 's':	goto kk218;
+			default:	goto kk87;
+			}
+kk218:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'C':
+			case 'c':	goto kk219;
+			default:	goto kk87;
 			}
 kk219:
-// 122 "scanner.re"
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_IF;
-			return 0;
-		}
-// 3187 "scanner.c"
-kk220:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'A':
-			case 'B':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
+			case 'a':	goto kk220;
+			default:	goto kk87;
+			}
+kk220:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk84;
-			case 'C':
-			case 'c':	goto kk224;
-			default:	goto kk221;
+			case 'p':	goto kk221;
+			default:	goto kk87;
 			}
 kk221:
-// 154 "scanner.re"
-			{
-			token->opcode = PHVOLT_T_IN;
-			return 0;
-		}
-// 3263 "scanner.c"
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk222;
+			default:	goto kk87;
+			}
 kk222:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -57684,44 +57912,106 @@ kk222:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
+			case 'z':	goto kk86;
 			default:	goto kk223;
 			}
 kk223:
-// 206 "scanner.re"
+// 333 "scanner.re"
 			{
 			s->statement_position++;
-			token->opcode = PHVOLT_T_IS;
+			token->opcode = PHVOLT_T_ENDAUTOESCAPE;
 			return 0;
 		}
-// 3340 "scanner.c"
+// 3104 "scanner.c"
 kk224:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'L':
-			case 'l':	goto kk225;
-			default:	goto kk85;
+			case 'E':
+			case 'e':	goto kk225;
+			default:	goto kk87;
 			}
 kk225:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
 			case 'U':
-			case 'u':	goto kk226;
-			default:	goto kk85;
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			case 'I':
+			case 'i':	goto kk227;
+			default:	goto kk226;
 			}
 kk226:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'D':
-			case 'd':	goto kk227;
-			default:	goto kk85;
-			}
+// 208 "scanner.re"
+			{
+			token->opcode = PHVOLT_T_ELSE;
+			return 0;
+		}
+// 3187 "scanner.c"
 kk227:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk228;
-			default:	goto kk85;
+			case 'F':
+			case 'f':	goto kk228;
+			default:	goto kk87;
 			}
 kk228:
 			++KKCURSOR;
@@ -57789,18 +58079,352 @@ kk228:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk84;
+			case 'z':	goto kk86;
 			default:	goto kk229;
 			}
 kk229:
-// 224 "scanner.re"
+// 213 "scanner.re"
+			{
+			token->opcode = PHVOLT_T_ELSEIF;
+			return 0;
+		}
+// 3270 "scanner.c"
+kk230:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			default:	goto kk231;
+			}
+kk231:
+// 202 "scanner.re"
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_IF;
+			return 0;
+		}
+// 3347 "scanner.c"
+kk232:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			case 'C':
+			case 'c':	goto kk236;
+			default:	goto kk233;
+			}
+kk233:
+// 234 "scanner.re"
+			{
+			token->opcode = PHVOLT_T_IN;
+			return 0;
+		}
+// 3423 "scanner.c"
+kk234:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			default:	goto kk235;
+			}
+kk235:
+// 286 "scanner.re"
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_IS;
+			return 0;
+		}
+// 3500 "scanner.c"
+kk236:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'L':
+			case 'l':	goto kk237;
+			default:	goto kk87;
+			}
+kk237:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'U':
+			case 'u':	goto kk238;
+			default:	goto kk87;
+			}
+kk238:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'D':
+			case 'd':	goto kk239;
+			default:	goto kk87;
+			}
+kk239:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk240;
+			default:	goto kk87;
+			}
+kk240:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk86;
+			default:	goto kk241;
+			}
+kk241:
+// 304 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_INCLUDE;
 			return 0;
 		}
-// 3445 "scanner.c"
-kk230:
+// 3605 "scanner.c"
+kk242:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case '0':
@@ -57812,16 +58436,16 @@ kk230:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto kk233;
-			default:	goto kk88;
+			case '9':	goto kk245;
+			default:	goto kk90;
 			}
-kk231:
+kk243:
 			kkaccept = 0;
 			KKMARKER = ++KKCURSOR;
 			kkch = *KKCURSOR;
-kk232:
+kk244:
 			switch (kkch) {
-			case '.':	goto kk230;
+			case '.':	goto kk242;
 			case '0':
 			case '1':
 			case '2':
@@ -57831,10 +58455,10 @@ kk232:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto kk231;
+			case '9':	goto kk243;
 			default:	goto kk3;
 			}
-kk233:
+kk245:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
 			switch (kkch) {
@@ -57847,11 +58471,11 @@ kk233:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto kk233;
-			default:	goto kk235;
+			case '9':	goto kk245;
+			default:	goto kk247;
 			}
-kk235:
-// 114 "scanner.re"
+kk247:
+// 194 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOUBLE;
 			token->value = estrndup(start, KKCURSOR - start);
@@ -57859,9 +58483,9 @@ kk235:
 			q = KKCURSOR;
 			return 0;
 		}
-// 3505 "scanner.c"
+// 3665 "scanner.c"
 		}
-// 463 "scanner.re"
+// 577 "scanner.re"
 
 
 		}
@@ -66322,11 +66946,11 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 
 	PHALCON_INIT_VAR(version);
 	array_init_size(version, 5);
-	add_next_index_long(version, 0);
-	add_next_index_long(version, 9);
 	add_next_index_long(version, 1);
-	add_next_index_long(version, 4);
 	add_next_index_long(version, 0);
+	add_next_index_long(version, 0);
+	add_next_index_long(version, 2);
+	add_next_index_long(version, 1);
 	RETURN_CTOR(version);
 }
 
