@@ -1,3 +1,11 @@
+1.0.0b1
+ - Fixed bug with missing blocks in multiple inheritance in Volt
+ - Support for ternary operator in Volt
+ - Support for 'forelse' in Volt
+ - Added support for loop variable context in Volt
+ - Added whitespace control delimiters {%- -%} and {{- -}} to Volt
+ - Suport for 'in' and 'not in' operators in Volt
+
 0.9.0b2
  - Support for reusable records. A relation can be marked to cache in memory the records to speedup getting related records
  - Added 'elseif' statement to Volt
