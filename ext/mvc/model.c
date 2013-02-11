@@ -969,7 +969,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "from", model_name);
 	
 	/** 
-	 * We only want we the first record
+	 * We only want the first record
 	 */
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
@@ -3207,7 +3207,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 }
 
 /**
+ * Save the related records assigned in the has-one/has-many relations
  *
+ * @param Phalcon\Db\AdapterInterface $connection
+ * @param Phalcon\Mvc\ModelInterface[] $related
  */
 PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 

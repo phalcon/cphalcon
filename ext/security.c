@@ -197,7 +197,9 @@ PHP_METHOD(Phalcon_Security, getSaltBytes){
 	
 	PHALCON_OBS_VAR(number_bytes);
 	phalcon_read_property(&number_bytes, this_ptr, SL("_numberBytes"), PH_NOISY_CC);
+	
 	while (1) {
+	
 		PHALCON_INIT_NVAR(random_bytes);
 		PHALCON_CALL_FUNC_PARAMS_1(random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
