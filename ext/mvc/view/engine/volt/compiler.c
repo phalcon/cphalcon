@@ -629,7 +629,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 				add_assoc_bool_ex(array_helpers, SS("select_static"), 1);
 				add_assoc_bool_ex(array_helpers, SS("submit_button"), 1);
 				add_assoc_bool_ex(array_helpers, SS("radio_field"), 1);
-				add_assoc_bool_ex(array_helpers, SS("checkbox_field"), 1);
+				add_assoc_bool_ex(array_helpers, SS("check_field"), 1);
 				add_assoc_bool_ex(array_helpers, SS("file_field"), 1);
 				add_assoc_bool_ex(array_helpers, SS("hidden_field"), 1);
 				add_assoc_bool_ex(array_helpers, SS("password_field"), 1);

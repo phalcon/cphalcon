@@ -23,8 +23,8 @@
 #define PHVOLT_MINUS                          23
 #define PHVOLT_CONCAT                         24
 #define PHVOLT_PIPE                           25
-#define PHVOLT_BRACKET_OPEN                   26
-#define PHVOLT_NOT                            27
+#define PHVOLT_NOT                            26
+#define PHVOLT_PARENTHESES_OPEN               27
 #define PHVOLT_DOT                            28
 #define PHVOLT_IF                             29
 #define PHVOLT_CLOSE_DELIMITER                30
@@ -56,7 +56,7 @@
 #define PHVOLT_CONTINUE                       56
 #define PHVOLT_RAW_FRAGMENT                   57
 #define PHVOLT_DEFINED                        58
-#define PHVOLT_BRACKET_CLOSE                  59
+#define PHVOLT_PARENTHESES_CLOSE              59
 #define PHVOLT_SBRACKET_CLOSE                 60
 #define PHVOLT_DOUBLE                         61
 #define PHVOLT_NULL                           62

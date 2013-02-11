@@ -47,8 +47,8 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_LESSEQUAL,     	"<=" },
   { PHVOLT_T_GREATER,       	">" },
   { PHVOLT_T_GREATEREQUAL,  	">=" },
-  { PHVOLT_T_BRACKET_OPEN,  	"(" },
-  { PHVOLT_T_BRACKET_CLOSE, 	")" },
+  { PHVOLT_T_PARENTHESES_OPEN,  "(" },
+  { PHVOLT_T_PARENTHESES_CLOSE, ")" },
   { PHVOLT_T_SBRACKET_OPEN,  	"[" },
   { PHVOLT_T_SBRACKET_CLOSE, 	"]" },
   { PHVOLT_T_OPEN_DELIMITER, 	"{%" },
@@ -332,11 +332,11 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				phvolt_(phvolt_parser, PHVOLT_QUESTION, NULL, parser_status);
 				break;
 
-			case PHVOLT_T_BRACKET_OPEN:
-				phvolt_(phvolt_parser, PHVOLT_BRACKET_OPEN, NULL, parser_status);
+			case PHVOLT_T_PARENTHESES_OPEN:
+				phvolt_(phvolt_parser, PHVOLT_PARENTHESES_OPEN, NULL, parser_status);
 				break;
-			case PHVOLT_T_BRACKET_CLOSE:
-				phvolt_(phvolt_parser, PHVOLT_BRACKET_CLOSE, NULL, parser_status);
+			case PHVOLT_T_PARENTHESES_CLOSE:
+				phvolt_(phvolt_parser, PHVOLT_PARENTHESES_CLOSE, NULL, parser_status);
 				break;
 			case PHVOLT_T_SBRACKET_OPEN:
 				phvolt_(phvolt_parser, PHVOLT_SBRACKET_OPEN, NULL, parser_status);

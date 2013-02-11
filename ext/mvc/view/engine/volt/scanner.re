@@ -464,12 +464,12 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		}
 
 		"(" {
-			token->opcode = PHVOLT_T_BRACKET_OPEN;
+			token->opcode = PHVOLT_T_PARENTHESES_OPEN;
 			return 0;
 		}
 
 		")" {
-			token->opcode = PHVOLT_T_BRACKET_CLOSE;
+			token->opcode = PHVOLT_T_PARENTHESES_CLOSE;
 			return 0;
 		}
 

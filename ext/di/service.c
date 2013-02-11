@@ -284,7 +284,6 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	
 				PHALCON_INIT_NVAR(instance);
 				PHALCON_CALL_METHOD_PARAMS_3(instance, builder, "build", dependency_injector, definition, parameters);
-				RETURN_CCTOR(instance);
 			} else {
 				ZVAL_BOOL(found, 0);
 			}

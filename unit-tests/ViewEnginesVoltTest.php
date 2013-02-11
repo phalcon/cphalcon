@@ -980,6 +980,12 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{% if a is not defined %} hello {% endif %}');
 		$this->assertEquals($compilation, '<?php if (!isset($a)) { ?> hello <?php } ?>');
 
+		$compilation = $volt->compileString('{% if 1 in [2, 3, 1] %} hello {% endif %}');
+		$this->assertEquals($compilation, '<?php if ($this->included(1, array(2, 3, 1))) { ?> hello <?php } ?>');
+
+		$compilation = $volt->compileString('{% if "b" in "abc" %} hello {% endif %}');
+		$this->assertEquals($compilation, '<?php if ($this->included(\'b\', \'abc\')) { ?> hello <?php } ?>');
+
 		$compilation = $volt->compileString('{% if a==b %} hello {% else %} not hello {% endif %}');
 		$this->assertEquals($compilation, '<?php if ($a == $b) { ?> hello <?php } else { ?> not hello <?php } ?>');
 

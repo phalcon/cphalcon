@@ -34,8 +34,8 @@
 %left DIVIDE TIMES MOD .
 %left PLUS MINUS CONCAT .
 %left PIPE .
-%right BRACKET_OPEN .
 %right NOT .
+%right PARENTHESES_OPEN .
 %left DOT .
 
 %include {
@@ -863,7 +863,7 @@ expr(R) ::= NOT expr(E) . {
 	R = phvolt_ret_expr(PHVOLT_T_NOT, NULL, E, NULL, status->scanner_state);
 }
 
-expr(R) ::= BRACKET_OPEN expr(E) BRACKET_CLOSE . {
+expr(R) ::= PARENTHESES_OPEN expr(E) PARENTHESES_CLOSE . {
 	R = phvolt_ret_expr(PHVOLT_T_ENCLOSED, E, NULL, NULL, status->scanner_state);
 }
 
@@ -927,11 +927,11 @@ expr(R) ::= function_call(F) . {
 
 %destructor function_call { zval_ptr_dtor(&$$); }
 
-function_call(R) ::= expr(E) BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
+function_call(R) ::= expr(E) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
 	R = phvolt_ret_func_call(E, L, status->scanner_state);
 }
 
-function_call(R) ::= expr(E) BRACKET_OPEN BRACKET_CLOSE . {
+function_call(R) ::= expr(E) PARENTHESES_OPEN PARENTHESES_CLOSE . {
 	R = phvolt_ret_func_call(E, NULL, status->scanner_state);
 }
 
