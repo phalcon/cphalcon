@@ -42,6 +42,7 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_NOT,           	"NOT" },
   { PHVOLT_T_RANGE,           	"RANGE" },
   { PHVOLT_T_COLON,       		"COLON" },
+  { PHVOLT_T_QUESTION,       	"QUESTION MARK" },
   { PHVOLT_T_LESS,          	"<" },
   { PHVOLT_T_LESSEQUAL,     	"<=" },
   { PHVOLT_T_GREATER,       	">" },
@@ -241,6 +242,9 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->extends_mode = 0;
 	state->block_level = 0;
 	state->start_length = 0;
+	state->if_level = 0;
+	state->for_level = 0;
+	state->whitespace_control = 0;
 
 	state->end = state->start;
 
@@ -324,6 +328,9 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			case PHVOLT_T_COLON:
 				phvolt_(phvolt_parser, PHVOLT_COLON, NULL, parser_status);
 				break;
+			case PHVOLT_T_QUESTION:
+				phvolt_(phvolt_parser, PHVOLT_QUESTION, NULL, parser_status);
+				break;
 
 			case PHVOLT_T_BRACKET_OPEN:
 				phvolt_(phvolt_parser, PHVOLT_BRACKET_OPEN, NULL, parser_status);
@@ -346,7 +353,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 
 			case PHVOLT_T_OPEN_EDELIMITER:
-				if (state->extends_mode == 1 && state->block_level == 0){
+				if (state->extends_mode == 1 && state->block_level == 0) {
 					phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
@@ -386,18 +393,29 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				} else {
+					state->if_level++;
 					state->block_level++;
 				}
 				phvolt_(phvolt_parser, PHVOLT_IF, NULL, parser_status);
 				break;
 			case PHVOLT_T_ELSE:
-				phvolt_(phvolt_parser, PHVOLT_ELSE, NULL, parser_status);
+				if (state->if_level == 0 && state->for_level > 0) {
+					phvolt_(phvolt_parser, PHVOLT_ELSEFOR, NULL, parser_status);
+				} else {
+					phvolt_(phvolt_parser, PHVOLT_ELSE, NULL, parser_status);
+				}
 				break;
 			case PHVOLT_T_ELSEIF:
+				if (state->if_level == 0) {
+					phvolt_create_error_msg(parser_status, "Unexpected ENDIF");
+					parser_status->status = PHVOLT_PARSING_FAILED;
+					break;
+				}
 				phvolt_(phvolt_parser, PHVOLT_ELSEIF, NULL, parser_status);
 				break;
 			case PHVOLT_T_ENDIF:
 				state->block_level--;
+				state->if_level--;
 				phvolt_(phvolt_parser, PHVOLT_ENDIF, NULL, parser_status);
 				break;
 
@@ -407,6 +425,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				} else {
+					state->for_level++;
 					state->block_level++;
 				}
 				phvolt_(phvolt_parser, PHVOLT_FOR, NULL, parser_status);
@@ -416,23 +435,28 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 			case PHVOLT_T_ENDFOR:
 				state->block_level--;
+				state->for_level--;
 				phvolt_(phvolt_parser, PHVOLT_ENDFOR, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_RAW_FRAGMENT:
-				if (state->extends_mode == 1 && state->block_level == 0){
-					if(!phvolt_is_blank_string(&token)){
-						phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
-						parser_status->status = PHVOLT_PARSING_FAILED;
+				if (token.len > 0) {
+					if (state->extends_mode == 1 && state->block_level == 0){
+						if(!phvolt_is_blank_string(&token)){
+							phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
+							parser_status->status = PHVOLT_PARSING_FAILED;
+						}
+						efree(token.value);
+						break;
+					} else {
+						if (!phvolt_is_blank_string(&token)) {
+							state->statement_position++;
+						}
 					}
-					efree(token.value);
-					break;
+					phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, &token, parser_status);
 				} else {
-					if(!phvolt_is_blank_string(&token)){
-						state->statement_position++;
-					}
+					efree(token.value);
 				}
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, &token, parser_status);
 				break;
 
 			case PHVOLT_T_SET:
@@ -448,7 +472,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 
 			case PHVOLT_T_BLOCK:
-				if(state->block_level > 0){
+				if (state->block_level > 0) {
 					phvolt_create_error_msg(parser_status, "Embedding blocks into other blocks is not supported");
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;

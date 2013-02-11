@@ -553,7 +553,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue(false);
 		}
 		catch(Phalcon\Mvc\View\Exception $e){
-			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token + in eval code on line 1');
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected EOF in eval code');
 		}
 
 		try {
@@ -562,7 +562,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue(false);
 		}
 		catch(Phalcon\Mvc\View\Exception $e){
-			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token + in eval code on line 2');
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected EOF in eval code');
 		}
 
 		try {
@@ -598,13 +598,13 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 			#}{% block some %}
 				{# This is a single-line comment #}
 				{% for x in y %}
-					{{ "hello"++y }}
+					{{ "hello"**y }}
 				{% endfor %}
 			{% endblock %}');
 			$this->assertTrue(false);
 		}
 		catch(Phalcon\Mvc\View\Exception $e){
-			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token + in eval code on line 8');
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token * in eval code on line 8');
 		}
 
 		try {
@@ -1012,13 +1012,13 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, '<?php foreach (array(0, 1, 3, 5, 4) as $key => $value) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% for key, value in [0, 1, 3, 5, 4] if key!=3 %} hello {% endfor %}');
-		$this->assertEquals($compilation, '<?php foreach (array(0, 1, 3, 5, 4) as $key => $value) { if ($key != 3) { ?> hello <?php } } ?>');
+		$this->assertEquals($compilation, '<?php foreach (array(0, 1, 3, 5, 4) as $key => $value) { if ($key != 3) { ?> hello <?php } ?><?php } ?>');
 
 		$compilation = $volt->compileString('{% for a in 1..10 %} hello {% endfor %}');
 		$this->assertEquals($compilation, '<?php foreach (range(1, 10) as $a) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% for a in 1..10 if a is even %} hello {% endfor %}');
-		$this->assertEquals($compilation, '<?php foreach (range(1, 10) as $a) { if (((($a) % 2) == 0)) { ?> hello <?php } } ?>');
+		$this->assertEquals($compilation, '<?php foreach (range(1, 10) as $a) { if (((($a) % 2) == 0)) { ?> hello <?php } ?><?php } ?>');
 
 		$compilation = $volt->compileString('{% for a in 1..10 %} {% for b in 1..10 %} hello {% endfor %} {% endfor %}');
 		$this->assertEquals($compilation, '<?php foreach (range(1, 10) as $a) { ?> <?php foreach (range(1, 10) as $b) { ?> hello <?php } ?> <?php } ?>');
