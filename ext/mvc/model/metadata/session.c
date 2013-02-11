@@ -46,7 +46,7 @@
  *
  *<code>
  * $metaData = new Phalcon\Mvc\Model\Metadata\Session(array(
- *    'suffix' => 'my-app-id'
+ *    'prefix' => 'my-app-id'
  * ));
  *</code>
  */
@@ -59,7 +59,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Session, mvc_model_metadata_session, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_session_method_entry, 0);
 
-	zend_declare_property_string(phalcon_mvc_model_metadata_session_ce, SL("_suffix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_model_metadata_session_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_metadata_session_ce TSRMLS_CC, 1, phalcon_mvc_model_metadatainterface_ce);
 
@@ -73,7 +73,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 
-	zval *options = NULL, *suffix, *empty_array;
+	zval *options = NULL, *prefix, *empty_array;
 
 	PHALCON_MM_GROW();
 
@@ -86,10 +86,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("suffix"))) {
-			PHALCON_OBS_VAR(suffix);
-			phalcon_array_fetch_string(&suffix, options, SL("suffix"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_suffix"), suffix TSRMLS_CC);
+		if (phalcon_array_isset_string(options, SS("prefix"))) {
+			PHALCON_OBS_VAR(prefix);
+			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 		}
 	}
 	
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 
-	zval *key, *session = NULL, *_SESSION, *suffix, *suffix_key;
+	zval *key, *session = NULL, *_SESSION, *prefix, *prefix_key;
 	zval *meta_data;
 	zval *r0 = NULL, *r1 = NULL;
 
@@ -121,18 +121,18 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	PHALCON_CPY_WRT(session, _SESSION);
 	
-	PHALCON_OBS_VAR(suffix);
-	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(suffix_key);
-	PHALCON_CONCAT_SV(suffix_key, "$PMM$", suffix);
-	if (phalcon_array_isset(session, suffix_key)) {
+	PHALCON_INIT_VAR(prefix_key);
+	PHALCON_CONCAT_SV(prefix_key, "$PMM$", prefix);
+	if (phalcon_array_isset(session, prefix_key)) {
 	
 		PHALCON_OBS_VAR(r0);
-		phalcon_array_fetch(&r0, session, suffix_key, PH_NOISY_CC);
+		phalcon_array_fetch(&r0, session, prefix_key, PH_NOISY_CC);
 		if (phalcon_array_isset(r0, key)) {
 			PHALCON_OBS_VAR(r1);
-			phalcon_array_fetch(&r1, session, suffix_key, PH_NOISY_CC);
+			phalcon_array_fetch(&r1, session, prefix_key, PH_NOISY_CC);
 			PHALCON_OBS_VAR(meta_data);
 			phalcon_array_fetch(&meta_data, r1, key, PH_NOISY_CC);
 			RETURN_CCTOR(meta_data);
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write){
 
-	zval *key, *data, *suffix, *suffix_key, *_SESSION;
+	zval *key, *data, *prefix, *prefix_key, *_SESSION;
 
 	PHALCON_MM_GROW();
 
@@ -158,13 +158,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(suffix);
-	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(suffix_key);
-	PHALCON_CONCAT_SV(suffix_key, "$PMM$", suffix);
+	PHALCON_INIT_VAR(prefix_key);
+	PHALCON_CONCAT_SV(prefix_key, "$PMM$", prefix);
 	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_update_multi_2(&_SESSION, suffix_key, key, &data, 0 TSRMLS_CC);
+	phalcon_array_update_multi_2(&_SESSION, prefix_key, key, &data, 0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

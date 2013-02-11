@@ -990,7 +990,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	ZVAL_LONG(two, 2);
 	
 	PHALCON_INIT_VAR(middle_roles);
-	ZVAL_DOUBLE(middle_roles, Z_LVAL_P(pow_roles) / Z_LVAL_P(two));
+	div_function(middle_roles, pow_roles, two TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(middle);
 	PHALCON_CALL_FUNC_PARAMS_1(middle, "ceil", middle_roles);
