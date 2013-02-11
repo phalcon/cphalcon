@@ -38,6 +38,7 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Mvc\Micro
@@ -676,7 +677,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	zval *before = NULL, *params, *returned_value = NULL, *after_handlers;
 	zval *after = NULL, *not_found_handler, *finish_handlers;
 	zval *finish = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -783,9 +783,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 				PHALCON_GET_FOREACH_VALUE(before);
 	
-				PHALCON_INIT_NVAR(r0);
-				PHALCON_CALL_FUNC_PARAMS_1(r0, "is_callable", before);
-				if (!zend_is_true(r0)) {
+				if (!phalcon_is_callable(before TSRMLS_CC)) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The before handler is not callable");
 					return;
 				}
@@ -838,9 +836,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 				PHALCON_GET_FOREACH_VALUE(after);
 	
-				PHALCON_INIT_NVAR(r1);
-				PHALCON_CALL_FUNC_PARAMS_1(r1, "is_callable", after);
-				if (!zend_is_true(r1)) {
+				if (!phalcon_is_callable(after TSRMLS_CC)) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The after handler is not callable");
 					return;
 				}
@@ -875,10 +871,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 */
 		PHALCON_OBS_VAR(not_found_handler);
 		phalcon_read_property(&not_found_handler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(r2);
-		PHALCON_CALL_FUNC_PARAMS_1(r2, "is_callable", not_found_handler);
-		if (!zend_is_true(r2)) {
+		if (!phalcon_is_callable(not_found_handler TSRMLS_CC)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The Not-Found handler is not callable or is not defined");
 			return;
 		}
@@ -917,9 +910,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 			PHALCON_GET_FOREACH_VALUE(finish);
 	
-			PHALCON_INIT_NVAR(r3);
-			PHALCON_CALL_FUNC_PARAMS_1(r3, "is_callable", finish);
-			if (!zend_is_true(r3)) {
+			if (!phalcon_is_callable(finish TSRMLS_CC)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The finish handler is not callable");
 				return;
 			}

@@ -70,12 +70,12 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
 /**
  * Setup a 1-1 relation between two models
  *
- * @param 	Phalcon\Mvc\ModelInterface $model
+ * @param   Phalcon\Mvc\ModelInterface $model
  * @param mixed $fields
  * @param string $referenceModel
  * @param mixed $referencedFields
  * @param array $options
- * @return 	Phalcon\Mvc\Model\RelationInterface
+ * @return  Phalcon\Mvc\Model\RelationInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
 
@@ -264,7 +264,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
  *
  * @param Phalcon\Mvc\ModelInterface $model
  * @param string $eventName
- * @param aray $data
+ * @param array $data
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);

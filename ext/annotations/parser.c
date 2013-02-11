@@ -1462,6 +1462,9 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	state->mode = PHANNOT_MODE_RAW;
 	state->active_file = file_path;
 
+	token.value = NULL;
+	token.len = 0;
+
 	/**
 	 * Possible start line
 	 */
