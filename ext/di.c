@@ -253,10 +253,10 @@ PHP_METHOD(Phalcon_DI, attempt){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
 	
 		phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
+		RETURN_CTOR(service);
 	}
 	
-	
-	RETURN_THIS();
+	RETURN_MM_NULL();
 }
 
 /**

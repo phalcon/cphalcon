@@ -48,7 +48,7 @@
  *
  *<code>
  *	$metaData = new Phalcon\Mvc\Model\Metadata\Apc(array(
- *		'suffix' => 'my-app-id',
+ *		'prefix' => 'my-app-id',
  *		'lifetime' => 86400
  *	));
  *</code>
@@ -62,7 +62,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Apc, mvc_model_metadata_apc, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_apc_method_entry, 0);
 
-	zend_declare_property_string(phalcon_mvc_model_metadata_apc_ce, SL("_suffix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_model_metadata_apc_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_model_metadata_apc_ce, SL("_ttl"), 172800, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_metadata_apc_ce TSRMLS_CC, 1, phalcon_mvc_model_metadatainterface_ce);
@@ -77,7 +77,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 
-	zval *options = NULL, *suffix, *ttl, *empty_array;
+	zval *options = NULL, *prefix, *ttl, *empty_array;
 
 	PHALCON_MM_GROW();
 
@@ -90,10 +90,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("suffix"))) {
-			PHALCON_OBS_VAR(suffix);
-			phalcon_array_fetch_string(&suffix, options, SL("suffix"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_suffix"), suffix TSRMLS_CC);
+		if (phalcon_array_isset_string(options, SS("prefix"))) {
+			PHALCON_OBS_VAR(prefix);
+			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 		}
 		if (phalcon_array_isset_string(options, SS("lifetime"))) {
 			PHALCON_OBS_VAR(ttl);
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 
-	zval *key, *suffix, *apc_key, *data;
+	zval *key, *prefix, *apc_key, *data;
 
 	PHALCON_MM_GROW();
 
@@ -125,11 +125,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(suffix);
-	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(apc_key);
-	PHALCON_CONCAT_SVV(apc_key, "$PMM$", suffix, key);
+	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
 	PHALCON_INIT_VAR(data);
 	PHALCON_CALL_FUNC_PARAMS_1(data, "apc_fetch", apc_key);
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 
-	zval *key, *data, *suffix, *apc_key, *ttl;
+	zval *key, *data, *prefix, *apc_key, *ttl;
 
 	PHALCON_MM_GROW();
 
@@ -156,11 +156,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(suffix);
-	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(apc_key);
-	PHALCON_CONCAT_SVV(apc_key, "$PMM$", suffix, key);
+	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
 	PHALCON_OBS_VAR(ttl);
 	phalcon_read_property(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);

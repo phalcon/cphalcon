@@ -523,6 +523,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
  * @param Phalcon\DiInterface $dependencyInjector
  * @param string $modelName
  * @param array $data
+ * @return static
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 
