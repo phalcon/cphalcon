@@ -38,6 +38,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model, setDirtyState);
 PHP_METHOD(Phalcon_Mvc_Model, getDirtyState);
 PHP_METHOD(Phalcon_Mvc_Model, getConnection);
+PHP_METHOD(Phalcon_Mvc_Model, assign);
 PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap);
 PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate);
 PHP_METHOD(Phalcon_Mvc_Model, cloneResult);
@@ -71,6 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create);
 PHP_METHOD(Phalcon_Mvc_Model, update);
 PHP_METHOD(Phalcon_Mvc_Model, delete);
 PHP_METHOD(Phalcon_Mvc_Model, getOperationMade);
+PHP_METHOD(Phalcon_Mvc_Model, refresh);
 PHP_METHOD(Phalcon_Mvc_Model, skipOperation);
 PHP_METHOD(Phalcon_Mvc_Model, readAttribute);
 PHP_METHOD(Phalcon_Mvc_Model, writeAttribute);
@@ -114,6 +116,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setdirtystate, 0, 0, 1)
 	ZEND_ARG_INFO(0, dirtyState)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_assign, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, columnMap)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_cloneresultmap, 0, 0, 3)
@@ -258,6 +265,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, setDirtyState, arginfo_phalcon_mvc_model_setdirtystate, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getDirtyState, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getConnection, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, assign, arginfo_phalcon_mvc_model_assign, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, cloneResultMap, arginfo_phalcon_mvc_model_cloneresultmap, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, cloneResultMapHydrate, arginfo_phalcon_mvc_model_cloneresultmaphydrate, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, cloneResult, arginfo_phalcon_mvc_model_cloneresult, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
@@ -291,6 +299,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, update, arginfo_phalcon_mvc_model_update, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, delete, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getOperationMade, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, refresh, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, skipOperation, arginfo_phalcon_mvc_model_skipoperation, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, readAttribute, arginfo_phalcon_mvc_model_readattribute, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, writeAttribute, arginfo_phalcon_mvc_model_writeattribute, ZEND_ACC_PUBLIC) 

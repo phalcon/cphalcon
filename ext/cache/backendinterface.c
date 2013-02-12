@@ -38,14 +38,6 @@ PHALCON_INIT_CLASS(Phalcon_Cache_BackendInterface){
 }
 
 /**
- * Phalcon\Cache\Backend constructor
- *
- * @param Phalcon\Cache\FrontendInterface $frontend
- * @param array $options
- */
-PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, __construct);
-
-/**
  * Starts a cache. The $keyname allows to identify the created fragment
  *
  * @param int|string $keyName

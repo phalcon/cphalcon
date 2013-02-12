@@ -539,6 +539,86 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnection){
 }
 
 /**
+ * Assigns values to a model from an array returning a new model
+ *
+ *<code>
+ *$robot->assign(array(
+ *  'type' => 'mechanical',
+ *  'name' => 'Astro Boy',
+ *  'year' => 1952
+ *));
+ *</code>
+ *
+ * @param Phalcon\Mvc\Model $object
+ * @param array $data
+ * @param array $columnMap
+ * @return Phalcon\Mvc\Model
+ */
+PHP_METHOD(Phalcon_Mvc_Model, assign){
+
+	zval *data, *column_map = NULL, *value = NULL, *key = NULL, *attribute = NULL;
+	zval *exception_message = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &data, &column_map) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!column_map) {
+		PHALCON_INIT_VAR(column_map);
+	}
+	
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
+		return;
+	}
+	
+	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+		PHALCON_GET_FOREACH_VALUE(value);
+	
+		if (Z_TYPE_P(key) == IS_STRING) {
+	
+			/** 
+			 * Only string keys in the data are valid
+			 */
+			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+	
+				/** 
+				 * Every field must be part of the column map
+				 */
+				if (phalcon_array_isset(column_map, key)) {
+					PHALCON_OBS_NVAR(attribute);
+					phalcon_array_fetch(&attribute, column_map, key, PH_NOISY_CC);
+					phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+				} else {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
+				}
+			} else {
+				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+			}
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Assigns values to a model from an array returning a new model.
  *
  *<code>
@@ -1210,20 +1290,20 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		if (!PHALCON_IS_EQUAL(number_primary, number_empty)) {
-			PHALCON_INIT_VAR(join_where);
-			phalcon_fast_join_str(join_where, SL(" AND "), where_pk TSRMLS_CC);
-	
-			/** 
-			 * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
-			 */
-			phalcon_update_property_zval(this_ptr, SL("_uniqueKey"), join_where TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_uniqueParams"), unique_params TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_uniqueTypes"), unique_types TSRMLS_CC);
-			PHALCON_CPY_WRT(unique_key, join_where);
-		} else {
+		if (PHALCON_IS_EQUAL(number_primary, number_empty)) {
 			RETURN_MM_FALSE;
 		}
+	
+		PHALCON_INIT_VAR(join_where);
+		phalcon_fast_join_str(join_where, SL(" AND "), where_pk TSRMLS_CC);
+	
+		/** 
+		 * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
+		 */
+		phalcon_update_property_zval(this_ptr, SL("_uniqueKey"), join_where TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_uniqueParams"), unique_params TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_uniqueTypes"), unique_types TSRMLS_CC);
+		PHALCON_CPY_WRT(unique_key, join_where);
 	}
 	
 	/** 
@@ -4032,28 +4112,28 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 		/** 
 		 * If the attribute is currently set in the object add it to the conditions
 		 */
-		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(value);
-			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
-			phalcon_array_append(&values, value, PH_SEPARATE TSRMLS_CC);
-	
-			/** 
-			 * Escape the column identifier
-			 */
-			PHALCON_INIT_NVAR(escaped_field);
-			PHALCON_CALL_METHOD_PARAMS_1(escaped_field, connection, "escapeidentifier", primary_key);
-	
-			PHALCON_INIT_NVAR(primary_condition);
-			PHALCON_CONCAT_VS(primary_condition, escaped_field, " = ?");
-			phalcon_array_append(&conditions, primary_condition, PH_SEPARATE TSRMLS_CC);
-	
-			PHALCON_OBS_NVAR(bind_type);
-			phalcon_array_fetch(&bind_type, bind_data_types, primary_key, PH_NOISY_CC);
-			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
-		} else {
+		if (!phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cannot delete the record because one of the primary key attributes isn't set");
 			return;
 		}
+	
+		PHALCON_OBS_NVAR(value);
+		phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
+		phalcon_array_append(&values, value, PH_SEPARATE TSRMLS_CC);
+	
+		/** 
+		 * Escape the column identifier
+		 */
+		PHALCON_INIT_NVAR(escaped_field);
+		PHALCON_CALL_METHOD_PARAMS_1(escaped_field, connection, "escapeidentifier", primary_key);
+	
+		PHALCON_INIT_NVAR(primary_condition);
+		PHALCON_CONCAT_VS(primary_condition, escaped_field, " = ?");
+		phalcon_array_append(&conditions, primary_condition, PH_SEPARATE TSRMLS_CC);
+	
+		PHALCON_OBS_NVAR(bind_type);
+		phalcon_array_fetch(&bind_type, bind_data_types, primary_key, PH_NOISY_CC);
+		phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -4133,6 +4213,130 @@ PHP_METHOD(Phalcon_Mvc_Model, getOperationMade){
 }
 
 /**
+ *
+ */
+PHP_METHOD(Phalcon_Mvc_Model, refresh){
+
+	zval *dirty_state, *meta_data, *connection, *schema;
+	zval *source, *table = NULL, *unique_key = NULL, *exists, *unique_params;
+	zval *unique_types, *attributes, *fields, *attribute = NULL;
+	zval *field_item = NULL, *escaped_table, *select, *dialect;
+	zval *sql, *fetch_type, *row;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(dirty_state);
+	phalcon_read_property(&dirty_state, this_ptr, SL("_dirtyState"), PH_NOISY_CC);
+	if (!PHALCON_IS_LONG(dirty_state, 0)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(meta_data);
+	PHALCON_CALL_METHOD(meta_data, this_ptr, "getmodelsmetadata");
+	
+	PHALCON_INIT_VAR(connection);
+	PHALCON_CALL_METHOD(connection, this_ptr, "getconnection");
+	
+	PHALCON_INIT_VAR(schema);
+	PHALCON_CALL_METHOD(schema, this_ptr, "getschema");
+	
+	PHALCON_INIT_VAR(source);
+	PHALCON_CALL_METHOD(source, this_ptr, "getsource");
+	if (zend_is_true(schema)) {
+		PHALCON_INIT_VAR(table);
+		array_init_size(table, 2);
+		phalcon_array_append(&table, schema, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&table, source, PH_SEPARATE TSRMLS_CC);
+	} else {
+		PHALCON_CPY_WRT(table, source);
+	}
+	
+	PHALCON_OBS_VAR(unique_key);
+	phalcon_read_property(&unique_key, this_ptr, SL("_uniqueKey"), PH_NOISY_CC);
+	if (!zend_is_true(unique_key)) {
+	
+		/** 
+		 * We need to check if the record exists
+		 */
+		PHALCON_INIT_VAR(exists);
+		PHALCON_CALL_METHOD_PARAMS_3(exists, this_ptr, "_exists", meta_data, connection, table);
+		if (!zend_is_true(exists)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted");
+			return;
+		}
+	
+		PHALCON_OBS_NVAR(unique_key);
+		phalcon_read_property(&unique_key, this_ptr, SL("_uniqueKey"), PH_NOISY_CC);
+	}
+	
+	PHALCON_OBS_VAR(unique_params);
+	phalcon_read_property(&unique_params, this_ptr, SL("_uniqueParams"), PH_NOISY_CC);
+	if (Z_TYPE_P(unique_params) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record cannot be refreshed because it does not exist or is deleted");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(unique_types);
+	phalcon_read_property(&unique_types, this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(attributes);
+	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr);
+	
+	PHALCON_INIT_VAR(fields);
+	array_init(fields);
+	
+	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_FOREACH_VALUE(attribute);
+	
+		PHALCON_INIT_NVAR(field_item);
+		array_init_size(field_item, 1);
+		phalcon_array_append(&field_item, attribute, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&fields, field_item, PH_SEPARATE TSRMLS_CC);
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	PHALCON_INIT_VAR(escaped_table);
+	PHALCON_CALL_METHOD_PARAMS_1(escaped_table, connection, "escapeidentifier", table);
+	
+	PHALCON_INIT_VAR(select);
+	array_init(select);
+	phalcon_array_update_string(&select, SL("columns"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&select, SL("tables"), &escaped_table, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&select, SL("where"), &unique_key, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(dialect);
+	PHALCON_CALL_METHOD(dialect, connection, "getdialect");
+	
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CALL_METHOD_PARAMS_1(sql, dialect, "select", select);
+	
+	PHALCON_INIT_VAR(fetch_type);
+	ZVAL_LONG(fetch_type, 1);
+	
+	PHALCON_INIT_VAR(row);
+	PHALCON_CALL_METHOD_PARAMS_4(row, connection, "fetchone", sql, fetch_type, unique_params, unique_types);
+	
+	/** 
+	 * Assign the resulting array to the this_ptr object
+	 */
+	if (Z_TYPE_P(row) == IS_ARRAY) { 
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "assign", row);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Skips the current operation forcing a success state
  *
  * @param boolean $skip
@@ -4181,7 +4385,7 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute){
  * Writes an attribute value by its name
  *
  * <code>
- * $robot->writeAttribute('name', 'Rosey');
+ * 	$robot->writeAttribute('name', 'Rosey');
  * </code>
  *
  * @param string $attribute
