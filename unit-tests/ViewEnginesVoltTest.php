@@ -1063,7 +1063,8 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{# some comment #}{{ "hello" }}{# other comment }}');
 		$this->assertEquals($compilation, "<?php echo 'hello'; ?>");
 
-		//
+		$compilation = $volt->compileString('{% if dump("contains", "right", content|keys) and not dump("contains", "left", content|keys) %} {% endif %}');
+		$this->assertEquals($compilation, "<?php if (var_dump('contains', 'right', array_keys(\$content)) && !var_dump('contains', 'left', array_keys(\$content))) { ?> <?php } ?>");
 
 	}
 
