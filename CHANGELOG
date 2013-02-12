@@ -5,9 +5,13 @@
  - Added support for loop variable context in Volt
  - Added whitespace control delimiters {%- -%} and {{- -}} to Volt
  - Suport for 'in' and 'not in' operators in Volt
+ - Added Phalcon\Mvc\Model::assign to assign an array of values to a model instance
+ - Added Phalcon\Mvc\Model::refresh to refresh the state of a model
+ - Added Phalcon\Logger\Adapter::setLogLevel to filter messages with greater or less priority
+ - Removed constructor from Phalcon\Cache\BackendInterface
 
 0.9.0b2
- - Support for reusable records. A relation can be marked to cache in memory the records to speedup getting related records
+ - Support for reusable records. A relation can be marked to cache in memory the queried records to speedup getting related records
  - Added 'elseif' statement to Volt
  - Changed static key in Volt's 'cache' to any valid expression
  - Added Phalcon\Logger\Adapter\Syslog and Phalcon\Logger\Adapter\Stream to Phalcon\Logger
