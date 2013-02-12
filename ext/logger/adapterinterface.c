@@ -38,6 +38,34 @@ PHALCON_INIT_CLASS(Phalcon_Logger_AdapterInterface){
 }
 
 /**
+ * Sets the message formatter
+ *
+ * @param Phalcon\Logger\FormatterInterface $formatter
+ */
+PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, setFormatter);
+
+/**
+ * Returns the internal formatter
+ *
+ * @return Phalcon\Logger\FormatterInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getFormatter);
+
+/**
+ * Filters the logs sent to the handlers to be greater or equals than a specific level
+ *
+ * @param int $level
+ */
+PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, setLogLevel);
+
+/**
+ * Returns the current log level
+ *
+ * @return int
+ */
+PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getLogLevel);
+
+/**
  * Sends/Writes messages to the file log
  *
  * @param string $message
