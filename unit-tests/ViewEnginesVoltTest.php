@@ -63,7 +63,7 @@ class SomeObject implements Iterator, Countable
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
-	/*public function testVoltParser()
+	public function testVoltParser()
 	{
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
@@ -981,10 +981,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, '<?php if (!isset($a)) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% if 1 in [2, 3, 1] %} hello {% endif %}');
-		$this->assertEquals($compilation, '<?php if ($this->included(1, array(2, 3, 1))) { ?> hello <?php } ?>');
+		$this->assertEquals($compilation, '<?php if ($this->isIncluded(1, array(2, 3, 1))) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% if "b" in "abc" %} hello {% endif %}');
-		$this->assertEquals($compilation, '<?php if ($this->included(\'b\', \'abc\')) { ?> hello <?php } ?>');
+		$this->assertEquals($compilation, '<?php if ($this->isIncluded(\'b\', \'abc\')) { ?> hello <?php } ?>');
 
 		$compilation = $volt->compileString('{% if a==b %} hello {% else %} not hello {% endif %}');
 		$this->assertEquals($compilation, '<?php if ($a == $b) { ?> hello <?php } else { ?> not hello <?php } ?>');
@@ -1108,7 +1108,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{{ "1,2,3,4"|separate }}');
 		$this->assertEquals($compilation, '<?php echo explode(",", \'1,2,3,4\'); ?>');
 
-	}*/
+	}
 
 	public function testVoltWhitespaceControl()
 	{
@@ -1158,7 +1158,15 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, '<?php 1 + 1; ?><?php 1 + 1; ?>');
 	}
 
-	/*public function testVoltCompilerFile()
+	/*public function testVoltWhitespaceControl()
+	{
+		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
+
+		$compilation = $volt->compileString('{{- "hello" -}}');
+		$this->assertEquals($compilation, '<?php echo \'hello\'; ?>');
+	}*/
+
+	public function testVoltCompilerFile()
 	{
 		@unlink('unit-tests/views/layouts/test10.volt.php');
 
@@ -1384,6 +1392,6 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$view->finish();
 
 		$this->assertEquals($view->getContent(), 'Length Array: 4Length Object: 4Length String: 5Length No String: 4Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3Slice Object: 2,3,4Slice Object: 2,3Slice Object: 1,2Slice String: helSlice String: elSlice String: lloSlice No String: 123Slice No String: 23Slice No String: 34');
-	}*/
+	}
 
 }

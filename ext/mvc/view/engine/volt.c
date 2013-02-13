@@ -263,6 +263,44 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length){
 }
 
 /**
+ * Checks if the needle is included in the haystack
+ *
+ * @param mixed $needle
+ * @param mixed $haystack
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
+
+	zval *needle, *haystack, *included = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &needle, &haystack) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(haystack) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(included);
+		PHALCON_CALL_FUNC_PARAMS_2(included, "in_array", needle, haystack);
+		RETURN_CCTOR(included);
+	}
+	if (Z_TYPE_P(haystack) == IS_STRING) {
+		if (phalcon_function_exists_ex(SS("mb_strpos") TSRMLS_CC) == SUCCESS) {
+			PHALCON_INIT_NVAR(included);
+			PHALCON_CALL_FUNC_PARAMS_2(included, "mb_strpos", haystack, needle);
+		} else {
+			PHALCON_INIT_NVAR(included);
+			phalcon_fast_strpos(included, haystack, needle TSRMLS_CC);
+		}
+	
+		RETURN_CCTOR(included);
+	}
+	
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid haystack");
+	return;
+}
+
+/**
  * Performs a string conversion
  *
  * @param string $text

@@ -1625,12 +1625,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 	
 			case 309:
 				PHALCON_INIT_NVAR(expr_code);
-				PHALCON_CONCAT_SVSVS(expr_code, "$this->included(", left_code, ", ", right_code, ")");
+				PHALCON_CONCAT_SVSVS(expr_code, "$this->isIncluded(", left_code, ", ", right_code, ")");
 				break;
 	
 			case 369:
 				PHALCON_INIT_NVAR(expr_code);
-				PHALCON_CONCAT_SVSVS(expr_code, "!$this->included(", left_code, ", ", right_code, ")");
+				PHALCON_CONCAT_SVSVS(expr_code, "!$this->isIncluded(", left_code, ", ", right_code, ")");
 				break;
 	
 			case 366:
