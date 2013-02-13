@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log){
 	phalcon_read_property(&log_level, this_ptr, SL("_logLevel"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(enter_level);
-	is_smaller_or_equal_function(enter_level, log_level, type TSRMLS_CC);
+	is_smaller_or_equal_function(enter_level, type, log_level TSRMLS_CC);
 	
 	/** 
 	 * Checks if the log is valid respecting the current log level

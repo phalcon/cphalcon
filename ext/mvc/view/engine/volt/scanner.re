@@ -43,7 +43,7 @@ void phvolt_rtrim(phvolt_scanner_token *token) {
 		cursor += (token->len - 1);
 		for (i = token->len; i > 0; i--) {
 			ch = (*cursor);
-			if (ch == '\t' || ch == '\n' || ch == '\r' || ch == ' ' || ch == 11) {
+			if (ch == '\t' || ch == '\n' || ch == '\r' || ch == ' ' || ch == '\v') {
 				cursor--;
 				continue;
 			}
@@ -72,7 +72,7 @@ void phvolt_ltrim(phvolt_scanner_token *token) {
 		cursor = token->value;
 		for (i = 0; i < token->len; i++) {
 			ch = (*cursor);
-			if (ch == '\t' || ch == '\n' || ch == '\r' || ch == ' ' || ch == 11) {
+			if (ch == '\t' || ch == '\n' || ch == '\r' || ch == ' ' || ch == '\v') {
 				cursor++;
 				continue;
 			}
