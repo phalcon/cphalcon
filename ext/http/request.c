@@ -775,8 +775,8 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
  */
 PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
-	zval *trust_forwarded_header = NULL, *server = NULL, *_SERVER;
-	zval *address = NULL, *comma, *addresses, *first;
+	zval *trust_forwarded_header = NULL, *address = NULL, *_SERVER;
+	zval *comma, *addresses, *first;
 
 	PHALCON_MM_GROW();
 
@@ -789,24 +789,27 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 		ZVAL_BOOL(trust_forwarded_header, 0);
 	}
 	
-	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, _SERVER);
+	PHALCON_INIT_VAR(address);
 	
 	/** 
 	 * Proxies uses this IP
 	 */
-	if (PHALCON_IS_TRUE(trust_forwarded_header)) {
-		if (phalcon_array_isset_string(server, SS("HTTP_X_FORWARDED_FOR"))) {
-			PHALCON_OBS_VAR(address);
-			phalcon_array_fetch_string(&address, server, SL("HTTP_X_FORWARDED_FOR"), PH_NOISY_CC);
-			RETURN_CCTOR(address);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	if (phalcon_array_isset_string(_SERVER, SS("HTTP_X_FORWARDED_FOR"))) {
+		if (zend_is_true(trust_forwarded_header)) {
+			PHALCON_OBS_NVAR(address);
+			phalcon_array_fetch_string(&address, _SERVER, SL("HTTP_X_FORWARDED_FOR"), PH_NOISY_CC);
 		}
 	}
 	
-	if (phalcon_array_isset_string(server, SS("REMOTE_ADDR"))) {
+	if (Z_TYPE_P(address) == IS_NULL) {
+		if (phalcon_array_isset_string(_SERVER, SS("REMOTE_ADDR"))) {
+			PHALCON_OBS_NVAR(address);
+			phalcon_array_fetch_string(&address, _SERVER, SL("REMOTE_ADDR"), PH_NOISY_CC);
+		}
+	}
 	
-		PHALCON_OBS_NVAR(address);
-		phalcon_array_fetch_string(&address, server, SL("REMOTE_ADDR"), PH_NOISY_CC);
+	if (Z_TYPE_P(address) == IS_STRING) {
 		if (phalcon_memnstr_str(address, SL(",") TSRMLS_CC)) {
 			/** 
 			 * The client address has multiples parts, only return the first part
@@ -821,7 +824,6 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 			phalcon_array_fetch_long(&first, addresses, 0, PH_NOISY_CC);
 			RETURN_CCTOR(first);
 		}
-	
 	
 		RETURN_CCTOR(address);
 	}
