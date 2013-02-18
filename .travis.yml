@@ -6,11 +6,9 @@ php:
   - 5.4
 
 services:
-  - memcached
   - mongodb
 
 before_install:
- - sudo apt-get install sqlite3
  - chmod +x unit-tests/ci/install_memcached
  - chmod +x unit-tests/ci/install_apc
  - chmod +x unit-tests/ci/install_mongo
@@ -37,7 +35,7 @@ before_script:
  - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/schemas/sqlite/phalcon_test.sql
  - chmod +x unit-tests/ci/run_script.sh
 
-script: sudo ./unit-tests/ci/run_script.sh
+script: ./unit-tests/ci/run_script.sh
 
 notifications:
   email:
