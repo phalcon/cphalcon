@@ -605,7 +605,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection){
 
 	PHALCON_OBS_VAR(transaction);
 	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
-	if (Z_TYPE_P(transaction) != IS_OBJECT) {
+	if (Z_TYPE_P(transaction) == IS_OBJECT) {
 		PHALCON_INIT_VAR(connection);
 		PHALCON_CALL_METHOD(connection, transaction, "getconnection");
 	} else {
