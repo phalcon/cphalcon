@@ -151,8 +151,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	if (phalcon_array_isset_string(descriptor, SS("username"))) {
 		PHALCON_OBS_VAR(username);
 		phalcon_array_fetch_string(&username, descriptor, SL("username"), PH_NOISY_CC);
-		PHALCON_SEPARATE_PARAM(descriptor);
-		phalcon_array_unset_string(descriptor, SS("username"));
+		phalcon_array_unset_string(descriptor, SS("username"), PH_SEPARATE);
 	} else {
 		PHALCON_INIT_NVAR(username);
 	}
@@ -163,8 +162,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	if (phalcon_array_isset_string(descriptor, SS("password"))) {
 		PHALCON_OBS_VAR(password);
 		phalcon_array_fetch_string(&password, descriptor, SL("password"), PH_NOISY_CC);
-		PHALCON_SEPARATE_PARAM(descriptor);
-		phalcon_array_unset_string(descriptor, SS("password"));
+		phalcon_array_unset_string(descriptor, SS("password"), PH_SEPARATE);
 	} else {
 		PHALCON_INIT_NVAR(password);
 	}

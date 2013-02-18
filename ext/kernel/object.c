@@ -1021,6 +1021,34 @@ int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int metho
 }
 
 /**
+ * Check if method exists on certain object using explicit char param
+ */
+int phalcon_method_quick_exists_ex(zval *object, char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC){
+
+	zend_class_entry *ce;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		ce = Z_OBJCE_P(object);
+	} else {
+		if (Z_TYPE_P(object) == IS_STRING) {
+			ce = zend_fetch_class(Z_STRVAL_P(object), Z_STRLEN_P(object), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+		} else {
+			return FAILURE;
+		}
+	}
+
+	ce = Z_OBJCE_P(object);
+	while (ce) {
+		if (zend_hash_quick_exists(&ce->function_table, method_name, method_len, hash)) {
+			return SUCCESS;
+		}
+		ce = ce->parent;
+	}
+
+	return FAILURE;
+}
+
+/**
  * Query a static property value from a zend_class_entry
  */
 int phalcon_read_static_property(zval **result, char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC){

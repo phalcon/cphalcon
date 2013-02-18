@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, delete){
 	PHALCON_OBS_VAR(data);
 	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (phalcon_array_isset(data, key)) {
-		phalcon_unset_property_array(this_ptr, SL("_data"), key);
+		phalcon_unset_property_array(this_ptr, SL("_data"), key TSRMLS_CC);
 		RETURN_MM_TRUE;
 	}
 	

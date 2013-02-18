@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_DI, remove){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	phalcon_unset_property_array(this_ptr, SL("_services"), name);
+	phalcon_unset_property_array(this_ptr, SL("_services"), name TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
