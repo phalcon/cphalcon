@@ -34,26 +34,21 @@
 
 #include "kernel/object.h"
 #include "kernel/concat.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
-#include "kernel/exception.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
+#include "kernel/exception.h"
+#include "kernel/operators.h"
 
 /**
- * Phalcon\Cache\Backend\Apc
+ * Phalcon\Cache\Backend\Memory
  *
- * Allows to cache output fragments, PHP data and raw data using a memcache backend
+ * Stores content in memory. Data is lost when the request is finished
  *
  *<code>
- *	//Cache data for 2 days
- *	$frontCache = new Phalcon\Cache\Frontend\Data(array(
- *		'lifetime' => 172800
- *	));
+ *	//Cache data
+ *	$frontCache = new Phalcon\Cache\Frontend\Data();
  *
- *  $cache = new Phalcon\Cache\Backend\Apc($frontCache, array(
- *      'prefix' => 'app-data'
- *  ));
+ *  $cache = new Phalcon\Cache\Backend\Memory($frontCache);
  *
  *	//Cache arbitrary data
  *	$cache->save('my-data', array(1, 2, 3, 4, 5));
@@ -66,13 +61,15 @@
 
 
 /**
- * Phalcon\Cache\Backend\Apc initializer
+ * Phalcon\Cache\Backend\Memory initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Apc){
+PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Memory){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Apc, cache_backend_apc, "phalcon\\cache\\backend", phalcon_cache_backend_apc_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Memory, cache_backend_memory, "phalcon\\cache\\backend", phalcon_cache_backend_memory_method_entry, 0);
 
-	zend_class_implements(phalcon_cache_backend_apc_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
+	zend_declare_property_null(phalcon_cache_backend_memory_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_cache_backend_memory_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
 
 	return SUCCESS;
 }
@@ -84,10 +81,10 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Apc){
  * @param   long $lifetime
  * @return  mixed
  */
-PHP_METHOD(Phalcon_Cache_Backend_Apc, get){
+PHP_METHOD(Phalcon_Cache_Backend_Memory, get){
 
-	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key;
-	zval *cached_content, *processed;
+	zval *key_name, *lifetime = NULL, *last_key = NULL, *prefix, *data;
+	zval *cached_content, *frontend, *processed;
 
 	PHALCON_MM_GROW();
 
@@ -99,21 +96,31 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get){
 		PHALCON_INIT_VAR(lifetime);
 	}
 	
-	PHALCON_OBS_VAR(frontend);
-	phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	if (Z_TYPE_P(key_name) == IS_NULL) {
+		PHALCON_OBS_VAR(last_key);
+		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		PHALCON_OBS_VAR(prefix);
+		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-	PHALCON_OBS_VAR(prefix);
-	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		PHALCON_INIT_NVAR(last_key);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
+	}
 	
-	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_SVV(prefixed_key, "_PHCA", prefix, key_name);
-	phalcon_update_property_zval(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(cached_content);
-	PHALCON_CALL_FUNC_PARAMS_1(cached_content, "apc_fetch", prefixed_key);
-	if (PHALCON_IS_FALSE(cached_content)) {
+	PHALCON_OBS_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	if (!phalcon_array_isset(data, last_key)) {
 		RETURN_MM_NULL();
 	}
+	
+	PHALCON_OBS_VAR(cached_content);
+	phalcon_array_fetch(&cached_content, data, last_key, PH_NOISY_CC);
+	if (Z_TYPE_P(cached_content) == IS_NULL) {
+		RETURN_MM_NULL();
+	}
+	
+	PHALCON_OBS_VAR(frontend);
+	phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(processed);
 	PHALCON_CALL_METHOD_PARAMS_1(processed, frontend, "afterretrieve", cached_content);
@@ -129,11 +136,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get){
  * @param long $lifetime
  * @param boolean $stopBuffer
  */
-PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
+PHP_METHOD(Phalcon_Cache_Backend_Memory, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
 	zval *last_key = NULL, *prefix, *frontend, *cached_content = NULL;
-	zval *prepared_content, *ttl = NULL, *is_buffering;
+	zval *prepared_content, *is_buffering;
 
 	PHALCON_MM_GROW();
 
@@ -166,7 +173,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(last_key);
-		PHALCON_CONCAT_SVV(last_key, "_PHCA", prefix, key_name);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 	if (!zend_is_true(last_key)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
@@ -184,14 +191,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	
 	PHALCON_INIT_VAR(prepared_content);
 	PHALCON_CALL_METHOD_PARAMS_1(prepared_content, frontend, "beforestore", cached_content);
-	if (Z_TYPE_P(lifetime) == IS_NULL) {
-		PHALCON_INIT_VAR(ttl);
-		PHALCON_CALL_METHOD(ttl, frontend, "getlifetime");
-	} else {
-		PHALCON_CPY_WRT(ttl, lifetime);
-	}
-	
-	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", last_key, prepared_content, ttl);
+	phalcon_update_property_array(this_ptr, SL("_data"), last_key, prepared_content TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(is_buffering);
 	PHALCON_CALL_METHOD(is_buffering, frontend, "isbuffering");
@@ -214,9 +214,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
  * @param string $keyName
  * @return boolean
  */
-PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
+PHP_METHOD(Phalcon_Cache_Backend_Memory, delete){
 
-	zval *key_name, *prefix, *key, *success;
+	zval *key_name, *prefix, *key, *data;
 
 	PHALCON_MM_GROW();
 
@@ -228,11 +228,16 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(key);
-	PHALCON_CONCAT_SVV(key, "_PHCA", prefix, key_name);
+	PHALCON_CONCAT_VV(key, prefix, key_name);
 	
-	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_FUNC_PARAMS_1(success, "apc_delete", key);
-	RETURN_CCTOR(success);
+	PHALCON_OBS_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	if (phalcon_array_isset(data, key)) {
+		phalcon_unset_property_array(this_ptr, SL("_data"), key);
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -241,12 +246,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
  * @param string $prefix
  * @return array
  */
-PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
+PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys){
 
-	zval *prefix = NULL, *keys, *type, *prefix_pattern, *iterator;
-	zval *key = NULL, *real_key = NULL;
-	zval *r0 = NULL;
-	zend_class_entry *ce0;
+	zval *prefix = NULL, *keys;
 
 	PHALCON_MM_GROW();
 
@@ -262,42 +264,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	PHALCON_INIT_VAR(keys);
 	array_init(keys);
 	
-	PHALCON_INIT_VAR(type);
-	ZVAL_STRING(type, "user", 1);
-	
-	PHALCON_INIT_VAR(prefix_pattern);
-	PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
-	ce0 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(iterator);
-	object_init_ex(iterator, ce0);
-	if (phalcon_has_constructor(iterator TSRMLS_CC)) {
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(iterator, "__construct", type, prefix_pattern);
-	}
-	PHALCON_CALL_METHOD_NORETURN(iterator, "rewind");
-	
-	while (1) {
-	
-		PHALCON_INIT_NVAR(r0);
-		PHALCON_CALL_METHOD(r0, iterator, "valid");
-		if (zend_is_true(r0)) {
-		} else {
-			break;
-		}
-	
-		PHALCON_INIT_NVAR(key);
-		PHALCON_CALL_METHOD(key, iterator, "key");
-	
-		/** 
-		 * Remove the _PHCA prefix
-		 */
-		PHALCON_INIT_NVAR(real_key);
-		phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
-		phalcon_array_append(&keys, real_key, PH_SEPARATE TSRMLS_CC);
-		PHALCON_CALL_METHOD_NORETURN(iterator, "next");
-	}
-	
-	RETURN_CTOR(keys);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -307,9 +274,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
  * @param  long $lifetime
  * @return boolean
  */
-PHP_METHOD(Phalcon_Cache_Backend_Apc, exists){
+PHP_METHOD(Phalcon_Cache_Backend_Memory, exists){
 
-	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *cache_exists;
+	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *data;
 
 	PHALCON_MM_GROW();
 
@@ -333,13 +300,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists){
 		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(last_key);
-		PHALCON_CONCAT_SVV(last_key, "_PHCA", prefix, key_name);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 	if (zend_is_true(last_key)) {
 	
-		PHALCON_INIT_VAR(cache_exists);
-		PHALCON_CALL_FUNC_PARAMS_1(cache_exists, "apc_exists", last_key);
-		if (PHALCON_IS_NOT_FALSE(cache_exists)) {
+		PHALCON_OBS_VAR(data);
+		phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+		if (phalcon_array_isset(data, last_key)) {
 			RETURN_MM_TRUE;
 		}
 	}

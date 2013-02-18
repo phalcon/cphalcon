@@ -194,7 +194,6 @@ PHP_METHOD(Phalcon_DI, setShared){
 PHP_METHOD(Phalcon_DI, remove){
 
 	zval *name;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -206,11 +205,7 @@ PHP_METHOD(Phalcon_DI, remove){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	
-	PHALCON_OBS_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_services"), PH_NOISY_CC);
-	PHALCON_SEPARATE_NMO(t0);
-	phalcon_array_unset(t0, name);
+	phalcon_unset_property_array(this_ptr, SL("_services"), name);
 	
 	PHALCON_MM_RESTORE();
 }

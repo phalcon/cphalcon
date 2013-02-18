@@ -50,14 +50,14 @@
  *
  * //Using a standard foreach
  * $robots = Robots::find(array("type='virtual'", "order" => "name"));
- * foreach($robots as $robot){
+ * foreach ($robots as $robot) {
  *  echo $robot->name, "\n";
  * }
  *
  * //Using a while
  * $robots = Robots::find(array("type='virtual'", "order" => "name"));
  * $robots->rewind();
- * while($robots->valid()){
+ * while ($robots->valid()) {
  *  $robot = $robots->current();
  *  echo $robot->name, "\n";
  *  $robots->next();
@@ -659,13 +659,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 			/** 
 			 * We only can delete resultsets whose every element is a complete object
 			 */
-			if (!phalcon_method_exists_ex(record, SS("getconnection") TSRMLS_CC) == FAILURE) {
+			if (!phalcon_method_exists_ex(record, SS("getwriteconnection") TSRMLS_CC) == FAILURE) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid");
 				return;
 			}
 	
 			PHALCON_INIT_NVAR(connection);
-			PHALCON_CALL_METHOD(connection, record, "getconnection");
+			PHALCON_CALL_METHOD(connection, record, "getwriteconnection");
 			PHALCON_CALL_METHOD_NORETURN(connection, "begin");
 	
 			PHALCON_INIT_NVAR(transaction);

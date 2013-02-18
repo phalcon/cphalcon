@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
 	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_unset(_SESSION, key);
+	phalcon_array_unset(&_SESSION, key, 0);
 	
 	PHALCON_MM_RESTORE();
 }

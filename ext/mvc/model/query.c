@@ -2965,10 +2965,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		}
 	
 		/** 
-		 * Get the current connection to the model
+		 * The 'selectConnection' method could be implemented in a 
 		 */
-		PHALCON_INIT_VAR(connection);
-		PHALCON_CALL_METHOD(connection, model, "getconnection");
+		if (phalcon_method_exists_ex(model, SS("selectreadconnection") TSRMLS_CC) == SUCCESS) {
+	
+			PHALCON_INIT_VAR(connection);
+			PHALCON_CALL_METHOD_PARAMS_3(connection, model, "selectreadconnection", intermediate, bind_params, bind_types);
+			if (Z_TYPE_P(connection) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "'selectReadConnection' didn't returned a valid connection");
+				return;
+			}
+		} else {
+			/** 
+			 * Get the current connection to the model
+			 */
+			PHALCON_INIT_NVAR(connection);
+			PHALCON_CALL_METHOD(connection, model, "getreadconnection");
+		}
+	
 		phalcon_array_update_zval(&models_instances, model_name, &model, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	} else {
 		/** 
@@ -2997,7 +3011,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			 * Get the models connection
 			 */
 			PHALCON_INIT_NVAR(connection);
-			PHALCON_CALL_METHOD(connection, model, "getconnection");
+			PHALCON_CALL_METHOD(connection, model, "getreadconnection");
 	
 			/** 
 			 * Get the type of connection the model is using (mysql, postgresql, etc)
@@ -3423,7 +3437,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	 * Get the model connection
 	 */
 	PHALCON_INIT_VAR(connection);
-	PHALCON_CALL_METHOD(connection, model, "getconnection");
+	PHALCON_CALL_METHOD(connection, model, "getwriteconnection");
 	
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
@@ -3803,7 +3817,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	}
 	
 	PHALCON_INIT_VAR(connection);
-	PHALCON_CALL_METHOD(connection, model, "getconnection");
+	PHALCON_CALL_METHOD(connection, model, "getwriteconnection");
 	
 	PHALCON_INIT_VAR(dialect);
 	PHALCON_CALL_METHOD(dialect, connection, "getdialect");
@@ -3891,10 +3905,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 				if (phalcon_array_isset(bind_params, wildcard)) {
 					PHALCON_OBS_NVAR(update_value);
 					phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
-					PHALCON_SEPARATE(select_bind_params);
-					phalcon_array_unset(select_bind_params, wildcard);
-					PHALCON_SEPARATE(select_bind_types);
-					phalcon_array_unset(select_bind_types, wildcard);
+					phalcon_array_unset(&select_bind_params, wildcard, PH_SEPARATE);
+					phalcon_array_unset(&select_bind_types, wildcard, PH_SEPARATE);
 				} else {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
@@ -3918,10 +3930,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 				if (phalcon_array_isset(bind_params, wildcard)) {
 					PHALCON_OBS_NVAR(update_value);
 					phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
-					PHALCON_SEPARATE(select_bind_params);
-					phalcon_array_unset(select_bind_params, wildcard);
-					PHALCON_SEPARATE(select_bind_types);
-					phalcon_array_unset(select_bind_types, wildcard);
+					phalcon_array_unset(&select_bind_params, wildcard, PH_SEPARATE);
+					phalcon_array_unset(&select_bind_types, wildcard, PH_SEPARATE);
 				} else {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");

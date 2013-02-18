@@ -498,8 +498,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		if (phalcon_array_isset_string(params, SS("action"))) {
 			PHALCON_OBS_NVAR(action);
 			phalcon_array_fetch_string(&action, params, SL("action"), PH_NOISY_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, SS("action"));
+			phalcon_array_unset_string(&params, SS("action"), PH_SEPARATE);
 		}
 	}
 	
@@ -512,8 +511,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		if (phalcon_array_isset_string(params, SS("text"))) {
 			PHALCON_OBS_NVAR(text);
 			phalcon_array_fetch_string(&text, params, SL("text"), PH_NOISY_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, SS("text"));
+			phalcon_array_unset_string(&params, SS("text"), PH_SEPARATE);
 		}
 	}
 	
@@ -1019,8 +1017,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	if (phalcon_array_isset_string(params, SS("value"))) {
 		PHALCON_OBS_VAR(content);
 		phalcon_array_fetch_string(&content, params, SL("value"), PH_NOISY_CC);
-		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, SS("value"));
+		phalcon_array_unset_string(&params, SS("value"), PH_SEPARATE);
 	} else {
 		PHALCON_INIT_NVAR(content);
 		PHALCON_CALL_SELF_PARAMS_2(content, this_ptr, "getvalue", id, params);
@@ -1352,8 +1349,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		if (phalcon_array_isset_string(params, SS("local"))) {
 			PHALCON_OBS_NVAR(local);
 			phalcon_array_fetch_string(&local, params, SL("local"), PH_NOISY_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, SS("local"));
+			phalcon_array_unset_string(&params, SS("local"), PH_SEPARATE);
 		}
 	}
 	
@@ -1483,8 +1479,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		if (phalcon_array_isset_string(params, SS("local"))) {
 			PHALCON_OBS_NVAR(local);
 			phalcon_array_fetch_string(&local, params, SL("local"), PH_NOISY_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, SS("local"));
+			phalcon_array_unset_string(&params, SS("local"), PH_SEPARATE);
 		}
 	}
 	

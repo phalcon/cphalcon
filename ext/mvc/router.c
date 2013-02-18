@@ -617,8 +617,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			PHALCON_OBS_VAR(namespace);
 			phalcon_array_fetch_string(&namespace, parts, SL("namespace"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_namespace"), namespace TSRMLS_CC);
-			PHALCON_SEPARATE(parts);
-			phalcon_array_unset_string(parts, SS("namespace"));
+			phalcon_array_unset_string(&parts, SS("namespace"), PH_SEPARATE);
 		} else {
 			PHALCON_OBS_VAR(default_namespace);
 			phalcon_read_property(&default_namespace, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
@@ -632,8 +631,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			PHALCON_OBS_VAR(module);
 			phalcon_array_fetch_string(&module, parts, SL("module"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_module"), module TSRMLS_CC);
-			PHALCON_SEPARATE(parts);
-			phalcon_array_unset_string(parts, SS("module"));
+			phalcon_array_unset_string(&parts, SS("module"), PH_SEPARATE);
 		} else {
 			PHALCON_OBS_VAR(default_module);
 			phalcon_read_property(&default_module, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
@@ -647,8 +645,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			PHALCON_OBS_VAR(controller);
 			phalcon_array_fetch_string(&controller, parts, SL("controller"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_controller"), controller TSRMLS_CC);
-			PHALCON_SEPARATE(parts);
-			phalcon_array_unset_string(parts, SS("controller"));
+			phalcon_array_unset_string(&parts, SS("controller"), PH_SEPARATE);
 		} else {
 			PHALCON_OBS_VAR(default_controller);
 			phalcon_read_property(&default_controller, this_ptr, SL("_defaultController"), PH_NOISY_CC);
@@ -662,8 +659,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			PHALCON_OBS_VAR(action);
 			phalcon_array_fetch_string(&action, parts, SL("action"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_action"), action TSRMLS_CC);
-			PHALCON_SEPARATE(parts);
-			phalcon_array_unset_string(parts, SS("action"));
+			phalcon_array_unset_string(&parts, SS("action"), PH_SEPARATE);
 		} else {
 			PHALCON_OBS_VAR(default_action);
 			phalcon_read_property(&default_action, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
@@ -688,8 +684,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				phalcon_fast_explode(params, slash, str_params TSRMLS_CC);
 			}
 	
-			PHALCON_SEPARATE(parts);
-			phalcon_array_unset_string(parts, SS("params"));
+			phalcon_array_unset_string(&parts, SS("params"), PH_SEPARATE);
 		}
 	
 		PHALCON_INIT_VAR(params_merge);

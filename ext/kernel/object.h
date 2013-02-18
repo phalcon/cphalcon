@@ -64,6 +64,9 @@ extern int phalcon_update_property_array_append(zval *object, char *property, un
 extern int phalcon_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 extern int phalcon_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 
+/** Unset Array properties */
+extern int phalcon_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC);
+
 /** Static properties */
 extern int phalcon_read_static_property(zval **result, char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC);
 extern int phalcon_update_static_property(char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC);

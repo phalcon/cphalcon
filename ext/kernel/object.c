@@ -752,7 +752,7 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 	zval *tmp;
 	int separated = 0;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 
@@ -807,7 +807,7 @@ int phalcon_update_property_array_string(zval *object, char *property, unsigned 
 	zval *tmp;
 	int separated = 0;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 
@@ -929,6 +929,24 @@ int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char
 	zval_ptr_dtor(&property);
 
 	EG(scope) = old_scope;
+
+	return SUCCESS;
+}
+
+/**
+ * Unsets an index in an array property
+ */
+int phalcon_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC) {
+
+	zval *tmp;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+
+		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+		phalcon_array_unset(&tmp, index, 0);
+
+		zval_ptr_dtor(&tmp);
+	}
 
 	return SUCCESS;
 }

@@ -108,8 +108,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 	if (phalcon_array_isset_string(descriptor, SS("schema"))) {
 		PHALCON_OBS_NVAR(schema);
 		phalcon_array_fetch_string(&schema, descriptor, SL("schema"), PH_NOISY_CC);
-		PHALCON_SEPARATE_PARAM(descriptor);
-		phalcon_array_unset_string(descriptor, SS("schema"));
+		phalcon_array_unset_string(&descriptor, SS("schema"), PH_SEPARATE);
 	}
 	
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo\\Postgresql", "connect", descriptor);
