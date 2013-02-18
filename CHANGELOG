@@ -9,15 +9,21 @@
  - Added Phalcon\Mvc\Model::refresh to refresh the state of a model
  - Added Phalcon\Logger\Adapter::setLogLevel to filter messages with greater or less priority
  - Removed constructor from Phalcon\Cache\BackendInterface
+ - Added Phalcon\Cache\Multiple, this backend writes to several backends, and reads data according to the order in which backends were registered.
+ - Now a model can use a separate connection to read and other to write, this makes horizontal sharding easy
+ - Now, a model could implement a method selectReadConnection to dynamically return the correct database according to the current query conditions
+ - Added Phalcon\Cache\Backend\Memory to cache data in the current request
+ - Added Phalcon\Validation, this component allows the validate a set of data based on pre-defined rules
+ - Added Phalcon\Forms, this component acts as a forms builder binding request data to entities, aiding in the validation of data, helping in the errors/messages generated in the validation process
 
 0.9.0b2
- - Support for reusable records. A relation can be marked to cache in memory the queried records to speedup getting related records
+ - Support for reusable records. A relation can be marked to cache queried records in memory to speedup getting related records
  - Added 'elseif' statement to Volt
  - Changed static key in Volt's 'cache' to any valid expression
  - Added Phalcon\Logger\Adapter\Syslog and Phalcon\Logger\Adapter\Stream to Phalcon\Logger
  - Added Phalcon\Logger\Multiple to send logs to multiples adapters
  - Added formatters abstraction to Phalcon\Logger, now including: Phalcon\Logger\Formatter\Line, Phalcon\Logger\Formatter\Json and Phalcon\Logger\Formatter\Syslog
- - Added Phalcon\Annotations\Adapter\Files to Phalcon\Annotations, this adapter stores the annotations in PHP files
+ - Added Phalcon\Annotations\Adapter\Files to Phalcon\Annotations, this adapter stores annotations in PHP files
 
 0.9.0b1
  - Added Phalcon\Annotations, a general purpose component to read annotations from docblocks

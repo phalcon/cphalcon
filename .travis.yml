@@ -14,9 +14,9 @@ before_install:
  - chmod +x unit-tests/ci/install_memcached
  - chmod +x unit-tests/ci/install_apc
  - chmod +x unit-tests/ci/install_mongo
- - sudo ./unit-tests/ci/install_memcached
- - sudo ./unit-tests/ci/install_apc
- - sudo ./unit-tests/ci/install_mongo
+ - ./unit-tests/ci/install_memcached
+ - ./unit-tests/ci/install_apc
+ - ./unit-tests/ci/install_mongo
 
 before_script:
  - git submodule update
