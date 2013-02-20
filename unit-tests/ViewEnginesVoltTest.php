@@ -63,7 +63,7 @@ class SomeObject implements Iterator, Countable
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
-	public function testVoltParser()
+	/*public function testVoltParser()
 	{
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
@@ -1156,17 +1156,21 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		$compilation = $volt->compileString('    {%- do 1 + 1 -%}    {% do 1 + 1 -%}     ');
 		$this->assertEquals($compilation, '<?php 1 + 1; ?><?php 1 + 1; ?>');
-	}
+	}*/
 
-	/*public function testVoltWhitespaceControl()
+	/*public function testVoltLoopVariable()
 	{
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
 
-		$compilation = $volt->compileString('{{- "hello" -}}');
+		$volt->setUniquePrefix(function($compiler){
+			return 'v';
+		});
+
+		$compilation = $volt->compileString('{% for item in [1, 2, 3, 4] %}{% if loop.index is divisibleby(2) %}{{ loop.index }}{% endif %}{% endfor %}');
 		$this->assertEquals($compilation, '<?php echo \'hello\'; ?>');
 	}*/
 
-	public function testVoltCompilerFile()
+	/*public function testVoltCompilerFile()
 	{
 		@unlink('unit-tests/views/layouts/test10.volt.php');
 
@@ -1392,6 +1396,6 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$view->finish();
 
 		$this->assertEquals($view->getContent(), 'Length Array: 4Length Object: 4Length String: 5Length No String: 4Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3Slice Object: 2,3,4Slice Object: 2,3Slice Object: 1,2Slice String: helSlice String: elSlice String: lloSlice No String: 123Slice No String: 23Slice No String: 34');
-	}
+	}*/
 
 }

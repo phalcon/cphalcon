@@ -656,7 +656,7 @@ PHP_METHOD(Phalcon_DI, __call){
 	}
 	
 	/** 
-	 * If the magic method start with 'get' we try to get a service with that name
+	 * If the magic method starts with 'get' we try to get a service with that name
 	 */
 	if (phalcon_start_with_str(method, SL("get"))) {
 	
@@ -679,23 +679,23 @@ PHP_METHOD(Phalcon_DI, __call){
 	
 			RETURN_CCTOR(instance);
 		}
-	} else {
-		/** 
-		 * If the magic method start with 'set' we try to set a service using that name
-		 */
-		if (phalcon_start_with_str(method, SL("set"))) {
-			if (phalcon_array_isset_long(arguments, 0)) {
-				PHALCON_INIT_NVAR(service_name);
-				phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
+	}
 	
-				PHALCON_INIT_NVAR(possible_service);
-				PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
+	/** 
+	 * If the magic method starts with 'set' we try to set a service using that name
+	 */
+	if (phalcon_start_with_str(method, SL("set"))) {
+		if (phalcon_array_isset_long(arguments, 0)) {
+			PHALCON_INIT_NVAR(service_name);
+			phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
 	
-				PHALCON_OBS_VAR(handler);
-				phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
-				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", possible_service, handler);
-				RETURN_MM_NULL();
-			}
+			PHALCON_INIT_NVAR(possible_service);
+			PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
+	
+			PHALCON_OBS_VAR(handler);
+			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", possible_service, handler);
+			RETURN_MM_NULL();
 		}
 	}
 	

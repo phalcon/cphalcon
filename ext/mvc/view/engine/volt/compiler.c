@@ -1856,8 +1856,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 		PHALCON_SCONCAT_SVSVS(compilation, "<?php $", prefix_level, "iterator = ", expr_code, "; ");
 		PHALCON_SCONCAT_SVS(compilation, "$", prefix_level, "incr = 0; ");
 		PHALCON_SCONCAT_SVS(compilation, "$", prefix_level, "loop = new stdClass(); ");
-		PHALCON_SCONCAT_SVS(compilation, "$", prefix_level, "loop->index = 0; ");
-		PHALCON_SCONCAT_SVSVS(compilation, "$", prefix_level, "loop->length = count($", prefix_level, "iterator); ?>");
+		PHALCON_SCONCAT_SVSVS(compilation, "$", prefix_level, "loop->length = count($", prefix_level, "iterator); ");
+		PHALCON_SCONCAT_SVS(compilation, "$", prefix_level, "loop->index = 1; ");
+		PHALCON_SCONCAT_SVS(compilation, "$", prefix_level, "loop->index0 = 1; ");
+		PHALCON_SCONCAT_SVSVS(compilation, "$", prefix_level, "loop->revindex = $", prefix_level, "loop->length; ");
+		PHALCON_SCONCAT_SVSVS(compilation, "$", prefix_level, "loop->revindex0 = $", prefix_level, "loop->length - 1; ?>");
 	
 		PHALCON_INIT_VAR(iterator);
 		PHALCON_CONCAT_SVS(iterator, "$", prefix_level, "iterator");
@@ -1901,7 +1904,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 	 */
 	if (phalcon_array_isset(loop_context, level)) {
 		PHALCON_SCONCAT_SVSVS(compilation, "<?php $", prefix_level, "loop->first = ($", prefix_level, "incr == 0); ");
-		PHALCON_SCONCAT_SVSVS(compilation, "$", prefix_level, "loop->index = $", prefix_level, "incr; ");
+		PHALCON_SCONCAT_SVSVS(compilation, "$", prefix_level, "loop->index = $", prefix_level, "incr + 1; ");
+		PHALCON_SCONCAT_SVSVS(compilation, "$", prefix_level, "loop->index0 = $", prefix_level, "incr; ");
+		PHALCON_SCONCAT_SVSVSVS(compilation, "$", prefix_level, "loop->revindex = $", prefix_level, "loop->length - $", prefix_level, "incr; ");
+		PHALCON_SCONCAT_SVSVSVS(compilation, "$", prefix_level, "loop->revindex0 = $", prefix_level, "loop->length - ($", prefix_level, "incr + 1); ");
 		PHALCON_SCONCAT_SVSVSVS(compilation, "$", prefix_level, "loop->last = ($", prefix_level, "incr == ($", prefix_level, "loop->length - 1)); ?>");
 	}
 	

@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	}
 
 	phalcon_array_update_long_long(&options, PDO_ATTR_ERRMODE, PDO_ERRMODE_EXCEPTION, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long_long(&options, PDO_ATTR_CASE, PDO_CASE_LOWER, PH_SEPARATE TSRMLS_CC);
+	//phalcon_array_update_long_long(&options, PDO_ATTR_CASE, PDO_CASE_LOWER, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_long_long(&options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL, PH_SEPARATE TSRMLS_CC);
 
 	/**
@@ -1090,10 +1090,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 
-	zval *table, *schema = NULL, *dialect, *fetch_assoc, *sql;
-	zval *describe, *indexes, *index = NULL, *key_name = NULL, *empty_arr = NULL;
-	zval *column_name = NULL, *index_objects, *index_columns = NULL;
-	zval *name = NULL;
+	zval *table, *schema = NULL, *dialect, *fetch_num, *sql, *describe;
+	zval *indexes, *index = NULL, *key_name = NULL, *empty_arr = NULL, *column_name = NULL;
+	zval *index_objects, *index_columns = NULL, *name = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -1111,8 +1110,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(fetch_assoc);
-	phalcon_get_class_constant(fetch_assoc, phalcon_db_ce, SS("FETCH_ASSOC") TSRMLS_CC);
+	/** 
+	 * We're using FETCH_NUM to fetch the columns
+	 */
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
 	
 	/** 
 	 * Get the SQL required to describe indexes from the Dialect
@@ -1120,9 +1122,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describeindexes", table, schema);
 	
+	/** 
+	 * Execute the SQL describing the indexes
+	 */
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_assoc);
+	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
+	/** 
+	 * Cryptic Guide: 2: table, 3: from, 4: to
+	 */
 	PHALCON_INIT_VAR(indexes);
 	array_init(indexes);
 	
@@ -1135,7 +1143,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 		PHALCON_GET_FOREACH_VALUE(index);
 	
 		PHALCON_OBS_NVAR(key_name);
-		phalcon_array_fetch_string(&key_name, index, SL("key_name"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&key_name, index, 2, PH_NOISY_CC);
 		if (!phalcon_array_isset(indexes, key_name)) {
 			PHALCON_INIT_NVAR(empty_arr);
 			array_init(empty_arr);
@@ -1143,7 +1151,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 		}
 	
 		PHALCON_OBS_NVAR(column_name);
-		phalcon_array_fetch_string(&column_name, index, SL("column_name"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&column_name, index, 4, PH_NOISY_CC);
 		phalcon_array_update_append_multi_2(&indexes, key_name, column_name, 0 TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1187,8 +1195,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 
-	zval *table, *schema = NULL, *dialect, *sql, *empty_arr, *references;
-	zval *fetch_assoc, *describe, *reference = NULL, *constraint_name = NULL;
+	zval *table, *schema = NULL, *dialect, *sql, *empty_arr, *fetch_num;
+	zval *describe, *references, *reference = NULL, *constraint_name = NULL;
 	zval *referenced_schema = NULL, *referenced_table = NULL;
 	zval *reference_array = NULL, *column_name = NULL, *referenced_columns = NULL;
 	zval *reference_objects, *array_reference = NULL;
@@ -1216,14 +1224,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	PHALCON_INIT_VAR(empty_arr);
 	array_init(empty_arr);
 	
-	PHALCON_INIT_VAR(references);
-	array_init(references);
-	
-	PHALCON_INIT_VAR(fetch_assoc);
-	phalcon_get_class_constant(fetch_assoc, phalcon_db_ce, SS("FETCH_ASSOC") TSRMLS_CC);
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
 	
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_assoc);
+	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
+	
+	PHALCON_INIT_VAR(references);
+	array_init(references);
 	
 	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -1234,13 +1242,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 		PHALCON_GET_FOREACH_VALUE(reference);
 	
 		PHALCON_OBS_NVAR(constraint_name);
-		phalcon_array_fetch_string(&constraint_name, reference, SL("constraint_name"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&constraint_name, reference, 2, PH_NOISY_CC);
 		if (!phalcon_array_isset(references, constraint_name)) {
 			PHALCON_OBS_NVAR(referenced_schema);
-			phalcon_array_fetch_string(&referenced_schema, reference, SL("referenced_table_schema"), PH_NOISY_CC);
+			phalcon_array_fetch_long(&referenced_schema, reference, 3, PH_NOISY_CC);
 	
 			PHALCON_OBS_NVAR(referenced_table);
-			phalcon_array_fetch_string(&referenced_table, reference, SL("referenced_table_name"), PH_NOISY_CC);
+			phalcon_array_fetch_long(&referenced_table, reference, 4, PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(reference_array);
 			array_init_size(reference_array, 4);
@@ -1252,11 +1260,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 		}
 	
 		PHALCON_OBS_NVAR(column_name);
-		phalcon_array_fetch_string(&column_name, reference, SL("column_name"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&column_name, reference, 1, PH_NOISY_CC);
 		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("columns"), &column_name, 0 TSRMLS_CC);
 	
 		PHALCON_OBS_NVAR(referenced_columns);
-		phalcon_array_fetch_string(&referenced_columns, reference, SL("referenced_column_name"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&referenced_columns, reference, 5, PH_NOISY_CC);
 		phalcon_array_update_zval_string_append_multi_3(&references, constraint_name, SL("referencedColumns"), &referenced_columns, 0 TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);

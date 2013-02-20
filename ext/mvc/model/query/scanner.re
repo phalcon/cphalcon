@@ -188,6 +188,16 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		'ILIKE' {
+			token->opcode = PHQL_T_ILIKE;
+			return 0;
+		}
+
+		'AGAINST' {
+			token->opcode = PHQL_T_AGAINST;
+			return 0;
+		}
+
 		'IN' {
 			token->opcode = PHQL_T_IN;
 			return 0;
