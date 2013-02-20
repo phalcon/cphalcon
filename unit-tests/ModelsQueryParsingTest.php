@@ -4711,7 +4711,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'theName' => array(
 					'type' => 'scalar',
 					'balias' => 'theName',
-					'sqlAlias' => 'thename',
+					'sqlAlias' => 'theName',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'robots',
@@ -4751,7 +4751,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'theName' => array(
 					'type' => 'scalar',
 					'balias' => 'theName',
-					'sqlAlias' => 'thename',
+					'sqlAlias' => 'theName',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'r',
@@ -4893,7 +4893,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'borgerId' => array(
 					'type' => 'scalar',
 					'balias' => 'borgerId',
-					'sqlAlias' => 'borgerid',
+					'sqlAlias' => 'borgerId',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'personas',
@@ -4918,7 +4918,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'borgerId' => array(
 					'type' => 'scalar',
 					'balias' => 'borgerId',
-					'sqlAlias' => 'borgerid',
+					'sqlAlias' => 'borgerId',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'personas',
@@ -6268,7 +6268,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'theName' => array(
 					'type' => 'scalar',
 					'balias' => 'theName',
-					'sqlAlias' => 'thename',
+					'sqlAlias' => 'theName',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'r',
@@ -6279,7 +6279,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'delesCode' => array(
 					'type' => 'scalar',
 					'balias' => 'delesCode',
-					'sqlAlias' => 'delescode',
+					'sqlAlias' => 'delesCode',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'p',

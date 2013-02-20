@@ -63,7 +63,7 @@ class SomeObject implements Iterator, Countable
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
-	/*public function testVoltParser()
+	public function testVoltParser()
 	{
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
@@ -528,7 +528,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testVoltSyntaxError()
+	/*public function testVoltSyntaxError()
 	{
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
 
