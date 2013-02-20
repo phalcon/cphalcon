@@ -613,7 +613,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	/** 
 	 * Update the wasMatched property indicating if the route was matched
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_wasMatched"), route_found TSRMLS_CC);
+	if (zend_is_true(route_found)) {
+		phalcon_update_property_bool(this_ptr, SL("_wasMatched"), 1 TSRMLS_CC);
+	} else {
+		phalcon_update_property_bool(this_ptr, SL("_wasMatched"), 0 TSRMLS_CC);
+	}
 	
 	/** 
 	 * The route wasn't found, try to use the not-found paths
