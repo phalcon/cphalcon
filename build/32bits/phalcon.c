@@ -28960,6 +28960,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	
+	
 	switch (phalcon_get_intval(hydrate_mode)) {
 	
 		case 0:
@@ -48911,8 +48912,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Annotations){
 
 	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_router_annotations_ce, SL("_processed"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_controllerSufix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_actionSufix"), "Action", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_controllerSuffix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_actionSuffix"), "Action", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_routePrefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -48947,14 +48948,50 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
 	RETURN_THIS();
 }
 
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource){
+
+	zval *module, *handler, *prefix = NULL, *scope;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &module, &handler, &prefix) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!prefix) {
+		PHALCON_INIT_VAR(prefix);
+	}
+	
+	if (Z_TYPE_P(module) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The module is not a valid string");
+		return;
+	}
+	if (Z_TYPE_P(handler) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The handler must be a class name");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(scope);
+	array_init_size(scope, 3);
+	phalcon_array_append(&scope, prefix, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&scope, handler, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&scope, module, PH_SEPARATE TSRMLS_CC);
+	phalcon_update_property_array_append(this_ptr, SL("_handlers"), scope TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, SL("_processed"), 0 TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 
 	zval *uri = NULL, *real_uri = NULL, *processed, *annotations_service = NULL;
-	zval *handlers, *controller_sufix, *scope = NULL, *prefix = NULL;
+	zval *handlers, *controller_suffix, *scope = NULL, *prefix = NULL;
 	zval *dependency_injector = NULL, *service = NULL, *handler = NULL;
-	zval *sufixed = NULL, *handler_annotations = NULL, *class_annotations = NULL;
+	zval *controller_name = NULL, *lower_controller_name = NULL;
+	zval *namespace_name = NULL, *module_name = NULL, *sufixed = NULL;
+	zval *handler_annotations = NULL, *class_annotations = NULL;
 	zval *annotations = NULL, *annotation = NULL, *method_annotations = NULL;
-	zval *lowercased = NULL, *collection = NULL, *method = NULL;
+	zval *collection = NULL, *method = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
@@ -48985,121 +49022,146 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 		PHALCON_OBS_VAR(handlers);
 		phalcon_read_property(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
 	
-		PHALCON_OBS_VAR(controller_sufix);
-		phalcon_read_property(&controller_sufix, this_ptr, SL("_controllerSufix"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(controller_suffix);
+		phalcon_read_property(&controller_suffix, this_ptr, SL("_controllerSuffix"), PH_NOISY_CC);
+		if (Z_TYPE_P(handlers) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+			if (!phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+				return;
+			}
 	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(scope);
+				PHALCON_GET_FOREACH_VALUE(scope);
 	
-			if (Z_TYPE_P(scope) == IS_ARRAY) { 
+				if (Z_TYPE_P(scope) == IS_ARRAY) { 
 	
-				PHALCON_OBS_NVAR(prefix);
-				phalcon_array_fetch_long(&prefix, scope, 0, PH_NOISY_CC);
-				if (Z_TYPE_P(prefix) == IS_STRING) {
-					if (!phalcon_start_with(real_uri, prefix, NULL)) {
-						zend_hash_move_forward_ex(ah0, &hp0);
-						continue;
-					}
-				}
-	
-				if (Z_TYPE_P(annotations_service) != IS_OBJECT) {
-	
-					PHALCON_OBS_NVAR(dependency_injector);
-					phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-						PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'annotations' service");
-						return;
+					PHALCON_OBS_NVAR(prefix);
+					phalcon_array_fetch_long(&prefix, scope, 0, PH_NOISY_CC);
+					if (Z_TYPE_P(prefix) == IS_STRING) {
+						if (!phalcon_start_with(real_uri, prefix, NULL)) {
+							zend_hash_move_forward_ex(ah0, &hp0);
+							continue;
+						}
 					}
 	
-					PHALCON_INIT_NVAR(service);
-					ZVAL_STRING(service, "annotations", 1);
+					if (Z_TYPE_P(annotations_service) != IS_OBJECT) {
 	
-					PHALCON_INIT_NVAR(annotations_service);
-					PHALCON_CALL_METHOD_PARAMS_1_KEY(annotations_service, dependency_injector, "getshared", service, 1727570332UL);
-				}
-	
-				PHALCON_OBS_NVAR(handler);
-				phalcon_array_fetch_long(&handler, scope, 1, PH_NOISY_CC);
-				phalcon_update_property_null(this_ptr, SL("_routePrefix") TSRMLS_CC);
-	
-				PHALCON_INIT_NVAR(sufixed);
-				PHALCON_CONCAT_VV(sufixed, handler, controller_sufix);
-	
-				PHALCON_INIT_NVAR(handler_annotations);
-				PHALCON_CALL_METHOD_PARAMS_1_KEY(handler_annotations, annotations_service, "get", sufixed, 2090288933UL);
-	
-				PHALCON_INIT_NVAR(class_annotations);
-				PHALCON_CALL_METHOD(class_annotations, handler_annotations, "getclassannotations");
-				if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
-	
-					PHALCON_INIT_NVAR(annotations);
-					PHALCON_CALL_METHOD(annotations, class_annotations, "getannotations");
-					if (Z_TYPE_P(annotations) == IS_ARRAY) { 
-	
-						if (!phalcon_is_iterable(annotations, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+						PHALCON_OBS_NVAR(dependency_injector);
+						phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+						if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+							PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'annotations' service");
 							return;
 						}
 	
-						while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+						PHALCON_INIT_NVAR(service);
+						ZVAL_STRING(service, "annotations", 1);
 	
-							PHALCON_GET_FOREACH_VALUE(annotation);
-	
-							PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(this_ptr, "processcontrollerannotation", handler, annotation, 1441174403UL);
-	
-							zend_hash_move_forward_ex(ah1, &hp1);
-						}
-	
-					}
-				}
-	
-				PHALCON_INIT_NVAR(method_annotations);
-				PHALCON_CALL_METHOD(method_annotations, handler_annotations, "getmethodsannotations");
-				if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
-	
-					PHALCON_INIT_NVAR(lowercased);
-					phalcon_fast_strtolower(lowercased, handler);
-	
-					if (!phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
-						return;
+						PHALCON_INIT_NVAR(annotations_service);
+						PHALCON_CALL_METHOD_PARAMS_1_KEY(annotations_service, dependency_injector, "getshared", service, 1727570332UL);
 					}
 	
-					while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+					PHALCON_OBS_NVAR(handler);
+					phalcon_array_fetch_long(&handler, scope, 1, PH_NOISY_CC);
+					if (phalcon_memnstr_str(handler, SL("\\") TSRMLS_CC)) {
+						PHALCON_INIT_NVAR(controller_name);
+						phalcon_get_class_ns(controller_name, handler, 0 TSRMLS_CC);
 	
-						PHALCON_GET_FOREACH_KEY(method, ah2, hp2);
-						PHALCON_GET_FOREACH_VALUE(collection);
+						PHALCON_INIT_NVAR(lower_controller_name);
+						phalcon_fast_strtolower(lower_controller_name, controller_name);
 	
-						if (Z_TYPE_P(collection) == IS_OBJECT) {
+						PHALCON_INIT_NVAR(namespace_name);
+						phalcon_get_ns_class(namespace_name, handler, 0 TSRMLS_CC);
+					} else {
+						PHALCON_CPY_WRT(controller_name, handler);
 	
-							PHALCON_INIT_NVAR(annotations);
-							PHALCON_CALL_METHOD(annotations, collection, "getannotations");
+						PHALCON_INIT_NVAR(lower_controller_name);
+						phalcon_fast_strtolower(lower_controller_name, handler);
 	
-							if (!phalcon_is_iterable(annotations, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
+						PHALCON_INIT_NVAR(namespace_name);
+					}
+	
+					if (phalcon_array_isset_long(scope, 2)) {
+						PHALCON_OBS_NVAR(module_name);
+						phalcon_array_fetch_long(&module_name, scope, 2, PH_NOISY_CC);
+					} else {
+						PHALCON_INIT_NVAR(module_name);
+					}
+	
+					phalcon_update_property_null(this_ptr, SL("_routePrefix") TSRMLS_CC);
+	
+					PHALCON_INIT_NVAR(sufixed);
+					PHALCON_CONCAT_VV(sufixed, handler, controller_suffix);
+	
+					PHALCON_INIT_NVAR(handler_annotations);
+					PHALCON_CALL_METHOD_PARAMS_1_KEY(handler_annotations, annotations_service, "get", sufixed, 2090288933UL);
+	
+					PHALCON_INIT_NVAR(class_annotations);
+					PHALCON_CALL_METHOD(class_annotations, handler_annotations, "getclassannotations");
+					if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
+	
+						PHALCON_INIT_NVAR(annotations);
+						PHALCON_CALL_METHOD(annotations, class_annotations, "getannotations");
+						if (Z_TYPE_P(annotations) == IS_ARRAY) { 
+	
+							if (!phalcon_is_iterable(annotations, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 								return;
 							}
 	
-							while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
+							while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 								PHALCON_GET_FOREACH_VALUE(annotation);
 	
-								PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(this_ptr, "processactionannotation", lowercased, method, annotation, 3018293437UL);
+								PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(this_ptr, "processcontrollerannotation", handler, annotation, 1441174403UL);
 	
-								zend_hash_move_forward_ex(ah3, &hp3);
+								zend_hash_move_forward_ex(ah1, &hp1);
 							}
 	
 						}
-	
-						zend_hash_move_forward_ex(ah2, &hp2);
 					}
 	
+					PHALCON_INIT_NVAR(method_annotations);
+					PHALCON_CALL_METHOD(method_annotations, handler_annotations, "getmethodsannotations");
+					if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
+	
+						if (!phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
+							return;
+						}
+	
+						while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+	
+							PHALCON_GET_FOREACH_KEY(method, ah2, hp2);
+							PHALCON_GET_FOREACH_VALUE(collection);
+	
+							if (Z_TYPE_P(collection) == IS_OBJECT) {
+	
+								PHALCON_INIT_NVAR(annotations);
+								PHALCON_CALL_METHOD(annotations, collection, "getannotations");
+	
+								if (!phalcon_is_iterable(annotations, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
+									return;
+								}
+	
+								while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
+	
+									PHALCON_GET_FOREACH_VALUE(annotation);
+	
+									PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "processactionannotation", module_name, namespace_name, lower_controller_name, method, annotation);
+	
+									zend_hash_move_forward_ex(ah3, &hp3);
+								}
+	
+							}
+	
+							zend_hash_move_forward_ex(ah2, &hp2);
+						}
+	
+					}
 				}
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
 			}
 	
-			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
 		phalcon_update_property_bool(this_ptr, SL("_processed"), 1 TSRMLS_CC);
@@ -49141,18 +49203,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 
-	zval *controller, *action, *annotation, *is_route = NULL;
-	zval *methods = NULL, *name, *action_sufix, *empty_str;
-	zval *real_action_name, *action_name, *route_prefix;
-	zval *parameter = NULL, *paths = NULL, *position, *value, *uri = NULL, *route;
-	zval *converts, *convert = NULL, *param = NULL, *route_name;
+	zval *module, *namespace, *controller, *action;
+	zval *annotation, *is_route = NULL, *methods = NULL, *name, *action_suffix;
+	zval *empty_str, *real_action_name, *action_name;
+	zval *route_prefix, *parameter = NULL, *paths = NULL, *position;
+	zval *value, *uri = NULL, *route, *converts, *convert = NULL, *param = NULL;
+	zval *route_name;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &controller, &action, &annotation) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzzz", &module, &namespace, &controller, &action, &annotation) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -49197,14 +49260,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	
 	if (PHALCON_IS_TRUE(is_route)) {
 	
-		PHALCON_OBS_VAR(action_sufix);
-		phalcon_read_property(&action_sufix, this_ptr, SL("_actionSufix"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(action_suffix);
+		phalcon_read_property(&action_suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(empty_str);
 		ZVAL_STRING(empty_str, "", 1);
 	
 		PHALCON_INIT_VAR(real_action_name);
-		phalcon_fast_str_replace(real_action_name, action_sufix, empty_str, action TSRMLS_CC);
+		phalcon_fast_str_replace(real_action_name, action_suffix, empty_str, action TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(action_name);
 		phalcon_fast_strtolower(action_name, real_action_name);
@@ -49220,6 +49283,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		if (Z_TYPE_P(paths) != IS_ARRAY) { 
 			PHALCON_INIT_NVAR(paths);
 			array_init(paths);
+		}
+	
+		if (Z_TYPE_P(namespace) == IS_STRING) {
+			phalcon_array_update_quick_string(&paths, SS("module"), 3565923467UL, &module, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	
+		if (Z_TYPE_P(namespace) == IS_STRING) {
+			phalcon_array_update_quick_string(&paths, SS("namespace"), 545490034UL, &namespace, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	
 		phalcon_array_update_quick_string(&paths, SS("controller"), 2892024105UL, &controller, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -49299,6 +49370,36 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix){
+
+	zval *controller_suffix;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &controller_suffix) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_controllerSuffix"), controller_suffix TSRMLS_CC);
+	
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix){
+
+	zval *action_suffix;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &action_suffix) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_actionSuffix"), action_suffix TSRMLS_CC);
+	
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, getResources){
+
+
+	RETURN_MEMBER(this_ptr, "_handlers");
 }
 
 
@@ -61860,6 +61961,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultAction"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_router_ce, SL("_removeExtraSlashes"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_ce, SL("_notFoundPaths"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_router_ce TSRMLS_CC, 2, phalcon_mvc_routerinterface_ce, phalcon_di_injectionawareinterface_ce);
 
@@ -62077,9 +62179,10 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval *dependency_injector = NULL, *service = NULL, *match_method = NULL;
 	zval *pattern = NULL, *paths = NULL, *converters = NULL, *position = NULL, *part = NULL;
 	zval *match_position = NULL, *parameters = NULL, *converter = NULL;
-	zval *converted_part = NULL, *namespace, *default_namespace;
-	zval *module, *default_module = NULL, *controller, *default_controller = NULL;
-	zval *action, *default_action = NULL, *params_str, *str_params;
+	zval *converted_part = NULL, *not_found_paths, *namespace;
+	zval *default_namespace, *module, *default_module = NULL;
+	zval *controller, *default_controller = NULL, *action;
+	zval *default_action = NULL, *params_str, *str_params;
 	zval *slash, *params_merge, *default_params;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -62250,6 +62353,24 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	}
 	
 	if (zend_is_true(route_found)) {
+		phalcon_update_property_bool(this_ptr, SL("_wasMatched"), 1 TSRMLS_CC);
+	} else {
+		phalcon_update_property_bool(this_ptr, SL("_wasMatched"), 0 TSRMLS_CC);
+	}
+	
+	if (!zend_is_true(route_found)) {
+	
+		PHALCON_OBS_VAR(not_found_paths);
+		phalcon_read_property(&not_found_paths, this_ptr, SL("_notFoundPaths"), PH_NOISY_CC);
+		if (Z_TYPE_P(not_found_paths) != IS_NULL) {
+			PHALCON_CPY_WRT(parts, not_found_paths);
+	
+			PHALCON_INIT_NVAR(route_found);
+			ZVAL_BOOL(route_found, 1);
+		}
+	}
+	
+	if (zend_is_true(route_found)) {
 	
 		if (phalcon_array_isset_quick_string(parts, SS("namespace"), 545490034UL)) {
 			PHALCON_OBS_VAR(namespace);
@@ -62316,7 +62437,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		PHALCON_INIT_VAR(params_merge);
 		PHALCON_CALL_FUNC_PARAMS_2(params_merge, "array_merge", params, parts);
 		phalcon_update_property_zval(this_ptr, SL("_params"), params_merge TSRMLS_CC);
-		phalcon_update_property_bool(this_ptr, SL("_wasMatched"), 1 TSRMLS_CC);
 	} else {
 		PHALCON_OBS_NVAR(default_module);
 		phalcon_read_property(&default_module, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
@@ -62333,7 +62453,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		PHALCON_OBS_VAR(default_params);
 		phalcon_read_property(&default_params, this_ptr, SL("_defaultParams"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_params"), default_params TSRMLS_CC);
-		phalcon_update_property_bool(this_ptr, SL("_wasMatched"), 0 TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -62546,6 +62665,27 @@ PHP_METHOD(Phalcon_Mvc_Router, mount){
 	} else {
 		phalcon_update_property_zval(this_ptr, SL("_routes"), group_routes TSRMLS_CC);
 	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Router, notFound){
+
+	zval *paths;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &paths) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(paths) != IS_ARRAY) { 
+		if (Z_TYPE_P(paths) != IS_STRING) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The not-found paths must be an array or string");
+			return;
+		}
+	}
+	phalcon_update_property_zval(this_ptr, SL("_notFoundPaths"), paths TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
