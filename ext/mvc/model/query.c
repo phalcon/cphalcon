@@ -1023,7 +1023,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	zval *column_domain, *exception_message = NULL, *sql_column_alias = NULL;
 	zval *sql_aliases_models, *sql_models_aliases;
 	zval *best_alias, *prepared_alias = NULL, *column_data;
-	zval *sql_expr_column, *balias, *sql_alias;
+	zval *sql_expr_column, *balias;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1174,10 +1174,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 			PHALCON_OBS_VAR(balias);
 			phalcon_array_fetch_string(&balias, sql_expr_column, SL("balias"), PH_NOISY_CC);
 			phalcon_array_update_string(&sql_column, SL("balias"), &balias, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-			PHALCON_INIT_VAR(sql_alias);
-			phalcon_fast_strtolower(sql_alias, balias);
-			phalcon_array_update_string(&sql_column, SL("sqlAlias"), &sql_alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&sql_column, SL("sqlAlias"), &balias, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	
 		phalcon_array_update_string(&sql_column, SL("column"), &sql_expr_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -1892,9 +1889,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *alias = NULL, *exception_message = NULL, *sql_joins = NULL;
 	zval *columns, *select_columns = NULL, *position, *sql_column_aliases;
 	zval *column = NULL, *sql_column_group = NULL, *sql_column = NULL;
-	zval *lower_alias = NULL, *type = NULL, *sql_select, *where, *where_expr;
-	zval *group_by, *sql_group, *having, *having_expr;
-	zval *order, *sql_order, *limit;
+	zval *type = NULL, *sql_select, *where, *where_expr, *group_by;
+	zval *sql_group, *having, *having_expr, *order;
+	zval *sql_order, *limit;
 	zval *r0 = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
@@ -2154,13 +2151,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 				 * The best alias is the one provided by the user
 				 */
 				phalcon_array_update_string(&sql_column, SL("balias"), &alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-				/** 
-				 * Calculate a lowercased version of the alias
-				 */
-				PHALCON_INIT_NVAR(lower_alias);
-				phalcon_fast_strtolower(lower_alias, alias);
-				phalcon_array_update_string(&sql_column, SL("sqlAlias"), &lower_alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&sql_column, SL("sqlAlias"), &alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				phalcon_array_update_zval(&sql_columns, alias, &sql_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				phalcon_array_update_zval_bool(&sql_column_aliases, alias, 1, PH_SEPARATE TSRMLS_CC);
 			} else {

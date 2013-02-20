@@ -15,6 +15,8 @@
  - Added Phalcon\Cache\Backend\Memory to cache data in the current request
  - Added Phalcon\Validation, this component allows the validate a set of data based on pre-defined rules
  - Added Phalcon\Forms, this component acts as a forms builder binding request data to entities, aiding in the validation of data, helping in the errors/messages generated in the validation process
+ - Phalcon\Db is now case-folding independent
+ - Phalcon\Mvc\Model uses column names keeping the case-folding as they were defined
 
 0.9.0b2
  - Support for reusable records. A relation can be marked to cache queried records in memory to speedup getting related records
