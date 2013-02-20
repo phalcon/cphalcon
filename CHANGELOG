@@ -17,6 +17,8 @@
  - Added Phalcon\Forms, this component acts as a forms builder binding request data to entities, aiding in the validation of data, helping in the errors/messages generated in the validation process
  - Phalcon\Db is now case-folding independent
  - Phalcon\Mvc\Model uses column names keeping the case-folding as they were defined
+ - Added Phalcon\Mvc\Router::notFound to define the paths the router must use if any route is matched
+ - Improved \Phalcon\Mvc\Router\Annotations to work better with controllers in namespaces and modules
 
 0.9.0b2
  - Support for reusable records. A relation can be marked to cache queried records in memory to speedup getting related records

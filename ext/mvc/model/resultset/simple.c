@@ -186,6 +186,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	
+	/** 
+	 * Hydrate based on the current hydration
+	 */
+	
 	switch (phalcon_get_intval(hydrate_mode)) {
 	
 		case 0:
