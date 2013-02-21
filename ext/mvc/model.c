@@ -4946,7 +4946,11 @@ PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots){
  */
 PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData){
 
-	zval *data, *column_map = NULL;
+	zval *data, *column_map = NULL, *snapshot, *value = NULL, *key = NULL, *exception_message = NULL;
+	zval *attribute = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -4962,6 +4966,50 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The snapshot data must be an array");
 		return;
 	}
+	
+	/** 
+	 * Build the snapshot based on a column map
+	 */
+	if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(snapshot);
+		array_init(snapshot);
+	
+		if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+			PHALCON_GET_FOREACH_VALUE(value);
+	
+			if (Z_TYPE_P(key) != IS_STRING) {
+				zend_hash_move_forward_ex(ah0, &hp0);
+				continue;
+			}
+	
+			/** 
+			 * Every field must be part of the column map
+			 */
+			if (!phalcon_array_isset(column_map, key)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+				return;
+			}
+	
+			PHALCON_OBS_NVAR(attribute);
+			phalcon_array_fetch(&attribute, column_map, key, PH_NOISY_CC);
+			phalcon_array_update_zval(&snapshot, attribute, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+		phalcon_update_property_zval(this_ptr, SL("_snapshot"), snapshot TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_snapshot"), data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -5007,8 +5055,9 @@ PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData){
 PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 
 	zval *field_name = NULL, *snapshot, *dirty_state, *meta_data;
-	zval *attributes, *exception_message = NULL, *value = NULL;
-	zval *original_value = NULL, *type = NULL, *name = NULL;
+	zval *column_map, *attributes, *all_attributes = NULL;
+	zval *exception_message = NULL, *value = NULL, *original_value = NULL;
+	zval *type = NULL, *name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -5054,8 +5103,22 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(meta_data, this_ptr, "getmodelsmetadata");
 	
-	PHALCON_INIT_VAR(attributes);
-	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getdatatypes", this_ptr);
+	/** 
+	 * The reversed column map is an array if the model has a column map
+	 */
+	PHALCON_INIT_VAR(column_map);
+	PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getreversecolumnmap", this_ptr);
+	
+	/** 
+	 * Data types are field indexed
+	 */
+	if (Z_TYPE_P(column_map) != IS_ARRAY) { 
+		PHALCON_INIT_VAR(attributes);
+		PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getdatatypes", this_ptr);
+		PHALCON_CPY_WRT(all_attributes, attributes);
+	} else {
+		PHALCON_CPY_WRT(all_attributes, column_map);
+	}
 	
 	/** 
 	 * If a field was specified we only check it
@@ -5065,11 +5128,20 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 		/** 
 		 * We only make this validation over valid fields
 		 */
-		if (!phalcon_array_isset(attributes, field_name)) {
-			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "The field '", field_name, "' is not part of the model");
-			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-			return;
+		if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+			if (!phalcon_array_isset(column_map, field_name)) {
+				PHALCON_INIT_VAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "The field '", field_name, "' is not part of the model");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+				return;
+			}
+		} else {
+			if (!phalcon_array_isset(attributes, field_name)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "The field '", field_name, "' is not part of the model");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+				return;
+			}
 		}
 	
 		/** 
@@ -5112,7 +5184,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 	 * Check every attribute in the model
 	 */
 	
-	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+	if (!phalcon_is_iterable(all_attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
@@ -5162,8 +5234,9 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getChangedFields){
 
-	zval *snapshot, *dirty_state, *meta_data, *attributes;
-	zval *changed, *type = NULL, *name = NULL, *value = NULL, *original_value = NULL;
+	zval *snapshot, *dirty_state, *meta_data, *column_map;
+	zval *attributes, *all_attributes = NULL, *changed;
+	zval *type = NULL, *name = NULL, *value = NULL, *original_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -5194,8 +5267,22 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields){
 	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD(meta_data, this_ptr, "getmodelsmetadata");
 	
-	PHALCON_INIT_VAR(attributes);
-	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getdatatypes", this_ptr);
+	/** 
+	 * The reversed column map is an array if the model has a column map
+	 */
+	PHALCON_INIT_VAR(column_map);
+	PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getreversecolumnmap", this_ptr);
+	
+	/** 
+	 * Data types are field indexed
+	 */
+	if (Z_TYPE_P(column_map) != IS_ARRAY) { 
+		PHALCON_INIT_VAR(attributes);
+		PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getdatatypes", this_ptr);
+		PHALCON_CPY_WRT(all_attributes, attributes);
+	} else {
+		PHALCON_CPY_WRT(all_attributes, column_map);
+	}
 	
 	PHALCON_INIT_VAR(changed);
 	array_init(changed);
@@ -5204,7 +5291,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields){
 	 * Check every attribute in the model
 	 */
 	
-	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+	if (!phalcon_is_iterable(all_attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
