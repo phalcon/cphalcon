@@ -35,10 +35,10 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/file.h"
 
 /**
@@ -85,8 +85,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_modelsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_modelsMetaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_model_ce, SL("_schema"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_model_ce, SL("_source"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_errorMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_model_ce, SL("_operationMade"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_model_ce, SL("_dirtyState"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -96,6 +94,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_skipped"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_related"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_ce, SL("_snapshot"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_NONE"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_CREATE"), 1 TSRMLS_CC);
@@ -375,14 +374,18 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction){
  */
 PHP_METHOD(Phalcon_Mvc_Model, setSource){
 
-	zval *source;
+	zval *source, *models_manager;
+
+	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &source) == FAILURE) {
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_source"), source TSRMLS_CC);
-	RETURN_THISW();
+	PHALCON_OBS_VAR(models_manager);
+	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "setmodelsource", this_ptr, source);
+	RETURN_THIS();
 }
 
 /**
@@ -392,22 +395,15 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getSource){
 
-	zval *source = NULL, *class_name;
+	zval *models_manager, *source;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(source);
-	phalcon_read_property(&source, this_ptr, SL("_source"), PH_NOISY_CC);
-	if (!zend_is_true(source)) {
-		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class_ns(class_name, this_ptr, 0 TSRMLS_CC);
+	PHALCON_OBS_VAR(models_manager);
+	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
-		PHALCON_INIT_NVAR(source);
-		phalcon_uncamelize(source, class_name TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_source"), source TSRMLS_CC);
-	}
-	
-	
+	PHALCON_INIT_VAR(source);
+	PHALCON_CALL_METHOD_PARAMS_1(source, models_manager, "getmodelsource", this_ptr);
 	RETURN_CCTOR(source);
 }
 
@@ -419,14 +415,18 @@ PHP_METHOD(Phalcon_Mvc_Model, getSource){
  */
 PHP_METHOD(Phalcon_Mvc_Model, setSchema){
 
-	zval *schema;
+	zval *schema, *models_manager;
+
+	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &schema) == FAILURE) {
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_schema"), schema TSRMLS_CC);
-	RETURN_THISW();
+	PHALCON_OBS_VAR(models_manager);
+	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "setmodelschema", this_ptr, schema);
+	RETURN_THIS();
 }
 
 /**
@@ -436,8 +436,16 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getSchema){
 
+	zval *models_manager, *schema;
 
-	RETURN_MEMBER(this_ptr, "_schema");
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(models_manager);
+	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(schema);
+	PHALCON_CALL_METHOD_PARAMS_1(schema, models_manager, "getmodelschema", this_ptr);
+	RETURN_CCTOR(schema);
 }
 
 /**
@@ -715,25 +723,30 @@ PHP_METHOD(Phalcon_Mvc_Model, assign){
  * @param array $data
  * @param array $columnMap
  * @param int $dirtyState
+ * @param boolean $keepSnapshots
  * @return Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 
-	zval *base, *data, *column_map, *dirty_state = NULL, *object;
-	zval *value = NULL, *key = NULL, *attribute = NULL, *exception_message = NULL;
+	zval *base, *data, *column_map, *dirty_state = NULL, *keep_snapshots = NULL;
+	zval *object, *value = NULL, *key = NULL, *attribute = NULL, *exception_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|z", &base, &data, &column_map, &dirty_state) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|zz", &base, &data, &column_map, &dirty_state, &keep_snapshots) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	if (!dirty_state) {
 		PHALCON_INIT_VAR(dirty_state);
 		ZVAL_LONG(dirty_state, 0);
+	}
+	
+	if (!keep_snapshots) {
+		PHALCON_INIT_VAR(keep_snapshots);
 	}
 	
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
@@ -786,6 +799,10 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	if (zend_is_true(keep_snapshots)) {
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(object, "setsnapshotdata", data, column_map);
 	}
 	
 	
@@ -4897,6 +4914,344 @@ PHP_METHOD(Phalcon_Mvc_Model, addBehavior){
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(manager, "addbehavior", this_ptr, behavior);
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sets if the model should keep the original record snapshot in memory
+ *
+ * @param boolean $keepSnapshots
+ */
+PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots){
+
+	zval *keep_snapshot, *manager;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &keep_snapshot) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(manager);
+	phalcon_read_property(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(manager, "keepsnapshots", this_ptr, keep_snapshot);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sets the record's snapshot data
+ *
+ * @param array $data
+ * @param array $columnMap
+ */
+PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData){
+
+	zval *data, *column_map = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &data, &column_map) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!column_map) {
+		PHALCON_INIT_VAR(column_map);
+	}
+	
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The snapshot data must be an array");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_snapshot"), data TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Checks if the object has internal snapshot data
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData){
+
+	zval *snapshot;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(snapshot);
+	phalcon_read_property(&snapshot, this_ptr, SL("_snapshot"), PH_NOISY_CC);
+	if (Z_TYPE_P(snapshot) == IS_ARRAY) { 
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Returns the internal snapshot data
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData){
+
+
+	RETURN_MEMBER(this_ptr, "_snapshot");
+}
+
+/**
+ * Check if an specific attribute has changed
+ * This only works if the model is keeping data snapshots
+ *
+ * @param boolean $fieldName
+ */
+PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
+
+	zval *field_name = NULL, *snapshot, *dirty_state, *meta_data;
+	zval *attributes, *exception_message = NULL, *value = NULL;
+	zval *original_value = NULL, *type = NULL, *name = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &field_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!field_name) {
+		PHALCON_INIT_VAR(field_name);
+	}
+	
+	PHALCON_OBS_VAR(snapshot);
+	phalcon_read_property(&snapshot, this_ptr, SL("_snapshot"), PH_NOISY_CC);
+	if (Z_TYPE_P(snapshot) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record doesn't have a valid data snapshot");
+		return;
+	}
+	
+	if (Z_TYPE_P(field_name) != IS_STRING) {
+		if (Z_TYPE_P(field_name) != IS_NULL) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The field name must be string");
+			return;
+		}
+	}
+	
+	PHALCON_OBS_VAR(dirty_state);
+	phalcon_read_property(&dirty_state, this_ptr, SL("_dirtyState"), PH_NOISY_CC);
+	
+	/** 
+	 * Dirty state must be DIRTY_PERSISTENT to make the checking 
+	 */
+	if (!PHALCON_IS_LONG(dirty_state, 0)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Change checking cannot be performed because the object has not been persisted or is deleted");
+		return;
+	}
+	
+	/** 
+	 * Return the models meta-data
+	 */
+	PHALCON_INIT_VAR(meta_data);
+	PHALCON_CALL_METHOD(meta_data, this_ptr, "getmodelsmetadata");
+	
+	PHALCON_INIT_VAR(attributes);
+	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getdatatypes", this_ptr);
+	
+	/** 
+	 * If a field was specified we only check it
+	 */
+	if (Z_TYPE_P(field_name) == IS_STRING) {
+	
+		/** 
+		 * We only make this validation over valid fields
+		 */
+		if (!phalcon_array_isset(attributes, field_name)) {
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "The field '", field_name, "' is not part of the model");
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+			return;
+		}
+	
+		/** 
+		 * The field is not part of the model, throw exception
+		 */
+		if (!phalcon_isset_property_zval(this_ptr, field_name TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "The field '", field_name, "' is not defined on the model");
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+			return;
+		}
+	
+		/** 
+		 * The field is not part of the data snapshot, throw exception
+		 */
+		if (!phalcon_array_isset(snapshot, field_name)) {
+			PHALCON_INIT_NVAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "The field '", field_name, "' was not found in the snapshot");
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+			return;
+		}
+	
+		PHALCON_OBS_VAR(value);
+		phalcon_read_property_zval(&value, this_ptr, field_name, PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(original_value);
+		phalcon_array_fetch(&original_value, snapshot, field_name, PH_NOISY_CC);
+	
+		/** 
+		 * Check if the field has changed
+		 */
+		if (PHALCON_IS_EQUAL(value, original_value)) {
+			RETURN_MM_FALSE;
+		} else {
+			RETURN_MM_TRUE;
+		}
+	}
+	
+	/** 
+	 * Check every attribute in the model
+	 */
+	
+	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_FOREACH_KEY(name, ah0, hp0);
+		PHALCON_GET_FOREACH_VALUE(type);
+	
+		/** 
+		 * If some attribute is not present in the snapshot, we assume the record as
+		 * changed
+		 */
+		if (!phalcon_array_isset(snapshot, name)) {
+			RETURN_MM_TRUE;
+		}
+	
+		/** 
+		 * If some attribute is not present in the model, we assume the record as changed
+		 */
+		if (!phalcon_isset_property_zval(this_ptr, name TSRMLS_CC)) {
+			RETURN_MM_TRUE;
+		}
+	
+		PHALCON_OBS_NVAR(value);
+		phalcon_read_property_zval(&value, this_ptr, name, PH_NOISY_CC);
+	
+		PHALCON_OBS_NVAR(original_value);
+		phalcon_array_fetch(&original_value, snapshot, name, PH_NOISY_CC);
+	
+		/** 
+		 * Check if the field has changed
+		 */
+		if (!PHALCON_IS_EQUAL(value, original_value)) {
+			RETURN_MM_TRUE;
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Returns a list of changed values
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getChangedFields){
+
+	zval *snapshot, *dirty_state, *meta_data, *attributes;
+	zval *changed, *type = NULL, *name = NULL, *value = NULL, *original_value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(snapshot);
+	phalcon_read_property(&snapshot, this_ptr, SL("_snapshot"), PH_NOISY_CC);
+	if (Z_TYPE_P(snapshot) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The record doesn't have a valid data snapshot");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(dirty_state);
+	phalcon_read_property(&dirty_state, this_ptr, SL("_dirtyState"), PH_NOISY_CC);
+	
+	/** 
+	 * Dirty state must be DIRTY_PERSISTENT to make the checking 
+	 */
+	if (!PHALCON_IS_LONG(dirty_state, 0)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Change checking cannot be performed because the object has not been persisted or is deleted");
+		return;
+	}
+	
+	/** 
+	 * Return the models meta-data
+	 */
+	PHALCON_INIT_VAR(meta_data);
+	PHALCON_CALL_METHOD(meta_data, this_ptr, "getmodelsmetadata");
+	
+	PHALCON_INIT_VAR(attributes);
+	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getdatatypes", this_ptr);
+	
+	PHALCON_INIT_VAR(changed);
+	array_init(changed);
+	
+	/** 
+	 * Check every attribute in the model
+	 */
+	
+	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_FOREACH_KEY(name, ah0, hp0);
+		PHALCON_GET_FOREACH_VALUE(type);
+	
+		/** 
+		 * If some attribute is not present in the snapshot, we assume the record as
+		 * changed
+		 */
+		if (!phalcon_array_isset(snapshot, name)) {
+			phalcon_array_append(&changed, name, PH_SEPARATE TSRMLS_CC);
+			zend_hash_move_forward_ex(ah0, &hp0);
+			continue;
+		}
+	
+		/** 
+		 * If some attribute is not present in the model, we assume the record as changed
+		 */
+		if (!phalcon_isset_property_zval(this_ptr, name TSRMLS_CC)) {
+			phalcon_array_append(&changed, name, PH_SEPARATE TSRMLS_CC);
+			zend_hash_move_forward_ex(ah0, &hp0);
+			continue;
+		}
+	
+		PHALCON_OBS_NVAR(value);
+		phalcon_read_property_zval(&value, this_ptr, name, PH_NOISY_CC);
+	
+		PHALCON_OBS_NVAR(original_value);
+		phalcon_array_fetch(&original_value, snapshot, name, PH_NOISY_CC);
+	
+		/** 
+		 * Check if the field has changed
+		 */
+		if (!PHALCON_IS_EQUAL(value, original_value)) {
+			phalcon_array_append(&changed, name, PH_SEPARATE TSRMLS_CC);
+			zend_hash_move_forward_ex(ah0, &hp0);
+			continue;
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	
+	RETURN_CTOR(changed);
 }
 
 /**

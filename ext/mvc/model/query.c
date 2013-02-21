@@ -2924,9 +2924,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	zval *simple_column_map = NULL, *meta_data, *alias = NULL;
 	zval *sql_column = NULL, *instance = NULL, *attributes = NULL, *column_map = NULL;
 	zval *attribute = NULL, *hidden_alias = NULL, *column_alias = NULL;
-	zval *sql_alias = NULL, *dialect, *sql_select, *processed = NULL;
-	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
-	zval *result, *count, *result_data = NULL, *cache, *result_object = NULL;
+	zval *is_keeping_snapshots = NULL, *sql_alias = NULL, *dialect;
+	zval *sql_select, *processed = NULL, *value = NULL, *wildcard = NULL;
+	zval *string_wildcard = NULL, *processed_types = NULL, *result;
+	zval *count, *result_data = NULL, *cache, *result_object = NULL;
 	zval *resultset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5, *ah6;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5, hp6;
@@ -3156,9 +3157,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			PHALCON_OBS_NVAR(model_name);
 			phalcon_array_fetch_string(&model_name, column, SL("model"), PH_NOISY_CC);
 	
+			/** 
+			 * Base instance
+			 */
 			PHALCON_OBS_NVAR(instance);
 			phalcon_array_fetch(&instance, models_instances, model_name, PH_NOISY_CC);
 	
+			/** 
+			 * Base attributes
+			 */
 			PHALCON_INIT_NVAR(attributes);
 			PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", instance);
 			if (PHALCON_IS_TRUE(is_complex)) {
@@ -3172,6 +3179,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				} else {
 					PHALCON_INIT_NVAR(column_map);
 				}
+	
+				/** 
+				 * Add every attribute in the model to the generated select
+				 */
 	
 				if (!phalcon_is_iterable(attributes, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 					return;
@@ -3200,6 +3211,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				phalcon_array_update_string_multi_2(&columns, alias, SL("instance"), &instance, 0 TSRMLS_CC);
 				phalcon_array_update_string_multi_2(&columns, alias, SL("attributes"), &attributes, 0 TSRMLS_CC);
 				phalcon_array_update_string_multi_2(&columns, alias, SL("columnMap"), &column_map, 0 TSRMLS_CC);
+	
+				/** 
+				 * Check if the model keeps snapshots
+				 */
+				PHALCON_INIT_NVAR(is_keeping_snapshots);
+				PHALCON_CALL_METHOD_PARAMS_1(is_keeping_snapshots, manager, "iskeepingsnapshots", instance);
+				if (zend_is_true(is_keeping_snapshots)) {
+					phalcon_array_update_string_multi_2(&columns, alias, SL("keepSnapshots"), &is_keeping_snapshots, 0 TSRMLS_CC);
+				}
 			} else {
 				/** 
 				 * Query only the columns that are registered as attributes in the metaData
@@ -3344,6 +3364,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_INIT_VAR(result);
 	PHALCON_CALL_METHOD_PARAMS_3(result, connection, "query", sql_select, processed, processed_types);
 	
+	/** 
+	 * Check if the query has data
+	 */
 	PHALCON_INIT_VAR(count);
 	PHALCON_CALL_METHOD_PARAMS_1(count, result, "numrows", result);
 	if (zend_is_true(count)) {
@@ -3364,13 +3387,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		 * Select the base object
 		 */
 		if (PHALCON_IS_TRUE(is_simple_std)) {
+			/** 
+			 * If the result is a simple standard object use an Phalcon\Mvc\Model\Row as base
+			 */
 			PHALCON_INIT_VAR(result_object);
 			object_init_ex(result_object, phalcon_mvc_model_row_ce);
+	
+			/** 
+			 * Standard objects can't keep snapshots
+			 */
+			PHALCON_INIT_NVAR(is_keeping_snapshots);
+			ZVAL_BOOL(is_keeping_snapshots, 0);
 		} else {
 			PHALCON_CPY_WRT(result_object, model);
 	
 			PHALCON_INIT_NVAR(simple_column_map);
 			PHALCON_CALL_METHOD_PARAMS_1(simple_column_map, meta_data, "getcolumnmap", model);
+	
+			/** 
+			 * Check if the model keeps snapshots
+			 */
+			PHALCON_INIT_NVAR(is_keeping_snapshots);
+			PHALCON_CALL_METHOD_PARAMS_1(is_keeping_snapshots, manager, "iskeepingsnapshots", result_object);
 		}
 	
 		/** 
@@ -3378,7 +3416,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		 */
 		PHALCON_INIT_VAR(resultset);
 		object_init_ex(resultset, phalcon_mvc_model_resultset_simple_ce);
-		PHALCON_CALL_METHOD_PARAMS_4_NORETURN(resultset, "__construct", simple_column_map, result_object, result_data, cache);
+		PHALCON_CALL_METHOD_PARAMS_5_NORETURN(resultset, "__construct", simple_column_map, result_object, result_data, cache, is_keeping_snapshots);
 	
 	
 		RETURN_CTOR(resultset);

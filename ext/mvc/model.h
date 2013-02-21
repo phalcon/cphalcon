@@ -88,6 +88,12 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
 PHP_METHOD(Phalcon_Mvc_Model, hasMany);
 PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough);
 PHP_METHOD(Phalcon_Mvc_Model, addBehavior);
+PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots);
+PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData);
+PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData);
+PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData);
+PHP_METHOD(Phalcon_Mvc_Model, hasChanged);
+PHP_METHOD(Phalcon_Mvc_Model, getChangedFields);
 PHP_METHOD(Phalcon_Mvc_Model, getRelated);
 PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, __call);
@@ -140,6 +146,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_cloneresultmap, 0, 0, 3)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, columnMap)
 	ZEND_ARG_INFO(0, dirtyState)
+	ZEND_ARG_INFO(0, keepSnapshots)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_cloneresultmaphydrate, 0, 0, 3)
@@ -221,6 +228,15 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_writeattribute, 0, 0, 2)
 	ZEND_ARG_INFO(0, attribute)
 	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setsnapshotdata, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, columnMap)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_haschanged, 0, 0, 0)
+	ZEND_ARG_INFO(0, fieldName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_getrelated, 0, 0, 1)
@@ -327,6 +343,12 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, hasMany, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, hasManyThrough, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, addBehavior, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, keepSnapshots, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, setSnapshotData, arginfo_phalcon_mvc_model_setsnapshotdata, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, hasSnapshotData, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, getSnapshotData, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, hasChanged, arginfo_phalcon_mvc_model_haschanged, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, getChangedFields, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getRelated, arginfo_phalcon_mvc_model_getrelated, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, _getRelatedRecords, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, __call, arginfo_phalcon_mvc_model___call, ZEND_ACC_PUBLIC) 

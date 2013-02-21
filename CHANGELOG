@@ -19,6 +19,8 @@
  - Phalcon\Mvc\Model uses column names keeping the case-folding as they were defined
  - Added Phalcon\Mvc\Router::notFound to define the paths the router must use if any route is matched
  - Improved \Phalcon\Mvc\Router\Annotations to work better with controllers in namespaces and modules
+ - A model can be marked to keep record snapshots allowing to check what fields have been changed
+ - The _source and _schema properties have been moved from Phalcon\Mvc\Model to Phalcon\Mvc\Model\Manager. This allow set source/schema in the model initializer
 
 0.9.0b2
  - Support for reusable records. A relation can be marked to cache queried records in memory to speedup getting related records

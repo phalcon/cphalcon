@@ -81,10 +81,13 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_belongsTo"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_belongsToSingle"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_initialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_sources"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_schemas"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_behaviors"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_lastInitialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_lastQuery"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_reusable"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_keepSnapshots"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_manager_ce TSRMLS_CC, 3, phalcon_mvc_model_managerinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
@@ -377,6 +380,153 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 	PHALCON_CONCAT_SVS(exception_message, "The model '", model_name, "' could not be loaded");
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 	return;
+}
+
+/**
+ * Sets the mapped source for a model
+ *
+ * @param Phalcon\Mvc\Model $model
+ * @param string $source
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource){
+
+	zval *model, *source, *entity_name;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &source) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		return;
+	}
+	if (Z_TYPE_P(source) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The source must be an string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_sources"), entity_name, source TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the mapped source for a model
+ *
+ * @param Phalcon\Mvc\Model $model
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource){
+
+	zval *model, *entity_name, *sources, *class_name;
+	zval *source = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(sources);
+	phalcon_read_property(&sources, this_ptr, SL("_sources"), PH_NOISY_CC);
+	if (!phalcon_array_isset(sources, entity_name)) {
+		PHALCON_INIT_VAR(class_name);
+		phalcon_get_class_ns(class_name, model, 0 TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(source);
+		phalcon_uncamelize(source, class_name TSRMLS_CC);
+		phalcon_update_property_array(this_ptr, SL("_sources"), entity_name, source TSRMLS_CC);
+	} else {
+		PHALCON_OBS_NVAR(source);
+		phalcon_array_fetch(&source, sources, entity_name, PH_NOISY_CC);
+	}
+	
+	
+	RETURN_CCTOR(source);
+}
+
+/**
+ * Sets the mapped schema for a model
+ *
+ * @param Phalcon\Mvc\Model $model
+ * @param string $schema
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema){
+
+	zval *model, *schema, *entity_name;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &schema) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		return;
+	}
+	if (Z_TYPE_P(schema) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The schema must be an string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_schemas"), entity_name, schema TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the mapped schema for a model
+ *
+ * @param Phalcon\Mvc\Model $model
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema){
+
+	zval *model, *entity_name, *schemas, *schema = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(schemas);
+	phalcon_read_property(&schemas, this_ptr, SL("_schemas"), PH_NOISY_CC);
+	if (!phalcon_array_isset(schemas, entity_name)) {
+		PHALCON_INIT_VAR(schema);
+		phalcon_update_property_array(this_ptr, SL("_schemas"), entity_name, schema TSRMLS_CC);
+	} else {
+		PHALCON_OBS_NVAR(schema);
+		phalcon_array_fetch(&schema, schemas, entity_name, PH_NOISY_CC);
+	}
+	
+	
+	RETURN_CCTOR(schema);
 }
 
 /**
@@ -886,6 +1036,60 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior){
 	phalcon_update_property_array(this_ptr, SL("_behaviors"), entity_name, models_behaviors TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sets if a model must keep snapshots
+ *
+ * @param Phalcon\Mvc\Model $model
+ * @param boolean $keepSnapshots
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots){
+
+	zval *model, *keep_snapshots, *entity_name;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &keep_snapshots) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_keepSnapshots"), entity_name, keep_snapshots TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Checks if a model is keeping snapshots for the queried records
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots){
+
+	zval *model, *keep_snapshots, *entity_name, *is_keeping;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(keep_snapshots);
+	phalcon_read_property(&keep_snapshots, this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
+	if (Z_TYPE_P(keep_snapshots) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(entity_name);
+		phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+		if (phalcon_array_isset(keep_snapshots, entity_name)) {
+			PHALCON_OBS_VAR(is_keeping);
+			phalcon_array_fetch(&is_keeping, keep_snapshots, entity_name, PH_NOISY_CC);
+			RETURN_CCTOR(is_keeping);
+		}
+	}
+	
+	RETURN_MM_FALSE;
 }
 
 /**
