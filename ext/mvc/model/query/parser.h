@@ -48,8 +48,8 @@
 #define PHQL_BY                             48
 #define PHQL_ASC                            49
 #define PHQL_DESC                           50
-#define PHQL_INTEGER                        51
-#define PHQL_GROUP                          52
+#define PHQL_GROUP                          51
+#define PHQL_INTEGER                        52
 #define PHQL_HAVING                         53
 #define PHQL_LIMIT                          54
 #define PHQL_OFFSET                         55

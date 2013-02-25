@@ -35,10 +35,10 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/file.h"
-#include "kernel/fcall.h"
 #include "kernel/string.h"
 
 /**
@@ -202,12 +202,32 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 }
 
 /**
- * Appends a condition to the current conditions using an AND operator
+ * Appends a condition to the current conditions using an AND operator (deprecated)
  *
  * @param string $conditions
  * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere){
+
+	zval *conditions;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "andwhere", conditions);
+	RETURN_THIS();
+}
+
+/**
+ * Appends a condition to the current conditions using an AND operator
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Criteria
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere){
 
 	zval *conditions, *params, *current_conditions;
 	zval *new_conditions = NULL;

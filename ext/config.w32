@@ -48,7 +48,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/db/profiler", "item.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db/result", "pdo.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db/dialect", "mysql.c postgresql.c sqlite.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/validation/validator", "presenceof.c identical.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/validation/validator", "presenceof.c identical.c stringlength.c", "phalcon")
   ADD_SOURCES("ext/phalcon/validation", "exception.c validator.c message.c", "phalcon")
   ADD_SOURCES("ext/phalcon/http", "cookie.c requestinterface.c response.c request.c responseinterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/http/cookie", "exception.c", "phalcon")

@@ -5594,6 +5594,19 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	}
 	
 	/** 
+	 * Check if the method starts with 'count'
+	 */
+	if (Z_TYPE_P(extra_method) == IS_NULL) {
+		if (phalcon_start_with_str(method, SL("countBy"))) {
+			PHALCON_INIT_NVAR(type);
+			ZVAL_STRING(type, "count", 1);
+	
+			PHALCON_INIT_NVAR(extra_method);
+			phalcon_substr(extra_method, method, 7, 0 TSRMLS_CC);
+		}
+	}
+	
+	/** 
 	 * The called class is the model
 	 */
 	PHALCON_INIT_VAR(model_name);

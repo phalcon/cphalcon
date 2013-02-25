@@ -37,18 +37,18 @@
 #include "kernel/concat.h"
 
 /**
- * Phalcon\Validation\Validator\PresenceOf
+ * Phalcon\Validation\Validator\StringLength
  *
  * Validates that a value is not null or empty string
  */
 
 
 /**
- * Phalcon\Validation\Validator\PresenceOf initializer
+ * Phalcon\Validation\Validator\StringLength initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf){
+PHALCON_INIT_CLASS(Phalcon_Validation_Validator_StringLength){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, PresenceOf, validation_validator_presenceof, "phalcon\\validation\\validator", phalcon_validation_validator_presenceof_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, StringLength, validation_validator_stringlength, "phalcon\\validation\\validator", phalcon_validation_validator_stringlength_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -60,10 +60,10 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf){
  * @param string $attribute
  * @return boolean
  */
-PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate){
+PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 
-	zval *validator, *attribute, *value, *type, *option;
-	zval *message_str = NULL, *message;
+	zval *validator, *attribute, *value, *option = NULL, *identical_value;
+	zval *message_str = NULL, *type, *message;
 
 	PHALCON_MM_GROW();
 
@@ -73,20 +73,26 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate){
 
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
-	if (PHALCON_IS_EMPTY(value)) {
 	
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "PresenceOf", 1);
+	PHALCON_INIT_VAR(option);
+	ZVAL_STRING(option, "value", 1);
 	
-		PHALCON_INIT_VAR(option);
+	PHALCON_INIT_VAR(identical_value);
+	PHALCON_CALL_METHOD_PARAMS_1(identical_value, this_ptr, "getoption", option);
+	if (!PHALCON_IS_EQUAL(value, identical_value)) {
+	
+		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message_str);
 		PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_NVAR(message_str);
-			PHALCON_CONCAT_VS(message_str, attribute, " is required");
+			PHALCON_CONCAT_VS(message_str, attribute, " does not have the expected value");
 		}
+	
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "Identical", 1);
 	
 		PHALCON_INIT_VAR(message);
 		object_init_ex(message, phalcon_validation_message_ce);

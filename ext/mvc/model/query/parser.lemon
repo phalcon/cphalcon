@@ -908,24 +908,16 @@ order_list(R) ::= order_item(I) . {
 
 %destructor order_item { zval_ptr_dtor(&$$); }
 
-order_item(R) ::= order_qualified_or_int(Q) . {
-	R = phql_ret_order_item(Q, 0);
+order_item(R) ::= expr(O) . {
+	R = phql_ret_order_item(O, 0);
 }
 
-order_item(R) ::= order_qualified_or_int(Q) ASC . {
-	R = phql_ret_order_item(Q, PHQL_T_ASC);
+order_item(R) ::= expr(O) ASC . {
+	R = phql_ret_order_item(O, PHQL_T_ASC);
 }
 
-order_item(R) ::= order_qualified_or_int(Q) DESC . {
-	R = phql_ret_order_item(Q, PHQL_T_DESC);
-}
-
-order_qualified_or_int(R) ::= qualified_name(Q) . {
-	R = Q;
-}
-
-order_qualified_or_int(R) ::= INTEGER(I) . {
-	R = phql_ret_literal_zval(PHQL_T_INTEGER, I);
+order_item(R) ::= expr(O) DESC . {
+	R = phql_ret_order_item(O, PHQL_T_DESC);
 }
 
 %destructor group_clause { zval_ptr_dtor(&$$); }
@@ -1068,6 +1060,10 @@ expr(R) ::= expr(E) IN BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
 
 expr(R) ::= expr(E) NOT IN BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
 	R = phql_ret_expr(PHQL_T_NOTIN, E, L);
+}
+
+expr(R) ::= expr(O1) AGAINST expr(O2) . {
+	R = phql_ret_expr(PHQL_T_AGAINST, O1, O2);
 }
 
 %destructor function_call { zval_ptr_dtor(&$$); }
