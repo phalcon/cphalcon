@@ -36,8 +36,8 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
 #include "kernel/string.h"
+#include "kernel/exception.h"
 
 /**
  * Phalcon\Mvc\Router
@@ -198,10 +198,14 @@ PHP_METHOD(Phalcon_Mvc_Router, getDI){
  */
 PHP_METHOD(Phalcon_Mvc_Router, _getRewriteUri){
 
-	zval *_GET, *url;
+	zval *_GET, *url = NULL, *_SERVER, *question_mark, *url_parts;
+	zval *real_uri;
 
 	PHALCON_MM_GROW();
 
+	/** 
+	 * By default we use $_GET['url'] to obtain the rewrite information
+	 */
 	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
 	if (phalcon_array_isset_string(_GET, SS("_url"))) {
 	
@@ -209,6 +213,28 @@ PHP_METHOD(Phalcon_Mvc_Router, _getRewriteUri){
 		phalcon_array_fetch_string(&url, _GET, SL("_url"), PH_NOISY_CC);
 		if (PHALCON_IS_NOT_EMPTY(url)) {
 			RETURN_CCTOR(url);
+		}
+	} else {
+		/** 
+		 * Otherwise use the standard $_SERVER['REQUEST_URI']
+		 */
+		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+		if (phalcon_array_isset_string(_SERVER, SS("REQUEST_URI"))) {
+	
+			PHALCON_INIT_VAR(question_mark);
+			ZVAL_STRING(question_mark, "?", 1);
+	
+			PHALCON_OBS_NVAR(url);
+			phalcon_array_fetch_string(&url, _SERVER, SL("REQUEST_URI"), PH_NOISY_CC);
+	
+			PHALCON_INIT_VAR(url_parts);
+			phalcon_fast_explode(url_parts, question_mark, url TSRMLS_CC);
+	
+			PHALCON_OBS_VAR(real_uri);
+			phalcon_array_fetch_long(&real_uri, url_parts, 0, PH_NOISY_CC);
+			if (PHALCON_IS_NOT_EMPTY(real_uri)) {
+				RETURN_CCTOR(real_uri);
+			}
 		}
 	}
 	PHALCON_MM_RESTORE();
@@ -741,7 +767,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 }
 
 /**
- * Adds a route to the router on any HTTP method
+ * Adds a route to the router without any HTTP constraint
  *
  *<code>
  * $router->add('/about', 'About::index');
