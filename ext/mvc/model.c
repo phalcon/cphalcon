@@ -676,29 +676,26 @@ PHP_METHOD(Phalcon_Mvc_Model, assign){
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 	
-		if (Z_TYPE_P(key) == IS_STRING) {
+		/** 
+		 * Only string keys in the data are valid
+		 */
+		if (Z_TYPE_P(column_map) == IS_ARRAY) { 
 	
 			/** 
-			 * Only string keys in the data are valid
+			 * Every field must be part of the column map
 			 */
-			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
-	
-				/** 
-				 * Every field must be part of the column map
-				 */
-				if (phalcon_array_isset(column_map, key)) {
-					PHALCON_OBS_NVAR(attribute);
-					phalcon_array_fetch(&attribute, column_map, key, PH_NOISY_CC);
-					phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
-				} else {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
+			if (phalcon_array_isset(column_map, key)) {
+				PHALCON_OBS_NVAR(attribute);
+				phalcon_array_fetch(&attribute, column_map, key, PH_NOISY_CC);
+				phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
 			} else {
-				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+				return;
 			}
+		} else {
+			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -4327,7 +4324,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	zval *schema, *source, *table = NULL, *unique_key = NULL, *exists;
 	zval *unique_params, *unique_types, *attributes;
 	zval *fields, *attribute = NULL, *field_item = NULL, *escaped_table;
-	zval *select, *dialect, *sql, *fetch_type, *row;
+	zval *select, *dialect, *sql, *fetch_type, *row, *column_map;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -4389,8 +4386,11 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	PHALCON_OBS_VAR(unique_types);
 	phalcon_read_property(&unique_types, this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
 	
+	/** 
+	 * We only refresh the attributes in the model's metadata
+	 */
 	PHALCON_INIT_VAR(attributes);
-	PHALCON_CALL_METHOD_PARAMS_1(attributes, read_connection, "getattributes", this_ptr);
+	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr);
 	
 	PHALCON_INIT_VAR(fields);
 	array_init(fields);
@@ -4420,6 +4420,9 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	phalcon_array_update_string(&select, SL("tables"), &escaped_table, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&select, SL("where"), &unique_key, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
+	/** 
+	 * We directly build the SELECT to save resources
+	 */
 	PHALCON_INIT_VAR(dialect);
 	PHALCON_CALL_METHOD(dialect, read_connection, "getdialect");
 	
@@ -4433,10 +4436,16 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	PHALCON_CALL_METHOD_PARAMS_4(row, read_connection, "fetchone", sql, fetch_type, unique_params, unique_types);
 	
 	/** 
+	 * Get a column map if any
+	 */
+	PHALCON_INIT_VAR(column_map);
+	PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", this_ptr);
+	
+	/** 
 	 * Assign the resulting array to the this_ptr object
 	 */
 	if (Z_TYPE_P(row) == IS_ARRAY) { 
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "assign", row);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "assign", row, column_map);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -6005,7 +6014,8 @@ PHP_METHOD(Phalcon_Mvc_Model, dump){
 PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
 	zval *meta_data, *data, *null_value, *attributes;
-	zval *attribute = NULL, *value = NULL;
+	zval *column_map, *attribute = NULL, *exception_message = NULL;
+	zval *attribute_field = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -6020,8 +6030,17 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 	
 	PHALCON_INIT_VAR(null_value);
 	
+	/** 
+	 * Original attributes
+	 */
 	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr);
+	
+	/** 
+	 * Reverse column map
+	 */
+	PHALCON_INIT_VAR(column_map);
+	PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", this_ptr);
 	
 	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -6031,12 +6050,28 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 	
 		PHALCON_GET_FOREACH_VALUE(attribute);
 	
-		if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(value);
-			phalcon_read_property_zval(&value, this_ptr, attribute, PH_NOISY_CC);
-			phalcon_array_update_zval(&data, attribute, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		/** 
+		 * Check if the columns must be renamed
+		 */
+		if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+			if (!phalcon_array_isset(column_map, attribute)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Column \"", attribute, "\" doesn't make part of the column map");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+				return;
+			}
+	
+			PHALCON_OBS_NVAR(attribute_field);
+			phalcon_array_fetch(&attribute_field, column_map, attribute, PH_NOISY_CC);
 		} else {
-			phalcon_array_update_zval(&data, attribute, &null_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			PHALCON_CPY_WRT(attribute_field, attribute);
+		}
+		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
+			PHALCON_OBS_NVAR(value);
+			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
+			phalcon_array_update_zval(&data, attribute_field, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		} else {
+			phalcon_array_update_zval(&data, attribute_field, &null_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
