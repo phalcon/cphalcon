@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -83,11 +83,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 		PHALCON_INIT_VAR(cache);
 	}
 	
+	/** 
+	 * Column types, tell the resultset how to build the result
+	 */
 	phalcon_update_property_zval(this_ptr, SL("_columnTypes"), columns_types TSRMLS_CC);
+	
+	/** 
+	 * Valid resultsets are Phalcon\Db\ResultInterface instances
+	 */
 	phalcon_update_property_zval(this_ptr, SL("_result"), result TSRMLS_CC);
+	
+	/** 
+	 * Update the related cache if any
+	 */
 	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	
+	/** 
+	 * Resultsets type 1 are traversed one-by-one
+	 */
 	phalcon_update_property_long(this_ptr, SL("_type"), 1 TSRMLS_CC);
-	if (PHALCON_IS_NOT_FALSE(result)) {
+	
+	/** 
+	 * If the database result is an object, change it to fetch assoc
+	 */
+	if (Z_TYPE_P(result) == IS_OBJECT) {
 		PHALCON_INIT_VAR(fetch_assoc);
 		ZVAL_LONG(fetch_assoc, 1);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_assoc);
@@ -266,12 +285,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					switch (phalcon_get_intval(hydrate_mode)) {
 	
 						case 0:
+							/** 
+							 * Check if the resultset must keep snapshots
+							 */
 							if (phalcon_array_isset_string(column, SS("keepSnapshots"))) {
 								PHALCON_OBS_NVAR(keep_snapshots);
 								phalcon_array_fetch_string(&keep_snapshots, column, SL("keepSnapshots"), PH_NOISY_CC);
 							} else {
 								PHALCON_INIT_NVAR(keep_snapshots);
-								ZVAL_LONG(keep_snapshots, 0);
+								ZVAL_BOOL(keep_snapshots, 0);
 							}
 	
 							/** 

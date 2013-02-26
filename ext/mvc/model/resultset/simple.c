@@ -55,7 +55,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
 
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_columnMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_keepSnapshots"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_model_resultset_simple_ce, SL("_keepSnapshots"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_resultset_simple_ce TSRMLS_CC, 5, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_serializable);
 
@@ -73,17 +73,21 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 
-	zval *column_map, *model, *result, *cache = NULL, *keep_snapshots;
+	zval *column_map, *model, *result, *cache = NULL, *keep_snapshots = NULL;
 	zval *fetch_assoc, *limit, *row_count, *big_resultset;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz|z", &column_map, &model, &result, &cache, &keep_snapshots) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|zz", &column_map, &model, &result, &cache, &keep_snapshots) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	if (!cache) {
 		PHALCON_INIT_VAR(cache);
+	}
+	
+	if (!keep_snapshots) {
+		PHALCON_INIT_VAR(keep_snapshots);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
@@ -122,6 +126,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	 * Update the row-count
 	 */
 	phalcon_update_property_zval(this_ptr, SL("_count"), row_count TSRMLS_CC);
+	
+	/** 
+	 * Set if the returned resultset must keep the record snapshots
+	 */
 	phalcon_update_property_zval(this_ptr, SL("_keepSnapshots"), keep_snapshots TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -196,11 +204,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	PHALCON_OBS_VAR(hydrate_mode);
 	phalcon_read_property(&hydrate_mode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
 	
+	/** 
+	 * Tell if the resultset is keeping snapshots
+	 */
 	PHALCON_OBS_VAR(keep_snapshots);
 	phalcon_read_property(&keep_snapshots, this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
 	
+	/** 
+	 * Get the resultset column map
+	 */
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	
+	/** 
+	 * Hydrate based on the current hydration
+	 */
 	
 	switch (phalcon_get_intval(hydrate_mode)) {
 	

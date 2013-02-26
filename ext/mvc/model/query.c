@@ -944,6 +944,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				break;
 	
+			case 276:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("AGAINST"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
 			case 350:
 				PHALCON_INIT_NVAR(expr_return);
 				PHALCON_CALL_METHOD_PARAMS_1(expr_return, this_ptr, "_getfunctioncall", expr);
@@ -3157,6 +3166,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			PHALCON_OBS_NVAR(model_name);
 			phalcon_array_fetch_string(&model_name, column, SL("model"), PH_NOISY_CC);
 	
+			/** 
+			 * Base instance
+			 */
 			PHALCON_OBS_NVAR(instance);
 			phalcon_array_fetch(&instance, models_instances, model_name, PH_NOISY_CC);
 	
@@ -3173,6 +3185,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				} else {
 					PHALCON_INIT_NVAR(column_map);
 				}
+	
+				/** 
+				 * Add every attribute in the model to the generated select
+				 */
 	
 				if (!phalcon_is_iterable(attributes, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 					return;
@@ -3354,6 +3370,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_INIT_VAR(result);
 	PHALCON_CALL_METHOD_PARAMS_3(result, connection, "query", sql_select, processed, processed_types);
 	
+	/** 
+	 * Check if the query has data
+	 */
 	PHALCON_INIT_VAR(count);
 	PHALCON_CALL_METHOD_PARAMS_1(count, result, "numrows", result);
 	if (zend_is_true(count)) {
@@ -3384,10 +3403,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			 * Standard objects can't keep snapshots
 			 */
 			PHALCON_INIT_NVAR(is_keeping_snapshots);
-			ZVAL_LONG(is_keeping_snapshots, 0);
+			ZVAL_BOOL(is_keeping_snapshots, 0);
 		} else {
 			PHALCON_CPY_WRT(result_object, model);
 	
+			/** 
+			 * Get the column map
+			 */
 			PHALCON_INIT_NVAR(simple_column_map);
 			PHALCON_CALL_METHOD_PARAMS_1(simple_column_map, meta_data, "getcolumnmap", model);
 	

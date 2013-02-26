@@ -812,6 +812,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		PHALCON_CALL_USER_FUNC_ARRAY(returned_value, handler, params);
 	
 		/** 
+		 * Update the returned value
+		 */
+		phalcon_update_property_zval(this_ptr, SL("_returnedValue"), returned_value TSRMLS_CC);
+	
+		/** 
 		 * Calling afterExecuteRoute event
 		 */
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -881,6 +886,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 */
 		PHALCON_INIT_NVAR(returned_value);
 		PHALCON_CALL_USER_FUNC(returned_value, not_found_handler);
+	
+		/** 
+		 * Update the returned value
+		 */
+		phalcon_update_property_zval(this_ptr, SL("_returnedValue"), returned_value TSRMLS_CC);
 	
 		RETURN_CCTOR(returned_value);
 	}

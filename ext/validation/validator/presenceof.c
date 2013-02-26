@@ -37,6 +37,13 @@
 #include "kernel/concat.h"
 
 /**
+ * Phalcon\Validation\Validator\PresenceOf
+ *
+ * Validates that a value is not null or empty string
+ */
+
+
+/**
  * Phalcon\Validation\Validator\PresenceOf initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf){
@@ -46,6 +53,13 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf){
 	return SUCCESS;
 }
 
+/**
+ * Executes the validation
+ *
+ * @param Phalcon\Validator $validator
+ * @param string $attribute
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate){
 
 	zval *validator, *attribute, *value, *type, *option;

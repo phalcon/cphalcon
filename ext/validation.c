@@ -36,6 +36,7 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Validation
@@ -50,23 +51,30 @@ PHALCON_INIT_CLASS(Phalcon_Validation){
 	PHALCON_REGISTER_CLASS(Phalcon, Validation, validation, phalcon_validation_method_entry, 0);
 
 	zend_declare_property_null(phalcon_validation_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("_entity"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_validators"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
 
+/**
+ * Validate a set of data according to a set of rules
+ *
+ * @param array|object $data
+ * @param object $entity
+ */
 PHP_METHOD(Phalcon_Validation, validate){
 
-	zval *data = NULL, *validators, *scope = NULL, *attribute = NULL, *validator = NULL;
-	zval *messages;
+	zval *data = NULL, *entity, *validators, *scope = NULL, *attribute = NULL;
+	zval *validator = NULL, *messages;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &data) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &data, &entity) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -120,6 +128,13 @@ PHP_METHOD(Phalcon_Validation, validate){
 	RETURN_CCTOR(messages);
 }
 
+/**
+ * Adds a validator to a field
+ *
+ * @param string $attribute
+ * @param Phalcon\Validation\ValidatorInterface
+ * @return Phalcon\Validator
+ */
 PHP_METHOD(Phalcon_Validation, add){
 
 	zval *attribute, *validator, *scope;
@@ -145,64 +160,142 @@ PHP_METHOD(Phalcon_Validation, add){
 	phalcon_array_append(&scope, validator, PH_SEPARATE TSRMLS_CC);
 	phalcon_update_property_array_append(this_ptr, SL("_validators"), scope TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
+/**
+ * Returns the data that is currently validated
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Validation, getValidators){
 
 
 	RETURN_MEMBER(this_ptr, "_validators");
 }
 
+/**
+ * Returns the bound entity
+ *
+ * @return object
+ */
+PHP_METHOD(Phalcon_Validation, getEntity){
+
+
+	RETURN_MEMBER(this_ptr, "_entity");
+}
+
+/**
+ * Returns the registered validators
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Validation, getMessages){
 
 
 	RETURN_MEMBER(this_ptr, "_messages");
 }
 
+/**
+ * Appends a message to the messages list
+ *
+ * @param Phalcon\Validation\MessageInterface $message
+ */
 PHP_METHOD(Phalcon_Validation, appendMessage){
 
 	zval *message;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
-	
-}
-
-PHP_METHOD(Phalcon_Validation, bind){
-
-	zval *data;
-
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	if (Z_TYPE_P(message) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
+		return;
+	}
+	phalcon_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Assigns the data to an entity
+ * The entity is used to obtain the validation values
+ *
+ * @param string $entity
+ * @param string $data
+ * @return Phalcon\Validator
+ */
+PHP_METHOD(Phalcon_Validation, bind){
+
+	zval *entity, *data;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &entity, &data) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(entity) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The entity must be an object");
+		return;
+	}
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		if (Z_TYPE_P(data) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The data to validate must be an array or object");
 			return;
 		}
 	}
+	
+	phalcon_update_property_zval(this_ptr, SL("_entity"), entity TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 PHP_METHOD(Phalcon_Validation, getValue){
 
-	zval *key, *data, *value = NULL;
+	zval *attribute, *entity, *method, *value = NULL, *data;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attribute) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	PHALCON_OBS_VAR(entity);
+	phalcon_read_property(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
+	
+	/** 
+	 * If the entity is an object use it to retrieve the values
+	 */
+	if (Z_TYPE_P(entity) == IS_OBJECT) {
+	
+		PHALCON_INIT_VAR(method);
+		PHALCON_CONCAT_SV(method, "get", attribute);
+		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
+			PHALCON_INIT_VAR(value);
+			PHALCON_CALL_METHOD(value, entity, Z_STRVAL_P(method));
+		} else {
+			if (phalcon_method_exists_ex(entity, SS("readattribute") TSRMLS_CC) == SUCCESS) {
+				PHALCON_INIT_NVAR(value);
+				PHALCON_CALL_METHOD(value, entity, "readattribute");
+			} else {
+				if (phalcon_isset_property_zval(entity, attribute TSRMLS_CC)) {
+					PHALCON_OBS_NVAR(value);
+					phalcon_read_property_zval(&value, entity, attribute, PH_NOISY_CC);
+				} else {
+					PHALCON_INIT_NVAR(value);
+				}
+			}
+		}
+	
+	
+		RETURN_CCTOR(value);
+	}
+	
 	PHALCON_OBS_VAR(data);
 	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
@@ -213,17 +306,17 @@ PHP_METHOD(Phalcon_Validation, getValue){
 	}
 	
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
-		if (phalcon_array_isset(data, key)) {
-			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch(&value, data, key, PH_NOISY_CC);
+		if (phalcon_array_isset(data, attribute)) {
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch(&value, data, attribute, PH_NOISY_CC);
 			RETURN_CCTOR(value);
 		}
 	}
 	
 	if (Z_TYPE_P(data) == IS_OBJECT) {
-		if (phalcon_isset_property_zval(data, key TSRMLS_CC)) {
+		if (phalcon_isset_property_zval(data, attribute TSRMLS_CC)) {
 			PHALCON_OBS_NVAR(value);
-			phalcon_read_property_zval(&value, data, key, PH_NOISY_CC);
+			phalcon_read_property_zval(&value, data, attribute, PH_NOISY_CC);
 			RETURN_CCTOR(value);
 		}
 	}

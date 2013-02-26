@@ -326,9 +326,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, delete){
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, _read){
 
-	zval *length = NULL, *connection = NULL, *is_eof, *total_length = NULL;
-	zval *data, *meta, *timeout, *mask, *packet = NULL, *end_of_file;
-	zval *t0 = NULL;
+	zval *length = NULL, *connection = NULL, *is_eof, *eof_chars;
+	zval *total_length = NULL, *data, *meta, *timeout, *mask;
+	zval *packet = NULL, *end_of_file;
 
 	PHALCON_MM_GROW();
 
@@ -359,11 +359,11 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, _read){
 			RETURN_MM_FALSE;
 		}
 	
-		PHALCON_INIT_VAR(t0);
-		ZVAL_LONG(t0, 2);
+		PHALCON_INIT_VAR(eof_chars);
+		ZVAL_LONG(eof_chars, 2);
 	
 		PHALCON_INIT_VAR(total_length);
-		phalcon_add_function(total_length, length, t0 TSRMLS_CC);
+		phalcon_add_function(total_length, length, eof_chars TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(data);
 		PHALCON_CALL_FUNC_PARAMS_2(data, "fread", connection, total_length);
