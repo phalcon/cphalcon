@@ -1123,14 +1123,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describeindexes", table, schema);
 	
 	/** 
-	 * Execute the SQL describing the indexes
+	 * Cryptic Guide: 2: table, 3: from, 4: to
 	 */
 	PHALCON_INIT_VAR(describe);
 	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
-	/** 
-	 * Cryptic Guide: 2: table, 3: from, 4: to
-	 */
 	PHALCON_INIT_VAR(indexes);
 	array_init(indexes);
 	
@@ -1169,6 +1166,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 		PHALCON_GET_FOREACH_KEY(name, ah1, hp1);
 		PHALCON_GET_FOREACH_VALUE(index_columns);
 	
+		/** 
+		 * Every index is abstracted using a Phalcon\Db\Index instance
+		 */
 		PHALCON_INIT_NVAR(index);
 		object_init_ex(index, phalcon_db_index_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(index, "__construct", name, index_columns);
@@ -1195,8 +1195,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 
-	zval *table, *schema = NULL, *dialect, *sql, *empty_arr, *fetch_num;
-	zval *describe, *references, *reference = NULL, *constraint_name = NULL;
+	zval *table, *schema = NULL, *dialect, *fetch_num, *sql, *empty_arr;
+	zval *references, *describe, *reference = NULL, *constraint_name = NULL;
 	zval *referenced_schema = NULL, *referenced_table = NULL;
 	zval *reference_array = NULL, *column_name = NULL, *referenced_columns = NULL;
 	zval *reference_objects, *array_reference = NULL;
@@ -1218,20 +1218,29 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
+	/** 
+	 * We're using FETCH_NUM to fetch the columns
+	 */
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
+	
+	/** 
+	 * Get the SQL required to describe the references from the Dialect
+	 */
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describereferences", table, schema);
 	
 	PHALCON_INIT_VAR(empty_arr);
 	array_init(empty_arr);
 	
-	PHALCON_INIT_VAR(fetch_num);
-	ZVAL_LONG(fetch_num, 3);
-	
-	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
-	
 	PHALCON_INIT_VAR(references);
 	array_init(references);
+	
+	/** 
+	 * Execute the SQL returning the 
+	 */
+	PHALCON_INIT_VAR(describe);
+	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;

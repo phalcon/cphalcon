@@ -423,8 +423,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource){
 
-	zval *model, *entity_name, *sources, *class_name;
-	zval *source = NULL;
+	zval *model, *entity_name, *sources, *source = NULL, *class_name;
 
 	PHALCON_MM_GROW();
 
@@ -442,18 +441,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource){
 	
 	PHALCON_OBS_VAR(sources);
 	phalcon_read_property(&sources, this_ptr, SL("_sources"), PH_NOISY_CC);
-	if (!phalcon_array_isset(sources, entity_name)) {
-		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class_ns(class_name, model, 0 TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(source);
-		phalcon_uncamelize(source, class_name TSRMLS_CC);
-		phalcon_update_property_array(this_ptr, SL("_sources"), entity_name, source TSRMLS_CC);
-	} else {
-		PHALCON_OBS_NVAR(source);
-		phalcon_array_fetch(&source, sources, entity_name, PH_NOISY_CC);
+	if (Z_TYPE_P(sources) == IS_ARRAY) { 
+		if (phalcon_array_isset(sources, entity_name)) {
+			PHALCON_OBS_VAR(source);
+			phalcon_array_fetch(&source, sources, entity_name, PH_NOISY_CC);
+			RETURN_CCTOR(source);
+		}
 	}
 	
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_class_ns(class_name, model, 0 TSRMLS_CC);
+	
+	PHALCON_INIT_NVAR(source);
+	phalcon_uncamelize(source, class_name TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_sources"), entity_name, source TSRMLS_CC);
 	
 	RETURN_CCTOR(source);
 }
@@ -499,7 +500,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema){
 
-	zval *model, *entity_name, *schemas, *schema = NULL;
+	zval *model, *entity_name, *schemas, *schema;
 
 	PHALCON_MM_GROW();
 
@@ -517,16 +518,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema){
 	
 	PHALCON_OBS_VAR(schemas);
 	phalcon_read_property(&schemas, this_ptr, SL("_schemas"), PH_NOISY_CC);
-	if (!phalcon_array_isset(schemas, entity_name)) {
-		PHALCON_INIT_VAR(schema);
-		phalcon_update_property_array(this_ptr, SL("_schemas"), entity_name, schema TSRMLS_CC);
-	} else {
-		PHALCON_OBS_NVAR(schema);
-		phalcon_array_fetch(&schema, schemas, entity_name, PH_NOISY_CC);
+	if (Z_TYPE_P(schemas) == IS_ARRAY) { 
+		if (phalcon_array_isset(schemas, entity_name)) {
+			PHALCON_OBS_VAR(schema);
+			phalcon_array_fetch(&schema, schemas, entity_name, PH_NOISY_CC);
+			RETURN_CCTOR(schema);
+		}
 	}
 	
-	
-	RETURN_CCTOR(schema);
+	RETURN_MM_NULL();
 }
 
 /**

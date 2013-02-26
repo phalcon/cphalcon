@@ -173,8 +173,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	/** 
-	 * Field Indexes: 0:name, 1:type, 2:size, 3:numericsize, 4: null, 5: key, 6: extra,
-	 * 7: position
+	 * 0:name, 1:type, 2:size, 3:numericsize, 4: null, 5: key, 6: extra, 7: position
 	 */
 	PHALCON_INIT_VAR(old_column);
 	
@@ -198,6 +197,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	
 		PHALCON_OBS_NVAR(column_type);
 		phalcon_array_fetch_long(&column_type, field, 1, PH_NOISY_CC);
+	
+		/** 
+		 * Check the column type to get the correct Phalcon type
+		 */
 		if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
 			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);

@@ -188,12 +188,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		array_init_size(definition, 1);
 		add_assoc_long_ex(definition, SS("bindType"), 2);
 	
-		PHALCON_OBS_NVAR(column_type);
-		phalcon_array_fetch_long(&column_type, field, 1, PH_NOISY_CC);
-	
 		/** 
 		 * By checking every column type we convert it to a Phalcon\Db\Column
 		 */
+		PHALCON_OBS_NVAR(column_type);
+		phalcon_array_fetch_long(&column_type, field, 1, PH_NOISY_CC);
 		if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
 			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
@@ -244,7 +243,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
 	
 			PHALCON_INIT_NVAR(matches);
-			array_init(matches);
 			Z_SET_ISREF_P(matches);
 	
 			PHALCON_INIT_NVAR(pos);

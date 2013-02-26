@@ -387,22 +387,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 		}
 	
 		/** 
-		 * Move the cursor to the specific position
+		 * Check if the last record returned is the requested
 		 */
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "seek", index);
 	
-		/** 
-		 * Check if the last record returned is the requested
-		 */
 		PHALCON_INIT_VAR(valid);
 		PHALCON_CALL_METHOD(valid, this_ptr, "valid");
 		if (PHALCON_IS_NOT_FALSE(valid)) {
 			PHALCON_INIT_NVAR(current);
 			PHALCON_CALL_METHOD(current, this_ptr, "current");
 			RETURN_CCTOR(current);
+		} else {
+			RETURN_MM_FALSE;
 		}
-	
-		RETURN_MM_FALSE;
 	}
 	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor");

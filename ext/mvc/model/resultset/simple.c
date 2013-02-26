@@ -41,7 +41,7 @@
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
  *
- * Simple resultsets only contains complete objects
+ * Simple resultsets only contains a complete objects
  * This class builds every complete object as it is required
  */
 
@@ -55,7 +55,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
 
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_columnMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_mvc_model_resultset_simple_ce, SL("_keepSnapshots"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_keepSnapshots"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_resultset_simple_ce TSRMLS_CC, 5, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_serializable);
 
@@ -73,21 +73,17 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 
-	zval *column_map, *model, *result, *cache = NULL, *keep_snapshots = NULL;
+	zval *column_map, *model, *result, *cache = NULL, *keep_snapshots;
 	zval *fetch_assoc, *limit, *row_count, *big_resultset;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|zz", &column_map, &model, &result, &cache, &keep_snapshots) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz|z", &column_map, &model, &result, &cache, &keep_snapshots) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	if (!cache) {
 		PHALCON_INIT_VAR(cache);
-	}
-	
-	if (!keep_snapshots) {
-		PHALCON_INIT_VAR(keep_snapshots);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
@@ -126,10 +122,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	 * Update the row-count
 	 */
 	phalcon_update_property_zval(this_ptr, SL("_count"), row_count TSRMLS_CC);
-	
-	/** 
-	 * Set if the returned resultset must keep the record snapshots
-	 */
 	phalcon_update_property_zval(this_ptr, SL("_keepSnapshots"), keep_snapshots TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -142,10 +134,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
-	zval *type, *result = NULL, *row = NULL, *rows = NULL, *hydrate_mode, *keep_snapshots;
-	zval *column_map, *dirty_state, *model, *active_row = NULL;
-	zval *r0 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL, NULL };
+	zval *type, *result = NULL, *row = NULL, *rows = NULL, *dirty_state, *hydrate_mode;
+	zval *keep_snapshots, *column_map, *model, *active_row = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -195,58 +185,44 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	}
 	
 	/** 
-	 * Get current hydration mode
-	 */
-	PHALCON_OBS_VAR(hydrate_mode);
-	phalcon_read_property(&hydrate_mode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
-	
-	/** 
-	 * Tell if the resultset is keeping snapshots
-	 */
-	PHALCON_OBS_VAR(keep_snapshots);
-	phalcon_read_property(&keep_snapshots, this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
-	
-	/** 
-	 * Get the resultset column map
-	 */
-	PHALCON_OBS_VAR(column_map);
-	phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
-	
-	/** 
 	 * Set records as dirty state PERSISTENT by default
 	 */
 	PHALCON_INIT_VAR(dirty_state);
 	ZVAL_LONG(dirty_state, 0);
 	
 	/** 
-	 * Hydrate based on the current hydration
+	 * Get current hydration mode
 	 */
+	PHALCON_OBS_VAR(hydrate_mode);
+	phalcon_read_property(&hydrate_mode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(keep_snapshots);
+	phalcon_read_property(&keep_snapshots, this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(column_map);
+	phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	
 	switch (phalcon_get_intval(hydrate_mode)) {
 	
 		case 0:
+			/** 
+			 * this_ptr->model is the base entity
+			 */
 			PHALCON_OBS_VAR(model);
 			phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
 	
 			/** 
 			 * Performs the standard hydration based on objects
 			 */
-			p0[0] = model;
-			p0[1] = row;
-			p0[2] = column_map;
-			p0[3] = dirty_state;
-			p0[4] = keep_snapshots;
-	
-			PHALCON_INIT_VAR(r0);
-			PHALCON_CALL_STATIC_PARAMS(r0, "phalcon\\mvc\\model", "cloneresultmap", 5, p0);
-			PHALCON_CPY_WRT(active_row, r0);
+			PHALCON_INIT_VAR(active_row);
+			PHALCON_CALL_STATIC_PARAMS_5(active_row, "phalcon\\mvc\\model", "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
 			break;
 	
 		default:
 			/** 
 			 * Other kinds of hydrations
 			 */
-			PHALCON_INIT_VAR(active_row);
+			PHALCON_INIT_NVAR(active_row);
 			PHALCON_CALL_STATIC_PARAMS_3(active_row, "phalcon\\mvc\\model", "cloneresultmaphydrate", row, column_map, hydrate_mode);
 			break;
 	

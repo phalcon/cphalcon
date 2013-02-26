@@ -110,6 +110,22 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, forUpdate);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, sharedLock);
 
 /**
+ * Appends a condition to the current conditions using an AND operator
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Criteria
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
+
+/**
+ * Appends a condition to the current conditions using an OR operator
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Criteria
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
+
+/**
  * Returns the conditions parameter in the criteria
  *
  * @return string

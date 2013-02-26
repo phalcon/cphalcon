@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect){
  * Returns an array of Phalcon\Db\Column objects describing a table
  *
  * <code>
- * 	print_r($connection->describeColumns("posts"));
+ * print_r($connection->describeColumns("posts")); ?>
  * </code>
  *
  * @param string $table
@@ -165,9 +165,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 	PHALCON_INIT_VAR(describe);
 	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
-	/** 
-	 * Field Indexes: 0:postion, 1: name, 2: type, 3: null, 4:?, 5:pk
-	 */
 	PHALCON_INIT_VAR(old_column);
 	
 	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -185,9 +182,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		PHALCON_OBS_NVAR(column_type);
 		phalcon_array_fetch_long(&column_type, field, 2, PH_NOISY_CC);
 	
-		/** 
-		 * By checking every column type we convert it to a Phalcon\Db\Column
-		 */
 		PHALCON_INIT_NVAR(pos);
 		phalcon_fast_stripos_str(pos, column_type, SL("int") TSRMLS_CC);
 		if (PHALCON_IS_NOT_FALSE(pos)) {
@@ -247,7 +241,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
 	
 			PHALCON_INIT_NVAR(matches);
-			array_init(matches);
 			Z_SET_ISREF_P(matches);
 	
 			PHALCON_INIT_NVAR(pos);
@@ -294,7 +287,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		phalcon_array_fetch_long(&column_name, field, 1, PH_NOISY_CC);
 	
 		/** 
-		 * Every route is stored as a Phalcon\Db\Column
+		 * Every column is stored as a Phalcon\Db\Column
 		 */
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
@@ -515,6 +508,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 		phalcon_array_update_string(&reference_array, SL("columns"), &columns, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_array_update_string(&reference_array, SL("referencedColumns"), &referenced_columns, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
+		/** 
+		 * Every route is abstracted as a Phalcon\Db\Reference instance
+		 */
 		PHALCON_INIT_NVAR(reference);
 		object_init_ex(reference, phalcon_db_reference_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(reference, "__construct", constraint_name, reference_array);

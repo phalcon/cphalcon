@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 		PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_NVAR(message_str);
-			PHALCON_CONCAT_VS(message_str, attribute, " does not have the expected value");
+			PHALCON_CONCAT_VS(message_str, attribute, " doest not have the expected value");
 		}
 	
 		PHALCON_INIT_VAR(type);

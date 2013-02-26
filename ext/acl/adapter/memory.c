@@ -958,66 +958,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getResources){
 }
 
 /**
- * Deletes a role from the ACL list
- *
- * @param string $role
- * @return boolean
- */
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, deleteRole){
-
-	zval *role, *role_name = NULL, *roles_names, *roles, *list_role = NULL;
-	zval *position = NULL, *list_role_name = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &role) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	if (Z_TYPE_P(role) == IS_OBJECT) {
-		PHALCON_INIT_VAR(role_name);
-		PHALCON_CALL_METHOD(role_name, role, "getname");
-	} else {
-		PHALCON_CPY_WRT(role_name, role);
-	}
-	
-	PHALCON_OBS_VAR(roles_names);
-	phalcon_read_property(&roles_names, this_ptr, SL("_rolesNames"), PH_NOISY_CC);
-	if (phalcon_array_isset(roles_names, role_name)) {
-		RETURN_MM_FALSE;
-	}
-	
-	PHALCON_OBS_VAR(roles);
-	phalcon_read_property(&roles, this_ptr, SL("_roles"), PH_NOISY_CC);
-	
-	if (!phalcon_is_iterable(roles, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
-	
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-		PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(list_role);
-	
-		PHALCON_INIT_NVAR(list_role_name);
-		PHALCON_CALL_METHOD(list_role_name, list_role, "getname");
-		if (PHALCON_IS_EQUAL(list_role_name, role_name)) {
-			phalcon_unset_property_array(this_ptr, SL("_roles"), position TSRMLS_CC);
-			break;
-		}
-	
-		zend_hash_move_forward_ex(ah0, &hp0);
-	}
-	
-	phalcon_unset_property_array(this_ptr, SL("_rolesNames"), role_name TSRMLS_CC);
-	PHALCON_CALL_METHOD_NORETURN(this_ptr, "_rebuildaccesslist");
-	RETURN_MM_TRUE;
-}
-
-/**
  * Rebuild the list of access from the inherit lists
  *
  */
