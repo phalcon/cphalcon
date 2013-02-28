@@ -37,6 +37,13 @@
 #include "kernel/array.h"
 
 /**
+ * Phalcon\Validation\Validator
+ *
+ * This is a base class for validators
+ */
+
+
+/**
  * Phalcon\Validation\Validator initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator){
@@ -50,6 +57,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator){
 
 /**
  * Phalcon\Validation\Validator constructor
+ *
+ * @param array $options
  */
 PHP_METHOD(Phalcon_Validation_Validator, __construct){
 
@@ -77,6 +86,13 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns an option in the validator's option
+ * Returns null if the option hasn't been passed
+ *
+ * @param string $key
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Validation_Validator, getOption){
 
 	zval *key, *options, *value;

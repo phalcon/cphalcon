@@ -34,8 +34,8 @@
 
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
 #include "kernel/exception.h"
+#include "kernel/concat.h"
 #include "kernel/operators.h"
 
 /**
@@ -135,8 +135,26 @@ PHP_METHOD(Phalcon_Http_Response, setDI){
  */
 PHP_METHOD(Phalcon_Http_Response, getDI){
 
+	zval *dependency_injector = NULL;
 
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+	
+		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_CALL_STATIC(dependency_injector, "phalcon\di", "getdefault");
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
+			return;
+		}
+	
+		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	}
+	
+	
+	RETURN_CCTOR(dependency_injector);
 }
 
 /**
@@ -509,12 +527,8 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	if (zend_is_true(external_redirect)) {
 		PHALCON_CPY_WRT(header, location);
 	} else {
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
-			return;
-		}
+		PHALCON_INIT_VAR(dependency_injector);
+		PHALCON_CALL_METHOD(dependency_injector, this_ptr, "getdi");
 	
 		PHALCON_INIT_VAR(service);
 		ZVAL_STRING(service, "url", 1);

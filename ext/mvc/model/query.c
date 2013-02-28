@@ -1895,13 +1895,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *models_instances, *tables, *selected_models = NULL;
 	zval *manager, *meta_data, *selected_model = NULL, *qualified_name = NULL;
 	zval *model_name = NULL, *model = NULL, *schema = NULL, *source = NULL, *complete_source = NULL;
-	zval *alias = NULL, *exception_message = NULL, *sql_joins = NULL;
+	zval *alias = NULL, *exception_message = NULL, *joins, *sql_joins = NULL;
 	zval *columns, *select_columns = NULL, *position, *sql_column_aliases;
 	zval *column = NULL, *sql_column_group = NULL, *sql_column = NULL;
 	zval *type = NULL, *sql_select, *where, *where_expr, *group_by;
 	zval *sql_group, *having, *having_expr, *order;
 	zval *sql_order, *limit;
-	zval *r0 = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -2094,9 +2093,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	 */
 	if (phalcon_array_isset_string(select, SS("joins"))) {
 	
-		PHALCON_OBS_VAR(r0);
-		phalcon_array_fetch_string(&r0, select, SL("joins"), PH_NOISY_CC);
-		if (phalcon_fast_count_ev(r0 TSRMLS_CC)) {
+		PHALCON_OBS_VAR(joins);
+		phalcon_array_fetch_string(&joins, select, SL("joins"), PH_NOISY_CC);
+		if (phalcon_fast_count_ev(joins TSRMLS_CC)) {
 			PHALCON_INIT_VAR(sql_joins);
 			PHALCON_CALL_METHOD_PARAMS_1(sql_joins, this_ptr, "_getjoins", select);
 		} else {

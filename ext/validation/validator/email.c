@@ -33,22 +33,21 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
- * Phalcon\Validation\Validator\Identical
+ * Phalcon\Validation\Validator\Email
  *
- * Checks if a value is identical to other
+ * Checks if a value has a correct e-mail format
  */
 
 
 /**
- * Phalcon\Validation\Validator\Identical initializer
+ * Phalcon\Validation\Validator\Email initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Identical){
+PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Email){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Identical, validation_validator_identical, "phalcon\\validation\\validator", phalcon_validation_validator_identical_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Email, validation_validator_email, "phalcon\\validation\\validator", phalcon_validation_validator_email_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -60,10 +59,11 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Identical){
  * @param string $attribute
  * @return boolean
  */
-PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
+PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 
-	zval *validator, *attribute, *value, *option = NULL, *identical_value;
-	zval *message_str = NULL, *type, *message;
+	zval *validator, *attribute, *value, *validate_email;
+	zval *validation, *option, *message_str = NULL, *type;
+	zval *message;
 
 	PHALCON_MM_GROW();
 
@@ -74,25 +74,25 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
 	
-	PHALCON_INIT_VAR(option);
-	ZVAL_STRING(option, "value", 1);
+	PHALCON_INIT_VAR(validate_email);
+	ZVAL_LONG(validate_email, 274);
 	
-	PHALCON_INIT_VAR(identical_value);
-	PHALCON_CALL_METHOD_PARAMS_1(identical_value, this_ptr, "getoption", option);
-	if (!PHALCON_IS_EQUAL(value, identical_value)) {
+	PHALCON_INIT_VAR(validation);
+	PHALCON_CALL_FUNC_PARAMS_2(validation, "filter_var", value, validate_email);
+	if (!zend_is_true(validation)) {
 	
-		PHALCON_INIT_NVAR(option);
+		PHALCON_INIT_VAR(option);
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message_str);
 		PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_NVAR(message_str);
-			PHALCON_CONCAT_VS(message_str, attribute, " does not have the expected value");
+			PHALCON_CONCAT_SVS(message_str, "Value of field '", attribute, "' must have a valid e-mail format");
 		}
 	
 		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "Identical", 1);
+		ZVAL_STRING(type, "Email", 1);
 	
 		PHALCON_INIT_VAR(message);
 		object_init_ex(message, phalcon_validation_message_ce);

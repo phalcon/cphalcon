@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Validation, getEntity){
 /**
  * Returns the registered validators
  *
- * @return array
+ * @return Phalcon\Validation\Message\Group
  */
 PHP_METHOD(Phalcon_Validation, getMessages){
 
@@ -203,7 +203,8 @@ PHP_METHOD(Phalcon_Validation, getMessages){
  */
 PHP_METHOD(Phalcon_Validation, appendMessage){
 
-	zval *message;
+	zval *message, *messages = NULL;
+	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -211,11 +212,23 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(message) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
-		return;
+	PHALCON_OBS_VAR(messages);
+	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	
+	/** 
+	 * Implicitly creates a Phalcon\Validation\Message\Group object
+	 */
+	if (Z_TYPE_P(messages) != IS_OBJECT) {
+		ce0 = zend_fetch_class(SL("Phalcon_Validation_Message_Group"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		PHALCON_INIT_NVAR(messages);
+		object_init_ex(messages, ce0);
+		if (phalcon_has_constructor(messages TSRMLS_CC)) {
+			PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
+		}
+		phalcon_update_property_zval(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	}
-	phalcon_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
+	
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(messages, "appendmessage", message);
 	
 	PHALCON_MM_RESTORE();
 }
