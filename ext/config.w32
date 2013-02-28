@@ -66,6 +66,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/cli/dispatcher", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/cli/console", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/queue", "beanstalk.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/queue/beanstalk", "job.c", "phalcon")
   ADD_SOURCES("ext/phalcon/logger", "adapterinterface.c exception.c adapter.c formatter.c item.c formatterinterface.c multiple.c", "phalcon")
   ADD_SOURCES("ext/phalcon/logger/adapter", "syslog.c stream.c file.c", "phalcon")
   ADD_SOURCES("ext/phalcon/logger/formatter", "syslog.c line.c json.c", "phalcon")

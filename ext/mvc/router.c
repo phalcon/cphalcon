@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval *pattern = NULL, *paths = NULL, *converters = NULL, *position = NULL, *part = NULL;
 	zval *match_position = NULL, *parameters = NULL, *converter = NULL;
 	zval *converted_part = NULL, *not_found_paths, *namespace;
-	zval *default_namespace, *module, *default_module = NULL;
+	zval *default_namespace = NULL, *module, *default_module = NULL;
 	zval *controller, *default_controller = NULL, *action;
 	zval *default_action = NULL, *params_str, *str_params;
 	zval *slash, *params_merge, *default_params;
@@ -532,7 +532,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 */
 		PHALCON_INIT_NVAR(pattern);
 		PHALCON_CALL_METHOD(pattern, route, "getcompiledpattern");
-		if (phalcon_memnstr_str(pattern, SL("(") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(pattern, SL("^") TSRMLS_CC)) {
 			Z_SET_ISREF_P(matches);
 			PHALCON_INIT_NVAR(route_found);
 			PHALCON_CALL_FUNC_PARAMS_3(route_found, "preg_match", pattern, handled_uri, matches);
@@ -746,6 +746,10 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		/** 
 		 * Use default values if the route hasn't matched
 		 */
+		PHALCON_OBS_NVAR(default_namespace);
+		phalcon_read_property(&default_namespace, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_namespace"), default_namespace TSRMLS_CC);
+	
 		PHALCON_OBS_NVAR(default_module);
 		phalcon_read_property(&default_module, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_module"), default_module TSRMLS_CC);
