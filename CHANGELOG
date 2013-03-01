@@ -25,6 +25,8 @@
  - Added support for complex expressions in PHQL ORDER BY clause
  - Added support for complex expressions in PHQL GROUP BY clause
  - Added support for $_SERVER['REQUEST_URI'] if $_GET['_url'] is not available in Phalcon\Mvc\Router
+ - Added an option to set up specific models with dynamic update instead of all-fields update, every field is checked if it was changed to dynamically create a UPDATE SQL column only with those fields that changed
+ - Added a minimalist client for the Beanstalk queue server
 
 0.9.0b2
  - Support for reusable records. A relation can be marked to cache queried records in memory to speedup getting related records

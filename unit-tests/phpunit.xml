@@ -61,6 +61,7 @@
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 			<file>unit-tests/ModelsRelationsMagicTest.php</file>
 			<file>unit-tests/ModelsSnapshotsTest.php</file>
+			<file>unit-tests/ModelsDynamicOperationsTest.php</file>
 
 			<!-- NoSQL tests -->
 			<file>unit-tests/CollectionsTest.php</file>

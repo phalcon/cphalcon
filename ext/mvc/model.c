@@ -3078,11 +3078,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 
 	zval *meta_data, *connection, *table, *null_value;
 	zval *bind_skip, *fields, *values, *bind_types;
+	zval *manager, *use_dynamic_update = NULL, *snapshot;
 	zval *bind_data_types, *non_primary, *automatic_attributes;
 	zval *column_map = NULL, *field = NULL, *exception_message = NULL;
-	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *unique_key;
-	zval *unique_params = NULL, *unique_types, *primary_keys;
-	zval *conditions, *success;
+	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *changed = NULL;
+	zval *snapshot_value = NULL, *unique_key, *unique_params = NULL;
+	zval *unique_types, *primary_keys, *conditions;
+	zval *success;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -3106,6 +3108,24 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	
 	PHALCON_INIT_VAR(bind_types);
 	array_init(bind_types);
+	
+	PHALCON_OBS_VAR(manager);
+	phalcon_read_property(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	
+	/** 
+	 * Check if the model must use dynamic update
+	 */
+	PHALCON_INIT_VAR(use_dynamic_update);
+	PHALCON_CALL_METHOD_PARAMS_1(use_dynamic_update, manager, "isusingdynamicupdate", this_ptr);
+	if (zend_is_true(use_dynamic_update)) {
+	
+		PHALCON_OBS_VAR(snapshot);
+		phalcon_read_property(&snapshot, this_ptr, SL("_snapshot"), PH_NOISY_CC);
+		if (Z_TYPE_P(snapshot) != IS_ARRAY) { 
+			PHALCON_INIT_NVAR(use_dynamic_update);
+			ZVAL_BOOL(use_dynamic_update, 0);
+		}
+	}
 	
 	PHALCON_INIT_VAR(bind_data_types);
 	PHALCON_CALL_METHOD_PARAMS_1(bind_data_types, meta_data, "getbindtypes", this_ptr);
@@ -3146,7 +3166,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
-			phalcon_array_append(&fields, field, PH_SEPARATE TSRMLS_CC);
 	
 			/** 
 			 * Check if the model has a column map
@@ -3165,21 +3184,73 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 				PHALCON_CPY_WRT(attribute_field, field);
 			}
 	
+			/** 
+			 * If a field isn't set we pass a null value
+			 */
 			if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
+	
+				/** 
+				 * Get the field's value
+				 */
 				PHALCON_OBS_NVAR(value);
 				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
-				phalcon_array_append(&values, value, PH_SEPARATE TSRMLS_CC);
 	
-				PHALCON_OBS_NVAR(bind_type);
-				phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY_CC);
-				phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
+				/** 
+				 * When dynamic update is not used we pass every field to the update
+				 */
+				if (!zend_is_true(use_dynamic_update)) {
+					phalcon_array_append(&fields, field, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&values, value, PH_SEPARATE TSRMLS_CC);
+	
+					PHALCON_OBS_NVAR(bind_type);
+					phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY_CC);
+					phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
+				} else {
+					/** 
+					 * If the field is not part of the snapshot we add them as changed
+					 */
+					if (!phalcon_array_isset(snapshot, attribute_field)) {
+						PHALCON_INIT_NVAR(changed);
+						ZVAL_BOOL(changed, 1);
+					} else {
+						PHALCON_OBS_NVAR(snapshot_value);
+						phalcon_array_fetch(&snapshot_value, snapshot, attribute_field, PH_NOISY_CC);
+						if (!PHALCON_IS_EQUAL(value, snapshot_value)) {
+							PHALCON_INIT_NVAR(changed);
+							ZVAL_BOOL(changed, 1);
+						} else {
+							PHALCON_INIT_NVAR(changed);
+							ZVAL_BOOL(changed, 0);
+						}
+					}
+	
+					/** 
+					 * Only changed values are added to the SQL Update
+					 */
+					if (zend_is_true(changed)) {
+						phalcon_array_append(&fields, field, PH_SEPARATE TSRMLS_CC);
+						phalcon_array_append(&values, value, PH_SEPARATE TSRMLS_CC);
+	
+						PHALCON_OBS_NVAR(bind_type);
+						phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY_CC);
+						phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
+					}
+				}
 			} else {
+				phalcon_array_append(&fields, field, PH_SEPARATE TSRMLS_CC);
 				phalcon_array_append(&values, null_value, PH_SEPARATE TSRMLS_CC);
 				phalcon_array_append(&bind_types, bind_skip, PH_SEPARATE TSRMLS_CC);
 			}
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	/** 
+	 * If there is no fields to update we return true
+	 */
+	if (!phalcon_fast_count_ev(fields TSRMLS_CC)) {
+		RETURN_MM_TRUE;
 	}
 	
 	PHALCON_OBS_VAR(unique_key);
@@ -4926,7 +4997,20 @@ PHP_METHOD(Phalcon_Mvc_Model, addBehavior){
 }
 
 /**
- * Sets if the model should keep the original record snapshot in memory
+ * Sets if the model must keep the original record snapshot in memory
+ *
+ *<code>
+ *
+ *class Robots extends \Phalcon\Mvc\Model
+ *{
+ *
+ *   public function initialize()
+ *   {
+ *		$this->keepSnapshots(true);
+ *   }
+ *
+ *}
+ *</code>
  *
  * @param boolean $keepSnapshots
  */
@@ -4948,7 +5032,8 @@ PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots){
 }
 
 /**
- * Sets the record's snapshot data
+ * Sets the record's snapshot data.
+ * This method is used internally to set snapshot data when the model was set up to keep snapshot data
  *
  * @param array $data
  * @param array $columnMap
@@ -5348,6 +5433,41 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields){
 	
 	
 	RETURN_CTOR(changed);
+}
+
+/**
+ * Sets if a model must use dynamic update instead of the all-field update
+ *
+ *<code>
+ *
+ *class Robots extends \Phalcon\Mvc\Model
+ *{
+ *
+ *   public function initialize()
+ *   {
+ *		$this->useDynamicUpdate(true);
+ *   }
+ *
+ *}
+ *</code>
+ *
+ * @param boolean $dynamicUpdate
+ */
+PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate){
+
+	zval *dynamic_update, *manager;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dynamic_update) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(manager);
+	phalcon_read_property(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(manager, "usedynamicupdate", this_ptr, dynamic_update);
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**

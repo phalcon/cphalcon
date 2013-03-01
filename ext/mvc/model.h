@@ -94,6 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData);
 PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData);
 PHP_METHOD(Phalcon_Mvc_Model, hasChanged);
 PHP_METHOD(Phalcon_Mvc_Model, getChangedFields);
+PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model, getRelated);
 PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, __call);
@@ -349,6 +350,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, getSnapshotData, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, hasChanged, arginfo_phalcon_mvc_model_haschanged, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getChangedFields, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, useDynamicUpdate, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, getRelated, arginfo_phalcon_mvc_model_getrelated, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, _getRelatedRecords, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, __call, arginfo_phalcon_mvc_model___call, ZEND_ACC_PUBLIC) 

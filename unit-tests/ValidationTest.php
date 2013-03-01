@@ -181,7 +181,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$messages = $validation->validate($_POST);
 
-		$this->assertEquals(array(), $messages);
+		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationIdenticalCustomMessage()
@@ -213,7 +213,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$messages = $validation->validate($_POST);
 
-		$this->assertEquals(array(), $messages);
+		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationRegex()
@@ -244,7 +244,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$messages = $validation->validate($_POST);
 
-		$this->assertEquals(array(), $messages);
+		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationRegexCustomMessage()
@@ -276,7 +276,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$messages = $validation->validate($_POST);
 
-		$this->assertEquals(array(), $messages);
+		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationEmail()
@@ -311,7 +311,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$messages = $validation->validate($_POST);
 
-		$this->assertEquals(array(), $messages);
+		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationEmailCustomMessage()
@@ -348,7 +348,7 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$messages = $validation->validate($_POST);
 
-		$this->assertEquals(array(), $messages);
+		$this->assertEquals(count($messages), 0);
 	}
 
 	public function testValidationMixed()

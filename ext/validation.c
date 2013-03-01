@@ -32,10 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
 #include "kernel/concat.h"
 
 /**
@@ -66,8 +66,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation){
  */
 PHP_METHOD(Phalcon_Validation, validate){
 
-	zval *data = NULL, *entity, *validators, *scope = NULL, *attribute = NULL;
-	zval *validator = NULL, *messages;
+	zval *data = NULL, *entity, *messages = NULL, *validators, *scope = NULL;
+	zval *attribute = NULL, *validator = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -82,7 +82,14 @@ PHP_METHOD(Phalcon_Validation, validate){
 		PHALCON_INIT_VAR(data);
 	}
 	
-	phalcon_update_property_null(this_ptr, SL("_messages") TSRMLS_CC);
+	/** 
+	 * Implicitly creates a Phalcon\Validation\Message\Group object
+	 */
+	PHALCON_INIT_VAR(messages);
+	object_init_ex(messages, phalcon_validation_message_group_ce);
+	PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
+	
+	phalcon_update_property_zval(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
 	} else {
@@ -122,7 +129,7 @@ PHP_METHOD(Phalcon_Validation, validate){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_OBS_VAR(messages);
+	PHALCON_OBS_NVAR(messages);
 	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(messages);
@@ -203,7 +210,7 @@ PHP_METHOD(Phalcon_Validation, getMessages){
  */
 PHP_METHOD(Phalcon_Validation, appendMessage){
 
-	zval *message, *messages = NULL;
+	zval *message, *messages;
 
 	PHALCON_MM_GROW();
 
@@ -213,18 +220,6 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
 
 	PHALCON_OBS_VAR(messages);
 	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	
-	/** 
-	 * Implicitly creates a Phalcon\Validation\Message\Group object
-	 */
-	if (Z_TYPE_P(messages) != IS_OBJECT) {
-		PHALCON_INIT_NVAR(messages);
-		object_init_ex(messages, phalcon_validation_message_group_ce);
-		PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
-	
-		phalcon_update_property_zval(this_ptr, SL("_messages"), messages TSRMLS_CC);
-	}
-	
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(messages, "appendmessage", message);
 	
 	PHALCON_MM_RESTORE();
