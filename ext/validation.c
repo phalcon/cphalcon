@@ -204,7 +204,6 @@ PHP_METHOD(Phalcon_Validation, getMessages){
 PHP_METHOD(Phalcon_Validation, appendMessage){
 
 	zval *message, *messages = NULL;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -219,12 +218,10 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
 	 * Implicitly creates a Phalcon\Validation\Message\Group object
 	 */
 	if (Z_TYPE_P(messages) != IS_OBJECT) {
-		ce0 = zend_fetch_class(SL("Phalcon_Validation_Message_Group"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		PHALCON_INIT_NVAR(messages);
-		object_init_ex(messages, ce0);
-		if (phalcon_has_constructor(messages TSRMLS_CC)) {
-			PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
-		}
+		object_init_ex(messages, phalcon_validation_message_group_ce);
+		PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
+	
 		phalcon_update_property_zval(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	}
 	
