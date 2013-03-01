@@ -356,9 +356,16 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$validation = new Phalcon\Validation();
 
-		$validation->add('name', new PresenceOf(array(
-			'message' => ''
-		)));
+		$validation
+			->add('name', new PresenceOf(array(
+				'message' => 'The name is required'
+			)))
+			->add('email', new PresenceOf(array(
+				'message' => 'The email is required'
+			)))
+			->add('login', new PresenceOf(array(
+				'message' => 'The login is required'
+			)));
 
 		$messages = $validation->validate($_POST);
 
