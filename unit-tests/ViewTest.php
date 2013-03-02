@@ -59,7 +59,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->render('test3', 'other');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), '<html>zuplolhere</html>'.PHP_EOL);
+		$this->assertEquals($view->getContent(), '<html>zuplolhere</html>' . PHP_EOL);
 
 		$view->cleanTemplateAfter();
 
@@ -69,7 +69,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>lolhere</html>'.PHP_EOL);
+		$this->assertEquals($view->getContent(), '<html>lolhere</html>' . PHP_EOL);
 
 		$view->setRenderLevel(View::LEVEL_LAYOUT);
 
@@ -91,7 +91,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->pick('test3/yup');
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>lolyup</html>'.PHP_EOL);
+		$this->assertEquals($view->getContent(), '<html>lolyup</html>' . PHP_EOL);
 
 		//No Render
 		$view->setRenderLevel(View::LEVEL_NO_RENDER);
@@ -115,7 +115,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->setLayout('test6');
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>Well, this is the view content: here.</html>'.PHP_EOL);
+		$this->assertEquals($view->getContent(), '<html>Well, this is the view content: here.</html>' . PHP_EOL);
 	}
 
 	public function testPartials()
@@ -133,14 +133,13 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->render('test5', 'index');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this</html>'.PHP_EOL);
+		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this</html>' . PHP_EOL);
 
 		$view->start();
 		$view->render('test9', 'index');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this<br />Hey, this is a second partial, also le-this</html>'.PHP_EOL);
-
+		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this<br />Hey, this is a second partial, also le-this</html>' . PHP_EOL);
 	}
 
 	public function testGetRender()
@@ -151,7 +150,63 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 		$content = $view->getRender('test5', 'index', array('cool_var' => 'le-this'));
 
-		$this->assertEquals($content, '<html>Hey, this is a partial, also le-this</html>'.PHP_EOL);
+		$this->assertEquals($content, '<html>Hey, this is a partial, also le-this</html>' . PHP_EOL);
+	}
+
+	protected function _getViewDisabled($level=null)
+	{
+		$view = new Phalcon\Mvc\View();
+
+		$view->setViewsDir('unit-tests/views/');
+
+		$view->setTemplateAfter('after');
+		$view->setTemplateBefore('before');
+
+		if ($level!==null) {
+			$view->disableLevel($level);
+		}
+
+		$view->start();
+		$view->render('test13', 'index');
+		$view->finish();
+
+		return $view;
+	}
+
+	public function testDisableLevels()
+	{
+		$view = $this->_getViewDisabled();
+
+		$this->assertEquals($view->getContent(), '<html><div class="after-layout"><div class="controller-layout"><div class="before-layout"><div class="action">Action</div></div></div></div></html>' . PHP_EOL);
+
+		$view = $this->_getViewDisabled(View::LEVEL_ACTION_VIEW);
+
+		$this->assertEquals($view->getContent(), '<html><div class="after-layout"><div class="controller-layout"><div class="before-layout"></div></div></div></html>' . PHP_EOL);
+
+		$view = $this->_getViewDisabled(View::LEVEL_BEFORE_TEMPLATE);
+
+		$this->assertEquals($view->getContent(), '<html><div class="after-layout"><div class="controller-layout"><div class="action">Action</div></div></div></html>' . PHP_EOL);
+
+		$view = $this->_getViewDisabled(View::LEVEL_LAYOUT);
+
+		$this->assertEquals($view->getContent(), '<html><div class="after-layout"><div class="before-layout"><div class="action">Action</div></div></div></html>' . PHP_EOL);
+
+		$view = $this->_getViewDisabled(View::LEVEL_AFTER_TEMPLATE);
+
+		$this->assertEquals($view->getContent(), '<html><div class="controller-layout"><div class="before-layout"><div class="action">Action</div></div></div></html>' . PHP_EOL);
+
+		$view = $this->_getViewDisabled(View::LEVEL_MAIN_LAYOUT);
+
+		$this->assertEquals($view->getContent(), '<div class="after-layout"><div class="controller-layout"><div class="before-layout"><div class="action">Action</div></div></div></div>');
+
+		$view = $this->_getViewDisabled(array(
+			View::LEVEL_BEFORE_TEMPLATE => true,
+			View::LEVEL_LAYOUT => true,
+			View::LEVEL_AFTER_TEMPLATE => true,
+        	View::LEVEL_MAIN_LAYOUT => true
+		));
+
+		$this->assertEquals($view->getContent(), '<div class="action">Action</div>');
 	}
 
 }

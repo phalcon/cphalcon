@@ -1727,6 +1727,60 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 }
 
 /**
+ * Perform an aggregation using the Mongo aggregation framework
+ *
+ *<code>
+ * echo 'There are ', Robots::aggregate(), ' robots';
+ *</code>
+ *
+ * @param array $parameters
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, aggregate){
+
+	zval *parameters, *class_name, *model, *connection;
+	zval *source, *collection, *agregation;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(parameters) != IS_NULL) {
+		if (Z_TYPE_P(parameters) != IS_ARRAY) { 
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid parameters for aggregate");
+			return;
+		}
+	}
+	
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_called_class(class_name  TSRMLS_CC);
+	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(model);
+	object_init_ex(model, ce0);
+	if (phalcon_has_constructor(model TSRMLS_CC)) {
+		PHALCON_CALL_METHOD_NORETURN(model, "__construct");
+	}
+	
+	PHALCON_INIT_VAR(connection);
+	PHALCON_CALL_METHOD(connection, model, "getconnection");
+	
+	PHALCON_INIT_VAR(source);
+	PHALCON_CALL_METHOD(source, model, "getsource");
+	
+	PHALCON_INIT_VAR(collection);
+	PHALCON_CALL_METHOD_PARAMS_1(collection, connection, "selectcollection", source);
+	
+	PHALCON_INIT_VAR(agregation);
+	PHALCON_CALL_METHOD_PARAMS_1(agregation, collection, "aggregate", parameters);
+	
+	RETURN_CCTOR(agregation);
+}
+
+/**
  * Deletes a model instance. Returning true on success or false otherwise.
  *
  * <code>

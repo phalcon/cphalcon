@@ -137,7 +137,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$di->set('modelsMetadata', function(){
 			return new Phalcon\Mvc\Model\Metadata\Session(array(
-				'suffix' => 'my-local-app'
+				'prefix' => 'my-local-app'
 			));
 		});
 
@@ -175,7 +175,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$di->set('modelsMetadata', function(){
 			return new Phalcon\Mvc\Model\Metadata\Apc(array(
-				'suffix' => 'my-local-app',
+				'prefix' => 'my-local-app',
 				'lifetime' => 60
 			));
 		});

@@ -26,9 +26,9 @@ extern int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *in
 extern int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, unsigned long key);
 
 /** Unset existing indexes */
-extern int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index);
-extern int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, unsigned long index);
-extern int PHALCON_FASTCALL phalcon_array_unset_string(zval *arr, char *index, uint index_length);
+extern int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags);
+extern int PHALCON_FASTCALL phalcon_array_unset_long(zval **arr, unsigned long index, int flags);
+extern int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, char *index, uint index_length, int flags);
 
 /** Append elements to arrays */
 extern int phalcon_array_append(zval **arr, zval *value, int separate TSRMLS_DC);

@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 
-	zval *table, *schema = NULL, *columns, *dialect, *sql, *fetch_assoc;
+	zval *table, *schema = NULL, *columns, *dialect, *sql, *fetch_num;
 	zval *describe, *old_column = NULL, *size_pattern, *field = NULL;
 	zval *definition = NULL, *column_type = NULL, *matches = NULL, *pos = NULL;
 	zval *match_one = NULL, *attribute = NULL, *column_name = NULL, *column = NULL;
@@ -158,16 +158,23 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describecolumns", table, schema);
 	
-	PHALCON_INIT_VAR(fetch_assoc);
-	phalcon_get_class_constant(fetch_assoc, phalcon_db_ce, SS("FETCH_ASSOC") TSRMLS_CC);
+	/** 
+	 * We're using FETCH_NUM to fetch the columns
+	 */
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
 	
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_assoc);
+	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	PHALCON_INIT_VAR(old_column);
 	
 	PHALCON_INIT_VAR(size_pattern);
 	ZVAL_STRING(size_pattern, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
+	
+	/** 
+	 * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
+	 */
 	
 	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -185,7 +192,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		 * By checking every column type we convert it to a Phalcon\Db\Column
 		 */
 		PHALCON_OBS_NVAR(column_type);
-		phalcon_array_fetch_string(&column_type, field, SL("type"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&column_type, field, 1, PH_NOISY_CC);
 		if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
 			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
@@ -236,7 +243,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
 	
 			PHALCON_INIT_NVAR(matches);
-			array_init(matches);
 			Z_SET_ISREF_P(matches);
 	
 			PHALCON_INIT_NVAR(pos);
@@ -268,7 +274,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		 * Check if the field is primary key
 		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_string(&attribute, field, SL("key"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&attribute, field, 3, PH_NOISY_CC);
 		if (PHALCON_IS_STRING(attribute, "PRI")) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
 		}
@@ -277,7 +283,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		 * Check if the column allows null values
 		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_string(&attribute, field, SL("null"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&attribute, field, 2, PH_NOISY_CC);
 		if (PHALCON_IS_STRING(attribute, "NO")) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
 		}
@@ -286,14 +292,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		 * Check if the column is auto increment
 		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_string(&attribute, field, SL("extra"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&attribute, field, 5, PH_NOISY_CC);
 		if (PHALCON_IS_STRING(attribute, "auto_increment")) {
 			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(column_name);
-		phalcon_array_fetch_string(&column_name, field, SL("field"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&column_name, field, 0, PH_NOISY_CC);
 	
+		/** 
+		 * Every route is stored as a Phalcon\Db\Column
+		 */
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);

@@ -298,6 +298,38 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 }
 
 /**
+ * Assigns default values to generated tags by helpers
+ *
+ * <code>
+ * //Assigning "peter" to "name" component
+ * Phalcon\Tag::setDefaults(array("name" => "peter"));
+ *
+ * //Later in the view
+ * echo Phalcon\Tag::textField("name"); //Will have the value "peter" by default
+ * </code>
+ *
+ * @param array $values
+ */
+PHP_METHOD(Phalcon_Tag, setDefaults){
+
+	zval *values;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &values) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(values) == IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "An array is required as default values");
+		return;
+	}
+	phalcon_update_static_property(SL("phalcon\\tag"), SL("_displayValues"), values TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Alias of Phalcon\Tag::setDefault
  *
  * @param string $id
@@ -466,8 +498,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		if (phalcon_array_isset_string(params, SS("action"))) {
 			PHALCON_OBS_NVAR(action);
 			phalcon_array_fetch_string(&action, params, SL("action"), PH_NOISY_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, SS("action"));
+			phalcon_array_unset_string(&params, SS("action"), PH_SEPARATE);
 		}
 	}
 	
@@ -480,8 +511,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		if (phalcon_array_isset_string(params, SS("text"))) {
 			PHALCON_OBS_NVAR(text);
 			phalcon_array_fetch_string(&text, params, SL("text"), PH_NOISY_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, SS("text"));
+			phalcon_array_unset_string(&params, SS("text"), PH_SEPARATE);
 		}
 	}
 	
@@ -804,6 +834,37 @@ PHP_METHOD(Phalcon_Tag, radioField){
 }
 
 /**
+ * Builds a HTML input[type="image"] tag
+ *
+ *<code>
+ * echo Phalcon\Tag::imageInput(array("src" => "/img/button.png"));
+ *</code>
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, imageInput){
+
+	zval *parameters, *name, *as_value, *html;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "image", 1);
+	
+	PHALCON_INIT_VAR(as_value);
+	ZVAL_BOOL(as_value, 1);
+	
+	PHALCON_INIT_VAR(html);
+	PHALCON_CALL_SELF_PARAMS_3(html, this_ptr, "_inputfield", name, parameters, as_value);
+	RETURN_CCTOR(html);
+}
+
+/**
  * Builds a HTML input[type="submit"] tag
  *
  *<code>
@@ -956,8 +1017,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	if (phalcon_array_isset_string(params, SS("value"))) {
 		PHALCON_OBS_VAR(content);
 		phalcon_array_fetch_string(&content, params, SL("value"), PH_NOISY_CC);
-		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, SS("value"));
+		phalcon_array_unset_string(&params, SS("value"), PH_SEPARATE);
 	} else {
 		PHALCON_INIT_NVAR(content);
 		PHALCON_CALL_SELF_PARAMS_2(content, this_ptr, "getvalue", id, params);
@@ -1289,8 +1349,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		if (phalcon_array_isset_string(params, SS("local"))) {
 			PHALCON_OBS_NVAR(local);
 			phalcon_array_fetch_string(&local, params, SL("local"), PH_NOISY_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, SS("local"));
+			phalcon_array_unset_string(&params, SS("local"), PH_SEPARATE);
 		}
 	}
 	
@@ -1420,8 +1479,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		if (phalcon_array_isset_string(params, SS("local"))) {
 			PHALCON_OBS_NVAR(local);
 			phalcon_array_fetch_string(&local, params, SL("local"), PH_NOISY_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, SS("local"));
+			phalcon_array_unset_string(&params, SS("local"), PH_SEPARATE);
 		}
 	}
 	

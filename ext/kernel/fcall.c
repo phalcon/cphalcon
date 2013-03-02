@@ -560,11 +560,27 @@ int phalcon_call_parent_func_two_params(zval *return_value, zval *object, char *
 }
 
 /**
- * Call parent static function that requires two parameters
+ * Call parent static function that requires three parameters
  */
 int phalcon_call_parent_func_three_params(zval *return_value, zval *object, char *active_class, int active_class_len, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
 	return phalcon_call_parent_func_params(return_value, object, active_class, active_class_len, method_name, method_len, 3, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call parent static function that requires four parameters
+ */
+int phalcon_call_parent_func_four_params(zval *return_value, zval *object, char *active_class, int active_class_len, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4 };
+	return phalcon_call_parent_func_params(return_value, object, active_class, active_class_len, method_name, method_len, 4, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call parent static function that requires five parameters
+ */
+int phalcon_call_parent_func_five_params(zval *return_value, zval *object, char *active_class, int active_class_len, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4, param5 };
+	return phalcon_call_parent_func_params(return_value, object, active_class, active_class_len, method_name, method_len, 5, params, noreturn TSRMLS_CC);
 }
 
 /**
@@ -636,6 +652,11 @@ int phalcon_call_self_func_four_params(zval *return_value, zval *object, char *m
 	return phalcon_call_self_func_params(return_value, object, method_name, method_len, 4, params, noreturn TSRMLS_CC);
 }
 
+int phalcon_call_self_func_five_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4, param5 };
+	return phalcon_call_self_func_params(return_value, object, method_name, method_len, 5, params, noreturn TSRMLS_CC);
+}
+
 /**
  * Call single static function that requires one parameter
  */
@@ -658,6 +679,22 @@ int phalcon_call_static_func_two_params(zval *return_value, char *class_name, in
 int phalcon_call_static_func_three_params(zval *return_value, char *class_name, int class_length, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
 	return phalcon_call_static_func_params(return_value, class_name, class_length, method_name, method_len, 3, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call single static function that requires four parameters
+ */
+int phalcon_call_static_func_four_params(zval *return_value, char *class_name, int class_length, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4 };
+	return phalcon_call_static_func_params(return_value, class_name, class_length, method_name, method_len, 4, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call single static function that requires five parameters
+ */
+int phalcon_call_static_func_five_params(zval *return_value, char *class_name, int class_length, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4, param5 };
+	return phalcon_call_static_func_params(return_value, class_name, class_length, method_name, method_len, 5, params, noreturn TSRMLS_CC);
 }
 
 /**

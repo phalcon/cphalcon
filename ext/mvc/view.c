@@ -470,22 +470,42 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView){
  *</code>
  *
  * @param array $params
+ * @param boolean $merge
  */
 PHP_METHOD(Phalcon_Mvc_View, setVars){
 
-	zval *params;
+	zval *params, *merge = NULL, *view_params, *merged_params = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &params, &merge) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	if (!merge) {
+		PHALCON_INIT_VAR(merge);
+		ZVAL_BOOL(merge, 1);
+	}
+	
 	if (Z_TYPE_P(params) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The render parameters must be an array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_viewParams"), params TSRMLS_CC);
+	if (zend_is_true(merge)) {
+	
+		PHALCON_OBS_VAR(view_params);
+		phalcon_read_property(&view_params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
+		if (Z_TYPE_P(view_params) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_params);
+			PHALCON_CALL_FUNC_PARAMS_2(merged_params, "array_merge", view_params, params);
+		} else {
+			PHALCON_CPY_WRT(merged_params, params);
+		}
+	
+		phalcon_update_property_zval(this_ptr, SL("_viewParams"), merged_params TSRMLS_CC);
+	} else {
+		phalcon_update_property_zval(this_ptr, SL("_viewParams"), params TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -1105,7 +1125,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_VAR(enter_level);
 		is_smaller_or_equal_function(enter_level, t0, render_level TSRMLS_CC);
 		if (PHALCON_IS_TRUE(enter_level)) {
-			if (!phalcon_array_isset(disabled_levels, render_level)) {
+			if (!phalcon_array_isset_long(disabled_levels, 1)) {
 				PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, render_view, silence, must_clean, cache);
 			}
 		}
@@ -1119,7 +1139,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_NVAR(enter_level);
 		is_smaller_or_equal_function(enter_level, t1, render_level TSRMLS_CC);
 		if (PHALCON_IS_TRUE(enter_level)) {
-			if (!phalcon_array_isset(disabled_levels, render_level)) {
+			if (!phalcon_array_isset_long(disabled_levels, 2)) {
 	
 				PHALCON_OBS_VAR(templates_before);
 				phalcon_read_property(&templates_before, this_ptr, SL("_templatesBefore"), PH_NOISY_CC);
@@ -1160,7 +1180,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_NVAR(enter_level);
 		is_smaller_or_equal_function(enter_level, t2, render_level TSRMLS_CC);
 		if (PHALCON_IS_TRUE(enter_level)) {
-			if (!phalcon_array_isset(disabled_levels, render_level)) {
+			if (!phalcon_array_isset_long(disabled_levels, 3)) {
 				PHALCON_INIT_NVAR(view_temp_path);
 				PHALCON_CONCAT_VV(view_temp_path, layouts_dir, layout_name);
 				PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, view_temp_path, silence, must_clean, cache);
@@ -1176,7 +1196,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_NVAR(enter_level);
 		is_smaller_or_equal_function(enter_level, t3, render_level TSRMLS_CC);
 		if (PHALCON_IS_TRUE(enter_level)) {
-			if (!phalcon_array_isset(disabled_levels, render_level)) {
+			if (!phalcon_array_isset_long(disabled_levels, 4)) {
 	
 				/** 
 				 * Templates after must be an array
@@ -1216,7 +1236,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_INIT_NVAR(enter_level);
 		is_smaller_or_equal_function(enter_level, t4, render_level TSRMLS_CC);
 		if (PHALCON_IS_TRUE(enter_level)) {
-			if (!phalcon_array_isset(disabled_levels, render_level)) {
+			if (!phalcon_array_isset_long(disabled_levels, 5)) {
 				PHALCON_OBS_VAR(main_view);
 				phalcon_read_property(&main_view, this_ptr, SL("_mainView"), PH_NOISY_CC);
 				PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, main_view, silence, must_clean, cache);
@@ -1324,6 +1344,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  * </code>
  *
  * @param string $partialPath
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, partial){
 

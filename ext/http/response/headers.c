@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
@@ -170,7 +171,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 			PHALCON_GET_FOREACH_KEY(header, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(value);
 	
-			if (zend_is_true(value)) {
+			if (PHALCON_IS_NOT_EMPTY(value)) {
 				PHALCON_INIT_NVAR(http_header);
 				PHALCON_CONCAT_VSV(http_header, header, ": ", value);
 				PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", http_header, t);

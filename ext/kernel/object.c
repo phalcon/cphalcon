@@ -752,7 +752,7 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 	zval *tmp;
 	int separated = 0;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 
@@ -807,7 +807,7 @@ int phalcon_update_property_array_string(zval *object, char *property, unsigned 
 	zval *tmp;
 	int separated = 0;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 
@@ -934,6 +934,24 @@ int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char
 }
 
 /**
+ * Unsets an index in an array property
+ */
+int phalcon_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC) {
+
+	zval *tmp;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+
+		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+		phalcon_array_unset(&tmp, index, 0);
+
+		zval_ptr_dtor(&tmp);
+	}
+
+	return SUCCESS;
+}
+
+/**
  * Check if a method is implemented on certain object
  */
 int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
@@ -990,6 +1008,34 @@ int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int metho
 	}
 
 	hash = zend_inline_hash_func(method_name, method_len);
+
+	ce = Z_OBJCE_P(object);
+	while (ce) {
+		if (zend_hash_quick_exists(&ce->function_table, method_name, method_len, hash)) {
+			return SUCCESS;
+		}
+		ce = ce->parent;
+	}
+
+	return FAILURE;
+}
+
+/**
+ * Check if method exists on certain object using explicit char param
+ */
+int phalcon_method_quick_exists_ex(zval *object, char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC){
+
+	zend_class_entry *ce;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		ce = Z_OBJCE_P(object);
+	} else {
+		if (Z_TYPE_P(object) == IS_STRING) {
+			ce = zend_fetch_class(Z_STRVAL_P(object), Z_STRLEN_P(object), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+		} else {
+			return FAILURE;
+		}
+	}
 
 	ce = Z_OBJCE_P(object);
 	while (ce) {

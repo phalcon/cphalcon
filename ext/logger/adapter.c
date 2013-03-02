@@ -35,6 +35,7 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Logger\Adapter
@@ -53,8 +54,42 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter){
 	zend_declare_property_bool(phalcon_logger_adapter_ce, SL("_transaction"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_logger_adapter_ce, SL("_logLevel"), 9, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+}
+
+/**
+ * Filters the logs sent to the handlers to be less or equals than a specific level
+ *
+ * @param int $level
+ */
+PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel){
+
+	zval *level;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &level) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(level) != IS_LONG) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "The log level is not valid");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_logLevel"), level TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the current log level
+ */
+PHP_METHOD(Phalcon_Logger_Adapter, getLogLevel){
+
+
+	RETURN_MEMBER(this_ptr, "_logLevel");
 }
 
 /**
@@ -338,7 +373,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert){
 PHP_METHOD(Phalcon_Logger_Adapter, log){
 
 	zval *message, *type = NULL, *timestamp, *transaction;
-	zval *queue_item;
+	zval *queue_item, *log_level, *enter_level;
 
 	PHALCON_MM_GROW();
 
@@ -365,7 +400,18 @@ PHP_METHOD(Phalcon_Logger_Adapter, log){
 		RETURN_MM_NULL();
 	}
 	
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "loginternal", message, type, timestamp);
+	PHALCON_OBS_VAR(log_level);
+	phalcon_read_property(&log_level, this_ptr, SL("_logLevel"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(enter_level);
+	is_smaller_or_equal_function(enter_level, type, log_level TSRMLS_CC);
+	
+	/** 
+	 * Checks if the log is valid respecting the current log level
+	 */
+	if (PHALCON_IS_TRUE(enter_level)) {
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "loginternal", message, type, timestamp);
+	}
 	
 	PHALCON_MM_RESTORE();
 }

@@ -136,12 +136,12 @@ int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long ind
 /**
  * Unsets zval index from array
  */
-int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index) {
+int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags) {
 
 	zval *copy;
 	int exists, copied = 0;
 
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
 	}
 
@@ -161,10 +161,21 @@ int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index) {
 		}
 	}
 
+	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
+		if (Z_REFCOUNT_PP(arr) > 1) {
+			zval *new_zv;
+			Z_DELREF_PP(arr);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, *arr);
+			*arr = new_zv;
+			zval_copy_ctor(new_zv);
+		}
+	}
+
 	if (Z_TYPE_P(index) == IS_STRING) {
-		exists = zend_hash_del(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1);
+		exists = zend_hash_del(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1);
 	} else {
-		exists = zend_hash_index_del(Z_ARRVAL_P(arr), Z_LVAL_P(index));
+		exists = zend_hash_index_del(Z_ARRVAL_PP(arr), Z_LVAL_P(index));
 	}
 
 	if (copied) {
@@ -177,25 +188,47 @@ int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index) {
 /**
  * Unsets string index from array
  */
-int PHALCON_FASTCALL phalcon_array_unset_string(zval *arr, char *index, uint index_length) {
+int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, char *index, uint index_length, int flags) {
 
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
 	}
 
-	return zend_hash_del(Z_ARRVAL_P(arr), index, index_length);
+	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
+		if (Z_REFCOUNT_PP(arr) > 1) {
+			zval *new_zv;
+			Z_DELREF_PP(arr);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, *arr);
+			*arr = new_zv;
+			zval_copy_ctor(new_zv);
+		}
+	}
+
+	return zend_hash_del(Z_ARRVAL_PP(arr), index, index_length);
 }
 
 /**
  * Unsets long index from array
  */
-int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, unsigned long index) {
+int PHALCON_FASTCALL phalcon_array_unset_long(zval **arr, unsigned long index, int flags) {
 
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
 	}
 
-	return zend_hash_index_del(Z_ARRVAL_P(arr), index);
+	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
+		if (Z_REFCOUNT_PP(arr) > 1) {
+			zval *new_zv;
+			Z_DELREF_PP(arr);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, *arr);
+			*arr = new_zv;
+			zval_copy_ctor(new_zv);
+		}
+	}
+
+	return zend_hash_index_del(Z_ARRVAL_PP(arr), index);
 }
 
 /**
@@ -218,6 +251,7 @@ int phalcon_array_append(zval **arr, zval *value, int flags TSRMLS_DC) {
 			zval_copy_ctor(new_zv);
 		}
 	}
+
 	Z_ADDREF_P(value);
 	return add_next_index_zval(*arr, value);
 }

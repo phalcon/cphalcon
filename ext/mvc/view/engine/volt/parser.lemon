@@ -23,7 +23,10 @@
 %extra_argument {phvolt_parser_status *status}
 %name phvolt_
 
-%left COMMA COLON .
+%right OPEN_DELIMITER .
+%left COMMA .
+%left IN .
+%left QUESTION COLON .
 %right SBRACKET_OPEN .
 %left RANGE .
 %left AND OR .
@@ -31,8 +34,8 @@
 %left DIVIDE TIMES MOD .
 %left PLUS MINUS CONCAT .
 %left PIPE .
-%right BRACKET_OPEN .
 %right NOT .
+%right PARENTHESES_OPEN .
 %left DOT .
 
 %include {
@@ -102,6 +105,21 @@ static zval *phvolt_ret_elseif_statement(zval *expr, phvolt_scanner_state *state
 	array_init(ret);
 	add_assoc_long(ret, "type", PHVOLT_T_ELSEIF);
 	add_assoc_zval(ret, "expr", expr);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_elsefor_statement(phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_ELSEFOR);
 
 	Z_ADDREF_P(state->active_file);
 	add_assoc_zval(ret, "file", state->active_file);
@@ -398,13 +416,17 @@ static zval *phvolt_ret_named_item(phvolt_parser_token *name, zval *expr, phvolt
 	return ret;
 }
 
-static zval *phvolt_ret_expr(int type, zval *left, zval *right, phvolt_scanner_state *state)
+static zval *phvolt_ret_expr(int type, zval *left, zval *right, zval *ternary, phvolt_scanner_state *state)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
+
+	if (ternary) {
+		add_assoc_zval(ret, "ternary", ternary);
+	}
 
 	if (left) {
 		add_assoc_zval(ret, "left", left);
@@ -551,8 +573,12 @@ statement(R) ::= if_statement(I) . {
 	R = I;
 }
 
-statement(R) ::= elseif_statement(I) . {
-	R = I;
+statement(R) ::= elseif_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= elsefor_statement(E) . {
+	R = E;
 }
 
 statement(R) ::= for_statement(E) . {
@@ -617,6 +643,12 @@ if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) 
 
 elseif_statement(R) ::= OPEN_DELIMITER ELSEIF expr(E) CLOSE_DELIMITER . {
 	R = phvolt_ret_elseif_statement(E, status->scanner_state);
+}
+
+%destructor elsefor_statement { zval_ptr_dtor(&$$); }
+
+elsefor_statement(R) ::= OPEN_DELIMITER ELSEFOR CLOSE_DELIMITER . {
+	R = phvolt_ret_elsefor_statement(status->scanner_state);
 }
 
 %destructor for_statement { zval_ptr_dtor(&$$); }
@@ -724,111 +756,127 @@ raw_fragment(R) ::= RAW_FRAGMENT(F) . {
 %destructor expr { zval_ptr_dtor(&$$); }
 
 expr(R) ::= MINUS expr(E) . {
-	R = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, E, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, E, NULL, status->scanner_state);
+}
+
+expr(R) ::= PLUS expr(E) . {
+	R = phvolt_ret_expr(PHVOLT_T_PLUS, NULL, E, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) MINUS expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_SUB, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_SUB, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) PLUS expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_ADD, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_ADD, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) TIMES expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_MUL, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_MUL, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) DIVIDE expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_DIV, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_DIV, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) MOD expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_MOD, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_MOD, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) AND expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_AND, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_AND, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) OR expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_OR, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_OR, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) CONCAT expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_CONCAT, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_CONCAT, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) PIPE expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_PIPE, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_PIPE, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) RANGE expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_RANGE, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_RANGE, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) EQUALS expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_EQUALS, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_EQUALS, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) IS NOT DEFINED . {
-	R = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, O1, NULL, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, O1, NULL, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) IS DEFINED . {
-	R = phvolt_ret_expr(PHVOLT_T_ISSET, O1, NULL, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_ISSET, O1, NULL, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) IS expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_IS, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_IS, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) NOTEQUALS expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) IDENTICAL expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_IDENTICAL, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_IDENTICAL, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) NOTIDENTICAL expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) LESS expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_LESS, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_LESS, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) GREATER expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_GREATER, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_GREATER, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) GREATEREQUAL expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) LESSEQUAL expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(O1) DOT expr(O2) . {
-	R = phvolt_ret_expr(PHVOLT_T_DOT, O1, O2, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_DOT, O1, O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IN expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_IN, O1, O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOT IN expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_NOT_IN, O1, O2, NULL, status->scanner_state);
 }
 
 expr(R) ::= NOT expr(E) . {
-	R = phvolt_ret_expr(PHVOLT_T_NOT, NULL, E, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_NOT, NULL, E, NULL, status->scanner_state);
 }
 
-expr(R) ::= BRACKET_OPEN expr(E) BRACKET_CLOSE . {
-	R = phvolt_ret_expr(PHVOLT_T_ENCLOSED, E, NULL, status->scanner_state);
+expr(R) ::= PARENTHESES_OPEN expr(E) PARENTHESES_CLOSE . {
+	R = phvolt_ret_expr(PHVOLT_T_ENCLOSED, E, NULL, NULL, status->scanner_state);
 }
 
 expr(R) ::= SBRACKET_OPEN array_list(A) SBRACKET_CLOSE . {
-	R = phvolt_ret_expr(PHVOLT_T_ARRAY, A, NULL, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_ARRAY, A, NULL, NULL, status->scanner_state);
 }
 
 expr(R) ::= expr(E) SBRACKET_OPEN expr(D) SBRACKET_CLOSE . {
-	R = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, E, D, status->scanner_state);
+	R = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, E, D, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(E) QUESTION expr(O1) COLON expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_TERNARY, O1, O2, E, status->scanner_state);
 }
 
 expr(R) ::= expr(E) SBRACKET_OPEN COLON slice_offset(N) SBRACKET_CLOSE . {
@@ -879,11 +927,11 @@ expr(R) ::= function_call(F) . {
 
 %destructor function_call { zval_ptr_dtor(&$$); }
 
-function_call(R) ::= expr(E) BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
+function_call(R) ::= expr(E) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
 	R = phvolt_ret_func_call(E, L, status->scanner_state);
 }
 
-function_call(R) ::= expr(E) BRACKET_OPEN BRACKET_CLOSE . {
+function_call(R) ::= expr(E) PARENTHESES_OPEN PARENTHESES_CLOSE . {
 	R = phvolt_ret_func_call(E, NULL, status->scanner_state);
 }
 

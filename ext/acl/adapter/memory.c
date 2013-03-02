@@ -516,8 +516,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 			phalcon_read_property(&t0, this_ptr, SL("_accessList"), PH_NOISY_CC);
 			PHALCON_OBS_NVAR(r0);
 			phalcon_array_fetch(&r0, t0, resource_name, PH_NOISY_CC);
-			PHALCON_SEPARATE_NMO(r0);
-			phalcon_array_unset(r0, access_name);
+			phalcon_array_unset(&r0, access_name, PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -528,8 +527,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 			phalcon_read_property(&t1, this_ptr, SL("_accessList"), PH_NOISY_CC);
 			PHALCON_OBS_VAR(r1);
 			phalcon_array_fetch(&r1, t1, resource_name, PH_NOISY_CC);
-			PHALCON_SEPARATE_NMO(r1);
-			phalcon_array_unset(r1, access_list);
+			phalcon_array_unset(&r1, access_list, PH_SEPARATE);
 		}
 	}
 	PHALCON_CALL_METHOD_NORETURN(this_ptr, "_rebuildaccesslist");
@@ -990,7 +988,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	ZVAL_LONG(two, 2);
 	
 	PHALCON_INIT_VAR(middle_roles);
-	ZVAL_DOUBLE(middle_roles, Z_LVAL_P(pow_roles) / Z_LVAL_P(two));
+	div_function(middle_roles, pow_roles, two TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(middle);
 	PHALCON_CALL_FUNC_PARAMS_1(middle, "ceil", middle_roles);

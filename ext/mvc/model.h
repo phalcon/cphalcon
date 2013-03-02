@@ -34,10 +34,15 @@ PHP_METHOD(Phalcon_Mvc_Model, getSource);
 PHP_METHOD(Phalcon_Mvc_Model, setSchema);
 PHP_METHOD(Phalcon_Mvc_Model, getSchema);
 PHP_METHOD(Phalcon_Mvc_Model, setConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model, getConnectionService);
+PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService);
+PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService);
+PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService);
+PHP_METHOD(Phalcon_Mvc_Model, getWriteConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model, setDirtyState);
 PHP_METHOD(Phalcon_Mvc_Model, getDirtyState);
-PHP_METHOD(Phalcon_Mvc_Model, getConnection);
+PHP_METHOD(Phalcon_Mvc_Model, getReadConnection);
+PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection);
+PHP_METHOD(Phalcon_Mvc_Model, assign);
 PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap);
 PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate);
 PHP_METHOD(Phalcon_Mvc_Model, cloneResult);
@@ -71,6 +76,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create);
 PHP_METHOD(Phalcon_Mvc_Model, update);
 PHP_METHOD(Phalcon_Mvc_Model, delete);
 PHP_METHOD(Phalcon_Mvc_Model, getOperationMade);
+PHP_METHOD(Phalcon_Mvc_Model, refresh);
 PHP_METHOD(Phalcon_Mvc_Model, skipOperation);
 PHP_METHOD(Phalcon_Mvc_Model, readAttribute);
 PHP_METHOD(Phalcon_Mvc_Model, writeAttribute);
@@ -82,6 +88,13 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
 PHP_METHOD(Phalcon_Mvc_Model, hasMany);
 PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough);
 PHP_METHOD(Phalcon_Mvc_Model, addBehavior);
+PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots);
+PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData);
+PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData);
+PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData);
+PHP_METHOD(Phalcon_Mvc_Model, hasChanged);
+PHP_METHOD(Phalcon_Mvc_Model, getChangedFields);
+PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model, getRelated);
 PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, __call);
@@ -112,8 +125,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setconnectionservice, 0, 0, 1)
 	ZEND_ARG_INFO(0, connectionService)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setreadconnectionservice, 0, 0, 1)
+	ZEND_ARG_INFO(0, connectionService)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setwriteconnectionservice, 0, 0, 1)
+	ZEND_ARG_INFO(0, connectionService)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setdirtystate, 0, 0, 1)
 	ZEND_ARG_INFO(0, dirtyState)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_assign, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, columnMap)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_cloneresultmap, 0, 0, 3)
@@ -121,6 +147,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_cloneresultmap, 0, 0, 3)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, columnMap)
 	ZEND_ARG_INFO(0, dirtyState)
+	ZEND_ARG_INFO(0, keepSnapshots)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_cloneresultmaphydrate, 0, 0, 3)
@@ -204,6 +231,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_writeattribute, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setsnapshotdata, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, columnMap)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_haschanged, 0, 0, 0)
+	ZEND_ARG_INFO(0, fieldName)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_getrelated, 0, 0, 1)
 	ZEND_ARG_INFO(0, alias)
 	ZEND_ARG_INFO(0, arguments)
@@ -254,10 +290,15 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, setSchema, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, getSchema, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, setConnectionService, arginfo_phalcon_mvc_model_setconnectionservice, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model, getConnectionService, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, setReadConnectionService, arginfo_phalcon_mvc_model_setreadconnectionservice, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, setWriteConnectionService, arginfo_phalcon_mvc_model_setwriteconnectionservice, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, getReadConnectionService, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, getWriteConnectionService, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, setDirtyState, arginfo_phalcon_mvc_model_setdirtystate, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getDirtyState, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model, getConnection, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, getReadConnection, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, getWriteConnection, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, assign, arginfo_phalcon_mvc_model_assign, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, cloneResultMap, arginfo_phalcon_mvc_model_cloneresultmap, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, cloneResultMapHydrate, arginfo_phalcon_mvc_model_cloneresultmaphydrate, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, cloneResult, arginfo_phalcon_mvc_model_cloneresult, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
@@ -291,6 +332,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, update, arginfo_phalcon_mvc_model_update, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, delete, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getOperationMade, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, refresh, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, skipOperation, arginfo_phalcon_mvc_model_skipoperation, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, readAttribute, arginfo_phalcon_mvc_model_readattribute, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, writeAttribute, arginfo_phalcon_mvc_model_writeattribute, ZEND_ACC_PUBLIC) 
@@ -302,6 +344,13 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, hasMany, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, hasManyThrough, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, addBehavior, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, keepSnapshots, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, setSnapshotData, arginfo_phalcon_mvc_model_setsnapshotdata, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, hasSnapshotData, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, getSnapshotData, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, hasChanged, arginfo_phalcon_mvc_model_haschanged, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, getChangedFields, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, useDynamicUpdate, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, getRelated, arginfo_phalcon_mvc_model_getrelated, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, _getRelatedRecords, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, __call, arginfo_phalcon_mvc_model___call, ZEND_ACC_PUBLIC) 

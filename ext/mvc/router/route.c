@@ -247,7 +247,15 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 		PHALCON_INIT_VAR(final_pattern);
 		PHALCON_CONCAT_SVS(final_pattern, "#^", compiled_pattern, "$#");
 	} else {
-		PHALCON_CPY_WRT(final_pattern, compiled_pattern);
+		/** 
+		 * Square brackets are also checked
+		 */
+		if (phalcon_memnstr_str(compiled_pattern, SL("[") TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(final_pattern);
+			PHALCON_CONCAT_SVS(final_pattern, "#^", compiled_pattern, "$#");
+		} else {
+			PHALCON_CPY_WRT(final_pattern, compiled_pattern);
+		}
 	}
 	
 	

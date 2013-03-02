@@ -78,7 +78,7 @@ PHALCON_INIT_CLASS(Phalcon_Escaper){
  *
  * @param string $encoding
  */
-PHP_METHOD(Phalcon_Escaper, setEnconding){
+PHP_METHOD(Phalcon_Escaper, setEncoding){
 
 	zval *encoding;
 

@@ -48,7 +48,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, __construct);
  * This method receives the notifications from the EventsManager
  *
  * @param string $type
- * @param Phalcon\Mvc\Model\Behavior $model
+ * @param Phalcon\Mvc\ModelInterface $model
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, notify);
 

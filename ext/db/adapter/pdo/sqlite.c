@@ -127,8 +127,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect){
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 
 	zval *table, *schema = NULL, *columns, *dialect, *size_pattern;
-	zval *sql, *fetch_assoc, *describe, *old_column = NULL;
-	zval *field = NULL, *definition = NULL, *column_type = NULL, *pos = NULL, *attribute = NULL;
+	zval *sql, *fetch_num, *describe, *old_column = NULL, *field = NULL;
+	zval *definition = NULL, *column_type = NULL, *pos = NULL, *attribute = NULL;
 	zval *matches = NULL, *match_one = NULL, *column_name = NULL, *column = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -156,11 +156,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describecolumns", table, schema);
 	
-	PHALCON_INIT_VAR(fetch_assoc);
-	phalcon_get_class_constant(fetch_assoc, phalcon_db_ce, SS("FETCH_ASSOC") TSRMLS_CC);
+	/** 
+	 * We're using FETCH_NUM to fetch the columns
+	 */
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
 	
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_assoc);
+	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	PHALCON_INIT_VAR(old_column);
 	
@@ -177,7 +180,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		add_assoc_long_ex(definition, SS("bindType"), 2);
 	
 		PHALCON_OBS_NVAR(column_type);
-		phalcon_array_fetch_string(&column_type, field, SL("type"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&column_type, field, 2, PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(pos);
 		phalcon_fast_stripos_str(pos, column_type, SL("int") TSRMLS_CC);
@@ -187,7 +190,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 			phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE TSRMLS_CC);
 	
 			PHALCON_OBS_NVAR(attribute);
-			phalcon_array_fetch_string(&attribute, field, SL("pk"), PH_NOISY_CC);
+			phalcon_array_fetch_long(&attribute, field, 5, PH_NOISY_CC);
+	
+			/** 
+			 * Check if the column is auto increment
+			 */
 			if (zend_is_true(attribute)) {
 				phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
 			}
@@ -234,7 +241,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
 	
 			PHALCON_INIT_NVAR(matches);
-			array_init(matches);
 			Z_SET_ISREF_P(matches);
 	
 			PHALCON_INIT_NVAR(pos);
@@ -259,21 +265,30 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 			phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	
+		/** 
+		 * Check if the field is primary key
+		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_string(&attribute, field, SL("pk"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&attribute, field, 5, PH_NOISY_CC);
 		if (zend_is_true(attribute)) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
+		/** 
+		 * Check if the column allows null values
+		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_string(&attribute, field, SL("notnull"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&attribute, field, 3, PH_NOISY_CC);
 		if (zend_is_true(attribute)) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(column_name);
-		phalcon_array_fetch_string(&column_name, field, SL("name"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&column_name, field, 1, PH_NOISY_CC);
 	
+		/** 
+		 * Every column is stored as a Phalcon\Db\Column
+		 */
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);
@@ -297,11 +312,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 
-	zval *table, *schema = NULL, *dialect, *fetch_assoc, *sql;
-	zval *describe, *indexes, *index = NULL, *key_name = NULL, *empty_arr = NULL;
-	zval *sql_index_describe = NULL, *describe_index = NULL;
-	zval *index_column = NULL, *column_name = NULL, *index_objects;
-	zval *index_columns = NULL, *name = NULL;
+	zval *table, *schema = NULL, *dialect, *fetch_num, *sql, *describe;
+	zval *indexes, *index = NULL, *key_name = NULL, *empty_arr = NULL, *sql_index_describe = NULL;
+	zval *describe_index = NULL, *index_column = NULL, *column_name = NULL;
+	zval *index_objects, *index_columns = NULL, *name = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -319,15 +333,21 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(fetch_assoc);
-	phalcon_get_class_constant(fetch_assoc, phalcon_db_ce, SS("FETCH_ASSOC") TSRMLS_CC);
+	/** 
+	 * We're using FETCH_NUM to fetch the columns
+	 */
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describeindexes", table, schema);
 	
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_assoc);
+	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
+	/** 
+	 * Cryptic Guide: 0: position, 1: name
+	 */
 	PHALCON_INIT_VAR(indexes);
 	array_init(indexes);
 	
@@ -340,7 +360,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 		PHALCON_GET_FOREACH_VALUE(index);
 	
 		PHALCON_OBS_NVAR(key_name);
-		phalcon_array_fetch_string(&key_name, index, SL("name"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&key_name, index, 1, PH_NOISY_CC);
 		if (!phalcon_array_isset(indexes, key_name)) {
 			PHALCON_INIT_NVAR(empty_arr);
 			array_init(empty_arr);
@@ -351,7 +371,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 		PHALCON_CALL_METHOD_PARAMS_1(sql_index_describe, dialect, "describeindex", key_name);
 	
 		PHALCON_INIT_NVAR(describe_index);
-		PHALCON_CALL_METHOD_PARAMS_2(describe_index, this_ptr, "fetchall", sql_index_describe, fetch_assoc);
+		PHALCON_CALL_METHOD_PARAMS_2(describe_index, this_ptr, "fetchall", sql_index_describe, fetch_num);
 	
 		if (!phalcon_is_iterable(describe_index, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
@@ -362,7 +382,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 			PHALCON_GET_FOREACH_VALUE(index_column);
 	
 			PHALCON_OBS_NVAR(column_name);
-			phalcon_array_fetch_string(&column_name, index_column, SL("name"), PH_NOISY_CC);
+			phalcon_array_fetch_long(&column_name, index_column, 2, PH_NOISY_CC);
 			phalcon_array_update_append_multi_2(&indexes, key_name, column_name, 0 TSRMLS_CC);
 	
 			zend_hash_move_forward_ex(ah1, &hp1);
@@ -406,8 +426,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 
-	zval *table, *schema = NULL, *dialect, *sql, *fetch_assoc;
-	zval *describe, *reference_objects, *reference_describe = NULL;
+	zval *table, *schema = NULL, *dialect, *sql, *fetch_num, *describe;
+	zval *reference_objects, *reference_describe = NULL;
 	zval *number = NULL, *constraint_name = NULL, *referenced_table = NULL;
 	zval *from = NULL, *to = NULL, *columns = NULL, *referenced_columns = NULL;
 	zval *reference_array = NULL, *reference = NULL;
@@ -428,15 +448,27 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
+	/** 
+	 * Get the SQL to describe the references
+	 */
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describereferences", table, schema);
 	
-	PHALCON_INIT_VAR(fetch_assoc);
-	phalcon_get_class_constant(fetch_assoc, phalcon_db_ce, SS("FETCH_ASSOC") TSRMLS_CC);
+	/** 
+	 * We're using FETCH_NUM to fetch the columns
+	 */
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
 	
+	/** 
+	 * Execute the SQL describing the references
+	 */
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_assoc);
+	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
+	/** 
+	 * Cryptic Guide: 2: table, 3: from, 4: to
+	 */
 	PHALCON_INIT_VAR(reference_objects);
 	array_init(reference_objects);
 	
@@ -453,13 +485,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 		PHALCON_CONCAT_SV(constraint_name, "foreign_key_", number);
 	
 		PHALCON_OBS_NVAR(referenced_table);
-		phalcon_array_fetch_string(&referenced_table, reference_describe, SL("table"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&referenced_table, reference_describe, 2, PH_NOISY_CC);
 	
 		PHALCON_OBS_NVAR(from);
-		phalcon_array_fetch_string(&from, reference_describe, SL("from"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&from, reference_describe, 3, PH_NOISY_CC);
 	
 		PHALCON_OBS_NVAR(to);
-		phalcon_array_fetch_string(&to, reference_describe, SL("to"), PH_NOISY_CC);
+		phalcon_array_fetch_long(&to, reference_describe, 4, PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(columns);
 		array_init_size(columns, 1);
@@ -476,6 +508,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 		phalcon_array_update_string(&reference_array, SL("columns"), &columns, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_array_update_string(&reference_array, SL("referencedColumns"), &referenced_columns, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
+		/** 
+		 * Every route is abstracted as a Phalcon\Db\Reference instance
+		 */
 		PHALCON_INIT_NVAR(reference);
 		object_init_ex(reference, phalcon_db_reference_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(reference, "__construct", constraint_name, reference_array);

@@ -35,7 +35,7 @@
 /**
  * Phalcon\Mvc\User\Plugin
  *
- * This class can be used to provide user plugins easy access to services
+ * This class can be used to provide user plugins an easy access to services
  * in the application
  */
 

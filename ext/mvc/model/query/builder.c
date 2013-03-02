@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDI){
  * Sets the columns to be queried
  *
  *<code>
- *$builder->columns(array('id', 'name'));
+ *	$builder->columns(array('id', 'name'));
  *</code>
  *
  * @param string|array $columns
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getColumns){
  * Sets the models who makes part of the query
  *
  *<code>
- *$builder->from(array('Robots', 'RobotsParts'));
+ *	$builder->from(array('Robots', 'RobotsParts'));
  *</code>
  *
  * @param string|array $models
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from){
  * Add a model to take part of the query
  *
  *<code>
- *$builder->addFrom('Robots', 'r');
+ *	$builder->addFrom('Robots', 'r');
  *</code>
  *
  * @param string $model
@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom){
  * Adds a join to the query
  *
  *<code>
- *$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
+ *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
  *</code>
  *
  * @param string $model
@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOrderBy){
  * Sets a HAVING condition clause. You need to escape PHQL reserved words using [ and ] delimiters
  *
  *<code>
- *$builder->having('SUM(Robots.price) > 0');
+ *	$builder->having('SUM(Robots.price) > 0');
  *</code>
  *
  * @param string $having
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOffset){
  * Sets a GROUP BY clause
  *
  *<code>
- *$builder->groupBy(array('Robots.name'));
+ *	$builder->groupBy(array('Robots.name'));
  *</code>
  *
  * @param string $group
@@ -687,17 +687,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *dependency_injector = NULL, *models, *conditions = NULL;
 	zval *is_numeric, *one, *number_models, *invalid_condition;
 	zval *model = NULL, *service_name, *meta_data, *model_instance;
-	zval *no_primary = NULL, *primary_keys, *connection;
-	zval *first_primary_key, *column_map = NULL, *attribute_field = NULL;
-	zval *exception_message, *primary_key_condition;
-	zval *phql, *columns, *selected_columns = NULL, *column = NULL;
-	zval *alias = NULL, *aliased_column = NULL, *joined_columns = NULL;
-	zval *selected_column = NULL, *selected_models, *selected_model = NULL;
-	zval *joined_models, *joins, *join = NULL, *join_model = NULL;
-	zval *join_conditions = NULL, *join_alias = NULL, *group, *group_items;
-	zval *group_item = NULL, *escaped_item = NULL, *joined_items = NULL;
-	zval *having, *order, *order_items, *order_item = NULL;
-	zval *limit, *number, *offset = NULL;
+	zval *no_primary = NULL, *primary_keys, *first_primary_key;
+	zval *column_map = NULL, *attribute_field = NULL, *exception_message;
+	zval *primary_key_condition, *phql, *columns;
+	zval *selected_columns = NULL, *column = NULL, *alias = NULL, *aliased_column = NULL;
+	zval *joined_columns = NULL, *selected_column = NULL, *selected_models;
+	zval *selected_model = NULL, *joined_models, *joins;
+	zval *join = NULL, *join_model = NULL, *join_conditions = NULL, *join_alias = NULL;
+	zval *group, *group_items, *group_item = NULL, *escaped_item = NULL;
+	zval *joined_items = NULL, *having, *order, *order_items;
+	zval *order_item = NULL, *limit, *number, *offset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -783,9 +782,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		PHALCON_CALL_METHOD_PARAMS_1(primary_keys, meta_data, "getprimarykeyattributes", model_instance);
 		if (phalcon_fast_count_ev(primary_keys TSRMLS_CC)) {
 			if (phalcon_array_isset_long(primary_keys, 0)) {
-	
-				PHALCON_INIT_VAR(connection);
-				PHALCON_CALL_METHOD(connection, model_instance, "getconnection");
 	
 				PHALCON_OBS_VAR(first_primary_key);
 				phalcon_array_fetch_long(&first_primary_key, primary_keys, 0, PH_NOISY_CC);

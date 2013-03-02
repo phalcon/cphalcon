@@ -120,8 +120,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	} else {
 		PHALCON_OBS_NVAR(value);
 		phalcon_array_fetch_string(&value, params, SL("value"), PH_NOISY_CC);
-		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, SS("value"));
+		phalcon_array_unset_string(&params, SS("value"), PH_SEPARATE);
 	}
 	
 	PHALCON_INIT_VAR(use_empty);
@@ -133,8 +132,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		} else {
 			PHALCON_OBS_NVAR(empty_value);
 			phalcon_array_fetch_string(&empty_value, params, SL("emptyValue"), PH_NOISY_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, SS("emptyValue"));
+			phalcon_array_unset_string(&params, SS("emptyValue"), PH_SEPARATE);
 		}
 		if (!phalcon_array_isset_string(params, SS("emptyText"))) {
 			PHALCON_INIT_VAR(empty_text);
@@ -142,14 +140,12 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		} else {
 			PHALCON_OBS_NVAR(empty_text);
 			phalcon_array_fetch_string(&empty_text, params, SL("emptyText"), PH_NOISY_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, SS("emptyText"));
+			phalcon_array_unset_string(&params, SS("emptyText"), PH_SEPARATE);
 		}
 	
 		PHALCON_OBS_NVAR(use_empty);
 		phalcon_array_fetch_string(&use_empty, params, SL("useEmpty"), PH_NOISY_CC);
-		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, SS("useEmpty"));
+		phalcon_array_unset_string(&params, SS("useEmpty"), PH_SEPARATE);
 	}
 	
 	PHALCON_INIT_VAR(code);
@@ -185,8 +181,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		 * Create an empty value
 		 */
 		PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", empty_value, "\">", empty_text, close_option);
-		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, SS("useEmpty"));
+		phalcon_array_unset_string(&params, SS("useEmpty"), PH_SEPARATE);
 	}
 	
 	if (phalcon_array_isset_long(params, 1)) {
