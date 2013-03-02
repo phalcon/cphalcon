@@ -898,6 +898,9 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{{ "hello"|striptags }}');
 		$this->assertEquals($compilation, '<?php echo strip_tags(\'hello\'); ?>');
 
+		$compilation = $volt->compileString('{{ "hello"|capitalize }}');
+		$this->assertEquals($compilation, '<?php echo ucwords(\'hello\'); ?>');
+
 		$compilation = $volt->compileString('{{ "hello"|json_encode }}');
 		$this->assertEquals($compilation, '<?php echo json_encode(\'hello\'); ?>');
 

@@ -347,6 +347,12 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
+	if (PHALCON_IS_STRING(filter, "capitalize")) {
+		PHALCON_INIT_NVAR(filtered);
+		PHALCON_CALL_FUNC_PARAMS_1(filtered, "ucwords", value);
+		goto ph_end_0;
+	}
+
 	if (PHALCON_IS_STRING(filter, "lower")) {
 		if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
 			/** 
