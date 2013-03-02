@@ -61511,10 +61511,16 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	zval *manager, *use_dynamic_update = NULL, *snapshot;
 	zval *bind_data_types, *non_primary, *automatic_attributes;
 	zval *column_map = NULL, *field = NULL, *exception_message = NULL;
+<<<<<<< HEAD
+	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *unique_key;
+	zval *unique_params = NULL, *unique_types, *primary_keys;
+	zval *conditions, *success;
+=======
 	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *changed = NULL;
 	zval *snapshot_value = NULL, *unique_key, *unique_params = NULL;
 	zval *unique_types, *primary_keys, *conditions;
 	zval *success;
+>>>>>>> upstream/1.0.0
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
