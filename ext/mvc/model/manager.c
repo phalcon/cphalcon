@@ -88,6 +88,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_lastQuery"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_reusable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_keepSnapshots"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_dynamicUpdate"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_manager_ce TSRMLS_CC, 3, phalcon_mvc_model_managerinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
@@ -1086,6 +1087,61 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots){
 			PHALCON_OBS_VAR(is_keeping);
 			phalcon_array_fetch(&is_keeping, keep_snapshots, entity_name, PH_NOISY_CC);
 			RETURN_CCTOR(is_keeping);
+		}
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Sets if a model must use dynamic update instead of the all-field update
+ *
+ * @param Phalcon\Mvc\Model $model
+ * @param boolean $dynamicUpdate
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, useDynamicUpdate){
+
+	zval *model, *dynamic_update, *entity_name;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &dynamic_update) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_dynamicUpdate"), entity_name, dynamic_update TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_keepSnapshots"), entity_name, dynamic_update TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Checks if a model is using dynamic update instead of all-field update
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate){
+
+	zval *model, *dynamic_update, *entity_name, *is_using;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(dynamic_update);
+	phalcon_read_property(&dynamic_update, this_ptr, SL("_dynamicUpdate"), PH_NOISY_CC);
+	if (Z_TYPE_P(dynamic_update) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(entity_name);
+		phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+		if (phalcon_array_isset(dynamic_update, entity_name)) {
+			PHALCON_OBS_VAR(is_using);
+			phalcon_array_fetch(&is_using, dynamic_update, entity_name, PH_NOISY_CC);
+			RETURN_CCTOR(is_using);
 		}
 	}
 	

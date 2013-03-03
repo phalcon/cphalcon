@@ -47,6 +47,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, useDynamicUpdate);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany);
@@ -174,6 +176,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_keepsnapshots, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_iskeepingsnapshots, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_usedynamicupdate, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, dynamicUpdate)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_isusingdynamicupdate, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
@@ -328,6 +339,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_manager_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Manager, addBehavior, arginfo_phalcon_mvc_model_manager_addbehavior, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, keepSnapshots, arginfo_phalcon_mvc_model_manager_keepsnapshots, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, isKeepingSnapshots, arginfo_phalcon_mvc_model_manager_iskeepingsnapshots, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Manager, useDynamicUpdate, arginfo_phalcon_mvc_model_manager_usedynamicupdate, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate, arginfo_phalcon_mvc_model_manager_isusingdynamicupdate, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, addHasOne, arginfo_phalcon_mvc_model_manager_addhasone, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, addBelongsTo, arginfo_phalcon_mvc_model_manager_addbelongsto, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, addHasMany, arginfo_phalcon_mvc_model_manager_addhasmany, ZEND_ACC_PUBLIC) 
