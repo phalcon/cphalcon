@@ -61,6 +61,7 @@
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 			<file>unit-tests/ModelsRelationsMagicTest.php</file>
 			<file>unit-tests/ModelsSnapshotsTest.php</file>
+			<file>unit-tests/ModelsDynamicOperationsTest.php</file>
 
 			<!-- NoSQL tests -->
 			<file>unit-tests/CollectionsTest.php</file>
@@ -82,7 +83,6 @@
 			<file>unit-tests/SessionTest.php</file>
 			<file>unit-tests/PaginatorTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
-			<file>unit-tests/SecurityTest.php</file>
 			<file>unit-tests/ValidationTest.php</file>
 
 			<!-- Complex components/Integral tests -->
