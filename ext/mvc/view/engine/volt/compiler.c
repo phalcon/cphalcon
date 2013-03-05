@@ -1192,6 +1192,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 	}
 	
 	/** 
+	 * 'capitalize' filter calls 'ucwords'
+	 */
+	if (PHALCON_IS_STRING(name, "capitalize")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "ucwords(", arguments, ")");
+		RETURN_CCTOR(code);
+	}
+	
+	/** 
 	 * 'sort' calls the "asort" function in the PHP userland
 	 */
 	if (PHALCON_IS_STRING(name, "sort")) {
