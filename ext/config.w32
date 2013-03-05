@@ -71,5 +71,5 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/translate", "exception.c adapterinterface.c adapter.c", "phalcon")
   ADD_SOURCES("ext/phalcon/validation/message", "group.c", "phalcon")
   ADD_SOURCES("ext/phalcon/validation", "exception.c message.c validator.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/validation/validator", "email.c presenceof.c regex.c identical.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/validation/validator", "email.c presenceof.c regex.c exclusionin.c identical.c inclusionin.c", "phalcon")
 }

@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
  * </code>
  *
  * @param  Phalcon\Acl\RoleInterface $role
- * @param  array $accessInherits
+ * @param  array|string $accessInherits
  * @return boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
@@ -234,8 +234,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 
 	zval *role_name, *role_to_inherit, *roles_names;
-	zval *exception_message = NULL, *roles_inherits;
-	zval *empty_arr, *_roleInherits;
+	zval *exception_message = NULL, *role_inherit_name = NULL;
+	zval *roles_inherits, *empty_arr, *_roleInherits;
 
 	PHALCON_MM_GROW();
 
@@ -252,14 +252,24 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 		return;
 	}
 	
-	if (!phalcon_array_isset(roles_names, role_to_inherit)) {
+	if (Z_TYPE_P(role_to_inherit) == IS_OBJECT) {
+		PHALCON_INIT_VAR(role_inherit_name);
+		PHALCON_CALL_METHOD(role_inherit_name, role_to_inherit, "getname");
+	} else {
+		PHALCON_CPY_WRT(role_inherit_name, role_to_inherit);
+	}
+	
+	/** 
+	 * Check if the role to inherit is valid
+	 */
+	if (!phalcon_array_isset(roles_names, role_inherit_name)) {
 		PHALCON_INIT_NVAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Role '", role_to_inherit, "' does not exist in the role list");
+		PHALCON_CONCAT_SVS(exception_message, "Role '", role_inherit_name, "' (to inherit) does not exist in the role list");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_acl_exception_ce, exception_message);
 		return;
 	}
 	
-	if (PHALCON_IS_EQUAL(role_to_inherit, role_name)) {
+	if (PHALCON_IS_EQUAL(role_inherit_name, role_name)) {
 		RETURN_MM_FALSE;
 	}
 	
@@ -273,8 +283,12 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 	
 	PHALCON_OBS_VAR(_roleInherits);
 	phalcon_read_property(&_roleInherits, this_ptr, SL("_roleInherits"), PH_NOISY_CC);
-	phalcon_array_update_append_multi_2(&_roleInherits, role_name, role_to_inherit, 0 TSRMLS_CC);
+	phalcon_array_update_append_multi_2(&_roleInherits, role_name, role_inherit_name, 0 TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_roleInherits"), _roleInherits TSRMLS_CC);
+	
+	/** 
+	 * Re-build the access list with its inherited roles
+	 */
 	PHALCON_CALL_METHOD_NORETURN(this_ptr, "_rebuildaccesslist");
 	RETURN_MM_TRUE;
 }

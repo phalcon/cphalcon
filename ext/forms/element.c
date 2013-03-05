@@ -36,6 +36,13 @@
 #include "kernel/exception.h"
 
 /**
+ * Phalcon\Forms\Element
+ *
+ * This is a base class for elements of forms
+ */
+
+
+/**
  * Phalcon\Forms\Element initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Forms_Element){
@@ -50,6 +57,8 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element){
 
 /**
  * Phalcon\Forms\Element constructor
+ *
+ * @param string $name
  */
 PHP_METHOD(Phalcon_Forms_Element, __construct){
 
@@ -81,6 +90,11 @@ PHP_METHOD(Phalcon_Forms_Element, getName){
 	RETURN_MEMBER(this_ptr, "_name");
 }
 
+/**
+ * Adds a group of validators
+ *
+ * @param Phalcon\Validation\ValidatorInterface[]
+ */
 PHP_METHOD(Phalcon_Forms_Element, addValidators){
 
 	zval *validators;
@@ -99,6 +113,11 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Adds a validator to the element
+ *
+ * @param Phalcon\Validation\ValidatorInterface
+ */
 PHP_METHOD(Phalcon_Forms_Element, addValidator){
 
 	zval *validator;
@@ -117,6 +136,11 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the validators registered for the element
+ *
+ * @return Phalcon\Validation\ValidatorInterface[]
+ */
 PHP_METHOD(Phalcon_Forms_Element, getValidators){
 
 
