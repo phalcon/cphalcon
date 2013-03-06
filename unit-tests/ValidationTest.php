@@ -427,6 +427,81 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($messages), 0);
 	}
 
+	public function testValidationExclusionIn()
+	{
+		$_POST = array();
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('status', new InclusionIn(array(
+			'domain' => array('A', 'I')
+		)));
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'InclusionIn',
+					'_message' => 'Value of field \'status\' must be part of list: A, I',
+					'_field' => 'status',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('status' => 'X');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('status' => 'A');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
+	}
+
+	public function testValidationExclusionInCustomMessage()
+	{
+		$_POST = array();
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('status', new InclusionIn(array(
+			'message' => 'The status must be A=Active or I=Inactive',
+			'domain' => array('A', 'I')
+		)));
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'InclusionIn',
+					'_message' => 'The status must be A=Active or I=Inactive',
+					'_field' => 'status',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('status' => 'x=1');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('status' => 'A');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
+	}
+
 	public function testValidationMixed()
 	{
 
