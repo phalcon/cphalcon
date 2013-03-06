@@ -22,7 +22,9 @@
  * so that we can send you a copy immediately.
  */
 
-class Phalcon_Test_Config
+namespace Phalcon\Test;
+
+class Config
 {
     public static function init()
     {
@@ -31,7 +33,7 @@ class Phalcon_Test_Config
                         'mysql'      => array(
                             'host'     => 'localhost',
                             'username' => 'root',
-                            'password' => '',
+                            'password' => '1234',
                             'dbname'   => 'phalcon_test',
                         ),
                         'postgresql' => array(

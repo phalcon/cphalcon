@@ -21,9 +21,11 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Test\Version;
+
 use \Phalcon\Version as Version;
 
-class Version_UnitTest extends Phalcon_Test_UnitTestCase
+class UnitTest extends \Phalcon\Test\UnitTestCase
 {
     /**
      * Tests the get

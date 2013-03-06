@@ -21,15 +21,17 @@
  * so that we can send you a copy immediately.
  */
 
-abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
+namespace Phalcon\Test;
+
+abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
 {
     // Holds the configuration variables and other stuff
     // I can use the DI container but for tests like the Translate
     // we do not need the overhead
-    protected $_config = array();
+    protected $config = array();
 
     // The Di container
-    protected $_di;
+    protected $di;
 
     /**
      * Sets the test up by loading the DI container and other stuff
@@ -44,7 +46,7 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
         $this->checkExtension('phalcon');
 
         // Set the config up
-        $this->_config = Phalcon_Test_Config::init();
+        $this->config = \Phalcon\Test\Config::init();
 
         // Reset the DI container
         \Phalcon\DI::reset();
@@ -55,8 +57,7 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
         // Set the URL
         $di->set(
             'url',
-            function()
-            {
+            function () {
                 $url = new \Phalcon\Mvc\Url();
                 $url->setBaseUri('/');
                 return $url;
@@ -65,12 +66,12 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
 
         $di->set(
             'escaper',
-            function(){
+            function () {
                 return new Phalcon\Escaper();
             }
         );
 
-        $this->_di = $di;
+        $this->di = $di;
     }
 
     /**
@@ -81,8 +82,7 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
      */
     public function checkExtension($extension)
     {
-        if (!extension_loaded($extension))
-        {
+        if (!extension_loaded($extension)) {
             $this->markTestSkipped("Warning: {$extension} extension is not loaded");
         }
     }
@@ -123,8 +123,7 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
 
         $actual = file_exists($file);
 
-        if ($actual)
-        {
+        if ($actual) {
             unlink($file);
         }
     }

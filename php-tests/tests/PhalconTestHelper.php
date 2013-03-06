@@ -23,37 +23,35 @@
  */
 
 $root = realpath(dirname(dirname(__FILE__)));
-define('ROOT_PATH',        $root);
-define('PATH_LIBRARY',     $root . '/library/');
-define('PATH_TESTS',       $root . '/tests/Phalcon/');
+define('ROOT_PATH', $root);
+define('PATH_LIBRARY', $root . '/library/');
+define('PATH_TESTS', $root . '/tests/Phalcon/');
 
-define('PATH_CONFIG',      $root . '/tests/app/var/config/');
-define('PATH_CACHE',       $root . '/tests/app/var/cache/');
-define('PATH_LOGS',        $root . '/tests/app/var/logs/');
+define('PATH_CONFIG', $root . '/tests/app/var/config/');
+define('PATH_CACHE', $root . '/tests/app/var/cache/');
+define('PATH_LOGS', $root . '/tests/app/var/logs/');
 
-define('PATH_MODELS',      $root . '/tests/app/models/');
-define('PATH_VIEWS',       $root . '/tests/app/views/');
+define('PATH_MODELS', $root . '/tests/app/models/');
+define('PATH_VIEWS', $root . '/tests/app/views/');
 define('PATH_CONTROLLERS', $root . '/tests/app/controllers/');
 
 define('PATH_COLLECTIONS', $root . '/tests/app/collections/');
-define('PATH_VENDORS',     $root . '/tests/app/vendor/');
-define('PATH_TASKS',       $root . '/tests/app/tasks/');
+define('PATH_VENDORS', $root . '/tests/app/vendor/');
+define('PATH_TASKS', $root . '/tests/app/tasks/');
 
 error_reporting(E_ALL);
 set_include_path(
-    ROOT_PATH . PATH_SEPARATOR .
-        get_include_path()
+    ROOT_PATH . PATH_SEPARATOR . get_include_path()
 );
 
 require_once ROOT_PATH . '/library/Phalcon/Test/UnitTestCase.php';
 
 // Register the autoloader
-spl_autoload_register('phalcon_test_autoloader');
+spl_autoload_register('phalconTestAutoloader');
 
-function phalcon_test_autoloader($className)
+function phalconTestAutoloader($className)
 {
-    if (strpos($className, '\\') > 0)
-    {
+    if (strpos($className, '\\') > 0) {
         $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
     }
 
@@ -70,10 +68,8 @@ function phalcon_test_autoloader($className)
     /**
      * Check the Library first, then the Models, then the controllers
      */
-    foreach ($paths as $path)
-    {
-        if (file_exists($path . $filename))
-        {
+    foreach ($paths as $path) {
+        if (file_exists($path . $filename)) {
             require_once $path . $filename;
             break;
         }
