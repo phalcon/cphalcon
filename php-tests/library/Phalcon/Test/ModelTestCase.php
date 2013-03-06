@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2012 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,10 +20,11 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Test;
+    
 use \Phalcon\Mvc\Model\Manager as PhModelManager;
 use \Phalcon\Events\Manager as PhEventsManager;
 use \Phalcon\Logger\Adapter\File as PhLogger;
-
 use \Phalcon\Db\Adapter\Pdo\Mysql as PhMysql;
 use \Phalcon\Session\Adapter\Files as PhSession;
 use \Phalcon\Cache\Frontend\Data as PhCacheFront;
@@ -38,14 +38,12 @@ use \Phalcon\Mvc\Model\Metadata\Memory as PhMetadataMemory;
 use \Phalcon\Mvc\Model\Metadata\Files as PhMetadataFiles;
 use \Phalcon\Exception as PhException;
 
-
-
-abstract class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
+abstract class ModelTestCase extends UnitTestCase
 {
     /**
      * Sets the test up by loading the DI container and other stuff
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-20
      */
     protected function setUp()
@@ -53,19 +51,17 @@ abstract class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
         parent::setUp();
 
         // Set Models manager
-        $this->_di->set(
+        $this->di->set(
             'modelsManager',
-            function()
-            {
+            function () {
                 return new PhModelManager();
             }
         );
 
         // Set Models metadata
-        $this->_di->set(
+        $this->di->set(
             'modelsMetadata',
-            function()
-            {
+            function () {
                 return new PhMetadataMemory();
             }
         );
@@ -79,27 +75,25 @@ abstract class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
      *
      * @param string $dbType Sets the database type for the test
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-20
      */
     protected function setDb($dbType = 'mysql')
     {
-        $config = $this->_config;
+        $config = $this->config;
 
-        if ($this->_di->has('db'))
-        {
-            $db = $this->_di->get('db');
-            if (get_class($db) == '\Phalcon\Db\Adapter\Pdo\\' . ucfirst($dbType))
-            {
+        if ($this->di->has('db')) {
+            $db    = $this->di->get('db');
+            $class = '\Phalcon\Db\Adapter\Pdo\\' . ucfirst($dbType);
+            if (get_class($db) == $class) {
                 return $db;
             }
         }
 
         // Set the connection to whatever we chose
-        $this->_di->set(
+        $this->di->set(
             'db',
-            function() use ($dbType, $config)
-            {
+            function () use ($dbType, $config) {
                 $params = $config['db'][$dbType];
                 $class  = '\Phalcon\Db\Adapter\Pdo\\' . ucfirst($dbType);
 
@@ -116,12 +110,12 @@ abstract class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
      *
      * @return boolean
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-08
      */
     public function emptyTable($table)
     {
-        $connection = $this->_di->get('db');
+        $connection = $this->di->get('db');
 
         $success = $connection->delete($table);
 
@@ -134,7 +128,7 @@ abstract class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
      * @param      $table
      * @param null $records
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-08
      */
     public function populateTable($table, $records = null)
@@ -142,12 +136,11 @@ abstract class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
         // Empty the table first
         $this->emptyTable($table);
 
-        $connection = $this->_di->get('db');
+        $connection = $this->di->get('db');
         $parts      = explode('_', $table);
         $suffix     = '';
 
-        foreach ($parts as $part)
-        {
+        foreach ($parts as $part) {
             $suffix .= ucfirst($part);
         }
 
@@ -155,8 +148,7 @@ abstract class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
 
         $data = $class::get($records);
 
-        foreach ($data as $record)
-        {
+        foreach ($data as $record) {
             $sql = "INSERT INTO {$table} VALUES " . $record;
             $connection->execute($sql);
         }

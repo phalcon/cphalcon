@@ -40,4 +40,4 @@ script: ./unit-tests/ci/run_script.sh
 notifications:
   email:
     - andres@phalconphp.com
-    - nikos@niden.net
+    - nikos@phalconphp.com

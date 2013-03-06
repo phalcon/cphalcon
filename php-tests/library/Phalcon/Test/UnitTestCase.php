@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2012 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -36,7 +35,7 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Sets the test up by loading the DI container and other stuff
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-30
      *
      * @return \Phalcon\DI
@@ -90,7 +89,7 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Returns a unique file name
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-30
      *
      * @param string $prefix    A prefix for the file
@@ -110,7 +109,7 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Removes a file from the system
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-30
      *
      * @param $path
