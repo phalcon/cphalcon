@@ -102,10 +102,6 @@ PHP_METHOD(Phalcon_DI, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_di_ce, this_ptr, SL("_services") TSRMLS_CC);
-	
-	phalcon_update_property_empty_array(phalcon_di_ce, this_ptr, SL("_sharedInstances") TSRMLS_CC);
-	
 	PHALCON_OBS_VAR(default_di);
 	phalcon_read_static_property(&default_di, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
 	if (!zend_is_true(default_di)) {

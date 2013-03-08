@@ -367,7 +367,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction){
 }
 
 /**
- * Sets table name which model should be mapped (deprecated)
+ * Sets table name which model should be mapped
  *
  * @param string $source
  * @return Phalcon\Mvc\Model
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSource){
 }
 
 /**
- * Sets schema name where table mapped is located (deprecated)
+ * Sets schema name where table mapped is located
  *
  * @param string $schema
  * @return Phalcon\Mvc\Model
