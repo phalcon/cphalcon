@@ -21,9 +21,13 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Test\Acl\Resource;
+
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
 use \Phalcon\Acl\Resource as AclResource;
 
-class Acl_Resource_UnitTest extends Phalcon_Test_UnitTestCase
+class UnitTest extends PhTestUnitTestCase
 {
     /**
      * Tests the creation of an Acl Resource (name)

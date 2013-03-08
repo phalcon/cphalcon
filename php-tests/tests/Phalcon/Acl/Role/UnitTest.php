@@ -21,9 +21,13 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Test\Acl\Role;
+
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
 use \Phalcon\Acl\Role as AclRole;
 
-class Acl_Role_UnitTest extends Phalcon_Test_UnitTestCase
+class UnitTest extends PhTestUnitTestCase
 {
     /**
      * Tests the creation of an Acl Role (name)
