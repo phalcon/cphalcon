@@ -21,9 +21,13 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Test\Escaper;
+
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
 use \Phalcon\Escaper as PhEscaper;
 
-class Escaper_UnitTest extends Phalcon_Test_UnitTestCase
+class UnitTest extends PhTestUnitTestCase
 {
     /**
      * Tests the escaper
