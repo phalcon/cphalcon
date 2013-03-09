@@ -38,6 +38,14 @@ PHALCON_INIT_CLASS(Phalcon_Validation_ValidatorInterface){
 }
 
 /**
+ * Checks if an option is defined
+ *
+ * @param string $key
+ * @return mixed
+ */
+PHALCON_DOC_METHOD(Phalcon_Validation_ValidatorInterface, isSetOption);
+
+/**
  * Returns an option in the validator's options
  * Returns null if the option hasn't been set
  *

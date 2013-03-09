@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 	 */
 	PHALCON_INIT_VAR(in_array);
 	PHALCON_CALL_FUNC_PARAMS_2(in_array, "in_array", value, domain);
-	if (!zend_is_true(in_array)) {
+	if (zend_is_true(in_array)) {
 	
 		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "message", 1);

@@ -77,7 +77,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_StringLength){
  */
 PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 
-	zval *validator, *attribute, *option = NULL, *field, *is_set_min;
+	zval *validator, *attribute, *option = NULL, *is_set_min;
 	zval *is_set_max, *value, *length = NULL, *invalid_maximum = NULL;
 	zval *invalid_minimum = NULL, *maximum, *message_str = NULL;
 	zval *type = NULL, *message = NULL, *minimum;
@@ -88,20 +88,10 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(option);
-	ZVAL_STRING(option, "field", 1);
-	
-	PHALCON_INIT_VAR(field);
-	PHALCON_CALL_METHOD_PARAMS_1(field, this_ptr, "getoption", option);
-	if (Z_TYPE_P(field) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
-		return;
-	}
-	
 	/** 
 	 * At least one of 'min' or 'max' must be set
 	 */
-	PHALCON_INIT_NVAR(option);
+	PHALCON_INIT_VAR(option);
 	ZVAL_STRING(option, "min", 1);
 	
 	PHALCON_INIT_VAR(is_set_min);
@@ -120,7 +110,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	}
 	
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", field);
+	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
 	
 	/** 
 	 * Check if mbstring is available to calculate the correct length
@@ -163,7 +153,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 			PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
 			if (!zend_is_true(message_str)) {
 				PHALCON_INIT_NVAR(message_str);
-				PHALCON_CONCAT_SVSVS(message_str, "Value of field '", field, "' exceeds the maximum ", maximum, " characters");
+				PHALCON_CONCAT_SVSVS(message_str, "Value of field '", attribute, "' exceeds the maximum ", maximum, " characters");
 			}
 	
 			PHALCON_INIT_VAR(type);
@@ -202,7 +192,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 			PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
 			if (!zend_is_true(message_str)) {
 				PHALCON_INIT_NVAR(message_str);
-				PHALCON_CONCAT_SVSVS(message_str, "Value of field '", field, "' is less than the minimum ", minimum, " characters");
+				PHALCON_CONCAT_SVSVS(message_str, "Value of field '", attribute, "' is less than the minimum ", minimum, " characters");
 			}
 	
 			PHALCON_INIT_NVAR(type);

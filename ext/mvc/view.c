@@ -888,17 +888,9 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 			PHALCON_INIT_NVAR(not_exists);
 			ZVAL_BOOL(not_exists, 0);
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-				phalcon_update_property_zval(this_ptr, SL("_activeRenderPath"), view_engine_path TSRMLS_CC);
-	
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "view:afterRenderView", 1);
-	
-				PHALCON_INIT_NVAR(status);
-				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr);
-				if (PHALCON_IS_FALSE(status)) {
-					zend_hash_move_forward_ex(ah0, &hp0);
-					continue;
-				}
+				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
 			}
 	
 			break;
@@ -908,6 +900,17 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	}
 	
 	if (PHALCON_IS_TRUE(not_exists)) {
+	
+		/** 
+		 * Notify about not found views
+		 */
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			phalcon_update_property_zval(this_ptr, SL("_activeRenderPath"), view_engine_path TSRMLS_CC);
+	
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "view:notFoundView", 1);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+		}
 		if (!zend_is_true(silence)) {
 			PHALCON_INIT_VAR(exception_message);
 			PHALCON_CONCAT_SVS(exception_message, "View '", views_dir_path, "' was not found in the views directory");
