@@ -3644,12 +3644,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
  *</code>
  *
  * @param array $data
+ * @param array $whiteList
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, save){
 
-	zval *data = NULL, *meta_data, *attributes, *attribute = NULL;
-	zval *value = NULL, *possible_setter = NULL, *write_connection;
+	zval *data = NULL, *white_list = NULL, *meta_data, *attributes;
+	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *write_connection;
 	zval *related, *status = NULL, *schema, *source, *table = NULL, *read_connection;
 	zval *exists, *empty_array, *identity_field;
 	zval *success = NULL;
@@ -3660,12 +3661,16 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &data) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &data, &white_list) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	if (!data) {
 		PHALCON_INIT_VAR(data);
+	}
+	
+	if (!white_list) {
+		PHALCON_INIT_VAR(white_list);
 	}
 	
 	PHALCON_INIT_VAR(meta_data);
@@ -3692,6 +3697,16 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 			PHALCON_GET_FOREACH_VALUE(attribute);
 	
 			if (phalcon_array_isset(data, attribute)) {
+	
+				/** 
+				 * If the white-list is an array check if the attribute is on that list
+				 */
+				if (Z_TYPE_P(white_list) == IS_ARRAY) { 
+					if (!phalcon_array_isset(white_list, attribute)) {
+						zend_hash_move_forward_ex(ah0, &hp0);
+						continue;
+					}
+				}
 	
 				/** 
 				 * We check if the field has a setter
@@ -3869,27 +3884,32 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
  *</code>
  *
  * @param array $data
+ * @param array $whiteList
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, create){
 
-	zval *data = NULL, *meta_data, *column_map = NULL, *attributes;
-	zval *attribute = NULL, *attribute_field = NULL, *exception_message = NULL;
-	zval *value = NULL, *possible_setter = NULL, *read_connection;
-	zval *exists, *field, *type, *message, *model_message;
-	zval *messages, *success;
+	zval *data = NULL, *white_list = NULL, *meta_data, *column_map = NULL;
+	zval *attributes, *attribute = NULL, *attribute_field = NULL;
+	zval *exception_message = NULL, *value = NULL, *possible_setter = NULL;
+	zval *read_connection, *exists, *field, *type, *message;
+	zval *model_message, *messages, *success;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &data) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &data, &white_list) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	if (!data) {
 		PHALCON_INIT_VAR(data);
+	}
+	
+	if (!white_list) {
+		PHALCON_INIT_VAR(white_list);
 	}
 	
 	PHALCON_INIT_VAR(meta_data);
@@ -3945,6 +3965,16 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 			 * Check if we there is data for the field
 			 */
 			if (phalcon_array_isset(data, attribute_field)) {
+	
+				/** 
+				 * If the white-list is an array check if the attribute is on that list
+				 */
+				if (Z_TYPE_P(white_list) == IS_ARRAY) { 
+					if (!phalcon_array_isset(white_list, attribute_field)) {
+						zend_hash_move_forward_ex(ah0, &hp0);
+						continue;
+					}
+				}
 	
 				/** 
 				 * The value in the array passed
@@ -4025,27 +4055,33 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
  *</code>
  *
  * @param array $data
+ * @param array $whiteList
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, update){
 
-	zval *data = NULL, *meta_data = NULL, *column_map = NULL, *attributes;
-	zval *attribute = NULL, *attribute_field = NULL, *exception_message = NULL;
-	zval *value = NULL, *possible_setter = NULL, *dirty_state;
-	zval *read_connection, *exists, *field, *type, *message;
-	zval *model_message, *messages, *success;
+	zval *data = NULL, *white_list = NULL, *meta_data = NULL, *column_map = NULL;
+	zval *attributes, *attribute = NULL, *attribute_field = NULL;
+	zval *exception_message = NULL, *value = NULL, *possible_setter = NULL;
+	zval *dirty_state, *read_connection, *exists;
+	zval *field, *type, *message, *model_message, *messages;
+	zval *success;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &data) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &data, &white_list) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	if (!data) {
 		PHALCON_INIT_VAR(data);
+	}
+	
+	if (!white_list) {
+		PHALCON_INIT_VAR(white_list);
 	}
 	
 	PHALCON_INIT_VAR(meta_data);
@@ -4103,9 +4139,25 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 			 */
 			if (phalcon_array_isset(data, attribute_field)) {
 	
+				/** 
+				 * If the white-list is an array check if the attribute is on that list
+				 */
+				if (Z_TYPE_P(white_list) == IS_ARRAY) { 
+					if (!phalcon_array_isset(white_list, attribute_field)) {
+						zend_hash_move_forward_ex(ah0, &hp0);
+						continue;
+					}
+				}
+	
+				/** 
+				 * Reads the attribute from the data
+				 */
 				PHALCON_OBS_NVAR(value);
 				phalcon_array_fetch(&value, data, attribute_field, PH_NOISY_CC);
 	
+				/** 
+				 * Try to find a possible getter
+				 */
 				PHALCON_INIT_NVAR(possible_setter);
 				PHALCON_CONCAT_SV(possible_setter, "set", attribute_field);
 				if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {

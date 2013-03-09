@@ -34,11 +34,12 @@
 
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 
 /**
  * Phalcon\Forms\Element
  *
- * This is a base class for elements of forms
+ * This is a base class for form elements
  */
 
 
@@ -145,5 +146,21 @@ PHP_METHOD(Phalcon_Forms_Element, getValidators){
 
 
 	RETURN_MEMBER(this_ptr, "_validators");
+}
+
+/**
+ * Magic method __toString renders the widget without atttributes
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Forms_Element, __toString){
+
+	zval *content;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(content);
+	PHALCON_CALL_METHOD(content, this_ptr, "render");
+	RETURN_CCTOR(content);
 }
 

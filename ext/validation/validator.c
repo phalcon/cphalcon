@@ -87,8 +87,8 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct){
 }
 
 /**
- * Returns an option in the validator's option
- * Returns null if the option hasn't been passed
+ * Returns an option in the validator's options
+ * Returns null if the option hasn't been set
  *
  * @param string $key
  * @return mixed
