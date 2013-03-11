@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,14 +20,18 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Logger as PhLg;
-use \Phalcon\Logger\Exception as PhLgEx;
-use \Phalcon\Logger\Adapter\File as PhFLg;
-use \Phalcon\Logger\Formatter\Line as PhFfl;
+namespace Phalcon\Test\Logger\Adapter\File;
 
-class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
+use \Phalcon\Logger as PhLogger;
+use \Phalcon\Logger\Exception as PhLoggerException;
+use \Phalcon\Logger\Adapter\File as PhLoggerAdapterFile;
+use \Phalcon\Logger\Formatter\Line as PhLoggerFormatterLine;
+
+class UnitTest extends PhTestUnitTestCase
 {
-    private $_logPath = '';
+    private $logPath = '';
 
     /**
      * Initialization of variables etc.
@@ -39,26 +42,26 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     {
         parent::setUp();
 
-        $this->_logPath = PATH_LOGS;
+        $this->logPath = PATH_LOGS;
     }
 
     /**
      * Tests the creation of the log file
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testLogCreationDefault()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->log('Hello');
         $logger->close();
 
-        $actual = file_exists($this->_logPath . $fileName);
+        $actual = file_exists($this->logPath . $fileName);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertTrue($actual, 'File was not correctly created');
     }
@@ -66,7 +69,7 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests the creation of the log file +w
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testLogCreationWrite()
@@ -75,18 +78,18 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
         $params   = array('mode' => 'w');
 
         // First create one log entry
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->log('Hello');
         $logger->close();
 
         // Now open the logger with w and add something else
-        $logger = new PhFLg($this->_logPath . $fileName, $params);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName, $params);
         $logger->log('New Contents');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $found = strpos($contents[0], 'New Contents');
 
@@ -99,7 +102,7 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests if opening the file with r and logging throws exception
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testLogOpenReadThrowsException()
@@ -109,24 +112,24 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
         $run      = false;
 
         // First create one log entry
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->log('Hello');
         $logger->close();
 
         try {
             // Now open the logger with r and add something else
-            $logger = new PhFLg($this->_logPath . $fileName, $params);
+            $logger = new PhLoggerAdapterFile($this->logPath . $fileName, $params);
             $logger->log('New Contents');
             $logger->close();
 
             // If we are here something is wrong
             $run = false;
-        } catch (PhLgEx $e) {
+        } catch (PhLoggerException $e) {
             // This is where we need to be
         }
 
         // Just in case
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertFalse(
             $run,
@@ -142,23 +145,23 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests how many lines the file has on creation
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testLogNumberOfMessagesLogged()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->log('Hello');
         $logger->log('Goodbye');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 2;
         $actual   = count($contents);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,
@@ -170,18 +173,18 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests default logging uses DEBUG
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testLogDefaultLoggingUsesDebug()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->log('Hello');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[DEBUG]');
         $this->assertTrue(
@@ -195,24 +198,24 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Default logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests ERROR logging
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testLogErrorLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
-        $logger->log('Hello', PhLg::ERROR);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger->log('Hello', PhLogger::ERROR);
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[ERROR]');
         $this->assertTrue(
@@ -226,24 +229,24 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Error logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests DEBUG logging
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testLogDebugLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
-        $logger->log('Hello', PhLg::DEBUG);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger->log('Hello', PhLogger::DEBUG);
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[DEBUG]');
         $this->assertTrue(
@@ -257,24 +260,24 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Debug logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests NOTICE logging
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testLogNoticeLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
-        $logger->log('Hello', PhLg::NOTICE);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger->log('Hello', PhLogger::NOTICE);
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[NOTICE]');
         $this->assertTrue(
@@ -288,24 +291,24 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Notice logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests INFO logging
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testLogInfoLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
-        $logger->log('Hello', PhLg::INFO);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger->log('Hello', PhLogger::INFO);
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[INFO]');
         $this->assertTrue(
@@ -319,24 +322,24 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Info logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests WARNING logging
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testLogWarningLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
-        $logger->log('Hello', PhLg::WARNING);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger->log('Hello', PhLogger::WARNING);
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[WARNING]');
         $this->assertTrue(
@@ -350,24 +353,24 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Warning logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests ALERT logging
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testLogAlertLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
-        $logger->log('Hello', PhLg::ALERT);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger->log('Hello', PhLogger::ALERT);
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[ALERT]');
         $this->assertTrue(
@@ -381,30 +384,30 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Alert logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests multiple log levels
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testLogMultipleLogLevelsSetProperly()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
-        $logger->log('Hello Debug', PhLg::DEBUG);
-        $logger->log('Hello Notice', PhLg::NOTICE);
-        $logger->log('Hello Error', PhLg::ERROR);
-        $logger->log('Hello Alert', PhLg::ALERT);
-        $logger->log('Hello Warning', PhLg::WARNING);
-        $logger->log('Hello Info', PhLg::INFO);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
+        $logger->log('Hello Debug', PhLogger::DEBUG);
+        $logger->log('Hello Notice', PhLogger::NOTICE);
+        $logger->log('Hello Error', PhLogger::ERROR);
+        $logger->log('Hello Alert', PhLogger::ALERT);
+        $logger->log('Hello Warning', PhLogger::WARNING);
+        $logger->log('Hello Info', PhLogger::INFO);
         $logger->log('Hello Default');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         // First entry - Debug
         $found = strpos($contents[0], '[DEBUG]');
@@ -455,26 +458,26 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
         $found = strpos($contents[6], 'Hello Default');
         $this->assertTrue($found !== FALSE);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests the creation of the log file with debug()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testDebugCreationOfLogFile()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->debug('Hello');
         $logger->close();
 
-        $actual = file_exists($this->_logPath . $fileName);
+        $actual = file_exists($this->logPath . $fileName);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertTrue($actual, 'File was not correctly created');
     }
@@ -482,23 +485,23 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests how many lines the file has on creation with debug()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testDebugNumberOfMessagesLogged()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->debug('Hello');
         $logger->debug('Goodbye');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 2;
         $actual   = count($contents);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,
@@ -510,18 +513,18 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests DEBUG logging with debug()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testDebugLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->debug('Hello');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[DEBUG]');
         $this->assertTrue(
@@ -535,26 +538,26 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Debug logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests the creation of the log file with error()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testErrorCreationOfLogFile()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->error('Hello');
         $logger->close();
 
-        $actual = file_exists($this->_logPath . $fileName);
+        $actual = file_exists($this->logPath . $fileName);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertTrue($actual, 'File was not correctly created');
     }
@@ -562,23 +565,23 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests how many lines the file has on creation with error()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testErrorNumberOfMessagesLogged()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->error('Hello');
         $logger->error('Goodbye');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 2;
         $actual   = count($contents);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,
@@ -590,18 +593,18 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests ERROR logging with error()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testErrorLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->error('Hello');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[ERROR]');
         $this->assertTrue(
@@ -615,26 +618,26 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Error logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests the creation of the log file with info()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testInfoCreationOfLogFile()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->info('Hello');
         $logger->close();
 
-        $actual = file_exists($this->_logPath . $fileName);
+        $actual = file_exists($this->logPath . $fileName);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertTrue($actual, 'File was not correctly created');
     }
@@ -642,23 +645,23 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests how many lines the file has on creation with info()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testInfoNumberOfMessagesLogged()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->info('Hello');
         $logger->info('Goodbye');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 2;
         $actual   = count($contents);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,
@@ -670,18 +673,18 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests ERROR logging with info()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testInfoLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->info('Hello');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[INFO]');
         $this->assertTrue(
@@ -695,26 +698,26 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Info logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests the creation of the log file with notice()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testNoticeCreationOfLogFile()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->notice('Hello');
         $logger->close();
 
-        $actual = file_exists($this->_logPath . $fileName);
+        $actual = file_exists($this->logPath . $fileName);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertTrue($actual, 'File was not correctly created');
     }
@@ -722,23 +725,23 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests how many lines the file has on creation with notice()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testNoticeNumberOfMessagesLogged()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->notice('Hello');
         $logger->notice('Goodbye');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 2;
         $actual   = count($contents);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,
@@ -750,18 +753,18 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests NOTICE logging with notice()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testNoticeLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->notice('Hello');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[NOTICE]');
         $this->assertTrue(
@@ -775,26 +778,26 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Notice logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests the creation of the log file with warning()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testWarningCreationOfLogFile()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->warning('Hello');
         $logger->close();
 
-        $actual = file_exists($this->_logPath . $fileName);
+        $actual = file_exists($this->logPath . $fileName);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertTrue($actual, 'File was not correctly created');
     }
@@ -802,23 +805,23 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests how many lines the file has on creation with warning()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testWarningNumberOfMessagesLogged()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->warning('Hello');
         $logger->warning('Goodbye');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 2;
         $actual   = count($contents);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,
@@ -830,18 +833,18 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests WARNING logging with warning()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testWarningLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->warning('Hello');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[WARNING]');
         $this->assertTrue(
@@ -855,26 +858,26 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Warning logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests the creation of the log file with alert()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testAlertCreationOfLogFile()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->alert('Hello');
         $logger->close();
 
-        $actual = file_exists($this->_logPath . $fileName);
+        $actual = file_exists($this->logPath . $fileName);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertTrue($actual, 'File was not correctly created');
     }
@@ -882,23 +885,23 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests how many lines the file has on creation with alert()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testAlertNumberOfMessagesLogged()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->alert('Hello');
         $logger->alert('Goodbye');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 2;
         $actual   = count($contents);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,
@@ -910,18 +913,18 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests ALERT logging with alert()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testAlertLogging()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->alert('Hello');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
 
         $found = strpos($contents[0], '[ALERT]');
         $this->assertTrue(
@@ -935,18 +938,18 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
             'Alert logging does not set correct message'
         );
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
     }
 
     /**
      * Tests set/getFormat
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testSetGetFormat()
     {
-        $formatter = new PhFfl();
+        $formatter = new PhLoggerFormatterLine();
 
         $format = '%type%|%date%|%message%';
         $formatter->setFormat($format);
@@ -965,24 +968,24 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests new format logs correctly
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testNewFormatLogsCorrectly()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
 
-        $formatter = new PhFfl('%type%|%date%|%message%');
+        $formatter = new PhLoggerFormatterLine('%type%|%date%|%message%');
 
         $logger->setFormatter($formatter);
         $logger->log('Hello');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $message  = explode('|', $contents[0]);
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             'DEBUG',
@@ -999,26 +1002,26 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests new format logs correctly
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-17
      */
     public function testNewFormatFormatsDateCorrectly()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
 
-        $formatter = new PhFfl('%type%|%date%|%message%');
+        $formatter = new PhLoggerFormatterLine('%type%|%date%|%message%');
 
         $logger->setFormatter($formatter);
         $logger->log('Hello');
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $message  = explode('|', $contents[0]);
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
-        $date = new DateTime($message[1]);
+        $date = new \DateTime($message[1]);
 
         $expected = date('Y-m-d H');
         $actual   = $date->format('Y-m-d H');
@@ -1033,17 +1036,17 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests the begin/commit
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testCommit()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->log('Hello');
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 1;
         $actual   = count($contents);
 
@@ -1063,11 +1066,11 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
 
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 4;
         $actual   = count($contents);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,
@@ -1079,17 +1082,17 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests the begin/rollback
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testRollback()
     {
         $fileName = $this->getFileName('log', 'log');
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $logger = new PhLoggerAdapterFile($this->logPath . $fileName);
         $logger->log('Hello');
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 1;
         $actual   = count($contents);
 
@@ -1109,11 +1112,11 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
 
         $logger->close();
 
-        $contents = file($this->_logPath . $fileName);
+        $contents = file($this->logPath . $fileName);
         $expected = 1;
         $actual   = count($contents);
 
-        $this->cleanFile($this->_logPath, $fileName);
+        $this->cleanFile($this->logPath, $fileName);
 
         $this->assertEquals(
             $expected,

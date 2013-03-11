@@ -45,7 +45,7 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
         $this->checkExtension('phalcon');
 
         // Set the config up
-        $this->config = \Phalcon\Test\Config::init();
+        $this->config = Config::init();
 
         // Reset the DI container
         \Phalcon\DI::reset();
@@ -66,7 +66,7 @@ abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
         $di->set(
             'escaper',
             function () {
-                return new Phalcon\Escaper();
+                return new \Phalcon\Escaper();
             }
         );
 

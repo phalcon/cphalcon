@@ -26,9 +26,13 @@ define('ROOT_PATH', $root);
 define('PATH_LIBRARY', $root . '/library/');
 define('PATH_TESTS', $root . '/tests/Phalcon/');
 
-define('PATH_CONFIG', $root . '/tests/app/var/config/');
-define('PATH_CACHE', $root . '/tests/app/var/cache/');
-define('PATH_LOGS', $root . '/tests/app/var/logs/');
+define('PATH_CONFIG', $root . '/tests/var/config/');
+define('PATH_CACHE', $root . '/tests/var/cache/');
+define('PATH_LOGS', $root . '/tests/var/logs/');
+
+define('PATH_MICRO', $root . '/tests/app_micro/');
+define('PATH_SINGLE', $root . '/tests/app_single/');
+define('PATH_MULTI', $root . '/tests/app_multi/');
 
 define('PATH_MODELS', $root . '/tests/app/models/');
 define('PATH_VIEWS', $root . '/tests/app/views/');

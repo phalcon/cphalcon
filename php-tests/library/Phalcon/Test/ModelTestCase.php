@@ -144,7 +144,7 @@ abstract class ModelTestCase extends UnitTestCase
             $suffix .= ucfirst($part);
         }
 
-        $class = 'Phalcon_Test_Fixtures_' . $suffix;
+        $class = 'Phalcon\Test\Fixtures\\' . $suffix;
 
         $data = $class::get($records);
 
