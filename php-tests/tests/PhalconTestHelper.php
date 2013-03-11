@@ -55,7 +55,8 @@ function phalconTestAutoloader($className)
         $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
     }
 
-    $filename = str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
+    $filename = $className . '.php';
+
     $paths    = array(
         PATH_LIBRARY,
         PATH_TESTS,
@@ -69,8 +70,15 @@ function phalconTestAutoloader($className)
      * Check the Library first, then the Models, then the controllers
      */
     foreach ($paths as $path) {
-        if (file_exists($path . $filename)) {
-            require_once $path . $filename;
+        if ($path == PATH_TESTS) {
+            $fullFile = $path . str_replace('Phalcon/Test/', '', $filename);
+        } else {
+            $fullFile = $path . $filename;
+        }
+
+        error_log($fullFile . PHP_EOL, 3, '/home/ndimopoulos/err.log');
+        if (file_exists($fullFile)) {
+            require_once $fullFile;
             break;
         }
     }
