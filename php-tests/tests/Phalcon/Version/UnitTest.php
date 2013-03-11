@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -23,14 +22,16 @@
 
 namespace Phalcon\Test\Version;
 
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
 use \Phalcon\Version as Version;
 
-class UnitTest extends \Phalcon\Test\UnitTestCase
+class UnitTest extends PhTestUnitTestCase
 {
     /**
      * Tests the get
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testGet()
@@ -43,7 +44,7 @@ class UnitTest extends \Phalcon\Test\UnitTestCase
     /**
      * Tests the getId()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testGetId()
@@ -56,7 +57,7 @@ class UnitTest extends \Phalcon\Test\UnitTestCase
     /**
      * Tests the get() translation to getId()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testGetToGetId()
@@ -93,7 +94,7 @@ class UnitTest extends \Phalcon\Test\UnitTestCase
     /**
      * Tests the getId() translation to get()
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testGetIdToGet()
@@ -118,7 +119,7 @@ class UnitTest extends \Phalcon\Test\UnitTestCase
     /**
      * Translates a special version (ALPHA, BETA, RC) to a version number
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      *
      * @param $input
@@ -149,7 +150,7 @@ class UnitTest extends \Phalcon\Test\UnitTestCase
     /**
      * Translates a number to a special version string (ALPHA, BETA, RC)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      *
      * @param $number
