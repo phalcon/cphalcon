@@ -10,7 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -20,14 +20,18 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Security as Security;
+namespace Phalcon\Test\Security;
 
-class Security_UnitTest extends Phalcon_Test_UnitTestCase
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
+use \Phalcon\Security as PhSecurity;
+
+class UnitTest extends PhTestUnitTestCase
 {
     /**
      * Tests the hash for the security component
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2013-03-02
      */
     public function testHash()
@@ -38,7 +42,7 @@ class Security_UnitTest extends Phalcon_Test_UnitTestCase
             return;
         }
 
-        $security = new Security();
+        $security = new PhSecurity();
 
         for ($i = 8; $i < 12; $i++) {
             $hash = $security->hash('a', $i);
