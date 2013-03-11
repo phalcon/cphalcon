@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -32,7 +31,7 @@ class UnitTest extends PhTestUnitTestCase
     /**
      * Tests the creation of an Acl Resource (name)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testAclResourceName()
@@ -60,7 +59,7 @@ class UnitTest extends PhTestUnitTestCase
     /**
      * Tests the creation of an Acl Resource (name / description)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testAclResourceNameDescription()

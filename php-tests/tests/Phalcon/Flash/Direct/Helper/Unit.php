@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2012 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,15 +20,18 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Flash\Direct as Flash;
+namespace Phalcon\Test\Flash\Direct\Helper;
 
-class Flash_Direct_Helper_Unit extends Phalcon_Test_UnitTestCase
+use \Phalcon\Flash\Direct as PhFlash;
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
+class Unit extends PhTestUnitTestCase
 {
 
-    private $_notImplicit = false;
-    private $_notHtml     = false;
-    private $_classes     = null;
-    private $_default     = array(
+    private $notImplicit = false;
+    private $notHtml     = false;
+    private $classes     = null;
+    private $default     = array(
                                 'success' => 'successMessage',
                                 'notice'  => 'noticeMessage',
                                 'warning' => 'warningMessage',
@@ -41,428 +43,428 @@ class Flash_Direct_Helper_Unit extends Phalcon_Test_UnitTestCase
      * 
      * @param $classes
      * 
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     protected function setClasses($classes)
     {
-        $this->_classes = $classes;
+        $this->classes = $classes;
     }
 
     /**
      * Tests error (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testErrorStringImplicitFlushHtml()
     {
-        $this->_stringTest('error');
+        $this->stringTest('error');
     }
 
     /**
      * Tests success (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testSuccessStringImplicitFlushHtml()
     {
-        $this->_stringTest('success');
+        $this->stringTest('success');
     }
 
     /**
      * Tests notice (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testNoticeStringImplicitFlushHtml()
     {
-        $this->_stringTest('notice');
+        $this->stringTest('notice');
     }
 
     /**
      * Tests warning (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testWarningStringImplicitFlushHtml()
     {
-        $this->_stringTest('warning');
+        $this->stringTest('warning');
     }
 
     /**
      * Tests error array of messages (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testErrorArrayImplicitFlushHtml()
     {
-        $this->_arrayTest('error');
+        $this->arrayTest('error');
     }
 
     /**
      * Tests success array of messages (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testSuccessArrayImplicitFlushHtml()
     {
-        $this->_arrayTest('success');
+        $this->arrayTest('success');
     }
 
     /**
      * Tests notice array of messages (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testNoticeArrayImplicitFlushHtml()
     {
-        $this->_arrayTest('notice');
+        $this->arrayTest('notice');
     }
 
     /**
      * Tests warning array of messages (implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testWarningArrayImplicitFlushHtml()
     {
-        $this->_arrayTest('warning');
+        $this->arrayTest('warning');
     }
 
     /**
      * Tests error (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testErrorStringNoImplicitFlushHtml()
     {
-        $this->_notImplicit = true;
-        $this->_stringTest('error');
-        $this->_notImplicit = false;
+        $this->notImplicit = true;
+        $this->stringTest('error');
+        $this->notImplicit = false;
     }
 
     /**
      * Tests success (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testSuccessStringNoImplicitFlushHtml()
     {
-        $this->_notImplicit = true;
-        $this->_stringTest('success');
-        $this->_notImplicit = false;
+        $this->notImplicit = true;
+        $this->stringTest('success');
+        $this->notImplicit = false;
     }
 
     /**
      * Tests notice (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testNoticeStringNoImplicitFlushHtml()
     {
-        $this->_notImplicit = true;
-        $this->_stringTest('notice');
-        $this->_notImplicit = false;
+        $this->notImplicit = true;
+        $this->stringTest('notice');
+        $this->notImplicit = false;
     }
 
     /**
      * Tests warning (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testWarningStringNoImplicitFlushHtml()
     {
-        $this->_notImplicit = true;
-        $this->_stringTest('warning');
-        $this->_notImplicit = false;
+        $this->notImplicit = true;
+        $this->stringTest('warning');
+        $this->notImplicit = false;
     }
 
     /**
      * Tests error array of messages (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testErrorArrayNoImplicitFlushHtml()
     {
-        $this->_notImplicit = true;
-        $this->_arrayTest('error');
-        $this->_notImplicit = false;
+        $this->notImplicit = true;
+        $this->arrayTest('error');
+        $this->notImplicit = false;
     }
 
     /**
      * Tests success array of messages (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testSuccessArrayNoImplicitFlushHtml()
     {
-        $this->_notImplicit = true;
-        $this->_arrayTest('success');
-        $this->_notImplicit = false;
+        $this->notImplicit = true;
+        $this->arrayTest('success');
+        $this->notImplicit = false;
     }
 
     /**
      * Tests notice array of messages (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testNoticeArrayNoImplicitFlushHtml()
     {
-        $this->_notImplicit = true;
-        $this->_arrayTest('notice');
-        $this->_notImplicit = false;
+        $this->notImplicit = true;
+        $this->arrayTest('notice');
+        $this->notImplicit = false;
     }
 
     /**
      * Tests warning array of messages (no implicit flush)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testWarningArrayNoImplicitFlushHtml()
     {
-        $this->_notImplicit = true;
-        $this->_arrayTest('warning');
-        $this->_notImplicit = false;
+        $this->notImplicit = true;
+        $this->arrayTest('warning');
+        $this->notImplicit = false;
     }
 
     /**
      * Tests error (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testErrorStringImplicitFlushNoHtml()
     {
-        $this->_notHtml = true;
-        $this->_stringTest('error');
-        $this->_notHtml = false;
+        $this->notHtml = true;
+        $this->stringTest('error');
+        $this->notHtml = false;
     }
 
     /**
      * Tests success (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testSuccessStringImplicitFlushNoHtml()
     {
-        $this->_notHtml = true;
-        $this->_stringTest('success');
-        $this->_notHtml = false;
+        $this->notHtml = true;
+        $this->stringTest('success');
+        $this->notHtml = false;
     }
 
     /**
      * Tests notice (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testNoticeStringImplicitFlushNoHtml()
     {
-        $this->_notHtml = true;
-        $this->_stringTest('notice');
-        $this->_notHtml = false;
+        $this->notHtml = true;
+        $this->stringTest('notice');
+        $this->notHtml = false;
     }
 
     /**
      * Tests warning (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testWarningStringImplicitFlushNoHtml()
     {
-        $this->_notHtml = true;
-        $this->_stringTest('warning');
-        $this->_notHtml = false;
+        $this->notHtml = true;
+        $this->stringTest('warning');
+        $this->notHtml = false;
     }
 
     /**
      * Tests error array of messages (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testErrorArrayImplicitFlushNoHtml()
     {
-        $this->_notHtml = true;
-        $this->_arrayTest('error');
-        $this->_notHtml = false;
+        $this->notHtml = true;
+        $this->arrayTest('error');
+        $this->notHtml = false;
     }
 
     /**
      * Tests success array of messages (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testSuccessArrayImplicitFlushNoHtml()
     {
-        $this->_notHtml = true;
-        $this->_arrayTest('success');
-        $this->_notHtml = false;
+        $this->notHtml = true;
+        $this->arrayTest('success');
+        $this->notHtml = false;
     }
 
     /**
      * Tests notice array of messages (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testNoticeArrayImplicitFlushNoHtml()
     {
-        $this->_notHtml = true;
-        $this->_arrayTest('notice');
-        $this->_notHtml = false;
+        $this->notHtml = true;
+        $this->arrayTest('notice');
+        $this->notHtml = false;
     }
 
     /**
      * Tests warning array of messages (implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testWarningArrayImplicitFlushNoHtml()
     {
-        $this->_notHtml = true;
-        $this->_arrayTest('warning');
-        $this->_notHtml = false;
+        $this->notHtml = true;
+        $this->arrayTest('warning');
+        $this->notHtml = false;
     }
 
     /**
      * Tests error (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testErrorStringNoImplicitFlushNoHtml()
     {
-        $this->_notHtml     = true;
-        $this->_notImplicit = true;
-        $this->_stringTest('error');
-        $this->_notHtml     = false;
-        $this->_notImplicit = false;
+        $this->notHtml     = true;
+        $this->notImplicit = true;
+        $this->stringTest('error');
+        $this->notHtml     = false;
+        $this->notImplicit = false;
     }
 
     /**
      * Tests success (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testSuccessStringNoImplicitFlushNoHtml()
     {
-        $this->_notHtml     = true;
-        $this->_notImplicit = true;
-        $this->_stringTest('success');
-        $this->_notHtml     = false;
-        $this->_notImplicit = false;
+        $this->notHtml     = true;
+        $this->notImplicit = true;
+        $this->stringTest('success');
+        $this->notHtml     = false;
+        $this->notImplicit = false;
     }
 
     /**
      * Tests notice (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testNoticeStringNoImplicitFlushNoHtml()
     {
-        $this->_notHtml     = true;
-        $this->_notImplicit = true;
-        $this->_stringTest('notice');
-        $this->_notHtml     = false;
-        $this->_notImplicit = false;
+        $this->notHtml     = true;
+        $this->notImplicit = true;
+        $this->stringTest('notice');
+        $this->notHtml     = false;
+        $this->notImplicit = false;
     }
 
     /**
      * Tests warning (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testWarningStringNoImplicitFlushNoHtml()
     {
-        $this->_notHtml     = true;
-        $this->_notImplicit = true;
-        $this->_stringTest('warning');
-        $this->_notHtml     = false;
-        $this->_notImplicit = false;
+        $this->notHtml     = true;
+        $this->notImplicit = true;
+        $this->stringTest('warning');
+        $this->notHtml     = false;
+        $this->notImplicit = false;
     }
 
     /**
      * Tests error array of messages (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testErrorArrayNoImplicitFlushNoHtml()
     {
-        $this->_notHtml     = true;
-        $this->_notImplicit = true;
-        $this->_arrayTest('error');
-        $this->_notHtml     = false;
-        $this->_notImplicit = false;
+        $this->notHtml     = true;
+        $this->notImplicit = true;
+        $this->arrayTest('error');
+        $this->notHtml     = false;
+        $this->notImplicit = false;
     }
 
     /**
      * Tests success array of messages (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testSuccessArrayNoImplicitFlushNoHtml()
     {
-        $this->_notHtml     = true;
-        $this->_notImplicit = true;
-        $this->_arrayTest('success');
-        $this->_notHtml     = false;
-        $this->_notImplicit = false;
+        $this->notHtml     = true;
+        $this->notImplicit = true;
+        $this->arrayTest('success');
+        $this->notHtml     = false;
+        $this->notImplicit = false;
     }
 
     /**
      * Tests notice array of messages (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testNoticeArrayNoImplicitFlushNoHtml()
     {
-        $this->_notHtml     = true;
-        $this->_notImplicit = true;
-        $this->_arrayTest('notice');
-        $this->_notHtml     = false;
-        $this->_notImplicit = false;
+        $this->notHtml     = true;
+        $this->notImplicit = true;
+        $this->arrayTest('notice');
+        $this->notHtml     = false;
+        $this->notImplicit = false;
     }
 
     /**
      * Tests warning array of messages (no implicit flush no html)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testWarningArrayNoImplicitFlushNoHtml()
     {
-        $this->_notHtml     = true;
-        $this->_notImplicit = true;
-        $this->_arrayTest('warning');
-        $this->_notHtml     = false;
-        $this->_notImplicit = false;
+        $this->notHtml     = true;
+        $this->notImplicit = true;
+        $this->arrayTest('warning');
+        $this->notHtml     = false;
+        $this->notImplicit = false;
     }
 
     /**
@@ -473,22 +475,19 @@ class Flash_Direct_Helper_Unit extends Phalcon_Test_UnitTestCase
      *
      * @return string
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
-    private function _getClass($key)
+    private function getClass($key)
     {
         $template = ' class="%s"';
 
-        if ($this->_classes === array())
-        {
+        if ($this->classes === array()) {
             $class = '';
-        }
-        else
-        {
-            $classes = (is_null($this->_classes)) ?
-                        $this->_default           :
-                        $this->_classes;
+        } else {
+            $classes = (is_null($this->classes)) ?
+                        $this->default           :
+                        $this->classes;
             $class = sprintf($template, $classes[$key]);
         }
 
@@ -505,10 +504,10 @@ class Flash_Direct_Helper_Unit extends Phalcon_Test_UnitTestCase
      *
      * @return string
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
-    private function _getObResponse($flash, $function, $message)
+    private function getObResponse($flash, $function, $message)
     {
         ob_start();
         $flash->$function($message);
@@ -523,39 +522,33 @@ class Flash_Direct_Helper_Unit extends Phalcon_Test_UnitTestCase
      *
      * @param $function
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
-    private function _stringTest($function)
+    private function stringTest($function)
     {
-        $flash    = new Flash($this->_classes);
-        $class    = $this->_getClass($function);
+        $flash    = new PhFlash($this->classes);
+        $class    = $this->getClass($function);
         $implicit = '';
         $html     = '';
         $template = '<div%s>%s</div>' . PHP_EOL;
         $message  = 'sample message';
 
-        if ($this->_notHtml)
-        {
+        if ($this->notHtml) {
             $flash->setAutomaticHtml(false);
             $html     = ' no HTML';
             $expected = $message;
-        }
-        else
-        {
+        } else {
             $expected = sprintf($template, $class, $message);
         }
 
 
-        if ($this->_notImplicit)
-        {
+        if ($this->notImplicit) {
             $flash->setImplicitFlush(false);
             $implicit = ' no implicit';
             $actual   = $flash->$function($message);
-        }
-        else
-        {
-            $actual = $this->_getObResponse($flash, $function, $message);
+        } else {
+            $actual = $this->getObResponse($flash, $function, $message);
         }
 
         $this->assertEquals(
@@ -570,13 +563,13 @@ class Flash_Direct_Helper_Unit extends Phalcon_Test_UnitTestCase
      *
      * @param $function
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
-    private function _arrayTest($function)
+    private function arrayTest($function)
     {
-        $flash    = new Flash($this->_classes);
-        $class    = $this->_getClass($function);
+        $flash    = new PhFlash($this->classes);
+        $class    = $this->getClass($function);
         $implicit = '';
         $html     = '';
         $template = '<div%s>%s</div>' . PHP_EOL;
@@ -585,28 +578,22 @@ class Flash_Direct_Helper_Unit extends Phalcon_Test_UnitTestCase
             'sample message 2',
         );
 
-        if ($this->_notHtml)
-        {
+        if ($this->notHtml) {
             $flash->setAutomaticHtml(false);
             $html = ' no HTML';
             $expected = $message[0]
                       . $message[1];
-        }
-        else
-        {
+        } else {
             $expected = sprintf($template, $class, $message[0])
                       . sprintf($template, $class, $message[1]);
         }
 
-        if ($this->_notImplicit)
-        {
+        if ($this->notImplicit) {
             $flash->setImplicitFlush(false);
             $implicit = ' no implicit';
             $actual   = $flash->$function($message);
-        }
-        else
-        {
-            $actual = $this->_getObResponse($flash, $function, $message);
+        } else {
+            $actual = $this->getObResponse($flash, $function, $message);
         }
 
         $this->assertEquals(

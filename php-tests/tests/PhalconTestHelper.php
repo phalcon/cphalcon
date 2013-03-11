@@ -11,8 +11,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
