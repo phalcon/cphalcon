@@ -79,7 +79,6 @@ function phalconTestAutoloader($className)
             $fullFile = $path . $filename;
         }
 
-        error_log($fullFile . PHP_EOL, 3, '/home/ndimopoulos/err.log');
         if (file_exists($fullFile)) {
             require_once $fullFile;
             break;
