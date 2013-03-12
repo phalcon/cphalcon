@@ -33,7 +33,7 @@ class Config
                         'mysql'      => array(
                             'host'     => 'localhost',
                             'username' => 'root',
-                            'password' => '1234',
+                            'password' => '',
                             'dbname'   => 'phalcon_test',
                         ),
                         'postgresql' => array(
