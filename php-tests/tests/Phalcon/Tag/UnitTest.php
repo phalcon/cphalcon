@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PhalconTestHelper.php
  * \Phalcon\Tag\UnitTest
@@ -11,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -22,9 +20,13 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Tag as Tg;
+namespace Phalcon\Test\Tag;
 
-class Tag_UnitTest extends Phalcon_Test_UnitTestCase
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
+use \Phalcon\Tag as PhTag;
+
+class UnitTest extends PhTestUnitTestCase
 {
     private $message = "%s does not return proper html element";
 
@@ -35,16 +37,16 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests the doctype
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testDoctypeSet()
     {
-        $doctype  = Tg::HTML5;
+        $doctype  = PhTag::HTML5;
         $expected = "<!DOCTYPE html>" . PHP_EOL;
-        Tg::setDoctype($doctype);
-        $actual   = Tg::getDoctype($doctype);
-        Tg::setDoctype('');
+        PhTag::setDoctype($doctype);
+        $actual   = PhTag::getDoctype($doctype);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -60,14 +62,14 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests an image tag with a bare minimum of information passed
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testImageBasic()
     {
         $options  = 'img/hello.gif';
         $expected = '<img src="/img/hello.gif">';
-        $actual   = Tg::image($options);
+        $actual   = PhTag::image($options);
 
         $this->assertEquals(
             $expected,
@@ -79,7 +81,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests an image tag with an array passed as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testImageWithArrayBasic()
@@ -89,7 +91,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
         );
         $expected = '<img class="some_class" src="/img/hello.gif">';
-        $actual   = Tg::image($options);
+        $actual   = PhTag::image($options);
 
         $this->assertEquals(
             $expected,
@@ -101,7 +103,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests an image tag with the src attribute passed in as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testImageWithSrcInParameters()
@@ -112,7 +114,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
         );
         $expected = '<img src="/img/goodbye.gif" class="some_class">';
-        $actual   = Tg::image($options);
+        $actual   = PhTag::image($options);
 
         $this->assertEquals(
             $expected,
@@ -124,16 +126,16 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests an image tag with a bare minimum of information passed
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testImageBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'img/hello.gif';
         $expected = '<img src="/img/hello.gif" />';
-        $actual   = Tg::image($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::image($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -145,19 +147,19 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests an image tag with an array passed as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testImageWithArrayBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array(
             'img/hello.gif',
             'class' => 'some_class',
         );
         $expected = '<img class="some_class" src="/img/hello.gif" />';
-        $actual   = Tg::image($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::image($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -169,20 +171,20 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests an image tag with the src attribute passed in as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testImageWithSrcInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array(
             'img/hello.gif',
             'src'   => 'img/goodbye.gif',
             'class' => 'some_class',
         );
         $expected = '<img src="/img/goodbye.gif" class="some_class" />';
-        $actual   = Tg::image($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::image($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -197,7 +199,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink for a local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testStylesheetLinkLocal()
@@ -205,7 +207,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'css/phalcon.css';
         $expected = '<link rel="stylesheet" href="/css/phalcon.css" '
                   . 'type="text/css">';
-        $actual   = Tg::stylesheetLink($options);
+        $actual   = PhTag::stylesheetLink($options);
 
         $this->assertEquals(
             $expected,
@@ -217,7 +219,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink with an array passed for a local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testStylesheetLinkWithArrayLocal()
@@ -225,7 +227,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = array('css/phalcon.css');
         $expected = '<link rel="stylesheet" href="css/phalcon.css" '
                   . 'type="text/css">';
-        $actual   = Tg::stylesheetLink($options);
+        $actual   = PhTag::stylesheetLink($options);
 
         $this->assertEquals(
             $expected,
@@ -237,7 +239,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink with a string as the second parameter - local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testStylesheetLinkWithStringAsSecondParameterLocal()
@@ -245,7 +247,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = array('css/phalcon.css');
         $expected = '<link rel="stylesheet" href="css/phalcon.css" '
                   . 'type="text/css">';
-        $actual   = Tg::stylesheetLink($options, 'hello');
+        $actual   = PhTag::stylesheetLink($options, 'hello');
 
         $this->assertEquals(
             $expected,
@@ -260,7 +262,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink for a remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testStylesheetLinkRemote()
@@ -269,7 +271,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
                   . 'type="text/css">';
-        $actual   = Tg::stylesheetLink($options, FALSE);
+        $actual   = PhTag::stylesheetLink($options, FALSE);
 
         $this->assertEquals(
             $expected,
@@ -281,7 +283,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink with an array passed for a remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testStylesheetLinkWithArrayRemote()
@@ -290,7 +292,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
                   . 'type="text/css">';
-        $actual   = Tg::stylesheetLink($options, FALSE);
+        $actual   = PhTag::stylesheetLink($options, FALSE);
 
         $this->assertEquals(
             $expected,
@@ -302,7 +304,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink with a string as the second parameter - remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testStylesheetLinkWithStringAsSecondParameterRemote()
@@ -311,7 +313,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
                   . 'type="text/css">';
-        $actual   = Tg::stylesheetLink($options, '0');
+        $actual   = PhTag::stylesheetLink($options, '0');
 
         $this->assertEquals(
             $expected,
@@ -326,17 +328,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink for a local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testStylesheetLinkLocalXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'css/phalcon.css';
         $expected = '<link rel="stylesheet" href="/css/phalcon.css" '
                   . 'type="text/css" />';
-        $actual   = Tg::stylesheetLink($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::stylesheetLink($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -348,16 +350,16 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink with an array passed for a local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testStylesheetLinkWithArrayLocalXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('css/phalcon.css');
         $expected = '<link rel="stylesheet" href="css/phalcon.css" '
                   . 'type="text/css" />';
-        $actual   = Tg::stylesheetLink($options);
+        $actual   = PhTag::stylesheetLink($options);
 
         $this->assertEquals(
             $expected,
@@ -369,16 +371,16 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink with a string as the second parameter - local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testStylesheetLinkWithStringAsSecondParameterLocalXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('css/phalcon.css');
         $expected = '<link rel="stylesheet" href="css/phalcon.css" '
                   . 'type="text/css" />';
-        $actual   = Tg::stylesheetLink($options, 'hello');
+        $actual   = PhTag::stylesheetLink($options, 'hello');
 
         $this->assertEquals(
             $expected,
@@ -393,17 +395,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink for a remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testStylesheetLinkRemoteXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'http://fonts.googleapis.com/css?family=Rosario';
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
                   . 'type="text/css" />';
-        $actual   = Tg::stylesheetLink($options, FALSE);
+        $actual   = PhTag::stylesheetLink($options, FALSE);
 
         $this->assertEquals(
             $expected,
@@ -415,17 +417,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink with an array passed for a remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testStylesheetLinkWithArrayRemoteXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('http://fonts.googleapis.com/css?family=Rosario');
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
                   . 'type="text/css" />';
-        $actual   = Tg::stylesheetLink($options, FALSE);
+        $actual   = PhTag::stylesheetLink($options, FALSE);
 
         $this->assertEquals(
             $expected,
@@ -437,17 +439,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests stylesheetLink with a string as the second parameter - remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testStylesheetLinkWithStringAsSecondParameterRemoteXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'http://fonts.googleapis.com/css?family=Rosario';
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
                   . 'type="text/css" />';
-        $actual   = Tg::stylesheetLink($options, '0');
+        $actual   = PhTag::stylesheetLink($options, '0');
 
         $this->assertEquals(
             $expected,
@@ -465,7 +467,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude for a local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testJavascriptIncludeLocal()
@@ -473,7 +475,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'js/phalcon.js';
         $expected = '<script src="/js/phalcon.js" type="text/javascript">'
                   . '</script>';
-        $actual   = Tg::javascriptInclude($options);
+        $actual   = PhTag::javascriptInclude($options);
 
         $this->assertEquals(
             $expected,
@@ -485,7 +487,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude with an array passed for a local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testJavascriptIncludeWithArrayLocal()
@@ -493,7 +495,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = array('js/phalcon.js');
         $expected = '<script src="js/phalcon.js" type="text/javascript">'
                   . '</script>';
-        $actual   = Tg::javascriptInclude($options);
+        $actual   = PhTag::javascriptInclude($options);
 
         $this->assertEquals(
             $expected,
@@ -505,7 +507,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude with a string as the second parameter - local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testJavascriptIncludeWithStringAsSecondParameterLocal()
@@ -513,7 +515,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'js/phalcon.js';
         $expected = '<script src="/js/phalcon.js" type="text/javascript">'
                   . '</script>';
-        $actual   = Tg::javascriptInclude($options, 'hello');
+        $actual   = PhTag::javascriptInclude($options, 'hello');
 
         $this->assertEquals(
             $expected,
@@ -528,7 +530,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude for a remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testJavascriptIncludeRemote()
@@ -536,7 +538,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
                   . 'type="text/javascript"></script>';
-        $actual   = Tg::javascriptInclude($options, FALSE);
+        $actual   = PhTag::javascriptInclude($options, FALSE);
 
         $this->assertEquals(
             $expected,
@@ -548,7 +550,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude with an array passed for a remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testJavascriptIncludeWithArrayRemote()
@@ -556,7 +558,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = array('http://my.local.com/js/phalcon.js');
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
                   . 'type="text/javascript"></script>';
-        $actual   = Tg::javascriptInclude($options, FALSE);
+        $actual   = PhTag::javascriptInclude($options, FALSE);
 
         $this->assertEquals(
             $expected,
@@ -568,7 +570,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude with a string as the second parameter - remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testJavascriptIncludeWithStringAsSecondParameterRemote()
@@ -576,7 +578,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
                   . 'type="text/javascript"></script>';
-        $actual   = Tg::javascriptInclude($options, '0');
+        $actual   = PhTag::javascriptInclude($options, '0');
 
         $this->assertEquals(
             $expected,
@@ -591,17 +593,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude for a local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testJavascriptIncludeLocalXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'js/phalcon.js';
         $expected = '<script src="/js/phalcon.js" type="text/javascript">'
                   . '</script>';
-        $actual   = Tg::javascriptInclude($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -613,17 +615,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude with an array passed for a local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testJavascriptIncludeWithArrayLocalXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('js/phalcon.js');
         $expected = '<script src="js/phalcon.js" type="text/javascript">'
                   . '</script>';
-        $actual   = Tg::javascriptInclude($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -635,17 +637,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude with a string as the second parameter - local link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testJavascriptIncludeWithStringAsSecondParameterLocalXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'js/phalcon.js';
         $expected = '<script src="/js/phalcon.js" type="text/javascript">'
                   . '</script>';
-        $actual   = Tg::javascriptInclude($options, 'hello');
-        Tg::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options, 'hello');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -660,17 +662,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude for a remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testJavascriptIncludeRemoteXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
                   . 'type="text/javascript"></script>';
-        $actual   = Tg::javascriptInclude($options, FALSE);
-        Tg::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options, FALSE);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -682,17 +684,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude with an array passed for a remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testJavascriptIncludeWithArrayRemoteXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('http://my.local.com/js/phalcon.js');
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
                   . 'type="text/javascript"></script>';
-        $actual   = Tg::javascriptInclude($options, FALSE);
-        Tg::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options, FALSE);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -704,17 +706,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests javascriptInclude with a string as the second parameter - remote link
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testJavascriptIncludeWithStringAsSecondParameterRemoteXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
                   . 'type="text/javascript"></script>';
-        $actual   = Tg::javascriptInclude($options, '0');
-        Tg::setDoctype('');
+        $actual   = PhTag::javascriptInclude($options, '0');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -733,7 +735,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests resetInput (after a setDefault)
      *
      * @issue 53
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testResetInputSetDefault_T53()
@@ -741,19 +743,19 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
                   . 'id="some_field_name" value="Wall-E">';
-        Tg::setDefault('some_field_name', 'Wall-E');
-        $actual   = Tg::textField($options);
+        PhTag::setDefault('some_field_name', 'Wall-E');
+        $actual   = PhTag::textField($options);
 
         $this->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'resetInput before contains a value')
         );
-        Tg::resetInput();
+        PhTag::resetInput();
 
         $expected = '<input type="text" name="some_field_name" '
                   . 'id="some_field_name" value="">';
-        $actual   = Tg::textField($options);
+        $actual   = PhTag::textField($options);
         $this->assertEquals(
             $expected,
             $actual,
@@ -765,7 +767,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests resetInput (after a displayTo)
      *
      * @issue 53
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testResetInputDisplayTo_T53()
@@ -773,19 +775,19 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
                   . 'id="some_field_name" value="Wall-E">';
-        Tg::displayTo('some_field_name', 'Wall-E');
-        $actual   = Tg::textField($options);
+        PhTag::displayTo('some_field_name', 'Wall-E');
+        $actual   = PhTag::textField($options);
 
         $this->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'resetInput before contains a value')
         );
-        Tg::resetInput();
+        PhTag::resetInput();
 
         $expected = '<input type="text" name="some_field_name" '
                   . 'id="some_field_name" value="">';
-        $actual   = Tg::textField($options);
+        $actual   = PhTag::textField($options);
         $this->assertEquals(
             $expected,
             $actual,
@@ -797,29 +799,29 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests resetInput (after a setDefault)
      *
      * @issue 53
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testResetInputSetDefaultXHTML_T53()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
                   . 'id="some_field_name" value="Wall-E" />';
-        Tg::setDefault('some_field_name', 'Wall-E');
-        $actual   = Tg::textField($options);
+        PhTag::setDefault('some_field_name', 'Wall-E');
+        $actual   = PhTag::textField($options);
 
         $this->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML resetInput before contains a value')
         );
-        Tg::resetInput();
+        PhTag::resetInput();
 
         $expected = '<input type="text" name="some_field_name" '
                   . 'id="some_field_name" value="" />';
-        $actual   = Tg::textField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::textField($options);
+        PhTag::setDoctype('');
         $this->assertEquals(
             $expected,
             $actual,
@@ -831,29 +833,29 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests resetInput (after a displayTo)
      *
      * @issue 53
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testResetInputDisplayToXHTML_T53()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
                   . 'id="some_field_name" value="Wall-E" />';
-        Tg::displayTo('some_field_name', 'Wall-E');
-        $actual   = Tg::textField($options);
+        PhTag::displayTo('some_field_name', 'Wall-E');
+        $actual   = PhTag::textField($options);
 
         $this->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'XHTML resetInput before contains a value')
         );
-        Tg::resetInput();
+        PhTag::resetInput();
 
         $expected = '<input type="text" name="some_field_name" '
                   . 'id="some_field_name" value="" />';
-        $actual   = Tg::textField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::textField($options);
+        PhTag::setDoctype('');
         $this->assertEquals(
             $expected,
             $actual,
@@ -867,7 +869,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests testField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextBasic()
@@ -875,7 +877,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
                   . 'id="some_field_name" value="">';
-        $actual   = Tg::textField($options);
+        $actual   = PhTag::textField($options);
 
         $this->assertEquals(
             $expected,
@@ -887,7 +889,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextWithArrayBasic()
@@ -898,7 +900,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="text" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::textField($options);
+        $actual   = PhTag::textField($options);
 
         $this->assertEquals(
             $expected,
@@ -910,7 +912,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextWithIdInParameters()
@@ -923,7 +925,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="text" id="some_id" class="some_class" '
                   . 'size="10" name="some_field_name" value="">';
-        $actual   = Tg::textField($options);
+        $actual   = PhTag::textField($options);
 
         $this->assertEquals(
             $expected,
@@ -935,7 +937,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextWithNameAndNotIdInParameters()
@@ -949,7 +951,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="text" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="">';
-        $actual   = Tg::textField($options);
+        $actual   = PhTag::textField($options);
 
         $this->assertEquals(
             $expected,
@@ -961,7 +963,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextSetDefault()
@@ -971,12 +973,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value">';
-        $actual   = Tg::textField($options);
-        Tg::setDefault('some_field_name', '');
+        $actual   = PhTag::textField($options);
+        PhTag::setDefault('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -988,7 +990,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextDisplayTo()
@@ -998,12 +1000,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value">';
-        $actual   = Tg::textField($options);
-        Tg::displayTo('some_field_name', '');
+        $actual   = PhTag::textField($options);
+        PhTag::displayTo('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -1015,7 +1017,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextSetDefaultElementNotPresent()
@@ -1025,11 +1027,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::textField($options);
-        Tg::setDefault('some_field', '');
+        $actual   = PhTag::textField($options);
+        PhTag::setDefault('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -1044,7 +1046,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextDisplayToElementNotPresent()
@@ -1054,11 +1056,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::textField($options);
-        Tg::displayTo('some_field', '');
+        $actual   = PhTag::textField($options);
+        PhTag::displayTo('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -1070,17 +1072,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests testField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testTextBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
                   . 'id="some_field_name" value="" />';
-        $actual   = Tg::textField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::textField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1092,20 +1094,20 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testTextWithArrayBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
         );
         $expected = '<input type="text" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::textField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::textField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1117,12 +1119,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testTextWithIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
@@ -1131,8 +1133,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="text" id="some_id" class="some_class" '
                   . 'size="10" name="some_field_name" value="" />';
-        $actual   = Tg::textField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::textField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1144,12 +1146,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testTextWithNameAndNotIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
@@ -1159,8 +1161,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="text" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="" />';
-        $actual   = Tg::textField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::textField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1172,24 +1174,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testTextSetDefaultXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" />';
-        $actual   = Tg::textField($options);
-        Tg::setDefault('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::textField($options);
+        PhTag::setDefault('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1201,24 +1203,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testTextDisplayToXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" />';
-        $actual   = Tg::textField($options);
-        Tg::displayTo('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::textField($options);
+        PhTag::displayTo('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1230,23 +1232,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testTextSetDefaultElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::textField($options);
-        Tg::setDefault('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::textField($options);
+        PhTag::setDefault('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1261,23 +1263,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textField with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testTextDisplayToElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::textField($options);
-        Tg::displayTo('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::textField($options);
+        PhTag::displayTo('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1292,7 +1294,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textArea with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextareaBasic()
@@ -1300,7 +1302,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'some_field_name';
         $expected = '<textarea name="some_field_name" id="some_field_name">'
                   . '</textarea>';
-        $actual   = Tg::textArea($options);
+        $actual   = PhTag::textArea($options);
 
         $this->assertEquals(
             $expected,
@@ -1312,7 +1314,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textArea with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextareaWithArrayBasic()
@@ -1323,7 +1325,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<textarea class="some_class" name="some_field_name" '
                   . 'id="some_field_name"></textarea>';
-        $actual   = Tg::textArea($options);
+        $actual   = PhTag::textArea($options);
 
         $this->assertEquals(
             $expected,
@@ -1335,7 +1337,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textArea with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextareaWithIdInParameters()
@@ -1348,7 +1350,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<textarea id="some_id" class="some_class" size="10" '
                   . 'name="some_field_name"></textarea>';
-        $actual   = Tg::textArea($options);
+        $actual   = PhTag::textArea($options);
 
         $this->assertEquals(
             $expected,
@@ -1360,7 +1362,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textArea with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextareaWithNameAndNotIdInParameters()
@@ -1373,7 +1375,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<textarea name="some_other_name" class="some_class" '
                   . 'size="10" id="some_field_name"></textarea>';
-        $actual   = Tg::textArea($options);
+        $actual   = PhTag::textArea($options);
 
         $this->assertEquals(
             $expected,
@@ -1385,7 +1387,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textArea with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextareaSetDefault()
@@ -1395,12 +1397,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<textarea class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">'
                   . 'some_default_value</textarea>';
-        $actual   = Tg::textArea($options);
-        Tg::setDefault('some_field_name', '');
+        $actual   = PhTag::textArea($options);
+        PhTag::setDefault('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -1412,7 +1414,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textArea with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextareaDisplayTo()
@@ -1422,12 +1424,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<textarea class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">'
                   . 'some_default_value</textarea>';
-        $actual   = Tg::textArea($options);
-        Tg::displayTo('some_field_name', '');
+        $actual   = PhTag::textArea($options);
+        PhTag::displayTo('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -1439,7 +1441,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textArea with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextareaSetDefaultElementNotPresent()
@@ -1449,12 +1451,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<textarea class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">'
                   . '</textarea>';
-        $actual   = Tg::textArea($options);
-        Tg::setDefault('some_field', '');
+        $actual   = PhTag::textArea($options);
+        PhTag::setDefault('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -1466,7 +1468,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests textArea with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testTextareaDisplayToElementNotPresent()
@@ -1476,12 +1478,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<textarea class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">'
                   . '</textarea>';
-        $actual   = Tg::textArea($options);
-        Tg::displayTo('some_field', '');
+        $actual   = PhTag::textArea($options);
+        PhTag::displayTo('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -1496,7 +1498,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testHiddenFieldBasic()
@@ -1504,7 +1506,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'some_field_name';
         $expected = '<input type="hidden" name="some_field_name" '
                   . 'id="some_field_name" value="">';
-        $actual   = Tg::hiddenField($options);
+        $actual   = PhTag::hiddenField($options);
 
         $this->assertEquals(
             $expected,
@@ -1516,7 +1518,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testHiddenFieldWithArrayBasic()
@@ -1527,7 +1529,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="hidden" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::hiddenField($options);
+        $actual   = PhTag::hiddenField($options);
 
         $this->assertEquals(
             $expected,
@@ -1539,7 +1541,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testHiddenFieldWithIdInParameters()
@@ -1552,7 +1554,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="hidden" id="some_id" class="some_class" '
                   . 'size="10" name="some_field_name" value="">';
-        $actual   = Tg::hiddenField($options);
+        $actual   = PhTag::hiddenField($options);
 
         $this->assertEquals(
             $expected,
@@ -1564,7 +1566,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with name and no id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testHiddenFieldWithNameAndNotIdInParameters()
@@ -1578,7 +1580,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="hidden" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="">';
-        $actual   = Tg::hiddenField($options);
+        $actual   = PhTag::hiddenField($options);
 
         $this->assertEquals(
             $expected,
@@ -1593,7 +1595,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testHiddenFieldSetDefault()
@@ -1603,12 +1605,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value">';
-        $actual   = Tg::hiddenField($options);
-        Tg::setDefault('some_field_name', '');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::setDefault('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -1620,7 +1622,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testHiddenFieldDisplayTo()
@@ -1630,12 +1632,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value">';
-        $actual   = Tg::hiddenField($options);
-        Tg::displayTo('some_field_name', '');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::displayTo('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -1647,7 +1649,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testHiddenFieldSetDefaultElementNotPresent()
@@ -1657,11 +1659,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::hiddenField($options);
-        Tg::setDefault('some_field', '');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::setDefault('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -1673,7 +1675,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testHiddenFieldDisplayToElementNotPresent()
@@ -1683,11 +1685,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::hiddenField($options);
-        Tg::displayTo('some_field', '');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::displayTo('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -1699,17 +1701,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testHiddenFieldBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="hidden" name="some_field_name" '
                   . 'id="some_field_name" value="" />';
-        $actual   = Tg::hiddenField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1721,20 +1723,20 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testHiddenFieldWithArrayBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
         );
         $expected = '<input type="hidden" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::hiddenField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1746,12 +1748,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testHiddenFieldWithIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
@@ -1760,8 +1762,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="hidden" id="some_id" class="some_class" '
                   . 'size="10" name="some_field_name" value="" />';
-        $actual   = Tg::hiddenField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1773,12 +1775,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with name and no id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testHiddenFieldWithNameAndNotIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
@@ -1788,8 +1790,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="hidden" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="" />';
-        $actual   = Tg::hiddenField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1804,24 +1806,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testHiddenFieldSetDefaultXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" />';
-        $actual   = Tg::hiddenField($options);
-        Tg::setDefault('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::setDefault('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1833,24 +1835,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testHiddenFieldDisplayToXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" />';
-        $actual   = Tg::hiddenField($options);
-        Tg::displayTo('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::displayTo('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1862,23 +1864,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testHiddenFieldSetDefaultElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::hiddenField($options);
-        Tg::setDefault('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::setDefault('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1890,23 +1892,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests hiddenField with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testHiddenFieldDisplayToElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::hiddenField($options);
-        Tg::displayTo('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::hiddenField($options);
+        PhTag::displayTo('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -1921,7 +1923,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testPasswordFieldBasic()
@@ -1929,7 +1931,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'some_field_name';
         $expected = '<input type="password" name="some_field_name" '
                   . 'id="some_field_name" value="">';
-        $actual   = Tg::passwordField($options);
+        $actual   = PhTag::passwordField($options);
 
         $this->assertEquals(
             $expected,
@@ -1941,7 +1943,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testPasswordFieldWithArrayBasic()
@@ -1952,7 +1954,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="password" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::passwordField($options);
+        $actual   = PhTag::passwordField($options);
 
         $this->assertEquals(
             $expected,
@@ -1964,7 +1966,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testPasswordFieldWithIdInParameters()
@@ -1978,7 +1980,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="password" id="some_id" '
                   . 'class="some_class" size="10" name="some_field_name" '
                   . 'value="">';
-        $actual   = Tg::passwordField($options);
+        $actual   = PhTag::passwordField($options);
 
         $this->assertEquals(
             $expected,
@@ -1990,7 +1992,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testPasswordFieldWithNameAndNotIdInParameters()
@@ -2004,7 +2006,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="password" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="">';
-        $actual   = Tg::passwordField($options);
+        $actual   = PhTag::passwordField($options);
 
         $this->assertEquals(
             $expected,
@@ -2019,7 +2021,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testPasswordFieldSetDefault()
@@ -2029,12 +2031,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value">';
-        $actual   = Tg::passwordField($options);
-        Tg::setDefault('some_field_name', '');
+        $actual   = PhTag::passwordField($options);
+        PhTag::setDefault('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -2046,7 +2048,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testPasswordFieldDisplayTo()
@@ -2056,12 +2058,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value">';
-        $actual   = Tg::passwordField($options);
-        Tg::displayTo('some_field_name', '');
+        $actual   = PhTag::passwordField($options);
+        PhTag::displayTo('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -2073,7 +2075,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testPasswordFieldSetDefaultElementNotPresent()
@@ -2083,11 +2085,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::passwordField($options);
-        Tg::setDefault('some_field', '');
+        $actual   = PhTag::passwordField($options);
+        PhTag::setDefault('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -2099,7 +2101,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testPasswordFieldDisplayToElementNotPresent()
@@ -2109,11 +2111,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::passwordField($options);
-        Tg::displayTo('some_field', '');
+        $actual   = PhTag::passwordField($options);
+        PhTag::displayTo('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -2125,17 +2127,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testPasswordFieldBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="password" name="some_field_name" '
                   . 'id="some_field_name" value="" />';
-        $actual   = Tg::passwordField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::passwordField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2147,20 +2149,20 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testPasswordFieldWithArrayBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
         );
         $expected = '<input type="password" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::passwordField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::passwordField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2172,12 +2174,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testPasswordFieldWithIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
@@ -2187,8 +2189,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="password" id="some_id" '
                   . 'class="some_class" size="10" name="some_field_name" '
                   . 'value="" />';
-        $actual   = Tg::passwordField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::passwordField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2200,12 +2202,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testPasswordFieldWithNameAndNotIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
@@ -2215,8 +2217,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="password" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="" />';
-        $actual   = Tg::passwordField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::passwordField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2231,24 +2233,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testPasswordFieldSetDefaultXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" />';
-        $actual   = Tg::passwordField($options);
-        Tg::setDefault('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::passwordField($options);
+        PhTag::setDefault('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2260,24 +2262,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testPasswordFieldDisplayToXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" />';
-        $actual   = Tg::passwordField($options);
-        Tg::displayTo('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::passwordField($options);
+        PhTag::displayTo('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2289,23 +2291,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testPasswordFieldSetDefaultElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::passwordField($options);
-        Tg::setDefault('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::passwordField($options);
+        PhTag::setDefault('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2317,23 +2319,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests passwordField with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testPasswordFieldDisplayToElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::passwordField($options);
-        Tg::displayTo('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::passwordField($options);
+        PhTag::displayTo('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2348,7 +2350,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testFileFieldBasic()
@@ -2356,7 +2358,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'some_field_name';
         $expected = '<input type="file" name="some_field_name" '
                   . 'id="some_field_name" value="">';
-        $actual   = Tg::fileField($options);
+        $actual   = PhTag::fileField($options);
 
         $this->assertEquals(
             $expected,
@@ -2368,7 +2370,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testFileFieldWithArrayBasic()
@@ -2379,7 +2381,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="file" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::fileField($options);
+        $actual   = PhTag::fileField($options);
 
         $this->assertEquals(
             $expected,
@@ -2391,7 +2393,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testFileFieldWithIdInParameters()
@@ -2404,7 +2406,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="file" id="some_id" class="some_class" '
                   . 'size="10" name="some_field_name" value="">';
-        $actual   = Tg::fileField($options);
+        $actual   = PhTag::fileField($options);
 
         $this->assertEquals(
             $expected,
@@ -2416,7 +2418,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testFileFieldWithNameAndNotIdInParameters()
@@ -2430,7 +2432,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="file" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="">';
-        $actual   = Tg::fileField($options);
+        $actual   = PhTag::fileField($options);
 
         $this->assertEquals(
             $expected,
@@ -2445,7 +2447,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testFileFieldSetDefault()
@@ -2455,12 +2457,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value">';
-        $actual   = Tg::fileField($options);
-        Tg::setDefault('some_field_name', '');
+        $actual   = PhTag::fileField($options);
+        PhTag::setDefault('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -2472,7 +2474,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testFileFieldDisplayTo()
@@ -2482,12 +2484,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value">';
-        $actual   = Tg::fileField($options);
-        Tg::displayTo('some_field_name', '');
+        $actual   = PhTag::fileField($options);
+        PhTag::displayTo('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -2499,7 +2501,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testFileFieldSetDefaultElementNotPresent()
@@ -2509,11 +2511,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::fileField($options);
-        Tg::setDefault('some_field', '');
+        $actual   = PhTag::fileField($options);
+        PhTag::setDefault('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -2525,7 +2527,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testFileFieldDisplayToElementNotPresent()
@@ -2535,11 +2537,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::fileField($options);
-        Tg::displayTo('some_field', '');
+        $actual   = PhTag::fileField($options);
+        PhTag::displayTo('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -2551,17 +2553,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testFileFieldBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="file" name="some_field_name" '
                   . 'id="some_field_name" value="" />';
-        $actual   = Tg::fileField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::fileField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2573,20 +2575,20 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testFileFieldWithArrayBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
         );
         $expected = '<input type="file" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::fileField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::fileField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2598,12 +2600,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testFileFieldWithIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
@@ -2612,8 +2614,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="file" id="some_id" class="some_class" '
                   . 'size="10" name="some_field_name" value="" />';
-        $actual   = Tg::fileField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::fileField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2625,12 +2627,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testFileFieldWithNameAndNotIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
@@ -2640,8 +2642,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="file" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="" />';
-        $actual   = Tg::fileField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::fileField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2656,24 +2658,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testFileFieldSetDefaultXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" />';
-        $actual   = Tg::fileField($options);
-        Tg::setDefault('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::fileField($options);
+        PhTag::setDefault('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2685,24 +2687,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testFileFieldDisplayToXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" />';
-        $actual   = Tg::fileField($options);
-        Tg::displayTo('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::fileField($options);
+        PhTag::displayTo('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2714,23 +2716,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testFileFieldSetDefaultElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::fileField($options);
-        Tg::setDefault('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::fileField($options);
+        PhTag::setDefault('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2742,23 +2744,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests fileField with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testFileFieldDisplayToElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::fileField($options);
-        Tg::displayTo('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::fileField($options);
+        PhTag::displayTo('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2773,7 +2775,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testCheckFieldBasic()
@@ -2781,7 +2783,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'some_field_name';
         $expected = '<input type="checkbox" name="some_field_name" '
                   . 'id="some_field_name" value="">';
-        $actual   = Tg::checkField($options);
+        $actual   = PhTag::checkField($options);
 
         $this->assertEquals(
             $expected,
@@ -2793,7 +2795,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testCheckFieldWithArrayBasic()
@@ -2804,7 +2806,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="checkbox" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::checkField($options);
+        $actual   = PhTag::checkField($options);
 
         $this->assertEquals(
             $expected,
@@ -2816,7 +2818,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testCheckFieldWithIdInParameters()
@@ -2829,7 +2831,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="checkbox" id="some_id" class="some_class" '
                   . 'size="10" name="some_field_name" value="">';
-        $actual   = Tg::checkField($options);
+        $actual   = PhTag::checkField($options);
 
         $this->assertEquals(
             $expected,
@@ -2841,7 +2843,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testCheckFieldWithNameAndNotIdInParameters()
@@ -2855,7 +2857,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="checkbox" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="">';
-        $actual   = Tg::checkField($options);
+        $actual   = PhTag::checkField($options);
 
         $this->assertEquals(
             $expected,
@@ -2870,7 +2872,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testCheckFieldSetDefault()
@@ -2880,12 +2882,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" checked="checked">';
-        $actual   = Tg::checkField($options);
-        Tg::setDefault('some_field_name', '');
+        $actual   = PhTag::checkField($options);
+        PhTag::setDefault('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -2897,7 +2899,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testCheckFieldDisplayTo()
@@ -2907,12 +2909,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" checked="checked">';
-        $actual   = Tg::checkField($options);
-        Tg::displayTo('some_field_name', '');
+        $actual   = PhTag::checkField($options);
+        PhTag::displayTo('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -2924,7 +2926,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testCheckFieldSetDefaultElementNotPresent()
@@ -2934,11 +2936,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::checkField($options);
-        Tg::setDefault('some_field', '');
+        $actual   = PhTag::checkField($options);
+        PhTag::setDefault('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -2950,7 +2952,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testCheckFieldDisplayToElementNotPresent()
@@ -2960,11 +2962,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::checkField($options);
-        Tg::displayTo('some_field', '');
+        $actual   = PhTag::checkField($options);
+        PhTag::displayTo('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -2976,17 +2978,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testCheckFieldBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="checkbox" name="some_field_name" '
                   . 'id="some_field_name" value="" />';
-        $actual   = Tg::checkField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::checkField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -2998,20 +3000,20 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testCheckFieldWithArrayBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
         );
         $expected = '<input type="checkbox" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::checkField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::checkField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3023,12 +3025,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testCheckFieldWithIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
@@ -3037,8 +3039,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="checkbox" id="some_id" class="some_class" '
                   . 'size="10" name="some_field_name" value="" />';
-        $actual   = Tg::checkField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::checkField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3050,12 +3052,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testCheckFieldWithNameAndNotIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
@@ -3065,8 +3067,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="checkbox" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="" />';
-        $actual   = Tg::checkField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::checkField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3081,24 +3083,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testCheckFieldSetDefaultXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" checked="checked" />';
-        $actual   = Tg::checkField($options);
-        Tg::setDefault('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::checkField($options);
+        PhTag::setDefault('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3110,24 +3112,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testCheckFieldDisplayToXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" checked="checked" />';
-        $actual   = Tg::checkField($options);
-        Tg::displayTo('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::checkField($options);
+        PhTag::displayTo('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3139,23 +3141,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testCheckFieldSetDefaultElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::checkField($options);
-        Tg::setDefault('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::checkField($options);
+        PhTag::setDefault('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3167,23 +3169,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests checkField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testCheckFieldDisplayToElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::checkField($options);
-        Tg::displayTo('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::checkField($options);
+        PhTag::displayTo('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3198,7 +3200,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldBasic()
@@ -3206,7 +3208,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options  = 'some_field_name';
         $expected = '<input type="radio" name="some_field_name" '
                   . 'id="some_field_name" value="">';
-        $actual   = Tg::radioField($options);
+        $actual   = PhTag::radioField($options);
 
         $this->assertEquals(
             $expected,
@@ -3218,7 +3220,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldWithArrayBasic()
@@ -3229,7 +3231,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="radio" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::radioField($options);
+        $actual   = PhTag::radioField($options);
 
         $this->assertEquals(
             $expected,
@@ -3241,7 +3243,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldWithIdInParameters()
@@ -3254,7 +3256,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="radio" id="some_id" class="some_class" '
                   . 'size="10" name="some_field_name" value="">';
-        $actual   = Tg::radioField($options);
+        $actual   = PhTag::radioField($options);
 
         $this->assertEquals(
             $expected,
@@ -3266,7 +3268,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldWithNameAndNotIdInParameters()
@@ -3280,7 +3282,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="radio" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="">';
-        $actual   = Tg::radioField($options);
+        $actual   = PhTag::radioField($options);
 
         $this->assertEquals(
             $expected,
@@ -3295,7 +3297,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldSetDefault()
@@ -3305,12 +3307,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value">';
-        $actual   = Tg::radioField($options);
-        Tg::setDefault('some_field_name', '');
+        $actual   = PhTag::radioField($options);
+        PhTag::setDefault('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -3322,7 +3324,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldDisplayTo()
@@ -3332,12 +3334,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value">';
-        $actual   = Tg::radioField($options);
-        Tg::displayTo('some_field_name', '');
+        $actual   = PhTag::radioField($options);
+        PhTag::displayTo('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -3349,7 +3351,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldSetDefaultElementNotPresent()
@@ -3359,11 +3361,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::radioField($options);
-        Tg::setDefault('some_field', '');
+        $actual   = PhTag::radioField($options);
+        PhTag::setDefault('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -3375,7 +3377,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldDisplayToElementNotPresent()
@@ -3385,11 +3387,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="">';
-        $actual   = Tg::radioField($options);
-        Tg::displayTo('some_field', '');
+        $actual   = PhTag::radioField($options);
+        PhTag::displayTo('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -3401,17 +3403,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="radio" name="some_field_name" '
                   . 'id="some_field_name" value="" />';
-        $actual   = Tg::radioField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::radioField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3423,20 +3425,20 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldWithArrayBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
         );
         $expected = '<input type="radio" class="some_class" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::radioField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::radioField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3448,12 +3450,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldWithIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
@@ -3462,8 +3464,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="radio" id="some_id" class="some_class" '
                   . 'size="10" name="some_field_name" value="" />';
-        $actual   = Tg::radioField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::radioField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3475,12 +3477,12 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldWithNameAndNotIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
@@ -3490,8 +3492,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = '<input type="radio" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
                   . 'value="" />';
-        $actual   = Tg::radioField($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::radioField($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3506,24 +3508,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldSetDefaultXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" />';
-        $actual   = Tg::radioField($options);
-        Tg::setDefault('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::radioField($options);
+        PhTag::setDefault('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3535,24 +3537,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldDisplayToXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
                   . 'value="some_default_value" />';
-        $actual   = Tg::radioField($options);
-        Tg::displayTo('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::radioField($options);
+        PhTag::displayTo('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3564,23 +3566,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldSetDefaultElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::radioField($options);
-        Tg::setDefault('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::radioField($options);
+        PhTag::setDefault('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3592,23 +3594,23 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests radioField with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-15
      */
     public function testRadioFieldDisplayToElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" value="" />';
-        $actual   = Tg::radioField($options);
-        Tg::displayTo('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::radioField($options);
+        PhTag::displayTo('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3623,14 +3625,14 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testSubmitButtonBasic()
     {
         $options  = 'some_field_name';
         $expected = '<input type="submit" value="some_field_name">';
-        $actual   = Tg::submitButton($options);
+        $actual   = PhTag::submitButton($options);
 
         $this->assertEquals(
             $expected,
@@ -3642,7 +3644,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      * @todo   Fix the order
      */
@@ -3656,7 +3658,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
 //                  . 'class="some_class">';
         $expected = '<input type="submit" class="some_class" '
                   . 'value="some_field_name">';
-        $actual   = Tg::submitButton($options);
+        $actual   = PhTag::submitButton($options);
 
         $this->assertEquals(
             $expected,
@@ -3668,7 +3670,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      * @todo   Fix the order
      */
@@ -3682,7 +3684,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="submit" id="some_id" class="some_class" '
                   . 'size="10" value="some_field_name">';
-        $actual   = Tg::submitButton($options);
+        $actual   = PhTag::submitButton($options);
 
         $this->assertEquals(
             $expected,
@@ -3694,7 +3696,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      * @todo   Fix the order
      */
@@ -3708,7 +3710,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="submit" name="some_other_name" '
                   . 'class="some_class" size="10" value="some_field_name">';
-        $actual   = Tg::submitButton($options);
+        $actual   = PhTag::submitButton($options);
 
         $this->assertEquals(
             $expected,
@@ -3723,7 +3725,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      * @todo   Fix the order
      */
@@ -3734,11 +3736,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
                   . 'value="some_field_name">';
-        $actual   = Tg::submitButton($options);
-        Tg::setDefault('some_field_name', '');
+        $actual   = PhTag::submitButton($options);
+        PhTag::setDefault('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -3750,7 +3752,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      * @todo   Fix the order
      */
@@ -3761,11 +3763,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
                   . 'value="some_field_name">';
-        $actual   = Tg::submitButton($options);
-        Tg::displayTo('some_field_name', '');
+        $actual   = PhTag::submitButton($options);
+        PhTag::displayTo('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -3777,7 +3779,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      * @todo   Fix the order
      */
@@ -3788,11 +3790,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
                   . 'value="some_field_name">';
-        $actual   = Tg::submitButton($options);
-        Tg::setDefault('some_field', '');
+        $actual   = PhTag::submitButton($options);
+        PhTag::setDefault('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -3804,7 +3806,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      * @todo   Fix the order
      */
@@ -3815,11 +3817,11 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
                   . 'value="some_field_name">';
-        $actual   = Tg::submitButton($options);
-        Tg::displayTo('some_field', '');
+        $actual   = PhTag::submitButton($options);
+        PhTag::displayTo('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -3831,16 +3833,16 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with string as a parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testSubmitButtonBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="submit" value="some_field_name" />';
-        $actual   = Tg::submitButton($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::submitButton($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3852,13 +3854,13 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      * @todo   Fix the order
      */
     public function testSubmitButtonWithArrayBasicXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
@@ -3867,8 +3869,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
 //                  . 'class="some_class" />';
         $expected = '<input type="submit" class="some_class" '
                   . 'value="some_field_name" />';
-        $actual   = Tg::submitButton($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::submitButton($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3880,13 +3882,13 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      * @todo   Fix the order
      */
     public function testSubmitButtonWithIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'id'    => 'some_id',
@@ -3895,8 +3897,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="submit" id="some_id" class="some_class" '
                   . 'size="10" value="some_field_name" />';
-        $actual   = Tg::submitButton($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::submitButton($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3908,13 +3910,13 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with name and not id in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      * @todo   Fix the order
      */
     public function testSubmitButtonWithNameAndNotIdInParametersXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'name'  => 'some_other_name',
@@ -3923,8 +3925,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<input type="submit" name="some_other_name" '
                   . 'class="some_class" size="10" value="some_field_name" />';
-        $actual   = Tg::submitButton($options);
-        Tg::setDoctype('');
+        $actual   = PhTag::submitButton($options);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3939,24 +3941,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      * @todo   Fix the order
      */
     public function testSubmitButtonSetDefaultXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'some_default_value');
+        PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
                   . 'value="some_field_name" />';
-        $actual   = Tg::submitButton($options);
-        Tg::setDefault('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::submitButton($options);
+        PhTag::setDefault('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3968,24 +3970,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with displayTo
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      * @todo   Fix the order
      */
     public function testSubmitButtonDisplayToXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'some_default_value');
+        PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
                   . 'value="some_field_name" />';
-        $actual   = Tg::submitButton($options);
-        Tg::displayTo('some_field_name', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::submitButton($options);
+        PhTag::displayTo('some_field_name', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -3997,24 +3999,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      * @todo   Fix the order
      */
     public function testSubmitButtonSetDefaultElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'some_default_value');
+        PhTag::setDefault('some_field', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
                   . 'value="some_field_name" />';
-        $actual   = Tg::submitButton($options);
-        Tg::setDefault('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::submitButton($options);
+        PhTag::setDefault('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -4026,24 +4028,24 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests submitButton with displayTo to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      * @todo   Fix the order
      */
     public function testSubmitButtonDisplayToElementNotPresentXHTML()
     {
-        Tg::setDoctype(Tg::XHTML10_STRICT);
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options = array(
             'some_field_name',
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'some_default_value');
+        PhTag::displayTo('some_field', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
                   . 'value="some_field_name" />';
-        $actual   = Tg::submitButton($options);
-        Tg::displayTo('some_field', '');
-        Tg::setDoctype('');
+        $actual   = PhTag::submitButton($options);
+        PhTag::displayTo('some_field', '');
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
@@ -4058,7 +4060,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with string as a parameter throws exception
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testSelectStaticStringThrowsException()
@@ -4067,7 +4069,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options = 'some_values';
 
         try {
-            $actual   = Tg::selectStatic($name, $options);
+            $actual   = PhTag::selectStatic($name, $options);
         } catch (\Phalcon\Tag\Exception $e) {
             // This is where we need to be
         }
@@ -4082,7 +4084,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testSelectStaticWithArrayBasic()
@@ -4097,7 +4099,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                   . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($name, $options);
+        $actual   = PhTag::selectStatic($name, $options);
 
         $this->assertEquals(
             $expected,
@@ -4110,7 +4112,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests selectStatic with id in parameters
      *
      * @issue  54
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testSelectStaticWithIdInParameters_T54()
@@ -4129,7 +4131,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                   . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
+        $actual   = PhTag::selectStatic($params, $options);
 
         $this->assertEquals(
             $expected,
@@ -4145,7 +4147,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests selectStatic with name and not id in parameters
      *
      * @issue  54
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testSelectStaticWithNameAndNotIdInParameters_T54()
@@ -4164,7 +4166,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                   . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
+        $actual   = PhTag::selectStatic($params, $options);
 
         $this->assertEquals(
             $expected,
@@ -4179,7 +4181,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with value in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testSelectStaticWithValueInParameters()
@@ -4199,7 +4201,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
+        $actual   = PhTag::selectStatic($params, $options);
 
         $this->assertEquals(
             $expected,
@@ -4214,7 +4216,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testSelectStaticSetDefault()
@@ -4224,7 +4226,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'I');
+        PhTag::setDefault('some_field_name', 'I');
         $options = array(
             'A' => 'Active',
             'I' => 'Inactive',
@@ -4235,8 +4237,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
-        Tg::setDefault('some_field_name', '');
+        $actual   = PhTag::selectStatic($params, $options);
+        PhTag::setDefault('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -4248,7 +4250,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testSelectStaticDisplayTo()
@@ -4258,7 +4260,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'I');
+        PhTag::displayTo('some_field_name', 'I');
         $options = array(
             'A' => 'Active',
             'I' => 'Inactive',
@@ -4269,8 +4271,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
-        Tg::displayTo('some_field_name', '');
+        $actual   = PhTag::selectStatic($params, $options);
+        PhTag::displayTo('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -4282,7 +4284,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testSelectStaticSetDefaultElementNotPresent()
@@ -4292,7 +4294,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'I');
+        PhTag::setDefault('some_field', 'I');
         $options = array(
             'A' => 'Active',
             'I' => 'Inactive',
@@ -4302,8 +4304,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                   . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
-        Tg::setDefault('some_field', '');
+        $actual   = PhTag::selectStatic($params, $options);
+        PhTag::setDefault('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -4315,7 +4317,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
     public function testSelectStaticDisplayToElementNotPresent()
@@ -4325,7 +4327,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'I');
+        PhTag::displayTo('some_field', 'I');
         $options = array(
             'A' => 'Active',
             'I' => 'Inactive',
@@ -4335,8 +4337,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                   . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
-        Tg::displayTo('some_field', '');
+        $actual   = PhTag::selectStatic($params, $options);
+        PhTag::displayTo('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -4348,7 +4350,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with string as a parameter throws exception
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testSelectStaticStringThrowsExceptionXHTML()
@@ -4357,7 +4359,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $options = 'some_values';
 
         try {
-            $actual   = Tg::selectStatic($name, $options);
+            $actual   = PhTag::selectStatic($name, $options);
         } catch (\Phalcon\Tag\Exception $e) {
             // This is where we need to be
         }
@@ -4372,7 +4374,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testSelectStaticWithArrayBasicXHTML()
@@ -4387,7 +4389,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                   . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($name, $options);
+        $actual   = PhTag::selectStatic($name, $options);
 
         $this->assertEquals(
             $expected,
@@ -4400,7 +4402,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests selectStatic with id in parameters
      *
      * @issue  54
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testSelectStaticWithIdInParameters_T54XHTML()
@@ -4419,7 +4421,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                   . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
+        $actual   = PhTag::selectStatic($params, $options);
 
         $this->assertEquals(
             $expected,
@@ -4435,7 +4437,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests selectStatic with name and not id in parameters
      *
      * @issue  54
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testSelectStaticWithNameAndNotIdInParameters_T54XHTML()
@@ -4454,7 +4456,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                   . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
+        $actual   = PhTag::selectStatic($params, $options);
 
         $this->assertEquals(
             $expected,
@@ -4469,7 +4471,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with value in parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testSelectStaticWithValueInParametersXHTML()
@@ -4489,7 +4491,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
+        $actual   = PhTag::selectStatic($params, $options);
 
         $this->assertEquals(
             $expected,
@@ -4504,7 +4506,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testSelectStaticSetDefaultXHTML()
@@ -4514,7 +4516,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field_name', 'I');
+        PhTag::setDefault('some_field_name', 'I');
         $options = array(
             'A' => 'Active',
             'I' => 'Inactive',
@@ -4525,8 +4527,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
-        Tg::setDefault('some_field_name', '');
+        $actual   = PhTag::selectStatic($params, $options);
+        PhTag::setDefault('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -4538,7 +4540,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with setDefault
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testSelectStaticDisplayToXHTML()
@@ -4548,7 +4550,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field_name', 'I');
+        PhTag::displayTo('some_field_name', 'I');
         $options = array(
             'A' => 'Active',
             'I' => 'Inactive',
@@ -4559,8 +4561,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
-        Tg::displayTo('some_field_name', '');
+        $actual   = PhTag::selectStatic($params, $options);
+        PhTag::displayTo('some_field_name', '');
 
         $this->assertEquals(
             $expected,
@@ -4572,7 +4574,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testSelectStaticSetDefaultElementNotPresentXHTML()
@@ -4582,7 +4584,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::setDefault('some_field', 'I');
+        PhTag::setDefault('some_field', 'I');
         $options = array(
             'A' => 'Active',
             'I' => 'Inactive',
@@ -4592,8 +4594,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                   . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
-        Tg::setDefault('some_field', '');
+        $actual   = PhTag::selectStatic($params, $options);
+        PhTag::setDefault('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -4605,7 +4607,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests selectStatic with setDefault to an non existent element
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
     public function testSelectStaticDisplayToElementNotPresentXHTML()
@@ -4615,7 +4617,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        Tg::displayTo('some_field', 'I');
+        PhTag::displayTo('some_field', 'I');
         $options = array(
             'A' => 'Active',
             'I' => 'Inactive',
@@ -4625,8 +4627,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
                   . chr(9) . '<option value="A">Active</option>' . PHP_EOL
                   . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::selectStatic($params, $options);
-        Tg::displayTo('some_field', '');
+        $actual   = PhTag::selectStatic($params, $options);
+        PhTag::displayTo('some_field', '');
 
         $this->assertEquals(
             $expected,
@@ -4641,17 +4643,17 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests setTitle
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-05
      */
     public function testSetTitle()
     {
         $value = 'This is my title';
 
-        Tg::setTitle($value);
+        PhTag::setTitle($value);
 
         $expected = "<title>{$value}</title>" . PHP_EOL;
-        $actual   = Tg::getTitle();
+        $actual   = PhTag::getTitle();
 
         $this->assertEquals(
             $expected,
@@ -4663,21 +4665,21 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests appendTitle
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-05
      */
     public function testAppendTitle()
     {
         $value = 'This is my title';
 
-        Tg::setTitle($value);
+        PhTag::setTitle($value);
 
         $append = ' - Welcome!';
 
-        Tg::appendTitle($append);
+        PhTag::appendTitle($append);
 
         $expected = "<title>{$value}{$append}</title>" . PHP_EOL;
-        $actual   = Tg::getTitle();
+        $actual   = PhTag::getTitle();
 
         $this->assertEquals(
             $expected,
@@ -4689,21 +4691,21 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests prependTitle
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-05
      */
     public function testPrependTitle()
     {
         $value = 'This is my title';
 
-        Tg::setTitle($value);
+        PhTag::setTitle($value);
 
         $prepend = 'PhalconPHP -';
 
-        Tg::prependTitle($prepend);
+        PhTag::prependTitle($prepend);
 
         $expected = "<title>{$prepend}{$value}</title>" . PHP_EOL;
-        $actual   = Tg::getTitle();
+        $actual   = PhTag::getTitle();
 
         $this->assertEquals(
             $expected,
@@ -4718,7 +4720,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests linkTo with string as url and name parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-08
      */
     public function testLinkToWithStringAsURLAndName()
@@ -4727,7 +4729,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $name = 'some_name';
 
         $expected = '<a href="/some_url">some_name</a>';
-        $actual   = Tg::linkTo($url, $name);
+        $actual   = PhTag::linkTo($url, $name);
 
         $this->assertEquals(
             $expected,
@@ -4739,7 +4741,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests linkTo with empty string as URL and string as name parameter
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-08
      */
     public function testLinkToWithEmptyStringAsURLAndStringAsName()
@@ -4748,7 +4750,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         $name = 'some_name';
 
         $expected = '<a href="/">some_name</a>';
-        $actual   = Tg::linkTo($url, $name);
+        $actual   = PhTag::linkTo($url, $name);
 
         $this->assertEquals(
             $expected,
@@ -4760,7 +4762,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests linkTo with array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-08
      */
     public function testLinkToWithArrayBasic()
@@ -4770,7 +4772,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'some_name',
         );
         $expected = '<a href="/some_url">some_name</a>';
-        $actual   = Tg::linkTo($params);
+        $actual   = PhTag::linkTo($params);
 
         $this->assertEquals(
             $expected,
@@ -4782,7 +4784,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests linkTo with named array as parameters
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-08
      */
     public function testLinkToWithArrayNamedBasic()
@@ -4792,7 +4794,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'text'   => 'some_name',
         );
         $expected = '<a href="/some_url">some_name</a>';
-        $actual   = Tg::linkTo($params);
+        $actual   = PhTag::linkTo($params);
 
         $this->assertEquals(
             $expected,
@@ -4807,7 +4809,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests linkTo with named array as parameters (more than the basic)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-08
      */
     public function testLinkToWithArrayNamed()
@@ -4818,7 +4820,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
             'class'  => 'btn btn-primary',
         );
         $expected = '<a href="/some_url" class="btn btn-primary">some_name</a>';
-        $actual   = Tg::linkTo($params);
+        $actual   = PhTag::linkTo($params);
 
         $this->assertEquals(
             $expected,

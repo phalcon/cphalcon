@@ -21,9 +21,13 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Tag as Tg;
+namespace Phalcon\Test\Tag;
 
-class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
+use \Phalcon\Test\FunctionalTestCase as PhTestFunctionalTestCase;
+
+use \Phalcon\Tag as PhTag;
+
+class FunctionalTest extends PhTestFunctionalTestCase
 {
     private $message = "%s does not return proper html element";
 
@@ -37,12 +41,12 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-11-29
      */
-    public function testFormBasic_T57()
+    public function testFormBasicT57()
     {
         $params = 'about/index';
 
         $expected = '<form method="post" action="/about/index">';
-        $actual   = Tg::form($params);
+        $actual   = PhTag::form($params);
 
         $this->assertEquals(
             $expected,
@@ -58,12 +62,12 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-11-29
      */
-    public function testFormBasicWithRandomString_T57()
+    public function testFormBasicWithRandomStringT57()
     {
         $params = 'somestring';
 
         $expected = '<form method="post" action="/somestring">';
-        $actual   = Tg::form($params);
+        $actual   = PhTag::form($params);
 
         $this->assertEquals(
             $expected,
@@ -79,7 +83,7 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-11-29
      */
-    public function testFormWithArrayParametersGet_T57()
+    public function testFormWithArrayParametersGetT57()
     {
         $params = array(
             'about/list',
@@ -87,7 +91,7 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
         );
 
         $expected = '<form method="get" action="/about/list">';
-        $actual   = Tg::form($params);
+        $actual   = PhTag::form($params);
 
         $this->assertEquals(
             $expected,
@@ -103,7 +107,7 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-11-29
      */
-    public function testFormWithArrayParametersPost_T57()
+    public function testFormWithArrayParametersPostT57()
     {
         $params = array(
             'about/list',
@@ -111,7 +115,7 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
         );
 
         $expected = '<form method="post" action="/about/list">';
-        $actual   = Tg::form($params);
+        $actual   = PhTag::form($params);
 
         $this->assertEquals(
             $expected,
@@ -130,7 +134,7 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
     public function testEndForm()
     {
         $expected = '</form>';
-        $actual   = Tg::endForm();
+        $actual   = PhTag::endForm();
 
         $this->assertEquals(
             $expected,
