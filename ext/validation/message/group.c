@@ -223,6 +223,44 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 }
 
 /**
+ * Appends an array of messages to the group
+ *
+ *<code>
+ * $messages->appendMessages($messagesArray);
+ *</code>
+ *
+ * @param Phalcon\Validation\MessageInterface[] $messages
+ */
+PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
+
+	zval *messages, *current_messages, *final_messages = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &messages) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(messages) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The messages must be an array");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(current_messages);
+	phalcon_read_property(&current_messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	if (Z_TYPE_P(current_messages) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(final_messages);
+		PHALCON_CALL_FUNC_PARAMS_2(final_messages, "array_merge", current_messages, messages);
+	} else {
+		PHALCON_CPY_WRT(final_messages, messages);
+	}
+	
+	phalcon_update_property_zval(this_ptr, SL("_messages"), final_messages TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Returns the number of messages in the list
  *
  * @return int

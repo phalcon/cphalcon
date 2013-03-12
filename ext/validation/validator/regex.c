@@ -46,7 +46,8 @@
  *use Phalcon\Validation\Validator\Regex as RegexValidator;
  *
  *$validator->add('created_at', new RegexValidator(array(
- *   'pattern' => '/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])$/'
+ *   'pattern' => '/^[0-9]{4}[-\/](0[1-9]|1[12])[-\/](0[1-9]|[12][0-9]|3[01])$/',
+ *   'message' => 'The creation date is invalid'
  *)));
  *</code>
  */
@@ -58,6 +59,8 @@
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Regex){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Regex, validation_validator_regex, "phalcon\\validation\\validator", phalcon_validation_validator_regex_method_entry, 0);
+
+	zend_class_implements(phalcon_validation_validator_regex_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 
 	return SUCCESS;
 }

@@ -1,3 +1,8 @@
+1.0.0b2
+ - Added Phalcon\Mvc\Router::setUriSource to set if the URI source must be $_GET['_url'] or $_SERVER['REQUEST_URI']
+ - Added a white-list parameter to Phalcon\Mvc\Model::save(), Phalcon\Mvc\Model::create() and
+ Phalcon\Mvc\Model::update() to avoid possible mass-assigment attacks
+
 1.0.0b1
  - Fixed bug with missing blocks in multiple inheritance in Volt
  - Support for ternary operator in Volt
@@ -10,7 +15,7 @@
  - Added Phalcon\Logger\Adapter::setLogLevel to filter messages with greater or less priority
  - Removed constructor from Phalcon\Cache\BackendInterface
  - Added Phalcon\Cache\Multiple, this backend writes to several backends, and reads data according to the order in which backends were registered.
- - Now a model can use a separate connection to read and other to write, this makes horizontal sharding easy
+ - Now a model can use a separate connection to read and another to write, this makes horizontal sharding easy
  - Now, a model could implement a method selectReadConnection to dynamically return the correct database according to the current query conditions
  - Added Phalcon\Cache\Backend\Memory to cache data in the current request
  - Added Phalcon\Validation, this component allows the validate a set of data based on pre-defined rules

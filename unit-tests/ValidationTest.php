@@ -22,6 +22,8 @@ use Phalcon\Validation\Validator\PresenceOf,
 	Phalcon\Validation\Validator\Identical,
 	Phalcon\Validation\Validator\Regex,
 	Phalcon\Validation\Validator\InclusionIn,
+	Phalcon\Validation\Validator\ExclusionIn,
+	Phalcon\Validation\Validator\StringLength,
 	Phalcon\Validation\Validator\Email;
 
 class ValidationTest extends PHPUnit_Framework_TestCase
@@ -429,11 +431,11 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 	public function testValidationExclusionIn()
 	{
-		$_POST = array();
+		$_POST = array('status' => 'A');
 
 		$validation = new Phalcon\Validation();
 
-		$validation->add('status', new InclusionIn(array(
+		$validation->add('status', new ExclusionIn(array(
 			'domain' => array('A', 'I')
 		)));
 
@@ -442,8 +444,8 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'InclusionIn',
-					'_message' => 'Value of field \'status\' must be part of list: A, I',
+					'_type' => 'ExclusionIn',
+					'_message' => 'Value of field \'status\' must not be part of list: A, I',
 					'_field' => 'status',
 				))
 			)
@@ -451,13 +453,13 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($expectedMessages, $messages);
 
-		$_POST = array('status' => 'X');
+		$_POST = array('status' => 'A');
 
 		$messages = $validation->validate($_POST);
 
 		$this->assertEquals($expectedMessages, $messages);
 
-		$_POST = array('status' => 'A');
+		$_POST = array('status' => 'X');
 
 		$messages = $validation->validate($_POST);
 
@@ -466,12 +468,12 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 	public function testValidationExclusionInCustomMessage()
 	{
-		$_POST = array();
+		$_POST = array('status' => 'A');
 
 		$validation = new Phalcon\Validation();
 
-		$validation->add('status', new InclusionIn(array(
-			'message' => 'The status must be A=Active or I=Inactive',
+		$validation->add('status', new ExclusionIn(array(
+			'message' => 'The status must not be A=Active or I=Inactive',
 			'domain' => array('A', 'I')
 		)));
 
@@ -480,8 +482,8 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
 			'_messages' => array(
 				0 => Phalcon\Validation\Message::__set_state(array(
-					'_type' => 'InclusionIn',
-					'_message' => 'The status must be A=Active or I=Inactive',
+					'_type' => 'ExclusionIn',
+					'_message' => 'The status must not be A=Active or I=Inactive',
 					'_field' => 'status',
 				))
 			)
@@ -489,13 +491,151 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($expectedMessages, $messages);
 
-		$_POST = array('status' => 'x=1');
+		$_POST = array('status' => 'A');
 
 		$messages = $validation->validate($_POST);
 
 		$this->assertEquals($expectedMessages, $messages);
 
-		$_POST = array('status' => 'A');
+		$_POST = array('status' => 'X');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
+	}
+
+	public function testValidationStringLengthMinimum()
+	{
+		$_POST = array();
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('name', new StringLength(array(
+			'min' => 3
+		)));
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'TooShort',
+					'_message' => 'Value of field \'name\' is less than the minimum 3 characters',
+					'_field' => 'name',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('name' => 'p');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('name' => 'peter');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
+	}
+
+	public function testValidationStringLengthMinimumCustomMessage()
+	{
+		$_POST = array();
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('name', new StringLength(array(
+			'min' => 3,
+			'messageMinimum' => 'The message is too short'
+		)));
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'TooShort',
+					'_message' => 'The message is too short',
+					'_field' => 'name',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('name' => 'p');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('name' => 'peter');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
+	}
+
+	public function testValidationStringLengthMaximum()
+	{
+		$_POST = array('name' => 'Johannes');
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('name', new StringLength(array(
+			'max' => 4
+		)));
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'TooLong',
+					'_message' => 'Value of field \'name\' exceeds the maximum 4 characters',
+					'_field' => 'name',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('name' => 'a');
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
+	}
+
+	public function testValidationStringLengthMaximumCustomMessage()
+	{
+		$_POST = array('name' => 'Johannes');
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('name', new StringLength(array(
+			'max' => 4,
+			'messageMaximum' => 'The message is too long'
+		)));
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'TooLong',
+					'_message' => 'The message is too long',
+					'_field' => 'name',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('name' => 'pet');
 
 		$messages = $validation->validate($_POST);
 
@@ -519,7 +659,6 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 			)));
 
 		$messages = $validation->validate($_POST);
-
 
 	}
 

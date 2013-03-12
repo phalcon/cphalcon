@@ -245,6 +245,35 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	PHALCON_MM_RESTORE();}
 
 /**
+ * Returns a PDO prepared statement to be executed with 'executePrepared'
+ *
+ *<code>
+ * $statement = $db->prepare('SELECT * FROM robots WHERE name = :name');
+ * $result = $connection->executePrepared($statement, array('name' => 'Voltron'));
+ *</code>
+ *
+ * @param string $sqlStatement
+ * @return \PDOStatement
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare){
+
+	zval *sql_statement, *pdo, *statement;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_statement) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(pdo);
+	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(statement);
+	PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "prepare", sql_statement);
+	RETURN_CCTOR(statement);
+}
+
+/**
  * Executes a prepared statement binding. This function uses integer indexes starting from zero
  *
  *<code>
@@ -533,7 +562,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
  * Returns the number of affected rows by the lastest INSERT/UPDATE/DELETE executed in the database system
  *
  *<code>
- *	$connection->query("DELETE FROM robots");
+ *	$connection->execute("DELETE FROM robots");
  *	echo $connection->affectedRows(), ' were deleted';
  *</code>
  *

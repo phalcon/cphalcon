@@ -75,6 +75,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc, Router, mvc_router, phalcon_mvc_router_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_ce, SL("_uriSource"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_namespace"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_module"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_controller"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -91,6 +92,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_router_ce, SL("_removeExtraSlashes"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_notFoundPaths"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_mvc_router_ce, SL("URI_SOURCE_GET_URL"), 0 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_router_ce, SL("URI_SOURCE_SERVER_REQUEST_URI"), 1 TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_router_ce TSRMLS_CC, 2, phalcon_mvc_routerinterface_ce, phalcon_di_injectionawareinterface_ce);
 
@@ -198,21 +202,29 @@ PHP_METHOD(Phalcon_Mvc_Router, getDI){
  */
 PHP_METHOD(Phalcon_Mvc_Router, _getRewriteUri){
 
-	zval *_GET, *url = NULL, *_SERVER, *question_mark, *url_parts;
-	zval *real_uri;
+	zval *uri_source, *_GET, *url = NULL, *_SERVER, *question_mark;
+	zval *url_parts, *real_uri;
 
 	PHALCON_MM_GROW();
 
 	/** 
+	 * The developer can change the URI source
+	 */
+	PHALCON_OBS_VAR(uri_source);
+	phalcon_read_property(&uri_source, this_ptr, SL("_uriSource"), PH_NOISY_CC);
+	
+	/** 
 	 * By default we use $_GET['url'] to obtain the rewrite information
 	 */
-	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
-	if (phalcon_array_isset_string(_GET, SS("_url"))) {
+	if (!zend_is_true(uri_source)) {
+		phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
+		if (phalcon_array_isset_string(_GET, SS("_url"))) {
 	
-		PHALCON_OBS_VAR(url);
-		phalcon_array_fetch_string(&url, _GET, SL("_url"), PH_NOISY_CC);
-		if (PHALCON_IS_NOT_EMPTY(url)) {
-			RETURN_CCTOR(url);
+			PHALCON_OBS_VAR(url);
+			phalcon_array_fetch_string(&url, _GET, SL("_url"), PH_NOISY_CC);
+			if (PHALCON_IS_NOT_EMPTY(url)) {
+				RETURN_CCTOR(url);
+			}
 		}
 	} else {
 		/** 
@@ -237,8 +249,30 @@ PHP_METHOD(Phalcon_Mvc_Router, _getRewriteUri){
 			}
 		}
 	}
+	
 	PHALCON_MM_RESTORE();
 	RETURN_STRING("/", 1);
+}
+
+/**
+ * Sets the URI source. One of the URI_SOURCE_* constants
+ *
+ *<code>
+ *	$router->setUriSource(Router::URI_SOURCE_SERVER_REQUEST_URI);
+ *</code>
+ *
+ * @param string $uriSource
+ */
+PHP_METHOD(Phalcon_Mvc_Router, setUriSource){
+
+	zval *uri_source;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &uri_source) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_uriSource"), uri_source TSRMLS_CC);
+	
 }
 
 /**

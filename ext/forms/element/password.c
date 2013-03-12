@@ -37,18 +37,18 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Forms\Element\Text
+ * Phalcon\Forms\Element\Password
  *
- * Text component INPUT[type=text] for forms
+ * Text component INPUT[type=password] for forms
  */
 
 
 /**
- * Phalcon\Forms\Element\Text initializer
+ * Phalcon\Forms\Element\Password initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Forms_Element_Text){
+PHALCON_INIT_CLASS(Phalcon_Forms_Element_Password){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Text, forms_element_text, "phalcon\\forms\\element", phalcon_forms_element_text_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Password, forms_element_password, "phalcon\\forms\\element", phalcon_forms_element_password_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -58,7 +58,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Text){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Forms_Element_Text, render){
+PHP_METHOD(Phalcon_Forms_Element_Password, render){
 
 	zval *attributes = NULL, *name, *widget_attributes = NULL;
 	zval *code;
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Forms_Element_Text, render){
 	phalcon_array_update_long(&widget_attributes, 0, &name, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "textfield", widget_attributes);
+	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "passwordfield", widget_attributes);
 	
 	RETURN_CCTOR(code);
 }

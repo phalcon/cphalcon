@@ -979,9 +979,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 
 	zval *roles, *number_roles, *pow_roles, *two, *middle_roles;
 	zval *middle, *roles_names, *roles_inherits;
-	zval *i, *internal_access = NULL, *one = NULL, *role_name = NULL, *role_inherit = NULL;
-	zval *inherit_internal = NULL, *access = NULL, *resource_name = NULL;
-	zval *value = NULL, *name = NULL, *_access = NULL;
+	zval *changed = NULL, *i, *internal_access = NULL, *one = NULL, *role_name = NULL;
+	zval *role_inherit = NULL, *inherit_internal = NULL, *access = NULL;
+	zval *resource_name = NULL, *value = NULL, *name = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
@@ -1013,13 +1013,16 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	PHALCON_OBS_VAR(roles_inherits);
 	phalcon_read_property(&roles_inherits, this_ptr, SL("_roleInherits"), PH_NOISY_CC);
 	
+	PHALCON_INIT_VAR(changed);
+	ZVAL_BOOL(changed, 1);
+	
 	PHALCON_INIT_VAR(i);
 	ZVAL_LONG(i, 0);
 	while (1) {
 	
 		PHALCON_INIT_NVAR(r0);
 		is_smaller_or_equal_function(r0, i, middle TSRMLS_CC);
-		if (zend_is_true(r0)) {
+		if (!zend_is_true(r0)) {
 			break;
 		}
 		PHALCON_OBS_NVAR(internal_access);
@@ -1087,10 +1090,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 										}
 									}
 								}
+								phalcon_array_update_zval_zval_zval_multi_3(&internal_access, role_name, resource_name, name, &value, 0 TSRMLS_CC);
 	
-								PHALCON_OBS_NVAR(_access);
-								phalcon_read_property(&_access, this_ptr, SL("_access"), PH_NOISY_CC);
-								phalcon_array_update_zval_zval_zval_multi_3(&_access, role_name, resource_name, name, &value, 0 TSRMLS_CC);
+								PHALCON_INIT_NVAR(changed);
+								ZVAL_BOOL(changed, 1);
 	
 								zend_hash_move_forward_ex(ah3, &hp3);
 							}
@@ -1109,6 +1112,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
+		if (zend_is_true(changed)) {
+			phalcon_update_property_zval(this_ptr, SL("_access"), internal_access TSRMLS_CC);
+		}
 		PHALCON_SEPARATE(i);
 		increment_function(i);
 	}

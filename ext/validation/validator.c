@@ -87,8 +87,35 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct){
 }
 
 /**
- * Returns an option in the validator's option
- * Returns null if the option hasn't been passed
+ * Checks if an option is defined
+ *
+ * @param string $key
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Validation_Validator, isSetOption){
+
+	zval *key, *options;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		if (phalcon_array_isset(options, key)) {
+			RETURN_MM_TRUE;
+		}
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Returns an option in the validator's options
+ * Returns null if the option hasn't been set
  *
  * @param string $key
  * @return mixed
