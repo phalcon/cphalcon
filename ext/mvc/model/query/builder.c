@@ -36,9 +36,9 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/file.h"
-#include "kernel/operators.h"
 #include "kernel/string.h"
 
 /**
@@ -590,9 +590,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit){
 		PHALCON_INIT_VAR(offset);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_limit"), limit TSRMLS_CC);
+	if (phalcon_is_numeric(limit)) {
+		phalcon_update_property_zval(this_ptr, SL("_limit"), limit TSRMLS_CC);
+	}
 	if (Z_TYPE_P(offset) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+		if (phalcon_is_numeric(offset)) {
+			phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+		}
 	}
 	
 	
@@ -685,7 +689,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy){
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 
 	zval *dependency_injector = NULL, *models, *conditions = NULL;
-	zval *is_numeric, *one, *number_models, *invalid_condition;
+	zval *one, *number_models, *invalid_condition;
 	zval *model = NULL, *service_name, *meta_data, *model_instance;
 	zval *no_primary = NULL, *primary_keys, *first_primary_key;
 	zval *column_map = NULL, *attribute_field = NULL, *exception_message;
@@ -728,10 +732,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	
 	PHALCON_OBS_VAR(conditions);
 	phalcon_read_property(&conditions, this_ptr, SL("_conditions"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(is_numeric);
-	PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", conditions);
-	if (zend_is_true(is_numeric)) {
+	if (phalcon_is_numeric(conditions)) {
 	
 		/** 
 		 * If the conditions is a single numeric field. We internally create a condition
@@ -968,12 +969,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_OBS_NVAR(join_alias);
 			phalcon_array_fetch_long(&join_alias, join, 2, PH_NOISY_CC);
 			PHALCON_SCONCAT_SVS(phql, " JOIN [", join_model, "]");
-			if (zend_is_true(join_conditions)) {
-				PHALCON_SCONCAT_SV(phql, " ON ", join_conditions);
-			}
 	
+			/** 
+			 * Alias comes first
+			 */
 			if (zend_is_true(join_alias)) {
 				PHALCON_SCONCAT_SVS(phql, " AS [", join_alias, "]");
+			}
+	
+			/** 
+			 * Conditions then
+			 */
+			if (zend_is_true(join_conditions)) {
+				PHALCON_SCONCAT_SV(phql, " ON ", join_conditions);
 			}
 	
 			zend_hash_move_forward_ex(ah3, &hp3);
@@ -1089,24 +1097,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	PHALCON_OBS_VAR(limit);
 	phalcon_read_property(&limit, this_ptr, SL("_limit"), PH_NOISY_CC);
 	if (Z_TYPE_P(limit) != IS_NULL) {
-		if (Z_TYPE_P(limit) == IS_ARRAY) { 
+		if (phalcon_is_numeric(limit)) {
+			if (Z_TYPE_P(limit) == IS_ARRAY) { 
 	
-			PHALCON_OBS_VAR(number);
-			phalcon_array_fetch_string(&number, limit, SL("number"), PH_NOISY_CC);
-			if (phalcon_array_isset_string(limit, SS("offset"))) {
-				PHALCON_OBS_VAR(offset);
-				phalcon_array_fetch_string(&offset, limit, SL("offset"), PH_NOISY_CC);
-				PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
+				PHALCON_OBS_VAR(number);
+				phalcon_array_fetch_string(&number, limit, SL("number"), PH_NOISY_CC);
+				if (phalcon_array_isset_string(limit, SS("offset"))) {
+	
+					PHALCON_OBS_VAR(offset);
+					phalcon_array_fetch_string(&offset, limit, SL("offset"), PH_NOISY_CC);
+					if (phalcon_is_numeric(offset)) {
+						PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
+					} else {
+						PHALCON_SCONCAT_SVS(phql, " LIMIT ", number, " OFFSET 0");
+					}
+				} else {
+					PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
+				}
 			} else {
-				PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
-			}
-		} else {
-			PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
+				PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
 	
-			PHALCON_OBS_NVAR(offset);
-			phalcon_read_property(&offset, this_ptr, SL("_offset"), PH_NOISY_CC);
-			if (Z_TYPE_P(offset) != IS_NULL) {
-				PHALCON_SCONCAT_SV(phql, " OFFSET ", offset);
+				PHALCON_OBS_NVAR(offset);
+				phalcon_read_property(&offset, this_ptr, SL("_offset"), PH_NOISY_CC);
+				if (Z_TYPE_P(offset) != IS_NULL) {
+					if (phalcon_is_numeric(offset)) {
+						PHALCON_SCONCAT_SV(phql, " OFFSET ", offset);
+					} else {
+						phalcon_concat_self_str(&phql, SL(" OFFSET 0") TSRMLS_CC);
+					}
+				}
 			}
 		}
 	}

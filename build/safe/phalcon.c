@@ -23432,7 +23432,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 
 	zval *resultset, *using, *value, *close_option;
 	zval *code, *using_zero = NULL, *using_one = NULL, *option = NULL, *option_value = NULL;
-	zval *option_text = NULL;
+	zval *option_text = NULL, *is_in_array = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -23469,10 +23469,21 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		PHALCON_INIT_NVAR(option_text);
 		PHALCON_CALL_METHOD_PARAMS_1(option_text, option, "readattribute", using_one);
 	
-		if (PHALCON_IS_EQUAL(value, option_value)) {
-			PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
+		if (Z_TYPE_P(value) == IS_ARRAY) { 
+	
+			PHALCON_INIT_NVAR(is_in_array);
+			PHALCON_CALL_FUNC_PARAMS_2(is_in_array, "in_array", option_value, value);
+			if (zend_is_true(is_in_array)) {
+				PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
+			} else {
+				PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);
+			}
 		} else {
-			PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);
+			if (PHALCON_IS_EQUAL(option_value, value)) {
+				PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
+			} else {
+				PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);
+			}
 		}
 	
 		PHALCON_CALL_METHOD_NORETURN(resultset, "next");
@@ -23484,7 +23495,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 
 	zval *data, *value, *close_option, *code, *option_text = NULL;
-	zval *option_value = NULL;
+	zval *option_value = NULL, *is_in_array = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -23507,10 +23518,21 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		PHALCON_GET_FOREACH_KEY(option_value, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(option_text);
 	
-		if (PHALCON_IS_EQUAL(value, option_value)) {
-			PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
+		if (Z_TYPE_P(value) == IS_ARRAY) { 
+	
+			PHALCON_INIT_NVAR(is_in_array);
+			PHALCON_CALL_FUNC_PARAMS_2(is_in_array, "in_array", option_value, value);
+			if (zend_is_true(is_in_array)) {
+				PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
+			} else {
+				PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);
+			}
 		} else {
-			PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);
+			if (PHALCON_IS_EQUAL(option_value, value)) {
+				PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
+			} else {
+				PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);
+			}
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -58807,9 +58829,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit){
 		PHALCON_INIT_VAR(offset);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_limit"), limit TSRMLS_CC);
+	if (phalcon_is_numeric(limit)) {
+		phalcon_update_property_zval(this_ptr, SL("_limit"), limit TSRMLS_CC);
+	}
 	if (Z_TYPE_P(offset) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+		if (phalcon_is_numeric(offset)) {
+			phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+		}
 	}
 	
 	
@@ -58861,7 +58887,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy){
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 
 	zval *dependency_injector = NULL, *models, *conditions = NULL;
-	zval *is_numeric, *one, *number_models, *invalid_condition;
+	zval *one, *number_models, *invalid_condition;
 	zval *model = NULL, *service_name, *meta_data, *model_instance;
 	zval *no_primary = NULL, *primary_keys, *first_primary_key;
 	zval *column_map = NULL, *attribute_field = NULL, *exception_message;
@@ -58904,10 +58930,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	
 	PHALCON_OBS_VAR(conditions);
 	phalcon_read_property(&conditions, this_ptr, SL("_conditions"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(is_numeric);
-	PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", conditions);
-	if (zend_is_true(is_numeric)) {
+	if (phalcon_is_numeric(conditions)) {
 	
 		if (Z_TYPE_P(models) == IS_ARRAY) { 
 	
@@ -59115,12 +59138,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_OBS_NVAR(join_alias);
 			phalcon_array_fetch_long(&join_alias, join, 2, PH_NOISY_CC);
 			PHALCON_SCONCAT_SVS(phql, " JOIN [", join_model, "]");
-			if (zend_is_true(join_conditions)) {
-				PHALCON_SCONCAT_SV(phql, " ON ", join_conditions);
-			}
 	
 			if (zend_is_true(join_alias)) {
 				PHALCON_SCONCAT_SVS(phql, " AS [", join_alias, "]");
+			}
+	
+			if (zend_is_true(join_conditions)) {
+				PHALCON_SCONCAT_SV(phql, " ON ", join_conditions);
 			}
 	
 			zend_hash_move_forward_ex(ah3, &hp3);
@@ -59227,24 +59251,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	PHALCON_OBS_VAR(limit);
 	phalcon_read_property(&limit, this_ptr, SL("_limit"), PH_NOISY_CC);
 	if (Z_TYPE_P(limit) != IS_NULL) {
-		if (Z_TYPE_P(limit) == IS_ARRAY) { 
+		if (phalcon_is_numeric(limit)) {
+			if (Z_TYPE_P(limit) == IS_ARRAY) { 
 	
-			PHALCON_OBS_VAR(number);
-			phalcon_array_fetch_string(&number, limit, SL("number"), PH_NOISY_CC);
-			if (phalcon_array_isset_string(limit, SS("offset"))) {
-				PHALCON_OBS_VAR(offset);
-				phalcon_array_fetch_string(&offset, limit, SL("offset"), PH_NOISY_CC);
-				PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
+				PHALCON_OBS_VAR(number);
+				phalcon_array_fetch_string(&number, limit, SL("number"), PH_NOISY_CC);
+				if (phalcon_array_isset_string(limit, SS("offset"))) {
+	
+					PHALCON_OBS_VAR(offset);
+					phalcon_array_fetch_string(&offset, limit, SL("offset"), PH_NOISY_CC);
+					if (phalcon_is_numeric(offset)) {
+						PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
+					} else {
+						PHALCON_SCONCAT_SVS(phql, " LIMIT ", number, " OFFSET 0");
+					}
+				} else {
+					PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
+				}
 			} else {
-				PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
-			}
-		} else {
-			PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
+				PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
 	
-			PHALCON_OBS_NVAR(offset);
-			phalcon_read_property(&offset, this_ptr, SL("_offset"), PH_NOISY_CC);
-			if (Z_TYPE_P(offset) != IS_NULL) {
-				PHALCON_SCONCAT_SV(phql, " OFFSET ", offset);
+				PHALCON_OBS_NVAR(offset);
+				phalcon_read_property(&offset, this_ptr, SL("_offset"), PH_NOISY_CC);
+				if (Z_TYPE_P(offset) != IS_NULL) {
+					if (phalcon_is_numeric(offset)) {
+						PHALCON_SCONCAT_SV(phql, " OFFSET ", offset);
+					} else {
+						phalcon_concat_self_str(&phql, SL(" OFFSET 0") TSRMLS_CC);
+					}
+				}
 			}
 		}
 	}
