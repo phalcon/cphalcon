@@ -91,6 +91,7 @@ PHP_METHOD(Phalcon_Forms_Form, __construct){
 }
 
 /**
+ * Validates the form
  *
  * @param array|object $data
  * @param object $entity
@@ -98,11 +99,11 @@ PHP_METHOD(Phalcon_Forms_Form, __construct){
  */
 PHP_METHOD(Phalcon_Forms_Form, isValid){
 
-	zval *data = NULL, *entity = NULL, *elements, *failed = NULL, *messages;
-	zval *element = NULL, *validators = NULL, *validation = NULL, *element_messages = NULL;
-	zval *name = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
+	zval *data = NULL, *entity = NULL, *elements, *not_failed = NULL, *messages;
+	zval *element = NULL, *validators = NULL, *name = NULL, *prepared_validators = NULL;
+	zval *validator = NULL, *scope = NULL, *validation = NULL, *element_messages = NULL;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -133,8 +134,8 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 			phalcon_read_property(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
 		}
 	
-		PHALCON_INIT_VAR(failed);
-		ZVAL_BOOL(failed, 0);
+		PHALCON_INIT_VAR(not_failed);
+		ZVAL_BOOL(not_failed, 1);
 	
 		PHALCON_INIT_VAR(messages);
 		array_init(messages);
@@ -150,19 +151,54 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 			PHALCON_INIT_NVAR(validators);
 			PHALCON_CALL_METHOD(validators, element, "getvalidators");
 			if (Z_TYPE_P(validators) == IS_ARRAY) { 
+				if (phalcon_fast_count_ev(validators TSRMLS_CC)) {
 	
-				PHALCON_INIT_NVAR(validation);
-				object_init_ex(validation, phalcon_validation_ce);
-	
-				PHALCON_INIT_NVAR(element_messages);
-				PHALCON_CALL_METHOD_PARAMS_2(element_messages, validation, "validate", data, entity);
-				if (phalcon_fast_count_ev(element_messages TSRMLS_CC)) {
+					/** 
+					 * Element's name
+					 */
 					PHALCON_INIT_NVAR(name);
 					PHALCON_CALL_METHOD(name, element, "getname");
-					phalcon_array_update_zval(&messages, name, &element_messages, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
-					PHALCON_INIT_NVAR(failed);
-					ZVAL_BOOL(failed, 1);
+					/** 
+					 * Prepare the validators
+					 */
+					PHALCON_INIT_NVAR(prepared_validators);
+					array_init(prepared_validators);
+	
+					if (!phalcon_is_iterable(validators, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+						return;
+					}
+	
+					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+						PHALCON_GET_FOREACH_VALUE(validator);
+	
+						PHALCON_INIT_NVAR(scope);
+						array_init_size(scope, 2);
+						phalcon_array_append(&scope, name, PH_SEPARATE TSRMLS_CC);
+						phalcon_array_append(&scope, validator, PH_SEPARATE TSRMLS_CC);
+						phalcon_array_append(&prepared_validators, scope, PH_SEPARATE TSRMLS_CC);
+	
+						zend_hash_move_forward_ex(ah1, &hp1);
+					}
+	
+					/** 
+					 * Create an implicit validation
+					 */
+					PHALCON_INIT_NVAR(validation);
+					object_init_ex(validation, phalcon_validation_ce);
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validation, "__construct", prepared_validators);
+	
+					PHALCON_INIT_NVAR(element_messages);
+					PHALCON_CALL_METHOD_PARAMS_2(element_messages, validation, "validate", data, entity);
+					if (phalcon_fast_count_ev(element_messages TSRMLS_CC)) {
+						PHALCON_INIT_NVAR(name);
+						PHALCON_CALL_METHOD(name, element, "getname");
+						phalcon_array_update_zval(&messages, name, &element_messages, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+						PHALCON_INIT_NVAR(not_failed);
+						ZVAL_BOOL(not_failed, 0);
+					}
 				}
 			}
 	
@@ -172,12 +208,15 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 		/** 
 		 * If the validation fails
 		 */
-		if (zend_is_true(failed)) {
+		if (!zend_is_true(not_failed)) {
 			phalcon_update_property_zval(this_ptr, SL("_messages"), messages TSRMLS_CC);
 		}
 	
+		/** 
+		 * Return the validation status
+		 */
 	
-		RETURN_NCTOR(failed);
+		RETURN_NCTOR(not_failed);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -186,6 +225,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 /**
  * Returns the messages generated in the validation
  *
+ * @param boolean $byItemName
  * @return array
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessages){
@@ -204,7 +244,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages){
 
 	if (!by_item_name) {
 		PHALCON_INIT_VAR(by_item_name);
-		ZVAL_BOOL(by_item_name, 1);
+		ZVAL_BOOL(by_item_name, 0);
 	}
 	
 	PHALCON_OBS_VAR(messages);

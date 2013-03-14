@@ -32,14 +32,15 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 
 /**
  * Phalcon\Validation
+ *
  */
 
 
@@ -56,6 +57,36 @@ PHALCON_INIT_CLASS(Phalcon_Validation){
 	zend_declare_property_null(phalcon_validation_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+}
+
+/**
+ * Phalcon\Validation constructor
+ *
+ * @param array $validators
+ */
+PHP_METHOD(Phalcon_Validation, __construct){
+
+	zval *validators = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &validators) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!validators) {
+		PHALCON_INIT_VAR(validators);
+	}
+	
+	if (Z_TYPE_P(validators) != IS_NULL) {
+		if (Z_TYPE_P(validators) != IS_ARRAY) { 
+			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Validators must be an array");
+			return;
+		}
+		phalcon_update_property_zval(this_ptr, SL("_validators"), validators TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -113,6 +144,11 @@ PHP_METHOD(Phalcon_Validation, validate){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(scope);
+	
+		if (Z_TYPE_P(scope) != IS_ARRAY) { 
+			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The validator scope is not valid");
+			return;
+		}
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_long(&attribute, scope, 0, PH_NOISY_CC);
@@ -260,6 +296,12 @@ PHP_METHOD(Phalcon_Validation, bind){
 	RETURN_THIS();
 }
 
+/**
+ * Gets the a value to validate in the array/object data source
+ *
+ * @param string $attribute
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Validation, getValue){
 
 	zval *attribute, *entity, *method, *value = NULL, *data;

@@ -36,6 +36,7 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Validation\Message\Group
@@ -234,6 +235,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 
 	zval *messages, *current_messages, *final_messages = NULL;
+	zval *message = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -242,20 +245,47 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 	}
 
 	if (Z_TYPE_P(messages) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The messages must be an array");
-		return;
+		if (Z_TYPE_P(messages) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The messages must be array or object");
+			return;
+		}
 	}
 	
 	PHALCON_OBS_VAR(current_messages);
 	phalcon_read_property(&current_messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (Z_TYPE_P(current_messages) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(final_messages);
-		PHALCON_CALL_FUNC_PARAMS_2(final_messages, "array_merge", current_messages, messages);
-	} else {
-		PHALCON_CPY_WRT(final_messages, messages);
-	}
+	if (Z_TYPE_P(messages) == IS_ARRAY) { 
 	
-	phalcon_update_property_zval(this_ptr, SL("_messages"), final_messages TSRMLS_CC);
+		/** 
+		 * An array of messages is simply merged into the current one
+		 */
+		if (Z_TYPE_P(current_messages) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(final_messages);
+			PHALCON_CALL_FUNC_PARAMS_2(final_messages, "array_merge", current_messages, messages);
+		} else {
+			PHALCON_CPY_WRT(final_messages, messages);
+		}
+		phalcon_update_property_zval(this_ptr, SL("_messages"), final_messages TSRMLS_CC);
+	} else {
+		/** 
+		 * A group of messages is iterated and appended one-by-one to the current list
+		 */
+		PHALCON_CALL_METHOD_NORETURN(messages, "rewind");
+	
+		while (1) {
+	
+			PHALCON_INIT_NVAR(r0);
+			PHALCON_CALL_METHOD(r0, messages, "valid");
+			if (PHALCON_IS_NOT_FALSE(r0)) {
+			} else {
+				break;
+			}
+	
+			PHALCON_INIT_NVAR(message);
+			PHALCON_CALL_METHOD(message, messages, "current");
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "appendmessage", message);
+			PHALCON_CALL_METHOD_NORETURN(messages, "next");
+		}
+	}
 	
 	PHALCON_MM_RESTORE();
 }
