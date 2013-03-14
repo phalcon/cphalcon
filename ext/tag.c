@@ -926,7 +926,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 }
 
 /**
- * Builds a HTML SELECT tag using a Phalcon_Model resultset as options
+ * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
  *
  *<code>
  *	echo Phalcon\Tag::selectStatic(array(

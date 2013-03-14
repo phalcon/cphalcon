@@ -39,7 +39,7 @@
 /**
  * Phalcon\Forms\Element\Text
  *
- * Text component INPUT[type=text] for forms
+ * Component INPUT[type=text] for forms
  */
 
 
@@ -56,6 +56,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Text){
 /**
  * Renders the element widget
  *
+ * @param array $attributes
  * @return string
  */
 PHP_METHOD(Phalcon_Forms_Element_Text, render){
