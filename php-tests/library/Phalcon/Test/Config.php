@@ -22,7 +22,9 @@
  * so that we can send you a copy immediately.
  */
 
-class Phalcon_Test_Config
+namespace Phalcon\Test;
+
+class Config
 {
     public static function init()
     {

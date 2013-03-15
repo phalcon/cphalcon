@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2012 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,7 +20,12 @@
  * so that we can send you a copy immediately.
  */
 
-abstract class Phalcon_Test_FunctionalTestCase extends Phalcon_Test_ModelTestCase
+namespace Phalcon\Test;
+
+use \Phalcon\Mvc\Dispatcher as PhDispatcher;
+use \Phalcon\Escaper as PhEscaper;
+
+abstract class FunctionalTestCase extends ModelTestCase
 {
     /**
      * Sets the test up by loading the DI container and other stuff
@@ -33,16 +37,22 @@ abstract class Phalcon_Test_FunctionalTestCase extends Phalcon_Test_ModelTestCas
         parent::setUp();
 
         // Set the dispatcher
-        $this->_di->set('dispatcher', function() {
-            $dispatcher = new \Phalcon\Mvc\Dispatcher();
-            $dispatcher->setControllerName('test');
-            $dispatcher->setActionName('empty');
-            $dispatcher->setParams(array());
-            return $dispatcher;
-        });
+        $this->di->set(
+            'dispatcher',
+            function () {
+                $dispatcher = new PhDispatcher();
+                $dispatcher->setControllerName('test');
+                $dispatcher->setActionName('empty');
+                $dispatcher->setParams(array());
+                return $dispatcher;
+            }
+        );
 
-        $this->_di->set('escaper', function() {
-            return new Phalcon\Escaper();
-        });
+        $this->di->set(
+            'escaper',
+            function () {
+                return new PhEscaper();
+            }
+        );
     }
 }
