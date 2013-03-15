@@ -183,7 +183,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 						->from('Robots')
 						->join('RobotsParts', 'Robots.id = RobotsParts.robots_id', 'p')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] JOIN [RobotsParts] ON Robots.id = RobotsParts.robots_id AS [p]');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] JOIN [RobotsParts] AS [p] ON Robots.id = RobotsParts.robots_id');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
@@ -191,7 +191,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 						->join('RobotsParts', 'Robots.id = RobotsParts.robots_id', 'p')
 						->join('Parts', 'Parts.id = RobotsParts.parts_id', 't')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] JOIN [RobotsParts] ON Robots.id = RobotsParts.robots_id AS [p] JOIN [Parts] ON Parts.id = RobotsParts.parts_id AS [t]');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] JOIN [RobotsParts] AS [p] ON Robots.id = RobotsParts.robots_id JOIN [Parts] AS [t] ON Parts.id = RobotsParts.parts_id');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)

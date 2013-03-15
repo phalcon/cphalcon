@@ -19,7 +19,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/db/adapter/pdo", "sqlite.c mysql.c postgresql.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db/adapter", "pdo.c", "phalcon")
   ADD_SOURCES("ext/phalcon/forms", "form.c manager.c exception.c element.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/forms/element", "password.c text.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/forms/element", "file.c hidden.c password.c text.c select.c textarea.c check.c", "phalcon")
   ADD_SOURCES("ext/phalcon/http", "response.c requestinterface.c request.c cookie.c responseinterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/http/request", "file.c exception.c fileinterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/http/cookie", "exception.c", "phalcon")

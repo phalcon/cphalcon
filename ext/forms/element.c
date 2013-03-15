@@ -73,6 +73,12 @@ PHP_METHOD(Phalcon_Forms_Element, __construct){
 	
 }
 
+/**
+ * Sets the element's name
+ *
+ * @param string $name
+ * @return Phalcon\Forms\ElementInterface
+ */
 PHP_METHOD(Phalcon_Forms_Element, setName){
 
 	zval *name;
@@ -82,7 +88,7 @@ PHP_METHOD(Phalcon_Forms_Element, setName){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 PHP_METHOD(Phalcon_Forms_Element, getName){
@@ -95,29 +101,51 @@ PHP_METHOD(Phalcon_Forms_Element, getName){
  * Adds a group of validators
  *
  * @param Phalcon\Validation\ValidatorInterface[]
+ * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, addValidators){
 
-	zval *validators;
+	zval *validators, *merge = NULL, *current_validators;
+	zval *merged_validators = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &validators) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &validators, &merge) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	if (!merge) {
+		PHALCON_INIT_VAR(merge);
+		ZVAL_BOOL(merge, 1);
+	}
+	
 	if (Z_TYPE_P(validators) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The validators parameter must be an array");
 		return;
 	}
+	if (zend_is_true(merge)) {
 	
-	PHALCON_MM_RESTORE();
+		PHALCON_OBS_VAR(current_validators);
+		phalcon_read_property(&current_validators, this_ptr, SL("_validators"), PH_NOISY_CC);
+		if (Z_TYPE_P(current_validators) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_validators);
+			PHALCON_CALL_FUNC_PARAMS_2(merged_validators, "array_merge", current_validators, validators);
+		} else {
+			PHALCON_CPY_WRT(merged_validators, validators);
+		}
+	
+		phalcon_update_property_zval(this_ptr, SL("_validators"), merged_validators TSRMLS_CC);
+	}
+	
+	
+	RETURN_THIS();
 }
 
 /**
  * Adds a validator to the element
  *
  * @param Phalcon\Validation\ValidatorInterface
+ * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Element, addValidator){
 
@@ -130,11 +158,12 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator){
 	}
 
 	if (Z_TYPE_P(validator) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The validators parameter must be an array");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The validators parameter must be an object");
 		return;
 	}
+	phalcon_update_property_array_append(this_ptr, SL("_validators"), validator TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 /**

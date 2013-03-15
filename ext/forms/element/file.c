@@ -37,18 +37,18 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Forms\Element\Password
+ * Phalcon\Forms\Element\File
  *
- * Component INPUT[type=password] for forms
+ * Component INPUT[type=file] for forms
  */
 
 
 /**
- * Phalcon\Forms\Element\Password initializer
+ * Phalcon\Forms\Element\File initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Forms_Element_Password){
+PHALCON_INIT_CLASS(Phalcon_Forms_Element_File){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Password, forms_element_password, "phalcon\\forms\\element", phalcon_forms_element_password_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, File, forms_element_file, "phalcon\\forms\\element", phalcon_forms_element_file_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -59,7 +59,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Password){
  * @param array $attributes
  * @return string
  */
-PHP_METHOD(Phalcon_Forms_Element_Password, render){
+PHP_METHOD(Phalcon_Forms_Element_File, render){
 
 	zval *attributes = NULL, *name, *widget_attributes = NULL;
 	zval *code;
@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Forms_Element_Password, render){
 	phalcon_array_update_long(&widget_attributes, 0, &name, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "passwordfield", widget_attributes);
+	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "filefield", widget_attributes);
 	
 	RETURN_CCTOR(code);
 }
