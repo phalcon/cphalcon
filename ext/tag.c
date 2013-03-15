@@ -1404,14 +1404,8 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
 	}
-
-	/**
-	 * Add a PHP_EOL at the end
-	 */
-    PHALCON_INIT_VAR(eol);
-	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
-	phalcon_concat_self_str(&code, eol TSRMLS_CC);
-
+	
+	
 	RETURN_CTOR(code);
 }
 
@@ -1529,13 +1523,6 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	
 	phalcon_concat_self_str(&code, SL("></script>") TSRMLS_CC);
 	
-	/**
-	 * Add a PHP_EOL at the end
-	 */
-    PHALCON_INIT_VAR(eol);
-	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
-	phalcon_concat_self_str(&code, eol TSRMLS_CC);
-
 	RETURN_CTOR(code);
 }
 
