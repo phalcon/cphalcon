@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -20,8 +19,11 @@
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
+namespace Phalcon\Test\Flash\Direct;
 
-class Flash_Direct_EmptyCSSTest extends Flash_Direct_Helper_Unit
+use \Phalcon\Test\Flash\Direct\Helper\Unit as FlashUnit;
+
+class EmptyCSSTest extends FlashUnit
 {
     public function setUp()
     {

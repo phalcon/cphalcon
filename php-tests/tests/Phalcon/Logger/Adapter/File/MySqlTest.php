@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,7 +20,11 @@
  * so that we can send you a copy immediately.
  */
 
-class Logger_Adapter_File_MysqlTest extends Logger_Adapter_File_Helper_Model
+namespace Phalcon\Test\Logger\Adapter\File;
+
+use Phalcon\Test\Logger\Adapter\File\Helper\Model as LoggerAdapterFileHelperModel;
+
+class MysqlTest extends LoggerAdapterFileHelperModel
 {
     public function setUp()
     {

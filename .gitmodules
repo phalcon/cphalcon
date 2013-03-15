@@ -1,6 +1,8 @@
 [submodule "php-tests/library/Mustache"]
-	path = php-tests/library/Mustache
-	url = git://github.com/bobthecow/mustache.php.git
+        path = php-tests/library/Mustache
+        url = git://github.com/bobthecow/mustache.php.git
+
 [submodule "php-tests/library/Twig"]
 	path = php-tests/library/Twig
 	url = git://github.com/fabpot/Twig.git
+

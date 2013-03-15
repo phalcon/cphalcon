@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,22 +20,26 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Translate\Exception as TrEx;
-use \Phalcon\Translate\Adapter\NativeArray as TrNA;
+namespace Phalcon\Test\Translate\Adapter\NativeArray;
 
-class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
+use \Phalcon\Translate\Exception as PhTranslateException;
+use \Phalcon\Translate\Adapter\NativeArray as PhTranslateAdapterNativeArray;
+
+class UnitTest extends PhTestUnitTestCase
 {
     /**
      * Tests Exists
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testExists()
     {
-        $language   = $this->_config['tr']['en'];
+        $language   = $this->config['tr']['en'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $found = $translator->exists('hi');
 
@@ -49,14 +52,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests offsetExists
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testOffsetExists()
     {
-        $language   = $this->_config['tr']['en'];
+        $language   = $this->config['tr']['en'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $found = $translator->offsetExists('hi');
 
@@ -69,14 +72,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests offsetGet
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testOffsetGet()
     {
-        $language   = $this->_config['tr']['en'];
+        $language   = $this->config['tr']['en'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $expected = 'Hello';
         $actual   = $translator->offsetGet('hi');
@@ -91,14 +94,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests English
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testQueryEnglish()
     {
-        $language   = $this->_config['tr']['en'];
+        $language   = $this->config['tr']['en'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $expected = 'Hello';
         $actual   = $translator->query('hi');
@@ -122,14 +125,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests Spanish
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testQuerySpanish()
     {
-        $language   = $this->_config['tr']['es'];
+        $language   = $this->config['tr']['es'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $expected = 'Hola';
         $actual   = $translator->query('hi');
@@ -153,14 +156,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests French
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testQueryFrench()
     {
-        $language   = $this->_config['tr']['fr'];
+        $language   = $this->config['tr']['fr'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $expected = 'Bonjour';
         $actual   = $translator->query('hi');
@@ -184,14 +187,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests English - alternative syntax
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testQueryEnglishAlternative()
     {
-        $language   = $this->_config['tr']['en'];
+        $language   = $this->config['tr']['en'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $expected = 'Hello';
         $actual   = $translator->_('hi');
@@ -215,14 +218,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests Spanish - alternative syntax
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testQuerySpanishAlternative()
     {
-        $language   = $this->_config['tr']['es'];
+        $language   = $this->config['tr']['es'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $expected = 'Hola';
         $actual   = $translator->_('hi');
@@ -246,14 +249,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests French - alternative syntax
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testQueryFrenchAlternative()
     {
-        $language   = $this->_config['tr']['fr'];
+        $language   = $this->config['tr']['fr'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $expected = 'Bonjour';
         $actual   = $translator->_('hi');
@@ -277,14 +280,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests variable substitution in string with no variables - English
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testVariableSubstitutionInStringWithNoVariablesEnglish()
     {
-        $language   = $this->_config['tr']['en'];
+        $language   = $this->config['tr']['en'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $vars     = array('name' => 'my friend');
         $expected = 'Hello';
@@ -300,14 +303,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests variable substitution in string (one variable) - English
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testVariableSubstitutionOneEnglish()
     {
-        $language   = $this->_config['tr']['en'];
+        $language   = $this->config['tr']['en'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $vars     = array('name' => 'my friend');
         $expected = 'Hello my friend';
@@ -323,14 +326,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests variable substitution in string (two variable) - English
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testVariableSubstitutionTwoEnglish()
     {
-        $language   = $this->_config['tr']['en'];
+        $language   = $this->config['tr']['en'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $vars     = array(
             'song'   => 'Dust in the wind',
@@ -349,14 +352,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests variable substitution in string with no variables - Spanish
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testVariableSubstitutionInStringWithNoVariablesSpanish()
     {
-        $language   = $this->_config['tr']['es'];
+        $language   = $this->config['tr']['es'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $vars     = array('name' => 'amigo');
         $expected = 'Hola';
@@ -372,14 +375,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests variable substitution in string (one variable) - Spanish
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testVariableSubstitutionOneSpanish()
     {
-        $language   = $this->_config['tr']['es'];
+        $language   = $this->config['tr']['es'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $vars     = array('name' => 'amigo');
         $expected = 'Hola amigo';
@@ -395,14 +398,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests variable substitution in string (two variable) - Spanish
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testVariableSubstitutionTwoSpanish()
     {
-        $language   = $this->_config['tr']['es'];
+        $language   = $this->config['tr']['es'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $vars     = array(
                         'song'   => 'Dust in the wind',
@@ -421,14 +424,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests variable substitution in string with no variables - French
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testVariableSubstitutionInStringWithNoVariablesFrench()
     {
-        $language   = $this->_config['tr']['fr'];
+        $language   = $this->config['tr']['fr'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $vars     = array('name' => 'mon ami');
         $expected = 'Bonjour';
@@ -444,14 +447,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests variable substitution in string (one variable) - French
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testVariableSubstitutionOneFrench()
     {
-        $language   = $this->_config['tr']['fr'];
+        $language   = $this->config['tr']['fr'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $vars     = array('name' => 'mon ami');
         $expected = 'Bonjour mon ami';
@@ -467,14 +470,14 @@ class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests variable substitution in string (two variable) - French
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-30
      */
     public function testVariableSubstitutionTwoFrench()
     {
-        $language   = $this->_config['tr']['fr'];
+        $language   = $this->config['tr']['fr'];
         $params     = array('content' => $language);
-        $translator = new TrNA($params);
+        $translator = new PhTranslateAdapterNativeArray($params);
 
         $vars     = array(
                         'song'   => 'Dust in the wind',

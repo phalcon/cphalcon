@@ -1300,7 +1300,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
 	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *five;
-	zval *doctype, *is_xhtml;
+	zval *doctype, *is_xhtml, *eol;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1404,8 +1404,15 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
 	}
-	
-	
+
+	/**
+	 * Add the EOL character at the end
+	 */
+    PHALCON_INIT_VAR(eol);
+    zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
+
+    phalcon_concat_self(&code, eol TSRMLS_CC);
+
 	RETURN_CTOR(code);
 }
 
@@ -1430,7 +1437,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *params_src, *src, *code, *value = NULL, *key = NULL;
+	zval *url, *params_src, *src, *code, *value = NULL, *key = NULL, *eol;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1523,6 +1530,14 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	
 	phalcon_concat_self_str(&code, SL("></script>") TSRMLS_CC);
 	
+	/**
+	 * Add the EOL character at the end
+	 */
+    PHALCON_INIT_VAR(eol);
+    zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
+
+    phalcon_concat_self(&code, eol TSRMLS_CC);
+
 	RETURN_CTOR(code);
 }
 
