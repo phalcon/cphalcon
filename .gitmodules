@@ -6,7 +6,3 @@
 	path = php-tests/library/Twig
 	url = git://github.com/fabpot/Twig.git
 
-[submodule "php-tests/library/test"]
-        path = php-tests/library/test 
-        url = git://github.com/fabpot/Twig.git
-
