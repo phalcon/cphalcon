@@ -17,6 +17,7 @@ before_install:
  - ./unit-tests/ci/install_mongo
 
 before_script:
+ - git submodule init
  - git submodule update
  - mkdir -p unit-tests/engines
  - cd unit-tests/engines/
