@@ -206,7 +206,7 @@ class UnitTest extends PhTestUnitTestCase
     {
         $options  = 'css/phalcon.css';
         $expected = '<link rel="stylesheet" href="/css/phalcon.css" '
-                  . 'type="text/css">';
+                  . 'type="text/css">' . PHP_EOL;
         $actual   = PhTag::stylesheetLink($options);
 
         $this->assertEquals(
@@ -226,7 +226,7 @@ class UnitTest extends PhTestUnitTestCase
     {
         $options  = array('css/phalcon.css');
         $expected = '<link rel="stylesheet" href="css/phalcon.css" '
-                  . 'type="text/css">';
+                  . 'type="text/css">' . PHP_EOL;
         $actual   = PhTag::stylesheetLink($options);
 
         $this->assertEquals(
@@ -246,7 +246,7 @@ class UnitTest extends PhTestUnitTestCase
     {
         $options  = array('css/phalcon.css');
         $expected = '<link rel="stylesheet" href="css/phalcon.css" '
-                  . 'type="text/css">';
+                  . 'type="text/css">' . PHP_EOL;
         $actual   = PhTag::stylesheetLink($options, 'hello');
 
         $this->assertEquals(
@@ -270,8 +270,8 @@ class UnitTest extends PhTestUnitTestCase
         $options  = 'http://fonts.googleapis.com/css?family=Rosario';
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
-                  . 'type="text/css">';
-        $actual   = PhTag::stylesheetLink($options, FALSE);
+                  . 'type="text/css">' . PHP_EOL;
+        $actual   = PhTag::stylesheetLink($options, false);
 
         $this->assertEquals(
             $expected,
@@ -291,8 +291,8 @@ class UnitTest extends PhTestUnitTestCase
         $options  = array('http://fonts.googleapis.com/css?family=Rosario');
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
-                  . 'type="text/css">';
-        $actual   = PhTag::stylesheetLink($options, FALSE);
+                  . 'type="text/css">' . PHP_EOL;
+        $actual   = PhTag::stylesheetLink($options, false);
 
         $this->assertEquals(
             $expected,
@@ -312,7 +312,7 @@ class UnitTest extends PhTestUnitTestCase
         $options  = 'http://fonts.googleapis.com/css?family=Rosario';
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
-                  . 'type="text/css">';
+                  . 'type="text/css">' . PHP_EOL;
         $actual   = PhTag::stylesheetLink($options, '0');
 
         $this->assertEquals(
@@ -336,7 +336,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'css/phalcon.css';
         $expected = '<link rel="stylesheet" href="/css/phalcon.css" '
-                  . 'type="text/css" />';
+                  . 'type="text/css" />' . PHP_EOL;
         $actual   = PhTag::stylesheetLink($options);
         PhTag::setDoctype('');
 
@@ -358,7 +358,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('css/phalcon.css');
         $expected = '<link rel="stylesheet" href="css/phalcon.css" '
-                  . 'type="text/css" />';
+                  . 'type="text/css" />' . PHP_EOL;
         $actual   = PhTag::stylesheetLink($options);
 
         $this->assertEquals(
@@ -379,7 +379,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('css/phalcon.css');
         $expected = '<link rel="stylesheet" href="css/phalcon.css" '
-                  . 'type="text/css" />';
+                  . 'type="text/css" />' . PHP_EOL;
         $actual   = PhTag::stylesheetLink($options, 'hello');
 
         $this->assertEquals(
@@ -404,7 +404,7 @@ class UnitTest extends PhTestUnitTestCase
         $options  = 'http://fonts.googleapis.com/css?family=Rosario';
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
-                  . 'type="text/css" />';
+                  . 'type="text/css" />' . PHP_EOL;
         $actual   = PhTag::stylesheetLink($options, FALSE);
 
         $this->assertEquals(
@@ -426,7 +426,7 @@ class UnitTest extends PhTestUnitTestCase
         $options  = array('http://fonts.googleapis.com/css?family=Rosario');
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
-                  . 'type="text/css" />';
+                  . 'type="text/css" />' . PHP_EOL;
         $actual   = PhTag::stylesheetLink($options, FALSE);
 
         $this->assertEquals(
@@ -448,7 +448,7 @@ class UnitTest extends PhTestUnitTestCase
         $options  = 'http://fonts.googleapis.com/css?family=Rosario';
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
-                  . 'type="text/css" />';
+                  . 'type="text/css" />' . PHP_EOL;
         $actual   = PhTag::stylesheetLink($options, '0');
 
         $this->assertEquals(
@@ -474,7 +474,7 @@ class UnitTest extends PhTestUnitTestCase
     {
         $options  = 'js/phalcon.js';
         $expected = '<script src="/js/phalcon.js" type="text/javascript">'
-                  . '</script>';
+                  . '</script>' . PHP_EOL;
         $actual   = PhTag::javascriptInclude($options);
 
         $this->assertEquals(
@@ -494,7 +494,7 @@ class UnitTest extends PhTestUnitTestCase
     {
         $options  = array('js/phalcon.js');
         $expected = '<script src="js/phalcon.js" type="text/javascript">'
-                  . '</script>';
+                  . '</script>' . PHP_EOL;
         $actual   = PhTag::javascriptInclude($options);
 
         $this->assertEquals(
@@ -514,15 +514,15 @@ class UnitTest extends PhTestUnitTestCase
     {
         $options  = 'js/phalcon.js';
         $expected = '<script src="/js/phalcon.js" type="text/javascript">'
-                  . '</script>';
+                  . '</script>' . PHP_EOL;
         $actual   = PhTag::javascriptInclude($options, 'hello');
 
         $this->assertEquals(
             $expected,
             $actual,
             sprintf(
-                $this->message, '
-                JavascriptInclude local with string as second parameter'
+                $this->message,
+                'JavascriptInclude local with string as second parameter'
             )
         );
     }
@@ -537,8 +537,8 @@ class UnitTest extends PhTestUnitTestCase
     {
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
-                  . 'type="text/javascript"></script>';
-        $actual   = PhTag::javascriptInclude($options, FALSE);
+                  . 'type="text/javascript"></script>' . PHP_EOL;
+        $actual   = PhTag::javascriptInclude($options, false);
 
         $this->assertEquals(
             $expected,
@@ -557,8 +557,8 @@ class UnitTest extends PhTestUnitTestCase
     {
         $options  = array('http://my.local.com/js/phalcon.js');
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
-                  . 'type="text/javascript"></script>';
-        $actual   = PhTag::javascriptInclude($options, FALSE);
+                  . 'type="text/javascript"></script>' . PHP_EOL;
+        $actual   = PhTag::javascriptInclude($options, false);
 
         $this->assertEquals(
             $expected,
@@ -577,7 +577,7 @@ class UnitTest extends PhTestUnitTestCase
     {
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
-                  . 'type="text/javascript"></script>';
+                  . 'type="text/javascript"></script>' . PHP_EOL;
         $actual   = PhTag::javascriptInclude($options, '0');
 
         $this->assertEquals(
@@ -601,7 +601,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'js/phalcon.js';
         $expected = '<script src="/js/phalcon.js" type="text/javascript">'
-                  . '</script>';
+                  . '</script>' . PHP_EOL;
         $actual   = PhTag::javascriptInclude($options);
         PhTag::setDoctype('');
 
@@ -623,7 +623,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('js/phalcon.js');
         $expected = '<script src="js/phalcon.js" type="text/javascript">'
-                  . '</script>';
+                  . '</script>' . PHP_EOL;
         $actual   = PhTag::javascriptInclude($options);
         PhTag::setDoctype('');
 
@@ -645,7 +645,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'js/phalcon.js';
         $expected = '<script src="/js/phalcon.js" type="text/javascript">'
-                  . '</script>';
+                  . '</script>' . PHP_EOL;
         $actual   = PhTag::javascriptInclude($options, 'hello');
         PhTag::setDoctype('');
 
@@ -653,8 +653,8 @@ class UnitTest extends PhTestUnitTestCase
             $expected,
             $actual,
             sprintf(
-                $this->message, 'xhtml
-                JavascriptInclude local with string as second parameter'
+                $this->message,
+                'xhtml JavascriptInclude local with string as second parameter'
             )
         );
     }
@@ -670,8 +670,8 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
-                  . 'type="text/javascript"></script>';
-        $actual   = PhTag::javascriptInclude($options, FALSE);
+                  . 'type="text/javascript"></script>' . PHP_EOL;
+        $actual   = PhTag::javascriptInclude($options, false);
         PhTag::setDoctype('');
 
         $this->assertEquals(
@@ -692,8 +692,8 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = array('http://my.local.com/js/phalcon.js');
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
-                  . 'type="text/javascript"></script>';
-        $actual   = PhTag::javascriptInclude($options, FALSE);
+                  . 'type="text/javascript"></script>' . PHP_EOL;
+        $actual   = PhTag::javascriptInclude($options, false);
         PhTag::setDoctype('');
 
         $this->assertEquals(
@@ -714,7 +714,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'http://my.local.com/js/phalcon.js';
         $expected = '<script src="http://my.local.com/js/phalcon.js" '
-                  . 'type="text/javascript"></script>';
+                  . 'type="text/javascript"></script>' . PHP_EOL;
         $actual   = PhTag::javascriptInclude($options, '0');
         PhTag::setDoctype('');
 
@@ -738,7 +738,7 @@ class UnitTest extends PhTestUnitTestCase
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
-    public function testResetInputSetDefault_T53()
+    public function testResetInputSetDefaultT53()
     {
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
@@ -770,7 +770,7 @@ class UnitTest extends PhTestUnitTestCase
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-29
      */
-    public function testResetInputDisplayTo_T53()
+    public function testResetInputDisplayToT53()
     {
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
@@ -802,7 +802,7 @@ class UnitTest extends PhTestUnitTestCase
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
-    public function testResetInputSetDefaultXHTML_T53()
+    public function testResetInputSetDefaultXHTMLT53()
     {
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
@@ -836,7 +836,7 @@ class UnitTest extends PhTestUnitTestCase
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-10-26
      */
-    public function testResetInputDisplayToXHTML_T53()
+    public function testResetInputDisplayToXHTMLT53()
     {
         PhTag::setDoctype(PhTag::XHTML10_STRICT);
         $options  = 'some_field_name';
