@@ -35,18 +35,18 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Forms\Element\File
+ * Phalcon\Forms\Element\Submit
  *
- * Component INPUT[type=file] for forms
+ * Component INPUT[type=submit] for forms
  */
 
 
 /**
- * Phalcon\Forms\Element\File initializer
+ * Phalcon\Forms\Element\Submit initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Forms_Element_File){
+PHALCON_INIT_CLASS(Phalcon_Forms_Element_Submit){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, File, forms_element_file, "phalcon\\forms\\element", phalcon_forms_element_file_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Submit, forms_element_submit, "phalcon\\forms\\element", phalcon_forms_element_submit_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -57,7 +57,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_File){
  * @param array $attributes
  * @return string
  */
-PHP_METHOD(Phalcon_Forms_Element_File, render){
+PHP_METHOD(Phalcon_Forms_Element_Submit, render){
 
 	zval *attributes = NULL, *widget_attributes, *code;
 
@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Forms_Element_File, render){
 	PHALCON_CALL_METHOD_PARAMS_1(widget_attributes, this_ptr, "prepareattributes", attributes);
 	
 	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "filefield", widget_attributes);
+	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "submitfield", widget_attributes);
 	RETURN_CCTOR(code);
 }
 

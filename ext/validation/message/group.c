@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, rewind){
 }
 
 /**
- * Returns the current annotation in the iterator
+ * Returns the current message in the iterator
  *
  * @return Phalcon\Validation\Message
  */
@@ -367,7 +367,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, next){
 }
 
 /**
- * Check if the current annotation in the iterator is valid
+ * Check if the current message the iterator is valid
  *
  * @return boolean
  */

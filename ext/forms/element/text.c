@@ -32,8 +32,6 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
 
 /**
@@ -61,8 +59,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Text){
  */
 PHP_METHOD(Phalcon_Forms_Element_Text, render){
 
-	zval *attributes = NULL, *name, *widget_attributes = NULL;
-	zval *code;
+	zval *attributes = NULL, *widget_attributes, *code;
 
 	PHALCON_MM_GROW();
 
@@ -74,20 +71,11 @@ PHP_METHOD(Phalcon_Forms_Element_Text, render){
 		PHALCON_INIT_VAR(attributes);
 	}
 	
-	PHALCON_OBS_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
-		PHALCON_INIT_VAR(widget_attributes);
-		array_init(widget_attributes);
-	} else {
-		PHALCON_CPY_WRT(widget_attributes, attributes);
-	}
-	
-	phalcon_array_update_long(&widget_attributes, 0, &name, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	PHALCON_INIT_VAR(widget_attributes);
+	PHALCON_CALL_METHOD_PARAMS_1(widget_attributes, this_ptr, "prepareattributes", attributes);
 	
 	PHALCON_INIT_VAR(code);
 	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "textfield", widget_attributes);
-	
 	RETURN_CCTOR(code);
 }
 
