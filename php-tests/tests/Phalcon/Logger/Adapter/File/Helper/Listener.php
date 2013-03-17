@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,30 +20,31 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Logger\Adapter\File as PhFLg;
+namespace Phalcon\Test\Logger\Adapter\File\Helper;
 
-class Logger_Adapter_File_Helper_Listener
+use \Phalcon\Logger\Adapter\File as PhLoggerAdapterFile;
+
+class Listener
 {
+    protected $logger;
 
-	protected $_logger;
-
-	public function __construct($fileName)
+    public function __construct($fileName)
     {
-		$this->_logger = new PhFLg($fileName);
-	}
+        $this->logger = new PhLoggerAdapterFile($fileName);
+    }
 
-	public function afterQuery($event, $connection)
-	{
-		$this->_logger->log($connection->getSQLStatement());
-	}
+    public function afterQuery($event, $connection)
+    {
+        $this->logger->log($connection->getSQLStatement());
+    }
 
-	public function getProfiler()
-	{
-		return $this->_profiler;
-	}
+    public function getProfiler()
+    {
+        return $this->profiler;
+    }
 
-	public function getLogger()
-	{
-		return $this->_logger;
-	}
+    public function getLogger()
+    {
+        return $this->logger;
+    }
 }

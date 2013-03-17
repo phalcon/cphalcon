@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,9 +20,13 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Tag as Tg;
+namespace Phalcon\Test\Tag\Helper;
 
-class Tag_Helper_Model extends Phalcon_Test_ModelTestCase
+use \Phalcon\Test\ModelTestCase as PhTestModelTestCase;
+
+use \Phalcon\Tag as PhTag;
+
+class Model extends PhTestModelTestCase
 {
     private $message = "%s does not return proper html element";
 
@@ -44,7 +47,7 @@ class Tag_Helper_Model extends Phalcon_Test_ModelTestCase
         $this->populateTable('robots');
         $this->populateTable('robots_parts');
 
-        $robots = Robots::find();
+        $robots = \Robots::find();
 
         $params = array(
             'some_name',
@@ -57,7 +60,7 @@ class Tag_Helper_Model extends Phalcon_Test_ModelTestCase
                   . chr(9) . '<option value="2">Astro Boy</option>' . PHP_EOL
                   . chr(9) . '<option value="3">Terminator</option>' . PHP_EOL
                   . '</select>';
-        $actual   = Tg::select($params);
+        $actual   = PhTag::select($params);
 
         $this->assertEquals(
             $expected,

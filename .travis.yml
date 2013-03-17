@@ -17,7 +17,14 @@ before_install:
  - ./unit-tests/ci/install_mongo
 
 before_script:
+ - git submodule init
  - git submodule update
+ - cd php-tests/library/Mustache
+ - git checkout master
+ - cd ../../..
+ - cd php-tests/library/Twig
+ - git checkout master
+ - cd ../../..
  - mkdir -p unit-tests/engines
  - cd unit-tests/engines/
  - git clone https://github.com/bobthecow/mustache.php.git
@@ -40,4 +47,4 @@ script: ./unit-tests/ci/run_script.sh
 notifications:
   email:
     - andres@phalconphp.com
-    - nikos@niden.net
+    - nikos@phalconphp.com

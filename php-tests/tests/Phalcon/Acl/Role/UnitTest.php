@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,14 +20,18 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Test\Acl\Role;
+
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
 use \Phalcon\Acl\Role as AclRole;
 
-class Acl_Role_UnitTest extends Phalcon_Test_UnitTestCase
+class UnitTest extends PhTestUnitTestCase
 {
     /**
      * Tests the creation of an Acl Role (name)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testAclRoleNameEmptyDescription()
@@ -56,7 +59,7 @@ class Acl_Role_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests the creation of an Acl Role (name / description)
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-11-30
      */
     public function testAclRoleNameDescription()
