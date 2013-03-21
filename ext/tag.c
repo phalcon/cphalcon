@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Tag, setDefaults){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(values) == IS_ARRAY) { 
+	if (Z_TYPE_P(values) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "An array is required as default values");
 		return;
 	}
