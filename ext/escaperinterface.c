@@ -42,7 +42,7 @@ PHALCON_INIT_CLASS(Phalcon_EscaperInterface){
  *
  * @param string $encoding
  */
-PHALCON_DOC_METHOD(Phalcon_EscaperInterface, setEnconding);
+PHALCON_DOC_METHOD(Phalcon_EscaperInterface, setEncoding);
 
 /**
  * Returns the internal encoding used by the escaper

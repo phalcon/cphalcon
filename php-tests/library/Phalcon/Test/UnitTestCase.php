@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2012 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,20 +20,22 @@
  * so that we can send you a copy immediately.
  */
 
-abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
+namespace Phalcon\Test;
+
+abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
 {
     // Holds the configuration variables and other stuff
     // I can use the DI container but for tests like the Translate
     // we do not need the overhead
-    protected $_config = array();
+    protected $config = array();
 
     // The Di container
-    protected $_di;
+    protected $di;
 
     /**
      * Sets the test up by loading the DI container and other stuff
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-30
      *
      * @return \Phalcon\DI
@@ -44,7 +45,7 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
         $this->checkExtension('phalcon');
 
         // Set the config up
-        $this->_config = Phalcon_Test_Config::init();
+        $this->config = Config::init();
 
         // Reset the DI container
         \Phalcon\DI::reset();
@@ -55,8 +56,7 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
         // Set the URL
         $di->set(
             'url',
-            function()
-            {
+            function () {
                 $url = new \Phalcon\Mvc\Url();
                 $url->setBaseUri('/');
                 return $url;
@@ -65,12 +65,12 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
 
         $di->set(
             'escaper',
-            function(){
-                return new Phalcon\Escaper();
+            function () {
+                return new \Phalcon\Escaper();
             }
         );
 
-        $this->_di = $di;
+        $this->di = $di;
     }
 
     /**
@@ -81,8 +81,7 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
      */
     public function checkExtension($extension)
     {
-        if (!extension_loaded($extension))
-        {
+        if (!extension_loaded($extension)) {
             $this->markTestSkipped("Warning: {$extension} extension is not loaded");
         }
     }
@@ -90,7 +89,7 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Returns a unique file name
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-30
      *
      * @param string $prefix    A prefix for the file
@@ -110,7 +109,7 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Removes a file from the system
      *
-     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      * @since  2012-09-30
      *
      * @param $path
@@ -123,8 +122,7 @@ abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
 
         $actual = file_exists($file);
 
-        if ($actual)
-        {
+        if ($actual) {
             unlink($file);
         }
     }

@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,9 +20,13 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Text;
+
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
 use Phalcon\Text as PhText;
 
-class Text_UnitTest extends Phalcon_Test_UnitTestCase
+class UnitTest extends PhTestUnitTestCase
 {
     /**
      * Tests the camelize function
@@ -144,8 +147,7 @@ class Text_UnitTest extends Phalcon_Test_UnitTestCase
 
     public function testRandomAlnum()
     {
-        for ($i = 1; $i<10; $i++) 
-        {
+        for ($i = 1; $i<10; $i++) {
             $text = PhText::random(PhText::RANDOM_ALNUM, $i);
             $this->assertEquals(preg_match('/[a-zA-Z0-9]+/', $text, $matches), 1);
             $this->assertEquals($matches[0], $text);
@@ -155,8 +157,7 @@ class Text_UnitTest extends Phalcon_Test_UnitTestCase
 
     public function testRandomAlpha()
     {
-        for ($i = 1; $i<10; $i++)
-        {
+        for ($i = 1; $i<10; $i++) {
             $text = PhText::random(PhText::RANDOM_ALPHA, $i);
             $this->assertEquals(preg_match('/[a-zA-Z]+/', $text, $matches), 1);
             $this->assertEquals($matches[0], $text);
@@ -166,8 +167,7 @@ class Text_UnitTest extends Phalcon_Test_UnitTestCase
 
     public function testRandomHexDec()
     {
-        for ($i = 1; $i<10; $i++)
-        {
+        for ($i = 1; $i<10; $i++) {
             $text = PhText::random(PhText::RANDOM_HEXDEC, $i);
             $this->assertEquals(preg_match('/[a-f0-9]+/', $text, $matches), 1);
             $this->assertEquals($matches[0], $text);
@@ -177,8 +177,7 @@ class Text_UnitTest extends Phalcon_Test_UnitTestCase
 
     public function testRandomNumeric()
     {
-        for ($i = 1; $i<10; $i++)
-        {
+        for ($i = 1; $i<10; $i++) {
             $text = PhText::random(PhText::RANDOM_NUMERIC, $i);
             $this->assertEquals(preg_match('/[0-9]+/', $text, $matches), 1);
             $this->assertEquals($matches[0], $text);
@@ -188,8 +187,7 @@ class Text_UnitTest extends Phalcon_Test_UnitTestCase
 
     public function testRandomNonZero()
     {
-        for ($i = 1; $i<10; $i++)
-        {
+        for ($i = 1; $i<10; $i++) {
             $text = PhText::random(PhText::RANDOM_NOZERO, $i);
             $this->assertEquals(preg_match('/[1-9]+/', $text, $matches), 1);
             $this->assertEquals($matches[0], $text);

@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 
 	zval *type, *message, *automatic_html, *classes;
 	zval *type_classes, *joined_classes, *css_classes = NULL;
-	zval *eol, *implicit_flush, *content, *msg = NULL, *html_message = NULL;
+	zval *eol = NULL, *implicit_flush, *content, *msg = NULL, *html_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -323,7 +323,9 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 		}
 	
 		PHALCON_INIT_VAR(eol);
-		zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
+	
+		PHALCON_INIT_NVAR(eol);
+		ZVAL_STRING(eol, PHP_EOL, 1);
 	}
 	
 	PHALCON_OBS_VAR(implicit_flush);

@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString){
 }
 
 /**
- * Magic __set_state helps to recover messsages from serialization
+ * Magic __set_state helps to re-build messages variable exporting
  *
  * @param array $message
  * @return Phalcon\Mvc\Model\Message

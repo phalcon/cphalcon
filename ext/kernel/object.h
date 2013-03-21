@@ -36,6 +36,7 @@ extern int phalcon_is_instance_of(zval *object, char *class_name, unsigned int c
 /** Method exists */
 extern int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC);
 extern int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int method_len TSRMLS_DC);
+extern int phalcon_method_quick_exists_ex(zval *object, char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC);
 
 /** Isset properties */
 extern int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
@@ -63,6 +64,9 @@ extern int phalcon_update_property_array_append(zval *object, char *property, un
 /** Increment/Decrement properties */
 extern int phalcon_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 extern int phalcon_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
+
+/** Unset Array properties */
+extern int phalcon_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC);
 
 /** Static properties */
 extern int phalcon_read_static_property(zval **result, char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC);

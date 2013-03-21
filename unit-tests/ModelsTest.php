@@ -213,7 +213,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($number, 20);
 
 		$persona = new Personas($di);
-		$persona->cedula = 'CELL'.mt_rand(0, 999999);
+		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$this->assertFalse($persona->save());
 
 		//Messages
@@ -245,7 +245,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		//Save
 		$persona = new Personas($di);
-		$persona->cedula = 'CELL'.mt_rand(0, 999999);
+		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST';
 		$persona->telefono = '1';
@@ -254,7 +254,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($persona->save());
 
 		$persona = new Personas($di);
-		$persona->cedula = 'CELL'.mt_rand(0, 999999);
+		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST LOST';
 		$persona->telefono = '2';
@@ -293,7 +293,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		//Create
 		$persona = new Personas($di);
-		$persona->cedula = 'CELL'.mt_rand(0, 999999);
+		$persona->cedula = 'CELL' . mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST CREATE';
 		$persona->telefono = '1';
@@ -303,7 +303,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$persona = new Personas($di);
 		$this->assertTrue($persona->create(array(
-			'cedula' => 'CELL'.mt_rand(0, 999999),
+			'cedula' => 'CELL' . mt_rand(0, 999999),
 			'tipo_documento_id' => 1,
 			'nombres' => 'LOST CREATE',
 			'telefono' => '1',
@@ -321,7 +321,52 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		//Deleting
 		$before = People::count();
 		$this->assertTrue($persona->delete());
-		$this->assertEquals($before-1, People::count());
+		$this->assertEquals($before - 1, People::count());
+
+		//Assign
+		$persona = new Personas();
+
+		$persona->assign(array(
+			'tipo_documento_id' => 1,
+			'nombres' => 'LOST CREATE',
+			'telefono' => '1',
+			'cupo' => 21000,
+			'estado' => 'A',
+			'notField' => 'SOME VALUE'
+		));
+
+		$expected = array(
+			'cedula' => NULL,
+			'tipo_documento_id' => 1,
+			'nombres' => 'LOST CREATE',
+			'telefono' => '1',
+			'direccion' => NULL,
+			'email' => NULL,
+			'fecha_nacimiento' => NULL,
+			'ciudad_id' => NULL,
+			'creado_at' => NULL,
+			'cupo' => 21000,
+			'estado' => 'A',
+		);
+
+		$this->assertEquals($persona->toArray(), $expected);
+
+		//Refresh
+		$persona = Personas::findFirst();
+
+		$personaData = $persona->toArray();
+
+		$persona->assign(array(
+			'tipo_documento_id' => 1,
+			'nombres' => 'LOST CREATE',
+			'telefono' => '1',
+			'cupo' => 21000,
+			'estado' => 'A',
+			'notField' => 'SOME VALUE'
+		));
+
+		$persona->refresh();
+		$this->assertEquals($personaData, $persona->toArray());
 
 	}
 
@@ -527,8 +572,48 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		//Deleting
 		$before = Personers::count();
 		$this->assertTrue($personer->delete());
-		$this->assertEquals($before-1, Personers::count());
+		$this->assertEquals($before - 1, Personers::count());
 
+		//Assign
+		$personer = new Personers();
+
+		$personer->assign(array(
+			'slagBorgerId' => 1,
+			'navnes' => 'LOST CREATE',
+			'telefon' => '1',
+			'kredit' => 21000,
+			'status' => 'A'
+		));
+
+		$expected = array(
+			'borgerId' => NULL,
+			'slagBorgerId' => 1,
+			'navnes' => 'LOST CREATE',
+			'telefon' => '1',
+			'adresse' => NULL,
+			'elektroniskPost' => NULL,
+			'fodtDato' => NULL,
+			'fodebyId' => NULL,
+			'skabtPa' => NULL,
+			'kredit' => 21000,
+			'status' => 'A',
+		);
+		$this->assertEquals($personer->toArray(), $expected);
+
+		//Refresh
+		$personer = Personers::findFirst();
+		$personerData = $personer->toArray();
+
+		$personer->assign(array(
+			'slagBorgerId' => 1,
+			'navnes' => 'LOST CREATE',
+			'telefon' => '1',
+			'kredit' => 21000,
+			'status' => 'A'
+		));
+
+		$personer->refresh();
+		$this->assertEquals($personerData, $personer->toArray());
 	}
 
 }

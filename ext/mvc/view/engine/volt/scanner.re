@@ -31,20 +31,89 @@
 #define YYLIMIT (s->end)
 #define YYMARKER q
 
+void phvolt_rtrim(phvolt_scanner_token *token) {
+
+	char *cursor, *removed_str;
+	unsigned int i;
+	unsigned char ch;
+
+	if (token->len > 0) {
+
+		cursor = token->value;
+		cursor += (token->len - 1);
+		for (i = token->len; i > 0; i--) {
+			ch = (*cursor);
+			if (ch == '\t' || ch == '\n' || ch == '\r' || ch == ' ' || ch == '\v') {
+				cursor--;
+				continue;
+			}
+			break;
+		}
+
+		removed_str = emalloc(i + 1);
+		memcpy(removed_str, token->value, i);
+		removed_str[i] = '\0';
+
+		efree(token->value);
+		token->value = removed_str;
+		token->len = i;
+	}
+
+}
+
+void phvolt_ltrim(phvolt_scanner_token *token) {
+
+	char *cursor, *removed_str;
+	unsigned int i;
+	unsigned char ch;
+
+	if (token->len > 0) {
+
+		cursor = token->value;
+		for (i = 0; i < token->len; i++) {
+			ch = (*cursor);
+			if (ch == '\t' || ch == '\n' || ch == '\r' || ch == ' ' || ch == '\v') {
+				cursor++;
+				continue;
+			}
+			break;
+		}
+
+		removed_str = emalloc(token->len - i + 1);
+		memcpy(removed_str, token->value + i, token->len - i);
+		removed_str[token->len - i] = '\0';
+
+		efree(token->value);
+		token->value = removed_str;
+		token->len = token->len - i;
+	}
+
+}
+
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
-	char next, *q = YYCURSOR, *start = YYCURSOR;
+	unsigned char next, double_next;
+	char *q = YYCURSOR, *start = YYCURSOR;
 	int status = PHVOLT_SCANNER_RETCODE_IMPOSSIBLE;
 
 	while (PHVOLT_SCANNER_RETCODE_IMPOSSIBLE == status) {
 
 		if (s->mode == PHVOLT_MODE_RAW || s->mode == PHVOLT_MODE_COMMENT) {
 
+			next = '\0';
+			double_next = '\0';
+
 			if (*YYCURSOR == '\n') {
 				s->active_line++;
 			}
 
-			next = *(YYCURSOR+1);
+			if (*YYCURSOR != '\0') {
+				next = *(YYCURSOR + 1);
+				if (next != '\0') {
+					double_next = *(YYCURSOR + 2);
+				}
+			}
+
 			if (*YYCURSOR == '\0' || (*YYCURSOR == '{' && (next == '%' || next == '{' || next == '#'))) {
 
 				if (next != '#') {
@@ -52,11 +121,22 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 					s->mode = PHVOLT_MODE_CODE;
 
 					if (s->raw_buffer_cursor > 0) {
+
 						token->opcode = PHVOLT_T_RAW_FRAGMENT;
-						token->value = emalloc(sizeof(char) * s->raw_buffer_cursor+1);
+						token->value = emalloc(sizeof(char) * s->raw_buffer_cursor + 1);
 						memcpy(token->value, s->raw_buffer, s->raw_buffer_cursor);
 						token->value[s->raw_buffer_cursor] = 0;
 						token->len = s->raw_buffer_cursor;
+
+						if (s->whitespace_control == 1) {
+							phvolt_ltrim(token);
+							s->whitespace_control = 0;
+						}
+
+						if (double_next == '-') {
+							phvolt_rtrim(token);
+						}
+
 						s->raw_buffer_cursor = 0;
 						q = YYCURSOR;
 					} else {
@@ -66,7 +146,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 				} else {
 
 					while ((next = *(++YYCURSOR))) {
-						if (next == '#' && *(YYCURSOR+1) == '}') {
+						if (next == '#' && *(YYCURSOR + 1) == '}') {
 							YYCURSOR+=2;
 							token->opcode = PHVOLT_T_IGNORE;
 							return 0;
@@ -269,6 +349,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		}
 
 		"{%" {
+			s->whitespace_control = 0;
 			token->opcode = PHVOLT_T_OPEN_DELIMITER;
 			return 0;
 		}
@@ -279,7 +360,21 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
+		"{%-" {
+			s->whitespace_control = 0;
+			token->opcode = PHVOLT_T_OPEN_DELIMITER;
+			return 0;
+		}
+
+		"-%}" {
+			s->mode = PHVOLT_MODE_RAW;
+			s->whitespace_control = 1;
+			token->opcode = PHVOLT_T_CLOSE_DELIMITER;
+			return 0;
+		}
+
 		"{{" {
+			s->whitespace_control = 0;
 			s->statement_position++;
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
 			return 0;
@@ -287,6 +382,20 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
 		"}}" {
 			s->mode = PHVOLT_MODE_RAW;
+			token->opcode = PHVOLT_T_CLOSE_EDELIMITER;
+			return 0;
+		}
+
+		"{{-" {
+			s->whitespace_control = 0;
+			s->statement_position++;
+			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
+			return 0;
+		}
+
+		"-}}" {
+			s->mode = PHVOLT_MODE_RAW;
+			s->whitespace_control = 1;
 			token->opcode = PHVOLT_T_CLOSE_EDELIMITER;
 			return 0;
 		}
@@ -300,7 +409,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		IDENTIFIER = [\\]?[a-zA-Z][a-zA-Z0-9\_\\]*;
+		IDENTIFIER = [\\]?[a-zA-Z\_][a-zA-Z0-9\_\\]*;
 		IDENTIFIER {
 			token->opcode = PHVOLT_T_IDENTIFIER;
 			token->value = estrndup(start, YYCURSOR - start);
@@ -355,12 +464,12 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		}
 
 		"(" {
-			token->opcode = PHVOLT_T_BRACKET_OPEN;
+			token->opcode = PHVOLT_T_PARENTHESES_OPEN;
 			return 0;
 		}
 
 		")" {
-			token->opcode = PHVOLT_T_BRACKET_CLOSE;
+			token->opcode = PHVOLT_T_PARENTHESES_CLOSE;
 			return 0;
 		}
 
@@ -436,6 +545,11 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
 		":" {
 			token->opcode = PHVOLT_T_COLON;
+			return 0;
+		}
+
+		"?" {
+			token->opcode = PHVOLT_T_QUESTION;
 			return 0;
 		}
 

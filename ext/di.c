@@ -102,10 +102,6 @@ PHP_METHOD(Phalcon_DI, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_di_ce, this_ptr, SL("_services") TSRMLS_CC);
-	
-	phalcon_update_property_empty_array(phalcon_di_ce, this_ptr, SL("_sharedInstances") TSRMLS_CC);
-	
 	PHALCON_OBS_VAR(default_di);
 	phalcon_read_static_property(&default_di, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
 	if (!zend_is_true(default_di)) {
@@ -194,7 +190,6 @@ PHP_METHOD(Phalcon_DI, setShared){
 PHP_METHOD(Phalcon_DI, remove){
 
 	zval *name;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -206,11 +201,7 @@ PHP_METHOD(Phalcon_DI, remove){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	
-	PHALCON_OBS_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_services"), PH_NOISY_CC);
-	PHALCON_SEPARATE_NMO(t0);
-	phalcon_array_unset(t0, name);
+	phalcon_unset_property_array(this_ptr, SL("_services"), name TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -661,7 +652,7 @@ PHP_METHOD(Phalcon_DI, __call){
 	}
 	
 	/** 
-	 * If the magic method start with 'get' we try to get a service with that name
+	 * If the magic method starts with 'get' we try to get a service with that name
 	 */
 	if (phalcon_start_with_str(method, SL("get"))) {
 	
@@ -684,23 +675,23 @@ PHP_METHOD(Phalcon_DI, __call){
 	
 			RETURN_CCTOR(instance);
 		}
-	} else {
-		/** 
-		 * If the magic method start with 'set' we try to set a service using that name
-		 */
-		if (phalcon_start_with_str(method, SL("set"))) {
-			if (phalcon_array_isset_long(arguments, 0)) {
-				PHALCON_INIT_NVAR(service_name);
-				phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
+	}
 	
-				PHALCON_INIT_NVAR(possible_service);
-				PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
+	/** 
+	 * If the magic method starts with 'set' we try to set a service using that name
+	 */
+	if (phalcon_start_with_str(method, SL("set"))) {
+		if (phalcon_array_isset_long(arguments, 0)) {
+			PHALCON_INIT_NVAR(service_name);
+			phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
 	
-				PHALCON_OBS_VAR(handler);
-				phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
-				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", possible_service, handler);
-				RETURN_MM_NULL();
-			}
+			PHALCON_INIT_NVAR(possible_service);
+			PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
+	
+			PHALCON_OBS_VAR(handler);
+			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", possible_service, handler);
+			RETURN_MM_NULL();
 		}
 	}
 	

@@ -23,7 +23,7 @@ use Phalcon\Mvc\View as View;
 class ViewTest extends PHPUnit_Framework_TestCase
 {
 
-	/*public function testStandardRender()
+	public function testStandardRender()
 	{
 
 		$view = new View();
@@ -151,7 +151,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$content = $view->getRender('test5', 'index', array('cool_var' => 'le-this'));
 
 		$this->assertEquals($content, '<html>Hey, this is a partial, also le-this</html>' . PHP_EOL);
-	}*/
+	}
 
 	protected function _getViewDisabled($level=null)
 	{

@@ -52,15 +52,19 @@
  *		'lifetime' => 172800
  *	);
  *
+ *  //Create a output cache
+ *  $frontCache = \Phalcon\Cache\Frontend\Output($frontOptions);
+ *
  *	//Set the cache directory
  *	$backendOptions = array(
  *		'cacheDir' => '../app/cache/'
  *	);
  *
- *	$cache = Phalcon_Cache::factory('Output', 'File', $frontendOptions, $backendOptions);
+ *  //Create the File backend
+ *  $cache = new \Phalcon\Cache\Backend\File($frontCache, $backendOptions);
  *
  *	$content = $cache->start('my-cache');
- *	if($content===null){
+ *	if ($content === null) {
  *  	echo '<h1>', time(), '</h1>';
  *  	$cache->save();
  *	} else {

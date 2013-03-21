@@ -143,3 +143,23 @@ void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_
 		RETURN_EMPTY_STRING();
 	}
 }
+
+/**
+ * Generates a unique id for a path
+ */
+void phalcon_unique_path_key(zval *return_value, zval *path TSRMLS_DC) {
+
+	unsigned long h;
+	char *strKey;
+
+	if (Z_TYPE_P(path) != IS_STRING) {
+		return;
+	}
+
+	h = zend_hash_func(Z_STRVAL_P(path), Z_STRLEN_P(path) + 1);
+
+	strKey = emalloc(24);
+	sprintf(strKey, "v%lu", h);
+
+	RETURN_STRING(strKey, 0);
+}

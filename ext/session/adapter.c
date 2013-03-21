@@ -204,9 +204,9 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 /**
  * Sets a session variable in an application context
  *
- *<comment>
+ *<code>
  *	$session->set('auth', 'yes');
- *</comment>
+ *</code>
  *
  * @param string $index
  * @param string $value
@@ -235,9 +235,9 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
 /**
  * Check whether a session variable is set in an application context
  *
- *<comment>
+ *<code>
  *	var_dump($session->has('auth'));
- *</comment>
+ *</code>
  *
  * @param string $index
  */
@@ -267,9 +267,9 @@ PHP_METHOD(Phalcon_Session_Adapter, has){
 /**
  * Removes a session variable from an application context
  *
- *<comment>
+ *<code>
  *	$session->remove('auth');
- *</comment>
+ *</code>
  *
  * @param string $index
  */
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
 	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_unset(_SESSION, key);
+	phalcon_array_unset(&_SESSION, key, 0);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -297,9 +297,9 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
 /**
  * Returns active session id
  *
- *<comment>
+ *<code>
  *	echo $session->getId();
- *</comment>
+ *</code>
  *
  * @return string
  */
@@ -317,9 +317,9 @@ PHP_METHOD(Phalcon_Session_Adapter, getId){
 /**
  * Check whether the session has been started
  *
- *<comment>
+ *<code>
  *	var_dump($session->isStarted());
- *</comment>
+ *</code>
  *
  * @return boolean
  */
@@ -337,9 +337,9 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted){
 /**
  * Destroys the active session
  *
- *<comment>
+ *<code>
  *	var_dump($session->destroy());
- *</comment>
+ *</code>
  *
  * @return boolean
  */

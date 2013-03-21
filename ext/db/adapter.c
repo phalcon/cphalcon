@@ -1307,12 +1307,21 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables){
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
+	/** 
+	 * Get the SQL to list the tables
+	 */
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_1(sql, dialect, "listtables", schema_name);
 	
+	/** 
+	 * Use fetch Num
+	 */
 	PHALCON_INIT_VAR(fetch_num);
-	phalcon_get_class_constant(fetch_num, phalcon_db_ce, SS("FETCH_NUM") TSRMLS_CC);
+	ZVAL_LONG(fetch_num, 3);
 	
+	/** 
+	 * Execute the SQL returning the tables
+	 */
 	PHALCON_INIT_VAR(tables);
 	PHALCON_CALL_METHOD_PARAMS_2(tables, this_ptr, "fetchall", sql, fetch_num);
 	

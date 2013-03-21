@@ -34,6 +34,7 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_AND,           SL("AND") },
   { PHQL_T_OR,            SL("OR") },
   { PHQL_T_LIKE,          SL("LIKE") },
+  { PHQL_T_ILIKE,         SL("ILIKE") },
   { PHQL_T_DOT,           SL("DOT") },
   { PHQL_T_COMMA,         SL("COMMA") },
   { PHQL_T_EQUALS,        SL("EQUALS") },
@@ -79,6 +80,7 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_DESC,          SL("DESC") },
   { PHQL_T_BETWEEN,       SL("BETWEEN") },
   { PHQL_T_DISTINCT,      SL("DISTINCT") },
+  { PHQL_T_AGAINST,       SL("AGAINST") },
   { 0, NULL, 0 }
 };
 
@@ -138,7 +140,7 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 /**
  * Executes the internal PHQL parser/tokenizer
  */
-int phql_parse_phql(zval *result, zval *phql TSRMLS_DC){
+int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 
 	zval *error_msg = NULL;
 
@@ -244,6 +246,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_LIKE:
 				phql_(phql_parser, PHQL_LIKE, NULL, parser_status);
 				break;
+			case PHQL_T_ILIKE:
+				phql_(phql_parser, PHQL_ILIKE, NULL, parser_status);
+				break;
 			case PHQL_T_NOT:
 				phql_(phql_parser, PHQL_NOT, NULL, parser_status);
 				break;
@@ -252,6 +257,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_BITWISE_OR:
 				phql_(phql_parser, PHQL_BITWISE_OR, NULL, parser_status);
+				break;
+			case PHQL_T_AGAINST:
+				phql_(phql_parser, PHQL_AGAINST, NULL, parser_status);
 				break;
 			case PHQL_T_DOT:
 				phql_(phql_parser, PHQL_DOT, NULL, parser_status);

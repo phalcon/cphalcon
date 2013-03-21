@@ -21,12 +21,16 @@
  * so that we can send you a copy immediately.
  */
 
+namespace Phalcon\Test\Acl\Adapter\Memory;
+
+use \Phalcon\Test\UnitTestCase as PhTestUnitTestCase;
+
 use \Phalcon\Acl as PhAcl;
 use \Phalcon\Acl\Role as PhAclRole;
 use \Phalcon\Acl\Resource as PhAclResource;
 use \Phalcon\Acl\Adapter\Memory as PhAclMem;
 
-class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
+class UnitTest extends PhTestUnitTestCase
 {
     /**
      * Tests the setDefaultAction

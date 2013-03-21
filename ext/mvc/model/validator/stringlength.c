@@ -56,8 +56,8 @@
  *			'field' => 'name_last',
  *			'max' => 50,
  *			'min' => 2,
- *          'maximumMessage' => 'We don't like really long names',
- *          'minimumMessage' => 'We want more than just their initials'
+ *          'messageMaximum' => 'We don't like really long names',
+ *          'messageMinimum' => 'We want more than just their initials'
  *		)));
  *		if ($this->validationHasFailed() == true) {
  *			return false;
@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 
 	zval *record, *option = NULL, *field, *is_set_min, *is_set_max;
 	zval *value, *length = NULL, *invalid_maximum = NULL, *invalid_minimum = NULL;
-	zval *maximum, *message = NULL, *type = NULL, *minimum, *invalid;
+	zval *maximum, *message = NULL, *type = NULL, *minimum;
 
 	PHALCON_MM_GROW();
 
@@ -219,12 +219,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 		}
 	}
 	
-	/** 
-	 * Any validation was invalid?
-	 */
-	PHALCON_INIT_VAR(invalid);
-	ZVAL_BOOL(invalid, zend_is_true(invalid_minimum) || zend_is_true(invalid_maximum));
-	
-	RETURN_NCTOR(invalid);
+	RETURN_MM_TRUE;
 }
 

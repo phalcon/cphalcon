@@ -62,7 +62,7 @@
  * ));
  *
  * //Cache arbitrary data
- * $cache->store('my-data', array(1, 2, 3, 4, 5));
+ * $cache->save('my-data', array(1, 2, 3, 4, 5));
  *
  * //Get data
  * $data = $cache->get('my-data');
@@ -410,8 +410,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 	PHALCON_INIT_VAR(keys);
 	PHALCON_CALL_METHOD_PARAMS_1(keys, memcache, "get", special_key);
 	if (Z_TYPE_P(keys) == IS_ARRAY) { 
-		PHALCON_SEPARATE(keys);
-		phalcon_array_unset(keys, prefixed_key);
+		phalcon_array_unset(&keys, prefixed_key, PH_SEPARATE);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(memcache, "set", special_key, keys);
 	}
 	

@@ -470,22 +470,42 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView){
  *</code>
  *
  * @param array $params
+ * @param boolean $merge
  */
 PHP_METHOD(Phalcon_Mvc_View, setVars){
 
-	zval *params;
+	zval *params, *merge = NULL, *view_params, *merged_params = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &params, &merge) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	if (!merge) {
+		PHALCON_INIT_VAR(merge);
+		ZVAL_BOOL(merge, 1);
+	}
+	
 	if (Z_TYPE_P(params) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The render parameters must be an array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_viewParams"), params TSRMLS_CC);
+	if (zend_is_true(merge)) {
+	
+		PHALCON_OBS_VAR(view_params);
+		phalcon_read_property(&view_params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
+		if (Z_TYPE_P(view_params) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_params);
+			PHALCON_CALL_FUNC_PARAMS_2(merged_params, "array_merge", view_params, params);
+		} else {
+			PHALCON_CPY_WRT(merged_params, params);
+		}
+	
+		phalcon_update_property_zval(this_ptr, SL("_viewParams"), merged_params TSRMLS_CC);
+	} else {
+		phalcon_update_property_zval(this_ptr, SL("_viewParams"), params TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -868,17 +888,9 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 			PHALCON_INIT_NVAR(not_exists);
 			ZVAL_BOOL(not_exists, 0);
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-				phalcon_update_property_zval(this_ptr, SL("_activeRenderPath"), view_engine_path TSRMLS_CC);
-	
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "view:afterRenderView", 1);
-	
-				PHALCON_INIT_NVAR(status);
-				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr);
-				if (PHALCON_IS_FALSE(status)) {
-					zend_hash_move_forward_ex(ah0, &hp0);
-					continue;
-				}
+				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
 			}
 	
 			break;
@@ -888,6 +900,17 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	}
 	
 	if (PHALCON_IS_TRUE(not_exists)) {
+	
+		/** 
+		 * Notify about not found views
+		 */
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			phalcon_update_property_zval(this_ptr, SL("_activeRenderPath"), view_engine_path TSRMLS_CC);
+	
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "view:notFoundView", 1);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+		}
 		if (!zend_is_true(silence)) {
 			PHALCON_INIT_VAR(exception_message);
 			PHALCON_CONCAT_SVS(exception_message, "View '", views_dir_path, "' was not found in the views directory");

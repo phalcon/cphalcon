@@ -1,11 +1,47 @@
+1.0.0b2
+ - Added Phalcon\Mvc\Router::setUriSource to set if the URI source must be $_GET['_url'] or $_SERVER['REQUEST_URI']
+ - Added a white-list parameter to Phalcon\Mvc\Model::save(), Phalcon\Mvc\Model::create() and
+ Phalcon\Mvc\Model::update() to avoid possible mass-assigment attacks
+ - Added leftJoin/rightJoin to QueryBuilder
+
+1.0.0b1
+ - Fixed bug with missing blocks in multiple inheritance in Volt
+ - Support for ternary operator in Volt
+ - Support for 'forelse' in Volt
+ - Added support for loop variable context in Volt
+ - Added whitespace control delimiters {%- -%} and {{- -}} to Volt
+ - Suport for 'in' and 'not in' operators in Volt
+ - Added Phalcon\Mvc\Model::assign to assign an array of values to a model instance
+ - Added Phalcon\Mvc\Model::refresh to refresh the state of a model
+ - Added Phalcon\Logger\Adapter::setLogLevel to filter messages with greater or less priority
+ - Removed constructor from Phalcon\Cache\BackendInterface
+ - Added Phalcon\Cache\Multiple, this backend writes to several backends, and reads data according to the order in which backends were registered.
+ - Now a model can use a separate connection to read and another to write, this makes horizontal sharding easy
+ - Now, a model could implement a method selectReadConnection to dynamically return the correct database according to the current query conditions
+ - Added Phalcon\Cache\Backend\Memory to cache data in the current request
+ - Added Phalcon\Validation, this component allows the validate a set of data based on pre-defined rules
+ - Added Phalcon\Forms, this component acts as a forms builder binding request data to entities, aiding in the validation of data, helping in the errors/messages generated in the validation process
+ - Phalcon\Db is now case-folding independent
+ - Phalcon\Mvc\Model uses column names keeping the case-folding as they were defined
+ - Added Phalcon\Mvc\Router::notFound to define the paths the router must use if any route is matched
+ - Improved \Phalcon\Mvc\Router\Annotations to work better with controllers in namespaces and modules
+ - A model can be marked to keep record snapshots allowing to check what fields have been changed
+ - The _source and _schema properties have been moved from Phalcon\Mvc\Model to Phalcon\Mvc\Model\Manager. This allow set source/schema in the model initializer
+ - Added Phalcon\Session\Bag::remove to remove an specific variable from a session bag
+ - Added support for complex expressions in PHQL ORDER BY clause
+ - Added support for complex expressions in PHQL GROUP BY clause
+ - Added support for $_SERVER['REQUEST_URI'] if $_GET['_url'] is not available in Phalcon\Mvc\Router
+ - Added an option to set up specific models with dynamic update instead of all-fields update, every field is checked if it was changed to dynamically create a UPDATE SQL column only with those fields that changed
+ - Added a minimalist client for the Beanstalk queue server
+
 0.9.0b2
- - Support for reusable records. A relation can be marked to cache in memory the records to speedup getting related records
+ - Support for reusable records. A relation can be marked to cache queried records in memory to speedup getting related records
  - Added 'elseif' statement to Volt
  - Changed static key in Volt's 'cache' to any valid expression
  - Added Phalcon\Logger\Adapter\Syslog and Phalcon\Logger\Adapter\Stream to Phalcon\Logger
  - Added Phalcon\Logger\Multiple to send logs to multiples adapters
  - Added formatters abstraction to Phalcon\Logger, now including: Phalcon\Logger\Formatter\Line, Phalcon\Logger\Formatter\Json and Phalcon\Logger\Formatter\Syslog
- - Added Phalcon\Annotations\Adapter\Files to Phalcon\Annotations, this adapter stores the annotations in PHP files
+ - Added Phalcon\Annotations\Adapter\Files to Phalcon\Annotations, this adapter stores annotations in PHP files
 
 0.9.0b1
  - Added Phalcon\Annotations, a general purpose component to read annotations from docblocks

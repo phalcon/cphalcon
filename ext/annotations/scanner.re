@@ -105,7 +105,7 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 			return 0;
 		}
 
-		IDENTIFIER = [\\]?[a-zA-Z\\][a-zA-Z0-9\_\\]*;
+		IDENTIFIER = [\\]?[a-zA-Z\\\_][a-zA-Z0-9\_\\]*;
 		IDENTIFIER {
 			token->opcode = PHANNOT_T_IDENTIFIER;
 			token->value = estrndup(start, YYCURSOR - start);
