@@ -2113,20 +2113,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 	if (phalcon_array_isset_string(statement, SS("lifetime"))) {
 		PHALCON_OBS_VAR(lifetime);
 		phalcon_array_fetch_string(&lifetime, statement, SL("lifetime"), PH_NOISY_CC);
-<<<<<<< HEAD
-		PHALCON_SCONCAT_SVS(compilation, "$_cacheKey[", expr_code, "] = ");
-		PHALCON_SCONCAT_SVSVSVS(compilation, "$_cache[", expr_code, "]->start(", expr_code, ", ", lifetime, "); ");
-	} else {
-		PHALCON_SCONCAT_SVSVSVS(compilation, "$_cacheKey[", expr_code, "] = $_cache[", expr_code, "]->start(", expr_code, "); ");
-	}
-=======
 		PHALCON_SCONCAT_SVS(compilation, "$_cacheKey[", expr_code, "]");
 		PHALCON_SCONCAT_SVSVSVS(compilation, " = $_cache[", expr_code, "]->start(", expr_code, ", ", lifetime, "); ");
 	} else {
 		PHALCON_SCONCAT_SVSVSVS(compilation, "$_cacheKey[", expr_code, "] = $_cache[", expr_code, "]->start(", expr_code, "); ");
 	}
 	
->>>>>>> 1.0.0
 	PHALCON_SCONCAT_SVS(compilation, "if ($_cacheKey[", expr_code, "] === null) { ?>");
 	/** 
 	 * Get the code in the block
@@ -2141,13 +2133,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 	/** 
 	 * Check if the cache has a lifetime
 	 */
-<<<<<<< HEAD
-	if (lifetime) {
-=======
 	if (phalcon_array_isset_string(statement, SS("lifetime"))) {
 		PHALCON_OBS_NVAR(lifetime);
 		phalcon_array_fetch_string(&lifetime, statement, SL("lifetime"), PH_NOISY_CC);
->>>>>>> 1.0.0
 		PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", expr_code, "]->save(", expr_code, ", null, ", lifetime, "); ");
 		PHALCON_SCONCAT_SVS(compilation, "} else { echo $_cacheKey[", expr_code, "]; } ?>");
 	} else {
