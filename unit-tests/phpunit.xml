@@ -75,7 +75,7 @@
 			<!-- View/Templating tests -->
 			<file>unit-tests/ViewTest.php</file>
 			<file>unit-tests/ViewEnginesTest.php</file>
-			<file>unit-tests/ViewEnginesVoltTest.php</file>
+			<!--<file>unit-tests/ViewEnginesVoltTest.php</file>-->
 			<file>unit-tests/ViewCacheTest.php</file>
 
 			<!-- Other components -->
