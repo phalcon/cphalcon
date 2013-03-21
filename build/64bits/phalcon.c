@@ -31085,6 +31085,10 @@ PHP_METHOD(Phalcon_Forms_Form, __construct){
 		phalcon_update_property_zval(this_ptr, SL("_entity"), entity TSRMLS_CC);
 	}
 	
+	if (phalcon_method_quick_exists_ex(this_ptr, SS("initialize"), 13878731931343821175UL TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+	}
+	
 	PHALCON_MM_RESTORE();
 }
 
@@ -31643,23 +31647,31 @@ PHP_METHOD(Phalcon_Forms_Form, valid){
 
 
 
+
+
 PHALCON_INIT_CLASS(Phalcon_Forms_Manager){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Forms, Manager, forms_manager, phalcon_forms_manager_method_entry, 0);
+
+	zend_declare_property_null(phalcon_forms_manager_ce, SL("_forms"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
 
 PHP_METHOD(Phalcon_Forms_Manager, create){
 
-	zval *entity = NULL, *form;
+	zval *name = NULL, *entity = NULL, *form;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &entity) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &name, &entity) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	if (!name) {
+		PHALCON_INIT_VAR(name);
+	}
+	
 	if (!entity) {
 		PHALCON_INIT_VAR(entity);
 	}
@@ -31669,6 +31681,12 @@ PHP_METHOD(Phalcon_Forms_Manager, create){
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(form, "__construct", entity, 14747615951113338888UL);
 	
 	RETURN_CTOR(form);
+}
+
+PHP_METHOD(Phalcon_Forms_Manager, get){
+
+
+	
 }
 
 
@@ -63072,7 +63090,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 				if (!zend_is_true(status)) {
 	
 					PHALCON_INIT_NVAR(messages);
-					PHALCON_CALL_METHOD(messages, record, "getmessages");
+					PHALCON_CALL_METHOD(messages, record_after, "getmessages");
 	
 					if (!phalcon_is_iterable(messages, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 						return;
@@ -69459,8 +69477,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 
 	zval *statement, *extends_mode = NULL, *compilation;
-	zval *expr, *expr_code, *block_statements, *code;
-	zval *lifetime;
+	zval *expr, *expr_code, *lifetime = NULL, *block_statements;
+	zval *code;
 
 	PHALCON_MM_GROW();
 
@@ -69482,7 +69500,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(expr_code, this_ptr, "expression", expr, 13873079485417079605UL);
 	
 	PHALCON_SCONCAT_SVS(compilation, "<?php $_cache[", expr_code, "] = $this->di->get('viewCache'); ");
-	PHALCON_SCONCAT_SVSVSVS(compilation, "$_cacheKey[", expr_code, "] = $_cache[", expr_code, "]->start(", expr_code, "); ");
+	if (phalcon_array_isset_quick_string(statement, SS("lifetime"), 249896700458061492UL)) {
+		PHALCON_OBS_VAR(lifetime);
+		phalcon_array_fetch_quick_string(&lifetime, statement, SS("lifetime"), 249896700458061492UL, PH_NOISY_CC);
+		PHALCON_SCONCAT_SVS(compilation, "$_cacheKey[", expr_code, "]");
+		PHALCON_SCONCAT_SVSVSVS(compilation, " = $_cache[", expr_code, "]->start(", expr_code, ", ", lifetime, "); ");
+	} else {
+		PHALCON_SCONCAT_SVSVSVS(compilation, "$_cacheKey[", expr_code, "] = $_cache[", expr_code, "]->start(", expr_code, "); ");
+	}
+	
 	PHALCON_SCONCAT_SVS(compilation, "if ($_cacheKey[", expr_code, "] === null) { ?>");
 	PHALCON_OBS_VAR(block_statements);
 	phalcon_array_fetch_quick_string(&block_statements, statement, SS("block_statements"), 17225665480563364567UL, PH_NOISY_CC);
@@ -69492,7 +69518,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 	phalcon_concat_self(&compilation, code TSRMLS_CC);
 	
 	if (phalcon_array_isset_quick_string(statement, SS("lifetime"), 249896700458061492UL)) {
-		PHALCON_OBS_VAR(lifetime);
+		PHALCON_OBS_NVAR(lifetime);
 		phalcon_array_fetch_quick_string(&lifetime, statement, SS("lifetime"), 249896700458061492UL, PH_NOISY_CC);
 		PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", expr_code, "]->save(", expr_code, ", null, ", lifetime, "); ");
 		PHALCON_SCONCAT_SVS(compilation, "} else { echo $_cacheKey[", expr_code, "]; } ?>");
@@ -81430,7 +81456,7 @@ PHP_METHOD(Phalcon_Tag, setDefaults){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(values) == IS_ARRAY) { 
+	if (Z_TYPE_P(values) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "An array is required as default values");
 		return;
 	}
@@ -83589,9 +83615,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(message, "__construct", message_str, attribute, type, 14747615951113338888UL);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(validator, "appendmessage", message, 2989013970055964674UL);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_TRUE;
 }
 
 
@@ -83666,9 +83693,10 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(message, "__construct", message_str, attribute, type, 14747615951113338888UL);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(validator, "appendmessage", message, 2989013970055964674UL);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_TRUE;
 }
 
 
@@ -83732,9 +83760,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(message, "__construct", message_str, attribute, type, 14747615951113338888UL);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(validator, "appendmessage", message, 2989013970055964674UL);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_TRUE;
 }
 
 
@@ -83809,9 +83838,10 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(message, "__construct", message_str, attribute, type, 14747615951113338888UL);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(validator, "appendmessage", message, 2989013970055964674UL);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_TRUE;
 }
 
 
@@ -83869,9 +83899,10 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(message, "__construct", message_str, attribute, type, 14747615951113338888UL);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(validator, "appendmessage", message, 2989013970055964674UL);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_TRUE;
 }
 
 
@@ -83955,9 +83986,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(message, "__construct", message_str, attribute, type, 14747615951113338888UL);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(validator, "appendmessage", message, 2989013970055964674UL);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_TRUE;
 }
 
 
@@ -84520,8 +84552,8 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(version, 1);
 	add_next_index_long(version, 0);
 	add_next_index_long(version, 0);
-	add_next_index_long(version, 2);
-	add_next_index_long(version, 2);
+	add_next_index_long(version, 4);
+	add_next_index_long(version, 0);
 	RETURN_CTOR(version);
 }
 
