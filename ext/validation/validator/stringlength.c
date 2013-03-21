@@ -72,8 +72,9 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_StringLength){
 /**
  * Executes the validation
  *
- * @param Phalcon\Validator $validator
+ * @param Phalcon\Validation $validator
  * @param string $attribute
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 

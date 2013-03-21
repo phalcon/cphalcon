@@ -68,8 +68,9 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Regex){
 /**
  * Executes the validation
  *
- * @param Phalcon\Validator $validator
+ * @param Phalcon\Validation $validator
  * @param string $attribute
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 
@@ -139,8 +140,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message, "__construct", message_str, attribute, type);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validator, "appendmessage", message);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_TRUE;
 }
 

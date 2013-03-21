@@ -34,9 +34,9 @@
 
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/fcall.h"
 #include "kernel/file.h"
 
 /**
@@ -90,6 +90,13 @@ PHP_METHOD(Phalcon_Forms_Form, __construct){
 			return;
 		}
 		phalcon_update_property_zval(this_ptr, SL("_entity"), entity TSRMLS_CC);
+	}
+	
+	/** 
+	 * Check for an 'initialize' method and call it
+	 */
+	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
 	}
 	
 	PHALCON_MM_RESTORE();

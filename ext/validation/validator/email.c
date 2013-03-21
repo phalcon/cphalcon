@@ -39,6 +39,14 @@
  * Phalcon\Validation\Validator\Email
  *
  * Checks if a value has a correct e-mail format
+ *
+ *<code>
+ *use Phalcon\Validation\Validator\Email as EmailValidator;
+ *
+ *$validator->add('email', new EmailValidator(array(
+ *   'message' => 'The e-mail is not valid'
+ *)));
+ *</code>
  */
 
 
@@ -57,7 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Email){
 /**
  * Executes the validation
  *
- * @param Phalcon\Validator $validator
+ * @param Phalcon\Validation $validator
  * @param string $attribute
  * @return boolean
  */
@@ -101,8 +109,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message, "__construct", message_str, attribute, type);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validator, "appendmessage", message);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_TRUE;
 }
 

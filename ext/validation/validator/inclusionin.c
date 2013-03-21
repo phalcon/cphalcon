@@ -41,6 +41,15 @@
  * Phalcon\Validation\Validator\InclusionIn
  *
  * Check if a value is included into a list of values
+ *
+ *<code>
+ *use Phalcon\Validation\Validator\InclusionIn;
+ *
+ *$validator->add('status', new InclusionIn(array(
+ *   'message' => 'The status must be A or B'
+ *   'domain' => array('A', 'B')
+ *)));
+ *</code>
  */
 
 
@@ -59,7 +68,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn){
 /**
  * Executes the validation
  *
- * @param Phalcon\Validator $validator
+ * @param Phalcon\Validation $validator
  * @param string $attribute
  * @return boolean
  */
@@ -119,8 +128,9 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message, "__construct", message_str, attribute, type);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validator, "appendmessage", message);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_TRUE;
 }
 

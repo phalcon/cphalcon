@@ -35,25 +35,39 @@
 #include "kernel/fcall.h"
 
 /**
+ * Phalcon\Forms\Manager
+ *
+ * Manages forms whithin the application. Allowing the developer to access them from
+ * any part of the application
+ */
+
+
+/**
  * Phalcon\Forms\Manager initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Forms_Manager){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Forms, Manager, forms_manager, phalcon_forms_manager_method_entry, 0);
 
+	zend_declare_property_null(phalcon_forms_manager_ce, SL("_forms"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	return SUCCESS;
 }
 
 PHP_METHOD(Phalcon_Forms_Manager, create){
 
-	zval *entity = NULL, *form;
+	zval *name = NULL, *entity = NULL, *form;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &entity) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &name, &entity) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	if (!name) {
+		PHALCON_INIT_VAR(name);
+	}
+	
 	if (!entity) {
 		PHALCON_INIT_VAR(entity);
 	}
@@ -63,5 +77,17 @@ PHP_METHOD(Phalcon_Forms_Manager, create){
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(form, "__construct", entity);
 	
 	RETURN_CTOR(form);
+}
+
+/**
+ * Returns a form by its name
+ *
+ * @param string $name
+ * @return Phalcon\Forms\Form
+ */
+PHP_METHOD(Phalcon_Forms_Manager, get){
+
+
+	
 }
 

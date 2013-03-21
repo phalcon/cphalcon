@@ -105,7 +105,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Manager){
 }
 
 /**
- * Phalcon\Mvc\Model\Transaction\Manager
+ * Phalcon\Mvc\Model\Transaction\Manager constructor
  *
  * @param Phalcon\DiInterface $dependencyInjector
  */
