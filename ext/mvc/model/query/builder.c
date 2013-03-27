@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -1224,7 +1223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	PHALCON_OBS_VAR(limit);
 	phalcon_read_property(&limit, this_ptr, SL("_limit"), PH_NOISY_CC);
 	if (Z_TYPE_P(limit) != IS_NULL) {
-		if (phalcon_is_numeric(limit)) {
+		//if (phalcon_is_numeric(limit)) {
 			if (Z_TYPE_P(limit) == IS_ARRAY) { 
 	
 				PHALCON_OBS_VAR(number);
@@ -1254,7 +1253,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 					}
 				}
 			}
-		}
+		//}
 	}
 	
 	
