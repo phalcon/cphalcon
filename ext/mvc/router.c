@@ -38,6 +38,7 @@
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Mvc\Router
@@ -462,7 +463,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval *default_namespace = NULL, *module, *default_module = NULL;
 	zval *controller, *default_controller = NULL, *action;
 	zval *default_action = NULL, *params_str, *str_params;
-	zval *slash, *params_merge, *default_params;
+	zval *slash, *params_merge = NULL, *default_params;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -700,9 +701,13 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 * Check for a namespace
 		 */
 		if (phalcon_array_isset_string(parts, SS("namespace"))) {
+	
 			PHALCON_OBS_VAR(namespace);
 			phalcon_array_fetch_string(&namespace, parts, SL("namespace"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_namespace"), namespace TSRMLS_CC);
+			if (!phalcon_is_numeric(namespace)) {
+				phalcon_update_property_zval(this_ptr, SL("_namespace"), namespace TSRMLS_CC);
+			}
+	
 			phalcon_array_unset_string(&parts, SS("namespace"), PH_SEPARATE);
 		} else {
 			PHALCON_OBS_VAR(default_namespace);
@@ -714,9 +719,13 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 * Check for a module
 		 */
 		if (phalcon_array_isset_string(parts, SS("module"))) {
+	
 			PHALCON_OBS_VAR(module);
 			phalcon_array_fetch_string(&module, parts, SL("module"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_module"), module TSRMLS_CC);
+			if (!phalcon_is_numeric(module)) {
+				phalcon_update_property_zval(this_ptr, SL("_module"), module TSRMLS_CC);
+			}
+	
 			phalcon_array_unset_string(&parts, SS("module"), PH_SEPARATE);
 		} else {
 			PHALCON_OBS_VAR(default_module);
@@ -728,9 +737,13 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 * Check for a controller
 		 */
 		if (phalcon_array_isset_string(parts, SS("controller"))) {
+	
 			PHALCON_OBS_VAR(controller);
 			phalcon_array_fetch_string(&controller, parts, SL("controller"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_controller"), controller TSRMLS_CC);
+			if (!phalcon_is_numeric(controller)) {
+				phalcon_update_property_zval(this_ptr, SL("_controller"), controller TSRMLS_CC);
+			}
+	
 			phalcon_array_unset_string(&parts, SS("controller"), PH_SEPARATE);
 		} else {
 			PHALCON_OBS_VAR(default_controller);
@@ -742,9 +755,13 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 * Check for an action
 		 */
 		if (phalcon_array_isset_string(parts, SS("action"))) {
+	
 			PHALCON_OBS_VAR(action);
 			phalcon_array_fetch_string(&action, parts, SL("action"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_action"), action TSRMLS_CC);
+			if (!phalcon_is_numeric(action)) {
+				phalcon_update_property_zval(this_ptr, SL("_action"), action TSRMLS_CC);
+			}
+	
 			phalcon_array_unset_string(&parts, SS("action"), PH_SEPARATE);
 		} else {
 			PHALCON_OBS_VAR(default_action);
@@ -773,8 +790,13 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			phalcon_array_unset_string(&parts, SS("params"), PH_SEPARATE);
 		}
 	
-		PHALCON_INIT_VAR(params_merge);
-		PHALCON_CALL_FUNC_PARAMS_2(params_merge, "array_merge", params, parts);
+		if (phalcon_fast_count_ev(params TSRMLS_CC)) {
+			PHALCON_INIT_VAR(params_merge);
+			PHALCON_CALL_FUNC_PARAMS_2(params_merge, "array_merge", params, parts);
+		} else {
+			PHALCON_CPY_WRT(params_merge, parts);
+		}
+	
 		phalcon_update_property_zval(this_ptr, SL("_params"), params_merge TSRMLS_CC);
 	} else {
 		/** 

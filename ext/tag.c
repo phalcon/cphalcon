@@ -496,6 +496,8 @@ PHP_METHOD(Phalcon_Tag, resetInput){
  *
  *<code>
  *	echo Phalcon\Tag::linkTo('signup/register', 'Register Here!');
+ *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!'));
+ *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
  *</code>
  *
  * @param array|string $parameters
@@ -823,7 +825,7 @@ PHP_METHOD(Phalcon_Tag, fileField){
  * Builds a HTML input[type="check"] tag
  *
  *<code>
- * echo Phalcon\Tag::checkField(array("name", "size" => 30))
+ * echo Phalcon\Tag::checkField(array("name"))
  *</code>
  *
  * @param array $parameters
@@ -851,7 +853,7 @@ PHP_METHOD(Phalcon_Tag, checkField){
  * Builds a HTML input[type="radio"] tag
  *
  *<code>
- * echo Phalcon\Tag::radioField(array("name", "size" => 30))
+ * echo Phalcon\Tag::radioField(array("name"))
  *</code>
  *
  * @param array $parameters
@@ -880,6 +882,11 @@ PHP_METHOD(Phalcon_Tag, radioField){
  *
  *<code>
  * echo Phalcon\Tag::imageInput(array("src" => "/img/button.png"));
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ image_input('src': '/img/button.png') }}
  *</code>
  *
  * @param array $parameters
@@ -911,6 +918,11 @@ PHP_METHOD(Phalcon_Tag, imageInput){
  *
  *<code>
  * echo Phalcon\Tag::submitButton("Save")
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ submit_button('Save') }}
  *</code>
  *
  * @param array $parameters
@@ -971,11 +983,16 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
  * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
  *
  *<code>
- *	echo Phalcon\Tag::selectStatic(array(
+ *	echo Phalcon\Tag::select(array(
  *		"robotId",
  *		Robots::find("type = 'mechanical'"),
  *		"using" => array("id", "name")
  * 	));
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ select("robotId", robots, "using": ["id", "name"]) }}
  *</code>
  *
  * @param array $parameters
@@ -1006,6 +1023,11 @@ PHP_METHOD(Phalcon_Tag, select){
  *
  *<code>
  * echo Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ text_area("comments", "cols": 10, "rows": 4) }}
  *</code>
  *
  * @param array $parameters
