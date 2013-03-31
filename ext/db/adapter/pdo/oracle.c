@@ -85,7 +85,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Oracle){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect){
 
-	zval *descriptor = NULL, *schema = NULL, *sql;
+	zval *descriptor = NULL, *schema = NULL, *role = NULL, *sql;
 
 	PHALCON_MM_GROW();
 
@@ -110,15 +110,30 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect){
 		phalcon_array_fetch_string(&schema, descriptor, SL("schema"), PH_NOISY_CC);
 		phalcon_array_unset_string(&descriptor, SS("schema"), PH_SEPARATE);
 	}
+
+	PHALCON_INIT_VAR(role);
+	if (phalcon_array_isset_string(descriptor, SS("role"))) {
+		PHALCON_OBS_NVAR(role);
+		phalcon_array_fetch_string(&role, descriptor, SL("role"), PH_NOISY_CC);
+		phalcon_array_unset_string(&descriptor, SS("role"), PH_SEPARATE);
+	}	
 	
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo\\Oracle", "connect", descriptor);
-	
+
 	/** 
-	 * Execute the search path in the after connect
+	 * Execute set role
 	 */
 	if (Z_TYPE_P(schema) == IS_STRING) {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVS(sql, "SET search_path TO '", schema, "'");
+		PHALCON_CONCAT_SVS(sql, "ALTER SESSION SET CURRENT_SCHEMA = ", schema, "");
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "execute", sql);
+	}	
+	/** 
+	 * Execute set role
+	 */
+	if (Z_TYPE_P(role) == IS_STRING) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVS(sql, "", role, "");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "execute", sql);
 	}
 	
