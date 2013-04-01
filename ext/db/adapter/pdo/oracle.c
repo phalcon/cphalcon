@@ -151,187 +151,171 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 
-	zval *table, *schema = NULL, *columns, *dialect, *sql, *fetch_num;
-	zval *describe, *old_column = NULL, *field = NULL, *definition = NULL;
-	zval *char_size = NULL, *numeric_size = NULL, *column_type = NULL;
-	zval *attribute = NULL, *column_name = NULL, *column = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+  zval *table, *schema = NULL, *columns, *dialect, *sql, *fetch_num;
+  zval *describe, *old_column = NULL, *field = NULL, *definition = NULL;
+  zval *column_size = NULL, *column_type = NULL;
+  zval *attribute = NULL, *column_name = NULL, *column = NULL;
+  HashTable *ah0;
+  HashPosition hp0;
+  zval **hd;
 
-	PHALCON_MM_GROW();
+  PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
+  if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
+    RETURN_MM_NULL();
+  }
 
-	if (!schema) {
-		PHALCON_INIT_VAR(schema);
-	}
-	
-	PHALCON_INIT_VAR(columns);
-	array_init(columns);
-	
-	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describecolumns", table, schema);
-	
-	/** 
-	 * We're using FETCH_NUM to fetch the columns
-	 */
-	PHALCON_INIT_VAR(fetch_num);
-	ZVAL_LONG(fetch_num, 3);
-	
-	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
-	
-	/** 
-	 * 0:name, 1:type, 2:size, 3:numericsize, 4: null, 5: key, 6: extra, 7: position
-	 */
-	PHALCON_INIT_VAR(old_column);
-	
-	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
-	
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-		PHALCON_GET_FOREACH_VALUE(field);
-	
-		PHALCON_INIT_NVAR(definition);
-		array_init_size(definition, 1);
-		add_assoc_long_ex(definition, SS("bindType"), 2);
-	
-		PHALCON_OBS_NVAR(char_size);
-		phalcon_array_fetch_long(&char_size, field, 2, PH_NOISY_CC);
-	
-		PHALCON_OBS_NVAR(numeric_size);
-		phalcon_array_fetch_long(&numeric_size, field, 3, PH_NOISY_CC);
-	
-		PHALCON_OBS_NVAR(column_type);
-		phalcon_array_fetch_long(&column_type, field, 1, PH_NOISY_CC);
-	
-		/** 
-		 * Check the column type to get the correct Phalcon type
-		 */
-		if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
-			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE TSRMLS_CC);
-		} else {
-			if (phalcon_memnstr_str(column_type, SL("varying") TSRMLS_CC)) {
-				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			} else {
-				if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
-					phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
-					phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
-				} else {
-					if (phalcon_memnstr_str(column_type, SL("numeric") TSRMLS_CC)) {
-						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
-					} else {
-						if (phalcon_memnstr_str(column_type, SL("char") TSRMLS_CC)) {
-							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-							phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						} else {
-							if (phalcon_memnstr_str(column_type, SL("timestamp") TSRMLS_CC)) {
-								phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
-								phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
-							} else {
-								if (phalcon_memnstr_str(column_type, SL("text") TSRMLS_CC)) {
-									phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
-									phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
-								} else {
-									if (phalcon_memnstr_str(column_type, SL("float") TSRMLS_CC)) {
-										phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE TSRMLS_CC);
-										phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
-										phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
-										phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
-									} else {
-										if (phalcon_memnstr_str(column_type, SL("bool") TSRMLS_CC)) {
-											phalcon_array_update_string_long(&definition, SL("type"), 8, PH_SEPARATE TSRMLS_CC);
-											phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
-											phalcon_array_update_string_long(&definition, SL("bindType"), 5, PH_SEPARATE TSRMLS_CC);
-										} else {
-											if (phalcon_memnstr_str(column_type, SL("uuid") TSRMLS_CC)) {
-												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-												phalcon_array_update_string_long(&definition, SL("size"), 36, PH_SEPARATE TSRMLS_CC);
-											} else {
-												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-												phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	
-		if (phalcon_memnstr_str(column_type, SL("unsigned") TSRMLS_CC)) {
-			phalcon_array_update_string_bool(&definition, SL("unsigned"), 1, PH_SEPARATE TSRMLS_CC);
-		}
-	
-		if (Z_TYPE_P(old_column) == IS_NULL) {
-			phalcon_array_update_string_bool(&definition, SL("first"), 1, PH_SEPARATE TSRMLS_CC);
-		} else {
-			phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		}
-	
-		/** 
-		 * Check if the field is primary key
-		 */
-		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_long(&attribute, field, 5, PH_NOISY_CC);
-		if (PHALCON_IS_STRING(attribute, "PRI")) {
-			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
-		}
-	
-		/** 
-		 * Check if the column allows null values
-		 */
-		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_long(&attribute, field, 4, PH_NOISY_CC);
-		if (PHALCON_IS_STRING(attribute, "NO")) {
-			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
-		}
-	
-		/** 
-		 * Check if the column is auto increment
-		 */
-		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_long(&attribute, field, 6, PH_NOISY_CC);
-		if (PHALCON_IS_STRING(attribute, "auto_increment")) {
-			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
-		}
-	
-		PHALCON_OBS_NVAR(column_name);
-		phalcon_array_fetch_long(&column_name, field, 0, PH_NOISY_CC);
-	
-		/** 
-		 * Create a Phalcon\Db\Column to abstract the column
-		 */
-		PHALCON_INIT_NVAR(column);
-		object_init_ex(column, phalcon_db_column_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);
-	
-		phalcon_array_append(&columns, column, PH_SEPARATE TSRMLS_CC);
-		PHALCON_CPY_WRT(old_column, column_name);
-	
-		zend_hash_move_forward_ex(ah0, &hp0);
-	}
-	
-	
-	RETURN_CTOR(columns);
+  if (!schema) {
+    PHALCON_INIT_VAR(schema);
+  }
+  
+  PHALCON_INIT_VAR(columns);
+  array_init(columns);
+  
+  PHALCON_OBS_VAR(dialect);
+  phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+  
+  PHALCON_INIT_VAR(sql);
+  PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describecolumns", table, schema);
+  
+  /** 
+   * We're using FETCH_NUM to fetch the columns
+   */
+  PHALCON_INIT_VAR(fetch_num);
+  ZVAL_LONG(fetch_num, 3);
+  
+  PHALCON_INIT_VAR(describe);
+  PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
+  
+  /** 
+   * 0:name, 1:type, 2:size, 3: null, f: key, 5: extra, 6: position
+   */
+  PHALCON_INIT_VAR(old_column);
+  
+  if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+    return;
+  }
+  
+  while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+  
+    PHALCON_GET_FOREACH_VALUE(field);
+  
+    PHALCON_INIT_NVAR(definition);
+    array_init_size(definition, 1);
+    add_assoc_long_ex(definition, SS("bindType"), 2);
+  
+    PHALCON_OBS_NVAR(column_size);
+    phalcon_array_fetch_long(&column_size, field, 2, PH_NOISY_CC);
+
+    PHALCON_OBS_NVAR(column_type);
+    phalcon_array_fetch_long(&column_type, field, 1, PH_NOISY_CC);
+
+    /** 
+     * Check the column type to get the correct Phalcon type
+     */
+    if (phalcon_memnstr_str(column_type, SL("NUMBER") TSRMLS_CC)) {
+      phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
+      phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
+      phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE TSRMLS_CC);
+    } else {
+      if (phalcon_memnstr_str(column_type, SL("DATE") TSRMLS_CC)) {
+        phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
+        phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
+      } else {
+        if (phalcon_memnstr_str(column_type, SL("CHAR") TSRMLS_CC)) {
+          phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
+          phalcon_array_update_string(&definition, SL("size"), &column_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+        } else {
+          if (phalcon_memnstr_str(column_type, SL("RAW") TSRMLS_CC)) {
+            phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
+            phalcon_array_update_string(&definition, SL("size"), &column_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+          } else {
+            if (phalcon_memnstr_str(column_type, SL("VARCHAR2") TSRMLS_CC)) {
+              phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
+              phalcon_array_update_string(&definition, SL("size"), &column_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+            } else {
+              if (phalcon_memnstr_str(column_type, SL("BLOB") TSRMLS_CC)) {
+                phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
+                phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
+              } else {
+                if (phalcon_memnstr_str(column_type, SL("CLOB") TSRMLS_CC)) {
+                  phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
+                  phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
+                } else {
+                  if (phalcon_memnstr_str(column_type, SL("FLOAT") TSRMLS_CC)) {
+                    phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE TSRMLS_CC);
+                    phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
+                    phalcon_array_update_string(&definition, SL("size"), &column_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+                    phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
+                  } else {
+                    phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
+                    phalcon_array_update_string(&definition, SL("size"), &column_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  
+    if (phalcon_memnstr_str(column_type, SL("unsigned") TSRMLS_CC)) {
+      phalcon_array_update_string_bool(&definition, SL("unsigned"), 1, PH_SEPARATE TSRMLS_CC);
+    }
+  
+    if (Z_TYPE_P(old_column) == IS_NULL) {
+      phalcon_array_update_string_bool(&definition, SL("first"), 1, PH_SEPARATE TSRMLS_CC);
+    } else {
+      phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
+    }
+  
+    /** 
+     * Check if the field is primary key
+     */
+    PHALCON_OBS_NVAR(attribute);
+    phalcon_array_fetch_long(&attribute, field, 4, PH_NOISY_CC);
+    if (PHALCON_IS_STRING(attribute, "P")) {
+      phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
+    }
+  
+    /** 
+     * Check if the column allows null values
+     */
+    PHALCON_OBS_NVAR(attribute);
+    phalcon_array_fetch_long(&attribute, field, 3, PH_NOISY_CC);
+    if (PHALCON_IS_STRING(attribute, "N")) {
+      phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
+    }
+  
+    /** 
+     * Check if the column is auto increment
+     */
+    PHALCON_OBS_NVAR(attribute);
+    phalcon_array_fetch_long(&attribute, field, 4, PH_NOISY_CC);
+    if (PHALCON_IS_STRING(attribute, "P")) {
+      phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
+    }
+  
+    PHALCON_OBS_NVAR(column_name);
+    phalcon_array_fetch_long(&column_name, field, 0, PH_NOISY_CC);
+
+    /** 
+     * Create a Phalcon\Db\Column to abstract the column
+     */
+    PHALCON_INIT_NVAR(column);
+    object_init_ex(column, phalcon_db_column_ce);
+    PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);
+  
+    phalcon_array_append(&columns, column, PH_SEPARATE TSRMLS_CC);
+    PHALCON_CPY_WRT(old_column, column_name);
+  
+    zend_hash_move_forward_ex(ah0, &hp0);
+  }
+  
+  
+  RETURN_CTOR(columns);
 }
+
 
 /**
  * Return the default identity value to insert in an identity column
