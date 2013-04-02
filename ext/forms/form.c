@@ -652,7 +652,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel){
  */
 PHP_METHOD(Phalcon_Forms_Form, getValue){
 
-	zval *name, *entity, *method, *value = NULL;
+	zval *name, *entity, *method, *value = NULL, *data;
 
 	PHALCON_MM_GROW();
 
@@ -685,7 +685,72 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
 		}
 	}
 	
+	PHALCON_OBS_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	if (Z_TYPE_P(data) == IS_ARRAY) { 
+	
+		/** 
+		 * Check if the data is in the data array
+		 */
+		if (phalcon_array_isset(data, name)) {
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch(&value, data, name, PH_NOISY_CC);
+			RETURN_CCTOR(value);
+		}
+	}
+	
 	RETURN_MM_NULL();
+}
+
+/**
+ * Check if the form contains an element
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Forms_Form, has){
+
+	zval *name, *elements;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(elements);
+	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (!phalcon_array_isset(elements, name)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Removes an element from the form
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Forms_Form, remove){
+
+	zval *name, *elements;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(elements);
+	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (!phalcon_array_isset(elements, name)) {
+		phalcon_unset_property_array(this_ptr, SL("_elements"), name TSRMLS_CC);
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
 }
 
 /**

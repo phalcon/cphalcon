@@ -437,32 +437,34 @@ PHP_METHOD(Phalcon_Tag, getValue){
 	phalcon_read_static_property(&autoescape, SL("phalcon\\tag"), SL("_autoEscape") TSRMLS_CC);
 	
 	/** 
-	 * Escape all values in autoescape mode
+	 * Escape all values in autoescape mode. Only escaping values
 	 */
-	if (zend_is_true(autoescape)) {
-		PHALCON_INIT_VAR(escaper);
-		PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
+	if (Z_TYPE_P(value) == IS_STRING) {
+		if (zend_is_true(autoescape)) {
+			PHALCON_INIT_VAR(escaper);
+			PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
 	
-		PHALCON_INIT_VAR(escaped_value);
-		PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
-		RETURN_CCTOR(escaped_value);
-	} else {
-		if (Z_TYPE_P(params) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(escaped_value);
+			PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
+			RETURN_CCTOR(escaped_value);
+		} else {
+			if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-			/** 
-			 * A escape parameter is set?
-			 */
-			if (phalcon_array_isset_string(params, SS("escape"))) {
+				/** 
+				 * A escape parameter is set?
+				 */
+				if (phalcon_array_isset_string(params, SS("escape"))) {
 	
-				PHALCON_OBS_NVAR(autoescape);
-				phalcon_array_fetch_string(&autoescape, params, SL("escape"), PH_NOISY_CC);
-				if (zend_is_true(autoescape)) {
-					PHALCON_INIT_NVAR(escaper);
-					PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
+					PHALCON_OBS_NVAR(autoescape);
+					phalcon_array_fetch_string(&autoescape, params, SL("escape"), PH_NOISY_CC);
+					if (zend_is_true(autoescape)) {
+						PHALCON_INIT_NVAR(escaper);
+						PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
 	
-					PHALCON_INIT_NVAR(escaped_value);
-					PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
-					RETURN_CCTOR(escaped_value);
+						PHALCON_INIT_NVAR(escaped_value);
+						PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
+						RETURN_CCTOR(escaped_value);
+					}
 				}
 			}
 		}
