@@ -6452,7 +6452,6 @@ zend_class_entry *phalcon_db_dialect_oracle_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Oracle);
 
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn);
@@ -6472,11 +6471,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_limit, 0, 0, 2)
-	ZEND_ARG_INFO(0, sqlQuery)
-	ZEND_ARG_INFO(0, number)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)

@@ -91,45 +91,52 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 	
 		case 0:
 			PHALCON_INIT_VAR(column_sql);
-			ZVAL_STRING(column_sql, "INT", 1);
+			ZVAL_STRING(column_sql, "NUMERIC", 1);
 			break;
 	
 		case 1:
 			PHALCON_INIT_NVAR(column_sql);
-			ZVAL_STRING(column_sql, "DATE", 1);
+			ZVAL_STRING(column_sql, "VARCHAR2", 1);
 			break;
 	
 		case 2:
 			PHALCON_INIT_NVAR(column_sql);
-			PHALCON_CONCAT_SVS(column_sql, "CHARACTER VARYING(", size, ")");
+			ZVAL_STRING(column_sql, "DATE", 1);
 			break;
 	
 		case 3:
-			PHALCON_INIT_VAR(scale);
-			PHALCON_CALL_METHOD(scale, column, "getscale");
-	
 			PHALCON_INIT_NVAR(column_sql);
-			PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
+			ZVAL_STRING(column_sql, "TIMESTAMP(6)", 1);
 			break;
 	
 		case 4:
 			PHALCON_INIT_NVAR(column_sql);
-			ZVAL_STRING(column_sql, "TIMESTAMP", 1);
+			ZVAL_STRING(column_sql, "CHAR", 1);
 			break;
 	
 		case 5:
 			PHALCON_INIT_NVAR(column_sql);
-			PHALCON_CONCAT_SVS(column_sql, "CHARACTER(", size, ")");
+			ZVAL_STRING(column_sql, "CLOB", 1);
 			break;
 	
 		case 6:
 			PHALCON_INIT_NVAR(column_sql);
-			ZVAL_STRING(column_sql, "TEXT", 1);
+			ZVAL_STRING(column_sql, "BLOB", 1);
 			break;
 	
 		case 7:
 			PHALCON_INIT_NVAR(column_sql);
-			ZVAL_STRING(column_sql, "FLOAT", 1);
+			ZVAL_STRING(column_sql, "NVARCHAR2", 1);
+			break;
+
+		case 8:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "BINARY_FLOAT", 1);
+			break;
+
+		case 9:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "BINARY_DOUBLE", 1);
 			break;
 	
 		default:
@@ -514,13 +521,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables){
 		PHALCON_INIT_VAR(schema_name);
 	}
 	
-	if (zend_is_true(schema_name)) {
-		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVS(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = '", schema_name, "' ORDER BY table_name");
-	} else {
-		PHALCON_INIT_NVAR(sql);
-		ZVAL_STRING(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name", 1);
-	}
+
+	PHALCON_INIT_NVAR(sql);
+	ZVAL_STRING(sql, "SELECT TABLE_NAME FROM USER_TABLES", 1);
+
 	
 	RETURN_CTOR(sql);
 }
@@ -547,7 +551,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes){
 	}
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVS(sql, "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '", table, "' ORDER BY t.relname, i.relname;");
+	PHALCON_CONCAT_SVS(sql, "SELECT 0 as c0, I.TABLE_NAME, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM USER_INDEXES I JOIN USER_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = UPPER('", table, "')");
 	RETURN_CTOR(sql);
 }
 
