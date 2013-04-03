@@ -23137,9 +23137,6 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element){
 PHP_METHOD(Phalcon_Forms_Element, __construct){
 
 	zval *name, *attributes = NULL;
-	zval *i0 = NULL;
-	zval *c0 = NULL;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -23152,15 +23149,7 @@ PHP_METHOD(Phalcon_Forms_Element, __construct){
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
-		ce0 = zend_fetch_class(SL("Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		PHALCON_INIT_VAR(i0);
-		object_init_ex(i0, ce0);
-		if (phalcon_has_constructor(i0 TSRMLS_CC)) {
-			PHALCON_INIT_VAR(c0);
-			ZVAL_STRING(c0, "The element's name must be a string", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0);
-		}
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The element's name must be a string");
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
@@ -23888,7 +23877,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel){
 
 PHP_METHOD(Phalcon_Forms_Form, getValue){
 
-	zval *name, *entity, *method, *value = NULL;
+	zval *name, *entity, *method, *value = NULL, *data;
 
 	PHALCON_MM_GROW();
 
@@ -23915,7 +23904,57 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
 		}
 	}
 	
+	PHALCON_OBS_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	if (Z_TYPE_P(data) == IS_ARRAY) { 
+	
+		if (phalcon_array_isset(data, name)) {
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch(&value, data, name, PH_NOISY_CC);
+			RETURN_CCTOR(value);
+		}
+	}
+	
 	RETURN_MM_NULL();
+}
+
+PHP_METHOD(Phalcon_Forms_Form, has){
+
+	zval *name, *elements;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(elements);
+	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (!phalcon_array_isset(elements, name)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+PHP_METHOD(Phalcon_Forms_Form, remove){
+
+	zval *name, *elements;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(elements);
+	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (!phalcon_array_isset(elements, name)) {
+		phalcon_unset_property_array(this_ptr, SL("_elements"), name TSRMLS_CC);
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
 }
 
 PHP_METHOD(Phalcon_Forms_Form, count){
@@ -32040,27 +32079,29 @@ PHP_METHOD(Phalcon_Tag, getValue){
 	PHALCON_OBS_VAR(autoescape);
 	phalcon_read_static_property(&autoescape, SL("phalcon\\tag"), SL("_autoEscape") TSRMLS_CC);
 	
-	if (zend_is_true(autoescape)) {
-		PHALCON_INIT_VAR(escaper);
-		PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
+	if (Z_TYPE_P(value) == IS_STRING) {
+		if (zend_is_true(autoescape)) {
+			PHALCON_INIT_VAR(escaper);
+			PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
 	
-		PHALCON_INIT_VAR(escaped_value);
-		PHALCON_CALL_METHOD_PARAMS_1_KEY(escaped_value, escaper, "escapehtmlattr", value, 4208410982UL);
-		RETURN_CCTOR(escaped_value);
-	} else {
-		if (Z_TYPE_P(params) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(escaped_value);
+			PHALCON_CALL_METHOD_PARAMS_1_KEY(escaped_value, escaper, "escapehtmlattr", value, 4208410982UL);
+			RETURN_CCTOR(escaped_value);
+		} else {
+			if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-			if (phalcon_array_isset_quick_string(params, SS("escape"), 1978755574UL)) {
+				if (phalcon_array_isset_quick_string(params, SS("escape"), 1978755574UL)) {
 	
-				PHALCON_OBS_NVAR(autoescape);
-				phalcon_array_fetch_quick_string(&autoescape, params, SS("escape"), 1978755574UL, PH_NOISY_CC);
-				if (zend_is_true(autoescape)) {
-					PHALCON_INIT_NVAR(escaper);
-					PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
+					PHALCON_OBS_NVAR(autoescape);
+					phalcon_array_fetch_quick_string(&autoescape, params, SS("escape"), 1978755574UL, PH_NOISY_CC);
+					if (zend_is_true(autoescape)) {
+						PHALCON_INIT_NVAR(escaper);
+						PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
 	
-					PHALCON_INIT_NVAR(escaped_value);
-					PHALCON_CALL_METHOD_PARAMS_1_KEY(escaped_value, escaper, "escapehtmlattr", value, 4208410982UL);
-					RETURN_CCTOR(escaped_value);
+						PHALCON_INIT_NVAR(escaped_value);
+						PHALCON_CALL_METHOD_PARAMS_1_KEY(escaped_value, escaper, "escapehtmlattr", value, 4208410982UL);
+						RETURN_CCTOR(escaped_value);
+					}
 				}
 			}
 		}
