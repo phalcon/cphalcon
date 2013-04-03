@@ -1834,24 +1834,27 @@ int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRM
 
 	zend_bool jit_initialization = PG(auto_globals_jit);
 	if (jit_initialization) {
-		zend_is_auto_global(global, global_length-1 TSRMLS_CC);
+		zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
 	}
 
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), global, global_length, (void **) &gv) == SUCCESS) {
 			if (Z_TYPE_PP(gv) == IS_ARRAY) {
 				*arr = *gv;
+				if (!*arr) {
+					PHALCON_INIT_VAR(*arr);
+					array_init(*arr);
+				}
 			} else {
 				PHALCON_INIT_VAR(*arr);
 				array_init(*arr);
 			}
+			return SUCCESS;
 		}
 	}
 
-	if (!*arr) {
-		PHALCON_INIT_VAR(*arr);
-		array_init(*arr);
-	}
+	PHALCON_INIT_VAR(*arr);
+	array_init(*arr);
 
 	return SUCCESS;
 }
@@ -9461,12 +9464,12 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 	} else {
 
 		file_path = Z_STRVAL_P(require_path);
-		file_path_length = Z_STRLEN_P(require_path);
 
 		ret = php_stream_open_for_zend_ex(file_path, &file_handle, ENFORCE_SAFE_MODE|USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
 		if (ret == SUCCESS) {
 
 			if (!file_handle.opened_path) {
+				file_path_length = Z_STRLEN_P(require_path);
 				file_handle.opened_path = estrndup(file_path, file_path_length);
 			}
 
@@ -9478,9 +9481,9 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 					char realfile[MAXPATHLEN];
 					int realfile_len;
 					dummy = 1;
-					if(expand_filepath(file_handle.filename, realfile TSRMLS_CC)){
+					if (expand_filepath(file_handle.filename, realfile TSRMLS_CC)) {
 						realfile_len =  strlen(realfile);
-						zend_hash_add(&EG(included_files), realfile, realfile_len+1, (void *)&dummy, sizeof(int), NULL);
+						zend_hash_add(&EG(included_files), realfile, realfile_len + 1, (void *)&dummy, sizeof(int), NULL);
 						file_handle.opened_path = estrndup(realfile, realfile_len);
 					}
 				}
@@ -9488,6 +9491,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 
 			if (!dummy) {
 				if (file_handle.opened_path) {
+					file_path_length = strlen(file_handle.opened_path);
 					zend_hash_add(&EG(included_files), file_handle.opened_path, file_path_length + 1, (void *)&dummy, sizeof(int), NULL);
 				}
 			}
