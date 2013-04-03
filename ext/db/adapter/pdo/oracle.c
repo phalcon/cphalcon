@@ -47,10 +47,9 @@
  * <code>
  *
  * $config = array(
- *  "host" => "192.168.0.11",
- *  "dbname" => "blog",
- *  "username" => "postgres",
- *  "password" => ""
+ *  "dbname" => "//localhost/dbname",
+ *  "username" => "oracle",
+ *  "password" => "oracle"
  * );
  *
  * $connection = new Phalcon\Db\Adapter\Pdo\Oracle($config);
