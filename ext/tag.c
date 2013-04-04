@@ -1790,8 +1790,11 @@ PHP_METHOD(Phalcon_Tag, getDocType){
  */
 PHP_METHOD(Phalcon_Tag, tagHtml){
 
-	zval *tag_name, *tag_parameters = NULL, *tag_self_close = NULL, *tag_only_start = NULL;
-	zval *local_params = NULL, *local_id = NULL, *local_content = NULL, *local_name = NULL;
+	zval *tag_name, *tag_parameters = NULL, *tag_self_close = NULL;
+	zval *tag_only_start = NULL, *tag_eol = NULL;
+
+	zval *local_params = NULL, *local_id = NULL, *local_content = NULL;
+	zval *local_name = NULL, *local_eol = NULL;
 	zval *local_code, *local_array_value, *local_array_key;
 	zval *local_doctype, *local_five, *local_is_xhtml;
 	HashTable *local_hash_table;
@@ -1801,7 +1804,7 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 	PHALCON_MM_GROW();
 
     // Check if the tag_name has been passed. If not, exit
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &tag_name, &tag_parameters, &tag_self_close, &tag_only_start) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzzz", &tag_name, &tag_parameters, &tag_self_close, &tag_only_start, &tag_eol) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -1818,6 +1821,11 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 	if (!tag_only_start) {
 		PHALCON_INIT_VAR(tag_only_start);
 		ZVAL_BOOL(tag_only_start, 1);
+	}
+
+	if (!tag_eol) {
+		PHALCON_INIT_VAR(tag_eol);
+		ZVAL_BOOL(tag_eol, 0);
 	}
 
     // Now check the tag_parameters. If it is an array, we will parse it
@@ -1913,5 +1921,27 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 
     }
 
+    local_eol = phalcon_eol(tag_eol);
+
+    PHALCON_SCONCAT_S(local_code, local_eol);
+
 	RETURN_CTOR(local_code);
 }
+
+zval *function phalcon_eol(int eol) {
+
+	zval *local_eol, *php_eol;
+
+	// Initialize parameters
+    PHALCON_INIT_VAR(local_eol);
+
+    if (eol) {
+	    zend_get_constant(SL("PHP_EOL"), local_eol TSRMLS_CC);
+    } else {
+        ZVAL_STRING(local_eol, "", 1);
+    }
+
+    return local_eol;
+}
+
+
