@@ -4831,4 +4831,25 @@ class UnitTest extends PhTestUnitTestCase
             )
         );
     }
+
+
+    /**
+     * Tests the tagHtml with name parameter
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlName()
+    {
+        $name     = 'aside';
+        $expected = '<aside></aside>';
+        $actual   = PhTag::tagHtml($name);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+
 }

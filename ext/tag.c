@@ -1792,10 +1792,10 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 
 	zval *tag_name, *tag_parameters = NULL, *tag_self_close = NULL, *tag_only_start = NULL;
 	zval *local_params = NULL, *local_id = NULL, *local_content = NULL, *local_name = NULL;
-	zval *local_code, local_array_value, *local_array_key;
+	zval *local_code, *local_array_value, *local_array_key;
 	zval *local_doctype, *local_five, *local_is_xhtml;
-	HashTable *ah0;
-	HashPosition hp0;
+	HashTable *local_hash_table;
+	HashPosition local_hash_position;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -1866,20 +1866,20 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 	ZVAL_STRING(local_code, "<", 1);
     PHALCON_SCONCAT_S(local_code, tag_name);
 
-	if (!phalcon_is_iterable(local_params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+	if (!phalcon_is_iterable(local_params, &local_hash_table, &local_hash_position, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	while (zend_hash_get_current_data_ex(local_hash_table, (void**) &hd, &local_hash_position) == SUCCESS) {
 
-		PHALCON_GET_FOREACH_KEY(local_array_key, ah0, hp0);
+		PHALCON_GET_FOREACH_KEY(local_array_key, local_hash_table, local_hash_position);
 		PHALCON_GET_FOREACH_VALUE(local_array_value);
 
 		if (Z_TYPE_P(local_array_key) != IS_LONG) {
 			PHALCON_SCONCAT_SVSVS(local_code, " ", local_array_key, "=\"", local_array_value, "\"");
 		}
 
-		zend_hash_move_forward_ex(ah0, &hp0);
+		zend_hash_move_forward_ex(local_hash_table, &local_hash_position);
 	}
 
 	PHALCON_OBS_VAR(local_doctype);
