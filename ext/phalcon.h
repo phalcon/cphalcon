@@ -14,6 +14,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |			 Marcio Paiva <mpaivabarbosa@gmail.com>						   |
   +------------------------------------------------------------------------+
 */
 
@@ -132,9 +133,11 @@
 #include "db/adapter/pdo/mysql.h"
 #include "db/adapter/pdo/sqlite.h"
 #include "db/adapter/pdo/postgresql.h"
+#include "db/adapter/pdo/oracle.h"
 #include "db/dialect/mysql.h"
 #include "db/dialect/sqlite.h"
 #include "db/dialect/postgresql.h"
+#include "db/dialect/oracle.h"
 #include "db/exception.h"
 #include "db/profiler.h"
 #include "db/profiler/item.h"
