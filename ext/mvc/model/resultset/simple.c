@@ -36,6 +36,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/exception.h"
 
 /**
@@ -251,16 +252,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 /**
  * Returns a complete resultset as an array, if the resultset has a big number of rows
- * it could consume more memory than currently it does.
+ * it could consume more memory than currently it does. Export the resultset to an array
+ * couldn't be faster with a large number of records
  *
+ * @param boolean $renameColumns
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 
-	zval *type, *result = NULL, *active_row = NULL, *records = NULL, *row_count;
+	zval *rename_columns = NULL, *type, *result = NULL, *active_row = NULL;
+	zval *records = NULL, *row_count, *column_map, *renamed_records;
+	zval *record = NULL, *renamed = NULL, *value = NULL, *key = NULL, *exception_message = NULL;
+	zval *renamed_key = NULL;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &rename_columns) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!rename_columns) {
+		PHALCON_INIT_VAR(rename_columns);
+		ZVAL_BOOL(rename_columns, 1);
+	}
+	
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zend_is_true(type)) {
@@ -324,6 +342,79 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 		}
 	}
 	
+	/** 
+	 * We need to rename the whole set here, this could be slow
+	 */
+	if (zend_is_true(rename_columns)) {
+	
+		/** 
+		 * Get the resultset column map
+		 */
+		PHALCON_OBS_VAR(column_map);
+		phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+		if (Z_TYPE_P(column_map) != IS_ARRAY) { 
+			RETURN_CCTOR(records);
+		}
+	
+		PHALCON_INIT_VAR(renamed_records);
+		array_init(renamed_records);
+	
+		if (!phalcon_is_iterable(records, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(record);
+	
+			PHALCON_INIT_NVAR(renamed);
+			array_init(renamed);
+	
+			if (!phalcon_is_iterable(record, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+				return;
+			}
+	
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
+				PHALCON_GET_FOREACH_VALUE(value);
+	
+				/** 
+				 * Check if the key is part of the column map
+				 */
+				if (!phalcon_array_isset(column_map, key)) {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Column '", key, "' is not part of the column map");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
+				}
+	
+				/** 
+				 * Get the renamed column
+				 */
+				PHALCON_OBS_NVAR(renamed_key);
+				phalcon_array_fetch(&renamed_key, column_map, key, PH_NOISY_CC);
+	
+				/** 
+				 * Add the value renamed
+				 */
+				phalcon_array_update_zval(&renamed, renamed_key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+				zend_hash_move_forward_ex(ah1, &hp1);
+			}
+	
+			/** 
+			 * Append the renamed records to the main array
+			 */
+			phalcon_array_append(&renamed_records, renamed, PH_SEPARATE TSRMLS_CC);
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	
+		RETURN_CTOR(renamed_records);
+	}
+	
 	
 	RETURN_CCTOR(records);
 }
@@ -335,13 +426,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 
-	zval *records, *model, *cache, *column_map, *hydrate_mode;
-	zval *data, *serialized;
+	zval *rename_columns, *records, *model, *cache;
+	zval *column_map, *hydrate_mode, *data, *serialized;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(rename_columns);
+	ZVAL_BOOL(rename_columns, 0);
+	
 	PHALCON_INIT_VAR(records);
-	PHALCON_CALL_METHOD(records, this_ptr, "toarray");
+	PHALCON_CALL_METHOD_PARAMS_1(records, this_ptr, "toarray", rename_columns);
 	
 	PHALCON_OBS_VAR(model);
 	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);

@@ -1323,6 +1323,7 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
 PHP_METHOD(Phalcon_Tag, getTitle){
 
 	zval *tags = NULL, *document_title, *eol = NULL, *title_html;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1338,9 +1339,9 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 	PHALCON_OBS_VAR(document_title);
 	phalcon_read_static_property(&document_title, SL("phalcon\\tag"), SL("_documentTitle") TSRMLS_CC);
 	if (PHALCON_IS_TRUE(tags)) {
-		PHALCON_INIT_VAR(eol);
-		PHALCON_INIT_NVAR(eol);
-		ZVAL_STRING(eol, PHP_EOL, 1);
+		PHALCON_INIT_VAR(t0);
+		ZVAL_STRING(t0, PHP_EOL, 1);
+		PHALCON_CPY_WRT(eol, t0);
 	
 		PHALCON_INIT_VAR(title_html);
 		PHALCON_CONCAT_SVSV(title_html, "<title>", document_title, "</title>", eol);
@@ -1368,6 +1369,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
 	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *five;
 	zval *doctype, *eol = NULL, *is_xhtml;
+	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1461,10 +1463,9 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	PHALCON_OBS_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(eol);
-	
-	PHALCON_INIT_NVAR(eol);
-	ZVAL_STRING(eol, PHP_EOL, 1);
+	PHALCON_INIT_VAR(t0);
+	ZVAL_STRING(t0, PHP_EOL, 1);
+	PHALCON_CPY_WRT(eol, t0);
 	
 	/** 
 	 * Check if Doctype is XHTML
@@ -1503,6 +1504,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
 	zval *url, *params_src, *src, *eol = NULL, *code, *value = NULL, *key = NULL;
+	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1574,10 +1576,9 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(eol);
-	
-	PHALCON_INIT_NVAR(eol);
-	ZVAL_STRING(eol, PHP_EOL, 1);
+	PHALCON_INIT_VAR(t0);
+	ZVAL_STRING(t0, PHP_EOL, 1);
+	PHALCON_CPY_WRT(eol, t0);
 	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<script", 1);

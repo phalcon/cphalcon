@@ -825,10 +825,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny){
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 
-	zval *role, *resource, *access, *default_access;
-	zval *events_manager, *event_name = NULL, *status, *resources_names;
-	zval *roles_names, *have_access = NULL, *access_roles;
-	zval *resource_access = NULL, *resource_name = NULL;
+	zval *role, *resource, *access, *events_manager;
+	zval *event_name = NULL, *status, *default_access, *roles_names;
+	zval *have_access = NULL, *access_roles, *resource_access = NULL;
+	zval *resource_name = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -844,9 +844,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	phalcon_update_property_zval(this_ptr, SL("_activeResource"), resource TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_activeAccess"), access TSRMLS_CC);
 	
-	PHALCON_OBS_VAR(default_access);
-	phalcon_read_property(&default_access, this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
-	
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -861,12 +858,12 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		}
 	}
 	
-	PHALCON_OBS_VAR(resources_names);
-	phalcon_read_property(&resources_names, this_ptr, SL("_resourcesNames"), PH_NOISY_CC);
-	if (!phalcon_array_isset(resources_names, resource)) {
-		RETURN_CCTOR(default_access);
-	}
+	PHALCON_OBS_VAR(default_access);
+	phalcon_read_property(&default_access, this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
 	
+	/** 
+	 * Check if the role exists
+	 */
 	PHALCON_OBS_VAR(roles_names);
 	phalcon_read_property(&roles_names, this_ptr, SL("_rolesNames"), PH_NOISY_CC);
 	if (!phalcon_array_isset(roles_names, role)) {

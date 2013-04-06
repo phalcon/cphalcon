@@ -720,7 +720,7 @@ PHP_METHOD(Phalcon_Forms_Form, has){
 
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (!phalcon_array_isset(elements, name)) {
+	if (phalcon_array_isset(elements, name)) {
 		RETURN_MM_TRUE;
 	}
 	
@@ -745,7 +745,7 @@ PHP_METHOD(Phalcon_Forms_Form, remove){
 
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (!phalcon_array_isset(elements, name)) {
+	if (phalcon_array_isset(elements, name)) {
 		phalcon_unset_property_array(this_ptr, SL("_elements"), name TSRMLS_CC);
 		RETURN_MM_TRUE;
 	}
