@@ -110,24 +110,27 @@ int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRM
 
 	zend_bool jit_initialization = PG(auto_globals_jit);
 	if (jit_initialization) {
-		zend_is_auto_global(global, global_length-1 TSRMLS_CC);
+		zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
 	}
 
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), global, global_length, (void **) &gv) == SUCCESS) {
 			if (Z_TYPE_PP(gv) == IS_ARRAY) {
 				*arr = *gv;
+				if (!*arr) {
+					PHALCON_INIT_VAR(*arr);
+					array_init(*arr);
+				}
 			} else {
 				PHALCON_INIT_VAR(*arr);
 				array_init(*arr);
 			}
+			return SUCCESS;
 		}
 	}
 
-	if (!*arr) {
-		PHALCON_INIT_VAR(*arr);
-		array_init(*arr);
-	}
+	PHALCON_INIT_VAR(*arr);
+	array_init(*arr);
 
 	return SUCCESS;
 }

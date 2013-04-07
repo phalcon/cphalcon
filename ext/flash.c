@@ -287,6 +287,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 	zval *type, *message, *automatic_html, *classes;
 	zval *type_classes, *joined_classes, *css_classes = NULL;
 	zval *eol = NULL, *implicit_flush, *content, *msg = NULL, *html_message = NULL;
+	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -322,10 +323,9 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			ZVAL_STRING(css_classes, "", 1);
 		}
 	
-		PHALCON_INIT_VAR(eol);
-	
-		PHALCON_INIT_NVAR(eol);
-		ZVAL_STRING(eol, PHP_EOL, 1);
+		PHALCON_INIT_VAR(t0);
+		ZVAL_STRING(t0, PHP_EOL, 1);
+		PHALCON_CPY_WRT(eol, t0);
 	}
 	
 	PHALCON_OBS_VAR(implicit_flush);

@@ -218,6 +218,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager){
  * Initializes a model in the model manager
  *
  * @param Phalcon\Mvc\ModelInterface $model
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 
@@ -240,8 +241,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	 * Models are just initialized once per request
 	 */
 	if (phalcon_array_isset(initialized, class_name)) {
-		RETURN_MM_NULL();
+		RETURN_MM_FALSE;
 	}
+	
+	/** 
+	 * Update the model as initialized, this avoid cyclic initializations
+	 */
+	phalcon_update_property_array(this_ptr, SL("_initialized"), class_name, model TSRMLS_CC);
 	
 	/** 
 	 * Call the 'initialize' method if it's implemented
@@ -251,6 +257,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	}
 	
 	/** 
+	 * Update the last initialized model, so it can be used in
+	 * modelsManager:afterInitialize
+	 */
+	phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
+	
+	/** 
 	 * If an EventsManager is available we pass to it every initialized model
 	 */
 	PHALCON_OBS_VAR(events_manager);
@@ -258,13 +270,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "modelsManager:afterInitialize", 1);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, model);
 	}
 	
-	phalcon_update_property_array(this_ptr, SL("_initialized"), class_name, model TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_TRUE;
 }
 
 /**

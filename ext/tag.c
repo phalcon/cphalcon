@@ -437,32 +437,34 @@ PHP_METHOD(Phalcon_Tag, getValue){
 	phalcon_read_static_property(&autoescape, SL("phalcon\\tag"), SL("_autoEscape") TSRMLS_CC);
 	
 	/** 
-	 * Escape all values in autoescape mode
+	 * Escape all values in autoescape mode. Only escaping values
 	 */
-	if (zend_is_true(autoescape)) {
-		PHALCON_INIT_VAR(escaper);
-		PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
+	if (Z_TYPE_P(value) == IS_STRING) {
+		if (zend_is_true(autoescape)) {
+			PHALCON_INIT_VAR(escaper);
+			PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
 	
-		PHALCON_INIT_VAR(escaped_value);
-		PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
-		RETURN_CCTOR(escaped_value);
-	} else {
-		if (Z_TYPE_P(params) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(escaped_value);
+			PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
+			RETURN_CCTOR(escaped_value);
+		} else {
+			if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-			/** 
-			 * A escape parameter is set?
-			 */
-			if (phalcon_array_isset_string(params, SS("escape"))) {
+				/** 
+				 * A escape parameter is set?
+				 */
+				if (phalcon_array_isset_string(params, SS("escape"))) {
 	
-				PHALCON_OBS_NVAR(autoescape);
-				phalcon_array_fetch_string(&autoescape, params, SL("escape"), PH_NOISY_CC);
-				if (zend_is_true(autoescape)) {
-					PHALCON_INIT_NVAR(escaper);
-					PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
+					PHALCON_OBS_NVAR(autoescape);
+					phalcon_array_fetch_string(&autoescape, params, SL("escape"), PH_NOISY_CC);
+					if (zend_is_true(autoescape)) {
+						PHALCON_INIT_NVAR(escaper);
+						PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
 	
-					PHALCON_INIT_NVAR(escaped_value);
-					PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
-					RETURN_CCTOR(escaped_value);
+						PHALCON_INIT_NVAR(escaped_value);
+						PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
+						RETURN_CCTOR(escaped_value);
+					}
 				}
 			}
 		}
@@ -496,6 +498,8 @@ PHP_METHOD(Phalcon_Tag, resetInput){
  *
  *<code>
  *	echo Phalcon\Tag::linkTo('signup/register', 'Register Here!');
+ *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!'));
+ *	echo Phalcon\Tag::linkTo(array('signup/register', 'Register Here!', 'class' => 'btn-primary'));
  *</code>
  *
  * @param array|string $parameters
@@ -823,7 +827,7 @@ PHP_METHOD(Phalcon_Tag, fileField){
  * Builds a HTML input[type="check"] tag
  *
  *<code>
- * echo Phalcon\Tag::checkField(array("name", "size" => 30))
+ * echo Phalcon\Tag::checkField(array("name"))
  *</code>
  *
  * @param array $parameters
@@ -851,7 +855,7 @@ PHP_METHOD(Phalcon_Tag, checkField){
  * Builds a HTML input[type="radio"] tag
  *
  *<code>
- * echo Phalcon\Tag::radioField(array("name", "size" => 30))
+ * echo Phalcon\Tag::radioField(array("name"))
  *</code>
  *
  * @param array $parameters
@@ -880,6 +884,11 @@ PHP_METHOD(Phalcon_Tag, radioField){
  *
  *<code>
  * echo Phalcon\Tag::imageInput(array("src" => "/img/button.png"));
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ image_input('src': '/img/button.png') }}
  *</code>
  *
  * @param array $parameters
@@ -911,6 +920,11 @@ PHP_METHOD(Phalcon_Tag, imageInput){
  *
  *<code>
  * echo Phalcon\Tag::submitButton("Save")
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ submit_button('Save') }}
  *</code>
  *
  * @param array $parameters
@@ -971,11 +985,16 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
  * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
  *
  *<code>
- *	echo Phalcon\Tag::selectStatic(array(
+ *	echo Phalcon\Tag::select(array(
  *		"robotId",
  *		Robots::find("type = 'mechanical'"),
  *		"using" => array("id", "name")
  * 	));
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ select("robotId", robots, "using": ["id", "name"]) }}
  *</code>
  *
  * @param array $parameters
@@ -1006,6 +1025,11 @@ PHP_METHOD(Phalcon_Tag, select){
  *
  *<code>
  * echo Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))
+ *</code>
+ *
+ * Volt syntax:
+ *<code>
+ * {{ text_area("comments", "cols": 10, "rows": 4) }}
  *</code>
  *
  * @param array $parameters
@@ -1299,6 +1323,7 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
 PHP_METHOD(Phalcon_Tag, getTitle){
 
 	zval *tags = NULL, *document_title, *eol = NULL, *title_html;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1314,9 +1339,9 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 	PHALCON_OBS_VAR(document_title);
 	phalcon_read_static_property(&document_title, SL("phalcon\\tag"), SL("_documentTitle") TSRMLS_CC);
 	if (PHALCON_IS_TRUE(tags)) {
-		PHALCON_INIT_VAR(eol);
-		PHALCON_INIT_NVAR(eol);
-		ZVAL_STRING(eol, PHP_EOL, 1);
+		PHALCON_INIT_VAR(t0);
+		ZVAL_STRING(t0, PHP_EOL, 1);
+		PHALCON_CPY_WRT(eol, t0);
 	
 		PHALCON_INIT_VAR(title_html);
 		PHALCON_CONCAT_SVSV(title_html, "<title>", document_title, "</title>", eol);
@@ -1344,6 +1369,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
 	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *five;
 	zval *doctype, *eol = NULL, *is_xhtml;
+	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1437,10 +1463,9 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	PHALCON_OBS_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(eol);
-	
-	PHALCON_INIT_NVAR(eol);
-	ZVAL_STRING(eol, PHP_EOL, 1);
+	PHALCON_INIT_VAR(t0);
+	ZVAL_STRING(t0, PHP_EOL, 1);
+	PHALCON_CPY_WRT(eol, t0);
 	
 	/** 
 	 * Check if Doctype is XHTML
@@ -1479,6 +1504,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
 	zval *url, *params_src, *src, *eol = NULL, *code, *value = NULL, *key = NULL;
+	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1550,10 +1576,9 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(eol);
-	
-	PHALCON_INIT_NVAR(eol);
-	ZVAL_STRING(eol, PHP_EOL, 1);
+	PHALCON_INIT_VAR(t0);
+	ZVAL_STRING(t0, PHP_EOL, 1);
+	PHALCON_CPY_WRT(eol, t0);
 	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<script", 1);
