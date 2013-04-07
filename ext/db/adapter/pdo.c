@@ -168,6 +168,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	}
 
 	/**
+	 * Check if the developer has defined custom options or create one from scratch
+	 */
+	if (phalcon_array_isset_string(descriptor, SS("options"))) {
+		PHALCON_OBS_VAR(options);
+		phalcon_array_fetch_string(&options, descriptor, SL("options"), PH_NOISY_CC);
+		phalcon_array_unset_string(&descriptor, SS("options"), PH_SEPARATE);
+	} else {
+		PHALCON_INIT_NVAR(options);
+		array_init(options);
+	}
+
+	/**
 	 * Check if the user has defined a custom dsn
 	 */
 	if (!phalcon_array_isset_string(descriptor, SS("dsn"))) {
@@ -205,16 +217,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	PHALCON_CONCAT_VSV(dsn, pdo_type, ":", dsn_attributes);
 
 	/**
-	 * Check if the developer has defined custom options or create one from scratch
+	 * Default options
 	 */
-	if (phalcon_array_isset_string(descriptor, SS("options"))) {
-		PHALCON_OBS_VAR(options);
-		phalcon_array_fetch_string(&options, descriptor, SL("options"), PH_NOISY_CC);
-	} else {
-		PHALCON_INIT_NVAR(options);
-		array_init(options);
-	}
-
 	phalcon_array_update_long_long(&options, PDO_ATTR_ERRMODE, PDO_ERRMODE_EXCEPTION, PH_SEPARATE TSRMLS_CC);
 	//phalcon_array_update_long_long(&options, PDO_ATTR_CASE, PDO_CASE_LOWER, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_long_long(&options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL, PH_SEPARATE TSRMLS_CC);

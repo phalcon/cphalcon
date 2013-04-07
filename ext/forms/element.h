@@ -35,6 +35,8 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes);
 PHP_METHOD(Phalcon_Forms_Element, getAttributes);
 PHP_METHOD(Phalcon_Forms_Element, setLabel);
 PHP_METHOD(Phalcon_Forms_Element, getLabel);
+PHP_METHOD(Phalcon_Forms_Element, setDefault);
+PHP_METHOD(Phalcon_Forms_Element, getDefault);
 PHP_METHOD(Phalcon_Forms_Element, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element___construct, 0, 0, 1)
@@ -59,7 +61,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_addvalidator, 0, 0, 1)
 	ZEND_ARG_INFO(0, validator)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_prepareattributes, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_prepareattributes, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
@@ -74,6 +76,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setlabel, 0, 0, 1)
 	ZEND_ARG_INFO(0, label)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setdefault, 0, 0, 1)
+	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_forms_element_method_entry){
@@ -91,6 +97,8 @@ PHALCON_INIT_FUNCS(phalcon_forms_element_method_entry){
 	PHP_ME(Phalcon_Forms_Element, getAttributes, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, setLabel, arginfo_phalcon_forms_element_setlabel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, getLabel, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, setDefault, arginfo_phalcon_forms_element_setdefault, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, getDefault, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, __toString, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

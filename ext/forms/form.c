@@ -51,7 +51,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Forms_Form){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Forms, Form, forms_form, phalcon_forms_form_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms, Form, forms_form, "phalcon\\di\\injectable", phalcon_forms_form_method_entry, 0);
 
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_entity"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -597,7 +597,11 @@ PHP_METHOD(Phalcon_Forms_Form, label){
 	
 	PHALCON_INIT_VAR(label);
 	PHALCON_CALL_METHOD(label, element, "getlabel");
-	if (Z_TYPE_P(label) != IS_NULL) {
+	
+	/** 
+	 * Use the default label or leave the same name as label
+	 */
+	if (zend_is_true(label)) {
 		PHALCON_INIT_VAR(html);
 		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", label, "</label>");
 	} else {
@@ -640,6 +644,14 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel){
 	
 	PHALCON_INIT_VAR(label);
 	PHALCON_CALL_METHOD(label, element, "getlabel");
+	
+	/** 
+	 * Use the element's name as label if the label is not available
+	 */
+	if (!zend_is_true(label)) {
+		RETURN_CCTOR(name);
+	}
+	
 	
 	RETURN_CCTOR(label);
 }
@@ -720,6 +732,10 @@ PHP_METHOD(Phalcon_Forms_Form, has){
 
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	
+	/** 
+	 * Checks if the element is in the form
+	 */
 	if (phalcon_array_isset(elements, name)) {
 		RETURN_MM_TRUE;
 	}
@@ -745,11 +761,19 @@ PHP_METHOD(Phalcon_Forms_Form, remove){
 
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	
+	/** 
+	 * Checks if the element is in the form
+	 */
 	if (phalcon_array_isset(elements, name)) {
 		phalcon_unset_property_array(this_ptr, SL("_elements"), name TSRMLS_CC);
 		RETURN_MM_TRUE;
 	}
 	
+	/** 
+	 * Clean the iterator index
+	 */
+	phalcon_update_property_null(this_ptr, SL("_elementsIndexed") TSRMLS_CC);
 	RETURN_MM_FALSE;
 }
 

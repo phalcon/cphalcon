@@ -17,38 +17,19 @@
   +------------------------------------------------------------------------+
 */
 
-extern zend_class_entry *phalcon_forms_manager_ce;
+extern zend_class_entry *phalcon_validation_validator_between_ce;
 
-PHALCON_INIT_CLASS(Phalcon_Forms_Manager);
+PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Between);
 
-PHP_METHOD(Phalcon_Forms_Manager, create);
-PHP_METHOD(Phalcon_Forms_Manager, get);
-PHP_METHOD(Phalcon_Forms_Manager, has);
-PHP_METHOD(Phalcon_Forms_Manager, set);
+PHP_METHOD(Phalcon_Validation_Validator_Between, validate);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_create, 0, 0, 0)
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, entity)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_between_validate, 0, 0, 2)
+	ZEND_ARG_INFO(0, validator)
+	ZEND_ARG_INFO(0, attribute)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_get, 0, 0, 1)
-	ZEND_ARG_INFO(0, name)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_has, 0, 0, 1)
-	ZEND_ARG_INFO(0, name)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_set, 0, 0, 2)
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, form)
-ZEND_END_ARG_INFO()
-
-PHALCON_INIT_FUNCS(phalcon_forms_manager_method_entry){
-	PHP_ME(Phalcon_Forms_Manager, create, arginfo_phalcon_forms_manager_create, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Forms_Manager, get, arginfo_phalcon_forms_manager_get, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Forms_Manager, has, arginfo_phalcon_forms_manager_has, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Forms_Manager, set, arginfo_phalcon_forms_manager_set, ZEND_ACC_PUBLIC) 
+PHALCON_INIT_FUNCS(phalcon_validation_validator_between_method_entry){
+	PHP_ME(Phalcon_Validation_Validator_Between, validate, arginfo_phalcon_validation_validator_between_validate, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

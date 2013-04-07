@@ -50,6 +50,8 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/filter", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/queue", "beanstalk.c", "phalcon")
   ADD_SOURCES("ext/phalcon/queue/beanstalk", "job.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/assets/resource", "css.c js.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/assets", "resource.c manager.c exception.c collection.c", "phalcon")
   ADD_SOURCES("ext/phalcon/escaper", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/tag", "select.c exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/acl", "resource.c resourceinterface.c exception.c role.c adapterinterface.c adapter.c roleinterface.c", "phalcon")
@@ -71,5 +73,5 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/translate", "exception.c adapterinterface.c adapter.c", "phalcon")
   ADD_SOURCES("ext/phalcon/validation", "validatorinterface.c exception.c message.c validator.c", "phalcon")
   ADD_SOURCES("ext/phalcon/validation/message", "group.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/validation/validator", "email.c presenceof.c regex.c exclusionin.c identical.c inclusionin.c stringlength.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/validation/validator", "email.c presenceof.c regex.c exclusionin.c identical.c between.c inclusionin.c stringlength.c", "phalcon")
 }

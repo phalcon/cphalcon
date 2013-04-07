@@ -92,6 +92,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query){
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_cacheOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_uniqueRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_bindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_SELECT"), 309 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_INSERT"), 306 TSRMLS_CC);
@@ -3604,16 +3606,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 				PHALCON_INIT_NVAR(wildcard);
 				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
-				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(insert_value);
-					phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
-				} else {
+				if (!phalcon_array_isset(bind_params, wildcard)) {
 					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
+					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it isn't in the placeholders list");
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 					return;
 				}
 	
+				PHALCON_OBS_NVAR(insert_value);
+				phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
 				break;
 	
 			case 274:
@@ -3628,15 +3629,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 				PHALCON_INIT_NVAR(wildcard);
 				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
 				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(insert_value);
-					phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
-				} else {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 					return;
 				}
 	
+				PHALCON_OBS_NVAR(insert_value);
+				phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
 				break;
 	
 			default:
@@ -4207,8 +4207,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	zval *bind_params = NULL, *bind_types = NULL, *unique_row;
 	zval *cache_options, *key, *lifetime = NULL, *cache_service = NULL;
 	zval *dependency_injector, *cache, *result = NULL, *is_fresh;
-	zval *prepared_result = NULL, *intermediate, *type;
-	zval *exception_message;
+	zval *prepared_result = NULL, *intermediate, *default_bind_params;
+	zval *merged_params = NULL, *default_bind_types;
+	zval *merged_types = NULL, *type, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -4313,6 +4314,38 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	PHALCON_INIT_VAR(intermediate);
 	PHALCON_CALL_METHOD(intermediate, this_ptr, "parse");
 	
+	/** 
+	 * Check for default bind parameters and merge them with the passed ones
+	 */
+	PHALCON_OBS_VAR(default_bind_params);
+	phalcon_read_property(&default_bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
+	if (Z_TYPE_P(default_bind_params) == IS_ARRAY) { 
+		if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_params);
+			PHALCON_CALL_FUNC_PARAMS_2(merged_params, "array_merge", default_bind_params, bind_params);
+		} else {
+			PHALCON_CPY_WRT(merged_params, default_bind_params);
+		}
+	} else {
+		PHALCON_CPY_WRT(merged_params, bind_params);
+	}
+	
+	/** 
+	 * Check for default bind types and merge them with the passed ones
+	 */
+	PHALCON_OBS_VAR(default_bind_types);
+	phalcon_read_property(&default_bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+	if (Z_TYPE_P(default_bind_types) == IS_ARRAY) { 
+		if (Z_TYPE_P(bind_types) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_types);
+			PHALCON_CALL_FUNC_PARAMS_2(merged_types, "array_merge", default_bind_types, bind_types);
+		} else {
+			PHALCON_CPY_WRT(merged_types, default_bind_types);
+		}
+	} else {
+		PHALCON_CPY_WRT(merged_types, bind_types);
+	}
+	
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	
@@ -4320,22 +4353,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	
 		case 309:
 			PHALCON_INIT_NVAR(result);
-			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeselect", intermediate, bind_params, bind_types);
+			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeselect", intermediate, merged_params, merged_types);
 			break;
 	
 		case 306:
 			PHALCON_INIT_NVAR(result);
-			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeinsert", intermediate, bind_params, bind_types);
+			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeinsert", intermediate, merged_params, merged_types);
 			break;
 	
 		case 300:
 			PHALCON_INIT_NVAR(result);
-			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeupdate", intermediate, bind_params, bind_types);
+			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeupdate", intermediate, merged_params, merged_types);
 			break;
 	
 		case 303:
 			PHALCON_INIT_NVAR(result);
-			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executedelete", intermediate, bind_params, bind_types);
+			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executedelete", intermediate, merged_params, merged_types);
 			break;
 	
 		default:
@@ -4449,6 +4482,78 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getType){
 
 
 	RETURN_MEMBER(this_ptr, "_type");
+}
+
+/**
+ * Set default bind parameters
+ *
+ * @param array $bindParams
+ * @return Phalcon\Mvc\Model\Query
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams){
+
+	zval *bind_params;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &bind_params) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(bind_params) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bind parameters must be an array");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_bindParams"), bind_params TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Returns default bind params
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, getBindParams){
+
+
+	RETURN_MEMBER(this_ptr, "_bindParams");
+}
+
+/**
+ * Set default bind parameters
+ *
+ * @param array $bindTypes
+ * @return Phalcon\Mvc\Model\Query
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes){
+
+	zval *bind_types;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &bind_types) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(bind_types) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bind types must be an array");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_bindTypes"), bind_types TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Returns default bind types
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, getBindTypes){
+
+
+	RETURN_MEMBER(this_ptr, "_bindTypes");
 }
 
 /**
