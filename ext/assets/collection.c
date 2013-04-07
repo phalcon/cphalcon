@@ -34,7 +34,15 @@
 
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
+
+/**
+ * Phalcon\Assets\Collection
+ *
+ * Represents a collection of resources // ArrayAccess,
+ */
+
 
 /**
  * Phalcon\Assets\Collection initializer
@@ -45,6 +53,8 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Collection){
 
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_resources"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_assets_collection_ce TSRMLS_CC, 2, spl_ce_Countable, zend_ce_iterator);
 
 	return SUCCESS;
 }
@@ -75,14 +85,33 @@ PHP_METHOD(Phalcon_Assets_Collection, add){
 }
 
 /**
+ * Returns the resources as an array
+ *
+ * @return Phalcon\Assets\Resource[]
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getResources){
+
+
+	RETURN_MEMBER(this_ptr, "_resources");
+}
+
+/**
  * Returns the number of elements in the form
  *
  * @return int
  */
 PHP_METHOD(Phalcon_Assets_Collection, count){
 
+	zval *resources, *number;
 
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(resources);
+	phalcon_read_property(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
 	
+	PHALCON_INIT_VAR(number);
+	phalcon_fast_count(number, resources TSRMLS_CC);
+	RETURN_NCTOR(number);
 }
 
 /**
@@ -98,18 +127,26 @@ PHP_METHOD(Phalcon_Assets_Collection, rewind){
 /**
  * Returns the current resource in the iterator
  *
- * @return Phalcon\Validation\Message
+ * @return Phalcon\Assets\Resource
  */
 PHP_METHOD(Phalcon_Assets_Collection, current){
 
-	zval *position;
+	zval *position, *resources, *resource;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(position);
 	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_OBS_VAR(resources);
+	phalcon_read_property(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
+	if (phalcon_array_isset(resources, position)) {
+		PHALCON_OBS_VAR(resource);
+		phalcon_array_fetch(&resource, resources, position, PH_NOISY_CC);
+		RETURN_CCTOR(resource);
+	}
+	
+	RETURN_MM_NULL();
 }
 
 /**

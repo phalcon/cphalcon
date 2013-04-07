@@ -22,6 +22,7 @@ extern zend_class_entry *phalcon_assets_collection_ce;
 PHALCON_INIT_CLASS(Phalcon_Assets_Collection);
 
 PHP_METHOD(Phalcon_Assets_Collection, add);
+PHP_METHOD(Phalcon_Assets_Collection, getResources);
 PHP_METHOD(Phalcon_Assets_Collection, count);
 PHP_METHOD(Phalcon_Assets_Collection, rewind);
 PHP_METHOD(Phalcon_Assets_Collection, current);
@@ -35,6 +36,7 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_assets_collection_method_entry){
 	PHP_ME(Phalcon_Assets_Collection, add, arginfo_phalcon_assets_collection_add, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Collection, getResources, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, count, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, rewind, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, current, NULL, ZEND_ACC_PUBLIC) 

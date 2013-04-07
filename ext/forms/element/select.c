@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption){
 }
 
 /**
- * Renders the element widget
+ * Renders the element widget returning html
  *
  * @param array $attributes
  * @return string

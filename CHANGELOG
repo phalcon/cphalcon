@@ -9,6 +9,12 @@
  - Now if a validator in Phalcon\Validator has defined the option 'cancelOnFail' => true the validation
  will be aborted if the validator fails
  - Added Phalcon\Validation\Validator\Between to check a value between a range of two values
+ - Phalcon\Forms\Form now extends from Phalcon\DI\Injectable allowing developers to use application services in the form initialization
+ - Now calls to Phalcon\Mvc\Router can be chained
+ - Phalcon\Mvc\Router::getRewriteUri is now public
+ - Added Phalcon\Mvc\Router\Route::beforeMatch to implement arbitrary conditions to unmatch a matched route
+ - Phalcon\Mvc\Model can be now set up to throw an exception when the saving process fails
+ - Added Phalcon\Assets component to manage CSS/Javascripts resources in an application
 
 1.0.1
  - Paths aren't correctly normalized in Phalcon\Mvc\Model\MetaData\Files

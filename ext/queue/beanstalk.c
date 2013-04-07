@@ -242,6 +242,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put){
 }
 
 /**
+ * Reserves a job in the queue
  *
  * @return boolean|Phalcon\Queue\Beanstalk\Job
  */

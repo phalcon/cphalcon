@@ -3652,8 +3652,9 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	zval *data = NULL, *white_list = NULL, *meta_data, *attributes;
 	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *write_connection;
 	zval *related, *status = NULL, *schema, *source, *table = NULL, *read_connection;
-	zval *exists, *empty_array, *identity_field;
+	zval *exists, *error_messages = NULL, *identity_field;
 	zval *success = NULL;
+	zval *i0 = NULL;
 	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -3785,9 +3786,9 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	/** 
 	 * Clean the messages
 	 */
-	PHALCON_INIT_VAR(empty_array);
-	array_init(empty_array);
-	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), empty_array TSRMLS_CC);
+	PHALCON_INIT_VAR(error_messages);
+	array_init(error_messages);
+	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), error_messages TSRMLS_CC);
 	
 	/** 
 	 * Query the identity field
@@ -3808,6 +3809,25 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		if (Z_TYPE_P(related) == IS_ARRAY) { 
 			PHALCON_CALL_METHOD_NORETURN(write_connection, "rollback");
 		}
+	
+		/** 
+		 * Throw exceptions on failed saves?
+		 */
+		if (PHALCON_GLOBAL(orm).exception_on_failed_save) {
+			PHALCON_OBS_NVAR(error_messages);
+			phalcon_read_property(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+	
+			/** 
+			 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
+			 */
+			PHALCON_INIT_VAR(i0);
+			object_init_ex(i0, phalcon_mvc_model_validationfailed_ce);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", this_ptr, error_messages);
+	
+			phalcon_throw_exception(i0 TSRMLS_CC);
+			return;
+		}
+	
 		RETURN_MM_FALSE;
 	}
 	
@@ -6262,6 +6282,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 
 	zval *options, *disable_events, *virtual_foreign_keys;
 	zval *column_renaming, *not_null_validations;
+	zval *exception_on_failed_save;
 
 	PHALCON_MM_GROW();
 
@@ -6308,6 +6329,15 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		PHALCON_OBS_VAR(not_null_validations);
 		phalcon_array_fetch_string(&not_null_validations, options, SL("notNullValidations"), PH_NOISY_CC);
 		PHALCON_GLOBAL(orm).not_null_validations = zend_is_true(not_null_validations);
+	}
+	
+	/** 
+	 * Enables/Disables throws an exception if the saving process fails
+	 */
+	if (phalcon_array_isset_string(options, SS("exceptionOnFailedSave"))) {
+		PHALCON_OBS_VAR(exception_on_failed_save);
+		phalcon_array_fetch_string(&exception_on_failed_save, options, SL("exceptionOnFailedSave"), PH_NOISY_CC);
+		PHALCON_GLOBAL(orm).exception_on_failed_save = zend_is_true(exception_on_failed_save);
 	}
 	
 	PHALCON_MM_RESTORE();

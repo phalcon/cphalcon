@@ -3628,7 +3628,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 				PHALCON_INIT_NVAR(wildcard);
 				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
-				if (phalcon_array_isset(bind_params, wildcard)) {
+				if (!phalcon_array_isset(bind_params, wildcard)) {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);

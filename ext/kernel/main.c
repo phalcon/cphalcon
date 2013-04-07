@@ -58,6 +58,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	phalcon_globals->orm.virtual_foreign_keys = 1;
 	phalcon_globals->orm.column_renaming = 1;
 	phalcon_globals->orm.not_null_validations = 1;
+	phalcon_globals->orm.exception_on_failed_save = 0;
 
 	/* DB options */
 	phalcon_globals->db.escape_identifiers = 1;

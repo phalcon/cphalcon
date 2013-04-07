@@ -74,9 +74,8 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Between){
  */
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 
-	zval *validator, *attribute, *value, *minimum, *maximum;
-	zval *valid = NULL, *type, *option, *message_str = NULL, *message;
-	zval *c0 = NULL, *c1 = NULL;
+	zval *validator, *attribute, *value, *option = NULL, *minimum;
+	zval *maximum, *valid = NULL, *type, *message_str = NULL, *message;
 
 	PHALCON_MM_GROW();
 
@@ -87,17 +86,17 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "minimum", 1);
+	PHALCON_INIT_VAR(option);
+	ZVAL_STRING(option, "minimum", 1);
 	
 	PHALCON_INIT_VAR(minimum);
-	PHALCON_CALL_METHOD_PARAMS_1(minimum, this_ptr, "getoption", c0);
+	PHALCON_CALL_METHOD_PARAMS_1(minimum, this_ptr, "getoption", option);
 	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "maximum", 1);
+	PHALCON_INIT_NVAR(option);
+	ZVAL_STRING(option, "maximum", 1);
 	
 	PHALCON_INIT_VAR(maximum);
-	PHALCON_CALL_METHOD_PARAMS_1(maximum, this_ptr, "getoption", c1);
+	PHALCON_CALL_METHOD_PARAMS_1(maximum, this_ptr, "getoption", option);
 	
 	PHALCON_INIT_VAR(valid);
 	is_smaller_or_equal_function(valid, minimum, value TSRMLS_CC);
@@ -110,7 +109,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "Between", 1);
 	
-		PHALCON_INIT_VAR(option);
+		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message_str);

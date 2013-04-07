@@ -61,6 +61,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Route){
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_converters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_id"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_beforeMatch"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_uniqueId"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_router_route_ce TSRMLS_CC, 1, phalcon_mvc_router_routeinterface_ce);
@@ -265,8 +266,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 /**
  * Set one or more HTTP methods that constraint the matching of the route
  *
+ *<code>
+ * $route->via('GET');
+ * $route->via(array('GET', 'POST'));
+ *</code>
+ *
  * @param string|array $httpMethods
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Router\Route
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, via){
 
@@ -483,8 +489,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getName){
 /**
  * Sets the route's name
  *
+ *<code>
+ * $router->add('/about', array(
+ *     'controller' => 'about'
+ * ))->setName('about');
+ *</code>
+ *
  * @param string $name
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Router\Route
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, setName){
 
@@ -499,10 +511,15 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setName){
 }
 
 /**
- * Sets a set of HTTP methods that constraint the matching of the route
+ * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
+ *
+ *<code>
+ * $route->setHttpMethods('GET');
+ * $route->setHttpMethods(array('GET', 'POST'));
+ *</code>
  *
  * @param string|array $httpMethods
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Router\Route
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods){
 
@@ -514,6 +531,37 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods){
 
 	phalcon_update_property_zval(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Sets a callback that is called if the route is matched.
+ * The developer can implement any arbitrary conditions here
+ * If the callback returns false the route is treaded as not matched
+ *
+ * @param callback $callback
+ * @return Phalcon\Mvc\Router\Route
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Route, beforeMatch){
+
+	zval *callback;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &callback) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_beforeMatch"), callback TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the 'before match' callback if any
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Route, getBeforeMatch){
+
+
+	RETURN_MEMBER(this_ptr, "_beforeMatch");
 }
 
 /**
@@ -614,7 +662,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods){
  *
  * @param string $name
  * @param callable $converter
- * @return Phalcon\Mvc\Router\RouteInterface
+ * @return Phalcon\Mvc\Router\Route
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, convert){
 

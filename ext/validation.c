@@ -99,9 +99,8 @@ PHP_METHOD(Phalcon_Validation, __construct){
  */
 PHP_METHOD(Phalcon_Validation, validate){
 
-	zval *data = NULL, *entity, *messages = NULL, *validators, *cancel_on_fail = NULL;
-	zval *scope = NULL, *attribute = NULL, *validator = NULL, *status = NULL;
-	zval *r0 = NULL;
+	zval *data = NULL, *entity, *messages = NULL, *validators, *cancel_on_fail;
+	zval *scope = NULL, *attribute = NULL, *validator = NULL, *status = NULL, *must_cancel = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -173,10 +172,9 @@ PHP_METHOD(Phalcon_Validation, validate){
 		 */
 		if (PHALCON_IS_FALSE(status)) {
 	
-			PHALCON_INIT_NVAR(r0);
-			PHALCON_CALL_METHOD_PARAMS_1(r0, validator, "getoption", cancel_on_fail);
-			PHALCON_CPY_WRT(cancel_on_fail, r0);
-			if (zend_is_true(cancel_on_fail)) {
+			PHALCON_INIT_NVAR(must_cancel);
+			PHALCON_CALL_METHOD_PARAMS_1(must_cancel, validator, "getoption", cancel_on_fail);
+			if (zend_is_true(must_cancel)) {
 				break;
 			}
 		}

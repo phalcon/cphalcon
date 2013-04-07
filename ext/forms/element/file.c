@@ -52,7 +52,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_File){
 }
 
 /**
- * Renders the element widget
+ * Renders the element widget returning html
  *
  * @param array $attributes
  * @return string

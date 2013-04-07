@@ -17,26 +17,23 @@
   +------------------------------------------------------------------------+
 */
 
-extern zend_class_entry *phalcon_queue_beanstalk_job_ce;
+extern zend_class_entry *phalcon_mvc_model_validationfailed_ce;
 
-PHALCON_INIT_CLASS(Phalcon_Queue_Beanstalk_Job);
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed);
 
-PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct);
-PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId);
-PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody);
-PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete);
+PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages);
+PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_job___construct, 0, 0, 3)
-	ZEND_ARG_INFO(0, queue)
-	ZEND_ARG_INFO(0, id)
-	ZEND_ARG_INFO(0, body)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validationfailed___construct, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, validationMessages)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_queue_beanstalk_job_method_entry){
-	PHP_ME(Phalcon_Queue_Beanstalk_Job, __construct, arginfo_phalcon_queue_beanstalk_job___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Queue_Beanstalk_Job, getId, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Queue_Beanstalk_Job, getBody, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Queue_Beanstalk_Job, delete, NULL, ZEND_ACC_PUBLIC) 
+PHALCON_INIT_FUNCS(phalcon_mvc_model_validationfailed_method_entry){
+	PHP_ME(Phalcon_Mvc_Model_ValidationFailed, __construct, arginfo_phalcon_mvc_model_validationfailed___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Mvc_Model_ValidationFailed, getMessages, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_ValidationFailed, getModel, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

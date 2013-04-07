@@ -37,7 +37,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/mvc/view", "exception.c engineinterface.c engine.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/metadata", "files.c apc.c memory.c session.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/metadata/strategy", "introspection.c annotations.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model", "transaction.c validatorinterface.c metadata.c resultsetinterface.c managerinterface.c behavior.c resultinterface.c criteriainterface.c query.c resultset.c manager.c behaviorinterface.c relation.c exception.c message.c queryinterface.c row.c criteria.c validator.c metadatainterface.c relationinterface.c messageinterface.c transactioninterface.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/mvc/model", "transaction.c validatorinterface.c metadata.c resultsetinterface.c managerinterface.c behavior.c resultinterface.c criteriainterface.c query.c resultset.c validationfailed.c manager.c behaviorinterface.c relation.c exception.c message.c queryinterface.c row.c criteria.c validator.c metadatainterface.c relationinterface.c messageinterface.c transactioninterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/transaction", "failed.c managerinterface.c manager.c exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/validator", "email.c presenceof.c inclusionin.c exclusionin.c uniqueness.c url.c regex.c numericality.c stringlength.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/resultset", "complex.c simple.c", "phalcon")
