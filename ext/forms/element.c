@@ -69,9 +69,6 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element){
 PHP_METHOD(Phalcon_Forms_Element, __construct){
 
 	zval *name, *attributes = NULL;
-	zval *i0 = NULL;
-	zval *c0 = NULL;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -84,15 +81,7 @@ PHP_METHOD(Phalcon_Forms_Element, __construct){
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
-		ce0 = zend_fetch_class(SL("Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		PHALCON_INIT_VAR(i0);
-		object_init_ex(i0, ce0);
-		if (phalcon_has_constructor(i0 TSRMLS_CC)) {
-			PHALCON_INIT_VAR(c0);
-			ZVAL_STRING(c0, "The element's name must be a string", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0);
-		}
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The element's name must be a string");
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);

@@ -1,3 +1,4 @@
+
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -350,7 +351,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom){
  * Adds a join to the query
  *
  *<code>
+ *	$builder->join('Robots');
+ *	$builder->join('Robots', 'r.id = RobotsParts.robots_id');
  *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
+ *	$builder->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
  *</code>
  *
  * @param string $model
@@ -1223,24 +1227,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	PHALCON_OBS_VAR(limit);
 	phalcon_read_property(&limit, this_ptr, SL("_limit"), PH_NOISY_CC);
 	if (Z_TYPE_P(limit) != IS_NULL) {
-		//if (phalcon_is_numeric(limit)) {
-			if (Z_TYPE_P(limit) == IS_ARRAY) { 
+		if (Z_TYPE_P(limit) == IS_ARRAY) { 
 	
-				PHALCON_OBS_VAR(number);
-				phalcon_array_fetch_string(&number, limit, SL("number"), PH_NOISY_CC);
-				if (phalcon_array_isset_string(limit, SS("offset"))) {
+			PHALCON_OBS_VAR(number);
+			phalcon_array_fetch_string(&number, limit, SL("number"), PH_NOISY_CC);
+			if (phalcon_array_isset_string(limit, SS("offset"))) {
 	
-					PHALCON_OBS_VAR(offset);
-					phalcon_array_fetch_string(&offset, limit, SL("offset"), PH_NOISY_CC);
-					if (phalcon_is_numeric(offset)) {
-						PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
-					} else {
-						PHALCON_SCONCAT_SVS(phql, " LIMIT ", number, " OFFSET 0");
-					}
+				PHALCON_OBS_VAR(offset);
+				phalcon_array_fetch_string(&offset, limit, SL("offset"), PH_NOISY_CC);
+				if (phalcon_is_numeric(offset)) {
+					PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
 				} else {
-					PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
+					PHALCON_SCONCAT_SVS(phql, " LIMIT ", number, " OFFSET 0");
 				}
 			} else {
+				PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
+			}
+		} else {
+			if (phalcon_is_numeric(limit)) {
 				PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
 	
 				PHALCON_OBS_NVAR(offset);
@@ -1253,7 +1257,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 					}
 				}
 			}
-		//}
+		}
 	}
 	
 	

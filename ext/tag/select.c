@@ -67,6 +67,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	zval *use_empty = NULL, *empty_value = NULL, *empty_text = NULL, *code;
 	zval *avalue = NULL, *key = NULL, *close_option, *options = NULL, *using;
 	zval *resultset_options, *array_options;
+	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -90,10 +91,9 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		PHALCON_CPY_WRT(params, parameters);
 	}
 	
-	PHALCON_INIT_VAR(eol);
-	
-	PHALCON_INIT_NVAR(eol);
-	ZVAL_STRING(eol, PHP_EOL, 1);
+	PHALCON_INIT_VAR(t0);
+	ZVAL_STRING(t0, PHP_EOL, 1);
+	PHALCON_CPY_WRT(eol, t0);
 	if (!phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(id);
 		phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY_CC);

@@ -736,106 +736,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 */
 		PHALCON_INIT_NVAR(action_method);
 		PHALCON_CONCAT_VV(action_method, action_name, action_suffix);
-		if (phalcon_method_exists(handler, action_method TSRMLS_CC) == SUCCESS) {
+		if (phalcon_method_exists(handler, action_method TSRMLS_CC) == FAILURE) {
 	
-			/** 
-			 * Calling beforeExecuteRoute as callback and event
-			 */
-			if (phalcon_method_exists_ex(handler, SS("beforeexecuteroute") TSRMLS_CC) == SUCCESS) {
-	
-				PHALCON_INIT_NVAR(status);
-				PHALCON_CALL_METHOD_PARAMS_1(status, handler, "beforeexecuteroute", this_ptr);
-				if (PHALCON_IS_FALSE(status)) {
-					continue;
-				}
-	
-				/** 
-				 * Check if the user made a forward in the listener
-				 */
-				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(finished)) {
-					continue;
-				}
-			}
-	
-			/** 
-			 * Calling beforeExecuteRoute
-			 */
-			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-	
-				PHALCON_INIT_NVAR(event_name);
-				ZVAL_STRING(event_name, "dispatch:beforeExecuteRoute", 1);
-	
-				PHALCON_INIT_NVAR(status);
-				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr);
-				if (PHALCON_IS_FALSE(status)) {
-					continue;
-				}
-	
-				/** 
-				 * Check if the user made a forward in the listener
-				 */
-				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(finished)) {
-					continue;
-				}
-			}
-	
-			/** 
-			 * Create a call handler
-			 */
-			PHALCON_INIT_NVAR(call_object);
-			array_init_size(call_object, 2);
-			phalcon_array_append(&call_object, handler, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_append(&call_object, action_method, PH_SEPARATE TSRMLS_CC);
-	
-			/** 
-			 * Call the function in the PHP userland
-			 */
-			PHALCON_INIT_NVAR(value);
-			PHALCON_CALL_USER_FUNC_ARRAY(value, call_object, params);
-	
-			/** 
-			 * Calling afterExecuteRoute as callback and event
-			 */
-			if (phalcon_method_exists_ex(handler, SS("afterexecuteroute") TSRMLS_CC) == SUCCESS) {
-	
-				PHALCON_INIT_NVAR(status);
-				PHALCON_CALL_METHOD_PARAMS_2(status, handler, "afterexecuteroute", this_ptr, value);
-				if (PHALCON_IS_FALSE(status)) {
-					continue;
-				}
-	
-				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(finished)) {
-					continue;
-				}
-			}
-	
-			/** 
-			 * Calling afterExecuteRoute
-			 */
-			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-	
-				PHALCON_INIT_NVAR(event_name);
-				ZVAL_STRING(event_name, "dispatch:afterExecuteRoute", 1);
-	
-				PHALCON_INIT_NVAR(status);
-				PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, value);
-				if (PHALCON_IS_FALSE(status)) {
-					continue;
-				}
-	
-				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(finished)) {
-					continue;
-				}
-			}
-		} else {
 			/** 
 			 * Call beforeNotFoundAction
 			 */
@@ -881,11 +783,114 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 	
 		/** 
-		 * Call afterDispatch
+		 * Calling beforeExecuteRoute as callback and event
+		 */
+		if (phalcon_method_exists_ex(handler, SS("beforeexecuteroute") TSRMLS_CC) == SUCCESS) {
+	
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_1(status, handler, "beforeexecuteroute", this_ptr);
+			if (PHALCON_IS_FALSE(status)) {
+				continue;
+			}
+	
+			/** 
+			 * Check if the user made a forward in the listener
+			 */
+			PHALCON_OBS_NVAR(finished);
+			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (PHALCON_IS_FALSE(finished)) {
+				continue;
+			}
+		}
+	
+		/** 
+		 * Calling beforeExecuteRoute
 		 */
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "dispatch:beforeExecuteRoute", 1);
+	
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr);
+			if (PHALCON_IS_FALSE(status)) {
+				continue;
+			}
+	
+			/** 
+			 * Check if the user made a forward in the listener
+			 */
+			PHALCON_OBS_NVAR(finished);
+			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (PHALCON_IS_FALSE(finished)) {
+				continue;
+			}
+		}
+	
+		/** 
+		 * Create a call handler
+		 */
+		PHALCON_INIT_NVAR(call_object);
+		array_init_size(call_object, 2);
+		phalcon_array_append(&call_object, handler, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_object, action_method, PH_SEPARATE TSRMLS_CC);
+	
+		/** 
+		 * Call the function in the PHP userland
+		 */
+		PHALCON_INIT_NVAR(value);
+		PHALCON_CALL_USER_FUNC_ARRAY(value, call_object, params);
+	
+		/** 
+		 * We update the latest value produced by the latest handler
+		 */
+		phalcon_update_property_zval(this_ptr, SL("_returnedValue"), value TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
+	
+		/** 
+		 * Calling afterExecuteRoute as callback and event
+		 */
+		if (phalcon_method_exists_ex(handler, SS("afterexecuteroute") TSRMLS_CC) == SUCCESS) {
+	
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, handler, "afterexecuteroute", this_ptr, value);
+			if (PHALCON_IS_FALSE(status)) {
+				continue;
+			}
+	
+			PHALCON_OBS_NVAR(finished);
+			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (PHALCON_IS_FALSE(finished)) {
+				continue;
+			}
+		}
+	
+		/** 
+		 * Calling afterExecuteRoute
+		 */
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "dispatch:afterExecuteRoute", 1);
+	
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, value);
+			if (PHALCON_IS_FALSE(status)) {
+				continue;
+			}
+	
+			PHALCON_OBS_NVAR(finished);
+			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (PHALCON_IS_FALSE(finished)) {
+				continue;
+			}
+	
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "dispatch:afterDispatch", 1);
+	
+			/** 
+			 * Call afterDispatch
+			 */
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
 		}
 	}
@@ -899,11 +904,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
 	}
 	
-	/** 
-	 * We update the latest value produced by the latest handler
-	 */
-	phalcon_update_property_zval(this_ptr, SL("_returnedValue"), value TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
 	
 	RETURN_CCTOR(handler);
 }
