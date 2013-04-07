@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 
 /**
@@ -60,7 +60,7 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Collection){
 }
 
 /**
- * Adds a resource to
+ * Adds a resource to the collection
  *
  * @param Phalcon\Assets\Resource $resource
  * @return Phalcon\Assets\Collection
@@ -85,14 +85,86 @@ PHP_METHOD(Phalcon_Assets_Collection, add){
 }
 
 /**
+ * Adds a CSS resource to the collection
+ *
+ * @param string $path
+ * @param boolean $local
+ * @return Phalcon\Assets\Collection
+ */
+PHP_METHOD(Phalcon_Assets_Collection, addCss){
+
+	zval *path, *local = NULL, *resource;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &path, &local) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!local) {
+		PHALCON_INIT_VAR(local);
+		ZVAL_BOOL(local, 1);
+	}
+	
+	PHALCON_INIT_VAR(resource);
+	object_init_ex(resource, phalcon_assets_resource_css_ce);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(resource, "__construct", path, local);
+	
+	phalcon_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
+ * Adds a Js resource to the collection
+ *
+ * @param string $path
+ * @param boolean $local
+ * @return Phalcon\Assets\Collection
+ */
+PHP_METHOD(Phalcon_Assets_Collection, addJs){
+
+	zval *path, *local = NULL, *resource;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &path, &local) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!local) {
+		PHALCON_INIT_VAR(local);
+		ZVAL_BOOL(local, 1);
+	}
+	
+	PHALCON_INIT_VAR(resource);
+	object_init_ex(resource, phalcon_assets_resource_js_ce);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(resource, "__construct", path, local);
+	
+	phalcon_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
  * Returns the resources as an array
  *
  * @return Phalcon\Assets\Resource[]
  */
 PHP_METHOD(Phalcon_Assets_Collection, getResources){
 
+	zval *resources, *empty_array;
 
-	RETURN_MEMBER(this_ptr, "_resources");
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(resources);
+	phalcon_read_property(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
+	if (Z_TYPE_P(resources) != IS_ARRAY) { 
+		PHALCON_INIT_VAR(empty_array);
+		array_init(empty_array);
+		RETURN_CTOR(empty_array);
+	}
+	
+	
+	RETURN_CCTOR(resources);
 }
 
 /**

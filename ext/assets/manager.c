@@ -350,12 +350,34 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs){
 }
 
 /**
+ * Creates/Returns a collection of resources
  *
+ * @param string $name
+ * @return Phalcon\Assets\Collection
  */
 PHP_METHOD(Phalcon_Assets_Manager, collection){
 
+	zval *name, *collections, *collection = NULL;
 
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(collections);
+	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	if (phalcon_array_isset(collections, name)) {
+		PHALCON_OBS_VAR(collection);
+		phalcon_array_fetch(&collection, collections, name, PH_NOISY_CC);
+	} else {
+		PHALCON_INIT_NVAR(collection);
+		object_init_ex(collection, phalcon_assets_collection_ce);
+		phalcon_update_property_array(this_ptr, SL("_collections"), name, collection TSRMLS_CC);
+	}
 	
+	
+	RETURN_CCTOR(collection);
 }
 
 /**

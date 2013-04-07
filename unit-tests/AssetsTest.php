@@ -127,6 +127,18 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($html, '<script src="//js/scripts1.js" type="text/javascript"></script>
 <script src="//js/scripts2.js" type="text/javascript"></script>' . PHP_EOL);
+
+		//Test collections
+		$assets->collection('footer')
+			->addCss('css/style-1.css');
+
+		$footer = $assets->collection('footer');
+		$footer->addCss('css/style-2.css');
+
+		$html = $assets->outputCss('footer');
+
+		$this->assertEquals($html, '<link rel="stylesheet" href="/css/style-1.css" type="text/css" />
+<link rel="stylesheet" href="/css/style-2.css" type="text/css" />' . PHP_EOL);
 	}
 
 }
