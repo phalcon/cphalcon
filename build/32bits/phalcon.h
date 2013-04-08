@@ -6471,6 +6471,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, select);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
@@ -6570,6 +6571,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_tableoptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_select, 0, 0, 1)
+	ZEND_ARG_INFO(0, definition)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_db_dialect_oracle_method_entry){
 	PHP_ME(Phalcon_Db_Dialect_Oracle, getColumnDefinition, arginfo_phalcon_db_dialect_oracle_getcolumndefinition, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, addColumn, arginfo_phalcon_db_dialect_oracle_addcolumn, ZEND_ACC_PUBLIC) 
@@ -6589,7 +6594,8 @@ PHALCON_INIT_FUNCS(phalcon_db_dialect_oracle_method_entry){
 	PHP_ME(Phalcon_Db_Dialect_Oracle, listTables, arginfo_phalcon_db_dialect_oracle_listtables, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, describeIndexes, arginfo_phalcon_db_dialect_oracle_describeindexes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, describeReferences, arginfo_phalcon_db_dialect_oracle_describereferences, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Dialect_Oracle, tableOptions, arginfo_phalcon_db_dialect_oracle_tableoptions, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Oracle, tableOptions, arginfo_phalcon_db_dialect_oracle_tableoptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Oracle, select, arginfo_phalcon_db_dialect_oracle_select, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
