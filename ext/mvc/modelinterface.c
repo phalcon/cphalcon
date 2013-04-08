@@ -68,25 +68,63 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getSource);
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getSchema);
 
 /**
- * Sets the DependencyInjection connection service
+ * Sets both read/write connection services
  *
  * @param string $connectionService
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, setConnectionService);
 
 /**
- * Returns DependencyInjection connection service
+ * Sets the DependencyInjection connection service used to write data
+ *
+ * @param string $connectionService
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, setWriteConnectionService);
+
+/**
+ * Sets the DependencyInjection connection service used to read data
+ *
+ * @param string $connectionService
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, setReadConnectionService);
+
+/**
+ * Returns DependencyInjection connection service used to read data
  *
  * @return string
  */
-PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getConnectionService);
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getReadConnectionService);
+
+/**
+ * Returns DependencyInjection connection service used to write data
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getWriteConnectionService);
 
 /**
  * Gets internal database connection
  *
  * @return Phalcon\Db\AdapterInterface
  */
-PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getConnection);
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getReadConnection);
+
+/**
+ * Gets internal database connection
+ *
+ * @return Phalcon\Db\AdapterInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getWriteConnection);
+
+/**
+ * Assigns values to a model from an array
+ *
+ * @param Phalcon\Mvc\Model $object
+ * @param array $data
+ * @param array $columnMap
+ * @return Phalcon\Mvc\Model
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
 
 /**
  * Assigns values to a model from an array returning a new model
@@ -259,6 +297,11 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, delete);
  * @return int
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getOperationMade);
+
+/**
+ * Refreshes the model attributes re-querying the record from the database
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, refresh);
 
 /**
  * Reads an attribute value by its name

@@ -668,15 +668,20 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 			/** 
 			 * Escape column domain
 			 */
-			PHALCON_OBS_NVAR(column_domain);
-			phalcon_array_fetch_long(&column_domain, column, 1, PH_NOISY_CC);
-			if (zend_is_true(column_domain)) {
-				if (PHALCON_GLOBAL(db).escape_identifiers) {
-					PHALCON_INIT_NVAR(column_domain_sql);
-					PHALCON_CONCAT_VVVSV(column_domain_sql, escape_char, column_domain, escape_char, ".", column_sql);
+			if (phalcon_array_isset_long(column, 1)) {
+	
+				PHALCON_OBS_NVAR(column_domain);
+				phalcon_array_fetch_long(&column_domain, column, 1, PH_NOISY_CC);
+				if (zend_is_true(column_domain)) {
+					if (PHALCON_GLOBAL(db).escape_identifiers) {
+						PHALCON_INIT_NVAR(column_domain_sql);
+						PHALCON_CONCAT_VVVSV(column_domain_sql, escape_char, column_domain, escape_char, ".", column_sql);
+					} else {
+						PHALCON_INIT_NVAR(column_domain_sql);
+						PHALCON_CONCAT_VSV(column_domain_sql, column_domain, ".", column_sql);
+					}
 				} else {
-					PHALCON_INIT_NVAR(column_domain_sql);
-					PHALCON_CONCAT_VSV(column_domain_sql, column_domain, ".", column_sql);
+					PHALCON_CPY_WRT(column_domain_sql, column_sql);
 				}
 			} else {
 				PHALCON_CPY_WRT(column_domain_sql, column_sql);
@@ -822,12 +827,16 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	 * Check for a WHERE clause
 	 */
 	if (phalcon_array_isset_string(definition, SS("where"))) {
+	
 		PHALCON_OBS_VAR(where_conditions);
 		phalcon_array_fetch_string(&where_conditions, definition, SL("where"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(where_expression);
-		PHALCON_CALL_METHOD_PARAMS_2(where_expression, this_ptr, "getsqlexpression", where_conditions, escape_char);
-		PHALCON_SCONCAT_SV(sql, " WHERE ", where_expression);
+		if (Z_TYPE_P(where_conditions) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(where_expression);
+			PHALCON_CALL_METHOD_PARAMS_2(where_expression, this_ptr, "getsqlexpression", where_conditions, escape_char);
+			PHALCON_SCONCAT_SV(sql, " WHERE ", where_expression);
+		} else {
+			PHALCON_SCONCAT_SV(sql, " WHERE ", where_conditions);
+		}
 	}
 	
 	/** 

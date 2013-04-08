@@ -41,7 +41,7 @@
 /**
  * Phalcon\Mvc\Model\Validator\Regex
  *
- * Allows to validate if the value of a field matches a regular expression
+ * Allows validate if the value of a field matches a regular expression
  *
  *<code>
  *use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
@@ -127,6 +127,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	
 	PHALCON_INIT_VAR(matches);
 	
+	/** 
+	 * The regular expression is set in the option 'pattern'
+	 */
 	PHALCON_INIT_VAR(pattern);
 	PHALCON_CALL_METHOD_PARAMS_1(pattern, this_ptr, "getoption", option);
 	

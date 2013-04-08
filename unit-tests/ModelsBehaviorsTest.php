@@ -34,8 +34,8 @@ class ModelsBehaviorsTest extends PHPUnit_Framework_TestCase
 	public function modelsAutoloader($className)
 	{
 		$className = str_replace('\\', '/', $className);
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
+		if (file_exists('unit-tests/models/' . $className . '.php')) {
+			require 'unit-tests/models/' . $className . '.php';
 		}
 	}
 

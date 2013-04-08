@@ -21,6 +21,8 @@ extern zend_class_entry *phalcon_logger_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter);
 
+PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel);
+PHP_METHOD(Phalcon_Logger_Adapter, getLogLevel);
 PHP_METHOD(Phalcon_Logger_Adapter, setFormatter);
 PHP_METHOD(Phalcon_Logger_Adapter, begin);
 PHP_METHOD(Phalcon_Logger_Adapter, commit);
@@ -33,6 +35,10 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice);
 PHP_METHOD(Phalcon_Logger_Adapter, warning);
 PHP_METHOD(Phalcon_Logger_Adapter, alert);
 PHP_METHOD(Phalcon_Logger_Adapter, log);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_setloglevel, 0, 0, 1)
+	ZEND_ARG_INFO(0, level)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_setformatter, 0, 0, 1)
 	ZEND_ARG_INFO(0, formatter)
@@ -72,6 +78,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_log, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_logger_adapter_method_entry){
+	PHP_ME(Phalcon_Logger_Adapter, setLogLevel, arginfo_phalcon_logger_adapter_setloglevel, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Logger_Adapter, getLogLevel, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter, setFormatter, arginfo_phalcon_logger_adapter_setformatter, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter, begin, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter, commit, NULL, ZEND_ACC_PUBLIC) 

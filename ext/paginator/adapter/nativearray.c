@@ -189,16 +189,21 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 		PHALCON_INIT_VAR(next);
 		phalcon_add_function(next, page_number, one TSRMLS_CC);
 	} else {
-		if (PHALCON_IS_EQUAL(to_show, n)) {
+		is_equal_function(compare, to_show, n TSRMLS_CC);
+		if (PHALCON_IS_TRUE(compare)) {
 			PHALCON_CPY_WRT(next, n);
 		} else {
-			PHALCON_INIT_NVAR(next);
-			phalcon_add_function(next, div, one TSRMLS_CC);
-		}
+			if (PHALCON_IS_EQUAL(to_show, n)) {
+				PHALCON_CPY_WRT(next, n);
+			} else {
+				PHALCON_INIT_NVAR(next);
+				phalcon_add_function(next, div, one TSRMLS_CC);
+			}
 	
-		PHALCON_INIT_VAR(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "intval", next);
-		PHALCON_CPY_WRT(next, r1);
+			PHALCON_INIT_VAR(r1);
+			PHALCON_CALL_FUNC_PARAMS_1(r1, "intval", next);
+			PHALCON_CPY_WRT(next, r1);
+		}
 	}
 	
 	is_smaller_function(compare, total_pages, next TSRMLS_CC);

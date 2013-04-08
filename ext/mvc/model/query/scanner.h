@@ -40,6 +40,8 @@
 #define PHQL_T_AND 266
 #define PHQL_T_OR 267
 #define PHQL_T_LIKE 268
+#define PHQL_T_ILIKE 275
+#define PHQL_T_AGAINST 276
 
 #define PHQL_T_DOT '.'
 #define PHQL_T_COMMA 269
@@ -101,6 +103,7 @@
 #define PHQL_T_EXPR 354
 #define PHQL_T_QUALIFIED 355
 #define PHQL_T_ENCLOSED 356
+#define PHQL_T_NILIKE 357
 
 #define PHQL_T_INNERJOIN 360
 #define PHQL_T_LEFTJOIN 361

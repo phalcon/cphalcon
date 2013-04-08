@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -83,11 +83,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 		PHALCON_INIT_VAR(cache);
 	}
 	
+	/** 
+	 * Column types, tell the resultset how to build the result
+	 */
 	phalcon_update_property_zval(this_ptr, SL("_columnTypes"), columns_types TSRMLS_CC);
+	
+	/** 
+	 * Valid resultsets are Phalcon\Db\ResultInterface instances
+	 */
 	phalcon_update_property_zval(this_ptr, SL("_result"), result TSRMLS_CC);
+	
+	/** 
+	 * Update the related cache if any
+	 */
 	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	
+	/** 
+	 * Resultsets type 1 are traversed one-by-one
+	 */
 	phalcon_update_property_long(this_ptr, SL("_type"), 1 TSRMLS_CC);
-	if (PHALCON_IS_NOT_FALSE(result)) {
+	
+	/** 
+	 * If the database result is an object, change it to fetch assoc
+	 */
+	if (Z_TYPE_P(result) == IS_OBJECT) {
 		PHALCON_INIT_VAR(fetch_assoc);
 		ZVAL_LONG(fetch_assoc, 1);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_assoc);
@@ -105,9 +124,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 
 	zval *type = NULL, *result, *row = NULL, *rows, *hydrate_mode, *underscore;
 	zval *empty_str, *active_row = NULL, *columns_types;
-	zval *column = NULL, *alias = NULL, *source = NULL, *attributes = NULL, *column_map = NULL;
-	zval *row_model = NULL, *attribute = NULL, *column_alias = NULL, *column_value = NULL;
-	zval *instance = NULL, *value = NULL, *sql_alias = NULL, *n_alias = NULL;
+	zval *dirty_state, *column = NULL, *alias = NULL, *source = NULL, *attributes = NULL;
+	zval *column_map = NULL, *row_model = NULL, *attribute = NULL, *column_alias = NULL;
+	zval *column_value = NULL, *keep_snapshots = NULL, *instance = NULL;
+	zval *value = NULL, *sql_alias = NULL, *n_alias = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -200,6 +220,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 			PHALCON_OBS_VAR(columns_types);
 			phalcon_read_property(&columns_types, this_ptr, SL("_columnTypes"), PH_NOISY_CC);
 	
+			/** 
+			 * Set records as dirty state PERSISTENT by default
+			 */
+			PHALCON_INIT_VAR(dirty_state);
+			ZVAL_LONG(dirty_state, 0);
+	
 			if (!phalcon_is_iterable(columns_types, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
@@ -259,6 +285,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					switch (phalcon_get_intval(hydrate_mode)) {
 	
 						case 0:
+							/** 
+							 * Check if the resultset must keep snapshots
+							 */
+							if (phalcon_array_isset_string(column, SS("keepSnapshots"))) {
+								PHALCON_OBS_NVAR(keep_snapshots);
+								phalcon_array_fetch_string(&keep_snapshots, column, SL("keepSnapshots"), PH_NOISY_CC);
+							} else {
+								PHALCON_INIT_NVAR(keep_snapshots);
+								ZVAL_BOOL(keep_snapshots, 0);
+							}
+	
+							/** 
+							 * Get the base instance
+							 */
 							PHALCON_OBS_NVAR(instance);
 							phalcon_array_fetch_string(&instance, column, SL("instance"), PH_NOISY_CC);
 	
@@ -266,7 +306,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 							 * Assign the values to the attributes using a column map
 							 */
 							PHALCON_INIT_NVAR(value);
-							PHALCON_CALL_STATIC_PARAMS_3(value, "phalcon\\mvc\\model", "cloneresultmap", instance, row_model, column_map);
+							PHALCON_CALL_STATIC_PARAMS_5(value, "phalcon\\mvc\\model", "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots);
 							break;
 	
 						default:

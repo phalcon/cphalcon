@@ -153,11 +153,11 @@ class Build_Generator
 	private function _createHeader($path)
 	{
 		$fp = fopen($this->_destination.'phalcon.h', 'w');
-		echo $path.'phalcon.h', PHP_EOL;
+		//echo $path.'phalcon.h', PHP_EOL;
 		foreach (file($path.'phalcon.h') as $line) {
 			if (preg_match('/^#include "(.*)"/', $line, $matches)) {
 				$openComment = false;
-				echo $path.$matches[1], PHP_EOL;
+				//echo $path.$matches[1], PHP_EOL;
 				foreach(file($path.$matches[1]) as $hline){
 					$trimLine = trim($hline);
 					if ($trimLine=='/*'||$trimLine=='/**') {
@@ -220,7 +220,7 @@ class Build_Generator
 	 */
 	private function _appendSource($path)
 	{
-		echo $path, PHP_EOL;
+		//echo $path, PHP_EOL;
 		$openComment = false;
 		$fileHandler = $this->_fileHandler;
 		$exceptions = array('php.h', 'config.h', 'php_phalcon.h', 'phalcon.h');
@@ -279,7 +279,6 @@ class Build_Generator
 						$line = str_replace($matches[0], 'phalcon_array_fetch_quick_string(&'.$matches[1].', '.$matches[2].', SS("'.$matches[3].'"), '.$key.'UL, '.$matches[4].')', $line);
 						fputs($fileHandler, $line);
 						continue;
-
 					}
 
 					/**
@@ -288,6 +287,26 @@ class Build_Generator
 					if (preg_match('/phalcon_array_update_string\(\&([a-zA-Z\_]+), SL\("([a-zA-Z\_\-]+)"\), \&([a-zA-Z\_]+), (.+)\)/', $line, $matches)) {
 						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
 						$line = str_replace($matches[0], 'phalcon_array_update_quick_string(&'.$matches[1].', SS("'.$matches[2].'"), '.$key.'UL, &'.$matches[3].', '.$matches[4].')', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
+					/**
+					 * Pre-compute hash key for method checking
+					 */
+					if (preg_match('/phalcon_method_exists_ex\(([a-zA-Z\_]+), SS\("([a-zA-Z\_\-]+)"\) TSRMLS_CC\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$line = str_replace($matches[0], 'phalcon_method_quick_exists_ex('.$matches[1].', SS("'.$matches[2].'"), '.$key.'UL TSRMLS_CC)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
+					/**
+					 * Pre-compute hash key for method checking
+					 */
+					if (preg_match('/phalcon_function_exists_ex\(SS\("([a-zA-Z\_\-]+)"\) TSRMLS_CC\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[1]);
+						$line = str_replace($matches[0], 'phalcon_function_quick_exists_ex(SS("'.$matches[1].'"), '.$key.'UL TSRMLS_CC)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
@@ -370,7 +389,7 @@ class Build_Generator
 	private function _checkHeaders($path)
 	{
 		$exceptions = array('php.h', 'config.h', 'php_phalcon.h', 'phalcon.h');
-		echo $path, PHP_EOL;
+		//echo $path, PHP_EOL;
 		foreach (file($path) as $line) {
 			if (preg_match('/^#include "(.+)"/', $line, $matches)) {
 

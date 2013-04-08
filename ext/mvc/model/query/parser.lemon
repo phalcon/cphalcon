@@ -23,10 +23,11 @@
 %extra_argument {phql_parser_status *status}
 %name phql_
 
+%right AGAINST .
 %left BETWEEN .
 %left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL .
 %left AND OR .
-%left LIKE .
+%left LIKE ILIKE .
 %left BITWISE_AND BITWISE_OR .
 %left DIVIDE TIMES MOD .
 %left PLUS MINUS .
@@ -907,24 +908,16 @@ order_list(R) ::= order_item(I) . {
 
 %destructor order_item { zval_ptr_dtor(&$$); }
 
-order_item(R) ::= order_qualified_or_int(Q) . {
-	R = phql_ret_order_item(Q, 0);
+order_item(R) ::= expr(O) . {
+	R = phql_ret_order_item(O, 0);
 }
 
-order_item(R) ::= order_qualified_or_int(Q) ASC . {
-	R = phql_ret_order_item(Q, PHQL_T_ASC);
+order_item(R) ::= expr(O) ASC . {
+	R = phql_ret_order_item(O, PHQL_T_ASC);
 }
 
-order_item(R) ::= order_qualified_or_int(Q) DESC . {
-	R = phql_ret_order_item(Q, PHQL_T_DESC);
-}
-
-order_qualified_or_int(R) ::= qualified_name(Q) . {
-	R = Q;
-}
-
-order_qualified_or_int(R) ::= INTEGER(I) . {
-	R = phql_ret_literal_zval(PHQL_T_INTEGER, I);
+order_item(R) ::= expr(O) DESC . {
+	R = phql_ret_order_item(O, PHQL_T_DESC);
 }
 
 %destructor group_clause { zval_ptr_dtor(&$$); }
@@ -1053,6 +1046,14 @@ expr(R) ::= expr(O1) NOT LIKE expr(O2) . {
 	R = phql_ret_expr(PHQL_T_NLIKE, O1, O2);
 }
 
+expr(R) ::= expr(O1) ILIKE expr(O2) . {
+	R = phql_ret_expr(PHQL_T_ILIKE, O1, O2);
+}
+
+expr(R) ::= expr(O1) NOT ILIKE expr(O2) . {
+	R = phql_ret_expr(PHQL_T_NILIKE, O1, O2);
+}
+
 expr(R) ::= expr(E) IN BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
 	R = phql_ret_expr(PHQL_T_IN, E, L);
 }
@@ -1061,11 +1062,15 @@ expr(R) ::= expr(E) NOT IN BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
 	R = phql_ret_expr(PHQL_T_NOTIN, E, L);
 }
 
-expr(R) ::= function_call(F) . {
-	R = F;
+expr(R) ::= expr(O1) AGAINST expr(O2) . {
+	R = phql_ret_expr(PHQL_T_AGAINST, O1, O2);
 }
 
 %destructor function_call { zval_ptr_dtor(&$$); }
+
+expr(R) ::= function_call(F) . {
+	R = F;
+}
 
 function_call(R) ::= IDENTIFIER(I) BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
 	R = phql_ret_func_call(I, L);

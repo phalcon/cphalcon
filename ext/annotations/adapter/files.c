@@ -44,7 +44,7 @@
 /**
  * Phalcon\Annotations\Adapter\Files
  *
- * Stores the parsed annotations in memory. This adapter is the suitable for development/testing
+ * Stores the parsed annotations in diles. This adapter is the suitable for production
  *
  *<code>
  * $annotations = new \Phalcon\Annotations\Adapter\Files(array(

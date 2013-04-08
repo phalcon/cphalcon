@@ -34,6 +34,7 @@
 
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
@@ -83,8 +84,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Numericality){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 
-	zval *record, *option = NULL, *field, *value, *is_numeric;
-	zval *message = NULL, *type;
+	zval *record, *option = NULL, *field, *value, *message = NULL, *type;
 
 	PHALCON_MM_GROW();
 
@@ -108,9 +108,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 	/** 
 	 * Check if the value is numeric using is_numeric in the PHP userland
 	 */
-	PHALCON_INIT_VAR(is_numeric);
-	PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", value);
-	if (!zend_is_true(is_numeric)) {
+	if (!phalcon_is_numeric(value)) {
 	
 		/** 
 		 * Check if the developer has defined a custom message

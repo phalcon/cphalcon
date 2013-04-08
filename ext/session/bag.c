@@ -409,3 +409,58 @@ PHP_METHOD(Phalcon_Session_Bag, __isset){
 	RETURN_CCTOR(exists);
 }
 
+/**
+ * Removes a property from the internal bag
+ *
+ *<code>
+ * $user->remove('name'));
+ *</code>
+ *
+ * @param string $property
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Session_Bag, remove){
+
+	zval *property, *data;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	if (phalcon_array_isset(data, property)) {
+		phalcon_unset_property_array(this_ptr, SL("_data"), property TSRMLS_CC);
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Magic unset to remove items using the array syntax
+ *
+ *<code>
+ * unset($user['name']);
+ *</code>
+ *
+ * @param string $property
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Session_Bag, __unset){
+
+	zval *property, *success;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(success);
+	PHALCON_CALL_METHOD_PARAMS_1(success, this_ptr, "remove", property);
+	RETURN_CCTOR(success);
+}
+

@@ -551,4 +551,15 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		));
 	}
 
+	public function testNotFoundPaths()
+	{
+		$router = new Phalcon\Mvc\Router(false);
+
+		$router->add('/static/route', function(){
+
+		});
+
+
+	}
+
 }

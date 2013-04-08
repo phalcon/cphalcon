@@ -60,20 +60,20 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Introspection){
 /**
  * The meta-data is obtained by reading the column descriptions from the database information schema
  *
- * @param Phalcon\Mvc\ModelInstance $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param Phalcon\DiInterface $dependencyInjector
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 
 	zval *model, *dependency_injector, *class_name;
-	zval *schema, *table, *connection, *exists, *complete_table = NULL;
-	zval *exception_message = NULL, *columns, *attributes;
-	zval *primary_keys, *non_primary_keys, *numeric_typed;
-	zval *not_null, *field_types, *field_bind_types;
-	zval *automatic_default, *identity_field = NULL;
-	zval *column = NULL, *field_name = NULL, *feature = NULL, *type = NULL, *bind_type = NULL;
-	zval *model_metadata;
+	zval *schema, *table, *read_connection, *exists;
+	zval *complete_table = NULL, *exception_message = NULL;
+	zval *columns, *attributes, *primary_keys, *non_primary_keys;
+	zval *numeric_typed, *not_null, *field_types;
+	zval *field_bind_types, *automatic_default;
+	zval *identity_field = NULL, *column = NULL, *field_name = NULL, *feature = NULL;
+	zval *type = NULL, *bind_type = NULL, *model_metadata;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -96,11 +96,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	/** 
 	 * Check if the mapped table exists on the database
 	 */
-	PHALCON_INIT_VAR(connection);
-	PHALCON_CALL_METHOD(connection, model, "getconnection");
+	PHALCON_INIT_VAR(read_connection);
+	PHALCON_CALL_METHOD(read_connection, model, "getreadconnection");
 	
 	PHALCON_INIT_VAR(exists);
-	PHALCON_CALL_METHOD_PARAMS_2(exists, connection, "tableexists", table, schema);
+	PHALCON_CALL_METHOD_PARAMS_2(exists, read_connection, "tableexists", table, schema);
 	if (!zend_is_true(exists)) {
 		if (zend_is_true(schema)) {
 			PHALCON_INIT_VAR(complete_table);
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	 * Try to describe the table
 	 */
 	PHALCON_INIT_VAR(columns);
-	PHALCON_CALL_METHOD_PARAMS_2(columns, connection, "describecolumns", table, schema);
+	PHALCON_CALL_METHOD_PARAMS_2(columns, read_connection, "describecolumns", table, schema);
 	if (!phalcon_fast_count_ev(columns TSRMLS_CC)) {
 		if (zend_is_true(schema)) {
 			PHALCON_INIT_NVAR(complete_table);
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 /**
  * Read the model's column map, this can't be infered
  *
- * @param Phalcon\Mvc\ModelInstance $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param Phalcon\DiInterface $dependencyInjector
  * @return array
  */

@@ -200,6 +200,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 		array_init(column_map);
 	}
 	
+	/** 
+	 * Create the map key name
+	 */
 	PHALCON_INIT_NVAR(prefix_key);
 	PHALCON_CONCAT_SV(prefix_key, "map-", key_name);
 	
@@ -338,7 +341,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
 
-	zval *model, *table, *schema, *key, *meta_data = NULL, *data;
+	zval *model, *table, *schema, *class_name, *key, *meta_data = NULL;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
@@ -357,8 +361,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
 	PHALCON_INIT_VAR(schema);
 	PHALCON_CALL_METHOD(schema, model, "getschema");
 	
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_class(class_name, model, 1 TSRMLS_CC);
+	
+	/** 
+	 * Unique key for meta-data is created using class-name-schema-table
+	 */
 	PHALCON_INIT_VAR(key);
-	PHALCON_CONCAT_VV(key, schema, table);
+	PHALCON_CONCAT_VSVV(key, class_name, "-", schema, table);
 	
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
@@ -384,11 +394,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
  *
  * @param Phalcon\Mvc\ModelInterface $model
  * @param int $index
+ * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 
-	zval *model, *index, *table, *schema, *key, *meta_data = NULL;
-	zval *meta_data_index, *attributes;
+	zval *model, *index, *table, *schema, *class_name;
+	zval *key, *meta_data = NULL, *meta_data_index, *attributes;
 
 	PHALCON_MM_GROW();
 
@@ -411,8 +422,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 	PHALCON_INIT_VAR(schema);
 	PHALCON_CALL_METHOD(schema, model, "getschema");
 	
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_class(class_name, model, 1 TSRMLS_CC);
+	
+	/** 
+	 * Unique key for meta-data is created using class-name-schema-table
+	 */
 	PHALCON_INIT_VAR(key);
-	PHALCON_CONCAT_VV(key, schema, table);
+	PHALCON_CONCAT_VSVV(key, class_name, "-", schema, table);
 	
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);

@@ -47,7 +47,7 @@
  * Stores model meta-data in PHP files.
  *
  *<code>
- * $metaData = new Phalcon\Mvc\Model\Metadata\Files(array(
+ * $metaData = new \Phalcon\Mvc\Model\Metadata\Files(array(
  *    'metaDataDir' => 'app/cache/metadata/'
  * ));
  *</code>
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 	phalcon_prepare_virtual_path(virtual_key, key, separator TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(path);
-	PHALCON_CONCAT_VVS(path, meta_data_dir, key, ".php");
+	PHALCON_CONCAT_VVS(path, meta_data_dir, virtual_key, ".php");
 	if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(data);
 		if (phalcon_require_ret(data, path TSRMLS_CC) == FAILURE) {
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 	phalcon_prepare_virtual_path(virtual_key, key, separator TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(path);
-	PHALCON_CONCAT_VVS(path, meta_data_dir, key, ".php");
+	PHALCON_CONCAT_VVS(path, meta_data_dir, virtual_key, ".php");
 	
 	PHALCON_INIT_VAR(to_string);
 	ZVAL_BOOL(to_string, 1);

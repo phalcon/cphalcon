@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct){
 		phalcon_update_property_zval(this_ptr, SL("_format"), format TSRMLS_CC);
 	}
 	if (Z_TYPE_P(date_format) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_dateFormat"), format TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_dateFormat"), date_format TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -160,7 +160,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 
 	zval *message, *type, *timestamp, *format = NULL, *date_format;
 	zval *date, *date_wildcard, *new_format = NULL, *type_string;
-	zval *type_wildcard, *message_wildcard, *eol;
+	zval *type_wildcard, *message_wildcard, *eol = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -212,8 +213,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	PHALCON_INIT_NVAR(new_format);
 	phalcon_fast_str_replace(new_format, message_wildcard, message, format TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(eol);
-	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
+	PHALCON_INIT_VAR(t0);
+	ZVAL_STRING(t0, PHP_EOL, 1);
+	PHALCON_CPY_WRT(eol, t0);
 	
 	PHALCON_INIT_NVAR(format);
 	PHALCON_CONCAT_VV(format, new_format, eol);

@@ -30,6 +30,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getRollbackPendent);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback);
@@ -58,6 +59,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_manager_get, 0, 0, 
 	ZEND_ARG_INFO(0, autoBegin)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_manager_getorcreatetransaction, 0, 0, 0)
+	ZEND_ARG_INFO(0, autoBegin)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_manager_rollback, 0, 0, 0)
 	ZEND_ARG_INFO(0, collect)
 ZEND_END_ARG_INFO()
@@ -80,6 +85,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_transaction_manager_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, getRollbackPendent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, has, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, get, arginfo_phalcon_mvc_model_transaction_manager_get, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction, arginfo_phalcon_mvc_model_transaction_manager_getorcreatetransaction, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, commit, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, rollback, arginfo_phalcon_mvc_model_transaction_manager_rollback, ZEND_ACC_PUBLIC) 

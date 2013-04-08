@@ -36,6 +36,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/exception.h"
 
 /**
@@ -55,6 +56,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
 
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_columnMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_model_resultset_simple_ce, SL("_keepSnapshots"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_resultset_simple_ce TSRMLS_CC, 5, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_serializable);
 
@@ -68,15 +70,16 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
  * @param Phalcon\Mvc\ModelInterface $model
  * @param Phalcon\Db\Result\Pdo $result
  * @param Phalcon\Cache\BackendInterface $cache
+ * @param boolean $keepSnapshots
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 
-	zval *column_map, *model, *result, *cache = NULL, *fetch_assoc;
-	zval *limit, *row_count, *big_resultset;
+	zval *column_map, *model, *result, *cache = NULL, *keep_snapshots = NULL;
+	zval *fetch_assoc, *limit, *row_count, *big_resultset;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|z", &column_map, &model, &result, &cache) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|zz", &column_map, &model, &result, &cache, &keep_snapshots) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -84,38 +87,51 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 		PHALCON_INIT_VAR(cache);
 	}
 	
+	if (!keep_snapshots) {
+		PHALCON_INIT_VAR(keep_snapshots);
+	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_result"), result TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
-	if (Z_TYPE_P(result) == IS_OBJECT) {
-	
-		PHALCON_INIT_VAR(fetch_assoc);
-		ZVAL_LONG(fetch_assoc, 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_assoc);
-	
-		PHALCON_INIT_VAR(limit);
-		ZVAL_LONG(limit, 32);
-	
-		PHALCON_INIT_VAR(row_count);
-		PHALCON_CALL_METHOD(row_count, result, "numrows");
-	
-		/** 
-		 * Check if it's a big resultset
-		 */
-		PHALCON_INIT_VAR(big_resultset);
-		is_smaller_function(big_resultset, limit, row_count TSRMLS_CC);
-		if (PHALCON_IS_TRUE(big_resultset)) {
-			phalcon_update_property_long(this_ptr, SL("_type"), 1 TSRMLS_CC);
-		} else {
-			phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
-		}
-	
-		/** 
-		 * Update the row-count
-		 */
-		phalcon_update_property_zval(this_ptr, SL("_count"), row_count TSRMLS_CC);
+	if (Z_TYPE_P(result) != IS_OBJECT) {
+		RETURN_MM_NULL();
 	}
+	
+	/** 
+	 * Use only fetch assoc
+	 */
+	PHALCON_INIT_VAR(fetch_assoc);
+	ZVAL_LONG(fetch_assoc, 1);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_assoc);
+	
+	PHALCON_INIT_VAR(limit);
+	ZVAL_LONG(limit, 32);
+	
+	PHALCON_INIT_VAR(row_count);
+	PHALCON_CALL_METHOD(row_count, result, "numrows");
+	
+	/** 
+	 * Check if it's a big resultset
+	 */
+	PHALCON_INIT_VAR(big_resultset);
+	is_smaller_function(big_resultset, limit, row_count TSRMLS_CC);
+	if (PHALCON_IS_TRUE(big_resultset)) {
+		phalcon_update_property_long(this_ptr, SL("_type"), 1 TSRMLS_CC);
+	} else {
+		phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
+	}
+	
+	/** 
+	 * Update the row-count
+	 */
+	phalcon_update_property_zval(this_ptr, SL("_count"), row_count TSRMLS_CC);
+	
+	/** 
+	 * Set if the returned resultset must keep the record snapshots
+	 */
+	phalcon_update_property_zval(this_ptr, SL("_keepSnapshots"), keep_snapshots TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -127,8 +143,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
-	zval *type, *result = NULL, *row = NULL, *rows = NULL, *hydrate_mode, *column_map;
-	zval *model, *active_row = NULL;
+	zval *type, *result = NULL, *row = NULL, *rows = NULL, *dirty_state, *hydrate_mode;
+	zval *keep_snapshots, *column_map, *model, *active_row = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -178,17 +194,39 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	}
 	
 	/** 
+	 * Set records as dirty state PERSISTENT by default
+	 */
+	PHALCON_INIT_VAR(dirty_state);
+	ZVAL_LONG(dirty_state, 0);
+	
+	/** 
 	 * Get current hydration mode
 	 */
 	PHALCON_OBS_VAR(hydrate_mode);
 	phalcon_read_property(&hydrate_mode, this_ptr, SL("_hydrateMode"), PH_NOISY_CC);
 	
+	/** 
+	 * Tell if the resultset is keeping snapshots
+	 */
+	PHALCON_OBS_VAR(keep_snapshots);
+	phalcon_read_property(&keep_snapshots, this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
+	
+	/** 
+	 * Get the resultset column map
+	 */
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	
+	/** 
+	 * Hydrate based on the current hydration
+	 */
 	
 	switch (phalcon_get_intval(hydrate_mode)) {
 	
 		case 0:
+			/** 
+			 * this_ptr->model is the base entity
+			 */
 			PHALCON_OBS_VAR(model);
 			phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
 	
@@ -196,7 +234,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			 * Performs the standard hydration based on objects
 			 */
 			PHALCON_INIT_VAR(active_row);
-			PHALCON_CALL_STATIC_PARAMS_3(active_row, "phalcon\\mvc\\model", "cloneresultmap", model, row, column_map);
+			PHALCON_CALL_STATIC_PARAMS_5(active_row, "phalcon\\mvc\\model", "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
 			break;
 	
 		default:
@@ -214,16 +252,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 /**
  * Returns a complete resultset as an array, if the resultset has a big number of rows
- * it could consume more memory than currently it does.
+ * it could consume more memory than currently it does. Export the resultset to an array
+ * couldn't be faster with a large number of records
  *
+ * @param boolean $renameColumns
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 
-	zval *type, *result = NULL, *active_row = NULL, *records = NULL, *row_count;
+	zval *rename_columns = NULL, *type, *result = NULL, *active_row = NULL;
+	zval *records = NULL, *row_count, *column_map, *renamed_records;
+	zval *record = NULL, *renamed = NULL, *value = NULL, *key = NULL, *exception_message = NULL;
+	zval *renamed_key = NULL;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &rename_columns) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!rename_columns) {
+		PHALCON_INIT_VAR(rename_columns);
+		ZVAL_BOOL(rename_columns, 1);
+	}
+	
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zend_is_true(type)) {
@@ -287,6 +342,79 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 		}
 	}
 	
+	/** 
+	 * We need to rename the whole set here, this could be slow
+	 */
+	if (zend_is_true(rename_columns)) {
+	
+		/** 
+		 * Get the resultset column map
+		 */
+		PHALCON_OBS_VAR(column_map);
+		phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+		if (Z_TYPE_P(column_map) != IS_ARRAY) { 
+			RETURN_CCTOR(records);
+		}
+	
+		PHALCON_INIT_VAR(renamed_records);
+		array_init(renamed_records);
+	
+		if (!phalcon_is_iterable(records, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(record);
+	
+			PHALCON_INIT_NVAR(renamed);
+			array_init(renamed);
+	
+			if (!phalcon_is_iterable(record, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+				return;
+			}
+	
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
+				PHALCON_GET_FOREACH_VALUE(value);
+	
+				/** 
+				 * Check if the key is part of the column map
+				 */
+				if (!phalcon_array_isset(column_map, key)) {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Column '", key, "' is not part of the column map");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
+				}
+	
+				/** 
+				 * Get the renamed column
+				 */
+				PHALCON_OBS_NVAR(renamed_key);
+				phalcon_array_fetch(&renamed_key, column_map, key, PH_NOISY_CC);
+	
+				/** 
+				 * Add the value renamed
+				 */
+				phalcon_array_update_zval(&renamed, renamed_key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+				zend_hash_move_forward_ex(ah1, &hp1);
+			}
+	
+			/** 
+			 * Append the renamed records to the main array
+			 */
+			phalcon_array_append(&renamed_records, renamed, PH_SEPARATE TSRMLS_CC);
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	
+		RETURN_CTOR(renamed_records);
+	}
+	
 	
 	RETURN_CCTOR(records);
 }
@@ -298,13 +426,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 
-	zval *records, *model, *cache, *column_map, *hydrate_mode;
-	zval *data, *serialized;
+	zval *rename_columns, *records, *model, *cache;
+	zval *column_map, *hydrate_mode, *data, *serialized;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(rename_columns);
+	ZVAL_BOOL(rename_columns, 0);
+	
 	PHALCON_INIT_VAR(records);
-	PHALCON_CALL_METHOD(records, this_ptr, "toarray");
+	PHALCON_CALL_METHOD_PARAMS_1(records, this_ptr, "toarray", rename_columns);
 	
 	PHALCON_OBS_VAR(model);
 	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);

@@ -10,8 +10,7 @@
  * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Eduar Carvajal <eduar@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@niden.net>
+ * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -21,9 +20,13 @@
  * so that we can send you a copy immediately.
  */
 
-use Phalcon\Events\Manager as EvMgr;
+namespace Phalcon\Test\Logger\Adapter\File\Helper;
 
-class Logger_Adapter_File_Helper_Model extends Phalcon_Test_ModelTestCase
+use \Phalcon\Test\ModelTestCase as PhTestModelTestCase;
+
+use Phalcon\Events\Manager as PhEventsManager;
+
+class Model extends PhTestModelTestCase
 {
     /**
      * Tests the creation of the log file
@@ -36,12 +39,12 @@ class Logger_Adapter_File_Helper_Model extends Phalcon_Test_ModelTestCase
         $this->populateTable('customers', 10);
 
         $fileName = $this->getFileName('log', 'log');
-        $evman    = new EvMgr();
-        $listener = new Logger_Adapter_File_Helper_Listener(PATH_LOGS . $fileName);
+        $evman    = new PhEventsManager();
+        $listener = new Listener(PATH_LOGS . $fileName);
 
         $evman->attach('db', $listener);
 
-        $connection = $this->_di->get('db');
+        $connection = $this->di->get('db');
 
         $connection->setEventsManager($evman);
 

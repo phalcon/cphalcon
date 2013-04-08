@@ -65,9 +65,10 @@
 #define PHVOLT_T_RANGE 276
 #define PHVOLT_T_ASSIGN '='
 #define PHVOLT_T_COLON 277
+#define PHVOLT_T_QUESTION '?'
 
-#define PHVOLT_T_BRACKET_OPEN '('
-#define PHVOLT_T_BRACKET_CLOSE ')'
+#define PHVOLT_T_PARENTHESES_OPEN '('
+#define PHVOLT_T_PARENTHESES_CLOSE ')'
 #define PHVOLT_T_SBRACKET_OPEN '['
 #define PHVOLT_T_SBRACKET_CLOSE ']'
 
@@ -93,6 +94,7 @@
 #define PHVOLT_T_ENDAUTOESCAPE 318
 #define PHVOLT_T_CONTINUE 319
 #define PHVOLT_T_BREAK 320
+#define PHVOLT_T_ELSEFOR 321
 
 /** Delimiters */
 #define PHVOLT_T_OPEN_DELIMITER  330
@@ -114,8 +116,11 @@
 #define PHVOLT_T_ISSET 363
 #define PHVOLT_T_RESOLVED_EXPR 364
 #define PHVOLT_T_SLICE 365
+#define PHVOLT_T_TERNARY 366
+#define PHVOLT_T_NOT_IN 369
 
 #define PHVOLT_T_MINUS 367
+#define PHVOLT_T_PLUS 368
 
 /* List of tokens and their names */
 typedef struct _phvolt_token_names {
@@ -138,6 +143,9 @@ typedef struct _phvolt_scanner_state {
 	char *raw_buffer;
 	unsigned int raw_buffer_cursor;
 	unsigned int raw_buffer_size;
+	unsigned int if_level;
+	unsigned int for_level;
+	int whitespace_control;
 } phvolt_scanner_state;
 
 /* Extra information tokens */
