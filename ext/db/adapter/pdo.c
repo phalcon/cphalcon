@@ -779,10 +779,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 
 	zval *sql, *params, *query_params = NULL, *placeholders;
-	zval *matches, *set_order, *bind_pattern, *status = NULL;
+	zval *matches, *set_order, *bind_pattern, *status;
 	zval *place_match = NULL, *numeric_place = NULL, *value = NULL, *str_place = NULL;
 	zval *question, *bound_sql = NULL;
-	zval *r0 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL };
 	HashTable *ah0;
 	HashPosition hp0;
@@ -807,16 +806,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	
 	PHALCON_INIT_VAR(bind_pattern);
 	ZVAL_STRING(bind_pattern, "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/", 1);
+	
 	p0[0] = bind_pattern;
 	p0[1] = sql;
 	Z_SET_ISREF_P(matches);
 	p0[2] = matches;
 	p0[3] = set_order;
 	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_FUNC_PARAMS(r0, "preg_match_all", 4, p0);
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_FUNC_PARAMS(status, "preg_match_all", 4, p0);
 	Z_UNSET_ISREF_P(p0[2]);
-	PHALCON_CPY_WRT(status, r0);
 	if (zend_is_true(status)) {
 	
 		if (!phalcon_is_iterable(matches, &ah0, &hp0, 0, 0 TSRMLS_CC)) {

@@ -88,6 +88,7 @@
 			<file>unit-tests/ValidationTest.php</file>
 			<file>unit-tests/FormsTest.php</file>
 			<file>unit-tests/AssetsTest.php</file>
+			<file>unit-tests/CryptTest.php</file>
 
 			<!-- Complex components/Integral tests -->
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>

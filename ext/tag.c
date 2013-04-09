@@ -160,45 +160,6 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 }
 
 /**
- * Returns a Dispatcher service from the default DI
- *
- * @return Phalcon\Mvc\DispatcherInterface
- */
-PHP_METHOD(Phalcon_Tag, getDispatcherService){
-
-	zval *dispatcher = NULL, *dependency_injector = NULL, *service;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(dispatcher);
-	phalcon_read_static_property(&dispatcher, SL("phalcon\\tag"), SL("_dispatcherService") TSRMLS_CC);
-	if (Z_TYPE_P(dispatcher) != IS_OBJECT) {
-	
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_static_property(&dependency_injector, SL("phalcon\\tag"), SL("_dependencyInjector") TSRMLS_CC);
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_INIT_NVAR(dependency_injector);
-			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
-		}
-	
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"dispatcher\" service");
-			return;
-		}
-	
-		PHALCON_INIT_VAR(service);
-		ZVAL_STRING(service, "dispatcher", 1);
-	
-		PHALCON_INIT_NVAR(dispatcher);
-		PHALCON_CALL_METHOD_PARAMS_1(dispatcher, dependency_injector, "getshared", service);
-		phalcon_update_static_property(SL("phalcon\\tag"), SL("_dispatcherService"), dispatcher TSRMLS_CC);
-	}
-	
-	
-	RETURN_CCTOR(dispatcher);
-}
-
-/**
  * Returns an Escaper service from the default DI
  *
  * @return Phalcon\EscaperInterface

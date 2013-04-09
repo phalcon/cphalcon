@@ -94,6 +94,8 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$assets->addResource(new Phalcon\Assets\Resource\Css('/css/style.css', false));
 		$this->assertEquals(count($assets->get('css')), 3);
 
+		Phalcon\DI::reset();
+
 		//Create a default DI
 		$di = new Phalcon\DI();
 

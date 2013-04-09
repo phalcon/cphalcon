@@ -16,7 +16,7 @@
  - Phalcon\Mvc\Model can be now set up to throw an exception when the saving process fails
  - Added Phalcon\Assets component to manage CSS/Javascripts resources in an application
  - Added Phalcon\Annotations\Collection::getAll to return all the annotations in a collection that matches a name
- - Added Phalcon\Encrypt component to provide encryption facilities to phalcon applications
+ - Added Phalcon\Crypt component to provide encryption facilities to phalcon applications
 
 1.0.1
  - Paths aren't correctly normalized in Phalcon\Mvc\Model\MetaData\Files
