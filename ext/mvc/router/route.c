@@ -626,7 +626,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths){
 	array_init(reversed);
 	
 	PHALCON_OBS_VAR(paths);
-	phalcon_read_property(&paths, this_ptr, SL("_paths"), PH_NOISY_CC);
+	phalcon_read_property_this(&paths, this_ptr, SL("_paths"), PH_NOISY_CC);
 	
 	if (!phalcon_is_iterable(paths, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;

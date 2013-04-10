@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 		phalcon_update_property_zval(this_ptr, SL("_modules"), modules TSRMLS_CC);
 	} else {
 		PHALCON_OBS_VAR(registered_modules);
-		phalcon_read_property(&registered_modules, this_ptr, SL("_modules"), PH_NOISY_CC);
+		phalcon_read_property_this(&registered_modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(merged_modules);
 		PHALCON_CALL_FUNC_PARAMS_2(merged_modules, "array_merge", registered_modules, modules);
@@ -220,14 +220,14 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services");
 		return;
 	}
 	
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(service);
 	ZVAL_STRING(service, "router", 1);
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 */
 	if (!zend_is_true(module_name)) {
 		PHALCON_OBS_NVAR(module_name);
-		phalcon_read_property(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
+		phalcon_read_property_this(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 	}
 	
 	/** 
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 * Check if the module passed by the router is registered in the modules container
 		 */
 		PHALCON_OBS_VAR(modules);
-		phalcon_read_property(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
+		phalcon_read_property_this(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 		if (!phalcon_array_isset(modules, module_name)) {
 			PHALCON_INIT_VAR(exception_msg);
 			PHALCON_CONCAT_SVS(exception_msg, "Module '", module_name, "' isn't registered in the application container");
