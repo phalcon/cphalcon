@@ -62,11 +62,11 @@
  *
  *  $result = $connection->query("SELECT * FROM robots LIMIT 5");
  *  $result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *  while($robot = $result->fetch()){
+ *  while ($robot = $result->fetch()) {
  *    print_r($robot);
  *  }
  *
- *} catch(Phalcon\Db\Exception $e){
+ *} catch (Phalcon\Db\Exception $e) {
  *	echo $e->getMessage(), PHP_EOL;
  *}
  *

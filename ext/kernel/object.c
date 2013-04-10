@@ -527,7 +527,7 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
  */
 int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
-	zval *property, *result;
+	zval *result;
 	zend_class_entry *ce, *old_scope;
 
 	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
@@ -540,23 +540,50 @@ int phalcon_return_property(zval *return_value, zval *object, char *property_nam
 		old_scope = EG(scope);
 		EG(scope) = ce;
 
+		#if PHP_VERSION_ID < 50400
+		{
+			zval **zv;
+			zend_object *zobj;
+			zend_property_info *property_info;
+
+			zobj = zend_objects_get_address(object TSRMLS_CC);
+
+			if (zend_hash_find(&ce->properties_info, property_name, property_length+1, (void **) &property_info) == SUCCESS) {
+
+				if (zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == SUCCESS) {
+
+					EG(scope) = old_scope;
+
+					ZVAL_ZVAL(return_value, *zv, 1, 0);
+					return SUCCESS;
+				}
+
+			}
+
+			EG(scope) = old_scope;
+
+			ZVAL_NULL(return_value);
+			return FAILURE;
+		}
+		#else
+
 		if (!Z_OBJ_HT_P(object)->read_property) {
 			ZVAL_NULL(return_value);
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be read", property_name, ce->name);
 			return FAILURE;
 		}
 
+		zval *property;
+
 		MAKE_STD_ZVAL(property);
 		ZVAL_STRINGL(property, property_name, property_length, 0);
 
-		#if PHP_VERSION_ID < 50400
-		result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R TSRMLS_CC);
-		#else
 		result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R, 0 TSRMLS_CC);
-		#endif
 
 		ZVAL_NULL(property);
 		zval_ptr_dtor(&property);
+
+		#endif
 
 		EG(scope) = old_scope;
 

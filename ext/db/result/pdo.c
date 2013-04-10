@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(status);
 	PHALCON_CALL_METHOD(status, pdo_statement, "execute");
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(row);
 	PHALCON_CALL_METHOD(row, pdo_statement, "fetch");
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(row);
 	PHALCON_CALL_METHOD(row, pdo_statement, "fetch");
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(rows);
 	PHALCON_CALL_METHOD(rows, pdo_statement, "fetchall");
@@ -248,11 +248,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(row_count);
-	phalcon_read_property(&row_count, this_ptr, SL("_rowCount"), PH_NOISY_CC);
+	phalcon_read_property_this(&row_count, this_ptr, SL("_rowCount"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(row_count)) {
 	
 		PHALCON_OBS_VAR(connection);
-		phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
+		phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, connection, "gettype");
@@ -263,13 +263,13 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 			 * of rows, so we need to perform an extra count to know that
 			 */
 			PHALCON_OBS_VAR(sql_statement);
-			phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
+			phalcon_read_property_this(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 	
 			PHALCON_OBS_VAR(bind_params);
-			phalcon_read_property(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
+			phalcon_read_property_this(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
 	
 			PHALCON_OBS_VAR(bind_types);
-			phalcon_read_property(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+			phalcon_read_property_this(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(matches);
 	
@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 			}
 		} else {
 			PHALCON_OBS_VAR(pdo_statement);
-			phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(row_count);
 			PHALCON_CALL_METHOD(row_count, pdo_statement, "rowcount");
@@ -473,7 +473,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	RETURN_CCTOR(pdo_statement);
 }
 

@@ -100,7 +100,9 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$di = new Phalcon\DI();
 
 		$di->set('url', function(){
-			return new Phalcon\Mvc\Url();
+			$url = new Phalcon\Mvc\Url();
+			$url->setBaseUri('/');
+			return $url;
 		});
 
 		//With implicit output

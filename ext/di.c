@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 	}
 	
 	PHALCON_OBS_VAR(services);
-	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (!phalcon_array_isset(services, name)) {
 		PHALCON_INIT_VAR(service);
 		object_init_ex(service, phalcon_di_service_ce);
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_DI, getRaw){
 	}
 	
 	PHALCON_OBS_VAR(services);
-	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (phalcon_array_isset(services, name)) {
 		PHALCON_OBS_VAR(service);
 		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_DI, getService){
 	}
 	
 	PHALCON_OBS_VAR(services);
-	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (phalcon_array_isset(services, name)) {
 		PHALCON_OBS_VAR(service);
 		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_DI, get){
 	}
 	
 	PHALCON_OBS_VAR(services);
-	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (phalcon_array_isset(services, name)) {
 		/** 
 		 * The service is registered in the DI
@@ -470,7 +470,7 @@ PHP_METHOD(Phalcon_DI, getShared){
 	 * non-shared services as shared
 	 */
 	PHALCON_OBS_VAR(shared_instances);
-	phalcon_read_property(&shared_instances, this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
+	phalcon_read_property_this(&shared_instances, this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	if (phalcon_array_isset(shared_instances, name)) {
 		PHALCON_OBS_VAR(instance);
 		phalcon_array_fetch(&instance, shared_instances, name, PH_NOISY_CC);
@@ -511,7 +511,7 @@ PHP_METHOD(Phalcon_DI, has){
 	}
 
 	PHALCON_OBS_VAR(services);
-	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, phalcon_array_isset(services, name));
@@ -657,7 +657,7 @@ PHP_METHOD(Phalcon_DI, __call){
 	if (phalcon_start_with_str(method, SL("get"))) {
 	
 		PHALCON_OBS_VAR(services);
-		phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+		phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(service_name);
 		phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
