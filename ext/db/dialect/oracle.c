@@ -620,7 +620,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	zval *order_fields, *order_items, *order_item = NULL;
 	zval *order_expression = NULL, *order_sql_item = NULL, *sql_order_type = NULL;
 	zval *order_sql_item_type = NULL, *order_sql, *limit_value;
-	zval *number, *offset, *sql_limit=NULL, *result;
+	zval *number, *offset, *sql_limit=NULL, *one, *ini_range, *end_range;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -980,11 +980,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 				
 				PHALCON_INIT_VAR(sql_limit);
 
-				PHALCON_INIT_VAR(result);
+				PHALCON_INIT_VAR(one);
+				ZVAL_LONG(one, 1);
+	
+				PHALCON_INIT_VAR(ini_range);
+				phalcon_add_function(ini_range, offset, one TSRMLS_CC);
+
+				PHALCON_INIT_VAR(end_range);
+				phalcon_add_function(end_range, offset, number TSRMLS_CC);
 				
-				phalcon_add_function(result, offset, number TSRMLS_CC);
-				
-				PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", offset , " AND ",  result );
+				PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
 				sql = sql_limit;
 			} else {
 				if (phalcon_array_isset_string(definition, SS("where"))) {
