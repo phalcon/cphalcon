@@ -1331,3 +1331,23 @@ void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC)
 	}
 
 }
+
+/**
+ * Returns the PHP_EOL (if the passed parameter is TRUE)
+ */
+zval *function phalcon_eol(int eol) {
+
+	zval *local_eol;
+
+	// Initialize local var
+    PHALCON_INIT_VAR(local_eol);
+
+    // Check if the eol is true and return PHP_EOL or empty string
+    if (eol) {
+	    zend_get_constant(SL("PHP_EOL"), local_eol TSRMLS_CC);
+    } else {
+        ZVAL_STRING(local_eol, "", 1);
+    }
+
+    return local_eol;
+}
