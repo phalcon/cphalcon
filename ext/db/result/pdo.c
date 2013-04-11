@@ -48,7 +48,7 @@
  * <code>
  *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
  *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *	while($robot = $result->fetchArray()){
+ *	while ($robot = $result->fetchArray()) {
  *		print_r($robot);
  *	}
  * </code>
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute){
  *<code>
  *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
  *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
- *	while($robot = $result->fetch()){
+ *	while ($robot = $result->fetch()) {
  *		echo $robot->name;
  *	}
  *</code>
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch){
  *<code>
  *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
  *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *	while($robot = $result->fetchArray()){
+ *	while( $robot = $result->fetchArray()) {
  *		print_r($robot);
  *	}
  *</code>

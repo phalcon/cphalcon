@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption){
 	}
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset(options, key)) {
 			RETURN_MM_TRUE;
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption){
 	}
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset(options, key)) {
 			PHALCON_OBS_VAR(value);

@@ -62,7 +62,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/session", "bag.c exception.c baginterface.c adapterinterface.c adapter.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session/adapter", "files.c", "phalcon")
   ADD_SOURCES("ext/phalcon/events", "managerinterface.c manager.c event.c exception.c eventsawareinterface.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/paginator/adapter", "model.c nativearray.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/paginator/adapter", "model.c nativearray.c querybuilder.c", "phalcon")
   ADD_SOURCES("ext/phalcon/paginator", "exception.c adapterinterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/di", "injectable.c factorydefault.c serviceinterface.c exception.c injectionawareinterface.c service.c", "phalcon")
   ADD_SOURCES("ext/phalcon/di/service", "builder.c", "phalcon")

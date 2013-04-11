@@ -209,6 +209,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	is_smaller_function(compare, total_pages, next TSRMLS_CC);
 	if (PHALCON_IS_TRUE(compare)) {
 		PHALCON_CPY_WRT(next, total_pages);
+	} else {
+		PHALCON_INIT_NVAR(next);
+		phalcon_add_function(next, page_number, one TSRMLS_CC);
 	}
 	
 	phalcon_update_property_zval(page, SL("next"), next TSRMLS_CC);

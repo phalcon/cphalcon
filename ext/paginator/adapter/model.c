@@ -133,16 +133,16 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	ZVAL_LONG(zero, 0);
 	
 	PHALCON_OBS_VAR(show);
-	phalcon_read_property(&show, this_ptr, SL("_limitRows"), PH_NOISY_CC);
+	phalcon_read_property_this(&show, this_ptr, SL("_limitRows"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(config);
-	phalcon_read_property(&config, this_ptr, SL("_config"), PH_NOISY_CC);
+	phalcon_read_property_this(&config, this_ptr, SL("_config"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(items);
 	phalcon_array_fetch_string(&items, config, SL("data"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(page_number);
-	phalcon_read_property(&page_number, this_ptr, SL("_page"), PH_NOISY_CC);
+	phalcon_read_property_this(&page_number, this_ptr, SL("_page"), PH_NOISY_CC);
 	if (Z_TYPE_P(page_number) == IS_NULL) {
 		PHALCON_CPY_WRT(page_number, one);
 	}
