@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations){
 }
 
 /**
- * Returns an annotation by its name
+ * Returns the first annotation that match a name
  *
  * @param string $name
  * @return Phalcon\Annotations\Annotation
@@ -288,6 +288,55 @@ PHP_METHOD(Phalcon_Annotations_Collection, get){
 	PHALCON_CONCAT_SVS(exception_message, "The collection doesn't have an annotation called '", name, "'");
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_annotations_exception_ce, exception_message);
 	return;
+}
+
+/**
+ * Returns all the annotations that match a name
+ *
+ * @param string $name
+ * @return Phalcon\Annotations\Annotation[]
+ */
+PHP_METHOD(Phalcon_Annotations_Collection, getAll){
+
+	zval *name, *found, *annotations, *annotation = NULL, *annotation_name = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(found);
+	array_init(found);
+	
+	PHALCON_OBS_VAR(annotations);
+	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	if (Z_TYPE_P(annotations) == IS_ARRAY) { 
+	
+		if (!phalcon_is_iterable(annotations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(annotation);
+	
+			PHALCON_INIT_NVAR(annotation_name);
+			PHALCON_CALL_METHOD(annotation_name, annotation, "getname");
+			if (PHALCON_IS_EQUAL(name, annotation_name)) {
+				phalcon_array_append(&found, annotation, PH_SEPARATE TSRMLS_CC);
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
+	
+	
+	RETURN_CTOR(found);
 }
 
 /**

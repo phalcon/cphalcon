@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 	}
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset(options, option)) {
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch(&value, options, option, PH_NOISY_CC);
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption){
 	}
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, phalcon_array_isset(options, option));

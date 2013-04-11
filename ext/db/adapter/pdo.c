@@ -168,6 +168,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	}
 
 	/**
+	 * Check if the developer has defined custom options or create one from scratch
+	 */
+	if (phalcon_array_isset_string(descriptor, SS("options"))) {
+		PHALCON_OBS_VAR(options);
+		phalcon_array_fetch_string(&options, descriptor, SL("options"), PH_NOISY_CC);
+		phalcon_array_unset_string(&descriptor, SS("options"), PH_SEPARATE);
+	} else {
+		PHALCON_INIT_NVAR(options);
+		array_init(options);
+	}
+
+	/**
 	 * Check if the user has defined a custom dsn
 	 */
 	if (!phalcon_array_isset_string(descriptor, SS("dsn"))) {
@@ -205,16 +217,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	PHALCON_CONCAT_VSV(dsn, pdo_type, ":", dsn_attributes);
 
 	/**
-	 * Check if the developer has defined custom options or create one from scratch
+	 * Default options
 	 */
-	if (phalcon_array_isset_string(descriptor, SS("options"))) {
-		PHALCON_OBS_VAR(options);
-		phalcon_array_fetch_string(&options, descriptor, SL("options"), PH_NOISY_CC);
-	} else {
-		PHALCON_INIT_NVAR(options);
-		array_init(options);
-	}
-
 	phalcon_array_update_long_long(&options, PDO_ATTR_ERRMODE, PDO_ERRMODE_EXCEPTION, PH_SEPARATE TSRMLS_CC);
 	//phalcon_array_update_long_long(&options, PDO_ATTR_CASE, PDO_CASE_LOWER, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_long_long(&options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL, PH_SEPARATE TSRMLS_CC);
@@ -775,10 +779,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 
 	zval *sql, *params, *query_params = NULL, *placeholders;
-	zval *matches, *set_order, *bind_pattern, *status = NULL;
+	zval *matches, *set_order, *bind_pattern, *status;
 	zval *place_match = NULL, *numeric_place = NULL, *value = NULL, *str_place = NULL;
 	zval *question, *bound_sql = NULL;
-	zval *r0 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL };
 	HashTable *ah0;
 	HashPosition hp0;
@@ -803,16 +806,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	
 	PHALCON_INIT_VAR(bind_pattern);
 	ZVAL_STRING(bind_pattern, "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/", 1);
+	
 	p0[0] = bind_pattern;
 	p0[1] = sql;
 	Z_SET_ISREF_P(matches);
 	p0[2] = matches;
 	p0[3] = set_order;
 	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_FUNC_PARAMS(r0, "preg_match_all", 4, p0);
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_FUNC_PARAMS(status, "preg_match_all", 4, p0);
 	Z_UNSET_ISREF_P(p0[2]);
-	PHALCON_CPY_WRT(status, r0);
 	if (zend_is_true(status)) {
 	
 		if (!phalcon_is_iterable(matches, &ah0, &hp0, 0, 0 TSRMLS_CC)) {

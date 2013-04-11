@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 	 */
 	if (!phalcon_array_isset_string(descriptor, SS("dialectClass"))) {
 		PHALCON_OBS_VAR(dialect_type);
-		phalcon_read_property(&dialect_type, this_ptr, SL("_dialectType"), PH_NOISY_CC);
+		phalcon_read_property_this(&dialect_type, this_ptr, SL("_dialectType"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(dialect_class);
 		PHALCON_CONCAT_SV(dialect_class, "phalcon\\db\\dialect\\", dialect_type);
@@ -225,14 +225,17 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
  * Dumps the complete result of a query into an array
  *
  *<code>
- *	//Getting all robots
- *	$robots = $connection->fetchAll("SELECT * FROM robots");
- *	foreach($robots as $robot){
+ *	//Getting all robots with associative indexes only
+ *	$robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+ *	foreach ($robots as $robot) {
  *		print_r($robot);
  *	}
  *
- *	//Getting all robots with associative indexes only
- *	$robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+ *  //Getting all robots that contains word "robot" withing the name
+ *  $robots = $connection->fetchAll("SELECT * FROM robots WHERE name LIKE :name",
+ *		Phalcon\Db::FETCH_ASSOC,
+ *		array('name' => '%robot%')
+ *  );
  *	foreach($robots as $robot){
  *		print_r($robot);
  *	}
@@ -742,7 +745,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnList){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(transformed_list);
 	PHALCON_CALL_METHOD_PARAMS_1(transformed_list, dialect, "getcolumnlist", column_list);
@@ -771,7 +774,7 @@ PHP_METHOD(Phalcon_Db_Adapter, limit){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "limit", sql_query, number);
@@ -805,7 +808,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
 	}
 	
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "tableexists", table_name, schema_name);
@@ -868,7 +871,7 @@ PHP_METHOD(Phalcon_Db_Adapter, forUpdate){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_1(sql, dialect, "forupdate", sql_query);
@@ -892,7 +895,7 @@ PHP_METHOD(Phalcon_Db_Adapter, sharedLock){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_1(sql, dialect, "sharedlock", sql_query);
@@ -938,7 +941,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createTable){
 	}
 	
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "createtable", table_name, schema_name, definition);
@@ -974,7 +977,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable){
 	}
 	
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "droptable", table_name, schema_name, if_exists);
@@ -1004,7 +1007,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addColumn){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "addcolumn", table_name, schema_name, column);
@@ -1034,7 +1037,7 @@ PHP_METHOD(Phalcon_Db_Adapter, modifyColumn){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "modifycolumn", table_name, schema_name, column);
@@ -1064,7 +1067,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropColumn){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "dropcolumn", table_name, schema_name, column_name);
@@ -1094,7 +1097,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addIndex){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "addindex", table_name, schema_name, index);
@@ -1124,7 +1127,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropIndex){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "dropindex", table_name, schema_name, index_name);
@@ -1154,7 +1157,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addPrimaryKey){
 	}
 
 	PHALCON_OBS_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "addprimarykey", table_name, schema_name, index);
 	
@@ -1182,7 +1185,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropPrimaryKey){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "dropprimarykey", table_name, schema_name);
@@ -1212,7 +1215,7 @@ PHP_METHOD(Phalcon_Db_Adapter, addForeignKey){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "addforeignkey", table_name, schema_name, reference);
@@ -1242,7 +1245,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropForeignKey){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "dropforeignkey", table_name, schema_name, reference_name);
@@ -1269,7 +1272,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnDefinition){
 	}
 
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(definition);
 	PHALCON_CALL_METHOD_PARAMS_1(definition, dialect, "getcolumndefinition", column);
@@ -1305,7 +1308,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables){
 	}
 	
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	/** 
 	 * Get the SQL to list the tables

@@ -20,7 +20,7 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "1.0.1"
+#define PHP_PHALCON_VERSION "1.1.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_MAX_MEMORY_STACK 48
@@ -46,6 +46,7 @@ typedef struct _phalcon_orm_options {
 	zend_bool virtual_foreign_keys;
 	zend_bool column_renaming;
 	zend_bool not_null_validations;
+	zend_bool exception_on_failed_save;
 } phalcon_orm_options;
 
 /** DB options */

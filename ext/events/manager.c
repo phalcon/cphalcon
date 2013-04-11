@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 	}
 	
 	PHALCON_OBS_VAR(events);
-	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
+	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) != IS_ARRAY) { 
 		PHALCON_INIT_NVAR(events);
 		array_init(events);
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 	}
 	
 	PHALCON_OBS_VAR(events);
-	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
+	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(type) == IS_NULL) {
 		PHALCON_INIT_NVAR(events);
 	} else {
@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 	 * Responses need to be traced?
 	 */
 	PHALCON_OBS_VAR(collect);
-	phalcon_read_property(&collect, this_ptr, SL("_collect"), PH_NOISY_CC);
+	phalcon_read_property_this(&collect, this_ptr, SL("_collect"), PH_NOISY_CC);
 	
 	/** 
 	 * We need to clone the queue before iterate over it
@@ -445,7 +445,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	}
 	
 	PHALCON_OBS_VAR(events);
-	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
+	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) != IS_ARRAY) { 
 		RETURN_MM_NULL();
 	}
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	 * Responses must be traced?
 	 */
 	PHALCON_OBS_VAR(collect);
-	phalcon_read_property(&collect, this_ptr, SL("_collect"), PH_NOISY_CC);
+	phalcon_read_property_this(&collect, this_ptr, SL("_collect"), PH_NOISY_CC);
 	if (zend_is_true(collect)) {
 		phalcon_update_property_null(this_ptr, SL("_responses") TSRMLS_CC);
 	}
@@ -554,7 +554,7 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners){
 	}
 
 	PHALCON_OBS_VAR(events);
-	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
+	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) == IS_ARRAY) { 
 		if (phalcon_array_isset(events, type)) {
 			RETURN_MM_TRUE;
@@ -581,7 +581,7 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners){
 	}
 
 	PHALCON_OBS_VAR(events);
-	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
+	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) == IS_ARRAY) { 
 		if (phalcon_array_isset(events, type)) {
 			PHALCON_OBS_VAR(fire_events);

@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 	}
 	
 	PHALCON_OBS_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	if (phalcon_array_isset(params, param)) {
 	
 		PHALCON_OBS_VAR(param_value);
@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(dependency_injector);
-			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_INIT_VAR(exception_code);
 				ZVAL_LONG(exception_code, 0);
@@ -400,10 +400,10 @@ PHP_METHOD(Phalcon_Dispatcher, getActiveMethod){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(suffix);
-	phalcon_read_property(&suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	phalcon_read_property_this(&suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(action_name);
-	phalcon_read_property(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
+	phalcon_read_property_this(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(method_name);
 	PHALCON_CONCAT_VV(method_name, action_name, suffix);
@@ -468,7 +468,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_VAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
@@ -483,7 +483,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	 * Calling beforeDispatchLoop
 	 */
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -504,16 +504,16 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	ZVAL_LONG(number_dispatches, 0);
 	
 	PHALCON_OBS_VAR(handler_suffix);
-	phalcon_read_property(&handler_suffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
+	phalcon_read_property_this(&handler_suffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(action_suffix);
-	phalcon_read_property(&action_suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	phalcon_read_property_this(&action_suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	phalcon_update_property_bool(this_ptr, SL("_finished"), 0 TSRMLS_CC);
 	
 	while (1) {
 	
 		PHALCON_OBS_NVAR(_finished);
-		phalcon_read_property(&_finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+		phalcon_read_property_this(&_finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 		if (!zend_is_true(_finished)) {
 		} else {
 			break;
@@ -541,10 +541,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 * If the current namespace is null we used the set in this_ptr::_defaultNamespace
 		 */
 		PHALCON_OBS_NVAR(namespace_name);
-		phalcon_read_property(&namespace_name, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+		phalcon_read_property_this(&namespace_name, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
 		if (!zend_is_true(namespace_name)) {
 			PHALCON_OBS_NVAR(namespace_name);
-			phalcon_read_property(&namespace_name, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+			phalcon_read_property_this(&namespace_name, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
 		}
 	
@@ -552,10 +552,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 * If the handler is null we use the set in this_ptr::_defaultHandler
 		 */
 		PHALCON_OBS_NVAR(handler_name);
-		phalcon_read_property(&handler_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
+		phalcon_read_property_this(&handler_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
 		if (!zend_is_true(handler_name)) {
 			PHALCON_OBS_NVAR(handler_name);
-			phalcon_read_property(&handler_name, this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
+			phalcon_read_property_this(&handler_name, this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_handlerName"), handler_name TSRMLS_CC);
 		}
 	
@@ -563,10 +563,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 * If the action is null we use the set in this_ptr::_defaultAction
 		 */
 		PHALCON_OBS_NVAR(action_name);
-		phalcon_read_property(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
+		phalcon_read_property_this(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
 		if (!zend_is_true(action_name)) {
 			PHALCON_OBS_NVAR(action_name);
-			phalcon_read_property(&action_name, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
+			phalcon_read_property_this(&action_name, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 		}
 	
@@ -588,7 +588,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			 * Check if the user made a forward in the listener
 			 */
 			PHALCON_OBS_NVAR(finished);
-			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+			phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 			if (PHALCON_IS_FALSE(finished)) {
 				continue;
 			}
@@ -652,7 +652,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				 * Check if the user made a forward in the listener
 				 */
 				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
 					continue;
 				}
@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			if (PHALCON_IS_FALSE(status)) {
 	
 				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
 					continue;
 				}
@@ -705,7 +705,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 * Check if the params is an array
 		 */
 		PHALCON_OBS_NVAR(params);
-		phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+		phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 		if (Z_TYPE_P(params) != IS_ARRAY) { 
 	
 			PHALCON_INIT_NVAR(exception_code);
@@ -722,7 +722,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			if (PHALCON_IS_FALSE(status)) {
 	
 				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
 					continue;
 				}
@@ -753,7 +753,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				}
 	
 				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
 					continue;
 				}
@@ -773,7 +773,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			if (PHALCON_IS_FALSE(status)) {
 	
 				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
 					continue;
 				}
@@ -797,7 +797,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			 * Check if the user made a forward in the listener
 			 */
 			PHALCON_OBS_NVAR(finished);
-			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+			phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 			if (PHALCON_IS_FALSE(finished)) {
 				continue;
 			}
@@ -821,7 +821,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			 * Check if the user made a forward in the listener
 			 */
 			PHALCON_OBS_NVAR(finished);
-			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+			phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 			if (PHALCON_IS_FALSE(finished)) {
 				continue;
 			}
@@ -859,7 +859,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 	
 			PHALCON_OBS_NVAR(finished);
-			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+			phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 			if (PHALCON_IS_FALSE(finished)) {
 				continue;
 			}
@@ -880,7 +880,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 	
 			PHALCON_OBS_NVAR(finished);
-			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+			phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 			if (PHALCON_IS_FALSE(finished)) {
 				continue;
 			}

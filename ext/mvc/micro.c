@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(router);
-	phalcon_read_property(&router, this_ptr, SL("_router"), PH_NOISY_CC);
+	phalcon_read_property_this(&router, this_ptr, SL("_router"), PH_NOISY_CC);
 	if (Z_TYPE_P(router) != IS_OBJECT) {
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "router", 1);
@@ -549,7 +549,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 	}
 
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
@@ -615,7 +615,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 	}
 
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 	}
 
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
@@ -692,7 +692,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "A dependency injection container is required to access related dispatching services");
 		return;
@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	 * Calling beforeHandle routing
 	 */
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	if (Z_TYPE_P(matched_route) == IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(handlers);
-		phalcon_read_property(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
+		phalcon_read_property_this(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(route_id);
 		PHALCON_CALL_METHOD(route_id, matched_route, "getrouteid");
@@ -763,12 +763,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 				RETURN_MM_FALSE;
 			} else {
 				PHALCON_OBS_NVAR(handler);
-				phalcon_read_property(&handler, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
+				phalcon_read_property_this(&handler, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
 			}
 		}
 	
 		PHALCON_OBS_VAR(before_handlers);
-		phalcon_read_property(&before_handlers, this_ptr, SL("_beforeHandlers"), PH_NOISY_CC);
+		phalcon_read_property_this(&before_handlers, this_ptr, SL("_beforeHandlers"), PH_NOISY_CC);
 		if (Z_TYPE_P(before_handlers) == IS_ARRAY) { 
 	
 			/** 
@@ -826,7 +826,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		}
 	
 		PHALCON_OBS_VAR(after_handlers);
-		phalcon_read_property(&after_handlers, this_ptr, SL("_afterHandlers"), PH_NOISY_CC);
+		phalcon_read_property_this(&after_handlers, this_ptr, SL("_afterHandlers"), PH_NOISY_CC);
 		if (Z_TYPE_P(after_handlers) == IS_ARRAY) { 
 	
 			/** 
@@ -858,7 +858,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 * Calling beforeNotFound event
 		 */
 		PHALCON_OBS_NVAR(events_manager);
-		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+		phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 			PHALCON_INIT_NVAR(event_name);
@@ -875,7 +875,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 * Check if a notfoundhandler is defined and it's callable
 		 */
 		PHALCON_OBS_VAR(not_found_handler);
-		phalcon_read_property(&not_found_handler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
+		phalcon_read_property_this(&not_found_handler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
 		if (!phalcon_is_callable(not_found_handler TSRMLS_CC)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The Not-Found handler is not callable or is not defined");
 			return;
@@ -905,7 +905,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	}
 	
 	PHALCON_OBS_VAR(finish_handlers);
-	phalcon_read_property(&finish_handlers, this_ptr, SL("_finishHandlers"), PH_NOISY_CC);
+	phalcon_read_property_this(&finish_handlers, this_ptr, SL("_finishHandlers"), PH_NOISY_CC);
 	if (Z_TYPE_P(finish_handlers) == IS_ARRAY) { 
 	
 		/** 

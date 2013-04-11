@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
 	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
 	zval *models_manager, *models_metadata, *filter;
-	zval *escaper, *flash, *flash_session, *events_manager;
+	zval *escaper, *annotations, *security, *events_manager;
 	zval *transaction_manager, *services;
 
 	PHALCON_MM_GROW();
@@ -143,27 +143,30 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(escaper, "__construct", name, definition, shared);
 	
 	/** 
-	 * Flash services are always shared
+	 * Default annotations service
 	 */
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "flash", 1);
+	ZVAL_STRING(name, "annotations", 1);
 	
 	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Flash\\Direct", 1);
+	ZVAL_STRING(definition, "Phalcon\\Annotations\\Adapter\\Memory", 1);
 	
-	PHALCON_INIT_VAR(flash);
-	object_init_ex(flash, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(flash, "__construct", name, definition, shared);
+	PHALCON_INIT_VAR(annotations);
+	object_init_ex(annotations, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(annotations, "__construct", name, definition, shared);
 	
+	/** 
+	 * Security doesn't need to be shared, but anyways we register it as shared
+	 */
 	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "flashSession", 1);
+	ZVAL_STRING(name, "security", 1);
 	
 	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Flash\\Session", 1);
+	ZVAL_STRING(definition, "Phalcon\\Security", 1);
 	
-	PHALCON_INIT_VAR(flash_session);
-	object_init_ex(flash_session, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(flash_session, "__construct", name, definition, shared);
+	PHALCON_INIT_VAR(security);
+	object_init_ex(security, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(security, "__construct", name, definition, shared);
 	
 	/** 
 	 * Events Manager is always shared
@@ -193,8 +196,8 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	phalcon_array_update_string(&services, SL("modelsMetadata"), &models_metadata, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("filter"), &filter, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("escaper"), &escaper, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("flash"), &flash, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("flashSession"), &flash_session, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("annotations"), &annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_services"), services TSRMLS_CC);

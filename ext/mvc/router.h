@@ -24,7 +24,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router);
 PHP_METHOD(Phalcon_Mvc_Router, __construct);
 PHP_METHOD(Phalcon_Mvc_Router, setDI);
 PHP_METHOD(Phalcon_Mvc_Router, getDI);
-PHP_METHOD(Phalcon_Mvc_Router, _getRewriteUri);
+PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri);
 PHP_METHOD(Phalcon_Mvc_Router, setUriSource);
 PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes);
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace);
@@ -157,7 +157,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_router_method_entry){
 	PHP_ME(Phalcon_Mvc_Router, __construct, arginfo_phalcon_mvc_router___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Mvc_Router, setDI, arginfo_phalcon_mvc_router_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getDI, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Router, _getRewriteUri, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Router, getRewriteUri, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, setUriSource, arginfo_phalcon_mvc_router_seturisource, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, removeExtraSlashes, arginfo_phalcon_mvc_router_removeextraslashes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, setDefaultNamespace, arginfo_phalcon_mvc_router_setdefaultnamespace, ZEND_ACC_PUBLIC) 

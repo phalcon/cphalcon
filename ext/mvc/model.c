@@ -3649,11 +3649,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
  */
 PHP_METHOD(Phalcon_Mvc_Model, save){
 
-	zval *data = NULL, *white_list = NULL, *meta_data, *attributes;
-	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *write_connection;
-	zval *related, *status = NULL, *schema, *source, *table = NULL, *read_connection;
-	zval *exists, *empty_array, *identity_field;
-	zval *success = NULL;
+	zval *data = NULL, *white_list = NULL, *meta_data, *attributes = NULL;
+	zval *attribute = NULL, *in_array = NULL, *value = NULL, *possible_setter = NULL;
+	zval *write_connection, *related, *status = NULL, *schema;
+	zval *source, *table = NULL, *read_connection, *exists;
+	zval *error_messages = NULL, *identity_field, *success = NULL;
+	zval *i0 = NULL;
 	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -3685,8 +3686,19 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 			return;
 		}
 	
+		/** 
+		 * Get the reversed column map for future renamings
+		 */
 		PHALCON_INIT_VAR(attributes);
-		PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr);
+		PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getcolumnmap", this_ptr);
+		if (Z_TYPE_P(attributes) != IS_ARRAY) { 
+			/** 
+			 * Use the standard column map if there are no renamings
+			 */
+			PHALCON_INIT_NVAR(attributes);
+			PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr);
+		}
+	
 	
 		if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
@@ -3702,7 +3714,10 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 				 * If the white-list is an array check if the attribute is on that list
 				 */
 				if (Z_TYPE_P(white_list) == IS_ARRAY) { 
-					if (!phalcon_array_isset(white_list, attribute)) {
+	
+					PHALCON_INIT_NVAR(in_array);
+					PHALCON_CALL_FUNC_PARAMS_2(in_array, "in_array", attribute, white_list);
+					if (!zend_is_true(in_array)) {
 						zend_hash_move_forward_ex(ah0, &hp0);
 						continue;
 					}
@@ -3785,9 +3800,9 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	/** 
 	 * Clean the messages
 	 */
-	PHALCON_INIT_VAR(empty_array);
-	array_init(empty_array);
-	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), empty_array TSRMLS_CC);
+	PHALCON_INIT_VAR(error_messages);
+	array_init(error_messages);
+	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), error_messages TSRMLS_CC);
 	
 	/** 
 	 * Query the identity field
@@ -3808,6 +3823,25 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		if (Z_TYPE_P(related) == IS_ARRAY) { 
 			PHALCON_CALL_METHOD_NORETURN(write_connection, "rollback");
 		}
+	
+		/** 
+		 * Throw exceptions on failed saves?
+		 */
+		if (PHALCON_GLOBAL(orm).exception_on_failed_save) {
+			PHALCON_OBS_NVAR(error_messages);
+			phalcon_read_property(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+	
+			/** 
+			 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
+			 */
+			PHALCON_INIT_VAR(i0);
+			object_init_ex(i0, phalcon_mvc_model_validationfailed_ce);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", this_ptr, error_messages);
+	
+			phalcon_throw_exception(i0 TSRMLS_CC);
+			return;
+		}
+	
 		RETURN_MM_FALSE;
 	}
 	
@@ -3891,7 +3925,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 
 	zval *data = NULL, *white_list = NULL, *meta_data, *column_map = NULL;
 	zval *attributes, *attribute = NULL, *attribute_field = NULL;
-	zval *exception_message = NULL, *value = NULL, *possible_setter = NULL;
+	zval *exception_message = NULL, *in_array = NULL, *value = NULL, *possible_setter = NULL;
 	zval *read_connection, *exists, *field, *type, *message;
 	zval *model_message, *messages, *success;
 	HashTable *ah0;
@@ -3970,7 +4004,10 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 				 * If the white-list is an array check if the attribute is on that list
 				 */
 				if (Z_TYPE_P(white_list) == IS_ARRAY) { 
-					if (!phalcon_array_isset(white_list, attribute_field)) {
+	
+					PHALCON_INIT_NVAR(in_array);
+					PHALCON_CALL_FUNC_PARAMS_2(in_array, "in_array", attribute_field, white_list);
+					if (!zend_is_true(in_array)) {
 						zend_hash_move_forward_ex(ah0, &hp0);
 						continue;
 					}
@@ -4062,7 +4099,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 
 	zval *data = NULL, *white_list = NULL, *meta_data = NULL, *column_map = NULL;
 	zval *attributes, *attribute = NULL, *attribute_field = NULL;
-	zval *exception_message = NULL, *value = NULL, *possible_setter = NULL;
+	zval *exception_message = NULL, *in_array = NULL, *value = NULL, *possible_setter = NULL;
 	zval *dirty_state, *read_connection, *exists;
 	zval *field, *type, *message, *model_message, *messages;
 	zval *success;
@@ -4143,7 +4180,10 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 				 * If the white-list is an array check if the attribute is on that list
 				 */
 				if (Z_TYPE_P(white_list) == IS_ARRAY) { 
-					if (!phalcon_array_isset(white_list, attribute_field)) {
+	
+					PHALCON_INIT_NVAR(in_array);
+					PHALCON_CALL_FUNC_PARAMS_2(in_array, "in_array", attribute_field, white_list);
+					if (!zend_is_true(in_array)) {
 						zend_hash_move_forward_ex(ah0, &hp0);
 						continue;
 					}
@@ -5736,8 +5776,10 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 
 	zval *method, *arguments = NULL, *extra_method = NULL, *type = NULL;
 	zval *model_name, *exception_message = NULL, *value;
-	zval *uncamelized, *conditions, *bind_params;
-	zval *parameters, *result;
+	zval *model, *meta_data, *attributes = NULL, *field = NULL, *extra_method_first;
+	zval *conditions, *bind_params, *parameters;
+	zval *result;
+	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -5811,15 +5853,63 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	
 	PHALCON_OBS_VAR(value);
 	phalcon_array_fetch_long(&value, arguments, 0, PH_NOISY_CC);
+	ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(model);
+	object_init_ex(model, ce0);
+	if (phalcon_has_constructor(model TSRMLS_CC)) {
+		PHALCON_CALL_METHOD_NORETURN(model, "__construct");
+	}
 	
 	/** 
-	 * Get the real method name
+	 * Get the model's meta-data
 	 */
-	PHALCON_INIT_VAR(uncamelized);
-	phalcon_uncamelize(uncamelized, extra_method TSRMLS_CC);
+	PHALCON_INIT_VAR(meta_data);
+	PHALCON_CALL_METHOD(meta_data, model, "getmodelsmetadata");
+	
+	/** 
+	 * Get the attributes
+	 */
+	PHALCON_INIT_VAR(attributes);
+	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getreversecolumnmap", model);
+	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
+		/** 
+		 * Use the standard attributes if there is no column map available
+		 */
+		PHALCON_INIT_NVAR(attributes);
+		PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getdatatypes", model);
+	}
+	
+	/** 
+	 * Check if the extra-method is an attribute
+	 */
+	if (phalcon_array_isset(attributes, extra_method)) {
+		PHALCON_CPY_WRT(field, extra_method);
+	} else {
+		/** 
+		 * Lowercase the first letter of the extra-method
+		 */
+		PHALCON_INIT_VAR(extra_method_first);
+		PHALCON_CALL_FUNC_PARAMS_1(extra_method_first, "lcfirst", extra_method);
+		if (phalcon_array_isset(attributes, extra_method_first)) {
+			PHALCON_CPY_WRT(field, extra_method_first);
+		} else {
+			/** 
+			 * Get the possible real method name
+			 */
+			PHALCON_INIT_VAR(field);
+			phalcon_uncamelize(field, extra_method TSRMLS_CC);
+			if (!phalcon_array_isset(attributes, field)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Cannot resolve attribute \"", extra_method, "' in the model");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+				return;
+			}
+		}
+	}
 	
 	PHALCON_INIT_VAR(conditions);
-	PHALCON_CONCAT_VS(conditions, uncamelized, " = ?0");
+	PHALCON_CONCAT_VS(conditions, field, " = ?0");
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init_size(bind_params, 1);
@@ -6262,6 +6352,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 
 	zval *options, *disable_events, *virtual_foreign_keys;
 	zval *column_renaming, *not_null_validations;
+	zval *exception_on_failed_save;
 
 	PHALCON_MM_GROW();
 
@@ -6308,6 +6399,15 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		PHALCON_OBS_VAR(not_null_validations);
 		phalcon_array_fetch_string(&not_null_validations, options, SL("notNullValidations"), PH_NOISY_CC);
 		PHALCON_GLOBAL(orm).not_null_validations = zend_is_true(not_null_validations);
+	}
+	
+	/** 
+	 * Enables/Disables throws an exception if the saving process fails
+	 */
+	if (phalcon_array_isset_string(options, SS("exceptionOnFailedSave"))) {
+		PHALCON_OBS_VAR(exception_on_failed_save);
+		phalcon_array_fetch_string(&exception_on_failed_save, options, SL("exceptionOnFailedSave"), PH_NOISY_CC);
+		PHALCON_GLOBAL(orm).exception_on_failed_save = zend_is_true(exception_on_failed_save);
 	}
 	
 	PHALCON_MM_RESTORE();

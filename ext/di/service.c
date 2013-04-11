@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	}
 	
 	PHALCON_OBS_VAR(shared);
-	phalcon_read_property(&shared, this_ptr, SL("_shared"), PH_NOISY_CC);
+	phalcon_read_property_this(&shared, this_ptr, SL("_shared"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the service is shared
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	if (zend_is_true(shared)) {
 	
 		PHALCON_OBS_VAR(shared_instance);
-		phalcon_read_property(&shared_instance, this_ptr, SL("_sharedInstance"), PH_NOISY_CC);
+		phalcon_read_property_this(&shared_instance, this_ptr, SL("_sharedInstance"), PH_NOISY_CC);
 		if (Z_TYPE_P(shared_instance) != IS_NULL) {
 			RETURN_CCTOR(shared_instance);
 		}
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	PHALCON_INIT_VAR(instance);
 	
 	PHALCON_OBS_VAR(definition);
-	phalcon_read_property(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
+	phalcon_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) == IS_STRING) {
 	
 		/** 
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	 */
 	if (PHALCON_IS_FALSE(found)) {
 		PHALCON_OBS_VAR(name);
-		phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Service '", name, "' cannot be resolved");
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 	}
 
 	PHALCON_OBS_VAR(definition);
-	phalcon_read_property(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
+	phalcon_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters");
 		return;
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_DI_Service, getParameter){
 	}
 
 	PHALCON_OBS_VAR(definition);
-	phalcon_read_property(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
+	phalcon_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters");
 		return;

@@ -36,11 +36,13 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
  * Phalcon\Validation
  *
+ * Allows to validate data using validators
  */
 
 
@@ -97,8 +99,8 @@ PHP_METHOD(Phalcon_Validation, __construct){
  */
 PHP_METHOD(Phalcon_Validation, validate){
 
-	zval *data = NULL, *entity, *messages = NULL, *validators, *scope = NULL;
-	zval *attribute = NULL, *validator = NULL;
+	zval *data = NULL, *entity, *messages = NULL, *validators, *cancel_on_fail;
+	zval *scope = NULL, *attribute = NULL, *validator = NULL, *status = NULL, *must_cancel = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -136,6 +138,8 @@ PHP_METHOD(Phalcon_Validation, validate){
 		return;
 	}
 	
+	PHALCON_INIT_VAR(cancel_on_fail);
+	ZVAL_STRING(cancel_on_fail, "cancelOnFail", 1);
 	
 	if (!phalcon_is_iterable(validators, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -160,7 +164,20 @@ PHP_METHOD(Phalcon_Validation, validate){
 			return;
 		}
 	
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(validator, "validate", this_ptr, attribute);
+		PHALCON_INIT_NVAR(status);
+		PHALCON_CALL_METHOD_PARAMS_2(status, validator, "validate", this_ptr, attribute);
+	
+		/** 
+		 * Check if the validation must be canceled if this validator fails
+		 */
+		if (PHALCON_IS_FALSE(status)) {
+	
+			PHALCON_INIT_NVAR(must_cancel);
+			PHALCON_CALL_METHOD_PARAMS_1(must_cancel, validator, "getoption", cancel_on_fail);
+			if (zend_is_true(must_cancel)) {
+				break;
+			}
+		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}

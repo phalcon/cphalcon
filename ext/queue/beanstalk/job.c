@@ -39,6 +39,13 @@
 #include "kernel/operators.h"
 
 /**
+ * Phalcon\Queue\Beanstalk\Job
+ *
+ * Represents a job in a beanstalk queue
+ */
+
+
+/**
  * Phalcon\Queue\Beanstalk\Job initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Queue_Beanstalk_Job){
@@ -53,7 +60,11 @@ PHALCON_INIT_CLASS(Phalcon_Queue_Beanstalk_Job){
 }
 
 /**
- * Phalcon\Queue\Beanstalk\Job constructor
+ * Phalcon\Queue\Beanstalk\Job
+ *
+ * @param Phalcon\Queue\Beanstalk $queue
+ * @param string $id
+ * @param string $body
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct){
 
@@ -67,6 +78,28 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct){
 	phalcon_update_property_zval(this_ptr, SL("_id"), id TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_body"), body TSRMLS_CC);
 	
+}
+
+/**
+ * Returns the job id
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId){
+
+
+	RETURN_MEMBER(this_ptr, "_id");
+}
+
+/**
+ * Returns the job body
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody){
+
+
+	RETURN_MEMBER(this_ptr, "_body");
 }
 
 /**

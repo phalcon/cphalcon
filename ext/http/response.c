@@ -240,8 +240,6 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
 		 */
 		PHALCON_INIT_NVAR(headers);
 		object_init_ex(headers, phalcon_http_response_headers_ce);
-		PHALCON_CALL_METHOD_NORETURN(headers, "__construct");
-	
 		phalcon_update_property_zval(this_ptr, SL("_headers"), headers TSRMLS_CC);
 	}
 	

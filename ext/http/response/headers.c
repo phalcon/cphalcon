@@ -60,16 +60,6 @@ PHALCON_INIT_CLASS(Phalcon_Http_Response_Headers){
 }
 
 /**
- * Phalcon\Http\Response\Headers constructor
- */
-PHP_METHOD(Phalcon_Http_Response_Headers, __construct){
-
-
-	phalcon_update_property_empty_array(phalcon_http_response_headers_ce, this_ptr, SL("_headers") TSRMLS_CC);
-	
-}
-
-/**
  * Sets a header to be sent at the end of the request
  *
  * @param string $name
@@ -226,8 +216,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 
 	PHALCON_INIT_VAR(headers);
 	object_init_ex(headers, phalcon_http_response_headers_ce);
-	PHALCON_CALL_METHOD_NORETURN(headers, "__construct");
-	
 	if (phalcon_array_isset_string(data, SS("_headers"))) {
 	
 		PHALCON_OBS_VAR(data_headers);

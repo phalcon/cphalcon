@@ -63,16 +63,6 @@ PHALCON_INIT_CLASS(Phalcon_Http_Response_Cookies){
 }
 
 /**
- * Phalcon\Http\Response\Cookies constructor
- */
-PHP_METHOD(Phalcon_Http_Response_Cookies, __construct){
-
-
-	phalcon_update_property_empty_array(phalcon_http_response_cookies_ce, this_ptr, SL("_cookies") TSRMLS_CC);
-	
-}
-
-/**
  * Sets the dependency injector
  *
  * @param Phalcon\DiInterface $dependencyInjector

@@ -1,10 +1,30 @@
+1.1.0
+ - Improvements to the query builder allowing to define bound parameters in the "where" methods
+ - Added Mvc\Query\Builder::inWhere to append a IN expression to the query
+ - Added Mvc\Query\Builder::notInWhere to append a NOT IN expression to the query
+ - Added Mvc\Query\Builder::betweenWhere to append a BETWEEN expression to the query
+ - Now Phalcon\Session\Bag injects automatically the default DI if one hasn't beed manually assigned
+ - Added Phalcon\Forms\Manager to reference forms and retrieve them from any part of the application
+ - If an element in Phalcon\Forms doesn't have a label defined now returns the element's name as label
+ - Now if a validator in Phalcon\Validator has defined the option 'cancelOnFail' => true the validation
+ will be aborted if the validator fails
+ - Added Phalcon\Validation\Validator\Between to check a value between a range of two values
+ - Phalcon\Forms\Form now extends from Phalcon\DI\Injectable allowing developers to use application services in the form initialization
+ - Now calls to Phalcon\Mvc\Router can be chained
+ - Phalcon\Mvc\Router::getRewriteUri is now public
+ - Added Phalcon\Mvc\Router\Route::beforeMatch to implement arbitrary conditions to unmatch a matched route
+ - Phalcon\Mvc\Model can be now set up to throw an exception when the saving process fails
+ - Added Phalcon\Assets component to manage CSS/Javascripts resources in an application
+ - Added Phalcon\Annotations\Collection::getAll to return all the annotations in a collection that matches a name
+ - Added Phalcon\Crypt component to provide encryption facilities to phalcon applications
+
 1.0.1
  - Paths aren't correctly normalized in Phalcon\Mvc\Model\MetaData\Files
  - Added extra class prefix to schema.table in Phalcon\Mvc\Model\MetaData to avoid multiple-database collisions
  - Now Phalcon\Mvc\Router ignores numeric paths in controller, namespace, module and action, avoiding that those will be passed to the dispatcher
  - Added Phalcon\Forms\Form::remove to remove an element from the form and Phalcon\Forms\Form::has to check if a form has an element
 
-1.0.0b2
+1.0.0
  - Added Phalcon\Mvc\Router::setUriSource to set if the URI source must be $_GET['_url'] or $_SERVER['REQUEST_URI']
  - Added a white-list parameter to Phalcon\Mvc\Model::save(), Phalcon\Mvc\Model::create() and
  Phalcon\Mvc\Model::update() to avoid possible mass-assigment attacks

@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Session_Bag, getDI){
  */
 PHP_METHOD(Phalcon_Session_Bag, initialize){
 
-	zval *session = NULL, *dependency_injector, *service;
+	zval *session = NULL, *dependency_injector = NULL, *service;
 	zval *name, *data = NULL;
 
 	PHALCON_MM_GROW();
@@ -147,8 +147,13 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 		PHALCON_OBS_VAR(dependency_injector);
 		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service");
-			return;
+	
+			PHALCON_INIT_NVAR(dependency_injector);
+			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service");
+				return;
+			}
 		}
 	
 		PHALCON_INIT_VAR(service);

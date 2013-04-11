@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(base_uri);
-	phalcon_read_property(&base_uri, this_ptr, SL("_baseUri"), PH_NOISY_CC);
+	phalcon_read_property_this(&base_uri, this_ptr, SL("_baseUri"), PH_NOISY_CC);
 	if (Z_TYPE_P(base_uri) == IS_NULL) {
 	
 		PHALCON_INIT_VAR(slash);
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		}
 	
 		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (!zend_is_true(dependency_injector)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "A dependency injector container is required to obtain the \"url\" service");
 			return;
@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path){
 	}
 	
 	PHALCON_OBS_VAR(base_path);
-	phalcon_read_property(&base_path, this_ptr, SL("_basePath"), PH_NOISY_CC);
+	phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(final_path);
 	PHALCON_CONCAT_VV(final_path, base_path, path);
