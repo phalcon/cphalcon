@@ -109,17 +109,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(compiler);
-	phalcon_read_property(&compiler, this_ptr, SL("_compiler"), PH_NOISY_CC);
+	phalcon_read_property_this(&compiler, this_ptr, SL("_compiler"), PH_NOISY_CC);
 	if (Z_TYPE_P(compiler) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(view);
-		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+		phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(options);
-		phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+		phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(compiler);
 		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
 	
 		PHALCON_OBS_VAR(view);
-		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+		phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents);
 	}
 	

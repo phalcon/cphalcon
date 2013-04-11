@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Events_Event, stop){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(cancelable);
-	phalcon_read_property(&cancelable, this_ptr, SL("_cancelable"), PH_NOISY_CC);
+	phalcon_read_property_this(&cancelable, this_ptr, SL("_cancelable"), PH_NOISY_CC);
 	if (zend_is_true(cancelable)) {
 		phalcon_update_property_bool(this_ptr, SL("_stopped"), 1 TSRMLS_CC);
 	} else {
