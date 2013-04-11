@@ -1773,7 +1773,7 @@ PHP_METHOD(Phalcon_Tag, getDocType){
  * Builds a HTML tag
  *
  *<code>
- * echo Phalcon\Tag::tagHtml($name, $parameters, $selfClose, $onlyStart))
+ * echo Phalcon\Tag::tagHtml($name, $parameters, $selfClose, $onlyStart, $eol))
  *</code>
  *
  * @param array $parameters
@@ -1918,21 +1918,3 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 
 	RETURN_CTOR(local_code);
 }
-
-zval *function phalcon_eol(int eol) {
-
-	zval *local_eol, *php_eol;
-
-	// Initialize parameters
-    PHALCON_INIT_VAR(local_eol);
-
-    if (eol) {
-	    zend_get_constant(SL("PHP_EOL"), local_eol TSRMLS_CC);
-    } else {
-        ZVAL_STRING(local_eol, "", 1);
-    }
-
-    return local_eol;
-}
-
-
