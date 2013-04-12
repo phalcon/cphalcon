@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFunction){
 	}
 
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The function name must be an string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The function name must be a string");
 		return;
 	}
 	phalcon_update_property_array(this_ptr, SL("_functions"), name, definition TSRMLS_CC);

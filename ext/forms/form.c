@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 	}
 	
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (Z_TYPE_P(elements) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "There are no elements in the form");
 		return;
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 	}
 	
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (Z_TYPE_P(elements) == IS_ARRAY) { 
 	
 		/** 
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 		 */
 		if (Z_TYPE_P(data) != IS_ARRAY) { 
 			PHALCON_OBS_NVAR(data);
-			phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+			phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 		}
 	
 		PHALCON_INIT_VAR(not_failed);
@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages){
 	}
 	
 	PHALCON_OBS_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (zend_is_true(by_item_name)) {
 		if (Z_TYPE_P(messages) != IS_ARRAY) { 
 			PHALCON_INIT_VAR(group);
@@ -439,7 +439,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor){
 	}
 
 	PHALCON_OBS_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_array_isset(messages, name)) {
 		PHALCON_OBS_VAR(element_messages);
 		phalcon_array_fetch(&element_messages, messages, name, PH_NOISY_CC);
@@ -517,7 +517,7 @@ PHP_METHOD(Phalcon_Forms_Form, render){
 	}
 	
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (!phalcon_array_isset(elements, name)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Element with ID=", name, " is not part of the form");
@@ -551,7 +551,7 @@ PHP_METHOD(Phalcon_Forms_Form, get){
 	}
 
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (!phalcon_array_isset(elements, name)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Element with ID=", name, " is not part of the form");
@@ -584,7 +584,7 @@ PHP_METHOD(Phalcon_Forms_Form, label){
 	}
 
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (!phalcon_array_isset(elements, name)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Element with ID=", name, " is not part of the form");
@@ -631,7 +631,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel){
 	}
 
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (!phalcon_array_isset(elements, name)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Element with ID=", name, " is not part of the form");
@@ -673,7 +673,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
 	}
 
 	PHALCON_OBS_VAR(entity);
-	phalcon_read_property(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
+	phalcon_read_property_this(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
 	if (Z_TYPE_P(entity) == IS_OBJECT) {
 	
 		/** 
@@ -698,7 +698,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
 	}
 	
 	PHALCON_OBS_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 	
 		/** 
@@ -731,7 +731,7 @@ PHP_METHOD(Phalcon_Forms_Form, has){
 	}
 
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	
 	/** 
 	 * Checks if the element is in the form
@@ -760,7 +760,7 @@ PHP_METHOD(Phalcon_Forms_Form, remove){
 	}
 
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	
 	/** 
 	 * Checks if the element is in the form
@@ -789,7 +789,7 @@ PHP_METHOD(Phalcon_Forms_Form, count){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(number);
 	phalcon_fast_count(number, elements TSRMLS_CC);
@@ -808,7 +808,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind){
 	phalcon_update_property_long(this_ptr, SL("_position"), 0 TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(elements_indexed);
 	PHALCON_CALL_FUNC_PARAMS_1(elements_indexed, "array_values", elements);
@@ -829,10 +829,10 @@ PHP_METHOD(Phalcon_Forms_Form, current){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(position);
-	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
 	if (phalcon_array_isset(elements, position)) {
 		PHALCON_OBS_VAR(element);
 		phalcon_array_fetch(&element, elements, position, PH_NOISY_CC);
@@ -876,10 +876,10 @@ PHP_METHOD(Phalcon_Forms_Form, valid){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(position);
-	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(elements);
-	phalcon_read_property(&elements, this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
 	if (phalcon_array_isset(elements, position)) {
 		RETURN_MM_TRUE;
 	}

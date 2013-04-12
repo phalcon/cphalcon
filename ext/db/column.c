@@ -117,7 +117,6 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	zval *primary, *size, *is_numeric = NULL, *scale, *dunsigned;
 	zval *auto_increment, *first, *after, *bind_type;
 	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -170,14 +169,14 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 3);
-		PHALCON_INIT_VAR(r0);
-		is_equal_function(r0, type, t0 TSRMLS_CC);
-		PHALCON_INIT_VAR(t1);
-		ZVAL_LONG(t1, 7);
-		PHALCON_INIT_VAR(r1);
-		is_equal_function(r1, type, t1 TSRMLS_CC);
 		PHALCON_INIT_VAR(is_numeric);
-		ZVAL_BOOL(is_numeric, zend_is_true(r0) || zend_is_true(r1));
+		is_equal_function(is_numeric, type, t0 TSRMLS_CC);
+		if (PHALCON_IS_TRUE(is_numeric)) {
+			PHALCON_INIT_VAR(t1);
+			ZVAL_LONG(t1, 7);
+			is_equal_function(is_numeric, type, t1 TSRMLS_CC);
+		}
+	
 		if (PHALCON_IS_TRUE(is_numeric)) {
 			PHALCON_OBS_VAR(scale);
 			phalcon_array_fetch_string(&scale, definition, SL("scale"), PH_NOISY_CC);

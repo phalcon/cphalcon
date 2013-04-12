@@ -316,7 +316,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$builder = $di['modelsManager']->createBuilder()
 	        		->columns('cedula, nombres')
-	        		->from('Personas')
+	        		->from('Personnes')
 	        		->orderBy('cedula');
 
 		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(

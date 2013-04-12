@@ -1939,6 +1939,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
  * </code>
  *
  * @param Phalcon\Mvc\Model\MessageInterface $message
+ * @return Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
 
@@ -1961,7 +1962,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
 	}
 	phalcon_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 /**
@@ -1988,6 +1989,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  *</code>
  *
  * @param object $validator
+ * @return Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, validate){
 
@@ -2036,7 +2038,8 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 	
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_THIS();
 }
 
 /**
