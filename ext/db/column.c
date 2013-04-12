@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		ZVAL_LONG(t0, 3);
 		PHALCON_INIT_VAR(is_numeric);
 		is_equal_function(is_numeric, type, t0 TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_numeric)) {
+		if (PHALCON_IS_NOT_TRUE(is_numeric)) {
 			PHALCON_INIT_VAR(t1);
 			ZVAL_LONG(t1, 7);
 			is_equal_function(is_numeric, type, t1 TSRMLS_CC);

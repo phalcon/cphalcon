@@ -14236,7 +14236,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(formatter);
-	phalcon_read_property(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
+	phalcon_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(formatter);
 		object_init_ex(formatter, phalcon_logger_formatter_line_ce);
@@ -14261,7 +14261,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal){
 	}
 
 	PHALCON_OBS_VAR(file_handler);
-	phalcon_read_property(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
+	phalcon_read_property_this(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	if (!zend_is_true(file_handler)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid");
 		return;
@@ -14284,7 +14284,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(file_handler);
-	phalcon_read_property(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
+	phalcon_read_property_this(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_FUNC_PARAMS_1(success, "fclose", file_handler);
@@ -14298,10 +14298,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(path);
-	phalcon_read_property(&path, this_ptr, SL("_path"), PH_NOISY_CC);
+	phalcon_read_property_this(&path, this_ptr, SL("_path"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset_quick_string(options, SS("mode"), 267518858UL)) {
 		PHALCON_OBS_VAR(mode);
 		phalcon_array_fetch_quick_string(&mode, options, SS("mode"), 267518858UL, PH_NOISY_CC);
@@ -25278,7 +25278,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		ZVAL_LONG(t0, 3);
 		PHALCON_INIT_VAR(is_numeric);
 		is_equal_function(is_numeric, type, t0 TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_numeric)) {
+		if (PHALCON_IS_NOT_TRUE(is_numeric)) {
 			PHALCON_INIT_VAR(t1);
 			ZVAL_LONG(t1, 7);
 			is_equal_function(is_numeric, type, t1 TSRMLS_CC);
@@ -37235,7 +37235,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 	
 		PHALCON_INIT_NVAR(dependency_injector);
@@ -37299,7 +37299,7 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(headers);
-	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+	phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (Z_TYPE_P(headers) == IS_NULL) {
 		PHALCON_INIT_NVAR(headers);
 		object_init_ex(headers, phalcon_http_response_headers_ce);
@@ -37548,7 +37548,7 @@ PHP_METHOD(Phalcon_Http_Response, appendContent){
 	}
 
 	PHALCON_OBS_VAR(_content);
-	phalcon_read_property(&_content, this_ptr, SL("_content"), PH_NOISY_CC);
+	phalcon_read_property_this(&_content, this_ptr, SL("_content"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, _content, content TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_content"), r0 TSRMLS_CC);
@@ -37574,7 +37574,7 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(headers);
-	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+	phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (Z_TYPE_P(headers) != IS_NULL) {
 		PHALCON_CALL_METHOD_NORETURN(headers, "send");
 	}
@@ -37590,23 +37590,23 @@ PHP_METHOD(Phalcon_Http_Response, send){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(sent);
-	phalcon_read_property(&sent, this_ptr, SL("_sent"), PH_NOISY_CC);
+	phalcon_read_property_this(&sent, this_ptr, SL("_sent"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(sent)) {
 	
 		PHALCON_OBS_VAR(headers);
-		phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+		phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 		if (Z_TYPE_P(headers) != IS_NULL) {
 			PHALCON_CALL_METHOD_NORETURN(headers, "send");
 		}
 	
 		PHALCON_OBS_VAR(cookies);
-		phalcon_read_property(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+		phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
 		if (Z_TYPE_P(cookies) != IS_NULL) {
 			PHALCON_CALL_METHOD_NORETURN(cookies, "send");
 		}
 	
 		PHALCON_OBS_VAR(content);
-		phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
+		phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);
 		zend_print_zval(content, 0);
 		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
 	
@@ -37913,11 +37913,11 @@ PHP_METHOD(Phalcon_Http_Request, get){
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(filter);
-			phalcon_read_property(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
+			phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
 			if (Z_TYPE_P(filter) != IS_OBJECT) {
 	
 				PHALCON_OBS_VAR(dependency_injector);
-				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+				phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
 					return;
@@ -37971,11 +37971,11 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(filter);
-			phalcon_read_property(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
+			phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
 			if (Z_TYPE_P(filter) != IS_OBJECT) {
 	
 				PHALCON_OBS_VAR(dependency_injector);
-				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+				phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
 					return;
@@ -38029,11 +38029,11 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(filter);
-			phalcon_read_property(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
+			phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
 			if (Z_TYPE_P(filter) != IS_OBJECT) {
 	
 				PHALCON_OBS_VAR(dependency_injector);
-				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+				phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
 					return;
@@ -38271,7 +38271,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(raw_body);
-	phalcon_read_property(&raw_body, this_ptr, SL("_rawBody"), PH_NOISY_CC);
+	phalcon_read_property_this(&raw_body, this_ptr, SL("_rawBody"), PH_NOISY_CC);
 	if (!zend_is_true(raw_body)) {
 		PHALCON_INIT_VAR(input);
 		ZVAL_STRING(input, "php://input", 1);
@@ -42963,7 +42963,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId){
 	if (Z_TYPE_P(id) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(models_manager);
-		phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+		phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(use_implicit_ids);
 		PHALCON_CALL_METHOD_PARAMS_1_KEY(use_implicit_ids, models_manager, "isusingimplicitobjectids", this_ptr, 3521236505UL);
@@ -43020,7 +43020,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager){
 	}
 
 	PHALCON_OBS_VAR(models_manager);
-	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(models_manager, "setcustomeventsmanager", this_ptr, events_manager, 3062798396UL);
 	
 	PHALCON_MM_RESTORE();
@@ -43033,7 +43033,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(models_manager);
-	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(events_manager);
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(events_manager, models_manager, "getcustomeventsmanager", this_ptr, 1410017072UL);
@@ -43080,7 +43080,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, useImplicitObjectIds){
 	}
 
 	PHALCON_OBS_VAR(models_manager);
-	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(models_manager, "useimplicitobjectids", this_ptr, use_implicit_object_ids, 1206425092UL);
 	
 	PHALCON_MM_RESTORE();
@@ -43105,7 +43105,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(source);
-	phalcon_read_property(&source, this_ptr, SL("_source"), PH_NOISY_CC);
+	phalcon_read_property_this(&source, this_ptr, SL("_source"), PH_NOISY_CC);
 	if (!zend_is_true(source)) {
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class_ns(class_name, this_ptr, 0 TSRMLS_CC);
@@ -43130,7 +43130,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setConnectionService){
 	}
 
 	PHALCON_OBS_VAR(models_manager);
-	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(models_manager, "setconnectionservice", this_ptr, connection_service, 4052304818UL);
 	RETURN_THIS();
 }
@@ -43142,7 +43142,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnectionService){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(models_manager);
-	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(connection_service);
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(connection_service, models_manager, "getconnectionservice", this_ptr, 619546022UL);
@@ -43156,10 +43156,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnection){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(connection);
-	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
 		PHALCON_OBS_VAR(models_manager);
-		phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+		phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(connection);
 		PHALCON_CALL_METHOD_PARAMS_1_KEY(connection, models_manager, "getconnection", this_ptr, 2504689909UL);
@@ -43611,7 +43611,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, validationHasFailed){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(error_messages);
-	phalcon_read_property(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+	phalcon_read_property_this(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
 	if (Z_TYPE_P(error_messages) == IS_ARRAY) { 
 		if (phalcon_fast_count_ev(error_messages TSRMLS_CC)) {
 			RETURN_MM_TRUE;
@@ -43636,7 +43636,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEvent){
 	}
 	
 	PHALCON_OBS_VAR(models_manager);
-	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD_PARAMS_2_KEY(success, models_manager, "notifyevent", event_name, this_ptr, 1223080128UL);
@@ -43664,7 +43664,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEventCancel){
 	}
 	
 	PHALCON_OBS_VAR(models_manager);
-	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 	PHALCON_INIT_NVAR(status);
 	PHALCON_CALL_METHOD_PARAMS_2_KEY(status, models_manager, "notifyevent", event_name, this_ptr, 1223080128UL);
@@ -43688,7 +43688,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation){
 	if (!zend_is_true(disable_events)) {
 	
 		PHALCON_OBS_VAR(operation_made);
-		phalcon_read_property(&operation_made, this_ptr, SL("_operationMade"), PH_NOISY_CC);
+		phalcon_read_property_this(&operation_made, this_ptr, SL("_operationMade"), PH_NOISY_CC);
 		if (PHALCON_IS_LONG(operation_made, 3)) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "notDeleted", 1);
@@ -43718,12 +43718,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 	if (phalcon_isset_property(this_ptr, SS("_id") TSRMLS_CC)) {
 	
 		PHALCON_OBS_VAR(id);
-		phalcon_read_property(&id, this_ptr, SL("_id"), PH_NOISY_CC);
+		phalcon_read_property_this(&id, this_ptr, SL("_id"), PH_NOISY_CC);
 		if (Z_TYPE_P(id) == IS_OBJECT) {
 			PHALCON_CPY_WRT(mongo_id, id);
 		} else {
 			PHALCON_OBS_VAR(models_manager);
-			phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+			phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(use_implicit_ids);
 			PHALCON_CALL_METHOD_PARAMS_1_KEY(use_implicit_ids, models_manager, "isusingimplicitobjectids", this_ptr, 3521236505UL);
@@ -43801,7 +43801,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
@@ -44170,7 +44170,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 	}
 	
 	PHALCON_OBS_VAR(id);
-	phalcon_read_property(&id, this_ptr, SL("_id"), PH_NOISY_CC);
+	phalcon_read_property_this(&id, this_ptr, SL("_id"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(connection, this_ptr, "getconnection");
@@ -44184,7 +44184,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 		PHALCON_CPY_WRT(mongo_id, id);
 	} else {
 		PHALCON_OBS_VAR(models_manager);
-		phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+		phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(use_implicit_ids);
 		PHALCON_CALL_METHOD_PARAMS_1_KEY(use_implicit_ids, models_manager, "isusingimplicitobjectids", this_ptr, 3521236505UL);
