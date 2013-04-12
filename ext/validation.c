@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Validation, validate){
 	}
 	
 	PHALCON_OBS_VAR(validators);
-	phalcon_read_property(&validators, this_ptr, SL("_validators"), PH_NOISY_CC);
+	phalcon_read_property_this(&validators, this_ptr, SL("_validators"), PH_NOISY_CC);
 	if (Z_TYPE_P(validators) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "There are no validators to validate");
 		return;
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Validation, validate){
 	}
 	
 	PHALCON_OBS_NVAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(messages);
 }
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
 	}
 
 	PHALCON_OBS_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(messages, "appendmessage", message);
 	
 	PHALCON_MM_RESTORE();
@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 	}
 
 	PHALCON_OBS_VAR(entity);
-	phalcon_read_property(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
+	phalcon_read_property_this(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
 	
 	/** 
 	 * If the entity is an object use it to retrieve the values
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 	}
 	
 	PHALCON_OBS_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		if (Z_TYPE_P(data) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "There is no data to validate");

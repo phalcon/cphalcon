@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType){
 	}
 
 	PHALCON_OBS_VAR(collections);
-	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (phalcon_array_isset(collections, type)) {
 		PHALCON_OBS_VAR(collection);
 		phalcon_array_fetch(&collection, collections, type, PH_NOISY_CC);
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get){
 	}
 	
 	PHALCON_OBS_VAR(collections);
-	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (!phalcon_array_isset(collections, id)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "The collection does not exist in the manager");
 		return;
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(collections);
-	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the collection does not exist and create an implicit collection
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(collections);
-	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the collection does not exist and create an implicit collection
@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection){
 	}
 
 	PHALCON_OBS_VAR(collections);
-	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (phalcon_array_isset(collections, name)) {
 		PHALCON_OBS_VAR(collection);
 		phalcon_array_fetch(&collection, collections, name, PH_NOISY_CC);
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 	PHALCON_INIT_VAR(output);
 	
 	PHALCON_OBS_VAR(use_implicit_output);
-	phalcon_read_property(&use_implicit_output, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
+	phalcon_read_property_this(&use_implicit_output, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
 	
 	/** 
 	 * Get the resources as an array
@@ -490,7 +490,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs){
 	PHALCON_INIT_VAR(output);
 	
 	PHALCON_OBS_VAR(use_implicit_output);
-	phalcon_read_property(&use_implicit_output, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
+	phalcon_read_property_this(&use_implicit_output, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
 	
 	/** 
 	 * Get the resources as an array
