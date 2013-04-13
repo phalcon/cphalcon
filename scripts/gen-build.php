@@ -162,10 +162,23 @@ class Build_Generator
 
 			}
 
+			if (preg_match('/PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
+				$line = str_replace($matches[0], 'static PHP_METHOD('.$matches[1].', '.$matches[2].')', $line);
+			}
+
 			$clines .= $line;
 		}
 
 		file_put_contents($this->_destination . 'phalcon.c', $clines);
+
+		$hlines = '';
+		foreach (file($this->_destination . 'phalcon.h') as $line) {
+			if (preg_match('/PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
+				$line = str_replace($matches[0], 'static PHP_METHOD('.$matches[1].', '.$matches[2].')', $line);
+			}
+			$hlines .= $line;
+		}
+		file_put_contents($this->_destination . 'phalcon.h', $hlines);
 	}
 
 	/**
