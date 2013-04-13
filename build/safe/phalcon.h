@@ -8742,6 +8742,8 @@ static PHP_METHOD(Phalcon_Assets_Collection, current);
 static PHP_METHOD(Phalcon_Assets_Collection, key);
 static PHP_METHOD(Phalcon_Assets_Collection, next);
 static PHP_METHOD(Phalcon_Assets_Collection, valid);
+static PHP_METHOD(Phalcon_Assets_Collection, setPrefix);
+static PHP_METHOD(Phalcon_Assets_Collection, getPrefix);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_add, 0, 0, 1)
 	ZEND_ARG_INFO(0, resource)
@@ -8757,6 +8759,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_addjs, 0, 0, 1)
 	ZEND_ARG_INFO(0, local)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setprefix, 0, 0, 1)
+	ZEND_ARG_INFO(0, prefix)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_assets_collection_method_entry){
 	PHP_ME(Phalcon_Assets_Collection, add, arginfo_phalcon_assets_collection_add, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, addCss, arginfo_phalcon_assets_collection_addcss, ZEND_ACC_PUBLIC) 
@@ -8768,6 +8774,8 @@ PHALCON_INIT_FUNCS(phalcon_assets_collection_method_entry){
 	PHP_ME(Phalcon_Assets_Collection, key, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, next, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, valid, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Collection, setPrefix, arginfo_phalcon_assets_collection_setprefix, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Collection, getPrefix, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

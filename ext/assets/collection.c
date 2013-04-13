@@ -51,6 +51,7 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Collection){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Assets, Collection, assets_collection, phalcon_assets_collection_method_entry, 0);
 
+	zend_declare_property_null(phalcon_assets_collection_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_resources"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -264,5 +265,34 @@ PHP_METHOD(Phalcon_Assets_Collection, valid){
 	}
 	
 	RETURN_MM_FALSE;
+}
+
+/**
+ * Sets a common prefix for all the resources
+ *
+ * @param string
+ * @return Phalcon\Assets\Collection
+ */
+PHP_METHOD(Phalcon_Assets_Collection, setPrefix){
+
+	zval *prefix;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &prefix) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the prefix
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getPrefix){
+
+
+	RETURN_MEMBER(this_ptr, "_prefix");
 }
 

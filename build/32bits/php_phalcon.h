@@ -124,8 +124,13 @@ extern zend_module_entry phalcon_module_entry;
 # define PHALCON_FASTCALL
 #endif
 
+#ifndef PHALCON_RELEASE
 #define PHALCON_INIT_CLASS(name) \
 	int inline phalcon_ ##name## _init(INIT_FUNC_ARGS)
+#else
+#define PHALCON_INIT_CLASS(name) \
+	static inline int phalcon_ ##name## _init(INIT_FUNC_ARGS)
+#endif
 
 #define PHALCON_INIT(name) \
 	if (phalcon_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE) { \
