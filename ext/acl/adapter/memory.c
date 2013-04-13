@@ -32,9 +32,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
@@ -127,15 +127,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_acl_adapter_memory_ce, this_ptr, SL("_rolesNames") TSRMLS_CC);
-	
-	phalcon_update_property_empty_array(phalcon_acl_adapter_memory_ce, this_ptr, SL("_roles") TSRMLS_CC);
-	
-	phalcon_update_property_empty_array(phalcon_acl_adapter_memory_ce, this_ptr, SL("_resources") TSRMLS_CC);
-	
-	phalcon_update_property_empty_array(phalcon_acl_adapter_memory_ce, this_ptr, SL("_access") TSRMLS_CC);
-	
-	phalcon_update_property_empty_array(phalcon_acl_adapter_memory_ce, this_ptr, SL("_roleInherits") TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(a0);
 	array_init_size(a0, 1);
@@ -171,9 +162,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 
 	zval *role, *access_inherits = NULL, *role_name = NULL, *object = NULL;
-	zval *roles_names, *default_access, *_access;
-	zval *success;
-	zval *t0 = NULL;
+	zval *roles_names, *exists, *default_access;
+	zval *_access, *success;
 
 	PHALCON_MM_GROW();
 
@@ -204,11 +194,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 		RETURN_MM_FALSE;
 	}
 	
+	PHALCON_INIT_VAR(exists);
+	ZVAL_BOOL(exists, 1);
 	phalcon_update_property_array_append(this_ptr, SL("_roles"), object TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_BOOL(t0, 1);
-	phalcon_update_property_array(this_ptr, SL("_rolesNames"), role_name, t0 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_rolesNames"), role_name, exists TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(default_access);
 	phalcon_read_property_this(&default_access, this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
@@ -369,8 +358,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isResource){
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 
 	zval *resource, *access_list = NULL, *resource_name = NULL;
-	zval *object = NULL, *resources_names, *empty_arr, *status;
-	zval *t0 = NULL;
+	zval *object = NULL, *resources_names, *exists, *empty_arr;
+	zval *status;
 
 	PHALCON_MM_GROW();
 
@@ -398,15 +387,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 	PHALCON_OBS_VAR(resources_names);
 	phalcon_read_property_this(&resources_names, this_ptr, SL("_resourcesNames"), PH_NOISY_CC);
 	if (!phalcon_array_isset(resources_names, resource_name)) {
+		PHALCON_INIT_VAR(exists);
+		ZVAL_BOOL(exists, 1);
 		phalcon_update_property_array_append(this_ptr, SL("_resources"), object TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(empty_arr);
 		array_init(empty_arr);
 		phalcon_update_property_array(this_ptr, SL("_accessList"), resource_name, empty_arr TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(t0);
-		ZVAL_BOOL(t0, 1);
-		phalcon_update_property_array(this_ptr, SL("_resourcesNames"), resource_name, t0 TSRMLS_CC);
+		phalcon_update_property_array(this_ptr, SL("_resourcesNames"), resource_name, exists TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(status);
@@ -424,10 +412,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 
 	zval *resource_name, *access_list, *resources_names;
-	zval *exception_message, *access_name = NULL, *internal_access_list = NULL;
-	zval *_accessList = NULL;
+	zval *exception_message, *exists, *access_name = NULL;
+	zval *internal_access_list = NULL, *_accessList = NULL;
 	zval *r0 = NULL, *r1 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -447,6 +435,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 		return;
 	}
 	
+	PHALCON_INIT_VAR(exists);
+	ZVAL_BOOL(exists, 1);
 	if (Z_TYPE_P(access_list) == IS_ARRAY) { 
 	
 		if (!phalcon_is_iterable(access_list, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -465,9 +455,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 			if (!phalcon_array_isset(r0, access_name)) {
 				PHALCON_OBS_NVAR(_accessList);
 				phalcon_read_property_this(&_accessList, this_ptr, SL("_accessList"), PH_NOISY_CC);
-				PHALCON_INIT_NVAR(t0);
-				ZVAL_LONG(t0, 1);
-				phalcon_array_update_multi_2(&_accessList, resource_name, access_name, &t0, 0 TSRMLS_CC);
+				phalcon_array_update_multi_2(&_accessList, resource_name, access_name, &exists, 0 TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, SL("_accessList"), _accessList TSRMLS_CC);
 			}
 	
@@ -477,17 +465,15 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 	} else {
 		if (Z_TYPE_P(access_list) == IS_STRING) {
 	
-			PHALCON_OBS_VAR(t1);
-			phalcon_read_property_this(&t1, this_ptr, SL("_accessList"), PH_NOISY_CC);
+			PHALCON_OBS_VAR(t0);
+			phalcon_read_property_this(&t0, this_ptr, SL("_accessList"), PH_NOISY_CC);
 			PHALCON_OBS_VAR(r1);
-			phalcon_array_fetch(&r1, t1, resource_name, PH_NOISY_CC);
+			phalcon_array_fetch(&r1, t0, resource_name, PH_NOISY_CC);
 			if (!phalcon_array_isset(r1, access_list)) {
-				PHALCON_OBS_VAR(t2);
-				phalcon_read_property_this(&t2, this_ptr, SL("_accessList"), PH_NOISY_CC);
-				PHALCON_INIT_VAR(t3);
-				ZVAL_LONG(t3, 1);
-				phalcon_array_update_multi_2(&t2, resource_name, access_list, &t3, 0 TSRMLS_CC);
-				phalcon_update_property_zval(this_ptr, SL("_accessList"), t2 TSRMLS_CC);
+				PHALCON_OBS_VAR(t1);
+				phalcon_read_property_this(&t1, this_ptr, SL("_accessList"), PH_NOISY_CC);
+				phalcon_array_update_multi_2(&t1, resource_name, access_list, &exists, 0 TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_accessList"), t1 TSRMLS_CC);
 			}
 		}
 	}
