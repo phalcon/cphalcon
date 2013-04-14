@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 	}
 
 	PHALCON_OBS_VAR(prefix);
-	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
@@ -157,13 +157,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 	}
 
 	PHALCON_OBS_VAR(prefix);
-	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
 	PHALCON_OBS_VAR(ttl);
-	phalcon_read_property(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
+	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", apc_key, data, ttl);
 	
 	PHALCON_MM_RESTORE();

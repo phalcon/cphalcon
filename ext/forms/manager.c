@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get){
 	}
 
 	PHALCON_OBS_VAR(forms);
-	phalcon_read_property(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
+	phalcon_read_property_this(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
 	if (!phalcon_array_isset(forms, name)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "There is no form with name='", name, "'");
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Forms_Manager, has){
 	}
 
 	PHALCON_OBS_VAR(forms);
-	phalcon_read_property(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
+	phalcon_read_property_this(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
 	if (!phalcon_array_isset(forms, name)) {
 		RETURN_MM_TRUE;
 	}

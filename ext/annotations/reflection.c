@@ -110,11 +110,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_classAnnotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_classAnnotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(reflection_data);
-		phalcon_read_property(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		phalcon_read_property_this(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
 		if (phalcon_array_isset_string(reflection_data, SS("class"))) {
 			PHALCON_OBS_VAR(reflection_class);
 			phalcon_array_fetch_string(&reflection_class, reflection_data, SL("class"), PH_NOISY_CC);
@@ -152,11 +152,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_methodAnnotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_methodAnnotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(reflection_data);
-		phalcon_read_property(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		phalcon_read_property_this(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
 		if (phalcon_array_isset_string(reflection_data, SS("methods"))) {
 	
 			PHALCON_OBS_VAR(reflection_methods);
@@ -215,11 +215,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_propertyAnnotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_propertyAnnotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(reflection_data);
-		phalcon_read_property(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		phalcon_read_property_this(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
 		if (phalcon_array_isset_string(reflection_data, SS("properties"))) {
 	
 			PHALCON_OBS_VAR(reflection_properties);

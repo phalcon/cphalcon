@@ -115,13 +115,13 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(id);
-	phalcon_read_property(&id, this_ptr, SL("_id"), PH_NOISY_CC);
+	phalcon_read_property_this(&id, this_ptr, SL("_id"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(command);
 	PHALCON_CONCAT_SV(command, "delete ", id);
 	
 	PHALCON_OBS_VAR(queue);
-	phalcon_read_property(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
+	phalcon_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(queue, "write", command);
 	
 	PHALCON_INIT_VAR(response);

@@ -189,11 +189,11 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	}
 	
 	PHALCON_OBS_VAR(readed);
-	phalcon_read_property(&readed, this_ptr, SL("_readed"), PH_NOISY_CC);
+	phalcon_read_property_this(&readed, this_ptr, SL("_readed"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(readed)) {
 	
 		PHALCON_OBS_VAR(name);
-		phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 		phalcon_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
 		if (phalcon_array_isset(_COOKIE, name)) {
 	
@@ -202,11 +202,11 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 			if (Z_TYPE_P(filters) != IS_NULL) {
 	
 				PHALCON_OBS_VAR(filter);
-				phalcon_read_property(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
+				phalcon_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
 				if (Z_TYPE_P(filter) != IS_OBJECT) {
 	
 					PHALCON_OBS_VAR(dependency_injector);
-					phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+					phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 						PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
 						return;

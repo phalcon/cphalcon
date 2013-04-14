@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("lifetime"))) {
 			PHALCON_OBS_VAR(lifetime);
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(buffering);
-	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
+	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	RETURN_CCTOR(buffering);
 }
 
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(buffering);
-	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
+	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
 		PHALCON_INIT_VAR(contents);
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(buffering);
-	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
+	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
 		PHALCON_CALL_FUNC_NORETURN("ob_end_clean");
 	}

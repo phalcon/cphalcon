@@ -148,6 +148,18 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($html, '<link rel="stylesheet" href="/css/style-1.css" type="text/css" />
 <link rel="stylesheet" href="/css/style-2.css" type="text/css" />' . PHP_EOL);
+
+		$scripts = $assets
+			->collection('header')
+    		->setPrefix('http:://cdn.example.com/')
+    		->setLocal(false)
+			->addJs('js/jquery.js')
+        	->addJs('js/bootstrap.min.js');
+
+		$html = $assets->outputJs('header');
+
+		$this->assertEquals($html, '<script src="http:://cdn.example.com/js/jquery.js" type="text/javascript"></script>
+<script src="http:://cdn.example.com/js/bootstrap.min.js" type="text/javascript"></script>' . PHP_EOL);
 	}
 
 }

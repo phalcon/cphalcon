@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators){
 	if (zend_is_true(merge)) {
 	
 		PHALCON_OBS_VAR(current_validators);
-		phalcon_read_property(&current_validators, this_ptr, SL("_validators"), PH_NOISY_CC);
+		phalcon_read_property_this(&current_validators, this_ptr, SL("_validators"), PH_NOISY_CC);
 		if (Z_TYPE_P(current_validators) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(merged_validators);
 			PHALCON_CALL_FUNC_PARAMS_2(merged_validators, "array_merge", current_validators, validators);
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	}
 	
 	PHALCON_OBS_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
 	/** 
 	 * Create an array of parameters
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	 * Merge passed parameters with default ones
 	 */
 	PHALCON_OBS_VAR(default_attributes);
-	phalcon_read_property(&default_attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
+	phalcon_read_property_this(&default_attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if (Z_TYPE_P(default_attributes) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(merged_attributes);
 		PHALCON_CALL_FUNC_PARAMS_2(merged_attributes, "array_merge", widget_attributes, default_attributes);
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	 * Get the related form
 	 */
 	PHALCON_OBS_VAR(form);
-	phalcon_read_property(&form, this_ptr, SL("_form"), PH_NOISY_CC);
+	phalcon_read_property_this(&form, this_ptr, SL("_form"), PH_NOISY_CC);
 	if (Z_TYPE_P(form) == IS_OBJECT) {
 	
 		/** 
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	 */
 	if (Z_TYPE_P(value) == IS_NULL) {
 		PHALCON_OBS_NVAR(value);
-		phalcon_read_property(&value, this_ptr, SL("_value"), PH_NOISY_CC);
+		phalcon_read_property_this(&value, this_ptr, SL("_value"), PH_NOISY_CC);
 	}
 	
 	/** 

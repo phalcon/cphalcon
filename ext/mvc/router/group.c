@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 	}
 	
 	PHALCON_OBS_VAR(prefix);
-	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	/** 
 	 * Add the prefix to the pattern
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 	PHALCON_CONCAT_VV(prefix_pattern, prefix, pattern);
 	
 	PHALCON_OBS_VAR(default_paths);
-	phalcon_read_property(&default_paths, this_ptr, SL("_paths"), PH_NOISY_CC);
+	phalcon_read_property_this(&default_paths, this_ptr, SL("_paths"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the paths need to be merged with current paths

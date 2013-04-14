@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(connection);
-	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD(success, connection, "begin");
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(manager);
-	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
+	phalcon_read_property_this(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	if (Z_TYPE_P(manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(call_object);
 		array_init_size(call_object, 2);
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 	}
 	
 	PHALCON_OBS_VAR(connection);
-	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD(success, connection, "commit");
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 	}
 	
 	PHALCON_OBS_VAR(manager);
-	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
+	phalcon_read_property_this(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	if (Z_TYPE_P(manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(call_object);
 		array_init_size(call_object, 2);
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 	}
 	
 	PHALCON_OBS_VAR(connection);
-	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD(success, connection, "rollback");
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 		}
 	
 		PHALCON_OBS_NVAR(rollback_record);
-		phalcon_read_property(&rollback_record, this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
+		phalcon_read_property_this(&rollback_record, this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(exception);
 		object_init_ex(exception, phalcon_mvc_model_transaction_failed_ce);
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(rollback_on_abort);
-	phalcon_read_property(&rollback_on_abort, this_ptr, SL("_rollbackOnAbort"), PH_NOISY_CC);
+	phalcon_read_property_this(&rollback_on_abort, this_ptr, SL("_rollbackOnAbort"), PH_NOISY_CC);
 	if (zend_is_true(rollback_on_abort)) {
 	
 		PHALCON_INIT_VAR(was_aborted);
@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection){
 	}
 	
 	PHALCON_OBS_VAR(connection);
-	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(connection);
 }
@@ -382,7 +382,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(manager);
-	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
+	phalcon_read_property_this(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	boolean_not_function(r0, manager TSRMLS_CC);
@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(connection);
-	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(is_valid);
 	PHALCON_CALL_METHOD(is_valid, connection, "isundertransaction");

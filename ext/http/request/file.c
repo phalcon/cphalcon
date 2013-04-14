@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 	}
 
 	PHALCON_OBS_VAR(temp_file);
-	phalcon_read_property(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
+	phalcon_read_property_this(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_FUNC_PARAMS_2(success, "move_uploaded_file", temp_file, destination);

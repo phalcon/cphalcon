@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 	}
 
 	PHALCON_OBS_VAR(annotations_dir);
-	phalcon_read_property(&annotations_dir, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations_dir, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(separator);
 	ZVAL_STRING(separator, "_", 1);
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 	}
 
 	PHALCON_OBS_VAR(annotations_dir);
-	phalcon_read_property(&annotations_dir, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations_dir, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(separator);
 	ZVAL_STRING(separator, "_", 1);

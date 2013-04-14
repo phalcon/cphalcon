@@ -299,11 +299,11 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 	}
 
 	PHALCON_OBS_VAR(automatic_html);
-	phalcon_read_property(&automatic_html, this_ptr, SL("_automaticHtml"), PH_NOISY_CC);
+	phalcon_read_property_this(&automatic_html, this_ptr, SL("_automaticHtml"), PH_NOISY_CC);
 	if (PHALCON_IS_TRUE(automatic_html)) {
 	
 		PHALCON_OBS_VAR(classes);
-		phalcon_read_property(&classes, this_ptr, SL("_cssClasses"), PH_NOISY_CC);
+		phalcon_read_property_this(&classes, this_ptr, SL("_cssClasses"), PH_NOISY_CC);
 		if (phalcon_array_isset(classes, type)) {
 	
 			PHALCON_OBS_VAR(type_classes);
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 	}
 	
 	PHALCON_OBS_VAR(implicit_flush);
-	phalcon_read_property(&implicit_flush, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
+	phalcon_read_property_this(&implicit_flush, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
 	if (Z_TYPE_P(message) == IS_ARRAY) { 
 	
 		/** 
