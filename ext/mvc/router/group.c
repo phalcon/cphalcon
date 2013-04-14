@@ -84,8 +84,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Group){
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Router, Group, mvc_router_group, phalcon_mvc_router_group_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_hostname"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_paths"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_routes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_beforeMatch"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -120,6 +122,35 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct){
 }
 
 /**
+ * Set a hostname restriction for all the routes in the group
+ *
+ * @param string $hostname
+ * @return Phalcon\Mvc\Router\Group
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname){
+
+	zval *hostname;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &hostname) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_hostname"), hostname TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the hostname restriction
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname){
+
+
+	RETURN_MEMBER(this_ptr, "_hostname");
+}
+
+/**
  * Set a common uri prefix for all the routes in this group
  *
  * @param string $prefix
@@ -146,6 +177,35 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix){
 
 
 	RETURN_MEMBER(this_ptr, "_prefix");
+}
+
+/**
+ * Set a before-match condition for the whole group
+ *
+ * @param string $prefix
+ * @return Phalcon\Mvc\Router\Group
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, beforeMatch){
+
+	zval *before_match;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &before_match) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_beforeMatch"), before_match TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the before-match condition if any
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Group, getBeforeMatch){
+
+
+	RETURN_MEMBER(this_ptr, "_beforeMatch");
 }
 
 /**

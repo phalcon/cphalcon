@@ -57,6 +57,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element){
 	zend_declare_property_null(phalcon_forms_element_ce, SL("_label"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_element_ce, SL("_attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_element_ce, SL("_validators"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -348,12 +349,19 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes){
 
 	zval *attributes;
 
+	PHALCON_MM_GROW();
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attributes) == FAILURE) {
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
+	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array");
+		return;
+	}
 	phalcon_update_property_zval(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
-	RETURN_THISW();
+	
+	RETURN_THIS();
 }
 
 /**
@@ -365,6 +373,61 @@ PHP_METHOD(Phalcon_Forms_Element, getAttributes){
 
 
 	RETURN_MEMBER(this_ptr, "_attributes");
+}
+
+/**
+ * Sets an option for the element
+ *
+ * @param string $option
+ * @param mixed $value
+ * @return Phalcon\Forms\ElementInterface
+ */
+PHP_METHOD(Phalcon_Forms_Element, setOption){
+
+	zval *option, *value;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &option, &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_array(this_ptr, SL("_attributes"), option, value TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Sets options for the element
+ *
+ * @param array $options
+ * @return Phalcon\Forms\ElementInterface
+ */
+PHP_METHOD(Phalcon_Forms_Element, setOptions){
+
+	zval *options;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Returns the options for the element
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Forms_Element, getOptions){
+
+
+	RETURN_MEMBER(this_ptr, "_options");
 }
 
 /**

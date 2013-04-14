@@ -33,9 +33,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -102,6 +102,32 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Application){
 }
 
 /**
+ * Phalcon\Mvc\Application
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
+PHP_METHOD(Phalcon_Mvc_Application, __construct){
+
+	zval *dependency_injector = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &dependency_injector) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!dependency_injector) {
+		PHALCON_INIT_VAR(dependency_injector);
+	}
+	
+	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Register an array of modules present in the application
  *
  *<code>
@@ -119,6 +145,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Application){
  *
  * @param array $modules
  * @param boolean $merge
+ * @param Phalcon\Mvc\Application
  */
 PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 
@@ -150,7 +177,8 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 		phalcon_update_property_zval(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_THIS();
 }
 
 /**

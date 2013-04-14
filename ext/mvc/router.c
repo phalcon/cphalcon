@@ -461,15 +461,15 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 	zval *uri = NULL, *real_uri = NULL, *remove_extra_slashes;
-	zval *handled_uri = NULL, *request = NULL, *current_host_name;
+	zval *handled_uri = NULL, *request = NULL, *current_host_name = NULL;
 	zval *route_found = NULL, *parts = NULL, *params = NULL, *matches, *routes;
 	zval *route = NULL, *methods = NULL, *dependency_injector = NULL;
-	zval *service = NULL, *match_method = NULL, *pattern = NULL, *before_match = NULL;
-	zval *before_match_params = NULL, *paths = NULL, *converters = NULL;
-	zval *position = NULL, *part = NULL, *match_position = NULL, *parameters = NULL;
-	zval *converter = NULL, *converted_part = NULL, *not_found_paths;
-	zval *namespace, *default_namespace = NULL, *module;
-	zval *default_module = NULL, *controller, *default_controller = NULL;
+	zval *service = NULL, *match_method = NULL, *hostname = NULL, *header = NULL;
+	zval *pattern = NULL, *before_match = NULL, *before_match_params = NULL;
+	zval *paths = NULL, *converters = NULL, *position = NULL, *part = NULL, *match_position = NULL;
+	zval *parameters = NULL, *converter = NULL, *converted_part = NULL;
+	zval *not_found_paths, *namespace, *default_namespace = NULL;
+	zval *module, *default_module = NULL, *controller, *default_controller = NULL;
 	zval *action, *default_action = NULL, *params_str, *str_params;
 	zval *slash, *params_merge = NULL, *default_params;
 	HashTable *ah0, *ah1;
@@ -570,6 +570,60 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			PHALCON_INIT_NVAR(match_method);
 			PHALCON_CALL_METHOD_PARAMS_1(match_method, request, "ismethod", methods);
 			if (PHALCON_IS_FALSE(match_method)) {
+				zend_hash_move_backwards_ex(ah0, &hp0);
+				continue;
+			}
+		}
+	
+		/** 
+		 * Look for hostname constraints
+		 */
+		PHALCON_INIT_NVAR(hostname);
+		PHALCON_CALL_METHOD(hostname, route, "gethostname");
+		if (Z_TYPE_P(hostname) != IS_NULL) {
+	
+			/** 
+			 * Retrieve the request service from the container
+			 */
+			if (Z_TYPE_P(request) == IS_NULL) {
+	
+				PHALCON_OBS_NVAR(dependency_injector);
+				phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'request' service");
+					return;
+				}
+	
+				PHALCON_INIT_NVAR(service);
+				ZVAL_STRING(service, "request", 1);
+	
+				PHALCON_INIT_NVAR(request);
+				PHALCON_CALL_METHOD_PARAMS_1(request, dependency_injector, "getshared", service);
+			}
+	
+			/** 
+			 * Check if the current hostname is the same as the route
+			 */
+			if (Z_TYPE_P(current_host_name) == IS_NULL) {
+				PHALCON_INIT_NVAR(header);
+				ZVAL_STRING(header, "HTTP_HOST", 1);
+	
+				PHALCON_INIT_NVAR(current_host_name);
+				PHALCON_CALL_METHOD_PARAMS_1(current_host_name, request, "getheader", header);
+			}
+	
+			/** 
+			 * No HTTP_HOST, maybe in CLI mode?
+			 */
+			if (Z_TYPE_P(current_host_name) == IS_NULL) {
+				zend_hash_move_backwards_ex(ah0, &hp0);
+				continue;
+			}
+	
+			/** 
+			 * Check if the hostname restriction is the same as the current in the route
+			 */
+			if (!PHALCON_IS_EQUAL(current_host_name, hostname)) {
 				zend_hash_move_backwards_ex(ah0, &hp0);
 				continue;
 			}
@@ -1125,7 +1179,11 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead){
  */
 PHP_METHOD(Phalcon_Mvc_Router, mount){
 
-	zval *group, *routes, *group_routes, *new_routes;
+	zval *group, *group_routes, *before_match, *route = NULL;
+	zval *hostname, *routes, *new_routes;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -1138,11 +1196,59 @@ PHP_METHOD(Phalcon_Mvc_Router, mount){
 		return;
 	}
 	
-	PHALCON_OBS_VAR(routes);
-	phalcon_read_property_this(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
-	
 	PHALCON_INIT_VAR(group_routes);
 	PHALCON_CALL_METHOD(group_routes, group, "getroutes");
+	if (!phalcon_fast_count_ev(group_routes TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The group of routes does not contain any routes");
+		return;
+	}
+	
+	/** 
+	 * Get the before-match condition
+	 */
+	PHALCON_INIT_VAR(before_match);
+	PHALCON_CALL_METHOD(before_match, group, "getbeforematch");
+	if (Z_TYPE_P(before_match) != IS_NULL) {
+	
+		if (!phalcon_is_iterable(group_routes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(route);
+	
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(route, "beforematch", before_match);
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
+	
+	/** 
+	 * Get the hostname restriction
+	 */
+	PHALCON_INIT_VAR(hostname);
+	PHALCON_CALL_METHOD(hostname, group, "gethostname");
+	if (Z_TYPE_P(hostname) != IS_NULL) {
+	
+		if (!phalcon_is_iterable(group_routes, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(route);
+	
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(route, "sethostname", hostname);
+	
+			zend_hash_move_forward_ex(ah1, &hp1);
+		}
+	
+	}
+	
+	PHALCON_OBS_VAR(routes);
+	phalcon_read_property_this(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	if (Z_TYPE_P(routes) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(new_routes);
 		PHALCON_CALL_FUNC_PARAMS_2(new_routes, "array_merge", routes, group_routes);

@@ -111,8 +111,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
 
-	zval *header;
-	zval *t0 = NULL;
+	zval *header, *zval_null;
 
 	PHALCON_MM_GROW();
 
@@ -120,9 +119,8 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(t0);
-	ZVAL_BOOL(t0, 0);
-	phalcon_update_property_array(this_ptr, SL("_headers"), header, t0 TSRMLS_CC);
+	PHALCON_INIT_VAR(zval_null);
+	phalcon_update_property_array(this_ptr, SL("_headers"), header, zval_null TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

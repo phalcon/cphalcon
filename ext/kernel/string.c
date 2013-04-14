@@ -271,7 +271,7 @@ void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 			if (i > 0) {
 				smart_str_appendc(&uncamelize_str, '_');
 			}
-			smart_str_appendc(&uncamelize_str, (*marker)+32);
+			smart_str_appendc(&uncamelize_str, (*marker) + 32);
 		} else {
 			smart_str_appendc(&uncamelize_str, (*marker));
 		}
@@ -518,8 +518,13 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 		return;
 	}
 
+	if (Z_TYPE_P(matches) != IS_ARRAY) {
+		ZVAL_BOOL(return_value, 0);
+		return;
+	}
+
 	cursor = Z_STRVAL_P(str);
-	for (i = 0; i<Z_STRLEN_P(str); i++) {
+	for (i = 0; i < Z_STRLEN_P(str); i++) {
 		ch = *cursor;
 
 		if (parentheses_count == 0) {
@@ -543,7 +548,7 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 							item = estrndup(marker + 1, length);
 							cursor_var = item;
 							marker = item;
-							for (j=0; j<length; j++) {
+							for (j = 0; j < length; j++) {
 								ch = *cursor_var;
 								if (j == 0 && !((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z'))){
 									not_valid = 1;
