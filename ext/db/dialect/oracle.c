@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes){
 	}
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVS(sql, "SELECT 0 as C0, I.TABLE_NAME, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = UPPER('", table, "')");
+	PHALCON_CONCAT_SVS(sql, "SELECT 0 as C0, I.TABLE_NAME, 3 AS C3, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = UPPER('", table, "')");
 	RETURN_CTOR(sql);
 }
 
@@ -974,11 +974,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			/** 
 			 * Check for a OFFSET condition
 			 */
-			if (phalcon_array_isset_string(limit_value, SS("offset"))) {
+			 if (phalcon_array_isset_string(limit_value, SS("offset"))) {
 				PHALCON_OBS_VAR(offset);
 				phalcon_array_fetch_string(&offset, limit_value, SL("offset"), PH_NOISY_CC);
-				
-				PHALCON_INIT_VAR(sql_limit);
 
 				PHALCON_INIT_VAR(one);
 				ZVAL_LONG(one, 1);
@@ -989,21 +987,27 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 				PHALCON_INIT_VAR(end_range);
 				phalcon_add_function(end_range, offset, number TSRMLS_CC);
 				
+				PHALCON_INIT_VAR(sql_limit);
 				PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
 				sql = sql_limit;
-			} else {
-				if (phalcon_array_isset_string(definition, SS("where"))) {
-					PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", number);
-				} else {
-					PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", number);
-				}				
+			
 			}
 		} else {
-			if (phalcon_array_isset_string(definition, SS("where"))) {
-				PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", limit_value);
-			} else {
-				PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", limit_value);
-			}
+			PHALCON_INIT_VAR(offset);
+			ZVAL_LONG(offset, 1);			
+			
+			PHALCON_INIT_VAR(one);
+			ZVAL_LONG(one, 1);
+
+			PHALCON_INIT_VAR(ini_range);
+			phalcon_add_function(ini_range, offset, one TSRMLS_CC);
+
+			PHALCON_INIT_VAR(end_range);
+			phalcon_add_function(end_range, offset, limit_value TSRMLS_CC);
+			
+			PHALCON_INIT_VAR(sql_limit);
+			PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
+			sql = sql_limit;	
 		}
 	}
 	

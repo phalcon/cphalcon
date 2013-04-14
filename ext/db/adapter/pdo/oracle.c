@@ -351,6 +351,53 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue){
 }
 
 /**
+ * Returns the insert id for the auto_increment/serial column inserted in the lastest executed SQL statement
+ *
+ *<code>
+ * //Inserting a new robot
+ * $success = $connection->insert(
+ *     "robots",
+ *     array("Astro Boy", 1952),
+ *     array("name", "year")
+ * );
+ *
+ * //Getting the generated id
+ * $id = $connection->lastInsertId();
+ *</code>
+ *
+ * @param string $sequenceName
+ * @return int
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, lastInsertId){
+
+	zval *sequence_name = NULL, *sql, *ret, *fetch_num, *insert_id;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &sequence_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!sequence_name) {
+		PHALCON_INIT_VAR(sequence_name);
+	}
+
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CONCAT_SVS(sql, "SELECT ", sequence_name, ".CURRVAL FROM dual");
+	
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
+  
+	PHALCON_INIT_VAR(ret);
+	PHALCON_CALL_METHOD_PARAMS_2(ret, this_ptr, "fetchall", sql, fetch_num);
+	
+	PHALCON_INIT_VAR(insert_id);
+	phalcon_array_fetch_long(&insert_id, ret, 0, PH_NOISY_CC);
+	RETURN_CTOR(insert_id);
+}
+
+
+/**
  * Check whether the database system requires a sequence to produce auto-numeric values
  *
  * @return boolean
