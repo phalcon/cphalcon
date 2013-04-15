@@ -19457,6 +19457,35 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue){
 	RETURN_CTOR(default_value);
 }
 
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, lastInsertId){
+
+	zval *sequence_name = NULL, *sql, *ret, *fetch_num, *insert_id;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &sequence_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!sequence_name) {
+		PHALCON_INIT_VAR(sequence_name);
+	}
+
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CONCAT_SVS(sql, "SELECT ", sequence_name, ".CURRVAL FROM dual");
+	
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
+  
+	PHALCON_INIT_VAR(ret);
+	PHALCON_CALL_METHOD_PARAMS_2(ret, this_ptr, "fetchall", sql, fetch_num);
+	
+	PHALCON_INIT_VAR(insert_id);
+	phalcon_array_fetch_long(&insert_id, ret, 0, PH_NOISY_CC);
+	RETURN_CTOR(insert_id);
+}
+
+
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, supportSequences){
 
 
@@ -23896,7 +23925,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes){
 	}
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVS(sql, "SELECT 0 as C0, I.TABLE_NAME, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = UPPER('", table, "')");
+	PHALCON_CONCAT_SVS(sql, "SELECT 0 as C0, I.TABLE_NAME, 3 AS C3, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = UPPER('", table, "')");
 	RETURN_CTOR(sql);
 }
 
@@ -23961,7 +23990,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	zval *order_fields, *order_items, *order_item = NULL;
 	zval *order_expression = NULL, *order_sql_item = NULL, *sql_order_type = NULL;
 	zval *order_sql_item_type = NULL, *order_sql, *limit_value;
-	zval *number, *offset, *sql_limit=NULL, *result;
+	zval *number, *offset, *sql_limit=NULL, *one, *ini_range, *end_range;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -24273,31 +24302,35 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_OBS_VAR(number);
 			phalcon_array_fetch_string(&number, limit_value, SL("number"), PH_NOISY_CC);
 			
-			if (phalcon_array_isset_string(limit_value, SS("offset"))) {
+			 if (phalcon_array_isset_string(limit_value, SS("offset"))) {
 				PHALCON_OBS_VAR(offset);
 				phalcon_array_fetch_string(&offset, limit_value, SL("offset"), PH_NOISY_CC);
+
+				PHALCON_INIT_VAR(one);
+				ZVAL_LONG(one, 1);
+	
+				PHALCON_INIT_VAR(ini_range);
+				phalcon_add_function(ini_range, offset, one TSRMLS_CC);
+
+				PHALCON_INIT_VAR(end_range);
+				phalcon_add_function(end_range, offset, number TSRMLS_CC);
 				
 				PHALCON_INIT_VAR(sql_limit);
-
-				PHALCON_INIT_VAR(result);
-				
-				phalcon_add_function(result, offset, number TSRMLS_CC);
-				
-				PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", offset , " AND ",  result );
+				PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
 				sql = sql_limit;
-			} else {
-				if (phalcon_array_isset_string(definition, SS("where"))) {
-					PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", number);
-				} else {
-					PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", number);
-				}				
+		    } else {
+		        if (phalcon_array_isset_string(definition, SS("where"))) {
+		          PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", number);
+		        } else {
+		          PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", number);
+		        } 			
 			}
 		} else {
-			if (phalcon_array_isset_string(definition, SS("where"))) {
-				PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", limit_value);
-			} else {
-				PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", limit_value);
-			}
+		    if (phalcon_array_isset_string(definition, SS("where"))) {
+		        PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", limit_value);
+		    } else {
+		        PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", limit_value);
+		    } 
 		}
 	}
 	

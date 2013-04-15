@@ -990,24 +990,19 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 				PHALCON_INIT_VAR(sql_limit);
 				PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
 				sql = sql_limit;
-			
+		    } else {
+		        if (phalcon_array_isset_string(definition, SS("where"))) {
+		          PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", number);
+		        } else {
+		          PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", number);
+		        } 			
 			}
 		} else {
-			PHALCON_INIT_VAR(offset);
-			ZVAL_LONG(offset, 1);			
-			
-			PHALCON_INIT_VAR(one);
-			ZVAL_LONG(one, 1);
-
-			PHALCON_INIT_VAR(ini_range);
-			phalcon_add_function(ini_range, offset, one TSRMLS_CC);
-
-			PHALCON_INIT_VAR(end_range);
-			phalcon_add_function(end_range, offset, limit_value TSRMLS_CC);
-			
-			PHALCON_INIT_VAR(sql_limit);
-			PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
-			sql = sql_limit;	
+		    if (phalcon_array_isset_string(definition, SS("where"))) {
+		        PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", limit_value);
+		    } else {
+		        PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", limit_value);
+		    } 
 		}
 	}
 	
