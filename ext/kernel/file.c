@@ -163,3 +163,26 @@ void phalcon_unique_path_key(zval *return_value, zval *path TSRMLS_DC) {
 
 	RETURN_STRING(strKey, 0);
 }
+
+/**
+ * Returns the realpath of a zval filename
+ *
+ */
+void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC) {
+
+	char resolved_path_buff[MAXPATHLEN];
+
+	if (Z_TYPE_P(filename) != IS_STRING) {
+		RETURN_FALSE;
+	}
+
+	if (strlen(Z_STRVAL_P(filename)) != Z_STRLEN_P(filename)) {
+		RETURN_FALSE;
+	}
+
+	if (VCWD_REALPATH(filename, resolved_path_buff)) {
+		RETURN_STRING(resolved_path_buff, 1);
+	}
+
+	RETURN_FALSE;
+}

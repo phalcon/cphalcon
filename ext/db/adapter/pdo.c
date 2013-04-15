@@ -1067,6 +1067,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit){
 }
 
 /**
+ * Returns the current transaction nesting level
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, getTransactionLevel){
+
+
+	RETURN_MEMBER(this_ptr, "_transactionLevel");
+}
+
+/**
  * Checks whether the connection is under a transaction
  *
  *<code>

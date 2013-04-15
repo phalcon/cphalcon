@@ -26,6 +26,39 @@ use
 	Phalcon\Validation\Validator\StringLength,
 	Phalcon\Validation\Validator\Regex;
 
+class ContactFormPublicProperties
+{
+	public $telephone = '+44 124 82122';
+	public $address = 'Cr. 12 #12-82';
+}
+
+class ContactFormSettersGetters
+{
+	private $telephone = '+44 124 82122';
+
+	private $address = 'Cr. 12 #12-82';
+
+	public function getTelephone()
+	{
+		return $this->telephone;
+	}
+
+	public function getAddress()
+	{
+		return $this->address;
+	}
+
+	public function setTelephone($telephone)
+	{
+		$this->telephone = $telephone;
+	}
+
+	public function setAddress($address)
+	{
+		$this->address = $address;
+	}
+}
+
 class FormsTest extends PHPUnit_Framework_TestCase
 {
 
@@ -50,6 +83,10 @@ class FormsTest extends PHPUnit_Framework_TestCase
 			'class' => 'big-input',
 			'placeholder' => 'Type the name'
 		));
+
+		$this->assertEquals($element->getAttribute('class'), 'big-input');
+		$this->assertEquals($element->getAttribute('placeholder', 'the name'), 'Type the name');
+		$this->assertEquals($element->getAttribute('lang', 'en'), 'en');
 	}
 
 	public function testFormPrepareAttributes()
@@ -60,7 +97,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$element1->prepareAttributes(),
-			array('name', 'value' => null)
+			array('name')
 		);
 	}
 
@@ -73,7 +110,35 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$element1->prepareAttributes(),
-			array('name', 'class' => 'big-input', 'value' => null)
+			array('name', 'class' => 'big-input')
+		);
+	}
+
+	public function testFormOptions()
+	{
+		$element1 = new Text("name");
+
+		$element1->setAttributes(array('class' => 'big-input'));
+		$element1->setOptions(array('some' => 'value'));
+
+		$this->assertEquals(
+			$element1->getOptions(),
+			array('some' => 'value')
+		);
+
+		$this->assertEquals(
+			$element1->getOption('some'),
+			'value'
+		);
+
+		$this->assertEquals(
+			$element1->getOption('some-non'),
+			null
+		);
+
+		$this->assertEquals(
+			$element1->getOption('some-non', 'default'),
+			'default'
 		);
 	}
 
@@ -85,7 +150,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$element1->prepareAttributes(array('class' => 'big-input')),
-			array('name', 'class' => 'big-input', 'value' => null)
+			array('name', 'class' => 'big-input')
 		);
 	}
 
@@ -94,8 +159,8 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element1 = new Text("name");
 		$element1->setAttributes(array('class' => 'big-input'));
 
-		$this->assertEquals($element1->render(), '<input type="text" class="big-input" value="" name="name" id="name" />');
-		$this->assertEquals((string) $element1, '<input type="text" class="big-input" value="" name="name" id="name" />');
+		$this->assertEquals($element1->render(), '<input type="text" class="big-input" name="name" id="name" value="" />');
+		$this->assertEquals((string) $element1, '<input type="text" class="big-input" name="name" id="name" value="" />');
 	}
 
 	public function testForm()
@@ -109,6 +174,17 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(count($form), 2);
 		$this->assertEquals($form->count(), 2);
+	}
+
+	public function testFormIndirectElementRender()
+	{
+
+		$form = new Form();
+
+		$form->add(new Text("name"));
+
+		$this->assertEquals($form->render('name'), '<input type="text" name="name" id="name" value="" />');
+		$this->assertEquals($form->render('name', array('class' => 'big-input')), '<input type="text" class="big-input" name="name" id="name" value="" />');
 	}
 
 	public function testFormLabels()
@@ -133,6 +209,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 	public function testFormValidator()
 	{
+		//First element
 		$telephone = new Text("telephone");
 
 		$telephone->addValidator(new PresenceOf(array(
@@ -153,6 +230,213 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		));
 
 		$this->assertEquals(count($telephone->getValidators()), 3);
+
+		//Second element
+		$address = new Text('address');
+
+		$address->addValidator(new PresenceOf(array(
+			'message' => 'The address is required'
+		)));
+
+		$this->assertEquals(count($address->getValidators()), 1);
+
+		$form = new Form();
+
+		$form->add($telephone);
+		$form->add($address);
+
+		$this->assertFalse($form->isValid(array()));
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' =>
+				array(
+					0 => Phalcon\Validation\Message::__set_state(array(
+						'_type' => 'PresenceOf',
+						'_message' => 'The telephone is required',
+						'_field' => 'telephone',
+					)),
+					1 => Phalcon\Validation\Message::__set_state(array(
+						'_type' => 'TooShort',
+						'_message' => 'Value of field \'telephone\' is less than the minimum 5 characters',
+						'_field' => 'telephone',
+					)),
+					2 => Phalcon\Validation\Message::__set_state(array(
+						'_type' => 'Regex',
+						'_message' => 'The telephone has an invalid format',
+						'_field' => 'telephone',
+					)),
+					3 => Phalcon\Validation\Message::__set_state(array(
+						'_type' => 'PresenceOf',
+						'_message' => 'The address is required',
+						'_field' => 'address',
+					)),
+				),
+			)
+		);
+
+		$this->assertEquals($form->getMessages(), $expectedMessages);
+
+		$this->assertFalse($form->isValid(array(
+			'telephone' => '12345',
+			'address' => 'hello'
+		)));
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 =>  Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'Regex',
+					'_message' => 'The telephone has an invalid format',
+					'_field' => 'telephone',
+				)),
+			),
+		));
+
+		$this->assertEquals($form->getMessages(), $expectedMessages);
+
+		$this->assertTrue($form->isValid(array(
+			'telephone' => '+44 124 82122',
+			'address' => 'hello'
+		)));
+	}
+
+	public function testFormRenderEntity()
+	{
+		//Second element
+		$address = new Text('address');
+
+		$address->addValidator(new PresenceOf(array(
+			'message' => 'The address is required'
+		)));
+
+		$telephone = new Text("telephone");
+
+		$telephone->addValidator(new PresenceOf(array(
+			'message' => 'The telephone is required'
+		)));
+
+		$form = new Form(new ContactFormPublicProperties());
+
+		$form->add($address);
+		$form->add($telephone);
+
+		$this->assertEquals($form->render('address'), '<input type="text" value="Cr. 12 #12-82" name="address" id="address" />');
+		$this->assertEquals($form->render('telephone'), '<input type="text" value="+44 124 82122" name="telephone" id="telephone" />');
+	}
+
+	public function testFormRenderEntityGetters()
+	{
+		//Second element
+		$address = new Text('address');
+
+		$address->addValidator(new PresenceOf(array(
+			'message' => 'The address is required'
+		)));
+
+		$telephone = new Text("telephone");
+
+		$telephone->addValidator(new PresenceOf(array(
+			'message' => 'The telephone is required'
+		)));
+
+		$form = new Form(new ContactFormSettersGetters());
+
+		$form->add($address);
+		$form->add($telephone);
+
+		$this->assertEquals($form->render('address'), '<input type="text" value="Cr. 12 #12-82" name="address" id="address" />');
+		$this->assertEquals($form->render('telephone'), '<input type="text" value="+44 124 82122" name="telephone" id="telephone" />');
+	}
+
+	public function testFormValidatorEntity()
+	{
+		//Second element
+		$address = new Text('address');
+
+		$address->addValidator(new PresenceOf(array(
+			'message' => 'The address is required'
+		)));
+
+		$telephone = new Text("telephone");
+
+		$telephone->addValidator(new PresenceOf(array(
+			'message' => 'The telephone is required'
+		)));
+
+		$form = new Form(new ContactFormPublicProperties());
+
+		$form->add($address);
+		$form->add($telephone);
+
+		$this->assertTrue($form->isValid(array(
+			'telephone' => '+44 124 82122',
+			'address' => 'hello'
+		)));
+	}
+
+	public function testFormValidatorEntityBind()
+	{
+		//Second element
+		$address = new Text('address');
+
+		$address->addValidator(new PresenceOf(array(
+			'message' => 'The address is required'
+		)));
+
+		$telephone = new Text("telephone");
+
+		$telephone->addValidator(new PresenceOf(array(
+			'message' => 'The telephone is required'
+		)));
+
+		$entity = new ContactFormPublicProperties();
+
+		$form = new Form();
+
+		$form->add($address);
+		$form->add($telephone);
+
+		$form->bind(array(
+			'telephone' => '+44 123 45678',
+			'address' => 'hello'
+		), $entity);
+
+		$this->assertTrue($form->isValid());
+
+		$this->assertEquals($entity->telephone, '+44 123 45678');
+		$this->assertEquals($entity->address, 'hello');
+	}
+
+	public function testFormValidatorEntityBindSetters()
+	{
+		//Second element
+		$address = new Text('address');
+
+		$address->addValidator(new PresenceOf(array(
+			'message' => 'The address is required'
+		)));
+
+		$telephone = new Text("telephone");
+
+		$telephone->addValidator(new PresenceOf(array(
+			'message' => 'The telephone is required'
+		)));
+
+		$entity = new ContactFormSettersGetters();
+
+		$form = new Form();
+
+		$form->add($address);
+		$form->add($telephone);
+
+		$form->bind(array(
+			'telephone' => '+44 123 45678',
+			'address' => 'hello'
+		), $entity);
+
+		$this->assertTrue($form->isValid());
+
+		$this->assertEquals($entity->getTelephone(), '+44 123 45678');
+		$this->assertEquals($entity->getAddress(), 'hello');
 	}
 
 }

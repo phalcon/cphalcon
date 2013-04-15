@@ -798,4 +798,40 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($messages, $expectedMessages);
 	}
 
+	public function testValidationFiltering()
+	{
+
+		$validation = new Phalcon\Validation();
+
+		$validation
+			->add('name', new PresenceOf(array(
+				'message' => 'The name is required'
+			)))
+			->add('email', new PresenceOf(array(
+				'message' => 'The email is required',
+				'cancelOnFail' => true
+			)));
+
+		$validation->setFilters('name', 'trim');
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 =>  Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The name is required',
+					'_field' => 'name',
+				)),
+				1 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The email is required',
+					'_field' => 'email',
+				))
+			),
+		));
+
+		$this->assertEquals($messages, $expectedMessages);
+	}
+
 }

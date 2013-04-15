@@ -37,6 +37,7 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 #include "kernel/file.h"
 
 /**
@@ -231,8 +232,8 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
  */
 PHP_METHOD(Phalcon_Forms_Form, isValid){
 
-	zval *data = NULL, *entity = NULL, *elements, *not_failed = NULL, *messages;
-	zval *element = NULL, *validators = NULL, *name = NULL, *prepared_validators = NULL;
+	zval *data = NULL, *entity = NULL, *elements, *status, *not_failed = NULL;
+	zval *messages, *element = NULL, *validators = NULL, *name = NULL, *prepared_validators = NULL;
 	zval *validator = NULL, *scope = NULL, *validation = NULL, *element_messages = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -271,6 +272,18 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 		if (Z_TYPE_P(data) != IS_ARRAY) { 
 			PHALCON_OBS_NVAR(data);
 			phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+		}
+	
+		/** 
+		 * Check if there is a method 'beforeValidation'
+		 */
+		if (phalcon_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS) {
+	
+			PHALCON_INIT_VAR(status);
+			PHALCON_CALL_METHOD(status, this_ptr, "beforevalidation");
+			if (PHALCON_IS_FALSE(status)) {
+				RETURN_CCTOR(status);
+			}
 		}
 	
 		PHALCON_INIT_VAR(not_failed);
@@ -349,6 +362,13 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 		 */
 		if (!zend_is_true(not_failed)) {
 			phalcon_update_property_zval(this_ptr, SL("_messages"), messages TSRMLS_CC);
+		}
+	
+		/** 
+		 * Check if there is a method 'afterValidation'
+		 */
+		if (phalcon_method_exists_ex(this_ptr, SS("aftervalidation") TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD_NORETURN(this_ptr, "aftervalidation");
 		}
 	
 		/** 

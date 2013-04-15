@@ -728,3 +728,67 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 	RETURN_MM_FALSE;
 }
 
+/**
+ * Filters a resultset returning only those the developer requires
+ *
+ *<code>
+ * $filtered = $robots->filter(function($robot){
+ *		if ($robot->id < 3) {
+ *			return $robot;
+ *		}
+ *	});
+ *</code>
+ *
+ * @param callback $filter
+ * @return Phalcon\Mvc\Model[]
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
+
+	zval *filter, *records, *parameters, *record = NULL, *processed_record = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &filter) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(records);
+	array_init(records);
+	PHALCON_CALL_METHOD_NORETURN(this_ptr, "rewind");
+	
+	PHALCON_INIT_VAR(parameters);
+	array_init(parameters);
+	
+	while (1) {
+	
+		PHALCON_INIT_NVAR(r0);
+		PHALCON_CALL_METHOD(r0, this_ptr, "valid");
+		if (zend_is_true(r0)) {
+		} else {
+			break;
+		}
+	
+		PHALCON_INIT_NVAR(record);
+		PHALCON_CALL_METHOD(record, this_ptr, "current");
+		phalcon_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+		PHALCON_INIT_NVAR(processed_record);
+		PHALCON_CALL_USER_FUNC_ARRAY(processed_record, filter, parameters);
+	
+		/** 
+		 * Only add processed records to 'records' if the returned value is an array/object
+		 */
+		if (Z_TYPE_P(processed_record) != IS_OBJECT) {
+			if (Z_TYPE_P(processed_record) != IS_ARRAY) { 
+				continue;
+			}
+		}
+	
+		phalcon_array_append(&records, processed_record, PH_SEPARATE TSRMLS_CC);
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "next");
+	}
+	
+	RETURN_CTOR(records);
+}
+

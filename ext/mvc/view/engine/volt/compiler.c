@@ -2948,7 +2948,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	zval *template_path, *extends_mode = NULL, *stat = NULL, *compile_always = NULL;
 	zval *compiled_path = NULL, *prefix = NULL, *compiled_separator = NULL;
 	zval *compiled_extension = NULL, *compilation = NULL, *options;
-	zval *template_sep_path = NULL, *compiled_template_path = NULL;
+	zval *real_template_path, *template_sep_path = NULL;
+	zval *compiled_template_path = NULL, *real_compiled_path = NULL;
 	zval *blocks_code, *exception_message = NULL;
 
 	PHALCON_MM_GROW();
@@ -3069,15 +3070,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		}
 	}
 	
+	PHALCON_INIT_VAR(real_template_path);
+	phalcon_realpath(real_template_path, template_path TSRMLS_CC);
 	if (Z_TYPE_P(compiled_path) != IS_NULL) {
 		/** 
 		 * Create the virtual path replacing the directory separator by the compiled
 		 * separator
 		 */
 		PHALCON_INIT_VAR(template_sep_path);
-		phalcon_prepare_virtual_path(template_sep_path, template_path, compiled_separator TSRMLS_CC);
+		phalcon_prepare_virtual_path(template_sep_path, real_template_path, compiled_separator TSRMLS_CC);
 	} else {
-		PHALCON_CPY_WRT(template_sep_path, template_path);
+		PHALCON_CPY_WRT(template_sep_path, real_template_path);
 	}
 	
 	/** 
@@ -3091,11 +3094,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		PHALCON_CONCAT_VVVV(compiled_template_path, compiled_path, prefix, template_sep_path, compiled_extension);
 	}
 	
+	/** 
+	 * Use the real path to avoid collisions
+	 */
+	PHALCON_CPY_WRT(real_compiled_path, compiled_template_path);
 	if (zend_is_true(compile_always)) {
 		/** 
 		 * Compile always must be used only in the development stage
 		 */
-		PHALCON_CALL_METHOD_PARAMS_3(compilation, this_ptr, "compilefile", template_path, compiled_template_path, extends_mode);
+		PHALCON_CALL_METHOD_PARAMS_3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
 	} else {
 		if (PHALCON_IS_TRUE(stat)) {
 			if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == SUCCESS) {
@@ -3103,9 +3110,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 				/** 
 				 * Compare modification timestamps to check if the file needs to be recompiled
 				 */
-				if (phalcon_compare_mtime(template_path, compiled_template_path TSRMLS_CC)) {
+				if (phalcon_compare_mtime(template_path, real_compiled_path TSRMLS_CC)) {
 					PHALCON_INIT_NVAR(compilation);
-					PHALCON_CALL_METHOD_PARAMS_3(compilation, this_ptr, "compilefile", template_path, compiled_template_path, extends_mode);
+					PHALCON_CALL_METHOD_PARAMS_3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
 				} else {
 					if (PHALCON_IS_TRUE(extends_mode)) {
 	
@@ -3113,10 +3120,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 						 * In extends mode we read the file that must contains a serialized array of blocks
 						 */
 						PHALCON_INIT_VAR(blocks_code);
-						PHALCON_CALL_FUNC_PARAMS_1(blocks_code, "file_get_contents", compiled_template_path);
+						PHALCON_CALL_FUNC_PARAMS_1(blocks_code, "file_get_contents", real_compiled_path);
 						if (PHALCON_IS_FALSE(blocks_code)) {
 							PHALCON_INIT_VAR(exception_message);
-							PHALCON_CONCAT_SVS(exception_message, "Extends compilation file ", compiled_template_path, " could not be opened");
+							PHALCON_CONCAT_SVS(exception_message, "Extends compilation file ", real_compiled_path, " could not be opened");
 							PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
 							return;
 						}
@@ -3138,22 +3145,22 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 				 * The file doesn't exist so we compile the php version for the first time
 				 */
 				PHALCON_INIT_NVAR(compilation);
-				PHALCON_CALL_METHOD_PARAMS_3(compilation, this_ptr, "compilefile", template_path, compiled_template_path, extends_mode);
+				PHALCON_CALL_METHOD_PARAMS_3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
 			}
 		} else {
 			/** 
 			 * Stat is off but the compiled file doesn't exist
 			 */
-			if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == FAILURE) {
+			if (phalcon_file_exists(real_compiled_path TSRMLS_CC) == FAILURE) {
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Compiled template file ", compiled_template_path, " does not exist");
+				PHALCON_CONCAT_SVS(exception_message, "Compiled template file ", real_compiled_path, " does not exist");
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
 				return;
 			}
 		}
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_compiledTemplatePath"), compiled_template_path TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_compiledTemplatePath"), real_compiled_path TSRMLS_CC);
 	
 	RETURN_CCTOR(compilation);
 }
