@@ -17,6 +17,12 @@
  - Added Phalcon\Assets component to manage CSS/Javascripts resources in an application
  - Added Phalcon\Annotations\Collection::getAll to return all the annotations in a collection that matches a name
  - Added Phalcon\Crypt component to provide encryption facilities to phalcon applications
+ - Now Phalcon\Http\Request: get, getQuery y getPost returns the respective superglobals in case of no parameters
+ - Now Phalcon\Mvc\Router supports hostname restrictions
+ - Added support for filtering/sanitizing in Phalcon\Validation
+ - Added events beforeValidation/afterValidation to Phalcon\Validation and Phalcon\Forms\Form
+ - Added ability to register user-options in Phalcon\Forms\Form elements
+ - Fixed Phalcon\Mvc\Micro\Collections to register a controllers in Phalcon\Mvc\Micro
 
 1.0.1
  - Paths aren't correctly normalized in Phalcon\Mvc\Model\MetaData\Files

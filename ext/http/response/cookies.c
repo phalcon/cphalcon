@@ -128,14 +128,14 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	}
 	
 	PHALCON_OBS_VAR(cookies);
-	phalcon_read_property(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the cookie needs to be updated or 
 	 */
 	if (!phalcon_array_isset(cookies, name)) {
 		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(cookie);
 		object_init_ex(cookie, phalcon_http_cookie_ce);
@@ -156,11 +156,11 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	 * Register the cookies bag in the response
 	 */
 	PHALCON_OBS_VAR(registered);
-	phalcon_read_property(&registered, this_ptr, SL("_registered"), PH_NOISY_CC);
+	phalcon_read_property_this(&registered, this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(registered)) {
 	
 		PHALCON_OBS_NVAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service");
 			return;
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 	}
 
 	PHALCON_OBS_VAR(cookies);
-	phalcon_read_property(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
 	if (phalcon_array_isset(cookies, name)) {
 		PHALCON_OBS_VAR(cookie);
 		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);

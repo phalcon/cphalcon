@@ -453,6 +453,7 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 int phalcon_read_property_this(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 
 	zend_class_entry *ce, *old_scope;
+	zval *property;
 
 	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 
@@ -493,8 +494,6 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 
 		#else
 
-		zval *property;
-
 		MAKE_STD_ZVAL(property);
 		ZVAL_STRINGL(property, property_name, property_length, 0);
 
@@ -528,6 +527,7 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	zval *result;
+	zval *property;
 	zend_class_entry *ce, *old_scope;
 
 	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
@@ -572,8 +572,6 @@ int phalcon_return_property(zval *return_value, zval *object, char *property_nam
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be read", property_name, ce->name);
 			return FAILURE;
 		}
-
-		zval *property;
 
 		MAKE_STD_ZVAL(property);
 		ZVAL_STRINGL(property, property_name, property_length, 0);

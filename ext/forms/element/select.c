@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render){
 	}
 	
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(widget_attributes);
 	PHALCON_CALL_METHOD_PARAMS_1(widget_attributes, this_ptr, "prepareattributes", attributes);

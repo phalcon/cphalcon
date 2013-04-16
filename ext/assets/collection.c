@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/exception.h"
-#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
 
 /**
@@ -51,6 +51,8 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Collection){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Assets, Collection, assets_collection, phalcon_assets_collection_method_entry, 0);
 
+	zend_declare_property_null(phalcon_assets_collection_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_assets_collection_ce, SL("_local"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_resources"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -93,7 +95,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add){
  */
 PHP_METHOD(Phalcon_Assets_Collection, addCss){
 
-	zval *path, *local = NULL, *resource;
+	zval *path, *local = NULL, *collection_local = NULL, *resource;
 
 	PHALCON_MM_GROW();
 
@@ -103,14 +105,21 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss){
 
 	if (!local) {
 		PHALCON_INIT_VAR(local);
-		ZVAL_BOOL(local, 1);
+	}
+	
+	if (Z_TYPE_P(local) == IS_BOOL) {
+		PHALCON_CPY_WRT(collection_local, local);
+	} else {
+		PHALCON_OBS_VAR(collection_local);
+		phalcon_read_property_this(&collection_local, this_ptr, SL("_local"), PH_NOISY_CC);
 	}
 	
 	PHALCON_INIT_VAR(resource);
 	object_init_ex(resource, phalcon_assets_resource_css_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(resource, "__construct", path, local);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(resource, "__construct", path, collection_local);
 	
 	phalcon_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
+	
 	RETURN_THIS();
 }
 
@@ -123,7 +132,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss){
  */
 PHP_METHOD(Phalcon_Assets_Collection, addJs){
 
-	zval *path, *local = NULL, *resource;
+	zval *path, *local = NULL, *collection_local = NULL, *resource;
 
 	PHALCON_MM_GROW();
 
@@ -133,14 +142,21 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs){
 
 	if (!local) {
 		PHALCON_INIT_VAR(local);
-		ZVAL_BOOL(local, 1);
+	}
+	
+	if (Z_TYPE_P(local) == IS_BOOL) {
+		PHALCON_CPY_WRT(collection_local, local);
+	} else {
+		PHALCON_OBS_VAR(collection_local);
+		phalcon_read_property_this(&collection_local, this_ptr, SL("_local"), PH_NOISY_CC);
 	}
 	
 	PHALCON_INIT_VAR(resource);
 	object_init_ex(resource, phalcon_assets_resource_js_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(resource, "__construct", path, local);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(resource, "__construct", path, collection_local);
 	
 	phalcon_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
+	
 	RETURN_THIS();
 }
 
@@ -156,7 +172,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getResources){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(resources);
-	phalcon_read_property(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
+	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
 	if (Z_TYPE_P(resources) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(empty_array);
 		array_init(empty_array);
@@ -179,7 +195,7 @@ PHP_METHOD(Phalcon_Assets_Collection, count){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(resources);
-	phalcon_read_property(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
+	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(number);
 	phalcon_fast_count(number, resources TSRMLS_CC);
@@ -208,10 +224,10 @@ PHP_METHOD(Phalcon_Assets_Collection, current){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(position);
-	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(resources);
-	phalcon_read_property(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
+	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
 	if (phalcon_array_isset(resources, position)) {
 		PHALCON_OBS_VAR(resource);
 		phalcon_array_fetch(&resource, resources, position, PH_NOISY_CC);
@@ -255,14 +271,72 @@ PHP_METHOD(Phalcon_Assets_Collection, valid){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(position);
-	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(resources);
-	phalcon_read_property(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
+	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
 	if (phalcon_array_isset(resources, position)) {
 		RETURN_MM_TRUE;
 	}
 	
 	RETURN_MM_FALSE;
+}
+
+/**
+ * Sets a common prefix for all the resources
+ *
+ * @param string $prefix
+ * @return Phalcon\Assets\Collection
+ */
+PHP_METHOD(Phalcon_Assets_Collection, setPrefix){
+
+	zval *prefix;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &prefix) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the prefix
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getPrefix){
+
+
+	RETURN_MEMBER(this_ptr, "_prefix");
+}
+
+/**
+ * Sets if the collection uses local resources by default
+ *
+ * @param boolean $local
+ * @return Phalcon\Assets\Collection
+ */
+PHP_METHOD(Phalcon_Assets_Collection, setLocal){
+
+	zval *local;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &local) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_local"), local TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns if the collection uses local resources by default
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getLocal){
+
+
+	RETURN_MEMBER(this_ptr, "_local");
 }
 

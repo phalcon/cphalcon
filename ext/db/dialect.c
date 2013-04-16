@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 	array_init(str_list);
 	
 	PHALCON_OBS_VAR(escape_char);
-	phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+	phalcon_read_property_this(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	
 	if (!phalcon_is_iterable(column_list, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
 		if (Z_TYPE_P(escape_char) == IS_NULL) {
 			PHALCON_OBS_NVAR(escape_char);
-			phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+			phalcon_read_property_this(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 		}
 	}
 	if (Z_TYPE_P(expression) != IS_ARRAY) { 
@@ -510,7 +510,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 	
 	if (Z_TYPE_P(escape_char) == IS_NULL) {
 		PHALCON_OBS_NVAR(escape_char);
-		phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+		phalcon_read_property_this(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	}
 	if (Z_TYPE_P(table) == IS_ARRAY) { 
 	
@@ -624,7 +624,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
 		PHALCON_OBS_VAR(escape_char);
-		phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+		phalcon_read_property_this(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	} else {
 		PHALCON_INIT_NVAR(escape_char);
 	}

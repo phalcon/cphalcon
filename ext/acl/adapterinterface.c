@@ -55,7 +55,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, getDefaultAction);
  * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
  *
  * @param  Phalcon\Acl\RoleInterface $role
- * @param  array $accessInherits
+ * @param  string $accessInherits
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, addRole);

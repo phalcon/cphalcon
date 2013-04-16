@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(number);
 	phalcon_fast_count(number, arguments TSRMLS_CC);
@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
 	}
 
 	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (phalcon_array_isset(arguments, position)) {
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch(&value, arguments, position, PH_NOISY_CC);
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
 	}
 
 	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (phalcon_array_isset(arguments, position)) {
 		RETURN_MM_TRUE;
 	}
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
 	}
 
 	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (phalcon_array_isset(arguments, name)) {
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch(&value, arguments, name, PH_NOISY_CC);
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument){
 	}
 
 	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (phalcon_array_isset(arguments, name)) {
 		RETURN_MM_TRUE;
 	}

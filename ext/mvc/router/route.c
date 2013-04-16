@@ -58,6 +58,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Route){
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_compiledPattern"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_paths"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_methods"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_hostname"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_converters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_id"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -434,6 +435,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 		array_init(route_paths);
 	}
 	
+	if (Z_TYPE_P(route_paths) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The route contains invalid paths");
+		return;
+	}
+	
 	/** 
 	 * If the route starts with '#' we assume that it is a regular expression
 	 */
@@ -507,29 +513,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setName){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
-	RETURN_THISW();
-}
-
-/**
- * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
- *
- *<code>
- * $route->setHttpMethods('GET');
- * $route->setHttpMethods(array('GET', 'POST'));
- *</code>
- *
- * @param string|array $httpMethods
- * @return Phalcon\Mvc\Router\Route
- */
-PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods){
-
-	zval *http_methods;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &http_methods) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -647,6 +630,29 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths){
 }
 
 /**
+ * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
+ *
+ *<code>
+ * $route->setHttpMethods('GET');
+ * $route->setHttpMethods(array('GET', 'POST'));
+ *</code>
+ *
+ * @param string|array $httpMethods
+ * @return Phalcon\Mvc\Router\Route
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods){
+
+	zval *http_methods;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &http_methods) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
  * Returns the HTTP methods that constraint matching the route
  *
  * @return string|array
@@ -655,6 +661,39 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods){
 
 
 	RETURN_MEMBER(this_ptr, "_methods");
+}
+
+/**
+ * Sets a hostname restriction to the route
+ *
+ *<code>
+ * $route->setHostname('localhost');
+ *</code>
+ *
+ * @param string|array $httpMethods
+ * @return Phalcon\Mvc\Router\Route
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Route, setHostname){
+
+	zval *hostname;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &hostname) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_hostname"), hostname TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the hostname restriction if any
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Route, getHostname){
+
+
+	RETURN_MEMBER(this_ptr, "_hostname");
 }
 
 /**

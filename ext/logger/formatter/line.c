@@ -170,14 +170,14 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	}
 
 	PHALCON_OBS_VAR(format);
-	phalcon_read_property(&format, this_ptr, SL("_format"), PH_NOISY_CC);
+	phalcon_read_property_this(&format, this_ptr, SL("_format"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the format has the %date% placeholder
 	 */
 	if (phalcon_memnstr_str(format, SL("%date%") TSRMLS_CC)) {
 		PHALCON_OBS_VAR(date_format);
-		phalcon_read_property(&date_format, this_ptr, SL("_dateFormat"), PH_NOISY_CC);
+		phalcon_read_property_this(&date_format, this_ptr, SL("_dateFormat"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(date);
 		PHALCON_CALL_FUNC_PARAMS_2(date, "date", date_format, timestamp);

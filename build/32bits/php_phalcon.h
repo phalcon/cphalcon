@@ -106,9 +106,9 @@ extern zend_module_entry phalcon_module_entry;
 #endif
 
 #if PHP_VERSION_ID >= 50400
-	#define PHALCON_INIT_FUNCS(class_functions) const zend_function_entry class_functions[] =
+	#define PHALCON_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
 #else
-	#define PHALCON_INIT_FUNCS(class_functions) const function_entry class_functions[] =
+	#define PHALCON_INIT_FUNCS(class_functions) static const function_entry class_functions[] =
 #endif
 
 #ifndef PHP_FE_END
@@ -124,8 +124,13 @@ extern zend_module_entry phalcon_module_entry;
 # define PHALCON_FASTCALL
 #endif
 
+#ifndef PHALCON_RELEASE
 #define PHALCON_INIT_CLASS(name) \
 	int inline phalcon_ ##name## _init(INIT_FUNC_ARGS)
+#else
+#define PHALCON_INIT_CLASS(name) \
+	static inline int phalcon_ ##name## _init(INIT_FUNC_ARGS)
+#endif
 
 #define PHALCON_INIT(name) \
 	if (phalcon_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE) { \

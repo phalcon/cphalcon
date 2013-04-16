@@ -37,6 +37,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, getTransactionLevel);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes);
@@ -129,6 +130,7 @@ PHALCON_INIT_FUNCS(phalcon_db_adapter_pdo_method_entry){
 	PHP_ME(Phalcon_Db_Adapter_Pdo, begin, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter_Pdo, rollback, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter_Pdo, commit, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, getTransactionLevel, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter_Pdo, isUnderTransaction, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter_Pdo, getInternalHandler, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter_Pdo, describeIndexes, arginfo_phalcon_db_adapter_pdo_describeindexes, ZEND_ACC_PUBLIC) 

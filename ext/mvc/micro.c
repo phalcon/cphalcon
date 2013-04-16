@@ -37,8 +37,8 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
 #include "kernel/file.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Mvc\Micro
@@ -465,9 +465,100 @@ PHP_METHOD(Phalcon_Mvc_Micro, options){
 }
 
 /**
+ * Mounts a collection of handlers
+ *
+ * @param Phalcon\Mvc\Collection $collection
+ * @return Phalcon\Mvc\Micro
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, mount){
+
+	zval *collection, *main_handler, *handlers, *handler = NULL;
+	zval *methods = NULL, *pattern = NULL, *sub_handler = NULL, *real_handler = NULL;
+	zval *route = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(collection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The collection is not valid");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(main_handler);
+	PHALCON_CALL_METHOD(main_handler, collection, "gethandler");
+	if (PHALCON_IS_EMPTY(main_handler)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The collection requires a main handler");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(handlers);
+	PHALCON_CALL_METHOD(handlers, collection, "gethandlers");
+	if (!phalcon_fast_count_ev(handlers TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "There are no handlers to mount");
+		return;
+	}
+	
+	if (Z_TYPE_P(handlers) == IS_ARRAY) { 
+	
+		if (!phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(handler);
+	
+			if (Z_TYPE_P(handler) != IS_ARRAY) { 
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid");
+				return;
+			}
+	
+			PHALCON_OBS_NVAR(methods);
+			phalcon_array_fetch_long(&methods, handler, 0, PH_NOISY_CC);
+	
+			PHALCON_OBS_NVAR(pattern);
+			phalcon_array_fetch_long(&pattern, handler, 1, PH_NOISY_CC);
+	
+			PHALCON_OBS_NVAR(sub_handler);
+			phalcon_array_fetch_long(&sub_handler, handler, 2, PH_NOISY_CC);
+	
+			/** 
+			 * Create a real handler
+			 */
+			PHALCON_INIT_NVAR(real_handler);
+			array_init_size(real_handler, 2);
+			phalcon_array_append(&real_handler, main_handler, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&real_handler, sub_handler, PH_SEPARATE TSRMLS_CC);
+	
+			/** 
+			 * Map the route manually
+			 */
+			PHALCON_INIT_NVAR(route);
+			PHALCON_CALL_METHOD_PARAMS_2(route, this_ptr, "map", pattern, real_handler);
+			if (zend_is_true(methods)) {
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(route, "via", methods);
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
+	
+	
+	RETURN_THIS();
+}
+
+/**
  * Sets a handler that will be called when the router doesn't match any of the defined routes
  *
  * @param callable $handler
+ * @return Phalcon\Mvc\Micro
  */
 PHP_METHOD(Phalcon_Mvc_Micro, notFound){
 
@@ -478,7 +569,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, notFound){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_notFoundHandler"), handler TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
@@ -723,6 +814,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", service);
+	
+	/** 
+	 * Handle the URI as normal
+	 */
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(router, "handle", uri);
 	
 	/** 

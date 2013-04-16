@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 	}
 
 	PHALCON_OBS_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (phalcon_array_isset(data, key)) {
 		PHALCON_OBS_VAR(annotations);
 		phalcon_array_fetch(&annotations, data, key, PH_NOISY_CC);

@@ -37,6 +37,7 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Assets\Manager
@@ -164,7 +165,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType){
 	}
 
 	PHALCON_OBS_VAR(collections);
-	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (phalcon_array_isset(collections, type)) {
 		PHALCON_OBS_VAR(collection);
 		phalcon_array_fetch(&collection, collections, type, PH_NOISY_CC);
@@ -279,7 +280,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get){
 	}
 	
 	PHALCON_OBS_VAR(collections);
-	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (!phalcon_array_isset(collections, id)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "The collection does not exist in the manager");
 		return;
@@ -303,7 +304,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(collections);
-	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the collection does not exist and create an implicit collection
@@ -332,7 +333,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(collections);
-	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the collection does not exist and create an implicit collection
@@ -366,7 +367,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection){
 	}
 
 	PHALCON_OBS_VAR(collections);
-	phalcon_read_property(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
+	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (phalcon_array_isset(collections, name)) {
 		PHALCON_OBS_VAR(collection);
 		phalcon_array_fetch(&collection, collections, name, PH_NOISY_CC);
@@ -415,7 +416,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 	PHALCON_INIT_VAR(output);
 	
 	PHALCON_OBS_VAR(use_implicit_output);
-	phalcon_read_property(&use_implicit_output, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
+	phalcon_read_property_this(&use_implicit_output, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
 	
 	/** 
 	 * Get the resources as an array
@@ -463,8 +464,8 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 PHP_METHOD(Phalcon_Assets_Manager, outputJs){
 
 	zval *collection_name = NULL, *collection = NULL, *output;
-	zval *use_implicit_output, *resources, *resource = NULL;
-	zval *path = NULL, *local = NULL, *html = NULL;
+	zval *use_implicit_output, *resources, *prefix;
+	zval *resource = NULL, *path = NULL, *local = NULL, *prefixed_path = NULL, *html = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -490,13 +491,19 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs){
 	PHALCON_INIT_VAR(output);
 	
 	PHALCON_OBS_VAR(use_implicit_output);
-	phalcon_read_property(&use_implicit_output, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
+	phalcon_read_property_this(&use_implicit_output, this_ptr, SL("_implicitOutput"), PH_NOISY_CC);
 	
 	/** 
 	 * Get the resources as an array
 	 */
 	PHALCON_INIT_VAR(resources);
 	PHALCON_CALL_METHOD(resources, collection, "getresources");
+	
+	/** 
+	 * Get the collection's prefix
+	 */
+	PHALCON_INIT_VAR(prefix);
+	PHALCON_CALL_METHOD(prefix, collection, "getprefix");
 	
 	if (!phalcon_is_iterable(resources, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -511,12 +518,18 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs){
 	
 		PHALCON_INIT_NVAR(local);
 		PHALCON_CALL_METHOD(local, resource, "getlocal");
+		if (Z_TYPE_P(prefix) != IS_NULL) {
+			PHALCON_INIT_NVAR(prefixed_path);
+			PHALCON_CONCAT_VV(prefixed_path, prefix, path);
+		} else {
+			PHALCON_CPY_WRT(prefixed_path, path);
+		}
 	
 		/** 
 		 * Generate the html using Phalcon\Tag
 		 */
 		PHALCON_INIT_NVAR(html);
-		PHALCON_CALL_STATIC_PARAMS_2(html, "phalcon\\tag", "javascriptinclude", path, local);
+		PHALCON_CALL_STATIC_PARAMS_2(html, "phalcon\\tag", "javascriptinclude", prefixed_path, local);
 		if (zend_is_true(use_implicit_output)) {
 			zend_print_zval(html, 0);
 		} else {

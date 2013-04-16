@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(formatter);
-	phalcon_read_property(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
+	phalcon_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(formatter);
 		object_init_ex(formatter, phalcon_logger_formatter_line_ce);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal){
 	}
 
 	PHALCON_OBS_VAR(stream);
-	phalcon_read_property(&stream, this_ptr, SL("_stream"), PH_NOISY_CC);
+	phalcon_read_property_this(&stream, this_ptr, SL("_stream"), PH_NOISY_CC);
 	if (!zend_is_true(stream)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid");
 		return;
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, close){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(stream);
-	phalcon_read_property(&stream, this_ptr, SL("_stream"), PH_NOISY_CC);
+	phalcon_read_property_this(&stream, this_ptr, SL("_stream"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_FUNC_PARAMS_1(success, "fclose", stream);

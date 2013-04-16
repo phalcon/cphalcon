@@ -124,11 +124,11 @@ class Build_Generator
 		$this->_createHeader($path);
 
 		foreach ($this->_kernelHeaders as $source) {
-			$this->_appendSource($path.$source);
+			$this->_appendSource($path . $source);
 		}
 
 		foreach ($this->_kernelSources as $source) {
-			$this->_appendSource($path.$source);
+			$this->_appendSource($path . $source);
 		}
 
 		/** C-files are scanned looking for headers */
@@ -136,15 +136,49 @@ class Build_Generator
 
 		/** Found headers are included at the beginning of the file */
 		foreach ($this->_headers as $source => $one) {
-			if(!in_array($source, $this->_kernelHeaders)){
-				$this->_appendSource($path.$source);
+			if (!in_array($source, $this->_kernelHeaders)) {
+				$this->_appendSource($path . $source);
 			}
 		}
 
 		/** Scan all c-files again and append it to phalcon.c */
 		$this->_recursiveAction($path, array($this, '_appendSource'));
 
-		$this->_appendSource($path."phalcon.c");
+		$this->_appendSource($path . "phalcon.c");
+
+		$clines = '';
+		$types = array('phalcon', 'phannot', 'phvolt', 'phql');
+		foreach (file($this->_destination . 'phalcon.c') as $line) {
+
+			foreach ($types as $type) {
+
+				if (preg_match('/^int ' . $type . '_/i', $line)) {
+					$line = 'static ' . $line;
+				}
+
+				if (preg_match('/^void ' . $type . '_/i', $line)) {
+					$line = 'static ' . $line;
+				}
+
+			}
+
+			if (preg_match('/PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
+				$line = str_replace($matches[0], 'static PHP_METHOD('.$matches[1].', '.$matches[2].')', $line);
+			}
+
+			$clines .= $line;
+		}
+
+		file_put_contents($this->_destination . 'phalcon.c', $clines);
+
+		$hlines = '';
+		foreach (file($this->_destination . 'phalcon.h') as $line) {
+			if (preg_match('/PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
+				$line = str_replace($matches[0], 'static PHP_METHOD('.$matches[1].', '.$matches[2].')', $line);
+			}
+			$hlines .= $line;
+		}
+		file_put_contents($this->_destination . 'phalcon.h', $hlines);
 	}
 
 	/**
@@ -152,15 +186,15 @@ class Build_Generator
 	 */
 	private function _createHeader($path)
 	{
-		$fp = fopen($this->_destination.'phalcon.h', 'w');
+		$fp = fopen($this->_destination . 'phalcon.h', 'w');
 		//echo $path.'phalcon.h', PHP_EOL;
-		foreach (file($path.'phalcon.h') as $line) {
+		foreach (file($path . 'phalcon.h') as $line) {
 			if (preg_match('/^#include "(.*)"/', $line, $matches)) {
 				$openComment = false;
 				//echo $path.$matches[1], PHP_EOL;
-				foreach(file($path.$matches[1]) as $hline){
+				foreach (file($path . $matches[1]) as $hline) {
 					$trimLine = trim($hline);
-					if ($trimLine=='/*'||$trimLine=='/**') {
+					if ($trimLine == '/*' || $trimLine == '/**') {
 						$openComment = true;
 					}
 					if ($openComment===false) {
@@ -453,4 +487,3 @@ $build = new Build_Generator();
 $build->generate('ext/', 'build/safe/', false);
 echo 'OK', PHP_EOL;
 
-//echo chr(97);

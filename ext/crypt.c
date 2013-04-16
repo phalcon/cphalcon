@@ -174,14 +174,14 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	
 	if (Z_TYPE_P(key) == IS_NULL) {
 		PHALCON_OBS_NVAR(key);
-		phalcon_read_property(&key, this_ptr, SL("_key"), PH_NOISY_CC);
+		phalcon_read_property_this(&key, this_ptr, SL("_key"), PH_NOISY_CC);
 	}
 	
 	PHALCON_OBS_VAR(cipher);
-	phalcon_read_property(&cipher, this_ptr, SL("_cipher"), PH_NOISY_CC);
+	phalcon_read_property_this(&cipher, this_ptr, SL("_cipher"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(mode);
-	phalcon_read_property(&mode, this_ptr, SL("_mode"), PH_NOISY_CC);
+	phalcon_read_property_this(&mode, this_ptr, SL("_mode"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(iv_size);
 	PHALCON_CALL_FUNC_PARAMS_2(iv_size, "mcrypt_get_iv_size", cipher, mode);
@@ -245,14 +245,14 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	
 	if (Z_TYPE_P(key) == IS_NULL) {
 		PHALCON_OBS_NVAR(key);
-		phalcon_read_property(&key, this_ptr, SL("_key"), PH_NOISY_CC);
+		phalcon_read_property_this(&key, this_ptr, SL("_key"), PH_NOISY_CC);
 	}
 	
 	PHALCON_OBS_VAR(cipher);
-	phalcon_read_property(&cipher, this_ptr, SL("_cipher"), PH_NOISY_CC);
+	phalcon_read_property_this(&cipher, this_ptr, SL("_cipher"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(mode);
-	phalcon_read_property(&mode, this_ptr, SL("_mode"), PH_NOISY_CC);
+	phalcon_read_property_this(&mode, this_ptr, SL("_mode"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(iv_size);
 	PHALCON_CALL_FUNC_PARAMS_2(iv_size, "mcrypt_get_iv_size", cipher, mode);

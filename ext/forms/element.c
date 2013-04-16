@@ -57,6 +57,8 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element){
 	zend_declare_property_null(phalcon_forms_element_ce, SL("_label"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_element_ce, SL("_attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_element_ce, SL("_validators"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -152,6 +154,35 @@ PHP_METHOD(Phalcon_Forms_Element, getName){
 }
 
 /**
+ * Sets the element's filters
+ *
+ * @param array|string $filters
+ * @return Phalcon\Forms\ElementInterface
+ */
+PHP_METHOD(Phalcon_Forms_Element, setFilters){
+
+	zval *filters;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &filters) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_filters"), filters TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the element's filters
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Forms_Element, getFilters){
+
+
+	RETURN_MEMBER(this_ptr, "_filters");
+}
+
+/**
  * Adds a group of validators
  *
  * @param Phalcon\Validation\ValidatorInterface[]
@@ -180,7 +211,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators){
 	if (zend_is_true(merge)) {
 	
 		PHALCON_OBS_VAR(current_validators);
-		phalcon_read_property(&current_validators, this_ptr, SL("_validators"), PH_NOISY_CC);
+		phalcon_read_property_this(&current_validators, this_ptr, SL("_validators"), PH_NOISY_CC);
 		if (Z_TYPE_P(current_validators) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(merged_validators);
 			PHALCON_CALL_FUNC_PARAMS_2(merged_validators, "array_merge", current_validators, validators);
@@ -242,7 +273,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 
 	zval *attributes = NULL, *name, *widget_attributes = NULL;
 	zval *default_attributes, *merged_attributes = NULL;
-	zval *value = NULL, *form, *has_default_value;
+	zval *value;
 
 	PHALCON_MM_GROW();
 
@@ -255,7 +286,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	}
 	
 	PHALCON_OBS_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
 	/** 
 	 * Create an array of parameters
@@ -273,7 +304,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	 * Merge passed parameters with default ones
 	 */
 	PHALCON_OBS_VAR(default_attributes);
-	phalcon_read_property(&default_attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
+	phalcon_read_property_this(&default_attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if (Z_TYPE_P(default_attributes) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(merged_attributes);
 		PHALCON_CALL_FUNC_PARAMS_2(merged_attributes, "array_merge", widget_attributes, default_attributes);
@@ -281,40 +312,19 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 		PHALCON_CPY_WRT(merged_attributes, widget_attributes);
 	}
 	
+	/** 
+	 * Get the current element's value
+	 */
 	PHALCON_INIT_VAR(value);
-	
-	/** 
-	 * Get the related form
-	 */
-	PHALCON_OBS_VAR(form);
-	phalcon_read_property(&form, this_ptr, SL("_form"), PH_NOISY_CC);
-	if (Z_TYPE_P(form) == IS_OBJECT) {
-	
-		/** 
-		 * Check if the tag has a default value
-		 */
-		PHALCON_INIT_VAR(has_default_value);
-		PHALCON_CALL_STATIC_PARAMS_1(has_default_value, "phalcon\\tag", "hasvalue", name);
-		if (!zend_is_true(has_default_value)) {
-			/** 
-			 * Gets the possible value for the widget
-			 */
-			PHALCON_CALL_METHOD_PARAMS_1(value, form, "getvalue", name);
-		}
-	}
-	
-	/** 
-	 * Assign the default value if there is no form available
-	 */
-	if (Z_TYPE_P(value) == IS_NULL) {
-		PHALCON_OBS_NVAR(value);
-		phalcon_read_property(&value, this_ptr, SL("_value"), PH_NOISY_CC);
-	}
+	PHALCON_CALL_METHOD(value, this_ptr, "getvalue");
 	
 	/** 
 	 * If the widget has a value assign it to the attributes
 	 */
-	phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	if (Z_TYPE_P(value) != IS_NULL) {
+		phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	}
+	
 	
 	RETURN_CCTOR(merged_attributes);
 }
@@ -339,6 +349,40 @@ PHP_METHOD(Phalcon_Forms_Element, setAttribute){
 }
 
 /**
+ * Returns the value of an attribute if present
+ *
+ * @param string $attribute
+ * @param mixed $defaultValue
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Forms_Element, getAttribute){
+
+	zval *attribute, *default_value = NULL, *attributes;
+	zval *value;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &attribute, &default_value) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!default_value) {
+		PHALCON_INIT_VAR(default_value);
+	}
+	
+	PHALCON_OBS_VAR(attributes);
+	phalcon_read_property_this(&attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
+	if (phalcon_array_isset(attributes, attribute)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, attributes, attribute, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
+	
+	
+	RETURN_CCTOR(default_value);
+}
+
+/**
  * Sets default attributes for the element
  *
  * @param array $attributes
@@ -348,12 +392,19 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes){
 
 	zval *attributes;
 
+	PHALCON_MM_GROW();
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attributes) == FAILURE) {
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
+	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array");
+		return;
+	}
 	phalcon_update_property_zval(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
-	RETURN_THISW();
+	
+	RETURN_THIS();
 }
 
 /**
@@ -365,6 +416,94 @@ PHP_METHOD(Phalcon_Forms_Element, getAttributes){
 
 
 	RETURN_MEMBER(this_ptr, "_attributes");
+}
+
+/**
+ * Sets an option for the element
+ *
+ * @param string $option
+ * @param mixed $value
+ * @return Phalcon\Forms\ElementInterface
+ */
+PHP_METHOD(Phalcon_Forms_Element, setOption){
+
+	zval *option, *value;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &option, &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_array(this_ptr, SL("_attributes"), option, value TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the value of an option if present
+ *
+ * @param string $option
+ * @param mixed $defaultValue
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Forms_Element, getOption){
+
+	zval *option, *default_value = NULL, *options, *value;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &option, &default_value) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!default_value) {
+		PHALCON_INIT_VAR(default_value);
+	}
+	
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (phalcon_array_isset(options, option)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, options, option, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
+	
+	
+	RETURN_CCTOR(default_value);
+}
+
+/**
+ * Sets options for the element
+ *
+ * @param array $options
+ * @return Phalcon\Forms\ElementInterface
+ */
+PHP_METHOD(Phalcon_Forms_Element, setOptions){
+
+	zval *options;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Returns the options for the element
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Forms_Element, getOptions){
+
+
+	RETURN_MEMBER(this_ptr, "_options");
 }
 
 /**
@@ -424,6 +563,54 @@ PHP_METHOD(Phalcon_Forms_Element, getDefault){
 
 
 	RETURN_MEMBER(this_ptr, "_value");
+}
+
+/**
+ * Returns the element's value
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Forms_Element, getValue){
+
+	zval *name, *value = NULL, *form, *has_default_value;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(name);
+	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(value);
+	
+	/** 
+	 * Get the related form
+	 */
+	PHALCON_OBS_VAR(form);
+	phalcon_read_property_this(&form, this_ptr, SL("_form"), PH_NOISY_CC);
+	if (Z_TYPE_P(form) == IS_OBJECT) {
+	
+		/** 
+		 * Check if the tag has a default value
+		 */
+		PHALCON_INIT_VAR(has_default_value);
+		PHALCON_CALL_STATIC_PARAMS_1(has_default_value, "phalcon\\tag", "hasvalue", name);
+		if (!zend_is_true(has_default_value)) {
+			/** 
+			 * Gets the possible value for the widget
+			 */
+			PHALCON_CALL_METHOD_PARAMS_1(value, form, "getvalue", name);
+		}
+	}
+	
+	/** 
+	 * Assign the default value if there is no form available
+	 */
+	if (Z_TYPE_P(value) == IS_NULL) {
+		PHALCON_OBS_NVAR(value);
+		phalcon_read_property_this(&value, this_ptr, SL("_value"), PH_NOISY_CC);
+	}
+	
+	
+	RETURN_CCTOR(value);
 }
 
 /**

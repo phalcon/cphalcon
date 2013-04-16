@@ -32,12 +32,28 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/array.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 
 /**
  * Phalcon\Mvc\Micro\Collection
  *
  * Groups handlers as controllers
+ *
+ *<code>
+ *
+ * $app = new Phalcon\Mvc\Micro();
+ * $collection = new Phalcon\Mvc\Micro\Collection();
+ *
+ * $collection->setHandler(new PostsController());
+ *
+ * $collection->get('/posts/edit/{id}', 'edit');
+ *
+ * $app->mount($collection);
+ *
+ *</code>
+ *
  */
 
 
@@ -48,6 +64,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Collection){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Micro, Collection, mvc_micro_collection, phalcon_mvc_micro_collection_method_entry, 0);
 
+	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_handler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
@@ -55,8 +72,85 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Collection){
 
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap){
 
+	zval *method, *route_pattern, *handler, *handler_definition;
 
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &method, &route_pattern, &handler) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(handler_definition);
+	array_init_size(handler_definition, 3);
+	phalcon_array_append(&handler_definition, method, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&handler_definition, route_pattern, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&handler_definition, handler, PH_SEPARATE TSRMLS_CC);
+	phalcon_update_property_array_append(this_ptr, SL("_handlers"), handler_definition TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the registered handlers
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers){
+
+
+	RETURN_MEMBER(this_ptr, "_handlers");
+}
+
+/**
+ * Sets the main handler
+ *
+ * @param mixed $handler
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler){
+
+	zval *handler;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &handler) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_handler"), handler TSRMLS_CC);
+	
+}
+
+/**
+ * Returns the main handler
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler){
+
+
+	RETURN_MEMBER(this_ptr, "_handler");
+}
+
+/**
+ * Maps a route to a handler
+ *
+ * @param string $routePattern
+ * @param callable $handler
+ * @return Phalcon\Mvc\Router\RouteInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, map){
+
+	zval *route_pattern, *handler, *method, *route;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(method);
+	
+	PHALCON_INIT_VAR(route);
+	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
+	RETURN_CCTOR(route);
 }
 
 /**

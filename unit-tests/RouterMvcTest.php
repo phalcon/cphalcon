@@ -178,7 +178,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			'file' => 2
 		));
 
-		$router->add('/named-manual/{language:[a-z]{2}}/{file:[a-z\.]+}\.html', array(
+		$router->add('/named-manual/{language:([a-z]{2})}/{file:[a-z\.]+}\.html', array(
 			'controller' => 'manual',
 			'action' => 'show',
 		));
@@ -449,6 +449,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	public function testGroups()
 	{
+		Phalcon\Mvc\Router\Route::reset();
 
 		$router = new Phalcon\Mvc\Router(false);
 
@@ -503,6 +504,8 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	public function testShortPaths()
 	{
+		Phalcon\Mvc\Router\Route::reset();
+
 		$router = new Phalcon\Mvc\Router(false);
 
 		$route = $router->add("/route0", "Feed");
@@ -553,6 +556,8 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	public function testNotFoundPaths()
 	{
+		Phalcon\Mvc\Router\Route::reset();
+
 		$router = new Phalcon\Mvc\Router(false);
 
 		$router->add('/static/route');
@@ -575,6 +580,8 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	public function testUriSource()
 	{
+		Phalcon\Mvc\Router\Route::reset();
+
 		$_GET['_url'] = '/some/route';
 
 		$router = new Phalcon\Mvc\Router(false);
@@ -598,6 +605,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	public function testBeforeMatch()
 	{
+		Phalcon\Mvc\Router\Route::reset();
 
 		$trace = 0;
 
@@ -627,6 +635,115 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($router->wasMatched());
 
 		$this->assertEquals($trace, 2);
+	}
+
+	public function testHostnameRouter()
+	{
+		Phalcon\Mvc\Router\Route::reset();
+
+		$di = new Phalcon\DI();
+
+		$di->set('request', function(){
+			return new Phalcon\Http\Request();
+		});
+
+		$router = new Phalcon\Mvc\Router(false);
+
+		$router->setDI($di);
+
+		$router->add('/edit', array(
+			'controller' => 'posts3',
+			'action' => 'edit3'
+		));
+
+		$router->add('/edit', array(
+			'controller' => 'posts',
+			'action' => 'edit'
+		))->setHostname('my.phalconphp.com');
+
+		$router->add('/edit', array(
+			'controller' => 'posts2',
+			'action' => 'edit2'
+		))->setHostname('my2.phalconphp.com');
+
+		$routes = array(
+			array(
+				'hostname' => 'localhost',
+				'controller' => 'posts3'
+			),
+			array(
+				'hostname' => 'my.phalconphp.com',
+				'controller' => 'posts'
+			),
+			array(
+				'hostname' => null,
+				'controller' => 'posts3'
+			),
+			array(
+				'hostname' => 'my2.phalconphp.com',
+				'controller' => 'posts2'
+			),
+		);
+
+		foreach ($routes as $route) {
+			$_SERVER['HTTP_HOST'] = $route['hostname'];
+			$router->handle('/edit');
+			$this->assertEquals($router->getControllerName(), $route['controller']);
+		}
+
+	}
+
+	public function testHostnameRouteGroup()
+	{
+
+		Phalcon\Mvc\Router\Route::reset();
+
+		$di = new Phalcon\DI();
+
+		$di->set('request', function(){
+			return new Phalcon\Http\Request();
+		});
+
+		$router = new Phalcon\Mvc\Router(false);
+
+		$router->setDI($di);
+
+		$router->add('/edit', array(
+			'controller' => 'posts3',
+			'action' => 'edit3'
+		));
+
+		$group = new Phalcon\Mvc\Router\Group();
+
+		$group->setHostname('my.phalconphp.com');
+
+		$group->add('/edit', array(
+			'controller' => 'posts',
+			'action' => 'edit'
+		));
+
+		$router->mount($group);
+
+		$routes = array(
+			array(
+				'hostname' => 'localhost',
+				'controller' => 'posts3'
+			),
+			array(
+				'hostname' => 'my.phalconphp.com',
+				'controller' => 'posts'
+			),
+			array(
+				'hostname' => null,
+				'controller' => 'posts3'
+			)
+		);
+
+		foreach ($routes as $route) {
+			$_SERVER['HTTP_HOST'] = $route['hostname'];
+			$router->handle('/edit');
+			$this->assertEquals($router->getControllerName(), $route['controller']);
+		}
 	}
 
 }
