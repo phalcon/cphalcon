@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -3070,8 +3069,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		}
 	}
 	
-	PHALCON_INIT_VAR(real_template_path);
-	phalcon_realpath(real_template_path, template_path TSRMLS_CC);
+	//PHALCON_INIT_VAR(real_template_path);
+	//phalcon_realpath(real_template_path, template_path TSRMLS_CC);
+	
+	PHALCON_CPY_WRT(real_template_path, template_path);	
+	
 	if (Z_TYPE_P(compiled_path) != IS_NULL) {
 		/** 
 		 * Create the virtual path replacing the directory separator by the compiled
