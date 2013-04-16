@@ -4919,6 +4919,7 @@ static int phalcon_read_property(zval **result, zval *object, char *property_nam
 static int phalcon_read_property_this(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 
 	zend_class_entry *ce, *old_scope;
+	zval *property;
 
 	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 
@@ -4959,8 +4960,6 @@ static int phalcon_read_property_this(zval **result, zval *object, char *propert
 
 		#else
 
-		zval *property;
-
 		MAKE_STD_ZVAL(property);
 		ZVAL_STRINGL(property, property_name, property_length, 0);
 
@@ -4991,6 +4990,7 @@ static int phalcon_read_property_this(zval **result, zval *object, char *propert
 static int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	zval *result;
+	zval *property;
 	zend_class_entry *ce, *old_scope;
 
 	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
@@ -5035,8 +5035,6 @@ static int phalcon_return_property(zval *return_value, zval *object, char *prope
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be read", property_name, ce->name);
 			return FAILURE;
 		}
-
-		zval *property;
 
 		MAKE_STD_ZVAL(property);
 		ZVAL_STRINGL(property, property_name, property_length, 0);
@@ -9454,7 +9452,7 @@ static void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC) {
 		RETURN_FALSE;
 	}
 
-	if (VCWD_REALPATH(filename, resolved_path_buff)) {
+	if (VCWD_REALPATH(Z_STRVAL_P(filename), resolved_path_buff)) {
 		RETURN_STRING(resolved_path_buff, 1);
 	}
 

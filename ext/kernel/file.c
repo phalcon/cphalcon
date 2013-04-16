@@ -180,7 +180,7 @@ void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC) {
 		RETURN_FALSE;
 	}
 
-	if (VCWD_REALPATH(filename, resolved_path_buff)) {
+	if (VCWD_REALPATH(Z_STRVAL_P(filename), resolved_path_buff)) {
 		RETURN_STRING(resolved_path_buff, 1);
 	}
 
