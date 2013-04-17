@@ -60,4 +60,7 @@ extern void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSR
 extern int phalcon_spprintf(char **message, int max_len, char *format, ...);
 
 /* Substr */
-void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length TSRMLS_DC);
+extern void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length TSRMLS_DC);
+
+/* PHP_EOL */
+extern zval phalcon_eol(int eol);

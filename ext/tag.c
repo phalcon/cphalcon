@@ -398,34 +398,32 @@ PHP_METHOD(Phalcon_Tag, getValue){
 	phalcon_read_static_property(&autoescape, SL("phalcon\\tag"), SL("_autoEscape") TSRMLS_CC);
 	
 	/** 
-	 * Escape all values in autoescape mode. Only escaping values
+	 * Escape all values in autoescape mode
 	 */
-	if (Z_TYPE_P(value) == IS_STRING) {
-		if (zend_is_true(autoescape)) {
-			PHALCON_INIT_VAR(escaper);
-			PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
+	if (zend_is_true(autoescape)) {
+		PHALCON_INIT_VAR(escaper);
+		PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
 	
-			PHALCON_INIT_VAR(escaped_value);
-			PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
-			RETURN_CCTOR(escaped_value);
-		} else {
-			if (Z_TYPE_P(params) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(escaped_value);
+		PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
+		RETURN_CCTOR(escaped_value);
+	} else {
+		if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-				/** 
-				 * A escape parameter is set?
-				 */
-				if (phalcon_array_isset_string(params, SS("escape"))) {
+			/** 
+			 * A escape parameter is set?
+			 */
+			if (phalcon_array_isset_string(params, SS("escape"))) {
 	
-					PHALCON_OBS_NVAR(autoescape);
-					phalcon_array_fetch_string(&autoescape, params, SL("escape"), PH_NOISY_CC);
-					if (zend_is_true(autoescape)) {
-						PHALCON_INIT_NVAR(escaper);
-						PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
+				PHALCON_OBS_NVAR(autoescape);
+				phalcon_array_fetch_string(&autoescape, params, SL("escape"), PH_NOISY_CC);
+				if (zend_is_true(autoescape)) {
+					PHALCON_INIT_NVAR(escaper);
+					PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
 	
-						PHALCON_INIT_NVAR(escaped_value);
-						PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
-						RETURN_CCTOR(escaped_value);
-					}
+					PHALCON_INIT_NVAR(escaped_value);
+					PHALCON_CALL_METHOD_PARAMS_1(escaped_value, escaper, "escapehtmlattr", value);
+					RETURN_CCTOR(escaped_value);
 				}
 			}
 		}
@@ -788,7 +786,7 @@ PHP_METHOD(Phalcon_Tag, fileField){
  * Builds a HTML input[type="check"] tag
  *
  *<code>
- * echo Phalcon\Tag::checkField(array("name"))
+ * echo Phalcon\Tag::checkField(array("name", "size" => 30))
  *</code>
  *
  * @param array $parameters
@@ -816,7 +814,7 @@ PHP_METHOD(Phalcon_Tag, checkField){
  * Builds a HTML input[type="radio"] tag
  *
  *<code>
- * echo Phalcon\Tag::radioField(array("name"))
+ * echo Phalcon\Tag::radioField(array("name", "size" => 30))
  *</code>
  *
  * @param array $parameters
@@ -946,7 +944,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
  * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
  *
  *<code>
- *	echo Phalcon\Tag::select(array(
+ *	echo Phalcon\Tag::selectStatic(array(
  *		"robotId",
  *		Robots::find("type = 'mechanical'"),
  *		"using" => array("id", "name")
@@ -1284,7 +1282,6 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
 PHP_METHOD(Phalcon_Tag, getTitle){
 
 	zval *tags = NULL, *document_title, *eol = NULL, *title_html;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1300,9 +1297,7 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 	PHALCON_OBS_VAR(document_title);
 	phalcon_read_static_property(&document_title, SL("phalcon\\tag"), SL("_documentTitle") TSRMLS_CC);
 	if (PHALCON_IS_TRUE(tags)) {
-		PHALCON_INIT_VAR(t0);
-		ZVAL_STRING(t0, PHP_EOL, 1);
-		PHALCON_CPY_WRT(eol, t0);
+		eol = phalcon_eol(1);
 	
 		PHALCON_INIT_VAR(title_html);
 		PHALCON_CONCAT_SVSV(title_html, "<title>", document_title, "</title>", eol);
@@ -1330,7 +1325,6 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
 	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *five;
 	zval *doctype, *eol = NULL, *is_xhtml;
-	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1424,9 +1418,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	PHALCON_OBS_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, PHP_EOL, 1);
-	PHALCON_CPY_WRT(eol, t0);
+	eol = phalcon_eol(1);
 	
 	/** 
 	 * Check if Doctype is XHTML
@@ -1465,7 +1457,6 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
 	zval *url, *params_src, *src, *eol = NULL, *code, *value = NULL, *key = NULL;
-	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1536,10 +1527,8 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		PHALCON_CALL_METHOD_PARAMS_1(src, url, "get", params_src);
 		phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, PHP_EOL, 1);
-	PHALCON_CPY_WRT(eol, t0);
+
+	eol = phalcon_eol(1);
 	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<script", 1);
@@ -1732,8 +1721,7 @@ PHP_METHOD(Phalcon_Tag, getDocType){
 	PHALCON_OBSERVE_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 
-	PHALCON_INIT_VAR(eol);
-	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
+	eol = phalcon_eol(1);
 
 	PHALCON_INIT_VAR(declaration);
 	if (phalcon_compare_strict_long(doctype, 1 TSRMLS_CC)) {
@@ -1781,3 +1769,152 @@ PHP_METHOD(Phalcon_Tag, getDocType){
 	RETURN_CTOR(doctype_html);
 }
 
+/**
+ * Builds a HTML tag
+ *
+ *<code>
+ * echo Phalcon\Tag::tagHtml($name, $parameters, $selfClose, $onlyStart, $eol))
+ *</code>
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, tagHtml){
+
+	zval *tag_name, *tag_parameters = NULL, *tag_self_close = NULL;
+	zval *tag_only_start = NULL, *tag_eol = NULL;
+
+	zval *local_params = NULL, *local_id = NULL, *local_content = NULL;
+	zval *local_name = NULL, *local_eol = NULL;
+	zval *local_code, *local_array_value, *local_array_key;
+	zval *local_doctype, *local_five, *local_is_xhtml;
+	HashTable *local_hash_table;
+	HashPosition local_hash_position;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+    // Check if the tag_name has been passed. If not, exit
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzzz", &tag_name, &tag_parameters, &tag_self_close, &tag_only_start, &tag_eol) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	// Initialize parameters
+	if (!tag_parameters) {
+		PHALCON_INIT_VAR(tag_parameters);
+	}
+
+	if (!tag_self_close) {
+		PHALCON_INIT_VAR(tag_self_close);
+		ZVAL_BOOL(tag_self_close, 1);
+	}
+
+	if (!tag_only_start) {
+		PHALCON_INIT_VAR(tag_only_start);
+		ZVAL_BOOL(tag_only_start, 1);
+	}
+
+	if (!tag_eol) {
+		PHALCON_INIT_VAR(tag_eol);
+		ZVAL_BOOL(tag_eol, 0);
+	}
+
+    // Now check the tag_parameters. If it is an array, we will parse it
+    // The 'id', 'name', 'value' require special attention
+	if (Z_TYPE_P(tag_parameters) != IS_ARRAY) {
+		PHALCON_INIT_VAR(local_params);
+		array_init_size(local_params, 1);
+		phalcon_array_append(&local_params, tag_parameters, PH_SEPARATE TSRMLS_CC);
+	} else {
+		PHALCON_CPY_WRT(local_params, tag_parameters);
+	}
+	if (!phalcon_array_isset_long(local_params, 0)) {
+		if (phalcon_array_isset_string(local_params, SS("id"))) {
+			PHALCON_OBS_VAR(local_id);
+			phalcon_array_fetch_string(&local_id, local_params, SL("id"), PH_NOISY_CC);
+			phalcon_array_update_long(&local_params, 0, &local_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	}
+
+	PHALCON_OBS_NVAR(local_id);
+	phalcon_array_fetch_long(&local_id, local_params, 0, PH_NOISY_CC);
+	if (!phalcon_array_isset_string(local_params, SS("name"))) {
+		phalcon_array_update_string(&local_params, SL("name"), &local_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	} else {
+		PHALCON_OBS_VAR(local_name);
+		phalcon_array_fetch_string(&local_name, local_params, SL("name"), PH_NOISY_CC);
+		if (!zend_is_true(local_name)) {
+			phalcon_array_update_string(&local_params, SL("name"), &local_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	}
+
+	if (!phalcon_array_isset_string(local_params, SS("id"))) {
+		phalcon_array_update_string(&local_params, SL("id"), &local_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	}
+
+	if (phalcon_array_isset_string(local_params, SS("value"))) {
+		PHALCON_OBS_VAR(local_content);
+		phalcon_array_fetch_string(&local_content, local_params, SL("value"), PH_NOISY_CC);
+		phalcon_array_unset_string(&local_params, SS("value"), PH_SEPARATE);
+	} else {
+		PHALCON_INIT_NVAR(local_content);
+		PHALCON_CALL_SELF_PARAMS_2(local_content, this_ptr, "getvalue", local_id, local_params);
+	}
+
+	PHALCON_INIT_VAR(local_code);
+	ZVAL_STRING(local_code, "<", 1);
+    PHALCON_SCONCAT_S(local_code, tag_name);
+
+	if (!phalcon_is_iterable(local_params, &local_hash_table, &local_hash_position, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+
+	while (zend_hash_get_current_data_ex(local_hash_table, (void**) &hd, &local_hash_position) == SUCCESS) {
+
+		PHALCON_GET_FOREACH_KEY(local_array_key, local_hash_table, local_hash_position);
+		PHALCON_GET_FOREACH_VALUE(local_array_value);
+
+		if (Z_TYPE_P(local_array_key) != IS_LONG) {
+			PHALCON_SCONCAT_SVSVS(local_code, " ", local_array_key, "=\"", local_array_value, "\"");
+		}
+
+		zend_hash_move_forward_ex(local_hash_table, &local_hash_position);
+	}
+
+	PHALCON_OBS_VAR(local_doctype);
+	phalcon_read_static_property(&local_doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
+
+    PHALCON_INIT_VAR(local_five);
+	ZVAL_LONG(local_five, 5);
+
+    // Check if Doctype is XHTML
+	PHALCON_INIT_VAR(local_is_xhtml);
+	is_smaller_function(local_is_xhtml, local_five, local_doctype TSRMLS_CC);
+
+    // Not a self close tag - we need the closing tag
+    if (zend_is_true(tag_self_close)) {
+
+        if (zend_is_true(local_is_xhtml)) {
+            PHALCON_SCONCAT_S(local_code, " />");
+        } else {
+            PHALCON_SCONCAT_S(local_code, ">");
+        }
+
+    } else {
+
+        PHALCON_SCONCAT_SV(local_code, ">", local_content);
+
+        if (zend_is_false(tag_only_start)) {
+
+            PHALCON_SCONCAT_SVS(local_code, "</", tag_name, ">")
+
+        }
+
+    }
+
+    local_eol = phalcon_eol(tag_eol);
+
+    PHALCON_SCONCAT_S(local_code, local_eol);
+
+	RETURN_CTOR(local_code);
+}
