@@ -4831,4 +4831,83 @@ class UnitTest extends PhTestUnitTestCase
             )
         );
     }
+
+
+    /**
+     * Tests the tagHtml with name parameter
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlName()
+    {
+        $name     = 'aside';
+        $expected = '<aside></aside>';
+        $actual   = PhTag::tagHtml($name);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+
+    /**
+     * Tests the tagHtml with name parameter and self close
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlNameSelfClose()
+    {
+        $name     = 'img';
+        $expected = '<img />';
+        $actual   = PhTag::tagHtml($name, null, true);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+//&tag_parameters, &tag_self_close, &tag_only_start, &tag_eol) == FAILURE) {
+
+    /**
+     * Tests the tagHtml with name parameter and only start
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlNameOnlyStart()
+    {
+        $name     = 'aside';
+        $expected = '<aside>';
+        $actual   = PhTag::tagHtml($name, null, null, true);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+
+    /**
+     * Tests the tagHtml with name parameter
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlNameEol()
+    {
+        $name     = 'aside';
+        $expected = '<aside></aside>' . PHP_EOL;
+        $actual   = PhTag::tagHtml($name, null, null, null, true);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+
 }
