@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Forms_Element, getAttributes){
  * @param mixed $value
  * @return Phalcon\Forms\ElementInterface
  */
-PHP_METHOD(Phalcon_Forms_Element, setOption){
+PHP_METHOD(Phalcon_Forms_Element, setUserOption){
 
 	zval *option, *value;
 
@@ -445,7 +445,7 @@ PHP_METHOD(Phalcon_Forms_Element, setOption){
  * @param mixed $defaultValue
  * @return mixed
  */
-PHP_METHOD(Phalcon_Forms_Element, getOption){
+PHP_METHOD(Phalcon_Forms_Element, getUserOption){
 
 	zval *option, *default_value = NULL, *options, *value;
 
@@ -477,7 +477,7 @@ PHP_METHOD(Phalcon_Forms_Element, getOption){
  * @param array $options
  * @return Phalcon\Forms\ElementInterface
  */
-PHP_METHOD(Phalcon_Forms_Element, setOptions){
+PHP_METHOD(Phalcon_Forms_Element, setUserOptions){
 
 	zval *options;
 
@@ -501,7 +501,7 @@ PHP_METHOD(Phalcon_Forms_Element, setOptions){
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Forms_Element, getOptions){
+PHP_METHOD(Phalcon_Forms_Element, getUserOptions){
 
 
 	RETURN_MEMBER(this_ptr, "_options");

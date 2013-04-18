@@ -36,10 +36,10 @@ PHP_METHOD(Phalcon_Forms_Element, setAttribute);
 PHP_METHOD(Phalcon_Forms_Element, getAttribute);
 PHP_METHOD(Phalcon_Forms_Element, setAttributes);
 PHP_METHOD(Phalcon_Forms_Element, getAttributes);
-PHP_METHOD(Phalcon_Forms_Element, setOption);
-PHP_METHOD(Phalcon_Forms_Element, getOption);
-PHP_METHOD(Phalcon_Forms_Element, setOptions);
-PHP_METHOD(Phalcon_Forms_Element, getOptions);
+PHP_METHOD(Phalcon_Forms_Element, setUserOption);
+PHP_METHOD(Phalcon_Forms_Element, getUserOption);
+PHP_METHOD(Phalcon_Forms_Element, setUserOptions);
+PHP_METHOD(Phalcon_Forms_Element, getUserOptions);
 PHP_METHOD(Phalcon_Forms_Element, setLabel);
 PHP_METHOD(Phalcon_Forms_Element, getLabel);
 PHP_METHOD(Phalcon_Forms_Element, label);
@@ -92,17 +92,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setattributes, 0, 0, 1)
 	ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setoption, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setuseroption, 0, 0, 2)
 	ZEND_ARG_INFO(0, option)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_getoption, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_getuseroption, 0, 0, 1)
 	ZEND_ARG_INFO(0, option)
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setoptions, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setuseroptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
@@ -130,10 +130,10 @@ PHALCON_INIT_FUNCS(phalcon_forms_element_method_entry){
 	PHP_ME(Phalcon_Forms_Element, getAttribute, arginfo_phalcon_forms_element_getattribute, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, setAttributes, arginfo_phalcon_forms_element_setattributes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, getAttributes, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Forms_Element, setOption, arginfo_phalcon_forms_element_setoption, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Forms_Element, getOption, arginfo_phalcon_forms_element_getoption, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Forms_Element, setOptions, arginfo_phalcon_forms_element_setoptions, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Forms_Element, getOptions, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, setUserOption, arginfo_phalcon_forms_element_setuseroption, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, getUserOption, arginfo_phalcon_forms_element_getuseroption, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, setUserOptions, arginfo_phalcon_forms_element_setuseroptions, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, getUserOptions, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, setLabel, arginfo_phalcon_forms_element_setlabel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, getLabel, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, label, NULL, ZEND_ACC_PUBLIC) 
