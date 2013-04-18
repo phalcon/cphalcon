@@ -37,6 +37,7 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified);
 PHP_METHOD(Phalcon_Http_Response, setContentType);
 PHP_METHOD(Phalcon_Http_Response, redirect);
 PHP_METHOD(Phalcon_Http_Response, setContent);
+PHP_METHOD(Phalcon_Http_Response, setJsonContent);
 PHP_METHOD(Phalcon_Http_Response, appendContent);
 PHP_METHOD(Phalcon_Http_Response, getContent);
 PHP_METHOD(Phalcon_Http_Response, isSent);
@@ -94,6 +95,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setcontent, 0, 0, 1)
 	ZEND_ARG_INFO(0, content)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setjsoncontent, 0, 0, 1)
+	ZEND_ARG_INFO(0, content)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_appendcontent, 0, 0, 1)
 	ZEND_ARG_INFO(0, content)
 ZEND_END_ARG_INFO()
@@ -115,6 +120,7 @@ PHALCON_INIT_FUNCS(phalcon_http_response_method_entry){
 	PHP_ME(Phalcon_Http_Response, setContentType, arginfo_phalcon_http_response_setcontenttype, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, redirect, arginfo_phalcon_http_response_redirect, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, setContent, arginfo_phalcon_http_response_setcontent, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Response, setJsonContent, arginfo_phalcon_http_response_setjsoncontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, appendContent, arginfo_phalcon_http_response_appendcontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, getContent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, isSent, NULL, ZEND_ACC_PUBLIC) 

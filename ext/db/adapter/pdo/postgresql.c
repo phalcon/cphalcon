@@ -319,6 +319,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 }
 
 /**
+ * Check whether the database system requires an explicit value for identity columns
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, useExplicitIdValue){
+
+
+	RETURN_TRUE;
+}
+
+/**
  * Return the default identity value to insert in an identity column
  *
  * @return Phalcon\Db\RawValue

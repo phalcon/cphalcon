@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	zval *response, *request, *filter, *escaper, *annotations;
 	zval *security, *flash, *flash_session, *session;
 	zval *session_bag, *events_manager, *transaction_manager;
-	zval *services;
+	zval *assets, *services;
 
 	PHALCON_MM_GROW();
 
@@ -262,6 +262,9 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	object_init_ex(events_manager, phalcon_di_service_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "__construct", name, definition, shared);
 	
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "transactions", 1);
+	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Transaction\\Manager", 1);
 	
@@ -269,11 +272,21 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	object_init_ex(transaction_manager, phalcon_di_service_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(transaction_manager, "__construct", name, definition, shared);
 	
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "assets", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Assets\\Manager", 1);
+	
+	PHALCON_INIT_VAR(assets);
+	object_init_ex(assets, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(assets, "__construct", name, definition, shared);
+	
 	/** 
 	 * Register services
 	 */
 	PHALCON_INIT_VAR(services);
-	array_init_size(services, 17);
+	array_init_size(services, 18);
 	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("url"), &url, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -291,6 +304,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	phalcon_array_update_string(&services, SL("sessionBag"), &session_bag, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("assets"), &assets, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	/** 
 	 * Update the internal services properties

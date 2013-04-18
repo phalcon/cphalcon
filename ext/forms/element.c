@@ -36,6 +36,7 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Forms\Element
@@ -533,6 +534,38 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel){
 
 
 	RETURN_MEMBER(this_ptr, "_label");
+}
+
+/**
+ * Generate the HTML to label the element
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Forms_Element, label){
+
+	zval *label, *name, *html = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(label);
+	phalcon_read_property_this(&label, this_ptr, SL("_label"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(name);
+	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	
+	/** 
+	 * Use the default label or leave the same name as label
+	 */
+	if (zend_is_true(label)) {
+		PHALCON_INIT_VAR(html);
+		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", label, "</label>");
+	} else {
+		PHALCON_INIT_NVAR(html);
+		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", name, "</label>");
+	}
+	
+	
+	RETURN_CTOR(html);
 }
 
 /**

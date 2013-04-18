@@ -35,29 +35,29 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Forms\Element\Submit
+ * Phalcon\Forms\Element\Date
  *
- * Component INPUT[type=submit] for forms
+ * Component INPUT[type=date] for forms
  */
 
 
 /**
- * Phalcon\Forms\Element\Submit initializer
+ * Phalcon\Forms\Element\Date initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Forms_Element_Submit){
+PHALCON_INIT_CLASS(Phalcon_Forms_Element_Date){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Submit, forms_element_submit, "phalcon\\forms\\element", phalcon_forms_element_submit_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Date, forms_element_date, "phalcon\\forms\\element", phalcon_forms_element_date_method_entry, 0);
 
 	return SUCCESS;
 }
 
 /**
- * Renders the element widget
+ * Renders the element widget returning html
  *
  * @param array $attributes
  * @return string
  */
-PHP_METHOD(Phalcon_Forms_Element_Submit, render){
+PHP_METHOD(Phalcon_Forms_Element_Date, render){
 
 	zval *attributes = NULL, *widget_attributes, *code;
 
@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Forms_Element_Submit, render){
 	PHALCON_CALL_METHOD_PARAMS_1(widget_attributes, this_ptr, "prepareattributes", attributes);
 	
 	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "submitbutton", widget_attributes);
+	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "datefield", widget_attributes);
 	RETURN_CCTOR(code);
 }
 

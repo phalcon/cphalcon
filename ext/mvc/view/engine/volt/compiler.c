@@ -1,3 +1,4 @@
+
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -620,7 +621,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 			phalcon_read_property_this(&array_helpers, this_ptr, SL("_arrayHelpers"), PH_NOISY_CC);
 			if (Z_TYPE_P(array_helpers) != IS_ARRAY) { 
 				PHALCON_INIT_NVAR(array_helpers);
-				array_init_size(array_helpers, 13);
+				array_init_size(array_helpers, 15);
 				add_assoc_bool_ex(array_helpers, SS("link_to"), 1);
 				add_assoc_bool_ex(array_helpers, SS("image"), 1);
 				add_assoc_bool_ex(array_helpers, SS("form"), 1);
@@ -634,6 +635,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 				add_assoc_bool_ex(array_helpers, SS("password_field"), 1);
 				add_assoc_bool_ex(array_helpers, SS("text_area"), 1);
 				add_assoc_bool_ex(array_helpers, SS("text_field"), 1);
+				add_assoc_bool_ex(array_helpers, SS("date_field"), 1);
+				add_assoc_bool_ex(array_helpers, SS("numeric_field"), 1);
 				phalcon_update_property_zval(this_ptr, SL("_arrayHelpers"), array_helpers TSRMLS_CC);
 			}
 	
@@ -3069,11 +3072,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		}
 	}
 	
-	//PHALCON_INIT_VAR(real_template_path);
-	//phalcon_realpath(real_template_path, template_path TSRMLS_CC);
-	
-	PHALCON_CPY_WRT(real_template_path, template_path);	
-	
+	PHALCON_INIT_VAR(real_template_path);
+	PHALCON_CALL_FUNC_PARAMS_1(real_template_path, "realpath", template_path);
 	if (Z_TYPE_P(compiled_path) != IS_NULL) {
 		/** 
 		 * Create the virtual path replacing the directory separator by the compiled

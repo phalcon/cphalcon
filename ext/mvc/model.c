@@ -2867,9 +2867,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	zval *bind_types, *attributes, *bind_data_types;
 	zval *automatic_attributes, *column_map = NULL, *field = NULL;
 	zval *attribute_field = NULL, *exception_message = NULL;
-	zval *value = NULL, *bind_type = NULL, *default_value, *success;
-	zval *sequence_name = NULL, *support_sequences, *source;
-	zval *last_insert_id;
+	zval *value = NULL, *bind_type = NULL, *default_value, *use_explicit_identity;
+	zval *success, *sequence_name = NULL, *support_sequences;
+	zval *source, *last_insert_id;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2977,7 +2977,15 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	
 		PHALCON_INIT_VAR(default_value);
 		PHALCON_CALL_METHOD(default_value, connection, "getdefaultidvalue");
-		phalcon_array_append(&fields, identity_field, PH_SEPARATE TSRMLS_CC);
+	
+		/** 
+		 * Not all the database systems require an explicit value for identity columns
+		 */
+		PHALCON_INIT_VAR(use_explicit_identity);
+		PHALCON_CALL_METHOD(use_explicit_identity, connection, "useexplicitidvalue");
+		if (zend_is_true(use_explicit_identity)) {
+			phalcon_array_append(&fields, identity_field, PH_SEPARATE TSRMLS_CC);
+		}
 	
 		/** 
 		 * Check if the model has a column map
@@ -2996,14 +3004,26 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 			PHALCON_CPY_WRT(attribute_field, identity_field);
 		}
 	
+		/** 
+		 * Check if the developer set an explicit value for the column
+		 */
 		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 	
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
 			if (PHALCON_IS_EMPTY(value)) {
-				phalcon_array_append(&values, default_value, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&bind_data_types, bind_skip, PH_SEPARATE TSRMLS_CC);
+				if (zend_is_true(use_explicit_identity)) {
+					phalcon_array_append(&values, default_value, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&bind_data_types, bind_skip, PH_SEPARATE TSRMLS_CC);
+				}
 			} else {
+				/** 
+				 * Add the explicit value to the field list if the user has defined a value for it
+				 */
+				if (!zend_is_true(use_explicit_identity)) {
+					phalcon_array_append(&fields, identity_field, PH_SEPARATE TSRMLS_CC);
+				}
+	
 				/** 
 				 * The field is valid we look for a bind value (normally int)
 				 */
@@ -3013,6 +3033,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 					return;
 				}
+	
 				phalcon_array_append(&values, value, PH_SEPARATE TSRMLS_CC);
 	
 				PHALCON_OBS_NVAR(bind_type);
@@ -3020,8 +3041,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 				phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
 			}
 		} else {
-			phalcon_array_append(&values, default_value, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_append(&bind_types, bind_skip, PH_SEPARATE TSRMLS_CC);
+			if (zend_is_true(use_explicit_identity)) {
+				phalcon_array_append(&values, default_value, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&bind_types, bind_skip, PH_SEPARATE TSRMLS_CC);
+			}
 		}
 	}
 	

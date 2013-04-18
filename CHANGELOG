@@ -23,6 +23,8 @@
  - Added events beforeValidation/afterValidation to Phalcon\Validation and Phalcon\Forms\Form
  - Added ability to register user-options in Phalcon\Forms\Form elements
  - Fixed Phalcon\Mvc\Micro\Collections to register a controllers in Phalcon\Mvc\Micro
+ - Added Phalcon\Tag::dateField and Phalcon\Tag::numericField
+ - Added Phalcon\Forms\Element\Date and Phalcon\Forms\Element\Numeric
 
 1.0.1
  - Paths aren't correctly normalized in Phalcon\Mvc\Model\MetaData\Files

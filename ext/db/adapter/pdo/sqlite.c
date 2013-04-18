@@ -524,3 +524,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 	RETURN_CTOR(reference_objects);
 }
 
+/**
+ * Check whether the database system requires an explicit value for identity columns
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, useExplicitIdValue){
+
+
+	RETURN_TRUE;
+}
+

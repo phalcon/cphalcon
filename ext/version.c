@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(version, 1);
 	add_next_index_long(version, 0);
 	add_next_index_long(version, 2);
-	add_next_index_long(version, 1);
+	add_next_index_long(version, 2);
 	RETURN_CTOR(version);
 }
 
@@ -99,50 +99,50 @@ PHP_METHOD(Phalcon_Version, get){
 
 	PHALCON_INIT_VAR(version);
 	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
-	
+
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, version, 0, PH_NOISY_CC);
-	
+
 	PHALCON_OBS_VAR(medium);
 	phalcon_array_fetch_long(&medium, version, 1, PH_NOISY_CC);
-	
+
 	PHALCON_OBS_VAR(minor);
 	phalcon_array_fetch_long(&minor, version, 2, PH_NOISY_CC);
-	
+
 	PHALCON_OBS_VAR(special);
 	phalcon_array_fetch_long(&special, version, 3, PH_NOISY_CC);
-	
+
 	PHALCON_OBS_VAR(special_number);
 	phalcon_array_fetch_long(&special_number, version, 4, PH_NOISY_CC);
-	
+
 	PHALCON_INIT_VAR(result);
 	PHALCON_CONCAT_VSVSVS(result, major, ".", medium, ".", minor, " ");
-	
+
 	switch (phalcon_get_intval(special)) {
-	
+
 		case 1:
 			PHALCON_INIT_VAR(suffix);
 			PHALCON_CONCAT_SV(suffix, "ALPHA ", special_number);
 			break;
-	
+
 		case 2:
 			PHALCON_INIT_NVAR(suffix);
 			PHALCON_CONCAT_SV(suffix, "BETA ", special_number);
 			break;
-	
+
 		case 3:
 			PHALCON_INIT_NVAR(suffix);
 			PHALCON_CONCAT_SV(suffix, "RC ", special_number);
 			break;
-	
+
 		default:
 			PHALCON_INIT_NVAR(suffix);
 			ZVAL_STRING(suffix, "", 1);
 			break;
-	
+
 	}
 	phalcon_concat_self(&result, suffix TSRMLS_CC);
-	
+
 	PHALCON_INIT_VAR(final_version);
 	PHALCON_CALL_FUNC_PARAMS_1(final_version, "trim", result);
 	RETURN_CCTOR(final_version);
@@ -166,31 +166,31 @@ PHP_METHOD(Phalcon_Version, getId){
 
 	PHALCON_INIT_VAR(version);
 	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
-	
+
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, version, 0, PH_NOISY_CC);
-	
+
 	PHALCON_OBS_VAR(medium);
 	phalcon_array_fetch_long(&medium, version, 1, PH_NOISY_CC);
-	
+
 	PHALCON_OBS_VAR(minor);
 	phalcon_array_fetch_long(&minor, version, 2, PH_NOISY_CC);
-	
+
 	PHALCON_OBS_VAR(special);
 	phalcon_array_fetch_long(&special, version, 3, PH_NOISY_CC);
-	
+
 	PHALCON_OBS_VAR(special_number);
 	phalcon_array_fetch_long(&special_number, version, 4, PH_NOISY_CC);
-	
+
 	PHALCON_INIT_VAR(format);
 	ZVAL_STRING(format, "%02s", 1);
-	
+
 	PHALCON_INIT_VAR(real_medium);
 	PHALCON_CALL_FUNC_PARAMS_2(real_medium, "sprintf", format, medium);
-	
+
 	PHALCON_INIT_VAR(real_minor);
 	PHALCON_CALL_FUNC_PARAMS_2(real_minor, "sprintf", format, minor);
-	
+
 	PHALCON_INIT_NVAR(version);
 	PHALCON_CONCAT_VVVVV(version, major, real_medium, real_minor, special, special_number);
 	RETURN_CCTOR(version);

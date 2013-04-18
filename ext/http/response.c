@@ -578,6 +578,32 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
 }
 
 /**
+ * Sets HTTP response body. The parameter is automatically converted to JSON
+ *
+ *<code>
+ *	$response->setJsonContent(array("status" => "OK"));
+ *</code>
+ *
+ * @param string $content
+ * @return Phalcon\Http\ResponseInterface
+ */
+PHP_METHOD(Phalcon_Http_Response, setJsonContent){
+
+	zval *content, *json_content;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &content) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(json_content);
+	PHALCON_CALL_FUNC_PARAMS_1(json_content, "json_encode", content);
+	phalcon_update_property_zval(this_ptr, SL("_content"), json_content TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
  * Appends a string to the HTTP response body
  *
  * @param string $content

@@ -589,13 +589,12 @@ PHP_METHOD(Phalcon_Forms_Form, get){
  * Generate the label of a element added to the form including HTML
  *
  * @param string $name
- * @param array $attributes
  * @return string
  */
 PHP_METHOD(Phalcon_Forms_Form, label){
 
 	zval *name, *elements, *exception_message, *element;
-	zval *label, *html = NULL;
+	zval *html;
 
 	PHALCON_MM_GROW();
 
@@ -615,22 +614,10 @@ PHP_METHOD(Phalcon_Forms_Form, label){
 	PHALCON_OBS_VAR(element);
 	phalcon_array_fetch(&element, elements, name, PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(label);
-	PHALCON_CALL_METHOD(label, element, "getlabel");
+	PHALCON_INIT_VAR(html);
+	PHALCON_CALL_METHOD(html, element, "label");
 	
-	/** 
-	 * Use the default label or leave the same name as label
-	 */
-	if (zend_is_true(label)) {
-		PHALCON_INIT_VAR(html);
-		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", label, "</label>");
-	} else {
-		PHALCON_INIT_NVAR(html);
-		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", name, "</label>");
-	}
-	
-	
-	RETURN_CTOR(html);
+	RETURN_CCTOR(html);
 }
 
 /**

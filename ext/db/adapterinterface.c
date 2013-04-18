@@ -488,6 +488,13 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, describeReferences);
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, tableOptions);
 
 /**
+ * Check whether the database system requires an explicit value for identity columns
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, useExplicitIdValue);
+
+/**
  * Return the default identity value to insert in an identity column
  *
  * @return Phalcon\Db\RawValue
