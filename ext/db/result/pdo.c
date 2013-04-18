@@ -256,11 +256,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, connection, "gettype");
-		if (PHALCON_IS_STRING(type, "sqlite") || PHALCON_IS_STRING(type, "oci")) {
+		if (PHALCON_IS_STRING(type, "sqlite")) {
 	
 			/** 
-			 * SQLite and Oracle returns resultsets that to the client eyes (PDO) 
-			 * has an arbitrary numberof rows, so we need to perform an extra count to know that
+			 * SQLite returns resultsets that to the client eyes (PDO) has an arbitrary number
+			 * of rows, so we need to perform an extra count to know that
 			 */
 			PHALCON_OBS_VAR(sql_statement);
 			phalcon_read_property_this(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
