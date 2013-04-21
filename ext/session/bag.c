@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Session_Bag, __isset){
  * Removes a property from the internal bag
  *
  *<code>
- * $user->remove('name'));
+ * $user->remove('name');
  *</code>
  *
  * @param string $property
