@@ -632,7 +632,9 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		}
 	} else {
 		if (PHALCON_IS_STRING(type, "radio")) {
-			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
+			if (zend_is_true(value)) {
+				phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
+			}
 		}
 	}
 	
