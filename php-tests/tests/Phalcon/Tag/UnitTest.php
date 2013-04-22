@@ -3310,7 +3310,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some_default_value" checked="checked">';
         $actual   = PhTag::radioField($options);
         PhTag::setDefault('some_field_name', '');
 
@@ -3337,7 +3337,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some_default_value" checked="checked">';
         $actual   = PhTag::radioField($options);
         PhTag::displayTo('some_field_name', '');
 
@@ -3522,7 +3522,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value" checked="checked" />';
         $actual   = PhTag::radioField($options);
         PhTag::setDefault('some_field_name', '');
         PhTag::setDoctype('');
@@ -3551,7 +3551,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value" checked="checked" />';
         $actual   = PhTag::radioField($options);
         PhTag::displayTo('some_field_name', '');
         PhTag::setDoctype('');
@@ -4861,7 +4861,7 @@ class UnitTest extends PhTestUnitTestCase
     public function testTagHtmlNameSelfClose()
     {
         $name     = 'img';
-        $expected = '<img />';
+        $expected = '<img></img>';
         $actual   = PhTag::tagHtml($name, null, true);
 
         $this->assertEquals(
@@ -4870,7 +4870,27 @@ class UnitTest extends PhTestUnitTestCase
             sprintf($this->message, 'tagHtml bare')
         );
     }
-//&tag_parameters, &tag_self_close, &tag_only_start, &tag_eol) == FAILURE) {
+
+    /**
+     * Tests the tagHtml with name parameter and self close
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlNameSelfCloseXhtml()
+    {
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
+        $name     = 'img';
+        $expected = '<img />';
+        $actual   = PhTag::tagHtml($name, null, true);
+        PhTag::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
 
     /**
      * Tests the tagHtml with name parameter and only start

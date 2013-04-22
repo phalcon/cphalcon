@@ -135,7 +135,7 @@ try {
 		$file = $_SERVER['argv'][1];
 		require $_SERVER['argv'][1];
 
-		PHPUnit_Framework_TestCase::main('Phalcon\Test\Acl\Adapter\Memory\UnitTest');
+		PHPUnit_Framework_TestCase::main('Phalcon\Test\Tag\UnitTest');
 	}
 } catch(Exception $e){
 	echo $e->getMessage(), PHP_EOL;

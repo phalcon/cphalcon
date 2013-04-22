@@ -119,25 +119,25 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element1 = new Text("name");
 
 		$element1->setAttributes(array('class' => 'big-input'));
-		$element1->setOptions(array('some' => 'value'));
+		$element1->setUserOptions(array('some' => 'value'));
 
 		$this->assertEquals(
-			$element1->getOptions(),
+			$element1->getUserOptions(),
 			array('some' => 'value')
 		);
 
 		$this->assertEquals(
-			$element1->getOption('some'),
+			$element1->getUserOption('some'),
 			'value'
 		);
 
 		$this->assertEquals(
-			$element1->getOption('some-non'),
+			$element1->getUserOption('some-non'),
 			null
 		);
 
 		$this->assertEquals(
-			$element1->getOption('some-non', 'default'),
+			$element1->getUserOption('some-non', 'default'),
 			'default'
 		);
 	}

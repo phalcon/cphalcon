@@ -632,7 +632,9 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		}
 	} else {
 		if (PHALCON_IS_STRING(type, "radio")) {
-			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
+			if (zend_is_true(value)) {
+				phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
+			}
 		}
 	}
 	
@@ -1903,12 +1905,12 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 	
 	if (!self_close) {
 		PHALCON_INIT_VAR(self_close);
-		ZVAL_BOOL(self_close, 1);
+		ZVAL_BOOL(self_close, 0);
 	}
 	
 	if (!only_start) {
 		PHALCON_INIT_VAR(only_start);
-		ZVAL_BOOL(only_start, 1);
+		ZVAL_BOOL(only_start, 0);
 	}
 	
 	if (!use_eol) {

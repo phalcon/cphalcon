@@ -663,6 +663,12 @@ PHP_RSHUTDOWN_FUNCTION(phalcon){
 		PHALCON_GLOBAL(function_cache) = NULL;
 	}
 
+	if (PHALCON_GLOBAL(orm.parser_cache) != NULL) {
+		zend_hash_destroy(PHALCON_GLOBAL(orm.parser_cache));
+		FREE_HASHTABLE(PHALCON_GLOBAL(orm.parser_cache));
+		PHALCON_GLOBAL(orm.parser_cache) = NULL;
+	}
+
 	return SUCCESS;
 }
 

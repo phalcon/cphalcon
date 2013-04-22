@@ -36,7 +36,7 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Annotations\Adapter\Files
+ * Phalcon\Annotations\Adapter\Apc
  *
  * Stores the parsed annotations in APC. This adapter is the suitable for production
  *
