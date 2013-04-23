@@ -401,14 +401,6 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeIdentifier);
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeString);
 
 /**
- * Bind params to a SQL statement
- *
- * @param string $sqlStatement
- * @param array $params
- */
-PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, bindParams);
-
-/**
  * Converts bound params like :name: or ?1 into ? bind params
  *
  * @param string $sqlStatement

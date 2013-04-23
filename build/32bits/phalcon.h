@@ -456,11 +456,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_escapestring, 0, 0, 1
 	ZEND_ARG_INFO(0, str)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_bindparams, 0, 0, 2)
-	ZEND_ARG_INFO(0, sqlStatement)
-	ZEND_ARG_INFO(0, params)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_convertboundparams, 0, 0, 2)
 	ZEND_ARG_INFO(0, sqlStatement)
 	ZEND_ARG_INFO(0, params)
@@ -532,7 +527,6 @@ PHALCON_INIT_FUNCS(phalcon_db_adapterinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, close, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, escapeIdentifier, arginfo_phalcon_db_adapterinterface_escapeidentifier)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, escapeString, arginfo_phalcon_db_adapterinterface_escapestring)
-	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, bindParams, arginfo_phalcon_db_adapterinterface_bindparams)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, convertBoundParams, arginfo_phalcon_db_adapterinterface_convertboundparams)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, lastInsertId, arginfo_phalcon_db_adapterinterface_lastinsertid)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, begin, NULL)
@@ -3595,7 +3589,6 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo, affectedRows);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo, close);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeIdentifier);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString);
-static PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin);
@@ -3643,11 +3636,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_escapestring, 0, 0, 1)
 	ZEND_ARG_INFO(0, str)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_bindparams, 0, 0, 2)
-	ZEND_ARG_INFO(0, sqlStatement)
-	ZEND_ARG_INFO(0, params)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_convertboundparams, 0, 0, 2)
 	ZEND_ARG_INFO(0, sql)
 	ZEND_ARG_INFO(0, params)
@@ -3668,7 +3656,6 @@ PHALCON_INIT_FUNCS(phalcon_db_adapter_pdo_method_entry){
 	PHP_ME(Phalcon_Db_Adapter_Pdo, close, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter_Pdo, escapeIdentifier, arginfo_phalcon_db_adapter_pdo_escapeidentifier, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter_Pdo, escapeString, arginfo_phalcon_db_adapter_pdo_escapestring, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Pdo, bindParams, arginfo_phalcon_db_adapter_pdo_bindparams, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter_Pdo, convertBoundParams, arginfo_phalcon_db_adapter_pdo_convertboundparams, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter_Pdo, lastInsertId, arginfo_phalcon_db_adapter_pdo_lastinsertid, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter_Pdo, begin, NULL, ZEND_ACC_PUBLIC) 

@@ -28241,84 +28241,6 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString){
 	RETURN_CCTOR(quoted_str);
 }
 
-static PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
-
-	zval *sql_statement, *params, *sql = NULL, *pdo, *bind_value = NULL;
-	zval *index = NULL, *value = NULL, *place_key = NULL, *replaced_sql = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &sql_statement, &params) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	if (Z_TYPE_P(params) == IS_ARRAY) { 
-		if (phalcon_fast_count_ev(params TSRMLS_CC)) {
-			PHALCON_CPY_WRT(sql, sql_statement);
-	
-			PHALCON_OBS_VAR(pdo);
-			phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
-	
-			if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
-	
-			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-				PHALCON_GET_FOREACH_KEY(index, ah0, hp0);
-				PHALCON_GET_FOREACH_VALUE(bind_value);
-	
-				if (phalcon_is_numeric(bind_value)) {
-					PHALCON_CPY_WRT(value, bind_value);
-				} else {
-					if (Z_TYPE_P(bind_value) == IS_OBJECT) {
-						PHALCON_INIT_NVAR(value);
-						PHALCON_CALL_FUNC_PARAMS_1(value, "strval", bind_value);
-					} else {
-						PHALCON_INIT_NVAR(value);
-						PHALCON_CALL_METHOD_PARAMS_1(value, pdo, "quote", bind_value);
-					}
-				}
-	
-				if (Z_TYPE_P(index) == IS_LONG) {
-					PHALCON_INIT_NVAR(place_key);
-					PHALCON_CONCAT_SV(place_key, "?", index);
-	
-					PHALCON_INIT_NVAR(replaced_sql);
-					phalcon_fast_str_replace(replaced_sql, place_key, value, sql TSRMLS_CC);
-					PHALCON_CPY_WRT(sql, replaced_sql);
-					zend_hash_move_forward_ex(ah0, &hp0);
-					continue;
-				}
-	
-				if (Z_TYPE_P(index) == IS_STRING) {
-					PHALCON_INIT_NVAR(place_key);
-					PHALCON_CONCAT_SVS(place_key, ":", index, ":");
-	
-					PHALCON_INIT_NVAR(replaced_sql);
-					phalcon_fast_str_replace(replaced_sql, place_key, value, sql TSRMLS_CC);
-					PHALCON_CPY_WRT(sql, replaced_sql);
-					zend_hash_move_forward_ex(ah0, &hp0);
-					continue;
-				}
-	
-				PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind parameter");
-				return;
-	
-				zend_hash_move_forward_ex(ah0, &hp0);
-			}
-	
-	
-			RETURN_CCTOR(sql);
-		}
-	}
-	
-	RETURN_CCTOR(sql_statement);
-}
-
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 
 	zval *sql, *params, *query_params = NULL, *placeholders;
@@ -31357,7 +31279,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_AdapterInterface){
 
 	return SUCCESS;
 }
-
 
 
 
