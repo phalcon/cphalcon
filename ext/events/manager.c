@@ -131,16 +131,16 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 			 * Set extraction flags
 			 */
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(priority_queue, "setextractflags", mode);
+	
+			/** 
+			 * Append the events to the queue
+			 */
+			phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, SL("_events"), events TSRMLS_CC);
 		} else {
 			PHALCON_INIT_NVAR(priority_queue);
 			array_init(priority_queue);
 		}
-	
-		/** 
-		 * Append the events to the queue
-		 */
-		phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_events"), events TSRMLS_CC);
 	} else {
 		/** 
 		 * Get the current SplPriorityQueue
@@ -156,6 +156,12 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(priority_queue, "insert", handler, priority);
 	} else {
 		phalcon_array_append(&priority_queue, handler, PH_SEPARATE TSRMLS_CC);
+	
+		/** 
+		 * Append the events to the queue
+		 */
+		phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_events"), events TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -286,9 +292,11 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(queue) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The SplPriorityQueue is not valid");
-		return;
+	if (Z_TYPE_P(queue) != IS_ARRAY) { 
+		if (Z_TYPE_P(queue) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The SplPriorityQueue is not valid");
+			return;
+		}
 	}
 	if (Z_TYPE_P(event) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The event is not valid");
@@ -632,7 +640,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	
 		PHALCON_OBS_VAR(fire_events);
 		phalcon_array_fetch(&fire_events, events, type, PH_NOISY_CC);
-		if (Z_TYPE_P(fire_events) == IS_OBJECT) {
+		if (Z_TYPE_P(fire_events) == IS_ARRAY || Z_TYPE_P(fire_events) == IS_OBJECT) {
 			/** 
 			 * Create the event context
 			 */
@@ -653,7 +661,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	
 		PHALCON_OBS_NVAR(fire_events);
 		phalcon_array_fetch(&fire_events, events, event_type, PH_NOISY_CC);
-		if (Z_TYPE_P(fire_events) == IS_OBJECT) {
+		if (Z_TYPE_P(fire_events) == IS_ARRAY || Z_TYPE_P(fire_events) == IS_OBJECT) {
 	
 			/** 
 			 * Create the event if it wasn't created before

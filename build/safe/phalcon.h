@@ -3376,6 +3376,7 @@ static PHP_METHOD(Phalcon_Forms_Element, label);
 static PHP_METHOD(Phalcon_Forms_Element, setDefault);
 static PHP_METHOD(Phalcon_Forms_Element, getDefault);
 static PHP_METHOD(Phalcon_Forms_Element, getValue);
+static PHP_METHOD(Phalcon_Forms_Element, getMessages);
 static PHP_METHOD(Phalcon_Forms_Element, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element___construct, 0, 0, 1)
@@ -3470,6 +3471,7 @@ PHALCON_INIT_FUNCS(phalcon_forms_element_method_entry){
 	PHP_ME(Phalcon_Forms_Element, setDefault, arginfo_phalcon_forms_element_setdefault, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, getDefault, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, getValue, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, getMessages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, __toString, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
@@ -8419,6 +8421,12 @@ zend_class_entry *phalcon_forms_form_ce;
 PHALCON_INIT_CLASS(Phalcon_Forms_Form);
 
 static PHP_METHOD(Phalcon_Forms_Form, __construct);
+static PHP_METHOD(Phalcon_Forms_Form, setAction);
+static PHP_METHOD(Phalcon_Forms_Form, getAction);
+static PHP_METHOD(Phalcon_Forms_Form, setUserOption);
+static PHP_METHOD(Phalcon_Forms_Form, getUserOption);
+static PHP_METHOD(Phalcon_Forms_Form, setUserOptions);
+static PHP_METHOD(Phalcon_Forms_Form, getUserOptions);
 static PHP_METHOD(Phalcon_Forms_Form, setEntity);
 static PHP_METHOD(Phalcon_Forms_Form, getEntity);
 static PHP_METHOD(Phalcon_Forms_Form, getElements);
@@ -8443,6 +8451,25 @@ static PHP_METHOD(Phalcon_Forms_Form, valid);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, entity)
+	ZEND_ARG_INFO(0, userOptions)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_setaction, 0, 0, 1)
+	ZEND_ARG_INFO(0, action)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_setuseroption, 0, 0, 2)
+	ZEND_ARG_INFO(0, option)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getuseroption, 0, 0, 1)
+	ZEND_ARG_INFO(0, option)
+	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_setuseroptions, 0, 0, 1)
+	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_setentity, 0, 0, 1)
@@ -8503,6 +8530,12 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_forms_form_method_entry){
 	PHP_ME(Phalcon_Forms_Form, __construct, arginfo_phalcon_forms_form___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Forms_Form, setAction, arginfo_phalcon_forms_form_setaction, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Form, getAction, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Form, setUserOption, arginfo_phalcon_forms_form_setuseroption, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Form, getUserOption, arginfo_phalcon_forms_form_getuseroption, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Form, setUserOptions, arginfo_phalcon_forms_form_setuseroptions, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Form, getUserOptions, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, setEntity, arginfo_phalcon_forms_form_setentity, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, getEntity, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, getElements, NULL, ZEND_ACC_PUBLIC) 
@@ -9359,6 +9392,7 @@ static PHP_METHOD(Phalcon_Http_Response, resetHeaders);
 static PHP_METHOD(Phalcon_Http_Response, setExpires);
 static PHP_METHOD(Phalcon_Http_Response, setNotModified);
 static PHP_METHOD(Phalcon_Http_Response, setContentType);
+static PHP_METHOD(Phalcon_Http_Response, setEtag);
 static PHP_METHOD(Phalcon_Http_Response, redirect);
 static PHP_METHOD(Phalcon_Http_Response, setContent);
 static PHP_METHOD(Phalcon_Http_Response, setJsonContent);
@@ -9367,6 +9401,7 @@ static PHP_METHOD(Phalcon_Http_Response, getContent);
 static PHP_METHOD(Phalcon_Http_Response, isSent);
 static PHP_METHOD(Phalcon_Http_Response, sendHeaders);
 static PHP_METHOD(Phalcon_Http_Response, send);
+static PHP_METHOD(Phalcon_Http_Response, setFileToSend);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, content)
@@ -9409,6 +9444,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setcontenttype, 0, 0, 1)
 	ZEND_ARG_INFO(0, charset)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setetag, 0, 0, 1)
+	ZEND_ARG_INFO(0, etag)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_redirect, 0, 0, 0)
 	ZEND_ARG_INFO(0, location)
 	ZEND_ARG_INFO(0, externalRedirect)
@@ -9427,6 +9466,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_appendcontent, 0, 0, 1)
 	ZEND_ARG_INFO(0, content)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setfiletosend, 0, 0, 1)
+	ZEND_ARG_INFO(0, filePath)
+	ZEND_ARG_INFO(0, attachmentName)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_http_response_method_entry){
 	PHP_ME(Phalcon_Http_Response, __construct, arginfo_phalcon_http_response___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Http_Response, setDI, arginfo_phalcon_http_response_setdi, ZEND_ACC_PUBLIC) 
@@ -9442,6 +9486,7 @@ PHALCON_INIT_FUNCS(phalcon_http_response_method_entry){
 	PHP_ME(Phalcon_Http_Response, setExpires, arginfo_phalcon_http_response_setexpires, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, setNotModified, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, setContentType, arginfo_phalcon_http_response_setcontenttype, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Response, setEtag, arginfo_phalcon_http_response_setetag, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, redirect, arginfo_phalcon_http_response_redirect, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, setContent, arginfo_phalcon_http_response_setcontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, setJsonContent, arginfo_phalcon_http_response_setjsoncontent, ZEND_ACC_PUBLIC) 
@@ -9450,6 +9495,7 @@ PHALCON_INIT_FUNCS(phalcon_http_response_method_entry){
 	PHP_ME(Phalcon_Http_Response, isSent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, sendHeaders, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, send, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Response, setFileToSend, arginfo_phalcon_http_response_setfiletosend, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -9497,6 +9543,7 @@ static PHP_METHOD(Phalcon_Http_Response_Cookies, setDI);
 static PHP_METHOD(Phalcon_Http_Response_Cookies, getDI);
 static PHP_METHOD(Phalcon_Http_Response_Cookies, set);
 static PHP_METHOD(Phalcon_Http_Response_Cookies, get);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, send);
 static PHP_METHOD(Phalcon_Http_Response_Cookies, reset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_setdi, 0, 0, 1)
@@ -9519,6 +9566,7 @@ PHALCON_INIT_FUNCS(phalcon_http_response_cookies_method_entry){
 	PHP_ME(Phalcon_Http_Response_Cookies, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response_Cookies, set, arginfo_phalcon_http_response_cookies_set, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response_Cookies, get, arginfo_phalcon_http_response_cookies_get, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Response_Cookies, send, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response_Cookies, reset, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
@@ -13124,6 +13172,8 @@ zend_class_entry *phalcon_events_manager_ce;
 PHALCON_INIT_CLASS(Phalcon_Events_Manager);
 
 static PHP_METHOD(Phalcon_Events_Manager, attach);
+static PHP_METHOD(Phalcon_Events_Manager, enablePriorities);
+static PHP_METHOD(Phalcon_Events_Manager, arePrioritiesEnabled);
 static PHP_METHOD(Phalcon_Events_Manager, collectResponses);
 static PHP_METHOD(Phalcon_Events_Manager, isCollecting);
 static PHP_METHOD(Phalcon_Events_Manager, getResponses);
@@ -13137,6 +13187,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_attach, 0, 0, 2)
 	ZEND_ARG_INFO(0, eventType)
 	ZEND_ARG_INFO(0, handler)
 	ZEND_ARG_INFO(0, priority)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_enablepriorities, 0, 0, 1)
+	ZEND_ARG_INFO(0, enablePriorities)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_collectresponses, 0, 0, 1)
@@ -13169,6 +13223,8 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_events_manager_method_entry){
 	PHP_ME(Phalcon_Events_Manager, attach, arginfo_phalcon_events_manager_attach, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Events_Manager, enablePriorities, arginfo_phalcon_events_manager_enablepriorities, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Events_Manager, arePrioritiesEnabled, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Events_Manager, collectResponses, arginfo_phalcon_events_manager_collectresponses, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Events_Manager, isCollecting, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Events_Manager, getResponses, NULL, ZEND_ACC_PUBLIC) 
