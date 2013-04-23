@@ -1144,6 +1144,32 @@ class UnitTest extends PhTestUnitTestCase
     }
 
     /**
+     * Tests textField with id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2012-10-26
+     */
+    public function testTextWithArrayName()
+    {
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
+        $options = array(
+            'some_field_name[]',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="text" id="some_id" class="some_class" '
+                  . 'size="10" name="some_field_name" value="" />';
+        $actual   = PhTag::textField($options);
+        PhTag::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML textField with id in parameters')
+        );
+    }
+
+    /**
      * Tests textField with name and not id in parameters
      *
      * @author Nikos Dimopoulos <nikos@phalconphp.com>

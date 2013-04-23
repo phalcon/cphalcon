@@ -198,6 +198,11 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 		RETURN_MM_NULL();
 	}
 
+	if (Z_TYPE_P(name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "The cookie name must be string");
+		return;
+	}
+	
 	PHALCON_OBS_VAR(cookies);
 	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
 	if (phalcon_array_isset(cookies, name)) {
@@ -210,8 +215,49 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 	object_init_ex(cookie, phalcon_http_cookie_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "__construct", name);
 	
+	phalcon_update_property_array(this_ptr, SL("_cookies"), name, cookie TSRMLS_CC);
 	
 	RETURN_CCTOR(cookie);
+}
+
+/**
+ * Sends the cookies to the client
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Response_Cookies, send){
+
+	zval *headers_was_sent, *cookies, *cookie = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(headers_was_sent);
+	PHALCON_CALL_FUNC(headers_was_sent, "headers_sent");
+	if (!zend_is_true(headers_was_sent)) {
+	
+		PHALCON_OBS_VAR(cookies);
+		phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+	
+		if (!phalcon_is_iterable(cookies, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(cookie);
+	
+			PHALCON_CALL_FUNC_PARAMS_1_NORETURN("var_dump", cookie);
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
 }
 
 /**

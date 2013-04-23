@@ -56,10 +56,12 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Form){
 
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_entity"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_elements"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_elementsIndexed"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_action"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_forms_form_ce TSRMLS_CC, 2, spl_ce_Countable, zend_ce_iterator);
 
@@ -70,19 +72,24 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Form){
  * Phalcon\Forms\Form constructor
  *
  * @param object $entity
+ * @param array $userOptions
  */
 PHP_METHOD(Phalcon_Forms_Form, __construct){
 
-	zval *entity = NULL;
+	zval *entity = NULL, *user_options = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &entity) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &entity, &user_options) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	if (!entity) {
 		PHALCON_INIT_VAR(entity);
+	}
+	
+	if (!user_options) {
+		PHALCON_INIT_VAR(user_options);
 	}
 	
 	if (Z_TYPE_P(entity) != IS_NULL) {
@@ -94,13 +101,137 @@ PHP_METHOD(Phalcon_Forms_Form, __construct){
 	}
 	
 	/** 
+	 * Update the user options
+	 */
+	if (Z_TYPE_P(user_options) == IS_ARRAY) { 
+		phalcon_update_property_zval(this_ptr, SL("_options"), user_options TSRMLS_CC);
+	}
+	
+	/** 
 	 * Check for an 'initialize' method and call it
 	 */
 	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "initialize", entity, user_options);
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sets the form's action
+ *
+ * @param string $action
+ * @return Phalcon\Forms\Form
+ */
+PHP_METHOD(Phalcon_Forms_Form, setAction){
+
+	zval *action;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &action) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_action"), action TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the form's action
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Forms_Form, getAction){
+
+
+	RETURN_MEMBER(this_ptr, "_action");
+}
+
+/**
+ * Sets an option for the element
+ *
+ * @param string $option
+ * @param mixed $value
+ * @return Phalcon\Forms\ElementInterface
+ */
+PHP_METHOD(Phalcon_Forms_Form, setUserOption){
+
+	zval *option, *value;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &option, &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_array(this_ptr, SL("_attributes"), option, value TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the value of an option if present
+ *
+ * @param string $option
+ * @param mixed $defaultValue
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Forms_Form, getUserOption){
+
+	zval *option, *default_value = NULL, *options, *value;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &option, &default_value) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!default_value) {
+		PHALCON_INIT_VAR(default_value);
+	}
+	
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (phalcon_array_isset(options, option)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, options, option, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
+	
+	
+	RETURN_CCTOR(default_value);
+}
+
+/**
+ * Sets options for the element
+ *
+ * @param array $options
+ * @return Phalcon\Forms\ElementInterface
+ */
+PHP_METHOD(Phalcon_Forms_Form, setUserOptions){
+
+	zval *options;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Returns the options for the element
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Forms_Form, getUserOptions){
+
+
+	RETURN_MEMBER(this_ptr, "_options");
 }
 
 /**
@@ -148,13 +279,13 @@ PHP_METHOD(Phalcon_Forms_Form, getElements){
  *
  * @param array $data
  * @param object $entity
- * @param object $entity
+ * @param array $whitelist
  * @return Phalcon\Forms\Form
  */
 PHP_METHOD(Phalcon_Forms_Form, bind){
 
 	zval *data, *entity, *whitelist = NULL, *elements, *value = NULL;
-	zval *key = NULL, *method = NULL;
+	zval *key = NULL, *in_array = NULL, *method = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -197,6 +328,19 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 		if (!phalcon_array_isset(elements, key)) {
 			zend_hash_move_forward_ex(ah0, &hp0);
 			continue;
+		}
+	
+		/** 
+		 * Check if the item is in the whitelist
+		 */
+		if (Z_TYPE_P(whitelist) == IS_ARRAY) { 
+	
+			PHALCON_INIT_NVAR(in_array);
+			PHALCON_CALL_FUNC_PARAMS_2(in_array, "in_array", key, whitelist);
+			if (!zend_is_true(in_array)) {
+				zend_hash_move_forward_ex(ah0, &hp0);
+				continue;
+			}
 		}
 	
 		/** 

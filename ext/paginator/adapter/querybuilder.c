@@ -64,6 +64,8 @@ PHALCON_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder){
 
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
+ *
+ * @param array $config
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 
@@ -103,6 +105,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Set the current page number
+ *
+ * @param int $page
+ */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage){
 
 	zval *current_page;
@@ -115,10 +122,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage){
 	RETURN_THISW();
 }
 
+/**
+ * Returns a slice of the resultset to show in the pagination
+ *
+ * @return stdClass
+ */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 
 	zval *original_builder, *builder, *total_builder;
-	zval *limit, *number_page, *one, *prev_number_page;
+	zval *limit, *number_page = NULL, *one, *prev_number_page;
 	zval *number, *compare = NULL, *query, *page, *before = NULL, *items;
 	zval *select_count, *total_query, *result, *row;
 	zval *rowcount, *total_pages = NULL, *int_total_pages;
@@ -147,6 +159,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
+	if (!zend_is_true(number_page)) {
+		PHALCON_CPY_WRT(number_page, one);
+	}
 	
 	PHALCON_INIT_VAR(prev_number_page);
 	sub_function(prev_number_page, number_page, one TSRMLS_CC);
@@ -215,9 +230,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	}
 	
 	phalcon_update_property_zval(page, SL("next"), next TSRMLS_CC);
-	phalcon_update_property_zval(page, SL("total_pages"), total_pages TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("last"), total_pages TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("current"), number_page TSRMLS_CC);
+	phalcon_update_property_zval(page, SL("total_pages"), total_pages TSRMLS_CC);
+	phalcon_update_property_zval(page, SL("total_items"), rowcount TSRMLS_CC);
 	
 	RETURN_CTOR(page);
 }

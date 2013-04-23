@@ -1477,8 +1477,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 				break;
 	
 			case 360:
-				PHALCON_INIT_NVAR(expr_code);
-				PHALCON_CONCAT_SVS(expr_code, "array(", left_code, ")");
+				if (phalcon_array_isset_string(expr, SS("left"))) {
+					PHALCON_INIT_NVAR(expr_code);
+					PHALCON_CONCAT_SVS(expr_code, "array(", left_code, ")");
+				} else {
+					PHALCON_INIT_NVAR(expr_code);
+					ZVAL_STRING(expr_code, "array()", 1);
+				}
 				break;
 	
 			case 258:

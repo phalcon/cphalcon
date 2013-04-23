@@ -715,14 +715,29 @@ PHP_METHOD(Phalcon_Http_Request, getServerName){
  */
 PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 
-	zval *scheme, *server_name, *name, *server_port;
-	zval *port, *http, *standard_port, *is_std_name;
-	zval *is_std_port, *is_std_http, *https, *secure_port;
-	zval *is_secure_scheme, *is_secure_port, *is_secure_http;
-	zval *name_port;
+	zval *host, *http_host = NULL, *scheme, *server_name, *name;
+	zval *server_port, *port, *http, *standard_port;
+	zval *is_std_name, *is_std_port, *is_std_http;
+	zval *https, *secure_port, *is_secure_scheme;
+	zval *is_secure_port, *is_secure_http;
 
 	PHALCON_MM_GROW();
 
+	/** 
+	 * Get the server name from _SERVER['HTTP_HOST']
+	 */
+	PHALCON_INIT_VAR(host);
+	ZVAL_STRING(host, "HTTP_HOST", 1);
+	
+	PHALCON_INIT_VAR(http_host);
+	PHALCON_CALL_METHOD_PARAMS_1(http_host, this_ptr, "getserver", host);
+	if (zend_is_true(http_host)) {
+		RETURN_CCTOR(http_host);
+	}
+	
+	/** 
+	 * Get current scheme
+	 */
 	PHALCON_INIT_VAR(scheme);
 	PHALCON_CALL_METHOD(scheme, this_ptr, "getscheme");
 	
@@ -794,10 +809,10 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 		RETURN_CCTOR(name);
 	}
 	
-	PHALCON_INIT_VAR(name_port);
-	PHALCON_CONCAT_VSV(name_port, name, ":", port);
+	PHALCON_INIT_NVAR(http_host);
+	PHALCON_CONCAT_VSV(http_host, name, ":", port);
 	
-	RETURN_CTOR(name_port);
+	RETURN_CCTOR(http_host);
 }
 
 /**

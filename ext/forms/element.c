@@ -647,6 +647,40 @@ PHP_METHOD(Phalcon_Forms_Element, getValue){
 }
 
 /**
+ * Returns the messages that belongs to the element
+ * The element needs to be attached to a form
+ *
+ * @return Phalcon\Validation\Message\Group
+ */
+PHP_METHOD(Phalcon_Forms_Element, getMessages){
+
+	zval *form, *name, *messages = NULL;
+
+	PHALCON_MM_GROW();
+
+	/** 
+	 * Get the related form
+	 */
+	PHALCON_OBS_VAR(form);
+	phalcon_read_property_this(&form, this_ptr, SL("_form"), PH_NOISY_CC);
+	if (Z_TYPE_P(form) == IS_OBJECT) {
+		PHALCON_OBS_VAR(name);
+		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(messages);
+		PHALCON_CALL_METHOD_PARAMS_1(messages, form, "getmessagesfor", name);
+		RETURN_CCTOR(messages);
+	}
+	
+	PHALCON_INIT_NVAR(messages);
+	object_init_ex(messages, phalcon_validation_message_group_ce);
+	PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
+	
+	
+	RETURN_CCTOR(messages);
+}
+
+/**
  * Magic method __toString renders the widget without atttributes
  *
  * @return string

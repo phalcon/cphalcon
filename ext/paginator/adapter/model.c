@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	zval *one, *zero, *show, *config, *items, *page_number = NULL;
 	zval *smaller, *n, *page, *last_show_page, *start;
 	zval *last_page, *possible_pages = NULL, *total_pages;
-	zval *compare = NULL, *page_items, *i, *valid = NULL, *current = NULL, *maximum_pages;
+	zval *page_items, *compare = NULL, *i, *valid = NULL, *current = NULL, *maximum_pages;
 	zval *next = NULL, *additional_page, *before = NULL, *remainder;
 	zval *pages_total = NULL;
 	zval *r0 = NULL;
@@ -179,20 +179,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		return;
 	}
 	
-	if (Z_TYPE_P(page_number) == IS_NULL) {
-		PHALCON_CPY_WRT(page_number, zero);
-	}
-	
-	PHALCON_INIT_VAR(compare);
-	is_smaller_function(compare, start, zero TSRMLS_CC);
-	if (PHALCON_IS_TRUE(compare)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "The start page number is zero or less");
-		return;
+	if (!zend_is_true(page_number)) {
+		PHALCON_CPY_WRT(page_number, one);
 	}
 	
 	PHALCON_INIT_VAR(page_items);
 	array_init(page_items);
 	
+	PHALCON_INIT_VAR(compare);
 	is_smaller_function(compare, zero, n TSRMLS_CC);
 	if (PHALCON_IS_TRUE(compare)) {
 	
@@ -239,7 +233,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	}
 	
 	phalcon_update_property_zval(page, SL("items"), page_items TSRMLS_CC);
-	phalcon_update_property_zval(page, SL("first"), one TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(maximum_pages);
 	phalcon_add_function(maximum_pages, start, show TSRMLS_CC);
@@ -278,6 +271,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		PHALCON_CPY_WRT(before, one);
 	}
 	
+	phalcon_update_property_zval(page, SL("first"), one TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("before"), before TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("current"), page_number TSRMLS_CC);
 	
@@ -297,6 +291,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	
 	phalcon_update_property_zval(page, SL("last"), pages_total TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("total_pages"), pages_total TSRMLS_CC);
+	phalcon_update_property_zval(page, SL("total_items"), n TSRMLS_CC);
 	
 	RETURN_CTOR(page);
 }

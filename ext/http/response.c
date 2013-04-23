@@ -257,12 +257,19 @@ PHP_METHOD(Phalcon_Http_Response, setCookies){
 
 	zval *cookies;
 
+	PHALCON_MM_GROW();
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &cookies) == FAILURE) {
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
+	if (Z_TYPE_P(cookies) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "The cookies bag is not valid");
+		return;
+	}
 	phalcon_update_property_zval(this_ptr, SL("_cookies"), cookies TSRMLS_CC);
-	RETURN_THISW();
+	
+	RETURN_THIS();
 }
 
 /**
@@ -478,6 +485,34 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
 	}
 	
 	
+	RETURN_THIS();
+}
+
+/**
+ * Set a custom ETag
+ *
+ *<code>
+ *	$response->setEtag(md5(time()));
+ *</code>
+ *
+ * @param string $etag
+ */
+PHP_METHOD(Phalcon_Http_Response, setEtag){
+
+	zval *etag, *name, *headers;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &etag) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "Etag", 1);
+	
+	PHALCON_INIT_VAR(headers);
+	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders");
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", name, etag);
 	RETURN_THIS();
 }
 
@@ -714,5 +749,44 @@ PHP_METHOD(Phalcon_Http_Response, send){
 	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "Response was already sent");
 	return;
+}
+
+PHP_METHOD(Phalcon_Http_Response, setFileToSend){
+
+	zval *file_path, *attachment_name = NULL, *base_path = NULL;
+	zval *headers, *content_description, *content_disposition;
+	zval *c0 = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &file_path, &attachment_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!attachment_name) {
+		PHALCON_INIT_VAR(attachment_name);
+	}
+	
+	if (Z_TYPE_P(attachment_name) != IS_STRING) {
+		PHALCON_INIT_VAR(base_path);
+		PHALCON_CALL_FUNC_PARAMS_1(base_path, "basename", file_path);
+	} else {
+		PHALCON_CPY_WRT(base_path, attachment_name);
+	}
+	
+	PHALCON_INIT_VAR(headers);
+	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders");
+	
+	PHALCON_INIT_VAR(content_description);
+	ZVAL_STRING(content_description, "Content-Description: File Transfer", 1);
+	
+	PHALCON_INIT_VAR(content_disposition);
+	PHALCON_CONCAT_SV(content_disposition, "Content-Disposition: attachment; filename=", base_path);
+	
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "Content-Transfer-Encoding: binary", 1);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("header", c0);
+	
+	PHALCON_MM_RESTORE();
 }
 
