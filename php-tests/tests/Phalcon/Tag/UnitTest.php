@@ -4887,8 +4887,29 @@ class UnitTest extends PhTestUnitTestCase
     public function testTagHtmlNameSelfClose()
     {
         $name     = 'img';
+        $expected = '<img></img>';
+        $actual   = PhTag::tagHtml($name, null, true);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+
+    /**
+     * Tests the tagHtml with name parameter and self close
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlNameSelfCloseXhtml()
+    {
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
+        $name     = 'img';
         $expected = '<img />';
         $actual   = PhTag::tagHtml($name, null, true);
+        PhTag::setDoctype('');
 
         $this->assertEquals(
             $expected,
