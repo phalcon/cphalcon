@@ -1157,8 +1157,8 @@ class UnitTest extends PhTestUnitTestCase
             'class' => 'some_class',
             'size'  => '10',
         );
-        $expected = '<input type="text" id="some_id" class="some_class" '
-                  . 'size="10" name="some_field_name" value="" />';
+        $expected = '<input type="text" class="some_class" '
+                  . 'size="10" name="some_field_name[]" value="" />';
         $actual   = PhTag::textField($options);
         PhTag::setDoctype('');
 
