@@ -91,12 +91,13 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, getDI){
 }
 
 /**
- * Sets a header to be sent at the end of the request
+ * Sets a cookie to be sent at the end of the request
  *
  * @param string $name
  * @param mixed $value
  * @param int $expire
  * @param string $path
+ * @return Phalcon\Http\Response\Cookies
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 
@@ -142,6 +143,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		PHALCON_CALL_METHOD_PARAMS_4_NORETURN(cookie, "__construct", name, value, expire, path);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setdi", dependency_injector);
+		phalcon_array_update_zval(&cookies, name, &cookie, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	} else {
 		PHALCON_OBS_NVAR(cookie);
 		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
@@ -149,8 +151,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setexpiration", expire);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setpath", path);
 	}
-	
-	phalcon_array_update_zval(&cookies, name, &cookie, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	/** 
 	 * Register the cookies bag in the response
@@ -179,7 +179,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(response, "setcookies", this_ptr);
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_THIS();
 }
 
 /**
@@ -190,7 +191,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 
-	zval *name, *cookies, *cookie = NULL;
+	zval *name, *cookies, *cookie = NULL, *dependency_injector;
 
 	PHALCON_MM_GROW();
 
@@ -211,10 +212,17 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 		RETURN_CCTOR(cookie);
 	}
 	
+	PHALCON_OBS_VAR(dependency_injector);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
+	/** 
+	 * Create the cookie if the it does not exist
+	 */
 	PHALCON_INIT_NVAR(cookie);
 	object_init_ex(cookie, phalcon_http_cookie_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "__construct", name);
 	
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setdi", dependency_injector);
 	phalcon_update_property_array(this_ptr, SL("_cookies"), name, cookie TSRMLS_CC);
 	
 	RETURN_CCTOR(cookie);
@@ -263,6 +271,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send){
 /**
  * Reset set cookies
  *
+ * @return Phalcon\Http\Response\Cookies
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, reset){
 
@@ -273,7 +282,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, reset){
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
 	phalcon_update_property_zval(this_ptr, SL("_cookies"), empty_array TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 

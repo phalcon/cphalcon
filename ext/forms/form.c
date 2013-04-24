@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 				PHALCON_CALL_METHOD(dependency_injector, this_ptr, "getdi");
 	
 				PHALCON_INIT_NVAR(filter);
-				PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getservice", service_name);
+				PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service_name);
 			}
 	
 			PHALCON_INIT_NVAR(filtered_value);
@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 		if (phalcon_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS) {
 	
 			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD(status, this_ptr, "beforevalidation");
+			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "beforevalidation", data, entity);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_CCTOR(status);
 			}
@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 		 * Check if there is a method 'afterValidation'
 		 */
 		if (phalcon_method_exists_ex(this_ptr, SS("aftervalidation") TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD_NORETURN(this_ptr, "aftervalidation");
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "aftervalidation", messages);
 		}
 	
 		/** 
