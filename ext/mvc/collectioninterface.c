@@ -196,7 +196,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getMessages);
  *
  *		public function beforeSave()
  *		{
- *			if (this->name == 'Peter') {
+ *			if ($this->name == 'Peter') {
  *				$message = new Message("Sorry, but a robot cannot be named Peter");
  *				$this->appendMessage($message);
  *			}
