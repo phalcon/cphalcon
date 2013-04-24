@@ -63,10 +63,10 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 
 	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
 	zval *url, *models_manager, *models_metadata;
-	zval *response, *request, *filter, *escaper, *annotations;
-	zval *security, *flash, *flash_session, *session;
-	zval *session_bag, *events_manager, *transaction_manager;
-	zval *assets, *services;
+	zval *response, *cookies, *request, *filter, *escaper;
+	zval *annotations, *security, *flash, *flash_session;
+	zval *session, *session_bag, *events_manager;
+	zval *transaction_manager, *assets, *services;
 
 	PHALCON_MM_GROW();
 
@@ -143,6 +143,16 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	PHALCON_INIT_VAR(response);
 	object_init_ex(response, phalcon_di_service_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(response, "__construct", name, definition, shared);
+	
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "cookies", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Http\\Response\\Cookies", 1);
+	
+	PHALCON_INIT_VAR(cookies);
+	object_init_ex(cookies, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(cookies, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
 	ZVAL_STRING(name, "request", 1);
@@ -286,13 +296,14 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	 * Register services
 	 */
 	PHALCON_INIT_VAR(services);
-	array_init_size(services, 18);
+	array_init_size(services, 19);
 	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("url"), &url, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("modelsManager"), &models_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("modelsMetadata"), &models_metadata, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("response"), &response, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("cookies"), &cookies, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("request"), &request, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("filter"), &filter, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("escaper"), &escaper, PH_COPY | PH_SEPARATE TSRMLS_CC);
