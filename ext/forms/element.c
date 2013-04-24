@@ -434,7 +434,7 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOption){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_array(this_ptr, SL("_attributes"), option, value TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_options"), option, value TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -543,15 +543,26 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel){
  */
 PHP_METHOD(Phalcon_Forms_Element, label){
 
-	zval *label, *name, *html = NULL;
+	zval *label, *attributes, *name = NULL, *html = NULL;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(label);
 	phalcon_read_property_this(&label, this_ptr, SL("_label"), PH_NOISY_CC);
 	
-	PHALCON_OBS_VAR(name);
-	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(attributes);
+	phalcon_read_property_this(&attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
+	
+	/** 
+	 * Check if there is an 'id' attribute defined
+	 */
+	if (phalcon_array_isset_string(attributes, SS("id"))) {
+		PHALCON_OBS_VAR(name);
+		phalcon_array_fetch_string(&name, attributes, SL("id"), PH_NOISY_CC);
+	} else {
+		PHALCON_OBS_NVAR(name);
+		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	}
 	
 	/** 
 	 * Use the default label or leave the same name as label
@@ -678,6 +689,35 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages){
 	
 	
 	RETURN_CCTOR(messages);
+}
+
+/**
+ * Returns the messages that belongs to the element
+ * The element needs to be attached to a form
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Forms_Element, hasMessages){
+
+	zval *form, *name, *has;
+
+	PHALCON_MM_GROW();
+
+	/** 
+	 * Get the related form
+	 */
+	PHALCON_OBS_VAR(form);
+	phalcon_read_property_this(&form, this_ptr, SL("_form"), PH_NOISY_CC);
+	if (Z_TYPE_P(form) == IS_OBJECT) {
+		PHALCON_OBS_VAR(name);
+		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(has);
+		PHALCON_CALL_METHOD_PARAMS_1(has, form, "hasmessagesfor", name);
+		RETURN_CCTOR(has);
+	}
+	
+	RETURN_MM_FALSE;
 }
 
 /**
