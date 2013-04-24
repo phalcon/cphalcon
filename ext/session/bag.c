@@ -45,7 +45,7 @@
  * you can easily create groups of session variables into the application
  *
  *<code>
- *	$user = new \Phalcon\Session\Bag();
+ *	$user = new \Phalcon\Session\Bag('user');
  *	$user->name = "Kimbra Johnson";
  *	$user->age = 22;
  *</code>
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Session_Bag, set){
  * Magic setter to assign values to the session bag
  *
  *<code>
- * $user->name = Kimbra;
+ * $user->name = "Kimbra";
  *</code>
  *
  * @param string $property
