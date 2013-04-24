@@ -1827,7 +1827,7 @@ PHP_METHOD(Phalcon_Tag, getDocType){
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 
 	PHALCON_INIT_VAR(eol);
-	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
+    ZVAL_STRING(eol, PHP_EOL, 1);
 
 	PHALCON_INIT_VAR(declaration);
 	if (phalcon_compare_strict_long(doctype, 1 TSRMLS_CC)) {
