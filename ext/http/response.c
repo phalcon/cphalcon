@@ -65,6 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Response){
 	zend_declare_property_string(phalcon_http_response_ce, SL("_content"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_headers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_cookies"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_response_ce, SL("_file"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_response_ce TSRMLS_CC, 2, phalcon_http_responseinterface_ce, phalcon_di_injectionawareinterface_ce);
@@ -698,8 +699,29 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 
 	PHALCON_OBS_VAR(headers);
 	phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if (Z_TYPE_P(headers) != IS_NULL) {
+	if (Z_TYPE_P(headers) == IS_OBJECT) {
 		PHALCON_CALL_METHOD_NORETURN(headers, "send");
+	}
+	
+	
+	RETURN_THIS();
+}
+
+/**
+ * Sends cookies to the client
+ *
+ * @return Phalcon\Http\ResponseInterface
+ */
+PHP_METHOD(Phalcon_Http_Response, sendCookies){
+
+	zval *cookies;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(cookies);
+	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+	if (Z_TYPE_P(cookies) == IS_OBJECT) {
+		PHALCON_CALL_METHOD_NORETURN(cookies, "send");
 	}
 	
 	
@@ -722,17 +744,17 @@ PHP_METHOD(Phalcon_Http_Response, send){
 	if (PHALCON_IS_FALSE(sent)) {
 	
 		/** 
-		 * Sent headers
+		 * Send headers
 		 */
 		PHALCON_OBS_VAR(headers);
 		phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-		if (Z_TYPE_P(headers) != IS_NULL) {
+		if (Z_TYPE_P(headers) == IS_OBJECT) {
 			PHALCON_CALL_METHOD_NORETURN(headers, "send");
 		}
 	
 		PHALCON_OBS_VAR(cookies);
 		phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
-		if (Z_TYPE_P(cookies) != IS_NULL) {
+		if (Z_TYPE_P(cookies) == IS_OBJECT) {
 			PHALCON_CALL_METHOD_NORETURN(cookies, "send");
 		}
 	
@@ -755,7 +777,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 
 	zval *file_path, *attachment_name = NULL, *base_path = NULL;
 	zval *headers, *content_description, *content_disposition;
-	zval *c0 = NULL;
+	zval *content_transfer;
 
 	PHALCON_MM_GROW();
 
@@ -779,14 +801,17 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 	
 	PHALCON_INIT_VAR(content_description);
 	ZVAL_STRING(content_description, "Content-Description: File Transfer", 1);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(headers, "setraw", content_description);
 	
 	PHALCON_INIT_VAR(content_disposition);
 	PHALCON_CONCAT_SV(content_disposition, "Content-Disposition: attachment; filename=", base_path);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(headers, "setraw", content_disposition);
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "Content-Transfer-Encoding: binary", 1);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("header", c0);
+	PHALCON_INIT_VAR(content_transfer);
+	ZVAL_STRING(content_transfer, "Content-Transfer-Encoding: binary", 1);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(headers, "setraw", content_transfer);
+	phalcon_update_property_zval(this_ptr, SL("_file"), file_path TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 

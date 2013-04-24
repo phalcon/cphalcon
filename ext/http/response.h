@@ -43,6 +43,7 @@ PHP_METHOD(Phalcon_Http_Response, appendContent);
 PHP_METHOD(Phalcon_Http_Response, getContent);
 PHP_METHOD(Phalcon_Http_Response, isSent);
 PHP_METHOD(Phalcon_Http_Response, sendHeaders);
+PHP_METHOD(Phalcon_Http_Response, sendCookies);
 PHP_METHOD(Phalcon_Http_Response, send);
 PHP_METHOD(Phalcon_Http_Response, setFileToSend);
 
@@ -137,6 +138,7 @@ PHALCON_INIT_FUNCS(phalcon_http_response_method_entry){
 	PHP_ME(Phalcon_Http_Response, getContent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, isSent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, sendHeaders, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Response, sendCookies, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, send, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, setFileToSend, arginfo_phalcon_http_response_setfiletosend, ZEND_ACC_PUBLIC) 
 	PHP_FE_END

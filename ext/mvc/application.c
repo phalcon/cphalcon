@@ -537,6 +537,11 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_CALL_METHOD_NORETURN(response, "sendheaders");
 	
 	/** 
+	 * Cookies are automatically send
+	 */
+	PHALCON_CALL_METHOD_NORETURN(response, "sendcookies");
+	
+	/** 
 	 * Return the response
 	 */
 	
