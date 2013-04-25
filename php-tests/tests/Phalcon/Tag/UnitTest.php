@@ -4956,4 +4956,71 @@ class UnitTest extends PhTestUnitTestCase
         );
     }
 
+    /**
+     * Tests the tagHtml with name parameter
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-22
+     */
+    public function testTagHtmlWithArray()
+    {
+        $name     = 'canvas';
+        $options  = array(
+            'id'     => 'canvas1',
+            'width'  => 300,
+            'height' => 300,
+            'value'  => '123',
+        );
+
+        $expected = '<canvas id="canvas1" width="300" height="300" value="123">'
+                  . '</canvas>';
+        $actual   = PhTag::tagHtml($name, $options);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml with options array')
+        );
+    }
+
+    /**
+     * Tests the tagHtmlClose
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-22
+     */
+    public function testTagHtmlClose()
+    {
+        $name     = 'canvas';
+
+        $expected = '</canvas>';
+        $actual   = PhTag::tagHtmlClose($name);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml with options array')
+        );
+    }
+
+    /**
+     * Tests the tagHtmlClose with EOL
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-22
+     */
+    public function testTagHtmlCloseEol()
+    {
+        $name     = 'canvas';
+
+        $expected = '</canvas>' . PHP_EOL;
+        $actual   = PhTag::tagHtmlClose($name, true);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml with options array')
+        );
+    }
+
 }
