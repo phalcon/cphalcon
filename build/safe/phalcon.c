@@ -17008,7 +17008,13 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	phalcon_read_property_this(&columns, this_ptr, SL("_columns"), PH_NOISY_CC);
 	if (Z_TYPE_P(columns) != IS_NULL) {
 	
+<<<<<<< HEAD
 		if (Z_TYPE_P(columns) == IS_ARRAY) { 
+=======
+	PHALCON_INIT_VAR(with_value);
+	PHALCON_CALL_METHOD_PARAMS_1(with_value, validator, "getvalue", with_attribute);
+	if (!PHALCON_IS_EQUAL(value, with_value)) {
+>>>>>>> e013c744b2038e3e62a0683a0efcd0fd07572534
 	
 			PHALCON_INIT_VAR(selected_columns);
 			array_init(selected_columns);
