@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions){
  *
  * @return string|array
  */
-PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeingKey){
+PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey){
 
 	zval *options;
 

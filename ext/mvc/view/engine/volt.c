@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
  * @param string $to
  * @return string
  */
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, converEncoding){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 
 	zval *text, *from, *to, *converted = NULL;
 
