@@ -88,7 +88,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOptions);
  *
  * @return string|array
  */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isForeingKey);
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isForeignKey);
 
 /**
  * Returns the foreign key configuration

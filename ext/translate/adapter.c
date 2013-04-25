@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset){
 /**
  * Returns the translation related to the given key
  *
- * @param string $traslateKey
+ * @param string $translateKey
  * @return string
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetGet){
