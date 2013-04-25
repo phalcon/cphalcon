@@ -17132,7 +17132,7 @@ static PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(value, validator, "getvalue", attribute, 31703298UL);
 	
 	PHALCON_INIT_VAR(with_value);
-	PHALCON_CALL_METHOD_PARAMS_1_KEY(with_value, this_ptr, "getvalue", with_attribute, 31703298UL);
+	PHALCON_CALL_METHOD_PARAMS_1_KEY(with_value, validator, "getvalue", with_attribute, 31703298UL);
 	if (!PHALCON_IS_EQUAL(value, with_value)) {
 	
 		PHALCON_INIT_VAR(option);
