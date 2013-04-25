@@ -351,6 +351,33 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
  * @param string $name
  * @return mixed
  */
+PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument){
+
+	zval *name, *arguments, *value;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(arguments);
+	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (phalcon_array_isset(arguments, name)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, arguments, name, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
+	
+	RETURN_MM_NULL();
+}
+
+/**
+ * Returns a named argument (deprecated)
+ *
+ * @param string $name
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
 
 	zval *name, *arguments, *value;

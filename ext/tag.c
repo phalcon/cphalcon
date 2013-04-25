@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
  * Builds a HTML input[type="text"] tag
  *
  * <code>
- *	echo Phalcon\Tag::textField(array("name", "size" => 30))
+ *	echo Phalcon\Tag::textField(array("name", "size" => 30));
  * </code>
  *
  * @param array $parameters
@@ -715,7 +715,7 @@ PHP_METHOD(Phalcon_Tag, textField){
  * Builds a HTML input[type="number"] tag
  *
  * <code>
- *	echo Phalcon\Tag::numericField(array("price", "min" => "1" "max" => "5"))
+ *	echo Phalcon\Tag::numericField(array("price", "min" => "1" "max" => "5"));
  * </code>
  *
  * @param array $parameters
@@ -771,7 +771,7 @@ PHP_METHOD(Phalcon_Tag, dateField){
  * Builds a HTML input[type="password"] tag
  *
  *<code>
- * echo Phalcon\Tag::passwordField(array("name", "size" => 30))
+ * echo Phalcon\Tag::passwordField(array("name", "size" => 30));
  *</code>
  *
  * @param array $parameters
@@ -799,7 +799,7 @@ PHP_METHOD(Phalcon_Tag, passwordField){
  * Builds a HTML input[type="hidden"] tag
  *
  *<code>
- * echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"))
+ * echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"));
  *</code>
  *
  * @param array $parameters
@@ -827,7 +827,7 @@ PHP_METHOD(Phalcon_Tag, hiddenField){
  * Builds a HTML input[type="file"] tag
  *
  *<code>
- * echo Phalcon\Tag::fileField("file")
+ * echo Phalcon\Tag::fileField("file");
  *</code>
  *
  * @param array $parameters
@@ -855,7 +855,7 @@ PHP_METHOD(Phalcon_Tag, fileField){
  * Builds a HTML input[type="check"] tag
  *
  *<code>
- * echo Phalcon\Tag::checkField(array("name"))
+ * echo Phalcon\Tag::checkField(array("name"));
  *</code>
  *
  * @param array $parameters

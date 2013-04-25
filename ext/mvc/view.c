@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir){
 /**
  * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
  *
- **<code>
+ *<code>
  * $view->setPartialsDir('../common/partials/');
  *</code>
  *
