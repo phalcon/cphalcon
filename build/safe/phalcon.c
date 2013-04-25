@@ -25634,7 +25634,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions){
 	RETURN_MEMBER(this_ptr, "_options");
 }
 
-static PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeingKey){
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey){
 
 	zval *options;
 
@@ -56056,7 +56056,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
 	return;
 }
 
-static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, converEncoding){
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 
 	zval *text, *from, *to, *converted = NULL;
 
@@ -85727,18 +85727,18 @@ static PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset){
 
 static PHP_METHOD(Phalcon_Translate_Adapter, offsetGet){
 
-	zval *traslate_key, *null_value, *translation;
+	zval *translate_key, *null_value, *translation;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &traslate_key) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &translate_key) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(null_value);
 	
 	PHALCON_INIT_VAR(translation);
-	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", traslate_key, null_value);
+	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", translate_key, null_value);
 	RETURN_CCTOR(translation);
 }
 

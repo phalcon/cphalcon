@@ -2476,7 +2476,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_relationinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, getFields, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, getReferencedFields, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, getOptions, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, isForeingKey, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, isForeignKey, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, getForeignKey, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, hasThrough, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_RelationInterface, getThrough, NULL)
@@ -4422,7 +4422,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetunset, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetget, 0, 0, 1)
-	ZEND_ARG_INFO(0, traslateKey)
+	ZEND_ARG_INFO(0, translateKey)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_translate_adapter_method_entry){
@@ -11741,7 +11741,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions);
-static PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeingKey);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, hasThrough);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, getThrough);
@@ -11762,7 +11762,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_relation_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Relation, getFields, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Relation, getReferencedFields, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Relation, getOptions, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Relation, isForeingKey, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Relation, isForeignKey, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Relation, getForeignKey, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Relation, hasThrough, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Relation, getThrough, NULL, ZEND_ACC_PUBLIC) 
@@ -12915,7 +12915,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded);
-static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, converEncoding);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_setoptions, 0, 0, 1)
@@ -12956,7 +12956,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry){
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, render, arginfo_phalcon_mvc_view_engine_volt_render, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, length, arginfo_phalcon_mvc_view_engine_volt_length, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, isIncluded, arginfo_phalcon_mvc_view_engine_volt_isincluded, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt, converEncoding, arginfo_phalcon_mvc_view_engine_volt_converencoding, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, convertEncoding, arginfo_phalcon_mvc_view_engine_volt_converencoding, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, slice, arginfo_phalcon_mvc_view_engine_volt_slice, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
