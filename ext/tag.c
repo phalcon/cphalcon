@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
  * Builds a HTML input[type="text"] tag
  *
  * <code>
- *	echo Phalcon\Tag::textField(array("name", "size" => 30));
+ *	echo Phalcon\Tag::textField(array("name", "size" => 30))
  * </code>
  *
  * @param array $parameters
@@ -771,7 +771,7 @@ PHP_METHOD(Phalcon_Tag, dateField){
  * Builds a HTML input[type="password"] tag
  *
  *<code>
- * echo Phalcon\Tag::passwordField(array("name", "size" => 30));
+ * echo Phalcon\Tag::passwordField(array("name", "size" => 30))
  *</code>
  *
  * @param array $parameters
@@ -799,7 +799,7 @@ PHP_METHOD(Phalcon_Tag, passwordField){
  * Builds a HTML input[type="hidden"] tag
  *
  *<code>
- * echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"));
+ * echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"))
  *</code>
  *
  * @param array $parameters
@@ -827,7 +827,7 @@ PHP_METHOD(Phalcon_Tag, hiddenField){
  * Builds a HTML input[type="file"] tag
  *
  *<code>
- * echo Phalcon\Tag::fileField("file");
+ * echo Phalcon\Tag::fileField("file")
  *</code>
  *
  * @param array $parameters
@@ -855,7 +855,7 @@ PHP_METHOD(Phalcon_Tag, fileField){
  * Builds a HTML input[type="check"] tag
  *
  *<code>
- * echo Phalcon\Tag::checkField(array("name"));
+ * echo Phalcon\Tag::checkField(array("name"))
  *</code>
  *
  * @param array $parameters
@@ -883,7 +883,7 @@ PHP_METHOD(Phalcon_Tag, checkField){
  * Builds a HTML input[type="radio"] tag
  *
  *<code>
- * echo Phalcon\Tag::radioField(array("name"));
+ * echo Phalcon\Tag::radioField(array("name"))
  *</code>
  *
  * Volt syntax:
@@ -952,7 +952,7 @@ PHP_METHOD(Phalcon_Tag, imageInput){
  * Builds a HTML input[type="submit"] tag
  *
  *<code>
- * echo Phalcon\Tag::submitButton("Save");
+ * echo Phalcon\Tag::submitButton("Save")
  *</code>
  *
  * Volt syntax:
@@ -988,7 +988,7 @@ PHP_METHOD(Phalcon_Tag, submitButton){
  * Builds a HTML SELECT tag using a PHP array for options
  *
  *<code>
- *	echo Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"));
+ *	echo Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))
  *</code>
  *
  * @param array $parameters
@@ -1057,7 +1057,7 @@ PHP_METHOD(Phalcon_Tag, select){
  * Builds a HTML TEXTAREA tag
  *
  *<code>
- * echo Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4));
+ * echo Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))
  *</code>
  *
  * Volt syntax:
@@ -1749,7 +1749,7 @@ PHP_METHOD(Phalcon_Tag, image){
  * Converts texts into URL-friendly titles
  *
  *<code>
- * echo Phalcon\Tag::friendlyTitle('Thiese are big important news', '-');
+ * echo Phalcon\Tag::friendlyTitle('Thiese are big important news', '-')
  *</code>
  *
  * @param string $text

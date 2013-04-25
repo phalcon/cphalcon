@@ -477,7 +477,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
  * //Updating existing robot
  * $success = $connection->update(
  *     "robots",
- *     array("name"),
+ *     array("name")
  *     array("New Astro Boy"),
  *     "id = 101"
  * );
@@ -1283,7 +1283,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnDefinition){
  * List all tables on a database
  *
  *<code>
- * 	print_r($connection->listTables("blog"));
+ * 	print_r($connection->listTables("blog");
  *</code>
  *
  * @param string $schemaName

@@ -54,7 +54,7 @@
  *	$acl->addRole($roleGuests);
  *
  *	//Add "Designers" role to acl
- *	$acl->addRole('Designers');
+ *	$acl->addRole('Designers'));
  *
  *	//Define the "Customers" resource
  *	$customersResource = new Phalcon\Acl\Resource('Customers', 'Customers management');
@@ -69,7 +69,7 @@
  *	$acl->deny('Guests', 'Customers', 'update');
  *
  *	//Check whether role has access to the operations
- *	$acl->isAllowed('Guests', 'Customers', 'edit'); //Returns 0
+ *	$acl->isAllowed('Guests', 'Customers', 'edit') //Returns 0
  *	$acl->isAllowed('Guests', 'Customers', 'search'); //Returns 1
  *	$acl->isAllowed('Guests', 'Customers', 'create'); //Returns 1
  *

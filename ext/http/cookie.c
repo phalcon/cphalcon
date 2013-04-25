@@ -339,7 +339,8 @@ PHP_METHOD(Phalcon_Http_Cookie, send){
 PHP_METHOD(Phalcon_Http_Cookie, restore){
 
 	zval *dependency_injector, *service, *session;
-	zval *name, *key, *value;
+	zval *name, *key, *definition, *expire, *domain, *path;
+	zval *secure, *http_only;
 
 	PHALCON_MM_GROW();
 
@@ -359,11 +360,41 @@ PHP_METHOD(Phalcon_Http_Cookie, restore){
 		PHALCON_INIT_VAR(key);
 		PHALCON_CONCAT_SV(key, "_PHCOOKIE_", name);
 	
-		PHALCON_INIT_VAR(value);
-		PHALCON_CALL_METHOD_PARAMS_1(value, session, "get", key);
-		if (Z_TYPE_P(value) != IS_ARRAY) { 
+		PHALCON_INIT_VAR(definition);
+		PHALCON_CALL_METHOD_PARAMS_1(definition, session, "get", key);
+		if (Z_TYPE_P(definition) == IS_ARRAY) { 
+			if (phalcon_array_isset_string(definition, SS("expire"))) {
+				PHALCON_OBS_VAR(expire);
+				phalcon_array_fetch_string(&expire, definition, SL("expire"), PH_NOISY_CC);
+				phalcon_update_property_zval(this_ptr, SL("_expire"), expire TSRMLS_CC);
+			}
+			if (phalcon_array_isset_string(definition, SS("domain"))) {
+				PHALCON_OBS_VAR(domain);
+				phalcon_array_fetch_string(&domain, definition, SL("domain"), PH_NOISY_CC);
+				phalcon_update_property_zval(this_ptr, SL("_domain"), domain TSRMLS_CC);
+			}
+	
+			if (phalcon_array_isset_string(definition, SS("path"))) {
+				PHALCON_OBS_VAR(path);
+				phalcon_array_fetch_string(&path, definition, SL("path"), PH_NOISY_CC);
+				phalcon_update_property_zval(this_ptr, SL("_path"), path TSRMLS_CC);
+			}
+	
+			if (phalcon_array_isset_string(definition, SS("secure"))) {
+				PHALCON_OBS_VAR(secure);
+				phalcon_array_fetch_string(&secure, definition, SL("secure"), PH_NOISY_CC);
+				phalcon_update_property_zval(this_ptr, SL("_secure"), secure TSRMLS_CC);
+			}
+	
+			if (phalcon_array_isset_string(definition, SS("httpOnly"))) {
+				PHALCON_OBS_VAR(http_only);
+				phalcon_array_fetch_string(&http_only, definition, SL("httpOnly"), PH_NOISY_CC);
+				phalcon_update_property_zval(this_ptr, SL("_httpOnly"), http_only TSRMLS_CC);
+			}
 		}
 	}
+	
+	phalcon_update_property_bool(this_ptr, SL("_restored"), 1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

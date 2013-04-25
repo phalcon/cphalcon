@@ -59,7 +59,7 @@
  * <code>
  *
  * $robot = new Robots();
- * $robot->type = 'mechanical';
+ * $robot->type = 'mechanical'
  * $robot->name = 'Astro Boy';
  * $robot->year = 1952;
  * if ($robot->save() == false) {
@@ -1930,7 +1930,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
  *
  *   public function beforeSave()
  *   {
- *     if ($this->name == 'Peter') {
+ *     if (this->name == 'Peter') {
  *        $message = new Message("Sorry, but a robot cannot be named Peter");
  *        $this->appendMessage($message);
  *     }
@@ -3658,7 +3658,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
  *<code>
  *	//Creating a new robot
  *	$robot = new Robots();
- *	$robot->type = 'mechanical';
+ *	$robot->type = 'mechanical'
  *	$robot->name = 'Astro Boy';
  *	$robot->year = 1952;
  *	$robot->save();
@@ -3929,7 +3929,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
  *<code>
  *	//Creating a new robot
  *	$robot = new Robots();
- *	$robot->type = 'mechanical';
+ *	$robot->type = 'mechanical'
  *	$robot->name = 'Astro Boy';
  *	$robot->year = 1952;
  *	$robot->create();
@@ -5077,7 +5077,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough){
  *
  *<code>
  *
- *use Phalcon\Mvc\Model\Behavior\Timestampable;
+ *use Phalcon\Mvc\Model\Behaviors\Timestampable;
  *
  *class Robots extends \Phalcon\Mvc\Model
  *{
@@ -5085,11 +5085,11 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough){
  *   public function initialize()
  *   {
  *		$this->addBehavior(new Timestampable(
- *			array('onCreate' => array(
+ *			'onCreate' => array(
  *				'field' => 'created_at',
  *				'format' => 'Y-m-d'
  *			)
- *		)));
+ *		));
  *   }
  *
  *}

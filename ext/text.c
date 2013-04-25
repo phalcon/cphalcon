@@ -208,7 +208,6 @@ PHP_METHOD(Phalcon_Text, random){
  * @param string $str
  * @param string $start
  * @param boolean $ignoreCase
- * @return boolean
  */
 PHP_METHOD(Phalcon_Text, startsWith){
 
@@ -243,7 +242,6 @@ PHP_METHOD(Phalcon_Text, startsWith){
  * @param string $str
  * @param string $end
  * @param boolean $ignoreCase
- * @return boolean
  */
 PHP_METHOD(Phalcon_Text, endsWith){
 
