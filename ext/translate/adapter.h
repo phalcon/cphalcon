@@ -46,7 +46,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetunset, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_offsetget, 0, 0, 1)
-	ZEND_ARG_INFO(0, traslateKey)
+	ZEND_ARG_INFO(0, translateKey)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_translate_adapter_method_entry){
