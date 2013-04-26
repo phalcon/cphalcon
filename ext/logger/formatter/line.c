@@ -160,8 +160,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 
 	zval *message, *type, *timestamp, *format = NULL, *date_format;
 	zval *date, *date_wildcard, *new_format = NULL, *type_string;
-	zval *type_wildcard, *message_wildcard, *eol = NULL;
-	zval *t0 = NULL;
+	zval *type_wildcard, *message_wildcard, *eol;
 
 	PHALCON_MM_GROW();
 
@@ -213,9 +212,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	PHALCON_INIT_NVAR(new_format);
 	phalcon_fast_str_replace(new_format, message_wildcard, message, format TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, PHP_EOL, 1);
-	PHALCON_CPY_WRT(eol, t0);
+	PHALCON_INIT_VAR(eol);
+	ZVAL_STRING(eol, PHP_EOL, 1);
 	
 	PHALCON_INIT_NVAR(format);
 	PHALCON_CONCAT_VV(format, new_format, eol);

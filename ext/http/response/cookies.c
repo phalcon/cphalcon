@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		PHALCON_CALL_METHOD_PARAMS_4_NORETURN(cookie, "__construct", name, value, expire, path);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setdi", dependency_injector);
-		phalcon_array_update_zval(&cookies, name, &cookie, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_update_property_array(this_ptr, SL("_cookies"), name, cookie TSRMLS_CC);
 	} else {
 		PHALCON_OBS_NVAR(cookie);
 		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
