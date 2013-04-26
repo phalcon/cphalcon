@@ -42,7 +42,7 @@
  * Phalcon\Http\Response\Cookies
  *
  * This class is a bag to manage the cookies
- *
+ * A cookies bag is automatically registered as part of the 'response' service in the DI
  */
 
 
@@ -55,9 +55,10 @@ PHALCON_INIT_CLASS(Phalcon_Http_Response_Cookies){
 
 	zend_declare_property_null(phalcon_http_response_cookies_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_http_response_cookies_ce, SL("_registered"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_http_response_cookies_ce, SL("_useEncryption"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_cookies_ce, SL("_cookies"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_http_response_cookies_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+	zend_class_implements(phalcon_http_response_cookies_ce TSRMLS_CC, 2, phalcon_http_response_cookiesinterface_ce, phalcon_di_injectionawareinterface_ce);
 
 	return SUCCESS;
 }
@@ -91,22 +92,56 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, getDI){
 }
 
 /**
+ * Set if cookies in the bag must be automatically encrypted/decrypted
+ *
+ * @param boolean $useEncryption
+ * @return Phalcon\Http\Response\Cookies
+ */
+PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption){
+
+	zval *use_encryption;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &use_encryption) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_useEncryption"), use_encryption TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns if the bag is automatically encrypting/decrypting cookies
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption){
+
+
+	RETURN_MEMBER(this_ptr, "_useEncryption");
+}
+
+/**
  * Sets a cookie to be sent at the end of the request
+ * This method overrides any cookie set before with the same name
  *
  * @param string $name
  * @param mixed $value
  * @param int $expire
  * @param string $path
+ * @param boolean $secure
+ * @param boolean $httpOnly
  * @return Phalcon\Http\Response\Cookies
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 
-	zval *name, *value = NULL, *expire = NULL, *path = NULL, *cookies, *dependency_injector = NULL;
+	zval *name, *value = NULL, *expire = NULL, *path = NULL, *secure = NULL, *http_only = NULL;
+	zval *cookies, *encryption, *dependency_injector = NULL;
 	zval *cookie = NULL, *registered, *service, *response;
+	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &name, &value, &expire, &path) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzzzz", &name, &value, &expire, &path, &secure, &http_only) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -123,6 +158,14 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		PHALCON_INIT_VAR(path);
 	}
 	
+	if (!secure) {
+		PHALCON_INIT_VAR(secure);
+	}
+	
+	if (!http_only) {
+		PHALCON_INIT_VAR(http_only);
+	}
+	
 	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_http_cookie_exception_ce, "The cookie name must be string");
 		return;
@@ -131,18 +174,33 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	PHALCON_OBS_VAR(cookies);
 	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
 	
+	PHALCON_OBS_VAR(encryption);
+	phalcon_read_property_this(&encryption, this_ptr, SL("_useEncryption"), PH_NOISY_CC);
+	
 	/** 
 	 * Check if the cookie needs to be updated or 
 	 */
 	if (!phalcon_array_isset(cookies, name)) {
+	
 		PHALCON_OBS_VAR(dependency_injector);
 		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(cookie);
 		object_init_ex(cookie, phalcon_http_cookie_ce);
-		PHALCON_CALL_METHOD_PARAMS_4_NORETURN(cookie, "__construct", name, value, expire, path);
+	
+		p0[0] = name;
+		p0[1] = value;
+		p0[2] = expire;
+		p0[3] = path;
+		p0[4] = secure;
+		p0[5] = http_only;
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(cookie, "__construct", 6, p0);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setdi", dependency_injector);
+		if (zend_is_true(encryption)) {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "useencryption", encryption);
+		}
+	
 		phalcon_update_property_array(this_ptr, SL("_cookies"), name, cookie TSRMLS_CC);
 	} else {
 		PHALCON_OBS_NVAR(cookie);
@@ -150,6 +208,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setvalue", value);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setexpiration", expire);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setpath", path);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setsecure", secure);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "sethttponly", http_only);
 	}
 	
 	/** 
@@ -200,7 +260,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 	}
 
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "The cookie name must be string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_http_cookie_exception_ce, "The cookie name must be string");
 		return;
 	}
 	

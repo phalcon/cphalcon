@@ -39,11 +39,12 @@
 /**
  * Phalcon\Mvc\Micro\Collection
  *
- * Groups handlers as controllers
+ * Groups Micro-Mvc handlers as controllers
  *
  *<code>
  *
  * $app = new Phalcon\Mvc\Micro();
+ *
  * $collection = new Phalcon\Mvc\Micro\Collection();
  *
  * $collection->setHandler(new PostsController());
@@ -64,12 +65,21 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Collection){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Micro, Collection, mvc_micro_collection, phalcon_mvc_micro_collection_method_entry, 0);
 
+	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_lazy"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_handler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
 
+/**
+ * Internal function to add a handler to the group
+ *
+ * @param string|array $method
+ * @param string $routePattern
+ * @param mixed $handler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap){
 
 	zval *method, *route_pattern, *handler, *handler_definition;
@@ -91,6 +101,35 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap){
 }
 
 /**
+ * Sets a prefix for all routes added to the collection
+ *
+ * @param string $prefix
+ * @return Phalcon\Mvc\Micro\Collection
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix){
+
+	zval *prefix;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &prefix) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the collection prefix if any
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix){
+
+
+	RETURN_MEMBER(this_ptr, "_prefix");
+}
+
+/**
  * Returns the registered handlers
  *
  * @return array
@@ -105,17 +144,56 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers){
  * Sets the main handler
  *
  * @param mixed $handler
+ * @param boolean $lazy
+ * @return Phalcon\Mvc\Micro\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler){
 
-	zval *handler;
+	zval *handler, *lazy = NULL;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &handler) == FAILURE) {
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &handler, &lazy) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!lazy) {
+		PHALCON_INIT_VAR(lazy);
+		ZVAL_BOOL(lazy, 0);
+	}
+	
+	phalcon_update_property_zval(this_ptr, SL("_handler"), handler TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_lazy"), lazy TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
+ * Sets if the main handler must be lazy loaded
+ *
+ * @param boolean $lazy
+ * @return Phalcon\Mvc\Micro\Collection
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy){
+
+	zval *lazy;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &lazy) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_handler"), handler TSRMLS_CC);
-	
+	phalcon_update_property_zval(this_ptr, SL("_lazy"), lazy TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns if the main handler must be lazy loaded
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy){
+
+
+	RETURN_MEMBER(this_ptr, "_lazy");
 }
 
 /**

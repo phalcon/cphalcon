@@ -57,6 +57,8 @@ PHALCON_INIT_CLASS(Phalcon_Crypt){
 	zend_declare_property_string(phalcon_crypt_ce, SL("_mode"), "cbc", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_crypt_ce, SL("_cipher"), "rijndael-256", ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_crypt_ce TSRMLS_CC, 1, phalcon_cryptinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -346,9 +348,35 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 	RETURN_CCTOR(decrypted);
 }
 
+/**
+ * Returns a list of available cyphers
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
 
+	zval *algos;
 
-	
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(algos);
+	PHALCON_CALL_FUNC(algos, "mcrypt_list_algorithms");
+	RETURN_CCTOR(algos);
+}
+
+/**
+ * Returns a list of available modes
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Crypt, getAvailableModes){
+
+	zval *modes;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(modes);
+	PHALCON_CALL_FUNC(modes, "mcrypt_list_modes");
+	RETURN_CCTOR(modes);
 }
 

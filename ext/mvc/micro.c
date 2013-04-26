@@ -39,6 +39,7 @@
 #include "kernel/operators.h"
 #include "kernel/file.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Mvc\Micro
@@ -472,9 +473,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, options){
  */
 PHP_METHOD(Phalcon_Mvc_Micro, mount){
 
-	zval *collection, *main_handler, *handlers, *handler = NULL;
-	zval *methods = NULL, *pattern = NULL, *sub_handler = NULL, *real_handler = NULL;
-	zval *route = NULL;
+	zval *collection, *main_handler, *handlers, *prefix;
+	zval *handler = NULL, *methods = NULL, *pattern = NULL, *sub_handler = NULL;
+	zval *real_handler = NULL, *prefixed_pattern = NULL, *route = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -506,6 +507,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 	
 	if (Z_TYPE_P(handlers) == IS_ARRAY) { 
 	
+		/** 
+		 * Get the main prefix for the collection
+		 */
+		PHALCON_INIT_VAR(prefix);
+		PHALCON_CALL_METHOD(prefix, collection, "getprefix");
+	
 		if (!phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
@@ -535,12 +542,18 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 			array_init_size(real_handler, 2);
 			phalcon_array_append(&real_handler, main_handler, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&real_handler, sub_handler, PH_SEPARATE TSRMLS_CC);
+			if (PHALCON_IS_NOT_EMPTY(prefix)) {
+				PHALCON_INIT_NVAR(prefixed_pattern);
+				PHALCON_CONCAT_VV(prefixed_pattern, prefix, pattern);
+			} else {
+				PHALCON_CPY_WRT(prefixed_pattern, pattern);
+			}
 	
 			/** 
 			 * Map the route manually
 			 */
 			PHALCON_INIT_NVAR(route);
-			PHALCON_CALL_METHOD_PARAMS_2(route, this_ptr, "map", pattern, real_handler);
+			PHALCON_CALL_METHOD_PARAMS_2(route, this_ptr, "map", prefixed_pattern, real_handler);
 			if (zend_is_true(methods)) {
 				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(route, "via", methods);
 			}
