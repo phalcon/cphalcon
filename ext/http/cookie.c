@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send){
 	 */
 	
 	p0[0] = name;
-	p0[1] = value;
+	p0[1] = encrypt_value;
 	p0[2] = expire;
 	p0[3] = path;
 	p0[4] = domain;

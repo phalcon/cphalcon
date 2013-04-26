@@ -196,7 +196,14 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		p0[5] = http_only;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(cookie, "__construct", 6, p0);
 	
+		/** 
+		 * Pass the DI to created cookies
+		 */
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setdi", dependency_injector);
+	
+		/** 
+		 * Enable encryption in the cookie
+		 */
 		if (zend_is_true(encryption)) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "useencryption", encryption);
 		}
@@ -205,6 +212,10 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	} else {
 		PHALCON_OBS_NVAR(cookie);
 		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
+	
+		/** 
+		 * Override any settings in the cookie
+		 */
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setvalue", value);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setexpiration", expire);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setpath", path);
@@ -252,6 +263,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 
 	zval *name, *cookies, *cookie = NULL, *dependency_injector;
+	zval *encryption;
 
 	PHALCON_MM_GROW();
 
@@ -272,9 +284,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 		RETURN_CCTOR(cookie);
 	}
 	
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
 	/** 
 	 * Create the cookie if the it does not exist
 	 */
@@ -282,7 +291,26 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 	object_init_ex(cookie, phalcon_http_cookie_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "__construct", name);
 	
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setdi", dependency_injector);
+	PHALCON_OBS_VAR(dependency_injector);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+	
+		/** 
+		 * Pass the DI to created cookies
+		 */
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setdi", dependency_injector);
+	
+		PHALCON_OBS_VAR(encryption);
+		phalcon_read_property_this(&encryption, this_ptr, SL("_useEncryption"), PH_NOISY_CC);
+	
+		/** 
+		 * Enable encryption in the cookie
+		 */
+		if (zend_is_true(encryption)) {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "useencryption", encryption);
+		}
+	}
+	
 	phalcon_update_property_array(this_ptr, SL("_cookies"), name, cookie TSRMLS_CC);
 	
 	RETURN_CCTOR(cookie);
