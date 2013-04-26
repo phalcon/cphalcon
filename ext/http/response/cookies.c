@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send){
 	
 			PHALCON_GET_FOREACH_VALUE(cookie);
 	
-			PHALCON_CALL_FUNC_PARAMS_1_NORETURN("var_dump", cookie);
+			PHALCON_CALL_METHOD_NORETURN(cookie, "send");
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
