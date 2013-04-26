@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
 	zval *url, *models_manager, *models_metadata;
 	zval *response, *cookies, *request, *filter, *escaper;
-	zval *annotations, *security, *flash, *flash_session;
+	zval *annotations, *security, *crypt, *flash, *flash_session;
 	zval *session, *session_bag, *events_manager;
 	zval *transaction_manager, *assets, *services;
 
@@ -214,6 +214,19 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(security, "__construct", name, definition, shared);
 	
 	/** 
+	 * Crypt Service
+	 */
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "crypt", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Crypt", 1);
+	
+	PHALCON_INIT_VAR(crypt);
+	object_init_ex(crypt, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(crypt, "__construct", name, definition, shared);
+	
+	/** 
 	 * Flash services are always shared
 	 */
 	PHALCON_INIT_NVAR(name);
@@ -296,7 +309,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	 * Register services
 	 */
 	PHALCON_INIT_VAR(services);
-	array_init_size(services, 19);
+	array_init_size(services, 20);
 	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("url"), &url, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -308,6 +321,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	phalcon_array_update_string(&services, SL("filter"), &filter, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("escaper"), &escaper, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("crypt"), &crypt, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("annotations"), &annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("flash"), &flash, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("flashSession"), &flash_session, PH_COPY | PH_SEPARATE TSRMLS_CC);
