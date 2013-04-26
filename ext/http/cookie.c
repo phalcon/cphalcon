@@ -259,6 +259,10 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 				PHALCON_CPY_WRT(decrypted_value, value);
 			}
 	
+			/** 
+			 * Update the decrypted value
+			 */
+			phalcon_update_property_zval(this_ptr, SL("_value"), decrypted_value TSRMLS_CC);
 			if (Z_TYPE_P(filters) != IS_NULL) {
 	
 				PHALCON_OBS_VAR(filter);

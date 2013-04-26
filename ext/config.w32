@@ -61,6 +61,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/cache/backend", "file.c apc.c mongo.c memcache.c memory.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session", "bag.c exception.c baginterface.c adapterinterface.c adapter.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session/adapter", "files.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/crypt", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/events", "managerinterface.c manager.c event.c exception.c eventsawareinterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/paginator/adapter", "model.c nativearray.c querybuilder.c", "phalcon")
   ADD_SOURCES("ext/phalcon/paginator", "exception.c adapterinterface.c", "phalcon")
