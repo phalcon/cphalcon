@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Mvc\Router\Group
@@ -296,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 			 * Merge the paths with the default paths
 			 */
 			PHALCON_INIT_VAR(merged_paths);
-			PHALCON_CALL_FUNC_PARAMS_2(merged_paths, "array_merge", default_paths, paths);
+			phalcon_fast_array_merge(merged_paths, default_paths, paths TSRMLS_CC);
 		} else {
 			PHALCON_CPY_WRT(merged_paths, default_paths);
 		}

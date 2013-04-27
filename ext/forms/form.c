@@ -36,8 +36,8 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/file.h"
 
 /**
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Forms_Form, getAction){
 }
 
 /**
- * Sets an option for the element
+ * Sets an option for the form
  *
  * @param string $option
  * @param mixed $value
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Forms_Form, setUserOption){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_array(this_ptr, SL("_attributes"), option, value TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_options"), option, value TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Forms_Form, getElements){
 PHP_METHOD(Phalcon_Forms_Form, bind){
 
 	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL;
-	zval *value = NULL, *key = NULL, *in_array = NULL, *element = NULL, *filters = NULL, *service_name = NULL;
+	zval *value = NULL, *key = NULL, *element = NULL, *filters = NULL, *service_name = NULL;
 	zval *dependency_injector = NULL, *filtered_value = NULL;
 	zval *method = NULL;
 	HashTable *ah0;
@@ -337,10 +337,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 		 * Check if the item is in the whitelist
 		 */
 		if (Z_TYPE_P(whitelist) == IS_ARRAY) { 
-	
-			PHALCON_INIT_NVAR(in_array);
-			PHALCON_CALL_FUNC_PARAMS_2(in_array, "in_array", key, whitelist);
-			if (!zend_is_true(in_array)) {
+			if (!phalcon_fast_in_array(key, whitelist TSRMLS_CC)) {
 				zend_hash_move_forward_ex(ah0, &hp0);
 				continue;
 			}

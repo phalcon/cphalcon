@@ -156,6 +156,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	
 	if (!path) {
 		PHALCON_INIT_VAR(path);
+		ZVAL_STRING(path, "/", 1);
 	}
 	
 	if (!secure) {
@@ -314,6 +315,43 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 	phalcon_update_property_array(this_ptr, SL("_cookies"), name, cookie TSRMLS_CC);
 	
 	RETURN_CCTOR(cookie);
+}
+
+/**
+ * Check if a cookie is defined in the bag or exists in the $_COOKIE superglobal
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Response_Cookies, has){
+
+	zval *name, *cookies, *_COOKIE;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(cookies);
+	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+	
+	/** 
+	 * Check the internal bag
+	 */
+	if (phalcon_array_isset(cookies, name)) {
+		RETURN_MM_TRUE;
+	}
+	
+	/** 
+	 * Check the superglobal
+	 */
+	phalcon_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
+	if (phalcon_array_isset(_COOKIE, name)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
 }
 
 /**

@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators){
 		phalcon_read_property_this(&current_validators, this_ptr, SL("_validators"), PH_NOISY_CC);
 		if (Z_TYPE_P(current_validators) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(merged_validators);
-			PHALCON_CALL_FUNC_PARAMS_2(merged_validators, "array_merge", current_validators, validators);
+			phalcon_fast_array_merge(merged_validators, current_validators, validators TSRMLS_CC);
 		} else {
 			PHALCON_CPY_WRT(merged_validators, validators);
 		}
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	phalcon_read_property_this(&default_attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if (Z_TYPE_P(default_attributes) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(merged_attributes);
-		PHALCON_CALL_FUNC_PARAMS_2(merged_attributes, "array_merge", widget_attributes, default_attributes);
+		phalcon_fast_array_merge(merged_attributes, widget_attributes, default_attributes TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(merged_attributes, widget_attributes);
 	}

@@ -62,7 +62,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Cookie){
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_value"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_expire"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_http_cookie_ce, SL("_path"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_http_cookie_ce, SL("_path"), "/", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_domain"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_secure"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_http_cookie_ce, SL("_httpOnly"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -103,6 +103,7 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct){
 	
 	if (!path) {
 		PHALCON_INIT_VAR(path);
+		ZVAL_STRING(path, "/", 1);
 	}
 	
 	if (!secure) {
@@ -436,6 +437,8 @@ PHP_METHOD(Phalcon_Http_Cookie, send){
 /**
  * Reads the cookie-related info from the SESSION to restore the cookie as it was set
  * This method is automatically called internally so normally you don't need to call it
+ *
+ * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Cookie, restore){
 
@@ -502,7 +505,8 @@ PHP_METHOD(Phalcon_Http_Cookie, restore){
 		phalcon_update_property_bool(this_ptr, SL("_restored"), 1 TSRMLS_CC);
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_THIS();
 }
 
 /**
@@ -857,7 +861,21 @@ PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly){
  */
 PHP_METHOD(Phalcon_Http_Cookie, __toString){
 
+	zval *value, *str_value = NULL;
+	zval *r0 = NULL;
 
-	RETURN_MEMBER(this_ptr, "_value");
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(value);
+	phalcon_read_property_this(&value, this_ptr, SL("_value"), PH_NOISY_CC);
+	if (Z_TYPE_P(value) != IS_STRING) {
+		PHALCON_INIT_VAR(r0);
+		phalcon_cast(r0, value, IS_STRING);
+		PHALCON_CPY_WRT(str_value, r0);
+		RETURN_CCTOR(str_value);
+	}
+	
+	
+	RETURN_CCTOR(value);
 }
 
