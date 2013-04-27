@@ -34,6 +34,8 @@
 
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
@@ -75,8 +77,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn){
 PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 
 	zval *validator, *attribute, *value, *option = NULL, *domain;
-	zval *in_array, *message_str = NULL, *joined_domain;
-	zval *type, *message;
+	zval *message_str = NULL, *joined_domain, *type, *message;
 
 	PHALCON_MM_GROW();
 
@@ -103,9 +104,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 	/** 
 	 * Check if the value is contained by the array
 	 */
-	PHALCON_INIT_VAR(in_array);
-	PHALCON_CALL_FUNC_PARAMS_2(in_array, "in_array", value, domain);
-	if (zend_is_true(in_array)) {
+	if (phalcon_fast_in_array(value, domain TSRMLS_CC)) {
 	
 		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "message", 1);

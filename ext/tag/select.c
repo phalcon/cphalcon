@@ -254,8 +254,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 
 	zval *resultset, *using, *value, *close_option;
 	zval *code, *params = NULL, *option = NULL, *using_zero = NULL, *using_one = NULL;
-	zval *option_value = NULL, *option_text = NULL, *is_in_array = NULL;
-	zval *code_option = NULL;
+	zval *option_value = NULL, *option_text = NULL, *code_option = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -340,10 +339,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 			 * If the value is equal to the option's value we mark it as selected
 			 */
 			if (Z_TYPE_P(value) == IS_ARRAY) { 
-	
-				PHALCON_INIT_NVAR(is_in_array);
-				PHALCON_CALL_FUNC_PARAMS_2(is_in_array, "in_array", option_value, value);
-				if (zend_is_true(is_in_array)) {
+				if (phalcon_fast_in_array(option_value, value TSRMLS_CC)) {
 					PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
 				} else {
 					PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);
@@ -389,7 +385,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 
 	zval *data, *value, *close_option, *code, *option_text = NULL;
-	zval *option_value = NULL, *is_in_array = NULL;
+	zval *option_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -413,10 +409,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		PHALCON_GET_FOREACH_VALUE(option_text);
 	
 		if (Z_TYPE_P(value) == IS_ARRAY) { 
-	
-			PHALCON_INIT_NVAR(is_in_array);
-			PHALCON_CALL_FUNC_PARAMS_2(is_in_array, "in_array", option_value, value);
-			if (zend_is_true(is_in_array)) {
+			if (phalcon_fast_in_array(option_value, value TSRMLS_CC)) {
 				PHALCON_SCONCAT_SVSVV(code, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
 			} else {
 				PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);

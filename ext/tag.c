@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Tag, displayTo){
  */
 PHP_METHOD(Phalcon_Tag, hasValue){
 
-	zval *name, *display_values, *value, *_POST;
+	zval *name, *display_values, *_POST;
 
 	PHALCON_MM_GROW();
 
@@ -335,8 +335,7 @@ PHP_METHOD(Phalcon_Tag, hasValue){
 	 * Check if there is a predefined value for it
 	 */
 	if (phalcon_array_isset(display_values, name)) {
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, display_values, name, PH_NOISY_CC);
+		RETURN_MM_TRUE;
 	} else {
 		/** 
 		 * Check if there is a post value for the item
@@ -1166,8 +1165,8 @@ PHP_METHOD(Phalcon_Tag, textArea){
  */
 PHP_METHOD(Phalcon_Tag, form){
 
-	zval *parameters = NULL, *params = NULL, *params_action = NULL, *url;
-	zval *action, *code, *avalue = NULL, *key = NULL;
+	zval *parameters = NULL, *params = NULL, *params_action = NULL, *action = NULL;
+	zval *url, *code, *avalue = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1210,13 +1209,12 @@ PHP_METHOD(Phalcon_Tag, form){
 		phalcon_array_update_string_string(&params, SL("method"), SL("post"), PH_SEPARATE TSRMLS_CC);
 	}
 	
+	PHALCON_INIT_VAR(action);
 	if (Z_TYPE_P(params_action) != IS_NULL) {
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 	
-		PHALCON_INIT_VAR(action);
 		PHALCON_CALL_METHOD_PARAMS_1(action, url, "get", params_action);
-		phalcon_array_update_string(&params, SL("action"), &action, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	/** 
@@ -1226,6 +1224,10 @@ PHP_METHOD(Phalcon_Tag, form){
 		PHALCON_OBS_NVAR(parameters);
 		phalcon_array_fetch_string(&parameters, params, SL("parameters"), PH_NOISY_CC);
 		PHALCON_SCONCAT_SV(action, "?", parameters);
+	}
+	
+	if (Z_TYPE_P(action) != IS_NULL) {
+		phalcon_array_update_string(&params, SL("action"), &action, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(code);

@@ -35,8 +35,8 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/require.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 		phalcon_read_property_this(&current_namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(merged_namespaces);
-		PHALCON_CALL_FUNC_PARAMS_2(merged_namespaces, "array_merge", current_namespaces, namespaces);
+		phalcon_fast_array_merge(merged_namespaces, current_namespaces, namespaces TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_namespaces"), merged_namespaces TSRMLS_CC);
 	} else {
 		phalcon_update_property_zval(this_ptr, SL("_namespaces"), namespaces TSRMLS_CC);
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes){
 		phalcon_read_property_this(&current_prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(merged_prefixes);
-		PHALCON_CALL_FUNC_PARAMS_2(merged_prefixes, "array_merge", current_prefixes, prefixes);
+		phalcon_fast_array_merge(merged_prefixes, current_prefixes, prefixes TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_prefixes"), merged_prefixes TSRMLS_CC);
 	} else {
 		phalcon_update_property_zval(this_ptr, SL("_prefixes"), prefixes TSRMLS_CC);
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 		phalcon_read_property_this(&current_directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(merged_directories);
-		PHALCON_CALL_FUNC_PARAMS_2(merged_directories, "array_merge", current_directories, directories);
+		phalcon_fast_array_merge(merged_directories, current_directories, directories TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_directories"), merged_directories TSRMLS_CC);
 	} else {
 		phalcon_update_property_zval(this_ptr, SL("_directories"), directories TSRMLS_CC);
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Loader, registerClasses){
 		phalcon_read_property_this(&current_classes, this_ptr, SL("_classes"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(merged_classes);
-		PHALCON_CALL_FUNC_PARAMS_2(merged_classes, "array_merge", current_classes, classes);
+		phalcon_fast_array_merge(merged_classes, current_classes, classes TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_classes"), merged_classes TSRMLS_CC);
 	} else {
 		phalcon_update_property_zval(this_ptr, SL("_classes"), classes TSRMLS_CC);

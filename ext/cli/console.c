@@ -36,8 +36,8 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_CLI_Console, addModules){
 	phalcon_read_property_this(&original_modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(register_modules);
-	PHALCON_CALL_FUNC_PARAMS_2(register_modules, "array_merge", modules, original_modules);
+	phalcon_fast_array_merge(register_modules, modules, original_modules TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_modules"), register_modules TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

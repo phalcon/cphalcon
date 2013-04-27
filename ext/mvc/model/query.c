@@ -4322,7 +4322,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	if (Z_TYPE_P(default_bind_params) == IS_ARRAY) { 
 		if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(merged_params);
-			PHALCON_CALL_FUNC_PARAMS_2(merged_params, "array_merge", default_bind_params, bind_params);
+			phalcon_fast_array_merge(merged_params, default_bind_params, bind_params TSRMLS_CC);
 		} else {
 			PHALCON_CPY_WRT(merged_params, default_bind_params);
 		}
@@ -4338,7 +4338,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	if (Z_TYPE_P(default_bind_types) == IS_ARRAY) { 
 		if (Z_TYPE_P(bind_types) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(merged_types);
-			PHALCON_CALL_FUNC_PARAMS_2(merged_types, "array_merge", default_bind_types, bind_types);
+			phalcon_fast_array_merge(merged_types, default_bind_types, bind_types TSRMLS_CC);
 		} else {
 			PHALCON_CPY_WRT(merged_types, default_bind_types);
 		}
