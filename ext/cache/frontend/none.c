@@ -38,35 +38,34 @@
  * Discards any kind of frontend data input. This frontend does not have expiration time or any other options
  *
  *<code>
- * 
- * //Create a None Cache
- * $frontCache = new Phalcon\Cache\Frontend\None();
  *
- * // Create the component that will cache "Data" to a "Memcached" backend
- * // Memcached connection settings
- * $cache = new Phalcon\Cache\Backend\Memcached($frontCache, array(
- *     "host" => "localhost",
- *     "port" => "11211"
- * ));
+ *	//Create a None Cache
+ *	$frontCache = new Phalcon\Cache\Frontend\None();
  *
- * // This Frontend always return the data as it's returned by the backend
- * $cacheKey = 'robots_order_id.cache';
- * $robots    = $cache->get($cacheKey);
- * if ($robots === null) {
+ *	// Create the component that will cache "Data" to a "Memcached" backend
+ *	// Memcached connection settings
+ *	$cache = new Phalcon\Cache\Backend\Memcached($frontCache, array(
+ *		"host" => "localhost",
+ *		"port" => "11211"
+ *	));
  *
- *     // This cache doesn't perform any expiration checking, so the data is always expired
- *     // Make the database call and populate the variable
- *     $robots = Robots::find(array("order" => "id"));
+ *	// This Frontend always return the data as it's returned by the backend
+ *	$cacheKey = 'robots_order_id.cache';
+ *	$robots    = $cache->get($cacheKey);
+ *	if ($robots === null) {
  *
- *     $cache->save($cacheKey, $robots);
- * }
+ *		// This cache doesn't perform any expiration checking, so the data is always expired
+ *		// Make the database call and populate the variable
+ *		$robots = Robots::find(array("order" => "id"));
  *
- * // Use $robots :)
- * foreach ($robots as $robot) {
- *    echo $robot->name, "\n";
- * }
+ *		$cache->save($cacheKey, $robots);
+ *	}
+ *
+ *	// Use $robots :)
+ *	foreach ($robots as $robot) {
+ *		echo $robot->name, "\n";
+ *	}
  *</code>
- *
  */
 
 
@@ -80,29 +79,6 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None){
 	zend_class_implements(phalcon_cache_frontend_none_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
 	return SUCCESS;
-}
-
-/**
- * Phalcon\Cache\Frontend\None constructor
- *
- * @param array $frontendOptions
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
-
-	zval *frontend_options = NULL;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	if (!frontend_options) {
-		PHALCON_INIT_VAR(frontend_options);
-	}
-	
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**

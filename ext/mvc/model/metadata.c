@@ -462,7 +462,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 
-	zval *model, *index, *data, *table, *schema, *key, *meta_data = NULL;
+	zval *model, *index, *data, *table, *schema, *class_name;
+	zval *key, *meta_data = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -494,8 +495,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 	PHALCON_INIT_VAR(schema);
 	PHALCON_CALL_METHOD(schema, model, "getschema");
 	
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_class(class_name, model, 1 TSRMLS_CC);
+	
+	/** 
+	 * Unique key for meta-data is created using class-name-schema-table
+	 */
 	PHALCON_INIT_VAR(key);
-	PHALCON_CONCAT_VV(key, schema, table);
+	PHALCON_CONCAT_VSVV(key, class_name, "-", schema, table);
 	
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
@@ -524,8 +531,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
 
-	zval *model, *class_name, *key_name, *column_map = NULL;
-	zval *null_value, *data;
+	zval *model, *key_name, *column_map = NULL, *null_value;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
@@ -538,11 +545,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, model, 0 TSRMLS_CC);
-	
 	PHALCON_INIT_VAR(key_name);
-	phalcon_fast_strtolower(key_name, class_name);
+	phalcon_get_class(key_name, model, 1 TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
@@ -572,8 +576,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 
-	zval *model, *index, *class_name, *key_name, *column_map = NULL;
-	zval *null_value, *column_map_model, *attributes;
+	zval *model, *index, *key_name, *column_map = NULL, *null_value;
+	zval *column_map_model, *attributes;
 
 	PHALCON_MM_GROW();
 
@@ -590,11 +594,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, model, 0 TSRMLS_CC);
-	
 	PHALCON_INIT_VAR(key_name);
-	phalcon_fast_strtolower(key_name, class_name);
+	phalcon_get_class(key_name, model, 1 TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(column_map);
 	phalcon_read_property_this(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);

@@ -37,65 +37,58 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Cache\Frontend\Data
+ * Phalcon\Cache\Frontend\Json
  *
- * Allows to cache native PHP data in a serialized form
+ * Allows to cache data converting/deconverting them to JSON.
+ *
+ * This adapters uses the json_encode/json_decode PHP's functions
+ *
+ * As the data is encoded in JSON other systems accessing the same backend could
+ * process them
  *
  *<code>
  *
- *	// Cache the files for 2 days using a Data frontend
- *	$frontCache = new Phalcon\Cache\Frontend\Data(array(
- *		"lifetime" => 172800
- *	));
+ * // Cache the data for 2 days
+ * $frontCache = new Phalcon\Cache\Frontend\Json(array(
+ *    "lifetime" => 172800
+ * ));
  *
- *	// Create the component that will cache "Data" to a "File" backend
- *	// Set the cache file directory - important to keep the "/" at the end of
- *	// of the value for the folder
- *	$cache = new Phalcon\Cache\Backend\File($frontCache, array(
- *		"cacheDir" => "../app/cache/"
- *	));
+* //Create the Cache setting memcached connection options
+ * $cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
+ *		'host' => 'localhost',
+ *		'port' => 11211,
+ *  	'persistent' => false
+ * ));
  *
- *	// Try to get cached records
- *	$cacheKey = 'robots_order_id.cache';
- *	$robots    = $cache->get($cacheKey);
- *	if ($robots === null) {
+ * //Cache arbitrary data
+ * $cache->save('my-data', array(1, 2, 3, 4, 5));
  *
- *		// $robots is null due to cache expiration or data does not exist
- *		// Make the database call and populate the variable
- *		$robots = Robots::find(array("order" => "id"));
- *
- *		// Store it in the cache
- *		$cache->save($cacheKey, $robots);
- *	}
- *
- *	// Use $robots :)
- *	foreach ($robots as $robot) {
- *		echo $robot->name, "\n";
- *	}
+ * //Get data
+ * $data = $cache->get('my-data');
  *</code>
  */
 
 
 /**
- * Phalcon\Cache\Frontend\Data initializer
+ * Phalcon\Cache\Frontend\Json initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Data){
+PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Json){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Data, cache_frontend_data, phalcon_cache_frontend_data_method_entry, 0);
+	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Json, cache_frontend_json, phalcon_cache_frontend_json_method_entry, 0);
 
-	zend_declare_property_null(phalcon_cache_frontend_data_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cache_frontend_json_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_cache_frontend_data_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
+	zend_class_implements(phalcon_cache_frontend_json_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Cache\Frontend\Data constructor
+ * Phalcon\Cache\Frontend\Base64 constructor
  *
  * @param array $frontendOptions
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
+PHP_METHOD(Phalcon_Cache_Frontend_Json, __construct){
 
 	zval *frontend_options = NULL;
 
@@ -115,11 +108,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 }
 
 /**
- * Returns cache lifetime
+ * Returns the cache lifetime
  *
- * @return int
+ * @return integer
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
+PHP_METHOD(Phalcon_Cache_Frontend_Json, getLifetime){
 
 	zval *options, *lifetime;
 
@@ -144,7 +137,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, isBuffering){
+PHP_METHOD(Phalcon_Cache_Frontend_Json, isBuffering){
 
 
 	RETURN_FALSE;
@@ -153,7 +146,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, isBuffering){
 /**
  * Starts output frontend. Actually, does nothing
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, start){
+PHP_METHOD(Phalcon_Cache_Frontend_Json, start){
 
 
 	
@@ -164,7 +157,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, start){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, getContent){
+PHP_METHOD(Phalcon_Cache_Frontend_Json, getContent){
 
 
 	RETURN_NULL();
@@ -173,7 +166,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getContent){
 /**
  * Stops output frontend
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, stop){
+PHP_METHOD(Phalcon_Cache_Frontend_Json, stop){
 
 
 	
@@ -184,7 +177,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, stop){
  *
  * @param mixed $data
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
+PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
 
 	zval *data, *serialized;
 
@@ -195,7 +188,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 	}
 
 	PHALCON_INIT_VAR(serialized);
-	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
+	PHALCON_CALL_FUNC_PARAMS_1(serialized, "json_encode", data);
 	RETURN_CCTOR(serialized);
 }
 
@@ -204,7 +197,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
  *
  * @param mixed $data
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
+PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve){
 
 	zval *data, *unserialized;
 
@@ -215,7 +208,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 	}
 
 	PHALCON_INIT_VAR(unserialized);
-	PHALCON_CALL_FUNC_PARAMS_1(unserialized, "unserialize", data);
+	PHALCON_CALL_FUNC_PARAMS_1(unserialized, "json_decode", data);
 	RETURN_CCTOR(unserialized);
 }
 

@@ -9,6 +9,7 @@
  - Now if a validator in Phalcon\Validator has defined the option 'cancelOnFail' => true the validation
  will be aborted if the validator fails
  - Added Phalcon\Validation\Validator\Between to check a value between a range of two values
+ - Added Phalcon\Validation\Validator\Confirmation to check that a value match its confirmation value (another attribute in the data to validate)
  - Phalcon\Forms\Form now extends from Phalcon\DI\Injectable allowing developers to use application services in the form initialization
  - Now calls to Phalcon\Mvc\Router can be chained
  - Phalcon\Mvc\Router::getRewriteUri is now public
@@ -25,6 +26,12 @@
  - Fixed Phalcon\Mvc\Micro\Collections to register a controllers in Phalcon\Mvc\Micro
  - Added Phalcon\Tag::dateField and Phalcon\Tag::numericField
  - Added Phalcon\Forms\Element\Date and Phalcon\Forms\Element\Numeric
+ - Added Phalcon\Cache\Frontend\Json to cache data as JSON
+ - Added Phalcon\Tag::tagHtml and Phalcon\Tag::tagHtmlClose to generate any kind of HTML tags
+ - Phalcon\Http\Response\Cookies is now fixed
+ - Volt's paths are now automatically normalized
+ - Fixed bug in convert_encoding in Volt
+ - Added support for filters in Phalcon\Forms\Form elements
 
 1.0.1
  - Paths aren't correctly normalized in Phalcon\Mvc\Model\MetaData\Files
@@ -196,6 +203,8 @@
  - Allowed pass a URI manually to Phalcon\Mvc\Micro::handle()
  - Fixed missing json_encode filter in Volt
  - Moving cache implementation from Phalcon\Mvc\Model to Phalcon\Mvc\Model\Query, this allows caching both simple and complex resultsets
+ - Added Phalcon\Paginator\Adapter\QueryBuilder to use a PHQL Query Builder as source of data
+ - Added adapter for Oracle databases in Phalcon\Db
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler

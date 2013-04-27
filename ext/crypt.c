@@ -57,6 +57,8 @@ PHALCON_INIT_CLASS(Phalcon_Crypt){
 	zend_declare_property_string(phalcon_crypt_ce, SL("_mode"), "cbc", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_crypt_ce, SL("_cipher"), "rijndael-256", ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_crypt_ce TSRMLS_CC, 1, phalcon_cryptinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -156,8 +158,8 @@ PHP_METHOD(Phalcon_Crypt, getKey){
  */
 PHP_METHOD(Phalcon_Crypt, encrypt){
 
-	zval *text, *key = NULL, *cipher, *mode, *iv_size, *key_size;
-	zval *too_large, *rand, *iv, *encrypt, *final_encrypt;
+	zval *text, *key = NULL, *encrypt_key = NULL, *cipher, *mode, *iv_size;
+	zval *key_size, *too_large, *rand, *iv, *encrypt, *final_encrypt;
 	zval *p0[] = { NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
@@ -168,13 +170,13 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 
 	if (!key) {
 		PHALCON_INIT_VAR(key);
-	} else {
-		PHALCON_SEPARATE_PARAM(key);
 	}
 	
 	if (Z_TYPE_P(key) == IS_NULL) {
-		PHALCON_OBS_NVAR(key);
-		phalcon_read_property_this(&key, this_ptr, SL("_key"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(encrypt_key);
+		phalcon_read_property_this(&encrypt_key, this_ptr, SL("_key"), PH_NOISY_CC);
+	} else {
+		PHALCON_CPY_WRT(encrypt_key, key);
 	}
 	
 	PHALCON_OBS_VAR(cipher);
@@ -187,12 +189,12 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	PHALCON_CALL_FUNC_PARAMS_2(iv_size, "mcrypt_get_iv_size", cipher, mode);
 	
 	PHALCON_INIT_VAR(key_size);
-	phalcon_fast_strlen(key_size, key);
+	phalcon_fast_strlen(key_size, encrypt_key);
 	
 	PHALCON_INIT_VAR(too_large);
 	is_smaller_function(too_large, iv_size, key_size TSRMLS_CC);
 	if (PHALCON_IS_TRUE(too_large)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_exception_ce, "Size of key is too large for this algorithm");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm");
 		return;
 	}
 	
@@ -203,7 +205,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	PHALCON_CALL_FUNC_PARAMS_2(iv, "mcrypt_create_iv", iv_size, rand);
 	
 	p0[0] = cipher;
-	p0[1] = key;
+	p0[1] = encrypt_key;
 	p0[2] = text;
 	p0[3] = mode;
 	p0[4] = iv;
@@ -226,9 +228,9 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
  */
 PHP_METHOD(Phalcon_Crypt, decrypt){
 
-	zval *text, *key = NULL, *cipher, *mode, *iv_size, *key_size;
-	zval *too_large, *zero, *iv, *text_to_decipher;
-	zval *decrypted;
+	zval *text, *key = NULL, *decrypt_key = NULL, *cipher, *mode, *iv_size;
+	zval *key_size, *too_large = NULL, *text_size, *zero, *iv;
+	zval *text_to_decipher, *decrypted;
 	zval *p0[] = { NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
@@ -239,13 +241,13 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 
 	if (!key) {
 		PHALCON_INIT_VAR(key);
-	} else {
-		PHALCON_SEPARATE_PARAM(key);
 	}
 	
 	if (Z_TYPE_P(key) == IS_NULL) {
-		PHALCON_OBS_NVAR(key);
-		phalcon_read_property_this(&key, this_ptr, SL("_key"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(decrypt_key);
+		phalcon_read_property_this(&decrypt_key, this_ptr, SL("_key"), PH_NOISY_CC);
+	} else {
+		PHALCON_CPY_WRT(decrypt_key, key);
 	}
 	
 	PHALCON_OBS_VAR(cipher);
@@ -258,12 +260,21 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	PHALCON_CALL_FUNC_PARAMS_2(iv_size, "mcrypt_get_iv_size", cipher, mode);
 	
 	PHALCON_INIT_VAR(key_size);
-	phalcon_fast_strlen(key_size, key);
+	phalcon_fast_strlen(key_size, decrypt_key);
 	
 	PHALCON_INIT_VAR(too_large);
 	is_smaller_function(too_large, iv_size, key_size TSRMLS_CC);
 	if (PHALCON_IS_TRUE(too_large)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_exception_ce, "Size of key is too large for this algorithm");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(text_size);
+	phalcon_fast_strlen(text_size, text);
+	
+	is_smaller_function(too_large, text_size, key_size TSRMLS_CC);
+	if (PHALCON_IS_TRUE(too_large)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Size of IV is larger than text to decrypt");
 		return;
 	}
 	
@@ -277,7 +288,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	PHALCON_CALL_FUNC_PARAMS_2(text_to_decipher, "substr", text, iv_size);
 	
 	p0[0] = cipher;
-	p0[1] = key;
+	p0[1] = decrypt_key;
 	p0[2] = text_to_decipher;
 	p0[3] = mode;
 	p0[4] = iv;
@@ -346,9 +357,35 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 	RETURN_CCTOR(decrypted);
 }
 
+/**
+ * Returns a list of available cyphers
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
 
+	zval *algos;
 
-	
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(algos);
+	PHALCON_CALL_FUNC(algos, "mcrypt_list_algorithms");
+	RETURN_CCTOR(algos);
+}
+
+/**
+ * Returns a list of available modes
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Crypt, getAvailableModes){
+
+	zval *modes;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(modes);
+	PHALCON_CALL_FUNC(modes, "mcrypt_list_modes");
+	RETURN_CCTOR(modes);
 }
 

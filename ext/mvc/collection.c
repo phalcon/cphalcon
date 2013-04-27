@@ -449,9 +449,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnection){
 /**
  * Reads an attribute value by its name
  *
- * <code>
+ *<code>
  *	echo $robot->readAttribute('name');
- * </code>
+ *</code>
  *
  * @param string $attribute
  * @return mixed
@@ -1272,7 +1272,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getMessages){
  *
  *		public function beforeSave()
  *		{
- *			if (this->name == 'Peter') {
+ *			if ($this->name == 'Peter') {
  *				$message = new Message("Sorry, but a robot cannot be named Peter");
  *				$this->appendMessage($message);
  *			}

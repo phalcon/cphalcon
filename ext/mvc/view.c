@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir){
 /**
  * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
  *
- **<code>
+ *<code>
  * $view->setPartialsDir('../common/partials/');
  *</code>
  *
@@ -1386,21 +1386,28 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
  * @param string $controllerName
  * @param string $actionName
  * @param array $params
+ * @param mixed $configCallback
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, getRender){
 
 	zval *controller_name, *action_name, *params = NULL;
-	zval *view, *content;
+	zval *config_callback = NULL, *view, *status, *content;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &controller_name, &action_name, &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &controller_name, &action_name, &params, &config_callback) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	if (!params) {
 		PHALCON_INIT_VAR(params);
+	} else {
+		PHALCON_SEPARATE_PARAM(params);
+	}
+	
+	if (!config_callback) {
+		PHALCON_INIT_VAR(config_callback);
 	}
 	
 	/** 
@@ -1417,16 +1424,28 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	PHALCON_CALL_METHOD_NORETURN(view, "reset");
 	
 	/** 
-	 * Start the output buffering
-	 */
-	PHALCON_CALL_METHOD_NORETURN(view, "start");
-	
-	/** 
 	 * Set the render variables
 	 */
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setvars", params);
 	}
+	
+	/** 
+	 * Perform extra configurations over the cloned object
+	 */
+	if (Z_TYPE_P(config_callback) == IS_OBJECT) {
+		PHALCON_INIT_NVAR(params);
+		array_init_size(params, 1);
+		phalcon_array_append(&params, view, PH_SEPARATE TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_USER_FUNC_ARRAY(status, config_callback, params);
+	}
+	
+	/** 
+	 * Start the output buffering
+	 */
+	PHALCON_CALL_METHOD_NORETURN(view, "start");
 	
 	/** 
 	 * Perform the render passing only the controller and action
@@ -1727,14 +1746,21 @@ PHP_METHOD(Phalcon_Mvc_View, enable){
  */
 PHP_METHOD(Phalcon_Mvc_View, reset){
 
+	zval *znull;
 
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(znull);
 	phalcon_update_property_bool(this_ptr, SL("_disabled"), 0 TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_engines"), 0 TSRMLS_CC);
-	phalcon_update_property_null(this_ptr, SL("_cache") TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_cache"), znull TSRMLS_CC);
 	phalcon_update_property_long(this_ptr, SL("_renderLevel"), 5 TSRMLS_CC);
 	phalcon_update_property_long(this_ptr, SL("_cacheLevel"), 0 TSRMLS_CC);
-	phalcon_update_property_null(this_ptr, SL("_content") TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_content"), znull TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_templatesBefore"), znull TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_templatesAfter"), znull TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
 }
 
 /**

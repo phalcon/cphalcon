@@ -32,6 +32,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt);
 PHP_METHOD(Phalcon_Crypt, encryptBase64);
 PHP_METHOD(Phalcon_Crypt, decryptBase64);
 PHP_METHOD(Phalcon_Crypt, getAvailableCiphers);
+PHP_METHOD(Phalcon_Crypt, getAvailableModes);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_setcipher, 0, 0, 1)
 	ZEND_ARG_INFO(0, cipher)
@@ -77,6 +78,7 @@ PHALCON_INIT_FUNCS(phalcon_crypt_method_entry){
 	PHP_ME(Phalcon_Crypt, encryptBase64, arginfo_phalcon_crypt_encryptbase64, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Crypt, decryptBase64, arginfo_phalcon_crypt_decryptbase64, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Crypt, getAvailableCiphers, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Crypt, getAvailableModes, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

@@ -14,6 +14,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Nikolaos Dimopoulos <nikos@phalconphp.com>                    |
   +------------------------------------------------------------------------+
 */
 
@@ -687,7 +688,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
  * Builds a HTML input[type="text"] tag
  *
  * <code>
- *	echo Phalcon\Tag::textField(array("name", "size" => 30))
+ *	echo Phalcon\Tag::textField(array("name", "size" => 30));
  * </code>
  *
  * @param array $parameters
@@ -715,7 +716,7 @@ PHP_METHOD(Phalcon_Tag, textField){
  * Builds a HTML input[type="number"] tag
  *
  * <code>
- *	echo Phalcon\Tag::numericField(array("price", "min" => "1" "max" => "5"))
+ *	echo Phalcon\Tag::numericField(array("price", "min" => "1" "max" => "5"));
  * </code>
  *
  * @param array $parameters
@@ -771,7 +772,7 @@ PHP_METHOD(Phalcon_Tag, dateField){
  * Builds a HTML input[type="password"] tag
  *
  *<code>
- * echo Phalcon\Tag::passwordField(array("name", "size" => 30))
+ * echo Phalcon\Tag::passwordField(array("name", "size" => 30));
  *</code>
  *
  * @param array $parameters
@@ -799,7 +800,7 @@ PHP_METHOD(Phalcon_Tag, passwordField){
  * Builds a HTML input[type="hidden"] tag
  *
  *<code>
- * echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"))
+ * echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"));
  *</code>
  *
  * @param array $parameters
@@ -827,7 +828,7 @@ PHP_METHOD(Phalcon_Tag, hiddenField){
  * Builds a HTML input[type="file"] tag
  *
  *<code>
- * echo Phalcon\Tag::fileField("file")
+ * echo Phalcon\Tag::fileField("file");
  *</code>
  *
  * @param array $parameters
@@ -855,7 +856,7 @@ PHP_METHOD(Phalcon_Tag, fileField){
  * Builds a HTML input[type="check"] tag
  *
  *<code>
- * echo Phalcon\Tag::checkField(array("name"))
+ * echo Phalcon\Tag::checkField(array("name"));
  *</code>
  *
  * @param array $parameters
@@ -1355,8 +1356,7 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
  */
 PHP_METHOD(Phalcon_Tag, getTitle){
 
-	zval *tags = NULL, *document_title, *eol = NULL, *title_html;
-	zval *t0 = NULL;
+	zval *tags = NULL, *document_title, *eol, *title_html;
 
 	PHALCON_MM_GROW();
 
@@ -1372,9 +1372,8 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 	PHALCON_OBS_VAR(document_title);
 	phalcon_read_static_property(&document_title, SL("phalcon\\tag"), SL("_documentTitle") TSRMLS_CC);
 	if (PHALCON_IS_TRUE(tags)) {
-		PHALCON_INIT_VAR(t0);
-		ZVAL_STRING(t0, PHP_EOL, 1);
-		PHALCON_CPY_WRT(eol, t0);
+		PHALCON_INIT_VAR(eol);
+		ZVAL_STRING(eol, PHP_EOL, 1);
 	
 		PHALCON_INIT_VAR(title_html);
 		PHALCON_CONCAT_SVSV(title_html, "<title>", document_title, "</title>", eol);
@@ -1407,8 +1406,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
 	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *five;
-	zval *doctype, *eol = NULL, *is_xhtml;
-	zval *t0 = NULL;
+	zval *doctype, *eol, *is_xhtml;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1502,9 +1500,8 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	PHALCON_OBS_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, PHP_EOL, 1);
-	PHALCON_CPY_WRT(eol, t0);
+	PHALCON_INIT_VAR(eol);
+	ZVAL_STRING(eol, PHP_EOL, 1);
 	
 	/** 
 	 * Check if Doctype is XHTML
@@ -1542,8 +1539,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *params_src, *src, *eol = NULL, *code, *value = NULL, *key = NULL;
-	zval *t0 = NULL;
+	zval *url, *params_src, *src, *eol, *code, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1615,9 +1611,8 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, PHP_EOL, 1);
-	PHALCON_CPY_WRT(eol, t0);
+	PHALCON_INIT_VAR(eol);
+	ZVAL_STRING(eol, PHP_EOL, 1);
 	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<script", 1);
@@ -1826,7 +1821,7 @@ PHP_METHOD(Phalcon_Tag, getDocType){
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 
 	PHALCON_INIT_VAR(eol);
-	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
+	ZVAL_STRING(eol, PHP_EOL, 1);
 
 	PHALCON_INIT_VAR(declaration);
 	if (phalcon_compare_strict_long(doctype, 1 TSRMLS_CC)) {
@@ -1878,7 +1873,7 @@ PHP_METHOD(Phalcon_Tag, getDocType){
  * Builds a HTML tag
  *
  *<code>
- * echo Phalcon\Tag::tagHtml($name, $parameters, $selfClose, $onlyStart, $eol))
+ *	echo Phalcon\Tag::tagHtml($name, $parameters, $selfClose, $onlyStart, $eol);
  *</code>
  *
  * @param string $tagName
@@ -1892,8 +1887,7 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 
 	zval *tag_name, *parameters = NULL, *self_close = NULL, *only_start = NULL;
 	zval *use_eol = NULL, *params = NULL, *local_code, *value = NULL, *key = NULL;
-	zval *five, *doctype, *is_xhtml, *eol = NULL;
-	zval *t0 = NULL;
+	zval *five, *doctype, *is_xhtml, *eol;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1976,9 +1970,46 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 	}
 	
 	if (zend_is_true(use_eol)) {
-		PHALCON_INIT_VAR(t0);
-		ZVAL_STRING(t0, PHP_EOL, 1);
-		PHALCON_CPY_WRT(eol, t0);
+		PHALCON_INIT_VAR(eol);
+		ZVAL_STRING(eol, PHP_EOL, 1);
+		phalcon_concat_self(&local_code, eol TSRMLS_CC);
+	}
+	
+	
+	RETURN_CTOR(local_code);
+}
+
+/**
+ * Builds a HTML tag closing tag
+ *
+ *<code>
+ *	echo Phalcon\Tag::tagHtmlClose('script', true)
+ *</code>
+ *
+ * @param string $tagName
+ * @param boolean $useEol
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, tagHtmlClose){
+
+	zval *tag_name, *use_eol = NULL, *local_code, *eol;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &tag_name, &use_eol) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!use_eol) {
+		PHALCON_INIT_VAR(use_eol);
+		ZVAL_BOOL(use_eol, 0);
+	}
+	
+	PHALCON_INIT_VAR(local_code);
+	PHALCON_CONCAT_SVS(local_code, "</", tag_name, ">");
+	if (zend_is_true(use_eol)) {
+		PHALCON_INIT_VAR(eol);
+		ZVAL_STRING(eol, PHP_EOL, 1);
 		phalcon_concat_self(&local_code, eol TSRMLS_CC);
 	}
 	

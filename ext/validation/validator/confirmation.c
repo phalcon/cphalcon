@@ -33,34 +33,33 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
-#include "kernel/exception.h"
-#include "kernel/string.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
- * Phalcon\Validation\Validator\ExclusionIn
+ * Phalcon\Validation\Validator\Confirmation
  *
- * Check if a value is not included into a list of values
+ * Checks that two values have the same value
  *
  *<code>
- *use Phalcon\Validation\Validator\ExclusionIn;
+ *use Phalcon\Validation\Validator\Confirmation;
  *
- *$validator->add('status', new ExclusionIn(array(
- *   'message' => 'The status must not be A or B',
- *   'domain' => array('A', 'B')
+ *$validator->add('password', new Confirmation(array(
+ *   'message' => 'Password doesn\'t match confirmation',
+ *   'with' => 'confirmPassword'
  *)));
  *</code>
  */
 
 
 /**
- * Phalcon\Validation\Validator\ExclusionIn initializer
+ * Phalcon\Validation\Validator\Confirmation initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn){
+PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Confirmation){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, ExclusionIn, validation_validator_exclusionin, "phalcon\\validation\\validator", phalcon_validation_validator_exclusionin_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Confirmation, validation_validator_confirmation, "phalcon\\validation\\validator", phalcon_validation_validator_confirmation_method_entry, 0);
 
-	zend_class_implements(phalcon_validation_validator_exclusionin_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
+	zend_class_implements(phalcon_validation_validator_confirmation_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 
 	return SUCCESS;
 }
@@ -72,10 +71,10 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn){
  * @param string $attribute
  * @return boolean
  */
-PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
+PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 
-	zval *validator, *attribute, *value, *option = NULL, *domain;
-	zval *in_array, *message_str = NULL, *joined_domain;
+	zval *validator, *attribute, *with, *with_attribute;
+	zval *value, *with_value, *option, *message_str = NULL;
 	zval *type, *message;
 
 	PHALCON_MM_GROW();
@@ -84,44 +83,31 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 		RETURN_MM_NULL();
 	}
 
+	PHALCON_INIT_VAR(with);
+	ZVAL_STRING(with, "with", 1);
+	
+	PHALCON_INIT_VAR(with_attribute);
+	PHALCON_CALL_METHOD_PARAMS_1(with_attribute, this_ptr, "getoption", with);
+	
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
 	
-	/** 
-	 * A domain is an array with a list of valid values
-	 */
-	PHALCON_INIT_VAR(option);
-	ZVAL_STRING(option, "domain", 1);
+	PHALCON_INIT_VAR(with_value);
+	PHALCON_CALL_METHOD_PARAMS_1(with_value, validator, "getvalue", with_attribute);
+	if (!PHALCON_IS_EQUAL(value, with_value)) {
 	
-	PHALCON_INIT_VAR(domain);
-	PHALCON_CALL_METHOD_PARAMS_1(domain, this_ptr, "getoption", option);
-	if (Z_TYPE_P(domain) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array");
-		return;
-	}
-	
-	/** 
-	 * Check if the value is contained by the array
-	 */
-	PHALCON_INIT_VAR(in_array);
-	PHALCON_CALL_FUNC_PARAMS_2(in_array, "in_array", value, domain);
-	if (zend_is_true(in_array)) {
-	
-		PHALCON_INIT_NVAR(option);
+		PHALCON_INIT_VAR(option);
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message_str);
 		PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
 		if (!zend_is_true(message_str)) {
-			PHALCON_INIT_VAR(joined_domain);
-			phalcon_fast_join_str(joined_domain, SL(", "), domain TSRMLS_CC);
-	
 			PHALCON_INIT_NVAR(message_str);
-			PHALCON_CONCAT_SVSV(message_str, "Value of field '", attribute, "' must not be part of list: ", joined_domain);
+			PHALCON_CONCAT_SVSVS(message_str, "Value of '", attribute, "' and '", with, "' don't match");
 		}
 	
 		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "ExclusionIn", 1);
+		ZVAL_STRING(type, "Confirmation", 1);
 	
 		PHALCON_INIT_VAR(message);
 		object_init_ex(message, phalcon_validation_message_ce);
