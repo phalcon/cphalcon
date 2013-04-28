@@ -50,7 +50,7 @@ PHALCON_INIT_CLASS(Phalcon_Kernel){
 }
 
 /**
- * Produce a pre-computed hash key based on an string. This function produce different numbers in 32bit/64bit processors
+ * Produces a pre-computed hash key based on an string. This function produce different numbers in 32bit/64bit processors
  *
  * @param string $arrKey
  * @return string
