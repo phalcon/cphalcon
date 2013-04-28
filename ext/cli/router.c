@@ -48,7 +48,11 @@
  *
  *<code>
  *	$router = new Phalcon\CLI\Router();
- *	$router->handle(array());
+ *	$router->handle(array(
+ *		'module' => 'main',
+ *		'task' => 'videos',
+ *		'action' => 'process'
+ *	));
  *	echo $router->getTaskName();
  *</code>
  *
@@ -175,135 +179,64 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultAction){
  */
 PHP_METHOD(Phalcon_CLI_Router, handle){
 
-	int i;
-	zval *arguments = NULL, *arguments_count, *params, *arg = NULL;
-	zval *module_name, *default_module;
-	zval *task_name, *default_task, *task_name_tmp, *task_name_parts;
-	zval *delimiter, *status;
-	zval *action_name, *default_action;
+	zval *arguments = NULL, *module_name = NULL, *task_name = NULL, *action_name = NULL;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &arguments) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!arguments) {
 		PHALCON_INIT_VAR(arguments);
 		array_init(arguments);
+	} else {
+		PHALCON_SEPARATE_PARAM(arguments);
 	}
-
-	if (Z_TYPE_P(arguments) != IS_ARRAY) {
+	
+	if (Z_TYPE_P(arguments) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cli_router_exception_ce, "Arguments must be an Array");
 		return;
 	}
-
-	/*
-	 * process arguments
-	 */
-	// initial and set default to null
+	
 	PHALCON_INIT_VAR(module_name);
+	
 	PHALCON_INIT_VAR(task_name);
-	PHALCON_INIT_VAR(task_name_tmp);
+	
 	PHALCON_INIT_VAR(action_name);
-	PHALCON_INIT_VAR(params);
-	PHALCON_INIT_VAR(delimiter);
-
-	array_init(params);
-
+	
+	/** 
+	 * Check for a module
+	 */
+	if (phalcon_array_isset_string(arguments, SS("module"))) {
+		PHALCON_OBS_NVAR(module_name);
+		phalcon_array_fetch_string(&module_name, arguments, SL("module"), PH_NOISY_CC);
+		phalcon_array_unset_string(&arguments, SS("module"), PH_SEPARATE);
+	}
+	
+	/** 
+	 * Check for a task
+	 */
+	if (phalcon_array_isset_string(arguments, SS("task"))) {
+		PHALCON_OBS_NVAR(task_name);
+		phalcon_array_fetch_string(&task_name, arguments, SL("task"), PH_NOISY_CC);
+		phalcon_array_unset_string(&arguments, SS("task"), PH_SEPARATE);
+	}
+	
+	/** 
+	 * Check for an action
+	 */
+	if (phalcon_array_isset_string(arguments, SS("action"))) {
+		PHALCON_OBS_NVAR(action_name);
+		phalcon_array_fetch_string(&action_name, arguments, SL("action"), PH_NOISY_CC);
+		phalcon_array_unset_string(&arguments, SS("action"), PH_SEPARATE);
+	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_module"), module_name TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_task"), task_name TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_action"), action_name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_params"), params TSRMLS_CC);
-
-	ZVAL_STRING(delimiter, ":", 1);
-
-	PHALCON_INIT_VAR(arguments_count);
-	phalcon_fast_count(arguments_count, arguments TSRMLS_CC);
-
-	if (Z_LVAL_P(arguments_count) > 3) {
-		// script, task, action, params.....
-		phalcon_array_fetch_long(&task_name_tmp, arguments, 1, PH_NOISY_CC);
-		phalcon_array_fetch_long(&action_name, arguments, 2, PH_NOISY_CC);
-
-		// process params
-		for (i = 3; i < Z_LVAL_P(arguments_count); i++) {
-			PHALCON_INIT_NVAR(arg);
-			phalcon_array_fetch_long(&arg, arguments, i, PH_NOISY_CC);
-			phalcon_array_append(&params, arg, PH_SEPARATE TSRMLS_CC);
-		}
-	} else {
-		if (Z_LVAL_P(arguments_count) > 2) {
-			// script, task, action
-			phalcon_array_fetch_long(&task_name_tmp, arguments, 1, PH_NOISY_CC);
-			phalcon_array_fetch_long(&action_name, arguments, 2, PH_NOISY_CC);
-		} else {
-			if (Z_LVAL_P(arguments_count) > 1) {
-				// script, task
-				phalcon_array_fetch_long(&task_name_tmp, arguments, 1, PH_NOISY_CC);
-			}
-		}
-	}
-
-	// if task_name settings, parse task_name for module_name
-	if (Z_TYPE_P(task_name_tmp) != IS_NULL) {
-
-		PHALCON_INIT_VAR(task_name_parts);
-		phalcon_fast_explode(task_name_parts, delimiter, task_name_tmp TSRMLS_CC);
-
-		PHALCON_INIT_VAR(status);
-		phalcon_fast_count(status, task_name_parts TSRMLS_CC);
-		if (Z_LVAL_P(status) == 2) {
-			PHALCON_INIT_NVAR(module_name);
-			PHALCON_INIT_NVAR(task_name);
-			phalcon_array_fetch_long(&module_name, task_name_parts, 0, PH_NOISY_CC);
-			phalcon_array_fetch_long(&task_name, task_name_parts, 1, PH_NOISY_CC);
-		}else {
-			PHALCON_INIT_NVAR(task_name);
-			phalcon_array_fetch_long(&task_name, task_name_parts, 0, PH_NOISY_CC);
-		}
-	}
-
-	// update properties
-	if (Z_TYPE_P(module_name) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_module"), module_name TSRMLS_CC);
-	} else {
-		PHALCON_OBS_VAR(default_module);
-		phalcon_read_property(&default_module, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
-		if (Z_TYPE_P(default_module) != IS_NULL) {
-			phalcon_update_property_zval(this_ptr, SL("_module"), default_module TSRMLS_CC);
-		}
-	}
-
-	PHALCON_OBS_NVAR(module_name);
-	phalcon_read_property(&module_name, this_ptr, SL("_module"), PH_NOISY_CC);
-
-	if (Z_TYPE_P(task_name) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_task"), task_name TSRMLS_CC);
-	} else {
-		PHALCON_OBS_VAR(default_task);
-		phalcon_read_property(&default_task, this_ptr, SL("_defaultTask"), PH_NOISY_CC);
-		if (Z_TYPE_P(default_task) != IS_NULL) {
-			phalcon_update_property_zval(this_ptr, SL("_task"), default_task TSRMLS_CC);
-		}
-	}
-
-	PHALCON_OBS_NVAR(task_name);
-	phalcon_read_property(&task_name, this_ptr, SL("_task"), PH_NOISY_CC);
-
-	if (Z_TYPE_P(action_name) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_action"), action_name TSRMLS_CC);
-	} else {
-		PHALCON_OBS_VAR(default_action);
-		phalcon_read_property(&default_action, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
-		if (Z_TYPE_P(default_action) != IS_NULL) {
-			phalcon_update_property_zval(this_ptr, SL("_action"), default_action TSRMLS_CC);
-		}
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_params"), params TSRMLS_CC);
-
+	phalcon_update_property_zval(this_ptr, SL("_params"), arguments TSRMLS_CC);
+	
 	PHALCON_MM_RESTORE();
 }
 
