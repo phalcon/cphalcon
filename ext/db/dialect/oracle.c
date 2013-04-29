@@ -33,18 +33,16 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
-#include "kernel/array.h"
-#include "kernel/string.h"
-#include "kernel/file.h"
 
 /**
- * Phalcon\Db\Dialect\Oracle
+ * Phalcon\Db\Dialect\Postgresql
  *
- * Generates database specific SQL for the Oracle RBDM
+ * Generates database specific SQL for the PostgreSQL RBDM
  */
 
 
@@ -63,7 +61,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Oracle){
 }
 
 /**
- * Gets the column name in Oracle
+ * Gets the column name in PostgreSQL
  *
  * @param Phalcon\Db\ColumnInterface $column
  * @return string
@@ -71,7 +69,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Oracle){
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 
 	zval *column, *size, *column_type, *column_sql = NULL;
-	zval *scale;
+	zval *scale = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -94,7 +92,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 	
 		case 0:
 			PHALCON_INIT_VAR(column_sql);
-			ZVAL_STRING(column_sql, "INTEGER", 1);
+			ZVAL_STRING(column_sql, "NUMBER", 1);
 			break;
 	
 		case 1:
@@ -131,7 +129,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 			break;
 	
 		case 7:
-			PHALCON_INIT_VAR(scale);
+			PHALCON_INIT_NVAR(scale);
 			PHALCON_CALL_METHOD(scale, column, "getscale");
 	
 			PHALCON_INIT_NVAR(column_sql);
@@ -455,10 +453,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists){
 	
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVSVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE TABLE_NAME='", table_name, "' AND OWNER='", schema_name, "'");
+		PHALCON_CONCAT_SVSVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE UPPER(TABLE_NAME)=UPPER('", table_name, "') AND UPPER(OWNER)=UPPER('", schema_name, "')");
 	} else {
 		PHALCON_INIT_NVAR(sql);
-		PHALCON_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE TABLE_NAME='", table_name, "'");
+		PHALCON_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_TABLES WHERE UPPER(TABLE_NAME)=UPPER('", table_name, "')");
 	}
 	
 	RETURN_CTOR(sql);
@@ -489,10 +487,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns){
 	
 	if (zend_is_true(schema)) {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVSVS(sql, "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '", table,"' AND TC.OWNER = '", schema,"' ORDER BY TC.COLUMN_ID");
+		PHALCON_CONCAT_SVSVS(sql, "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '", table, "' AND TC.OWNER = '", schema, "') ORDER BY TC.COLUMN_ID");
 	} else {
 		PHALCON_INIT_NVAR(sql);
-		PHALCON_CONCAT_SVS(sql, "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '", table,"' ORDER BY TC.COLUMN_ID");
+		PHALCON_CONCAT_SVS(sql, "SELECT TC.COLUMN_NAME, TC.DATA_TYPE, TC.DATA_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, TC.NULLABLE, C.CONSTRAINT_TYPE, TC.DATA_DEFAULT, CC.POSITION FROM ALL_TAB_COLUMNS TC LEFT JOIN (ALL_CONS_COLUMNS CC JOIN ALL_CONSTRAINTS C ON (CC.CONSTRAINT_NAME = C.CONSTRAINT_NAME AND CC.TABLE_NAME = C.TABLE_NAME AND CC.OWNER = C.OWNER AND C.CONSTRAINT_TYPE = 'P')) ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME WHERE TC.TABLE_NAME = '", table, "' ORDER BY TC.COLUMN_ID");
 	}
 	
 	RETURN_CTOR(sql);
@@ -501,7 +499,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns){
 /**
  * List all tables on database
  *
- * <code>print_r($dialect->listTables("blog") ?></code>
+ * <code>print_r($dialect->listTables("blog")) ?></code>
  *
  * @param       string $schemaName
  * @return      array
@@ -519,17 +517,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables){
 	if (!schema_name) {
 		PHALCON_INIT_VAR(schema_name);
 	}
-
-	if(zend_is_true(schema_name)) {
-		PHALCON_INIT_NVAR(sql);
+	
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVS(sql, "SELECT TABLE_NAME, OWNER FROM ALL_TABLES WHERE OWNER='", schema_name, "' ORDER BY OWNER, TABLE_NAME");
 	} else {
 		PHALCON_INIT_NVAR(sql);
 		ZVAL_STRING(sql, "SELECT TABLE_NAME, OWNER FROM ALL_TABLES ORDER BY OWNER, TABLE_NAME ", 1);
 	}
-
-
-	RETURN_CTOR(sql);}
+	
+	RETURN_CTOR(sql);
+}
 
 /**
  * Generates SQL to query indexes on a table
@@ -540,8 +538,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes){
 
-
-	zval *table, *schema = NULL, *sql;
+	zval *table, *schema = NULL, *sql = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -552,14 +549,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes){
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
-	if(zend_is_true(schema)) {
+	
+	if (zend_is_true(schema)) {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVSVS(sql, "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '", table,"' AND IC.INDEX_OWNER = '", schema,"'");
+		PHALCON_CONCAT_SVSVS(sql, "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '", table, "' AND IC.INDEX_OWNER = '", schema, "'");
 	} else {
-		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVS(sql, "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '", table,"'");
+		PHALCON_INIT_NVAR(sql);
+		PHALCON_CONCAT_SVS(sql, "SELECT I.TABLE_NAME, 0 AS C0, I.INDEX_NAME, IC.COLUMN_POSITION, IC.COLUMN_NAME FROM ALL_INDEXES I JOIN ALL_IND_COLUMNS IC ON I.INDEX_NAME = IC.INDEX_NAME WHERE  I.TABLE_NAME = '", table, "'");
 	}
-	RETURN_CTOR(sql);}
+	
+	RETURN_CTOR(sql);
+}
 
 /**
  * Generates SQL to query foreign keys on a table
@@ -570,7 +570,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences){
 
-
 	zval *table, *schema = NULL, *sql;
 
 	PHALCON_MM_GROW();
@@ -582,7 +581,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences){
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
-
+	
 	PHALCON_INIT_VAR(sql);
 	ZVAL_STRING(sql, "SELECT AC.TABLE_NAME, CC.COLUMN_NAME, AC.CONSTRAINT_NAME, AC.R_OWNER, RCC.TABLE_NAME R_TABLE_NAME, RCC.COLUMN_NAME R_COLUMN_NAME FROM ALL_CONSTRAINTS AC JOIN ALL_CONS_COLUMNS CC ON AC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME JOIN ALL_CONS_COLUMNS RCC ON AC.R_OWNER = RCC.OWNER AND AC.R_CONSTRAINT_NAME = RCC.CONSTRAINT_NAME WHERE AC.CONSTRAINT_TYPE='R' ", 1);
 	if (zend_is_true(schema)) {
@@ -590,9 +589,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences){
 	} else {
 		PHALCON_SCONCAT_SVS(sql, "AND AC.TABLE_NAME = '", table, "'");
 	}
-
-
-	RETURN_CTOR(sql);}
+	
+	
+	RETURN_CTOR(sql);
+}
 
 /**
  * Generates the SQL to describe the table creation options
@@ -977,7 +977,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_SCONCAT_SV(sql, " ORDER BY ", order_sql);
 	}
 
-    /**
+        /**
 	 * Oracle does not implement the LIMIT clause as some RDBMS do.
 	 * We have to simulate it with subqueries and ROWNUM.
 	 * Unfortunately because we use the column wildcard "*",
@@ -987,50 +987,43 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
 		PHALCON_OBS_VAR(limit_value);
 		phalcon_array_fetch_string(&limit_value, definition, SL("limit"), PH_NOISY_CC);
-		
 		if (Z_TYPE_P(limit_value) == IS_ARRAY) {
 
 			PHALCON_OBS_VAR(number);
 			phalcon_array_fetch_string(&number, limit_value, SL("number"), PH_NOISY_CC);
 
-			if (phalcon_array_isset_string(limit_value, SS("offset"))) {
+			/**
+			 * Check for a OFFSET condition
+			 */
+			 if (phalcon_array_isset_string(limit_value, SS("offset"))) {
 				PHALCON_OBS_VAR(offset);
 				phalcon_array_fetch_string(&offset, limit_value, SL("offset"), PH_NOISY_CC);
-			} else {
-				PHALCON_INIT_VAR(offset);
-				ZVAL_LONG(offset, 0);
+
+				PHALCON_INIT_VAR(one);
+				ZVAL_LONG(one, 1);
+
+				PHALCON_INIT_VAR(ini_range);
+				phalcon_add_function(ini_range, offset, one TSRMLS_CC);
+
+				PHALCON_INIT_VAR(end_range);
+				phalcon_add_function(end_range, offset, number TSRMLS_CC);
+
+				PHALCON_INIT_VAR(sql_limit);
+				PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
+				sql = sql_limit;
+		    } else {
+		        if (phalcon_array_isset_string(definition, SS("where"))) {
+		          PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", number);
+		        } else {
+		          PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", number);
+		        }
 			}
-			
-			PHALCON_INIT_VAR(one);
-			ZVAL_LONG(one, 1);
-
-			PHALCON_INIT_VAR(ini_range);
-			phalcon_add_function(ini_range, offset, one TSRMLS_CC);
-
-			PHALCON_INIT_VAR(end_range);
-			phalcon_add_function(end_range, offset, number TSRMLS_CC);
-
-			PHALCON_INIT_VAR(sql_limit);
-			PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
-			sql = sql_limit;
-		    
 		} else {
-			
-			PHALCON_INIT_VAR(offset);
-			ZVAL_LONG(offset, 0);
-
-			PHALCON_INIT_VAR(one);
-			ZVAL_LONG(one, 1);
-
-			PHALCON_INIT_VAR(ini_range);
-			phalcon_add_function(ini_range, offset, one TSRMLS_CC);
-
-			PHALCON_INIT_VAR(end_range);
-			phalcon_add_function(end_range, offset, limit_value TSRMLS_CC);
-		
-			PHALCON_INIT_VAR(sql_limit);
-			PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
-			sql = sql_limit;
+		    if (phalcon_array_isset_string(definition, SS("where"))) {
+		        PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", limit_value);
+		    } else {
+		        PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", limit_value);
+		    }
 		}
 	}
 
