@@ -627,7 +627,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
-	zval *definition, *escape_char = NULL, *columns, *selected_columns;
+zval *definition, *escape_char = NULL, *columns, *selected_columns;
 	zval *column = NULL, *column_item = NULL, *column_sql = NULL, *columns_sql = NULL;
 	zval *column_domain = NULL, *column_domain_sql = NULL, *column_alias = NULL;
 	zval *column_alias_sql = NULL, *tables, *selected_tables;
@@ -977,7 +977,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_SCONCAT_SV(sql, " ORDER BY ", order_sql);
 	}
 
-        /**
+    /**
 	 * Oracle does not implement the LIMIT clause as some RDBMS do.
 	 * We have to simulate it with subqueries and ROWNUM.
 	 * Unfortunately because we use the column wildcard "*",
@@ -1028,5 +1028,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	}
 
 
-	RETURN_CTOR(sql);}
+	RETURN_CTOR(sql);
+}
 
