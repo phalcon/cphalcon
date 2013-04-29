@@ -987,43 +987,50 @@ zval *definition, *escape_char = NULL, *columns, *selected_columns;
 
 		PHALCON_OBS_VAR(limit_value);
 		phalcon_array_fetch_string(&limit_value, definition, SL("limit"), PH_NOISY_CC);
+
 		if (Z_TYPE_P(limit_value) == IS_ARRAY) {
 
 			PHALCON_OBS_VAR(number);
 			phalcon_array_fetch_string(&number, limit_value, SL("number"), PH_NOISY_CC);
 
-			/**
-			 * Check for a OFFSET condition
-			 */
-			 if (phalcon_array_isset_string(limit_value, SS("offset"))) {
+			if (phalcon_array_isset_string(limit_value, SS("offset"))) {
 				PHALCON_OBS_VAR(offset);
 				phalcon_array_fetch_string(&offset, limit_value, SL("offset"), PH_NOISY_CC);
-
-				PHALCON_INIT_VAR(one);
-				ZVAL_LONG(one, 1);
-
-				PHALCON_INIT_VAR(ini_range);
-				phalcon_add_function(ini_range, offset, one TSRMLS_CC);
-
-				PHALCON_INIT_VAR(end_range);
-				phalcon_add_function(end_range, offset, number TSRMLS_CC);
-
-				PHALCON_INIT_VAR(sql_limit);
-				PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
-				sql = sql_limit;
-		    } else {
-		        if (phalcon_array_isset_string(definition, SS("where"))) {
-		          PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", number);
-		        } else {
-		          PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", number);
-		        }
+			} else {
+				PHALCON_INIT_VAR(offset);
+				ZVAL_LONG(offset, 0);
 			}
+			
+			PHALCON_INIT_VAR(one);
+			ZVAL_LONG(one, 1);
+
+			PHALCON_INIT_VAR(ini_range);
+			phalcon_add_function(ini_range, offset, one TSRMLS_CC);
+
+			PHALCON_INIT_VAR(end_range);
+			phalcon_add_function(end_range, offset, number TSRMLS_CC);
+
+			PHALCON_INIT_VAR(sql_limit);
+			PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
+			sql = sql_limit;
+		    
 		} else {
-		    if (phalcon_array_isset_string(definition, SS("where"))) {
-		        PHALCON_SCONCAT_SV(sql, " AND ROWNUM <= ", limit_value);
-		    } else {
-		        PHALCON_SCONCAT_SV(sql, " WHERE ROWNUM <= ", limit_value);
-		    }
+			
+			PHALCON_INIT_VAR(offset);
+			ZVAL_LONG(offset, 0);
+
+			PHALCON_INIT_VAR(one);
+			ZVAL_LONG(one, 1);
+
+			PHALCON_INIT_VAR(ini_range);
+			phalcon_add_function(ini_range, offset, one TSRMLS_CC);
+
+			PHALCON_INIT_VAR(end_range);
+			phalcon_add_function(end_range, offset, limit_value TSRMLS_CC);
+		
+			PHALCON_INIT_VAR(sql_limit);
+			PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
+			sql = sql_limit;
 		}
 	}
 
