@@ -133,10 +133,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name);
 	
 	/** 
-	 * We check if the value contained in the array using "in_array" from the PHP
-	 * userland
+	 * Check if the value is contained in the array
 	 */
-	if (phalcon_fast_in_array(value, domain TSRMLS_CC)) {
+	if (!phalcon_fast_in_array(value, domain TSRMLS_CC)) {
 	
 		/** 
 		 * Check if the developer has defined a custom message
