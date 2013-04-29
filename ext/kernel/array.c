@@ -1172,10 +1172,10 @@ void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 T
 
 	array_init_size(return_value, init_size);
 
-	SEPARATE_ZVAL(array1);
+	//SEPARATE_ZVAL(array1);
 	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(array1), 0 TSRMLS_CC);
 
-	SEPARATE_ZVAL(array2);
+	//SEPARATE_ZVAL(array2);
 	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(array2), 0 TSRMLS_CC);
 
 }

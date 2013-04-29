@@ -40,7 +40,7 @@
 /**
  * Phalcon\Text
  *
- * Provides utilities when working with strings
+ * Provides utilities to work with texts
  */
 
 
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Text, uncamelize){
  *
  *<code>
  *	echo Phalcon\Text::increment("a"); // "a_1"
- *  echo Phalcon\Text::increment("a_1"); // "a_2"
+ *	echo Phalcon\Text::increment("a_1"); // "a_2"
  *</code>
  *
  * @param string $str
@@ -201,8 +201,8 @@ PHP_METHOD(Phalcon_Text, random){
  *
  *<code>
  *	echo Phalcon\Text::startsWith("Hello", "He"); // true
- *  echo Phalcon\Text::startsWith("Hello", "he"); // false
- *  echo Phalcon\Text::startsWith("Hello", "he", false); // true
+ *	echo Phalcon\Text::startsWith("Hello", "he"); // false
+ *	echo Phalcon\Text::startsWith("Hello", "he", false); // true
  *</code>
  *
  * @param string $str
@@ -236,8 +236,8 @@ PHP_METHOD(Phalcon_Text, startsWith){
  *
  *<code>
  *	echo Phalcon\Text::endsWith("Hello", "llo"); // true
- *  echo Phalcon\Text::endsWith("Hello", "LLO"); // false
- *  echo Phalcon\Text::endsWith("Hello", "LLO", false); // true
+ *	echo Phalcon\Text::endsWith("Hello", "LLO"); // false
+ *	echo Phalcon\Text::endsWith("Hello", "LLO", false); // true
  *</code>
  *
  * @param string $str

@@ -118,20 +118,22 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect){
 	
 		PHALCON_OBS_VAR(startup);
 		phalcon_array_fetch_string(&startup, descriptor, SL("startup"), PH_NOISY_CC);
+		if (Z_TYPE_P(startup) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(startup, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
+			if (!phalcon_is_iterable(startup, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+				return;
+			}
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_VALUE(value);
+	
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "execute", value);
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
 		}
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_FOREACH_VALUE(value);
-	
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "execute", value);
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-	
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -242,7 +244,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 						phalcon_array_update_string(&definition, SL("scale"), &column_scale, PH_COPY | PH_SEPARATE TSRMLS_CC);
 						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
 					} else {
-						if (phalcon_memnstr_str(column_type, SL("DATE") TSRMLS_CC)) {
+						if (phalcon_memnstr_str(column_type, SL("TIMESTAMP") TSRMLS_CC)) {
 							phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
 						} else {
 							if (phalcon_memnstr_str(column_type, SL("RAW") TSRMLS_CC)) {
