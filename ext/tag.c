@@ -715,7 +715,7 @@ PHP_METHOD(Phalcon_Tag, textField){
  * Builds a HTML input[type="number"] tag
  *
  * <code>
- *	echo Phalcon\Tag::numericField(array("price", "min" => "1" "max" => "5"));
+ *	echo Phalcon\Tag::numericField(array("price", "min" => "1", "max" => "5"));
  * </code>
  *
  * @param array $parameters
