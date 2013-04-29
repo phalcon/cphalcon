@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 		phalcon_read_property_this(&registered_modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(merged_modules);
-		phalcon_fast_array_merge(merged_modules, registered_modules, modules TSRMLS_CC);
+		phalcon_fast_array_merge(merged_modules, &registered_modules, &modules TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);
 	}
 	

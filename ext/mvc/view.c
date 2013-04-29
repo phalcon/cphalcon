@@ -497,7 +497,7 @@ PHP_METHOD(Phalcon_Mvc_View, setVars){
 		phalcon_read_property_this(&view_params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
 		if (Z_TYPE_P(view_params) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(merged_params);
-			phalcon_fast_array_merge(merged_params, view_params, params TSRMLS_CC);
+			phalcon_fast_array_merge(merged_params, &view_params, &params TSRMLS_CC);
 		} else {
 			PHALCON_CPY_WRT(merged_params, params);
 		}

@@ -80,4 +80,4 @@ extern void phalcon_array_next(zval *array);
 extern int phalcon_fast_in_array(zval *needle, zval *haystack TSRMLS_DC);
 
 /** Fast Array Merge */
-extern void phalcon_fast_array_merge(zval *return_value, zval *array1, zval *array2 TSRMLS_DC);
+extern void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 TSRMLS_DC);

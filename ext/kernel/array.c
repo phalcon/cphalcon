@@ -1148,34 +1148,34 @@ int phalcon_fast_in_array(zval *needle, zval *haystack TSRMLS_DC) {
 }
 
 /**
- *
+ * Fast array merge
  */
-void phalcon_fast_array_merge(zval *return_value, zval *array1, zval *array2 TSRMLS_DC) {
+void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 TSRMLS_DC) {
 
 	int init_size, num;
 
-	if (Z_TYPE_P(array1) != IS_ARRAY) {
+	if (Z_TYPE_PP(array1) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "First argument is not an array");
 		RETURN_NULL();
 	}
 
-	if (Z_TYPE_P(array2) != IS_ARRAY) {
+	if (Z_TYPE_PP(array2) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Second argument is not an array");
 		RETURN_NULL();
 	}
 
-	init_size = zend_hash_num_elements(Z_ARRVAL_P(array1));
-	num = zend_hash_num_elements(Z_ARRVAL_P(array2));
+	init_size = zend_hash_num_elements(Z_ARRVAL_PP(array1));
+	num = zend_hash_num_elements(Z_ARRVAL_PP(array2));
 	if (num > init_size) {
 		init_size = num;
 	}
 
 	array_init_size(return_value, init_size);
 
-	SEPARATE_ZVAL(&array1);
-	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_P(array1), 0 TSRMLS_CC);
+	SEPARATE_ZVAL(array1);
+	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(array1), 0 TSRMLS_CC);
 
-	SEPARATE_ZVAL(&array2);
-	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_P(array2), 0 TSRMLS_CC);
+	SEPARATE_ZVAL(array2);
+	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(array2), 0 TSRMLS_CC);
 
 }

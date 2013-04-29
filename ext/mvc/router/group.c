@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 			 * Merge the paths with the default paths
 			 */
 			PHALCON_INIT_VAR(merged_paths);
-			phalcon_fast_array_merge(merged_paths, default_paths, paths TSRMLS_CC);
+			phalcon_fast_array_merge(merged_paths, &default_paths, &paths TSRMLS_CC);
 		} else {
 			PHALCON_CPY_WRT(merged_paths, default_paths);
 		}

@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 		 */
 		if (Z_TYPE_P(current_messages) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(final_messages);
-			phalcon_fast_array_merge(final_messages, current_messages, messages TSRMLS_CC);
+			phalcon_fast_array_merge(final_messages, &current_messages, &messages TSRMLS_CC);
 		} else {
 			PHALCON_CPY_WRT(final_messages, messages);
 		}
