@@ -355,7 +355,21 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has){
 }
 
 /**
+ * Deletes a cookie by its name
+ * This method does not removes cookies from the $_COOKIE superglobal
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Response_Cookies, delete){
+
+
+	
+}
+
+/**
  * Sends the cookies to the client
+ * Cookies aren't sent if headers are sent in the current request
  *
  * @return boolean
  */

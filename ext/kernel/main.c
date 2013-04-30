@@ -47,6 +47,9 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	/* Cache options */
 	phalcon_globals->function_cache = NULL;
 
+	/* Recursive Lock */
+	phalcon_globals->recursive_lock = 0;
+
 	/* Stats options */
 	#ifndef PHALCON_RELEASE
 	phalcon_globals->phalcon_stack_stats = 0;

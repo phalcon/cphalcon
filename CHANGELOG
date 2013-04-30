@@ -32,6 +32,7 @@
  - Volt's paths are now automatically normalized
  - Fixed bug in convert_encoding in Volt
  - Added support for filters in Phalcon\Forms\Form elements
+ - Added maximum recursion depth exceeded control in Phalcon\Kernel
 
 1.0.1
  - Paths aren't correctly normalized in Phalcon\Mvc\Model\MetaData\Files

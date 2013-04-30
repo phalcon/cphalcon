@@ -28,6 +28,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption);
 PHP_METHOD(Phalcon_Http_Response_Cookies, set);
 PHP_METHOD(Phalcon_Http_Response_Cookies, get);
 PHP_METHOD(Phalcon_Http_Response_Cookies, has);
+PHP_METHOD(Phalcon_Http_Response_Cookies, delete);
 PHP_METHOD(Phalcon_Http_Response_Cookies, send);
 PHP_METHOD(Phalcon_Http_Response_Cookies, reset);
 
@@ -64,6 +65,7 @@ PHALCON_INIT_FUNCS(phalcon_http_response_cookies_method_entry){
 	PHP_ME(Phalcon_Http_Response_Cookies, set, arginfo_phalcon_http_response_cookies_set, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response_Cookies, get, arginfo_phalcon_http_response_cookies_get, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response_Cookies, has, arginfo_phalcon_http_response_cookies_has, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Response_Cookies, delete, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response_Cookies, send, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response_Cookies, reset, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END

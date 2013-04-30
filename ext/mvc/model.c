@@ -3447,7 +3447,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 						/** 
 						 * Set the related model
 						 */
-						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(message, "setmodel", record);
+						if (Z_TYPE_P(record) == IS_OBJECT) {
+							PHALCON_CALL_METHOD_PARAMS_1_NORETURN(message, "setmodel", record);
+						}
 	
 						/** 
 						 * Appends the messages to the current model
@@ -3613,7 +3615,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 						/** 
 						 * Set the related model
 						 */
-						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(message, "setmodel", record);
+						if (Z_TYPE_P(message) == IS_OBJECT) {
+							PHALCON_CALL_METHOD_PARAMS_1_NORETURN(message, "setmodel", record);
+						}
 	
 						/** 
 						 * Appends the messages to the current model

@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Session_Bag, __isset){
  */
 PHP_METHOD(Phalcon_Session_Bag, remove){
 
-	zval *property, *data;
+	zval *property, *data = NULL, *name, *session;
 
 	PHALCON_MM_GROW();
 
@@ -438,6 +438,16 @@ PHP_METHOD(Phalcon_Session_Bag, remove){
 	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (phalcon_array_isset(data, property)) {
 		phalcon_unset_property_array(this_ptr, SL("_data"), property TSRMLS_CC);
+	
+		PHALCON_OBS_NVAR(data);
+		phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(name);
+		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(session);
+		phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", name, data);
 		RETURN_MM_TRUE;
 	}
 	

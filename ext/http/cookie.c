@@ -861,18 +861,15 @@ PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly){
  */
 PHP_METHOD(Phalcon_Http_Cookie, __toString){
 
-	zval *value, *str_value = NULL;
-	zval *r0 = NULL;
+	zval *value = NULL;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(value);
 	phalcon_read_property_this(&value, this_ptr, SL("_value"), PH_NOISY_CC);
-	if (Z_TYPE_P(value) != IS_STRING) {
-		PHALCON_INIT_VAR(r0);
-		phalcon_cast(r0, value, IS_STRING);
-		PHALCON_CPY_WRT(str_value, r0);
-		RETURN_CCTOR(str_value);
+	if (Z_TYPE_P(value) == IS_NULL) {
+		PHALCON_INIT_NVAR(value);
+		PHALCON_CALL_METHOD(value, this_ptr, "getvalue");
 	}
 	
 	

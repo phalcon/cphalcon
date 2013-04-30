@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 }
 
 /**
- * Starts the session (if headers are already sent the session will not started)
+ * Starts the session (if headers are already sent the session will not be started)
  *
  * @return boolean
  */
