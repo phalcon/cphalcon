@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 }
 
 /**
- * Starts the session (if headers are already sent the session will not started)
+ * Starts the session (if headers are already sent the session will not be started)
  *
  * @return boolean
  */
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Session_Adapter, getOptions){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	RETURN_CCTOR(options);
 }
 
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	}
 	
 	PHALCON_OBS_VAR(unique_id);
-	phalcon_read_property(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	phalcon_read_property_this(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
 	}
 
 	PHALCON_OBS_VAR(unique_id);
-	phalcon_read_property(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	phalcon_read_property_this(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Session_Adapter, has){
 	}
 
 	PHALCON_OBS_VAR(unique_id);
-	phalcon_read_property(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	phalcon_read_property_this(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
 	}
 
 	PHALCON_OBS_VAR(unique_id);
-	phalcon_read_property(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	phalcon_read_property_this(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(started);
-	phalcon_read_property(&started, this_ptr, SL("_started"), PH_NOISY_CC);
+	phalcon_read_property_this(&started, this_ptr, SL("_started"), PH_NOISY_CC);
 	RETURN_CCTOR(started);
 }
 

@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 
 	PHALCON_OBS_VAR(filters);
-	phalcon_read_property(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
+	phalcon_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
 	if (phalcon_array_isset(filters, filter)) {
 	
 		PHALCON_OBS_VAR(filter_object);

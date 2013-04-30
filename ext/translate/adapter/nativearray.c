@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 	}
 	
 	PHALCON_OBS_VAR(translate);
-	phalcon_read_property(&translate, this_ptr, SL("_translate"), PH_NOISY_CC);
+	phalcon_read_property_this(&translate, this_ptr, SL("_translate"), PH_NOISY_CC);
 	if (phalcon_array_isset(translate, index)) {
 	
 		PHALCON_OBS_VAR(translation);
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
 	}
 
 	PHALCON_OBS_VAR(translate);
-	phalcon_read_property(&translate, this_ptr, SL("_translate"), PH_NOISY_CC);
+	phalcon_read_property_this(&translate, this_ptr, SL("_translate"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, phalcon_array_isset(translate, index));

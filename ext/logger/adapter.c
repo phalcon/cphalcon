@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(transaction);
-	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
+	phalcon_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!zend_is_true(transaction)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
 		return;
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 	 * Check if the queue has something to log
 	 */
 	PHALCON_OBS_VAR(queue);
-	phalcon_read_property(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
+	phalcon_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
 	if (Z_TYPE_P(queue) == IS_ARRAY) { 
 	
 		if (!phalcon_is_iterable(queue, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, rollback){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(transaction);
-	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
+	phalcon_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!zend_is_true(transaction)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
 		return;
@@ -390,7 +390,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log){
 	ZVAL_LONG(timestamp, (long) time(NULL));
 	
 	PHALCON_OBS_VAR(transaction);
-	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
+	phalcon_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (zend_is_true(transaction)) {
 		PHALCON_INIT_VAR(queue_item);
 		object_init_ex(queue_item, phalcon_logger_item_ce);
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, log){
 	}
 	
 	PHALCON_OBS_VAR(log_level);
-	phalcon_read_property(&log_level, this_ptr, SL("_logLevel"), PH_NOISY_CC);
+	phalcon_read_property_this(&log_level, this_ptr, SL("_logLevel"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(enter_level);
 	is_smaller_or_equal_function(enter_level, type, log_level TSRMLS_CC);

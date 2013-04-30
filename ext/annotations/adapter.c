@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(reader);
-	phalcon_read_property(&reader, this_ptr, SL("_reader"), PH_NOISY_CC);
+	phalcon_read_property_this(&reader, this_ptr, SL("_reader"), PH_NOISY_CC);
 	if (Z_TYPE_P(reader) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(reader);
 		object_init_ex(reader, phalcon_annotations_reader_ce);
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
 	}
 	
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) == IS_ARRAY) { 
 		if (phalcon_array_isset(annotations, real_class_name)) {
 			PHALCON_OBS_VAR(class_annotations);

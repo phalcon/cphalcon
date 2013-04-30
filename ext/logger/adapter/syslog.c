@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(formatter);
-	phalcon_read_property(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
+	phalcon_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(formatter);
 		object_init_ex(formatter, phalcon_logger_formatter_syslog_ce);
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(opened);
-	phalcon_read_property(&opened, this_ptr, SL("_opened"), PH_NOISY_CC);
+	phalcon_read_property_this(&opened, this_ptr, SL("_opened"), PH_NOISY_CC);
 	if (zend_is_true(opened)) {
 		PHALCON_CALL_FUNC_NORETURN("closelog");
 	}

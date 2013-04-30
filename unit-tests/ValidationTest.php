@@ -24,7 +24,8 @@ use Phalcon\Validation\Validator\PresenceOf,
 	Phalcon\Validation\Validator\InclusionIn,
 	Phalcon\Validation\Validator\ExclusionIn,
 	Phalcon\Validation\Validator\StringLength,
-	Phalcon\Validation\Validator\Email;
+	Phalcon\Validation\Validator\Email,
+	Phalcon\Validation\Validator\Between;
 
 class ValidationTest extends PHPUnit_Framework_TestCase
 {
@@ -642,6 +643,83 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($messages), 0);
 	}
 
+	public function testValidationBetween()
+	{
+		$_POST = array('price' => 5);
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('price', new Between(array(
+			'minimum' => 1,
+			'maximum' => 3
+		)));
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'Between',
+					'_message' => 'price is not between a valid range',
+					'_field' => 'price',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array();
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('price' => 2);
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
+	}
+
+	public function testValidationBetweenCustomMessage()
+	{
+		$_POST = array('price' => 5);
+
+		$validation = new Phalcon\Validation();
+
+		$validation->add('price', new Between(array(
+			'minimum' => 1,
+			'maximum' => 3,
+			'message' => 'The price must be between 1 and 3'
+		)));
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'Between',
+					'_message' => 'The price must be between 1 and 3',
+					'_field' => 'price',
+				))
+			)
+		));
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array();
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals($expectedMessages, $messages);
+
+		$_POST = array('price' => 2);
+
+		$messages = $validation->validate($_POST);
+
+		$this->assertEquals(count($messages), 0);
+	}
+
 	public function testValidationMixed()
 	{
 
@@ -660,6 +738,100 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$messages = $validation->validate($_POST);
 
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 =>  Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The name is required',
+					'_field' => 'name',
+				)),
+				1 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The email is required',
+					'_field' => 'email',
+				)),
+				2 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The login is required',
+					'_field' => 'login',
+				)),
+			),
+		));
+
+		$this->assertEquals($messages, $expectedMessages);
+	}
+
+	public function testValidationCancelOnFail()
+	{
+
+		$validation = new Phalcon\Validation();
+
+		$validation
+			->add('name', new PresenceOf(array(
+				'message' => 'The name is required'
+			)))
+			->add('email', new PresenceOf(array(
+				'message' => 'The email is required',
+				'cancelOnFail' => true
+			)))
+			->add('login', new PresenceOf(array(
+				'message' => 'The login is required'
+			)));
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 =>  Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The name is required',
+					'_field' => 'name',
+				)),
+				1 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The email is required',
+					'_field' => 'email',
+				))
+			),
+		));
+
+		$this->assertEquals($messages, $expectedMessages);
+	}
+
+	public function testValidationFiltering()
+	{
+
+		$validation = new Phalcon\Validation();
+
+		$validation
+			->add('name', new PresenceOf(array(
+				'message' => 'The name is required'
+			)))
+			->add('email', new PresenceOf(array(
+				'message' => 'The email is required',
+				'cancelOnFail' => true
+			)));
+
+		$validation->setFilters('name', 'trim');
+
+		$messages = $validation->validate($_POST);
+
+		$expectedMessages = Phalcon\Validation\Message\Group::__set_state(array(
+			'_messages' => array(
+				0 =>  Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The name is required',
+					'_field' => 'name',
+				)),
+				1 => Phalcon\Validation\Message::__set_state(array(
+					'_type' => 'PresenceOf',
+					'_message' => 'The email is required',
+					'_field' => 'email',
+				))
+			),
+		));
+
+		$this->assertEquals($messages, $expectedMessages);
 	}
 
 }

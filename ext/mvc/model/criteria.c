@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	if (phalcon_array_isset_string(params, SS("di"))) {
 		PHALCON_OBS_VAR(dependency_injector);
 		phalcon_array_fetch_string(&dependency_injector, params, SL("di"), PH_NOISY_CC);
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(model);
-	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
 	RETURN_CCTOR(model);
 }
 
@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere){
 	}
 	
 	PHALCON_OBS_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	if (phalcon_array_isset_string(params, SS("conditions"))) {
 		PHALCON_OBS_VAR(current_conditions);
 		phalcon_array_fetch_string(&current_conditions, params, SL("conditions"), PH_NOISY_CC);
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere){
 	}
 	
 	PHALCON_OBS_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	if (phalcon_array_isset_string(params, SS("conditions"))) {
 		PHALCON_OBS_VAR(current_conditions);
 		phalcon_array_fetch_string(&current_conditions, params, SL("conditions"), PH_NOISY_CC);
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	if (phalcon_array_isset_string(params, SS("conditions"))) {
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY_CC);
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	if (phalcon_array_isset_string(params, SS("conditions"))) {
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY_CC);
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	if (phalcon_array_isset_string(params, SS("limit"))) {
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_string(&conditions, params, SL("limit"), PH_NOISY_CC);
@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	if (phalcon_array_isset_string(params, SS("order"))) {
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_string(&conditions, params, SL("order"), PH_NOISY_CC);
@@ -670,7 +670,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(model);
-	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
 	if (Z_TYPE_P(model) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model name must be string");
 		return;

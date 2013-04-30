@@ -144,10 +144,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	}
 	
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(prefix);
-	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
 	
 		PHALCON_OBS_VAR(frontend);
-		phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+		phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	
 		/** 
 		 * Check if the file has expired
@@ -248,10 +248,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
 		PHALCON_OBS_VAR(last_key);
-		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+		phalcon_read_property_this(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
 		PHALCON_OBS_VAR(prefix);
-		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(last_key);
 		PHALCON_CONCAT_VV(last_key, prefix, key_name);
@@ -262,10 +262,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	}
 	
 	PHALCON_OBS_VAR(frontend);
-	phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
@@ -325,10 +325,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 	}
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(prefix);
-	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
@@ -374,7 +374,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	array_init(keys);
 	
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
@@ -453,10 +453,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
 		PHALCON_OBS_VAR(last_key);
-		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+		phalcon_read_property_this(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
 		PHALCON_OBS_VAR(prefix);
-		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(last_key);
 		PHALCON_CONCAT_VV(last_key, prefix, key_name);
@@ -464,7 +464,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 	if (zend_is_true(last_key)) {
 	
 		PHALCON_OBS_VAR(options);
-		phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+		phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(cache_dir);
 		phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 		if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
 	
 			PHALCON_OBS_VAR(frontend);
-			phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+			phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	
 			/** 
 			 * Check if the file has expired

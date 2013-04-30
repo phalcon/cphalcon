@@ -286,8 +286,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 
 	zval *type, *message, *automatic_html, *classes;
 	zval *type_classes, *joined_classes, *css_classes = NULL;
-	zval *eol = NULL, *implicit_flush, *content, *msg = NULL, *html_message = NULL;
-	zval *t0 = NULL;
+	zval *eol, *implicit_flush, *content, *msg = NULL, *html_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -299,11 +298,11 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 	}
 
 	PHALCON_OBS_VAR(automatic_html);
-	phalcon_read_property(&automatic_html, this_ptr, SL("_automaticHtml"), PH_NOISY_CC);
+	phalcon_read_property_this(&automatic_html, this_ptr, SL("_automaticHtml"), PH_NOISY_CC);
 	if (PHALCON_IS_TRUE(automatic_html)) {
 	
 		PHALCON_OBS_VAR(classes);
-		phalcon_read_property(&classes, this_ptr, SL("_cssClasses"), PH_NOISY_CC);
+		phalcon_read_property_this(&classes, this_ptr, SL("_cssClasses"), PH_NOISY_CC);
 		if (phalcon_array_isset(classes, type)) {
 	
 			PHALCON_OBS_VAR(type_classes);
@@ -323,13 +322,12 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			ZVAL_STRING(css_classes, "", 1);
 		}
 	
-		PHALCON_INIT_VAR(t0);
-		ZVAL_STRING(t0, PHP_EOL, 1);
-		PHALCON_CPY_WRT(eol, t0);
+		PHALCON_INIT_VAR(eol);
+		ZVAL_STRING(eol, PHP_EOL, 1);
 	}
 	
 	PHALCON_OBS_VAR(implicit_flush);
-	phalcon_read_property(&implicit_flush, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
+	phalcon_read_property_this(&implicit_flush, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
 	if (Z_TYPE_P(message) == IS_ARRAY) { 
 	
 		/** 

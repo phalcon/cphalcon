@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(formatter);
-	phalcon_read_property(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
+	phalcon_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(formatter);
 		object_init_ex(formatter, phalcon_logger_formatter_line_ce);
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal){
 	}
 
 	PHALCON_OBS_VAR(file_handler);
-	phalcon_read_property(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
+	phalcon_read_property_this(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	if (!zend_is_true(file_handler)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid");
 		return;
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(file_handler);
-	phalcon_read_property(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
+	phalcon_read_property_this(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_FUNC_PARAMS_1(success, "fclose", file_handler);
@@ -212,10 +212,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(path);
-	phalcon_read_property(&path, this_ptr, SL("_path"), PH_NOISY_CC);
+	phalcon_read_property_this(&path, this_ptr, SL("_path"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset_string(options, SS("mode"))) {
 		PHALCON_OBS_VAR(mode);
 		phalcon_array_fetch_string(&mode, options, SL("mode"), PH_NOISY_CC);

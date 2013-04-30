@@ -52,26 +52,36 @@ class ConsoleCliTest extends PHPUnit_Framework_TestCase
 		$console->setDI($di);
 		$dispatcher = $console->getDI()->getShared('dispatcher');
 
-		$console->handle(array('shell_script_name'));
+		$console->handle(array());
 		$this->assertEquals($dispatcher->getTaskName(), 'main');
 		$this->assertEquals($dispatcher->getActionName(), 'main');
 		$this->assertEquals($dispatcher->getParams(), array());
 		$this->assertEquals($dispatcher->getReturnedValue(), 'mainAction');
 
-		$console->handle(array('shell_script_name', 'echo'));
+		$console->handle(array(
+			'task' => 'echo'
+		));
 
 		$this->assertEquals($dispatcher->getTaskName(), 'echo');
 		$this->assertEquals($dispatcher->getActionName(), 'main');
 		$this->assertEquals($dispatcher->getParams(), array());
 		$this->assertEquals($dispatcher->getReturnedValue(), 'echoMainAction');
 
-		$console->handle(array('shell_script_name', 'main', 'hello'));
+		$console->handle(array(
+			'task' => 'main',
+			'action' => 'hello'
+		));
 		$this->assertEquals($dispatcher->getTaskName(), 'main');
 		$this->assertEquals($dispatcher->getActionName(), 'hello');
 		$this->assertEquals($dispatcher->getParams(), array());
 		$this->assertEquals($dispatcher->getReturnedValue(), 'Hello !');
 
-		$console->handle(array('shell_script_name', 'main', 'hello', 'World', '######'));
+		$console->handle(array(
+			'task' => 'main',
+			'action' => 'hello',
+			'World',
+			'######'
+		));
 		$this->assertEquals($dispatcher->getTaskName(), 'main');
 		$this->assertEquals($dispatcher->getActionName(), 'hello');
 		$this->assertEquals($dispatcher->getParams(), array('World', '######'));
@@ -79,7 +89,13 @@ class ConsoleCliTest extends PHPUnit_Framework_TestCase
 
 		// testing module
 		try {
-			$console->handle(array('shell_script_name', 'devtools:main', 'hello', 'World', '######'));
+			$console->handle(array(
+				'module' => 'devtools',
+				'task' => 'main',
+				'action' => 'hello',
+				'World',
+				'######'
+			));
 			$this->assertEquals($dispatcher->getTaskName(), 'main');
 			$this->assertEquals($dispatcher->getActionName(), 'hello');
 			$this->assertEquals($dispatcher->getParams(), array('World', '######'));
@@ -92,12 +108,17 @@ class ConsoleCliTest extends PHPUnit_Framework_TestCase
 		try {
 
 			$dispatcher->setDefaultNamespace('Dummy\\');
-			$console->handle(array('shell_script_name', 'main', 'hello', 'World', '!'));
+			$console->handle(array(
+				'task' => 'main',
+				'action' => 'hello',
+				'World',
+				'!'
+			));
 			$this->assertEquals($dispatcher->getTaskName(), 'main');
 			$this->assertEquals($dispatcher->getActionName(), 'hello');
 			$this->assertEquals($dispatcher->getParams(), array('World'));
 			$this->assertEquals($dispatcher->getReturnedValue(), 'Hello World!');
-		}catch (Exception $e) {
+		} catch (Exception $e) {
 			$this->assertEquals($e->getMessage(), 'Dummy\MainTask handler class cannot be loaded');
 		}
 

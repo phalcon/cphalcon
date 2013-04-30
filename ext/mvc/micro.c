@@ -37,8 +37,9 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
 #include "kernel/file.h"
+#include "kernel/array.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Mvc\Micro
@@ -465,9 +466,112 @@ PHP_METHOD(Phalcon_Mvc_Micro, options){
 }
 
 /**
+ * Mounts a collection of handlers
+ *
+ * @param Phalcon\Mvc\Collection $collection
+ * @return Phalcon\Mvc\Micro
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, mount){
+
+	zval *collection, *main_handler, *handlers, *prefix;
+	zval *handler = NULL, *methods = NULL, *pattern = NULL, *sub_handler = NULL;
+	zval *real_handler = NULL, *prefixed_pattern = NULL, *route = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(collection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The collection is not valid");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(main_handler);
+	PHALCON_CALL_METHOD(main_handler, collection, "gethandler");
+	if (PHALCON_IS_EMPTY(main_handler)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The collection requires a main handler");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(handlers);
+	PHALCON_CALL_METHOD(handlers, collection, "gethandlers");
+	if (!phalcon_fast_count_ev(handlers TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "There are no handlers to mount");
+		return;
+	}
+	
+	if (Z_TYPE_P(handlers) == IS_ARRAY) { 
+	
+		/** 
+		 * Get the main prefix for the collection
+		 */
+		PHALCON_INIT_VAR(prefix);
+		PHALCON_CALL_METHOD(prefix, collection, "getprefix");
+	
+		if (!phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(handler);
+	
+			if (Z_TYPE_P(handler) != IS_ARRAY) { 
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid");
+				return;
+			}
+	
+			PHALCON_OBS_NVAR(methods);
+			phalcon_array_fetch_long(&methods, handler, 0, PH_NOISY_CC);
+	
+			PHALCON_OBS_NVAR(pattern);
+			phalcon_array_fetch_long(&pattern, handler, 1, PH_NOISY_CC);
+	
+			PHALCON_OBS_NVAR(sub_handler);
+			phalcon_array_fetch_long(&sub_handler, handler, 2, PH_NOISY_CC);
+	
+			/** 
+			 * Create a real handler
+			 */
+			PHALCON_INIT_NVAR(real_handler);
+			array_init_size(real_handler, 2);
+			phalcon_array_append(&real_handler, main_handler, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&real_handler, sub_handler, PH_SEPARATE TSRMLS_CC);
+			if (PHALCON_IS_NOT_EMPTY(prefix)) {
+				PHALCON_INIT_NVAR(prefixed_pattern);
+				PHALCON_CONCAT_VV(prefixed_pattern, prefix, pattern);
+			} else {
+				PHALCON_CPY_WRT(prefixed_pattern, pattern);
+			}
+	
+			/** 
+			 * Map the route manually
+			 */
+			PHALCON_INIT_NVAR(route);
+			PHALCON_CALL_METHOD_PARAMS_2(route, this_ptr, "map", prefixed_pattern, real_handler);
+			if (zend_is_true(methods)) {
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(route, "via", methods);
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
+	
+	
+	RETURN_THIS();
+}
+
+/**
  * Sets a handler that will be called when the router doesn't match any of the defined routes
  *
  * @param callable $handler
+ * @return Phalcon\Mvc\Micro
  */
 PHP_METHOD(Phalcon_Mvc_Micro, notFound){
 
@@ -478,7 +582,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, notFound){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_notFoundHandler"), handler TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
@@ -493,7 +597,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(router);
-	phalcon_read_property(&router, this_ptr, SL("_router"), PH_NOISY_CC);
+	phalcon_read_property_this(&router, this_ptr, SL("_router"), PH_NOISY_CC);
 	if (Z_TYPE_P(router) != IS_OBJECT) {
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "router", 1);
@@ -549,7 +653,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
@@ -582,7 +686,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 	}
 
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
@@ -615,7 +719,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 	}
 
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
@@ -648,7 +752,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 	}
 
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
@@ -692,7 +796,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "A dependency injection container is required to access related dispatching services");
 		return;
@@ -702,7 +806,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	 * Calling beforeHandle routing
 	 */
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -723,6 +827,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", service);
+	
+	/** 
+	 * Handle the URI as normal
+	 */
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(router, "handle", uri);
 	
 	/** 
@@ -733,7 +841,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	if (Z_TYPE_P(matched_route) == IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(handlers);
-		phalcon_read_property(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
+		phalcon_read_property_this(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(route_id);
 		PHALCON_CALL_METHOD(route_id, matched_route, "getrouteid");
@@ -763,12 +871,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 				RETURN_MM_FALSE;
 			} else {
 				PHALCON_OBS_NVAR(handler);
-				phalcon_read_property(&handler, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
+				phalcon_read_property_this(&handler, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
 			}
 		}
 	
 		PHALCON_OBS_VAR(before_handlers);
-		phalcon_read_property(&before_handlers, this_ptr, SL("_beforeHandlers"), PH_NOISY_CC);
+		phalcon_read_property_this(&before_handlers, this_ptr, SL("_beforeHandlers"), PH_NOISY_CC);
 		if (Z_TYPE_P(before_handlers) == IS_ARRAY) { 
 	
 			/** 
@@ -826,7 +934,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		}
 	
 		PHALCON_OBS_VAR(after_handlers);
-		phalcon_read_property(&after_handlers, this_ptr, SL("_afterHandlers"), PH_NOISY_CC);
+		phalcon_read_property_this(&after_handlers, this_ptr, SL("_afterHandlers"), PH_NOISY_CC);
 		if (Z_TYPE_P(after_handlers) == IS_ARRAY) { 
 	
 			/** 
@@ -858,7 +966,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 * Calling beforeNotFound event
 		 */
 		PHALCON_OBS_NVAR(events_manager);
-		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+		phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 			PHALCON_INIT_NVAR(event_name);
@@ -875,7 +983,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 * Check if a notfoundhandler is defined and it's callable
 		 */
 		PHALCON_OBS_VAR(not_found_handler);
-		phalcon_read_property(&not_found_handler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
+		phalcon_read_property_this(&not_found_handler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
 		if (!phalcon_is_callable(not_found_handler TSRMLS_CC)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The Not-Found handler is not callable or is not defined");
 			return;
@@ -905,7 +1013,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	}
 	
 	PHALCON_OBS_VAR(finish_handlers);
-	phalcon_read_property(&finish_handlers, this_ptr, SL("_finishHandlers"), PH_NOISY_CC);
+	phalcon_read_property_this(&finish_handlers, this_ptr, SL("_finishHandlers"), PH_NOISY_CC);
 	if (Z_TYPE_P(finish_handlers) == IS_ARRAY) { 
 	
 		/** 

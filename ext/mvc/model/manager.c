@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager){
 	}
 
 	PHALCON_OBS_VAR(custom_events_manager);
-	phalcon_read_property(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(custom_events_manager) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(class_name);
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	phalcon_get_class(class_name, model, 1 TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
 	/** 
 	 * Models are just initialized once per request
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	 * If an EventsManager is available we pass to it every initialized model
 	 */
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "modelsManager:afterInitialize", 1);
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized){
 	}
 
 	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(lowercased);
 	phalcon_fast_strtolower(lowercased, model_name);
@@ -343,7 +343,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 	}
 	
 	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(lowercased);
 	phalcon_fast_strtolower(lowercased, model_name);
@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 	 */
 	if (phalcon_class_exists(model_name TSRMLS_CC)) {
 		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
 	
 		PHALCON_INIT_NVAR(model);
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource){
 	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(sources);
-	phalcon_read_property(&sources, this_ptr, SL("_sources"), PH_NOISY_CC);
+	phalcon_read_property_this(&sources, this_ptr, SL("_sources"), PH_NOISY_CC);
 	if (Z_TYPE_P(sources) == IS_ARRAY) { 
 		if (phalcon_array_isset(sources, entity_name)) {
 			PHALCON_OBS_VAR(source);
@@ -527,7 +527,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema){
 	phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(schemas);
-	phalcon_read_property(&schemas, this_ptr, SL("_schemas"), PH_NOISY_CC);
+	phalcon_read_property_this(&schemas, this_ptr, SL("_schemas"), PH_NOISY_CC);
 	if (Z_TYPE_P(schemas) == IS_ARRAY) { 
 		if (phalcon_array_isset(schemas, entity_name)) {
 			PHALCON_OBS_VAR(schema);
@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
 	ZVAL_STRING(service, "db", 1);
 	
 	PHALCON_OBS_VAR(connection_services);
-	phalcon_read_property(&connection_services, this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection_services, this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
 	if (Z_TYPE_P(connection_services) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -661,7 +661,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection){
 	ZVAL_STRING(service, "db", 1);
 	
 	PHALCON_OBS_VAR(connection_services);
-	phalcon_read_property(&connection_services, this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection_services, this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
 	if (Z_TYPE_P(connection_services) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -718,7 +718,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
@@ -756,7 +756,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnectionService){
 	}
 
 	PHALCON_OBS_VAR(connection_services);
-	phalcon_read_property(&connection_services, this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection_services, this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
 	if (Z_TYPE_P(connection_services) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -794,7 +794,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService){
 	}
 
 	PHALCON_OBS_VAR(connection_services);
-	phalcon_read_property(&connection_services, this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection_services, this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
 	if (Z_TYPE_P(connection_services) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -842,7 +842,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 	 * Dispatch events to the global events manager
 	 */
 	PHALCON_OBS_VAR(behaviors);
-	phalcon_read_property(&behaviors, this_ptr, SL("_behaviors"), PH_NOISY_CC);
+	phalcon_read_property_this(&behaviors, this_ptr, SL("_behaviors"), PH_NOISY_CC);
 	if (Z_TYPE_P(behaviors) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -879,7 +879,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 	 * Dispatch events to the global events manager
 	 */
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(fire_event_name);
@@ -896,7 +896,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 	 * A model can has an specific events manager for it
 	 */
 	PHALCON_OBS_VAR(custom_events_manager);
-	phalcon_read_property(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(custom_events_manager) == IS_ARRAY) { 
 	
 		PHALCON_INIT_NVAR(entity_name);
@@ -947,7 +947,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod){
 	 * Dispatch events to the global events manager
 	 */
 	PHALCON_OBS_VAR(behaviors);
-	phalcon_read_property(&behaviors, this_ptr, SL("_behaviors"), PH_NOISY_CC);
+	phalcon_read_property_this(&behaviors, this_ptr, SL("_behaviors"), PH_NOISY_CC);
 	if (Z_TYPE_P(behaviors) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -984,7 +984,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod){
 	 * Dispatch events to the global events manager
 	 */
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(fire_event_name);
 		PHALCON_CONCAT_SV(fire_event_name, "model:", event_name);
@@ -1026,7 +1026,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior){
 	 * Get the current behaviors
 	 */
 	PHALCON_OBS_VAR(behaviors);
-	phalcon_read_property(&behaviors, this_ptr, SL("_behaviors"), PH_NOISY_CC);
+	phalcon_read_property_this(&behaviors, this_ptr, SL("_behaviors"), PH_NOISY_CC);
 	if (phalcon_array_isset(behaviors, entity_name)) {
 		PHALCON_OBS_VAR(models_behaviors);
 		phalcon_array_fetch(&models_behaviors, behaviors, entity_name, PH_NOISY_CC);
@@ -1087,7 +1087,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots){
 	}
 
 	PHALCON_OBS_VAR(keep_snapshots);
-	phalcon_read_property(&keep_snapshots, this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
+	phalcon_read_property_this(&keep_snapshots, this_ptr, SL("_keepSnapshots"), PH_NOISY_CC);
 	if (Z_TYPE_P(keep_snapshots) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -1142,7 +1142,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate){
 	}
 
 	PHALCON_OBS_VAR(dynamic_update);
-	phalcon_read_property(&dynamic_update, this_ptr, SL("_dynamicUpdate"), PH_NOISY_CC);
+	phalcon_read_property_this(&dynamic_update, this_ptr, SL("_dynamicUpdate"), PH_NOISY_CC);
 	if (Z_TYPE_P(dynamic_update) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -1196,7 +1196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", referenced_entity);
 	
 	PHALCON_OBS_VAR(has_one);
-	phalcon_read_property(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
 	if (!phalcon_array_isset(has_one, key_relation)) {
 		PHALCON_INIT_VAR(relations);
 		array_init(relations);
@@ -1271,7 +1271,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 	 * Get existing relations by model
 	 */
 	PHALCON_OBS_VAR(has_one_single);
-	phalcon_read_property(&has_one_single, this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_one_single, this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
 	if (!phalcon_array_isset(has_one_single, entity_name)) {
 		PHALCON_INIT_VAR(single_relations);
 		array_init(single_relations);
@@ -1332,7 +1332,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", referenced_entity);
 	
 	PHALCON_OBS_VAR(belongs_to);
-	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
+	phalcon_read_property_this(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
 	if (!phalcon_array_isset(belongs_to, key_relation)) {
 		PHALCON_INIT_VAR(relations);
 		array_init(relations);
@@ -1407,7 +1407,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 	 * Get existing relations by model
 	 */
 	PHALCON_OBS_VAR(belongs_to_single);
-	phalcon_read_property(&belongs_to_single, this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
+	phalcon_read_property_this(&belongs_to_single, this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
 	if (!phalcon_array_isset(belongs_to_single, entity_name)) {
 		PHALCON_INIT_VAR(single_relations);
 		array_init(single_relations);
@@ -1467,7 +1467,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", referenced_entity);
 	
 	PHALCON_OBS_VAR(has_many);
-	phalcon_read_property(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	if (!phalcon_array_isset(has_many, key_relation)) {
 		PHALCON_INIT_VAR(relations);
 		array_init(relations);
@@ -1542,7 +1542,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	 * Get existing relations by model
 	 */
 	PHALCON_OBS_VAR(has_many_single);
-	phalcon_read_property(&has_many_single, this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_many_single, this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
 	if (!phalcon_array_isset(has_many_single, entity_name)) {
 		PHALCON_INIT_VAR(single_relations);
 		array_init(single_relations);
@@ -1590,7 +1590,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo){
 	}
 
 	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(entity_name);
 	phalcon_fast_strtolower(entity_name, model_name);
@@ -1612,7 +1612,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo){
 	}
 	
 	PHALCON_OBS_VAR(belongs_to);
-	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
+	phalcon_read_property_this(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
 	if (phalcon_array_isset(belongs_to, key_relation)) {
 		RETURN_MM_TRUE;
 	}
@@ -1640,7 +1640,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany){
 	}
 
 	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(entity_name);
 	phalcon_fast_strtolower(entity_name, model_name);
@@ -1662,7 +1662,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany){
 	}
 	
 	PHALCON_OBS_VAR(has_many);
-	phalcon_read_property(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	if (phalcon_array_isset(has_many, key_relation)) {
 		RETURN_MM_TRUE;
 	}
@@ -1690,7 +1690,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne){
 	}
 
 	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(entity_name);
 	phalcon_fast_strtolower(entity_name, model_name);
@@ -1712,7 +1712,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne){
 	}
 	
 	PHALCON_OBS_VAR(has_one);
-	phalcon_read_property(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
 	if (phalcon_array_isset(has_one, key_relation)) {
 		RETURN_MM_TRUE;
 	}
@@ -1739,7 +1739,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias){
 	}
 
 	PHALCON_OBS_VAR(aliases);
-	phalcon_read_property(&aliases, this_ptr, SL("_aliases"), PH_NOISY_CC);
+	phalcon_read_property_this(&aliases, this_ptr, SL("_aliases"), PH_NOISY_CC);
 	if (Z_TYPE_P(aliases) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(key_alias);
@@ -1919,7 +1919,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	phalcon_array_update_string(&find_params, SL("di"), &dependency_injector, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(find_arguments);
-		PHALCON_CALL_FUNC_PARAMS_2(find_arguments, "array_merge", find_params, parameters);
+		phalcon_fast_array_merge(find_arguments, &find_params, &parameters TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(find_arguments, find_params);
 	}
@@ -2026,7 +2026,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReusableRecords){
 	}
 
 	PHALCON_OBS_VAR(reusable);
-	phalcon_read_property(&reusable, this_ptr, SL("_reusable"), PH_NOISY_CC);
+	phalcon_read_property_this(&reusable, this_ptr, SL("_reusable"), PH_NOISY_CC);
 	if (phalcon_array_isset(reusable, key)) {
 		PHALCON_OBS_VAR(records);
 		phalcon_array_fetch(&records, reusable, key, PH_NOISY_CC);
@@ -2095,7 +2095,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
 	}
 	
 	PHALCON_OBS_VAR(belongs_to);
-	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
+	phalcon_read_property_this(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
 	if (Z_TYPE_P(belongs_to) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -2164,7 +2164,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
 	}
 	
 	PHALCON_OBS_VAR(has_many);
-	phalcon_read_property(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	if (Z_TYPE_P(has_many) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -2233,7 +2233,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 	}
 	
 	PHALCON_OBS_VAR(has_one);
-	phalcon_read_property(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
 	if (Z_TYPE_P(has_one) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -2297,7 +2297,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo){
 	}
 
 	PHALCON_OBS_VAR(belongs_to_single);
-	phalcon_read_property(&belongs_to_single, this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
+	phalcon_read_property_this(&belongs_to_single, this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
 	if (Z_TYPE_P(belongs_to_single) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(lower_name);
@@ -2333,7 +2333,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany){
 	}
 
 	PHALCON_OBS_VAR(has_many_single);
-	phalcon_read_property(&has_many_single, this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_many_single, this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
 	if (Z_TYPE_P(has_many_single) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(lower_name);
@@ -2369,7 +2369,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne){
 	}
 
 	PHALCON_OBS_VAR(has_one_single);
-	phalcon_read_property(&has_one_single, this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_one_single, this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
 	if (Z_TYPE_P(has_one_single) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(lower_name);
@@ -2410,8 +2410,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
 	PHALCON_CALL_METHOD_PARAMS_1(has_many, this_ptr, "gethasmany", model);
 	
 	PHALCON_INIT_VAR(merge);
-	PHALCON_CALL_FUNC_PARAMS_2(merge, "array_merge", has_one, has_many);
-	RETURN_CCTOR(merge);
+	phalcon_fast_array_merge(merge, &has_one, &has_many TSRMLS_CC);
+	RETURN_CTOR(merge);
 }
 
 /**
@@ -2445,7 +2445,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 	 * Get belongs-to relations
 	 */
 	PHALCON_OBS_VAR(belongs_to);
-	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
+	phalcon_read_property_this(&belongs_to, this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
 	if (Z_TYPE_P(belongs_to) == IS_ARRAY) { 
 		if (phalcon_array_isset(belongs_to, entity_name)) {
 	
@@ -2472,7 +2472,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 	 * Get has-many relations
 	 */
 	PHALCON_OBS_VAR(has_many);
-	phalcon_read_property(&has_many, this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_many, this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
 	if (Z_TYPE_P(has_many) == IS_ARRAY) { 
 		if (phalcon_array_isset(has_many, entity_name)) {
 	
@@ -2499,7 +2499,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 	 * Get has-one relations
 	 */
 	PHALCON_OBS_VAR(has_one);
-	phalcon_read_property(&has_one, this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_one, this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
 	if (Z_TYPE_P(has_one) == IS_ARRAY) { 
 		if (phalcon_array_isset(has_one, entity_name)) {
 	
@@ -2558,7 +2558,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween){
 	 * Check if it's a belongs-to relationship
 	 */
 	PHALCON_OBS_VAR(belongs_to);
-	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
+	phalcon_read_property_this(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
 	if (Z_TYPE_P(belongs_to) == IS_ARRAY) { 
 		if (phalcon_array_isset(belongs_to, key_relation)) {
 			PHALCON_OBS_VAR(relations);
@@ -2571,7 +2571,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween){
 	 * Check if it's a has-many relationship
 	 */
 	PHALCON_OBS_VAR(has_many);
-	phalcon_read_property(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	if (Z_TYPE_P(has_many) == IS_ARRAY) { 
 		if (phalcon_array_isset(has_many, key_relation)) {
 			PHALCON_OBS_NVAR(relations);
@@ -2584,7 +2584,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween){
 	 * Check if it's a has-one relationship
 	 */
 	PHALCON_OBS_VAR(has_one);
-	phalcon_read_property(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
+	phalcon_read_property_this(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
 	if (Z_TYPE_P(has_one) == IS_ARRAY) { 
 		if (phalcon_array_isset(has_one, key_relation)) {
 			PHALCON_OBS_NVAR(relations);
@@ -2613,7 +2613,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 	}
 
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
 		return;
@@ -2655,7 +2655,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
 		return;
@@ -2701,7 +2701,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
 		return;

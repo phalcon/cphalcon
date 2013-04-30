@@ -968,16 +968,28 @@ int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval
 	int ex_retval;
 	zval *local_retval_ptr = NULL;
 
-	if (param_count) {
-		params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-		for (i=0; i < param_count; i++) {
-			params_array[i] = &params[i];
-		}
-	} else {
+	PHALCON_GLOBAL(recursive_lock)++;
+
+	if (PHALCON_GLOBAL(recursive_lock) > 2048) {
+		ex_retval = FAILURE;
 		params_array = NULL;
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");
+	} else {
+
+		if (param_count) {
+			params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
+			for (i = 0; i < param_count; i++) {
+				params_array[i] = &params[i];
+			}
+		} else {
+			params_array = NULL;
+		}
+
+		ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
 	}
 
-	ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
+	PHALCON_GLOBAL(recursive_lock)--;
+
 	if (local_retval_ptr) {
 		if (Z_TYPE_P(local_retval_ptr) == IS_NULL) {
 			zval_ptr_dtor(&local_retval_ptr);

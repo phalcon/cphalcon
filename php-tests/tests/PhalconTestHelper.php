@@ -22,6 +22,7 @@
  */
 
 $root = realpath(dirname(dirname(__FILE__)));
+
 define('ROOT_PATH', $root);
 define('PATH_LIBRARY', $root . '/library/');
 define('PATH_TESTS', $root . '/tests/Phalcon/');

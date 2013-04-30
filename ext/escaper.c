@@ -303,10 +303,10 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 
 	if (Z_TYPE_P(text) == IS_STRING) {
 		PHALCON_OBS_VAR(html_quote_type);
-		phalcon_read_property(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
+		phalcon_read_property_this(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(encoding);
-		phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
+		phalcon_read_property_this(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(escaped);
 		phalcon_escape_html(escaped, text, html_quote_type, encoding TSRMLS_CC);

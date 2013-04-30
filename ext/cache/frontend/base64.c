@@ -63,7 +63,7 @@
  * if ($image === null) {
  *
  *     // Store the image in the cache
- *     $cache->save($cacheKey, file_put_contents('tmp-dir/some-image.jpg'));
+ *     $cache->save($cacheKey, file_get_contents('tmp-dir/some-image.jpg'));
  * }
  *
  * header('Content-Type: image/jpeg');
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, getLifetime){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("lifetime"))) {
 			PHALCON_OBS_VAR(lifetime);

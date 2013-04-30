@@ -61,3 +61,6 @@ extern int phalcon_spprintf(char **message, int max_len, char *format, ...);
 
 /* Substr */
 void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length TSRMLS_DC);
+
+/** EOL */
+zval *phalcon_eol(int eol TSRMLS_DC);

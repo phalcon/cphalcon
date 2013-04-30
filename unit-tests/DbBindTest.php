@@ -31,8 +31,8 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
-		$this->_executeRawBindTests($connection);
-		$this->_executeRawBindTestsMysql($connection);
+		//$this->_executeRawBindTests($connection);
+		//$this->_executeRawBindTestsMysql($connection);
 		$this->_executeConvertBindTests($connection);
 		$this->_executeBindByTypeTests($connection);
 	}
@@ -44,8 +44,8 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
-		$this->_executeRawBindTests($connection);
-		$this->_executeRawBindTestsPostgresql($connection);
+		//$this->_executeRawBindTests($connection);
+		//$this->_executeRawBindTestsPostgresql($connection);
 		$this->_executeBindByTypeTests($connection);
 	}
 
@@ -56,12 +56,12 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 
    		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
-   		$this->_executeRawBindTests($connection);
-   		$this->_executeRawBindTestsSqlite($connection);
+   		//$this->_executeRawBindTests($connection);
+   		//$this->_executeRawBindTestsSqlite($connection);
    		$this->_executeBindByTypeTests($connection);
    	}
 
-	protected function _executeRawBindTests($connection)
+	/*protected function _executeRawBindTests($connection)
 	{
 
 		$conditions = $connection->bindParams("a=?0", array(0 => 100));
@@ -118,7 +118,7 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 
    		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'", 2 => 'le-nice'));
    		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
-   	}
+   	}*/
 
    	protected function _executeConvertBindTests($connection)
 	{
