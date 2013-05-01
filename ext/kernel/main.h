@@ -66,6 +66,9 @@ extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
 extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
+/* Fetch Parameters */
+extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
+
 /* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
  #define ZVAL_COPY_VALUE(z, v)\
@@ -271,3 +274,13 @@ extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *ha
 
 /** Method declaration for API generation */
 #define PHALCON_DOC_METHOD(class_name, method)
+
+/** Low overhead parse/fetch parameters */
+#define phalcon_fetch_params(memory_grow, required_params, optional_params, ...) \
+	if (phalcon_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+		if (memory_grow) { \
+			RETURN_MM_NULL(); \
+		} else { \
+			RETURN_NULL(); \
+		} \
+	}

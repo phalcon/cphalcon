@@ -104,10 +104,8 @@ PHP_METHOD(Phalcon_Dispatcher, setDI){
 
 	zval *dependency_injector;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
+	
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
@@ -132,10 +130,8 @@ PHP_METHOD(Phalcon_Dispatcher, setEventsManager){
 
 	zval *events_manager;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &events_manager);
+	
 	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
@@ -160,10 +156,8 @@ PHP_METHOD(Phalcon_Dispatcher, setActionSuffix){
 
 	zval *action_suffix;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &action_suffix) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &action_suffix);
+	
 	phalcon_update_property_zval(this_ptr, SL("_actionSuffix"), action_suffix TSRMLS_CC);
 	
 }
@@ -177,10 +171,8 @@ PHP_METHOD(Phalcon_Dispatcher, setModuleName){
 
 	zval *module_name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &module_name) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &module_name);
+	
 	phalcon_update_property_zval(this_ptr, SL("_moduleName"), module_name TSRMLS_CC);
 	
 }
@@ -205,10 +197,8 @@ PHP_METHOD(Phalcon_Dispatcher, setNamespaceName){
 
 	zval *namespace_name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &namespace_name) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &namespace_name);
+	
 	phalcon_update_property_zval(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
 	
 }
@@ -233,10 +223,8 @@ PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace){
 
 	zval *namespace;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &namespace) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &namespace);
+	
 	phalcon_update_property_zval(this_ptr, SL("_defaultNamespace"), namespace TSRMLS_CC);
 	
 }
@@ -261,10 +249,8 @@ PHP_METHOD(Phalcon_Dispatcher, setDefaultAction){
 
 	zval *action_name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &action_name) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &action_name);
+	
 	phalcon_update_property_zval(this_ptr, SL("_defaultAction"), action_name TSRMLS_CC);
 	
 }
@@ -278,10 +264,8 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName){
 
 	zval *action_name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &action_name) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &action_name);
+	
 	phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 	
 }
@@ -308,10 +292,8 @@ PHP_METHOD(Phalcon_Dispatcher, setParams){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &params) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &params);
+	
 	if (Z_TYPE_P(params) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "Parameters must be an Array", 1);
@@ -344,10 +326,8 @@ PHP_METHOD(Phalcon_Dispatcher, setParam){
 
 	zval *param, *value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &param, &value) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &param, &value);
+	
 	phalcon_update_property_array(this_ptr, SL("_params"), param, value TSRMLS_CC);
 	
 }
@@ -368,10 +348,8 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &param, &filters, &default_value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &param, &filters, &default_value);
+	
 	if (!filters) {
 		PHALCON_INIT_VAR(filters);
 	}
@@ -460,10 +438,8 @@ PHP_METHOD(Phalcon_Dispatcher, setReturnedValue){
 
 	zval *value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &value) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &value);
+	
 	phalcon_update_property_zval(this_ptr, SL("_returnedValue"), value TSRMLS_CC);
 	
 }
@@ -956,10 +932,8 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &forward) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &forward);
+	
 	if (Z_TYPE_P(forward) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "Forward parameter must be an Array", 1);

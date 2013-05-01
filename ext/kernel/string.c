@@ -1374,6 +1374,9 @@ zval *phalcon_eol(int eol TSRMLS_DC) {
 
 #if HAVE_PCRE || HAVE_BUNDLED_PCRE
 
+/**
+ * Execute preg-match without function lookup in the PHP userland
+ */
 void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC)
 {
 	zval copy;

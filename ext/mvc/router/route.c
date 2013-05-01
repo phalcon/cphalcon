@@ -84,10 +84,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &pattern, &paths, &http_methods) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &pattern, &paths, &http_methods);
+	
 	if (!paths) {
 		PHALCON_INIT_VAR(paths);
 	}
@@ -146,10 +144,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &pattern) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &pattern);
+	
 	PHALCON_CPY_WRT(compiled_pattern, pattern);
 	
 	/** 
@@ -279,10 +275,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, via){
 
 	zval *http_methods;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &http_methods) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &http_methods);
+	
 	phalcon_update_property_zval(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -302,10 +296,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &pattern, &paths) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
+	
 	if (!paths) {
 		PHALCON_INIT_VAR(paths);
 	}
@@ -508,10 +500,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setName){
 
 	zval *name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &name);
+	
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -528,10 +518,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, beforeMatch){
 
 	zval *callback;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &callback) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &callback);
+	
 	phalcon_update_property_zval(this_ptr, SL("_beforeMatch"), callback TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -644,10 +632,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods){
 
 	zval *http_methods;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &http_methods) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &http_methods);
+	
 	phalcon_update_property_zval(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -677,10 +663,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setHostname){
 
 	zval *hostname;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &hostname) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &hostname);
+	
 	phalcon_update_property_zval(this_ptr, SL("_hostname"), hostname TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -707,10 +691,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, convert){
 
 	zval *name, *converter;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &converter) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &name, &converter);
+	
 	phalcon_update_property_array(this_ptr, SL("_converters"), name, converter TSRMLS_CC);
 	RETURN_THISW();
 }

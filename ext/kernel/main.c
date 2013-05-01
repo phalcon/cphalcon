@@ -307,3 +307,45 @@ int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_posi
 void phalcon_inherit_not_found(char *class_name, char *inherit_name) {
 	fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", class_name, inherit_name);
 }
+
+/**
+ * Parses method parameters with minimum overhead
+ */
+int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
+{
+	va_list va;
+	int arg_count = (int) (zend_uintptr_t) *(zend_vm_stack_top(TSRMLS_C) - 1);
+	zval **arg, **p;
+	int i;
+
+	if (num_args < required_args || (num_args > (required_args + optional_args))) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "wrong number of parameters");
+		return FAILURE;
+	}
+
+	if (num_args > arg_count) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "could not obtain parameters for parsing");
+		return FAILURE;
+	}
+
+	if (!num_args) {
+		return SUCCESS;
+	}
+
+	va_start(va, optional_args);
+
+	i = 0;
+	while (num_args-- > 0) {
+
+		arg = (zval **) (zend_vm_stack_top(TSRMLS_C) - 1 - (arg_count - i));
+
+		p = va_arg(va, zval **);
+		*p = *arg;
+
+		i++;
+	}
+
+	va_end(va);
+
+	return SUCCESS;
+}
