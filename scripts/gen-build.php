@@ -113,6 +113,10 @@ class Build_Generator
 #include "ext/standard/html.h"
 #include "ext/spl/spl_heap.h"
 
+#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+#include "ext/pcre/php_pcre.h"
+#endif
+
 #include "Zend/zend_API.h"
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
