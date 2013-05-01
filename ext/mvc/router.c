@@ -38,6 +38,7 @@
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
+#include "kernel/concat.h"
 #include "kernel/file.h"
 
 /**
@@ -464,8 +465,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval *handled_uri = NULL, *request = NULL, *current_host_name = NULL;
 	zval *route_found = NULL, *parts = NULL, *params = NULL, *matches, *routes;
 	zval *route = NULL, *methods = NULL, *dependency_injector = NULL;
-	zval *service = NULL, *match_method = NULL, *hostname = NULL, *header = NULL;
-	zval *pattern = NULL, *before_match = NULL, *before_match_params = NULL;
+	zval *service = NULL, *match_method = NULL, *hostname = NULL, *regex_host_name = NULL;
+	zval *matched = NULL, *pattern = NULL, *before_match = NULL, *before_match_params = NULL;
 	zval *paths = NULL, *converters = NULL, *position = NULL, *part = NULL, *match_position = NULL;
 	zval *parameters = NULL, *converter = NULL, *converted_part = NULL;
 	zval *not_found_paths, *namespace, *default_namespace = NULL;
@@ -605,11 +606,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			 * Check if the current hostname is the same as the route
 			 */
 			if (Z_TYPE_P(current_host_name) == IS_NULL) {
-				PHALCON_INIT_NVAR(header);
-				ZVAL_STRING(header, "HTTP_HOST", 1);
-	
 				PHALCON_INIT_NVAR(current_host_name);
-				PHALCON_CALL_METHOD_PARAMS_1(current_host_name, request, "getheader", header);
+				PHALCON_CALL_METHOD(current_host_name, request, "gethttphost");
 			}
 	
 			/** 
@@ -623,7 +621,28 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			/** 
 			 * Check if the hostname restriction is the same as the current in the route
 			 */
-			if (!PHALCON_IS_EQUAL(current_host_name, hostname)) {
+			if (phalcon_memnstr_str(hostname, SL("(") TSRMLS_CC)) {
+				if (!phalcon_memnstr_str(hostname, SL("#") TSRMLS_CC)) {
+					PHALCON_INIT_NVAR(regex_host_name);
+					PHALCON_CONCAT_SVS(regex_host_name, "#^", hostname, "$#");
+				} else {
+					PHALCON_CPY_WRT(regex_host_name, hostname);
+				}
+	
+				PHALCON_INIT_NVAR(matched);
+	
+				#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+				phalcon_preg_match(matched, regex_host_name, current_host_name, NULL TSRMLS_CC);
+				#else
+				PHALCON_CALL_FUNC_PARAMS_2(matched, "preg_match", regex_host_name, current_host_name);
+				#endif
+	
+			} else {
+				PHALCON_INIT_NVAR(matched);
+				is_equal_function(matched, current_host_name, hostname TSRMLS_CC);
+			}
+	
+			if (!zend_is_true(matched)) {
 				zend_hash_move_backwards_ex(ah0, &hp0);
 				continue;
 			}
@@ -635,10 +654,18 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		PHALCON_INIT_NVAR(pattern);
 		PHALCON_CALL_METHOD(pattern, route, "getcompiledpattern");
 		if (phalcon_memnstr_str(pattern, SL("^") TSRMLS_CC)) {
-			Z_SET_ISREF_P(matches);
 			PHALCON_INIT_NVAR(route_found);
+	
+			Z_SET_ISREF_P(matches);
+	
+			#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+			phalcon_preg_match(route_found, pattern, handled_uri, matches TSRMLS_CC);
+			#else
 			PHALCON_CALL_FUNC_PARAMS_3(route_found, "preg_match", pattern, handled_uri, matches);
+			#endif
+	
 			Z_UNSET_ISREF_P(matches);
+	
 		} else {
 			PHALCON_INIT_NVAR(route_found);
 			is_equal_function(route_found, pattern, handled_uri TSRMLS_CC);

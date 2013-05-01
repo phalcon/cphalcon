@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -75,7 +75,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect){
  */
 PHP_METHOD(Phalcon_Db_Dialect, limit){
 
-	zval *sql_query, *number, *is_numeric, *limit, *sql_limit;
+	zval *sql_query, *number, *limit, *sql_limit;
 
 	PHALCON_MM_GROW();
 
@@ -83,9 +83,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(is_numeric);
-	PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", number);
-	if (PHALCON_IS_TRUE(is_numeric)) {
+	if (phalcon_is_numeric(number)) {
 		PHALCON_INIT_VAR(limit);
 		PHALCON_CALL_FUNC_PARAMS_1(limit, "intval", number);
 	
@@ -93,7 +91,6 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 		PHALCON_CONCAT_VSV(sql_limit, sql_query, " LIMIT ", limit);
 		RETURN_CTOR(sql_limit);
 	}
-	
 	
 	RETURN_CCTOR(sql_query);
 }

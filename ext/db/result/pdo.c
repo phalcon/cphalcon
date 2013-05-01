@@ -37,6 +37,7 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 
@@ -275,11 +276,19 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	
 			PHALCON_INIT_VAR(pattern);
 			ZVAL_STRING(pattern, "/^SELECT\\s+(.*)$/i", 1);
-			Z_SET_ISREF_P(matches);
 	
 			PHALCON_INIT_VAR(match);
+	
+			Z_SET_ISREF_P(matches);
+	
+			#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+			phalcon_preg_match(match, pattern, sql_statement, matches TSRMLS_CC);
+			#else
 			PHALCON_CALL_FUNC_PARAMS_3(match, "preg_match", pattern, sql_statement, matches);
+			#endif
+	
 			Z_UNSET_ISREF_P(matches);
+	
 			if (zend_is_true(match)) {
 				PHALCON_OBS_VAR(else_clauses);
 				phalcon_array_fetch_long(&else_clauses, matches, 1, PH_NOISY_CC);

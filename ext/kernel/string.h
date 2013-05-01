@@ -64,3 +64,6 @@ void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned 
 
 /** EOL */
 zval *phalcon_eol(int eol TSRMLS_DC);
+
+/** Preg-Match */
+void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC);

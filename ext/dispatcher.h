@@ -28,6 +28,8 @@ PHP_METHOD(Phalcon_Dispatcher, getDI);
 PHP_METHOD(Phalcon_Dispatcher, setEventsManager);
 PHP_METHOD(Phalcon_Dispatcher, getEventsManager);
 PHP_METHOD(Phalcon_Dispatcher, setActionSuffix);
+PHP_METHOD(Phalcon_Dispatcher, setModuleName);
+PHP_METHOD(Phalcon_Dispatcher, getModuleName);
 PHP_METHOD(Phalcon_Dispatcher, setNamespaceName);
 PHP_METHOD(Phalcon_Dispatcher, getNamespaceName);
 PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace);
@@ -57,6 +59,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setactionsuffix, 0, 0, 1)
 	ZEND_ARG_INFO(0, actionSuffix)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setmodulename, 0, 0, 1)
+	ZEND_ARG_INFO(0, moduleName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setnamespacename, 0, 0, 1)
@@ -105,6 +111,8 @@ PHALCON_INIT_FUNCS(phalcon_dispatcher_method_entry){
 	PHP_ME(Phalcon_Dispatcher, setEventsManager, arginfo_phalcon_dispatcher_seteventsmanager, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getEventsManager, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setActionSuffix, arginfo_phalcon_dispatcher_setactionsuffix, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Dispatcher, setModuleName, arginfo_phalcon_dispatcher_setmodulename, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Dispatcher, getModuleName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setNamespaceName, arginfo_phalcon_dispatcher_setnamespacename, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getNamespaceName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setDefaultNamespace, arginfo_phalcon_dispatcher_setdefaultnamespace, ZEND_ACC_PUBLIC) 

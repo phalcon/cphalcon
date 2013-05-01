@@ -60,6 +60,7 @@ PHALCON_INIT_CLASS(Phalcon_Dispatcher){
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_activeHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_finished"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_dispatcher_ce, SL("_forwarded"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_dispatcher_ce, SL("_moduleName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_namespaceName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_handlerName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_actionName"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -168,7 +169,35 @@ PHP_METHOD(Phalcon_Dispatcher, setActionSuffix){
 }
 
 /**
- * Sets a namespace to be prepended to the handler name
+ * Sets the module where the controller is (only informative)
+ *
+ * @param string $moduleName
+ */
+PHP_METHOD(Phalcon_Dispatcher, setModuleName){
+
+	zval *module_name;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &module_name) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_moduleName"), module_name TSRMLS_CC);
+	
+}
+
+/**
+ * Gets the module where the controller class is
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Dispatcher, getModuleName){
+
+
+	RETURN_MEMBER(this_ptr, "_moduleName");
+}
+
+/**
+ * Sets the namespace where the controller class is
  *
  * @param string $namespaceName
  */
@@ -911,6 +940,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 
 /**
  * Forwards the execution flow to another controller/action
+ * Dispatchers are unique per module. Forwarding between modules is not allowed
+ *
+ *<code>
+ *  $this->dispatcher->forward(array('controller' => 'posts', 'action' => 'index'));
+ *</code>
  *
  * @param array $forward
  */

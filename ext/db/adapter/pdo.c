@@ -46,15 +46,15 @@
  *
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect to a database
  *
- * <code>
- * $connection = new Phalcon\Db\Adapter\Pdo\Mysql(array(
- *  'host' => '192.168.0.11',
- *  'username' => 'sigma',
- *  'password' => 'secret',
- *  'dbname' => 'blog',
- *  'port' => '3306',
- * ));
- * </code>
+ *<code>
+ *	$connection = new Phalcon\Db\Adapter\Pdo\Mysql(array(
+ *		'host' => '192.168.0.11',
+ *		'username' => 'sigma',
+ *		'password' => 'secret',
+ *		'dbname' => 'blog',
+ *		'port' => '3306'
+ *	));
+ *</code>
  */
 
 
@@ -982,8 +982,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, getTransactionLevel){
  * Checks whether the connection is under a transaction
  *
  *<code>
- * $connection->begin();
- * var_dump($connection->isUnderTransaction()); //true
+ *	$connection->begin();
+ *	var_dump($connection->isUnderTransaction()); //true
  *</code>
  *
  * @return boolean

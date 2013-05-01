@@ -400,6 +400,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * We get the parameters from the router and assign it to the dispatcher
 	 */
+	PHALCON_INIT_NVAR(module_name);
+	PHALCON_CALL_METHOD(module_name, router, "getmodulename");
+	
 	PHALCON_INIT_VAR(namespace_name);
 	PHALCON_CALL_METHOD(namespace_name, router, "getnamespacename");
 	
@@ -421,6 +424,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * Assign the values passed from the router
 	 */
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setmodulename", module_name);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setnamespacename", namespace_name);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setcontrollername", controller_name);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setactionname", action_name);

@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 		PHALCON_CALL_FUNC_PARAMS_1(contents, "file_get_contents", input);
 	
 		/** 
-		 * We need store the read raw body because it can be read again
+		 * We need store the read raw body because it can't be read again
 		 */
 		phalcon_update_property_zval(this_ptr, SL("_rawBody"), contents TSRMLS_CC);
 		RETURN_CCTOR(contents);

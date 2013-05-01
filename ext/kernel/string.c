@@ -20,10 +20,15 @@
 #include "php.h"
 #include "php_phalcon.h"
 #include "php_main.h"
+
 #include "ext/standard/php_smart_str.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_rand.h"
 #include "ext/standard/php_lcg.h"
+
+#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+#include "ext/pcre/php_pcre.h"
+#endif
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -1366,3 +1371,42 @@ zval *phalcon_eol(int eol TSRMLS_DC) {
 
     return local_eol;
 }
+
+#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+
+void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC)
+{
+	zval copy;
+	int use_copy = 0;
+	pcre_cache_entry *pce;
+
+	if (Z_TYPE_P(regex) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_preg_match()");
+		RETURN_FALSE;
+	}
+
+	if (Z_TYPE_P(subject) != IS_STRING) {
+		zend_make_printable_zval(subject, &copy, &use_copy);
+		if (use_copy) {
+			subject = &copy;
+		}
+	}
+
+	/* Compile regex or get it from cache. */
+	if ((pce = pcre_get_compiled_regex_cache(Z_STRVAL_P(regex), Z_STRLEN_P(regex) TSRMLS_CC)) == NULL) {
+
+		if (use_copy) {
+			zval_dtor(subject);
+		}
+
+		RETURN_FALSE;
+	}
+
+	php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, 0, 0, 0, 0 TSRMLS_CC);
+
+	if (use_copy) {
+		zval_dtor(subject);
+	}
+}
+
+#endif
