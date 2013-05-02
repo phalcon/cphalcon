@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel){
 }
 
 /**
- * Disables an specific level of rendering
+ * Disables a specific level of rendering
  *
  *<code>
  * //Render all levels except ACTION level

@@ -83,10 +83,8 @@ PHP_METHOD(Phalcon_DI_Service, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &definition, &shared) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &name, &definition, &shared);
+	
 	if (!shared) {
 		PHALCON_INIT_VAR(shared);
 		ZVAL_BOOL(shared, 0);
@@ -119,10 +117,8 @@ PHP_METHOD(Phalcon_DI_Service, setShared){
 
 	zval *shared;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &shared) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &shared);
+	
 	phalcon_update_property_zval(this_ptr, SL("_shared"), shared TSRMLS_CC);
 	
 }
@@ -147,10 +143,8 @@ PHP_METHOD(Phalcon_DI_Service, setSharedInstance){
 
 	zval *shared_instance;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &shared_instance) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &shared_instance);
+	
 	phalcon_update_property_zval(this_ptr, SL("_sharedInstance"), shared_instance TSRMLS_CC);
 	
 }
@@ -164,10 +158,8 @@ PHP_METHOD(Phalcon_DI_Service, setDefinition){
 
 	zval *definition;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &definition) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &definition);
+	
 	phalcon_update_property_zval(this_ptr, SL("_definition"), definition TSRMLS_CC);
 	
 }
@@ -198,10 +190,8 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &parameters, &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &parameters, &dependency_injector);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -324,10 +314,8 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &position, &parameter) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &position, &parameter);
+	
 	PHALCON_OBS_VAR(definition);
 	phalcon_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) != IS_ARRAY) { 
@@ -372,7 +360,7 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 }
 
 /**
- * Returns a parameter in an specific position
+ * Returns a parameter in a specific position
  *
  * @param int $position
  * @return array
@@ -383,10 +371,8 @@ PHP_METHOD(Phalcon_DI_Service, getParameter){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &position) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &position);
+	
 	PHALCON_OBS_VAR(definition);
 	phalcon_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) != IS_ARRAY) { 
@@ -428,10 +414,8 @@ PHP_METHOD(Phalcon_DI_Service, __set_state){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &attributes);
+	
 	if (phalcon_array_isset_string(attributes, SS("_name"))) {
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, attributes, SL("_name"), PH_NOISY_CC);

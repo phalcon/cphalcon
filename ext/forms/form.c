@@ -714,7 +714,7 @@ PHP_METHOD(Phalcon_Forms_Form, add){
 }
 
 /**
- * Renders an specific item in the form
+ * Renders a specific item in the form
  *
  * @param string $name
  * @param array $attributes

@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Validation, add){
 	}
 
 	if (Z_TYPE_P(attribute) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be an string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be a string");
 		return;
 	}
 	if (Z_TYPE_P(validator) != IS_OBJECT) {

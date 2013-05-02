@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments){
 }
 
 /**
- * Returns an argument in an specific position
+ * Returns an argument in a specific position
  *
  * @return mixed
  */
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
 }
 
 /**
- * Returns an argument in an specific position
+ * Returns an argument in a specific position
  *
  * @return mixed
  */

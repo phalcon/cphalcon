@@ -50,7 +50,7 @@
  *     echo 'Name=', $annotation->getName(), PHP_EOL;
  * }
  *
- * //Check if the annotations has an specific
+ * //Check if the annotations has a specific
  * var_dump($classAnnotations->has('Cacheable'));
  *
  * //Get an specific annotation in the collection

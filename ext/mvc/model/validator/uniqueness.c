@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	phalcon_get_class(class_name, record, 0 TSRMLS_CC);
 	
 	/** 
-	 * Check using an standard count
+	 * Check using a standard count
 	 */
 	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(number, class_name, "count", params);
 	if (!PHALCON_IS_LONG(number, 0)) {

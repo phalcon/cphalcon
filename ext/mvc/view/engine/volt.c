@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 }
 
 /**
- * Extracts a slice from an string/array/traversable object value
+ * Extracts a slice from a string/array/traversable object value
  *
  * @param mixed $value
  */

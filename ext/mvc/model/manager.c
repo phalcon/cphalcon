@@ -414,7 +414,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource){
 		return;
 	}
 	if (Z_TYPE_P(source) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The source must be an string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The source must be a string");
 		return;
 	}
 	
@@ -491,7 +491,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema){
 		return;
 	}
 	if (Z_TYPE_P(schema) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The schema must be an string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The schema must be a string");
 		return;
 	}
 	
@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService){
 	}
 
 	if (Z_TYPE_P(connection_service) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The connection service must be an string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The connection service must be a string");
 		return;
 	}
 	
@@ -585,7 +585,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService){
 	}
 
 	if (Z_TYPE_P(connection_service) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The connection service must be an string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The connection service must be a string");
 		return;
 	}
 	
@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService){
 	}
 
 	if (Z_TYPE_P(connection_service) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The connection service must be an string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The connection service must be a string");
 		return;
 	}
 	
@@ -893,7 +893,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 	}
 	
 	/** 
-	 * A model can has an specific events manager for it
+	 * A model can has a specific events manager for it
 	 */
 	PHALCON_OBS_VAR(custom_events_manager);
 	phalcon_read_property_this(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);

@@ -1754,7 +1754,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends){
 	}
 	
 	/** 
-	 * Is an array but not an statement list?
+	 * Is an array but not a statement list?
 	 */
 	
 	RETURN_CCTOR(statements);

@@ -38,9 +38,9 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/require.h"
+#include "kernel/file.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
-#include "kernel/file.h"
 
 /**
  * Phalcon\Loader
@@ -481,7 +481,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property_this(&extensions, this_ptr, SL("_extensions"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(ds);
-	ZVAL_STRING(ds, DEFAULT_SLASH, 1);
+	ZVAL_STRING(ds, PHALCON_DIRECTORY_SEPARATOR, 1);
 	
 	PHALCON_INIT_VAR(namespace_separator);
 	ZVAL_STRING(namespace_separator, "\\", 1);

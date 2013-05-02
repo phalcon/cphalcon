@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct){
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		if (Z_TYPE_P(options) != IS_NULL) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be an string");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be a string");
 			return;
 		}
 	} else {

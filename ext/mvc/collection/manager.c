@@ -488,7 +488,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent){
 	}
 	
 	/** 
-	 * A model can has an specific events manager for it
+	 * A model can has a specific events manager for it
 	 */
 	PHALCON_OBS_VAR(custom_events_manager);
 	phalcon_read_property_this(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
