@@ -117,10 +117,8 @@ PHP_METHOD(Phalcon_Loader, setEventsManager){
 
 	zval *events_manager;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &events_manager);
+	
 	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
@@ -149,10 +147,8 @@ PHP_METHOD(Phalcon_Loader, setExtensions){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &extensions) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &extensions);
+	
 	if (Z_TYPE_P(extensions) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $extensions must be an Array");
 		return;
@@ -187,10 +183,8 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &namespaces, &merge) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &namespaces, &merge);
+	
 	if (!merge) {
 		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
@@ -239,10 +233,8 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &prefixes, &merge) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &prefixes, &merge);
+	
 	if (!merge) {
 		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
@@ -292,10 +284,8 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &directories, &merge) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &directories, &merge);
+	
 	if (!merge) {
 		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
@@ -344,10 +334,8 @@ PHP_METHOD(Phalcon_Loader, registerClasses){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &classes, &merge) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &classes, &merge);
+	
 	if (!merge) {
 		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
@@ -454,10 +442,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &class_name);
+	
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -495,7 +481,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property_this(&extensions, this_ptr, SL("_extensions"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(ds);
-	zend_get_constant(SL("DIRECTORY_SEPARATOR"), ds TSRMLS_CC);
+	ZVAL_STRING(ds, DEFAULT_SLASH, 1);
 	
 	PHALCON_INIT_VAR(namespace_separator);
 	ZVAL_STRING(namespace_separator, "\\", 1);

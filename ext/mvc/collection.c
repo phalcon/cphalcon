@@ -1730,10 +1730,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 /**
  * Perform an aggregation using the Mongo aggregation framework
  *
- *<code>
- * echo 'There are ', Robots::aggregate(), ' robots';
- *</code>
- *
  * @param array $parameters
  * @return array
  */

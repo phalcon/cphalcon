@@ -112,10 +112,8 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &dependency_injector);
+	
 	if (!dependency_injector) {
 		PHALCON_INIT_VAR(dependency_injector);
 	}
@@ -153,10 +151,8 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &modules, &merge) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &modules, &merge);
+	
 	if (!merge) {
 		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
@@ -201,10 +197,8 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule){
 
 	zval *default_module;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &default_module) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &default_module);
+	
 	phalcon_update_property_zval(this_ptr, SL("_defaultModule"), default_module TSRMLS_CC);
 	
 }
@@ -239,10 +233,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &uri);
+	
 	if (!uri) {
 		PHALCON_INIT_VAR(uri);
 	}

@@ -86,10 +86,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &identifier) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &identifier);
+	
 	if (Z_TYPE_P(identifier) == IS_ARRAY) { 
 	
 		PHALCON_OBS_VAR(domain);
@@ -141,10 +139,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}

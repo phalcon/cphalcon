@@ -85,10 +85,8 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &descriptor) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &descriptor);
+	
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
 	
@@ -140,10 +138,8 @@ PHP_METHOD(Phalcon_Db_Adapter, setEventsManager){
 
 	zval *events_manager;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &events_manager);
+	
 	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
@@ -185,10 +181,8 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &sql_query, &fetch_mode, &bind_params, &bind_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 3, &sql_query, &fetch_mode, &bind_params, &bind_types);
+	
 	if (!fetch_mode) {
 		PHALCON_INIT_VAR(fetch_mode);
 		ZVAL_LONG(fetch_mode, 2);
@@ -255,10 +249,8 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &sql_query, &fetch_mode, &bind_params, &bind_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 3, &sql_query, &fetch_mode, &bind_params, &bind_types);
+	
 	if (!fetch_mode) {
 		PHALCON_INIT_VAR(fetch_mode);
 		ZVAL_LONG(fetch_mode, 2);
@@ -335,10 +327,8 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &table, &values, &fields, &data_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 2, &table, &values, &fields, &data_types);
+	
 	if (!fields) {
 		PHALCON_INIT_VAR(fields);
 	}
@@ -508,10 +498,8 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|zz", &table, &fields, &values, &where_condition, &data_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 2, &table, &fields, &values, &where_condition, &data_types);
+	
 	if (!where_condition) {
 		PHALCON_INIT_VAR(where_condition);
 	}
@@ -689,10 +677,8 @@ PHP_METHOD(Phalcon_Db_Adapter, delete){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &table, &where_condition, &placeholders, &data_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 3, &table, &where_condition, &placeholders, &data_types);
+	
 	if (!where_condition) {
 		PHALCON_INIT_VAR(where_condition);
 	}
@@ -740,10 +726,8 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnList){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column_list) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &column_list);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -769,10 +753,8 @@ PHP_METHOD(Phalcon_Db_Adapter, limit){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &sql_query, &number) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &sql_query, &number);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -799,10 +781,8 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table_name, &schema_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table_name, &schema_name);
+	
 	if (!schema_name) {
 		PHALCON_INIT_VAR(schema_name);
 	}
@@ -841,10 +821,8 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &view_name, &schema_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &view_name, &schema_name);
+	
 	if (!schema_name) {
 		PHALCON_INIT_VAR(schema_name);
 	}
@@ -866,10 +844,8 @@ PHP_METHOD(Phalcon_Db_Adapter, forUpdate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_query) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &sql_query);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -890,10 +866,8 @@ PHP_METHOD(Phalcon_Db_Adapter, sharedLock){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_query) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &sql_query);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -918,10 +892,8 @@ PHP_METHOD(Phalcon_Db_Adapter, createTable){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &definition);
+	
 	if (Z_TYPE_P(definition) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Invalid definition to create the table '", table_name, "'");
@@ -967,10 +939,8 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &table_name, &schema_name, &if_exists) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &table_name, &schema_name, &if_exists);
+	
 	if (!if_exists) {
 		PHALCON_INIT_VAR(if_exists);
 		ZVAL_BOOL(if_exists, 1);
@@ -1002,10 +972,8 @@ PHP_METHOD(Phalcon_Db_Adapter, addColumn){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &column);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -1032,10 +1000,8 @@ PHP_METHOD(Phalcon_Db_Adapter, modifyColumn){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &column);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -1062,10 +1028,8 @@ PHP_METHOD(Phalcon_Db_Adapter, dropColumn){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &column_name);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -1092,10 +1056,8 @@ PHP_METHOD(Phalcon_Db_Adapter, addIndex){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &index);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -1122,10 +1084,8 @@ PHP_METHOD(Phalcon_Db_Adapter, dropIndex){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &index_name);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -1152,10 +1112,8 @@ PHP_METHOD(Phalcon_Db_Adapter, addPrimaryKey){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &index);
+	
 	PHALCON_OBS_VAR(t0);
 	phalcon_read_property_this(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	PHALCON_INIT_VAR(sql);
@@ -1180,10 +1138,8 @@ PHP_METHOD(Phalcon_Db_Adapter, dropPrimaryKey){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &table_name, &schema_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &table_name, &schema_name);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -1210,10 +1166,8 @@ PHP_METHOD(Phalcon_Db_Adapter, addForeignKey){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &reference) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &reference);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -1240,10 +1194,8 @@ PHP_METHOD(Phalcon_Db_Adapter, dropForeignKey){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &reference_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &reference_name);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -1267,10 +1219,8 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnDefinition){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &column);
+	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
@@ -1299,10 +1249,8 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &schema_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &schema_name);
+	
 	if (!schema_name) {
 		PHALCON_INIT_VAR(schema_name);
 	}
@@ -1372,10 +1320,8 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
@@ -1480,10 +1426,8 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
@@ -1614,10 +1558,8 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table_name, &schema_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table_name, &schema_name);
+	
 	if (!schema_name) {
 		PHALCON_INIT_VAR(schema_name);
 	}

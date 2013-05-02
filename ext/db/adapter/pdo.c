@@ -83,10 +83,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &descriptor) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &descriptor);
+	
 	if (Z_TYPE_P(descriptor) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The descriptor must be an array");
 		return;
@@ -265,10 +263,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_statement) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &sql_statement);
+	
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
@@ -401,10 +397,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &sql_statement, &bind_params, &bind_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &sql_statement, &bind_params, &bind_types);
+	
 	if (!bind_params) {
 		PHALCON_INIT_VAR(bind_params);
 	}
@@ -496,10 +490,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &sql_statement, &bind_params, &bind_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &sql_statement, &bind_params, &bind_types);
+	
 	if (!bind_params) {
 		PHALCON_INIT_VAR(bind_params);
 	}
@@ -616,10 +608,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeIdentifier){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &identifier) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &identifier);
+	
 	if (Z_TYPE_P(identifier) == IS_ARRAY) { 
 		PHALCON_OBS_VAR(domain);
 		phalcon_array_fetch_long(&domain, identifier, 0, PH_NOISY_CC);
@@ -654,10 +644,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &str);
+	
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
@@ -690,10 +678,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &sql, &params) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &sql, &params);
+	
 	PHALCON_INIT_VAR(query_params);
 	array_init(query_params);
 	
@@ -799,10 +785,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &sequence_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &sequence_name);
+	
 	if (!sequence_name) {
 		PHALCON_INIT_VAR(sequence_name);
 	}

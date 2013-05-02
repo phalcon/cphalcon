@@ -79,10 +79,8 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &sql_query, &number) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &sql_query, &number);
+	
 	if (phalcon_is_numeric(number)) {
 		PHALCON_INIT_VAR(limit);
 		PHALCON_CALL_FUNC_PARAMS_1(limit, "intval", number);
@@ -112,10 +110,8 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_query) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &sql_query);
+	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CONCAT_VS(sql, sql_query, " FOR UPDATE");
 	RETURN_CTOR(sql);
@@ -138,10 +134,8 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_query) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &sql_query);
+	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CONCAT_VS(sql, sql_query, " LOCK IN SHARE MODE");
 	RETURN_CTOR(sql);
@@ -167,10 +161,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column_list) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &column_list);
+	
 	PHALCON_INIT_VAR(str_list);
 	array_init(str_list);
 	
@@ -222,10 +214,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &expression, &escape_char) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &expression, &escape_char);
+	
 	if (!escape_char) {
 		PHALCON_INIT_VAR(escape_char);
 	} else {
@@ -495,10 +485,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &escape_char) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &escape_char);
+	
 	if (!escape_char) {
 		PHALCON_INIT_VAR(escape_char);
 	} else {
@@ -601,10 +589,8 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &definition);
+	
 	if (Z_TYPE_P(definition) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid SELECT definition");
 		return;

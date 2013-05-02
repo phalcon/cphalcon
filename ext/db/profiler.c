@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 
 /**
@@ -86,16 +86,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_Profiler){
 }
 
 /**
- * Phalcon\Db\Profiler constructor
- */
-PHP_METHOD(Phalcon_Db_Profiler, __construct){
-
-
-	phalcon_update_property_empty_array(phalcon_db_profiler_ce, this_ptr, SL("_allProfiles") TSRMLS_CC);
-	
-}
-
-/**
  * Starts the profile of a SQL sentence
  *
  * @param string $sqlStatement
@@ -108,10 +98,8 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_statement) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &sql_statement);
+	
 	PHALCON_INIT_VAR(active_profile);
 	object_init_ex(active_profile, phalcon_db_profiler_item_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(active_profile, "setsqlstatement", sql_statement);

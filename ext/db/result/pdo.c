@@ -91,10 +91,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zzz", &connection, &result, &sql_statement, &bind_params, &bind_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 3, &connection, &result, &sql_statement, &bind_params, &bind_types);
+	
 	if (!sql_statement) {
 		PHALCON_INIT_VAR(sql_statement);
 	}

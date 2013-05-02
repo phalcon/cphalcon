@@ -95,10 +95,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "The dependency injector must be an object");
 		return;
@@ -135,10 +133,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, map){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	/** 
 	 * We create a router even if there is no one in the DI
 	 */
@@ -178,10 +174,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	/** 
 	 * We create a router even if there is no one in the DI
 	 */
@@ -221,10 +215,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, post){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	/** 
 	 * We create a router even if there is no one in the DI
 	 */
@@ -264,10 +256,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, put){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	/** 
 	 * We create a router even if there is no one in the DI
 	 */
@@ -307,10 +297,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, patch){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	/** 
 	 * We create a router even if there is no one in the DI
 	 */
@@ -350,10 +338,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, head){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	/** 
 	 * We create a router even if there is no one in the DI
 	 */
@@ -393,10 +379,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, delete){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	/** 
 	 * We create a router even if there is no one in the DI
 	 */
@@ -436,10 +420,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, options){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	/** 
 	 * We create a router even if there is no one in the DI
 	 */
@@ -482,10 +464,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &collection);
+	
 	if (Z_TYPE_P(collection) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The collection is not valid");
 		return;
@@ -577,10 +557,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, notFound){
 
 	zval *handler;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &handler) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &handler);
+	
 	phalcon_update_property_zval(this_ptr, SL("_notFoundHandler"), handler TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -643,10 +621,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &service_name, &definition, &shared) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &service_name, &definition, &shared);
+	
 	if (!shared) {
 		PHALCON_INIT_VAR(shared);
 		ZVAL_BOOL(shared, 0);
@@ -681,10 +657,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &service_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &service_name);
+	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -714,10 +688,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &service_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &service_name);
+	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -747,10 +719,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &service_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &service_name);
+	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -787,10 +757,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &uri);
+	
 	if (!uri) {
 		PHALCON_INIT_VAR(uri);
 	}
@@ -1054,10 +1022,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler){
 
 	zval *active_handler;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &active_handler) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &active_handler);
+	
 	phalcon_update_property_zval(this_ptr, SL("_activeHandler"), active_handler TSRMLS_CC);
 	
 }
@@ -1096,10 +1062,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetExists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &alias) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &alias);
+	
 	PHALCON_INIT_VAR(exists);
 	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "hasservice", alias);
 	RETURN_CCTOR(exists);
@@ -1121,10 +1085,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetSet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &alias, &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &alias, &definition);
+	
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setservice", alias, definition);
 	
 	PHALCON_MM_RESTORE();
@@ -1146,10 +1108,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetGet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &alias) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &alias);
+	
 	PHALCON_INIT_VAR(service);
 	PHALCON_CALL_METHOD_PARAMS_1(service, this_ptr, "getservice", alias);
 	RETURN_CCTOR(service);
@@ -1164,10 +1124,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset){
 
 	zval *alias;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &alias) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &alias);
+	
 	RETURN_CCTORW(alias);
 }
 
@@ -1181,10 +1139,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, before){
 
 	zval *handler;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &handler) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &handler);
+	
 	phalcon_update_property_array_append(this_ptr, SL("_beforeHandlers"), handler TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -1199,10 +1155,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, after){
 
 	zval *handler;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &handler) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &handler);
+	
 	phalcon_update_property_array_append(this_ptr, SL("_afterHandlers"), handler TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -1217,10 +1171,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, finish){
 
 	zval *handler;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &handler) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &handler);
+	
 	phalcon_update_property_array_append(this_ptr, SL("_finishHandlers"), handler TSRMLS_CC);
 	RETURN_THISW();
 }
