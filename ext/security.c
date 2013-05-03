@@ -74,10 +74,8 @@ PHP_METHOD(Phalcon_Security, setDI){
 
 	zval *dependency_injector;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
+	
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
@@ -104,10 +102,8 @@ PHP_METHOD(Phalcon_Security, setRandomBytes){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &random_bytes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &random_bytes);
+	
 	if (Z_TYPE_P(random_bytes) != IS_LONG) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Random bytes must be integer");
 		return;
@@ -150,10 +146,8 @@ PHP_METHOD(Phalcon_Security, setWorkFactor){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &work_factor) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &work_factor);
+	
 	if (Z_TYPE_P(work_factor) != IS_LONG) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Work factor must be integer");
 		return;
@@ -241,10 +235,8 @@ PHP_METHOD(Phalcon_Security, hash){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &password, &work_factor) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &password, &work_factor);
+	
 	if (!work_factor) {
 		PHALCON_INIT_VAR(work_factor);
 	} else {
@@ -287,10 +279,8 @@ PHP_METHOD(Phalcon_Security, checkHash){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &password, &password_hash) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &password, &password_hash);
+	
 	PHALCON_INIT_VAR(hash);
 	PHALCON_CALL_FUNC_PARAMS_2(hash, "crypt", password, password_hash);
 	
@@ -310,10 +300,8 @@ PHP_METHOD(Phalcon_Security, isLegacyHash){
 
 	zval *password_hash;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &password_hash) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &password_hash);
+	
 	if (phalcon_start_with_str(password_hash, SL("$2a$"))) {
 		RETURN_TRUE;
 	}
@@ -334,10 +322,8 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &number_bytes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &number_bytes);
+	
 	if (!number_bytes) {
 		PHALCON_INIT_VAR(number_bytes);
 		ZVAL_LONG(number_bytes, 12);
@@ -390,10 +376,8 @@ PHP_METHOD(Phalcon_Security, getToken){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &number_bytes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &number_bytes);
+	
 	if (!number_bytes) {
 		PHALCON_INIT_VAR(number_bytes);
 		ZVAL_LONG(number_bytes, 12);
@@ -445,10 +429,8 @@ PHP_METHOD(Phalcon_Security, checkToken){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &token_key, &token_value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &token_key, &token_value);
+	
 	if (!token_key) {
 		PHALCON_INIT_VAR(token_key);
 	} else {

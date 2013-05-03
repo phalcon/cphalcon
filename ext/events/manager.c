@@ -82,10 +82,8 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &event_type, &handler, &priority) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &event_type, &handler, &priority);
+	
 	if (!priority) {
 		PHALCON_INIT_VAR(priority);
 		ZVAL_LONG(priority, 100);
@@ -176,10 +174,8 @@ PHP_METHOD(Phalcon_Events_Manager, enablePriorities){
 
 	zval *enable_priorities;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &enable_priorities) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &enable_priorities);
+	
 	phalcon_update_property_zval(this_ptr, SL("_enablePriorities"), enable_priorities TSRMLS_CC);
 	
 }
@@ -205,10 +201,8 @@ PHP_METHOD(Phalcon_Events_Manager, collectResponses){
 
 	zval *collect;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collect) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &collect);
+	
 	phalcon_update_property_zval(this_ptr, SL("_collect"), collect TSRMLS_CC);
 	
 }
@@ -245,10 +239,8 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &type) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &type);
+	
 	if (!type) {
 		PHALCON_INIT_VAR(type);
 	}
@@ -288,10 +280,8 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &queue, &event) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &queue, &event);
+	
 	if (Z_TYPE_P(queue) != IS_ARRAY) { 
 		if (Z_TYPE_P(queue) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The SplPriorityQueue is not valid");
@@ -574,10 +564,8 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &event_type, &source, &data, &cancelable) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 2, &event_type, &source, &data, &cancelable);
+	
 	if (!data) {
 		PHALCON_INIT_VAR(data);
 	}
@@ -697,10 +685,8 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &type) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &type);
+	
 	PHALCON_OBS_VAR(events);
 	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) == IS_ARRAY) { 
@@ -724,10 +710,8 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &type) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &type);
+	
 	PHALCON_OBS_VAR(events);
 	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) == IS_ARRAY) { 

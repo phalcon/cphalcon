@@ -92,10 +92,8 @@ PHP_METHOD(Phalcon_Tag, setDI){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Parameter dependencyInjector must be an Object");
 		return;
@@ -208,10 +206,8 @@ PHP_METHOD(Phalcon_Tag, setAutoescape){
 
 	zval *autoescape;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &autoescape) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &autoescape);
+	
 	phalcon_update_static_property(SL("phalcon\\tag"), SL("_autoEscape"), autoescape TSRMLS_CC);
 	
 }
@@ -237,10 +233,8 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &id, &value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &id, &value);
+	
 	if (Z_TYPE_P(value) != IS_NULL) {
 		if (PHALCON_IS_SCALAR(value)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Only scalar values can be assigned to UI components");
@@ -278,10 +272,8 @@ PHP_METHOD(Phalcon_Tag, setDefaults){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &values) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &values);
+	
 	if (Z_TYPE_P(values) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "An array is required as default values");
 		return;
@@ -303,10 +295,8 @@ PHP_METHOD(Phalcon_Tag, displayTo){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &id, &value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &id, &value);
+	
 	PHALCON_INIT_VAR(default_value);
 	PHALCON_CALL_SELF_PARAMS_2(default_value, this_ptr, "setdefault", id, value);
 	RETURN_CCTOR(default_value);
@@ -324,10 +314,8 @@ PHP_METHOD(Phalcon_Tag, hasValue){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	PHALCON_OBS_VAR(display_values);
 	phalcon_read_static_property(&display_values, SL("phalcon\\tag"), SL("_displayValues") TSRMLS_CC);
 	
@@ -364,10 +352,8 @@ PHP_METHOD(Phalcon_Tag, getValue){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &name, &params) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &name, &params);
+	
 	if (!params) {
 		PHALCON_INIT_VAR(params);
 	}
@@ -477,10 +463,8 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &parameters, &text) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &parameters, &text);
+	
 	if (!text) {
 		PHALCON_INIT_VAR(text);
 	} else {
@@ -570,10 +554,8 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &type, &parameters, &as_value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &type, &parameters, &as_value);
+	
 	if (!as_value) {
 		PHALCON_INIT_VAR(as_value);
 		ZVAL_BOOL(as_value, 0);
@@ -699,10 +681,8 @@ PHP_METHOD(Phalcon_Tag, textField){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "text", 1);
 	
@@ -727,10 +707,8 @@ PHP_METHOD(Phalcon_Tag, numericField){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "number", 1);
 	
@@ -755,10 +733,8 @@ PHP_METHOD(Phalcon_Tag, dateField){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "date", 1);
 	
@@ -783,10 +759,8 @@ PHP_METHOD(Phalcon_Tag, passwordField){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "password", 1);
 	
@@ -811,10 +785,8 @@ PHP_METHOD(Phalcon_Tag, hiddenField){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "hidden", 1);
 	
@@ -839,10 +811,8 @@ PHP_METHOD(Phalcon_Tag, fileField){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "file", 1);
 	
@@ -867,10 +837,8 @@ PHP_METHOD(Phalcon_Tag, checkField){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "checkbox", 1);
 	
@@ -900,10 +868,8 @@ PHP_METHOD(Phalcon_Tag, radioField){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "radio", 1);
 	
@@ -933,10 +899,8 @@ PHP_METHOD(Phalcon_Tag, imageInput){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "image", 1);
 	
@@ -969,10 +933,8 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "submit", 1);
 	
@@ -1001,10 +963,8 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &parameters, &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &parameters, &data);
+	
 	if (!data) {
 		PHALCON_INIT_VAR(data);
 	}
@@ -1040,10 +1000,8 @@ PHP_METHOD(Phalcon_Tag, select){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &parameters, &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &parameters, &data);
+	
 	if (!data) {
 		PHALCON_INIT_VAR(data);
 	}
@@ -1078,10 +1036,8 @@ PHP_METHOD(Phalcon_Tag, textArea){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
@@ -1173,10 +1129,8 @@ PHP_METHOD(Phalcon_Tag, form){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &parameters);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	} else {
@@ -1283,10 +1237,8 @@ PHP_METHOD(Phalcon_Tag, setTitle){
 
 	zval *title;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &title) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &title);
+	
 	phalcon_update_static_property(SL("phalcon\\tag"), SL("_documentTitle"), title TSRMLS_CC);
 	
 }
@@ -1304,10 +1256,8 @@ PHP_METHOD(Phalcon_Tag, appendTitle){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &title) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &title);
+	
 	PHALCON_OBS_VAR(t0);
 	phalcon_read_static_property(&t0, SL("phalcon\\tag"), SL("_documentTitle") TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -1329,10 +1279,8 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &title) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &title);
+	
 	PHALCON_OBS_VAR(document_title);
 	phalcon_read_static_property(&document_title, SL("phalcon\\tag"), SL("_documentTitle") TSRMLS_CC);
 	
@@ -1362,10 +1310,8 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &tags) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &tags);
+	
 	if (!tags) {
 		PHALCON_INIT_VAR(tags);
 		ZVAL_BOOL(tags, 1);
@@ -1415,10 +1361,8 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &parameters, &local) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &parameters, &local);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1548,10 +1492,8 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &parameters, &local) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &parameters, &local);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1667,10 +1609,8 @@ PHP_METHOD(Phalcon_Tag, image){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &parameters);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1761,10 +1701,8 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &text, &separator, &lowercase) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &text, &separator, &lowercase);
+	
 	if (!separator) {
 		PHALCON_INIT_VAR(separator);
 		ZVAL_STRING(separator, "-", 1);
@@ -1800,10 +1738,8 @@ PHP_METHOD(Phalcon_Tag, setDocType){
 
 	zval *doctype;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &doctype) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &doctype);
+	
 	phalcon_update_static_property(SL("phalcon\\tag"), SL("_documentType"), doctype TSRMLS_CC);
 	
 }
@@ -1896,10 +1832,8 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzzz", &tag_name, &parameters, &self_close, &only_start, &use_eol) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 4, &tag_name, &parameters, &self_close, &only_start, &use_eol);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1998,10 +1932,8 @@ PHP_METHOD(Phalcon_Tag, tagHtmlClose){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &tag_name, &use_eol) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &tag_name, &use_eol);
+	
 	if (!use_eol) {
 		PHALCON_INIT_VAR(use_eol);
 		ZVAL_BOOL(use_eol, 0);

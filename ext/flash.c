@@ -77,10 +77,8 @@ PHP_METHOD(Phalcon_Flash, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &css_classes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &css_classes);
+	
 	if (!css_classes) {
 		PHALCON_INIT_VAR(css_classes);
 	} else {
@@ -110,10 +108,8 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush){
 
 	zval *implicit_flush;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &implicit_flush) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &implicit_flush);
+	
 	phalcon_update_property_zval(this_ptr, SL("_implicitFlush"), implicit_flush TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -128,10 +124,8 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml){
 
 	zval *automatic_html;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &automatic_html) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &automatic_html);
+	
 	phalcon_update_property_zval(this_ptr, SL("_automaticHtml"), automatic_html TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -148,10 +142,8 @@ PHP_METHOD(Phalcon_Flash, setCssClasses){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &css_classes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &css_classes);
+	
 	if (Z_TYPE_P(css_classes) == IS_ARRAY) { 
 		phalcon_update_property_zval(this_ptr, SL("_cssClasses"), css_classes TSRMLS_CC);
 		RETURN_THIS();
@@ -176,10 +168,8 @@ PHP_METHOD(Phalcon_Flash, error){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &message);
+	
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "error", 1);
 	
@@ -204,10 +194,8 @@ PHP_METHOD(Phalcon_Flash, notice){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &message);
+	
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "notice", 1);
 	
@@ -232,10 +220,8 @@ PHP_METHOD(Phalcon_Flash, success){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &message);
+	
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "success", 1);
 	
@@ -260,10 +246,8 @@ PHP_METHOD(Phalcon_Flash, warning){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &message);
+	
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "warning", 1);
 	
@@ -293,10 +277,8 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &type, &message);
+	
 	PHALCON_OBS_VAR(automatic_html);
 	phalcon_read_property_this(&automatic_html, this_ptr, SL("_automaticHtml"), PH_NOISY_CC);
 	if (PHALCON_IS_TRUE(automatic_html)) {

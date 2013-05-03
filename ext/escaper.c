@@ -84,10 +84,8 @@ PHP_METHOD(Phalcon_Escaper, setEncoding){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &encoding) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &encoding);
+	
 	if (Z_TYPE_P(encoding) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The character set must be string");
 		return;
@@ -123,10 +121,8 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &quote_type) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &quote_type);
+	
 	if (Z_TYPE_P(quote_type) != IS_LONG) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The quoting type is not valid");
 		return;
@@ -150,10 +146,8 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &str);
+	
 	/** 
 	 * Check if charset is ASCII or ISO-8859-1
 	 */
@@ -257,10 +251,8 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &str);
+	
 	/** 
 	 * mbstring is required here
 	 */
@@ -297,10 +289,8 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &text) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &text);
+	
 	if (Z_TYPE_P(text) == IS_STRING) {
 		PHALCON_OBS_VAR(html_quote_type);
 		phalcon_read_property_this(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
@@ -327,10 +317,8 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attribute) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &attribute);
+	
 	if (Z_TYPE_P(attribute) == IS_STRING) {
 		if (zend_is_true(attribute)) {
 			/** 
@@ -362,10 +350,8 @@ PHP_METHOD(Phalcon_Escaper, escapeCss){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &css) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &css);
+	
 	if (Z_TYPE_P(css) == IS_STRING) {
 		if (zend_is_true(css)) {
 			/** 
@@ -397,10 +383,8 @@ PHP_METHOD(Phalcon_Escaper, escapeJs){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &js) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &js);
+	
 	if (Z_TYPE_P(js) == IS_STRING) {
 		if (zend_is_true(js)) {
 			/** 
@@ -432,10 +416,8 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &url) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &url);
+	
 	PHALCON_INIT_VAR(escaped);
 	PHALCON_CALL_FUNC_PARAMS_1(escaped, "rawurlencode", url);
 	RETURN_CCTOR(escaped);

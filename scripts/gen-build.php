@@ -42,6 +42,7 @@ class Build_Generator
 		'kernel/object.h',
 		'kernel/string.h',
 		'kernel/filter.h',
+		'kernel/file.h',
 		'kernel/operators.h',
 		'kernel/concat.h',
 		'kernel/exception.h',

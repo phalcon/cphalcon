@@ -74,10 +74,8 @@ PHP_METHOD(Phalcon_Validation, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &validators) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &validators);
+	
 	if (!validators) {
 		PHALCON_INIT_VAR(validators);
 	}
@@ -110,10 +108,8 @@ PHP_METHOD(Phalcon_Validation, validate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &data, &entity) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &data, &entity);
+	
 	if (!data) {
 		PHALCON_INIT_VAR(data);
 	}
@@ -226,10 +222,8 @@ PHP_METHOD(Phalcon_Validation, add){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &attribute, &validator) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &attribute, &validator);
+	
 	if (Z_TYPE_P(attribute) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be a string");
 		return;
@@ -259,10 +253,8 @@ PHP_METHOD(Phalcon_Validation, setFilters){
 
 	zval *attribute, *filters;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &attribute, &filters) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &attribute, &filters);
+	
 	phalcon_update_property_array(this_ptr, SL("_filters"), attribute, filters TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -279,10 +271,8 @@ PHP_METHOD(Phalcon_Validation, getFilters){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &attribute) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &attribute);
+	
 	if (!attribute) {
 		PHALCON_INIT_VAR(attribute);
 	}
@@ -346,10 +336,8 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &message);
+	
 	PHALCON_OBS_VAR(messages);
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(messages, "appendmessage", message);
@@ -371,10 +359,8 @@ PHP_METHOD(Phalcon_Validation, bind){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &entity, &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &entity, &data);
+	
 	if (Z_TYPE_P(entity) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The entity must be an object");
 		return;
@@ -407,10 +393,8 @@ PHP_METHOD(Phalcon_Validation, getValue){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attribute) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &attribute);
+	
 	PHALCON_OBS_VAR(entity);
 	phalcon_read_property_this(&entity, this_ptr, SL("_entity"), PH_NOISY_CC);
 	
