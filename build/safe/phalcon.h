@@ -4157,6 +4157,8 @@ static PHP_METHOD(Phalcon_Dispatcher, getDI);
 static PHP_METHOD(Phalcon_Dispatcher, setEventsManager);
 static PHP_METHOD(Phalcon_Dispatcher, getEventsManager);
 static PHP_METHOD(Phalcon_Dispatcher, setActionSuffix);
+static PHP_METHOD(Phalcon_Dispatcher, setModuleName);
+static PHP_METHOD(Phalcon_Dispatcher, getModuleName);
 static PHP_METHOD(Phalcon_Dispatcher, setNamespaceName);
 static PHP_METHOD(Phalcon_Dispatcher, getNamespaceName);
 static PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace);
@@ -4186,6 +4188,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setactionsuffix, 0, 0, 1)
 	ZEND_ARG_INFO(0, actionSuffix)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setmodulename, 0, 0, 1)
+	ZEND_ARG_INFO(0, moduleName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setnamespacename, 0, 0, 1)
@@ -4234,6 +4240,8 @@ PHALCON_INIT_FUNCS(phalcon_dispatcher_method_entry){
 	PHP_ME(Phalcon_Dispatcher, setEventsManager, arginfo_phalcon_dispatcher_seteventsmanager, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getEventsManager, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setActionSuffix, arginfo_phalcon_dispatcher_setactionsuffix, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Dispatcher, setModuleName, arginfo_phalcon_dispatcher_setmodulename, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Dispatcher, getModuleName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setNamespaceName, arginfo_phalcon_dispatcher_setnamespacename, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getNamespaceName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setDefaultNamespace, arginfo_phalcon_dispatcher_setdefaultnamespace, ZEND_ACC_PUBLIC) 
@@ -6634,6 +6642,7 @@ static PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables);
 static PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes);
 static PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences);
 static PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit);
 static PHP_METHOD(Phalcon_Db_Dialect_Oracle, select);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_getcolumndefinition, 0, 0, 1)
@@ -6734,6 +6743,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_tableoptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_limit, 0, 0, 2)
+	ZEND_ARG_INFO(0, sqlQuery)
+	ZEND_ARG_INFO(0, number)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_select, 0, 0, 1)
 	ZEND_ARG_INFO(0, definition)
 ZEND_END_ARG_INFO()
@@ -6758,6 +6772,7 @@ PHALCON_INIT_FUNCS(phalcon_db_dialect_oracle_method_entry){
 	PHP_ME(Phalcon_Db_Dialect_Oracle, describeIndexes, arginfo_phalcon_db_dialect_oracle_describeindexes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, describeReferences, arginfo_phalcon_db_dialect_oracle_describereferences, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, tableOptions, arginfo_phalcon_db_dialect_oracle_tableoptions, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Oracle, limit, arginfo_phalcon_db_dialect_oracle_limit, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, select, arginfo_phalcon_db_dialect_oracle_select, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
@@ -6920,7 +6935,6 @@ zend_class_entry *phalcon_db_profiler_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Profiler);
 
-static PHP_METHOD(Phalcon_Db_Profiler, __construct);
 static PHP_METHOD(Phalcon_Db_Profiler, startProfile);
 static PHP_METHOD(Phalcon_Db_Profiler, stopProfile);
 static PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements);
@@ -6934,7 +6948,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_startprofile, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_db_profiler_method_entry){
-	PHP_ME(Phalcon_Db_Profiler, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Db_Profiler, startProfile, arginfo_phalcon_db_profiler_startprofile, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Profiler, stopProfile, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Profiler, getNumberTotalStatements, NULL, ZEND_ACC_PUBLIC) 
@@ -7547,7 +7560,6 @@ zend_class_entry *phalcon_filter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Filter);
 
-static PHP_METHOD(Phalcon_Filter, __construct);
 static PHP_METHOD(Phalcon_Filter, add);
 static PHP_METHOD(Phalcon_Filter, sanitize);
 static PHP_METHOD(Phalcon_Filter, _sanitize);
@@ -7564,7 +7576,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_filter_method_entry){
-	PHP_ME(Phalcon_Filter, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Filter, add, arginfo_phalcon_filter_add, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Filter, sanitize, arginfo_phalcon_filter_sanitize, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Filter, _sanitize, NULL, ZEND_ACC_PROTECTED) 
