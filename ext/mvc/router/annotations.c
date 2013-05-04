@@ -90,10 +90,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &handler, &prefix) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &handler, &prefix);
+	
 	if (!prefix) {
 		PHALCON_INIT_VAR(prefix);
 	}
@@ -129,10 +127,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &module, &handler, &prefix) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &module, &handler, &prefix);
+	
 	if (!prefix) {
 		PHALCON_INIT_VAR(prefix);
 	}
@@ -178,10 +174,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &uri);
+	
 	if (!uri) {
 		PHALCON_INIT_VAR(uri);
 	}
@@ -404,10 +398,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &handler, &annotation) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &handler, &annotation);
+	
 	PHALCON_INIT_VAR(lowercased);
 	phalcon_fast_strtolower(lowercased, handler);
 	
@@ -452,10 +444,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzzz", &module, &namespace, &controller, &action, &annotation) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 5, 0, &module, &namespace, &controller, &action, &annotation);
+	
 	PHALCON_INIT_VAR(is_route);
 	ZVAL_BOOL(is_route, 0);
 	
@@ -636,10 +626,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix){
 
 	zval *controller_suffix;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &controller_suffix) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &controller_suffix);
+	
 	phalcon_update_property_zval(this_ptr, SL("_controllerSuffix"), controller_suffix TSRMLS_CC);
 	
 }
@@ -653,10 +641,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix){
 
 	zval *action_suffix;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &action_suffix) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &action_suffix);
+	
 	phalcon_update_property_zval(this_ptr, SL("_actionSuffix"), action_suffix TSRMLS_CC);
 	
 }

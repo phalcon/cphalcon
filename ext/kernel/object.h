@@ -40,11 +40,12 @@ extern int phalcon_method_quick_exists_ex(zval *object, char *method_name, unsig
 
 /** Isset properties */
 extern int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
+extern int phalcon_isset_property_quick(zval *object, char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC);
 extern int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC);
 
 /** Reading properties */
 extern int phalcon_read_property_this(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
-extern int phalcon_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, int silent, unsigned long key TSRMLS_DC);
+extern int phalcon_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
 extern int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
 extern int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
 extern int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);

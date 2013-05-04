@@ -26,7 +26,7 @@
 #include "ext/standard/php_rand.h"
 #include "ext/standard/php_lcg.h"
 
-#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+#if HAVE_BUNDLED_PCRE
 #include "ext/pcre/php_pcre.h"
 #endif
 
@@ -1372,7 +1372,7 @@ zval *phalcon_eol(int eol TSRMLS_DC) {
     return local_eol;
 }
 
-#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+#if HAVE_BUNDLED_PCRE
 
 /**
  * Execute preg-match without function lookup in the PHP userland

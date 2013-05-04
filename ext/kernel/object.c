@@ -348,6 +348,22 @@ int phalcon_isset_property(zval *object, char *property_name, unsigned int prope
 }
 
 /**
+ * Checks if property exists on object
+ */
+int phalcon_isset_property_quick(zval *object, char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC) {
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		if (zend_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length, hash)) {
+			return 1;
+		} else {
+			return zend_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length, hash);
+		}
+	}
+
+	return 0;
+}
+
+/**
  * Checks if string property exists on object
  */
 int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC) {
@@ -379,11 +395,29 @@ static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, ch
 	zend_class_entry *original_ce;
 	unsigned long hash;
 
-	hash = zend_inline_hash_func(property_name, property_length+1);
+	hash = zend_inline_hash_func(property_name, property_length + 1);
 
 	original_ce = ce;
 	while (ce) {
-		if (zend_hash_quick_exists(&ce->properties_info, property_name, property_length+1, hash)) {
+		if (zend_hash_quick_exists(&ce->properties_info, property_name, property_length + 1, hash)) {
+			return ce;
+		}
+		ce = ce->parent;
+	}
+	return original_ce;
+}
+
+/**
+ * Lookup exact class where a property is defined (preallocated key)
+ *
+ */
+static inline zend_class_entry *phalcon_lookup_class_ce_quick(zend_class_entry *ce, char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC) {
+
+	zend_class_entry *original_ce;
+
+	original_ce = ce;
+	while (ce) {
+		if (zend_hash_quick_exists(&ce->properties_info, property_name, property_length + 1, hash)) {
 			return ce;
 		}
 		ce = ce->parent;
@@ -482,20 +516,18 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 
 			#else
 
-			if (property_info->offset >= 0) {
-				*result = zobj->properties_table[property_info->offset];
-				Z_ADDREF_PP(result);
-				EG(scope) = old_scope;
-				return SUCCESS;
-			}
-
-			if (zobj->properties) {
-				if (zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == SUCCESS) {
+			if (UNEXPECTED(!property_info) || ((EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1)) {
+				if (zobj->properties && zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE) {
 					*result = *zv;
 					Z_ADDREF_PP(result);
 					EG(scope) = old_scope;
 					return SUCCESS;
 				}
+			} else {
+				*result = *zv;
+				Z_ADDREF_PP(result);
+				EG(scope) = old_scope;
+				return SUCCESS;
 			}
 
 			#endif
@@ -519,7 +551,7 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 /**
  * Reads a property from this_ptr (with pre-calculated key)
  */
-int phalcon_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, int silent, unsigned long key TSRMLS_DC) {
+int phalcon_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC) {
 
 	zval **zv;
 	zend_object *zobj;
@@ -530,7 +562,7 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 
 		ce = Z_OBJCE_P(object);
 		if (ce->parent) {
-			ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
+			ce = phalcon_lookup_class_ce_quick(ce, property_name, property_length, key TSRMLS_CC);
 		}
 
 		old_scope = EG(scope);
@@ -551,20 +583,18 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 
 			#else
 
-			if (property_info->offset >= 0) {
-				*result = zobj->properties_table[property_info->offset];
-				Z_ADDREF_PP(result);
-				EG(scope) = old_scope;
-				return SUCCESS;
-			}
-
-			if (zobj->properties) {
-				if (zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == SUCCESS) {
+			if (UNEXPECTED(!property_info) || ((EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1)) {
+				if (zobj->properties && zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE) {
 					*result = *zv;
 					Z_ADDREF_PP(result);
 					EG(scope) = old_scope;
 					return SUCCESS;
 				}
+			} else {
+				*result = *zv;
+				Z_ADDREF_PP(result);
+				EG(scope) = old_scope;
+				return SUCCESS;
 			}
 
 			#endif
