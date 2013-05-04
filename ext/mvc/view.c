@@ -118,10 +118,8 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -142,10 +140,8 @@ PHP_METHOD(Phalcon_Mvc_View, setViewsDir){
 
 	zval *views_dir;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &views_dir) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &views_dir);
+	
 	phalcon_update_property_zval(this_ptr, SL("_viewsDir"), views_dir TSRMLS_CC);
 	
 }
@@ -174,10 +170,8 @@ PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir){
 
 	zval *layouts_dir;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &layouts_dir) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &layouts_dir);
+	
 	phalcon_update_property_zval(this_ptr, SL("_layoutsDir"), layouts_dir TSRMLS_CC);
 	
 }
@@ -206,10 +200,8 @@ PHP_METHOD(Phalcon_Mvc_View, setPartialsDir){
 
 	zval *partials_dir;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &partials_dir) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &partials_dir);
+	
 	phalcon_update_property_zval(this_ptr, SL("_partialsDir"), partials_dir TSRMLS_CC);
 	
 }
@@ -238,10 +230,8 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
 
 	zval *base_path;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &base_path) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &base_path);
+	
 	phalcon_update_property_zval(this_ptr, SL("_basePath"), base_path TSRMLS_CC);
 	
 }
@@ -260,10 +250,8 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel){
 
 	zval *level;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &level) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &level);
+	
 	phalcon_update_property_zval(this_ptr, SL("_renderLevel"), level TSRMLS_CC);
 	
 }
@@ -284,10 +272,8 @@ PHP_METHOD(Phalcon_Mvc_View, disableLevel){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &level) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &level);
+	
 	if (Z_TYPE_P(level) == IS_ARRAY) { 
 		phalcon_update_property_zval(this_ptr, SL("_disabledLevels"), level TSRMLS_CC);
 	} else {
@@ -313,10 +299,8 @@ PHP_METHOD(Phalcon_Mvc_View, setMainView){
 
 	zval *view_path;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &view_path) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &view_path);
+	
 	phalcon_update_property_zval(this_ptr, SL("_mainView"), view_path TSRMLS_CC);
 	
 }
@@ -345,10 +329,8 @@ PHP_METHOD(Phalcon_Mvc_View, setLayout){
 
 	zval *layout;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &layout) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &layout);
+	
 	phalcon_update_property_zval(this_ptr, SL("_layout"), layout TSRMLS_CC);
 	
 }
@@ -375,10 +357,8 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &template_before) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &template_before);
+	
 	if (Z_TYPE_P(template_before) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(array_template);
 		array_init_size(array_template, 1);
@@ -413,10 +393,8 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &template_after) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &template_after);
+	
 	if (Z_TYPE_P(template_after) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(array_template);
 		array_init_size(array_template, 1);
@@ -454,10 +432,8 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView){
 
 	zval *key, *value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &value) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &key, &value);
+	
 	phalcon_update_property_array(this_ptr, SL("_viewParams"), key, value TSRMLS_CC);
 	
 }
@@ -478,10 +454,8 @@ PHP_METHOD(Phalcon_Mvc_View, setVars){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &params, &merge) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &params, &merge);
+	
 	if (!merge) {
 		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 1);
@@ -524,10 +498,8 @@ PHP_METHOD(Phalcon_Mvc_View, setVar){
 
 	zval *key, *value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &value) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &key, &value);
+	
 	phalcon_update_property_array(this_ptr, SL("_viewParams"), key, value TSRMLS_CC);
 	
 }
@@ -544,10 +516,8 @@ PHP_METHOD(Phalcon_Mvc_View, getVar){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	PHALCON_OBS_VAR(params);
 	phalcon_read_property_this(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
 	if (phalcon_array_isset(params, key)) {
@@ -745,10 +715,8 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzzz", &engines, &view_path, &silence, &must_clean, &cache) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 5, 0, &engines, &view_path, &silence, &must_clean, &cache);
+	
 	PHALCON_INIT_VAR(not_exists);
 	ZVAL_BOOL(not_exists, 1);
 	
@@ -941,10 +909,8 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &engines) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &engines);
+	
 	if (Z_TYPE_P(engines) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Engines to register must be an array");
 		return;
@@ -986,10 +952,8 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &controller_name, &action_name, &params) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &controller_name, &action_name, &params);
+	
 	if (!params) {
 		PHALCON_INIT_VAR(params);
 	}
@@ -1307,10 +1271,8 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &render_view) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &render_view);
+	
 	PHALCON_INIT_VAR(separator);
 	ZVAL_STRING(separator, "/", 1);
 	if (Z_TYPE_P(render_view) == IS_ARRAY) { 
@@ -1356,10 +1318,8 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &partial_path) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &partial_path);
+	
 	PHALCON_INIT_VAR(zfalse);
 	ZVAL_BOOL(zfalse, 0);
 	
@@ -1396,10 +1356,8 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &controller_name, &action_name, &params, &config_callback) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 2, &controller_name, &action_name, &params, &config_callback);
+	
 	if (!params) {
 		PHALCON_INIT_VAR(params);
 	} else {
@@ -1597,10 +1555,8 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 		ZVAL_BOOL(options, 1);
@@ -1683,10 +1639,8 @@ PHP_METHOD(Phalcon_Mvc_View, setContent){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &content) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &content);
+	
 	if (Z_TYPE_P(content) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Content must be a string");
 		return;
@@ -1777,10 +1731,8 @@ PHP_METHOD(Phalcon_Mvc_View, __set){
 
 	zval *key, *value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &value) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &key, &value);
+	
 	phalcon_update_property_array(this_ptr, SL("_viewParams"), key, value TSRMLS_CC);
 	
 }
@@ -1801,10 +1753,8 @@ PHP_METHOD(Phalcon_Mvc_View, __get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	PHALCON_OBS_VAR(params);
 	phalcon_read_property_this(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
 	if (phalcon_array_isset(params, key)) {

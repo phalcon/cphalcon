@@ -86,17 +86,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 	/** 
 	 * Column types, tell the resultset how to build the result
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_columnTypes"), columns_types TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_columnTypes"), columns_types TSRMLS_CC);
 	
 	/** 
 	 * Valid resultsets are Phalcon\Db\ResultInterface instances
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_result"), result TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_result"), result TSRMLS_CC);
 	
 	/** 
 	 * Update the related cache if any
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	
 	/** 
 	 * Resultsets type 1 are traversed one-by-one
@@ -374,12 +374,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 			/** 
 			 * Store the generated row in this_ptr->activeRow to be retrieved by 'current'
 			 */
-			phalcon_update_property_zval(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
 		} else {
 			/** 
 			 * The row is already built so we just assign it to the activeRow
 			 */
-			phalcon_update_property_zval(this_ptr, SL("_activeRow"), row TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_activeRow"), row TSRMLS_CC);
 		}
 		RETURN_MM_TRUE;
 	}
@@ -493,19 +493,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize){
 	
 	PHALCON_OBS_VAR(rows);
 	phalcon_array_fetch_string(&rows, resultset, SL("rows"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(cache);
 	phalcon_array_fetch_string(&cache, resultset, SL("cache"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(column_types);
 	phalcon_array_fetch_string(&column_types, resultset, SL("columnTypes"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_columnTypes"), column_types TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_columnTypes"), column_types TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(hydrate_mode);
 	phalcon_array_fetch_string(&hydrate_mode, resultset, SL("hydrateMode"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

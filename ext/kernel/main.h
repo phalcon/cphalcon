@@ -195,6 +195,13 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
  	phalcon_return_property(return_value, object, SL(member_name) TSRMLS_CC); \
 	return;
 
+/**
+ * Returns a zval in a object member (quick)
+ */
+#define RETURN_MEMBER_QUICK(object, member_name, key) \
+ 	phalcon_return_property_quick(return_value, object, SL(member_name), key TSRMLS_CC); \
+	return;
+
 /** Return null restoring memory frame */
 #define RETURN_MM_NULL() PHALCON_MM_RESTORE(); RETURN_NULL();
 

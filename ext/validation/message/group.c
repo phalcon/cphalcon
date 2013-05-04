@@ -71,10 +71,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &messages) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &messages);
+	
 	if (!messages) {
 		PHALCON_INIT_VAR(messages);
 	}
@@ -102,10 +100,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &index);
+	
 	PHALCON_OBS_VAR(messages);
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_array_isset(messages, index)) {
@@ -133,10 +129,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &index, &message);
+	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
 		return;
@@ -162,10 +156,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &index);
+	
 	PHALCON_OBS_VAR(messages);
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_array_isset(messages, index)) {
@@ -188,10 +180,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset){
 
 	zval *index;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &index);
+	
 	RETURN_TRUE;
 }
 
@@ -210,10 +200,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &message);
+	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
 		return;
@@ -240,10 +228,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &messages) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &messages);
+	
 	if (Z_TYPE_P(messages) != IS_ARRAY) { 
 		if (Z_TYPE_P(messages) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The messages must be array or object");
@@ -401,10 +387,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &group) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &group);
+	
 	PHALCON_OBS_VAR(messages);
 	phalcon_array_fetch_string(&messages, group, SL("_messages"), PH_NOISY_CC);
 	

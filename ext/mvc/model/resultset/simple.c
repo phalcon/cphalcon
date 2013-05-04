@@ -91,10 +91,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 		PHALCON_INIT_VAR(keep_snapshots);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_result"), result TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_result"), result TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
 	if (Z_TYPE_P(result) != IS_OBJECT) {
 		RETURN_MM_NULL();
 	}
@@ -126,12 +126,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	/** 
 	 * Update the row-count
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_count"), row_count TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_count"), row_count TSRMLS_CC);
 	
 	/** 
 	 * Set if the returned resultset must keep the record snapshots
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_keepSnapshots"), keep_snapshots TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_keepSnapshots"), keep_snapshots TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			if (Z_TYPE_P(result) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(rows);
 				PHALCON_CALL_METHOD(rows, result, "fetchall");
-				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 			}
 		}
 	
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			break;
 	
 	}
-	phalcon_update_property_zval(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
 	RETURN_MM_TRUE;
 }
 
@@ -330,14 +330,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 				 */
 				PHALCON_INIT_NVAR(records);
 				PHALCON_CALL_METHOD(records, result, "fetchall");
-				phalcon_update_property_zval(this_ptr, SL("_rows"), records TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_rows"), records TSRMLS_CC);
 	
 				/** 
 				 * Update the row count
 				 */
 				PHALCON_INIT_VAR(row_count);
 				phalcon_fast_count(row_count, records TSRMLS_CC);
-				phalcon_update_property_zval(this_ptr, SL("_count"), row_count TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_count"), row_count TSRMLS_CC);
 			}
 		}
 	}
@@ -497,23 +497,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 	
 	PHALCON_OBS_VAR(model);
 	phalcon_array_fetch_string(&model, resultset, SL("model"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(rows);
 	phalcon_array_fetch_string(&rows, resultset, SL("rows"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(cache);
 	phalcon_array_fetch_string(&cache, resultset, SL("cache"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(column_map);
 	phalcon_array_fetch_string(&column_map, resultset, SL("columnMap"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(hydrate_mode);
 	phalcon_array_fetch_string(&hydrate_mode, resultset, SL("hydrateMode"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

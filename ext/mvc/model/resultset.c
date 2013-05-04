@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 			if (Z_TYPE_P(result) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(rows);
 				PHALCON_CALL_METHOD(rows, result, "fetchall");
-				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 			}
 		}
 	
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 				if (Z_TYPE_P(result) == IS_OBJECT) {
 					PHALCON_INIT_NVAR(rows);
 					PHALCON_CALL_METHOD(rows, result, "fetchall");
-					phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
+					phalcon_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 				}
 			}
 	
@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 			phalcon_fast_count(count, rows TSRMLS_CC);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_count"), count TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_count"), count TSRMLS_CC);
 	}
 	
 	
@@ -543,7 +543,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_isFresh"), is_fresh TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_isFresh"), is_fresh TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -572,7 +572,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 			 */
 			PHALCON_INIT_NVAR(messages);
 			PHALCON_CALL_METHOD(messages, record, "getmessages");
-			phalcon_update_property_zval(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
 	
 			/** 
 			 * Rollback the transaction

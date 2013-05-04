@@ -68,10 +68,8 @@ PHP_METHOD(Phalcon_Flash_Session, setDI){
 
 	zval *dependency_injector;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
+	
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
@@ -100,10 +98,8 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &remove) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &remove);
+	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -143,10 +139,8 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &messages) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &messages);
+	
 	PHALCON_SEPARATE_PARAM(messages);
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -185,10 +179,8 @@ PHP_METHOD(Phalcon_Flash_Session, message){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &type, &message);
+	
 	PHALCON_INIT_VAR(remove);
 	ZVAL_BOOL(remove, 0);
 	
@@ -225,10 +217,8 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &type, &remove) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &type, &remove);
+	
 	if (!type) {
 		PHALCON_INIT_VAR(type);
 	}
@@ -273,10 +263,8 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &remove) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &remove);
+	
 	if (!remove) {
 		PHALCON_INIT_VAR(remove);
 		ZVAL_BOOL(remove, 1);
