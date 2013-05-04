@@ -69,10 +69,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &reader) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &reader);
+	
 	if (Z_TYPE_P(reader) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Invalid annotations reader");
 		return;
@@ -118,10 +116,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &class_name);
+	
 	/** 
 	 * Get the class name if it's an object
 	 */
@@ -187,10 +183,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &class_name);
+	
 	/** 
 	 * Get the full annotations from the class
 	 */
@@ -229,10 +223,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &class_name, &method_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &class_name, &method_name);
+	
 	/** 
 	 * Get the full annotations from the class
 	 */
@@ -290,10 +282,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &class_name);
+	
 	/** 
 	 * Get the full annotations from the class
 	 */
@@ -332,10 +322,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &class_name, &property_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &class_name, &property_name);
+	
 	/** 
 	 * Get the full annotations from the class
 	 */

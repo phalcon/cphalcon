@@ -357,12 +357,12 @@ int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC) {
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		if (Z_TYPE_P(property) == IS_STRING) {
 
-			hash = zend_inline_hash_func(Z_STRVAL_P(property), Z_STRLEN_P(property)+1);
+			hash = zend_inline_hash_func(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1);
 
-			if (zend_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)+1, hash)) {
+			if (zend_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, hash)) {
 				return 1;
 			} else {
-				return zend_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), Z_STRVAL_P(property), Z_STRLEN_P(property)+1, hash);
+				return zend_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, hash);
 			}
 		}
 	}
@@ -448,12 +448,14 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 }
 
 /**
- * Reads a property from an object
+ * Reads a property from this_ptr
  */
 int phalcon_read_property_this(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 
+	zval **zv;
+	zend_object *zobj;
+	zend_property_info *property_info;
 	zend_class_entry *ce, *old_scope;
-	zval *property;
 
 	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 
@@ -465,50 +467,112 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 		old_scope = EG(scope);
 		EG(scope) = ce;
 
-		#if PHP_VERSION_ID < 50400
-		{
-			zval **zv;
-			zend_object *zobj;
-			zend_property_info *property_info;
+		zobj = zend_objects_get_address(object TSRMLS_CC);
 
-			zobj = zend_objects_get_address(object TSRMLS_CC);
+		if (zend_hash_find(&ce->properties_info, property_name, property_length + 1, (void **) &property_info) == SUCCESS) {
 
-			if (zend_hash_find(&ce->properties_info, property_name, property_length+1, (void **) &property_info) == SUCCESS) {
+			#if PHP_VERSION_ID < 50400
 
-				if (zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == SUCCESS) {
+			if (zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == SUCCESS) {
+				*result = *zv;
+				Z_ADDREF_PP(result);
+				EG(scope) = old_scope;
+				return SUCCESS;
+			}
+
+			#else
+
+			if (property_info->offset >= 0) {
+				*result = zobj->properties_table[property_info->offset];
+				Z_ADDREF_PP(result);
+				EG(scope) = old_scope;
+				return SUCCESS;
+			}
+
+			if (zobj->properties) {
+				if (zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == SUCCESS) {
 					*result = *zv;
 					Z_ADDREF_PP(result);
 					EG(scope) = old_scope;
 					return SUCCESS;
 				}
-
 			}
 
-			EG(scope) = old_scope;
+			#endif
 
-			ALLOC_INIT_ZVAL(*result);
-			ZVAL_NULL(*result);
-
-			return FAILURE;
 		}
-
-		#else
-
-		MAKE_STD_ZVAL(property);
-		ZVAL_STRINGL(property, property_name, property_length, 0);
-
-		*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R, 0 TSRMLS_CC);
-
-		Z_ADDREF_PP(result);
-
-		ZVAL_NULL(property);
-		zval_ptr_dtor(&property);
 
 		EG(scope) = old_scope;
 
-		return SUCCESS;
+	} else {
+		if (silent == PH_NOISY) {
+			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
+		}
+	}
 
-		#endif
+	ALLOC_INIT_ZVAL(*result);
+	ZVAL_NULL(*result);
+
+	return FAILURE;
+}
+
+/**
+ * Reads a property from this_ptr (with pre-calculated key)
+ */
+int phalcon_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, int silent, unsigned long key TSRMLS_DC) {
+
+	zval **zv;
+	zend_object *zobj;
+	zend_property_info *property_info;
+	zend_class_entry *ce, *old_scope;
+
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
+
+		ce = Z_OBJCE_P(object);
+		if (ce->parent) {
+			ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
+		}
+
+		old_scope = EG(scope);
+		EG(scope) = ce;
+
+		zobj = zend_objects_get_address(object TSRMLS_CC);
+
+		if (zend_hash_quick_find(&ce->properties_info, property_name, property_length + 1, key, (void **) &property_info) == SUCCESS) {
+
+			#if PHP_VERSION_ID < 50400
+
+			if (zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == SUCCESS) {
+				*result = *zv;
+				Z_ADDREF_PP(result);
+				EG(scope) = old_scope;
+				return SUCCESS;
+			}
+
+			#else
+
+			if (property_info->offset >= 0) {
+				*result = zobj->properties_table[property_info->offset];
+				Z_ADDREF_PP(result);
+				EG(scope) = old_scope;
+				return SUCCESS;
+			}
+
+			if (zobj->properties) {
+				if (zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == SUCCESS) {
+					*result = *zv;
+					Z_ADDREF_PP(result);
+					EG(scope) = old_scope;
+					return SUCCESS;
+				}
+			}
+
+			#endif
+
+		}
+
+		EG(scope) = old_scope;
+
 	} else {
 		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");

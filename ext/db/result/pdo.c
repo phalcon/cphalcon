@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	
 			Z_SET_ISREF_P(matches);
 	
-			#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+			#if HAVE_BUNDLED_PCRE
 			phalcon_preg_match(match, pattern, sql_statement, matches TSRMLS_CC);
 			#else
 			PHALCON_CALL_FUNC_PARAMS_3(match, "preg_match", pattern, sql_statement, matches);

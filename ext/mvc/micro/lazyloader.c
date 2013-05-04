@@ -32,44 +32,67 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Flash\Direct
+ * Phalcon\Mvc\Micro\LazyLoader
  *
- * This is a variant of the Phalcon\Flash that inmediately outputs any message passed to it
+ * Lazy-Load of handlers for Mvc\Micro using auto-loading
  */
 
 
 /**
- * Phalcon\Flash\Direct initializer
+ * Phalcon\Mvc\Micro\LazyLoader initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Flash_Direct){
+PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Flash, Direct, flash_direct, "phalcon\\flash", phalcon_flash_direct_method_entry, 0);
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Micro, LazyLoader, mvc_micro_lazyloader, phalcon_mvc_micro_lazyloader_method_entry, 0);
 
-	zend_class_implements(phalcon_flash_direct_ce TSRMLS_CC, 1, phalcon_flashinterface_ce);
+	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("_handler"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("_definition"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
 
 /**
- * Outputs a message
+ *  Phalcon\Mvc\Micro\LazyLoader constructor
  *
- * @param  string $type
- * @param  string $message
- * @return string
+ * @param string $definition
  */
-PHP_METHOD(Phalcon_Flash_Direct, message){
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct){
 
-	zval *type, *message, *flash_message;
+	zval *definition;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &type, &message);
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &definition) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(definition) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "Only strings can be lazy loaded");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_definition"), definition TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(flash_message);
-	PHALCON_CALL_METHOD_PARAMS_2(flash_message, this_ptr, "outputmessage", type, message);
-	RETURN_CCTOR(flash_message);
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call){
+
+	zval *method, *arguments;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &method, &arguments) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", method);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", arguments);
+	
+	PHALCON_MM_RESTORE();
 }
 

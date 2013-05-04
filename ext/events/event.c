@@ -73,10 +73,8 @@ PHP_METHOD(Phalcon_Events_Event, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &type, &source, &data, &cancelable) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 2, &type, &source, &data, &cancelable);
+	
 	if (!data) {
 		PHALCON_INIT_VAR(data);
 	}
@@ -108,10 +106,8 @@ PHP_METHOD(Phalcon_Events_Event, setType){
 
 	zval *event_type;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &event_type) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &event_type);
+	
 	phalcon_update_property_zval(this_ptr, SL("_type"), event_type TSRMLS_CC);
 	
 }
@@ -147,10 +143,8 @@ PHP_METHOD(Phalcon_Events_Event, setData){
 
 	zval *data;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &data);
+	
 	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
 	
 }
@@ -175,10 +169,8 @@ PHP_METHOD(Phalcon_Events_Event, setCancelable){
 
 	zval *cancelable;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &cancelable) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &cancelable);
+	
 	phalcon_update_property_zval(this_ptr, SL("_cancelable"), cancelable TSRMLS_CC);
 	
 }

@@ -455,9 +455,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, options){
  */
 PHP_METHOD(Phalcon_Mvc_Micro, mount){
 
-	zval *collection, *main_handler, *handlers, *prefix;
-	zval *handler = NULL, *methods = NULL, *pattern = NULL, *sub_handler = NULL;
-	zval *real_handler = NULL, *prefixed_pattern = NULL, *route = NULL;
+	zval *collection, *main_handler, *handlers, *lazy;
+	zval *lazy_handler = NULL, *prefix, *handler = NULL, *methods = NULL;
+	zval *pattern = NULL, *sub_handler = NULL, *real_handler = NULL, *prefixed_pattern = NULL;
+	zval *route = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -471,6 +472,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 		return;
 	}
 	
+	/** 
+	 * Get the main handler
+	 */
 	PHALCON_INIT_VAR(main_handler);
 	PHALCON_CALL_METHOD(main_handler, collection, "gethandler");
 	if (PHALCON_IS_EMPTY(main_handler)) {
@@ -486,6 +490,20 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 	}
 	
 	if (Z_TYPE_P(handlers) == IS_ARRAY) { 
+	
+		/** 
+		 * Check if handler is lazy
+		 */
+		PHALCON_INIT_VAR(lazy);
+		PHALCON_CALL_METHOD(lazy, collection, "islazy");
+		if (zend_is_true(lazy)) {
+			PHALCON_INIT_VAR(lazy_handler);
+			object_init_ex(lazy_handler, phalcon_mvc_micro_lazyloader_ce);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(lazy_handler, "__construct", main_handler);
+	
+		} else {
+			PHALCON_CPY_WRT(lazy_handler, main_handler);
+		}
 	
 		/** 
 		 * Get the main prefix for the collection
@@ -520,11 +538,16 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 			 */
 			PHALCON_INIT_NVAR(real_handler);
 			array_init_size(real_handler, 2);
-			phalcon_array_append(&real_handler, main_handler, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&real_handler, lazy_handler, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&real_handler, sub_handler, PH_SEPARATE TSRMLS_CC);
 			if (PHALCON_IS_NOT_EMPTY(prefix)) {
-				PHALCON_INIT_NVAR(prefixed_pattern);
-				PHALCON_CONCAT_VV(prefixed_pattern, prefix, pattern);
+				if (!PHALCON_IS_STRING(prefix, "/")) {
+					PHALCON_INIT_NVAR(prefixed_pattern);
+					PHALCON_CONCAT_VV(prefixed_pattern, prefix, pattern);
+				} else {
+					PHALCON_INIT_NVAR(prefixed_pattern);
+					ZVAL_STRING(prefixed_pattern, "/", 1);
+				}
 			} else {
 				PHALCON_CPY_WRT(prefixed_pattern, pattern);
 			}
@@ -1175,5 +1198,16 @@ PHP_METHOD(Phalcon_Mvc_Micro, finish){
 	
 	phalcon_update_property_array_append(this_ptr, SL("_finishHandlers"), handler TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Returns the internal handlers attached to the application
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, getHandlers){
+
+
+	RETURN_MEMBER(this_ptr, "_handlers");
 }
 

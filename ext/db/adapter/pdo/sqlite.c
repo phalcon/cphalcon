@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 	
 			Z_SET_ISREF_P(matches);
 	
-			#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+			#if HAVE_BUNDLED_PCRE
 			phalcon_preg_match(pos, size_pattern, column_type, matches TSRMLS_CC);
 			#else
 			PHALCON_CALL_FUNC_PARAMS_3(pos, "preg_match", size_pattern, column_type, matches);

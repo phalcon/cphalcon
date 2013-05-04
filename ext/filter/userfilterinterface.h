@@ -14,17 +14,19 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Rack Lin <racklin@gmail.com>                                  |
   +------------------------------------------------------------------------+
 */
 
-#define PDO_ATTR_ERRMODE 3
-#define PDO_ATTR_CASE 8
-#define PDO_ATTR_CURSOR 10
-#define PDO_ATTR_PERSISTENT 12
+extern zend_class_entry *phalcon_filter_userfilterinterface_ce;
 
-#define PDO_CASE_LOWER 2
-#define PDO_CURSOR_SCROLL 1
-#define PDO_ERRMODE_SILENT 0
-#define PDO_ERRMODE_WARNING 1
-#define PDO_ERRMODE_EXCEPTION 2
+PHALCON_INIT_CLASS(Phalcon_Filter_UserFilterInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_userfilterinterface_filter, 0, 0, 1)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+PHALCON_INIT_FUNCS(phalcon_filter_userfilterinterface_method_entry){
+	PHP_ABSTRACT_ME(Phalcon_Filter_UserFilterInterface, filter, arginfo_phalcon_filter_userfilterinterface_filter)
+	PHP_FE_END
+};
+

@@ -120,10 +120,8 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &column_name, &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &column_name, &definition);
+	
 	phalcon_update_property_zval(this_ptr, SL("_columnName"), column_name TSRMLS_CC);
 	
 	/** 
@@ -406,10 +404,8 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	PHALCON_INIT_VAR(definition);
 	array_init(definition);
 	if (phalcon_array_isset_string(data, SS("_columnName"))) {

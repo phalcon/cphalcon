@@ -71,10 +71,8 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct){
 
 	zval *value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &value) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &value);
+	
 	phalcon_update_property_zval(this_ptr, SL("_value"), value TSRMLS_CC);
 	
 }

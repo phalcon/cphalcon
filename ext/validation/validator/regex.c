@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	
 	Z_SET_ISREF_P(matches);
 	
-	#if HAVE_PCRE || HAVE_BUNDLED_PCRE
+	#if HAVE_BUNDLED_PCRE
 	phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC);
 	#else
 	PHALCON_CALL_FUNC_PARAMS_3(match_pattern, "preg_match", pattern, value, matches);

@@ -70,6 +70,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Collection){
 	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_handler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_micro_collection_ce TSRMLS_CC, 1, phalcon_mvc_micro_collectioninterface_ce);
+
 	return SUCCESS;
 }
 
@@ -249,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get){
 	}
 
 	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "get", 1);
+	ZVAL_STRING(method, "GET", 1);
 	
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
@@ -274,7 +276,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post){
 	}
 
 	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "post", 1);
+	ZVAL_STRING(method, "POST", 1);
 	
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
@@ -299,7 +301,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put){
 	}
 
 	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "put", 1);
+	ZVAL_STRING(method, "PUT", 1);
 	
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
@@ -324,7 +326,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch){
 	}
 
 	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "patch", 1);
+	ZVAL_STRING(method, "PATCH", 1);
 	
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
@@ -349,7 +351,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head){
 	}
 
 	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "head", 1);
+	ZVAL_STRING(method, "HEAD", 1);
 	
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
@@ -374,7 +376,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete){
 	}
 
 	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "delete", 1);
+	ZVAL_STRING(method, "DELETE", 1);
 	
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
@@ -399,7 +401,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options){
 	}
 
 	PHALCON_INIT_VAR(method);
-	ZVAL_STRING(method, "options", 1);
+	ZVAL_STRING(method, "OPTIONS", 1);
 	
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);

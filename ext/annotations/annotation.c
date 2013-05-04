@@ -75,10 +75,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &reflection_data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &reflection_data);
+	
 	if (Z_TYPE_P(reflection_data) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
 		return;
@@ -157,10 +155,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &expr) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &expr);
+	
 	PHALCON_SEPARATE_PARAM(expr);
 	
 	if (Z_TYPE_P(expr) != IS_ARRAY) { 
@@ -306,10 +302,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &position) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &position);
+	
 	PHALCON_OBS_VAR(arguments);
 	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (phalcon_array_isset(arguments, position)) {
@@ -332,10 +326,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &position) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &position);
+	
 	PHALCON_OBS_VAR(arguments);
 	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (phalcon_array_isset(arguments, position)) {
@@ -357,10 +349,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	PHALCON_OBS_VAR(arguments);
 	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (phalcon_array_isset(arguments, name)) {
@@ -384,10 +374,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	PHALCON_OBS_VAR(arguments);
 	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (phalcon_array_isset(arguments, name)) {
@@ -410,10 +398,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	PHALCON_OBS_VAR(arguments);
 	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (phalcon_array_isset(arguments, name)) {

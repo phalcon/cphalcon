@@ -56,14 +56,14 @@ void phalcon_concat_sv(zval **result, char *op1, zend_uint op1_len, zval *op2, i
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -103,15 +103,15 @@ void phalcon_concat_svs(zval **result, char *op1, zend_uint op1_len, zval *op2, 
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -158,16 +158,16 @@ void phalcon_concat_svsv(zval **result, char *op1, zend_uint op1_len, zval *op2,
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -218,17 +218,17 @@ void phalcon_concat_svsvs(zval **result, char *op1, zend_uint op1_len, zval *op2
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), op5, op5_len);
+	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), op5, op5_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -286,18 +286,18 @@ void phalcon_concat_svsvsv(zval **result, char *op1, zend_uint op1_len, zval *op
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), op5, op5_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4)+op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
+	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), op5, op5_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4)+op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -359,19 +359,19 @@ void phalcon_concat_svsvsvs(zval **result, char *op1, zend_uint op1_len, zval *o
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), op5, op5_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4)+op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4)+op5_len+Z_STRLEN_P(op6), op7, op7_len);
+	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), op5, op5_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4)+op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4)+op5_len+Z_STRLEN_P(op6), op7, op7_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -433,17 +433,17 @@ void phalcon_concat_svsvv(zval **result, char *op1, zend_uint op1_len, zval *op2
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -498,15 +498,15 @@ void phalcon_concat_svv(zval **result, char *op1, zend_uint op1_len, zval *op2, 
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -557,16 +557,16 @@ void phalcon_concat_svvs(zval **result, char *op1, zend_uint op1_len, zval *op2,
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+op1_len+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), op4, op4_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -610,14 +610,14 @@ void phalcon_concat_vs(zval **result, zval *op1, char *op2, zend_uint op2_len, i
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -664,15 +664,15 @@ void phalcon_concat_vsv(zval **result, zval *op1, char *op2, zend_uint op2_len, 
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -723,16 +723,16 @@ void phalcon_concat_vsvs(zval **result, zval *op1, char *op2, zend_uint op2_len,
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -790,17 +790,17 @@ void phalcon_concat_vsvsv(zval **result, zval *op1, char *op2, zend_uint op2_len
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -862,18 +862,18 @@ void phalcon_concat_vsvsvs(zval **result, zval *op1, char *op2, zend_uint op2_le
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5), op6, op6_len);
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5), op6, op6_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -942,19 +942,19 @@ void phalcon_concat_vsvsvsv(zval **result, zval *op1, char *op2, zend_uint op2_l
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5), op6, op6_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5)+op6_len, Z_STRVAL_P(op7), Z_STRLEN_P(op7));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5), op6, op6_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5)+op6_len, Z_STRVAL_P(op7), Z_STRLEN_P(op7));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -1020,16 +1020,16 @@ void phalcon_concat_vsvv(zval **result, zval *op1, char *op2, zend_uint op2_len,
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -1098,17 +1098,17 @@ void phalcon_concat_vsvvv(zval **result, zval *op1, char *op2, zend_uint op2_len
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -1167,14 +1167,14 @@ void phalcon_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -1225,15 +1225,15 @@ void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, char *op3, zend_uin
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), op3, op3_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -1291,16 +1291,16 @@ void phalcon_concat_vvsv(zval **result, zval *op1, zval *op2, char *op3, zend_ui
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -1362,15 +1362,15 @@ void phalcon_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -1439,17 +1439,17 @@ void phalcon_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, char *
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), op4, op4_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -1522,16 +1522,16 @@ void phalcon_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *o
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -1618,19 +1618,19 @@ void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4), op5, op5_len);
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4)+op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4)+op5_len+Z_STRLEN_P(op6), Z_STRVAL_P(op7), Z_STRLEN_P(op7));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4), op5, op5_len);
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4)+op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4)+op5_len+Z_STRLEN_P(op6), Z_STRVAL_P(op7), Z_STRLEN_P(op7));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -1718,17 +1718,17 @@ void phalcon_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *
 
 		offset = Z_STRLEN_PP(result);
 		length += offset;
-		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length+1);
+		Z_STRVAL_PP(result) = (char *) erealloc(Z_STRVAL_PP(result), length + 1);
 
 	} else {
 		Z_STRVAL_PP(result) = (char *) emalloc(length + 1);
 	}
 
-	memcpy(Z_STRVAL_PP(result)+offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result)+offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;

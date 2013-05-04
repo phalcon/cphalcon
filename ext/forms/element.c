@@ -76,10 +76,8 @@ PHP_METHOD(Phalcon_Forms_Element, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &name, &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &name, &attributes);
+	
 	if (!attributes) {
 		PHALCON_INIT_VAR(attributes);
 	}
@@ -106,10 +104,8 @@ PHP_METHOD(Phalcon_Forms_Element, setForm){
 
 	zval *form;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &form) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &form);
+	
 	phalcon_update_property_zval(this_ptr, SL("_form"), form TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -135,10 +131,8 @@ PHP_METHOD(Phalcon_Forms_Element, setName){
 
 	zval *name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &name);
+	
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -164,10 +158,8 @@ PHP_METHOD(Phalcon_Forms_Element, setFilters){
 
 	zval *filters;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &filters) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &filters);
+	
 	phalcon_update_property_zval(this_ptr, SL("_filters"), filters TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -196,10 +188,8 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &validators, &merge) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &validators, &merge);
+	
 	if (!merge) {
 		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 1);
@@ -239,10 +229,8 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &validator) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &validator);
+	
 	if (Z_TYPE_P(validator) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The validators parameter must be an object");
 		return;
@@ -278,10 +266,8 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &attributes);
+	
 	if (!attributes) {
 		PHALCON_INIT_VAR(attributes);
 	}
@@ -341,10 +327,8 @@ PHP_METHOD(Phalcon_Forms_Element, setAttribute){
 
 	zval *attribute, *value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &attribute, &value) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &attribute, &value);
+	
 	phalcon_update_property_array(this_ptr, SL("_attributes"), attribute, value TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -363,10 +347,8 @@ PHP_METHOD(Phalcon_Forms_Element, getAttribute){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &attribute, &default_value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &attribute, &default_value);
+	
 	if (!default_value) {
 		PHALCON_INIT_VAR(default_value);
 	}
@@ -395,10 +377,8 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &attributes);
+	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array");
 		return;
@@ -430,10 +410,8 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOption){
 
 	zval *option, *value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &option, &value) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &option, &value);
+	
 	phalcon_update_property_array(this_ptr, SL("_options"), option, value TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -451,10 +429,8 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &option, &default_value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &option, &default_value);
+	
 	if (!default_value) {
 		PHALCON_INIT_VAR(default_value);
 	}
@@ -483,10 +459,8 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOptions){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &options);
+	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
 		return;
@@ -517,10 +491,8 @@ PHP_METHOD(Phalcon_Forms_Element, setLabel){
 
 	zval *label;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &label) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &label);
+	
 	phalcon_update_property_zval(this_ptr, SL("_label"), label TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -590,10 +562,8 @@ PHP_METHOD(Phalcon_Forms_Element, setDefault){
 
 	zval *value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &value) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &value);
+	
 	phalcon_update_property_zval(this_ptr, SL("_value"), value TSRMLS_CC);
 	RETURN_THISW();
 }
