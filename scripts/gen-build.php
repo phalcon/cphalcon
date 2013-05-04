@@ -409,12 +409,12 @@ class Build_Generator
 						continue;
 					}
 
-					/*if (preg_match('/phalcon_read_property_this\(&([a-zA-Z\_]+), this_ptr, SL\("([a-zA-Z\_]+)"\), PH_NOISY_CC\)/', $line, $matches)) {
+					if (preg_match('/phalcon_read_property_this\(&([a-zA-Z\_]+), this_ptr, SL\("([a-zA-Z\_]+)"\), PH_NOISY_CC\)/', $line, $matches)) {
 						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
 						$line = str_replace($matches[0], 'phalcon_read_property_this_quick(&'.$matches[1].', this_ptr, SL("'.$matches[2].'"), '.$key.'UL, PH_NOISY_CC)', $line);
 						fputs($fileHandler, $line);
 						continue;
-					}*/
+					}
 
 				}
 
