@@ -85,10 +85,8 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &validator, &attribute) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
+	
 	/** 
 	 * At least one of 'min' or 'max' must be set
 	 */

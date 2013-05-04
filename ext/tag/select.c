@@ -75,10 +75,8 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &parameters, &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &parameters, &data);
+	
 	if (!data) {
 		PHALCON_INIT_VAR(data);
 	}
@@ -259,10 +257,8 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &resultset, &using, &value, &close_option) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 4, 0, &resultset, &using, &value, &close_option);
+	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "", 1);
 	
@@ -392,10 +388,8 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &data, &value, &close_option) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &data, &value, &close_option);
+	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "", 1);
 	

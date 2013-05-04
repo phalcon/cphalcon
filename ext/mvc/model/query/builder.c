@@ -99,10 +99,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &params) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &params);
+	
 	if (!params) {
 		PHALCON_INIT_VAR(params);
 	}
@@ -209,10 +207,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The dependency injector must be an Object");
 		return;
@@ -247,10 +243,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns){
 
 	zval *columns;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &columns) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &columns);
+	
 	phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -280,10 +274,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from){
 
 	zval *models;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &models) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &models);
+	
 	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -305,10 +297,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &model, &alias) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &model, &alias);
+	
 	if (!alias) {
 		PHALCON_INIT_VAR(alias);
 	}
@@ -372,10 +362,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &model, &conditions, &alias, &type) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 3, &model, &conditions, &alias, &type);
+	
 	if (!conditions) {
 		PHALCON_INIT_VAR(conditions);
 	}
@@ -426,10 +414,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &model, &conditions, &alias) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &model, &conditions, &alias);
+	
 	if (!conditions) {
 		PHALCON_INIT_VAR(conditions);
 	}
@@ -479,10 +465,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &model, &conditions, &alias) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &model, &conditions, &alias);
+	
 	if (!conditions) {
 		PHALCON_INIT_VAR(conditions);
 	}
@@ -534,10 +518,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &conditions, &bind_params, &bind_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &conditions, &bind_params, &bind_types);
+	
 	if (!bind_params) {
 		PHALCON_INIT_VAR(bind_params);
 	}
@@ -608,10 +590,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &conditions, &bind_params, &bind_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &conditions, &bind_params, &bind_types);
+	
 	if (!bind_params) {
 		PHALCON_INIT_VAR(bind_params);
 	}
@@ -695,10 +675,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &conditions, &bind_params, &bind_types) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &conditions, &bind_params, &bind_types);
+	
 	if (!bind_params) {
 		PHALCON_INIT_VAR(bind_params);
 	}
@@ -780,10 +758,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &expr, &minimum, &maximum) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &expr, &minimum, &maximum);
+	
 	PHALCON_OBS_VAR(hidden_param);
 	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
 	
@@ -848,10 +824,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &expr, &values) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &expr, &values);
+	
 	if (Z_TYPE_P(values) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Values must be an array");
 		return;
@@ -930,10 +904,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &expr, &values) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &expr, &values);
+	
 	if (Z_TYPE_P(values) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Values must be an array");
 		return;
@@ -1016,10 +988,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy){
 
 	zval *order_by;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &order_by) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &order_by);
+	
 	phalcon_update_property_zval(this_ptr, SL("_order"), order_by TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -1049,10 +1019,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having){
 
 	zval *having;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &having) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &having);
+	
 	phalcon_update_property_zval(this_ptr, SL("_having"), having TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -1086,10 +1054,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &limit, &offset) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &limit, &offset);
+	
 	if (!offset) {
 		PHALCON_INIT_VAR(offset);
 	}
@@ -1133,10 +1099,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, offset){
 
 	zval *offset;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &offset);
+	
 	phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -1166,10 +1130,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy){
 
 	zval *group;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &group) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &group);
+	
 	phalcon_update_property_zval(this_ptr, SL("_group"), group TSRMLS_CC);
 	RETURN_THISW();
 }

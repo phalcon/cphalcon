@@ -90,9 +90,9 @@ PHP_METHOD(Phalcon_DI_Service, __construct){
 		ZVAL_BOOL(shared, 0);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_definition"), definition TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_shared"), shared TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_shared"), shared TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_DI_Service, setShared){
 
 	phalcon_fetch_params(0, 1, 0, &shared);
 	
-	phalcon_update_property_zval(this_ptr, SL("_shared"), shared TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_shared"), shared TSRMLS_CC);
 	
 }
 
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_DI_Service, setSharedInstance){
 
 	phalcon_fetch_params(0, 1, 0, &shared_instance);
 	
-	phalcon_update_property_zval(this_ptr, SL("_sharedInstance"), shared_instance TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sharedInstance"), shared_instance TSRMLS_CC);
 	
 }
 
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_DI_Service, setDefinition){
 
 	phalcon_fetch_params(0, 1, 0, &definition);
 	
-	phalcon_update_property_zval(this_ptr, SL("_definition"), definition TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
 	
 }
 
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	}
 	
 	if (zend_is_true(shared)) {
-		phalcon_update_property_zval(this_ptr, SL("_sharedInstance"), instance TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sharedInstance"), instance TSRMLS_CC);
 	}
 	
 	
@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 	/** 
 	 * Re-update the definition
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_definition"), definition TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
 	
 	RETURN_THIS();
 }

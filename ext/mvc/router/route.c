@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	/** 
 	 * Update the HTTP method constraints
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
 	
 	/** 
 	 * Get the unique Id from the static member _uniqueId
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	 * TODO: Add a function that increase static members
 	 */
 	PHALCON_CPY_WRT(route_id, unique_id);
-	phalcon_update_property_zval(this_ptr, SL("_id"), route_id TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_id"), route_id TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, via){
 
 	phalcon_fetch_params(0, 1, 0, &http_methods);
 	
-	phalcon_update_property_zval(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -458,17 +458,17 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	/** 
 	 * Update the original pattern
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_pattern"), pattern TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_pattern"), pattern TSRMLS_CC);
 	
 	/** 
 	 * Update the compiled pattern
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_compiledPattern"), compiled_pattern TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_compiledPattern"), compiled_pattern TSRMLS_CC);
 	
 	/** 
 	 * Update the route's paths
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_paths"), route_paths TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_paths"), route_paths TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -502,7 +502,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setName){
 
 	phalcon_fetch_params(0, 1, 0, &name);
 	
-	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -520,7 +520,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, beforeMatch){
 
 	phalcon_fetch_params(0, 1, 0, &callback);
 	
-	phalcon_update_property_zval(this_ptr, SL("_beforeMatch"), callback TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_beforeMatch"), callback TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -634,7 +634,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods){
 
 	phalcon_fetch_params(0, 1, 0, &http_methods);
 	
-	phalcon_update_property_zval(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -665,7 +665,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setHostname){
 
 	phalcon_fetch_params(0, 1, 0, &hostname);
 	
-	phalcon_update_property_zval(this_ptr, SL("_hostname"), hostname TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_hostname"), hostname TSRMLS_CC);
 	RETURN_THISW();
 }
 
