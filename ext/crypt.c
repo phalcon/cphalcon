@@ -33,10 +33,10 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
+#include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
-#include "kernel/operators.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
 
 /**
@@ -172,11 +172,20 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 		PHALCON_INIT_VAR(key);
 	}
 	
+	if (phalcon_function_exists_ex(SS("mcrypt_get_iv_size") TSRMLS_CC) == FAILURE) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "mcrypt extension is required");
+		return;
+	}
 	if (Z_TYPE_P(key) == IS_NULL) {
 		PHALCON_OBS_VAR(encrypt_key);
 		phalcon_read_property_this(&encrypt_key, this_ptr, SL("_key"), PH_NOISY_CC);
 	} else {
 		PHALCON_CPY_WRT(encrypt_key, key);
+	}
+	
+	if (PHALCON_IS_EMPTY(encrypt_key)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Encryption key cannot be empty");
+		return;
 	}
 	
 	PHALCON_OBS_VAR(cipher);
@@ -243,11 +252,20 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 		PHALCON_INIT_VAR(key);
 	}
 	
+	if (phalcon_function_exists_ex(SS("mcrypt_get_iv_size") TSRMLS_CC) == FAILURE) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "mcrypt extension is required");
+		return;
+	}
 	if (Z_TYPE_P(key) == IS_NULL) {
 		PHALCON_OBS_VAR(decrypt_key);
 		phalcon_read_property_this(&decrypt_key, this_ptr, SL("_key"), PH_NOISY_CC);
 	} else {
 		PHALCON_CPY_WRT(decrypt_key, key);
+	}
+	
+	if (PHALCON_IS_EMPTY(decrypt_key)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Decryption key cannot be empty");
+		return;
 	}
 	
 	PHALCON_OBS_VAR(cipher);

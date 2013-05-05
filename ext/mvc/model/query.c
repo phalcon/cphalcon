@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 	}
 	
 	if (Z_TYPE_P(phql) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_phql"), phql TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_phql"), phql TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -168,9 +168,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 		return;
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_manager"), manager TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow){
 
 	phalcon_fetch_params(0, 1, 0, &unique_row);
 	
-	phalcon_update_property_zval(this_ptr, SL("_uniqueRow"), unique_row TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_uniqueRow"), unique_row TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -1534,12 +1534,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	/** 
 	 * Update temporary properties
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlAliasesModels"), sql_aliases_models TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlModelsAliases"), sql_models_aliases TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlAliasesModels"), sql_aliases_models TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlModelsAliases"), sql_models_aliases TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
 	
 	if (!phalcon_is_iterable(join_prepared, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
@@ -2053,13 +2053,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	/** 
 	 * Assign Models/Tables information
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlAliasesModels"), sql_aliases_models TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlModelsAliases"), sql_models_aliases TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlAliasesModels"), sql_aliases_models TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlModelsAliases"), sql_models_aliases TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
 	
 	/** 
 	 * Processing joins
@@ -2165,7 +2165,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		zend_hash_move_forward_ex(ah1, &hp1);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_sqlColumnAliases"), sql_column_aliases TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlColumnAliases"), sql_column_aliases TSRMLS_CC);
 	
 	/** 
 	 * sql_select is the final prepared SELECT
@@ -2521,10 +2521,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	/** 
 	 * Update the models/alias/sources in the object
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(sql_fields);
 	array_init(sql_fields);
@@ -2732,10 +2732,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	/** 
 	 * Update the models/alias/sources in the object
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_modelsInstances"), models_instances TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlAliases"), sql_aliases TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_sqlAliasesModelsInstances"), sql_aliases_models_instances TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(sql_delete);
 	array_init(sql_delete);
@@ -2793,7 +2793,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	if (phql_parse_phql(ast, phql TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_ast"), ast TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_ast"), ast TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(ir_phql);
 	if (Z_TYPE_P(ast) == IS_ARRAY) { 
@@ -2803,7 +2803,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 			 */
 			PHALCON_OBS_VAR(type);
 			phalcon_array_fetch_string(&type, ast, SL("type"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	
 			switch (phalcon_get_intval(type)) {
 	
@@ -2841,7 +2841,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 		return;
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_intermediate"), ir_phql TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_intermediate"), ir_phql TSRMLS_CC);
 	
 	RETURN_CCTOR(ir_phql);
 }
@@ -2858,7 +2858,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, cache){
 
 	phalcon_fetch_params(0, 1, 0, &cache_options);
 	
-	phalcon_update_property_zval(this_ptr, SL("_cacheOptions"), cache_options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_cacheOptions"), cache_options TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -4263,7 +4263,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			RETURN_CCTOR(prepared_result);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	}
 	
 	/** 
@@ -4423,7 +4423,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setType){
 
 	phalcon_fetch_params(0, 1, 0, &type);
 	
-	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -4456,7 +4456,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bind parameters must be an array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_bindParams"), bind_params TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_bindParams"), bind_params TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -4490,7 +4490,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bind types must be an array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_bindTypes"), bind_types TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_bindTypes"), bind_types TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -4518,7 +4518,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate){
 
 	phalcon_fetch_params(0, 1, 0, &intermediate);
 	
-	phalcon_update_property_zval(this_ptr, SL("_intermediate"), intermediate TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_intermediate"), intermediate TSRMLS_CC);
 	RETURN_THISW();
 }
 

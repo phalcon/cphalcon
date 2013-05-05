@@ -122,10 +122,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &dependency_injector, &models_manager) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &dependency_injector, &models_manager);
+	
 	if (!dependency_injector) {
 		PHALCON_INIT_VAR(dependency_injector);
 	} else {
@@ -150,7 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 		return;
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	/** 
 	 * Inject the manager service from the DI
@@ -171,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	/** 
 	 * Update the models-manager
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_modelsManager"), models_manager TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_modelsManager"), models_manager TSRMLS_CC);
 	
 	/** 
 	 * The manager always initializes the object
@@ -190,11 +188,9 @@ PHP_METHOD(Phalcon_Mvc_Model, setDI){
 
 	zval *dependency_injector;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
+	
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
 
@@ -220,10 +216,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &events_manager);
+	
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "setcustomeventsmanager", this_ptr, events_manager);
@@ -291,7 +285,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 		/** 
 		 * Update the models-metada property
 		 */
-		phalcon_update_property_zval(this_ptr, SL("_modelsMetaData"), meta_data TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_modelsMetaData"), meta_data TSRMLS_CC);
 	}
 	
 	
@@ -354,12 +348,10 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &transaction) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &transaction);
+	
 	if (Z_TYPE_P(transaction) == IS_OBJECT) {
-		phalcon_update_property_zval(this_ptr, SL("_transaction"), transaction TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_transaction"), transaction TSRMLS_CC);
 		RETURN_THIS();
 	}
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Transaction should be an object");
@@ -378,10 +370,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &source) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &source);
+	
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "setmodelsource", this_ptr, source);
@@ -419,10 +409,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &schema);
+	
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "setmodelschema", this_ptr, schema);
@@ -460,10 +448,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setConnectionService){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &connection_service) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &connection_service);
+	
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "setconnectionservice", this_ptr, connection_service);
@@ -482,10 +468,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &connection_service) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &connection_service);
+	
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "setreadconnectionservice", this_ptr, connection_service);
@@ -504,10 +488,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &connection_service) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &connection_service);
+	
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "setwriteconnectionservice", this_ptr, connection_service);
@@ -562,11 +544,9 @@ PHP_METHOD(Phalcon_Mvc_Model, setDirtyState){
 
 	zval *dirty_state;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dirty_state) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_dirtyState"), dirty_state TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &dirty_state);
+	
+	phalcon_update_property_this(this_ptr, SL("_dirtyState"), dirty_state TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -654,10 +634,8 @@ PHP_METHOD(Phalcon_Mvc_Model, assign){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &data, &column_map) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &data, &column_map);
+	
 	if (!column_map) {
 		PHALCON_INIT_VAR(column_map);
 	}
@@ -733,10 +711,8 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|zz", &base, &data, &column_map, &dirty_state, &keep_snapshots) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 2, &base, &data, &column_map, &dirty_state, &keep_snapshots);
+	
 	if (!dirty_state) {
 		PHALCON_INIT_VAR(dirty_state);
 		ZVAL_LONG(dirty_state, 0);
@@ -824,10 +800,8 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &data, &column_map, &hydration_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &data, &column_map, &hydration_mode);
+	
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to hidrate must be an Array");
 		return;
@@ -925,10 +899,8 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &base, &data, &dirty_state) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &base, &data, &dirty_state);
+	
 	if (!dirty_state) {
 		PHALCON_INIT_VAR(dirty_state);
 		ZVAL_LONG(dirty_state, 0);
@@ -1004,10 +976,8 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &parameters);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1114,10 +1084,8 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &parameters);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1208,10 +1176,8 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &dependency_injector);
+	
 	if (!dependency_injector) {
 		PHALCON_INIT_VAR(dependency_injector);
 	} else {
@@ -1261,10 +1227,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &meta_data, &connection, &table) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &meta_data, &connection, &table);
+	
 	if (!table) {
 		PHALCON_INIT_VAR(table);
 	} else {
@@ -1396,9 +1360,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 		/** 
 		 * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
 		 */
-		phalcon_update_property_zval(this_ptr, SL("_uniqueKey"), join_where TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_uniqueParams"), unique_params TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_uniqueTypes"), unique_types TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_uniqueKey"), join_where TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_uniqueParams"), unique_params TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_uniqueTypes"), unique_types TSRMLS_CC);
 		PHALCON_CPY_WRT(unique_key, join_where);
 	}
 	
@@ -1484,10 +1448,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &function, &alias, &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &function, &alias, &parameters);
+	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		if (Z_TYPE_P(parameters) != IS_NULL) {
 			PHALCON_INIT_VAR(params);
@@ -1623,10 +1585,8 @@ PHP_METHOD(Phalcon_Mvc_Model, count){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &parameters);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1666,10 +1626,8 @@ PHP_METHOD(Phalcon_Mvc_Model, sum){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &parameters);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1709,10 +1667,8 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &parameters);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1752,10 +1708,8 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &parameters);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1795,10 +1749,8 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &parameters);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}
@@ -1826,10 +1778,8 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &event_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &event_name);
+	
 	/** 
 	 * Check if there is a method with the same name of the event
 	 */
@@ -1862,10 +1812,8 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &event_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &event_name);
+	
 	/** 
 	 * Check if there is a method with the same name of the event
 	 */
@@ -1947,10 +1895,8 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &message);
+	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_FUNC_PARAMS_1(type, "gettype", message);
@@ -2000,10 +1946,8 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &validator) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &validator);
+	
 	/** 
 	 * Valid validators are objects
 	 */
@@ -2530,10 +2474,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &meta_data, &exists, &identity_field) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &meta_data, &exists, &identity_field);
+	
 	/** 
 	 * Run Validation Callbacks Before
 	 */
@@ -2824,10 +2766,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &success, &exists) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &success, &exists);
+	
 	if (PHALCON_IS_TRUE(success)) {
 		if (zend_is_true(exists)) {
 			PHALCON_INIT_VAR(event_name);
@@ -2876,10 +2816,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &meta_data, &connection, &table, &identity_field) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 4, 0, &meta_data, &connection, &table, &identity_field);
+	
 	PHALCON_INIT_VAR(null_value);
 	
 	PHALCON_INIT_VAR(bind_skip);
@@ -3117,10 +3055,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &meta_data, &connection, &table) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &meta_data, &connection, &table);
+	
 	PHALCON_INIT_VAR(null_value);
 	
 	PHALCON_INIT_VAR(bind_skip);
@@ -3370,10 +3306,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &connection, &related) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &connection, &related);
+	
 	/** 
 	 * Start an implicit transaction
 	 */
@@ -3500,10 +3434,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &connection, &related) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &connection, &related);
+	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 	
@@ -3692,10 +3624,8 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &data, &white_list) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &data, &white_list);
+	
 	if (!data) {
 		PHALCON_INIT_VAR(data);
 	}
@@ -3829,7 +3759,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	 */
 	PHALCON_INIT_VAR(error_messages);
 	array_init(error_messages);
-	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), error_messages TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_errorMessages"), error_messages TSRMLS_CC);
 	
 	/** 
 	 * Query the identity field
@@ -3961,10 +3891,8 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &data, &white_list) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &data, &white_list);
+	
 	if (!data) {
 		PHALCON_INIT_VAR(data);
 	}
@@ -4091,7 +4019,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 		PHALCON_INIT_VAR(messages);
 		array_init_size(messages, 1);
 		phalcon_array_append(&messages, model_message, PH_SEPARATE TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
 		RETURN_MM_FALSE;
 	}
 	
@@ -4133,10 +4061,8 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &data, &white_list) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &data, &white_list);
+	
 	if (!data) {
 		PHALCON_INIT_VAR(data);
 	}
@@ -4265,7 +4191,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 			PHALCON_INIT_VAR(messages);
 			array_init_size(messages, 1);
 			phalcon_array_append(&messages, model_message, PH_SEPARATE TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
 			RETURN_MM_FALSE;
 		}
 	}
@@ -4322,7 +4248,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
-	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), empty_array TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_errorMessages"), empty_array TSRMLS_CC);
 	
 	/** 
 	 * Check if deleting the record violates a virtual foreign key
@@ -4644,11 +4570,9 @@ PHP_METHOD(Phalcon_Mvc_Model, skipOperation){
 
 	zval *skip;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &skip) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_skipped"), skip TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &skip);
+	
+	phalcon_update_property_this(this_ptr, SL("_skipped"), skip TSRMLS_CC);
 	
 }
 
@@ -4668,10 +4592,8 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attribute) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &attribute);
+	
 	if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		PHALCON_OBS_VAR(attribute_value);
 		phalcon_read_property_zval(&attribute_value, this_ptr, attribute, PH_NOISY_CC);
@@ -4694,10 +4616,8 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute){
 
 	zval *attribute, *value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &attribute, &value) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &attribute, &value);
+	
 	phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
 	
 }
@@ -4731,10 +4651,8 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &attributes);
+	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
 		return;
@@ -4795,10 +4713,8 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &attributes);
+	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
 		return;
@@ -4858,10 +4774,8 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &attributes);
+	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
 		return;
@@ -4920,10 +4834,8 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|z", &fields, &reference_model, &referenced_fields, &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 1, &fields, &reference_model, &referenced_fields, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -4963,10 +4875,8 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|z", &fields, &reference_model, &referenced_fields, &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 1, &fields, &reference_model, &referenced_fields, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -5006,10 +4916,8 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|z", &fields, &reference_model, &referenced_fields, &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 1, &fields, &reference_model, &referenced_fields, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -5052,10 +4960,8 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &reference_model, &through_relation, &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &reference_model, &through_relation, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -5098,10 +5004,8 @@ PHP_METHOD(Phalcon_Mvc_Model, addBehavior){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &behavior) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &behavior);
+	
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(manager, "addbehavior", this_ptr, behavior);
@@ -5133,10 +5037,8 @@ PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &keep_snapshot) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &keep_snapshot);
+	
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(manager, "keepsnapshots", this_ptr, keep_snapshot);
@@ -5161,10 +5063,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &data, &column_map) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &data, &column_map);
+	
 	if (!column_map) {
 		PHALCON_INIT_VAR(column_map);
 	}
@@ -5213,11 +5113,11 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_snapshot"), snapshot TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_snapshot"), snapshot TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_snapshot"), data TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_snapshot"), data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -5271,10 +5171,8 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &field_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &field_name);
+	
 	if (!field_name) {
 		PHALCON_INIT_VAR(field_name);
 	}
@@ -5572,10 +5470,8 @@ PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dynamic_update) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &dynamic_update);
+	
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(manager, "usedynamicupdate", this_ptr, dynamic_update);
@@ -5598,10 +5494,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &alias, &arguments) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &alias, &arguments);
+	
 	if (!arguments) {
 		PHALCON_INIT_VAR(arguments);
 	}
@@ -5661,10 +5555,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &model_name, &method, &arguments) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &model_name, &method, &arguments);
+	
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
@@ -5744,10 +5636,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &method, &arguments) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &method, &arguments);
+	
 	if (!arguments) {
 		PHALCON_INIT_VAR(arguments);
 		array_init(arguments);
@@ -5804,10 +5694,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &method, &arguments) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &method, &arguments);
+	
 	if (!arguments) {
 		PHALCON_INIT_VAR(arguments);
 	}
@@ -5962,10 +5850,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &property, &value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &property, &value);
+	
 	/** 
 	 * Values are probably relationships if they are objects
 	 */
@@ -6016,10 +5902,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &property);
+	
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
 	
@@ -6098,10 +5982,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __isset){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &property);
+	
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
 	
@@ -6192,10 +6074,8 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	if (Z_TYPE_P(data) == IS_STRING) {
 	
 		PHALCON_INIT_VAR(attributes);
@@ -6215,7 +6095,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			/** 
 			 * Update the dependency injector
 			 */
-			phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 			/** 
 			 * Gets the default modelsManager service
@@ -6233,7 +6113,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			/** 
 			 * Update the models manager
 			 */
-			phalcon_update_property_zval(this_ptr, SL("_modelsManager"), manager TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_modelsManager"), manager TSRMLS_CC);
 	
 			/** 
 			 * Try to initialize the model
@@ -6377,10 +6257,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &options);
+	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Options must be an array");
 		return;

@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct){
 	}
 	
 	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
-		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -163,14 +163,14 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 		return;
 	}
 	if (PHALCON_IS_FALSE(merge)) {
-		phalcon_update_property_zval(this_ptr, SL("_modules"), modules TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
 	} else {
 		PHALCON_OBS_VAR(registered_modules);
 		phalcon_read_property_this(&registered_modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(merged_modules);
 		phalcon_fast_array_merge(merged_modules, &registered_modules, &modules TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);
 	}
 	
 	
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule){
 
 	phalcon_fetch_params(0, 1, 0, &default_module);
 	
-	phalcon_update_property_zval(this_ptr, SL("_defaultModule"), default_module TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_defaultModule"), default_module TSRMLS_CC);
 	
 }
 
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 * Calling afterStartModule event
 		 */
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-			phalcon_update_property_zval(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
 	
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "application:afterStartModule", 1);

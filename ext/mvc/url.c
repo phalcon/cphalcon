@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setDI){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "The dependency injector must be an Object");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 
 	phalcon_fetch_params(0, 1, 0, &base_uri);
 	
-	phalcon_update_property_zval(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
 	
 }
 
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 			PHALCON_CONCAT_VVV(base_uri, slash, uri, slash);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
 	}
 	
 	
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
 
 	phalcon_fetch_params(0, 1, 0, &base_path);
 	
-	phalcon_update_property_zval(this_ptr, SL("_basePath"), base_path TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_basePath"), base_path TSRMLS_CC);
 	
 }
 

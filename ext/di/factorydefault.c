@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	/** 
 	 * Update the internal services properties
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_services"), services TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_services"), services TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

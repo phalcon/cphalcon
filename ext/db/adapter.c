@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 	PHALCON_INIT_VAR(next_consecutive);
 	phalcon_add_function(next_consecutive, connection_consecutive, one TSRMLS_CC);
 	phalcon_update_static_property(SL("phalcon\\db\\adapter"), SL("_connectionConsecutive"), next_consecutive TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_connectionId"), connection_consecutive TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_connectionId"), connection_consecutive TSRMLS_CC);
 	
 	/** 
 	 * Dialect class can override the default dialect
@@ -123,8 +123,8 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 	if (phalcon_has_constructor(dialect_object TSRMLS_CC)) {
 		PHALCON_CALL_METHOD_NORETURN(dialect_object, "__construct");
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dialect"), dialect_object TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_descriptor"), descriptor TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dialect"), dialect_object TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_descriptor"), descriptor TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Db_Adapter, setEventsManager){
 
 	phalcon_fetch_params(0, 1, 0, &events_manager);
 	
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
 

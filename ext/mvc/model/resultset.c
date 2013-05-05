@@ -340,10 +340,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &index);
+	
 	PHALCON_INIT_VAR(count);
 	PHALCON_CALL_METHOD(count, this_ptr, "count");
 	
@@ -364,10 +362,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &index);
+	
 	PHALCON_INIT_VAR(count);
 	PHALCON_CALL_METHOD(count, this_ptr, "count");
 	
@@ -421,10 +417,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &index, &value);
+	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 }
@@ -440,10 +434,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &offset);
+	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 }
@@ -539,10 +531,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
 
 	zval *is_fresh;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &is_fresh) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &is_fresh);
+	
 	phalcon_update_property_this(this_ptr, SL("_isFresh"), is_fresh TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -568,10 +558,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode){
 
 	zval *hydrate_mode;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &hydrate_mode) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &hydrate_mode);
+	
 	phalcon_update_property_this(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -634,10 +622,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &condition_callback) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &condition_callback);
+	
 	if (!condition_callback) {
 		PHALCON_INIT_VAR(condition_callback);
 	}
@@ -749,10 +735,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &filter) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &filter);
+	
 	PHALCON_INIT_VAR(records);
 	array_init(records);
 	PHALCON_CALL_METHOD_NORETURN(this_ptr, "rewind");

@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_DI_Injectable, setEventsManager){
 
 	phalcon_fetch_params(0, 1, 0, &events_manager);
 	
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
 
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	}
 	
 	if (PHALCON_IS_STRING(property_name, "di")) {
-		phalcon_update_property_zval(this_ptr, SL("di"), dependency_injector TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("di"), dependency_injector TSRMLS_CC);
 		RETURN_CCTOR(dependency_injector);
 	}
 	
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	
 		PHALCON_INIT_VAR(persistent);
 		PHALCON_CALL_METHOD_PARAMS_2(persistent, dependency_injector, "get", service, arguments);
-		phalcon_update_property_zval(this_ptr, SL("persistent"), persistent TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("persistent"), persistent TSRMLS_CC);
 		RETURN_CCTOR(persistent);
 	}
 	

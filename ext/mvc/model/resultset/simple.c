@@ -79,10 +79,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|zz", &column_map, &model, &result, &cache, &keep_snapshots) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 2, &column_map, &model, &result, &cache, &keep_snapshots);
+	
 	if (!cache) {
 		PHALCON_INIT_VAR(cache);
 	}
@@ -270,10 +268,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &rename_columns) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &rename_columns);
+	
 	if (!rename_columns) {
 		PHALCON_INIT_VAR(rename_columns);
 		ZVAL_BOOL(rename_columns, 1);
@@ -482,10 +478,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(resultset);

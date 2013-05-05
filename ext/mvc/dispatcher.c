@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix){
 
 	phalcon_fetch_params(0, 1, 0, &controller_suffix);
 	
-	phalcon_update_property_zval(this_ptr, SL("_handlerSuffix"), controller_suffix TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_handlerSuffix"), controller_suffix TSRMLS_CC);
 	
 }
 
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController){
 
 	phalcon_fetch_params(0, 1, 0, &controller_name);
 	
-	phalcon_update_property_zval(this_ptr, SL("_defaultHandler"), controller_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_defaultHandler"), controller_name TSRMLS_CC);
 	
 }
 
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
 
 	phalcon_fetch_params(0, 1, 0, &controller_name);
 	
-	phalcon_update_property_zval(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
 	
 }
 

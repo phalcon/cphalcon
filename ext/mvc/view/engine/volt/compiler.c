@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct){
 	}
 	
 	if (Z_TYPE_P(view) == IS_OBJECT) {
-		phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOptions){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 }
 
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setUniquePrefix){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	
 }
 
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix){
 	
 		PHALCON_INIT_NVAR(prefix);
 		phalcon_unique_path_key(prefix, current_path TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	}
 	
 	/** 
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix){
 	
 			PHALCON_INIT_VAR(calculated_prefix);
 			PHALCON_CALL_FUNC_PARAMS_2(calculated_prefix, "call_user_func_array", prefix, parameters);
-			phalcon_update_property_zval(this_ptr, SL("_prefix"), calculated_prefix TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_prefix"), calculated_prefix TSRMLS_CC);
 			PHALCON_CPY_WRT(prefix, calculated_prefix);
 		}
 	}
@@ -638,7 +638,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 				add_assoc_bool_ex(array_helpers, SS("text_field"), 1);
 				add_assoc_bool_ex(array_helpers, SS("date_field"), 1);
 				add_assoc_bool_ex(array_helpers, SS("numeric_field"), 1);
-				phalcon_update_property_zval(this_ptr, SL("_arrayHelpers"), array_helpers TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_arrayHelpers"), array_helpers TSRMLS_CC);
 			}
 	
 			if (phalcon_array_isset(array_helpers, name)) {
@@ -2347,14 +2347,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape){
 	
 	PHALCON_OBS_VAR(autoescape);
 	phalcon_array_fetch_string(&autoescape, statement, SL("enable"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_autoescape"), autoescape TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_autoescape"), autoescape TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(block_statements);
 	phalcon_array_fetch_string(&block_statements, statement, SL("block_statements"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(compilation);
 	PHALCON_CALL_METHOD_PARAMS_2(compilation, this_ptr, "_statementlist", block_statements, extends_mode);
-	phalcon_update_property_zval(this_ptr, SL("_autoescape"), old_autoescape TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_autoescape"), old_autoescape TSRMLS_CC);
 	RETURN_CCTOR(compilation);
 }
 
@@ -2521,7 +2521,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					 * In extends mode we add the block statements to the blocks variable
 					 */
 					phalcon_array_update_zval(&blocks, block_name, &block_statements, PH_COPY | PH_SEPARATE TSRMLS_CC);
-					phalcon_update_property_zval(this_ptr, SL("_blocks"), blocks TSRMLS_CC);
+					phalcon_update_property_this(this_ptr, SL("_blocks"), blocks TSRMLS_CC);
 				} else {
 					if (Z_TYPE_P(block_statements) == IS_ARRAY) { 
 						PHALCON_INIT_NVAR(code);
@@ -2577,7 +2577,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				}
 	
 				phalcon_update_property_bool(this_ptr, SL("_extended"), 1 TSRMLS_CC);
-				phalcon_update_property_zval(this_ptr, SL("_extendedBlocks"), temp_compilation TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_extendedBlocks"), temp_compilation TSRMLS_CC);
 				PHALCON_CPY_WRT(block_mode, extended);
 				break;
 	
@@ -2753,7 +2753,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 							 */
 							PHALCON_OBS_NVAR(local_block);
 							phalcon_array_fetch(&local_block, blocks, name, PH_NOISY_CC);
-							phalcon_update_property_zval(this_ptr, SL("_currentBlock"), name TSRMLS_CC);
+							phalcon_update_property_this(this_ptr, SL("_currentBlock"), name TSRMLS_CC);
 	
 							PHALCON_INIT_NVAR(block_compilation);
 							PHALCON_CALL_METHOD_PARAMS_1(block_compilation, this_ptr, "_statementlist", local_block);
@@ -2771,7 +2771,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 							 */
 							PHALCON_OBS_NVAR(local_block);
 							phalcon_array_fetch(&local_block, blocks, name, PH_NOISY_CC);
-							phalcon_update_property_zval(this_ptr, SL("_currentBlock"), name TSRMLS_CC);
+							phalcon_update_property_this(this_ptr, SL("_currentBlock"), name TSRMLS_CC);
 	
 							PHALCON_INIT_NVAR(block_compilation);
 							PHALCON_CALL_METHOD_PARAMS_1(block_compilation, this_ptr, "_statementlist", local_block);
@@ -2853,7 +2853,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString){
 	
 	PHALCON_INIT_VAR(current_path);
 	ZVAL_STRING(current_path, "eval code", 1);
-	phalcon_update_property_zval(this_ptr, SL("_currentPath"), current_path TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_currentPath"), current_path TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(compilation);
 	PHALCON_CALL_METHOD_PARAMS_2(compilation, this_ptr, "_compilesource", view_code, extends_mode);
@@ -2908,7 +2908,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 		return;
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_currentPath"), path TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_currentPath"), path TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(compilation);
 	PHALCON_CALL_METHOD_PARAMS_2(compilation, this_ptr, "_compilesource", view_code, extends_mode);
@@ -3168,7 +3168,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		}
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_compiledTemplatePath"), real_compiled_path TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_compiledTemplatePath"), real_compiled_path TSRMLS_CC);
 	
 	RETURN_CCTOR(compilation);
 }

@@ -77,14 +77,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_config"), config TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	if (!phalcon_array_isset_string(config, SS("builder"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required");
 		return;
 	} else {
 		PHALCON_OBS_VAR(builder);
 		phalcon_array_fetch_string(&builder, config, SL("builder"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_builder"), builder TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_builder"), builder TSRMLS_CC);
 	}
 	
 	if (!phalcon_array_isset_string(config, SS("limit"))) {
@@ -93,13 +93,13 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 	} else {
 		PHALCON_OBS_VAR(limit);
 		phalcon_array_fetch_string(&limit, config, SL("limit"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
 	}
 	
 	if (phalcon_array_isset_string(config, SS("page"))) {
 		PHALCON_OBS_VAR(page);
 		phalcon_array_fetch_string(&page, config, SL("page"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_page"), page TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_page"), current_page TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_page"), current_page TSRMLS_CC);
 	RETURN_THISW();
 }
 
