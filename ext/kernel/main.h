@@ -189,14 +189,14 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 	return;
 
 /**
- * Returns a zval in a object member
+ * Returns a zval in an object member
  */
 #define RETURN_MEMBER(object, member_name) \
  	phalcon_return_property(return_value, object, SL(member_name) TSRMLS_CC); \
 	return;
 
 /**
- * Returns a zval in a object member (quick)
+ * Returns a zval in an object member (quick)
  */
 #define RETURN_MEMBER_QUICK(object, member_name, key) \
  	phalcon_return_property_quick(return_value, object, SL(member_name), key TSRMLS_CC); \
@@ -212,6 +212,10 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 /** Return string restoring memory frame */
 #define RETURN_MM_STRING(str) RETURN_STRING(str); PHALCON_MM_RESTORE();
 
+#ifndef IS_INTERNED
+#define IS_INTERNED(key) 0
+#endif
+
 /** Foreach */
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
 	{\
@@ -223,7 +227,11 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 		PHALCON_INIT_NVAR(var); \
 		hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
 		if (hash_type == HASH_KEY_IS_STRING) { \
-			ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
+			if (IS_INTERNED(hash_index)) { \
+				ZVAL_STRINGL(var, hash_index, hash_index_len - 1, 0); \
+			} else { \
+				ZVAL_STRINGL(var, hash_index, hash_index_len - 1, 1); \
+			} \
 		} else { \
 			if (hash_type == HASH_KEY_IS_LONG) { \
 				ZVAL_LONG(var, hash_num); \

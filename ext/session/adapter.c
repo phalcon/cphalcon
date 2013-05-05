@@ -129,9 +129,9 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions){
 		if (phalcon_array_isset_string(options, SS("uniqueId"))) {
 			PHALCON_OBS_VAR(unique_id);
 			phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
 		}
-		phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "Options must be an Array");
 		return;

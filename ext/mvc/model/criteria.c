@@ -75,10 +75,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Dependency Injector is invalid");
 		return;
@@ -122,15 +120,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &model_name);
+	
 	if (Z_TYPE_P(model_name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model name must be string");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_model"), model_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_model"), model_name TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -163,10 +159,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &bind_params) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &bind_params);
+	
 	if (Z_TYPE_P(bind_params) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bind parameters must be an Array");
 		return;
@@ -188,10 +182,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &conditions);
+	
 	if (Z_TYPE_P(conditions) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
 		return;
@@ -213,10 +205,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &conditions);
+	
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "andwhere", conditions);
 	RETURN_THIS();
 }
@@ -234,10 +224,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &conditions);
+	
 	if (Z_TYPE_P(conditions) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
 		return;
@@ -273,10 +261,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &conditions);
+	
 	if (Z_TYPE_P(conditions) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
 		return;
@@ -311,10 +297,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &conditions);
+	
 	if (Z_TYPE_P(conditions) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
 		return;
@@ -336,10 +320,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &order_columns) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &order_columns);
+	
 	if (Z_TYPE_P(order_columns) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Order columns must be string");
 		return;
@@ -362,10 +344,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &limit, &offset) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &limit, &offset);
+	
 	if (!offset) {
 		PHALCON_INIT_VAR(offset);
 	}
@@ -400,10 +380,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &for_update) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &for_update);
+	
 	if (!for_update) {
 		PHALCON_INIT_VAR(for_update);
 		ZVAL_BOOL(for_update, 1);
@@ -425,10 +403,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &shared_lock) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &shared_lock);
+	
 	if (!shared_lock) {
 		PHALCON_INIT_VAR(shared_lock);
 		ZVAL_BOOL(shared_lock, 1);
@@ -558,10 +534,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &dependency_injector, &model_name, &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &dependency_injector, &model_name, &data);
+	
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Input data must be an Array");
 		return;

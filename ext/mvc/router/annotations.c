@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 	
 		PHALCON_INIT_VAR(value);
 		PHALCON_CALL_METHOD_PARAMS_1(value, annotation, "getargument", position);
-		phalcon_update_property_zval(this_ptr, SL("_routePrefix"), value TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_routePrefix"), value TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -628,7 +628,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix){
 
 	phalcon_fetch_params(0, 1, 0, &controller_suffix);
 	
-	phalcon_update_property_zval(this_ptr, SL("_controllerSuffix"), controller_suffix TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_controllerSuffix"), controller_suffix TSRMLS_CC);
 	
 }
 
@@ -643,7 +643,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix){
 
 	phalcon_fetch_params(0, 1, 0, &action_suffix);
 	
-	phalcon_update_property_zval(this_ptr, SL("_actionSuffix"), action_suffix TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_actionSuffix"), action_suffix TSRMLS_CC);
 	
 }
 

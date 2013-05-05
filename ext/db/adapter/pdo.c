@@ -417,9 +417,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "db:beforeQuery", 1);
-		phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_sqlVariables"), bind_params TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_sqlBindTypes"), bind_types TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlVariables"), bind_params TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlBindTypes"), bind_types TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, bind_params);
@@ -509,9 +509,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "db:beforeQuery", 1);
-		phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_sqlVariables"), bind_params TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_sqlBindTypes"), bind_types TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlVariables"), bind_params TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlBindTypes"), bind_types TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, bind_params);
@@ -543,7 +543,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	 * Execute the afterQuery event if a EventsManager is available
 	 */
 	if (Z_TYPE_P(affected_rows) == IS_LONG) {
-		phalcon_update_property_zval(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "db:afterQuery", 1);

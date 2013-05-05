@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Http_Request, setDI){
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
 
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Http_Request, get){
 	
 					PHALCON_INIT_NVAR(filter);
 					PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service);
-					phalcon_update_property_zval(this_ptr, SL("_filter"), filter TSRMLS_CC);
+					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
 				PHALCON_INIT_VAR(sanitized_value);
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 	
 					PHALCON_INIT_NVAR(filter);
 					PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service);
-					phalcon_update_property_zval(this_ptr, SL("_filter"), filter TSRMLS_CC);
+					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
 				PHALCON_INIT_VAR(sanitized_value);
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 	
 					PHALCON_INIT_NVAR(filter);
 					PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service);
-					phalcon_update_property_zval(this_ptr, SL("_filter"), filter TSRMLS_CC);
+					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
 				PHALCON_INIT_VAR(sanitized_value);
@@ -627,7 +627,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 		/** 
 		 * We need store the read raw body because it can't be read again
 		 */
-		phalcon_update_property_zval(this_ptr, SL("_rawBody"), contents TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_rawBody"), contents TSRMLS_CC);
 		RETURN_CCTOR(contents);
 	}
 	

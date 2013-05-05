@@ -109,18 +109,18 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_pdoStatement"), result TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_pdoStatement"), result TSRMLS_CC);
 	if (Z_TYPE_P(sql_statement) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
 	}
 	
 	if (Z_TYPE_P(bind_params) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_bindParams"), bind_params TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_bindParams"), bind_params TSRMLS_CC);
 	}
 	
 	if (Z_TYPE_P(bind_types) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_bindTypes"), bind_types TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_bindTypes"), bind_types TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 			PHALCON_CALL_METHOD(row_count, pdo_statement, "rowcount");
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_rowCount"), row_count TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_rowCount"), row_count TSRMLS_CC);
 	}
 	
 	

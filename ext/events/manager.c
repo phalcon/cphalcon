@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 			 * Append the events to the queue
 			 */
 			phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_events"), events TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 		} else {
 			PHALCON_INIT_NVAR(priority_queue);
 			array_init(priority_queue);
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		 * Append the events to the queue
 		 */
 		phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_events"), events TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Events_Manager, enablePriorities){
 
 	phalcon_fetch_params(0, 1, 0, &enable_priorities);
 	
-	phalcon_update_property_zval(this_ptr, SL("_enablePriorities"), enable_priorities TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_enablePriorities"), enable_priorities TSRMLS_CC);
 	
 }
 
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Events_Manager, collectResponses){
 
 	phalcon_fetch_params(0, 1, 0, &collect);
 	
-	phalcon_update_property_zval(this_ptr, SL("_collect"), collect TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_collect"), collect TSRMLS_CC);
 	
 }
 
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 		}
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_events"), events TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(dependency_injector, "set", service, this_ptr);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, notFound){
 
 	phalcon_fetch_params(0, 1, 0, &handler);
 	
-	phalcon_update_property_zval(this_ptr, SL("_notFoundHandler"), handler TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_notFoundHandler"), handler TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -622,7 +622,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 		/** 
 		 * Update the internal router
 		 */
-		phalcon_update_property_zval(this_ptr, SL("_router"), router TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_router"), router TSRMLS_CC);
 	}
 	
 	
@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService){
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
 		PHALCON_CALL_METHOD_NORETURN(dependency_injector, "__construct");
 	
-		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(service);
@@ -689,7 +689,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
 		PHALCON_CALL_METHOD_NORETURN(dependency_injector, "__construct");
 	
-		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(exists);
@@ -720,7 +720,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
 		PHALCON_CALL_METHOD_NORETURN(dependency_injector, "__construct");
 	
-		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(service);
@@ -751,7 +751,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
 		PHALCON_CALL_METHOD_NORETURN(dependency_injector, "__construct");
 	
-		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(service);
@@ -846,7 +846,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 */
 		PHALCON_OBS_VAR(handler);
 		phalcon_array_fetch(&handler, handlers, route_id, PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
 	
 		/** 
 		 * Calling beforeExecuteRoute event
@@ -913,7 +913,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		/** 
 		 * Update the returned value
 		 */
-		phalcon_update_property_zval(this_ptr, SL("_returnedValue"), returned_value TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_returnedValue"), returned_value TSRMLS_CC);
 	
 		/** 
 		 * Calling afterExecuteRoute event
@@ -989,7 +989,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		/** 
 		 * Update the returned value
 		 */
-		phalcon_update_property_zval(this_ptr, SL("_returnedValue"), returned_value TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_returnedValue"), returned_value TSRMLS_CC);
 	
 		RETURN_CCTOR(returned_value);
 	}
@@ -1047,7 +1047,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler){
 
 	phalcon_fetch_params(0, 1, 0, &active_handler);
 	
-	phalcon_update_property_zval(this_ptr, SL("_activeHandler"), active_handler TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_activeHandler"), active_handler TSRMLS_CC);
 	
 }
 

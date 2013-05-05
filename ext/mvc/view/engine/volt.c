@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Options parameter must be an array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setoptions", options);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_compiler"), compiler TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_compiler"), compiler TSRMLS_CC);
 	}
 	
 	

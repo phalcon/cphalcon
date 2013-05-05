@@ -75,8 +75,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 		PHALCON_INIT_VAR(dependency_injector);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

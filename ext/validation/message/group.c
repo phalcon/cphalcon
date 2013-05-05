@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct){
 	}
 	
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
-		phalcon_update_property_zval(this_ptr, SL("_messages"), messages TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 		} else {
 			PHALCON_CPY_WRT(final_messages, messages);
 		}
-		phalcon_update_property_zval(this_ptr, SL("_messages"), final_messages TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_messages"), final_messages TSRMLS_CC);
 	} else {
 		/** 
 		 * A group of messages is iterated and appended one-by-one to the current list
