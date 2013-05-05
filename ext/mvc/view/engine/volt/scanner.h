@@ -143,6 +143,7 @@ typedef struct _phvolt_scanner_state {
 	char *raw_buffer;
 	unsigned int raw_buffer_cursor;
 	unsigned int raw_buffer_size;
+	unsigned int old_if_level;
 	unsigned int if_level;
 	unsigned int for_level;
 	int whitespace_control;

@@ -855,6 +855,21 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 				PHALCON_CONCAT_SVSVS(code, "(", left, ") === (", arguments, ")");
 				RETURN_CTOR(code);
 			}
+	
+			/** 
+			 * Checks if a variable match a type
+			 */
+			if (PHALCON_IS_STRING(name, "type")) {
+				PHALCON_OBS_NVAR(test_arguments);
+				phalcon_array_fetch_string(&test_arguments, test, SL("arguments"), PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(arguments);
+				PHALCON_CALL_METHOD_PARAMS_1(arguments, this_ptr, "expression", test_arguments);
+	
+				PHALCON_INIT_NVAR(code);
+				PHALCON_CONCAT_SVSVS(code, "gettype(", left, ") === (", arguments, ")");
+				RETURN_CTOR(code);
+			}
 		}
 	}
 	
@@ -2875,8 +2890,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 
-	zval *path, *compiled_path, *extends_mode = NULL, *view_code;
-	zval *exception_message, *compilation, *final_compilation = NULL;
+	zval *path, *compiled_path, *extends_mode = NULL, *exception_message = NULL;
+	zval *view_code, *compilation, *final_compilation = NULL;
 	zval *status;
 
 	PHALCON_MM_GROW();
@@ -2896,13 +2911,23 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 	}
 	
 	/** 
+	 * Check if the template exists
+	 */
+	if (phalcon_file_exists(path TSRMLS_CC) == FAILURE) {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "Template file ", path, " does not exist");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
+		return;
+	}
+	
+	/** 
 	 * Always use file_get_contents instead of read the file directly, this respect the
 	 * open_basedir directive
 	 */
 	PHALCON_INIT_VAR(view_code);
 	PHALCON_CALL_FUNC_PARAMS_1(view_code, "file_get_contents", path);
 	if (PHALCON_IS_FALSE(view_code)) {
-		PHALCON_INIT_VAR(exception_message);
+		PHALCON_INIT_NVAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Template file ", path, " could not be opened");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
 		return;

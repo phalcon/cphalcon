@@ -1047,6 +1047,103 @@ int phalcon_update_property_this(zval *object, char *property_name, unsigned int
 }
 
 /**
+ * Updates properties on this_ptr (quick)
+ * Variables must be defined in the class definition. This function ignores magic methods or dynamic properties
+ */
+int phalcon_update_property_this_quick(zval *object, char *property_name, unsigned int property_length, zval *value, unsigned long key TSRMLS_DC){
+
+	zend_class_entry *ce, *old_scope;
+
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
+		return FAILURE;
+	}
+
+	ce = Z_OBJCE_P(object);
+	if (ce->parent) {
+		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
+	}
+
+	old_scope = EG(scope);
+	EG(scope) = ce;
+
+	#if PHP_VERSION_ID < 50400
+
+	{
+
+		if (!Z_OBJ_HT_P(object)->write_property) {
+			EG(scope) = old_scope;
+			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be updated", property_name, ce->name);
+			return FAILURE;
+		}
+
+		zval *property;
+
+		MAKE_STD_ZVAL(property);
+		ZVAL_STRINGL(property, property_name, property_length, 0);
+
+		Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
+
+		ZVAL_NULL(property);
+		zval_ptr_dtor(&property);
+	}
+
+	#else
+
+	{
+		zend_object *zobj;
+		zval **variable_ptr;
+		zend_property_info *property_info;
+
+		zobj = zend_objects_get_address(object TSRMLS_CC);
+
+		if (zend_hash_quick_find(&ce->properties_info, property_name, property_length + 1, key, (void **) &property_info) == SUCCESS) {
+
+			/** This is as zend_std_write_property, but we're not interesed in validate properties visibility */
+			if (EXPECTED(property_info != NULL) && property_info->offset >= 0 ? (zobj->properties ? ((variable_ptr = (zval**) zobj->properties_table[property_info->offset]) != NULL) : (*(variable_ptr = &zobj->properties_table[property_info->offset]) != NULL)) : (EXPECTED(zobj->properties != NULL) && EXPECTED(zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &variable_ptr) == SUCCESS))) {
+
+				if (EXPECTED(*variable_ptr != value)) {
+
+					/* if we are assigning reference, we shouldn't move it, but instead assign variable to the same pointer */
+					if (PZVAL_IS_REF(*variable_ptr)) {
+
+						zval garbage = **variable_ptr; /* old value should be destroyed */
+
+						/* To check: can't *variable_ptr be some system variable like error_zval here? */
+						Z_TYPE_PP(variable_ptr) = Z_TYPE_P(value);
+						(*variable_ptr)->value = value->value;
+						if (Z_REFCOUNT_P(value) > 0) {
+							zval_copy_ctor(*variable_ptr);
+						} else {
+							efree(value);
+						}
+						zval_dtor(&garbage);
+
+					} else {
+						zval *garbage = *variable_ptr;
+
+						/* if we assign referenced variable, we should separate it */
+						Z_ADDREF_P(value);
+						if (PZVAL_IS_REF(value)) {
+							SEPARATE_ZVAL(&value);
+						}
+						*variable_ptr = value;
+						zval_ptr_dtor(&garbage);
+					}
+				}
+
+			}
+		}
+	}
+
+	#endif
+
+	EG(scope) = old_scope;
+
+	return SUCCESS;
+}
+
+/**
  * Checks whether obj is an object and updates zval property with another zval
  */
 int phalcon_update_property_zval_zval(zval *object, zval *property, zval *value TSRMLS_DC){

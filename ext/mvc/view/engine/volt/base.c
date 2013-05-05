@@ -58,6 +58,7 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_IF,           		"IF" },
   { PHVOLT_T_ELSE,           	"ELSE" },
   { PHVOLT_T_ELSEIF,           	"ELSEIF" },
+  { PHVOLT_T_ELSEFOR,           "ELSEFOR" },
   { PHVOLT_T_ENDIF,           	"ENDIF" },
   { PHVOLT_T_FOR,           	"FOR" },
   { PHVOLT_T_IN, 	          	"IN" },
@@ -242,6 +243,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->extends_mode = 0;
 	state->block_level = 0;
 	state->start_length = 0;
+	state->old_if_level = 0;
 	state->if_level = 0;
 	state->for_level = 0;
 	state->whitespace_control = 0;
@@ -398,6 +400,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				}
 				phvolt_(phvolt_parser, PHVOLT_IF, NULL, parser_status);
 				break;
+
 			case PHVOLT_T_ELSE:
 				if (state->if_level == 0 && state->for_level > 0) {
 					phvolt_(phvolt_parser, PHVOLT_ELSEFOR, NULL, parser_status);
@@ -405,6 +408,11 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 					phvolt_(phvolt_parser, PHVOLT_ELSE, NULL, parser_status);
 				}
 				break;
+
+			case PHVOLT_T_ELSEFOR:
+				phvolt_(phvolt_parser, PHVOLT_ELSEFOR, NULL, parser_status);
+				break;
+
 			case PHVOLT_T_ELSEIF:
 				if (state->if_level == 0) {
 					phvolt_create_error_msg(parser_status, "Unexpected ENDIF");
@@ -413,6 +421,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				}
 				phvolt_(phvolt_parser, PHVOLT_ELSEIF, NULL, parser_status);
 				break;
+
 			case PHVOLT_T_ENDIF:
 				state->block_level--;
 				state->if_level--;
@@ -425,6 +434,8 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				} else {
+					state->old_if_level = state->if_level;
+					state->if_level = 0;
 					state->for_level++;
 					state->block_level++;
 				}
@@ -436,6 +447,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			case PHVOLT_T_ENDFOR:
 				state->block_level--;
 				state->for_level--;
+				state->if_level = state->old_if_level;
 				phvolt_(phvolt_parser, PHVOLT_ENDFOR, NULL, parser_status);
 				break;
 

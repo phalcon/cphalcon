@@ -41,10 +41,10 @@
 inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len TSRMLS_DC){
 
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
-	unsigned long hash = zend_inline_hash_func(lcname, method_len+1);
+	unsigned long hash = zend_inline_hash_func(lcname, method_len + 1);
 
 	while (ce) {
-		if (zend_hash_quick_exists(&ce->function_table, lcname, method_len+1, hash)) {
+		if (zend_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
 			EG(scope) = ce;
 			efree(lcname);
 			return SUCCESS;
@@ -70,7 +70,7 @@ inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, i
 	while (ce) {
 		if (ce->name_length == active_class_len) {
 			if (!zend_binary_strcasecmp(ce->name, ce->name_length, active_class, active_class_len)) {
-				if (zend_hash_quick_exists(&ce->function_table, lcname, method_len+1, hash)) {
+				if (zend_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
 					EG(scope) = ce;
 					efree(lcname);
 					return SUCCESS;
@@ -1009,6 +1009,10 @@ int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval
 
 #if PHP_VERSION_ID <= 50309
 
+/**
+ * These functions are based on the ones in PHP 5.3.21, versions lower than 5.3.9 have problems with closures
+ */
+
 int phalcon_call_user_function_ex(HashTable *function_table, zval **object_pp, zval *function_name, zval **retval_ptr_ptr, zend_uint param_count, zval **params[], int no_separation, HashTable *symbol_table TSRMLS_DC) {
 
 	zend_fcall_info fci;
@@ -1121,7 +1125,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 
 	ZEND_VM_STACK_GROW_IF_NEEDED(fci->param_count + 1);
 
-	for (i=0; i<fci->param_count; i++) {
+	for (i = 0; i < fci->param_count; i++) {
 		zval *param;
 
 		if (EX(function_state).function->type == ZEND_INTERNAL_FUNCTION

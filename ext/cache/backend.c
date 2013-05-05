@@ -93,11 +93,11 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 	if (phalcon_array_isset_string(options, SS("prefix"))) {
 		PHALCON_OBS_VAR(prefix);
 		phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_frontend"), frontend TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_frontend"), frontend TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 		ZVAL_BOOL(fresh, 0);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_fresh"), fresh TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_fresh"), fresh TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
 	
 	RETURN_CCTOR(existing_cache);
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Cache_Backend, setLastKey){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_lastKey"), last_key TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_lastKey"), last_key TSRMLS_CC);
 	
 }
 

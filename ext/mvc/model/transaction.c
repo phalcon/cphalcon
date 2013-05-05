@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 	
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD_PARAMS_1(connection, dependency_injector, "get", service);
-	phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	if (zend_is_true(auto_begin)) {
 		PHALCON_CALL_METHOD_NORETURN(connection, "begin");
 	}
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_manager"), manager TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 			ZVAL_STRING(rollback_message, "Transaction aborted", 1);
 		}
 		if (Z_TYPE_P(rollback_record) == IS_OBJECT) {
-			phalcon_update_property_zval(this_ptr, SL("_rollbackRecord"), rollback_record TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_rollbackRecord"), rollback_record TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(rollback_record);
@@ -348,7 +348,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_isNewTransaction"), is_new TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_isNewTransaction"), is_new TSRMLS_CC);
 	
 }
 
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_rollbackOnAbort"), rollback_on_abort TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_rollbackOnAbort"), rollback_on_abort TSRMLS_CC);
 	
 }
 
@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_rollbackRecord"), record TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_rollbackRecord"), record TSRMLS_CC);
 	
 }
 
