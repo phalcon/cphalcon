@@ -416,6 +416,20 @@ class Build_Generator
 						continue;
 					}
 
+					if (preg_match('/phalcon_update_property_this\(this_ptr, SL\("([a-zA-Z\_]+)"\), ([a-zA-Z\_]+) TSRMLS_CC\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[1]);
+						$line = str_replace($matches[0], 'phalcon_update_property_this_quick(this_ptr, SL("'.$matches[1].'"), '.$matches[2].', '.$key.'UL TSRMLS_CC)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
+					if (preg_match('/RETURN_MEMBER\(([a-zA-Z\_]+), "([a-zA-Z\_]+)"\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$line = str_replace($matches[0], 'RETURN_MEMBER_QUICK('.$matches[1].', "'.$matches[2].'", '.$key.'UL)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
 				}
 
 				fputs($fileHandler, $line);
