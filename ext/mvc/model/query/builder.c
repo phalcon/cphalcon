@@ -113,12 +113,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		if (phalcon_array_isset_long(params, 0)) {
 			PHALCON_OBS_VAR(conditions);
 			phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 		} else {
 			if (phalcon_array_isset_string(params, SS("conditions"))) {
 				PHALCON_OBS_NVAR(conditions);
 				phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY_CC);
-				phalcon_update_property_zval(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 			}
 		}
 	
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		if (phalcon_array_isset_string(params, SS("columns"))) {
 			PHALCON_OBS_VAR(columns);
 			phalcon_array_fetch_string(&columns, params, SL("columns"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 		}
 	
 		/** 
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		if (phalcon_array_isset_string(params, SS("group"))) {
 			PHALCON_OBS_VAR(group_clause);
 			phalcon_array_fetch_string(&group_clause, params, SL("group"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_group"), group_clause TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_group"), group_clause TSRMLS_CC);
 		}
 	
 		/** 
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		if (phalcon_array_isset_string(params, SS("having"))) {
 			PHALCON_OBS_VAR(having_clause);
 			phalcon_array_fetch_string(&having_clause, params, SL("having"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_group"), having_clause TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_group"), having_clause TSRMLS_CC);
 		}
 	
 		/** 
@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		if (phalcon_array_isset_string(params, SS("order"))) {
 			PHALCON_OBS_VAR(order_clause);
 			phalcon_array_fetch_string(&order_clause, params, SL("order"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_order"), order_clause TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_order"), order_clause TSRMLS_CC);
 		}
 	
 		/** 
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		if (phalcon_array_isset_string(params, SS("limit"))) {
 			PHALCON_OBS_VAR(limit_clause);
 			phalcon_array_fetch_string(&limit_clause, params, SL("limit"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_limit"), limit_clause TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_limit"), limit_clause TSRMLS_CC);
 		}
 	
 		/** 
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The dependency injector must be an Object");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns){
 
 	phalcon_fetch_params(0, 1, 0, &columns);
 	
-	phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from){
 
 	phalcon_fetch_params(0, 1, 0, &models);
 	
-	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom){
 		phalcon_array_append(&models, model, PH_SEPARATE TSRMLS_CC);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join){
 	}
 	
 	phalcon_array_append(&joins, join, PH_SEPARATE TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_joins"), joins TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_joins"), joins TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin){
 	}
 	
 	phalcon_array_append(&joins, join, PH_SEPARATE TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_joins"), joins TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_joins"), joins TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin){
 	}
 	
 	phalcon_array_append(&joins, join, PH_SEPARATE TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_joins"), joins TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_joins"), joins TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -528,7 +528,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where){
 		PHALCON_INIT_VAR(bind_types);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 	
 	/** 
 	 * Merge the bind params to the current ones
@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where){
 			PHALCON_CPY_WRT(merged_params, bind_params);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_bindParams"), merged_params TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_bindParams"), merged_params TSRMLS_CC);
 	}
 	
 	/** 
@@ -561,7 +561,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where){
 			PHALCON_CPY_WRT(merged_types, bind_types);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_bindTypes"), merged_types TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_bindTypes"), merged_types TSRMLS_CC);
 	}
 	
 	
@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere){
 		PHALCON_CPY_WRT(new_conditions, conditions);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_conditions"), new_conditions TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_conditions"), new_conditions TSRMLS_CC);
 	
 	/** 
 	 * Merge the bind params to the current ones
@@ -629,7 +629,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere){
 			PHALCON_CPY_WRT(merged_params, bind_params);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_bindParams"), merged_params TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_bindParams"), merged_params TSRMLS_CC);
 	}
 	
 	/** 
@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere){
 			PHALCON_CPY_WRT(merged_types, bind_types);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_bindTypes"), merged_types TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_bindTypes"), merged_types TSRMLS_CC);
 	}
 	
 	
@@ -698,7 +698,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere){
 		PHALCON_CPY_WRT(new_conditions, conditions);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_conditions"), new_conditions TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_conditions"), new_conditions TSRMLS_CC);
 	
 	/** 
 	 * Merge the bind params to the current ones
@@ -714,7 +714,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere){
 			PHALCON_CPY_WRT(merged_params, bind_params);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_bindParams"), merged_params TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_bindParams"), merged_params TSRMLS_CC);
 	}
 	
 	/** 
@@ -731,7 +731,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere){
 			PHALCON_CPY_WRT(merged_types, bind_types);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_bindTypes"), merged_types TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_bindTypes"), merged_types TSRMLS_CC);
 	}
 	
 	
@@ -798,7 +798,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere){
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "andwhere", conditions, bind_params);
 	PHALCON_SEPARATE(next_hidden_param);
 	increment_function(next_hidden_param);
-	phalcon_update_property_zval(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
 }
 
@@ -877,7 +877,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere){
 	 * Append the IN to the current conditions using and 'and'
 	 */
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "andwhere", conditions, bind_params);
-	phalcon_update_property_zval(this_ptr, SL("_hiddenParamNumber"), hidden_param TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), hidden_param TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -957,7 +957,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere){
 	 * Append the IN to the current conditions using and 'and'
 	 */
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "andwhere", conditions, bind_params);
-	phalcon_update_property_zval(this_ptr, SL("_hiddenParamNumber"), hidden_param TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), hidden_param TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -990,7 +990,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy){
 
 	phalcon_fetch_params(0, 1, 0, &order_by);
 	
-	phalcon_update_property_zval(this_ptr, SL("_order"), order_by TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_order"), order_by TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -1021,7 +1021,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having){
 
 	phalcon_fetch_params(0, 1, 0, &having);
 	
-	phalcon_update_property_zval(this_ptr, SL("_having"), having TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_having"), having TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -1061,11 +1061,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit){
 	}
 	
 	if (phalcon_is_numeric(limit)) {
-		phalcon_update_property_zval(this_ptr, SL("_limit"), limit TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
 	}
 	if (Z_TYPE_P(offset) != IS_NULL) {
 		if (phalcon_is_numeric(offset)) {
-			phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_offset"), offset TSRMLS_CC);
 		}
 	}
 	
@@ -1101,7 +1101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, offset){
 
 	phalcon_fetch_params(0, 1, 0, &offset);
 	
-	phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_offset"), offset TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -1132,7 +1132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy){
 
 	phalcon_fetch_params(0, 1, 0, &group);
 	
-	phalcon_update_property_zval(this_ptr, SL("_group"), group TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_group"), group TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -1180,7 +1180,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
-		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
 	PHALCON_OBS_VAR(models);

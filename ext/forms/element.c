@@ -34,9 +34,10 @@
 
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Forms\Element
@@ -60,6 +61,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element){
 	zend_declare_property_null(phalcon_forms_element_ce, SL("_validators"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_element_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_element_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -86,9 +88,9 @@ PHP_METHOD(Phalcon_Forms_Element, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The element's name must be a string");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	if (Z_TYPE_P(attributes) == IS_ARRAY) { 
-		phalcon_update_property_zval(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -106,7 +108,7 @@ PHP_METHOD(Phalcon_Forms_Element, setForm){
 
 	phalcon_fetch_params(0, 1, 0, &form);
 	
-	phalcon_update_property_zval(this_ptr, SL("_form"), form TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_form"), form TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -133,7 +135,7 @@ PHP_METHOD(Phalcon_Forms_Element, setName){
 
 	phalcon_fetch_params(0, 1, 0, &name);
 	
-	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -160,8 +162,38 @@ PHP_METHOD(Phalcon_Forms_Element, setFilters){
 
 	phalcon_fetch_params(0, 1, 0, &filters);
 	
-	phalcon_update_property_zval(this_ptr, SL("_filters"), filters TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_filters"), filters TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Adds a filter to current list of filters
+ *
+ * @param string $filter
+ * @return Phalcon\Forms\ElementInterface
+ */
+PHP_METHOD(Phalcon_Forms_Element, addFilter){
+
+	zval *filter, *filters, *new_filters;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &filter);
+	
+	PHALCON_OBS_VAR(filters);
+	phalcon_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
+	if (Z_TYPE_P(filters) == IS_ARRAY) { 
+		phalcon_update_property_array_append(this_ptr, SL("_filters"), filter TSRMLS_CC);
+	} else {
+		PHALCON_INIT_VAR(new_filters);
+		array_init_size(new_filters, 2);
+		phalcon_array_append(&new_filters, filters, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&new_filters, filter, PH_SEPARATE TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_filters"), new_filters TSRMLS_CC);
+	}
+	
+	
+	RETURN_THIS();
 }
 
 /**
@@ -210,7 +242,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators){
 			PHALCON_CPY_WRT(merged_validators, validators);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_validators"), merged_validators TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_validators"), merged_validators TSRMLS_CC);
 	}
 	
 	
@@ -383,7 +415,7 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -465,7 +497,7 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOptions){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -493,7 +525,7 @@ PHP_METHOD(Phalcon_Forms_Element, setLabel){
 
 	phalcon_fetch_params(0, 1, 0, &label);
 	
-	phalcon_update_property_zval(this_ptr, SL("_label"), label TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_label"), label TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -564,7 +596,7 @@ PHP_METHOD(Phalcon_Forms_Element, setDefault){
 
 	phalcon_fetch_params(0, 1, 0, &value);
 	
-	phalcon_update_property_zval(this_ptr, SL("_value"), value TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_value"), value TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -635,21 +667,16 @@ PHP_METHOD(Phalcon_Forms_Element, getValue){
  */
 PHP_METHOD(Phalcon_Forms_Element, getMessages){
 
-	zval *form, *name, *messages = NULL;
+	zval *messages = NULL;
 
 	PHALCON_MM_GROW();
 
 	/** 
 	 * Get the related form
 	 */
-	PHALCON_OBS_VAR(form);
-	phalcon_read_property_this(&form, this_ptr, SL("_form"), PH_NOISY_CC);
-	if (Z_TYPE_P(form) == IS_OBJECT) {
-		PHALCON_OBS_VAR(name);
-		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(messages);
-		PHALCON_CALL_METHOD_PARAMS_1(messages, form, "getmessagesfor", name);
+	PHALCON_OBS_VAR(messages);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	if (Z_TYPE_P(messages) == IS_OBJECT) {
 		RETURN_CCTOR(messages);
 	}
 	
@@ -657,6 +684,7 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages){
 	object_init_ex(messages, phalcon_validation_message_group_ce);
 	PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
 	
+	phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	
 	RETURN_CCTOR(messages);
 }
@@ -669,25 +697,74 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages){
  */
 PHP_METHOD(Phalcon_Forms_Element, hasMessages){
 
-	zval *form, *name, *has;
+	zval *messages;
 
 	PHALCON_MM_GROW();
 
 	/** 
 	 * Get the related form
 	 */
-	PHALCON_OBS_VAR(form);
-	phalcon_read_property_this(&form, this_ptr, SL("_form"), PH_NOISY_CC);
-	if (Z_TYPE_P(form) == IS_OBJECT) {
-		PHALCON_OBS_VAR(name);
-		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(has);
-		PHALCON_CALL_METHOD_PARAMS_1(has, form, "hasmessagesfor", name);
-		RETURN_CCTOR(has);
+	PHALCON_OBS_VAR(messages);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	if (Z_TYPE_P(messages) == IS_OBJECT) {
+		if (phalcon_fast_count_ev(messages TSRMLS_CC)) {
+			RETURN_MM_TRUE;
+		}
 	}
 	
 	RETURN_MM_FALSE;
+}
+
+/**
+ * Sets the validation messages related to the element
+ *
+ * @param Phalcon\Validation\Message\Group $group
+ * @return Phalcon\Forms\ElementInterface
+ */
+PHP_METHOD(Phalcon_Forms_Element, setMessages){
+
+	zval *group;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &group);
+	
+	if (Z_TYPE_P(group) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The message group is not valid");
+		return;
+	}
+	phalcon_update_property_this(this_ptr, SL("_messages"), group TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Appends a message to the internal message list
+ *
+ * @param Phalcon\Validation\Message $message
+ * @return Phalcon\Forms\ElementInterface
+ */
+PHP_METHOD(Phalcon_Forms_Element, appendMessage){
+
+	zval *message, *messages = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &message);
+	
+	PHALCON_OBS_VAR(messages);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	if (Z_TYPE_P(messages) != IS_OBJECT) {
+		PHALCON_INIT_NVAR(messages);
+		object_init_ex(messages, phalcon_validation_message_group_ce);
+		PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
+	
+		phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
+	}
+	
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(messages, "appendmessage", message);
+	
+	RETURN_THIS();
 }
 
 /**

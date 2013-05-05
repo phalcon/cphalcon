@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskSuffix){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_handlerSuffix"), task_suffix TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_handlerSuffix"), task_suffix TSRMLS_CC);
 	
 }
 
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_defaultHandler"), task_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_defaultHandler"), task_name TSRMLS_CC);
 	
 }
 
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_handlerName"), task_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_handlerName"), task_name TSRMLS_CC);
 	
 }
 

@@ -91,13 +91,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
 		if (phalcon_array_isset_string(options, SS("metaDataDir"))) {
 			PHALCON_OBS_VAR(meta_data_dir);
 			phalcon_array_fetch_string(&meta_data_dir, options, SL("metaDataDir"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_metaDataDir"), meta_data_dir TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_metaDataDir"), meta_data_dir TSRMLS_CC);
 		}
 	}
 	
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
-	phalcon_update_property_zval(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

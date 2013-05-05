@@ -27,6 +27,7 @@ PHP_METHOD(Phalcon_Forms_Element, getForm);
 PHP_METHOD(Phalcon_Forms_Element, setName);
 PHP_METHOD(Phalcon_Forms_Element, getName);
 PHP_METHOD(Phalcon_Forms_Element, setFilters);
+PHP_METHOD(Phalcon_Forms_Element, addFilter);
 PHP_METHOD(Phalcon_Forms_Element, getFilters);
 PHP_METHOD(Phalcon_Forms_Element, addValidators);
 PHP_METHOD(Phalcon_Forms_Element, addValidator);
@@ -48,6 +49,8 @@ PHP_METHOD(Phalcon_Forms_Element, getDefault);
 PHP_METHOD(Phalcon_Forms_Element, getValue);
 PHP_METHOD(Phalcon_Forms_Element, getMessages);
 PHP_METHOD(Phalcon_Forms_Element, hasMessages);
+PHP_METHOD(Phalcon_Forms_Element, setMessages);
+PHP_METHOD(Phalcon_Forms_Element, appendMessage);
 PHP_METHOD(Phalcon_Forms_Element, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element___construct, 0, 0, 1)
@@ -65,6 +68,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setfilters, 0, 0, 1)
 	ZEND_ARG_INFO(0, filters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_addfilter, 0, 0, 1)
+	ZEND_ARG_INFO(0, filter)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_addvalidators, 0, 0, 1)
@@ -116,6 +123,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setdefault, 0, 0, 1)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setmessages, 0, 0, 1)
+	ZEND_ARG_INFO(0, group)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_appendmessage, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_forms_element_method_entry){
 	PHP_ME(Phalcon_Forms_Element, __construct, arginfo_phalcon_forms_element___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Forms_Element, setForm, arginfo_phalcon_forms_element_setform, ZEND_ACC_PUBLIC) 
@@ -123,6 +138,7 @@ PHALCON_INIT_FUNCS(phalcon_forms_element_method_entry){
 	PHP_ME(Phalcon_Forms_Element, setName, arginfo_phalcon_forms_element_setname, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, getName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, setFilters, arginfo_phalcon_forms_element_setfilters, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, addFilter, arginfo_phalcon_forms_element_addfilter, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, getFilters, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, addValidators, arginfo_phalcon_forms_element_addvalidators, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, addValidator, arginfo_phalcon_forms_element_addvalidator, ZEND_ACC_PUBLIC) 
@@ -144,6 +160,8 @@ PHALCON_INIT_FUNCS(phalcon_forms_element_method_entry){
 	PHP_ME(Phalcon_Forms_Element, getValue, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, getMessages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, hasMessages, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, setMessages, arginfo_phalcon_forms_element_setmessages, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, appendMessage, arginfo_phalcon_forms_element_appendmessage, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, __toString, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

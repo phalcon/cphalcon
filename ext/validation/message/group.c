@@ -277,6 +277,66 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 }
 
 /**
+ * Filters the message group by field name
+ *
+ * @param string $fieldName
+ * @return array
+ */
+PHP_METHOD(Phalcon_Validation_Message_Group, filter){
+
+	zval *field_name, *filtered, *messages, *message = NULL;
+	zval *field = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &field_name);
+	
+	PHALCON_INIT_VAR(filtered);
+	array_init(filtered);
+	
+	PHALCON_OBS_VAR(messages);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	if (Z_TYPE_P(messages) == IS_OBJECT) {
+	
+		/** 
+		 * A group of messages is iterated and appended one-by-one to the current list
+		 */
+		PHALCON_CALL_METHOD_NORETURN(messages, "rewind");
+	
+		while (1) {
+	
+			PHALCON_INIT_NVAR(r0);
+			PHALCON_CALL_METHOD(r0, messages, "valid");
+			if (PHALCON_IS_NOT_FALSE(r0)) {
+			} else {
+				break;
+			}
+	
+			/** 
+			 * Get the current message in the iterator
+			 */
+			PHALCON_INIT_NVAR(message);
+			PHALCON_CALL_METHOD(message, messages, "current");
+	
+			/** 
+			 * Get the field name
+			 */
+			PHALCON_INIT_NVAR(field);
+			PHALCON_CALL_METHOD(field, messages, "getfield");
+			if (PHALCON_IS_EQUAL(field_name, field)) {
+				phalcon_array_append(&filtered, message, PH_SEPARATE TSRMLS_CC);
+			}
+	
+			PHALCON_CALL_METHOD_NORETURN(messages, "next");
+		}
+	}
+	
+	
+	RETURN_CTOR(filtered);
+}
+
+/**
  * Returns the number of messages in the list
  *
  * @return int
@@ -353,7 +413,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, next){
 }
 
 /**
- * Check if the current message the iterator is valid
+ * Check if the current message in the iterator is valid
  *
  * @return boolean
  */
@@ -376,7 +436,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid){
 }
 
 /**
- * Magic __set_state helps to re-build messages variable exporting
+ * Magic __set_state helps to re-build messages variable when exporting
  *
  * @param array $group
  * @return Phalcon\Mvc\Model\Message\Group

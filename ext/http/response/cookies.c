@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, setDI){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
 
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_useEncryption"), use_encryption TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_useEncryption"), use_encryption TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -421,7 +421,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, reset){
 
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
-	phalcon_update_property_zval(this_ptr, SL("_cookies"), empty_array TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_cookies"), empty_array TSRMLS_CC);
 	RETURN_THIS();
 }
 

@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
-	phalcon_update_property_zval(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);

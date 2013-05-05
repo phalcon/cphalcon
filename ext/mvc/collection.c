@@ -37,8 +37,8 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/string.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 #include "kernel/file.h"
 #include "kernel/concat.h"
 
@@ -554,6 +554,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	
 	PHALCON_INIT_VAR(source);
 	PHALCON_CALL_METHOD(source, collection, "getsource");
+	if (PHALCON_IS_EMPTY(source)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
+		return;
+	}
 	
 	PHALCON_INIT_VAR(mongo_collection);
 	PHALCON_CALL_METHOD_PARAMS_1(mongo_collection, connection, "selectcollection", source);
@@ -673,6 +677,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 	
 	PHALCON_INIT_VAR(source);
 	PHALCON_CALL_METHOD(source, collection, "getsource");
+	if (PHALCON_IS_EMPTY(source)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
+		return;
+	}
 	
 	PHALCON_INIT_VAR(mongo_collection);
 	PHALCON_CALL_METHOD_PARAMS_1(mongo_collection, connection, "selectcollection", source);
@@ -1292,6 +1300,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	
 	PHALCON_INIT_VAR(source);
 	PHALCON_CALL_METHOD(source, this_ptr, "getsource");
+	if (PHALCON_IS_EMPTY(source)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
+		return;
+	}
 	
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(connection, this_ptr, "getconnection");
@@ -1717,6 +1729,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate){
 	
 	PHALCON_INIT_VAR(source);
 	PHALCON_CALL_METHOD(source, model, "getsource");
+	if (PHALCON_IS_EMPTY(source)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
+		return;
+	}
 	
 	PHALCON_INIT_VAR(collection);
 	PHALCON_CALL_METHOD_PARAMS_1(collection, connection, "selectcollection", source);
@@ -1779,6 +1795,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 	
 	PHALCON_INIT_VAR(source);
 	PHALCON_CALL_METHOD(source, this_ptr, "getsource");
+	if (PHALCON_IS_EMPTY(source)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
+		return;
+	}
 	
 	/** 
 	 * Get the \MongoCollection

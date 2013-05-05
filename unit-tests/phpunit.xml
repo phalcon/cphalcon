@@ -96,6 +96,8 @@
 			<!-- Micro MVC -->
 			<file>unit-tests/MicroMvcTest.php</file>
 			<file>unit-tests/MicroMvcEventsTest.php</file>
+			<file>unit-tests/MicroMvcMiddlewareTest.php</file>
+			<file>unit-tests/MicroMvcCollectionsTest.php</file>
 
 			<!-- CLI tests -->
 			<file>unit-tests/RouterCliTest.php</file>

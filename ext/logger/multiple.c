@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter){
 	
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

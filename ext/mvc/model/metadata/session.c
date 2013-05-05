@@ -89,13 +89,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 		if (phalcon_array_isset_string(options, SS("prefix"))) {
 			PHALCON_OBS_VAR(prefix);
 			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 		}
 	}
 	
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
-	phalcon_update_property_zval(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

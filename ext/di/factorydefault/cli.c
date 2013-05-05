@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_services"), services TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_services"), services TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

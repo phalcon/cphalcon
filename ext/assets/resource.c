@@ -77,9 +77,9 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct){
 		ZVAL_BOOL(local, 1);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_path"), path TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_local"), local TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_local"), local TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

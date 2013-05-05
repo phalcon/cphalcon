@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setPrefix){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setLocal){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_local"), local TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_local"), local TSRMLS_CC);
 	RETURN_THISW();
 }
 

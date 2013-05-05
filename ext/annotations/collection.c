@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();

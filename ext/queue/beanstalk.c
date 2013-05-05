@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, __construct){
 		phalcon_array_update_string_long(&parameters, SL("port"), 11300, PH_SEPARATE TSRMLS_CC);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_parameters"), parameters TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_parameters"), parameters TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, connect){
 	
 	PHALCON_INIT_VAR(microseconds);
 	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("stream_set_timeout", connection, no_timeout, microseconds);
-	phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	
 	RETURN_CCTOR(connection);
 }

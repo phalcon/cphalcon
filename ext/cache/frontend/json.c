@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, __construct){
 		PHALCON_INIT_VAR(frontend_options);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

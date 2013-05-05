@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Flash_Session, setDI){
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
 
@@ -133,15 +133,12 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
  */
 PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 
-	zval *messages = NULL, *dependency_injector, *service;
+	zval *messages, *dependency_injector, *service;
 	zval *session, *index_name;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &messages);
-	
-	PHALCON_SEPARATE_PARAM(messages);
 	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
@@ -158,10 +155,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	
 	PHALCON_INIT_VAR(index_name);
 	ZVAL_STRING(index_name, "_flashMessages", 1);
-	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, session, "set", index_name, messages);
-	PHALCON_CPY_WRT(messages, r0);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", index_name, messages);
 	
 	RETURN_CCTOR(messages);
 }

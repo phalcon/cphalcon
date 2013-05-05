@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 		return;
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_memcache"), memcache TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_memcache"), memcache TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
-	phalcon_update_property_zval(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(cached_content);
 	PHALCON_CALL_METHOD_PARAMS_1(cached_content, memcache, "get", prefixed_key);

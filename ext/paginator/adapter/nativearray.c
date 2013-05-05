@@ -73,21 +73,19 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &config) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_config"), config TSRMLS_CC);
+	phalcon_fetch_params(1, 1, 0, &config);
+	
+	phalcon_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	if (phalcon_array_isset_string(config, SS("limit"))) {
 		PHALCON_OBS_VAR(limit);
 		phalcon_array_fetch_string(&limit, config, SL("limit"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
 	}
 	
 	if (phalcon_array_isset_string(config, SS("page"))) {
 		PHALCON_OBS_VAR(page);
 		phalcon_array_fetch_string(&page, config, SL("page"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_page"), page TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -102,11 +100,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage){
 
 	zval *page;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &page) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_page"), page TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &page);
+	
+	phalcon_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
 	
 }
 

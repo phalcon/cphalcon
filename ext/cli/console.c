@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_CLI_Console, setDI){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_CLI_Console, setEventsManager){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
 
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_CLI_Console, registerModules){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Modules must be an Array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_modules"), modules TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_CLI_Console, addModules){
 	
 	PHALCON_INIT_VAR(register_modules);
 	phalcon_fast_array_merge(register_modules, &modules, &original_modules TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_modules"), register_modules TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_modules"), register_modules TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 		PHALCON_CALL_METHOD_NORETURN(module_object, "registerautoloaders");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(module_object, "registerservices", dependency_injector);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-			phalcon_update_property_zval(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
 	
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "console:afterStartModule", 1);

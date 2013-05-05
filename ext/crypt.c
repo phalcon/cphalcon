@@ -72,11 +72,9 @@ PHP_METHOD(Phalcon_Crypt, setCipher){
 
 	zval *cipher;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &cipher) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_cipher"), cipher TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &cipher);
+	
+	phalcon_update_property_this(this_ptr, SL("_cipher"), cipher TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -101,11 +99,9 @@ PHP_METHOD(Phalcon_Crypt, setMode){
 
 	zval *mode;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &mode) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_mode"), mode TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &mode);
+	
+	phalcon_update_property_this(this_ptr, SL("_mode"), mode TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -130,11 +126,9 @@ PHP_METHOD(Phalcon_Crypt, setKey){
 
 	zval *key;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_key"), key TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &key);
+	
+	phalcon_update_property_this(this_ptr, SL("_key"), key TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -164,10 +158,8 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &text, &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &text, &key);
+	
 	if (!key) {
 		PHALCON_INIT_VAR(key);
 	}
@@ -244,10 +236,8 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &text, &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &text, &key);
+	
 	if (!key) {
 		PHALCON_INIT_VAR(key);
 	}
@@ -330,10 +320,8 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &text, &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &text, &key);
+	
 	if (!key) {
 		PHALCON_INIT_VAR(key);
 	}
@@ -359,10 +347,8 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &text, &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &text, &key);
+	
 	if (!key) {
 		PHALCON_INIT_VAR(key);
 	}

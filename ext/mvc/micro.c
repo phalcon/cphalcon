@@ -72,6 +72,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro){
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_router"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_stopped"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_notFoundHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_activeHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_beforeHandlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -541,12 +542,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 			phalcon_array_append(&real_handler, lazy_handler, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&real_handler, sub_handler, PH_SEPARATE TSRMLS_CC);
 			if (PHALCON_IS_NOT_EMPTY(prefix)) {
-				if (!PHALCON_IS_STRING(prefix, "/")) {
-					PHALCON_INIT_NVAR(prefixed_pattern);
-					PHALCON_CONCAT_VV(prefixed_pattern, prefix, pattern);
+				if (PHALCON_IS_STRING(pattern, "/")) {
+					PHALCON_CPY_WRT(prefixed_pattern, prefix);
 				} else {
 					PHALCON_INIT_NVAR(prefixed_pattern);
-					ZVAL_STRING(prefixed_pattern, "/", 1);
+					PHALCON_CONCAT_VV(prefixed_pattern, prefix, pattern);
 				}
 			} else {
 				PHALCON_CPY_WRT(prefixed_pattern, pattern);
@@ -771,8 +771,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	zval *uri = NULL, *dependency_injector, *events_manager = NULL;
 	zval *event_name = NULL, *status = NULL, *service, *router, *matched_route;
 	zval *handlers, *route_id, *handler = NULL, *before_handlers;
-	zval *before = NULL, *params, *returned_value = NULL, *after_handlers;
-	zval *after = NULL, *not_found_handler, *finish_handlers;
+	zval *before = NULL, *is_middleware = NULL, *stopped = NULL, *params = NULL;
+	zval *returned_value = NULL, *after_handlers, *after = NULL;
+	zval *not_found_handler, *finish_handlers;
 	zval *finish = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
@@ -869,6 +870,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		PHALCON_OBS_VAR(before_handlers);
 		phalcon_read_property_this(&before_handlers, this_ptr, SL("_beforeHandlers"), PH_NOISY_CC);
 		if (Z_TYPE_P(before_handlers) == IS_ARRAY) { 
+			phalcon_update_property_bool(this_ptr, SL("_stopped"), 0 TSRMLS_CC);
 	
 			/** 
 			 * Calls the before handlers
@@ -882,6 +884,35 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 				PHALCON_GET_FOREACH_VALUE(before);
 	
+				if (Z_TYPE_P(before) == IS_OBJECT) {
+	
+					PHALCON_INIT_NVAR(is_middleware);
+					phalcon_instance_of(is_middleware, before, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC);
+					if (PHALCON_IS_TRUE(is_middleware)) {
+	
+						/** 
+						 * Call the middleware
+						 */
+						PHALCON_INIT_NVAR(status);
+						PHALCON_CALL_METHOD_PARAMS_1(status, before, "call", this_ptr);
+	
+						/** 
+						 * Reload the status
+						 */
+						PHALCON_OBS_NVAR(stopped);
+						phalcon_read_property_this(&stopped, this_ptr, SL("_stopped"), PH_NOISY_CC);
+	
+						/** 
+						 * break the execution if the middleware was stopped
+						 */
+						if (zend_is_true(stopped)) {
+							break;
+						}
+	
+						zend_hash_move_forward_ex(ah0, &hp0);
+						continue;
+					}
+				}
 				if (!phalcon_is_callable(before TSRMLS_CC)) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The before handler is not callable");
 					return;
@@ -894,6 +925,15 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 				PHALCON_CALL_USER_FUNC(status, before);
 				if (PHALCON_IS_FALSE(status)) {
 					RETURN_MM_FALSE;
+				}
+	
+				/** 
+				 * Reload the 'stopped' status
+				 */
+				PHALCON_OBS_NVAR(stopped);
+				phalcon_read_property_this(&stopped, this_ptr, SL("_stopped"), PH_NOISY_CC);
+				if (zend_is_true(stopped)) {
+					RETURN_CCTOR(status);
 				}
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
@@ -927,6 +967,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		PHALCON_OBS_VAR(after_handlers);
 		phalcon_read_property_this(&after_handlers, this_ptr, SL("_afterHandlers"), PH_NOISY_CC);
 		if (Z_TYPE_P(after_handlers) == IS_ARRAY) { 
+			phalcon_update_property_bool(this_ptr, SL("_stopped"), 0 TSRMLS_CC);
 	
 			/** 
 			 * Calls the after handlers
@@ -940,8 +981,37 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 				PHALCON_GET_FOREACH_VALUE(after);
 	
+				if (Z_TYPE_P(after) == IS_OBJECT) {
+	
+					PHALCON_INIT_NVAR(is_middleware);
+					phalcon_instance_of(is_middleware, after, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC);
+					if (PHALCON_IS_TRUE(is_middleware)) {
+	
+						/** 
+						 * Call the middleware
+						 */
+						PHALCON_INIT_NVAR(status);
+						PHALCON_CALL_METHOD_PARAMS_1(status, after, "call", this_ptr);
+	
+						/** 
+						 * Reload the status
+						 */
+						PHALCON_OBS_NVAR(stopped);
+						phalcon_read_property_this(&stopped, this_ptr, SL("_stopped"), PH_NOISY_CC);
+	
+						/** 
+						 * break the execution if the middleware was stopped
+						 */
+						if (zend_is_true(stopped)) {
+							break;
+						}
+	
+						zend_hash_move_forward_ex(ah1, &hp1);
+						continue;
+					}
+				}
 				if (!phalcon_is_callable(after TSRMLS_CC)) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The after handler is not callable");
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "One of the 'after' handlers is not callable");
 					return;
 				}
 	
@@ -1006,6 +1076,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	PHALCON_OBS_VAR(finish_handlers);
 	phalcon_read_property_this(&finish_handlers, this_ptr, SL("_finishHandlers"), PH_NOISY_CC);
 	if (Z_TYPE_P(finish_handlers) == IS_ARRAY) { 
+		phalcon_update_property_bool(this_ptr, SL("_stopped"), 0 TSRMLS_CC);
+	
+		PHALCON_INIT_NVAR(params);
 	
 		/** 
 		 * Calls the finish handlers
@@ -1019,13 +1092,64 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 			PHALCON_GET_FOREACH_VALUE(finish);
 	
+			/** 
+			 * Try to execute middleware as plugins
+			 */
+			if (Z_TYPE_P(finish) == IS_OBJECT) {
+	
+				PHALCON_INIT_NVAR(is_middleware);
+				phalcon_instance_of(is_middleware, finish, phalcon_mvc_micro_middlewareinterface_ce TSRMLS_CC);
+				if (PHALCON_IS_TRUE(is_middleware)) {
+	
+					/** 
+					 * Call the middleware
+					 */
+					PHALCON_INIT_NVAR(status);
+					PHALCON_CALL_METHOD_PARAMS_1(status, finish, "call", this_ptr);
+	
+					/** 
+					 * Reload the status
+					 */
+					PHALCON_OBS_NVAR(stopped);
+					phalcon_read_property_this(&stopped, this_ptr, SL("_stopped"), PH_NOISY_CC);
+	
+					/** 
+					 * break the execution if the middleware was stopped
+					 */
+					if (zend_is_true(stopped)) {
+						break;
+					}
+	
+					zend_hash_move_forward_ex(ah2, &hp2);
+					continue;
+				}
+			}
 			if (!phalcon_is_callable(finish TSRMLS_CC)) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The finish handler is not callable");
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "One of finish handlers is not callable");
 				return;
 			}
 	
+			if (Z_TYPE_P(params) == IS_NULL) {
+				PHALCON_INIT_NVAR(params);
+				array_init_size(params, 1);
+				phalcon_array_append(&params, this_ptr, PH_SEPARATE TSRMLS_CC);
+			}
+	
 			PHALCON_INIT_NVAR(status);
-			PHALCON_CALL_USER_FUNC(status, finish);
+			PHALCON_CALL_USER_FUNC_ARRAY(status, finish, params);
+	
+			/** 
+			 * Reload the status
+			 */
+			PHALCON_OBS_NVAR(stopped);
+			phalcon_read_property_this(&stopped, this_ptr, SL("_stopped"), PH_NOISY_CC);
+	
+			/** 
+			 * break the execution if the middleware was stopped
+			 */
+			if (zend_is_true(stopped)) {
+				break;
+			}
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
@@ -1034,6 +1158,16 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 	
 	RETURN_CCTOR(returned_value);
+}
+
+/**
+ * Stops the middleware execution avoiding than other middlewares be executed
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, stop){
+
+
+	phalcon_update_property_bool(this_ptr, SL("_stopped"), 1 TSRMLS_CC);
+	
 }
 
 /**
@@ -1185,7 +1319,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, after){
 }
 
 /**
- * Appends an 'finish' middleware to be called when the request is finished
+ * Appends a 'finish' middleware to be called when the request is finished
  *
  * @param callable $handler
  * @return Phalcon\Mvc\Micro

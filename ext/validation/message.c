@@ -40,7 +40,6 @@
  * Phalcon\Validation\Message
  *
  * Encapsulates validation info generated in the validation process
- *
  */
 
 
@@ -81,9 +80,9 @@ PHP_METHOD(Phalcon_Validation_Message, __construct){
 		PHALCON_INIT_VAR(type);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_message"), message TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_field"), field TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -100,7 +99,7 @@ PHP_METHOD(Phalcon_Validation_Message, setType){
 
 	phalcon_fetch_params(0, 1, 0, &type);
 	
-	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -127,7 +126,7 @@ PHP_METHOD(Phalcon_Validation_Message, setMessage){
 
 	phalcon_fetch_params(0, 1, 0, &message);
 	
-	phalcon_update_property_zval(this_ptr, SL("_message"), message TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -154,7 +153,7 @@ PHP_METHOD(Phalcon_Validation_Message, setField){
 
 	phalcon_fetch_params(0, 1, 0, &field);
 	
-	phalcon_update_property_zval(this_ptr, SL("_field"), field TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
 	RETURN_THISW();
 }
 

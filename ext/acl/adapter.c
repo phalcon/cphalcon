@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
 
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_defaultAccess"), default_access TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_defaultAccess"), default_access TSRMLS_CC);
 	
 }
 

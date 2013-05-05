@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct){
 		PHALCON_INIT_VAR(options);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

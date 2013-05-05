@@ -74,10 +74,8 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend, &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &frontend, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -116,10 +114,8 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &key_name, &lifetime) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &key_name, &lifetime);
+	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
 	}
@@ -158,10 +154,8 @@ PHP_METHOD(Phalcon_Cache_Backend, stop){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &stop_buffer) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &stop_buffer);
+	
 	if (!stop_buffer) {
 		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
@@ -230,10 +224,8 @@ PHP_METHOD(Phalcon_Cache_Backend, setLastKey){
 
 	zval *last_key;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &last_key) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &last_key);
+	
 	phalcon_update_property_this(this_ptr, SL("_lastKey"), last_key TSRMLS_CC);
 	
 }

@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -164,8 +164,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler){
 		ZVAL_BOOL(lazy, 0);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_handler"), handler TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_lazy"), lazy TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_lazy"), lazy TSRMLS_CC);
 	RETURN_THIS();
 }
 
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_lazy"), lazy TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_lazy"), lazy TSRMLS_CC);
 	RETURN_THISW();
 }
 

@@ -84,10 +84,10 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct){
 	}
 	
 	if (Z_TYPE_P(format) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_format"), format TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
 	}
 	if (Z_TYPE_P(date_format) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_dateFormat"), date_format TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_dateFormat"), date_format TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_format"), format TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
 	
 }
 
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_dateFormat"), date TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dateFormat"), date TSRMLS_CC);
 	
 }
 

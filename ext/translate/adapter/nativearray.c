@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 		return;
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_translate"), data TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_translate"), data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

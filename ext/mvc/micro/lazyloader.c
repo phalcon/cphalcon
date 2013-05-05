@@ -35,6 +35,7 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Mvc\Micro\LazyLoader
@@ -57,7 +58,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader){
 }
 
 /**
- *  Phalcon\Mvc\Micro\LazyLoader constructor
+ * Phalcon\Mvc\Micro\LazyLoader constructor
  *
  * @param string $definition
  */
@@ -75,14 +76,23 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "Only strings can be lazy loaded");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_definition"), definition TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Initializes the internal handler, calling functions on it
+ *
+ * @param string $method
+ * @param array $arguments
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call){
 
-	zval *method, *arguments;
+	zval *method, *arguments, *handler = NULL, *definition;
+	zval *call_handler, *result;
+	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -90,9 +100,32 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", method);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", arguments);
+	PHALCON_OBS_VAR(handler);
+	phalcon_read_property_this(&handler, this_ptr, SL("_handler"), PH_NOISY_CC);
+	if (Z_TYPE_P(handler) != IS_OBJECT) {
+		PHALCON_OBS_VAR(definition);
+		phalcon_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
+		ce0 = phalcon_fetch_class(definition TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+		PHALCON_INIT_NVAR(handler);
+		object_init_ex(handler, ce0);
+		if (phalcon_has_constructor(handler TSRMLS_CC)) {
+			PHALCON_CALL_METHOD_NORETURN(handler, "__construct");
+		}
+		phalcon_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
+	}
+	
+	PHALCON_INIT_VAR(call_handler);
+	array_init_size(call_handler, 2);
+	phalcon_array_append(&call_handler, handler, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&call_handler, method, PH_SEPARATE TSRMLS_CC);
+	
+	/** 
+	 * Call the handler
+	 */
+	PHALCON_INIT_VAR(result);
+	PHALCON_CALL_USER_FUNC_ARRAY(result, call_handler, arguments);
+	
+	RETURN_CCTOR(result);
 }
 

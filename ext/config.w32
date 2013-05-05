@@ -28,7 +28,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/mvc", "controller.c router.c micro.c dispatcherinterface.c routerinterface.c urlinterface.c url.c model.c view.c modelinterface.c viewinterface.c collection.c dispatcher.c collectioninterface.c application.c controllerinterface.c moduledefinitioninterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/dispatcher", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/application", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/micro", "lazyloader.c exception.c collection.c collectioninterface.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/mvc/micro", "middlewareinterface.c lazyloader.c exception.c collection.c collectioninterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/collection", "managerinterface.c manager.c exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/user", "component.c plugin.c module.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/router", "group.c route.c annotations.c exception.c routeinterface.c", "phalcon")

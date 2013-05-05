@@ -39,6 +39,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService);
 PHP_METHOD(Phalcon_Mvc_Micro, getService);
 PHP_METHOD(Phalcon_Mvc_Micro, getSharedService);
 PHP_METHOD(Phalcon_Mvc_Micro, handle);
+PHP_METHOD(Phalcon_Mvc_Micro, stop);
 PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler);
 PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler);
 PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue);
@@ -176,6 +177,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_micro_method_entry){
 	PHP_ME(Phalcon_Mvc_Micro, getService, arginfo_phalcon_mvc_micro_getservice, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, getSharedService, arginfo_phalcon_mvc_micro_getsharedservice, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, handle, arginfo_phalcon_mvc_micro_handle, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Micro, stop, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, setActiveHandler, arginfo_phalcon_mvc_micro_setactivehandler, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, getActiveHandler, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, getReturnedValue, NULL, ZEND_ACC_PUBLIC) 

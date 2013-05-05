@@ -74,9 +74,9 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_queue"), queue TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_id"), id TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_body"), body TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_queue"), queue TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_id"), id TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_body"), body TSRMLS_CC);
 	
 }
 

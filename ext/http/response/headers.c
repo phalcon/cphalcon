@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset){
 
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
-	phalcon_update_property_zval(this_ptr, SL("_headers"), empty_array TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_headers"), empty_array TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

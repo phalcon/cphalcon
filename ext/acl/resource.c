@@ -83,9 +83,9 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Resource name cannot be \"*\"");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	if (Z_TYPE_P(description) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, SL("_description"), description TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_description"), description TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();

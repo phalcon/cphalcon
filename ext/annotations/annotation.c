@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 	
 	PHALCON_OBS_VAR(name);
 	phalcon_array_fetch_string(&name, reflection_data, SL("name"), PH_NOISY_CC);
-	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	
 	/** 
 	 * Process annotation arguments
@@ -121,8 +121,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_arguments"), arguments TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_exprArguments"), expr_arguments TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_arguments"), arguments TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_exprArguments"), expr_arguments TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();

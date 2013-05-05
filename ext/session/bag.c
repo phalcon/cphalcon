@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct){
 	phalcon_fetch_params(1, 1, 0, &name);
 	
 	if (Z_TYPE_P(name) == IS_STRING) {
-		phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "The dependency injector must be an Object");
 		return;
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Session_Bag, setDI){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "The dependency injector must be an Object");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 	
 		PHALCON_INIT_NVAR(session);
 		PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service);
-		phalcon_update_property_zval(this_ptr, SL("_session"), session TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_session"), session TSRMLS_CC);
 	}
 	
 	PHALCON_OBS_VAR(name);
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 		array_init(data);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_initalized"), 1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

@@ -73,8 +73,8 @@ PHP_METHOD(Phalcon_Db_Index, __construct){
 
 	phalcon_fetch_params(0, 2, 0, &index_name, &columns);
 	
-	phalcon_update_property_zval(this_ptr, SL("_indexName"), index_name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_indexName"), index_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 	
 }
 

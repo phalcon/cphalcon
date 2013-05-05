@@ -126,11 +126,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct){
 	}
 	
 	if (zend_is_true(dependency_injector)) {
-		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	} else {
 		PHALCON_INIT_NVAR(dependency_injector);
 		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
-		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
 
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_service"), service TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_service"), service TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_rollbackPendent"), rollback_pendent TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_rollbackPendent"), rollback_pendent TSRMLS_CC);
 	
 }
 
@@ -568,7 +568,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_transactions"), new_transactions TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_transactions"), new_transactions TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();

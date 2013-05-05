@@ -441,9 +441,11 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				}
 				phvolt_(phvolt_parser, PHVOLT_FOR, NULL, parser_status);
 				break;
+
 			case PHVOLT_T_IN:
 				phvolt_(phvolt_parser, PHVOLT_IN, NULL, parser_status);
 				break;
+
 			case PHVOLT_T_ENDFOR:
 				state->block_level--;
 				state->for_level--;

@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct){
 		PHALCON_INIT_VAR(attributes);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
 	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Forms\\Element\\Select", "__construct", name, attributes);
 	
 	PHALCON_MM_RESTORE();
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, setOptions){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
 	RETURN_THISW();
 }
 

@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter){
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(formatter);
 		object_init_ex(formatter, phalcon_logger_formatter_syslog_ce);
-		phalcon_update_property_zval(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	}
 	
 	

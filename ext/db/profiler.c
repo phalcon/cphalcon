@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "beforestartprofile", active_profile);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_activeProfile"), active_profile TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_activeProfile"), active_profile TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 	
 	PHALCON_INIT_VAR(new_total_seconds);
 	phalcon_add_function(new_total_seconds, total_seconds, diference TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_totalSeconds"), new_total_seconds TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_totalSeconds"), new_total_seconds TSRMLS_CC);
 	phalcon_update_property_array_append(this_ptr, SL("_allProfiles"), active_profile TSRMLS_CC);
 	if (phalcon_method_exists_ex(this_ptr, SS("afterendprofile") TSRMLS_CC) == SUCCESS) {
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "afterendprofile", active_profile);
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Db_Profiler, reset){
 
 	PHALCON_INIT_VAR(empty_arr);
 	array_init(empty_arr);
-	phalcon_update_property_zval(this_ptr, SL("_allProfiles"), empty_arr TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_allProfiles"), empty_arr TSRMLS_CC);
 	RETURN_THIS();
 }
 

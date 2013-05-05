@@ -82,16 +82,14 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &reflection_data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &reflection_data);
+	
 	if (!reflection_data) {
 		PHALCON_INIT_VAR(reflection_data);
 	}
 	
 	if (Z_TYPE_P(reflection_data) == IS_ARRAY) { 
-		phalcon_update_property_zval(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -123,7 +121,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
 			object_init_ex(collection, phalcon_annotations_collection_ce);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(collection, "__construct", reflection_class);
 	
-			phalcon_update_property_zval(this_ptr, SL("_classAnnotations"), collection TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_classAnnotations"), collection TSRMLS_CC);
 			RETURN_CTOR(collection);
 		}
 	
@@ -184,7 +182,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 					zend_hash_move_forward_ex(ah0, &hp0);
 				}
 	
-				phalcon_update_property_zval(this_ptr, SL("_methodAnnotations"), collections TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_methodAnnotations"), collections TSRMLS_CC);
 	
 				RETURN_CTOR(collections);
 			}
@@ -247,7 +245,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 					zend_hash_move_forward_ex(ah0, &hp0);
 				}
 	
-				phalcon_update_property_zval(this_ptr, SL("_propertyAnnotations"), collections TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_propertyAnnotations"), collections TSRMLS_CC);
 	
 				RETURN_CTOR(collections);
 			}
@@ -283,10 +281,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __set_state){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 	
 		/** 

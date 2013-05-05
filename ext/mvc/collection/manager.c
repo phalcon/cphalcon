@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The dependency injector is invalid");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager){
 
 	phalcon_fetch_params(0, 1, 0, &events_manager);
 	
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
 
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize){
 		}
 	
 		phalcon_update_property_array(this_ptr, SL("_initialized"), class_name, model TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();

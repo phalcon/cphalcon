@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_implicitOutput"), implicit_output TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_implicitOutput"), implicit_output TSRMLS_CC);
 	RETURN_THISW();
 }
 

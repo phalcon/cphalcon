@@ -91,8 +91,8 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct){
 		PHALCON_INIT_NVAR(message_str);
 		ZVAL_STRING(message_str, "Validation failed", 1);
 	}
-	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_messages"), validation_messages TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_messages"), validation_messages TSRMLS_CC);
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Mvc\\Model\\ValidationFailed", "__construct", message);
 	
 	PHALCON_MM_RESTORE();

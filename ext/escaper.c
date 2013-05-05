@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Escaper, setEncoding){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The character set must be string");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The quoting type is not valid");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_htmlQuoteType"), quote_type TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_htmlQuoteType"), quote_type TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

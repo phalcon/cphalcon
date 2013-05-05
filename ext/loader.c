@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Loader, setEventsManager){
 
 	phalcon_fetch_params(0, 1, 0, &events_manager);
 	
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
 
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Loader, setExtensions){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $extensions must be an Array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -200,9 +200,9 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 	
 		PHALCON_INIT_VAR(merged_namespaces);
 		phalcon_fast_array_merge(merged_namespaces, &current_namespaces, &namespaces TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_namespaces"), merged_namespaces TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_namespaces"), merged_namespaces TSRMLS_CC);
 	} else {
-		phalcon_update_property_zval(this_ptr, SL("_namespaces"), namespaces TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_namespaces"), namespaces TSRMLS_CC);
 	}
 	
 	
@@ -250,9 +250,9 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes){
 	
 		PHALCON_INIT_VAR(merged_prefixes);
 		phalcon_fast_array_merge(merged_prefixes, &current_prefixes, &prefixes TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_prefixes"), merged_prefixes TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_prefixes"), merged_prefixes TSRMLS_CC);
 	} else {
-		phalcon_update_property_zval(this_ptr, SL("_prefixes"), prefixes TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_prefixes"), prefixes TSRMLS_CC);
 	}
 	
 	
@@ -301,9 +301,9 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 	
 		PHALCON_INIT_VAR(merged_directories);
 		phalcon_fast_array_merge(merged_directories, &current_directories, &directories TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_directories"), merged_directories TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_directories"), merged_directories TSRMLS_CC);
 	} else {
-		phalcon_update_property_zval(this_ptr, SL("_directories"), directories TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_directories"), directories TSRMLS_CC);
 	}
 	
 	
@@ -351,9 +351,9 @@ PHP_METHOD(Phalcon_Loader, registerClasses){
 	
 		PHALCON_INIT_VAR(merged_classes);
 		phalcon_fast_array_merge(merged_classes, &current_classes, &classes TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_classes"), merged_classes TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_classes"), merged_classes TSRMLS_CC);
 	} else {
-		phalcon_update_property_zval(this_ptr, SL("_classes"), classes TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_classes"), classes TSRMLS_CC);
 	}
 	
 	
@@ -463,7 +463,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_OBS_VAR(file_path);
 			phalcon_array_fetch(&file_path, classes, class_name, PH_NOISY_CC);
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-				phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 	
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "loader:pathFound", 1);
@@ -547,7 +547,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 						 * Check if a events manager is available
 						 */
 						if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-							phalcon_update_property_zval(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
+							phalcon_update_property_this(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
 	
 							PHALCON_INIT_NVAR(event_name);
 							ZVAL_STRING(event_name, "loader:beforeCheckPath", 1);
@@ -559,7 +559,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 						 */
 						if (phalcon_file_exists(file_path TSRMLS_CC) == SUCCESS) {
 							if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-								phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
+								phalcon_update_property_this(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 	
 								PHALCON_INIT_NVAR(event_name);
 								ZVAL_STRING(event_name, "loader:pathFound", 1);
@@ -647,7 +647,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 						PHALCON_INIT_NVAR(file_path);
 						phalcon_fast_str_replace(file_path, namespace_separator, ds, complete_path TSRMLS_CC);
 						if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-							phalcon_update_property_zval(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
+							phalcon_update_property_this(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
 	
 							PHALCON_INIT_NVAR(event_name);
 							ZVAL_STRING(event_name, "loader:beforeCheckPath", 1);
@@ -660,7 +660,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 							 * Call 'pathFound' event
 							 */
 							if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-								phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
+								phalcon_update_property_this(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 	
 								PHALCON_INIT_NVAR(event_name);
 								ZVAL_STRING(event_name, "loader:pathFound", 1);
@@ -730,7 +730,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 				PHALCON_INIT_NVAR(file_path);
 				PHALCON_CONCAT_VVSV(file_path, fixed_directory, ns_class_name, ".", extension);
 				if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-					phalcon_update_property_zval(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
+					phalcon_update_property_this(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
 	
 					PHALCON_INIT_NVAR(event_name);
 					ZVAL_STRING(event_name, "loader:beforeCheckPath", 1);
@@ -746,7 +746,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					 * Call 'pathFound' event
 					 */
 					if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-						phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
+						phalcon_update_property_this(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 	
 						PHALCON_INIT_NVAR(event_name);
 						ZVAL_STRING(event_name, "loader:pathFound", 1);

@@ -111,7 +111,7 @@ class PHPUnit_Framework_TestCase
 					$class->$methodName();
 				}
 			}
-			echo '[OK]', ' (', memory_get_usage(true), ') (', memory_get_usage(false), ') (', sprintf("%.4f", microtime(true) - $m), ')', PHP_EOL;
+			echo '[OK]', ' (', memory_get_usage(true), ') (', memory_get_usage(false), ') (', sprintf("%.4f", (microtime(true) - $m) * 1000), ')', PHP_EOL;
 		} else {
 			echo '[FAILED]', PHP_EOL;
 		}

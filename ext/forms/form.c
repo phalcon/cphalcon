@@ -97,14 +97,14 @@ PHP_METHOD(Phalcon_Forms_Form, __construct){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The base entity is not valid");
 			return;
 		}
-		phalcon_update_property_zval(this_ptr, SL("_entity"), entity TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_entity"), entity TSRMLS_CC);
 	}
 	
 	/** 
 	 * Update the user options
 	 */
 	if (Z_TYPE_P(user_options) == IS_ARRAY) { 
-		phalcon_update_property_zval(this_ptr, SL("_options"), user_options TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_options"), user_options TSRMLS_CC);
 	}
 	
 	/** 
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Forms_Form, setAction){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_action"), action TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_action"), action TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Forms_Form, setUserOptions){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Forms_Form, setEntity){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_entity"), entity TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_entity"), entity TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -534,7 +534,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 		 * If the validation fails
 		 */
 		if (!zend_is_true(not_failed)) {
-			phalcon_update_property_zval(this_ptr, SL("_messages"), messages TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 		}
 	
 		/** 
@@ -1018,7 +1018,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind){
 	
 	PHALCON_INIT_VAR(elements_indexed);
 	PHALCON_CALL_FUNC_PARAMS_1(elements_indexed, "array_values", elements);
-	phalcon_update_property_zval(this_ptr, SL("_elementsIndexed"), elements_indexed TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_elementsIndexed"), elements_indexed TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDI){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
 
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultModule){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_defaultModule"), module_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_defaultModule"), module_name TSRMLS_CC);
 	
 }
 
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultTask){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_defaultTask"), task_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_defaultTask"), task_name TSRMLS_CC);
 	
 }
 
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultAction){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_defaultAction"), action_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_defaultAction"), action_name TSRMLS_CC);
 	
 }
 
@@ -232,10 +232,10 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 		phalcon_array_unset_string(&arguments, SS("action"), PH_SEPARATE);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_module"), module_name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_task"), task_name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_action"), action_name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_params"), arguments TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_module"), module_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_task"), task_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_action"), action_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_params"), arguments TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
