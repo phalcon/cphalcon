@@ -19,7 +19,7 @@
  - Added Phalcon\Annotations\Collection::getAll to return all the annotations in a collection that matches a name
  - Added Phalcon\Crypt component to provide encryption facilities to phalcon applications
  - Now Phalcon\Http\Request: get, getQuery y getPost returns the respective superglobals in case of no parameters
- - Now Phalcon\Mvc\Router supports hostname restrictions
+ - Now Phalcon\Mvc\Router supports simple/regex hostname restrictions
  - Added support for filtering/sanitizing in Phalcon\Validation
  - Added events beforeValidation/afterValidation to Phalcon\Validation and Phalcon\Forms\Form
  - Added ability to register user-options in Phalcon\Forms\Form elements
@@ -29,10 +29,22 @@
  - Added Phalcon\Cache\Frontend\Json to cache data as JSON
  - Added Phalcon\Tag::tagHtml and Phalcon\Tag::tagHtmlClose to generate any kind of HTML tags
  - Phalcon\Http\Response\Cookies is now fixed
- - Volt's paths are now automatically normalized
+ - Added support for automatic crypting of cookies in Phalcon\Http\Response\Cookies
+ - Phalcon\DI\FactoryDefault now provides the 'crypt' service
+ - Volt's paths are now automatically normalized to realpaths
  - Fixed bug in convert_encoding in Volt
+ - Added Phalcon\Filter\UserFilterInterface to be used in custom filters
  - Added support for filters in Phalcon\Forms\Form elements
  - Added maximum recursion depth exceeded control in Phalcon\Kernel
+ - Performance: Now Phalcon makes use of interned strings if PHP 5.4 to reduce memory usage
+ - Performance: Implemented cache of visibility for all intern properties in 5.3/5.4 increasing performance 
+ - Performance: All hash keys are now pre-calculated in compilation time to read/write internal properties faster
+ - Performance: Now all functions are static allowing the compiler to inline functions or remove those that aren't used by the framework
+ - Performance: Now Phalcon provides specific optimizations when the extension is compiled for NTS modules
+ - Performance: Implemented function to fetch parameters from the VM stack with minimum overhead
+ - Performance: Implemented a global PHQL parser cache to avoid that a same statement be parsed more than one time
+ - Performance: Events by priority are now disabled by default. A user must explicitly define that Phalcon\Events\Manager must use a PriorityQueue instead of a FIFF (First In-First Fired)
+ - !! Phalcon\CLI\Router API have been changed. Check the manual to update your bootstrap
 
 1.0.1
  - Paths aren't correctly normalized in Phalcon\Mvc\Model\MetaData\Files
