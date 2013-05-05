@@ -3615,8 +3615,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *write_connection;
 	zval *related, *status = NULL, *schema, *source, *table = NULL, *read_connection;
 	zval *exists, *error_messages = NULL, *identity_field;
-	zval *success = NULL;
-	zval *i0 = NULL;
+	zval *exception, *success = NULL;
 	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -3791,11 +3790,11 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 			/** 
 			 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
 			 */
-			PHALCON_INIT_VAR(i0);
-			object_init_ex(i0, phalcon_mvc_model_validationfailed_ce);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", this_ptr, error_messages);
+			PHALCON_INIT_VAR(exception);
+			object_init_ex(exception, phalcon_mvc_model_validationfailed_ce);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", this_ptr, error_messages);
 	
-			phalcon_throw_exception(i0 TSRMLS_CC);
+			phalcon_throw_exception(exception TSRMLS_CC);
 			return;
 		}
 	

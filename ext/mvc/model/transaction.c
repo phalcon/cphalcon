@@ -35,7 +35,6 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/concat.h"
 #include "kernel/array.h"
 
 /**
@@ -153,8 +152,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
 
 	zval *manager;
-	zval *i0 = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -163,13 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
 	}
 
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		PHALCON_INIT_VAR(i0);
-		object_init_ex(i0, phalcon_mvc_model_transaction_exception_ce);
-		PHALCON_INIT_VAR(r0);
-		PHALCON_CONCAT_VS(r0, manager, " must be an Object");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r0);
-	
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "Manager must be an Object");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);

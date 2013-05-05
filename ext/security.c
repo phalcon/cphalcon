@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Security, setDI){
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
 
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Security, setRandomBytes){
 		return;
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_numberBytes"), random_bytes TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_numberBytes"), random_bytes TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Security, setWorkFactor){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Work factor must be integer");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_workFactor"), work_factor TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_workFactor"), work_factor TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

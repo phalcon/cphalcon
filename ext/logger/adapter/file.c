@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 		return;
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_path"), name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_fileHandler"), handler TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_path"), name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_fileHandler"), handler TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter){
 		object_init_ex(formatter, phalcon_logger_formatter_line_ce);
 		PHALCON_CALL_METHOD_NORETURN(formatter, "__construct");
 	
-		phalcon_update_property_zval(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	}
 	
 	
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
 	 */
 	PHALCON_INIT_VAR(file_handler);
 	PHALCON_CALL_FUNC_PARAMS_2(file_handler, "fopen", path, mode);
-	phalcon_update_property_zval(this_ptr, SL("_fileHandler"), file_handler TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_fileHandler"), file_handler TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
