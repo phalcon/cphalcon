@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Validation, bind){
 PHP_METHOD(Phalcon_Validation, getValue){
 
 	zval *attribute, *entity, *method, *value = NULL, *data, *values;
-	zval *filters = NULL, *service_name, *dependency_injector;
+	zval *filters = NULL, *service_name, *dependency_injector = NULL;
 	zval *filter_service, *filtered;
 	zval *r0 = NULL;
 
@@ -488,6 +488,15 @@ PHP_METHOD(Phalcon_Validation, getValue){
 	
 					PHALCON_INIT_VAR(dependency_injector);
 					PHALCON_CALL_METHOD(dependency_injector, this_ptr, "getdi");
+					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+	
+						PHALCON_INIT_NVAR(dependency_injector);
+						PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+						if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+							PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A dependency injector is required to obtain the 'filter' service");
+							return;
+						}
+					}
 	
 					PHALCON_INIT_VAR(filter_service);
 					PHALCON_CALL_METHOD_PARAMS_1(filter_service, dependency_injector, "getshared", service_name);

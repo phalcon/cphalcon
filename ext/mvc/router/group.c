@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "kernel/concat.h"
 #include "kernel/array.h"
 
 /**
@@ -116,6 +116,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct){
 		}
 	}
 	phalcon_update_property_this(this_ptr, SL("_paths"), paths TSRMLS_CC);
+	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "initialize", paths);
+	}
 	
 	PHALCON_MM_RESTORE();
 }

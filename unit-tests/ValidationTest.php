@@ -20,6 +20,7 @@
 
 use Phalcon\Validation\Validator\PresenceOf,
 	Phalcon\Validation\Validator\Identical,
+	Phalcon\Validation\Validator\Confirmation,
 	Phalcon\Validation\Validator\Regex,
 	Phalcon\Validation\Validator\InclusionIn,
 	Phalcon\Validation\Validator\ExclusionIn,
@@ -803,16 +804,20 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
 		$validation = new Phalcon\Validation();
 
+		$validation->setDI(new Phalcon\DI\FactoryDefault());
+
 		$validation
 			->add('name', new PresenceOf(array(
 				'message' => 'The name is required'
 			)))
 			->add('email', new PresenceOf(array(
-				'message' => 'The email is required',
-				'cancelOnFail' => true
+				'message' => 'The email is required'
 			)));
 
 		$validation->setFilters('name', 'trim');
+		$validation->setFilters('email', 'trim');
+
+		$_POST = array('name' => '  ', 'email' => '    ');
 
 		$messages = $validation->validate($_POST);
 

@@ -126,14 +126,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "__construct", view);
 	
 		/** 
-		 * Pass the IoC to the compiler only it's an object
+		 * Pass the IoC to the compiler only of it's an object
 		 */
 		if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector);
 		}
 	
 		/** 
-		 * Pass the options to the compiler only they're an array
+		 * Pass the options to the compiler only if they're an array
 		 */
 		if (Z_TYPE_P(options) == IS_ARRAY) { 
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setoptions", options);
