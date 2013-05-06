@@ -41,10 +41,10 @@
 inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len TSRMLS_DC){
 
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
-	unsigned long hash = zend_inline_hash_func(lcname, method_len+1);
+	unsigned long hash = zend_inline_hash_func(lcname, method_len + 1);
 
 	while (ce) {
-		if (zend_hash_quick_exists(&ce->function_table, lcname, method_len+1, hash)) {
+		if (zend_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
 			EG(scope) = ce;
 			efree(lcname);
 			return SUCCESS;
@@ -70,7 +70,7 @@ inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, i
 	while (ce) {
 		if (ce->name_length == active_class_len) {
 			if (!zend_binary_strcasecmp(ce->name, ce->name_length, active_class, active_class_len)) {
-				if (zend_hash_quick_exists(&ce->function_table, lcname, method_len+1, hash)) {
+				if (zend_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
 					EG(scope) = ce;
 					efree(lcname);
 					return SUCCESS;
@@ -968,16 +968,28 @@ int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval
 	int ex_retval;
 	zval *local_retval_ptr = NULL;
 
-	if (param_count) {
-		params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-		for (i=0; i < param_count; i++) {
-			params_array[i] = &params[i];
-		}
-	} else {
+	PHALCON_GLOBAL(recursive_lock)++;
+
+	if (PHALCON_GLOBAL(recursive_lock) > 2048) {
+		ex_retval = FAILURE;
 		params_array = NULL;
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");
+	} else {
+
+		if (param_count) {
+			params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
+			for (i = 0; i < param_count; i++) {
+				params_array[i] = &params[i];
+			}
+		} else {
+			params_array = NULL;
+		}
+
+		ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
 	}
 
-	ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
+	PHALCON_GLOBAL(recursive_lock)--;
+
 	if (local_retval_ptr) {
 		if (Z_TYPE_P(local_retval_ptr) == IS_NULL) {
 			zval_ptr_dtor(&local_retval_ptr);
@@ -996,6 +1008,10 @@ int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval
 }
 
 #if PHP_VERSION_ID <= 50309
+
+/**
+ * These functions are based on the ones in PHP 5.3.21, versions lower than 5.3.9 have problems with closures
+ */
 
 int phalcon_call_user_function_ex(HashTable *function_table, zval **object_pp, zval *function_name, zval **retval_ptr_ptr, zend_uint param_count, zval **params[], int no_separation, HashTable *symbol_table TSRMLS_DC) {
 
@@ -1109,7 +1125,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 
 	ZEND_VM_STACK_GROW_IF_NEEDED(fci->param_count + 1);
 
-	for (i=0; i<fci->param_count; i++) {
+	for (i = 0; i < fci->param_count; i++) {
 		zval *param;
 
 		if (EX(function_state).function->type == ZEND_INTERNAL_FUNCTION

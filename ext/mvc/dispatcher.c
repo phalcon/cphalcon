@@ -87,11 +87,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix){
 
 	zval *controller_suffix;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &controller_suffix) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_handlerSuffix"), controller_suffix TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &controller_suffix);
+	
+	phalcon_update_property_this(this_ptr, SL("_handlerSuffix"), controller_suffix TSRMLS_CC);
 	
 }
 
@@ -104,11 +102,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController){
 
 	zval *controller_name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &controller_name) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_defaultHandler"), controller_name TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &controller_name);
+	
+	phalcon_update_property_this(this_ptr, SL("_defaultHandler"), controller_name TSRMLS_CC);
 	
 }
 
@@ -121,11 +117,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
 
 	zval *controller_name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &controller_name) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &controller_name);
+	
+	phalcon_update_property_this(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
 	
 }
 
@@ -155,10 +149,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &message, &exception_code) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &message, &exception_code);
+	
 	if (!exception_code) {
 		PHALCON_INIT_VAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
@@ -167,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
@@ -207,7 +199,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", message, exception_code);
 	
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);

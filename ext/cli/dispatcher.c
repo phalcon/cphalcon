@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskSuffix){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_handlerSuffix"), task_suffix TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_handlerSuffix"), task_suffix TSRMLS_CC);
 	
 }
 
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_defaultHandler"), task_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_defaultHandler"), task_name TSRMLS_CC);
 	
 }
 
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_handlerName"), task_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_handlerName"), task_name TSRMLS_CC);
 	
 }
 
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", message, exception_code);
 	
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);

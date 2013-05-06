@@ -52,7 +52,7 @@
  *			"host" => "localhost",
  *			"username" => "scott",
  *			"password" => "cheetah",
- *			"name" => "test_db"
+ *			"dbname" => "test_db"
  *		),
  *		"phalcon" => array(
  *			"controllersDir" => "../app/controllers/",
@@ -91,10 +91,8 @@ PHP_METHOD(Phalcon_Config, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &array_config) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &array_config);
+	
 	if (!array_config) {
 		PHALCON_INIT_VAR(array_config);
 	}
@@ -151,10 +149,8 @@ PHP_METHOD(Phalcon_Config, offsetExists){
 
 	zval *index;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &index);
+	
 	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
 		RETURN_TRUE;
 	}
@@ -179,10 +175,8 @@ PHP_METHOD(Phalcon_Config, get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &index, &default_value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &index, &default_value);
+	
 	if (!default_value) {
 		PHALCON_INIT_VAR(default_value);
 	}
@@ -215,10 +209,8 @@ PHP_METHOD(Phalcon_Config, offsetGet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &index);
+	
 	PHALCON_OBS_VAR(value);
 	phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
 	RETURN_CCTOR(value);
@@ -240,10 +232,8 @@ PHP_METHOD(Phalcon_Config, offsetSet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &index, &value);
+	
 	if (Z_TYPE_P(index) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Index key must be string");
 		return;
@@ -275,10 +265,8 @@ PHP_METHOD(Phalcon_Config, offsetUnset){
 
 	zval *index;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &index);
+	
 	RETURN_TRUE;
 }
 
@@ -301,10 +289,8 @@ PHP_METHOD(Phalcon_Config, merge){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &config) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &config);
+	
 	if (Z_TYPE_P(config) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Configuration must be an Object");
 		return;
@@ -404,10 +390,8 @@ PHP_METHOD(Phalcon_Config, __set_state){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	PHALCON_INIT_VAR(config);
 	object_init_ex(config, phalcon_config_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(config, "__construct", data);

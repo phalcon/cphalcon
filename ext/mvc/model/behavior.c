@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct){
 		PHALCON_INIT_VAR(options);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction){
 	}
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset(options, event_name)) {
 		RETURN_MM_TRUE;
 	}
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions){
 	}
 	
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(event_name) != IS_NULL) {
 		if (phalcon_array_isset(options, event_name)) {
 			PHALCON_OBS_VAR(event_options);

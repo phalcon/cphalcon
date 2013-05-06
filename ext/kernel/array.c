@@ -26,6 +26,7 @@
 #include "kernel/main.h"
 #include "kernel/debug.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 
 /**
  * Check if index exists on an array zval
@@ -1111,4 +1112,70 @@ void phalcon_array_next(zval *array){
 	if (Z_TYPE_P(array) == IS_ARRAY) {
 		zend_hash_move_forward(Z_ARRVAL_P(array));
 	}
+}
+
+/**
+ * Fast in_array function
+ */
+int phalcon_fast_in_array(zval *needle, zval *haystack TSRMLS_DC) {
+
+	zval         **tmp;
+	HashTable      *arr;
+	HashPosition   pos;
+	unsigned int   numelems;
+
+	if (Z_TYPE_P(haystack) != IS_ARRAY) {
+		return 0;
+	}
+
+	arr = Z_ARRVAL_P(haystack);
+	numelems = zend_hash_num_elements(arr);
+
+	if (numelems == 0) {
+		return 0;
+	}
+
+	zend_hash_internal_pointer_reset_ex(arr, &pos);
+
+	while (zend_hash_get_current_data_ex(arr, (void **) &tmp, &pos) == SUCCESS) {
+		if (PHALCON_IS_EQUAL(needle, *tmp)) {
+			return 1;
+		}
+		zend_hash_move_forward_ex(arr, &pos);
+	}
+
+	return 0;
+}
+
+/**
+ * Fast array merge
+ */
+void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 TSRMLS_DC) {
+
+	int init_size, num;
+
+	if (Z_TYPE_PP(array1) != IS_ARRAY) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "First argument is not an array");
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_PP(array2) != IS_ARRAY) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Second argument is not an array");
+		RETURN_NULL();
+	}
+
+	init_size = zend_hash_num_elements(Z_ARRVAL_PP(array1));
+	num = zend_hash_num_elements(Z_ARRVAL_PP(array2));
+	if (num > init_size) {
+		init_size = num;
+	}
+
+	array_init_size(return_value, init_size);
+
+	//SEPARATE_ZVAL(array1);
+	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(array1), 0 TSRMLS_CC);
+
+	//SEPARATE_ZVAL(array2);
+	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(array2), 0 TSRMLS_CC);
+
 }

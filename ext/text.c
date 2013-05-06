@@ -40,7 +40,7 @@
 /**
  * Phalcon\Text
  *
- * Provides utilities when working with strings
+ * Provides utilities to work with texts
  */
 
 
@@ -76,10 +76,8 @@ PHP_METHOD(Phalcon_Text, camelize){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &str);
+	
 	PHALCON_INIT_VAR(camelized);
 	phalcon_camelize(camelized, str TSRMLS_CC);
 	RETURN_CTOR(camelized);
@@ -101,10 +99,8 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &str);
+	
 	PHALCON_INIT_VAR(uncamelized);
 	phalcon_uncamelize(uncamelized, str TSRMLS_CC);
 	RETURN_CTOR(uncamelized);
@@ -115,7 +111,7 @@ PHP_METHOD(Phalcon_Text, uncamelize){
  *
  *<code>
  *	echo Phalcon\Text::increment("a"); // "a_1"
- *  echo Phalcon\Text::increment("a_1"); // "a_2"
+ *	echo Phalcon\Text::increment("a_1"); // "a_2"
  *</code>
  *
  * @param string $str
@@ -129,10 +125,8 @@ PHP_METHOD(Phalcon_Text, increment){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &str, &separator) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &str, &separator);
+	
 	if (!separator) {
 		PHALCON_INIT_VAR(separator);
 	} else {
@@ -182,10 +176,8 @@ PHP_METHOD(Phalcon_Text, random){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &type, &length) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &type, &length);
+	
 	if (!length) {
 		PHALCON_INIT_VAR(length);
 		ZVAL_LONG(length, 8);
@@ -201,13 +193,14 @@ PHP_METHOD(Phalcon_Text, random){
  *
  *<code>
  *	echo Phalcon\Text::startsWith("Hello", "He"); // true
- *  echo Phalcon\Text::startsWith("Hello", "he"); // false
- *  echo Phalcon\Text::startsWith("Hello", "he", false); // true
+ *	echo Phalcon\Text::startsWith("Hello", "he"); // false
+ *	echo Phalcon\Text::startsWith("Hello", "he", false); // true
  *</code>
  *
  * @param string $str
  * @param string $start
  * @param boolean $ignoreCase
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Text, startsWith){
 
@@ -215,10 +208,8 @@ PHP_METHOD(Phalcon_Text, startsWith){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &str, &start, &ignore_case) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &str, &start, &ignore_case);
+	
 	if (!ignore_case) {
 		PHALCON_INIT_VAR(ignore_case);
 		ZVAL_BOOL(ignore_case, 1);
@@ -235,13 +226,14 @@ PHP_METHOD(Phalcon_Text, startsWith){
  *
  *<code>
  *	echo Phalcon\Text::endsWith("Hello", "llo"); // true
- *  echo Phalcon\Text::endsWith("Hello", "LLO"); // false
- *  echo Phalcon\Text::endsWith("Hello", "LLO", false); // true
+ *	echo Phalcon\Text::endsWith("Hello", "LLO"); // false
+ *	echo Phalcon\Text::endsWith("Hello", "LLO", false); // true
  *</code>
  *
  * @param string $str
  * @param string $end
  * @param boolean $ignoreCase
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Text, endsWith){
 
@@ -249,10 +241,8 @@ PHP_METHOD(Phalcon_Text, endsWith){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &str, &end, &ignore_case) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &str, &end, &ignore_case);
+	
 	if (!ignore_case) {
 		PHALCON_INIT_VAR(ignore_case);
 		ZVAL_BOOL(ignore_case, 1);
@@ -276,10 +266,8 @@ PHP_METHOD(Phalcon_Text, lower){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &str);
+	
 	/** 
 	 * 'lower' checks for the mbstring extension to make a correct lowercase
 	 * transformation
@@ -307,10 +295,8 @@ PHP_METHOD(Phalcon_Text, upper){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &str);
+	
 	/** 
 	 * 'upper' checks for the mbstring extension to make a correct lowercase
 	 * transformation

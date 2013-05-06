@@ -73,15 +73,13 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -93,8 +91,19 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
  */
 PHP_METHOD(Phalcon_DI_Injectable, getDI){
 
+	zval *dependency_injector = NULL;
 
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(dependency_injector);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+	}
+	
+	
+	RETURN_CCTOR(dependency_injector);
 }
 
 /**
@@ -106,11 +115,9 @@ PHP_METHOD(Phalcon_DI_Injectable, setEventsManager){
 
 	zval *events_manager;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &events_manager);
+	
+	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
 
@@ -138,12 +145,10 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &property_name);
+	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 	
 		PHALCON_INIT_NVAR(dependency_injector);
@@ -167,7 +172,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	}
 	
 	if (PHALCON_IS_STRING(property_name, "di")) {
-		phalcon_update_property_zval(this_ptr, SL("di"), dependency_injector TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("di"), dependency_injector TSRMLS_CC);
 		RETURN_CCTOR(dependency_injector);
 	}
 	
@@ -187,7 +192,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	
 		PHALCON_INIT_VAR(persistent);
 		PHALCON_CALL_METHOD_PARAMS_2(persistent, dependency_injector, "get", service, arguments);
-		phalcon_update_property_zval(this_ptr, SL("persistent"), persistent TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("persistent"), persistent TSRMLS_CC);
 		RETURN_CCTOR(persistent);
 	}
 	

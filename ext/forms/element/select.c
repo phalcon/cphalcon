@@ -49,7 +49,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Select){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Select, forms_element_select, "phalcon\\forms\\element", phalcon_forms_element_select_method_entry, 0);
 
-	zend_declare_property_null(phalcon_forms_element_select_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_select_ce, SL("_optionsValues"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct){
 		PHALCON_INIT_VAR(attributes);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
 	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Forms\\Element\\Select", "__construct", name, attributes);
 	
 	PHALCON_MM_RESTORE();
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, setOptions){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
 	RETURN_THISW();
 }
 
@@ -111,14 +111,14 @@ PHP_METHOD(Phalcon_Forms_Element_Select, setOptions){
 PHP_METHOD(Phalcon_Forms_Element_Select, getOptions){
 
 
-	RETURN_MEMBER(this_ptr, "_options");
+	RETURN_MEMBER(this_ptr, "_optionsValues");
 }
 
 /**
  * Adds an option to the current options
  *
  * @param array $option
- * @return $this;
+ * @return $this
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, addOption){
 
@@ -128,12 +128,12 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_array_append(this_ptr, SL("_options"), option TSRMLS_CC);
+	phalcon_update_property_array_append(this_ptr, SL("_optionsValues"), option TSRMLS_CC);
 	RETURN_THISW();
 }
 
 /**
- * Renders the element widget
+ * Renders the element widget returning html
  *
  * @param array $attributes
  * @return string
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render){
 	}
 	
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_optionsValues"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(widget_attributes);
 	PHALCON_CALL_METHOD_PARAMS_1(widget_attributes, this_ptr, "prepareattributes", attributes);

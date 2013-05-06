@@ -69,15 +69,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &reader) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &reader);
+	
 	if (Z_TYPE_P(reader) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Invalid annotations reader");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_reader"), reader TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_reader"), reader TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -94,11 +92,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(reader);
-	phalcon_read_property(&reader, this_ptr, SL("_reader"), PH_NOISY_CC);
+	phalcon_read_property_this(&reader, this_ptr, SL("_reader"), PH_NOISY_CC);
 	if (Z_TYPE_P(reader) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(reader);
 		object_init_ex(reader, phalcon_annotations_reader_ce);
-		phalcon_update_property_zval(this_ptr, SL("_reader"), reader TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_reader"), reader TSRMLS_CC);
 	}
 	
 	
@@ -118,10 +116,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &class_name);
+	
 	/** 
 	 * Get the class name if it's an object
 	 */
@@ -133,7 +129,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
 	}
 	
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) == IS_ARRAY) { 
 		if (phalcon_array_isset(annotations, real_class_name)) {
 			PHALCON_OBS_VAR(class_annotations);
@@ -187,10 +183,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &class_name);
+	
 	/** 
 	 * Get the full annotations from the class
 	 */
@@ -229,10 +223,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &class_name, &method_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &class_name, &method_name);
+	
 	/** 
 	 * Get the full annotations from the class
 	 */
@@ -290,10 +282,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &class_name);
+	
 	/** 
 	 * Get the full annotations from the class
 	 */
@@ -332,10 +322,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &class_name, &property_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &class_name, &property_name);
+	
 	/** 
 	 * Get the full annotations from the class
 	 */

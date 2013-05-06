@@ -401,14 +401,6 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeIdentifier);
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeString);
 
 /**
- * Bind params to a SQL statement
- *
- * @param string $sqlStatement
- * @param array $params
- */
-PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, bindParams);
-
-/**
  * Converts bound params like :name: or ?1 into ? bind params
  *
  * @param string $sqlStatement
@@ -486,6 +478,13 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, describeReferences);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, tableOptions);
+
+/**
+ * Check whether the database system requires an explicit value for identity columns
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, useExplicitIdValue);
 
 /**
  * Return the default identity value to insert in an identity column

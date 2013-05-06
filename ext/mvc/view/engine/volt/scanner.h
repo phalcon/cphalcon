@@ -3,7 +3,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -143,6 +143,7 @@ typedef struct _phvolt_scanner_state {
 	char *raw_buffer;
 	unsigned int raw_buffer_cursor;
 	unsigned int raw_buffer_size;
+	unsigned int old_if_level;
 	unsigned int if_level;
 	unsigned int for_level;
 	int whitespace_control;

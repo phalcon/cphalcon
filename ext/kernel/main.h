@@ -66,6 +66,9 @@ extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
 extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
+/* Fetch Parameters */
+extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
+
 /* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
  #define ZVAL_COPY_VALUE(z, v)\
@@ -186,10 +189,17 @@ extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *ha
 	return;
 
 /**
- * Returns a zval in a object member
+ * Returns a zval in an object member
  */
 #define RETURN_MEMBER(object, member_name) \
  	phalcon_return_property(return_value, object, SL(member_name) TSRMLS_CC); \
+	return;
+
+/**
+ * Returns a zval in an object member (quick)
+ */
+#define RETURN_MEMBER_QUICK(object, member_name, key) \
+ 	phalcon_return_property_quick(return_value, object, SL(member_name), key TSRMLS_CC); \
 	return;
 
 /** Return null restoring memory frame */
@@ -202,6 +212,10 @@ extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *ha
 /** Return string restoring memory frame */
 #define RETURN_MM_STRING(str) RETURN_STRING(str); PHALCON_MM_RESTORE();
 
+#ifndef IS_INTERNED
+#define IS_INTERNED(key) 0
+#endif
+
 /** Foreach */
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
 	{\
@@ -213,7 +227,11 @@ extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *ha
 		PHALCON_INIT_NVAR(var); \
 		hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
 		if (hash_type == HASH_KEY_IS_STRING) { \
-			ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
+			if (IS_INTERNED(hash_index)) { \
+				ZVAL_STRINGL(var, hash_index, hash_index_len - 1, 0); \
+			} else { \
+				ZVAL_STRINGL(var, hash_index, hash_index_len - 1, 1); \
+			} \
 		} else { \
 			if (hash_type == HASH_KEY_IS_LONG) { \
 				ZVAL_LONG(var, hash_num); \
@@ -271,3 +289,13 @@ extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *ha
 
 /** Method declaration for API generation */
 #define PHALCON_DOC_METHOD(class_name, method)
+
+/** Low overhead parse/fetch parameters */
+#define phalcon_fetch_params(memory_grow, required_params, optional_params, ...) \
+	if (phalcon_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+		if (memory_grow) { \
+			RETURN_MM_NULL(); \
+		} else { \
+			RETURN_NULL(); \
+		} \
+	}

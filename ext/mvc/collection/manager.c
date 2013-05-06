@@ -92,15 +92,13 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The dependency injector is invalid");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -125,11 +123,9 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager){
 
 	zval *events_manager;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &events_manager);
+	
+	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
 
@@ -156,10 +152,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &events_manager) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &model, &events_manager);
+	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, model, 1 TSRMLS_CC);
 	phalcon_update_property_array(this_ptr, SL("_customEventsManager"), class_name, events_manager TSRMLS_CC);
@@ -180,12 +174,10 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &model);
+	
 	PHALCON_OBS_VAR(custom_events_manager);
-	phalcon_read_property(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(custom_events_manager) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(class_name);
@@ -212,15 +204,13 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &model);
+	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, model, 1 TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
 	/** 
 	 * Models are just initialized once per request
@@ -238,7 +228,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize){
 		 * If an EventsManager is available we pass to it every initialized model
 		 */
 		PHALCON_OBS_VAR(events_manager);
-		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+		phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "collectionManager:afterInitialize", 1);
@@ -246,7 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize){
 		}
 	
 		phalcon_update_property_array(this_ptr, SL("_initialized"), class_name, model TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -266,12 +256,10 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &model_name);
+	
 	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(lowercased);
 	phalcon_fast_strtolower(lowercased, model_name);
@@ -305,10 +293,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &connection_service) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &model, &connection_service);
+	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
@@ -333,10 +319,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &use_implicit_object_ids) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &model, &use_implicit_object_ids);
+	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
@@ -362,10 +346,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &model);
+	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
@@ -378,7 +360,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
 	 * All collections use by default are using implicit object ids
 	 */
 	PHALCON_OBS_VAR(implicit_objects_ids);
-	phalcon_read_property(&implicit_objects_ids, this_ptr, SL("_implicitObjectsIds"), PH_NOISY_CC);
+	phalcon_read_property_this(&implicit_objects_ids, this_ptr, SL("_implicitObjectsIds"), PH_NOISY_CC);
 	if (phalcon_array_isset(implicit_objects_ids, entity_name)) {
 		PHALCON_OBS_VAR(implicit);
 		phalcon_array_fetch(&implicit, implicit_objects_ids, entity_name, PH_NOISY_CC);
@@ -401,10 +383,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &model);
+	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
@@ -414,7 +394,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 	ZVAL_STRING(service, "mongo", 1);
 	
 	PHALCON_OBS_VAR(connection_services);
-	phalcon_read_property(&connection_services, this_ptr, SL("_connectionServices"), PH_NOISY_CC);
+	phalcon_read_property_this(&connection_services, this_ptr, SL("_connectionServices"), PH_NOISY_CC);
 	if (Z_TYPE_P(connection_services) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);
@@ -430,7 +410,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
@@ -465,17 +445,15 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &event_name, &model) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &event_name, &model);
+	
 	PHALCON_INIT_VAR(status);
 	
 	/** 
 	 * Dispatch events to the global events manager
 	 */
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(fire_event_name);
@@ -488,10 +466,10 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent){
 	}
 	
 	/** 
-	 * A model can has an specific events manager for it
+	 * A model can has a specific events manager for it
 	 */
 	PHALCON_OBS_VAR(custom_events_manager);
-	phalcon_read_property(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(custom_events_manager) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(entity_name);

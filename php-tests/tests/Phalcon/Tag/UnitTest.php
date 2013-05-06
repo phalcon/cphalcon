@@ -1144,6 +1144,32 @@ class UnitTest extends PhTestUnitTestCase
     }
 
     /**
+     * Tests textField with id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2012-10-26
+     */
+    public function testTextWithArrayName()
+    {
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
+        $options = array(
+            'some_field_name[]',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="text" class="some_class" '
+                  . 'size="10" name="some_field_name[]" value="" />';
+        $actual   = PhTag::textField($options);
+        PhTag::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML textField with id in parameters')
+        );
+    }
+
+    /**
      * Tests textField with name and not id in parameters
      *
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
@@ -3310,7 +3336,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some_default_value" checked="checked">';
         $actual   = PhTag::radioField($options);
         PhTag::setDefault('some_field_name', '');
 
@@ -3337,7 +3363,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some_default_value" checked="checked">';
         $actual   = PhTag::radioField($options);
         PhTag::displayTo('some_field_name', '');
 
@@ -3522,7 +3548,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value" checked="checked" />';
         $actual   = PhTag::radioField($options);
         PhTag::setDefault('some_field_name', '');
         PhTag::setDoctype('');
@@ -3551,7 +3577,7 @@ class UnitTest extends PhTestUnitTestCase
         PhTag::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value" checked="checked" />';
         $actual   = PhTag::radioField($options);
         PhTag::displayTo('some_field_name', '');
         PhTag::setDoctype('');
@@ -4831,4 +4857,170 @@ class UnitTest extends PhTestUnitTestCase
             )
         );
     }
+
+
+    /**
+     * Tests the tagHtml with name parameter
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlName()
+    {
+        $name     = 'aside';
+        $expected = '<aside></aside>';
+        $actual   = PhTag::tagHtml($name);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+
+    /**
+     * Tests the tagHtml with name parameter and self close
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlNameSelfClose()
+    {
+        $name     = 'img';
+        $expected = '<img></img>';
+        $actual   = PhTag::tagHtml($name, null, true);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+
+    /**
+     * Tests the tagHtml with name parameter and self close
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlNameSelfCloseXhtml()
+    {
+        PhTag::setDoctype(PhTag::XHTML10_STRICT);
+        $name     = 'img';
+        $expected = '<img />';
+        $actual   = PhTag::tagHtml($name, null, true);
+        PhTag::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+
+    /**
+     * Tests the tagHtml with name parameter and only start
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlNameOnlyStart()
+    {
+        $name     = 'aside';
+        $expected = '<aside>';
+        $actual   = PhTag::tagHtml($name, null, null, true);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+
+    /**
+     * Tests the tagHtml with name parameter
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-04
+     */
+    public function testTagHtmlNameEol()
+    {
+        $name     = 'aside';
+        $expected = '<aside></aside>' . PHP_EOL;
+        $actual   = PhTag::tagHtml($name, null, null, null, true);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml bare')
+        );
+    }
+
+    /**
+     * Tests the tagHtml with name parameter
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-22
+     */
+    public function testTagHtmlWithArray()
+    {
+        $name     = 'canvas';
+        $options  = array(
+            'id'     => 'canvas1',
+            'width'  => 300,
+            'height' => 300,
+            'value'  => '123',
+        );
+
+        $expected = '<canvas id="canvas1" width="300" height="300" value="123">'
+                  . '</canvas>';
+        $actual   = PhTag::tagHtml($name, $options);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml with options array')
+        );
+    }
+
+    /**
+     * Tests the tagHtmlClose
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-22
+     */
+    public function testTagHtmlClose()
+    {
+        $name     = 'canvas';
+
+        $expected = '</canvas>';
+        $actual   = PhTag::tagHtmlClose($name);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml with options array')
+        );
+    }
+
+    /**
+     * Tests the tagHtmlClose with EOL
+     *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2013-04-22
+     */
+    public function testTagHtmlCloseEol()
+    {
+        $name     = 'canvas';
+
+        $expected = '</canvas>' . PHP_EOL;
+        $actual   = PhTag::tagHtmlClose($name, true);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'tagHtml with options array')
+        );
+    }
+
 }

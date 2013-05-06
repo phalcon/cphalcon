@@ -52,7 +52,7 @@
  *host = localhost
  *username = scott
  *password = cheetah
- *name = test_db
+ *dbname = test_db
  *
  *[phalcon]
  *controllersDir = "../app/controllers/"
@@ -98,10 +98,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &file_path) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &file_path);
+	
 	PHALCON_INIT_VAR(config);
 	array_init(config);
 	

@@ -32,7 +32,11 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
+#include "kernel/array.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Forms\Manager
@@ -54,6 +58,13 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Manager){
 	return SUCCESS;
 }
 
+/**
+ * Creates a form registering it in the forms manager
+ *
+ * @param string $name
+ * @param object $entity
+ * @return Phalcon\Forms\Form
+ */
 PHP_METHOD(Phalcon_Forms_Manager, create){
 
 	zval *name = NULL, *entity = NULL, *form;
@@ -72,9 +83,16 @@ PHP_METHOD(Phalcon_Forms_Manager, create){
 		PHALCON_INIT_VAR(entity);
 	}
 	
+	if (Z_TYPE_P(name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form name must be string");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(form);
 	object_init_ex(form, phalcon_forms_form_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(form, "__construct", entity);
+	
+	phalcon_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);
 	
 	RETURN_CTOR(form);
 }
@@ -87,7 +105,81 @@ PHP_METHOD(Phalcon_Forms_Manager, create){
  */
 PHP_METHOD(Phalcon_Forms_Manager, get){
 
+	zval *name, *forms, *exception_message, *form;
 
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(forms);
+	phalcon_read_property_this(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
+	if (!phalcon_array_isset(forms, name)) {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "There is no form with name='", name, "'");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_forms_exception_ce, exception_message);
+		return;
+	}
 	
+	PHALCON_OBS_VAR(form);
+	phalcon_array_fetch(&form, forms, name, PH_NOISY_CC);
+	
+	RETURN_CCTOR(form);
+}
+
+/**
+ * Checks if a form is registered in the forms manager
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Forms_Manager, has){
+
+	zval *name, *forms;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(forms);
+	phalcon_read_property_this(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
+	if (!phalcon_array_isset(forms, name)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Registers a form in the Forms Manager
+ *
+ * @param string $name
+ * @return Phalcon\Forms\Form
+ */
+PHP_METHOD(Phalcon_Forms_Manager, set){
+
+	zval *name, *form;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &form) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form name must be string");
+		return;
+	}
+	if (Z_TYPE_P(form) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form is not valid");
+		return;
+	}
+	
+	phalcon_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);
+	
+	RETURN_THIS();
 }
 

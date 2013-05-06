@@ -62,6 +62,8 @@
 			<file>unit-tests/ModelsRelationsMagicTest.php</file>
 			<file>unit-tests/ModelsSnapshotsTest.php</file>
 			<file>unit-tests/ModelsDynamicOperationsTest.php</file>
+			<file>unit-tests/ModelsFindersTest.php</file>
+			<file>unit-tests/ModelsMassAssigmentTest.php</file>
 
 			<!-- NoSQL tests -->
 			<file>unit-tests/CollectionsTest.php</file>
@@ -84,6 +86,9 @@
 			<file>unit-tests/PaginatorTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
 			<file>unit-tests/ValidationTest.php</file>
+			<file>unit-tests/FormsTest.php</file>
+			<file>unit-tests/AssetsTest.php</file>
+			<file>unit-tests/CryptTest.php</file>
 
 			<!-- Complex components/Integral tests -->
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
@@ -91,6 +96,8 @@
 			<!-- Micro MVC -->
 			<file>unit-tests/MicroMvcTest.php</file>
 			<file>unit-tests/MicroMvcEventsTest.php</file>
+			<file>unit-tests/MicroMvcMiddlewareTest.php</file>
+			<file>unit-tests/MicroMvcCollectionsTest.php</file>
 
 			<!-- CLI tests -->
 			<file>unit-tests/RouterCliTest.php</file>

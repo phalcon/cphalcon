@@ -33,6 +33,7 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
@@ -80,10 +81,8 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &validator, &attribute) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
+	
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
 	
@@ -101,11 +100,18 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	/** 
 	 * Check if the value match using preg_match in the PHP userland
 	 */
+	PHALCON_INIT_VAR(match_pattern);
+	
 	Z_SET_ISREF_P(matches);
 	
-	PHALCON_INIT_VAR(match_pattern);
+	#if HAVE_BUNDLED_PCRE
+	phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC);
+	#else
 	PHALCON_CALL_FUNC_PARAMS_3(match_pattern, "preg_match", pattern, value, matches);
+	#endif
+	
 	Z_UNSET_ISREF_P(matches);
+	
 	if (zend_is_true(match_pattern)) {
 		PHALCON_OBS_VAR(match_zero);
 		phalcon_array_fetch_long(&match_zero, matches, 0, PH_NOISY_CC);

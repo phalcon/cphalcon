@@ -75,8 +75,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 		PHALCON_INIT_VAR(dependency_injector);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(view);
-	phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+	phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(content);
 	PHALCON_CALL_METHOD(content, view, "getcontent");
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 	}
 
 	PHALCON_OBS_VAR(view);
-	phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+	phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(content);
 	PHALCON_CALL_METHOD_PARAMS_1(content, view, "partial", partial_path);

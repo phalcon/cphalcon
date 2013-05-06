@@ -34,6 +34,7 @@
 
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
@@ -46,7 +47,7 @@
  *use Phalcon\Validation\Validator\InclusionIn;
  *
  *$validator->add('status', new InclusionIn(array(
- *   'message' => 'The status must be A or B'
+ *   'message' => 'The status must be A or B',
  *   'domain' => array('A', 'B')
  *)));
  *</code>
@@ -75,8 +76,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn){
 PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 
 	zval *validator, *attribute, *value, *option = NULL, *domain;
-	zval *in_array, *message_str = NULL, *joined_domain;
-	zval *type, *message;
+	zval *message_str = NULL, *joined_domain, *type, *message;
 
 	PHALCON_MM_GROW();
 
@@ -103,9 +103,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate){
 	/** 
 	 * Check if the value is contained by the array
 	 */
-	PHALCON_INIT_VAR(in_array);
-	PHALCON_CALL_FUNC_PARAMS_2(in_array, "in_array", value, domain);
-	if (!zend_is_true(in_array)) {
+	if (!phalcon_fast_in_array(value, domain TSRMLS_CC)) {
 	
 		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "message", 1);

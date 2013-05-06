@@ -252,7 +252,7 @@ int PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) {
 	#endif
 
 	active_memory->addresses[active_memory->pointer] = var;
-	active_memory->addresses[active_memory->pointer+1] = NULL;
+	active_memory->addresses[active_memory->pointer + 1] = NULL;
 
 	return SUCCESS;
 }
@@ -275,6 +275,7 @@ int PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC) {
 
 	active_memory->addresses[active_memory->pointer] = var;
 	active_memory->addresses[active_memory->pointer + 1] = NULL;
+
 	ALLOC_ZVAL(*var);
 	INIT_PZVAL(*var);
 	ZVAL_NULL(*var);

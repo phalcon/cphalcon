@@ -50,7 +50,7 @@
  *     echo 'Name=', $annotation->getName(), PHP_EOL;
  * }
  *
- * //Check if the annotations has an specific
+ * //Check if the annotations has a specific
  * var_dump($classAnnotations->has('Cacheable'));
  *
  * //Get an specific annotation in the collection
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, count){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(number);
 	phalcon_fast_count(number, annotations TSRMLS_CC);
@@ -172,10 +172,10 @@ PHP_METHOD(Phalcon_Annotations_Collection, current){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(position);
-	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (phalcon_array_isset(annotations, position)) {
 		PHALCON_OBS_VAR(annotation);
 		phalcon_array_fetch(&annotation, annotations, position, PH_NOISY_CC);
@@ -219,10 +219,10 @@ PHP_METHOD(Phalcon_Annotations_Collection, valid){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(position);
-	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (phalcon_array_isset(annotations, position)) {
 		RETURN_MM_TRUE;
 	}
@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations){
 }
 
 /**
- * Returns an annotation by its name
+ * Returns the first annotation that match a name
  *
  * @param string $name
  * @return Phalcon\Annotations\Annotation
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get){
 	}
 
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) == IS_ARRAY) { 
 	
 		if (!phalcon_is_iterable(annotations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -291,6 +291,55 @@ PHP_METHOD(Phalcon_Annotations_Collection, get){
 }
 
 /**
+ * Returns all the annotations that match a name
+ *
+ * @param string $name
+ * @return Phalcon\Annotations\Annotation[]
+ */
+PHP_METHOD(Phalcon_Annotations_Collection, getAll){
+
+	zval *name, *found, *annotations, *annotation = NULL, *annotation_name = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(found);
+	array_init(found);
+	
+	PHALCON_OBS_VAR(annotations);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	if (Z_TYPE_P(annotations) == IS_ARRAY) { 
+	
+		if (!phalcon_is_iterable(annotations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(annotation);
+	
+			PHALCON_INIT_NVAR(annotation_name);
+			PHALCON_CALL_METHOD(annotation_name, annotation, "getname");
+			if (PHALCON_IS_EQUAL(name, annotation_name)) {
+				phalcon_array_append(&found, annotation, PH_SEPARATE TSRMLS_CC);
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
+	
+	
+	RETURN_CTOR(found);
+}
+
+/**
  * Check if an annotation exists in a collection
  *
  * @param string $name
@@ -310,7 +359,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has){
 	}
 
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) == IS_ARRAY) { 
 	
 		if (!phalcon_is_iterable(annotations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {

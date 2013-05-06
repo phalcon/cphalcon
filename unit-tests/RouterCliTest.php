@@ -40,37 +40,61 @@ class RouterCliTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($router->getParams(), array());
 
 
-		$router->handle(array('shell_script_name', 'main'));
+		$router->handle(array(
+			'task' => 'main'
+		));
 		$this->assertEquals($router->getModuleName(), null);
 		$this->assertEquals($router->getTaskName(), 'main');
 		$this->assertEquals($router->getActionName(), null);
 		$this->assertEquals($router->getParams(), array());
 
-		$router->handle(array('shell_script_name', 'echo'));
+		$router->handle(array(
+			'task' => 'echo'
+		));
 		$this->assertEquals($router->getModuleName(), null);
 		$this->assertEquals($router->getTaskName(), 'echo');
 		$this->assertEquals($router->getActionName(), null);
 		$this->assertEquals($router->getParams(), array());
 
-		$router->handle(array('shell_script_name', 'main', 'hello'));
+		$router->handle(array(
+			'task' => 'main',
+			'action' => 'hello'
+		));
 		$this->assertEquals($router->getModuleName(), null);
 		$this->assertEquals($router->getTaskName(), 'main');
 		$this->assertEquals($router->getActionName(), 'hello');
 		$this->assertEquals($router->getParams(), array());
 
-		$router->handle(array('shell_script_name', 'main', 'hello', 'arg1', 'arg2'));
+		$router->handle(array(
+			'task' => 'main',
+			'action' => 'hello',
+			'arg1',
+			'arg2'
+		));
 		$this->assertEquals($router->getModuleName(), null);
 		$this->assertEquals($router->getTaskName(), 'main');
 		$this->assertEquals($router->getActionName(), 'hello');
 		$this->assertEquals($router->getParams(), array('arg1', 'arg2'));
 
-		$router->handle(array('shell_script_name', 'devtools:main', 'hello', 'arg1', 'arg2'));
+		$router->handle(array(
+			'module' => 'devtools',
+			'task' => 'main',
+			'action' => 'hello',
+			'arg1',
+			'arg2'
+		));
 		$this->assertEquals($router->getModuleName(), 'devtools');
 		$this->assertEquals($router->getTaskName(), 'main');
 		$this->assertEquals($router->getActionName(), 'hello');
 		$this->assertEquals($router->getParams(), array('arg1', 'arg2'));
 
-		$router->handle(array('shell_script_name', 'devtools:echo', 'hello', 'arg1', 'arg2'));
+		$router->handle(array(
+			'module' => 'devtools',
+			'task' => 'echo',
+			'action' => 'hello',
+			'arg1',
+			'arg2'
+		));
 		$this->assertEquals($router->getModuleName(), 'devtools');
 		$this->assertEquals($router->getTaskName(), 'echo');
 		$this->assertEquals($router->getActionName(), 'hello');

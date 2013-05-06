@@ -59,6 +59,7 @@ PHALCON_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getOption);
  *
  * @param Phalcon\Validator $validator
  * @param string $attribute
+ * @return Phalcon\Validation\Message\Group
  */
 PHALCON_DOC_METHOD(Phalcon_Validation_ValidatorInterface, validate);
 

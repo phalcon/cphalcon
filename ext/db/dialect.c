@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -75,17 +75,13 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect){
  */
 PHP_METHOD(Phalcon_Db_Dialect, limit){
 
-	zval *sql_query, *number, *is_numeric, *limit, *sql_limit;
+	zval *sql_query, *number, *limit, *sql_limit;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &sql_query, &number) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_INIT_VAR(is_numeric);
-	PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", number);
-	if (PHALCON_IS_TRUE(is_numeric)) {
+	phalcon_fetch_params(1, 2, 0, &sql_query, &number);
+	
+	if (phalcon_is_numeric(number)) {
 		PHALCON_INIT_VAR(limit);
 		PHALCON_CALL_FUNC_PARAMS_1(limit, "intval", number);
 	
@@ -93,7 +89,6 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 		PHALCON_CONCAT_VSV(sql_limit, sql_query, " LIMIT ", limit);
 		RETURN_CTOR(sql_limit);
 	}
-	
 	
 	RETURN_CCTOR(sql_query);
 }
@@ -115,10 +110,8 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_query) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &sql_query);
+	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CONCAT_VS(sql, sql_query, " FOR UPDATE");
 	RETURN_CTOR(sql);
@@ -141,10 +134,8 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_query) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &sql_query);
+	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CONCAT_VS(sql, sql_query, " LOCK IN SHARE MODE");
 	RETURN_CTOR(sql);
@@ -170,15 +161,13 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column_list) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &column_list);
+	
 	PHALCON_INIT_VAR(str_list);
 	array_init(str_list);
 	
 	PHALCON_OBS_VAR(escape_char);
-	phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+	phalcon_read_property_this(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	
 	if (!phalcon_is_iterable(column_list, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -225,10 +214,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &expression, &escape_char) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &expression, &escape_char);
+	
 	if (!escape_char) {
 		PHALCON_INIT_VAR(escape_char);
 	} else {
@@ -238,7 +225,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
 		if (Z_TYPE_P(escape_char) == IS_NULL) {
 			PHALCON_OBS_NVAR(escape_char);
-			phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+			phalcon_read_property_this(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 		}
 	}
 	if (Z_TYPE_P(expression) != IS_ARRAY) { 
@@ -498,10 +485,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &escape_char) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &escape_char);
+	
 	if (!escape_char) {
 		PHALCON_INIT_VAR(escape_char);
 	} else {
@@ -510,7 +495,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 	
 	if (Z_TYPE_P(escape_char) == IS_NULL) {
 		PHALCON_OBS_NVAR(escape_char);
-		phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+		phalcon_read_property_this(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	}
 	if (Z_TYPE_P(table) == IS_ARRAY) { 
 	
@@ -604,10 +589,8 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &definition);
+	
 	if (Z_TYPE_P(definition) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid SELECT definition");
 		return;
@@ -624,7 +607,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
 		PHALCON_OBS_VAR(escape_char);
-		phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+		phalcon_read_property_this(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	} else {
 		PHALCON_INIT_NVAR(escape_char);
 	}

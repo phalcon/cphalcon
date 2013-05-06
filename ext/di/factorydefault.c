@@ -63,10 +63,10 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 
 	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
 	zval *url, *models_manager, *models_metadata;
-	zval *response, *request, *filter, *escaper, *annotations;
-	zval *security, *flash, *flash_session, *session;
-	zval *session_bag, *events_manager, *transaction_manager;
-	zval *services;
+	zval *response, *cookies, *request, *filter, *escaper;
+	zval *annotations, *security, *crypt, *flash, *flash_session;
+	zval *session, *session_bag, *events_manager;
+	zval *transaction_manager, *assets, *services;
 
 	PHALCON_MM_GROW();
 
@@ -145,6 +145,16 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(response, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "cookies", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Http\\Response\\Cookies", 1);
+	
+	PHALCON_INIT_VAR(cookies);
+	object_init_ex(cookies, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(cookies, "__construct", name, definition, shared);
+	
+	PHALCON_INIT_NVAR(name);
 	ZVAL_STRING(name, "request", 1);
 	
 	PHALCON_INIT_NVAR(definition);
@@ -202,6 +212,19 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	PHALCON_INIT_VAR(security);
 	object_init_ex(security, phalcon_di_service_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(security, "__construct", name, definition, shared);
+	
+	/** 
+	 * Crypt Service
+	 */
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "crypt", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Crypt", 1);
+	
+	PHALCON_INIT_VAR(crypt);
+	object_init_ex(crypt, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(crypt, "__construct", name, definition, shared);
 	
 	/** 
 	 * Flash services are always shared
@@ -262,6 +285,9 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	object_init_ex(events_manager, phalcon_di_service_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "__construct", name, definition, shared);
 	
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "transactions", 1);
+	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Transaction\\Manager", 1);
 	
@@ -269,21 +295,33 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	object_init_ex(transaction_manager, phalcon_di_service_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(transaction_manager, "__construct", name, definition, shared);
 	
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "assets", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Assets\\Manager", 1);
+	
+	PHALCON_INIT_VAR(assets);
+	object_init_ex(assets, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(assets, "__construct", name, definition, shared);
+	
 	/** 
 	 * Register services
 	 */
 	PHALCON_INIT_VAR(services);
-	array_init_size(services, 17);
+	array_init_size(services, 20);
 	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("url"), &url, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("modelsManager"), &models_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("modelsMetadata"), &models_metadata, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("response"), &response, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("cookies"), &cookies, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("request"), &request, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("filter"), &filter, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("escaper"), &escaper, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("crypt"), &crypt, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("annotations"), &annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("flash"), &flash, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("flashSession"), &flash_session, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -291,11 +329,12 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	phalcon_array_update_string(&services, SL("sessionBag"), &session_bag, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("assets"), &assets, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	/** 
 	 * Update the internal services properties
 	 */
-	phalcon_update_property_zval(this_ptr, SL("_services"), services TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_services"), services TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

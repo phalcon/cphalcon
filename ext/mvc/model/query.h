@@ -55,6 +55,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setType);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getType);
+PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams);
+PHP_METHOD(Phalcon_Mvc_Model_Query, getBindParams);
+PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes);
+PHP_METHOD(Phalcon_Mvc_Model_Query, getBindTypes);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate);
 PHP_METHOD(Phalcon_Mvc_Model_Query, getIntermediate);
 
@@ -86,6 +90,14 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_settype, 0, 0, 1)
 	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setbindparams, 0, 0, 1)
+	ZEND_ARG_INFO(0, bindParams)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setbindtypes, 0, 0, 1)
+	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setintermediate, 0, 0, 1)
@@ -126,6 +138,10 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_query_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Query, getSingleResult, arginfo_phalcon_mvc_model_query_getsingleresult, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query, setType, arginfo_phalcon_mvc_model_query_settype, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query, getType, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Query, setBindParams, arginfo_phalcon_mvc_model_query_setbindparams, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Query, getBindParams, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Query, setBindTypes, arginfo_phalcon_mvc_model_query_setbindtypes, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Query, getBindTypes, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query, setIntermediate, arginfo_phalcon_mvc_model_query_setintermediate, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query, getIntermediate, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END

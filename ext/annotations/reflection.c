@@ -82,16 +82,14 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &reflection_data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &reflection_data);
+	
 	if (!reflection_data) {
 		PHALCON_INIT_VAR(reflection_data);
 	}
 	
 	if (Z_TYPE_P(reflection_data) == IS_ARRAY) { 
-		phalcon_update_property_zval(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -110,11 +108,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_classAnnotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_classAnnotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(reflection_data);
-		phalcon_read_property(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		phalcon_read_property_this(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
 		if (phalcon_array_isset_string(reflection_data, SS("class"))) {
 			PHALCON_OBS_VAR(reflection_class);
 			phalcon_array_fetch_string(&reflection_class, reflection_data, SL("class"), PH_NOISY_CC);
@@ -123,7 +121,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
 			object_init_ex(collection, phalcon_annotations_collection_ce);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(collection, "__construct", reflection_class);
 	
-			phalcon_update_property_zval(this_ptr, SL("_classAnnotations"), collection TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_classAnnotations"), collection TSRMLS_CC);
 			RETURN_CTOR(collection);
 		}
 	
@@ -152,11 +150,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_methodAnnotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_methodAnnotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(reflection_data);
-		phalcon_read_property(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		phalcon_read_property_this(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
 		if (phalcon_array_isset_string(reflection_data, SS("methods"))) {
 	
 			PHALCON_OBS_VAR(reflection_methods);
@@ -184,7 +182,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 					zend_hash_move_forward_ex(ah0, &hp0);
 				}
 	
-				phalcon_update_property_zval(this_ptr, SL("_methodAnnotations"), collections TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_methodAnnotations"), collections TSRMLS_CC);
 	
 				RETURN_CTOR(collections);
 			}
@@ -215,11 +213,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(annotations);
-	phalcon_read_property(&annotations, this_ptr, SL("_propertyAnnotations"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations, this_ptr, SL("_propertyAnnotations"), PH_NOISY_CC);
 	if (Z_TYPE_P(annotations) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(reflection_data);
-		phalcon_read_property(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		phalcon_read_property_this(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
 		if (phalcon_array_isset_string(reflection_data, SS("properties"))) {
 	
 			PHALCON_OBS_VAR(reflection_properties);
@@ -247,7 +245,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 					zend_hash_move_forward_ex(ah0, &hp0);
 				}
 	
-				phalcon_update_property_zval(this_ptr, SL("_propertyAnnotations"), collections TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_propertyAnnotations"), collections TSRMLS_CC);
 	
 				RETURN_CTOR(collections);
 			}
@@ -283,10 +281,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __set_state){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 	
 		/** 

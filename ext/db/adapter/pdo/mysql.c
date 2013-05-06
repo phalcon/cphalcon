@@ -86,10 +86,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &identifier) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &identifier);
+	
 	if (Z_TYPE_P(identifier) == IS_ARRAY) { 
 	
 		PHALCON_OBS_VAR(domain);
@@ -141,10 +139,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
@@ -153,7 +149,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	array_init(columns);
 	
 	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describecolumns", table, schema);
@@ -243,11 +239,19 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
 	
 			PHALCON_INIT_NVAR(matches);
-			Z_SET_ISREF_P(matches);
 	
 			PHALCON_INIT_NVAR(pos);
+	
+			Z_SET_ISREF_P(matches);
+	
+			#if HAVE_BUNDLED_PCRE
+			phalcon_preg_match(pos, size_pattern, column_type, matches TSRMLS_CC);
+			#else
 			PHALCON_CALL_FUNC_PARAMS_3(pos, "preg_match", size_pattern, column_type, matches);
+			#endif
+	
 			Z_UNSET_ISREF_P(matches);
+	
 			if (zend_is_true(pos)) {
 				if (phalcon_array_isset_long(matches, 1)) {
 					PHALCON_OBS_NVAR(match_one);

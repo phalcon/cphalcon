@@ -75,3 +75,9 @@ extern void phalcon_merge_append(zval *left, zval *values TSRMLS_DC);
 /* Traversing Arays */
 extern void phalcon_array_get_current(zval *return_value, zval *array TSRMLS_DC);
 extern void phalcon_array_next(zval *array);
+
+/* In Array */
+extern int phalcon_fast_in_array(zval *needle, zval *haystack TSRMLS_DC);
+
+/** Fast Array Merge */
+extern void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 TSRMLS_DC);

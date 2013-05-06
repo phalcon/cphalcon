@@ -95,16 +95,24 @@ int phalcon_exp_call_user_method(zend_class_entry *ce, zval **object_pp, zval *f
 	int ex_retval;
 	zval *local_retval_ptr = NULL;
 
-	if (param_count) {
-		params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-		for (i=0; i<param_count; i++) {
-			params_array[i] = &params[i];
-		}
-	} else {
+	if (PHALCON_GLOBAL(recursive_lock) > 2048) {
+		ex_retval = FAILURE;
 		params_array = NULL;
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");
+	} else {
+
+		if (param_count) {
+			params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
+			for (i = 0; i < param_count; i++) {
+				params_array[i] = &params[i];
+			}
+		} else {
+			params_array = NULL;
+		}
+
+		ex_retval = phalcon_exp_call_user_method_ex(ce, object_pp, function_name, &local_retval_ptr, param_count, params_array, method_key TSRMLS_CC);
 	}
 
-	ex_retval = phalcon_exp_call_user_method_ex(ce, object_pp, function_name, &local_retval_ptr, param_count, params_array, method_key TSRMLS_CC);
 	if (local_retval_ptr) {
 		COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);
 	} else {
@@ -419,7 +427,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 						}
 
 						zend_error(E_WARNING, "Parameter %d to %s%s%s() expected to be a reference, value given",
-							i+1,
+							i + 1,
 							EX(function_state).function->common.scope ? EX(function_state).function->common.scope->name : "",
 							EX(function_state).function->common.scope ? "::" : "",
 							EX(function_state).function->common.function_name);
@@ -461,8 +469,10 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 	current_called_scope = EG(called_scope);
 	if (called_scope) {
 		EG(called_scope) = called_scope;
-	} else if (EX(function_state).function->type != ZEND_INTERNAL_FUNCTION) {
-		EG(called_scope) = NULL;
+	} else {
+		if (EX(function_state).function->type != ZEND_INTERNAL_FUNCTION) {
+			EG(called_scope) = NULL;
+		}
 	}
 
 	if (fci->object_ptr) {

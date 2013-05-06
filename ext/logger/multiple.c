@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter){
 	}
 
 	PHALCON_OBS_VAR(loggers);
-	phalcon_read_property(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
+	phalcon_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) { 
 	
 		if (!phalcon_is_iterable(loggers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter){
 	
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log){
 	}
 	
 	PHALCON_OBS_VAR(loggers);
-	phalcon_read_property(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
+	phalcon_read_property_this(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
 	if (Z_TYPE_P(loggers) == IS_ARRAY) { 
 	
 		if (!phalcon_is_iterable(loggers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {

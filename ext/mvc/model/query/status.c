@@ -85,12 +85,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct){
 
 	zval *success, *model;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &success, &model) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_success"), success TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
+	phalcon_fetch_params(0, 2, 0, &success, &model);
+	
+	phalcon_update_property_this(this_ptr, SL("_success"), success TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	
 }
 
@@ -117,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(model);
-	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
 	if (Z_TYPE_P(model) == IS_OBJECT) {
 		PHALCON_INIT_VAR(messages);
 		PHALCON_CALL_METHOD(messages, model, "getmessages");

@@ -101,6 +101,7 @@ class PHPUnit_Framework_TestCase
 			}
 			$reflectionClass = new ReflectionClass($class);
 			$hasSetup = $reflectionClass->hasMethod('setUp');
+			$m = microtime(true);
 			foreach ($reflectionClass->getMethods() as $method) {
 				$methodName = $method->getName();
 				if (substr($methodName, 0, 4) == 'test') {
@@ -110,7 +111,7 @@ class PHPUnit_Framework_TestCase
 					$class->$methodName();
 				}
 			}
-			echo '[OK]', ' (', memory_get_usage(true), ') (', memory_get_usage(false), ')', PHP_EOL;
+			echo '[OK]', ' (', memory_get_usage(true), ') (', memory_get_usage(false), ') (', sprintf("%.4f", (microtime(true) - $m) * 1000), ')', PHP_EOL;
 		} else {
 			echo '[FAILED]', PHP_EOL;
 		}

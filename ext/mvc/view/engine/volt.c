@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Options parameter must be an array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -109,37 +109,37 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(compiler);
-	phalcon_read_property(&compiler, this_ptr, SL("_compiler"), PH_NOISY_CC);
+	phalcon_read_property_this(&compiler, this_ptr, SL("_compiler"), PH_NOISY_CC);
 	if (Z_TYPE_P(compiler) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(view);
-		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+		phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(options);
-		phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+		phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(compiler);
 		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "__construct", view);
 	
 		/** 
-		 * Pass the IoC to the compiler only it's an object
+		 * Pass the IoC to the compiler only of it's an object
 		 */
 		if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector);
 		}
 	
 		/** 
-		 * Pass the options to the compiler only they're an array
+		 * Pass the options to the compiler only if they're an array
 		 */
 		if (Z_TYPE_P(options) == IS_ARRAY) { 
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setoptions", options);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_compiler"), compiler TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_compiler"), compiler TSRMLS_CC);
 	}
 	
 	
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
 	
 		PHALCON_OBS_VAR(view);
-		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+		phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents);
 	}
 	
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
  * @param string $to
  * @return string
  */
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, converEncoding){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 
 	zval *text, *from, *to, *converted = NULL;
 
@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, converEncoding){
 }
 
 /**
- * Extracts a slice from an string/array/traversable object value
+ * Extracts a slice from a string/array/traversable object value
  *
  * @param mixed $value
  */

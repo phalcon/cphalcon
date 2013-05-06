@@ -31,7 +31,6 @@ class LeDummyComponent
 	public function leAction()
 	{
 		$this->_eventsManager->fire('dummy:beforeAction', $this, "extra data");
-
 		$this->_eventsManager->fire('dummy:afterAction', $this, array("extra","data"));
 	}
 
@@ -50,7 +49,6 @@ class LeAnotherComponent
 	public function leAction()
 	{
 		$this->_eventsManager->fire('another:beforeAction', $this);
-
 		$this->_eventsManager->fire('another:afterAction', $this);
 	}
 

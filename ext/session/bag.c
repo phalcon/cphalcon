@@ -45,7 +45,7 @@
  * you can easily create groups of session variables into the application
  *
  *<code>
- *	$user = new \Phalcon\Session\Bag();
+ *	$user = new \Phalcon\Session\Bag('user');
  *	$user->name = "Kimbra Johnson";
  *	$user->age = 22;
  *</code>
@@ -81,12 +81,10 @@ PHP_METHOD(Phalcon_Session_Bag, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	if (Z_TYPE_P(name) == IS_STRING) {
-		phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "The dependency injector must be an Object");
 		return;
@@ -106,15 +104,13 @@ PHP_METHOD(Phalcon_Session_Bag, setDI){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "The dependency injector must be an Object");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -135,20 +131,25 @@ PHP_METHOD(Phalcon_Session_Bag, getDI){
  */
 PHP_METHOD(Phalcon_Session_Bag, initialize){
 
-	zval *session = NULL, *dependency_injector, *service;
+	zval *session = NULL, *dependency_injector = NULL, *service;
 	zval *name, *data = NULL;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(session);
-	phalcon_read_property(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+	phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
 	if (Z_TYPE_P(session) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service");
-			return;
+	
+			PHALCON_INIT_NVAR(dependency_injector);
+			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service");
+				return;
+			}
 		}
 	
 		PHALCON_INIT_VAR(service);
@@ -156,11 +157,11 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 	
 		PHALCON_INIT_NVAR(session);
 		PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service);
-		phalcon_update_property_zval(this_ptr, SL("_session"), session TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_session"), session TSRMLS_CC);
 	}
 	
 	PHALCON_OBS_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(data);
 	PHALCON_CALL_METHOD_PARAMS_1(data, session, "get", name);
@@ -169,7 +170,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 		array_init(data);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_initalized"), 1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -189,16 +190,16 @@ PHP_METHOD(Phalcon_Session_Bag, destroy){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(initalized);
-	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initalized)) {
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
 	}
 	
 	PHALCON_OBS_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(session);
-	phalcon_read_property(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+	phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(session, "remove", name);
 	
 	PHALCON_MM_RESTORE();
@@ -221,12 +222,10 @@ PHP_METHOD(Phalcon_Session_Bag, set){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &property, &value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &property, &value);
+	
 	PHALCON_OBS_VAR(initalized);
-	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initalized)) {
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
 	}
@@ -234,13 +233,13 @@ PHP_METHOD(Phalcon_Session_Bag, set){
 	phalcon_update_property_array(this_ptr, SL("_data"), property, value TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(session);
-	phalcon_read_property(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+	phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", name, data);
 	
 	PHALCON_MM_RESTORE();
@@ -250,7 +249,7 @@ PHP_METHOD(Phalcon_Session_Bag, set){
  * Magic setter to assign values to the session bag
  *
  *<code>
- * $user->name = Kimbra;
+ * $user->name = "Kimbra";
  *</code>
  *
  * @param string $property
@@ -262,10 +261,8 @@ PHP_METHOD(Phalcon_Session_Bag, __set){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &property, &value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &property, &value);
+	
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", property, value);
 	
 	PHALCON_MM_RESTORE();
@@ -289,10 +286,8 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &property, &default_value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &property, &default_value);
+	
 	if (!default_value) {
 		PHALCON_INIT_VAR(default_value);
 	}
@@ -301,7 +296,7 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 	 * Check first if the bag is initialized
 	 */
 	PHALCON_OBS_VAR(initalized);
-	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initalized)) {
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
 	}
@@ -310,7 +305,7 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 	 * Retrieve the data
 	 */
 	PHALCON_OBS_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (phalcon_array_isset(data, property)) {
 	
 		PHALCON_OBS_VAR(value);
@@ -340,10 +335,8 @@ PHP_METHOD(Phalcon_Session_Bag, __get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &property);
+	
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, this_ptr, "get", property);
 	RETURN_CCTOR(value);
@@ -365,18 +358,16 @@ PHP_METHOD(Phalcon_Session_Bag, has){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &property);
+	
 	PHALCON_OBS_VAR(initalized);
-	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
+	phalcon_read_property_this(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initalized)) {
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
 	}
 	
 	PHALCON_OBS_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (phalcon_array_isset(data, property)) {
 		RETURN_MM_TRUE;
 	}
@@ -400,10 +391,8 @@ PHP_METHOD(Phalcon_Session_Bag, __isset){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &property);
+	
 	PHALCON_INIT_VAR(exists);
 	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "has", property);
 	RETURN_CCTOR(exists);
@@ -413,7 +402,7 @@ PHP_METHOD(Phalcon_Session_Bag, __isset){
  * Removes a property from the internal bag
  *
  *<code>
- * $user->remove('name'));
+ * $user->remove('name');
  *</code>
  *
  * @param string $property
@@ -421,18 +410,26 @@ PHP_METHOD(Phalcon_Session_Bag, __isset){
  */
 PHP_METHOD(Phalcon_Session_Bag, remove){
 
-	zval *property, *data;
+	zval *property, *data = NULL, *name, *session;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &property);
+	
 	PHALCON_OBS_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (phalcon_array_isset(data, property)) {
 		phalcon_unset_property_array(this_ptr, SL("_data"), property TSRMLS_CC);
+	
+		PHALCON_OBS_NVAR(data);
+		phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(name);
+		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(session);
+		phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", name, data);
 		RETURN_MM_TRUE;
 	}
 	
@@ -455,10 +452,8 @@ PHP_METHOD(Phalcon_Session_Bag, __unset){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &property);
+	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD_PARAMS_1(success, this_ptr, "remove", property);
 	RETURN_CCTOR(success);

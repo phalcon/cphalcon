@@ -72,10 +72,8 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &dependency_injector, &position, &argument) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &dependency_injector, &position, &argument);
+	
 	/** 
 	 * All the arguments must be an array
 	 */
@@ -204,10 +202,8 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &dependency_injector, &arguments) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &dependency_injector, &arguments);
+	
 	/** 
 	 * The arguments group must be an array of arrays
 	 */
@@ -260,10 +256,8 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &dependency_injector, &definition, &parameters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &dependency_injector, &definition, &parameters);
+	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
 	}

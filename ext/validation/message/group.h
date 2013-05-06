@@ -28,6 +28,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists);
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset);
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage);
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages);
+PHP_METHOD(Phalcon_Validation_Message_Group, filter);
 PHP_METHOD(Phalcon_Validation_Message_Group, count);
 PHP_METHOD(Phalcon_Validation_Message_Group, rewind);
 PHP_METHOD(Phalcon_Validation_Message_Group, current);
@@ -65,6 +66,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group_appendmessages, 
 	ZEND_ARG_INFO(0, messages)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group_filter, 0, 0, 1)
+	ZEND_ARG_INFO(0, fieldName)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group___set_state, 0, 0, 1)
 	ZEND_ARG_INFO(0, group)
 ZEND_END_ARG_INFO()
@@ -77,6 +82,7 @@ PHALCON_INIT_FUNCS(phalcon_validation_message_group_method_entry){
 	PHP_ME(Phalcon_Validation_Message_Group, offsetUnset, arginfo_phalcon_validation_message_group_offsetunset, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Validation_Message_Group, appendMessage, arginfo_phalcon_validation_message_group_appendmessage, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Validation_Message_Group, appendMessages, arginfo_phalcon_validation_message_group_appendmessages, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Validation_Message_Group, filter, arginfo_phalcon_validation_message_group_filter, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Validation_Message_Group, count, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Validation_Message_Group, rewind, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Validation_Message_Group, current, NULL, ZEND_ACC_PUBLIC) 

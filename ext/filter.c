@@ -32,10 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/filter.h"
@@ -73,16 +73,6 @@ PHALCON_INIT_CLASS(Phalcon_Filter){
 }
 
 /**
- * Phalcon\Filter constructor
- */
-PHP_METHOD(Phalcon_Filter, __construct){
-
-
-	phalcon_update_property_empty_array(phalcon_filter_ce, this_ptr, SL("_filters") TSRMLS_CC);
-	
-}
-
-/**
  * Adds a user-defined filter
  *
  * @param string $name
@@ -95,10 +85,8 @@ PHP_METHOD(Phalcon_Filter, add){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &name, &handler);
+	
 	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_filter_exception_ce, "Filter name must be string");
 		return;
@@ -130,10 +118,8 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &value, &filters) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &value, &filters);
+	
 	/** 
 	 * Apply an array of filters
 	 */
@@ -237,12 +223,10 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &value, &filter) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &value, &filter);
+	
 	PHALCON_OBS_VAR(filters);
-	phalcon_read_property(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
+	phalcon_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
 	if (phalcon_array_isset(filters, filter)) {
 	
 		PHALCON_OBS_VAR(filter_object);

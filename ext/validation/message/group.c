@@ -71,16 +71,14 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &messages) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &messages);
+	
 	if (!messages) {
 		PHALCON_INIT_VAR(messages);
 	}
 	
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
-		phalcon_update_property_zval(this_ptr, SL("_messages"), messages TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -102,12 +100,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &index);
+	
 	PHALCON_OBS_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_array_isset(messages, index)) {
 		PHALCON_OBS_VAR(message);
 		phalcon_array_fetch(&message, messages, index, PH_NOISY_CC);
@@ -133,10 +129,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &index, &message);
+	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
 		return;
@@ -162,12 +156,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &index);
+	
 	PHALCON_OBS_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_array_isset(messages, index)) {
 		RETURN_MM_TRUE;
 	}
@@ -188,10 +180,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset){
 
 	zval *index;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &index);
+	
 	RETURN_TRUE;
 }
 
@@ -210,10 +200,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &message);
+	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
 		return;
@@ -240,10 +228,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &messages) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &messages);
+	
 	if (Z_TYPE_P(messages) != IS_ARRAY) { 
 		if (Z_TYPE_P(messages) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The messages must be array or object");
@@ -252,7 +238,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 	}
 	
 	PHALCON_OBS_VAR(current_messages);
-	phalcon_read_property(&current_messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	phalcon_read_property_this(&current_messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
 	
 		/** 
@@ -260,11 +246,11 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 		 */
 		if (Z_TYPE_P(current_messages) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(final_messages);
-			PHALCON_CALL_FUNC_PARAMS_2(final_messages, "array_merge", current_messages, messages);
+			phalcon_fast_array_merge(final_messages, &current_messages, &messages TSRMLS_CC);
 		} else {
 			PHALCON_CPY_WRT(final_messages, messages);
 		}
-		phalcon_update_property_zval(this_ptr, SL("_messages"), final_messages TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_messages"), final_messages TSRMLS_CC);
 	} else {
 		/** 
 		 * A group of messages is iterated and appended one-by-one to the current list
@@ -291,6 +277,66 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 }
 
 /**
+ * Filters the message group by field name
+ *
+ * @param string $fieldName
+ * @return array
+ */
+PHP_METHOD(Phalcon_Validation_Message_Group, filter){
+
+	zval *field_name, *filtered, *messages, *message = NULL;
+	zval *field = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &field_name);
+	
+	PHALCON_INIT_VAR(filtered);
+	array_init(filtered);
+	
+	PHALCON_OBS_VAR(messages);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	if (Z_TYPE_P(messages) == IS_OBJECT) {
+	
+		/** 
+		 * A group of messages is iterated and appended one-by-one to the current list
+		 */
+		PHALCON_CALL_METHOD_NORETURN(messages, "rewind");
+	
+		while (1) {
+	
+			PHALCON_INIT_NVAR(r0);
+			PHALCON_CALL_METHOD(r0, messages, "valid");
+			if (PHALCON_IS_NOT_FALSE(r0)) {
+			} else {
+				break;
+			}
+	
+			/** 
+			 * Get the current message in the iterator
+			 */
+			PHALCON_INIT_NVAR(message);
+			PHALCON_CALL_METHOD(message, messages, "current");
+	
+			/** 
+			 * Get the field name
+			 */
+			PHALCON_INIT_NVAR(field);
+			PHALCON_CALL_METHOD(field, messages, "getfield");
+			if (PHALCON_IS_EQUAL(field_name, field)) {
+				phalcon_array_append(&filtered, message, PH_SEPARATE TSRMLS_CC);
+			}
+	
+			PHALCON_CALL_METHOD_NORETURN(messages, "next");
+		}
+	}
+	
+	
+	RETURN_CTOR(filtered);
+}
+
+/**
  * Returns the number of messages in the list
  *
  * @return int
@@ -302,7 +348,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, count){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(number);
 	phalcon_fast_count(number, messages TSRMLS_CC);
@@ -331,10 +377,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, current){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(position);
-	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_array_isset(messages, position)) {
 		PHALCON_OBS_VAR(message);
 		phalcon_array_fetch(&message, messages, position, PH_NOISY_CC);
@@ -367,7 +413,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, next){
 }
 
 /**
- * Check if the current message the iterator is valid
+ * Check if the current message in the iterator is valid
  *
  * @return boolean
  */
@@ -378,10 +424,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(position);
-	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	phalcon_read_property_this(&position, this_ptr, SL("_position"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_array_isset(messages, position)) {
 		RETURN_MM_TRUE;
 	}
@@ -390,7 +436,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid){
 }
 
 /**
- * Magic __set_state helps to re-build messages variable exporting
+ * Magic __set_state helps to re-build messages variable when exporting
  *
  * @param array $group
  * @return Phalcon\Mvc\Model\Message\Group
@@ -401,10 +447,8 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &group) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &group);
+	
 	PHALCON_OBS_VAR(messages);
 	phalcon_array_fetch_string(&messages, group, SL("_messages"), PH_NOISY_CC);
 	
