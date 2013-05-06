@@ -33,9 +33,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -102,6 +102,30 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Application){
 }
 
 /**
+ * Phalcon\Mvc\Application
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
+PHP_METHOD(Phalcon_Mvc_Application, __construct){
+
+	zval *dependency_injector = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &dependency_injector);
+	
+	if (!dependency_injector) {
+		PHALCON_INIT_VAR(dependency_injector);
+	}
+	
+	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Register an array of modules present in the application
  *
  *<code>
@@ -119,6 +143,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Application){
  *
  * @param array $modules
  * @param boolean $merge
+ * @param Phalcon\Mvc\Application
  */
 PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 
@@ -126,10 +151,8 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &modules, &merge) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &modules, &merge);
+	
 	if (!merge) {
 		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
@@ -140,17 +163,18 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 		return;
 	}
 	if (PHALCON_IS_FALSE(merge)) {
-		phalcon_update_property_zval(this_ptr, SL("_modules"), modules TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
 	} else {
 		PHALCON_OBS_VAR(registered_modules);
-		phalcon_read_property(&registered_modules, this_ptr, SL("_modules"), PH_NOISY_CC);
+		phalcon_read_property_this(&registered_modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(merged_modules);
-		PHALCON_CALL_FUNC_PARAMS_2(merged_modules, "array_merge", registered_modules, modules);
-		phalcon_update_property_zval(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);
+		phalcon_fast_array_merge(merged_modules, &registered_modules, &modules TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_THIS();
 }
 
 /**
@@ -173,11 +197,9 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule){
 
 	zval *default_module;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &default_module) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_defaultModule"), default_module TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &default_module);
+	
+	phalcon_update_property_this(this_ptr, SL("_defaultModule"), default_module TSRMLS_CC);
 	
 }
 
@@ -211,23 +233,21 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &uri);
+	
 	if (!uri) {
 		PHALCON_INIT_VAR(uri);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services");
 		return;
 	}
 	
 	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(service);
 	ZVAL_STRING(service, "router", 1);
@@ -247,7 +267,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 */
 	if (!zend_is_true(module_name)) {
 		PHALCON_OBS_NVAR(module_name);
-		phalcon_read_property(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
+		phalcon_read_property_this(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 	}
 	
 	/** 
@@ -270,7 +290,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 * Check if the module passed by the router is registered in the modules container
 		 */
 		PHALCON_OBS_VAR(modules);
-		phalcon_read_property(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
+		phalcon_read_property_this(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 		if (!phalcon_array_isset(modules, module_name)) {
 			PHALCON_INIT_VAR(exception_msg);
 			PHALCON_CONCAT_SVS(exception_msg, "Module '", module_name, "' isn't registered in the application container");
@@ -350,7 +370,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 * Calling afterStartModule event
 		 */
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-			phalcon_update_property_zval(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
 	
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "application:afterStartModule", 1);
@@ -372,6 +392,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * We get the parameters from the router and assign it to the dispatcher
 	 */
+	PHALCON_INIT_NVAR(module_name);
+	PHALCON_CALL_METHOD(module_name, router, "getmodulename");
+	
 	PHALCON_INIT_VAR(namespace_name);
 	PHALCON_CALL_METHOD(namespace_name, router, "getnamespacename");
 	
@@ -393,6 +416,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * Assign the values passed from the router
 	 */
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setmodulename", module_name);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setnamespacename", namespace_name);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setcontrollername", controller_name);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setactionname", action_name);
@@ -507,6 +531,11 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 * Headers are automatically send
 	 */
 	PHALCON_CALL_METHOD_NORETURN(response, "sendheaders");
+	
+	/** 
+	 * Cookies are automatically send
+	 */
+	PHALCON_CALL_METHOD_NORETURN(response, "sendcookies");
 	
 	/** 
 	 * Return the response

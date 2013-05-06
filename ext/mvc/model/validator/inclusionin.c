@@ -35,6 +35,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
@@ -86,7 +87,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Inclusionin){
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 
 	zval *record, *field = NULL, *field_name, *is_set, *domain;
-	zval *value, *is_in_array, *option, *message = NULL, *joined_domain;
+	zval *value, *option, *message = NULL, *joined_domain;
 	zval *type;
 
 	PHALCON_MM_GROW();
@@ -132,12 +133,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name);
 	
 	/** 
-	 * We check if the value contained in the array using "in_array" from the PHP
-	 * userland
+	 * Check if the value is contained in the array
 	 */
-	PHALCON_INIT_VAR(is_in_array);
-	PHALCON_CALL_FUNC_PARAMS_2(is_in_array, "in_array", value, domain);
-	if (PHALCON_IS_FALSE(is_in_array)) {
+	if (!phalcon_fast_in_array(value, domain TSRMLS_CC)) {
 	
 		/** 
 		 * Check if the developer has defined a custom message

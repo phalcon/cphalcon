@@ -1,10 +1,58 @@
+1.1.0
+ - Improvements to the query builder allowing to define bound parameters in the "where" methods
+ - Added Mvc\Query\Builder::inWhere to append a IN expression to the query
+ - Added Mvc\Query\Builder::notInWhere to append a NOT IN expression to the query
+ - Added Mvc\Query\Builder::betweenWhere to append a BETWEEN expression to the query
+ - Now Phalcon\Session\Bag injects automatically the default DI if one hasn't beed manually assigned
+ - Added Phalcon\Forms\Manager to reference forms and retrieve them from any part of the application
+ - If an element in Phalcon\Forms doesn't have a label defined now returns the element's name as label
+ - Now if a validator in Phalcon\Validator has defined the option 'cancelOnFail' => true the validation
+ will be aborted if the validator fails
+ - Added Phalcon\Validation\Validator\Between to check a value between a range of two values
+ - Added Phalcon\Validation\Validator\Confirmation to check that a value match its confirmation value (another attribute in the data to validate)
+ - Phalcon\Forms\Form now extends from Phalcon\DI\Injectable allowing developers to use application services in the form initialization
+ - Now calls to Phalcon\Mvc\Router can be chained
+ - Phalcon\Mvc\Router::getRewriteUri is now public
+ - Added Phalcon\Mvc\Router\Route::beforeMatch to implement arbitrary conditions to unmatch a matched route
+ - Phalcon\Mvc\Model can be now set up to throw an exception when the saving process fails
+ - Added Phalcon\Assets component to manage CSS/Javascripts resources in an application
+ - Added Phalcon\Annotations\Collection::getAll to return all the annotations in a collection that matches a name
+ - Added Phalcon\Crypt component to provide encryption facilities to phalcon applications
+ - Now Phalcon\Http\Request: get, getQuery y getPost returns the respective superglobals in case of no parameters
+ - Now Phalcon\Mvc\Router supports simple/regex hostname restrictions
+ - Added support for filtering/sanitizing in Phalcon\Validation
+ - Added events beforeValidation/afterValidation to Phalcon\Validation and Phalcon\Forms\Form
+ - Added ability to register user-options in Phalcon\Forms\Form elements
+ - Fixed Phalcon\Mvc\Micro\Collections to register a controllers in Phalcon\Mvc\Micro
+ - Added Phalcon\Tag::dateField and Phalcon\Tag::numericField
+ - Added Phalcon\Forms\Element\Date and Phalcon\Forms\Element\Numeric
+ - Added Phalcon\Cache\Frontend\Json to cache data as JSON
+ - Added Phalcon\Tag::tagHtml and Phalcon\Tag::tagHtmlClose to generate any kind of HTML tags
+ - Phalcon\Http\Response\Cookies is now fixed
+ - Added support for automatic crypting of cookies in Phalcon\Http\Response\Cookies
+ - Phalcon\DI\FactoryDefault now provides the 'crypt' service
+ - Volt's paths are now automatically normalized to realpaths
+ - Fixed bug in convert_encoding in Volt
+ - Added Phalcon\Filter\UserFilterInterface to be used in custom filters
+ - Added support for filters in Phalcon\Forms\Form elements
+ - Added maximum recursion depth exceeded control in Phalcon\Kernel
+ - Performance: Now Phalcon makes use of interned strings if PHP 5.4 to reduce memory usage
+ - Performance: Implemented cache of visibility for all intern properties in 5.3/5.4 increasing performance 
+ - Performance: All hash keys are now pre-calculated in compilation time to read/write internal properties faster
+ - Performance: Now all functions are static allowing the compiler to inline functions or remove those that aren't used by the framework
+ - Performance: Now Phalcon provides specific optimizations when the extension is compiled for NTS modules
+ - Performance: Implemented function to fetch parameters from the VM stack with minimum overhead
+ - Performance: Implemented a global PHQL parser cache to avoid that a same statement be parsed more than one time
+ - Performance: Events by priority are now disabled by default. A user must explicitly define that Phalcon\Events\Manager must use a PriorityQueue instead of a FIFF (First In-First Fired)
+ - !! Phalcon\CLI\Router API have been changed. Check the manual to update your bootstrap
+
 1.0.1
  - Paths aren't correctly normalized in Phalcon\Mvc\Model\MetaData\Files
  - Added extra class prefix to schema.table in Phalcon\Mvc\Model\MetaData to avoid multiple-database collisions
  - Now Phalcon\Mvc\Router ignores numeric paths in controller, namespace, module and action, avoiding that those will be passed to the dispatcher
  - Added Phalcon\Forms\Form::remove to remove an element from the form and Phalcon\Forms\Form::has to check if a form has an element
 
-1.0.0b2
+1.0.0
  - Added Phalcon\Mvc\Router::setUriSource to set if the URI source must be $_GET['_url'] or $_SERVER['REQUEST_URI']
  - Added a white-list parameter to Phalcon\Mvc\Model::save(), Phalcon\Mvc\Model::create() and
  Phalcon\Mvc\Model::update() to avoid possible mass-assigment attacks
@@ -168,6 +216,8 @@
  - Allowed pass a URI manually to Phalcon\Mvc\Micro::handle()
  - Fixed missing json_encode filter in Volt
  - Moving cache implementation from Phalcon\Mvc\Model to Phalcon\Mvc\Model\Query, this allows caching both simple and complex resultsets
+ - Added Phalcon\Paginator\Adapter\QueryBuilder to use a PHQL Query Builder as source of data
+ - Added adapter for Oracle databases in Phalcon\Db
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler

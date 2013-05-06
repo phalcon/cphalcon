@@ -53,9 +53,12 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 #define PHALCON_ALLOC_ZVAL(z) \
 	ALLOC_ZVAL(z); INIT_PZVAL(z); ZVAL_NULL(z);
 
-#define PHALCON_INIT_VAR(z) \
+#define PHALCON_INIT_VAR_OLD(z) \
 	PHALCON_ALLOC_ZVAL(z); \
 	phalcon_memory_observe(&z TSRMLS_CC);
+
+#define PHALCON_INIT_VAR(z) \
+	phalcon_memory_alloc(&z TSRMLS_CC);
 
 #define PHALCON_INIT_NVAR(z)\
 	if (z) { \

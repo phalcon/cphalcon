@@ -83,19 +83,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz|z", &type, &referenced_model, &fields, &referenced_fields, &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 4, 1, &type, &referenced_model, &fields, &referenced_fields, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_referencedModel"), referenced_model TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_fields"), fields TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_referencedFields"), referenced_fields TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_referencedModel"), referenced_model TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_fields"), fields TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_referencedFields"), referenced_fields TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -160,14 +158,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions){
  *
  * @return string|array
  */
-PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeingKey){
+PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey){
 
 	zval *options;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("foreignKey"))) {
 			RETURN_MM_TRUE;
@@ -189,7 +187,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("foreignKey"))) {
 	
@@ -216,7 +214,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, hasThrough){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("through"))) {
 			RETURN_MM_TRUE;
@@ -238,7 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getThrough){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("through"))) {
 			PHALCON_OBS_VAR(through);
@@ -262,7 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("reusable"))) {
 			PHALCON_OBS_VAR(reusable);

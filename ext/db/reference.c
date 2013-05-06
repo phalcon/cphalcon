@@ -92,11 +92,11 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_referenceName"), reference_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_referenceName"), reference_name TSRMLS_CC);
 	if (phalcon_array_isset_string(definition, SS("referencedTable"))) {
 		PHALCON_OBS_VAR(referenced_table);
 		phalcon_array_fetch_string(&referenced_table, definition, SL("referencedTable"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_referencedTable"), referenced_table TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_referencedTable"), referenced_table TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Referenced table is required");
 		return;
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	if (phalcon_array_isset_string(definition, SS("columns"))) {
 		PHALCON_OBS_VAR(columns);
 		phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Foreign key columns are required");
 		return;
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	if (phalcon_array_isset_string(definition, SS("referencedColumns"))) {
 		PHALCON_OBS_VAR(referenced_columns);
 		phalcon_array_fetch_string(&referenced_columns, definition, SL("referencedColumns"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_referencedColumns"), referenced_columns TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_referencedColumns"), referenced_columns TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Referenced columns of the foreign key are required");
 		return;
@@ -123,13 +123,13 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	if (phalcon_array_isset_string(definition, SS("schema"))) {
 		PHALCON_OBS_VAR(schema);
 		phalcon_array_fetch_string(&schema, definition, SL("schema"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_schemaName"), schema TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_schemaName"), schema TSRMLS_CC);
 	}
 	
 	if (phalcon_array_isset_string(definition, SS("referencedSchema"))) {
 		PHALCON_OBS_VAR(referenced_schema);
 		phalcon_array_fetch_string(&referenced_schema, definition, SL("referencedSchema"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_referencedSchema"), referenced_schema TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_referencedSchema"), referenced_schema TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(number_columns);

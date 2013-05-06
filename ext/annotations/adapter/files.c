@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct){
 		if (phalcon_array_isset_string(options, SS("annotationsDir"))) {
 			PHALCON_OBS_VAR(annotations_dir);
 			phalcon_array_fetch_string(&annotations_dir, options, SL("annotationsDir"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_annotationsDir"), annotations_dir TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_annotationsDir"), annotations_dir TSRMLS_CC);
 		}
 	}
 	
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 	}
 
 	PHALCON_OBS_VAR(annotations_dir);
-	phalcon_read_property(&annotations_dir, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations_dir, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(separator);
 	ZVAL_STRING(separator, "_", 1);
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 	}
 
 	PHALCON_OBS_VAR(annotations_dir);
-	phalcon_read_property(&annotations_dir, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
+	phalcon_read_property_this(&annotations_dir, this_ptr, SL("_annotationsDir"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(separator);
 	ZVAL_STRING(separator, "_", 1);

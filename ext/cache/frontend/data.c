@@ -43,35 +43,35 @@
  *
  *<code>
  *
- * // Cache the files for 2 days using a Data frontend
- * $frontCache = new Phalcon\Cache\Frontend\Data(array(
- *    "lifetime" => 172800
- * ));
+ *	// Cache the files for 2 days using a Data frontend
+ *	$frontCache = new Phalcon\Cache\Frontend\Data(array(
+ *		"lifetime" => 172800
+ *	));
  *
- * // Create the component that will cache "Data" to a "File" backend
- * // Set the cache file directory - important to keep the "/" at the end of
- * // of the value for the folder
- * $cache = new Phalcon\Cache\Backend\File($frontCache, array(
- *     "cacheDir" => "../app/cache/"
- * ));
+ *	// Create the component that will cache "Data" to a "File" backend
+ *	// Set the cache file directory - important to keep the "/" at the end of
+ *	// of the value for the folder
+ *	$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+ *		"cacheDir" => "../app/cache/"
+ *	));
  *
- * // Try to get cached records
- * $cacheKey = 'robots_order_id.cache';
- * $robots    = $cache->get($cacheKey);
- * if ($robots === null) {
+ *	// Try to get cached records
+ *	$cacheKey = 'robots_order_id.cache';
+ *	$robots    = $cache->get($cacheKey);
+ *	if ($robots === null) {
  *
- *     // $robots is null due to cache expiration or data does not exist
- *     // Make the database call and populate the variable
- *     $robots = Robots::find(array("order" => "id"));
+ *		// $robots is null due to cache expiration or data does not exist
+ *		// Make the database call and populate the variable
+ *		$robots = Robots::find(array("order" => "id"));
  *
- *     // Store it in the cache
- *     $cache->save($cacheKey, $robots);
- * }
+ *		// Store it in the cache
+ *		$cache->save($cacheKey, $robots);
+ *	}
  *
- * // Use $robots :)
- * foreach ($robots as $robot) {
- *    echo $robot->name, "\n";
- * }
+ *	// Use $robots :)
+ *	foreach ($robots as $robot) {
+ *		echo $robot->name, "\n";
+ *	}
  *</code>
  */
 
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 		PHALCON_INIT_VAR(frontend_options);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("lifetime"))) {
 			PHALCON_OBS_VAR(lifetime);

@@ -20,10 +20,15 @@
 #include "php.h"
 #include "php_phalcon.h"
 #include "php_main.h"
+
 #include "ext/standard/php_smart_str.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_rand.h"
 #include "ext/standard/php_lcg.h"
+
+#if HAVE_BUNDLED_PCRE
+#include "ext/pcre/php_pcre.h"
+#endif
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -120,7 +125,7 @@ void phalcon_append_printable_zval(smart_str *implstr, zval **tmp TSRMLS_DC) {
 
 		case IS_BOOL:
 			if (Z_LVAL_PP(tmp) == 1) {
-				smart_str_appendl(implstr, "1", sizeof("1")-1);
+				smart_str_appendl(implstr, "1", sizeof("1") - 1);
 			}
 			break;
 
@@ -226,7 +231,7 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 				ch = *marker;
 			}
 			if (ch >= 'a' && ch <= 'z') {
-				smart_str_appendc(&camelize_str, (*marker)-32);
+				smart_str_appendc(&camelize_str, (*marker) - 32);
 			} else {
 				smart_str_appendc(&camelize_str, (*marker));
 			}
@@ -234,7 +239,7 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 			continue;
 		}
 		if (ch >= 'A' && ch <= 'Z') {
-			smart_str_appendc(&camelize_str, (*marker)+32);
+			smart_str_appendc(&camelize_str, (*marker) + 32);
 		} else {
 			smart_str_appendc(&camelize_str, (*marker));
 		}
@@ -271,7 +276,7 @@ void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 			if (i > 0) {
 				smart_str_appendc(&uncamelize_str, '_');
 			}
-			smart_str_appendc(&uncamelize_str, (*marker)+32);
+			smart_str_appendc(&uncamelize_str, (*marker) + 32);
 		} else {
 			smart_str_appendc(&uncamelize_str, (*marker));
 		}
@@ -518,8 +523,13 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 		return;
 	}
 
+	if (Z_TYPE_P(matches) != IS_ARRAY) {
+		ZVAL_BOOL(return_value, 0);
+		return;
+	}
+
 	cursor = Z_STRVAL_P(str);
-	for (i = 0; i<Z_STRLEN_P(str); i++) {
+	for (i = 0; i < Z_STRLEN_P(str); i++) {
 		ch = *cursor;
 
 		if (parentheses_count == 0) {
@@ -543,7 +553,7 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 							item = estrndup(marker + 1, length);
 							cursor_var = item;
 							marker = item;
-							for (j=0; j<length; j++) {
+							for (j = 0; j < length; j++) {
 								ch = *cursor_var;
 								if (j == 0 && !((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z'))){
 									not_valid = 1;
@@ -554,7 +564,7 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 										regexp_length = length - j - 1;
 										variable_length = cursor_var - marker;
 										variable = estrndup(marker, variable_length);
-										regexp = estrndup(cursor_var+1, regexp_length);
+										regexp = estrndup(cursor_var + 1, regexp_length);
 										break;
 									}
 								} else {
@@ -571,15 +581,21 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 									ZVAL_LONG(tmp, number_matches);
 
 									if (variable) {
-										smart_str_appendc(&route_str, '(');
-										smart_str_appendl(&route_str, regexp, regexp_length);
-										smart_str_appendc(&route_str, ')');
-										zend_hash_update(Z_ARRVAL_P(matches), variable, variable_length+1, &tmp, sizeof(zval *), NULL);
+										if (regexp_length > 0) {
+											if (regexp[0] != '(') {
+												smart_str_appendc(&route_str, '(');
+												smart_str_appendl(&route_str, regexp, regexp_length);
+												smart_str_appendc(&route_str, ')');
+											} else {
+												smart_str_appendl(&route_str, regexp, regexp_length);
+											}
+											zend_hash_update(Z_ARRVAL_P(matches), variable, variable_length + 1, &tmp, sizeof(zval *), NULL);
+										}
 										efree(regexp);
 										efree(variable);
 									} else {
 										smart_str_appendl(&route_str, "([^/]*)", strlen("([^/]*)"));
-										zend_hash_update(Z_ARRVAL_P(matches), item, length+1, &tmp, sizeof(zval *), NULL);
+										zend_hash_update(Z_ARRVAL_P(matches), item, length + 1, &tmp, sizeof(zval *), NULL);
 									}
 								}
 							} else {
@@ -673,8 +689,8 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 					item = variable;
 					length = variable_length;
 				}
-				if (zend_hash_exists(Z_ARRVAL_P(replacements), item, length+1)) {
-					if ((result = zend_hash_find(Z_ARRVAL_P(replacements), item, length+1, (void**) &zv)) == SUCCESS) {
+				if (zend_hash_exists(Z_ARRVAL_P(replacements), item, length + 1)) {
+					if ((result = zend_hash_find(Z_ARRVAL_P(replacements), item, length + 1, (void**) &zv)) == SUCCESS) {
 						efree(item);
 						(*position)++;
 						return *zv;
@@ -683,8 +699,8 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 			} else {
 				if ((result = zend_hash_index_find(Z_ARRVAL_P(paths), *position, (void**) &zv)) == SUCCESS) {
 					if (Z_TYPE_PP(zv) == IS_STRING) {
-						if (zend_hash_exists(Z_ARRVAL_P(replacements), Z_STRVAL_PP(zv), Z_STRLEN_PP(zv)+1)) {
-							if ((result = zend_hash_find(Z_ARRVAL_P(replacements), Z_STRVAL_PP(zv), Z_STRLEN_PP(zv)+1, (void**) &tmp)) == SUCCESS) {
+						if (zend_hash_exists(Z_ARRVAL_P(replacements), Z_STRVAL_PP(zv), Z_STRLEN_PP(zv) + 1)) {
+							if ((result = zend_hash_find(Z_ARRVAL_P(replacements), Z_STRVAL_PP(zv), Z_STRLEN_PP(zv) + 1, (void**) &tmp)) == SUCCESS) {
 								(*position)++;
 								return *tmp;
 							}
@@ -1331,3 +1347,69 @@ void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC)
 	}
 
 }
+
+/**
+ * Returns the PHP_EOL (if the passed parameter is TRUE)
+ */
+zval *phalcon_eol(int eol TSRMLS_DC) {
+
+	zval *local_eol;
+
+	/**
+	 * Initialize local var
+	 */
+    PHALCON_INIT_VAR(local_eol);
+
+    /**
+     * Check if the eol is true and return PHP_EOL or empty string
+     */
+    if (eol) {
+	    ZVAL_STRING(local_eol, PHP_EOL, 1);
+    } else {
+        ZVAL_STRING(local_eol, "", 1);
+    }
+
+    return local_eol;
+}
+
+#if HAVE_BUNDLED_PCRE
+
+/**
+ * Execute preg-match without function lookup in the PHP userland
+ */
+void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC)
+{
+	zval copy;
+	int use_copy = 0;
+	pcre_cache_entry *pce;
+
+	if (Z_TYPE_P(regex) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_preg_match()");
+		RETURN_FALSE;
+	}
+
+	if (Z_TYPE_P(subject) != IS_STRING) {
+		zend_make_printable_zval(subject, &copy, &use_copy);
+		if (use_copy) {
+			subject = &copy;
+		}
+	}
+
+	/* Compile regex or get it from cache. */
+	if ((pce = pcre_get_compiled_regex_cache(Z_STRVAL_P(regex), Z_STRLEN_P(regex) TSRMLS_CC)) == NULL) {
+
+		if (use_copy) {
+			zval_dtor(subject);
+		}
+
+		RETURN_FALSE;
+	}
+
+	php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, 0, 0, 0, 0 TSRMLS_CC);
+
+	if (use_copy) {
+		zval_dtor(subject);
+	}
+}
+
+#endif

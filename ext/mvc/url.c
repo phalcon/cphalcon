@@ -83,15 +83,13 @@ PHP_METHOD(Phalcon_Mvc_Url, setDI){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "The dependency injector must be an Object");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -120,11 +118,9 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 
 	zval *base_uri;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &base_uri) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &base_uri);
+	
+	phalcon_update_property_this(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
 	
 }
 
@@ -142,7 +138,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(base_uri);
-	phalcon_read_property(&base_uri, this_ptr, SL("_baseUri"), PH_NOISY_CC);
+	phalcon_read_property_this(&base_uri, this_ptr, SL("_baseUri"), PH_NOISY_CC);
 	if (Z_TYPE_P(base_uri) == IS_NULL) {
 	
 		PHALCON_INIT_VAR(slash);
@@ -181,7 +177,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 			PHALCON_CONCAT_VVV(base_uri, slash, uri, slash);
 		}
 	
-		phalcon_update_property_zval(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
 	}
 	
 	
@@ -201,11 +197,9 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
 
 	zval *base_path;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &base_path) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_basePath"), base_path TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &base_path);
+	
+	phalcon_update_property_this(this_ptr, SL("_basePath"), base_path TSRMLS_CC);
 	
 }
 
@@ -234,10 +228,8 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &uri);
+	
 	if (!uri) {
 		PHALCON_INIT_VAR(uri);
 	}
@@ -251,7 +243,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		}
 	
 		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (!zend_is_true(dependency_injector)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "A dependency injector container is required to obtain the \"url\" service");
 			return;
@@ -317,16 +309,14 @@ PHP_METHOD(Phalcon_Mvc_Url, path){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &path) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &path);
+	
 	if (!path) {
 		PHALCON_INIT_VAR(path);
 	}
 	
 	PHALCON_OBS_VAR(base_path);
-	phalcon_read_property(&base_path, this_ptr, SL("_basePath"), PH_NOISY_CC);
+	phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(final_path);
 	PHALCON_CONCAT_VV(final_path, base_path, path);

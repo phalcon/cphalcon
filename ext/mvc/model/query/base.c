@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -146,7 +146,7 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 
 	ZVAL_NULL(result);
 
-	if(phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE){
+	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE) {
 		phalcon_throw_exception_string(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
 		return FAILURE;
 	}
@@ -165,11 +165,19 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	int scanner_status, status = SUCCESS;
 	phql_parser_status *parser_status = NULL;
 	void* phql_parser;
+	zval **temp_ast;
 
 	if (!phql) {
 		PHALCON_INIT_VAR(*error_msg);
 		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL", 1);
 		return FAILURE;
+	}
+
+	if (PHALCON_GLOBAL(orm.parser_cache)) {
+		if (zend_hash_find(PHALCON_GLOBAL(orm.parser_cache), phql, phql_length, (void**) &temp_ast) == SUCCESS) {
+			ZVAL_ZVAL(*result, *temp_ast, 1, 0);
+			return SUCCESS;
+		}
 	}
 
 	phql_parser = phql_Alloc(phql_wrapper_alloc);
@@ -191,7 +199,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	token.value = NULL;
 	token.len = 0;
 
-	while(0 <= (scanner_status = phql_get_token(state, &token))) {
+	while (0 <= (scanner_status = phql_get_token(state, &token))) {
 
 		/* Calculate the 'start' length */
 		state->start_length = (phql + phql_length - state->start);
@@ -199,7 +207,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		state->active_token = token.opcode;
 
 		/* Parse the token found */
-		switch(token.opcode){
+		switch (token.opcode) {
 
 			case PHQL_T_IGNORE:
 				break;
@@ -440,9 +448,27 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	if (status != FAILURE) {
 		if (parser_status->status == PHQL_PARSING_OK) {
 			if (parser_status->ret) {
+
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
 				zval_ptr_dtor(&parser_status->ret);
+
+				if (!PHALCON_GLOBAL(orm.parser_cache)) {
+					ALLOC_HASHTABLE(PHALCON_GLOBAL(orm.parser_cache));
+					zend_hash_init(PHALCON_GLOBAL(orm.parser_cache), 0, NULL, ZVAL_PTR_DTOR, 0);
+				}
+
+				Z_ADDREF_PP(result);
+
+				zend_hash_update(
+					PHALCON_GLOBAL(orm.parser_cache),
+					phql,
+					phql_length,
+					result,
+					sizeof(zval *),
+					NULL
+				);
+
 			} else {
 				efree(parser_status->ret);
 			}

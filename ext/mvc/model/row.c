@@ -64,10 +64,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState){
 
 	zval *dirty_state;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dirty_state) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &dirty_state);
+	
 	RETURN_FALSE;
 }
 
@@ -81,10 +79,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
 
 	zval *index;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &index);
+	
 	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
 		RETURN_TRUE;
 	}
@@ -103,10 +99,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &index);
+	
 	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
 		PHALCON_OBS_VAR(value);
 		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
@@ -128,10 +122,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &index, &value);
+	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
 	return;
 }
@@ -147,10 +139,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &offset);
+	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
 	return;
 }

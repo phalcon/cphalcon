@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backends must be an array");
 			return;
 		}
-		phalcon_update_property_zval(this_ptr, SL("_backends"), backends TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_backends"), backends TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get){
 	}
 	
 	PHALCON_OBS_VAR(backends);
-	phalcon_read_property(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
+	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
 	if (!phalcon_is_iterable(backends, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start){
 	}
 	
 	PHALCON_OBS_VAR(backends);
-	phalcon_read_property(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
+	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
 	if (!phalcon_is_iterable(backends, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save){
 	}
 	
 	PHALCON_OBS_VAR(backends);
-	phalcon_read_property(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
+	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
 	if (!phalcon_is_iterable(backends, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete){
 	}
 
 	PHALCON_OBS_VAR(backends);
-	phalcon_read_property(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
+	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
 	if (!phalcon_is_iterable(backends, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists){
 	}
 	
 	PHALCON_OBS_VAR(backends);
-	phalcon_read_property(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
+	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
 	if (!phalcon_is_iterable(backends, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;

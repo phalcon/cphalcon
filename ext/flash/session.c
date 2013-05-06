@@ -68,11 +68,9 @@ PHP_METHOD(Phalcon_Flash_Session, setDI){
 
 	zval *dependency_injector;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
+	
+	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
 
@@ -100,12 +98,10 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &remove) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &remove);
+	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
@@ -137,20 +133,15 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
  */
 PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 
-	zval *messages = NULL, *dependency_injector, *service;
+	zval *messages, *dependency_injector, *service;
 	zval *session, *index_name;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &messages) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_SEPARATE_PARAM(messages);
+	phalcon_fetch_params(1, 1, 0, &messages);
 	
 	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
@@ -164,10 +155,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	
 	PHALCON_INIT_VAR(index_name);
 	ZVAL_STRING(index_name, "_flashMessages", 1);
-	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, session, "set", index_name, messages);
-	PHALCON_CPY_WRT(messages, r0);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", index_name, messages);
 	
 	RETURN_CCTOR(messages);
 }
@@ -185,10 +173,8 @@ PHP_METHOD(Phalcon_Flash_Session, message){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &message) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &type, &message);
+	
 	PHALCON_INIT_VAR(remove);
 	ZVAL_BOOL(remove, 0);
 	
@@ -225,10 +211,8 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &type, &remove) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &type, &remove);
+	
 	if (!type) {
 		PHALCON_INIT_VAR(type);
 	}
@@ -273,10 +257,8 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &remove) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &remove);
+	
 	if (!remove) {
 		PHALCON_INIT_VAR(remove);
 		ZVAL_BOOL(remove, 1);

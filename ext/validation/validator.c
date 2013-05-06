@@ -66,21 +66,19 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		if (Z_TYPE_P(options) != IS_NULL) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be an string");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be a string");
 			return;
 		}
 	} else {
-		phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -98,12 +96,10 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset(options, key)) {
 			RETURN_MM_TRUE;
@@ -126,12 +122,10 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	PHALCON_OBS_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset(options, key)) {
 			PHALCON_OBS_VAR(value);
@@ -141,5 +135,21 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption){
 	}
 	
 	RETURN_MM_NULL();
+}
+
+/**
+ * Sets an option in the validator
+ *
+ * @param string $key
+ * @param mixed $value
+ */
+PHP_METHOD(Phalcon_Validation_Validator, setOption){
+
+	zval *key, *value;
+
+	phalcon_fetch_params(0, 2, 0, &key, &value);
+	
+	phalcon_update_property_array(this_ptr, SL("_options"), key, value TSRMLS_CC);
+	
 }
 

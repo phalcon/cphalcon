@@ -71,12 +71,10 @@ PHP_METHOD(Phalcon_Db_Index, __construct){
 
 	zval *index_name, *columns;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index_name, &columns) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_indexName"), index_name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
+	phalcon_fetch_params(0, 2, 0, &index_name, &columns);
+	
+	phalcon_update_property_this(this_ptr, SL("_indexName"), index_name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 	
 }
 
@@ -114,10 +112,8 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	if (!phalcon_array_isset_string(data, SS("_indexName"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_indexName parameter is required");
 		return;

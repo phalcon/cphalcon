@@ -78,9 +78,9 @@ PHP_METHOD(Phalcon_Logger_Item, __construct){
 		ZVAL_LONG(time, 0);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_message"), message TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_time"), time TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_time"), time TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

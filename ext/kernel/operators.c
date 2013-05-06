@@ -67,7 +67,7 @@ void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 
 	if (Z_TYPE_PP(left) == IS_NULL) {
 
-		Z_STRVAL_PP(left) = emalloc(Z_STRLEN_P(right)+1);
+		Z_STRVAL_PP(left) = emalloc(Z_STRLEN_P(right) + 1);
 		memcpy(Z_STRVAL_PP(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
 		Z_STRVAL_PP(left)[Z_STRLEN_P(right)] = 0;
 		Z_STRLEN_PP(left) = Z_STRLEN_P(right);

@@ -80,10 +80,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &class_name);
+	
 	if (Z_TYPE_P(class_name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The class name must be an object");
 		return;
@@ -269,10 +267,8 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &doc_block, &file, &line) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &doc_block, &file, &line);
+	
 	if (!file) {
 		PHALCON_INIT_VAR(file);
 	} else {

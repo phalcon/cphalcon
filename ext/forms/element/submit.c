@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Forms_Element_Submit, render){
 	PHALCON_CALL_METHOD_PARAMS_1(widget_attributes, this_ptr, "prepareattributes", attributes);
 	
 	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "submitfield", widget_attributes);
+	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "submitbutton", widget_attributes);
 	RETURN_CCTOR(code);
 }
 

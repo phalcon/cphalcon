@@ -62,11 +62,11 @@
  *
  *  $result = $connection->query("SELECT * FROM robots LIMIT 5");
  *  $result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *  while($robot = $result->fetch()){
+ *  while ($robot = $result->fetch()) {
  *    print_r($robot);
  *  }
  *
- *} catch(Phalcon\Db\Exception $e){
+ *} catch (Phalcon\Db\Exception $e) {
  *	echo $e->getMessage(), PHP_EOL;
  *}
  *
@@ -100,10 +100,8 @@ PHP_METHOD(Phalcon_Db, setup){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &options);
+	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Options must be an array");
 		return;

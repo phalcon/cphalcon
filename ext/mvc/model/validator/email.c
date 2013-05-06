@@ -34,6 +34,7 @@
 
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
@@ -118,11 +119,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	 */
 	PHALCON_INIT_VAR(pattern);
 	ZVAL_STRING(pattern, "/^[a-zA-Z0-9\\-_\\.\\+]+@[a-zA-Z0-9_\\-]+(\\.[a-zA-Z0-9_\\-]+)*$/", 1);
-	Z_SET_ISREF_P(regs);
 	
 	PHALCON_INIT_VAR(match_pattern);
+	
+	Z_SET_ISREF_P(regs);
+	
+	#if HAVE_BUNDLED_PCRE
+	phalcon_preg_match(match_pattern, pattern, value, regs TSRMLS_CC);
+	#else
 	PHALCON_CALL_FUNC_PARAMS_3(match_pattern, "preg_match", pattern, value, regs);
+	#endif
+	
 	Z_UNSET_ISREF_P(regs);
+	
 	if (zend_is_true(match_pattern)) {
 		PHALCON_OBS_VAR(match_zero);
 		phalcon_array_fetch_long(&match_zero, regs, 0, PH_NOISY_CC);

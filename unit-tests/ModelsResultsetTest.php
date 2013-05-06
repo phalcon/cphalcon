@@ -207,6 +207,16 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse(isset($robots[4]));
 
+		$filtered = $robots->filter(function($robot){
+			if ($robot->id < 3) {
+				return $robot;
+			}
+		});
+
+		$this->assertEquals(count($filtered), 2);
+		$this->assertEquals($filtered[0]->id, 1);
+		$this->assertEquals($filtered[1]->id, 2);
+
 	}
 
 	public function _applyTestsBig($personas)
