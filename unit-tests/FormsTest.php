@@ -62,6 +62,12 @@ class ContactFormSettersGetters
 class FormsTest extends PHPUnit_Framework_TestCase
 {
 
+	public function setUp()
+	{
+		Phalcon\DI::reset();
+		return new Phalcon\DI\FactoryDefault();
+	}
+
 	public function testFormElementEmpty()
 	{
 		$element = new Text("name");
@@ -156,6 +162,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 	public function testFormElementRender()
 	{
+
 		$element1 = new Text("name");
 		$element1->setAttributes(array('class' => 'big-input'));
 
