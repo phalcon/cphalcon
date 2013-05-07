@@ -71,6 +71,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_ismethod, 0, 0, 1)
 	ZEND_ARG_INFO(0, methods)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_hasfiles, 0, 0, 0)
+	ZEND_ARG_INFO(0, notErrored)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_getuploadedfiles, 0, 0, 0)
+	ZEND_ARG_INFO(0, notErrored)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_http_requestinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, get, arginfo_phalcon_http_requestinterface_get)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getPost, arginfo_phalcon_http_requestinterface_getpost)
@@ -99,8 +107,8 @@ PHALCON_INIT_FUNCS(phalcon_http_requestinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, isHead, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, isDelete, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, isOptions, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, hasFiles, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getUploadedFiles, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, hasFiles, arginfo_phalcon_http_requestinterface_hasfiles)
+	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getUploadedFiles, arginfo_phalcon_http_requestinterface_getuploadedfiles)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getHTTPReferer, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getAcceptableContent, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getBestAccept, NULL)
