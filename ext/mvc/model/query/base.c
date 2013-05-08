@@ -176,6 +176,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	if (PHALCON_GLOBAL(orm.parser_cache)) {
 		if (zend_hash_find(PHALCON_GLOBAL(orm.parser_cache), phql, phql_length, (void**) &temp_ast) == SUCCESS) {
 			ZVAL_ZVAL(*result, *temp_ast, 1, 0);
+			Z_SET_REFCOUNT_P(*result, 1);
 			return SUCCESS;
 		}
 	}
