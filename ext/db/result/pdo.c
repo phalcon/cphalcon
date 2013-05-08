@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, connection, "gettype");
-		if (PHALCON_IS_STRING(type, "sqlite")) {
+		if (PHALCON_IS_STRING(type, "sqlite") || PHALCON_IS_STRING(type, "oci")) {
 	
 			/** 
 			 * SQLite returns resultsets that to the client eyes (PDO) has an arbitrary number
