@@ -57,6 +57,9 @@
  *      $this->validate(new UniquenessValidator(array(
  *          'field' => 'email'
  *      )));
+ *      $this->validate(new UniquenessValidator(array(
+ *          'field' => array('username','phone')
+ *      )));
  *      if ($this->validationHasFailed() == true) {
  *          return false;
  *      }
@@ -97,6 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	zval *primary_field = NULL, *attribute_field = NULL, *params;
 	zval *class_name, *message = NULL, *type;
 	zval *r0 = NULL, *r1 = NULL;
+	zval *message_field = NULL, *mmesage = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -156,6 +160,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			return;
 		}
 	
+		PHALCON_INIT_VAR(message_field);
+ 		array_init(message_field);
+
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(compose_field);
@@ -203,6 +210,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
 			PHALCON_SEPARATE(number);
 			increment_function(number);
+
+			phalcon_array_append(&message_field, compose_field, PH_SEPARATE TSRMLS_CC);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -360,9 +369,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_NVAR(message);
-			PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is already present in another record");
-		}
+
+			if( Z_TYPE_P(field) == IS_ARRAY ){
 	
+				PHALCON_INIT_VAR(mmesage);
+				phalcon_fast_join_str(mmesage, SL("', '"), message_field TSRMLS_CC);
+				PHALCON_CPY_WRT(message_field, mmesage);
+
+				PHALCON_CONCAT_SVS(message, "Value of fields '", mmesage,"' is already present in another record");
+			}else{
+				PHALCON_CONCAT_SVS(message, "Value of field '", field,"' is already present in another record");
+			}
+		}
 		/** 
 		 * Append the message to the validator
 		 */
