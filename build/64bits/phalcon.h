@@ -470,20 +470,18 @@ zend_class_entry *phalcon_db_adapterinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_AdapterInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, descriptor)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_fetchone, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlQuery)
 	ZEND_ARG_INFO(0, fetchMode)
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_INFO(0, bindParams)
+	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_fetchall, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlQuery)
 	ZEND_ARG_INFO(0, fetchMode)
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_INFO(0, bindParams)
+	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_insert, 0, 0, 2)
@@ -662,7 +660,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_describecolumns, 0, 0
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_db_adapterinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, __construct, arginfo_phalcon_db_adapterinterface___construct)
+	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, __construct, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, fetchOne, arginfo_phalcon_db_adapterinterface_fetchone)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, fetchAll, arginfo_phalcon_db_adapterinterface_fetchall)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, insert, arginfo_phalcon_db_adapterinterface_insert)
@@ -1281,6 +1279,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_getparam, 0, 0, 1)
 	ZEND_ARG_INFO(0, param)
 	ZEND_ARG_INFO(0, filters)
+	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcherinterface_forward, 0, 0, 1)
@@ -1395,6 +1394,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_CollectionInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collectioninterface___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
+	ZEND_ARG_INFO(0, modelsManager)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collectioninterface_setid, 0, 0, 1)
@@ -1555,7 +1555,7 @@ zend_class_entry *phalcon_mvc_model_queryinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_QueryInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_queryinterface___construct, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_queryinterface___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, phql)
 ZEND_END_ARG_INFO()
 
@@ -1944,6 +1944,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_ismethod, 0, 0, 1)
 	ZEND_ARG_INFO(0, methods)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_hasfiles, 0, 0, 0)
+	ZEND_ARG_INFO(0, notErrored)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_requestinterface_getuploadedfiles, 0, 0, 0)
+	ZEND_ARG_INFO(0, notErrored)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_http_requestinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, get, arginfo_phalcon_http_requestinterface_get)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getPost, arginfo_phalcon_http_requestinterface_getpost)
@@ -1972,8 +1980,8 @@ PHALCON_INIT_FUNCS(phalcon_http_requestinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, isHead, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, isDelete, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, isOptions, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, hasFiles, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getUploadedFiles, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, hasFiles, arginfo_phalcon_http_requestinterface_hasfiles)
+	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getUploadedFiles, arginfo_phalcon_http_requestinterface_getuploadedfiles)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getHTTPReferer, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getAcceptableContent, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getBestAccept, NULL)
@@ -2820,7 +2828,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaperinterface_escapehtml, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaperinterface_escapehtmlattr, 0, 0, 1)
-	ZEND_ARG_INFO(0, text)
+	ZEND_ARG_INFO(0, attribute)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaperinterface_escapecss, 0, 0, 1)
@@ -3075,6 +3083,7 @@ PHALCON_INIT_CLASS(Phalcon_Events_ManagerInterface);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_attach, 0, 0, 2)
 	ZEND_ARG_INFO(0, eventType)
 	ZEND_ARG_INFO(0, handler)
+	ZEND_ARG_INFO(0, priority)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_dettachall, 0, 0, 0)
@@ -3085,6 +3094,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_fire, 0, 0, 2)
 	ZEND_ARG_INFO(0, eventType)
 	ZEND_ARG_INFO(0, source)
 	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, cancelable)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_getlisteners, 0, 0, 1)
@@ -3109,6 +3119,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_messageinterface___construct, 0
 	ZEND_ARG_INFO(0, message)
 	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_messageinterface_settype, 0, 0, 1)
