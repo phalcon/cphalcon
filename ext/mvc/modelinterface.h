@@ -52,11 +52,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_cloneresultmap, 0, 0, 
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, columnMap)
 	ZEND_ARG_INFO(0, dirtyState)
+	ZEND_ARG_INFO(0, keepSnapshots)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_cloneresult, 0, 0, 2)
 	ZEND_ARG_INFO(0, base)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, dirtyState)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_cloneresultmaphydrate, 0, 0, 3)
@@ -111,14 +113,17 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_save, 0, 0, 0)
 	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, whiteList)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_create, 0, 0, 0)
 	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, whiteList)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_update, 0, 0, 0)
 	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, whiteList)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_readattribute, 0, 0, 1)
@@ -131,7 +136,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_writeattribute, 0, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_getrelated, 0, 0, 1)
-	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, alias)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 

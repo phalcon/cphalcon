@@ -524,19 +524,19 @@ PHP_METHOD(Phalcon_DI, getServices){
 /**
  * Check if a service is registered using the array syntax
  *
- * @param string $alias
+ * @param string $offset
  * @return boolean
  */
 PHP_METHOD(Phalcon_DI, offsetExists){
 
-	zval *alias, *exists;
+	zval *offset, *exists;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &alias);
+	phalcon_fetch_params(1, 1, 0, &offset);
 	
 	PHALCON_INIT_VAR(exists);
-	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "has", alias);
+	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "has", offset);
 	RETURN_CCTOR(exists);
 }
 
@@ -547,18 +547,18 @@ PHP_METHOD(Phalcon_DI, offsetExists){
  *	$di['request'] = new Phalcon\Http\Request();
  *</code>
  *
- * @param string $alias
- * @param mixed $definition
+ * @param string $offset
+ * @param mixed $value
  */
 PHP_METHOD(Phalcon_DI, offsetSet){
 
-	zval *alias, *definition;
+	zval *offset, *value;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &alias, &definition);
+	phalcon_fetch_params(1, 2, 0, &offset, &value);
 	
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setshared", alias, definition);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setshared", offset, value);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -570,34 +570,34 @@ PHP_METHOD(Phalcon_DI, offsetSet){
  *	var_dump($di['request']);
  *</code>
  *
- * @param string $alias
+ * @param string $offset
  * @return mixed
  */
 PHP_METHOD(Phalcon_DI, offsetGet){
 
-	zval *alias, *service;
+	zval *offset, *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &alias);
+	phalcon_fetch_params(1, 1, 0, &offset);
 	
 	PHALCON_INIT_VAR(service);
-	PHALCON_CALL_METHOD_PARAMS_1(service, this_ptr, "getshared", alias);
+	PHALCON_CALL_METHOD_PARAMS_1(service, this_ptr, "getshared", offset);
 	RETURN_CCTOR(service);
 }
 
 /**
  * Removes a service from the services container using the array syntax
  *
- * @param string $alias
+ * @param string $offset
  */
 PHP_METHOD(Phalcon_DI, offsetUnset){
 
-	zval *alias;
+	zval *offset;
 
-	phalcon_fetch_params(0, 1, 0, &alias);
+	phalcon_fetch_params(0, 1, 0, &offset);
 	
-	RETURN_CCTORW(alias);
+	RETURN_CCTORW(offset);
 }
 
 /**
