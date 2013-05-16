@@ -1,3 +1,7 @@
+1.2.0
+ - Now 'compiledPath' option accept a closure to dynamically create the compilation path in Volt
+ - Volt now supports extensions, these can be used to extend better Volt
+
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods
  - Added Mvc\Query\Builder::inWhere to append a IN expression to the query
