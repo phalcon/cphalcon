@@ -132,13 +132,14 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		} \
 	}
 
+//phalcon_memory_observe(&z TSRMLS_CC); \
+
 #define PHALCON_SEPARATE(z) \
 	{ \
 		zval *orig_ptr = z; \
 		if (Z_REFCOUNT_P(orig_ptr) > 1) { \
 			Z_DELREF_P(orig_ptr); \
 			ALLOC_ZVAL(z); \
-			phalcon_memory_observe(&z TSRMLS_CC); \
 			*z = *orig_ptr; \
 			zval_copy_ctor(z); \
 			Z_SET_REFCOUNT_P(z, 1); \

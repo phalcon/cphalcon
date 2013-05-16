@@ -1112,13 +1112,14 @@ static void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		} \
 	}
 
+//phalcon_memory_observe(&z TSRMLS_CC); \
+
 #define PHALCON_SEPARATE(z) \
 	{ \
 		zval *orig_ptr = z; \
 		if (Z_REFCOUNT_P(orig_ptr) > 1) { \
 			Z_DELREF_P(orig_ptr); \
 			ALLOC_ZVAL(z); \
-			phalcon_memory_observe(&z TSRMLS_CC); \
 			*z = *orig_ptr; \
 			zval_copy_ctor(z); \
 			Z_SET_REFCOUNT_P(z, 1); \
@@ -26969,7 +26970,7 @@ static PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, connection, "gettype");
-		if (PHALCON_IS_STRING(type, "sqlite")) {
+		if (PHALCON_IS_STRING(type, "sqlite") || PHALCON_IS_STRING(type, "oci")) {
 	
 			PHALCON_OBS_VAR(sql_statement);
 			phalcon_read_property_this(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
@@ -67778,6 +67779,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	zval *primary_field = NULL, *attribute_field = NULL, *params;
 	zval *class_name, *message = NULL, *type;
 	zval *r0 = NULL, *r1 = NULL;
+	zval *message_field = NULL, *mmesage = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -67830,6 +67832,9 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			return;
 		}
 	
+		PHALCON_INIT_VAR(message_field);
+ 		array_init(message_field);
+
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(compose_field);
@@ -67868,6 +67873,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
 			PHALCON_SEPARATE(number);
 			increment_function(number);
+
+			phalcon_array_append(&message_field, compose_field, PH_SEPARATE TSRMLS_CC);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -67995,9 +68002,18 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_NVAR(message);
-			PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is already present in another record");
-		}
+
+			if( Z_TYPE_P(field) == IS_ARRAY ){
 	
+				PHALCON_INIT_VAR(mmesage);
+				phalcon_fast_join_str(mmesage, SL("', '"), message_field TSRMLS_CC);
+				PHALCON_CPY_WRT(message_field, mmesage);
+
+				PHALCON_CONCAT_SVS(message, "Value of fields '", mmesage,"' is already present in another record");
+			}else{
+				PHALCON_CONCAT_SVS(message, "Value of field '", field,"' is already present in another record");
+			}
+		}
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "Unique", 1);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type);
