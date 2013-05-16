@@ -20,7 +20,7 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "1.1.0"
+#define PHP_PHALCON_VERSION "1.2.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_RELEASE 1
