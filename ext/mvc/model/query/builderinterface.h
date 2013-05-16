@@ -42,18 +42,25 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_join, 0,
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, conditions)
 	ZEND_ARG_INFO(0, alias)
+	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_where, 0, 0, 1)
 	ZEND_ARG_INFO(0, conditions)
+	ZEND_ARG_INFO(0, bindParams)
+	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_andwhere, 0, 0, 1)
 	ZEND_ARG_INFO(0, conditions)
+	ZEND_ARG_INFO(0, bindParams)
+	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_orwhere, 0, 0, 1)
 	ZEND_ARG_INFO(0, conditions)
+	ZEND_ARG_INFO(0, bindParams)
+	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_orderby, 0, 0, 1)
