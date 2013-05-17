@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -505,9 +504,15 @@ PHP_METHOD(Phalcon_Http_Response, setEtag){
  *	$response->redirect("posts/index");
  *	$response->redirect("http://en.wikipedia.org", true);
  *	$response->redirect("http://www.example.com/new-location", true, 301);
+ *	//Making a redirection based on a named route
+ *	$response->redirect(array(
+ *		"for" => "index-lang",
+ *		"lang" => "jp",
+ *		"controller" => "index"
+ *	));
  *</code>
  *
- * @param string $location
+ * @param mixed $location
  * @param boolean $externalRedirect
  * @param int $statusCode
  * @return Phalcon\Http\ResponseInterface
