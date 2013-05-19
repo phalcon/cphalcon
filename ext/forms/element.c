@@ -192,7 +192,6 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter){
 		phalcon_update_property_this(this_ptr, SL("_filters"), new_filters TSRMLS_CC);
 	}
 	
-	
 	RETURN_THIS();
 }
 
@@ -245,7 +244,6 @@ PHP_METHOD(Phalcon_Forms_Element, addValidators){
 		phalcon_update_property_this(this_ptr, SL("_validators"), merged_validators TSRMLS_CC);
 	}
 	
-	
 	RETURN_THIS();
 }
 
@@ -259,9 +257,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator){
 
 	zval *validator;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &validator);
+	phalcon_fetch_params(0, 1, 0, &validator);
 	
 	if (Z_TYPE_P(validator) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The validators parameter must be an object");
@@ -269,7 +265,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator){
 	}
 	phalcon_update_property_array_append(this_ptr, SL("_validators"), validator TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -335,7 +331,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	 * Get the current element's value
 	 */
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD(value, this_ptr, "getvalue");
+	phalcon_call_method(value, this_ptr, "getvalue");
 	
 	/** 
 	 * If the widget has a value assign it to the attributes
@@ -343,7 +339,6 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	if (Z_TYPE_P(value) != IS_NULL) {
 		phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
-	
 	
 	RETURN_CCTOR(merged_attributes);
 }
@@ -393,7 +388,6 @@ PHP_METHOD(Phalcon_Forms_Element, getAttribute){
 		RETURN_CCTOR(value);
 	}
 	
-	
 	RETURN_CCTOR(default_value);
 }
 
@@ -407,9 +401,7 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes){
 
 	zval *attributes;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &attributes);
+	phalcon_fetch_params(0, 1, 0, &attributes);
 	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'attributes' must be an array");
@@ -417,7 +409,7 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes){
 	}
 	phalcon_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -475,7 +467,6 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption){
 		RETURN_CCTOR(value);
 	}
 	
-	
 	RETURN_CCTOR(default_value);
 }
 
@@ -489,9 +480,7 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOptions){
 
 	zval *options;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &options);
+	phalcon_fetch_params(0, 1, 0, &options);
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
@@ -499,7 +488,7 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOptions){
 	}
 	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -579,7 +568,6 @@ PHP_METHOD(Phalcon_Forms_Element, label){
 		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", name, "</label>");
 	}
 	
-	
 	RETURN_CTOR(html);
 }
 
@@ -643,7 +631,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue){
 			/** 
 			 * Gets the possible value for the widget
 			 */
-			PHALCON_CALL_METHOD_PARAMS_1(value, form, "getvalue", name);
+			phalcon_call_method_p1(value, form, "getvalue", name);
 		}
 	}
 	
@@ -654,7 +642,6 @@ PHP_METHOD(Phalcon_Forms_Element, getValue){
 		PHALCON_OBS_NVAR(value);
 		phalcon_read_property_this(&value, this_ptr, SL("_value"), PH_NOISY_CC);
 	}
-	
 	
 	RETURN_CCTOR(value);
 }
@@ -682,7 +669,7 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages){
 	
 	PHALCON_INIT_NVAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
-	PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
+	phalcon_call_method_noret(messages, "__construct");
 	
 	phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	
@@ -725,9 +712,7 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages){
 
 	zval *group;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &group);
+	phalcon_fetch_params(0, 1, 0, &group);
 	
 	if (Z_TYPE_P(group) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The message group is not valid");
@@ -735,7 +720,7 @@ PHP_METHOD(Phalcon_Forms_Element, setMessages){
 	}
 	phalcon_update_property_this(this_ptr, SL("_messages"), group TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -757,12 +742,12 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage){
 	if (Z_TYPE_P(messages) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(messages);
 		object_init_ex(messages, phalcon_validation_message_group_ce);
-		PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
+		phalcon_call_method_noret(messages, "__construct");
 	
 		phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	}
 	
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(messages, "appendmessage", message);
+	phalcon_call_method_p1_noret(messages, "appendmessage", message);
 	
 	RETURN_THIS();
 }
@@ -779,7 +764,7 @@ PHP_METHOD(Phalcon_Forms_Element, __toString){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(content);
-	PHALCON_CALL_METHOD(content, this_ptr, "render");
+	phalcon_call_method(content, this_ptr, "render");
 	RETURN_CCTOR(content);
 }
 

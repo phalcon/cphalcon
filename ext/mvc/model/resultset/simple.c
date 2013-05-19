@@ -102,13 +102,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	 */
 	PHALCON_INIT_VAR(fetch_assoc);
 	ZVAL_LONG(fetch_assoc, 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_assoc);
+	phalcon_call_method_p1_noret(result, "setfetchmode", fetch_assoc);
 	
 	PHALCON_INIT_VAR(limit);
 	ZVAL_LONG(limit, 32);
 	
 	PHALCON_INIT_VAR(row_count);
-	PHALCON_CALL_METHOD(row_count, result, "numrows");
+	phalcon_call_method(row_count, result, "numrows");
 	
 	/** 
 	 * Check if it's a big resultset
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 		phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (Z_TYPE_P(result) == IS_OBJECT) {
 			PHALCON_INIT_VAR(row);
-			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetch", result);
+			phalcon_call_method_p1(row, result, "fetch", result);
 		} else {
 			PHALCON_INIT_NVAR(row);
 			ZVAL_BOOL(row, 0);
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 			if (Z_TYPE_P(result) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(rows);
-				PHALCON_CALL_METHOD(rows, result, "fetchall");
+				phalcon_call_method(rows, result, "fetchall");
 				phalcon_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 			}
 		}
@@ -290,14 +290,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 			 * Check if we need to re-execute the query
 			 */
 			if (Z_TYPE_P(active_row) != IS_NULL) {
-				PHALCON_CALL_METHOD_NORETURN(result, "execute");
+				phalcon_call_method_noret(result, "execute");
 			}
 	
 			/** 
 			 * We fetch all the results in memory
 			 */
 			PHALCON_INIT_VAR(records);
-			PHALCON_CALL_METHOD(records, result, "fetchall");
+			phalcon_call_method(records, result, "fetchall");
 		} else {
 			PHALCON_INIT_NVAR(records);
 			array_init(records);
@@ -318,14 +318,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 				 * Check if we need to re-execute the query
 				 */
 				if (Z_TYPE_P(active_row) != IS_NULL) {
-					PHALCON_CALL_METHOD_NORETURN(result, "execute");
+					phalcon_call_method_noret(result, "execute");
 				}
 	
 				/** 
 				 * We fetch all the results in memory again
 				 */
 				PHALCON_INIT_NVAR(records);
-				PHALCON_CALL_METHOD(records, result, "fetchall");
+				phalcon_call_method(records, result, "fetchall");
 				phalcon_update_property_this(this_ptr, SL("_rows"), records TSRMLS_CC);
 	
 				/** 
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(record);
+			PHALCON_GET_HVALUE(record);
 	
 			PHALCON_INIT_NVAR(renamed);
 			array_init(renamed);
@@ -372,8 +372,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-				PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
-				PHALCON_GET_FOREACH_VALUE(value);
+				PHALCON_GET_HKEY(key, ah1, hp1);
+				PHALCON_GET_HVALUE(value);
 	
 				/** 
 				 * Check if the key is part of the column map
@@ -407,10 +407,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-	
 		RETURN_CTOR(renamed_records);
 	}
-	
 	
 	RETURN_CCTOR(records);
 }
@@ -431,7 +429,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	ZVAL_BOOL(rename_columns, 0);
 	
 	PHALCON_INIT_VAR(records);
-	PHALCON_CALL_METHOD_PARAMS_1(records, this_ptr, "toarray", rename_columns);
+	phalcon_call_method_p1(records, this_ptr, "toarray", rename_columns);
 	
 	PHALCON_OBS_VAR(model);
 	phalcon_read_property_this(&model, this_ptr, SL("_model"), PH_NOISY_CC);
@@ -462,7 +460,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	 * Serialize the cache using the serialize function
 	 */
 	PHALCON_INIT_VAR(serialized);
-	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
+	phalcon_call_func_p1(serialized, "serialize", data);
 	RETURN_CCTOR(serialized);
 }
 
@@ -483,7 +481,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 	phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_FUNC_PARAMS_1(resultset, "unserialize", data);
+	phalcon_call_func_p1(resultset, "unserialize", data);
 	if (Z_TYPE_P(resultset) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;

@@ -239,7 +239,15 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 		}\
 	}
 
+/** Foreach */
+#define PHALCON_GET_HKEY(var, hash, hash_pointer) PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer)
+
 #define PHALCON_GET_FOREACH_VALUE(var) \
+	PHALCON_OBSERVE_VAR(var); \
+	var = *hd; \
+	Z_ADDREF_P(var);
+
+#define PHALCON_GET_HVALUE(var) \
 	PHALCON_OBSERVE_VAR(var); \
 	var = *hd; \
 	Z_ADDREF_P(var);

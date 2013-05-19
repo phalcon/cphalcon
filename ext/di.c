@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_DI, set){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
+	phalcon_call_method_p3_noret(service, "__construct", name, definition, shared);
 	
 	phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_DI, setShared){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
+	phalcon_call_method_p3_noret(service, "__construct", name, definition, shared);
 	
 	phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	
@@ -187,9 +187,7 @@ PHP_METHOD(Phalcon_DI, remove){
 
 	zval *name;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
@@ -197,7 +195,6 @@ PHP_METHOD(Phalcon_DI, remove){
 	}
 	phalcon_unset_property_array(this_ptr, SL("_services"), name TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -233,7 +230,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 	if (!phalcon_array_isset(services, name)) {
 		PHALCON_INIT_VAR(service);
 		object_init_ex(service, phalcon_di_service_ce);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
+		phalcon_call_method_p3_noret(service, "__construct", name, definition, shared);
 	
 		phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 		RETURN_CTOR(service);
@@ -253,9 +250,7 @@ PHP_METHOD(Phalcon_DI, setRaw){
 
 	zval *name, *raw_definition;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &name, &raw_definition);
+	phalcon_fetch_params(0, 2, 0, &name, &raw_definition);
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
@@ -268,7 +263,7 @@ PHP_METHOD(Phalcon_DI, setRaw){
 	
 	phalcon_update_property_array(this_ptr, SL("_services"), name, raw_definition TSRMLS_CC);
 	
-	RETURN_CCTOR(raw_definition);
+	RETURN_CCTORW(raw_definition);
 }
 
 /**
@@ -297,7 +292,7 @@ PHP_METHOD(Phalcon_DI, getRaw){
 		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(definition);
-		PHALCON_CALL_METHOD(definition, service, "getdefinition");
+		phalcon_call_method(definition, service, "getdefinition");
 		RETURN_CCTOR(definition);
 	}
 	
@@ -378,7 +373,7 @@ PHP_METHOD(Phalcon_DI, get){
 		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(instance);
-		PHALCON_CALL_METHOD_PARAMS_2(instance, service, "resolve", parameters, this_ptr);
+		phalcon_call_method_p2(instance, service, "resolve", parameters, this_ptr);
 	} else {
 		/** 
 		 * The DI also acts as builder for any class even if it isn't defined in the DI
@@ -415,10 +410,9 @@ PHP_METHOD(Phalcon_DI, get){
 	 */
 	if (Z_TYPE_P(instance) == IS_OBJECT) {
 		if (phalcon_method_exists_ex(instance, SS("setdi") TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(instance, "setdi", this_ptr);
+			phalcon_call_method_p1_noret(instance, "setdi", this_ptr);
 		}
 	}
-	
 	
 	RETURN_CCTOR(instance);
 }
@@ -462,7 +456,7 @@ PHP_METHOD(Phalcon_DI, getShared){
 		 * Resolve the instance normally
 		 */
 		PHALCON_INIT_NVAR(instance);
-		PHALCON_CALL_METHOD_PARAMS_2(instance, this_ptr, "get", name, parameters);
+		phalcon_call_method_p2(instance, this_ptr, "get", name, parameters);
 	
 		/** 
 		 * Save the instance in the first level shared
@@ -470,7 +464,6 @@ PHP_METHOD(Phalcon_DI, getShared){
 		phalcon_update_property_array(this_ptr, SL("_sharedInstances"), name, instance TSRMLS_CC);
 		phalcon_update_property_bool(this_ptr, SL("_freshInstance"), 1 TSRMLS_CC);
 	}
-	
 	
 	RETURN_CCTOR(instance);
 }
@@ -524,19 +517,19 @@ PHP_METHOD(Phalcon_DI, getServices){
 /**
  * Check if a service is registered using the array syntax
  *
- * @param string $alias
+ * @param string $name
  * @return boolean
  */
 PHP_METHOD(Phalcon_DI, offsetExists){
 
-	zval *alias, *exists;
+	zval *name, *exists;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &alias);
+	phalcon_fetch_params(1, 1, 0, &name);
 	
 	PHALCON_INIT_VAR(exists);
-	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "has", alias);
+	phalcon_call_method_p1(exists, this_ptr, "has", name);
 	RETURN_CCTOR(exists);
 }
 
@@ -547,18 +540,18 @@ PHP_METHOD(Phalcon_DI, offsetExists){
  *	$di['request'] = new Phalcon\Http\Request();
  *</code>
  *
- * @param string $alias
+ * @param string $name
  * @param mixed $definition
  */
 PHP_METHOD(Phalcon_DI, offsetSet){
 
-	zval *alias, *definition;
+	zval *name, *definition;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &alias, &definition);
+	phalcon_fetch_params(1, 2, 0, &name, &definition);
 	
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setshared", alias, definition);
+	phalcon_call_method_p2_noret(this_ptr, "setshared", name, definition);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -570,34 +563,34 @@ PHP_METHOD(Phalcon_DI, offsetSet){
  *	var_dump($di['request']);
  *</code>
  *
- * @param string $alias
+ * @param string $name
  * @return mixed
  */
 PHP_METHOD(Phalcon_DI, offsetGet){
 
-	zval *alias, *service;
+	zval *name, *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &alias);
+	phalcon_fetch_params(1, 1, 0, &name);
 	
 	PHALCON_INIT_VAR(service);
-	PHALCON_CALL_METHOD_PARAMS_1(service, this_ptr, "getshared", alias);
+	phalcon_call_method_p1(service, this_ptr, "getshared", name);
 	RETURN_CCTOR(service);
 }
 
 /**
  * Removes a service from the services container using the array syntax
  *
- * @param string $alias
+ * @param string $name
  */
 PHP_METHOD(Phalcon_DI, offsetUnset){
 
-	zval *alias;
+	zval *name;
 
-	phalcon_fetch_params(0, 1, 0, &alias);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
-	RETURN_CCTORW(alias);
+	RETURN_CCTORW(name);
 }
 
 /**
@@ -633,14 +626,14 @@ PHP_METHOD(Phalcon_DI, __call){
 		phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(possible_service);
-		PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
+		phalcon_call_func_p1(possible_service, "lcfirst", service_name);
 		if (phalcon_array_isset(services, possible_service)) {
 			if (phalcon_fast_count_ev(arguments TSRMLS_CC)) {
 				PHALCON_INIT_VAR(instance);
-				PHALCON_CALL_METHOD_PARAMS_2(instance, this_ptr, "get", possible_service, arguments);
+				phalcon_call_method_p2(instance, this_ptr, "get", possible_service, arguments);
 			} else {
 				PHALCON_INIT_NVAR(instance);
-				PHALCON_CALL_METHOD_PARAMS_1(instance, this_ptr, "get", possible_service);
+				phalcon_call_method_p1(instance, this_ptr, "get", possible_service);
 			}
 	
 			RETURN_CCTOR(instance);
@@ -656,11 +649,11 @@ PHP_METHOD(Phalcon_DI, __call){
 			phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
 	
 			PHALCON_INIT_NVAR(possible_service);
-			PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
+			phalcon_call_func_p1(possible_service, "lcfirst", service_name);
 	
 			PHALCON_OBS_VAR(handler);
 			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", possible_service, handler);
+			phalcon_call_method_p2_noret(this_ptr, "set", possible_service, handler);
 			RETURN_MM_NULL();
 		}
 	}

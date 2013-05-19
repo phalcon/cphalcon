@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	/** 
 	 * Configure the route (extract parameters, paths, etc)
 	 */
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "reconfigure", pattern, paths);
+	phalcon_call_method_p2_noret(this_ptr, "reconfigure", pattern, paths);
 	
 	/** 
 	 * Update the HTTP method constraints
@@ -255,7 +255,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			PHALCON_CPY_WRT(final_pattern, compiled_pattern);
 		}
 	}
-	
 	
 	RETURN_CCTOR(final_pattern);
 }
@@ -450,7 +449,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 		 * Transform the route's pattern to a regular expression
 		 */
 		PHALCON_INIT_VAR(compiled_pattern);
-		PHALCON_CALL_METHOD_PARAMS_1(compiled_pattern, this_ptr, "compilepattern", pcre_pattern);
+		phalcon_call_method_p1(compiled_pattern, this_ptr, "compilepattern", pcre_pattern);
 	} else {
 		PHALCON_CPY_WRT(compiled_pattern, pattern);
 	}
@@ -605,14 +604,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(path, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(position);
+		PHALCON_GET_HKEY(path, ah0, hp0);
+		PHALCON_GET_HVALUE(position);
 	
 		phalcon_array_update_zval(&reversed, position, &path, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	RETURN_CTOR(reversed);
 }

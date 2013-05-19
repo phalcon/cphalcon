@@ -73,10 +73,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &path, &params, &must_clean) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &path, &params, &must_clean);
+	
 	if (!must_clean) {
 		PHALCON_INIT_VAR(must_clean);
 		ZVAL_BOOL(must_clean, 0);
@@ -93,8 +91,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(value);
+			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HVALUE(value);
 	
 			if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
 				return;
@@ -114,7 +112,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	
 		PHALCON_OBS_VAR(view);
 		phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents);
+		phalcon_call_method_p1_noret(view, "setcontent", contents);
 	}
 	
 	PHALCON_MM_RESTORE();

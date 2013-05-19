@@ -80,12 +80,10 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &validator, &attribute) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
+	
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
+	phalcon_call_method_p1(value, validator, "getvalue", attribute);
 	
 	/** 
 	 * A domain is an array with a list of valid values
@@ -94,7 +92,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 	ZVAL_STRING(option, "domain", 1);
 	
 	PHALCON_INIT_VAR(domain);
-	PHALCON_CALL_METHOD_PARAMS_1(domain, this_ptr, "getoption", option);
+	phalcon_call_method_p1(domain, this_ptr, "getoption", option);
 	if (Z_TYPE_P(domain) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Option 'domain' must be an array");
 		return;
@@ -109,7 +107,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message_str);
-		PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
+		phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_VAR(joined_domain);
 			phalcon_fast_join_str(joined_domain, SL(", "), domain TSRMLS_CC);
@@ -123,9 +121,9 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate){
 	
 		PHALCON_INIT_VAR(message);
 		object_init_ex(message, phalcon_validation_message_ce);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message, "__construct", message_str, attribute, type);
+		phalcon_call_method_p3_noret(message, "__construct", message_str, attribute, type);
 	
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validator, "appendmessage", message);
+		phalcon_call_method_p1_noret(validator, "appendmessage", message);
 		RETURN_MM_FALSE;
 	}
 	

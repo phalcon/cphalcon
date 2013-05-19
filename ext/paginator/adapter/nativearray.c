@@ -64,7 +64,7 @@ PHALCON_INIT_CLASS(Phalcon_Paginator_Adapter_NativeArray){
 
 /**
  * Phalcon\Paginator\Adapter\NativeArray constructor
-  *
+ *
  * @param array $config
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct){
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	div_function(rounded_total, number, show TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(total_pages);
-	PHALCON_CALL_FUNC_PARAMS_1(total_pages, "intval", rounded_total);
+	phalcon_call_func_p1(total_pages, "intval", rounded_total);
 	
 	/** 
 	 * Increase total_pages if wasn't integer
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	mul_function(start, show, before_page_number TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(slice);
-	PHALCON_CALL_FUNC_PARAMS_3(slice, "array_slice", items, start, show);
+	phalcon_call_func_p3(slice, "array_slice", items, start, show);
 	phalcon_update_property_zval(page, SL("items"), slice TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(compare);

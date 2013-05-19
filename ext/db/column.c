@@ -469,8 +469,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 	
 	PHALCON_INIT_VAR(column);
 	object_init_ex(column, phalcon_db_column_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);
-	
+	phalcon_call_method_p2_noret(column, "__construct", column_name, definition);
 	
 	RETURN_CTOR(column);
 }

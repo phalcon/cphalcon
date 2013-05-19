@@ -126,7 +126,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropColumn);
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, addIndex);
 
 /**
-  * Generates SQL to delete an index from a table
+ * Generates SQL to delete an index from a table
  *
  * @param string $tableName
  * @param string $schemaName

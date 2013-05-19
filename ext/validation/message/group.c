@@ -127,9 +127,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet){
 
 	zval *index, *message;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &index, &message);
+	phalcon_fetch_params(0, 2, 0, &index, &message);
 	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
@@ -137,7 +135,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet){
 	}
 	phalcon_update_property_array(this_ptr, SL("_messages"), index, message TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -198,9 +195,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 
 	zval *message;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &message);
+	phalcon_fetch_params(0, 1, 0, &message);
 	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
@@ -208,7 +203,6 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 	}
 	phalcon_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -255,21 +249,21 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 		/** 
 		 * A group of messages is iterated and appended one-by-one to the current list
 		 */
-		PHALCON_CALL_METHOD_NORETURN(messages, "rewind");
+		phalcon_call_method_noret(messages, "rewind");
 	
 		while (1) {
 	
 			PHALCON_INIT_NVAR(r0);
-			PHALCON_CALL_METHOD(r0, messages, "valid");
+			phalcon_call_method(r0, messages, "valid");
 			if (PHALCON_IS_NOT_FALSE(r0)) {
 			} else {
 				break;
 			}
 	
 			PHALCON_INIT_NVAR(message);
-			PHALCON_CALL_METHOD(message, messages, "current");
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "appendmessage", message);
-			PHALCON_CALL_METHOD_NORETURN(messages, "next");
+			phalcon_call_method(message, messages, "current");
+			phalcon_call_method_p1_noret(this_ptr, "appendmessage", message);
+			phalcon_call_method_noret(messages, "next");
 		}
 	}
 	
@@ -302,12 +296,12 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter){
 		/** 
 		 * A group of messages is iterated and appended one-by-one to the current list
 		 */
-		PHALCON_CALL_METHOD_NORETURN(messages, "rewind");
+		phalcon_call_method_noret(messages, "rewind");
 	
 		while (1) {
 	
 			PHALCON_INIT_NVAR(r0);
-			PHALCON_CALL_METHOD(r0, messages, "valid");
+			phalcon_call_method(r0, messages, "valid");
 			if (PHALCON_IS_NOT_FALSE(r0)) {
 			} else {
 				break;
@@ -317,21 +311,20 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter){
 			 * Get the current message in the iterator
 			 */
 			PHALCON_INIT_NVAR(message);
-			PHALCON_CALL_METHOD(message, messages, "current");
+			phalcon_call_method(message, messages, "current");
 	
 			/** 
 			 * Get the field name
 			 */
 			PHALCON_INIT_NVAR(field);
-			PHALCON_CALL_METHOD(field, messages, "getfield");
+			phalcon_call_method(field, messages, "getfield");
 			if (PHALCON_IS_EQUAL(field_name, field)) {
 				phalcon_array_append(&filtered, message, PH_SEPARATE TSRMLS_CC);
 			}
 	
-			PHALCON_CALL_METHOD_NORETURN(messages, "next");
+			phalcon_call_method_noret(messages, "next");
 		}
 	}
-	
 	
 	RETURN_CTOR(filtered);
 }
@@ -454,7 +447,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state){
 	
 	PHALCON_INIT_VAR(group_object);
 	object_init_ex(group_object, phalcon_validation_message_group_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(group_object, "__construct", messages);
+	phalcon_call_method_p1_noret(group_object, "__construct", messages);
 	
 	RETURN_CTOR(group_object);
 }

@@ -69,10 +69,8 @@ PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput){
 
 	zval *implicit_output;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &implicit_output) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &implicit_output);
+	
 	phalcon_update_property_this(this_ptr, SL("_implicitOutput"), implicit_output TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -90,10 +88,8 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &path, &local) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &path, &local);
+	
 	if (!local) {
 		PHALCON_INIT_VAR(local);
 		ZVAL_BOOL(local, 1);
@@ -104,9 +100,9 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss){
 	
 	PHALCON_INIT_VAR(resource);
 	object_init_ex(resource, phalcon_assets_resource_css_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(resource, "__construct", path, local);
+	phalcon_call_method_p2_noret(resource, "__construct", path, local);
 	
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "addresourcebytype", type, resource);
+	phalcon_call_method_p2_noret(this_ptr, "addresourcebytype", type, resource);
 	RETURN_THIS();
 }
 
@@ -123,10 +119,8 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &path, &local) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &path, &local);
+	
 	if (!local) {
 		PHALCON_INIT_VAR(local);
 		ZVAL_BOOL(local, 1);
@@ -137,9 +131,9 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs){
 	
 	PHALCON_INIT_VAR(resource);
 	object_init_ex(resource, phalcon_assets_resource_js_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(resource, "__construct", path, local);
+	phalcon_call_method_p2_noret(resource, "__construct", path, local);
 	
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "addresourcebytype", type, resource);
+	phalcon_call_method_p2_noret(this_ptr, "addresourcebytype", type, resource);
 	RETURN_THIS();
 }
 
@@ -152,7 +146,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs){
  *
  * @param string $type
  * @param Phalcon\Assets\Resource $resource
-  * @return Phalcon\Assets\Manager
+ * @return Phalcon\Assets\Manager
  */
 PHP_METHOD(Phalcon_Assets_Manager, addResourceByType){
 
@@ -160,10 +154,8 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &resource) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &type, &resource);
+	
 	PHALCON_OBS_VAR(collections);
 	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (phalcon_array_isset(collections, type)) {
@@ -178,7 +170,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType){
 	/** 
 	 * Add the resource to the collection
 	 */
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(collection, "add", resource);
+	phalcon_call_method_p1_noret(collection, "add", resource);
 	
 	RETURN_THIS();
 }
@@ -191,7 +183,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType){
  *</code>
  *
  * @param Phalcon\Assets\Resource $resource
-  * @return Phalcon\Assets\Manager
+ * @return Phalcon\Assets\Manager
  */
 PHP_METHOD(Phalcon_Assets_Manager, addResource){
 
@@ -199,22 +191,20 @@ PHP_METHOD(Phalcon_Assets_Manager, addResource){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &resource) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &resource);
+	
 	if (Z_TYPE_P(resource) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Resource must be an object");
 		return;
 	}
 	
 	PHALCON_INIT_VAR(type);
-	PHALCON_CALL_METHOD(type, resource, "gettype");
+	phalcon_call_method(type, resource, "gettype");
 	
 	/** 
 	 * Adds the resource by its type
 	 */
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "addresourcebytype", type, resource);
+	phalcon_call_method_p2_noret(this_ptr, "addresourcebytype", type, resource);
 	
 	RETURN_THIS();
 }
@@ -234,12 +224,8 @@ PHP_METHOD(Phalcon_Assets_Manager, set){
 
 	zval *id, *collection;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &id, &collection) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &id, &collection);
+	
 	if (Z_TYPE_P(id) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Collection-Id must be a string");
 		return;
@@ -251,7 +237,7 @@ PHP_METHOD(Phalcon_Assets_Manager, set){
 	
 	phalcon_update_property_array(this_ptr, SL("_collections"), id, collection TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -270,10 +256,8 @@ PHP_METHOD(Phalcon_Assets_Manager, get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &id) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &id);
+	
 	if (Z_TYPE_P(id) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Collection-Id must be a string");
 		return;
@@ -362,10 +346,8 @@ PHP_METHOD(Phalcon_Assets_Manager, collection){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	PHALCON_OBS_VAR(collections);
 	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (phalcon_array_isset(collections, name)) {
@@ -376,7 +358,6 @@ PHP_METHOD(Phalcon_Assets_Manager, collection){
 		object_init_ex(collection, phalcon_assets_collection_ce);
 		phalcon_update_property_array(this_ptr, SL("_collections"), name, collection TSRMLS_CC);
 	}
-	
 	
 	RETURN_CCTOR(collection);
 }
@@ -397,20 +378,18 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &collection_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &collection_name);
+	
 	if (!collection_name) {
 		PHALCON_INIT_VAR(collection_name);
 	}
 	
 	if (PHALCON_IS_EMPTY(collection_name)) {
 		PHALCON_INIT_VAR(collection);
-		PHALCON_CALL_METHOD(collection, this_ptr, "getcss");
+		phalcon_call_method(collection, this_ptr, "getcss");
 	} else {
 		PHALCON_INIT_NVAR(collection);
-		PHALCON_CALL_METHOD_PARAMS_1(collection, this_ptr, "get", collection_name);
+		phalcon_call_method_p1(collection, this_ptr, "get", collection_name);
 	}
 	
 	PHALCON_INIT_VAR(output);
@@ -422,7 +401,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 	 * Get the resources as an array
 	 */
 	PHALCON_INIT_VAR(resources);
-	PHALCON_CALL_METHOD(resources, collection, "getresources");
+	phalcon_call_method(resources, collection, "getresources");
 	
 	if (!phalcon_is_iterable(resources, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -430,13 +409,13 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(resource);
+		PHALCON_GET_HVALUE(resource);
 	
 		PHALCON_INIT_NVAR(path);
-		PHALCON_CALL_METHOD(path, resource, "getpath");
+		phalcon_call_method(path, resource, "getpath");
 	
 		PHALCON_INIT_NVAR(local);
-		PHALCON_CALL_METHOD(local, resource, "getlocal");
+		phalcon_call_method(local, resource, "getlocal");
 	
 		/** 
 		 * Generate the html using Phalcon\Tag
@@ -451,7 +430,6 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	RETURN_CCTOR(output);
 }
@@ -472,20 +450,18 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &collection_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &collection_name);
+	
 	if (!collection_name) {
 		PHALCON_INIT_VAR(collection_name);
 	}
 	
 	if (PHALCON_IS_EMPTY(collection_name)) {
 		PHALCON_INIT_VAR(collection);
-		PHALCON_CALL_METHOD(collection, this_ptr, "getjs");
+		phalcon_call_method(collection, this_ptr, "getjs");
 	} else {
 		PHALCON_INIT_NVAR(collection);
-		PHALCON_CALL_METHOD_PARAMS_1(collection, this_ptr, "get", collection_name);
+		phalcon_call_method_p1(collection, this_ptr, "get", collection_name);
 	}
 	
 	PHALCON_INIT_VAR(output);
@@ -497,13 +473,13 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs){
 	 * Get the resources as an array
 	 */
 	PHALCON_INIT_VAR(resources);
-	PHALCON_CALL_METHOD(resources, collection, "getresources");
+	phalcon_call_method(resources, collection, "getresources");
 	
 	/** 
 	 * Get the collection's prefix
 	 */
 	PHALCON_INIT_VAR(prefix);
-	PHALCON_CALL_METHOD(prefix, collection, "getprefix");
+	phalcon_call_method(prefix, collection, "getprefix");
 	
 	if (!phalcon_is_iterable(resources, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -511,13 +487,13 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(resource);
+		PHALCON_GET_HVALUE(resource);
 	
 		PHALCON_INIT_NVAR(path);
-		PHALCON_CALL_METHOD(path, resource, "getpath");
+		phalcon_call_method(path, resource, "getpath");
 	
 		PHALCON_INIT_NVAR(local);
-		PHALCON_CALL_METHOD(local, resource, "getlocal");
+		phalcon_call_method(local, resource, "getlocal");
 		if (Z_TYPE_P(prefix) != IS_NULL) {
 			PHALCON_INIT_NVAR(prefixed_path);
 			PHALCON_CONCAT_VV(prefixed_path, prefix, path);
@@ -538,7 +514,6 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs){
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	RETURN_CCTOR(output);
 }

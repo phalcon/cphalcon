@@ -107,10 +107,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	ZVAL_BOOL(process_sections, 1);
 	
 	PHALCON_INIT_VAR(ini_config);
-	PHALCON_CALL_FUNC_PARAMS_2(ini_config, "parse_ini_file", file_path, process_sections);
+	phalcon_call_func_p2(ini_config, "parse_ini_file", file_path, process_sections);
 	if (PHALCON_IS_FALSE(ini_config)) {
 		PHALCON_INIT_VAR(base_path);
-		PHALCON_CALL_FUNC_PARAMS_1(base_path, "basename", file_path);
+		phalcon_call_func_p1(base_path, "basename", file_path);
 	
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Configuration file ", base_path, " can't be loaded");
@@ -127,8 +127,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(section, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(directives);
+		PHALCON_GET_HKEY(section, ah0, hp0);
+		PHALCON_GET_HVALUE(directives);
 	
 	
 		if (!phalcon_is_iterable(directives, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
@@ -137,8 +137,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
-			PHALCON_GET_FOREACH_VALUE(value);
+			PHALCON_GET_HKEY(key, ah1, hp1);
+			PHALCON_GET_HVALUE(value);
 	
 			if (phalcon_memnstr_str(key, SL(".") TSRMLS_CC)) {
 				PHALCON_INIT_NVAR(directive_parts);

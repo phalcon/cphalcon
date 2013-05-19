@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Validation, __construct){
 	 * Check for an 'initialize' method
 	 */
 	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+		phalcon_call_method_noret(this_ptr, "initialize");
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Validation, validate){
 	 */
 	PHALCON_INIT_VAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
-	PHALCON_CALL_METHOD_NORETURN(messages, "__construct");
+	phalcon_call_method_noret(messages, "__construct");
 	
 	/** 
 	 * Validation classes can implement the 'beforeValidation' callback
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Validation, validate){
 	if (phalcon_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS) {
 	
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_3(status, this_ptr, "beforevalidation", data, entity, messages);
+		phalcon_call_method_p3(status, this_ptr, "beforevalidation", data, entity, messages);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_CCTOR(status);
 		}
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Validation, validate){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(scope);
+		PHALCON_GET_HVALUE(scope);
 	
 		if (Z_TYPE_P(scope) != IS_ARRAY) { 
 			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The validator scope is not valid");
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Validation, validate){
 		}
 	
 		PHALCON_INIT_NVAR(status);
-		PHALCON_CALL_METHOD_PARAMS_2(status, validator, "validate", this_ptr, attribute);
+		phalcon_call_method_p2(status, validator, "validate", this_ptr, attribute);
 	
 		/** 
 		 * Check if the validation must be canceled if this validator fails
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Validation, validate){
 		if (PHALCON_IS_FALSE(status)) {
 	
 			PHALCON_INIT_NVAR(must_cancel);
-			PHALCON_CALL_METHOD_PARAMS_1(must_cancel, validator, "getoption", cancel_on_fail);
+			phalcon_call_method_p1(must_cancel, validator, "getoption", cancel_on_fail);
 			if (zend_is_true(must_cancel)) {
 				break;
 			}
@@ -212,9 +212,8 @@ PHP_METHOD(Phalcon_Validation, validate){
 	PHALCON_OBS_NVAR(messages);
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_method_exists_ex(this_ptr, SS("aftervalidation") TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "aftervalidation", data, entity, messages);
+		phalcon_call_method_p3_noret(this_ptr, "aftervalidation", data, entity, messages);
 	}
-	
 	
 	RETURN_CCTOR(messages);
 }
@@ -298,7 +297,6 @@ PHP_METHOD(Phalcon_Validation, getFilters){
 		RETURN_MM_NULL();
 	}
 	
-	
 	RETURN_CCTOR(filters);
 }
 
@@ -350,7 +348,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
 	
 	PHALCON_OBS_VAR(messages);
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(messages, "appendmessage", message);
+	phalcon_call_method_p1_noret(messages, "appendmessage", message);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -367,9 +365,7 @@ PHP_METHOD(Phalcon_Validation, bind){
 
 	zval *entity, *data;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &entity, &data);
+	phalcon_fetch_params(0, 2, 0, &entity, &data);
 	
 	if (Z_TYPE_P(entity) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The entity must be an object");
@@ -385,7 +381,7 @@ PHP_METHOD(Phalcon_Validation, bind){
 	phalcon_update_property_this(this_ptr, SL("_entity"), entity TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -397,9 +393,9 @@ PHP_METHOD(Phalcon_Validation, bind){
 PHP_METHOD(Phalcon_Validation, getValue){
 
 	zval *attribute, *entity, *method, *value = NULL, *data, *values;
-	zval *filters = NULL, *service_name, *dependency_injector = NULL;
-	zval *filter_service, *filtered;
-	zval *r0 = NULL;
+	zval *filters, *field_filters, *service_name;
+	zval *dependency_injector = NULL, *filter_service;
+	zval *filtered;
 
 	PHALCON_MM_GROW();
 
@@ -417,11 +413,11 @@ PHP_METHOD(Phalcon_Validation, getValue){
 		PHALCON_CONCAT_SV(method, "get", attribute);
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_VAR(value);
-			PHALCON_CALL_METHOD(value, entity, Z_STRVAL_P(method));
+			phalcon_call_method(value, entity, Z_TYPE_P(method) == IS_STRING ? Z_STRVAL_P(method) : "");
 		} else {
 			if (phalcon_method_exists_ex(entity, SS("readattribute") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_NVAR(value);
-				PHALCON_CALL_METHOD(value, entity, "readattribute");
+				phalcon_call_method(value, entity, "readattribute");
 			} else {
 				if (phalcon_isset_property_zval(entity, attribute TSRMLS_CC)) {
 					PHALCON_OBS_NVAR(value);
@@ -431,7 +427,6 @@ PHP_METHOD(Phalcon_Validation, getValue){
 				}
 			}
 		}
-	
 	
 		RETURN_CCTOR(value);
 	}
@@ -457,6 +452,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 	}
 	
 	PHALCON_INIT_NVAR(value);
+	
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		if (phalcon_array_isset(data, attribute)) {
 			PHALCON_OBS_NVAR(value);
@@ -478,20 +474,20 @@ PHP_METHOD(Phalcon_Validation, getValue){
 		if (Z_TYPE_P(filters) == IS_ARRAY) { 
 			if (phalcon_array_isset(filters, attribute)) {
 	
-				PHALCON_OBS_VAR(r0);
-				phalcon_array_fetch(&r0, filters, attribute, PH_NOISY_CC);
-				PHALCON_CPY_WRT(filters, r0);
-				if (zend_is_true(filters)) {
+				PHALCON_OBS_VAR(field_filters);
+				phalcon_array_fetch(&field_filters, filters, attribute, PH_NOISY_CC);
+				if (zend_is_true(field_filters)) {
 	
 					PHALCON_INIT_VAR(service_name);
 					ZVAL_STRING(service_name, "filter", 1);
 	
 					PHALCON_INIT_VAR(dependency_injector);
-					PHALCON_CALL_METHOD(dependency_injector, this_ptr, "getdi");
+					phalcon_call_method(dependency_injector, this_ptr, "getdi");
 					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 	
 						PHALCON_INIT_NVAR(dependency_injector);
 						PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+	
 						if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 							PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A dependency injector is required to obtain the 'filter' service");
 							return;
@@ -499,7 +495,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 					}
 	
 					PHALCON_INIT_VAR(filter_service);
-					PHALCON_CALL_METHOD_PARAMS_1(filter_service, dependency_injector, "getshared", service_name);
+					phalcon_call_method_p1(filter_service, dependency_injector, "getshared", service_name);
 					if (Z_TYPE_P(filter_service) != IS_OBJECT) {
 						PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Returned 'filter' service is invalid");
 						return;
@@ -507,7 +503,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 				}
 	
 				PHALCON_INIT_VAR(filtered);
-				PHALCON_CALL_METHOD_PARAMS_2(filtered, filter_service, "sanitize", value, filters);
+				phalcon_call_method_p2(filtered, filter_service, "sanitize", value, field_filters);
 	
 				RETURN_CCTOR(filtered);
 			}

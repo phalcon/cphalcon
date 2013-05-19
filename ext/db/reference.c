@@ -88,10 +88,8 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &reference_name, &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &reference_name, &definition);
+	
 	phalcon_update_property_this(this_ptr, SL("_referenceName"), reference_name TSRMLS_CC);
 	if (phalcon_array_isset_string(definition, SS("referencedTable"))) {
 		PHALCON_OBS_VAR(referenced_table);
@@ -225,10 +223,8 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	if (!phalcon_array_isset_string(data, SS("_referenceName"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_referenceName parameter is required");
 		return;
@@ -273,8 +269,7 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 	
 	PHALCON_INIT_VAR(reference);
 	object_init_ex(reference, phalcon_db_reference_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(reference, "__construct", constraint_name, definition);
-	
+	phalcon_call_method_p2_noret(reference, "__construct", constraint_name, definition);
 	
 	RETURN_CTOR(reference);
 }

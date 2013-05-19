@@ -63,6 +63,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getLastInitialized);
  * Loads a model throwing an exception if it doesn't exist
  *
  * @param string $modelName
+ * @param boolean $newInstance
  * @return Phalcon\Mvc\ModelInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
@@ -72,7 +73,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
  *
  * @param   Phalcon\Mvc\ModelInterface $model
  * @param mixed $fields
- * @param string $referenceModel
+ * @param string $referencedModel
  * @param mixed $referencedFields
  * @param array $options
  * @return  Phalcon\Mvc\Model\RelationInterface
@@ -84,7 +85,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
  *
  * @param 	Phalcon\Mvc\ModelInterface $model
  * @param mixed $fields
- * @param string $referenceModel
+ * @param string $referencedModel
  * @param mixed $referencedFields
  * @param array $options
  * @return 	Phalcon\Mvc\Model\RelationInterface
@@ -96,7 +97,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBelongsTo);
  *
  * @param 	Phalcon\Mvc\ModelInterface $model
  * @param mixed $fields
- * @param string $referenceModel
+ * @param string $referencedModel
  * @param mixed $referencedFields
  * @param array $options
  * @return 	Phalcon\Mvc\Model\RelationInterface
@@ -209,8 +210,8 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelations);
 /**
  * Query the relations between two models
  *
- * @param string $firstModel
- * @param string $secondModel
+ * @param string $first
+ * @param string $second
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationsBetween);

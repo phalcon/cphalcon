@@ -140,13 +140,11 @@ PHP_METHOD(Phalcon_Flash, setCssClasses){
 
 	zval *css_classes;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &css_classes);
+	phalcon_fetch_params(0, 1, 0, &css_classes);
 	
 	if (Z_TYPE_P(css_classes) == IS_ARRAY) { 
 		phalcon_update_property_this(this_ptr, SL("_cssClasses"), css_classes TSRMLS_CC);
-		RETURN_THIS();
+		RETURN_THISW();
 	}
 	PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "CSS classes must be an Array");
 	return;
@@ -174,7 +172,7 @@ PHP_METHOD(Phalcon_Flash, error){
 	ZVAL_STRING(type, "error", 1);
 	
 	PHALCON_INIT_VAR(flash_message);
-	PHALCON_CALL_METHOD_PARAMS_2(flash_message, this_ptr, "message", type, message);
+	phalcon_call_method_p2(flash_message, this_ptr, "message", type, message);
 	RETURN_CCTOR(flash_message);
 }
 
@@ -200,7 +198,7 @@ PHP_METHOD(Phalcon_Flash, notice){
 	ZVAL_STRING(type, "notice", 1);
 	
 	PHALCON_INIT_VAR(flash_message);
-	PHALCON_CALL_METHOD_PARAMS_2(flash_message, this_ptr, "message", type, message);
+	phalcon_call_method_p2(flash_message, this_ptr, "message", type, message);
 	RETURN_CCTOR(flash_message);
 }
 
@@ -226,7 +224,7 @@ PHP_METHOD(Phalcon_Flash, success){
 	ZVAL_STRING(type, "success", 1);
 	
 	PHALCON_INIT_VAR(flash_message);
-	PHALCON_CALL_METHOD_PARAMS_2(flash_message, this_ptr, "message", type, message);
+	phalcon_call_method_p2(flash_message, this_ptr, "message", type, message);
 	RETURN_CCTOR(flash_message);
 }
 
@@ -252,7 +250,7 @@ PHP_METHOD(Phalcon_Flash, warning){
 	ZVAL_STRING(type, "warning", 1);
 	
 	PHALCON_INIT_VAR(flash_message);
-	PHALCON_CALL_METHOD_PARAMS_2(flash_message, this_ptr, "message", type, message);
+	phalcon_call_method_p2(flash_message, this_ptr, "message", type, message);
 	RETURN_CCTOR(flash_message);
 }
 
@@ -330,7 +328,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(msg);
+			PHALCON_GET_HVALUE(msg);
 	
 			/** 
 			 * We create the applying formatting or not

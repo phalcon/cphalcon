@@ -79,28 +79,26 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &validator, &attribute) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
+	
 	PHALCON_INIT_VAR(with);
 	ZVAL_STRING(with, "with", 1);
 	
 	PHALCON_INIT_VAR(with_attribute);
-	PHALCON_CALL_METHOD_PARAMS_1(with_attribute, this_ptr, "getoption", with);
+	phalcon_call_method_p1(with_attribute, this_ptr, "getoption", with);
 	
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
+	phalcon_call_method_p1(value, validator, "getvalue", attribute);
 	
 	PHALCON_INIT_VAR(with_value);
-	PHALCON_CALL_METHOD_PARAMS_1(with_value, validator, "getvalue", with_attribute);
+	phalcon_call_method_p1(with_value, validator, "getvalue", with_attribute);
 	if (!PHALCON_IS_EQUAL(value, with_value)) {
 	
 		PHALCON_INIT_VAR(option);
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message_str);
-		PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
+		phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_NVAR(message_str);
 			PHALCON_CONCAT_SVSVS(message_str, "Value of '", attribute, "' and '", with, "' don't match");
@@ -111,9 +109,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate){
 	
 		PHALCON_INIT_VAR(message);
 		object_init_ex(message, phalcon_validation_message_ce);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message, "__construct", message_str, attribute, type);
+		phalcon_call_method_p3_noret(message, "__construct", message_str, attribute, type);
 	
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validator, "appendmessage", message);
+		phalcon_call_method_p1_noret(validator, "appendmessage", message);
 		RETURN_MM_FALSE;
 	}
 	

@@ -77,10 +77,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -114,10 +112,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
 	PHALCON_CPY_WRT(session, _SESSION);
 	
@@ -154,10 +150,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &key, &data);
+	
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	

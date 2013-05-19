@@ -71,21 +71,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &model) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &type, &model);
+	
 	/** 
 	 * Check if the developer decided to take action here
 	 */
 	PHALCON_INIT_VAR(take_action);
-	PHALCON_CALL_METHOD_PARAMS_1(take_action, this_ptr, "musttakeaction", type);
+	phalcon_call_method_p1(take_action, this_ptr, "musttakeaction", type);
 	if (PHALCON_IS_NOT_TRUE(take_action)) {
 		RETURN_MM_NULL();
 	}
 	
 	PHALCON_INIT_VAR(options);
-	PHALCON_CALL_METHOD_PARAMS_1(options, this_ptr, "getoptions", type);
+	phalcon_call_method_p1(options, this_ptr, "getoptions", type);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 	
 		/** 
@@ -104,7 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 			PHALCON_OBS_VAR(format);
 			phalcon_array_fetch_string(&format, options, SL("format"), PH_NOISY_CC);
 	
-			PHALCON_CALL_FUNC_PARAMS_1(timestamp, "date", format);
+			phalcon_call_func_p1(timestamp, "date", format);
 		} else {
 			if (phalcon_array_isset_string(options, SS("generator"))) {
 	
@@ -132,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 	
 		PHALCON_OBS_VAR(field);
 		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(model, "writeattribute", field, timestamp);
+		phalcon_call_method_p2_noret(model, "writeattribute", field, timestamp);
 	}
 	
 	PHALCON_MM_RESTORE();

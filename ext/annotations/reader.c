@@ -98,24 +98,24 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	PHALCON_INIT_VAR(reflection);
 	object_init_ex(reflection, ce0);
 	if (phalcon_has_constructor(reflection TSRMLS_CC)) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", class_name);
+		phalcon_call_method_p1_noret(reflection, "__construct", class_name);
 	}
 	
 	PHALCON_INIT_VAR(comment);
-	PHALCON_CALL_METHOD(comment, reflection, "getdoccomment");
+	phalcon_call_method(comment, reflection, "getdoccomment");
 	if (Z_TYPE_P(comment) == IS_STRING) {
 	
 		/** 
 		 * Get the file where the class was declared
 		 */
 		PHALCON_INIT_VAR(file);
-		PHALCON_CALL_METHOD(file, reflection, "getfilename");
+		phalcon_call_method(file, reflection, "getfilename");
 	
 		/** 
 		 * Get the line where the class was declared
 		 */
 		PHALCON_INIT_VAR(line);
-		PHALCON_CALL_METHOD(line, reflection, "getstartline");
+		phalcon_call_method(line, reflection, "getstartline");
 	
 		/** 
 		 * Read annotations from class
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	 * Get the class properties
 	 */
 	PHALCON_INIT_VAR(properties);
-	PHALCON_CALL_METHOD(properties, reflection, "getproperties");
+	phalcon_call_method(properties, reflection, "getproperties");
 	if (phalcon_fast_count_ev(properties TSRMLS_CC)) {
 	
 		/** 
@@ -155,20 +155,20 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(property);
+			PHALCON_GET_HVALUE(property);
 	
 			/** 
 			 * Read comment from method
 			 */
 			PHALCON_INIT_NVAR(comment);
-			PHALCON_CALL_METHOD(comment, property, "getdoccomment");
+			phalcon_call_method(comment, property, "getdoccomment");
 			if (Z_TYPE_P(comment) == IS_STRING) {
 	
 				/** 
 				 * Get the file where the property was declared
 				 */
 				PHALCON_INIT_NVAR(file);
-				PHALCON_CALL_METHOD(file, reflection, "getfilename");
+				phalcon_call_method(file, reflection, "getfilename");
 	
 				/** 
 				 * Read annotations from the docblock
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	 * Get the class methods
 	 */
 	PHALCON_INIT_VAR(methods);
-	PHALCON_CALL_METHOD(methods, reflection, "getmethods");
+	phalcon_call_method(methods, reflection, "getmethods");
 	if (phalcon_fast_count_ev(methods TSRMLS_CC)) {
 	
 		PHALCON_INIT_VAR(annotations_methods);
@@ -208,26 +208,26 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(method);
+			PHALCON_GET_HVALUE(method);
 	
 			/** 
 			 * Read comment from method
 			 */
 			PHALCON_INIT_NVAR(comment);
-			PHALCON_CALL_METHOD(comment, method, "getdoccomment");
+			phalcon_call_method(comment, method, "getdoccomment");
 			if (Z_TYPE_P(comment) == IS_STRING) {
 	
 				/** 
 				 * Get the file where the method was declared
 				 */
 				PHALCON_INIT_NVAR(file);
-				PHALCON_CALL_METHOD(file, method, "getfilename");
+				phalcon_call_method(file, method, "getfilename");
 	
 				/** 
 				 * Get the line where the method was declared
 				 */
 				PHALCON_INIT_NVAR(line);
-				PHALCON_CALL_METHOD(line, method, "getstartline");
+				phalcon_call_method(line, method, "getstartline");
 	
 				/** 
 				 * Read annotations from class
@@ -250,7 +250,6 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 			phalcon_array_update_string(&annotations, SL("methods"), &annotations_methods, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	}
-	
 	
 	RETURN_CTOR(annotations);
 }

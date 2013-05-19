@@ -103,7 +103,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
 			PHALCON_CONCAT_VSV(escaped, domain, ".", name);
 		}
 	
-	
 		RETURN_CTOR(escaped);
 	}
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
@@ -111,7 +110,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
 		PHALCON_CONCAT_SVS(escaped, "`", identifier, "`");
 		RETURN_CTOR(escaped);
 	}
-	
 	
 	RETURN_CCTOR(identifier);
 }
@@ -152,7 +150,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describecolumns", table, schema);
+	phalcon_call_method_p2(sql, dialect, "describecolumns", table, schema);
 	
 	/** 
 	 * We're using FETCH_NUM to fetch the columns
@@ -161,7 +159,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	ZVAL_LONG(fetch_num, 3);
 	
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
+	phalcon_call_method_p2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	PHALCON_INIT_VAR(old_column);
 	
@@ -178,7 +176,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(field);
+		PHALCON_GET_HVALUE(field);
 	
 		PHALCON_INIT_NVAR(definition);
 		array_init_size(definition, 1);
@@ -247,7 +245,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			#if HAVE_BUNDLED_PCRE
 			phalcon_preg_match(pos, size_pattern, column_type, matches TSRMLS_CC);
 			#else
-			PHALCON_CALL_FUNC_PARAMS_3(pos, "preg_match", size_pattern, column_type, matches);
+			phalcon_call_func_p3(pos, "preg_match", size_pattern, column_type, matches);
 			#endif
 	
 			Z_UNSET_ISREF_P(matches);
@@ -309,14 +307,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		 */
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);
+		phalcon_call_method_p2_noret(column, "__construct", column_name, definition);
 	
 		phalcon_array_append(&columns, column, PH_SEPARATE TSRMLS_CC);
 		PHALCON_CPY_WRT(old_column, column_name);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	RETURN_CTOR(columns);
 }

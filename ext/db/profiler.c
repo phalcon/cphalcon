@@ -102,16 +102,16 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 	
 	PHALCON_INIT_VAR(active_profile);
 	object_init_ex(active_profile, phalcon_db_profiler_item_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(active_profile, "setsqlstatement", sql_statement);
+	phalcon_call_method_p1_noret(active_profile, "setsqlstatement", sql_statement);
 	
 	PHALCON_INIT_VAR(micro);
 	ZVAL_BOOL(micro, 1);
 	
 	PHALCON_INIT_VAR(time);
-	PHALCON_CALL_FUNC_PARAMS_1(time, "microtime", micro);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(active_profile, "setinitialtime", time);
+	phalcon_call_func_p1(time, "microtime", micro);
+	phalcon_call_method_p1_noret(active_profile, "setinitialtime", time);
 	if (phalcon_method_exists_ex(this_ptr, SS("beforestartprofile") TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "beforestartprofile", active_profile);
+		phalcon_call_method_p1_noret(this_ptr, "beforestartprofile", active_profile);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_activeProfile"), active_profile TSRMLS_CC);
@@ -135,14 +135,14 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 	ZVAL_BOOL(micro, 1);
 	
 	PHALCON_INIT_VAR(final_time);
-	PHALCON_CALL_FUNC_PARAMS_1(final_time, "microtime", micro);
+	phalcon_call_func_p1(final_time, "microtime", micro);
 	
 	PHALCON_OBS_VAR(active_profile);
 	phalcon_read_property_this(&active_profile, this_ptr, SL("_activeProfile"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(active_profile, "setfinaltime", final_time);
+	phalcon_call_method_p1_noret(active_profile, "setfinaltime", final_time);
 	
 	PHALCON_INIT_VAR(initial_time);
-	PHALCON_CALL_METHOD(initial_time, active_profile, "getinitialtime");
+	phalcon_call_method(initial_time, active_profile, "getinitialtime");
 	
 	PHALCON_INIT_VAR(diference);
 	sub_function(diference, final_time, initial_time TSRMLS_CC);
@@ -155,9 +155,8 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 	phalcon_update_property_this(this_ptr, SL("_totalSeconds"), new_total_seconds TSRMLS_CC);
 	phalcon_update_property_array_append(this_ptr, SL("_allProfiles"), active_profile TSRMLS_CC);
 	if (phalcon_method_exists_ex(this_ptr, SS("afterendprofile") TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "afterendprofile", active_profile);
+		phalcon_call_method_p1_noret(this_ptr, "afterendprofile", active_profile);
 	}
-	
 	
 	RETURN_THIS();
 }

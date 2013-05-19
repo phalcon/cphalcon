@@ -83,15 +83,15 @@ static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval
 		error = emalloc(sizeof(char) * (128 + state->start_length +  Z_STRLEN_P(state->active_file)));
 		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
-			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			snprintf(error, 64 + state->start_length, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
 			efree(error_part);
 		} else {
-			sprintf(error, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+			snprintf(error, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
 		}
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
 		error = emalloc(sizeof(char) * (64 + Z_STRLEN_P(state->active_file)));
-		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
+		snprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
 		ZVAL_STRING(*error_msg, error, 1);
 	}
 	efree(error);

@@ -112,7 +112,7 @@ static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode,
  */
 static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **error_msg TSRMLS_DC){
 
-	char *error, *error_part;
+	char *error = NULL, *error_part;
 	unsigned int length;
 	phql_scanner_state *state = parser_status->scanner_state;
 
@@ -130,11 +130,12 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 		error[length - 1] = '\0';
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error = emalloc(sizeof(char) * 48);
-		sprintf(error, "Parsing error near to EOF");
-		ZVAL_STRING(*error_msg, error, 1);
+		ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
 	}
-	efree(error);
+
+	if (error) {
+		efree(error);
+	}
 }
 
 /**
@@ -173,9 +174,10 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		return FAILURE;
 	}
 
-	if (PHALCON_GLOBAL(orm.parser_cache)) {
+	if (PHALCON_GLOBAL(orm.parser_cache) != NULL) {
 		if (zend_hash_find(PHALCON_GLOBAL(orm.parser_cache), phql, phql_length, (void**) &temp_ast) == SUCCESS) {
 			ZVAL_ZVAL(*result, *temp_ast, 1, 0);
+			Z_SET_REFCOUNT_P(*result, 1);
 			return SUCCESS;
 		}
 	}

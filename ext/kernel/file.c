@@ -122,6 +122,11 @@ void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_
 	smart_str virtual_str = {0};
 
 	if (Z_TYPE_P(path) != IS_STRING || Z_TYPE_P(virtual_separator) != IS_STRING) {
+		if (Z_TYPE_P(path) == IS_STRING) {
+			RETURN_STRINGL(Z_STRVAL_P(path), Z_STRLEN_P(path), 1);
+		} else {
+			RETURN_EMPTY_STRING();
+		}
 		return;
 	}
 
@@ -131,7 +136,11 @@ void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_
 			smart_str_appendl(&virtual_str, Z_STRVAL_P(virtual_separator), Z_STRLEN_P(virtual_separator));
 			continue;
 		}
-		smart_str_appendc(&virtual_str, ch);
+		if (ch >= 'A' && ch <= 'Z') {
+			smart_str_appendc(&virtual_str, ch + 32);
+		} else {
+			smart_str_appendc(&virtual_str, ch);
+		}
 	}
 
 	smart_str_0(&virtual_str);

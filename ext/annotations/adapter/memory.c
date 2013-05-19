@@ -68,10 +68,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	PHALCON_OBS_VAR(data);
 	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (phalcon_array_isset(data, key)) {
@@ -93,10 +91,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
 
 	zval *key, *data;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &key, &data);
+	
 	phalcon_update_property_array(this_ptr, SL("_data"), key, data TSRMLS_CC);
 	
 }

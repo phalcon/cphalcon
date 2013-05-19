@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "setoptions", options);
+		phalcon_call_method_p1_noret(this_ptr, "setoptions", options);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -190,7 +190,6 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 			RETURN_CCTOR(value);
 		}
 	}
-	
 	
 	RETURN_CCTOR(default_value);
 }

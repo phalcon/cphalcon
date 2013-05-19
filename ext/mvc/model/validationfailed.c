@@ -71,10 +71,8 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &validation_messages) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &model, &validation_messages);
+	
 	if (phalcon_fast_count_ev(validation_messages TSRMLS_CC)) {
 		/** 
 		 * Get the first message in the array
@@ -86,7 +84,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct){
 		 * Get the message to use it in the exception
 		 */
 		PHALCON_INIT_VAR(message_str);
-		PHALCON_CALL_METHOD(message_str, message, "getmessage");
+		phalcon_call_method(message_str, message, "getmessage");
 	} else {
 		PHALCON_INIT_NVAR(message_str);
 		ZVAL_STRING(message_str, "Validation failed", 1);

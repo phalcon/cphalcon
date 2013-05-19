@@ -83,10 +83,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &model, &dependency_injector);
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The dependency injector is invalid");
 		return;
@@ -96,13 +94,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	ZVAL_STRING(service, "annotations", 1);
 	
 	PHALCON_INIT_VAR(annotations);
-	PHALCON_CALL_METHOD_PARAMS_1(annotations, dependency_injector, "get", service);
+	phalcon_call_method_p1(annotations, dependency_injector, "get", service);
 	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, model, 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(reflection);
-	PHALCON_CALL_METHOD_PARAMS_1(reflection, annotations, "get", class_name);
+	phalcon_call_method_p1(reflection, annotations, "get", class_name);
 	if (Z_TYPE_P(reflection) != IS_OBJECT) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SV(exception_message, "No annotations were found in class ", class_name);
@@ -114,7 +112,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	 * Get the properties defined in 
 	 */
 	PHALCON_INIT_VAR(properties_annotations);
-	PHALCON_CALL_METHOD(properties_annotations, reflection, "getpropertiesannotations");
+	phalcon_call_method(properties_annotations, reflection, "getpropertiesannotations");
 	if (!phalcon_fast_count_ev(properties_annotations TSRMLS_CC)) {
 		PHALCON_INIT_NVAR(exception_message);
 		PHALCON_CONCAT_SV(exception_message, "No properties with annotations were found in class ", class_name);
@@ -173,14 +171,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(property, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(prop_annotations);
+		PHALCON_GET_HKEY(property, ah0, hp0);
+		PHALCON_GET_HVALUE(prop_annotations);
 	
 		/** 
 		 * All columns marked with the 'Column' annotation are considered columns
 		 */
 		PHALCON_INIT_NVAR(has_annotation);
-		PHALCON_CALL_METHOD_PARAMS_1(has_annotation, prop_annotations, "has", column_annot_name);
+		phalcon_call_method_p1(has_annotation, prop_annotations, "has", column_annot_name);
 		if (!zend_is_true(has_annotation)) {
 			zend_hash_move_forward_ex(ah0, &hp0);
 			continue;
@@ -190,13 +188,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		 * Fetch the 'column' annotation
 		 */
 		PHALCON_INIT_NVAR(column_annotation);
-		PHALCON_CALL_METHOD_PARAMS_1(column_annotation, prop_annotations, "get", column_annot_name);
+		phalcon_call_method_p1(column_annotation, prop_annotations, "get", column_annot_name);
 	
 		/** 
 		 * Check if annotation has the 'type' named parameter
 		 */
 		PHALCON_INIT_NVAR(feature);
-		PHALCON_CALL_METHOD_PARAMS_1(feature, column_annotation, "getnamedparameter", column_type_name);
+		phalcon_call_method_p1(feature, column_annotation, "getnamedparameter", column_type_name);
 		if (PHALCON_IS_STRING(feature, "integer")) {
 			phalcon_array_update_zval_long(&field_types, property, 0, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_zval_long(&field_bind_types, property, 1, PH_SEPARATE TSRMLS_CC);
@@ -228,7 +226,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		 * All columns marked with the 'Primary' annotation are considered primary keys
 		 */
 		PHALCON_INIT_NVAR(has_annotation);
-		PHALCON_CALL_METHOD_PARAMS_1(has_annotation, prop_annotations, "has", primary_annot_name);
+		phalcon_call_method_p1(has_annotation, prop_annotations, "has", primary_annot_name);
 		if (zend_is_true(has_annotation)) {
 			phalcon_array_append(&primary_keys, property, PH_SEPARATE TSRMLS_CC);
 		} else {
@@ -239,7 +237,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		 * All columns marked with the 'Primary' annotation are considered primary keys
 		 */
 		PHALCON_INIT_NVAR(has_annotation);
-		PHALCON_CALL_METHOD_PARAMS_1(has_annotation, prop_annotations, "has", id_annot_name);
+		phalcon_call_method_p1(has_annotation, prop_annotations, "has", id_annot_name);
 		if (zend_is_true(has_annotation)) {
 			PHALCON_CPY_WRT(identity_field, property);
 		}
@@ -248,7 +246,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 		 * Check if the column 
 		 */
 		PHALCON_INIT_NVAR(feature);
-		PHALCON_CALL_METHOD_PARAMS_1(feature, column_annotation, "getnamedparameter", column_nullable_name);
+		phalcon_call_method_p1(feature, column_annotation, "getnamedparameter", column_nullable_name);
 		if (!zend_is_true(feature)) {
 			phalcon_array_append(&not_null, property, PH_SEPARATE TSRMLS_CC);
 		}

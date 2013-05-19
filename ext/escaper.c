@@ -82,9 +82,7 @@ PHP_METHOD(Phalcon_Escaper, setEncoding){
 
 	zval *encoding;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &encoding);
+	phalcon_fetch_params(0, 1, 0, &encoding);
 	
 	if (Z_TYPE_P(encoding) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The character set must be string");
@@ -92,7 +90,6 @@ PHP_METHOD(Phalcon_Escaper, setEncoding){
 	}
 	phalcon_update_property_this(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -119,9 +116,7 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 
 	zval *quote_type;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &quote_type);
+	phalcon_fetch_params(0, 1, 0, &quote_type);
 	
 	if (Z_TYPE_P(quote_type) != IS_LONG) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The quoting type is not valid");
@@ -129,7 +124,6 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 	}
 	phalcon_update_property_this(this_ptr, SL("_htmlQuoteType"), quote_type TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -177,7 +171,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	 * Check for UTF-32 encoding
 	 */
 	PHALCON_INIT_VAR(detected);
-	PHALCON_CALL_FUNC_PARAMS_3(detected, "mb_detect_encoding", str, charset, strict_check);
+	phalcon_call_func_p3(detected, "mb_detect_encoding", str, charset, strict_check);
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
 	}
@@ -189,7 +183,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	 * Check for UTF-16 encoding
 	 */
 	PHALCON_INIT_NVAR(detected);
-	PHALCON_CALL_FUNC_PARAMS_3(detected, "mb_detect_encoding", str, charset, strict_check);
+	phalcon_call_func_p3(detected, "mb_detect_encoding", str, charset, strict_check);
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
 	}
@@ -201,7 +195,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	 * Check for UTF-8 encoding
 	 */
 	PHALCON_INIT_NVAR(detected);
-	PHALCON_CALL_FUNC_PARAMS_3(detected, "mb_detect_encoding", str, charset, strict_check);
+	phalcon_call_func_p3(detected, "mb_detect_encoding", str, charset, strict_check);
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
 	}
@@ -213,7 +207,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	 * Check for ISO-8859-1 encoding
 	 */
 	PHALCON_INIT_NVAR(detected);
-	PHALCON_CALL_FUNC_PARAMS_3(detected, "mb_detect_encoding", str, charset, strict_check);
+	phalcon_call_func_p3(detected, "mb_detect_encoding", str, charset, strict_check);
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
 	}
@@ -225,7 +219,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	 * Check for ASCII encoding
 	 */
 	PHALCON_INIT_NVAR(detected);
-	PHALCON_CALL_FUNC_PARAMS_3(detected, "mb_detect_encoding", str, charset, strict_check);
+	phalcon_call_func_p3(detected, "mb_detect_encoding", str, charset, strict_check);
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
 	}
@@ -234,7 +228,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	 * Fallback to global detection
 	 */
 	PHALCON_INIT_NVAR(charset);
-	PHALCON_CALL_FUNC_PARAMS_1(charset, "mb_detect_encoding", str);
+	phalcon_call_func_p1(charset, "mb_detect_encoding", str);
 	
 	RETURN_CCTOR(charset);
 }
@@ -262,7 +256,7 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding){
 	}
 	
 	PHALCON_INIT_VAR(encoding);
-	PHALCON_CALL_METHOD_PARAMS_1(encoding, this_ptr, "detectencoding", str);
+	phalcon_call_method_p1(encoding, this_ptr, "detectencoding", str);
 	
 	PHALCON_INIT_VAR(charset);
 	ZVAL_STRING(charset, "UTF-32", 1);
@@ -272,7 +266,7 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding){
 	 * the character).
 	 */
 	PHALCON_INIT_VAR(encoded);
-	PHALCON_CALL_FUNC_PARAMS_3(encoded, "mb_convert_encoding", str, charset, encoding);
+	phalcon_call_func_p3(encoded, "mb_convert_encoding", str, charset, encoding);
 	
 	RETURN_CCTOR(encoded);
 }
@@ -299,8 +293,8 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 		phalcon_read_property_this(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(escaped);
-		phalcon_escape_html(escaped, text, html_quote_type, encoding TSRMLS_CC);
-		RETURN_CTOR(escaped);
+		phalcon_call_func_p3(escaped, "htmlspecialchars", text, html_quote_type, encoding);
+		RETURN_CCTOR(escaped);
 	}
 	RETURN_MM_NULL();
 }
@@ -325,7 +319,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 			 * Normalize encoding to UTF-32
 			 */
 			PHALCON_INIT_VAR(normalized);
-			PHALCON_CALL_METHOD_PARAMS_1(normalized, this_ptr, "normalizeencoding", attribute);
+			phalcon_call_method_p1(normalized, this_ptr, "normalizeencoding", attribute);
 	
 			/** 
 			 * Escape the string
@@ -358,7 +352,7 @@ PHP_METHOD(Phalcon_Escaper, escapeCss){
 			 * Normalize encoding to UTF-32
 			 */
 			PHALCON_INIT_VAR(normalized);
-			PHALCON_CALL_METHOD_PARAMS_1(normalized, this_ptr, "normalizeencoding", css);
+			phalcon_call_method_p1(normalized, this_ptr, "normalizeencoding", css);
 	
 			/** 
 			 * Escape the string
@@ -391,7 +385,7 @@ PHP_METHOD(Phalcon_Escaper, escapeJs){
 			 * Normalize encoding to UTF-32
 			 */
 			PHALCON_INIT_VAR(normalized);
-			PHALCON_CALL_METHOD_PARAMS_1(normalized, this_ptr, "normalizeencoding", js);
+			phalcon_call_method_p1(normalized, this_ptr, "normalizeencoding", js);
 	
 			/** 
 			 * Escape the string
@@ -419,7 +413,7 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl){
 	phalcon_fetch_params(1, 1, 0, &url);
 	
 	PHALCON_INIT_VAR(escaped);
-	PHALCON_CALL_FUNC_PARAMS_1(escaped, "rawurlencode", url);
+	phalcon_call_func_p1(escaped, "rawurlencode", url);
 	RETURN_CCTOR(escaped);
 }
 

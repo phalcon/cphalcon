@@ -105,14 +105,14 @@ PHP_METHOD(Phalcon_Config, __construct){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(value);
+			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HVALUE(value);
 	
 			if (Z_TYPE_P(value) == IS_ARRAY) { 
 				if (!phalcon_array_isset_long(value, 0)) {
 					PHALCON_INIT_NVAR(config_value);
 					object_init_ex(config_value, phalcon_config_ce);
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(config_value, "__construct", value);
+					phalcon_call_method_p1_noret(config_value, "__construct", value);
 	
 					phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
 				} else {
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Config, offsetSet){
 	if (Z_TYPE_P(value) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(array_value);
 		object_init_ex(array_value, phalcon_config_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(array_value, "__construct", value);
+		phalcon_call_method_p1_noret(array_value, "__construct", value);
 	
 	} else {
 		PHALCON_CPY_WRT(array_value, value);
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Config, merge){
 	}
 	
 	PHALCON_INIT_VAR(array_config);
-	PHALCON_CALL_FUNC_PARAMS_1(array_config, "get_object_vars", config);
+	phalcon_call_func_p1(array_config, "get_object_vars", config);
 	
 	if (!phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -305,8 +305,8 @@ PHP_METHOD(Phalcon_Config, merge){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(value);
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
 	
 		if (Z_TYPE_P(value) == IS_OBJECT) {
 			if (phalcon_isset_property_zval(this_ptr, key TSRMLS_CC)) {
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Config, merge){
 				phalcon_read_property_zval(&active_value, this_ptr, key, PH_NOISY_CC);
 				if (Z_TYPE_P(active_value) == IS_OBJECT) {
 					if (phalcon_method_exists_ex(active_value, SS("merge") TSRMLS_CC) == SUCCESS) {
-						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(active_value, "merge", value);
+						phalcon_call_method_p1_noret(active_value, "merge", value);
 						zend_hash_move_forward_ex(ah0, &hp0);
 						continue;
 					}
@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Config, toArray){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(array_config);
-	PHALCON_CALL_FUNC_PARAMS_1(array_config, "get_object_vars", this_ptr);
+	phalcon_call_func_p1(array_config, "get_object_vars", this_ptr);
 	
 	if (!phalcon_is_iterable(array_config, &ah0, &hp0, 1, 0 TSRMLS_CC)) {
 		return;
@@ -358,13 +358,13 @@ PHP_METHOD(Phalcon_Config, toArray){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(value);
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
 	
 		if (Z_TYPE_P(value) == IS_OBJECT) {
 			if (phalcon_method_exists_ex(value, SS("toarray") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_NVAR(array_value);
-				PHALCON_CALL_METHOD(array_value, value, "toarray");
+				phalcon_call_method(array_value, value, "toarray");
 				phalcon_array_update_zval(&array_config, key, &array_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			}
 		}
@@ -373,7 +373,6 @@ PHP_METHOD(Phalcon_Config, toArray){
 	}
 	zend_hash_destroy(ah0);
 	efree(ah0);
-	
 	
 	RETURN_CCTOR(array_config);
 }
@@ -394,7 +393,7 @@ PHP_METHOD(Phalcon_Config, __set_state){
 	
 	PHALCON_INIT_VAR(config);
 	object_init_ex(config, phalcon_config_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(config, "__construct", data);
+	phalcon_call_method_p1_noret(config, "__construct", data);
 	
 	RETURN_CTOR(config);
 }

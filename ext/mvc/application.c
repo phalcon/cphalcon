@@ -97,6 +97,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Application){
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_defaultModule"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_application_ce, SL("_implicitView"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -123,6 +124,22 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct){
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * By default. The view is implicitly buffering all the output
+ * You can full disable the view component using this method
+ *
+ * @param boolean $implicitView
+ */
+PHP_METHOD(Phalcon_Mvc_Application, useImplicitView){
+
+	zval *implicit_view;
+
+	phalcon_fetch_params(0, 1, 0, &implicit_view);
+	
+	phalcon_update_property_this(this_ptr, SL("_implicitView"), implicit_view TSRMLS_CC);
+	
 }
 
 /**
@@ -172,7 +189,6 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 		phalcon_fast_array_merge(merged_modules, &registered_modules, &modules TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);
 	}
-	
 	
 	RETURN_THIS();
 }
@@ -226,10 +242,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *service = NULL, *router, *module_name = NULL, *event_name = NULL;
 	zval *status = NULL, *modules, *exception_msg = NULL, *module;
 	zval *path, *class_name = NULL, *module_object, *module_params;
-	zval *view, *namespace_name, *controller_name = NULL;
-	zval *action_name = NULL, *params = NULL, *dispatcher, *controller;
-	zval *returned_response = NULL, *possible_response;
-	zval *response = NULL, *content;
+	zval *implicit_view, *view, *namespace_name;
+	zval *controller_name = NULL, *action_name = NULL, *params = NULL;
+	zval *dispatcher, *controller, *returned_response = NULL;
+	zval *possible_response, *response = NULL, *content;
 
 	PHALCON_MM_GROW();
 
@@ -253,14 +269,14 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	ZVAL_STRING(service, "router", 1);
 	
 	PHALCON_INIT_VAR(router);
-	PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", service);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(router, "handle", uri);
+	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+	phalcon_call_method_p1_noret(router, "handle", uri);
 	
 	/** 
 	 * Load module config
 	 */
 	PHALCON_INIT_VAR(module_name);
-	PHALCON_CALL_METHOD(module_name, router, "getmodulename");
+	phalcon_call_method(module_name, router, "getmodulename");
 	
 	/** 
 	 * If the router doesn't return a valid module we use the default module
@@ -280,7 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			ZVAL_STRING(event_name, "application:beforeStartModule", 1);
 	
 			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, module_name);
+			phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, module_name);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_MM_FALSE;
 			}
@@ -342,13 +358,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			}
 	
 			PHALCON_INIT_VAR(module_object);
-			PHALCON_CALL_METHOD_PARAMS_1(module_object, dependency_injector, "get", class_name);
+			phalcon_call_method_p1(module_object, dependency_injector, "get", class_name);
 	
 			/** 
 			 * Register autoloaders and register services are automatically called
 			 */
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(module_object, "registerautoloaders", dependency_injector);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(module_object, "registerservices", dependency_injector);
+			phalcon_call_method_p1_noret(module_object, "registerautoloaders", dependency_injector);
+			phalcon_call_method_p1_noret(module_object, "registerservices", dependency_injector);
 		} else {
 			/** 
 			 * A module definition object, can be a Closure instance
@@ -376,56 +392,65 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			ZVAL_STRING(event_name, "application:afterStartModule", 1);
 	
 			PHALCON_INIT_NVAR(status);
-			PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, module_name);
+			phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, module_name);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_MM_FALSE;
 			}
 		}
 	}
 	
-	PHALCON_INIT_NVAR(service);
-	ZVAL_STRING(service, "view", 1);
+	/** 
+	 * Check whether use implicit views or not
+	 */
+	PHALCON_OBS_VAR(implicit_view);
+	phalcon_read_property_this(&implicit_view, this_ptr, SL("_implicitView"), PH_NOISY_CC);
+	if (PHALCON_IS_TRUE(implicit_view)) {
+		PHALCON_INIT_NVAR(service);
+		ZVAL_STRING(service, "view", 1);
 	
-	PHALCON_INIT_VAR(view);
-	PHALCON_CALL_METHOD_PARAMS_1(view, dependency_injector, "getshared", service);
+		PHALCON_INIT_VAR(view);
+		phalcon_call_method_p1(view, dependency_injector, "getshared", service);
+	}
 	
 	/** 
 	 * We get the parameters from the router and assign it to the dispatcher
 	 */
 	PHALCON_INIT_NVAR(module_name);
-	PHALCON_CALL_METHOD(module_name, router, "getmodulename");
+	phalcon_call_method(module_name, router, "getmodulename");
 	
 	PHALCON_INIT_VAR(namespace_name);
-	PHALCON_CALL_METHOD(namespace_name, router, "getnamespacename");
+	phalcon_call_method(namespace_name, router, "getnamespacename");
 	
 	PHALCON_INIT_VAR(controller_name);
-	PHALCON_CALL_METHOD(controller_name, router, "getcontrollername");
+	phalcon_call_method(controller_name, router, "getcontrollername");
 	
 	PHALCON_INIT_VAR(action_name);
-	PHALCON_CALL_METHOD(action_name, router, "getactionname");
+	phalcon_call_method(action_name, router, "getactionname");
 	
 	PHALCON_INIT_VAR(params);
-	PHALCON_CALL_METHOD(params, router, "getparams");
+	phalcon_call_method(params, router, "getparams");
 	
 	PHALCON_INIT_NVAR(service);
 	ZVAL_STRING(service, "dispatcher", 1);
 	
 	PHALCON_INIT_VAR(dispatcher);
-	PHALCON_CALL_METHOD_PARAMS_1(dispatcher, dependency_injector, "getshared", service);
+	phalcon_call_method_p1(dispatcher, dependency_injector, "getshared", service);
 	
 	/** 
 	 * Assign the values passed from the router
 	 */
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setmodulename", module_name);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setnamespacename", namespace_name);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setcontrollername", controller_name);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setactionname", action_name);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setparams", params);
+	phalcon_call_method_p1_noret(dispatcher, "setmodulename", module_name);
+	phalcon_call_method_p1_noret(dispatcher, "setnamespacename", namespace_name);
+	phalcon_call_method_p1_noret(dispatcher, "setcontrollername", controller_name);
+	phalcon_call_method_p1_noret(dispatcher, "setactionname", action_name);
+	phalcon_call_method_p1_noret(dispatcher, "setparams", params);
 	
 	/** 
 	 * Start the view component (start output buffering)
 	 */
-	PHALCON_CALL_METHOD_NORETURN(view, "start");
+	if (PHALCON_IS_TRUE(implicit_view)) {
+		phalcon_call_method_noret(view, "start");
+	}
 	
 	/** 
 	 * Calling beforeHandleRequest
@@ -436,7 +461,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		ZVAL_STRING(event_name, "application:beforeHandleRequest", 1);
 	
 		PHALCON_INIT_NVAR(status);
-		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, dispatcher);
+		phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, dispatcher);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -446,7 +471,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 * The dispatcher must return an object
 	 */
 	PHALCON_INIT_VAR(controller);
-	PHALCON_CALL_METHOD(controller, dispatcher, "dispatch");
+	phalcon_call_method(controller, dispatcher, "dispatch");
 	
 	PHALCON_INIT_VAR(returned_response);
 	ZVAL_BOOL(returned_response, 0);
@@ -455,7 +480,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 * Get the latest value returned by an action
 	 */
 	PHALCON_INIT_VAR(possible_response);
-	PHALCON_CALL_METHOD(possible_response, dispatcher, "getreturnedvalue");
+	phalcon_call_method(possible_response, dispatcher, "getreturnedvalue");
 	if (Z_TYPE_P(possible_response) == IS_OBJECT) {
 		/** 
 		 * Check if the returned object is already a response
@@ -469,7 +494,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "application:afterHandleRequest", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, controller);
+		phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, controller);
 	}
 	
 	/** 
@@ -477,40 +502,48 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 * mode
 	 */
 	if (PHALCON_IS_FALSE(returned_response)) {
-		if (Z_TYPE_P(controller) == IS_OBJECT) {
-			PHALCON_INIT_NVAR(controller_name);
-			PHALCON_CALL_METHOD(controller_name, dispatcher, "getcontrollername");
+		if (PHALCON_IS_TRUE(implicit_view)) {
 	
-			PHALCON_INIT_NVAR(action_name);
-			PHALCON_CALL_METHOD(action_name, dispatcher, "getactionname");
+			if (Z_TYPE_P(controller) == IS_OBJECT) {
+				PHALCON_INIT_NVAR(controller_name);
+				phalcon_call_method(controller_name, dispatcher, "getcontrollername");
 	
-			PHALCON_INIT_NVAR(params);
-			PHALCON_CALL_METHOD(params, dispatcher, "getparams");
+				PHALCON_INIT_NVAR(action_name);
+				phalcon_call_method(action_name, dispatcher, "getactionname");
 	
-			/** 
-			 * Automatic render based on the latest controller executed
-			 */
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", controller_name, action_name, params);
+				PHALCON_INIT_NVAR(params);
+				phalcon_call_method(params, dispatcher, "getparams");
+	
+				/** 
+				 * Automatic render based on the latest controller executed
+				 */
+				phalcon_call_method_p3_noret(view, "render", controller_name, action_name, params);
+			}
 		}
 	}
 	
 	/** 
 	 * Finish the view component (stop output buffering)
 	 */
-	PHALCON_CALL_METHOD_NORETURN(view, "finish");
+	if (PHALCON_IS_TRUE(implicit_view)) {
+		phalcon_call_method_noret(view, "finish");
+	}
+	
 	if (PHALCON_IS_FALSE(returned_response)) {
+	
 		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "response", 1);
 	
 		PHALCON_INIT_VAR(response);
-		PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", service);
-	
-		/** 
-		 * The content returned by the view is passed to the response service
-		 */
-		PHALCON_INIT_VAR(content);
-		PHALCON_CALL_METHOD(content, view, "getcontent");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(response, "setcontent", content);
+		phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+		if (PHALCON_IS_TRUE(implicit_view)) {
+			/** 
+			 * The content returned by the view is passed to the response service
+			 */
+			PHALCON_INIT_VAR(content);
+			phalcon_call_method(content, view, "getcontent");
+			phalcon_call_method_p1_noret(response, "setcontent", content);
+		}
 	} else {
 		/** 
 		 * We don't need to create a response because there is an already created one
@@ -524,18 +557,18 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "application:beforeSendResponse", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, response);
+		phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, response);
 	}
 	
 	/** 
 	 * Headers are automatically send
 	 */
-	PHALCON_CALL_METHOD_NORETURN(response, "sendheaders");
+	phalcon_call_method_noret(response, "sendheaders");
 	
 	/** 
 	 * Cookies are automatically send
 	 */
-	PHALCON_CALL_METHOD_NORETURN(response, "sendcookies");
+	phalcon_call_method_noret(response, "sendcookies");
 	
 	/** 
 	 * Return the response

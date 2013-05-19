@@ -63,10 +63,8 @@ PHP_METHOD(Phalcon_Logger_Formatter, getTypeString){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &type) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &type);
+	
 	
 	switch (phalcon_get_intval(type)) {
 	

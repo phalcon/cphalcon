@@ -103,13 +103,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(argument);
+			PHALCON_GET_HVALUE(argument);
 	
 			PHALCON_OBS_NVAR(expr);
 			phalcon_array_fetch_string(&expr, argument, SL("expr"), PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(resolved_argument);
-			PHALCON_CALL_METHOD_PARAMS_1(resolved_argument, this_ptr, "getexpression", expr);
+			phalcon_call_method_p1(resolved_argument, this_ptr, "getexpression", expr);
 			if (phalcon_array_isset_string(argument, SS("name"))) {
 				PHALCON_OBS_NVAR(name);
 				phalcon_array_fetch_string(&name, argument, SL("name"), PH_NOISY_CC);
@@ -211,13 +211,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-				PHALCON_GET_FOREACH_VALUE(item);
+				PHALCON_GET_HVALUE(item);
 	
 				PHALCON_OBS_NVAR(expr);
 				phalcon_array_fetch_string(&expr, item, SL("expr"), PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(resolved_item);
-				PHALCON_CALL_METHOD_PARAMS_1(resolved_item, this_ptr, "getexpression", expr);
+				phalcon_call_method_p1(resolved_item, this_ptr, "getexpression", expr);
 				if (phalcon_array_isset_string(item, SS("name"))) {
 					PHALCON_OBS_NVAR(name);
 					phalcon_array_fetch_string(&name, item, SL("name"), PH_NOISY_CC);
@@ -229,13 +229,12 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
 	
-	
 			RETURN_CTOR(array_value);
 	
 		case 300:
 			PHALCON_INIT_VAR(annotation);
 			object_init_ex(annotation, phalcon_annotations_annotation_ce);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(annotation, "__construct", expr);
+			phalcon_call_method_p1_noret(annotation, "__construct", expr);
 	
 			RETURN_CTOR(annotation);
 	

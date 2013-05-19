@@ -40,6 +40,14 @@
 #define PHALCON_IS_EQUAL(op1, op2) phalcon_is_equal(op1, op2 TSRMLS_CC)
 #define PHALCON_IS_IDENTICAL(op1, op2) phalcon_is_identical(op1, op2 TSRMLS_CC)
 
+/** Less equals */
+#define PHALCON_LE(op1, op2) phalcon_less_equal(op1, op2 TSRMLS_CC)
+#define PHALCON_LE_LONG(op1, op2) phalcon_less_equal_long(op1, op2 TSRMLS_CC)
+
+/** Greater equals */
+#define PHALCON_GE(op1, op2) phalcon_greater_equal(op1, op2 TSRMLS_CC)
+#define PHALCON_GE_LONG(op1, op2) phalcon_greater_equal_long(op1, op2 TSRMLS_CC)
+
 /** Operator functions */
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_and_function(zval *result, zval *left, zval *right);

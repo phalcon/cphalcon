@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The descriptor must be an array");
 		return;
 	}
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "connect", descriptor);
+	phalcon_call_method_p1_noret(this_ptr, "connect", descriptor);
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo", "__construct", descriptor);
 	
 	PHALCON_MM_RESTORE();
@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare){
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(statement);
-	PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "prepare", sql_statement);
+	phalcon_call_method_p1(statement, pdo, "prepare", sql_statement);
 	RETURN_CCTOR(statement);
 }
 
@@ -422,7 +422,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		phalcon_update_property_this(this_ptr, SL("_sqlBindTypes"), bind_types TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, bind_params);
+		phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, bind_params);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -433,15 +433,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(statement);
-		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "prepare", sql_statement);
+		phalcon_call_method_p1(statement, pdo, "prepare", sql_statement);
 		if (Z_TYPE_P(statement) == IS_OBJECT) {
 			PHALCON_INIT_VAR(r0);
-			PHALCON_CALL_METHOD_PARAMS_3(r0, this_ptr, "executeprepared", statement, bind_params, bind_types);
+			phalcon_call_method_p3(r0, this_ptr, "executeprepared", statement, bind_params, bind_types);
 			PHALCON_CPY_WRT(statement, r0);
 		}
 	} else {
 		PHALCON_INIT_NVAR(statement);
-		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "query", sql_statement);
+		phalcon_call_method_p1(statement, pdo, "query", sql_statement);
 	}
 	
 	/** 
@@ -451,17 +451,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "db:afterQuery", 1);
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, bind_params);
+			phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, bind_params);
 		}
 	
 		PHALCON_INIT_VAR(pdo_result);
 		object_init_ex(pdo_result, phalcon_db_result_pdo_ce);
-		PHALCON_CALL_METHOD_PARAMS_5_NORETURN(pdo_result, "__construct", this_ptr, statement, sql_statement, bind_params, bind_types);
-	
+		phalcon_call_method_p5_noret(pdo_result, "__construct", this_ptr, statement, sql_statement, bind_params, bind_types);
 	
 		RETURN_CTOR(pdo_result);
 	}
-	
 	
 	RETURN_CCTOR(statement);
 }
@@ -514,7 +512,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 		phalcon_update_property_this(this_ptr, SL("_sqlBindTypes"), bind_types TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, bind_params);
+		phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, bind_params);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -525,18 +523,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(statement);
-		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "prepare", sql_statement);
+		phalcon_call_method_p1(statement, pdo, "prepare", sql_statement);
 		if (Z_TYPE_P(statement) == IS_OBJECT) {
 			PHALCON_INIT_VAR(r0);
-			PHALCON_CALL_METHOD_PARAMS_3(r0, this_ptr, "executeprepared", statement, bind_params, bind_types);
+			phalcon_call_method_p3(r0, this_ptr, "executeprepared", statement, bind_params, bind_types);
 			PHALCON_CPY_WRT(statement, r0);
 	
 			PHALCON_INIT_VAR(affected_rows);
-			PHALCON_CALL_METHOD(affected_rows, statement, "rowcount");
+			phalcon_call_method(affected_rows, statement, "rowcount");
 		}
 	} else {
 		PHALCON_INIT_NVAR(affected_rows);
-		PHALCON_CALL_METHOD_PARAMS_1(affected_rows, pdo, "exec", sql_statement);
+		phalcon_call_method_p1(affected_rows, pdo, "exec", sql_statement);
 	}
 	
 	/** 
@@ -547,7 +545,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "db:afterQuery", 1);
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, bind_params);
+			phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, bind_params);
 		}
 	}
 	
@@ -650,7 +648,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString){
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(quoted_str);
-	PHALCON_CALL_METHOD_PARAMS_1(quoted_str, pdo, "quote", str);
+	phalcon_call_method_p1(quoted_str, pdo, "quote", str);
 	RETURN_CCTOR(quoted_str);
 }
 
@@ -671,7 +669,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	zval *matches, *set_order, *bind_pattern, *status;
 	zval *place_match = NULL, *numeric_place = NULL, *value = NULL, *str_place = NULL;
 	zval *question, *bound_sql = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL };
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -693,16 +690,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	
 	PHALCON_INIT_VAR(bind_pattern);
 	ZVAL_STRING(bind_pattern, "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/", 1);
-	
-	p0[0] = bind_pattern;
-	p0[1] = sql;
 	Z_SET_ISREF_P(matches);
-	p0[2] = matches;
-	p0[3] = set_order;
 	
 	PHALCON_INIT_VAR(status);
-	PHALCON_CALL_FUNC_PARAMS(status, "preg_match_all", 4, p0);
-	Z_UNSET_ISREF_P(p0[2]);
+	phalcon_call_func_p4(status, "preg_match_all", bind_pattern, sql, matches, set_order);
+	Z_UNSET_ISREF_P(matches);
 	if (zend_is_true(status)) {
 	
 		if (!phalcon_is_iterable(matches, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -711,7 +703,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(place_match);
+			PHALCON_GET_HVALUE(place_match);
 	
 			PHALCON_OBS_NVAR(numeric_place);
 			phalcon_array_fetch_long(&numeric_place, place_match, 1, PH_NOISY_CC);
@@ -745,7 +737,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 		ZVAL_STRING(question, "?", 1);
 	
 		PHALCON_INIT_VAR(bound_sql);
-		PHALCON_CALL_FUNC_PARAMS_3(bound_sql, "preg_replace", bind_pattern, question, sql);
+		phalcon_call_func_p3(bound_sql, "preg_replace", bind_pattern, question, sql);
 	} else {
 		PHALCON_CPY_WRT(bound_sql, sql);
 	}
@@ -798,7 +790,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId){
 	}
 	
 	PHALCON_INIT_VAR(insert_id);
-	PHALCON_CALL_METHOD_PARAMS_1(insert_id, pdo, "lastinsertid", sequence_name);
+	phalcon_call_method_p1(insert_id, pdo, "lastinsertid", sequence_name);
 	
 	RETURN_CCTOR(insert_id);
 }
@@ -842,11 +834,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "db:beginTransaction", 1);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+		phalcon_call_method_p2_noret(events_manager, "fire", event_name, this_ptr);
 	}
 	
 	PHALCON_INIT_VAR(status);
-	PHALCON_CALL_METHOD(status, pdo, "begintransaction");
+	phalcon_call_method(status, pdo, "begintransaction");
 	
 	RETURN_CCTOR(status);
 }
@@ -892,11 +884,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "db:rollbackTransaction", 1);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+		phalcon_call_method_p2_noret(events_manager, "fire", event_name, this_ptr);
 	}
 	
 	PHALCON_INIT_VAR(status);
-	PHALCON_CALL_METHOD(status, pdo, "rollback");
+	phalcon_call_method(status, pdo, "rollback");
 	
 	RETURN_CCTOR(status);
 }
@@ -942,11 +934,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "db:commitTransaction", 1);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+		phalcon_call_method_p2_noret(events_manager, "fire", event_name, this_ptr);
 	}
 	
 	PHALCON_INIT_VAR(status);
-	PHALCON_CALL_METHOD(status, pdo, "commit");
+	phalcon_call_method(status, pdo, "commit");
 	
 	RETURN_CCTOR(status);
 }
@@ -982,7 +974,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction){
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if (Z_TYPE_P(pdo) == IS_OBJECT) {
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD(status, pdo, "intransaction");
+		phalcon_call_method(status, pdo, "intransaction");
 		RETURN_CCTOR(status);
 	}
 	

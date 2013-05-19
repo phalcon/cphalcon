@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 				object_init_ex(builder, phalcon_di_service_builder_ce);
 	
 				PHALCON_INIT_NVAR(instance);
-				PHALCON_CALL_METHOD_PARAMS_3(instance, builder, "build", dependency_injector, definition, parameters);
+				phalcon_call_method_p3(instance, builder, "build", dependency_injector, definition, parameters);
 			} else {
 				ZVAL_BOOL(found, 0);
 			}
@@ -296,7 +296,6 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	if (zend_is_true(shared)) {
 		phalcon_update_property_this(this_ptr, SL("_sharedInstance"), instance TSRMLS_CC);
 	}
-	
 	
 	RETURN_CCTOR(instance);
 }
@@ -441,8 +440,7 @@ PHP_METHOD(Phalcon_DI_Service, __set_state){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
-	
+	phalcon_call_method_p3_noret(service, "__construct", name, definition, shared);
 	
 	RETURN_CTOR(service);
 }

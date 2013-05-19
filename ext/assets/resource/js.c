@@ -63,10 +63,8 @@ PHP_METHOD(Phalcon_Assets_Resource_Js, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &path, &local) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &path, &local);
+	
 	if (!local) {
 		PHALCON_INIT_VAR(local);
 		ZVAL_BOOL(local, 1);

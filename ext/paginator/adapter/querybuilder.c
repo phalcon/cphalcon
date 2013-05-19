@@ -73,10 +73,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &config) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &config);
+	
 	phalcon_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	if (!phalcon_array_isset_string(config, SS("builder"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required");
@@ -114,10 +112,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage){
 
 	zval *current_page;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &current_page) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &current_page);
+	
 	phalcon_update_property_this(this_ptr, SL("_page"), current_page TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -172,13 +168,13 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_INIT_VAR(compare);
 	is_smaller_function(compare, number, limit TSRMLS_CC);
 	if (PHALCON_IS_TRUE(compare)) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "limit", limit);
+		phalcon_call_method_p1_noret(builder, "limit", limit);
 	} else {
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(builder, "limit", limit, number);
+		phalcon_call_method_p2_noret(builder, "limit", limit, number);
 	}
 	
 	PHALCON_INIT_VAR(query);
-	PHALCON_CALL_METHOD(query, builder, "getquery");
+	phalcon_call_method(query, builder, "getquery");
 	
 	PHALCON_INIT_VAR(page);
 	object_init(page);
@@ -193,21 +189,21 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	phalcon_update_property_zval(page, SL("before"), before TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(items);
-	PHALCON_CALL_METHOD(items, query, "execute");
+	phalcon_call_method(items, query, "execute");
 	phalcon_update_property_zval(page, SL("items"), items TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(select_count);
 	ZVAL_STRING(select_count, "COUNT(*) rowcount", 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(total_builder, "columns", select_count);
+	phalcon_call_method_p1_noret(total_builder, "columns", select_count);
 	
 	PHALCON_INIT_VAR(total_query);
-	PHALCON_CALL_METHOD(total_query, total_builder, "getquery");
+	phalcon_call_method(total_query, total_builder, "getquery");
 	
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_METHOD(result, total_query, "execute");
+	phalcon_call_method(result, total_query, "execute");
 	
 	PHALCON_INIT_VAR(row);
-	PHALCON_CALL_METHOD(row, result, "getfirst");
+	phalcon_call_method(row, result, "getfirst");
 	
 	PHALCON_OBS_VAR(rowcount);
 	phalcon_read_property(&rowcount, row, SL("rowcount"), PH_NOISY_CC);
@@ -216,7 +212,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	div_function(total_pages, rowcount, limit TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(int_total_pages);
-	PHALCON_CALL_FUNC_PARAMS_1(int_total_pages, "intval", total_pages);
+	phalcon_call_func_p1(int_total_pages, "intval", total_pages);
 	if (!PHALCON_IS_EQUAL(int_total_pages, total_pages)) {
 		phalcon_add_function(total_pages, int_total_pages, one TSRMLS_CC);
 	}

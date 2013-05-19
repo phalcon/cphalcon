@@ -124,14 +124,14 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 	 * Get the cache content verifying if it was expired
 	 */
 	PHALCON_INIT_VAR(existing_cache);
-	PHALCON_CALL_METHOD_PARAMS_2(existing_cache, this_ptr, "get", key_name, lifetime);
+	phalcon_call_method_p2(existing_cache, this_ptr, "get", key_name, lifetime);
 	if (Z_TYPE_P(existing_cache) == IS_NULL) {
 		PHALCON_INIT_VAR(fresh);
 		ZVAL_BOOL(fresh, 1);
 	
 		PHALCON_OBS_VAR(frontend);
 		phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_NORETURN(frontend, "start");
+		phalcon_call_method_noret(frontend, "start");
 	} else {
 		PHALCON_INIT_NVAR(fresh);
 		ZVAL_BOOL(fresh, 0);
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Cache_Backend, stop){
 	if (PHALCON_IS_TRUE(stop_buffer)) {
 		PHALCON_OBS_VAR(frontend);
 		phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_NORETURN(frontend, "stop");
+		phalcon_call_method_noret(frontend, "stop");
 	}
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
 	

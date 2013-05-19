@@ -74,75 +74,75 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getLogLevel);
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, log);
 
 /**
-  * Starts a transaction
-  *
-  */
+ * Starts a transaction
+ *
+ */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, begin);
 
 /**
-  * Commits the internal transaction
-  *
-  */
+ * Commits the internal transaction
+ *
+ */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, commit);
 
 /**
-  * Rollbacks the internal transaction
-  *
-  */
+ * Rollbacks the internal transaction
+ *
+ */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, rollback);
 
 /**
-  * Closes the logger
-  *
-  * @return boolean
-  */
+ * Closes the logger
+ *
+ * @return boolean
+ */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, close);
 
 /**
-  * Sends/Writes a debug message to the log
-  *
-  * @param string $message
-  * @param ing $type
-  */
+ * Sends/Writes a debug message to the log
+ *
+ * @param string $message
+ * @param ing $type
+ */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, debug);
 
 /**
-  * Sends/Writes an error message to the log
-  *
-  * @param string $message
-  * @param ing $type
-  */
+ * Sends/Writes an error message to the log
+ *
+ * @param string $message
+ * @param ing $type
+ */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
 
 /**
-  * Sends/Writes an info message to the log
-  *
-  * @param string $message
-  * @param ing $type
-  */
+ * Sends/Writes an info message to the log
+ *
+ * @param string $message
+ * @param ing $type
+ */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
 
 /**
-  * Sends/Writes a notice message to the log
-  *
-  * @param string $message
-  * @param ing $type
-  */
+ * Sends/Writes a notice message to the log
+ *
+ * @param string $message
+ * @param ing $type
+ */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
 
 /**
-  * Sends/Writes a warning message to the log
-  *
-  * @param string $message
-  * @param ing $type
-  */
+ * Sends/Writes a warning message to the log
+ *
+ * @param string $message
+ * @param ing $type
+ */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, warning);
 
 /**
-  * Sends/Writes an alert message to the log
-  *
-  * @param string $message
-  * @param ing $type
-  */
+ * Sends/Writes an alert message to the log
+ *
+ * @param string $message
+ * @param ing $type
+ */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, alert);
 

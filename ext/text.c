@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Text, lower){
 	 */
 	if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(lower);
-		PHALCON_CALL_FUNC_PARAMS_1(lower, "mb_strtolower", str);
+		phalcon_call_func_p1(lower, "mb_strtolower", str);
 	} else {
 		PHALCON_INIT_NVAR(lower);
 		phalcon_fast_strtolower(lower, str);
@@ -303,10 +303,10 @@ PHP_METHOD(Phalcon_Text, upper){
 	 */
 	if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(upper);
-		PHALCON_CALL_FUNC_PARAMS_1(upper, "mb_strtoupper", str);
+		phalcon_call_func_p1(upper, "mb_strtoupper", str);
 	} else {
 		PHALCON_INIT_NVAR(upper);
-		PHALCON_CALL_FUNC_PARAMS_1(upper, "strtoupper", str);
+		phalcon_call_func_p1(upper, "strtoupper", str);
 	}
 	
 	RETURN_CCTOR(upper);

@@ -89,10 +89,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &descriptor) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &descriptor);
+	
 	if (!descriptor) {
 		PHALCON_INIT_VAR(descriptor);
 	} else {
@@ -126,9 +124,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect){
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-				PHALCON_GET_FOREACH_VALUE(value);
+				PHALCON_GET_HVALUE(value);
 	
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "execute", value);
+				phalcon_call_method_p1_noret(this_ptr, "execute", value);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -161,10 +159,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
@@ -176,7 +172,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describecolumns", table, schema);
+	phalcon_call_method_p2(sql, dialect, "describecolumns", table, schema);
 	
 	/** 
 	 * We're using FETCH_NUM to fetch the columns
@@ -185,7 +181,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 	ZVAL_LONG(fetch_num, 3);
 	
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
+	phalcon_call_method_p2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	/** 
 	 *  0:column_name, 1:data_type, 2:data_length, 3:data_precision, 4:data_scale,
@@ -199,7 +195,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(field);
+		PHALCON_GET_HVALUE(field);
 	
 		PHALCON_INIT_NVAR(definition);
 		array_init_size(definition, 1);
@@ -308,14 +304,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 		 */
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);
+		phalcon_call_method_p2_noret(column, "__construct", column_name, definition);
 	
 		phalcon_array_append(&columns, column, PH_SEPARATE TSRMLS_CC);
 		PHALCON_CPY_WRT(old_column, column_name);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	RETURN_CTOR(columns);
 }
@@ -344,10 +339,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, lastInsertId){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &sequence_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &sequence_name);
+	
 	if (!sequence_name) {
 		PHALCON_INIT_VAR(sequence_name);
 	}
@@ -359,7 +352,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, lastInsertId){
 	ZVAL_LONG(fetch_num, 3);
 	
 	PHALCON_INIT_VAR(ret);
-	PHALCON_CALL_METHOD_PARAMS_2(ret, this_ptr, "fetchall", sql, fetch_num);
+	phalcon_call_method_p2(ret, this_ptr, "fetchall", sql, fetch_num);
 	
 	PHALCON_OBS_VAR(insert_id);
 	phalcon_array_fetch_long(&insert_id, ret, 0, PH_NOISY_CC);
@@ -393,7 +386,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue){
 	
 	PHALCON_INIT_VAR(default_value);
 	object_init_ex(default_value, phalcon_db_rawvalue_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(default_value, "__construct", null_value);
+	phalcon_call_method_p1_noret(default_value, "__construct", null_value);
 	
 	RETURN_CTOR(default_value);
 }

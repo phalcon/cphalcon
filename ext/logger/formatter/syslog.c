@@ -66,10 +66,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &message, &type, &timestamp) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &message, &type, &timestamp);
+	
 	PHALCON_INIT_VAR(log);
 	array_init_size(log, 2);
 	phalcon_array_append(&log, type, PH_SEPARATE TSRMLS_CC);

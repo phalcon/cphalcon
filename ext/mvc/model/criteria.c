@@ -73,9 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI){
 
 	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Dependency Injector is invalid");
@@ -83,7 +81,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI){
 	}
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("di"), dependency_injector TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -118,9 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName){
 
 	zval *model_name;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &model_name);
+	phalcon_fetch_params(0, 1, 0, &model_name);
 	
 	if (Z_TYPE_P(model_name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model name must be string");
@@ -128,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName){
 	}
 	phalcon_update_property_this(this_ptr, SL("_model"), model_name TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -157,9 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 
 	zval *bind_params;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &bind_params);
+	phalcon_fetch_params(0, 1, 0, &bind_params);
 	
 	if (Z_TYPE_P(bind_params) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bind parameters must be an Array");
@@ -167,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 	}
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("bind"), bind_params TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -180,9 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 
 	zval *conditions;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &conditions);
+	phalcon_fetch_params(0, 1, 0, &conditions);
 	
 	if (Z_TYPE_P(conditions) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
@@ -190,7 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 	}
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), conditions TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -207,7 +198,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere){
 
 	phalcon_fetch_params(1, 1, 0, &conditions);
 	
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "andwhere", conditions);
+	phalcon_call_method_p1_noret(this_ptr, "andwhere", conditions);
 	RETURN_THIS();
 }
 
@@ -295,9 +286,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 
 	zval *conditions;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &conditions);
+	phalcon_fetch_params(0, 1, 0, &conditions);
 	
 	if (Z_TYPE_P(conditions) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
@@ -305,7 +294,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 	}
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), conditions TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -318,9 +307,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 
 	zval *order_columns;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &order_columns);
+	phalcon_fetch_params(0, 1, 0, &order_columns);
 	
 	if (Z_TYPE_P(order_columns) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Order columns must be string");
@@ -328,7 +315,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 	}
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("order"), order_columns TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -363,7 +350,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 		phalcon_array_update_string(&limit_clause, SL("offset"), &offset, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_update_property_array_string(this_ptr, SL("_params"), SS("limit"), limit_clause TSRMLS_CC);
 	}
-	
 	
 	RETURN_THIS();
 }
@@ -553,17 +539,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		ZVAL_STRING(service, "modelsMetadata", 1);
 	
 		PHALCON_INIT_VAR(meta_data);
-		PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service);
+		phalcon_call_method_p1(meta_data, dependency_injector, "getshared", service);
 		ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(model);
 		object_init_ex(model, ce0);
 		if (phalcon_has_constructor(model TSRMLS_CC)) {
-			PHALCON_CALL_METHOD_NORETURN(model, "__construct");
+			phalcon_call_method_noret(model, "__construct");
 		}
 	
 		PHALCON_INIT_VAR(data_types);
-		PHALCON_CALL_METHOD_PARAMS_1(data_types, meta_data, "getdatatypes", model);
+		phalcon_call_method_p1(data_types, meta_data, "getdatatypes", model);
 	
 		PHALCON_INIT_VAR(bind);
 		array_init(bind);
@@ -578,8 +564,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_KEY(field, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(value);
+			PHALCON_GET_HKEY(field, ah0, hp0);
+			PHALCON_GET_HVALUE(value);
 	
 			if (phalcon_array_isset(data_types, field)) {
 				if (Z_TYPE_P(value) != IS_NULL) {
@@ -624,10 +610,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	if (phalcon_fast_count_ev(conditions TSRMLS_CC)) {
 		PHALCON_INIT_VAR(join_conditions);
 		phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(criteria, "where", join_conditions);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(criteria, "bind", bind);
+		phalcon_call_method_p1_noret(criteria, "where", join_conditions);
+		phalcon_call_method_p1_noret(criteria, "bind", bind);
 	}
-	
 	
 	RETURN_CTOR(criteria);
 }
@@ -651,7 +636,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 	}
 	
 	PHALCON_INIT_VAR(params);
-	PHALCON_CALL_METHOD(params, this_ptr, "getparams");
+	phalcon_call_method(params, this_ptr, "getparams");
 	
 	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(resultset, model, "find", params);

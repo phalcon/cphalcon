@@ -34,9 +34,9 @@
 
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/file.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -79,6 +79,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Compiler){
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_blocks"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_forElsePointers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_loopPointers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_extensions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_functions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -101,10 +102,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &view) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &view);
+	
 	if (!view) {
 		PHALCON_INIT_VAR(view);
 	}
@@ -117,34 +116,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct){
 }
 
 /**
- * Sets the compiler options
- *
- * @param array $options
- */
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOptions){
-
-	zval *options;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	
-}
-
-/**
- * Returns the compiler options
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOptions){
-
-
-	RETURN_MEMBER(this_ptr, "_options");
-}
-
-/**
  * Sets the dependency injector
  *
  * @param Phalcon\DiInterface $dependencyInjector
@@ -153,19 +124,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI){
 
 	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -180,6 +146,187 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI){
 }
 
 /**
+ * Sets the compiler options
+ *
+ * @param array $options
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOptions){
+
+	zval *options;
+
+	phalcon_fetch_params(0, 1, 0, &options);
+	
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Options must be an array");
+		return;
+	}
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
+	
+}
+
+/**
+ * Sets a single compiler option
+ *
+ * @param string $option
+ * @param string $value
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOption){
+
+	zval *option, *value;
+
+	phalcon_fetch_params(0, 2, 0, &option, &value);
+	
+	phalcon_update_property_array(this_ptr, SL("_options"), option, value TSRMLS_CC);
+	
+}
+
+/**
+ * Returns a compiler's option
+ *
+ * @param string $option
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOption){
+
+	zval *option, *options, *value;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &option);
+	
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (phalcon_array_isset(options, option)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, options, option, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
+	
+	RETURN_MM_NULL();
+}
+
+/**
+ * Returns the compiler options
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOptions){
+
+
+	RETURN_MEMBER(this_ptr, "_options");
+}
+
+/**
+ * Fires an event to registered extensions
+ *
+ * @param string $name
+ * @param array $arguments
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent){
+
+	zval *name, *arguments = NULL, *extensions, *extension = NULL;
+	zval *call_object = NULL, *status = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &name, &arguments);
+	
+	if (!arguments) {
+		PHALCON_INIT_VAR(arguments);
+	}
+	
+	PHALCON_OBS_VAR(extensions);
+	phalcon_read_property_this(&extensions, this_ptr, SL("_extensions"), PH_NOISY_CC);
+	if (Z_TYPE_P(extensions) == IS_ARRAY) { 
+	
+		if (!phalcon_is_iterable(extensions, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_HVALUE(extension);
+	
+			/** 
+			 * Check if the extension implements the required event name
+			 */
+			if (phalcon_method_exists(extension, name TSRMLS_CC) == SUCCESS) {
+	
+				PHALCON_INIT_NVAR(call_object);
+				array_init_size(call_object, 2);
+				phalcon_array_append(&call_object, extension, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&call_object, name, PH_SEPARATE TSRMLS_CC);
+				if (Z_TYPE_P(arguments) == IS_ARRAY) { 
+					PHALCON_INIT_NVAR(status);
+					PHALCON_CALL_USER_FUNC_ARRAY(status, call_object, arguments);
+				} else {
+					PHALCON_INIT_NVAR(status);
+					PHALCON_CALL_USER_FUNC(status, call_object);
+				}
+	
+				/** 
+				 * Only string statuses means the extension process something
+				 */
+				if (Z_TYPE_P(status) == IS_STRING) {
+					RETURN_CCTOR(status);
+				}
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Registers a Volt's extension
+ *
+ * @param object $extension
+ * @return Phalcon\Mvc\View\Engine\Volt\Compiler
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addExtension){
+
+	zval *extension;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &extension);
+	
+	if (Z_TYPE_P(extension) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The extension is not valid");
+		return;
+	}
+	
+	/** 
+	 * Initialize the extension
+	 */
+	if (phalcon_method_exists_ex(extension, SS("initialize") TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_p1_noret(extension, "initialize", this_ptr);
+	}
+	
+	phalcon_update_property_array_append(this_ptr, SL("_extensions"), extension TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Returns the list of extensions registered in Volt
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getExtensions){
+
+
+	RETURN_MEMBER(this_ptr, "_extensions");
+}
+
+/**
  * Register a new function in the compiler
  *
  * @param string $name
@@ -190,19 +337,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFunction){
 
 	zval *name, *definition;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &name, &definition);
+	
 	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The function name must be a string");
 		return;
 	}
 	phalcon_update_property_array(this_ptr, SL("_functions"), name, definition TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -227,19 +370,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFilter){
 
 	zval *name, *definition;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &name, &definition);
+	
 	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The function name must be a string");
 		return;
 	}
 	phalcon_update_property_array(this_ptr, SL("_filters"), name, definition TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -262,10 +401,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setUniquePrefix){
 
 	zval *prefix;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &prefix) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &prefix);
+	
 	phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	
 }
@@ -307,7 +444,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix){
 			phalcon_array_append(&parameters, this_ptr, PH_SEPARATE TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(calculated_prefix);
-			PHALCON_CALL_FUNC_PARAMS_2(calculated_prefix, "call_user_func_array", prefix, parameters);
+			phalcon_call_func_p2(calculated_prefix, "call_user_func_array", prefix, parameters);
 			phalcon_update_property_this(this_ptr, SL("_prefix"), calculated_prefix TSRMLS_CC);
 			PHALCON_CPY_WRT(prefix, calculated_prefix);
 		}
@@ -317,7 +454,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The unique compilation prefix is invalid");
 		return;
 	}
-	
 	
 	RETURN_CCTOR(prefix);
 }
@@ -337,14 +473,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &expr) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	if (Z_TYPE_P(expr) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted function call");
-		return;
-	}
+	phalcon_fetch_params(1, 1, 0, &expr);
 	
 	PHALCON_INIT_VAR(expr_code);
 	
@@ -368,7 +497,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 			phalcon_read_property_this(&level, this_ptr, SL("_foreachLevel"), PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(prefix);
-			PHALCON_CALL_METHOD(prefix, this_ptr, "getuniqueprefix");
+			phalcon_call_method(prefix, this_ptr, "getuniqueprefix");
 			PHALCON_SCONCAT_SVVS(expr_code, "$", prefix, level, "loop");
 			phalcon_update_property_array(this_ptr, SL("_loopPointers"), level, level TSRMLS_CC);
 		} else {
@@ -380,7 +509,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 			if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 	
 				PHALCON_INIT_VAR(is_service);
-				PHALCON_CALL_METHOD_PARAMS_1(is_service, dependency_injector, "has", variable);
+				phalcon_call_method_p1(is_service, dependency_injector, "has", variable);
 				if (zend_is_true(is_service)) {
 					PHALCON_SCONCAT_SV(expr_code, "$this->", variable);
 				} else {
@@ -392,7 +521,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 		}
 	} else {
 		PHALCON_INIT_VAR(left_code);
-		PHALCON_CALL_METHOD_PARAMS_1(left_code, this_ptr, "expression", left);
+		phalcon_call_method_p1(left_code, this_ptr, "expression", left);
 		if (!PHALCON_IS_LONG(left_type, 46)) {
 			if (!PHALCON_IS_LONG(left_type, 350)) {
 				PHALCON_SCONCAT_SVS(expr_code, "(", left_code, ")");
@@ -417,10 +546,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 		phalcon_concat_self(&expr_code, member TSRMLS_CC);
 	} else {
 		PHALCON_INIT_VAR(right_code);
-		PHALCON_CALL_METHOD_PARAMS_1(right_code, this_ptr, "expression", right);
+		phalcon_call_method_p1(right_code, this_ptr, "expression", right);
 		phalcon_concat_self(&expr_code, right_code TSRMLS_CC);
 	}
-	
 	
 	RETURN_CCTOR(expr_code);
 }
@@ -434,18 +562,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 
 	zval *expr, *code = NULL, *func_arguments = NULL, *arguments = NULL;
-	zval *name_expr, *name_type, *name = NULL, *functions;
-	zval *definition, *parameters, *line = NULL, *file = NULL, *exception_message = NULL;
+	zval *name_expr, *name_type, *name = NULL, *extensions;
+	zval *event, *fire_arguments, *functions, *definition;
+	zval *parameters, *line = NULL, *file = NULL, *exception_message = NULL;
 	zval *extended_blocks, *current_block, *expr_level;
 	zval *block, *escaped_code = NULL, *str_code = NULL, *camelized;
 	zval *method, *class_name, *array_helpers = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &expr) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &expr);
+	
 	/** 
 	 * Valid filters are always arrays
 	 */
@@ -462,7 +589,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 		phalcon_array_fetch_string(&func_arguments, expr, SL("arguments"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(arguments);
-		PHALCON_CALL_METHOD_PARAMS_1(arguments, this_ptr, "expression", func_arguments);
+		phalcon_call_method_p1(arguments, this_ptr, "expression", func_arguments);
 	} else {
 		PHALCON_INIT_NVAR(arguments);
 		ZVAL_STRING(arguments, "", 1);
@@ -481,6 +608,28 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, name_expr, SL("value"), PH_NOISY_CC);
+	
+		/** 
+		 * Check if any of the registered extensions provide compilation for this function
+		 */
+		PHALCON_OBS_VAR(extensions);
+		phalcon_read_property_this(&extensions, this_ptr, SL("_extensions"), PH_NOISY_CC);
+		if (Z_TYPE_P(extensions) == IS_ARRAY) { 
+	
+			PHALCON_INIT_VAR(event);
+			ZVAL_STRING(event, "compileFunction", 1);
+	
+			PHALCON_INIT_VAR(fire_arguments);
+			array_init_size(fire_arguments, 3);
+			phalcon_array_append(&fire_arguments, name, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&fire_arguments, arguments, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&fire_arguments, func_arguments, PH_SEPARATE TSRMLS_CC);
+	
+			phalcon_call_method_p2(code, this_ptr, "fireextensionevent", event, fire_arguments);
+			if (Z_TYPE_P(code) == IS_STRING) {
+				RETURN_CCTOR(code);
+			}
+		}
 	
 		/** 
 		 * Check if it's a user defined function
@@ -503,7 +652,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 						phalcon_array_append(&parameters, arguments, PH_SEPARATE TSRMLS_CC);
 						phalcon_array_append(&parameters, func_arguments, PH_SEPARATE TSRMLS_CC);
 	
-						PHALCON_CALL_FUNC_PARAMS_2(code, "call_user_func_array", definition, parameters);
+						PHALCON_INIT_NVAR(code);
+						phalcon_call_func_p2(code, "call_user_func_array", definition, parameters);
 						RETURN_CCTOR(code);
 					}
 				}
@@ -569,19 +719,19 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 					if (Z_TYPE_P(block) == IS_ARRAY) { 
 	
 						PHALCON_INIT_NVAR(code);
-						PHALCON_CALL_METHOD_PARAMS_1(code, this_ptr, "_statementlistorextends", block);
+						phalcon_call_method_p1(code, this_ptr, "_statementlistorextends", block);
 						if (PHALCON_IS_LONG(expr_level, 1)) {
 							PHALCON_CPY_WRT(escaped_code, code);
 						} else {
 							PHALCON_INIT_VAR(escaped_code);
-							PHALCON_CALL_FUNC_PARAMS_1(escaped_code, "addslashes", code);
+							phalcon_call_func_p1(escaped_code, "addslashes", code);
 						}
 					} else {
 						if (PHALCON_IS_LONG(expr_level, 1)) {
 							PHALCON_CPY_WRT(escaped_code, block);
 						} else {
 							PHALCON_INIT_NVAR(escaped_code);
-							PHALCON_CALL_FUNC_PARAMS_1(escaped_code, "addslashes", block);
+							phalcon_call_func_p1(escaped_code, "addslashes", block);
 						}
 					}
 	
@@ -595,7 +745,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 						PHALCON_CONCAT_SVS(str_code, "'", escaped_code, "'");
 					}
 	
-	
 					RETURN_CCTOR(str_code);
 				}
 			}
@@ -608,7 +757,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 		phalcon_camelize(camelized, name TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(method);
-		PHALCON_CALL_FUNC_PARAMS_1(method, "lcfirst", camelized);
+		phalcon_call_func_p1(method, "lcfirst", camelized);
 	
 		PHALCON_INIT_VAR(class_name);
 		ZVAL_STRING(class_name, "Phalcon\\Tag", 1);
@@ -648,7 +797,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 				PHALCON_INIT_NVAR(code);
 				PHALCON_CONCAT_SVSVS(code, "Phalcon\\Tag::", method, "(", arguments, ")");
 			}
-	
 	
 			RETURN_CCTOR(code);
 		}
@@ -713,7 +861,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 		return;
 	} else {
 		PHALCON_INIT_NVAR(name);
-		PHALCON_CALL_METHOD_PARAMS_1(name, this_ptr, "expression", name_expr);
+		phalcon_call_method_p1(name, this_ptr, "expression", name_expr);
 	
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_VSVS(code, name, "(", arguments, ")");
@@ -737,10 +885,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &test, &left) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &test, &left);
+	
 	/** 
 	 * Valid tests are always arrays
 	 */
@@ -834,7 +980,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 				phalcon_array_fetch_string(&test_arguments, test, SL("arguments"), PH_NOISY_CC);
 	
 				PHALCON_INIT_VAR(arguments);
-				PHALCON_CALL_METHOD_PARAMS_1(arguments, this_ptr, "expression", test_arguments);
+				phalcon_call_method_p1(arguments, this_ptr, "expression", test_arguments);
 	
 				PHALCON_INIT_NVAR(code);
 				PHALCON_CONCAT_SVSVS(code, "(((", left, ") % (", arguments, ")) == 0)");
@@ -849,7 +995,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 				phalcon_array_fetch_string(&test_arguments, test, SL("arguments"), PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(arguments);
-				PHALCON_CALL_METHOD_PARAMS_1(arguments, this_ptr, "expression", test_arguments);
+				phalcon_call_method_p1(arguments, this_ptr, "expression", test_arguments);
 	
 				PHALCON_INIT_NVAR(code);
 				PHALCON_CONCAT_SVSVS(code, "(", left, ") === (", arguments, ")");
@@ -864,7 +1010,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 				phalcon_array_fetch_string(&test_arguments, test, SL("arguments"), PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(arguments);
-				PHALCON_CALL_METHOD_PARAMS_1(arguments, this_ptr, "expression", test_arguments);
+				phalcon_call_method_p1(arguments, this_ptr, "expression", test_arguments);
 	
 				PHALCON_INIT_NVAR(code);
 				PHALCON_CONCAT_SVSVS(code, "gettype(", left, ") === (", arguments, ")");
@@ -877,7 +1023,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 	 * Fall back to the equals operator
 	 */
 	PHALCON_INIT_VAR(right_code);
-	PHALCON_CALL_METHOD_PARAMS_1(right_code, this_ptr, "expression", test);
+	phalcon_call_method_p1(right_code, this_ptr, "expression", test);
 	
 	PHALCON_INIT_NVAR(code);
 	PHALCON_CONCAT_VSV(code, left, " == ", right_code);
@@ -897,14 +1043,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 	zval *filter, *left, *code = NULL, *type, *name = NULL, *function_name;
 	zval *line = NULL, *file = NULL, *exception_message = NULL, *func_arguments = NULL;
 	zval *arguments = NULL, *resolved_expr, *resolved_param;
-	zval *filters, *definition, *parameters;
+	zval *extensions, *event, *fire_arguments, *filters;
+	zval *definition, *parameters;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &filter, &left) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &filter, &left);
+	
 	/** 
 	 * Valid filters are always arrays
 	 */
@@ -983,13 +1128,35 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 			phalcon_array_update_string(&resolved_param, SL("file"), &file, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string(&resolved_param, SL("line"), &line, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			Z_SET_ISREF_P(func_arguments);
-			PHALCON_CALL_FUNC_PARAMS_2_NORETURN("array_unshift", func_arguments, resolved_param);
+			phalcon_call_func_p2_noret("array_unshift", func_arguments, resolved_param);
 			Z_UNSET_ISREF_P(func_arguments);
 		}
 	
-		PHALCON_CALL_METHOD_PARAMS_1(arguments, this_ptr, "expression", func_arguments);
+		phalcon_call_method_p1(arguments, this_ptr, "expression", func_arguments);
 	} else {
 		PHALCON_CPY_WRT(arguments, left);
+	}
+	
+	/** 
+	 * Check if any of the registered extensions provide compilation for this filter
+	 */
+	PHALCON_OBS_VAR(extensions);
+	phalcon_read_property_this(&extensions, this_ptr, SL("_extensions"), PH_NOISY_CC);
+	if (Z_TYPE_P(extensions) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(event);
+		ZVAL_STRING(event, "compileFilter", 1);
+	
+		PHALCON_INIT_VAR(fire_arguments);
+		array_init_size(fire_arguments, 3);
+		phalcon_array_append(&fire_arguments, name, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&fire_arguments, arguments, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&fire_arguments, func_arguments, PH_SEPARATE TSRMLS_CC);
+	
+		phalcon_call_method_p2(code, this_ptr, "fireextensionevent", event, fire_arguments);
+		if (Z_TYPE_P(code) == IS_STRING) {
+			RETURN_CCTOR(code);
+		}
 	}
 	
 	/** 
@@ -1007,6 +1174,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 			 * The definition is a string
 			 */
 			if (Z_TYPE_P(definition) == IS_STRING) {
+				PHALCON_INIT_NVAR(code);
 				PHALCON_CONCAT_VSVS(code, definition, "(", arguments, ")");
 				RETURN_CCTOR(code);
 			}
@@ -1022,7 +1190,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 					phalcon_array_append(&parameters, func_arguments, PH_SEPARATE TSRMLS_CC);
 	
 					PHALCON_INIT_NVAR(code);
-					PHALCON_CALL_FUNC_PARAMS_2(code, "call_user_func_array", definition, parameters);
+					phalcon_call_func_p2(code, "call_user_func_array", definition, parameters);
 					RETURN_CCTOR(code);
 				}
 			}
@@ -1314,7 +1482,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 
-	zval *expr, *expr_code = NULL, *items = NULL, *single_expr = NULL, *single_expr_expr = NULL;
+	zval *expr, *expr_code = NULL, *extensions, *event = NULL, *fire_arguments = NULL;
+	zval *items = NULL, *single_expr = NULL, *single_expr_expr = NULL;
 	zval *single_expr_code = NULL, *name = NULL, *parameter = NULL, *type = NULL;
 	zval *left = NULL, *left_code = NULL, *right_code = NULL, *right = NULL, *value = NULL;
 	zval *single_quote = NULL, *escaped_quoute = NULL, *escaped_string = NULL;
@@ -1326,10 +1495,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &expr) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &expr);
+	
 	/** 
 	 * Valid expressions are always arrays
 	 */
@@ -1341,8 +1508,30 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 	PHALCON_INIT_VAR(expr_code);
 	phalcon_property_incr(this_ptr, SL("_exprLevel") TSRMLS_CC);
 	
+	/** 
+	 * Check if any of the registered extensions provide compilation for this
+	 * expression
+	 */
+	PHALCON_OBS_VAR(extensions);
+	phalcon_read_property_this(&extensions, this_ptr, SL("_extensions"), PH_NOISY_CC);
+	
 	while (1) {
 	
+		if (Z_TYPE_P(extensions) == IS_ARRAY) { 
+	
+			PHALCON_INIT_NVAR(event);
+			ZVAL_STRING(event, "resolveExpression", 1);
+	
+			PHALCON_INIT_NVAR(fire_arguments);
+			array_init_size(fire_arguments, 1);
+			phalcon_array_append(&fire_arguments, expr, PH_SEPARATE TSRMLS_CC);
+	
+			PHALCON_INIT_NVAR(expr_code);
+			phalcon_call_method_p2(expr_code, this_ptr, "fireextensionevent", event, fire_arguments);
+			if (Z_TYPE_P(expr_code) == IS_STRING) {
+				break;
+			}
+		}
 		if (!phalcon_array_isset_string(expr, SS("type"))) {
 	
 			PHALCON_INIT_NVAR(items);
@@ -1354,13 +1543,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-				PHALCON_GET_FOREACH_VALUE(single_expr);
+				PHALCON_GET_HVALUE(single_expr);
 	
 				PHALCON_OBS_NVAR(single_expr_expr);
 				phalcon_array_fetch_string(&single_expr_expr, single_expr, SL("expr"), PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(single_expr_code);
-				PHALCON_CALL_METHOD_PARAMS_1(single_expr_code, this_ptr, "expression", single_expr_expr);
+				phalcon_call_method_p1(single_expr_code, this_ptr, "expression", single_expr_expr);
 				if (phalcon_array_isset_string(single_expr, SS("name"))) {
 					PHALCON_OBS_NVAR(name);
 					phalcon_array_fetch_string(&name, single_expr, SL("name"), PH_NOISY_CC);
@@ -1388,7 +1577,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 		 */
 		if (PHALCON_IS_LONG(type, 46)) {
 			PHALCON_INIT_NVAR(expr_code);
-			PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "attributereader", expr);
+			phalcon_call_method_p1(expr_code, this_ptr, "attributereader", expr);
 			break;
 		}
 	
@@ -1400,7 +1589,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 			phalcon_array_fetch_string(&left, expr, SL("left"), PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(left_code);
-			PHALCON_CALL_METHOD_PARAMS_1(left_code, this_ptr, "expression", left);
+			phalcon_call_method_p1(left_code, this_ptr, "expression", left);
 		}
 	
 		/** 
@@ -1411,7 +1600,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 			phalcon_array_fetch_string(&right_code, expr, SL("right"), PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(expr_code);
-			PHALCON_CALL_METHOD_PARAMS_2(expr_code, this_ptr, "resolvetest", right_code, left_code);
+			phalcon_call_method_p2(expr_code, this_ptr, "resolvetest", right_code, left_code);
 			break;
 		}
 	
@@ -1423,7 +1612,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 			phalcon_array_fetch_string(&right_code, expr, SL("right"), PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(expr_code);
-			PHALCON_CALL_METHOD_PARAMS_2(expr_code, this_ptr, "resolvefilter", right_code, left_code);
+			phalcon_call_method_p2(expr_code, this_ptr, "resolvefilter", right_code, left_code);
 			break;
 		}
 	
@@ -1435,7 +1624,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 			phalcon_array_fetch_string(&right, expr, SL("right"), PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(right_code);
-			PHALCON_CALL_METHOD_PARAMS_1(right_code, this_ptr, "expression", right);
+			phalcon_call_method_p1(right_code, this_ptr, "expression", right);
 		}
 	
 		PHALCON_INIT_NVAR(expr_code);
@@ -1599,7 +1788,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 	
 			case 350:
 				PHALCON_INIT_NVAR(expr_code);
-				PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "functioncall", expr);
+				phalcon_call_method_p1(expr_code, this_ptr, "functioncall", expr);
 				break;
 	
 			case 356:
@@ -1621,7 +1810,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 					phalcon_array_fetch_string(&start, expr, SL("start"), PH_NOISY_CC);
 	
 					PHALCON_INIT_NVAR(start_code);
-					PHALCON_CALL_METHOD_PARAMS_1(start_code, this_ptr, "expression", start);
+					phalcon_call_method_p1(start_code, this_ptr, "expression", start);
 				} else {
 					PHALCON_INIT_NVAR(start_code);
 					ZVAL_STRING(start_code, "null", 1);
@@ -1635,7 +1824,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 					phalcon_array_fetch_string(&end, expr, SL("end"), PH_NOISY_CC);
 	
 					PHALCON_INIT_NVAR(end_code);
-					PHALCON_CALL_METHOD_PARAMS_1(end_code, this_ptr, "expression", end);
+					phalcon_call_method_p1(end_code, this_ptr, "expression", end);
 				} else {
 					PHALCON_INIT_NVAR(end_code);
 					ZVAL_STRING(end_code, "null", 1);
@@ -1670,7 +1859,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 				phalcon_array_fetch_string(&ternary, expr, SL("ternary"), PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(ternary_code);
-				PHALCON_CALL_METHOD_PARAMS_1(ternary_code, this_ptr, "expression", ternary);
+				phalcon_call_method_p1(ternary_code, this_ptr, "expression", ternary);
 	
 				PHALCON_INIT_NVAR(expr_code);
 				PHALCON_CONCAT_SVSVSVS(expr_code, "(", ternary_code, " ? ", left_code, " : ", right_code, ")");
@@ -1721,10 +1910,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &statements) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &statements);
+	
 	/** 
 	 * Resolve the statement list as normal
 	 */
@@ -1746,7 +1933,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(statement);
+			PHALCON_GET_HVALUE(statement);
 	
 			if (Z_TYPE_P(statement) != IS_ARRAY) { 
 				PHALCON_INIT_NVAR(is_statement_list);
@@ -1764,7 +1951,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends){
 	 */
 	if (PHALCON_IS_TRUE(is_statement_list)) {
 		PHALCON_INIT_VAR(code);
-		PHALCON_CALL_METHOD_PARAMS_1(code, this_ptr, "_statementlist", statements);
+		phalcon_call_method_p1(code, this_ptr, "_statementlist", statements);
 		RETURN_CCTOR(code);
 	}
 	
@@ -1795,10 +1982,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &statement, &extends_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &statement, &extends_mode);
+	
 	if (!extends_mode) {
 		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
@@ -1809,7 +1994,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 	phalcon_property_incr(this_ptr, SL("_foreachLevel") TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(prefix);
-	PHALCON_CALL_METHOD(prefix, this_ptr, "getuniqueprefix");
+	phalcon_call_method(prefix, this_ptr, "getuniqueprefix");
 	
 	PHALCON_OBS_VAR(level);
 	phalcon_read_property_this(&level, this_ptr, SL("_foreachLevel"), PH_NOISY_CC);
@@ -1827,7 +2012,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(expr_code);
-	PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "expression", expr);
+	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	
 	/** 
 	 * Process the block statements
@@ -1845,7 +2030,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(bstatement);
+			PHALCON_GET_HVALUE(bstatement);
 	
 			if (Z_TYPE_P(bstatement) != IS_ARRAY) { 
 				break;
@@ -1876,7 +2061,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 	 * Process statements block
 	 */
 	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_METHOD_PARAMS_2(code, this_ptr, "_statementlist", block_statements, extends_mode);
+	phalcon_call_method_p2(code, this_ptr, "_statementlist", block_statements, extends_mode);
 	
 	PHALCON_OBS_VAR(loop_context);
 	phalcon_read_property_this(&loop_context, this_ptr, SL("_loopPointers"), PH_NOISY_CC);
@@ -1925,7 +2110,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 		phalcon_array_fetch_string(&if_expr, statement, SL("if_expr"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(if_expr_code);
-		PHALCON_CALL_METHOD_PARAMS_1(if_expr_code, this_ptr, "expression", if_expr);
+		phalcon_call_method_p1(if_expr_code, this_ptr, "expression", if_expr);
 		PHALCON_SCONCAT_SVS(compilation, "if (", if_expr_code, ") { ?>");
 	} else {
 		phalcon_concat_self_str(&compilation, SL("?>") TSRMLS_CC);
@@ -2005,13 +2190,19 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForElse){
 			PHALCON_CONCAT_SVS(compilation, "<?php } if (!$", prefix, "iterated) { ?>");
 		}
 	
-	
 		RETURN_CTOR(compilation);
 	}
 	
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Compiles a 'if' statement returning PHP code
+ *
+ * @param array $statement
+ * @param boolean $extendsMode
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf){
 
 	zval *statement, *extends_mode = NULL, *compilation;
@@ -2019,10 +2210,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &statement, &extends_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &statement, &extends_mode);
+	
 	if (!extends_mode) {
 		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
@@ -2038,7 +2227,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf){
 		phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(expr_code);
-		PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "expression", expr);
+		phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	}
 	
 	/** 
@@ -2052,7 +2241,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf){
 	 * Process statements in the 'true' block
 	 */
 	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_METHOD_PARAMS_2(code, this_ptr, "_statementlist", block_statements, extends_mode);
+	phalcon_call_method_p2(code, this_ptr, "_statementlist", block_statements, extends_mode);
 	phalcon_concat_self(&compilation, code TSRMLS_CC);
 	
 	/** 
@@ -2068,7 +2257,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf){
 		phalcon_array_fetch_string(&block_statements, statement, SL("false_statements"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(code);
-		PHALCON_CALL_METHOD_PARAMS_2(code, this_ptr, "_statementlist", block_statements, extends_mode);
+		phalcon_call_method_p2(code, this_ptr, "_statementlist", block_statements, extends_mode);
 		phalcon_concat_self(&compilation, code TSRMLS_CC);
 	}
 	
@@ -2077,21 +2266,25 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf){
 	RETURN_CCTOR(compilation);
 }
 
+/**
+ * Compiles a 'elseif' statement returning PHP code
+ *
+ * @param array $statement
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf){
 
 	zval *statement, *expr, *expr_code, *compilation;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &statement) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &statement);
+	
 	PHALCON_OBS_VAR(expr);
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(expr_code);
-	PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "expression", expr);
+	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	
 	/** 
 	 * 'elseif' statement
@@ -2101,6 +2294,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf){
 	RETURN_CTOR(compilation);
 }
 
+/**
+ * Compiles a 'cache' statement returning PHP code
+ *
+ * @param array $statement
+ * @param boolean $extendsMode
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 
 	zval *statement, *extends_mode = NULL, *compilation;
@@ -2109,10 +2309,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &statement, &extends_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &statement, &extends_mode);
+	
 	if (!extends_mode) {
 		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
@@ -2127,7 +2325,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(expr_code);
-	PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "expression", expr);
+	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	
 	/** 
 	 * Cache statement
@@ -2150,7 +2348,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 	phalcon_array_fetch_string(&block_statements, statement, SL("block_statements"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_METHOD_PARAMS_2(code, this_ptr, "_statementlist", block_statements, extends_mode);
+	phalcon_call_method_p2(code, this_ptr, "_statementlist", block_statements, extends_mode);
 	phalcon_concat_self(&compilation, code TSRMLS_CC);
 	
 	/** 
@@ -2165,10 +2363,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 		PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", expr_code, "]->save(", expr_code, "); } else { echo $_cacheKey[", expr_code, "]; } ?>");
 	}
 	
-	
 	RETURN_CCTOR(compilation);
 }
 
+/**
+ * Compiles a '{{' '}}' statement returning PHP code
+ *
+ * @param array $statement
+ * @param boolean $extendsMode
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho){
 
 	zval *statement, *compilation, *expr, *expr_code;
@@ -2177,10 +2381,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &statement) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &statement);
+	
 	PHALCON_INIT_VAR(compilation);
 	
 	/** 
@@ -2190,7 +2392,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho){
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(expr_code);
-	PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "expression", expr);
+	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	
 	PHALCON_OBS_VAR(expr_type);
 	phalcon_array_fetch_string(&expr_type, expr, SL("type"), PH_NOISY_CC);
@@ -2227,10 +2429,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho){
 		PHALCON_SCONCAT_SVS(compilation, "<?php echo ", expr_code, "; ?>");
 	}
 	
-	
 	RETURN_CCTOR(compilation);
 }
 
+/**
+ * Compiles a 'include' statement returning PHP code
+ *
+ * @param array $statement
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 
 	zval *statement, *compilation = NULL, *path, *view, *views_dir;
@@ -2238,10 +2445,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &statement) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &statement);
+	
 	PHALCON_INIT_VAR(compilation);
 	ZVAL_STRING(compilation, "", 1);
 	
@@ -2255,7 +2460,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 	phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 	if (Z_TYPE_P(view) == IS_OBJECT) {
 		PHALCON_INIT_VAR(views_dir);
-		PHALCON_CALL_METHOD(views_dir, view, "getviewsdir");
+		phalcon_call_method(views_dir, view, "getviewsdir");
 	
 		PHALCON_INIT_VAR(final_path);
 		PHALCON_CONCAT_VV(final_path, views_dir, path);
@@ -2275,25 +2480,27 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 	}
 	
 	PHALCON_INIT_NVAR(compilation);
-	PHALCON_CALL_METHOD_PARAMS_2(compilation, sub_compiler, "compile", final_path, extended);
+	phalcon_call_method_p2(compilation, sub_compiler, "compile", final_path, extended);
 	
 	/** 
 	 * If the compilation doesn't return anything we include the compiled path
 	 */
 	if (Z_TYPE_P(compilation) == IS_NULL) {
 		PHALCON_INIT_VAR(compiled_path);
-		PHALCON_CALL_METHOD(compiled_path, sub_compiler, "getcompiledtemplatepath");
+		phalcon_call_method(compiled_path, sub_compiler, "getcompiledtemplatepath");
 	
 		PHALCON_INIT_NVAR(compilation);
-		PHALCON_CALL_FUNC_PARAMS_1(compilation, "file_get_contents", compiled_path);
+		phalcon_call_func_p1(compilation, "file_get_contents", compiled_path);
 	}
-	
 	
 	RETURN_CCTOR(compilation);
 }
 
 /**
+ * Compiles a 'set' statement returning PHP code
  *
+ * @param array $statement
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 
@@ -2301,15 +2508,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &statement) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &statement);
+	
 	PHALCON_OBS_VAR(expr);
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(expr_code);
-	PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "expression", expr);
+	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	
 	/** 
 	 * Set statement
@@ -2323,7 +2528,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 }
 
 /**
+ * Compiles a 'do' statement returning PHP code
  *
+ * @param array $statement
+ * @param boolean $extendsMode
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo){
 
@@ -2331,21 +2540,26 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &statement) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &statement);
+	
 	PHALCON_OBS_VAR(expr);
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(expr_code);
-	PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "expression", expr);
+	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	
 	PHALCON_INIT_VAR(compilation);
 	PHALCON_CONCAT_SVS(compilation, "<?php ", expr_code, "; ?>");
 	RETURN_CTOR(compilation);
 }
 
+/**
+ * Compiles a 'autoescape' statement returning PHP code
+ *
+ * @param array $statement
+ * @param boolean $extendsMode
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape){
 
 	zval *statement, *extends_mode, *old_autoescape;
@@ -2353,10 +2567,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &statement, &extends_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &statement, &extends_mode);
+	
 	PHALCON_OBS_VAR(old_autoescape);
 	phalcon_read_property_this(&old_autoescape, this_ptr, SL("_autoescape"), PH_NOISY_CC);
 	
@@ -2368,7 +2580,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape){
 	phalcon_array_fetch_string(&block_statements, statement, SL("block_statements"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(compilation);
-	PHALCON_CALL_METHOD_PARAMS_2(compilation, this_ptr, "_statementlist", block_statements, extends_mode);
+	phalcon_call_method_p2(compilation, this_ptr, "_statementlist", block_statements, extends_mode);
 	phalcon_update_property_this(this_ptr, SL("_autoescape"), old_autoescape TSRMLS_CC);
 	RETURN_CCTOR(compilation);
 }
@@ -2392,10 +2604,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &statements, &extends_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &statements, &extends_mode);
+	
 	if (!extends_mode) {
 		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
@@ -2431,7 +2641,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(statement);
+		PHALCON_GET_HVALUE(statement);
 	
 		/** 
 		 * All statements must be arrays
@@ -2473,32 +2683,32 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	
 			case 300:
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD_PARAMS_2(temp_compilation, this_ptr, "compileif", statement, extends_mode);
+				phalcon_call_method_p2(temp_compilation, this_ptr, "compileif", statement, extends_mode);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
 			case 302:
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD_PARAMS_1(temp_compilation, this_ptr, "compileelseif", statement);
+				phalcon_call_method_p1(temp_compilation, this_ptr, "compileelseif", statement);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
 			case 304:
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD_PARAMS_2(temp_compilation, this_ptr, "compileforeach", statement, extends_mode);
+				phalcon_call_method_p2(temp_compilation, this_ptr, "compileforeach", statement, extends_mode);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
 			case 306:
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD_PARAMS_1(temp_compilation, this_ptr, "compileset", statement);
+				phalcon_call_method_p1(temp_compilation, this_ptr, "compileset", statement);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 				break;
 	
 			case 359:
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD_PARAMS_1(temp_compilation, this_ptr, "compileecho", statement);
+				phalcon_call_method_p1(temp_compilation, this_ptr, "compileecho", statement);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
@@ -2540,7 +2750,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				} else {
 					if (Z_TYPE_P(block_statements) == IS_ARRAY) { 
 						PHALCON_INIT_NVAR(code);
-						PHALCON_CALL_METHOD_PARAMS_2(code, this_ptr, "_statementlist", block_statements, extends_mode);
+						phalcon_call_method_p2(code, this_ptr, "_statementlist", block_statements, extends_mode);
 						phalcon_concat_self(&compilation, code TSRMLS_CC);
 					}
 				}
@@ -2558,7 +2768,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 				if (Z_TYPE_P(view) == IS_OBJECT) {
 					PHALCON_INIT_NVAR(views_dir);
-					PHALCON_CALL_METHOD(views_dir, view, "getviewsdir");
+					phalcon_call_method(views_dir, view, "getviewsdir");
 	
 					PHALCON_INIT_NVAR(final_path);
 					PHALCON_CONCAT_VV(final_path, views_dir, path);
@@ -2578,17 +2788,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				}
 	
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD_PARAMS_2(temp_compilation, sub_compiler, "compile", final_path, extended);
+				phalcon_call_method_p2(temp_compilation, sub_compiler, "compile", final_path, extended);
 	
 				/** 
 				 * If the compilation doesn't return anything we include the compiled path
 				 */
 				if (Z_TYPE_P(temp_compilation) == IS_NULL) {
 					PHALCON_INIT_NVAR(compiled_path);
-					PHALCON_CALL_METHOD(compiled_path, sub_compiler, "getcompiledtemplatepath");
+					phalcon_call_method(compiled_path, sub_compiler, "getcompiledtemplatepath");
 	
 					PHALCON_INIT_NVAR(temp_compilation);
-					PHALCON_CALL_FUNC_PARAMS_1(temp_compilation, "file_get_contents", compiled_path);
+					phalcon_call_func_p1(temp_compilation, "file_get_contents", compiled_path);
 				}
 	
 				phalcon_update_property_bool(this_ptr, SL("_extended"), 1 TSRMLS_CC);
@@ -2598,25 +2808,25 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	
 			case 313:
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD_PARAMS_1(temp_compilation, this_ptr, "compileinclude", statement);
+				phalcon_call_method_p1(temp_compilation, this_ptr, "compileinclude", statement);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
 			case 314:
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD_PARAMS_2(temp_compilation, this_ptr, "compilecache", statement, extends_mode);
+				phalcon_call_method_p2(temp_compilation, this_ptr, "compilecache", statement, extends_mode);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
 			case 316:
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD_PARAMS_1(temp_compilation, this_ptr, "compiledo", statement);
+				phalcon_call_method_p1(temp_compilation, this_ptr, "compiledo", statement);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
 			case 317:
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD_PARAMS_2(temp_compilation, this_ptr, "compileautoescape", statement, extends_mode);
+				phalcon_call_method_p2(temp_compilation, this_ptr, "compileautoescape", statement, extends_mode);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
@@ -2639,8 +2849,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				 * 'Forelse' condition
 				 */
 				PHALCON_INIT_NVAR(temp_compilation);
-				PHALCON_CALL_METHOD(temp_compilation, this_ptr, "compileforelse");
+				phalcon_call_method(temp_compilation, this_ptr, "compileforelse");
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
+				break;
+	
+			case 358:
+				/** 
+				 * Empty statement
+				 */
 				break;
 	
 			default:
@@ -2668,6 +2884,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 		PHALCON_OBS_VAR(level);
 		phalcon_read_property_this(&level, this_ptr, SL("_blockLevel"), PH_NOISY_CC);
 		if (PHALCON_IS_LONG(level, 1)) {
+	
 			if (Z_TYPE_P(compilation) != IS_NULL) {
 				phalcon_update_property_array_append(this_ptr, SL("_blocks"), compilation TSRMLS_CC);
 			}
@@ -2700,10 +2917,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &view_code, &extends_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &view_code, &extends_mode);
+	
 	if (!extends_mode) {
 		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
@@ -2723,7 +2938,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 	if (Z_TYPE_P(intermediate) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(compilation);
-		PHALCON_CALL_METHOD_PARAMS_2(compilation, this_ptr, "_statementlist", intermediate, extends_mode);
+		phalcon_call_method_p2(compilation, this_ptr, "_statementlist", intermediate, extends_mode);
 	
 		/** 
 		 * Check if the template is extending another
@@ -2754,8 +2969,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-				PHALCON_GET_FOREACH_KEY(name, ah0, hp0);
-				PHALCON_GET_FOREACH_VALUE(block);
+				PHALCON_GET_HKEY(name, ah0, hp0);
+				PHALCON_GET_HVALUE(block);
 	
 				/** 
 				 * If name is a string then is a block name
@@ -2771,13 +2986,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 							phalcon_update_property_this(this_ptr, SL("_currentBlock"), name TSRMLS_CC);
 	
 							PHALCON_INIT_NVAR(block_compilation);
-							PHALCON_CALL_METHOD_PARAMS_1(block_compilation, this_ptr, "_statementlist", local_block);
+							phalcon_call_method_p1(block_compilation, this_ptr, "_statementlist", local_block);
 						} else {
 							/** 
 							 * The block is not set local only in the extended template
 							 */
 							PHALCON_INIT_NVAR(block_compilation);
-							PHALCON_CALL_METHOD_PARAMS_1(block_compilation, this_ptr, "_statementlist", block);
+							phalcon_call_method_p1(block_compilation, this_ptr, "_statementlist", block);
 						}
 					} else {
 						if (phalcon_array_isset(blocks, name)) {
@@ -2789,7 +3004,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 							phalcon_update_property_this(this_ptr, SL("_currentBlock"), name TSRMLS_CC);
 	
 							PHALCON_INIT_NVAR(block_compilation);
-							PHALCON_CALL_METHOD_PARAMS_1(block_compilation, this_ptr, "_statementlist", local_block);
+							phalcon_call_method_p1(block_compilation, this_ptr, "_statementlist", local_block);
 						} else {
 							PHALCON_CPY_WRT(block_compilation, block);
 						}
@@ -2813,7 +3028,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
 	
-	
 			RETURN_CCTOR(final_compilation);
 		}
 	
@@ -2825,7 +3039,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 			phalcon_read_property_this(&blocks, this_ptr, SL("_blocks"), PH_NOISY_CC);
 			RETURN_CCTOR(blocks);
 		}
-	
 	
 		RETURN_CCTOR(compilation);
 	}
@@ -2852,10 +3065,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &view_code, &extends_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &view_code, &extends_mode);
+	
 	if (!extends_mode) {
 		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
@@ -2871,7 +3082,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString){
 	phalcon_update_property_this(this_ptr, SL("_currentPath"), current_path TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(compilation);
-	PHALCON_CALL_METHOD_PARAMS_2(compilation, this_ptr, "_compilesource", view_code, extends_mode);
+	phalcon_call_method_p2(compilation, this_ptr, "_compilesource", view_code, extends_mode);
 	
 	RETURN_CCTOR(compilation);
 }
@@ -2896,10 +3107,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &path, &compiled_path, &extends_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &path, &compiled_path, &extends_mode);
+	
 	if (!extends_mode) {
 		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
@@ -2925,7 +3134,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 	 * open_basedir directive
 	 */
 	PHALCON_INIT_VAR(view_code);
-	PHALCON_CALL_FUNC_PARAMS_1(view_code, "file_get_contents", path);
+	phalcon_call_func_p1(view_code, "file_get_contents", path);
 	if (PHALCON_IS_FALSE(view_code)) {
 		PHALCON_INIT_NVAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Template file ", path, " could not be opened");
@@ -2936,14 +3145,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 	phalcon_update_property_this(this_ptr, SL("_currentPath"), path TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(compilation);
-	PHALCON_CALL_METHOD_PARAMS_2(compilation, this_ptr, "_compilesource", view_code, extends_mode);
+	phalcon_call_method_p2(compilation, this_ptr, "_compilesource", view_code, extends_mode);
 	
 	/** 
 	 * We store the file serialized if it's an array of blocks
 	 */
 	if (Z_TYPE_P(compilation) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(final_compilation);
-		PHALCON_CALL_FUNC_PARAMS_1(final_compilation, "serialize", compilation);
+		phalcon_call_func_p1(final_compilation, "serialize", compilation);
 	} else {
 		PHALCON_CPY_WRT(final_compilation, compilation);
 	}
@@ -2953,12 +3162,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 	 * this respect the open_basedir directive
 	 */
 	PHALCON_INIT_VAR(status);
-	PHALCON_CALL_FUNC_PARAMS_2(status, "file_put_contents", compiled_path, final_compilation);
+	phalcon_call_func_p2(status, "file_put_contents", compiled_path, final_compilation);
 	if (PHALCON_IS_FALSE(status)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Volt directory can't be written");
 		return;
 	}
-	
 	
 	RETURN_CCTOR(compilation);
 }
@@ -2982,15 +3190,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	zval *compiled_path = NULL, *prefix = NULL, *compiled_separator = NULL;
 	zval *compiled_extension = NULL, *compilation = NULL, *options;
 	zval *real_template_path, *template_sep_path = NULL;
-	zval *compiled_template_path = NULL, *real_compiled_path = NULL;
+	zval *compiled_template_path = NULL, *params, *real_compiled_path = NULL;
 	zval *blocks_code, *exception_message = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &template_path, &extends_mode) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &template_path, &extends_mode);
+	
 	if (!extends_mode) {
 		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
@@ -3014,6 +3220,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	ZVAL_BOOL(compile_always, 0);
 	
 	PHALCON_INIT_VAR(compiled_path);
+	ZVAL_STRING(compiled_path, "", 1);
 	
 	PHALCON_INIT_VAR(prefix);
 	
@@ -3063,8 +3270,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 			PHALCON_OBS_NVAR(compiled_path);
 			phalcon_array_fetch_string(&compiled_path, options, SL("compiledPath"), PH_NOISY_CC);
 			if (Z_TYPE_P(compiled_path) != IS_STRING) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledPath must be a string");
-				return;
+				if (Z_TYPE_P(compiled_path) != IS_OBJECT) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledPath must be a string or a closure");
+					return;
+				}
 			}
 		}
 	
@@ -3103,28 +3312,63 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		}
 	}
 	
-	PHALCON_INIT_VAR(real_template_path);
-	PHALCON_CALL_FUNC_PARAMS_1(real_template_path, "realpath", template_path);
-	if (Z_TYPE_P(compiled_path) != IS_NULL) {
-		/** 
-		 * Create the virtual path replacing the directory separator by the compiled
-		 * separator
-		 */
-		PHALCON_INIT_VAR(template_sep_path);
-		phalcon_prepare_virtual_path(template_sep_path, real_template_path, compiled_separator TSRMLS_CC);
-	} else {
-		PHALCON_CPY_WRT(template_sep_path, real_template_path);
-	}
+	if (Z_TYPE_P(compiled_path) == IS_STRING) {
 	
-	/** 
-	 * In extends mode we add an additional 'e' suffix to the file
-	 */
-	if (PHALCON_IS_TRUE(extends_mode)) {
-		PHALCON_INIT_VAR(compiled_template_path);
-		PHALCON_CONCAT_VVVVSVV(compiled_template_path, compiled_path, prefix, template_sep_path, compiled_separator, "e", compiled_separator, compiled_extension);
+		/** 
+		 * Calculate the template realpath's
+		 */
+		if (PHALCON_IS_NOT_EMPTY(compiled_path)) {
+			PHALCON_INIT_VAR(real_template_path);
+			phalcon_call_func_p1(real_template_path, "realpath", template_path);
+	
+			/** 
+			 * Create the virtual path replacing the directory separator by the compiled
+			 * separator
+			 */
+			PHALCON_INIT_VAR(template_sep_path);
+			phalcon_prepare_virtual_path(template_sep_path, real_template_path, compiled_separator TSRMLS_CC);
+		} else {
+			PHALCON_CPY_WRT(template_sep_path, template_path);
+		}
+	
+		/** 
+		 * In extends mode we add an additional 'e' suffix to the file
+		 */
+		if (PHALCON_IS_TRUE(extends_mode)) {
+			PHALCON_INIT_VAR(compiled_template_path);
+			PHALCON_CONCAT_VVVVSVV(compiled_template_path, compiled_path, prefix, template_sep_path, compiled_separator, "e", compiled_separator, compiled_extension);
+		} else {
+			PHALCON_INIT_NVAR(compiled_template_path);
+			PHALCON_CONCAT_VVVV(compiled_template_path, compiled_path, prefix, template_sep_path, compiled_extension);
+		}
 	} else {
-		PHALCON_INIT_NVAR(compiled_template_path);
-		PHALCON_CONCAT_VVVV(compiled_template_path, compiled_path, prefix, template_sep_path, compiled_extension);
+		/** 
+		 * A closure can dynamically compile the path
+		 */
+		if (Z_TYPE_P(compiled_path) == IS_OBJECT) {
+			if (phalcon_is_instance_of(compiled_path, SL("Closure") TSRMLS_CC)) {
+	
+				PHALCON_INIT_VAR(params);
+				array_init_size(params, 3);
+				phalcon_array_append(&params, template_path, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&params, options, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&params, extends_mode, PH_SEPARATE TSRMLS_CC);
+	
+				PHALCON_INIT_NVAR(compiled_template_path);
+				PHALCON_CALL_USER_FUNC_ARRAY(compiled_template_path, compiled_path, params);
+	
+				/** 
+				 * The closure must return a valid path
+				 */
+				if (Z_TYPE_P(compiled_template_path) != IS_STRING) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledPath closure didn't return a valid string");
+					return;
+				}
+			} else {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledPath must be a string or a closure");
+				return;
+			}
+		}
 	}
 	
 	/** 
@@ -3135,9 +3379,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		/** 
 		 * Compile always must be used only in the development stage
 		 */
-		PHALCON_CALL_METHOD_PARAMS_3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
+		phalcon_call_method_p3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
 	} else {
 		if (PHALCON_IS_TRUE(stat)) {
+	
 			if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == SUCCESS) {
 	
 				/** 
@@ -3145,7 +3390,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 				 */
 				if (phalcon_compare_mtime(template_path, real_compiled_path TSRMLS_CC)) {
 					PHALCON_INIT_NVAR(compilation);
-					PHALCON_CALL_METHOD_PARAMS_3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
+					phalcon_call_method_p3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
 				} else {
 					if (PHALCON_IS_TRUE(extends_mode)) {
 	
@@ -3153,7 +3398,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 						 * In extends mode we read the file that must contains a serialized array of blocks
 						 */
 						PHALCON_INIT_VAR(blocks_code);
-						PHALCON_CALL_FUNC_PARAMS_1(blocks_code, "file_get_contents", real_compiled_path);
+						phalcon_call_func_p1(blocks_code, "file_get_contents", real_compiled_path);
 						if (PHALCON_IS_FALSE(blocks_code)) {
 							PHALCON_INIT_VAR(exception_message);
 							PHALCON_CONCAT_SVS(exception_message, "Extends compilation file ", real_compiled_path, " could not be opened");
@@ -3166,7 +3411,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 						 */
 						if (zend_is_true(blocks_code)) {
 							PHALCON_INIT_NVAR(compilation);
-							PHALCON_CALL_FUNC_PARAMS_1(compilation, "unserialize", blocks_code);
+							phalcon_call_func_p1(compilation, "unserialize", blocks_code);
 						} else {
 							PHALCON_INIT_NVAR(compilation);
 							array_init(compilation);
@@ -3178,7 +3423,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 				 * The file doesn't exist so we compile the php version for the first time
 				 */
 				PHALCON_INIT_NVAR(compilation);
-				PHALCON_CALL_METHOD_PARAMS_3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
+				phalcon_call_method_p3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
 			}
 		} else {
 			/** 
@@ -3236,10 +3481,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &view_code) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &view_code);
+	
 	PHALCON_INIT_VAR(current_path);
 	ZVAL_STRING(current_path, "eval code", 1);
 	

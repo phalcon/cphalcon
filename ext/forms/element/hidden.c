@@ -63,16 +63,14 @@ PHP_METHOD(Phalcon_Forms_Element_Hidden, render){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &attributes);
+	
 	if (!attributes) {
 		PHALCON_INIT_VAR(attributes);
 	}
 	
 	PHALCON_INIT_VAR(widget_attributes);
-	PHALCON_CALL_METHOD_PARAMS_1(widget_attributes, this_ptr, "prepareattributes", attributes);
+	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
 	
 	PHALCON_INIT_VAR(code);
 	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "hiddenfield", widget_attributes);

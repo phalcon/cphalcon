@@ -36,6 +36,7 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\Model\MetaData\Apc
@@ -81,10 +82,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -117,22 +116,23 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 
-	zval *key, *prefix, *apc_key, *data;
+	zval *key, *prefix, *apc_key, *apc_key_lower, *data;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
+	PHALCON_INIT_VAR(apc_key_lower);
+	phalcon_fast_strtolower(apc_key_lower, apc_key);
+	
 	PHALCON_INIT_VAR(data);
-	PHALCON_CALL_FUNC_PARAMS_1(data, "apc_fetch", apc_key);
+	phalcon_call_func_p1(data, "apc_fetch", apc_key_lower);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		RETURN_CCTOR(data);
 	}
@@ -148,23 +148,25 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 
-	zval *key, *data, *prefix, *apc_key, *ttl;
+	zval *key, *data, *prefix, *apc_key, *apc_key_lower;
+	zval *ttl;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &key, &data);
+	
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
+	PHALCON_INIT_VAR(apc_key_lower);
+	phalcon_fast_strtolower(apc_key_lower, apc_key);
+	
 	PHALCON_OBS_VAR(ttl);
 	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
-	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", apc_key, data, ttl);
+	phalcon_call_func_p3_noret("apc_store", apc_key_lower, data, ttl);
 	
 	PHALCON_MM_RESTORE();
 }

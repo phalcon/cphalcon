@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	phalcon_read_property_this(&mode, this_ptr, SL("_mode"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(iv_size);
-	PHALCON_CALL_FUNC_PARAMS_2(iv_size, "mcrypt_get_iv_size", cipher, mode);
+	phalcon_call_func_p2(iv_size, "mcrypt_get_iv_size", cipher, mode);
 	
 	PHALCON_INIT_VAR(key_size);
 	phalcon_fast_strlen(key_size, encrypt_key);
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	ZVAL_LONG(rand, 2);
 	
 	PHALCON_INIT_VAR(iv);
-	PHALCON_CALL_FUNC_PARAMS_2(iv, "mcrypt_create_iv", iv_size, rand);
+	phalcon_call_func_p2(iv, "mcrypt_create_iv", iv_size, rand);
 	
 	p0[0] = cipher;
 	p0[1] = encrypt_key;
@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	phalcon_read_property_this(&mode, this_ptr, SL("_mode"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(iv_size);
-	PHALCON_CALL_FUNC_PARAMS_2(iv_size, "mcrypt_get_iv_size", cipher, mode);
+	phalcon_call_func_p2(iv_size, "mcrypt_get_iv_size", cipher, mode);
 	
 	PHALCON_INIT_VAR(key_size);
 	phalcon_fast_strlen(key_size, decrypt_key);
@@ -290,10 +290,10 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	ZVAL_LONG(zero, 0);
 	
 	PHALCON_INIT_VAR(iv);
-	PHALCON_CALL_FUNC_PARAMS_3(iv, "substr", text, zero, iv_size);
+	phalcon_call_func_p3(iv, "substr", text, zero, iv_size);
 	
 	PHALCON_INIT_VAR(text_to_decipher);
-	PHALCON_CALL_FUNC_PARAMS_2(text_to_decipher, "substr", text, iv_size);
+	phalcon_call_func_p2(text_to_decipher, "substr", text, iv_size);
 	
 	p0[0] = cipher;
 	p0[1] = decrypt_key;
@@ -327,10 +327,10 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
 	}
 	
 	PHALCON_INIT_VAR(encrypted);
-	PHALCON_CALL_METHOD_PARAMS_2(encrypted, this_ptr, "encrypt", text, key);
+	phalcon_call_method_p2(encrypted, this_ptr, "encrypt", text, key);
 	
 	PHALCON_INIT_VAR(encoded);
-	PHALCON_CALL_FUNC_PARAMS_1(encoded, "base64_encode", encrypted);
+	phalcon_call_func_p1(encoded, "base64_encode", encrypted);
 	RETURN_CCTOR(encoded);
 }
 
@@ -354,10 +354,10 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 	}
 	
 	PHALCON_INIT_VAR(decrypt_text);
-	PHALCON_CALL_FUNC_PARAMS_1(decrypt_text, "base64_decode", text);
+	phalcon_call_func_p1(decrypt_text, "base64_decode", text);
 	
 	PHALCON_INIT_VAR(decrypted);
-	PHALCON_CALL_METHOD_PARAMS_2(decrypted, this_ptr, "decrypt", decrypt_text, key);
+	phalcon_call_method_p2(decrypted, this_ptr, "decrypt", decrypt_text, key);
 	RETURN_CCTOR(decrypted);
 }
 

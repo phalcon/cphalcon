@@ -71,10 +71,8 @@ PHP_METHOD(Phalcon_Forms_Manager, create){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &name, &entity) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &name, &entity);
+	
 	if (!name) {
 		PHALCON_INIT_VAR(name);
 	}
@@ -90,7 +88,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create){
 	
 	PHALCON_INIT_VAR(form);
 	object_init_ex(form, phalcon_forms_form_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(form, "__construct", entity);
+	phalcon_call_method_p1_noret(form, "__construct", entity);
 	
 	phalcon_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);
 	
@@ -109,10 +107,8 @@ PHP_METHOD(Phalcon_Forms_Manager, get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	PHALCON_OBS_VAR(forms);
 	phalcon_read_property_this(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
 	if (!phalcon_array_isset(forms, name)) {
@@ -140,10 +136,8 @@ PHP_METHOD(Phalcon_Forms_Manager, has){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	PHALCON_OBS_VAR(forms);
 	phalcon_read_property_this(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
 	if (!phalcon_array_isset(forms, name)) {
@@ -163,12 +157,8 @@ PHP_METHOD(Phalcon_Forms_Manager, set){
 
 	zval *name, *form;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &form) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &name, &form);
+	
 	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form name must be string");
 		return;
@@ -180,6 +170,6 @@ PHP_METHOD(Phalcon_Forms_Manager, set){
 	
 	phalcon_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 

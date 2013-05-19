@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 		phalcon_array_fetch_string(&name, argument, SL("name"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(value);
-		PHALCON_CALL_METHOD_PARAMS_1(value, dependency_injector, "get", name);
+		phalcon_call_method_p1(value, dependency_injector, "get", name);
 	
 		RETURN_CCTOR(value);
 	}
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			 * The instance parameter does not have arguments for its constructor
 			 */
 			PHALCON_INIT_NVAR(value);
-			PHALCON_CALL_METHOD_PARAMS_1(value, dependency_injector, "get", name);
+			phalcon_call_method_p1(value, dependency_injector, "get", name);
 		} else {
 			PHALCON_OBS_VAR(instance_arguments);
 			phalcon_array_fetch_string(&instance_arguments, argument, SL("arguments"), PH_NOISY_CC);
@@ -169,9 +169,8 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			 * Build the instance with arguments
 			 */
 			PHALCON_INIT_NVAR(value);
-			PHALCON_CALL_METHOD_PARAMS_2(value, dependency_injector, "get", name, instance_arguments);
+			phalcon_call_method_p2(value, dependency_injector, "get", name, instance_arguments);
 		}
-	
 	
 		RETURN_CCTOR(value);
 	}
@@ -221,16 +220,15 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(argument);
+		PHALCON_GET_HKEY(position, ah0, hp0);
+		PHALCON_GET_HVALUE(argument);
 	
 		PHALCON_INIT_NVAR(value);
-		PHALCON_CALL_METHOD_PARAMS_3(value, this_ptr, "_buildparameter", dependency_injector, position, argument);
+		phalcon_call_method_p3(value, this_ptr, "_buildparameter", dependency_injector, position, argument);
 		phalcon_array_append(&build_arguments, value, PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	RETURN_CTOR(build_arguments);
 }
@@ -305,7 +303,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 * Resolve the constructor parameters
 			 */
 			PHALCON_INIT_VAR(build_arguments);
-			PHALCON_CALL_METHOD_PARAMS_2(build_arguments, this_ptr, "_buildparameters", dependency_injector, arguments);
+			phalcon_call_method_p2(build_arguments, this_ptr, "_buildparameters", dependency_injector, arguments);
 	
 			/** 
 			 * Create the instance based on the parameters
@@ -348,8 +346,8 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(method);
+			PHALCON_GET_HKEY(position, ah0, hp0);
+			PHALCON_GET_HVALUE(method);
 	
 			/** 
 			 * The call parameter must be an array of arrays
@@ -397,7 +395,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 					 * Resolve the constructor parameters
 					 */
 					PHALCON_INIT_NVAR(build_arguments);
-					PHALCON_CALL_METHOD_PARAMS_2(build_arguments, this_ptr, "_buildparameters", dependency_injector, arguments);
+					phalcon_call_method_p2(build_arguments, this_ptr, "_buildparameters", dependency_injector, arguments);
 	
 					/** 
 					 * Call the method on the instance
@@ -450,8 +448,8 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_KEY(position, ah1, hp1);
-			PHALCON_GET_FOREACH_VALUE(property);
+			PHALCON_GET_HKEY(position, ah1, hp1);
+			PHALCON_GET_HVALUE(property);
 	
 			/** 
 			 * The call parameter must be an array of arrays
@@ -493,7 +491,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 * Resolve the parameter
 			 */
 			PHALCON_INIT_NVAR(value);
-			PHALCON_CALL_METHOD_PARAMS_3(value, this_ptr, "_buildparameter", dependency_injector, position, property_value);
+			phalcon_call_method_p3(value, this_ptr, "_buildparameter", dependency_injector, position, property_value);
 	
 			/** 
 			 * Update the public property
@@ -504,7 +502,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		}
 	
 	}
-	
 	
 	RETURN_CTOR(instance);
 }

@@ -111,10 +111,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &frontend_options);
+	
 	if (!frontend_options) {
 		PHALCON_INIT_VAR(frontend_options);
 	}
@@ -230,10 +228,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
 
 	zval *data;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &data);
+	
 	RETURN_CCTORW(data);
 }
 
@@ -246,10 +242,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve){
 
 	zval *data;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &data);
+	
 	RETURN_CCTORW(data);
 }
 

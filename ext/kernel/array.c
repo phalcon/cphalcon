@@ -412,7 +412,7 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
 		Z_ADDREF_PP(value);
 	}
 
-	return zend_hash_update(Z_ARRVAL_PP(arr), index, index_length+1, value, sizeof(zval *), NULL);
+	return zend_hash_update(Z_ARRVAL_PP(arr), index, index_length + 1, value, sizeof(zval *), NULL);
 }
 
 /**

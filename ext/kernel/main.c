@@ -52,8 +52,15 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 
 	/* Stats options */
 	#ifndef PHALCON_RELEASE
+
 	phalcon_globals->phalcon_stack_stats = 0;
 	phalcon_globals->phalcon_number_grows = 0;
+
+	//int i;
+	//for (i = 0; i < PHALCON_MAX_MEMORY_STACK; i++) {
+	//	phalcon_globals->phalcon_stack_derivate[i] = 0;
+	//}
+
 	#endif
 
 	/* ORM options*/
@@ -66,6 +73,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 
 	/* DB options */
 	phalcon_globals->db.escape_identifiers = 1;
+
 }
 
 /**
@@ -95,11 +103,11 @@ int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
 	if (jit_initialization) {
-		return zend_is_auto_global(global, global_length-1 TSRMLS_CC);
+		return zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
 	}
 	#else
 	if (PG(auto_globals_jit)) {
-		return zend_is_auto_global(global, global_length-1 TSRMLS_CC);
+		return zend_is_auto_global(global, global_length - 1 TSRMLS_CC);
 	}
 	#endif
 

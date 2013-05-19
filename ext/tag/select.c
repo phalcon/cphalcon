@@ -163,8 +163,8 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(avalue);
+			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HVALUE(avalue);
 	
 			if (Z_TYPE_P(key) != IS_LONG) {
 				if (Z_TYPE_P(avalue) != IS_ARRAY) { 
@@ -263,12 +263,12 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 	ZVAL_STRING(code, "", 1);
 	
 	PHALCON_INIT_VAR(params);
-	PHALCON_CALL_METHOD_NORETURN(resultset, "rewind");
+	phalcon_call_method_noret(resultset, "rewind");
 	
 	while (1) {
 	
 		PHALCON_INIT_NVAR(r0);
-		PHALCON_CALL_METHOD(r0, resultset, "valid");
+		phalcon_call_method(r0, resultset, "valid");
 		if (PHALCON_IS_NOT_FALSE(r0)) {
 		} else {
 			break;
@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		 * Get the current option
 		 */
 		PHALCON_INIT_NVAR(option);
-		PHALCON_CALL_METHOD(option, resultset, "current");
+		phalcon_call_method(option, resultset, "current");
 		if (Z_TYPE_P(using) == IS_ARRAY) { 
 	
 			PHALCON_OBS_NVAR(using_zero);
@@ -292,13 +292,13 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 					 * Read the value attribute from the model
 					 */
 					PHALCON_INIT_NVAR(option_value);
-					PHALCON_CALL_METHOD_PARAMS_1(option_value, option, "readattribute", using_zero);
+					phalcon_call_method_p1(option_value, option, "readattribute", using_zero);
 	
 					/** 
 					 * Read the text attribute from the model
 					 */
 					PHALCON_INIT_NVAR(option_text);
-					PHALCON_CALL_METHOD_PARAMS_1(option_text, option, "readattribute", using_one);
+					phalcon_call_method_p1(option_text, option, "readattribute", using_one);
 				} else {
 					/** 
 					 * Read the variable directly from the model/object
@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 			}
 		}
 	
-		PHALCON_CALL_METHOD_NORETURN(resultset, "next");
+		phalcon_call_method_noret(resultset, "next");
 	}
 	
 	RETURN_CTOR(code);
@@ -399,8 +399,8 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(option_value, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(option_text);
+		PHALCON_GET_HKEY(option_value, ah0, hp0);
+		PHALCON_GET_HVALUE(option_text);
 	
 		if (Z_TYPE_P(value) == IS_ARRAY) { 
 			if (phalcon_fast_in_array(option_value, value TSRMLS_CC)) {
@@ -418,7 +418,6 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	RETURN_CTOR(code);
 }

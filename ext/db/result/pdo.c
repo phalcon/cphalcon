@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute){
 	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(status);
-	PHALCON_CALL_METHOD(status, pdo_statement, "execute");
+	phalcon_call_method(status, pdo_statement, "execute");
 	RETURN_CCTOR(status);
 }
 
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch){
 	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(row);
-	PHALCON_CALL_METHOD(row, pdo_statement, "fetch");
+	phalcon_call_method(row, pdo_statement, "fetch");
 	RETURN_CCTOR(row);
 }
 
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch){
  *<code>
  *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
  *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *	while( $robot = $result->fetchArray()) {
+ *	while ($robot = $result->fetchArray()) {
  *		print_r($robot);
  *	}
  *</code>
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
 	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(row);
-	PHALCON_CALL_METHOD(row, pdo_statement, "fetch");
+	phalcon_call_method(row, pdo_statement, "fetch");
 	RETURN_CCTOR(row);
 }
 
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
 	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(rows);
-	PHALCON_CALL_METHOD(rows, pdo_statement, "fetchall");
+	phalcon_call_method(rows, pdo_statement, "fetchall");
 	RETURN_CCTOR(rows);
 }
 
@@ -254,8 +254,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 		phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(type);
-		PHALCON_CALL_METHOD(type, connection, "gettype");
-		if (PHALCON_IS_STRING(type, "sqlite") || PHALCON_IS_STRING(type, "oci")) {
+		phalcon_call_method(type, connection, "gettype");
+		if (PHALCON_IS_STRING(type, "sqlite")) {
 	
 			/** 
 			 * SQLite returns resultsets that to the client eyes (PDO) has an arbitrary number
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 			#if HAVE_BUNDLED_PCRE
 			phalcon_preg_match(match, pattern, sql_statement, matches TSRMLS_CC);
 			#else
-			PHALCON_CALL_FUNC_PARAMS_3(match, "preg_match", pattern, sql_statement, matches);
+			phalcon_call_func_p3(match, "preg_match", pattern, sql_statement, matches);
 			#endif
 	
 			Z_UNSET_ISREF_P(matches);
@@ -298,10 +298,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 				ZVAL_LONG(fetch_num, 3);
 	
 				PHALCON_INIT_VAR(result);
-				PHALCON_CALL_METHOD_PARAMS_3(result, connection, "query", sql, bind_params, bind_types);
+				phalcon_call_method_p3(result, connection, "query", sql, bind_params, bind_types);
 	
 				PHALCON_INIT_VAR(row);
-				PHALCON_CALL_METHOD(row, result, "fetch");
+				phalcon_call_method(row, result, "fetch");
 	
 				PHALCON_OBS_NVAR(row_count);
 				phalcon_array_fetch_long(&row_count, row, 0, PH_NOISY_CC);
@@ -311,12 +311,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(row_count);
-			PHALCON_CALL_METHOD(row_count, pdo_statement, "rowcount");
+			phalcon_call_method(row_count, pdo_statement, "rowcount");
 		}
 	
 		phalcon_update_property_this(this_ptr, SL("_rowCount"), row_count TSRMLS_CC);
 	}
-	
 	
 	RETURN_CCTOR(row_count);
 }

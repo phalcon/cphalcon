@@ -487,7 +487,7 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
  */
 int phalcon_read_property_this(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 
-	/*zval **zv;
+	zval **zv;
 	zend_object *zobj;
 	zend_property_info *property_info;
 	zend_class_entry *ce, *old_scope;
@@ -546,56 +546,6 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 	ALLOC_INIT_ZVAL(*result);
 	ZVAL_NULL(*result);
 
-	return FAILURE;*/
-
-	zval *property;
-	zend_class_entry *ce, *old_scope;
-
-	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
-
-		ce = Z_OBJCE_P(object);
-		if (ce->parent) {
-			ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
-		}
-
-		old_scope = EG(scope);
-		EG(scope) = ce;
-
-		if (!Z_OBJ_HT_P(object)->read_property) {
-
-			ALLOC_INIT_ZVAL(*result);
-			ZVAL_NULL(*result);
-
-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be read", property_name, ce->name);
-			return FAILURE;
-		}
-
-		MAKE_STD_ZVAL(property);
-		ZVAL_STRINGL(property, property_name, property_length, 0);
-
-		#if PHP_VERSION_ID < 50400
-		*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R TSRMLS_CC);
-		#else
-		*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R, 0 TSRMLS_CC);
-		#endif
-
-		Z_ADDREF_PP(result);
-
-		ZVAL_NULL(property);
-		zval_ptr_dtor(&property);
-
-		EG(scope) = old_scope;
-
-		return SUCCESS;
-	} else {
-		if (silent == PH_NOISY) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
-		}
-	}
-
-	ALLOC_INIT_ZVAL(*result);
-	ZVAL_NULL(*result);
-
 	return FAILURE;
 }
 
@@ -605,7 +555,7 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
  */
 int phalcon_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC) {
 
-	zval **zv;
+	zval **zv = NULL;
 	zend_object *zobj;
 	zend_property_info *property_info;
 	zend_class_entry *ce, *old_scope;
@@ -635,7 +585,7 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 
 			#else
 
-			if (UNEXPECTED(!property_info) || ((EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1)) {
+			if (UNEXPECTED(!property_info) || (property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1) {
 				if (zobj->properties && zend_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == FAILURE) {
 					*result = *zv;
 					Z_ADDREF_PP(result);
@@ -1588,7 +1538,7 @@ int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_DC){
 
 	object_init_ex(return_value, ce);
 	if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-		if (phalcon_call_method(NULL, return_value, SL("__construct"), 0 PH_MEHASH_C TSRMLS_CC) == FAILURE) {
+		if (phalcon_call_method_ex(NULL, return_value, SL("__construct"), 0, 0, 1 TSRMLS_CC) == FAILURE) {
 			return FAILURE;
 		}
 	}
@@ -1641,7 +1591,7 @@ int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *p
 		}
 
 		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, 0 PH_MEHASH_C TSRMLS_CC) == FAILURE) {
+			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, 0, 0, 1 TSRMLS_CC) == FAILURE) {
 				efree(params_array);
 				return FAILURE;
 			}
@@ -1650,7 +1600,7 @@ int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *p
 		efree(params_array);
 	} else {
 		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-			if (phalcon_call_method(NULL, return_value, SL("__construct"), 0 PH_MEHASH_C TSRMLS_CC) == FAILURE) {
+			if (phalcon_call_method_ex(NULL, return_value, SL("__construct"), 0, 0, 1 TSRMLS_CC) == FAILURE) {
 				return FAILURE;
 			}
 		}

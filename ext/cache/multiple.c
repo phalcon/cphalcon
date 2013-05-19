@@ -66,10 +66,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &backends) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &backends);
+	
 	if (!backends) {
 		PHALCON_INIT_VAR(backends);
 	}
@@ -95,19 +93,15 @@ PHP_METHOD(Phalcon_Cache_Multiple, push){
 
 	zval *backend;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &backend) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &backend);
+	
 	if (Z_TYPE_P(backend) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend is not valid");
 		return;
 	}
 	phalcon_update_property_array_append(this_ptr, SL("_backends"), backend TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -127,10 +121,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, get){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &key_name, &lifetime) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &key_name, &lifetime);
+	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
 	}
@@ -144,10 +136,10 @@ PHP_METHOD(Phalcon_Cache_Multiple, get){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(backend);
+		PHALCON_GET_HVALUE(backend);
 	
 		PHALCON_INIT_NVAR(content);
-		PHALCON_CALL_METHOD_PARAMS_2(content, backend, "get", key_name, lifetime);
+		phalcon_call_method_p2(content, backend, "get", key_name, lifetime);
 		if (Z_TYPE_P(content) != IS_NULL) {
 			RETURN_CCTOR(content);
 		}
@@ -174,10 +166,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, start){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &key_name, &lifetime) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &key_name, &lifetime);
+	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
 	}
@@ -191,9 +181,9 @@ PHP_METHOD(Phalcon_Cache_Multiple, start){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(backend);
+		PHALCON_GET_HVALUE(backend);
 	
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(backend, "start", key_name, lifetime);
+		phalcon_call_method_p2_noret(backend, "start", key_name, lifetime);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -220,10 +210,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, save){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zzzz", &key_name, &content, &lifetime, &stop_buffer) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 4, &key_name, &content, &lifetime, &stop_buffer);
+	
 	if (!key_name) {
 		PHALCON_INIT_VAR(key_name);
 	}
@@ -250,9 +238,9 @@ PHP_METHOD(Phalcon_Cache_Multiple, save){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(backend);
+		PHALCON_GET_HVALUE(backend);
 	
-		PHALCON_CALL_METHOD_PARAMS_4_NORETURN(backend, "save", key_name, content, lifetime, stop_buffer);
+		phalcon_call_method_p4_noret(backend, "save", key_name, content, lifetime, stop_buffer);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -276,10 +264,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key_name);
+	
 	PHALCON_OBS_VAR(backends);
 	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
@@ -289,9 +275,9 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(backend);
+		PHALCON_GET_HVALUE(backend);
 	
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(backend, "delete", key_name);
+		phalcon_call_method_p1_noret(backend, "delete", key_name);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -317,10 +303,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &key_name, &lifetime) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &key_name, &lifetime);
+	
 	if (!key_name) {
 		PHALCON_INIT_VAR(key_name);
 	}
@@ -338,10 +322,10 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(backend);
+		PHALCON_GET_HVALUE(backend);
 	
 		PHALCON_INIT_NVAR(exists);
-		PHALCON_CALL_METHOD_PARAMS_2(exists, backend, "exists", key_name, lifetime);
+		phalcon_call_method_p2(exists, backend, "exists", key_name, lifetime);
 		if (zend_is_true(exists)) {
 			RETURN_MM_TRUE;
 		}

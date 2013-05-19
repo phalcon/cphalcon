@@ -134,8 +134,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 	 */
 	PHALCON_INIT_VAR(index);
 	object_init_ex(index, phalcon_db_index_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(index, "__construct", index_name, columns);
-	
+	phalcon_call_method_p2_noret(index, "__construct", index_name, columns);
 	
 	RETURN_CTOR(index);
 }
