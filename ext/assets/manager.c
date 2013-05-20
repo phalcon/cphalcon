@@ -389,8 +389,8 @@ PHP_METHOD(Phalcon_Assets_Manager, collection){
 PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 
 	zval *collection_name = NULL, *collection = NULL, *output;
-	zval *use_implicit_output, *resources, *resource = NULL;
-	zval *path = NULL, *local = NULL, *html = NULL;
+	zval *use_implicit_output, *resources, *resource = NULL, *prefix;
+	zval *path = NULL, *local = NULL, *prefixed_path = NULL, *html = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -423,7 +423,13 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 	 */
 	PHALCON_INIT_VAR(resources);
 	PHALCON_CALL_METHOD(resources, collection, "getresources");
-	
+
+	/**
+	 * Get the collection's prefix
+	 */
+	PHALCON_INIT_VAR(prefix);
+	PHALCON_CALL_METHOD(prefix, collection, "getprefix");
+
 	if (!phalcon_is_iterable(resources, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
@@ -437,12 +443,18 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 	
 		PHALCON_INIT_NVAR(local);
 		PHALCON_CALL_METHOD(local, resource, "getlocal");
+		if (Z_TYPE_P(prefix) != IS_NULL) {
+            PHALCON_INIT_NVAR(prefixed_path);
+            PHALCON_CONCAT_VV(prefixed_path, prefix, path);
+        } else {
+            PHALCON_CPY_WRT(prefixed_path, path);
+        }
 	
 		/** 
 		 * Generate the html using Phalcon\Tag
 		 */
 		PHALCON_INIT_NVAR(html);
-		PHALCON_CALL_STATIC_PARAMS_2(html, "phalcon\\tag", "stylesheetlink", path, local);
+		PHALCON_CALL_STATIC_PARAMS_2(html, "phalcon\\tag", "stylesheetlink", prefixed_path, local);
 		if (zend_is_true(use_implicit_output)) {
 			zend_print_zval(html, 0);
 		} else {
