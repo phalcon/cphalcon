@@ -317,7 +317,7 @@ int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
  */
 int phalcon_less_equal(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
-	is_smaller_function(&result, op1, op2 TSRMLS_CC);
+	is_smaller_or_equal_function(&result, op1, op2 TSRMLS_CC);
 	return Z_BVAL(result);
 }
 
