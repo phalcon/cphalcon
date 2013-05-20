@@ -36,7 +36,6 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
-#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\Model\MetaData\Apc
@@ -116,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 
-	zval *key, *prefix, *apc_key, *apc_key_lower, *data;
+	zval *key, *prefix, *apc_key, *data;
 
 	PHALCON_MM_GROW();
 
@@ -128,11 +127,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
-	PHALCON_INIT_VAR(apc_key_lower);
-	phalcon_fast_strtolower(apc_key_lower, apc_key);
-	
 	PHALCON_INIT_VAR(data);
-	phalcon_call_func_p1(data, "apc_fetch", apc_key_lower);
+	phalcon_call_func_p1(data, "apc_fetch", apc_key);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		RETURN_CCTOR(data);
 	}
@@ -148,8 +144,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 
-	zval *key, *data, *prefix, *apc_key, *apc_key_lower;
-	zval *ttl;
+	zval *key, *data, *prefix, *apc_key, *ttl;
 
 	PHALCON_MM_GROW();
 
@@ -161,12 +156,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
-	PHALCON_INIT_VAR(apc_key_lower);
-	phalcon_fast_strtolower(apc_key_lower, apc_key);
-	
 	PHALCON_OBS_VAR(ttl);
 	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
-	phalcon_call_func_p3_noret("apc_store", apc_key_lower, data, ttl);
+	phalcon_call_func_p3_noret("apc_store", apc_key, data, ttl);
 	
 	PHALCON_MM_RESTORE();
 }
