@@ -24,7 +24,7 @@
 
 			<!-- Annotations -->
 			<file>unit-tests/AnnotationsTest.php</file>
-			<file>unit-tests/AnnotationsAdapterTest.php</file>
+			<file>unit-tests/AnnotationsAdaptersTest.php</file>
 
 			<!-- MVC Routing -->
 			<file>unit-tests/RouterMvcTest.php</file>
