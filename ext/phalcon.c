@@ -614,15 +614,15 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Mvc_Model_Resultset_Complex);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Regex);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Email);
+  PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Exception);
+  PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Failed);
 	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Manager);
-	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Failed);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Uniqueness);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_PresenceOf);
 	PHALCON_INIT(Phalcon_Mvc_Model_Behavior_SoftDelete);
 	PHALCON_INIT(Phalcon_Mvc_Model_Behavior_Timestampable);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Strategy_Annotations);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Strategy_Introspection);
-	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_StringLength);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Exclusionin);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Inclusionin);
