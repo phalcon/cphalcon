@@ -36,9 +36,9 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
 #include "kernel/file.h"
 #include "kernel/concat.h"
 
@@ -284,20 +284,23 @@ PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes){
 
-	zval *reserved = NULL;
+	zval *reserved = NULL, *dummy;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(reserved);
 	phalcon_read_static_property(&reserved, SL("phalcon\\mvc\\collection"), SL("_reserved") TSRMLS_CC);
 	if (Z_TYPE_P(reserved) == IS_NULL) {
+		PHALCON_INIT_VAR(dummy);
+		ZVAL_BOOL(dummy, 1);
+	
 		PHALCON_INIT_NVAR(reserved);
 		array_init_size(reserved, 5);
-		add_assoc_bool_ex(reserved, SS("_connection"), 1);
-		add_assoc_bool_ex(reserved, SS("_dependencyInjector"), 1);
-		add_assoc_bool_ex(reserved, SS("_source"), 1);
-		add_assoc_bool_ex(reserved, SS("_operationMade"), 1);
-		add_assoc_bool_ex(reserved, SS("_errorMessages"), 1);
+		phalcon_array_update_string(&reserved, SL("_connection"), &dummy, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&reserved, SL("_dependencyInjector"), &dummy, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&reserved, SL("_source"), &dummy, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&reserved, SL("_operationMade"), &dummy, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&reserved, SL("_errorMessages"), &dummy, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_update_static_property(SL("phalcon\\mvc\\collection"), SL("_reserved"), reserved TSRMLS_CC);
 	}
 	

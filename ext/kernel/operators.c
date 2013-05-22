@@ -313,7 +313,16 @@ int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
 }
 
 /**
- * Check if two zvals are equal
+ * Check if a zval is less than other
+ */
+int phalcon_less(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_smaller_function(&result, op1, op2 TSRMLS_CC);
+	return Z_BVAL(result);
+}
+
+/**
+ * Check if a zval is less/equal than other
  */
 int phalcon_less_equal(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
@@ -322,11 +331,20 @@ int phalcon_less_equal(zval *op1, zval *op2 TSRMLS_DC) {
 }
 
 /**
- * Check if two zvals are equal
+ * Check if a zval is greater than other
+ */
+int phalcon_greater(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_smaller_or_equal_function(&result, op1, op2 TSRMLS_CC);
+	return !Z_BVAL(result);
+}
+
+/**
+ * Check if a zval is greater/equal than other
  */
 int phalcon_greater_equal(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
-	is_smaller_or_equal_function(&result, op1, op2 TSRMLS_CC);
+	is_smaller_function(&result, op1, op2 TSRMLS_CC);
 	return !Z_BVAL(result);
 }
 

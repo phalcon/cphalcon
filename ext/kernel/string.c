@@ -506,8 +506,8 @@ void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, z
  */
 void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 
-	unsigned int i, j, bracket_count = 0, parentheses_count = 0, ch;
-	unsigned int intermediate, length, number_matches = 0;
+	unsigned int i, j, k, bracket_count = 0, parentheses_count = 0, ch;
+	unsigned int intermediate, length, number_matches = 0, found_pattern;
 	int variable_length, regexp_length, not_valid;
 	char *cursor, *cursor_var, *marker;
 	char *item, *variable = NULL, *regexp;
@@ -582,7 +582,25 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 
 									if (variable) {
 										if (regexp_length > 0) {
-											if (regexp[0] != '(') {
+
+											/**
+											 * Check if we need to add parentheses to the expression
+											 */
+											found_pattern = 0;
+											for (k = 0; k < regexp_length; k++) {
+												if (!found_pattern) {
+													if (regexp[k] == '(') {
+														found_pattern = 1;
+													}
+												} else {
+													if (regexp[k] == ')') {
+														found_pattern = 2;
+														break;
+													}
+												}
+											}
+
+											if (found_pattern != 2) {
 												smart_str_appendc(&route_str, '(');
 												smart_str_appendl(&route_str, regexp, regexp_length);
 												smart_str_appendc(&route_str, ')');
@@ -660,13 +678,13 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 		item = estrndup(marker + 1, length);
 		cursor_var = item;
 		marker = item;
-		for (j=0; j<length; j++) {
+		for (j = 0; j < length; j++) {
 			ch = *cursor_var;
-			if (j == 0 && !((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z'))){
+			if (j == 0 && !((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <= 'Z'))){
 				not_valid = 1;
 				break;
 			}
-			if ((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z') || (ch >= '0' && ch <='9') || ch == '-' || ch == '_' || ch ==  ':') {
+			if ((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch == '-' || ch == '_' || ch ==  ':') {
 				if (ch == ':') {
 					variable_length = cursor_var - marker;
 					variable = estrndup(marker, variable_length);
@@ -831,7 +849,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 		if (bracket_count == 0 && parentheses_count == 0) {
 			if (looking_placeholder) {
 				if (intermediate > 0) {
-					if (ch < 'a' || ch > 'z' || i == (Z_STRLEN_P(pattern)-1)) {
+					if (ch < 'a' || ch > 'z' || i == (Z_STRLEN_P(pattern) - 1)) {
 						replace = phalcon_replace_marker(0, paths, replacements, &position, cursor, marker);
 						if (replace) {
 							use_copy = 0;
@@ -878,6 +896,38 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 
 }
 
+void phalcon_get_uri(zval *return_value, zval *path TSRMLS_DC) {
+
+	int i, found = 0, mark;
+	char *cursor, *str, ch;
+
+	if (Z_TYPE_P(path) != IS_STRING) {
+		RETURN_EMPTY_STRING();
+	}
+
+	if (Z_STRLEN_P(path) > 0) {
+		cursor = Z_STRVAL_P(path) + Z_STRLEN_P(path) - 1;
+		for (i = Z_STRLEN_P(path); i >= 0; i--) {
+			ch = *cursor;
+			if (ch == '/' || ch == '\\') {
+				found++;
+				if (found == 1) {
+					mark = i - 1;
+				} else {
+					str = emalloc(mark - i + 1);
+					memcpy(str, Z_STRVAL_P(path) + i, mark - i);
+					str[mark - i] = '\0';
+					ZVAL_STRINGL(return_value, str, mark - i, 0);
+					return;
+				}
+			}
+			cursor--;
+		}
+	}
+
+	RETURN_EMPTY_STRING();
+}
+
 /**
  * Checks if a zval string starts with a zval string
  */
@@ -918,8 +968,8 @@ int phalcon_start_with(zval *str, zval *compared, zval *ignore_case){
 			}
 		} else {
 			if ((*op1_cursor) != (*op2_cursor)) {
-				if (((*op1_cursor)+32) != (*op2_cursor)) {
-					if ((*op1_cursor-32) != (*op2_cursor)) {
+				if (((*op1_cursor) + 32) != (*op2_cursor)) {
+					if ((*op1_cursor - 32) != (*op2_cursor)) {
 						return 0;
 					}
 				}
@@ -1026,8 +1076,8 @@ int phalcon_end_with(zval *str, zval *compared, zval *ignore_case){
 	op1_cursor = Z_STRVAL_P(str);
 	op2_cursor = Z_STRVAL_P(compared);
 
-	op1_cursor += (Z_STRLEN_P(str)-1);
-	op2_cursor += (Z_STRLEN_P(compared)-1);
+	op1_cursor += (Z_STRLEN_P(str) - 1);
+	op2_cursor += (Z_STRLEN_P(compared) - 1);
 
 	if (Z_STRLEN_P(compared) < Z_STRLEN_P(str)) {
 		number = Z_STRLEN_P(compared);
@@ -1042,8 +1092,8 @@ int phalcon_end_with(zval *str, zval *compared, zval *ignore_case){
 			}
 		} else {
 			if ((*op1_cursor) != (*op2_cursor)) {
-				if (((*op1_cursor)+32) != (*op2_cursor)) {
-					if ((*op1_cursor-32) != (*op2_cursor)) {
+				if (((*op1_cursor) + 32) != (*op2_cursor)) {
+					if ((*op1_cursor - 32) != (*op2_cursor)) {
 						return 0;
 					}
 				}

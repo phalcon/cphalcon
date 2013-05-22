@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 	 * Create a virtual symbol table
 	 */
 	phalcon_create_symbol_table(TSRMLS_C);
-	PHALCON_CALL_FUNC_NORETURN("ob_start");
+	phalcon_call_func_noret("ob_start");
 	
 	PHALCON_INIT_VAR(not_exists);
 	ZVAL_BOOL(not_exists, 1);
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 		phalcon_call_method_p2_noret(events_manager, "fire", event_name, this_ptr);
 	}
 	
-	PHALCON_CALL_FUNC_NORETURN("ob_end_clean");
+	phalcon_call_func_noret("ob_end_clean");
 	
 	PHALCON_OBS_VAR(content);
 	phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);

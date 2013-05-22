@@ -134,6 +134,20 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, betweenWhere);
 
 /**
+ * Appends a NOT BETWEEN condition to the current conditions
+ *
+ *<code>
+ *	$builder->notBetweenWhere('price', 100.25, 200.50);
+ *</code>
+ *
+ * @param string $expr
+ * @param mixed $minimum
+ * @param mixed $maximum
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notBetweenWhere);
+
+/**
  * Appends an IN condition to the current conditions
  *
  * @param string $expr
@@ -141,6 +155,15 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, betweenWhere);
  * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, inWhere);
+
+/**
+ * Appends a NOT IN condition to the current conditions
+ *
+ * @param string $expr
+ * @param array $values
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere);
 
 /**
  * Return the conditions for the query

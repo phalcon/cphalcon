@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Text, endsWith){
 }
 
 /**
- * Lowecases a string, this function make use of the mbstring extension if available
+ * Lowercases a string, this function makes use of the mbstring extension if available
  *
  * @param string $str
  * @return string
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Text, lower){
 }
 
 /**
- * Uppercases a string, this function make use of the mbstring extension if available
+ * Uppercases a string, this function makes use of the mbstring extension if available
  *
  * @param string $str
  * @return string

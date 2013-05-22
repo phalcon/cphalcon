@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView){
  */
 PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 
-	zval *modules, *merge = NULL, *registered_modules, *merged_modules;
+	zval *modules, *merge = NULL, *registered_modules, *merged_modules = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -184,9 +184,13 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 	} else {
 		PHALCON_OBS_VAR(registered_modules);
 		phalcon_read_property_this(&registered_modules, this_ptr, SL("_modules"), PH_NOISY_CC);
+		if (Z_TYPE_P(registered_modules) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_modules);
+			phalcon_fast_array_merge(merged_modules, &registered_modules, &modules TSRMLS_CC);
+		} else {
+			PHALCON_CPY_WRT(merged_modules, modules);
+		}
 	
-		PHALCON_INIT_VAR(merged_modules);
-		phalcon_fast_array_merge(merged_modules, &registered_modules, &modules TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);
 	}
 	

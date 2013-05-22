@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	}
 	
 	if (PHALCON_IS_TRUE(must_clean)) {
-		PHALCON_CALL_FUNC_NORETURN("ob_clean");
+		phalcon_call_func_noret("ob_clean");
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	}
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_INIT_VAR(contents);
-		PHALCON_CALL_FUNC(contents, "ob_get_contents");
+		phalcon_call_func(contents, "ob_get_contents");
 	
 		PHALCON_OBS_VAR(view);
 		phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);

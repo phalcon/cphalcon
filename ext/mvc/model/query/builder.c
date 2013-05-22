@@ -90,19 +90,25 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
  * Phalcon\Mvc\Model\Query\Builder constructor
  *
  * @param array $params
+ * @param Phalcon\DI $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 
-	zval *params = NULL, *conditions = NULL, *columns, *group_clause;
-	zval *having_clause, *order_clause, *limit_clause;
-	zval *for_update, *shared_lock;
+	zval *params = NULL, *dependency_injector = NULL, *conditions = NULL;
+	zval *columns, *group_clause, *having_clause;
+	zval *order_clause, *limit_clause, *for_update;
+	zval *shared_lock;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &params);
+	phalcon_fetch_params(1, 0, 2, &params, &dependency_injector);
 	
 	if (!params) {
 		PHALCON_INIT_VAR(params);
+	}
+	
+	if (!dependency_injector) {
+		PHALCON_INIT_VAR(dependency_injector);
 	}
 	
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
@@ -171,25 +177,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		 * Assign FOR UPDATE clause
 		 */
 		if (phalcon_array_isset_string(params, SS("for_update"))) {
-	
 			PHALCON_OBS_VAR(for_update);
 			phalcon_array_fetch_string(&for_update, params, SL("for_update"), PH_NOISY_CC);
-			if (zend_is_true(for_update)) {
-				phalcon_update_property_bool(this_ptr, SL("_forUpdate"), 1 TSRMLS_CC);
-			}
+			phalcon_update_property_this(this_ptr, SL("_forUpdate"), for_update TSRMLS_CC);
 		}
 	
 		/** 
 		 * Assign SHARED LOCK clause
 		 */
 		if (phalcon_array_isset_string(params, SS("shared_lock"))) {
-	
 			PHALCON_OBS_VAR(shared_lock);
 			phalcon_array_fetch_string(&shared_lock, params, SL("shared_lock"), PH_NOISY_CC);
-			if (zend_is_true(shared_lock)) {
-				phalcon_update_property_bool(this_ptr, SL("_sharedLock"), 1 TSRMLS_CC);
-			}
+			phalcon_update_property_this(this_ptr, SL("_sharedLock"), shared_lock TSRMLS_CC);
 		}
+	}
+	
+	/** 
+	 * Update the dependency injector if any
+	 */
+	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -752,6 +759,70 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere){
 	 */
 	PHALCON_INIT_VAR(conditions);
 	PHALCON_CONCAT_VSVSVS(conditions, expr, " BETWEEN :", minimum_key, ": AND :", maximum_key, ":");
+	
+	PHALCON_INIT_VAR(bind_params);
+	array_init_size(bind_params, 2);
+	phalcon_array_update_zval(&bind_params, minimum_key, &minimum, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_zval(&bind_params, maximum_key, &maximum, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	/** 
+	 * Append the BETWEEN to the current conditions using and 'and'
+	 */
+	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
+	PHALCON_SEPARATE(next_hidden_param);
+	increment_function(next_hidden_param);
+	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
+ * Appends a NOT BETWEEN condition to the current conditions
+ *
+ *<code>
+ *	$builder->notBetweenWhere('price', 100.25, 200.50);
+ *</code>
+ *
+ * @param string $expr
+ * @param mixed $minimum
+ * @param mixed $maximum
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere){
+
+	zval *expr, *minimum, *maximum, *hidden_param, *one;
+	zval *next_hidden_param, *minimum_key, *maximum_key;
+	zval *conditions, *bind_params;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 3, 0, &expr, &minimum, &maximum);
+	
+	PHALCON_OBS_VAR(hidden_param);
+	phalcon_read_property_this(&hidden_param, this_ptr, SL("_hiddenParamNumber"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(one);
+	ZVAL_LONG(one, 1);
+	
+	PHALCON_INIT_VAR(next_hidden_param);
+	phalcon_add_function(next_hidden_param, hidden_param, one TSRMLS_CC);
+	
+	/** 
+	 * Minimum key with auto bind-params
+	 */
+	PHALCON_INIT_VAR(minimum_key);
+	PHALCON_CONCAT_SV(minimum_key, "phb", hidden_param);
+	
+	/** 
+	 * Maximum key with auto bind-params
+	 */
+	PHALCON_INIT_VAR(maximum_key);
+	PHALCON_CONCAT_SV(maximum_key, "phb", next_hidden_param);
+	
+	/** 
+	 * Create a standard BETWEEN condition with bind params
+	 */
+	PHALCON_INIT_VAR(conditions);
+	PHALCON_CONCAT_VSVSVS(conditions, expr, " NOT BETWEEN :", minimum_key, ": AND :", maximum_key, ":");
 	
 	PHALCON_INIT_VAR(bind_params);
 	array_init_size(bind_params, 2);

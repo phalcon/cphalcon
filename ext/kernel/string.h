@@ -50,6 +50,9 @@ extern int phalcon_end_with_str(zval *str, char *compared, unsigned int compared
 /** Random string */
 extern void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC);
 
+/** Get the possible URI based on a script path */
+void phalcon_get_uri(zval *return_value, zval *path TSRMLS_DC);
+
 /* Strips extra slashes */
 extern void phalcon_remove_extra_slashes(zval *return_value, zval *str);
 

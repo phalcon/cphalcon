@@ -1,12 +1,19 @@
 1.2.0
  - Now 'compiledPath' option accept a closure to dynamically create the compilation path in Volt
  - Volt now supports extensions, these can be used to extend better Volt
+ - Now Phalcon\Mvc\Url provides an internal separation for uris for static resources and uris to rewrite resources
+ - Added Mvc\Model\Criteria::inWhere to append an IN expression to the criteria
+ - Added Mvc\Model\Criteria::notInWhere to append a NOT IN expression to the criteria
+ - Added Mvc\Model\Criteria::notBetweenWhere to append a NOT BETWEEN expression to the criteria
+ - Added Mvc\Model\Criteria::betweenWhere to append a BETWEEN expression to the criteria
+ - Phalcon\Tag::image accepts a second parameter to allow external URLs
+ - Added Phalcon\Mvc\View\Simple as an alternative view component, this only have a single level of rendering and work better with Volt's inheritance
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods
- - Added Mvc\Query\Builder::inWhere to append a IN expression to the query
- - Added Mvc\Query\Builder::notInWhere to append a NOT IN expression to the query
- - Added Mvc\Query\Builder::betweenWhere to append a BETWEEN expression to the query
+ - Added Mvc\Model\Query\Builder::inWhere to append an IN expression to the query
+ - Added Mvc\Model\Query\Builder::notInWhere to append a NOT IN expression to the query
+ - Added Mvc\Model\Query\Builder::betweenWhere to append a BETWEEN expression to the query
  - Now Phalcon\Session\Bag injects automatically the default DI if one hasn't beed manually assigned
  - Added Phalcon\Forms\Manager to reference forms and retrieve them from any part of the application
  - If an element in Phalcon\Forms doesn't have a label defined now returns the element's name as label
@@ -41,7 +48,7 @@
  - Added support for filters in Phalcon\Forms\Form elements
  - Added maximum recursion depth exceeded control in Phalcon\Kernel
  - Performance: Now Phalcon makes use of interned strings if PHP 5.4 to reduce memory usage
- - Performance: Implemented cache of visibility for all intern properties in 5.3/5.4 increasing performance 
+ - Performance: Implemented cache of visibility for all intern properties in 5.3/5.4 increasing performance
  - Performance: All hash keys are now pre-calculated in compilation time to read/write internal properties faster
  - Performance: Now all functions are static allowing the compiler to inline functions or remove those that aren't used by the framework
  - Performance: Now Phalcon provides specific optimizations when the extension is compiled for NTS modules

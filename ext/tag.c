@@ -1383,7 +1383,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 	
 	PHALCON_INIT_NVAR(local);
-	ZVAL_STRING(local, "", 1);
+	ZVAL_BOOL(local, 0);
 	if (phalcon_array_isset_long(params, 1)) {
 		PHALCON_OBS_NVAR(local);
 		phalcon_array_fetch_long(&local, params, 1, PH_NOISY_CC);
@@ -1399,6 +1399,9 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		phalcon_array_update_string_string(&params, SL("type"), SL("text/css"), PH_SEPARATE TSRMLS_CC);
 	}
 	
+	/** 
+	 * URLs are generated through the 'url' service
+	 */
 	if (zend_is_true(local)) {
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
@@ -1407,7 +1410,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		phalcon_array_fetch_string(&url_href, params, SL("href"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(href);
-		phalcon_call_method_p1(href, url, "get", url_href);
+		phalcon_call_method_p1(href, url, "getstatic", url_href);
 		phalcon_array_update_string(&params, SL("href"), &href, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
@@ -1513,7 +1516,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	}
 	
 	PHALCON_INIT_NVAR(local);
-	ZVAL_STRING(local, "", 1);
+	ZVAL_BOOL(local, 0);
 	if (phalcon_array_isset_long(params, 1)) {
 		PHALCON_OBS_NVAR(local);
 		phalcon_array_fetch_long(&local, params, 1, PH_NOISY_CC);
@@ -1529,10 +1532,10 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		phalcon_array_update_string_string(&params, SL("type"), SL("text/javascript"), PH_SEPARATE TSRMLS_CC);
 	}
 	
+	/** 
+	 * URLs are generated through the 'url' service
+	 */
 	if (zend_is_true(local)) {
-		/** 
-		 * URLs are generated through the 'url' service
-		 */
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 	
@@ -1540,7 +1543,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		phalcon_array_fetch_string(&params_src, params, SL("src"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(src);
-		phalcon_call_method_p1(src, url, "get", params_src);
+		phalcon_call_method_p1(src, url, "getstatic", params_src);
 		phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
@@ -1583,25 +1586,33 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
  * <code>
  * 	{{ image("img/bg.png") }}
  * 	{{ image("img/photo.jpg", "alt": "Some Photo") }}
+ * 	{{ image("http://static.mywebsite.com/img/bg.png", false) }}
  * </code>
  *
  * @param  array $parameters
+ * @param  boolean $local
  * @return string
  */
 PHP_METHOD(Phalcon_Tag, image){
 
-	zval *parameters = NULL, *params = NULL, *first_param, *url, *url_src;
-	zval *src, *code, *value = NULL, *key = NULL, *five, *doctype, *is_xhtml;
+	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
+	zval *url, *url_src, *src, *code, *value = NULL, *key = NULL, *five, *doctype;
+	zval *is_xhtml;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &parameters);
+	phalcon_fetch_params(1, 0, 2, &parameters, &local);
 	
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
+	}
+	
+	if (!local) {
+		PHALCON_INIT_VAR(local);
+		ZVAL_BOOL(local, 1);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
@@ -1621,15 +1632,20 @@ PHP_METHOD(Phalcon_Tag, image){
 		}
 	}
 	
-	PHALCON_INIT_VAR(url);
-	PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
+	/** 
+	 * Use the 'url' service if the URI is local
+	 */
+	if (zend_is_true(local)) {
+		PHALCON_INIT_VAR(url);
+		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 	
-	PHALCON_OBS_VAR(url_src);
-	phalcon_array_fetch_string(&url_src, params, SL("src"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(url_src);
+		phalcon_array_fetch_string(&url_src, params, SL("src"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(src);
-	phalcon_call_method_p1(src, url, "get", url_src);
-	phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		PHALCON_INIT_VAR(src);
+		phalcon_call_method_p1(src, url, "getstatic", url_src);
+		phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	}
 	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<img", 1);
@@ -1674,7 +1690,7 @@ PHP_METHOD(Phalcon_Tag, image){
  * Converts texts into URL-friendly titles
  *
  *<code>
- * echo Phalcon\Tag::friendlyTitle('Thiese are big important news', '-')
+ * echo Phalcon\Tag::friendlyTitle('These are big important news', '-')
  *</code>
  *
  * @param string $text

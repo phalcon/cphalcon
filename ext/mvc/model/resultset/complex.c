@@ -44,7 +44,7 @@
  * Phalcon\Mvc\Model\Resultset\Complex
  *
  * Complex resultsets may include complete objects and scalar values.
- * This class builds every complex row as the're required
+ * This class builds every complex row as it is required
  */
 
 
@@ -94,7 +94,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 	/** 
 	 * Update the related cache if any
 	 */
-	phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	if (Z_TYPE_P(cache) != IS_NULL) {
+		phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	}
 	
 	/** 
 	 * Resultsets type 1 are traversed one-by-one

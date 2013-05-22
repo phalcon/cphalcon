@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close){
 	PHALCON_OBS_VAR(opened);
 	phalcon_read_property_this(&opened, this_ptr, SL("_opened"), PH_NOISY_CC);
 	if (zend_is_true(opened)) {
-		PHALCON_CALL_FUNC_NORETURN("closelog");
+		phalcon_call_func_noret("closelog");
 	}
 	
 	PHALCON_MM_RESTORE();

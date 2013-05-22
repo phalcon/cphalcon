@@ -50,13 +50,13 @@
  * A ModelsManager is injected to a model via a Dependency Injector Container such as Phalcon\DI.
  *
  * <code>
- * $dependencyInjector = new Phalcon\DI();
+ * $di = new Phalcon\DI();
  *
- * $dependencyInjector->set('modelsManager', function(){
+ * $di->set('modelsManager', function(){
  *      return new Phalcon\Mvc\Model\Manager();
  * });
  *
- * $robot = new Robots($dependencyInjector);
+ * $robot = new Robots($di);
  * </code>
  */
 
@@ -2610,9 +2610,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 	 */
 	PHALCON_INIT_VAR(builder);
 	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
-	phalcon_call_method_p1_noret(builder, "__construct", params);
-	
-	phalcon_call_method_p1_noret(builder, "setdi", dependency_injector);
+	phalcon_call_method_p2_noret(builder, "__construct", params, dependency_injector);
 	
 	RETURN_CTOR(builder);
 }

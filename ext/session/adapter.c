@@ -96,9 +96,9 @@ PHP_METHOD(Phalcon_Session_Adapter, start){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(headers_sent);
-	PHALCON_CALL_FUNC(headers_sent, "headers_sent");
+	phalcon_call_func(headers_sent, "headers_sent");
 	if (PHALCON_IS_FALSE(headers_sent)) {
-		PHALCON_CALL_FUNC_NORETURN("session_start");
+		phalcon_call_func_noret("session_start");
 		phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
 		RETURN_MM_TRUE;
 	}
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Session_Adapter, getId){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(session_id);
-	PHALCON_CALL_FUNC(session_id, "session_id");
+	phalcon_call_func(session_id, "session_id");
 	RETURN_CCTOR(session_id);
 }
 
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(destroyed);
-	PHALCON_CALL_FUNC(destroyed, "session_destroy");
+	phalcon_call_func(destroyed, "session_destroy");
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
 	RETURN_CCTOR(destroyed);
 }

@@ -40,13 +40,15 @@
 #define PHALCON_IS_EQUAL(op1, op2) phalcon_is_equal(op1, op2 TSRMLS_CC)
 #define PHALCON_IS_IDENTICAL(op1, op2) phalcon_is_identical(op1, op2 TSRMLS_CC)
 
-/** Less equals */
+/** Greater/Smaller equals */
 #define PHALCON_LE(op1, op2) phalcon_less_equal(op1, op2 TSRMLS_CC)
 #define PHALCON_LE_LONG(op1, op2) phalcon_less_equal_long(op1, op2 TSRMLS_CC)
-
-/** Greater equals */
 #define PHALCON_GE(op1, op2) phalcon_greater_equal(op1, op2 TSRMLS_CC)
 #define PHALCON_GE_LONG(op1, op2) phalcon_greater_equal_long(op1, op2 TSRMLS_CC)
+#define PHALCON_LT(op1, op2) phalcon_less(op1, op2 TSRMLS_CC)
+#define PHALCON_LT_LONG(op1, op2) phalcon_less_long(op1, op2 TSRMLS_CC)
+#define PHALCON_GT(op1, op2) phalcon_greater(op1, op2 TSRMLS_CC)
+#define PHALCON_GT_LONG(op1, op2) phalcon_greater_long(op1, op2 TSRMLS_CC)
 
 /** Operator functions */
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
@@ -59,12 +61,21 @@ extern void phalcon_concat_self_str(zval **left, char *right, int right_length T
 extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
 extern int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
 
-extern int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC);
-extern int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC);
-
 extern void phalcon_cast(zval *result, zval *var, zend_uint type);
 extern long phalcon_get_intval(zval *op);
 extern int phalcon_is_numeric(zval *op);
 
 extern int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC);
+
+extern int phalcon_less(zval *op1, zval *op2 TSRMLS_DC);
+extern int phalcon_less_long(zval *op1, long op2 TSRMLS_DC);
+
+extern int phalcon_greater(zval *op1, zval *op2 TSRMLS_DC);
+extern int phalcon_greater_long(zval *op1, long op2 TSRMLS_DC);
+
+extern int phalcon_less_equal(zval *op1, zval *op2 TSRMLS_DC);
+extern int phalcon_less_equal_long(zval *op1, long op2 TSRMLS_DC);
+
+extern int phalcon_greater_equal(zval *op1, zval *op2 TSRMLS_DC);
+extern int phalcon_greater_equal_long(zval *op1, long op2 TSRMLS_DC);

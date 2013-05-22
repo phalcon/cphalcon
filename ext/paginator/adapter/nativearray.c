@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 
 	zval *one, *config, *items, *show, *page_number = NULL, *page;
 	zval *number, *rounded_total, *total_pages, *before_page_number;
-	zval *start, *slice, *compare = NULL, *next = NULL, *before = NULL;
+	zval *start, *slice, *next = NULL, *before = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -173,10 +173,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	PHALCON_INIT_VAR(slice);
 	phalcon_call_func_p3(slice, "array_slice", items, start, show);
 	phalcon_update_property_zval(page, SL("items"), slice TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(compare);
-	is_smaller_function(compare, page_number, total_pages TSRMLS_CC);
-	if (PHALCON_IS_TRUE(compare)) {
+	if (PHALCON_LT(page_number, total_pages)) {
 		PHALCON_INIT_VAR(next);
 		phalcon_add_function(next, page_number, one TSRMLS_CC);
 	} else {
@@ -184,9 +181,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	}
 	
 	phalcon_update_property_zval(page, SL("next"), next TSRMLS_CC);
-	
-	is_smaller_function(compare, one, page_number TSRMLS_CC);
-	if (PHALCON_IS_TRUE(compare)) {
+	if (PHALCON_GT(page_number, one)) {
 		PHALCON_INIT_VAR(before);
 		sub_function(before, page_number, one TSRMLS_CC);
 	} else {

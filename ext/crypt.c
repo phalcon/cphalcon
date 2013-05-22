@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(algos);
-	PHALCON_CALL_FUNC(algos, "mcrypt_list_algorithms");
+	phalcon_call_func(algos, "mcrypt_list_algorithms");
 	RETURN_CCTOR(algos);
 }
 
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Crypt, getAvailableModes){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(modes);
-	PHALCON_CALL_FUNC(modes, "mcrypt_list_modes");
+	phalcon_call_func(modes, "mcrypt_list_modes");
 	RETURN_CCTOR(modes);
 }
 

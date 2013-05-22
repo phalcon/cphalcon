@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(headers_was_sent);
-	PHALCON_CALL_FUNC(headers_was_sent, "headers_sent");
+	phalcon_call_func(headers_was_sent, "headers_sent");
 	if (!zend_is_true(headers_was_sent)) {
 	
 		PHALCON_INIT_VAR(t);

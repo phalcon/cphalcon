@@ -398,7 +398,6 @@ static zval *phvolt_ret_zval_list(zval *list_left, zval *right_list)
 
 				Z_ADDREF_PP(item);
 				add_next_index_zval(ret, *item);
-
 			}
 			zval_ptr_dtor(&list_left);
 		} else {
@@ -507,10 +506,10 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
-/* 
+/*
 ** These constants (all generated automatically by the parser generator)
 ** specify the various kinds of tokens (terminals) that the parser
-** understands. 
+** understands.
 **
 ** Each symbol here is a terminal symbol in the grammar.
 */
@@ -527,7 +526,7 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 **                       and nonterminals.  "int" is used otherwise.
 **    KKNOCODE           is a number of type KKCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
-**                       number is used to fill in empty slots of the hash 
+**                       number is used to fill in empty slots of the hash
 **                       table.
 **    KKFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
@@ -536,7 +535,7 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    phvolt_KTOKENTYPE     is the data type used for minor tokens given 
+**    phvolt_KTOKENTYPE     is the data type used for minor tokens given
 **                       directly to the parser from the tokenizer.
 **    KKMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
@@ -577,7 +576,7 @@ typedef union {
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
 ** functions that take a state number and lookahead value and return an
-** action integer.  
+** action integer.
 **
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
@@ -602,7 +601,7 @@ typedef union {
 ** If the index value kk_shift_ofst[S]+X is out of range or if the value
 ** kk_lookahead[kk_shift_ofst[S]+X] is not equal to X or if kk_shift_ofst[S]
 ** is equal to KK_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that kk_default[S] should be used instead.  
+** and that kk_default[S] should be used instead.
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
@@ -1026,7 +1025,7 @@ static KKACTIONTYPE kk_default[] = {
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
-** 
+**
 **      %fallback ID X Y Z.
 **
 ** appears in the grammer, then ID becomes a fallback token for X, Y,
@@ -1077,10 +1076,10 @@ static char *kkTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
-/* 
+/*
 ** Turn parser tracing on by giving a stream to which to write the trace
 ** and a prompt to preface each trace message.  Tracing is turned off
-** by making either argument NULL 
+** by making either argument NULL
 **
 ** Inputs:
 ** <ul>
@@ -1105,30 +1104,30 @@ void phvolt_Trace(FILE *TraceFILE, char *zTracePrompt){
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *kkTokenName[] = { 
-  "$",             "OPEN_DELIMITER",  "COMMA",         "IN",          
-  "QUESTION",      "COLON",         "SBRACKET_OPEN",  "RANGE",       
-  "AND",           "OR",            "IS",            "EQUALS",      
+static const char *kkTokenName[] = {
+  "$",             "OPEN_DELIMITER",  "COMMA",         "IN",
+  "QUESTION",      "COLON",         "SBRACKET_OPEN",  "RANGE",
+  "AND",           "OR",            "IS",            "EQUALS",
   "NOTEQUALS",     "LESS",          "GREATER",       "GREATEREQUAL",
-  "LESSEQUAL",     "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",      
-  "TIMES",         "MOD",           "PLUS",          "MINUS",       
+  "LESSEQUAL",     "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",
+  "TIMES",         "MOD",           "PLUS",          "MINUS",
   "CONCAT",        "PIPE",          "NOT",           "PARENTHESES_OPEN",
-  "DOT",           "IF",            "CLOSE_DELIMITER",  "ENDIF",       
-  "ELSE",          "ELSEIF",        "ELSEFOR",       "FOR",         
-  "IDENTIFIER",    "ENDFOR",        "SET",           "ASSIGN",      
-  "MACRO",         "PARENTHESES_CLOSE",  "ENDMACRO",      "INTEGER",     
-  "STRING",        "DOUBLE",        "NULL",          "FALSE",       
-  "TRUE",          "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",       
-  "ENDBLOCK",      "CACHE",         "ENDCACHE",      "EXTENDS",     
+  "DOT",           "IF",            "CLOSE_DELIMITER",  "ENDIF",
+  "ELSE",          "ELSEIF",        "ELSEFOR",       "FOR",
+  "IDENTIFIER",    "ENDFOR",        "SET",           "ASSIGN",
+  "MACRO",         "PARENTHESES_CLOSE",  "ENDMACRO",      "INTEGER",
+  "STRING",        "DOUBLE",        "NULL",          "FALSE",
+  "TRUE",          "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",
+  "ENDBLOCK",      "CACHE",         "ENDCACHE",      "EXTENDS",
   "INCLUDE",       "DO",            "AUTOESCAPE",    "ENDAUTOESCAPE",
-  "BREAK",         "CONTINUE",      "RAW_FRAGMENT",  "DEFINED",     
+  "BREAK",         "CONTINUE",      "RAW_FRAGMENT",  "DEFINED",
   "SBRACKET_CLOSE",  "error",         "program",       "volt_language",
   "statement_list",  "statement",     "raw_fragment",  "if_statement",
   "elseif_statement",  "elsefor_statement",  "for_statement",  "set_statement",
   "echo_statement",  "block_statement",  "cache_statement",  "extends_statement",
   "include_statement",  "do_statement",  "autoescape_statement",  "break_statement",
-  "continue_statement",  "macro_statement",  "empty_statement",  "expr",        
-  "macro_parameters",  "macro_parameter",  "macro_parameter_default",  "array_list",  
+  "continue_statement",  "macro_statement",  "empty_statement",  "expr",
+  "macro_parameters",  "macro_parameter",  "macro_parameter_default",  "array_list",
   "slice_offset",  "array_item",    "function_call",  "argument_list",
   "argument_item",
 };
@@ -1270,7 +1269,7 @@ const char *phvolt_TokenName(int tokenType){
 #endif
 }
 
-/* 
+/*
 ** This function allocates a new parser.
 ** The only argument is a pointer to a function which works like
 ** malloc.
@@ -1301,7 +1300,7 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
-    ** reduce or during error processing or when a parser is 
+    ** reduce or during error processing or when a parser is
     ** being destroyed before it is finished parsing.
     **
     ** Note: during a reduce, the only symbols destroyed are those
@@ -1445,7 +1444,7 @@ static int kk_pop_parser_stack(kkParser *pParser){
   return kkmajor;
 }
 
-/* 
+/*
 ** Deallocate and destroy a parser.  Destructors are all called for
 ** all stack elements before shutting the parser down.
 **
@@ -1481,7 +1480,7 @@ static int kk_find_shift_action(
 ){
   int i;
   int stateno = pParser->kkstack[pParser->kkidx].stateno;
- 
+
   /* if( pParser->kkidx<0 ) return KK_NO_ACTION;  */
   i = kk_shift_ofst[stateno];
   if( i==KK_SHIFT_USE_DFLT ){
@@ -1525,7 +1524,7 @@ static int kk_find_reduce_action(
 ){
   int i;
   int stateno = pParser->kkstack[pParser->kkidx].stateno;
- 
+
   i = kk_reduce_ofst[stateno];
   if( i==KK_REDUCE_USE_DFLT ){
     return kk_default[stateno];
@@ -1722,7 +1721,7 @@ static void kk_reduce(
   phvolt_ARG_FETCH;
   kkmsp = &kkpParser->kkstack[kkpParser->kkidx];
 #ifndef NDEBUG
-  if( kkTraceFILE && kkruleno>=0 
+  if( kkTraceFILE && kkruleno>=0
         && kkruleno<sizeof(kkRuleName)/sizeof(kkRuleName[0]) ){
     fprintf(kkTraceFILE, "%sReduce [%s].\n", kkTracePrompt,
       kkRuleName[kkruleno]);
@@ -2707,7 +2706,7 @@ void phvolt_(
 #ifdef KKERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
-      ** grammar defines an error token "ERROR".  
+      ** grammar defines an error token "ERROR".
       **
       ** This is what we do if the grammar does define ERROR:
       **

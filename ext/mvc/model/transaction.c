@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection){
 	if (zend_is_true(rollback_on_abort)) {
 	
 		PHALCON_INIT_VAR(was_aborted);
-		PHALCON_CALL_FUNC(was_aborted, "connection_aborted");
+		phalcon_call_func(was_aborted, "connection_aborted");
 		if (zend_is_true(was_aborted)) {
 			PHALCON_INIT_VAR(message);
 			ZVAL_STRING(message, "The request was aborted", 1);

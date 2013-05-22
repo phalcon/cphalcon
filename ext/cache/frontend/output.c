@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
 	PHALCON_MM_GROW();
 
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 1 TSRMLS_CC);
-	PHALCON_CALL_FUNC_NORETURN("ob_start");
+	phalcon_call_func_noret("ob_start");
 	
 	PHALCON_MM_RESTORE();
 }
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
 		PHALCON_INIT_VAR(contents);
-		PHALCON_CALL_FUNC(contents, "ob_get_contents");
+		phalcon_call_func(contents, "ob_get_contents");
 		RETURN_CCTOR(contents);
 	}
 	
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 	PHALCON_OBS_VAR(buffering);
 	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
-		PHALCON_CALL_FUNC_NORETURN("ob_end_clean");
+		phalcon_call_func_noret("ob_end_clean");
 	}
 	
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 0 TSRMLS_CC);
