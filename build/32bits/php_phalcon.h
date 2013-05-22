@@ -30,7 +30,7 @@
 /** Memory frame */
 typedef struct _phalcon_memory_entry {
 	int pointer;
-	zval **addresses[PHALCON_MAX_MEMORY_STACK];
+	zval ***addresses;
 	struct _phalcon_memory_entry *prev;
 	struct _phalcon_memory_entry *next;
 } phalcon_memory_entry;
