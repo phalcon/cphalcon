@@ -130,14 +130,14 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption){
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 
-	zval *name, *value = NULL, *expire = NULL, *path = NULL, *secure = NULL, *http_only = NULL;
+	zval *name, *value = NULL, *expire = NULL, *path = NULL, *domain = NULL, *secure = NULL, *http_only = NULL;
 	zval *cookies, *encryption, *dependency_injector = NULL;
 	zval *cookie = NULL, *registered, *service, *response;
-	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL };
+	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 5, &name, &value, &expire, &path, &secure, &http_only);
+	phalcon_fetch_params(1, 1, 6, &name, &value, &expire, &path, &domain, &secure, &http_only);
 	
 	if (!value) {
 		PHALCON_INIT_VAR(value);
@@ -153,10 +153,14 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		ZVAL_STRING(path, "/", 1);
 	}
 	
+	if (!domain) {
+		PHALCON_INIT_VAR(domain);
+	}
+	
 	if (!secure) {
 		PHALCON_INIT_VAR(secure);
 	}
-	
+
 	if (!http_only) {
 		PHALCON_INIT_VAR(http_only);
 	}
@@ -187,9 +191,10 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		p0[1] = value;
 		p0[2] = expire;
 		p0[3] = path;
-		p0[4] = secure;
-		p0[5] = http_only;
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(cookie, "__construct", 6, p0);
+		p0[4] = domain;
+		p0[5] = secure;
+		p0[6] = http_only;
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(cookie, "__construct", 7, p0);
 	
 		/** 
 		 * Pass the DI to created cookies
@@ -214,6 +219,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		phalcon_call_method_p1_noret(cookie, "setvalue", value);
 		phalcon_call_method_p1_noret(cookie, "setexpiration", expire);
 		phalcon_call_method_p1_noret(cookie, "setpath", path);
+		phalcon_call_method_p1_noret(cookie, "setdomain", domain);
 		phalcon_call_method_p1_noret(cookie, "setsecure", secure);
 		phalcon_call_method_p1_noret(cookie, "sethttponly", http_only);
 	}
