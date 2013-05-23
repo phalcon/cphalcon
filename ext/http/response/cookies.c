@@ -125,19 +125,20 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption){
  * @param int $expire
  * @param string $path
  * @param boolean $secure
+ * @param string $domain
  * @param boolean $httpOnly
  * @return Phalcon\Http\Response\Cookies
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 
-	zval *name, *value = NULL, *expire = NULL, *path = NULL, *domain = NULL, *secure = NULL, *http_only = NULL;
-	zval *cookies, *encryption, *dependency_injector = NULL;
+	zval *name, *value = NULL, *expire = NULL, *path = NULL, *secure = NULL, *domain = NULL;
+	zval *http_only = NULL, *cookies, *encryption, *dependency_injector = NULL;
 	zval *cookie = NULL, *registered, *service, *response;
 	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 6, &name, &value, &expire, &path, &domain, &secure, &http_only);
+	phalcon_fetch_params(1, 1, 6, &name, &value, &expire, &path, &secure, &domain, &http_only);
 	
 	if (!value) {
 		PHALCON_INIT_VAR(value);
@@ -153,14 +154,14 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		ZVAL_STRING(path, "/", 1);
 	}
 	
+	if (!secure) {
+		PHALCON_INIT_VAR(secure);
+	}
+	
 	if (!domain) {
 		PHALCON_INIT_VAR(domain);
 	}
 	
-	if (!secure) {
-		PHALCON_INIT_VAR(secure);
-	}
-
 	if (!http_only) {
 		PHALCON_INIT_VAR(http_only);
 	}
@@ -191,8 +192,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		p0[1] = value;
 		p0[2] = expire;
 		p0[3] = path;
-		p0[4] = domain;
-		p0[5] = secure;
+		p0[4] = secure;
+		p0[5] = domain;
 		p0[6] = http_only;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(cookie, "__construct", 7, p0);
 	
@@ -219,8 +220,8 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		phalcon_call_method_p1_noret(cookie, "setvalue", value);
 		phalcon_call_method_p1_noret(cookie, "setexpiration", expire);
 		phalcon_call_method_p1_noret(cookie, "setpath", path);
-		phalcon_call_method_p1_noret(cookie, "setdomain", domain);
 		phalcon_call_method_p1_noret(cookie, "setsecure", secure);
+		phalcon_call_method_p1_noret(cookie, "setdomain", domain);
 		phalcon_call_method_p1_noret(cookie, "sethttponly", http_only);
 	}
 	
@@ -358,8 +359,26 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has){
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, delete){
 
+	zval *name, *cookies, *cookie;
 
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &name);
 	
+	PHALCON_OBS_VAR(cookies);
+	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+	
+	/** 
+	 * Check the internal bag
+	 */
+	if (phalcon_array_isset(cookies, name)) {
+		PHALCON_OBS_VAR(cookie);
+		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
+		phalcon_call_method_noret(cookie, "delete");
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
 }
 
 /**

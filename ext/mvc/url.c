@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getDI){
 }
 
 /**
- * Sets a prefix to all the URIs generated
+ * Sets a prefix for all the URIs to be generated
  *
  *<code>
  *	$url->setBaseUri('/invo/');
@@ -116,12 +116,21 @@ PHP_METHOD(Phalcon_Mvc_Url, getDI){
  */
 PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 
-	zval *base_uri;
+	zval *base_uri, *static_base_uri;
 
-	phalcon_fetch_params(0, 1, 0, &base_uri);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &base_uri);
 	
 	phalcon_update_property_this(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
 	
+	PHALCON_OBS_VAR(static_base_uri);
+	phalcon_read_property_this(&static_base_uri, this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
+	if (Z_TYPE_P(static_base_uri) == IS_NULL) {
+		phalcon_update_property_this(this_ptr, SL("_staticBaseUri"), base_uri TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**
