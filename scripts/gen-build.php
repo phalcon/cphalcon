@@ -26,6 +26,7 @@ class Build_Generator
 	private $_exceptionHeaders = array();
 
 	private $_kernelHeaders = array(
+		'assets/filters/jsminifier.h',
 		'mvc/model/query/parser.h',
 		'mvc/model/query/scanner.h',
 		'mvc/model/query/phql.h',
