@@ -419,8 +419,22 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes){
  */
 PHP_METHOD(Phalcon_Forms_Element, getAttributes){
 
+	zval *attributes, *empty_array;
 
-	RETURN_MEMBER(this_ptr, "_attributes");
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(attributes);
+	phalcon_read_property_this(&attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
+
+	if (Z_TYPE_P(attributes) != IS_ARRAY) {
+
+		PHALCON_INIT_VAR(empty_array);
+		array_init(empty_array);
+
+		RETURN_CTOR(empty_array);
+	}
+
+	RETURN_CCTOR(attributes);
 }
 
 /**
