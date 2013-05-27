@@ -33,7 +33,7 @@
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 
-#include "kernel/experimental/fcall.h"
+#include "kernel/alternative/fcall.h"
 
 /**
  * Finds the correct scope to execute the function
@@ -155,7 +155,7 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 }
 
 /**
- * This is an experimental function to call PHP functions that requires parameters in a faster way
+ * This is an alternative function to call PHP functions (that requires parameters) in a faster way
  */
 static inline int phalcon_call_func_params_internal(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
@@ -204,7 +204,6 @@ int phalcon_call_func_ex(zval *return_value, char *func_name, int func_length, i
  */
 static inline int phalcon_call_method_internal(zval *return_value, zval *object, char *method_name, int method_len, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 
-	zval *fn = NULL;
 	int status = FAILURE;
 	zend_class_entry *ce, *active_scope = NULL;
 
@@ -228,7 +227,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 		EG(scope) = ce;
 	}
 
-	status = phalcon_exp_call_user_method(ce, &object, method_name, method_len, return_value, 0, NULL, 0 TSRMLS_CC);
+	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, 0, NULL, 0 TSRMLS_CC);
 	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s()", method_name);
 	}
@@ -316,7 +315,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 		EG(scope) = ce;
 	}
 
-	status = phalcon_exp_call_user_method(ce, &object, method_name, method_len, return_value, param_count, params, 0 TSRMLS_CC);
+	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, param_count, params, 0 TSRMLS_CC);
 	if (unlikely(status == FAILURE)) {
 		EG(scope) = active_scope;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, ce->name);

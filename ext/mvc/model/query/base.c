@@ -160,12 +160,14 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
  */
 int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) {
 
-	char *error;
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+	phql_parser_status *parser_status = NULL;
+	int scanner_status, status = SUCCESS;
 	phql_scanner_state *state;
 	phql_scanner_token token;
-	int scanner_status, status = SUCCESS;
-	phql_parser_status *parser_status = NULL;
+	unsigned long phql_key;
 	void* phql_parser;
+	char *error;
 	zval **temp_ast;
 
 	if (!phql) {
@@ -174,11 +176,16 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		return FAILURE;
 	}
 
-	if (PHALCON_GLOBAL(orm.parser_cache) != NULL) {
-		if (zend_hash_find(PHALCON_GLOBAL(orm.parser_cache), phql, phql_length, (void**) &temp_ast) == SUCCESS) {
-			ZVAL_ZVAL(*result, *temp_ast, 1, 0);
-			Z_SET_REFCOUNT_P(*result, 1);
-			return SUCCESS;
+	if (phalcon_globals_ptr->orm.cache_level >= 0) {
+
+		phql_key = zend_inline_hash_func(phql, phql_length + 1);
+
+		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
+			if (zend_hash_quick_find(phalcon_globals_ptr->orm.parser_cache, phql, phql_length, phql_key, (void**) &temp_ast) == SUCCESS) {
+				ZVAL_ZVAL(*result, *temp_ast, 1, 0);
+				Z_SET_REFCOUNT_P(*result, 1);
+				return SUCCESS;
+			}
 		}
 	}
 
@@ -451,25 +458,41 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		if (parser_status->status == PHQL_PARSING_OK) {
 			if (parser_status->ret) {
 
+				/**
+				 * Set a unique id for the parsed ast
+				 */
+				if (phalcon_globals_ptr->orm.cache_level >= 1) {
+					if (Z_TYPE_P(parser_status->ret) == IS_ARRAY) {
+						add_assoc_long(parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
+					}
+				}
+
 				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
 				ZVAL_NULL(parser_status->ret);
 				zval_ptr_dtor(&parser_status->ret);
 
-				if (!PHALCON_GLOBAL(orm.parser_cache)) {
-					ALLOC_HASHTABLE(PHALCON_GLOBAL(orm.parser_cache));
-					zend_hash_init(PHALCON_GLOBAL(orm.parser_cache), 0, NULL, ZVAL_PTR_DTOR, 0);
+				/**
+				 * Store the parsed definition in the cache
+				 */
+				if (phalcon_globals_ptr->orm.cache_level >= 0) {
+
+					if (!phalcon_globals_ptr->orm.parser_cache) {
+						ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
+						zend_hash_init(phalcon_globals_ptr->orm.parser_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
+					}
+
+					Z_ADDREF_PP(result);
+
+					zend_hash_quick_update(
+						phalcon_globals_ptr->orm.parser_cache,
+						phql,
+						phql_length,
+						phql_key,
+						result,
+						sizeof(zval *),
+						NULL
+					);
 				}
-
-				Z_ADDREF_PP(result);
-
-				zend_hash_update(
-					PHALCON_GLOBAL(orm.parser_cache),
-					phql,
-					phql_length,
-					result,
-					sizeof(zval *),
-					NULL
-				);
 
 			} else {
 				efree(parser_status->ret);

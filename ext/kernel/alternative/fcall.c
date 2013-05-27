@@ -34,16 +34,12 @@
 #include "kernel/exception.h"
 #include "kernel/string.h"
 
-#include "kernel/experimental/fcall.h"
-
-/**
- * NOTE: These functions are marked as EXPERIMENTAL, don't use them in production!
- */
+#include "kernel/alternative/fcall.h"
 
 /**
  * Checks if a method is callable
  */
-static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_flags, char *method_name, unsigned int method_len, zend_fcall_info_cache *fcc, char **error, unsigned long method_key TSRMLS_DC)
+static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_flags, char *method_name, unsigned int method_len, zend_fcall_info_cache *fcc, char **error, unsigned long method_key TSRMLS_DC)
 {
 	int retval = 0;
 
@@ -161,7 +157,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 /**
  * Check if a method is callable only if it's not checked before
  */
-inline zend_bool phalcon_exp_is_callable_method_ex(zend_class_entry *ce, char *method_name, unsigned int method_len, zval *object_ptr, uint check_flags, zend_fcall_info_cache *fcc, char **error, int exists, unsigned long method_key TSRMLS_DC) {
+inline zend_bool phalcon_alt_is_callable_method_ex(zend_class_entry *ce, char *method_name, unsigned int method_len, zval *object_ptr, uint check_flags, zend_fcall_info_cache *fcc, char **error, int exists, unsigned long method_key TSRMLS_DC) {
 
 	if (error) {
 		*error = NULL;
@@ -174,7 +170,7 @@ inline zend_bool phalcon_exp_is_callable_method_ex(zend_class_entry *ce, char *m
 	if (!exists) {
 		fcc->initialized = 0;
 		fcc->function_handler = NULL;
-		return phalcon_exp_is_callable_check_method(ce, check_flags, method_name, method_len, fcc, error, method_key TSRMLS_CC);
+		return phalcon_alt_is_callable_check_method(ce, check_flags, method_name, method_len, fcc, error, method_key TSRMLS_CC);
 	} else {
 		fcc->initialized = 1;
 	}
@@ -187,7 +183,7 @@ inline zend_bool phalcon_exp_is_callable_method_ex(zend_class_entry *ce, char *m
 /**
  * Call a method caching its function pointer address
  */
-int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, unsigned long method_key TSRMLS_DC)
+int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, unsigned long method_key TSRMLS_DC)
 {
 	zend_uint i, exists = 0, is_phalcon_function = 0;
 	zend_class_entry *current_scope;
@@ -235,7 +231,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 
 		if (is_phalcon_function) {
 			/** Use the Phalcon optimized version */
-			if (!phalcon_exp_is_callable_method_ex(ce, fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
+			if (!phalcon_alt_is_callable_method_ex(ce, fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
 				if (error) {
 					zend_error(E_WARNING, "Invalid callback %s, %s", key, error);
 					efree(error);
@@ -323,7 +319,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 
 	ZEND_VM_STACK_GROW_IF_NEEDED(fci->param_count + 1);
 
-	for (i = 0; i<fci->param_count; i++) {
+	for (i = 0; i < fci->param_count; i++) {
 		zval *param;
 
 		if (EX(function_state).function->type == ZEND_INTERNAL_FUNCTION
@@ -529,7 +525,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 /**
  * Call a method caching its function pointer address
  */
-int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
+int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
 {
 	zend_uint i;
 	zval **original_return_value;
@@ -583,7 +579,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 		if (is_phalcon_function) {
 
 			/** Use the Phalcon optimized version */
-			if (!phalcon_exp_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
+			if (!phalcon_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
 				if (error) {
 					zend_error(E_WARNING, "Invalid callback %s, %s", key, error);
 					efree(error);
@@ -882,7 +878,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 /**
  * Calls a method caching its function handler
  */
-int phalcon_exp_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
+int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
 {
 	zval ***params_array;
 	zend_uint i;
@@ -940,7 +936,7 @@ int phalcon_exp_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 		fci->param_count = param_count;
 		fci->params = params_array;
 
-		ex_retval = phalcon_exp_call_method(fci, ce, key, key_length, hash_key, method_name, method_len, method_key TSRMLS_CC);
+		ex_retval = phalcon_alt_call_method(fci, ce, key, key_length, hash_key, method_name, method_len, method_key TSRMLS_CC);
 
 		if (fci->function_name) {
 			ZVAL_NULL(fci->function_name);

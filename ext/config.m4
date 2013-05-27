@@ -17,7 +17,10 @@ kernel/concat.c \
 kernel/exception.c \
 kernel/file.c \
 kernel/memory.c \
-kernel/experimental/fcall.c \
+kernel/alternative/fcall.c \
+kernel/framework/orm.c \
+kernel/framework/router.c \
+kernel/framework/url.c \
 logger.c \
 flash.c \
 cli/dispatcher/exception.c \
@@ -317,5 +320,6 @@ mvc/view/engine/volt/parser.c \
 mvc/view/engine/volt/scanner.c \
 annotations/parser.c \
 annotations/scanner.c"
+
   PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
 fi

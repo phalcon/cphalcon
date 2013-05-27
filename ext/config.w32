@@ -3,6 +3,7 @@ ARG_ENABLE("phalcon", "enable phalcon framework", "no", "-Iext/phalcon");
 if (PHP_PHALCON != "no") {
   EXTENSION("phalcon", "phalcon.c");
   ADD_SOURCES("ext/phalcon/kernel", "main.c fcall.c require.c debug.c assert.c object.c array.c memory.c filter.c string.c operators.c concat.c file.c exception.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/kernel/framework", "orm.c router.c url.c", "phalcon")
   ADD_SOURCES("ext/phalcon/assets/filters", "jsminifier.c jsmin.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/query", "scanner.c parser.c builder.c lang.c statusinterface.c status.c builderinterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/view/engine/volt", "scanner.c parser.c compiler.c", "phalcon")

@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	}
 	
 	/** 
-	 * This class injects a public property with a resolved service
+	 * Fallback to the PHP userland if the cache is not available
 	 */
 	PHALCON_INIT_VAR(has_service);
 	phalcon_call_method_p1(has_service, dependency_injector, "has", property_name);

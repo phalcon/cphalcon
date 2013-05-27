@@ -36,8 +36,9 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "kernel/string.h"
+#include "kernel/framework/url.h"
 #include "kernel/concat.h"
+#include "kernel/framework/router.h"
 
 /**
  * Phalcon\Mvc\Url

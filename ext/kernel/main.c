@@ -69,7 +69,10 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	phalcon_globals->orm.column_renaming = 1;
 	phalcon_globals->orm.not_null_validations = 1;
 	phalcon_globals->orm.exception_on_failed_save = 0;
+	phalcon_globals->orm.cache_level = 3;
+	phalcon_globals->orm.unique_cache_id = 0;
 	phalcon_globals->orm.parser_cache = NULL;
+	phalcon_globals->orm.ast_cache = NULL;
 
 	/* DB options */
 	phalcon_globals->db.escape_identifiers = 1;
@@ -83,7 +86,7 @@ zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_
 
 	zend_class_entry *ce, **pce;
 
-	if (zend_hash_find(CG(class_table), parent_name, strlen(parent_name)+1, (void **) &pce) == FAILURE) {
+	if (zend_hash_find(CG(class_table), parent_name, strlen(parent_name) + 1, (void **) &pce) == FAILURE) {
 		return NULL;
 	}
 

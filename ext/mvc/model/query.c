@@ -94,6 +94,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query){
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_uniqueRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_bindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_irPhqlCache"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_SELECT"), 309 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_INSERT"), 306 TSRMLS_CC);
@@ -187,7 +188,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getDI){
 }
 
 /**
- * Tells to the query if only the first row in the resultset must be resturned
+ * Tells to the query if only the first row in the resultset must be returned
  *
  * @param boolean $uniqueRow
  * @return Phalcon\Mvc\Model\Query
@@ -227,7 +228,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 	zval *sql_aliases_models_instances, *model = NULL;
 	zval *column_map = NULL, *real_column_name = NULL, *one, *number;
 	zval *has_model = NULL, *models_instances, *has_attribute = NULL;
-	zval *ambiguity = NULL, *models, *class_name;
+	zval *models, *class_name;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -346,10 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			if (zend_is_true(has_attribute)) {
 				PHALCON_SEPARATE(number);
 				increment_function(number);
-	
-				PHALCON_INIT_NVAR(ambiguity);
-				is_smaller_function(ambiguity, one, number TSRMLS_CC);
-				if (PHALCON_IS_TRUE(ambiguity)) {
+				if (PHALCON_GT(number, one)) {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "The column '", column_name, "' is ambiguous");
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
@@ -1876,6 +1874,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 
 	PHALCON_OBS_VAR(ast);
 	phalcon_read_property_this(&ast, this_ptr, SL("_ast"), PH_NOISY_CC);
+	if (phalcon_array_isset_string(ast, SS("id"))) {
+	}
 	
 	PHALCON_OBS_VAR(select);
 	phalcon_array_fetch_string(&select, ast, SL("select"), PH_NOISY_CC);
@@ -2764,7 +2764,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 
-	zval *intermediate, *phql, *ast, *ir_phql = NULL, *type, *exception_message;
+	zval *intermediate, *phql, *ast, *ir_phql = NULL, *unique_id = NULL;
+	zval *ir_phql_cache = NULL, *type = NULL, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -2784,22 +2785,59 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	if (phql_parse_phql(ast, phql TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	phalcon_update_property_this(this_ptr, SL("_ast"), ast TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(ir_phql);
 	
+	PHALCON_INIT_VAR(unique_id);
+	
 	if (Z_TYPE_P(ast) == IS_ARRAY) { 
+	
+		/** 
+		 * Check if the prepared PHQL is already cached
+		 */
+		if (phalcon_array_isset_string(ast, SS("id"))) {
+	
+			/** 
+			 * Parsed ASTs have a unique id
+			 */
+			PHALCON_OBS_NVAR(unique_id);
+			phalcon_array_fetch_string(&unique_id, ast, SL("id"), PH_NOISY_CC);
+	
+			PHALCON_OBS_VAR(ir_phql_cache);
+			phalcon_read_static_property(&ir_phql_cache, SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache") TSRMLS_CC);
+			if (phalcon_array_isset(ir_phql_cache, unique_id)) {
+	
+				PHALCON_OBS_NVAR(ir_phql);
+				phalcon_array_fetch(&ir_phql, ir_phql_cache, unique_id, PH_NOISY_CC);
+				if (Z_TYPE_P(ir_phql) == IS_ARRAY) { 
+					/** 
+					 * Assign the type to the query
+					 */
+					PHALCON_OBS_VAR(type);
+					phalcon_array_fetch_string(&type, ast, SL("type"), PH_NOISY_CC);
+					phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+					RETURN_CCTOR(ir_phql);
+				}
+			}
+		}
+	
+		/** 
+		 * A valid AST must have a type
+		 */
 		if (phalcon_array_isset_string(ast, SS("type"))) {
+			phalcon_update_property_this(this_ptr, SL("_ast"), ast TSRMLS_CC);
+	
 			/** 
 			 * Produce an independent database system representation
 			 */
-			PHALCON_OBS_VAR(type);
+			PHALCON_OBS_NVAR(type);
 			phalcon_array_fetch_string(&type, ast, SL("type"), PH_NOISY_CC);
 			phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	
 			switch (phalcon_get_intval(type)) {
 	
 				case 309:
+					PHALCON_INIT_NVAR(ir_phql);
 					phalcon_call_method(ir_phql, this_ptr, "_prepareselect");
 					break;
 	
@@ -2828,9 +2866,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 		}
 	}
 	
-	if (Z_TYPE_P(ir_phql) == IS_NULL) {
+	if (Z_TYPE_P(ir_phql) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Corrupted AST");
 		return;
+	} else {
+		/** 
+		 * Store the prepared AST in the cache
+		 */
+		if (Z_TYPE_P(unique_id) == IS_LONG) {
+			if (Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
+				PHALCON_INIT_NVAR(ir_phql_cache);
+				array_init(ir_phql_cache);
+			}
+			phalcon_array_update_zval(&ir_phql_cache, unique_id, &ir_phql, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_update_static_property(SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
+		}
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_intermediate"), ir_phql TSRMLS_CC);

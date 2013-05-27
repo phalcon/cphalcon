@@ -36,10 +36,6 @@ extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *rep
 extern void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC);
 extern void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC);
 
-/** Extract named parameters */
-extern void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches);
-extern void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *uri TSRMLS_DC);
-
 /** Starts/Ends with */
 extern int phalcon_start_with(zval *str, zval *compared, zval *ignore_case);
 extern int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_length);
@@ -49,9 +45,6 @@ extern int phalcon_end_with_str(zval *str, char *compared, unsigned int compared
 
 /** Random string */
 extern void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC);
-
-/** Get the possible URI based on a script path */
-void phalcon_get_uri(zval *return_value, zval *path TSRMLS_DC);
 
 /* Strips extra slashes */
 extern void phalcon_remove_extra_slashes(zval *return_value, zval *str);

@@ -39,6 +39,7 @@
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/framework/router.h"
 
 /**
  * Phalcon\Mvc\Router\Route

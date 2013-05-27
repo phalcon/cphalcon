@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 
 	zval *parameters = NULL, *dependency_injector = NULL, *shared;
 	zval *shared_instance, *found = NULL, *instance = NULL, *definition;
-	zval *builder, *name, *exception_message;
+	zval *builder, *name = NULL, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -294,6 +294,8 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	}
 	
 	if (zend_is_true(shared)) {
+		PHALCON_OBS_NVAR(name);
+		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 		phalcon_update_property_this(this_ptr, SL("_sharedInstance"), instance TSRMLS_CC);
 	}
 	

@@ -47,13 +47,23 @@ typedef struct _phalcon_orm_options {
 	zend_bool column_renaming;
 	zend_bool not_null_validations;
 	zend_bool exception_on_failed_save;
+	int cache_level;
+	int unique_cache_id;
 	HashTable *parser_cache;
+	HashTable *ast_cache;
 } phalcon_orm_options;
 
 /** DB options */
 typedef struct _phalcon_db_options {
 	zend_bool escape_identifiers;
 } phalcon_db_options;
+
+/** DI options */
+typedef struct _phalcon_di_options {
+	zend_bool cache_enabled;
+	zval **injector;
+	HashTable *shared_services_cache;
+} phalcon_di_options;
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 

@@ -23,6 +23,8 @@
 
 #include "php.h"
 #include "php_phalcon.h"
+#include "ext/standard/php_array.h"
+
 #include "kernel/main.h"
 #include "kernel/debug.h"
 #include "kernel/array.h"
@@ -587,16 +589,16 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 		return FAILURE;
 	}
 
-	if (Z_TYPE_P(index) == IS_NULL) {
-		convert_to_string(index);
-	}
-
 	if (Z_TYPE_P(arr) == IS_NULL || Z_TYPE_P(arr) == IS_BOOL) {
 
 		ALLOC_INIT_ZVAL(*return_value);
 		ZVAL_NULL(*return_value);
 
 		return FAILURE;
+	}
+
+	if (Z_TYPE_P(index) == IS_NULL) {
+		convert_to_string(index);
 	}
 
 	if (Z_TYPE_P(index) != IS_STRING && Z_TYPE_P(index) != IS_LONG && Z_TYPE_P(index) != IS_DOUBLE) {

@@ -4944,12 +4944,108 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany){
  *}
  *</code>
  *
+ *Using aliases:
+ *
+ *<code>
+ *
+ *class Robots extends \Phalcon\Mvc\Model
+ *{
+ *
+ *   public function initialize()
+ *   {
+ *      //A reference relation must be set
+ *      $this->hasMany('id', 'RobotsParts', 'robots_id', array(
+ *			'alias' => 'robotParts'
+ *		));
+ *
+ *      //Setup a many-to-many relation to Parts through RobotsParts
+ *      $this->hasManyThrough('Parts', 'robotParts', array(
+ *           'alias' => 'parts'
+ *      ));
+ *   }
+ *
+ *}
+ *</code>
+ *
+ * @param string $fields
+ * @param string $intermediateModel
+ * @param string $intermediateFields
+ * @param string $intermediateReferencedFields
+ * @param string $referencedModel
+ * @param   array $options
+ * @return  Phalcon\Mvc\Model\Relation
+ */
+PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough){
+
+	zval *fields, *intermediate_model, *intermediate_fields;
+	zval *intermediate_referenced_fields, *reference_model;
+	zval *referenced_model, *options = NULL, *manager, *relation = NULL;
+	zval *r0 = NULL;
+	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 6, 1, &fields, &intermediate_model, &intermediate_fields, &intermediate_referenced_fields, &reference_model, &referenced_model, &options);
+	
+	if (!options) {
+		PHALCON_INIT_VAR(options);
+	} else {
+		PHALCON_SEPARATE_PARAM(options);
+	}
+	
+	PHALCON_OBS_VAR(manager);
+	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	
+	p0[0] = this_ptr;
+	p0[1] = fields;
+	p0[2] = intermediate_model;
+	p0[3] = intermediate_fields;
+	p0[4] = intermediate_referenced_fields;
+	p0[5] = reference_model;
+	p0[6] = referenced_model;
+	
+	PHALCON_INIT_NVAR(options);
+	p0[7] = options;
+	
+	PHALCON_INIT_VAR(r0);
+	PHALCON_CALL_METHOD_PARAMS(r0, manager, "addhasmanythrough", 8, p0);
+	PHALCON_CPY_WRT(relation, r0);
+	RETURN_CCTOR(relation);
+}
+
+/**
+ * Setup a relation n-n between two models through an intermediate model
+ *
+ *<code>
+ *
+ *class Robots extends \Phalcon\Mvc\Model
+ *{
+ *	public $id;
+ *
+ *	public $name;
+ *
+ *	public function initialize()
+ *	{
+ *		//Setup a many-to-many relation to 'Parts' through 'RobotsParts'
+ *		$this->hasManyThrough(
+ *			'id', // local fields
+ *			'RobotsParts', // intermediate relation
+ *			'robots_id', //intermediate fields to join local model
+ *			'parts_id', //intermediate fields to joinreferenced model
+ *			'Parts' // referenced model
+ *			'id' // referenced fields
+ *		);
+ *   }
+ *
+ *}
+ *</code>
+ *
  * @param string $referenceModel
  * @param string $throughRelation
  * @param   array $options
  * @return  Phalcon\Mvc\Model\Relation
  */
-PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough){
+PHP_METHOD(Phalcon_Mvc_Model, hasOneThrough){
 
 	zval *reference_model, *through_relation;
 	zval *options = NULL, *manager, *relation;
@@ -4966,7 +5062,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough){
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(relation);
-	phalcon_call_method_p3(relation, manager, "addhasmanythrough", this_ptr, reference_model, options);
+	phalcon_call_method_p3(relation, manager, "addhasonethrough", this_ptr, reference_model, options);
 	RETURN_CCTOR(relation);
 }
 
@@ -4975,7 +5071,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough){
  *
  *<code>
  *
- *use Phalcon\Mvc\Model\Behaviors\Timestampable;
+ *use Phalcon\Mvc\Model\Behavior\Timestampable;
  *
  *class Robots extends \Phalcon\Mvc\Model
  *{
