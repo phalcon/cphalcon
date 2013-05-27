@@ -425,12 +425,15 @@ PHP_METHOD(Phalcon_Forms_Element, getAttributes){
 
 	PHALCON_OBS_VAR(attributes);
 	phalcon_read_property_this(&attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
-	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
+
+	if (Z_TYPE_P(attributes) != IS_ARRAY) {
+
 		PHALCON_INIT_VAR(empty_array);
 		array_init(empty_array);
+
 		RETURN_CTOR(empty_array);
 	}
-	
+
 	RETURN_CCTOR(attributes);
 }
 

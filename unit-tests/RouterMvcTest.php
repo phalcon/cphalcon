@@ -194,6 +194,8 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 		$router->add("/posts/delete/{id}", "Posts::delete");
 
+		$router->add("/show/{id:video([0-9]+)}/{title:[a-z\-]+}", "Videos::show");
+
 		foreach ($tests as $n => $test) {
 			$this->_runTest($router, $test);
 		}
