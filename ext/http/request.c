@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
 	PHALCON_OBS_VAR(raw_body);
 	phalcon_read_property_this(&raw_body, this_ptr, SL("_rawBody"), PH_NOISY_CC);
-	if (!zend_is_true(raw_body)) {
+	if (PHALCON_IS_EMPTY(raw_body)) {
 		PHALCON_INIT_VAR(input);
 		ZVAL_STRING(input, "php://input", 1);
 	
@@ -628,6 +628,28 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 	}
 	
 	RETURN_CCTOR(raw_body);
+}
+
+/**
+ * Gets decoded JSON HTTP raw request body
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getJsonRawBody){
+
+	zval *raw_body, *json_raw_body;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(raw_body);
+	phalcon_call_method(raw_body, this_ptr, "getrawbody");
+	if (Z_TYPE_P(raw_body) == IS_STRING) {
+		PHALCON_INIT_VAR(json_raw_body);
+		phalcon_call_func_p1(json_raw_body, "json_decode", raw_body);
+		RETURN_CCTOR(json_raw_body);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -1237,6 +1259,52 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 	array_init(empty_files);
 	
 	RETURN_CTOR(empty_files);
+}
+
+/**
+ * Returns the headers in the
+ */
+PHP_METHOD(Phalcon_Http_Request, getHeaders){
+
+	zval *server = NULL, *_SERVER, *headers, *http, *empty_string;
+	zval *value = NULL, *key = NULL, *header = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
+	
+	PHALCON_INIT_VAR(headers);
+	array_init(headers);
+	
+	PHALCON_INIT_VAR(http);
+	ZVAL_STRING(http, "HTTP_", 1);
+	
+	PHALCON_INIT_VAR(empty_string);
+	ZVAL_STRING(empty_string, "", 1);
+	
+	if (!phalcon_is_iterable(server, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
+	
+		if (phalcon_start_with(key, http, NULL)) {
+			PHALCON_INIT_NVAR(header);
+			phalcon_fast_str_replace(header, http, empty_string, key TSRMLS_CC);
+			phalcon_array_update_zval(&headers, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	RETURN_CTOR(headers);
 }
 
 /**

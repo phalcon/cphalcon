@@ -90,13 +90,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 
 	zval *record, *option = NULL, *field, *dependency_injector;
 	zval *service, *meta_data, *bind_types, *bind_data_types;
-	zval *column_map = NULL, *conditions = NULL, *bind_params;
+	zval *column_map = NULL, *conditions, *bind_params;
 	zval *number = NULL, *compose_field = NULL, *column_field = NULL;
-	zval *exception_message = NULL, *value = NULL, *bind_type = NULL;
-	zval *condition = NULL, *operation_made, *primary_fields;
-	zval *primary_field = NULL, *attribute_field = NULL, *params;
-	zval *class_name, *message = NULL, *type;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *exception_message = NULL, *value = NULL, *compose_condition = NULL;
+	zval *bind_type = NULL, *condition = NULL, *operation_made;
+	zval *primary_fields, *primary_field = NULL, *attribute_field = NULL;
+	zval *join_conditions, *params, *class_name;
+	zval *message = NULL, *join_fields, *type;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -191,9 +191,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			PHALCON_INIT_NVAR(value);
 			phalcon_call_method_p1(value, record, "readattribute", compose_field);
 	
-			PHALCON_INIT_NVAR(r0);
-			PHALCON_CONCAT_VSV(r0, compose_field, " = ?", number);
-			phalcon_array_append(&conditions, r0, PH_SEPARATE TSRMLS_CC);
+			PHALCON_INIT_NVAR(compose_condition);
+			PHALCON_CONCAT_SVSV(compose_condition, "[", compose_field, "] = ?", number);
+			phalcon_array_append(&conditions, compose_condition, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
 	
 			PHALCON_OBS_NVAR(bind_type);
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		phalcon_call_method_p1(value, record, "readattribute", field);
 	
 		PHALCON_INIT_VAR(condition);
-		PHALCON_CONCAT_VS(condition, field, " = ?0");
+		PHALCON_CONCAT_SVS(condition, "[", field, "] = ?0");
 		phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
 	
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			phalcon_call_method_p1(value, record, "readattribute", primary_field);
 	
 			PHALCON_INIT_NVAR(condition);
-			PHALCON_CONCAT_VSV(condition, attribute_field, " <> ?", number);
+			PHALCON_CONCAT_SVSV(condition, "[", attribute_field, "] <> ?", number);
 			phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
 	
@@ -325,9 +325,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 	}
 	
-	PHALCON_INIT_VAR(r1);
-	phalcon_fast_join_str(r1, SL(" AND "), conditions TSRMLS_CC);
-	PHALCON_CPY_WRT(conditions, r1);
+	PHALCON_INIT_VAR(join_conditions);
+	phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
 	
 	/** 
 	 * We don't trust the user, so we pass the parameters as bound parameters
@@ -335,7 +334,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	PHALCON_INIT_VAR(params);
 	array_init(params);
 	phalcon_array_update_string(&params, SL("di"), &dependency_injector, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&params, SL("conditions"), &conditions, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&params, SL("conditions"), &join_conditions, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&params, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&params, SL("bindTypes"), &bind_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
@@ -357,8 +356,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		PHALCON_INIT_VAR(message);
 		phalcon_call_method_p1(message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
-			PHALCON_INIT_NVAR(message);
-			PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is already present in another record");
+			if (Z_TYPE_P(field) == IS_ARRAY) { 
+				PHALCON_INIT_VAR(join_fields);
+				phalcon_fast_join_str(join_fields, SL(", "), field TSRMLS_CC);
+	
+				PHALCON_INIT_NVAR(message);
+				PHALCON_CONCAT_SVS(message, "Value of fields: '", join_fields, "' are already present in another record");
+			} else {
+				PHALCON_INIT_NVAR(message);
+				PHALCON_CONCAT_SVS(message, "Value of field: '", field, "' is already present in another record");
+			}
 		}
 	
 		/** 

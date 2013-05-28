@@ -45,10 +45,9 @@
  * Phalcon\Mvc\Model\Criteria
  *
  * This class allows to build the array parameter required by Phalcon\Mvc\Model::find
- * and Phalcon\Mvc\Model::findFirst, using an object-oriented interface
+ * and Phalcon\Mvc\Model::findFirst using an object-oriented interface
  *
  *<code>
- *
  *$robots = Robots::query()
  *    ->where("type = :type:")
  *    ->andWhere("year < 2000")
@@ -197,6 +196,283 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes){
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("bindTypes"), bind_types TSRMLS_CC);
 	
 	RETURN_THISW();
+}
+
+/**
+ * Sets the columns to be queried
+ *
+ *<code>
+ *	$criteria->columns(array('id', 'name'));
+ *</code>
+ *
+ * @param string|array $columns
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns){
+
+	zval *columns;
+
+	phalcon_fetch_params(0, 1, 0, &columns);
+	
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("columns"), columns TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Adds a INNER join to the query
+ *
+ *<code>
+ *	$criteria->join('Robots');
+ *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id');
+ *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r');
+ *	$criteria->join('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
+ *</code>
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @param string $type
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, join){
+
+	zval *model, *conditions = NULL, *alias = NULL, *type = NULL, *join, *params;
+	zval *current_joins, *merged_joins = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 3, &model, &conditions, &alias, &type);
+	
+	if (!conditions) {
+		PHALCON_INIT_VAR(conditions);
+	}
+	
+	if (!alias) {
+		PHALCON_INIT_VAR(alias);
+	}
+	
+	if (!type) {
+		PHALCON_INIT_VAR(type);
+	}
+	
+	PHALCON_INIT_VAR(join);
+	array_init_size(join, 4);
+	phalcon_array_append(&join, model, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, conditions, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, alias, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, type, PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string(params, SS("joins"))) {
+	
+		PHALCON_OBS_VAR(current_joins);
+		phalcon_array_fetch_string(&current_joins, params, SL("joins"), PH_NOISY_CC);
+		if (Z_TYPE_P(current_joins) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_joins);
+			phalcon_fast_array_merge(merged_joins, &current_joins, &join TSRMLS_CC);
+		} else {
+			PHALCON_CPY_WRT(merged_joins, join);
+		}
+	} else {
+		PHALCON_INIT_NVAR(merged_joins);
+		array_init_size(merged_joins, 1);
+		phalcon_array_append(&merged_joins, join, PH_SEPARATE TSRMLS_CC);
+	}
+	
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("joins"), merged_joins TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Adds a INNER join to the query
+ *
+ *<code>
+ *	$criteria->innerJoin('Robots');
+ *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
+ *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+ *	$criteria->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
+ *</code>
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @param string $type
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin){
+
+	zval *model, *conditions = NULL, *alias = NULL, *type, *join, *params;
+	zval *current_joins, *merged_joins = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &model, &conditions, &alias);
+	
+	if (!conditions) {
+		PHALCON_INIT_VAR(conditions);
+	}
+	
+	if (!alias) {
+		PHALCON_INIT_VAR(alias);
+	}
+	
+	PHALCON_INIT_VAR(type);
+	ZVAL_STRING(type, "INNER", 1);
+	
+	PHALCON_INIT_VAR(join);
+	array_init_size(join, 4);
+	phalcon_array_append(&join, model, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, conditions, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, alias, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, type, PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string(params, SS("joins"))) {
+	
+		PHALCON_OBS_VAR(current_joins);
+		phalcon_array_fetch_string(&current_joins, params, SL("joins"), PH_NOISY_CC);
+		if (Z_TYPE_P(current_joins) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_joins);
+			phalcon_fast_array_merge(merged_joins, &current_joins, &join TSRMLS_CC);
+		} else {
+			PHALCON_CPY_WRT(merged_joins, join);
+		}
+	} else {
+		PHALCON_INIT_NVAR(merged_joins);
+		array_init_size(merged_joins, 1);
+		phalcon_array_append(&merged_joins, join, PH_SEPARATE TSRMLS_CC);
+	}
+	
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("joins"), merged_joins TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Adds a LEFT join to the query
+ *
+ *<code>
+ *	$criteria->leftJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+ *</code>
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin){
+
+	zval *model, *conditions = NULL, *alias = NULL, *type, *join, *params;
+	zval *current_joins, *merged_joins = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &model, &conditions, &alias);
+	
+	if (!conditions) {
+		PHALCON_INIT_VAR(conditions);
+	}
+	
+	if (!alias) {
+		PHALCON_INIT_VAR(alias);
+	}
+	
+	PHALCON_INIT_VAR(type);
+	ZVAL_STRING(type, "LEFT", 1);
+	
+	PHALCON_INIT_VAR(join);
+	array_init_size(join, 4);
+	phalcon_array_append(&join, model, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, conditions, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, alias, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, type, PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string(params, SS("joins"))) {
+	
+		PHALCON_OBS_VAR(current_joins);
+		phalcon_array_fetch_string(&current_joins, params, SL("joins"), PH_NOISY_CC);
+		if (Z_TYPE_P(current_joins) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_joins);
+			phalcon_fast_array_merge(merged_joins, &current_joins, &join TSRMLS_CC);
+		} else {
+			PHALCON_CPY_WRT(merged_joins, join);
+		}
+	} else {
+		PHALCON_INIT_NVAR(merged_joins);
+		array_init_size(merged_joins, 1);
+		phalcon_array_append(&merged_joins, join, PH_SEPARATE TSRMLS_CC);
+	}
+	
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("joins"), merged_joins TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Adds a RIGHT join to the query
+ *
+ *<code>
+ *	$criteria->rightJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+ *</code>
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin){
+
+	zval *model, *conditions = NULL, *alias = NULL, *type, *join, *params;
+	zval *current_joins, *merged_joins = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &model, &conditions, &alias);
+	
+	if (!conditions) {
+		PHALCON_INIT_VAR(conditions);
+	}
+	
+	if (!alias) {
+		PHALCON_INIT_VAR(alias);
+	}
+	
+	PHALCON_INIT_VAR(type);
+	ZVAL_STRING(type, "RIGHT", 1);
+	
+	PHALCON_INIT_VAR(join);
+	array_init_size(join, 4);
+	phalcon_array_append(&join, model, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, conditions, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, alias, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, type, PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string(params, SS("joins"))) {
+	
+		PHALCON_OBS_VAR(current_joins);
+		phalcon_array_fetch_string(&current_joins, params, SL("joins"), PH_NOISY_CC);
+		if (Z_TYPE_P(current_joins) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(merged_joins);
+			phalcon_fast_array_merge(merged_joins, &current_joins, &join TSRMLS_CC);
+		} else {
+			PHALCON_CPY_WRT(merged_joins, join);
+		}
+	} else {
+		PHALCON_INIT_NVAR(merged_joins);
+		array_init_size(merged_joins, 1);
+		phalcon_array_append(&merged_joins, join, PH_SEPARATE TSRMLS_CC);
+	}
+	
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("joins"), merged_joins TSRMLS_CC);
+	
+	RETURN_THIS();
 }
 
 /**
@@ -484,7 +760,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere){
  * Appends a BETWEEN condition to the current conditions
  *
  *<code>
- *	$builder->betweenWhere('price', 100.25, 200.50);
+ *	$criteria->betweenWhere('price', 100.25, 200.50);
  *</code>
  *
  * @param string $expr
@@ -548,7 +824,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere){
  * Appends a NOT BETWEEN condition to the current conditions
  *
  *<code>
- *	$builder->notBetweenWhere('price', 100.25, 200.50);
+ *	$criteria->notBetweenWhere('price', 100.25, 200.50);
  *</code>
  *
  * @param string $expr
@@ -612,7 +888,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere){
  * Appends an IN condition to the current conditions
  *
  *<code>
- *	$builder->inWhere('id', [1, 2, 3]);
+ *	$criteria->inWhere('id', [1, 2, 3]);
  *</code>
  *
  * @param string $expr
@@ -692,7 +968,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere){
  * Appends a NOT IN condition to the current conditions
  *
  *<code>
- *	$builder->notInWhere('id', [1, 2, 3]);
+ *	$criteria->notInWhere('id', [1, 2, 3]);
  *</code>
  *
  * @param string $expr
@@ -930,6 +1206,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere){
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY_CC);
 		RETURN_CCTOR(conditions);
+	}
+	
+	RETURN_MM_NULL();
+}
+
+/**
+ * Return the columns to be queried
+ *
+ * @return string|array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getColumns){
+
+	zval *params, *columns;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string(params, SS("columns"))) {
+		PHALCON_OBS_VAR(columns);
+		phalcon_array_fetch_string(&columns, params, SL("columns"), PH_NOISY_CC);
+		RETURN_CCTOR(columns);
 	}
 	
 	RETURN_MM_NULL();

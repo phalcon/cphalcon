@@ -8,6 +8,10 @@
  - Added Mvc\Model\Criteria::betweenWhere to append a BETWEEN expression to the criteria
  - Phalcon\Tag::image accepts a second parameter to allow external URLs
  - Added Phalcon\Mvc\View\Simple as an alternative view component, this only have a single level of rendering and work better with Volt's inheritance
+ - Better escaping of reserved words in internal PHQL generation
+ - Added Phalcon\Http\Request::getJsonRawBody() to return the request body as a decoded JSON
+ - Added Phalcon\Http\Request::getHeaders()
+
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods

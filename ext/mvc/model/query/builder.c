@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom){
 }
 
 /**
- * Adds a join to the query
+ * Adds a INNER join to the query
  *
  *<code>
  *	$builder->join('Robots');
@@ -380,6 +380,51 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join){
 	if (!type) {
 		PHALCON_INIT_VAR(type);
 	}
+	
+	PHALCON_INIT_VAR(join);
+	array_init_size(join, 4);
+	phalcon_array_append(&join, model, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, conditions, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, alias, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&join, type, PH_SEPARATE TSRMLS_CC);
+	phalcon_update_property_array_append(this_ptr, SL("_joins"), join TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
+ * Adds a INNER join to the query
+ *
+ *<code>
+ *	$builder->innerJoin('Robots');
+ *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id');
+ *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r');
+ *	$builder->innerJoin('Robots', 'r.id = RobotsParts.robots_id', 'r', 'LEFT');
+ *</code>
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @param string $type
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin){
+
+	zval *model, *conditions = NULL, *alias = NULL, *type, *join;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &model, &conditions, &alias);
+	
+	if (!conditions) {
+		PHALCON_INIT_VAR(conditions);
+	}
+	
+	if (!alias) {
+		PHALCON_INIT_VAR(alias);
+	}
+	
+	PHALCON_INIT_VAR(type);
+	ZVAL_STRING(type, "INNER", 1);
 	
 	PHALCON_INIT_VAR(join);
 	array_init_size(join, 4);

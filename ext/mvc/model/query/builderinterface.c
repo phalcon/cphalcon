@@ -94,6 +94,37 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getFrom);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, join);
 
 /**
+ * Adds a INNER join to the query
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @param string $type
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, innerJoin);
+
+/**
+ * Adds a LEFT join to the query
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, leftJoin);
+
+/**
+ * Adds a RIGHT join to the query
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, rightJoin);
+
+/**
  * Sets conditions for the query
  *
  * @param string $conditions
