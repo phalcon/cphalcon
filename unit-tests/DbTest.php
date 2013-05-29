@@ -209,6 +209,71 @@ class DbTest extends PHPUnit_Framework_TestCase
 		//Check for auto-increment column
 		$this->assertTrue($connection->lastInsertId('subscriptores_id_seq') > 0);
 
+		//Transactions without savepoints.
+		$connection->setNestedTransactionsWithSavepoints(false);
+		
+		$success = $connection->begin(); // level 1 - real
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 2 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->begin(); // level 3 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->rollback(); // level 2 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->commit(); // level 1 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->commit(); // commit - real
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 1 - real
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 2 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->commit(); // level 1 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->rollback(); // rollback - real
+		$this->assertTrue($success);
+
+		//Transactions with savepoints.
+		$connection->setNestedTransactionsWithSavepoints(true);
+
+		$success = $connection->begin(); // level 1 - begin transaction
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 2 - uses savepoint_1
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 3 - uses savepoint_2
+		$this->assertTrue($success);
+
+		$success = $connection->rollback(); // level 2 - uses rollback savepoint_2
+		$this->assertTrue($success);
+
+		$success = $connection->commit(); // level 1  - uses release savepoint_1
+		$this->assertTrue($success);
+
+		$success = $connection->commit(); // commit - real commit
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 1 - real begin transaction
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 2 - uses savepoint_1
+		$this->assertTrue($success);
+
+		$success = $connection->commit(); // level 1 - uses release savepoint_1
+		$this->assertTrue($success);
+
+		$success = $connection->rollback(); // rollback - real rollback
+		$this->assertTrue($success);		
 	}
 
 }

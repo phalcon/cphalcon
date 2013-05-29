@@ -246,3 +246,42 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeReferences);
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, tableOptions);
 
+/**
+ * Whether the platform supports savepoints.
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, supportsSavepoints);
+
+/**
+ * Whether the platform supports releasing savepoints.
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, supportsReleaseSavepoints);
+
+/**
+ * Generate SQL to create a new savepoint
+ *
+ * @param string $savepoint
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, createSavepoint);
+
+/**
+ * Generate SQL to release a savepoint
+ *
+ * @param string $savepoint
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, releaseSavepoint);
+
+/**
+ * Generate SQL to rollback a savepoint
+ *
+ * @param string $savepoint
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, rollbackSavepoint);
+
+
