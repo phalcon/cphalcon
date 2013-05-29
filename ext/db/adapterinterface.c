@@ -509,3 +509,32 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, supportSequences);
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, describeColumns);
 
+/**
+ * List all views on a database
+ *
+ * <code> print_r($connection->listViews("blog") ?></code>
+ *
+ * @param string $schemaName
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, listViews);
+
+/**
+ * Create a new view
+ *
+ * @param string $viewName
+ * @param array $definition
+ * @param string $schemaName
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, createView);
+
+/**
+ * Drop a view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, dropView);
+
