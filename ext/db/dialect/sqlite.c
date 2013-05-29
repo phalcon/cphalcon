@@ -610,11 +610,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView){
 
-	zval *view_name, *schema_name = NULL, *if_exists = NULL, *sql;
+	zval *view_name, *schema_name, *if_exists = NULL, *sql;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &view_name, &schema_name, &if_exists);
+	phalcon_fetch_params(1, 1, 2, &view_name, &schema_name, &if_exists);
 
 	if (!schema_name) {
 		PHALCON_INIT_VAR(schema_name);

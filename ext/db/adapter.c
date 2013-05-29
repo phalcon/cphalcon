@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
  *
  * @param string $viewName
  * @param string $schemaName
- * @return string
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter, viewExists){
 
@@ -841,6 +841,9 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists){
 
 	PHALCON_OBS_VAR(first);
 	phalcon_array_fetch_long(&first, num, 0, PH_NOISY_CC);
+
+	convert_to_boolean(first);
+
 	RETURN_CCTOR(first);
 }
 
@@ -1755,7 +1758,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getDialect){
  * @param string $schemaName
  * @return array
  */
-PHP_METHOD(Phalcon_Db_AdapterInterface, listViews) {
+PHP_METHOD(Phalcon_Db_Adapter, listViews) {
 
 	zval *schema_name = NULL, *dialect, *sql, *fetch_num, *views;
 	zval *all_views, *view = NULL, *view_name = NULL;
@@ -1775,7 +1778,7 @@ PHP_METHOD(Phalcon_Db_AdapterInterface, listViews) {
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 
 	/**
-	 * Get the SQL to list the tables
+	 * Get the SQL to list the views
 	 */
 	PHALCON_INIT_VAR(sql);
 	phalcon_call_method_p1(sql, dialect, "listviews", schema_name);
@@ -1786,9 +1789,6 @@ PHP_METHOD(Phalcon_Db_AdapterInterface, listViews) {
 	PHALCON_INIT_VAR(fetch_num);
 	ZVAL_LONG(fetch_num, 3);
 
-	/**
-	 * Execute the SQL returning the tables
-	 */
 	PHALCON_INIT_VAR(views);
 	phalcon_call_method_p2(views, this_ptr, "fetchall", sql, fetch_num);
 
@@ -1821,7 +1821,7 @@ PHP_METHOD(Phalcon_Db_AdapterInterface, listViews) {
  * @param string $schemaName
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_AdapterInterface, createView) {
+PHP_METHOD(Phalcon_Db_Adapter, createView) {
 
 	zval *view_name, *schema_name, *definition;
 	zval *exception_message, *dialect;
@@ -1866,7 +1866,7 @@ PHP_METHOD(Phalcon_Db_AdapterInterface, createView) {
  * @param boolean $ifExists
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_AdapterInterface, dropView) {
+PHP_METHOD(Phalcon_Db_Adapter, dropView) {
 
 	zval *view_name, *schema_name, *if_exists = NULL, *dialect;
 	zval *sql, *success;

@@ -1032,11 +1032,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews){
 		PHALCON_INIT_VAR(schema_name);
 	}
 
+	PHALCON_INIT_VAR(sql);
+
 	if (zend_is_true(schema_name)) {
-		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVS(sql, "SELECT VIEW_NAME FROM ALL_VIEWS WHERE OWNER='", schema_name, "' ORDER BY VIEW_NAME");
 	} else {
-		PHALCON_INIT_NVAR(sql);
 		ZVAL_STRING(sql, "SELECT VIEW_NAME FROM ALL_VIEWS VIEW_NAME", 1);
 	}
 
@@ -1053,7 +1053,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView){
 
-	zval *view_name, *view_sql, *definition, *schema_name = NULL, *sql;
+	zval *view_name, *view_sql, *definition, *view = NULL, *schema_name = NULL, *sql;
 
 	PHALCON_MM_GROW();
 
@@ -1071,8 +1071,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView){
 	PHALCON_OBS_VAR(view_sql);
 	phalcon_array_fetch_string(&view_sql, definition, SL("sql"), PH_NOISY_CC);
 
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(view);
+		PHALCON_CONCAT_VSV(view, schema_name, ".", view_name);
+	} else {
+		PHALCON_CPY_WRT(view, view_name);
+	}
+
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVSV(sql, "CREATE VIEW ", view_name, " AS ", view_sql);
+	PHALCON_CONCAT_SVSV(sql, "CREATE VIEW ", view, " AS ", view_sql);
 	RETURN_CTOR(sql);
 }
 
@@ -1086,11 +1093,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView){
 
-	zval *view_name, *schema_name = NULL, *if_exists = NULL, *sql;
+	zval *view_name, *schema_name, *if_exists = NULL, *view = NULL, *sql;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &view_name, &schema_name, &if_exists);
+	phalcon_fetch_params(1, 1, 2, &view_name, &schema_name, &if_exists);
 
 	if (!schema_name) {
 		PHALCON_INIT_VAR(schema_name);
@@ -1101,12 +1108,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView){
 		ZVAL_BOOL(if_exists, 1);
 	}
 
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(view);
+		PHALCON_CONCAT_VSV(view, schema_name, ".", view_name);
+	} else {
+		PHALCON_CPY_WRT(view, view_name);
+	}
 	if (zend_is_true(if_exists)) {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SV(sql, "DROP VIEW IF EXISTS ", view_name);
+		PHALCON_CONCAT_SV(sql, "DROP VIEW IF EXISTS ", view);
 	} else {
 		PHALCON_INIT_NVAR(sql);
-		PHALCON_CONCAT_SV(sql, "DROP VIEW ", view_name);
+		PHALCON_CONCAT_SV(sql, "DROP VIEW ", view);
 	}
 	RETURN_CTOR(sql);
 }

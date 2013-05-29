@@ -345,4 +345,26 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testViews()
+	{
+		$dialect = new \Phalcon\Db\Dialect\Mysql();
+
+		$definition = array(
+			'sql' => 'SELECT 1',
+		);
+
+		//Create View
+		$this->assertEquals($dialect->createView('test_view', $definition, null), 'CREATE VIEW test_view AS SELECT 1');
+		$this->assertEquals($dialect->createView('test_view', $definition, 'schema'), 'CREATE VIEW schema.test_view AS SELECT 1');
+
+		//Drop View
+		$this->assertEquals($dialect->dropView('test_view', null, false), 'DROP VIEW test_view');
+		$this->assertEquals($dialect->dropView('test_view', null, true), 'DROP VIEW IF EXISTS test_view');
+		$this->assertEquals($dialect->dropView('test_view', 'schema', false), 'DROP VIEW schema.test_view');
+		$this->assertEquals($dialect->dropView('test_view', 'schema', true), 'DROP VIEW IF EXISTS schema.test_view');
+
+		$this->assertEquals($dialect->listViews(), 'DROP VIEW IF EXISTS schema.test_view');
+		
+	}
+
 }
