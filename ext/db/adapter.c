@@ -816,7 +816,8 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
  */
 PHP_METHOD(Phalcon_Db_Adapter, viewExists){
 
-	zval *view_name, *schema_name = NULL, *exists;
+	zval *view_name, *schema_name = NULL, *dialect, *sql;
+	zval *fetch_num, *num, *first;
 
 	PHALCON_MM_GROW();
 
@@ -826,9 +827,21 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists){
 		PHALCON_INIT_VAR(schema_name);
 	}
 	
-	PHALCON_INIT_VAR(exists);
-	phalcon_call_method_p2(exists, this_ptr, "tableexists", view_name, schema_name);
-	RETURN_CCTOR(exists);
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p2(sql, dialect, "viewexists", view_name, schema_name);
+
+	PHALCON_INIT_VAR(fetch_num);
+	phalcon_get_class_constant(fetch_num, phalcon_db_ce, SS("FETCH_NUM") TSRMLS_CC);
+
+	PHALCON_INIT_VAR(num);
+	phalcon_call_method_p2(num, this_ptr, "fetchone", sql, fetch_num);
+
+	PHALCON_OBS_VAR(first);
+	phalcon_array_fetch_long(&first, num, 0, PH_NOISY_CC);
+	RETURN_CCTOR(first);
 }
 
 /**
@@ -1734,3 +1747,150 @@ PHP_METHOD(Phalcon_Db_Adapter, getDialect){
 	RETURN_MEMBER(this_ptr, "_dialect");
 }
 
+/**
+ * List all views on a database
+ *
+ * <code> print_r($connection->listViews("blog") ?></code>
+ *
+ * @param string $schemaName
+ * @return array
+ */
+PHP_METHOD(Phalcon_Db_AdapterInterface, listViews) {
+
+	zval *schema_name = NULL, *dialect, *sql, *fetch_num, *views;
+	zval *all_views, *view = NULL, *view_name = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &schema_name);
+
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+
+	/**
+	 * Get the SQL to list the tables
+	 */
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p1(sql, dialect, "listviews", schema_name);
+
+	/**
+	 * Use fetch Num
+	 */
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
+
+	/**
+	 * Execute the SQL returning the tables
+	 */
+	PHALCON_INIT_VAR(views);
+	phalcon_call_method_p2(views, this_ptr, "fetchall", sql, fetch_num);
+
+	PHALCON_INIT_VAR(all_views);
+	array_init(all_views);
+
+	if (!phalcon_is_iterable(views, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+		PHALCON_GET_HVALUE(view);
+
+		PHALCON_OBS_NVAR(view_name);
+		phalcon_array_fetch_long(&view_name, view, 0, PH_NOISY_CC);
+		phalcon_array_append(&all_views, view_name, PH_SEPARATE TSRMLS_CC);
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	RETURN_CTOR(all_views);
+}
+
+/**
+ * Create a new view
+ *
+ * @param string $viewName
+ * @param array $definition
+ * @param string $schemaName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_AdapterInterface, createView) {
+
+	zval *view_name, *schema_name, *definition;
+	zval *exception_message, *dialect;
+	zval *sql, *success;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 1, &view_name, &definition, &schema_name);
+
+	if (Z_TYPE_P(definition) != IS_ARRAY) {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "Invalid definition to create the view '", view_name, "'");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_db_exception_ce, exception_message);
+		return;
+	}
+	if (!phalcon_array_isset_string(definition, SS("sql"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The view definition must contain an index 'sql'");
+		return;
+	}
+
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(sql);
+	if (!schema_name) {
+		phalcon_call_method_p2(sql, dialect, "createview", view_name, definition);
+	} else {
+		phalcon_call_method_p3(sql, dialect, "createview", view_name, definition, schema_name);
+	}
+
+	PHALCON_INIT_VAR(success);
+	phalcon_call_method_p1(success, this_ptr, "execute", sql);
+
+	RETURN_CCTOR(success);
+}
+
+/**
+ * Drop a view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @param boolean $ifExists
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_AdapterInterface, dropView) {
+
+	zval *view_name, *schema_name, *if_exists = NULL, *dialect;
+	zval *sql, *success;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &view_name, &schema_name, &if_exists);
+
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+
+	if (!if_exists) {
+		PHALCON_INIT_VAR(if_exists);
+		ZVAL_BOOL(if_exists, 1);
+	}
+
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p3(sql, dialect, "dropview", view_name, schema_name, if_exists);
+
+	PHALCON_INIT_VAR(success);
+	phalcon_call_method_p1(success, this_ptr, "execute", sql);
+	RETURN_CCTOR(success);
+}

@@ -246,3 +246,41 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeReferences);
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, tableOptions);
 
+/**
+ * Generates the SQL to list all views of a schema or user.
+ *
+ * @param string $schemaName
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, listViews);
+
+/**
+ * Generates SQL to create a view
+ *
+ * @param string $viewName
+ * @param array $definition
+ * @param string $schemaName
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Database_DialectInterface, createView);
+
+/**
+ * Generates SQL to drop a view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @param boolean $ifExists
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Database_DialectInterface, dropView);
+
+/**
+ * Generates SQL checking for the existence of a schema.view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Database_DialectInterface, viewExists);
+
+

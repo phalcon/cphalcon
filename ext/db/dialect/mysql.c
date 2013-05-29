@@ -1071,3 +1071,132 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions){
 	RETURN_CTOR(sql);
 }
 
+
+/**
+ * Generates the SQL to list all views of a schema or user.
+ *
+ * @param string $schemaName
+ * @return array
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews){
+
+	zval *schema_name = NULL, *sql;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &schema_name);
+
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVS(sql, "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '", schema_name, "' ORDER BY view_name");
+	} else {
+		PHALCON_INIT_NVAR(sql);
+		ZVAL_STRING(sql, "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` ORDER BY view_name", 1);
+	}
+
+	RETURN_CTOR(sql);
+}
+
+/**
+ * Generates SQL to create a view
+ *
+ * @param string $viewName
+ * @param array $definition
+ * @param string $schemaName
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, createView){
+
+	zval *view_name, *definition, *view_sql, *schema_name = NULL, *sql;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 1, &view_name, &definition, &schema_name);
+
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+
+	if (!phalcon_array_isset_string(definition, SS("sql"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array");
+		return;
+	}
+
+	PHALCON_OBS_VAR(view_sql);
+	phalcon_array_fetch_string(&view_sql, definition, SL("sql"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CONCAT_SVSV(sql, "CREATE VIEW ", view_name, " AS ", view_sql);
+	RETURN_CTOR(sql);
+}
+
+/**
+ * Generates SQL to drop a view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @param boolean $ifExists
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropView){
+
+	zval *view_name, *schema_name, *if_exists = NULL, *view = NULL, *sql;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &view_name, &schema_name, &if_exists);
+
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(view);
+		PHALCON_CONCAT_SVSVS(view, "`", schema_name, "`.`", view_name, "`");
+	} else {
+		PHALCON_INIT_NVAR(view);
+		PHALCON_CONCAT_SVS(view, "`", view_name, "`");
+	}
+	if (zend_is_true(if_exists)) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SV(sql, "DROP VIEW IF EXISTS ", view);
+	} else {
+		PHALCON_INIT_NVAR(sql);
+		PHALCON_CONCAT_SV(sql, "DROP VIEW ", view);
+	}
+	RETURN_CTOR(sql);
+}
+
+/**
+ * Generates SQL checking for the existence of a schema.view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists){
+
+	zval *view_name, *schema_name = NULL, *sql = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &view_name, &schema_name);
+
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVSVS(sql, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '", view_name, "' AND `TABLE_SCHEMA`='", schema_name, "'");
+	} else {
+		PHALCON_INIT_NVAR(sql);
+		PHALCON_CONCAT_SVS(sql, "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='", view_name, "'");
+	}
+
+	RETURN_CTOR(sql);
+}
