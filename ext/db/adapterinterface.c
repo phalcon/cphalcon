@@ -509,3 +509,42 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, supportSequences);
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, describeColumns);
 
+/**
+ * Creates a new savepoint
+ *
+ * @param string $savepoint Name of a savepoint to create
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, createSavepoint);
+
+/**
+ * Releases given savepoint
+ *
+ * @param string $savepoint Name of a savepoint to release
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, releaseSavepoint);
+
+/**
+ * Releases given savepoint
+ *
+ * @param string $savepoint Name of a savepoint to rollback to
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, rollbackSavepoint);
+
+/**
+ * Set if nested transactions should use savepoints
+ *
+ * @param boolean $nestedTransactionsWithSavepoints
+ * @return Phalcon\Db\AdapterInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, setNestedTransactionsWithSavepoints);
+
+/**
+ * Gets if nested transactions should use savepoints
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, isNestedTransactionsWithSavepoints);
+
