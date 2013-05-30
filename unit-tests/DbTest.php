@@ -209,6 +209,28 @@ class DbTest extends PHPUnit_Framework_TestCase
 		//Check for auto-increment column
 		$this->assertTrue($connection->lastInsertId('subscriptores_id_seq') > 0);
 
+		// Create View
+		$success = $connection->createView('phalcon_test_view', array('sql' => 'SELECT 1 AS one, 2 AS two, 3 AS three'));
+		$this->assertTrue($success);
+
+		//Check view exists
+		$success = $connection->viewExists('phalcon_test_view');
+		$this->assertTrue($success);
+
+		//Gets the list of all views.
+		$views = $connection->listViews();
+		$this->assertTrue(is_array($views));
+		$this->assertTrue(in_array('phalcon_test_view', $views));
+
+		//Execute created view
+		$row = $connection->fetchOne("SELECT * FROM phalcon_test_view");
+		$this->assertEquals(count($row), 6);
+		$this->assertTrue(array_key_exists('one', $row));
+		$this->assertEquals($row['two'], 2);
+
+		//Drop view
+		$success = $connection->dropView('phalcon_test_view');
+		$this->assertTrue($success);
 	}
 
 }
