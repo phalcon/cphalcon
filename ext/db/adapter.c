@@ -55,6 +55,8 @@ PHALCON_INIT_CLASS(Phalcon_Db_Adapter){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Db, Adapter, db_adapter, phalcon_db_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
+	zend_declare_property_bool(phalcon_db_adapter_ce, SL("_transactionsWithSavepoints"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_adapter_ce, SL("_transactionLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_dialectType"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -1894,3 +1896,183 @@ PHP_METHOD(Phalcon_Db_Adapter, dropView) {
 	phalcon_call_method_p1(success, this_ptr, "execute", sql);
 	RETURN_CCTOR(success);
 }
+
+/**
+ * Creates a new savepoint
+ *
+ * @param string $savepoint Name of a savepoint to create
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, createSavepoint) {
+
+	zval *savepoint, *dialect, *supports_sp, *success, *sql;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &savepoint);
+
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(supports_sp);
+	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
+
+	if (!zend_is_true(supports_sp)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.");
+		return;
+	}
+
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p1(sql, dialect, "createsavepoint", savepoint);
+
+	PHALCON_INIT_VAR(success);
+	phalcon_call_method_p1(success, this_ptr, "execute", sql);
+
+	RETURN_CCTOR(success);
+}
+
+/**
+ * Releases given savepoint
+ *
+ * @param string $savepoint Name of a savepoint to release
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint) {
+
+	zval *savepoint, *dialect, *supports_sp, *supports_rsp, *success, *sql;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &savepoint);
+
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(supports_sp);
+	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
+
+	if (!zend_is_true(supports_sp)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.");
+		return;
+	}
+
+	PHALCON_INIT_VAR(supports_rsp);
+	phalcon_call_method(supports_rsp, dialect, "supportsreleasesavepoints");
+
+	if (!zend_is_true(supports_rsp)) {
+		RETURN_MM_FALSE;
+		return;
+	}
+
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p1(sql, dialect, "releasesavepoint", savepoint);
+
+	PHALCON_INIT_VAR(success);
+	phalcon_call_method_p1(success, this_ptr, "execute", sql);
+
+	RETURN_CCTOR(success);
+}
+
+/**
+ * Releases given savepoint
+ *
+ * @param string $savepoint Name of a savepoint to rollback to
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint){
+
+	zval *savepoint, *dialect, *supports_sp, *success, *sql;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &savepoint);
+
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(supports_sp);
+	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
+
+	if (!zend_is_true(supports_sp)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.");
+		return;
+	}
+
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p1(sql, dialect, "rollbacksavepoint", savepoint);
+
+	PHALCON_INIT_VAR(success);
+	phalcon_call_method_p1(success, this_ptr, "execute", sql);
+
+	RETURN_CCTOR(success);
+}
+
+/**
+ * Set if nested transactions should use savepoints
+ *
+ * @param boolean $nestedTransactionsWithSavepoints
+ * @return Phalcon\Db\AdapterInterface
+ */
+PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints){
+
+	zval *ntw_sp, *tran_nest_lvl, *dialect, *supports_sp;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(tran_nest_lvl);
+	phalcon_read_property_this(&tran_nest_lvl, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
+
+	if (phalcon_get_intval(tran_nest_lvl) > 0) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "May not alter the nested transaction with savepoints behavior while a transaction is open.");
+		return;
+	}
+
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(supports_sp);
+	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
+
+	if (!zend_is_true(supports_sp)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.");
+		return;
+	}
+
+	phalcon_fetch_params(1, 1, 0, &ntw_sp);
+	convert_to_boolean(ntw_sp);
+
+	phalcon_update_property_this(this_ptr, SL("_transactionsWithSavepoints"), ntw_sp TSRMLS_CC);
+
+	RETURN_THIS();
+}
+
+/**
+ * Gets if nested transactions should use savepoints
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, isNestedTransactionsWithSavepoints){
+
+	RETURN_MEMBER(this_ptr, "_transactionsWithSavepoints");
+}
+
+/**
+ * Returns the savepoint name to use for nested transactions
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Adapter, _getNestedTransactionSavepointName){
+
+	zval *savepoint, *tran_nest_lvl;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(tran_nest_lvl);
+	phalcon_read_property_this(&tran_nest_lvl, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(savepoint);
+	PHALCON_CONCAT_SV(savepoint, "PHALCON_SAVEPOINT_", tran_nest_lvl);
+
+	RETURN_CCTOR(savepoint);
+}
+

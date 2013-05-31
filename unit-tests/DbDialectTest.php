@@ -222,6 +222,18 @@ class DbDialectTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testSavepoints()
+	{
+		$dialect = new \Phalcon\Db\Dialect\Mysql();
+
+		$this->assertEquals($dialect->createSavepoint('PHALCON_SAVEPOINT_1'), 'SAVEPOINT PHALCON_SAVEPOINT_1');
+		$this->assertEquals($dialect->releaseSavepoint('PHALCON_SAVEPOINT_1'), 'RELEASE SAVEPOINT PHALCON_SAVEPOINT_1');
+		$this->assertEquals($dialect->rollbackSavepoint('PHALCON_SAVEPOINT_1'), 'ROLLBACK TO SAVEPOINT PHALCON_SAVEPOINT_1');
+		$this->assertTrue($dialect->supportsSavepoints());
+		$this->assertTrue($dialect->supportsReleaseSavepoints());
+		
+	}
+
 	public function testMysqlDialect()
 	{
 

@@ -66,6 +66,12 @@ PHP_METHOD(Phalcon_Db_Adapter, getDialect);
 PHP_METHOD(Phalcon_Db_Adapter, listViews);
 PHP_METHOD(Phalcon_Db_Adapter, createView);
 PHP_METHOD(Phalcon_Db_Adapter, dropView);
+PHP_METHOD(Phalcon_Db_Adapter, createSavepoint);
+PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint);
+PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint);
+PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints);
+PHP_METHOD(Phalcon_Db_Adapter, isNestedTransactionsWithSavepoints);
+PHP_METHOD(Phalcon_Db_Adapter, _getNestedTransactionSavepointName);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_INFO(0, eventsManager)
@@ -238,6 +244,22 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_dropview, 0, 0, 1)
 	ZEND_ARG_INFO(0, ifExists)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_createsavepoint, 0, 0, 1)
+	ZEND_ARG_INFO(0, savepoint)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_releasesavepoint, 0, 0, 1)
+	ZEND_ARG_INFO(0, savepoint)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_rollbacksavepoint, 0, 0, 1)
+	ZEND_ARG_INFO(0, savepoint)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_setnestedtransactionswithsavepoints, 0, 0, 1)
+	ZEND_ARG_INFO(0, nestedTransactionsWithSavepoints)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_db_adapter_method_entry){
 	PHP_ME(Phalcon_Db_Adapter, __construct, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Db_Adapter, setEventsManager, arginfo_phalcon_db_adapter_seteventsmanager, ZEND_ACC_PUBLIC) 
@@ -281,9 +303,6 @@ PHALCON_INIT_FUNCS(phalcon_db_adapter_method_entry){
 	PHP_ME(Phalcon_Db_Adapter, getType, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter, getDialectType, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Adapter, getDialect, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter, listViews, arginfo_phalcon_db_adapter_listviews, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter, createView, arginfo_phalcon_db_adapter_createview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter, dropView, arginfo_phalcon_db_adapter_dropview, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 

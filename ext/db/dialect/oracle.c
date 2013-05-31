@@ -1153,3 +1153,25 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists){
 
 	RETURN_CTOR(sql);
 }
+
+/**
+ * Whether the platform supports releasing savepoints.
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsReleaseSavepoints){
+
+	RETURN_FALSE;
+}
+
+/**
+ * Generate SQL to release a savepoint
+ *
+ * @param string $savepoint
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, releaseSavepoint){
+
+	RETURN_STRING("", 1);
+}
+
