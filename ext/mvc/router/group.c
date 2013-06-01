@@ -110,12 +110,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct){
 		PHALCON_INIT_VAR(paths);
 	}
 	
-	if (Z_TYPE_P(paths) != IS_ARRAY) { 
-		if (Z_TYPE_P(paths) != IS_STRING) {
-			RETURN_MM_NULL();
+	if (Z_TYPE_P(paths) == IS_ARRAY) { 
+		phalcon_update_property_this(this_ptr, SL("_paths"), paths TSRMLS_CC);
+	} else {
+		if (Z_TYPE_P(paths) == IS_STRING) {
+			phalcon_update_property_this(this_ptr, SL("_paths"), paths TSRMLS_CC);
 		}
 	}
-	phalcon_update_property_this(this_ptr, SL("_paths"), paths TSRMLS_CC);
 	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
 		phalcon_call_method_p1_noret(this_ptr, "initialize", paths);
 	}

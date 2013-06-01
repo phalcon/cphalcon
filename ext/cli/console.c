@@ -33,8 +33,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
@@ -64,6 +64,28 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Console){
 	zend_class_implements(phalcon_cli_console_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
 	return SUCCESS;
+}
+
+/**
+ * Phalcon\CLI\Console constructor
+ */
+PHP_METHOD(Phalcon_CLI_Console, __construct){
+
+	zval *dependency_injector = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &dependency_injector);
+	
+	if (!dependency_injector) {
+		PHALCON_INIT_VAR(dependency_injector);
+	}
+	
+	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**

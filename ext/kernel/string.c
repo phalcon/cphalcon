@@ -889,8 +889,7 @@ int phalcon_end_with_str(zval *str, char *compared, unsigned int compared_length
 
 void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC){
 
-	long i, rand_type;
-	unsigned char ch;
+	long i, rand_type, ch;
 	smart_str random_str = {0};
 
 	if (Z_TYPE_P(type) != IS_LONG) {

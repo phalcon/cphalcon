@@ -170,6 +170,26 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, createTable);
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, dropTable);
 
 /**
+ * Creates a view
+ *
+ * @param string $tableName
+ * @param array $definition
+ * @param string $schemaName
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, createView);
+
+/**
+ * Drops a view
+ *
+ * @param string $viewName
+ * @param   string $schemaName
+ * @param boolean $ifExists
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, dropView);
+
+/**
  * Adds a column to a table
  *
  * @param string $tableName
@@ -269,12 +289,18 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, getColumnDefinition);
 /**
  * List all tables on a database
  *
- * <code> print_r($connection->listTables("blog") ?></code>
- *
  * @param string $schemaName
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, listTables);
+
+/**
+ * List all views on a database
+ *
+ * @param string $schemaName
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, listViews);
 
 /**
  * Return descriptor used to connect to the active database
@@ -501,47 +527,9 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, getDefaultIdValue);
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, supportSequences);
 
 /**
- * Returns an array of Phalcon\Db\Column objects describing a table
- *
- * @param string $table
- * @param string $schema
- * @return Phalcon\Db\ColumnInterface[]
- */
-PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, describeColumns);
-
-/**
- * List all views on a database
- *
- * <code> print_r($connection->listViews("blog") ?></code>
- *
- * @param string $schemaName
- * @return array
- */
-PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, listViews);
-
-/**
- * Create a new view
- *
- * @param string $viewName
- * @param array $definition
- * @param string $schemaName
- * @return string
- */
-PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, createView);
-
-/**
- * Drop a view
- *
- * @param string $viewName
- * @param string $schemaName
- * @return string
- */
-PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, dropView);
-
-/**
  * Creates a new savepoint
  *
- * @param string $savepoint Name of a savepoint to create
+ * @param string $name
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, createSavepoint);
@@ -549,15 +537,15 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, createSavepoint);
 /**
  * Releases given savepoint
  *
- * @param string $savepoint Name of a savepoint to release
+ * @param string $name
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, releaseSavepoint);
 
 /**
- * Releases given savepoint
+ * Rollbacks given savepoint
  *
- * @param string $savepoint Name of a savepoint to rollback to
+ * @param string $name
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, rollbackSavepoint);
@@ -571,9 +559,25 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, rollbackSavepoint);
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, setNestedTransactionsWithSavepoints);
 
 /**
- * Gets if nested transactions should use savepoints
+ * Returns if nested transactions should use savepoints
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, isNestedTransactionsWithSavepoints);
+
+/**
+ * Returns the savepoint name to use for nested transactions
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, getNestedTransactionSavepointName);
+
+/**
+ * Returns an array of Phalcon\Db\Column objects describing a table
+ *
+ * @param string $table
+ * @param string $schema
+ * @return Phalcon\Db\ColumnInterface[]
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, describeColumns);
 

@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage);
 PHP_METHOD(Phalcon_Mvc_Model, validate);
 PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed);
 PHP_METHOD(Phalcon_Mvc_Model, getMessages);
-PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys);
+PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict);
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse);
 PHP_METHOD(Phalcon_Mvc_Model, _preSave);
 PHP_METHOD(Phalcon_Mvc_Model, _postSave);
@@ -323,7 +323,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, validate, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, validationHasFailed, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getMessages, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeys, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysRestrict, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysReverse, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, _preSave, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, _postSave, NULL, ZEND_ACC_PROTECTED) 

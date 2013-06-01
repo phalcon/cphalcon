@@ -37,6 +37,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Db\Dialect\Postgresql
@@ -377,6 +378,82 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable){
 }
 
 /**
+ * Generates SQL to create a view
+ *
+ * @param string $viewName
+ * @param array $definition
+ * @param string $schemaName
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView){
+
+	zval *view_name, *definition, *schema_name, *view_sql;
+	zval *view = NULL, *sql;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 3, 0, &view_name, &definition, &schema_name);
+	
+	if (!phalcon_array_isset_string(definition, SS("sql"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(view_sql);
+	phalcon_array_fetch_string(&view_sql, definition, SL("sql"), PH_NOISY_CC);
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(view);
+		PHALCON_CONCAT_VSV(view, view_name, ".", schema_name);
+	} else {
+		PHALCON_CPY_WRT(view, view_name);
+	}
+	
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CONCAT_SVSV(sql, "CREATE VIEW ", view, " AS ", view_sql);
+	
+	RETURN_CTOR(sql);
+}
+
+/**
+ * Generates SQL to drop a view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @param boolean $ifExists
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropView){
+
+	zval *view_name, *schema_name, *if_exists = NULL, *view = NULL;
+	zval *sql = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 1, &view_name, &schema_name, &if_exists);
+	
+	if (!if_exists) {
+		PHALCON_INIT_VAR(if_exists);
+		ZVAL_BOOL(if_exists, 1);
+	}
+	
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(view);
+		PHALCON_CONCAT_VSV(view, view_name, ".", schema_name);
+	} else {
+		PHALCON_CPY_WRT(view, view_name);
+	}
+	if (zend_is_true(if_exists)) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SV(sql, "DROP VIEW IF EXISTS ", view);
+	} else {
+		PHALCON_INIT_NVAR(sql);
+		PHALCON_CONCAT_SV(sql, "DROP VIEW ", view);
+	}
+	
+	RETURN_CTOR(sql);
+}
+
+/**
  * Generates SQL checking for the existence of a schema.table
  *
  * <code>echo $dialect->tableExists("posts", "blog")</code>
@@ -404,6 +481,36 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists){
 	} else {
 		PHALCON_INIT_NVAR(sql);
 		PHALCON_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = 'public' AND table_name='", table_name, "'");
+	}
+	
+	RETURN_CTOR(sql);
+}
+
+/**
+ * Generates SQL checking for the existence of a schema.view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Postgresql, viewExists){
+
+	zval *view_name, *schema_name = NULL, *sql = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &view_name, &schema_name);
+	
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+	
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVSVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='", view_name, "' AND schemaname='", schema_name, "'");
+	} else {
+		PHALCON_INIT_NVAR(sql);
+		PHALCON_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='", view_name, "'");
 	}
 	
 	RETURN_CTOR(sql);
@@ -444,7 +551,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns){
 /**
  * List all tables on database
  *
- * <code>print_r($dialect->listTables("blog") ?></code>
+ *<code>
+ *	print_r($dialect->listTables("blog")) ?>
+ *</code>
  *
  * @param       string $schemaName
  * @return      array
@@ -460,13 +569,42 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables){
 	if (!schema_name) {
 		PHALCON_INIT_VAR(schema_name);
 	}
-
+	
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVS(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = '", schema_name, "' ORDER BY table_name");
 	} else {
 		PHALCON_INIT_NVAR(sql);
 		ZVAL_STRING(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name", 1);
+	}
+	
+	RETURN_CTOR(sql);
+}
+
+/**
+ * Generates the SQL to list all views of a schema or user
+ *
+ * @param string $schemaName
+ * @return array
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listViews){
+
+	zval *schema_name = NULL, *sql = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &schema_name);
+	
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+	
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVS(sql, "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '", schema_name, "' ORDER BY view_name");
+	} else {
+		PHALCON_INIT_NVAR(sql);
+		ZVAL_STRING(sql, "SELECT viewname AS view_name FROM pg_views WHERE schemaname = 'public' ORDER BY view_name", 1);
 	}
 	
 	RETURN_CTOR(sql);
@@ -547,145 +685,5 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions){
 	
 	PHALCON_MM_RESTORE();
 	RETURN_EMPTY_STRING();
-}
-
-
-/**
- * Generates the SQL to list all views of a schema or user.
- *
- * @param string $schemaName
- * @return array
- */
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listViews){
-
-	zval *schema_name = NULL, *sql;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &schema_name);
-
-	if (!schema_name) {
-		PHALCON_INIT_VAR(schema_name);
-	}
-
-	PHALCON_INIT_VAR(sql);
-
-	if (zend_is_true(schema_name)) {
-		PHALCON_CONCAT_SVS(sql, "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '", schema_name, "' ORDER BY view_name");
-	} else {
-		ZVAL_STRING(sql, "SELECT viewname AS view_name FROM pg_views WHERE schemaname = 'public' ORDER BY view_name", 1);
-	}
-	RETURN_CTOR(sql);
-}
-
-/**
- * Generates SQL to create a view
- *
- * @param string $viewName
- * @param array $definition
- * @param string $schemaName
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView){
-
-	zval *view_name, *view_sql, *definition, *view = NULL, *schema_name = NULL, *sql;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &view_name, &definition, &schema_name);
-
-	if (!schema_name) {
-		PHALCON_INIT_VAR(schema_name);
-	}
-
-	if (!phalcon_array_isset_string(definition, SS("sql"))) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array");
-		return;
-	}
-
-	PHALCON_OBS_VAR(view_sql);
-	phalcon_array_fetch_string(&view_sql, definition, SL("sql"), PH_NOISY_CC);
-
-	if (zend_is_true(schema_name)) {
-		PHALCON_INIT_VAR(view);
-		PHALCON_CONCAT_VSV(view, schema_name, ".", view_name);
-	} else {
-		PHALCON_CPY_WRT(view, view_name);
-	}
-
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVSV(sql, "CREATE VIEW ", view, " AS ", view_sql);
-	RETURN_CTOR(sql);
-}
-
-/**
- * Generates SQL to drop a view
- *
- * @param string $viewName
- * @param string $schemaName
- * @param boolean $ifExists
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropView){
-
-	zval *view_name, *schema_name, *if_exists = NULL, *view = NULL, *sql;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 2, &view_name, &schema_name, &if_exists);
-
-	if (!schema_name) {
-		PHALCON_INIT_VAR(schema_name);
-	}
-
-	if (!if_exists) {
-		PHALCON_INIT_VAR(if_exists);
-		ZVAL_BOOL(if_exists, 1);
-	}
-
-	if (zend_is_true(schema_name)) {
-		PHALCON_INIT_VAR(view);
-		PHALCON_CONCAT_VSV(view, schema_name, ".", view_name);
-	} else {
-		PHALCON_CPY_WRT(view, view_name);
-	}
-	if (zend_is_true(if_exists)) {
-		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SV(sql, "DROP VIEW IF EXISTS ", view);
-	} else {
-		PHALCON_INIT_NVAR(sql);
-		PHALCON_CONCAT_SV(sql, "DROP VIEW ", view);
-	}
-	RETURN_CTOR(sql);
-}
-
-/**
- * Generates SQL checking for the existence of a schema.view
- *
- * @param string $viewName
- * @param string $schemaName
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, viewExists){
-
-	zval *view_name, *schema_name = NULL, *sql = NULL;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &view_name, &schema_name);
-
-	if (!schema_name) {
-		PHALCON_INIT_VAR(schema_name);
-	}
-
-	if (zend_is_true(schema_name)) {
-		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVSVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname = '", view_name, "' AND schemaname ='", schema_name, "'");
-	} else {
-		PHALCON_INIT_NVAR(sql);
-		PHALCON_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE schemaname = 'public' AND viewname = '", view_name, "'");
-	}
-
-	RETURN_CTOR(sql);
 }
 

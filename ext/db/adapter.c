@@ -55,8 +55,6 @@ PHALCON_INIT_CLASS(Phalcon_Db_Adapter){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Db, Adapter, db_adapter, phalcon_db_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_property_bool(phalcon_db_adapter_ce, SL("_transactionsWithSavepoints"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_long(phalcon_db_adapter_ce, SL("_transactionLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_dialectType"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -66,6 +64,8 @@ PHALCON_INIT_CLASS(Phalcon_Db_Adapter){
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_sqlVariables"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_sqlBindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_adapter_ce, SL("_transactionLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_adapter_ce, SL("_transactionsWithSavepoints"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_db_adapter_ce, SL("_connectionConsecutive"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_adapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
@@ -118,14 +118,19 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 		phalcon_array_fetch_string(&dialect_class, descriptor, SL("dialectClass"), PH_NOISY_CC);
 	}
 	
-	ce0 = phalcon_fetch_class(dialect_class TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(dialect_object);
-	object_init_ex(dialect_object, ce0);
-	if (phalcon_has_constructor(dialect_object TSRMLS_CC)) {
-		phalcon_call_method_noret(dialect_object, "__construct");
+	/** 
+	 * Create the instance only if the dialect is a string
+	 */
+	if (Z_TYPE_P(dialect_class) == IS_STRING) {
+		ce0 = phalcon_fetch_class(dialect_class TSRMLS_CC);
+		PHALCON_INIT_VAR(dialect_object);
+		object_init_ex(dialect_object, ce0);
+		if (phalcon_has_constructor(dialect_object TSRMLS_CC)) {
+			phalcon_call_method_noret(dialect_object, "__construct");
+		}
+		phalcon_update_property_this(this_ptr, SL("_dialect"), dialect_object TSRMLS_CC);
 	}
-	phalcon_update_property_this(this_ptr, SL("_dialect"), dialect_object TSRMLS_CC);
+	
 	phalcon_update_property_this(this_ptr, SL("_descriptor"), descriptor TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -155,6 +160,32 @@ PHP_METHOD(Phalcon_Db_Adapter, getEventsManager){
 
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
+}
+
+/**
+ * Sets the dialect used to produce the SQL
+ *
+ * @param Phalcon\Db\DialectInterface
+ */
+PHP_METHOD(Phalcon_Db_Adapter, setDialect){
+
+	zval *dialect;
+
+	phalcon_fetch_params(0, 1, 0, &dialect);
+	
+	phalcon_update_property_this(this_ptr, SL("_dialect"), dialect TSRMLS_CC);
+	
+}
+
+/**
+ * Returns internal dialect instance
+ *
+ * @return Phalcon\Db\DialectInterface
+ */
+PHP_METHOD(Phalcon_Db_Adapter, getDialect){
+
+
+	RETURN_MEMBER(this_ptr, "_dialect");
 }
 
 /**
@@ -795,7 +826,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
 	phalcon_call_method_p2(sql, dialect, "tableexists", table_name, schema_name);
 	
 	PHALCON_INIT_VAR(fetch_num);
-	phalcon_get_class_constant(fetch_num, phalcon_db_ce, SS("FETCH_NUM") TSRMLS_CC);
+	ZVAL_LONG(fetch_num, 3);
 	
 	PHALCON_INIT_VAR(num);
 	phalcon_call_method_p2(num, this_ptr, "fetchone", sql, fetch_num);
@@ -814,12 +845,12 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
  *
  * @param string $viewName
  * @param string $schemaName
- * @return boolean
+ * @return string
  */
 PHP_METHOD(Phalcon_Db_Adapter, viewExists){
 
-	zval *view_name, *schema_name = NULL, *dialect, *sql;
-	zval *fetch_num, *num, *first;
+	zval *view_name, *schema_name = NULL, *dialect, *sql, *fetch_num;
+	zval *num, *first;
 
 	PHALCON_MM_GROW();
 
@@ -831,21 +862,18 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists){
 	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-
+	
 	PHALCON_INIT_VAR(sql);
 	phalcon_call_method_p2(sql, dialect, "viewexists", view_name, schema_name);
-
+	
 	PHALCON_INIT_VAR(fetch_num);
-	phalcon_get_class_constant(fetch_num, phalcon_db_ce, SS("FETCH_NUM") TSRMLS_CC);
-
+	ZVAL_LONG(fetch_num, 3);
+	
 	PHALCON_INIT_VAR(num);
 	phalcon_call_method_p2(num, this_ptr, "fetchone", sql, fetch_num);
-
+	
 	PHALCON_OBS_VAR(first);
 	phalcon_array_fetch_long(&first, num, 0, PH_NOISY_CC);
-
-	convert_to_boolean(first);
-
 	RETURN_CCTOR(first);
 }
 
@@ -951,12 +979,16 @@ PHP_METHOD(Phalcon_Db_Adapter, createTable){
  */
 PHP_METHOD(Phalcon_Db_Adapter, dropTable){
 
-	zval *table_name, *schema_name, *if_exists = NULL, *dialect;
+	zval *table_name, *schema_name = NULL, *if_exists = NULL, *dialect;
 	zval *sql, *success;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 1, &table_name, &schema_name, &if_exists);
+	phalcon_fetch_params(1, 1, 2, &table_name, &schema_name, &if_exists);
+	
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
 	
 	if (!if_exists) {
 		PHALCON_INIT_VAR(if_exists);
@@ -968,6 +1000,87 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable){
 	
 	PHALCON_INIT_VAR(sql);
 	phalcon_call_method_p3(sql, dialect, "droptable", table_name, schema_name, if_exists);
+	
+	PHALCON_INIT_VAR(success);
+	phalcon_call_method_p1(success, this_ptr, "execute", sql);
+	RETURN_CCTOR(success);
+}
+
+/**
+ * Creates a view
+ *
+ * @param string $tableName
+ * @param array $definition
+ * @param string $schemaName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, createView){
+
+	zval *view_name, *definition, *schema_name = NULL, *exception_message;
+	zval *dialect, *sql, *success;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 1, &view_name, &definition, &schema_name);
+	
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+	
+	if (Z_TYPE_P(definition) != IS_ARRAY) { 
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "Invalid definition to create the view '", view_name, "'");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_db_exception_ce, exception_message);
+		return;
+	}
+	if (!phalcon_array_isset_string(definition, SS("sql"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The table must contain at least one column");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p3(sql, dialect, "createview", view_name, definition, schema_name);
+	
+	PHALCON_INIT_VAR(success);
+	phalcon_call_method_p1(success, this_ptr, "execute", sql);
+	
+	RETURN_CCTOR(success);
+}
+
+/**
+ * Drops a view
+ *
+ * @param string $viewName
+ * @param   string $schemaName
+ * @param boolean $ifExists
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, dropView){
+
+	zval *view_name, *schema_name = NULL, *if_exists = NULL, *dialect;
+	zval *sql, *success;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &view_name, &schema_name, &if_exists);
+	
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+	
+	if (!if_exists) {
+		PHALCON_INIT_VAR(if_exists);
+		ZVAL_BOOL(if_exists, 1);
+	}
+	
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p3(sql, dialect, "dropview", view_name, schema_name, if_exists);
 	
 	PHALCON_INIT_VAR(success);
 	phalcon_call_method_p1(success, this_ptr, "execute", sql);
@@ -1124,17 +1237,18 @@ PHP_METHOD(Phalcon_Db_Adapter, dropIndex){
  */
 PHP_METHOD(Phalcon_Db_Adapter, addPrimaryKey){
 
-	zval *table_name, *schema_name, *index, *sql, *success;
-	zval *t0 = NULL;
+	zval *table_name, *schema_name, *index, *dialect;
+	zval *sql, *success;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &index);
 	
-	PHALCON_OBS_VAR(t0);
-	phalcon_read_property_this(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	
 	PHALCON_INIT_VAR(sql);
-	phalcon_call_method_p3(sql, t0, "addprimarykey", table_name, schema_name, index);
+	phalcon_call_method_p3(sql, dialect, "addprimarykey", table_name, schema_name, index);
 	
 	PHALCON_INIT_VAR(success);
 	phalcon_call_method_p1(success, this_ptr, "execute", sql);
@@ -1280,6 +1394,74 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables){
 	 */
 	PHALCON_INIT_VAR(sql);
 	phalcon_call_method_p1(sql, dialect, "listtables", schema_name);
+	
+	/** 
+	 * Use fetch Num
+	 */
+	PHALCON_INIT_VAR(fetch_num);
+	ZVAL_LONG(fetch_num, 3);
+	
+	/** 
+	 * Execute the SQL returning the tables
+	 */
+	PHALCON_INIT_VAR(tables);
+	phalcon_call_method_p2(tables, this_ptr, "fetchall", sql, fetch_num);
+	
+	PHALCON_INIT_VAR(all_tables);
+	array_init(all_tables);
+	
+	if (!phalcon_is_iterable(tables, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_HVALUE(table);
+	
+		PHALCON_OBS_NVAR(table_name);
+		phalcon_array_fetch_long(&table_name, table, 0, PH_NOISY_CC);
+		phalcon_array_append(&all_tables, table_name, PH_SEPARATE TSRMLS_CC);
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	RETURN_CTOR(all_tables);
+}
+
+/**
+ * List all views on a database
+ *
+ *<code>
+ *	print_r($connection->listViews("blog")); ?>
+ *</code>
+ *
+ * @param string $schemaName
+ * @return array
+ */
+PHP_METHOD(Phalcon_Db_Adapter, listViews){
+
+	zval *schema_name = NULL, *dialect, *sql, *fetch_num, *tables;
+	zval *all_tables, *table = NULL, *table_name = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &schema_name);
+	
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+	
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	
+	/** 
+	 * Get the SQL to list the tables
+	 */
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p1(sql, dialect, "listviews", schema_name);
 	
 	/** 
 	 * Use fetch Num
@@ -1585,7 +1767,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions){
 	phalcon_call_method_p2(sql, dialect, "tableoptions", table_name, schema_name);
 	if (zend_is_true(sql)) {
 		PHALCON_INIT_VAR(fetch_assoc);
-		phalcon_get_class_constant(fetch_assoc, phalcon_db_ce, SS("FETCH_ASSOC") TSRMLS_CC);
+		ZVAL_LONG(fetch_assoc, 1);
 	
 		PHALCON_INIT_VAR(describe);
 		phalcon_call_method_p2(describe, this_ptr, "fetchall", sql, fetch_assoc);
@@ -1599,6 +1781,179 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions){
 	array_init(empty_arr);
 	
 	RETURN_CTOR(empty_arr);
+}
+
+/**
+ * Creates a new savepoint
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, createSavepoint){
+
+	zval *name, *dialect, *supports_sp, *sql, *success;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &name);
+	
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(supports_sp);
+	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
+	if (!zend_is_true(supports_sp)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p1(sql, dialect, "createsavepoint", name);
+	
+	PHALCON_INIT_VAR(success);
+	phalcon_call_method_p1(success, this_ptr, "execute", sql);
+	
+	RETURN_CCTOR(success);
+}
+
+/**
+ * Releases given savepoint
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint){
+
+	zval *name, *dialect, *supports_sp, *supports_rsp;
+	zval *sql, *success;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &name);
+	
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(supports_sp);
+	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
+	if (!zend_is_true(supports_sp)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(supports_rsp);
+	phalcon_call_method(supports_rsp, dialect, "supportsreleasesavepoints");
+	if (!zend_is_true(supports_rsp)) {
+		RETURN_MM_FALSE;
+	}
+	
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p1(sql, dialect, "releasesavepoint", name);
+	
+	PHALCON_INIT_VAR(success);
+	phalcon_call_method_p1(success, this_ptr, "execute", sql);
+	
+	RETURN_CCTOR(success);
+}
+
+/**
+ * Rollbacks given savepoint
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint){
+
+	zval *name, *dialect, *supports_sp, *sql, *success;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &name);
+	
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(supports_sp);
+	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
+	if (!zend_is_true(supports_sp)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(sql);
+	phalcon_call_method_p1(sql, dialect, "rollbacksavepoint", name);
+	
+	PHALCON_INIT_VAR(success);
+	phalcon_call_method_p1(success, this_ptr, "execute", sql);
+	
+	RETURN_CCTOR(success);
+}
+
+/**
+ * Set if nested transactions should use savepoints
+ *
+ * @param boolean $nestedTransactionsWithSavepoints
+ * @return Phalcon\Db\AdapterInterface
+ */
+PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints){
+
+	zval *nested_transactions_with_savepoints;
+	zval *transaction_level, *dialect, *supports_sp;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &nested_transactions_with_savepoints);
+	
+	PHALCON_OBS_VAR(transaction_level);
+	phalcon_read_property_this(&transaction_level, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
+	if (PHALCON_GT_LONG(transaction_level, 0)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Nested transaction with savepoints behavior cannot be changed while a transaction is open");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(dialect);
+	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(supports_sp);
+	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
+	if (!zend_is_true(supports_sp)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter");
+		return;
+	}
+	
+	phalcon_update_property_this(this_ptr, SL("_transactionsWithSavepoints"), nested_transactions_with_savepoints TSRMLS_CC);
+	
+	RETURN_THIS();
+}
+
+/**
+ * Returns if nested transactions should use savepoints
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter, isNestedTransactionsWithSavepoints){
+
+
+	RETURN_MEMBER(this_ptr, "_transactionsWithSavepoints");
+}
+
+/**
+ * Returns the savepoint name to use for nested transactions
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Adapter, getNestedTransactionSavepointName){
+
+	zval *transaction_level, *savepoint;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(transaction_level);
+	phalcon_read_property_this(&transaction_level, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(savepoint);
+	PHALCON_CONCAT_SV(savepoint, "PHALCON_SAVEPOINT_", transaction_level);
+	RETURN_CTOR(savepoint);
 }
 
 /**
@@ -1739,340 +2094,5 @@ PHP_METHOD(Phalcon_Db_Adapter, getDialectType){
 
 
 	RETURN_MEMBER(this_ptr, "_dialectType");
-}
-
-/**
- * Returns internal dialect instance
- *
- * @return Phalcon\Db\DialectInterface
- */
-PHP_METHOD(Phalcon_Db_Adapter, getDialect){
-
-
-	RETURN_MEMBER(this_ptr, "_dialect");
-}
-
-/**
- * List all views on a database
- *
- * <code> print_r($connection->listViews("blog") ?></code>
- *
- * @param string $schemaName
- * @return array
- */
-PHP_METHOD(Phalcon_Db_Adapter, listViews) {
-
-	zval *schema_name = NULL, *dialect, *sql, *fetch_num, *views;
-	zval *all_views, *view = NULL, *view_name = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &schema_name);
-
-	if (!schema_name) {
-		PHALCON_INIT_VAR(schema_name);
-	}
-
-	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-
-	/**
-	 * Get the SQL to list the views
-	 */
-	PHALCON_INIT_VAR(sql);
-	phalcon_call_method_p1(sql, dialect, "listviews", schema_name);
-
-	/**
-	 * Use fetch Num
-	 */
-	PHALCON_INIT_VAR(fetch_num);
-	ZVAL_LONG(fetch_num, 3);
-
-	PHALCON_INIT_VAR(views);
-	phalcon_call_method_p2(views, this_ptr, "fetchall", sql, fetch_num);
-
-	PHALCON_INIT_VAR(all_views);
-	array_init(all_views);
-
-	if (!phalcon_is_iterable(views, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
-
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-
-		PHALCON_GET_HVALUE(view);
-
-		PHALCON_OBS_NVAR(view_name);
-		phalcon_array_fetch_long(&view_name, view, 0, PH_NOISY_CC);
-		phalcon_array_append(&all_views, view_name, PH_SEPARATE TSRMLS_CC);
-
-		zend_hash_move_forward_ex(ah0, &hp0);
-	}
-
-	RETURN_CTOR(all_views);
-}
-
-/**
- * Create a new view
- *
- * @param string $viewName
- * @param array $definition
- * @param string $schemaName
- * @return boolean
- */
-PHP_METHOD(Phalcon_Db_Adapter, createView) {
-
-	zval *view_name, *schema_name, *definition;
-	zval *exception_message, *dialect;
-	zval *sql, *success;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &view_name, &definition, &schema_name);
-
-	if (Z_TYPE_P(definition) != IS_ARRAY) {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Invalid definition to create the view '", view_name, "'");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_db_exception_ce, exception_message);
-		return;
-	}
-	if (!phalcon_array_isset_string(definition, SS("sql"))) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The view definition must contain an index 'sql'");
-		return;
-	}
-
-	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-
-	PHALCON_INIT_VAR(sql);
-	if (!schema_name) {
-		phalcon_call_method_p2(sql, dialect, "createview", view_name, definition);
-	} else {
-		phalcon_call_method_p3(sql, dialect, "createview", view_name, definition, schema_name);
-	}
-
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p1(success, this_ptr, "execute", sql);
-
-	RETURN_CCTOR(success);
-}
-
-/**
- * Drop a view
- *
- * @param string $viewName
- * @param string $schemaName
- * @param boolean $ifExists
- * @return boolean
- */
-PHP_METHOD(Phalcon_Db_Adapter, dropView) {
-
-	zval *view_name, *schema_name, *if_exists = NULL, *dialect;
-	zval *sql, *success;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 2, &view_name, &schema_name, &if_exists);
-
-	if (!schema_name) {
-		PHALCON_INIT_VAR(schema_name);
-	}
-
-	if (!if_exists) {
-		PHALCON_INIT_VAR(if_exists);
-		ZVAL_BOOL(if_exists, 1);
-	}
-
-	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-
-	PHALCON_INIT_VAR(sql);
-	phalcon_call_method_p3(sql, dialect, "dropview", view_name, schema_name, if_exists);
-
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p1(success, this_ptr, "execute", sql);
-	RETURN_CCTOR(success);
-}
-
-/**
- * Creates a new savepoint
- *
- * @param string $savepoint Name of a savepoint to create
- * @return boolean
- */
-PHP_METHOD(Phalcon_Db_Adapter, createSavepoint) {
-
-	zval *savepoint, *dialect, *supports_sp, *success, *sql;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &savepoint);
-
-	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-
-	PHALCON_INIT_VAR(supports_sp);
-	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
-
-	if (!zend_is_true(supports_sp)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.");
-		return;
-	}
-
-	PHALCON_INIT_VAR(sql);
-	phalcon_call_method_p1(sql, dialect, "createsavepoint", savepoint);
-
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p1(success, this_ptr, "execute", sql);
-
-	RETURN_CCTOR(success);
-}
-
-/**
- * Releases given savepoint
- *
- * @param string $savepoint Name of a savepoint to release
- * @return boolean
- */
-PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint) {
-
-	zval *savepoint, *dialect, *supports_sp, *supports_rsp, *success, *sql;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &savepoint);
-
-	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-
-	PHALCON_INIT_VAR(supports_sp);
-	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
-
-	if (!zend_is_true(supports_sp)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.");
-		return;
-	}
-
-	PHALCON_INIT_VAR(supports_rsp);
-	phalcon_call_method(supports_rsp, dialect, "supportsreleasesavepoints");
-
-	if (!zend_is_true(supports_rsp)) {
-		RETURN_MM_FALSE;
-		return;
-	}
-
-	PHALCON_INIT_VAR(sql);
-	phalcon_call_method_p1(sql, dialect, "releasesavepoint", savepoint);
-
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p1(success, this_ptr, "execute", sql);
-
-	RETURN_CCTOR(success);
-}
-
-/**
- * Releases given savepoint
- *
- * @param string $savepoint Name of a savepoint to rollback to
- * @return boolean
- */
-PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint){
-
-	zval *savepoint, *dialect, *supports_sp, *success, *sql;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &savepoint);
-
-	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-
-	PHALCON_INIT_VAR(supports_sp);
-	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
-
-	if (!zend_is_true(supports_sp)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.");
-		return;
-	}
-
-	PHALCON_INIT_VAR(sql);
-	phalcon_call_method_p1(sql, dialect, "rollbacksavepoint", savepoint);
-
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p1(success, this_ptr, "execute", sql);
-
-	RETURN_CCTOR(success);
-}
-
-/**
- * Set if nested transactions should use savepoints
- *
- * @param boolean $nestedTransactionsWithSavepoints
- * @return Phalcon\Db\AdapterInterface
- */
-PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints){
-
-	zval *ntw_sp, *tran_nest_lvl, *dialect, *supports_sp;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(tran_nest_lvl);
-	phalcon_read_property_this(&tran_nest_lvl, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
-
-	if (phalcon_get_intval(tran_nest_lvl) > 0) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "May not alter the nested transaction with savepoints behavior while a transaction is open.");
-		return;
-	}
-
-	PHALCON_OBS_VAR(dialect);
-	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-
-	PHALCON_INIT_VAR(supports_sp);
-	phalcon_call_method(supports_sp, dialect, "supportssavepoints");
-
-	if (!zend_is_true(supports_sp)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.");
-		return;
-	}
-
-	phalcon_fetch_params(1, 1, 0, &ntw_sp);
-	convert_to_boolean(ntw_sp);
-
-	phalcon_update_property_this(this_ptr, SL("_transactionsWithSavepoints"), ntw_sp TSRMLS_CC);
-
-	RETURN_THIS();
-}
-
-/**
- * Gets if nested transactions should use savepoints
- *
- * @return boolean
- */
-PHP_METHOD(Phalcon_Db_Adapter, isNestedTransactionsWithSavepoints){
-
-	RETURN_MEMBER(this_ptr, "_transactionsWithSavepoints");
-}
-
-/**
- * Returns the savepoint name to use for nested transactions
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter, _getNestedTransactionSavepointName){
-
-	zval *savepoint, *tran_nest_lvl;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(tran_nest_lvl);
-	phalcon_read_property_this(&tran_nest_lvl, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
-
-	PHALCON_INIT_VAR(savepoint);
-	PHALCON_CONCAT_SV(savepoint, "PHALCON_SAVEPOINT_", tran_nest_lvl);
-
-	RETURN_CCTOR(savepoint);
 }
 

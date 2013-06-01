@@ -790,7 +790,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	
 					PHALCON_INIT_NVAR(join_conditions);
 					phalcon_fast_join_str(join_conditions, SL(" AND "), join_expressions TSRMLS_CC);
-					PHALCON_SCONCAT_SV(sql_join, " ON ", join_conditions);
+					PHALCON_SCONCAT_SVS(sql_join, " ON ", join_conditions, " ");
 				}
 			}
 	
@@ -942,17 +942,18 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 }
 
 /**
- * Whether the platform supports savepoints.
+ * Checks whether the platform supports savepoints
  *
  * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Dialect, supportsSavepoints){
 
+
 	RETURN_TRUE;
 }
 
 /**
- * Whether the platform supports releasing savepoints.
+ * Checks whether the platform supports releasing savepoints.
  *
  * @return boolean
  */
@@ -964,68 +965,63 @@ PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints){
 
 	PHALCON_INIT_VAR(supports_sp);
 	phalcon_call_method(supports_sp, this_ptr, "supportssavepoints");
-
 	RETURN_CCTOR(supports_sp);
 }
 
 /**
  * Generate SQL to create a new savepoint
  *
- * @param string $savepoint
+ * @param string $name
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect, createSavepoint){
 
-	zval *savepoint, *sql;
+	zval *name, *sql;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &savepoint);
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SV(sql, "SAVEPOINT ", savepoint);
-
+	PHALCON_CONCAT_SV(sql, "SAVEPOINT ", name);
 	RETURN_CTOR(sql);
 }
 
 /**
  * Generate SQL to release a savepoint
  *
- * @param string $savepoint
+ * @param string $name
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint){
 
-	zval *savepoint, *sql;
+	zval *name, *sql;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &savepoint);
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SV(sql, "RELEASE SAVEPOINT ", savepoint);
-
+	PHALCON_CONCAT_SV(sql, "RELEASE SAVEPOINT ", name);
 	RETURN_CTOR(sql);
 }
 
 /**
  * Generate SQL to rollback a savepoint
  *
- * @param string $savepoint
+ * @param string $name
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint){
 
-	zval *savepoint, *sql;
+	zval *name, *sql;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &savepoint);
-
+	phalcon_fetch_params(1, 1, 0, &name);
+	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SV(sql, "ROLLBACK TO SAVEPOINT ", savepoint);
-
+	PHALCON_CONCAT_SV(sql, "ROLLBACK TO SAVEPOINT ", name);
 	RETURN_CTOR(sql);
 }
-
 

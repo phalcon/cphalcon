@@ -340,6 +340,16 @@ int phalcon_greater(zval *op1, zval *op2 TSRMLS_DC) {
 }
 
 /**
+ * Check if a zval is greater than a long value
+ */
+int phalcon_greater_long(zval *op1, long op2 TSRMLS_DC) {
+	zval result, op2_zval;
+	ZVAL_LONG(&op2_zval, op2);
+	is_smaller_or_equal_function(&result, op1, &op2_zval TSRMLS_CC);
+	return !Z_BVAL(result);
+}
+
+/**
  * Check if a zval is greater/equal than other
  */
 int phalcon_greater_equal(zval *op1, zval *op2 TSRMLS_DC) {

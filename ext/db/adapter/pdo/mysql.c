@@ -43,7 +43,8 @@
  * Phalcon\Db\Adapter\Pdo\Mysql
  *
  * Specific functions for the Mysql database system
- * <code>
+ *
+ *<code>
  *
  *	$config = array(
  *		"host" => "192.168.0.11",
@@ -55,7 +56,7 @@
  *
  *	$connection = new Phalcon\Db\Adapter\Pdo\Mysql($config);
  *
- * </code>
+ *</code>
  */
 
 

@@ -94,7 +94,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_object($result));
 		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
 
-		for ($i=0; $i<3; $i++) {
+		for ($i = 0; $i < 3; $i++) {
 			$row = $result->fetch();
 			$this->assertEquals(count($row), 22);
 		}
@@ -215,7 +215,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		//Check view exists
 		$success = $connection->viewExists('phalcon_test_view');
-		$this->assertTrue($success);
+		$this->assertTrue((bool) $success);
 
 		//Gets the list of all views.
 		$views = $connection->listViews();
@@ -297,7 +297,6 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		$success = $connection->rollback(); // rollback - real rollback
 		$this->assertTrue($success);		
-
 	}
 
 }

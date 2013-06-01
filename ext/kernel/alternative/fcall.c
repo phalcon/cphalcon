@@ -157,7 +157,7 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 /**
  * Check if a method is callable only if it's not checked before
  */
-inline zend_bool phalcon_alt_is_callable_method_ex(zend_class_entry *ce, char *method_name, unsigned int method_len, zval *object_ptr, uint check_flags, zend_fcall_info_cache *fcc, char **error, int exists, unsigned long method_key TSRMLS_DC) {
+static inline zend_bool phalcon_alt_is_callable_method_ex(zend_class_entry *ce, char *method_name, unsigned int method_len, zval *object_ptr, uint check_flags, zend_fcall_info_cache *fcc, char **error, int exists, unsigned long method_key TSRMLS_DC) {
 
 	if (error) {
 		*error = NULL;
@@ -889,6 +889,8 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 	unsigned long hash_key;
 	char *key;
 
+	PHALCON_GLOBAL(recursive_lock)++;
+
 	if (PHALCON_GLOBAL(recursive_lock) > 2048) {
 		ex_retval = FAILURE;
 		params_array = NULL;
@@ -947,6 +949,8 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 			efree(key);
 		}
 	}
+
+	PHALCON_GLOBAL(recursive_lock)--;
 
 	if (local_retval_ptr) {
 		COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);

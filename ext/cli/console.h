@@ -22,6 +22,7 @@ extern zend_class_entry *phalcon_cli_console_ce;
 
 PHALCON_INIT_CLASS(Phalcon_CLI_Console);
 
+PHP_METHOD(Phalcon_CLI_Console, __construct);
 PHP_METHOD(Phalcon_CLI_Console, setDI);
 PHP_METHOD(Phalcon_CLI_Console, getDI);
 PHP_METHOD(Phalcon_CLI_Console, setEventsManager);
@@ -30,6 +31,10 @@ PHP_METHOD(Phalcon_CLI_Console, registerModules);
 PHP_METHOD(Phalcon_CLI_Console, addModules);
 PHP_METHOD(Phalcon_CLI_Console, getModules);
 PHP_METHOD(Phalcon_CLI_Console, handle);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -52,6 +57,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_handle, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_cli_console_method_entry){
+	PHP_ME(Phalcon_CLI_Console, __construct, arginfo_phalcon_cli_console___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_CLI_Console, setDI, arginfo_phalcon_cli_console_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Console, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Console, setEventsManager, arginfo_phalcon_cli_console_seteventsmanager, ZEND_ACC_PUBLIC) 

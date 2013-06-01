@@ -1534,7 +1534,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			 * Create the join according to the type
 			 */
 			if (zend_is_true(join_type)) {
-				PHALCON_SCONCAT_VSVS(phql, join_type, " JOIN [", join_model, "]");
+				PHALCON_SCONCAT_SVSVS(phql, " ", join_type, " JOIN [", join_model, "]");
 			} else {
 				PHALCON_SCONCAT_SVS(phql, " JOIN [", join_model, "]");
 			}

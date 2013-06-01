@@ -247,51 +247,14 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeReferences);
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, tableOptions);
 
 /**
- * Generates the SQL to list all views of a schema or user.
- *
- * @param string $schemaName
- * @return array
- */
-PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, listViews);
-
-/**
- * Generates SQL to create a view
- *
- * @param string $viewName
- * @param array $definition
- * @param string $schemaName
- * @return string
- */
-PHALCON_DOC_METHOD(Phalcon_Database_DialectInterface, createView);
-
-/**
- * Generates SQL to drop a view
- *
- * @param string $viewName
- * @param string $schemaName
- * @param boolean $ifExists
- * @return string
- */
-PHALCON_DOC_METHOD(Phalcon_Database_DialectInterface, dropView);
-
-/**
- * Generates SQL checking for the existence of a schema.view
- *
- * @param string $viewName
- * @param string $schemaName
- * @return string
- */
-PHALCON_DOC_METHOD(Phalcon_Database_DialectInterface, viewExists);
-
-/**
- * Whether the platform supports savepoints.
+ * Checks whether the platform supports savepoints
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, supportsSavepoints);
 
 /**
- * Whether the platform supports releasing savepoints.
+ * Checks whether the platform supports releasing savepoints.
  *
  * @return boolean
  */
@@ -300,7 +263,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, supportsReleaseSavepoints);
 /**
  * Generate SQL to create a new savepoint
  *
- * @param string $savepoint
+ * @param string $name
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, createSavepoint);
@@ -308,7 +271,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, createSavepoint);
 /**
  * Generate SQL to release a savepoint
  *
- * @param string $savepoint
+ * @param string $name
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, releaseSavepoint);
@@ -316,10 +279,8 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, releaseSavepoint);
 /**
  * Generate SQL to rollback a savepoint
  *
- * @param string $savepoint
+ * @param string $name
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, rollbackSavepoint);
-
-
 

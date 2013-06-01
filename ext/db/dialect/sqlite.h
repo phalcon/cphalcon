@@ -35,17 +35,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, viewExists);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables);
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, viewExists);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
@@ -116,8 +116,25 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_droptable, 0, 0, 2)
 	ZEND_ARG_INFO(0, ifExists)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_createview, 0, 0, 3)
+	ZEND_ARG_INFO(0, viewName)
+	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_INFO(0, schemaName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_dropview, 0, 0, 2)
+	ZEND_ARG_INFO(0, viewName)
+	ZEND_ARG_INFO(0, schemaName)
+	ZEND_ARG_INFO(0, ifExists)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_tableexists, 0, 0, 1)
 	ZEND_ARG_INFO(0, tableName)
+	ZEND_ARG_INFO(0, schemaName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_viewexists, 0, 0, 1)
+	ZEND_ARG_INFO(0, viewName)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
@@ -127,6 +144,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_describecolumns, 0, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_listtables, 0, 0, 0)
+	ZEND_ARG_INFO(0, schemaName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_listviews, 0, 0, 0)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
@@ -149,28 +170,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_tableoptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_listviews, 0, 0, 0)
-	ZEND_ARG_INFO(0, schemaName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_dropview, 0, 0, 1)
-	ZEND_ARG_INFO(0, viewName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, ifExists)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_createview, 0, 0, 2)
-	ZEND_ARG_INFO(0, viewName)
-	ZEND_ARG_INFO(0, sql)
-	ZEND_ARG_INFO(0, schemaName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_viewexists, 0, 0, 1)
-	ZEND_ARG_INFO(0, viewName)
-	ZEND_ARG_INFO(0, schemaName)
-ZEND_END_ARG_INFO()
-
-
 PHALCON_INIT_FUNCS(phalcon_db_dialect_sqlite_method_entry){
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, getColumnDefinition, arginfo_phalcon_db_dialect_sqlite_getcolumndefinition, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, addColumn, arginfo_phalcon_db_dialect_sqlite_addcolumn, ZEND_ACC_PUBLIC) 
@@ -185,17 +184,17 @@ PHALCON_INIT_FUNCS(phalcon_db_dialect_sqlite_method_entry){
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, _getTableOptions, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, createTable, arginfo_phalcon_db_dialect_sqlite_createtable, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropTable, arginfo_phalcon_db_dialect_sqlite_droptable, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, createView, arginfo_phalcon_db_dialect_sqlite_createview, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropView, arginfo_phalcon_db_dialect_sqlite_dropview, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, tableExists, arginfo_phalcon_db_dialect_sqlite_tableexists, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, viewExists, arginfo_phalcon_db_dialect_sqlite_viewexists, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, describeColumns, arginfo_phalcon_db_dialect_sqlite_describecolumns, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, listTables, arginfo_phalcon_db_dialect_sqlite_listtables, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Sqlite, listViews, arginfo_phalcon_db_dialect_sqlite_listviews, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, describeIndexes, arginfo_phalcon_db_dialect_sqlite_describeindexes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, describeIndex, arginfo_phalcon_db_dialect_sqlite_describeindex, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, describeReferences, arginfo_phalcon_db_dialect_sqlite_describereferences, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, tableOptions, arginfo_phalcon_db_dialect_sqlite_tableoptions, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Dialect_Sqlite, listViews, arginfo_phalcon_db_dialect_sqlite_listviews, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_Sqlite, dropView, arginfo_phalcon_db_dialect_sqlite_dropview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_Sqlite, createView, arginfo_phalcon_db_dialect_sqlite_createview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Dialect_Sqlite, viewExists, arginfo_phalcon_db_dialect_sqlite_viewexists, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
