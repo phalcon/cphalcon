@@ -141,9 +141,13 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 	} else {
 		if (error && !(check_flags & IS_CALLABLE_CHECK_SILENT)) {
 			if (fcc->calling_scope) {
-				if (error) phalcon_spprintf(error, 0, "class '%s' does not have a method '%s'", fcc->calling_scope->name, method_name);
+				if (error) {
+					phalcon_spprintf(error, 0, "class '%s' does not have a method '%s'", fcc->calling_scope->name, method_name);
+				}
 			} else {
-				if (error) phalcon_spprintf(error, 0, "function '%s' does not exist", method_name);
+				if (error) {
+					phalcon_spprintf(error, 0, "function '%s' does not exist", method_name);
+				}
 			}
 		}
 	}
@@ -183,7 +187,7 @@ static inline zend_bool phalcon_alt_is_callable_method_ex(zend_class_entry *ce, 
 /**
  * Call a method caching its function pointer address
  */
-int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, unsigned long method_key TSRMLS_DC)
+int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
 {
 	zend_uint i, exists = 0, is_phalcon_function = 0;
 	zend_class_entry *current_scope;
@@ -230,20 +234,21 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 		char *error = NULL;
 
 		if (is_phalcon_function) {
+
 			/** Use the Phalcon optimized version */
-			if (!phalcon_alt_is_callable_method_ex(ce, fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
+			if (!phalcon_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
 				if (error) {
 					zend_error(E_WARNING, "Invalid callback %s, %s", key, error);
 					efree(error);
 				}
 				return FAILURE;
-			} else {
-				if (error) {
-					zend_error(E_STRICT, "%s", error);
-					efree(error);
-				}
 			}
+
 		} else {
+
+			PHALCON_ALLOC_ZVAL(fci->function_name);
+			ZVAL_STRINGL(fci->function_name, method_name, method_len, 0);
+
 			/** Use the slow function instead */
 			if (!zend_is_callable_ex(fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, &callable_name, NULL, fci_cache, &error TSRMLS_CC)) {
 				if (error) {
@@ -652,7 +657,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 	if (!is_phalcon_function) {
 
 		if (fci->object_ptr && Z_TYPE_P(fci->object_ptr) == IS_OBJECT &&
-		    (!EG(objects_store).object_buckets || !EG(objects_store).object_buckets[Z_OBJ_HANDLE_P(fci->object_ptr)].valid)) {
+			(!EG(objects_store).object_buckets || !EG(objects_store).object_buckets[Z_OBJ_HANDLE_P(fci->object_ptr)].valid)) {
 			return FAILURE;
 		}
 
@@ -661,7 +666,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 				zend_error_noreturn(E_ERROR, "Cannot call abstract method %s::%s()", EX(function_state).function->common.scope->name, EX(function_state).function->common.function_name);
 			}
 			if (EX(function_state).function->common.fn_flags & ZEND_ACC_DEPRECATED) {
-	 			zend_error(E_DEPRECATED, "Function %s%s%s() is deprecated",
+				zend_error(E_DEPRECATED, "Function %s%s%s() is deprecated",
 					EX(function_state).function->common.scope ? EX(function_state).function->common.scope->name : "",
 					EX(function_state).function->common.scope ? "::" : "",
 					EX(function_state).function->common.function_name);
@@ -679,7 +684,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 				zval *new_zval;
 
 				if (fci->no_separation &&
-				    !ARG_MAY_BE_SENT_BY_REF(EX(function_state).function, i + 1)) {
+					!ARG_MAY_BE_SENT_BY_REF(EX(function_state).function, i + 1)) {
 					if (i || UNEXPECTED(ZEND_VM_STACK_ELEMETS(EG(argument_stack)) == (EG(argument_stack)->top))) {
 						/* hack to clean up the stack */
 						#if PHP_VERSION_ID < 50500
@@ -710,8 +715,8 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 			Z_SET_ISREF_PP(fci->params[i]);
 			param = *fci->params[i];
 		} else if (PZVAL_IS_REF(*fci->params[i]) &&
-		           /* don't separate references for __call */
-		           (EX(function_state).function->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER) == 0 ) {
+				   /* don't separate references for __call */
+				   (EX(function_state).function->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER) == 0 ) {
 			ALLOC_ZVAL(param);
 			*param = **(fci->params[i]);
 			INIT_PZVAL(param);
