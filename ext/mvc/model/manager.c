@@ -2920,7 +2920,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_orm_destroy_cache(TSRMLS_CC);
+	phalcon_orm_destroy_cache(TSRMLS_C);
 	
 	PHALCON_MM_RESTORE();
 }
