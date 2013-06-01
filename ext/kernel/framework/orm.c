@@ -17,11 +17,14 @@
  +------------------------------------------------------------------------+
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "php.h"
 #include "php_phalcon.h"
-#include "php_main.h"
 
-void phalcon_orm_destroy_cache(TSRMLS_DC) {
+void phalcon_orm_destroy_cache(TSRMLS_D) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 

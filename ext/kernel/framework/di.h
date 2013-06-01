@@ -17,7 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-extern int phalcon_di_use_cache(TSRMLS_DC);
+extern int phalcon_di_use_cache(TSRMLS_D);
 
 extern int phalcon_di_get_default(zval *return_value TSRMLS_DC);
 

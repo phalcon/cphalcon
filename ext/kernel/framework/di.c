@@ -17,14 +17,17 @@
  +------------------------------------------------------------------------+
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "php.h"
 #include "php_phalcon.h"
-#include "php_main.h"
 
 /**
  * Returns if there is a global cache
  */
-int phalcon_di_use_cache(TSRMLS_DC) {
+int phalcon_di_use_cache(TSRMLS_D) {
 	if (PHALCON_GLOBAL(di.cache_enabled)) {
 		if (PHALCON_GLOBAL(di.injector) != NULL) {
 			return 1;
@@ -100,7 +103,7 @@ void phalcon_di_set_shared(zval *service_name, zval *service TSRMLS_DC) {
 	}
 }
 
-void phalcon_di_reset(TSRMLS_DC) {
+void phalcon_di_reset(TSRMLS_D) {
 	if (PHALCON_GLOBAL(di.cache_enabled)) {
 
 	}
