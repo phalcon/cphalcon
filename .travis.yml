@@ -40,6 +40,8 @@ before_script:
  - psql -c 'create database phalcon_test;' -U postgres
  - psql -U postgres phalcon_test -q -f unit-tests/schemas/postgresql/phalcon_test.sql
  - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/schemas/sqlite/phalcon_test.sql
+ - sudo ulimit -c unlimited
+ - sudo echo "/tmp/core" > /proc/sys/kernel/core_pattern
  - chmod +x unit-tests/ci/run_script.sh
 
 script: ./unit-tests/ci/run_script.sh
@@ -47,4 +49,5 @@ script: ./unit-tests/ci/run_script.sh
 notifications:
   email:
     - andres@phalconphp.com
+    - eduar@phalconphp.com
     - nikos@phalconphp.com

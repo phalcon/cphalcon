@@ -7,9 +7,9 @@ echo $PHP_BIN
 $PHP_BIN ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
 STATUS=$?
 if [ $STATUS != 0 ]; then
-	if [ -f core ]; then
+	if [ -f /tmp/core ]; then
 		sudo apt-get install gdb
-		gdb -q -batch -x ./unit-tests/ci/gdb-commands -e $PHP_BIN -c core
+		gdb -q -batch -x ./unit-tests/ci/gdb-commands -e $PHP_BIN -c /tmp/core
 	else
 		echo "No core dump was generated"
 	fi
@@ -20,9 +20,9 @@ fi
 $PHP_BIN ./php-tests/ci/phpunit.php --debug -c php-tests/tests/phpunit.xml
 STATUS=$?
 if [ $STATUS != 0 ]; then
-	if [ -f core ]; then
+	if [ -f /tmp/core ]; then
 		sudo apt-get install gdb
-		gdb -q -batch -x ./unit-tests/ci/gdb-commands -e $PHP_BIN -c core
+		gdb -q -batch -x ./unit-tests/ci/gdb-commands -e $PHP_BIN -c /tmp/core
 	else
 		echo "No core dump was generated"
 	fi
