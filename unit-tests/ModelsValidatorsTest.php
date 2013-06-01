@@ -153,7 +153,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$messages = $subscriptor->getMessages();
 		$this->assertEquals($messages[0]->getType(), "Unique");
 		$this->assertEquals($messages[0]->getField(), "email");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' is already present in another record");
+		$this->assertEquals($messages[0]->getMessage(), "Value of field: 'email' is already present in another record");
 
 		//Regex validator
 		$subscriptor->email = 'na_fuego@hotmail.com';

@@ -2988,6 +2988,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		if (!phalcon_array_isset(models_instances, model_name)) {
 			PHALCON_INIT_VAR(model);
 			phalcon_call_method_p1(model, manager, "load", model_name);
+			phalcon_array_update_zval(&models_instances, model_name, &model, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		} else {
 			PHALCON_OBS_NVAR(model);
 			phalcon_array_fetch(&model, models_instances, model_name, PH_NOISY_CC);
@@ -3011,8 +3012,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			PHALCON_INIT_NVAR(connection);
 			phalcon_call_method(connection, model, "getreadconnection");
 		}
-	
-		phalcon_array_update_zval(&models_instances, model_name, &model, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	} else {
 		/** 
 		 * Check if all the models belongs to the same connection
@@ -3031,6 +3030,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			if (!phalcon_array_isset(models_instances, model_name)) {
 				PHALCON_INIT_NVAR(model);
 				phalcon_call_method_p1(model, manager, "load", model_name);
+				phalcon_array_update_zval(&models_instances, model_name, &model, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			} else {
 				PHALCON_OBS_NVAR(model);
 				phalcon_array_fetch(&model, models_instances, model_name, PH_NOISY_CC);
@@ -3063,11 +3063,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cannot use models of different database systems in the same query");
 				return;
 			}
-	
-			/** 
-			 * Register the model instance
-			 */
-			phalcon_array_update_zval(&models_instances, model_name, &model, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -3179,8 +3174,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			/** 
 			 * Base instance
 			 */
-			PHALCON_OBS_NVAR(instance);
-			phalcon_array_fetch(&instance, models_instances, model_name, PH_NOISY_CC);
+			if (phalcon_array_isset(models_instances, model_name)) {
+				PHALCON_OBS_NVAR(instance);
+				phalcon_array_fetch(&instance, models_instances, model_name, PH_NOISY_CC);
+			} else {
+				PHALCON_INIT_NVAR(instance);
+				phalcon_call_method_p1(instance, manager, "load", model_name);
+				phalcon_array_update_zval(&models_instances, model_name, &instance, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			}
 	
 			PHALCON_INIT_NVAR(attributes);
 			phalcon_call_method_p1(attributes, meta_data, "getattributes", instance);
@@ -3830,7 +3831,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 
 	zval *intermediate, *bind_params, *bind_types;
 	zval *models, *model_name, *models_instances;
-	zval *model = NULL, *manager, *connection, *dialect, *double_colon;
+	zval *model = NULL, *manager, *connection = NULL, *dialect, *double_colon;
 	zval *empty_string, *fields, *values, *update_values;
 	zval *select_bind_params = NULL, *select_bind_types = NULL;
 	zval *null_value, *field = NULL, *number = NULL, *field_name = NULL;
@@ -4033,6 +4034,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 		RETURN_CTOR(status);
 	}
 	
+	PHALCON_INIT_NVAR(connection);
+	phalcon_call_method(connection, model, "getwriteconnection");
+	
+	/** 
+	 * Create a transaction in the write connection
+	 */
+	phalcon_call_method_noret(connection, "begin");
 	phalcon_call_method_noret(records, "rewind");
 	
 	while (1) {
@@ -4044,6 +4052,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 			break;
 		}
 	
+		/** 
+		 * Get the current record in the iterator
+		 */
 		PHALCON_INIT_NVAR(record);
 		phalcon_call_method(record, records, "current");
 	
@@ -4053,6 +4064,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 		PHALCON_INIT_NVAR(success);
 		phalcon_call_method_p1(success, record, "update", update_values);
 		if (!zend_is_true(success)) {
+			/** 
+			 * Rollback the transaction on failure
+			 */
+			phalcon_call_method_noret(connection, "rollback");
+	
 			PHALCON_INIT_NVAR(status);
 			object_init_ex(status, phalcon_mvc_model_query_status_ce);
 			phalcon_call_method_p2_noret(status, "__construct", success, record);
@@ -4065,6 +4081,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 		 */
 		phalcon_call_method_noret(records, "next");
 	}
+	
+	/** 
+	 * Commit transaction on success
+	 */
+	phalcon_call_method_noret(connection, "commit");
 	
 	PHALCON_INIT_NVAR(success);
 	ZVAL_BOOL(success, 1);
@@ -4089,7 +4110,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 	zval *intermediate, *bind_params, *bind_types;
 	zval *models, *model_name, *models_instances;
 	zval *model = NULL, *manager, *records, *success = NULL, *null_value = NULL;
-	zval *status = NULL, *record = NULL;
+	zval *status = NULL, *connection, *record = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -4144,6 +4165,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 		RETURN_CTOR(status);
 	}
 	
+	PHALCON_INIT_VAR(connection);
+	phalcon_call_method(connection, model, "getwriteconnection");
+	
+	/** 
+	 * Create a transaction in the write connection
+	 */
+	phalcon_call_method_noret(connection, "begin");
 	phalcon_call_method_noret(records, "rewind");
 	
 	while (1) {
@@ -4164,6 +4192,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 		PHALCON_INIT_NVAR(success);
 		phalcon_call_method(success, record, "delete");
 		if (!zend_is_true(success)) {
+			/** 
+			 * Rollback the transaction
+			 */
+			phalcon_call_method_noret(connection, "rollback");
+	
 			PHALCON_INIT_NVAR(status);
 			object_init_ex(status, phalcon_mvc_model_query_status_ce);
 			phalcon_call_method_p2_noret(status, "__construct", success, record);
@@ -4176,6 +4209,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 		 */
 		phalcon_call_method_noret(records, "next");
 	}
+	
+	/** 
+	 * Commit the transaction
+	 */
+	phalcon_call_method_noret(connection, "commit");
 	
 	PHALCON_INIT_NVAR(success);
 	ZVAL_BOOL(success, 1);
