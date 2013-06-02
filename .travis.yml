@@ -40,9 +40,9 @@ before_script:
  - psql -c 'create database phalcon_test;' -U postgres
  - psql -U postgres phalcon_test -q -f unit-tests/schemas/postgresql/phalcon_test.sql
  - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/schemas/sqlite/phalcon_test.sql
- - chmod +x unit-tests/ci/run_script_gdb.sh
+ - chmod +x unit-tests/ci/run_script.sh
 
-script: ./unit-tests/ci/run_script_gdb.sh
+script: ./unit-tests/ci/run_script.sh
 
 notifications:
   email:

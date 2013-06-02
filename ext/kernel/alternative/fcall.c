@@ -189,6 +189,7 @@ static inline zend_bool phalcon_alt_is_callable_method_ex(zend_class_entry *ce, 
  */
 int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
 {
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	zend_uint i, exists = 0, is_phalcon_function = 0;
 	zend_class_entry *current_scope;
 	zend_class_entry *current_called_scope;
@@ -214,8 +215,8 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (key && PHALCON_GLOBAL(function_cache)) {
-		if (zend_hash_quick_find(PHALCON_GLOBAL(function_cache), key, key_length, hash_key, (void**) &function_handler) == SUCCESS) {
+	if (key && phalcon_globals_ptr->function_cache) {
+		if (zend_hash_quick_find(phalcon_globals_ptr->function_cache, key, key_length, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
 			is_phalcon_function = 1;
@@ -272,13 +273,13 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 		if (is_phalcon_function) {
 			if (fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION) {
 
-				if (!PHALCON_GLOBAL(function_cache)) {
-					ALLOC_HASHTABLE(PHALCON_GLOBAL(function_cache));
-					zend_hash_init(PHALCON_GLOBAL(function_cache), 0, NULL, NULL, 0);
+				if (!phalcon_globals_ptr->function_cache) {
+					ALLOC_HASHTABLE(phalcon_globals_ptr->function_cache);
+					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
 				}
 
 				zend_hash_quick_update(
-					PHALCON_GLOBAL(function_cache),
+					phalcon_globals_ptr->function_cache,
 					key,
 					key_length,
 					hash_key,
@@ -533,6 +534,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
 {
 	zend_uint i;
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	zval **original_return_value;
 	HashTable *calling_symbol_table;
 	zend_op_array *original_op_array;
@@ -558,8 +560,8 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (key && PHALCON_GLOBAL(function_cache)) {
-		if (zend_hash_quick_find(PHALCON_GLOBAL(function_cache), key, key_length, hash_key, (void**) &function_handler) == SUCCESS) {
+	if (key && phalcon_globals_ptr->function_cache) {
+		if (zend_hash_quick_find(phalcon_globals_ptr->function_cache, key, key_length, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
 			is_phalcon_function = 1;
@@ -624,13 +626,13 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 		if (is_phalcon_function) {
 			if (fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION) {
 
-				if (!PHALCON_GLOBAL(function_cache)) {
-					ALLOC_HASHTABLE(PHALCON_GLOBAL(function_cache));
-					zend_hash_init(PHALCON_GLOBAL(function_cache), 0, NULL, NULL, 0);
+				if (!phalcon_globals_ptr->function_cache) {
+					ALLOC_HASHTABLE(phalcon_globals_ptr->function_cache);
+					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
 				}
 
 				zend_hash_quick_update(
-					PHALCON_GLOBAL(function_cache),
+					phalcon_globals_ptr->function_cache,
 					key,
 					key_length,
 					hash_key,
@@ -885,6 +887,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
  */
 int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
 {
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	zval ***params_array;
 	zend_uint i;
 	int ex_retval;
@@ -894,9 +897,9 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 	unsigned long hash_key;
 	char *key;
 
-	PHALCON_GLOBAL(recursive_lock)++;
+	phalcon_globals_ptr->recursive_lock++;
 
-	if (PHALCON_GLOBAL(recursive_lock) > 2048) {
+	if (phalcon_globals_ptr->recursive_lock > 2048) {
 		ex_retval = FAILURE;
 		params_array = NULL;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");
@@ -955,7 +958,7 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 		}
 	}
 
-	PHALCON_GLOBAL(recursive_lock)--;
+	phalcon_globals_ptr->recursive_lock--;
 
 	if (local_retval_ptr) {
 		COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);
