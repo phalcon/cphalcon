@@ -1,9 +1,7 @@
 language: php
 
 php:
-  - 5.3
   - 5.3.3
-  - 5.4
 
 services:
   - mongodb
@@ -40,7 +38,7 @@ before_script:
  - psql -c 'create database phalcon_test;' -U postgres
  - psql -U postgres phalcon_test -q -f unit-tests/schemas/postgresql/phalcon_test.sql
  - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/schemas/sqlite/phalcon_test.sql
- - sudo echo "/tmp/core" > /proc/sys/kernel/core_pattern
+ - sudo echo "kernel.core_pattern = /tmp/core" >> /etc/sysctl.conf
  - chmod +x unit-tests/ci/run_script.sh
 
 script: ./unit-tests/ci/run_script.sh
