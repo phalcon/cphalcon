@@ -30,6 +30,92 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 
+static int fast_memeq(const void* src1, const void* src2, int len) {
+
+	int ii;
+
+	/* simple optimization */
+	if (src1 == src2)
+		return 0;
+
+	/* Convert char pointers to 4 byte integers */
+	int32_t *src1_as_int = (int32_t*) src1;
+	int32_t *src2_as_int = (int32_t*) src2;
+	int major_passes = len >> 2;
+
+	/* Number of passes at 4 bytes at a time */
+	int minor_passes = len & 0x3;
+
+	/* last 0..3 bytes leftover at the end */
+	for (ii = 0; ii < major_passes; ii++) {
+		if (*src1_as_int++ != *src2_as_int++)
+			return 1; /* compare as ints */
+	}
+
+	/* Handle last few bytes, but has to be as characters */
+	char* src1_as_char = (char*) src1_as_int;
+	char* src2_as_char = (char*) src2_as_int;
+	switch (minor_passes) {
+		case 3:
+			if (*src1_as_char++ != *src2_as_char++)
+				return 1;
+		case 2:
+			if (*src1_as_char++ != *src2_as_char++)
+				return 1;
+		case 1:
+			if (*src1_as_char++ != *src2_as_char++)
+				return 1;
+	}
+
+	/* If we make it here, all compares succeeded */
+	return 0;
+}
+
+static int phalcon_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, void **pData)
+{
+	ulong h;
+	uint nIndex;
+	Bucket *p;
+
+	//IS_CONSISTENT(ht);
+
+	h = zend_inline_hash_func(arKey, nKeyLength);
+	nIndex = h & ht->nTableMask;
+
+	p = ht->arBuckets[nIndex];
+	while (p != NULL) {
+		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength) && !fast_memeq(p->arKey, arKey, nKeyLength))) {
+			*pData = p->pData;
+			return SUCCESS;
+		}
+		p = p->pNext;
+	}
+	return FAILURE;
+}
+
+static int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h, void **pData)
+{
+	uint nIndex;
+	Bucket *p;
+
+	if (nKeyLength == 0) {
+		return zend_hash_index_find(ht, h, pData);
+	}
+
+	nIndex = h & ht->nTableMask;
+
+	p = ht->arBuckets[nIndex];
+	while (p != NULL) {
+		//if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength) && !memcmp(p->arKey, arKey, nKeyLength))) {
+		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength))) {
+			*pData = p->pData;
+			return SUCCESS;
+		}
+		p = p->pNext;
+	}
+	return FAILURE;
+}
+
 /**
  * Check if index exists on an array zval
  */
@@ -597,11 +683,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 		return FAILURE;
 	}
 
-	if (Z_TYPE_P(index) == IS_NULL) {
-		convert_to_string(index);
-	}
-
-	if (Z_TYPE_P(index) != IS_STRING && Z_TYPE_P(index) != IS_LONG && Z_TYPE_P(index) != IS_DOUBLE) {
+	if (Z_TYPE_P(index) != IS_NULL && Z_TYPE_P(index) != IS_STRING && Z_TYPE_P(index) != IS_LONG && Z_TYPE_P(index) != IS_DOUBLE) {
 
 		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
@@ -611,6 +693,10 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 		ZVAL_NULL(*return_value);
 
 		return FAILURE;
+	}
+
+	if (Z_TYPE_P(index) == IS_NULL) {
+		convert_to_string(index);
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
@@ -626,7 +712,8 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
-		if ((result = zend_hash_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, (void**) &zv)) == SUCCESS) {
+		//if ((result = zend_hash_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, (void**) &zv)) == SUCCESS) {
+		if ((result = phalcon_hash_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, (void**) &zv)) == SUCCESS) {
 			*return_value = *zv;
 			Z_ADDREF_PP(return_value);
 			return SUCCESS;
@@ -675,7 +762,8 @@ int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint
 		return FAILURE;
 	}
 
-	if ((result = zend_hash_find(Z_ARRVAL_P(arr), index, index_length+1, (void**)&zv)) == SUCCESS) {
+	//if ((result = zend_hash_find(Z_ARRVAL_P(arr), index, index_length+1, (void**)&zv)) == SUCCESS) {
+	if ((result = phalcon_hash_find(Z_ARRVAL_P(arr), index, index_length+1, (void**)&zv)) == SUCCESS) {
 		*return_value = *zv;
 		Z_ADDREF_PP(return_value);
 		return SUCCESS;
@@ -712,7 +800,8 @@ int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index
 		return FAILURE;
 	}
 
-	if ((result = zend_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv)) == SUCCESS) {
+	//if ((result = zend_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv)) == SUCCESS) {
+	if ((result = phalcon_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv)) == SUCCESS) {
 		*return_value = *zv;
 		Z_ADDREF_PP(return_value);
 		return SUCCESS;
