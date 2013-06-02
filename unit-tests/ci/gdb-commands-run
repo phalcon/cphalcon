@@ -1,2 +1,3 @@
 run ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
+bt
 quit

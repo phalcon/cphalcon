@@ -663,7 +663,7 @@ PHP_MSHUTDOWN_FUNCTION(phalcon){
 		PHALCON_GLOBAL(function_cache) = NULL;
 	}
 
-	phalcon_orm_destroy_cache();
+	phalcon_orm_destroy_cache(TSRMLS_C);
 
 	return SUCCESS;
 }
@@ -687,7 +687,7 @@ PHP_RSHUTDOWN_FUNCTION(phalcon){
 		PHALCON_GLOBAL(function_cache) = NULL;
 	}
 
-	phalcon_orm_destroy_cache();
+	phalcon_orm_destroy_cache(TSRMLS_C);
 
 	return SUCCESS;
 }

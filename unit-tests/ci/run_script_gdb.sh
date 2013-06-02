@@ -14,6 +14,8 @@
 #  Authors: Andres Gutierrez <andres@phalconphp.com>
 #            Eduar Carvajal <eduar@phalconphp.com>
 
+# Note: Use this script to run phalcon under GDB this shows a backtrace on TRAVIS
+
 ulimit -c unlimited
 PHP_VERSION=`php -r "echo PHP_VERSION;"`
 PHP_BIN="/home/travis/.phpenv/versions/$PHP_VERSION/bin/php"
