@@ -19,30 +19,12 @@ PHP_VERSION=`php -r "echo PHP_VERSION;"`
 PHP_BIN="/home/travis/.phpenv/versions/$PHP_VERSION/bin/php"
 echo $PHP_BIN
 
-$PHP_BIN ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
+sudo apt-get install gdb
+
+gdb -q -batch -x ./unit-tests/ci/gdb-commands-run -e $PHP_BIN
 STATUS=$?
 if [ $STATUS != 0 ]; then
-	if [ -f /tmp/core ]; then
-		sudo apt-get install gdb
-		gdb -q -batch -x ./unit-tests/ci/gdb-commands -e $PHP_BIN -c /tmp/core
-	else
-		find_core_dump
-		echo "No core dump was found"
-	fi
-
 	exit $STATUS
-fi
-
-$PHP_BIN ./php-tests/ci/phpunit.php --debug -c php-tests/tests/phpunit.xml
-STATUS=$?
-if [ $STATUS != 0 ]; then
-	if [ -f /tmp/core ]; then
-		sudo apt-get install gdb
-		gdb -q -batch -x ./unit-tests/ci/gdb-commands -e $PHP_BIN -c /tmp/core
-	else
-		find_core_dump
-		echo "No core dump was found"
-	fi
 fi
 
 exit $STATUS
