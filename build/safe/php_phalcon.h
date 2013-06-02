@@ -49,7 +49,10 @@ typedef struct _phalcon_orm_options {
 	zend_bool column_renaming;
 	zend_bool not_null_validations;
 	zend_bool exception_on_failed_save;
+	int cache_level;
+	int unique_cache_id;
 	HashTable *parser_cache;
+	HashTable *ast_cache;
 } phalcon_orm_options;
 
 /** DB options */
