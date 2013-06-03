@@ -10,6 +10,7 @@ kernel/debug.c \
 kernel/assert.c \
 kernel/object.c \
 kernel/array.c \
+kernel/hash.c \
 kernel/string.c \
 kernel/filter.c \
 kernel/operators.c \

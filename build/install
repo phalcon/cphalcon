@@ -16,13 +16,13 @@
 
 # Check best compilation flags for GCC
 export CC="gcc"
-export CFLAGS="-march=native -mtune=native -O2 -fno-delete-null-pointer-checks -finline-functions -fomit-frame-pointer"
+export CFLAGS="-march=native -mtune=native -O2 -fno-delete-null-pointer-checks -finline-functions -fomit-frame-pointer -fno-builtin-memcmp"
 echo "int main() {}" > t.c
 gcc $CFLAGS t.c -o t 2> t.t
 if [ $? != 0 ]; then
 	chmod +x gcccpuopt
 	BFLAGS=`./gcccpuopt`
-	export CFLAGS="-O2 -fno-delete-null-pointer-checks -finline-functions -fomit-frame-pointer $BFLAGS"
+	export CFLAGS="-O2 -fno-delete-null-pointer-checks -finline-functions -fomit-frame-pointer -fno-builtin-memcmp $BFLAGS"
 	gcc $CFLAGS t.c -o t 2> t.t
 	if [ $? != 0 ]; then
 		export CFLAGS="-O2 -fno-delete-null-pointer-checks"
