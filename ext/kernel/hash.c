@@ -39,10 +39,31 @@ int phalcon_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 		#ifndef PHALCON_RELEASE
 		 ((p->h == h) && (p->nKeyLength == nKeyLength) && !memcmp(p->arKey, arKey, nKeyLength)))
 		#else
-		((p->h == h) && (p->nKeyLength == nKeyLength))
+		((p->h == h) && (p->nKeyLength == nKeyLength)))
 		#endif
 		 {
 				return 1;
+		}
+		p = p->pNext;
+	}
+	return 0;
+}
+
+int phalcon_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h)
+{
+	uint nIndex;
+	Bucket *p;
+
+	if (nKeyLength == 0) {
+		return zend_hash_index_exists(ht, h);
+	}
+
+	nIndex = h & ht->nTableMask;
+
+	p = ht->arBuckets[nIndex];
+	while (p != NULL) {
+		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength))) {
+			return 1;
 		}
 		p = p->pNext;
 	}
@@ -64,7 +85,7 @@ int phalcon_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, v
 		#ifndef PHALCON_RELEASE
 		 ((p->h == h) && (p->nKeyLength == nKeyLength) && !memcmp(p->arKey, arKey, nKeyLength)))
 		#else
-		((p->h == h) && (p->nKeyLength == nKeyLength))
+		((p->h == h) && (p->nKeyLength == nKeyLength)))
 		#endif
 		 {
 			*pData = p->pData;
@@ -96,3 +117,4 @@ int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLen
 	}
 	return FAILURE;
 }
+
