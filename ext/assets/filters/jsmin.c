@@ -45,6 +45,12 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Filters_Jsmin){
 	return SUCCESS;
 }
 
+/**
+ * Filters the content using JSMIN
+ *
+ * @param string $content
+ * @return $content
+ */
 PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter){
 
 	zval *content, *filtered;
@@ -54,7 +60,10 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter){
 	phalcon_fetch_params(1, 1, 0, &content);
 	
 	PHALCON_INIT_VAR(filtered);
-	phalcon_jsmin(filtered, content);
+	if (phalcon_jsmin(filtered, content TSRMLS_CC) == FAILURE) {
+		return;
+	}
+	
 	RETURN_CCTOR(filtered);
 }
 

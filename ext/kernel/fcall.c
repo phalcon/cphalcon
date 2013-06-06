@@ -31,6 +31,7 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/hash.h"
 #include "kernel/exception.h"
 
 #include "kernel/alternative/fcall.h"
@@ -52,7 +53,7 @@ inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int metho
 	hash = zend_inline_hash_func(lcname, method_len + 1);
 
 	while (ce) {
-		if (zend_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
+		if (phalcon_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
 			EG(scope) = ce;
 			if (!lower) {
 				efree(lcname);
@@ -82,7 +83,7 @@ inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, i
 	while (ce) {
 		if (ce->name_length == active_class_len) {
 			if (!zend_binary_strcasecmp(ce->name, ce->name_length, active_class, active_class_len)) {
-				if (zend_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
+				if (phalcon_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
 					EG(scope) = ce;
 					efree(lcname);
 					return SUCCESS;

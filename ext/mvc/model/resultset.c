@@ -604,7 +604,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages){
 }
 
 /**
- * Delete every record in the resultset
+ * Deletes every record in the resultset
  *
  * @param Closure $conditionCallback
  * @return boolean
@@ -703,10 +703,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 	 */
 	if (PHALCON_IS_TRUE(transaction)) {
 		phalcon_call_method_noret(connection, "commit");
-		RETURN_MM_TRUE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_MM_TRUE;
 }
 
 /**

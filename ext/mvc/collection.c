@@ -753,6 +753,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 		 */
 		PHALCON_INIT_VAR(group);
 		phalcon_fast_count(group, documents_cursor TSRMLS_CC);
+	
+		RETURN_NCTOR(group);
 	}
 	
 	PHALCON_INIT_NVAR(group);

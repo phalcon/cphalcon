@@ -81,8 +81,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasOneSingle"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_belongsTo"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_belongsToSingle"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasManyThrough"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasManyThroughSingle"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasManyToMany"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasManyToManySingle"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_initialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_sources"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_schemas"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -1496,7 +1496,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 }
 
 /**
- * Setup a relation n-m between two models
+ * Setups a relation n-m between two models
  *
  * @param string $fields
  * @param string $intermediateModel
@@ -1507,16 +1507,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
  * @param   array $options
  * @return  Phalcon\Mvc\Model\Relation
  */
-PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyThrough){
+PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany){
 
 	zval *model, *fields, *intermediate_model, *intermediate_fields;
 	zval *intermediate_referenced_fields, *referenced_model;
 	zval *referenced_fields, *options = NULL, *entity_name;
 	zval *intermediate_entity, *referenced_entity;
-	zval *key_relation, *has_many_through, *relations = NULL;
+	zval *key_relation, *has_many_to_many, *relations = NULL;
 	zval *number_fields = NULL, *number_referenced = NULL, *type;
 	zval *relation, *alias, *lower_alias = NULL, *key_alias;
-	zval *has_many_through_single, *single_relations = NULL;
+	zval *has_many_to_many_single, *single_relations = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1538,14 +1538,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyThrough){
 	PHALCON_INIT_VAR(key_relation);
 	PHALCON_CONCAT_VSVSV(key_relation, entity_name, "$", intermediate_entity, "$", referenced_entity);
 	
-	PHALCON_OBS_VAR(has_many_through);
-	phalcon_read_property_this(&has_many_through, this_ptr, SL("_hasManyThrough"), PH_NOISY_CC);
-	if (!phalcon_array_isset(has_many_through, key_relation)) {
+	PHALCON_OBS_VAR(has_many_to_many);
+	phalcon_read_property_this(&has_many_to_many, this_ptr, SL("_hasManyToMany"), PH_NOISY_CC);
+	if (!phalcon_array_isset(has_many_to_many, key_relation)) {
 		PHALCON_INIT_VAR(relations);
 		array_init(relations);
 	} else {
 		PHALCON_OBS_NVAR(relations);
-		phalcon_array_fetch(&relations, has_many_through, key_relation, PH_NOISY_CC);
+		phalcon_array_fetch(&relations, has_many_to_many, key_relation, PH_NOISY_CC);
 	}
 	
 	/** 
@@ -1628,19 +1628,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyThrough){
 	/** 
 	 * Update the relations
 	 */
-	phalcon_update_property_array(this_ptr, SL("_hasManyThrough"), key_relation, relations TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_hasManyToMany"), key_relation, relations TSRMLS_CC);
 	
 	/** 
 	 * Get existing relations by model
 	 */
-	PHALCON_OBS_VAR(has_many_through_single);
-	phalcon_read_property_this(&has_many_through_single, this_ptr, SL("_hasManyThroughSingle"), PH_NOISY_CC);
-	if (!phalcon_array_isset(has_many_through_single, entity_name)) {
+	PHALCON_OBS_VAR(has_many_to_many_single);
+	phalcon_read_property_this(&has_many_to_many_single, this_ptr, SL("_hasManyToManySingle"), PH_NOISY_CC);
+	if (!phalcon_array_isset(has_many_to_many_single, entity_name)) {
 		PHALCON_INIT_VAR(single_relations);
 		array_init(single_relations);
 	} else {
 		PHALCON_OBS_NVAR(single_relations);
-		phalcon_array_fetch(&single_relations, has_many_through_single, entity_name, PH_NOISY_CC);
+		phalcon_array_fetch(&single_relations, has_many_to_many_single, entity_name, PH_NOISY_CC);
 	}
 	
 	/** 
@@ -1651,7 +1651,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyThrough){
 	/** 
 	 * Update relations by model
 	 */
-	phalcon_update_property_array(this_ptr, SL("_hasManyThroughSingle"), entity_name, single_relations TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_hasManyToManySingle"), entity_name, single_relations TSRMLS_CC);
 	
 	RETURN_CTOR(relation);
 }

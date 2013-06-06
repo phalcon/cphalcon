@@ -269,6 +269,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getColumns){
  * Sets the models who makes part of the query
  *
  *<code>
+ *	$builder->from('Robots');
  *	$builder->from(array('Robots', 'RobotsParts'));
  *</code>
  *

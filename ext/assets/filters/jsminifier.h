@@ -24,4 +24,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-extern void phalcon_jsmin(zval *return_value, zval *script);
+extern int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC);
