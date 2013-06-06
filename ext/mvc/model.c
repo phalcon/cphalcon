@@ -2330,7 +2330,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 				 * By default action is restrict
 				 */
 				PHALCON_INIT_NVAR(action);
-				ZVAL_LONG(action, 0);
+				ZVAL_LONG(action, 1);
 	
 				/** 
 				 * Try to find a different action in the foreign key's options
@@ -2345,7 +2345,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 				/** 
 				 * Check only if the operation is restrict
 				 */
-				if (PHALCON_IS_LONG(action, 2)) {
+				if (PHALCON_IS_LONG(action, 1)) {
 	
 					PHALCON_INIT_NVAR(relation_class);
 					phalcon_call_method(relation_class, relation, "getreferencedmodel");
@@ -2542,7 +2542,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 				 * By default action is restrict
 				 */
 				PHALCON_INIT_NVAR(action);
-				ZVAL_LONG(action, 1);
+				ZVAL_LONG(action, 0);
 	
 				/** 
 				 * Try to find a different action in the foreign key's options
@@ -2557,7 +2557,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 				/** 
 				 * Check only if the operation is restrict
 				 */
-				if (PHALCON_IS_LONG(action, 1)) {
+				if (PHALCON_IS_LONG(action, 2)) {
 	
 					PHALCON_INIT_NVAR(relation_class);
 					phalcon_call_method(relation_class, relation, "getreferencedmodel");

@@ -1617,6 +1617,7 @@ int phalcon_property_incr(zval *object, char *property_name, unsigned int proper
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;
+	int separated = 0;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
@@ -1630,7 +1631,24 @@ int phalcon_property_incr(zval *object, char *property_name, unsigned int proper
 
 	tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
 	if (tmp) {
+
+		/** Separation only when refcount > 2 */
+		if (Z_REFCOUNT_P(tmp) > 2) {
+			zval *new_zv;
+			zval_ptr_dtor(&tmp);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp);
+			tmp = new_zv;
+			zval_copy_ctor(new_zv);
+			Z_SET_REFCOUNT_P(tmp, 0);
+			separated = 1;
+		}
+
 		increment_function(tmp);
+
+		if (separated) {
+			zend_update_property(ce, object, property_name, property_length, tmp TSRMLS_CC);
+		}
 	}
 
 	return SUCCESS;
@@ -1643,6 +1661,7 @@ int phalcon_property_decr(zval *object, char *property_name, unsigned int proper
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;
+	int separated = 0;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
@@ -1656,7 +1675,24 @@ int phalcon_property_decr(zval *object, char *property_name, unsigned int proper
 
 	tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
 	if (tmp) {
+
+		/** Separation only when refcount > 2 */
+		if (Z_REFCOUNT_P(tmp) > 2) {
+			zval *new_zv;
+			zval_ptr_dtor(&tmp);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp);
+			tmp = new_zv;
+			zval_copy_ctor(new_zv);
+			Z_SET_REFCOUNT_P(tmp, 0);
+			separated = 1;
+		}
+
 		decrement_function(tmp);
+
+		if (separated) {
+			zend_update_property(ce, object, property_name, property_length, tmp TSRMLS_CC);
+		}
 	}
 
 	return SUCCESS;
