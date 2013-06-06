@@ -14,6 +14,10 @@
 #  Authors: Andres Gutierrez <andres@phalconphp.com>
 #            Eduar Carvajal <eduar@phalconphp.com>
 
+find_core_dump() {
+	find /home/travis -name "core"
+}
+
 ulimit -c unlimited
 PHP_VERSION=`php -r "echo PHP_VERSION;"`
 PHP_BIN="/home/travis/.phpenv/versions/$PHP_VERSION/bin/php"
