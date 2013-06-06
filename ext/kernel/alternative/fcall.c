@@ -279,7 +279,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
 				}
 
-				phalcon_hash_quick_update(
+				zend_hash_quick_update(
 					phalcon_globals_ptr->function_cache,
 					key,
 					key_length,

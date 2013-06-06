@@ -238,7 +238,7 @@ static int jsmin_action(jsmin_parser *parser, char d TSRMLS_DC) {
 					}
 					smart_str_appendc(parser->minified, parser->theA);
 				}
-				parser->theB = jsmin_next(parser);
+				parser->theB = jsmin_next(parser TSRMLS_CC);
 				if (*parser->error != NULL) {
 					return FAILURE;
 				}
