@@ -147,6 +147,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
+	} else {
+		PHALCON_SEPARATE_PARAM(lifetime);
 	}
 	
 	if (!stop_buffer) {
@@ -180,13 +182,28 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	
 	PHALCON_INIT_VAR(prepared_content);
 	phalcon_call_method_p1(prepared_content, frontend, "beforestore", cached_content);
+	
+	/** 
+	 * Take the lifetime from the frontend or read it from the set in start()
+	 */
 	if (Z_TYPE_P(lifetime) == IS_NULL) {
-		PHALCON_INIT_VAR(ttl);
-		phalcon_call_method(ttl, frontend, "getlifetime");
+	
+		PHALCON_OBS_NVAR(lifetime);
+		phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+		if (Z_TYPE_P(lifetime) == IS_NULL) {
+			PHALCON_INIT_VAR(ttl);
+			phalcon_call_method(ttl, frontend, "getlifetime");
+		} else {
+			PHALCON_CPY_WRT(ttl, lifetime);
+		}
 	} else {
 		PHALCON_CPY_WRT(ttl, lifetime);
 	}
 	
+	/** 
+	 * Call apc_store in the PHP userland since most of the time it isn't available at
+	 * compile time
+	 */
 	phalcon_call_func_p3_noret("apc_store", last_key, prepared_content, ttl);
 	
 	PHALCON_INIT_VAR(is_buffering);

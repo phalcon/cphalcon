@@ -226,7 +226,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 
 	/** Check if it's a Phalcon function */
 	if (!is_phalcon_function) {
-		is_phalcon_function = ce->type == ZEND_INTERNAL_CLASS && phalcon_start_with_str_str(ce->name, ce->name_length, SL("Phalcon\\"));
+		is_phalcon_function = ce->type == ZEND_INTERNAL_CLASS && ce->name_length > 10 && !memcmp(ce->name, SL("Phalcon\\"));
 	}
 
 	/* The fci_cache doesn't exist, so we check it */
@@ -574,7 +574,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 	if (!is_phalcon_function) {
 		if (ce->type == ZEND_INTERNAL_CLASS) {
 			if (ce->name_length > 10) {
-				is_phalcon_function = phalcon_start_with_str_str(ce->name, ce->name_length, SL("Phalcon\\"));
+				is_phalcon_function =  !memcmp(ce->name, SL("Phalcon\\"));
 			}
 		}
 	}

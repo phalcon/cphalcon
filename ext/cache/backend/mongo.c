@@ -225,6 +225,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
+	} else {
+		PHALCON_SEPARATE_PARAM(lifetime);
 	}
 	
 	PHALCON_OBS_VAR(frontend);
@@ -250,9 +252,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	
 		PHALCON_INIT_VAR(timestamp);
 		ZVAL_LONG(timestamp, (long) time(NULL));
+	
+		/** 
+		 * Take the lifetime from the frontend or read it from the set in start()
+		 */
 		if (Z_TYPE_P(lifetime) == IS_NULL) {
-			PHALCON_INIT_VAR(ttl);
-			phalcon_call_method(ttl, frontend, "getlifetime");
+	
+			PHALCON_OBS_NVAR(lifetime);
+			phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+			if (Z_TYPE_P(lifetime) == IS_NULL) {
+				PHALCON_INIT_VAR(ttl);
+				phalcon_call_method(ttl, frontend, "getlifetime");
+			} else {
+				PHALCON_CPY_WRT(ttl, lifetime);
+			}
 		} else {
 			PHALCON_CPY_WRT(ttl, lifetime);
 		}

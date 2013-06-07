@@ -56,6 +56,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Simple){
 
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_viewsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_partialsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_viewParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_view_simple_ce, SL("_engines"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_registeredEngines"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -182,6 +183,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines){
 			object_init_ex(php_engine, phalcon_mvc_view_engine_php_ce);
 			phalcon_call_method_p2_noret(php_engine, "__construct", this_ptr, dependency_injector);
 	
+			/** 
+			 * Use .phtml as extension for the PHP engine
+			 */
 			phalcon_array_update_string(&engines, SL(".phtml"), &php_engine, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		} else {
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -189,6 +193,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines){
 				return;
 			}
 	
+			/** 
+			 * Arguments for instantiated engines
+			 */
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 2);
 			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
@@ -410,6 +417,97 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 	phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(content);
+}
+
+/**
+ * Renders a partial view
+ *
+ * <code>
+ * 	//Show a partial inside another view
+ * 	$this->partial('shared/footer');
+ * </code>
+ *
+ * <code>
+ * 	//Show a partial inside another view with parameters
+ * 	$this->partial('shared/footer', array('conent' => $html));
+ * </code>
+ *
+ * @param string $partialPath
+ * @param array $params
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, partial){
+
+	zval *partial_path, *params = NULL, *view_params, *new_params = NULL;
+	zval *zfalse, *partials_dir, *real_path, *engines;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &partial_path, &params);
+	
+	if (!params) {
+		PHALCON_INIT_VAR(params);
+	}
+	
+	/** 
+	 * If the developer pass an array of variables we create a new virtual symbol table
+	 */
+	if (Z_TYPE_P(params) == IS_ARRAY) { 
+	
+		PHALCON_OBS_VAR(view_params);
+		phalcon_read_property_this(&view_params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	
+		/** 
+		 * Merge or assign the new params as parameters
+		 */
+		if (Z_TYPE_P(view_params) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(new_params);
+			phalcon_fast_array_merge(new_params, &view_params, &params TSRMLS_CC);
+		} else {
+			PHALCON_CPY_WRT(new_params, params);
+		}
+	
+		/** 
+		 * Update the parameters with the new ones
+		 */
+		phalcon_update_property_this(this_ptr, SL("_viewParams"), new_params TSRMLS_CC);
+	
+		/** 
+		 * Create a virtual symbol table
+		 */
+		phalcon_create_symbol_table(TSRMLS_C);
+	
+	}
+	
+	PHALCON_INIT_VAR(zfalse);
+	ZVAL_BOOL(zfalse, 0);
+	
+	PHALCON_OBS_VAR(partials_dir);
+	phalcon_read_property_this(&partials_dir, this_ptr, SL("_partialsDir"), PH_NOISY_CC);
+	
+	/** 
+	 * Partials are looked up under the partials directory
+	 */
+	PHALCON_INIT_VAR(real_path);
+	PHALCON_CONCAT_VV(real_path, partials_dir, partial_path);
+	
+	/** 
+	 * We need to check if the engines are loaded first, this method could be called
+	 * outside of 'render'
+	 */
+	PHALCON_INIT_VAR(engines);
+	phalcon_call_method(engines, this_ptr, "_loadtemplateengines");
+	
+	/** 
+	 * Now we need to restore the original view parameters
+	 */
+	if (Z_TYPE_P(params) == IS_ARRAY) { 
+		/** 
+		 * Restore the original view params
+		 */
+		phalcon_update_property_this(this_ptr, SL("_viewParams"), view_params TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**

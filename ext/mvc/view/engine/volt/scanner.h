@@ -98,6 +98,7 @@
 #define PHVOLT_T_ELSEFOR 321
 #define PHVOLT_T_MACRO 322
 #define PHVOLT_T_ENDMACRO 323
+#define PHVOLT_T_WITH 324
 
 /** Delimiters */
 #define PHVOLT_T_OPEN_DELIMITER  330

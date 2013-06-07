@@ -137,6 +137,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
+	} else {
+		PHALCON_SEPARATE_PARAM(lifetime);
 	}
 	
 	PHALCON_OBS_VAR(options);
@@ -165,9 +167,20 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 		 */
 		PHALCON_INIT_VAR(timestamp);
 		ZVAL_LONG(timestamp, (long) time(NULL));
+	
+		/** 
+		 * Take the lifetime from the frontend or read it from the set in start()
+		 */
 		if (Z_TYPE_P(lifetime) == IS_NULL) {
-			PHALCON_INIT_VAR(ttl);
-			phalcon_call_method(ttl, frontend, "getlifetime");
+	
+			PHALCON_OBS_NVAR(lifetime);
+			phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+			if (Z_TYPE_P(lifetime) == IS_NULL) {
+				PHALCON_INIT_VAR(ttl);
+				phalcon_call_method(ttl, frontend, "getlifetime");
+			} else {
+				PHALCON_CPY_WRT(ttl, lifetime);
+			}
 		} else {
 			PHALCON_CPY_WRT(ttl, lifetime);
 		}
@@ -186,6 +199,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 		 */
 		if (PHALCON_IS_TRUE(not_expired)) {
 	
+			/** 
+			 * Use file-get-contents to control that the openbase_dir can't be skipped
+			 */
 			PHALCON_INIT_VAR(cached_content);
 			phalcon_call_func_p1(cached_content, "file_get_contents", cache_file);
 			if (PHALCON_IS_FALSE(cached_content)) {
@@ -195,6 +211,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 				return;
 			}
 	
+			/** 
+			 * Use the frontend to process the content of the cache
+			 */
 			PHALCON_INIT_VAR(processed);
 			phalcon_call_method_p1(processed, frontend, "afterretrieve", cached_content);
 	

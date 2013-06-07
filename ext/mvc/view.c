@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_View, getPartialsDir){
  * Sets base path. Depending of your platform, always add a trailing slash or backslash
  *
  * <code>
- * 	$view->setBasePath(__DIR__.'/');
+ * 	$view->setBasePath(__DIR__ . '/');
  * </code>
  *
  * @param string $basePath
@@ -1273,6 +1273,11 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  * <code>
  * 	//Show a partial inside another view
  * 	$this->partial('shared/footer');
+ * </code>
+ *
+ * <code>
+ * 	//Show a partial inside another view with parameters
+ * 	$this->partial('shared/footer', array('conent' => $html));
  * </code>
  *
  * @param string $partialPath

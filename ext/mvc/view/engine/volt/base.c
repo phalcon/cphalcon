@@ -79,6 +79,7 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_ENDAUTOESCAPE,		"ENDAUTOESCAPE" },
   { PHVOLT_T_CONTINUE,			"CONTINUE" },
   { PHVOLT_T_BREAK,				"BREAK" },
+  { PHVOLT_T_WITH,				"WITH" },
   {  0, NULL }
 };
 
@@ -521,6 +522,10 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 			case PHVOLT_T_INCLUDE:
 				phvolt_(phvolt_parser, PHVOLT_INCLUDE, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_WITH:
+				phvolt_(phvolt_parser, PHVOLT_WITH, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_DEFINED:
