@@ -199,6 +199,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	parser_status->ret = NULL;
 	parser_status->syntax_error = NULL;
 	parser_status->token = &token;
+	parser_status->enable_literals = phalcon_globals_ptr->orm.enable_literals;
 
 	state->active_token = 0;
 	state->start = phql;
@@ -293,13 +294,31 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 
 			case PHQL_T_INTEGER:
-				phql_parse_with_token(phql_parser, PHQL_T_INTEGER, PHQL_INTEGER, &token, parser_status);
+				if (parser_status->enable_literals) {
+					phql_parse_with_token(phql_parser, PHQL_T_INTEGER, PHQL_INTEGER, &token, parser_status);
+				} else {
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
+					parser_status->status = PHQL_PARSING_FAILED;
+				}
 				break;
 			case PHQL_T_DOUBLE:
-				phql_parse_with_token(phql_parser, PHQL_T_DOUBLE, PHQL_DOUBLE, &token, parser_status);
+				if (parser_status->enable_literals) {
+					phql_parse_with_token(phql_parser, PHQL_T_DOUBLE, PHQL_DOUBLE, &token, parser_status);
+				} else {
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
+					parser_status->status = PHQL_PARSING_FAILED;
+				}
 				break;
 			case PHQL_T_STRING:
-				phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, &token, parser_status);
+				if (parser_status->enable_literals) {
+					phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, &token, parser_status);
+				} else {
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
+					parser_status->status = PHQL_PARSING_FAILED;
+				}
 				break;
 			case PHQL_T_IDENTIFIER:
 				phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, &token, parser_status);

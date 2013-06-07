@@ -1632,7 +1632,7 @@ int phalcon_property_incr(zval *object, char *property_name, unsigned int proper
 	tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
 	if (tmp) {
 
-		/** Separation only when refcount > 2 */
+		/** Separation only when refcount > 1 */
 		if (Z_REFCOUNT_P(tmp) > 1) {
 			zval *new_zv;
 			ALLOC_ZVAL(new_zv);
@@ -1675,7 +1675,7 @@ int phalcon_property_decr(zval *object, char *property_name, unsigned int proper
 	tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
 	if (tmp) {
 
-		/** Separation only when refcount > 2 */
+		/** Separation only when refcount > 1 */
 		if (Z_REFCOUNT_P(tmp) > 1) {
 			zval *new_zv;
 			ALLOC_ZVAL(new_zv);

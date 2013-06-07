@@ -249,7 +249,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *implicit_view, *view, *namespace_name;
 	zval *controller_name = NULL, *action_name = NULL, *params = NULL;
 	zval *dispatcher, *controller, *returned_response = NULL;
-	zval *possible_response, *response = NULL, *content;
+	zval *possible_response, *render_status = NULL, *response = NULL;
+	zval *content;
 
 	PHALCON_MM_GROW();
 
@@ -509,19 +510,38 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		if (PHALCON_IS_TRUE(implicit_view)) {
 	
 			if (Z_TYPE_P(controller) == IS_OBJECT) {
-				PHALCON_INIT_NVAR(controller_name);
-				phalcon_call_method(controller_name, dispatcher, "getcontrollername");
 	
-				PHALCON_INIT_NVAR(action_name);
-				phalcon_call_method(action_name, dispatcher, "getactionname");
-	
-				PHALCON_INIT_NVAR(params);
-				phalcon_call_method(params, dispatcher, "getparams");
+				PHALCON_INIT_VAR(render_status);
+				ZVAL_BOOL(render_status, 1);
 	
 				/** 
-				 * Automatic render based on the latest controller executed
+				 * This allows to make a custom view render
 				 */
-				phalcon_call_method_p3_noret(view, "render", controller_name, action_name, params);
+				if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+					PHALCON_INIT_NVAR(event_name);
+					ZVAL_STRING(event_name, "application:viewRender", 1);
+	
+					phalcon_call_method_p3(render_status, events_manager, "fire", event_name, this_ptr, view);
+				}
+	
+				/** 
+				 * Check if the view process has been treated by the developer
+				 */
+				if (PHALCON_IS_NOT_FALSE(render_status)) {
+					PHALCON_INIT_NVAR(controller_name);
+					phalcon_call_method(controller_name, dispatcher, "getcontrollername");
+	
+					PHALCON_INIT_NVAR(action_name);
+					phalcon_call_method(action_name, dispatcher, "getactionname");
+	
+					PHALCON_INIT_NVAR(params);
+					phalcon_call_method(params, dispatcher, "getparams");
+	
+					/** 
+					 * Automatic render based on the latest controller executed
+					 */
+					phalcon_call_method_p3_noret(view, "render", controller_name, action_name, params);
+				}
 			}
 		}
 	}

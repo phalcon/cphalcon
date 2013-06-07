@@ -295,6 +295,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 	 * Create a virtual symbol table
 	 */
 	phalcon_create_symbol_table(TSRMLS_C);
+	
 	phalcon_call_func_noret("ob_start");
 	
 	PHALCON_INIT_VAR(not_exists);

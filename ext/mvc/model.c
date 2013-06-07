@@ -6539,7 +6539,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 
 	zval *options, *disable_events, *virtual_foreign_keys;
 	zval *column_renaming, *not_null_validations;
-	zval *exception_on_failed_save;
+	zval *exception_on_failed_save, *enable_literals;
 
 	PHALCON_MM_GROW();
 
@@ -6593,6 +6593,15 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 		PHALCON_OBS_VAR(exception_on_failed_save);
 		phalcon_array_fetch_string(&exception_on_failed_save, options, SL("exceptionOnFailedSave"), PH_NOISY_CC);
 		PHALCON_GLOBAL(orm).exception_on_failed_save = zend_is_true(exception_on_failed_save);
+	}
+	
+	/** 
+	 * Enables/Disables literals in PHQL this improves the security of applications
+	 */
+	if (phalcon_array_isset_string(options, SS("enableLiterals"))) {
+		PHALCON_OBS_VAR(enable_literals);
+		phalcon_array_fetch_string(&enable_literals, options, SL("enableLiterals"), PH_NOISY_CC);
+		PHALCON_GLOBAL(orm).enable_literals = zend_is_true(enable_literals);
 	}
 	
 	PHALCON_MM_RESTORE();

@@ -7,11 +7,18 @@
  - Added Mvc\Model\Criteria::notBetweenWhere to append a NOT BETWEEN expression to the criteria
  - Added Mvc\Model\Criteria::betweenWhere to append a BETWEEN expression to the criteria
  - Phalcon\Tag::image accepts a second parameter to allow external URLs
- - Added Phalcon\Mvc\View\Simple as an alternative view component, this only have a single level of rendering and work better with Volt's inheritance
+ - Added Phalcon\Mvc\View\Simple as an alternative view component, this only have a single level of rendering and works better with Volt's inheritance
  - Better escaping of reserved words in internal PHQL generation
  - Added Phalcon\Http\Request::getJsonRawBody() to return the request body as a decoded JSON
  - Added Phalcon\Http\Request::getHeaders()
-
+ - Support for many to many relations in the ORM
+ - Added Phalcon\Assets\Filters\Jsmin to provide on-the-fly javascript minification
+ - Added Phalcon\Assets\Filters\Cssmin to provide on-the-fly CSS minification
+ - Support for real nested transactions in Phalcon\Db using database savepoints
+ - Support for create/list/drop views in Phalcon\Db
+ - Added event application:viewRender to Phalcon\Mvc\Application allowing the developer to call the $view->render method as he/she needs
+ - Added option to disable literals in PHQL statements, this highly reduces the possibility
+ to be attacked using SQL injections
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods

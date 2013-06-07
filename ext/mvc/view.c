@@ -1276,16 +1276,50 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  * </code>
  *
  * @param string $partialPath
- * @return string
+ * @param array $params
  */
 PHP_METHOD(Phalcon_Mvc_View, partial){
 
-	zval *partial_path, *zfalse, *partials_dir, *real_path;
-	zval *engines;
+	zval *partial_path, *params = NULL, *view_params, *new_params = NULL;
+	zval *zfalse, *partials_dir, *real_path, *engines;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &partial_path);
+	phalcon_fetch_params(1, 1, 1, &partial_path, &params);
+	
+	if (!params) {
+		PHALCON_INIT_VAR(params);
+	}
+	
+	/** 
+	 * If the developer pass an array of variables we create a new virtual symbol table
+	 */
+	if (Z_TYPE_P(params) == IS_ARRAY) { 
+	
+		PHALCON_OBS_VAR(view_params);
+		phalcon_read_property_this(&view_params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	
+		/** 
+		 * Merge or assign the new params as parameters
+		 */
+		if (Z_TYPE_P(view_params) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(new_params);
+			phalcon_fast_array_merge(new_params, &view_params, &params TSRMLS_CC);
+		} else {
+			PHALCON_CPY_WRT(new_params, params);
+		}
+	
+		/** 
+		 * Update the parameters with the new ones
+		 */
+		phalcon_update_property_this(this_ptr, SL("_viewParams"), new_params TSRMLS_CC);
+	
+		/** 
+		 * Create a virtual symbol table
+		 */
+		phalcon_create_symbol_table(TSRMLS_C);
+	
+	}
 	
 	PHALCON_INIT_VAR(zfalse);
 	ZVAL_BOOL(zfalse, 0);
@@ -1293,12 +1327,33 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	PHALCON_OBS_VAR(partials_dir);
 	phalcon_read_property_this(&partials_dir, this_ptr, SL("_partialsDir"), PH_NOISY_CC);
 	
+	/** 
+	 * Partials are looked up under the partials directory
+	 */
 	PHALCON_INIT_VAR(real_path);
 	PHALCON_CONCAT_VV(real_path, partials_dir, partial_path);
 	
+	/** 
+	 * We need to check if the engines are loaded first, this method could be called
+	 * outside of 'render'
+	 */
 	PHALCON_INIT_VAR(engines);
 	phalcon_call_method(engines, this_ptr, "_loadtemplateengines");
+	
+	/** 
+	 * Call engine render, this checks in every registered engine for the partial
+	 */
 	phalcon_call_method_p5_noret(this_ptr, "_enginerender", engines, real_path, zfalse, zfalse, zfalse);
+	
+	/** 
+	 * Now we need to restore the original view parameters
+	 */
+	if (Z_TYPE_P(params) == IS_ARRAY) { 
+		/** 
+		 * Restore the original view params
+		 */
+		phalcon_update_property_this(this_ptr, SL("_viewParams"), view_params TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
