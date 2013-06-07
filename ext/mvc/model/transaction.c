@@ -89,6 +89,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction){
 	zend_declare_property_bool(phalcon_mvc_model_transaction_ce, SL("_rollbackOnAbort"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("_manager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_model_transaction_ce, SL("_service"), "db", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("_rollbackRecord"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_transaction_ce TSRMLS_CC, 1, phalcon_mvc_model_transactioninterface_ce);
@@ -135,6 +136,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 	PHALCON_INIT_VAR(connection);
 	phalcon_call_method_p1(connection, dependency_injector, "get", service);
 	phalcon_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
+
+        phalcon_update_property_this(this_ptr, SL("_service"), service TSRMLS_CC);
+        
 	if (zend_is_true(auto_begin)) {
 		phalcon_call_method_noret(connection, "begin");
 	}
@@ -413,3 +417,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord){
 	
 }
 
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, getService){
+
+  RETURN_MEMBER(this_ptr, "_service");
+}

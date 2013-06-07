@@ -178,8 +178,8 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 			}*/
 
 			if ((Z_REFCOUNT_PP(active_memory->addresses[i]) - 1) == 0) {
-				zval_ptr_dtor(active_memory->addresses[i]);
-				active_memory->addresses[i] = NULL;
+                        	zval_ptr_dtor(active_memory->addresses[i]);
+                        	active_memory->addresses[i] = NULL;
 			} else {
 				Z_DELREF_PP(active_memory->addresses[i]);
 				if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
