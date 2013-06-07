@@ -1635,7 +1635,7 @@ int phalcon_property_incr(zval *object, char *property_name, unsigned int proper
 		/** Separation only when refcount > 2 */
 		if (Z_REFCOUNT_P(tmp) > 2) {
 			zval *new_zv;
-			zval_ptr_dtor(&tmp);
+			Z_DELREF_P(&tmp);
 			ALLOC_ZVAL(new_zv);
 			INIT_PZVAL_COPY(new_zv, tmp);
 			tmp = new_zv;
@@ -1679,7 +1679,7 @@ int phalcon_property_decr(zval *object, char *property_name, unsigned int proper
 		/** Separation only when refcount > 2 */
 		if (Z_REFCOUNT_P(tmp) > 2) {
 			zval *new_zv;
-			zval_ptr_dtor(&tmp);
+			Z_DELREF_P(tmp);
 			ALLOC_ZVAL(new_zv);
 			INIT_PZVAL_COPY(new_zv, tmp);
 			tmp = new_zv;

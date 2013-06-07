@@ -4883,14 +4883,10 @@ static int phalcon_hash_exists(const HashTable *ht, const char *arKey, uint nKey
 
 	p = ht->arBuckets[nIndex];
 	while (p != NULL) {
-		if (p->arKey == arKey ||
-		#ifndef PHALCON_RELEASE
-		 ((p->h == h) && (p->nKeyLength == nKeyLength) && !memcmp(p->arKey, arKey, nKeyLength)))
-		#else
-		((p->h == h) && (p->nKeyLength == nKeyLength)))
-		#endif
-		 {
+		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength))) {
+			if (!memcmp(p->arKey, arKey, nKeyLength)) {
 				return 1;
+			}
 		}
 		p = p->pNext;
 	}
@@ -4911,7 +4907,9 @@ static int phalcon_hash_quick_exists(const HashTable *ht, const char *arKey, uin
 	p = ht->arBuckets[nIndex];
 	while (p != NULL) {
 		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength))) {
-			return 1;
+			if (!memcmp(p->arKey, arKey, nKeyLength)) {
+				return 1;
+			}
 		}
 		p = p->pNext;
 	}
@@ -4929,15 +4927,11 @@ static int phalcon_hash_find(const HashTable *ht, const char *arKey, uint nKeyLe
 
 	p = ht->arBuckets[nIndex];
 	while (p != NULL) {
-		if (p->arKey == arKey ||
-		#ifndef PHALCON_RELEASE
-		 ((p->h == h) && (p->nKeyLength == nKeyLength) && !memcmp(p->arKey, arKey, nKeyLength)))
-		#else
-		((p->h == h) && (p->nKeyLength == nKeyLength)))
-		#endif
-		 {
-			*pData = p->pData;
-			return SUCCESS;
+		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength))) {
+			if (!memcmp(p->arKey, arKey, nKeyLength)) {
+				*pData = p->pData;
+				return SUCCESS;
+			}
 		}
 		p = p->pNext;
 	}
@@ -4958,8 +4952,10 @@ static int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint 
 	p = ht->arBuckets[nIndex];
 	while (p != NULL) {
 		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength))) {
-			*pData = p->pData;
-			return SUCCESS;
+			if (!memcmp(p->arKey, arKey, nKeyLength)) {
+				*pData = p->pData;
+				return SUCCESS;
+			}
 		}
 		p = p->pNext;
 	}
@@ -6441,7 +6437,7 @@ static int phalcon_property_incr(zval *object, char *property_name, unsigned int
 		/** Separation only when refcount > 2 */
 		if (Z_REFCOUNT_P(tmp) > 2) {
 			zval *new_zv;
-			zval_ptr_dtor(&tmp);
+			Z_DELREF_P(&tmp);
 			ALLOC_ZVAL(new_zv);
 			INIT_PZVAL_COPY(new_zv, tmp);
 			tmp = new_zv;
@@ -6482,7 +6478,7 @@ static int phalcon_property_decr(zval *object, char *property_name, unsigned int
 		/** Separation only when refcount > 2 */
 		if (Z_REFCOUNT_P(tmp) > 2) {
 			zval *new_zv;
-			zval_ptr_dtor(&tmp);
+			Z_DELREF_P(tmp);
 			ALLOC_ZVAL(new_zv);
 			INIT_PZVAL_COPY(new_zv, tmp);
 			tmp = new_zv;
