@@ -3986,6 +3986,7 @@ static PHP_METHOD(Phalcon_Cache_Backend, isFresh);
 static PHP_METHOD(Phalcon_Cache_Backend, isStarted);
 static PHP_METHOD(Phalcon_Cache_Backend, setLastKey);
 static PHP_METHOD(Phalcon_Cache_Backend, getLastKey);
+static PHP_METHOD(Phalcon_Cache_Backend, getLifetime);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -4015,6 +4016,7 @@ PHALCON_INIT_FUNCS(phalcon_cache_backend_method_entry){
 	PHP_ME(Phalcon_Cache_Backend, isStarted, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend, setLastKey, arginfo_phalcon_cache_backend_setlastkey, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend, getLastKey, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Backend, getLifetime, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -10779,6 +10781,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_partial, 0, 0, 1)
 	ZEND_ARG_INFO(0, partialPath)
+	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_getrender, 0, 0, 2)
@@ -13957,6 +13960,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Simple, getViewsDir);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, render);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, partial);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, setVars);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, setVar);
@@ -13982,6 +13986,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_simple_render, 0, 0, 1)
 	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, params)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_simple_partial, 0, 0, 1)
+	ZEND_ARG_INFO(0, partialPath)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
@@ -14024,6 +14033,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_simple_method_entry){
 	PHP_ME(Phalcon_Mvc_View_Simple, registerEngines, arginfo_phalcon_mvc_view_simple_registerengines, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Simple, _loadTemplateEngines, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_View_Simple, render, arginfo_phalcon_mvc_view_simple_render, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Simple, partial, arginfo_phalcon_mvc_view_simple_partial, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Simple, setParamToView, arginfo_phalcon_mvc_view_simple_setparamtoview, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Simple, setVars, arginfo_phalcon_mvc_view_simple_setvars, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Simple, setVar, arginfo_phalcon_mvc_view_simple_setvar, ZEND_ACC_PUBLIC) 
