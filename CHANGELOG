@@ -19,6 +19,8 @@
  - Added event application:viewRender to Phalcon\Mvc\Application allowing the developer to call the $view->render method as he/she needs
  - Added option to disable literals in PHQL statements, this highly reduces the possibility
  to be attacked using SQL injections
+ - Now you can pass an array of variables with virtual local scope in Phalcon\Mvc\View::partial()
+ - Syntax CAST(expr AS datatype) is now supported by PHQL
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods

@@ -946,6 +946,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				break;
 	
+			case 332:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("cast"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 358:
+				PHALCON_OBS_NVAR(value);
+				phalcon_array_fetch_string(&value, expr, SL("name"), PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				phalcon_array_update_string(&expr_return, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
 			case 350:
 				PHALCON_INIT_NVAR(expr_return);
 				phalcon_call_method_p1(expr_return, this_ptr, "_getfunctioncall", expr);

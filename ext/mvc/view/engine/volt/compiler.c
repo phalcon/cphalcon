@@ -50,6 +50,7 @@
  *
  *<code>
  *	$compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
+ *
  *	$compiler->compile('views/partials/header.volt');
  *
  *	require $compiler->getCompiledTemplatePath();
@@ -2323,12 +2324,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 	
 	PHALCON_INIT_VAR(compilation);
 	
-	/** 
-	 * Evaluate common expressions
-	 */
 	PHALCON_OBS_VAR(expr);
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
+	/** 
+	 * Evaluate common expressions
+	 */
 	PHALCON_INIT_VAR(expr_code);
 	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	
@@ -2448,6 +2449,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 	zval *statement, *path_expr, *expr_type, *path = NULL;
 	zval *view, *views_dir, *final_path = NULL, *extended;
 	zval *sub_compiler, *compilation = NULL, *compiled_path;
+	zval *expr_params, *params;
 
 	PHALCON_MM_GROW();
 
@@ -2532,9 +2534,19 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 	 */
 	PHALCON_INIT_NVAR(path);
 	phalcon_call_method_p1(path, this_ptr, "expression", path_expr);
+	if (!phalcon_array_isset_string(statement, SS("params"))) {
+		PHALCON_INIT_NVAR(compilation);
+		PHALCON_CONCAT_SVS(compilation, "$this->partial(", path, ")");
+	} else {
+		PHALCON_OBS_VAR(expr_params);
+		phalcon_array_fetch_string(&expr_params, statement, SL("params"), PH_NOISY_CC);
 	
-	PHALCON_INIT_NVAR(compilation);
-	PHALCON_CONCAT_SVS(compilation, "$this->partial(", path, ")");
+		PHALCON_INIT_VAR(params);
+		phalcon_call_method_p1(params, this_ptr, "expression", expr_params);
+	
+		PHALCON_INIT_NVAR(compilation);
+		PHALCON_CONCAT_SVSVS(compilation, "$this->partial(", path, ", ", params, ")");
+	}
 	
 	RETURN_CCTOR(compilation);
 }

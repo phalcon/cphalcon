@@ -3529,8 +3529,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 }
 
 /**
+ * Saves related records that must be stored prior to save the master record
  *
- * @param array $related
+ * @param Phalcon\Db\AdapterInterface $connection
+ * @param Phalcon\Mvc\ModelInterface[] $related
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 
@@ -3573,11 +3576,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 		phalcon_call_method_p2(relation, manager, "getrelationbyalias", class_name, name);
 		if (Z_TYPE_P(relation) == IS_OBJECT) {
 	
+			/** 
+			 * Get the relation type
+			 */
 			PHALCON_INIT_NVAR(type);
 			phalcon_call_method(type, relation, "gettype");
 	
 			/** 
-			 * Only belongsTo relations are important here
+			 * Only belongsTo are stored before save the master record
 			 */
 			if (PHALCON_IS_LONG(type, 0)) {
 	
@@ -3599,6 +3605,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 					return;
 				}
 	
+				/** 
+				 * If dynamic update is enabled, saving the record must not take any action
+				 */
 				PHALCON_INIT_NVAR(status);
 				phalcon_call_method(status, record, "save");
 				if (!zend_is_true(status)) {
@@ -3644,6 +3653,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 				 */
 				PHALCON_INIT_NVAR(referenced_value);
 				phalcon_call_method_p1(referenced_value, record, "readattribute", referenced_fields);
+	
+				/** 
+				 * Assign it to the model
+				 */
 				phalcon_update_property_zval_zval(this_ptr, columns, referenced_value TSRMLS_CC);
 			}
 		}
@@ -3659,13 +3672,16 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
  *
  * @param Phalcon\Db\AdapterInterface $connection
  * @param Phalcon\Mvc\ModelInterface[] $related
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 
 	zval *connection, *related, *class_name, *manager;
 	zval *record = NULL, *name = NULL, *relation = NULL, *type = NULL, *columns = NULL, *referenced_model = NULL;
 	zval *referenced_fields = NULL, *related_records = NULL;
-	zval *exception_message = NULL, *value = NULL, *record_after = NULL;
+	zval *exception_message = NULL, *value = NULL, *is_through = NULL;
+	zval *intermediate_model = NULL, *intermediate_fields = NULL;
+	zval *intermediate_referenced_fields = NULL, *record_after = NULL;
 	zval *status = NULL, *messages = NULL, *message = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
@@ -3710,7 +3726,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 	
 			if (Z_TYPE_P(record) != IS_OBJECT) {
 				if (Z_TYPE_P(record) != IS_ARRAY) { 
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only objects/arrays can be stored as part of has-many/has-one relations");
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only objects/arrays can be stored as part of has-many/has-one/has-many-to-many relations");
 					return;
 				}
 			}
@@ -3729,7 +3745,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 			}
 	
 			/** 
-			 * Create an implicit array of has-many/has-one records
+			 * Create an implicit array for has-many/has-one records
 			 */
 			if (Z_TYPE_P(record) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(related_records);
@@ -3752,6 +3768,27 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, columns, PH_NOISY_CC);
 	
+			/** 
+			 * Check if the relation is a has-many-to-many
+			 */
+			PHALCON_INIT_NVAR(is_through);
+			phalcon_call_method(is_through, relation, "isthrough");
+	
+			/** 
+			 * Get the rest of intermediate model info
+			 */
+			if (zend_is_true(is_through)) {
+				PHALCON_INIT_NVAR(intermediate_model);
+				phalcon_call_method(intermediate_model, relation, "getintermediatemodel");
+	
+				PHALCON_INIT_NVAR(intermediate_fields);
+				phalcon_call_method(intermediate_fields, relation, "getintermediatefields");
+	
+				PHALCON_INIT_NVAR(intermediate_referenced_fields);
+				phalcon_call_method(intermediate_referenced_fields, relation, "getintermediatereferencedfields");
+			}
+	
+	
 			if (!phalcon_is_iterable(related_records, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
@@ -3761,10 +3798,24 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 				PHALCON_GET_HVALUE(record_after);
 	
 				/** 
-				 * Assign the value to the 
+				 * For non has-many-to-many relations just assign the local value in the referenced
+				 * model
 				 */
-				phalcon_call_method_p2_noret(record_after, "writeattribute", referenced_fields, value);
+				if (!zend_is_true(is_through)) {
+					/** 
+					 * Assign the value to the 
+					 */
+					phalcon_call_method_p2_noret(record_after, "writeattribute", referenced_fields, value);
+				} else {
+					/** 
+					 * Create a new instance of the intermediate model
+					 */
+					phalcon_call_method_noret(manager, "load");
+				}
 	
+				/** 
+				 * Save the record and get messages
+				 */
 				PHALCON_INIT_NVAR(status);
 				phalcon_call_method(status, record_after, "save");
 				if (!zend_is_true(status)) {

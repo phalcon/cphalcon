@@ -102,21 +102,26 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
  * Renders a partial inside another view
  *
  * @param string $partialPath
+ * @param array $params
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 
-	zval *partial_path, *view, *content;
+	zval *partial_path, *params = NULL, *view, *content;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &partial_path);
+	phalcon_fetch_params(1, 1, 1, &partial_path, &params);
+	
+	if (!params) {
+		PHALCON_INIT_VAR(params);
+	}
 	
 	PHALCON_OBS_VAR(view);
 	phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(content);
-	phalcon_call_method_p1(content, view, "partial", partial_path);
+	phalcon_call_method_p2(content, view, "partial", partial_path, params);
 	RETURN_CCTOR(content);
 }
 

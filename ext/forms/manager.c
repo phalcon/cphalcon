@@ -41,7 +41,7 @@
 /**
  * Phalcon\Forms\Manager
  *
- * Manages forms whithin the application. Allowing the developer to access them from
+ * Manages forms within the application. Allowing the developer to access them from
  * any part of the application
  */
 
@@ -151,6 +151,7 @@ PHP_METHOD(Phalcon_Forms_Manager, has){
  * Registers a form in the Forms Manager
  *
  * @param string $name
+ * @param Phalcon\Forms\Form $form
  * @return Phalcon\Forms\Form
  */
 PHP_METHOD(Phalcon_Forms_Manager, set){

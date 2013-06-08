@@ -83,6 +83,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	if (PHALCON_IS_TRUE(must_clean)) {
 		phalcon_call_func_noret("ob_clean");
 	}
+	
+	/** 
+	 * Create the variables in local symbol table
+	 */
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
 		if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -103,6 +107,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	
 	}
 	
+	/** 
+	 * Require the file
+	 */
 	if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 		return;
 	}

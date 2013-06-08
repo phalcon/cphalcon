@@ -44,8 +44,8 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_LESSEQUAL,     SL("<=") },
   { PHQL_T_GREATER,       SL(">") },
   { PHQL_T_GREATEREQUAL,  SL(">=") },
-  { PHQL_T_BRACKET_OPEN,  SL("(") },
-  { PHQL_T_BRACKET_CLOSE, SL(")") },
+  { PHQL_T_PARENTHESES_OPEN,  SL("(") },
+  { PHQL_T_PARENTHESES_CLOSE, SL(")") },
   { PHQL_T_NPLACEHOLDER,  SL("NUMERIC PLACEHOLDER") },
   { PHQL_T_SPLACEHOLDER,  SL("STRING PLACEHOLDER") },
   { PHQL_T_UPDATE,        SL("UPDATE") },
@@ -276,6 +276,12 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_BITWISE_OR:
 				phql_(phql_parser, PHQL_BITWISE_OR, NULL, parser_status);
 				break;
+			case PHQL_T_BITWISE_NOT:
+				phql_(phql_parser, PHQL_BITWISE_NOT, NULL, parser_status);
+				break;
+			case PHQL_T_BITWISE_XOR:
+				phql_(phql_parser, PHQL_BITWISE_XOR, NULL, parser_status);
+				break;
 			case PHQL_T_AGAINST:
 				phql_(phql_parser, PHQL_AGAINST, NULL, parser_status);
 				break;
@@ -286,11 +292,11 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
 				break;
 
-			case PHQL_T_BRACKET_OPEN:
-				phql_(phql_parser, PHQL_BRACKET_OPEN, NULL, parser_status);
+			case PHQL_T_PARENTHESES_OPEN:
+				phql_(phql_parser, PHQL_PARENTHESES_OPEN, NULL, parser_status);
 				break;
-			case PHQL_T_BRACKET_CLOSE:
-				phql_(phql_parser, PHQL_BRACKET_CLOSE, NULL, parser_status);
+			case PHQL_T_PARENTHESES_CLOSE:
+				phql_(phql_parser, PHQL_PARENTHESES_CLOSE, NULL, parser_status);
 				break;
 
 			case PHQL_T_INTEGER:
@@ -422,6 +428,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_DISTINCT:
 				phql_(phql_parser, PHQL_DISTINCT, NULL, parser_status);
+				break;
+			case PHQL_T_CAST:
+				phql_(phql_parser, PHQL_CAST, NULL, parser_status);
 				break;
 			default:
 				parser_status->status = PHQL_PARSING_FAILED;
