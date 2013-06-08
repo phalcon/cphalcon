@@ -1954,7 +1954,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 				phalcon_array_fetch(&referenced_field, referenced_fields, position, PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(condition);
-				PHALCON_CONCAT_VSV(condition, referenced_field, " = ?", position);
+				PHALCON_CONCAT_SVSV(condition, "[", referenced_field, "] = ?", position);
 				phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 				phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 	
@@ -1976,7 +1976,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 			phalcon_call_method(referenced_fields, relation, "getreferencedfields");
 	
 			PHALCON_INIT_NVAR(condition);
-			PHALCON_CONCAT_VSVSVSV(condition, intermediate_model, ".", intermediate_fields, " = ", referenced_model, ".", referenced_fields);
+			PHALCON_CONCAT_SVSV(condition, "[", intermediate_model, "].[", intermediate_fields);
+			PHALCON_SCONCAT_SVSVS(condition, "] = [", referenced_model, "].[", referenced_fields, "]");
 			phalcon_array_append(&join_conditions, condition, PH_SEPARATE TSRMLS_CC);
 		} else {
 			/** 
@@ -2001,7 +2002,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 				phalcon_array_fetch(&referenced_field, referenced_fields, position, PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(condition);
-				PHALCON_CONCAT_VSV(condition, referenced_field, " = ?", position);
+				PHALCON_CONCAT_SVSV(condition, "[", referenced_field, "] = ?", position);
 				phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 				phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 	
