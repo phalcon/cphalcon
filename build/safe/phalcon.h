@@ -4828,6 +4828,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_partial, 0, 0, 1)
 	ZEND_ARG_INFO(0, partialPath)
+	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_method_entry){
