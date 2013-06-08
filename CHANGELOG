@@ -21,6 +21,9 @@
  to be attacked using SQL injections
  - Now you can pass an array of variables with virtual local scope in Phalcon\Mvc\View::partial()
  - Syntax CAST(expr AS datatype) is now supported by PHQL
+ - Support for {% include "hello" with [var1, var2] %}
+ - Phalcon\Mvc\Collection::find receives a parameter 'fields' to specify a list of fields
+ - Added Phalcon\Forms\Element\Email and Phalcon\Tag::emailField
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods

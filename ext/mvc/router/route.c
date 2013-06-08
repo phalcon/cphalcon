@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 				 * Always pass the controller to lowercase
 				 */
 				PHALCON_INIT_VAR(lower_name);
-				phalcon_fast_strtolower(lower_name, real_class_name);
+				phalcon_uncamelize(lower_name, real_class_name TSRMLS_CC);
 	
 				/** 
 				 * Update the controller path

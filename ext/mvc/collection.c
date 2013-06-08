@@ -541,8 +541,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 
 	zval *params, *collection, *connection, *unique;
 	zval *source, *mongo_collection, *conditions = NULL;
-	zval *documents_cursor, *limit, *sort = NULL, *document = NULL;
-	zval *collection_cloned = NULL, *collections, *documents_array;
+	zval *fields, *documents_cursor = NULL, *limit, *sort = NULL;
+	zval *document = NULL, *collection_cloned = NULL, *collections;
+	zval *documents_array;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -580,8 +581,16 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	/** 
 	 * Perform the find
 	 */
-	PHALCON_INIT_VAR(documents_cursor);
-	phalcon_call_method_p1(documents_cursor, mongo_collection, "find", conditions);
+	if (phalcon_array_isset_string(params, SS("fields"))) {
+		PHALCON_OBS_VAR(fields);
+		phalcon_array_fetch_string(&fields, params, SL("fields"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(documents_cursor);
+		phalcon_call_method_p2(documents_cursor, mongo_collection, "find", conditions, fields);
+	} else {
+		PHALCON_INIT_NVAR(documents_cursor);
+		phalcon_call_method_p2(documents_cursor, mongo_collection, "find", conditions, fields);
+	}
 	
 	/** 
 	 * Check if a 'limit' clause was defined

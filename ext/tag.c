@@ -708,6 +708,32 @@ PHP_METHOD(Phalcon_Tag, numericField){
 }
 
 /**
+ * Builds a HTML input[type="email"] tag
+ *
+ * <code>
+ *	echo Phalcon\Tag::emailField("email");
+ * </code>
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, emailField){
+
+	zval *parameters, *name, *html;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &parameters);
+	
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "email", 1);
+	
+	PHALCON_INIT_VAR(html);
+	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", name, parameters);
+	RETURN_CCTOR(html);
+}
+
+/**
  * Builds a HTML input[type="date"] tag
  *
  * <code>

@@ -60,6 +60,7 @@ db/columninterface.c \
 forms/form.c \
 forms/manager.c \
 forms/element/file.c \
+forms/element/email.c \
 forms/element/hidden.c \
 forms/element/password.c \
 forms/element/text.c \
