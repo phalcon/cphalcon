@@ -107,6 +107,7 @@ mvc/dispatcherinterface.c \
 mvc/collection/managerinterface.c \
 mvc/collection/manager.c \
 mvc/collection/exception.c \
+mvc/collection/document.c \
 mvc/routerinterface.c \
 mvc/urlinterface.c \
 mvc/user/component.c \

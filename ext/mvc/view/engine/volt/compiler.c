@@ -642,10 +642,19 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 	
 				PHALCON_OBS_VAR(definition);
 				phalcon_array_fetch(&definition, functions, name, PH_NOISY_CC);
+	
+				/** 
+				 * Use the string as function
+				 */
 				if (Z_TYPE_P(definition) == IS_STRING) {
-					RETURN_CCTOR(definition);
+					PHALCON_INIT_NVAR(code);
+					PHALCON_CONCAT_VSVS(code, definition, "(", arguments, ")");
+					RETURN_CCTOR(code);
 				}
 	
+				/** 
+				 * Execute the function closure returning the compiled definition
+				 */
 				if (Z_TYPE_P(definition) == IS_OBJECT) {
 					if (phalcon_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
 						PHALCON_INIT_VAR(parameters);

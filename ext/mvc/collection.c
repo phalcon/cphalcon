@@ -461,9 +461,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute){
 /**
  * Writes an attribute value by its name
  *
- * <code>
+ *<code>
  *	$robot->writeAttribute('name', 'Rosey');
- * </code>
+ *</code>
  *
  * @param string $attribute
  * @param mixed $value
@@ -542,7 +542,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	zval *params, *collection, *connection, *unique;
 	zval *source, *mongo_collection, *conditions = NULL;
 	zval *fields, *documents_cursor = NULL, *limit, *sort = NULL;
-	zval *document = NULL, *collection_cloned = NULL, *collections;
+	zval *base = NULL, *document = NULL, *collection_cloned = NULL, *collections;
 	zval *documents_array;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -620,6 +620,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	}
 	
 	if (PHALCON_IS_TRUE(unique)) {
+		if (phalcon_array_isset_string(params, SS("fields"))) {
+			PHALCON_INIT_VAR(base);
+			object_init(base);
+		} else {
+			PHALCON_CPY_WRT(base, collection);
+		}
 	
 		/** 
 		 * Requesting a unique row
@@ -629,8 +635,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		PHALCON_INIT_VAR(document);
 		phalcon_call_method(document, documents_cursor, "current");
 		if (Z_TYPE_P(document) == IS_ARRAY) { 
+			/** 
+			 * Assign the values to the base object
+			 */
 			PHALCON_INIT_VAR(collection_cloned);
-			PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", collection, document);
+			PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", base, document);
 			RETURN_CCTOR(collection_cloned);
 		}
 	
@@ -654,8 +663,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	
 		PHALCON_GET_HVALUE(document);
 	
+		/** 
+		 * Assign the values to the base object
+		 */
 		PHALCON_INIT_NVAR(collection_cloned);
-		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", collection, document);
+		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", base, document);
 		phalcon_array_append(&collections, collection_cloned, PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
