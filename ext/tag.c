@@ -55,7 +55,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Tag){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Tag, tag, phalcon_tag_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS(Phalcon, Tag, tag, phalcon_tag_method_entry, 0);
 
 	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitle"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService){
 		}
 	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"dispatcher\" service");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"escaper\" service");
 			return;
 		}
 	
@@ -601,19 +601,125 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		}
 	}
 	
+	PHALCON_INIT_VAR(code);
+	PHALCON_CONCAT_SVS(code, "<input type=\"", type, "\"");
+	
+	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
+	
+		if (Z_TYPE_P(key) != IS_LONG) {
+			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", value, "\"");
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	PHALCON_INIT_VAR(five);
+	ZVAL_LONG(five, 5);
+	
+	PHALCON_OBS_VAR(doctype);
+	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
+	
+	/** 
+	 * Check if Doctype is XHTML
+	 */
+	PHALCON_INIT_VAR(is_xhtml);
+	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
+	if (zend_is_true(is_xhtml)) {
+		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
+	} else {
+		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
+	}
+	
+	RETURN_CTOR(code);
+}
+
+/**
+ * Builds INPUT tags that implements the checked attribute
+ *
+ * @param   string $type
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
+
+	zval *type, *parameters, *params = NULL, *value = NULL, *id = NULL, *name;
+	zval *current_value, *code, *key = NULL, *five, *doctype;
+	zval *is_xhtml;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &type, &parameters);
+	
+	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
+		PHALCON_INIT_VAR(params);
+		array_init_size(params, 1);
+		phalcon_array_append(&params, parameters, PH_SEPARATE TSRMLS_CC);
+	} else {
+		PHALCON_CPY_WRT(params, parameters);
+	}
+	
+	PHALCON_INIT_VAR(value);
+	if (!phalcon_array_isset_long(params, 0)) {
+		PHALCON_OBS_VAR(id);
+		phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY_CC);
+		phalcon_array_update_long(&params, 0, &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	}
+	
+	PHALCON_OBS_NVAR(id);
+	phalcon_array_fetch_long(&id, params, 0, PH_NOISY_CC);
+	if (!phalcon_array_isset_string(params, SS("name"))) {
+		phalcon_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	} else {
+		PHALCON_OBS_VAR(name);
+		phalcon_array_fetch_string(&name, params, SL("name"), PH_NOISY_CC);
+		if (!zend_is_true(name)) {
+			phalcon_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	}
+	
+	/** 
+	 * Automatically assign the id if the name is not an array
+	 */
+	if (!phalcon_memnstr_str(id, SL("[") TSRMLS_CC)) {
+		if (!phalcon_array_isset_string(params, SS("id"))) {
+			phalcon_array_update_string(&params, SL("id"), &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	}
+	
+	PHALCON_CALL_SELF_PARAMS_2(value, this_ptr, "getvalue", id, params);
+	
 	/** 
 	 * Automatically check inputs
 	 */
-	if (PHALCON_IS_STRING(type, "checkbox")) {
-		if (zend_is_true(value)) {
+	if (phalcon_array_isset_string(params, SS("value"))) {
+	
+		PHALCON_OBS_VAR(current_value);
+		phalcon_array_fetch_string(&current_value, params, SL("value"), PH_NOISY_CC);
+		if (PHALCON_IS_EQUAL(current_value, value)) {
 			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
 		}
 	} else {
-		if (PHALCON_IS_STRING(type, "radio")) {
-			if (zend_is_true(value)) {
-				phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
-			}
+		/** 
+		 * Evaluate the value in POST
+		 */
+		if (zend_is_true(value)) {
+			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
 		}
+	
+		/** 
+		 * Update the value anyways
+		 */
+		phalcon_array_update_string(&params, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(code);
@@ -841,7 +947,7 @@ PHP_METHOD(Phalcon_Tag, fileField){
  * Builds a HTML input[type="check"] tag
  *
  *<code>
- * echo Phalcon\Tag::checkField(array("name"));
+ * echo Phalcon\Tag::checkField(array("terms", "value" => "Y"));
  *</code>
  *
  * @param array $parameters
@@ -859,7 +965,7 @@ PHP_METHOD(Phalcon_Tag, checkField){
 	ZVAL_STRING(name, "checkbox", 1);
 	
 	PHALCON_INIT_VAR(html);
-	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", name, parameters);
+	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfieldchecked", name, parameters);
 	RETURN_CCTOR(html);
 }
 
@@ -867,7 +973,7 @@ PHP_METHOD(Phalcon_Tag, checkField){
  * Builds a HTML input[type="radio"] tag
  *
  *<code>
- * echo Phalcon\Tag::radioField(array("name"))
+ * echo Phalcon\Tag::radioField(array("wheather", "value" => "hot"))
  *</code>
  *
  * Volt syntax:
@@ -890,7 +996,7 @@ PHP_METHOD(Phalcon_Tag, radioField){
 	ZVAL_STRING(name, "radio", 1);
 	
 	PHALCON_INIT_VAR(html);
-	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", name, parameters);
+	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfieldchecked", name, parameters);
 	RETURN_CCTOR(html);
 }
 

@@ -72,6 +72,9 @@ PHP_METHOD(Phalcon_Forms_Element_Submit, render){
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
 	
+	/** 
+	 * Merged passed attributes with previously defined ones
+	 */
 	PHALCON_INIT_VAR(code);
 	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "submitbutton", widget_attributes);
 	RETURN_CCTOR(code);

@@ -212,6 +212,7 @@ queue/beanstalk/job.c \
 acl.c \
 assets/resource/css.c \
 assets/resource/js.c \
+assets/filters/cssmin.c \
 assets/filters/jsmin.c \
 assets/resource.c \
 assets/manager.c \

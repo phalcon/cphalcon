@@ -17,60 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+extern zend_class_entry *phalcon_assets_filters_cssmin_ce;
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+PHALCON_INIT_CLASS(Phalcon_Assets_Filters_Cssmin);
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter);
 
-#include "kernel/main.h"
-#include "kernel/memory.h"
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_filters_cssmin_filter, 0, 0, 1)
+	ZEND_ARG_INFO(0, content)
+ZEND_END_ARG_INFO()
 
-#include "kernel/fcall.h"
-#include "assets/filters/jsminifier.h"
-
-/**
- * Phalcon\Assets\Filters\Jsmin
- *
- * Removes spaces/tabs/line breaks in Javascript files reducing their size
- */
-
-
-/**
- * Phalcon\Assets\Filters\Jsmin initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Assets_Filters_Jsmin){
-
-	PHALCON_REGISTER_CLASS(Phalcon\\Assets\\Filters, Jsmin, assets_filters_jsmin, phalcon_assets_filters_jsmin_method_entry, 0);
-
-	return SUCCESS;
-}
-
-/**
- * Filters the content using JSMIN
- *
- * @param string $content
- * @return $content
- */
-PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter){
-
-	zval *content, *filtered;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &content);
-	
-	PHALCON_INIT_VAR(filtered);
-	if (phalcon_jsmin(filtered, content TSRMLS_CC) == FAILURE) {
-		return;
-	}
-	
-	RETURN_CCTOR(filtered);
-}
+PHALCON_INIT_FUNCS(phalcon_assets_filters_cssmin_method_entry){
+	PHP_ME(Phalcon_Assets_Filters_Cssmin, filter, arginfo_phalcon_assets_filters_cssmin_filter, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
 

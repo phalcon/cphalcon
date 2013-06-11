@@ -704,6 +704,11 @@ PHP_METHOD(Phalcon_Forms_Form, render){
 		PHALCON_INIT_VAR(attributes);
 	}
 	
+	if (Z_TYPE_P(name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The name must be a string");
+		return;
+	}
+	
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (!phalcon_array_isset(elements, name)) {

@@ -33,32 +33,31 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
-#include "assets/filters/jsminifier.h"
 
 /**
- * Phalcon\Assets\Filters\Jsmin
+ * Phalcon\Assets\Filters\Cssmin
  *
- * Removes spaces/tabs/line breaks in Javascript files reducing their size
+ * Removes spaces/tabs/line breaks in CSS files reducing their size
  */
 
 
 /**
- * Phalcon\Assets\Filters\Jsmin initializer
+ * Phalcon\Assets\Filters\Cssmin initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Assets_Filters_Jsmin){
+PHALCON_INIT_CLASS(Phalcon_Assets_Filters_Cssmin){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Assets\\Filters, Jsmin, assets_filters_jsmin, phalcon_assets_filters_jsmin_method_entry, 0);
+	PHALCON_REGISTER_CLASS(Phalcon\\Assets\\Filters, Cssmin, assets_filters_cssmin, phalcon_assets_filters_cssmin_method_entry, 0);
 
 	return SUCCESS;
 }
 
 /**
- * Filters the content using JSMIN
+ * Filters the content using CSSMIN
  *
  * @param string $content
  * @return $content
  */
-PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter){
+PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter){
 
 	zval *content, *filtered;
 
@@ -67,10 +66,7 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter){
 	phalcon_fetch_params(1, 1, 0, &content);
 	
 	PHALCON_INIT_VAR(filtered);
-	if (phalcon_jsmin(filtered, content TSRMLS_CC) == FAILURE) {
-		return;
-	}
-	
+	phalcon_call_func_p1(filtered, "phalcon_cssmin", content);
 	RETURN_CCTOR(filtered);
 }
 
