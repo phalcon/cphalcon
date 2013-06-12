@@ -354,57 +354,60 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 	
 		PHALCON_INIT_VAR(renamed_records);
 		array_init(renamed_records);
+		if (Z_TYPE_P(records) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(records, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HVALUE(record);
-	
-			PHALCON_INIT_NVAR(renamed);
-			array_init(renamed);
-	
-			if (!phalcon_is_iterable(record, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+			if (!phalcon_is_iterable(records, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-				PHALCON_GET_HKEY(key, ah1, hp1);
-				PHALCON_GET_HVALUE(value);
+				PHALCON_GET_HVALUE(record);
 	
-				/** 
-				 * Check if the key is part of the column map
-				 */
-				if (!phalcon_array_isset(column_map, key)) {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Column '", key, "' is not part of the column map");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+				PHALCON_INIT_NVAR(renamed);
+				array_init(renamed);
+	
+				if (!phalcon_is_iterable(record, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				/** 
-				 * Get the renamed column
-				 */
-				PHALCON_OBS_NVAR(renamed_key);
-				phalcon_array_fetch(&renamed_key, column_map, key, PH_NOISY_CC);
+				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+					PHALCON_GET_HKEY(key, ah1, hp1);
+					PHALCON_GET_HVALUE(value);
+	
+					/** 
+					 * Check if the key is part of the column map
+					 */
+					if (!phalcon_array_isset(column_map, key)) {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Column '", key, "' is not part of the column map");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+	
+					/** 
+					 * Get the renamed column
+					 */
+					PHALCON_OBS_NVAR(renamed_key);
+					phalcon_array_fetch(&renamed_key, column_map, key, PH_NOISY_CC);
+	
+					/** 
+					 * Add the value renamed
+					 */
+					phalcon_array_update_zval(&renamed, renamed_key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+					zend_hash_move_forward_ex(ah1, &hp1);
+				}
 	
 				/** 
-				 * Add the value renamed
+				 * Append the renamed records to the main array
 				 */
-				phalcon_array_update_zval(&renamed, renamed_key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&renamed_records, renamed, PH_SEPARATE TSRMLS_CC);
 	
-				zend_hash_move_forward_ex(ah1, &hp1);
+				zend_hash_move_forward_ex(ah0, &hp0);
 			}
 	
-			/** 
-			 * Append the renamed records to the main array
-			 */
-			phalcon_array_append(&renamed_records, renamed, PH_SEPARATE TSRMLS_CC);
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
 		RETURN_CTOR(renamed_records);
