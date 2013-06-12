@@ -349,6 +349,14 @@ int phalcon_call_method_ex(zval *return_value, zval *object, char *method_name, 
 }
 
 /**
+ * Call a zval method on an object that not requires parameters
+ *
+ */
+int phalcon_call_method_zval_ex(zval *return_value, zval *object, zval *method, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	return phalcon_call_method_internal(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), noreturn, method_key, lower TSRMLS_CC);
+}
+
+/**
  * Call method on an object that requires an arbitrary number of parameters
  *
  */

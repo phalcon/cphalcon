@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 		PHALCON_INIT_NVAR(method);
 		PHALCON_CONCAT_SV(method, "set", key);
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
-			phalcon_call_method_zval_p1_noret(entity, Z_TYPE_P(method) == IS_STRING ? Z_STRVAL_P(method) : "", filtered_value);
+			phalcon_call_method_zval_p1_noret(entity, method, filtered_value);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			continue;
 		}
@@ -854,7 +854,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
 		PHALCON_CONCAT_SV(method, "get", name);
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_VAR(value);
-			phalcon_call_method(value, entity, Z_TYPE_P(method) == IS_STRING ? Z_STRVAL_P(method) : "");
+			phalcon_call_method_zval(value, entity, method);
 			RETURN_CCTOR(value);
 		}
 	

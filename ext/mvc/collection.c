@@ -1079,7 +1079,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEvent){
 	 * Check if there is a method with the same name of the event
 	 */
 	if (phalcon_method_exists(this_ptr, event_name TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_noret(this_ptr, Z_TYPE_P(event_name) == IS_STRING ? Z_STRVAL_P(event_name) : "");
+		phalcon_call_method_zval_noret(this_ptr, event_name);
 	}
 	
 	/** 
@@ -1114,7 +1114,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEventCancel){
 	if (phalcon_method_exists(this_ptr, event_name TSRMLS_CC) == SUCCESS) {
 	
 		PHALCON_INIT_VAR(status);
-		phalcon_call_method(status, this_ptr, Z_TYPE_P(event_name) == IS_STRING ? Z_STRVAL_P(event_name) : "");
+		phalcon_call_method_zval(status, this_ptr, event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}

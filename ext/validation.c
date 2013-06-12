@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 		PHALCON_CONCAT_SV(method, "get", attribute);
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_VAR(value);
-			phalcon_call_method(value, entity, Z_TYPE_P(method) == IS_STRING ? Z_STRVAL_P(method) : "");
+			phalcon_call_method_zval(value, entity, method);
 		} else {
 			if (phalcon_method_exists_ex(entity, SS("readattribute") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_NVAR(value);
