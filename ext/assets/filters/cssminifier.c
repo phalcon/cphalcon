@@ -85,7 +85,7 @@ static char cssmin_peek(cssmin_parser *parser){
 /* machine
 
 */
-static int phalcon_cssmin_machine(cssmin_parser *parser, int c){
+static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 
 	if (parser->state != STATE_COMMENT) {
 		if (c == '/' && cssmin_peek(parser) == '*') {
