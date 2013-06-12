@@ -1061,58 +1061,58 @@ zend_class_entry *phalcon_db_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Adapter);
 
-PHP_METHOD(Phalcon_Db_Adapter, __construct);
-PHP_METHOD(Phalcon_Db_Adapter, setEventsManager);
-PHP_METHOD(Phalcon_Db_Adapter, getEventsManager);
-PHP_METHOD(Phalcon_Db_Adapter, setDialect);
-PHP_METHOD(Phalcon_Db_Adapter, getDialect);
-PHP_METHOD(Phalcon_Db_Adapter, fetchOne);
-PHP_METHOD(Phalcon_Db_Adapter, fetchAll);
-PHP_METHOD(Phalcon_Db_Adapter, insert);
-PHP_METHOD(Phalcon_Db_Adapter, update);
-PHP_METHOD(Phalcon_Db_Adapter, delete);
-PHP_METHOD(Phalcon_Db_Adapter, getColumnList);
-PHP_METHOD(Phalcon_Db_Adapter, limit);
-PHP_METHOD(Phalcon_Db_Adapter, tableExists);
-PHP_METHOD(Phalcon_Db_Adapter, viewExists);
-PHP_METHOD(Phalcon_Db_Adapter, forUpdate);
-PHP_METHOD(Phalcon_Db_Adapter, sharedLock);
-PHP_METHOD(Phalcon_Db_Adapter, createTable);
-PHP_METHOD(Phalcon_Db_Adapter, dropTable);
-PHP_METHOD(Phalcon_Db_Adapter, createView);
-PHP_METHOD(Phalcon_Db_Adapter, dropView);
-PHP_METHOD(Phalcon_Db_Adapter, addColumn);
-PHP_METHOD(Phalcon_Db_Adapter, modifyColumn);
-PHP_METHOD(Phalcon_Db_Adapter, dropColumn);
-PHP_METHOD(Phalcon_Db_Adapter, addIndex);
-PHP_METHOD(Phalcon_Db_Adapter, dropIndex);
-PHP_METHOD(Phalcon_Db_Adapter, addPrimaryKey);
-PHP_METHOD(Phalcon_Db_Adapter, dropPrimaryKey);
-PHP_METHOD(Phalcon_Db_Adapter, addForeignKey);
-PHP_METHOD(Phalcon_Db_Adapter, dropForeignKey);
-PHP_METHOD(Phalcon_Db_Adapter, getColumnDefinition);
-PHP_METHOD(Phalcon_Db_Adapter, listTables);
-PHP_METHOD(Phalcon_Db_Adapter, listViews);
-PHP_METHOD(Phalcon_Db_Adapter, describeIndexes);
-PHP_METHOD(Phalcon_Db_Adapter, describeReferences);
-PHP_METHOD(Phalcon_Db_Adapter, tableOptions);
-PHP_METHOD(Phalcon_Db_Adapter, createSavepoint);
-PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint);
-PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint);
-PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints);
-PHP_METHOD(Phalcon_Db_Adapter, isNestedTransactionsWithSavepoints);
-PHP_METHOD(Phalcon_Db_Adapter, getNestedTransactionSavepointName);
-PHP_METHOD(Phalcon_Db_Adapter, getDefaultIdValue);
-PHP_METHOD(Phalcon_Db_Adapter, supportSequences);
-PHP_METHOD(Phalcon_Db_Adapter, useExplicitIdValue);
-PHP_METHOD(Phalcon_Db_Adapter, getDescriptor);
-PHP_METHOD(Phalcon_Db_Adapter, getConnectionId);
-PHP_METHOD(Phalcon_Db_Adapter, getSQLStatement);
-PHP_METHOD(Phalcon_Db_Adapter, getRealSQLStatement);
-PHP_METHOD(Phalcon_Db_Adapter, getSQLVariables);
-PHP_METHOD(Phalcon_Db_Adapter, getSQLBindTypes);
-PHP_METHOD(Phalcon_Db_Adapter, getType);
-PHP_METHOD(Phalcon_Db_Adapter, getDialectType);
+static PHP_METHOD(Phalcon_Db_Adapter, __construct);
+static PHP_METHOD(Phalcon_Db_Adapter, setEventsManager);
+static PHP_METHOD(Phalcon_Db_Adapter, getEventsManager);
+static PHP_METHOD(Phalcon_Db_Adapter, setDialect);
+static PHP_METHOD(Phalcon_Db_Adapter, getDialect);
+static PHP_METHOD(Phalcon_Db_Adapter, fetchOne);
+static PHP_METHOD(Phalcon_Db_Adapter, fetchAll);
+static PHP_METHOD(Phalcon_Db_Adapter, insert);
+static PHP_METHOD(Phalcon_Db_Adapter, update);
+static PHP_METHOD(Phalcon_Db_Adapter, delete);
+static PHP_METHOD(Phalcon_Db_Adapter, getColumnList);
+static PHP_METHOD(Phalcon_Db_Adapter, limit);
+static PHP_METHOD(Phalcon_Db_Adapter, tableExists);
+static PHP_METHOD(Phalcon_Db_Adapter, viewExists);
+static PHP_METHOD(Phalcon_Db_Adapter, forUpdate);
+static PHP_METHOD(Phalcon_Db_Adapter, sharedLock);
+static PHP_METHOD(Phalcon_Db_Adapter, createTable);
+static PHP_METHOD(Phalcon_Db_Adapter, dropTable);
+static PHP_METHOD(Phalcon_Db_Adapter, createView);
+static PHP_METHOD(Phalcon_Db_Adapter, dropView);
+static PHP_METHOD(Phalcon_Db_Adapter, addColumn);
+static PHP_METHOD(Phalcon_Db_Adapter, modifyColumn);
+static PHP_METHOD(Phalcon_Db_Adapter, dropColumn);
+static PHP_METHOD(Phalcon_Db_Adapter, addIndex);
+static PHP_METHOD(Phalcon_Db_Adapter, dropIndex);
+static PHP_METHOD(Phalcon_Db_Adapter, addPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Adapter, dropPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Adapter, addForeignKey);
+static PHP_METHOD(Phalcon_Db_Adapter, dropForeignKey);
+static PHP_METHOD(Phalcon_Db_Adapter, getColumnDefinition);
+static PHP_METHOD(Phalcon_Db_Adapter, listTables);
+static PHP_METHOD(Phalcon_Db_Adapter, listViews);
+static PHP_METHOD(Phalcon_Db_Adapter, describeIndexes);
+static PHP_METHOD(Phalcon_Db_Adapter, describeReferences);
+static PHP_METHOD(Phalcon_Db_Adapter, tableOptions);
+static PHP_METHOD(Phalcon_Db_Adapter, createSavepoint);
+static PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint);
+static PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint);
+static PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints);
+static PHP_METHOD(Phalcon_Db_Adapter, isNestedTransactionsWithSavepoints);
+static PHP_METHOD(Phalcon_Db_Adapter, getNestedTransactionSavepointName);
+static PHP_METHOD(Phalcon_Db_Adapter, getDefaultIdValue);
+static PHP_METHOD(Phalcon_Db_Adapter, supportSequences);
+static PHP_METHOD(Phalcon_Db_Adapter, useExplicitIdValue);
+static PHP_METHOD(Phalcon_Db_Adapter, getDescriptor);
+static PHP_METHOD(Phalcon_Db_Adapter, getConnectionId);
+static PHP_METHOD(Phalcon_Db_Adapter, getSQLStatement);
+static PHP_METHOD(Phalcon_Db_Adapter, getRealSQLStatement);
+static PHP_METHOD(Phalcon_Db_Adapter, getSQLVariables);
+static PHP_METHOD(Phalcon_Db_Adapter, getSQLBindTypes);
+static PHP_METHOD(Phalcon_Db_Adapter, getType);
+static PHP_METHOD(Phalcon_Db_Adapter, getDialectType);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_INFO(0, eventsManager)
@@ -1424,11 +1424,11 @@ zend_class_entry *phalcon_di_injectable_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI_Injectable);
 
-PHP_METHOD(Phalcon_DI_Injectable, setDI);
-PHP_METHOD(Phalcon_DI_Injectable, getDI);
-PHP_METHOD(Phalcon_DI_Injectable, setEventsManager);
-PHP_METHOD(Phalcon_DI_Injectable, getEventsManager);
-PHP_METHOD(Phalcon_DI_Injectable, __get);
+static PHP_METHOD(Phalcon_DI_Injectable, setDI);
+static PHP_METHOD(Phalcon_DI_Injectable, getDI);
+static PHP_METHOD(Phalcon_DI_Injectable, setEventsManager);
+static PHP_METHOD(Phalcon_DI_Injectable, getEventsManager);
+static PHP_METHOD(Phalcon_DI_Injectable, __get);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectable_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -3636,27 +3636,27 @@ zend_class_entry *phalcon_di_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI);
 
-PHP_METHOD(Phalcon_DI, __construct);
-PHP_METHOD(Phalcon_DI, set);
-PHP_METHOD(Phalcon_DI, setShared);
-PHP_METHOD(Phalcon_DI, remove);
-PHP_METHOD(Phalcon_DI, attempt);
-PHP_METHOD(Phalcon_DI, setRaw);
-PHP_METHOD(Phalcon_DI, getRaw);
-PHP_METHOD(Phalcon_DI, getService);
-PHP_METHOD(Phalcon_DI, get);
-PHP_METHOD(Phalcon_DI, getShared);
-PHP_METHOD(Phalcon_DI, has);
-PHP_METHOD(Phalcon_DI, wasFreshInstance);
-PHP_METHOD(Phalcon_DI, getServices);
-PHP_METHOD(Phalcon_DI, offsetExists);
-PHP_METHOD(Phalcon_DI, offsetSet);
-PHP_METHOD(Phalcon_DI, offsetGet);
-PHP_METHOD(Phalcon_DI, offsetUnset);
-PHP_METHOD(Phalcon_DI, __call);
-PHP_METHOD(Phalcon_DI, setDefault);
-PHP_METHOD(Phalcon_DI, getDefault);
-PHP_METHOD(Phalcon_DI, reset);
+static PHP_METHOD(Phalcon_DI, __construct);
+static PHP_METHOD(Phalcon_DI, set);
+static PHP_METHOD(Phalcon_DI, setShared);
+static PHP_METHOD(Phalcon_DI, remove);
+static PHP_METHOD(Phalcon_DI, attempt);
+static PHP_METHOD(Phalcon_DI, setRaw);
+static PHP_METHOD(Phalcon_DI, getRaw);
+static PHP_METHOD(Phalcon_DI, getService);
+static PHP_METHOD(Phalcon_DI, get);
+static PHP_METHOD(Phalcon_DI, getShared);
+static PHP_METHOD(Phalcon_DI, has);
+static PHP_METHOD(Phalcon_DI, wasFreshInstance);
+static PHP_METHOD(Phalcon_DI, getServices);
+static PHP_METHOD(Phalcon_DI, offsetExists);
+static PHP_METHOD(Phalcon_DI, offsetSet);
+static PHP_METHOD(Phalcon_DI, offsetGet);
+static PHP_METHOD(Phalcon_DI, offsetUnset);
+static PHP_METHOD(Phalcon_DI, __call);
+static PHP_METHOD(Phalcon_DI, setDefault);
+static PHP_METHOD(Phalcon_DI, getDefault);
+static PHP_METHOD(Phalcon_DI, reset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_set, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
@@ -3763,37 +3763,37 @@ zend_class_entry *phalcon_forms_element_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element);
 
-PHP_METHOD(Phalcon_Forms_Element, __construct);
-PHP_METHOD(Phalcon_Forms_Element, setForm);
-PHP_METHOD(Phalcon_Forms_Element, getForm);
-PHP_METHOD(Phalcon_Forms_Element, setName);
-PHP_METHOD(Phalcon_Forms_Element, getName);
-PHP_METHOD(Phalcon_Forms_Element, setFilters);
-PHP_METHOD(Phalcon_Forms_Element, addFilter);
-PHP_METHOD(Phalcon_Forms_Element, getFilters);
-PHP_METHOD(Phalcon_Forms_Element, addValidators);
-PHP_METHOD(Phalcon_Forms_Element, addValidator);
-PHP_METHOD(Phalcon_Forms_Element, getValidators);
-PHP_METHOD(Phalcon_Forms_Element, prepareAttributes);
-PHP_METHOD(Phalcon_Forms_Element, setAttribute);
-PHP_METHOD(Phalcon_Forms_Element, getAttribute);
-PHP_METHOD(Phalcon_Forms_Element, setAttributes);
-PHP_METHOD(Phalcon_Forms_Element, getAttributes);
-PHP_METHOD(Phalcon_Forms_Element, setUserOption);
-PHP_METHOD(Phalcon_Forms_Element, getUserOption);
-PHP_METHOD(Phalcon_Forms_Element, setUserOptions);
-PHP_METHOD(Phalcon_Forms_Element, getUserOptions);
-PHP_METHOD(Phalcon_Forms_Element, setLabel);
-PHP_METHOD(Phalcon_Forms_Element, getLabel);
-PHP_METHOD(Phalcon_Forms_Element, label);
-PHP_METHOD(Phalcon_Forms_Element, setDefault);
-PHP_METHOD(Phalcon_Forms_Element, getDefault);
-PHP_METHOD(Phalcon_Forms_Element, getValue);
-PHP_METHOD(Phalcon_Forms_Element, getMessages);
-PHP_METHOD(Phalcon_Forms_Element, hasMessages);
-PHP_METHOD(Phalcon_Forms_Element, setMessages);
-PHP_METHOD(Phalcon_Forms_Element, appendMessage);
-PHP_METHOD(Phalcon_Forms_Element, __toString);
+static PHP_METHOD(Phalcon_Forms_Element, __construct);
+static PHP_METHOD(Phalcon_Forms_Element, setForm);
+static PHP_METHOD(Phalcon_Forms_Element, getForm);
+static PHP_METHOD(Phalcon_Forms_Element, setName);
+static PHP_METHOD(Phalcon_Forms_Element, getName);
+static PHP_METHOD(Phalcon_Forms_Element, setFilters);
+static PHP_METHOD(Phalcon_Forms_Element, addFilter);
+static PHP_METHOD(Phalcon_Forms_Element, getFilters);
+static PHP_METHOD(Phalcon_Forms_Element, addValidators);
+static PHP_METHOD(Phalcon_Forms_Element, addValidator);
+static PHP_METHOD(Phalcon_Forms_Element, getValidators);
+static PHP_METHOD(Phalcon_Forms_Element, prepareAttributes);
+static PHP_METHOD(Phalcon_Forms_Element, setAttribute);
+static PHP_METHOD(Phalcon_Forms_Element, getAttribute);
+static PHP_METHOD(Phalcon_Forms_Element, setAttributes);
+static PHP_METHOD(Phalcon_Forms_Element, getAttributes);
+static PHP_METHOD(Phalcon_Forms_Element, setUserOption);
+static PHP_METHOD(Phalcon_Forms_Element, getUserOption);
+static PHP_METHOD(Phalcon_Forms_Element, setUserOptions);
+static PHP_METHOD(Phalcon_Forms_Element, getUserOptions);
+static PHP_METHOD(Phalcon_Forms_Element, setLabel);
+static PHP_METHOD(Phalcon_Forms_Element, getLabel);
+static PHP_METHOD(Phalcon_Forms_Element, label);
+static PHP_METHOD(Phalcon_Forms_Element, setDefault);
+static PHP_METHOD(Phalcon_Forms_Element, getDefault);
+static PHP_METHOD(Phalcon_Forms_Element, getValue);
+static PHP_METHOD(Phalcon_Forms_Element, getMessages);
+static PHP_METHOD(Phalcon_Forms_Element, hasMessages);
+static PHP_METHOD(Phalcon_Forms_Element, setMessages);
+static PHP_METHOD(Phalcon_Forms_Element, appendMessage);
+static PHP_METHOD(Phalcon_Forms_Element, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -3914,10 +3914,10 @@ zend_class_entry *phalcon_validation_validator_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator);
 
-PHP_METHOD(Phalcon_Validation_Validator, __construct);
-PHP_METHOD(Phalcon_Validation_Validator, isSetOption);
-PHP_METHOD(Phalcon_Validation_Validator, getOption);
-PHP_METHOD(Phalcon_Validation_Validator, setOption);
+static PHP_METHOD(Phalcon_Validation_Validator, __construct);
+static PHP_METHOD(Phalcon_Validation_Validator, isSetOption);
+static PHP_METHOD(Phalcon_Validation_Validator, getOption);
+static PHP_METHOD(Phalcon_Validation_Validator, setOption);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -3950,12 +3950,12 @@ zend_class_entry *phalcon_mvc_model_validator_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator);
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage);
-PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages);
-PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions);
-PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption);
-PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
@@ -3977,16 +3977,16 @@ zend_class_entry *phalcon_cache_backend_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend);
 
-PHP_METHOD(Phalcon_Cache_Backend, __construct);
-PHP_METHOD(Phalcon_Cache_Backend, start);
-PHP_METHOD(Phalcon_Cache_Backend, stop);
-PHP_METHOD(Phalcon_Cache_Backend, getFrontend);
-PHP_METHOD(Phalcon_Cache_Backend, getOptions);
-PHP_METHOD(Phalcon_Cache_Backend, isFresh);
-PHP_METHOD(Phalcon_Cache_Backend, isStarted);
-PHP_METHOD(Phalcon_Cache_Backend, setLastKey);
-PHP_METHOD(Phalcon_Cache_Backend, getLastKey);
-PHP_METHOD(Phalcon_Cache_Backend, getLifetime);
+static PHP_METHOD(Phalcon_Cache_Backend, __construct);
+static PHP_METHOD(Phalcon_Cache_Backend, start);
+static PHP_METHOD(Phalcon_Cache_Backend, stop);
+static PHP_METHOD(Phalcon_Cache_Backend, getFrontend);
+static PHP_METHOD(Phalcon_Cache_Backend, getOptions);
+static PHP_METHOD(Phalcon_Cache_Backend, isFresh);
+static PHP_METHOD(Phalcon_Cache_Backend, isStarted);
+static PHP_METHOD(Phalcon_Cache_Backend, setLastKey);
+static PHP_METHOD(Phalcon_Cache_Backend, getLastKey);
+static PHP_METHOD(Phalcon_Cache_Backend, getLifetime);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -4026,24 +4026,24 @@ zend_class_entry *phalcon_db_adapter_pdo_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo);
 
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, query);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, affectedRows);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, close);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeIdentifier);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, getTransactionLevel);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, query);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, affectedRows);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, close);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeIdentifier);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, getTransactionLevel);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, descriptor)
@@ -4120,33 +4120,33 @@ zend_class_entry *phalcon_mvc_model_metadata_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData);
 
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -4280,18 +4280,18 @@ zend_class_entry *phalcon_db_dialect_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect);
 
-PHP_METHOD(Phalcon_Db_Dialect, limit);
-PHP_METHOD(Phalcon_Db_Dialect, forUpdate);
-PHP_METHOD(Phalcon_Db_Dialect, sharedLock);
-PHP_METHOD(Phalcon_Db_Dialect, getColumnList);
-PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression);
-PHP_METHOD(Phalcon_Db_Dialect, getSqlTable);
-PHP_METHOD(Phalcon_Db_Dialect, select);
-PHP_METHOD(Phalcon_Db_Dialect, supportsSavepoints);
-PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints);
-PHP_METHOD(Phalcon_Db_Dialect, createSavepoint);
-PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint);
-PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint);
+static PHP_METHOD(Phalcon_Db_Dialect, limit);
+static PHP_METHOD(Phalcon_Db_Dialect, forUpdate);
+static PHP_METHOD(Phalcon_Db_Dialect, sharedLock);
+static PHP_METHOD(Phalcon_Db_Dialect, getColumnList);
+static PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression);
+static PHP_METHOD(Phalcon_Db_Dialect, getSqlTable);
+static PHP_METHOD(Phalcon_Db_Dialect, select);
+static PHP_METHOD(Phalcon_Db_Dialect, supportsSavepoints);
+static PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints);
+static PHP_METHOD(Phalcon_Db_Dialect, createSavepoint);
+static PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint);
+static PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_limit, 0, 0, 2)
 	ZEND_ARG_INFO(0, sqlQuery)
@@ -4358,7 +4358,7 @@ zend_class_entry *phalcon_logger_formatter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter);
 
-PHP_METHOD(Phalcon_Logger_Formatter, getTypeString);
+static PHP_METHOD(Phalcon_Logger_Formatter, getTypeString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_gettypestring, 0, 0, 1)
 	ZEND_ARG_INFO(0, type)
@@ -4375,20 +4375,20 @@ zend_class_entry *phalcon_logger_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter);
 
-PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel);
-PHP_METHOD(Phalcon_Logger_Adapter, getLogLevel);
-PHP_METHOD(Phalcon_Logger_Adapter, setFormatter);
-PHP_METHOD(Phalcon_Logger_Adapter, begin);
-PHP_METHOD(Phalcon_Logger_Adapter, commit);
-PHP_METHOD(Phalcon_Logger_Adapter, rollback);
-PHP_METHOD(Phalcon_Logger_Adapter, emergence);
-PHP_METHOD(Phalcon_Logger_Adapter, debug);
-PHP_METHOD(Phalcon_Logger_Adapter, error);
-PHP_METHOD(Phalcon_Logger_Adapter, info);
-PHP_METHOD(Phalcon_Logger_Adapter, notice);
-PHP_METHOD(Phalcon_Logger_Adapter, warning);
-PHP_METHOD(Phalcon_Logger_Adapter, alert);
-PHP_METHOD(Phalcon_Logger_Adapter, log);
+static PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel);
+static PHP_METHOD(Phalcon_Logger_Adapter, getLogLevel);
+static PHP_METHOD(Phalcon_Logger_Adapter, setFormatter);
+static PHP_METHOD(Phalcon_Logger_Adapter, begin);
+static PHP_METHOD(Phalcon_Logger_Adapter, commit);
+static PHP_METHOD(Phalcon_Logger_Adapter, rollback);
+static PHP_METHOD(Phalcon_Logger_Adapter, emergence);
+static PHP_METHOD(Phalcon_Logger_Adapter, debug);
+static PHP_METHOD(Phalcon_Logger_Adapter, error);
+static PHP_METHOD(Phalcon_Logger_Adapter, info);
+static PHP_METHOD(Phalcon_Logger_Adapter, notice);
+static PHP_METHOD(Phalcon_Logger_Adapter, warning);
+static PHP_METHOD(Phalcon_Logger_Adapter, alert);
+static PHP_METHOD(Phalcon_Logger_Adapter, log);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_setloglevel, 0, 0, 1)
 	ZEND_ARG_INFO(0, level)
@@ -4455,13 +4455,13 @@ zend_class_entry *phalcon_annotations_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter);
 
-PHP_METHOD(Phalcon_Annotations_Adapter, setReader);
-PHP_METHOD(Phalcon_Annotations_Adapter, getReader);
-PHP_METHOD(Phalcon_Annotations_Adapter, get);
-PHP_METHOD(Phalcon_Annotations_Adapter, getMethods);
-PHP_METHOD(Phalcon_Annotations_Adapter, getMethod);
-PHP_METHOD(Phalcon_Annotations_Adapter, getProperties);
-PHP_METHOD(Phalcon_Annotations_Adapter, getProperty);
+static PHP_METHOD(Phalcon_Annotations_Adapter, setReader);
+static PHP_METHOD(Phalcon_Annotations_Adapter, getReader);
+static PHP_METHOD(Phalcon_Annotations_Adapter, get);
+static PHP_METHOD(Phalcon_Annotations_Adapter, getMethods);
+static PHP_METHOD(Phalcon_Annotations_Adapter, getMethod);
+static PHP_METHOD(Phalcon_Annotations_Adapter, getProperties);
+static PHP_METHOD(Phalcon_Annotations_Adapter, getProperty);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_setreader, 0, 0, 1)
 	ZEND_ARG_INFO(0, reader)
@@ -4506,27 +4506,27 @@ zend_class_entry *phalcon_mvc_model_resultset_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset);
 
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, next);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, key);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, count);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, getHydrateMode);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, current);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, next);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, key);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, count);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getHydrateMode);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, current);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_seek, 0, 0, 1)
 	ZEND_ARG_INFO(0, position)
@@ -4596,15 +4596,15 @@ zend_class_entry *phalcon_flash_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Flash);
 
-PHP_METHOD(Phalcon_Flash, __construct);
-PHP_METHOD(Phalcon_Flash, setImplicitFlush);
-PHP_METHOD(Phalcon_Flash, setAutomaticHtml);
-PHP_METHOD(Phalcon_Flash, setCssClasses);
-PHP_METHOD(Phalcon_Flash, error);
-PHP_METHOD(Phalcon_Flash, notice);
-PHP_METHOD(Phalcon_Flash, success);
-PHP_METHOD(Phalcon_Flash, warning);
-PHP_METHOD(Phalcon_Flash, outputMessage);
+static PHP_METHOD(Phalcon_Flash, __construct);
+static PHP_METHOD(Phalcon_Flash, setImplicitFlush);
+static PHP_METHOD(Phalcon_Flash, setAutomaticHtml);
+static PHP_METHOD(Phalcon_Flash, setCssClasses);
+static PHP_METHOD(Phalcon_Flash, error);
+static PHP_METHOD(Phalcon_Flash, notice);
+static PHP_METHOD(Phalcon_Flash, success);
+static PHP_METHOD(Phalcon_Flash, warning);
+static PHP_METHOD(Phalcon_Flash, outputMessage);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, cssClasses)
@@ -4662,32 +4662,32 @@ zend_class_entry *phalcon_dispatcher_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Dispatcher);
 
-PHP_METHOD(Phalcon_Dispatcher, __construct);
-PHP_METHOD(Phalcon_Dispatcher, setDI);
-PHP_METHOD(Phalcon_Dispatcher, getDI);
-PHP_METHOD(Phalcon_Dispatcher, setEventsManager);
-PHP_METHOD(Phalcon_Dispatcher, getEventsManager);
-PHP_METHOD(Phalcon_Dispatcher, setActionSuffix);
-PHP_METHOD(Phalcon_Dispatcher, setModuleName);
-PHP_METHOD(Phalcon_Dispatcher, getModuleName);
-PHP_METHOD(Phalcon_Dispatcher, setNamespaceName);
-PHP_METHOD(Phalcon_Dispatcher, getNamespaceName);
-PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace);
-PHP_METHOD(Phalcon_Dispatcher, getDefaultNamespace);
-PHP_METHOD(Phalcon_Dispatcher, setDefaultAction);
-PHP_METHOD(Phalcon_Dispatcher, setActionName);
-PHP_METHOD(Phalcon_Dispatcher, getActionName);
-PHP_METHOD(Phalcon_Dispatcher, setParams);
-PHP_METHOD(Phalcon_Dispatcher, getParams);
-PHP_METHOD(Phalcon_Dispatcher, setParam);
-PHP_METHOD(Phalcon_Dispatcher, getParam);
-PHP_METHOD(Phalcon_Dispatcher, getActiveMethod);
-PHP_METHOD(Phalcon_Dispatcher, isFinished);
-PHP_METHOD(Phalcon_Dispatcher, setReturnedValue);
-PHP_METHOD(Phalcon_Dispatcher, getReturnedValue);
-PHP_METHOD(Phalcon_Dispatcher, dispatch);
-PHP_METHOD(Phalcon_Dispatcher, forward);
-PHP_METHOD(Phalcon_Dispatcher, wasForwarded);
+static PHP_METHOD(Phalcon_Dispatcher, __construct);
+static PHP_METHOD(Phalcon_Dispatcher, setDI);
+static PHP_METHOD(Phalcon_Dispatcher, getDI);
+static PHP_METHOD(Phalcon_Dispatcher, setEventsManager);
+static PHP_METHOD(Phalcon_Dispatcher, getEventsManager);
+static PHP_METHOD(Phalcon_Dispatcher, setActionSuffix);
+static PHP_METHOD(Phalcon_Dispatcher, setModuleName);
+static PHP_METHOD(Phalcon_Dispatcher, getModuleName);
+static PHP_METHOD(Phalcon_Dispatcher, setNamespaceName);
+static PHP_METHOD(Phalcon_Dispatcher, getNamespaceName);
+static PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace);
+static PHP_METHOD(Phalcon_Dispatcher, getDefaultNamespace);
+static PHP_METHOD(Phalcon_Dispatcher, setDefaultAction);
+static PHP_METHOD(Phalcon_Dispatcher, setActionName);
+static PHP_METHOD(Phalcon_Dispatcher, getActionName);
+static PHP_METHOD(Phalcon_Dispatcher, setParams);
+static PHP_METHOD(Phalcon_Dispatcher, getParams);
+static PHP_METHOD(Phalcon_Dispatcher, setParam);
+static PHP_METHOD(Phalcon_Dispatcher, getParam);
+static PHP_METHOD(Phalcon_Dispatcher, getActiveMethod);
+static PHP_METHOD(Phalcon_Dispatcher, isFinished);
+static PHP_METHOD(Phalcon_Dispatcher, setReturnedValue);
+static PHP_METHOD(Phalcon_Dispatcher, getReturnedValue);
+static PHP_METHOD(Phalcon_Dispatcher, dispatch);
+static PHP_METHOD(Phalcon_Dispatcher, forward);
+static PHP_METHOD(Phalcon_Dispatcher, wasForwarded);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -4780,11 +4780,11 @@ zend_class_entry *phalcon_mvc_model_behavior_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior);
 
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction);
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions);
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify);
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod);
+static PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction);
+static PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions);
+static PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify);
+static PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -4816,10 +4816,10 @@ zend_class_entry *phalcon_mvc_view_engine_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine);
 
-PHP_METHOD(Phalcon_Mvc_View_Engine, __construct);
-PHP_METHOD(Phalcon_Mvc_View_Engine, getContent);
-PHP_METHOD(Phalcon_Mvc_View_Engine, partial);
-PHP_METHOD(Phalcon_Mvc_View_Engine, getView);
+static PHP_METHOD(Phalcon_Mvc_View_Engine, __construct);
+static PHP_METHOD(Phalcon_Mvc_View_Engine, getContent);
+static PHP_METHOD(Phalcon_Mvc_View_Engine, partial);
+static PHP_METHOD(Phalcon_Mvc_View_Engine, getView);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, view)
@@ -4845,18 +4845,18 @@ zend_class_entry *phalcon_assets_resource_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Assets_Resource);
 
-PHP_METHOD(Phalcon_Assets_Resource, __construct);
-PHP_METHOD(Phalcon_Assets_Resource, setType);
-PHP_METHOD(Phalcon_Assets_Resource, getType);
-PHP_METHOD(Phalcon_Assets_Resource, setPath);
-PHP_METHOD(Phalcon_Assets_Resource, getPath);
-PHP_METHOD(Phalcon_Assets_Resource, setLocal);
-PHP_METHOD(Phalcon_Assets_Resource, getLocal);
-PHP_METHOD(Phalcon_Assets_Resource, setFilter);
-PHP_METHOD(Phalcon_Assets_Resource, getFilter);
-PHP_METHOD(Phalcon_Assets_Resource, setAttributes);
-PHP_METHOD(Phalcon_Assets_Resource, getAttributes);
-PHP_METHOD(Phalcon_Assets_Resource, getContent);
+static PHP_METHOD(Phalcon_Assets_Resource, __construct);
+static PHP_METHOD(Phalcon_Assets_Resource, setType);
+static PHP_METHOD(Phalcon_Assets_Resource, getType);
+static PHP_METHOD(Phalcon_Assets_Resource, setPath);
+static PHP_METHOD(Phalcon_Assets_Resource, getPath);
+static PHP_METHOD(Phalcon_Assets_Resource, setLocal);
+static PHP_METHOD(Phalcon_Assets_Resource, getLocal);
+static PHP_METHOD(Phalcon_Assets_Resource, setFilter);
+static PHP_METHOD(Phalcon_Assets_Resource, getFilter);
+static PHP_METHOD(Phalcon_Assets_Resource, setAttributes);
+static PHP_METHOD(Phalcon_Assets_Resource, getAttributes);
+static PHP_METHOD(Phalcon_Assets_Resource, getContent);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
@@ -4913,11 +4913,11 @@ zend_class_entry *phalcon_translate_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Translate_Adapter);
 
-PHP_METHOD(Phalcon_Translate_Adapter, _);
-PHP_METHOD(Phalcon_Translate_Adapter, offsetSet);
-PHP_METHOD(Phalcon_Translate_Adapter, offsetExists);
-PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset);
-PHP_METHOD(Phalcon_Translate_Adapter, offsetGet);
+static PHP_METHOD(Phalcon_Translate_Adapter, _);
+static PHP_METHOD(Phalcon_Translate_Adapter, offsetSet);
+static PHP_METHOD(Phalcon_Translate_Adapter, offsetExists);
+static PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset);
+static PHP_METHOD(Phalcon_Translate_Adapter, offsetGet);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter__, 0, 0, 1)
 	ZEND_ARG_INFO(0, translateKey)
@@ -4956,7 +4956,7 @@ zend_class_entry *phalcon_di_factorydefault_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI_FactoryDefault);
 
-PHP_METHOD(Phalcon_DI_FactoryDefault, __construct);
+static PHP_METHOD(Phalcon_DI_FactoryDefault, __construct);
 
 PHALCON_INIT_FUNCS(phalcon_di_factorydefault_method_entry){
 	PHP_ME(Phalcon_DI_FactoryDefault, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
@@ -4969,17 +4969,17 @@ zend_class_entry *phalcon_session_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Session_Adapter);
 
-PHP_METHOD(Phalcon_Session_Adapter, __construct);
-PHP_METHOD(Phalcon_Session_Adapter, start);
-PHP_METHOD(Phalcon_Session_Adapter, setOptions);
-PHP_METHOD(Phalcon_Session_Adapter, getOptions);
-PHP_METHOD(Phalcon_Session_Adapter, get);
-PHP_METHOD(Phalcon_Session_Adapter, set);
-PHP_METHOD(Phalcon_Session_Adapter, has);
-PHP_METHOD(Phalcon_Session_Adapter, remove);
-PHP_METHOD(Phalcon_Session_Adapter, getId);
-PHP_METHOD(Phalcon_Session_Adapter, isStarted);
-PHP_METHOD(Phalcon_Session_Adapter, destroy);
+static PHP_METHOD(Phalcon_Session_Adapter, __construct);
+static PHP_METHOD(Phalcon_Session_Adapter, start);
+static PHP_METHOD(Phalcon_Session_Adapter, setOptions);
+static PHP_METHOD(Phalcon_Session_Adapter, getOptions);
+static PHP_METHOD(Phalcon_Session_Adapter, get);
+static PHP_METHOD(Phalcon_Session_Adapter, set);
+static PHP_METHOD(Phalcon_Session_Adapter, has);
+static PHP_METHOD(Phalcon_Session_Adapter, remove);
+static PHP_METHOD(Phalcon_Session_Adapter, getId);
+static PHP_METHOD(Phalcon_Session_Adapter, isStarted);
+static PHP_METHOD(Phalcon_Session_Adapter, destroy);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_adapter___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -5028,13 +5028,13 @@ zend_class_entry *phalcon_acl_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Acl_Adapter);
 
-PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager);
-PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager);
-PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction);
-PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction);
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole);
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource);
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess);
+static PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager);
+static PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager);
+static PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction);
+static PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction);
+static PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole);
+static PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource);
+static PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_INFO(0, eventsManager)
@@ -5061,15 +5061,15 @@ zend_class_entry *phalcon_config_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Config);
 
-PHP_METHOD(Phalcon_Config, __construct);
-PHP_METHOD(Phalcon_Config, offsetExists);
-PHP_METHOD(Phalcon_Config, get);
-PHP_METHOD(Phalcon_Config, offsetGet);
-PHP_METHOD(Phalcon_Config, offsetSet);
-PHP_METHOD(Phalcon_Config, offsetUnset);
-PHP_METHOD(Phalcon_Config, merge);
-PHP_METHOD(Phalcon_Config, toArray);
-PHP_METHOD(Phalcon_Config, __set_state);
+static PHP_METHOD(Phalcon_Config, __construct);
+static PHP_METHOD(Phalcon_Config, offsetExists);
+static PHP_METHOD(Phalcon_Config, get);
+static PHP_METHOD(Phalcon_Config, offsetGet);
+static PHP_METHOD(Phalcon_Config, offsetSet);
+static PHP_METHOD(Phalcon_Config, offsetUnset);
+static PHP_METHOD(Phalcon_Config, merge);
+static PHP_METHOD(Phalcon_Config, toArray);
+static PHP_METHOD(Phalcon_Config, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, arrayConfig)
@@ -5124,40 +5124,40 @@ zend_class_entry *phalcon_mvc_router_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Router);
 
-PHP_METHOD(Phalcon_Mvc_Router, __construct);
-PHP_METHOD(Phalcon_Mvc_Router, setDI);
-PHP_METHOD(Phalcon_Mvc_Router, getDI);
-PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri);
-PHP_METHOD(Phalcon_Mvc_Router, setUriSource);
-PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes);
-PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace);
-PHP_METHOD(Phalcon_Mvc_Router, setDefaultModule);
-PHP_METHOD(Phalcon_Mvc_Router, setDefaultController);
-PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction);
-PHP_METHOD(Phalcon_Mvc_Router, setDefaults);
-PHP_METHOD(Phalcon_Mvc_Router, handle);
-PHP_METHOD(Phalcon_Mvc_Router, add);
-PHP_METHOD(Phalcon_Mvc_Router, addGet);
-PHP_METHOD(Phalcon_Mvc_Router, addPost);
-PHP_METHOD(Phalcon_Mvc_Router, addPut);
-PHP_METHOD(Phalcon_Mvc_Router, addPatch);
-PHP_METHOD(Phalcon_Mvc_Router, addDelete);
-PHP_METHOD(Phalcon_Mvc_Router, addOptions);
-PHP_METHOD(Phalcon_Mvc_Router, addHead);
-PHP_METHOD(Phalcon_Mvc_Router, mount);
-PHP_METHOD(Phalcon_Mvc_Router, notFound);
-PHP_METHOD(Phalcon_Mvc_Router, clear);
-PHP_METHOD(Phalcon_Mvc_Router, getNamespaceName);
-PHP_METHOD(Phalcon_Mvc_Router, getModuleName);
-PHP_METHOD(Phalcon_Mvc_Router, getControllerName);
-PHP_METHOD(Phalcon_Mvc_Router, getActionName);
-PHP_METHOD(Phalcon_Mvc_Router, getParams);
-PHP_METHOD(Phalcon_Mvc_Router, getMatchedRoute);
-PHP_METHOD(Phalcon_Mvc_Router, getMatches);
-PHP_METHOD(Phalcon_Mvc_Router, wasMatched);
-PHP_METHOD(Phalcon_Mvc_Router, getRoutes);
-PHP_METHOD(Phalcon_Mvc_Router, getRouteById);
-PHP_METHOD(Phalcon_Mvc_Router, getRouteByName);
+static PHP_METHOD(Phalcon_Mvc_Router, __construct);
+static PHP_METHOD(Phalcon_Mvc_Router, setDI);
+static PHP_METHOD(Phalcon_Mvc_Router, getDI);
+static PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri);
+static PHP_METHOD(Phalcon_Mvc_Router, setUriSource);
+static PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes);
+static PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace);
+static PHP_METHOD(Phalcon_Mvc_Router, setDefaultModule);
+static PHP_METHOD(Phalcon_Mvc_Router, setDefaultController);
+static PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction);
+static PHP_METHOD(Phalcon_Mvc_Router, setDefaults);
+static PHP_METHOD(Phalcon_Mvc_Router, handle);
+static PHP_METHOD(Phalcon_Mvc_Router, add);
+static PHP_METHOD(Phalcon_Mvc_Router, addGet);
+static PHP_METHOD(Phalcon_Mvc_Router, addPost);
+static PHP_METHOD(Phalcon_Mvc_Router, addPut);
+static PHP_METHOD(Phalcon_Mvc_Router, addPatch);
+static PHP_METHOD(Phalcon_Mvc_Router, addDelete);
+static PHP_METHOD(Phalcon_Mvc_Router, addOptions);
+static PHP_METHOD(Phalcon_Mvc_Router, addHead);
+static PHP_METHOD(Phalcon_Mvc_Router, mount);
+static PHP_METHOD(Phalcon_Mvc_Router, notFound);
+static PHP_METHOD(Phalcon_Mvc_Router, clear);
+static PHP_METHOD(Phalcon_Mvc_Router, getNamespaceName);
+static PHP_METHOD(Phalcon_Mvc_Router, getModuleName);
+static PHP_METHOD(Phalcon_Mvc_Router, getControllerName);
+static PHP_METHOD(Phalcon_Mvc_Router, getActionName);
+static PHP_METHOD(Phalcon_Mvc_Router, getParams);
+static PHP_METHOD(Phalcon_Mvc_Router, getMatchedRoute);
+static PHP_METHOD(Phalcon_Mvc_Router, getMatches);
+static PHP_METHOD(Phalcon_Mvc_Router, wasMatched);
+static PHP_METHOD(Phalcon_Mvc_Router, getRoutes);
+static PHP_METHOD(Phalcon_Mvc_Router, getRouteById);
+static PHP_METHOD(Phalcon_Mvc_Router, getRouteByName);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, defaultRoutes)
@@ -5300,7 +5300,7 @@ zend_class_entry *phalcon_db_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db);
 
-PHP_METHOD(Phalcon_Db, setup);
+static PHP_METHOD(Phalcon_Db, setup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_setup, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
@@ -5322,48 +5322,48 @@ zend_class_entry *phalcon_tag_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Tag);
 
-PHP_METHOD(Phalcon_Tag, setDI);
-PHP_METHOD(Phalcon_Tag, getDI);
-PHP_METHOD(Phalcon_Tag, getUrlService);
-PHP_METHOD(Phalcon_Tag, getEscaperService);
-PHP_METHOD(Phalcon_Tag, setAutoescape);
-PHP_METHOD(Phalcon_Tag, setDefault);
-PHP_METHOD(Phalcon_Tag, setDefaults);
-PHP_METHOD(Phalcon_Tag, displayTo);
-PHP_METHOD(Phalcon_Tag, hasValue);
-PHP_METHOD(Phalcon_Tag, getValue);
-PHP_METHOD(Phalcon_Tag, resetInput);
-PHP_METHOD(Phalcon_Tag, linkTo);
-PHP_METHOD(Phalcon_Tag, _inputField);
-PHP_METHOD(Phalcon_Tag, _inputFieldChecked);
-PHP_METHOD(Phalcon_Tag, textField);
-PHP_METHOD(Phalcon_Tag, numericField);
-PHP_METHOD(Phalcon_Tag, emailField);
-PHP_METHOD(Phalcon_Tag, dateField);
-PHP_METHOD(Phalcon_Tag, passwordField);
-PHP_METHOD(Phalcon_Tag, hiddenField);
-PHP_METHOD(Phalcon_Tag, fileField);
-PHP_METHOD(Phalcon_Tag, checkField);
-PHP_METHOD(Phalcon_Tag, radioField);
-PHP_METHOD(Phalcon_Tag, imageInput);
-PHP_METHOD(Phalcon_Tag, submitButton);
-PHP_METHOD(Phalcon_Tag, selectStatic);
-PHP_METHOD(Phalcon_Tag, select);
-PHP_METHOD(Phalcon_Tag, textArea);
-PHP_METHOD(Phalcon_Tag, form);
-PHP_METHOD(Phalcon_Tag, endForm);
-PHP_METHOD(Phalcon_Tag, setTitle);
-PHP_METHOD(Phalcon_Tag, appendTitle);
-PHP_METHOD(Phalcon_Tag, prependTitle);
-PHP_METHOD(Phalcon_Tag, getTitle);
-PHP_METHOD(Phalcon_Tag, stylesheetLink);
-PHP_METHOD(Phalcon_Tag, javascriptInclude);
-PHP_METHOD(Phalcon_Tag, image);
-PHP_METHOD(Phalcon_Tag, friendlyTitle);
-PHP_METHOD(Phalcon_Tag, setDocType);
-PHP_METHOD(Phalcon_Tag, getDocType);
-PHP_METHOD(Phalcon_Tag, tagHtml);
-PHP_METHOD(Phalcon_Tag, tagHtmlClose);
+static PHP_METHOD(Phalcon_Tag, setDI);
+static PHP_METHOD(Phalcon_Tag, getDI);
+static PHP_METHOD(Phalcon_Tag, getUrlService);
+static PHP_METHOD(Phalcon_Tag, getEscaperService);
+static PHP_METHOD(Phalcon_Tag, setAutoescape);
+static PHP_METHOD(Phalcon_Tag, setDefault);
+static PHP_METHOD(Phalcon_Tag, setDefaults);
+static PHP_METHOD(Phalcon_Tag, displayTo);
+static PHP_METHOD(Phalcon_Tag, hasValue);
+static PHP_METHOD(Phalcon_Tag, getValue);
+static PHP_METHOD(Phalcon_Tag, resetInput);
+static PHP_METHOD(Phalcon_Tag, linkTo);
+static PHP_METHOD(Phalcon_Tag, _inputField);
+static PHP_METHOD(Phalcon_Tag, _inputFieldChecked);
+static PHP_METHOD(Phalcon_Tag, textField);
+static PHP_METHOD(Phalcon_Tag, numericField);
+static PHP_METHOD(Phalcon_Tag, emailField);
+static PHP_METHOD(Phalcon_Tag, dateField);
+static PHP_METHOD(Phalcon_Tag, passwordField);
+static PHP_METHOD(Phalcon_Tag, hiddenField);
+static PHP_METHOD(Phalcon_Tag, fileField);
+static PHP_METHOD(Phalcon_Tag, checkField);
+static PHP_METHOD(Phalcon_Tag, radioField);
+static PHP_METHOD(Phalcon_Tag, imageInput);
+static PHP_METHOD(Phalcon_Tag, submitButton);
+static PHP_METHOD(Phalcon_Tag, selectStatic);
+static PHP_METHOD(Phalcon_Tag, select);
+static PHP_METHOD(Phalcon_Tag, textArea);
+static PHP_METHOD(Phalcon_Tag, form);
+static PHP_METHOD(Phalcon_Tag, endForm);
+static PHP_METHOD(Phalcon_Tag, setTitle);
+static PHP_METHOD(Phalcon_Tag, appendTitle);
+static PHP_METHOD(Phalcon_Tag, prependTitle);
+static PHP_METHOD(Phalcon_Tag, getTitle);
+static PHP_METHOD(Phalcon_Tag, stylesheetLink);
+static PHP_METHOD(Phalcon_Tag, javascriptInclude);
+static PHP_METHOD(Phalcon_Tag, image);
+static PHP_METHOD(Phalcon_Tag, friendlyTitle);
+static PHP_METHOD(Phalcon_Tag, setDocType);
+static PHP_METHOD(Phalcon_Tag, getDocType);
+static PHP_METHOD(Phalcon_Tag, tagHtml);
+static PHP_METHOD(Phalcon_Tag, tagHtmlClose);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -5569,13 +5569,13 @@ zend_class_entry *phalcon_cache_multiple_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Multiple);
 
-PHP_METHOD(Phalcon_Cache_Multiple, __construct);
-PHP_METHOD(Phalcon_Cache_Multiple, push);
-PHP_METHOD(Phalcon_Cache_Multiple, get);
-PHP_METHOD(Phalcon_Cache_Multiple, start);
-PHP_METHOD(Phalcon_Cache_Multiple, save);
-PHP_METHOD(Phalcon_Cache_Multiple, delete);
-PHP_METHOD(Phalcon_Cache_Multiple, exists);
+static PHP_METHOD(Phalcon_Cache_Multiple, __construct);
+static PHP_METHOD(Phalcon_Cache_Multiple, push);
+static PHP_METHOD(Phalcon_Cache_Multiple, get);
+static PHP_METHOD(Phalcon_Cache_Multiple, start);
+static PHP_METHOD(Phalcon_Cache_Multiple, save);
+static PHP_METHOD(Phalcon_Cache_Multiple, delete);
+static PHP_METHOD(Phalcon_Cache_Multiple, exists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_multiple___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, backends)
@@ -5633,11 +5633,11 @@ zend_class_entry *phalcon_cache_backend_apc_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Apc);
 
-PHP_METHOD(Phalcon_Cache_Backend_Apc, get);
-PHP_METHOD(Phalcon_Cache_Backend_Apc, save);
-PHP_METHOD(Phalcon_Cache_Backend_Apc, delete);
-PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys);
-PHP_METHOD(Phalcon_Cache_Backend_Apc, exists);
+static PHP_METHOD(Phalcon_Cache_Backend_Apc, get);
+static PHP_METHOD(Phalcon_Cache_Backend_Apc, save);
+static PHP_METHOD(Phalcon_Cache_Backend_Apc, delete);
+static PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys);
+static PHP_METHOD(Phalcon_Cache_Backend_Apc, exists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_apc_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, keyName)
@@ -5679,12 +5679,12 @@ zend_class_entry *phalcon_cache_backend_file_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend_File);
 
-PHP_METHOD(Phalcon_Cache_Backend_File, __construct);
-PHP_METHOD(Phalcon_Cache_Backend_File, get);
-PHP_METHOD(Phalcon_Cache_Backend_File, save);
-PHP_METHOD(Phalcon_Cache_Backend_File, delete);
-PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys);
-PHP_METHOD(Phalcon_Cache_Backend_File, exists);
+static PHP_METHOD(Phalcon_Cache_Backend_File, __construct);
+static PHP_METHOD(Phalcon_Cache_Backend_File, get);
+static PHP_METHOD(Phalcon_Cache_Backend_File, save);
+static PHP_METHOD(Phalcon_Cache_Backend_File, delete);
+static PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys);
+static PHP_METHOD(Phalcon_Cache_Backend_File, exists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_file___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -5732,13 +5732,13 @@ zend_class_entry *phalcon_cache_backend_mongo_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Mongo);
 
-PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct);
-PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection);
-PHP_METHOD(Phalcon_Cache_Backend_Mongo, get);
-PHP_METHOD(Phalcon_Cache_Backend_Mongo, save);
-PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete);
-PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys);
-PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists);
+static PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct);
+static PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection);
+static PHP_METHOD(Phalcon_Cache_Backend_Mongo, get);
+static PHP_METHOD(Phalcon_Cache_Backend_Mongo, save);
+static PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete);
+static PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys);
+static PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -5787,11 +5787,11 @@ zend_class_entry *phalcon_cache_backend_memory_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Memory);
 
-PHP_METHOD(Phalcon_Cache_Backend_Memory, get);
-PHP_METHOD(Phalcon_Cache_Backend_Memory, save);
-PHP_METHOD(Phalcon_Cache_Backend_Memory, delete);
-PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys);
-PHP_METHOD(Phalcon_Cache_Backend_Memory, exists);
+static PHP_METHOD(Phalcon_Cache_Backend_Memory, get);
+static PHP_METHOD(Phalcon_Cache_Backend_Memory, save);
+static PHP_METHOD(Phalcon_Cache_Backend_Memory, delete);
+static PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys);
+static PHP_METHOD(Phalcon_Cache_Backend_Memory, exists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memory_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, keyName)
@@ -5833,13 +5833,13 @@ zend_class_entry *phalcon_cache_backend_memcache_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Memcache);
 
-PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct);
-PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect);
-PHP_METHOD(Phalcon_Cache_Backend_Memcache, get);
-PHP_METHOD(Phalcon_Cache_Backend_Memcache, save);
-PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete);
-PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys);
-PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists);
+static PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct);
+static PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect);
+static PHP_METHOD(Phalcon_Cache_Backend_Memcache, get);
+static PHP_METHOD(Phalcon_Cache_Backend_Memcache, save);
+static PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete);
+static PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys);
+static PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -5888,14 +5888,14 @@ zend_class_entry *phalcon_cache_frontend_data_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Data);
 
-PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct);
-PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime);
-PHP_METHOD(Phalcon_Cache_Frontend_Data, isBuffering);
-PHP_METHOD(Phalcon_Cache_Frontend_Data, start);
-PHP_METHOD(Phalcon_Cache_Frontend_Data, getContent);
-PHP_METHOD(Phalcon_Cache_Frontend_Data, stop);
-PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore);
-PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve);
+static PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct);
+static PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime);
+static PHP_METHOD(Phalcon_Cache_Frontend_Data, isBuffering);
+static PHP_METHOD(Phalcon_Cache_Frontend_Data, start);
+static PHP_METHOD(Phalcon_Cache_Frontend_Data, getContent);
+static PHP_METHOD(Phalcon_Cache_Frontend_Data, stop);
+static PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore);
+static PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_data___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, frontendOptions)
@@ -5927,13 +5927,13 @@ zend_class_entry *phalcon_cache_frontend_none_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None);
 
-PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime);
-PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering);
-PHP_METHOD(Phalcon_Cache_Frontend_None, start);
-PHP_METHOD(Phalcon_Cache_Frontend_None, getContent);
-PHP_METHOD(Phalcon_Cache_Frontend_None, stop);
-PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore);
-PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve);
+static PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime);
+static PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering);
+static PHP_METHOD(Phalcon_Cache_Frontend_None, start);
+static PHP_METHOD(Phalcon_Cache_Frontend_None, getContent);
+static PHP_METHOD(Phalcon_Cache_Frontend_None, stop);
+static PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore);
+static PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_none_beforestore, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
@@ -5960,14 +5960,14 @@ zend_class_entry *phalcon_cache_frontend_json_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Json);
 
-PHP_METHOD(Phalcon_Cache_Frontend_Json, __construct);
-PHP_METHOD(Phalcon_Cache_Frontend_Json, getLifetime);
-PHP_METHOD(Phalcon_Cache_Frontend_Json, isBuffering);
-PHP_METHOD(Phalcon_Cache_Frontend_Json, start);
-PHP_METHOD(Phalcon_Cache_Frontend_Json, getContent);
-PHP_METHOD(Phalcon_Cache_Frontend_Json, stop);
-PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore);
-PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve);
+static PHP_METHOD(Phalcon_Cache_Frontend_Json, __construct);
+static PHP_METHOD(Phalcon_Cache_Frontend_Json, getLifetime);
+static PHP_METHOD(Phalcon_Cache_Frontend_Json, isBuffering);
+static PHP_METHOD(Phalcon_Cache_Frontend_Json, start);
+static PHP_METHOD(Phalcon_Cache_Frontend_Json, getContent);
+static PHP_METHOD(Phalcon_Cache_Frontend_Json, stop);
+static PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore);
+static PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_json___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, frontendOptions)
@@ -5999,14 +5999,14 @@ zend_class_entry *phalcon_cache_frontend_base64_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Base64);
 
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct);
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, getLifetime);
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, isBuffering);
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, start);
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, getContent);
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, stop);
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore);
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve);
+static PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct);
+static PHP_METHOD(Phalcon_Cache_Frontend_Base64, getLifetime);
+static PHP_METHOD(Phalcon_Cache_Frontend_Base64, isBuffering);
+static PHP_METHOD(Phalcon_Cache_Frontend_Base64, start);
+static PHP_METHOD(Phalcon_Cache_Frontend_Base64, getContent);
+static PHP_METHOD(Phalcon_Cache_Frontend_Base64, stop);
+static PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore);
+static PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_base64___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, frontendOptions)
@@ -6038,14 +6038,14 @@ zend_class_entry *phalcon_cache_frontend_output_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Output);
 
-PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct);
-PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime);
-PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering);
-PHP_METHOD(Phalcon_Cache_Frontend_Output, start);
-PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent);
-PHP_METHOD(Phalcon_Cache_Frontend_Output, stop);
-PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore);
-PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve);
+static PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct);
+static PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime);
+static PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering);
+static PHP_METHOD(Phalcon_Cache_Frontend_Output, start);
+static PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent);
+static PHP_METHOD(Phalcon_Cache_Frontend_Output, stop);
+static PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore);
+static PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_output___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, frontendOptions)
@@ -6077,9 +6077,9 @@ zend_class_entry *phalcon_tag_select_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Tag_Select);
 
-PHP_METHOD(Phalcon_Tag_Select, selectField);
-PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset);
-PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray);
+static PHP_METHOD(Phalcon_Tag_Select, selectField);
+static PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset);
+static PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_select_selectfield, 0, 0, 1)
 	ZEND_ARG_INFO(0, parameters)
@@ -6109,9 +6109,9 @@ zend_class_entry *phalcon_paginator_adapter_model_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Paginator_Adapter_Model);
 
-PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct);
-PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage);
-PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate);
+static PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct);
+static PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage);
+static PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_model___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, config)
@@ -6134,9 +6134,9 @@ zend_class_entry *phalcon_paginator_adapter_querybuilder_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder);
 
-PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct);
-PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage);
-PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate);
+static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct);
+static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage);
+static PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, config)
@@ -6159,9 +6159,9 @@ zend_class_entry *phalcon_paginator_adapter_nativearray_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Paginator_Adapter_NativeArray);
 
-PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct);
-PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage);
-PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate);
+static PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct);
+static PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage);
+static PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_nativearray___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, config)
@@ -6184,17 +6184,17 @@ zend_class_entry *phalcon_validation_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation);
 
-PHP_METHOD(Phalcon_Validation, __construct);
-PHP_METHOD(Phalcon_Validation, validate);
-PHP_METHOD(Phalcon_Validation, add);
-PHP_METHOD(Phalcon_Validation, setFilters);
-PHP_METHOD(Phalcon_Validation, getFilters);
-PHP_METHOD(Phalcon_Validation, getValidators);
-PHP_METHOD(Phalcon_Validation, getEntity);
-PHP_METHOD(Phalcon_Validation, getMessages);
-PHP_METHOD(Phalcon_Validation, appendMessage);
-PHP_METHOD(Phalcon_Validation, bind);
-PHP_METHOD(Phalcon_Validation, getValue);
+static PHP_METHOD(Phalcon_Validation, __construct);
+static PHP_METHOD(Phalcon_Validation, validate);
+static PHP_METHOD(Phalcon_Validation, add);
+static PHP_METHOD(Phalcon_Validation, setFilters);
+static PHP_METHOD(Phalcon_Validation, getFilters);
+static PHP_METHOD(Phalcon_Validation, getValidators);
+static PHP_METHOD(Phalcon_Validation, getEntity);
+static PHP_METHOD(Phalcon_Validation, getMessages);
+static PHP_METHOD(Phalcon_Validation, appendMessage);
+static PHP_METHOD(Phalcon_Validation, bind);
+static PHP_METHOD(Phalcon_Validation, getValue);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, validators)
@@ -6253,15 +6253,15 @@ zend_class_entry *phalcon_validation_message_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Message);
 
-PHP_METHOD(Phalcon_Validation_Message, __construct);
-PHP_METHOD(Phalcon_Validation_Message, setType);
-PHP_METHOD(Phalcon_Validation_Message, getType);
-PHP_METHOD(Phalcon_Validation_Message, setMessage);
-PHP_METHOD(Phalcon_Validation_Message, getMessage);
-PHP_METHOD(Phalcon_Validation_Message, setField);
-PHP_METHOD(Phalcon_Validation_Message, getField);
-PHP_METHOD(Phalcon_Validation_Message, __toString);
-PHP_METHOD(Phalcon_Validation_Message, __set_state);
+static PHP_METHOD(Phalcon_Validation_Message, __construct);
+static PHP_METHOD(Phalcon_Validation_Message, setType);
+static PHP_METHOD(Phalcon_Validation_Message, getType);
+static PHP_METHOD(Phalcon_Validation_Message, setMessage);
+static PHP_METHOD(Phalcon_Validation_Message, getMessage);
+static PHP_METHOD(Phalcon_Validation_Message, setField);
+static PHP_METHOD(Phalcon_Validation_Message, getField);
+static PHP_METHOD(Phalcon_Validation_Message, __toString);
+static PHP_METHOD(Phalcon_Validation_Message, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
@@ -6309,21 +6309,21 @@ zend_class_entry *phalcon_validation_message_group_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Message_Group);
 
-PHP_METHOD(Phalcon_Validation_Message_Group, __construct);
-PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet);
-PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet);
-PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists);
-PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset);
-PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage);
-PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages);
-PHP_METHOD(Phalcon_Validation_Message_Group, filter);
-PHP_METHOD(Phalcon_Validation_Message_Group, count);
-PHP_METHOD(Phalcon_Validation_Message_Group, rewind);
-PHP_METHOD(Phalcon_Validation_Message_Group, current);
-PHP_METHOD(Phalcon_Validation_Message_Group, key);
-PHP_METHOD(Phalcon_Validation_Message_Group, next);
-PHP_METHOD(Phalcon_Validation_Message_Group, valid);
-PHP_METHOD(Phalcon_Validation_Message_Group, __set_state);
+static PHP_METHOD(Phalcon_Validation_Message_Group, __construct);
+static PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet);
+static PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet);
+static PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists);
+static PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset);
+static PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage);
+static PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages);
+static PHP_METHOD(Phalcon_Validation_Message_Group, filter);
+static PHP_METHOD(Phalcon_Validation_Message_Group, count);
+static PHP_METHOD(Phalcon_Validation_Message_Group, rewind);
+static PHP_METHOD(Phalcon_Validation_Message_Group, current);
+static PHP_METHOD(Phalcon_Validation_Message_Group, key);
+static PHP_METHOD(Phalcon_Validation_Message_Group, next);
+static PHP_METHOD(Phalcon_Validation_Message_Group, valid);
+static PHP_METHOD(Phalcon_Validation_Message_Group, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_message_group___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, messages)
@@ -6387,7 +6387,7 @@ zend_class_entry *phalcon_validation_validator_regex_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Regex);
 
-PHP_METHOD(Phalcon_Validation_Validator_Regex, validate);
+static PHP_METHOD(Phalcon_Validation_Validator_Regex, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_regex_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, validator)
@@ -6405,7 +6405,7 @@ zend_class_entry *phalcon_validation_validator_email_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Email);
 
-PHP_METHOD(Phalcon_Validation_Validator_Email, validate);
+static PHP_METHOD(Phalcon_Validation_Validator_Email, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_email_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, validator)
@@ -6423,7 +6423,7 @@ zend_class_entry *phalcon_validation_validator_identical_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Identical);
 
-PHP_METHOD(Phalcon_Validation_Validator_Identical, validate);
+static PHP_METHOD(Phalcon_Validation_Validator_Identical, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_identical_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, validator)
@@ -6441,7 +6441,7 @@ zend_class_entry *phalcon_validation_validator_between_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Between);
 
-PHP_METHOD(Phalcon_Validation_Validator_Between, validate);
+static PHP_METHOD(Phalcon_Validation_Validator_Between, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_between_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, validator)
@@ -6459,7 +6459,7 @@ zend_class_entry *phalcon_validation_validator_inclusionin_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn);
 
-PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate);
+static PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_inclusionin_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, validator)
@@ -6477,7 +6477,7 @@ zend_class_entry *phalcon_validation_validator_stringlength_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_StringLength);
 
-PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate);
+static PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_stringlength_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, validator)
@@ -6495,7 +6495,7 @@ zend_class_entry *phalcon_validation_validator_presenceof_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf);
 
-PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate);
+static PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_presenceof_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, validator)
@@ -6513,7 +6513,7 @@ zend_class_entry *phalcon_validation_validator_confirmation_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Confirmation);
 
-PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate);
+static PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_confirmation_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, validator)
@@ -6531,7 +6531,7 @@ zend_class_entry *phalcon_validation_validator_exclusionin_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn);
 
-PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate);
+static PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_exclusionin_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, validator)
@@ -6549,21 +6549,21 @@ zend_class_entry *phalcon_db_column_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Column);
 
-PHP_METHOD(Phalcon_Db_Column, __construct);
-PHP_METHOD(Phalcon_Db_Column, getSchemaName);
-PHP_METHOD(Phalcon_Db_Column, getName);
-PHP_METHOD(Phalcon_Db_Column, getType);
-PHP_METHOD(Phalcon_Db_Column, getSize);
-PHP_METHOD(Phalcon_Db_Column, getScale);
-PHP_METHOD(Phalcon_Db_Column, isUnsigned);
-PHP_METHOD(Phalcon_Db_Column, isNotNull);
-PHP_METHOD(Phalcon_Db_Column, isPrimary);
-PHP_METHOD(Phalcon_Db_Column, isAutoIncrement);
-PHP_METHOD(Phalcon_Db_Column, isNumeric);
-PHP_METHOD(Phalcon_Db_Column, isFirst);
-PHP_METHOD(Phalcon_Db_Column, getAfterPosition);
-PHP_METHOD(Phalcon_Db_Column, getBindType);
-PHP_METHOD(Phalcon_Db_Column, __set_state);
+static PHP_METHOD(Phalcon_Db_Column, __construct);
+static PHP_METHOD(Phalcon_Db_Column, getSchemaName);
+static PHP_METHOD(Phalcon_Db_Column, getName);
+static PHP_METHOD(Phalcon_Db_Column, getType);
+static PHP_METHOD(Phalcon_Db_Column, getSize);
+static PHP_METHOD(Phalcon_Db_Column, getScale);
+static PHP_METHOD(Phalcon_Db_Column, isUnsigned);
+static PHP_METHOD(Phalcon_Db_Column, isNotNull);
+static PHP_METHOD(Phalcon_Db_Column, isPrimary);
+static PHP_METHOD(Phalcon_Db_Column, isAutoIncrement);
+static PHP_METHOD(Phalcon_Db_Column, isNumeric);
+static PHP_METHOD(Phalcon_Db_Column, isFirst);
+static PHP_METHOD(Phalcon_Db_Column, getAfterPosition);
+static PHP_METHOD(Phalcon_Db_Column, getBindType);
+static PHP_METHOD(Phalcon_Db_Column, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_column___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, columnName)
@@ -6599,10 +6599,10 @@ zend_class_entry *phalcon_db_index_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Index);
 
-PHP_METHOD(Phalcon_Db_Index, __construct);
-PHP_METHOD(Phalcon_Db_Index, getName);
-PHP_METHOD(Phalcon_Db_Index, getColumns);
-PHP_METHOD(Phalcon_Db_Index, __set_state);
+static PHP_METHOD(Phalcon_Db_Index, __construct);
+static PHP_METHOD(Phalcon_Db_Index, getName);
+static PHP_METHOD(Phalcon_Db_Index, getColumns);
+static PHP_METHOD(Phalcon_Db_Index, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_index___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, indexName)
@@ -6627,8 +6627,8 @@ zend_class_entry *phalcon_db_adapter_pdo_mysql_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Mysql);
 
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_escapeidentifier, 0, 0, 1)
 	ZEND_ARG_INFO(0, identifier)
@@ -6651,11 +6651,11 @@ zend_class_entry *phalcon_db_adapter_pdo_sqlite_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Sqlite);
 
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, useExplicitIdValue);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, useExplicitIdValue);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_connect, 0, 0, 0)
 	ZEND_ARG_INFO(0, descriptor)
@@ -6691,12 +6691,12 @@ zend_class_entry *phalcon_db_adapter_pdo_oracle_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Oracle);
 
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, lastInsertId);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, useExplicitIdValue);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, supportSequences);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, lastInsertId);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, useExplicitIdValue);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, supportSequences);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_oracle_connect, 0, 0, 0)
 	ZEND_ARG_INFO(0, descriptor)
@@ -6727,11 +6727,11 @@ zend_class_entry *phalcon_db_adapter_pdo_postgresql_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Postgresql);
 
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, useExplicitIdValue);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, supportSequences);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, useExplicitIdValue);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, supportSequences);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_postgresql_connect, 0, 0, 0)
 	ZEND_ARG_INFO(0, descriptor)
@@ -6757,30 +6757,30 @@ zend_class_entry *phalcon_db_dialect_sqlite_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Sqlite);
 
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, viewExists);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences);
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, viewExists);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences);
+static PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
@@ -6939,33 +6939,33 @@ zend_class_entry *phalcon_db_dialect_oracle_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Oracle);
 
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, addIndex);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropIndex);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, addPrimaryKey);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropPrimaryKey);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, addForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, _getTableOptions);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, select);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsSavepoints);
-PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsReleaseSavepoints);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, addIndex);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropIndex);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, addPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, addForeignKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, _getTableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, select);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsSavepoints);
+static PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsReleaseSavepoints);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
@@ -7132,29 +7132,29 @@ zend_class_entry *phalcon_db_dialect_mysql_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Mysql);
 
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropIndex);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropPrimaryKey);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, createView);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropView);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences);
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropIndex);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropForeignKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, createView);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropView);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
@@ -7308,29 +7308,29 @@ zend_class_entry *phalcon_db_dialect_postgresql_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Postgresql);
 
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropView);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, viewExists);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listViews);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences);
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropView);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, viewExists);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listViews);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences);
+static PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
@@ -7489,13 +7489,13 @@ zend_class_entry *phalcon_db_profiler_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Profiler);
 
-PHP_METHOD(Phalcon_Db_Profiler, startProfile);
-PHP_METHOD(Phalcon_Db_Profiler, stopProfile);
-PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements);
-PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds);
-PHP_METHOD(Phalcon_Db_Profiler, getProfiles);
-PHP_METHOD(Phalcon_Db_Profiler, reset);
-PHP_METHOD(Phalcon_Db_Profiler, getLastProfile);
+static PHP_METHOD(Phalcon_Db_Profiler, startProfile);
+static PHP_METHOD(Phalcon_Db_Profiler, stopProfile);
+static PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements);
+static PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds);
+static PHP_METHOD(Phalcon_Db_Profiler, getProfiles);
+static PHP_METHOD(Phalcon_Db_Profiler, reset);
+static PHP_METHOD(Phalcon_Db_Profiler, getLastProfile);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_startprofile, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
@@ -7518,13 +7518,13 @@ zend_class_entry *phalcon_db_profiler_item_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Profiler_Item);
 
-PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement);
-PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement);
-PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime);
-PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime);
-PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime);
-PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime);
-PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds);
+static PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement);
+static PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement);
+static PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime);
+static PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime);
+static PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime);
+static PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime);
+static PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlstatement, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
@@ -7555,14 +7555,14 @@ zend_class_entry *phalcon_db_reference_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Reference);
 
-PHP_METHOD(Phalcon_Db_Reference, __construct);
-PHP_METHOD(Phalcon_Db_Reference, getName);
-PHP_METHOD(Phalcon_Db_Reference, getSchemaName);
-PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema);
-PHP_METHOD(Phalcon_Db_Reference, getColumns);
-PHP_METHOD(Phalcon_Db_Reference, getReferencedTable);
-PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns);
-PHP_METHOD(Phalcon_Db_Reference, __set_state);
+static PHP_METHOD(Phalcon_Db_Reference, __construct);
+static PHP_METHOD(Phalcon_Db_Reference, getName);
+static PHP_METHOD(Phalcon_Db_Reference, getSchemaName);
+static PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema);
+static PHP_METHOD(Phalcon_Db_Reference, getColumns);
+static PHP_METHOD(Phalcon_Db_Reference, getReferencedTable);
+static PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns);
+static PHP_METHOD(Phalcon_Db_Reference, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_reference___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, referenceName)
@@ -7591,9 +7591,9 @@ zend_class_entry *phalcon_db_rawvalue_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_RawValue);
 
-PHP_METHOD(Phalcon_Db_RawValue, __construct);
-PHP_METHOD(Phalcon_Db_RawValue, getValue);
-PHP_METHOD(Phalcon_Db_RawValue, __toString);
+static PHP_METHOD(Phalcon_Db_RawValue, __construct);
+static PHP_METHOD(Phalcon_Db_RawValue, getValue);
+static PHP_METHOD(Phalcon_Db_RawValue, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_rawvalue___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, value)
@@ -7612,15 +7612,15 @@ zend_class_entry *phalcon_db_result_pdo_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Result_Pdo);
 
-PHP_METHOD(Phalcon_Db_Result_Pdo, __construct);
-PHP_METHOD(Phalcon_Db_Result_Pdo, execute);
-PHP_METHOD(Phalcon_Db_Result_Pdo, fetch);
-PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray);
-PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll);
-PHP_METHOD(Phalcon_Db_Result_Pdo, numRows);
-PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek);
-PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode);
-PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult);
+static PHP_METHOD(Phalcon_Db_Result_Pdo, __construct);
+static PHP_METHOD(Phalcon_Db_Result_Pdo, execute);
+static PHP_METHOD(Phalcon_Db_Result_Pdo, fetch);
+static PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray);
+static PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll);
+static PHP_METHOD(Phalcon_Db_Result_Pdo, numRows);
+static PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek);
+static PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode);
+static PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, connection)
@@ -7692,10 +7692,10 @@ zend_class_entry *phalcon_acl_role_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Acl_Role);
 
-PHP_METHOD(Phalcon_Acl_Role, __construct);
-PHP_METHOD(Phalcon_Acl_Role, getName);
-PHP_METHOD(Phalcon_Acl_Role, getDescription);
-PHP_METHOD(Phalcon_Acl_Role, __toString);
+static PHP_METHOD(Phalcon_Acl_Role, __construct);
+static PHP_METHOD(Phalcon_Acl_Role, getName);
+static PHP_METHOD(Phalcon_Acl_Role, getDescription);
+static PHP_METHOD(Phalcon_Acl_Role, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_role___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -7716,10 +7716,10 @@ zend_class_entry *phalcon_acl_resource_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Acl_Resource);
 
-PHP_METHOD(Phalcon_Acl_Resource, __construct);
-PHP_METHOD(Phalcon_Acl_Resource, getName);
-PHP_METHOD(Phalcon_Acl_Resource, getDescription);
-PHP_METHOD(Phalcon_Acl_Resource, __toString);
+static PHP_METHOD(Phalcon_Acl_Resource, __construct);
+static PHP_METHOD(Phalcon_Acl_Resource, getName);
+static PHP_METHOD(Phalcon_Acl_Resource, getDescription);
+static PHP_METHOD(Phalcon_Acl_Resource, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_resource___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -7740,21 +7740,21 @@ zend_class_entry *phalcon_acl_adapter_memory_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Acl_Adapter_Memory);
 
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, isRole);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, isResource);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getRoles);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getResources);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isRole);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isResource);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, getRoles);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, getResources);
+static PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_addrole, 0, 0, 1)
 	ZEND_ARG_INFO(0, role)
@@ -7837,7 +7837,7 @@ zend_class_entry *phalcon_kernel_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Kernel);
 
-PHP_METHOD(Phalcon_Kernel, preComputeHashKey);
+static PHP_METHOD(Phalcon_Kernel, preComputeHashKey);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_kernel_precomputehashkey, 0, 0, 1)
 	ZEND_ARG_INFO(0, arrKey)
@@ -7854,14 +7854,14 @@ zend_class_entry *phalcon_text_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Text);
 
-PHP_METHOD(Phalcon_Text, camelize);
-PHP_METHOD(Phalcon_Text, uncamelize);
-PHP_METHOD(Phalcon_Text, increment);
-PHP_METHOD(Phalcon_Text, random);
-PHP_METHOD(Phalcon_Text, startsWith);
-PHP_METHOD(Phalcon_Text, endsWith);
-PHP_METHOD(Phalcon_Text, lower);
-PHP_METHOD(Phalcon_Text, upper);
+static PHP_METHOD(Phalcon_Text, camelize);
+static PHP_METHOD(Phalcon_Text, uncamelize);
+static PHP_METHOD(Phalcon_Text, increment);
+static PHP_METHOD(Phalcon_Text, random);
+static PHP_METHOD(Phalcon_Text, startsWith);
+static PHP_METHOD(Phalcon_Text, endsWith);
+static PHP_METHOD(Phalcon_Text, lower);
+static PHP_METHOD(Phalcon_Text, upper);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_camelize, 0, 0, 1)
 	ZEND_ARG_INFO(0, str)
@@ -7919,20 +7919,20 @@ zend_class_entry *phalcon_security_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Security);
 
-PHP_METHOD(Phalcon_Security, setDI);
-PHP_METHOD(Phalcon_Security, getDI);
-PHP_METHOD(Phalcon_Security, setRandomBytes);
-PHP_METHOD(Phalcon_Security, getRandomBytes);
-PHP_METHOD(Phalcon_Security, setWorkFactor);
-PHP_METHOD(Phalcon_Security, getWorkFactor);
-PHP_METHOD(Phalcon_Security, getSaltBytes);
-PHP_METHOD(Phalcon_Security, hash);
-PHP_METHOD(Phalcon_Security, checkHash);
-PHP_METHOD(Phalcon_Security, isLegacyHash);
-PHP_METHOD(Phalcon_Security, getTokenKey);
-PHP_METHOD(Phalcon_Security, getToken);
-PHP_METHOD(Phalcon_Security, checkToken);
-PHP_METHOD(Phalcon_Security, getSessionToken);
+static PHP_METHOD(Phalcon_Security, setDI);
+static PHP_METHOD(Phalcon_Security, getDI);
+static PHP_METHOD(Phalcon_Security, setRandomBytes);
+static PHP_METHOD(Phalcon_Security, getRandomBytes);
+static PHP_METHOD(Phalcon_Security, setWorkFactor);
+static PHP_METHOD(Phalcon_Security, getWorkFactor);
+static PHP_METHOD(Phalcon_Security, getSaltBytes);
+static PHP_METHOD(Phalcon_Security, hash);
+static PHP_METHOD(Phalcon_Security, checkHash);
+static PHP_METHOD(Phalcon_Security, isLegacyHash);
+static PHP_METHOD(Phalcon_Security, getTokenKey);
+static PHP_METHOD(Phalcon_Security, getToken);
+static PHP_METHOD(Phalcon_Security, checkToken);
+static PHP_METHOD(Phalcon_Security, getSessionToken);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -8002,9 +8002,9 @@ zend_class_entry *phalcon_version_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Version);
 
-PHP_METHOD(Phalcon_Version, _getVersion);
-PHP_METHOD(Phalcon_Version, get);
-PHP_METHOD(Phalcon_Version, getId);
+static PHP_METHOD(Phalcon_Version, _getVersion);
+static PHP_METHOD(Phalcon_Version, get);
+static PHP_METHOD(Phalcon_Version, getId);
 
 PHALCON_INIT_FUNCS(phalcon_version_method_entry){
 	PHP_ME(Phalcon_Version, _getVersion, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
@@ -8024,19 +8024,19 @@ zend_class_entry *phalcon_session_bag_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Session_Bag);
 
-PHP_METHOD(Phalcon_Session_Bag, __construct);
-PHP_METHOD(Phalcon_Session_Bag, setDI);
-PHP_METHOD(Phalcon_Session_Bag, getDI);
-PHP_METHOD(Phalcon_Session_Bag, initialize);
-PHP_METHOD(Phalcon_Session_Bag, destroy);
-PHP_METHOD(Phalcon_Session_Bag, set);
-PHP_METHOD(Phalcon_Session_Bag, __set);
-PHP_METHOD(Phalcon_Session_Bag, get);
-PHP_METHOD(Phalcon_Session_Bag, __get);
-PHP_METHOD(Phalcon_Session_Bag, has);
-PHP_METHOD(Phalcon_Session_Bag, __isset);
-PHP_METHOD(Phalcon_Session_Bag, remove);
-PHP_METHOD(Phalcon_Session_Bag, __unset);
+static PHP_METHOD(Phalcon_Session_Bag, __construct);
+static PHP_METHOD(Phalcon_Session_Bag, setDI);
+static PHP_METHOD(Phalcon_Session_Bag, getDI);
+static PHP_METHOD(Phalcon_Session_Bag, initialize);
+static PHP_METHOD(Phalcon_Session_Bag, destroy);
+static PHP_METHOD(Phalcon_Session_Bag, set);
+static PHP_METHOD(Phalcon_Session_Bag, __set);
+static PHP_METHOD(Phalcon_Session_Bag, get);
+static PHP_METHOD(Phalcon_Session_Bag, __get);
+static PHP_METHOD(Phalcon_Session_Bag, has);
+static PHP_METHOD(Phalcon_Session_Bag, __isset);
+static PHP_METHOD(Phalcon_Session_Bag, remove);
+static PHP_METHOD(Phalcon_Session_Bag, __unset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -8114,10 +8114,10 @@ zend_class_entry *phalcon_filter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Filter);
 
-PHP_METHOD(Phalcon_Filter, add);
-PHP_METHOD(Phalcon_Filter, sanitize);
-PHP_METHOD(Phalcon_Filter, _sanitize);
-PHP_METHOD(Phalcon_Filter, getFilters);
+static PHP_METHOD(Phalcon_Filter, add);
+static PHP_METHOD(Phalcon_Filter, sanitize);
+static PHP_METHOD(Phalcon_Filter, _sanitize);
+static PHP_METHOD(Phalcon_Filter, getFilters);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_add, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
@@ -8148,7 +8148,7 @@ zend_class_entry *phalcon_di_factorydefault_cli_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI_FactoryDefault_CLI);
 
-PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct);
+static PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct);
 
 PHALCON_INIT_FUNCS(phalcon_di_factorydefault_cli_method_entry){
 	PHP_ME(Phalcon_DI_FactoryDefault_CLI, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
@@ -8161,17 +8161,17 @@ zend_class_entry *phalcon_di_service_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI_Service);
 
-PHP_METHOD(Phalcon_DI_Service, __construct);
-PHP_METHOD(Phalcon_DI_Service, getName);
-PHP_METHOD(Phalcon_DI_Service, setShared);
-PHP_METHOD(Phalcon_DI_Service, isShared);
-PHP_METHOD(Phalcon_DI_Service, setSharedInstance);
-PHP_METHOD(Phalcon_DI_Service, setDefinition);
-PHP_METHOD(Phalcon_DI_Service, getDefinition);
-PHP_METHOD(Phalcon_DI_Service, resolve);
-PHP_METHOD(Phalcon_DI_Service, setParameter);
-PHP_METHOD(Phalcon_DI_Service, getParameter);
-PHP_METHOD(Phalcon_DI_Service, __set_state);
+static PHP_METHOD(Phalcon_DI_Service, __construct);
+static PHP_METHOD(Phalcon_DI_Service, getName);
+static PHP_METHOD(Phalcon_DI_Service, setShared);
+static PHP_METHOD(Phalcon_DI_Service, isShared);
+static PHP_METHOD(Phalcon_DI_Service, setSharedInstance);
+static PHP_METHOD(Phalcon_DI_Service, setDefinition);
+static PHP_METHOD(Phalcon_DI_Service, getDefinition);
+static PHP_METHOD(Phalcon_DI_Service, resolve);
+static PHP_METHOD(Phalcon_DI_Service, setParameter);
+static PHP_METHOD(Phalcon_DI_Service, getParameter);
+static PHP_METHOD(Phalcon_DI_Service, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
@@ -8230,9 +8230,9 @@ zend_class_entry *phalcon_di_service_builder_ce;
 
 PHALCON_INIT_CLASS(Phalcon_DI_Service_Builder);
 
-PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter);
-PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters);
-PHP_METHOD(Phalcon_DI_Service_Builder, build);
+static PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter);
+static PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters);
+static PHP_METHOD(Phalcon_DI_Service_Builder, build);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder_build, 0, 0, 2)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -8273,7 +8273,7 @@ zend_class_entry *phalcon_flash_direct_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Flash_Direct);
 
-PHP_METHOD(Phalcon_Flash_Direct, message);
+static PHP_METHOD(Phalcon_Flash_Direct, message);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_direct_message, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
@@ -8291,13 +8291,13 @@ zend_class_entry *phalcon_flash_session_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Flash_Session);
 
-PHP_METHOD(Phalcon_Flash_Session, setDI);
-PHP_METHOD(Phalcon_Flash_Session, getDI);
-PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages);
-PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages);
-PHP_METHOD(Phalcon_Flash_Session, message);
-PHP_METHOD(Phalcon_Flash_Session, getMessages);
-PHP_METHOD(Phalcon_Flash_Session, output);
+static PHP_METHOD(Phalcon_Flash_Session, setDI);
+static PHP_METHOD(Phalcon_Flash_Session, getDI);
+static PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages);
+static PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages);
+static PHP_METHOD(Phalcon_Flash_Session, message);
+static PHP_METHOD(Phalcon_Flash_Session, getMessages);
+static PHP_METHOD(Phalcon_Flash_Session, output);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -8339,7 +8339,7 @@ zend_class_entry *phalcon_cli_task_ce;
 
 PHALCON_INIT_CLASS(Phalcon_CLI_Task);
 
-PHP_METHOD(Phalcon_CLI_Task, __construct);
+static PHP_METHOD(Phalcon_CLI_Task, __construct);
 
 PHALCON_INIT_FUNCS(phalcon_cli_task_method_entry){
 	PHP_ME(Phalcon_CLI_Task, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR) 
@@ -8352,17 +8352,17 @@ zend_class_entry *phalcon_cli_router_ce;
 
 PHALCON_INIT_CLASS(Phalcon_CLI_Router);
 
-PHP_METHOD(Phalcon_CLI_Router, __construct);
-PHP_METHOD(Phalcon_CLI_Router, setDI);
-PHP_METHOD(Phalcon_CLI_Router, getDI);
-PHP_METHOD(Phalcon_CLI_Router, setDefaultModule);
-PHP_METHOD(Phalcon_CLI_Router, setDefaultTask);
-PHP_METHOD(Phalcon_CLI_Router, setDefaultAction);
-PHP_METHOD(Phalcon_CLI_Router, handle);
-PHP_METHOD(Phalcon_CLI_Router, getModuleName);
-PHP_METHOD(Phalcon_CLI_Router, getTaskName);
-PHP_METHOD(Phalcon_CLI_Router, getActionName);
-PHP_METHOD(Phalcon_CLI_Router, getParams);
+static PHP_METHOD(Phalcon_CLI_Router, __construct);
+static PHP_METHOD(Phalcon_CLI_Router, setDI);
+static PHP_METHOD(Phalcon_CLI_Router, getDI);
+static PHP_METHOD(Phalcon_CLI_Router, setDefaultModule);
+static PHP_METHOD(Phalcon_CLI_Router, setDefaultTask);
+static PHP_METHOD(Phalcon_CLI_Router, setDefaultAction);
+static PHP_METHOD(Phalcon_CLI_Router, handle);
+static PHP_METHOD(Phalcon_CLI_Router, getModuleName);
+static PHP_METHOD(Phalcon_CLI_Router, getTaskName);
+static PHP_METHOD(Phalcon_CLI_Router, getActionName);
+static PHP_METHOD(Phalcon_CLI_Router, getParams);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -8405,15 +8405,15 @@ zend_class_entry *phalcon_cli_console_ce;
 
 PHALCON_INIT_CLASS(Phalcon_CLI_Console);
 
-PHP_METHOD(Phalcon_CLI_Console, __construct);
-PHP_METHOD(Phalcon_CLI_Console, setDI);
-PHP_METHOD(Phalcon_CLI_Console, getDI);
-PHP_METHOD(Phalcon_CLI_Console, setEventsManager);
-PHP_METHOD(Phalcon_CLI_Console, getEventsManager);
-PHP_METHOD(Phalcon_CLI_Console, registerModules);
-PHP_METHOD(Phalcon_CLI_Console, addModules);
-PHP_METHOD(Phalcon_CLI_Console, getModules);
-PHP_METHOD(Phalcon_CLI_Console, handle);
+static PHP_METHOD(Phalcon_CLI_Console, __construct);
+static PHP_METHOD(Phalcon_CLI_Console, setDI);
+static PHP_METHOD(Phalcon_CLI_Console, getDI);
+static PHP_METHOD(Phalcon_CLI_Console, setEventsManager);
+static PHP_METHOD(Phalcon_CLI_Console, getEventsManager);
+static PHP_METHOD(Phalcon_CLI_Console, registerModules);
+static PHP_METHOD(Phalcon_CLI_Console, addModules);
+static PHP_METHOD(Phalcon_CLI_Console, getModules);
+static PHP_METHOD(Phalcon_CLI_Console, handle);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -8463,13 +8463,13 @@ zend_class_entry *phalcon_cli_dispatcher_ce;
 
 PHALCON_INIT_CLASS(Phalcon_CLI_Dispatcher);
 
-PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskSuffix);
-PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask);
-PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName);
-PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName);
-PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException);
-PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask);
-PHP_METHOD(Phalcon_CLI_Dispatcher, getActiveTask);
+static PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskSuffix);
+static PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask);
+static PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName);
+static PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName);
+static PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException);
+static PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask);
+static PHP_METHOD(Phalcon_CLI_Dispatcher, getActiveTask);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_settasksuffix, 0, 0, 1)
 	ZEND_ARG_INFO(0, taskSuffix)
@@ -8510,8 +8510,8 @@ zend_class_entry *phalcon_annotations_reader_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Reader);
 
-PHP_METHOD(Phalcon_Annotations_Reader, parse);
-PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock);
+static PHP_METHOD(Phalcon_Annotations_Reader, parse);
+static PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_reader_parse, 0, 0, 1)
 	ZEND_ARG_INFO(0, className)
@@ -8540,8 +8540,8 @@ zend_class_entry *phalcon_annotations_adapter_apc_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Apc);
 
-PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read);
-PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write);
+static PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read);
+static PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_apc_read, 0, 0, 1)
 	ZEND_ARG_INFO(0, key)
@@ -8564,17 +8564,17 @@ zend_class_entry *phalcon_annotations_collection_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Collection);
 
-PHP_METHOD(Phalcon_Annotations_Collection, __construct);
-PHP_METHOD(Phalcon_Annotations_Collection, count);
-PHP_METHOD(Phalcon_Annotations_Collection, rewind);
-PHP_METHOD(Phalcon_Annotations_Collection, current);
-PHP_METHOD(Phalcon_Annotations_Collection, key);
-PHP_METHOD(Phalcon_Annotations_Collection, next);
-PHP_METHOD(Phalcon_Annotations_Collection, valid);
-PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations);
-PHP_METHOD(Phalcon_Annotations_Collection, get);
-PHP_METHOD(Phalcon_Annotations_Collection, getAll);
-PHP_METHOD(Phalcon_Annotations_Collection, has);
+static PHP_METHOD(Phalcon_Annotations_Collection, __construct);
+static PHP_METHOD(Phalcon_Annotations_Collection, count);
+static PHP_METHOD(Phalcon_Annotations_Collection, rewind);
+static PHP_METHOD(Phalcon_Annotations_Collection, current);
+static PHP_METHOD(Phalcon_Annotations_Collection, key);
+static PHP_METHOD(Phalcon_Annotations_Collection, next);
+static PHP_METHOD(Phalcon_Annotations_Collection, valid);
+static PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations);
+static PHP_METHOD(Phalcon_Annotations_Collection, get);
+static PHP_METHOD(Phalcon_Annotations_Collection, getAll);
+static PHP_METHOD(Phalcon_Annotations_Collection, has);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_collection___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, reflectionData)
@@ -8613,12 +8613,12 @@ zend_class_entry *phalcon_annotations_reflection_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Reflection);
 
-PHP_METHOD(Phalcon_Annotations_Reflection, __construct);
-PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations);
-PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations);
-PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations);
-PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData);
-PHP_METHOD(Phalcon_Annotations_Reflection, __set_state);
+static PHP_METHOD(Phalcon_Annotations_Reflection, __construct);
+static PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations);
+static PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations);
+static PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations);
+static PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData);
+static PHP_METHOD(Phalcon_Annotations_Reflection, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_reflection___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, reflectionData)
@@ -8644,17 +8644,17 @@ zend_class_entry *phalcon_annotations_annotation_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Annotation);
 
-PHP_METHOD(Phalcon_Annotations_Annotation, __construct);
-PHP_METHOD(Phalcon_Annotations_Annotation, getName);
-PHP_METHOD(Phalcon_Annotations_Annotation, getExpression);
-PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments);
-PHP_METHOD(Phalcon_Annotations_Annotation, getArguments);
-PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments);
-PHP_METHOD(Phalcon_Annotations_Annotation, getArgument);
-PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument);
-PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument);
-PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter);
-PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument);
+static PHP_METHOD(Phalcon_Annotations_Annotation, __construct);
+static PHP_METHOD(Phalcon_Annotations_Annotation, getName);
+static PHP_METHOD(Phalcon_Annotations_Annotation, getExpression);
+static PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments);
+static PHP_METHOD(Phalcon_Annotations_Annotation, getArguments);
+static PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments);
+static PHP_METHOD(Phalcon_Annotations_Annotation, getArgument);
+static PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument);
+static PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument);
+static PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter);
+static PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, reflectionData)
@@ -8705,9 +8705,9 @@ zend_class_entry *phalcon_annotations_adapter_files_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Files);
 
-PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct);
-PHP_METHOD(Phalcon_Annotations_Adapter_Files, read);
-PHP_METHOD(Phalcon_Annotations_Adapter_Files, write);
+static PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct);
+static PHP_METHOD(Phalcon_Annotations_Adapter_Files, read);
+static PHP_METHOD(Phalcon_Annotations_Adapter_Files, write);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_files___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -8735,8 +8735,8 @@ zend_class_entry *phalcon_annotations_adapter_memory_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory);
 
-PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read);
-PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write);
+static PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read);
+static PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_memory_read, 0, 0, 1)
 	ZEND_ARG_INFO(0, key)
@@ -8759,24 +8759,24 @@ zend_class_entry *phalcon_loader_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Loader);
 
-PHP_METHOD(Phalcon_Loader, __construct);
-PHP_METHOD(Phalcon_Loader, setEventsManager);
-PHP_METHOD(Phalcon_Loader, getEventsManager);
-PHP_METHOD(Phalcon_Loader, setExtensions);
-PHP_METHOD(Phalcon_Loader, getExtensions);
-PHP_METHOD(Phalcon_Loader, registerNamespaces);
-PHP_METHOD(Phalcon_Loader, getNamespaces);
-PHP_METHOD(Phalcon_Loader, registerPrefixes);
-PHP_METHOD(Phalcon_Loader, getPrefixes);
-PHP_METHOD(Phalcon_Loader, registerDirs);
-PHP_METHOD(Phalcon_Loader, getDirs);
-PHP_METHOD(Phalcon_Loader, registerClasses);
-PHP_METHOD(Phalcon_Loader, getClasses);
-PHP_METHOD(Phalcon_Loader, register);
-PHP_METHOD(Phalcon_Loader, unregister);
-PHP_METHOD(Phalcon_Loader, autoLoad);
-PHP_METHOD(Phalcon_Loader, getFoundPath);
-PHP_METHOD(Phalcon_Loader, getCheckedPath);
+static PHP_METHOD(Phalcon_Loader, __construct);
+static PHP_METHOD(Phalcon_Loader, setEventsManager);
+static PHP_METHOD(Phalcon_Loader, getEventsManager);
+static PHP_METHOD(Phalcon_Loader, setExtensions);
+static PHP_METHOD(Phalcon_Loader, getExtensions);
+static PHP_METHOD(Phalcon_Loader, registerNamespaces);
+static PHP_METHOD(Phalcon_Loader, getNamespaces);
+static PHP_METHOD(Phalcon_Loader, registerPrefixes);
+static PHP_METHOD(Phalcon_Loader, getPrefixes);
+static PHP_METHOD(Phalcon_Loader, registerDirs);
+static PHP_METHOD(Phalcon_Loader, getDirs);
+static PHP_METHOD(Phalcon_Loader, registerClasses);
+static PHP_METHOD(Phalcon_Loader, getClasses);
+static PHP_METHOD(Phalcon_Loader, register);
+static PHP_METHOD(Phalcon_Loader, unregister);
+static PHP_METHOD(Phalcon_Loader, autoLoad);
+static PHP_METHOD(Phalcon_Loader, getFoundPath);
+static PHP_METHOD(Phalcon_Loader, getCheckedPath);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_INFO(0, eventsManager)
@@ -8848,10 +8848,10 @@ zend_class_entry *phalcon_logger_item_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Item);
 
-PHP_METHOD(Phalcon_Logger_Item, __construct);
-PHP_METHOD(Phalcon_Logger_Item, getMessage);
-PHP_METHOD(Phalcon_Logger_Item, getType);
-PHP_METHOD(Phalcon_Logger_Item, getTime);
+static PHP_METHOD(Phalcon_Logger_Item, __construct);
+static PHP_METHOD(Phalcon_Logger_Item, getMessage);
+static PHP_METHOD(Phalcon_Logger_Item, getType);
+static PHP_METHOD(Phalcon_Logger_Item, getTime);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_item___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, message)
@@ -8873,18 +8873,18 @@ zend_class_entry *phalcon_logger_multiple_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Multiple);
 
-PHP_METHOD(Phalcon_Logger_Multiple, push);
-PHP_METHOD(Phalcon_Logger_Multiple, getLoggers);
-PHP_METHOD(Phalcon_Logger_Multiple, setFormatter);
-PHP_METHOD(Phalcon_Logger_Multiple, getFormatter);
-PHP_METHOD(Phalcon_Logger_Multiple, log);
-PHP_METHOD(Phalcon_Logger_Multiple, emergence);
-PHP_METHOD(Phalcon_Logger_Multiple, debug);
-PHP_METHOD(Phalcon_Logger_Multiple, error);
-PHP_METHOD(Phalcon_Logger_Multiple, info);
-PHP_METHOD(Phalcon_Logger_Multiple, notice);
-PHP_METHOD(Phalcon_Logger_Multiple, warning);
-PHP_METHOD(Phalcon_Logger_Multiple, alert);
+static PHP_METHOD(Phalcon_Logger_Multiple, push);
+static PHP_METHOD(Phalcon_Logger_Multiple, getLoggers);
+static PHP_METHOD(Phalcon_Logger_Multiple, setFormatter);
+static PHP_METHOD(Phalcon_Logger_Multiple, getFormatter);
+static PHP_METHOD(Phalcon_Logger_Multiple, log);
+static PHP_METHOD(Phalcon_Logger_Multiple, emergence);
+static PHP_METHOD(Phalcon_Logger_Multiple, debug);
+static PHP_METHOD(Phalcon_Logger_Multiple, error);
+static PHP_METHOD(Phalcon_Logger_Multiple, info);
+static PHP_METHOD(Phalcon_Logger_Multiple, notice);
+static PHP_METHOD(Phalcon_Logger_Multiple, warning);
+static PHP_METHOD(Phalcon_Logger_Multiple, alert);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_multiple_push, 0, 0, 1)
 	ZEND_ARG_INFO(0, logger)
@@ -8954,10 +8954,10 @@ zend_class_entry *phalcon_logger_adapter_stream_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Stream);
 
-PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct);
-PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter);
-PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal);
-PHP_METHOD(Phalcon_Logger_Adapter_Stream, close);
+static PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct);
+static PHP_METHOD(Phalcon_Logger_Adapter_Stream, getFormatter);
+static PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal);
+static PHP_METHOD(Phalcon_Logger_Adapter_Stream, close);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_stream___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -8984,10 +8984,10 @@ zend_class_entry *phalcon_logger_adapter_syslog_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Syslog);
 
-PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct);
-PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter);
-PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal);
-PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close);
+static PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct);
+static PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter);
+static PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal);
+static PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_syslog___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -9014,7 +9014,7 @@ zend_class_entry *phalcon_logger_formatter_json_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Json);
 
-PHP_METHOD(Phalcon_Logger_Formatter_Json, format);
+static PHP_METHOD(Phalcon_Logger_Formatter_Json, format);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_json_format, 0, 0, 3)
 	ZEND_ARG_INFO(0, message)
@@ -9033,11 +9033,11 @@ zend_class_entry *phalcon_logger_adapter_file_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_File);
 
-PHP_METHOD(Phalcon_Logger_Adapter_File, __construct);
-PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter);
-PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal);
-PHP_METHOD(Phalcon_Logger_Adapter_File, close);
-PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup);
+static PHP_METHOD(Phalcon_Logger_Adapter_File, __construct);
+static PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter);
+static PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal);
+static PHP_METHOD(Phalcon_Logger_Adapter_File, close);
+static PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_file___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -9065,12 +9065,12 @@ zend_class_entry *phalcon_logger_formatter_line_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Line);
 
-PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct);
-PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat);
-PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat);
-PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat);
-PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat);
-PHP_METHOD(Phalcon_Logger_Formatter_Line, format);
+static PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct);
+static PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat);
+static PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat);
+static PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat);
+static PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat);
+static PHP_METHOD(Phalcon_Logger_Formatter_Line, format);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_line___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, format)
@@ -9107,7 +9107,7 @@ zend_class_entry *phalcon_logger_formatter_syslog_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Syslog);
 
-PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format);
+static PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_syslog_format, 0, 0, 3)
 	ZEND_ARG_INFO(0, message)
@@ -9126,7 +9126,7 @@ zend_class_entry *phalcon_config_adapter_ini_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini);
 
-PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
+static PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, filePath)
@@ -9148,35 +9148,35 @@ zend_class_entry *phalcon_forms_form_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Form);
 
-PHP_METHOD(Phalcon_Forms_Form, __construct);
-PHP_METHOD(Phalcon_Forms_Form, setAction);
-PHP_METHOD(Phalcon_Forms_Form, getAction);
-PHP_METHOD(Phalcon_Forms_Form, setUserOption);
-PHP_METHOD(Phalcon_Forms_Form, getUserOption);
-PHP_METHOD(Phalcon_Forms_Form, setUserOptions);
-PHP_METHOD(Phalcon_Forms_Form, getUserOptions);
-PHP_METHOD(Phalcon_Forms_Form, setEntity);
-PHP_METHOD(Phalcon_Forms_Form, getEntity);
-PHP_METHOD(Phalcon_Forms_Form, getElements);
-PHP_METHOD(Phalcon_Forms_Form, bind);
-PHP_METHOD(Phalcon_Forms_Form, isValid);
-PHP_METHOD(Phalcon_Forms_Form, getMessages);
-PHP_METHOD(Phalcon_Forms_Form, getMessagesFor);
-PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor);
-PHP_METHOD(Phalcon_Forms_Form, add);
-PHP_METHOD(Phalcon_Forms_Form, render);
-PHP_METHOD(Phalcon_Forms_Form, get);
-PHP_METHOD(Phalcon_Forms_Form, label);
-PHP_METHOD(Phalcon_Forms_Form, getLabel);
-PHP_METHOD(Phalcon_Forms_Form, getValue);
-PHP_METHOD(Phalcon_Forms_Form, has);
-PHP_METHOD(Phalcon_Forms_Form, remove);
-PHP_METHOD(Phalcon_Forms_Form, count);
-PHP_METHOD(Phalcon_Forms_Form, rewind);
-PHP_METHOD(Phalcon_Forms_Form, current);
-PHP_METHOD(Phalcon_Forms_Form, key);
-PHP_METHOD(Phalcon_Forms_Form, next);
-PHP_METHOD(Phalcon_Forms_Form, valid);
+static PHP_METHOD(Phalcon_Forms_Form, __construct);
+static PHP_METHOD(Phalcon_Forms_Form, setAction);
+static PHP_METHOD(Phalcon_Forms_Form, getAction);
+static PHP_METHOD(Phalcon_Forms_Form, setUserOption);
+static PHP_METHOD(Phalcon_Forms_Form, getUserOption);
+static PHP_METHOD(Phalcon_Forms_Form, setUserOptions);
+static PHP_METHOD(Phalcon_Forms_Form, getUserOptions);
+static PHP_METHOD(Phalcon_Forms_Form, setEntity);
+static PHP_METHOD(Phalcon_Forms_Form, getEntity);
+static PHP_METHOD(Phalcon_Forms_Form, getElements);
+static PHP_METHOD(Phalcon_Forms_Form, bind);
+static PHP_METHOD(Phalcon_Forms_Form, isValid);
+static PHP_METHOD(Phalcon_Forms_Form, getMessages);
+static PHP_METHOD(Phalcon_Forms_Form, getMessagesFor);
+static PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor);
+static PHP_METHOD(Phalcon_Forms_Form, add);
+static PHP_METHOD(Phalcon_Forms_Form, render);
+static PHP_METHOD(Phalcon_Forms_Form, get);
+static PHP_METHOD(Phalcon_Forms_Form, label);
+static PHP_METHOD(Phalcon_Forms_Form, getLabel);
+static PHP_METHOD(Phalcon_Forms_Form, getValue);
+static PHP_METHOD(Phalcon_Forms_Form, has);
+static PHP_METHOD(Phalcon_Forms_Form, remove);
+static PHP_METHOD(Phalcon_Forms_Form, count);
+static PHP_METHOD(Phalcon_Forms_Form, rewind);
+static PHP_METHOD(Phalcon_Forms_Form, current);
+static PHP_METHOD(Phalcon_Forms_Form, key);
+static PHP_METHOD(Phalcon_Forms_Form, next);
+static PHP_METHOD(Phalcon_Forms_Form, valid);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, entity)
@@ -9300,10 +9300,10 @@ zend_class_entry *phalcon_forms_manager_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Manager);
 
-PHP_METHOD(Phalcon_Forms_Manager, create);
-PHP_METHOD(Phalcon_Forms_Manager, get);
-PHP_METHOD(Phalcon_Forms_Manager, has);
-PHP_METHOD(Phalcon_Forms_Manager, set);
+static PHP_METHOD(Phalcon_Forms_Manager, create);
+static PHP_METHOD(Phalcon_Forms_Manager, get);
+static PHP_METHOD(Phalcon_Forms_Manager, has);
+static PHP_METHOD(Phalcon_Forms_Manager, set);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_create, 0, 0, 0)
 	ZEND_ARG_INFO(0, name)
@@ -9342,7 +9342,7 @@ zend_class_entry *phalcon_forms_element_text_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Text);
 
-PHP_METHOD(Phalcon_Forms_Element_Text, render);
+static PHP_METHOD(Phalcon_Forms_Element_Text, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_text_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
@@ -9359,7 +9359,7 @@ zend_class_entry *phalcon_forms_element_date_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Date);
 
-PHP_METHOD(Phalcon_Forms_Element_Date, render);
+static PHP_METHOD(Phalcon_Forms_Element_Date, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_date_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
@@ -9376,7 +9376,7 @@ zend_class_entry *phalcon_forms_element_file_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_File);
 
-PHP_METHOD(Phalcon_Forms_Element_File, render);
+static PHP_METHOD(Phalcon_Forms_Element_File, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_file_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
@@ -9393,7 +9393,7 @@ zend_class_entry *phalcon_forms_element_email_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Email);
 
-PHP_METHOD(Phalcon_Forms_Element_Email, render);
+static PHP_METHOD(Phalcon_Forms_Element_Email, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_email_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
@@ -9410,7 +9410,7 @@ zend_class_entry *phalcon_forms_element_hidden_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Hidden);
 
-PHP_METHOD(Phalcon_Forms_Element_Hidden, render);
+static PHP_METHOD(Phalcon_Forms_Element_Hidden, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_hidden_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
@@ -9427,7 +9427,7 @@ zend_class_entry *phalcon_forms_element_check_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Check);
 
-PHP_METHOD(Phalcon_Forms_Element_Check, render);
+static PHP_METHOD(Phalcon_Forms_Element_Check, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_check_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
@@ -9444,7 +9444,7 @@ zend_class_entry *phalcon_forms_element_numeric_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Numeric);
 
-PHP_METHOD(Phalcon_Forms_Element_Numeric, render);
+static PHP_METHOD(Phalcon_Forms_Element_Numeric, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_numeric_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
@@ -9461,7 +9461,7 @@ zend_class_entry *phalcon_forms_element_submit_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Submit);
 
-PHP_METHOD(Phalcon_Forms_Element_Submit, render);
+static PHP_METHOD(Phalcon_Forms_Element_Submit, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_submit_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
@@ -9478,11 +9478,11 @@ zend_class_entry *phalcon_forms_element_select_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Select);
 
-PHP_METHOD(Phalcon_Forms_Element_Select, __construct);
-PHP_METHOD(Phalcon_Forms_Element_Select, setOptions);
-PHP_METHOD(Phalcon_Forms_Element_Select, getOptions);
-PHP_METHOD(Phalcon_Forms_Element_Select, addOption);
-PHP_METHOD(Phalcon_Forms_Element_Select, render);
+static PHP_METHOD(Phalcon_Forms_Element_Select, __construct);
+static PHP_METHOD(Phalcon_Forms_Element_Select, setOptions);
+static PHP_METHOD(Phalcon_Forms_Element_Select, getOptions);
+static PHP_METHOD(Phalcon_Forms_Element_Select, addOption);
+static PHP_METHOD(Phalcon_Forms_Element_Select, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_select___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -9517,7 +9517,7 @@ zend_class_entry *phalcon_forms_element_password_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Password);
 
-PHP_METHOD(Phalcon_Forms_Element_Password, render);
+static PHP_METHOD(Phalcon_Forms_Element_Password, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_password_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
@@ -9534,7 +9534,7 @@ zend_class_entry *phalcon_forms_element_textarea_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_TextArea);
 
-PHP_METHOD(Phalcon_Forms_Element_TextArea, render);
+static PHP_METHOD(Phalcon_Forms_Element_TextArea, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_textarea_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
@@ -9551,18 +9551,18 @@ zend_class_entry *phalcon_crypt_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Crypt);
 
-PHP_METHOD(Phalcon_Crypt, setCipher);
-PHP_METHOD(Phalcon_Crypt, getCipher);
-PHP_METHOD(Phalcon_Crypt, setMode);
-PHP_METHOD(Phalcon_Crypt, getMode);
-PHP_METHOD(Phalcon_Crypt, setKey);
-PHP_METHOD(Phalcon_Crypt, getKey);
-PHP_METHOD(Phalcon_Crypt, encrypt);
-PHP_METHOD(Phalcon_Crypt, decrypt);
-PHP_METHOD(Phalcon_Crypt, encryptBase64);
-PHP_METHOD(Phalcon_Crypt, decryptBase64);
-PHP_METHOD(Phalcon_Crypt, getAvailableCiphers);
-PHP_METHOD(Phalcon_Crypt, getAvailableModes);
+static PHP_METHOD(Phalcon_Crypt, setCipher);
+static PHP_METHOD(Phalcon_Crypt, getCipher);
+static PHP_METHOD(Phalcon_Crypt, setMode);
+static PHP_METHOD(Phalcon_Crypt, getMode);
+static PHP_METHOD(Phalcon_Crypt, setKey);
+static PHP_METHOD(Phalcon_Crypt, getKey);
+static PHP_METHOD(Phalcon_Crypt, encrypt);
+static PHP_METHOD(Phalcon_Crypt, decrypt);
+static PHP_METHOD(Phalcon_Crypt, encryptBase64);
+static PHP_METHOD(Phalcon_Crypt, decryptBase64);
+static PHP_METHOD(Phalcon_Crypt, getAvailableCiphers);
+static PHP_METHOD(Phalcon_Crypt, getAvailableModes);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_setcipher, 0, 0, 1)
 	ZEND_ARG_INFO(0, cipher)
@@ -9628,9 +9628,9 @@ zend_class_entry *phalcon_translate_adapter_nativearray_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray);
 
-PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct);
-PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query);
-PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists);
+static PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct);
+static PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query);
+static PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_nativearray___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
@@ -9663,16 +9663,16 @@ zend_class_entry *phalcon_escaper_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Escaper);
 
-PHP_METHOD(Phalcon_Escaper, setEncoding);
-PHP_METHOD(Phalcon_Escaper, getEncoding);
-PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType);
-PHP_METHOD(Phalcon_Escaper, detectEncoding);
-PHP_METHOD(Phalcon_Escaper, normalizeEncoding);
-PHP_METHOD(Phalcon_Escaper, escapeHtml);
-PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr);
-PHP_METHOD(Phalcon_Escaper, escapeCss);
-PHP_METHOD(Phalcon_Escaper, escapeJs);
-PHP_METHOD(Phalcon_Escaper, escapeUrl);
+static PHP_METHOD(Phalcon_Escaper, setEncoding);
+static PHP_METHOD(Phalcon_Escaper, getEncoding);
+static PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType);
+static PHP_METHOD(Phalcon_Escaper, detectEncoding);
+static PHP_METHOD(Phalcon_Escaper, normalizeEncoding);
+static PHP_METHOD(Phalcon_Escaper, escapeHtml);
+static PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr);
+static PHP_METHOD(Phalcon_Escaper, escapeCss);
+static PHP_METHOD(Phalcon_Escaper, escapeJs);
+static PHP_METHOD(Phalcon_Escaper, escapeUrl);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_setencoding, 0, 0, 1)
 	ZEND_ARG_INFO(0, encoding)
@@ -9735,23 +9735,23 @@ zend_class_entry *phalcon_assets_manager_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Assets_Manager);
 
-PHP_METHOD(Phalcon_Assets_Manager, __construct);
-PHP_METHOD(Phalcon_Assets_Manager, setOptions);
-PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput);
-PHP_METHOD(Phalcon_Assets_Manager, addCss);
-PHP_METHOD(Phalcon_Assets_Manager, addJs);
-PHP_METHOD(Phalcon_Assets_Manager, addResourceByType);
-PHP_METHOD(Phalcon_Assets_Manager, addResource);
-PHP_METHOD(Phalcon_Assets_Manager, set);
-PHP_METHOD(Phalcon_Assets_Manager, get);
-PHP_METHOD(Phalcon_Assets_Manager, getCss);
-PHP_METHOD(Phalcon_Assets_Manager, getJs);
-PHP_METHOD(Phalcon_Assets_Manager, collection);
-PHP_METHOD(Phalcon_Assets_Manager, outputCss);
-PHP_METHOD(Phalcon_Assets_Manager, outputJs);
-PHP_METHOD(Phalcon_Assets_Manager, filter);
-PHP_METHOD(Phalcon_Assets_Manager, hasChanged);
-PHP_METHOD(Phalcon_Assets_Manager, getResourceContent);
+static PHP_METHOD(Phalcon_Assets_Manager, __construct);
+static PHP_METHOD(Phalcon_Assets_Manager, setOptions);
+static PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput);
+static PHP_METHOD(Phalcon_Assets_Manager, addCss);
+static PHP_METHOD(Phalcon_Assets_Manager, addJs);
+static PHP_METHOD(Phalcon_Assets_Manager, addResourceByType);
+static PHP_METHOD(Phalcon_Assets_Manager, addResource);
+static PHP_METHOD(Phalcon_Assets_Manager, set);
+static PHP_METHOD(Phalcon_Assets_Manager, get);
+static PHP_METHOD(Phalcon_Assets_Manager, getCss);
+static PHP_METHOD(Phalcon_Assets_Manager, getJs);
+static PHP_METHOD(Phalcon_Assets_Manager, collection);
+static PHP_METHOD(Phalcon_Assets_Manager, outputCss);
+static PHP_METHOD(Phalcon_Assets_Manager, outputJs);
+static PHP_METHOD(Phalcon_Assets_Manager, filter);
+static PHP_METHOD(Phalcon_Assets_Manager, hasChanged);
+static PHP_METHOD(Phalcon_Assets_Manager, getResourceContent);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -9844,27 +9844,27 @@ zend_class_entry *phalcon_assets_collection_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Assets_Collection);
 
-PHP_METHOD(Phalcon_Assets_Collection, add);
-PHP_METHOD(Phalcon_Assets_Collection, addCss);
-PHP_METHOD(Phalcon_Assets_Collection, addJs);
-PHP_METHOD(Phalcon_Assets_Collection, getResources);
-PHP_METHOD(Phalcon_Assets_Collection, count);
-PHP_METHOD(Phalcon_Assets_Collection, rewind);
-PHP_METHOD(Phalcon_Assets_Collection, current);
-PHP_METHOD(Phalcon_Assets_Collection, key);
-PHP_METHOD(Phalcon_Assets_Collection, next);
-PHP_METHOD(Phalcon_Assets_Collection, valid);
-PHP_METHOD(Phalcon_Assets_Collection, setName);
-PHP_METHOD(Phalcon_Assets_Collection, setPrefix);
-PHP_METHOD(Phalcon_Assets_Collection, getPrefix);
-PHP_METHOD(Phalcon_Assets_Collection, setLocal);
-PHP_METHOD(Phalcon_Assets_Collection, getLocal);
-PHP_METHOD(Phalcon_Assets_Collection, setAttributes);
-PHP_METHOD(Phalcon_Assets_Collection, getAttributes);
-PHP_METHOD(Phalcon_Assets_Collection, addFilter);
-PHP_METHOD(Phalcon_Assets_Collection, setFilters);
-PHP_METHOD(Phalcon_Assets_Collection, getFilters);
-PHP_METHOD(Phalcon_Assets_Collection, join);
+static PHP_METHOD(Phalcon_Assets_Collection, add);
+static PHP_METHOD(Phalcon_Assets_Collection, addCss);
+static PHP_METHOD(Phalcon_Assets_Collection, addJs);
+static PHP_METHOD(Phalcon_Assets_Collection, getResources);
+static PHP_METHOD(Phalcon_Assets_Collection, count);
+static PHP_METHOD(Phalcon_Assets_Collection, rewind);
+static PHP_METHOD(Phalcon_Assets_Collection, current);
+static PHP_METHOD(Phalcon_Assets_Collection, key);
+static PHP_METHOD(Phalcon_Assets_Collection, next);
+static PHP_METHOD(Phalcon_Assets_Collection, valid);
+static PHP_METHOD(Phalcon_Assets_Collection, setName);
+static PHP_METHOD(Phalcon_Assets_Collection, setPrefix);
+static PHP_METHOD(Phalcon_Assets_Collection, getPrefix);
+static PHP_METHOD(Phalcon_Assets_Collection, setLocal);
+static PHP_METHOD(Phalcon_Assets_Collection, getLocal);
+static PHP_METHOD(Phalcon_Assets_Collection, setAttributes);
+static PHP_METHOD(Phalcon_Assets_Collection, getAttributes);
+static PHP_METHOD(Phalcon_Assets_Collection, addFilter);
+static PHP_METHOD(Phalcon_Assets_Collection, setFilters);
+static PHP_METHOD(Phalcon_Assets_Collection, getFilters);
+static PHP_METHOD(Phalcon_Assets_Collection, join);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_add, 0, 0, 1)
 	ZEND_ARG_INFO(0, resource)
@@ -9943,7 +9943,7 @@ zend_class_entry *phalcon_assets_resource_js_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Assets_Resource_Js);
 
-PHP_METHOD(Phalcon_Assets_Resource_Js, __construct);
+static PHP_METHOD(Phalcon_Assets_Resource_Js, __construct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_js___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, path)
@@ -9968,7 +9968,7 @@ zend_class_entry *phalcon_assets_filters_cssmin_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Assets_Filters_Cssmin);
 
-PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter);
+static PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_filters_cssmin_filter, 0, 0, 1)
 	ZEND_ARG_INFO(0, content)
@@ -9985,7 +9985,7 @@ zend_class_entry *phalcon_assets_filters_jsmin_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Assets_Filters_Jsmin);
 
-PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter);
+static PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_filters_jsmin_filter, 0, 0, 1)
 	ZEND_ARG_INFO(0, content)
@@ -10002,7 +10002,7 @@ zend_class_entry *phalcon_assets_resource_css_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Assets_Resource_Css);
 
-PHP_METHOD(Phalcon_Assets_Resource_Css, __construct);
+static PHP_METHOD(Phalcon_Assets_Resource_Css, __construct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_resource_css___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, path)
@@ -10022,49 +10022,49 @@ zend_class_entry *phalcon_http_request_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Request);
 
-PHP_METHOD(Phalcon_Http_Request, setDI);
-PHP_METHOD(Phalcon_Http_Request, getDI);
-PHP_METHOD(Phalcon_Http_Request, get);
-PHP_METHOD(Phalcon_Http_Request, getPost);
-PHP_METHOD(Phalcon_Http_Request, getQuery);
-PHP_METHOD(Phalcon_Http_Request, getServer);
-PHP_METHOD(Phalcon_Http_Request, has);
-PHP_METHOD(Phalcon_Http_Request, hasPost);
-PHP_METHOD(Phalcon_Http_Request, hasQuery);
-PHP_METHOD(Phalcon_Http_Request, hasServer);
-PHP_METHOD(Phalcon_Http_Request, getHeader);
-PHP_METHOD(Phalcon_Http_Request, getScheme);
-PHP_METHOD(Phalcon_Http_Request, isAjax);
-PHP_METHOD(Phalcon_Http_Request, isSoapRequested);
-PHP_METHOD(Phalcon_Http_Request, isSecureRequest);
-PHP_METHOD(Phalcon_Http_Request, getRawBody);
-PHP_METHOD(Phalcon_Http_Request, getJsonRawBody);
-PHP_METHOD(Phalcon_Http_Request, getServerAddress);
-PHP_METHOD(Phalcon_Http_Request, getServerName);
-PHP_METHOD(Phalcon_Http_Request, getHttpHost);
-PHP_METHOD(Phalcon_Http_Request, getClientAddress);
-PHP_METHOD(Phalcon_Http_Request, getMethod);
-PHP_METHOD(Phalcon_Http_Request, getUserAgent);
-PHP_METHOD(Phalcon_Http_Request, isMethod);
-PHP_METHOD(Phalcon_Http_Request, isPost);
-PHP_METHOD(Phalcon_Http_Request, isGet);
-PHP_METHOD(Phalcon_Http_Request, isPut);
-PHP_METHOD(Phalcon_Http_Request, isPatch);
-PHP_METHOD(Phalcon_Http_Request, isHead);
-PHP_METHOD(Phalcon_Http_Request, isDelete);
-PHP_METHOD(Phalcon_Http_Request, isOptions);
-PHP_METHOD(Phalcon_Http_Request, hasFiles);
-PHP_METHOD(Phalcon_Http_Request, getUploadedFiles);
-PHP_METHOD(Phalcon_Http_Request, getHeaders);
-PHP_METHOD(Phalcon_Http_Request, getHTTPReferer);
-PHP_METHOD(Phalcon_Http_Request, _getQualityHeader);
-PHP_METHOD(Phalcon_Http_Request, _getBestQuality);
-PHP_METHOD(Phalcon_Http_Request, getAcceptableContent);
-PHP_METHOD(Phalcon_Http_Request, getBestAccept);
-PHP_METHOD(Phalcon_Http_Request, getClientCharsets);
-PHP_METHOD(Phalcon_Http_Request, getBestCharset);
-PHP_METHOD(Phalcon_Http_Request, getLanguages);
-PHP_METHOD(Phalcon_Http_Request, getBestLanguage);
+static PHP_METHOD(Phalcon_Http_Request, setDI);
+static PHP_METHOD(Phalcon_Http_Request, getDI);
+static PHP_METHOD(Phalcon_Http_Request, get);
+static PHP_METHOD(Phalcon_Http_Request, getPost);
+static PHP_METHOD(Phalcon_Http_Request, getQuery);
+static PHP_METHOD(Phalcon_Http_Request, getServer);
+static PHP_METHOD(Phalcon_Http_Request, has);
+static PHP_METHOD(Phalcon_Http_Request, hasPost);
+static PHP_METHOD(Phalcon_Http_Request, hasQuery);
+static PHP_METHOD(Phalcon_Http_Request, hasServer);
+static PHP_METHOD(Phalcon_Http_Request, getHeader);
+static PHP_METHOD(Phalcon_Http_Request, getScheme);
+static PHP_METHOD(Phalcon_Http_Request, isAjax);
+static PHP_METHOD(Phalcon_Http_Request, isSoapRequested);
+static PHP_METHOD(Phalcon_Http_Request, isSecureRequest);
+static PHP_METHOD(Phalcon_Http_Request, getRawBody);
+static PHP_METHOD(Phalcon_Http_Request, getJsonRawBody);
+static PHP_METHOD(Phalcon_Http_Request, getServerAddress);
+static PHP_METHOD(Phalcon_Http_Request, getServerName);
+static PHP_METHOD(Phalcon_Http_Request, getHttpHost);
+static PHP_METHOD(Phalcon_Http_Request, getClientAddress);
+static PHP_METHOD(Phalcon_Http_Request, getMethod);
+static PHP_METHOD(Phalcon_Http_Request, getUserAgent);
+static PHP_METHOD(Phalcon_Http_Request, isMethod);
+static PHP_METHOD(Phalcon_Http_Request, isPost);
+static PHP_METHOD(Phalcon_Http_Request, isGet);
+static PHP_METHOD(Phalcon_Http_Request, isPut);
+static PHP_METHOD(Phalcon_Http_Request, isPatch);
+static PHP_METHOD(Phalcon_Http_Request, isHead);
+static PHP_METHOD(Phalcon_Http_Request, isDelete);
+static PHP_METHOD(Phalcon_Http_Request, isOptions);
+static PHP_METHOD(Phalcon_Http_Request, hasFiles);
+static PHP_METHOD(Phalcon_Http_Request, getUploadedFiles);
+static PHP_METHOD(Phalcon_Http_Request, getHeaders);
+static PHP_METHOD(Phalcon_Http_Request, getHTTPReferer);
+static PHP_METHOD(Phalcon_Http_Request, _getQualityHeader);
+static PHP_METHOD(Phalcon_Http_Request, _getBestQuality);
+static PHP_METHOD(Phalcon_Http_Request, getAcceptableContent);
+static PHP_METHOD(Phalcon_Http_Request, getBestAccept);
+static PHP_METHOD(Phalcon_Http_Request, getClientCharsets);
+static PHP_METHOD(Phalcon_Http_Request, getBestCharset);
+static PHP_METHOD(Phalcon_Http_Request, getLanguages);
+static PHP_METHOD(Phalcon_Http_Request, getBestLanguage);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -10181,27 +10181,27 @@ zend_class_entry *phalcon_http_cookie_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Cookie);
 
-PHP_METHOD(Phalcon_Http_Cookie, __construct);
-PHP_METHOD(Phalcon_Http_Cookie, setDI);
-PHP_METHOD(Phalcon_Http_Cookie, getDI);
-PHP_METHOD(Phalcon_Http_Cookie, setValue);
-PHP_METHOD(Phalcon_Http_Cookie, getValue);
-PHP_METHOD(Phalcon_Http_Cookie, send);
-PHP_METHOD(Phalcon_Http_Cookie, restore);
-PHP_METHOD(Phalcon_Http_Cookie, delete);
-PHP_METHOD(Phalcon_Http_Cookie, useEncryption);
-PHP_METHOD(Phalcon_Http_Cookie, isUsingEncryption);
-PHP_METHOD(Phalcon_Http_Cookie, setExpiration);
-PHP_METHOD(Phalcon_Http_Cookie, getExpiration);
-PHP_METHOD(Phalcon_Http_Cookie, setPath);
-PHP_METHOD(Phalcon_Http_Cookie, getPath);
-PHP_METHOD(Phalcon_Http_Cookie, setDomain);
-PHP_METHOD(Phalcon_Http_Cookie, getDomain);
-PHP_METHOD(Phalcon_Http_Cookie, setSecure);
-PHP_METHOD(Phalcon_Http_Cookie, getSecure);
-PHP_METHOD(Phalcon_Http_Cookie, setHttpOnly);
-PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly);
-PHP_METHOD(Phalcon_Http_Cookie, __toString);
+static PHP_METHOD(Phalcon_Http_Cookie, __construct);
+static PHP_METHOD(Phalcon_Http_Cookie, setDI);
+static PHP_METHOD(Phalcon_Http_Cookie, getDI);
+static PHP_METHOD(Phalcon_Http_Cookie, setValue);
+static PHP_METHOD(Phalcon_Http_Cookie, getValue);
+static PHP_METHOD(Phalcon_Http_Cookie, send);
+static PHP_METHOD(Phalcon_Http_Cookie, restore);
+static PHP_METHOD(Phalcon_Http_Cookie, delete);
+static PHP_METHOD(Phalcon_Http_Cookie, useEncryption);
+static PHP_METHOD(Phalcon_Http_Cookie, isUsingEncryption);
+static PHP_METHOD(Phalcon_Http_Cookie, setExpiration);
+static PHP_METHOD(Phalcon_Http_Cookie, getExpiration);
+static PHP_METHOD(Phalcon_Http_Cookie, setPath);
+static PHP_METHOD(Phalcon_Http_Cookie, getPath);
+static PHP_METHOD(Phalcon_Http_Cookie, setDomain);
+static PHP_METHOD(Phalcon_Http_Cookie, getDomain);
+static PHP_METHOD(Phalcon_Http_Cookie, setSecure);
+static PHP_METHOD(Phalcon_Http_Cookie, getSecure);
+static PHP_METHOD(Phalcon_Http_Cookie, setHttpOnly);
+static PHP_METHOD(Phalcon_Http_Cookie, getHttpOnly);
+static PHP_METHOD(Phalcon_Http_Cookie, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -10281,31 +10281,31 @@ zend_class_entry *phalcon_http_response_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Response);
 
-PHP_METHOD(Phalcon_Http_Response, __construct);
-PHP_METHOD(Phalcon_Http_Response, setDI);
-PHP_METHOD(Phalcon_Http_Response, getDI);
-PHP_METHOD(Phalcon_Http_Response, setStatusCode);
-PHP_METHOD(Phalcon_Http_Response, setHeaders);
-PHP_METHOD(Phalcon_Http_Response, getHeaders);
-PHP_METHOD(Phalcon_Http_Response, setCookies);
-PHP_METHOD(Phalcon_Http_Response, getCookies);
-PHP_METHOD(Phalcon_Http_Response, setHeader);
-PHP_METHOD(Phalcon_Http_Response, setRawHeader);
-PHP_METHOD(Phalcon_Http_Response, resetHeaders);
-PHP_METHOD(Phalcon_Http_Response, setExpires);
-PHP_METHOD(Phalcon_Http_Response, setNotModified);
-PHP_METHOD(Phalcon_Http_Response, setContentType);
-PHP_METHOD(Phalcon_Http_Response, setEtag);
-PHP_METHOD(Phalcon_Http_Response, redirect);
-PHP_METHOD(Phalcon_Http_Response, setContent);
-PHP_METHOD(Phalcon_Http_Response, setJsonContent);
-PHP_METHOD(Phalcon_Http_Response, appendContent);
-PHP_METHOD(Phalcon_Http_Response, getContent);
-PHP_METHOD(Phalcon_Http_Response, isSent);
-PHP_METHOD(Phalcon_Http_Response, sendHeaders);
-PHP_METHOD(Phalcon_Http_Response, sendCookies);
-PHP_METHOD(Phalcon_Http_Response, send);
-PHP_METHOD(Phalcon_Http_Response, setFileToSend);
+static PHP_METHOD(Phalcon_Http_Response, __construct);
+static PHP_METHOD(Phalcon_Http_Response, setDI);
+static PHP_METHOD(Phalcon_Http_Response, getDI);
+static PHP_METHOD(Phalcon_Http_Response, setStatusCode);
+static PHP_METHOD(Phalcon_Http_Response, setHeaders);
+static PHP_METHOD(Phalcon_Http_Response, getHeaders);
+static PHP_METHOD(Phalcon_Http_Response, setCookies);
+static PHP_METHOD(Phalcon_Http_Response, getCookies);
+static PHP_METHOD(Phalcon_Http_Response, setHeader);
+static PHP_METHOD(Phalcon_Http_Response, setRawHeader);
+static PHP_METHOD(Phalcon_Http_Response, resetHeaders);
+static PHP_METHOD(Phalcon_Http_Response, setExpires);
+static PHP_METHOD(Phalcon_Http_Response, setNotModified);
+static PHP_METHOD(Phalcon_Http_Response, setContentType);
+static PHP_METHOD(Phalcon_Http_Response, setEtag);
+static PHP_METHOD(Phalcon_Http_Response, redirect);
+static PHP_METHOD(Phalcon_Http_Response, setContent);
+static PHP_METHOD(Phalcon_Http_Response, setJsonContent);
+static PHP_METHOD(Phalcon_Http_Response, appendContent);
+static PHP_METHOD(Phalcon_Http_Response, getContent);
+static PHP_METHOD(Phalcon_Http_Response, isSent);
+static PHP_METHOD(Phalcon_Http_Response, sendHeaders);
+static PHP_METHOD(Phalcon_Http_Response, sendCookies);
+static PHP_METHOD(Phalcon_Http_Response, send);
+static PHP_METHOD(Phalcon_Http_Response, setFileToSend);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, content)
@@ -10415,12 +10415,12 @@ zend_class_entry *phalcon_http_request_file_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Request_File);
 
-PHP_METHOD(Phalcon_Http_Request_File, __construct);
-PHP_METHOD(Phalcon_Http_Request_File, getSize);
-PHP_METHOD(Phalcon_Http_Request_File, getName);
-PHP_METHOD(Phalcon_Http_Request_File, getTempName);
-PHP_METHOD(Phalcon_Http_Request_File, getType);
-PHP_METHOD(Phalcon_Http_Request_File, moveTo);
+static PHP_METHOD(Phalcon_Http_Request_File, __construct);
+static PHP_METHOD(Phalcon_Http_Request_File, getSize);
+static PHP_METHOD(Phalcon_Http_Request_File, getName);
+static PHP_METHOD(Phalcon_Http_Request_File, getTempName);
+static PHP_METHOD(Phalcon_Http_Request_File, getType);
+static PHP_METHOD(Phalcon_Http_Request_File, moveTo);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
@@ -10446,16 +10446,16 @@ zend_class_entry *phalcon_http_response_cookies_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Response_Cookies);
 
-PHP_METHOD(Phalcon_Http_Response_Cookies, setDI);
-PHP_METHOD(Phalcon_Http_Response_Cookies, getDI);
-PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption);
-PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption);
-PHP_METHOD(Phalcon_Http_Response_Cookies, set);
-PHP_METHOD(Phalcon_Http_Response_Cookies, get);
-PHP_METHOD(Phalcon_Http_Response_Cookies, has);
-PHP_METHOD(Phalcon_Http_Response_Cookies, delete);
-PHP_METHOD(Phalcon_Http_Response_Cookies, send);
-PHP_METHOD(Phalcon_Http_Response_Cookies, reset);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, setDI);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, getDI);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, set);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, get);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, has);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, delete);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, send);
+static PHP_METHOD(Phalcon_Http_Response_Cookies, reset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -10507,12 +10507,12 @@ zend_class_entry *phalcon_http_response_headers_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Response_Headers);
 
-PHP_METHOD(Phalcon_Http_Response_Headers, set);
-PHP_METHOD(Phalcon_Http_Response_Headers, get);
-PHP_METHOD(Phalcon_Http_Response_Headers, setRaw);
-PHP_METHOD(Phalcon_Http_Response_Headers, send);
-PHP_METHOD(Phalcon_Http_Response_Headers, reset);
-PHP_METHOD(Phalcon_Http_Response_Headers, __set_state);
+static PHP_METHOD(Phalcon_Http_Response_Headers, set);
+static PHP_METHOD(Phalcon_Http_Response_Headers, get);
+static PHP_METHOD(Phalcon_Http_Response_Headers, setRaw);
+static PHP_METHOD(Phalcon_Http_Response_Headers, send);
+static PHP_METHOD(Phalcon_Http_Response_Headers, reset);
+static PHP_METHOD(Phalcon_Http_Response_Headers, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_headers_set, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
@@ -10557,17 +10557,17 @@ zend_class_entry *phalcon_queue_beanstalk_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Queue_Beanstalk);
 
-PHP_METHOD(Phalcon_Queue_Beanstalk, __construct);
-PHP_METHOD(Phalcon_Queue_Beanstalk, connect);
-PHP_METHOD(Phalcon_Queue_Beanstalk, put);
-PHP_METHOD(Phalcon_Queue_Beanstalk, reserve);
-PHP_METHOD(Phalcon_Queue_Beanstalk, choose);
-PHP_METHOD(Phalcon_Queue_Beanstalk, watch);
-PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady);
-PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus);
-PHP_METHOD(Phalcon_Queue_Beanstalk, read);
-PHP_METHOD(Phalcon_Queue_Beanstalk, write);
-PHP_METHOD(Phalcon_Queue_Beanstalk, disconnect);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, __construct);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, connect);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, put);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, reserve);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, choose);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, watch);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, read);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, write);
+static PHP_METHOD(Phalcon_Queue_Beanstalk, disconnect);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -10615,10 +10615,10 @@ zend_class_entry *phalcon_queue_beanstalk_job_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Queue_Beanstalk_Job);
 
-PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct);
-PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId);
-PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody);
-PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete);
+static PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct);
+static PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getId);
+static PHP_METHOD(Phalcon_Queue_Beanstalk_Job, getBody);
+static PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_beanstalk_job___construct, 0, 0, 3)
 	ZEND_ARG_INFO(0, queue)
@@ -10640,53 +10640,53 @@ zend_class_entry *phalcon_mvc_view_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_View);
 
-PHP_METHOD(Phalcon_Mvc_View, __construct);
-PHP_METHOD(Phalcon_Mvc_View, setViewsDir);
-PHP_METHOD(Phalcon_Mvc_View, getViewsDir);
-PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir);
-PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir);
-PHP_METHOD(Phalcon_Mvc_View, setPartialsDir);
-PHP_METHOD(Phalcon_Mvc_View, getPartialsDir);
-PHP_METHOD(Phalcon_Mvc_View, setBasePath);
-PHP_METHOD(Phalcon_Mvc_View, setRenderLevel);
-PHP_METHOD(Phalcon_Mvc_View, disableLevel);
-PHP_METHOD(Phalcon_Mvc_View, setMainView);
-PHP_METHOD(Phalcon_Mvc_View, getMainView);
-PHP_METHOD(Phalcon_Mvc_View, setLayout);
-PHP_METHOD(Phalcon_Mvc_View, getLayout);
-PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore);
-PHP_METHOD(Phalcon_Mvc_View, cleanTemplateBefore);
-PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter);
-PHP_METHOD(Phalcon_Mvc_View, cleanTemplateAfter);
-PHP_METHOD(Phalcon_Mvc_View, setParamToView);
-PHP_METHOD(Phalcon_Mvc_View, setVars);
-PHP_METHOD(Phalcon_Mvc_View, setVar);
-PHP_METHOD(Phalcon_Mvc_View, getVar);
-PHP_METHOD(Phalcon_Mvc_View, getParamsToView);
-PHP_METHOD(Phalcon_Mvc_View, getControllerName);
-PHP_METHOD(Phalcon_Mvc_View, getActionName);
-PHP_METHOD(Phalcon_Mvc_View, getParams);
-PHP_METHOD(Phalcon_Mvc_View, start);
-PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines);
-PHP_METHOD(Phalcon_Mvc_View, _engineRender);
-PHP_METHOD(Phalcon_Mvc_View, registerEngines);
-PHP_METHOD(Phalcon_Mvc_View, render);
-PHP_METHOD(Phalcon_Mvc_View, pick);
-PHP_METHOD(Phalcon_Mvc_View, partial);
-PHP_METHOD(Phalcon_Mvc_View, getRender);
-PHP_METHOD(Phalcon_Mvc_View, finish);
-PHP_METHOD(Phalcon_Mvc_View, _createCache);
-PHP_METHOD(Phalcon_Mvc_View, isCaching);
-PHP_METHOD(Phalcon_Mvc_View, getCache);
-PHP_METHOD(Phalcon_Mvc_View, cache);
-PHP_METHOD(Phalcon_Mvc_View, setContent);
-PHP_METHOD(Phalcon_Mvc_View, getContent);
-PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath);
-PHP_METHOD(Phalcon_Mvc_View, disable);
-PHP_METHOD(Phalcon_Mvc_View, enable);
-PHP_METHOD(Phalcon_Mvc_View, reset);
-PHP_METHOD(Phalcon_Mvc_View, __set);
-PHP_METHOD(Phalcon_Mvc_View, __get);
+static PHP_METHOD(Phalcon_Mvc_View, __construct);
+static PHP_METHOD(Phalcon_Mvc_View, setViewsDir);
+static PHP_METHOD(Phalcon_Mvc_View, getViewsDir);
+static PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir);
+static PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir);
+static PHP_METHOD(Phalcon_Mvc_View, setPartialsDir);
+static PHP_METHOD(Phalcon_Mvc_View, getPartialsDir);
+static PHP_METHOD(Phalcon_Mvc_View, setBasePath);
+static PHP_METHOD(Phalcon_Mvc_View, setRenderLevel);
+static PHP_METHOD(Phalcon_Mvc_View, disableLevel);
+static PHP_METHOD(Phalcon_Mvc_View, setMainView);
+static PHP_METHOD(Phalcon_Mvc_View, getMainView);
+static PHP_METHOD(Phalcon_Mvc_View, setLayout);
+static PHP_METHOD(Phalcon_Mvc_View, getLayout);
+static PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore);
+static PHP_METHOD(Phalcon_Mvc_View, cleanTemplateBefore);
+static PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter);
+static PHP_METHOD(Phalcon_Mvc_View, cleanTemplateAfter);
+static PHP_METHOD(Phalcon_Mvc_View, setParamToView);
+static PHP_METHOD(Phalcon_Mvc_View, setVars);
+static PHP_METHOD(Phalcon_Mvc_View, setVar);
+static PHP_METHOD(Phalcon_Mvc_View, getVar);
+static PHP_METHOD(Phalcon_Mvc_View, getParamsToView);
+static PHP_METHOD(Phalcon_Mvc_View, getControllerName);
+static PHP_METHOD(Phalcon_Mvc_View, getActionName);
+static PHP_METHOD(Phalcon_Mvc_View, getParams);
+static PHP_METHOD(Phalcon_Mvc_View, start);
+static PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines);
+static PHP_METHOD(Phalcon_Mvc_View, _engineRender);
+static PHP_METHOD(Phalcon_Mvc_View, registerEngines);
+static PHP_METHOD(Phalcon_Mvc_View, render);
+static PHP_METHOD(Phalcon_Mvc_View, pick);
+static PHP_METHOD(Phalcon_Mvc_View, partial);
+static PHP_METHOD(Phalcon_Mvc_View, getRender);
+static PHP_METHOD(Phalcon_Mvc_View, finish);
+static PHP_METHOD(Phalcon_Mvc_View, _createCache);
+static PHP_METHOD(Phalcon_Mvc_View, isCaching);
+static PHP_METHOD(Phalcon_Mvc_View, getCache);
+static PHP_METHOD(Phalcon_Mvc_View, cache);
+static PHP_METHOD(Phalcon_Mvc_View, setContent);
+static PHP_METHOD(Phalcon_Mvc_View, getContent);
+static PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath);
+static PHP_METHOD(Phalcon_Mvc_View, disable);
+static PHP_METHOD(Phalcon_Mvc_View, enable);
+static PHP_METHOD(Phalcon_Mvc_View, reset);
+static PHP_METHOD(Phalcon_Mvc_View, __set);
+static PHP_METHOD(Phalcon_Mvc_View, __get);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -10851,16 +10851,16 @@ zend_class_entry *phalcon_mvc_url_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Url);
 
-PHP_METHOD(Phalcon_Mvc_Url, setDI);
-PHP_METHOD(Phalcon_Mvc_Url, getDI);
-PHP_METHOD(Phalcon_Mvc_Url, setBaseUri);
-PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri);
-PHP_METHOD(Phalcon_Mvc_Url, getBaseUri);
-PHP_METHOD(Phalcon_Mvc_Url, setBasePath);
-PHP_METHOD(Phalcon_Mvc_Url, getBasePath);
-PHP_METHOD(Phalcon_Mvc_Url, get);
-PHP_METHOD(Phalcon_Mvc_Url, getStatic);
-PHP_METHOD(Phalcon_Mvc_Url, path);
+static PHP_METHOD(Phalcon_Mvc_Url, setDI);
+static PHP_METHOD(Phalcon_Mvc_Url, getDI);
+static PHP_METHOD(Phalcon_Mvc_Url, setBaseUri);
+static PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri);
+static PHP_METHOD(Phalcon_Mvc_Url, getBaseUri);
+static PHP_METHOD(Phalcon_Mvc_Url, setBasePath);
+static PHP_METHOD(Phalcon_Mvc_Url, getBasePath);
+static PHP_METHOD(Phalcon_Mvc_Url, get);
+static PHP_METHOD(Phalcon_Mvc_Url, getStatic);
+static PHP_METHOD(Phalcon_Mvc_Url, path);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -10910,93 +10910,93 @@ zend_class_entry *phalcon_mvc_model_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model);
 
-PHP_METHOD(Phalcon_Mvc_Model, __construct);
-PHP_METHOD(Phalcon_Mvc_Model, setDI);
-PHP_METHOD(Phalcon_Mvc_Model, getDI);
-PHP_METHOD(Phalcon_Mvc_Model, setEventsManager);
-PHP_METHOD(Phalcon_Mvc_Model, getEventsManager);
-PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData);
-PHP_METHOD(Phalcon_Mvc_Model, getModelsManager);
-PHP_METHOD(Phalcon_Mvc_Model, setTransaction);
-PHP_METHOD(Phalcon_Mvc_Model, setSource);
-PHP_METHOD(Phalcon_Mvc_Model, getSource);
-PHP_METHOD(Phalcon_Mvc_Model, setSchema);
-PHP_METHOD(Phalcon_Mvc_Model, getSchema);
-PHP_METHOD(Phalcon_Mvc_Model, setConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model, getWriteConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model, setDirtyState);
-PHP_METHOD(Phalcon_Mvc_Model, getDirtyState);
-PHP_METHOD(Phalcon_Mvc_Model, getReadConnection);
-PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection);
-PHP_METHOD(Phalcon_Mvc_Model, assign);
-PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap);
-PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate);
-PHP_METHOD(Phalcon_Mvc_Model, cloneResult);
-PHP_METHOD(Phalcon_Mvc_Model, find);
-PHP_METHOD(Phalcon_Mvc_Model, findFirst);
-PHP_METHOD(Phalcon_Mvc_Model, query);
-PHP_METHOD(Phalcon_Mvc_Model, _exists);
-PHP_METHOD(Phalcon_Mvc_Model, _groupResult);
-PHP_METHOD(Phalcon_Mvc_Model, count);
-PHP_METHOD(Phalcon_Mvc_Model, sum);
-PHP_METHOD(Phalcon_Mvc_Model, maximum);
-PHP_METHOD(Phalcon_Mvc_Model, minimum);
-PHP_METHOD(Phalcon_Mvc_Model, average);
-PHP_METHOD(Phalcon_Mvc_Model, fireEvent);
-PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel);
-PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation);
-PHP_METHOD(Phalcon_Mvc_Model, appendMessage);
-PHP_METHOD(Phalcon_Mvc_Model, validate);
-PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed);
-PHP_METHOD(Phalcon_Mvc_Model, getMessages);
-PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict);
-PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict);
-PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade);
-PHP_METHOD(Phalcon_Mvc_Model, _preSave);
-PHP_METHOD(Phalcon_Mvc_Model, _postSave);
-PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert);
-PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate);
-PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords);
-PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords);
-PHP_METHOD(Phalcon_Mvc_Model, save);
-PHP_METHOD(Phalcon_Mvc_Model, create);
-PHP_METHOD(Phalcon_Mvc_Model, update);
-PHP_METHOD(Phalcon_Mvc_Model, delete);
-PHP_METHOD(Phalcon_Mvc_Model, getOperationMade);
-PHP_METHOD(Phalcon_Mvc_Model, refresh);
-PHP_METHOD(Phalcon_Mvc_Model, skipOperation);
-PHP_METHOD(Phalcon_Mvc_Model, readAttribute);
-PHP_METHOD(Phalcon_Mvc_Model, writeAttribute);
-PHP_METHOD(Phalcon_Mvc_Model, skipAttributes);
-PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate);
-PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate);
-PHP_METHOD(Phalcon_Mvc_Model, hasOne);
-PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
-PHP_METHOD(Phalcon_Mvc_Model, hasMany);
-PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany);
-PHP_METHOD(Phalcon_Mvc_Model, addBehavior);
-PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots);
-PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData);
-PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData);
-PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData);
-PHP_METHOD(Phalcon_Mvc_Model, hasChanged);
-PHP_METHOD(Phalcon_Mvc_Model, getChangedFields);
-PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate);
-PHP_METHOD(Phalcon_Mvc_Model, getRelated);
-PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords);
-PHP_METHOD(Phalcon_Mvc_Model, __call);
-PHP_METHOD(Phalcon_Mvc_Model, __callStatic);
-PHP_METHOD(Phalcon_Mvc_Model, __set);
-PHP_METHOD(Phalcon_Mvc_Model, __get);
-PHP_METHOD(Phalcon_Mvc_Model, __isset);
-PHP_METHOD(Phalcon_Mvc_Model, serialize);
-PHP_METHOD(Phalcon_Mvc_Model, unserialize);
-PHP_METHOD(Phalcon_Mvc_Model, dump);
-PHP_METHOD(Phalcon_Mvc_Model, toArray);
-PHP_METHOD(Phalcon_Mvc_Model, setup);
+static PHP_METHOD(Phalcon_Mvc_Model, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model, setDI);
+static PHP_METHOD(Phalcon_Mvc_Model, getDI);
+static PHP_METHOD(Phalcon_Mvc_Model, setEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Model, getEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData);
+static PHP_METHOD(Phalcon_Mvc_Model, getModelsManager);
+static PHP_METHOD(Phalcon_Mvc_Model, setTransaction);
+static PHP_METHOD(Phalcon_Mvc_Model, setSource);
+static PHP_METHOD(Phalcon_Mvc_Model, getSource);
+static PHP_METHOD(Phalcon_Mvc_Model, setSchema);
+static PHP_METHOD(Phalcon_Mvc_Model, getSchema);
+static PHP_METHOD(Phalcon_Mvc_Model, setConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Model, getWriteConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Model, setDirtyState);
+static PHP_METHOD(Phalcon_Mvc_Model, getDirtyState);
+static PHP_METHOD(Phalcon_Mvc_Model, getReadConnection);
+static PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection);
+static PHP_METHOD(Phalcon_Mvc_Model, assign);
+static PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap);
+static PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate);
+static PHP_METHOD(Phalcon_Mvc_Model, cloneResult);
+static PHP_METHOD(Phalcon_Mvc_Model, find);
+static PHP_METHOD(Phalcon_Mvc_Model, findFirst);
+static PHP_METHOD(Phalcon_Mvc_Model, query);
+static PHP_METHOD(Phalcon_Mvc_Model, _exists);
+static PHP_METHOD(Phalcon_Mvc_Model, _groupResult);
+static PHP_METHOD(Phalcon_Mvc_Model, count);
+static PHP_METHOD(Phalcon_Mvc_Model, sum);
+static PHP_METHOD(Phalcon_Mvc_Model, maximum);
+static PHP_METHOD(Phalcon_Mvc_Model, minimum);
+static PHP_METHOD(Phalcon_Mvc_Model, average);
+static PHP_METHOD(Phalcon_Mvc_Model, fireEvent);
+static PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel);
+static PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation);
+static PHP_METHOD(Phalcon_Mvc_Model, appendMessage);
+static PHP_METHOD(Phalcon_Mvc_Model, validate);
+static PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed);
+static PHP_METHOD(Phalcon_Mvc_Model, getMessages);
+static PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict);
+static PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict);
+static PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade);
+static PHP_METHOD(Phalcon_Mvc_Model, _preSave);
+static PHP_METHOD(Phalcon_Mvc_Model, _postSave);
+static PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert);
+static PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate);
+static PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords);
+static PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords);
+static PHP_METHOD(Phalcon_Mvc_Model, save);
+static PHP_METHOD(Phalcon_Mvc_Model, create);
+static PHP_METHOD(Phalcon_Mvc_Model, update);
+static PHP_METHOD(Phalcon_Mvc_Model, delete);
+static PHP_METHOD(Phalcon_Mvc_Model, getOperationMade);
+static PHP_METHOD(Phalcon_Mvc_Model, refresh);
+static PHP_METHOD(Phalcon_Mvc_Model, skipOperation);
+static PHP_METHOD(Phalcon_Mvc_Model, readAttribute);
+static PHP_METHOD(Phalcon_Mvc_Model, writeAttribute);
+static PHP_METHOD(Phalcon_Mvc_Model, skipAttributes);
+static PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate);
+static PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate);
+static PHP_METHOD(Phalcon_Mvc_Model, hasOne);
+static PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
+static PHP_METHOD(Phalcon_Mvc_Model, hasMany);
+static PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany);
+static PHP_METHOD(Phalcon_Mvc_Model, addBehavior);
+static PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots);
+static PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData);
+static PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData);
+static PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData);
+static PHP_METHOD(Phalcon_Mvc_Model, hasChanged);
+static PHP_METHOD(Phalcon_Mvc_Model, getChangedFields);
+static PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate);
+static PHP_METHOD(Phalcon_Mvc_Model, getRelated);
+static PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords);
+static PHP_METHOD(Phalcon_Mvc_Model, __call);
+static PHP_METHOD(Phalcon_Mvc_Model, __callStatic);
+static PHP_METHOD(Phalcon_Mvc_Model, __set);
+static PHP_METHOD(Phalcon_Mvc_Model, __get);
+static PHP_METHOD(Phalcon_Mvc_Model, __isset);
+static PHP_METHOD(Phalcon_Mvc_Model, serialize);
+static PHP_METHOD(Phalcon_Mvc_Model, unserialize);
+static PHP_METHOD(Phalcon_Mvc_Model, dump);
+static PHP_METHOD(Phalcon_Mvc_Model, toArray);
+static PHP_METHOD(Phalcon_Mvc_Model, setup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -11266,35 +11266,35 @@ zend_class_entry *phalcon_mvc_micro_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Micro);
 
-PHP_METHOD(Phalcon_Mvc_Micro, setDI);
-PHP_METHOD(Phalcon_Mvc_Micro, map);
-PHP_METHOD(Phalcon_Mvc_Micro, get);
-PHP_METHOD(Phalcon_Mvc_Micro, post);
-PHP_METHOD(Phalcon_Mvc_Micro, put);
-PHP_METHOD(Phalcon_Mvc_Micro, patch);
-PHP_METHOD(Phalcon_Mvc_Micro, head);
-PHP_METHOD(Phalcon_Mvc_Micro, delete);
-PHP_METHOD(Phalcon_Mvc_Micro, options);
-PHP_METHOD(Phalcon_Mvc_Micro, mount);
-PHP_METHOD(Phalcon_Mvc_Micro, notFound);
-PHP_METHOD(Phalcon_Mvc_Micro, getRouter);
-PHP_METHOD(Phalcon_Mvc_Micro, setService);
-PHP_METHOD(Phalcon_Mvc_Micro, hasService);
-PHP_METHOD(Phalcon_Mvc_Micro, getService);
-PHP_METHOD(Phalcon_Mvc_Micro, getSharedService);
-PHP_METHOD(Phalcon_Mvc_Micro, handle);
-PHP_METHOD(Phalcon_Mvc_Micro, stop);
-PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler);
-PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler);
-PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue);
-PHP_METHOD(Phalcon_Mvc_Micro, offsetExists);
-PHP_METHOD(Phalcon_Mvc_Micro, offsetSet);
-PHP_METHOD(Phalcon_Mvc_Micro, offsetGet);
-PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset);
-PHP_METHOD(Phalcon_Mvc_Micro, before);
-PHP_METHOD(Phalcon_Mvc_Micro, after);
-PHP_METHOD(Phalcon_Mvc_Micro, finish);
-PHP_METHOD(Phalcon_Mvc_Micro, getHandlers);
+static PHP_METHOD(Phalcon_Mvc_Micro, setDI);
+static PHP_METHOD(Phalcon_Mvc_Micro, map);
+static PHP_METHOD(Phalcon_Mvc_Micro, get);
+static PHP_METHOD(Phalcon_Mvc_Micro, post);
+static PHP_METHOD(Phalcon_Mvc_Micro, put);
+static PHP_METHOD(Phalcon_Mvc_Micro, patch);
+static PHP_METHOD(Phalcon_Mvc_Micro, head);
+static PHP_METHOD(Phalcon_Mvc_Micro, delete);
+static PHP_METHOD(Phalcon_Mvc_Micro, options);
+static PHP_METHOD(Phalcon_Mvc_Micro, mount);
+static PHP_METHOD(Phalcon_Mvc_Micro, notFound);
+static PHP_METHOD(Phalcon_Mvc_Micro, getRouter);
+static PHP_METHOD(Phalcon_Mvc_Micro, setService);
+static PHP_METHOD(Phalcon_Mvc_Micro, hasService);
+static PHP_METHOD(Phalcon_Mvc_Micro, getService);
+static PHP_METHOD(Phalcon_Mvc_Micro, getSharedService);
+static PHP_METHOD(Phalcon_Mvc_Micro, handle);
+static PHP_METHOD(Phalcon_Mvc_Micro, stop);
+static PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler);
+static PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler);
+static PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue);
+static PHP_METHOD(Phalcon_Mvc_Micro, offsetExists);
+static PHP_METHOD(Phalcon_Mvc_Micro, offsetSet);
+static PHP_METHOD(Phalcon_Mvc_Micro, offsetGet);
+static PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset);
+static PHP_METHOD(Phalcon_Mvc_Micro, before);
+static PHP_METHOD(Phalcon_Mvc_Micro, after);
+static PHP_METHOD(Phalcon_Mvc_Micro, finish);
+static PHP_METHOD(Phalcon_Mvc_Micro, getHandlers);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -11442,13 +11442,13 @@ zend_class_entry *phalcon_mvc_application_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Application);
 
-PHP_METHOD(Phalcon_Mvc_Application, __construct);
-PHP_METHOD(Phalcon_Mvc_Application, useImplicitView);
-PHP_METHOD(Phalcon_Mvc_Application, registerModules);
-PHP_METHOD(Phalcon_Mvc_Application, getModules);
-PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule);
-PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule);
-PHP_METHOD(Phalcon_Mvc_Application, handle);
+static PHP_METHOD(Phalcon_Mvc_Application, __construct);
+static PHP_METHOD(Phalcon_Mvc_Application, useImplicitView);
+static PHP_METHOD(Phalcon_Mvc_Application, registerModules);
+static PHP_METHOD(Phalcon_Mvc_Application, getModules);
+static PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule);
+static PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule);
+static PHP_METHOD(Phalcon_Mvc_Application, handle);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_application___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -11493,46 +11493,46 @@ zend_class_entry *phalcon_mvc_collection_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Collection);
 
-PHP_METHOD(Phalcon_Mvc_Collection, __construct);
-PHP_METHOD(Phalcon_Mvc_Collection, setId);
-PHP_METHOD(Phalcon_Mvc_Collection, getId);
-PHP_METHOD(Phalcon_Mvc_Collection, setDI);
-PHP_METHOD(Phalcon_Mvc_Collection, getDI);
-PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager);
-PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager);
-PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager);
-PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes);
-PHP_METHOD(Phalcon_Mvc_Collection, useImplicitObjectIds);
-PHP_METHOD(Phalcon_Mvc_Collection, setSource);
-PHP_METHOD(Phalcon_Mvc_Collection, getSource);
-PHP_METHOD(Phalcon_Mvc_Collection, setConnectionService);
-PHP_METHOD(Phalcon_Mvc_Collection, getConnectionService);
-PHP_METHOD(Phalcon_Mvc_Collection, getConnection);
-PHP_METHOD(Phalcon_Mvc_Collection, readAttribute);
-PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute);
-PHP_METHOD(Phalcon_Mvc_Collection, cloneResult);
-PHP_METHOD(Phalcon_Mvc_Collection, _getResultset);
-PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset);
-PHP_METHOD(Phalcon_Mvc_Collection, _preSave);
-PHP_METHOD(Phalcon_Mvc_Collection, _postSave);
-PHP_METHOD(Phalcon_Mvc_Collection, validate);
-PHP_METHOD(Phalcon_Mvc_Collection, validationHasFailed);
-PHP_METHOD(Phalcon_Mvc_Collection, fireEvent);
-PHP_METHOD(Phalcon_Mvc_Collection, fireEventCancel);
-PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation);
-PHP_METHOD(Phalcon_Mvc_Collection, _exists);
-PHP_METHOD(Phalcon_Mvc_Collection, getMessages);
-PHP_METHOD(Phalcon_Mvc_Collection, appendMessage);
-PHP_METHOD(Phalcon_Mvc_Collection, save);
-PHP_METHOD(Phalcon_Mvc_Collection, findById);
-PHP_METHOD(Phalcon_Mvc_Collection, findFirst);
-PHP_METHOD(Phalcon_Mvc_Collection, find);
-PHP_METHOD(Phalcon_Mvc_Collection, count);
-PHP_METHOD(Phalcon_Mvc_Collection, aggregate);
-PHP_METHOD(Phalcon_Mvc_Collection, delete);
-PHP_METHOD(Phalcon_Mvc_Collection, toArray);
-PHP_METHOD(Phalcon_Mvc_Collection, serialize);
-PHP_METHOD(Phalcon_Mvc_Collection, unserialize);
+static PHP_METHOD(Phalcon_Mvc_Collection, __construct);
+static PHP_METHOD(Phalcon_Mvc_Collection, setId);
+static PHP_METHOD(Phalcon_Mvc_Collection, getId);
+static PHP_METHOD(Phalcon_Mvc_Collection, setDI);
+static PHP_METHOD(Phalcon_Mvc_Collection, getDI);
+static PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager);
+static PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes);
+static PHP_METHOD(Phalcon_Mvc_Collection, useImplicitObjectIds);
+static PHP_METHOD(Phalcon_Mvc_Collection, setSource);
+static PHP_METHOD(Phalcon_Mvc_Collection, getSource);
+static PHP_METHOD(Phalcon_Mvc_Collection, setConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Collection, getConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Collection, getConnection);
+static PHP_METHOD(Phalcon_Mvc_Collection, readAttribute);
+static PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute);
+static PHP_METHOD(Phalcon_Mvc_Collection, cloneResult);
+static PHP_METHOD(Phalcon_Mvc_Collection, _getResultset);
+static PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset);
+static PHP_METHOD(Phalcon_Mvc_Collection, _preSave);
+static PHP_METHOD(Phalcon_Mvc_Collection, _postSave);
+static PHP_METHOD(Phalcon_Mvc_Collection, validate);
+static PHP_METHOD(Phalcon_Mvc_Collection, validationHasFailed);
+static PHP_METHOD(Phalcon_Mvc_Collection, fireEvent);
+static PHP_METHOD(Phalcon_Mvc_Collection, fireEventCancel);
+static PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation);
+static PHP_METHOD(Phalcon_Mvc_Collection, _exists);
+static PHP_METHOD(Phalcon_Mvc_Collection, getMessages);
+static PHP_METHOD(Phalcon_Mvc_Collection, appendMessage);
+static PHP_METHOD(Phalcon_Mvc_Collection, save);
+static PHP_METHOD(Phalcon_Mvc_Collection, findById);
+static PHP_METHOD(Phalcon_Mvc_Collection, findFirst);
+static PHP_METHOD(Phalcon_Mvc_Collection, find);
+static PHP_METHOD(Phalcon_Mvc_Collection, count);
+static PHP_METHOD(Phalcon_Mvc_Collection, aggregate);
+static PHP_METHOD(Phalcon_Mvc_Collection, delete);
+static PHP_METHOD(Phalcon_Mvc_Collection, toArray);
+static PHP_METHOD(Phalcon_Mvc_Collection, serialize);
+static PHP_METHOD(Phalcon_Mvc_Collection, unserialize);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -11651,7 +11651,7 @@ zend_class_entry *phalcon_mvc_controller_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Controller);
 
-PHP_METHOD(Phalcon_Mvc_Controller, __construct);
+static PHP_METHOD(Phalcon_Mvc_Controller, __construct);
 
 PHALCON_INIT_FUNCS(phalcon_mvc_controller_method_entry){
 	PHP_ME(Phalcon_Mvc_Controller, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR) 
@@ -11669,12 +11669,12 @@ zend_class_entry *phalcon_mvc_collection_document_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Document);
 
-PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists);
-PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet);
-PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet);
-PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset);
-PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute);
-PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute);
+static PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists);
+static PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet);
+static PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet);
+static PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset);
+static PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute);
+static PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_document_offsetexists, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
@@ -11718,20 +11718,20 @@ zend_class_entry *phalcon_mvc_collection_manager_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Manager);
 
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, getDI);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, getEventsManager);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection);
-PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, getDI);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, getEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection);
+static PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_manager_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -11870,13 +11870,13 @@ zend_class_entry *phalcon_mvc_dispatcher_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Dispatcher);
 
-PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix);
-PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController);
-PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName);
-PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName);
-PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException);
-PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController);
-PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController);
+static PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix);
+static PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController);
+static PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName);
+static PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName);
+static PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException);
+static PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController);
+static PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_dispatcher_setcontrollersuffix, 0, 0, 1)
 	ZEND_ARG_INFO(0, controllerSuffix)
@@ -11912,47 +11912,47 @@ zend_class_entry *phalcon_mvc_model_query_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query);
 
-PHP_METHOD(Phalcon_Mvc_Model_Query, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Query, setDI);
-PHP_METHOD(Phalcon_Mvc_Model_Query, getDI);
-PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow);
-PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete);
-PHP_METHOD(Phalcon_Mvc_Model_Query, parse);
-PHP_METHOD(Phalcon_Mvc_Model_Query, cache);
-PHP_METHOD(Phalcon_Mvc_Model_Query, getCacheOptions);
-PHP_METHOD(Phalcon_Mvc_Model_Query, getCache);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate);
-PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete);
-PHP_METHOD(Phalcon_Mvc_Model_Query, execute);
-PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult);
-PHP_METHOD(Phalcon_Mvc_Model_Query, setType);
-PHP_METHOD(Phalcon_Mvc_Model_Query, getType);
-PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams);
-PHP_METHOD(Phalcon_Mvc_Model_Query, getBindParams);
-PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes);
-PHP_METHOD(Phalcon_Mvc_Model_Query, getBindTypes);
-PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate);
-PHP_METHOD(Phalcon_Mvc_Model_Query, getIntermediate);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, setDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, getDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, parse);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, cache);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, getCacheOptions);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, getCache);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, execute);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, setType);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, getType);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, getBindParams);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, getBindTypes);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, getIntermediate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, phql)
@@ -12047,11 +12047,11 @@ zend_class_entry *phalcon_mvc_model_row_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Row);
 
-PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState);
-PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists);
-PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet);
-PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet);
-PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset);
+static PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState);
+static PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists);
+static PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet);
+static PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet);
+static PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_row_setdirtystate, 0, 0, 1)
 	ZEND_ARG_INFO(0, dirtyState)
@@ -12089,22 +12089,22 @@ zend_class_entry *phalcon_mvc_micro_collection_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Collection);
 
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, map);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, get);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, post);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, put);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, head);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete);
-PHP_METHOD(Phalcon_Mvc_Micro_Collection, options);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, map);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, get);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, post);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, put);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, head);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete);
+static PHP_METHOD(Phalcon_Mvc_Micro_Collection, options);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_setprefix, 0, 0, 1)
 	ZEND_ARG_INFO(0, prefix)
@@ -12190,8 +12190,8 @@ zend_class_entry *phalcon_mvc_micro_lazyloader_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader);
 
-PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct);
-PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call);
+static PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct);
+static PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_lazyloader___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, definition)
@@ -12229,39 +12229,39 @@ zend_class_entry *phalcon_mvc_model_criteria_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Criteria);
 
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, join);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, where);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, order);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getColumns);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput);
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, join);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, where);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, order);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getColumns);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -12428,20 +12428,20 @@ zend_class_entry *phalcon_mvc_model_relation_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Relation);
 
-PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getType);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, getType);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation___construct, 0, 0, 4)
 	ZEND_ARG_INFO(0, type)
@@ -12481,17 +12481,17 @@ zend_class_entry *phalcon_mvc_model_message_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Message);
 
-PHP_METHOD(Phalcon_Mvc_Model_Message, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Message, setType);
-PHP_METHOD(Phalcon_Mvc_Model_Message, getType);
-PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage);
-PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage);
-PHP_METHOD(Phalcon_Mvc_Model_Message, setField);
-PHP_METHOD(Phalcon_Mvc_Model_Message, getField);
-PHP_METHOD(Phalcon_Mvc_Model_Message, setModel);
-PHP_METHOD(Phalcon_Mvc_Model_Message, getModel);
-PHP_METHOD(Phalcon_Mvc_Model_Message, __toString);
-PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, setType);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, getType);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, setField);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, getField);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, setModel);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, getModel);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, __toString);
+static PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_message___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
@@ -12541,60 +12541,60 @@ zend_class_entry *phalcon_mvc_model_manager_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager);
 
-PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getEventsManager);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, setCustomEventsManager);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, load);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, useDynamicUpdate);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getReusableRecords);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, setReusableRecords);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, setCustomEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, load);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, useDynamicUpdate);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getReusableRecords);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, setReusableRecords);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -12908,18 +12908,18 @@ zend_class_entry *phalcon_mvc_model_transaction_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction);
 
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -12970,7 +12970,7 @@ zend_class_entry *phalcon_mvc_model_query_lang_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang);
 
-PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_lang_parsephql, 0, 0, 1)
 	ZEND_ARG_INFO(0, phql)
@@ -12987,9 +12987,9 @@ zend_class_entry *phalcon_mvc_model_metadata_apc_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc);
 
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_apc___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -13017,7 +13017,7 @@ zend_class_entry *phalcon_mvc_model_validator_url_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Url);
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator_Url, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_url_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
@@ -13034,38 +13034,38 @@ zend_class_entry *phalcon_mvc_model_query_builder_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder);
 
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDI);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getColumns);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getWhere);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOrderBy);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getLimit);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, offset);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOffset);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getColumns);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getFrom);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getWhere);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOrderBy);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getLimit);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, offset);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOffset);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, params)
@@ -13217,9 +13217,9 @@ zend_class_entry *phalcon_mvc_model_metadata_files_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Files);
 
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_files___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -13247,10 +13247,10 @@ zend_class_entry *phalcon_mvc_model_query_status_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Status);
 
-PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_status___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, success)
@@ -13271,9 +13271,9 @@ zend_class_entry *phalcon_mvc_model_metadata_session_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session);
 
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_session___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -13301,9 +13301,9 @@ zend_class_entry *phalcon_mvc_model_validationfailed_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed);
 
-PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages);
-PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel);
+static PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages);
+static PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validationfailed___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, model)
@@ -13323,11 +13323,11 @@ zend_class_entry *phalcon_mvc_model_resultset_complex_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Complex);
 
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, columnsTypes)
@@ -13354,7 +13354,7 @@ zend_class_entry *phalcon_mvc_model_validator_regex_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex);
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_regex_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
@@ -13371,11 +13371,11 @@ zend_class_entry *phalcon_mvc_model_resultset_simple_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple);
 
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple___construct, 0, 0, 3)
 	ZEND_ARG_INFO(0, columnMap)
@@ -13408,9 +13408,9 @@ zend_class_entry *phalcon_mvc_model_metadata_memory_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memory);
 
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_memory___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -13438,7 +13438,7 @@ zend_class_entry *phalcon_mvc_model_validator_email_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email);
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_email_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
@@ -13455,7 +13455,7 @@ zend_class_entry *phalcon_mvc_model_behavior_softdelete_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete);
 
-PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify);
+static PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_softdelete_notify, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
@@ -13473,23 +13473,23 @@ zend_class_entry *phalcon_mvc_model_transaction_manager_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Manager);
 
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDI);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDbService);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getRollbackPendent);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDbService);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getRollbackPendent);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_manager___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -13554,7 +13554,7 @@ zend_class_entry *phalcon_mvc_model_validator_presenceof_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_PresenceOf);
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_presenceof_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
@@ -13571,7 +13571,7 @@ zend_class_entry *phalcon_mvc_model_validator_uniqueness_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Uniqueness);
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_uniqueness_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
@@ -13588,9 +13588,9 @@ zend_class_entry *phalcon_mvc_model_transaction_failed_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed);
 
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_failed___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, message)
@@ -13610,7 +13610,7 @@ zend_class_entry *phalcon_mvc_model_behavior_timestampable_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable);
 
-PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify);
+static PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_timestampable_notify, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
@@ -13628,8 +13628,8 @@ zend_class_entry *phalcon_mvc_model_metadata_strategy_annotations_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Annotations);
 
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategy_annotations_getmetadata, 0, 0, 2)
 	ZEND_ARG_INFO(0, model)
@@ -13648,8 +13648,8 @@ zend_class_entry *phalcon_mvc_model_metadata_strategy_introspection_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Introspection);
 
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategy_introspection_getmetadata, 0, 0, 2)
 	ZEND_ARG_INFO(0, model)
@@ -13673,7 +13673,7 @@ zend_class_entry *phalcon_mvc_model_validator_exclusionin_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin);
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_exclusionin_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
@@ -13690,7 +13690,7 @@ zend_class_entry *phalcon_mvc_model_validator_numericality_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Numericality);
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_numericality_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
@@ -13707,7 +13707,7 @@ zend_class_entry *phalcon_mvc_model_validator_inclusionin_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Inclusionin);
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_inclusionin_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
@@ -13724,7 +13724,7 @@ zend_class_entry *phalcon_mvc_model_validator_stringlength_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength);
 
-PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate);
+static PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_stringlength_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
@@ -13757,26 +13757,26 @@ zend_class_entry *phalcon_mvc_router_group_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Group);
 
-PHP_METHOD(Phalcon_Mvc_Router_Group, __construct);
-PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname);
-PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname);
-PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix);
-PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix);
-PHP_METHOD(Phalcon_Mvc_Router_Group, beforeMatch);
-PHP_METHOD(Phalcon_Mvc_Router_Group, getBeforeMatch);
-PHP_METHOD(Phalcon_Mvc_Router_Group, setPaths);
-PHP_METHOD(Phalcon_Mvc_Router_Group, getPaths);
-PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes);
-PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute);
-PHP_METHOD(Phalcon_Mvc_Router_Group, add);
-PHP_METHOD(Phalcon_Mvc_Router_Group, addGet);
-PHP_METHOD(Phalcon_Mvc_Router_Group, addPost);
-PHP_METHOD(Phalcon_Mvc_Router_Group, addPut);
-PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch);
-PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete);
-PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions);
-PHP_METHOD(Phalcon_Mvc_Router_Group, addHead);
-PHP_METHOD(Phalcon_Mvc_Router_Group, clear);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, __construct);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, beforeMatch);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, getBeforeMatch);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, setPaths);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, getPaths);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, add);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, addGet);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, addPost);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, addPut);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, addHead);
+static PHP_METHOD(Phalcon_Mvc_Router_Group, clear);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, paths)
@@ -13869,26 +13869,26 @@ zend_class_entry *phalcon_mvc_router_route_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Route);
 
-PHP_METHOD(Phalcon_Mvc_Router_Route, __construct);
-PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern);
-PHP_METHOD(Phalcon_Mvc_Router_Route, via);
-PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure);
-PHP_METHOD(Phalcon_Mvc_Router_Route, getName);
-PHP_METHOD(Phalcon_Mvc_Router_Route, setName);
-PHP_METHOD(Phalcon_Mvc_Router_Route, beforeMatch);
-PHP_METHOD(Phalcon_Mvc_Router_Route, getBeforeMatch);
-PHP_METHOD(Phalcon_Mvc_Router_Route, getRouteId);
-PHP_METHOD(Phalcon_Mvc_Router_Route, getPattern);
-PHP_METHOD(Phalcon_Mvc_Router_Route, getCompiledPattern);
-PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths);
-PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths);
-PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods);
-PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods);
-PHP_METHOD(Phalcon_Mvc_Router_Route, setHostname);
-PHP_METHOD(Phalcon_Mvc_Router_Route, getHostname);
-PHP_METHOD(Phalcon_Mvc_Router_Route, convert);
-PHP_METHOD(Phalcon_Mvc_Router_Route, getConverters);
-PHP_METHOD(Phalcon_Mvc_Router_Route, reset);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, __construct);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, via);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getName);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, setName);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, beforeMatch);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getBeforeMatch);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getRouteId);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getPattern);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getCompiledPattern);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, setHostname);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getHostname);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, convert);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getConverters);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, reset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
@@ -13965,14 +13965,14 @@ zend_class_entry *phalcon_mvc_router_annotations_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Annotations);
 
-PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource);
-PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource);
-PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle);
-PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation);
-PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation);
-PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix);
-PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix);
-PHP_METHOD(Phalcon_Mvc_Router_Annotations, getResources);
+static PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource);
+static PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource);
+static PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle);
+static PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation);
+static PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation);
+static PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix);
+static PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix);
+static PHP_METHOD(Phalcon_Mvc_Router_Annotations, getResources);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_addresource, 0, 0, 1)
 	ZEND_ARG_INFO(0, handler)
@@ -14048,23 +14048,23 @@ zend_class_entry *phalcon_mvc_view_simple_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_Simple);
 
-PHP_METHOD(Phalcon_Mvc_View_Simple, __construct);
-PHP_METHOD(Phalcon_Mvc_View_Simple, setViewsDir);
-PHP_METHOD(Phalcon_Mvc_View_Simple, getViewsDir);
-PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines);
-PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines);
-PHP_METHOD(Phalcon_Mvc_View_Simple, render);
-PHP_METHOD(Phalcon_Mvc_View_Simple, partial);
-PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView);
-PHP_METHOD(Phalcon_Mvc_View_Simple, setVars);
-PHP_METHOD(Phalcon_Mvc_View_Simple, setVar);
-PHP_METHOD(Phalcon_Mvc_View_Simple, getVar);
-PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView);
-PHP_METHOD(Phalcon_Mvc_View_Simple, setContent);
-PHP_METHOD(Phalcon_Mvc_View_Simple, getContent);
-PHP_METHOD(Phalcon_Mvc_View_Simple, getActiveRenderPath);
-PHP_METHOD(Phalcon_Mvc_View_Simple, __set);
-PHP_METHOD(Phalcon_Mvc_View_Simple, __get);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, __construct);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, setViewsDir);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, getViewsDir);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, render);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, partial);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, setVars);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, setVar);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, getVar);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, setContent);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, getContent);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, getActiveRenderPath);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, __set);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, __get);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_simple___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -14152,7 +14152,7 @@ zend_class_entry *phalcon_mvc_view_engine_php_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Php);
 
-PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_php_render, 0, 0, 2)
 	ZEND_ARG_INFO(0, path)
@@ -14171,14 +14171,14 @@ zend_class_entry *phalcon_mvc_view_engine_volt_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt);
 
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_setoptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
@@ -14229,46 +14229,46 @@ zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Compiler);
 
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOptions);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOption);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOption);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOptions);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addExtension);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getExtensions);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFunction);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFunctions);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFilter);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFilters);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setUniquePrefix);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForElse);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getTemplatePath);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getCompiledTemplatePath);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOptions);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setOption);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOption);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getOptions);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, fireExtensionEvent);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addExtension);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getExtensions);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFunction);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFunctions);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFilter);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFilters);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setUniquePrefix);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForElse);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getTemplatePath);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getCompiledTemplatePath);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, view)
@@ -14441,16 +14441,16 @@ zend_class_entry *phalcon_events_event_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Events_Event);
 
-PHP_METHOD(Phalcon_Events_Event, __construct);
-PHP_METHOD(Phalcon_Events_Event, setType);
-PHP_METHOD(Phalcon_Events_Event, getType);
-PHP_METHOD(Phalcon_Events_Event, getSource);
-PHP_METHOD(Phalcon_Events_Event, setData);
-PHP_METHOD(Phalcon_Events_Event, getData);
-PHP_METHOD(Phalcon_Events_Event, setCancelable);
-PHP_METHOD(Phalcon_Events_Event, getCancelable);
-PHP_METHOD(Phalcon_Events_Event, stop);
-PHP_METHOD(Phalcon_Events_Event, isStopped);
+static PHP_METHOD(Phalcon_Events_Event, __construct);
+static PHP_METHOD(Phalcon_Events_Event, setType);
+static PHP_METHOD(Phalcon_Events_Event, getType);
+static PHP_METHOD(Phalcon_Events_Event, getSource);
+static PHP_METHOD(Phalcon_Events_Event, setData);
+static PHP_METHOD(Phalcon_Events_Event, getData);
+static PHP_METHOD(Phalcon_Events_Event, setCancelable);
+static PHP_METHOD(Phalcon_Events_Event, getCancelable);
+static PHP_METHOD(Phalcon_Events_Event, stop);
+static PHP_METHOD(Phalcon_Events_Event, isStopped);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
@@ -14491,17 +14491,17 @@ zend_class_entry *phalcon_events_manager_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Events_Manager);
 
-PHP_METHOD(Phalcon_Events_Manager, attach);
-PHP_METHOD(Phalcon_Events_Manager, enablePriorities);
-PHP_METHOD(Phalcon_Events_Manager, arePrioritiesEnabled);
-PHP_METHOD(Phalcon_Events_Manager, collectResponses);
-PHP_METHOD(Phalcon_Events_Manager, isCollecting);
-PHP_METHOD(Phalcon_Events_Manager, getResponses);
-PHP_METHOD(Phalcon_Events_Manager, dettachAll);
-PHP_METHOD(Phalcon_Events_Manager, fireQueue);
-PHP_METHOD(Phalcon_Events_Manager, fire);
-PHP_METHOD(Phalcon_Events_Manager, hasListeners);
-PHP_METHOD(Phalcon_Events_Manager, getListeners);
+static PHP_METHOD(Phalcon_Events_Manager, attach);
+static PHP_METHOD(Phalcon_Events_Manager, enablePriorities);
+static PHP_METHOD(Phalcon_Events_Manager, arePrioritiesEnabled);
+static PHP_METHOD(Phalcon_Events_Manager, collectResponses);
+static PHP_METHOD(Phalcon_Events_Manager, isCollecting);
+static PHP_METHOD(Phalcon_Events_Manager, getResponses);
+static PHP_METHOD(Phalcon_Events_Manager, dettachAll);
+static PHP_METHOD(Phalcon_Events_Manager, fireQueue);
+static PHP_METHOD(Phalcon_Events_Manager, fire);
+static PHP_METHOD(Phalcon_Events_Manager, hasListeners);
+static PHP_METHOD(Phalcon_Events_Manager, getListeners);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_attach, 0, 0, 2)
 	ZEND_ARG_INFO(0, eventType)

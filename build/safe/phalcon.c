@@ -215,6 +215,34 @@ SOFTWARE.
 
 static int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC);
 
+/* jsmin.c
+   2013-03-29
+
+Copyright (c) 2002 Douglas Crockford  (www.crockford.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+The Software shall be used for Good, not Evil.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC);
+
 #define PHQL_AGAINST                         1
 #define PHQL_BETWEEN                         2
 #define PHQL_EQUALS                          3
@@ -1225,141 +1253,141 @@ static void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 
 
 /* Macros to call functions in the PHP userland (deprecated) */
-#define PHALCON_CALL_FUNC(return_value, func_name) if (phalcon_call_func_ex(return_value, func_name, strlen(func_name), 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_FUNC_NORETURN(func_name) if (phalcon_call_func_ex(NULL, func_name, strlen(func_name), 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_FUNC_PARAMS(return_value, func_name, param_count, params) if (phalcon_call_func_params(return_value, func_name, strlen(func_name), param_count, params, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_FUNC_PARAMS_NORETURN(func_name, param_count, params) if (phalcon_call_func_params(NULL, func_name, strlen(func_name), param_count, params, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_FUNC_PARAMS_1(return_value, func_name, param1) if (phalcon_call_func_one_param(return_value, func_name, strlen(func_name), param1, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_FUNC_PARAMS_1_NORETURN(func_name, param1) if (phalcon_call_func_one_param(NULL, func_name, strlen(func_name), param1, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_FUNC_PARAMS_2(return_value, func_name, param1, param2) if (phalcon_call_func_two_params(return_value, func_name, strlen(func_name), param1, param2, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_FUNC_PARAMS_2_NORETURN(func_name, param1, param2) if (phalcon_call_func_two_params(NULL, func_name, strlen(func_name), param1, param2, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_FUNC_PARAMS_3(return_value, func_name, param1, param2, param3) if (phalcon_call_func_three_params(return_value, func_name, strlen(func_name), param1, param2, param3, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_FUNC_PARAMS_3_NORETURN(func_name, param1, param2, param3) if (phalcon_call_func_three_params(NULL, func_name, strlen(func_name), param1, param2, param3, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_FUNC(return_value, func_name) if (phalcon_call_func_ex(return_value, func_name, sizeof(func_name)-1, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_FUNC_NORETURN(func_name) if (phalcon_call_func_ex(NULL, func_name, sizeof(func_name)-1, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_FUNC_PARAMS(return_value, func_name, param_count, params) if (phalcon_call_func_params(return_value, func_name, sizeof(func_name)-1, param_count, params, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_FUNC_PARAMS_NORETURN(func_name, param_count, params) if (phalcon_call_func_params(NULL, func_name, sizeof(func_name)-1, param_count, params, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_FUNC_PARAMS_1(return_value, func_name, param1) if (phalcon_call_func_one_param(return_value, func_name, sizeof(func_name)-1, param1, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_FUNC_PARAMS_1_NORETURN(func_name, param1) if (phalcon_call_func_one_param(NULL, func_name, sizeof(func_name)-1, param1, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_FUNC_PARAMS_2(return_value, func_name, param1, param2) if (phalcon_call_func_two_params(return_value, func_name, sizeof(func_name)-1, param1, param2, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_FUNC_PARAMS_2_NORETURN(func_name, param1, param2) if (phalcon_call_func_two_params(NULL, func_name, sizeof(func_name)-1, param1, param2, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_FUNC_PARAMS_3(return_value, func_name, param1, param2, param3) if (phalcon_call_func_three_params(return_value, func_name, sizeof(func_name)-1, param1, param2, param3, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_FUNC_PARAMS_3_NORETURN(func_name, param1, param2, param3) if (phalcon_call_func_three_params(NULL, func_name, sizeof(func_name)-1, param1, param2, param3, 0 TSRMLS_CC)==FAILURE) return;
 
 /* Macros to call functions in the PHP userland */
-#define phalcon_call_func(return_value, func_name) if(phalcon_call_func_ex(return_value, func_name, strlen(func_name), 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_noret(func_name) if(phalcon_call_func_ex(NULL, func_name, strlen(func_name), 0 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_pn(return_value, func_name, param_count, params) if(phalcon_call_func_params(return_value, func_name, strlen(func_name), param_count, params, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_pn_noret(func_name, param_count, params) if (phalcon_call_func_params(NULL, func_name, strlen(func_name), param_count, params, 0 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_p1(return_value, func_name, param1) if (phalcon_call_func_one_param(return_value, func_name, strlen(func_name), param1, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_p1_noret(func_name, param1) if (phalcon_call_func_one_param(NULL, func_name, strlen(func_name), param1, 0 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_p2(return_value, func_name, param1, param2) if (phalcon_call_func_two_params(return_value, func_name, strlen(func_name), param1, param2, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_p2_noret(func_name, param1, param2) if (phalcon_call_func_two_params(NULL, func_name, strlen(func_name), param1, param2, 0 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_p3(return_value, func_name, param1, param2, param3) if (phalcon_call_func_three_params(return_value, func_name, strlen(func_name), param1, param2, param3, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_p3_noret(func_name, param1, param2, param3) if (phalcon_call_func_three_params(NULL, func_name, strlen(func_name), param1, param2, param3, 0 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_p4(return_value, func_name, param1, param2, param3, param4) if (phalcon_call_func_four_params(return_value, func_name, strlen(func_name), param1, param2, param3, param4, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_p4_noret(func_name, param1, param2, param3, param4) if (phalcon_call_func_four_params(NULL, func_name, strlen(func_name), param1, param2, param3, param4, 0 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func(return_value, func_name) if(phalcon_call_func_ex(return_value, func_name, sizeof(func_name)-1, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_noret(func_name) if(phalcon_call_func_ex(NULL, func_name, sizeof(func_name)-1, 0 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_pn(return_value, func_name, param_count, params) if(phalcon_call_func_params(return_value, func_name, sizeof(func_name)-1, param_count, params, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_pn_noret(func_name, param_count, params) if (phalcon_call_func_params(NULL, func_name, sizeof(func_name)-1, param_count, params, 0 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_p1(return_value, func_name, param1) if (phalcon_call_func_one_param(return_value, func_name, sizeof(func_name)-1, param1, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_p1_noret(func_name, param1) if (phalcon_call_func_one_param(NULL, func_name, sizeof(func_name)-1, param1, 0 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_p2(return_value, func_name, param1, param2) if (phalcon_call_func_two_params(return_value, func_name, sizeof(func_name)-1, param1, param2, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_p2_noret(func_name, param1, param2) if (phalcon_call_func_two_params(NULL, func_name, sizeof(func_name)-1, param1, param2, 0 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_p3(return_value, func_name, param1, param2, param3) if (phalcon_call_func_three_params(return_value, func_name, sizeof(func_name)-1, param1, param2, param3, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_p3_noret(func_name, param1, param2, param3) if (phalcon_call_func_three_params(NULL, func_name, sizeof(func_name)-1, param1, param2, param3, 0 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_p4(return_value, func_name, param1, param2, param3, param4) if (phalcon_call_func_four_params(return_value, func_name, sizeof(func_name)-1, param1, param2, param3, param4, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_p4_noret(func_name, param1, param2, param3, param4) if (phalcon_call_func_four_params(NULL, func_name, sizeof(func_name)-1, param1, param2, param3, param4, 0 TSRMLS_CC)==FAILURE) return;
 
 /** Macros to call methods in the PHP userland (use these in development) (deprecated) */
-#define PHALCON_CALL_METHOD(return_value, object, method_name) if(phalcon_call_method_ex(return_value, object, method_name, strlen(method_name), 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_NORETURN(object, method_name) if(phalcon_call_method_ex(NULL, object, method_name, strlen(method_name), 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS(return_value, object, method_name, param_count, params) if(phalcon_call_method_params(return_value, object, method_name, strlen(method_name), param_count, params, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_NORETURN(object, method_name, param_count, params) if(phalcon_call_method_params(NULL, object, method_name, strlen(method_name), param_count, params, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_1(return_value, object, method_name, param1) if(phalcon_call_method_one_param(return_value, object, method_name, strlen(method_name), param1, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, method_name, param1) if(phalcon_call_method_one_param(NULL, object, method_name, strlen(method_name), param1, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_2(return_value, object, method_name, param1, param2) if(phalcon_call_method_two_params(return_value, object, method_name, strlen(method_name), param1, param2, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_2_NORETURN(object, method_name, param1, param2) if(phalcon_call_method_two_params(NULL, object, method_name, strlen(method_name), param1, param2, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_3(return_value, object, method_name, param1, param2, param3) if(phalcon_call_method_three_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_3_NORETURN(object, method_name, param1, param2, param3) if(phalcon_call_method_three_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_4(return_value, object, method_name, param1, param2, param3, param4) if(phalcon_call_method_four_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_4_NORETURN(object, method_name, param1, param2, param3, param4) if(phalcon_call_method_four_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_5(return_value, object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_5_NORETURN(object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD(return_value, object, method_name) if(phalcon_call_method_ex(return_value, object, method_name, sizeof(method_name)-1, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_NORETURN(object, method_name) if(phalcon_call_method_ex(NULL, object, method_name, sizeof(method_name)-1, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS(return_value, object, method_name, param_count, params) if(phalcon_call_method_params(return_value, object, method_name, sizeof(method_name)-1, param_count, params, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_NORETURN(object, method_name, param_count, params) if(phalcon_call_method_params(NULL, object, method_name, sizeof(method_name)-1, param_count, params, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_1(return_value, object, method_name, param1) if(phalcon_call_method_one_param(return_value, object, method_name, sizeof(method_name)-1, param1, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, method_name, param1) if(phalcon_call_method_one_param(NULL, object, method_name, sizeof(method_name)-1, param1, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_2(return_value, object, method_name, param1, param2) if(phalcon_call_method_two_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_2_NORETURN(object, method_name, param1, param2) if(phalcon_call_method_two_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_3(return_value, object, method_name, param1, param2, param3) if(phalcon_call_method_three_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_3_NORETURN(object, method_name, param1, param2, param3) if(phalcon_call_method_three_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_4(return_value, object, method_name, param1, param2, param3, param4) if(phalcon_call_method_four_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_4_NORETURN(object, method_name, param1, param2, param3, param4) if(phalcon_call_method_four_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_5(return_value, object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_5_NORETURN(object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
 
   /** Macros to call methods in the PHP userland (use these in development) */
-#define phalcon_call_method(return_value, object, method_name) if (phalcon_call_method_ex(return_value, object, method_name, strlen(method_name), 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_noret(object, method_name) if (phalcon_call_method_ex(NULL, object, method_name, strlen(method_name), 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_pn(return_value, object, method_name, param_count, params) if(phalcon_call_method_params(return_value, object, method_name, strlen(method_name), param_count, params, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_pn_noret(object, method_name, param_count, params) if (phalcon_call_method_params(NULL, object, method_name, strlen(method_name), param_count, params, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p1(return_value, object, method_name, param1) if (phalcon_call_method_one_param(return_value, object, method_name, strlen(method_name), param1, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p1_noret(object, method_name, param1) if (phalcon_call_method_one_param(NULL, object, method_name, strlen(method_name), param1, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p2(return_value, object, method_name, param1, param2) if (phalcon_call_method_two_params(return_value, object, method_name, strlen(method_name), param1, param2, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p2_noret(object, method_name, param1, param2) if (phalcon_call_method_two_params(NULL, object, method_name, strlen(method_name), param1, param2, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p3(return_value, object, method_name, param1, param2, param3) if(phalcon_call_method_three_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p3_noret(object, method_name, param1, param2, param3) if(phalcon_call_method_three_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p4(return_value, object, method_name, param1, param2, param3, param4) if(phalcon_call_method_four_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p4_noret(object, method_name, param1, param2, param3, param4) if(phalcon_call_method_four_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p5(return_value, object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p5_noret(object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method(return_value, object, method_name) if (phalcon_call_method_ex(return_value, object, method_name, sizeof(method_name)-1, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_noret(object, method_name) if (phalcon_call_method_ex(NULL, object, method_name, sizeof(method_name)-1, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_pn(return_value, object, method_name, param_count, params) if(phalcon_call_method_params(return_value, object, method_name, sizeof(method_name)-1, param_count, params, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_pn_noret(object, method_name, param_count, params) if (phalcon_call_method_params(NULL, object, method_name, sizeof(method_name)-1, param_count, params, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p1(return_value, object, method_name, param1) if (phalcon_call_method_one_param(return_value, object, method_name, sizeof(method_name)-1, param1, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p1_noret(object, method_name, param1) if (phalcon_call_method_one_param(NULL, object, method_name, sizeof(method_name)-1, param1, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p2(return_value, object, method_name, param1, param2) if (phalcon_call_method_two_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p2_noret(object, method_name, param1, param2) if (phalcon_call_method_two_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p3(return_value, object, method_name, param1, param2, param3) if(phalcon_call_method_three_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p3_noret(object, method_name, param1, param2, param3) if(phalcon_call_method_three_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p4(return_value, object, method_name, param1, param2, param3, param4) if(phalcon_call_method_four_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p4_noret(object, method_name, param1, param2, param3, param4) if(phalcon_call_method_four_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p5(return_value, object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p5_noret(object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
 
 /** Macros to call methods in the PHP userland with a precalculated hash key (not use these in development) (deprecated) */
-#define PHALCON_CALL_METHOD_KEY(return_value, object, method_name, key) if(phalcon_call_method(return_value, object, method_name, strlen(method_name), 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_NORETURN_KEY(object, method_name, key) if(phalcon_call_method(NULL, object, method_name, strlen(method_name), 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_KEY(return_value, object, method_name, param_count, params, key) if(phalcon_call_method_params(return_value, object, method_name, strlen(method_name), param_count, params, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_NORETURN_KEY(object, method_name, param_count, params, key) if(phalcon_call_method_params(NULL, object, method_name, strlen(method_name), param_count, params, 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_1_KEY(return_value, object, method_name, param1, key) if(phalcon_call_method_one_param(return_value, object, method_name, strlen(method_name), param1, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(object, method_name, param1, key) if(phalcon_call_method_one_param(NULL, object, method_name, strlen(method_name), param1, 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_2_KEY(return_value, object, method_name, param1, param2, key) if(phalcon_call_method_two_params(return_value, object, method_name, strlen(method_name), param1, param2, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(object, method_name, param1, param2, key) if(phalcon_call_method_two_params(NULL, object, method_name, strlen(method_name), param1, param2, 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_3_KEY(return_value, object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_4_KEY(return_value, object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_4_NORETURN_KEY(object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_5_KEY(return_value, object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_5_NORETURN_KEY(object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_KEY(return_value, object, method_name, key) if(phalcon_call_method_ex(return_value, object, method_name, sizeof(method_name)-1, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_NORETURN_KEY(object, method_name, key) if(phalcon_call_method_ex(NULL, object, method_name, sizeof(method_name)-1, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_KEY(return_value, object, method_name, param_count, params, key) if(phalcon_call_method_params(return_value, object, method_name, sizeof(method_name)-1, param_count, params, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_NORETURN_KEY(object, method_name, param_count, params, key) if(phalcon_call_method_params(NULL, object, method_name, sizeof(method_name)-1, param_count, params, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_1_KEY(return_value, object, method_name, param1, key) if(phalcon_call_method_one_param(return_value, object, method_name, sizeof(method_name)-1, param1, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(object, method_name, param1, key) if(phalcon_call_method_one_param(NULL, object, method_name, sizeof(method_name)-1, param1, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_2_KEY(return_value, object, method_name, param1, param2, key) if(phalcon_call_method_two_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(object, method_name, param1, param2, key) if(phalcon_call_method_two_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_3_KEY(return_value, object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_4_KEY(return_value, object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_4_NORETURN_KEY(object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_5_KEY(return_value, object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_5_NORETURN_KEY(object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 0, key, 1 TSRMLS_CC)==FAILURE) return;
 
 /** Macros to call methods in the PHP userland with a precalculated hash key (not use these in development) */
-#define phalcon_call_method_key(return_value, object, method_name, key) if(phalcon_call_method(return_value, object, method_name, strlen(method_name), 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_noret_key(object, method_name, key) if(phalcon_call_method(NULL, object, method_name, strlen(method_name), 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_params_key(return_value, object, method_name, param_count, params, key) if(phalcon_call_method_params(return_value, object, method_name, strlen(method_name), param_count, params, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_params_noret_key(object, method_name, param_count, params, key) if(phalcon_call_method_params(NULL, object, method_name, strlen(method_name), param_count, params, 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p1_key(return_value, object, method_name, param1, key) if(phalcon_call_method_one_param(return_value, object, method_name, strlen(method_name), param1, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p1_noret_key(object, method_name, param1, key) if(phalcon_call_method_one_param(NULL, object, method_name, strlen(method_name), param1, 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p2_key(return_value, object, method_name, param1, param2, key) if(phalcon_call_method_two_params(return_value, object, method_name, strlen(method_name), param1, param2, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p2_noret_key(object, method_name, param1, param2, key) if(phalcon_call_method_two_params(NULL, object, method_name, strlen(method_name), param1, param2, 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p3_key(return_value, object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p3_noret_key(object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p4_key(return_value, object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p4_noret_key(object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, 0, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p5_key(return_value, object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 1, key, 1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_method_p5_noret_key(object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_key(return_value, object, method_name, key) if(phalcon_call_method_ex(return_value, object, method_name, sizeof(method_name)-1, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_noret_key(object, method_name, key) if(phalcon_call_method_ex(NULL, object, method_name, sizeof(method_name)-1, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_params_key(return_value, object, method_name, param_count, params, key) if(phalcon_call_method_params(return_value, object, method_name, sizeof(method_name)-1, param_count, params, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_params_noret_key(object, method_name, param_count, params, key) if(phalcon_call_method_params(NULL, object, method_name, sizeof(method_name)-1, param_count, params, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p1_key(return_value, object, method_name, param1, key) if(phalcon_call_method_one_param(return_value, object, method_name, sizeof(method_name)-1, param1, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p1_noret_key(object, method_name, param1, key) if(phalcon_call_method_one_param(NULL, object, method_name, sizeof(method_name)-1, param1, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p2_key(return_value, object, method_name, param1, param2, key) if(phalcon_call_method_two_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p2_noret_key(object, method_name, param1, param2, key) if(phalcon_call_method_two_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p3_key(return_value, object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p3_noret_key(object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p4_key(return_value, object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p4_noret_key(object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 0, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p5_key(return_value, object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_p5_noret_key(object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 0, key, 1 TSRMLS_CC)==FAILURE) return;
 
 /** Use these macros to call functions in the parent class */
-#define PHALCON_CALL_PARENT_PARAMS(return_value, object, active_class, method_name, param_count, params) if(phalcon_call_parent_func_params(return_value, object, active_class, strlen(active_class), method_name, strlen(method_name), param_count, params, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_PARENT_PARAMS_NORETURN(object, active_class, method_name, param_count, params) if(phalcon_call_parent_func_params(NULL, object, active_class, strlen(active_class),method_name, strlen(method_name), param_count, params, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_PARENT_PARAMS_1(return_value, object, active_class, method_name, param1) if(phalcon_call_parent_func_one_param(return_value, object, active_class, strlen(active_class), method_name, strlen(method_name), param1, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_PARENT_PARAMS_1_NORETURN(object, active_class, method_name, param1) if(phalcon_call_parent_func_one_param(NULL, object, active_class, strlen(active_class),method_name, strlen(method_name), param1, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_PARENT_PARAMS_2(return_value, object, active_class, method_name, param1, param2) if(phalcon_call_parent_func_two_params(return_value, object, active_class, strlen(active_class), method_name, strlen(method_name), param1, param2, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_PARENT_PARAMS_2_NORETURN(object, active_class, method_name, param1, param2) if(phalcon_call_parent_func_two_params(NULL, object, active_class, strlen(active_class),method_name, strlen(method_name), param1, param2, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_PARENT_PARAMS_3(return_value, object, active_class, method_name, param1, param2, param3) if(phalcon_call_parent_func_three_params(return_value, object, active_class, strlen(active_class), method_name, strlen(method_name), param1, param2, param3 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_PARENT_PARAMS_3_NORETURN(object, active_class, method_name, param1, param2, param3) if(phalcon_call_parent_func_three_params(NULL, object, active_class, strlen(active_class),method_name, strlen(method_name), param1, param2, param3, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_PARENT(return_value, object, active_class, method_name) if(phalcon_call_parent_func(return_value, object, active_class, strlen(active_class),method_name, strlen(method_name), 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_PARENT_NORETURN(object, active_class, method_name) if(phalcon_call_parent_func(NULL, object, active_class, strlen(active_class),method_name, strlen(method_name), 0 TSRMLS_CC)==FAILURE) return;;
+#define PHALCON_CALL_PARENT_PARAMS(return_value, object, active_class, method_name, param_count, params) if(phalcon_call_parent_func_params(return_value, object, active_class, sizeof(active_class)-1, method_name, sizeof(method_name)-1, param_count, params, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_PARENT_PARAMS_NORETURN(object, active_class, method_name, param_count, params) if(phalcon_call_parent_func_params(NULL, object, active_class, sizeof(active_class)-1, method_name, sizeof(method_name)-1, param_count, params, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_PARENT_PARAMS_1(return_value, object, active_class, method_name, param1) if(phalcon_call_parent_func_one_param(return_value, object, active_class, sizeof(active_class)-1, method_name, sizeof(method_name)-1, param1, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_PARENT_PARAMS_1_NORETURN(object, active_class, method_name, param1) if(phalcon_call_parent_func_one_param(NULL, object, active_class, sizeof(active_class)-1, method_name, sizeof(method_name)-1, param1, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_PARENT_PARAMS_2(return_value, object, active_class, method_name, param1, param2) if(phalcon_call_parent_func_two_params(return_value, object, active_class, sizeof(active_class)-1, method_name, sizeof(method_name)-1, param1, param2, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_PARENT_PARAMS_2_NORETURN(object, active_class, method_name, param1, param2) if(phalcon_call_parent_func_two_params(NULL, object, active_class, sizeof(active_class)-1, method_name, sizeof(method_name)-1, param1, param2, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_PARENT_PARAMS_3(return_value, object, active_class, method_name, param1, param2, param3) if(phalcon_call_parent_func_three_params(return_value, object, active_class, sizeof(active_class)-1, method_name, sizeof(method_name)-1, param1, param2, param3 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_PARENT_PARAMS_3_NORETURN(object, active_class, method_name, param1, param2, param3) if(phalcon_call_parent_func_three_params(NULL, object, active_class, sizeof(active_class)-1, method_name, sizeof(method_name)-1, param1, param2, param3, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_PARENT(return_value, object, active_class, method_name) if(phalcon_call_parent_func(return_value, object, active_class, sizeof(active_class)-1, method_name, sizeof(method_name)-1, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_PARENT_NORETURN(object, active_class, method_name) if(phalcon_call_parent_func(NULL, object, active_class, sizeof(active_class)-1, method_name, sizeof(method_name)-1, 0 TSRMLS_CC)==FAILURE) return;;
 
 /** Use these functions to call static functions on the current class */
-#define PHALCON_CALL_SELF_PARAMS(return_value, object, method_name, param_count, params) if(phalcon_call_self_func_params(return_value, object, method_name, strlen(method_name), param_count, params, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF_PARAMS_NORETURN(object, method_name, param_count, params) if(phalcon_call_self_func_params(NULL, object, method_name, strlen(method_name), param_count, params, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF_PARAMS_1(return_value, object, method_name, param1) if(phalcon_call_self_func_one_param(return_value, object, method_name, strlen(method_name), param1, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF_PARAMS_1_NORETURN(object, method_name, param1) if(phalcon_call_self_func_one_param(NULL, object, method_name, strlen(method_name), param1, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF_PARAMS_2(return_value, object, method_name, param1, param2) if(phalcon_call_self_func_two_params(return_value, object, method_name, strlen(method_name), param1, param2, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF_PARAMS_2_NORETURN(object, method_name, param1, param2) if(phalcon_call_self_func_two_params(NULL, object, method_name, strlen(method_name), param1, param2, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF_PARAMS_3(return_value, object, method_name, param1, param2, param3) if(phalcon_call_self_func_three_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF_PARAMS_3_NORETURN(object, method_name, param1, param2, param3) if(phalcon_call_self_func_three_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF_PARAMS_4(return_value, object, method_name, param1, param2, param3, param4) if(phalcon_call_self_func_four_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF_PARAMS_4_NORETURN(object, method_name, param1, param2, param3, param4) if(phalcon_call_self_func_four_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF(return_value, object, method_name) if(phalcon_call_self_func(return_value, object, method_name, strlen(method_name), 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_SELF_NORETURN(object, method_name) if(phalcon_call_self_func(NULL, object, method_name, strlen(method_name), 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_PARAMS(return_value, object, method_name, param_count, params) if(phalcon_call_self_func_params(return_value, object, method_name, sizeof(method_name)-1, param_count, params, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_PARAMS_NORETURN(object, method_name, param_count, params) if(phalcon_call_self_func_params(NULL, object, method_name, sizeof(method_name)-1, param_count, params, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_PARAMS_1(return_value, object, method_name, param1) if(phalcon_call_self_func_one_param(return_value, object, method_name, sizeof(method_name)-1, param1, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_PARAMS_1_NORETURN(object, method_name, param1) if(phalcon_call_self_func_one_param(NULL, object, method_name, sizeof(method_name)-1, param1, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_PARAMS_2(return_value, object, method_name, param1, param2) if(phalcon_call_self_func_two_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_PARAMS_2_NORETURN(object, method_name, param1, param2) if(phalcon_call_self_func_two_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_PARAMS_3(return_value, object, method_name, param1, param2, param3) if(phalcon_call_self_func_three_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_PARAMS_3_NORETURN(object, method_name, param1, param2, param3) if(phalcon_call_self_func_three_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_PARAMS_4(return_value, object, method_name, param1, param2, param3, param4) if(phalcon_call_self_func_four_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_PARAMS_4_NORETURN(object, method_name, param1, param2, param3, param4) if(phalcon_call_self_func_four_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF(return_value, object, method_name) if(phalcon_call_self_func(return_value, object, method_name, sizeof(method_name)-1, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_SELF_NORETURN(object, method_name) if(phalcon_call_self_func(NULL, object, method_name, sizeof(method_name)-1, 0 TSRMLS_CC)==FAILURE) return;
 
 /** Use these macros to call functions statically  */
-#define PHALCON_CALL_STATIC_PARAMS(return_value, class_name, method_name, param_count, params) if(phalcon_call_static_func_params(return_value, class_name, strlen(class_name), method_name, strlen(method_name), param_count, params, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_NORETURN(class_name, method_name, param_count, params) if(phalcon_call_static_func_params(NULL, class_name, strlen(class_name), method_name, strlen(method_name), param_count, params, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_1(return_value, class_name, method_name, param1) if(phalcon_call_static_func_one_param(return_value, class_name, strlen(class_name), method_name, strlen(method_name), param1, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_1_NORETURN(class_name, method_name, param1) if(phalcon_call_static_func_one_param(NULL, class_name, strlen(class_name), method_name, strlen(method_name), param1, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_2(return_value, class_name, method_name, param1, param2) if(phalcon_call_static_func_two_params(return_value, class_name, strlen(class_name), method_name, strlen(method_name), param1, param2, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_2_NORETURN(class_name, method_name, param1, param2) if(phalcon_call_static_func_two_params(NULL, class_name, strlen(class_name), method_name, strlen(method_name), param1, param2, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_3(return_value, class_name, method_name, param1, param2, param3) if(phalcon_call_static_func_three_params(return_value, class_name, strlen(class_name), method_name, strlen(method_name), param1, param2, param3, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_3_NORETURN(class_name, method_name, param1, param2, param3) if(phalcon_call_static_func_three_params(NULL, class_name, strlen(class_name), method_name, strlen(method_name), param1, param2, param3, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_4(return_value, class_name, method_name, param1, param2, param3, param4) if(phalcon_call_static_func_four_params(return_value, class_name, strlen(class_name), method_name, strlen(method_name), param1, param2, param3, param4, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_4_NORETURN(class_name, method_name, param1, param2, param3, param4) if(phalcon_call_static_func_four_params(NULL, class_name, strlen(class_name), method_name, strlen(method_name), param1, param2, param3, param4, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_5(return_value, class_name, method_name, param1, param2, param3, param4, param5) if(phalcon_call_static_func_five_params(return_value, class_name, strlen(class_name), method_name, strlen(method_name), param1, param2, param3, param4, param5, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_PARAMS_5_NORETURN(class_name, method_name, param1, param2, param3, param4, param5) if(phalcon_call_static_func_five_params(NULL, class_name, strlen(class_name), method_name, strlen(method_name), param1, param2, param3, param4, param5, 0 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC(return_value, class_name, method_name) if(phalcon_call_static_func(return_value, class_name, strlen(class_name), method_name, strlen(method_name), 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_NORETURN(class_name, method_name) if(phalcon_call_static_func(NULL, class_name, strlen(class_name), method_name, strlen(method_name), 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS(return_value, class_name, method_name, param_count, params) if(phalcon_call_static_func_params(return_value, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param_count, params, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_NORETURN(class_name, method_name, param_count, params) if(phalcon_call_static_func_params(NULL, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param_count, params, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_1(return_value, class_name, method_name, param1) if(phalcon_call_static_func_one_param(return_value, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param1, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_1_NORETURN(class_name, method_name, param1) if(phalcon_call_static_func_one_param(NULL, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param1, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_2(return_value, class_name, method_name, param1, param2) if(phalcon_call_static_func_two_params(return_value, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param1, param2, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_2_NORETURN(class_name, method_name, param1, param2) if(phalcon_call_static_func_two_params(NULL, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param1, param2, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_3(return_value, class_name, method_name, param1, param2, param3) if(phalcon_call_static_func_three_params(return_value, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param1, param2, param3, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_3_NORETURN(class_name, method_name, param1, param2, param3) if(phalcon_call_static_func_three_params(NULL, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param1, param2, param3, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_4(return_value, class_name, method_name, param1, param2, param3, param4) if(phalcon_call_static_func_four_params(return_value, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_4_NORETURN(class_name, method_name, param1, param2, param3, param4) if(phalcon_call_static_func_four_params(NULL, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_5(return_value, class_name, method_name, param1, param2, param3, param4, param5) if(phalcon_call_static_func_five_params(return_value, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_PARAMS_5_NORETURN(class_name, method_name, param1, param2, param3, param4, param5) if(phalcon_call_static_func_five_params(NULL, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 0 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC(return_value, class_name, method_name) if(phalcon_call_static_func(return_value, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_NORETURN(class_name, method_name) if(phalcon_call_static_func(NULL, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, 0 TSRMLS_CC)==FAILURE) return;
 
 /** Use these functions to call static functions using a zval as callable */
-#define PHALCON_CALL_ZVAL_STATIC(return_value, class_zval, method_name) if(phalcon_call_static_zval_func(return_value, class_zval, method_name, strlen(method_name), 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_ZVAL_PARAMS(return_value, class_zval, method_name, param_count, params) if(phalcon_call_static_zval_func_params(return_value, class_zval, method_name, strlen(method_name), param_count, params, 1 TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_ZVAL_PARAMS_1(return_value, class_zval, method_name, param1) if(phalcon_call_static_zval_func_one_param(return_value, class_zval, method_name, strlen(method_name), param1, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_ZVAL_STATIC(return_value, class_zval, method_name) if(phalcon_call_static_zval_func(return_value, class_zval, method_name, sizeof(method_name)-1, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_ZVAL_PARAMS(return_value, class_zval, method_name, param_count, params) if(phalcon_call_static_zval_func_params(return_value, class_zval, method_name, sizeof(method_name)-1, param_count, params, 1 TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_ZVAL_PARAMS_1(return_value, class_zval, method_name, param1) if(phalcon_call_static_zval_func_one_param(return_value, class_zval, method_name, sizeof(method_name)-1, param1, 1 TSRMLS_CC)==FAILURE) return;
 
 /** Use these functions to call functions in the PHP userland using an arbitrary zval as callable */
 #define PHALCON_CALL_USER_FUNC(return_value, handler) if(phalcon_call_user_func(return_value, handler TSRMLS_CC)==FAILURE) return;
@@ -11556,34 +11584,6 @@ static void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths
 #define PDO_ERRMODE_SILENT 0
 #define PDO_ERRMODE_WARNING 1
 #define PDO_ERRMODE_EXCEPTION 2
-
-/* jsmin.c
-   2013-03-29
-
-Copyright (c) 2002 Douglas Crockford  (www.crockford.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-The Software shall be used for Good, not Evil.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-
-static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC);
 
 
 
@@ -27508,7 +27508,8 @@ static PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	
 			PHALCON_OBS_VAR(sql_statement);
 			phalcon_read_property_this(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
-			if (phalcon_start_with_str(sql_statement, SL("SELECT COUNT(*) "))) {
+	
+			if (!phalcon_start_with_str(sql_statement, SL("SELECT COUNT(*) "))) {
 	
 				PHALCON_OBS_VAR(bind_params);
 				phalcon_read_property_this(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
@@ -48502,13 +48503,14 @@ static PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		phalcon_call_method_p1_noret(documents_cursor, "skip", sort);
 	}
 	
+	if (phalcon_array_isset_string(params, SS("fields"))) {
+		PHALCON_INIT_VAR(base);
+		object_init(base);
+	} else {
+		PHALCON_CPY_WRT(base, collection);
+	}
+	
 	if (PHALCON_IS_TRUE(unique)) {
-		if (phalcon_array_isset_string(params, SS("fields"))) {
-			PHALCON_INIT_VAR(base);
-			object_init(base);
-		} else {
-			PHALCON_CPY_WRT(base, collection);
-		}
 	
 		phalcon_call_method_noret(documents_cursor, "rewind");
 	
