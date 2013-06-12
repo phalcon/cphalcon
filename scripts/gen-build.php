@@ -27,6 +27,7 @@ class Build_Generator
 
 	private $_kernelHeaders = array(
 		'assets/filters/jsminifier.h',
+		'assets/filters/cssminifier.h',
 		'mvc/model/query/parser.h',
 		'mvc/model/query/scanner.h',
 		'mvc/model/query/phql.h',
@@ -361,6 +362,27 @@ class Build_Generator
 					/**
 					 * Pre-compute hashes for method calls
 					 */
+					if (preg_match('/PHALCON_CALL_METHOD\(([a-zA-Z\_]+), ([a-zA-Z\_]+), "([a-zA-Z\_]+)"\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
+						$line = str_replace($matches[0], 'phalcon_call_method_key('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$key.'UL)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
+					if (preg_match('/phalcon_call_method\(([a-zA-Z\_]+), ([a-zA-Z\_]+), "([a-zA-Z\_]+)"\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
+						$line = str_replace($matches[0], 'phalcon_call_method_key('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$key.'UL)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
+					if (preg_match('/phalcon_call_method_noret\(([a-zA-Z\_]+), "([a-zA-Z\_]+)"\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$line = str_replace($matches[0], 'phalcon_call_method_noret_key('.$matches[1].', "'.$matches[2].'", '.$key.'UL)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
 					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_1_NORETURN\(([a-zA-Z\_]+), "([a-zA-Z\_]+)", ([a-zA-Z\_]+)\)/', $line, $matches)) {
 						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
 						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$key.'UL)', $line);
