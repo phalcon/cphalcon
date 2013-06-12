@@ -1983,6 +1983,11 @@ static void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths
 
 
 
+/** Get the possible URI based on a script path */
+static void phalcon_get_uri(zval *return_value, zval *path TSRMLS_DC);
+
+
+
 #ifdef HAVE_CONFIG_H
 #endif
 
@@ -11662,6 +11667,41 @@ static void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths
 		RETURN_EMPTY_STRING();
 	}
 
+}
+
+
+
+
+static void phalcon_get_uri(zval *return_value, zval *path TSRMLS_DC) {
+
+	int i, found = 0, mark;
+	char *cursor, *str, ch;
+
+	if (Z_TYPE_P(path) != IS_STRING) {
+		RETURN_EMPTY_STRING();
+	}
+
+	if (Z_STRLEN_P(path) > 0) {
+		cursor = Z_STRVAL_P(path) + Z_STRLEN_P(path) - 1;
+		for (i = Z_STRLEN_P(path); i >= 0; i--) {
+			ch = *cursor;
+			if (ch == '/' || ch == '\\') {
+				found++;
+				if (found == 1) {
+					mark = i - 1;
+				} else {
+					str = emalloc(mark - i + 1);
+					memcpy(str, Z_STRVAL_P(path) + i, mark - i);
+					str[mark - i] = '\0';
+					ZVAL_STRINGL(return_value, str, mark - i, 0);
+					return;
+				}
+			}
+			cursor--;
+		}
+	}
+
+	RETURN_EMPTY_STRING();
 }
 
 

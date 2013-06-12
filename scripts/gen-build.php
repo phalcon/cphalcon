@@ -52,7 +52,8 @@ class Build_Generator
 		'kernel/require.h',
 		'kernel/alternative/fcall.h',
 		'kernel/framework/orm.h',
-		'kernel/framework/router.h'
+		'kernel/framework/router.h',
+		'kernel/framework/url.h'
 	);
 
 	private $_kernelSources = array(
@@ -71,7 +72,8 @@ class Build_Generator
 		'kernel/require.c',
 		'kernel/alternative/fcall.c',
 		'kernel/framework/orm.c',
-		'kernel/framework/router.c'
+		'kernel/framework/router.c',
+		'kernel/framework/url.c'
 	);
 
 	private $_exclusions = array(
