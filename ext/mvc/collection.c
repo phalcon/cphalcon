@@ -619,16 +619,20 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		phalcon_call_method_p1_noret(documents_cursor, "skip", sort);
 	}
 	
+	/** 
+	 * If a group of specific fields are requested we use a stdclass instead
+	 */
+	if (phalcon_array_isset_string(params, SS("fields"))) {
+		PHALCON_INIT_VAR(base);
+		object_init(base);
+	} else {
+		PHALCON_CPY_WRT(base, collection);
+	}
+	
 	if (PHALCON_IS_TRUE(unique)) {
-		if (phalcon_array_isset_string(params, SS("fields"))) {
-			PHALCON_INIT_VAR(base);
-			object_init(base);
-		} else {
-			PHALCON_CPY_WRT(base, collection);
-		}
 	
 		/** 
-		 * Requesting a unique row
+		 * Requesting a single result
 		 */
 		phalcon_call_method_noret(documents_cursor, "rewind");
 	

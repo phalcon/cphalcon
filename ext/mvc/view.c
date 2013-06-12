@@ -1229,7 +1229,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
  * }
  * </code>
  *
- * @param string $renderView
+ * @param string|array $renderView
  */
 PHP_METHOD(Phalcon_Mvc_View, pick){
 

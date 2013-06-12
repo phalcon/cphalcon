@@ -264,7 +264,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	
 			PHALCON_OBS_VAR(sql_statement);
 			phalcon_read_property_this(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
-			if (phalcon_start_with_str(sql_statement, SL("SELECT COUNT(*) "))) {
+	
+			/** 
+			 * If the sql_statement starts with SELECT COUNT(*) we don't make the count
+			 */
+			if (!phalcon_start_with_str(sql_statement, SL("SELECT COUNT(*) "))) {
 	
 				PHALCON_OBS_VAR(bind_params);
 				phalcon_read_property_this(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
