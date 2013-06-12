@@ -4041,7 +4041,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 				PHALCON_INIT_NVAR(possible_setter);
 				PHALCON_CONCAT_SV(possible_setter, "set", attribute);
 				if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
-					phalcon_call_method_p1_noret(this_ptr, Z_TYPE_P(possible_setter) == IS_STRING ? Z_STRVAL_P(possible_setter) : "", value);
+					phalcon_call_method_zval_p1_noret(this_ptr, Z_TYPE_P(possible_setter) == IS_STRING ? Z_STRVAL_P(possible_setter) : "", value);
 				} else {
 					/** 
 					 * Otherwise we assign the attribute directly
@@ -4329,7 +4329,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 				PHALCON_INIT_NVAR(possible_setter);
 				PHALCON_CONCAT_SV(possible_setter, "set", attribute_field);
 				if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
-					phalcon_call_method_p1_noret(this_ptr, Z_TYPE_P(possible_setter) == IS_STRING ? Z_STRVAL_P(possible_setter) : "", value);
+					phalcon_call_method_zval_p1_noret(this_ptr, Z_TYPE_P(possible_setter) == IS_STRING ? Z_STRVAL_P(possible_setter) : "", value);
 				} else {
 					phalcon_update_property_zval_zval(this_ptr, attribute_field, value TSRMLS_CC);
 				}
@@ -4500,7 +4500,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 				PHALCON_INIT_NVAR(possible_setter);
 				PHALCON_CONCAT_SV(possible_setter, "set", attribute_field);
 				if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
-					phalcon_call_method_p1_noret(this_ptr, Z_TYPE_P(possible_setter) == IS_STRING ? Z_STRVAL_P(possible_setter) : "", value);
+					phalcon_call_method_zval_p1_noret(this_ptr, Z_TYPE_P(possible_setter) == IS_STRING ? Z_STRVAL_P(possible_setter) : "", value);
 				} else {
 					phalcon_update_property_zval_zval(this_ptr, attribute_field, value TSRMLS_CC);
 				}

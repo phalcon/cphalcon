@@ -366,6 +366,15 @@ int phalcon_call_method_one_param(zval *return_value, zval *object, char *method
 }
 
 /**
+ * Call zval method on an object that requires only 1 parameter
+ *
+ */
+int phalcon_call_method_zval_one_param(zval *return_value, zval *object, zval *method, zval *param1, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	zval *params[] = { param1 };
+	return phalcon_call_method_params(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), 1, params, noreturn, method_key, lower TSRMLS_CC);
+}
+
+/**
  * Call method on an object that requires only 2 parameters
  *
  */
@@ -381,6 +390,15 @@ int phalcon_call_method_two_params(zval *return_value, zval *object, char *metho
 int phalcon_call_method_three_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
 	return phalcon_call_method_params(return_value, object, method_name, method_len, 3, params, noreturn, method_key, lower TSRMLS_CC);
+}
+
+/**
+ * Call method on an object that requires only 3 parameters
+ *
+ */
+int phalcon_call_method_zval_three_params(zval *return_value, zval *object, zval *method, zval *param1, zval *param2, zval *param3, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	zval *params[] = { param1, param2, param3 };
+	return phalcon_call_method_params(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), 3, params, noreturn, method_key, lower TSRMLS_CC);
 }
 
 /**
