@@ -1294,7 +1294,7 @@ static void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 #define PHALCON_CALL_METHOD_PARAMS_5(return_value, object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
 #define PHALCON_CALL_METHOD_PARAMS_5_NORETURN(object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
 
-  /** Macros to call methods in the PHP userland (use these in development) */
+/** Macros to call methods in the PHP userland (use these in development) */
 #define phalcon_call_method(return_value, object, method_name) if (phalcon_call_method_ex(return_value, object, method_name, sizeof(method_name)-1, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_method_noret(object, method_name) if (phalcon_call_method_ex(NULL, object, method_name, sizeof(method_name)-1, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_method_pn(return_value, object, method_name, param_count, params) if(phalcon_call_method_params(return_value, object, method_name, sizeof(method_name)-1, param_count, params, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
@@ -1309,6 +1309,12 @@ static void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 #define phalcon_call_method_p4_noret(object, method_name, param1, param2, param3, param4) if(phalcon_call_method_four_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_method_p5(return_value, object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(return_value, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_method_p5_noret(object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(NULL, object, method_name, sizeof(method_name)-1, param1, param2, param3, param4, param5, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+
+/** Macros to call methods with zvals as method names */
+#define phalcon_call_method_zval(return_value, object, method) if (phalcon_call_method_zval_ex(NULL, object, method, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_zval_noret(object, method) if (phalcon_call_method_zval_ex(NULL, object, method, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_zval_p1_noret(object, method, param1) if (phalcon_call_method_zval_one_param(NULL, object, method, param1, 0, 0, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_zval_p3(return_value, object, method, param1, param2, param3) if(phalcon_call_method_zval_three_params(return_value, object, method, param1, param2, param3, 1, 0, 1 TSRMLS_CC)==FAILURE) return;
 
 /** Macros to call methods in the PHP userland with a precalculated hash key (not use these in development) (deprecated) */
 #define PHALCON_CALL_METHOD_KEY(return_value, object, method_name, key) if(phalcon_call_method_ex(return_value, object, method_name, sizeof(method_name)-1, 1, key, 1 TSRMLS_CC)==FAILURE) return;
@@ -1419,6 +1425,11 @@ static int phalcon_call_method_two_params(zval *return_value, zval *object, char
 static int phalcon_call_method_three_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn, unsigned long method_key, int lower TSRMLS_DC);
 static int phalcon_call_method_four_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn, unsigned long method_key, int lower TSRMLS_DC);
 static int phalcon_call_method_five_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int noreturn, unsigned long method_key, int lower TSRMLS_DC);
+
+/** Call zval methods on object instances */
+static int phalcon_call_method_zval_ex(zval *return_value, zval *object, zval *method, int noreturn, unsigned long method_key, int lower TSRMLS_DC);
+static int phalcon_call_method_zval_one_param(zval *return_value, zval *object, zval *method, zval *param1, int noreturn, unsigned long method_key, int lower TSRMLS_DC);
+static int phalcon_call_method_zval_three_params(zval *return_value, zval *object, zval *method, zval *param1, zval *param2, zval *param3, int noreturn, unsigned long method_key, int lower TSRMLS_DC);
 
 /** Call methods on parent class */
 static int phalcon_call_parent_func(zval *return_value, zval *object, char *active_class, int active_class_len,char *method_name, int method_len, int noreturn TSRMLS_DC);
@@ -2910,6 +2921,10 @@ static int phalcon_call_method_ex(zval *return_value, zval *object, char *method
 	return phalcon_call_method_internal(return_value, object, method_name, method_len, noreturn, method_key, lower TSRMLS_CC);
 }
 
+static int phalcon_call_method_zval_ex(zval *return_value, zval *object, zval *method, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	return phalcon_call_method_internal(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), noreturn, method_key, lower TSRMLS_CC);
+}
+
 static int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	return phalcon_call_method_params_internal(return_value, object, method_name, method_len, param_count, params, noreturn, method_key, lower TSRMLS_CC);
 }
@@ -2917,6 +2932,11 @@ static int phalcon_call_method_params(zval *return_value, zval *object, char *me
 static int phalcon_call_method_one_param(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	zval *params[] = { param1 };
 	return phalcon_call_method_params(return_value, object, method_name, method_len, 1, params, noreturn, method_key, lower TSRMLS_CC);
+}
+
+static int phalcon_call_method_zval_one_param(zval *return_value, zval *object, zval *method, zval *param1, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	zval *params[] = { param1 };
+	return phalcon_call_method_params(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), 1, params, noreturn, method_key, lower TSRMLS_CC);
 }
 
 static int phalcon_call_method_two_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
@@ -2927,6 +2947,11 @@ static int phalcon_call_method_two_params(zval *return_value, zval *object, char
 static int phalcon_call_method_three_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
 	return phalcon_call_method_params(return_value, object, method_name, method_len, 3, params, noreturn, method_key, lower TSRMLS_CC);
+}
+
+static int phalcon_call_method_zval_three_params(zval *return_value, zval *object, zval *method, zval *param1, zval *param2, zval *param3, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	zval *params[] = { param1, param2, param3 };
+	return phalcon_call_method_params(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), 3, params, noreturn, method_key, lower TSRMLS_CC);
 }
 
 static int phalcon_call_method_four_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
@@ -16798,7 +16823,7 @@ static PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
 	
 						PHALCON_INIT_NVAR(status);
-						phalcon_call_method_p3(status, handler, Z_TYPE_P(event_name) == IS_STRING ? Z_STRVAL_P(event_name) : "", event, source, data);
+						phalcon_call_method_zval_p3(status, handler, event_name, event, source, data);
 	
 						if (zend_is_true(collect)) {
 							phalcon_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
@@ -16859,7 +16884,7 @@ static PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
 	
 						PHALCON_INIT_NVAR(status);
-						phalcon_call_method_p3(status, handler, Z_TYPE_P(event_name) == IS_STRING ? Z_STRVAL_P(event_name) : "", event, source, data);
+						phalcon_call_method_zval_p3(status, handler, event_name, event, source, data);
 	
 						if (zend_is_true(collect)) {
 							phalcon_update_property_array_append(this_ptr, SL("_responses"), status TSRMLS_CC);
@@ -25964,7 +25989,7 @@ static PHP_METHOD(Phalcon_Forms_Form, bind){
 		PHALCON_INIT_NVAR(method);
 		PHALCON_CONCAT_SV(method, "set", key);
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
-			phalcon_call_method_p1_noret(entity, Z_TYPE_P(method) == IS_STRING ? Z_STRVAL_P(method) : "", filtered_value);
+			phalcon_call_method_zval_p1_noret(entity, method, filtered_value);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			continue;
 		}
@@ -26352,7 +26377,7 @@ static PHP_METHOD(Phalcon_Forms_Form, getValue){
 		PHALCON_CONCAT_SV(method, "get", name);
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_VAR(value);
-			phalcon_call_method(value, entity, Z_TYPE_P(method) == IS_STRING ? Z_STRVAL_P(method) : "");
+			phalcon_call_method_zval(value, entity, method);
 			RETURN_CCTOR(value);
 		}
 	
@@ -48902,7 +48927,7 @@ static PHP_METHOD(Phalcon_Mvc_Collection, fireEvent){
 	phalcon_fetch_params(1, 1, 0, &event_name);
 	
 	if (phalcon_method_exists(this_ptr, event_name TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_noret(this_ptr, Z_TYPE_P(event_name) == IS_STRING ? Z_STRVAL_P(event_name) : "");
+		phalcon_call_method_zval_noret(this_ptr, event_name);
 	}
 	
 	PHALCON_OBS_VAR(models_manager);
@@ -48925,7 +48950,7 @@ static PHP_METHOD(Phalcon_Mvc_Collection, fireEventCancel){
 	if (phalcon_method_exists(this_ptr, event_name TSRMLS_CC) == SUCCESS) {
 	
 		PHALCON_INIT_VAR(status);
-		phalcon_call_method(status, this_ptr, Z_TYPE_P(event_name) == IS_STRING ? Z_STRVAL_P(event_name) : "");
+		phalcon_call_method_zval(status, this_ptr, event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -87529,7 +87554,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 	phalcon_fetch_params(1, 1, 0, &event_name);
 	
 	if (phalcon_method_exists(this_ptr, event_name TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_noret(this_ptr, Z_TYPE_P(event_name) == IS_STRING ? Z_STRVAL_P(event_name) : "");
+		phalcon_call_method_zval_noret(this_ptr, event_name);
 	}
 	
 	PHALCON_OBS_VAR(models_manager);
@@ -87552,7 +87577,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel){
 	if (phalcon_method_exists(this_ptr, event_name TSRMLS_CC) == SUCCESS) {
 	
 		PHALCON_INIT_VAR(status);
-		phalcon_call_method(status, this_ptr, Z_TYPE_P(event_name) == IS_STRING ? Z_STRVAL_P(event_name) : "");
+		phalcon_call_method_zval(status, this_ptr, event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -89195,7 +89220,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, save){
 				PHALCON_INIT_NVAR(possible_setter);
 				PHALCON_CONCAT_SV(possible_setter, "set", attribute);
 				if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
-					phalcon_call_method_p1_noret(this_ptr, Z_TYPE_P(possible_setter) == IS_STRING ? Z_STRVAL_P(possible_setter) : "", value);
+					phalcon_call_method_zval_p1_noret(this_ptr, possible_setter, value);
 				} else {
 					phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
 				}
@@ -89389,7 +89414,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, create){
 				PHALCON_INIT_NVAR(possible_setter);
 				PHALCON_CONCAT_SV(possible_setter, "set", attribute_field);
 				if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
-					phalcon_call_method_p1_noret(this_ptr, Z_TYPE_P(possible_setter) == IS_STRING ? Z_STRVAL_P(possible_setter) : "", value);
+					phalcon_call_method_zval_p1_noret(this_ptr, possible_setter, value);
 				} else {
 					phalcon_update_property_zval_zval(this_ptr, attribute_field, value TSRMLS_CC);
 				}
@@ -89512,7 +89537,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, update){
 				PHALCON_INIT_NVAR(possible_setter);
 				PHALCON_CONCAT_SV(possible_setter, "set", attribute_field);
 				if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
-					phalcon_call_method_p1_noret(this_ptr, Z_TYPE_P(possible_setter) == IS_STRING ? Z_STRVAL_P(possible_setter) : "", value);
+					phalcon_call_method_zval_p1_noret(this_ptr, possible_setter, value);
 				} else {
 					phalcon_update_property_zval_zval(this_ptr, attribute_field, value TSRMLS_CC);
 				}
@@ -93498,7 +93523,7 @@ static PHP_METHOD(Phalcon_Validation, getValue){
 		PHALCON_CONCAT_SV(method, "get", attribute);
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_VAR(value);
-			phalcon_call_method(value, entity, Z_TYPE_P(method) == IS_STRING ? Z_STRVAL_P(method) : "");
+			phalcon_call_method_zval(value, entity, method);
 		} else {
 			if (phalcon_method_quick_exists_ex(entity, SS("readattribute"), 95450773UL TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_NVAR(value);
