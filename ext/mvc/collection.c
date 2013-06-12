@@ -589,7 +589,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		phalcon_call_method_p2(documents_cursor, mongo_collection, "find", conditions, fields);
 	} else {
 		PHALCON_INIT_NVAR(documents_cursor);
-		phalcon_call_method_p2(documents_cursor, mongo_collection, "find", conditions, fields);
+		phalcon_call_method_p1(documents_cursor, mongo_collection, "find", conditions);
 	}
 	
 	/** 

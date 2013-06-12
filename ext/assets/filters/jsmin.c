@@ -38,7 +38,9 @@
 /**
  * Phalcon\Assets\Filters\Jsmin
  *
- * Removes spaces/tabs/line breaks in Javascript files reducing their size
+ * Deletes the characters which are insignificant to JavaScript. Comments will be removed. Tabs will be
+ * replaced with spaces. Carriage returns will be replaced with linefeeds.
+ * Most spaces and linefeeds will be removed.
  */
 
 

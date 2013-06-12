@@ -2800,7 +2800,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				phalcon_call_method_p1(temp_compilation, this_ptr, "compileset", statement);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
-				break;
 	
 			case 359:
 				PHALCON_INIT_NVAR(temp_compilation);

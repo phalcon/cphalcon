@@ -36,8 +36,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <stdlib.h>
-#include <stdio.h>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
+#include "ext/standard/php_smart_str.h"
+
+#include "kernel/main.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/exception.h"
 
 #define STATE_FREE 1
 #define STATE_ATRULE 2
@@ -46,85 +57,69 @@ SOFTWARE.
 #define STATE_DECLARATION 5
 #define STATE_COMMENT 6
 
-static int theLookahead = EOF;
-
-static int tmp_state;
-
-static int state = 1;
-
-static int last_state = 1;
-
-static int in_paren = 0;
+typedef struct _cssmin_parser {
+	int tmp_state;
+	int state;
+	int last_state;
+	int in_paren;
+	zval *style;
+	zval **error;
+	int style_pointer;
+	smart_str    *minified;
+} cssmin_parser;
 
 /* get -- return the next character from stdin. Watch out for lookahead. If
 the character is a control character, translate it to a space or
 linefeed.
 */
 
-static int
-get()
-{
-	int c = theLookahead;
-	theLookahead = EOF;
-	if (c == EOF) {
-		c = getc(stdin);
+static char cssmin_peek(cssmin_parser *parser){
+	char ch;
+	if (parser->style_pointer < Z_STRLEN_P(parser->style)) {
+		ch = Z_STRVAL_P(parser->style)[parser->style_pointer];
+		return ch;
 	}
-
-	if (c >= ' ' || c == '\n' || c == EOF) {
-		return c;
-	}
-
-	if (c == '\r') {
-		return '\n';
-	}
-
-	return ' ';
-}
-
-/* peek -- get the next character without getting it.
-*/
-
-static int
-peek()
-{
-	theLookahead = get();
-	return theLookahead;
+	return EOF;
 }
 
 /* machine
 
 */
-static int
-machine(int c)
-{
+static int phalcon_cssmin_machine(cssmin_parser *parser, int c){
 
-	if(state != STATE_COMMENT){
-		if(c == '/' && peek() == '*'){
-			tmp_state = state;
-			state = STATE_COMMENT;
+	if (parser->state != STATE_COMMENT) {
+		if (c == '/' && cssmin_peek(parser) == '*') {
+			parser->tmp_state = parser->state;
+			parser->state = STATE_COMMENT;
 		}
 	}
 
-	switch (state){
+	switch (parser->state) {
 		case STATE_FREE:
-			if (c == ' ' && c == '\n' ) {
+			if (c == ' ' && c == '\t' && c == '\n' ) {
 				c = 0;
 			} else if (c == '@'){
-				state = STATE_ATRULE;
+				parser->state = STATE_ATRULE;
 				break;
 			} else if(c > 0){
 				//fprintf(stdout,"one to 3 - %c %i",c,c);
-				state = STATE_SELECTOR;
+				parser->state = STATE_SELECTOR;
 			}
 		case STATE_SELECTOR:
 			if (c == '{') {
-				state = STATE_BLOCK;
-			} else if(c == '\n') {
-				c = 0;
-			} else if(c == '@'){
-				state = STATE_ATRULE;
-			} else if (c == ' ' && peek() == '{') {
-				c = 0;
+				parser->state = STATE_BLOCK;
+			} else {
+				if(c == '\n') {
+					c = 0;
+				} else {
+					if(c == '@'){
+						parser->state = STATE_ATRULE;
+					} else {
+						if (c == ' ' && cssmin_peek(parser) == '{') {
+							c = 0;
+						}
+					}
+				}
 			}
 			break;
 		case STATE_ATRULE:
@@ -134,57 +129,74 @@ machine(int c)
 			*/
 			if (c == '\n' || c == ';') {
 				c = ';';
-				state = STATE_FREE;
+				parser->state = STATE_FREE;
 			} else if(c == '{') {
-				state = STATE_BLOCK;
+				parser->state = STATE_BLOCK;
 			}
 			break;
 		case STATE_BLOCK:
-			if (c == ' ' || c == '\n' ) {
+			if (c == ' ' || c == '\t' || c == '\n' ) {
 				c = 0;
 				break;
-			} else if (c == '}') {
-				state = STATE_FREE;
-				//fprintf(stdout,"closing bracket found in block\n");
-				break;
 			} else {
-				state = STATE_DECLARATION;
+				if (c == '}') {
+					parser->state = STATE_FREE;
+					//fprintf(stdout,"closing bracket found in block\n");
+					break;
+				} else {
+					parser->state = STATE_DECLARATION;
+				}
 			}
 		case STATE_DECLARATION:
-			//support in paren because data can uris have ;
-			if(c == '('){
-				in_paren = 1;
+			/**
+			 * support in paren because data can uris have ;
+			 */
+			if (c == '(') {
+				parser->in_paren = 1;
 			}
-			if(in_paren == 0){
-
-				if( c == ';') {
-					state = STATE_BLOCK;
-					//could continue peeking through white space..
-					if(peek() == '}'){
+			if (parser->in_paren == 0) {
+				if (c == ';') {
+					parser->state = STATE_BLOCK;
+					/**
+					 * could continue peeking through white space..
+					 */
+					if (cssmin_peek(parser) == '}') {
 						c = 0;
 					}
 				} else if (c == '}') {
-					//handle unterminated declaration
-					state = STATE_FREE;
-				} else if ( c == '\n') {
-				  //skip new lines
-				  c = 0;
-				} else if (c == ' ' ) {
-				  //skip multiple spaces after each other
-				  if( peek() == c ) {
+					/**
+					 * handle unterminated declaration
+					 */
+					parser->state = STATE_FREE;
+				} else {
+					if (c == '\n') {
+					  /**
+					   * skip new lines
+					   */
 					  c = 0;
+					} else {
+						if (c == ' ' || c == '\t') {
+							/**
+							 * skip multiple spaces after each other
+						     */
+							if (cssmin_peek(parser) == c) {
+								c = 0;
+							}
+						}
 					}
 				}
 
-			} else if (c == ')') {
-				in_paren = 0;
+			} else {
+				if (c == ')') {
+					parser->in_paren = 0;
+				}
 			}
 
 			break;
 		case STATE_COMMENT:
-			if(c == '*' && peek() == '/'){
-				theLookahead = EOF;
-				state = tmp_state;
+			if (c == '*' && cssmin_peek(parser) == '/'){
+				parser->style_pointer += 2;
+				parser->state = parser->tmp_state;
 			}
 			c = 0;
 			break;
@@ -193,7 +205,38 @@ machine(int c)
 	return c;
 }
 
+int phalcon_cssmin_internal(zval *return_value, zval *style, zval **error TSRMLS_DC) {
 
+	int i, c;
+	cssmin_parser parser;
+	smart_str minified = {0};
+
+	parser.state = 1;
+	parser.last_state = 1;
+	parser.in_paren = 0;
+	parser.style = style;
+	parser.error = error;
+	parser.minified = &minified;
+
+	for (i = 0; i < Z_STRLEN_P(style); i++) {
+		parser.style_pointer = i + 1;
+		c = phalcon_cssmin_machine(&parser, Z_STRVAL_P(style)[i] TSRMLS_CC);
+		if (c != 0) {
+			smart_str_appendc(parser.minified, c);
+		}
+		i = parser.style_pointer - 1;
+	}
+
+	smart_str_0(&minified);
+
+	if (minified.len) {
+		ZVAL_STRINGL(return_value, minified.c, minified.len, 0);
+	} else {
+		ZVAL_STRING(return_value, "", 1);
+	}
+
+	return SUCCESS;
+}
 
 /* cssmin -- minify the css
 	removes comments
@@ -201,31 +244,21 @@ machine(int c)
 	removes last semicolon from last property
 */
 
-static void
-cssmin()
-{
-	for (;;) {
-		int c = get();
+int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 
-		if (c == EOF) {
-			exit(0);
-		}
+	zval *error = NULL;
 
-		c = machine(c);
+	ZVAL_NULL(return_value);
 
-		if (c != 0) {
-			putc(c,stdout);
-		}
+	if (Z_TYPE_P(style) != IS_STRING) {
+		phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Style must be a string") TSRMLS_CC);
+		return FAILURE;
 	}
-}
 
-/* main -- Output any command line arguments as comments
-        and then minify the input.
-*/
-extern int
-main(int argc, char* argv[])
-{
-    cssmin();
-    return 0;
-}
+	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE){
+		phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error) TSRMLS_CC);
+		return FAILURE;
+	}
 
+	return SUCCESS;
+}

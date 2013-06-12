@@ -33,11 +33,14 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
+#include "assets/filters/cssminifier.h"
 
 /**
  * Phalcon\Assets\Filters\Cssmin
  *
- * Removes spaces/tabs/line breaks in CSS files reducing their size
+ * Minify the css - removes comments
+ * removes newlines and line feeds keeping
+ * removes last semicolon from last property
  */
 
 
@@ -66,7 +69,10 @@ PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter){
 	phalcon_fetch_params(1, 1, 0, &content);
 	
 	PHALCON_INIT_VAR(filtered);
-	phalcon_call_func_p1(filtered, "phalcon_cssmin", content);
+	if (phalcon_cssmin(filtered, content TSRMLS_CC) == FAILURE) {
+		return;
+	}
+	
 	RETURN_CCTOR(filtered);
 }
 

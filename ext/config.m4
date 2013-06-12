@@ -318,6 +318,7 @@ validation/validator/stringlength.c \
 validation/validator.c \
 session.c \
 assets/filters/jsminifier.c \
+assets/filters/cssminifier.c \
 mvc/model/query/parser.c \
 mvc/model/query/scanner.c \
 mvc/view/engine/volt/parser.c \

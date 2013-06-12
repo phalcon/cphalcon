@@ -72,6 +72,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_tmp"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_size"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_request_file_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_request_file_ce TSRMLS_CC, 1, phalcon_http_request_fileinterface_ce);
 
@@ -85,7 +86,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
  */
 PHP_METHOD(Phalcon_Http_Request_File, __construct){
 
-	zval *file, *name, *temp_name, *size;
+	zval *file, *name, *temp_name, *size, *type;
 
 	PHALCON_MM_GROW();
 
@@ -111,6 +112,12 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
 		PHALCON_OBS_VAR(size);
 		phalcon_array_fetch_string(&size, file, SL("size"), PH_NOISY_CC);
 		phalcon_update_property_this(this_ptr, SL("_size"), size TSRMLS_CC);
+	}
+	
+	if (phalcon_array_isset_string(file, SS("type"))) {
+		PHALCON_OBS_VAR(type);
+		phalcon_array_fetch_string(&type, file, SL("type"), PH_NOISY_CC);
+		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -150,7 +157,18 @@ PHP_METHOD(Phalcon_Http_Request_File, getTempName){
 }
 
 /**
- * Move the temporary file to a destination whithin the application
+ * Returns the mime type reported by the browser
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request_File, getType){
+
+
+	RETURN_MEMBER(this_ptr, "_type");
+}
+
+/**
+ * Move the temporary file to a destination within the application
  *
  * @param string $destination
  * @return boolean

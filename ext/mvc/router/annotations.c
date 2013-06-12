@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						 * The lowercased class name is used as controller
 						 */
 						PHALCON_INIT_NVAR(lower_controller_name);
-						phalcon_fast_strtolower(lower_controller_name, controller_name);
+						phalcon_uncamelize(lower_controller_name, controller_name TSRMLS_CC);
 	
 						/** 
 						 * Extract the namespace from the namespaced class
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						PHALCON_CPY_WRT(controller_name, handler);
 	
 						PHALCON_INIT_NVAR(lower_controller_name);
-						phalcon_fast_strtolower(lower_controller_name, controller_name);
+						phalcon_uncamelize(lower_controller_name, controller_name TSRMLS_CC);
 	
 						PHALCON_INIT_NVAR(namespace_name);
 					}
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
 	
 						PHALCON_INIT_NVAR(lowercased);
-						phalcon_fast_strtolower(lowercased, handler);
+						phalcon_uncamelize(lowercased, handler TSRMLS_CC);
 	
 						if (!phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 							return;
@@ -393,15 +393,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 
-	zval *handler, *annotation, *lowercased, *name;
-	zval *position, *value;
+	zval *handler, *annotation, *name, *position, *value;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &handler, &annotation);
-	
-	PHALCON_INIT_VAR(lowercased);
-	phalcon_fast_strtolower(lowercased, handler);
 	
 	PHALCON_INIT_VAR(name);
 	phalcon_call_method(name, annotation, "getname");
@@ -436,10 +432,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	zval *annotation, *is_route = NULL, *methods = NULL, *name, *action_suffix;
 	zval *empty_str, *real_action_name, *action_name;
 	zval *route_prefix, *parameter = NULL, *paths = NULL, *position;
-	zval *value, *uri = NULL, *route, *converts, *convert = NULL, *param = NULL;
+	zval *value, *uri = NULL, *route, *converts = NULL, *convert = NULL, *param = NULL;
 	zval *route_name;
-	HashTable *ah0;
-	HashPosition hp0;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -598,6 +594,29 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 				phalcon_call_method_p2_noret(route, "convert", param, convert);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+		}
+	
+		PHALCON_INIT_NVAR(parameter);
+		ZVAL_STRING(parameter, "conversors", 1);
+	
+		PHALCON_INIT_NVAR(converts);
+		phalcon_call_method_p1(converts, annotation, "getnamedparameter", parameter);
+		if (Z_TYPE_P(converts) == IS_ARRAY) { 
+	
+			if (!phalcon_is_iterable(converts, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+				return;
+			}
+	
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+				PHALCON_GET_HKEY(param, ah1, hp1);
+				PHALCON_GET_HVALUE(convert);
+	
+				phalcon_call_method_p2_noret(route, "convert", param, convert);
+	
+				zend_hash_move_forward_ex(ah1, &hp1);
 			}
 	
 		}

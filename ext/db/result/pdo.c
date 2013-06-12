@@ -255,56 +255,62 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	
 		PHALCON_INIT_VAR(type);
 		phalcon_call_method(type, connection, "gettype");
+	
+		/** 
+		 * SQLite returns resultsets that to the client eyes (PDO) has an arbitrary number
+		 * of rows, so we need to perform an extra count to know that
+		 */
 		if (PHALCON_IS_STRING(type, "sqlite")) {
 	
-			/** 
-			 * SQLite returns resultsets that to the client eyes (PDO) has an arbitrary number
-			 * of rows, so we need to perform an extra count to know that
-			 */
 			PHALCON_OBS_VAR(sql_statement);
 			phalcon_read_property_this(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
+			if (phalcon_start_with_str(sql_statement, SL("SELECT COUNT(*) "))) {
 	
-			PHALCON_OBS_VAR(bind_params);
-			phalcon_read_property_this(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
+				PHALCON_OBS_VAR(bind_params);
+				phalcon_read_property_this(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
 	
-			PHALCON_OBS_VAR(bind_types);
-			phalcon_read_property_this(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+				PHALCON_OBS_VAR(bind_types);
+				phalcon_read_property_this(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
 	
-			PHALCON_INIT_VAR(matches);
+				PHALCON_INIT_VAR(matches);
 	
-			PHALCON_INIT_VAR(pattern);
-			ZVAL_STRING(pattern, "/^SELECT\\s+(.*)$/i", 1);
+				PHALCON_INIT_VAR(pattern);
+				ZVAL_STRING(pattern, "/^SELECT\\s+(.*)$/i", 1);
 	
-			PHALCON_INIT_VAR(match);
+				PHALCON_INIT_VAR(match);
 	
-			Z_SET_ISREF_P(matches);
+				Z_SET_ISREF_P(matches);
 	
-			#if HAVE_BUNDLED_PCRE
-			phalcon_preg_match(match, pattern, sql_statement, matches TSRMLS_CC);
-			#else
-			phalcon_call_func_p3(match, "preg_match", pattern, sql_statement, matches);
-			#endif
+				#if HAVE_BUNDLED_PCRE
+				phalcon_preg_match(match, pattern, sql_statement, matches TSRMLS_CC);
+				#else
+				phalcon_call_func_p3(match, "preg_match", pattern, sql_statement, matches);
+				#endif
 	
-			Z_UNSET_ISREF_P(matches);
+				Z_UNSET_ISREF_P(matches);
 	
-			if (zend_is_true(match)) {
-				PHALCON_OBS_VAR(else_clauses);
-				phalcon_array_fetch_long(&else_clauses, matches, 1, PH_NOISY_CC);
+				if (zend_is_true(match)) {
+					PHALCON_OBS_VAR(else_clauses);
+					phalcon_array_fetch_long(&else_clauses, matches, 1, PH_NOISY_CC);
 	
-				PHALCON_INIT_VAR(sql);
-				PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) FROM (SELECT ", else_clauses, ")");
+					PHALCON_INIT_VAR(sql);
+					PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) FROM (SELECT ", else_clauses, ")");
 	
-				PHALCON_INIT_VAR(fetch_num);
-				ZVAL_LONG(fetch_num, 3);
+					PHALCON_INIT_VAR(fetch_num);
+					ZVAL_LONG(fetch_num, 3);
 	
-				PHALCON_INIT_VAR(result);
-				phalcon_call_method_p3(result, connection, "query", sql, bind_params, bind_types);
+					PHALCON_INIT_VAR(result);
+					phalcon_call_method_p3(result, connection, "query", sql, bind_params, bind_types);
 	
-				PHALCON_INIT_VAR(row);
-				phalcon_call_method(row, result, "fetch");
+					PHALCON_INIT_VAR(row);
+					phalcon_call_method(row, result, "fetch");
 	
-				PHALCON_OBS_NVAR(row_count);
-				phalcon_array_fetch_long(&row_count, row, 0, PH_NOISY_CC);
+					PHALCON_OBS_NVAR(row_count);
+					phalcon_array_fetch_long(&row_count, row, 0, PH_NOISY_CC);
+				}
+			} else {
+				PHALCON_INIT_NVAR(row_count);
+				ZVAL_LONG(row_count, 1);
 			}
 		} else {
 			PHALCON_OBS_VAR(pdo_statement);

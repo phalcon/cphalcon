@@ -303,17 +303,49 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 
 	phalcon_fetch_params(1, 3, 0, &text, &from, &to);
 	
+	/** 
+	 * Try to use utf8_encode if conversion is 'latin1' to 'utf8'
+	 */
+	if (PHALCON_IS_STRING(from, "latin1")) {
+		if (PHALCON_IS_STRING(to, "utf8")) {
+			PHALCON_INIT_VAR(converted);
+			phalcon_call_func_p1(converted, "utf8_encode", text);
+			RETURN_CCTOR(converted);
+		}
+	}
+	
+	/** 
+	 * Try to use utf8_decode if conversion is 'utf8' to 'latin1'
+	 */
+	if (PHALCON_IS_STRING(to, "latin1")) {
+		if (PHALCON_IS_STRING(from, "utf8")) {
+			PHALCON_INIT_NVAR(converted);
+			phalcon_call_func_p1(converted, "utf8_decode", text);
+			RETURN_CCTOR(converted);
+		}
+	}
+	
+	/** 
+	 * Fallback to mb_convert_encoding
+	 */
 	if (phalcon_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(converted);
+		PHALCON_INIT_NVAR(converted);
 		phalcon_call_func_p3(converted, "mb_convert_encoding", text, from, to);
 		RETURN_CCTOR(converted);
 	}
+	
+	/** 
+	 * Fallback to iconv
+	 */
 	if (phalcon_function_exists_ex(SS("iconv") TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_NVAR(converted);
 		phalcon_call_func_p3(converted, "iconv", from, to, text);
 		RETURN_CCTOR(converted);
 	}
 	
+	/** 
+	 * There are no enough extensions available
+	 */
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
 	return;
 }

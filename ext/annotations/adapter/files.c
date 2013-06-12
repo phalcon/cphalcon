@@ -48,7 +48,7 @@
  *
  *<code>
  * $annotations = new \Phalcon\Annotations\Adapter\Files(array(
- *    'metaDataDir' => 'app/cache/metadata/'
+ *    'annotationsDir' => 'app/cache/annotations/'
  * ));
  *</code>
  */
@@ -117,6 +117,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 	PHALCON_INIT_VAR(separator);
 	ZVAL_STRING(separator, "_", 1);
 	
+	/** 
+	 * Paths must be normalized before be used as keys
+	 */
 	PHALCON_INIT_VAR(virtual_key);
 	phalcon_prepare_virtual_path(virtual_key, key, separator TSRMLS_CC);
 	
@@ -156,6 +159,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 	PHALCON_INIT_VAR(separator);
 	ZVAL_STRING(separator, "_", 1);
 	
+	/** 
+	 * Paths must be normalized before be used as keys
+	 */
 	PHALCON_INIT_VAR(virtual_key);
 	phalcon_prepare_virtual_path(virtual_key, key, separator TSRMLS_CC);
 	
