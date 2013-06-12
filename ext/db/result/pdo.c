@@ -324,6 +324,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 			phalcon_call_method(row_count, pdo_statement, "rowcount");
 		}
 	
+		/** 
+		 * Update the value to avoid further calculations
+		 */
 		phalcon_update_property_this(this_ptr, SL("_rowCount"), row_count TSRMLS_CC);
 	}
 	

@@ -6235,7 +6235,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	 * Execute the query
 	 */
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(result, model_name, Z_STRVAL_P(type), parameters);
+	phalcon_call_zval_static_p1(result, model_name, type, parameters);
 	
 	RETURN_CCTOR(result);
 }

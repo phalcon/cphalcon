@@ -697,10 +697,16 @@ int phalcon_call_static_func_five_params(zval *return_value, char *class_name, i
 /**
  * Call single static function on a zval which not requires any parameter
  */
-int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *method_name, int method_len, int noreturn TSRMLS_DC){
+int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, zval *method, int noreturn TSRMLS_DC){
 
 	zval *fn;
 	int status = FAILURE;
+
+	if (unlikely(Z_TYPE_P(method) != IS_STRING)) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::not-callable()");
+		phalcon_memory_restore_stack(TSRMLS_C);
+		return FAILURE;
+	}
 
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
@@ -711,14 +717,14 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 	ALLOC_INIT_ZVAL(fn);
 	array_init_size(fn, 2);
 	add_next_index_zval(fn, mixed_name);
-	add_next_index_stringl(fn, method_name, method_len, 1);
+	add_next_index_zval(fn, method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (unlikely(status == FAILURE)) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
-			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), Z_STRVAL_P(method));
 		} else {
-			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", method_name);
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", Z_STRVAL_P(method));
 		}
 	}
 
@@ -742,7 +748,58 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 /**
  * Call single static function on a zval which requires parameters
  */
-inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, zval *method, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+
+	zval *fn;
+	int status = FAILURE;
+
+	if (unlikely(Z_TYPE_P(method) != IS_STRING)) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::not-callable()");
+		phalcon_memory_restore_stack(TSRMLS_C);
+		return FAILURE;
+	}
+
+	if (!noreturn) {
+		ALLOC_INIT_ZVAL(return_value);
+	}
+
+	Z_ADDREF_P(mixed_name);
+
+	ALLOC_INIT_ZVAL(fn);
+	array_init_size(fn, 2);
+	add_next_index_zval(fn, mixed_name);
+	add_next_index_zval(fn, method);
+
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
+	if (unlikely(status == FAILURE)) {
+		if(Z_TYPE_P(mixed_name) == IS_STRING) {
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), Z_STRVAL_P(method));
+		} else {
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", Z_STRVAL_P(method));
+		}
+	}
+
+	zval_ptr_dtor(&fn);
+
+	if (!noreturn) {
+		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)) {
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_memory_restore_stack(TSRMLS_C);
+	}
+
+	return status;
+}
+
+/**
+ * Call single static function on a zval which requires parameters
+ */
+inline int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn;
 	int status = FAILURE;
@@ -787,25 +844,33 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 /**
  * Call single static function on a zval that requires one parameter
  */
-int phalcon_call_static_zval_func_one_param(zval *return_value, zval *mixed_name, char *method_name, int method_len, zval *param1, int noreturn TSRMLS_DC){
+int phalcon_call_static_zval_func_one_param(zval *return_value, zval *mixed_name, zval *method, zval *param1, int noreturn TSRMLS_DC){
 	zval *params[] = { param1 };
-	return phalcon_call_static_zval_func_params(return_value, mixed_name, method_name, method_len, 1, params, noreturn TSRMLS_CC);
+	return phalcon_call_static_zval_func_params(return_value, mixed_name, method, 1, params, noreturn TSRMLS_CC);
 }
 
 /**
  * Call single static function on a zval that requires one parameter
  */
-int phalcon_call_static_zval_func_two_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zval *param1, zval *param2, int noreturn TSRMLS_DC){
+int phalcon_call_static_zval_str_func_one_param(zval *return_value, zval *mixed_name, char *method_name, int method_len, zval *param1, int noreturn TSRMLS_DC){
+	zval *params[] = { param1 };
+	return phalcon_call_static_zval_str_func_params(return_value, mixed_name, method_name, method_len, 1, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call single static function on a zval that requires one parameter
+ */
+int phalcon_call_static_zval_func_two_params(zval *return_value, zval *mixed_name, zval *method, int method_len, zval *param1, zval *param2, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2 };
-	return phalcon_call_static_zval_func_params(return_value, mixed_name, method_name, method_len, 2, params, noreturn TSRMLS_CC);
+	return phalcon_call_static_zval_func_params(return_value, mixed_name, method, 2, params, noreturn TSRMLS_CC);
 }
 
 /**
  * Call single static function on a zval that requires one parameter
  */
-int phalcon_call_static_zval_func_three_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
+int phalcon_call_static_zval_func_three_params(zval *return_value, zval *mixed_name, zval *method, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
-	return phalcon_call_static_zval_func_params(return_value, mixed_name, method_name, method_len, 3, params, noreturn TSRMLS_CC);
+	return phalcon_call_static_zval_func_params(return_value, mixed_name, method, 3, params, noreturn TSRMLS_CC);
 }
 
 /**

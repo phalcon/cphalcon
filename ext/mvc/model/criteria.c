@@ -1450,7 +1450,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 	phalcon_call_method(params, this_ptr, "getparams");
 	
 	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(resultset, model, "find", params);
+	phalcon_call_zval_str_static_p1(resultset, model, "find", params);
 	
 	RETURN_CCTOR(resultset);
 }

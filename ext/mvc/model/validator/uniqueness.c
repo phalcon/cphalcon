@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	/** 
 	 * Check using a standard count
 	 */
-	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(number, class_name, "count", params);
+	phalcon_call_zval_str_static_p1(number, class_name, "count", params);
 	if (!PHALCON_IS_LONG(number, 0)) {
 	
 		/** 
