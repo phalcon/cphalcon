@@ -51,6 +51,8 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_PARENTHESES_CLOSE, ")" },
   { PHVOLT_T_SBRACKET_OPEN,  	"[" },
   { PHVOLT_T_SBRACKET_CLOSE, 	"]" },
+  { PHVOLT_T_CBRACKET_OPEN,  	"{" },
+  { PHVOLT_T_CBRACKET_CLOSE, 	"}" },
   { PHVOLT_T_OPEN_DELIMITER, 	"{%" },
   { PHVOLT_T_CLOSE_DELIMITER, 	"%}" },
   { PHVOLT_T_OPEN_EDELIMITER, 	"{{" },
@@ -248,6 +250,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->statement_position = 0;
 	state->extends_mode = 0;
 	state->block_level = 0;
+	state->macro_level = 0;
 	state->start_length = 0;
 	state->old_if_level = 0;
 	state->if_level = 0;
@@ -351,6 +354,12 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 			case PHVOLT_T_SBRACKET_CLOSE:
 				phvolt_(phvolt_parser, PHVOLT_SBRACKET_CLOSE, NULL, parser_status);
+				break;
+			case PHVOLT_T_CBRACKET_OPEN:
+				phvolt_(phvolt_parser, PHVOLT_CBRACKET_OPEN, NULL, parser_status);
+				break;
+			case PHVOLT_T_CBRACKET_CLOSE:
+				phvolt_(phvolt_parser, PHVOLT_CBRACKET_CLOSE, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_OPEN_DELIMITER:
@@ -507,10 +516,25 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 
 			case PHVOLT_T_MACRO:
+				if (state->macro_level > 0) {
+					phvolt_create_error_msg(parser_status, "Embedding macros into other macros is not allowed");
+					parser_status->status = PHVOLT_PARSING_FAILED;
+					break;
+				} else {
+					state->macro_level++;
+				}
 				phvolt_(phvolt_parser, PHVOLT_MACRO, NULL, parser_status);
 				break;
 			case PHVOLT_T_ENDMACRO:
+				state->macro_level--;
 				phvolt_(phvolt_parser, PHVOLT_ENDMACRO, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_CALL:
+				phvolt_(phvolt_parser, PHVOLT_CALL, NULL, parser_status);
+				break;
+			case PHVOLT_T_ENDCALL:
+				phvolt_(phvolt_parser, PHVOLT_ENDCALL, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_CACHE:

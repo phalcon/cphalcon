@@ -83,6 +83,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Compiler){
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_extensions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_functions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_macros"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_currentPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_compiledTemplatePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -2568,26 +2569,51 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 
-	zval *statement, *expr, *expr_code, *variable, *compilation;
+	zval *statement, *compilation, *assigments, *assigment = NULL;
+	zval *expr = NULL, *expr_code = NULL, *variable = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &statement);
 	
-	PHALCON_OBS_VAR(expr);
-	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(expr_code);
-	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
+	PHALCON_INIT_VAR(compilation);
+	ZVAL_STRING(compilation, "<?php", 1);
 	
 	/** 
-	 * Set statement
+	 * A single set can have several assigments
 	 */
-	PHALCON_OBS_VAR(variable);
-	phalcon_array_fetch_string(&variable, statement, SL("variable"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(assigments);
+	phalcon_array_fetch_string(&assigments, statement, SL("assignments"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(compilation);
-	PHALCON_CONCAT_SVSVS(compilation, "<?php $", variable, " = ", expr_code, "; ?>");
+	if (!phalcon_is_iterable(assigments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_HVALUE(assigment);
+	
+		PHALCON_OBS_NVAR(expr);
+		phalcon_array_fetch_string(&expr, assigment, SL("expr"), PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(expr_code);
+		phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
+	
+		/** 
+		 * Set statement
+		 */
+		PHALCON_OBS_NVAR(variable);
+		phalcon_array_fetch_string(&variable, assigment, SL("variable"), PH_NOISY_CC);
+		PHALCON_SCONCAT_SVSVS(compilation, " $", variable, " = ", expr_code, ";");
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	phalcon_concat_self_str(&compilation, SL(" ?>") TSRMLS_CC);
+	
 	RETURN_CTOR(compilation);
 }
 
@@ -2647,6 +2673,93 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape){
 	phalcon_call_method_p2(compilation, this_ptr, "_statementlist", block_statements, extends_mode);
 	phalcon_update_property_this(this_ptr, SL("_autoescape"), old_autoescape TSRMLS_CC);
 	RETURN_CCTOR(compilation);
+}
+
+/**
+ * Compiles macros
+ *
+ * @param array $statement
+ * @param boolean $extendsMode
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
+
+	zval *statement, *extends_mode, *name, *code, *parameters;
+	zval *parameter = NULL, *position = NULL, *variable_name = NULL, *block_statements;
+	zval *block_code;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &statement, &extends_mode);
+	
+	PHALCON_OBS_VAR(name);
+	phalcon_array_fetch_string(&name, statement, SL("name"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(code);
+	ZVAL_STRING(code, "<?php function vmacro_", 1);
+	if (!phalcon_array_isset_string(statement, SS("parameters"))) {
+		PHALCON_SCONCAT_VS(code, name, "() { ?>");
+	} else {
+		/** 
+		 * Parameters are always received as an array
+		 */
+		PHALCON_SCONCAT_VS(code, name, "($__p) { ");
+	
+		PHALCON_OBS_VAR(parameters);
+		phalcon_array_fetch_string(&parameters, statement, SL("parameters"), PH_NOISY_CC);
+	
+		if (!phalcon_is_iterable(parameters, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_HKEY(position, ah0, hp0);
+			PHALCON_GET_HVALUE(parameter);
+	
+			PHALCON_OBS_NVAR(variable_name);
+			phalcon_array_fetch_string(&variable_name, parameter, SL("variable"), PH_NOISY_CC);
+			PHALCON_SCONCAT_SVS(code, "if (isset($__p[", position, "])) {");
+			PHALCON_SCONCAT_SVSVS(code, "$", variable_name, " = $__p[", position, "]");
+			phalcon_concat_self_str(&code, SL("} else {") TSRMLS_CC);
+			PHALCON_SCONCAT_SVS(code, "if (isset($__p['", variable_name, "'])) {");
+			PHALCON_SCONCAT_SVSVS(code, "$", variable_name, " = $__p['", variable_name, "']");
+			phalcon_concat_self_str(&code, SL("} } ") TSRMLS_CC);
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+		phalcon_concat_self_str(&code, SL(" ?>") TSRMLS_CC);
+	}
+	
+	/** 
+	 * Block statements are allowed
+	 */
+	if (phalcon_array_isset_string(statement, SS("block_statements"))) {
+		/** 
+		 * Get block statements
+		 */
+		PHALCON_OBS_VAR(block_statements);
+		phalcon_array_fetch_string(&block_statements, statement, SL("block_statements"), PH_NOISY_CC);
+	
+		/** 
+		 * Process statements block
+		 */
+		PHALCON_INIT_VAR(block_code);
+		phalcon_call_method_p2(block_code, this_ptr, "_statementlist", block_statements, extends_mode);
+	}
+	
+	PHALCON_SCONCAT_VS(code, block_code, "<?php } ?>");
+	
+	/** 
+	 * Register the macro
+	 */
+	phalcon_update_property_array(this_ptr, SL("_macros"), name, name TSRMLS_CC);
+	
+	RETURN_CTOR(code);
 }
 
 /**
@@ -2945,6 +3058,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				 */
 				PHALCON_INIT_NVAR(temp_compilation);
 				phalcon_call_method(temp_compilation, this_ptr, "compileforelse");
+				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
+				break;
+	
+			case 322:
+				/** 
+				 * Define a macro
+				 */
+				PHALCON_INIT_NVAR(temp_compilation);
+				phalcon_call_method_p2(temp_compilation, this_ptr, "compilemacro", statement, extends_mode);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
@@ -3539,7 +3661,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 }
 
 /**
- * Returns the path that is currently beign compiled
+ * Returns the path that is currently being compiled
  *
  * @return string
  */

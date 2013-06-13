@@ -1,6 +1,6 @@
 1.2.0
  - Now 'compiledPath' option accept a closure to dynamically create the compilation path in Volt
- - Volt now supports extensions, these can be used to extend better Volt
+ - Volt now supports user extensions, these can be used to extend better Volt
  - Now Phalcon\Mvc\Url provides an internal separation for uris for static resources and uris to rewrite resources
  - Added Mvc\Model\Criteria::inWhere to append an IN expression to the criteria
  - Added Mvc\Model\Criteria::notInWhere to append a NOT IN expression to the criteria
@@ -24,6 +24,12 @@
  - Support for {% include "hello" with [var1, var2] %}
  - Phalcon\Mvc\Collection::find receives a parameter 'fields' to specify a list of fields
  - Added Phalcon\Forms\Element\Email and Phalcon\Tag::emailField
+ - Support to define arrays using curly braces in Volt {'a': 'b', 'c': 'd'}
+ - Support to make multiple assigments in a single set in Volt {% set a = b, c = d %}
+ - Volt now support 'if'/'else' blocks with empty bodies
+ - Support for cascade action in addition to restrict in Virtual Foreign Keys
+ - Added missing Phalcon\Http\Request\File::getType()
+ - 
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods

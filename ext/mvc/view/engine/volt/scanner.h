@@ -72,6 +72,8 @@
 #define PHVOLT_T_PARENTHESES_CLOSE ')'
 #define PHVOLT_T_SBRACKET_OPEN '['
 #define PHVOLT_T_SBRACKET_CLOSE ']'
+#define PHVOLT_T_CBRACKET_OPEN '{'
+#define PHVOLT_T_CBRACKET_CLOSE '}'
 
 /** Reserved words */
 #define PHVOLT_T_IF 300
@@ -99,6 +101,8 @@
 #define PHVOLT_T_MACRO 322
 #define PHVOLT_T_ENDMACRO 323
 #define PHVOLT_T_WITH 324
+#define PHVOLT_T_CALL 325
+#define PHVOLT_T_ENDCALL 326
 
 /** Delimiters */
 #define PHVOLT_T_OPEN_DELIMITER  330
@@ -144,6 +148,7 @@ typedef struct _phvolt_scanner_state {
 	unsigned int statement_position;
 	unsigned int extends_mode;
 	unsigned int block_level;
+	unsigned int macro_level;
 	char *raw_buffer;
 	unsigned int raw_buffer_cursor;
 	unsigned int raw_buffer_size;
