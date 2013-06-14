@@ -567,9 +567,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 	zval *name_expr, *name_type, *name = NULL, *extensions;
 	zval *event, *fire_arguments, *functions, *definition;
 	zval *parameters, *line = NULL, *file = NULL, *exception_message = NULL;
-	zval *extended_blocks, *current_block, *expr_level;
-	zval *block, *escaped_code = NULL, *str_code = NULL, *camelized;
-	zval *method, *class_name, *array_helpers = NULL;
+	zval *macros, *extended_blocks, *current_block;
+	zval *expr_level, *block, *escaped_code = NULL, *str_code = NULL;
+	zval *camelized, *method, *class_name, *array_helpers = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -680,6 +680,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
 				return;
 			}
+		}
+	
+		PHALCON_OBS_VAR(macros);
+		phalcon_read_property_this(&macros, this_ptr, SL("_macros"), PH_NOISY_CC);
+	
+		/** 
+		 * Check if the function name is a macro
+		 */
+		if (phalcon_array_isset(macros, name)) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVSVS(code, "vmacro_", name, "(array(", arguments, "))");
+			RETURN_CCTOR(code);
 		}
 	
 		/** 
@@ -2534,8 +2546,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 				 */
 				PHALCON_INIT_NVAR(compilation);
 				phalcon_call_func_p1(compilation, "file_get_contents", compiled_path);
-				RETURN_CCTOR(compilation);
 			}
+	
+			RETURN_CCTOR(compilation);
 		}
 	}
 	
@@ -2546,7 +2559,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 	phalcon_call_method_p1(path, this_ptr, "expression", path_expr);
 	if (!phalcon_array_isset_string(statement, SS("params"))) {
 		PHALCON_INIT_NVAR(compilation);
-		PHALCON_CONCAT_SVS(compilation, "$this->partial(", path, ")");
+		PHALCON_CONCAT_SVS(compilation, "<?php $this->partial(", path, "); ?>");
 	} else {
 		PHALCON_OBS_VAR(expr_params);
 		phalcon_array_fetch_string(&expr_params, statement, SL("params"), PH_NOISY_CC);
@@ -2555,7 +2568,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 		phalcon_call_method_p1(params, this_ptr, "expression", expr_params);
 	
 		PHALCON_INIT_NVAR(compilation);
-		PHALCON_CONCAT_SVSVS(compilation, "$this->partial(", path, ", ", params, ")");
+		PHALCON_CONCAT_SVSVS(compilation, "<?php $this->partial(", path, ", ", params, "); ?>");
 	}
 	
 	RETURN_CCTOR(compilation);
@@ -2722,12 +2735,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
 	
 			PHALCON_OBS_NVAR(variable_name);
 			phalcon_array_fetch_string(&variable_name, parameter, SL("variable"), PH_NOISY_CC);
-			PHALCON_SCONCAT_SVS(code, "if (isset($__p[", position, "])) {");
-			PHALCON_SCONCAT_SVSVS(code, "$", variable_name, " = $__p[", position, "]");
-			phalcon_concat_self_str(&code, SL("} else {") TSRMLS_CC);
-			PHALCON_SCONCAT_SVS(code, "if (isset($__p['", variable_name, "'])) {");
-			PHALCON_SCONCAT_SVSVS(code, "$", variable_name, " = $__p['", variable_name, "']");
-			phalcon_concat_self_str(&code, SL("} } ") TSRMLS_CC);
+			PHALCON_SCONCAT_SVS(code, "if (isset($__p[", position, "])) { ");
+			PHALCON_SCONCAT_SVSVS(code, "$", variable_name, " = $__p[", position, "];");
+			phalcon_concat_self_str(&code, SL(" } else { ") TSRMLS_CC);
+			PHALCON_SCONCAT_SVS(code, "if (isset($__p['", variable_name, "'])) { ");
+			PHALCON_SCONCAT_SVSVS(code, "$", variable_name, " = $__p['", variable_name, "'];");
+			phalcon_concat_self_str(&code, SL(" } else { ") TSRMLS_CC);
+			PHALCON_SCONCAT_SVSVS(code, " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro ", name, " was called without parameter: ", variable_name, "\"); ");
+			phalcon_concat_self_str(&code, SL(" } } ") TSRMLS_CC);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}

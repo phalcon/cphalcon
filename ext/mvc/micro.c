@@ -772,7 +772,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	zval *before = NULL, *is_middleware = NULL, *stopped = NULL, *params = NULL;
 	zval *returned_value = NULL, *after_handlers, *after = NULL;
 	zval *not_found_handler, *finish_handlers;
-	zval *finish = NULL;
+	zval *finish = NULL, *returned_response;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -1133,6 +1133,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 				phalcon_array_append(&params, this_ptr, PH_SEPARATE TSRMLS_CC);
 			}
 	
+			/** 
+			 * Call the 'finish' middleware
+			 */
 			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_USER_FUNC_ARRAY(status, finish, params);
 	
@@ -1152,6 +1155,21 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
 	
+	}
+	
+	/** 
+	 * Check if the returned object is already a response
+	 */
+	if (Z_TYPE_P(returned_value) == IS_OBJECT) {
+	
+		PHALCON_INIT_VAR(returned_response);
+		phalcon_instance_of(returned_response, returned_value, phalcon_http_responseinterface_ce TSRMLS_CC);
+		if (PHALCON_IS_TRUE(returned_response)) {
+			/** 
+			 * Automatically send the responses
+			 */
+			phalcon_call_method_noret(returned_value, "send");
+		}
 	}
 	
 	RETURN_CCTOR(returned_value);

@@ -729,7 +729,7 @@ PHP_METHOD(Phalcon_Db_Adapter, delete){
 	} else {
 		PHALCON_CPY_WRT(escaped_table, table);
 	}
-	if (Z_TYPE_P(where_condition) != IS_NULL) {
+	if (PHALCON_IS_NOT_EMPTY(where_condition)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVSV(sql, "DELETE FROM ", escaped_table, " WHERE ", where_condition);
 	} else {

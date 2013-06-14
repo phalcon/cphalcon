@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 		phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
 		PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\File", "__construct", frontend, options);
 	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "You must specify the cache directory with the option cacheDir");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory must be specified with the option cacheDir");
 		return;
 	}
 	

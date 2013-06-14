@@ -3473,6 +3473,15 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 		PHALCON_INIT_VAR(primary_keys);
 		phalcon_call_method_p1(primary_keys, meta_data, "getprimarykeyattributes", this_ptr);
 	
+		/** 
+		 * We can't create dynamic SQL without a primary key
+		 */
+		if (!phalcon_fast_count_ev(primary_keys TSRMLS_CC)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A primary key must be defined in the model in order to perform the operation");
+			return;
+		}
+	
+	
 		if (!phalcon_is_iterable(primary_keys, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
@@ -4636,6 +4645,14 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	}
 	
 	/** 
+	 * We can't create dynamic SQL without a primary key
+	 */
+	if (!phalcon_fast_count_ev(primary_keys TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A primary key must be defined in the model in order to perform the operation");
+		return;
+	}
+	
+	/** 
 	 * Create a condition from the primary keys
 	 */
 	
@@ -4678,7 +4695,9 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 		 * If the attribute is currently set in the object add it to the conditions
 		 */
 		if (!phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cannot delete the record because one of the primary key attributes isn't set");
+			PHALCON_INIT_NVAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "Cannot delete the record because the primary key attribute: '", attribute_field, "' wasn't set");
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
 	

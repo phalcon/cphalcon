@@ -29,7 +29,10 @@
  - Volt now support 'if'/'else' blocks with empty bodies
  - Support for cascade action in addition to restrict in Virtual Foreign Keys
  - Added missing Phalcon\Http\Request\File::getType()
- - 
+ - Phalcon\Tag is not abstract anymore allowing to create instances of it
+ - Phalcon\Tag is now registered as 'tag' in Phalcon\DI\FactoryDefault
+ - In a handler in Phalcon\Mvc\Micro returns an object that implements Phalcon\Http\ResponseInterface the response is automatically send()
+ - Phalcon\Mvc\View now have a chaineable API
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods

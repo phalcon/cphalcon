@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	zval *url, *models_manager, *models_metadata;
 	zval *response, *cookies, *request, *filter, *escaper;
 	zval *annotations, *security, *crypt, *flash, *flash_session;
-	zval *session, *session_bag, *events_manager;
+	zval *tag, *session, *session_bag, *events_manager;
 	zval *transaction_manager, *assets, *services;
 
 	PHALCON_MM_GROW();
@@ -250,6 +250,19 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	phalcon_call_method_p3_noret(flash_session, "__construct", name, definition, shared);
 	
 	/** 
+	 * Tag/Helpers
+	 */
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "tag", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Tag", 1);
+	
+	PHALCON_INIT_VAR(tag);
+	object_init_ex(tag, phalcon_di_service_ce);
+	phalcon_call_method_p3_noret(tag, "__construct", name, definition, shared);
+	
+	/** 
 	 * Session is always shared
 	 */
 	PHALCON_INIT_NVAR(name);
@@ -309,7 +322,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	 * Register services
 	 */
 	PHALCON_INIT_VAR(services);
-	array_init_size(services, 20);
+	array_init_size(services, 21);
 	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("url"), &url, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -325,6 +338,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	phalcon_array_update_string(&services, SL("annotations"), &annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("flash"), &flash, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("flashSession"), &flash_session, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("tag"), &tag, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("session"), &session, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("sessionBag"), &session_bag, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);

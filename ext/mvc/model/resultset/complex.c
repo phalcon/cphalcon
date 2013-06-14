@@ -463,6 +463,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 	
 	PHALCON_INIT_VAR(serialized);
 	phalcon_call_func_p1(serialized, "serialize", data);
+	
+	/** 
+	 * Avoid return bad serialized data
+	 */
+	if (Z_TYPE_P(serialized) != IS_STRING) {
+		RETURN_MM_NULL();
+	}
+	
 	RETURN_CCTOR(serialized);
 }
 
