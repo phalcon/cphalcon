@@ -313,11 +313,11 @@ PHP_METHOD(Phalcon_Assets_Manager, set){
 
 	phalcon_fetch_params(0, 2, 0, &id, &collection);
 	
-	if (Z_TYPE_P(id) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(id) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Collection-Id must be a string");
 		return;
 	}
-	if (Z_TYPE_P(collection) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(collection) != IS_OBJECT)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Collection must be an object");
 		return;
 	}
@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get){
 
 	phalcon_fetch_params(1, 1, 0, &id);
 	
-	if (Z_TYPE_P(id) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(id) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Collection-Id must be a string");
 		return;
 	}

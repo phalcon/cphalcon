@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 	/** 
 	 * Create the instance only if the dialect is a string
 	 */
-	if (Z_TYPE_P(dialect_class) == IS_STRING) {
+	if (likely(Z_TYPE_P(dialect_class) == IS_STRING)) {
 		ce0 = phalcon_fetch_class(dialect_class TSRMLS_CC);
 		PHALCON_INIT_VAR(dialect_object);
 		object_init_ex(dialect_object, ce0);
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 	
 	PHALCON_INIT_VAR(result);
 	phalcon_call_method_p3(result, this_ptr, "query", sql_query, bind_params, bind_types);
-	if (Z_TYPE_P(result) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(result) == IS_OBJECT)) {
 		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
 			phalcon_call_method_p1_noret(result, "setfetchmode", fetch_mode);
 		}
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 	
 	PHALCON_INIT_VAR(result);
 	phalcon_call_method_p3(result, this_ptr, "query", sql_query, bind_params, bind_types);
-	if (Z_TYPE_P(result) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(result) == IS_OBJECT)) {
 		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
 			phalcon_call_method_p1_noret(result, "setfetchmode", fetch_mode);
 		}
@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 		PHALCON_INIT_VAR(data_types);
 	}
 	
-	if (Z_TYPE_P(values) != IS_ARRAY) { 
+	if (unlikely(Z_TYPE_P(values) != IS_ARRAY)) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The second parameter for insert isn't an Array");
 		return;
 	}
@@ -566,45 +566,44 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 		PHALCON_GET_HKEY(position, ah0, hp0);
 		PHALCON_GET_HVALUE(value);
 	
-		if (phalcon_array_isset(fields, position)) {
-	
-			PHALCON_OBS_NVAR(field);
-			phalcon_array_fetch(&field, fields, position, PH_NOISY_CC);
-			if (PHALCON_GLOBAL(db).escape_identifiers) {
-				PHALCON_INIT_NVAR(escaped_field);
-				phalcon_call_method_p1(escaped_field, this_ptr, "escapeidentifier", field);
-			} else {
-				PHALCON_CPY_WRT(escaped_field, field);
-			}
-	
-			if (Z_TYPE_P(value) == IS_OBJECT) {
-				PHALCON_INIT_NVAR(set_clause_part);
-				PHALCON_CONCAT_VSV(set_clause_part, escaped_field, " = ", value);
-				phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE TSRMLS_CC);
-			} else {
-				if (Z_TYPE_P(value) == IS_NULL) {
-					PHALCON_INIT_NVAR(set_clause_part);
-					PHALCON_CONCAT_VS(set_clause_part, escaped_field, " = null");
-				} else {
-					PHALCON_INIT_NVAR(set_clause_part);
-					PHALCON_CONCAT_VS(set_clause_part, escaped_field, " = ?");
-					phalcon_array_append(&update_values, value, PH_SEPARATE TSRMLS_CC);
-					if (Z_TYPE_P(data_types) == IS_ARRAY) { 
-						if (!phalcon_array_isset(data_types, position)) {
-							PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Incomplete number of bind types");
-							return;
-						}
-	
-						PHALCON_OBS_NVAR(bind_type);
-						phalcon_array_fetch(&bind_type, data_types, position, PH_NOISY_CC);
-						phalcon_array_append(&bind_data_types, bind_type, PH_SEPARATE TSRMLS_CC);
-					}
-				}
-				phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE TSRMLS_CC);
-			}
-		} else {
+		if (!phalcon_array_isset(fields, position)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The number of values in the update is not the same as fields");
 			return;
+		}
+	
+		PHALCON_OBS_NVAR(field);
+		phalcon_array_fetch(&field, fields, position, PH_NOISY_CC);
+		if (PHALCON_GLOBAL(db).escape_identifiers) {
+			PHALCON_INIT_NVAR(escaped_field);
+			phalcon_call_method_p1(escaped_field, this_ptr, "escapeidentifier", field);
+		} else {
+			PHALCON_CPY_WRT(escaped_field, field);
+		}
+	
+		if (Z_TYPE_P(value) == IS_OBJECT) {
+			PHALCON_INIT_NVAR(set_clause_part);
+			PHALCON_CONCAT_VSV(set_clause_part, escaped_field, " = ", value);
+			phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE TSRMLS_CC);
+		} else {
+			if (Z_TYPE_P(value) == IS_NULL) {
+				PHALCON_INIT_NVAR(set_clause_part);
+				PHALCON_CONCAT_VS(set_clause_part, escaped_field, " = null");
+			} else {
+				PHALCON_INIT_NVAR(set_clause_part);
+				PHALCON_CONCAT_VS(set_clause_part, escaped_field, " = ?");
+				phalcon_array_append(&update_values, value, PH_SEPARATE TSRMLS_CC);
+				if (Z_TYPE_P(data_types) == IS_ARRAY) { 
+					if (!phalcon_array_isset(data_types, position)) {
+						PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Incomplete number of bind types");
+						return;
+					}
+	
+					PHALCON_OBS_NVAR(bind_type);
+					phalcon_array_fetch(&bind_type, data_types, position, PH_NOISY_CC);
+					phalcon_array_append(&bind_data_types, bind_type, PH_SEPARATE TSRMLS_CC);
+				}
+			}
+			phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE TSRMLS_CC);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -633,39 +632,38 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 			/** 
 			 * Array conditions may have bound params and bound types
 			 */
-			if (Z_TYPE_P(where_condition) == IS_ARRAY) { 
-	
-				/** 
-				 * If an index 'conditions' is present it contains string where conditions that are
-				 * appended to the UPDATE sql
-				 */
-				if (phalcon_array_isset_string(where_condition, SS("conditions"))) {
-					PHALCON_OBS_VAR(conditions);
-					phalcon_array_fetch_string(&conditions, where_condition, SL("conditions"), PH_NOISY_CC);
-					phalcon_concat_self(&update_sql, conditions TSRMLS_CC);
-				}
-	
-				/** 
-				 * Bound parameters are arbitrary values that are passed by separate
-				 */
-				if (phalcon_array_isset_string(where_condition, SS("bind"))) {
-					PHALCON_OBS_VAR(where_bind);
-					phalcon_array_fetch_string(&where_bind, where_condition, SL("bind"), PH_NOISY_CC);
-					phalcon_merge_append(update_values, where_bind TSRMLS_CC);
-				}
-	
-				/** 
-				 * Bind types is how the bound parameters must be casted before be sent to the
-				 * database system
-				 */
-				if (phalcon_array_isset_string(where_condition, SS("bindTypes"))) {
-					PHALCON_OBS_VAR(where_types);
-					phalcon_array_fetch_string(&where_types, where_condition, SL("bindTypes"), PH_NOISY_CC);
-					phalcon_merge_append(bind_data_types, where_types TSRMLS_CC);
-				}
-			} else {
+			if (unlikely(Z_TYPE_P(where_condition) != IS_ARRAY)) { 
 				PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid WHERE clause conditions");
 				return;
+			}
+	
+			/** 
+			 * If an index 'conditions' is present it contains string where conditions that are
+			 * appended to the UPDATE sql
+			 */
+			if (phalcon_array_isset_string(where_condition, SS("conditions"))) {
+				PHALCON_OBS_VAR(conditions);
+				phalcon_array_fetch_string(&conditions, where_condition, SL("conditions"), PH_NOISY_CC);
+				phalcon_concat_self(&update_sql, conditions TSRMLS_CC);
+			}
+	
+			/** 
+			 * Bound parameters are arbitrary values that are passed by separate
+			 */
+			if (phalcon_array_isset_string(where_condition, SS("bind"))) {
+				PHALCON_OBS_VAR(where_bind);
+				phalcon_array_fetch_string(&where_bind, where_condition, SL("bind"), PH_NOISY_CC);
+				phalcon_merge_append(update_values, where_bind TSRMLS_CC);
+			}
+	
+			/** 
+			 * Bind types is how the bound parameters must be casted before be sent to the
+			 * database system
+			 */
+			if (phalcon_array_isset_string(where_condition, SS("bindTypes"))) {
+				PHALCON_OBS_VAR(where_types);
+				phalcon_array_fetch_string(&where_types, where_condition, SL("bindTypes"), PH_NOISY_CC);
+				phalcon_merge_append(bind_data_types, where_types TSRMLS_CC);
 			}
 		}
 	} else {
@@ -939,7 +937,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createTable){
 
 	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &definition);
 	
-	if (Z_TYPE_P(definition) != IS_ARRAY) { 
+	if (unlikely(Z_TYPE_P(definition) != IS_ARRAY)) { 
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Invalid definition to create the table '", table_name, "'");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_db_exception_ce, exception_message);
@@ -1027,7 +1025,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createView){
 		PHALCON_INIT_VAR(schema_name);
 	}
 	
-	if (Z_TYPE_P(definition) != IS_ARRAY) { 
+	if (unlikely(Z_TYPE_P(definition) != IS_ARRAY)) { 
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Invalid definition to create the view '", view_name, "'");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_db_exception_ce, exception_message);

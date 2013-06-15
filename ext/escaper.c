@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Escaper, setEncoding){
 
 	phalcon_fetch_params(0, 1, 0, &encoding);
 	
-	if (Z_TYPE_P(encoding) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(encoding) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The character set must be string");
 		return;
 	}

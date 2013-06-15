@@ -89,11 +89,11 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		ZVAL_LONG(priority, 100);
 	}
 	
-	if (Z_TYPE_P(event_type) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(event_type) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Event type must be a string");
 		return;
 	}
-	if (Z_TYPE_P(handler) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(handler) != IS_OBJECT)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Event handler must be an Object");
 		return;
 	}
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 	/** 
 	 * Insert the handler in the queue
 	 */
-	if (Z_TYPE_P(priority_queue) == IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(priority_queue) == IS_OBJECT)) {
 		phalcon_call_method_p2_noret(priority_queue, "insert", handler, priority);
 	} else {
 		phalcon_array_append(&priority_queue, handler, PH_SEPARATE TSRMLS_CC);
@@ -282,13 +282,13 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 
 	phalcon_fetch_params(1, 2, 0, &queue, &event);
 	
-	if (Z_TYPE_P(queue) != IS_ARRAY) { 
+	if (unlikely(Z_TYPE_P(queue) != IS_ARRAY)) { 
 		if (Z_TYPE_P(queue) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The SplPriorityQueue is not valid");
 			return;
 		}
 	}
-	if (Z_TYPE_P(event) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(event) != IS_OBJECT)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The event is not valid");
 		return;
 	}
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 	 */
 	PHALCON_INIT_VAR(event_name);
 	phalcon_call_method(event_name, event, "gettype");
-	if (Z_TYPE_P(event_name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(event_name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The event type not valid");
 		return;
 	}
@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 			/** 
 			 * Only handler objects are valid
 			 */
-			if (Z_TYPE_P(handler) == IS_OBJECT) {
+			if (likely(Z_TYPE_P(handler) == IS_OBJECT)) {
 	
 				/** 
 				 * Check if the event is a closure
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 			/** 
 			 * Only handler objects are valid
 			 */
-			if (Z_TYPE_P(handler) == IS_OBJECT) {
+			if (likely(Z_TYPE_P(handler) == IS_OBJECT)) {
 	
 				/** 
 				 * Check if the event is a closure
@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		ZVAL_BOOL(cancelable, 1);
 	}
 	
-	if (Z_TYPE_P(event_type) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(event_type) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Event type must be a string");
 		return;
 	}

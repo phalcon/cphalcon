@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(dependency_injector) != IS_OBJECT)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(dependency_injector) != IS_OBJECT)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 	PHALCON_INIT_VAR(messages);
 	phalcon_call_method_p1(messages, this_ptr, "_getsessionmessages", remove);
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
-		if (Z_TYPE_P(type) == IS_STRING) {
+		if (likely(Z_TYPE_P(type) == IS_STRING)) {
 			if (phalcon_array_isset(messages, type)) {
 				PHALCON_OBS_VAR(return_messages);
 				phalcon_array_fetch(&return_messages, messages, type, PH_NOISY_CC);

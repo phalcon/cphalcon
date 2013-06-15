@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		/** 
 		 * Object definitions can be a Closure or an already resolved instance
 		 */
-		if (Z_TYPE_P(definition) == IS_OBJECT) {
+		if (likely(Z_TYPE_P(definition) == IS_OBJECT)) {
 			if (phalcon_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 					PHALCON_INIT_NVAR(instance);
@@ -320,17 +320,17 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 	
 	PHALCON_OBS_VAR(definition);
 	phalcon_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
-	if (Z_TYPE_P(definition) != IS_ARRAY) { 
+	if (unlikely(Z_TYPE_P(definition) != IS_ARRAY)) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters");
 		return;
 	}
 	
-	if (Z_TYPE_P(position) != IS_LONG) {
+	if (unlikely(Z_TYPE_P(position) != IS_LONG)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Position must be integer");
 		return;
 	}
 	
-	if (Z_TYPE_P(parameter) != IS_ARRAY) { 
+	if (unlikely(Z_TYPE_P(parameter) != IS_ARRAY)) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The parameter must be an array");
 		return;
 	}

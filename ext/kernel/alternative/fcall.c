@@ -57,7 +57,7 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 	}
 
 	/* Try to fetch find static method of given class. */
-	if (phalcon_hash_quick_find(&ce->function_table, method_name, method_len + 1, method_key, (void**) &fcc->function_handler) == SUCCESS) {
+	if (likely(phalcon_hash_quick_find(&ce->function_table, method_name, method_len + 1, method_key, (void**) &fcc->function_handler) == SUCCESS)) {
 		retval = 1;
 		if ((fcc->function_handler->op_array.fn_flags & ZEND_ACC_CHANGED) && PHALCON_EG(scope) && instanceof_function(fcc->function_handler->common.scope, EG(scope) TSRMLS_CC)) {
 			zend_function *priv_fbc;
@@ -252,7 +252,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 			ZVAL_STRINGL(fci->function_name, method_name, method_len, 0);
 
 			/** Use the slow function instead */
-			if (!zend_is_callable_ex(fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, &callable_name, NULL, fci_cache, &error TSRMLS_CC)) {
+			if (unlikely(!zend_is_callable_ex(fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, &callable_name, NULL, fci_cache, &error TSRMLS_CC))) {
 				if (error) {
 					zend_error(E_WARNING, "Invalid callback %s, %s", callable_name, error);
 					efree(error);
@@ -606,7 +606,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 			ZVAL_STRINGL(fci->function_name, method_name, method_len, 0);
 
 			/** Use the slow function instead */
-			if (!zend_is_callable_ex(fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, &callable_name, NULL, fci_cache, &error TSRMLS_CC)) {
+			if (unlikely(!zend_is_callable_ex(fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, &callable_name, NULL, fci_cache, &error TSRMLS_CC))) {
 				if (error) {
 					zend_error(E_WARNING, "Invalid callback %s, %s", callable_name, error);
 					efree(error);
@@ -626,7 +626,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 
 		/* Store the function in the cache only if it is a zend internal function */
 		if (is_phalcon_function) {
-			if (fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION) {
+			if (likely(fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION)) {
 
 				if (!phalcon_globals_ptr->function_cache) {
 					ALLOC_HASHTABLE(phalcon_globals_ptr->function_cache);
@@ -901,7 +901,7 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 
 	phalcon_globals_ptr->recursive_lock++;
 
-	if (phalcon_globals_ptr->recursive_lock > 2048) {
+	if (unlikely(phalcon_globals_ptr->recursive_lock > 2048)) {
 		ex_retval = FAILURE;
 		params_array = NULL;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");

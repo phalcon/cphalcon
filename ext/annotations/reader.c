@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 
 	phalcon_fetch_params(1, 1, 0, &class_name);
 	
-	if (Z_TYPE_P(class_name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(class_name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The class name must be an object");
 		return;
 	}

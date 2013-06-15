@@ -1342,6 +1342,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
+		/** 
+		 * There are no primary key fields defined, assume the record does not exist
+		 */
 		if (PHALCON_IS_EQUAL(number_primary, number_empty)) {
 			RETURN_MM_FALSE;
 		}

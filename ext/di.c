@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_DI, set){
 		ZVAL_BOOL(shared, 0);
 	}
 	
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_DI, setShared){
 
 	phalcon_fetch_params(1, 2, 0, &name, &definition);
 	
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_DI, remove){
 
 	phalcon_fetch_params(0, 1, 0, &name);
 	
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 		ZVAL_BOOL(shared, 0);
 	}
 	
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -252,11 +252,11 @@ PHP_METHOD(Phalcon_DI, setRaw){
 
 	phalcon_fetch_params(0, 2, 0, &name, &raw_definition);
 	
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	if (Z_TYPE_P(raw_definition) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(raw_definition) != IS_OBJECT)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service definition must be an object");
 		return;
 	}
@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_DI, getRaw){
 
 	phalcon_fetch_params(1, 1, 0, &name);
 	
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_DI, get){
 	/** 
 	 * A valid service alias is a string
 	 */
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
 		return;
 	}
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_DI, get){
 	/** 
 	 * Pass the DI itself if the instance implements Phalcon\DI\InjectionAwareInterface
 	 */
-	if (Z_TYPE_P(instance) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(instance) == IS_OBJECT)) {
 		if (phalcon_method_exists_ex(instance, SS("setdi") TSRMLS_CC) == SUCCESS) {
 			phalcon_call_method_p1_noret(instance, "setdi", this_ptr);
 		}
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_DI, getShared){
 		PHALCON_INIT_VAR(parameters);
 	}
 	
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
 		return;
 	}
@@ -483,12 +483,18 @@ PHP_METHOD(Phalcon_DI, has){
 
 	phalcon_fetch_params(1, 1, 0, &name);
 	
+	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
+		return;
+	}
+	
 	PHALCON_OBS_VAR(services);
 	phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, phalcon_array_isset(services, name));
 	PHALCON_CPY_WRT(is_set_service, r0);
+	
 	RETURN_NCTOR(is_set_service);
 }
 

@@ -85,11 +85,11 @@ PHP_METHOD(Phalcon_Filter, add){
 
 	phalcon_fetch_params(0, 2, 0, &name, &handler);
 	
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_filter_exception_ce, "Filter name must be string");
 		return;
 	}
-	if (Z_TYPE_P(handler) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(handler) != IS_OBJECT)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_filter_exception_ce, "Filter must be an object");
 		return;
 	}

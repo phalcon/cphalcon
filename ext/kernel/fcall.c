@@ -76,7 +76,7 @@ static inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, in
 /**
  * Find out the function scope on parent classes
  */
-inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
+static inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
 
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
 	unsigned long hash = zend_inline_hash_func(lcname, method_len + 1);

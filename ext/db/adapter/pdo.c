@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	/** 
 	 * Execute the afterQuery event if a EventsManager is available
 	 */
-	if (Z_TYPE_P(statement) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(statement) == IS_OBJECT)) {
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "db:afterQuery", 1);
@@ -537,7 +537,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	/** 
 	 * Execute the afterQuery event if a EventsManager is available
 	 */
-	if (Z_TYPE_P(affected_rows) == IS_LONG) {
+	if (likely(Z_TYPE_P(affected_rows) == IS_LONG)) {
 		phalcon_update_property_this(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
@@ -579,7 +579,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, close){
 
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
-	if (Z_TYPE_P(pdo) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(pdo) == IS_OBJECT)) {
 		phalcon_update_property_null(this_ptr, SL("_pdo") TSRMLS_CC);
 		RETURN_MM_TRUE;
 	}
@@ -1093,7 +1093,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction){
 
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
-	if (Z_TYPE_P(pdo) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(pdo) == IS_OBJECT)) {
 		PHALCON_INIT_VAR(status);
 		phalcon_call_method(status, pdo, "intransaction");
 		RETURN_CCTOR(status);
