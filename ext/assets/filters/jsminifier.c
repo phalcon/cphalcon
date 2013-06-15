@@ -362,7 +362,7 @@ int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 	}
 
 	if (phalcon_jsmin_internal(return_value, script, &error TSRMLS_CC) == FAILURE){
-		if (Z_STRVAL_P(error) == IS_STRING) {
+		if (Z_TYPE_P(error) == IS_STRING) {
 			phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error), 1 TSRMLS_CC);
 		} else {
 			phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Unknown error"), 1 TSRMLS_CC);
