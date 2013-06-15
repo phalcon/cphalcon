@@ -39,10 +39,9 @@
 /**
  * Finds the correct scope to execute the function
  */
-inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len, int lower TSRMLS_DC){
+static inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len, int lower, unsigned long hash TSRMLS_DC){
 
 	char *lcname;
-	unsigned long hash;
 
 	if (lower) {
 		lcname = method_name;
@@ -50,7 +49,9 @@ inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int metho
 		lcname = zend_str_tolower_dup(method_name, method_len);
 	}
 
-	hash = zend_inline_hash_func(lcname, method_len + 1);
+	if (!hash) {
+		hash = zend_inline_hash_func(lcname, method_len + 1);
+	}
 
 	while (ce) {
 		if (phalcon_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
@@ -223,12 +224,12 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	/* Find class_entry scope */
 	ce = Z_OBJCE_P(object);
 	if (ce->parent) {
-		phalcon_find_scope(ce, method_name, method_len, lower TSRMLS_CC);
+		phalcon_find_scope(ce, method_name, method_len, lower, method_key TSRMLS_CC);
 	} else {
 		EG(scope) = ce;
 	}
 
-	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, 0, NULL, 0 TSRMLS_CC);
+	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, 0, NULL, method_key TSRMLS_CC);
 	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s()", method_name);
 	}
@@ -311,12 +312,12 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	/* Find class_entry scope */
 	ce = Z_OBJCE_P(object);
 	if (ce->parent) {
-		phalcon_find_scope(ce, method_name, method_len, lower TSRMLS_CC);
+		phalcon_find_scope(ce, method_name, method_len, lower, method_key TSRMLS_CC);
 	} else {
 		EG(scope) = ce;
 	}
 
-	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, param_count, params, 0 TSRMLS_CC);
+	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, param_count, params, method_key TSRMLS_CC);
 	if (unlikely(status == FAILURE)) {
 		EG(scope) = active_scope;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, ce->name);
@@ -630,7 +631,7 @@ int phalcon_call_self_func(zval *return_value, zval *object, char *method_name, 
 		active_scope = EG(scope);
 		ce = Z_OBJCE_P(object);
 		if (ce->parent) {
-			phalcon_find_scope(ce, method_name, method_len, 0 TSRMLS_CC);
+			phalcon_find_scope(ce, method_name, method_len, 0, 0 TSRMLS_CC);
 		}
 	}
 
@@ -655,7 +656,7 @@ inline int phalcon_call_self_func_params(zval *return_value, zval *object, char 
 		active_scope = EG(scope);
 		ce = Z_OBJCE_P(object);
 		if (ce->parent) {
-			phalcon_find_scope(ce, method_name, method_len, 0 TSRMLS_CC);
+			phalcon_find_scope(ce, method_name, method_len, 0, 0 TSRMLS_CC);
 		}
 	}
 

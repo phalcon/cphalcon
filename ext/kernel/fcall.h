@@ -170,10 +170,6 @@
 #define PHALCON_CALL_USER_FUNC(return_value, handler) if(phalcon_call_user_func(return_value, handler TSRMLS_CC)==FAILURE) return;
 #define PHALCON_CALL_USER_FUNC_ARRAY(return_value, handler, params) if(phalcon_call_user_func_array(return_value, handler, params TSRMLS_CC)==FAILURE) return;
 
-/** Look for call scope */
-int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len, int lower TSRMLS_DC);
-int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC);
-
 /** Call single functions */
 extern int phalcon_call_func_ex(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC);
 extern int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC);
