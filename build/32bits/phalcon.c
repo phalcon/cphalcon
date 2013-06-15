@@ -854,6 +854,7 @@ extern ZEND_API zend_class_entry *zend_ce_serializable;
 extern PHPAPI zend_class_entry *spl_ce_RuntimeException;
 extern PHPAPI zend_class_entry *spl_ce_Countable;
 extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
+extern PHPAPI zend_class_entry *spl_ce_BadMethodCallException;
 #endif
 
 /* Startup functions */
@@ -878,7 +879,7 @@ static void phalcon_inherit_not_found(char *class_name, char *inherit_name);
 static int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
 /* Fetch Parameters */
-static int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
+static int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int required_args, int optional_args, ...);
 
 /* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
@@ -1075,7 +1076,7 @@ static int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 
 /** Low overhead parse/fetch parameters */
 #define phalcon_fetch_params(memory_grow, required_params, optional_params, ...) \
-	if (phalcon_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+	if (phalcon_fetch_parameters(memory_grow, ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
 		if (memory_grow) { \
 			RETURN_MM_NULL(); \
 		} else { \
@@ -1945,12 +1946,12 @@ static void phalcon_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3,
 
 
 /** Exceptions */
-#define PHALCON_THROW_EXCEPTION_STR(class_entry, message) phalcon_throw_exception_string(class_entry, message, strlen(message) TSRMLS_CC);
+#define PHALCON_THROW_EXCEPTION_STR(class_entry, message) phalcon_throw_exception_string(class_entry, message, sizeof(message)-1, 1 TSRMLS_CC);
 #define PHALCON_THROW_EXCEPTION_ZVAL(class_entry, message) phalcon_throw_exception_zval(class_entry, message TSRMLS_CC);
 
 /** Throw Exceptions */
 static void phalcon_throw_exception(zval *object TSRMLS_DC);
-static void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC);
+static void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len, int restore_stack TSRMLS_DC);
 static void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC);
 static void phalcon_throw_exception_internal(zval *exception TSRMLS_DC);
 
@@ -2258,7 +2259,7 @@ static void phalcon_inherit_not_found(char *class_name, char *inherit_name) {
 	fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", class_name, inherit_name);
 }
 
-static int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
+static int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int required_args, int optional_args, ...)
 {
 	va_list va;
 	int arg_count = (int) (zend_uintptr_t) *(zend_vm_stack_top(TSRMLS_C) - 1);
@@ -2266,7 +2267,7 @@ static int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 	int i;
 
 	if (num_args < required_args || (num_args > (required_args + optional_args))) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "wrong number of parameters");
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters"), grow_stack TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -6493,7 +6494,7 @@ static int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_D
 	zend_class_entry *ce;
 
 	if (Z_TYPE_P(class_name) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name") TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name"), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -6522,12 +6523,12 @@ static int phalcon_create_instance_params(zval *return_value, zval *class_name, 
 	HashTable *params_hash;
 
 	if (Z_TYPE_P(class_name) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name") TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name"), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (Z_TYPE_P(params) != IS_ARRAY) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Instantiation parameters must be an array") TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Instantiation parameters must be an array"), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -10250,7 +10251,7 @@ static void phalcon_throw_exception(zval *object TSRMLS_DC){
 	phalcon_memory_restore_stack(TSRMLS_C);
 }
 
-static void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC){
+static void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
 
 	zval *object, *msg;
 
@@ -21718,7 +21719,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_ReaderInterface){
 
 
 
-/* Generated by re2c 0.13.5 on Fri May  3 19:18:08 2013 */
+/* Generated by re2c 0.13.5 on Sat Jun 15 14:04:33 2013 */
 // 1 "scanner.re"
 
 
@@ -23899,23 +23900,25 @@ static void phannot_parse_with_token(void* phannot_parser, int opcode, int parse
 
 static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval **error_msg TSRMLS_DC){
 
+	int error_length;
 	char *error, *error_part;
 	phannot_scanner_state *state = parser_status->scanner_state;
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		error = emalloc(sizeof(char) * (128 + state->start_length +  Z_STRLEN_P(state->active_file)));
+		error_length = 128 + state->start_length +  Z_STRLEN_P(state->active_file);
+		error = emalloc(sizeof(char) * error_length);
 		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
-			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			snprintf(error, 64 + state->start_length, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
 			efree(error_part);
 		} else {
-			sprintf(error, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+			snprintf(error, error_length - 1, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
 		}
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
 		error = emalloc(sizeof(char) * (64 + Z_STRLEN_P(state->active_file)));
-		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
+		snprintf(error, 64 + Z_STRLEN_P(state->active_file), "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
 		ZVAL_STRING(*error_msg, error, 1);
 	}
 	efree(error);
@@ -23928,12 +23931,12 @@ static int phannot_parse_annotations(zval *result, zval *comment, zval *file_pat
 	ZVAL_NULL(result);
 
 	if (Z_TYPE_P(comment) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_annotations_exception_ce, SL("Comment must be a string") TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_annotations_exception_ce, SL("Comment must be a string"), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if(phannot_internal_parse_annotations(&result, comment, file_path, line, &error_msg TSRMLS_CC) == FAILURE){
-		phalcon_throw_exception_string(phalcon_annotations_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_annotations_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -45602,12 +45605,16 @@ static int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(script) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Script must be a string") TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Script must be a string"), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (phalcon_jsmin_internal(return_value, script, &error TSRMLS_CC) == FAILURE){
-		phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error) TSRMLS_CC);
+		if (Z_STRVAL_P(error) == IS_STRING) {
+			phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error), 1 TSRMLS_CC);
+		} else {
+			phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Unknown error"), 1 TSRMLS_CC);
+		}
 		return FAILURE;
 	}
 
@@ -45879,12 +45886,16 @@ static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(style) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Style must be a string") TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Style must be a string"), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE){
-		phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error) TSRMLS_CC);
+		if (Z_STRVAL_P(error) == IS_STRING) {
+			phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error), 1 TSRMLS_CC);
+		} else {
+			phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Unknown error"), 1 TSRMLS_CC);
+		}
 		return FAILURE;
 	}
 
@@ -59393,7 +59404,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success){
 
 
 
-/* Generated by re2c 0.13.5 on Fri Jun  7 20:46:22 2013 */
+/* Generated by re2c 0.13.5 on Sat Jun 15 13:57:19 2013 */
 // 1 "scanner.re"
 
 
@@ -66846,7 +66857,7 @@ static int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 	ZVAL_NULL(result);
 
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE) {
-		phalcon_throw_exception_string(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -73517,7 +73528,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_EngineInterface){
 
 
 
-/* Generated by re2c 0.13.5 on Wed Jun 12 22:59:33 2013 */
+/* Generated by re2c 0.13.5 on Sat Jun 15 13:57:28 2013 */
 // 1 "scanner.re"
 
 
@@ -80845,12 +80856,12 @@ static int phvolt_parse_view(zval *result, zval *view_code, zval *template_path 
 	ZVAL_NULL(result);
 
 	if (Z_TYPE_P(view_code) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("View code must be a string") TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("View code must be a string"), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE) {
-		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -93443,11 +93454,15 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro){
 
 static PHP_METHOD(Phalcon_Mvc_Micro, __construct){
 
-	zval *dependency_injector;
+	zval *dependency_injector = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	phalcon_fetch_params(1, 0, 1, &dependency_injector);
+	
+	if (!dependency_injector) {
+		PHALCON_INIT_VAR(dependency_injector);
+	}
 	
 	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 		phalcon_call_method_p1_noret_key(this_ptr, "setdi", dependency_injector, 461718238UL);

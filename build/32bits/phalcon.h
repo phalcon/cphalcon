@@ -11352,7 +11352,7 @@ static PHP_METHOD(Phalcon_Mvc_Micro, after);
 static PHP_METHOD(Phalcon_Mvc_Micro, finish);
 static PHP_METHOD(Phalcon_Mvc_Micro, getHandlers);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___construct, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
