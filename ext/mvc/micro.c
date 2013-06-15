@@ -92,11 +92,15 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro){
  */
 PHP_METHOD(Phalcon_Mvc_Micro, __construct){
 
-	zval *dependency_injector;
+	zval *dependency_injector = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	phalcon_fetch_params(1, 0, 1, &dependency_injector);
+	
+	if (!dependency_injector) {
+		PHALCON_INIT_VAR(dependency_injector);
+	}
 	
 	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 		phalcon_call_method_p1_noret(this_ptr, "setdi", dependency_injector);

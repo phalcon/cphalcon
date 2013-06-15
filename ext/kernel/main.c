@@ -24,6 +24,7 @@
 #include "php.h"
 #include "php_phalcon.h"
 #include "php_main.h"
+#include "ext/spl/spl_exceptions.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -323,7 +324,7 @@ void phalcon_inherit_not_found(char *class_name, char *inherit_name) {
 /**
  * Parses method parameters with minimum overhead
  */
-int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
+int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int required_args, int optional_args, ...)
 {
 	va_list va;
 	int arg_count = (int) (zend_uintptr_t) *(zend_vm_stack_top(TSRMLS_C) - 1);
@@ -331,7 +332,7 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 	int i;
 
 	if (num_args < required_args || (num_args > (required_args + optional_args))) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "wrong number of parameters");
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters"), grow_stack TSRMLS_CC);
 		return FAILURE;
 	}
 

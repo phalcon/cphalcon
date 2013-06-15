@@ -357,12 +357,16 @@ int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(script) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Script must be a string") TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Script must be a string"), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (phalcon_jsmin_internal(return_value, script, &error TSRMLS_CC) == FAILURE){
-		phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error) TSRMLS_CC);
+		if (Z_STRVAL_P(error) == IS_STRING) {
+			phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error), 1 TSRMLS_CC);
+		} else {
+			phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Unknown error"), 1 TSRMLS_CC);
+		}
 		return FAILURE;
 	}
 

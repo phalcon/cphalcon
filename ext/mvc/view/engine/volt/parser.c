@@ -3228,12 +3228,12 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 	ZVAL_NULL(result);
 
 	if (Z_TYPE_P(view_code) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("View code must be a string") TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("View code must be a string"), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE) {
-		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg), 1 TSRMLS_CC);
 		return FAILURE;
 	}
 

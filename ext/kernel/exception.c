@@ -44,7 +44,7 @@ void phalcon_throw_exception(zval *object TSRMLS_DC){
 /**
  * Throws a exception with a single string parameter
  */
-void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC){
+void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
 
 	zval *object, *msg;
 

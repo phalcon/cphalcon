@@ -24,15 +24,17 @@
  - Support for {% include "hello" with [var1, var2] %}
  - Phalcon\Mvc\Collection::find receives a parameter 'fields' to specify a list of fields
  - Added Phalcon\Forms\Element\Email and Phalcon\Tag::emailField
- - Support to define arrays using curly braces in Volt {'a': 'b', 'c': 'd'}
- - Support to make multiple assigments in a single set in Volt {% set a = b, c = d %}
+ - Support to define arrays using curly braces in Volt {'a': 'b', 'c': 'd'} in Volt
+ - Support to make multiple assigments in a single set in Volt {% set a = b, c = d %} in Volt
  - Volt now support 'if'/'else' blocks with empty bodies
- - Support for cascade action in addition to restrict in Virtual Foreign Keys
+ - Support for 'cascade' action in addition to 'restrict' in Virtual Foreign Keys (ORM)
  - Added missing Phalcon\Http\Request\File::getType()
  - Phalcon\Tag is not abstract anymore allowing to create instances of it
  - Phalcon\Tag is now registered as 'tag' in Phalcon\DI\FactoryDefault
  - In a handler in Phalcon\Mvc\Micro returns an object that implements Phalcon\Http\ResponseInterface the response is automatically send()
  - Phalcon\Mvc\View now have a chaineable API
+ - Phalcon\Mvc\Micro now can optionally receive the DI in its constructor
+ - Now if a method receives an incorrect number of parameters an exception BadMethodCallException is thrown instead of a warning
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods
