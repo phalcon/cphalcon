@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
  */
 PHP_METHOD(Phalcon_Mvc_Url, getStatic){
 
-	zval *uri = NULL, *static_base_uri, *final_uri, *base_uri;
+	zval *uri = NULL, *static_base_uri, *final_uri = NULL, *base_uri;
 
 	PHALCON_MM_GROW();
 
@@ -346,7 +346,10 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic){
 	PHALCON_INIT_VAR(base_uri);
 	phalcon_call_method(base_uri, this_ptr, "getbaseuri");
 	
-	RETURN_CCTOR(base_uri);
+	PHALCON_INIT_NVAR(final_uri);
+	PHALCON_CONCAT_VV(final_uri, base_uri, uri);
+	
+	RETURN_CTOR(final_uri);
 }
 
 /**

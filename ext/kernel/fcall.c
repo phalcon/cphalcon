@@ -353,7 +353,11 @@ int phalcon_call_method_ex(zval *return_value, zval *object, char *method_name, 
  *
  */
 int phalcon_call_method_zval_ex(zval *return_value, zval *object, zval *method, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
-	return phalcon_call_method_internal(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), noreturn, method_key, lower TSRMLS_CC);
+	if (likely(Z_TYPE_P(method) == IS_STRING)) {
+		return phalcon_call_method_internal(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), noreturn, method_key, lower TSRMLS_CC);
+	}
+	php_error_docref(NULL TSRMLS_CC, E_ERROR, "Method name must be string");
+	return FAILURE;
 }
 
 /**
@@ -379,7 +383,11 @@ int phalcon_call_method_one_param(zval *return_value, zval *object, char *method
  */
 int phalcon_call_method_zval_one_param(zval *return_value, zval *object, zval *method, zval *param1, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	zval *params[] = { param1 };
-	return phalcon_call_method_params(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), 1, params, noreturn, method_key, lower TSRMLS_CC);
+	if (likely(Z_TYPE_P(method) == IS_STRING)) {
+		return phalcon_call_method_params(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), 1, params, noreturn, method_key, lower TSRMLS_CC);
+	}
+	php_error_docref(NULL TSRMLS_CC, E_ERROR, "Method name must be string");
+	return FAILURE;
 }
 
 /**
@@ -406,7 +414,11 @@ int phalcon_call_method_three_params(zval *return_value, zval *object, char *met
  */
 int phalcon_call_method_zval_three_params(zval *return_value, zval *object, zval *method, zval *param1, zval *param2, zval *param3, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
-	return phalcon_call_method_params(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), 3, params, noreturn, method_key, lower TSRMLS_CC);
+	if (likely(Z_TYPE_P(method) == IS_STRING)) {
+		return phalcon_call_method_params(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), 3, params, noreturn, method_key, lower TSRMLS_CC);
+	}
+	php_error_docref(NULL TSRMLS_CC, E_ERROR, "Method name must be string");
+	return FAILURE;
 }
 
 /**

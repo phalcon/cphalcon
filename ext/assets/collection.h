@@ -31,7 +31,12 @@ PHP_METHOD(Phalcon_Assets_Collection, current);
 PHP_METHOD(Phalcon_Assets_Collection, key);
 PHP_METHOD(Phalcon_Assets_Collection, next);
 PHP_METHOD(Phalcon_Assets_Collection, valid);
-PHP_METHOD(Phalcon_Assets_Collection, setName);
+PHP_METHOD(Phalcon_Assets_Collection, setTargetPath);
+PHP_METHOD(Phalcon_Assets_Collection, getTargetPath);
+PHP_METHOD(Phalcon_Assets_Collection, setSourcePath);
+PHP_METHOD(Phalcon_Assets_Collection, getSourcePath);
+PHP_METHOD(Phalcon_Assets_Collection, setTargetUri);
+PHP_METHOD(Phalcon_Assets_Collection, getTargetUri);
 PHP_METHOD(Phalcon_Assets_Collection, setPrefix);
 PHP_METHOD(Phalcon_Assets_Collection, getPrefix);
 PHP_METHOD(Phalcon_Assets_Collection, setLocal);
@@ -42,6 +47,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addFilter);
 PHP_METHOD(Phalcon_Assets_Collection, setFilters);
 PHP_METHOD(Phalcon_Assets_Collection, getFilters);
 PHP_METHOD(Phalcon_Assets_Collection, join);
+PHP_METHOD(Phalcon_Assets_Collection, getJoin);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_add, 0, 0, 1)
 	ZEND_ARG_INFO(0, resource)
@@ -61,8 +67,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_addjs, 0, 0, 1)
 	ZEND_ARG_INFO(0, attributes)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setname, 0, 0, 1)
-	ZEND_ARG_INFO(0, name)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_settargetpath, 0, 0, 1)
+	ZEND_ARG_INFO(0, targetPath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setsourcepath, 0, 0, 1)
+	ZEND_ARG_INFO(0, sourcePath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_settargeturi, 0, 0, 1)
+	ZEND_ARG_INFO(0, targetUri)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setprefix, 0, 0, 1)
@@ -100,7 +114,12 @@ PHALCON_INIT_FUNCS(phalcon_assets_collection_method_entry){
 	PHP_ME(Phalcon_Assets_Collection, key, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, next, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, valid, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Assets_Collection, setName, arginfo_phalcon_assets_collection_setname, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Collection, setTargetPath, arginfo_phalcon_assets_collection_settargetpath, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Collection, getTargetPath, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Collection, setSourcePath, arginfo_phalcon_assets_collection_setsourcepath, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Collection, getSourcePath, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Collection, setTargetUri, arginfo_phalcon_assets_collection_settargeturi, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Collection, getTargetUri, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, setPrefix, arginfo_phalcon_assets_collection_setprefix, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, getPrefix, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, setLocal, arginfo_phalcon_assets_collection_setlocal, ZEND_ACC_PUBLIC) 
@@ -111,6 +130,7 @@ PHALCON_INIT_FUNCS(phalcon_assets_collection_method_entry){
 	PHP_ME(Phalcon_Assets_Collection, setFilters, arginfo_phalcon_assets_collection_setfilters, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, getFilters, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Collection, join, arginfo_phalcon_assets_collection_join, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Collection, getJoin, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

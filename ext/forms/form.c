@@ -619,6 +619,8 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor){
 	object_init_ex(group, phalcon_validation_message_group_ce);
 	phalcon_call_method_noret(group, "__construct");
 	
+	phalcon_update_property_array(this_ptr, SL("_messages"), name, group TSRMLS_CC);
+	
 	RETURN_CTOR(group);
 }
 

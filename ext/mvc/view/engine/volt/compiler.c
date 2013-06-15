@@ -1149,6 +1149,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 			phalcon_array_update_string(&resolved_param, SL("expr"), &resolved_expr, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string(&resolved_param, SL("file"), &file, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string(&resolved_param, SL("line"), &line, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+			/** 
+			 * TODO: Implement this function directly
+			 */
 			Z_SET_ISREF_P(func_arguments);
 			phalcon_call_func_p2_noret("array_unshift", func_arguments, resolved_param);
 			Z_UNSET_ISREF_P(func_arguments);
@@ -1293,6 +1297,24 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 	if (PHALCON_IS_STRING(name, "trim")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "trim(", arguments, ")");
+		RETURN_CCTOR(code);
+	}
+	
+	/** 
+	 * 'left_trim' calls the "ltrim" function in the PHP userland
+	 */
+	if (PHALCON_IS_STRING(name, "left_trim")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "ltrim(", arguments, ")");
+		RETURN_CCTOR(code);
+	}
+	
+	/** 
+	 * 'right_trim' calls the "rtrim" function in the PHP userland
+	 */
+	if (PHALCON_IS_STRING(name, "right_trim")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "rtrim(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
@@ -1701,6 +1723,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 			case 126:
 				PHALCON_INIT_NVAR(expr_code);
 				PHALCON_CONCAT_VSV(expr_code, left_code, " . ", right_code);
+				break;
+	
+			case 278:
+				PHALCON_INIT_NVAR(expr_code);
+				PHALCON_CONCAT_SVSVS(expr_code, "pow(", left_code, ", ", right_code, ")");
 				break;
 	
 			case 360:
@@ -2778,6 +2805,19 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
 }
 
 /**
+ * Compiles calls to macros
+ *
+ * @param array $statement
+ * @param boolean $extendsMode
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCall){
+
+
+	
+}
+
+/**
  * Traverses a statement list compiling each of its nodes
  *
  * @param array $statement
@@ -3082,6 +3122,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				 */
 				PHALCON_INIT_NVAR(temp_compilation);
 				phalcon_call_method_p2(temp_compilation, this_ptr, "compilemacro", statement, extends_mode);
+				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
+				break;
+	
+			case 325:
+				/** 
+				 * 'Call' statement
+				 */
+				PHALCON_INIT_NVAR(temp_compilation);
+				phalcon_call_method_p2(temp_compilation, this_ptr, "compilecall", statement, extends_mode);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	

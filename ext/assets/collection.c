@@ -51,7 +51,6 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Collection){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Assets, Collection, assets_collection, phalcon_assets_collection_method_entry, 0);
 
-	zend_declare_property_null(phalcon_assets_collection_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_assets_collection_ce, SL("_local"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_resources"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -59,6 +58,9 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Collection){
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_assets_collection_ce, SL("_join"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_collection_ce, SL("_targetUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_collection_ce, SL("_targetPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_collection_ce, SL("_sourcePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_assets_collection_ce TSRMLS_CC, 2, spl_ce_Countable, zend_ce_iterator);
 
@@ -312,19 +314,84 @@ PHP_METHOD(Phalcon_Assets_Collection, valid){
 }
 
 /**
- * Sets the name of the file for the filtered/join output
+ * Sets the target path of the file for the filtered/join output
  *
- * @param string $name
+ * @param string $targetPath
  * @return Phalcon\Assets\Collection
  */
-PHP_METHOD(Phalcon_Assets_Collection, setName){
+PHP_METHOD(Phalcon_Assets_Collection, setTargetPath){
 
-	zval *name;
+	zval *target_path;
 
-	phalcon_fetch_params(0, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &target_path);
 	
-	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_targetPath"), target_path TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Returns the target path of the file for the filtered/join output
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getTargetPath){
+
+
+	RETURN_MEMBER(this_ptr, "_targetPath");
+}
+
+/**
+ * Sets a base source path for all the resources in this collection
+ *
+ * @param string $sourcePath
+ * @return Phalcon\Assets\Resource
+ */
+PHP_METHOD(Phalcon_Assets_Collection, setSourcePath){
+
+	zval *source_path;
+
+	phalcon_fetch_params(0, 1, 0, &source_path);
+	
+	phalcon_update_property_this(this_ptr, SL("_sourcePath"), source_path TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the base source path for all the resources in this collection
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getSourcePath){
+
+
+	RETURN_MEMBER(this_ptr, "_sourcePath");
+}
+
+/**
+ * Sets a target uri for the generated HTML
+ *
+ * @param string $targetUri
+ * @return Phalcon\Assets\Resource
+ */
+PHP_METHOD(Phalcon_Assets_Collection, setTargetUri){
+
+	zval *target_uri;
+
+	phalcon_fetch_params(0, 1, 0, &target_uri);
+	
+	phalcon_update_property_this(this_ptr, SL("_targetUri"), target_uri TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the target uri for the generated HTML
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getTargetUri){
+
+
+	RETURN_MEMBER(this_ptr, "_targetUri");
 }
 
 /**
@@ -475,5 +542,16 @@ PHP_METHOD(Phalcon_Assets_Collection, join){
 	
 	phalcon_update_property_this(this_ptr, SL("_join"), join TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Returns if all the filtered resources must be joined
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getJoin){
+
+
+	RETURN_MEMBER(this_ptr, "_join");
 }
 
