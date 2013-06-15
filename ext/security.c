@@ -45,6 +45,17 @@
  *
  * This component provides a set of functions to improve the security in Phalcon applications
  *
+ *<code>
+ *	$login = $this->request->getPost('login');
+ *	$password = $this->request->getPost('password');
+ *
+ *	$user = Users::findFirstByLogin($login);
+ *	if ($user) {
+ *		if ($this->security->checkHash($password, $user->password)) {
+ *			//The password is valid
+ *		}
+ *	}
+ *</code>
  */
 
 
@@ -172,9 +183,8 @@ PHP_METHOD(Phalcon_Security, getWorkFactor){
  */
 PHP_METHOD(Phalcon_Security, getSaltBytes){
 
-	zval *twenty_two, *number_bytes, *random_bytes = NULL;
-	zval *base64bytes = NULL, *safe_bytes = NULL, *bytes_length = NULL;
-	zval *minimum_bytes = NULL;
+	zval *number_bytes, *random_bytes = NULL, *base64bytes = NULL;
+	zval *safe_bytes = NULL, *bytes_length = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -182,9 +192,6 @@ PHP_METHOD(Phalcon_Security, getSaltBytes){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Openssl extension must be loaded");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(twenty_two);
-	ZVAL_LONG(twenty_two, 22);
 	
 	PHALCON_OBS_VAR(number_bytes);
 	phalcon_read_property_this(&number_bytes, this_ptr, SL("_numberBytes"), PH_NOISY_CC);
@@ -205,10 +212,7 @@ PHP_METHOD(Phalcon_Security, getSaltBytes){
 	
 		PHALCON_INIT_NVAR(bytes_length);
 		phalcon_fast_strlen(bytes_length, safe_bytes);
-	
-		PHALCON_INIT_NVAR(minimum_bytes);
-		is_smaller_function(minimum_bytes, bytes_length, twenty_two TSRMLS_CC);
-		if (PHALCON_IS_TRUE(minimum_bytes)) {
+		if (PHALCON_LT_LONG(bytes_length, 22)) {
 			continue;
 		}
 	
@@ -287,7 +291,7 @@ PHP_METHOD(Phalcon_Security, checkHash){
 }
 
 /**
- * Checks a plain text password and its hash version to check if the password matches
+ * Checks if a password hash is a valid bcrypt's hash
  *
  * @param string $password
  * @param string $passwordHash

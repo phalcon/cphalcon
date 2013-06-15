@@ -33,8 +33,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/file.h"
@@ -83,6 +83,26 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro){
 	zend_class_implements(phalcon_mvc_micro_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
 
 	return SUCCESS;
+}
+
+/**
+ * Phalcon\Mvc\Micro constructor
+ *
+ * @param Phalcon\DiInterface $dependencyInjector
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, __construct){
+
+	zval *dependency_injector;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	
+	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+		phalcon_call_method_p1_noret(this_ptr, "setdi", dependency_injector);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**

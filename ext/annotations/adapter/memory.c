@@ -33,6 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 /**
@@ -64,7 +66,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 
-	zval *key, *data, *annotations;
+	zval *key, *data, *lowercased_key, *annotations;
 
 	PHALCON_MM_GROW();
 
@@ -72,9 +74,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 	
 	PHALCON_OBS_VAR(data);
 	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	if (phalcon_array_isset(data, key)) {
+	
+	PHALCON_INIT_VAR(lowercased_key);
+	phalcon_fast_strtolower(lowercased_key, key);
+	if (phalcon_array_isset(data, lowercased_key)) {
 		PHALCON_OBS_VAR(annotations);
-		phalcon_array_fetch(&annotations, data, key, PH_NOISY_CC);
+		phalcon_array_fetch(&annotations, data, lowercased_key, PH_NOISY_CC);
 		RETURN_CCTOR(annotations);
 	}
 	
@@ -89,11 +94,16 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
 
-	zval *key, *data;
+	zval *key, *data, *lowercased_key;
 
-	phalcon_fetch_params(0, 2, 0, &key, &data);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &key, &data);
 	
-	phalcon_update_property_array(this_ptr, SL("_data"), key, data TSRMLS_CC);
+	PHALCON_INIT_VAR(lowercased_key);
+	phalcon_fast_strtolower(lowercased_key, key);
+	phalcon_update_property_array(this_ptr, SL("_data"), lowercased_key, data TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
 }
 

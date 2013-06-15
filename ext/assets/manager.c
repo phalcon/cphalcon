@@ -464,8 +464,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 	zval *complete_target_path = NULL, *filtered_joined_content = NULL;
 	zval *join, *resource = NULL, *local = NULL, *path = NULL, *prefixed_path = NULL;
 	zval *attributes = NULL, *parameters = NULL, *html = NULL, *content = NULL;
-	zval *filter = NULL, *filtered_content = NULL, *source_path = NULL;
-	zval *exception_message = NULL, *target_path = NULL;
+	zval *must_filter = NULL, *filter = NULL, *filtered_content = NULL;
+	zval *source_path = NULL, *exception_message = NULL, *target_path = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -649,40 +649,64 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 		PHALCON_INIT_NVAR(content);
 		phalcon_call_method_p1(content, resource, "getcontent", complete_source_path);
 	
-		if (!phalcon_is_iterable(filters, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		/** 
+		 * Check if the resource must be filtered
+		 */
+		PHALCON_INIT_NVAR(must_filter);
+		phalcon_call_method(must_filter, resource, "getfilter");
 	
-		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+		/** 
+		 * Only filter the resource if it's marked as 'filterable'
+		 */
+		if (!zend_is_true(must_filter)) {
 	
-			PHALCON_GET_HVALUE(filter);
-	
-			/** 
-			 * Filters must be valid objects
-			 */
-			if (Z_TYPE_P(filter) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Filter is invalid");
+			if (!phalcon_is_iterable(filters, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			/** 
-			 * Calls the method 'filter' which must return a filtered version of the content
-			 */
-			PHALCON_INIT_NVAR(filtered_content);
-			phalcon_call_method_p1(filtered_content, filter, "filter", content);
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
+				PHALCON_GET_HVALUE(filter);
+	
+				/** 
+				 * Filters must be valid objects
+				 */
+				if (Z_TYPE_P(filter) != IS_OBJECT) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Filter is invalid");
+					return;
+				}
+	
+				/** 
+				 * Calls the method 'filter' which must return a filtered version of the content
+				 */
+				PHALCON_INIT_NVAR(filtered_content);
+				phalcon_call_method_p1(filtered_content, filter, "filter", content);
+	
+				/** 
+				 * Update the joined filtered content
+				 */
+				if (zend_is_true(join)) {
+					if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
+						PHALCON_CPY_WRT(filtered_joined_content, filtered_content);
+					} else {
+						phalcon_concat_self(&filtered_joined_content, filtered_content TSRMLS_CC);
+					}
+				}
+	
+				zend_hash_move_forward_ex(ah1, &hp1);
+			}
+	
+		} else {
 			/** 
 			 * Update the joined filtered content
 			 */
 			if (zend_is_true(join)) {
 				if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
-					PHALCON_CPY_WRT(filtered_joined_content, filtered_content);
+					PHALCON_CPY_WRT(filtered_joined_content, content);
 				} else {
-					phalcon_concat_self(&filtered_joined_content, filtered_content TSRMLS_CC);
+					phalcon_concat_self(&filtered_joined_content, content TSRMLS_CC);
 				}
 			}
-	
-			zend_hash_move_forward_ex(ah1, &hp1);
 		}
 	
 		/** 

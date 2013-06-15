@@ -33,9 +33,6 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
-#include "kernel/fcall.h"
-
 /**
  * Phalcon\CLI\Task
  *
@@ -82,15 +79,6 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Task){
 PHP_METHOD(Phalcon_CLI_Task, __construct){
 
 
-	PHALCON_MM_GROW();
-
-	/** 
-	 * Checks for the initialize() method, in case it exists, calls it.
-	 */
-	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_noret(this_ptr, "initialize");
-	}
 	
-	PHALCON_MM_RESTORE();
 }
 

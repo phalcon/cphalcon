@@ -589,15 +589,23 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 			}
 		}
 	
+		/** 
+		 * Use the parameter 'value' if the developer had set it 
+		 */
 		if (!phalcon_array_isset_string(params, SS("value"))) {
 			PHALCON_CALL_SELF_PARAMS_2(value, this_ptr, "getvalue", id, params);
 			phalcon_array_update_string(&params, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	} else {
-		if (phalcon_array_isset_long(params, 0)) {
-			PHALCON_OBS_NVAR(value);
-			phalcon_array_fetch_long(&value, params, 0, PH_NOISY_CC);
-			phalcon_array_update_string(&params, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		/** 
+		 * Use the 'id' as value if the user hadn't set it
+		 */
+		if (!phalcon_array_isset_string(params, SS("value"))) {
+			if (phalcon_array_isset_long(params, 0)) {
+				PHALCON_OBS_NVAR(value);
+				phalcon_array_fetch_long(&value, params, 0, PH_NOISY_CC);
+				phalcon_array_update_string(&params, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			}
 		}
 	}
 	
