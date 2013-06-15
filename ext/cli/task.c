@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -77,8 +76,10 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Task){
  * Phalcon\CLI\Task constructor
  */
 PHP_METHOD(Phalcon_CLI_Task, __construct){
-
-
 	
+	// Checks for the initialize() method, in case it exists, calls it.
+	if (phalcon_method_exists_ex(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+	}
 }
 
