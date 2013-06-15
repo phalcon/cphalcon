@@ -10258,10 +10258,14 @@ static void phalcon_throw_exception_string(zend_class_entry *ce, char *message, 
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-	PHALCON_INIT_VAR(msg);
+	if (restore_stack) {
+		PHALCON_INIT_VAR(msg);
+	} else {
+		ALLOC_INIT_ZVAL(msg);
+	}
 	ZVAL_STRINGL(msg, message, message_len, 1);
 
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(object, "__construct", msg, 1107214344UL);
+	phalcon_call_method_p1_noret_key(object, "__construct", msg, 1107214344UL);
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
@@ -10277,7 +10281,7 @@ static void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSR
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(object, "__construct", message, 1107214344UL);
+	phalcon_call_method_p1_noret_key(object, "__construct", message, 1107214344UL);
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
@@ -45612,7 +45616,7 @@ static int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 	}
 
 	if (phalcon_jsmin_internal(return_value, script, &error TSRMLS_CC) == FAILURE){
-		if (Z_STRVAL_P(error) == IS_STRING) {
+		if (Z_TYPE_P(error) == IS_STRING) {
 			phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error), 1 TSRMLS_CC);
 		} else {
 			phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Unknown error"), 1 TSRMLS_CC);
@@ -45893,7 +45897,7 @@ static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 	}
 
 	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE){
-		if (Z_STRVAL_P(error) == IS_STRING) {
+		if (Z_TYPE_P(error) == IS_STRING) {
 			phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error), 1 TSRMLS_CC);
 		} else {
 			phalcon_throw_exception_string(phalcon_assets_exception_ce, SL("Unknown error"), 1 TSRMLS_CC);
