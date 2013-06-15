@@ -10265,7 +10265,9 @@ static void phalcon_throw_exception_string(zend_class_entry *ce, char *message, 
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
-	phalcon_memory_restore_stack(TSRMLS_C);
+	if (restore_stack) {
+		phalcon_memory_restore_stack(TSRMLS_C);
+	}
 }
 
 static void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
@@ -10304,7 +10306,7 @@ static void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 	}
 
 	if (EG(current_execute_data)->opline == NULL ||
-    	(EG(current_execute_data)->opline+1)->opcode == ZEND_HANDLE_EXCEPTION) {
+    	(EG(current_execute_data)->opline + 1)->opcode == ZEND_HANDLE_EXCEPTION) {
 		/* no need to rethrow the exception */
 		return;
 	}
