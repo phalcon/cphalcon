@@ -35,6 +35,10 @@
  - Phalcon\Mvc\View now have a chaineable API
  - Phalcon\Mvc\Micro now can optionally receive the DI in its constructor
  - Now if a method receives an incorrect number of parameters an exception BadMethodCallException is thrown instead of a warning
+ - Phalcon\Mvc\Model/Phalcon\Mvc\Collection now checks for a method 'onConstruct' allowing the developer to execute initialization stuff every time a model/collection instance is created
+ - Phalcon\Mvc\Model/Phalcon\Mvc\Collection now checks for a method 'afterFetch' allowing the developer to execute initialization stuff every time a model/collection instance is created
+ in a findFirst/find operation is created
+ - Added Phalcon\Mvc\Collection::summatory easing the generation of this type of aggregation
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods

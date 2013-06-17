@@ -67,7 +67,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable){
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 
 	zval *type, *model, *take_action, *options, *timestamp = NULL;
-	zval *format, *generator, *field;
+	zval *format, *generator, *field, *single_field = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -130,7 +133,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 	
 		PHALCON_OBS_VAR(field);
 		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY_CC);
-		phalcon_call_method_p2_noret(model, "writeattribute", field, timestamp);
+	
+		/** 
+		 * Assign the value to the field, use writeattribute if the property is protected
+		 */
+		if (unlikely(Z_TYPE_P(field) == IS_ARRAY)) { 
+	
+			if (!phalcon_is_iterable(field, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+				return;
+			}
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_HVALUE(single_field);
+	
+				phalcon_call_method_p2_noret(model, "writeattribute", single_field, timestamp);
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+		} else {
+			phalcon_call_method_p2_noret(model, "writeattribute", field, timestamp);
+		}
 	}
 	
 	PHALCON_MM_RESTORE();

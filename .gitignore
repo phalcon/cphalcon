@@ -462,3 +462,4 @@ ext/mvc/model/metadata/strategy/introspection.lo
 ext/mvc/model/relationinterface.lo
 ext/mvc/router/annotations.lo
 ext/mvc/router/group.lo
+unit-tests/annotations/cache/*.php

@@ -144,6 +144,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 	 */
 	phalcon_call_method_p1_noret(models_manager, "initialize", this_ptr);
 	
+	/** 
+	 * This allows the developer to execute initialization stuff every time an instance
+	 * is created
+	 */
+	if (phalcon_method_exists_ex(this_ptr, SS("onconstruct") TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_noret(this_ptr, "onconstruct");
+	}
+	
 	PHALCON_MM_RESTORE();
 }
 
@@ -1767,6 +1775,99 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate){
 	phalcon_call_method_p1(agregation, collection, "aggregate", parameters);
 	
 	RETURN_CCTOR(agregation);
+}
+
+/**
+ * Allows to perform a summatory group for a column in the collection
+ *
+ * @param string $field
+ * @param array $conditions
+ * @param string $finalize
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, summatory){
+
+	zval *field, *conditions = NULL, *finalize = NULL, *class_name;
+	zval *model, *connection, *source, *collection;
+	zval *keys, *empty_array, *initial, *reduce, *group;
+	zval *retval, *first_retval, *summatory;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &field, &conditions, &finalize);
+	
+	if (!conditions) {
+		PHALCON_INIT_VAR(conditions);
+	}
+	
+	if (!finalize) {
+		PHALCON_INIT_VAR(finalize);
+	}
+	
+	if (Z_TYPE_P(field) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid field name for group");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_called_class(class_name  TSRMLS_CC);
+	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(model);
+	object_init_ex(model, ce0);
+	if (phalcon_has_constructor(model TSRMLS_CC)) {
+		phalcon_call_method_noret(model, "__construct");
+	}
+	
+	PHALCON_INIT_VAR(connection);
+	phalcon_call_method(connection, model, "getconnection");
+	
+	PHALCON_INIT_VAR(source);
+	phalcon_call_method(source, model, "getsource");
+	if (PHALCON_IS_EMPTY(source)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(collection);
+	phalcon_call_method_p1(collection, connection, "selectcollection", source);
+	
+	PHALCON_INIT_VAR(keys);
+	array_init(keys);
+	
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	
+	PHALCON_INIT_VAR(initial);
+	array_init_size(initial, 1);
+	phalcon_array_update_string(&initial, SL("summatory"), &empty_array, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(reduce);
+	PHALCON_CONCAT_SVSVSVS(reduce, "function (curr, result) { if (typeof result.summatory[curr.", field, "] === \"undefined\") { result.summatory[curr.", field, "] = 1; } else { result.summatory[curr.", field, "]++; } }");
+	PHALCON_INIT_VAR(group);
+	phalcon_call_method_p3(group, collection, "group", keys, initial, reduce);
+	if (phalcon_array_isset_string(group, SS("retval"))) {
+	
+		PHALCON_OBS_VAR(retval);
+		phalcon_array_fetch_string(&retval, group, SL("retval"), PH_NOISY_CC);
+		if (phalcon_array_isset_long(retval, 0)) {
+	
+			PHALCON_OBS_VAR(first_retval);
+			phalcon_array_fetch_long(&first_retval, retval, 0, PH_NOISY_CC);
+			if (phalcon_array_isset_string(first_retval, SS("summatory"))) {
+				PHALCON_OBS_VAR(summatory);
+				phalcon_array_fetch_string(&summatory, first_retval, SL("summatory"), PH_NOISY_CC);
+				RETURN_CCTOR(summatory);
+			}
+	
+			RETURN_CCTOR(first_retval);
+		}
+	
+		RETURN_CCTOR(retval);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**

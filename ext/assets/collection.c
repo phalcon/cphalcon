@@ -36,6 +36,8 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Assets\Collection
@@ -112,6 +114,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss){
 	
 	if (!filter) {
 		PHALCON_INIT_VAR(filter);
+		ZVAL_BOOL(filter, 1);
 	}
 	
 	if (!attributes) {
@@ -164,6 +167,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs){
 	
 	if (!filter) {
 		PHALCON_INIT_VAR(filter);
+		ZVAL_BOOL(filter, 1);
 	}
 	
 	if (!attributes) {
@@ -553,5 +557,45 @@ PHP_METHOD(Phalcon_Assets_Collection, getJoin){
 
 
 	RETURN_MEMBER(this_ptr, "_join");
+}
+
+/**
+ * Returns the complete location where the joined/filtered collection must be written
+ *
+ * @param string $basePath
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath){
+
+	zval *base_path = NULL, *target_path, *complete_path;
+	zval *real_complete_path;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &base_path);
+	
+	if (!base_path) {
+		PHALCON_INIT_VAR(base_path);
+	}
+	
+	PHALCON_OBS_VAR(target_path);
+	phalcon_read_property_this(&target_path, this_ptr, SL("_targetPath"), PH_NOISY_CC);
+	
+	/** 
+	 * A base path for resources can be set in the assets manager
+	 */
+	PHALCON_INIT_VAR(complete_path);
+	PHALCON_CONCAT_VV(complete_path, base_path, target_path);
+	
+	/** 
+	 * Get the real template path, the target path can optionally don't exist
+	 */
+	if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(real_complete_path);
+		phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
+		RETURN_CCTOR(real_complete_path);
+	}
+	
+	RETURN_CTOR(complete_path);
 }
 

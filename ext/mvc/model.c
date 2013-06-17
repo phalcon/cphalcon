@@ -176,6 +176,14 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	 */
 	phalcon_call_method_p1_noret(models_manager, "initialize", this_ptr);
 	
+	/** 
+	 * This allows the developer to execute initialization stuff every time an instance
+	 * is created
+	 */
+	if (phalcon_method_exists_ex(this_ptr, SS("onconstruct") TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_noret(this_ptr, "onconstruct");
+	}
+	
 	PHALCON_MM_RESTORE();
 }
 
@@ -774,6 +782,14 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 		phalcon_call_method_p2_noret(object, "setsnapshotdata", data, column_map);
 	}
 	
+	/** 
+	 * Call afterFetch, this allows the developer to execute actions after a record is
+	 * fetched from the database
+	 */
+	if (phalcon_method_exists_ex(object, SS("afterfetch") TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_noret(object, "afterfetch");
+	}
+	
 	RETURN_CCTOR(object);
 }
 
@@ -905,10 +921,17 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 		return;
 	}
 	
+	/** 
+	 * Clone the base record
+	 */
 	PHALCON_INIT_VAR(object);
 	if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
 		return;
 	}
+	
+	/** 
+	 * Mark the object as persistent
+	 */
 	phalcon_call_method_p1_noret(object, "setdirtystate", dirty_state);
 	
 	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -927,6 +950,14 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 		phalcon_update_property_zval_zval(object, key, value TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	/** 
+	 * Call afterFetch, this allows the developer to execute actions after a record is
+	 * fetched from the database
+	 */
+	if (phalcon_method_exists_ex(object, SS("afterfetch") TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_noret(object, "afterfetch");
 	}
 	
 	RETURN_CCTOR(object);
@@ -6426,7 +6457,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __isset){
 }
 
 /**
- * Serializes the object ignoring connections or static properties
+ * Serializes the object ignoring connections, services, related objects or static properties
  *
  * @return string
  */
