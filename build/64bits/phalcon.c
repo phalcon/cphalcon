@@ -16800,6 +16800,7 @@ static PHP_METHOD(Phalcon_Assets_Collection, addCss){
 	
 	if (!filter) {
 		PHALCON_INIT_VAR(filter);
+		ZVAL_BOOL(filter, 1);
 	}
 	
 	if (!attributes) {
@@ -16843,6 +16844,7 @@ static PHP_METHOD(Phalcon_Assets_Collection, addJs){
 	
 	if (!filter) {
 		PHALCON_INIT_VAR(filter);
+		ZVAL_BOOL(filter, 1);
 	}
 	
 	if (!attributes) {
@@ -17106,6 +17108,34 @@ static PHP_METHOD(Phalcon_Assets_Collection, getJoin){
 
 
 	RETURN_MEMBER_QUICK(this_ptr, "_join", 6953236818132UL);
+}
+
+static PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath){
+
+	zval *base_path = NULL, *target_path, *complete_path;
+	zval *real_complete_path;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &base_path);
+	
+	if (!base_path) {
+		PHALCON_INIT_VAR(base_path);
+	}
+	
+	PHALCON_OBS_VAR(target_path);
+	phalcon_read_property_this_quick(&target_path, this_ptr, SL("_targetPath"), 14779690189610268792UL, PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(complete_path);
+	PHALCON_CONCAT_VV(complete_path, base_path, target_path);
+	
+	if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(real_complete_path);
+		phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
+		RETURN_CCTOR(real_complete_path);
+	}
+	
+	RETURN_CTOR(complete_path);
 }
 
 
@@ -17899,6 +17929,7 @@ static PHP_METHOD(Phalcon_Assets_Manager, addCss){
 	
 	if (!filter) {
 		PHALCON_INIT_VAR(filter);
+		ZVAL_BOOL(filter, 1);
 	}
 	
 	if (!attributes) {
@@ -17931,6 +17962,7 @@ static PHP_METHOD(Phalcon_Assets_Manager, addJs){
 	
 	if (!filter) {
 		PHALCON_INIT_VAR(filter);
+		ZVAL_BOOL(filter, 1);
 	}
 	
 	if (!attributes) {
@@ -18114,6 +18146,7 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 	zval *attributes = NULL, *parameters = NULL, *html = NULL, *content = NULL;
 	zval *must_filter = NULL, *filter = NULL, *filtered_content = NULL;
 	zval *source_path = NULL, *exception_message = NULL, *target_path = NULL;
+	zval *is_directory, *target_uri;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -18243,7 +18276,7 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 		PHALCON_INIT_NVAR(must_filter);
 		phalcon_call_method_key(must_filter, resource, "getfilter", 8246354029582539915UL);
 	
-		if (!zend_is_true(must_filter)) {
+		if (zend_is_true(must_filter)) {
 	
 			if (!phalcon_is_iterable(filters, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
@@ -18263,9 +18296,10 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 	
 				if (zend_is_true(join)) {
 					if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
-						PHALCON_CPY_WRT(filtered_joined_content, filtered_content);
+						PHALCON_INIT_NVAR(filtered_joined_content);
+						PHALCON_CONCAT_VS(filtered_joined_content, filtered_content, ";");
 					} else {
-						phalcon_concat_self(&filtered_joined_content, filtered_content TSRMLS_CC);
+						PHALCON_SCONCAT_VS(filtered_joined_content, filtered_content, ";");
 					}
 				}
 	
@@ -18279,6 +18313,8 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 				} else {
 					phalcon_concat_self(&filtered_joined_content, content TSRMLS_CC);
 				}
+			} else {
+				PHALCON_CPY_WRT(filtered_content, content);
 			}
 		}
 	
@@ -18306,7 +18342,7 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 	
 			if (PHALCON_IS_EQUAL(target_path, source_path)) {
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Resource '", source_path, "' have the same source and target paths");
+				PHALCON_CONCAT_SVS(exception_message, "Resource '", target_path, "' have the same source and target paths");
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
 				return;
 			}
@@ -18324,6 +18360,9 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 	
 			PHALCON_INIT_NVAR(attributes);
 			phalcon_call_method_key(attributes, resource, "getattributes", 1486047312355765964UL);
+	
+			PHALCON_INIT_NVAR(local);
+			ZVAL_BOOL(local, 1);
 	
 			if (Z_TYPE_P(attributes) == IS_ARRAY) { 
 				phalcon_array_update_long(&attributes, 0, &prefixed_path, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -18350,6 +18389,66 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	if (zend_is_true(join)) {
+	
+		if (PHALCON_IS_EMPTY(complete_target_path)) {
+			PHALCON_INIT_NVAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "Resource '", complete_target_path, "' is not a valid target path");
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+			return;
+		}
+	
+		PHALCON_INIT_VAR(is_directory);
+		phalcon_call_func_p1(is_directory, "is_dir", complete_target_path);
+	
+		if (PHALCON_IS_TRUE(is_directory)) {
+			PHALCON_INIT_NVAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "Resource '", complete_target_path, "' is not a valid target path");
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+			return;
+		}
+	
+		phalcon_call_func_p2_noret("file_put_contents", complete_target_path, filtered_joined_content);
+	
+		PHALCON_INIT_VAR(target_uri);
+		phalcon_call_method_key(target_uri, collection, "gettargeturi", 2281855712231174076UL);
+		if (Z_TYPE_P(prefix) != IS_NULL) {
+			PHALCON_INIT_NVAR(prefixed_path);
+			PHALCON_CONCAT_VV(prefixed_path, prefix, target_uri);
+		} else {
+			PHALCON_CPY_WRT(prefixed_path, target_uri);
+		}
+	
+		PHALCON_INIT_NVAR(attributes);
+		phalcon_call_method_key(attributes, collection, "getattributes", 1486047312355765964UL);
+	
+		PHALCON_INIT_NVAR(local);
+		ZVAL_BOOL(local, 1);
+	
+		if (Z_TYPE_P(attributes) == IS_ARRAY) { 
+			phalcon_array_update_long(&attributes, 0, &prefixed_path, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+			PHALCON_INIT_NVAR(parameters);
+			array_init_size(parameters, 2);
+			phalcon_array_append(&parameters, attributes, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&parameters, local, PH_SEPARATE TSRMLS_CC);
+		} else {
+			PHALCON_INIT_NVAR(parameters);
+			array_init_size(parameters, 2);
+			phalcon_array_append(&parameters, prefixed_path, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&parameters, local, PH_SEPARATE TSRMLS_CC);
+		}
+	
+		PHALCON_INIT_NVAR(html);
+		PHALCON_CALL_USER_FUNC_ARRAY(html, callback, parameters);
+	
+		if (zend_is_true(use_implicit_output)) {
+			zend_print_zval(html, 0);
+		} else {
+			phalcon_concat_self(&output, html TSRMLS_CC);
+		}
 	}
 	
 	RETURN_CCTOR(output);
@@ -44041,6 +44140,10 @@ static PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 	
 	phalcon_call_method_p1_noret_key(models_manager, "initialize", this_ptr, 13878731931343821175UL);
 	
+	if (phalcon_method_quick_exists_ex(this_ptr, SS("onconstruct"), 15579263340111934695UL TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_noret_key(this_ptr, "onconstruct", 15579263340111934695UL);
+	}
+	
 	PHALCON_MM_RESTORE();
 }
 
@@ -45219,6 +45322,91 @@ static PHP_METHOD(Phalcon_Mvc_Collection, aggregate){
 	phalcon_call_method_p1_key(agregation, collection, "aggregate", parameters, 8246077834788083532UL);
 	
 	RETURN_CCTOR(agregation);
+}
+
+static PHP_METHOD(Phalcon_Mvc_Collection, summatory){
+
+	zval *field, *conditions = NULL, *finalize = NULL, *class_name;
+	zval *model, *connection, *source, *collection;
+	zval *keys, *empty_array, *initial, *reduce, *group;
+	zval *retval, *first_retval, *summatory;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &field, &conditions, &finalize);
+	
+	if (!conditions) {
+		PHALCON_INIT_VAR(conditions);
+	}
+	
+	if (!finalize) {
+		PHALCON_INIT_VAR(finalize);
+	}
+	
+	if (Z_TYPE_P(field) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid field name for group");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_called_class(class_name  TSRMLS_CC);
+	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(model);
+	object_init_ex(model, ce0);
+	if (phalcon_has_constructor(model TSRMLS_CC)) {
+		phalcon_call_method_noret_key(model, "__construct", 14747615951113338888UL);
+	}
+	
+	PHALCON_INIT_VAR(connection);
+	phalcon_call_method_key(connection, model, "getconnection", 1488869798850496757UL);
+	
+	PHALCON_INIT_VAR(source);
+	phalcon_call_method_key(source, model, "getsource", 8246354046617034678UL);
+	if (PHALCON_IS_EMPTY(source)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Method getSource() returns empty string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(collection);
+	phalcon_call_method_p1_key(collection, connection, "selectcollection", source, 4445757485292167793UL);
+	
+	PHALCON_INIT_VAR(keys);
+	array_init(keys);
+	
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	
+	PHALCON_INIT_VAR(initial);
+	array_init_size(initial, 1);
+	phalcon_array_update_quick_string(&initial, SS("summatory"), 8246933180340669078UL, &empty_array, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(reduce);
+	PHALCON_CONCAT_SVSVSVS(reduce, "function (curr, result) { if (typeof result.summatory[curr.", field, "] === \"undefined\") { result.summatory[curr.", field, "] = 1; } else { result.summatory[curr.", field, "]++; } }");
+	PHALCON_INIT_VAR(group);
+	phalcon_call_method_p3_key(group, collection, "group", keys, initial, reduce, 6953559401778UL);
+	if (phalcon_array_isset_quick_string(group, SS("retval"), 229481163598995UL)) {
+	
+		PHALCON_OBS_VAR(retval);
+		phalcon_array_fetch_quick_string(&retval, group, SS("retval"), 229481163598995UL, PH_NOISY_CC);
+		if (phalcon_array_isset_long(retval, 0)) {
+	
+			PHALCON_OBS_VAR(first_retval);
+			phalcon_array_fetch_long(&first_retval, retval, 0, PH_NOISY_CC);
+			if (phalcon_array_isset_quick_string(first_retval, SS("summatory"), 8246933180340669078UL)) {
+				PHALCON_OBS_VAR(summatory);
+				phalcon_array_fetch_quick_string(&summatory, first_retval, SS("summatory"), 8246933180340669078UL, PH_NOISY_CC);
+				RETURN_CCTOR(summatory);
+			}
+	
+			RETURN_CCTOR(first_retval);
+		}
+	
+		RETURN_CCTOR(retval);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Mvc_Collection, delete){
@@ -47125,7 +47313,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable){
 static PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 
 	zval *type, *model, *take_action, *options, *timestamp = NULL;
-	zval *format, *generator, *field;
+	zval *format, *generator, *field, *single_field = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -47173,7 +47364,25 @@ static PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 	
 		PHALCON_OBS_VAR(field);
 		phalcon_array_fetch_quick_string(&field, options, SS("field"), 6953509223529UL, PH_NOISY_CC);
-		phalcon_call_method_p2_noret_key(model, "writeattribute", field, timestamp, 16969055880543501668UL);
+	
+		if (unlikely(Z_TYPE_P(field) == IS_ARRAY)) { 
+	
+			if (!phalcon_is_iterable(field, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+				return;
+			}
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_HVALUE(single_field);
+	
+				phalcon_call_method_p2_noret_key(model, "writeattribute", single_field, timestamp, 16969055880543501668UL);
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+		} else {
+			phalcon_call_method_p2_noret_key(model, "writeattribute", field, timestamp, 16969055880543501668UL);
+		}
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -69532,6 +69741,10 @@ static PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	
 	phalcon_call_method_p1_noret_key(models_manager, "initialize", this_ptr, 13878731931343821175UL);
 	
+	if (phalcon_method_quick_exists_ex(this_ptr, SS("onconstruct"), 15579263340111934695UL TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_noret_key(this_ptr, "onconstruct", 15579263340111934695UL);
+	}
+	
 	PHALCON_MM_RESTORE();
 }
 
@@ -69932,6 +70145,10 @@ static PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 		phalcon_call_method_p2_noret_key(object, "setsnapshotdata", data, column_map, 16582689089627372155UL);
 	}
 	
+	if (phalcon_method_quick_exists_ex(object, SS("afterfetch"), 13866122850615603553UL TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_noret_key(object, "afterfetch", 13866122850615603553UL);
+	}
+	
 	RETURN_CCTOR(object);
 }
 
@@ -70033,6 +70250,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 	if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
 		return;
 	}
+	
 	phalcon_call_method_p1_noret_key(object, "setdirtystate", dirty_state, 16338334158277461630UL);
 	
 	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -70051,6 +70269,10 @@ static PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 		phalcon_update_property_zval_zval(object, key, value TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	if (phalcon_method_quick_exists_ex(object, SS("afterfetch"), 13866122850615603553UL TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_noret_key(object, "afterfetch", 13866122850615603553UL);
 	}
 	
 	RETURN_CCTOR(object);
