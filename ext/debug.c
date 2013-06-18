@@ -47,7 +47,7 @@ PHALCON_INIT_CLASS(Phalcon_Debug){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Debug, debug, phalcon_debug_method_entry, 0);
 
-	zend_declare_property_string(phalcon_debug_ce, SL("_uri"), "http://test.phalconphp.com/pretty-exceptions/", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_debug_ce, SL("_uri"), "http://static.phalconphp.com/debug/", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_string(phalcon_debug_ce, SL("_theme"), "default", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_debug_ce, SL("_hideDocumentRoot"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_debug_ce, SL("_showBackTrace"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -530,14 +530,28 @@ PHP_METHOD(Phalcon_Debug, getVersion){
 PHP_METHOD(Phalcon_Debug, getCssSources){
 
 	zval *uri, *sources;
+	zval *version, *space, *parts, *major;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(version);
+	PHALCON_CALL_STATIC(version, "phalcon\\version", "get");
+
+	PHALCON_INIT_VAR(space);
+	ZVAL_STRING(space, " ", 1);
+
+	PHALCON_INIT_VAR(parts);
+	phalcon_fast_explode(parts, space, version TSRMLS_CC);
+
+	PHALCON_OBS_VAR(major);
+	phalcon_array_fetch_long(&major, parts, 0, PH_NOISY_CC);
+
 	PHALCON_OBS_VAR(uri);
 	phalcon_read_property_this(&uri, this_ptr, SL("_uri"), PH_NOISY_CC);
+	PHALCON_CONCAT_VS(uri, major, "/");
 	
 	PHALCON_INIT_VAR(sources);
-	PHALCON_CONCAT_SVS(sources, "<link rel=\"stylesheet\" href=\"http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css\" />\n\t\t<link href=\"", uri, "exception.css\" type=\"text/css\" rel=\"stylesheet\" />");
+	PHALCON_CONCAT_SVSVS(sources, "<link rel=\"stylesheet\" href=\"", uri, "jquery/jquery-ui.css\" />\n\t\t<link href=\"", uri, "themes/exception.css\" type=\"text/css\" rel=\"stylesheet\" />");
 	RETURN_CTOR(sources);
 }
 
@@ -549,14 +563,30 @@ PHP_METHOD(Phalcon_Debug, getCssSources){
 PHP_METHOD(Phalcon_Debug, getJsSources){
 
 	zval *uri, *sources;
+	zval *version, *space, *parts, *major;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(version);
+	PHALCON_CALL_STATIC(version, "phalcon\\version", "get");
+
+	PHALCON_INIT_VAR(space);
+	ZVAL_STRING(space, " ", 1);
+
+	PHALCON_INIT_VAR(parts);
+	phalcon_fast_explode(parts, space, version TSRMLS_CC);
+
+	PHALCON_OBS_VAR(major);
+	phalcon_array_fetch_long(&major, parts, 0, PH_NOISY_CC);
+
 	PHALCON_OBS_VAR(uri);
 	phalcon_read_property_this(&uri, this_ptr, SL("_uri"), PH_NOISY_CC);
-	
+	PHALCON_CONCAT_VS(uri, major, "/");
+
 	PHALCON_INIT_VAR(sources);
-	PHALCON_CONCAT_SVSVSVS(sources, "<script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-1.10.0.min.js\"></script>\n\t\t<script type=\"text/javascript\" src=\"http://code.jquery.com/ui/1.10.3/jquery-ui.js\"></script>\n\t\t<script type=\"text/javascript\" src=\"", uri, "prettify/prettify.js\"></script>\n\t\t<script type=\"text/javascript\" src=\"", uri, "pretty.js\"></script>\n\t\t<script type=\"text/javascript\" src=\"", uri, "jquery.scrollTo-min.js\"></script>");
+	PHALCON_CONCAT_SVS(sources,"<script type=\"text/javascript\" src=\"", uri, "jquery/jquery.js\"></script>\n\t\t");
+	PHALCON_CONCAT_SVSVS(sources,"<script type=\"text/javascript\" src=\"", uri, "jquery/jquery-ui.js\"></script>\n\t\t<script type=\"text/javascript\" src=\"", uri, "prettify/prettify.js\"></script>\n\t\t");
+	PHALCON_CONCAT_SVSVS(sources,"<script type=\"text/javascript\" src=\"", uri, "pretty.js\"></script>\n\t\t<script type=\"text/javascript\" src=\"", uri, "jquery/jquery.scrollTo.js\"></script>");
 	RETURN_CTOR(sources);
 }
 
