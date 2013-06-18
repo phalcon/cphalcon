@@ -56,6 +56,7 @@ extern int phalcon_get_global(zval **arr, char *global, unsigned int global_leng
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
 extern int phalcon_is_callable(zval *var TSRMLS_DC);
+extern int phalcon_function_exists(zval *function_name TSRMLS_DC);
 extern int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
 extern int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC);
 

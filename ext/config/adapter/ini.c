@@ -106,8 +106,15 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	PHALCON_INIT_VAR(process_sections);
 	ZVAL_BOOL(process_sections, 1);
 	
+	/** 
+	 * Use the standard parse_ini_file
+	 */
 	PHALCON_INIT_VAR(ini_config);
 	phalcon_call_func_p2(ini_config, "parse_ini_file", file_path, process_sections);
+	
+	/** 
+	 * Check if the file had errors
+	 */
 	if (PHALCON_IS_FALSE(ini_config)) {
 		PHALCON_INIT_VAR(base_path);
 		phalcon_call_func_p1(base_path, "basename", file_path);
@@ -161,6 +168,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
+	/** 
+	 * Calls the Phalcon\Config constructor
+	 */
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Config\\Adapter\\Ini", "__construct", config);
 	
 	PHALCON_MM_RESTORE();

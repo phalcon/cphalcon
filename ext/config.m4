@@ -92,6 +92,7 @@ loader/exception.c \
 cryptinterface.c \
 db.c \
 text.c \
+debug.c \
 tag.c \
 mvc/controller.c \
 mvc/dispatcher/exception.c \

@@ -29,6 +29,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/exception.h"
 
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
@@ -249,9 +250,23 @@ int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 /**
  * Check if method exists on certain object using explicit char param
  */
-int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC) {
+int phalcon_function_exists(zval *function_name TSRMLS_DC) {
 
-	if (zend_hash_exists(CG(function_table), method_name, method_len)) {
+	if (Z_TYPE_P(function_name) == IS_STRING) {
+		if (zend_hash_exists(CG(function_table), Z_STRVAL_P(function_name), Z_STRLEN_P(function_name))) {
+			return SUCCESS;
+		}
+	}
+
+	return FAILURE;
+}
+
+/**
+ * Check if method exists on certain object using explicit char param
+ */
+int phalcon_function_exists_ex(char *function_name, unsigned int function_len TSRMLS_DC) {
+
+	if (zend_hash_exists(CG(function_table), function_name, function_len)) {
 		return SUCCESS;
 	}
 

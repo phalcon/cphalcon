@@ -1839,10 +1839,17 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory){
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
 	
+	/** 
+	 * Uses a javascript hash to group the results
+	 */
 	PHALCON_INIT_VAR(initial);
 	array_init_size(initial, 1);
 	phalcon_array_update_string(&initial, SL("summatory"), &empty_array, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
+	/** 
+	 * Uses a javascript hash to group the results, however this is slow with larger
+	 * datasets
+	 */
 	PHALCON_INIT_VAR(reduce);
 	PHALCON_CONCAT_SVSVSVS(reduce, "function (curr, result) { if (typeof result.summatory[curr.", field, "] === \"undefined\") { result.summatory[curr.", field, "] = 1; } else { result.summatory[curr.", field, "]++; } }");
 	PHALCON_INIT_VAR(group);
