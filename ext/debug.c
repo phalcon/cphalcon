@@ -551,7 +551,7 @@ PHP_METHOD(Phalcon_Debug, getCssSources){
 	PHALCON_CONCAT_VS(uri, major, "/");
 	
 	PHALCON_INIT_VAR(sources);
-	PHALCON_CONCAT_SVSVS(sources, "<link rel=\"stylesheet\" href=\"", uri, "jquery/jquery-ui.css\" />\n\t\t<link href=\"", uri, "themes/exception.css\" type=\"text/css\" rel=\"stylesheet\" />");
+	PHALCON_SCONCAT_SVSVS(sources, "<link rel=\"stylesheet\" href=\"", uri, "jquery/jquery-ui.css\" />\n\t\t<link href=\"", uri, "themes/exception.css\" type=\"text/css\" rel=\"stylesheet\" />");
 	RETURN_CTOR(sources);
 }
 
@@ -584,9 +584,9 @@ PHP_METHOD(Phalcon_Debug, getJsSources){
 	PHALCON_CONCAT_VS(uri, major, "/");
 
 	PHALCON_INIT_VAR(sources);
-	PHALCON_CONCAT_SVS(sources,"<script type=\"text/javascript\" src=\"", uri, "jquery/jquery.js\"></script>\n\t\t");
-	PHALCON_CONCAT_SVSVS(sources,"<script type=\"text/javascript\" src=\"", uri, "jquery/jquery-ui.js\"></script>\n\t\t<script type=\"text/javascript\" src=\"", uri, "prettify/prettify.js\"></script>\n\t\t");
-	PHALCON_CONCAT_SVSVS(sources,"<script type=\"text/javascript\" src=\"", uri, "pretty.js\"></script>\n\t\t<script type=\"text/javascript\" src=\"", uri, "jquery/jquery.scrollTo.js\"></script>");
+	PHALCON_SCONCAT_SVS(sources,"<script type=\"text/javascript\" src=\"", uri, "jquery/jquery.js\"></script>\n\t\t");
+	PHALCON_SCONCAT_SVSVS(sources,"<script type=\"text/javascript\" src=\"", uri, "jquery/jquery-ui.js\"></script>\n\t\t<script type=\"text/javascript\" src=\"", uri, "prettify/prettify.js\"></script>\n\t\t");
+	PHALCON_SCONCAT_SVSVS(sources,"<script type=\"text/javascript\" src=\"", uri, "pretty.js\"></script>\n\t\t<script type=\"text/javascript\" src=\"", uri, "jquery/jquery.scrollTo.js\"></script>");
 	RETURN_CTOR(sources);
 }
 
