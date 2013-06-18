@@ -250,24 +250,28 @@ PHP_METHOD(Phalcon_Debug, _escapeString){
 
 	phalcon_fetch_params(1, 1, 0, &value);
 	
-	PHALCON_INIT_VAR(charset);
-	ZVAL_STRING(charset, "utf-8", 1);
+	if (Z_TYPE_P(value) == IS_STRING) {
+		PHALCON_INIT_VAR(charset);
+		ZVAL_STRING(charset, "utf-8", 1);
 	
-	PHALCON_INIT_VAR(ent_compat);
-	ZVAL_LONG(ent_compat, 2);
+		PHALCON_INIT_VAR(ent_compat);
+		ZVAL_LONG(ent_compat, 2);
 	
-	PHALCON_INIT_VAR(line_break);
-	ZVAL_STRING(line_break, "\n", 1);
+		PHALCON_INIT_VAR(line_break);
+		ZVAL_STRING(line_break, "\n", 1);
 	
-	PHALCON_INIT_VAR(escaped_line_break);
-	ZVAL_STRING(escaped_line_break, "\\n", 1);
+		PHALCON_INIT_VAR(escaped_line_break);
+		ZVAL_STRING(escaped_line_break, "\\n", 1);
 	
-	PHALCON_INIT_VAR(replaced_value);
-	phalcon_fast_str_replace(replaced_value, line_break, escaped_line_break, value TSRMLS_CC);
+		PHALCON_INIT_VAR(replaced_value);
+		phalcon_fast_str_replace(replaced_value, line_break, escaped_line_break, value TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(escaped_value);
-	phalcon_call_func_p3(escaped_value, "htmlentities", replaced_value, ent_compat, charset);
-	RETURN_CCTOR(escaped_value);
+		PHALCON_INIT_VAR(escaped_value);
+		phalcon_call_func_p3(escaped_value, "htmlentities", replaced_value, ent_compat, charset);
+		RETURN_CCTOR(escaped_value);
+	}
+	
+	RETURN_CCTOR(value);
 }
 
 /**

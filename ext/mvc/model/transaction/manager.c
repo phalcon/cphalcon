@@ -294,11 +294,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 
 	zval *auto_begin = NULL, *dependency_injector, *number;
 	zval *transactions, *transaction = NULL, *false_value = NULL;
-	zval *service, *transaction_service;
+	zval *service;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-        int cmp;
 
 	PHALCON_MM_GROW();
 
@@ -315,10 +314,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
-
-	PHALCON_OBS_VAR(service);
-	phalcon_read_property_this(&service, this_ptr, SL("_service"), PH_NOISY_CC);
-
+	
 	PHALCON_OBS_VAR(number);
 	phalcon_read_property_this(&number, this_ptr, SL("_number"), PH_NOISY_CC);
 	if (zend_is_true(number)) {
@@ -330,20 +326,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 			if (!phalcon_is_iterable(transactions, &ah0, &hp0, 0, 1 TSRMLS_CC)) {
 				return;
 			}
-                        PHALCON_INIT_VAR(transaction_service);
+	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_HVALUE(transaction);
 	
 				if (Z_TYPE_P(transaction) == IS_OBJECT) {
-                                  phalcon_call_method(transaction_service, transaction, "getservice");
-                                  cmp = strcmp(Z_STRVAL_P(service), Z_STRVAL_P(transaction_service));
-                                  if(cmp == 0) {
 					PHALCON_INIT_NVAR(false_value);
 					ZVAL_BOOL(false_value, 0);
 					phalcon_call_method_p1_noret(transaction, "setisnewtransaction", false_value);
 					RETURN_CCTOR(transaction);
-                                  }
 				}
 	
 				zend_hash_move_backwards_ex(ah0, &hp0);
@@ -351,19 +343,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 	
 		}
 	}
-
-        zval *new_transaction = NULL;
-	PHALCON_INIT_VAR(new_transaction);
-	object_init_ex(new_transaction, phalcon_mvc_model_transaction_ce);
-	phalcon_call_method_p3_noret(new_transaction, "__construct", dependency_injector, auto_begin, service);
 	
-	phalcon_call_method_p1_noret(new_transaction, "settransactionmanager", this_ptr);
-
-	phalcon_update_property_array_append(this_ptr, SL("_transactions"), new_transaction TSRMLS_CC);
-
+	PHALCON_OBS_VAR(service);
+	phalcon_read_property_this(&service, this_ptr, SL("_service"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(transaction);
+	object_init_ex(transaction, phalcon_mvc_model_transaction_ce);
+	phalcon_call_method_p3_noret(transaction, "__construct", dependency_injector, auto_begin, service);
+	
+	phalcon_call_method_p1_noret(transaction, "settransactionmanager", this_ptr);
+	phalcon_update_property_array_append(this_ptr, SL("_transactions"), transaction TSRMLS_CC);
 	phalcon_property_incr(this_ptr, SL("_number") TSRMLS_CC);
-
-	RETURN_CTOR(new_transaction);
+	
+	RETURN_CTOR(transaction);
 }
 
 /**

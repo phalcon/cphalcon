@@ -31,7 +31,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, getService);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord);
 
@@ -72,8 +71,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_transaction_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setIsNewTransaction, arginfo_phalcon_mvc_model_transaction_setisnewtransaction, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort, arginfo_phalcon_mvc_model_transaction_setrollbackonabort, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction, isManaged, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Transaction, getMessages, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Transaction, getService, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, getMessages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction, isValid, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackedRecord, arginfo_phalcon_mvc_model_transaction_setrollbackedrecord, ZEND_ACC_PUBLIC) 
 	PHP_FE_END

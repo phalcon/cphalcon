@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 	phalcon_fetch_params(1, 2, 0, &id, &value);
 	
 	if (Z_TYPE_P(value) != IS_NULL) {
-		if (PHALCON_IS_SCALAR(value)) {
+		if (!PHALCON_IS_NOT_SCALAR(value)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Only scalar values can be assigned to UI components");
 			return;
 		}
