@@ -33,6 +33,7 @@ PHP_METHOD(Phalcon_Debug, clearVars);
 PHP_METHOD(Phalcon_Debug, _escapeString);
 PHP_METHOD(Phalcon_Debug, _getArrayDump);
 PHP_METHOD(Phalcon_Debug, _getVarDump);
+PHP_METHOD(Phalcon_Debug, getMajorVersion);
 PHP_METHOD(Phalcon_Debug, getVersion);
 PHP_METHOD(Phalcon_Debug, getCssSources);
 PHP_METHOD(Phalcon_Debug, getJsSources);
@@ -82,6 +83,7 @@ PHALCON_INIT_FUNCS(phalcon_debug_method_entry){
 	PHP_ME(Phalcon_Debug, _escapeString, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Debug, _getArrayDump, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Debug, _getVarDump, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Debug, getMajorVersion, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Debug, getVersion, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Debug, getCssSources, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Debug, getJsSources, NULL, ZEND_ACC_PUBLIC) 
