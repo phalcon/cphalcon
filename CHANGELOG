@@ -21,6 +21,7 @@
  to be attacked using SQL injections
  - Now you can pass an array of variables with virtual local scope in Phalcon\Mvc\View::partial()
  - Syntax CAST(expr AS datatype) is now supported by PHQL
+ - Support for CONVERT(expr USING charset) in PHQL
  - Support for {% include "hello" with [var1, var2] %}
  - Phalcon\Mvc\Collection::find receives a parameter 'fields' to specify a list of fields
  - Added Phalcon\Forms\Element\Email and Phalcon\Tag::emailField
@@ -39,6 +40,10 @@
  - Phalcon\Mvc\Model/Phalcon\Mvc\Collection now checks for a method 'afterFetch' allowing the developer to execute initialization stuff every time a model/collection instance is created
  in a findFirst/find operation is created
  - Added Phalcon\Mvc\Collection::summatory easing the generation of this type of aggregation
+ - Support for boolean literals in PHQL
+ - Support for complex expressions in GROUP BY clauses in PHQL
+ - Now PHQL exceptions include the PHQL statement itself
+ - Aliases for namespaces are now supported in PHQL
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods
