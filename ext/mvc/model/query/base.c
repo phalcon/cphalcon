@@ -36,6 +36,7 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_LIKE,          SL("LIKE") },
   { PHQL_T_ILIKE,         SL("ILIKE") },
   { PHQL_T_DOT,           SL("DOT") },
+  { PHQL_T_COLON,         SL("COLON") },
   { PHQL_T_COMMA,         SL("COMMA") },
   { PHQL_T_EQUALS,        SL("EQUALS") },
   { PHQL_T_NOTEQUALS,     SL("NOT EQUALS") },
@@ -81,6 +82,9 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_BETWEEN,       SL("BETWEEN") },
   { PHQL_T_DISTINCT,      SL("DISTINCT") },
   { PHQL_T_AGAINST,       SL("AGAINST") },
+  { PHQL_T_CAST,          SL("CAST") },
+  { PHQL_T_CONVERT,       SL("CONVERT") },
+  { PHQL_T_USING,         SL("USING") },
   { 0, NULL, 0 }
 };
 
@@ -118,19 +122,19 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		length = 48 + state->start_length;
+		length = 64 + state->start_length + parser_status->phql_length;
 		error = emalloc(sizeof(char) * length);
 		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
-			snprintf(error, length, "Parsing error before '%s...'", error_part);
+			snprintf(error, length, "Scanning error before '%s...' when parsing: %s (%d)", error_part, parser_status->phql, parser_status->phql_length);
 			efree(error_part);
 		} else {
-			snprintf(error, length, "Parsing error before '%s'", state->start);
+			snprintf(error, length, "Scanning error before '%s' when parsing: %s (%d)", state->start, parser_status->phql, parser_status->phql_length);
 		}
 		error[length - 1] = '\0';
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
+		ZVAL_STRING(*error_msg, "Scanning error near to EOF", 1);
 	}
 
 	if (error) {
@@ -162,7 +166,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
-	int scanner_status, status = SUCCESS;
+	int scanner_status, status = SUCCESS, error_length;
 	phql_scanner_state *state;
 	phql_scanner_token token;
 	unsigned long phql_key;
@@ -200,6 +204,8 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	parser_status->syntax_error = NULL;
 	parser_status->token = &token;
 	parser_status->enable_literals = phalcon_globals_ptr->orm.enable_literals;
+	parser_status->phql = phql;
+	parser_status->phql_length = phql_length;
 
 	state->active_token = 0;
 	state->start = phql;
@@ -288,6 +294,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_DOT:
 				phql_(phql_parser, PHQL_DOT, NULL, parser_status);
 				break;
+			case PHQL_T_COLON:
+				phql_(phql_parser, PHQL_COLON, NULL, parser_status);
+				break;
 			case PHQL_T_COMMA:
 				phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
 				break;
@@ -326,6 +335,25 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
+			case PHQL_T_TRUE:
+				if (parser_status->enable_literals) {
+					phql_(phql_parser, PHQL_TRUE, NULL, parser_status);
+				} else {
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
+					parser_status->status = PHQL_PARSING_FAILED;
+				}
+				break;
+			case PHQL_T_FALSE:
+				if (parser_status->enable_literals) {
+					phql_(phql_parser, PHQL_FALSE, NULL, parser_status);
+				} else {
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
+					parser_status->status = PHQL_PARSING_FAILED;
+				}
+				break;
+
 			case PHQL_T_IDENTIFIER:
 				phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, &token, parser_status);
 				break;
@@ -432,10 +460,18 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_CAST:
 				phql_(phql_parser, PHQL_CAST, NULL, parser_status);
 				break;
+			case PHQL_T_CONVERT:
+				phql_(phql_parser, PHQL_CONVERT, NULL, parser_status);
+				break;
+			case PHQL_T_USING:
+				phql_(phql_parser, PHQL_USING, NULL, parser_status);
+				break;
 			default:
 				parser_status->status = PHQL_PARSING_FAILED;
-				error = emalloc(sizeof(char) * 32);
-				sprintf(error, "scanner: unknown opcode %c", token.opcode);
+				error_length = sizeof(char) * 32;
+				error = emalloc(error_length);
+				snprintf(error, error_length, "Scanner: Unknown opcode %c", token.opcode);
+				error[error_length - 1] = '\0';
 				PHALCON_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);

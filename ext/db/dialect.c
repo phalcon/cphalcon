@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	zval *arguments_joined, *function_expression = NULL;
 	zval *sql_items, *items, *item = NULL, *item_expression = NULL;
 	zval *list_expression, *group_expression;
-	zval *expression_cast, *exception_message;
+	zval *expression_cast = NULL, *exception_message;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -476,6 +476,27 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 		PHALCON_INIT_VAR(expression_cast);
 		PHALCON_CONCAT_SVSVS(expression_cast, "CAST(", expression_left, " AS ", expression_right, ")");
+		RETURN_CTOR(expression_cast);
+	}
+	
+	/** 
+	 * Resolve CONVERT of values encodings
+	 */
+	if (PHALCON_IS_STRING(type, "convert")) {
+		PHALCON_OBS_NVAR(left);
+		phalcon_array_fetch_string(&left, expression, SL("left"), PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(expression_left);
+		phalcon_call_method_p2(expression_left, this_ptr, "getsqlexpression", left, escape_char);
+	
+		PHALCON_OBS_NVAR(right);
+		phalcon_array_fetch_string(&right, expression, SL("right"), PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(expression_right);
+		phalcon_call_method_p2(expression_right, this_ptr, "getsqlexpression", right, escape_char);
+	
+		PHALCON_INIT_NVAR(expression_cast);
+		PHALCON_CONCAT_SVSVS(expression_cast, "CONVERT(", expression_left, " USING ", expression_right, ")");
 		RETURN_CTOR(expression_cast);
 	}
 	

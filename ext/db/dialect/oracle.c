@@ -55,7 +55,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Oracle){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Oracle, db_dialect_oracle, "phalcon\\db\\dialect", phalcon_db_dialect_oracle_method_entry, 0);
 
-	zend_declare_property_string(phalcon_db_dialect_oracle_ce, SL("_escapeChar"), "\"", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_dialect_oracle_ce, SL("_escapeChar"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_dialect_oracle_ce TSRMLS_CC, 1, phalcon_db_dialectinterface_ce);
 

@@ -40,6 +40,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/framework/orm.h"
 #include "kernel/file.h"
 #include "mvc/model/query/scanner.h"
 #include "mvc/model/query/phql.h"
@@ -224,11 +225,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 
 	zval *expr, *column_name, *sql_column_aliases;
 	zval *source_column = NULL, *meta_data, *column_domain;
-	zval *sql_aliases, *exception_message = NULL, *source = NULL;
-	zval *sql_aliases_models_instances, *model = NULL;
-	zval *column_map = NULL, *real_column_name = NULL, *number;
-	zval *has_model = NULL, *models_instances, *has_attribute = NULL;
-	zval *models, *class_name;
+	zval *sql_aliases, *phql = NULL, *exception_message = NULL;
+	zval *source = NULL, *sql_aliases_models_instances;
+	zval *model = NULL, *column_map = NULL, *real_column_name = NULL;
+	zval *number, *has_model = NULL, *models_instances;
+	zval *has_attribute = NULL, *models, *class_name;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -272,8 +273,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		 * The column has a domain, we need to check if it's an alias
 		 */
 		if (!phalcon_array_isset(sql_aliases, column_domain)) {
+			PHALCON_OBS_VAR(phql);
+			phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Unknown model or alias '", column_domain, "' (1)");
+			PHALCON_CONCAT_SVSV(exception_message, "Unknown model or alias '", column_domain, "' (1), when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
@@ -296,8 +300,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			 * We need to model instance to retrieve the reversed column map
 			 */
 			if (!phalcon_array_isset(sql_aliases_models_instances, column_domain)) {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "There is no model related to model or alias '", column_domain, "'");
+				PHALCON_CONCAT_SVSV(exception_message, "There is no model related to model or alias '", column_domain, "', when executing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -316,8 +323,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 				PHALCON_OBS_VAR(real_column_name);
 				phalcon_array_fetch(&real_column_name, column_map, column_name, PH_NOISY_CC);
 			} else {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVSVS(exception_message, "Column '", column_name, "' doesn't belong to the model or alias '", column_domain, "'");
+				PHALCON_CONCAT_SVSVSV(exception_message, "Column '", column_name, "' doesn't belong to the model or alias '", column_domain, "', when executing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -354,8 +364,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 				PHALCON_SEPARATE(number);
 				increment_function(number);
 				if (PHALCON_GT_LONG(number, 1)) {
+					PHALCON_OBS_NVAR(phql);
+					phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "The column '", column_name, "' is ambiguous");
+					PHALCON_CONCAT_SVSV(exception_message, "The column '", column_name, "' is ambiguous, when preparing: ", phql);
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 					return;
 				}
@@ -371,8 +384,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		 * models
 		 */
 		if (PHALCON_IS_FALSE(has_model)) {
+			PHALCON_OBS_NVAR(phql);
+			phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 			PHALCON_INIT_NVAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (1)");
+			PHALCON_CONCAT_SVSV(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (1), when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
@@ -396,8 +412,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			PHALCON_OBS_NVAR(source);
 			phalcon_array_fetch(&source, models, class_name, PH_NOISY_CC);
 		} else {
+			PHALCON_OBS_NVAR(phql);
+			phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 			PHALCON_INIT_NVAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (2)");
+			PHALCON_CONCAT_SVSV(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (2), when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
@@ -421,8 +440,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 				PHALCON_OBS_NVAR(real_column_name);
 				phalcon_array_fetch(&real_column_name, column_map, column_name, PH_NOISY_CC);
 			} else {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (3)");
+				PHALCON_CONCAT_SVSV(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (3), when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -557,10 +579,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 
 	zval *expr, *quoting = NULL, *temp_not_quoting, *expr_left;
 	zval *left, *expr_right, *right, *expr_type, *expr_return = NULL;
-	zval *expr_value = NULL, *value = NULL, *escaped_value, *question_mark;
+	zval *expr_value = NULL, *value = NULL, *escaped_value = NULL, *question_mark;
 	zval *double_colon, *placeholder = NULL, *expression_message;
-	zval *expression, *expr_domain, *list_items;
-	zval *expr_list_item = NULL, *expr_item = NULL;
+	zval *expression, *list_items, *expr_list_item = NULL;
+	zval *expr_item = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -686,6 +708,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_call_method_p1(expr_return, this_ptr, "_getqualified", expr);
 				break;
 	
+			case 359:
+				PHALCON_INIT_NVAR(expr_return);
+				phalcon_call_method_p1(expr_return, this_ptr, "_getaliased", expr);
+				break;
+	
 			case 43:
 				PHALCON_INIT_NVAR(expr_return);
 				array_init_size(expr_return, 4);
@@ -784,12 +811,34 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_array_update_string(&expr_return, SL("value"), &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				break;
 	
+			case 333:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				add_assoc_stringl_ex(expr_return, SS("value"), SL("TRUE"), 1);
+				break;
+	
+			case 334:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				add_assoc_stringl_ex(expr_return, SS("value"), SL("FALSE"), 1);
+				break;
+	
 			case 260:
 				PHALCON_OBS_VAR(value);
 				phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY_CC);
 				if (PHALCON_IS_TRUE(quoting)) {
-					PHALCON_INIT_VAR(escaped_value);
-					phalcon_call_func_p1(escaped_value, "addslashes", value);
+	
+					/** 
+					 * Check if static literals have single quotes and escape them
+					 */
+					if (phalcon_memnstr_str(value, SL("'") TSRMLS_CC)) {
+						PHALCON_INIT_VAR(escaped_value);
+						phalcon_orm_singlequotes(escaped_value, value TSRMLS_CC);
+					} else {
+						PHALCON_CPY_WRT(escaped_value, value);
+					}
 	
 					PHALCON_INIT_NVAR(expr_value);
 					PHALCON_CONCAT_SVS(expr_value, "'", escaped_value, "'");
@@ -954,6 +1003,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				break;
 	
+			case 335:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("convert"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
 			case 358:
 				PHALCON_OBS_NVAR(value);
 				phalcon_array_fetch_string(&value, expr, SL("name"), PH_NOISY_CC);
@@ -989,9 +1046,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	 * Is a qualified column
 	 */
 	if (phalcon_array_isset_string(expr, SS("domain"))) {
-		PHALCON_INIT_VAR(expr_domain);
-		phalcon_call_method_p1(expr_domain, this_ptr, "_getqualified", expr);
-		RETURN_CCTOR(expr_domain);
+		PHALCON_INIT_NVAR(expr_return);
+		phalcon_call_method_p1(expr_return, this_ptr, "_getqualified", expr);
+		RETURN_CCTOR(expr_return);
 	}
 	
 	/** 
@@ -1040,10 +1097,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 
 	zval *column, *sql_columns, *column_type, *models;
 	zval *source = NULL, *model_name = NULL, *sql_column = NULL, *sql_aliases;
-	zval *column_domain, *exception_message = NULL, *sql_column_alias = NULL;
-	zval *sql_aliases_models, *sql_models_aliases;
-	zval *best_alias, *prepared_alias = NULL, *column_data;
-	zval *sql_expr_column, *balias;
+	zval *column_domain, *phql, *exception_message = NULL;
+	zval *sql_column_alias = NULL, *sql_aliases_models;
+	zval *sql_models_aliases, *best_alias, *prepared_alias = NULL;
+	zval *column_data, *sql_expr_column, *balias;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1111,8 +1168,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		PHALCON_OBS_VAR(column_domain);
 		phalcon_array_fetch_string(&column_domain, column, SL("column"), PH_NOISY_CC);
 		if (!phalcon_array_isset(sql_aliases, column_domain)) {
+			PHALCON_OBS_VAR(phql);
+			phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Unknown model or alias '", column_domain, "' (2)");
+			PHALCON_CONCAT_SVSV(exception_message, "Unknown model or alias '", column_domain, "' (2), when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
@@ -1306,7 +1366,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType){
 
-	zval *join, *type, *join_type = NULL, *exception_message;
+	zval *join, *type, *join_type = NULL, *phql, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -1348,8 +1408,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType){
 			break;
 	
 		default:
+			PHALCON_OBS_VAR(phql);
+			phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SV(exception_message, "Unknown join type ", type);
+			PHALCON_CONCAT_SVSV(exception_message, "Unknown join type ", type, ", when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 	
@@ -1374,8 +1437,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 	zval *join_alias, *relation, *fields, *referenced_fields;
 	zval *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL, *sql_join_condition;
 	zval *sql_join_conditions, *sql_join_partial_conditions;
-	zval *field = NULL, *position = NULL, *exception_message = NULL, *referenced_field = NULL;
-	zval *sql_equals_join_condition = NULL, *sql_joins;
+	zval *field = NULL, *position = NULL, *phql = NULL, *exception_message = NULL;
+	zval *referenced_field = NULL, *sql_equals_join_condition = NULL;
+	zval *sql_joins;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1450,8 +1514,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 			PHALCON_GET_HVALUE(field);
 	
 			if (!phalcon_array_isset(referenced_fields, position)) {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSV(exception_message, "The number of fields must be equal to the number of referenced fields in join ", model_alias, "-", join_alias);
+				PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -1533,7 +1601,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin){
 	zval *intermediate_schema, *intermediate_full_source;
 	zval *intermediate_fields, *intermediate_referenced_fields;
 	zval *referenced_model_name, *field = NULL, *position = NULL;
-	zval *exception_message = NULL, *intermediate_field = NULL;
+	zval *phql = NULL, *exception_message = NULL, *intermediate_field = NULL;
 	zval *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL, *sql_equals_join_condition = NULL;
 	zval *sql_join_condition_first, *sql_join_conditions_first;
 	zval *sql_join_first, *sql_join_condition_second;
@@ -1632,8 +1700,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin){
 			PHALCON_GET_HVALUE(field);
 	
 			if (!phalcon_array_isset(referenced_fields, position)) {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSV(exception_message, "The number of fields must be equal to the number of referenced fields in join ", model_alias, "-", join_alias);
+				PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -1800,7 +1872,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	zval *complete_source = NULL, *join_type = NULL, *alias_expr = NULL;
 	zval *alias = NULL, *join_expr = NULL, *pre_condition = NULL, *join_alias = NULL;
 	zval *join_model = NULL, *join_source = NULL, *relation = NULL, *relations = NULL;
-	zval *number_relations = NULL, *exception_message = NULL;
+	zval *number_relations = NULL, *phql = NULL, *exception_message = NULL;
 	zval *model_alias = NULL, *is_through = NULL, *sql_join = NULL, *new_sql_joins = NULL;
 	zval *sql_join_conditions = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
@@ -2071,8 +2143,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 						PHALCON_INIT_NVAR(number_relations);
 						phalcon_fast_count(number_relations, relations TSRMLS_CC);
 						if (!PHALCON_IS_LONG(number_relations, 1)) {
+							PHALCON_OBS_NVAR(phql);
+							phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 							PHALCON_INIT_NVAR(exception_message);
 							PHALCON_CONCAT_SVSVS(exception_message, "There is more than one relation between models '", model_name, "' and '", join_model, "\", the join must be done using an alias");
+							PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
 							PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 							return;
 						}
@@ -2311,13 +2387,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *sql_aliases_models_instances, *models;
 	zval *models_instances, *tables, *selected_models = NULL;
 	zval *manager, *meta_data, *selected_model = NULL, *qualified_name = NULL;
-	zval *model_name = NULL, *model = NULL, *schema = NULL, *source = NULL, *complete_source = NULL;
-	zval *alias = NULL, *exception_message = NULL, *joins, *sql_joins = NULL;
-	zval *columns, *select_columns = NULL, *position, *sql_column_aliases;
-	zval *column = NULL, *sql_column_group = NULL, *sql_column = NULL;
-	zval *type = NULL, *sql_select, *where, *where_expr, *group_by;
-	zval *sql_group, *having, *having_expr, *order;
-	zval *sql_order, *limit;
+	zval *model_name = NULL, *ns_alias = NULL, *real_namespace = NULL;
+	zval *real_model_name = NULL, *model = NULL, *schema = NULL, *source = NULL;
+	zval *complete_source = NULL, *alias = NULL, *phql = NULL, *exception_message = NULL;
+	zval *joins, *sql_joins = NULL, *columns, *select_columns = NULL;
+	zval *position, *sql_column_aliases, *column = NULL;
+	zval *sql_column_group = NULL, *sql_column = NULL, *type = NULL, *sql_select;
+	zval *where, *where_expr, *group_by, *sql_group;
+	zval *having, *having_expr, *order, *sql_order;
+	zval *limit;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -2326,8 +2404,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 
 	PHALCON_OBS_VAR(ast);
 	phalcon_read_property_this(&ast, this_ptr, SL("_ast"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(ast, SS("id"))) {
-	}
 	
 	PHALCON_OBS_VAR(select);
 	phalcon_array_fetch_string(&select, ast, SL("select"), PH_NOISY_CC);
@@ -2427,8 +2503,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		PHALCON_OBS_NVAR(model_name);
 		phalcon_array_fetch_string(&model_name, qualified_name, SL("name"), PH_NOISY_CC);
 	
+		/** 
+		 * Check if the table have a namespace alias
+		 */
+		if (phalcon_array_isset_string(qualified_name, SS("ns-alias"))) {
+			PHALCON_OBS_NVAR(ns_alias);
+			phalcon_array_fetch_string(&ns_alias, qualified_name, SL("ns-alias"), PH_NOISY_CC);
+	
+			/** 
+			 * Get the real namespace alias
+			 */
+			PHALCON_INIT_NVAR(real_namespace);
+			phalcon_call_method_p1(real_namespace, manager, "getnamespacealias", ns_alias);
+	
+			/** 
+			 * Create the real namespaced name
+			 */
+			PHALCON_INIT_NVAR(real_model_name);
+			PHALCON_CONCAT_VSV(real_model_name, real_namespace, "\\", model_name);
+		} else {
+			PHALCON_CPY_WRT(real_model_name, model_name);
+		}
+	
+		/** 
+		 * Load a model instance from the models manager
+		 */
 		PHALCON_INIT_NVAR(model);
-		phalcon_call_method_p1(model, manager, "load", model_name);
+		phalcon_call_method_p1(model, manager, "load", real_model_name);
 	
 		/** 
 		 * Define a complete schema/source
@@ -2438,6 +2539,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	
 		PHALCON_INIT_NVAR(source);
 		phalcon_call_method(source, model, "getsource");
+	
+		/** 
+		 * Obtain the real source including the schema
+		 */
 		if (zend_is_true(schema)) {
 			PHALCON_INIT_NVAR(complete_source);
 			array_init_size(complete_source, 2);
@@ -2455,9 +2560,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	
 			PHALCON_OBS_NVAR(alias);
 			phalcon_array_fetch_string(&alias, selected_model, SL("alias"), PH_NOISY_CC);
+	
+			/** 
+			 * Check that the alias hasn't been used before
+			 */
 			if (phalcon_array_isset(sql_aliases, alias)) {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVS(exception_message, "Alias \"", alias, " is already used");
+				PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -2697,7 +2810,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 	zval *expr_values, *values, *expr_value = NULL, *expr_insert = NULL;
 	zval *expr_type = NULL, *value = NULL, *sql_insert, *meta_data;
 	zval *sql_fields, *fields, *field = NULL, *name = NULL, *has_attribute = NULL;
-	zval *exception_message = NULL;
+	zval *phql = NULL, *exception_message = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -2768,6 +2881,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 	
 		PHALCON_GET_HVALUE(expr_value);
 	
+		/** 
+		 * Resolve every expression in the 'values' clause
+		 */
 		PHALCON_INIT_NVAR(expr_insert);
 		phalcon_call_method_p2(expr_insert, this_ptr, "_getexpression", expr_value, not_quoting);
 	
@@ -2809,15 +2925,25 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 			PHALCON_OBS_NVAR(name);
 			phalcon_array_fetch_string(&name, field, SL("name"), PH_NOISY_CC);
 	
+			/** 
+			 * Check that inserted fields are part of the model
+			 */
 			PHALCON_INIT_NVAR(has_attribute);
 			phalcon_call_method_p2(has_attribute, meta_data, "hasattribute", model, name);
 			if (!zend_is_true(has_attribute)) {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSVS(exception_message, "The model '", model_name, "' doesn't have the attribute '", name, "'");
+				PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
 	
+			/** 
+			 * Add the file to the insert list
+			 */
 			phalcon_array_append(&sql_fields, name, PH_SEPARATE TSRMLS_CC);
 	
 			zend_hash_move_forward_ex(ah1, &hp1);
@@ -2842,9 +2968,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	zval *sql_tables, *sql_models, *sql_aliases;
 	zval *sql_aliases_models_instances, *tables;
 	zval *update_tables = NULL, *manager, *table = NULL, *qualified_name = NULL;
-	zval *model_name = NULL, *model = NULL, *source = NULL, *schema = NULL, *complete_source = NULL;
-	zval *alias = NULL, *sql_fields, *sql_values, *values;
-	zval *update_values = NULL, *not_quoting = NULL, *update_value = NULL;
+	zval *model_name = NULL, *ns_alias = NULL, *real_namespace = NULL;
+	zval *real_model_name = NULL, *model = NULL, *source = NULL, *schema = NULL;
+	zval *complete_source = NULL, *alias = NULL, *sql_fields, *sql_values;
+	zval *values, *update_values = NULL, *not_quoting = NULL, *update_value = NULL;
 	zval *column = NULL, *sql_column = NULL, *expr_column = NULL, *expr_value = NULL;
 	zval *type = NULL, *value = NULL, *sql_update, *where, *where_expr;
 	zval *limit;
@@ -2922,14 +3049,43 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 		PHALCON_OBS_NVAR(model_name);
 		phalcon_array_fetch_string(&model_name, qualified_name, SL("name"), PH_NOISY_CC);
 	
+		/** 
+		 * Check if the table have a namespace alias
+		 */
+		if (phalcon_array_isset_string(qualified_name, SS("ns-alias"))) {
+			PHALCON_OBS_NVAR(ns_alias);
+			phalcon_array_fetch_string(&ns_alias, qualified_name, SL("ns-alias"), PH_NOISY_CC);
+	
+			/** 
+			 * Get the real namespace alias
+			 */
+			PHALCON_INIT_NVAR(real_namespace);
+			phalcon_call_method_p1(real_namespace, manager, "getnamespacealias", ns_alias);
+	
+			/** 
+			 * Create the real namespaced name
+			 */
+			PHALCON_INIT_NVAR(real_model_name);
+			PHALCON_CONCAT_VSV(real_model_name, real_namespace, "\\", model_name);
+		} else {
+			PHALCON_CPY_WRT(real_model_name, model_name);
+		}
+	
+		/** 
+		 * Load a model instance from the models manager
+		 */
 		PHALCON_INIT_NVAR(model);
-		phalcon_call_method_p1(model, manager, "load", model_name);
+		phalcon_call_method_p1(model, manager, "load", real_model_name);
 	
 		PHALCON_INIT_NVAR(source);
 		phalcon_call_method(source, model, "getsource");
 	
 		PHALCON_INIT_NVAR(schema);
 		phalcon_call_method(schema, model, "getschema");
+	
+		/** 
+		 * Create a full source representation including schema
+		 */
 		if (zend_is_true(schema)) {
 			PHALCON_INIT_NVAR(complete_source);
 			array_init_size(complete_source, 2);
@@ -2942,6 +3098,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 			add_next_index_null(complete_source);
 		}
 	
+		/** 
+		 * Check if the table is aliased
+		 */
 		if (phalcon_array_isset_string(table, SS("alias"))) {
 			PHALCON_OBS_NVAR(alias);
 			phalcon_array_fetch_string(&alias, table, SL("alias"), PH_NOISY_CC);
@@ -3060,9 +3219,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	zval *sql_tables, *sql_models, *sql_aliases;
 	zval *sql_aliases_models_instances, *tables;
 	zval *delete_tables = NULL, *manager, *table = NULL, *qualified_name = NULL;
-	zval *model_name = NULL, *model = NULL, *source = NULL, *schema = NULL, *complete_source = NULL;
-	zval *alias = NULL, *sql_delete, *not_quoting, *where;
-	zval *where_expr, *limit;
+	zval *model_name = NULL, *ns_alias = NULL, *real_namespace = NULL;
+	zval *real_model_name = NULL, *model = NULL, *source = NULL, *schema = NULL;
+	zval *complete_source = NULL, *alias = NULL, *sql_delete, *not_quoting;
+	zval *where, *where_expr, *limit;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3132,8 +3292,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 		PHALCON_OBS_NVAR(model_name);
 		phalcon_array_fetch_string(&model_name, qualified_name, SL("name"), PH_NOISY_CC);
 	
+		/** 
+		 * Check if the table have a namespace alias
+		 */
+		if (phalcon_array_isset_string(qualified_name, SS("ns-alias"))) {
+			PHALCON_OBS_NVAR(ns_alias);
+			phalcon_array_fetch_string(&ns_alias, qualified_name, SL("ns-alias"), PH_NOISY_CC);
+	
+			/** 
+			 * Get the real namespace alias
+			 */
+			PHALCON_INIT_NVAR(real_namespace);
+			phalcon_call_method_p1(real_namespace, manager, "getnamespacealias", ns_alias);
+	
+			/** 
+			 * Create the real namespaced name
+			 */
+			PHALCON_INIT_NVAR(real_model_name);
+			PHALCON_CONCAT_VSV(real_model_name, real_namespace, "\\", model_name);
+		} else {
+			PHALCON_CPY_WRT(real_model_name, model_name);
+		}
+	
+		/** 
+		 * Load a model instance from the models manager
+		 */
 		PHALCON_INIT_NVAR(model);
-		phalcon_call_method_p1(model, manager, "load", model_name);
+		phalcon_call_method_p1(model, manager, "load", real_model_name);
 	
 		PHALCON_INIT_NVAR(source);
 		phalcon_call_method(source, model, "getsource");
@@ -3310,7 +3495,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	
 				default:
 					PHALCON_INIT_VAR(exception_message);
-					PHALCON_CONCAT_SV(exception_message, "Unknown statement ", type);
+					PHALCON_CONCAT_SVSV(exception_message, "Unknown statement ", type, ", when preparing: ", phql);
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 					return;
 	
@@ -3321,18 +3506,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	if (Z_TYPE_P(ir_phql) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Corrupted AST");
 		return;
-	} else {
-		/** 
-		 * Store the prepared AST in the cache
-		 */
-		if (Z_TYPE_P(unique_id) == IS_LONG) {
-			if (Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
-				PHALCON_INIT_NVAR(ir_phql_cache);
-				array_init(ir_phql_cache);
-			}
-			phalcon_array_update_zval(&ir_phql_cache, unique_id, &ir_phql, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_update_static_property(SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
+	}
+	
+	/** 
+	 * Store the prepared AST in the cache
+	 */
+	if (Z_TYPE_P(unique_id) == IS_LONG) {
+		if (Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
+			PHALCON_INIT_NVAR(ir_phql_cache);
+			array_init(ir_phql_cache);
 		}
+		phalcon_array_update_zval(&ir_phql_cache, unique_id, &ir_phql, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_update_static_property(SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_intermediate"), ir_phql TSRMLS_CC);

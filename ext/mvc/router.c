@@ -365,6 +365,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction){
  *</code>
  *
  * @param array $defaults
+ * @return Phalcon\Mvc\Router
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 
@@ -425,7 +426,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 		phalcon_update_property_this(this_ptr, SL("_defaultParams"), params TSRMLS_CC);
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 /**

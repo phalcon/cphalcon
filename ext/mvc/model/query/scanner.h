@@ -47,6 +47,7 @@
 
 #define PHQL_T_DOT '.'
 #define PHQL_T_COMMA 269
+#define PHQL_T_COLON ':'
 
 #define PHQL_T_EQUALS '='
 #define PHQL_T_NOTEQUALS 270
@@ -97,6 +98,10 @@
 #define PHQL_T_DISTINCT 330
 #define PHQL_T_BETWEEN 331
 #define PHQL_T_CAST 332
+#define PHQL_T_TRUE 333
+#define PHQL_T_FALSE 334
+#define PHQL_T_CONVERT 335
+#define PHQL_T_USING 336
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350
@@ -108,6 +113,7 @@
 #define PHQL_T_ENCLOSED 356
 #define PHQL_T_NILIKE 357
 #define PHQL_T_RAW_QUALIFIED 358
+#define PHQL_T_ALIASED 359
 
 #define PHQL_T_INNERJOIN 360
 #define PHQL_T_LEFTJOIN 361

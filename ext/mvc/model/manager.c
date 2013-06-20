@@ -92,6 +92,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_reusable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_keepSnapshots"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_dynamicUpdate"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_namespaceAliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_manager_ce TSRMLS_CC, 3, phalcon_mvc_model_managerinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
@@ -372,7 +373,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 	 * The model doesn't exist throw an exception
 	 */
 	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SVS(exception_message, "The model '", model_name, "' could not be loaded");
+	PHALCON_CONCAT_SVS(exception_message, "Model '", model_name, "' could not be loaded");
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 	return;
 }
@@ -393,11 +394,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource){
 	phalcon_fetch_params(1, 2, 0, &model, &source);
 	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model is not an object");
 		return;
 	}
 	if (Z_TYPE_P(source) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The source must be a string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Source must be a string");
 		return;
 	}
 	
@@ -423,7 +424,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource){
 	phalcon_fetch_params(1, 1, 0, &model);
 	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model is not an object");
 		return;
 	}
 	
@@ -466,11 +467,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema){
 	phalcon_fetch_params(1, 2, 0, &model, &schema);
 	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model is not an object");
 		return;
 	}
 	if (Z_TYPE_P(schema) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The schema must be a string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Schema must be a string");
 		return;
 	}
 	
@@ -496,7 +497,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema){
 	phalcon_fetch_params(1, 1, 0, &model);
 	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model is not an object");
 		return;
 	}
 	
@@ -2911,6 +2912,71 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery){
 
 
 	RETURN_MEMBER(this_ptr, "_lastQuery");
+}
+
+/**
+ * Registers shorter aliases for namespaces in PHQL statements
+ *
+ * @param string $alias
+ * @param string $namespace
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, registerNamespaceAlias){
+
+	zval *alias, *namespace;
+
+	phalcon_fetch_params(0, 2, 0, &alias, &namespace);
+	
+	if (Z_TYPE_P(alias) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The namespace alias must be a string");
+		return;
+	}
+	if (Z_TYPE_P(namespace) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The namespace must be a string");
+		return;
+	}
+	
+	phalcon_update_property_array(this_ptr, SL("_namespaceAliases"), alias, namespace TSRMLS_CC);
+	
+}
+
+/**
+ * Returns a real namespace from its alias
+ *
+ * @param string $alias
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias){
+
+	zval *alias, *namespace_aliases, *namespace;
+	zval *exception_message;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &alias);
+	
+	PHALCON_OBS_VAR(namespace_aliases);
+	phalcon_read_property_this(&namespace_aliases, this_ptr, SL("_namespaceAliases"), PH_NOISY_CC);
+	if (phalcon_array_isset(namespace_aliases, alias)) {
+		PHALCON_OBS_VAR(namespace);
+		phalcon_array_fetch(&namespace, namespace_aliases, alias, PH_NOISY_CC);
+		RETURN_CCTOR(namespace);
+	}
+	
+	PHALCON_INIT_VAR(exception_message);
+	PHALCON_CONCAT_SVS(exception_message, "Namespace alias '", alias, "' is not registered");
+	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+	return;
+}
+
+/**
+ * Returns all the registered namespace aliases
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAliases){
+
+
+	RETURN_MEMBER(this_ptr, "_namespaceAliases");
 }
 
 /**

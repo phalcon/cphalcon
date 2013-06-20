@@ -23,7 +23,11 @@
 
 #include "php.h"
 #include "php_phalcon.h"
+#include "ext/standard/php_smart_str.h"
 
+/**
+ * Destroyes the prepared ASTs
+ */
 void phalcon_orm_destroy_cache(TSRMLS_D) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
@@ -41,6 +45,9 @@ void phalcon_orm_destroy_cache(TSRMLS_D) {
 	}
 }
 
+/**
+ * Obtains a prepared ast in the phalcon's superglobals
+ */
 void phalcon_orm_get_prepared_ast(zval **return_value, zval *unique_id TSRMLS_DC) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
@@ -59,6 +66,9 @@ void phalcon_orm_get_prepared_ast(zval **return_value, zval *unique_id TSRMLS_DC
 	}
 }
 
+/**
+ * Stores a prepared ast in the phalcon's superglobals
+ */
 void phalcon_orm_set_prepared_ast(zval *unique_id, zval *prepared_ast TSRMLS_DC) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
@@ -83,4 +93,40 @@ void phalcon_orm_set_prepared_ast(zval *unique_id, zval *prepared_ast TSRMLS_DC)
 		}
 	}
 
+}
+
+/**
+ * Escapes single quotes into database single quotes
+ */
+void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC) {
+
+	int i;
+	smart_str  escaped_str = {0};
+	char *marker;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		RETURN_ZVAL(str, 1, 0);
+	}
+
+	marker = Z_STRVAL_P(str);
+
+	for (i = 0; i < Z_STRLEN_P(str); i++) {
+		if ((*marker) == '\0') {
+			break;
+		}
+		if ((*marker) == '\'') {
+			smart_str_appendc(&escaped_str, '\'');
+		}
+		smart_str_appendc(&escaped_str, (*marker));
+		marker++;
+	}
+
+	smart_str_0(&escaped_str);
+
+	if (escaped_str.len) {
+		RETURN_STRINGL(escaped_str.c, escaped_str.len, 0);
+	} else {
+		smart_str_free(&escaped_str);
+		RETURN_EMPTY_STRING();
+	}
 }

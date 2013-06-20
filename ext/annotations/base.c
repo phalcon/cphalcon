@@ -85,16 +85,19 @@ static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval
 		error = emalloc(sizeof(char) * error_length);
 		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
-			snprintf(error, 64 + state->start_length, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			snprintf(error, 64 + state->start_length, "Scanning error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
 			efree(error_part);
 		} else {
-			snprintf(error, error_length - 1, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+			snprintf(error, error_length - 1, "Scanning error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
 		}
+		error[error_length - 1] = '\0';
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error = emalloc(sizeof(char) * (64 + Z_STRLEN_P(state->active_file)));
-		snprintf(error, 64 + Z_STRLEN_P(state->active_file), "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
+		error_length = sizeof(char) * (64 + Z_STRLEN_P(state->active_file));
+		error = emalloc(error_length);
+		snprintf(error, error_length - 1, "Scanning error near to EOF in %s", Z_STRVAL_P(state->active_file));
 		ZVAL_STRING(*error_msg, error, 1);
+		error[error_length - 1] = '\0';
 	}
 	efree(error);
 }
@@ -224,7 +227,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	char *error;
 	phannot_scanner_state *state;
 	phannot_scanner_token token;
-	int scanner_status, status = SUCCESS, start_lines;
+	int scanner_status, status = SUCCESS, start_lines, error_length;
 	phannot_parser_status *parser_status = NULL;
 	void* phannot_parser;
 	zval processed_comment;
@@ -364,8 +367,10 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 			default:
 				parser_status->status = PHANNOT_PARSING_FAILED;
 				if (!*error_msg) {
-					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
-					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					error_length = sizeof(char) * (48 + Z_STRLEN_P(state->active_file));
+					error = emalloc(error_length);
+					snprintf(error, error_length - 1, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					error[error_length - 1] = '\0';
 					PHALCON_INIT_VAR(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
 					efree(error);

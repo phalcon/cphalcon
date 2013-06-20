@@ -224,6 +224,9 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 	marker = Z_STRVAL_P(str);
 	for (i = 0; i < Z_STRLEN_P(str); i++) {
 		ch = *marker;
+		if (ch == '\0') {
+			break;
+		}
 		if (i == 0 || ch == '-' || ch == '_') {
 			if (ch == '-' || ch == '_') {
 				i++;
@@ -272,6 +275,9 @@ void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 	marker = Z_STRVAL_P(str);
 	for (i = 0; i < Z_STRLEN_P(str); i++) {
 		ch = *marker;
+		if (ch == '\0') {
+			break;
+		}
 		if (ch >= 'A' && ch <= 'Z') {
 			if (i > 0) {
 				smart_str_appendc(&uncamelize_str, '_');
@@ -496,171 +502,6 @@ void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, z
 
 	if (copy_search) {
 		zval_dtor(search);
-	}
-
-}
-
-/**
- * Extracts parameters from a string
- * An initialized zval array must be passed as second parameter
- */
-void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
-
-	unsigned int i, j, k, bracket_count = 0, parentheses_count = 0, ch;
-	unsigned int intermediate, length, number_matches = 0, found_pattern;
-	int variable_length, regexp_length, not_valid;
-	char *cursor, *cursor_var, *marker;
-	char *item, *variable = NULL, *regexp;
-	smart_str route_str = {0};
-
-	if (Z_TYPE_P(str) != IS_STRING) {
-		ZVAL_BOOL(return_value, 0);
-		return;
-	}
-
-	if (Z_STRLEN_P(str) <= 0) {
-		ZVAL_BOOL(return_value, 0);
-		return;
-	}
-
-	if (Z_TYPE_P(matches) != IS_ARRAY) {
-		ZVAL_BOOL(return_value, 0);
-		return;
-	}
-
-	cursor = Z_STRVAL_P(str);
-	for (i = 0; i < Z_STRLEN_P(str); i++) {
-		ch = *cursor;
-
-		if (parentheses_count == 0) {
-			if (ch == '{') {
-				if (bracket_count == 0) {
-					marker = cursor;
-					intermediate = 0;
-					not_valid = 0;
-				}
-				bracket_count++;
-			} else {
-				if (ch == '}') {
-					bracket_count--;
-					if (intermediate > 0) {
-						if (bracket_count == 0) {
-
-							number_matches++;
-
-							variable = NULL;
-							length = cursor - marker - 1;
-							item = estrndup(marker + 1, length);
-							cursor_var = item;
-							marker = item;
-							for (j = 0; j < length; j++) {
-								ch = *cursor_var;
-								if (j == 0 && !((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z'))){
-									not_valid = 1;
-									break;
-								}
-								if ((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z') || (ch >= '0' && ch <='9') || ch == '-' || ch == '_' || ch ==  ':') {
-									if (ch == ':') {
-										regexp_length = length - j - 1;
-										variable_length = cursor_var - marker;
-										variable = estrndup(marker, variable_length);
-										regexp = estrndup(cursor_var + 1, regexp_length);
-										break;
-									}
-								} else {
-									not_valid = 1;
-									break;
-								}
-								cursor_var++;
-							}
-
-							if (!not_valid) {
-								{
-									zval *tmp;
-									ALLOC_INIT_ZVAL(tmp);
-									ZVAL_LONG(tmp, number_matches);
-
-									if (variable) {
-										if (regexp_length > 0) {
-
-											/**
-											 * Check if we need to add parentheses to the expression
-											 */
-											found_pattern = 0;
-											for (k = 0; k < regexp_length; k++) {
-												if (!found_pattern) {
-													if (regexp[k] == '(') {
-														found_pattern = 1;
-													}
-												} else {
-													if (regexp[k] == ')') {
-														found_pattern = 2;
-														break;
-													}
-												}
-											}
-
-											if (found_pattern != 2) {
-												smart_str_appendc(&route_str, '(');
-												smart_str_appendl(&route_str, regexp, regexp_length);
-												smart_str_appendc(&route_str, ')');
-											} else {
-												smart_str_appendl(&route_str, regexp, regexp_length);
-											}
-											zend_hash_update(Z_ARRVAL_P(matches), variable, variable_length + 1, &tmp, sizeof(zval *), NULL);
-										}
-										efree(regexp);
-										efree(variable);
-									} else {
-										smart_str_appendl(&route_str, "([^/]*)", strlen("([^/]*)"));
-										zend_hash_update(Z_ARRVAL_P(matches), item, length + 1, &tmp, sizeof(zval *), NULL);
-									}
-								}
-							} else {
-								smart_str_appendc(&route_str, '{');
-								smart_str_appendl(&route_str, item, length);
-								smart_str_appendc(&route_str, '}');
-							}
-
-							efree(item);
-
-							cursor++;
-							continue;
-						}
-					}
-				}
-			}
-
-		}
-
-		if (bracket_count == 0) {
-			if (ch == '(') {
-				parentheses_count++;
-			} else {
-				if (ch == ')') {
-					parentheses_count--;
-					if (parentheses_count == 0) {
-						number_matches++;
-					}
-				}
-			}
-		}
-
-		if (bracket_count > 0) {
-			intermediate++;
-		} else {
-			smart_str_appendc(&route_str, ch);
-		}
-
-		cursor++;
-	}
-	smart_str_0(&route_str);
-
-	if (route_str.len) {
-		RETURN_STRINGL(route_str.c, route_str.len, 0);
-	} else {
-		smart_str_free(&route_str);
-		RETURN_EMPTY_STRING();
 	}
 
 }

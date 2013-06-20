@@ -27,6 +27,8 @@ typedef struct _phql_parser_token {
 typedef struct _phql_parser_status {
 	int status;
 	zval *ret;
+	char* phql;
+	unsigned int phql_length;
 	phql_scanner_state *scanner_state;
 	phql_scanner_token *token;
 	char *syntax_error;

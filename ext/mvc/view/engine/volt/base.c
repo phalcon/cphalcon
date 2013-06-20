@@ -145,16 +145,16 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 		if (state->start_length > 16) {
 			length = 72 + Z_STRLEN_P(state->active_file);
 			error_part = estrndup(state->start, 16);
-			snprintf(error, length, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
-			efree(error_part);
+			snprintf(error, length, "Scanning error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			error[length - 1] = '\0';
 		} else {
 			length = 48 + state->start_length + Z_STRLEN_P(state->active_file);
-			snprintf(error, length, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+			snprintf(error, length, "Scanning error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
 		}
 	} else {
 		error = emalloc(sizeof(char) * (32 + Z_STRLEN_P(state->active_file)));
 		length = 32 + Z_STRLEN_P(state->active_file);
-		snprintf(error, length, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
+		snprintf(error, length, "Scanning error near to EOF in %s", Z_STRVAL_P(state->active_file));
 	}
 
 	error[length - 1] = '\0';
