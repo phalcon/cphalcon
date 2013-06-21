@@ -174,6 +174,7 @@ PHP includes the Zend Engine, freely available at
 #include "ext/standard/php_lcg.h"
 #include "ext/standard/php_math.h"
 #include "ext/standard/php_array.h"
+#include "ext/standard/php_var.h"
 #include "ext/standard/html.h"
 #include "ext/spl/spl_heap.h"
 
@@ -296,16 +297,21 @@ static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC);
 #define PHQL_ASC                            51
 #define PHQL_DESC                           52
 #define PHQL_GROUP                          53
-#define PHQL_INTEGER                        54
-#define PHQL_HAVING                         55
-#define PHQL_LIMIT                          56
+#define PHQL_HAVING                         54
+#define PHQL_LIMIT                          55
+#define PHQL_INTEGER                        56
 #define PHQL_OFFSET                         57
 #define PHQL_CAST                           58
-#define PHQL_NULL                           59
-#define PHQL_STRING                         60
-#define PHQL_DOUBLE                         61
-#define PHQL_NPLACEHOLDER                   62
-#define PHQL_SPLACEHOLDER                   63
+#define PHQL_CONVERT                        59
+#define PHQL_USING                          60
+#define PHQL_NULL                           61
+#define PHQL_STRING                         62
+#define PHQL_DOUBLE                         63
+#define PHQL_TRUE                           64
+#define PHQL_FALSE                          65
+#define PHQL_NPLACEHOLDER                   66
+#define PHQL_SPLACEHOLDER                   67
+#define PHQL_COLON                          68
 
 
 
@@ -340,6 +346,7 @@ static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC);
 
 #define PHQL_T_DOT '.'
 #define PHQL_T_COMMA 269
+#define PHQL_T_COLON ':'
 
 #define PHQL_T_EQUALS '='
 #define PHQL_T_NOTEQUALS 270
@@ -390,6 +397,10 @@ static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC);
 #define PHQL_T_DISTINCT 330
 #define PHQL_T_BETWEEN 331
 #define PHQL_T_CAST 332
+#define PHQL_T_TRUE 333
+#define PHQL_T_FALSE 334
+#define PHQL_T_CONVERT 335
+#define PHQL_T_USING 336
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350
@@ -401,6 +412,7 @@ static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC);
 #define PHQL_T_ENCLOSED 356
 #define PHQL_T_NILIKE 357
 #define PHQL_T_RAW_QUALIFIED 358
+#define PHQL_T_ALIASED 359
 
 #define PHQL_T_INNERJOIN 360
 #define PHQL_T_LEFTJOIN 361
@@ -450,6 +462,8 @@ typedef struct _phql_parser_token {
 typedef struct _phql_parser_status {
 	int status;
 	zval *ret;
+	char* phql;
+	unsigned int phql_length;
 	phql_scanner_state *scanner_state;
 	phql_scanner_token *token;
 	char *syntax_error;
@@ -1651,6 +1665,7 @@ static void phalcon_fast_strtolower(zval *return_value, zval *str);
 static void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 static void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
 static void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
+static void phalcon_fast_explode_str(zval *result, char *delimiter, int delimiter_length, zval *str TSRMLS_DC);
 static void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
 static void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 static void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
@@ -1676,7 +1691,7 @@ static void phalcon_remove_extra_slashes(zval *return_value, zval *str);
 /** Generates a unique key for an array/object */
 static void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC);
 
-/** ssprintf */
+/** spprintf */
 static int phalcon_spprintf(char **message, int max_len, char *format, ...);
 
 /* Substr */
@@ -1963,6 +1978,11 @@ static int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, zval *requir
 
 
 
+static void phalcon_serialize(zval *return_value, zval **var  TSRMLS_DC);
+static void phalcon_unserialize(zval *return_value, zval *var TSRMLS_DC);
+
+
+
 /* Executor Pointers */
 #ifdef ZTS
 # define PHALCON_EG(v) TSRMG(executor_globals_id, zend_executor_globals *, v)
@@ -1981,6 +2001,7 @@ static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, c
 static void phalcon_orm_destroy_cache(TSRMLS_D);
 static void phalcon_orm_get_prepared_ast(zval **return_value, zval *unique_id TSRMLS_DC);
 static void phalcon_orm_set_prepared_ast(zval *unique_id, zval *prepared_ast TSRMLS_DC);
+static void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC);
 
 
 
@@ -2280,7 +2301,7 @@ static int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 	}
 
 	if (num_args > arg_count) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "could not obtain parameters for parsing");
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing"), grow_stack TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -2305,6 +2326,7 @@ static int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 
 	return SUCCESS;
 }
+
 
 
 
@@ -6842,6 +6864,9 @@ static void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 	marker = Z_STRVAL_P(str);
 	for (i = 0; i < Z_STRLEN_P(str); i++) {
 		ch = *marker;
+		if (ch == '\0') {
+			break;
+		}
 		if (i == 0 || ch == '-' || ch == '_') {
 			if (ch == '-' || ch == '_') {
 				i++;
@@ -6887,6 +6912,9 @@ static void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 	marker = Z_STRVAL_P(str);
 	for (i = 0; i < Z_STRLEN_P(str); i++) {
 		ch = *marker;
+		if (ch == '\0') {
+			break;
+		}
 		if (ch >= 'A' && ch <= 'Z') {
 			if (i > 0) {
 				smart_str_appendc(&uncamelize_str, '_');
@@ -6916,6 +6944,22 @@ static void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS
 
 	array_init(result);
 	php_explode(delimiter, str, result, LONG_MAX);
+}
+
+static void phalcon_fast_explode_str(zval *result, char *delimiter, int delimiter_length, zval *str TSRMLS_DC){
+
+	zval delimiter_zval;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		ZVAL_NULL(result);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for explode()");
+		return;
+	}
+
+	ZVAL_STRINGL(&delimiter_zval, delimiter, delimiter_length, 0);
+
+	array_init(result);
+	php_explode(&delimiter_zval, str, result, LONG_MAX);
 }
 
 static int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC){
@@ -7090,164 +7134,6 @@ static void phalcon_fast_str_replace(zval *return_value, zval *search, zval *rep
 
 	if (copy_search) {
 		zval_dtor(search);
-	}
-
-}
-
-static void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
-
-	unsigned int i, j, k, bracket_count = 0, parentheses_count = 0, ch;
-	unsigned int intermediate, length, number_matches = 0, found_pattern;
-	int variable_length, regexp_length, not_valid;
-	char *cursor, *cursor_var, *marker;
-	char *item, *variable = NULL, *regexp;
-	smart_str route_str = {0};
-
-	if (Z_TYPE_P(str) != IS_STRING) {
-		ZVAL_BOOL(return_value, 0);
-		return;
-	}
-
-	if (Z_STRLEN_P(str) <= 0) {
-		ZVAL_BOOL(return_value, 0);
-		return;
-	}
-
-	if (Z_TYPE_P(matches) != IS_ARRAY) {
-		ZVAL_BOOL(return_value, 0);
-		return;
-	}
-
-	cursor = Z_STRVAL_P(str);
-	for (i = 0; i < Z_STRLEN_P(str); i++) {
-		ch = *cursor;
-
-		if (parentheses_count == 0) {
-			if (ch == '{') {
-				if (bracket_count == 0) {
-					marker = cursor;
-					intermediate = 0;
-					not_valid = 0;
-				}
-				bracket_count++;
-			} else {
-				if (ch == '}') {
-					bracket_count--;
-					if (intermediate > 0) {
-						if (bracket_count == 0) {
-
-							number_matches++;
-
-							variable = NULL;
-							length = cursor - marker - 1;
-							item = estrndup(marker + 1, length);
-							cursor_var = item;
-							marker = item;
-							for (j = 0; j < length; j++) {
-								ch = *cursor_var;
-								if (j == 0 && !((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z'))){
-									not_valid = 1;
-									break;
-								}
-								if ((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z') || (ch >= '0' && ch <='9') || ch == '-' || ch == '_' || ch ==  ':') {
-									if (ch == ':') {
-										regexp_length = length - j - 1;
-										variable_length = cursor_var - marker;
-										variable = estrndup(marker, variable_length);
-										regexp = estrndup(cursor_var + 1, regexp_length);
-										break;
-									}
-								} else {
-									not_valid = 1;
-									break;
-								}
-								cursor_var++;
-							}
-
-							if (!not_valid) {
-								{
-									zval *tmp;
-									ALLOC_INIT_ZVAL(tmp);
-									ZVAL_LONG(tmp, number_matches);
-
-									if (variable) {
-										if (regexp_length > 0) {
-
-											found_pattern = 0;
-											for (k = 0; k < regexp_length; k++) {
-												if (!found_pattern) {
-													if (regexp[k] == '(') {
-														found_pattern = 1;
-													}
-												} else {
-													if (regexp[k] == ')') {
-														found_pattern = 2;
-														break;
-													}
-												}
-											}
-
-											if (found_pattern != 2) {
-												smart_str_appendc(&route_str, '(');
-												smart_str_appendl(&route_str, regexp, regexp_length);
-												smart_str_appendc(&route_str, ')');
-											} else {
-												smart_str_appendl(&route_str, regexp, regexp_length);
-											}
-											zend_hash_update(Z_ARRVAL_P(matches), variable, variable_length + 1, &tmp, sizeof(zval *), NULL);
-										}
-										efree(regexp);
-										efree(variable);
-									} else {
-										smart_str_appendl(&route_str, "([^/]*)", strlen("([^/]*)"));
-										zend_hash_update(Z_ARRVAL_P(matches), item, length + 1, &tmp, sizeof(zval *), NULL);
-									}
-								}
-							} else {
-								smart_str_appendc(&route_str, '{');
-								smart_str_appendl(&route_str, item, length);
-								smart_str_appendc(&route_str, '}');
-							}
-
-							efree(item);
-
-							cursor++;
-							continue;
-						}
-					}
-				}
-			}
-
-		}
-
-		if (bracket_count == 0) {
-			if (ch == '(') {
-				parentheses_count++;
-			} else {
-				if (ch == ')') {
-					parentheses_count--;
-					if (parentheses_count == 0) {
-						number_matches++;
-					}
-				}
-			}
-		}
-
-		if (bracket_count > 0) {
-			intermediate++;
-		} else {
-			smart_str_appendc(&route_str, ch);
-		}
-
-		cursor++;
-	}
-	smart_str_0(&route_str);
-
-	if (route_str.len) {
-		RETURN_STRINGL(route_str.c, route_str.len, 0);
-	} else {
-		smart_str_free(&route_str);
-		RETURN_EMPTY_STRING();
 	}
 
 }
@@ -7768,7 +7654,7 @@ static void phalcon_filter_alphanum(zval *return_value, zval *param){
 		}
 	}
 
-	for (i=0; i < Z_STRLEN_P(param); i++) {
+	for (i = 0; i < Z_STRLEN_P(param); i++) {
 		ch = Z_STRVAL_P(param)[i];
 		if ((ch > 96 && ch < 123)||(ch > 64 && ch < 91)||(ch > 47 && ch < 58)) {
 			smart_str_appendc(&filtered_str, ch);
@@ -7804,7 +7690,7 @@ static void phalcon_filter_identifier(zval *return_value, zval *param){
 		}
 	}
 
-	for (i=0; i < Z_STRLEN_P(param); i++) {
+	for (i = 0; i < Z_STRLEN_P(param); i++) {
 		ch = Z_STRVAL_P(param)[i];
 		if ((ch > 96 && ch < 123) || (ch > 64 && ch < 91) || (ch > 47 && ch < 58) || ch == 95) {
 			smart_str_appendc(&filtered_str, ch);
@@ -7832,7 +7718,7 @@ static void phalcon_is_basic_charset(zval *return_value, zval *param){
 	unsigned int ch;
 	int iso88591 = 0;
 
-	for (i=0; i < Z_STRLEN_P(param); i++) {
+	for (i = 0; i < Z_STRLEN_P(param); i++) {
 		ch = Z_STRVAL_P(param)[i];
 		if (ch == 172 || (ch >= 128 && ch <= 159)) {
 			continue;
@@ -10384,7 +10270,7 @@ static int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *r
 
 	zend_op_array *new_op_array = NULL;
 
-	if (Z_TYPE_P(require_path) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(require_path) != IS_STRING)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Invalid require path value");
 		status = FAILURE;
 	} else {
@@ -10392,7 +10278,7 @@ static int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *r
 		file_path = Z_STRVAL_P(require_path);
 
 		ret = php_stream_open_for_zend_ex(file_path, &file_handle, ENFORCE_SAFE_MODE|USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
-		if (ret == SUCCESS) {
+		if (likely(ret == SUCCESS)) {
 
 			if (!file_handle.opened_path) {
 				file_path_length = Z_STRLEN_P(require_path);
@@ -10484,6 +10370,65 @@ static int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, zval *requir
 	return phalcon_internal_require(return_value, require_path TSRMLS_CC);
 }
 
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+static void phalcon_serialize(zval *return_value, zval **var  TSRMLS_DC) {
+
+	php_serialize_data_t var_hash;
+	smart_str buf = {0};
+
+	Z_TYPE_P(return_value) = IS_STRING;
+	Z_STRVAL_P(return_value) = NULL;
+	Z_STRLEN_P(return_value) = 0;
+
+	PHP_VAR_SERIALIZE_INIT(var_hash);
+	php_var_serialize(&buf, var, &var_hash TSRMLS_CC);
+	PHP_VAR_SERIALIZE_DESTROY(var_hash);
+
+	if (EG(exception)) {
+		smart_str_free(&buf);
+		RETURN_FALSE;
+	}
+
+	if (buf.c) {
+		RETURN_STRINGL(buf.c, buf.len, 0);
+	} else {
+		RETURN_NULL();
+	}
+}
+
+static void phalcon_unserialize(zval *return_value, zval *var TSRMLS_DC) {
+
+	const unsigned char *p;
+	php_unserialize_data_t var_hash;
+
+	if (Z_TYPE_P(var) != IS_STRING) {
+		RETURN_FALSE;
+	}
+
+	if (Z_STRLEN_P(var) == 0) {
+		RETURN_FALSE;
+	}
+
+	p = (const unsigned char*) Z_STRVAL_P(var);
+	PHP_VAR_UNSERIALIZE_INIT(var_hash);
+	if (!php_var_unserialize(&return_value, &p, p + Z_STRLEN_P(var), &var_hash TSRMLS_CC)) {
+		PHP_VAR_UNSERIALIZE_DESTROY(var_hash);
+		zval_dtor(return_value);
+		if (!EG(exception)) {
+			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Error at offset %ld of %d bytes", (long)((char*)p - Z_STRVAL_P(var)), Z_STRLEN_P(var));
+		}
+		RETURN_FALSE;
+	}
+	PHP_VAR_UNSERIALIZE_DESTROY(var_hash);
+
+}
 
 
 
@@ -11484,6 +11429,39 @@ static void phalcon_orm_set_prepared_ast(zval *unique_id, zval *prepared_ast TSR
 
 }
 
+static void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC) {
+
+	int i;
+	smart_str  escaped_str = {0};
+	char *marker;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		RETURN_ZVAL(str, 1, 0);
+	}
+
+	marker = Z_STRVAL_P(str);
+
+	for (i = 0; i < Z_STRLEN_P(str); i++) {
+		if ((*marker) == '\0') {
+			break;
+		}
+		if ((*marker) == '\'') {
+			smart_str_appendc(&escaped_str, '\'');
+		}
+		smart_str_appendc(&escaped_str, (*marker));
+		marker++;
+	}
+
+	smart_str_0(&escaped_str);
+
+	if (escaped_str.len) {
+		RETURN_STRINGL(escaped_str.c, escaped_str.len, 0);
+	} else {
+		smart_str_free(&escaped_str);
+		RETURN_EMPTY_STRING();
+	}
+}
+
 
 
 
@@ -11695,6 +11673,168 @@ static void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths
 		}
 
 		if (bracket_count > 0 || parentheses_count > 0 || looking_placeholder) {
+			intermediate++;
+		} else {
+			smart_str_appendc(&route_str, ch);
+		}
+
+		cursor++;
+	}
+	smart_str_0(&route_str);
+
+	if (route_str.len) {
+		RETURN_STRINGL(route_str.c, route_str.len, 0);
+	} else {
+		smart_str_free(&route_str);
+		RETURN_EMPTY_STRING();
+	}
+
+}
+
+static void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
+
+	unsigned int i, j, k, bracket_count = 0, parentheses_count = 0, ch;
+	unsigned int intermediate, length, number_matches = 0, found_pattern;
+	int variable_length, regexp_length, not_valid;
+	char *cursor, *cursor_var, *marker;
+	char *item, *variable = NULL, *regexp;
+	smart_str route_str = {0};
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		ZVAL_BOOL(return_value, 0);
+		return;
+	}
+
+	if (Z_STRLEN_P(str) <= 0) {
+		ZVAL_BOOL(return_value, 0);
+		return;
+	}
+
+	if (Z_TYPE_P(matches) != IS_ARRAY) {
+		ZVAL_BOOL(return_value, 0);
+		return;
+	}
+
+	cursor = Z_STRVAL_P(str);
+	for (i = 0; i < Z_STRLEN_P(str); i++) {
+
+		ch = *cursor;
+		if (ch == '\0') {
+			break;
+		}
+
+		if (parentheses_count == 0) {
+			if (ch == '{') {
+				if (bracket_count == 0) {
+					marker = cursor;
+					intermediate = 0;
+					not_valid = 0;
+				}
+				bracket_count++;
+			} else {
+				if (ch == '}') {
+					bracket_count--;
+					if (intermediate > 0) {
+						if (bracket_count == 0) {
+
+							number_matches++;
+
+							variable = NULL;
+							length = cursor - marker - 1;
+							item = estrndup(marker + 1, length);
+							cursor_var = item;
+							marker = item;
+							for (j = 0; j < length; j++) {
+								ch = *cursor_var;
+								if (j == 0 && !((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z'))){
+									not_valid = 1;
+									break;
+								}
+								if ((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z') || (ch >= '0' && ch <='9') || ch == '-' || ch == '_' || ch ==  ':') {
+									if (ch == ':') {
+										regexp_length = length - j - 1;
+										variable_length = cursor_var - marker;
+										variable = estrndup(marker, variable_length);
+										regexp = estrndup(cursor_var + 1, regexp_length);
+										break;
+									}
+								} else {
+									not_valid = 1;
+									break;
+								}
+								cursor_var++;
+							}
+
+							if (!not_valid) {
+								{
+									zval *tmp;
+									ALLOC_INIT_ZVAL(tmp);
+									ZVAL_LONG(tmp, number_matches);
+
+									if (variable) {
+										if (regexp_length > 0) {
+
+											found_pattern = 0;
+											for (k = 0; k < regexp_length; k++) {
+												if (!found_pattern) {
+													if (regexp[k] == '(') {
+														found_pattern = 1;
+													}
+												} else {
+													if (regexp[k] == ')') {
+														found_pattern = 2;
+														break;
+													}
+												}
+											}
+
+											if (found_pattern != 2) {
+												smart_str_appendc(&route_str, '(');
+												smart_str_appendl(&route_str, regexp, regexp_length);
+												smart_str_appendc(&route_str, ')');
+											} else {
+												smart_str_appendl(&route_str, regexp, regexp_length);
+											}
+											zend_hash_update(Z_ARRVAL_P(matches), variable, variable_length + 1, &tmp, sizeof(zval *), NULL);
+										}
+										efree(regexp);
+										efree(variable);
+									} else {
+										smart_str_appendl(&route_str, "([^/]*)", strlen("([^/]*)"));
+										zend_hash_update(Z_ARRVAL_P(matches), item, length + 1, &tmp, sizeof(zval *), NULL);
+									}
+								}
+							} else {
+								smart_str_appendc(&route_str, '{');
+								smart_str_appendl(&route_str, item, length);
+								smart_str_appendc(&route_str, '}');
+							}
+
+							efree(item);
+
+							cursor++;
+							continue;
+						}
+					}
+				}
+			}
+
+		}
+
+		if (bracket_count == 0) {
+			if (ch == '(') {
+				parentheses_count++;
+			} else {
+				if (ch == ')') {
+					parentheses_count--;
+					if (parentheses_count == 0) {
+						number_matches++;
+					}
+				}
+			}
+		}
+
+		if (bracket_count > 0) {
 			intermediate++;
 		} else {
 			smart_str_appendc(&route_str, ch);
@@ -17003,9 +17143,8 @@ static PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 static PHP_METHOD(Phalcon_Events_Manager, fire){
 
 	zval *event_type, *source, *data = NULL, *cancelable = NULL, *events;
-	zval *exception_message, *colon, *event_parts;
-	zval *type, *event_name, *status = NULL, *collect, *event = NULL;
-	zval *fire_events = NULL;
+	zval *exception_message, *event_parts, *type;
+	zval *event_name, *status = NULL, *collect, *event = NULL, *fire_events = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -17038,11 +17177,8 @@ static PHP_METHOD(Phalcon_Events_Manager, fire){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(colon);
-	ZVAL_STRING(colon, ":", 1);
-	
 	PHALCON_INIT_VAR(event_parts);
-	phalcon_fast_explode(event_parts, colon, event_type TSRMLS_CC);
+	phalcon_fast_explode_str(event_parts, SL(":"), event_type TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_long(&type, event_parts, 0, PH_NOISY_CC);
@@ -19247,10 +19383,10 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
 
 static PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
-	zval *file_path, *config, *process_sections;
-	zval *ini_config, *base_path, *exception_message;
-	zval *dot, *directives = NULL, *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL;
-	zval *left_part = NULL, *right_part = NULL;
+	zval *file_path, *process_sections, *ini_config;
+	zval *exception_message, *config, *directives = NULL;
+	zval *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL, *left_part = NULL;
+	zval *right_part = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -19259,9 +19395,6 @@ static PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
 	phalcon_fetch_params(1, 1, 0, &file_path);
 	
-	PHALCON_INIT_VAR(config);
-	array_init(config);
-	
 	PHALCON_INIT_VAR(process_sections);
 	ZVAL_BOOL(process_sections, 1);
 	
@@ -19269,17 +19402,14 @@ static PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	phalcon_call_func_p2(ini_config, "parse_ini_file", file_path, process_sections);
 	
 	if (PHALCON_IS_FALSE(ini_config)) {
-		PHALCON_INIT_VAR(base_path);
-		phalcon_call_func_p1(base_path, "basename", file_path);
-	
 		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Configuration file ", base_path, " can't be loaded");
+		PHALCON_CONCAT_SVS(exception_message, "Configuration file ", file_path, " can't be loaded");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_config_exception_ce, exception_message);
 		return;
 	}
 	
-	PHALCON_INIT_VAR(dot);
-	ZVAL_STRING(dot, ".", 1);
+	PHALCON_INIT_VAR(config);
+	array_init(config);
 	
 	if (!phalcon_is_iterable(ini_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -19302,7 +19432,7 @@ static PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	
 			if (phalcon_memnstr_str(key, SL(".") TSRMLS_CC)) {
 				PHALCON_INIT_NVAR(directive_parts);
-				phalcon_fast_explode(directive_parts, dot, key TSRMLS_CC);
+				phalcon_fast_explode_str(directive_parts, SL("."), key TSRMLS_CC);
 	
 				PHALCON_OBS_NVAR(left_part);
 				phalcon_array_fetch_long(&left_part, directive_parts, 0, PH_NOISY_CC);
@@ -21741,7 +21871,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_ReaderInterface){
 
 
 
-/* Generated by re2c 0.13.5 on Sat Jun 15 14:04:33 2013 */
+/* Generated by re2c 0.13.5 on Wed Jun 19 22:36:22 2013 */
 // 1 "scanner.re"
 
 
@@ -23932,16 +24062,19 @@ static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval
 		error = emalloc(sizeof(char) * error_length);
 		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
-			snprintf(error, 64 + state->start_length, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			snprintf(error, 64 + state->start_length, "Scanning error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
 			efree(error_part);
 		} else {
-			snprintf(error, error_length - 1, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+			snprintf(error, error_length - 1, "Scanning error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
 		}
+		error[error_length - 1] = '\0';
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error = emalloc(sizeof(char) * (64 + Z_STRLEN_P(state->active_file)));
-		snprintf(error, 64 + Z_STRLEN_P(state->active_file), "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
+		error_length = sizeof(char) * (64 + Z_STRLEN_P(state->active_file));
+		error = emalloc(error_length);
+		snprintf(error, error_length - 1, "Scanning error near to EOF in %s", Z_STRVAL_P(state->active_file));
 		ZVAL_STRING(*error_msg, error, 1);
+		error[error_length - 1] = '\0';
 	}
 	efree(error);
 }
@@ -24062,7 +24195,7 @@ static int phannot_internal_parse_annotations(zval **result, zval *comment, zval
 	char *error;
 	phannot_scanner_state *state;
 	phannot_scanner_token token;
-	int scanner_status, status = SUCCESS, start_lines;
+	int scanner_status, status = SUCCESS, start_lines, error_length;
 	phannot_parser_status *parser_status = NULL;
 	void* phannot_parser;
 	zval processed_comment;
@@ -24187,8 +24320,10 @@ static int phannot_internal_parse_annotations(zval **result, zval *comment, zval
 			default:
 				parser_status->status = PHANNOT_PARSING_FAILED;
 				if (!*error_msg) {
-					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
-					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					error_length = sizeof(char) * (48 + Z_STRLEN_P(state->active_file));
+					error = emalloc(error_length);
+					snprintf(error, error_length - 1, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					error[error_length - 1] = '\0';
 					PHALCON_INIT_VAR(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
 					efree(error);
@@ -24722,13 +24857,13 @@ static PHP_METHOD(Phalcon_Debug, _getArrayDump){
 					if (PHALCON_IS_SCALAR(v)) {
 						if (PHALCON_IS_STRING(v, "")) {
 							PHALCON_INIT_NVAR(var_dump);
-							PHALCON_CONCAT_VS(var_dump, k, " => (empty string)");
+							PHALCON_CONCAT_SVS(var_dump, "[", k, "] =&gt; (empty string)");
 						} else {
 							PHALCON_INIT_NVAR(escaped_string);
 							phalcon_call_method_p1_key(escaped_string, this_ptr, "_escapestring", v, 1235002348UL);
 	
 							PHALCON_INIT_NVAR(var_dump);
-							PHALCON_CONCAT_VSV(var_dump, k, " => ", escaped_string);
+							PHALCON_CONCAT_SVSV(var_dump, "[", k, "] =&gt; ", escaped_string);
 						}
 						phalcon_array_append(&dump, var_dump, PH_SEPARATE TSRMLS_CC);
 					} else {
@@ -24740,7 +24875,7 @@ static PHP_METHOD(Phalcon_Debug, _getArrayDump){
 							phalcon_call_method_p2_key(array_dump, this_ptr, "_getarraydump", v, next, 2678003289UL);
 	
 							PHALCON_INIT_NVAR(var_dump);
-							PHALCON_CONCAT_VSVS(var_dump, k, " => Array(", array_dump, ")");
+							PHALCON_CONCAT_SVSVS(var_dump, "[", k, "] =&gt; Array(", array_dump, ")");
 							phalcon_array_append(&dump, var_dump, PH_SEPARATE TSRMLS_CC);
 							zend_hash_move_forward_ex(ah0, &hp0);
 							continue;
@@ -24750,7 +24885,7 @@ static PHP_METHOD(Phalcon_Debug, _getArrayDump){
 							phalcon_get_class(class_name, v, 0 TSRMLS_CC);
 	
 							PHALCON_INIT_NVAR(var_dump);
-							PHALCON_CONCAT_VSVS(var_dump, k, " => Object(", class_name, ")");
+							PHALCON_CONCAT_SVSVS(var_dump, "[", k, "] =&gt; Object(", class_name, ")");
 							phalcon_array_append(&dump, var_dump, PH_SEPARATE TSRMLS_CC);
 							zend_hash_move_forward_ex(ah0, &hp0);
 							continue;
@@ -24758,14 +24893,14 @@ static PHP_METHOD(Phalcon_Debug, _getArrayDump){
 	
 						if (Z_TYPE_P(v) == IS_NULL) {
 							PHALCON_INIT_NVAR(var_dump);
-							PHALCON_CONCAT_VS(var_dump, k, " => null");
+							PHALCON_CONCAT_SVS(var_dump, "[", k, "] =&gt; null");
 							phalcon_array_append(&dump, var_dump, PH_SEPARATE TSRMLS_CC);
 							zend_hash_move_forward_ex(ah0, &hp0);
 							continue;
 						}
 	
 						PHALCON_INIT_NVAR(var_dump);
-						PHALCON_CONCAT_VSV(var_dump, k, " => ", v);
+						PHALCON_CONCAT_SVSV(var_dump, "[", k, "] =&gt; ", v);
 						phalcon_array_append(&dump, var_dump, PH_SEPARATE TSRMLS_CC);
 					}
 	
@@ -24777,10 +24912,12 @@ static PHP_METHOD(Phalcon_Debug, _getArrayDump){
 	
 				RETURN_CTOR(joined_dump);
 			}
+	
+			RETURN_NCTOR(number_arguments);
 		}
 	}
 	
-	RETURN_NCTOR(number_arguments);
+	RETURN_MM_NULL();
 }
 
 static PHP_METHOD(Phalcon_Debug, _getVarDump){
@@ -24858,18 +24995,15 @@ static PHP_METHOD(Phalcon_Debug, _getVarDump){
 
 static PHP_METHOD(Phalcon_Debug, getMajorVersion){
 
-	zval *version, *space, *parts, *major;
+	zval *version, *parts, *major;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(version);
 	PHALCON_CALL_STATIC(version, "phalcon\\version", "get");
 	
-	PHALCON_INIT_VAR(space);
-	ZVAL_STRING(space, " ", 1);
-	
 	PHALCON_INIT_VAR(parts);
-	phalcon_fast_explode(parts, space, version TSRMLS_CC);
+	phalcon_fast_explode_str(parts, SL(" "), version TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, parts, 0, PH_NOISY_CC);
@@ -25309,7 +25443,7 @@ static PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	
 		phalcon_concat_self_str(&html, SL("</ul>") TSRMLS_CC);
 	
-		phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-1\"><table cellspacing=\"0\" align=\"center\">") TSRMLS_CC);
+		phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-1\"><table cellspacing=\"0\" align=\"center\" width=\"100%\">") TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(trace);
 		phalcon_call_method_key(trace, exception, "gettrace", 4268145556UL);
@@ -25375,7 +25509,7 @@ static PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		PHALCON_INIT_VAR(files);
 		phalcon_call_func(files, "get_included_files");
 		phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-4\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
-		phalcon_concat_self_str(&html, SL("<tr><th>Path</th></tr>") TSRMLS_CC);
+		phalcon_concat_self_str(&html, SL("<tr><th>#</th><th>Path</th></tr>") TSRMLS_CC);
 	
 		if (!phalcon_is_iterable(files, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 			return;
@@ -25383,9 +25517,10 @@ static PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	
 		while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
+			PHALCON_GET_HKEY(key, ah3, hp3);
 			PHALCON_GET_HVALUE(value);
 	
-			PHALCON_SCONCAT_SVS(html, "<tr><td>", value, "</td></tr>");
+			PHALCON_SCONCAT_SVSVS(html, "<tr><td>", key, "</th><td>", value, "</td></tr>");
 	
 			zend_hash_move_forward_ex(ah3, &hp3);
 		}
@@ -30902,7 +31037,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Oracle){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Oracle, db_dialect_oracle, "phalcon\\db\\dialect", phalcon_db_dialect_oracle_method_entry, 0);
 
-	zend_declare_property_string(phalcon_db_dialect_oracle_ce, SL("_escapeChar"), "\"", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_dialect_oracle_ce, SL("_escapeChar"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_dialect_oracle_ce TSRMLS_CC, 1, phalcon_db_dialectinterface_ce);
 
@@ -33120,9 +33255,8 @@ static PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 
 	zval *definition, *table_options, *options, *engine;
 	zval *sql_engine, *auto_increment, *sql_autoincrement;
-	zval *table_collation, *under_score, *collation_parts;
-	zval *first_part, *sql_charset, *sql_collate;
-	zval *sql_table_options;
+	zval *table_collation, *collation_parts, *first_part;
+	zval *sql_charset, *sql_collate, *sql_table_options;
 
 	PHALCON_MM_GROW();
 
@@ -33163,11 +33297,8 @@ static PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 			PHALCON_OBS_VAR(table_collation);
 			phalcon_array_fetch_quick_string(&table_collation, options, SS("TABLE_COLLATION"), 1457306353UL, PH_NOISY_CC);
 			if (zend_is_true(table_collation)) {
-				PHALCON_INIT_VAR(under_score);
-				ZVAL_STRING(under_score, "_", 1);
-	
 				PHALCON_INIT_VAR(collation_parts);
-				phalcon_fast_explode(collation_parts, under_score, table_collation TSRMLS_CC);
+				phalcon_fast_explode_str(collation_parts, SL("_"), table_collation TSRMLS_CC);
 	
 				PHALCON_OBS_VAR(first_part);
 				phalcon_array_fetch_long(&first_part, collation_parts, 0, PH_NOISY_CC);
@@ -35601,7 +35732,7 @@ static PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	zval *arguments_joined, *function_expression = NULL;
 	zval *sql_items, *items, *item = NULL, *item_expression = NULL;
 	zval *list_expression, *group_expression;
-	zval *expression_cast, *exception_message;
+	zval *expression_cast = NULL, *exception_message;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -35831,6 +35962,24 @@ static PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 		PHALCON_INIT_VAR(expression_cast);
 		PHALCON_CONCAT_SVSVS(expression_cast, "CAST(", expression_left, " AS ", expression_right, ")");
+		RETURN_CTOR(expression_cast);
+	}
+	
+	if (PHALCON_IS_STRING(type, "convert")) {
+		PHALCON_OBS_NVAR(left);
+		phalcon_array_fetch_quick_string(&left, expression, SS("left"), 265976240UL, PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(expression_left);
+		phalcon_call_method_p2_key(expression_left, this_ptr, "getsqlexpression", left, escape_char, 3377787077UL);
+	
+		PHALCON_OBS_NVAR(right);
+		phalcon_array_fetch_quick_string(&right, expression, SS("right"), 426864067UL, PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(expression_right);
+		phalcon_call_method_p2_key(expression_right, this_ptr, "getsqlexpression", right, escape_char, 3377787077UL);
+	
+		PHALCON_INIT_NVAR(expression_cast);
+		PHALCON_CONCAT_SVSVS(expression_cast, "CONVERT(", expression_left, " USING ", expression_right, ")");
 		RETURN_CTOR(expression_cast);
 	}
 	
@@ -39003,8 +39152,8 @@ static PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 	phalcon_fetch_params(1, 1, 0, &data);
 	
 	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "serialize", data);
-	RETURN_CCTOR(serialized);
+	phalcon_serialize(serialized, &data TSRMLS_CC);
+	RETURN_CTOR(serialized);
 }
 
 static PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
@@ -39016,8 +39165,8 @@ static PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 	phalcon_fetch_params(1, 1, 0, &data);
 	
 	PHALCON_INIT_VAR(unserialized);
-	phalcon_call_func_p1(unserialized, "unserialize", data);
-	RETURN_CCTOR(unserialized);
+	phalcon_unserialize(unserialized, data TSRMLS_CC);
+	RETURN_CTOR(unserialized);
 }
 
 
@@ -43750,7 +43899,7 @@ static PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 static PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
 	zval *trust_forwarded_header = NULL, *address = NULL, *_SERVER;
-	zval *comma, *addresses, *first;
+	zval *addresses, *first;
 
 	PHALCON_MM_GROW();
 
@@ -43780,11 +43929,8 @@ static PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	
 	if (Z_TYPE_P(address) == IS_STRING) {
 		if (phalcon_memnstr_str(address, SL(",") TSRMLS_CC)) {
-			PHALCON_INIT_VAR(comma);
-			ZVAL_STRING(comma, ",", 1);
-	
 			PHALCON_INIT_VAR(addresses);
-			phalcon_fast_explode(addresses, comma, address TSRMLS_CC);
+			phalcon_fast_explode_str(addresses, SL(","), address TSRMLS_CC);
 	
 			PHALCON_OBS_VAR(first);
 			phalcon_array_fetch_long(&first, addresses, 0, PH_NOISY_CC);
@@ -44183,9 +44329,8 @@ static PHP_METHOD(Phalcon_Http_Request, getHTTPReferer){
 static PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 
 	zval *server_index, *name, *quality_one, *returned_parts;
-	zval *http_server, *pattern, *parts, *dot_comma;
-	zval *part = NULL, *header_parts = NULL, *quality_part = NULL, *quality = NULL;
-	zval *header_name = NULL;
+	zval *http_server, *pattern, *parts, *part = NULL, *header_parts = NULL;
+	zval *quality_part = NULL, *quality = NULL, *header_name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -44208,9 +44353,6 @@ static PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 	PHALCON_INIT_VAR(parts);
 	phalcon_call_func_p2(parts, "preg_split", pattern, http_server);
 	
-	PHALCON_INIT_VAR(dot_comma);
-	ZVAL_STRING(dot_comma, ";", 1);
-	
 	if (!phalcon_is_iterable(parts, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
@@ -44220,7 +44362,7 @@ static PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 		PHALCON_GET_HVALUE(part);
 	
 		PHALCON_INIT_NVAR(header_parts);
-		phalcon_fast_explode(header_parts, dot_comma, part TSRMLS_CC);
+		phalcon_fast_explode_str(header_parts, SL(";"), part TSRMLS_CC);
 		if (phalcon_array_isset_long(header_parts, 1)) {
 			PHALCON_OBS_NVAR(quality_part);
 			phalcon_array_fetch_long(&quality_part, header_parts, 1, PH_NOISY_CC);
@@ -47626,7 +47768,7 @@ static PHP_METHOD(Phalcon_Queue_Beanstalk, put){
 	}
 	
 	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "serialize", data);
+	phalcon_serialize(serialized, &data TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(serialized_length);
 	phalcon_fast_strlen(serialized_length, serialized);
@@ -47695,7 +47837,7 @@ static PHP_METHOD(Phalcon_Queue_Beanstalk, reserve){
 		phalcon_call_method_p1_key(serialized_body, this_ptr, "read", length, 273085793UL);
 	
 		PHALCON_INIT_VAR(body);
-		phalcon_call_func_p1(body, "unserialize", serialized_body);
+		phalcon_unserialize(body, serialized_body TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(job);
 		object_init_ex(job, phalcon_queue_beanstalk_job_ce);
@@ -47786,7 +47928,7 @@ static PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady){
 		phalcon_call_method_p1_key(serialized_body, this_ptr, "read", length, 273085793UL);
 	
 		PHALCON_INIT_VAR(body);
-		phalcon_call_func_p1(body, "unserialize", serialized_body);
+		phalcon_unserialize(body, serialized_body TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(job);
 		object_init_ex(job, phalcon_queue_beanstalk_job_ce);
@@ -47800,18 +47942,15 @@ static PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady){
 
 static PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus){
 
-	zval *response, *space, *parts;
+	zval *response, *parts;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(response);
 	phalcon_call_method_key(response, this_ptr, "read", 273085793UL);
 	
-	PHALCON_INIT_VAR(space);
-	ZVAL_STRING(space, " ", 1);
-	
 	PHALCON_INIT_VAR(parts);
-	phalcon_fast_explode(parts, space, response TSRMLS_CC);
+	phalcon_fast_explode_str(parts, SL(" "), response TSRMLS_CC);
 	RETURN_CTOR(parts);
 }
 
@@ -49069,8 +49208,7 @@ static PHP_METHOD(Phalcon_Mvc_View, render){
 
 static PHP_METHOD(Phalcon_Mvc_View, pick){
 
-	zval *render_view, *pick_view = NULL, *layout = NULL, *separator;
-	zval *parts;
+	zval *render_view, *pick_view = NULL, *layout = NULL, *parts;
 
 	PHALCON_MM_GROW();
 
@@ -49080,12 +49218,9 @@ static PHP_METHOD(Phalcon_Mvc_View, pick){
 		PHALCON_CPY_WRT(pick_view, render_view);
 	} else {
 		PHALCON_INIT_VAR(layout);
-	
-		PHALCON_INIT_VAR(separator);
-		ZVAL_STRING(separator, "/", 1);
-		if (phalcon_memnstr(render_view, separator TSRMLS_CC)) {
+		if (phalcon_memnstr_str(render_view, SL("/") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(parts);
-			phalcon_fast_explode(parts, separator, render_view TSRMLS_CC);
+			phalcon_fast_explode_str(parts, SL("/"), render_view TSRMLS_CC);
 	
 			PHALCON_OBS_NVAR(layout);
 			phalcon_array_fetch_long(&layout, parts, 0, PH_NOISY_CC);
@@ -51152,8 +51287,8 @@ static PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 	phalcon_call_method_key(data, this_ptr, "toarray", 3566966151UL);
 	
 	PHALCON_INIT_VAR(serialize);
-	phalcon_call_func_p1(serialize, "serialize", data);
-	RETURN_CCTOR(serialize);
+	phalcon_serialize(serialize, &data TSRMLS_CC);
+	RETURN_CTOR(serialize);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
@@ -51171,7 +51306,7 @@ static PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 	if (Z_TYPE_P(data) == IS_STRING) {
 	
 		PHALCON_INIT_VAR(attributes);
-		phalcon_call_func_p1(attributes, "unserialize", data);
+		phalcon_unserialize(attributes, data TSRMLS_CC);
 		if (Z_TYPE_P(attributes) == IS_ARRAY) { 
 	
 			PHALCON_INIT_VAR(dependency_injector);
@@ -51757,6 +51892,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_reusable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_keepSnapshots"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_dynamicUpdate"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_namespaceAliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_manager_ce TSRMLS_CC, 3, phalcon_mvc_model_managerinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
@@ -51956,7 +52092,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 	}
 	
 	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SVS(exception_message, "The model '", model_name, "' could not be loaded");
+	PHALCON_CONCAT_SVS(exception_message, "Model '", model_name, "' could not be loaded");
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 	return;
 }
@@ -51970,11 +52106,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource){
 	phalcon_fetch_params(1, 2, 0, &model, &source);
 	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model is not an object");
 		return;
 	}
 	if (Z_TYPE_P(source) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The source must be a string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Source must be a string");
 		return;
 	}
 	
@@ -51994,7 +52130,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource){
 	phalcon_fetch_params(1, 1, 0, &model);
 	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model is not an object");
 		return;
 	}
 	
@@ -52030,11 +52166,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema){
 	phalcon_fetch_params(1, 2, 0, &model, &schema);
 	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model is not an object");
 		return;
 	}
 	if (Z_TYPE_P(schema) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The schema must be a string");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Schema must be a string");
 		return;
 	}
 	
@@ -52054,7 +52190,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema){
 	phalcon_fetch_params(1, 1, 0, &model);
 	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The model is not an object");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model is not an object");
 		return;
 	}
 	
@@ -53866,6 +54002,54 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery){
 	RETURN_MEMBER_QUICK(this_ptr, "_lastQuery", 148087694UL);
 }
 
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, registerNamespaceAlias){
+
+	zval *alias, *namespace;
+
+	phalcon_fetch_params(0, 2, 0, &alias, &namespace);
+	
+	if (Z_TYPE_P(alias) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The namespace alias must be a string");
+		return;
+	}
+	if (Z_TYPE_P(namespace) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The namespace must be a string");
+		return;
+	}
+	
+	phalcon_update_property_array(this_ptr, SL("_namespaceAliases"), alias, namespace TSRMLS_CC);
+	
+}
+
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAlias){
+
+	zval *alias, *namespace_aliases, *namespace;
+	zval *exception_message;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &alias);
+	
+	PHALCON_OBS_VAR(namespace_aliases);
+	phalcon_read_property_this_quick(&namespace_aliases, this_ptr, SL("_namespaceAliases"), 3928808595UL, PH_NOISY_CC);
+	if (phalcon_array_isset(namespace_aliases, alias)) {
+		PHALCON_OBS_VAR(namespace);
+		phalcon_array_fetch(&namespace, namespace_aliases, alias, PH_NOISY_CC);
+		RETURN_CCTOR(namespace);
+	}
+	
+	PHALCON_INIT_VAR(exception_message);
+	PHALCON_CONCAT_SVS(exception_message, "Namespace alias '", alias, "' is not registered");
+	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+	return;
+}
+
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getNamespaceAliases){
+
+
+	RETURN_MEMBER_QUICK(this_ptr, "_namespaceAliases", 3928808595UL);
+}
+
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct){
 
 
@@ -54343,11 +54527,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 
 	zval *expr, *column_name, *sql_column_aliases;
 	zval *source_column = NULL, *meta_data, *column_domain;
-	zval *sql_aliases, *exception_message = NULL, *source = NULL;
-	zval *sql_aliases_models_instances, *model = NULL;
-	zval *column_map = NULL, *real_column_name = NULL, *number;
-	zval *has_model = NULL, *models_instances, *has_attribute = NULL;
-	zval *models, *class_name;
+	zval *sql_aliases, *phql = NULL, *exception_message = NULL;
+	zval *source = NULL, *sql_aliases_models_instances;
+	zval *model = NULL, *column_map = NULL, *real_column_name = NULL;
+	zval *number, *has_model = NULL, *models_instances;
+	zval *has_attribute = NULL, *models, *class_name;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -54382,8 +54566,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		phalcon_read_property_this_quick(&sql_aliases, this_ptr, SL("_sqlAliases"), 3407085878UL, PH_NOISY_CC);
 	
 		if (!phalcon_array_isset(sql_aliases, column_domain)) {
+			PHALCON_OBS_VAR(phql);
+			phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Unknown model or alias '", column_domain, "' (1)");
+			PHALCON_CONCAT_SVSV(exception_message, "Unknown model or alias '", column_domain, "' (1), when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
@@ -54397,8 +54584,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			phalcon_read_property_this_quick(&sql_aliases_models_instances, this_ptr, SL("_sqlAliasesModelsInstances"), 3347052930UL, PH_NOISY_CC);
 	
 			if (!phalcon_array_isset(sql_aliases_models_instances, column_domain)) {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "There is no model related to model or alias '", column_domain, "'");
+				PHALCON_CONCAT_SVSV(exception_message, "There is no model related to model or alias '", column_domain, "', when executing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -54417,8 +54607,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 				PHALCON_OBS_VAR(real_column_name);
 				phalcon_array_fetch(&real_column_name, column_map, column_name, PH_NOISY_CC);
 			} else {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVSVS(exception_message, "Column '", column_name, "' doesn't belong to the model or alias '", column_domain, "'");
+				PHALCON_CONCAT_SVSVSV(exception_message, "Column '", column_name, "' doesn't belong to the model or alias '", column_domain, "', when executing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -54449,8 +54642,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 				PHALCON_SEPARATE(number);
 				increment_function(number);
 				if (PHALCON_GT_LONG(number, 1)) {
+					PHALCON_OBS_NVAR(phql);
+					phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "The column '", column_name, "' is ambiguous");
+					PHALCON_CONCAT_SVSV(exception_message, "The column '", column_name, "' is ambiguous, when preparing: ", phql);
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 					return;
 				}
@@ -54462,8 +54658,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		}
 	
 		if (PHALCON_IS_FALSE(has_model)) {
+			PHALCON_OBS_NVAR(phql);
+			phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 			PHALCON_INIT_NVAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (1)");
+			PHALCON_CONCAT_SVSV(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (1), when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
@@ -54481,8 +54680,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			PHALCON_OBS_NVAR(source);
 			phalcon_array_fetch(&source, models, class_name, PH_NOISY_CC);
 		} else {
+			PHALCON_OBS_NVAR(phql);
+			phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 			PHALCON_INIT_NVAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (2)");
+			PHALCON_CONCAT_SVSV(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (2), when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
@@ -54500,8 +54702,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 				PHALCON_OBS_NVAR(real_column_name);
 				phalcon_array_fetch(&real_column_name, column_map, column_name, PH_NOISY_CC);
 			} else {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (3)");
+				PHALCON_CONCAT_SVSV(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (3), when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -54608,10 +54813,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 
 	zval *expr, *quoting = NULL, *temp_not_quoting, *expr_left;
 	zval *left, *expr_right, *right, *expr_type, *expr_return = NULL;
-	zval *expr_value = NULL, *value = NULL, *escaped_value, *question_mark;
+	zval *expr_value = NULL, *value = NULL, *escaped_value = NULL, *question_mark;
 	zval *double_colon, *placeholder = NULL, *expression_message;
-	zval *expression, *expr_domain, *list_items;
-	zval *expr_list_item = NULL, *expr_item = NULL;
+	zval *expression, *list_items, *expr_list_item = NULL;
+	zval *expr_item = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -54728,6 +54933,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_call_method_p1_key(expr_return, this_ptr, "_getqualified", expr, 3068781464UL);
 				break;
 	
+			case 359:
+				PHALCON_INIT_NVAR(expr_return);
+				phalcon_call_method_p1_key(expr_return, this_ptr, "_getaliased", expr, 2254100183UL);
+				break;
+	
 			case 43:
 				PHALCON_INIT_NVAR(expr_return);
 				array_init_size(expr_return, 4);
@@ -54826,12 +55036,31 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_array_update_quick_string(&expr_return, SS("value"), 574111618UL, &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				break;
 	
+			case 333:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				add_assoc_stringl_ex(expr_return, SS("value"), SL("TRUE"), 1);
+				break;
+	
+			case 334:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				add_assoc_stringl_ex(expr_return, SS("value"), SL("FALSE"), 1);
+				break;
+	
 			case 260:
 				PHALCON_OBS_VAR(value);
 				phalcon_array_fetch_quick_string(&value, expr, SS("value"), 574111618UL, PH_NOISY_CC);
 				if (PHALCON_IS_TRUE(quoting)) {
-					PHALCON_INIT_VAR(escaped_value);
-					phalcon_call_func_p1(escaped_value, "addslashes", value);
+	
+					if (phalcon_memnstr_str(value, SL("'") TSRMLS_CC)) {
+						PHALCON_INIT_VAR(escaped_value);
+						phalcon_orm_singlequotes(escaped_value, value TSRMLS_CC);
+					} else {
+						PHALCON_CPY_WRT(escaped_value, value);
+					}
 	
 					PHALCON_INIT_NVAR(expr_value);
 					PHALCON_CONCAT_SVS(expr_value, "'", escaped_value, "'");
@@ -54996,6 +55225,14 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_array_update_quick_string(&expr_return, SS("right"), 426864067UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				break;
 	
+			case 335:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("convert"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 265976240UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 426864067UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
 			case 358:
 				PHALCON_OBS_NVAR(value);
 				phalcon_array_fetch_quick_string(&value, expr, SS("name"), 268211462UL, PH_NOISY_CC);
@@ -55028,9 +55265,9 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	}
 	
 	if (phalcon_array_isset_quick_string(expr, SS("domain"), 542597917UL)) {
-		PHALCON_INIT_VAR(expr_domain);
-		phalcon_call_method_p1_key(expr_domain, this_ptr, "_getqualified", expr, 3068781464UL);
-		RETURN_CCTOR(expr_domain);
+		PHALCON_INIT_NVAR(expr_return);
+		phalcon_call_method_p1_key(expr_return, this_ptr, "_getqualified", expr, 3068781464UL);
+		RETURN_CCTOR(expr_return);
 	}
 	
 	if (phalcon_array_isset_long(expr, 0)) {
@@ -55069,10 +55306,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 
 	zval *column, *sql_columns, *column_type, *models;
 	zval *source = NULL, *model_name = NULL, *sql_column = NULL, *sql_aliases;
-	zval *column_domain, *exception_message = NULL, *sql_column_alias = NULL;
-	zval *sql_aliases_models, *sql_models_aliases;
-	zval *best_alias, *prepared_alias = NULL, *column_data;
-	zval *sql_expr_column, *balias;
+	zval *column_domain, *phql, *exception_message = NULL;
+	zval *sql_column_alias = NULL, *sql_aliases_models;
+	zval *sql_models_aliases, *best_alias, *prepared_alias = NULL;
+	zval *column_data, *sql_expr_column, *balias;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -55131,8 +55368,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		PHALCON_OBS_VAR(column_domain);
 		phalcon_array_fetch_quick_string(&column_domain, column, SS("column"), 3545634419UL, PH_NOISY_CC);
 		if (!phalcon_array_isset(sql_aliases, column_domain)) {
+			PHALCON_OBS_VAR(phql);
+			phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Unknown model or alias '", column_domain, "' (2)");
+			PHALCON_CONCAT_SVSV(exception_message, "Unknown model or alias '", column_domain, "' (2), when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
@@ -55282,7 +55522,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin){
 
 static PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType){
 
-	zval *join, *type, *join_type = NULL, *exception_message;
+	zval *join, *type, *join_type = NULL, *phql, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -55324,8 +55564,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType){
 			break;
 	
 		default:
+			PHALCON_OBS_VAR(phql);
+			phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SV(exception_message, "Unknown join type ", type);
+			PHALCON_CONCAT_SVSV(exception_message, "Unknown join type ", type, ", when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 	
@@ -55340,8 +55583,9 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 	zval *join_alias, *relation, *fields, *referenced_fields;
 	zval *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL, *sql_join_condition;
 	zval *sql_join_conditions, *sql_join_partial_conditions;
-	zval *field = NULL, *position = NULL, *exception_message = NULL, *referenced_field = NULL;
-	zval *sql_equals_join_condition = NULL, *sql_joins;
+	zval *field = NULL, *position = NULL, *phql = NULL, *exception_message = NULL;
+	zval *referenced_field = NULL, *sql_equals_join_condition = NULL;
+	zval *sql_joins;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -55398,8 +55642,12 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 			PHALCON_GET_HVALUE(field);
 	
 			if (!phalcon_array_isset(referenced_fields, position)) {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSV(exception_message, "The number of fields must be equal to the number of referenced fields in join ", model_alias, "-", join_alias);
+				PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -55456,7 +55704,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin){
 	zval *intermediate_schema, *intermediate_full_source;
 	zval *intermediate_fields, *intermediate_referenced_fields;
 	zval *referenced_model_name, *field = NULL, *position = NULL;
-	zval *exception_message = NULL, *intermediate_field = NULL;
+	zval *phql = NULL, *exception_message = NULL, *intermediate_field = NULL;
 	zval *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL, *sql_equals_join_condition = NULL;
 	zval *sql_join_condition_first, *sql_join_conditions_first;
 	zval *sql_join_first, *sql_join_condition_second;
@@ -55522,8 +55770,12 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin){
 			PHALCON_GET_HVALUE(field);
 	
 			if (!phalcon_array_isset(referenced_fields, position)) {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSV(exception_message, "The number of fields must be equal to the number of referenced fields in join ", model_alias, "-", join_alias);
+				PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -55648,7 +55900,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	zval *complete_source = NULL, *join_type = NULL, *alias_expr = NULL;
 	zval *alias = NULL, *join_expr = NULL, *pre_condition = NULL, *join_alias = NULL;
 	zval *join_model = NULL, *join_source = NULL, *relation = NULL, *relations = NULL;
-	zval *number_relations = NULL, *exception_message = NULL;
+	zval *number_relations = NULL, *phql = NULL, *exception_message = NULL;
 	zval *model_alias = NULL, *is_through = NULL, *sql_join = NULL, *new_sql_joins = NULL;
 	zval *sql_join_conditions = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
@@ -55850,8 +56102,12 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 						PHALCON_INIT_NVAR(number_relations);
 						phalcon_fast_count(number_relations, relations TSRMLS_CC);
 						if (!PHALCON_IS_LONG(number_relations, 1)) {
+							PHALCON_OBS_NVAR(phql);
+							phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 							PHALCON_INIT_NVAR(exception_message);
 							PHALCON_CONCAT_SVSVS(exception_message, "There is more than one relation between models '", model_name, "' and '", join_model, "\", the join must be done using an alias");
+							PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
 							PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 							return;
 						}
@@ -56040,13 +56296,15 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *sql_aliases_models_instances, *models;
 	zval *models_instances, *tables, *selected_models = NULL;
 	zval *manager, *meta_data, *selected_model = NULL, *qualified_name = NULL;
-	zval *model_name = NULL, *model = NULL, *schema = NULL, *source = NULL, *complete_source = NULL;
-	zval *alias = NULL, *exception_message = NULL, *joins, *sql_joins = NULL;
-	zval *columns, *select_columns = NULL, *position, *sql_column_aliases;
-	zval *column = NULL, *sql_column_group = NULL, *sql_column = NULL;
-	zval *type = NULL, *sql_select, *where, *where_expr, *group_by;
-	zval *sql_group, *having, *having_expr, *order;
-	zval *sql_order, *limit;
+	zval *model_name = NULL, *ns_alias = NULL, *real_namespace = NULL;
+	zval *real_model_name = NULL, *model = NULL, *schema = NULL, *source = NULL;
+	zval *complete_source = NULL, *alias = NULL, *phql = NULL, *exception_message = NULL;
+	zval *joins, *sql_joins = NULL, *columns, *select_columns = NULL;
+	zval *position, *sql_column_aliases, *column = NULL;
+	zval *sql_column_group = NULL, *sql_column = NULL, *type = NULL, *sql_select;
+	zval *where, *where_expr, *group_by, *sql_group;
+	zval *having, *having_expr, *order, *sql_order;
+	zval *limit;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -56055,8 +56313,6 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 
 	PHALCON_OBS_VAR(ast);
 	phalcon_read_property_this_quick(&ast, this_ptr, SL("_ast"), 250429676UL, PH_NOISY_CC);
-	if (phalcon_array_isset_quick_string(ast, SS("id"), 193494642UL)) {
-	}
 	
 	PHALCON_OBS_VAR(select);
 	phalcon_array_fetch_quick_string(&select, ast, SS("select"), 2342345829UL, PH_NOISY_CC);
@@ -56128,14 +56384,28 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		PHALCON_OBS_NVAR(model_name);
 		phalcon_array_fetch_quick_string(&model_name, qualified_name, SS("name"), 268211462UL, PH_NOISY_CC);
 	
+		if (phalcon_array_isset_quick_string(qualified_name, SS("ns-alias"), 2470863549UL)) {
+			PHALCON_OBS_NVAR(ns_alias);
+			phalcon_array_fetch_quick_string(&ns_alias, qualified_name, SS("ns-alias"), 2470863549UL, PH_NOISY_CC);
+	
+			PHALCON_INIT_NVAR(real_namespace);
+			phalcon_call_method_p1_key(real_namespace, manager, "getnamespacealias", ns_alias, 3487123420UL);
+	
+			PHALCON_INIT_NVAR(real_model_name);
+			PHALCON_CONCAT_VSV(real_model_name, real_namespace, "\\", model_name);
+		} else {
+			PHALCON_CPY_WRT(real_model_name, model_name);
+		}
+	
 		PHALCON_INIT_NVAR(model);
-		phalcon_call_method_p1_key(model, manager, "load", model_name, 266329637UL);
+		phalcon_call_method_p1_key(model, manager, "load", real_model_name, 266329637UL);
 	
 		PHALCON_INIT_NVAR(schema);
 		phalcon_call_method_key(schema, model, "getschema", 1539736246UL);
 	
 		PHALCON_INIT_NVAR(source);
 		phalcon_call_method_key(source, model, "getsource", 2025234358UL);
+	
 		if (zend_is_true(schema)) {
 			PHALCON_INIT_NVAR(complete_source);
 			array_init_size(complete_source, 2);
@@ -56149,9 +56419,14 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	
 			PHALCON_OBS_NVAR(alias);
 			phalcon_array_fetch_quick_string(&alias, selected_model, SS("alias"), 4060151663UL, PH_NOISY_CC);
+	
 			if (phalcon_array_isset(sql_aliases, alias)) {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVS(exception_message, "Alias \"", alias, " is already used");
+				PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -56344,7 +56619,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 	zval *expr_values, *values, *expr_value = NULL, *expr_insert = NULL;
 	zval *expr_type = NULL, *value = NULL, *sql_insert, *meta_data;
 	zval *sql_fields, *fields, *field = NULL, *name = NULL, *has_attribute = NULL;
-	zval *exception_message = NULL;
+	zval *phql = NULL, *exception_message = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -56456,8 +56731,12 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 			PHALCON_INIT_NVAR(has_attribute);
 			phalcon_call_method_p2_key(has_attribute, meta_data, "hasattribute", model, name, 3258442645UL);
 			if (!zend_is_true(has_attribute)) {
+				PHALCON_OBS_NVAR(phql);
+				phalcon_read_property_this_quick(&phql, this_ptr, SL("_phql"), 3986605817UL, PH_NOISY_CC);
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSVS(exception_message, "The model '", model_name, "' doesn't have the attribute '", name, "'");
+				PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -56481,9 +56760,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	zval *sql_tables, *sql_models, *sql_aliases;
 	zval *sql_aliases_models_instances, *tables;
 	zval *update_tables = NULL, *manager, *table = NULL, *qualified_name = NULL;
-	zval *model_name = NULL, *model = NULL, *source = NULL, *schema = NULL, *complete_source = NULL;
-	zval *alias = NULL, *sql_fields, *sql_values, *values;
-	zval *update_values = NULL, *not_quoting = NULL, *update_value = NULL;
+	zval *model_name = NULL, *ns_alias = NULL, *real_namespace = NULL;
+	zval *real_model_name = NULL, *model = NULL, *source = NULL, *schema = NULL;
+	zval *complete_source = NULL, *alias = NULL, *sql_fields, *sql_values;
+	zval *values, *update_values = NULL, *not_quoting = NULL, *update_value = NULL;
 	zval *column = NULL, *sql_column = NULL, *expr_column = NULL, *expr_value = NULL;
 	zval *type = NULL, *value = NULL, *sql_update, *where, *where_expr;
 	zval *limit;
@@ -56557,14 +56837,28 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 		PHALCON_OBS_NVAR(model_name);
 		phalcon_array_fetch_quick_string(&model_name, qualified_name, SS("name"), 268211462UL, PH_NOISY_CC);
 	
+		if (phalcon_array_isset_quick_string(qualified_name, SS("ns-alias"), 2470863549UL)) {
+			PHALCON_OBS_NVAR(ns_alias);
+			phalcon_array_fetch_quick_string(&ns_alias, qualified_name, SS("ns-alias"), 2470863549UL, PH_NOISY_CC);
+	
+			PHALCON_INIT_NVAR(real_namespace);
+			phalcon_call_method_p1_key(real_namespace, manager, "getnamespacealias", ns_alias, 3487123420UL);
+	
+			PHALCON_INIT_NVAR(real_model_name);
+			PHALCON_CONCAT_VSV(real_model_name, real_namespace, "\\", model_name);
+		} else {
+			PHALCON_CPY_WRT(real_model_name, model_name);
+		}
+	
 		PHALCON_INIT_NVAR(model);
-		phalcon_call_method_p1_key(model, manager, "load", model_name, 266329637UL);
+		phalcon_call_method_p1_key(model, manager, "load", real_model_name, 266329637UL);
 	
 		PHALCON_INIT_NVAR(source);
 		phalcon_call_method_key(source, model, "getsource", 2025234358UL);
 	
 		PHALCON_INIT_NVAR(schema);
 		phalcon_call_method_key(schema, model, "getschema", 1539736246UL);
+	
 		if (zend_is_true(schema)) {
 			PHALCON_INIT_NVAR(complete_source);
 			array_init_size(complete_source, 2);
@@ -56687,9 +56981,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	zval *sql_tables, *sql_models, *sql_aliases;
 	zval *sql_aliases_models_instances, *tables;
 	zval *delete_tables = NULL, *manager, *table = NULL, *qualified_name = NULL;
-	zval *model_name = NULL, *model = NULL, *source = NULL, *schema = NULL, *complete_source = NULL;
-	zval *alias = NULL, *sql_delete, *not_quoting, *where;
-	zval *where_expr, *limit;
+	zval *model_name = NULL, *ns_alias = NULL, *real_namespace = NULL;
+	zval *real_model_name = NULL, *model = NULL, *source = NULL, *schema = NULL;
+	zval *complete_source = NULL, *alias = NULL, *sql_delete, *not_quoting;
+	zval *where, *where_expr, *limit;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -56755,8 +57050,21 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 		PHALCON_OBS_NVAR(model_name);
 		phalcon_array_fetch_quick_string(&model_name, qualified_name, SS("name"), 268211462UL, PH_NOISY_CC);
 	
+		if (phalcon_array_isset_quick_string(qualified_name, SS("ns-alias"), 2470863549UL)) {
+			PHALCON_OBS_NVAR(ns_alias);
+			phalcon_array_fetch_quick_string(&ns_alias, qualified_name, SS("ns-alias"), 2470863549UL, PH_NOISY_CC);
+	
+			PHALCON_INIT_NVAR(real_namespace);
+			phalcon_call_method_p1_key(real_namespace, manager, "getnamespacealias", ns_alias, 3487123420UL);
+	
+			PHALCON_INIT_NVAR(real_model_name);
+			PHALCON_CONCAT_VSV(real_model_name, real_namespace, "\\", model_name);
+		} else {
+			PHALCON_CPY_WRT(real_model_name, model_name);
+		}
+	
 		PHALCON_INIT_NVAR(model);
-		phalcon_call_method_p1_key(model, manager, "load", model_name, 266329637UL);
+		phalcon_call_method_p1_key(model, manager, "load", real_model_name, 266329637UL);
 	
 		PHALCON_INIT_NVAR(source);
 		phalcon_call_method_key(source, model, "getsource", 2025234358UL);
@@ -56904,7 +57212,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	
 				default:
 					PHALCON_INIT_VAR(exception_message);
-					PHALCON_CONCAT_SV(exception_message, "Unknown statement ", type);
+					PHALCON_CONCAT_SVSV(exception_message, "Unknown statement ", type, ", when preparing: ", phql);
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 					return;
 	
@@ -56915,15 +57223,15 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	if (Z_TYPE_P(ir_phql) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Corrupted AST");
 		return;
-	} else {
-		if (Z_TYPE_P(unique_id) == IS_LONG) {
-			if (Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
-				PHALCON_INIT_NVAR(ir_phql_cache);
-				array_init(ir_phql_cache);
-			}
-			phalcon_array_update_zval(&ir_phql_cache, unique_id, &ir_phql, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_update_static_property(SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
+	}
+	
+	if (Z_TYPE_P(unique_id) == IS_LONG) {
+		if (Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
+			PHALCON_INIT_NVAR(ir_phql_cache);
+			array_init(ir_phql_cache);
 		}
+		phalcon_array_update_zval(&ir_phql_cache, unique_id, &ir_phql, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_update_static_property(SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
 	}
 	
 	phalcon_update_property_this_quick(this_ptr, SL("_intermediate"), ir_phql, 1829292799UL TSRMLS_CC);
@@ -59876,8 +60184,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	phalcon_update_property_bool(this_ptr, SL("_activeRow"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "serialize", data);
-	RETURN_CCTOR(serialized);
+	phalcon_serialize(serialized, &data TSRMLS_CC);
+	RETURN_CTOR(serialized);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
@@ -59892,7 +60200,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 	phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(resultset);
-	phalcon_call_func_p1(resultset, "unserialize", data);
+	phalcon_unserialize(resultset, data TSRMLS_CC);
 	if (Z_TYPE_P(resultset) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;
@@ -60234,13 +60542,13 @@ static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 	phalcon_array_update_quick_string(&data, SS("hydrateMode"), 259755643UL, &hydrate_mode, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "serialize", data);
+	phalcon_serialize(serialized, &data TSRMLS_CC);
 	
 	if (Z_TYPE_P(serialized) != IS_STRING) {
 		RETURN_MM_NULL();
 	}
 	
-	RETURN_CCTOR(serialized);
+	RETURN_CTOR(serialized);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize){
@@ -60255,7 +60563,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize){
 	phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(resultset);
-	phalcon_call_func_p1(resultset, "unserialize", data);
+	phalcon_unserialize(resultset, data TSRMLS_CC);
 	if (Z_TYPE_P(resultset) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;
@@ -60584,7 +60892,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success){
 
 
 
-/* Generated by re2c 0.13.5 on Sat Jun 15 13:57:19 2013 */
+/* Generated by re2c 0.13.5 on Thu Jun 20 00:26:21 2013 */
 // 1 "scanner.re"
 
 
@@ -60609,27 +60917,28 @@ static int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 // 45 "scanner.c"
 		{
 			YYCTYPE yych;
+			unsigned int yyaccept = 0;
 
 			yych = *YYCURSOR;
 			switch (yych) {
-			case 0x00:	goto yy66;
+			case 0x00:	goto yy68;
 			case '\t':
 			case '\n':
 			case '\r':
-			case ' ':	goto yy64;
-			case '!':	goto yy48;
-			case '"':	goto yy27;
-			case '%':	goto yy40;
-			case '&':	goto yy60;
-			case '\'':	goto yy28;
-			case '(':	goto yy44;
-			case ')':	goto yy46;
-			case '*':	goto yy36;
-			case '+':	goto yy32;
-			case ',':	goto yy42;
-			case '-':	goto yy34;
+			case ' ':	goto yy66;
+			case '!':	goto yy50;
+			case '"':	goto yy29;
+			case '%':	goto yy42;
+			case '&':	goto yy62;
+			case '\'':	goto yy30;
+			case '(':	goto yy46;
+			case ')':	goto yy48;
+			case '*':	goto yy38;
+			case '+':	goto yy34;
+			case ',':	goto yy44;
+			case '-':	goto yy36;
 			case '.':	goto yy4;
-			case '/':	goto yy38;
+			case '/':	goto yy40;
 			case '0':
 			case '1':
 			case '2':
@@ -60641,24 +60950,23 @@ static int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			case '8':
 			case '9':	goto yy2;
 			case ':':	goto yy8;
-			case '<':	goto yy50;
-			case '=':	goto yy54;
-			case '>':	goto yy52;
+			case '<':	goto yy52;
+			case '=':	goto yy56;
+			case '>':	goto yy54;
 			case '?':	goto yy6;
 			case 'A':
-			case 'a':	goto yy14;
+			case 'a':	goto yy15;
 			case 'B':
-			case 'b':	goto yy19;
+			case 'b':	goto yy20;
 			case 'C':
-			case 'c':	goto yy26;
+			case 'c':	goto yy27;
 			case 'D':
-			case 'd':	goto yy12;
+			case 'd':	goto yy13;
 			case 'E':
 			case 'K':
 			case 'M':
 			case 'P':
 			case 'Q':
-			case 'T':
 			case 'X':
 			case 'Y':
 			case 'Z':
@@ -60668,47 +60976,48 @@ static int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			case 'm':
 			case 'p':
 			case 'q':
-			case 't':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy30;
+			case 'z':	goto yy32;
 			case 'F':
-			case 'f':	goto yy13;
+			case 'f':	goto yy14;
 			case 'G':
-			case 'g':	goto yy20;
+			case 'g':	goto yy21;
 			case 'H':
-			case 'h':	goto yy21;
+			case 'h':	goto yy22;
 			case 'I':
-			case 'i':	goto yy15;
+			case 'i':	goto yy16;
 			case 'J':
-			case 'j':	goto yy24;
+			case 'j':	goto yy25;
 			case 'L':
-			case 'l':	goto yy22;
+			case 'l':	goto yy23;
 			case 'N':
-			case 'n':	goto yy23;
+			case 'n':	goto yy24;
 			case 'O':
-			case 'o':	goto yy18;
+			case 'o':	goto yy19;
 			case 'R':
-			case 'r':	goto yy25;
+			case 'r':	goto yy26;
 			case 'S':
-			case 's':	goto yy11;
+			case 's':	goto yy12;
+			case 'T':
+			case 't':	goto yy28;
 			case 'U':
-			case 'u':	goto yy9;
+			case 'u':	goto yy10;
 			case 'V':
-			case 'v':	goto yy16;
+			case 'v':	goto yy17;
 			case 'W':
-			case 'w':	goto yy17;
-			case '[':	goto yy31;
-			case '\\':	goto yy29;
-			case '^':	goto yy58;
-			case '|':	goto yy62;
-			case '~':	goto yy56;
-			default:	goto yy68;
+			case 'w':	goto yy18;
+			case '[':	goto yy33;
+			case '\\':	goto yy31;
+			case '^':	goto yy60;
+			case '|':	goto yy64;
+			case '~':	goto yy58;
+			default:	goto yy70;
 			}
 yy2:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
-			case '.':	goto yy265;
+			case '.':	goto yy288;
 			case '0':
 			case '1':
 			case '2':
@@ -60718,7 +61027,7 @@ yy2:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy267;
+			case '9':	goto yy290;
 			default:	goto yy3;
 			}
 yy3:
@@ -60730,7 +61039,7 @@ yy3:
 			q = YYCURSOR;
 			return 0;
 		}
-// 169 "scanner.c"
+// 170 "scanner.c"
 yy4:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
@@ -60743,16 +61052,16 @@ yy4:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy262;
+			case '9':	goto yy285;
 			default:	goto yy5;
 			}
 yy5:
-// 333 "scanner.re"
+// 353 "scanner.re"
 			{
 			token->opcode = PHQL_T_DOT;
 			return 0;
 		}
-// 191 "scanner.c"
+// 192 "scanner.c"
 yy6:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
@@ -60765,17 +61074,18 @@ yy6:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy259;
+			case '9':	goto yy282;
 			default:	goto yy7;
 			}
 yy7:
-// 423 "scanner.re"
+// 448 "scanner.re"
 			{
 			status = PHQL_SCANNER_RETCODE_ERR;
 			break;
 		}
-// 213 "scanner.c"
+// 214 "scanner.c"
 yy8:
+			yyaccept = 0;
 			yych = *(YYMARKER = ++YYCURSOR);
 			switch (yych) {
 			case '-':
@@ -60841,18 +61151,27 @@ yy8:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy255;
-			default:	goto yy7;
+			case 'z':	goto yy278;
+			default:	goto yy9;
 			}
 yy9:
+// 358 "scanner.re"
+			{
+			token->opcode = PHQL_T_COLON;
+			return 0;
+		}
+// 291 "scanner.c"
+yy10:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case 'P':
-			case 'p':	goto yy249;
-			default:	goto yy85;
+			case 'p':	goto yy267;
+			case 'S':
+			case 's':	goto yy268;
+			default:	goto yy87;
 			}
-yy10:
-// 281 "scanner.re"
+yy11:
+// 301 "scanner.re"
 			{
 			token->opcode = PHQL_T_IDENTIFIER;
 			if ((YYCURSOR - q) > 1) {
@@ -60870,154 +61189,167 @@ yy10:
 			q = YYCURSOR;
 			return 0;
 		}
-// 309 "scanner.c"
-yy11:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy241;
-			default:	goto yy85;
-			}
+// 320 "scanner.c"
 yy12:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
-			case 'e':	goto yy224;
-			case 'I':
-			case 'i':	goto yy225;
-			default:	goto yy85;
+			case 'e':	goto yy259;
+			default:	goto yy87;
 			}
 yy13:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'R':
-			case 'r':	goto yy216;
-			case 'U':
-			case 'u':	goto yy217;
-			default:	goto yy85;
+			case 'E':
+			case 'e':	goto yy242;
+			case 'I':
+			case 'i':	goto yy243;
+			default:	goto yy87;
 			}
 yy14:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'G':
-			case 'g':	goto yy202;
-			case 'N':
-			case 'n':	goto yy203;
-			case 'S':
-			case 's':	goto yy204;
-			default:	goto yy85;
+			case 'A':
+			case 'a':	goto yy229;
+			case 'R':
+			case 'r':	goto yy230;
+			case 'U':
+			case 'u':	goto yy231;
+			default:	goto yy87;
 			}
 yy15:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'L':
-			case 'l':	goto yy181;
+			case 'G':
+			case 'g':	goto yy215;
 			case 'N':
-			case 'n':	goto yy182;
+			case 'n':	goto yy216;
 			case 'S':
-			case 's':	goto yy184;
-			default:	goto yy85;
+			case 's':	goto yy217;
+			default:	goto yy87;
 			}
 yy16:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'A':
-			case 'a':	goto yy175;
-			default:	goto yy85;
+			case 'L':
+			case 'l':	goto yy194;
+			case 'N':
+			case 'n':	goto yy195;
+			case 'S':
+			case 's':	goto yy197;
+			default:	goto yy87;
 			}
 yy17:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'H':
-			case 'h':	goto yy170;
-			default:	goto yy85;
+			case 'A':
+			case 'a':	goto yy188;
+			default:	goto yy87;
 			}
 yy18:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'F':
-			case 'f':	goto yy151;
-			case 'N':
-			case 'n':	goto yy152;
-			case 'R':
-			case 'r':	goto yy154;
-			case 'U':
-			case 'u':	goto yy156;
-			default:	goto yy85;
+			case 'H':
+			case 'h':	goto yy183;
+			default:	goto yy87;
 			}
 yy19:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy142;
-			case 'Y':
-			case 'y':	goto yy143;
-			default:	goto yy85;
+			case 'F':
+			case 'f':	goto yy164;
+			case 'N':
+			case 'n':	goto yy165;
+			case 'R':
+			case 'r':	goto yy167;
+			case 'U':
+			case 'u':	goto yy169;
+			default:	goto yy87;
 			}
 yy20:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'R':
-			case 'r':	goto yy137;
-			default:	goto yy85;
+			case 'E':
+			case 'e':	goto yy155;
+			case 'Y':
+			case 'y':	goto yy156;
+			default:	goto yy87;
 			}
 yy21:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'A':
-			case 'a':	goto yy131;
-			default:	goto yy85;
+			case 'R':
+			case 'r':	goto yy150;
+			default:	goto yy87;
 			}
 yy22:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy119;
-			case 'I':
-			case 'i':	goto yy120;
-			default:	goto yy85;
+			case 'A':
+			case 'a':	goto yy144;
+			default:	goto yy87;
 			}
 yy23:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'O':
-			case 'o':	goto yy112;
-			case 'U':
-			case 'u':	goto yy113;
-			default:	goto yy85;
+			case 'E':
+			case 'e':	goto yy132;
+			case 'I':
+			case 'i':	goto yy133;
+			default:	goto yy87;
 			}
 yy24:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'O':
-			case 'o':	goto yy108;
-			default:	goto yy85;
+			case 'o':	goto yy125;
+			case 'U':
+			case 'u':	goto yy126;
+			default:	goto yy87;
 			}
 yy25:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'I':
-			case 'i':	goto yy103;
-			default:	goto yy85;
+			case 'O':
+			case 'o':	goto yy121;
+			default:	goto yy87;
 			}
 yy26:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'A':
-			case 'a':	goto yy94;
-			case 'R':
-			case 'r':	goto yy95;
-			default:	goto yy85;
+			case 'I':
+			case 'i':	goto yy116;
+			default:	goto yy87;
 			}
 yy27:
-			yych = *(YYMARKER = ++YYCURSOR);
-			if (yych <= 0x00) goto yy7;
-			goto yy92;
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'A':
+			case 'a':	goto yy100;
+			case 'O':
+			case 'o':	goto yy101;
+			case 'R':
+			case 'r':	goto yy102;
+			default:	goto yy87;
+			}
 yy28:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'R':
+			case 'r':	goto yy96;
+			default:	goto yy87;
+			}
+yy29:
+			yyaccept = 1;
 			yych = *(YYMARKER = ++YYCURSOR);
 			if (yych <= 0x00) goto yy7;
-			goto yy87;
-yy29:
+			goto yy94;
+yy30:
+			yyaccept = 1;
+			yych = *(YYMARKER = ++YYCURSOR);
+			if (yych <= 0x00) goto yy7;
+			goto yy89;
+yy31:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'A':
@@ -61072,13 +61404,14 @@ yy29:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
+			case 'z':	goto yy86;
 			default:	goto yy7;
 			}
-yy30:
+yy32:
 			yych = *++YYCURSOR;
-			goto yy85;
-yy31:
+			goto yy87;
+yy33:
+			yyaccept = 1;
 			yych = *(YYMARKER = ++YYCURSOR);
 			switch (yych) {
 			case 'A':
@@ -61134,219 +61467,219 @@ yy31:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
+			case 'z':	goto yy81;
 			default:	goto yy7;
 			}
-yy32:
+yy34:
 			++YYCURSOR;
-// 308 "scanner.re"
+// 328 "scanner.re"
 			{
 			token->opcode = PHQL_T_ADD;
 			return 0;
 		}
-// 583 "scanner.c"
-yy34:
+// 608 "scanner.c"
+yy36:
 			++YYCURSOR;
-// 313 "scanner.re"
+// 333 "scanner.re"
 			{
 			token->opcode = PHQL_T_SUB;
 			return 0;
 		}
-// 591 "scanner.c"
-yy36:
+// 616 "scanner.c"
+yy38:
 			++YYCURSOR;
-// 318 "scanner.re"
+// 338 "scanner.re"
 			{
 			token->opcode = PHQL_T_MUL;
 			return 0;
 		}
-// 599 "scanner.c"
-yy38:
+// 624 "scanner.c"
+yy40:
 			++YYCURSOR;
-// 323 "scanner.re"
+// 343 "scanner.re"
 			{
 			token->opcode = PHQL_T_DIV;
 			return 0;
 		}
-// 607 "scanner.c"
-yy40:
+// 632 "scanner.c"
+yy42:
 			++YYCURSOR;
-// 328 "scanner.re"
+// 348 "scanner.re"
 			{
 			token->opcode = PHQL_T_MOD;
 			return 0;
 		}
-// 615 "scanner.c"
-yy42:
+// 640 "scanner.c"
+yy44:
 			++YYCURSOR;
-// 338 "scanner.re"
+// 363 "scanner.re"
 			{
 			token->opcode = PHQL_T_COMMA;
 			return 0;
 		}
-// 623 "scanner.c"
-yy44:
+// 648 "scanner.c"
+yy46:
 			++YYCURSOR;
-// 343 "scanner.re"
+// 368 "scanner.re"
 			{
 			token->opcode = PHQL_T_PARENTHESES_OPEN;
 			return 0;
 		}
-// 631 "scanner.c"
-yy46:
+// 656 "scanner.c"
+yy48:
 			++YYCURSOR;
-// 348 "scanner.re"
+// 373 "scanner.re"
 			{
 			token->opcode = PHQL_T_PARENTHESES_CLOSE;
 			return 0;
 		}
-// 639 "scanner.c"
-yy48:
+// 664 "scanner.c"
+yy50:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy77;
-			default:	goto yy49;
+			case '=':	goto yy79;
+			default:	goto yy51;
 			}
-yy49:
-// 388 "scanner.re"
+yy51:
+// 413 "scanner.re"
 			{
 			token->opcode = PHQL_T_NOT;
 			return 0;
 		}
-// 652 "scanner.c"
-yy50:
+// 677 "scanner.c"
+yy52:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy73;
-			case '>':	goto yy75;
-			default:	goto yy51;
+			case '=':	goto yy75;
+			case '>':	goto yy77;
+			default:	goto yy53;
 			}
-yy51:
-// 373 "scanner.re"
+yy53:
+// 398 "scanner.re"
 			{
 			token->opcode = PHQL_T_LESS;
 			return 0;
 		}
-// 666 "scanner.c"
-yy52:
+// 691 "scanner.c"
+yy54:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy71;
-			default:	goto yy53;
+			case '=':	goto yy73;
+			default:	goto yy55;
 			}
-yy53:
-// 378 "scanner.re"
+yy55:
+// 403 "scanner.re"
 			{
 			token->opcode = PHQL_T_GREATER;
 			return 0;
 		}
-// 679 "scanner.c"
-yy54:
+// 704 "scanner.c"
+yy56:
 			++YYCURSOR;
-// 383 "scanner.re"
+// 408 "scanner.re"
 			{
 			token->opcode = PHQL_T_EQUALS;
 			return 0;
 		}
-// 687 "scanner.c"
-yy56:
+// 712 "scanner.c"
+yy58:
 			++YYCURSOR;
-// 393 "scanner.re"
+// 418 "scanner.re"
 			{
 			token->opcode = PHQL_T_BITWISE_NOT;
 			return 0;
 		}
-// 695 "scanner.c"
-yy58:
+// 720 "scanner.c"
+yy60:
 			++YYCURSOR;
-// 398 "scanner.re"
+// 423 "scanner.re"
 			{
 			token->opcode = PHQL_T_BITWISE_XOR;
 			return 0;
 		}
-// 703 "scanner.c"
-yy60:
+// 728 "scanner.c"
+yy62:
 			++YYCURSOR;
-// 403 "scanner.re"
+// 428 "scanner.re"
 			{
 			token->opcode = PHQL_T_BITWISE_AND;
 			return 0;
 		}
-// 711 "scanner.c"
-yy62:
+// 736 "scanner.c"
+yy64:
 			++YYCURSOR;
-// 408 "scanner.re"
+// 433 "scanner.re"
 			{
 			token->opcode = PHQL_T_BITWISE_OR;
 			return 0;
 		}
-// 719 "scanner.c"
-yy64:
+// 744 "scanner.c"
+yy66:
 			++YYCURSOR;
 			yych = *YYCURSOR;
-			goto yy70;
-yy65:
-// 413 "scanner.re"
+			goto yy72;
+yy67:
+// 438 "scanner.re"
 			{
 			token->opcode = PHQL_T_IGNORE;
 			return 0;
 		}
-// 730 "scanner.c"
-yy66:
+// 755 "scanner.c"
+yy68:
 			++YYCURSOR;
-// 418 "scanner.re"
+// 443 "scanner.re"
 			{
 			status = PHQL_SCANNER_RETCODE_EOF;
 			break;
 		}
-// 738 "scanner.c"
-yy68:
+// 763 "scanner.c"
+yy70:
 			yych = *++YYCURSOR;
 			goto yy7;
-yy69:
+yy71:
 			++YYCURSOR;
 			yych = *YYCURSOR;
-yy70:
+yy72:
 			switch (yych) {
 			case '\t':
 			case '\n':
 			case '\r':
-			case ' ':	goto yy69;
-			default:	goto yy65;
+			case ' ':	goto yy71;
+			default:	goto yy67;
 			}
-yy71:
+yy73:
 			++YYCURSOR;
-// 368 "scanner.re"
+// 393 "scanner.re"
 			{
 			token->opcode = PHQL_T_GREATEREQUAL;
 			return 0;
 		}
-// 760 "scanner.c"
-yy73:
+// 785 "scanner.c"
+yy75:
 			++YYCURSOR;
-// 363 "scanner.re"
+// 388 "scanner.re"
 			{
 			token->opcode = PHQL_T_LESSEQUAL;
 			return 0;
 		}
-// 768 "scanner.c"
-yy75:
-			++YYCURSOR;
-// 358 "scanner.re"
-			{
-			token->opcode = PHQL_T_NOTEQUALS;
-			return 0;
-		}
-// 776 "scanner.c"
+// 793 "scanner.c"
 yy77:
 			++YYCURSOR;
-// 353 "scanner.re"
+// 383 "scanner.re"
 			{
 			token->opcode = PHQL_T_NOTEQUALS;
 			return 0;
 		}
-// 784 "scanner.c"
+// 801 "scanner.c"
 yy79:
+			++YYCURSOR;
+// 378 "scanner.re"
+			{
+			token->opcode = PHQL_T_NOTEQUALS;
+			return 0;
+		}
+// 809 "scanner.c"
+yy81:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
@@ -61413,16 +61746,19 @@ yy79:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			case ']':	goto yy82;
-			default:	goto yy81;
+			case 'z':	goto yy81;
+			case ']':	goto yy84;
+			default:	goto yy83;
 			}
-yy81:
+yy83:
 			YYCURSOR = YYMARKER;
-			goto yy7;
-yy82:
+			switch (yyaccept) {
+			case 0: 	goto yy9;
+			case 1: 	goto yy7;
+			}
+yy84:
 			++YYCURSOR;
-// 300 "scanner.re"
+// 320 "scanner.re"
 			{
 			token->opcode = PHQL_T_IDENTIFIER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
@@ -61430,11 +61766,11 @@ yy82:
 			q = YYCURSOR;
 			return 0;
 		}
-// 869 "scanner.c"
-yy84:
+// 897 "scanner.c"
+yy86:
 			++YYCURSOR;
 			yych = *YYCURSOR;
-yy85:
+yy87:
 			switch (yych) {
 			case '0':
 			case '1':
@@ -61499,29 +61835,29 @@ yy85:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy10;
-			}
-yy86:
-			++YYCURSOR;
-			yych = *YYCURSOR;
-yy87:
-			switch (yych) {
-			case 0x00:	goto yy81;
-			case '\'':	goto yy89;
-			case '\\':	goto yy88;
-			default:	goto yy86;
+			case 'z':	goto yy86;
+			default:	goto yy11;
 			}
 yy88:
 			++YYCURSOR;
 			yych = *YYCURSOR;
-			switch (yych) {
-			case '\n':	goto yy81;
-			default:	goto yy86;
-			}
 yy89:
+			switch (yych) {
+			case 0x00:	goto yy83;
+			case '\'':	goto yy91;
+			case '\\':	goto yy90;
+			default:	goto yy88;
+			}
+yy90:
 			++YYCURSOR;
-// 272 "scanner.re"
+			yych = *YYCURSOR;
+			switch (yych) {
+			case '\n':	goto yy83;
+			default:	goto yy88;
+			}
+yy91:
+			++YYCURSOR;
+// 292 "scanner.re"
 			{
 			token->opcode = PHQL_T_STRING;
 			token->value = estrndup(q, YYCURSOR - q - 1);
@@ -61529,51 +61865,37 @@ yy89:
 			q = YYCURSOR;
 			return 0;
 		}
-// 968 "scanner.c"
-yy91:
-			++YYCURSOR;
-			yych = *YYCURSOR;
-yy92:
-			switch (yych) {
-			case 0x00:	goto yy81;
-			case '"':	goto yy89;
-			case '\\':	goto yy93;
-			default:	goto yy91;
-			}
+// 996 "scanner.c"
 yy93:
 			++YYCURSOR;
 			yych = *YYCURSOR;
-			switch (yych) {
-			case '\n':	goto yy81;
-			default:	goto yy91;
-			}
 yy94:
-			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'S':
-			case 's':	goto yy100;
-			default:	goto yy85;
+			case 0x00:	goto yy83;
+			case '"':	goto yy91;
+			case '\\':	goto yy95;
+			default:	goto yy93;
 			}
 yy95:
-			yych = *++YYCURSOR;
+			++YYCURSOR;
+			yych = *YYCURSOR;
 			switch (yych) {
-			case 'O':
-			case 'o':	goto yy96;
-			default:	goto yy85;
+			case '\n':	goto yy83;
+			default:	goto yy93;
 			}
 yy96:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'S':
-			case 's':	goto yy97;
-			default:	goto yy85;
+			case 'U':
+			case 'u':	goto yy97;
+			default:	goto yy87;
 			}
 yy97:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'S':
-			case 's':	goto yy98;
-			default:	goto yy85;
+			case 'E':
+			case 'e':	goto yy98;
+			default:	goto yy87;
 			}
 yy98:
 			++YYCURSOR;
@@ -61641,24 +61963,156 @@ yy98:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
+			case 'z':	goto yy86;
 			default:	goto yy99;
 			}
 yy99:
+// 281 "scanner.re"
+			{
+			token->opcode = PHQL_T_TRUE;
+			return 0;
+		}
+// 1103 "scanner.c"
+yy100:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'S':
+			case 's':	goto yy113;
+			default:	goto yy87;
+			}
+yy101:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'N':
+			case 'n':	goto yy107;
+			default:	goto yy87;
+			}
+yy102:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'O':
+			case 'o':	goto yy103;
+			default:	goto yy87;
+			}
+yy103:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'S':
+			case 's':	goto yy104;
+			default:	goto yy87;
+			}
+yy104:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'S':
+			case 's':	goto yy105;
+			default:	goto yy87;
+			}
+yy105:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy106;
+			}
+yy106:
 // 231 "scanner.re"
 			{
 			token->opcode = PHQL_T_CROSS;
 			return 0;
 		}
-// 1089 "scanner.c"
-yy100:
+// 1214 "scanner.c"
+yy107:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'V':
+			case 'v':	goto yy108;
+			default:	goto yy87;
+			}
+yy108:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy109;
+			default:	goto yy87;
+			}
+yy109:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'R':
+			case 'r':	goto yy110;
+			default:	goto yy87;
+			}
+yy110:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'T':
-			case 't':	goto yy101;
-			default:	goto yy85;
+			case 't':	goto yy111;
+			default:	goto yy87;
 			}
-yy101:
+yy111:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -61724,38 +62178,121 @@ yy101:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy102;
+			case 'z':	goto yy86;
+			default:	goto yy112;
 			}
-yy102:
+yy112:
+// 271 "scanner.re"
+			{
+			token->opcode = PHQL_T_CONVERT;
+			return 0;
+		}
+// 1318 "scanner.c"
+yy113:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy114;
+			default:	goto yy87;
+			}
+yy114:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy115;
+			}
+yy115:
 // 266 "scanner.re"
 			{
 			token->opcode = PHQL_T_CAST;
 			return 0;
 		}
-// 1172 "scanner.c"
-yy103:
+// 1401 "scanner.c"
+yy116:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'G':
-			case 'g':	goto yy104;
-			default:	goto yy85;
+			case 'g':	goto yy117;
+			default:	goto yy87;
 			}
-yy104:
+yy117:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'H':
-			case 'h':	goto yy105;
-			default:	goto yy85;
+			case 'h':	goto yy118;
+			default:	goto yy87;
 			}
-yy105:
+yy118:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'T':
-			case 't':	goto yy106;
-			default:	goto yy85;
+			case 't':	goto yy119;
+			default:	goto yy87;
 			}
-yy106:
+yy119:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -61821,308 +62358,29 @@ yy106:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy107;
+			case 'z':	goto yy86;
+			default:	goto yy120;
 			}
-yy107:
+yy120:
 // 226 "scanner.re"
 			{
 			token->opcode = PHQL_T_RIGHT;
 			return 0;
 		}
-// 1269 "scanner.c"
-yy108:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'I':
-			case 'i':	goto yy109;
-			default:	goto yy85;
-			}
-yy109:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'N':
-			case 'n':	goto yy110;
-			default:	goto yy85;
-			}
-yy110:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy111;
-			}
-yy111:
-// 211 "scanner.re"
-			{
-			token->opcode = PHQL_T_JOIN;
-			return 0;
-		}
-// 1359 "scanner.c"
-yy112:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'T':
-			case 't':	goto yy117;
-			default:	goto yy85;
-			}
-yy113:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'L':
-			case 'l':	goto yy114;
-			default:	goto yy85;
-			}
-yy114:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'L':
-			case 'l':	goto yy115;
-			default:	goto yy85;
-			}
-yy115:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy116;
-			}
-yy116:
-// 251 "scanner.re"
-			{
-			token->opcode = PHQL_T_NULL;
-			return 0;
-		}
-// 1456 "scanner.c"
-yy117:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy118;
-			}
-yy118:
-// 171 "scanner.re"
-			{
-			token->opcode = PHQL_T_NOT;
-			return 0;
-		}
-// 1532 "scanner.c"
-yy119:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'F':
-			case 'f':	goto yy128;
-			default:	goto yy85;
-			}
-yy120:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'K':
-			case 'k':	goto yy122;
-			case 'M':
-			case 'm':	goto yy121;
-			default:	goto yy85;
-			}
+// 1498 "scanner.c"
 yy121:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'I':
-			case 'i':	goto yy125;
-			default:	goto yy85;
+			case 'i':	goto yy122;
+			default:	goto yy87;
 			}
 yy122:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy123;
-			default:	goto yy85;
+			case 'N':
+			case 'n':	goto yy123;
+			default:	goto yy87;
 			}
 yy123:
 			++YYCURSOR;
@@ -62190,24 +62448,303 @@ yy123:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
+			case 'z':	goto yy86;
 			default:	goto yy124;
 			}
 yy124:
+// 211 "scanner.re"
+			{
+			token->opcode = PHQL_T_JOIN;
+			return 0;
+		}
+// 1588 "scanner.c"
+yy125:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy130;
+			default:	goto yy87;
+			}
+yy126:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'L':
+			case 'l':	goto yy127;
+			default:	goto yy87;
+			}
+yy127:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'L':
+			case 'l':	goto yy128;
+			default:	goto yy87;
+			}
+yy128:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy129;
+			}
+yy129:
+// 251 "scanner.re"
+			{
+			token->opcode = PHQL_T_NULL;
+			return 0;
+		}
+// 1685 "scanner.c"
+yy130:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy131;
+			}
+yy131:
+// 171 "scanner.re"
+			{
+			token->opcode = PHQL_T_NOT;
+			return 0;
+		}
+// 1761 "scanner.c"
+yy132:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'F':
+			case 'f':	goto yy141;
+			default:	goto yy87;
+			}
+yy133:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'K':
+			case 'k':	goto yy135;
+			case 'M':
+			case 'm':	goto yy134;
+			default:	goto yy87;
+			}
+yy134:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'I':
+			case 'i':	goto yy138;
+			default:	goto yy87;
+			}
+yy135:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy136;
+			default:	goto yy87;
+			}
+yy136:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy137;
+			}
+yy137:
 // 186 "scanner.re"
 			{
 			token->opcode = PHQL_T_LIKE;
 			return 0;
 		}
-// 1638 "scanner.c"
-yy125:
+// 1867 "scanner.c"
+yy138:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'T':
-			case 't':	goto yy126;
-			default:	goto yy85;
+			case 't':	goto yy139;
+			default:	goto yy87;
 			}
-yy126:
+yy139:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -62273,24 +62810,24 @@ yy126:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy127;
+			case 'z':	goto yy86;
+			default:	goto yy140;
 			}
-yy127:
+yy140:
 // 161 "scanner.re"
 			{
 			token->opcode = PHQL_T_LIMIT;
 			return 0;
 		}
-// 1721 "scanner.c"
-yy128:
+// 1950 "scanner.c"
+yy141:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'T':
-			case 't':	goto yy129;
-			default:	goto yy85;
+			case 't':	goto yy142;
+			default:	goto yy87;
 			}
-yy129:
+yy142:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -62356,45 +62893,45 @@ yy129:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy130;
+			case 'z':	goto yy86;
+			default:	goto yy143;
 			}
-yy130:
+yy143:
 // 221 "scanner.re"
 			{
 			token->opcode = PHQL_T_LEFT;
 			return 0;
 		}
-// 1804 "scanner.c"
-yy131:
+// 2033 "scanner.c"
+yy144:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'V':
-			case 'v':	goto yy132;
-			default:	goto yy85;
+			case 'v':	goto yy145;
+			default:	goto yy87;
 			}
-yy132:
+yy145:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'I':
-			case 'i':	goto yy133;
-			default:	goto yy85;
+			case 'i':	goto yy146;
+			default:	goto yy87;
 			}
-yy133:
+yy146:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'N':
-			case 'n':	goto yy134;
-			default:	goto yy85;
+			case 'n':	goto yy147;
+			default:	goto yy87;
 			}
-yy134:
+yy147:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'G':
-			case 'g':	goto yy135;
-			default:	goto yy85;
+			case 'g':	goto yy148;
+			default:	goto yy87;
 			}
-yy135:
+yy148:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -62460,38 +62997,38 @@ yy135:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy136;
+			case 'z':	goto yy86;
+			default:	goto yy149;
 			}
-yy136:
+yy149:
 // 156 "scanner.re"
 			{
 			token->opcode = PHQL_T_HAVING;
 			return 0;
 		}
-// 1908 "scanner.c"
-yy137:
+// 2137 "scanner.c"
+yy150:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'O':
-			case 'o':	goto yy138;
-			default:	goto yy85;
+			case 'o':	goto yy151;
+			default:	goto yy87;
 			}
-yy138:
+yy151:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'U':
-			case 'u':	goto yy139;
-			default:	goto yy85;
+			case 'u':	goto yy152;
+			default:	goto yy87;
 			}
-yy139:
+yy152:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'P':
-			case 'p':	goto yy140;
-			default:	goto yy85;
+			case 'p':	goto yy153;
+			default:	goto yy87;
 			}
-yy140:
+yy153:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -62557,24 +63094,24 @@ yy140:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy141;
+			case 'z':	goto yy86;
+			default:	goto yy154;
 			}
-yy141:
+yy154:
 // 151 "scanner.re"
 			{
 			token->opcode = PHQL_T_GROUP;
 			return 0;
 		}
-// 2005 "scanner.c"
-yy142:
+// 2234 "scanner.c"
+yy155:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'T':
-			case 't':	goto yy145;
-			default:	goto yy85;
+			case 't':	goto yy158;
+			default:	goto yy87;
 			}
-yy143:
+yy156:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -62640,45 +63177,45 @@ yy143:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy144;
+			case 'z':	goto yy86;
+			default:	goto yy157;
 			}
-yy144:
+yy157:
 // 136 "scanner.re"
 			{
 			token->opcode = PHQL_T_BY;
 			return 0;
 		}
-// 2088 "scanner.c"
-yy145:
+// 2317 "scanner.c"
+yy158:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'W':
-			case 'w':	goto yy146;
-			default:	goto yy85;
+			case 'w':	goto yy159;
+			default:	goto yy87;
 			}
-yy146:
+yy159:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
-			case 'e':	goto yy147;
-			default:	goto yy85;
+			case 'e':	goto yy160;
+			default:	goto yy87;
 			}
-yy147:
+yy160:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
-			case 'e':	goto yy148;
-			default:	goto yy85;
+			case 'e':	goto yy161;
+			default:	goto yy87;
 			}
-yy148:
+yy161:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'N':
-			case 'n':	goto yy149;
-			default:	goto yy85;
+			case 'n':	goto yy162;
+			default:	goto yy87;
 			}
-yy149:
+yy162:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -62744,24 +63281,24 @@ yy149:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy150;
+			case 'z':	goto yy86;
+			default:	goto yy163;
 			}
-yy150:
+yy163:
 // 261 "scanner.re"
 			{
 			token->opcode = PHQL_T_BETWEEN;
 			return 0;
 		}
-// 2192 "scanner.c"
-yy151:
+// 2421 "scanner.c"
+yy164:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'F':
-			case 'f':	goto yy165;
-			default:	goto yy85;
+			case 'f':	goto yy178;
+			default:	goto yy87;
 			}
-yy152:
+yy165:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -62827,17 +63364,17 @@ yy152:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy153;
+			case 'z':	goto yy86;
+			default:	goto yy166;
 			}
-yy153:
+yy166:
 // 206 "scanner.re"
 			{
 			token->opcode = PHQL_T_ON;
 			return 0;
 		}
-// 2275 "scanner.c"
-yy154:
+// 2504 "scanner.c"
+yy167:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -62901,324 +63438,40 @@ yy154:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
+			case 'z':	goto yy86;
 			case 'D':
-			case 'd':	goto yy161;
-			default:	goto yy155;
+			case 'd':	goto yy174;
+			default:	goto yy168;
 			}
-yy155:
+yy168:
 // 181 "scanner.re"
 			{
 			token->opcode = PHQL_T_OR;
 			return 0;
 		}
-// 2351 "scanner.c"
-yy156:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'T':
-			case 't':	goto yy157;
-			default:	goto yy85;
-			}
-yy157:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy158;
-			default:	goto yy85;
-			}
-yy158:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'R':
-			case 'r':	goto yy159;
-			default:	goto yy85;
-			}
-yy159:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy160;
-			}
-yy160:
-// 236 "scanner.re"
-			{
-			token->opcode = PHQL_T_OUTER;
-			return 0;
-		}
-// 2448 "scanner.c"
-yy161:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy162;
-			default:	goto yy85;
-			}
-yy162:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'R':
-			case 'r':	goto yy163;
-			default:	goto yy85;
-			}
-yy163:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy164;
-			}
-yy164:
-// 131 "scanner.re"
-			{
-			token->opcode = PHQL_T_ORDER;
-			return 0;
-		}
-// 2538 "scanner.c"
-yy165:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'S':
-			case 's':	goto yy166;
-			default:	goto yy85;
-			}
-yy166:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy167;
-			default:	goto yy85;
-			}
-yy167:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'T':
-			case 't':	goto yy168;
-			default:	goto yy85;
-			}
-yy168:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy169;
-			}
+// 2580 "scanner.c"
 yy169:
-// 166 "scanner.re"
-			{
-			token->opcode = PHQL_T_OFFSET;
-			return 0;
-		}
-// 2635 "scanner.c"
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy170;
+			default:	goto yy87;
+			}
 yy170:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
 			case 'e':	goto yy171;
-			default:	goto yy85;
+			default:	goto yy87;
 			}
 yy171:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'R':
 			case 'r':	goto yy172;
-			default:	goto yy85;
+			default:	goto yy87;
 			}
 yy172:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy173;
-			default:	goto yy85;
-			}
-yy173:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -63284,204 +63537,128 @@ yy173:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy174;
+			case 'z':	goto yy86;
+			default:	goto yy173;
 			}
-yy174:
-// 121 "scanner.re"
+yy173:
+// 236 "scanner.re"
 			{
-			token->opcode = PHQL_T_WHERE;
+			token->opcode = PHQL_T_OUTER;
 			return 0;
 		}
-// 2732 "scanner.c"
-yy175:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'L':
-			case 'l':	goto yy176;
-			default:	goto yy85;
-			}
-yy176:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'U':
-			case 'u':	goto yy177;
-			default:	goto yy85;
-			}
-yy177:
+// 2677 "scanner.c"
+yy174:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
-			case 'e':	goto yy178;
-			default:	goto yy85;
+			case 'e':	goto yy175;
+			default:	goto yy87;
 			}
+yy175:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'R':
+			case 'r':	goto yy176;
+			default:	goto yy87;
+			}
+yy176:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy177;
+			}
+yy177:
+// 131 "scanner.re"
+			{
+			token->opcode = PHQL_T_ORDER;
+			return 0;
+		}
+// 2767 "scanner.c"
 yy178:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'S':
 			case 's':	goto yy179;
-			default:	goto yy85;
+			default:	goto yy87;
 			}
 yy179:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
+			yych = *++YYCURSOR;
+			switch (yych) {
 			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy180;
+			case 'e':	goto yy180;
+			default:	goto yy87;
 			}
 yy180:
-// 116 "scanner.re"
-			{
-			token->opcode = PHQL_T_VALUES;
-			return 0;
-		}
-// 2836 "scanner.c"
-yy181:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'I':
-			case 'i':	goto yy198;
-			default:	goto yy85;
-			}
-yy182:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			case 'N':
-			case 'n':	goto yy188;
-			case 'S':
-			case 's':	goto yy186;
 			case 'T':
-			case 't':	goto yy187;
-			default:	goto yy183;
+			case 't':	goto yy181;
+			default:	goto yy87;
 			}
-yy183:
-// 201 "scanner.re"
-			{
-			token->opcode = PHQL_T_IN;
-			return 0;
-		}
-// 2919 "scanner.c"
-yy184:
+yy181:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -63547,120 +63724,141 @@ yy184:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy185;
+			case 'z':	goto yy86;
+			default:	goto yy182;
 			}
-yy185:
-// 246 "scanner.re"
+yy182:
+// 166 "scanner.re"
 			{
-			token->opcode = PHQL_T_IS;
+			token->opcode = PHQL_T_OFFSET;
 			return 0;
 		}
-// 2995 "scanner.c"
-yy186:
+// 2864 "scanner.c"
+yy183:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
-			case 'e':	goto yy194;
-			default:	goto yy85;
+			case 'e':	goto yy184;
+			default:	goto yy87;
 			}
-yy187:
+yy184:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'O':
-			case 'o':	goto yy192;
-			default:	goto yy85;
+			case 'R':
+			case 'r':	goto yy185;
+			default:	goto yy87;
 			}
+yy185:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy186;
+			default:	goto yy87;
+			}
+yy186:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy187;
+			}
+yy187:
+// 121 "scanner.re"
+			{
+			token->opcode = PHQL_T_WHERE;
+			return 0;
+		}
+// 2961 "scanner.c"
 yy188:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy189;
-			default:	goto yy85;
+			case 'L':
+			case 'l':	goto yy189;
+			default:	goto yy87;
 			}
 yy189:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'R':
-			case 'r':	goto yy190;
-			default:	goto yy85;
+			case 'U':
+			case 'u':	goto yy190;
+			default:	goto yy87;
 			}
 yy190:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
+			yych = *++YYCURSOR;
+			switch (yych) {
 			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy191;
+			case 'e':	goto yy191;
+			default:	goto yy87;
 			}
 yy191:
-// 216 "scanner.re"
-			{
-			token->opcode = PHQL_T_INNER;
-			return 0;
-		}
-// 3099 "scanner.c"
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'S':
+			case 's':	goto yy192;
+			default:	goto yy87;
+			}
 yy192:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
@@ -63727,31 +63925,370 @@ yy192:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
+			case 'z':	goto yy86;
 			default:	goto yy193;
 			}
 yy193:
+// 116 "scanner.re"
+			{
+			token->opcode = PHQL_T_VALUES;
+			return 0;
+		}
+// 3065 "scanner.c"
+yy194:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'I':
+			case 'i':	goto yy211;
+			default:	goto yy87;
+			}
+yy195:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			case 'N':
+			case 'n':	goto yy201;
+			case 'S':
+			case 's':	goto yy199;
+			case 'T':
+			case 't':	goto yy200;
+			default:	goto yy196;
+			}
+yy196:
+// 201 "scanner.re"
+			{
+			token->opcode = PHQL_T_IN;
+			return 0;
+		}
+// 3148 "scanner.c"
+yy197:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy198;
+			}
+yy198:
+// 246 "scanner.re"
+			{
+			token->opcode = PHQL_T_IS;
+			return 0;
+		}
+// 3224 "scanner.c"
+yy199:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy207;
+			default:	goto yy87;
+			}
+yy200:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'O':
+			case 'o':	goto yy205;
+			default:	goto yy87;
+			}
+yy201:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy202;
+			default:	goto yy87;
+			}
+yy202:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'R':
+			case 'r':	goto yy203;
+			default:	goto yy87;
+			}
+yy203:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy204;
+			}
+yy204:
+// 216 "scanner.re"
+			{
+			token->opcode = PHQL_T_INNER;
+			return 0;
+		}
+// 3328 "scanner.c"
+yy205:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy206;
+			}
+yy206:
 // 111 "scanner.re"
 			{
 			token->opcode = PHQL_T_INTO;
 			return 0;
 		}
-// 3175 "scanner.c"
-yy194:
+// 3404 "scanner.c"
+yy207:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'R':
-			case 'r':	goto yy195;
-			default:	goto yy85;
+			case 'r':	goto yy208;
+			default:	goto yy87;
 			}
-yy195:
+yy208:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'T':
-			case 't':	goto yy196;
-			default:	goto yy85;
+			case 't':	goto yy209;
+			default:	goto yy87;
 			}
-yy196:
+yy209:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -63817,31 +64354,31 @@ yy196:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy197;
+			case 'z':	goto yy86;
+			default:	goto yy210;
 			}
-yy197:
+yy210:
 // 106 "scanner.re"
 			{
 			token->opcode = PHQL_T_INSERT;
 			return 0;
 		}
-// 3265 "scanner.c"
-yy198:
+// 3494 "scanner.c"
+yy211:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'K':
-			case 'k':	goto yy199;
-			default:	goto yy85;
+			case 'k':	goto yy212;
+			default:	goto yy87;
 			}
-yy199:
+yy212:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
-			case 'e':	goto yy200;
-			default:	goto yy85;
+			case 'e':	goto yy213;
+			default:	goto yy87;
 			}
-yy200:
+yy213:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -63907,31 +64444,31 @@ yy200:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy201;
+			case 'z':	goto yy86;
+			default:	goto yy214;
 			}
-yy201:
+yy214:
 // 191 "scanner.re"
 			{
 			token->opcode = PHQL_T_ILIKE;
 			return 0;
 		}
-// 3355 "scanner.c"
-yy202:
+// 3584 "scanner.c"
+yy215:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'A':
-			case 'a':	goto yy210;
-			default:	goto yy85;
+			case 'a':	goto yy223;
+			default:	goto yy87;
 			}
-yy203:
+yy216:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'D':
-			case 'd':	goto yy208;
-			default:	goto yy85;
+			case 'd':	goto yy221;
+			default:	goto yy87;
 			}
-yy204:
+yy217:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -63995,295 +64532,18 @@ yy204:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
+			case 'z':	goto yy86;
 			case 'C':
-			case 'c':	goto yy206;
-			default:	goto yy205;
+			case 'c':	goto yy219;
+			default:	goto yy218;
 			}
-yy205:
+yy218:
 // 101 "scanner.re"
 			{
 			token->opcode = PHQL_T_AS;
 			return 0;
 		}
-// 3445 "scanner.c"
-yy206:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy207;
-			}
-yy207:
-// 141 "scanner.re"
-			{
-			token->opcode = PHQL_T_ASC;
-			return 0;
-		}
-// 3521 "scanner.c"
-yy208:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy209;
-			}
-yy209:
-// 176 "scanner.re"
-			{
-			token->opcode = PHQL_T_AND;
-			return 0;
-		}
-// 3597 "scanner.c"
-yy210:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'I':
-			case 'i':	goto yy211;
-			default:	goto yy85;
-			}
-yy211:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'N':
-			case 'n':	goto yy212;
-			default:	goto yy85;
-			}
-yy212:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'S':
-			case 's':	goto yy213;
-			default:	goto yy85;
-			}
-yy213:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'T':
-			case 't':	goto yy214;
-			default:	goto yy85;
-			}
-yy214:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy215;
-			}
-yy215:
-// 196 "scanner.re"
-			{
-			token->opcode = PHQL_T_AGAINST;
-			return 0;
-		}
-// 3701 "scanner.c"
-yy216:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'O':
-			case 'o':	goto yy221;
-			default:	goto yy85;
-			}
-yy217:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'L':
-			case 'l':	goto yy218;
-			default:	goto yy85;
-			}
-yy218:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'L':
-			case 'l':	goto yy219;
-			default:	goto yy85;
-			}
+// 3674 "scanner.c"
 yy219:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
@@ -64350,24 +64610,17 @@ yy219:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
+			case 'z':	goto yy86;
 			default:	goto yy220;
 			}
 yy220:
-// 241 "scanner.re"
+// 141 "scanner.re"
 			{
-			token->opcode = PHQL_T_FULL;
+			token->opcode = PHQL_T_ASC;
 			return 0;
 		}
-// 3798 "scanner.c"
+// 3750 "scanner.c"
 yy221:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'M':
-			case 'm':	goto yy222;
-			default:	goto yy85;
-			}
-yy222:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -64433,68 +64686,45 @@ yy222:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy223;
+			case 'z':	goto yy86;
+			default:	goto yy222;
 			}
-yy223:
-// 96 "scanner.re"
+yy222:
+// 176 "scanner.re"
 			{
-			token->opcode = PHQL_T_FROM;
+			token->opcode = PHQL_T_AND;
 			return 0;
 		}
-// 3881 "scanner.c"
+// 3826 "scanner.c"
+yy223:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'I':
+			case 'i':	goto yy224;
+			default:	goto yy87;
+			}
 yy224:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'L':
-			case 'l':	goto yy233;
-			case 'S':
-			case 's':	goto yy234;
-			default:	goto yy85;
+			case 'N':
+			case 'n':	goto yy225;
+			default:	goto yy87;
 			}
 yy225:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'S':
 			case 's':	goto yy226;
-			default:	goto yy85;
+			default:	goto yy87;
 			}
 yy226:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'T':
 			case 't':	goto yy227;
-			default:	goto yy85;
+			default:	goto yy87;
 			}
 yy227:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'I':
-			case 'i':	goto yy228;
-			default:	goto yy85;
-			}
-yy228:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'N':
-			case 'n':	goto yy229;
-			default:	goto yy85;
-			}
-yy229:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'C':
-			case 'c':	goto yy230;
-			default:	goto yy85;
-			}
-yy230:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'T':
-			case 't':	goto yy231;
-			default:	goto yy85;
-			}
-yy231:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -64560,405 +64790,433 @@ yy231:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy232;
+			case 'z':	goto yy86;
+			default:	goto yy228;
+			}
+yy228:
+// 196 "scanner.re"
+			{
+			token->opcode = PHQL_T_AGAINST;
+			return 0;
+		}
+// 3930 "scanner.c"
+yy229:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'L':
+			case 'l':	goto yy238;
+			default:	goto yy87;
+			}
+yy230:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'O':
+			case 'o':	goto yy235;
+			default:	goto yy87;
+			}
+yy231:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'L':
+			case 'l':	goto yy232;
+			default:	goto yy87;
 			}
 yy232:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'L':
+			case 'l':	goto yy233;
+			default:	goto yy87;
+			}
+yy233:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy234;
+			}
+yy234:
+// 241 "scanner.re"
+			{
+			token->opcode = PHQL_T_FULL;
+			return 0;
+		}
+// 4034 "scanner.c"
+yy235:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'M':
+			case 'm':	goto yy236;
+			default:	goto yy87;
+			}
+yy236:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy237;
+			}
+yy237:
+// 96 "scanner.re"
+			{
+			token->opcode = PHQL_T_FROM;
+			return 0;
+		}
+// 4117 "scanner.c"
+yy238:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'S':
+			case 's':	goto yy239;
+			default:	goto yy87;
+			}
+yy239:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy240;
+			default:	goto yy87;
+			}
+yy240:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy241;
+			}
+yy241:
+// 286 "scanner.re"
+			{
+			token->opcode = PHQL_T_FALSE;
+			return 0;
+		}
+// 4207 "scanner.c"
+yy242:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'L':
+			case 'l':	goto yy251;
+			case 'S':
+			case 's':	goto yy252;
+			default:	goto yy87;
+			}
+yy243:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'S':
+			case 's':	goto yy244;
+			default:	goto yy87;
+			}
+yy244:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy245;
+			default:	goto yy87;
+			}
+yy245:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'I':
+			case 'i':	goto yy246;
+			default:	goto yy87;
+			}
+yy246:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'N':
+			case 'n':	goto yy247;
+			default:	goto yy87;
+			}
+yy247:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'C':
+			case 'c':	goto yy248;
+			default:	goto yy87;
+			}
+yy248:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy249;
+			default:	goto yy87;
+			}
+yy249:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy250;
+			}
+yy250:
 // 256 "scanner.re"
 			{
 			token->opcode = PHQL_T_DISTINCT;
 			return 0;
 		}
-// 4008 "scanner.c"
-yy233:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy237;
-			default:	goto yy85;
-			}
-yy234:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'C':
-			case 'c':	goto yy235;
-			default:	goto yy85;
-			}
-yy235:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy236;
-			}
-yy236:
-// 146 "scanner.re"
-			{
-			token->opcode = PHQL_T_DESC;
-			return 0;
-		}
-// 4098 "scanner.c"
-yy237:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'T':
-			case 't':	goto yy238;
-			default:	goto yy85;
-			}
-yy238:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy239;
-			default:	goto yy85;
-			}
-yy239:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy240;
-			}
-yy240:
-// 91 "scanner.re"
-			{
-			token->opcode = PHQL_T_DELETE;
-			return 0;
-		}
-// 4188 "scanner.c"
-yy241:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'L':
-			case 'l':	goto yy244;
-			case 'T':
-			case 't':	goto yy242;
-			default:	goto yy85;
-			}
-yy242:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy243;
-			}
-yy243:
-// 86 "scanner.re"
-			{
-			token->opcode = PHQL_T_SET;
-			return 0;
-		}
-// 4273 "scanner.c"
-yy244:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy245;
-			default:	goto yy85;
-			}
-yy245:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'C':
-			case 'c':	goto yy246;
-			default:	goto yy85;
-			}
-yy246:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'T':
-			case 't':	goto yy247;
-			default:	goto yy85;
-			}
-yy247:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto yy84;
-			default:	goto yy248;
-			}
-yy248:
-// 126 "scanner.re"
-			{
-			token->opcode = PHQL_T_SELECT;
-			return 0;
-		}
-// 4370 "scanner.c"
-yy249:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'D':
-			case 'd':	goto yy250;
-			default:	goto yy85;
-			}
-yy250:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'A':
-			case 'a':	goto yy251;
-			default:	goto yy85;
-			}
+// 4334 "scanner.c"
 yy251:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'T':
-			case 't':	goto yy252;
-			default:	goto yy85;
+			case 'E':
+			case 'e':	goto yy255;
+			default:	goto yy87;
 			}
 yy252:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy253;
-			default:	goto yy85;
+			case 'C':
+			case 'c':	goto yy253;
+			default:	goto yy87;
 			}
 yy253:
 			++YYCURSOR;
@@ -65026,17 +65284,490 @@ yy253:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy84;
+			case 'z':	goto yy86;
 			default:	goto yy254;
 			}
 yy254:
+// 146 "scanner.re"
+			{
+			token->opcode = PHQL_T_DESC;
+			return 0;
+		}
+// 4424 "scanner.c"
+yy255:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy256;
+			default:	goto yy87;
+			}
+yy256:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy257;
+			default:	goto yy87;
+			}
+yy257:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy258;
+			}
+yy258:
+// 91 "scanner.re"
+			{
+			token->opcode = PHQL_T_DELETE;
+			return 0;
+		}
+// 4514 "scanner.c"
+yy259:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'L':
+			case 'l':	goto yy262;
+			case 'T':
+			case 't':	goto yy260;
+			default:	goto yy87;
+			}
+yy260:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy261;
+			}
+yy261:
+// 86 "scanner.re"
+			{
+			token->opcode = PHQL_T_SET;
+			return 0;
+		}
+// 4599 "scanner.c"
+yy262:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy263;
+			default:	goto yy87;
+			}
+yy263:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'C':
+			case 'c':	goto yy264;
+			default:	goto yy87;
+			}
+yy264:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy265;
+			default:	goto yy87;
+			}
+yy265:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy266;
+			}
+yy266:
+// 126 "scanner.re"
+			{
+			token->opcode = PHQL_T_SELECT;
+			return 0;
+		}
+// 4696 "scanner.c"
+yy267:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'D':
+			case 'd':	goto yy273;
+			default:	goto yy87;
+			}
+yy268:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'I':
+			case 'i':	goto yy269;
+			default:	goto yy87;
+			}
+yy269:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'N':
+			case 'n':	goto yy270;
+			default:	goto yy87;
+			}
+yy270:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'G':
+			case 'g':	goto yy271;
+			default:	goto yy87;
+			}
+yy271:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy272;
+			}
+yy272:
+// 276 "scanner.re"
+			{
+			token->opcode = PHQL_T_USING;
+			return 0;
+		}
+// 4800 "scanner.c"
+yy273:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'A':
+			case 'a':	goto yy274;
+			default:	goto yy87;
+			}
+yy274:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy275;
+			default:	goto yy87;
+			}
+yy275:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy276;
+			default:	goto yy87;
+			}
+yy276:
+			++YYCURSOR;
+			switch ((yych = *YYCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy86;
+			default:	goto yy277;
+			}
+yy277:
 // 81 "scanner.re"
 			{
 			token->opcode = PHQL_T_UPDATE;
 			return 0;
 		}
-// 4474 "scanner.c"
-yy255:
+// 4897 "scanner.c"
+yy278:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
@@ -65103,11 +65834,11 @@ yy255:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy255;
-			case ':':	goto yy257;
-			default:	goto yy81;
+			case 'z':	goto yy278;
+			case ':':	goto yy280;
+			default:	goto yy83;
 			}
-yy257:
+yy280:
 			++YYCURSOR;
 // 73 "scanner.re"
 			{
@@ -65117,8 +65848,8 @@ yy257:
 			q = YYCURSOR;
 			return 0;
 		}
-// 4556 "scanner.c"
-yy259:
+// 4979 "scanner.c"
+yy282:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
@@ -65131,10 +65862,10 @@ yy259:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy259;
-			default:	goto yy261;
+			case '9':	goto yy282;
+			default:	goto yy284;
 			}
-yy261:
+yy284:
 // 64 "scanner.re"
 			{
 			token->opcode = PHQL_T_NPLACEHOLDER;
@@ -65143,8 +65874,8 @@ yy261:
 			q = YYCURSOR;
 			return 0;
 		}
-// 4582 "scanner.c"
-yy262:
+// 5005 "scanner.c"
+yy285:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
@@ -65157,10 +65888,10 @@ yy262:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy262;
-			default:	goto yy264;
+			case '9':	goto yy285;
+			default:	goto yy287;
 			}
-yy264:
+yy287:
 // 55 "scanner.re"
 			{
 			token->opcode = PHQL_T_DOUBLE;
@@ -65169,8 +65900,8 @@ yy264:
 			q = YYCURSOR;
 			return 0;
 		}
-// 4608 "scanner.c"
-yy265:
+// 5031 "scanner.c"
+yy288:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
@@ -65183,14 +65914,14 @@ yy265:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy265;
-			default:	goto yy264;
+			case '9':	goto yy288;
+			default:	goto yy287;
 			}
-yy267:
+yy290:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
-			case '.':	goto yy265;
+			case '.':	goto yy288;
 			case '0':
 			case '1':
 			case '2':
@@ -65200,11 +65931,11 @@ yy267:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy267;
+			case '9':	goto yy290;
 			default:	goto yy3;
 			}
 		}
-// 428 "scanner.re"
+// 453 "scanner.re"
 
 	}
 
@@ -65269,6 +66000,21 @@ static zval *phql_ret_qualified_name(phql_parser_token *A, phql_parser_token *B)
 	} else {
 		add_assoc_stringl(ret, "name", A->token, A->token_len, 0);
 	}
+	efree(A);
+
+	return ret;
+}
+
+static zval *phql_ret_aliased_name(phql_parser_token *A, phql_parser_token *B)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 3);
+	add_assoc_long(ret, "type", PHQL_T_ALIASED);
+	add_assoc_stringl(ret, "ns-alias", A->token, A->token_len, 0);
+	add_assoc_stringl(ret, "name", B->token, B->token_len, 0);
+	efree(B);
 	efree(A);
 
 	return ret;
@@ -65609,7 +66355,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 }
 
 
-// 411 "parser.c"
+// 426 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -65652,23 +66398,23 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 108
+#define YYNOCODE 115
 #define YYACTIONTYPE unsigned short int
 #define phql_TOKENTYPE phql_parser_token*
 typedef union {
   phql_TOKENTYPE yy0;
-  zval* yy180;
-  int yy215;
+  zval* yy48;
+  int yy229;
 } YYMINORTYPE;
 #define YYSTACKDEPTH 100
 #define phql_ARG_SDECL phql_parser_status *status;
 #define phql_ARG_PDECL ,phql_parser_status *status
 #define phql_ARG_FETCH phql_parser_status *status = yypParser->status
 #define phql_ARG_STORE yypParser->status = status
-#define YYNSTATE 251
-#define YYNRULE 149
-#define YYERRORSYMBOL 64
-#define YYERRSYMDT yy215
+#define YYNSTATE 267
+#define YYNRULE 156
+#define YYERRORSYMBOL 69
+#define YYERRSYMDT yy229
 #define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
 #define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
 #define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
@@ -65725,222 +66471,249 @@ static YYACTIONTYPE yy_action[] = {
  /*    10 */    62,   67,   44,   46,   48,   36,   34,   38,   32,   29,
  /*    20 */    74,   69,   69,   64,   64,   72,   78,   50,   52,   54,
  /*    30 */    56,   58,   60,   40,   42,   62,   67,   44,   46,   48,
- /*    40 */    36,   34,   38,   32,   29,   74,   69,  251,   64,   18,
- /*    50 */    27,   28,   20,  203,  137,  201,    9,   72,   78,   50,
+ /*    40 */    36,   34,   38,   32,   29,   74,   69,  267,   64,   18,
+ /*    50 */    27,   28,   20,  218,  203,  216,  201,   72,   78,   50,
  /*    60 */    52,   54,   56,   58,   60,   40,   42,   62,   67,   44,
- /*    70 */    46,   48,   36,   34,   38,   32,   29,   74,   69,  136,
- /*    80 */    64,   32,   29,   74,   69,  145,   64,   83,  147,   72,
+ /*    70 */    46,   48,   36,   34,   38,   32,   29,   74,   69,  268,
+ /*    80 */    64,   32,   29,   74,   69,  154,   64,   83,  156,   72,
  /*    90 */    78,   50,   52,   54,   56,   58,   60,   40,   42,   62,
  /*   100 */    67,   44,   46,   48,   36,   34,   38,   32,   29,   74,
- /*   110 */    69,   11,   64,   40,   42,   62,   67,   44,   46,   48,
- /*   120 */    36,   34,   38,   32,   29,   74,   69,  124,   64,   17,
- /*   130 */   126,  191,  102,  189,   72,   78,   50,   52,   54,   56,
- /*   140 */    58,   60,   40,   42,   62,   67,   44,   46,   48,   36,
- /*   150 */    34,   38,   32,   29,   74,   69,  252,   64,   50,   52,
- /*   160 */    54,   56,   58,   60,   40,   42,   62,   67,   44,   46,
- /*   170 */    48,   36,   34,   38,   32,   29,   74,   69,   93,   64,
- /*   180 */   112,   30,   26,  258,   94,   96,   98,  103,   93,  253,
- /*   190 */    87,   30,   71,   88,   94,   96,   98,  103,  254,  175,
- /*   200 */    87,   23,  123,  176,  100,  110,   86,  401,    1,    2,
- /*   210 */     3,    4,    5,    6,  100,  104,   86,   92,  255,   80,
- /*   220 */   107,  105,  106,  108,  109,  104,  265,   65,  116,   80,
- /*   230 */   107,  105,  106,  108,  109,   13,  227,  196,  118,   10,
- /*   240 */    30,  244,  156,   94,   96,   98,  192,  158,  159,  197,
- /*   250 */    30,   26,   91,   94,   96,   98,  103,  208,  216,   87,
- /*   260 */   186,   91,  261,  100,  169,  170,  172,  174,   90,  178,
- /*   270 */   182,   25,  179,  100,  104,   86,  180,  115,   80,  107,
- /*   280 */   105,  106,  108,  109,  104,  157,  158,  159,   80,  107,
- /*   290 */   105,  106,  108,  109,   62,   67,   44,   46,   48,   36,
- /*   300 */    34,   38,   32,   29,   74,   69,  256,   64,   44,   46,
- /*   310 */    48,   36,   34,   38,   32,   29,   74,   69,   10,   64,
- /*   320 */    36,   34,   38,   32,   29,   74,   69,  135,   64,  169,
- /*   330 */   170,  172,  174,  153,  178,  182,  204,  200,  349,  154,
- /*   340 */   194,   71,  103,  260,  134,   71,  103,  239,   71,   76,
- /*   350 */   103,  257,  214,  103,  150,   21,  259,  103,  238,  130,
- /*   360 */   210,   86,   10,  215,  114,   86,  111,  274,   89,   86,
- /*   370 */   111,  120,   86,  111,  214,  152,   86,  161,  165,  103,
- /*   380 */     8,   16,  221,  129,   75,  215,    7,  139,  141,  205,
- /*   390 */   149,  348,   21,   15,  233,  350,  248,  135,   86,   10,
- /*   400 */    21,  242,  195,  200,  130,   21,  103,   10,  103,   19,
- /*   410 */   214,  127,   10,  132,  138,  103,   21,  273,  241,   12,
- /*   420 */   183,  213,  127,   10,  184,   86,   22,   86,  122,   74,
- /*   430 */    69,  267,   64,  103,   86,   31,   33,   24,   35,   37,
- /*   440 */   103,  103,   39,  103,  103,   41,   43,  103,   14,   45,
- /*   450 */   103,  103,   86,   47,  103,  168,   49,  166,  103,   86,
- /*   460 */    86,  103,   86,   86,  187,  163,   86,   51,  188,   86,
- /*   470 */    86,   53,  103,   86,   55,   64,  103,   86,   57,  103,
- /*   480 */    86,   59,   61,  103,   63,   66,  103,  103,   68,  103,
- /*   490 */   103,   86,   73,  103,   79,   86,  263,  103,   86,  103,
- /*   500 */   276,  142,   86,  144,  148,   86,   86,  318,   86,   86,
- /*   510 */    82,  327,   86,  268,   95,  103,   86,   97,   86,  103,
- /*   520 */    99,  101,  103,  117,  128,  103,  103,  151,  103,  103,
- /*   530 */    91,  155,  103,  269,   86,  193,  270,  164,   86,  188,
- /*   540 */    77,   86,  103,  239,   86,   86,  121,   86,   86,   21,
- /*   550 */   212,   86,   10,  236,  243,  150,   10,  198,  223,  150,
- /*   560 */   199,   86,  217,  230,  228,  226,  211,  230,  212,   10,
- /*   570 */    88,  319,  113,  234,  218,  245,  328,  188,   70,  250,
- /*   580 */    81,   84,   85,  188,  222,  113,  125,  232,  119,   10,
- /*   590 */   262,  266,   10,  264,  131,  133,  112,  140,  247,  271,
- /*   600 */   143,  272,  146,  278,  277,  275,  279,  137,  163,  160,
- /*   610 */   167,  300,  171,  162,  301,  173,  302,  303,  177,  310,
- /*   620 */   206,  304,  311,  305,  306,  207,  307,  230,  181,  308,
- /*   630 */   185,  190,  230,  321,  224,  351,  202,  229,  225,  320,
- /*   640 */   240,  237,  246,  231,  330,  329,  258,  249,  258,  258,
- /*   650 */   258,  209,  219,  258,  220,  258,  258,  258,  235,
+ /*   110 */    69,  269,   64,    9,   72,   78,   50,   52,   54,   56,
+ /*   120 */    58,   60,   40,   42,   62,   67,   44,   46,   48,   36,
+ /*   130 */    34,   38,   32,   29,   74,   69,  270,   64,   44,   46,
+ /*   140 */    48,   36,   34,   38,   32,   29,   74,   69,   89,   64,
+ /*   150 */    36,   34,   38,   32,   29,   74,   69,  108,   64,   72,
+ /*   160 */    78,   50,   52,   54,   56,   58,   60,   40,   42,   62,
+ /*   170 */    67,   44,   46,   48,   36,   34,   38,   32,   29,   74,
+ /*   180 */    69,  271,   64,   50,   52,   54,   56,   58,   60,   40,
+ /*   190 */    42,   62,   67,   44,   46,   48,   36,   34,   38,   32,
+ /*   200 */    29,   74,   69,   99,   64,  273,   30,  110,  133,  100,
+ /*   210 */   102,  104,  198,  110,   26,   93,  181,  182,  184,  186,
+ /*   220 */    99,  190,  194,   30,  281,  109,  100,  102,  104,  106,
+ /*   230 */   119,  109,   93,   92,   23,  134,    7,  148,  150,   92,
+ /*   240 */   158,  274,  111,   11,   80,   86,  106,  114,  112,  113,
+ /*   250 */   115,  116,  117,  118,   21,  110,   71,   76,  141,  111,
+ /*   260 */    10,   80,   86,   13,  114,  112,  113,  115,  116,  117,
+ /*   270 */   118,  208,  367,  109,   30,  110,   71,  100,  102,  104,
+ /*   280 */   125,   92,  120,  209,    8,   16,   30,  140,  121,  100,
+ /*   290 */   102,  104,   15,  109,   75,   93,   10,  106,  165,  243,
+ /*   300 */    95,   92,  120,  204,  167,  168,  166,  167,  168,  106,
+ /*   310 */   111,  232,   80,   86,  241,  114,  112,  113,  115,  116,
+ /*   320 */   117,  118,  111,  247,   80,   86,  123,  114,  112,  113,
+ /*   330 */   115,  116,  117,  118,   40,   42,   62,   67,   44,   46,
+ /*   340 */    48,   36,   34,   38,   32,   29,   74,   69,  368,   64,
+ /*   350 */    62,   67,   44,   46,   48,   36,   34,   38,   32,   29,
+ /*   360 */    74,   69,   22,   64,  110,   71,  424,    1,    2,    3,
+ /*   370 */     4,    5,    6,  161,  170,  174,  162,  110,  146,  219,
+ /*   380 */   212,  215,  109,  272,  251,  259,  254,  220,   19,  131,
+ /*   390 */    92,  120,  248,  187,  264,  109,  242,  188,  109,   24,
+ /*   400 */   143,  147,  260,   92,  110,  229,   92,  110,   71,  181,
+ /*   410 */   182,  184,  186,  225,  190,  194,  230,  110,  229,  110,
+ /*   420 */    26,  135,  109,   17,  137,  109,  236,  223,  231,  230,
+ /*   430 */    92,  159,   21,   92,   98,  109,  141,  109,   10,  110,
+ /*   440 */   146,   25,  275,   92,   64,   92,   70,  164,  110,  229,
+ /*   450 */   179,   97,  205,  207,  212,  215,  200,  109,  110,  257,
+ /*   460 */   228,   74,   69,  145,   64,   92,  109,   96,  178,  289,
+ /*   470 */   163,  206,  109,   77,   92,   81,  109,  256,   65,  127,
+ /*   480 */    92,  110,   31,  283,   92,  110,   33,  110,   35,  129,
+ /*   490 */    84,   21,  110,   37,  110,   39,  138,   10,   85,  109,
+ /*   500 */   366,  110,   41,  109,  177,  109,  175,   92,  253,  254,
+ /*   510 */   109,   92,  109,   92,  172,   87,  110,   43,   92,  109,
+ /*   520 */    92,  110,   45,  110,   47,  110,   49,   92,   12,  279,
+ /*   530 */   110,   51,  110,   53,  109,  110,   55,  110,   57,  109,
+ /*   540 */   335,  109,   92,  109,  110,   59,   90,   92,  109,   92,
+ /*   550 */   109,   92,   91,  109,  121,  109,   92,   14,   92,  110,
+ /*   560 */    61,   92,  109,   92,  110,   63,  122,   94,  110,   66,
+ /*   570 */    92,  110,   68,  110,   73,  110,   79,  109,  110,   82,
+ /*   580 */   110,   88,  109,  191,   10,   92,  109,  192,  159,  109,
+ /*   590 */    92,  109,  123,  109,   92,  245,  109,   92,  109,   92,
+ /*   600 */   290,   92,  278,  124,   92,  211,   92,  110,  101,  110,
+ /*   610 */   103,  110,  105,  110,  107,  276,  277,  122,  110,  128,
+ /*   620 */   110,  139,  110,  160,  292,  109,  284,  109,  344,  109,
+ /*   630 */   285,  109,  130,   92,  286,   92,  109,   92,  109,   92,
+ /*   640 */   109,   97,  110,  173,   92,  179,   92,  199,   92,   21,
+ /*   650 */   151,  200,  153,  157,  138,   10,  179,  126,  249,  179,
+ /*   660 */   109,  266,  200,  178,   21,  200,  179,  210,   92,  179,
+ /*   670 */    10,   10,  169,   21,  178,  222,  159,  178,   97,   10,
+ /*   680 */    94,   10,  336,  245,  178,   10,  195,  178,  227,   10,
+ /*   690 */   196,  238,  227,  421,  132,  261,  345,  282,  136,  280,
+ /*   700 */   144,  142,  149,  287,  226,  123,  152,  233,  237,  288,
+ /*   710 */   155,  294,  293,  291,  295,  180,  172,  171,  176,  263,
+ /*   720 */   121,  317,  318,  183,  319,  221,  185,  320,  224,  327,
+ /*   730 */   321,  322,  189,  328,  323,  324,  193,  245,  213,  197,
+ /*   740 */   214,  239,  244,  338,  325,  202,  217,  240,  369,  337,
+ /*   750 */   252,  245,  234,  258,  255,  347,  262,  346,  265,  272,
+ /*   760 */   272,  272,  235,  272,  272,  272,  272,  250,  272,  272,
+ /*   770 */   272,  272,  272,  272,  272,  272,  246,
 };
 static YYCODETYPE yy_lookahead[] = {
  /*     0 */     1,    2,    3,    4,    5,    6,    7,    8,    9,   10,
  /*    10 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
  /*    20 */    21,   22,   22,   24,   24,    1,    2,    3,    4,    5,
  /*    30 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
- /*    40 */    16,   17,   18,   19,   20,   21,   22,    0,   24,   73,
- /*    50 */    51,   52,   76,   29,   29,   31,   76,    1,    2,    3,
+ /*    40 */    16,   17,   18,   19,   20,   21,   22,    0,   24,   78,
+ /*    50 */    51,   52,   81,   29,   29,   31,   31,    1,    2,    3,
  /*    60 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
- /*    70 */    14,   15,   16,   17,   18,   19,   20,   21,   22,   54,
- /*    80 */    24,   19,   20,   21,   22,   73,   24,   31,   76,    1,
+ /*    70 */    14,   15,   16,   17,   18,   19,   20,   21,   22,    0,
+ /*    80 */    24,   19,   20,   21,   22,   78,   24,   31,   81,    1,
  /*    90 */     2,    3,    4,    5,    6,    7,    8,    9,   10,   11,
  /*   100 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
- /*   110 */    22,   54,   24,    9,   10,   11,   12,   13,   14,   15,
- /*   120 */    16,   17,   18,   19,   20,   21,   22,   73,   24,   75,
- /*   130 */    76,   29,   44,   31,    1,    2,    3,    4,    5,    6,
- /*   140 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
- /*   150 */    17,   18,   19,   20,   21,   22,    0,   24,    3,    4,
- /*   160 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*   170 */    15,   16,   17,   18,   19,   20,   21,   22,   17,   24,
- /*   180 */    30,   20,   81,    0,   23,   24,   25,   86,   17,    0,
- /*   190 */    29,   20,   81,   43,   23,   24,   25,   86,    0,   32,
- /*   200 */    29,  100,  101,   36,   43,   44,  105,   65,   66,   67,
- /*   210 */    68,   69,   70,   71,   43,   54,  105,  106,    0,   58,
- /*   220 */    59,   60,   61,   62,   63,   54,    0,   11,   12,   58,
- /*   230 */    59,   60,   61,   62,   63,   54,   94,   17,   22,   56,
- /*   240 */    20,   99,   79,   23,   24,   25,   83,   84,   85,   29,
- /*   250 */    20,   81,   28,   23,   24,   25,   86,   42,   43,   29,
- /*   260 */    28,   28,    0,   43,   32,   33,   34,   35,   44,   37,
- /*   270 */    38,  101,   32,   43,   54,  105,   36,   44,   58,   59,
- /*   280 */    60,   61,   62,   63,   54,   83,   84,   85,   58,   59,
- /*   290 */    60,   61,   62,   63,   11,   12,   13,   14,   15,   16,
- /*   300 */    17,   18,   19,   20,   21,   22,    0,   24,   13,   14,
- /*   310 */    15,   16,   17,   18,   19,   20,   21,   22,   56,   24,
- /*   320 */    16,   17,   18,   19,   20,   21,   22,   86,   24,   32,
- /*   330 */    33,   34,   35,   77,   37,   38,   80,   81,    0,   27,
- /*   340 */    28,   81,   86,    0,  103,   81,   86,   86,   81,   24,
- /*   350 */    86,    0,   81,   86,   48,   49,    0,   86,   97,   53,
- /*   360 */    89,  105,   56,   92,  104,  105,  106,    0,  104,  105,
- /*   370 */   106,  104,  105,  106,   81,   26,  105,   87,   88,   86,
- /*   380 */    73,   74,   89,   76,   59,   92,   72,   73,   74,   40,
- /*   390 */    76,    0,   49,   54,   45,    0,   47,   86,  105,   56,
- /*   400 */    49,   81,   80,   81,   53,   49,   86,   56,   86,   76,
- /*   410 */    81,   55,   56,  102,  103,   86,   49,    0,   98,   28,
- /*   420 */    32,   92,   55,   56,   36,  105,   50,  105,   81,   21,
- /*   430 */    22,    0,   24,   86,  105,   81,   81,   28,   81,   81,
- /*   440 */    86,   86,   81,   86,   86,   81,   81,   86,   57,   81,
- /*   450 */    86,   86,  105,   81,   86,   29,   81,   31,   86,  105,
- /*   460 */   105,   86,  105,  105,   82,   39,  105,   81,   86,  105,
- /*   470 */   105,   81,   86,  105,   81,   24,   86,  105,   81,   86,
- /*   480 */   105,   81,   81,   86,   81,   81,   86,   86,   81,   86,
- /*   490 */    86,  105,   81,   86,   81,  105,    0,   86,  105,   86,
- /*   500 */     0,   73,  105,   75,   76,  105,  105,    0,  105,  105,
- /*   510 */    81,    0,  105,    0,   81,   86,  105,   81,  105,   86,
- /*   520 */    81,   81,   86,   81,   81,   86,   86,   81,   86,   86,
- /*   530 */    28,   78,   86,    0,  105,   82,    0,   81,  105,   86,
- /*   540 */    59,  105,   86,   86,  105,  105,   44,  105,  105,   49,
- /*   550 */    28,  105,   56,   96,   97,   48,   56,   30,   28,   48,
- /*   560 */    17,  105,   90,   56,   72,   93,   44,   56,   28,   56,
- /*   570 */    43,    0,   29,   82,   44,   72,    0,   86,   43,   82,
- /*   580 */    43,   29,   44,   86,   44,   29,   76,   95,   43,   56,
- /*   590 */     0,    0,   56,    0,   50,   28,   30,   76,   95,    0,
- /*   600 */    76,    0,   76,    0,    0,    0,    0,   29,   39,   86,
- /*   610 */    29,   29,   32,   88,   29,   32,   29,   29,   32,    0,
- /*   620 */    41,   29,    0,   29,   29,   86,   29,   56,   32,   29,
- /*   630 */    32,   29,   56,    0,   93,    0,   29,   95,   29,    0,
- /*   640 */     3,   28,   95,   54,    0,    0,  107,   27,  107,  107,
- /*   650 */   107,   43,   42,  107,   43,  107,  107,  107,   46,
+ /*   110 */    22,    0,   24,   81,    1,    2,    3,    4,    5,    6,
+ /*   120 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*   130 */    17,   18,   19,   20,   21,   22,    0,   24,   13,   14,
+ /*   140 */    15,   16,   17,   18,   19,   20,   21,   22,   60,   24,
+ /*   150 */    16,   17,   18,   19,   20,   21,   22,   44,   24,    1,
+ /*   160 */     2,    3,    4,    5,    6,    7,    8,    9,   10,   11,
+ /*   170 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
+ /*   180 */    22,    0,   24,    3,    4,    5,    6,    7,    8,    9,
+ /*   190 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   200 */    20,   21,   22,   17,   24,    0,   20,   86,   87,   23,
+ /*   210 */    24,   25,   28,   86,   87,   29,   32,   33,   34,   35,
+ /*   220 */    17,   37,   38,   20,    0,  104,   23,   24,   25,   43,
+ /*   230 */    44,  104,   29,  112,  107,  108,   77,   78,   79,  112,
+ /*   240 */    81,    0,   56,   56,   58,   59,   43,   61,   62,   63,
+ /*   250 */    64,   65,   66,   67,   49,   86,   87,   24,   53,   56,
+ /*   260 */    55,   58,   59,   56,   61,   62,   63,   64,   65,   66,
+ /*   270 */    67,   17,    0,  104,   20,   86,   87,   23,   24,   25,
+ /*   280 */   111,  112,  113,   29,   78,   79,   20,   81,   30,   23,
+ /*   290 */    24,   25,   56,  104,   61,   29,   55,   43,   84,   77,
+ /*   300 */   111,  112,  113,   89,   90,   91,   89,   90,   91,   43,
+ /*   310 */    56,   96,   58,   59,   99,   61,   62,   63,   64,   65,
+ /*   320 */    66,   67,   56,  101,   58,   59,   68,   61,   62,   63,
+ /*   330 */    64,   65,   66,   67,    9,   10,   11,   12,   13,   14,
+ /*   340 */    15,   16,   17,   18,   19,   20,   21,   22,    0,   24,
+ /*   350 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   360 */    21,   22,   50,   24,   86,   87,   70,   71,   72,   73,
+ /*   370 */    74,   75,   76,   26,   93,   94,   82,   86,   87,   85,
+ /*   380 */    86,   87,  104,    0,  102,  103,  104,   40,   81,  111,
+ /*   390 */   112,  113,   45,   32,   47,  104,  100,   36,  104,   28,
+ /*   400 */   109,  110,  106,  112,   86,   87,  112,   86,   87,   32,
+ /*   410 */    33,   34,   35,   95,   37,   38,   98,   86,   87,   86,
+ /*   420 */    87,   78,  104,   80,   81,  104,   95,   42,   43,   98,
+ /*   430 */   112,   48,   49,  112,  113,  104,   53,  104,   55,   86,
+ /*   440 */    87,  108,    0,  112,   24,  112,   43,   83,   86,   87,
+ /*   450 */    86,   28,   88,   85,   86,   87,   92,  104,   86,   87,
+ /*   460 */    98,   21,   22,  110,   24,  112,  104,   44,  104,    0,
+ /*   470 */    27,   28,  104,   61,  112,   43,  104,  105,   11,   12,
+ /*   480 */   112,   86,   87,    0,  112,   86,   87,   86,   87,   22,
+ /*   490 */    29,   49,   86,   87,   86,   87,   54,   55,   44,  104,
+ /*   500 */     0,   86,   87,  104,   29,  104,   31,  112,  103,  104,
+ /*   510 */   104,  112,  104,  112,   39,   43,   86,   87,  112,  104,
+ /*   520 */   112,   86,   87,   86,   87,   86,   87,  112,   28,    0,
+ /*   530 */    86,   87,   86,   87,  104,   86,   87,   86,   87,  104,
+ /*   540 */     0,  104,  112,  104,   86,   87,   29,  112,  104,  112,
+ /*   550 */   104,  112,   44,  104,   30,  104,  112,   57,  112,   86,
+ /*   560 */    87,  112,  104,  112,   86,   87,   29,   43,   86,   87,
+ /*   570 */   112,   86,   87,   86,   87,   86,   87,  104,   86,   87,
+ /*   580 */    86,   87,  104,   32,   55,  112,  104,   36,   48,  104,
+ /*   590 */   112,  104,   68,  104,  112,   55,  104,  112,  104,  112,
+ /*   600 */     0,  112,    0,   29,  112,   17,  112,   86,   87,   86,
+ /*   610 */    87,   86,   87,   86,   87,    0,    0,   29,   86,   87,
+ /*   620 */    86,   87,   86,   87,    0,  104,    0,  104,    0,  104,
+ /*   630 */     0,  104,   43,  112,    0,  112,  104,  112,  104,  112,
+ /*   640 */   104,   28,   86,   87,  112,   86,  112,   88,  112,   49,
+ /*   650 */    78,   92,   80,   81,   54,   55,   86,   44,   88,   86,
+ /*   660 */   104,   88,   92,  104,   49,   92,   86,   30,  112,   86,
+ /*   670 */    55,   55,   92,   49,  104,   92,   48,  104,   28,   55,
+ /*   680 */    43,   55,    0,   55,  104,   55,   32,  104,   28,   55,
+ /*   690 */    36,   28,   28,    3,   44,   77,    0,    0,   81,    0,
+ /*   700 */    28,   50,   81,    0,   44,   68,   81,   44,   44,    0,
+ /*   710 */    81,    0,    0,    0,    0,   29,   39,   94,   29,  101,
+ /*   720 */    30,   29,   29,   32,   29,   41,   32,   29,   43,    0,
+ /*   730 */    29,   29,   32,    0,   29,   29,   32,   55,   30,   32,
+ /*   740 */    17,   99,  101,    0,   29,   29,   29,   29,    0,    0,
+ /*   750 */    28,   55,   42,   29,    3,    0,  101,    0,   27,  114,
+ /*   760 */   114,  114,   43,  114,  114,  114,  114,   46,  114,  114,
+ /*   770 */   114,  114,  114,  114,  114,  114,   56,
 };
 #define YY_SHIFT_USE_DFLT (-2)
 static short yy_shift_ofst[] = {
- /*     0 */   349,   47,  156,  189,  198,  218,  306,  351,  183,  226,
- /*    10 */    57,  391,  181,  338,  339,  395,  356,  343,  496,  417,
- /*    20 */   431,  376,  230,  409,  230,   -2,   -1,   -2,   -2,  230,
- /*    30 */   230,  408,  230,  408,  230,   62,  230,   62,  230,   62,
- /*    40 */   230,  283,  230,  283,  230,  304,  230,  304,  230,  304,
- /*    50 */   230,  104,  230,  104,  230,  104,  230,  104,  230,  104,
- /*    60 */   230,  104,  230,  295,  216,  230,  451,  230,  295,  535,
- /*    70 */   171,  133,  230,  133,  325,   -2,  481,   -2,  230,  155,
- /*    80 */   537,  230,   56,  552,  538,   -2,   -2,  150,  161,  224,
- /*    90 */    -2,  171,   -2,   -2,  230,    0,  230,  451,  230,  451,
- /*   100 */   230,   88,   -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
- /*   110 */    -2,   -2,  556,   -2,  233,   -2,  230,  451,  545,  171,
- /*   120 */   502,   -2,  408,   -2,  262,  590,  591,  230,  133,  593,
- /*   130 */   544,   25,  567,   25,   -2,   -2,   -2,  566,   -2,  513,
- /*   140 */   599,  367,  533,  601,  500,  536,  603,  604,  605,  606,
- /*   150 */   230,  133,  220,  312,  578,  232,  297,   -2,   -2,  578,
- /*   160 */   426,  569,   -2,  230,  133,   -2,  581,   -2,   -2,  582,
- /*   170 */   580,  585,  583,  587,  167,  588,  586,  592,  240,  594,
- /*   180 */   596,  595,  388,  597,  598,  600,  578,   -2,  102,  602,
- /*   190 */    -2,   -2,   -2,   -2,  220,   -2,   -2,  527,  543,   -2,
- /*   200 */    24,  607,   -2,   -2,   -2,  579,  578,  215,  608,  230,
- /*   210 */   522,  619,  230,   -2,  133,   -2,  609,  530,  610,  611,
- /*   220 */   230,  540,  622,  609,   -2,   -2,   -2,  507,  571,  633,
- /*   230 */   589,  635,  639,  578,  612,  578,  613,  578,   -2,  637,
- /*   240 */   230,   -2,  133,   -2,  511,  576,  644,  645,  620,  578,
- /*   250 */    -2,
+ /*     0 */   347,   47,   79,  111,  136,  181,  383,  205,  241,  224,
+ /*    10 */   187,  500,  207,  272,  236,  348,  442,  615,  529,  469,
+ /*    20 */   483,  312,  266,  371,  266,   -2,   -1,   -2,   -2,  266,
+ /*    30 */   266,  440,  266,  440,  266,   62,  266,   62,  266,   62,
+ /*    40 */   266,  339,  266,  339,  266,  134,  266,  134,  266,  134,
+ /*    50 */   266,  325,  266,  325,  266,  325,  266,  325,  266,  325,
+ /*    60 */   266,  325,  266,  125,  467,  266,  420,  266,  125,  403,
+ /*    70 */   203,  158,  266,  158,  233,   -2,  412,   -2,  266,  180,
+ /*    80 */   432,  266,   56,  461,  454,   -2,  472,  266,   88,  517,
+ /*    90 */   508,   -2,   -2,  524,  186,  423,   -2,  203,   -2,   -2,
+ /*   100 */   266,    0,  266,  420,  266,  420,  266,  113,   -2,   -2,
+ /*   110 */    -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,
+ /*   120 */    -2,  537,   -2,  574,   -2,  613,   -2,  266,  420,  589,
+ /*   130 */   203,  650,   -2,  440,   -2,  616,  602,  697,  266,  158,
+ /*   140 */   699,  651,  266,  672,  266,   -2,  158,   -2,  626,  703,
+ /*   150 */   600,  630,  709,  624,  634,  711,  712,  713,  714,  266,
+ /*   160 */   158,  254,  443,  686,  184,  377,   -2,   -2,  686,  475,
+ /*   170 */   677,   -2,  266,  158,   -2,  689,   -2,   -2,   -2,   -2,
+ /*   180 */   258,  692,  691,  693,  694,  695,  361,  698,  700,  701,
+ /*   190 */   551,  702,  704,  705,  654,  706,  707,  715,  686,   -2,
+ /*   200 */    25,  716,   -2,   -2,   -2,   -2,  254,   -2,   -2,  637,
+ /*   210 */   588,   -2,  708,  723,   -2,   24,  717,   -2,   -2,   -2,
+ /*   220 */   684,  686,  385,  685,  266,  660,  729,  266,   -2,  158,
+ /*   230 */    -2,  718,  663,  710,  719,  266,  664,  733,  718,   -2,
+ /*   240 */    -2,   -2,  540,  682,  743,  720,  748,  749,  686,  721,
+ /*   250 */   724,  722,  724,   -2,  751,  266,   -2,  158,  690,   -2,
+ /*   260 */   628,  696,  755,  757,  731,  686,   -2,
 };
-#define YY_REDUCE_USE_DFLT (-25)
+#define YY_REDUCE_USE_DFLT (-30)
 static short yy_reduce_ofst[] = {
- /*     0 */   142,  -25,  -25,  -25,  -25,  -25,  314,  307,  -20,  -25,
- /*    10 */   -25,  -25,  -25,  -25,  -25,  -25,   54,  -24,  333,  -25,
- /*    20 */   -25,  -25,  101,  -25,  170,  -25,  -25,  -25,  -25,  347,
- /*    30 */   354,  -25,  355,  -25,  357,  -25,  358,  -25,  361,  -25,
- /*    40 */   364,  -25,  365,  -25,  368,  -25,  372,  -25,  375,  -25,
- /*    50 */   386,  -25,  390,  -25,  393,  -25,  397,  -25,  400,  -25,
- /*    60 */   401,  -25,  403,  -25,  -25,  404,  -25,  407,  -25,  -25,
- /*    70 */   260,  -25,  411,  -25,  -25,  -25,  -25,  -25,  413,  -25,
- /*    80 */   -25,  429,  -25,  -25,  -25,  -25,  -25,  -25,  264,  -25,
- /*    90 */   -25,  111,  -25,  -25,  433,  -25,  436,  -25,  439,  -25,
- /*   100 */   440,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,
- /*   110 */   -25,  -25,  -25,  -25,  -25,  -25,  442,  -25,  -25,  267,
- /*   120 */   -25,  -25,  -25,  -25,  510,  -25,  -25,  443,  -25,  -25,
- /*   130 */   -25,  311,  -25,  241,  -25,  -25,  -25,  -25,  -25,  521,
- /*   140 */   -25,  428,  524,  -25,   12,  526,  -25,  -25,  -25,  -25,
- /*   150 */   446,  -25,  256,  -25,  453,  163,  202,  -25,  -25,  523,
- /*   160 */   290,  525,  -25,  456,  -25,  -25,  -25,  -25,  -25,  -25,
- /*   170 */   -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,
- /*   180 */   -25,  -25,  -25,  -25,  -25,  -25,  382,  -25,  -25,  -25,
- /*   190 */   -25,  -25,  -25,  -25,  322,  -25,  -25,  -25,  -25,  -25,
- /*   200 */   -25,  -25,  -25,  -25,  -25,  -25,  539,  -25,  -25,  271,
- /*   210 */   -25,  -25,  329,  -25,  -25,  -25,  472,  -25,  -25,  -25,
- /*   220 */   293,  -25,  -25,  541,  -25,  -25,  -25,  492,  542,  -25,
- /*   230 */   -25,  -25,  -25,  491,  -25,  457,  -25,  261,  -25,  -25,
- /*   240 */   320,  -25,  -25,  -25,  503,  547,  -25,  -25,  -25,  497,
- /*   250 */   -25,
+ /*     0 */   296,  -30,  -30,  -30,  -30,  -30,  159,  206,   32,  -30,
+ /*    10 */   -30,  -30,  -30,  -30,  -30,  -30,  343,  -29,  307,  -30,
+ /*    20 */   -30,  -30,  127,  -30,  333,  -30,  -30,  -30,  -30,  121,
+ /*    30 */   395,  -30,  399,  -30,  401,  -30,  406,  -30,  408,  -30,
+ /*    40 */   415,  -30,  430,  -30,  435,  -30,  437,  -30,  439,  -30,
+ /*    50 */   444,  -30,  446,  -30,  449,  -30,  451,  -30,  458,  -30,
+ /*    60 */   473,  -30,  478,  -30,  -30,  482,  -30,  485,  -30,  -30,
+ /*    70 */   169,  -30,  487,  -30,  -30,  -30,  -30,  -30,  489,  -30,
+ /*    80 */   -30,  492,  -30,  -30,  -30,  -30,  -30,  494,  -30,  -30,
+ /*    90 */   -30,  -30,  -30,  -30,  189,  -30,  -30,  321,  -30,  -30,
+ /*   100 */   521,  -30,  523,  -30,  525,  -30,  527,  -30,  -30,  -30,
+ /*   110 */   -30,  -30,  -30,  -30,  -30,  -30,  -30,  -30,  -30,  -30,
+ /*   120 */   -30,  -30,  -30,  -30,  -30,  -30,  -30,  532,  -30,  -30,
+ /*   130 */   278,  -30,  -30,  -30,  -30,  617,  -30,  -30,  534,  -30,
+ /*   140 */   -30,  -30,  291,  -30,  353,  -30,  -30,  -30,  621,  -30,
+ /*   150 */   572,  625,  -30,    7,  629,  -30,  -30,  -30,  -30,  536,
+ /*   160 */   -30,  294,  -30,  364,  214,  217,  -30,  -30,  580,  281,
+ /*   170 */   623,  -30,  556,  -30,  -30,  -30,  -30,  -30,  -30,  -30,
+ /*   180 */   -30,  -30,  -30,  -30,  -30,  -30,  -30,  -30,  -30,  -30,
+ /*   190 */   -30,  -30,  -30,  -30,  -30,  -30,  -30,  -30,  559,  -30,
+ /*   200 */   -30,  -30,  -30,  -30,  -30,  -30,  368,  -30,  -30,  -30,
+ /*   210 */   -30,  -30,  -30,  -30,  -30,  -30,  -30,  -30,  -30,  -30,
+ /*   220 */   -30,  583,  -30,  -30,  318,  -30,  -30,  362,  -30,  -30,
+ /*   230 */   -30,  215,  -30,  -30,  -30,  331,  -30,  -30,  642,  -30,
+ /*   240 */   -30,  -30,  222,  641,  -30,  -30,  -30,  -30,  570,  -30,
+ /*   250 */   282,  -30,  405,  -30,  -30,  372,  -30,  -30,  -30,  -30,
+ /*   260 */   618,  655,  -30,  -30,  -30,  573,  -30,
 };
 static YYACTIONTYPE yy_default[] = {
- /*     0 */   400,  400,  400,  400,  400,  400,  400,  400,  400,  400,
- /*    10 */   400,  400,  400,  400,  400,  400,  400,  400,  400,  400,
- /*    20 */   400,  400,  400,  336,  400,  337,  339,  340,  341,  400,
- /*    30 */   400,  352,  400,  354,  400,  355,  400,  356,  400,  357,
- /*    40 */   400,  358,  400,  359,  400,  360,  400,  361,  400,  362,
- /*    50 */   400,  363,  400,  364,  400,  365,  400,  366,  400,  367,
- /*    60 */   400,  368,  400,  369,  400,  400,  370,  400,  371,  400,
- /*    70 */   400,  383,  400,  375,  400,  384,  400,  385,  400,  387,
- /*    80 */   400,  400,  400,  400,  400,  376,  377,  399,  400,  400,
- /*    90 */   378,  400,  380,  382,  400,  386,  400,  388,  400,  389,
- /*   100 */   400,  400,  390,  391,  392,  393,  394,  395,  396,  397,
- /*   110 */   379,  381,  400,  398,  400,  373,  400,  372,  400,  400,
- /*   120 */   400,  374,  353,  338,  400,  400,  400,  400,  347,  400,
- /*   130 */   400,  400,  342,  400,  343,  345,  346,  399,  344,  400,
- /*   140 */   400,  400,  400,  400,  400,  400,  400,  400,  400,  400,
- /*   150 */   400,  335,  400,  400,  400,  280,  281,  291,  293,  400,
- /*   160 */   294,  295,  297,  400,  309,  296,  400,  298,  299,  400,
- /*   170 */   400,  400,  400,  400,  400,  400,  400,  400,  400,  400,
- /*   180 */   400,  400,  400,  400,  400,  400,  400,  289,  334,  400,
- /*   190 */   332,  333,  292,  290,  400,  282,  284,  399,  400,  285,
- /*   200 */   288,  400,  286,  287,  283,  400,  400,  400,  400,  400,
- /*   210 */   400,  400,  400,  312,  314,  313,  400,  400,  400,  400,
- /*   220 */   400,  400,  400,  400,  315,  317,  316,  400,  400,  400,
- /*   230 */   400,  400,  400,  400,  400,  400,  322,  400,  323,  400,
- /*   240 */   400,  325,  326,  324,  400,  400,  400,  400,  400,  400,
- /*   250 */   331,
+ /*     0 */   423,  423,  423,  423,  423,  423,  423,  423,  423,  423,
+ /*    10 */   423,  423,  423,  423,  423,  423,  423,  423,  423,  423,
+ /*    20 */   423,  423,  423,  355,  423,  356,  358,  359,  360,  423,
+ /*    30 */   423,  370,  423,  372,  423,  373,  423,  374,  423,  375,
+ /*    40 */   423,  376,  423,  377,  423,  378,  423,  379,  423,  380,
+ /*    50 */   423,  381,  423,  382,  423,  383,  423,  384,  423,  385,
+ /*    60 */   423,  386,  423,  387,  423,  423,  388,  423,  389,  423,
+ /*    70 */   423,  402,  423,  393,  423,  403,  423,  404,  423,  406,
+ /*    80 */   423,  423,  423,  423,  423,  394,  423,  423,  423,  423,
+ /*    90 */   423,  395,  396,  421,  423,  423,  397,  423,  399,  401,
+ /*   100 */   423,  405,  423,  407,  423,  408,  423,  423,  409,  410,
+ /*   110 */   411,  412,  413,  414,  415,  416,  417,  418,  419,  398,
+ /*   120 */   400,  423,  420,  423,  422,  423,  391,  423,  390,  423,
+ /*   130 */   423,  423,  392,  371,  357,  423,  423,  423,  423,  365,
+ /*   140 */   423,  423,  423,  361,  423,  362,  364,  363,  423,  423,
+ /*   150 */   423,  423,  423,  423,  423,  423,  423,  423,  423,  423,
+ /*   160 */   354,  423,  423,  423,  296,  297,  308,  310,  423,  311,
+ /*   170 */   312,  314,  423,  326,  313,  423,  315,  316,  352,  353,
+ /*   180 */   421,  423,  423,  423,  423,  423,  423,  423,  423,  423,
+ /*   190 */   423,  423,  423,  423,  423,  423,  423,  423,  423,  306,
+ /*   200 */   351,  423,  349,  350,  309,  307,  423,  298,  300,  421,
+ /*   210 */   423,  301,  411,  423,  302,  305,  423,  303,  304,  299,
+ /*   220 */   423,  423,  423,  423,  423,  423,  423,  423,  329,  331,
+ /*   230 */   330,  423,  423,  423,  423,  423,  423,  423,  423,  332,
+ /*   240 */   334,  333,  423,  423,  423,  423,  423,  423,  423,  423,
+ /*   250 */   423,  339,  423,  340,  423,  423,  342,  343,  423,  341,
+ /*   260 */   423,  423,  423,  423,  423,  423,  348,
 };
 #define YY_SZ_ACTTAB (sizeof(yy_action)/sizeof(yy_action[0]))
 
@@ -66021,20 +66794,22 @@ static const char *yyTokenName[] = {
   "INSERT",        "INTO",          "VALUES",        "PARENTHESES_OPEN",
   "PARENTHESES_CLOSE",  "UPDATE",        "SET",           "DELETE",      
   "WHERE",         "ORDER",         "BY",            "ASC",         
-  "DESC",          "GROUP",         "INTEGER",       "HAVING",      
-  "LIMIT",         "OFFSET",        "CAST",          "NULL",        
-  "STRING",        "DOUBLE",        "NPLACEHOLDER",  "SPLACEHOLDER",
-  "error",         "program",       "query_language",  "select_statement",
-  "insert_statement",  "update_statement",  "delete_statement",  "select_clause",
-  "where_clause",  "order_clause",  "group_clause",  "having_clause",
-  "select_limit_clause",  "column_list",   "associated_name_list",  "join_list",   
-  "column_item",   "expr",          "associated_name",  "join_item",   
-  "join_clause",   "join_type",     "qualified_name",  "join_associated_name",
-  "join_conditions",  "values_list",   "field_list",    "value_list",  
-  "value_item",    "field_item",    "update_clause",  "limit_clause",
-  "update_item_list",  "update_item",   "new_value",     "delete_clause",
-  "order_list",    "order_item",    "group_list",    "group_item",  
-  "argument_list",  "function_call",  "argument_item",
+  "DESC",          "GROUP",         "HAVING",        "LIMIT",       
+  "INTEGER",       "OFFSET",        "CAST",          "CONVERT",     
+  "USING",         "NULL",          "STRING",        "DOUBLE",      
+  "TRUE",          "FALSE",         "NPLACEHOLDER",  "SPLACEHOLDER",
+  "COLON",         "error",         "program",       "query_language",
+  "select_statement",  "insert_statement",  "update_statement",  "delete_statement",
+  "select_clause",  "where_clause",  "order_clause",  "group_clause",
+  "having_clause",  "select_limit_clause",  "column_list",   "associated_name_list",
+  "join_list",     "column_item",   "aliased_name",  "expr",        
+  "associated_name",  "join_item",     "join_clause",   "join_type",   
+  "aliased_or_qualified_name",  "join_associated_name",  "join_conditions",  "values_list", 
+  "field_list",    "value_list",    "value_item",    "field_item",  
+  "update_clause",  "limit_clause",  "update_item_list",  "update_item", 
+  "qualified_name",  "new_value",     "delete_clause",  "order_list",  
+  "order_item",    "group_list",    "group_item",    "argument_list",
+  "function_call",  "argument_item",
 };
 #endif /* NDEBUG */
 
@@ -66077,120 +66852,127 @@ static const char *yyRuleName[] = {
  /*  32 */ "column_list ::= column_item",
  /*  33 */ "column_item ::= TIMES",
  /*  34 */ "column_item ::= IDENTIFIER DOT TIMES",
- /*  35 */ "column_item ::= expr AS IDENTIFIER",
- /*  36 */ "column_item ::= expr IDENTIFIER",
- /*  37 */ "column_item ::= expr",
- /*  38 */ "associated_name_list ::= associated_name_list COMMA associated_name",
- /*  39 */ "associated_name_list ::= associated_name",
- /*  40 */ "join_list ::= join_list join_item",
- /*  41 */ "join_list ::= join_item",
- /*  42 */ "join_item ::= join_clause",
- /*  43 */ "join_clause ::= join_type qualified_name",
- /*  44 */ "join_clause ::= join_type qualified_name join_associated_name",
- /*  45 */ "join_clause ::= join_type qualified_name join_conditions",
- /*  46 */ "join_clause ::= join_type qualified_name join_associated_name join_conditions",
- /*  47 */ "join_associated_name ::= AS IDENTIFIER",
- /*  48 */ "join_associated_name ::= IDENTIFIER",
- /*  49 */ "join_type ::= JOIN",
- /*  50 */ "join_type ::= INNER JOIN",
- /*  51 */ "join_type ::= CROSS JOIN",
- /*  52 */ "join_type ::= LEFT JOIN",
- /*  53 */ "join_type ::= LEFT OUTER JOIN",
- /*  54 */ "join_type ::= RIGHT JOIN",
- /*  55 */ "join_type ::= RIGHT OUTER JOIN",
- /*  56 */ "join_type ::= FULL JOIN",
- /*  57 */ "join_type ::= FULL OUTER JOIN",
- /*  58 */ "join_conditions ::= ON expr",
- /*  59 */ "insert_statement ::= INSERT INTO qualified_name VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE",
- /*  60 */ "insert_statement ::= INSERT INTO qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE",
- /*  61 */ "values_list ::= values_list COMMA value_item",
- /*  62 */ "values_list ::= value_item",
- /*  63 */ "value_item ::= expr",
- /*  64 */ "field_list ::= field_list COMMA field_item",
- /*  65 */ "field_list ::= field_item",
- /*  66 */ "field_item ::= IDENTIFIER",
- /*  67 */ "update_statement ::= update_clause",
- /*  68 */ "update_statement ::= update_clause where_clause",
- /*  69 */ "update_statement ::= update_clause limit_clause",
- /*  70 */ "update_statement ::= update_clause where_clause limit_clause",
- /*  71 */ "update_clause ::= UPDATE associated_name SET update_item_list",
- /*  72 */ "update_item_list ::= update_item_list COMMA update_item",
- /*  73 */ "update_item_list ::= update_item",
- /*  74 */ "update_item ::= qualified_name EQUALS new_value",
- /*  75 */ "new_value ::= expr",
- /*  76 */ "delete_statement ::= delete_clause",
- /*  77 */ "delete_statement ::= delete_clause where_clause",
- /*  78 */ "delete_statement ::= delete_clause limit_clause",
- /*  79 */ "delete_statement ::= delete_clause where_clause limit_clause",
- /*  80 */ "delete_clause ::= DELETE FROM associated_name",
- /*  81 */ "associated_name ::= qualified_name AS IDENTIFIER",
- /*  82 */ "associated_name ::= qualified_name IDENTIFIER",
- /*  83 */ "associated_name ::= qualified_name",
- /*  84 */ "where_clause ::= WHERE expr",
- /*  85 */ "order_clause ::= ORDER BY order_list",
- /*  86 */ "order_list ::= order_list COMMA order_item",
- /*  87 */ "order_list ::= order_item",
- /*  88 */ "order_item ::= expr",
- /*  89 */ "order_item ::= expr ASC",
- /*  90 */ "order_item ::= expr DESC",
- /*  91 */ "group_clause ::= GROUP BY group_list",
- /*  92 */ "group_list ::= group_list COMMA group_item",
- /*  93 */ "group_list ::= group_item",
- /*  94 */ "group_item ::= qualified_name",
- /*  95 */ "group_item ::= INTEGER",
- /*  96 */ "having_clause ::= HAVING expr",
- /*  97 */ "select_limit_clause ::= LIMIT INTEGER",
- /*  98 */ "select_limit_clause ::= LIMIT INTEGER COMMA INTEGER",
- /*  99 */ "select_limit_clause ::= LIMIT INTEGER OFFSET INTEGER",
- /* 100 */ "limit_clause ::= LIMIT INTEGER",
- /* 101 */ "expr ::= MINUS expr",
- /* 102 */ "expr ::= expr MINUS expr",
- /* 103 */ "expr ::= expr PLUS expr",
- /* 104 */ "expr ::= expr TIMES expr",
- /* 105 */ "expr ::= expr DIVIDE expr",
- /* 106 */ "expr ::= expr MOD expr",
- /* 107 */ "expr ::= expr AND expr",
- /* 108 */ "expr ::= expr OR expr",
- /* 109 */ "expr ::= expr BITWISE_AND expr",
- /* 110 */ "expr ::= expr BITWISE_OR expr",
- /* 111 */ "expr ::= expr BITWISE_XOR expr",
- /* 112 */ "expr ::= expr EQUALS expr",
- /* 113 */ "expr ::= expr NOTEQUALS expr",
- /* 114 */ "expr ::= expr LESS expr",
- /* 115 */ "expr ::= expr GREATER expr",
- /* 116 */ "expr ::= expr GREATEREQUAL expr",
- /* 117 */ "expr ::= expr LESSEQUAL expr",
- /* 118 */ "expr ::= expr LIKE expr",
- /* 119 */ "expr ::= expr NOT LIKE expr",
- /* 120 */ "expr ::= expr ILIKE expr",
- /* 121 */ "expr ::= expr NOT ILIKE expr",
- /* 122 */ "expr ::= expr IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
- /* 123 */ "expr ::= expr NOT IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
- /* 124 */ "expr ::= expr AGAINST expr",
- /* 125 */ "expr ::= CAST PARENTHESES_OPEN expr AS IDENTIFIER PARENTHESES_CLOSE",
- /* 126 */ "expr ::= function_call",
- /* 127 */ "function_call ::= IDENTIFIER PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
- /* 128 */ "function_call ::= IDENTIFIER PARENTHESES_OPEN PARENTHESES_CLOSE",
- /* 129 */ "argument_list ::= argument_list COMMA argument_item",
- /* 130 */ "argument_list ::= argument_item",
- /* 131 */ "argument_item ::= TIMES",
- /* 132 */ "argument_item ::= expr",
- /* 133 */ "expr ::= expr IS NULL",
- /* 134 */ "expr ::= expr IS NOT NULL",
- /* 135 */ "expr ::= DISTINCT expr",
- /* 136 */ "expr ::= expr BETWEEN expr",
- /* 137 */ "expr ::= NOT expr",
- /* 138 */ "expr ::= BITWISE_NOT expr",
- /* 139 */ "expr ::= PARENTHESES_OPEN expr PARENTHESES_CLOSE",
- /* 140 */ "expr ::= qualified_name",
- /* 141 */ "expr ::= INTEGER",
- /* 142 */ "expr ::= STRING",
- /* 143 */ "expr ::= DOUBLE",
- /* 144 */ "expr ::= NULL",
- /* 145 */ "expr ::= NPLACEHOLDER",
- /* 146 */ "expr ::= SPLACEHOLDER",
- /* 147 */ "qualified_name ::= IDENTIFIER DOT IDENTIFIER",
- /* 148 */ "qualified_name ::= IDENTIFIER",
+ /*  35 */ "column_item ::= aliased_name DOT TIMES",
+ /*  36 */ "column_item ::= expr AS IDENTIFIER",
+ /*  37 */ "column_item ::= expr IDENTIFIER",
+ /*  38 */ "column_item ::= expr",
+ /*  39 */ "associated_name_list ::= associated_name_list COMMA associated_name",
+ /*  40 */ "associated_name_list ::= associated_name",
+ /*  41 */ "join_list ::= join_list join_item",
+ /*  42 */ "join_list ::= join_item",
+ /*  43 */ "join_item ::= join_clause",
+ /*  44 */ "join_clause ::= join_type aliased_or_qualified_name",
+ /*  45 */ "join_clause ::= join_type aliased_or_qualified_name join_associated_name",
+ /*  46 */ "join_clause ::= join_type aliased_or_qualified_name join_conditions",
+ /*  47 */ "join_clause ::= join_type aliased_or_qualified_name join_associated_name join_conditions",
+ /*  48 */ "join_associated_name ::= AS IDENTIFIER",
+ /*  49 */ "join_associated_name ::= IDENTIFIER",
+ /*  50 */ "join_type ::= JOIN",
+ /*  51 */ "join_type ::= INNER JOIN",
+ /*  52 */ "join_type ::= CROSS JOIN",
+ /*  53 */ "join_type ::= LEFT JOIN",
+ /*  54 */ "join_type ::= LEFT OUTER JOIN",
+ /*  55 */ "join_type ::= RIGHT JOIN",
+ /*  56 */ "join_type ::= RIGHT OUTER JOIN",
+ /*  57 */ "join_type ::= FULL JOIN",
+ /*  58 */ "join_type ::= FULL OUTER JOIN",
+ /*  59 */ "join_conditions ::= ON expr",
+ /*  60 */ "insert_statement ::= INSERT INTO aliased_or_qualified_name VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE",
+ /*  61 */ "insert_statement ::= INSERT INTO aliased_or_qualified_name PARENTHESES_OPEN field_list PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list PARENTHESES_CLOSE",
+ /*  62 */ "values_list ::= values_list COMMA value_item",
+ /*  63 */ "values_list ::= value_item",
+ /*  64 */ "value_item ::= expr",
+ /*  65 */ "field_list ::= field_list COMMA field_item",
+ /*  66 */ "field_list ::= field_item",
+ /*  67 */ "field_item ::= IDENTIFIER",
+ /*  68 */ "update_statement ::= update_clause",
+ /*  69 */ "update_statement ::= update_clause where_clause",
+ /*  70 */ "update_statement ::= update_clause limit_clause",
+ /*  71 */ "update_statement ::= update_clause where_clause limit_clause",
+ /*  72 */ "update_clause ::= UPDATE associated_name SET update_item_list",
+ /*  73 */ "update_item_list ::= update_item_list COMMA update_item",
+ /*  74 */ "update_item_list ::= update_item",
+ /*  75 */ "update_item ::= qualified_name EQUALS new_value",
+ /*  76 */ "new_value ::= expr",
+ /*  77 */ "delete_statement ::= delete_clause",
+ /*  78 */ "delete_statement ::= delete_clause where_clause",
+ /*  79 */ "delete_statement ::= delete_clause limit_clause",
+ /*  80 */ "delete_statement ::= delete_clause where_clause limit_clause",
+ /*  81 */ "delete_clause ::= DELETE FROM associated_name",
+ /*  82 */ "associated_name ::= aliased_or_qualified_name AS IDENTIFIER",
+ /*  83 */ "associated_name ::= aliased_or_qualified_name IDENTIFIER",
+ /*  84 */ "associated_name ::= aliased_or_qualified_name",
+ /*  85 */ "aliased_or_qualified_name ::= qualified_name",
+ /*  86 */ "aliased_or_qualified_name ::= aliased_name",
+ /*  87 */ "where_clause ::= WHERE expr",
+ /*  88 */ "order_clause ::= ORDER BY order_list",
+ /*  89 */ "order_list ::= order_list COMMA order_item",
+ /*  90 */ "order_list ::= order_item",
+ /*  91 */ "order_item ::= expr",
+ /*  92 */ "order_item ::= expr ASC",
+ /*  93 */ "order_item ::= expr DESC",
+ /*  94 */ "group_clause ::= GROUP BY group_list",
+ /*  95 */ "group_list ::= group_list COMMA group_item",
+ /*  96 */ "group_list ::= group_item",
+ /*  97 */ "group_item ::= expr",
+ /*  98 */ "having_clause ::= HAVING expr",
+ /*  99 */ "select_limit_clause ::= LIMIT INTEGER",
+ /* 100 */ "select_limit_clause ::= LIMIT INTEGER COMMA INTEGER",
+ /* 101 */ "select_limit_clause ::= LIMIT INTEGER OFFSET INTEGER",
+ /* 102 */ "limit_clause ::= LIMIT INTEGER",
+ /* 103 */ "expr ::= MINUS expr",
+ /* 104 */ "expr ::= expr MINUS expr",
+ /* 105 */ "expr ::= expr PLUS expr",
+ /* 106 */ "expr ::= expr TIMES expr",
+ /* 107 */ "expr ::= expr DIVIDE expr",
+ /* 108 */ "expr ::= expr MOD expr",
+ /* 109 */ "expr ::= expr AND expr",
+ /* 110 */ "expr ::= expr OR expr",
+ /* 111 */ "expr ::= expr BITWISE_AND expr",
+ /* 112 */ "expr ::= expr BITWISE_OR expr",
+ /* 113 */ "expr ::= expr BITWISE_XOR expr",
+ /* 114 */ "expr ::= expr EQUALS expr",
+ /* 115 */ "expr ::= expr NOTEQUALS expr",
+ /* 116 */ "expr ::= expr LESS expr",
+ /* 117 */ "expr ::= expr GREATER expr",
+ /* 118 */ "expr ::= expr GREATEREQUAL expr",
+ /* 119 */ "expr ::= expr LESSEQUAL expr",
+ /* 120 */ "expr ::= expr LIKE expr",
+ /* 121 */ "expr ::= expr NOT LIKE expr",
+ /* 122 */ "expr ::= expr ILIKE expr",
+ /* 123 */ "expr ::= expr NOT ILIKE expr",
+ /* 124 */ "expr ::= expr IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
+ /* 125 */ "expr ::= expr NOT IN PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
+ /* 126 */ "expr ::= expr AGAINST expr",
+ /* 127 */ "expr ::= CAST PARENTHESES_OPEN expr AS IDENTIFIER PARENTHESES_CLOSE",
+ /* 128 */ "expr ::= CONVERT PARENTHESES_OPEN expr USING IDENTIFIER PARENTHESES_CLOSE",
+ /* 129 */ "expr ::= function_call",
+ /* 130 */ "function_call ::= IDENTIFIER PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
+ /* 131 */ "function_call ::= IDENTIFIER PARENTHESES_OPEN PARENTHESES_CLOSE",
+ /* 132 */ "argument_list ::= argument_list COMMA argument_item",
+ /* 133 */ "argument_list ::= argument_item",
+ /* 134 */ "argument_item ::= TIMES",
+ /* 135 */ "argument_item ::= expr",
+ /* 136 */ "expr ::= expr IS NULL",
+ /* 137 */ "expr ::= expr IS NOT NULL",
+ /* 138 */ "expr ::= DISTINCT expr",
+ /* 139 */ "expr ::= expr BETWEEN expr",
+ /* 140 */ "expr ::= NOT expr",
+ /* 141 */ "expr ::= BITWISE_NOT expr",
+ /* 142 */ "expr ::= PARENTHESES_OPEN expr PARENTHESES_CLOSE",
+ /* 143 */ "expr ::= qualified_name",
+ /* 144 */ "expr ::= aliased_name",
+ /* 145 */ "expr ::= INTEGER",
+ /* 146 */ "expr ::= STRING",
+ /* 147 */ "expr ::= DOUBLE",
+ /* 148 */ "expr ::= NULL",
+ /* 149 */ "expr ::= TRUE",
+ /* 150 */ "expr ::= FALSE",
+ /* 151 */ "expr ::= NPLACEHOLDER",
+ /* 152 */ "expr ::= SPLACEHOLDER",
+ /* 153 */ "qualified_name ::= IDENTIFIER DOT IDENTIFIER",
+ /* 154 */ "qualified_name ::= IDENTIFIER",
+ /* 155 */ "aliased_name ::= IDENTIFIER COLON IDENTIFIER",
 };
 #endif /* NDEBUG */
 
@@ -66295,7 +67077,12 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 61:
     case 62:
     case 63:
-// 508 "parser.lemon"
+    case 64:
+    case 65:
+    case 66:
+    case 67:
+    case 68:
+// 523 "parser.lemon"
 {
 	if ((yypminor->yy0)) {
 		if ((yypminor->yy0)->free_flag) {
@@ -66304,13 +67091,8 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
 		efree((yypminor->yy0));
 	}
 }
-// 1147 "parser.c"
+// 1203 "parser.c"
       break;
-    case 66:
-    case 67:
-    case 68:
-    case 69:
-    case 70:
     case 71:
     case 72:
     case 73:
@@ -66329,11 +67111,12 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 86:
     case 87:
     case 88:
+    case 89:
     case 90:
     case 91:
+    case 92:
     case 93:
     case 94:
-    case 95:
     case 96:
     case 97:
     case 99:
@@ -66342,11 +67125,17 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 102:
     case 103:
     case 104:
-    case 105:
     case 106:
-// 521 "parser.lemon"
-{ zval_ptr_dtor(&(yypminor->yy180)); }
-// 1189 "parser.c"
+    case 107:
+    case 108:
+    case 109:
+    case 110:
+    case 111:
+    case 112:
+    case 113:
+// 536 "parser.lemon"
+{ zval_ptr_dtor(&(yypminor->yy48)); }
+// 1247 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -66483,155 +67272,162 @@ static struct {
   YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } yyRuleInfo[] = {
-  { 65, 1 },
-  { 66, 1 },
-  { 66, 1 },
-  { 66, 1 },
-  { 66, 1 },
-  { 67, 1 },
-  { 67, 2 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 4 },
-  { 67, 4 },
-  { 67, 5 },
-  { 67, 5 },
-  { 67, 3 },
-  { 67, 4 },
-  { 67, 4 },
-  { 67, 5 },
-  { 67, 2 },
-  { 67, 3 },
-  { 67, 4 },
-  { 67, 3 },
-  { 67, 4 },
-  { 67, 6 },
-  { 67, 2 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 4 },
-  { 67, 5 },
-  { 67, 2 },
-  { 71, 4 },
-  { 71, 5 },
-  { 77, 3 },
-  { 77, 1 },
-  { 80, 1 },
-  { 80, 3 },
-  { 80, 3 },
-  { 80, 2 },
-  { 80, 1 },
-  { 78, 3 },
-  { 78, 1 },
-  { 79, 2 },
-  { 79, 1 },
+  { 70, 1 },
+  { 71, 1 },
+  { 71, 1 },
+  { 71, 1 },
+  { 71, 1 },
+  { 72, 1 },
+  { 72, 2 },
+  { 72, 3 },
+  { 72, 3 },
+  { 72, 4 },
+  { 72, 4 },
+  { 72, 5 },
+  { 72, 5 },
+  { 72, 3 },
+  { 72, 4 },
+  { 72, 4 },
+  { 72, 5 },
+  { 72, 2 },
+  { 72, 3 },
+  { 72, 4 },
+  { 72, 3 },
+  { 72, 4 },
+  { 72, 6 },
+  { 72, 2 },
+  { 72, 3 },
+  { 72, 3 },
+  { 72, 4 },
+  { 72, 5 },
+  { 72, 2 },
+  { 76, 4 },
+  { 76, 5 },
+  { 82, 3 },
+  { 82, 1 },
+  { 85, 1 },
+  { 85, 3 },
+  { 85, 3 },
+  { 85, 3 },
+  { 85, 2 },
+  { 85, 1 },
+  { 83, 3 },
   { 83, 1 },
   { 84, 2 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 4 },
-  { 87, 2 },
-  { 87, 1 },
-  { 85, 1 },
-  { 85, 2 },
-  { 85, 2 },
-  { 85, 2 },
-  { 85, 3 },
-  { 85, 2 },
-  { 85, 3 },
-  { 85, 2 },
-  { 85, 3 },
-  { 88, 2 },
-  { 68, 7 },
-  { 68, 10 },
-  { 89, 3 },
+  { 84, 1 },
   { 89, 1 },
-  { 92, 1 },
+  { 90, 2 },
   { 90, 3 },
-  { 90, 1 },
+  { 90, 3 },
+  { 90, 4 },
+  { 93, 2 },
   { 93, 1 },
-  { 69, 1 },
-  { 69, 2 },
-  { 69, 2 },
-  { 69, 3 },
-  { 94, 4 },
+  { 91, 1 },
+  { 91, 2 },
+  { 91, 2 },
+  { 91, 2 },
+  { 91, 3 },
+  { 91, 2 },
+  { 91, 3 },
+  { 91, 2 },
+  { 91, 3 },
+  { 94, 2 },
+  { 73, 7 },
+  { 73, 10 },
+  { 95, 3 },
+  { 95, 1 },
+  { 98, 1 },
   { 96, 3 },
   { 96, 1 },
-  { 97, 3 },
-  { 98, 1 },
-  { 70, 1 },
-  { 70, 2 },
-  { 70, 2 },
-  { 70, 3 },
-  { 99, 3 },
-  { 82, 3 },
-  { 82, 2 },
-  { 82, 1 },
-  { 72, 2 },
-  { 73, 3 },
-  { 100, 3 },
-  { 100, 1 },
-  { 101, 1 },
-  { 101, 2 },
-  { 101, 2 },
+  { 99, 1 },
+  { 74, 1 },
+  { 74, 2 },
+  { 74, 2 },
   { 74, 3 },
+  { 100, 4 },
   { 102, 3 },
   { 102, 1 },
-  { 103, 1 },
-  { 103, 1 },
+  { 103, 3 },
+  { 105, 1 },
+  { 75, 1 },
   { 75, 2 },
-  { 76, 2 },
-  { 76, 4 },
-  { 76, 4 },
-  { 95, 2 },
+  { 75, 2 },
+  { 75, 3 },
+  { 106, 3 },
+  { 88, 3 },
+  { 88, 2 },
+  { 88, 1 },
+  { 92, 1 },
+  { 92, 1 },
+  { 77, 2 },
+  { 78, 3 },
+  { 107, 3 },
+  { 107, 1 },
+  { 108, 1 },
+  { 108, 2 },
+  { 108, 2 },
+  { 79, 3 },
+  { 109, 3 },
+  { 109, 1 },
+  { 110, 1 },
+  { 80, 2 },
   { 81, 2 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
-  { 81, 3 },
   { 81, 4 },
-  { 81, 3 },
   { 81, 4 },
-  { 81, 5 },
-  { 81, 6 },
-  { 81, 3 },
-  { 81, 6 },
-  { 81, 1 },
-  { 105, 4 },
-  { 105, 3 },
+  { 101, 2 },
+  { 87, 2 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 3 },
+  { 87, 4 },
+  { 87, 3 },
+  { 87, 4 },
+  { 87, 5 },
+  { 87, 6 },
+  { 87, 3 },
+  { 87, 6 },
+  { 87, 6 },
+  { 87, 1 },
+  { 112, 4 },
+  { 112, 3 },
+  { 111, 3 },
+  { 111, 1 },
+  { 113, 1 },
+  { 113, 1 },
+  { 87, 3 },
+  { 87, 4 },
+  { 87, 2 },
+  { 87, 3 },
+  { 87, 2 },
+  { 87, 2 },
+  { 87, 3 },
+  { 87, 1 },
+  { 87, 1 },
+  { 87, 1 },
+  { 87, 1 },
+  { 87, 1 },
+  { 87, 1 },
+  { 87, 1 },
+  { 87, 1 },
+  { 87, 1 },
+  { 87, 1 },
   { 104, 3 },
   { 104, 1 },
-  { 106, 1 },
-  { 106, 1 },
-  { 81, 3 },
-  { 81, 4 },
-  { 81, 2 },
-  { 81, 3 },
-  { 81, 2 },
-  { 81, 2 },
-  { 81, 3 },
-  { 81, 1 },
-  { 81, 1 },
-  { 81, 1 },
-  { 81, 1 },
-  { 81, 1 },
-  { 81, 1 },
-  { 81, 1 },
   { 86, 3 },
-  { 86, 1 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -66665,437 +67461,449 @@ static void yy_reduce(
   **     break;
   */
       case 0:
-// 517 "parser.lemon"
+// 532 "parser.lemon"
 {
-	status->ret = yymsp[0].minor.yy180;
+	status->ret = yymsp[0].minor.yy48;
 }
-// 1555 "parser.c"
+// 1620 "parser.c"
         break;
       case 1:
       case 2:
       case 3:
       case 4:
       case 32:
-      case 39:
-      case 41:
+      case 40:
       case 42:
-      case 62:
+      case 43:
       case 63:
-      case 65:
-      case 73:
-      case 75:
-      case 87:
-      case 93:
-      case 94:
-      case 126:
-      case 132:
-      case 140:
-// 523 "parser.lemon"
+      case 64:
+      case 66:
+      case 74:
+      case 76:
+      case 85:
+      case 86:
+      case 90:
+      case 96:
+      case 97:
+      case 129:
+      case 135:
+      case 143:
+      case 144:
+// 538 "parser.lemon"
 {
-	yygotominor.yy180 = yymsp[0].minor.yy180;
+	yygotominor.yy48 = yymsp[0].minor.yy48;
 }
-// 1580 "parser.c"
+// 1648 "parser.c"
         break;
       case 5:
-// 541 "parser.lemon"
+// 556 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[0].minor.yy180, NULL, NULL, NULL, NULL, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[0].minor.yy48, NULL, NULL, NULL, NULL, NULL);
 }
-// 1587 "parser.c"
+// 1655 "parser.c"
         break;
       case 6:
-// 545 "parser.lemon"
+// 560 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-1].minor.yy180, yymsp[0].minor.yy180, NULL, NULL, NULL, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL, NULL, NULL, NULL);
 }
-// 1594 "parser.c"
+// 1662 "parser.c"
         break;
       case 7:
-// 549 "parser.lemon"
+// 564 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, yymsp[0].minor.yy180, NULL, NULL, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL, NULL, NULL);
 }
-// 1601 "parser.c"
+// 1669 "parser.c"
         break;
       case 8:
-// 553 "parser.lemon"
+// 568 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, NULL, yymsp[0].minor.yy180, NULL, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48, NULL, NULL);
 }
-// 1608 "parser.c"
+// 1676 "parser.c"
         break;
       case 9:
-// 557 "parser.lemon"
+// 572 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-3].minor.yy180, yymsp[-2].minor.yy180, NULL, yymsp[-1].minor.yy180, yymsp[0].minor.yy180, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
 }
-// 1615 "parser.c"
+// 1683 "parser.c"
         break;
       case 10:
-// 561 "parser.lemon"
+// 576 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-3].minor.yy180, yymsp[-2].minor.yy180, yymsp[0].minor.yy180, yymsp[-1].minor.yy180, NULL, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[0].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL);
 }
-// 1622 "parser.c"
+// 1690 "parser.c"
         break;
       case 11:
-// 565 "parser.lemon"
+// 580 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-4].minor.yy180, yymsp[-3].minor.yy180, yymsp[-1].minor.yy180, yymsp[-2].minor.yy180, NULL, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, yymsp[-3].minor.yy48, yymsp[-1].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-// 1629 "parser.c"
+// 1697 "parser.c"
         break;
       case 12:
-// 569 "parser.lemon"
+// 584 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-4].minor.yy180, yymsp[-3].minor.yy180, yymsp[0].minor.yy180, yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, yymsp[-3].minor.yy48, yymsp[0].minor.yy48, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL);
 }
-// 1636 "parser.c"
+// 1704 "parser.c"
         break;
       case 13:
-// 573 "parser.lemon"
+// 588 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, NULL, NULL, NULL, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL, NULL, yymsp[0].minor.yy48);
 }
-// 1643 "parser.c"
+// 1711 "parser.c"
         break;
       case 14:
-// 577 "parser.lemon"
+// 592 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-3].minor.yy180, yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, NULL, NULL, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL, yymsp[0].minor.yy48);
 }
-// 1650 "parser.c"
+// 1718 "parser.c"
         break;
       case 15:
-// 581 "parser.lemon"
+// 596 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-3].minor.yy180, yymsp[-2].minor.yy180, NULL, yymsp[-1].minor.yy180, NULL, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-// 1657 "parser.c"
+// 1725 "parser.c"
         break;
       case 16:
-// 585 "parser.lemon"
+// 600 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-4].minor.yy180, yymsp[-3].minor.yy180, NULL, yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, yymsp[-3].minor.yy48, NULL, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
 }
-// 1664 "parser.c"
+// 1732 "parser.c"
         break;
       case 17:
-// 589 "parser.lemon"
+// 604 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-1].minor.yy180, NULL, yymsp[0].minor.yy180, NULL, NULL, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48, NULL, NULL, NULL);
 }
-// 1671 "parser.c"
+// 1739 "parser.c"
         break;
       case 18:
-// 593 "parser.lemon"
+// 608 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-2].minor.yy180, NULL, yymsp[0].minor.yy180, yymsp[-1].minor.yy180, NULL, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, NULL, yymsp[0].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL);
 }
-// 1678 "parser.c"
+// 1746 "parser.c"
         break;
       case 19:
-// 597 "parser.lemon"
+// 612 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-3].minor.yy180, NULL, yymsp[0].minor.yy180, yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, NULL, yymsp[0].minor.yy48, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL);
 }
-// 1685 "parser.c"
+// 1753 "parser.c"
         break;
       case 20:
-// 601 "parser.lemon"
+// 616 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-2].minor.yy180, NULL, yymsp[-1].minor.yy180, NULL, NULL, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, NULL, yymsp[-1].minor.yy48, NULL, NULL, yymsp[0].minor.yy48);
 }
-// 1692 "parser.c"
+// 1760 "parser.c"
         break;
       case 21:
-// 605 "parser.lemon"
+// 620 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-3].minor.yy180, NULL, yymsp[-1].minor.yy180, yymsp[-2].minor.yy180, NULL, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, NULL, yymsp[-1].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-// 1699 "parser.c"
+// 1767 "parser.c"
         break;
       case 22:
-// 609 "parser.lemon"
+// 624 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-5].minor.yy180, yymsp[-4].minor.yy180, yymsp[-1].minor.yy180, yymsp[-3].minor.yy180, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-5].minor.yy48, yymsp[-4].minor.yy48, yymsp[-1].minor.yy48, yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
 }
-// 1706 "parser.c"
+// 1774 "parser.c"
         break;
       case 23:
-// 613 "parser.lemon"
+// 628 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-1].minor.yy180, NULL, NULL, yymsp[0].minor.yy180, NULL, NULL);
-}
-// 1713 "parser.c"
-        break;
-      case 24:
-// 617 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-2].minor.yy180, NULL, NULL, yymsp[-1].minor.yy180, NULL, yymsp[0].minor.yy180);
-}
-// 1720 "parser.c"
-        break;
-      case 25:
-// 621 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-2].minor.yy180, NULL, NULL, yymsp[-1].minor.yy180, yymsp[0].minor.yy180, NULL);
-}
-// 1727 "parser.c"
-        break;
-      case 26:
-// 625 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-3].minor.yy180, NULL, NULL, yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, yymsp[0].minor.yy180);
-}
-// 1734 "parser.c"
-        break;
-      case 27:
-// 629 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-4].minor.yy180, NULL, yymsp[-1].minor.yy180, yymsp[-3].minor.yy180, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-}
-// 1741 "parser.c"
-        break;
-      case 28:
-// 633 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_select_statement(yymsp[-1].minor.yy180, NULL, NULL, NULL, NULL, yymsp[0].minor.yy180);
-}
-// 1748 "parser.c"
-        break;
-      case 29:
-// 639 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_select_clause(yymsp[-2].minor.yy180, yymsp[0].minor.yy180, NULL);
-  yy_destructor(26,&yymsp[-3].minor);
-  yy_destructor(27,&yymsp[-1].minor);
-}
-// 1757 "parser.c"
-        break;
-      case 30:
-// 643 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_select_clause(yymsp[-3].minor.yy180, yymsp[-1].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(26,&yymsp[-4].minor);
-  yy_destructor(27,&yymsp[-2].minor);
-}
-// 1766 "parser.c"
-        break;
-      case 31:
-      case 38:
-      case 61:
-      case 64:
-      case 72:
-      case 86:
-      case 92:
-      case 129:
-// 649 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_zval_list(yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(28,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-1].minor.yy48, NULL, NULL, yymsp[0].minor.yy48, NULL, NULL);
 }
 // 1781 "parser.c"
         break;
-      case 33:
-      case 131:
-// 659 "parser.lemon"
+      case 24:
+// 632 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_column_item(PHQL_T_ALL, NULL, NULL, NULL);
-  yy_destructor(17,&yymsp[0].minor);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, NULL, NULL, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-// 1790 "parser.c"
+// 1788 "parser.c"
         break;
-      case 34:
-// 663 "parser.lemon"
+      case 25:
+// 636 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_column_item(PHQL_T_DOMAINALL, NULL, yymsp[-2].minor.yy0, NULL);
-  yy_destructor(30,&yymsp[-1].minor);
-  yy_destructor(17,&yymsp[0].minor);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, NULL, NULL, yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
 }
-// 1799 "parser.c"
+// 1795 "parser.c"
         break;
-      case 35:
-// 667 "parser.lemon"
+      case 26:
+// 640 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-2].minor.yy180, NULL, yymsp[0].minor.yy0);
-  yy_destructor(31,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, NULL, NULL, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
 }
-// 1807 "parser.c"
+// 1802 "parser.c"
         break;
-      case 36:
-// 671 "parser.lemon"
+      case 27:
+// 644 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-1].minor.yy180, NULL, yymsp[0].minor.yy0);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, NULL, yymsp[-1].minor.yy48, yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
 }
-// 1814 "parser.c"
+// 1809 "parser.c"
         break;
-      case 37:
-// 675 "parser.lemon"
+      case 28:
+// 648 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_column_item(PHQL_T_EXPR, yymsp[0].minor.yy180, NULL, NULL);
+	yygotominor.yy48 = phql_ret_select_statement(yymsp[-1].minor.yy48, NULL, NULL, NULL, NULL, yymsp[0].minor.yy48);
 }
-// 1821 "parser.c"
+// 1816 "parser.c"
         break;
-      case 40:
-// 691 "parser.lemon"
+      case 29:
+// 654 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_zval_list(yymsp[-1].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_select_clause(yymsp[-2].minor.yy48, yymsp[0].minor.yy48, NULL);
+  yy_destructor(26,&yymsp[-3].minor);
+  yy_destructor(27,&yymsp[-1].minor);
 }
-// 1828 "parser.c"
+// 1825 "parser.c"
         break;
-      case 43:
-// 708 "parser.lemon"
+      case 30:
+// 658 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_item(yymsp[-1].minor.yy180, yymsp[0].minor.yy180, NULL, NULL);
+	yygotominor.yy48 = phql_ret_select_clause(yymsp[-3].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(26,&yymsp[-4].minor);
+  yy_destructor(27,&yymsp[-2].minor);
 }
-// 1835 "parser.c"
+// 1834 "parser.c"
         break;
-      case 44:
-// 713 "parser.lemon"
+      case 31:
+      case 39:
+      case 62:
+      case 65:
+      case 73:
+      case 89:
+      case 95:
+      case 132:
+// 664 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_item(yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, yymsp[0].minor.yy180, NULL);
-}
-// 1842 "parser.c"
-        break;
-      case 45:
-// 718 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_join_item(yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, NULL, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_zval_list(yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(28,&yymsp[-1].minor);
 }
 // 1849 "parser.c"
         break;
-      case 46:
-// 723 "parser.lemon"
+      case 33:
+      case 134:
+// 674 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_item(yymsp[-3].minor.yy180, yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_column_item(PHQL_T_ALL, NULL, NULL, NULL);
+  yy_destructor(17,&yymsp[0].minor);
 }
-// 1856 "parser.c"
+// 1858 "parser.c"
         break;
-      case 47:
-// 729 "parser.lemon"
+      case 34:
+// 678 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_qualified_name(yymsp[0].minor.yy0, NULL);
+	yygotominor.yy48 = phql_ret_column_item(PHQL_T_DOMAINALL, NULL, yymsp[-2].minor.yy0, NULL);
+  yy_destructor(30,&yymsp[-1].minor);
+  yy_destructor(17,&yymsp[0].minor);
+}
+// 1867 "parser.c"
+        break;
+      case 35:
+// 682 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_column_item(PHQL_T_DOMAINALL, yymsp[-2].minor.yy48, NULL, NULL);
+  yy_destructor(30,&yymsp[-1].minor);
+  yy_destructor(17,&yymsp[0].minor);
+}
+// 1876 "parser.c"
+        break;
+      case 36:
+// 686 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-2].minor.yy48, NULL, yymsp[0].minor.yy0);
   yy_destructor(31,&yymsp[-1].minor);
 }
-// 1864 "parser.c"
+// 1884 "parser.c"
+        break;
+      case 37:
+// 690 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy0);
+}
+// 1891 "parser.c"
+        break;
+      case 38:
+// 694 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_column_item(PHQL_T_EXPR, yymsp[0].minor.yy48, NULL, NULL);
+}
+// 1898 "parser.c"
+        break;
+      case 41:
+// 710 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_zval_list(yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
+}
+// 1905 "parser.c"
+        break;
+      case 44:
+// 727 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_join_item(yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL, NULL);
+}
+// 1912 "parser.c"
+        break;
+      case 45:
+// 732 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_join_item(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
+}
+// 1919 "parser.c"
+        break;
+      case 46:
+// 737 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_join_item(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
+}
+// 1926 "parser.c"
+        break;
+      case 47:
+// 742 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_join_item(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
+}
+// 1933 "parser.c"
         break;
       case 48:
-      case 66:
-      case 148:
-// 733 "parser.lemon"
+// 748 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_qualified_name(yymsp[0].minor.yy0, NULL);
+	yygotominor.yy48 = phql_ret_qualified_name(yymsp[0].minor.yy0, NULL);
+  yy_destructor(31,&yymsp[-1].minor);
 }
-// 1873 "parser.c"
+// 1941 "parser.c"
         break;
       case 49:
-// 739 "parser.lemon"
+      case 67:
+      case 154:
+// 752 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_type(PHQL_T_INNERJOIN);
-  yy_destructor(32,&yymsp[0].minor);
+	yygotominor.yy48 = phql_ret_qualified_name(yymsp[0].minor.yy0, NULL);
 }
-// 1881 "parser.c"
+// 1950 "parser.c"
         break;
       case 50:
-// 743 "parser.lemon"
+// 758 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_type(PHQL_T_INNERJOIN);
+	yygotominor.yy48 = phql_ret_join_type(PHQL_T_INNERJOIN);
+  yy_destructor(32,&yymsp[0].minor);
+}
+// 1958 "parser.c"
+        break;
+      case 51:
+// 762 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_join_type(PHQL_T_INNERJOIN);
   yy_destructor(33,&yymsp[-1].minor);
   yy_destructor(32,&yymsp[0].minor);
 }
-// 1890 "parser.c"
+// 1967 "parser.c"
         break;
-      case 51:
-// 747 "parser.lemon"
+      case 52:
+// 766 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_type(PHQL_T_CROSSJOIN);
+	yygotominor.yy48 = phql_ret_join_type(PHQL_T_CROSSJOIN);
   yy_destructor(34,&yymsp[-1].minor);
   yy_destructor(32,&yymsp[0].minor);
 }
-// 1899 "parser.c"
+// 1976 "parser.c"
         break;
-      case 52:
-// 751 "parser.lemon"
+      case 53:
+// 770 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_type(PHQL_T_LEFTJOIN);
+	yygotominor.yy48 = phql_ret_join_type(PHQL_T_LEFTJOIN);
   yy_destructor(35,&yymsp[-1].minor);
   yy_destructor(32,&yymsp[0].minor);
 }
-// 1908 "parser.c"
+// 1985 "parser.c"
         break;
-      case 53:
-// 755 "parser.lemon"
+      case 54:
+// 774 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_type(PHQL_T_LEFTJOIN);
+	yygotominor.yy48 = phql_ret_join_type(PHQL_T_LEFTJOIN);
   yy_destructor(35,&yymsp[-2].minor);
   yy_destructor(36,&yymsp[-1].minor);
   yy_destructor(32,&yymsp[0].minor);
 }
-// 1918 "parser.c"
+// 1995 "parser.c"
         break;
-      case 54:
-// 759 "parser.lemon"
+      case 55:
+// 778 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
+	yygotominor.yy48 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
   yy_destructor(37,&yymsp[-1].minor);
   yy_destructor(32,&yymsp[0].minor);
 }
-// 1927 "parser.c"
+// 2004 "parser.c"
         break;
-      case 55:
-// 763 "parser.lemon"
+      case 56:
+// 782 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
+	yygotominor.yy48 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
   yy_destructor(37,&yymsp[-2].minor);
   yy_destructor(36,&yymsp[-1].minor);
   yy_destructor(32,&yymsp[0].minor);
 }
-// 1937 "parser.c"
+// 2014 "parser.c"
         break;
-      case 56:
-// 767 "parser.lemon"
+      case 57:
+// 786 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_type(PHQL_T_FULLJOIN);
+	yygotominor.yy48 = phql_ret_join_type(PHQL_T_FULLJOIN);
   yy_destructor(38,&yymsp[-1].minor);
   yy_destructor(32,&yymsp[0].minor);
 }
-// 1946 "parser.c"
+// 2023 "parser.c"
         break;
-      case 57:
-// 771 "parser.lemon"
+      case 58:
+// 790 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_join_type(PHQL_T_FULLJOIN);
+	yygotominor.yy48 = phql_ret_join_type(PHQL_T_FULLJOIN);
   yy_destructor(38,&yymsp[-2].minor);
   yy_destructor(36,&yymsp[-1].minor);
   yy_destructor(32,&yymsp[0].minor);
 }
-// 1956 "parser.c"
-        break;
-      case 58:
-// 777 "parser.lemon"
-{
-	yygotominor.yy180 = yymsp[0].minor.yy180;
-  yy_destructor(39,&yymsp[-1].minor);
-}
-// 1964 "parser.c"
+// 2033 "parser.c"
         break;
       case 59:
-// 784 "parser.lemon"
+// 796 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_insert_statement(yymsp[-4].minor.yy180, NULL, yymsp[-1].minor.yy180);
+	yygotominor.yy48 = yymsp[0].minor.yy48;
+  yy_destructor(39,&yymsp[-1].minor);
+}
+// 2041 "parser.c"
+        break;
+      case 60:
+// 803 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_insert_statement(yymsp[-4].minor.yy48, NULL, yymsp[-1].minor.yy48);
   yy_destructor(40,&yymsp[-6].minor);
   yy_destructor(41,&yymsp[-5].minor);
   yy_destructor(42,&yymsp[-3].minor);
   yy_destructor(43,&yymsp[-2].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-// 1976 "parser.c"
+// 2053 "parser.c"
         break;
-      case 60:
-// 788 "parser.lemon"
+      case 61:
+// 807 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_insert_statement(yymsp[-7].minor.yy180, yymsp[-5].minor.yy180, yymsp[-1].minor.yy180);
+	yygotominor.yy48 = phql_ret_insert_statement(yymsp[-7].minor.yy48, yymsp[-5].minor.yy48, yymsp[-1].minor.yy48);
   yy_destructor(40,&yymsp[-9].minor);
   yy_destructor(41,&yymsp[-8].minor);
   yy_destructor(43,&yymsp[-6].minor);
@@ -67104,542 +67912,576 @@ static void yy_reduce(
   yy_destructor(43,&yymsp[-2].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-// 1990 "parser.c"
-        break;
-      case 67:
-// 826 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_update_statement(yymsp[0].minor.yy180, NULL, NULL);
-}
-// 1997 "parser.c"
+// 2067 "parser.c"
         break;
       case 68:
-// 830 "parser.lemon"
+// 845 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_update_statement(yymsp[-1].minor.yy180, yymsp[0].minor.yy180, NULL);
+	yygotominor.yy48 = phql_ret_update_statement(yymsp[0].minor.yy48, NULL, NULL);
 }
-// 2004 "parser.c"
+// 2074 "parser.c"
         break;
       case 69:
-// 834 "parser.lemon"
+// 849 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_update_statement(yymsp[-1].minor.yy180, NULL, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_update_statement(yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
 }
-// 2011 "parser.c"
+// 2081 "parser.c"
         break;
       case 70:
-// 838 "parser.lemon"
+// 853 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_update_statement(yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_update_statement(yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-// 2018 "parser.c"
+// 2088 "parser.c"
         break;
       case 71:
-// 844 "parser.lemon"
+// 857 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_update_clause(yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_update_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
+}
+// 2095 "parser.c"
+        break;
+      case 72:
+// 863 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_update_clause(yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(45,&yymsp[-3].minor);
   yy_destructor(46,&yymsp[-1].minor);
 }
-// 2027 "parser.c"
+// 2104 "parser.c"
         break;
-      case 74:
-// 860 "parser.lemon"
+      case 75:
+// 879 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_update_item(yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_update_item(yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(3,&yymsp[-1].minor);
 }
-// 2035 "parser.c"
-        break;
-      case 76:
-// 872 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_delete_statement(yymsp[0].minor.yy180, NULL, NULL);
-}
-// 2042 "parser.c"
+// 2112 "parser.c"
         break;
       case 77:
-// 876 "parser.lemon"
+// 891 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_delete_statement(yymsp[-1].minor.yy180, yymsp[0].minor.yy180, NULL);
+	yygotominor.yy48 = phql_ret_delete_statement(yymsp[0].minor.yy48, NULL, NULL);
 }
-// 2049 "parser.c"
+// 2119 "parser.c"
         break;
       case 78:
-// 880 "parser.lemon"
+// 895 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_delete_statement(yymsp[-1].minor.yy180, NULL, yymsp[0].minor.yy180);
-}
-// 2056 "parser.c"
-        break;
-      case 79:
-// 884 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_delete_statement(yymsp[-2].minor.yy180, yymsp[-1].minor.yy180, yymsp[0].minor.yy180);
-}
-// 2063 "parser.c"
-        break;
-      case 80:
-// 890 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_delete_clause(yymsp[0].minor.yy180);
-  yy_destructor(47,&yymsp[-2].minor);
-  yy_destructor(27,&yymsp[-1].minor);
-}
-// 2072 "parser.c"
-        break;
-      case 81:
-// 896 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_assoc_name(yymsp[-2].minor.yy180, yymsp[0].minor.yy0);
-  yy_destructor(31,&yymsp[-1].minor);
-}
-// 2080 "parser.c"
-        break;
-      case 82:
-// 900 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_assoc_name(yymsp[-1].minor.yy180, yymsp[0].minor.yy0);
-}
-// 2087 "parser.c"
-        break;
-      case 83:
-// 904 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_assoc_name(yymsp[0].minor.yy180, NULL);
-}
-// 2094 "parser.c"
-        break;
-      case 84:
-// 910 "parser.lemon"
-{
-	yygotominor.yy180 = yymsp[0].minor.yy180;
-  yy_destructor(48,&yymsp[-1].minor);
-}
-// 2102 "parser.c"
-        break;
-      case 85:
-// 916 "parser.lemon"
-{
-	yygotominor.yy180 = yymsp[0].minor.yy180;
-  yy_destructor(49,&yymsp[-2].minor);
-  yy_destructor(50,&yymsp[-1].minor);
-}
-// 2111 "parser.c"
-        break;
-      case 88:
-// 932 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_order_item(yymsp[0].minor.yy180, 0);
-}
-// 2118 "parser.c"
-        break;
-      case 89:
-// 936 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_order_item(yymsp[-1].minor.yy180, PHQL_T_ASC);
-  yy_destructor(51,&yymsp[0].minor);
+	yygotominor.yy48 = phql_ret_delete_statement(yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
 }
 // 2126 "parser.c"
         break;
-      case 90:
-// 940 "parser.lemon"
+      case 79:
+// 899 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_order_item(yymsp[-1].minor.yy180, PHQL_T_DESC);
-  yy_destructor(52,&yymsp[0].minor);
+	yygotominor.yy48 = phql_ret_delete_statement(yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-// 2134 "parser.c"
+// 2133 "parser.c"
+        break;
+      case 80:
+// 903 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_delete_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
+}
+// 2140 "parser.c"
+        break;
+      case 81:
+// 909 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_delete_clause(yymsp[0].minor.yy48);
+  yy_destructor(47,&yymsp[-2].minor);
+  yy_destructor(27,&yymsp[-1].minor);
+}
+// 2149 "parser.c"
+        break;
+      case 82:
+// 915 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_assoc_name(yymsp[-2].minor.yy48, yymsp[0].minor.yy0);
+  yy_destructor(31,&yymsp[-1].minor);
+}
+// 2157 "parser.c"
+        break;
+      case 83:
+// 919 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_assoc_name(yymsp[-1].minor.yy48, yymsp[0].minor.yy0);
+}
+// 2164 "parser.c"
+        break;
+      case 84:
+// 923 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_assoc_name(yymsp[0].minor.yy48, NULL);
+}
+// 2171 "parser.c"
+        break;
+      case 87:
+// 939 "parser.lemon"
+{
+	yygotominor.yy48 = yymsp[0].minor.yy48;
+  yy_destructor(48,&yymsp[-1].minor);
+}
+// 2179 "parser.c"
+        break;
+      case 88:
+// 945 "parser.lemon"
+{
+	yygotominor.yy48 = yymsp[0].minor.yy48;
+  yy_destructor(49,&yymsp[-2].minor);
+  yy_destructor(50,&yymsp[-1].minor);
+}
+// 2188 "parser.c"
         break;
       case 91:
-// 946 "parser.lemon"
+// 961 "parser.lemon"
 {
-	yygotominor.yy180 = yymsp[0].minor.yy180;
+	yygotominor.yy48 = phql_ret_order_item(yymsp[0].minor.yy48, 0);
+}
+// 2195 "parser.c"
+        break;
+      case 92:
+// 965 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_order_item(yymsp[-1].minor.yy48, PHQL_T_ASC);
+  yy_destructor(51,&yymsp[0].minor);
+}
+// 2203 "parser.c"
+        break;
+      case 93:
+// 969 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_order_item(yymsp[-1].minor.yy48, PHQL_T_DESC);
+  yy_destructor(52,&yymsp[0].minor);
+}
+// 2211 "parser.c"
+        break;
+      case 94:
+// 975 "parser.lemon"
+{
+	yygotominor.yy48 = yymsp[0].minor.yy48;
   yy_destructor(53,&yymsp[-2].minor);
   yy_destructor(50,&yymsp[-1].minor);
 }
-// 2143 "parser.c"
-        break;
-      case 95:
-      case 141:
-// 966 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_literal_zval(PHQL_T_INTEGER, yymsp[0].minor.yy0);
-}
-// 2151 "parser.c"
-        break;
-      case 96:
-// 972 "parser.lemon"
-{
-	yygotominor.yy180 = yymsp[0].minor.yy180;
-  yy_destructor(55,&yymsp[-1].minor);
-}
-// 2159 "parser.c"
-        break;
-      case 97:
-      case 100:
-// 978 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_limit_clause(yymsp[0].minor.yy0, NULL);
-  yy_destructor(56,&yymsp[-1].minor);
-}
-// 2168 "parser.c"
+// 2220 "parser.c"
         break;
       case 98:
-// 982 "parser.lemon"
+// 997 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_limit_clause(yymsp[0].minor.yy0, yymsp[-2].minor.yy0);
-  yy_destructor(56,&yymsp[-3].minor);
-  yy_destructor(28,&yymsp[-1].minor);
+	yygotominor.yy48 = yymsp[0].minor.yy48;
+  yy_destructor(54,&yymsp[-1].minor);
 }
-// 2177 "parser.c"
+// 2228 "parser.c"
         break;
       case 99:
-// 986 "parser.lemon"
+      case 102:
+// 1003 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_limit_clause(yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
-  yy_destructor(56,&yymsp[-3].minor);
-  yy_destructor(57,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_limit_clause(yymsp[0].minor.yy0, NULL);
+  yy_destructor(55,&yymsp[-1].minor);
 }
-// 2186 "parser.c"
+// 2237 "parser.c"
+        break;
+      case 100:
+// 1007 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_limit_clause(yymsp[0].minor.yy0, yymsp[-2].minor.yy0);
+  yy_destructor(55,&yymsp[-3].minor);
+  yy_destructor(28,&yymsp[-1].minor);
+}
+// 2246 "parser.c"
         break;
       case 101:
-// 998 "parser.lemon"
+// 1011 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_MINUS, NULL, yymsp[0].minor.yy180);
-  yy_destructor(20,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_limit_clause(yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
+  yy_destructor(55,&yymsp[-3].minor);
+  yy_destructor(57,&yymsp[-1].minor);
 }
-// 2194 "parser.c"
-        break;
-      case 102:
-// 1002 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_SUB, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(20,&yymsp[-1].minor);
-}
-// 2202 "parser.c"
+// 2255 "parser.c"
         break;
       case 103:
-// 1006 "parser.lemon"
+// 1023 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_ADD, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(19,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_MINUS, NULL, yymsp[0].minor.yy48);
+  yy_destructor(20,&yymsp[-1].minor);
 }
-// 2210 "parser.c"
+// 2263 "parser.c"
         break;
       case 104:
-// 1010 "parser.lemon"
+// 1027 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_MUL, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(17,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_SUB, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(20,&yymsp[-1].minor);
 }
-// 2218 "parser.c"
+// 2271 "parser.c"
         break;
       case 105:
-// 1014 "parser.lemon"
+// 1031 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_DIV, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(16,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_ADD, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(19,&yymsp[-1].minor);
 }
-// 2226 "parser.c"
+// 2279 "parser.c"
         break;
       case 106:
-// 1018 "parser.lemon"
+// 1035 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_MOD, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(18,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_MUL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(17,&yymsp[-1].minor);
 }
-// 2234 "parser.c"
+// 2287 "parser.c"
         break;
       case 107:
-// 1022 "parser.lemon"
+// 1039 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_AND, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(9,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_DIV, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(16,&yymsp[-1].minor);
 }
-// 2242 "parser.c"
+// 2295 "parser.c"
         break;
       case 108:
-// 1026 "parser.lemon"
+// 1043 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_OR, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(10,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_MOD, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(18,&yymsp[-1].minor);
 }
-// 2250 "parser.c"
+// 2303 "parser.c"
         break;
       case 109:
-// 1030 "parser.lemon"
+// 1047 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_BITWISE_AND, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(13,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_AND, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(9,&yymsp[-1].minor);
 }
-// 2258 "parser.c"
+// 2311 "parser.c"
         break;
       case 110:
-// 1034 "parser.lemon"
+// 1051 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_BITWISE_OR, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(14,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_OR, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(10,&yymsp[-1].minor);
 }
-// 2266 "parser.c"
+// 2319 "parser.c"
         break;
       case 111:
-// 1038 "parser.lemon"
+// 1055 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_BITWISE_XOR, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(15,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_BITWISE_AND, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(13,&yymsp[-1].minor);
 }
-// 2274 "parser.c"
+// 2327 "parser.c"
         break;
       case 112:
-// 1042 "parser.lemon"
+// 1059 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_EQUALS, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(3,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_BITWISE_OR, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(14,&yymsp[-1].minor);
 }
-// 2282 "parser.c"
+// 2335 "parser.c"
         break;
       case 113:
-// 1046 "parser.lemon"
+// 1063 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_NOTEQUALS, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(4,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_BITWISE_XOR, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(15,&yymsp[-1].minor);
 }
-// 2290 "parser.c"
+// 2343 "parser.c"
         break;
       case 114:
-// 1050 "parser.lemon"
+// 1067 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_LESS, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(5,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_EQUALS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(3,&yymsp[-1].minor);
 }
-// 2298 "parser.c"
+// 2351 "parser.c"
         break;
       case 115:
-// 1054 "parser.lemon"
+// 1071 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_GREATER, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(6,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_NOTEQUALS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(4,&yymsp[-1].minor);
 }
-// 2306 "parser.c"
+// 2359 "parser.c"
         break;
       case 116:
-// 1058 "parser.lemon"
+// 1075 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_GREATEREQUAL, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(7,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_LESS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(5,&yymsp[-1].minor);
 }
-// 2314 "parser.c"
+// 2367 "parser.c"
         break;
       case 117:
-// 1062 "parser.lemon"
+// 1079 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_LESSEQUAL, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(8,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_GREATER, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(6,&yymsp[-1].minor);
 }
-// 2322 "parser.c"
+// 2375 "parser.c"
         break;
       case 118:
-// 1066 "parser.lemon"
+// 1083 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_LIKE, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(11,&yymsp[-1].minor);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_GREATEREQUAL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(7,&yymsp[-1].minor);
 }
-// 2330 "parser.c"
+// 2383 "parser.c"
         break;
       case 119:
-// 1070 "parser.lemon"
+// 1087 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_NLIKE, yymsp[-3].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_LESSEQUAL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(8,&yymsp[-1].minor);
+}
+// 2391 "parser.c"
+        break;
+      case 120:
+// 1091 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_LIKE, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(11,&yymsp[-1].minor);
+}
+// 2399 "parser.c"
+        break;
+      case 121:
+// 1095 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_NLIKE, yymsp[-3].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(24,&yymsp[-2].minor);
   yy_destructor(11,&yymsp[-1].minor);
 }
-// 2339 "parser.c"
+// 2408 "parser.c"
         break;
-      case 120:
-// 1074 "parser.lemon"
+      case 122:
+// 1099 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_ILIKE, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_ILIKE, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(12,&yymsp[-1].minor);
 }
-// 2347 "parser.c"
+// 2416 "parser.c"
         break;
-      case 121:
-// 1078 "parser.lemon"
+      case 123:
+// 1103 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_NILIKE, yymsp[-3].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_NILIKE, yymsp[-3].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(24,&yymsp[-2].minor);
   yy_destructor(12,&yymsp[-1].minor);
 }
-// 2356 "parser.c"
+// 2425 "parser.c"
         break;
-      case 122:
-// 1082 "parser.lemon"
+      case 124:
+// 1107 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_IN, yymsp[-4].minor.yy180, yymsp[-1].minor.yy180);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_IN, yymsp[-4].minor.yy48, yymsp[-1].minor.yy48);
   yy_destructor(22,&yymsp[-3].minor);
   yy_destructor(43,&yymsp[-2].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-// 2366 "parser.c"
+// 2435 "parser.c"
         break;
-      case 123:
-// 1086 "parser.lemon"
+      case 125:
+// 1111 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_NOTIN, yymsp[-5].minor.yy180, yymsp[-1].minor.yy180);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_NOTIN, yymsp[-5].minor.yy48, yymsp[-1].minor.yy48);
   yy_destructor(24,&yymsp[-4].minor);
   yy_destructor(22,&yymsp[-3].minor);
   yy_destructor(43,&yymsp[-2].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-// 2377 "parser.c"
+// 2446 "parser.c"
         break;
-      case 124:
-// 1090 "parser.lemon"
+      case 126:
+// 1115 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_AGAINST, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_AGAINST, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(1,&yymsp[-1].minor);
 }
-// 2385 "parser.c"
+// 2454 "parser.c"
         break;
-      case 125:
-// 1094 "parser.lemon"
+      case 127:
+// 1119 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_CAST, yymsp[-3].minor.yy180, phql_ret_raw_qualified_name(yymsp[-1].minor.yy0, NULL));
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_CAST, yymsp[-3].minor.yy48, phql_ret_raw_qualified_name(yymsp[-1].minor.yy0, NULL));
   yy_destructor(58,&yymsp[-5].minor);
   yy_destructor(43,&yymsp[-4].minor);
   yy_destructor(31,&yymsp[-2].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-// 2396 "parser.c"
+// 2465 "parser.c"
         break;
-      case 127:
-// 1104 "parser.lemon"
+      case 128:
+// 1123 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_func_call(yymsp[-3].minor.yy0, yymsp[-1].minor.yy180);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_CONVERT, yymsp[-3].minor.yy48, phql_ret_raw_qualified_name(yymsp[-1].minor.yy0, NULL));
+  yy_destructor(59,&yymsp[-5].minor);
+  yy_destructor(43,&yymsp[-4].minor);
+  yy_destructor(60,&yymsp[-2].minor);
+  yy_destructor(44,&yymsp[0].minor);
+}
+// 2476 "parser.c"
+        break;
+      case 130:
+// 1133 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_func_call(yymsp[-3].minor.yy0, yymsp[-1].minor.yy48);
   yy_destructor(43,&yymsp[-2].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-// 2405 "parser.c"
+// 2485 "parser.c"
         break;
-      case 128:
-// 1108 "parser.lemon"
+      case 131:
+// 1137 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_func_call(yymsp[-2].minor.yy0, NULL);
+	yygotominor.yy48 = phql_ret_func_call(yymsp[-2].minor.yy0, NULL);
   yy_destructor(43,&yymsp[-1].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-// 2414 "parser.c"
-        break;
-      case 130:
-// 1118 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_zval_list(yymsp[0].minor.yy180, NULL);
-}
-// 2421 "parser.c"
+// 2494 "parser.c"
         break;
       case 133:
-// 1132 "parser.lemon"
+// 1147 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_ISNULL, yymsp[-2].minor.yy180, NULL);
-  yy_destructor(21,&yymsp[-1].minor);
-  yy_destructor(59,&yymsp[0].minor);
+	yygotominor.yy48 = phql_ret_zval_list(yymsp[0].minor.yy48, NULL);
 }
-// 2430 "parser.c"
-        break;
-      case 134:
-// 1136 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_ISNOTNULL, yymsp[-3].minor.yy180, NULL);
-  yy_destructor(21,&yymsp[-2].minor);
-  yy_destructor(24,&yymsp[-1].minor);
-  yy_destructor(59,&yymsp[0].minor);
-}
-// 2440 "parser.c"
-        break;
-      case 135:
-// 1140 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_DISTINCT, NULL, yymsp[0].minor.yy180);
-  yy_destructor(23,&yymsp[-1].minor);
-}
-// 2448 "parser.c"
+// 2501 "parser.c"
         break;
       case 136:
-// 1144 "parser.lemon"
+// 1161 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_BETWEEN, yymsp[-2].minor.yy180, yymsp[0].minor.yy180);
-  yy_destructor(2,&yymsp[-1].minor);
-}
-// 2456 "parser.c"
-        break;
-      case 137:
-// 1148 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_NOT, NULL, yymsp[0].minor.yy180);
-  yy_destructor(24,&yymsp[-1].minor);
-}
-// 2464 "parser.c"
-        break;
-      case 138:
-// 1152 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_BITWISE_NOT, NULL, yymsp[0].minor.yy180);
-  yy_destructor(25,&yymsp[-1].minor);
-}
-// 2472 "parser.c"
-        break;
-      case 139:
-// 1156 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_expr(PHQL_T_ENCLOSED, yymsp[-1].minor.yy180, NULL);
-  yy_destructor(43,&yymsp[-2].minor);
-  yy_destructor(44,&yymsp[0].minor);
-}
-// 2481 "parser.c"
-        break;
-      case 142:
-// 1168 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_literal_zval(PHQL_T_STRING, yymsp[0].minor.yy0);
-}
-// 2488 "parser.c"
-        break;
-      case 143:
-// 1172 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_literal_zval(PHQL_T_DOUBLE, yymsp[0].minor.yy0);
-}
-// 2495 "parser.c"
-        break;
-      case 144:
-// 1176 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_literal_zval(PHQL_T_NULL, NULL);
-  yy_destructor(59,&yymsp[0].minor);
-}
-// 2503 "parser.c"
-        break;
-      case 145:
-// 1180 "parser.lemon"
-{
-	yygotominor.yy180 = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, yymsp[0].minor.yy0);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_ISNULL, yymsp[-2].minor.yy48, NULL);
+  yy_destructor(21,&yymsp[-1].minor);
+  yy_destructor(61,&yymsp[0].minor);
 }
 // 2510 "parser.c"
         break;
-      case 146:
-// 1184 "parser.lemon"
+      case 137:
+// 1165 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, yymsp[0].minor.yy0);
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_ISNOTNULL, yymsp[-3].minor.yy48, NULL);
+  yy_destructor(21,&yymsp[-2].minor);
+  yy_destructor(24,&yymsp[-1].minor);
+  yy_destructor(61,&yymsp[0].minor);
 }
-// 2517 "parser.c"
+// 2520 "parser.c"
+        break;
+      case 138:
+// 1169 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_DISTINCT, NULL, yymsp[0].minor.yy48);
+  yy_destructor(23,&yymsp[-1].minor);
+}
+// 2528 "parser.c"
+        break;
+      case 139:
+// 1173 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_BETWEEN, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(2,&yymsp[-1].minor);
+}
+// 2536 "parser.c"
+        break;
+      case 140:
+// 1177 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_NOT, NULL, yymsp[0].minor.yy48);
+  yy_destructor(24,&yymsp[-1].minor);
+}
+// 2544 "parser.c"
+        break;
+      case 141:
+// 1181 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_BITWISE_NOT, NULL, yymsp[0].minor.yy48);
+  yy_destructor(25,&yymsp[-1].minor);
+}
+// 2552 "parser.c"
+        break;
+      case 142:
+// 1185 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_ENCLOSED, yymsp[-1].minor.yy48, NULL);
+  yy_destructor(43,&yymsp[-2].minor);
+  yy_destructor(44,&yymsp[0].minor);
+}
+// 2561 "parser.c"
+        break;
+      case 145:
+// 1197 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_INTEGER, yymsp[0].minor.yy0);
+}
+// 2568 "parser.c"
+        break;
+      case 146:
+// 1201 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_STRING, yymsp[0].minor.yy0);
+}
+// 2575 "parser.c"
         break;
       case 147:
-// 1190 "parser.lemon"
+// 1205 "parser.lemon"
 {
-	yygotominor.yy180 = phql_ret_qualified_name(yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
+	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_DOUBLE, yymsp[0].minor.yy0);
+}
+// 2582 "parser.c"
+        break;
+      case 148:
+// 1209 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_NULL, NULL);
+  yy_destructor(61,&yymsp[0].minor);
+}
+// 2590 "parser.c"
+        break;
+      case 149:
+// 1213 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_TRUE, NULL);
+  yy_destructor(64,&yymsp[0].minor);
+}
+// 2598 "parser.c"
+        break;
+      case 150:
+// 1217 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_FALSE, NULL);
+  yy_destructor(65,&yymsp[0].minor);
+}
+// 2606 "parser.c"
+        break;
+      case 151:
+// 1221 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, yymsp[0].minor.yy0);
+}
+// 2613 "parser.c"
+        break;
+      case 152:
+// 1225 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, yymsp[0].minor.yy0);
+}
+// 2620 "parser.c"
+        break;
+      case 153:
+// 1231 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_qualified_name(yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
   yy_destructor(30,&yymsp[-1].minor);
 }
-// 2525 "parser.c"
+// 2628 "parser.c"
+        break;
+      case 155:
+// 1241 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_aliased_name(yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
+  yy_destructor(68,&yymsp[-1].minor);
+}
+// 2636 "parser.c"
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -67675,7 +68517,7 @@ static void yy_syntax_error(
 ){
   phql_ARG_FETCH;
 #define TOKEN (yyminor.yy0)
-// 441 "parser.lemon"
+// 456 "parser.lemon"
 
 	if (status->scanner_state->start_length) {
 		{
@@ -67707,26 +68549,26 @@ static void yy_syntax_error(
 				token_found = 0;
 			}
 
-			status->syntax_error_len = 64 + status->token->len + token_length + near_length;
+			status->syntax_error_len = 96 + status->token->len + token_length + near_length + status->phql_length;;
 			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
 
 			if (near_length > 0) {
 				if (status->token->value) {
-					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s'", token_name, status->token->value, status->scanner_state->start);
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s', when parsing: %s (%d)", token_name, status->token->value, status->scanner_state->start, status->phql, status->phql_length);
 				} else {
-					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s'", token_name, status->scanner_state->start);
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s', when parsing: %s (%d)", token_name, status->scanner_state->start, status->phql, status->phql_length);
 				}
 			} else {
 				if (active_token != PHQL_T_IGNORE) {
 					if (status->token->value) {
-						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of query", token_name, status->token->value);
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of query, when parsing: %s (%d)", token_name, status->token->value, status->phql, status->phql_length);
 					} else {
-						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of query", token_name);
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of query, when parsing: %s (%d)", token_name, status->phql, status->phql_length);
 					}
 				} else {
 					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected EOF, at the end of query");
 				}
-				status->syntax_error[status->syntax_error_len-1] = '\0';
+				status->syntax_error[status->syntax_error_len - 1] = '\0';
 			}
 
 			if (!token_found) {
@@ -67742,7 +68584,7 @@ static void yy_syntax_error(
 
 	status->status = PHQL_PARSING_FAILED;
 
-// 2634 "parser.c"
+// 2745 "parser.c"
   phql_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -67931,6 +68773,7 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_LIKE,          SL("LIKE") },
   { PHQL_T_ILIKE,         SL("ILIKE") },
   { PHQL_T_DOT,           SL("DOT") },
+  { PHQL_T_COLON,         SL("COLON") },
   { PHQL_T_COMMA,         SL("COMMA") },
   { PHQL_T_EQUALS,        SL("EQUALS") },
   { PHQL_T_NOTEQUALS,     SL("NOT EQUALS") },
@@ -67976,6 +68819,9 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_BETWEEN,       SL("BETWEEN") },
   { PHQL_T_DISTINCT,      SL("DISTINCT") },
   { PHQL_T_AGAINST,       SL("AGAINST") },
+  { PHQL_T_CAST,          SL("CAST") },
+  { PHQL_T_CONVERT,       SL("CONVERT") },
+  { PHQL_T_USING,         SL("USING") },
   { 0, NULL, 0 }
 };
 
@@ -68010,19 +68856,19 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		length = 48 + state->start_length;
+		length = 64 + state->start_length + parser_status->phql_length;
 		error = emalloc(sizeof(char) * length);
 		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
-			snprintf(error, length, "Parsing error before '%s...'", error_part);
+			snprintf(error, length, "Scanning error before '%s...' when parsing: %s (%d)", error_part, parser_status->phql, parser_status->phql_length);
 			efree(error_part);
 		} else {
-			snprintf(error, length, "Parsing error before '%s'", state->start);
+			snprintf(error, length, "Scanning error before '%s' when parsing: %s (%d)", state->start, parser_status->phql, parser_status->phql_length);
 		}
 		error[length - 1] = '\0';
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
+		ZVAL_STRING(*error_msg, "Scanning error near to EOF", 1);
 	}
 
 	if (error) {
@@ -68048,7 +68894,7 @@ static int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
-	int scanner_status, status = SUCCESS;
+	int scanner_status, status = SUCCESS, error_length;
 	phql_scanner_state *state;
 	phql_scanner_token token;
 	unsigned long phql_key;
@@ -68086,6 +68932,8 @@ static int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql
 	parser_status->syntax_error = NULL;
 	parser_status->token = &token;
 	parser_status->enable_literals = phalcon_globals_ptr->orm.enable_literals;
+	parser_status->phql = phql;
+	parser_status->phql_length = phql_length;
 
 	state->active_token = 0;
 	state->start = phql;
@@ -68174,6 +69022,9 @@ static int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql
 			case PHQL_T_DOT:
 				phql_(phql_parser, PHQL_DOT, NULL, parser_status);
 				break;
+			case PHQL_T_COLON:
+				phql_(phql_parser, PHQL_COLON, NULL, parser_status);
+				break;
 			case PHQL_T_COMMA:
 				phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
 				break;
@@ -68212,6 +69063,25 @@ static int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
+			case PHQL_T_TRUE:
+				if (parser_status->enable_literals) {
+					phql_(phql_parser, PHQL_TRUE, NULL, parser_status);
+				} else {
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
+					parser_status->status = PHQL_PARSING_FAILED;
+				}
+				break;
+			case PHQL_T_FALSE:
+				if (parser_status->enable_literals) {
+					phql_(phql_parser, PHQL_FALSE, NULL, parser_status);
+				} else {
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
+					parser_status->status = PHQL_PARSING_FAILED;
+				}
+				break;
+
 			case PHQL_T_IDENTIFIER:
 				phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, &token, parser_status);
 				break;
@@ -68318,10 +69188,18 @@ static int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql
 			case PHQL_T_CAST:
 				phql_(phql_parser, PHQL_CAST, NULL, parser_status);
 				break;
+			case PHQL_T_CONVERT:
+				phql_(phql_parser, PHQL_CONVERT, NULL, parser_status);
+				break;
+			case PHQL_T_USING:
+				phql_(phql_parser, PHQL_USING, NULL, parser_status);
+				break;
 			default:
 				parser_status->status = PHQL_PARSING_FAILED;
-				error = emalloc(sizeof(char) * 32);
-				sprintf(error, "scanner: unknown opcode %c", token.opcode);
+				error_length = sizeof(char) * 32;
+				error = emalloc(error_length);
+				snprintf(error, error_length, "Scanner: Unknown opcode %c", token.opcode);
+				error[error_length - 1] = '\0';
 				PHALCON_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);
@@ -85153,7 +86031,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 	
 	if (Z_TYPE_P(compilation) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(final_compilation);
-		phalcon_call_func_p1(final_compilation, "serialize", compilation);
+		phalcon_serialize(final_compilation, &compilation TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(final_compilation, compilation);
 	}
@@ -85343,7 +86221,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	
 						if (zend_is_true(blocks_code)) {
 							PHALCON_INIT_NVAR(compilation);
-							phalcon_call_func_p1(compilation, "unserialize", blocks_code);
+							phalcon_unserialize(compilation, blocks_code TSRMLS_CC);
 						} else {
 							PHALCON_INIT_NVAR(compilation);
 							array_init(compilation);
@@ -87629,9 +88507,9 @@ static PHP_METHOD(Phalcon_Mvc_Router_Route, via){
 static PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 
 	zval *pattern, *paths = NULL, *module_name = NULL, *controller_name = NULL;
-	zval *action_name = NULL, *double_colon, *parts, *number_parts;
-	zval *route_paths = NULL, *real_class_name = NULL, *namespace_name;
-	zval *lower_name, *pcre_pattern = NULL, *compiled_pattern = NULL;
+	zval *action_name = NULL, *parts, *number_parts, *route_paths = NULL;
+	zval *real_class_name = NULL, *namespace_name, *lower_name;
+	zval *pcre_pattern = NULL, *compiled_pattern = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -87654,11 +88532,8 @@ static PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	
 			PHALCON_INIT_VAR(action_name);
 	
-			PHALCON_INIT_VAR(double_colon);
-			ZVAL_STRING(double_colon, "::", 1);
-	
 			PHALCON_INIT_VAR(parts);
-			phalcon_fast_explode(parts, double_colon, paths TSRMLS_CC);
+			phalcon_fast_explode_str(parts, SL("::"), paths TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(number_parts);
 			phalcon_fast_count(number_parts, parts TSRMLS_CC);
@@ -93213,9 +94088,9 @@ static PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	}
 	
 	PHALCON_INIT_VAR(serialize);
-	phalcon_call_func_p1(serialize, "serialize", data);
+	phalcon_serialize(serialize, &data TSRMLS_CC);
 	
-	RETURN_CCTOR(serialize);
+	RETURN_CTOR(serialize);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Model, unserialize){
@@ -93233,7 +94108,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 	if (Z_TYPE_P(data) == IS_STRING) {
 	
 		PHALCON_INIT_VAR(attributes);
-		phalcon_call_func_p1(attributes, "unserialize", data);
+		phalcon_unserialize(attributes, data TSRMLS_CC);
 		if (Z_TYPE_P(attributes) == IS_ARRAY) { 
 	
 			PHALCON_INIT_VAR(dependency_injector);
@@ -93600,8 +94475,8 @@ static PHP_METHOD(Phalcon_Mvc_Router, getDI){
 
 static PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 
-	zval *uri_source, *_GET, *url = NULL, *_SERVER, *question_mark;
-	zval *url_parts, *real_uri;
+	zval *uri_source, *_GET, *url = NULL, *_SERVER, *url_parts;
+	zval *real_uri;
 
 	PHALCON_MM_GROW();
 
@@ -93622,14 +94497,11 @@ static PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		if (phalcon_array_isset_quick_string(_SERVER, SS("REQUEST_URI"), 1526037309UL)) {
 	
-			PHALCON_INIT_VAR(question_mark);
-			ZVAL_STRING(question_mark, "?", 1);
-	
 			PHALCON_OBS_NVAR(url);
 			phalcon_array_fetch_quick_string(&url, _SERVER, SS("REQUEST_URI"), 1526037309UL, PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(url_parts);
-			phalcon_fast_explode(url_parts, question_mark, url TSRMLS_CC);
+			phalcon_fast_explode_str(url_parts, SL("?"), url TSRMLS_CC);
 	
 			PHALCON_OBS_VAR(real_uri);
 			phalcon_array_fetch_long(&real_uri, url_parts, 0, PH_NOISY_CC);
@@ -93747,7 +94619,7 @@ static PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 		phalcon_update_property_this_quick(this_ptr, SL("_defaultParams"), params, 3006915213UL TSRMLS_CC);
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Mvc_Router, handle){
