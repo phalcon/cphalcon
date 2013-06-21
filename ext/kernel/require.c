@@ -46,7 +46,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 
 	zend_op_array *new_op_array = NULL;
 
-	if (Z_TYPE_P(require_path) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(require_path) != IS_STRING)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Invalid require path value");
 		status = FAILURE;
 	} else {
@@ -54,7 +54,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 		file_path = Z_STRVAL_P(require_path);
 
 		ret = php_stream_open_for_zend_ex(file_path, &file_handle, ENFORCE_SAFE_MODE|USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
-		if (ret == SUCCESS) {
+		if (likely(ret == SUCCESS)) {
 
 			if (!file_handle.opened_path) {
 				file_path_length = Z_STRLEN_P(require_path);

@@ -36,6 +36,7 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/variables.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
@@ -196,7 +197,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put){
 	 * Data is automatically serialized before be sent to the server
 	 */
 	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "serialize", data);
+	phalcon_serialize(serialized, &data TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(serialized_length);
 	phalcon_fast_strlen(serialized_length, serialized);
@@ -282,7 +283,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, reserve){
 		phalcon_call_method_p1(serialized_body, this_ptr, "read", length);
 	
 		PHALCON_INIT_VAR(body);
-		phalcon_call_func_p1(body, "unserialize", serialized_body);
+		phalcon_unserialize(body, serialized_body TSRMLS_CC);
 	
 		/** 
 		 * Create a beanstalk job abstraction
@@ -393,7 +394,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady){
 		phalcon_call_method_p1(serialized_body, this_ptr, "read", length);
 	
 		PHALCON_INIT_VAR(body);
-		phalcon_call_func_p1(body, "unserialize", serialized_body);
+		phalcon_unserialize(body, serialized_body TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(job);
 		object_init_ex(job, phalcon_queue_beanstalk_job_ce);
@@ -412,18 +413,15 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady){
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus){
 
-	zval *response, *space, *parts;
+	zval *response, *parts;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(response);
 	phalcon_call_method(response, this_ptr, "read");
 	
-	PHALCON_INIT_VAR(space);
-	ZVAL_STRING(space, " ", 1);
-	
 	PHALCON_INIT_VAR(parts);
-	phalcon_fast_explode(parts, space, response TSRMLS_CC);
+	phalcon_fast_explode_str(parts, SL(" "), response TSRMLS_CC);
 	RETURN_CTOR(parts);
 }
 

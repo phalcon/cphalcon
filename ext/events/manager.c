@@ -557,9 +557,8 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 PHP_METHOD(Phalcon_Events_Manager, fire){
 
 	zval *event_type, *source, *data = NULL, *cancelable = NULL, *events;
-	zval *exception_message, *colon, *event_parts;
-	zval *type, *event_name, *status = NULL, *collect, *event = NULL;
-	zval *fire_events = NULL;
+	zval *exception_message, *event_parts, *type;
+	zval *event_name, *status = NULL, *collect, *event = NULL, *fire_events = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -595,11 +594,8 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(colon);
-	ZVAL_STRING(colon, ":", 1);
-	
 	PHALCON_INIT_VAR(event_parts);
-	phalcon_fast_explode(event_parts, colon, event_type TSRMLS_CC);
+	phalcon_fast_explode_str(event_parts, SL(":"), event_type TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_long(&type, event_parts, 0, PH_NOISY_CC);

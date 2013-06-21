@@ -42,6 +42,7 @@
 #include "kernel/string.h"
 #include "mvc/view/engine/volt/scanner.h"
 #include "mvc/view/engine/volt/volt.h"
+#include "kernel/variables.h"
 
 /**
  * Phalcon\Mvc\View\Engine\Volt\Compiler
@@ -3433,7 +3434,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 	 */
 	if (Z_TYPE_P(compilation) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(final_compilation);
-		phalcon_call_func_p1(final_compilation, "serialize", compilation);
+		phalcon_serialize(final_compilation, &compilation TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(final_compilation, compilation);
 	}
@@ -3692,7 +3693,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 						 */
 						if (zend_is_true(blocks_code)) {
 							PHALCON_INIT_NVAR(compilation);
-							phalcon_call_func_p1(compilation, "unserialize", blocks_code);
+							phalcon_unserialize(compilation, blocks_code TSRMLS_CC);
 						} else {
 							PHALCON_INIT_NVAR(compilation);
 							array_init(compilation);

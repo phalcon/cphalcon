@@ -290,9 +290,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, via){
 PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 
 	zval *pattern, *paths = NULL, *module_name = NULL, *controller_name = NULL;
-	zval *action_name = NULL, *double_colon, *parts, *number_parts;
-	zval *route_paths = NULL, *real_class_name = NULL, *namespace_name;
-	zval *lower_name, *pcre_pattern = NULL, *compiled_pattern = NULL;
+	zval *action_name = NULL, *parts, *number_parts, *route_paths = NULL;
+	zval *real_class_name = NULL, *namespace_name, *lower_name;
+	zval *pcre_pattern = NULL, *compiled_pattern = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -315,14 +315,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	
 			PHALCON_INIT_VAR(action_name);
 	
-			PHALCON_INIT_VAR(double_colon);
-			ZVAL_STRING(double_colon, "::", 1);
-	
 			/** 
 			 * Explode the short paths using the :: separator
 			 */
 			PHALCON_INIT_VAR(parts);
-			phalcon_fast_explode(parts, double_colon, paths TSRMLS_CC);
+			phalcon_fast_explode_str(parts, SL("::"), paths TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(number_parts);
 			phalcon_fast_count(number_parts, parts TSRMLS_CC);

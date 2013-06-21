@@ -352,7 +352,7 @@ int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int require
 	}
 
 	if (num_args > arg_count) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "could not obtain parameters for parsing");
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing"), grow_stack TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -377,3 +377,4 @@ int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int require
 
 	return SUCCESS;
 }
+

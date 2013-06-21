@@ -38,6 +38,7 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
+#include "kernel/variables.h"
 #include "kernel/exception.h"
 
 /**
@@ -462,7 +463,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 	phalcon_array_update_string(&data, SL("hydrateMode"), &hydrate_mode, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "serialize", data);
+	phalcon_serialize(serialized, &data TSRMLS_CC);
 	
 	/** 
 	 * Avoid return bad serialized data
@@ -471,7 +472,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 		RETURN_MM_NULL();
 	}
 	
-	RETURN_CCTOR(serialized);
+	RETURN_CTOR(serialized);
 }
 
 /**
@@ -491,7 +492,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize){
 	phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(resultset);
-	phalcon_call_func_p1(resultset, "unserialize", data);
+	phalcon_unserialize(resultset, data TSRMLS_CC);
 	if (Z_TYPE_P(resultset) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;

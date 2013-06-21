@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/variables.h"
 
 /**
  * Phalcon\Cache\Frontend\Data
@@ -191,8 +192,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 	phalcon_fetch_params(1, 1, 0, &data);
 	
 	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "serialize", data);
-	RETURN_CCTOR(serialized);
+	phalcon_serialize(serialized, &data TSRMLS_CC);
+	RETURN_CTOR(serialized);
 }
 
 /**
@@ -209,7 +210,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 	phalcon_fetch_params(1, 1, 0, &data);
 	
 	PHALCON_INIT_VAR(unserialized);
-	phalcon_call_func_p1(unserialized, "unserialize", data);
-	RETURN_CCTOR(unserialized);
+	phalcon_unserialize(unserialized, data TSRMLS_CC);
+	RETURN_CTOR(unserialized);
 }
 

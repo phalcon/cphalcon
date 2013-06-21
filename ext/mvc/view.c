@@ -1256,8 +1256,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
  */
 PHP_METHOD(Phalcon_Mvc_View, pick){
 
-	zval *render_view, *pick_view = NULL, *layout = NULL, *separator;
-	zval *parts;
+	zval *render_view, *pick_view = NULL, *layout = NULL, *parts;
 
 	PHALCON_MM_GROW();
 
@@ -1267,12 +1266,9 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
 		PHALCON_CPY_WRT(pick_view, render_view);
 	} else {
 		PHALCON_INIT_VAR(layout);
-	
-		PHALCON_INIT_VAR(separator);
-		ZVAL_STRING(separator, "/", 1);
-		if (phalcon_memnstr(render_view, separator TSRMLS_CC)) {
+		if (phalcon_memnstr_str(render_view, SL("/") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(parts);
-			phalcon_fast_explode(parts, separator, render_view TSRMLS_CC);
+			phalcon_fast_explode_str(parts, SL("/"), render_view TSRMLS_CC);
 	
 			PHALCON_OBS_NVAR(layout);
 			phalcon_array_fetch_long(&layout, parts, 0, PH_NOISY_CC);

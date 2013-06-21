@@ -40,6 +40,7 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/file.h"
+#include "kernel/variables.h"
 
 /**
  * Phalcon\Mvc\Model
@@ -6508,9 +6509,9 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	 * Use the standard serialize function to serialize the array data
 	 */
 	PHALCON_INIT_VAR(serialize);
-	phalcon_call_func_p1(serialize, "serialize", data);
+	phalcon_serialize(serialize, &data TSRMLS_CC);
 	
-	RETURN_CCTOR(serialize);
+	RETURN_CTOR(serialize);
 }
 
 /**
@@ -6533,7 +6534,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 	if (Z_TYPE_P(data) == IS_STRING) {
 	
 		PHALCON_INIT_VAR(attributes);
-		phalcon_call_func_p1(attributes, "unserialize", data);
+		phalcon_unserialize(attributes, data TSRMLS_CC);
 		if (Z_TYPE_P(attributes) == IS_ARRAY) { 
 	
 			/** 

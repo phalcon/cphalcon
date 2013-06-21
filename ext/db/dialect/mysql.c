@@ -543,9 +543,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 
 	zval *definition, *table_options, *options, *engine;
 	zval *sql_engine, *auto_increment, *sql_autoincrement;
-	zval *table_collation, *under_score, *collation_parts;
-	zval *first_part, *sql_charset, *sql_collate;
-	zval *sql_table_options;
+	zval *table_collation, *collation_parts, *first_part;
+	zval *sql_charset, *sql_collate, *sql_table_options;
 
 	PHALCON_MM_GROW();
 
@@ -595,11 +594,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 			PHALCON_OBS_VAR(table_collation);
 			phalcon_array_fetch_string(&table_collation, options, SL("TABLE_COLLATION"), PH_NOISY_CC);
 			if (zend_is_true(table_collation)) {
-				PHALCON_INIT_VAR(under_score);
-				ZVAL_STRING(under_score, "_", 1);
-	
 				PHALCON_INIT_VAR(collation_parts);
-				phalcon_fast_explode(collation_parts, under_score, table_collation TSRMLS_CC);
+				phalcon_fast_explode_str(collation_parts, SL("_"), table_collation TSRMLS_CC);
 	
 				PHALCON_OBS_VAR(first_part);
 				phalcon_array_fetch_long(&first_part, collation_parts, 0, PH_NOISY_CC);

@@ -201,8 +201,8 @@ PHP_METHOD(Phalcon_Mvc_Router, getDI){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 
-	zval *uri_source, *_GET, *url = NULL, *_SERVER, *question_mark;
-	zval *url_parts, *real_uri;
+	zval *uri_source, *_GET, *url = NULL, *_SERVER, *url_parts;
+	zval *real_uri;
 
 	PHALCON_MM_GROW();
 
@@ -232,14 +232,11 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		if (phalcon_array_isset_string(_SERVER, SS("REQUEST_URI"))) {
 	
-			PHALCON_INIT_VAR(question_mark);
-			ZVAL_STRING(question_mark, "?", 1);
-	
 			PHALCON_OBS_NVAR(url);
 			phalcon_array_fetch_string(&url, _SERVER, SL("REQUEST_URI"), PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(url_parts);
-			phalcon_fast_explode(url_parts, question_mark, url TSRMLS_CC);
+			phalcon_fast_explode_str(url_parts, SL("?"), url TSRMLS_CC);
 	
 			PHALCON_OBS_VAR(real_uri);
 			phalcon_array_fetch_long(&real_uri, url_parts, 0, PH_NOISY_CC);

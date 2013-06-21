@@ -27,6 +27,7 @@ extern void phalcon_fast_strtolower(zval *return_value, zval *str);
 extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
+extern void phalcon_fast_explode_str(zval *result, char *delimiter, int delimiter_length, zval *str TSRMLS_DC);
 extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
 extern void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 extern void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
@@ -52,7 +53,7 @@ extern void phalcon_remove_extra_slashes(zval *return_value, zval *str);
 /** Generates a unique key for an array/object */
 extern void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC);
 
-/** ssprintf */
+/** spprintf */
 extern int phalcon_spprintf(char **message, int max_len, char *format, ...);
 
 /* Substr */

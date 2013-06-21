@@ -821,7 +821,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
 	zval *trust_forwarded_header = NULL, *address = NULL, *_SERVER;
-	zval *comma, *addresses, *first;
+	zval *addresses, *first;
 
 	PHALCON_MM_GROW();
 
@@ -857,11 +857,8 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 			/** 
 			 * The client address has multiples parts, only return the first part
 			 */
-			PHALCON_INIT_VAR(comma);
-			ZVAL_STRING(comma, ",", 1);
-	
 			PHALCON_INIT_VAR(addresses);
-			phalcon_fast_explode(addresses, comma, address TSRMLS_CC);
+			phalcon_fast_explode_str(addresses, SL(","), address TSRMLS_CC);
 	
 			PHALCON_OBS_VAR(first);
 			phalcon_array_fetch_long(&first, addresses, 0, PH_NOISY_CC);
@@ -1338,9 +1335,8 @@ PHP_METHOD(Phalcon_Http_Request, getHTTPReferer){
 PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 
 	zval *server_index, *name, *quality_one, *returned_parts;
-	zval *http_server, *pattern, *parts, *dot_comma;
-	zval *part = NULL, *header_parts = NULL, *quality_part = NULL, *quality = NULL;
-	zval *header_name = NULL;
+	zval *http_server, *pattern, *parts, *part = NULL, *header_parts = NULL;
+	zval *quality_part = NULL, *quality = NULL, *header_name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1363,9 +1359,6 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 	PHALCON_INIT_VAR(parts);
 	phalcon_call_func_p2(parts, "preg_split", pattern, http_server);
 	
-	PHALCON_INIT_VAR(dot_comma);
-	ZVAL_STRING(dot_comma, ";", 1);
-	
 	if (!phalcon_is_iterable(parts, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
@@ -1375,7 +1368,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 		PHALCON_GET_HVALUE(part);
 	
 		PHALCON_INIT_NVAR(header_parts);
-		phalcon_fast_explode(header_parts, dot_comma, part TSRMLS_CC);
+		phalcon_fast_explode_str(header_parts, SL(";"), part TSRMLS_CC);
 		if (phalcon_array_isset_long(header_parts, 1)) {
 			PHALCON_OBS_NVAR(quality_part);
 			phalcon_array_fetch_long(&quality_part, header_parts, 1, PH_NOISY_CC);

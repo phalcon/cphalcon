@@ -88,10 +88,10 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
-	zval *file_path, *config, *process_sections;
-	zval *ini_config, *base_path, *exception_message;
-	zval *dot, *directives = NULL, *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL;
-	zval *left_part = NULL, *right_part = NULL;
+	zval *file_path, *process_sections, *ini_config;
+	zval *exception_message, *config, *directives = NULL;
+	zval *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL, *left_part = NULL;
+	zval *right_part = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -99,9 +99,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &file_path);
-	
-	PHALCON_INIT_VAR(config);
-	array_init(config);
 	
 	PHALCON_INIT_VAR(process_sections);
 	ZVAL_BOOL(process_sections, 1);
@@ -116,17 +113,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	 * Check if the file had errors
 	 */
 	if (PHALCON_IS_FALSE(ini_config)) {
-		PHALCON_INIT_VAR(base_path);
-		phalcon_call_func_p1(base_path, "basename", file_path);
-	
 		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Configuration file ", base_path, " can't be loaded");
+		PHALCON_CONCAT_SVS(exception_message, "Configuration file ", file_path, " can't be loaded");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_config_exception_ce, exception_message);
 		return;
 	}
 	
-	PHALCON_INIT_VAR(dot);
-	ZVAL_STRING(dot, ".", 1);
+	PHALCON_INIT_VAR(config);
+	array_init(config);
 	
 	if (!phalcon_is_iterable(ini_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
@@ -149,7 +143,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	
 			if (phalcon_memnstr_str(key, SL(".") TSRMLS_CC)) {
 				PHALCON_INIT_NVAR(directive_parts);
-				phalcon_fast_explode(directive_parts, dot, key TSRMLS_CC);
+				phalcon_fast_explode_str(directive_parts, SL("."), key TSRMLS_CC);
 	
 				PHALCON_OBS_NVAR(left_part);
 				phalcon_array_fetch_long(&left_part, directive_parts, 0, PH_NOISY_CC);

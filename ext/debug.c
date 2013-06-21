@@ -510,18 +510,15 @@ PHP_METHOD(Phalcon_Debug, _getVarDump){
  */
 PHP_METHOD(Phalcon_Debug, getMajorVersion){
 
-	zval *version, *space, *parts, *major;
+	zval *version, *parts, *major;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(version);
 	PHALCON_CALL_STATIC(version, "phalcon\\version", "get");
 	
-	PHALCON_INIT_VAR(space);
-	ZVAL_STRING(space, " ", 1);
-	
 	PHALCON_INIT_VAR(parts);
-	phalcon_fast_explode(parts, space, version TSRMLS_CC);
+	phalcon_fast_explode_str(parts, SL(" "), version TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, parts, 0, PH_NOISY_CC);

@@ -38,6 +38,7 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
+#include "kernel/variables.h"
 
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
@@ -463,8 +464,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	 * Serialize the cache using the serialize function
 	 */
 	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "serialize", data);
-	RETURN_CCTOR(serialized);
+	phalcon_serialize(serialized, &data TSRMLS_CC);
+	RETURN_CTOR(serialized);
 }
 
 /**
@@ -484,7 +485,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 	phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(resultset);
-	phalcon_call_func_p1(resultset, "unserialize", data);
+	phalcon_unserialize(resultset, data TSRMLS_CC);
 	if (Z_TYPE_P(resultset) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;

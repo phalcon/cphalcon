@@ -313,6 +313,25 @@ void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC){
 }
 
 /**
+ * Fast call to explode php function
+ */
+void phalcon_fast_explode_str(zval *result, char *delimiter, int delimiter_length, zval *str TSRMLS_DC){
+
+	zval delimiter_zval;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		ZVAL_NULL(result);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for explode()");
+		return;
+	}
+
+	ZVAL_STRINGL(&delimiter_zval, delimiter, delimiter_length, 0);
+
+	array_init(result);
+	php_explode(&delimiter_zval, str, result, LONG_MAX);
+}
+
+/**
  * Check if a string is contained into another
  */
 int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC){
