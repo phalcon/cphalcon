@@ -354,7 +354,7 @@ void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval 
 	#if PHP_VERSION_ID < 50400
 	int length;
 	#else
-	unsigned int length;
+	size_t length;
 	#endif
 
 	char *escaped;
