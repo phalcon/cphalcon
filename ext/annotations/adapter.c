@@ -235,9 +235,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 		phalcon_call_method(methods, class_annotations, "getmethodsannotations");
 		if (Z_TYPE_P(methods) == IS_ARRAY) { 
 	
-			if (!phalcon_is_iterable(methods, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(methods, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -333,9 +331,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty){
 		phalcon_call_method(properties, class_annotations, "getpropertyannotations");
 		if (Z_TYPE_P(properties) == IS_ARRAY) { 
 	
-			if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(properties, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

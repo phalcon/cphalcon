@@ -400,10 +400,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	 * Objects are casted using __toString, null values are converted to string 'null',
 	 * everything else is passed as '?'
 	 */
-	
-	if (!phalcon_is_iterable(values, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(values, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -454,9 +451,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 			PHALCON_INIT_VAR(escaped_fields);
 			array_init(escaped_fields);
 	
-			if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(fields, &ah1, &hp1, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -556,10 +551,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	 * Objects are casted using __toString, null values are converted to string 'null',
 	 * everything else is passed as '?'
 	 */
-	
-	if (!phalcon_is_iterable(values, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(values, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1408,9 +1400,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables){
 	PHALCON_INIT_VAR(all_tables);
 	array_init(all_tables);
 	
-	if (!phalcon_is_iterable(tables, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(tables, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1476,9 +1466,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listViews){
 	PHALCON_INIT_VAR(all_tables);
 	array_init(all_tables);
 	
-	if (!phalcon_is_iterable(tables, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(tables, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1498,7 +1486,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listViews){
  * Lists table indexes
  *
  *<code>
- * print_r($connection->describeIndexes('robots_parts'));
+ *	print_r($connection->describeIndexes('robots_parts'));
  *</code>
  *
  * @param string $table
@@ -1546,9 +1534,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes){
 	PHALCON_INIT_VAR(indexes);
 	array_init(indexes);
 	
-	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(describe, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1572,9 +1558,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes){
 	PHALCON_INIT_VAR(index_objects);
 	array_init(index_objects);
 	
-	if (!phalcon_is_iterable(indexes, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(indexes, &ah1, &hp1, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1654,9 +1638,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences){
 	PHALCON_INIT_VAR(describe);
 	phalcon_call_method_p2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
-	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(describe, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1694,9 +1676,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences){
 	PHALCON_INIT_VAR(reference_objects);
 	array_init(reference_objects);
 	
-	if (!phalcon_is_iterable(references, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(references, &ah1, &hp1, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

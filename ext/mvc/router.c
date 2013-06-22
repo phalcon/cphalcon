@@ -509,9 +509,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	PHALCON_OBS_VAR(routes);
 	phalcon_read_property_this(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	
-	if (!phalcon_is_iterable(routes, &ah0, &hp0, 0, 1 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(routes, &ah0, &hp0, 0, 1);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -703,9 +701,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				PHALCON_INIT_NVAR(converters);
 				phalcon_call_method(converters, route, "getconverters");
 	
-				if (!phalcon_is_iterable(paths, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-					return;
-				}
+				phalcon_is_iterable(paths, &ah1, &hp1, 0, 0);
 	
 				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1197,9 +1193,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mount){
 	phalcon_call_method(before_match, group, "getbeforematch");
 	if (Z_TYPE_P(before_match) != IS_NULL) {
 	
-		if (!phalcon_is_iterable(group_routes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(group_routes, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1219,9 +1213,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mount){
 	phalcon_call_method(hostname, group, "gethostname");
 	if (Z_TYPE_P(hostname) != IS_NULL) {
 	
-		if (!phalcon_is_iterable(group_routes, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(group_routes, &ah1, &hp1, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1405,9 +1397,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 	PHALCON_OBS_VAR(routes);
 	phalcon_read_property_this(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	
-	if (!phalcon_is_iterable(routes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(routes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1445,9 +1435,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	PHALCON_OBS_VAR(routes);
 	phalcon_read_property_this(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	
-	if (!phalcon_is_iterable(routes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(routes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

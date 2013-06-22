@@ -321,10 +321,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 		/** 
 		 * We create the message with implicit flush or other
 		 */
-	
-		if (!phalcon_is_iterable(message, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(message, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

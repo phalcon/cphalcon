@@ -446,9 +446,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 		}
 	} else {
 	
-		if (!phalcon_is_iterable(queue, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(queue, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

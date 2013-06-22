@@ -660,9 +660,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&arguments, dependency_injector, PH_SEPARATE TSRMLS_CC);
 	
-			if (!phalcon_is_iterable(registered_engines, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(registered_engines, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -833,10 +831,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	/** 
 	 * Views are rendered in each engine
 	 */
-	
-	if (!phalcon_is_iterable(engines, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(engines, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1122,9 +1117,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 					ZVAL_BOOL(silence, 0);
 	
-					if (!phalcon_is_iterable(templates_before, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-						return;
-					}
+					phalcon_is_iterable(templates_before, &ah0, &hp0, 0, 0);
 	
 					while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1168,9 +1161,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 					ZVAL_BOOL(silence, 0);
 	
-					if (!phalcon_is_iterable(templates_after, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-						return;
-					}
+					phalcon_is_iterable(templates_after, &ah1, &hp1, 0, 0);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1632,10 +1623,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 			array_init(cache_options);
 		}
 	
-	
-		if (!phalcon_is_iterable(options, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(options, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

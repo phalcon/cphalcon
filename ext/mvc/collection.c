@@ -520,9 +520,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult){
 		return;
 	}
 	
-	if (!phalcon_is_iterable(document, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(document, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -668,9 +666,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	PHALCON_INIT_VAR(documents_array);
 	phalcon_call_func_p1(documents_array, "iterator_to_array", documents_cursor);
 	
-	if (!phalcon_is_iterable(documents_array, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(documents_array, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1010,9 +1006,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate){
 		PHALCON_INIT_VAR(messages);
 		phalcon_call_method(messages, validator, "getmessages");
 	
-		if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1391,10 +1385,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	/** 
 	 * We only assign values to the public properties
 	 */
-	
-	if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(properties, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2039,10 +2030,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray){
 	/** 
 	 * We only assign values to the public properties
 	 */
-	
-	if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(properties, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2148,10 +2136,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 			/** 
 			 * Update the objects attributes
 			 */
-	
-			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

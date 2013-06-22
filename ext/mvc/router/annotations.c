@@ -203,9 +203,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 			PHALCON_OBS_VAR(controller_suffix);
 			phalcon_read_property_this(&controller_suffix, this_ptr, SL("_controllerSuffix"), PH_NOISY_CC);
 	
-			if (!phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -308,9 +306,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						phalcon_call_method(annotations, class_annotations, "getannotations");
 						if (Z_TYPE_P(annotations) == IS_ARRAY) { 
 	
-							if (!phalcon_is_iterable(annotations, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-								return;
-							}
+							phalcon_is_iterable(annotations, &ah1, &hp1, 0, 0);
 	
 							while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -334,9 +330,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						PHALCON_INIT_NVAR(lowercased);
 						phalcon_uncamelize(lowercased, handler TSRMLS_CC);
 	
-						if (!phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
-							return;
-						}
+						phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0);
 	
 						while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -348,9 +342,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 								PHALCON_INIT_NVAR(annotations);
 								phalcon_call_method(annotations, collection, "getannotations");
 	
-								if (!phalcon_is_iterable(annotations, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
-									return;
-								}
+								phalcon_is_iterable(annotations, &ah3, &hp3, 0, 0);
 	
 								while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -582,9 +574,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		phalcon_call_method_p1(converts, annotation, "getnamedparameter", parameter);
 		if (Z_TYPE_P(converts) == IS_ARRAY) { 
 	
-			if (!phalcon_is_iterable(converts, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(converts, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -605,13 +595,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		phalcon_call_method_p1(converts, annotation, "getnamedparameter", parameter);
 		if (Z_TYPE_P(converts) == IS_ARRAY) { 
 	
-			if (!phalcon_is_iterable(converts, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(converts, &ah1, &hp1, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-				PHALCON_GET_HKEY(param, ah1, hp1);
+				PHALCON_GET_HMKEY(param, ah1, hp1);
 				PHALCON_GET_HVALUE(convert);
 	
 				phalcon_call_method_p2_noret(route, "convert", param, convert);

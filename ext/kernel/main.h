@@ -66,7 +66,7 @@ extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
 extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
-extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
+extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
 /* Fetch Parameters */
 extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int required_args, int optional_args, ...);
@@ -218,8 +218,27 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 #define IS_INTERNED(key) 0
 #endif
 
-/** Foreach */
-#define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
+/** Get the current hash key without copying the hash key */
+#define PHALCON_GET_HKEY(var, hash, hash_pointer) \
+	{\
+		int hash_type; \
+		char *hash_index; \
+		uint hash_index_len; \
+		ulong hash_num; \
+		 \
+		PHALCON_INIT_NVAR_PNULL(var); \
+		hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
+		if (hash_type == HASH_KEY_IS_STRING) { \
+			ZVAL_STRINGL(var, hash_index, hash_index_len - 1, 0); \
+		} else { \
+			if (hash_type == HASH_KEY_IS_LONG) { \
+				ZVAL_LONG(var, hash_num); \
+			}\
+		}\
+	}
+
+/** Get current hash key copying the hash_value if needed */
+#define PHALCON_GET_HMKEY(var, hash, hash_pointer) \
 	{\
 		int hash_type; \
 		char *hash_index; \
@@ -241,8 +260,13 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 		}\
 	}
 
+#define PHALCON_FREE_HKEY(var) if (var) { if (Z_REFCOUNT_P(var) <= 1) { ZVAL_NULL(var); } else { zval_copy_ctor(var); } }
+
 /** Foreach */
-#define PHALCON_GET_HKEY(var, hash, hash_pointer) PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer)
+#define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) PHALCON_GET_HMKEY(var, hash, hash_pointer)
+
+/** Check if an array is iterable or not */
+#define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse TSRMLS_CC)) { return; }
 
 #define PHALCON_GET_FOREACH_VALUE(var) \
 	PHALCON_OBSERVE_VAR(var); \

@@ -118,9 +118,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect){
 		phalcon_array_fetch_string(&startup, descriptor, SL("startup"), PH_NOISY_CC);
 		if (Z_TYPE_P(startup) == IS_ARRAY) { 
 	
-			if (!phalcon_is_iterable(startup, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(startup, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -189,9 +187,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 	 */
 	PHALCON_INIT_VAR(old_column);
 	
-	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(describe, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

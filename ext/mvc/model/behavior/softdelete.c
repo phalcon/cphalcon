@@ -140,9 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 				PHALCON_INIT_VAR(messages);
 				phalcon_call_method(messages, update_model, "getmessages");
 	
-				if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-					return;
-				}
+				phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
 	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

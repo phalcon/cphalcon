@@ -227,9 +227,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 			PHALCON_INIT_VAR(dirty_state);
 			ZVAL_LONG(dirty_state, 0);
 	
-			if (!phalcon_is_iterable(columns_types, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(columns_types, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -258,9 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					PHALCON_INIT_NVAR(row_model);
 					array_init(row_model);
 	
-					if (!phalcon_is_iterable(attributes, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-						return;
-					}
+					phalcon_is_iterable(attributes, &ah1, &hp1, 0, 0);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

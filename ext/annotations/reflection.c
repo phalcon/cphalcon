@@ -163,9 +163,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 				PHALCON_INIT_VAR(collections);
 				array_init(collections);
 	
-				if (!phalcon_is_iterable(reflection_methods, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-					return;
-				}
+				phalcon_is_iterable(reflection_methods, &ah0, &hp0, 0, 0);
 	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -225,9 +223,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 				PHALCON_INIT_VAR(collections);
 				array_init(collections);
 	
-				if (!phalcon_is_iterable(reflection_properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-					return;
-				}
+				phalcon_is_iterable(reflection_properties, &ah0, &hp0, 0, 0);
 	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

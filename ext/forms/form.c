@@ -302,9 +302,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 	
 	PHALCON_INIT_VAR(filter);
 	
-	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -446,9 +444,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 		PHALCON_INIT_VAR(messages);
 		array_init(messages);
 	
-		if (!phalcon_is_iterable(elements, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(elements, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -471,9 +467,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 					PHALCON_INIT_NVAR(prepared_validators);
 					array_init(prepared_validators);
 	
-					if (!phalcon_is_iterable(validators, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-						return;
-					}
+					phalcon_is_iterable(validators, &ah1, &hp1, 0, 0);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -576,10 +570,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages){
 	object_init_ex(group, phalcon_validation_message_group_ce);
 	phalcon_call_method_noret(group, "__construct");
 	
-	
-	if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

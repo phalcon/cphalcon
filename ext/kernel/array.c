@@ -37,14 +37,14 @@
 int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
 
 	zval *copy;
-	int exists, type, copied = 0;
+	int i, exists, copied = 0;
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
-	} else {
-		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
-			return 0;
-		}
+	}
+
+	if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+		return 0;
 	}
 
 	if (Z_TYPE_P(index) == IS_NULL) {
@@ -64,8 +64,13 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
-		if((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))){
-			if (type == IS_LONG) {
+		if (Z_STRLEN_P(index) > 0) {
+			for (i = 0; i < Z_STRLEN_P(index); i++) {
+				if (Z_STRVAL_P(index)[i] < '0' || Z_STRVAL_P(index)[i] > '9') {
+					break;
+				}
+			}
+			if (i == Z_STRLEN_P(index)) {
 				ALLOC_INIT_ZVAL(copy);
 				ZVAL_ZVAL(copy, index, 1, 0);
 				convert_to_long(copy);

@@ -165,9 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	PHALCON_INIT_VAR(column_nullable_name);
 	ZVAL_STRING(column_nullable_name, "nullable", 1);
 	
-	if (!phalcon_is_iterable(properties_annotations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(properties_annotations, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

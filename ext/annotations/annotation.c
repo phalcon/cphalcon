@@ -97,9 +97,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 		PHALCON_OBS_VAR(expr_arguments);
 		phalcon_array_fetch_string(&expr_arguments, reflection_data, SL("arguments"), PH_NOISY_CC);
 	
-		if (!phalcon_is_iterable(expr_arguments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(expr_arguments, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -205,9 +203,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 			PHALCON_OBS_VAR(items);
 			phalcon_array_fetch_string(&items, expr, SL("items"), PH_NOISY_CC);
 	
-			if (!phalcon_is_iterable(items, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(items, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

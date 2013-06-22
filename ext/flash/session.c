@@ -266,9 +266,7 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 	phalcon_call_method_p1(messages, this_ptr, "_getsessionmessages", remove);
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

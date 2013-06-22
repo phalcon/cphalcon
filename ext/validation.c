@@ -168,9 +168,7 @@ PHP_METHOD(Phalcon_Validation, validate){
 	PHALCON_INIT_VAR(cancel_on_fail);
 	ZVAL_STRING(cancel_on_fail, "cancelOnFail", 1);
 	
-	if (!phalcon_is_iterable(validators, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(validators, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

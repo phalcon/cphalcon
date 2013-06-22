@@ -462,9 +462,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 		PHALCON_INIT_VAR(prefixed_keys);
 		array_init(prefixed_keys);
 	
-		if (!phalcon_is_iterable(keys, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(keys, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

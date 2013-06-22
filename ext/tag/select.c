@@ -157,9 +157,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	ZVAL_STRING(code, "<select", 1);
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -393,9 +391,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "", 1);
 	
-	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

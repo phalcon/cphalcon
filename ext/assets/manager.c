@@ -578,10 +578,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 		phalcon_call_method(join, collection, "getjoin");
 	}
 	
-	
-	if (!phalcon_is_iterable(resources, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(resources, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -663,9 +660,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 		 */
 		if (zend_is_true(must_filter)) {
 	
-			if (!phalcon_is_iterable(filters, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(filters, &ah1, &hp1, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

@@ -99,9 +99,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 	
 	if (Z_TYPE_P(array_config) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -299,9 +297,7 @@ PHP_METHOD(Phalcon_Config, merge){
 	PHALCON_INIT_VAR(array_config);
 	phalcon_call_func_p1(array_config, "get_object_vars", config);
 	
-	if (!phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -352,9 +348,7 @@ PHP_METHOD(Phalcon_Config, toArray){
 	PHALCON_INIT_VAR(array_config);
 	phalcon_call_func_p1(array_config, "get_object_vars", this_ptr);
 	
-	if (!phalcon_is_iterable(array_config, &ah0, &hp0, 1, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(array_config, &ah0, &hp0, 1, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

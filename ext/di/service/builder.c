@@ -214,9 +214,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 	PHALCON_INIT_VAR(build_arguments);
 	array_init(build_arguments);
 	
-	if (!phalcon_is_iterable(arguments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(arguments, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -245,8 +243,9 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 
 	zval *dependency_injector, *definition, *parameters = NULL;
 	zval *class_name, *instance = NULL, *arguments = NULL, *build_arguments = NULL;
-	zval *param_calls = NULL, *method = NULL, *position = NULL, *exception_message = NULL;
-	zval *method_name = NULL, *method_call = NULL, *status = NULL, *property = NULL;
+	zval *param_calls = NULL, *method = NULL, *method_position = NULL;
+	zval *exception_message = NULL, *method_name = NULL, *method_call = NULL;
+	zval *status = NULL, *property = NULL, *property_position = NULL;
 	zval *property_name = NULL, *property_value = NULL, *value = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -339,14 +338,11 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		/** 
 		 * The method call has parameters
 		 */
-	
-		if (!phalcon_is_iterable(param_calls, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(param_calls, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_HKEY(position, ah0, hp0);
+			PHALCON_GET_HKEY(method_position, ah0, hp0);
 			PHALCON_GET_HVALUE(method);
 	
 			/** 
@@ -354,7 +350,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 */
 			if (Z_TYPE_P(method) != IS_ARRAY) { 
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SV(exception_message, "Method call must be an array on position ", position);
+				PHALCON_CONCAT_SV(exception_message, "Method call must be an array on position ", method_position);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
 				return;
 			}
@@ -364,7 +360,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 */
 			if (!phalcon_array_isset_string(method, SS("method"))) {
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SV(exception_message, "The method name is required on position ", position);
+				PHALCON_CONCAT_SV(exception_message, "The method name is required on position ", method_position);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
 				return;
 			}
@@ -385,7 +381,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 				phalcon_array_fetch_string(&arguments, method, SL("arguments"), PH_NOISY_CC);
 				if (Z_TYPE_P(arguments) != IS_ARRAY) { 
 					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SV(exception_message, "Call arguments must be an array ", position);
+					PHALCON_CONCAT_SV(exception_message, "Call arguments must be an array ", method_position);
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
 					return;
 				}
@@ -441,14 +437,11 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		/** 
 		 * The method call has parameters
 		 */
-	
-		if (!phalcon_is_iterable(param_calls, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(param_calls, &ah1, &hp1, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-			PHALCON_GET_HKEY(position, ah1, hp1);
+			PHALCON_GET_HKEY(property_position, ah1, hp1);
 			PHALCON_GET_HVALUE(property);
 	
 			/** 
@@ -456,7 +449,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 */
 			if (Z_TYPE_P(property) != IS_ARRAY) { 
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SV(exception_message, "Property must be an array on position ", position);
+				PHALCON_CONCAT_SV(exception_message, "Property must be an array on position ", property_position);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
 				return;
 			}
@@ -466,7 +459,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 */
 			if (!phalcon_array_isset_string(property, SS("name"))) {
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SV(exception_message, "The property name is required on position ", position);
+				PHALCON_CONCAT_SV(exception_message, "The property name is required on position ", property_position);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
 				return;
 			}
@@ -476,7 +469,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 */
 			if (!phalcon_array_isset_string(property, SS("value"))) {
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SV(exception_message, "The property value is required on position ", position);
+				PHALCON_CONCAT_SV(exception_message, "The property value is required on position ", property_position);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
 				return;
 			}
@@ -491,7 +484,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 * Resolve the parameter
 			 */
 			PHALCON_INIT_NVAR(value);
-			phalcon_call_method_p3(value, this_ptr, "_buildparameter", dependency_injector, position, property_value);
+			phalcon_call_method_p3(value, this_ptr, "_buildparameter", dependency_injector, property_position, property_value);
 	
 			/** 
 			 * Update the public property

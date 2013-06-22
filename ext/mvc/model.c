@@ -650,9 +650,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign){
 		return;
 	}
 	
-	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -742,9 +740,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 	 */
 	phalcon_call_method_p1_noret(object, "setdirtystate", dirty_state);
 	
-	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -840,10 +836,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate){
 		object_init(hydrate);
 	}
 	
-	
-	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -935,9 +928,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 	 */
 	phalcon_call_method_p1_noret(object, "setdirtystate", dirty_state);
 	
-	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1307,10 +1298,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 		/** 
 		 * We need to create a primary key based on the current data
 		 */
-	
-		if (!phalcon_is_iterable(primary_keys, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(primary_keys, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1994,9 +1982,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 		PHALCON_INIT_VAR(messages);
 		phalcon_call_method(messages, validator, "getmessages");
 	
-		if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2117,9 +2103,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 		PHALCON_INIT_VAR(error);
 		ZVAL_BOOL(error, 0);
 	
-		if (!phalcon_is_iterable(belongs_to, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(belongs_to, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2179,10 +2163,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 						/** 
 						 * Create a compound condition
 						 */
-	
-						if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-							return;
-						}
+						phalcon_is_iterable(fields, &ah1, &hp1, 0, 0);
 	
 						while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2346,9 +2327,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 		PHALCON_INIT_VAR(error);
 		ZVAL_BOOL(error, 0);
 	
-		if (!phalcon_is_iterable(relations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(relations, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2407,9 +2386,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 					array_init(bind_params);
 					if (Z_TYPE_P(fields) == IS_ARRAY) { 
 	
-						if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-							return;
-						}
+						phalcon_is_iterable(fields, &ah1, &hp1, 0, 0);
 	
 						while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2558,9 +2535,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 	phalcon_call_method_p1(relations, manager, "gethasoneandhasmany", this_ptr);
 	if (phalcon_fast_count_ev(relations TSRMLS_CC)) {
 	
-		if (!phalcon_is_iterable(relations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(relations, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2619,9 +2594,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 					array_init(bind_params);
 					if (Z_TYPE_P(fields) == IS_ARRAY) { 
 	
-						if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-							return;
-						}
+						phalcon_is_iterable(fields, &ah1, &hp1, 0, 0);
 	
 						while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2818,9 +2791,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	
 			PHALCON_INIT_VAR(null_value);
 	
-			if (!phalcon_is_iterable(not_null, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(not_null, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3116,10 +3087,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	/** 
 	 * All fields in the model makes part or the INSERT
 	 */
-	
-	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3381,10 +3349,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	 * We only make the update based on the non-primary attributes, values in primary
 	 * key attributes are ignored
 	 */
-	
-	if (!phalcon_is_iterable(non_primary, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(non_primary, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3516,10 +3481,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 			return;
 		}
 	
-	
-		if (!phalcon_is_iterable(primary_keys, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(primary_keys, &ah1, &hp1, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -3604,9 +3566,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 	PHALCON_INIT_VAR(manager);
 	phalcon_call_method(manager, this_ptr, "getmodelsmanager");
 	
-	if (!phalcon_is_iterable(related, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(related, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3662,9 +3622,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 					PHALCON_INIT_NVAR(messages);
 					phalcon_call_method(messages, record, "getmessages");
 	
-					if (!phalcon_is_iterable(messages, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-						return;
-					}
+					phalcon_is_iterable(messages, &ah1, &hp1, 0, 0);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -3742,9 +3700,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 	PHALCON_INIT_VAR(manager);
 	phalcon_call_method(manager, this_ptr, "getmodelsmanager");
 	
-	if (!phalcon_is_iterable(related, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(related, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3836,10 +3792,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 				phalcon_call_method(intermediate_referenced_fields, relation, "getintermediatereferencedfields");
 			}
 	
-	
-			if (!phalcon_is_iterable(related_records, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(related_records, &ah1, &hp1, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -3890,9 +3843,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 						PHALCON_INIT_NVAR(messages);
 						phalcon_call_method(messages, intermediate_model, "getmessages");
 	
-						if (!phalcon_is_iterable(messages, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
-							return;
-						}
+						phalcon_is_iterable(messages, &ah2, &hp2, 0, 0);
 	
 						while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -3934,9 +3885,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 					PHALCON_INIT_NVAR(messages);
 					phalcon_call_method(messages, record_after, "getmessages");
 	
-					if (!phalcon_is_iterable(messages, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
-						return;
-					}
+					phalcon_is_iterable(messages, &ah3, &hp3, 0, 0);
 	
 					while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -4055,10 +4004,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 			phalcon_call_method_p1(attributes, meta_data, "getattributes", this_ptr);
 		}
 	
-	
-		if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -4321,9 +4267,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 		PHALCON_INIT_VAR(attributes);
 		phalcon_call_method_p1(attributes, meta_data, "getattributes", this_ptr);
 	
-		if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -4492,9 +4436,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 		PHALCON_INIT_VAR(attributes);
 		phalcon_call_method_p1(attributes, meta_data, "getattributes", this_ptr);
 	
-		if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -4690,10 +4632,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	/** 
 	 * Create a condition from the primary keys
 	 */
-	
-	if (!phalcon_is_iterable(primary_keys, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(primary_keys, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -4927,9 +4866,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh){
 	PHALCON_INIT_VAR(fields);
 	array_init(fields);
 	
-	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -5085,9 +5022,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 	PHALCON_INIT_VAR(keys_attributes);
 	array_init(keys_attributes);
 	
-	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -5147,9 +5082,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 	PHALCON_INIT_VAR(keys_attributes);
 	array_init(keys_attributes);
 	
-	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -5208,9 +5141,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 	PHALCON_INIT_VAR(keys_attributes);
 	array_init(keys_attributes);
 	
-	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -5536,9 +5467,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData){
 		PHALCON_INIT_VAR(snapshot);
 		array_init(snapshot);
 	
-		if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(data, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -5745,10 +5674,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 	/** 
 	 * Check every attribute in the model
 	 */
-	
-	if (!phalcon_is_iterable(all_attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(all_attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -5852,10 +5778,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields){
 	/** 
 	 * Check every attribute in the model
 	 */
-	
-	if (!phalcon_is_iterable(all_attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(all_attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -6486,9 +6409,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	PHALCON_INIT_VAR(data);
 	array_init(data);
 	
-	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -6579,10 +6500,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			/** 
 			 * Update the objects attributes
 			 */
-	
-			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -6661,9 +6579,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 	PHALCON_INIT_VAR(column_map);
 	phalcon_call_method_p1(column_map, meta_data, "getcolumnmap", this_ptr);
 	
-	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

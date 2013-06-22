@@ -424,9 +424,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	zval *class_name, *events_manager, *event_name = NULL;
 	zval *classes, *file_path = NULL, *extensions, *ds, *namespace_separator;
 	zval *empty_str, *zero, *namespaces, *directory = NULL;
-	zval *prefix = NULL, *prefix_namespace = NULL, *file_name = NULL;
+	zval *ns_prefix = NULL, *prefix_namespace = NULL, *file_name = NULL;
 	zval *fixed_directory = NULL, *extension = NULL, *complete_path = NULL;
-	zval *pseudo_separator, *prefixes, *no_prefix_class = NULL;
+	zval *pseudo_separator, *prefixes, *prefix = NULL, *no_prefix_class = NULL;
 	zval *ds_class_name, *ns_class_name, *directories;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
@@ -491,25 +491,23 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property_this(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if (Z_TYPE_P(namespaces) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(namespaces, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(namespaces, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_HKEY(prefix, ah0, hp0);
+			PHALCON_GET_HKEY(ns_prefix, ah0, hp0);
 			PHALCON_GET_HVALUE(directory);
 	
 			/** 
 			 * The class name must start with the current namespace
 			 */
-			if (phalcon_start_with(class_name, prefix, NULL)) {
+			if (phalcon_start_with(class_name, ns_prefix, NULL)) {
 	
 				/** 
 				 * Append the namespace separator to the prefix
 				 */
 				PHALCON_INIT_NVAR(prefix_namespace);
-				PHALCON_CONCAT_VV(prefix_namespace, prefix, namespace_separator);
+				PHALCON_CONCAT_VV(prefix_namespace, ns_prefix, namespace_separator);
 	
 				PHALCON_INIT_NVAR(file_name);
 				phalcon_fast_str_replace(file_name, prefix_namespace, empty_str, class_name TSRMLS_CC);
@@ -521,9 +519,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					PHALCON_INIT_NVAR(fixed_directory);
 					phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
-					if (!phalcon_is_iterable(extensions, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-						return;
-					}
+					phalcon_is_iterable(extensions, &ah1, &hp1, 0, 0);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -592,9 +588,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property_this(&prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 	if (Z_TYPE_P(prefixes) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(prefixes, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(prefixes, &ah2, &hp2, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -625,9 +619,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					PHALCON_INIT_NVAR(fixed_directory);
 					phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
-					if (!phalcon_is_iterable(extensions, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
-						return;
-					}
+					phalcon_is_iterable(extensions, &ah3, &hp3, 0, 0);
 	
 					while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -694,9 +686,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property_this(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(directories, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(directories, &ah4, &hp4, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -708,9 +698,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_INIT_NVAR(fixed_directory);
 			phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
-			if (!phalcon_is_iterable(extensions, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(extensions, &ah5, &hp5, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	
@@ -761,7 +749,6 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 				zend_hash_move_forward_ex(ah5, &hp5);
 			}
-	
 	
 			zend_hash_move_forward_ex(ah4, &hp4);
 		}

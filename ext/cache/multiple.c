@@ -169,9 +169,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, get){
 	PHALCON_OBS_VAR(backends);
 	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
-	if (!phalcon_is_iterable(backends, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(backends, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -214,9 +212,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start){
 	PHALCON_OBS_VAR(backends);
 	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
-	if (!phalcon_is_iterable(backends, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(backends, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -271,9 +267,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, save){
 	PHALCON_OBS_VAR(backends);
 	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
-	if (!phalcon_is_iterable(backends, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(backends, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -308,9 +302,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete){
 	PHALCON_OBS_VAR(backends);
 	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
-	if (!phalcon_is_iterable(backends, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(backends, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -355,9 +347,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists){
 	PHALCON_OBS_VAR(backends);
 	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
 	
-	if (!phalcon_is_iterable(backends, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(backends, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

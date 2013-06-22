@@ -317,9 +317,7 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump){
 				PHALCON_INIT_VAR(dump);
 				array_init(dump);
 	
-				if (!phalcon_is_iterable(argument, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-					return;
-				}
+				phalcon_is_iterable(argument, &ah0, &hp0, 0, 0);
 	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -761,9 +759,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 			PHALCON_INIT_VAR(arguments);
 			array_init(arguments);
 	
-			if (!phalcon_is_iterable(trace_args, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(trace_args, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1115,9 +1111,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		PHALCON_INIT_VAR(trace);
 		phalcon_call_method(trace, exception, "gettrace");
 	
-		if (!phalcon_is_iterable(trace, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(trace, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1143,9 +1137,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		phalcon_concat_self_str(&html, SL("<tr><th>Key</th><th>Value</th></tr>") TSRMLS_CC);
 		phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
 	
-		if (!phalcon_is_iterable(_REQUEST, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(_REQUEST, &ah1, &hp1, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1166,13 +1158,11 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		phalcon_concat_self_str(&html, SL("<tr><th>Key</th><th>Value</th></tr>") TSRMLS_CC);
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	
-		if (!phalcon_is_iterable(_SERVER, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(_SERVER, &ah2, &hp2, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
-			PHALCON_GET_HKEY(key, ah2, hp2);
+			PHALCON_GET_HMKEY(key, ah2, hp2);
 			PHALCON_GET_HVALUE(value);
 	
 			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key, "</td><td>", value, "</td></tr>");
@@ -1190,13 +1180,11 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-4\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
 		phalcon_concat_self_str(&html, SL("<tr><th>#</th><th>Path</th></tr>") TSRMLS_CC);
 	
-		if (!phalcon_is_iterable(files, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(files, &ah3, &hp3, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
-			PHALCON_GET_HKEY(key, ah3, hp3);
+			PHALCON_GET_HMKEY(key, ah3, hp3);
 			PHALCON_GET_HVALUE(value);
 	
 			PHALCON_SCONCAT_SVSVS(html, "<tr><td>", key, "</th><td>", value, "</td></tr>");
@@ -1225,13 +1213,11 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 			phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-6\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
 			phalcon_concat_self_str(&html, SL("<tr><th>Key</th><th>Value</th></tr>") TSRMLS_CC);
 	
-			if (!phalcon_is_iterable(data_vars, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(data_vars, &ah4, &hp4, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
-				PHALCON_GET_HKEY(key, ah4, hp4);
+				PHALCON_GET_HMKEY(key, ah4, hp4);
 				PHALCON_GET_HVALUE(value);
 	
 				PHALCON_INIT_NVAR(dumped_argument);

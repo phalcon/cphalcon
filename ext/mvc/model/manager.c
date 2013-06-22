@@ -815,9 +815,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 			PHALCON_OBS_VAR(models_behaviors);
 			phalcon_array_fetch(&models_behaviors, behaviors, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_is_iterable(models_behaviors, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(models_behaviors, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -917,9 +915,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod){
 			PHALCON_OBS_VAR(models_behaviors);
 			phalcon_array_fetch(&models_behaviors, behaviors, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_is_iterable(models_behaviors, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(models_behaviors, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1851,12 +1847,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	zval *referenced_model, *is_through, *placeholders = NULL;
 	zval *conditions = NULL, *intermediate_model, *fields = NULL;
 	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *referenced_fields = NULL;
-	zval *field = NULL, *position = NULL, *join_conditions, *intermediate_fields;
+	zval *field = NULL, *field_position = NULL, *join_conditions;
+	zval *intermediate_fields, *referenced_position = NULL;
 	zval *joined_join_conditions, *joined_conditions = NULL;
-	zval *builder, *query, *records = NULL, *dependency_injector;
-	zval *find_params, *find_arguments = NULL, *arguments;
-	zval *type, *retrieve_method = NULL, *reusable, *unique_key;
-	zval *referenced_entity, *call_object;
+	zval *builder, *query, *records = NULL, *ref_position = NULL;
+	zval *dependency_injector, *find_params, *find_arguments = NULL;
+	zval *arguments, *type, *retrieve_method = NULL, *reusable;
+	zval *unique_key, *referenced_entity, *call_object;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -1939,23 +1936,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 			PHALCON_INIT_VAR(referenced_fields);
 			phalcon_call_method(referenced_fields, relation, "getreferencedfields");
 	
-			if (!phalcon_is_iterable(fields, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(fields, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-				PHALCON_GET_HKEY(position, ah0, hp0);
+				PHALCON_GET_HKEY(field_position, ah0, hp0);
 				PHALCON_GET_HVALUE(field);
 	
 				PHALCON_INIT_NVAR(value);
 				phalcon_call_method_p1(value, record, "readattribute", field);
 	
 				PHALCON_OBS_NVAR(referenced_field);
-				phalcon_array_fetch(&referenced_field, referenced_fields, position, PH_NOISY_CC);
+				phalcon_array_fetch(&referenced_field, referenced_fields, field_position, PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(condition);
-				PHALCON_CONCAT_SVSV(condition, "[", referenced_field, "] = ?", position);
+				PHALCON_CONCAT_SVSV(condition, "[", referenced_field, "] = ?", field_position);
 				phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 				phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 	
@@ -1987,23 +1982,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 			PHALCON_INIT_NVAR(referenced_fields);
 			phalcon_call_method(referenced_fields, relation, "getreferencedfields");
 	
-			if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(fields, &ah1, &hp1, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-				PHALCON_GET_HKEY(position, ah1, hp1);
+				PHALCON_GET_HKEY(referenced_position, ah1, hp1);
 				PHALCON_GET_HVALUE(field);
 	
 				PHALCON_INIT_NVAR(value);
 				phalcon_call_method_p1(value, record, "readattribute", field);
 	
 				PHALCON_OBS_NVAR(referenced_field);
-				phalcon_array_fetch(&referenced_field, referenced_fields, position, PH_NOISY_CC);
+				phalcon_array_fetch(&referenced_field, referenced_fields, referenced_position, PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(condition);
-				PHALCON_CONCAT_SVSV(condition, "[", referenced_field, "] = ?", position);
+				PHALCON_CONCAT_SVSV(condition, "[", referenced_field, "] = ?", referenced_position);
 				phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 				phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 	
@@ -2097,23 +2090,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		PHALCON_INIT_NVAR(referenced_fields);
 		phalcon_call_method(referenced_fields, relation, "getreferencedfields");
 	
-		if (!phalcon_is_iterable(fields, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(fields, &ah2, &hp2, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
-			PHALCON_GET_HKEY(position, ah2, hp2);
+			PHALCON_GET_HKEY(ref_position, ah2, hp2);
 			PHALCON_GET_HVALUE(field);
 	
 			PHALCON_INIT_NVAR(value);
 			phalcon_call_method_p1(value, record, "readattribute", field);
 	
 			PHALCON_OBS_NVAR(referenced_field);
-			phalcon_array_fetch(&referenced_field, referenced_fields, position, PH_NOISY_CC);
+			phalcon_array_fetch(&referenced_field, referenced_fields, ref_position, PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(condition);
-			PHALCON_CONCAT_SVSV(condition, "[", referenced_field, "] = ?", position);
+			PHALCON_CONCAT_SVSV(condition, "[", referenced_field, "] = ?", ref_position);
 			phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 	
@@ -2647,9 +2638,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 			PHALCON_OBS_VAR(relations);
 			phalcon_array_fetch(&relations, belongs_to, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_is_iterable(relations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(relations, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2674,9 +2663,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 			PHALCON_OBS_NVAR(relations);
 			phalcon_array_fetch(&relations, has_many, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_is_iterable(relations, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(relations, &ah1, &hp1, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2701,9 +2688,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 			PHALCON_OBS_NVAR(relations);
 			phalcon_array_fetch(&relations, has_one, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_is_iterable(relations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(relations, &ah2, &hp2, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	

@@ -85,11 +85,11 @@ PHP_METHOD(Phalcon_Filter, add){
 
 	phalcon_fetch_params(0, 2, 0, &name, &handler);
 	
-	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_filter_exception_ce, "Filter name must be string");
 		return;
 	}
-	if (unlikely(Z_TYPE_P(handler) != IS_OBJECT)) {
+	if (Z_TYPE_P(handler) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_filter_exception_ce, "Filter must be an object");
 		return;
 	}
@@ -109,7 +109,8 @@ PHP_METHOD(Phalcon_Filter, add){
 PHP_METHOD(Phalcon_Filter, sanitize){
 
 	zval *value, *filters, *new_value = NULL, *filter = NULL, *array_value = NULL;
-	zval *item_value = NULL, *key = NULL, *filter_value = NULL, *sanizited_value = NULL;
+	zval *item_value = NULL, *item_key = NULL, *filter_value = NULL, *sanizited_value = NULL;
+	zval *key = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -125,9 +126,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 		PHALCON_CPY_WRT(new_value, value);
 		if (Z_TYPE_P(value) != IS_NULL) {
 	
-			if (!phalcon_is_iterable(filters, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(filters, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -141,18 +140,16 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 					PHALCON_INIT_NVAR(array_value);
 					array_init(array_value);
 	
-					if (!phalcon_is_iterable(new_value, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-						return;
-					}
+					phalcon_is_iterable(new_value, &ah1, &hp1, 0, 0);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-						PHALCON_GET_HKEY(key, ah1, hp1);
+						PHALCON_GET_HKEY(item_key, ah1, hp1);
 						PHALCON_GET_HVALUE(item_value);
 	
 						PHALCON_INIT_NVAR(filter_value);
 						phalcon_call_method_p2(filter_value, this_ptr, "_sanitize", item_value, filter);
-						phalcon_array_update_zval(&array_value, key, &filter_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+						phalcon_array_update_zval(&array_value, item_key, &filter_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 						zend_hash_move_forward_ex(ah1, &hp1);
 					}
@@ -180,9 +177,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 		PHALCON_INIT_VAR(sanizited_value);
 		array_init(sanizited_value);
 	
-		if (!phalcon_is_iterable(value, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(value, &ah2, &hp2, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	

@@ -944,9 +944,7 @@ PHP_METHOD(Phalcon_Http_Request, isMethod){
 		RETURN_NCTOR(is_equals);
 	} else {
 	
-		if (!phalcon_is_iterable(methods, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(methods, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1153,9 +1151,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 		PHALCON_INIT_NVAR(number_files);
 		ZVAL_LONG(number_files, 0);
 	
-		if (!phalcon_is_iterable(files, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(files, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1215,9 +1211,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 		PHALCON_INIT_VAR(files);
 		array_init(files);
 	
-		if (!phalcon_is_iterable(super_files, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(super_files, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1283,9 +1277,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders){
 	PHALCON_INIT_VAR(empty_string);
 	ZVAL_STRING(empty_string, "", 1);
 	
-	if (!phalcon_is_iterable(server, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(server, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1359,9 +1351,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 	PHALCON_INIT_VAR(parts);
 	phalcon_call_func_p2(parts, "preg_split", pattern, http_server);
 	
-	if (!phalcon_is_iterable(parts, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(parts, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1422,9 +1412,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 	PHALCON_INIT_VAR(selected_name);
 	ZVAL_STRING(selected_name, "", 1);
 	
-	if (!phalcon_is_iterable(quality_parts, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(quality_parts, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

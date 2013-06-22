@@ -506,9 +506,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	PHALCON_INIT_VAR(code);
 	PHALCON_CONCAT_SVS(code, "<a href=\"", internal_url, "\"");
 	
-	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -612,9 +610,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	PHALCON_INIT_VAR(code);
 	PHALCON_CONCAT_SVS(code, "<input type=\"", type, "\"");
 	
-	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -733,9 +729,7 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 	PHALCON_INIT_VAR(code);
 	PHALCON_CONCAT_SVS(code, "<input type=\"", type, "\"");
 	
-	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1211,9 +1205,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<textarea", 1);
 	
-	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1318,9 +1310,7 @@ PHP_METHOD(Phalcon_Tag, form){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<form", 1);
 	
-	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1557,9 +1547,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
 	
-	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1693,9 +1681,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<script", 1);
 	
-	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1790,9 +1776,7 @@ PHP_METHOD(Phalcon_Tag, image){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<img", 1);
 	
-	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2007,9 +1991,7 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 	PHALCON_INIT_VAR(local_code);
 	PHALCON_CONCAT_SV(local_code, "<", tag_name);
 	
-	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

@@ -357,9 +357,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 		array_init(renamed_records);
 		if (Z_TYPE_P(records) == IS_ARRAY) { 
 	
-			if (!phalcon_is_iterable(records, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(records, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -368,9 +366,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 				PHALCON_INIT_NVAR(renamed);
 				array_init(renamed);
 	
-				if (!phalcon_is_iterable(record, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-					return;
-				}
+				phalcon_is_iterable(record, &ah1, &hp1, 0, 0);
 	
 				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

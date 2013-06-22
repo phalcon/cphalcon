@@ -21,7 +21,7 @@
 class LoaderTest extends PHPUnit_Framework_TestCase
 {
 
-	/*public function testNamespaces()
+	public function testNamespaces()
 	{
 
 		$loader = new Phalcon\Loader();
@@ -66,7 +66,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($leEngine->some());
 
 		$loader->unregister();
-	}*/
+	}
 
 	public function testDirectories()
 	{

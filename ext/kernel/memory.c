@@ -111,6 +111,7 @@ int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
 	if (!phalcon_globals_ptr->start_memory) {
 		start = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
 		start->pointer = -1;
+		start->hash_pointer = -1;
 		start->prev = NULL;
 		start->next = NULL;
 		phalcon_globals_ptr->start_memory = start;
@@ -119,6 +120,7 @@ int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
 
 	entry = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
 	entry->pointer = -1;
+	entry->hash_pointer = -1;
 	entry->prev = phalcon_globals_ptr->active_memory;
 	phalcon_globals_ptr->active_memory->next = entry;
 	phalcon_globals_ptr->active_memory = entry;
@@ -163,6 +165,23 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 		}
 	}
 
+	/**
+	 * Check for non freed hash key zvals, mark as null to avoid string freeing
+	 */
+	if (active_memory->hash_pointer > -1) {
+		for (i = active_memory->hash_pointer; i >= 0; i--) {
+			if (Z_REFCOUNT_P(*active_memory->hash_addresses[i]) <= 1) {
+				ZVAL_NULL(*active_memory->hash_addresses[i]);
+			} else {
+				zval_copy_ctor(*active_memory->hash_addresses[i]);
+			}
+		}
+		efree(active_memory->hash_addresses);
+	}
+
+	/**
+	 * Traverse all zvals allocated, reduce the reference counting or free them
+	 */
 	if (active_memory->pointer > -1) {
 
 		//phalcon_globals_ptr->phalcon_stack_derivate[active_memory->pointer]++;
@@ -172,10 +191,6 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 			if (active_memory->addresses[i] == NULL) {
 				continue;
 			}
-
-			/*if (*active_memory->addresses[i] == NULL) {
-				continue;
-			}*/
 
 			if ((Z_REFCOUNT_PP(active_memory->addresses[i]) - 1) == 0) {
 				zval_ptr_dtor(active_memory->addresses[i]);
@@ -318,6 +333,61 @@ int PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC) {
 	#endif
 
 	active_memory->addresses[active_memory->pointer] = var;
+
+	ALLOC_ZVAL(*var);
+	INIT_PZVAL(*var);
+	ZVAL_NULL(*var);
+
+	return SUCCESS;
+}
+
+/**
+ * Observe a variable and allocates memory for it
+ * Marks hash key zvals to be nulled before be freed
+ */
+int PHALCON_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC) {
+
+	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
+
+	active_memory->pointer++;
+
+	/** Incremental dynamic reallocation saving memory */
+	if (active_memory->pointer <= 0) {
+		active_memory->addresses = emalloc(sizeof(zval **) * 8);
+	} else {
+		if (active_memory->pointer >= 8 && active_memory->pointer < 20) {
+			active_memory->addresses = erealloc(active_memory->addresses, sizeof(zval **) * 20);
+		} else {
+			if (active_memory->pointer >= 20 && active_memory->pointer < 36) {
+				active_memory->addresses = erealloc(active_memory->addresses, sizeof(zval **) * 36);
+			} else {
+				if (active_memory->pointer >= 36) {
+					active_memory->addresses = erealloc(active_memory->addresses, sizeof(zval **) * PHALCON_MAX_MEMORY_STACK);
+				}
+			}
+		}
+	}
+
+	active_memory->hash_pointer++;
+
+	/** Incremental dynamic reallocation saving memory */
+	if (active_memory->hash_pointer <= 0) {
+		active_memory->hash_addresses = emalloc(sizeof(zval **) * 4);
+	} else {
+		if (active_memory->hash_pointer >= 4) {
+			active_memory->hash_addresses = erealloc(active_memory->hash_addresses, sizeof(zval **) * 16);
+		}
+	}
+
+	#ifndef PHALCON_RELEASE
+	if (active_memory->pointer >= (PHALCON_MAX_MEMORY_STACK - 1)) {
+		fprintf(stderr, "ERROR: Phalcon memory stack is too small %d\n", PHALCON_MAX_MEMORY_STACK);
+		return FAILURE;
+	}
+	#endif
+
+	active_memory->addresses[active_memory->pointer] = var;
+	active_memory->hash_addresses[active_memory->hash_pointer] = var;
 
 	ALLOC_ZVAL(*var);
 	INIT_PZVAL(*var);

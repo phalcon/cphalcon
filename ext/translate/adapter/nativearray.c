@@ -128,9 +128,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 		if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
 			if (phalcon_fast_count_ev(placeholders TSRMLS_CC)) {
 	
-				if (!phalcon_is_iterable(placeholders, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-					return;
-				}
+				phalcon_is_iterable(placeholders, &ah0, &hp0, 0, 0);
 	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

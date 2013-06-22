@@ -122,19 +122,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	PHALCON_INIT_VAR(config);
 	array_init(config);
 	
-	if (!phalcon_is_iterable(ini_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(ini_config, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_HKEY(section, ah0, hp0);
 		PHALCON_GET_HVALUE(directives);
 	
-	
-		if (!phalcon_is_iterable(directives, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(directives, &ah1, &hp1, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -157,7 +152,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
-	
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}

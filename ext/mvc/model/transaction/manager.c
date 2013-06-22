@@ -323,9 +323,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 		phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 		if (Z_TYPE_P(transactions) == IS_ARRAY) { 
 	
-			if (!phalcon_is_iterable(transactions, &ah0, &hp0, 0, 1 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(transactions, &ah0, &hp0, 0, 1);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -390,9 +388,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit){
 	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (Z_TYPE_P(transactions) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -442,9 +438,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback){
 	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (Z_TYPE_P(transactions) == IS_ARRAY) { 
 	
-		if (!phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -532,9 +526,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 		PHALCON_INIT_VAR(new_transactions);
 		array_init(new_transactions);
 	
-		if (!phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -571,9 +563,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 	phalcon_read_property_this(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (phalcon_fast_count_ev(transactions TSRMLS_CC)) {
 	
-		if (!phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

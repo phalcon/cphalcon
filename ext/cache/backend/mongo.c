@@ -513,9 +513,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
 	PHALCON_INIT_VAR(documents_array);
 	phalcon_call_func_p1(documents_array, "iterator_to_array", documents);
 	
-	if (!phalcon_is_iterable(documents_array, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(documents_array, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

@@ -303,7 +303,7 @@ int phalcon_is_callable(zval *var TSRMLS_DC) {
 /**
  * Initialize an array to start an iteration over it
  */
-int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC) {
+int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC) {
 
 	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "The argument is not iterable()");
