@@ -588,7 +588,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			/** Use the Phalcon optimized version */
 			if (unlikely(!phalcon_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC))) {
 				if (error) {
-					zend_error(E_WARNING, "Invalid callback %s, %s", key, error);
+					zend_error(E_WARNING, "Invalid callback %s, %s", method_name, error);
 					efree(error);
 				}
 				return FAILURE;

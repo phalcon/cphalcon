@@ -162,41 +162,40 @@ void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
 		return;
-	} else {
-		if (Z_TYPE_P(value) == IS_OBJECT) {
+	}
 
-			#ifdef HAVE_SPL
-			zval *retval = NULL;
-			#endif
+	if (Z_TYPE_P(value) == IS_OBJECT) {
 
-			if (Z_OBJ_HT_P(value)->count_elements) {
-				ZVAL_LONG(result, 1);
-				if (SUCCESS == Z_OBJ_HT(*value)->count_elements(value, &Z_LVAL_P(result) TSRMLS_CC)) {
-					return;
-				}
-			}
+		#ifdef HAVE_SPL
+		zval *retval = NULL;
+		#endif
 
-			#ifdef HAVE_SPL
-			if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
-				zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
-				if (retval) {
-					convert_to_long_ex(&retval);
-					ZVAL_LONG(result, Z_LVAL_P(retval));
-					zval_ptr_dtor(&retval);
-				}
-				return;
-			}
-			#endif
-
-			ZVAL_LONG(result, 0);
-			return;
-
-		} else {
-			if (Z_TYPE_P(value) == IS_NULL) {
-				ZVAL_LONG(result, 0);
+		if (Z_OBJ_HT_P(value)->count_elements) {
+			ZVAL_LONG(result, 1);
+			if (SUCCESS == Z_OBJ_HT(*value)->count_elements(value, &Z_LVAL_P(result) TSRMLS_CC)) {
 				return;
 			}
 		}
+
+		#ifdef HAVE_SPL
+		if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
+			zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
+			if (retval) {
+				convert_to_long_ex(&retval);
+				ZVAL_LONG(result, Z_LVAL_P(retval));
+				zval_ptr_dtor(&retval);
+			}
+			return;
+		}
+		#endif
+
+		ZVAL_LONG(result, 0);
+		return;
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(result, 0);
+		return;
 	}
 
 	ZVAL_LONG(result, 1);
@@ -238,10 +237,10 @@ int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 		#endif
 
 		return 0;
-	} else {
-		if (Z_TYPE_P(value) == IS_NULL) {
-			return 0;
-		}
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		return 0;
 	}
 
 	return 1;

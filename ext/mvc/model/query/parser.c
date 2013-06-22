@@ -3099,7 +3099,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 
 		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
-			if (zend_hash_quick_find(phalcon_globals_ptr->orm.parser_cache, phql, phql_length, phql_key, (void**) &temp_ast) == SUCCESS) {
+			if (zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key, (void**) &temp_ast) == SUCCESS) {
 				ZVAL_ZVAL(*result, *temp_ast, 1, 0);
 				Z_SET_REFCOUNT_P(*result, 1);
 				return SUCCESS;
@@ -3461,10 +3461,8 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 					Z_ADDREF_PP(result);
 
-					zend_hash_quick_update(
+					zend_hash_index_update(
 						phalcon_globals_ptr->orm.parser_cache,
-						phql,
-						phql_length,
 						phql_key,
 						result,
 						sizeof(zval *),
