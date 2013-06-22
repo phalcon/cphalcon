@@ -1994,7 +1994,7 @@ static void phalcon_unserialize(zval *return_value, zval *var TSRMLS_DC);
 
 static int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC);
 static int phalcon_alt_call_user_method_ex(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval **retval_ptr_ptr, zend_uint param_count, zval **params[], unsigned long method_key TSRMLS_DC);
-static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC);
+static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC);
 
 
 
@@ -2135,41 +2135,40 @@ static void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
 		return;
-	} else {
-		if (Z_TYPE_P(value) == IS_OBJECT) {
+	}
 
-			#ifdef HAVE_SPL
-			zval *retval = NULL;
-			#endif
+	if (Z_TYPE_P(value) == IS_OBJECT) {
 
-			if (Z_OBJ_HT_P(value)->count_elements) {
-				ZVAL_LONG(result, 1);
-				if (SUCCESS == Z_OBJ_HT(*value)->count_elements(value, &Z_LVAL_P(result) TSRMLS_CC)) {
-					return;
-				}
-			}
+		#ifdef HAVE_SPL
+		zval *retval = NULL;
+		#endif
 
-			#ifdef HAVE_SPL
-			if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
-				zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
-				if (retval) {
-					convert_to_long_ex(&retval);
-					ZVAL_LONG(result, Z_LVAL_P(retval));
-					zval_ptr_dtor(&retval);
-				}
-				return;
-			}
-			#endif
-
-			ZVAL_LONG(result, 0);
-			return;
-
-		} else {
-			if (Z_TYPE_P(value) == IS_NULL) {
-				ZVAL_LONG(result, 0);
+		if (Z_OBJ_HT_P(value)->count_elements) {
+			ZVAL_LONG(result, 1);
+			if (SUCCESS == Z_OBJ_HT(*value)->count_elements(value, &Z_LVAL_P(result) TSRMLS_CC)) {
 				return;
 			}
 		}
+
+		#ifdef HAVE_SPL
+		if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
+			zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
+			if (retval) {
+				convert_to_long_ex(&retval);
+				ZVAL_LONG(result, Z_LVAL_P(retval));
+				zval_ptr_dtor(&retval);
+			}
+			return;
+		}
+		#endif
+
+		ZVAL_LONG(result, 0);
+		return;
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(result, 0);
+		return;
 	}
 
 	ZVAL_LONG(result, 1);
@@ -2208,10 +2207,10 @@ static int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 		#endif
 
 		return 0;
-	} else {
-		if (Z_TYPE_P(value) == IS_NULL) {
-			return 0;
-		}
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		return 0;
 	}
 
 	return 1;
@@ -2783,7 +2782,7 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
@@ -2798,7 +2797,7 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -2818,7 +2817,7 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
@@ -2833,7 +2832,7 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -2849,7 +2848,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	int status = FAILURE;
 	zend_class_entry *ce, *active_scope = NULL;
 
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
@@ -2870,7 +2869,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	}
 
 	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, 0, NULL, method_key TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s()", method_name);
 	}
 	EG(scope) = active_scope;
@@ -2883,7 +2882,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -2919,7 +2918,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	int status = FAILURE;
 	zend_class_entry *ce, *active_scope = NULL;
 
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
@@ -2940,7 +2939,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	}
 
 	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, param_count, params, method_key TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		EG(scope) = active_scope;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, ce->name);
 		status = FAILURE;
@@ -2956,7 +2955,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -3043,7 +3042,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 	add_next_index_zval(fn, fn_method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}
 
@@ -3060,7 +3059,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -3088,7 +3087,7 @@ inline int phalcon_call_static_func(zval *return_value, char *class_name, int cl
 	add_next_index_zval(fn, fn_method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}
 
@@ -3105,7 +3104,7 @@ inline int phalcon_call_static_func(zval *return_value, char *class_name, int cl
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -3272,7 +3271,7 @@ static int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, z
 	zval *fn;
 	int status = FAILURE;
 
-	if (unlikely(Z_TYPE_P(method) != IS_STRING)) {
+	if (Z_TYPE_P(method) != IS_STRING) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::not-callable()");
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
@@ -3290,8 +3289,8 @@ static int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, z
 	add_next_index_zval(fn, method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
-		if(Z_TYPE_P(mixed_name) == IS_STRING) {
+	if (status == FAILURE) {
+		if (Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), Z_STRVAL_P(method));
 		} else {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", Z_STRVAL_P(method));
@@ -3320,7 +3319,7 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 	zval *fn;
 	int status = FAILURE;
 
-	if (unlikely(Z_TYPE_P(method) != IS_STRING)) {
+	if (Z_TYPE_P(method) != IS_STRING) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::not-callable()");
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
@@ -3338,7 +3337,7 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 	add_next_index_zval(fn, method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), Z_STRVAL_P(method));
 		} else {
@@ -3380,7 +3379,7 @@ inline int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mi
 	add_next_index_stringl(fn, method_name, method_len, 1);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
 		} else {
@@ -3440,7 +3439,7 @@ static int phalcon_call_static_ce_func_params(zval *return_value, zend_class_ent
 	add_next_index_stringl(fn, method_name, method_len, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name);
 	}
 
@@ -3452,7 +3451,7 @@ static int phalcon_call_static_ce_func_params(zval *return_value, zend_class_ent
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -3556,7 +3555,7 @@ static int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC){
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -3565,32 +3564,41 @@ static int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC){
 
 static int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[] TSRMLS_DC) {
 
-	zval ***params_array;
+	zval ***params_array = NULL;
+	zval **static_params_array[5];
 	zend_uint i;
 	int ex_retval;
 	zval *local_retval_ptr = NULL;
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
-	PHALCON_GLOBAL(recursive_lock)++;
+	phalcon_globals_ptr->recursive_lock++;
 
-	if (PHALCON_GLOBAL(recursive_lock) > 2048) {
+	if (unlikely(phalcon_globals_ptr->recursive_lock > 2048)) {
 		ex_retval = FAILURE;
-		params_array = NULL;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");
 	} else {
 
 		if (param_count) {
-			params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-			for (i = 0; i < param_count; i++) {
-				params_array[i] = &params[i];
+			if (param_count > 5) {
+				params_array = (zval ***) emalloc(sizeof(zval **) * param_count);
+				for (i = 0; i < param_count; i++) {
+					params_array[i] = &params[i];
+				}
+			} else {
+				for (i = 0; i < param_count; i++) {
+					static_params_array[i] = &params[i];
+				}
 			}
-		} else {
-			params_array = NULL;
 		}
 
-		ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
+		if (likely(param_count > 5)) {
+			ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
+		} else {
+			ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, static_params_array, 1, NULL TSRMLS_CC);
+		}
 	}
 
-	PHALCON_GLOBAL(recursive_lock)--;
+	phalcon_globals_ptr->recursive_lock--;
 
 	if (local_retval_ptr) {
 		if (Z_TYPE_P(local_retval_ptr) == IS_NULL) {
@@ -3610,7 +3618,6 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 }
 
 #if PHP_VERSION_ID <= 50309
-
 
 static int phalcon_call_user_function_ex(HashTable *function_table, zval **object_pp, zval *function_name, zval **retval_ptr_ptr, zend_uint param_count, zval **params[], int no_separation, HashTable *symbol_table TSRMLS_DC) {
 
@@ -3713,7 +3720,7 @@ static int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fc
 	fci->object_ptr = fci_cache->object_ptr;
 	EX(object) = fci->object_ptr;
 	if (fci->object_ptr && Z_TYPE_P(fci->object_ptr) == IS_OBJECT &&
-	    (!EG(objects_store).object_buckets || !EG(objects_store).object_buckets[Z_OBJ_HANDLE_P(fci->object_ptr)].valid)) {
+		(!EG(objects_store).object_buckets || !EG(objects_store).object_buckets[Z_OBJ_HANDLE_P(fci->object_ptr)].valid)) {
 		return FAILURE;
 	}
 
@@ -3742,7 +3749,7 @@ static int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fc
 				zval *new_zval;
 
 				if (fci->no_separation &&
-				    !ARG_MAY_BE_SENT_BY_REF(EX(function_state).function, i + 1)) {
+					!ARG_MAY_BE_SENT_BY_REF(EX(function_state).function, i + 1)) {
 					if (i || UNEXPECTED(ZEND_VM_STACK_ELEMETS(EG(argument_stack)) == EG(argument_stack)->top)) {
 						/* hack to clean up the stack */
 						zend_vm_stack_push_nocheck((void *) (zend_uintptr_t)i TSRMLS_CC);
@@ -4263,7 +4270,7 @@ static int phalcon_array_append_string(zval **arr, char *value, uint value_lengt
 
 static int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags TSRMLS_DC) {
 
-	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -4344,7 +4351,7 @@ static int phalcon_array_update_zval_long(zval **arr, zval *index, long value, i
 
 static int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC) {
 
-	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -4378,7 +4385,7 @@ static int phalcon_array_update_string(zval **arr, char *index, uint index_lengt
 
 static int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length, unsigned long key, zval **value, int flags TSRMLS_DC){
 
-	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -4442,7 +4449,7 @@ static int phalcon_array_update_string_string(zval **arr, char *index, uint inde
 
 static int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int flags TSRMLS_DC){
 
-	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -4507,7 +4514,7 @@ static int phalcon_array_update_long_bool(zval **arr, unsigned long index, int v
 static int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent TSRMLS_DC){
 
 	zval **zv;
-	int result = FAILURE, type;
+	int result = FAILURE, i;
 
 	if (Z_TYPE_P(index) == IS_ARRAY || Z_TYPE_P(index) == IS_OBJECT) {
 
@@ -4546,8 +4553,13 @@ static int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int 
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
-		if ((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))) {
-			if (type == IS_LONG) {
+		if (Z_STRLEN_P(index) > 0) {
+			for (i = 0; i < Z_STRLEN_P(index); i++) {
+				if (Z_STRVAL_P(index)[i] < '0' || Z_STRVAL_P(index)[i] > '9') {
+					break;
+				}
+			}
+			if (i == Z_STRLEN_P(index)) {
 				convert_to_long(index);
 			}
 		}
@@ -7910,7 +7922,7 @@ static void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style
 	#if PHP_VERSION_ID < 50400
 	int length;
 	#else
-	unsigned int length;
+	size_t length;
 	#endif
 
 	char *escaped;
@@ -8287,7 +8299,7 @@ static void phalcon_concat_sv(zval **result, char *op1, zend_uint op1_len, zval 
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8334,8 +8346,8 @@ static void phalcon_concat_svs(zval **result, char *op1, zend_uint op1_len, zval
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2), op3, op3_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8389,9 +8401,9 @@ static void phalcon_concat_svsv(zval **result, char *op1, zend_uint op1_len, zva
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8449,10 +8461,10 @@ static void phalcon_concat_svsvs(zval **result, char *op1, zend_uint op1_len, zv
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), op5, op5_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4), op5, op5_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8517,11 +8529,11 @@ static void phalcon_concat_svsvsv(zval **result, char *op1, zend_uint op1_len, z
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), op5, op5_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4)+op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4), op5, op5_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4) + op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8590,12 +8602,12 @@ static void phalcon_concat_svsvsvs(zval **result, char *op1, zend_uint op1_len, 
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), op5, op5_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4)+op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4)+op5_len+Z_STRLEN_P(op6), op7, op7_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4), op5, op5_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4) + op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4) + op5_len + Z_STRLEN_P(op6), op7, op7_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8664,10 +8676,10 @@ static void phalcon_concat_svsvv(zval **result, char *op1, zend_uint op1_len, zv
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+op3_len+Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8729,8 +8741,8 @@ static void phalcon_concat_svv(zval **result, char *op1, zend_uint op1_len, zval
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8788,9 +8800,9 @@ static void phalcon_concat_svvs(zval **result, char *op1, zend_uint op1_len, zva
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, op1, op1_len);
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+op1_len+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len, Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + op1_len + Z_STRLEN_P(op2) + Z_STRLEN_P(op3), op4, op4_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8841,7 +8853,7 @@ static void phalcon_concat_vs(zval **result, zval *op1, char *op2, zend_uint op2
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), op2, op2_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8895,8 +8907,8 @@ static void phalcon_concat_vsv(zval **result, zval *op1, char *op2, zend_uint op
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -8954,9 +8966,9 @@ static void phalcon_concat_vsvs(zval **result, zval *op1, char *op2, zend_uint o
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3), op4, op4_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9021,10 +9033,10 @@ static void phalcon_concat_vsvsv(zval **result, zval *op1, char *op2, zend_uint 
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9093,11 +9105,11 @@ static void phalcon_concat_vsvsvs(zval **result, zval *op1, char *op2, zend_uint
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5), op6, op6_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len + Z_STRLEN_P(op5), op6, op6_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9173,12 +9185,12 @@ static void phalcon_concat_vsvsvsv(zval **result, zval *op1, char *op2, zend_uin
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5), op6, op6_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5)+op6_len, Z_STRVAL_P(op7), Z_STRLEN_P(op7));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len + Z_STRLEN_P(op5), op6, op6_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len + Z_STRLEN_P(op5) + op6_len, Z_STRVAL_P(op7), Z_STRLEN_P(op7));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9251,9 +9263,9 @@ static void phalcon_concat_vsvv(zval **result, zval *op1, char *op2, zend_uint o
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9329,10 +9341,10 @@ static void phalcon_concat_vsvvv(zval **result, zval *op1, char *op2, zend_uint 
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), op2, op2_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9398,7 +9410,7 @@ static void phalcon_concat_vv(zval **result, zval *op1, zval *op2, int self_var 
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9456,8 +9468,8 @@ static void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, char *op3, z
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2), op3, op3_len);
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9522,9 +9534,9 @@ static void phalcon_concat_vvsv(zval **result, zval *op1, zval *op2, char *op3, 
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), op3, op3_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9593,8 +9605,8 @@ static void phalcon_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, i
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9670,10 +9682,10 @@ static void phalcon_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3,
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), op4, op4_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9753,9 +9765,9 @@ static void phalcon_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, 
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9849,12 +9861,12 @@ static void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4), op5, op5_len);
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4)+op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4)+op5_len+Z_STRLEN_P(op6), Z_STRVAL_P(op7), Z_STRLEN_P(op7));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + Z_STRLEN_P(op4), op5, op5_len);
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + Z_STRLEN_P(op4) + op5_len, Z_STRVAL_P(op6), Z_STRLEN_P(op6));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + Z_STRLEN_P(op4) + op5_len + Z_STRLEN_P(op6), Z_STRVAL_P(op7), Z_STRLEN_P(op7));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -9949,10 +9961,10 @@ static void phalcon_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3,
 	}
 
 	memcpy(Z_STRVAL_PP(result) + offset, Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
-	memcpy(Z_STRVAL_PP(result) + offset+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3)+Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3), Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	memcpy(Z_STRVAL_PP(result) + offset + Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + Z_STRLEN_P(op4), Z_STRVAL_P(op5), Z_STRLEN_P(op5));
 	Z_STRVAL_PP(result)[length] = 0;
 	Z_TYPE_PP(result) = IS_STRING;
 	Z_STRLEN_PP(result) = length;
@@ -10581,7 +10593,7 @@ static inline zend_bool phalcon_alt_is_callable_method_ex(zend_class_entry *ce, 
 
 #if PHP_VERSION_ID < 50400
 
-static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
+static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
 {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	zend_uint i, exists = 0, is_phalcon_function = 0;
@@ -10609,8 +10621,8 @@ static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, c
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (key && phalcon_globals_ptr->function_cache) {
-		if (phalcon_hash_quick_find(phalcon_globals_ptr->function_cache, key, key_length, hash_key, (void**) &function_handler) == SUCCESS) {
+	if (hash_key > 0 && phalcon_globals_ptr->function_cache) {
+		if (zend_hash_index_find(phalcon_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
 			is_phalcon_function = 1;
@@ -10633,7 +10645,7 @@ static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, c
 			/** Use the Phalcon optimized version */
 			if (!phalcon_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
 				if (error) {
-					zend_error(E_WARNING, "Invalid callback %s, %s", key, error);
+					zend_error(E_WARNING, "Invalid callback %s, %s", method_name, error);
 					efree(error);
 				}
 				return FAILURE;
@@ -10672,10 +10684,8 @@ static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, c
 					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
 				}
 
-				zend_hash_quick_update(
+				zend_hash_index_update(
 					phalcon_globals_ptr->function_cache,
-					key,
-					key_length,
 					hash_key,
 					&fci_cache->function_handler,
 					sizeof(zend_function *),
@@ -10922,7 +10932,7 @@ static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, c
 
 #else
 
-static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
+static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
 {
 	zend_uint i;
 	zend_executor_globals *executor_globals_ptr = PHALCON_VEG;
@@ -10952,8 +10962,8 @@ static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, c
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (key && phalcon_globals_ptr->function_cache) {
-		if (phalcon_hash_quick_find(phalcon_globals_ptr->function_cache, key, key_length, hash_key, (void**) &function_handler) == SUCCESS) {
+	if (hash_key > 0 && phalcon_globals_ptr->function_cache) {
+		if (zend_hash_index_find(phalcon_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
 			is_phalcon_function = 1;
@@ -10978,9 +10988,9 @@ static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, c
 		if (is_phalcon_function) {
 
 			/** Use the Phalcon optimized version */
-			if (!phalcon_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
+			if (unlikely(!phalcon_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC))) {
 				if (error) {
-					zend_error(E_WARNING, "Invalid callback %s, %s", key, error);
+					zend_error(E_WARNING, "Invalid callback %s, %s", method_name, error);
 					efree(error);
 				}
 				return FAILURE;
@@ -11023,10 +11033,8 @@ static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, c
 					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
 				}
 
-				zend_hash_quick_update(
+				zend_hash_index_update(
 					phalcon_globals_ptr->function_cache,
-					key,
-					key_length,
 					hash_key,
 					&fci_cache->function_handler,
 					sizeof(zend_function *),
@@ -11277,51 +11285,47 @@ static int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, c
 static int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
 {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-	zval ***params_array;
+	zval ***params_array = NULL;
+	zval **static_params_array[5];
 	zend_uint i;
 	int ex_retval;
 	zval *local_retval_ptr = NULL;
 	zend_fcall_info *fci, fci_local;
-	unsigned int key_length;
-	unsigned long hash_key;
-	char *key;
+	unsigned long hash_key = 0;
 
 	phalcon_globals_ptr->recursive_lock++;
 
 	if (unlikely(phalcon_globals_ptr->recursive_lock > 2048)) {
 		ex_retval = FAILURE;
-		params_array = NULL;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");
 	} else {
 
 		if (param_count) {
-			params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-			for (i = 0; i < param_count; i++) {
-				params_array[i] = &params[i];
+			if (param_count > 5) {
+				params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
+				for (i = 0; i < param_count; i++) {
+					params_array[i] = &params[i];
+				}
+			} else {
+				for (i = 0; i < param_count; i++) {
+					static_params_array[i] = &params[i];
+				}
 			}
-		} else {
-			params_array = NULL;
 		}
 
 		/** Create a unique key */
 		if (ce->name[7] == '\\') {
 
-			/** Calculate the key-length */
-			key_length = ce->name_length + method_len - 5;
+			for (i = 7; i < ce->name_length; i++) {
+				hash_key = ce->name[i] + (hash_key << 6) + (hash_key << 16) - hash_key;
+			}
 
-			key = emalloc(key_length);
-			memcpy(key, ce->name + 7, ce->name_length - 7);
-			memcpy(key + ce->name_length - 7, "$", 1);
-			memcpy(key + ce->name_length - 6, method_name, method_len);
-			key[key_length - 1] = '\0';
+			hash_key = '$' + (hash_key << 6) + (hash_key << 16) - hash_key;
 
-			/* Calculate a hash key */
-			hash_key = zend_inline_hash_func(key, key_length);
+			for (i = 0; i < method_len; i++) {
+				hash_key = method_name[i] + (hash_key << 6) + (hash_key << 16) - hash_key;
+			}
 
-		} else {
-			key = NULL;
-			key_length = 0;
-			hash_key = 0;
 		}
 
 		fci = &fci_local;
@@ -11333,17 +11337,17 @@ static int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, 
 		fci->function_name = NULL;
 		fci->retval_ptr_ptr = &local_retval_ptr;
 		fci->param_count = param_count;
-		fci->params = params_array;
+		if (param_count > 5) {
+			fci->params = params_array;
+		} else{
+			fci->params = static_params_array;
+		}
 
-		ex_retval = phalcon_alt_call_method(fci, ce, key, key_length, hash_key, method_name, method_len, method_key TSRMLS_CC);
+		ex_retval = phalcon_alt_call_method(fci, ce, hash_key, method_name, method_len, method_key TSRMLS_CC);
 
 		if (fci->function_name) {
 			ZVAL_NULL(fci->function_name);
 			zval_ptr_dtor(&fci->function_name);
-		}
-
-		if (key) {
-			efree(key);
 		}
 	}
 
@@ -28772,10 +28776,10 @@ static PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
 
 static PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 
-	zval *row_count = NULL, *connection, *type, *sql_statement;
-	zval *bind_params, *bind_types, *matches, *pattern;
-	zval *match, *else_clauses, *sql, *fetch_num, *result;
-	zval *row, *pdo_statement;
+	zval *row_count = NULL, *connection, *type, *pdo_statement = NULL;
+	zval *sql_statement, *bind_params, *bind_types;
+	zval *matches, *pattern, *match, *else_clauses;
+	zval *sql, *fetch_num, *result, *row;
 
 	PHALCON_MM_GROW();
 
@@ -28789,7 +28793,23 @@ static PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 		PHALCON_INIT_VAR(type);
 		phalcon_call_method(type, connection, "gettype");
 	
-		if (PHALCON_IS_STRING(type, "sqlite")) {
+		if (PHALCON_IS_STRING(type, "mysql")) {
+			PHALCON_OBS_VAR(pdo_statement);
+			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	
+			PHALCON_INIT_NVAR(row_count);
+			phalcon_call_method(row_count, pdo_statement, "rowcount");
+		}
+	
+		if (PHALCON_IS_STRING(type, "pgsql")) {
+			PHALCON_OBS_NVAR(pdo_statement);
+			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	
+			PHALCON_INIT_NVAR(row_count);
+			phalcon_call_method(row_count, pdo_statement, "rowcount");
+		}
+	
+		if (PHALCON_IS_FALSE(row_count)) {
 	
 			PHALCON_OBS_VAR(sql_statement);
 			phalcon_read_property_this(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
@@ -28842,12 +28862,6 @@ static PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 				PHALCON_INIT_NVAR(row_count);
 				ZVAL_LONG(row_count, 1);
 			}
-		} else {
-			PHALCON_OBS_VAR(pdo_statement);
-			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(row_count);
-			phalcon_call_method(row_count, pdo_statement, "rowcount");
 		}
 	
 		phalcon_update_property_this(this_ptr, SL("_rowCount"), row_count TSRMLS_CC);
@@ -29978,10 +29992,11 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
 
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 
-	zval *table, *schema = NULL, *columns, *dialect, *sql, *fetch_num;
-	zval *describe, *old_column = NULL, *size_pattern, *field = NULL;
-	zval *definition = NULL, *column_type = NULL, *matches = NULL, *pos = NULL;
-	zval *match_one = NULL, *attribute = NULL, *column_name = NULL, *column = NULL;
+	zval *table, *schema = NULL, *dialect, *ztrue, *sql, *fetch_num;
+	zval *describe, *old_column = NULL, *size_pattern, *columns;
+	zval *field = NULL, *definition = NULL, *column_type = NULL, *matches = NULL;
+	zval *pos = NULL, *match_one = NULL, *attribute = NULL, *column_name = NULL;
+	zval *column = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -29994,11 +30009,11 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		PHALCON_INIT_VAR(schema);
 	}
 	
-	PHALCON_INIT_VAR(columns);
-	array_init(columns);
-	
 	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(ztrue);
+	ZVAL_BOOL(ztrue, 1);
 	
 	PHALCON_INIT_VAR(sql);
 	phalcon_call_method_p2(sql, dialect, "describecolumns", table, schema);
@@ -30013,6 +30028,9 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	
 	PHALCON_INIT_VAR(size_pattern);
 	ZVAL_STRING(size_pattern, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
+	
+	PHALCON_INIT_VAR(columns);
+	array_init(columns);
 	
 	
 	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -30029,48 +30047,62 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	
 		PHALCON_OBS_NVAR(column_type);
 		phalcon_array_fetch_long(&column_type, field, 1, PH_NOISY_CC);
-		if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
-			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE TSRMLS_CC);
-		} else {
+	
+		while (1) {
+	
+			if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
+				phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&definition, SL("isNumeric"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE TSRMLS_CC);
+				break;
+			}
+	
 			if (phalcon_memnstr_str(column_type, SL("varchar") TSRMLS_CC)) {
 				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE TSRMLS_CC);
-			} else {
-				if (phalcon_memnstr_str(column_type, SL("datetime") TSRMLS_CC)) {
-					phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
-				} else {
-					if (phalcon_memnstr_str(column_type, SL("decimal") TSRMLS_CC)) {
-						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
-					} else {
-						if (phalcon_memnstr_str(column_type, SL("char") TSRMLS_CC)) {
-							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-						} else {
-							if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
-								phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
-							} else {
-								if (phalcon_memnstr_str(column_type, SL("text") TSRMLS_CC)) {
-									phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
-								} else {
-									if (phalcon_memnstr_str(column_type, SL("float") TSRMLS_CC)) {
-										phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE TSRMLS_CC);
-										phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
-										phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
-									} else {
-										if (phalcon_memnstr_str(column_type, SL("enum") TSRMLS_CC)) {
-											phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-										} else {
-											phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE TSRMLS_CC);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+				break;
 			}
+	
+			if (phalcon_memnstr_str(column_type, SL("datetime") TSRMLS_CC)) {
+				phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
+				break;
+			}
+	
+			if (phalcon_memnstr_str(column_type, SL("decimal") TSRMLS_CC)) {
+				phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&definition, SL("isNumeric"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
+				break;
+			}
+	
+			if (phalcon_memnstr_str(column_type, SL("char") TSRMLS_CC)) {
+				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
+				break;
+			}
+	
+			if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
+				phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
+				break;
+			}
+	
+			if (phalcon_memnstr_str(column_type, SL("text") TSRMLS_CC)) {
+				phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
+				break;
+			}
+	
+			if (phalcon_memnstr_str(column_type, SL("float") TSRMLS_CC)) {
+				phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&definition, SL("isNumeric"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
+				break;
+			}
+	
+			if (phalcon_memnstr_str(column_type, SL("enum") TSRMLS_CC)) {
+				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
+				break;
+			}
+	
+			phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE TSRMLS_CC);
+			break;
 		}
 	
 		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
@@ -30099,11 +30131,11 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		}
 	
 		if (phalcon_memnstr_str(column_type, SL("unsigned") TSRMLS_CC)) {
-			phalcon_array_update_string_bool(&definition, SL("unsigned"), 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&definition, SL("unsigned"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	
 		if (!zend_is_true(old_column)) {
-			phalcon_array_update_string_bool(&definition, SL("first"), 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&definition, SL("first"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		} else {
 			phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
@@ -30111,19 +30143,19 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_long(&attribute, field, 3, PH_NOISY_CC);
 		if (PHALCON_IS_STRING(attribute, "PRI")) {
-			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&definition, SL("primary"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_long(&attribute, field, 2, PH_NOISY_CC);
 		if (PHALCON_IS_STRING(attribute, "NO")) {
-			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&definition, SL("notNull"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_long(&attribute, field, 5, PH_NOISY_CC);
 		if (PHALCON_IS_STRING(attribute, "auto_increment")) {
-			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&definition, SL("autoIncrement"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(column_name);
@@ -60892,7 +60924,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success){
 
 
 
-/* Generated by re2c 0.13.5 on Thu Jun 20 00:26:21 2013 */
+/* Generated by re2c 0.13.5 on Fri Jun 21 19:47:25 2013 */
 // 1 "scanner.re"
 
 
@@ -68913,7 +68945,7 @@ static int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql
 		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 
 		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
-			if (zend_hash_quick_find(phalcon_globals_ptr->orm.parser_cache, phql, phql_length, phql_key, (void**) &temp_ast) == SUCCESS) {
+			if (zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key, (void**) &temp_ast) == SUCCESS) {
 				ZVAL_ZVAL(*result, *temp_ast, 1, 0);
 				Z_SET_REFCOUNT_P(*result, 1);
 				return SUCCESS;
@@ -69269,10 +69301,8 @@ static int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql
 
 					Z_ADDREF_PP(result);
 
-					zend_hash_quick_update(
+					zend_hash_index_update(
 						phalcon_globals_ptr->orm.parser_cache,
-						phql,
-						phql_length,
 						phql_key,
 						result,
 						sizeof(zval *),
