@@ -239,10 +239,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 
-	zval *row_count = NULL, *connection, *type, *sql_statement;
-	zval *bind_params, *bind_types, *matches, *pattern;
-	zval *match, *else_clauses, *sql, *fetch_num, *result;
-	zval *row, *pdo_statement;
+	zval *row_count = NULL, *connection, *type, *pdo_statement = NULL;
+	zval *sql_statement, *bind_params, *bind_types;
+	zval *matches, *pattern, *match, *else_clauses;
+	zval *sql, *fetch_num, *result, *row;
 
 	PHALCON_MM_GROW();
 
@@ -257,11 +257,36 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 		phalcon_call_method(type, connection, "gettype");
 	
 		/** 
-		 * SQLite returns resultsets that to the client eyes (PDO) has an arbitrary number
-		 * of rows, so we need to perform an extra count to know that
+		 * MySQL library property returns the number of records
 		 */
-		if (PHALCON_IS_STRING(type, "sqlite")) {
+		if (PHALCON_IS_STRING(type, "mysql")) {
+			PHALCON_OBS_VAR(pdo_statement);
+			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
+			PHALCON_INIT_NVAR(row_count);
+			phalcon_call_method(row_count, pdo_statement, "rowcount");
+		}
+	
+		/** 
+		 * PostgreSQL too
+		 */
+		if (PHALCON_IS_STRING(type, "pgsql")) {
+			PHALCON_OBS_NVAR(pdo_statement);
+			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	
+			PHALCON_INIT_NVAR(row_count);
+			phalcon_call_method(row_count, pdo_statement, "rowcount");
+		}
+	
+		/** 
+		 * We should get the count using a new statement :(
+		 */
+		if (PHALCON_IS_FALSE(row_count)) {
+	
+			/** 
+			 * SQLite/Oracle/SQLServer returns resultsets that to the client eyes (PDO) has an
+			 * arbitrary number of rows, so we need to perform an extra count to know that
+			 */
 			PHALCON_OBS_VAR(sql_statement);
 			phalcon_read_property_this(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 	
@@ -316,12 +341,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 				PHALCON_INIT_NVAR(row_count);
 				ZVAL_LONG(row_count, 1);
 			}
-		} else {
-			PHALCON_OBS_VAR(pdo_statement);
-			phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(row_count);
-			phalcon_call_method(row_count, pdo_statement, "rowcount");
 		}
 	
 		/** 
