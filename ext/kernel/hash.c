@@ -113,4 +113,3 @@ int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLen
 	}
 	return FAILURE;
 }
-

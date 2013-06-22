@@ -292,7 +292,7 @@ int phalcon_array_append_string(zval **arr, char *value, uint value_length, int 
  */
 int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags TSRMLS_DC) {
 
-	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -385,7 +385,7 @@ int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flag
  */
 int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC) {
 
-	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -422,7 +422,7 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
  */
 int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length, unsigned long key, zval **value, int flags TSRMLS_DC){
 
-	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -498,7 +498,7 @@ int phalcon_array_update_string_string(zval **arr, char *index, uint index_lengt
  */
 int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int flags TSRMLS_DC){
 
-	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -575,7 +575,7 @@ int phalcon_array_update_long_bool(zval **arr, unsigned long index, int value, i
 int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent TSRMLS_DC){
 
 	zval **zv;
-	int result = FAILURE, type;
+	int result = FAILURE, i;
 
 	if (Z_TYPE_P(index) == IS_ARRAY || Z_TYPE_P(index) == IS_OBJECT) {
 
@@ -614,8 +614,13 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
-		if ((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))) {
-			if (type == IS_LONG) {
+		if (Z_STRLEN_P(index) > 0) {
+			for (i = 0; i < Z_STRLEN_P(index); i++) {
+				if (Z_STRVAL_P(index)[i] < '0' || Z_STRVAL_P(index)[i] > '9') {
+					break;
+				}
+			}
+			if (i == Z_STRLEN_P(index)) {
 				convert_to_long(index);
 			}
 		}
