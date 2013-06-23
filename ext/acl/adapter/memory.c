@@ -828,24 +828,26 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 			PHALCON_OBS_NVAR(have_access);
 			phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY_CC);
 		} else {
+			if (Z_TYPE_P(inherited_roles) == IS_ARRAY) { 
 	
-			phalcon_is_iterable(inherited_roles, &ah2, &hp2, 0, 0);
+				phalcon_is_iterable(inherited_roles, &ah2, &hp2, 0, 0);
 	
-			while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+				while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
-				PHALCON_GET_HVALUE(inherited_role);
+					PHALCON_GET_HVALUE(inherited_role);
 	
-				PHALCON_INIT_NVAR(access_key);
-				PHALCON_CONCAT_VS(access_key, inherited_role, "!*!*");
-				if (phalcon_array_isset(access_list, access_key)) {
-					PHALCON_OBS_NVAR(have_access);
-					phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY_CC);
-					break;
+					PHALCON_INIT_NVAR(access_key);
+					PHALCON_CONCAT_VS(access_key, inherited_role, "!*!*");
+					if (phalcon_array_isset(access_list, access_key)) {
+						PHALCON_OBS_NVAR(have_access);
+						phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY_CC);
+						break;
+					}
+	
+					zend_hash_move_forward_ex(ah2, &hp2);
 				}
 	
-				zend_hash_move_forward_ex(ah2, &hp2);
 			}
-	
 		}
 	}
 	
