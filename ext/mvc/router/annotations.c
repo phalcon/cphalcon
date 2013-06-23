@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	zval *empty_str, *real_action_name, *action_name;
 	zval *route_prefix, *parameter = NULL, *paths = NULL, *position;
 	zval *value, *uri = NULL, *route, *converts = NULL, *convert = NULL, *param = NULL;
-	zval *route_name;
+	zval *conversor_param = NULL, *route_name;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -599,10 +599,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-				PHALCON_GET_HMKEY(param, ah1, hp1);
+				PHALCON_GET_HKEY(conversor_param, ah1, hp1);
 				PHALCON_GET_HVALUE(convert);
 	
-				phalcon_call_method_p2_noret(route, "convert", param, convert);
+				phalcon_call_method_p2_noret(route, "convert", conversor_param, convert);
 	
 				zend_hash_move_forward_ex(ah1, &hp1);
 			}

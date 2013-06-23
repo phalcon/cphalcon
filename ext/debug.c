@@ -877,9 +877,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				PHALCON_SCONCAT_SVSVSVS(html, "<pre class='prettyprint highlight:", first_line, ":", line, " linenums:", first_line, "'>");
 			} else {
 				PHALCON_CPY_WRT(first_line, one);
-	
-				PHALCON_INIT_VAR(last_line);
-				sub_function(last_line, number_lines, one TSRMLS_CC);
+				PHALCON_CPY_WRT(last_line, number_lines);
 				PHALCON_SCONCAT_SVSVS(html, "<pre class='prettyprint highlight:", first_line, ":", line, " linenums error-scroll'>");
 			}
 	
@@ -992,8 +990,9 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	zval *class_name, *css_sources, *escaped_message = NULL;
 	zval *html, *version, *file, *line, *show_back_trace;
 	zval *data_vars, *trace, *trace_item = NULL, *n = NULL, *html_item = NULL;
-	zval *_REQUEST, *value = NULL, *key = NULL, *_SERVER, *files, *true_usage;
-	zval *memory, *dumped_argument = NULL, *js_sources;
+	zval *_REQUEST, *value = NULL, *key_request = NULL, *_SERVER;
+	zval *key_server = NULL, *files, *key_file = NULL, *true_usage;
+	zval *memory, *key_var = NULL, *dumped_argument = NULL, *js_sources;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
 	HashPosition hp0, hp1, hp2, hp3, hp4;
 	zval **hd;
@@ -1141,10 +1140,10 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-			PHALCON_GET_HKEY(key, ah1, hp1);
+			PHALCON_GET_HKEY(key_request, ah1, hp1);
 			PHALCON_GET_HVALUE(value);
 	
-			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key, "</td><td>", value, "</td></tr>");
+			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", value, "</td></tr>");
 	
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
@@ -1162,10 +1161,10 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
-			PHALCON_GET_HMKEY(key, ah2, hp2);
+			PHALCON_GET_HKEY(key_server, ah2, hp2);
 			PHALCON_GET_HVALUE(value);
 	
-			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key, "</td><td>", value, "</td></tr>");
+			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_server, "</td><td>", value, "</td></tr>");
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
@@ -1184,10 +1183,10 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	
 		while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
-			PHALCON_GET_HMKEY(key, ah3, hp3);
+			PHALCON_GET_HKEY(key_file, ah3, hp3);
 			PHALCON_GET_HVALUE(value);
 	
-			PHALCON_SCONCAT_SVSVS(html, "<tr><td>", key, "</th><td>", value, "</td></tr>");
+			PHALCON_SCONCAT_SVSVS(html, "<tr><td>", key_file, "</th><td>", value, "</td></tr>");
 	
 			zend_hash_move_forward_ex(ah3, &hp3);
 		}
@@ -1217,12 +1216,12 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	
 			while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
-				PHALCON_GET_HMKEY(key, ah4, hp4);
+				PHALCON_GET_HKEY(key_var, ah4, hp4);
 				PHALCON_GET_HVALUE(value);
 	
 				PHALCON_INIT_NVAR(dumped_argument);
 				phalcon_call_method_p1(dumped_argument, this_ptr, "_getvardump", value);
-				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key, "</td><td>", dumped_argument, "</td></tr>");
+				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_var, "</td><td>", dumped_argument, "</td></tr>");
 	
 				zend_hash_move_forward_ex(ah4, &hp4);
 			}

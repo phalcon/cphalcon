@@ -866,7 +866,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-				PHALCON_GET_HMKEY(resource_name, ah1, hp1);
 				PHALCON_GET_HVALUE(resource_access);
 	
 				if (phalcon_array_isset_string(resource_access, SS("*"))) {
