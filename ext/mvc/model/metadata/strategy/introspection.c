@@ -39,6 +39,7 @@
 #include "kernel/file.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Mvc\Model\MetaData\Strategy\Instrospection

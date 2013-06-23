@@ -39,6 +39,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/file.h"
+#include "kernel/hash.h"
 #include "kernel/string.h"
 
 /**

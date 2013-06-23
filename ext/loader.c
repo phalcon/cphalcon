@@ -39,6 +39,7 @@
 #include "kernel/operators.h"
 #include "kernel/require.h"
 #include "kernel/file.h"
+#include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 

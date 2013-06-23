@@ -219,7 +219,10 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 #endif
 
 /** Get the current hash key without copying the hash key */
-#define PHALCON_GET_HKEY(var, hash, hash_pointer) \
+#define PHALCON_GET_HKEY(var, hash, hash_position) \
+	phalcon_get_current_key(&var, hash, &hash_position TSRMLS_DC);
+
+/*#define PHALCON_GET_HKEY(var, hash, hash_pointer) \
 	{\
 		int hash_type; \
 		char *hash_index; \
@@ -235,7 +238,7 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 				ZVAL_LONG(var, hash_num); \
 			}\
 		}\
-	}
+	}*/
 
 /** Get current hash key copying the hash_value if needed */
 #define PHALCON_GET_HMKEY(var, hash, hash_pointer) \
@@ -333,3 +336,4 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 			RETURN_NULL(); \
 		} \
 	}
+

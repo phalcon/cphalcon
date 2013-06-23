@@ -36,6 +36,7 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
+#include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
 

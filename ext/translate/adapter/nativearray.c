@@ -36,6 +36,7 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/file.h"
+#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"

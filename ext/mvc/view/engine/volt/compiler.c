@@ -40,6 +40,7 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
+#include "kernel/hash.h"
 #include "mvc/view/engine/volt/scanner.h"
 #include "mvc/view/engine/volt/volt.h"
 #include "kernel/variables.h"

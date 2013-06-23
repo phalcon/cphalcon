@@ -40,6 +40,7 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Mvc\Router

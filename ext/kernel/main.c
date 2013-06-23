@@ -376,4 +376,3 @@ int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int require
 
 	return SUCCESS;
 }
-

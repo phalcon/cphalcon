@@ -21,3 +21,4 @@ int phalcon_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 int phalcon_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h);
 int phalcon_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, void **pData);
 int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h, void **pData);
+void phalcon_get_current_key(zval **key, const HashTable *hash_table, HashPosition *hash_position TSRMLS_DC);

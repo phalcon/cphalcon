@@ -34,6 +34,7 @@
 
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/hash.h"
 #include "kernel/require.h"
 #include "kernel/object.h"
 

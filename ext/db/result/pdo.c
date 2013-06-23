@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	zval *row_count = NULL, *connection, *type, *pdo_statement = NULL;
 	zval *sql_statement, *bind_params, *bind_types;
 	zval *matches, *pattern, *match, *else_clauses;
-	zval *sql, *fetch_num, *result, *row;
+	zval *sql, *result, *row;
 
 	PHALCON_MM_GROW();
 
@@ -323,10 +323,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 					phalcon_array_fetch_long(&else_clauses, matches, 1, PH_NOISY_CC);
 	
 					PHALCON_INIT_VAR(sql);
-					PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) FROM (SELECT ", else_clauses, ")");
-	
-					PHALCON_INIT_VAR(fetch_num);
-					ZVAL_LONG(fetch_num, 3);
+					PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) AS \"numrows\" FROM (SELECT ", else_clauses, ")");
 	
 					PHALCON_INIT_VAR(result);
 					phalcon_call_method_p3(result, connection, "query", sql, bind_params, bind_types);
@@ -335,7 +332,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 					phalcon_call_method(row, result, "fetch");
 	
 					PHALCON_OBS_NVAR(row_count);
-					phalcon_array_fetch_long(&row_count, row, 0, PH_NOISY_CC);
+					phalcon_array_fetch_string(&row_count, row, SL("numrows"), PH_NOISY_CC);
 				}
 			} else {
 				PHALCON_INIT_NVAR(row_count);

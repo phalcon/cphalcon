@@ -41,6 +41,7 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/framework/orm.h"
+#include "kernel/hash.h"
 #include "kernel/file.h"
 #include "mvc/model/query/scanner.h"
 #include "mvc/model/query/phql.h"

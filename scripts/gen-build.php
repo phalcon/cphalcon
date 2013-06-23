@@ -179,6 +179,10 @@ class Build_Generator
 					$line = 'static ' . $line;
 				}
 
+				if (preg_match('/^zend_class_entry *' . $type . '_/i', $line)) {
+					$line = 'static ' . $line;
+				}
+
 			}
 
 			if (preg_match('/PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {

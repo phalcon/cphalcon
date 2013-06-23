@@ -35,6 +35,7 @@
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
+#include "kernel/hash.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"

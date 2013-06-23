@@ -24,6 +24,8 @@
 #include "php.h"
 #include "php_phalcon.h"
 
+#include "kernel/memory.h"
+
 int phalcon_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 {
 	ulong h;
@@ -36,7 +38,7 @@ int phalcon_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 	p = ht->arBuckets[nIndex];
 	while (p != NULL) {
 		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength))) {
-			if (likely(!memcmp(p->arKey, arKey, nKeyLength))) {
+			if (!memcmp(p->arKey, arKey, nKeyLength)) {
 				return 1;
 			}
 		}
@@ -59,7 +61,7 @@ int phalcon_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyL
 	p = ht->arBuckets[nIndex];
 	while (p != NULL) {
 		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength))) {
-			if (likely(!memcmp(p->arKey, arKey, nKeyLength))) {
+			if (!memcmp(p->arKey, arKey, nKeyLength)) {
 				return 1;
 			}
 		}
@@ -80,7 +82,7 @@ int phalcon_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, v
 	p = ht->arBuckets[nIndex];
 	while (p != NULL) {
 		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength))) {
-			if (likely(!memcmp(p->arKey, arKey, nKeyLength))) {
+			if (!memcmp(p->arKey, arKey, nKeyLength)) {
 				*pData = p->pData;
 				return SUCCESS;
 			}
@@ -104,7 +106,7 @@ int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLen
 	p = ht->arBuckets[nIndex];
 	while (p != NULL) {
 		if (p->arKey == arKey || ((p->h == h) && (p->nKeyLength == nKeyLength))) {
-			if (likely(!memcmp(p->arKey, arKey, nKeyLength))) {
+			if (!memcmp(p->arKey, arKey, nKeyLength)) {
 				*pData = p->pData;
 				return SUCCESS;
 			}
@@ -114,3 +116,23 @@ int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLen
 	return FAILURE;
 }
 
+/**
+ * Assigns the current value in a hash traversing to a zval
+ */
+void phalcon_get_current_key(zval **key, const HashTable *hash_table, HashPosition *hash_position TSRMLS_DC)
+{
+	Bucket *p;
+
+	PHALCON_INIT_NVAR_PNULL(*key);
+
+	p = hash_position ? (*hash_position) : hash_table->pInternalPointer;
+
+	if (p) {
+		if (p->nKeyLength) {
+			ZVAL_STRINGL(*key, (char *) p->arKey, p->nKeyLength - 1, 0);
+		} else {
+			ZVAL_LONG(*key, p->h);
+		}
+	}
+
+}

@@ -1484,7 +1484,7 @@ int phalcon_lookup_class_ex(const char *name, int name_length, int use_autoload,
 	ALLOC_ZVAL(class_name_ptr);
 	INIT_PZVAL(class_name_ptr);
 	if (name[0] == '\\') {
-		ZVAL_STRINGL(class_name_ptr, name+1, name_length-1, 1);
+		ZVAL_STRINGL(class_name_ptr, name + 1, name_length - 1, 1);
 	} else {
 		ZVAL_STRINGL(class_name_ptr, name, name_length, 1);
 	}

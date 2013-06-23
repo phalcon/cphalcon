@@ -36,6 +36,7 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/file.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Annotations\Reflection

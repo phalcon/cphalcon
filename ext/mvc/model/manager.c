@@ -40,6 +40,7 @@
 #include "kernel/file.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/hash.h"
 #include "kernel/framework/orm.h"
 
 /**

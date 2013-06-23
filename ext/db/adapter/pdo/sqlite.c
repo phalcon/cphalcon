@@ -40,6 +40,7 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Db\Adapter\Pdo\Sqlite
