@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
@@ -107,10 +107,10 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Adapter_Memory){
 
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_rolesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_roles"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_resourcesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_resources"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_access"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_roleInherits"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_resourcesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_accessList"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_acl_adapter_memory_ce TSRMLS_CC, 1, phalcon_acl_adapterinterface_ce);
@@ -119,26 +119,25 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Adapter_Memory){
 }
 
 /**
- * Phalcon\Acl\Adapter\Memory constructor
+ * Phalcon\Acl\Adapter\Memory
+ *
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
 
-	zval *a0 = NULL, *a1 = NULL;
+	zval *resources_names, *access_list;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(resources_names);
+	array_init_size(resources_names, 1);
+	add_assoc_bool_ex(resources_names, SS("*"), 1);
+	phalcon_update_property_this(this_ptr, SL("_resourcesNames"), resources_names TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a0);
-	array_init_size(a0, 1);
-	add_assoc_bool_ex(a0, SS("*"), 1);
-	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_resourcesNames"), a0 TSRMLS_CC);
+	PHALCON_INIT_VAR(access_list);
+	array_init_size(access_list, 1);
+	add_assoc_bool_ex(access_list, SS("*!*"), 1);
+	phalcon_update_property_this(this_ptr, SL("_accessList"), access_list TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a1);
-	array_init_size(a1, 1);
-	add_assoc_bool_ex(a1, SS("*!*"), 1);
-	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_accessList"), a1 TSRMLS_CC);
-	
-
 	PHALCON_MM_RESTORE();
 }
 
