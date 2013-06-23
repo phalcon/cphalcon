@@ -31,6 +31,8 @@
 typedef struct _phalcon_memory_entry {
 	int pointer;
 	zval ***addresses;
+	int hash_pointer;
+	zval ***hash_addresses;
 	struct _phalcon_memory_entry *prev;
 	struct _phalcon_memory_entry *next;
 } phalcon_memory_entry;
