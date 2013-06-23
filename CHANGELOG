@@ -45,6 +45,7 @@
  - Now PHQL exceptions include the PHQL statement itself
  - Aliases for namespaces are now supported in PHQL
  - Acl\Memory was rewritted to make it simpler and faster
+ - Support for assigment operators +=, -=, *=, /= in Volt
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods

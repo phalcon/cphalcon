@@ -974,14 +974,13 @@ int phalcon_update_property_this(zval *object, char *property_name, unsigned int
 	#if PHP_VERSION_ID < 50400
 
 	{
+		zval *property;
 
 		if (!Z_OBJ_HT_P(object)->write_property) {
 			EG(scope) = old_scope;
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be updated", property_name, ce->name);
 			return FAILURE;
 		}
-
-		zval *property;
 
 		MAKE_STD_ZVAL(property);
 		ZVAL_STRINGL(property, property_name, property_length, 0);
@@ -1071,14 +1070,13 @@ int phalcon_update_property_this_quick(zval *object, char *property_name, unsign
 	#if PHP_VERSION_ID < 50400
 
 	{
+		zval *property;
 
 		if (!Z_OBJ_HT_P(object)->write_property) {
 			EG(scope) = old_scope;
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be updated", property_name, ce->name);
 			return FAILURE;
 		}
-
-		zval *property;
 
 		MAKE_STD_ZVAL(property);
 		ZVAL_STRINGL(property, property_name, property_length, 0);

@@ -67,6 +67,12 @@
 #define PHVOLT_T_COLON 277
 #define PHVOLT_T_QUESTION '?'
 #define PHVOLT_T_POW 278
+#define PHVOLT_T_INCR 279
+#define PHVOLT_T_DECR 280
+#define PHVOLT_T_ADD_ASSIGN 281
+#define PHVOLT_T_SUB_ASSIGN 282
+#define PHVOLT_T_MUL_ASSIGN 283
+#define PHVOLT_T_DIV_ASSIGN 284
 
 #define PHVOLT_T_PARENTHESES_OPEN '('
 #define PHVOLT_T_PARENTHESES_CLOSE ')'
@@ -134,6 +140,7 @@
 typedef struct _phvolt_token_names {
 	unsigned int code;
 	char *name;
+	int len;
 } phvolt_token_names;
 
 /* Active token state */

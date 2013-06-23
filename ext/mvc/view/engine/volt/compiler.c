@@ -2604,7 +2604,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 
 	zval *statement, *compilation, *assigments, *assigment = NULL;
-	zval *expr = NULL, *expr_code = NULL, *variable = NULL;
+	zval *expr = NULL, *expr_code = NULL, *variable = NULL, *op = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2639,7 +2639,40 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 		 */
 		PHALCON_OBS_NVAR(variable);
 		phalcon_array_fetch_string(&variable, assigment, SL("variable"), PH_NOISY_CC);
-		PHALCON_SCONCAT_SVSVS(compilation, " $", variable, " = ", expr_code, ";");
+	
+		/** 
+		 * Assignment operator
+		 */
+		PHALCON_OBS_NVAR(op);
+		phalcon_array_fetch_string(&op, assigment, SL("op"), PH_NOISY_CC);
+	
+		/** 
+		 * Generate the right operator
+		 */
+	
+		switch (phalcon_get_intval(op)) {
+	
+			case 281:
+				PHALCON_SCONCAT_SVSVS(compilation, " $", variable, " += ", expr_code, ";");
+				break;
+	
+			case 282:
+				PHALCON_SCONCAT_SVSVS(compilation, " $", variable, " -= ", expr_code, ";");
+				break;
+	
+			case 283:
+				PHALCON_SCONCAT_SVSVS(compilation, " $", variable, " *= ", expr_code, ";");
+				break;
+	
+			case 284:
+				PHALCON_SCONCAT_SVSVS(compilation, " $", variable, " /= ", expr_code, ";");
+				break;
+	
+			default:
+				PHALCON_SCONCAT_SVSVS(compilation, " $", variable, " = ", expr_code, ";");
+				break;
+	
+		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
