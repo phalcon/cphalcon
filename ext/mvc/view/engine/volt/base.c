@@ -240,6 +240,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	parser_status->status = PHVOLT_PARSING_OK;
 	parser_status->scanner_state = state;
 	parser_status->ret = NULL;
+	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
 
 	/** Initialize the scanner state */
@@ -262,6 +263,9 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->whitespace_control = 0;
 
 	state->end = state->start;
+
+	token.value = NULL;
+	token.len = 0;
 
 	while(0 <= (scanner_status = phvolt_get_token(state, &token))) {
 
