@@ -112,6 +112,7 @@
 #include "cache/backend/memory.h"
 #include "cache/backend/mongo.h"
 #include "cache/backend/memcache.h"
+#include "cache/backend/xcache.h"
 #include "cache/frontend/data.h"
 #include "cache/frontend/json.h"
 #include "cache/frontend/none.h"

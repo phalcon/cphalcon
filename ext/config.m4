@@ -247,6 +247,7 @@ cache/backend/apc.c \
 cache/backend/mongo.c \
 cache/backend/memcache.c \
 cache/backend/memory.c \
+cache/backend/xcache.c \
 cache/exception.c \
 cache/backendinterface.c \
 cache/frontendinterface.c \
