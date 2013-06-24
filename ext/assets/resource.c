@@ -384,7 +384,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent){
 	 * Use file_get_contents to respect the openbase_dir. Access urls must be enabled
 	 */
 	PHALCON_INIT_VAR(content);
-	phalcon_call_func_p1(content, "file_get_contents", complete_path);
+	phalcon_file_get_contents(content, complete_path TSRMLS_CC);
 	
 	RETURN_CCTOR(content);
 }

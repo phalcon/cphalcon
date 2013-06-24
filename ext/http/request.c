@@ -619,7 +619,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 		ZVAL_STRING(input, "php://input", 1);
 	
 		PHALCON_INIT_VAR(contents);
-		phalcon_call_func_p1(contents, "file_get_contents", input);
+		phalcon_file_get_contents(contents, input TSRMLS_CC);
 	
 		/** 
 		 * We need store the read raw body because it can't be read again

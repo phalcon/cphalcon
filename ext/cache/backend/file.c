@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 			 * Use file-get-contents to control that the openbase_dir can't be skipped
 			 */
 			PHALCON_INIT_VAR(cached_content);
-			phalcon_call_func_p1(cached_content, "file_get_contents", cache_file);
+			phalcon_file_get_contents(cached_content, cache_file TSRMLS_CC);
 			if (PHALCON_IS_FALSE(cached_content)) {
 				PHALCON_INIT_VAR(exception_message);
 				PHALCON_CONCAT_SVS(exception_message, "Cache file ", cache_file, " could not be opened");
@@ -300,7 +300,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	 * We use file_put_contents to respect open-base-dir directive
 	 */
 	PHALCON_INIT_VAR(status);
-	phalcon_call_func_p2(status, "file_put_contents", cache_file, prepared_content);
+	phalcon_file_put_contents(status, cache_file, prepared_content TSRMLS_CC);
 	if (PHALCON_IS_FALSE(status)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory can't be written");
 		return;

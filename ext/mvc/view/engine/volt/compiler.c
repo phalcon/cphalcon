@@ -2566,7 +2566,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 				 * Use file-get-contents to respect the openbase_dir directive
 				 */
 				PHALCON_INIT_NVAR(compilation);
-				phalcon_call_func_p1(compilation, "file_get_contents", compiled_path);
+				phalcon_file_get_contents(compilation, compiled_path TSRMLS_CC);
 			}
 	
 			RETURN_CCTOR(compilation);
@@ -3082,7 +3082,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					phalcon_call_method(compiled_path, sub_compiler, "getcompiledtemplatepath");
 	
 					PHALCON_INIT_NVAR(temp_compilation);
-					phalcon_call_func_p1(temp_compilation, "file_get_contents", compiled_path);
+					phalcon_file_get_contents(temp_compilation, compiled_path TSRMLS_CC);
 				}
 	
 				phalcon_update_property_bool(this_ptr, SL("_extended"), 1 TSRMLS_CC);
@@ -3434,7 +3434,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 	 * open_basedir directive
 	 */
 	PHALCON_INIT_VAR(view_code);
-	phalcon_call_func_p1(view_code, "file_get_contents", path);
+	phalcon_file_get_contents(view_code, path TSRMLS_CC);
 	if (PHALCON_IS_FALSE(view_code)) {
 		PHALCON_INIT_NVAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Template file ", path, " could not be opened");
@@ -3462,7 +3462,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 	 * this respect the open_basedir directive
 	 */
 	PHALCON_INIT_VAR(status);
-	phalcon_call_func_p2(status, "file_put_contents", compiled_path, final_compilation);
+	phalcon_file_put_contents(status, compiled_path, final_compilation TSRMLS_CC);
 	if (PHALCON_IS_FALSE(status)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Volt directory can't be written");
 		return;
@@ -3698,7 +3698,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 						 * In extends mode we read the file that must contains a serialized array of blocks
 						 */
 						PHALCON_INIT_VAR(blocks_code);
-						phalcon_call_func_p1(blocks_code, "file_get_contents", real_compiled_path);
+						phalcon_file_get_contents(blocks_code, real_compiled_path TSRMLS_CC);
 						if (PHALCON_IS_FALSE(blocks_code)) {
 							PHALCON_INIT_VAR(exception_message);
 							PHALCON_CONCAT_SVS(exception_message, "Extends compilation file ", real_compiled_path, " could not be opened");

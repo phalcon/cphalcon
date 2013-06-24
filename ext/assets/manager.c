@@ -38,6 +38,7 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Assets\Manager
@@ -469,6 +470,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 	zval *must_filter = NULL, *filter = NULL, *filtered_content = NULL;
 	zval *source_path = NULL, *exception_message = NULL, *target_path = NULL;
 	zval *is_directory, *target_uri;
+	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -761,7 +763,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			 * Write the file using file_put_contents. This respects the openbase-dir also
 			 * writes to streams
 			 */
-			phalcon_call_func_p2_noret("file_put_contents", target_path, filtered_content);
+			PHALCON_INIT_NVAR(r0);
+			phalcon_file_put_contents(r0, target_path, filtered_content TSRMLS_CC);
 	
 			/** 
 			 * Generate the HTML using the original path in the resource
@@ -856,7 +859,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			 * Write the file using file_put_contents. This respects the openbase-dir also
 			 * writes to streams
 			 */
-			phalcon_call_func_p2_noret("file_put_contents", complete_target_path, filtered_joined_content);
+			PHALCON_INIT_VAR(r1);
+			phalcon_file_put_contents(r1, complete_target_path, filtered_joined_content TSRMLS_CC);
 	
 			/** 
 			 * Generate the HTML using the original path in the resource

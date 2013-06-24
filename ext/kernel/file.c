@@ -25,12 +25,14 @@
 #include "php_phalcon.h"
 #include "php_main.h"
 #include "main/php_streams.h"
+#include "ext/standard/file.h"
 #include "ext/standard/php_smart_str.h"
 #include "ext/standard/php_filestat.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
@@ -42,15 +44,23 @@
  */
 int phalcon_file_exists(zval *filename TSRMLS_DC){
 
+	zval return_value;
+
 	if (Z_TYPE_P(filename) != IS_STRING) {
 		return FAILURE;
 	}
 
-	if (VCWD_ACCESS(Z_STRVAL_P(filename), F_OK) == 0) {
-		return SUCCESS;
+	php_stat(Z_STRVAL_P(filename), (php_stat_len) Z_STRLEN_P(filename), FS_EXISTS, &return_value TSRMLS_CC);
+
+	if (PHALCON_IS_FALSE((&return_value))) {
+		return FAILURE;
 	}
 
-	return FAILURE;
+	if (PHALCON_IS_EMPTY((&return_value))) {
+		return FAILURE;
+	}
+
+	return SUCCESS;
 }
 
 /**
@@ -194,4 +204,92 @@ void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC) {
 	}
 
 	RETURN_FALSE;
+}
+
+void phalcon_file_get_contents(zval *return_value, zval *filename TSRMLS_CC)
+{
+
+	char *contents;
+	php_stream *stream;
+	int len;
+	long maxlen = PHP_STREAM_COPY_ALL;
+	zval *zcontext = NULL;
+	php_stream_context *context = NULL;
+
+	if (Z_TYPE_P(filename) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_file_get_contents()");
+		RETVAL_FALSE;
+		return;
+	}
+
+	context = php_stream_context_from_zval(zcontext, 0);
+
+	stream = php_stream_open_wrapper_ex(Z_STRVAL_P(filename), "rb", 0 | REPORT_ERRORS, NULL, context);
+	if (!stream) {
+		RETURN_FALSE;
+	}
+
+	if ((len = php_stream_copy_to_mem(stream, &contents, maxlen, 0)) > 0) {
+		RETVAL_STRINGL(contents, len, 0);
+	} else {
+		if (len == 0) {
+			RETVAL_EMPTY_STRING();
+		} else {
+			RETVAL_FALSE;
+		}
+	}
+
+	php_stream_close(stream);
+}
+
+void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_CC)
+{
+	php_stream *stream;
+	int numbytes = 0;
+	zval *zcontext = NULL;
+	php_stream_context *context = NULL;
+
+	if (Z_TYPE_P(filename) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_file_put_contents()");
+		RETVAL_FALSE;
+		return;
+	}
+
+	context = php_stream_context_from_zval(zcontext, 0 & PHP_FILE_NO_DEFAULT_CONTEXT);
+
+	stream = php_stream_open_wrapper_ex(Z_STRVAL_P(filename), "wb", ((0 & PHP_FILE_USE_INCLUDE_PATH) ? USE_PATH : 0) | REPORT_ERRORS, NULL, context);
+	if (stream == NULL) {
+		RETURN_FALSE;
+	}
+
+	switch (Z_TYPE_P(data)) {
+
+		case IS_NULL:
+		case IS_LONG:
+		case IS_DOUBLE:
+		case IS_BOOL:
+		case IS_CONSTANT:
+			convert_to_string_ex(&data);
+
+		case IS_STRING:
+			if (Z_STRLEN_P(data)) {
+				numbytes = php_stream_write(stream, Z_STRVAL_P(data), Z_STRLEN_P(data));
+				if (numbytes != Z_STRLEN_P(data)) {
+					php_error_docref(NULL TSRMLS_CC, E_WARNING, "Only %d of %d bytes written, possibly out of free disk space", numbytes, Z_STRLEN_P(data));
+					numbytes = -1;
+				}
+			}
+			break;
+		default:
+			numbytes = -1;
+			break;
+	}
+
+	php_stream_close(stream);
+
+	if (numbytes < 0) {
+		RETURN_FALSE;
+	}
+
+	RETURN_LONG(numbytes);
 }
