@@ -145,6 +145,7 @@ mvc/model/metadata/strategy/annotations.c \
 mvc/model/metadata/apc.c \
 mvc/model/metadata/memory.c \
 mvc/model/metadata/session.c \
+mvc/model/metadata/xcache.c \
 mvc/model/transaction.c \
 mvc/model/validatorinterface.c \
 mvc/model/metadata.c \
@@ -247,6 +248,7 @@ cache/backend/apc.c \
 cache/backend/mongo.c \
 cache/backend/memcache.c \
 cache/backend/memory.c \
+cache/backend/xcache.c \
 cache/exception.c \
 cache/backendinterface.c \
 cache/frontendinterface.c \
@@ -292,6 +294,7 @@ annotations/readerinterface.c \
 annotations/adapter/files.c \
 annotations/adapter/apc.c \
 annotations/adapter/memory.c \
+annotations/adapter/xcache.c \
 annotations/exception.c \
 annotations/collection.c \
 annotations/adapterinterface.c \

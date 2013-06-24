@@ -55,6 +55,7 @@ ext/cache/backend/.libs/
 ext/cache/backend/apc.lo
 ext/cache/backend/file.lo
 ext/cache/backend/memcache.lo
+ext/cache/backend/xcache.lo
 ext/cache/exception.lo
 ext/cache/frontend/.libs/
 ext/cache/frontend/data.lo
@@ -187,6 +188,7 @@ ext/mvc/model/metadata/.libs/
 ext/mvc/model/metadata/apc.lo
 ext/mvc/model/metadata/memory.lo
 ext/mvc/model/metadata/session.lo
+ext/mvc/model/metadata/xcache.lo
 ext/mvc/model/query.lo
 ext/mvc/model/query/.libs/
 ext/mvc/model/query/lang.lo
@@ -444,6 +446,7 @@ ext/annotations/.libs/
 ext/annotations/adapter.lo
 ext/annotations/adapter/.libs/
 ext/annotations/adapter/memory.lo
+ext/annotations/adapter/xcache.lo
 ext/annotations/annotation.lo
 ext/annotations/collection.lo
 ext/annotations/exception.lo
