@@ -39,7 +39,7 @@
 /**
  * Phalcon\Annotations\Adapter\Apc
  *
- * Stores the parsed annotations in APC. This adapter is the suitable for production
+ * Stores the parsed annotations in APC. This adapter is suitable for production
  *
  *<code>
  * $annotations = new \Phalcon\Annotations\Adapter\Apc();
@@ -60,10 +60,10 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Apc){
 }
 
 /**
- * Reads parsed annotations from Apc
+ * Reads parsed annotations from APC
  *
  * @param string $key
- * @return array
+ * @return Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read){
 
@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read){
  * Writes parsed annotations to APC
  *
  * @param string $key
- * @param array $data
+ * @param Phalcon\Annotations\Reflection $data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write){
 
