@@ -62,7 +62,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
  * Reads parsed annotations from memory
  *
  * @param string $key
- * @return array
+ * @return Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 
@@ -87,10 +87,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 }
 
 /**
- * Writes parsed annotationw to memory
+ * Writes parsed annotations to memory
  *
  * @param string $key
- * @param array $data
+ * @param Phalcon\Annotations\Reflection $data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
 
