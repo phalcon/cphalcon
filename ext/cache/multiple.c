@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, start){
 }
 
 /**
- * Stores cached content into the APC backend and stops the frontend
+ * Stores cached content into all backends and stops the frontend
  *
  * @param string $keyName
  * @param string $content
