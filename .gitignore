@@ -446,6 +446,7 @@ ext/annotations/.libs/
 ext/annotations/adapter.lo
 ext/annotations/adapter/.libs/
 ext/annotations/adapter/memory.lo
+ext/annotations/adapter/xcache.lo
 ext/annotations/annotation.lo
 ext/annotations/collection.lo
 ext/annotations/exception.lo

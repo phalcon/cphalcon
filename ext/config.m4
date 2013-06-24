@@ -294,6 +294,7 @@ annotations/readerinterface.c \
 annotations/adapter/files.c \
 annotations/adapter/apc.c \
 annotations/adapter/memory.c \
+annotations/adapter/xcache.c \
 annotations/exception.c \
 annotations/collection.c \
 annotations/adapterinterface.c \

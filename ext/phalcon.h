@@ -188,6 +188,7 @@
 #include "annotations/reader.h"
 #include "annotations/exception.h"
 #include "annotations/adapter/apc.h"
+#include "annotations/adapter/xcache.h"
 #include "annotations/reflection.h"
 #include "annotations/annotation.h"
 #include "annotations/collection.h"
