@@ -37,7 +37,6 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
-
 /**
  * Checks if a file exist
  *
@@ -206,7 +205,7 @@ void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC) {
 	RETURN_FALSE;
 }
 
-void phalcon_file_get_contents(zval *return_value, zval *filename TSRMLS_CC)
+void phalcon_file_get_contents(zval *return_value, zval *filename TSRMLS_DC)
 {
 
 	char *contents;
@@ -242,7 +241,7 @@ void phalcon_file_get_contents(zval *return_value, zval *filename TSRMLS_CC)
 	php_stream_close(stream);
 }
 
-void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_CC)
+void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_DC)
 {
 	php_stream *stream;
 	int numbytes = 0;
