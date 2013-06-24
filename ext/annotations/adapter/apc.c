@@ -39,7 +39,7 @@
 /**
  * Phalcon\Annotations\Adapter\Apc
  *
- * Stores the parsed annotations in APC. This adapter is the suitable for production
+ * Stores the parsed annotations in APC. This adapter is suitable for production
  *
  *<code>
  * $annotations = new \Phalcon\Annotations\Adapter\Apc();
@@ -60,7 +60,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Apc){
 }
 
 /**
- * Reads parsed annotations from Apc
+ * Reads parsed annotations from APC
  *
  * @param string $key
  * @return array
