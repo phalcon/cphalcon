@@ -231,6 +231,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
  *</code>
  *
  * @param string $index
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Adapter, has){
 
