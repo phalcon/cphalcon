@@ -40,7 +40,7 @@
 /**
  * Phalcon\Annotations\Adapter\Memory
  *
- * Stores the parsed annotations in memory. This adapter is the suitable for development/testing
+ * Stores the parsed annotations in memory. This adapter is suitable for development/testing
  */
 
 
@@ -59,10 +59,10 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
 }
 
 /**
- * Reads meta-data from memory
+ * Reads parsed annotations from memory
  *
  * @param string $key
- * @return array
+ * @return Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 
@@ -87,10 +87,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 }
 
 /**
- * Writes the meta-data to files
+ * Writes parsed annotations to memory
  *
  * @param string $key
- * @param array $data
+ * @param Phalcon\Annotations\Reflection $data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
 
