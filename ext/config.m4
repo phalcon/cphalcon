@@ -145,6 +145,7 @@ mvc/model/metadata/strategy/annotations.c \
 mvc/model/metadata/apc.c \
 mvc/model/metadata/memory.c \
 mvc/model/metadata/session.c \
+mvc/model/metadata/xcache.c \
 mvc/model/transaction.c \
 mvc/model/validatorinterface.c \
 mvc/model/metadata.c \

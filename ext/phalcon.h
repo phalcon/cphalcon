@@ -278,6 +278,7 @@
 #include "mvc/model/query/builder.h"
 #include "mvc/model/metadata/apc.h"
 #include "mvc/model/metadata/files.h"
+#include "mvc/model/metadata/xcache.h"
 #include "mvc/model/resultset/simple.h"
 #include "mvc/model/metadata/session.h"
 #include "mvc/model/metadata/memory.h"

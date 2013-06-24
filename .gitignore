@@ -188,6 +188,7 @@ ext/mvc/model/metadata/.libs/
 ext/mvc/model/metadata/apc.lo
 ext/mvc/model/metadata/memory.lo
 ext/mvc/model/metadata/session.lo
+ext/mvc/model/metadata/xcache.lo
 ext/mvc/model/query.lo
 ext/mvc/model/query/.libs/
 ext/mvc/model/query/lang.lo

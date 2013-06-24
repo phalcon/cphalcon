@@ -277,6 +277,7 @@ zend_class_entry *phalcon_mvc_model_queryinterface_ce;
 zend_class_entry *phalcon_mvc_model_query_status_ce;
 zend_class_entry *phalcon_mvc_model_query_builder_ce;
 zend_class_entry *phalcon_mvc_model_metadata_apc_ce;
+zend_class_entry *phalcon_mvc_model_metadata_xcache_ce;
 zend_class_entry *phalcon_mvc_model_transaction_ce;
 zend_class_entry *phalcon_mvc_model_validator_email_ce;
 zend_class_entry *phalcon_mvc_model_metadata_memory_ce;
@@ -620,6 +621,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Mvc_Model_Query_Builder);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Apc);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Files);
+	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Xcache);
 	PHALCON_INIT(Phalcon_Mvc_Model_Resultset_Simple);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Session);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Memory);
