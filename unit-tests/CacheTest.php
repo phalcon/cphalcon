@@ -498,4 +498,100 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	protected function _prepareXcache()
+	{
+
+		if (!extension_loaded('xcache') || 'cli' == PHP_SAPI) {
+			$this->markTestSkipped('xcache extension is not loaded');
+			return false;
+		}
+
+		return true;
+	}
+
+	public function testOutputXcache()
+	{
+
+		$ready = $this->_prepareXcache();
+		if (!$ready) {
+			return false;
+		}
+
+		xcache_unset('_PHCXtest-output');
+
+		$time = date('H:i:s');
+
+		$frontCache = new Phalcon\Cache\Frontend\Output(array(
+			'lifetime' => 2
+		));
+
+		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+
+		ob_start();
+
+		//First time cache
+		$content = $cache->start('test-output');
+		if ($content !== null) {
+			$this->assertTrue(false);
+		}
+
+		echo $time;
+
+		$cache->save(null, null, null, true);
+
+		$obContent = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertEquals($time, $obContent);
+		$this->assertEquals($time, xcache_get('_PHCXtest-output'));
+
+		//Expect same cache
+		$content = $cache->start('test-output');
+		if ($content === null) {
+			$this->assertTrue(false);
+		}
+
+		$this->assertEquals($content, $obContent);
+		$this->assertEquals($content, xcache_get('_PHCXtest-output'));
+
+		//Query keys
+		$keys = $cache->queryKeys();
+		$this->assertEquals($keys, array(
+			0 => 'test-output',
+		));
+
+		//Delete entry from cache
+		$this->assertTrue($cache->delete('test-output'));
+
+	}
+
+	public function testDataXcache()
+	{
+
+		$ready = $this->_prepareXcache();
+		if (!$ready) {
+			return false;
+		}
+
+		xcache_unset('_PHCXtest-data');
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+
+		$data = array(1, 2, 3, 4, 5);
+
+		$cache->save('test-data', $data);
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, $data);
+
+		$cache->save('test-data', "sure, nothing interesting");
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, "sure, nothing interesting");
+
+		$this->assertTrue($cache->delete('test-data'));
+
+	}
 }
