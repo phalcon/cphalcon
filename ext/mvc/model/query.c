@@ -1851,6 +1851,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin){
 	RETURN_CTOR(sql_joins);
 }
 
+/**
+ * Processes the JOINs in the query returning an internal representation for the database dialect
+ *
+ * @param array $select
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 
 	zval *select, *models, *sql_aliases, *sql_aliases_models;
@@ -1864,9 +1870,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	zval *alias = NULL, *phql = NULL, *exception_message = NULL, *join_alias_name = NULL;
 	zval *join_expr = NULL, *pre_condition = NULL, *from_model_name = NULL;
 	zval *join_model = NULL, *join_alias = NULL, *join_source = NULL;
-	zval *relation = NULL, *relations = NULL, *number_relations = NULL;
-	zval *model_alias = NULL, *is_through = NULL, *sql_join = NULL, *new_sql_joins = NULL;
-	zval *sql_join_conditions = NULL;
+	zval *model_name_alias = NULL, *relation = NULL, *relations = NULL;
+	zval *number_relations = NULL, *model_alias = NULL, *is_through = NULL;
+	zval *sql_join = NULL, *new_sql_joins = NULL, *sql_join_conditions = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
@@ -2170,17 +2176,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 			if (!phalcon_array_isset(join_pre_condition, join_alias)) {
 	
 				/** 
+				 * Get the model name from its source
+				 */
+				PHALCON_OBS_NVAR(model_name_alias);
+				phalcon_array_fetch(&model_name_alias, sql_aliases_models, join_alias, PH_NOISY_CC);
+	
+				/** 
 				 * Check if the joined model is an alias
 				 */
 				PHALCON_INIT_NVAR(relation);
-				phalcon_call_method_p2(relation, manager, "getrelationbyalias", from_model_name, join_model);
+				phalcon_call_method_p2(relation, manager, "getrelationbyalias", from_model_name, model_name_alias);
 				if (PHALCON_IS_FALSE(relation)) {
 	
 					/** 
 					 * Check for relations between models
 					 */
 					PHALCON_INIT_NVAR(relations);
-					phalcon_call_method_p2(relations, manager, "getrelationsbetween", from_model_name, join_model);
+					phalcon_call_method_p2(relations, manager, "getrelationsbetween", from_model_name, model_name_alias);
 					if (Z_TYPE_P(relations) == IS_ARRAY) { 
 	
 						/** 
@@ -2260,7 +2272,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 				 * Get the conditions stablished by the developer
 				 */
 				PHALCON_OBS_NVAR(pre_condition);
-				phalcon_array_fetch(&pre_condition, join_pre_condition, join_model, PH_NOISY_CC);
+				phalcon_array_fetch(&pre_condition, join_pre_condition, join_alias, PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(sql_join_conditions);
 				array_init_size(sql_join_conditions, 1);
