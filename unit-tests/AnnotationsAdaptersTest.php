@@ -30,23 +30,23 @@ class AnnotationsAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$classAnnotations = $adapter->get('TestClass');
 		$this->assertTrue(is_object($classAnnotations));
-		$this->assertTrue(get_class($classAnnotations), 'Phalcon\Annotations\Refactor');
-		$this->assertTrue(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
+		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
 
 		$classAnnotations = $adapter->get('TestClass');
 		$this->assertTrue(is_object($classAnnotations));
-		$this->assertTrue(get_class($classAnnotations), 'Phalcon\Annotations\Refactor');
-		$this->assertTrue(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
+		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
 
 		$classAnnotations = $adapter->get('User\TestClassNs');
 		$this->assertTrue(is_object($classAnnotations));
-		$this->assertTrue(get_class($classAnnotations), 'Phalcon\Annotations\Refactor');
-		$this->assertTrue(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
+		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
 
 		$classAnnotations = $adapter->get('User\TestClassNs');
 		$this->assertTrue(is_object($classAnnotations));
-		$this->assertTrue(get_class($classAnnotations), 'Phalcon\Annotations\Refactor');
-		$this->assertTrue(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
+		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
 	}
 
 	public function testFilesAdapter()
@@ -60,23 +60,23 @@ class AnnotationsAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$classAnnotations = $adapter->get('TestClass');
 		$this->assertTrue(is_object($classAnnotations));
-		$this->assertTrue(get_class($classAnnotations), 'Phalcon\Annotations\Refactor');
-		$this->assertTrue(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
+		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
 
 		$classAnnotations = $adapter->get('TestClass');
 		$this->assertTrue(is_object($classAnnotations));
-		$this->assertTrue(get_class($classAnnotations), 'Phalcon\Annotations\Refactor');
-		$this->assertTrue(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
+		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
 
 		$classAnnotations = $adapter->get('User\TestClassNs');
 		$this->assertTrue(is_object($classAnnotations));
-		$this->assertTrue(get_class($classAnnotations), 'Phalcon\Annotations\Refactor');
-		$this->assertTrue(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
+		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
 
 		$classAnnotations = $adapter->get('User\TestClassNs');
 		$this->assertTrue(is_object($classAnnotations));
-		$this->assertTrue(get_class($classAnnotations), 'Phalcon\Annotations\Refactor');
-		$this->assertTrue(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
+		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
 	}
 
 }
