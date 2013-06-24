@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Validation, validate){
  *
  * @param string $attribute
  * @param Phalcon\Validation\ValidatorInterface
- * @return Phalcon\Validator
+ * @return Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, add){
 
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Validation, add){
  *
  * @param string $attribute
  * @param array|string $attribute
- * @return Phalcon\Validator
+ * @return Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, setFilters){
 
@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
  *
  * @param string $entity
  * @param string $data
- * @return Phalcon\Validator
+ * @return Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, bind){
 
