@@ -55,6 +55,7 @@ ext/cache/backend/.libs/
 ext/cache/backend/apc.lo
 ext/cache/backend/file.lo
 ext/cache/backend/memcache.lo
+ext/cache/backend/xcache.lo
 ext/cache/exception.lo
 ext/cache/frontend/.libs/
 ext/cache/frontend/data.lo
