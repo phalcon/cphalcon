@@ -39,6 +39,10 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 		marker = item;
 		for (j = 0; j < length; j++) {
 			ch = *cursor_var;
+			if (ch == '\0') {
+				not_valid = 1;
+				break;
+			}
 			if (j == 0 && !((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <= 'Z'))){
 				not_valid = 1;
 				break;
@@ -136,6 +140,9 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 	for (i = 1; i < Z_STRLEN_P(pattern); i++) {
 
 		ch = *cursor;
+		if (ch == '\0') {
+			break;
+		}
 
 		if (parentheses_count == 0 && !looking_placeholder) {
 			if (ch == '{') {
@@ -314,6 +321,9 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 							marker = item;
 							for (j = 0; j < length; j++) {
 								ch = *cursor_var;
+								if (ch == '\0') {
+									break;
+								}
 								if (j == 0 && !((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z'))){
 									not_valid = 1;
 									break;
@@ -347,6 +357,9 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 											 */
 											found_pattern = 0;
 											for (k = 0; k < regexp_length; k++) {
+												if (regexp[k] == '\0') {
+													break;
+												}
 												if (!found_pattern) {
 													if (regexp[k] == '(') {
 														found_pattern = 1;

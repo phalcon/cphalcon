@@ -115,7 +115,13 @@ void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC) {
 			break;
 		}
 		if ((*marker) == '\'') {
-			smart_str_appendc(&escaped_str, '\'');
+			if (i > 0) {
+				if (*(marker - 1) != '\\') {
+					smart_str_appendc(&escaped_str, '\'');
+				}
+			} else {
+				smart_str_appendc(&escaped_str, '\'');
+			}
 		}
 		smart_str_appendc(&escaped_str, (*marker));
 		marker++;
