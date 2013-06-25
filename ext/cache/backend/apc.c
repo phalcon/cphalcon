@@ -283,29 +283,45 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	if (phalcon_has_constructor(iterator TSRMLS_CC)) {
 		phalcon_call_method_p2_noret(iterator, "__construct", type, prefix_pattern);
 	}
-	phalcon_call_method_noret(iterator, "rewind");
-	
-	while (1) {
-	
-		PHALCON_INIT_NVAR(r0);
-		phalcon_call_method(r0, iterator, "valid");
-		if (zend_is_true(r0)) {
-		} else {
-			break;
-		}
-	
+
+	zend_object_iterator* it = ce0->get_iterator(ce0, iterator, 0 TSRMLS_CC);
+	if (unlikely(!it->funcs->get_current_key)) {
+		it->funcs->dtor(it);
+		RETURN_CTOR(keys);
+	}
+
+	if (likely(it->funcs->rewind)) {
+		it->funcs->rewind(it TSRMLS_CC);
+	}
+
+	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS) {
+		char *str_key;
+		uint str_key_len;
+		ulong int_key;
+
 		PHALCON_INIT_NVAR(key);
-		phalcon_call_method(key, iterator, "key");
-	
-		/** 
-		 * Remove the _PHCA prefix
-		 */
-		PHALCON_INIT_NVAR(real_key);
-		phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
-		phalcon_array_append(&keys, real_key, PH_SEPARATE TSRMLS_CC);
-		phalcon_call_method_noret(iterator, "next");
+		int key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
+		if (likely(key_type == HASH_KEY_IS_STRING)) {
+			/**
+			 *  Do not duplicate the string, null zval later.
+			 *  Also note that str_key_len includes the trailing zero
+			 */
+			ZVAL_STRINGL(key, str_key, str_key_len-1, 0);
+
+			/**
+			 * Remove the _PHCA prefix
+			 */
+			PHALCON_INIT_NVAR(real_key);
+			phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
+			phalcon_array_append(&keys, real_key, PH_SEPARATE TSRMLS_CC);
+
+			ZVAL_NULL(key);
+		}
+
+		it->funcs->move_forward(it TSRMLS_CC);
 	}
 	
+	it->funcs->dtor(it);
 	RETURN_CTOR(keys);
 }
 
