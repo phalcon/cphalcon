@@ -43,6 +43,7 @@ zend_class_entry *phalcon_cache_exception_ce;
 zend_class_entry *phalcon_cache_multiple_ce;
 zend_class_entry *phalcon_cache_backend_memory_ce;
 zend_class_entry *phalcon_cache_frontend_data_ce;
+zend_class_entry *phalcon_cache_frontend_igbinary_ce;
 zend_class_entry *phalcon_cache_frontend_none_ce;
 zend_class_entry *phalcon_cache_backend_xcache_ce;
 zend_class_entry *phalcon_cache_frontend_json_ce;
@@ -459,6 +460,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Cache_Backend_Memcache);
 	PHALCON_INIT(Phalcon_Cache_Frontend_None);
 	PHALCON_INIT(Phalcon_Cache_Frontend_Data);
+	PHALCON_INIT(Phalcon_Cache_Frontend_Igbinary);
 	PHALCON_INIT(Phalcon_Cache_Frontend_Json);
 	PHALCON_INIT(Phalcon_Cache_Frontend_Base64);
 	PHALCON_INIT(Phalcon_Cache_Frontend_Output);
