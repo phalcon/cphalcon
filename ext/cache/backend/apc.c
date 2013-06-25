@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 		it->funcs->move_forward(it TSRMLS_CC);
 	}
 	
-	it->funcs->dtor(it);
+	it->funcs->dtor(it TSRMLS_CC);
 	RETURN_CTOR(keys);
 }
 
