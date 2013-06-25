@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 
 	zval *prefix = NULL, *keys, *type, *prefix_pattern, *iterator;
-	zval *key = NULL, *real_key = NULL;
+	zval *key = NULL;
 	zend_class_entry *ce0;
 	char *str_key;
 	uint str_key_len;
@@ -305,19 +305,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
 		if (likely(key_type == HASH_KEY_IS_STRING)) {
 			/**
-			 *  Do not duplicate the string, null zval later.
-			 *  Also note that str_key_len includes the trailing zero
+			 * Note that str_key_len includes the trailing zero.
+			 * Remove the _PHCA prefix.
 			 */
-			ZVAL_STRINGL(key, str_key, str_key_len-1, 0);
+			ZVAL_STRINGL(key, str_key+5, str_key_len-5-1, 1);
 
-			/**
-			 * Remove the _PHCA prefix
-			 */
-			PHALCON_INIT_NVAR(real_key);
-			phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
-			phalcon_array_append(&keys, real_key, PH_SEPARATE TSRMLS_CC);
-
-			ZVAL_NULL(key);
+			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
 		}
 
 		it->funcs->move_forward(it TSRMLS_CC);
