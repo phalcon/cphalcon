@@ -103,6 +103,7 @@ PHP_METHOD(Phalcon_Validation, __construct){
  *
  * @param array|object $data
  * @param object $entity
+ * @return Phalcon\Validation\Message\Group
  */
 PHP_METHOD(Phalcon_Validation, validate){
 
@@ -257,7 +258,7 @@ PHP_METHOD(Phalcon_Validation, add){
  *
  * @param string $attribute
  * @param array|string $attribute
- * @return Phalcon\Validator
+ * @return Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, setFilters){
 
@@ -338,6 +339,7 @@ PHP_METHOD(Phalcon_Validation, getMessages){
  * Appends a message to the messages list
  *
  * @param Phalcon\Validation\MessageInterface $message
+ * @return Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, appendMessage){
 
@@ -350,8 +352,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
 	PHALCON_OBS_VAR(messages);
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	phalcon_call_method_p1_noret(messages, "appendmessage", message);
-	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 /**
@@ -360,7 +361,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage){
  *
  * @param string $entity
  * @param string $data
- * @return Phalcon\Validator
+ * @return Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, bind){
 

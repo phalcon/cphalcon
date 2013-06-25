@@ -72,7 +72,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Xcache){
 }
 
 /**
- * Phalcon\Mvc\Model\MetaData\Apc constructor
+ * Phalcon\Mvc\Model\MetaData\Xcache constructor
  *
  * @param array $options
  */

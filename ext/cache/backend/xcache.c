@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 	}
 	
 	/** 
-	 * Call apc_store in the PHP userland since most of the time it isn't available at
+	 * Call xcache_set in the PHP userland since most of the time it isn't available at
 	 * compile time
 	 */
 	PHALCON_INIT_VAR(success);
@@ -392,7 +392,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys){
 			}
 	
 			PHALCON_INIT_NVAR(real_key);
-			phalcon_substr(real_key, key, 0, 5 TSRMLS_CC);
+			phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
 			phalcon_array_append(&prefixed_keys, real_key, PH_SEPARATE TSRMLS_CC);
 	
 			RETURN_CTOR(prefixed_keys);

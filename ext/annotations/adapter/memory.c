@@ -40,7 +40,7 @@
 /**
  * Phalcon\Annotations\Adapter\Memory
  *
- * Stores the parsed annotations in memory. This adapter is the suitable for development/testing
+ * Stores the parsed annotations in memory. This adapter is the suitable development/testing
  */
 
 

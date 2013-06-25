@@ -119,6 +119,7 @@ class Build_Generator
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_smart_str.h"
 #include "ext/pdo/php_pdo_driver.h"
+#include "ext/standard/file.h"
 #include "ext/standard/php_filestat.h"
 #include "ext/standard/php_rand.h"
 #include "ext/standard/php_lcg.h"

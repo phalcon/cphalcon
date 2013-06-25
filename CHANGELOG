@@ -44,9 +44,14 @@
  - Support for complex expressions in GROUP BY clauses in PHQL
  - Now PHQL exceptions include the PHQL statement itself
  - Aliases for namespaces are now supported in PHQL
- - Acl\Memory was rewritted to make it simpler and faster
+ - Acl\Memory was rewritted to make it simpler and faster, you may regenerate your serialized ACLs
  - Support for assigment operators +=, -=, *=, /= in Volt
  - Support for Profile-Guided optimization installation scripts (See blog)
+ - Added Phalcon\Annotations\Adapter\Xcache to store annotations in Xcache
+ - Added Phalcon\Mvc\Model\Metadata\Xcache to store models meta-data in Xcache
+ - Added
+ - Now if a controller implements 'initialize' it only is called if 'beforeExecuteRoute' is not stopped
+ - Listeners implementing 'beforeExecuteRoute'/'afterExecuteRoute' are executed first than the ones implemented as methods in the controller/task
 
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods
