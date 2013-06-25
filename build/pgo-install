@@ -30,6 +30,10 @@ if [ $? != 0 ]; then
                 export CFLAGS="-O2 -fno-delete-null-pointer-checks"
         fi
 fi
+if [ $(gcc -dumpversion | cut -f1 -d.) -ge 4 ]; then
+	gcc $CFLAGS -fvisibility=hidden t.c -o t 2> t.t && export CFLAGS="$CFLAGS -fvisibility=hidden"
+fi
+#gcc $CFLAGS -flto t.c -o t 2> t.t && { export CFLAGS="$CFLAGS -flto"; export LDFLAGS="$LDFLAGS $CFLAGS"; }
 rm -f t.t t.c t
 
 #Check processor architecture
