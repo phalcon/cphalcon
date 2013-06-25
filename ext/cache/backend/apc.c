@@ -256,8 +256,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 
 	zval *prefix = NULL, *keys, *type, *prefix_pattern, *iterator;
 	zval *key = NULL, *real_key = NULL;
-	zval *r0 = NULL;
 	zend_class_entry *ce0;
+	char *str_key;
+	uint str_key_len;
+	ulong int_key;
+	int key_type;
 
 	PHALCON_MM_GROW();
 
@@ -284,23 +287,22 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 		phalcon_call_method_p2_noret(iterator, "__construct", type, prefix_pattern);
 	}
 
+	/* APCIterator implements Iterator */
+	assert(instanceof_function_ex(ce0, zend_ce_iterator, 1 TSRMLS_CC));
+
 	zend_object_iterator* it = ce0->get_iterator(ce0, iterator, 0 TSRMLS_CC);
-	if (unlikely(!it->funcs->get_current_key)) {
-		it->funcs->dtor(it);
-		RETURN_CTOR(keys);
-	}
 
-	if (likely(it->funcs->rewind)) {
-		it->funcs->rewind(it TSRMLS_CC);
-	}
+	/* APCIterator is an iterator */
+	assert(it != NULL);
+	/* APCIterator has key() method */
+	assert(it->funcs->get_current_key != NULL);
+	/* APCIterator has rewind() method */
+	assert(it->funcs->rewind != NULL);
 
+	it->funcs->rewind(it TSRMLS_CC);
 	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS) {
-		char *str_key;
-		uint str_key_len;
-		ulong int_key;
-
 		PHALCON_INIT_NVAR(key);
-		int key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
+		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
 		if (likely(key_type == HASH_KEY_IS_STRING)) {
 			/**
 			 *  Do not duplicate the string, null zval later.
