@@ -41,7 +41,20 @@
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
  *
- * Component of pagination by array data
+ * Pagination using a PHQL query builder as source of data
+ *
+ *<code>
+ *  $builder = $this->modelsManager->createBuilder()
+ *                   ->columns('id, name')
+ *                   ->from('Robots')
+ *                   ->orderBy('name');
+ *
+ *  $paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
+ *      "builder" => $builder,
+ *      "limit"=> 20,
+ *      "page" => 1
+ *  ));
+ *</code>
  */
 
 
@@ -128,19 +141,25 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	zval *original_builder, *builder, *total_builder;
 	zval *limit, *number_page = NULL, *one, *prev_number_page;
 	zval *number, *query, *page, *before = NULL, *items, *select_count;
-	zval *total_query, *result, *row, *rowcount, *total_pages = NULL;
-	zval *int_total_pages, *next = NULL;
+	zval *null_order, *total_query, *result, *row, *rowcount;
+	zval *total_pages = NULL, *int_total_pages, *next = NULL;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(original_builder);
 	phalcon_read_property_this(&original_builder, this_ptr, SL("_builder"), PH_NOISY_CC);
 	
+	/** 
+	 * We make a copy of the original builder to leave it as it is
+	 */
 	PHALCON_INIT_VAR(builder);
 	if (phalcon_clone(builder, original_builder TSRMLS_CC) == FAILURE) {
 		return;
 	}
 	
+	/** 
+	 * We make a copy of the original builder to count the total of records
+	 */
 	PHALCON_INIT_VAR(total_builder);
 	if (phalcon_clone(total_builder, builder TSRMLS_CC) == FAILURE) {
 		return;
@@ -163,6 +182,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	
 	PHALCON_INIT_VAR(number);
 	mul_function(number, limit, prev_number_page TSRMLS_CC);
+	
+	/** 
+	 * Set the limit clause avoiding negative offsets
+	 */
 	if (PHALCON_LT(number, limit)) {
 		phalcon_call_method_p1_noret(builder, "limit", limit);
 	} else {
@@ -184,17 +207,36 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	
 	phalcon_update_property_zval(page, SL("before"), before TSRMLS_CC);
 	
+	/** 
+	 * Execute the query an return the requested slice of data
+	 */
 	PHALCON_INIT_VAR(items);
 	phalcon_call_method(items, query, "execute");
 	phalcon_update_property_zval(page, SL("items"), items TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(select_count);
-	ZVAL_STRING(select_count, "COUNT(*) rowcount", 1);
+	ZVAL_STRING(select_count, "COUNT(*) [rowcount]", 1);
+	
+	/** 
+	 * Change the queried columns by a COUNT(*)
+	 */
 	phalcon_call_method_p1_noret(total_builder, "columns", select_count);
 	
+	/** 
+	 * Remove the 'ORDER BY' clause, PostgreSQL requires this
+	 */
+	PHALCON_INIT_VAR(null_order);
+	phalcon_call_method_p1_noret(total_builder, "orderby", null_order);
+	
+	/** 
+	 * Obtain the PHQL for the total query
+	 */
 	PHALCON_INIT_VAR(total_query);
 	phalcon_call_method(total_query, total_builder, "getquery");
 	
+	/** 
+	 * Obtain the result of the total query
+	 */
 	PHALCON_INIT_VAR(result);
 	phalcon_call_method(result, total_query, "execute");
 	

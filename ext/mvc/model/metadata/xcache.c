@@ -12,6 +12,10 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Vladimir Kolesnikov <vladimir@free-sevastopol.com>              |
+  +------------------------------------------------------------------------+
 */
 
 #ifdef HAVE_CONFIG_H
@@ -68,7 +72,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Xcache){
 }
 
 /**
- * Phalcon\Mvc\Model\MetaData\Xcache constructor
+ * Phalcon\Mvc\Model\MetaData\Apc constructor
  *
  * @param array $options
  */
@@ -79,36 +83,35 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, __construct){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 1, &options);
-
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
-
-	if (Z_TYPE_P(options) == IS_ARRAY) {
+	
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("prefix"))) {
 			PHALCON_OBS_VAR(prefix);
 			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
 			phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 		}
-
 		if (phalcon_array_isset_string(options, SS("lifetime"))) {
 			PHALCON_OBS_VAR(ttl);
 			phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY_CC);
 			phalcon_update_property_this(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
 		}
 	}
-
+	
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
 	phalcon_update_property_this(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
-
+	
 	PHALCON_MM_RESTORE();
 }
 
 /**
  * Reads metadata from XCache
  *
- * @param string $key
+ * @param  string $key
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, read){
@@ -118,24 +121,24 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, read){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &key);
-
+	
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
-
+	
 	PHALCON_INIT_VAR(xc_key);
 	PHALCON_CONCAT_SVV(xc_key, "$PMM$", prefix, key);
-
+	
 	PHALCON_INIT_VAR(data);
 	phalcon_call_func_p1(data, "xcache_get", xc_key);
-	if (Z_TYPE_P(data) == IS_ARRAY) {
+	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		RETURN_CCTOR(data);
 	}
-
+	
 	RETURN_MM_NULL();
 }
 
 /**
- * Writes the metadata to XCache
+ *  Writes the metadata to XCache
  *
  * @param string $key
  * @param array $data
@@ -147,17 +150,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, write){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &key, &data);
-
+	
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
-
+	
 	PHALCON_INIT_VAR(xc_key);
 	PHALCON_CONCAT_SVV(xc_key, "$PMM$", prefix, key);
-
+	
 	PHALCON_OBS_VAR(ttl);
 	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	phalcon_call_func_p3_noret("xcache_set", xc_key, data, ttl);
-
+	
 	PHALCON_MM_RESTORE();
 }
 

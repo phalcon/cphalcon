@@ -43,6 +43,17 @@
  * Phalcon\Crypt
  *
  * Provides encryption facilities to phalcon applications
+ *
+ *<code>
+ *	$crypt = new Phalcon\Crypt();
+ *
+ *	$key = 'le password';
+ *	$text = 'This is a secret text';
+ *
+ *	$encrypted = $crypt->encrypt($text, $key);
+ *
+ *	echo $crypt->decrypt($encrypted, $key);
+ *</code>
  */
 
 
@@ -146,6 +157,10 @@ PHP_METHOD(Phalcon_Crypt, getKey){
 /**
  * Encrypts a text
  *
+ *<code>
+ *	$encrypted = $crypt->encrypt("Ultra-secret text", "encrypt password");
+ *</code>
+ *
  * @param string $text
  * @param string $key
  * @return string
@@ -221,7 +236,11 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 }
 
 /**
- * Decrypts a text
+ * Decrypts an encrypted text
+ *
+ *<code>
+ *	echo $crypt->decrypt($encrypted, "decrypt password");
+ *</code>
  *
  * @param string $text
  * @param string $key

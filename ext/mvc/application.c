@@ -243,14 +243,13 @@ PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule){
 PHP_METHOD(Phalcon_Mvc_Application, handle){
 
 	zval *uri = NULL, *dependency_injector, *events_manager;
-	zval *service = NULL, *router, *module_name = NULL, *event_name = NULL;
-	zval *status = NULL, *modules, *exception_msg = NULL, *module;
-	zval *path, *class_name = NULL, *module_object, *module_params;
-	zval *implicit_view, *view, *namespace_name;
-	zval *controller_name = NULL, *action_name = NULL, *params = NULL;
-	zval *dispatcher, *controller, *returned_response = NULL;
-	zval *possible_response, *render_status = NULL, *response = NULL;
-	zval *content;
+	zval *event_name = NULL, *status = NULL, *service = NULL, *router, *module_name = NULL;
+	zval *modules, *exception_msg = NULL, *module, *path, *class_name = NULL;
+	zval *module_object, *module_params, *implicit_view;
+	zval *view, *namespace_name, *controller_name = NULL;
+	zval *action_name = NULL, *params = NULL, *dispatcher, *controller;
+	zval *returned_response = NULL, *possible_response;
+	zval *render_status = NULL, *response = NULL, *content;
 
 	PHALCON_MM_GROW();
 
@@ -270,11 +269,30 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
+	/** 
+	 * Call boot event, this allow the developer to perform initialization actions
+	 */
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "application:boot", 1);
+	
+		PHALCON_INIT_VAR(status);
+		phalcon_call_method_p2(status, events_manager, "fire", event_name, this_ptr);
+		if (PHALCON_IS_FALSE(status)) {
+			RETURN_MM_FALSE;
+		}
+	}
+	
 	PHALCON_INIT_VAR(service);
 	ZVAL_STRING(service, "router", 1);
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+	
+	/** 
+	 * Handle the URI pattern (if any)
+	 */
 	phalcon_call_method_p1_noret(router, "handle", uri);
 	
 	/** 
@@ -297,10 +315,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	if (zend_is_true(module_name)) {
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
-			PHALCON_INIT_VAR(event_name);
+			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "application:beforeStartModule", 1);
 	
-			PHALCON_INIT_VAR(status);
+			PHALCON_INIT_NVAR(status);
 			phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, module_name);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_MM_FALSE;
@@ -320,7 +338,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		}
 	
 		/** 
-		 * A module definition must an array or an object
+		 * A module definition must ne an array or an object
 		 */
 		PHALCON_OBS_VAR(module);
 		phalcon_array_fetch(&module, modules, module_name, PH_NOISY_CC);
@@ -366,7 +384,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			phalcon_call_method_p1(module_object, dependency_injector, "get", class_name);
 	
 			/** 
-			 * Register autoloaders and register services are automatically called
+			 * 'registerAutoloaders' and 'registerServices' are automatically called
 			 */
 			phalcon_call_method_p1_noret(module_object, "registerautoloaders", dependency_injector);
 			phalcon_call_method_p1_noret(module_object, "registerservices", dependency_injector);
@@ -418,7 +436,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	}
 	
 	/** 
-	 * We get the parameters from the router and assign it to the dispatcher
+	 * We get the parameters from the router and assign them to the dispatcher
 	 */
 	PHALCON_INIT_NVAR(module_name);
 	phalcon_call_method(module_name, router, "getmodulename");
@@ -570,7 +588,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		}
 	} else {
 		/** 
-		 * We don't need to create a response because there is an already created one
+		 * We don't need to create a response because there is a one already created
 		 */
 		PHALCON_CPY_WRT(response, possible_response);
 	}

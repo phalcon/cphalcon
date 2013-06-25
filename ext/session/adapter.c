@@ -35,8 +35,8 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/array.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 #include "kernel/concat.h"
 
 /**
@@ -125,17 +125,17 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions){
 
 	phalcon_fetch_params(1, 1, 0, &options);
 	
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("uniqueId"))) {
-			PHALCON_OBS_VAR(unique_id);
-			phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY_CC);
-			phalcon_update_property_this(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
-		}
-		phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	} else {
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "Options must be an Array");
 		return;
 	}
+	if (phalcon_array_isset_string(options, SS("uniqueId"))) {
+		PHALCON_OBS_VAR(unique_id);
+		phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY_CC);
+		phalcon_update_property_this(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
+	}
+	
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
