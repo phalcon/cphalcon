@@ -86,6 +86,7 @@ PHALCON_INIT_CLASS(Phalcon_Config){
 PHP_METHOD(Phalcon_Config, __construct){
 
 	zval *array_config = NULL, *value = NULL, *key = NULL, *config_value = NULL;
+	zval *tmp = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -118,7 +119,14 @@ PHP_METHOD(Phalcon_Config, __construct){
 					phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 				}
 			} else {
-				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+				if (Z_TYPE_P(key) == IS_STRING) {
+					phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+				}
+				else {
+					PHALCON_INIT_NVAR(tmp);
+					phalcon_cast(tmp, key, IS_STRING);
+					phalcon_update_property_zval_zval(this_ptr, tmp, value TSRMLS_CC);
+				}
 			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
