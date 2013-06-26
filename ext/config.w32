@@ -59,7 +59,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/acl", "resource.c resourceinterface.c exception.c role.c adapterinterface.c adapter.c roleinterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/acl/adapter", "memory.c", "phalcon")
   ADD_SOURCES("ext/phalcon/cache", "multiple.c exception.c backendinterface.c frontendinterface.c backend.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/cache/frontend", "none.c base64.c json.c data.c output.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/cache/frontend", "none.c base64.c json.c data.c igbinary.c  output.c", "phalcon")
   ADD_SOURCES("ext/phalcon/cache/backend", "file.c apc.c xcache.c mongo.c memcache.c memory.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session", "bag.c exception.c baginterface.c adapterinterface.c adapter.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session/adapter", "files.c", "phalcon")

@@ -148,6 +148,77 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	private function _prepareIgbinary()
+	{
+
+		if (!extension_loaded('igbinary')) {
+			$this->markTestSkipped('Warning: igbinary extension is not loaded');
+			return false;
+		}
+
+		return true;
+	}
+
+	public function testIgbinaryFileCache()
+	{
+		if (!$this->_prepareIgbinary()) {
+			return false;
+		}
+
+		$frontCache = new Phalcon\Cache\Frontend\Igbinary();
+
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/'
+		));
+
+		$this->assertFalse($cache->isStarted());
+
+		//Save
+		$cache->save('test-data', "nothing interesting");
+
+		$this->assertTrue(file_exists('unit-tests/cache/test-data'));
+
+		//Get
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, "nothing interesting");
+
+		//Save
+		$cache->save('test-data', "sure, nothing interesting");
+
+		//Get
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, "sure, nothing interesting");
+
+		//More complex save/get
+		$data = array(
+			'null'   => null,
+			'array'  => array(1, 2, 3, 4 => 5),
+			'string',
+			123.45,
+			6,
+			true,
+			false,
+			null,
+			0,
+			""
+		);
+
+		$serialized = igbinary_serialize($data);
+		$this->assertEquals($data, igbinary_unserialize($serialized));
+
+		$cache->save('test-data', $data);
+		$cachedContent = $cache->get('test-data');
+
+		$this->assertEquals($cachedContent, $data);
+
+		//Exists
+		$this->assertTrue($cache->exists('test-data'));
+
+		//Delete
+		$this->assertTrue($cache->delete('test-data'));
+
+	}
+
 	private function _prepareMemcached()
 	{
 

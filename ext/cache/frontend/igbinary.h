@@ -18,25 +18,24 @@
   +------------------------------------------------------------------------+
 */
 
-extern zend_class_entry *phalcon_annotations_adapter_xcache_ce;
+extern zend_class_entry *phalcon_cache_frontend_igbinary_ce;
 
-PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache);
+PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Igbinary);
 
-PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read);
-PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write);
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore);
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_xcache_read, 0, 0, 1)
-	ZEND_ARG_INFO(0, key)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_xcache_write, 0, 0, 2)
-	ZEND_ARG_INFO(0, key)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_igbinary_beforestore, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-PHALCON_INIT_FUNCS(phalcon_annotations_adapter_xcache_method_entry){
-	PHP_ME(Phalcon_Annotations_Adapter_Xcache, read, arginfo_phalcon_annotations_adapter_xcache_read, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Annotations_Adapter_Xcache, write, arginfo_phalcon_annotations_adapter_xcache_write, ZEND_ACC_PUBLIC) 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_igbinary_afterretrieve, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+PHALCON_INIT_FUNCS(phalcon_cache_frontend_igbinary_method_entry){
+	PHP_ME(Phalcon_Cache_Frontend_Igbinary, beforeStore, arginfo_phalcon_cache_frontend_igbinary_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Igbinary, afterRetrieve, arginfo_phalcon_cache_frontend_igbinary_afterretrieve, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
