@@ -59,6 +59,7 @@ ext/cache/backend/xcache.lo
 ext/cache/exception.lo
 ext/cache/frontend/.libs/
 ext/cache/frontend/data.lo
+ext/cache/frontend/igbinary.lo
 ext/cache/frontend/none.lo
 ext/cache/frontend/output.lo
 ext/cli/.libs/

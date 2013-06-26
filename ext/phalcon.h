@@ -115,6 +115,7 @@
 #include "cache/backend/memcache.h"
 #include "cache/frontend/none.h"
 #include "cache/frontend/data.h"
+#include "cache/frontend/igbinary.h"
 #include "cache/frontend/json.h"
 #include "cache/frontend/base64.h"
 #include "cache/frontend/output.h"
