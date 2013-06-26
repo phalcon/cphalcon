@@ -174,6 +174,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, stop){
  * Serializes data before storing it
  *
  * @param mixed $data
+ * @return string
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
 
@@ -192,6 +193,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
  * Unserializes data after retrieving it
  *
  * @param mixed $data
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve){
 

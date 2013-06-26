@@ -154,13 +154,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering){
 
-	zval *buffering;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(buffering);
-	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
-	RETURN_CCTOR(buffering);
+	RETURN_MEMBER(this_ptr, "_buffering");
 }
 
 /**
@@ -223,6 +218,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
  * Prepare data to be stored
  *
  * @param mixed $data
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
 
@@ -237,6 +233,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
  * Prepares data to be retrieved to user
  *
  * @param mixed $data
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve){
 

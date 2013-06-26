@@ -33,10 +33,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "kernel/variables.h"
 
 /**
  * Phalcon\Cache\Frontend\Igbinary
@@ -58,7 +55,7 @@
  *	));
  *
  *	// Try to get cached records
- *	$cacheKey = 'robots_order_id.cache';
+ *	$cacheKey  = 'robots_order_id.cache';
  *	$robots    = $cache->get($cacheKey);
  *	if ($robots === null) {
  *
@@ -85,8 +82,6 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Igbinary){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Igbinary, cache_frontend_igbinary, "phalcon\\cache\\frontend\\data", phalcon_cache_frontend_igbinary_method_entry, 0);
 
-	zend_declare_property_null(phalcon_cache_frontend_igbinary_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
 	zend_class_implements(phalcon_cache_frontend_igbinary_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
 	return SUCCESS;
@@ -105,7 +100,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
-
+	
 	PHALCON_INIT_VAR(serialized);
 	phalcon_call_func_p1(serialized, "igbinary_serialize", data);
 	RETURN_CCTOR(serialized);
@@ -114,7 +109,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore){
 /**
  * Unserializes data after retrieval
  *
- * @param string $data
+ * @param mixed $data
  * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve){
@@ -124,7 +119,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
-
+	
 	PHALCON_INIT_VAR(unserialized);
 	phalcon_call_func_p1(unserialized, "igbinary_unserialize", data);
 	RETURN_CCTOR(unserialized);

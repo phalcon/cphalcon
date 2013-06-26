@@ -241,8 +241,8 @@ cache/multiple.c \
 cache/frontend/none.c \
 cache/frontend/base64.c \
 cache/frontend/json.c \
-cache/frontend/data.c \
 cache/frontend/igbinary.c \
+cache/frontend/data.c \
 cache/frontend/output.c \
 cache/backend/file.c \
 cache/backend/apc.c \
