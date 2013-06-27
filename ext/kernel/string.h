@@ -19,7 +19,7 @@
 
 /** Fast char position */
 extern int phalcon_memnstr(const zval *haystack, const zval *needle TSRMLS_DC);
-extern int phalcon_memnstr_str(const zval *haystack, const char *needle, unsigned int needle_length TSRMLS_DC);
+extern int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 
 /** Function replacement */
 extern void phalcon_fast_strlen(zval *return_value, zval *str);
@@ -28,8 +28,8 @@ extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
 extern void phalcon_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str TSRMLS_DC);
-extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
-extern void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
+extern void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *needle TSRMLS_DC);
+extern void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 extern void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
 
@@ -39,7 +39,7 @@ extern void phalcon_uncamelize(zval *return_value, const zval *str TSRMLS_DC);
 
 /** Starts/Ends with */
 extern int phalcon_start_with(const zval *str, const zval *compared, zval *ignore_case);
-extern int phalcon_start_with_str(const zval *str, const char *compared, unsigned int compared_length);
+extern int phalcon_start_with_str(const zval *str, char *compared, unsigned int compared_length);
 extern int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length);
 extern int phalcon_end_with(const zval *str, const zval *compared, zval *ignore_case);
 extern int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_length);
