@@ -230,6 +230,10 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$expected = array('some_property' => array('x' => 'y', 1 => 'a', 2 => 'c'));
 		$this->assertEquals($x->toArray(), $expected);
 
+		// get()
+		$this->assertEquals($x->some_property->get(2, 'xxx'), 'c');
+		$this->assertEquals($x->some_property->get(5, 'xxx'), 'xxx');
+
 		// merge()
 		$y = new Phalcon\Config(
 			array(

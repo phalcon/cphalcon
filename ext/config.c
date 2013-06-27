@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Config, offsetExists){
  */
 PHP_METHOD(Phalcon_Config, get){
 
-	zval *index, *default_value = NULL, *value;
+	zval *index, *default_value = NULL, *value, *tmp, **index_or_tmp;
 
 	PHALCON_MM_GROW();
 
@@ -204,10 +204,19 @@ PHP_METHOD(Phalcon_Config, get){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
+	if (Z_TYPE_P(index) == IS_STRING) {
+		index_or_tmp = &index;
+	}
+	else {
+		PHALCON_INIT_VAR(tmp);
+		phalcon_cast(tmp, index, IS_STRING);
+		index_or_tmp = &tmp;
+	}
+	
+	if (phalcon_isset_property_zval(this_ptr, *index_or_tmp TSRMLS_CC)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
+		phalcon_read_property_zval(&value, this_ptr, *index_or_tmp, PH_NOISY_CC);
 		if (PHALCON_IS_NOT_EMPTY(value)) {
 			RETURN_CCTOR(value);
 		}
