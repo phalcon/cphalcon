@@ -44,6 +44,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel);
 PHP_METHOD(Phalcon_Forms_Form, getValue);
 PHP_METHOD(Phalcon_Forms_Form, has);
 PHP_METHOD(Phalcon_Forms_Form, remove);
+PHP_METHOD(Phalcon_Forms_Form, clear);
 PHP_METHOD(Phalcon_Forms_Form, count);
 PHP_METHOD(Phalcon_Forms_Form, rewind);
 PHP_METHOD(Phalcon_Forms_Form, current);
@@ -158,6 +159,7 @@ PHALCON_INIT_FUNCS(phalcon_forms_form_method_entry){
 	PHP_ME(Phalcon_Forms_Form, getValue, arginfo_phalcon_forms_form_getvalue, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, has, arginfo_phalcon_forms_form_has, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, remove, arginfo_phalcon_forms_form_remove, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Form, clear, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, count, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, rewind, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, current, NULL, ZEND_ACC_PUBLIC) 

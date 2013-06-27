@@ -52,20 +52,19 @@ extern zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry
 
 /* Globals functions */
 extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
-extern int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC);
-extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
+extern int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
 
 extern int phalcon_is_callable(zval *var TSRMLS_DC);
-extern int phalcon_function_exists(zval *function_name TSRMLS_DC);
-extern int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
-extern int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC);
+extern int phalcon_function_exists(const zval *function_name TSRMLS_DC);
+extern int phalcon_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
+extern int phalcon_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
 
 /* Count */
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
-extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
+extern void phalcon_inherit_not_found(const char *class_name, const char *inherit_name);
 extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
 /* Fetch Parameters */

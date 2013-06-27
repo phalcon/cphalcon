@@ -66,6 +66,21 @@ PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getName);
 PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getTempName);
 
 /**
+ * Returns the mime type reported by the browser
+ * This mime type is not completely secure, use getRealType() instead
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getType);
+
+/**
+ * Gets the real mime type of the upload file using finfo
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getRealType);
+
+/**
  * Move the temporary file to a destination
  *
  * @param string $destination

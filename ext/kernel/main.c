@@ -123,7 +123,7 @@ int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 /**
  * Gets the global zval into PG macro
  */
-int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC) {
+int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC) {
 
 	zval **gv;
 
@@ -249,7 +249,7 @@ int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 /**
  * Check if method exists on certain object using explicit char param
  */
-int phalcon_function_exists(zval *function_name TSRMLS_DC) {
+int phalcon_function_exists(const zval *function_name TSRMLS_DC) {
 
 	if (Z_TYPE_P(function_name) == IS_STRING) {
 		if (zend_hash_exists(CG(function_table), Z_STRVAL_P(function_name), Z_STRLEN_P(function_name))) {
@@ -263,7 +263,7 @@ int phalcon_function_exists(zval *function_name TSRMLS_DC) {
 /**
  * Check if method exists on certain object using explicit char param
  */
-int phalcon_function_exists_ex(char *function_name, unsigned int function_len TSRMLS_DC) {
+int phalcon_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC) {
 
 	if (zend_hash_exists(CG(function_table), function_name, function_len)) {
 		return SUCCESS;
@@ -275,7 +275,7 @@ int phalcon_function_exists_ex(char *function_name, unsigned int function_len TS
 /**
  * Check if method exists on certain object using explicit char param (without calculate hash key)
  */
-int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
+int phalcon_function_quick_exists_ex(const char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
 
 	if (zend_hash_quick_exists(CG(function_table), method_name, method_len, key)) {
 		return SUCCESS;
@@ -331,7 +331,7 @@ int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_p
 /**
  * Generates error when inherited class isn't found
  */
-void phalcon_inherit_not_found(char *class_name, char *inherit_name) {
+void phalcon_inherit_not_found(const char *class_name, const char *inherit_name) {
 	fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", class_name, inherit_name);
 }
 

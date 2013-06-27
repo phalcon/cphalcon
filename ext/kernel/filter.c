@@ -57,7 +57,7 @@ void phalcon_filter_alphanum(zval *return_value, zval *param){
 		if (ch == '\0') {
 			break;
 		}
-		if ((ch > 96 && ch < 123)||(ch > 64 && ch < 91)||(ch > 47 && ch < 58)) {
+		if ((ch > 96 && ch < 123) || (ch > 64 && ch < 91) || (ch > 47 && ch < 58)) {
 			smart_str_appendc(&filtered_str, ch);
 		}
 	}
@@ -122,7 +122,7 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 /**
  * Check if a string is encoded with ASCII or ISO-8859-1
  */
-void phalcon_is_basic_charset(zval *return_value, zval *param){
+void phalcon_is_basic_charset(zval *return_value, const zval *param){
 
 	unsigned int i;
 	unsigned int ch;
@@ -130,12 +130,14 @@ void phalcon_is_basic_charset(zval *return_value, zval *param){
 
 	for (i = 0; i < Z_STRLEN_P(param); i++) {
 		ch = Z_STRVAL_P(param)[i];
-		if (ch == 172 || (ch >= 128 && ch <= 159)) {
-			continue;
-		}
-		if (ch >= 160 && ch <= 255) {
-			iso88591 = 1;
-			continue;
+		if (ch != '\0') {
+			if (ch == 172 || (ch >= 128 && ch <= 159)) {
+				continue;
+			}
+			if (ch >= 160 && ch <= 255) {
+				iso88591 = 1;
+				continue;
+			}
 		}
 		RETURN_FALSE;
 	}
@@ -162,7 +164,7 @@ static long phalcon_unpack(char *data, int size, int issigned, int *map)
 	return result;
 }
 
-char *phalcon_longtohex(unsigned long value) {
+static char *phalcon_longtohex(unsigned long value) {
 
 	static char digits[] = "0123456789abcdef";
 	char buf[(sizeof(unsigned long) << 3) + 1];
@@ -181,7 +183,7 @@ char *phalcon_longtohex(unsigned long value) {
 /**
  * Perform escaping of non-alphanumeric characters to different formats
  */
-void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
+void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
 
 	unsigned int i;
 	zval copy;
@@ -227,7 +229,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
 		RETURN_FALSE;
 	}
 
-	for (i = 0; i < Z_STRLEN_P(param); i+=4) {
+	for (i = 0; i < Z_STRLEN_P(param); i += 4) {
 
 		if (Z_STRVAL_P(param)[i] == '\0') {
 			break;
@@ -298,6 +300,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
 				case ':':
 				case ';':
 				case '_':
+				case '|':
 					smart_str_appendc(&escaped_str, (unsigned char) value);
 					continue;
 			}

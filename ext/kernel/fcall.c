@@ -76,7 +76,7 @@ static inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, in
 /**
  * Find out the function scope on parent classes
  */
-static inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
+static inline int phalcon_find_parent_scope(zend_class_entry *ce, const char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
 
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
 	unsigned long hash = zend_inline_hash_func(lcname, method_len + 1);
@@ -104,7 +104,7 @@ static inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_c
 /**
  * Check if an object has a constructor
  */
-int phalcon_has_constructor(zval *object TSRMLS_DC){
+int phalcon_has_constructor(const zval *object TSRMLS_DC){
 
 	zend_class_entry *ce = Z_OBJCE_P(object);
 
@@ -121,7 +121,7 @@ int phalcon_has_constructor(zval *object TSRMLS_DC){
 /**
  * This is a function to call PHP functions in a old-style secure way
  */
-static inline int phalcon_call_func_internal(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
+static inline int phalcon_call_func_internal(zval *return_value, const char *func_name, int func_length, int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -159,7 +159,7 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 /**
  * This is an alternative function to call PHP functions (that requires parameters) in a faster way
  */
-static inline int phalcon_call_func_params_internal(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+static inline int phalcon_call_func_params_internal(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -197,8 +197,47 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 /**
  * Call single function which not requires parameters
  */
-int phalcon_call_func_ex(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
+int phalcon_call_func_ex(zval *return_value, const char *func_name, int func_length, int noreturn TSRMLS_DC){
 	return phalcon_call_func_internal(return_value, func_name, func_length, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call single function which requires arbitrary number of parameters
+ */
+int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+	return phalcon_call_func_params_internal(return_value, func_name, func_length, param_count, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call single function which requires only 1 parameter
+ */
+int phalcon_call_func_one_param(zval *return_value, const char *func_name, int func_length, zval *param1, int noreturn TSRMLS_DC){
+	zval *params[] = { param1 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 1, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call single function which requires only 2 parameters
+ */
+int phalcon_call_func_two_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 2, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call single function which requires only 3 parameters
+ */
+int phalcon_call_func_three_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 3, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call single function which requires only 3 parameters
+ */
+int phalcon_call_func_four_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 4, params, noreturn TSRMLS_CC);
 }
 
 /**
@@ -248,45 +287,6 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	}
 
 	return status;
-}
-
-/**
- * Call single function which requires arbitrary number of parameters
- */
-int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
-	return phalcon_call_func_params_internal(return_value, func_name, func_length, param_count, params, noreturn TSRMLS_CC);
-}
-
-/**
- * Call single function which requires only 1 parameter
- */
-int phalcon_call_func_one_param(zval *return_value, char *func_name, int func_length, zval *param1, int noreturn TSRMLS_DC){
-	zval *params[] = { param1 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 1, params, noreturn TSRMLS_CC);
-}
-
-/**
- * Call single function which requires only 2 parameters
- */
-int phalcon_call_func_two_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, int noreturn TSRMLS_DC){
-	zval *params[] = { param1, param2 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 2, params, noreturn TSRMLS_CC);
-}
-
-/**
- * Call single function which requires only 3 parameters
- */
-int phalcon_call_func_three_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
-	zval *params[] = { param1, param2, param3 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 3, params, noreturn TSRMLS_CC);
-}
-
-/**
- * Call single function which requires only 3 parameters
- */
-int phalcon_call_func_four_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC){
-	zval *params[] = { param1, param2, param3, param4 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 4, params, noreturn TSRMLS_CC);
 }
 
 /**

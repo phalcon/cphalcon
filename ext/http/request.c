@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Http_Request, getServer){
 }
 
 /**
- * Checks whether $_SERVER superglobal has certain index
+ * Checks whether $_REQUEST superglobal has certain index
  *
  * @param string $name
  * @return boolean
@@ -385,16 +385,14 @@ PHP_METHOD(Phalcon_Http_Request, getServer){
 PHP_METHOD(Phalcon_Http_Request, has){
 
 	zval *name, *_REQUEST;
-	zval *r0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(_REQUEST, name));
-	RETURN_NCTOR(r0);
+	if (phalcon_array_isset(_REQUEST, name)) {
+		RETURN_TRUE;
+	}
+	RETURN_FALSE;
 }
 
 /**
@@ -406,20 +404,18 @@ PHP_METHOD(Phalcon_Http_Request, has){
 PHP_METHOD(Phalcon_Http_Request, hasPost){
 
 	zval *name, *_POST;
-	zval *r0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(_POST, name));
-	RETURN_NCTOR(r0);
+	if (phalcon_array_isset(_POST, name)) {
+		RETURN_TRUE;
+	}
+	RETURN_FALSE;
 }
 
 /**
- * Checks whether $_SERVER superglobal has certain index
+ * Checks whether $_GET superglobal has certain index
  *
  * @param string $name
  * @return boolean
@@ -427,16 +423,14 @@ PHP_METHOD(Phalcon_Http_Request, hasPost){
 PHP_METHOD(Phalcon_Http_Request, hasQuery){
 
 	zval *name, *_GET;
-	zval *r0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(_GET, name));
-	RETURN_NCTOR(r0);
+	if (phalcon_array_isset(_GET, name)) {
+		RETURN_TRUE;
+	}
+	RETURN_FALSE;
 }
 
 /**
@@ -448,16 +442,14 @@ PHP_METHOD(Phalcon_Http_Request, hasQuery){
 PHP_METHOD(Phalcon_Http_Request, hasServer){
 
 	zval *name, *_SERVER;
-	zval *r0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(_SERVER, name));
-	RETURN_NCTOR(r0);
+	if (phalcon_array_isset(_SERVER, name)) {
+		RETURN_TRUE;
+	}
+	RETURN_FALSE;
 }
 
 /**
@@ -1254,7 +1246,9 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 }
 
 /**
- * Returns the headers in the
+ * Returns the available headers in the request
+ *
+ * @return array
  */
 PHP_METHOD(Phalcon_Http_Request, getHeaders){
 

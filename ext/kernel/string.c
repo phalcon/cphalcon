@@ -209,7 +209,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
 /**
  * Convert dash/underscored texts returning camelized
  */
-void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
+void phalcon_camelize(zval *return_value, const zval *str TSRMLS_DC){
 
 	unsigned int i;
 	smart_str camelize_str = {0};
@@ -261,7 +261,7 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 /**
  * Convert dash/underscored texts returning camelized
  */
-void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
+void phalcon_uncamelize(zval *return_value, const zval *str TSRMLS_DC){
 
 	unsigned int i;
 	smart_str uncamelize_str = {0};
@@ -315,7 +315,7 @@ void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC){
 /**
  * Fast call to explode php function
  */
-void phalcon_fast_explode_str(zval *result, char *delimiter, int delimiter_length, zval *str TSRMLS_DC){
+void phalcon_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str TSRMLS_DC){
 
 	zval delimiter_zval;
 
@@ -334,7 +334,7 @@ void phalcon_fast_explode_str(zval *result, char *delimiter, int delimiter_lengt
 /**
  * Check if a string is contained into another
  */
-int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC){
+int phalcon_memnstr(const zval *haystack, const zval *needle TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -357,7 +357,7 @@ int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC){
 /**
  * Check if a string is contained into another
  */
-int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
+int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -380,7 +380,7 @@ int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle_length
 /**
  * Inmediate function resolution for strpos function
  */
-void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC){
+void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *needle TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -408,7 +408,7 @@ void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS
 /**
  * Inmediate function resolution for strpos function
  */
-void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
+void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -528,7 +528,7 @@ void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, z
 /**
  * Checks if a zval string starts with a zval string
  */
-int phalcon_start_with(zval *str, zval *compared, zval *ignore_case){
+int phalcon_start_with(const zval *str, const zval *compared, zval *ignore_case){
 
 	int ignore = 1;
 	unsigned int i, number;
@@ -582,7 +582,7 @@ int phalcon_start_with(zval *str, zval *compared, zval *ignore_case){
 /**
  * Checks if a zval string starts with a string
  */
-int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_length){
+int phalcon_start_with_str(const zval *str, char *compared, unsigned int compared_length){
 
 	char *op1_cursor, *op2_cursor;
 	unsigned int i, number;
@@ -603,7 +603,7 @@ int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_leng
 
 	op1_cursor = Z_STRVAL_P(str);
 	op2_cursor = compared;
-	for (i = 0; i<number; i++){
+	for (i = 0; i < number; i++){
 		if ((*op1_cursor) != (*op2_cursor)) {
 			return 0;
 		}
@@ -634,7 +634,7 @@ int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compare
 
 	op1_cursor = str;
 	op2_cursor = compared;
-	for (i = 0; i<number; i++){
+	for (i = 0; i < number; i++){
 		if ((*op1_cursor) != (*op2_cursor)) {
 			return 0;
 		}
@@ -648,7 +648,7 @@ int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compare
 /**
  * Checks if a zval string ends with a zval string
  */
-int phalcon_end_with(zval *str, zval *compared, zval *ignore_case){
+int phalcon_end_with(const zval *str, const zval *compared, zval *ignore_case){
 
 	int ignore = 1, number = 0;
 	unsigned int i;
@@ -706,7 +706,7 @@ int phalcon_end_with(zval *str, zval *compared, zval *ignore_case){
 /**
  * Checks if a zval string ends with a *char string
  */
-int phalcon_end_with_str(zval *str, char *compared, unsigned int compared_length){
+int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_length){
 
 	int number = 0;
 	unsigned int i;
@@ -747,7 +747,7 @@ int phalcon_end_with_str(zval *str, char *compared, unsigned int compared_length
 	return 1;
 }
 
-void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC){
+void phalcon_random_string(zval *return_value, const zval *type, const zval *length TSRMLS_DC){
 
 	long i, rand_type, ch;
 	smart_str random_str = {0};
@@ -837,7 +837,7 @@ void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_D
 /**
  * Removes slashes at the end of a string
  */
-void phalcon_remove_extra_slashes(zval *return_value, zval *str){
+void phalcon_remove_extra_slashes(zval *return_value, const zval *str){
 
 	char *cursor, *removed_str;
 	unsigned int i;

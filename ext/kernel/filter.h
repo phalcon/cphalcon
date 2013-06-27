@@ -22,7 +22,7 @@ extern void phalcon_filter_alphanum(zval *return_value, zval *param);
 extern void phalcon_filter_identifier(zval *return_value, zval *param);
 
 /** Encoding */
-extern void phalcon_is_basic_charset(zval *return_value, zval *param);
+extern void phalcon_is_basic_charset(zval *return_value, const zval *param);
 
 /** Escaping */
 extern void phalcon_escape_css(zval *return_value, zval *param);

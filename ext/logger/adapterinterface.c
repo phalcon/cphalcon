@@ -41,6 +41,7 @@ PHALCON_INIT_CLASS(Phalcon_Logger_AdapterInterface){
  * Sets the message formatter
  *
  * @param Phalcon\Logger\FormatterInterface $formatter
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, setFormatter);
 
@@ -55,6 +56,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getFormatter);
  * Filters the logs sent to the handlers to be greater or equals than a specific level
  *
  * @param int $level
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, setLogLevel);
 
@@ -70,24 +72,28 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getLogLevel);
  *
  * @param string $message
  * @param int $type
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, log);
 
 /**
  * Starts a transaction
  *
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, begin);
 
 /**
  * Commits the internal transaction
  *
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, commit);
 
 /**
  * Rollbacks the internal transaction
  *
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, rollback);
 
@@ -103,6 +109,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, close);
  *
  * @param string $message
  * @param ing $type
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, debug);
 
@@ -111,6 +118,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, debug);
  *
  * @param string $message
  * @param ing $type
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
 
@@ -119,6 +127,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
  *
  * @param string $message
  * @param ing $type
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
 
@@ -127,6 +136,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
  *
  * @param string $message
  * @param ing $type
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
 
@@ -135,6 +145,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
  *
  * @param string $message
  * @param ing $type
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, warning);
 
@@ -143,6 +154,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, warning);
  *
  * @param string $message
  * @param ing $type
+ * @return Phalcon\Logger\Adapter
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, alert);
 

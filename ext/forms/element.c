@@ -280,24 +280,30 @@ PHP_METHOD(Phalcon_Forms_Element, getValidators){
 }
 
 /**
- * Returns an array of attributes for  prepared attributes for Phalcon\Tag helpers
+ * Returns an array of prepared attributes for Phalcon\Tag helpers
  * according to the element's parameters
  *
  * @param array $attributes
+ * @param boolean $useChecked
  * @return array
  */
 PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 
-	zval *attributes = NULL, *name, *widget_attributes = NULL;
+	zval *attributes = NULL, *use_checked = NULL, *name, *widget_attributes = NULL;
 	zval *default_attributes, *merged_attributes = NULL;
 	zval *value;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &attributes);
+	phalcon_fetch_params(1, 0, 2, &attributes, &use_checked);
 	
 	if (!attributes) {
 		PHALCON_INIT_VAR(attributes);
+	}
+	
+	if (!use_checked) {
+		PHALCON_INIT_VAR(use_checked);
+		ZVAL_BOOL(use_checked, 0);
 	}
 	
 	PHALCON_OBS_VAR(name);
@@ -334,7 +340,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	phalcon_call_method(value, this_ptr, "getvalue");
 	
 	/** 
-	 * If the widget has a value assign it to the attributes
+	 * If the widget has a value set it as default value
 	 */
 	if (Z_TYPE_P(value) != IS_NULL) {
 		phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -688,8 +694,7 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages){
 }
 
 /**
- * Returns the messages that belongs to the element
- * The element needs to be attached to a form
+ * Checks whether there is messages attached to the element
  *
  * @return boolean
  */
@@ -760,6 +765,25 @@ PHP_METHOD(Phalcon_Forms_Element, appendMessage){
 	
 	phalcon_call_method_p1_noret(messages, "appendmessage", message);
 	
+	RETURN_THIS();
+}
+
+/**
+ * Clears every element in the form to its default value
+ *
+ * @return Phalcon\Forms\Element
+ */
+PHP_METHOD(Phalcon_Forms_Element, clear){
+
+	zval *znull, *name;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(znull);
+	
+	PHALCON_OBS_VAR(name);
+	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	PHALCON_CALL_STATIC_PARAMS_2_NORETURN("phalcon\\tag", "setdefault", name, znull);
 	RETURN_THIS();
 }
 

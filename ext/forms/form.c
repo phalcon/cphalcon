@@ -44,7 +44,7 @@
 /**
  * Phalcon\Forms\Form
  *
- * This component allows to build forms
+ * This component allows to build forms using an object-oriented interface
  */
 
 
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Forms_Form, getAction){
  *
  * @param string $option
  * @param mixed $value
- * @return Phalcon\Forms\ElementInterface
+ * @return Phalcon\Forms\Form
  */
 PHP_METHOD(Phalcon_Forms_Form, setUserOption){
 
@@ -348,17 +348,21 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 				phalcon_call_method_p1(filter, dependency_injector, "getshared", service_name);
 			}
 	
+			/** 
+			 * Sanitize the filters
+			 */
 			PHALCON_INIT_NVAR(filtered_value);
 			phalcon_call_method_p2(filtered_value, filter, "sanitize", value, filters);
 		} else {
 			PHALCON_CPY_WRT(filtered_value, value);
 		}
 	
+		PHALCON_INIT_NVAR(method);
+		PHALCON_CONCAT_SV(method, "set", key);
+	
 		/** 
 		 * Use the setter if any available
 		 */
-		PHALCON_INIT_NVAR(method);
-		PHALCON_CONCAT_SV(method, "set", key);
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
 			phalcon_call_method_zval_p1_noret(entity, method, filtered_value);
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -389,7 +393,8 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 
 	zval *data = NULL, *entity = NULL, *elements, *status, *not_failed = NULL;
 	zval *messages, *element = NULL, *validators = NULL, *name = NULL, *prepared_validators = NULL;
-	zval *validator = NULL, *scope = NULL, *validation = NULL, *element_messages = NULL;
+	zval *validator = NULL, *scope = NULL, *validation = NULL, *filters = NULL;
+	zval *element_messages = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -410,124 +415,141 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 	
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
-	if (Z_TYPE_P(elements) == IS_ARRAY) { 
-	
-		/** 
-		 * If the user doesn't pass an entity we use the one in this_ptr->_entity
-		 */
-		if (Z_TYPE_P(entity) == IS_OBJECT) {
-			phalcon_call_method_p2_noret(this_ptr, "bind", data, entity);
-		}
-	
-		/** 
-		 * If the data is not an array use the one passed previously
-		 */
-		if (Z_TYPE_P(data) != IS_ARRAY) { 
-			PHALCON_OBS_NVAR(data);
-			phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-		}
-	
-		/** 
-		 * Check if there is a method 'beforeValidation'
-		 */
-		if (phalcon_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS) {
-	
-			PHALCON_INIT_VAR(status);
-			phalcon_call_method_p2(status, this_ptr, "beforevalidation", data, entity);
-			if (PHALCON_IS_FALSE(status)) {
-				RETURN_CCTOR(status);
-			}
-		}
-	
-		PHALCON_INIT_VAR(not_failed);
-		ZVAL_BOOL(not_failed, 1);
-	
-		PHALCON_INIT_VAR(messages);
-		array_init(messages);
-	
-		phalcon_is_iterable(elements, &ah0, &hp0, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HVALUE(element);
-	
-			PHALCON_INIT_NVAR(validators);
-			phalcon_call_method(validators, element, "getvalidators");
-			if (Z_TYPE_P(validators) == IS_ARRAY) { 
-				if (phalcon_fast_count_ev(validators TSRMLS_CC)) {
-	
-					/** 
-					 * Element's name
-					 */
-					PHALCON_INIT_NVAR(name);
-					phalcon_call_method(name, element, "getname");
-	
-					/** 
-					 * Prepare the validators
-					 */
-					PHALCON_INIT_NVAR(prepared_validators);
-					array_init(prepared_validators);
-	
-					phalcon_is_iterable(validators, &ah1, &hp1, 0, 0);
-	
-					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-	
-						PHALCON_GET_HVALUE(validator);
-	
-						PHALCON_INIT_NVAR(scope);
-						array_init_size(scope, 2);
-						phalcon_array_append(&scope, name, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_append(&scope, validator, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_append(&prepared_validators, scope, PH_SEPARATE TSRMLS_CC);
-	
-						zend_hash_move_forward_ex(ah1, &hp1);
-					}
-	
-					/** 
-					 * Create an implicit validation
-					 */
-					PHALCON_INIT_NVAR(validation);
-					object_init_ex(validation, phalcon_validation_ce);
-					phalcon_call_method_p1_noret(validation, "__construct", prepared_validators);
-	
-					PHALCON_INIT_NVAR(element_messages);
-					phalcon_call_method_p2(element_messages, validation, "validate", data, entity);
-					if (phalcon_fast_count_ev(element_messages TSRMLS_CC)) {
-						PHALCON_INIT_NVAR(name);
-						phalcon_call_method(name, element, "getname");
-						phalcon_array_update_zval(&messages, name, &element_messages, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-						PHALCON_INIT_NVAR(not_failed);
-						ZVAL_BOOL(not_failed, 0);
-					}
-				}
-			}
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-	
-		/** 
-		 * If the validation fails
-		 */
-		if (!zend_is_true(not_failed)) {
-			phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
-		}
-	
-		/** 
-		 * Check if there is a method 'afterValidation'
-		 */
-		if (phalcon_method_exists_ex(this_ptr, SS("aftervalidation") TSRMLS_CC) == SUCCESS) {
-			phalcon_call_method_p1_noret(this_ptr, "aftervalidation", messages);
-		}
-	
-		/** 
-		 * Return the validation status
-		 */
-	
-		RETURN_NCTOR(not_failed);
+	if (Z_TYPE_P(elements) != IS_ARRAY) { 
+		RETURN_MM_TRUE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	/** 
+	 * If the user doesn't pass an entity we use the one in this_ptr->_entity
+	 */
+	if (Z_TYPE_P(entity) == IS_OBJECT) {
+		phalcon_call_method_p2_noret(this_ptr, "bind", data, entity);
+	}
+	
+	/** 
+	 * If the data is not an array use the one passed previously
+	 */
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_OBS_NVAR(data);
+		phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	}
+	
+	/** 
+	 * Check if there is a method 'beforeValidation'
+	 */
+	if (phalcon_method_exists_ex(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS) {
+	
+		PHALCON_INIT_VAR(status);
+		phalcon_call_method_p2(status, this_ptr, "beforevalidation", data, entity);
+		if (PHALCON_IS_FALSE(status)) {
+			RETURN_CCTOR(status);
+		}
+	}
+	
+	PHALCON_INIT_VAR(not_failed);
+	ZVAL_BOOL(not_failed, 1);
+	
+	PHALCON_INIT_VAR(messages);
+	array_init(messages);
+	
+	phalcon_is_iterable(elements, &ah0, &hp0, 0, 0);
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_HVALUE(element);
+	
+		PHALCON_INIT_NVAR(validators);
+		phalcon_call_method(validators, element, "getvalidators");
+		if (Z_TYPE_P(validators) == IS_ARRAY) { 
+			if (phalcon_fast_count_ev(validators TSRMLS_CC)) {
+	
+				/** 
+				 * Element's name
+				 */
+				PHALCON_INIT_NVAR(name);
+				phalcon_call_method(name, element, "getname");
+	
+				/** 
+				 * Prepare the validators
+				 */
+				PHALCON_INIT_NVAR(prepared_validators);
+				array_init(prepared_validators);
+	
+				phalcon_is_iterable(validators, &ah1, &hp1, 0, 0);
+	
+				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+					PHALCON_GET_HVALUE(validator);
+	
+					PHALCON_INIT_NVAR(scope);
+					array_init_size(scope, 2);
+					phalcon_array_append(&scope, name, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&scope, validator, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&prepared_validators, scope, PH_SEPARATE TSRMLS_CC);
+	
+					zend_hash_move_forward_ex(ah1, &hp1);
+				}
+	
+				/** 
+				 * Create an implicit validation
+				 */
+				PHALCON_INIT_NVAR(validation);
+				object_init_ex(validation, phalcon_validation_ce);
+				phalcon_call_method_p1_noret(validation, "__construct", prepared_validators);
+	
+				/** 
+				 * Get filters in the element
+				 */
+				PHALCON_INIT_NVAR(filters);
+				phalcon_call_method(filters, element, "getfilters");
+	
+				/** 
+				 * Assign the filters to the validation
+				 */
+				if (Z_TYPE_P(filters) == IS_ARRAY) { 
+					PHALCON_INIT_NVAR(name);
+					phalcon_call_method(name, element, "getname");
+					phalcon_call_method_p2_noret(validation, "setfilters", name, filters);
+				}
+	
+				/** 
+				 * Perform the validation
+				 */
+				PHALCON_INIT_NVAR(element_messages);
+				phalcon_call_method_p2(element_messages, validation, "validate", data, entity);
+				if (phalcon_fast_count_ev(element_messages TSRMLS_CC)) {
+					PHALCON_INIT_NVAR(name);
+					phalcon_call_method(name, element, "getname");
+					phalcon_array_update_zval(&messages, name, &element_messages, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+					PHALCON_INIT_NVAR(not_failed);
+					ZVAL_BOOL(not_failed, 0);
+				}
+			}
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	/** 
+	 * If the validation fails update the messages
+	 */
+	if (!zend_is_true(not_failed)) {
+		phalcon_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
+	}
+	
+	/** 
+	 * Check if there is a method 'afterValidation'
+	 */
+	if (phalcon_method_exists_ex(this_ptr, SS("aftervalidation") TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_p1_noret(this_ptr, "aftervalidation", messages);
+	}
+	
+	/** 
+	 * Return the validation status
+	 */
+	
+	RETURN_NCTOR(not_failed);
 }
 
 /**
@@ -784,7 +806,7 @@ PHP_METHOD(Phalcon_Forms_Form, label){
 }
 
 /**
- * Returns the label
+ * Returns a label for an element
  *
  * @param string $name
  * @return string
@@ -824,7 +846,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel){
 }
 
 /**
- * Gets a value from the the internal related entity or from the default value
+ * Gets a value from the internal related entity or from the default value
  *
  * @param string $name
  * @return mixed
@@ -936,6 +958,40 @@ PHP_METHOD(Phalcon_Forms_Form, remove){
 	 */
 	phalcon_update_property_null(this_ptr, SL("_elementsIndexed") TSRMLS_CC);
 	RETURN_MM_FALSE;
+}
+
+/**
+ * Clears every element in the form to its default value
+ *
+ * @return Phalcon\Forms\Form
+ */
+PHP_METHOD(Phalcon_Forms_Form, clear){
+
+	zval *elements, *element = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(elements);
+	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
+	if (Z_TYPE_P(elements) == IS_ARRAY) { 
+	
+		phalcon_is_iterable(elements, &ah0, &hp0, 0, 0);
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_HVALUE(element);
+	
+			phalcon_call_method_noret(element, "clear");
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
+	
+	RETURN_THIS();
 }
 
 /**

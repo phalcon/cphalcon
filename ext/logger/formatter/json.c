@@ -38,7 +38,7 @@
 /**
  * Phalcon\Logger\Formatter\Json
  *
- * Formats messages using JSON format
+ * Formats messages using JSON encoding
  */
 
 
@@ -60,6 +60,7 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Json){
  * @param string $message
  * @param int $type
  * @param int $timestamp
+ * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 

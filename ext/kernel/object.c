@@ -74,7 +74,7 @@ int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry
 /**
  * Check if an object is instance of a class
  */
-int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_length TSRMLS_DC) {
+int phalcon_is_instance_of(zval *object, const char *class_name, unsigned int class_length TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
@@ -259,7 +259,7 @@ void phalcon_get_called_class(zval *return_value TSRMLS_DC) {
 /**
  * Fetches a zend class entry from a zval value
  */
-zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC) {
+zend_class_entry *phalcon_fetch_class(const zval *class_name TSRMLS_DC) {
 
 	if (Z_TYPE_P(class_name) == IS_STRING) {
 		return zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
@@ -272,7 +272,7 @@ zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC) {
 /**
  * Checks if a class exist
  */
-int phalcon_class_exists(zval *class_name TSRMLS_DC) {
+int phalcon_class_exists(const zval *class_name TSRMLS_DC) {
 
 	zend_class_entry **ce;
 
@@ -332,7 +332,7 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC) {
 /**
  * Checks if property exists on object
  */
-int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
+int phalcon_isset_property(zval *object, const char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	unsigned long hash;
 
@@ -352,10 +352,10 @@ int phalcon_isset_property(zval *object, char *property_name, unsigned int prope
 /**
  * Checks if property exists on object
  */
-int phalcon_isset_property_quick(zval *object, char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC) {
+int phalcon_isset_property_quick(zval *object, const char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC) {
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if (phalcon_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length, hash)) {
+		if (likely(phalcon_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length, hash))) {
 			return 1;
 		} else {
 			return phalcon_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length, hash);
@@ -368,7 +368,7 @@ int phalcon_isset_property_quick(zval *object, char *property_name, unsigned int
 /**
  * Checks if string property exists on object
  */
-int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC) {
+int phalcon_isset_property_zval(zval *object, const zval *property TSRMLS_DC) {
 
 	unsigned long hash;
 
@@ -377,7 +377,7 @@ int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC) {
 
 			hash = zend_inline_hash_func(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1);
 
-			if (phalcon_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, hash)) {
+			if (likely(phalcon_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, hash))) {
 				return 1;
 			} else {
 				return phalcon_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, hash);
@@ -750,8 +750,8 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 
 	zend_class_entry *ce, *old_scope;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if (Z_TYPE_P(property) == IS_STRING) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
+		if (likely(Z_TYPE_P(property) == IS_STRING)) {
 
 			ce = Z_OBJCE_P(object);
 			if (ce->parent) {
@@ -804,7 +804,7 @@ int phalcon_update_property_long(zval *object, char *property_name, unsigned int
 
 	zend_class_entry *ce;
 
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -893,7 +893,7 @@ int phalcon_update_property_null(zval *object, char *property_name, unsigned int
 
 	zend_class_entry *ce;
 
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -916,7 +916,7 @@ int phalcon_update_property_zval(zval *object, char *property_name, unsigned int
 	zend_class_entry *ce, *old_scope;
 	zval *property;
 
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -1394,7 +1394,7 @@ int phalcon_unset_property_array(zval *object, char *property, unsigned int prop
 /**
  * Check if a method is implemented on certain object
  */
-int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
+int phalcon_method_exists(const zval *object, const zval *method_name TSRMLS_DC){
 
 	char *lcname;
 	zend_class_entry *ce;
@@ -1432,7 +1432,7 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 /**
  * Check if method exists on certain object using explicit char param
  */
-int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int method_len TSRMLS_DC){
+int phalcon_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC){
 
 	zend_class_entry *ce;
 	unsigned long hash;
@@ -1462,7 +1462,7 @@ int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int metho
 /**
  * Check if method exists on certain object using explicit char param
  */
-int phalcon_method_quick_exists_ex(zval *object, char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC){
+int phalcon_method_quick_exists_ex(const zval *object, const char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -1489,7 +1489,7 @@ int phalcon_method_quick_exists_ex(zval *object, char *method_name, unsigned int
 /**
  * Query a static property value from a zend_class_entry
  */
-int phalcon_read_static_property(zval **result, char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC){
+int phalcon_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		*result = zend_read_static_property(*ce, property_name, property_length, PH_FETCH_CLASS_SILENT);
@@ -1504,7 +1504,7 @@ int phalcon_read_static_property(zval **result, char *class_name, unsigned int c
 /**
  * Update a static property
  */
-int phalcon_update_static_property(char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC){
+int phalcon_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		return zend_update_static_property(*ce, name, name_length, value TSRMLS_CC);
@@ -1522,7 +1522,7 @@ int phalcon_update_static_property_nts(zend_class_entry *ce, char *name, unsigne
 /**
  * Creates a new instance dynamically. Call constructor without parameters
  */
-int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_DC){
+int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -1549,7 +1549,7 @@ int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_DC){
 /**
  * Creates a new instance dynamically calling constructor with parameters
  */
-int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *params TSRMLS_DC){
+int phalcon_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC){
 
 	int i;
 	zend_class_entry *ce;

@@ -67,15 +67,15 @@ extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_and_function(zval *result, zval *left, zval *right);
 
 extern void phalcon_concat_self(zval **left, zval *right TSRMLS_DC);
-extern void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_DC);
+extern void phalcon_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC);
 
 /** Strict comparing */
-extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
+extern int phalcon_compare_strict_string(zval *op1, const char *op2, int op2_length);
 extern int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
 
 extern void phalcon_cast(zval *result, zval *var, zend_uint type);
-extern long phalcon_get_intval(zval *op);
-extern int phalcon_is_numeric(zval *op);
+extern long phalcon_get_intval(const zval *op);
+extern int phalcon_is_numeric(const zval *op);
 
 extern int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC);

@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
  *
  * @param Phalcon\DiInterface $dependencyInjector
  * @param array $arguments
- * @return arguments
+ * @return array
  */
 PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 

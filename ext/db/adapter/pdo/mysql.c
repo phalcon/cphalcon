@@ -202,6 +202,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		while (1) {
 	
 			/** 
+			 * Enum are treated as char
+			 */
+			if (phalcon_memnstr_str(column_type, SL("enum") TSRMLS_CC)) {
+				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
+				break;
+			}
+	
+			/** 
 			 * Smallint/Bigint/Integers/Int are int
 			 */
 			if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
@@ -268,14 +276,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 				phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE TSRMLS_CC);
 				phalcon_array_update_string(&definition, SL("isNumeric"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
-				break;
-			}
-	
-			/** 
-			 * Enum are treated as char
-			 */
-			if (phalcon_memnstr_str(column_type, SL("enum") TSRMLS_CC)) {
-				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
 				break;
 			}
 	

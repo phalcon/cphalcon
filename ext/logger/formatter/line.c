@@ -40,7 +40,7 @@
 /**
  * Phalcon\Logger\Formatter\Line
  *
- * Formats messages using a one-line string
+ * Formats messages using an one-line string
  */
 
 
@@ -149,6 +149,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat){
  * @param string $message
  * @param int $type
  * @param int $timestamp
+ * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 

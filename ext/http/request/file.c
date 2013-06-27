@@ -158,6 +158,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getTempName){
 
 /**
  * Returns the mime type reported by the browser
+ * This mime type is not completely secure, use getRealType() instead
  *
  * @return string
  */
@@ -168,7 +169,18 @@ PHP_METHOD(Phalcon_Http_Request_File, getType){
 }
 
 /**
- * Move the temporary file to a destination within the application
+ * Gets the real mime type of the upload file using finfo
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request_File, getRealType){
+
+
+	
+}
+
+/**
+ * Moves the temporary file to a destination within the application
  *
  * @param string $destination
  * @return boolean

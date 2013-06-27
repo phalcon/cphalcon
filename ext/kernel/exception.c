@@ -33,7 +33,7 @@
 #include "Zend/zend_exceptions.h"
 
 /**
- * Throws an zval object as exception
+ * Throws a zval object as exception
  */
 void phalcon_throw_exception(zval *object TSRMLS_DC){
 	Z_ADDREF_P(object);
@@ -42,9 +42,9 @@ void phalcon_throw_exception(zval *object TSRMLS_DC){
 }
 
 /**
- * Throws a exception with a single string parameter
+ * Throws an exception with a single string parameter
  */
-void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
+void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
 
 	zval *object, *msg;
 
@@ -68,7 +68,7 @@ void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_ui
 }
 
 /**
- * Throws a exception with a single zval parameter
+ * Throws an exception with a single zval parameter
  */
 void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
 
@@ -97,6 +97,7 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 			return;
 		}
 	}
+
 	if (!EG(current_execute_data)) {
 		if(EG(exception)) {
 			zend_exception_error(EG(exception), E_ERROR TSRMLS_CC);
