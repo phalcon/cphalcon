@@ -1,3 +1,4 @@
+
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -339,7 +340,7 @@ PHP_METHOD(Phalcon_Config, merge){
 	
 		PHALCON_GET_HKEY(key, ah0, hp0);
 		PHALCON_GET_HVALUE(value);
-
+	
 		if (Z_TYPE_P(key) == IS_STRING) {
 			key_or_tmp = &key;
 		}
@@ -364,7 +365,7 @@ PHP_METHOD(Phalcon_Config, merge){
 			}
 		}
 		phalcon_update_property_zval_zval(this_ptr, *key_or_tmp, value TSRMLS_CC);
-
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
