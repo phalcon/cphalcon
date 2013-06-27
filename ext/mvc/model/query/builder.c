@@ -817,7 +817,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, betweenWhere){
 	 */
 	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
 	PHALCON_SEPARATE(next_hidden_param);
-	increment_function(next_hidden_param);
+	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
 }
@@ -881,7 +881,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere){
 	 */
 	phalcon_call_method_p2_noret(this_ptr, "andwhere", conditions, bind_params);
 	PHALCON_SEPARATE(next_hidden_param);
-	increment_function(next_hidden_param);
+	phalcon_increment(next_hidden_param);
 	phalcon_update_property_this(this_ptr, SL("_hiddenParamNumber"), next_hidden_param TSRMLS_CC);
 	RETURN_THIS();
 }
@@ -941,7 +941,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere){
 		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		PHALCON_SEPARATE(hidden_param);
-		increment_function(hidden_param);
+		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -1019,7 +1019,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere){
 		phalcon_array_append(&bind_keys, query_key, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_update_zval(&bind_params, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		PHALCON_SEPARATE(hidden_param);
-		increment_function(hidden_param);
+		phalcon_increment(hidden_param);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}

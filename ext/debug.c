@@ -968,7 +968,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				}
 	
 				PHALCON_SEPARATE(i);
-				increment_function(i);
+				phalcon_increment(i);
 			}
 			phalcon_concat_self_str(&html, SL("</pre>") TSRMLS_CC);
 		}

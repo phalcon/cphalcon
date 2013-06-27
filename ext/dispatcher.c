@@ -525,7 +525,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 	
 		PHALCON_SEPARATE(number_dispatches);
-		increment_function(number_dispatches);
+		phalcon_increment(number_dispatches);
 	
 		/** 
 		 * Throw an exception after 256 consecutive forwards

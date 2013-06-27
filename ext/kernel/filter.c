@@ -54,6 +54,9 @@ void phalcon_filter_alphanum(zval *return_value, zval *param){
 
 	for (i = 0; i < Z_STRLEN_P(param); i++) {
 		ch = Z_STRVAL_P(param)[i];
+		if (ch == '\0') {
+			break;
+		}
 		if ((ch > 96 && ch < 123)||(ch > 64 && ch < 91)||(ch > 47 && ch < 58)) {
 			smart_str_appendc(&filtered_str, ch);
 		}
@@ -93,6 +96,9 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 
 	for (i = 0; i < Z_STRLEN_P(param); i++) {
 		ch = Z_STRVAL_P(param)[i];
+		if (ch == '\0') {
+			break;
+		}
 		if ((ch > 96 && ch < 123) || (ch > 64 && ch < 91) || (ch > 47 && ch < 58) || ch == 95) {
 			smart_str_appendc(&filtered_str, ch);
 		}
@@ -222,6 +228,10 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
 	}
 
 	for (i = 0; i < Z_STRLEN_P(param); i+=4) {
+
+		if (Z_STRVAL_P(param)[i] == '\0') {
+			break;
+		}
 
 		issigned = Z_STRVAL_P(param)[i] & 0x80;
 

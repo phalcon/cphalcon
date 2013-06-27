@@ -37,6 +37,7 @@
 #include "kernel/fcall.h"
 #include "kernel/hash.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 
 /**
  * Reads class constant from string name and returns its value
@@ -1061,7 +1062,7 @@ int phalcon_update_property_this_quick(zval *object, char *property_name, unsign
 
 	ce = Z_OBJCE_P(object);
 	if (ce->parent) {
-		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
+		ce = phalcon_lookup_class_ce_quick(ce, property_name, property_length, key TSRMLS_CC);
 	}
 
 	old_scope = EG(scope);
@@ -1399,7 +1400,7 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 	zend_class_entry *ce;
 	unsigned long hash;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 		ce = Z_OBJCE_P(object);
 	} else {
 		if (Z_TYPE_P(object) == IS_STRING) {
@@ -1436,7 +1437,7 @@ int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int metho
 	zend_class_entry *ce;
 	unsigned long hash;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 		ce = Z_OBJCE_P(object);
 	} else {
 		if (Z_TYPE_P(object) == IS_STRING) {
@@ -1465,7 +1466,7 @@ int phalcon_method_quick_exists_ex(zval *object, char *method_name, unsigned int
 
 	zend_class_entry *ce;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 		ce = Z_OBJCE_P(object);
 	} else {
 		if (Z_TYPE_P(object) == IS_STRING) {
@@ -1641,7 +1642,7 @@ int phalcon_property_incr(zval *object, char *property_name, unsigned int proper
 			separated = 1;
 		}
 
-		increment_function(tmp);
+		phalcon_increment(tmp);
 
 		if (separated) {
 			zend_update_property(ce, object, property_name, property_length, tmp TSRMLS_CC);
@@ -1684,7 +1685,7 @@ int phalcon_property_decr(zval *object, char *property_name, unsigned int proper
 			separated = 1;
 		}
 
-		decrement_function(tmp);
+		phalcon_decrement(tmp);
 
 		if (separated) {
 			zend_update_property(ce, object, property_name, property_length, tmp TSRMLS_CC);

@@ -141,6 +141,9 @@ void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_
 
 	for (i = 0; i < Z_STRLEN_P(path); i++) {
 		ch = Z_STRVAL_P(path)[i];
+		if (ch == '\0') {
+			break;
+		}
 		if (ch == '/' || ch == '\\' || ch == ':') {
 			smart_str_appendl(&virtual_str, Z_STRVAL_P(virtual_separator), Z_STRLEN_P(virtual_separator));
 			continue;

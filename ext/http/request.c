@@ -1167,7 +1167,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 			}
 			if (!zend_is_true(error)) {
 				PHALCON_SEPARATE(number_files);
-				increment_function(number_files);
+				phalcon_increment(number_files);
 			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -1439,7 +1439,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 			}
 		}
 		PHALCON_SEPARATE(i);
-		increment_function(i);
+		phalcon_increment(i);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}

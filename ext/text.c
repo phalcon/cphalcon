@@ -35,6 +35,7 @@
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
@@ -144,7 +145,7 @@ PHP_METHOD(Phalcon_Text, increment){
 		PHALCON_OBS_VAR(number);
 		phalcon_array_fetch_long(&number, parts, 1, PH_NOISY_CC);
 		PHALCON_SEPARATE(number);
-		increment_function(number);
+		phalcon_increment(number);
 	} else {
 		PHALCON_INIT_NVAR(number);
 		ZVAL_LONG(number, 1);

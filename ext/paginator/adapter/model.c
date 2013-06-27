@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			}
 	
 			PHALCON_SEPARATE(i);
-			increment_function(i);
+			phalcon_increment(i);
 		}
 	}
 	

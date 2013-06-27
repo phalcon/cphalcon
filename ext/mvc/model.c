@@ -1333,14 +1333,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				 */
 				if (PHALCON_IS_EMPTY(value)) {
 					PHALCON_SEPARATE(number_empty);
-					increment_function(number_empty);
+					phalcon_increment(number_empty);
 				}
 	
 				phalcon_array_append(&unique_params, value, PH_SEPARATE TSRMLS_CC);
 			} else {
 				phalcon_array_append(&unique_params, null_value, PH_SEPARATE TSRMLS_CC);
 				PHALCON_SEPARATE(number_empty);
-				increment_function(number_empty);
+				phalcon_increment(number_empty);
 			}
 	
 			PHALCON_INIT_NVAR(escaped_field);

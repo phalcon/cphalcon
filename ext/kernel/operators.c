@@ -88,7 +88,7 @@ void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 	}
 
 	length = Z_STRLEN_PP(left) + Z_STRLEN_P(right);
-	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length+1);
+	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length + 1);
 
 	memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
 	Z_STRVAL_PP(left)[length] = 0;
@@ -145,7 +145,7 @@ void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_D
 }
 
 /**
- * Natural compare with string operadus on right
+ * Natural compare with string operandus on right
  */
 int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 
@@ -157,14 +157,14 @@ int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 			if (Z_STRLEN_P(op1) != op2_length) {
 				return 0;
 			}
-			return zend_binary_strcmp(Z_STRVAL_P(op1), Z_STRLEN_P(op1), op2, op2_length)==0;
+			return !zend_binary_strcmp(Z_STRVAL_P(op1), Z_STRLEN_P(op1), op2, op2_length);
 		case IS_NULL:
-			return zend_binary_strcmp("", 0, op2, op2_length)==0;
+			return !zend_binary_strcmp("", 0, op2, op2_length);
 		case IS_BOOL:
 			if (!Z_BVAL_P(op1)) {
-				return zend_binary_strcmp("0", strlen("0"), op2, op2_length)==0;
+				return !zend_binary_strcmp("0", strlen("0"), op2, op2_length);
 			} else {
-				return zend_binary_strcmp("1", strlen("1"), op2, op2_length)==0;
+				return !zend_binary_strcmp("1", strlen("1"), op2, op2_length);
 			}
 	}
 
@@ -172,7 +172,7 @@ int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 }
 
 /**
- * Natural compare with long operadus on right
+ * Natural compare with long operandus on right
  */
 int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 
@@ -262,7 +262,7 @@ long phalcon_get_intval(zval *op) {
 		case IS_DOUBLE:
 			return (long) Z_DVAL_P(op);
 		case IS_STRING:
-			if((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0))){
+			if ((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0))) {
 				if (type == IS_LONG) {
 					return long_value;
 				} else {
@@ -293,7 +293,7 @@ int phalcon_is_numeric(zval *op) {
 		case IS_DOUBLE:
 			return 1;
 		case IS_STRING:
-			if((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), NULL, NULL, 0))){
+			if ((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), NULL, NULL, 0))) {
 				if (type == IS_LONG || type == IS_DOUBLE) {
 					return 1;
 				}

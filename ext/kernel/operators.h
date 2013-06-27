@@ -50,6 +50,18 @@
 #define PHALCON_GT(op1, op2) phalcon_greater(op1, op2 TSRMLS_CC)
 #define PHALCON_GT_LONG(op1, op2) phalcon_greater_long(op1, op2 TSRMLS_CC)
 
+#if PHP_VERSION_ID < 50400
+#define phalcon_increment(var) increment_function(var)
+#else
+#define phalcon_increment(var) fast_increment_function(var)
+#endif
+
+#if PHP_VERSION_ID < 50400
+#define phalcon_decrement(var) decrement_function(var)
+#else
+#define phalcon_decrement(var) fast_decrement_function(var)
+#endif
+
 /** Operator functions */
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_and_function(zval *result, zval *left, zval *right);

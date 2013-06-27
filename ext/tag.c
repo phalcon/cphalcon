@@ -537,7 +537,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 PHP_METHOD(Phalcon_Tag, _inputField){
 
 	zval *type, *parameters, *as_value = NULL, *params = NULL, *value = NULL;
-	zval *id = NULL, *name, *code, *key = NULL, *five, *doctype, *is_xhtml;
+	zval *id = NULL, *name, *code, *key = NULL, *doctype;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -625,18 +625,13 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(five);
-	ZVAL_LONG(five, 5);
-	
 	PHALCON_OBS_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 	
 	/** 
 	 * Check if Doctype is XHTML
 	 */
-	PHALCON_INIT_VAR(is_xhtml);
-	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
-	if (zend_is_true(is_xhtml)) {
+	if (PHALCON_GT_LONG(doctype, 5)) {
 		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
@@ -655,8 +650,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 
 	zval *type, *parameters, *params = NULL, *value = NULL, *id = NULL, *name;
-	zval *current_value, *code, *key = NULL, *five, *doctype;
-	zval *is_xhtml;
+	zval *current_value, *code, *key = NULL, *doctype;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -744,18 +738,13 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(five);
-	ZVAL_LONG(five, 5);
-	
 	PHALCON_OBS_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 	
 	/** 
 	 * Check if Doctype is XHTML
 	 */
-	PHALCON_INIT_VAR(is_xhtml);
-	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
-	if (zend_is_true(is_xhtml)) {
+	if (PHALCON_GT_LONG(doctype, 5)) {
 		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
@@ -1474,8 +1463,8 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *five;
-	zval *doctype, *eol, *is_xhtml;
+	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *doctype;
+	zval *eol;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1562,9 +1551,6 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(five);
-	ZVAL_LONG(five, 5);
-	
 	PHALCON_OBS_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 	
@@ -1574,9 +1560,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	/** 
 	 * Check if Doctype is XHTML
 	 */
-	PHALCON_INIT_VAR(is_xhtml);
-	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
-	if (zend_is_true(is_xhtml)) {
+	if (PHALCON_GT_LONG(doctype, 5)) {
 		PHALCON_SCONCAT_SV(code, " />", eol);
 	} else {
 		PHALCON_SCONCAT_SV(code, ">", eol);
@@ -1723,8 +1707,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 PHP_METHOD(Phalcon_Tag, image){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *url_src, *src, *code, *value = NULL, *key = NULL, *five, *doctype;
-	zval *is_xhtml;
+	zval *url, *url_src, *src, *code, *value = NULL, *key = NULL, *doctype;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1791,18 +1774,13 @@ PHP_METHOD(Phalcon_Tag, image){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(five);
-	ZVAL_LONG(five, 5);
-	
 	PHALCON_OBS_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 	
 	/** 
 	 * Check if Doctype is XHTML
 	 */
-	PHALCON_INIT_VAR(is_xhtml);
-	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
-	if (zend_is_true(is_xhtml)) {
+	if (PHALCON_GT_LONG(doctype, 5)) {
 		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
@@ -1953,7 +1931,7 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 
 	zval *tag_name, *parameters = NULL, *self_close = NULL, *only_start = NULL;
 	zval *use_eol = NULL, *params = NULL, *local_code, *value = NULL, *key = NULL;
-	zval *five, *doctype, *is_xhtml, *eol;
+	zval *doctype, *eol;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2006,18 +1984,13 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(five);
-	ZVAL_LONG(five, 5);
-	
 	PHALCON_OBS_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 	
 	/** 
 	 * Check if Doctype is XHTML
 	 */
-	PHALCON_INIT_VAR(is_xhtml);
-	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
-	if (zend_is_true(is_xhtml)) {
+	if (PHALCON_GT_LONG(doctype, 5)) {
 		if (zend_is_true(self_close)) {
 			phalcon_concat_self_str(&local_code, SL(" />") TSRMLS_CC);
 		} else {

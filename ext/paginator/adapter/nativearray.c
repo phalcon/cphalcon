@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	 */
 	if (!PHALCON_IS_EQUAL(total_pages, rounded_total)) {
 		PHALCON_SEPARATE_NMO(total_pages);
-		increment_function(total_pages);
+		phalcon_increment(total_pages);
 	}
 	
 	PHALCON_INIT_VAR(before_page_number);

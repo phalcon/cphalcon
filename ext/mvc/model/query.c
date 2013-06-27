@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			phalcon_call_method_p2(has_attribute, meta_data, "hasattribute", model, column_name);
 			if (zend_is_true(has_attribute)) {
 				PHALCON_SEPARATE(number);
-				increment_function(number);
+				phalcon_increment(number);
 				if (PHALCON_GT_LONG(number, 1)) {
 					PHALCON_OBS_NVAR(phql);
 					phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
@@ -2755,7 +2755,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 				}
 			}
 			PHALCON_SEPARATE(position);
-			increment_function(position);
+			phalcon_increment(position);
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
@@ -3771,7 +3771,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			PHALCON_INIT_NVAR(have_objects);
 			ZVAL_BOOL(have_objects, 1);
 			PHALCON_SEPARATE(number_objects);
-			increment_function(number_objects);
+			phalcon_increment(number_objects);
 		}
 	
 		zend_hash_move_forward_ex(ah1, &hp1);

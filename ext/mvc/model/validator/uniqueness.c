@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			phalcon_array_fetch(&bind_type, bind_data_types, column_field, PH_NOISY_CC);
 			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
 			PHALCON_SEPARATE(number);
-			increment_function(number);
+			phalcon_increment(number);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		phalcon_array_fetch(&bind_type, bind_data_types, column_field, PH_NOISY_CC);
 		phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
 		PHALCON_SEPARATE(number);
-		increment_function(number);
+		phalcon_increment(number);
 	}
 	
 	/** 
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			phalcon_array_fetch(&bind_type, bind_data_types, primary_field, PH_NOISY_CC);
 			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
 			PHALCON_SEPARATE(number);
-			increment_function(number);
+			phalcon_increment(number);
 	
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}

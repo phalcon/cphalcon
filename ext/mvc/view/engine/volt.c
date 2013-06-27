@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 			}
 			phalcon_call_method_noret(value, "next");
 			PHALCON_SEPARATE(position);
-			increment_function(position);
+			phalcon_increment(position);
 		}
 	
 		RETURN_CTOR(slice);
