@@ -185,4 +185,64 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testIssue696()
+	{
+		$x = new Phalcon\Config(
+			array(
+				'some_property' => array(
+					1 => 'a',
+					2 => 'b',
+				)
+			)
+		);
+
+		// __construct()
+		$this->assertTrue(is_array($x->some_property));
+
+		$x = new Phalcon\Config(
+			array(
+				'some_property' => array(
+					'x' => 'y',
+					1   => 'a',
+					2   => 'b',
+				)
+			)
+		);
+
+		// __construct(), different code path
+		$this->assertTrue(!is_array($x->some_property));
+		$this->assertTrue($x->some_property instanceof Phalcon\Config);
+
+		// offsetExists
+		$this->assertTrue(isset($x->some_property[1]));
+		$this->assertTrue(isset($x->some_property[2]));
+		$this->assertTrue(!isset($x->some_property[3]));
+
+		// offsetGet
+		$this->assertEquals($x->some_property[1], 'a');
+		$this->assertEquals($x->some_property[2], 'b');
+
+		// offsetSet
+		$x->some_property[2] = 'c';
+		$this->assertEquals($x->some_property[2], 'c');
+
+		// toArray()
+		$expected = array('some_property' => array('x' => 'y', 1 => 'a', 2 => 'c'));
+		$this->assertEquals($x->toArray(), $expected);
+
+		// merge()
+		$y = new Phalcon\Config(
+			array(
+				'some_property' => array(
+					'a' => 'b',
+					2   => 'e',
+					3   => 'f',
+				)
+			)
+		);
+
+		$x->merge($y);
+		$expected = array('some_property' => array('x' => 'y', 'a' => 'b', 1 => 'a', 2 => 'e', 3 => 'f'));
+		$this->assertEquals($x->toArray(), $expected);
+	}
 }
