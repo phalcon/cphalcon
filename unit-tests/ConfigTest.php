@@ -248,5 +248,12 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$x->merge($y);
 		$expected = array('some_property' => array('x' => 'y', 'a' => 'b', 1 => 'a', 2 => 'e', 3 => 'f'));
 		$this->assertEquals($x->toArray(), $expected);
+
+		// __construct(), merge() - check different code path
+		$x = new Phalcon\Config(array('a' => 0, 1 => array('b' => 0, 1 => 'b')));
+		$y = new Phalcon\Config(array('a' => 0, 1 => array('b' => 0, 2 => 'c')));
+		$x->merge($y);
+		$expected = array('a' => 0, 1 => array('b' => 0, 1 => 'b', 2 => 'c'));
+		$this->assertEquals($x->toArray(), $expected);
 	}
 }
