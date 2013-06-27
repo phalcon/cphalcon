@@ -231,10 +231,6 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 
 	for (i = 0; i < Z_STRLEN_P(param); i += 4) {
 
-		if (Z_STRVAL_P(param)[i] == '\0') {
-			break;
-		}
-
 		issigned = Z_STRVAL_P(param)[i] & 0x80;
 
 		value = 0;
