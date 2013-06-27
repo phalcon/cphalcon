@@ -256,4 +256,17 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$expected = array('a' => 0, 1 => array('b' => 0, 1 => 'b', 2 => 'c'));
 		$this->assertEquals($x->toArray(), $expected);
 	}
+
+	public function testIssue732()
+	{
+		$a = new Phalcon\Config(array('a' => 0));
+		$this->assertTrue(isset($a['a']));
+		unset($a['a']);
+		$this->assertTrue(!isset($a['a']));
+
+		$a = new Phalcon\Config(array('a' => 0, 1 => 1));
+		$this->assertTrue(isset($a[1]));
+		unset($a[1]);
+		$this->assertTrue(!isset($a[1]));
+	}
 }
