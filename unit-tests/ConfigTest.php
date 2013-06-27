@@ -185,7 +185,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	}
 
-
 	public function testIssue731()
 	{
 		// Code path AAA, B, AE, B
@@ -223,4 +222,14 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$a->merge($b);
 		$this->assertEquals($a->toArray(), $c);
 	}
+
+	public function testIssue732()
+	{
+		$a = new Phalcon\Config(array('a' => 0));
+
+		$this->assertTrue(isset($a['a']));
+		unset($a['a']);
+		$this->assertTrue(!isset($a['a']));
+	}
 }
+
