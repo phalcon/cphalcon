@@ -2452,6 +2452,8 @@ PHALCON_INIT_FUNCS(phalcon_http_request_fileinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getSize, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getTempName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getType, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, getRealType, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_Request_FileInterface, moveTo, arginfo_phalcon_http_request_fileinterface_moveto)
 	PHP_FE_END
 };
@@ -3793,6 +3795,7 @@ static PHP_METHOD(Phalcon_Forms_Element, getMessages);
 static PHP_METHOD(Phalcon_Forms_Element, hasMessages);
 static PHP_METHOD(Phalcon_Forms_Element, setMessages);
 static PHP_METHOD(Phalcon_Forms_Element, appendMessage);
+static PHP_METHOD(Phalcon_Forms_Element, clear);
 static PHP_METHOD(Phalcon_Forms_Element, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element___construct, 0, 0, 1)
@@ -3827,6 +3830,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_prepareattributes, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_INFO(0, useChecked)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setattribute, 0, 0, 2)
@@ -3904,6 +3908,7 @@ PHALCON_INIT_FUNCS(phalcon_forms_element_method_entry){
 	PHP_ME(Phalcon_Forms_Element, hasMessages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, setMessages, arginfo_phalcon_forms_element_setmessages, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, appendMessage, arginfo_phalcon_forms_element_appendmessage, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, clear, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, __toString, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
@@ -9386,6 +9391,7 @@ static PHP_METHOD(Phalcon_Forms_Form, getLabel);
 static PHP_METHOD(Phalcon_Forms_Form, getValue);
 static PHP_METHOD(Phalcon_Forms_Form, has);
 static PHP_METHOD(Phalcon_Forms_Form, remove);
+static PHP_METHOD(Phalcon_Forms_Form, clear);
 static PHP_METHOD(Phalcon_Forms_Form, count);
 static PHP_METHOD(Phalcon_Forms_Form, rewind);
 static PHP_METHOD(Phalcon_Forms_Form, current);
@@ -9500,6 +9506,7 @@ PHALCON_INIT_FUNCS(phalcon_forms_form_method_entry){
 	PHP_ME(Phalcon_Forms_Form, getValue, arginfo_phalcon_forms_form_getvalue, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, has, arginfo_phalcon_forms_form_has, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, remove, arginfo_phalcon_forms_form_remove, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Form, clear, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, count, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, rewind, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, current, NULL, ZEND_ACC_PUBLIC) 
@@ -10657,6 +10664,7 @@ static PHP_METHOD(Phalcon_Http_Request_File, getSize);
 static PHP_METHOD(Phalcon_Http_Request_File, getName);
 static PHP_METHOD(Phalcon_Http_Request_File, getTempName);
 static PHP_METHOD(Phalcon_Http_Request_File, getType);
+static PHP_METHOD(Phalcon_Http_Request_File, getRealType);
 static PHP_METHOD(Phalcon_Http_Request_File, moveTo);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
@@ -10673,6 +10681,7 @@ PHALCON_INIT_FUNCS(phalcon_http_request_file_method_entry){
 	PHP_ME(Phalcon_Http_Request_File, getName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request_File, getTempName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request_File, getType, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request_File, getRealType, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request_File, moveTo, arginfo_phalcon_http_request_file_moveto, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

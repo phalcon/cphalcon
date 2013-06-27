@@ -891,20 +891,19 @@ zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_
 
 /* Globals functions */
 static int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
-static int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC);
-static int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
+static int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
 
 static int phalcon_is_callable(zval *var TSRMLS_DC);
-static int phalcon_function_exists(zval *function_name TSRMLS_DC);
-static int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
-static int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC);
+static int phalcon_function_exists(const zval *function_name TSRMLS_DC);
+static int phalcon_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
+static int phalcon_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
 
 /* Count */
 static void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 static int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
-static void phalcon_inherit_not_found(char *class_name, char *inherit_name);
+static void phalcon_inherit_not_found(const char *class_name, const char *inherit_name);
 static int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
 /* Fetch Parameters */
@@ -1474,12 +1473,12 @@ static void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 #define PHALCON_CALL_USER_FUNC_ARRAY(return_value, handler, params) if(phalcon_call_user_func_array(return_value, handler, params TSRMLS_CC)==FAILURE) return;
 
 /** Call single functions */
-static int phalcon_call_func_ex(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC);
-static int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC);
-static int phalcon_call_func_one_param(zval *return_value, char *func_name, int func_length, zval *param1, int noreturn TSRMLS_DC);
-static int phalcon_call_func_two_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, int noreturn TSRMLS_DC);
-static int phalcon_call_func_three_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC);
-static int phalcon_call_func_four_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC);
+static int phalcon_call_func_ex(zval *return_value, const char *func_name, int func_length, int noreturn TSRMLS_DC);
+static int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC);
+static int phalcon_call_func_one_param(zval *return_value, const char *func_name, int func_length, zval *param1, int noreturn TSRMLS_DC);
+static int phalcon_call_func_two_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, int noreturn TSRMLS_DC);
+static int phalcon_call_func_three_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC);
+static int phalcon_call_func_four_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC);
 
 /** Call methods on object instances */
 static int phalcon_call_method_ex(zval *return_value, zval *object, char *method_name, int method_len, int noreturn, unsigned long method_key, int lower TSRMLS_DC);
@@ -1531,7 +1530,7 @@ static int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC);
 static int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params TSRMLS_DC);
 
 /** Check constructors */
-static int phalcon_has_constructor(zval *object TSRMLS_DC);
+static int phalcon_has_constructor(const zval *object TSRMLS_DC);
 
 /** Call functions */
 static int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[] TSRMLS_DC);
@@ -1550,6 +1549,7 @@ static int phalcon_lookup_class(const char *name, int name_length, zend_class_en
 #ifndef zend_error_noreturn
 #define zend_error_noreturn zend_error
 #endif
+
 
 
 
@@ -1631,12 +1631,12 @@ static void phalcon_get_current_key(zval **key, const HashTable *hash_table, Has
 
 
 /** Class Retrieving/Checking */
-static int phalcon_class_exists(zval *class_name TSRMLS_DC);
+static int phalcon_class_exists(const zval *class_name TSRMLS_DC);
 static void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC);
 static void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC);
 static void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC);
 static void phalcon_get_called_class(zval *return_value TSRMLS_DC);
-zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC);
+zend_class_entry *phalcon_fetch_class(const zval *class_name TSRMLS_DC);
 
 /** Class constants */
 static int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC);
@@ -1644,17 +1644,17 @@ static int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, 
 /** Cloning/Instance of*/
 static int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC);
 static int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC);
-static int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_length TSRMLS_DC);
+static int phalcon_is_instance_of(zval *object, const char *class_name, unsigned int class_length TSRMLS_DC);
 
 /** Method exists */
-static int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC);
-static int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int method_len TSRMLS_DC);
-static int phalcon_method_quick_exists_ex(zval *object, char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC);
+static int phalcon_method_exists(const zval *object, const zval *method_name TSRMLS_DC);
+static int phalcon_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC);
+static int phalcon_method_quick_exists_ex(const zval *object, const char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC);
 
 /** Isset properties */
-static int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
-static int phalcon_isset_property_quick(zval *object, char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC);
-static int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC);
+static int phalcon_isset_property(zval *object, const char *property_name, unsigned int property_length TSRMLS_DC);
+static int phalcon_isset_property_quick(zval *object, const char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC);
+static int phalcon_isset_property_zval(zval *object, const zval *property TSRMLS_DC);
 
 /** Reading properties */
 static int phalcon_read_property_this(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
@@ -1687,21 +1687,21 @@ static int phalcon_property_decr(zval *object, char *property_name, unsigned int
 static int phalcon_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC);
 
 /** Static properties */
-static int phalcon_read_static_property(zval **result, char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC);
-static int phalcon_update_static_property(char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC);
+static int phalcon_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC);
+static int phalcon_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC);
 static int phalcon_update_static_property_nts(zend_class_entry *ce, char *name, unsigned int name_length, zval *value TSRMLS_DC);
 
 /** Create instances */
-static int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_DC);
-static int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *params TSRMLS_DC);
+static int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC);
+static int phalcon_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC);
 
 
 
 
 
 /** Fast char position */
-static int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC);
-static int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
+static int phalcon_memnstr(const zval *haystack, const zval *needle TSRMLS_DC);
+static int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 
 /** Function replacement */
 static void phalcon_fast_strlen(zval *return_value, zval *str);
@@ -1709,28 +1709,28 @@ static void phalcon_fast_strtolower(zval *return_value, zval *str);
 static void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 static void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
 static void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
-static void phalcon_fast_explode_str(zval *result, char *delimiter, int delimiter_length, zval *str TSRMLS_DC);
-static void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
-static void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
+static void phalcon_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str TSRMLS_DC);
+static void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *needle TSRMLS_DC);
+static void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 static void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 static void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
 
 /** Camelize/Uncamelize */
-static void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC);
-static void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC);
+static void phalcon_camelize(zval *return_value, const zval *str TSRMLS_DC);
+static void phalcon_uncamelize(zval *return_value, const zval *str TSRMLS_DC);
 
 /** Starts/Ends with */
-static int phalcon_start_with(zval *str, zval *compared, zval *ignore_case);
-static int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_length);
+static int phalcon_start_with(const zval *str, const zval *compared, zval *ignore_case);
+static int phalcon_start_with_str(const zval *str, char *compared, unsigned int compared_length);
 static int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length);
-static int phalcon_end_with(zval *str, zval *compared, zval *ignore_case);
-static int phalcon_end_with_str(zval *str, char *compared, unsigned int compared_length);
+static int phalcon_end_with(const zval *str, const zval *compared, zval *ignore_case);
+static int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_length);
 
 /** Random string */
-static void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC);
+static void phalcon_random_string(zval *return_value, const zval *type, const zval *length TSRMLS_DC);
 
 /* Strips extra slashes */
-static void phalcon_remove_extra_slashes(zval *return_value, zval *str);
+static void phalcon_remove_extra_slashes(zval *return_value, const zval *str);
 
 /** Generates a unique key for an array/object */
 static void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC);
@@ -1755,7 +1755,7 @@ static void phalcon_filter_alphanum(zval *return_value, zval *param);
 static void phalcon_filter_identifier(zval *return_value, zval *param);
 
 /** Encoding */
-static void phalcon_is_basic_charset(zval *return_value, zval *param);
+static void phalcon_is_basic_charset(zval *return_value, const zval *param);
 
 /** Escaping */
 static void phalcon_escape_css(zval *return_value, zval *param);
@@ -1832,15 +1832,15 @@ static int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 static int phalcon_and_function(zval *result, zval *left, zval *right);
 
 static void phalcon_concat_self(zval **left, zval *right TSRMLS_DC);
-static void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_DC);
+static void phalcon_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC);
 
 /** Strict comparing */
-static int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
+static int phalcon_compare_strict_string(zval *op1, const char *op2, int op2_length);
 static int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
 
 static void phalcon_cast(zval *result, zval *var, zend_uint type);
-long phalcon_get_intval(zval *op);
-static int phalcon_is_numeric(zval *op);
+long phalcon_get_intval(const zval *op);
+static int phalcon_is_numeric(const zval *op);
 
 static int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC);
 static int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC);
@@ -1861,89 +1861,89 @@ static int phalcon_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 
 
 #define PHALCON_CONCAT_SV(result, op1, op2) \
-	 phalcon_concat_sv(&result, op1, strlen(op1), op2, 0 TSRMLS_CC);
+	 phalcon_concat_sv(&result, op1, sizeof(op1)-1, op2, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_SV(result, op1, op2) \
-	 phalcon_concat_sv(&result, op1, strlen(op1), op2, 1 TSRMLS_CC);
+	 phalcon_concat_sv(&result, op1, sizeof(op1)-1, op2, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_SVS(result, op1, op2, op3) \
-	 phalcon_concat_svs(&result, op1, strlen(op1), op2, op3, strlen(op3), 0 TSRMLS_CC);
+	 phalcon_concat_svs(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_SVS(result, op1, op2, op3) \
-	 phalcon_concat_svs(&result, op1, strlen(op1), op2, op3, strlen(op3), 1 TSRMLS_CC);
+	 phalcon_concat_svs(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_SVSV(result, op1, op2, op3, op4) \
-	 phalcon_concat_svsv(&result, op1, strlen(op1), op2, op3, strlen(op3), op4, 0 TSRMLS_CC);
+	 phalcon_concat_svsv(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_SVSV(result, op1, op2, op3, op4) \
-	 phalcon_concat_svsv(&result, op1, strlen(op1), op2, op3, strlen(op3), op4, 1 TSRMLS_CC);
+	 phalcon_concat_svsv(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_SVSVS(result, op1, op2, op3, op4, op5) \
-	 phalcon_concat_svsvs(&result, op1, strlen(op1), op2, op3, strlen(op3), op4, op5, strlen(op5), 0 TSRMLS_CC);
+	 phalcon_concat_svsvs(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, op5, sizeof(op5)-1, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_SVSVS(result, op1, op2, op3, op4, op5) \
-	 phalcon_concat_svsvs(&result, op1, strlen(op1), op2, op3, strlen(op3), op4, op5, strlen(op5), 1 TSRMLS_CC);
+	 phalcon_concat_svsvs(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, op5, sizeof(op5)-1, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_SVSVSV(result, op1, op2, op3, op4, op5, op6) \
-	 phalcon_concat_svsvsv(&result, op1, strlen(op1), op2, op3, strlen(op3), op4, op5, strlen(op5), op6, 0 TSRMLS_CC);
+	 phalcon_concat_svsvsv(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, op5, sizeof(op5)-1, op6, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_SVSVSV(result, op1, op2, op3, op4, op5, op6) \
-	 phalcon_concat_svsvsv(&result, op1, strlen(op1), op2, op3, strlen(op3), op4, op5, strlen(op5), op6, 1 TSRMLS_CC);
+	 phalcon_concat_svsvsv(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, op5, sizeof(op5)-1, op6, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_SVSVSVS(result, op1, op2, op3, op4, op5, op6, op7) \
-	 phalcon_concat_svsvsvs(&result, op1, strlen(op1), op2, op3, strlen(op3), op4, op5, strlen(op5), op6, op7, strlen(op7), 0 TSRMLS_CC);
+	 phalcon_concat_svsvsvs(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, op5, sizeof(op5)-1, op6, op7, sizeof(op7)-1, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_SVSVSVS(result, op1, op2, op3, op4, op5, op6, op7) \
-	 phalcon_concat_svsvsvs(&result, op1, strlen(op1), op2, op3, strlen(op3), op4, op5, strlen(op5), op6, op7, strlen(op7), 1 TSRMLS_CC);
+	 phalcon_concat_svsvsvs(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, op5, sizeof(op5)-1, op6, op7, sizeof(op7)-1, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_SVSVV(result, op1, op2, op3, op4, op5) \
-	 phalcon_concat_svsvv(&result, op1, strlen(op1), op2, op3, strlen(op3), op4, op5, 0 TSRMLS_CC);
+	 phalcon_concat_svsvv(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, op5, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_SVSVV(result, op1, op2, op3, op4, op5) \
-	 phalcon_concat_svsvv(&result, op1, strlen(op1), op2, op3, strlen(op3), op4, op5, 1 TSRMLS_CC);
+	 phalcon_concat_svsvv(&result, op1, sizeof(op1)-1, op2, op3, sizeof(op3)-1, op4, op5, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_SVV(result, op1, op2, op3) \
-	 phalcon_concat_svv(&result, op1, strlen(op1), op2, op3, 0 TSRMLS_CC);
+	 phalcon_concat_svv(&result, op1, sizeof(op1)-1, op2, op3, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_SVV(result, op1, op2, op3) \
-	 phalcon_concat_svv(&result, op1, strlen(op1), op2, op3, 1 TSRMLS_CC);
+	 phalcon_concat_svv(&result, op1, sizeof(op1)-1, op2, op3, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_SVVS(result, op1, op2, op3, op4) \
-	 phalcon_concat_svvs(&result, op1, strlen(op1), op2, op3, op4, strlen(op4), 0 TSRMLS_CC);
+	 phalcon_concat_svvs(&result, op1, sizeof(op1)-1, op2, op3, op4, sizeof(op4)-1, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_SVVS(result, op1, op2, op3, op4) \
-	 phalcon_concat_svvs(&result, op1, strlen(op1), op2, op3, op4, strlen(op4), 1 TSRMLS_CC);
+	 phalcon_concat_svvs(&result, op1, sizeof(op1)-1, op2, op3, op4, sizeof(op4)-1, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VS(result, op1, op2) \
-	 phalcon_concat_vs(&result, op1, op2, strlen(op2), 0 TSRMLS_CC);
+	 phalcon_concat_vs(&result, op1, op2, sizeof(op2)-1, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VS(result, op1, op2) \
-	 phalcon_concat_vs(&result, op1, op2, strlen(op2), 1 TSRMLS_CC);
+	 phalcon_concat_vs(&result, op1, op2, sizeof(op2)-1, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VSV(result, op1, op2, op3) \
-	 phalcon_concat_vsv(&result, op1, op2, strlen(op2), op3, 0 TSRMLS_CC);
+	 phalcon_concat_vsv(&result, op1, op2, sizeof(op2)-1, op3, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VSV(result, op1, op2, op3) \
-	 phalcon_concat_vsv(&result, op1, op2, strlen(op2), op3, 1 TSRMLS_CC);
+	 phalcon_concat_vsv(&result, op1, op2, sizeof(op2)-1, op3, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VSVS(result, op1, op2, op3, op4) \
-	 phalcon_concat_vsvs(&result, op1, op2, strlen(op2), op3, op4, strlen(op4), 0 TSRMLS_CC);
+	 phalcon_concat_vsvs(&result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VSVS(result, op1, op2, op3, op4) \
-	 phalcon_concat_vsvs(&result, op1, op2, strlen(op2), op3, op4, strlen(op4), 1 TSRMLS_CC);
+	 phalcon_concat_vsvs(&result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VSVSV(result, op1, op2, op3, op4, op5) \
-	 phalcon_concat_vsvsv(&result, op1, op2, strlen(op2), op3, op4, strlen(op4), op5, 0 TSRMLS_CC);
+	 phalcon_concat_vsvsv(&result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, op5, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VSVSV(result, op1, op2, op3, op4, op5) \
-	 phalcon_concat_vsvsv(&result, op1, op2, strlen(op2), op3, op4, strlen(op4), op5, 1 TSRMLS_CC);
+	 phalcon_concat_vsvsv(&result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, op5, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VSVSVS(result, op1, op2, op3, op4, op5, op6) \
-	 phalcon_concat_vsvsvs(&result, op1, op2, strlen(op2), op3, op4, strlen(op4), op5, op6, strlen(op6), 0 TSRMLS_CC);
+	 phalcon_concat_vsvsvs(&result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, op5, op6, sizeof(op6)-1, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VSVSVS(result, op1, op2, op3, op4, op5, op6) \
-	 phalcon_concat_vsvsvs(&result, op1, op2, strlen(op2), op3, op4, strlen(op4), op5, op6, strlen(op6), 1 TSRMLS_CC);
+	 phalcon_concat_vsvsvs(&result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, op5, op6, sizeof(op6)-1, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VSVSVSV(result, op1, op2, op3, op4, op5, op6, op7) \
-	 phalcon_concat_vsvsvsv(&result, op1, op2, strlen(op2), op3, op4, strlen(op4), op5, op6, strlen(op6), op7, 0 TSRMLS_CC);
+	 phalcon_concat_vsvsvsv(&result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, op5, op6, sizeof(op6)-1, op7, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VSVSVSV(result, op1, op2, op3, op4, op5, op6, op7) \
-	 phalcon_concat_vsvsvsv(&result, op1, op2, strlen(op2), op3, op4, strlen(op4), op5, op6, strlen(op6), op7, 1 TSRMLS_CC);
+	 phalcon_concat_vsvsvsv(&result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, op5, op6, sizeof(op6)-1, op7, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VSVV(result, op1, op2, op3, op4) \
-	 phalcon_concat_vsvv(&result, op1, op2, strlen(op2), op3, op4, 0 TSRMLS_CC);
+	 phalcon_concat_vsvv(&result, op1, op2, sizeof(op2)-1, op3, op4, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VSVV(result, op1, op2, op3, op4) \
-	 phalcon_concat_vsvv(&result, op1, op2, strlen(op2), op3, op4, 1 TSRMLS_CC);
+	 phalcon_concat_vsvv(&result, op1, op2, sizeof(op2)-1, op3, op4, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VSVVV(result, op1, op2, op3, op4, op5) \
-	 phalcon_concat_vsvvv(&result, op1, op2, strlen(op2), op3, op4, op5, 0 TSRMLS_CC);
+	 phalcon_concat_vsvvv(&result, op1, op2, sizeof(op2)-1, op3, op4, op5, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VSVVV(result, op1, op2, op3, op4, op5) \
-	 phalcon_concat_vsvvv(&result, op1, op2, strlen(op2), op3, op4, op5, 1 TSRMLS_CC);
+	 phalcon_concat_vsvvv(&result, op1, op2, sizeof(op2)-1, op3, op4, op5, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VV(result, op1, op2) \
 	 phalcon_concat_vv(&result, op1, op2, 0 TSRMLS_CC);
@@ -1951,14 +1951,14 @@ static int phalcon_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 	 phalcon_concat_vv(&result, op1, op2, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VVS(result, op1, op2, op3) \
-	 phalcon_concat_vvs(&result, op1, op2, op3, strlen(op3), 0 TSRMLS_CC);
+	 phalcon_concat_vvs(&result, op1, op2, op3, sizeof(op3)-1, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VVS(result, op1, op2, op3) \
-	 phalcon_concat_vvs(&result, op1, op2, op3, strlen(op3), 1 TSRMLS_CC);
+	 phalcon_concat_vvs(&result, op1, op2, op3, sizeof(op3)-1, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VVSV(result, op1, op2, op3, op4) \
-	 phalcon_concat_vvsv(&result, op1, op2, op3, strlen(op3), op4, 0 TSRMLS_CC);
+	 phalcon_concat_vvsv(&result, op1, op2, op3, sizeof(op3)-1, op4, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VVSV(result, op1, op2, op3, op4) \
-	 phalcon_concat_vvsv(&result, op1, op2, op3, strlen(op3), op4, 1 TSRMLS_CC);
+	 phalcon_concat_vvsv(&result, op1, op2, op3, sizeof(op3)-1, op4, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VVV(result, op1, op2, op3) \
 	 phalcon_concat_vvv(&result, op1, op2, op3, 0 TSRMLS_CC);
@@ -1966,9 +1966,9 @@ static int phalcon_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 	 phalcon_concat_vvv(&result, op1, op2, op3, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VVVSV(result, op1, op2, op3, op4, op5) \
-	 phalcon_concat_vvvsv(&result, op1, op2, op3, op4, strlen(op4), op5, 0 TSRMLS_CC);
+	 phalcon_concat_vvvsv(&result, op1, op2, op3, op4, sizeof(op4)-1, op5, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VVVSV(result, op1, op2, op3, op4, op5) \
-	 phalcon_concat_vvvsv(&result, op1, op2, op3, op4, strlen(op4), op5, 1 TSRMLS_CC);
+	 phalcon_concat_vvvsv(&result, op1, op2, op3, op4, sizeof(op4)-1, op5, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VVVV(result, op1, op2, op3, op4) \
 	 phalcon_concat_vvvv(&result, op1, op2, op3, op4, 0 TSRMLS_CC);
@@ -1976,9 +1976,9 @@ static int phalcon_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 	 phalcon_concat_vvvv(&result, op1, op2, op3, op4, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VVVVSVV(result, op1, op2, op3, op4, op5, op6, op7) \
-	 phalcon_concat_vvvvsvv(&result, op1, op2, op3, op4, op5, strlen(op5), op6, op7, 0 TSRMLS_CC);
+	 phalcon_concat_vvvvsvv(&result, op1, op2, op3, op4, op5, sizeof(op5)-1, op6, op7, 0 TSRMLS_CC);
 #define PHALCON_SCONCAT_VVVVSVV(result, op1, op2, op3, op4, op5, op6, op7) \
-	 phalcon_concat_vvvvsvv(&result, op1, op2, op3, op4, op5, strlen(op5), op6, op7, 1 TSRMLS_CC);
+	 phalcon_concat_vvvvsvv(&result, op1, op2, op3, op4, op5, sizeof(op5)-1, op6, op7, 1 TSRMLS_CC);
 
 #define PHALCON_CONCAT_VVVVV(result, op1, op2, op3, op4, op5) \
 	 phalcon_concat_vvvvv(&result, op1, op2, op3, op4, op5, 0 TSRMLS_CC);
@@ -1986,30 +1986,30 @@ static int phalcon_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 	 phalcon_concat_vvvvv(&result, op1, op2, op3, op4, op5, 1 TSRMLS_CC);
 
 
-static void phalcon_concat_sv(zval **result, char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC);
-static void phalcon_concat_svs(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, int self_var TSRMLS_DC);
-static void phalcon_concat_svsv(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC);
-static void phalcon_concat_svsvs(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, char *op5, zend_uint op5_len, int self_var TSRMLS_DC);
-static void phalcon_concat_svsvsv(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, char *op5, zend_uint op5_len, zval *op6, int self_var TSRMLS_DC);
-static void phalcon_concat_svsvsvs(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, char *op5, zend_uint op5_len, zval *op6, char *op7, zend_uint op7_len, int self_var TSRMLS_DC);
-static void phalcon_concat_svsvv(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC);
-static void phalcon_concat_svv(zval **result, char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC);
-static void phalcon_concat_svvs(zval **result, char *op1, zend_uint op1_len, zval *op2, zval *op3, char *op4, zend_uint op4_len, int self_var TSRMLS_DC);
-static void phalcon_concat_vs(zval **result, zval *op1, char *op2, zend_uint op2_len, int self_var TSRMLS_DC);
-static void phalcon_concat_vsv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC);
-static void phalcon_concat_vsvs(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, int self_var TSRMLS_DC);
-static void phalcon_concat_vsvsv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC);
-static void phalcon_concat_vsvsvs(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, zval *op5, char *op6, zend_uint op6_len, int self_var TSRMLS_DC);
-static void phalcon_concat_vsvsvsv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, zval *op5, char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC);
-static void phalcon_concat_vsvv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, zval *op4, int self_var TSRMLS_DC);
-static void phalcon_concat_vsvvv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC);
+static void phalcon_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC);
+static void phalcon_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC);
+static void phalcon_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC);
+static void phalcon_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, int self_var TSRMLS_DC);
+static void phalcon_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, int self_var TSRMLS_DC);
+static void phalcon_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, int self_var TSRMLS_DC);
+static void phalcon_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC);
+static void phalcon_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC);
+static void phalcon_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC);
+static void phalcon_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_len, int self_var TSRMLS_DC);
+static void phalcon_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC);
+static void phalcon_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC);
+static void phalcon_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC);
+static void phalcon_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, int self_var TSRMLS_DC);
+static void phalcon_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC);
+static void phalcon_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, int self_var TSRMLS_DC);
+static void phalcon_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC);
 static void phalcon_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_DC);
-static void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, char *op3, zend_uint op3_len, int self_var TSRMLS_DC);
-static void phalcon_concat_vvsv(zval **result, zval *op1, zval *op2, char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC);
+static void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC);
+static void phalcon_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC);
 static void phalcon_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self_var TSRMLS_DC);
-static void phalcon_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC);
+static void phalcon_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC);
 static void phalcon_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, int self_var TSRMLS_DC);
-static void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC);
+static void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, const char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC);
 static void phalcon_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC);
 
 
@@ -2021,7 +2021,7 @@ static void phalcon_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3,
 
 /** Throw Exceptions */
 static void phalcon_throw_exception(zval *object TSRMLS_DC);
-static void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len, int restore_stack TSRMLS_DC);
+static void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len, int restore_stack TSRMLS_DC);
 static void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC);
 static void phalcon_throw_exception_internal(zval *exception TSRMLS_DC);
 
@@ -2031,8 +2031,8 @@ static void phalcon_try_execute(zval *success, zval *return_value, zval *call_ob
 
 
 
-static int PHALCON_FASTCALL phalcon_require(zval *require_path TSRMLS_DC);
-static int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, zval *require_path TSRMLS_DC);
+static int PHALCON_FASTCALL phalcon_require(const zval *require_path TSRMLS_DC);
+static int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, const zval *require_path TSRMLS_DC);
 
 
 
@@ -2157,7 +2157,7 @@ static int phalcon_init_global(char *global, unsigned int global_length TSRMLS_D
 	return SUCCESS;
 }
 
-static int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC) {
+static int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC) {
 
 	zval **gv;
 
@@ -2274,7 +2274,7 @@ static int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 	return 1;
 }
 
-static int phalcon_function_exists(zval *function_name TSRMLS_DC) {
+static int phalcon_function_exists(const zval *function_name TSRMLS_DC) {
 
 	if (Z_TYPE_P(function_name) == IS_STRING) {
 		if (zend_hash_exists(CG(function_table), Z_STRVAL_P(function_name), Z_STRLEN_P(function_name))) {
@@ -2285,7 +2285,7 @@ static int phalcon_function_exists(zval *function_name TSRMLS_DC) {
 	return FAILURE;
 }
 
-static int phalcon_function_exists_ex(char *function_name, unsigned int function_len TSRMLS_DC) {
+static int phalcon_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC) {
 
 	if (zend_hash_exists(CG(function_table), function_name, function_len)) {
 		return SUCCESS;
@@ -2294,7 +2294,7 @@ static int phalcon_function_exists_ex(char *function_name, unsigned int function
 	return FAILURE;
 }
 
-static int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
+static int phalcon_function_quick_exists_ex(const char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
 
 	if (zend_hash_quick_exists(CG(function_table), method_name, method_len, key)) {
 		return SUCCESS;
@@ -2341,7 +2341,7 @@ static int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition 
 	return 1;
 }
 
-static void phalcon_inherit_not_found(char *class_name, char *inherit_name) {
+static void phalcon_inherit_not_found(const char *class_name, const char *inherit_name) {
 	fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", class_name, inherit_name);
 }
 
@@ -2847,7 +2847,7 @@ static inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, in
 	return FAILURE;
 }
 
-static inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
+static inline int phalcon_find_parent_scope(zend_class_entry *ce, const char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
 
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
 	unsigned long hash = zend_inline_hash_func(lcname, method_len + 1);
@@ -2872,7 +2872,7 @@ static inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_c
 	return FAILURE;
 }
 
-static int phalcon_has_constructor(zval *object TSRMLS_DC){
+static int phalcon_has_constructor(const zval *object TSRMLS_DC){
 
 	zend_class_entry *ce = Z_OBJCE_P(object);
 
@@ -2886,7 +2886,7 @@ static int phalcon_has_constructor(zval *object TSRMLS_DC){
 	return 0;
 }
 
-static inline int phalcon_call_func_internal(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
+static inline int phalcon_call_func_internal(zval *return_value, const char *func_name, int func_length, int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -2921,7 +2921,7 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 	return status;
 }
 
-static inline int phalcon_call_func_params_internal(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+static inline int phalcon_call_func_params_internal(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -2956,8 +2956,32 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 	return status;
 }
 
-static int phalcon_call_func_ex(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
+static int phalcon_call_func_ex(zval *return_value, const char *func_name, int func_length, int noreturn TSRMLS_DC){
 	return phalcon_call_func_internal(return_value, func_name, func_length, noreturn TSRMLS_CC);
+}
+
+static int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+	return phalcon_call_func_params_internal(return_value, func_name, func_length, param_count, params, noreturn TSRMLS_CC);
+}
+
+static int phalcon_call_func_one_param(zval *return_value, const char *func_name, int func_length, zval *param1, int noreturn TSRMLS_DC){
+	zval *params[] = { param1 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 1, params, noreturn TSRMLS_CC);
+}
+
+static int phalcon_call_func_two_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 2, params, noreturn TSRMLS_CC);
+}
+
+static int phalcon_call_func_three_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 3, params, noreturn TSRMLS_CC);
+}
+
+static int phalcon_call_func_four_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 4, params, noreturn TSRMLS_CC);
 }
 
 static inline int phalcon_call_method_internal(zval *return_value, zval *object, char *method_name, int method_len, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
@@ -3004,30 +3028,6 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	}
 
 	return status;
-}
-
-static int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
-	return phalcon_call_func_params_internal(return_value, func_name, func_length, param_count, params, noreturn TSRMLS_CC);
-}
-
-static int phalcon_call_func_one_param(zval *return_value, char *func_name, int func_length, zval *param1, int noreturn TSRMLS_DC){
-	zval *params[] = { param1 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 1, params, noreturn TSRMLS_CC);
-}
-
-static int phalcon_call_func_two_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, int noreturn TSRMLS_DC){
-	zval *params[] = { param1, param2 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 2, params, noreturn TSRMLS_CC);
-}
-
-static int phalcon_call_func_three_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
-	zval *params[] = { param1, param2, param3 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 3, params, noreturn TSRMLS_CC);
-}
-
-static int phalcon_call_func_four_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC){
-	zval *params[] = { param1, param2, param3, param4 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 4, params, noreturn TSRMLS_CC);
 }
 
 static inline int phalcon_call_method_params_internal(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn, unsigned long method_key, int lower TSRMLS_DC){
@@ -5341,7 +5341,7 @@ static int phalcon_instance_of(zval *result, const zval *object, const zend_clas
 	return SUCCESS;
 }
 
-static int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_length TSRMLS_DC) {
+static int phalcon_is_instance_of(zval *object, const char *class_name, unsigned int class_length TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
@@ -5511,7 +5511,7 @@ static void phalcon_get_called_class(zval *return_value TSRMLS_DC) {
 
 }
 
-zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC) {
+zend_class_entry *phalcon_fetch_class(const zval *class_name TSRMLS_DC) {
 
 	if (Z_TYPE_P(class_name) == IS_STRING) {
 		return zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
@@ -5521,7 +5521,7 @@ zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC) {
 	return zend_fetch_class("stdclass", strlen("stdclass"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 }
 
-static int phalcon_class_exists(zval *class_name TSRMLS_DC) {
+static int phalcon_class_exists(const zval *class_name TSRMLS_DC) {
 
 	zend_class_entry **ce;
 
@@ -5575,7 +5575,7 @@ static int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC) {
 	return status;
 }
 
-static int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
+static int phalcon_isset_property(zval *object, const char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	unsigned long hash;
 
@@ -5592,10 +5592,10 @@ static int phalcon_isset_property(zval *object, char *property_name, unsigned in
 	return 0;
 }
 
-static int phalcon_isset_property_quick(zval *object, char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC) {
+static int phalcon_isset_property_quick(zval *object, const char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC) {
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if (phalcon_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length, hash)) {
+		if (likely(phalcon_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length, hash))) {
 			return 1;
 		} else {
 			return phalcon_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length, hash);
@@ -5605,7 +5605,7 @@ static int phalcon_isset_property_quick(zval *object, char *property_name, unsig
 	return 0;
 }
 
-static int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC) {
+static int phalcon_isset_property_zval(zval *object, const zval *property TSRMLS_DC) {
 
 	unsigned long hash;
 
@@ -5614,7 +5614,7 @@ static int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC) {
 
 			hash = zend_inline_hash_func(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1);
 
-			if (phalcon_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, hash)) {
+			if (likely(phalcon_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, hash))) {
 				return 1;
 			} else {
 				return phalcon_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, hash);
@@ -5959,8 +5959,8 @@ static int phalcon_read_property_zval(zval **result, zval *object, zval *propert
 
 	zend_class_entry *ce, *old_scope;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if (Z_TYPE_P(property) == IS_STRING) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
+		if (likely(Z_TYPE_P(property) == IS_STRING)) {
 
 			ce = Z_OBJCE_P(object);
 			if (ce->parent) {
@@ -6010,7 +6010,7 @@ static int phalcon_update_property_long(zval *object, char *property_name, unsig
 
 	zend_class_entry *ce;
 
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -6090,7 +6090,7 @@ static int phalcon_update_property_null(zval *object, char *property_name, unsig
 
 	zend_class_entry *ce;
 
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -6110,7 +6110,7 @@ static int phalcon_update_property_zval(zval *object, char *property_name, unsig
 	zend_class_entry *ce, *old_scope;
 	zval *property;
 
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -6559,7 +6559,7 @@ static int phalcon_unset_property_array(zval *object, char *property, unsigned i
 	return SUCCESS;
 }
 
-static int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
+static int phalcon_method_exists(const zval *object, const zval *method_name TSRMLS_DC){
 
 	char *lcname;
 	zend_class_entry *ce;
@@ -6594,7 +6594,7 @@ static int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 	return FAILURE;
 }
 
-static int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int method_len TSRMLS_DC){
+static int phalcon_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC){
 
 	zend_class_entry *ce;
 	unsigned long hash;
@@ -6621,7 +6621,7 @@ static int phalcon_method_exists_ex(zval *object, char *method_name, unsigned in
 	return FAILURE;
 }
 
-static int phalcon_method_quick_exists_ex(zval *object, char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC){
+static int phalcon_method_quick_exists_ex(const zval *object, const char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -6645,7 +6645,7 @@ static int phalcon_method_quick_exists_ex(zval *object, char *method_name, unsig
 	return FAILURE;
 }
 
-static int phalcon_read_static_property(zval **result, char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC){
+static int phalcon_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		*result = zend_read_static_property(*ce, property_name, property_length, PH_FETCH_CLASS_SILENT);
@@ -6657,7 +6657,7 @@ static int phalcon_read_static_property(zval **result, char *class_name, unsigne
 	return FAILURE;
 }
 
-static int phalcon_update_static_property(char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC){
+static int phalcon_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		return zend_update_static_property(*ce, name, name_length, value TSRMLS_CC);
@@ -6669,7 +6669,7 @@ static int phalcon_update_static_property_nts(zend_class_entry *ce, char *name, 
 	return zend_update_static_property(ce, name, name_length, value TSRMLS_CC);
 }
 
-static int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_DC){
+static int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -6693,7 +6693,7 @@ static int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_D
 	return SUCCESS;
 }
 
-static int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *params TSRMLS_DC){
+static int phalcon_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC){
 
 	int i;
 	zend_class_entry *ce;
@@ -6998,7 +6998,7 @@ static void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int g
 	}
 }
 
-static void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
+static void phalcon_camelize(zval *return_value, const zval *str TSRMLS_DC){
 
 	unsigned int i;
 	smart_str camelize_str = {0};
@@ -7047,7 +7047,7 @@ static void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 
 }
 
-static void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
+static void phalcon_uncamelize(zval *return_value, const zval *str TSRMLS_DC){
 
 	unsigned int i;
 	smart_str uncamelize_str = {0};
@@ -7095,7 +7095,7 @@ static void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS
 	php_explode(delimiter, str, result, LONG_MAX);
 }
 
-static void phalcon_fast_explode_str(zval *result, char *delimiter, int delimiter_length, zval *str TSRMLS_DC){
+static void phalcon_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str TSRMLS_DC){
 
 	zval delimiter_zval;
 
@@ -7111,7 +7111,7 @@ static void phalcon_fast_explode_str(zval *result, char *delimiter, int delimite
 	php_explode(&delimiter_zval, str, result, LONG_MAX);
 }
 
-static int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC){
+static int phalcon_memnstr(const zval *haystack, const zval *needle TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -7131,7 +7131,7 @@ static int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC){
 	return 0;
 }
 
-static int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
+static int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -7151,7 +7151,7 @@ static int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle
 	return 0;
 }
 
-static void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC){
+static void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *needle TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -7176,7 +7176,7 @@ static void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle
 
 }
 
-static void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
+static void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -7287,7 +7287,7 @@ static void phalcon_fast_str_replace(zval *return_value, zval *search, zval *rep
 
 }
 
-static int phalcon_start_with(zval *str, zval *compared, zval *ignore_case){
+static int phalcon_start_with(const zval *str, const zval *compared, zval *ignore_case){
 
 	int ignore = 1;
 	unsigned int i, number;
@@ -7338,7 +7338,7 @@ static int phalcon_start_with(zval *str, zval *compared, zval *ignore_case){
 	return 1;
 }
 
-static int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_length){
+static int phalcon_start_with_str(const zval *str, char *compared, unsigned int compared_length){
 
 	char *op1_cursor, *op2_cursor;
 	unsigned int i, number;
@@ -7359,7 +7359,7 @@ static int phalcon_start_with_str(zval *str, char *compared, unsigned int compar
 
 	op1_cursor = Z_STRVAL_P(str);
 	op2_cursor = compared;
-	for (i = 0; i<number; i++){
+	for (i = 0; i < number; i++){
 		if ((*op1_cursor) != (*op2_cursor)) {
 			return 0;
 		}
@@ -7387,7 +7387,7 @@ static int phalcon_start_with_str_str(char *str, unsigned int str_length, char *
 
 	op1_cursor = str;
 	op2_cursor = compared;
-	for (i = 0; i<number; i++){
+	for (i = 0; i < number; i++){
 		if ((*op1_cursor) != (*op2_cursor)) {
 			return 0;
 		}
@@ -7398,7 +7398,7 @@ static int phalcon_start_with_str_str(char *str, unsigned int str_length, char *
 	return 1;
 }
 
-static int phalcon_end_with(zval *str, zval *compared, zval *ignore_case){
+static int phalcon_end_with(const zval *str, const zval *compared, zval *ignore_case){
 
 	int ignore = 1, number = 0;
 	unsigned int i;
@@ -7453,7 +7453,7 @@ static int phalcon_end_with(zval *str, zval *compared, zval *ignore_case){
 	return 1;
 }
 
-static int phalcon_end_with_str(zval *str, char *compared, unsigned int compared_length){
+static int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_length){
 
 	int number = 0;
 	unsigned int i;
@@ -7494,7 +7494,7 @@ static int phalcon_end_with_str(zval *str, char *compared, unsigned int compared
 	return 1;
 }
 
-static void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC){
+static void phalcon_random_string(zval *return_value, const zval *type, const zval *length TSRMLS_DC){
 
 	long i, rand_type, ch;
 	smart_str random_str = {0};
@@ -7581,7 +7581,7 @@ static void phalcon_random_string(zval *return_value, zval *type, zval *length T
 
 }
 
-static void phalcon_remove_extra_slashes(zval *return_value, zval *str){
+static void phalcon_remove_extra_slashes(zval *return_value, const zval *str){
 
 	char *cursor, *removed_str;
 	unsigned int i;
@@ -7808,7 +7808,7 @@ static void phalcon_filter_alphanum(zval *return_value, zval *param){
 		if (ch == '\0') {
 			break;
 		}
-		if ((ch > 96 && ch < 123)||(ch > 64 && ch < 91)||(ch > 47 && ch < 58)) {
+		if ((ch > 96 && ch < 123) || (ch > 64 && ch < 91) || (ch > 47 && ch < 58)) {
 			smart_str_appendc(&filtered_str, ch);
 		}
 	}
@@ -7867,7 +7867,7 @@ static void phalcon_filter_identifier(zval *return_value, zval *param){
 
 }
 
-static void phalcon_is_basic_charset(zval *return_value, zval *param){
+static void phalcon_is_basic_charset(zval *return_value, const zval *param){
 
 	unsigned int i;
 	unsigned int ch;
@@ -7875,12 +7875,14 @@ static void phalcon_is_basic_charset(zval *return_value, zval *param){
 
 	for (i = 0; i < Z_STRLEN_P(param); i++) {
 		ch = Z_STRVAL_P(param)[i];
-		if (ch == 172 || (ch >= 128 && ch <= 159)) {
-			continue;
-		}
-		if (ch >= 160 && ch <= 255) {
-			iso88591 = 1;
-			continue;
+		if (ch != '\0') {
+			if (ch == 172 || (ch >= 128 && ch <= 159)) {
+				continue;
+			}
+			if (ch >= 160 && ch <= 255) {
+				iso88591 = 1;
+				continue;
+			}
 		}
 		RETURN_FALSE;
 	}
@@ -7907,7 +7909,7 @@ static long phalcon_unpack(char *data, int size, int issigned, int *map)
 	return result;
 }
 
-char *phalcon_longtohex(unsigned long value) {
+static char *phalcon_longtohex(unsigned long value) {
 
 	static char digits[] = "0123456789abcdef";
 	char buf[(sizeof(unsigned long) << 3) + 1];
@@ -7923,7 +7925,7 @@ char *phalcon_longtohex(unsigned long value) {
 	return estrndup(ptr, end - ptr);
 }
 
-static void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
+static void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
 
 	unsigned int i;
 	zval copy;
@@ -7963,11 +7965,7 @@ static void phalcon_escape_multi(zval *return_value, zval *param, char *escape_c
 		RETURN_FALSE;
 	}
 
-	for (i = 0; i < Z_STRLEN_P(param); i+=4) {
-
-		if (Z_STRVAL_P(param)[i] == '\0') {
-			break;
-		}
+	for (i = 0; i < Z_STRLEN_P(param); i += 4) {
 
 		issigned = Z_STRVAL_P(param)[i] & 0x80;
 
@@ -8021,6 +8019,7 @@ static void phalcon_escape_multi(zval *return_value, zval *param, char *escape_c
 				case ':':
 				case ';':
 				case '_':
+				case '|':
 					smart_str_appendc(&escaped_str, (unsigned char) value);
 					continue;
 			}
@@ -8170,7 +8169,7 @@ static void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 	}
 }
 
-static void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_DC){
+static void phalcon_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC){
 
 	zval left_copy;
 	uint length;
@@ -8207,7 +8206,7 @@ static void phalcon_concat_self_str(zval **left, char *right, int right_length T
 	}
 }
 
-static int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
+static int phalcon_compare_strict_string(zval *op1, const char *op2, int op2_length){
 
 	switch (Z_TYPE_P(op1)) {
 		case IS_STRING:
@@ -8233,7 +8232,6 @@ static int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 
 static int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 
-	zval *op2_tmp, *result;
 	int bool_result;
 
 	switch (Z_TYPE_P(op1)) {
@@ -8250,14 +8248,13 @@ static int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 				return 1 == op2;
 			}
 		default:
-			ALLOC_INIT_ZVAL(result);
-			ALLOC_INIT_ZVAL(op2_tmp);
-			ZVAL_LONG(op2_tmp, op2);
-			is_equal_function(result, op1, op2_tmp TSRMLS_CC);
-			bool_result = Z_BVAL_P(result);
-			zval_ptr_dtor(&result);
-			zval_ptr_dtor(&op2_tmp);
-			return bool_result;
+			{
+				zval result, op2_tmp;
+				ZVAL_LONG(&op2_tmp, op2);
+				is_equal_function(&result, op1, &op2_tmp TSRMLS_CC);
+				bool_result = Z_BVAL(result);
+				return bool_result;
+			}
 	}
 
 	return 0;
@@ -8296,7 +8293,7 @@ static void phalcon_cast(zval *result, zval *var, zend_uint type){
 
 }
 
-long phalcon_get_intval(zval *op) {
+long phalcon_get_intval(const zval *op) {
 
 	int type;
 	long long_value;
@@ -8326,7 +8323,7 @@ long phalcon_get_intval(zval *op) {
 	return 0;
 }
 
-static int phalcon_is_numeric(zval *op) {
+static int phalcon_is_numeric(const zval *op) {
 
 	int type;
 
@@ -8414,7 +8411,7 @@ static int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC) {
 
 
 
-static void phalcon_concat_sv(zval **result, char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC){
+static void phalcon_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy;
 	int use_copy = 0, use_copy2 = 0;
@@ -8461,7 +8458,7 @@ static void phalcon_concat_sv(zval **result, char *op1, zend_uint op1_len, zval 
 
 }
 
-static void phalcon_concat_svs(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
+static void phalcon_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy;
 	int use_copy = 0, use_copy2 = 0;
@@ -8509,7 +8506,7 @@ static void phalcon_concat_svs(zval **result, char *op1, zend_uint op1_len, zval
 
 }
 
-static void phalcon_concat_svsv(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
+static void phalcon_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0;
@@ -8569,7 +8566,7 @@ static void phalcon_concat_svsv(zval **result, char *op1, zend_uint op1_len, zva
 
 }
 
-static void phalcon_concat_svsvs(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, char *op5, zend_uint op5_len, int self_var TSRMLS_DC){
+static void phalcon_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0;
@@ -8630,7 +8627,7 @@ static void phalcon_concat_svsvs(zval **result, char *op1, zend_uint op1_len, zv
 
 }
 
-static void phalcon_concat_svsvsv(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, char *op5, zend_uint op5_len, zval *op6, int self_var TSRMLS_DC){
+static void phalcon_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op6_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy6 = 0;
@@ -8703,7 +8700,7 @@ static void phalcon_concat_svsvsv(zval **result, char *op1, zend_uint op1_len, z
 
 }
 
-static void phalcon_concat_svsvsvs(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, char *op5, zend_uint op5_len, zval *op6, char *op7, zend_uint op7_len, int self_var TSRMLS_DC){
+static void phalcon_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op6_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy6 = 0;
@@ -8777,7 +8774,7 @@ static void phalcon_concat_svsvsvs(zval **result, char *op1, zend_uint op1_len, 
 
 }
 
-static void phalcon_concat_svsvv(zval **result, char *op1, zend_uint op1_len, zval *op2, char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC){
+static void phalcon_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op5_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy5 = 0;
@@ -8849,7 +8846,7 @@ static void phalcon_concat_svsvv(zval **result, char *op1, zend_uint op1_len, zv
 
 }
 
-static void phalcon_concat_svv(zval **result, char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC){
+static void phalcon_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op3_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy3 = 0;
@@ -8908,7 +8905,7 @@ static void phalcon_concat_svv(zval **result, char *op1, zend_uint op1_len, zval
 
 }
 
-static void phalcon_concat_svvs(zval **result, char *op1, zend_uint op1_len, zval *op2, zval *op3, char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
+static void phalcon_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op3_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy3 = 0;
@@ -8968,7 +8965,7 @@ static void phalcon_concat_svvs(zval **result, char *op1, zend_uint op1_len, zva
 
 }
 
-static void phalcon_concat_vs(zval **result, zval *op1, char *op2, zend_uint op2_len, int self_var TSRMLS_DC){
+static void phalcon_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy;
 	int use_copy = 0, use_copy1 = 0;
@@ -9015,7 +9012,7 @@ static void phalcon_concat_vs(zval **result, zval *op1, char *op2, zend_uint op2
 
 }
 
-static void phalcon_concat_vsv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC){
+static void phalcon_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0;
@@ -9074,7 +9071,7 @@ static void phalcon_concat_vsv(zval **result, zval *op1, char *op2, zend_uint op
 
 }
 
-static void phalcon_concat_vsvs(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
+static void phalcon_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0;
@@ -9134,7 +9131,7 @@ static void phalcon_concat_vsvs(zval **result, zval *op1, char *op2, zend_uint o
 
 }
 
-static void phalcon_concat_vsvsv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
+static void phalcon_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy5 = 0;
@@ -9206,7 +9203,7 @@ static void phalcon_concat_vsvsv(zval **result, zval *op1, char *op2, zend_uint 
 
 }
 
-static void phalcon_concat_vsvsvs(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, zval *op5, char *op6, zend_uint op6_len, int self_var TSRMLS_DC){
+static void phalcon_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy5 = 0;
@@ -9279,7 +9276,7 @@ static void phalcon_concat_vsvsvs(zval **result, zval *op1, char *op2, zend_uint
 
 }
 
-static void phalcon_concat_vsvsvsv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, zval *op5, char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC){
+static void phalcon_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op5_copy, op7_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy5 = 0, use_copy7 = 0;
@@ -9364,7 +9361,7 @@ static void phalcon_concat_vsvsvsv(zval **result, zval *op1, char *op2, zend_uin
 
 }
 
-static void phalcon_concat_vsvv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, zval *op4, int self_var TSRMLS_DC){
+static void phalcon_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op4_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy4 = 0;
@@ -9435,7 +9432,7 @@ static void phalcon_concat_vsvv(zval **result, zval *op1, char *op2, zend_uint o
 
 }
 
-static void phalcon_concat_vsvvv(zval **result, zval *op1, char *op2, zend_uint op2_len, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC){
+static void phalcon_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op4_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy4 = 0, use_copy5 = 0;
@@ -9576,7 +9573,7 @@ static void phalcon_concat_vv(zval **result, zval *op1, zval *op2, int self_var 
 
 }
 
-static void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
+static void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0;
@@ -9635,7 +9632,7 @@ static void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, char *op3, z
 
 }
 
-static void phalcon_concat_vvsv(zval **result, zval *op1, zval *op2, char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
+static void phalcon_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op4_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy4 = 0;
@@ -9776,7 +9773,7 @@ static void phalcon_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, i
 
 }
 
-static void phalcon_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
+static void phalcon_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0, use_copy5 = 0;
@@ -9941,7 +9938,7 @@ static void phalcon_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, 
 
 }
 
-static void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC){
+static void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, const char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy, op4_copy, op6_copy, op7_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0, use_copy4 = 0, use_copy6 = 0, use_copy7 = 0;
@@ -10402,7 +10399,7 @@ static void phalcon_throw_exception(zval *object TSRMLS_DC){
 	phalcon_memory_restore_stack(TSRMLS_C);
 }
 
-static void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
+static void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
 
 	zval *object, *msg;
 
@@ -10449,6 +10446,7 @@ static void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 			return;
 		}
 	}
+
 	if (!EG(current_execute_data)) {
 		if(EG(exception)) {
 			zend_exception_error(EG(exception), E_ERROR TSRMLS_CC);
@@ -10510,7 +10508,7 @@ static void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 #endif
 
 
-static int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_path TSRMLS_DC){
+static int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *require_path TSRMLS_DC){
 
 	int ret;
 	char *file_path;
@@ -10618,11 +10616,11 @@ static int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *r
 	return status;
 }
 
-static int PHALCON_FASTCALL phalcon_require(zval *require_path TSRMLS_DC){
+static int PHALCON_FASTCALL phalcon_require(const zval *require_path TSRMLS_DC){
 	return phalcon_internal_require(NULL, require_path TSRMLS_CC);
 }
 
-static int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, zval *require_path TSRMLS_DC){
+static int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, const zval *require_path TSRMLS_DC){
 	return phalcon_internal_require(return_value, require_path TSRMLS_CC);
 }
 
@@ -23773,6 +23771,11 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	
 		while (1) {
 	
+			if (phalcon_memnstr_str(column_type, SL("enum") TSRMLS_CC)) {
+				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
+				break;
+			}
+	
 			if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
 				phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
 				phalcon_array_update_quick_string(&definition, SS("isNumeric"), 8246464942291357716UL, &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -23816,11 +23819,6 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 				phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE TSRMLS_CC);
 				phalcon_array_update_quick_string(&definition, SS("isNumeric"), 8246464942291357716UL, &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
-				break;
-			}
-	
-			if (phalcon_memnstr_str(column_type, SL("enum") TSRMLS_CC)) {
-				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
 				break;
 			}
 	
@@ -34442,7 +34440,7 @@ static PHP_METHOD(Phalcon_DI, set){
 		ZVAL_BOOL(shared, 0);
 	}
 	
-	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -34464,7 +34462,7 @@ static PHP_METHOD(Phalcon_DI, setShared){
 
 	phalcon_fetch_params(1, 2, 0, &name, &definition);
 	
-	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -34487,7 +34485,7 @@ static PHP_METHOD(Phalcon_DI, remove){
 
 	phalcon_fetch_params(0, 1, 0, &name);
 	
-	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -34508,7 +34506,7 @@ static PHP_METHOD(Phalcon_DI, attempt){
 		ZVAL_BOOL(shared, 0);
 	}
 	
-	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -34533,11 +34531,11 @@ static PHP_METHOD(Phalcon_DI, setRaw){
 
 	phalcon_fetch_params(0, 2, 0, &name, &raw_definition);
 	
-	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	if (unlikely(Z_TYPE_P(raw_definition) != IS_OBJECT)) {
+	if (Z_TYPE_P(raw_definition) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service definition must be an object");
 		return;
 	}
@@ -34555,7 +34553,7 @@ static PHP_METHOD(Phalcon_DI, getRaw){
 
 	phalcon_fetch_params(1, 1, 0, &name);
 	
-	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -34617,7 +34615,7 @@ static PHP_METHOD(Phalcon_DI, get){
 		PHALCON_INIT_VAR(parameters);
 	}
 	
-	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
 		return;
 	}
@@ -34658,7 +34656,7 @@ static PHP_METHOD(Phalcon_DI, get){
 		}
 	}
 	
-	if (likely(Z_TYPE_P(instance) == IS_OBJECT)) {
+	if (Z_TYPE_P(instance) == IS_OBJECT) {
 		if (phalcon_method_quick_exists_ex(instance, SS("setdi"), 6954013770462UL TSRMLS_CC) == SUCCESS) {
 			phalcon_call_method_p1_noret_key(instance, "setdi", this_ptr, 6954013770462UL);
 		}
@@ -34679,7 +34677,7 @@ static PHP_METHOD(Phalcon_DI, getShared){
 		PHALCON_INIT_VAR(parameters);
 	}
 	
-	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
 		return;
 	}
@@ -34710,7 +34708,7 @@ static PHP_METHOD(Phalcon_DI, has){
 
 	phalcon_fetch_params(1, 1, 0, &name);
 	
-	if (unlikely(Z_TYPE_P(name) != IS_STRING)) {
+	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
 		return;
 	}
@@ -38167,16 +38165,21 @@ static PHP_METHOD(Phalcon_Forms_Element, getValidators){
 
 static PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 
-	zval *attributes = NULL, *name, *widget_attributes = NULL;
+	zval *attributes = NULL, *use_checked = NULL, *name, *widget_attributes = NULL;
 	zval *default_attributes, *merged_attributes = NULL;
 	zval *value;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &attributes);
+	phalcon_fetch_params(1, 0, 2, &attributes, &use_checked);
 	
 	if (!attributes) {
 		PHALCON_INIT_VAR(attributes);
+	}
+	
+	if (!use_checked) {
+		PHALCON_INIT_VAR(use_checked);
+		ZVAL_BOOL(use_checked, 0);
 	}
 	
 	PHALCON_OBS_VAR(name);
@@ -38499,6 +38502,20 @@ static PHP_METHOD(Phalcon_Forms_Element, appendMessage){
 	RETURN_THIS();
 }
 
+static PHP_METHOD(Phalcon_Forms_Element, clear){
+
+	zval *znull, *name;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(znull);
+	
+	PHALCON_OBS_VAR(name);
+	phalcon_read_property_this_quick(&name, this_ptr, SL("_name"), 6953241062757UL, PH_NOISY_CC);
+	PHALCON_CALL_STATIC_PARAMS_2_NORETURN("phalcon\\tag", "setdefault", name, znull);
+	RETURN_THIS();
+}
+
 static PHP_METHOD(Phalcon_Forms_Element, __toString){
 
 	zval *content;
@@ -38763,6 +38780,7 @@ static PHP_METHOD(Phalcon_Forms_Form, bind){
 	
 		PHALCON_INIT_NVAR(method);
 		PHALCON_CONCAT_SV(method, "set", key);
+	
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
 			phalcon_call_method_zval_p1_noret(entity, method, filtered_value);
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -38783,7 +38801,8 @@ static PHP_METHOD(Phalcon_Forms_Form, isValid){
 
 	zval *data = NULL, *entity = NULL, *elements, *status, *not_failed = NULL;
 	zval *messages, *element = NULL, *validators = NULL, *name = NULL, *prepared_validators = NULL;
-	zval *validator = NULL, *scope = NULL, *validation = NULL, *element_messages = NULL;
+	zval *validator = NULL, *scope = NULL, *validation = NULL, *filters = NULL;
+	zval *element_messages = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -38804,97 +38823,105 @@ static PHP_METHOD(Phalcon_Forms_Form, isValid){
 	
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property_this_quick(&elements, this_ptr, SL("_elements"), 8245982395616353377UL, PH_NOISY_CC);
-	if (Z_TYPE_P(elements) == IS_ARRAY) { 
-	
-		if (Z_TYPE_P(entity) == IS_OBJECT) {
-			phalcon_call_method_p2_noret_key(this_ptr, "bind", data, entity, 210707666466UL);
-		}
-	
-		if (Z_TYPE_P(data) != IS_ARRAY) { 
-			PHALCON_OBS_NVAR(data);
-			phalcon_read_property_this_quick(&data, this_ptr, SL("_data"), 6953229211038UL, PH_NOISY_CC);
-		}
-	
-		if (phalcon_method_quick_exists_ex(this_ptr, SS("beforevalidation"), 2568167555410680675UL TSRMLS_CC) == SUCCESS) {
-	
-			PHALCON_INIT_VAR(status);
-			phalcon_call_method_p2_key(status, this_ptr, "beforevalidation", data, entity, 2568167555410680675UL);
-			if (PHALCON_IS_FALSE(status)) {
-				RETURN_CCTOR(status);
-			}
-		}
-	
-		PHALCON_INIT_VAR(not_failed);
-		ZVAL_BOOL(not_failed, 1);
-	
-		PHALCON_INIT_VAR(messages);
-		array_init(messages);
-	
-		phalcon_is_iterable(elements, &ah0, &hp0, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HVALUE(element);
-	
-			PHALCON_INIT_NVAR(validators);
-			phalcon_call_method_key(validators, element, "getvalidators", 1517317011509922878UL);
-			if (Z_TYPE_P(validators) == IS_ARRAY) { 
-				if (phalcon_fast_count_ev(validators TSRMLS_CC)) {
-	
-					PHALCON_INIT_NVAR(name);
-					phalcon_call_method_key(name, element, "getname", 7572409586411142UL);
-	
-					PHALCON_INIT_NVAR(prepared_validators);
-					array_init(prepared_validators);
-	
-					phalcon_is_iterable(validators, &ah1, &hp1, 0, 0);
-	
-					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-	
-						PHALCON_GET_HVALUE(validator);
-	
-						PHALCON_INIT_NVAR(scope);
-						array_init_size(scope, 2);
-						phalcon_array_append(&scope, name, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_append(&scope, validator, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_append(&prepared_validators, scope, PH_SEPARATE TSRMLS_CC);
-	
-						zend_hash_move_forward_ex(ah1, &hp1);
-					}
-	
-					PHALCON_INIT_NVAR(validation);
-					object_init_ex(validation, phalcon_validation_ce);
-					phalcon_call_method_p1_noret_key(validation, "__construct", prepared_validators, 14747615951113338888UL);
-	
-					PHALCON_INIT_NVAR(element_messages);
-					phalcon_call_method_p2_key(element_messages, validation, "validate", data, entity, 249910431482794863UL);
-					if (phalcon_fast_count_ev(element_messages TSRMLS_CC)) {
-						PHALCON_INIT_NVAR(name);
-						phalcon_call_method_key(name, element, "getname", 7572409586411142UL);
-						phalcon_array_update_zval(&messages, name, &element_messages, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-						PHALCON_INIT_NVAR(not_failed);
-						ZVAL_BOOL(not_failed, 0);
-					}
-				}
-			}
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-	
-		if (!zend_is_true(not_failed)) {
-			phalcon_update_property_this_quick(this_ptr, SL("_messages"), messages, 8245993366866550812UL TSRMLS_CC);
-		}
-	
-		if (phalcon_method_quick_exists_ex(this_ptr, SS("aftervalidation"), 14165027582542365026UL TSRMLS_CC) == SUCCESS) {
-			phalcon_call_method_p1_noret_key(this_ptr, "aftervalidation", messages, 14165027582542365026UL);
-		}
-	
-	
-		RETURN_NCTOR(not_failed);
+	if (Z_TYPE_P(elements) != IS_ARRAY) { 
+		RETURN_MM_TRUE;
 	}
 	
-	PHALCON_MM_RESTORE();
+	if (Z_TYPE_P(entity) == IS_OBJECT) {
+		phalcon_call_method_p2_noret_key(this_ptr, "bind", data, entity, 210707666466UL);
+	}
+	
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_OBS_NVAR(data);
+		phalcon_read_property_this_quick(&data, this_ptr, SL("_data"), 6953229211038UL, PH_NOISY_CC);
+	}
+	
+	if (phalcon_method_quick_exists_ex(this_ptr, SS("beforevalidation"), 2568167555410680675UL TSRMLS_CC) == SUCCESS) {
+	
+		PHALCON_INIT_VAR(status);
+		phalcon_call_method_p2_key(status, this_ptr, "beforevalidation", data, entity, 2568167555410680675UL);
+		if (PHALCON_IS_FALSE(status)) {
+			RETURN_CCTOR(status);
+		}
+	}
+	
+	PHALCON_INIT_VAR(not_failed);
+	ZVAL_BOOL(not_failed, 1);
+	
+	PHALCON_INIT_VAR(messages);
+	array_init(messages);
+	
+	phalcon_is_iterable(elements, &ah0, &hp0, 0, 0);
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_HVALUE(element);
+	
+		PHALCON_INIT_NVAR(validators);
+		phalcon_call_method_key(validators, element, "getvalidators", 1517317011509922878UL);
+		if (Z_TYPE_P(validators) == IS_ARRAY) { 
+			if (phalcon_fast_count_ev(validators TSRMLS_CC)) {
+	
+				PHALCON_INIT_NVAR(name);
+				phalcon_call_method_key(name, element, "getname", 7572409586411142UL);
+	
+				PHALCON_INIT_NVAR(prepared_validators);
+				array_init(prepared_validators);
+	
+				phalcon_is_iterable(validators, &ah1, &hp1, 0, 0);
+	
+				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+					PHALCON_GET_HVALUE(validator);
+	
+					PHALCON_INIT_NVAR(scope);
+					array_init_size(scope, 2);
+					phalcon_array_append(&scope, name, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&scope, validator, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&prepared_validators, scope, PH_SEPARATE TSRMLS_CC);
+	
+					zend_hash_move_forward_ex(ah1, &hp1);
+				}
+	
+				PHALCON_INIT_NVAR(validation);
+				object_init_ex(validation, phalcon_validation_ce);
+				phalcon_call_method_p1_noret_key(validation, "__construct", prepared_validators, 14747615951113338888UL);
+	
+				PHALCON_INIT_NVAR(filters);
+				phalcon_call_method_key(filters, element, "getfilters", 13875265944290098366UL);
+	
+				if (Z_TYPE_P(filters) == IS_ARRAY) { 
+					PHALCON_INIT_NVAR(name);
+					phalcon_call_method_key(name, element, "getname", 7572409586411142UL);
+					phalcon_call_method_p2_noret_key(validation, "setfilters", name, filters, 13893644892113271754UL);
+				}
+	
+				PHALCON_INIT_NVAR(element_messages);
+				phalcon_call_method_p2_key(element_messages, validation, "validate", data, entity, 249910431482794863UL);
+				if (phalcon_fast_count_ev(element_messages TSRMLS_CC)) {
+					PHALCON_INIT_NVAR(name);
+					phalcon_call_method_key(name, element, "getname", 7572409586411142UL);
+					phalcon_array_update_zval(&messages, name, &element_messages, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+					PHALCON_INIT_NVAR(not_failed);
+					ZVAL_BOOL(not_failed, 0);
+				}
+			}
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	if (!zend_is_true(not_failed)) {
+		phalcon_update_property_this_quick(this_ptr, SL("_messages"), messages, 8245993366866550812UL TSRMLS_CC);
+	}
+	
+	if (phalcon_method_quick_exists_ex(this_ptr, SS("aftervalidation"), 14165027582542365026UL TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_p1_noret_key(this_ptr, "aftervalidation", messages, 14165027582542365026UL);
+	}
+	
+	
+	RETURN_NCTOR(not_failed);
 }
 
 static PHP_METHOD(Phalcon_Forms_Form, getMessages){
@@ -39208,6 +39235,35 @@ static PHP_METHOD(Phalcon_Forms_Form, remove){
 	
 	phalcon_update_property_null(this_ptr, SL("_elementsIndexed") TSRMLS_CC);
 	RETURN_MM_FALSE;
+}
+
+static PHP_METHOD(Phalcon_Forms_Form, clear){
+
+	zval *elements, *element = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(elements);
+	phalcon_read_property_this_quick(&elements, this_ptr, SL("_elements"), 8245982395616353377UL, PH_NOISY_CC);
+	if (Z_TYPE_P(elements) == IS_ARRAY) { 
+	
+		phalcon_is_iterable(elements, &ah0, &hp0, 0, 0);
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_HVALUE(element);
+	
+			phalcon_call_method_noret_key(element, "clear", 6953395363596UL);
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
+	
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Forms_Form, count){
@@ -40221,6 +40277,12 @@ static PHP_METHOD(Phalcon_Http_Request_File, getType){
 	RETURN_MEMBER_QUICK(this_ptr, "_type", 6953249044038UL);
 }
 
+static PHP_METHOD(Phalcon_Http_Request_File, getRealType){
+
+
+	
+}
+
 static PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 
 	zval *destination, *temp_file, *success;
@@ -40252,6 +40314,8 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_FileInterface){
 
 	return SUCCESS;
 }
+
+
 
 
 
@@ -40515,61 +40579,53 @@ static PHP_METHOD(Phalcon_Http_Request, getServer){
 static PHP_METHOD(Phalcon_Http_Request, has){
 
 	zval *name, *_REQUEST;
-	zval *r0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(_REQUEST, name));
-	RETURN_NCTOR(r0);
+	if (phalcon_array_isset(_REQUEST, name)) {
+		RETURN_TRUE;
+	}
+	RETURN_FALSE;
 }
 
 static PHP_METHOD(Phalcon_Http_Request, hasPost){
 
 	zval *name, *_POST;
-	zval *r0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(_POST, name));
-	RETURN_NCTOR(r0);
+	if (phalcon_array_isset(_POST, name)) {
+		RETURN_TRUE;
+	}
+	RETURN_FALSE;
 }
 
 static PHP_METHOD(Phalcon_Http_Request, hasQuery){
 
 	zval *name, *_GET;
-	zval *r0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(_GET, name));
-	RETURN_NCTOR(r0);
+	if (phalcon_array_isset(_GET, name)) {
+		RETURN_TRUE;
+	}
+	RETURN_FALSE;
 }
 
 static PHP_METHOD(Phalcon_Http_Request, hasServer){
 
 	zval *name, *_SERVER;
-	zval *r0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(_SERVER, name));
-	RETURN_NCTOR(r0);
+	if (phalcon_array_isset(_SERVER, name)) {
+		RETURN_TRUE;
+	}
+	RETURN_FALSE;
 }
 
 static PHP_METHOD(Phalcon_Http_Request, getHeader){
@@ -43694,6 +43750,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel){
 	}
 	phalcon_update_property_this_quick(this_ptr, SL("_logLevel"), level, 8245992369623748894UL TSRMLS_CC);
 	
+	RETURN_THISW();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, getLogLevel){
@@ -43714,13 +43771,14 @@ static PHP_METHOD(Phalcon_Logger_Adapter, setFormatter){
 	}
 	phalcon_update_property_this_quick(this_ptr, SL("_formatter"), formatter, 13863053208006516664UL TSRMLS_CC);
 	
+	RETURN_THISW();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, begin){
 
 
 	phalcon_update_property_bool(this_ptr, SL("_transaction"), 1 TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, commit){
@@ -43767,7 +43825,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, commit){
 	
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, rollback){
@@ -43789,7 +43847,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, rollback){
 	array_init(queue);
 	phalcon_update_property_this_quick(this_ptr, SL("_queue"), queue, 229457095928841UL TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, emergence){
@@ -43803,8 +43861,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, emergence){
 	PHALCON_INIT_VAR(type);
 	phalcon_get_class_constant(type, phalcon_logger_ce, SS("EMERGENCE") TSRMLS_CC);
 	phalcon_call_method_p2_noret_key(this_ptr, "log", message, type, 6385446375UL);
-	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, debug){
@@ -43818,8 +43875,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, debug){
 	PHALCON_INIT_VAR(type);
 	phalcon_get_class_constant(type, phalcon_logger_ce, SS("DEBUG") TSRMLS_CC);
 	phalcon_call_method_p2_noret_key(this_ptr, "log", message, type, 6385446375UL);
-	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, error){
@@ -43833,8 +43889,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, error){
 	PHALCON_INIT_VAR(type);
 	phalcon_get_class_constant(type, phalcon_logger_ce, SS("ERROR") TSRMLS_CC);
 	phalcon_call_method_p2_noret_key(this_ptr, "log", message, type, 6385446375UL);
-	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, info){
@@ -43848,8 +43903,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, info){
 	PHALCON_INIT_VAR(type);
 	phalcon_get_class_constant(type, phalcon_logger_ce, SS("INFO") TSRMLS_CC);
 	phalcon_call_method_p2_noret_key(this_ptr, "log", message, type, 6385446375UL);
-	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, notice){
@@ -43863,8 +43917,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, notice){
 	PHALCON_INIT_VAR(type);
 	phalcon_get_class_constant(type, phalcon_logger_ce, SS("NOTICE") TSRMLS_CC);
 	phalcon_call_method_p2_noret_key(this_ptr, "log", message, type, 6385446375UL);
-	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, warning){
@@ -43878,8 +43931,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, warning){
 	PHALCON_INIT_VAR(type);
 	phalcon_get_class_constant(type, phalcon_logger_ce, SS("WARNING") TSRMLS_CC);
 	phalcon_call_method_p2_noret_key(this_ptr, "log", message, type, 6385446375UL);
-	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, alert){
@@ -43893,8 +43945,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, alert){
 	PHALCON_INIT_VAR(type);
 	phalcon_get_class_constant(type, phalcon_logger_ce, SS("ALERT") TSRMLS_CC);
 	phalcon_call_method_p2_noret_key(this_ptr, "log", message, type, 6385446375UL);
-	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Logger_Adapter, log){
@@ -43922,7 +43973,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, log){
 		phalcon_call_method_p3_noret_key(queue_item, "__construct", message, type, timestamp, 14747615951113338888UL);
 	
 		phalcon_update_property_array_append(this_ptr, SL("_queue"), queue_item TSRMLS_CC);
-		RETURN_MM_NULL();
+		RETURN_THIS();
 	}
 	
 	PHALCON_OBS_VAR(log_level);
@@ -43932,7 +43983,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter, log){
 		phalcon_call_method_p3_noret_key(this_ptr, "loginternal", message, type, timestamp, 15429345807746100132UL);
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 
