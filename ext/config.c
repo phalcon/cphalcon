@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -118,7 +117,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 			}
 	
 			if (Z_TYPE_P(value) == IS_ARRAY) { 
-				if (!phalcon_array_isset_long(value, 0)) {
+				if (zend_hash_get_current_key_type(Z_ARRVAL_P(value)) != HASH_KEY_IS_LONG) {
 					PHALCON_INIT_NVAR(config_value);
 					object_init_ex(config_value, phalcon_config_ce);
 					phalcon_call_method_p1_noret(config_value, "__construct", value);
