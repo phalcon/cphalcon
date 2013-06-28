@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 	/** 
 	 * Throw exceptions if bad parameters are passed
 	 */
-	if (Z_TYPE_P(array_config) == IS_ARRAY) { 
+	if (Z_TYPE_P(array_config) != IS_ARRAY) { 
 		if (Z_TYPE_P(array_config) != IS_NULL) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "The configuration must be an Array");
 			return;
