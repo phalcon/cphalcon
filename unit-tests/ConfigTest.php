@@ -185,4 +185,88 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testIssue696()
+	{
+		$x = new Phalcon\Config(
+			array(
+				'some_property' => array(
+					1 => 'a',
+					2 => 'b',
+				)
+			)
+		);
+
+		// __construct()
+		$this->assertTrue(is_array($x->some_property));
+
+		$x = new Phalcon\Config(
+			array(
+				'some_property' => array(
+					'x' => 'y',
+					1   => 'a',
+					2   => 'b',
+				)
+			)
+		);
+
+		// __construct(), different code path
+		$this->assertTrue(!is_array($x->some_property));
+		$this->assertTrue($x->some_property instanceof Phalcon\Config);
+
+		// offsetExists
+		$this->assertTrue(isset($x->some_property[1]));
+		$this->assertTrue(isset($x->some_property[2]));
+		$this->assertTrue(!isset($x->some_property[3]));
+
+		// offsetGet
+		$this->assertEquals($x->some_property[1], 'a');
+		$this->assertEquals($x->some_property[2], 'b');
+
+		// offsetSet
+		$x->some_property[2] = 'c';
+		$this->assertEquals($x->some_property[2], 'c');
+
+		// toArray()
+		$expected = array('some_property' => array('x' => 'y', 1 => 'a', 2 => 'c'));
+		$this->assertEquals($x->toArray(), $expected);
+
+		// get()
+		$this->assertEquals($x->some_property->get(2, 'xxx'), 'c');
+		$this->assertEquals($x->some_property->get(5, 'xxx'), 'xxx');
+
+		// merge()
+		$y = new Phalcon\Config(
+			array(
+				'some_property' => array(
+					'a' => 'b',
+					2   => 'e',
+					3   => 'f',
+				)
+			)
+		);
+
+		$x->merge($y);
+		$expected = array('some_property' => array('x' => 'y', 'a' => 'b', 1 => 'a', 2 => 'e', 3 => 'f'));
+		$this->assertEquals($x->toArray(), $expected);
+
+		// __construct(), merge() - check different code path
+		$x = new Phalcon\Config(array('a' => 0, 1 => array('b' => 0, 1 => 'b')));
+		$y = new Phalcon\Config(array('a' => 0, 1 => array('b' => 0, 2 => 'c')));
+		$x->merge($y);
+		$expected = array('a' => 0, 1 => array('b' => 0, 1 => 'b', 2 => 'c'));
+		$this->assertEquals($x->toArray(), $expected);
+	}
+
+	public function testIssue732()
+	{
+		$a = new Phalcon\Config(array('a' => 0));
+		$this->assertTrue(isset($a['a']));
+		unset($a['a']);
+		$this->assertTrue(!isset($a['a']));
+
+		$a = new Phalcon\Config(array('a' => 0, 1 => 1));
+		$this->assertTrue(isset($a[1]));
+		unset($a[1]);
+		$this->assertTrue(!isset($a[1]));
+	}
 }

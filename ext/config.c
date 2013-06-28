@@ -86,6 +86,7 @@ PHALCON_INIT_CLASS(Phalcon_Config){
 PHP_METHOD(Phalcon_Config, __construct){
 
 	zval *array_config = NULL, *value = NULL, *key = NULL, *config_value = NULL;
+	zval *tmp = NULL, **key_or_tmp;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -106,19 +107,28 @@ PHP_METHOD(Phalcon_Config, __construct){
 	
 			PHALCON_GET_HKEY(key, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
+
+			if (likely(Z_TYPE_P(key) == IS_STRING)) {
+				key_or_tmp = &key;
+			}
+			else {
+				PHALCON_INIT_NVAR(tmp);
+				phalcon_cast(tmp, key, IS_STRING);
+				key_or_tmp = &tmp;
+			}
 	
 			if (Z_TYPE_P(value) == IS_ARRAY) { 
-				if (!phalcon_array_isset_long(value, 0)) {
+				if (zend_hash_get_current_key_type(Z_ARRVAL_P(value)) != HASH_KEY_IS_LONG) {
 					PHALCON_INIT_NVAR(config_value);
 					object_init_ex(config_value, phalcon_config_ce);
 					phalcon_call_method_p1_noret(config_value, "__construct", value);
 	
-					phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
+					phalcon_update_property_zval_zval(this_ptr, *key_or_tmp, config_value TSRMLS_CC);
 				} else {
-					phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+					phalcon_update_property_zval_zval(this_ptr, *key_or_tmp, value TSRMLS_CC);
 				}
 			} else {
-				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+				phalcon_update_property_zval_zval(this_ptr, *key_or_tmp, value TSRMLS_CC);
 			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -146,14 +156,28 @@ PHP_METHOD(Phalcon_Config, __construct){
  */
 PHP_METHOD(Phalcon_Config, offsetExists){
 
-	zval *index;
+	zval *index, *tmp, **index_or_tmp;
+
+	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(0, 1, 0, &index);
-	
-	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
-		RETURN_TRUE;
+	index_or_tmp = &index;
+
+	if (unlikely(Z_TYPE_P(index) != IS_STRING)) {
+		PHALCON_INIT_VAR(tmp);
+		phalcon_cast(tmp, index, IS_STRING);
+		index_or_tmp = &tmp;
 	}
-	RETURN_FALSE;
+	
+	if (phalcon_isset_property_zval(this_ptr, *index_or_tmp TSRMLS_CC)) {
+		RETVAL_TRUE;
+	}
+	else {
+		RETVAL_FALSE;
+	}
+
+	PHALCON_MM_RESTORE();
+	return;
 }
 
 /**
@@ -170,7 +194,7 @@ PHP_METHOD(Phalcon_Config, offsetExists){
  */
 PHP_METHOD(Phalcon_Config, get){
 
-	zval *index, *default_value = NULL, *value;
+	zval *index, *default_value = NULL, *value, *tmp, **index_or_tmp;
 
 	PHALCON_MM_GROW();
 
@@ -180,10 +204,19 @@ PHP_METHOD(Phalcon_Config, get){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
+	if (Z_TYPE_P(index) == IS_STRING) {
+		index_or_tmp = &index;
+	}
+	else {
+		PHALCON_INIT_VAR(tmp);
+		phalcon_cast(tmp, index, IS_STRING);
+		index_or_tmp = &tmp;
+	}
+	
+	if (phalcon_isset_property_zval(this_ptr, *index_or_tmp TSRMLS_CC)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
+		phalcon_read_property_zval(&value, this_ptr, *index_or_tmp, PH_NOISY_CC);
 		if (PHALCON_IS_NOT_EMPTY(value)) {
 			RETURN_CCTOR(value);
 		}
@@ -204,14 +237,22 @@ PHP_METHOD(Phalcon_Config, get){
  */
 PHP_METHOD(Phalcon_Config, offsetGet){
 
-	zval *index, *value;
+	zval *index, *value, *tmp;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &index);
 	
 	PHALCON_OBS_VAR(value);
-	phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
+	if (likely(Z_TYPE_P(index) == IS_STRING)) {
+		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
+	}
+	else {
+		PHALCON_INIT_VAR(tmp);
+		phalcon_cast(tmp, index, IS_STRING);
+		phalcon_read_property_zval(&value, this_ptr, tmp, PH_NOISY_CC);
+	}
+
 	RETURN_CCTOR(value);
 }
 
@@ -227,15 +268,18 @@ PHP_METHOD(Phalcon_Config, offsetGet){
  */
 PHP_METHOD(Phalcon_Config, offsetSet){
 
-	zval *index, *value, *array_value = NULL;
+	zval *index, *value, *tmp, *array_value = NULL;
+	zval **index_or_tmp;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &index, &value);
+	index_or_tmp = &index;
 	
-	if (Z_TYPE_P(index) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Index key must be string");
-		return;
+	if (unlikely(Z_TYPE_P(index) != IS_STRING)) {
+		PHALCON_INIT_VAR(tmp);
+		phalcon_cast(tmp, index, IS_STRING);
+		index_or_tmp = &tmp;
 	}
 	if (Z_TYPE_P(value) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(array_value);
@@ -246,7 +290,7 @@ PHP_METHOD(Phalcon_Config, offsetSet){
 		PHALCON_CPY_WRT(array_value, value);
 	}
 	
-	phalcon_update_property_zval_zval(this_ptr, index, array_value TSRMLS_CC);
+	phalcon_update_property_zval_zval(this_ptr, *index_or_tmp, array_value TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -265,6 +309,11 @@ PHP_METHOD(Phalcon_Config, offsetUnset){
 	zval *index;
 
 	phalcon_fetch_params(0, 1, 0, &index);
+#if PHP_VERSION_ID < 50400
+	Z_OBJ_HANDLER_P(getThis(), unset_property)(getThis(), index TSRMLS_CC);
+#else
+	Z_OBJ_HANDLER_P(getThis(), unset_property)(getThis(), index, 0 TSRMLS_CC);
+#endif
 	
 	RETURN_TRUE;
 }
@@ -282,6 +331,7 @@ PHP_METHOD(Phalcon_Config, offsetUnset){
 PHP_METHOD(Phalcon_Config, merge){
 
 	zval *config, *array_config, *value = NULL, *key = NULL, *active_value = NULL;
+	zval *tmp = NULL, **key_or_tmp;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -305,11 +355,20 @@ PHP_METHOD(Phalcon_Config, merge){
 		PHALCON_GET_HKEY(key, ah0, hp0);
 		PHALCON_GET_HVALUE(value);
 	
+		if (Z_TYPE_P(key) == IS_STRING) {
+			key_or_tmp = &key;
+		}
+		else {
+			PHALCON_INIT_NVAR(tmp);
+			phalcon_cast(tmp, key, IS_STRING);
+			key_or_tmp = &tmp;
+		}
+
 		if (Z_TYPE_P(value) == IS_OBJECT) {
-			if (phalcon_isset_property_zval(this_ptr, key TSRMLS_CC)) {
+			if (phalcon_isset_property_zval(this_ptr, *key_or_tmp TSRMLS_CC)) {
 	
 				PHALCON_OBS_NVAR(active_value);
-				phalcon_read_property_zval(&active_value, this_ptr, key, PH_NOISY_CC);
+				phalcon_read_property_zval(&active_value, this_ptr, *key_or_tmp, PH_NOISY_CC);
 				if (Z_TYPE_P(active_value) == IS_OBJECT) {
 					if (phalcon_method_exists_ex(active_value, SS("merge") TSRMLS_CC) == SUCCESS) {
 						phalcon_call_method_p1_noret(active_value, "merge", value);
@@ -319,7 +378,7 @@ PHP_METHOD(Phalcon_Config, merge){
 				}
 			}
 		}
-		phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+		phalcon_update_property_zval_zval(this_ptr, *key_or_tmp, value TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
