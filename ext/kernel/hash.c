@@ -136,3 +136,27 @@ void phalcon_get_current_key(zval **key, const HashTable *hash_table, HashPositi
 	}
 
 }
+
+/**
+ * Traverses the hash checking if at least one of the keys is numeric
+ */
+int phalcon_has_numeric_keys(const zval *data)
+{
+	HashTable *ht;
+
+	if (Z_TYPE_P(data) == IS_ARRAY) {
+
+		ht = Z_ARRVAL_P(data);
+
+		ht->pInternalPointer = ht->pListHead;
+		while (ht->pInternalPointer) {
+			if (!ht->pInternalPointer->nKeyLength) {
+				return 1;
+			}
+			ht->pInternalPointer = ht->pInternalPointer->pListNext;
+		}
+
+	}
+
+	return 0;
+}

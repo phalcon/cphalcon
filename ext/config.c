@@ -32,12 +32,12 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
 #include "kernel/hash.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Config
@@ -98,38 +98,56 @@ PHP_METHOD(Phalcon_Config, __construct){
 		PHALCON_INIT_VAR(array_config);
 	}
 	
+	/** 
+	 * Throw exceptions if bad parameters are passed
+	 */
 	if (Z_TYPE_P(array_config) == IS_ARRAY) { 
-	
-		phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_HKEY(key, ah0, hp0);
-			PHALCON_GET_HVALUE(value);
-	
-			if (Z_TYPE_P(value) == IS_ARRAY) { 
-				if (!phalcon_array_isset_long(value, 0)) {
-					PHALCON_INIT_NVAR(config_value);
-					object_init_ex(config_value, phalcon_config_ce);
-					phalcon_call_method_p1_noret(config_value, "__construct", value);
-	
-					phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
-				} else {
-					phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
-				}
-			} else {
-				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
-			}
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-	
-	} else {
 		if (Z_TYPE_P(array_config) != IS_NULL) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "The configuration must be an Array");
 			return;
+		} else {
+			RETURN_MM_NULL();
 		}
 	}
+	
+	phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0);
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
+	
+		/** 
+		 * Phalcon\Config does not support numeric keys as properties
+		 */
+		if (Z_TYPE_P(key) != IS_STRING) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties");
+			return;
+		}
+		if (Z_TYPE_P(value) == IS_ARRAY) { 
+	
+			/** 
+			 * Check if sub-arrays contains numeric keys
+			 */
+			if (!phalcon_has_numeric_keys(value)) {
+				PHALCON_INIT_NVAR(config_value);
+				object_init_ex(config_value, phalcon_config_ce);
+				phalcon_call_method_p1_noret(config_value, "__construct", value);
+	
+				phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
+			} else {
+				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+			}
+		} else {
+			/** 
+			 * Assign normal keys as properties
+			 */
+			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -306,10 +324,18 @@ PHP_METHOD(Phalcon_Config, merge){
 		PHALCON_GET_HVALUE(value);
 	
 		if (Z_TYPE_P(value) == IS_OBJECT) {
+	
+			/** 
+			 * If the key is already defined in the object we have to merge it
+			 */
 			if (phalcon_isset_property_zval(this_ptr, key TSRMLS_CC)) {
 	
 				PHALCON_OBS_NVAR(active_value);
 				phalcon_read_property_zval(&active_value, this_ptr, key, PH_NOISY_CC);
+	
+				/** 
+				 * If the current value in member is an object try to merge them
+				 */
 				if (Z_TYPE_P(active_value) == IS_OBJECT) {
 					if (phalcon_method_exists_ex(active_value, SS("merge") TSRMLS_CC) == SUCCESS) {
 						phalcon_call_method_p1_noret(active_value, "merge", value);

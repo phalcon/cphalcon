@@ -856,6 +856,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	
 		PHALCON_INIT_NVAR(access_key);
 		PHALCON_CONCAT_VS(access_key, role, "!*!*");
+	
+		/** 
+		 * Try in the direct role
+		 */
 		if (phalcon_array_isset(access_list, access_key)) {
 			PHALCON_OBS_NVAR(have_access);
 			phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY_CC);
