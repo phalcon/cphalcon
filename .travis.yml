@@ -2,18 +2,49 @@ language: php
 
 php:
   - 5.3
+  - 5.3.3
+  - 5.4
+
+services:
+  - mongodb
+
+before_install:
+ - chmod +x unit-tests/ci/install_memcached
+ - chmod +x unit-tests/ci/install_apc
+ - chmod +x unit-tests/ci/install_mongo
+ - ./unit-tests/ci/install_memcached
+ - ./unit-tests/ci/install_apc
+ - ./unit-tests/ci/install_mongo
 
 before_script:
- - cd dev/
+ - git submodule init
+ - git submodule update
+ - cd php-tests/library/Mustache
+ - git checkout master
+ - cd ../../..
+ - cd php-tests/library/Twig
+ - git checkout master
+ - cd ../../..
+ - mkdir -p unit-tests/engines
+ - cd unit-tests/engines/
+ - git clone https://github.com/bobthecow/mustache.php.git
+ - git clone git://github.com/fabpot/Twig.git
+ - cd ../..
+ - cd ext/
+ - export CFLAGS="-g -O2 -fno-delete-null-pointer-checks"
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
- - cd .. 
+ - cd ..
  - mysql -uroot -e 'create database phalcon_test charset=utf8 collate=utf8_unicode_ci;'
  - mysql -uroot phalcon_test < unit-tests/schemas/mysql/phalcon_test.sql
+ - psql -c 'create database phalcon_test;' -U postgres
+ - psql -U postgres phalcon_test -q -f unit-tests/schemas/postgresql/phalcon_test.sql
+ - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/schemas/sqlite/phalcon_test.sql
+ - chmod +x unit-tests/ci/run_script.sh
 
-script: phpunit --debug -c unit-tests/phpunit.xml
+script: ./unit-tests/ci/run_script.sh
 
 notifications:
   email:
     - andres@phalconphp.com
-    - eduar@phalconphp.com
+    - nikos@phalconphp.com

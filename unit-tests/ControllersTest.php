@@ -18,44 +18,39 @@
   +------------------------------------------------------------------------+
 */
 
-class ControllersTest extends PHPUnit_Framework_TestCase {
+class ControllersTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testControllers(){
+	public function testControllers()
+	{
+		$di = new Phalcon\DI();
 
-		Phalcon_Db_Pool::setDefaultDescriptor(array(
-			'adapter' => 'Mysql',
-			'host' => '127.0.0.1',
-			'username' => 'root',
-			'password' => '',
-			'name' => 'phalcon_test'
-		));
+		$di->set('view', function(){
+			$view = new Phalcon\Mvc\View();
+			$view->setViewsDir('unit-tests/views/');
+			return $view;
+		});
 
-		$model = new Phalcon_Model_Manager();
-		$model->setModelsDir('unit-tests/models/');
+		$di->set('request', function(){
+			return new Phalcon\Http\Request();
+		});
 
-		$view = new Phalcon_View();
-		$view->setViewsDir('unit-tests/views/');
-
-		$dispatcher = new Phalcon_Dispatcher();
-
-		$request = Phalcon_Request::getInstance();
-		$response = Phalcon_Response::getInstance();
-
-		$dispatcher->setBasePath('./');
-		$dispatcher->setControllersDir('tests/controllers/');
+		$di->set('filter', function(){
+			return new Phalcon\Filter();
+		});
 
 		require 'unit-tests/controllers/Test4Controller.php';
 
-		$controller = new Test4Controller($dispatcher, $request, $response, $view, $model);
+		$controller = new Test4Controller();
+		$controller->setDI($di);
 
 		$_POST['email'] = ';ans@ecom.com';
 		$this->assertEquals($controller->requestAction(), 'ans@ecom.com');
 
+		$view = $di->getShared('view');
+
 		$controller->viewAction();
 		$this->assertEquals(count($view->getParamsToView()), 1);
-
-		$records = $controller->modelAction();
-		$this->assertEquals(get_class($records), 'Phalcon_Model_Resultset');
 
 	}
 

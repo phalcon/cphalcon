@@ -18,52 +18,88 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
+class ModelsMetadataTest extends PHPUnit_Framework_TestCase
+{
 
-	private $_manager;
-
-	private $_pdtAttributes = array(
-		'cedula' => 'char(15)',
-		'tipo_documento_id' => 'int(3) unsigned',
-		'nombres' => 'varchar(100)',
-		'telefono' => 'varchar(20)',
-		'direccion' => 'varchar(100)',
-		'email' => 'varchar(50)',
-		'fecha_nacimiento' => 'date',
-		'ciudad_id' => 'int(10) unsigned',
-		'creado_at' => 'date',
-		'cupo' => 'decimal(16,2)',
-		'estado' => 'enum(\'A\',\'I\',\'X\')',
-	);
-
-	public function setUp(){
-
-		$config = array(
-			'adapter' => 'Mysql',
-			'host' => '127.0.0.1',
-			'username' => 'root',
-			'password' => '',
-			'name' => 'phalcon_test'
-		);
-
-		Phalcon_Db_Pool::setDefaultDescriptor($config);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
-
-		$this->_manager = new Phalcon_Model_Manager();
-		$this->_manager->setModelsDir('unit-tests/models/');
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'modelsAutoloader'));
 	}
 
-	public function testMetadata(){
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	}
 
-		$manager = $this->_manager;
+	public function modelsAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
+	}
 
-		$Personas = $manager->getModel('Personas');
-		$this->assertEquals(get_class($Personas), 'Personas');
+	protected function _getDI()
+	{
 
-		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
+		$di = new Phalcon\DI();
 
-		$metaData = $manager->getMetaData();
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
+
+		return $di;
+	}
+
+	public function testMetadataMysql()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
+
+		$this->_executeTests($di);
+
+	}
+
+	public function testMetadataPostgresql()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
+
+		$this->_executeTests($di);
+	}
+
+	public function testMetadataSqlite()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		});
+
+		$this->_executeTests($di);
+	}
+
+	protected function _executeTests($di)
+	{
+
+		$metaData = $di->getShared('modelsMetadata');
+
+		$personas = new Personas($di);
 
 		$pAttributes = array(
 			0 => 'cedula',
@@ -79,14 +115,14 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 			10 => 'estado',
 		);
 
-		$attributes = $metaData->getAttributes($Personas);
+		$attributes = $metaData->getAttributes($personas);
 		$this->assertEquals($attributes, $pAttributes);
 
 		$ppkAttributes = array(
 			0 => 'cedula'
 		);
 
-		$pkAttributes = $metaData->getPrimaryKeyAttributes($Personas);
+		$pkAttributes = $metaData->getPrimaryKeyAttributes($personas);
 		$this->assertEquals($ppkAttributes, $pkAttributes);
 
 		$pnpkAttributes = array(
@@ -102,7 +138,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 			9 => 'estado',
 		);
 
-		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($Personas);
+		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($personas);
 		$this->assertEquals($pnpkAttributes, $npkAttributes);
 
 		$pnnAttributes = array(
@@ -113,36 +149,81 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 			4 => 'estado'
 		);
 
-		$nnAttributes = $metaData->getNotNullAttributes($Personas);
+		$nnAttributes = $metaData->getNotNullAttributes($personas);
 		$this->assertEquals($nnAttributes, $pnnAttributes);
 
-		$dtAttributes = $metaData->getDataTypes($Personas);
-		$this->assertEquals($dtAttributes, $this->_pdtAttributes);
+		$dataTypes = array(
+			'cedula' => 5,
+			'tipo_documento_id' => 0,
+			'nombres' => 2,
+			'telefono' => 2,
+			'direccion' => 2,
+			'email' => 2,
+			'fecha_nacimiento' => 1,
+			'ciudad_id' => 0,
+			'creado_at' => 1,
+			'cupo' => 3,
+			'estado' => 5,
+		);
+
+		$dtAttributes = $metaData->getDataTypes($personas);
+		$this->assertEquals($dtAttributes, $dataTypes);
 
 		$pndAttributes = array(
 			'tipo_documento_id' => true,
 			'ciudad_id' => true,
 			'cupo' => true,
 		);
-		$ndAttributes = $metaData->getDataTypesNumeric($Personas);
+		$ndAttributes = $metaData->getDataTypesNumeric($personas);
 		$this->assertEquals($ndAttributes, $pndAttributes);
 
-	}
+		$bindTypes = array(
+			'cedula' => 2,
+			'tipo_documento_id' => 1,
+			'nombres' => 2,
+			'telefono' => 2,
+			'direccion' => 2,
+			'email' => 2,
+			'fecha_nacimiento' => 2,
+			'ciudad_id' => 1,
+			'creado_at' => 2,
+			'cupo' => 32,
+			'estado' => 2,
+		);
 
-	public function testMetadata2(){
+		$btAttributes = $metaData->getBindTypes($personas);
+		$this->assertEquals($btAttributes, $bindTypes);
 
-		$manager = $this->_manager;
+		$robots = new Robots($di);
 
-		$Personas = $manager->getModel('Personas');
-		$this->assertEquals(get_class($Personas), 'Personas');
+		//Robots
+		$pAttributes = array(
+			0 => 'id',
+			1 => 'name',
+			2 => 'type',
+			3 => 'year'
+		);
 
-		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
+		$attributes = $metaData->getAttributes($robots);
+		$this->assertEquals($attributes, $pAttributes);
 
-		$metaData = $manager->getMetaData();
+		$ppkAttributes = array(
+			0 => 'id'
+		);
 
-		$dtAttributes = $metaData->getDataTypes($Personas);
-		$this->assertEquals($dtAttributes, $this->_pdtAttributes);
+		$pkAttributes = $metaData->getPrimaryKeyAttributes($robots);
+		$this->assertEquals($ppkAttributes, $pkAttributes);
+
+		$pnpkAttributes = array(
+			0 => 'name',
+			1 => 'type',
+			2 => 'year'
+		);
+
+		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($robots);
+		$this->assertEquals($pnpkAttributes, $npkAttributes);
+
+		$this->assertEquals($metaData->getIdentityField($robots), 'id');
 
 	}
 

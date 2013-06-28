@@ -1,5 +1,11 @@
 <?php
 
-class Personas extends Phalcon_Model_Base {
+/**
+ * Personas
+ *
+ * Personas is people in spanish
+ */
+class Personas extends Phalcon\Mvc\Model
+{
 
 }
