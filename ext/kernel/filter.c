@@ -164,7 +164,10 @@ static long phalcon_unpack(char *data, int size, int issigned, int *map)
 	return result;
 }
 
-static char *phalcon_longtohex(unsigned long value) {
+/**
+ * Converts an unsigned long to a char*
+ */
+static inline char *phalcon_longtohex(unsigned long value) {
 
 	static char digits[] = "0123456789abcdef";
 	char buf[(sizeof(unsigned long) << 3) + 1];

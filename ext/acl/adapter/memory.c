@@ -32,9 +32,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
@@ -119,23 +119,26 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Adapter_Memory){
 }
 
 /**
- * Phalcon\Acl\Adapter\Memory
+ * Phalcon\Acl\Adapter\Memory constructor
  *
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
 
-	zval *resources_names, *access_list;
+	zval *ztrue, *resources_names, *access_list;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(ztrue);
+	ZVAL_BOOL(ztrue, 1);
+	
 	PHALCON_INIT_VAR(resources_names);
 	array_init_size(resources_names, 1);
-	add_assoc_bool_ex(resources_names, SS("*"), 1);
+	phalcon_array_update_string(&resources_names, SL("*"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_resourcesNames"), resources_names TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(access_list);
 	array_init_size(access_list, 1);
-	add_assoc_bool_ex(access_list, SS("*!*"), 1);
+	phalcon_array_update_string(&access_list, SL("*!*"), &ztrue, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_accessList"), access_list TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -584,15 +587,22 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 	
 		PHALCON_INIT_NVAR(access_key);
 		PHALCON_CONCAT_VSVSV(access_key, role_name, "!", resource_name, "!", access);
+	
+		/** 
+		 * Define the access action for the specified accessKey
+		 */
 		phalcon_update_property_array(this_ptr, SL("_access"), access_key, action TSRMLS_CC);
 	
 		PHALCON_INIT_NVAR(access_key);
 		PHALCON_CONCAT_VSVS(access_key, role_name, "!", resource_name, "!*");
+	
+		/** 
+		 * If there is no default action for all the rest actions in the resource set the
+		 * default one
+		 */
 		if (!phalcon_array_isset(internal_access, access_key)) {
 			phalcon_update_property_array(this_ptr, SL("_access"), access_key, default_access TSRMLS_CC);
 		}
-	
-		phalcon_update_property_array(this_ptr, SL("_access"), access_key, action TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -748,6 +758,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	
 	PHALCON_INIT_VAR(access_key);
 	PHALCON_CONCAT_VSVSV(access_key, role, "!", resource, "!", access);
+	
+	/** 
+	 * Check if there is a direct combination for role-resource-access
+	 */
 	if (phalcon_array_isset(access_list, access_key)) {
 		PHALCON_OBS_NVAR(have_access);
 		phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY_CC);
@@ -777,6 +791,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	
 				PHALCON_INIT_NVAR(access_key);
 				PHALCON_CONCAT_VSVSV(access_key, inherited_role, "!", resource, "!", access);
+	
+				/** 
+				 * Check if there is a direct combination in one of the inherited roles
+				 */
 				if (phalcon_array_isset(access_list, access_key)) {
 					PHALCON_OBS_NVAR(have_access);
 					phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY_CC);
@@ -789,10 +807,17 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		}
 	}
 	
+	/** 
+	 * If access wasn't found yet, try role-resource-*
+	 */
 	if (Z_TYPE_P(have_access) == IS_NULL) {
 	
 		PHALCON_INIT_NVAR(access_key);
 		PHALCON_CONCAT_VSVS(access_key, role, "!", resource, "!*");
+	
+		/** 
+		 * In the direct role
+		 */
 		if (phalcon_array_isset(access_list, access_key)) {
 			PHALCON_OBS_NVAR(have_access);
 			phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY_CC);
@@ -807,6 +832,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	
 					PHALCON_INIT_NVAR(access_key);
 					PHALCON_CONCAT_VSVS(access_key, inherited_role, "!", resource, "!*");
+	
+					/** 
+					 * In the inherited roles
+					 */
 					if (phalcon_array_isset(access_list, access_key)) {
 						PHALCON_OBS_NVAR(have_access);
 						phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY_CC);
@@ -820,6 +849,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		}
 	}
 	
+	/** 
+	 * If access wasn't found yet, try role-*-*
+	 */
 	if (Z_TYPE_P(have_access) == IS_NULL) {
 	
 		PHALCON_INIT_NVAR(access_key);
