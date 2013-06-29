@@ -37,6 +37,7 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Version
@@ -144,7 +145,7 @@ PHP_METHOD(Phalcon_Version, get){
 	phalcon_concat_self(&result, suffix TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(final_version);
-	phalcon_call_func_p1(final_version, "trim", result);
+	php_fast_trim(final_version, result, PHALCON_TRIM_BOTH TSRMLS_CC);
 	RETURN_CCTOR(final_version);
 }
 

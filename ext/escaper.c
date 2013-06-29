@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/standard/url.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -406,14 +408,29 @@ PHP_METHOD(Phalcon_Escaper, escapeJs){
  */
 PHP_METHOD(Phalcon_Escaper, escapeUrl){
 
-	zval *url, *escaped;
+	zval *url, copy;
+	char *escaped;
+	int len, use_copy = 0;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &url);
+	phalcon_fetch_params(0, 1, 0, &url);
 	
-	PHALCON_INIT_VAR(escaped);
-	phalcon_call_func_p1(escaped, "rawurlencode", url);
-	RETURN_CCTOR(escaped);
+	if (unlikely(Z_TYPE_P(url) == IS_STRING)) {
+		zend_make_printable_zval(url, &copy, &use_copy);
+		if (use_copy) {
+			url = &copy;
+		}
+	}
+	
+	escaped = php_raw_url_encode(Z_STRVAL_P(url), Z_STRLEN_P(url), &len);
+	
+	if (use_copy) {
+		zval_dtor(url);
+	}
+
+	if (escaped) {
+		RETURN_STRINGL(escaped, len, 0);
+	}
+	
+	RETURN_EMPTY_STRING();
 }
 

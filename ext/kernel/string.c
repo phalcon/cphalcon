@@ -526,6 +526,85 @@ void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, z
 }
 
 /**
+ * Fast call to PHP trim() function
+ */
+void phalcon_fast_trim(zval *return_value, zval *str, int where TSRMLS_DC){
+
+	zval copy;
+	int use_copy = 0;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), NULL, 0, return_value, where TSRMLS_CC);
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+	
+}
+
+/**
+ * Fast call to PHP strip_tags() function
+ */
+void phalcon_fast_strip_tags(zval *return_value, zval *str){
+
+	zval copy;
+	int use_copy = 0;
+	char *stripped;
+	size_t len;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	stripped = estrndup(Z_STRVAL_P(str), Z_STRLEN_P(str));
+	len = php_strip_tags(stripped, Z_STRLEN_P(str), NULL, NULL, 0);
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+
+	ZVAL_STRINGL(return_value, stripped, len, 0);
+
+}
+
+/**
+ * Fast call to PHP strtoupper() function
+ */
+void phalcon_fast_strtoupper(zval *return_value, zval *str) {
+	
+	zval copy;
+	int use_copy = 0;
+	char *lower_str;
+	unsigned int length;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	length = Z_STRLEN_P(str);
+	lower_str = estrndup(Z_STRVAL_P(str), length);
+	php_strtoupper(lower_str, length);
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+
+	ZVAL_STRINGL(return_value, lower_str, length, 0);
+}
+
+/**
  * Checks if a zval string starts with a zval string
  */
 int phalcon_start_with(const zval *str, const zval *compared, zval *ignore_case){
