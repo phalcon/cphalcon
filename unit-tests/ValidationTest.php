@@ -841,4 +841,25 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$_POST = array();
 	}
 
+
+	public function testIssue441()
+	{
+		$group = new Phalcon\Validation\Message\Group;
+		try {
+			$group[0] = 'invalid';
+			$this->assertTrue(false);
+		}
+		catch (Exception $e) {
+			$this->assertTrue(true);
+		}
+
+		try {
+			$group->appendMessage('invalid');
+			$this->assertTrue(false);
+		}
+		catch (Exception $e) {
+			$this->assertTrue(true);
+		}
+	}
+
 }
