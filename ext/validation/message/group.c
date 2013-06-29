@@ -288,7 +288,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter){
 
 	zval *field_name, *filtered, *messages, *message = NULL;
 	zval *field = NULL;
-	zval *r0 = NULL;
+	HashTable *mh;
+	HashPosition hp;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -299,38 +301,25 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter){
 	
 	PHALCON_OBS_VAR(messages);
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (Z_TYPE_P(messages) == IS_OBJECT) {
+	if (Z_TYPE_P(messages) == IS_ARRAY) {
 	
 		/** 
 		 * A group of messages is iterated and appended one-by-one to the current list
 		 */
-		phalcon_call_method_noret(messages, "rewind");
-	
-		while (1) {
-	
-			PHALCON_INIT_NVAR(r0);
-			phalcon_call_method(r0, messages, "valid");
-			if (PHALCON_IS_NOT_FALSE(r0)) {
-			} else {
-				break;
-			}
-	
-			/** 
-			 * Get the current message in the iterator
-			 */
-			PHALCON_INIT_NVAR(message);
-			phalcon_call_method(message, messages, "current");
-	
+		phalcon_is_iterable(messages, &mh, &hp, 0, 0);
+		while (zend_hash_get_current_data_ex(mh, (void**) &hd, &hp) == SUCCESS) {
+			PHALCON_GET_HVALUE(message);
+
 			/** 
 			 * Get the field name
 			 */
 			PHALCON_INIT_NVAR(field);
-			phalcon_call_method(field, messages, "getfield");
+			phalcon_call_method(field, message, "getfield");
 			if (PHALCON_IS_EQUAL(field_name, field)) {
-				phalcon_array_append(&filtered, message, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&filtered, message, PH_SEPARATE | 0 TSRMLS_CC);
 			}
 	
-			phalcon_call_method_noret(messages, "next");
+			zend_hash_move_forward_ex(mh, &hp);
 		}
 	}
 	
