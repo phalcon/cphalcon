@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/standard/md5.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -727,7 +729,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	zval *cache_options, *cached_view, *is_fresh;
 	zval *view_params, *events_manager, *engine = NULL;
 	zval *extension = NULL, *view_engine_path = NULL, *event_name = NULL;
-	zval *status = NULL, *exception_message;
+	zval *status = NULL, *exception_message, *tmp = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -797,8 +799,25 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 				 * If a cache key is not set we create one using a md5
 				 */
 				if (Z_TYPE_P(key) == IS_NULL) {
+					PHP_MD5_CTX ctx;
+					char digest[16];
+					char hexdigest[33];
+
 					PHALCON_INIT_NVAR(key);
-					phalcon_call_func_p1(key, "md5", view_path);
+					PHP_MD5Init(&ctx);
+					if (likely(Z_TYPE_P(view_path) == IS_STRING)) {
+						PHP_MD5Update(&ctx, Z_STRVAL_P(view_path), Z_STRLEN_P(view_path));
+					}
+					else {
+						PHALCON_INIT_NVAR(tmp);
+						phalcon_cast(tmp, view_path, IS_STRING);
+						PHP_MD5Update(&ctx, Z_STRVAL_P(tmp), Z_STRLEN_P(tmp));
+					}
+
+					PHP_MD5Final(digest, &ctx);
+					make_digest(hexdigest, digest);
+
+					ZVAL_STRINGL(key, hexdigest, 32, 1);
 				}
 	
 				/** 
