@@ -127,14 +127,16 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet){
 
 	zval *index, *message;
 
-	phalcon_fetch_params(0, 2, 0, &index, &message);
+	PHALCON_MM_GROW();
 	
-	if (Z_TYPE_P(message) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
+	phalcon_fetch_params(1, 2, 0, &index, &message);
+	
+	if (Z_TYPE_P(message) != IS_OBJECT || !instanceof_function(phalcon_validation_message_ce, Z_OBJCE_P(message) TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an instance of Phalcon\\Validation\\Message class");
 		return;
 	}
 	phalcon_update_property_array(this_ptr, SL("_messages"), index, message TSRMLS_CC);
-	
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -189,20 +191,22 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset){
  * $messages->appendMessage(new Phalcon\Validation\Message('This is a message'));
  *</code>
  *
- * @param Phalcon\Validation\MessageInterface $message
+ * @param Phalcon\Validation\Message $message
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 
 	zval *message;
 
-	phalcon_fetch_params(0, 1, 0, &message);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &message);
 	
-	if (Z_TYPE_P(message) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
+	if (Z_TYPE_P(message) != IS_OBJECT || !instanceof_function(phalcon_validation_message_ce, Z_OBJCE_P(message) TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an instance of Phalcon\\Validation\\Message class");
 		return;
 	}
 	phalcon_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);
-	
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -224,11 +228,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages){
 
 	phalcon_fetch_params(1, 1, 0, &messages);
 	
-	if (Z_TYPE_P(messages) != IS_ARRAY) { 
-		if (Z_TYPE_P(messages) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The messages must be array or object");
-			return;
-		}
+	if (Z_TYPE_P(messages) != IS_ARRAY && Z_TYPE_P(messages) != IS_OBJECT) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The messages must be array or object");
+		return;
 	}
 	
 	PHALCON_OBS_VAR(current_messages);
