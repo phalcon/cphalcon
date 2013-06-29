@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Validation, getMessages){
 /**
  * Appends a message to the messages list
  *
- * @param Phalcon\Validation\MessageInterface $message
+ * @param Phalcon\Validation\Message $message
  * @return Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, appendMessage){
