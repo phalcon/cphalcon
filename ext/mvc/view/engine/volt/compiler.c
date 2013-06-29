@@ -2709,6 +2709,32 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo){
 }
 
 /**
+ * Compiles a 'return' statement returning PHP code
+ *
+ * @param array $statement
+ * @param boolean $extendsMode
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileReturn){
+
+	zval *statement, *expr, *expr_code, *compilation;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &statement);
+	
+	PHALCON_OBS_VAR(expr);
+	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(expr_code);
+	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
+	
+	PHALCON_INIT_VAR(compilation);
+	PHALCON_CONCAT_SVS(compilation, "<?php return ", expr_code, "; ?>");
+	RETURN_CTOR(compilation);
+}
+
+/**
  * Compiles a 'autoescape' statement returning PHP code
  *
  * @param array $statement
@@ -2749,7 +2775,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
 
-	zval *statement, *extends_mode, *name, *code, *parameters;
+	zval *statement, *extends_mode, *name, *macros;
+	zval *exception_message, *code, *parameters;
 	zval *parameter = NULL, *position = NULL, *variable_name = NULL, *block_statements;
 	zval *block_code;
 	HashTable *ah0;
@@ -2762,6 +2789,24 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
 	
 	PHALCON_OBS_VAR(name);
 	phalcon_array_fetch_string(&name, statement, SL("name"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(macros);
+	phalcon_read_property_this(&macros, this_ptr, SL("_macros"), PH_NOISY_CC);
+	
+	/** 
+	 * Check if the macro is already defined
+	 */
+	if (phalcon_array_isset(macros, name)) {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "Macro \"", name, "\" is already defined");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
+		return;
+	} else {
+		/** 
+		 * Register the macro
+		 */
+		phalcon_update_property_array(this_ptr, SL("_macros"), name, name TSRMLS_CC);
+	}
 	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<?php function vmacro_", 1);
@@ -2818,11 +2863,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
 	}
 	
 	PHALCON_SCONCAT_VS(code, block_code, "<?php } ?>");
-	
-	/** 
-	 * Register the macro
-	 */
-	phalcon_update_property_array(this_ptr, SL("_macros"), name, name TSRMLS_CC);
 	
 	RETURN_CTOR(code);
 }
@@ -3105,6 +3145,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 			case 316:
 				PHALCON_INIT_NVAR(temp_compilation);
 				phalcon_call_method_p1(temp_compilation, this_ptr, "compiledo", statement);
+				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
+				break;
+	
+			case 327:
+				PHALCON_INIT_NVAR(temp_compilation);
+				phalcon_call_method_p1(temp_compilation, this_ptr, "compilereturn", statement);
 				phalcon_concat_self(&compilation, temp_compilation TSRMLS_CC);
 				break;
 	
@@ -3486,12 +3532,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 
-	zval *template_path, *extends_mode = NULL, *stat = NULL, *compile_always = NULL;
-	zval *compiled_path = NULL, *prefix = NULL, *compiled_separator = NULL;
-	zval *compiled_extension = NULL, *compilation = NULL, *options;
-	zval *real_template_path, *template_sep_path = NULL;
-	zval *compiled_template_path = NULL, *params, *real_compiled_path = NULL;
-	zval *blocks_code, *exception_message = NULL;
+	zval *template_path, *extends_mode = NULL, *zero, *znull;
+	zval *zfalse, *stat = NULL, *compile_always = NULL, *compiled_path = NULL;
+	zval *prefix = NULL, *compiled_separator = NULL, *compiled_extension = NULL;
+	zval *compilation = NULL, *options, *real_template_path;
+	zval *template_sep_path = NULL, *compiled_template_path = NULL;
+	zval *params, *real_compiled_path = NULL, *blocks_code;
+	zval *exception_message = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -3502,35 +3549,39 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		ZVAL_BOOL(extends_mode, 0);
 	}
 	
+	PHALCON_INIT_VAR(zero);
+	ZVAL_LONG(zero, 0);
+	
+	PHALCON_INIT_VAR(znull);
+	
+	PHALCON_INIT_VAR(zfalse);
+	ZVAL_BOOL(zfalse, 0);
+	
 	/** 
 	 * Re-initialize some properties already initialized when the object is cloned
 	 */
-	phalcon_update_property_bool(this_ptr, SL("_extended"), 0 TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_extendedBlocks"), 0 TSRMLS_CC);
-	phalcon_update_property_null(this_ptr, SL("_blocks") TSRMLS_CC);
-	phalcon_update_property_long(this_ptr, SL("_level"), 0 TSRMLS_CC);
-	phalcon_update_property_long(this_ptr, SL("_foreachLevel"), 0 TSRMLS_CC);
-	phalcon_update_property_long(this_ptr, SL("_blockLevel"), 0 TSRMLS_CC);
-	phalcon_update_property_long(this_ptr, SL("_exprLevel"), 0 TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_extended"), zfalse TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_extendedBlocks"), zfalse TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_blocks"), znull TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_level"), zero TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_foreachLevel"), zero TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_blockLevel"), zero TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_exprLevel"), zero TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(stat);
 	ZVAL_BOOL(stat, 1);
-	
-	PHALCON_INIT_VAR(compile_always);
-	ZVAL_BOOL(compile_always, 0);
+	PHALCON_CPY_WRT(compile_always, zfalse);
 	
 	PHALCON_INIT_VAR(compiled_path);
 	ZVAL_STRING(compiled_path, "", 1);
-	
-	PHALCON_INIT_VAR(prefix);
+	PHALCON_CPY_WRT(prefix, znull);
 	
 	PHALCON_INIT_VAR(compiled_separator);
 	ZVAL_STRING(compiled_separator, "%%", 1);
 	
 	PHALCON_INIT_VAR(compiled_extension);
 	ZVAL_STRING(compiled_extension, ".php", 1);
-	
-	PHALCON_INIT_VAR(compilation);
+	PHALCON_CPY_WRT(compilation, znull);
 	
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
@@ -3541,7 +3592,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (phalcon_array_isset_string(options, SS("compileAlways"))) {
 	
-			PHALCON_OBS_NVAR(compile_always);
+			PHALCON_OBS_VAR(compile_always);
 			phalcon_array_fetch_string(&compile_always, options, SL("compileAlways"), PH_NOISY_CC);
 			if (Z_TYPE_P(compile_always) != IS_BOOL) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compileAlways must be a bool value");
@@ -3554,7 +3605,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (phalcon_array_isset_string(options, SS("prefix"))) {
 	
-			PHALCON_OBS_NVAR(prefix);
+			PHALCON_OBS_VAR(prefix);
 			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
 			if (Z_TYPE_P(prefix) != IS_STRING) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "prefix must be a string");
@@ -3679,6 +3730,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		/** 
 		 * Compile always must be used only in the development stage
 		 */
+		PHALCON_INIT_VAR(compilation);
 		phalcon_call_method_p3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
 	} else {
 		if (PHALCON_IS_TRUE(stat)) {

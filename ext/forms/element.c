@@ -694,7 +694,7 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages){
 }
 
 /**
- * Checks whether there is messages attached to the element
+ * Checks whether there are messages attached to the element
  *
  * @return boolean
  */

@@ -109,6 +109,7 @@
 #define PHVOLT_T_WITH 324
 #define PHVOLT_T_CALL 325
 #define PHVOLT_T_ENDCALL 326
+#define PHVOLT_T_RETURN 327
 
 /** Delimiters */
 #define PHVOLT_T_OPEN_DELIMITER  330

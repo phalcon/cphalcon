@@ -71,6 +71,8 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_SUB_ASSIGN,       	SL("-=") },
   { PHVOLT_T_MUL_ASSIGN,       	SL("*=") },
   { PHVOLT_T_DIV_ASSIGN,       	SL("/=") },
+  { PHVOLT_T_INCR,       		SL("++") },
+  { PHVOLT_T_DECR,       		SL("--") },
   { PHVOLT_T_BLOCK,           	SL("BLOCK") },
   { PHVOLT_T_ENDBLOCK,          SL("ENDBLOCK") },
   { PHVOLT_T_CACHE,           	SL("CACHE") },
@@ -86,6 +88,7 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_CONTINUE,			SL("CONTINUE") },
   { PHVOLT_T_BREAK,				SL("BREAK") },
   { PHVOLT_T_WITH,				SL("WITH") },
+  { PHVOLT_T_RETURN,			SL("RETURN") },
   {  0, NULL, 0 }
 };
 
@@ -117,6 +120,9 @@ static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parserc
 	pToken->free_flag = 1;
 
 	phvolt_(phvolt_parser, parsercode, pToken, parser_status);
+
+	token->value = NULL;
+	token->len = 0;
 }
 
 /**
@@ -267,13 +273,13 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	token.value = NULL;
 	token.len = 0;
 
-	while(0 <= (scanner_status = phvolt_get_token(state, &token))) {
+	while (0 <= (scanner_status = phvolt_get_token(state, &token))) {
 
 		state->active_token = token.opcode;
 
 		state->start_length = (Z_STRVAL_P(view_code) + Z_STRLEN_P(view_code) - state->start);
 
-		switch(token.opcode){
+		switch (token.opcode) {
 
 			case PHVOLT_T_IGNORE:
 				break;
@@ -479,7 +485,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			case PHVOLT_T_RAW_FRAGMENT:
 				if (token.len > 0) {
 					if (state->extends_mode == 1 && state->block_level == 0){
-						if(!phvolt_is_blank_string(&token)){
+						if (!phvolt_is_blank_string(&token)) {
 							phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 							parser_status->status = PHVOLT_PARSING_FAILED;
 						}
@@ -518,6 +524,13 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 			case PHVOLT_T_DIV_ASSIGN:
 				phvolt_(phvolt_parser, PHVOLT_DIV_ASSIGN, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_INCR:
+				phvolt_(phvolt_parser, PHVOLT_INCR, NULL, parser_status);
+				break;
+			case PHVOLT_T_DECR:
+				phvolt_(phvolt_parser, PHVOLT_DECR, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_BLOCK:
@@ -578,6 +591,9 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 			case PHVOLT_T_DO:
 				phvolt_(phvolt_parser, PHVOLT_DO, NULL, parser_status);
+				break;
+			case PHVOLT_T_RETURN:
+				phvolt_(phvolt_parser, PHVOLT_RETURN, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_AUTOESCAPE:

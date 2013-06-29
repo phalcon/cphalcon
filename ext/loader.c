@@ -95,17 +95,15 @@ PHALCON_INIT_CLASS(Phalcon_Loader){
  */
 PHP_METHOD(Phalcon_Loader, __construct){
 
-	zval *a0 = NULL;
+	zval *extensions;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(extensions);
+	array_init_size(extensions, 1);
+	add_next_index_stringl(extensions, SL("php"), 1);
+	phalcon_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a0);
-	array_init_size(a0, 1);
-	add_next_index_stringl(a0, SL("php"), 1);
-	zend_update_property(phalcon_loader_ce, this_ptr, SL("_extensions"), a0 TSRMLS_CC);
-	
-
 	PHALCON_MM_RESTORE();
 }
 
@@ -136,7 +134,7 @@ PHP_METHOD(Phalcon_Loader, getEventsManager){
 }
 
 /**
- * Sets an array of extensions that the Loader must check together with the path
+ * Sets an array of extensions that the loader must try in each attempt to locate the file
  *
  * @param array $extensions
  * @param boolean $merge
@@ -149,7 +147,7 @@ PHP_METHOD(Phalcon_Loader, setExtensions){
 	phalcon_fetch_params(0, 1, 0, &extensions);
 	
 	if (Z_TYPE_P(extensions) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $extensions must be an Array");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter extensions must be an array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
@@ -190,7 +188,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 	}
 	
 	if (Z_TYPE_P(namespaces) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $namespaces must be an Array");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter namespaces must be an array");
 		return;
 	}
 	if (zend_is_true(merge)) {
@@ -244,7 +242,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes){
 	}
 	
 	if (Z_TYPE_P(prefixes) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $prefixes must be an Array");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter prefixes must be an array");
 		return;
 	}
 	if (zend_is_true(merge)) {
@@ -299,7 +297,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 	}
 	
 	if (Z_TYPE_P(directories) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $directories must be an Array");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter directories must be an array");
 		return;
 	}
 	if (zend_is_true(merge)) {
@@ -353,7 +351,7 @@ PHP_METHOD(Phalcon_Loader, registerClasses){
 	}
 	
 	if (Z_TYPE_P(classes) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $classes must be an Array");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter classes must be an array");
 		return;
 	}
 	if (zend_is_true(merge)) {
