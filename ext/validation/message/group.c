@@ -175,11 +175,19 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetUnset){
 
-	zval *index;
+	zval *index, *messages;
+
+	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(0, 1, 0, &index);
+	if (index) {
+		PHALCON_OBS_VAR(messages);
+		phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
+		phalcon_array_unset(&messages, index, 0);
+		zend_print_flat_zval_r(messages);
+	}
 	
-	RETURN_TRUE;
+	RETURN_MM_TRUE;
 }
 
 /**
