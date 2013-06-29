@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Validation, getMessages){
 /**
  * Appends a message to the messages list
  *
- * @param Phalcon\Validation\MessageInterface $message
+ * @param Phalcon\Validation\Message $message
  * @return Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, appendMessage){
@@ -367,22 +367,23 @@ PHP_METHOD(Phalcon_Validation, bind){
 
 	zval *entity, *data;
 
-	phalcon_fetch_params(0, 2, 0, &entity, &data);
+	PHALCON_MM_GROW();
+	
+	phalcon_fetch_params(1, 2, 0, &entity, &data);
 	
 	if (Z_TYPE_P(entity) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The entity must be an object");
 		return;
 	}
-	if (Z_TYPE_P(data) != IS_ARRAY) { 
-		if (Z_TYPE_P(data) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The data to validate must be an array or object");
-			return;
-		}
+	if (Z_TYPE_P(data) != IS_ARRAY && Z_TYPE_P(data) != IS_OBJECT) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The data to validate must be an array or object");
+		return;
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_entity"), entity TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
 	RETURN_THISW();
 }
 

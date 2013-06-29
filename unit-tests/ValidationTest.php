@@ -838,4 +838,16 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$_POST = array();
 	}
 
+
+	public function testIssue743()
+	{
+		$v = new Phalcon\Validation;
+		try {
+			$v->bind(0, 0);
+		}
+		catch (Exception $e) {
+			$this->assertTrue(true);
+		}
+	}
+
 }
