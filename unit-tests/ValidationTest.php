@@ -847,18 +847,19 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 		$group = new Phalcon\Validation\Message\Group;
 		try {
 			$group[0] = 'invalid';
+			$this->assertTrue(false);
 		}
 		catch (Exception $e) {
 			$this->assertTrue(true);
 		}
-/*
+
 		try {
 			$group->appendMessage('invalid');
+			$this->assertTrue(false);
 		}
 		catch (Exception $e) {
 			$this->assertTrue(true);
 		}
-*/
 	}
 
 }
