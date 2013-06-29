@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 		PHALCON_INIT_VAR(options);
 	}
 	
-	if (Z_TYPE_P(frontend) != IS_OBJECT) {
+	if (Z_TYPE_P(frontend) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(frontend), phalcon_cache_frontendinterface_ce, 1 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Frontend must be an Object");
 		return;
 	}

@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, setLogLevel){
 	phalcon_fetch_params(0, 1, 0, &level);
 	
 	if (Z_TYPE_P(level) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "The log level is not valid");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_logger_exception_ce, "The log level is not valid");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_logLevel"), level TSRMLS_CC);
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, setFormatter){
 	phalcon_fetch_params(0, 1, 0, &formatter);
 	
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "The formatter is not valid");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_logger_exception_ce, "The formatter is not valid");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);

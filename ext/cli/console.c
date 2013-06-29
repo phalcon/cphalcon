@@ -99,8 +99,8 @@ PHP_METHOD(Phalcon_CLI_Console, setDI){
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Dependency Injector is invalid");
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(dependency_injector), phalcon_diinterface_ce, 1 TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_cli_console_exception_ce, "Parameter dependencyInjector must implement Phalcon\\DiInterface interface");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_CLI_Console, registerModules){
 	phalcon_fetch_params(0, 1, 0, &modules);
 	
 	if (Z_TYPE_P(modules) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Modules must be an Array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_cli_console_exception_ce, "Modules must be an Array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);

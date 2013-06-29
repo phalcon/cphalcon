@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Mvc_View, setViewsDir){
 	phalcon_fetch_params(0, 1, 0, &views_dir);
 	
 	if (Z_TYPE_P(views_dir) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The views directory must be a string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "The views directory must be a string");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_viewsDir"), views_dir TSRMLS_CC);
@@ -923,7 +923,7 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines){
 	phalcon_fetch_params(0, 1, 0, &engines);
 	
 	if (Z_TYPE_P(engines) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Engines to register must be an array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Engines to register must be an array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_registeredEngines"), engines TSRMLS_CC);
@@ -1680,7 +1680,7 @@ PHP_METHOD(Phalcon_Mvc_View, setContent){
 	phalcon_fetch_params(0, 1, 0, &content);
 	
 	if (Z_TYPE_P(content) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Content must be a string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Content must be a string");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);

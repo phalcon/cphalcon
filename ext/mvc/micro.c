@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 
 	phalcon_fetch_params(1, 1, 0, &dependency_injector);
 	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(dependency_injector), phalcon_diinterface_ce, 1 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "The dependency injector must be an object");
 		return;
 	}
@@ -492,7 +492,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 
 	phalcon_fetch_params(1, 1, 0, &collection);
 	
-	if (Z_TYPE_P(collection) != IS_OBJECT) {
+	if (Z_TYPE_P(collection) != IS_OBJECT || !instanceof_function(Z_OBJCE_P(collection), phalcon_mvc_collection_ce TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The collection is not valid");
 		return;
 	}

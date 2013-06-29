@@ -70,8 +70,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader){
 
 	phalcon_fetch_params(0, 1, 0, &reader);
 	
-	if (Z_TYPE_P(reader) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Invalid annotations reader");
+	if (Z_TYPE_P(reader) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(reader), phalcon_annotations_readerinterface_ce, 1 TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_annotations_exception_ce, "Invalid annotations reader");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_reader"), reader TSRMLS_CC);

@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 	PHALCON_INIT_VAR(status);
 	phalcon_file_put_contents(status, path, php_export TSRMLS_CC);
 	if (PHALCON_IS_FALSE(status)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Annotations directory is not writeable");
 		return;
 	}
 	

@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct){
 	phalcon_fetch_params(0, 1, 0, &definition);
 	
 	if (Z_TYPE_P(definition) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "Only strings can be lazy loaded");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_micro_exception_ce, "Only strings can be lazy loaded");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);

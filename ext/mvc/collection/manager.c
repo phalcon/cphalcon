@@ -92,8 +92,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI){
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The dependency injector is invalid");
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(dependency_injector), phalcon_diinterface_ce, 1 TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "The dependency injector is invalid");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService){
 
 	phalcon_fetch_params(1, 2, 0, &model, &connection_service);
 	
-	if (Z_TYPE_P(model) != IS_OBJECT) {
+	if (Z_TYPE_P(model) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(model), phalcon_mvc_collectioninterface_ce, 1 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
 	}
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds){
 
 	phalcon_fetch_params(1, 2, 0, &model, &use_implicit_object_ids);
 	
-	if (Z_TYPE_P(model) != IS_OBJECT) {
+	if (Z_TYPE_P(model) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(model), phalcon_mvc_collectioninterface_ce, 1 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
 	}
@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
 
 	phalcon_fetch_params(1, 1, 0, &model);
 	
-	if (Z_TYPE_P(model) != IS_OBJECT) {
+	if (Z_TYPE_P(model) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(model), phalcon_mvc_collectioninterface_ce, 1 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
 	}
@@ -382,7 +382,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 
 	phalcon_fetch_params(1, 1, 0, &model);
 	
-	if (Z_TYPE_P(model) != IS_OBJECT) {
+	if (Z_TYPE_P(model) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(model), phalcon_mvc_collectioninterface_ce, 1 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "A valid collection instance is required");
 		return;
 	}

@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 
 	phalcon_fetch_params(1, 1, 0, &column);
 	
-	if (Z_TYPE_P(column) != IS_OBJECT) {
+	if (Z_TYPE_P(column) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(column), phalcon_db_columninterface_ce, 1 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		return;
 	}

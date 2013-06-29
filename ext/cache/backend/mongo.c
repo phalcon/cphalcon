@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 		}
 	
 		if (!phalcon_array_isset_string(document, SS("time"))) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is corrupt");
 			return;
 		}
 	
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 		 */
 		if (PHALCON_IS_TRUE(not_expired)) {
 			if (!phalcon_array_isset_string(document, SS("data"))) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
+				PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is corrupt");
 				return;
 			}
 	

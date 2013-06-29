@@ -87,8 +87,12 @@ PHP_METHOD(Phalcon_Security, setDI){
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(dependency_injector), phalcon_diinterface_ce, 1 TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_tag_exception_ce, "Parameter dependencyInjector must implement Phalcon\\DiInterface interface");
+		return;
+	}
+
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
 }
 
 /**
@@ -158,11 +162,10 @@ PHP_METHOD(Phalcon_Security, setWorkFactor){
 	phalcon_fetch_params(0, 1, 0, &work_factor);
 	
 	if (Z_TYPE_P(work_factor) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Work factor must be integer");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "Work factor must be integer");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_workFactor"), work_factor TSRMLS_CC);
-	
 }
 
 /**
