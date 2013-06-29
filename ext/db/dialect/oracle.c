@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 
 	phalcon_fetch_params(1, 1, 0, &column);
 	
-	if (Z_TYPE_P(column) != IS_OBJECT) {
+	if (Z_TYPE_P(column) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(column), phalcon_db_columninterface_ce, 1 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		return;
 	}
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropColumn){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addIndex){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropIndex){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addPrimaryKey){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropPrimaryKey){
 
 	phalcon_fetch_params(0, 2, 0, &table_name, &schema_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addForeignKey){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &reference);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &reference_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &definition);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 

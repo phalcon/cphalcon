@@ -117,9 +117,12 @@ PHP_METHOD(Phalcon_Loader, setEventsManager){
 	zval *events_manager;
 
 	phalcon_fetch_params(0, 1, 0, &events_manager);
-	
+	if (Z_TYPE_P(events_manager) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(events_manager), phalcon_diinterface_ce, 1 TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_tag_exception_ce, "Parameter dependencyInjector must implement Phalcon\\Events\\ManagerInterface interface");
+		return;
+	}
+
 	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-	
 }
 
 /**
@@ -147,7 +150,7 @@ PHP_METHOD(Phalcon_Loader, setExtensions){
 	phalcon_fetch_params(0, 1, 0, &extensions);
 	
 	if (Z_TYPE_P(extensions) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter extensions must be an array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_loader_exception_ce, "Parameter extensions must be an array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);

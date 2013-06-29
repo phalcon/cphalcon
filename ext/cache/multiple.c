@@ -134,8 +134,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, push){
 
 	phalcon_fetch_params(0, 1, 0, &backend);
 	
-	if (Z_TYPE_P(backend) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend is not valid");
+	if (Z_TYPE_P(backend) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(backend), phalcon_cache_backendinterface_ce, 1 TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backend is not valid");
 		return;
 	}
 	phalcon_update_property_array_append(this_ptr, SL("_backends"), backend TSRMLS_CC);

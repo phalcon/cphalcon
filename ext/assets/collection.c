@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add){
 	phalcon_fetch_params(0, 1, 0, &resource);
 	
 	if (Z_TYPE_P(resource) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Resource must be an object");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Resource must be an object");
 		return;
 	}
 	phalcon_update_property_array_append(this_ptr, SL("_resources"), resource TSRMLS_CC);
@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setAttributes){
 	phalcon_fetch_params(0, 1, 0, &attributes);
 	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Attributes must be an array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Attributes must be an array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setFilters){
 	phalcon_fetch_params(0, 1, 0, &filters);
 	
 	if (Z_TYPE_P(filters) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Filters must be an array of filters");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_assets_exception_ce, "Filters must be an array of filters");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_filters"), filters TSRMLS_CC);

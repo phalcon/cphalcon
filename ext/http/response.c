@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/date/php_date.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -251,8 +253,8 @@ PHP_METHOD(Phalcon_Http_Response, setCookies){
 
 	phalcon_fetch_params(0, 1, 0, &cookies);
 	
-	if (Z_TYPE_P(cookies) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "The cookies bag is not valid");
+	if (Z_TYPE_P(cookies) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(cookies), phalcon_http_response_cookiesinterface_ce, 1 TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_http_response_exception_ce, "The cookies bag is not valid");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_cookies"), cookies TSRMLS_CC);
@@ -357,7 +359,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 
 	phalcon_fetch_params(1, 1, 0, &datetime);
 	
-	if (Z_TYPE_P(datetime) != IS_OBJECT) {
+	if (Z_TYPE_P(datetime) != IS_OBJECT || !instanceof_function(Z_OBJCE_P(datetime), php_date_get_date_ce() TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "datetime parameter must be an instance of DateTime");
 		return;
 	}

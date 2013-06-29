@@ -1175,7 +1175,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mount){
 
 	phalcon_fetch_params(1, 1, 0, &group);
 	
-	if (Z_TYPE_P(group) != IS_OBJECT) {
+	if (Z_TYPE_P(group) != IS_OBJECT || instanceof_function(Z_OBJCE_P(group), phalcon_mvc_router_group_ce TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The group of routes is not valid");
 		return;
 	}
@@ -1252,11 +1252,9 @@ PHP_METHOD(Phalcon_Mvc_Router, notFound){
 
 	phalcon_fetch_params(0, 1, 0, &paths);
 	
-	if (Z_TYPE_P(paths) != IS_ARRAY) { 
-		if (Z_TYPE_P(paths) != IS_STRING) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The not-found paths must be an array or string");
-			return;
-		}
+	if (Z_TYPE_P(paths) != IS_ARRAY && Z_TYPE_P(paths) != IS_STRING) { 
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_router_exception_ce, "The not-found paths must be an array or string");
+		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_notFoundPaths"), paths TSRMLS_CC);
 	

@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet){
 	phalcon_fetch_params(0, 2, 0, &index, &message);
 	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The message must be an object");
 		return;
 	}
 	phalcon_update_property_array(this_ptr, SL("_messages"), index, message TSRMLS_CC);
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 	phalcon_fetch_params(0, 1, 0, &message);
 	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The message must be an object");
 		return;
 	}
 	phalcon_update_property_array_append(this_ptr, SL("_messages"), message TSRMLS_CC);

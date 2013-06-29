@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Forms_Form, setUserOptions){
 	phalcon_fetch_params(0, 1, 0, &options);
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "Parameter 'options' must be an array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -665,7 +665,7 @@ PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor){
 /**
  * Adds an element to the form
  *
- * @param Phalcon\Forms\ElementInterface $element
+ * @param Phalcon\Forms\Element $element
  * @return Phalcon\Forms\Form
  */
 PHP_METHOD(Phalcon_Forms_Form, add){
@@ -676,7 +676,7 @@ PHP_METHOD(Phalcon_Forms_Form, add){
 
 	phalcon_fetch_params(1, 1, 0, &element);
 	
-	if (Z_TYPE_P(element) != IS_OBJECT) {
+	if (Z_TYPE_P(element) != IS_OBJECT || !instanceof_function(Z_OBJCE_P(element), phalcon_forms_element_ce TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The element is not valid");
 		return;
 	}

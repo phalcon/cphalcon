@@ -67,8 +67,8 @@ PHP_METHOD(Phalcon_Logger_Multiple, push){
 
 	phalcon_fetch_params(0, 1, 0, &logger);
 	
-	if (Z_TYPE_P(logger) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "The logger is invalid");
+	if (Z_TYPE_P(logger) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(logger), phalcon_logger_adapterinterface_ce, 1 TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_logger_exception_ce, "The logger is invalid");
 		return;
 	}
 	phalcon_update_property_array_append(this_ptr, SL("_loggers"), logger TSRMLS_CC);

@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct){
 	if (Z_TYPE_P(name) == IS_STRING) {
 		phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "The dependency injector must be an Object");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_session_exception_ce, "The name parameter must be a string");
 		return;
 	}
 	
@@ -101,8 +101,8 @@ PHP_METHOD(Phalcon_Session_Bag, setDI){
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "The dependency injector must be an Object");
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(dependency_injector), phalcon_diinterface_ce, 1 TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_session_exception_ce, "Parameter dependencyInjector must implement Phalcon\\DiInterface interface");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
