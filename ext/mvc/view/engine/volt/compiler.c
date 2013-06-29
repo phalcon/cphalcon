@@ -746,7 +746,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 						if (PHALCON_IS_LONG(expr_level, 1)) {
 							PHALCON_CPY_WRT(escaped_code, code);
 						} else {
-							PHALCON_INIT_VAR(escaped_code);
+							PHALCON_INIT_NVAR(escaped_code);
 							phalcon_call_func_p1(escaped_code, "addslashes", code);
 						}
 					} else {
@@ -764,7 +764,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 					if (PHALCON_IS_LONG(expr_level, 1)) {
 						PHALCON_CPY_WRT(str_code, escaped_code);
 					} else {
-						PHALCON_INIT_VAR(str_code);
+						PHALCON_INIT_NVAR(str_code);
 						PHALCON_CONCAT_SVS(str_code, "'", escaped_code, "'");
 					}
 	
@@ -3592,7 +3592,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (phalcon_array_isset_string(options, SS("compileAlways"))) {
 	
-			PHALCON_OBS_VAR(compile_always);
 			phalcon_array_fetch_string(&compile_always, options, SL("compileAlways"), PH_NOISY_CC);
 			if (Z_TYPE_P(compile_always) != IS_BOOL) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compileAlways must be a bool value");
@@ -3605,7 +3604,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (phalcon_array_isset_string(options, SS("prefix"))) {
 	
-			PHALCON_OBS_VAR(prefix);
 			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
 			if (Z_TYPE_P(prefix) != IS_STRING) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "prefix must be a string");
@@ -3730,7 +3728,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		/** 
 		 * Compile always must be used only in the development stage
 		 */
-		PHALCON_INIT_VAR(compilation);
 		phalcon_call_method_p3(compilation, this_ptr, "compilefile", template_path, real_compiled_path, extends_mode);
 	} else {
 		if (PHALCON_IS_TRUE(stat)) {

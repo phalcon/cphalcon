@@ -1202,7 +1202,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 			phalcon_call_method_p1(use_implicit_ids, models_manager, "isusingimplicitobjectids", this_ptr);
 			if (zend_is_true(use_implicit_ids)) {
 				ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-				PHALCON_INIT_VAR(mongo_id);
+				PHALCON_INIT_NVAR(mongo_id);
 				object_init_ex(mongo_id, ce0);
 				if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
 					phalcon_call_method_p1_noret(mongo_id, "__construct", id);
@@ -1945,7 +1945,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 		phalcon_call_method_p1(use_implicit_ids, models_manager, "isusingimplicitobjectids", this_ptr);
 		if (zend_is_true(use_implicit_ids)) {
 			ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_INIT_VAR(mongo_id);
+			PHALCON_INIT_NVAR(mongo_id);
 			object_init_ex(mongo_id, ce0);
 			if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
 				phalcon_call_method_p1_noret(mongo_id, "__construct", id);

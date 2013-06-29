@@ -1266,7 +1266,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
 			phalcon_array_fetch_long(&layout, parts, 0, PH_NOISY_CC);
 		}
 	
-		PHALCON_INIT_VAR(pick_view);
+		PHALCON_INIT_NVAR(pick_view);
 		array_init_size(pick_view, 1);
 		phalcon_array_append(&pick_view, render_view, PH_SEPARATE TSRMLS_CC);
 		if (Z_TYPE_P(layout) != IS_NULL) {

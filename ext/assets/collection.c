@@ -124,13 +124,13 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss){
 	if (Z_TYPE_P(local) == IS_BOOL) {
 		PHALCON_CPY_WRT(collection_local, local);
 	} else {
-		PHALCON_OBS_VAR(collection_local);
+		PHALCON_OBS_NVAR(collection_local);
 		phalcon_read_property_this(&collection_local, this_ptr, SL("_local"), PH_NOISY_CC);
 	}
 	if (Z_TYPE_P(attributes) == IS_ARRAY) { 
 		PHALCON_CPY_WRT(collection_attributes, attributes);
 	} else {
-		PHALCON_OBS_VAR(collection_attributes);
+		PHALCON_OBS_NVAR(collection_attributes);
 		phalcon_read_property_this(&collection_attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	}
 	
@@ -177,13 +177,13 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs){
 	if (Z_TYPE_P(local) == IS_BOOL) {
 		PHALCON_CPY_WRT(collection_local, local);
 	} else {
-		PHALCON_OBS_VAR(collection_local);
+		PHALCON_OBS_NVAR(collection_local);
 		phalcon_read_property_this(&collection_local, this_ptr, SL("_local"), PH_NOISY_CC);
 	}
 	if (Z_TYPE_P(attributes) == IS_ARRAY) { 
 		PHALCON_CPY_WRT(collection_attributes, attributes);
 	} else {
-		PHALCON_OBS_VAR(collection_attributes);
+		PHALCON_OBS_NVAR(collection_attributes);
 		phalcon_read_property_this(&collection_attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	}
 	

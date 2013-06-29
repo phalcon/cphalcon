@@ -26,6 +26,7 @@
 #include "ext/standard/php_array.h"
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 #include "kernel/debug.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
@@ -1187,5 +1188,35 @@ void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 T
 	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(array1), 0 TSRMLS_CC);
 
 	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(array2), 0 TSRMLS_CC);
+
+}
+
+void phalcon_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
+{
+	HashTable *ah2;
+	HashPosition hp2;
+	zval **hd;
+	zval *key = NULL, *value = NULL;
+	zval *tmp1 = NULL, *tmp2 = NULL;
+
+	phalcon_is_iterable(a2, &ah2, &hp2, 0, 0);
+
+	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+
+		PHALCON_GET_HKEY(key, ah2, hp2);
+		PHALCON_GET_HVALUE(value);
+
+		if (!phalcon_array_isset(*a1, key) || Z_TYPE_P(value) != IS_ARRAY) {
+			phalcon_array_update_zval(a1, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		} else {
+			PHALCON_INIT_NVAR(tmp1);
+			PHALCON_INIT_NVAR(tmp2);
+			phalcon_array_fetch(&tmp1, *a1, key, PH_NOISY_CC);
+			phalcon_array_fetch(&tmp2, a2, key, PH_NOISY_CC);
+			phalcon_array_merge_recursive_n(&tmp1, tmp2 TSRMLS_CC);
+		}
+
+		zend_hash_move_forward_ex(ah2, &hp2);
+	}
 
 }

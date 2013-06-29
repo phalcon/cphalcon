@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 	} else {
 		PHALCON_CPY_WRT(role_name, role);
 	
-		PHALCON_INIT_VAR(object);
+		PHALCON_INIT_NVAR(object);
 		object_init_ex(object, phalcon_acl_role_ce);
 		phalcon_call_method_p1_noret(object, "__construct", role);
 	
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 	} else {
 		PHALCON_CPY_WRT(resource_name, resource);
 	
-		PHALCON_INIT_VAR(object);
+		PHALCON_INIT_NVAR(object);
 		object_init_ex(object, phalcon_acl_resource_ce);
 		phalcon_call_method_p1_noret(object, "__construct", resource_name);
 	

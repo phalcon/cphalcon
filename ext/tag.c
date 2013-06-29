@@ -90,17 +90,15 @@ PHALCON_INIT_CLASS(Phalcon_Tag){
 PHP_METHOD(Phalcon_Tag, setDI){
 
 	zval *dependency_injector;
-	
-	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(dependency_injector), phalcon_diinterface_ce, 1 TSRMLS_CC)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Parameter dependencyInjector must implement Phalcon\\DiInterface interface");
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Parameter dependencyInjector must be an Object");
 		return;
 	}
 	phalcon_update_static_property(SL("phalcon\\tag"), SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	PHALCON_MM_RESTORE();
+	
 }
 
 /**
@@ -268,16 +266,14 @@ PHP_METHOD(Phalcon_Tag, setDefaults){
 
 	zval *values;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &values);
+	phalcon_fetch_params(0, 1, 0, &values);
 	
 	if (Z_TYPE_P(values) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "An array is required as default values");
 		return;
 	}
 	phalcon_update_static_property(SL("phalcon\\tag"), SL("_displayValues"), values TSRMLS_CC);
-	PHALCON_MM_RESTORE();
+	
 }
 
 /**

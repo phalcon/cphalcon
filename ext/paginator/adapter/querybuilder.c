@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	if (PHALCON_IS_EQUAL(number_page, one)) {
 		PHALCON_CPY_WRT(before, one);
 	} else {
-		PHALCON_INIT_VAR(before);
+		PHALCON_INIT_NVAR(before);
 		sub_function(before, number_page, one TSRMLS_CC);
 	}
 	

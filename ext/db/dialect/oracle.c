@@ -860,10 +860,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 				if (zend_is_true(column_alias)) {
 					if (PHALCON_GLOBAL(db).escape_identifiers) {
 						PHALCON_INIT_NVAR(column_alias_sql);
-						PHALCON_CONCAT_VSVVV(column_alias_sql, column_domain_sql, " ", escape_char, column_alias, escape_char);
+						PHALCON_CONCAT_VSVVV(column_alias_sql, column_domain_sql, " AS ", escape_char, column_alias, escape_char);
 					} else {
 						PHALCON_INIT_NVAR(column_alias_sql);
-						PHALCON_CONCAT_VSV(column_alias_sql, column_domain_sql, " ", column_alias);
+						PHALCON_CONCAT_VSV(column_alias_sql, column_domain_sql, " AS ", column_alias);
 					}
 				} else {
 					PHALCON_CPY_WRT(column_alias_sql, column_domain_sql);

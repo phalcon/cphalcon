@@ -18,7 +18,7 @@
 */
 
 /** Exceptions */
-#define PHALCON_THROW_EXCEPTION_STR(class_entry, message) phalcon_throw_exception_string(class_entry, message, sizeof(message)-1, 1 TSRMLS_CC);
+#define PHALCON_THROW_EXCEPTION_STR(class_entry, message) phalcon_throw_exception_string(class_entry, message, sizeof(message)-1, -1 TSRMLS_CC);
 #define PHALCON_THROW_EXCEPTION_ZVAL(class_entry, message) phalcon_throw_exception_zval(class_entry, message TSRMLS_CC);
 
 /** Throw Exceptions */

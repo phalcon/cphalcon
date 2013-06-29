@@ -6186,7 +6186,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 			/** 
 			 * Get the possible real method name
 			 */
-			PHALCON_INIT_VAR(field);
+			PHALCON_INIT_NVAR(field);
 			phalcon_uncamelize(field, extra_method TSRMLS_CC);
 			if (!phalcon_array_isset(attributes, field)) {
 				PHALCON_INIT_NVAR(exception_message);

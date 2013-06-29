@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			ZVAL_STRING(wildcard, "/:module", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
-			PHALCON_INIT_VAR(compiled_pattern);
+			PHALCON_INIT_NVAR(compiled_pattern);
 			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
 		}
 	

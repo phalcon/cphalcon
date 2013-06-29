@@ -4041,7 +4041,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	if (zend_is_true(count)) {
 		PHALCON_CPY_WRT(result_data, result);
 	} else {
-		PHALCON_INIT_VAR(result_data);
+		PHALCON_INIT_NVAR(result_data);
 		ZVAL_BOOL(result_data, 0);
 	}
 	

@@ -338,23 +338,23 @@ ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
 PHP_MINIT_FUNCTION(phalcon){
 
-	if(!spl_ce_Countable){
+	if (!spl_ce_Countable) {
 		fprintf(stderr, "Phalcon Error: Interface Countable was not found");
 		return FAILURE;
 	}
-	if(!zend_ce_iterator){
+	if (!zend_ce_iterator) {
 		fprintf(stderr, "Phalcon Error: Interface Iterator was not found");
 		return FAILURE;
 	}
-	if(!zend_ce_arrayaccess){
+	if (!zend_ce_arrayaccess) {
 		fprintf(stderr, "Phalcon Error: Interface ArrayAccess was not found");
 		return FAILURE;
 	}
-	if(!zend_ce_serializable){
+	if (!zend_ce_serializable) {
 		fprintf(stderr, "Phalcon Error: Interface Serializable was not found");
 		return FAILURE;
 	}
-	if(!spl_ce_SeekableIterator){
+	if (!spl_ce_SeekableIterator) {
 		fprintf(stderr, "Phalcon Error: Interface SeekableIterator was not found");
 		return FAILURE;
 	}
