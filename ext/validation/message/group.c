@@ -313,10 +313,12 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter){
 			/** 
 			 * Get the field name
 			 */
-			PHALCON_INIT_NVAR(field);
-			phalcon_call_method(field, message, "getfield");
-			if (PHALCON_IS_EQUAL(field_name, field)) {
-				phalcon_array_append(&filtered, message, PH_SEPARATE | 0 TSRMLS_CC);
+			if (phalcon_method_exists_ex(message, SS("getField") TSRMLS_CC)) {
+				PHALCON_INIT_NVAR(field);
+				phalcon_call_method(field, message, "getField");
+				if (PHALCON_IS_EQUAL(field_name, field)) {
+					phalcon_array_append(&filtered, message, PH_SEPARATE TSRMLS_CC);
+				}
 			}
 	
 			zend_hash_move_forward_ex(mh, &hp);
