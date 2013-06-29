@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet){
 	
 	phalcon_fetch_params(1, 2, 0, &index, &message);
 	
-	if (Z_TYPE_P(message) != IS_OBJECT || !instanceof_function(phalcon_validation_message_ce, Z_OBJCE_P(message) TSRMLS_CC)) {
+	if (Z_TYPE_P(message) != IS_OBJECT || !instanceof_function(Z_OBJCE_P(message), phalcon_validation_message_ce TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an instance of Phalcon\\Validation\\Message class");
 		return;
 	}
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessage){
 
 	phalcon_fetch_params(1, 1, 0, &message);
 	
-	if (Z_TYPE_P(message) != IS_OBJECT || !instanceof_function(phalcon_validation_message_ce, Z_OBJCE_P(message) TSRMLS_CC)) {
+	if (Z_TYPE_P(message) != IS_OBJECT || !instanceof_function(Z_OBJCE_P(message), phalcon_validation_message_ce TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an instance of Phalcon\\Validation\\Message class");
 		return;
 	}
