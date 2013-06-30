@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 	
 	if (phalcon_is_numeric(number)) {
 		PHALCON_INIT_VAR(limit);
-		phalcon_call_func_p1(limit, "intval", number);
+		ZVAL_LONG(limit, phalcon_get_intval(number));
 	
 		PHALCON_INIT_VAR(sql_limit);
 		PHALCON_CONCAT_VSV(sql_limit, sql_query, " LIMIT ", limit);

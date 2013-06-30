@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	div_function(total_pages, rowcount, limit TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(int_total_pages);
-	phalcon_call_func_p1(int_total_pages, "intval", total_pages);
+	ZVAL_LONG(int_total_pages, phalcon_get_intval(total_pages));
 	if (!PHALCON_IS_EQUAL(int_total_pages, total_pages)) {
 		phalcon_add_function(total_pages, int_total_pages, one TSRMLS_CC);
 	}

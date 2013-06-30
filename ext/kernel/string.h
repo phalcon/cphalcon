@@ -21,6 +21,10 @@
 extern int phalcon_memnstr(const zval *haystack, const zval *needle TSRMLS_DC);
 extern int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 
+#define PHALCON_TRIM_LEFT  1
+#define PHALCON_TRIM_RIGHT 2
+#define PHALCON_TRIM_BOTH  3
+
 /** Function replacement */
 extern void phalcon_fast_strlen(zval *return_value, zval *str);
 extern void phalcon_fast_strtolower(zval *return_value, zval *str);
@@ -32,6 +36,9 @@ extern void phalcon_fast_strpos(zval *return_value, const zval *haystack, const 
 extern void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 extern void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
+extern void phalcon_fast_trim(zval *return_value, zval *str, int where TSRMLS_DC);
+extern void phalcon_fast_strip_tags(zval *return_value, zval *str);
+extern void phalcon_fast_strtoupper(zval *return_value, zval *str);
 
 /** Camelize/Uncamelize */
 extern void phalcon_camelize(zval *return_value, const zval *str TSRMLS_DC);

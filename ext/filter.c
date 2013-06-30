@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/standard/php_string.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -312,42 +314,40 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	
 	if (PHALCON_IS_STRING(filter, "trim")) {
 		PHALCON_INIT_NVAR(filtered);
-		phalcon_call_func_p1(filtered, "trim", value);
+		phalcon_fast_trim(filtered, value, PHALCON_TRIM_BOTH TSRMLS_CC);
 		goto ph_end_0;
 	}
 	
 	if (PHALCON_IS_STRING(filter, "striptags")) {
 		PHALCON_INIT_NVAR(filtered);
-		phalcon_call_func_p1(filtered, "strip_tags", value);
+		phalcon_fast_strip_tags(filtered, value);
 		goto ph_end_0;
 	}
 	
 	if (PHALCON_IS_STRING(filter, "lower")) {
+		PHALCON_INIT_NVAR(filtered);
 		if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
 			/** 
 			 * 'lower' checks for the mbstring extension to make a correct lowercase
 			 * transformation
 			 */
-			PHALCON_INIT_NVAR(filtered);
 			phalcon_call_func_p1(filtered, "mb_strtolower", value);
 		} else {
-			PHALCON_INIT_NVAR(filtered);
 			phalcon_fast_strtolower(filtered, value);
 		}
 		goto ph_end_0;
 	}
 	
 	if (PHALCON_IS_STRING(filter, "upper")) {
+		PHALCON_INIT_NVAR(filtered);
 		if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
 			/** 
 			 * 'upper' checks for the mbstring extension to make a correct lowercase
 			 * transformation
 			 */
-			PHALCON_INIT_NVAR(filtered);
 			phalcon_call_func_p1(filtered, "mb_strtoupper", value);
 		} else {
-			PHALCON_INIT_NVAR(filtered);
-			phalcon_call_func_p1(filtered, "strtoupper", value);
+			phalcon_fast_strtoupper(filtered, value);
 		}
 		goto ph_end_0;
 	}
