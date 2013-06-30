@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl){
 	if (escaped) {
 		RETURN_STRINGL(escaped, len, 0);
 	}
-	
+
 	RETURN_EMPTY_STRING();
 }
 

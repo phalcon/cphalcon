@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 				phalcon_call_method(number_rows, result, "numrows");
 	
 				PHALCON_INIT_NVAR(count);
-				phalcon_call_func_p1(count, "intval", number_rows);
+				ZVAL_LONG(count, phalcon_get_intval(number_rows));
 			}
 		} else {
 			/** 

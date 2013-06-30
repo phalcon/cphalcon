@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			phalcon_add_function(additional_page, possible_pages, one TSRMLS_CC);
 	
 			PHALCON_INIT_NVAR(next);
-			phalcon_call_func_p1(next, "intval", additional_page);
+			ZVAL_LONG(next, phalcon_get_intval(additional_page));
 		}
 	}
 	
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		phalcon_add_function(next, possible_pages, one TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(pages_total);
-		phalcon_call_func_p1(pages_total, "intval", next);
+		ZVAL_LONG(pages_total, phalcon_get_intval(next));
 	} else {
 		PHALCON_CPY_WRT(pages_total, possible_pages);
 	}

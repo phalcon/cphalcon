@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	div_function(rounded_total, number, show TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(total_pages);
-	phalcon_call_func_p1(total_pages, "intval", rounded_total);
+	ZVAL_LONG(total_pages, phalcon_get_intval(rounded_total));
 	
 	/** 
 	 * Increase total_pages if wasn't integer
