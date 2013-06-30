@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 			break;
 	
 		default:
-			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized Sqlite data type");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized SQLite data type");
 			return;
 	
 	}
@@ -150,12 +150,40 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn){
 
-	zval *table_name, *schema_name, *column;
+	zval *table_name, *schema_name, *column, *sql = NULL, *name;
+	zval *column_definition, *is_not_null;
 
-	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column);
-	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
-	return;
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &column);
+
+	if (Z_TYPE_P(column) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column parameter must be an instance of Phalcon\\Db\\Column");
+		return;
+	}
+
+	PHALCON_INIT_VAR(sql);
+	if (zend_is_true(schema_name)) {
+		PHALCON_CONCAT_SVSVS(sql, "ALTER TABLE \"", schema_name, "\".\"", table_name, "\" ADD COLUMN ");
+	}
+	else {
+		PHALCON_CONCAT_SVS(sql, "ALTER TABLE \"", table_name, "\" ADD COLUMN ");
+	}
+
+	PHALCON_INIT_VAR(name);
+	phalcon_call_method(name, column, "getname");
+
+	PHALCON_INIT_VAR(column_definition);
+	phalcon_call_method_p1(column_definition, this_ptr, "getcolumndefinition", column);
+	PHALCON_SCONCAT_SVSV(sql, "\"", name, "\" ", column_definition);
+
+	PHALCON_INIT_VAR(is_not_null);
+	phalcon_call_method(is_not_null, column, "isnotnull");
+	if (zend_is_true(is_not_null)) {
+		phalcon_concat_self_str(&sql, SL(" NOT NULL") TSRMLS_CC);
+	}
+
+	RETURN_CTOR(sql);
 }
 
 /**
@@ -172,7 +200,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Altering a DB column is not supported by SQLite");
 	return;
 }
 
@@ -190,7 +218,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Dropping DB column is not supported by SQLite");
 	return;
 }
 
@@ -204,12 +232,37 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex){
 
-	zval *table_name, *schema_name, *index;
+	zval *table_name, *schema_name, *index, *sql = NULL, *columns;
+	zval *quoted_column_list, *name;
 
-	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &index);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
-	return;
+	if (Z_TYPE_P(index) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Index parameter must be an instance of Phalcon\\Db\\Index");
+		return;
+	}
+
+	PHALCON_INIT_VAR(name);
+	phalcon_call_method(name, index, "getname");
+
+	PHALCON_INIT_VAR(sql);
+	if (zend_is_true(schema_name)) {
+		PHALCON_CONCAT_SVSVSVS(sql, "CREATE INDEX \"", schema_name, "\".\"", name, "\" ON \"", table_name, "\" (");
+	}
+	else {
+		PHALCON_CONCAT_SVSVS(sql, "CREATE INDEX \"", name, "\" ON \"", table_name, "\" (");
+	}
+
+	PHALCON_INIT_VAR(columns);
+	phalcon_call_method(columns, index, "getcolumns");
+
+	PHALCON_INIT_VAR(quoted_column_list);
+	phalcon_call_method_p1(quoted_column_list, this_ptr, "getcolumnlist", columns);
+
+	PHALCON_SCONCAT_VS(sql, quoted_column_list, ")");
+	RETURN_CTOR(sql);
 }
 
 /**
@@ -223,11 +276,21 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex){
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex){
 
 	zval *table_name, *schema_name, *index_name;
+	zval *sql = NULL;
 
-	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index_name);
-	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
-	return;
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &index_name);
+
+	PHALCON_INIT_VAR(sql);
+	if (zend_is_true(schema_name)) {
+		PHALCON_CONCAT_SVSVS(sql, "DROP INDEX \"", schema_name, "\".\"", index_name, "\"");
+	}
+	else {
+		PHALCON_CONCAT_SVS(sql, "DROP INDEX \"", index_name, "\"");
+	}
+
+	RETURN_CTOR(sql);
 }
 
 /**
@@ -244,7 +307,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Adding a primary key after table has been created is not supported by SQLite");
 	return;
 }
 
@@ -261,7 +324,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey){
 
 	phalcon_fetch_params(0, 2, 0, &table_name, &schema_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Removing a primary key after table has been created is not supported by SQLite");
 	return;
 }
 
@@ -279,7 +342,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &reference);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Adding a foreign key constraint to an existing table is not supported by SQLite");
 	return;
 }
 
@@ -297,7 +360,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &reference_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Dropping a foreign key constraint is not supported by SQLite");
 	return;
 }
 
@@ -309,15 +372,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions){
 
-	zval *definition, *empty_array;
+	zval *definition;
 
-	PHALCON_MM_GROW();
+	phalcon_fetch_params(0, 1, 0, &definition);
 
-	phalcon_fetch_params(1, 1, 0, &definition);
-	
-	PHALCON_INIT_VAR(empty_array);
-	array_init(empty_array);
-	RETURN_CTOR(empty_array);
+	array_init(return_value);
 }
 
 /**
@@ -362,16 +421,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable){
 	
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(table);
-		PHALCON_CONCAT_VSV(table, schema_name, ".", table_name);
+		PHALCON_CONCAT_VSV(table, schema_name, "\".\"", table_name);
 	} else {
 		PHALCON_CPY_WRT(table, table_name);
 	}
+
+	PHALCON_INIT_VAR(sql);
 	if (zend_is_true(if_exists)) {
-		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SV(sql, "DROP TABLE IF EXISTS ", table);
-	} else {
-		PHALCON_INIT_NVAR(sql);
-		PHALCON_CONCAT_SV(sql, "DROP TABLE ", table);
+		PHALCON_CONCAT_SVS(sql, "DROP TABLE IF EXISTS \"", table, "\"");
+	}
+	else {
+		PHALCON_CONCAT_SVS(sql, "DROP TABLE \"", table, "\"");
 	}
 	
 	RETURN_CTOR(sql);
@@ -403,13 +463,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView){
 	phalcon_array_fetch_string(&view_sql, definition, SL("sql"), PH_NOISY_CC);
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(view);
-		PHALCON_CONCAT_VSV(view, view_name, ".", schema_name);
+		PHALCON_CONCAT_VSV(view, schema_name, "\".\"", view_name);
 	} else {
 		PHALCON_CPY_WRT(view, view_name);
 	}
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVSV(sql, "CREATE VIEW ", view, " AS ", view_sql);
+	PHALCON_CONCAT_SVSV(sql, "CREATE VIEW \"", view, "\" AS ", view_sql);
 	
 	RETURN_CTOR(sql);
 }
@@ -438,16 +498,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView){
 	
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(view);
-		PHALCON_CONCAT_VSV(view, view_name, ".", schema_name);
+		PHALCON_CONCAT_VSV(view, schema_name, "\".\"", view_name);
 	} else {
 		PHALCON_CPY_WRT(view, view_name);
 	}
 	if (zend_is_true(if_exists)) {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SV(sql, "DROP VIEW IF EXISTS ", view);
+		PHALCON_CONCAT_SVS(sql, "DROP VIEW IF EXISTS \"", view, "\"");
 	} else {
 		PHALCON_INIT_NVAR(sql);
-		PHALCON_CONCAT_SV(sql, "DROP VIEW ", view);
+		PHALCON_CONCAT_SVS(sql, "DROP VIEW \"", view, "\"");
 	}
 	
 	RETURN_CTOR(sql);
@@ -656,15 +716,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions){
 
 	zval *table, *schema = NULL;
 
-	PHALCON_MM_GROW();
+	phalcon_fetch_params(0, 1, 1, &table, &schema);
 
-	phalcon_fetch_params(1, 1, 1, &table, &schema);
-	
-	if (!schema) {
-		PHALCON_INIT_VAR(schema);
-	}
-	
-	PHALCON_MM_RESTORE();
 	RETURN_EMPTY_STRING();
 }
 
