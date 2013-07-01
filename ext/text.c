@@ -273,11 +273,10 @@ PHP_METHOD(Phalcon_Text, lower){
 	 * 'lower' checks for the mbstring extension to make a correct lowercase
 	 * transformation
 	 */
+	PHALCON_INIT_VAR(lower);
 	if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(lower);
 		phalcon_call_func_p1(lower, "mb_strtolower", str);
 	} else {
-		PHALCON_INIT_NVAR(lower);
 		phalcon_fast_strtolower(lower, str);
 	}
 	
@@ -302,12 +301,11 @@ PHP_METHOD(Phalcon_Text, upper){
 	 * 'upper' checks for the mbstring extension to make a correct lowercase
 	 * transformation
 	 */
+	PHALCON_INIT_VAR(upper);
 	if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(upper);
 		phalcon_call_func_p1(upper, "mb_strtoupper", str);
 	} else {
-		PHALCON_INIT_NVAR(upper);
-		phalcon_call_func_p1(upper, "strtoupper", str);
+		phalcon_fast_strtoupper(upper, str);
 	}
 	
 	RETURN_CCTOR(upper);

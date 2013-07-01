@@ -166,7 +166,16 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	div_function(possible_pages, last_page, show TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(total_pages);
-	phalcon_call_func_p1(total_pages, "ceil", possible_pages);
+	if (Z_TYPE_P(possible_pages) == IS_LONG) {
+		ZVAL_LONG(total_pages, Z_LVAL_P(possible_pages));
+	}
+	else if (Z_TYPE_P(possible_pages) == IS_DOUBLE) {
+		ZVAL_DOUBLE(total_pages, ceil(Z_DVAL_P(possible_pages)));
+	}
+	else {
+		ZVAL_LONG(total_pages, 0);
+	}
+
 	if (Z_TYPE_P(items) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
 		return;
@@ -235,7 +244,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			phalcon_add_function(additional_page, possible_pages, one TSRMLS_CC);
 	
 			PHALCON_INIT_NVAR(next);
-			phalcon_call_func_p1(next, "intval", additional_page);
+			ZVAL_LONG(next, phalcon_get_intval(additional_page));
 		}
 	}
 	
@@ -264,7 +273,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		phalcon_add_function(next, possible_pages, one TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(pages_total);
-		phalcon_call_func_p1(pages_total, "intval", next);
+		ZVAL_LONG(pages_total, phalcon_get_intval(next));
 	} else {
 		PHALCON_CPY_WRT(pages_total, possible_pages);
 	}

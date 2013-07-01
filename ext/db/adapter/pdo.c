@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 				if (phalcon_compare_strict_long(type, 32 TSRMLS_CC)) {
 
 					PHALCON_INIT_NVAR(cast_value);
-					PHALCON_CALL_FUNC_PARAMS_1(cast_value, "doubleval", value);
+					phalcon_cast(cast_value, value, IS_DOUBLE);
 
 					PHALCON_INIT_NVAR(type);
 					ZVAL_LONG(type, 1024);

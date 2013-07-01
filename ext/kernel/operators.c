@@ -231,6 +231,9 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 		case IS_LONG:
 			convert_to_long(result);
 			break;
+		case IS_DOUBLE:
+			convert_to_double(result);
+			break;
 		/*case IS_BOOL:
 			convert_to_bool(result);
 			break;*/
