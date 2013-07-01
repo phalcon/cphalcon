@@ -225,7 +225,7 @@ void phalcon_possible_autoload_filepath(zval *return_value, zval *prefix, zval *
 		RETURN_FALSE;
 	}
 
-	for (i = Z_STRLEN_P(prefix) + 1; i < Z_STRLEN_P(class_name); i++) {
+	for (i = Z_STRLEN_P(prefix); i < Z_STRLEN_P(class_name); i++) {
 
 		ch = Z_STRVAL_P(class_name)[i];
 
