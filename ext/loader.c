@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	zval *ns_prefix = NULL, *file_name = NULL, *fixed_directory = NULL;
 	zval *extension = NULL, *pseudo_separator, *prefixes;
 	zval *prefix = NULL, *ds_class_name, *ns_class_name;
-	zval *directories;
+	zval *directories, *ns_prefix_slash = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -522,11 +522,14 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			 */
 			if (phalcon_start_with(class_name, ns_prefix, NULL)) {
 	
+				PHALCON_INIT_NVAR(ns_prefix_slash);
+				PHALCON_CONCAT_VS(ns_prefix_slash, ns_prefix, "\\");
+
 				/** 
 				 * Get the possible file path
 				 */
 				PHALCON_INIT_NVAR(file_name);
-				phalcon_possible_autoload_filepath(file_name, ns_prefix, class_name, ds, NULL TSRMLS_CC);
+				phalcon_possible_autoload_filepath(file_name, ns_prefix_slash, class_name, ds, NULL TSRMLS_CC);
 				if (zend_is_true(file_name)) {
 	
 					/** 
