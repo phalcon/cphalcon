@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 			phalcon_array_fetch_string(&php_self, _SERVER, SL("PHP_SELF"), PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(uri);
-			phalcon_get_uri(uri, php_self TSRMLS_CC);
+			phalcon_get_uri(uri, php_self);
 		} else {
 			PHALCON_INIT_NVAR(uri);
 		}
