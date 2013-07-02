@@ -51,21 +51,17 @@ void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, z
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-	if (restore_stack) {
-		PHALCON_INIT_VAR(msg);
-	} else {
-		ALLOC_INIT_ZVAL(msg);
-	}
+	ALLOC_INIT_ZVAL(msg);
 	ZVAL_STRINGL(msg, message, message_len, 1);
 
 	phalcon_call_method_p1_noret(object, "__construct", msg);
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
+	zval_ptr_dtor(&msg);
+
 	if (restore_stack) {
 		phalcon_memory_restore_stack(TSRMLS_C);
-	} else {
-		zval_ptr_dtor(&msg);
 	}
 }
 

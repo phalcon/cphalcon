@@ -798,7 +798,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 				 */
 				if (Z_TYPE_P(key) == IS_NULL) {
 					PHALCON_INIT_NVAR(key);
-					phalcon_md5(key, view_path TSRMLS_CC);
+					phalcon_md5(key, view_path);
 				}
 	
 				/** 
