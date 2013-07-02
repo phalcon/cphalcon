@@ -1080,7 +1080,7 @@ void phalcon_unique_key(zval *return_value, zval *prefix, zval *value TSRMLS_DC)
 /**
  * Returns the PHP_EOL (if the passed parameter is TRUE)
  */
-zval *phalcon_eol(int eol) {
+zval *phalcon_eol(int eol TSRMLS_DC) {
 
 	zval *local_eol;
 

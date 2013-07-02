@@ -67,7 +67,7 @@ extern int phalcon_spprintf(char **message, int max_len, char *format, ...);
 void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length TSRMLS_DC);
 
 /** EOL */
-zval *phalcon_eol(int eol);
+zval *phalcon_eol(int eol TSRMLS_DC);
 
 /** Preg-Match */
 void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC);
