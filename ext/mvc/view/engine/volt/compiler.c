@@ -2278,6 +2278,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf){
 		PHALCON_INIT_VAR(expr_code);
 		phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	}
+	else {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted expression");
+		return;
+	}
 	
 	/** 
 	 * 'If' statement
@@ -2848,6 +2852,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
 	/** 
 	 * Block statements are allowed
 	 */
+	PHALCON_INIT_VAR(block_code);
 	if (phalcon_array_isset_string(statement, SS("block_statements"))) {
 		/** 
 		 * Get block statements
@@ -2858,7 +2863,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
 		/** 
 		 * Process statements block
 		 */
-		PHALCON_INIT_VAR(block_code);
 		phalcon_call_method_p2(block_code, this_ptr, "_statementlist", block_statements, extends_mode);
 	}
 	
