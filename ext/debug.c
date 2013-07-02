@@ -989,7 +989,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	zval *html, *version, *file, *line, *show_back_trace;
 	zval *data_vars, *trace, *trace_item = NULL, *n = NULL, *html_item = NULL;
 	zval *_REQUEST, *value = NULL, *key_request = NULL, *_SERVER;
-	zval *key_server = NULL, *files, *key_file = NULL, *true_usage;
+	zval *key_server = NULL, *files, *key_file = NULL;
 	zval *memory, *data_var = NULL, *key_var = NULL, *variable = NULL, *dumped_argument = NULL;
 	zval *js_sources;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
@@ -1195,11 +1195,8 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		/** 
 		 * Memory usage
 		 */
-		PHALCON_INIT_VAR(true_usage);
-		ZVAL_BOOL(true_usage, 1);
-	
 		PHALCON_INIT_VAR(memory);
-		phalcon_call_func_p1(memory, "memory_get_usage", true_usage);
+		ZVAL_LONG(memory, zend_memory_usage(1 TSRMLS_CC));
 		phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-5\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
 		PHALCON_SCONCAT_SVS(html, "<tr><th colspan=\"2\">Memory</th></tr><tr><td>Usage</td><td>", memory, "</td></tr>");
 		phalcon_concat_self_str(&html, SL("</table></div>") TSRMLS_CC);
