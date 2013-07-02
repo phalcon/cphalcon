@@ -1104,7 +1104,7 @@ zval *phalcon_eol(int eol TSRMLS_DC) {
 /**
  * Base 64 encode
  */
-void phalcon_base64_encode(zval *return_value, zval *data TSRMLS_DC) {
+void phalcon_base64_encode(zval *return_value, zval *data) {
 
 	zval copy;
 	char *encoded;
@@ -1133,7 +1133,7 @@ void phalcon_base64_encode(zval *return_value, zval *data TSRMLS_DC) {
 /**
  * Base 64 decode
  */
-void phalcon_base64_decode(zval *return_value, zval *data TSRMLS_DC) {
+void phalcon_base64_decode(zval *return_value, zval *data) {
 
 	zval copy;
 	char *decoded;
@@ -1159,7 +1159,7 @@ void phalcon_base64_decode(zval *return_value, zval *data TSRMLS_DC) {
 	}
 }
 
-void phalcon_md5(zval *return_value, zval *str TSRMLS_DC) {
+void phalcon_md5(zval *return_value, zval *str) {
 
 	PHP_MD5_CTX ctx;
 	unsigned char digest[16];

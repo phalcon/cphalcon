@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Security, getToken){
 	phalcon_call_func_p1(random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
 	PHALCON_INIT_VAR(token);
-	phalcon_md5(token, random_bytes TSRMLS_CC);
+	phalcon_md5(token, random_bytes);
 	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);

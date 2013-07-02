@@ -407,14 +407,10 @@ PHP_METHOD(Phalcon_Escaper, escapeJs){
  */
 PHP_METHOD(Phalcon_Escaper, escapeUrl){
 
-	zval *url, *escaped;
+	zval *url;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &url);
+	phalcon_fetch_params(0, 1, 0, &url);
 	
-	PHALCON_INIT_VAR(escaped);
-	phalcon_raw_url_encode(escaped, url TSRMLS_CC);
-	RETURN_CTOR(escaped);
+	phalcon_raw_url_encode(return_value, url);
 }
 

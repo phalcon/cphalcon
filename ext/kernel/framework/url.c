@@ -21,7 +21,7 @@
 #include "php_phalcon.h"
 #include "php_main.h"
 
-void phalcon_get_uri(zval *return_value, zval *path TSRMLS_DC) {
+void phalcon_get_uri(zval *return_value, zval *path) {
 
 	int i, found = 0, mark;
 	char *cursor, *str, ch;

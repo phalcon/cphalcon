@@ -18,5 +18,5 @@
 */
 
 /** Get the possible URI based on a script path */
-void phalcon_get_uri(zval *return_value, zval *path TSRMLS_DC);
+void phalcon_get_uri(zval *return_value, zval *path);
 void phalcon_raw_url_encode(zval *return_value, zval *url);
