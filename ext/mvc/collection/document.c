@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset){
 
 	phalcon_fetch_params(0, 1, 0, &offset);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_collection_exception_ce, "The index does not exist in the row");
 	return;
 }
 

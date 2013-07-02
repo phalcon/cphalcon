@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 	
 	PHALCON_INIT_VAR(result);
 	phalcon_call_method_p3(result, this_ptr, "query", sql_query, bind_params, bind_types);
-	if (likely(Z_TYPE_P(result) == IS_OBJECT)) {
+	if (Z_TYPE_P(result) == IS_OBJECT) {
 		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
 			phalcon_call_method_p1_noret(result, "setfetchmode", fetch_mode);
 		}
@@ -930,7 +930,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createTable){
 
 	phalcon_fetch_params(1, 3, 0, &table_name, &schema_name, &definition);
 	
-	if (unlikely(Z_TYPE_P(definition) != IS_ARRAY)) { 
+	if (Z_TYPE_P(definition) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Invalid definition to create the table '", table_name, "'");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_db_exception_ce, exception_message);
@@ -1018,7 +1018,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createView){
 		PHALCON_INIT_VAR(schema_name);
 	}
 	
-	if (unlikely(Z_TYPE_P(definition) != IS_ARRAY)) { 
+	if (Z_TYPE_P(definition) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Invalid definition to create the view '", view_name, "'");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_db_exception_ce, exception_message);

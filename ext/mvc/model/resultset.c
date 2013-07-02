@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet){
 
 	phalcon_fetch_params(0, 2, 0, &index, &value);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 }
 
@@ -431,7 +431,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset){
 
 	phalcon_fetch_params(0, 1, 0, &offset);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 }
 

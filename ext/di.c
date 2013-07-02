@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_DI, remove){
 	phalcon_fetch_params(0, 1, 0, &name);
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
 	phalcon_unset_property_array(this_ptr, SL("_services"), name TSRMLS_CC);
@@ -253,11 +253,11 @@ PHP_METHOD(Phalcon_DI, setRaw){
 	phalcon_fetch_params(0, 2, 0, &name, &raw_definition);
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
 	if (Z_TYPE_P(raw_definition) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service definition must be an object");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service definition must be an object");
 		return;
 	}
 	

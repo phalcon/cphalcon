@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetSet){
 
 	phalcon_fetch_params(0, 2, 0, &offset, &value);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
 	return;
 }
 
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset){
 
 	phalcon_fetch_params(0, 1, 0, &offset);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
 	return;
 }
 

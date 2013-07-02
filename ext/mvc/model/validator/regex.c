@@ -153,6 +153,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	
 		is_not_equal_function(failed, match_zero, value TSRMLS_CC);
 	} else {
+		PHALCON_INIT_NVAR(failed);
 		ZVAL_BOOL(failed, 1);
 	}
 	

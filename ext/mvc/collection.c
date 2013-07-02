@@ -736,9 +736,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 		ZVAL_BOOL(simple, 0);
 	} else {
 		if (phalcon_array_isset_string(params, SS("sort"))) {
+			PHALCON_INIT_NVAR(simple);
 			ZVAL_BOOL(simple, 0);
 		} else {
 			if (phalcon_array_isset_string(params, SS("skip"))) {
+				PHALCON_INIT_NVAR(simple);
 				ZVAL_BOOL(simple, 0);
 			}
 		}
@@ -1440,6 +1442,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 			}
 		}
 	} else {
+		PHALCON_INIT_NVAR(success);
 		ZVAL_BOOL(success, 0);
 	}
 	
@@ -1992,6 +1995,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 			}
 		}
 	} else {
+		PHALCON_INIT_NVAR(success);
 		ZVAL_BOOL(success, 0);
 	}
 	

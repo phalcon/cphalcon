@@ -25,6 +25,8 @@
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_rand.h"
 #include "ext/standard/php_lcg.h"
+#include "ext/standard/base64.h"
+#include "ext/standard/md5.h"
 
 #if HAVE_BUNDLED_PCRE
 #include "ext/pcre/php_pcre.h"
@@ -334,7 +336,7 @@ void phalcon_fast_explode_str(zval *result, const char *delimiter, int delimiter
 /**
  * Check if a string is contained into another
  */
-int phalcon_memnstr(const zval *haystack, const zval *needle TSRMLS_DC){
+int phalcon_memnstr(const zval *haystack, const zval *needle TSRMLS_DC) {
 
 	char *found = NULL;
 
@@ -357,7 +359,7 @@ int phalcon_memnstr(const zval *haystack, const zval *needle TSRMLS_DC){
 /**
  * Check if a string is contained into another
  */
-int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
+int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC) {
 
 	char *found = NULL;
 
@@ -380,7 +382,7 @@ int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_
 /**
  * Inmediate function resolution for strpos function
  */
-void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *needle TSRMLS_DC){
+void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *needle TSRMLS_DC) {
 
 	char *found = NULL;
 
@@ -408,7 +410,7 @@ void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *n
 /**
  * Inmediate function resolution for strpos function
  */
-void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
+void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC) {
 
 	char *found = NULL;
 
@@ -431,7 +433,7 @@ void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *nee
 /**
  * Inmediate function resolution for stripos function
  */
-void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
+void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC) {
 
 	char *found = NULL;
 	char *needle_dup, *haystack_dup;
@@ -465,7 +467,7 @@ void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, 
 /**
  * Inmediate function resolution for str_replace function
  */
-void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC){
+void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC) {
 
 	zval replace_copy, search_copy;
 	int copy_replace = 0, copy_search = 0;
@@ -528,7 +530,7 @@ void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, z
 /**
  * Fast call to PHP trim() function
  */
-void phalcon_fast_trim(zval *return_value, zval *str, int where TSRMLS_DC){
+void phalcon_fast_trim(zval *return_value, zval *str, int where TSRMLS_DC) {
 
 	zval copy;
 	int use_copy = 0;
@@ -545,13 +547,13 @@ void phalcon_fast_trim(zval *return_value, zval *str, int where TSRMLS_DC){
 	if (use_copy) {
 		zval_dtor(str);
 	}
-	
+
 }
 
 /**
  * Fast call to PHP strip_tags() function
  */
-void phalcon_fast_strip_tags(zval *return_value, zval *str){
+void phalcon_fast_strip_tags(zval *return_value, zval *str) {
 
 	zval copy;
 	int use_copy = 0;
@@ -573,14 +575,13 @@ void phalcon_fast_strip_tags(zval *return_value, zval *str){
 	}
 
 	ZVAL_STRINGL(return_value, stripped, len, 0);
-
 }
 
 /**
  * Fast call to PHP strtoupper() function
  */
 void phalcon_fast_strtoupper(zval *return_value, zval *str) {
-	
+
 	zval copy;
 	int use_copy = 0;
 	char *lower_str;
@@ -826,7 +827,10 @@ int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_
 	return 1;
 }
 
-void phalcon_random_string(zval *return_value, const zval *type, const zval *length TSRMLS_DC){
+/**
+ *
+ */
+void phalcon_random_string(zval *return_value, const zval *type, const zval *length TSRMLS_DC) {
 
 	long i, rand_type, ch;
 	smart_str random_str = {0};
@@ -916,7 +920,7 @@ void phalcon_random_string(zval *return_value, const zval *type, const zval *len
 /**
  * Removes slashes at the end of a string
  */
-void phalcon_remove_extra_slashes(zval *return_value, const zval *str){
+void phalcon_remove_extra_slashes(zval *return_value, const zval *str) {
 
 	char *cursor, *removed_str;
 	unsigned int i;
@@ -1095,6 +1099,88 @@ zval *phalcon_eol(int eol TSRMLS_DC) {
     }
 
     return local_eol;
+}
+
+/**
+ * Base 64 encode
+ */
+void phalcon_base64_encode(zval *return_value, zval *data TSRMLS_DC) {
+
+	zval copy;
+	char *encoded;
+	int use_copy = 0, length;
+
+	if (Z_TYPE_P(data) != IS_STRING) {
+		zend_make_printable_zval(data, &copy, &use_copy);
+		if (use_copy) {
+			data = &copy;
+		}
+	}
+
+	encoded = (char *) php_base64_encode((unsigned char *)(Z_STRVAL_P(data)), Z_STRLEN_P(data), &length);
+
+	if (use_copy) {
+		zval_dtor(data);
+	}
+
+	if (encoded) {
+		RETURN_STRINGL(encoded, length, 0);
+	} else {
+		RETURN_NULL();
+	}
+}
+
+/**
+ * Base 64 decode
+ */
+void phalcon_base64_decode(zval *return_value, zval *data TSRMLS_DC) {
+
+	zval copy;
+	char *decoded;
+	int use_copy = 0, length;
+
+	if (Z_TYPE_P(data) != IS_STRING) {
+		zend_make_printable_zval(data, &copy, &use_copy);
+		if (use_copy) {
+			data = &copy;
+		}
+	}
+
+	decoded = (char *) php_base64_decode((unsigned char *)(Z_STRVAL_P(data)), Z_STRLEN_P(data), &length);
+
+	if (use_copy) {
+		zval_dtor(data);
+	}
+
+	if (decoded) {
+		RETURN_STRINGL(decoded, length, 0);
+	} else {
+		RETURN_NULL();
+	}
+}
+
+void phalcon_md5(zval *return_value, zval *str TSRMLS_DC) {
+
+	PHP_MD5_CTX ctx;
+	unsigned char digest[16];
+	char hexdigest[33];
+	zval copy;
+	int use_copy = 0;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	PHP_MD5Init(&ctx);
+	PHP_MD5Update(&ctx, Z_STRVAL_P(str), Z_STRLEN_P(str));
+	PHP_MD5Final(digest, &ctx);
+
+	make_digest(hexdigest, digest);
+
+	ZVAL_STRINGL(return_value, hexdigest, 32, 1);
 }
 
 #if HAVE_BUNDLED_PCRE

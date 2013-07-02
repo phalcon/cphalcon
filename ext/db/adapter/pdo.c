@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 
 		if (Z_TYPE_P(data_types) == IS_ARRAY) {
 
-			if (phalcon_array_isset(data_types, wildcard)) {
+			if (likely(phalcon_array_isset(data_types, wildcard))) {
 
 				/**
 				 * The bind type is double so we try to get the double value

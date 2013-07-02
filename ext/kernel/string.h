@@ -17,13 +17,13 @@
   +------------------------------------------------------------------------+
 */
 
-/** Fast char position */
-extern int phalcon_memnstr(const zval *haystack, const zval *needle TSRMLS_DC);
-extern int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
-
 #define PHALCON_TRIM_LEFT  1
 #define PHALCON_TRIM_RIGHT 2
 #define PHALCON_TRIM_BOTH  3
+
+/** Fast char position */
+extern int phalcon_memnstr(const zval *haystack, const zval *needle TSRMLS_DC);
+extern int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 
 /** Function replacement */
 extern void phalcon_fast_strlen(zval *return_value, zval *str);
@@ -71,3 +71,10 @@ zval *phalcon_eol(int eol TSRMLS_DC);
 
 /** Preg-Match */
 void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC);
+
+/** */
+extern void phalcon_base64_encode(zval *return_value, zval *data TSRMLS_DC);
+extern void phalcon_base64_decode(zval *return_value, zval *data TSRMLS_DC);
+
+/** Hash */
+void phalcon_md5(zval *return_value, zval *str TSRMLS_DC);

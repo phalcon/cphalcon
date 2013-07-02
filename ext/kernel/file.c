@@ -213,7 +213,7 @@ void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC) {
  */
 void phalcon_possible_autoload_filepath(zval *return_value, zval *prefix, zval *class_name, zval *virtual_separator, zval *separator TSRMLS_DC) {
 
-	unsigned int i;
+	unsigned int i, length;
 	unsigned char ch;
 	smart_str virtual_str = {0};
 
@@ -221,11 +221,16 @@ void phalcon_possible_autoload_filepath(zval *return_value, zval *prefix, zval *
 		RETURN_FALSE;
 	}
 
-	if ((Z_STRLEN_P(prefix) + 1) > Z_STRLEN_P(class_name)) {
+	length = Z_STRLEN_P(prefix);
+	if (length > Z_STRLEN_P(class_name)) {
 		RETURN_FALSE;
 	}
 
-	for (i = Z_STRLEN_P(prefix); i < Z_STRLEN_P(class_name); i++) {
+	if (Z_STRVAL_P(prefix)[0] == Z_STRVAL_P(virtual_separator)[0]) {
+		length--;
+	}
+
+	for (i = length + 1; i < Z_STRLEN_P(class_name); i++) {
 
 		ch = Z_STRVAL_P(class_name)[i];
 

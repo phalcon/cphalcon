@@ -29,9 +29,6 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
-#include "ext/standard/base64.h"
-#include "ext/standard/md5.h"
-
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -39,8 +36,8 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
-#include "kernel/filter.h"
 #include "kernel/string.h"
+#include "kernel/filter.h"
 #include "kernel/concat.h"
 
 /**
@@ -161,7 +158,7 @@ PHP_METHOD(Phalcon_Security, setWorkFactor){
 	phalcon_fetch_params(0, 1, 0, &work_factor);
 	
 	if (Z_TYPE_P(work_factor) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Work factor must be integer");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "Work factor must be integer");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_workFactor"), work_factor TSRMLS_CC);
@@ -188,8 +185,6 @@ PHP_METHOD(Phalcon_Security, getSaltBytes){
 
 	zval *number_bytes, *random_bytes = NULL, *base64bytes = NULL;
 	zval *safe_bytes = NULL, *bytes_length = NULL;
-	char *encoded;
-	int len;
 
 	PHALCON_MM_GROW();
 
@@ -206,24 +201,8 @@ PHP_METHOD(Phalcon_Security, getSaltBytes){
 		PHALCON_INIT_NVAR(random_bytes);
 		phalcon_call_func_p1(random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
-		if (likely(Z_TYPE_P(random_bytes) == IS_STRING)) {
-			PHALCON_INIT_NVAR(base64bytes);
-
-			encoded = (char *)php_base64_encode((unsigned char *)(Z_STRVAL_P(random_bytes)), Z_STRLEN_P(random_bytes), &len);
-			if (encoded) {
-				ZVAL_STRINGL(base64bytes, encoded, len, 0);
-			}
-			else {
-				ZVAL_EMPTY_STRING(base64bytes);
-			}
-		}
-		else {
-			/**
-			 * openssl_random_pseudo_bytes() returns false on failure
-			 * Maybe throw an exception here?
-			 */
-			continue;
-		}
+		PHALCON_INIT_NVAR(base64bytes);
+		phalcon_base64_encode(base64bytes, random_bytes);
 	
 		PHALCON_INIT_NVAR(safe_bytes);
 		phalcon_filter_alphanum(safe_bytes, base64bytes);
@@ -341,8 +320,6 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	zval *number_bytes = NULL, *random_bytes, *base64bytes;
 	zval *safe_bytes, *dependency_injector, *service;
 	zval *session, *key;
-	char *encoded;
-	int len;
 
 	PHALCON_MM_GROW();
 
@@ -362,22 +339,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	phalcon_call_func_p1(random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
 	PHALCON_INIT_VAR(base64bytes);
-	if (likely(Z_TYPE_P(random_bytes) == IS_STRING)) {
-		encoded = (char *)php_base64_encode((unsigned char*)(Z_STRVAL_P(random_bytes)), Z_STRLEN_P(random_bytes), &len);
-		if (encoded) {
-			ZVAL_STRINGL(base64bytes, encoded, len, 0);
-		}
-		else {
-			ZVAL_EMPTY_STRING(base64bytes);
-		}
-	}
-	else {
-		/**
-		 * openssl_random_pseudo_bytes() returns false on failure
-		 * Maybe throw an exception here?
-		 */
-		ZVAL_EMPTY_STRING(base64bytes);
-	}
+	phalcon_base64_encode(base64bytes, random_bytes);
 	
 	PHALCON_INIT_VAR(safe_bytes);
 	phalcon_filter_alphanum(safe_bytes, base64bytes);
@@ -412,9 +374,6 @@ PHP_METHOD(Phalcon_Security, getToken){
 
 	zval *number_bytes = NULL, *random_bytes, *token, *dependency_injector;
 	zval *service, *session, *key;
-	PHP_MD5_CTX ctx;
-	char digest[16];
-	char hexdigest[33];
 
 	PHALCON_MM_GROW();
 
@@ -433,16 +392,8 @@ PHP_METHOD(Phalcon_Security, getToken){
 	PHALCON_INIT_VAR(random_bytes);
 	phalcon_call_func_p1(random_bytes, "openssl_random_pseudo_bytes", number_bytes);
 	
-	PHP_MD5Init(&ctx);
-	if (likely(Z_TYPE_P(random_bytes) == IS_STRING)) {
-		PHP_MD5Update(&ctx, Z_STRVAL_P(random_bytes), Z_STRLEN_P(random_bytes));
-	}
-
-	PHP_MD5Final(digest, &ctx);
-	make_digest(hexdigest, digest);
-
 	PHALCON_INIT_VAR(token);
-	ZVAL_STRINGL(token, hexdigest, 32, 1);
+	phalcon_md5(token, random_bytes TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
@@ -461,7 +412,7 @@ PHP_METHOD(Phalcon_Security, getToken){
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
 	phalcon_call_method_p2_noret(session, "set", key, token);
 	
-	RETURN_CCTOR(token);
+	RETURN_CTOR(token);
 }
 
 /**

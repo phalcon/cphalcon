@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Tag, setDI){
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Parameter dependencyInjector must be an Object");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_tag_exception_ce, "Parameter dependencyInjector must be an Object");
 		return;
 	}
 	phalcon_update_static_property(SL("phalcon\\tag"), SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Tag, setDefaults){
 	phalcon_fetch_params(0, 1, 0, &values);
 	
 	if (Z_TYPE_P(values) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "An array is required as default values");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_tag_exception_ce, "An array is required as default values");
 		return;
 	}
 	phalcon_update_static_property(SL("phalcon\\tag"), SL("_displayValues"), values TSRMLS_CC);
@@ -1832,7 +1832,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 		PHALCON_CPY_WRT(friendly_text, friendly);
 	}
 	
-	RETURN_CTOR(friendly_text);
+	RETURN_CCTOR(friendly_text);
 }
 
 /**

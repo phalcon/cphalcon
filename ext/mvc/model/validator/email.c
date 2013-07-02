@@ -136,6 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	
 		is_not_equal_function(invalid, match_zero, value TSRMLS_CC);
 	} else {
+		PHALCON_INIT_NVAR(invalid);
 		ZVAL_BOOL(invalid, 1);
 	}
 	

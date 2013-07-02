@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Flash, setCssClasses){
 		phalcon_update_property_this(this_ptr, SL("_cssClasses"), css_classes TSRMLS_CC);
 		RETURN_THISW();
 	}
-	PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "CSS classes must be an Array");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_flash_exception_ce, "CSS classes must be an Array");
 	return;
 }
 

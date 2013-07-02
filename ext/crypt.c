@@ -29,8 +29,6 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
-#include "ext/standard/base64.h"
-
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -337,9 +335,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
  */
 PHP_METHOD(Phalcon_Crypt, encryptBase64){
 
-	zval *text, *key = NULL, *encrypted, *tmp;
-	char *encoded;
-	int len;
+	zval *text, *key = NULL, *encrypted, *encoded;
 
 	PHALCON_MM_GROW();
 
@@ -352,23 +348,9 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
 	PHALCON_INIT_VAR(encrypted);
 	phalcon_call_method_p2(encrypted, this_ptr, "encrypt", text, key);
 	
-	if (likely(Z_TYPE_P(encrypted) == IS_STRING)) {
-		encoded = (char *)php_base64_encode((unsigned char *)(Z_STRVAL_P(encrypted)), Z_STRLEN_P(encrypted), &len);
-	}
-	else {
-		PHALCON_INIT_VAR(tmp);
-		phalcon_cast(tmp, encrypted, IS_STRING);
-		encoded = (char *)php_base64_encode((unsigned char *)(Z_STRVAL_P(tmp)), Z_STRLEN_P(tmp), &len);
-	}
-
-	if (encoded) {
-		RETVAL_STRINGL(encoded, len, 0);
-	}
-	else {
-		RETVAL_EMPTY_STRING();
-	}
-
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_VAR(encoded);
+	phalcon_base64_encode(encoded, encrypted);
+	RETURN_CTOR(encoded);
 }
 
 /**
@@ -380,9 +362,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
  */
 PHP_METHOD(Phalcon_Crypt, decryptBase64){
 
-	zval *text, *key = NULL, *decrypt_text, *decrypted, *tmp;
-	char *decoded;
-	int len;
+	zval *text, *key = NULL, *decrypt_text, *decrypted;
 
 	PHALCON_MM_GROW();
 
@@ -392,25 +372,8 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 		PHALCON_INIT_VAR(key);
 	}
 	
-	if (likely(Z_TYPE_P(text) == IS_STRING)) {
-		decoded = (char*)php_base64_decode((unsigned char*)(Z_STRVAL_P(text)), Z_STRLEN_P(text), &len);
-	}
-	else {
-		/**
-		 * If the text is not a string, base64_decode() will likely fail
-		 */
-		PHALCON_INIT_VAR(tmp);
-		phalcon_cast(tmp, text, IS_STRING);
-		decoded = (char *)php_base64_decode((unsigned char *)(Z_STRVAL_P(tmp)), Z_STRLEN_P(tmp), &len);
-	}
-	
 	PHALCON_INIT_VAR(decrypt_text);
-	if (decoded) {
-		ZVAL_STRINGL(decrypt_text, decoded, len, 0);
-	}
-	else {
-		ZVAL_EMPTY_STRING(decrypt_text);
-	}
+	phalcon_base64_decode(decrypt_text, text);
 	
 	PHALCON_INIT_VAR(decrypted);
 	phalcon_call_method_p2(decrypted, this_ptr, "decrypt", decrypt_text, key);

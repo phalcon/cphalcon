@@ -161,11 +161,11 @@ PHP_METHOD(Phalcon_Forms_Manager, set){
 	phalcon_fetch_params(0, 2, 0, &name, &form);
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form name must be string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "The form name must be string");
 		return;
 	}
 	if (Z_TYPE_P(form) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form is not valid");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "The form is not valid");
 		return;
 	}
 	

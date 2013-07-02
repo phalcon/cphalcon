@@ -450,23 +450,27 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		ZVAL_BOOL(is_route, 1);
 	} else {
 		if (PHALCON_IS_STRING(name, "Get")) {
+			PHALCON_INIT_NVAR(is_route);
 			ZVAL_BOOL(is_route, 1);
 	
 			ZVAL_STRING(methods, "GET", 1);
 		} else {
 			if (PHALCON_IS_STRING(name, "Post")) {
+				PHALCON_INIT_NVAR(is_route);
 				ZVAL_BOOL(is_route, 1);
 	
 				PHALCON_INIT_NVAR(methods);
 				ZVAL_STRING(methods, "POST", 1);
 			} else {
 				if (PHALCON_IS_STRING(name, "Put")) {
+					PHALCON_INIT_NVAR(is_route);
 					ZVAL_BOOL(is_route, 1);
 	
 					PHALCON_INIT_NVAR(methods);
 					ZVAL_STRING(methods, "PUT", 1);
 				} else {
 					if (PHALCON_IS_STRING(name, "Options")) {
+						PHALCON_INIT_NVAR(is_route);
 						ZVAL_BOOL(is_route, 1);
 	
 						PHALCON_INIT_NVAR(methods);

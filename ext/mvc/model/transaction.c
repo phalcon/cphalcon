@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
 	phalcon_fetch_params(0, 1, 0, &manager);
 	
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "Manager must be an Object");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_transaction_exception_ce, "Manager must be an Object");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);

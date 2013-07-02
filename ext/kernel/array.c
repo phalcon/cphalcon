@@ -1199,6 +1199,8 @@ void phalcon_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 	zval *key = NULL, *value = NULL;
 	zval *tmp1 = NULL, *tmp2 = NULL;
 
+	PHALCON_MM_GROW();
+
 	phalcon_is_iterable(a2, &ah2, &hp2, 0, 0);
 
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
@@ -1219,4 +1221,5 @@ void phalcon_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 		zend_hash_move_forward_ex(ah2, &hp2);
 	}
 
+	PHALCON_MM_RESTORE();
 }

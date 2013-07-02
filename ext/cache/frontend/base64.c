@@ -29,14 +29,13 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
-#include "ext/standard/base64.h"
-
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Cache\Frontend\Base64
@@ -183,31 +182,15 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, stop){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore){
 
-	zval *data, *tmp;
-	char *encoded;
-	int len;
+	zval *data, *serialized;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	if (likely(Z_TYPE_P(data) == IS_STRING)) {
-		encoded = (char *)php_base64_encode((unsigned char *)(Z_STRVAL_P(data)), Z_STRLEN_P(data), &len);
-	}
-	else {
-		PHALCON_INIT_VAR(tmp);
-		phalcon_cast(tmp, data, IS_STRING);
-		encoded = (char *)php_base64_encode((unsigned char *)(Z_STRVAL_P(tmp)), Z_STRLEN_P(tmp), &len);
-	}
-
-	if (encoded) {
-		RETVAL_STRINGL(encoded, len, 0);
-	}
-	else {
-		RETVAL_EMPTY_STRING();
-	}
-
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_VAR(serialized);
+	phalcon_base64_encode(serialized, data);
+	RETURN_CTOR(serialized);
 }
 
 /**
@@ -218,30 +201,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve){
 
-	zval *data, *tmp;
-	char *decoded;
-	int len;
+	zval *data, *unserialized;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	if (likely(Z_TYPE_P(data) == IS_STRING)) {
-		decoded = (char *)php_base64_decode((unsigned char *)(Z_STRVAL_P(data)), Z_STRLEN_P(data), &len);
-	}
-	else {
-		PHALCON_INIT_VAR(tmp);
-		phalcon_cast(tmp, data, IS_STRING);
-		decoded = (char *)php_base64_decode((unsigned char *)(Z_STRVAL_P(tmp)), Z_STRLEN_P(tmp), &len);
-	}
-
-	if (decoded) {
-		RETVAL_STRINGL(decoded, len, 0);
-	}
-	else {
-		RETVAL_EMPTY_STRING();
-	}
-
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_VAR(unserialized);
+	phalcon_base64_decode(unserialized, data);
+	RETURN_CTOR(unserialized);
 }
 

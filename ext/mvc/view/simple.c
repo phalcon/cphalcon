@@ -40,6 +40,7 @@
 #include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\View\Simple
@@ -145,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines){
 	phalcon_fetch_params(0, 1, 0, &engines);
 	
 	if (Z_TYPE_P(engines) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Engines to register must be an array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Engines to register must be an array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_registeredEngines"), engines TSRMLS_CC);
@@ -450,7 +451,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 			 */
 			if (Z_TYPE_P(key) == IS_NULL) {
 				PHALCON_INIT_NVAR(key);
-				phalcon_call_func_p1(key, "md5", path);
+				phalcon_md5(key, path TSRMLS_CC);
 			}
 	
 			/** 
@@ -872,7 +873,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setContent){
 	phalcon_fetch_params(0, 1, 0, &content);
 	
 	if (Z_TYPE_P(content) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Content must be a string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Content must be a string");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);

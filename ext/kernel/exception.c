@@ -47,12 +47,11 @@ void phalcon_throw_exception(zval *object TSRMLS_DC){
 void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
 
 	zval *object, *msg;
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-	if (restore_stack == 1 || phalcon_globals_ptr->start_memory) {
+	if (restore_stack) {
 		PHALCON_INIT_VAR(msg);
 	} else {
 		ALLOC_INIT_ZVAL(msg);
@@ -63,7 +62,7 @@ void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, z
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
-	if (restore_stack == 1 || phalcon_globals_ptr->start_memory) {
+	if (restore_stack) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	} else {
 		zval_ptr_dtor(&msg);
@@ -73,10 +72,9 @@ void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, z
 /**
  * Throws an exception with a single zval parameter
  */
-void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
+void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message, int restore_stack TSRMLS_DC){
 
 	zval *object;
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
@@ -85,7 +83,7 @@ void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC)
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
-	if (phalcon_globals_ptr->start_memory) {
+	if (restore_stack) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 }

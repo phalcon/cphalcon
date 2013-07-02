@@ -29,8 +29,6 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
-#include "ext/standard/md5.h"
-
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -41,8 +39,8 @@
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
-#include "kernel/file.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Mvc\View
@@ -147,7 +145,7 @@ PHP_METHOD(Phalcon_Mvc_View, setViewsDir){
 	phalcon_fetch_params(0, 1, 0, &views_dir);
 	
 	if (Z_TYPE_P(views_dir) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The views directory must be a string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "The views directory must be a string");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_viewsDir"), views_dir TSRMLS_CC);
@@ -729,7 +727,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	zval *cache_options, *cached_view, *is_fresh;
 	zval *view_params, *events_manager, *engine = NULL;
 	zval *extension = NULL, *view_engine_path = NULL, *event_name = NULL;
-	zval *status = NULL, *exception_message, *tmp = NULL;
+	zval *status = NULL, *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -799,25 +797,8 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 				 * If a cache key is not set we create one using a md5
 				 */
 				if (Z_TYPE_P(key) == IS_NULL) {
-					PHP_MD5_CTX ctx;
-					char digest[16];
-					char hexdigest[33];
-
 					PHALCON_INIT_NVAR(key);
-					PHP_MD5Init(&ctx);
-					if (likely(Z_TYPE_P(view_path) == IS_STRING)) {
-						PHP_MD5Update(&ctx, Z_STRVAL_P(view_path), Z_STRLEN_P(view_path));
-					}
-					else {
-						PHALCON_INIT_NVAR(tmp);
-						phalcon_cast(tmp, view_path, IS_STRING);
-						PHP_MD5Update(&ctx, Z_STRVAL_P(tmp), Z_STRLEN_P(tmp));
-					}
-
-					PHP_MD5Final(digest, &ctx);
-					make_digest(hexdigest, digest);
-
-					ZVAL_STRINGL(key, hexdigest, 32, 1);
+					phalcon_md5(key, view_path TSRMLS_CC);
 				}
 	
 				/** 
@@ -942,7 +923,7 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines){
 	phalcon_fetch_params(0, 1, 0, &engines);
 	
 	if (Z_TYPE_P(engines) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Engines to register must be an array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Engines to register must be an array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_registeredEngines"), engines TSRMLS_CC);
@@ -1150,6 +1131,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 						zend_hash_move_forward_ex(ah0, &hp0);
 					}
 	
+					PHALCON_INIT_NVAR(silence);
 					ZVAL_BOOL(silence, 1);
 				}
 			}
@@ -1179,6 +1161,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 				phalcon_read_property_this(&templates_after, this_ptr, SL("_templatesAfter"), PH_NOISY_CC);
 				if (Z_TYPE_P(templates_after) == IS_ARRAY) { 
 	
+					PHALCON_INIT_NVAR(silence);
 					ZVAL_BOOL(silence, 0);
 	
 					phalcon_is_iterable(templates_after, &ah1, &hp1, 0, 0);
@@ -1194,6 +1177,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 						zend_hash_move_forward_ex(ah1, &hp1);
 					}
 	
+					PHALCON_INIT_NVAR(silence);
 					ZVAL_BOOL(silence, 1);
 				}
 			}
@@ -1699,7 +1683,7 @@ PHP_METHOD(Phalcon_Mvc_View, setContent){
 	phalcon_fetch_params(0, 1, 0, &content);
 	
 	if (Z_TYPE_P(content) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Content must be a string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Content must be a string");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);

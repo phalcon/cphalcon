@@ -52,3 +52,29 @@ void phalcon_get_uri(zval *return_value, zval *path TSRMLS_DC) {
 
 	RETURN_EMPTY_STRING();
 }
+
+void phalcon_raw_url_encode(zval *return_value, zval *url) {
+
+	zval copy;
+	char *escaped;
+	int use_copy = 0, length;
+
+	if (Z_TYPE_P(url) == IS_STRING) {
+		zend_make_printable_zval(url, &copy, &use_copy);
+		if (use_copy) {
+			url = &copy;
+		}
+	}
+
+	escaped = (char *) php_raw_url_encode((unsigned char *)Z_STRVAL_P(url), Z_STRLEN_P(url), &length);
+
+	if (use_copy) {
+		zval_dtor(url);
+	}
+
+	if (escaped) {
+		RETURN_STRINGL(escaped, length, 0);
+	} else {
+		RETURN_NULL();
+	}
+}

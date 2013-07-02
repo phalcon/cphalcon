@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Version, get){
 	
 	PHALCON_INIT_VAR(final_version);
 	phalcon_fast_trim(final_version, result, PHALCON_TRIM_BOTH TSRMLS_CC);
-	RETURN_CCTOR(final_version);
+	RETURN_CTOR(final_version);
 }
 
 /**

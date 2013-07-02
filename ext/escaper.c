@@ -29,8 +29,6 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
-#include "ext/standard/url.h"
-
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -38,6 +36,7 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/filter.h"
+#include "kernel/framework/url.h"
 
 /**
  * Phalcon\Escaper
@@ -87,7 +86,7 @@ PHP_METHOD(Phalcon_Escaper, setEncoding){
 	phalcon_fetch_params(0, 1, 0, &encoding);
 	
 	if (unlikely(Z_TYPE_P(encoding) != IS_STRING)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The character set must be string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The character set must be string");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
@@ -121,7 +120,7 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 	phalcon_fetch_params(0, 1, 0, &quote_type);
 	
 	if (Z_TYPE_P(quote_type) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The quoting type is not valid");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The quoting type is not valid");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_htmlQuoteType"), quote_type TSRMLS_CC);
@@ -408,29 +407,14 @@ PHP_METHOD(Phalcon_Escaper, escapeJs){
  */
 PHP_METHOD(Phalcon_Escaper, escapeUrl){
 
-	zval *url, copy;
-	char *escaped;
-	int len, use_copy = 0;
+	zval *url, *escaped;
 
-	phalcon_fetch_params(0, 1, 0, &url);
-	
-	if (unlikely(Z_TYPE_P(url) == IS_STRING)) {
-		zend_make_printable_zval(url, &copy, &use_copy);
-		if (use_copy) {
-			url = &copy;
-		}
-	}
-	
-	escaped = php_raw_url_encode(Z_STRVAL_P(url), Z_STRLEN_P(url), &len);
-	
-	if (use_copy) {
-		zval_dtor(url);
-	}
+	PHALCON_MM_GROW();
 
-	if (escaped) {
-		RETURN_STRINGL(escaped, len, 0);
-	}
-
-	RETURN_EMPTY_STRING();
+	phalcon_fetch_params(1, 1, 0, &url);
+	
+	PHALCON_INIT_VAR(escaped);
+	phalcon_raw_url_encode(escaped, url TSRMLS_CC);
+	RETURN_CTOR(escaped);
 }
 

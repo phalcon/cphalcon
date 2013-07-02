@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Http_Response, setCookies){
 	phalcon_fetch_params(0, 1, 0, &cookies);
 	
 	if (Z_TYPE_P(cookies) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "The cookies bag is not valid");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_http_response_exception_ce, "The cookies bag is not valid");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_cookies"), cookies TSRMLS_CC);

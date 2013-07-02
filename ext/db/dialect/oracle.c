@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropColumn){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addIndex){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropIndex){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addPrimaryKey){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropPrimaryKey){
 
 	phalcon_fetch_params(0, 2, 0, &table_name, &schema_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addForeignKey){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &reference);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &reference_name);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable){
 
 	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &definition);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -727,7 +727,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit){
 
 	if (phalcon_is_numeric(number)) {
 		PHALCON_INIT_VAR(limit);
-		ZVAL_LONG(limit, phalcon_get_intval(number));
+		PHALCON_CALL_FUNC_PARAMS_1(limit, "intval", number);
 
 		PHALCON_INIT_VAR(sql_limit);
 		PHALCON_CONCAT_VSV(sql_limit, sql_query, " LIMIT ", limit);
@@ -940,7 +940,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			phalcon_array_fetch_string(&table, join, SL("source"), PH_NOISY_CC);
 
 			PHALCON_INIT_NVAR(sql_table);
-			PHALCON_CALL_METHOD_PARAMS_2(sql_table, this_ptr, "getsqltable", table, escape_char);
+			phalcon_call_method_p2(sql_table, this_ptr, "getsqltable", table, escape_char);
 			phalcon_array_append(&selected_tables, sql_table, PH_SEPARATE TSRMLS_CC);
 
 			PHALCON_INIT_NVAR(sql_join);
@@ -967,7 +967,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 						PHALCON_GET_FOREACH_VALUE(join_condition);
 
 						PHALCON_INIT_NVAR(join_expression);
-						PHALCON_CALL_METHOD_PARAMS_2(join_expression, this_ptr, "getsqlexpression", join_condition, escape_char);
+						phalcon_call_method_p2(join_expression, this_ptr, "getsqlexpression", join_condition, escape_char);
 						phalcon_array_append(&join_expressions, join_expression, PH_SEPARATE TSRMLS_CC);
 
 						zend_hash_move_forward_ex(ah3, &hp3);
@@ -995,7 +995,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		phalcon_array_fetch_string(&where_conditions, definition, SL("where"), PH_NOISY_CC);
 		if (Z_TYPE_P(where_conditions) == IS_ARRAY) {
 			PHALCON_INIT_VAR(where_expression);
-			PHALCON_CALL_METHOD_PARAMS_2(where_expression, this_ptr, "getsqlexpression", where_conditions, escape_char);
+			phalcon_call_method_p2(where_expression, this_ptr, "getsqlexpression", where_conditions, escape_char);
 			PHALCON_SCONCAT_SV(sql, " WHERE ", where_expression);
 		} else {
 			PHALCON_SCONCAT_SV(sql, " WHERE ", where_conditions);
@@ -1043,7 +1043,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			phalcon_array_fetch_string(&having_conditions, definition, SL("having"), PH_NOISY_CC);
 
 			PHALCON_INIT_VAR(having_expression);
-			PHALCON_CALL_METHOD_PARAMS_2(having_expression, this_ptr, "getsqlexpression", having_conditions, escape_char);
+			phalcon_call_method_p2(having_expression, this_ptr, "getsqlexpression", having_conditions, escape_char);
 			PHALCON_SCONCAT_SV(sql, " HAVING ", having_expression);
 		}
 	}

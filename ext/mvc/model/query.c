@@ -2295,7 +2295,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		zend_hash_move_forward_ex(ah2, &hp2);
 	}
 	
-	RETURN_CTOR(sql_joins);
+	RETURN_CCTOR(sql_joins);
 }
 
 /**
@@ -3783,12 +3783,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	if (PHALCON_IS_FALSE(is_complex)) {
 		if (PHALCON_IS_TRUE(have_objects)) {
 			if (PHALCON_IS_TRUE(have_scalars)) {
+				PHALCON_INIT_NVAR(is_complex);
 				ZVAL_BOOL(is_complex, 1);
 			} else {
 				if (PHALCON_IS_LONG(number_objects, 1)) {
 					PHALCON_INIT_VAR(is_simple_std);
 					ZVAL_BOOL(is_simple_std, 0);
 				} else {
+					PHALCON_INIT_NVAR(is_complex);
 					ZVAL_BOOL(is_complex, 1);
 				}
 			}
@@ -5173,7 +5175,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams){
 	phalcon_fetch_params(0, 1, 0, &bind_params);
 	
 	if (Z_TYPE_P(bind_params) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bind parameters must be an array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Bind parameters must be an array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_bindParams"), bind_params TSRMLS_CC);
@@ -5205,7 +5207,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes){
 	phalcon_fetch_params(0, 1, 0, &bind_types);
 	
 	if (Z_TYPE_P(bind_types) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bind types must be an array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Bind types must be an array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_bindTypes"), bind_types TSRMLS_CC);
