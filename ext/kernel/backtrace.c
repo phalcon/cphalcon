@@ -18,7 +18,8 @@
 	+------------------------------------------------------------------------+
 */
 
-#ifdef linux
+#ifndef PHALCON_RELEASE
+#if defined(linux)
 
 #include <execinfo.h>
 #include <Zend/zend.h>
@@ -63,3 +64,4 @@ void phalcon_print_backtrace(void)
 }
 
 #endif
+#endif /* PHALCON_RELEASE */
