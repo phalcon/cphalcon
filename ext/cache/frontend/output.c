@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/output.h"
 
 /**
  * Phalcon\Cache\Frontend\Output
@@ -167,7 +168,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
 	PHALCON_MM_GROW();
 
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 1 TSRMLS_CC);
-	phalcon_call_func_noret("ob_start");
+	phalcon_ob_start(TSRMLS_C);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -179,19 +180,20 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 
-	zval *buffering, *contents;
+	zval *buffering;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(buffering);
 	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
-		PHALCON_INIT_VAR(contents);
-		phalcon_call_func(contents, "ob_get_contents");
-		RETURN_CCTOR(contents);
+		phalcon_ob_get_contents(return_value TSRMLS_CC);
 	}
-	
-	RETURN_MM_NULL();
+	else {
+		RETVAL_NULL();
+	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -206,7 +208,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 	PHALCON_OBS_VAR(buffering);
 	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
-		phalcon_call_func_noret("ob_end_clean");
+		phalcon_ob_end_clean(TSRMLS_C);
 	}
 	
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 0 TSRMLS_CC);

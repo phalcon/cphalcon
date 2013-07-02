@@ -41,6 +41,7 @@
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/string.h"
+#include "kernel/output.h"
 
 /**
  * Phalcon\Mvc\View\Simple
@@ -471,7 +472,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 	 */
 	phalcon_create_symbol_table(TSRMLS_C);
 	
-	phalcon_call_func_noret("ob_start");
+	phalcon_ob_start(TSRMLS_C);
 	
 	PHALCON_OBS_VAR(view_params);
 	phalcon_read_property_this(&view_params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
@@ -516,7 +517,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 		}
 	}
 	
-	phalcon_call_func_noret("ob_end_clean");
+	phalcon_ob_end_clean(TSRMLS_C);
 	
 	PHALCON_OBS_NVAR(content);
 	phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);
