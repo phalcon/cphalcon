@@ -37,6 +37,7 @@
 #include "kernel/hash.h"
 #include "kernel/require.h"
 #include "kernel/object.h"
+#include "kernel/output.h"
 
 /**
  * Phalcon\Mvc\View\Engine\Php
@@ -82,7 +83,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	}
 	
 	if (PHALCON_IS_TRUE(must_clean)) {
-		phalcon_call_func_noret("ob_clean");
+		phalcon_ob_clean(TSRMLS_C);
 	}
 	
 	/** 
@@ -114,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	}
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_INIT_VAR(contents);
-		phalcon_call_func(contents, "ob_get_contents");
+		phalcon_ob_get_contents(contents TSRMLS_CC);
 	
 		PHALCON_OBS_VAR(view);
 		phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);

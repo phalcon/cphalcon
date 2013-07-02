@@ -40,6 +40,7 @@
 #include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
+#include "kernel/output.h"
 
 /**
  * Phalcon\Debug
@@ -987,7 +988,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
  */
 PHP_METHOD(Phalcon_Debug, onUncaughtException){
 
-	zval *exception, *ob_level, *is_active = NULL, *message = NULL;
+	zval *exception, *is_active = NULL, *message = NULL;
 	zval *class_name, *css_sources, *escaped_message = NULL;
 	zval *html, *version, *file, *line, *show_back_trace;
 	zval *data_vars, *trace, *trace_item = NULL, *n = NULL, *html_item = NULL;
@@ -997,21 +998,20 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
 	HashPosition hp0, hp1, hp2, hp3, hp4;
 	zval **hd;
+	int ob_level;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &exception);
 	
-	PHALCON_INIT_VAR(ob_level);
-	phalcon_call_func(ob_level, "ob_get_level");
-	
 	/** 
 	 * Cancel the output buffer if active
 	 */
-	if (PHALCON_GT_LONG(ob_level, 0)) {
-		phalcon_call_func_noret("ob_end_clean");
+	ob_level = phalcon_ob_get_level(TSRMLS_C);
+	if (ob_level > 0) {
+		phalcon_ob_end_clean(TSRMLS_C);
 	}
-	
+
 	PHALCON_OBS_VAR(is_active);
 	phalcon_read_static_property(&is_active, SL("phalcon\\debug"), SL("_isActive") TSRMLS_CC);
 	

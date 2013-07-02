@@ -41,6 +41,7 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/file.h"
+#include "kernel/output.h"
 
 /**
  * Phalcon\Mvc\View
@@ -602,11 +603,9 @@ PHP_METHOD(Phalcon_Mvc_View, getParams){
 PHP_METHOD(Phalcon_Mvc_View, start){
 
 
-	PHALCON_MM_GROW();
-
 	phalcon_update_property_null(this_ptr, SL("_content") TSRMLS_CC);
-	phalcon_call_func_noret("ob_start");
-	RETURN_THIS();
+	phalcon_ob_start(TSRMLS_C);
+	RETURN_THISW();
 }
 
 /**
@@ -975,7 +974,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_read_property_this(&disabled, this_ptr, SL("_disabled"), PH_NOISY_CC);
 	if (PHALCON_IS_NOT_FALSE(disabled)) {
 		PHALCON_INIT_VAR(contents);
-		phalcon_call_func(contents, "ob_get_contents");
+		phalcon_ob_get_contents(contents TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_content"), contents TSRMLS_CC);
 		RETURN_MM_FALSE;
 	}
@@ -1071,7 +1070,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	 * Get the current content in the buffer maybe some output from the controller
 	 */
 	PHALCON_INIT_NVAR(contents);
-	phalcon_call_func(contents, "ob_get_contents");
+	phalcon_ob_get_contents(contents TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_content"), contents TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(must_clean);
@@ -1454,7 +1453,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	/** 
 	 * Stop the output buffering
 	 */
-	phalcon_call_func_noret("ob_end_clean");
+	phalcon_ob_end_clean(TSRMLS_C);
 	
 	/** 
 	 * Get the processed content
@@ -1473,10 +1472,8 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 PHP_METHOD(Phalcon_Mvc_View, finish){
 
 
-	PHALCON_MM_GROW();
-
-	phalcon_call_func_noret("ob_end_clean");
-	RETURN_THIS();
+	phalcon_ob_end_clean(TSRMLS_C);
+	RETURN_THISW();
 }
 
 /**

@@ -27,6 +27,27 @@
 
 #include "Zend/zend_API.h"
 
-void phalcon_start_ob_buffer(TSRMLS_D){
-  php_start_ob_buffer(NULL, 0, 1 TSRMLS_CC);
+void phalcon_ob_start(TSRMLS_D)
+{
+	php_output_start_default(TSRMLS_C);
+}
+
+void phalcon_ob_get_contents(zval *result TSRMLS_DC)
+{
+	php_output_get_contents(result TSRMLS_CC);
+}
+
+void phalcon_ob_end_clean(TSRMLS_D)
+{
+	php_output_end(TSRMLS_C);
+}
+
+void phalcon_ob_clean(TSRMLS_D)
+{
+	php_output_clean(TSRMLS_C);
+}
+
+int phalcon_ob_get_level(TSRMLS_D)
+{
+	return php_output_get_level(TSRMLS_C);
 }
