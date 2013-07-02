@@ -738,6 +738,92 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit){
 }
 
 /**
+ * Transform an intermediate representation for a schema/table into a database system valid expression
+ *
+ * @param array $table
+ * @param string $escapeChar
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, getSqlTable){
+
+	zval *table, *escape_char = NULL, *table_name, *sql_table = NULL;
+	zval *schema_name, *sql_schema = NULL, *alias_name;
+	zval *sql_table_alias = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &table, &escape_char);
+
+	if (!escape_char) {
+		PHALCON_INIT_VAR(escape_char);
+	} else {
+		PHALCON_SEPARATE_PARAM(escape_char);
+	}
+
+	if (Z_TYPE_P(escape_char) == IS_NULL) {
+		PHALCON_OBS_NVAR(escape_char);
+		phalcon_read_property_this(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+	}
+
+	if (Z_TYPE_P(table) == IS_ARRAY) { 
+
+		/** 
+		 * The index '0' is the table name
+		 */
+		PHALCON_OBS_VAR(table_name);
+		phalcon_array_fetch_long(&table_name, table, 0, PH_NOISY_CC);
+		if (PHALCON_GLOBAL(db).escape_identifiers) {
+			PHALCON_INIT_VAR(sql_table);
+			PHALCON_CONCAT_VVV(sql_table, escape_char, table_name, escape_char);
+		} else {
+			PHALCON_CPY_WRT(sql_table, table_name);
+		}
+
+		/** 
+		 * The index '1' is the schema name
+		 */
+		PHALCON_OBS_VAR(schema_name);
+		phalcon_array_fetch_long(&schema_name, table, 1, PH_NOISY_CC);
+		if (Z_TYPE_P(schema_name) != IS_NULL) {
+			PHALCON_INIT_VAR(sql_schema);
+			if (PHALCON_GLOBAL(db).escape_identifiers) {
+				PHALCON_CONCAT_VVVSV(sql_schema, escape_char, schema_name, escape_char, ".", sql_table);
+			} else {
+				PHALCON_CONCAT_VSV(sql_schema, schema_name, ".", sql_table);
+			}
+		} else {
+			PHALCON_CPY_WRT(sql_schema, sql_table);
+		}
+
+		/** 
+		 * The index '2' is the table alias
+		 */
+		if (phalcon_array_isset_long(table, 2)) {
+			PHALCON_OBS_VAR(alias_name);
+			phalcon_array_fetch_long(&alias_name, table, 2, PH_NOISY_CC);
+			PHALCON_INIT_VAR(sql_table_alias);
+			if (PHALCON_GLOBAL(db).escape_identifiers) {
+				PHALCON_CONCAT_VVVV(sql_table_alias, sql_schema, escape_char, alias_name, escape_char);
+			} else {
+				PHALCON_CONCAT_VV(sql_table_alias, sql_schema, alias_name);
+			}
+		} else {
+			PHALCON_CPY_WRT(sql_table_alias, sql_schema);
+		}
+	
+		RETURN_CCTOR(sql_table_alias);
+	}
+
+	if (PHALCON_GLOBAL(db).escape_identifiers) {
+		PHALCON_INIT_NVAR(sql_table);
+		PHALCON_CONCAT_VVV(sql_table, escape_char, table, escape_char);
+		RETURN_CCTOR(sql_table);
+	}
+
+	RETURN_CCTOR(table);
+}
+
+/**
  * Builds a SELECT statement
  *
  * @param array $definition
