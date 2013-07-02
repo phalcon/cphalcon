@@ -1,5 +1,7 @@
 .settings/
 .idea
+.cproject
+.project
 unit-tests/engines/*
 unit-tests/logs/*
 unit-tests/cache/2e11fab3b6861010be11a5deb92bddff
@@ -467,3 +469,6 @@ ext/mvc/model/relationinterface.lo
 ext/mvc/router/annotations.lo
 ext/mvc/router/group.lo
 unit-tests/annotations/cache/*.php
+*.o
+*.lo
+.libs
