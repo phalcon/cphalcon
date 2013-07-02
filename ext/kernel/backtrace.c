@@ -40,7 +40,7 @@ void phalcon_print_backtrace(void)
 
 	s.c = NULL;
 
-	for (i = 0; i<stack_size; ++i) {
+	for (i = 0; i < stack_size; ++i) {
 		snprintf(buf, sizeof(buf), "#%d  %p [", i, backtrace_buf[i]);
 		smart_str_appends(&s, buf);
 		smart_str_appends(&s, stack_symbols[i]);

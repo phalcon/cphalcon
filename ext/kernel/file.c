@@ -110,7 +110,7 @@ void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator
 	}
 
 	if (Z_STRLEN_P(path) > 0 && Z_STRLEN_P(directory_separator) > 0) {
-		if (Z_STRVAL_P(path)[Z_STRLEN_P(path)-1] != Z_STRVAL_P(directory_separator)[0]) {
+		if (Z_STRVAL_P(path)[Z_STRLEN_P(path) - 1] != Z_STRVAL_P(directory_separator)[0]) {
 			PHALCON_CONCAT_VV(*return_value, path, directory_separator);
 			return;
 		}
@@ -222,12 +222,18 @@ void phalcon_possible_autoload_filepath(zval *return_value, zval *prefix, zval *
 	}
 
 	length = Z_STRLEN_P(prefix);
+	if (!length) {
+		RETURN_FALSE;
+	}
+
 	if (length > Z_STRLEN_P(class_name)) {
 		RETURN_FALSE;
 	}
 
-	if (Z_STRVAL_P(prefix)[0] == Z_STRVAL_P(virtual_separator)[0]) {
-		length--;
+	if (separator) {
+		if (Z_STRVAL_P(prefix)[Z_STRLEN_P(prefix) - 1] == Z_STRVAL_P(separator)[0]) {
+			length--;
+		}
 	}
 
 	for (i = length + 1; i < Z_STRLEN_P(class_name); i++) {

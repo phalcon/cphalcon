@@ -87,7 +87,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *re
 			new_op_array = zend_compile_file(&file_handle, ZEND_REQUIRE TSRMLS_CC);
 			zend_destroy_file_handle(&file_handle TSRMLS_CC);
 
-			if (new_op_array) {
+			if (likely(new_op_array)) {
 
 				EG(return_value_ptr_ptr) = &result;
 				EG(active_op_array) = new_op_array;
@@ -131,7 +131,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *re
 
 	}
 
-	if (status == FAILURE){
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 

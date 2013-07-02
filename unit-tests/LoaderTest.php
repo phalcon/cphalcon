@@ -158,6 +158,26 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader->unregister();
 	}
 
+	public function testPrefixesUnderscore()
+	{
+
+		$loader = new Phalcon\Loader();
+
+		$loader->registerPrefixes(array(
+			"Pseudo_" => "unit-tests/vendor/example/Pseudo/",
+		));
+
+		$loader->register();
+
+		$pseudoClass = new Pseudo_Some_Something();
+		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Some_Something');
+
+		$pseudoClass = new Pseudo_Base();
+		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Base');
+
+		$loader->unregister();
+	}
+
 	public function testEvents()
 	{
 
