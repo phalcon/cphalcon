@@ -72,9 +72,9 @@ zval *phalcon_eol(int eol TSRMLS_DC);
 /** Preg-Match */
 void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC);
 
-/** */
-extern void phalcon_base64_encode(zval *return_value, zval *data TSRMLS_DC);
-extern void phalcon_base64_decode(zval *return_value, zval *data TSRMLS_DC);
+/** Base64 */
+extern void phalcon_base64_encode(zval *return_value, zval *data);
+extern void phalcon_base64_decode(zval *return_value, zval *data);
 
 /** Hash */
-void phalcon_md5(zval *return_value, zval *str TSRMLS_DC);
+void phalcon_md5(zval *return_value, zval *str);
