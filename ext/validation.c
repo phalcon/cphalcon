@@ -502,12 +502,12 @@ PHP_METHOD(Phalcon_Validation, getValue){
 						PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "Returned 'filter' service is invalid");
 						return;
 					}
+	
+					PHALCON_INIT_VAR(filtered);
+					phalcon_call_method_p2(filtered, filter_service, "sanitize", value, field_filters);
+	
+					RETURN_CCTOR(filtered);
 				}
-	
-				PHALCON_INIT_VAR(filtered);
-				phalcon_call_method_p2(filtered, filter_service, "sanitize", value, field_filters);
-	
-				RETURN_CCTOR(filtered);
 			}
 		}
 	
