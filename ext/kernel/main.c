@@ -133,7 +133,7 @@ int phalcon_get_global(zval **arr, const char *global, unsigned int global_lengt
 	}
 
 	if (&EG(symbol_table)) {
-		if( zend_hash_find(&EG(symbol_table), global, global_length, (void **) &gv) == SUCCESS) {
+		if (zend_hash_find(&EG(symbol_table), global, global_length, (void **) &gv) == SUCCESS) {
 			if (Z_TYPE_PP(gv) == IS_ARRAY) {
 				*arr = *gv;
 				if (!*arr) {

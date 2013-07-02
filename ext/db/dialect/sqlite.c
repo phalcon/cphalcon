@@ -15,6 +15,7 @@
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
   |          Rack Lin <racklin@gmail.com>                                  |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
@@ -324,7 +325,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey){
 
 	phalcon_fetch_params(0, 2, 0, &table_name, &schema_name);
 	
-	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Removing a primary key after table has been created is not supported by SQLite");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Removing a primary key after table has been created is not supported by SQLite");
 	return;
 }
 
@@ -429,8 +430,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable){
 	PHALCON_INIT_VAR(sql);
 	if (zend_is_true(if_exists)) {
 		PHALCON_CONCAT_SVS(sql, "DROP TABLE IF EXISTS \"", table, "\"");
-	}
-	else {
+	} else {
 		PHALCON_CONCAT_SVS(sql, "DROP TABLE \"", table, "\"");
 	}
 	

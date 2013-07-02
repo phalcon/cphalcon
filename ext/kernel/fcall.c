@@ -132,20 +132,21 @@ static inline int phalcon_call_func_internal(zval *return_value, const char *fun
 	}
 #ifndef PHALCON_RELEASE
 	else {
-		int ok = 1;
+		int valid_return_value = 1;
 
 		if (Z_REFCOUNT_P(return_value) > 1) {
-			ok = 0;
+			valid_return_value = 0;
 			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
-		}
-		else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			ok = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
 		}
 
-		if (!ok) {
+		if (!valid_return_value) {
 			PHALCON_INIT_NVAR(return_value);
-			print_backtrace();
+			phalcon_print_backtrace();
 		}
 	}
 #endif
@@ -189,20 +190,21 @@ static inline int phalcon_call_func_params_internal(zval *return_value, const ch
 	}
 #ifndef PHALCON_RELEASE
 	else {
-		int ok = 1;
+		int valid_return_value = 1;
 
 		if (Z_REFCOUNT_P(return_value) > 1) {
-			ok = 0;
+			valid_return_value = 0;
 			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
-		}
-		else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			ok = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
 		}
 
-		if (!ok) {
+		if (!valid_return_value) {
 			PHALCON_INIT_NVAR(return_value);
-			print_backtrace();
+			phalcon_print_backtrace();
 		}
 	}
 #endif
@@ -298,20 +300,21 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	}
 #ifndef PHALCON_RELEASE
 	else {
-		int ok = 1;
+		int valid_return_value = 1;
 
 		if (Z_REFCOUNT_P(return_value) > 1) {
-			ok = 0;
+			valid_return_value = 0;
 			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
-		}
-		else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			ok = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
 		}
 
-		if (!ok) {
+		if (!valid_return_value) {
 			PHALCON_INIT_NVAR(return_value);
-			print_backtrace();
+			phalcon_print_backtrace();
 		}
 	}
 #endif
@@ -366,20 +369,21 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	}
 #ifndef PHALCON_RELEASE
 	else {
-		int ok = 1;
+		int valid_return_value = 1;
 
 		if (Z_REFCOUNT_P(return_value) > 1) {
-			ok = 0;
+			valid_return_value = 0;
 			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
-		}
-		else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			ok = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+		} else {
+			 if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
 		}
 
-		if (!ok) {
+		if (!valid_return_value) {
 			PHALCON_INIT_NVAR(return_value);
-			print_backtrace();
+			phalcon_print_backtrace();
 		}
 	}
 #endif
@@ -530,20 +534,21 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 	}
 #ifndef PHALCON_RELEASE
 	else {
-		int ok = 1;
+		int valid_return_value = 1;
 
 		if (Z_REFCOUNT_P(return_value) > 1) {
-			ok = 0;
+			valid_return_value = 0;
 			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
-		}
-		else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			ok = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
 		}
 
-		if (!ok) {
+		if (!valid_return_value) {
 			PHALCON_INIT_NVAR(return_value);
-			print_backtrace();
+			phalcon_print_backtrace();
 		}
 	}
 #endif
@@ -597,20 +602,21 @@ inline int phalcon_call_static_func(zval *return_value, char *class_name, int cl
 	}
 #ifndef PHALCON_RELEASE
 	else {
-		int ok = 1;
+		int valid_return_value = 1;
 
 		if (Z_REFCOUNT_P(return_value) > 1) {
-			ok = 0;
+			valid_return_value = 0;
 			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
-		}
-		else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			ok = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
 		}
 
-		if (!ok) {
+		if (!valid_return_value) {
 			PHALCON_INIT_NVAR(return_value);
-			print_backtrace();
+			phalcon_print_backtrace();
 		}
 	}
 #endif
@@ -867,20 +873,21 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, zval *me
 	}
 #ifndef PHALCON_RELEASE
 	else {
-		int ok = 1;
+		int valid_return_value = 1;
 
 		if (Z_REFCOUNT_P(return_value) > 1) {
-			ok = 0;
+			valid_return_value = 0;
 			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
-		}
-		else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			ok = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
 		}
 
-		if (!ok) {
+		if (!valid_return_value) {
 			PHALCON_INIT_NVAR(return_value);
-			print_backtrace();
+			phalcon_print_backtrace();
 		}
 	}
 #endif
@@ -937,20 +944,21 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 	}
 #ifndef PHALCON_RELEASE
 	else {
-		int ok = 1;
+		int valid_return_value = 1;
 
 		if (Z_REFCOUNT_P(return_value) > 1) {
-			ok = 0;
+			valid_return_value = 0;
 			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
-		}
-		else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			ok = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
 		}
 
-		if (!ok) {
+		if (!valid_return_value) {
 			PHALCON_INIT_NVAR(return_value);
-			print_backtrace();
+			phalcon_print_backtrace();
 		}
 	}
 #endif
@@ -964,7 +972,7 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
-		if(Z_TYPE_P(mixed_name) == IS_STRING) {
+		if (Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), Z_STRVAL_P(method));
 		} else {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", Z_STRVAL_P(method));
@@ -1001,20 +1009,21 @@ inline int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mi
 	}
 #ifndef PHALCON_RELEASE
 	else {
-		int ok = 1;
+		int valid_return_value = 1;
 
 		if (Z_REFCOUNT_P(return_value) > 1) {
-			ok = 0;
+			valid_return_value = 0;
 			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
-		}
-		else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			ok = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
 		}
 
-		if (!ok) {
+		if (!valid_return_value) {
 			PHALCON_INIT_NVAR(return_value);
-			print_backtrace();
+			phalcon_print_backtrace();
 		}
 	}
 #endif
@@ -1028,7 +1037,7 @@ inline int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mi
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
-		if(Z_TYPE_P(mixed_name) == IS_STRING) {
+		if (Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
 		} else {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", method_name);
@@ -1097,20 +1106,21 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 	}
 #ifndef PHALCON_RELEASE
 	else {
-		int ok = 1;
+		int valid_return_value = 1;
 
 		if (Z_REFCOUNT_P(return_value) > 1) {
-			ok = 0;
+			valid_return_value = 0;
 			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
-		}
-		else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			ok = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
 		}
 
-		if (!ok) {
+		if (!valid_return_value) {
 			PHALCON_INIT_NVAR(return_value);
-			print_backtrace();
+			phalcon_print_backtrace();
 		}
 	}
 #endif

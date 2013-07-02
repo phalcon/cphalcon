@@ -7,6 +7,7 @@ kernel/main.c \
 kernel/fcall.c \
 kernel/require.c \
 kernel/debug.c \
+kernel/backtrace.c \
 kernel/assert.c \
 kernel/object.c \
 kernel/array.c \
@@ -19,7 +20,6 @@ kernel/exception.c \
 kernel/file.c \
 kernel/memory.c \
 kernel/variables.c \
-kernel/backtrace.c \
 kernel/alternative/fcall.c \
 kernel/framework/orm.c \
 kernel/framework/router.c \

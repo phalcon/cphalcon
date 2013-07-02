@@ -99,7 +99,7 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 	}
 
 	if (!EG(current_execute_data)) {
-		if(EG(exception)) {
+		if (EG(exception)) {
 			zend_exception_error(EG(exception), E_ERROR TSRMLS_CC);
 		}
 		zend_error(E_ERROR, "Exception thrown without a stack frame");

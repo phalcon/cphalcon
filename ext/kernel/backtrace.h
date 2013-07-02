@@ -20,12 +20,12 @@
 
 #ifndef PHALCON_RELEASE
 
-extern void print_backtrace(void);
+extern void phalcon_print_backtrace(void);
 
 #else
 
-#ifndef print_backtrace
-#define print_backtrace()
+#ifndef phalcon_print_backtrace
+#define phalcon_print_backtrace()
 #endif
 
 #endif
