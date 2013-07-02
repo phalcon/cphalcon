@@ -19,6 +19,8 @@
 
 void phalcon_ob_start(TSRMLS_D);
 void phalcon_ob_get_contents(zval *result TSRMLS_DC);
-void phalcon_ob_end_clean(TSRMLS_D);
-void phalcon_ob_clean(TSRMLS_D);
+int phalcon_ob_end_flush(TSRMLS_D);
+int phalcon_ob_end_clean(TSRMLS_D);
+int phalcon_ob_flush(TSRMLS_D);
+int phalcon_ob_clean(TSRMLS_D);
 int phalcon_ob_get_level(TSRMLS_D);
