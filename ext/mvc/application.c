@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *uri = NULL, *dependency_injector, *events_manager;
 	zval *event_name = NULL, *status = NULL, *service = NULL, *router, *module_name = NULL;
 	zval *modules, *exception_msg = NULL, *module, *path, *class_name = NULL;
-	zval *module_object, *module_params, *implicit_view;
+	zval *module_object = NULL, *module_params, *implicit_view;
 	zval *view, *namespace_name, *controller_name = NULL;
 	zval *action_name = NULL, *params = NULL, *dispatcher, *controller;
 	zval *returned_response = NULL, *possible_response;
@@ -353,6 +353,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		/** 
 		 * An array module definition contains a path to a module definition class
 		 */
+		PHALCON_INIT_NVAR(module_object);
 		if (Z_TYPE_P(module) == IS_ARRAY) { 
 			if (phalcon_array_isset_string(module, SS("path"))) {
 	
@@ -381,7 +382,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				ZVAL_STRING(class_name, "Module", 1);
 			}
 	
-			PHALCON_INIT_VAR(module_object);
 			phalcon_call_method_p1(module_object, dependency_injector, "get", class_name);
 	
 			/** 
