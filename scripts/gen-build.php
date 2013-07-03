@@ -46,6 +46,7 @@ class Build_Generator
 		'kernel/string.h',
 		'kernel/filter.h',
 		'kernel/file.h',
+		'kernel/output.h',
 		'kernel/operators.h',
 		'kernel/concat.h',
 		'kernel/exception.h',
@@ -69,6 +70,7 @@ class Build_Generator
 		'kernel/operators.c',
 		'kernel/concat.c',
 		'kernel/file.c',
+		'kernel/output.c',
 		'kernel/exception.c',
 		'kernel/require.c',
 		'kernel/variables.c',
@@ -116,6 +118,7 @@ class Build_Generator
 
 #include "main/php_main.h"
 #include "main/php_streams.h"
+#include "main/php_output.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_smart_str.h"
 #include "ext/pdo/php_pdo_driver.h"
