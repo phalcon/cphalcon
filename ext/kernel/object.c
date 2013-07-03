@@ -519,8 +519,22 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 
 			#else
 
-			if (UNEXPECTED(!property_info) || ((EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1)) {
-				if (zobj->properties && phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE) {
+			if (
+				UNEXPECTED(!property_info) || 
+				(
+					(
+						EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && 
+						property_info->offset >= 0
+					)
+						? (
+							zobj->properties 
+								? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) 
+								: (*(zv = &zobj->properties_table[property_info->offset]) == NULL)
+						) 
+						: 1
+				)
+			) {
+				if (zobj->properties && property_info && phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE) {
 					*result = *zv;
 					Z_ADDREF_PP(result);
 					EG(scope) = old_scope;
