@@ -166,6 +166,7 @@ PHP includes the Zend Engine, freely available at
 
 #include "main/php_main.h"
 #include "main/php_streams.h"
+#include "main/php_output.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_smart_str.h"
 #include "ext/pdo/php_pdo_driver.h"
@@ -1801,6 +1802,17 @@ static void phalcon_possible_autoload_filepath(zval *return_value, zval *prefix,
 #else
 #define PHALCON_DIRECTORY_SEPARATOR "/"
 #endif
+
+
+
+
+static void phalcon_ob_start(TSRMLS_D);
+static void phalcon_ob_get_contents(zval *result TSRMLS_DC);
+static int phalcon_ob_end_flush(TSRMLS_D);
+static int phalcon_ob_end_clean(TSRMLS_D);
+static int phalcon_ob_flush(TSRMLS_D);
+static int phalcon_ob_clean(TSRMLS_D);
+static int phalcon_ob_get_level(TSRMLS_D);
 
 
 
@@ -10881,6 +10893,101 @@ static void phalcon_file_put_contents(zval *return_value, zval *filename, zval *
 	}
 
 	RETURN_LONG(numbytes);
+}
+
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+static void phalcon_ob_start(TSRMLS_D)
+{
+#if PHP_VERSION_ID < 50400
+	php_start_ob_buffer(NULL, 0, 1 TSRMLS_CC);
+#else
+	php_output_start_default(TSRMLS_C);
+#endif
+}
+
+static void phalcon_ob_get_contents(zval *result TSRMLS_DC)
+{
+#if PHP_VERSION_ID < 50400
+	php_ob_get_buffer(result TSRMLS_CC);
+#else
+	php_output_get_contents(result TSRMLS_CC);
+#endif
+}
+
+static int phalcon_ob_end_flush(TSRMLS_D)
+{
+	if (phalcon_ob_get_level(TSRMLS_C) < 1) {
+		php_error_docref("ref.outcontrol" TSRMLS_CC, E_NOTICE, "failed to delete and flush buffer. No buffer to flush");
+		return FAILURE;
+	}
+
+#if PHP_VERSION_ID < 50400
+	php_end_ob_buffer(1, 0 TSRMLS_CC);
+	return SUCCESS;
+#else
+	return php_output_end(TSRMLS_C);
+#endif
+}
+
+static int phalcon_ob_end_clean(TSRMLS_D)
+{
+	if (phalcon_ob_get_level(TSRMLS_C) < 1) {
+		php_error_docref("ref.outcontrol" TSRMLS_CC, E_NOTICE, "failed to delete buffer. No buffer to delete");
+		return FAILURE;
+	}
+
+#if PHP_VERSION_ID < 50400
+	php_end_ob_buffer(0, 0 TSRMLS_CC);
+	return SUCCESS;
+#else
+	return php_output_discard(TSRMLS_C);
+#endif
+}
+
+static int phalcon_ob_flush(TSRMLS_D)
+{
+	if (phalcon_ob_get_level(TSRMLS_C) < 1) {
+		php_error_docref("ref.outcontrol" TSRMLS_CC, E_NOTICE, "failed to flush buffer. No buffer to flush");
+		return FAILURE;
+	}
+
+#if PHP_VERSION_ID < 50400
+	php_end_ob_buffer(1, 1 TSRMLS_CC);
+	return SUCCESS;
+#else
+	return php_output_flush(TSRMLS_C);
+#endif
+}
+
+static int phalcon_ob_clean(TSRMLS_D)
+{
+	if (phalcon_ob_get_level(TSRMLS_C) < 1) {
+		php_error_docref("ref.outcontrol" TSRMLS_CC, E_NOTICE, "failed to delete buffer. No buffer to delete");
+		return FAILURE;
+	}
+
+#if PHP_VERSION_ID < 50400
+	php_end_ob_buffer(0, 1 TSRMLS_CC);
+	return SUCCESS;
+#else
+	return php_output_clean(TSRMLS_C);
+#endif
+}
+
+static int phalcon_ob_get_level(TSRMLS_D)
+{
+#if PHP_VERSION_ID < 50400
+	return OG(ob_nesting_level);
+#else
+	return php_output_get_level(TSRMLS_C);
+#endif
 }
 
 
@@ -48283,7 +48390,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 
 	switch (parser->state) {
 		case STATE_FREE:
-			if (c == ' ' && c == '\t' && c == '\n' ) {
+			if (c == ' ' && c == '\t' && c == '\n' && c == '\r') {
 				c = 0;
 			} else if (c == '@'){
 				parser->state = STATE_ATRULE;
@@ -48296,13 +48403,13 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 			if (c == '{') {
 				parser->state = STATE_BLOCK;
 			} else {
-				if(c == '\n') {
+				if(c == '\n' || c == '\r') {
 					c = 0;
 				} else {
 					if(c == '@'){
 						parser->state = STATE_ATRULE;
 					} else {
-						if (c == ' ' && cssmin_peek(parser) == '{') {
+						if ((c == ' ' || c == '\t') && cssmin_peek(parser) == '{') {
 							c = 0;
 						}
 					}
@@ -48314,7 +48421,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 				@import etc.
 				@font-face{
 			*/
-			if (c == '\n' || c == ';') {
+			if (c == '\r' || c == '\n' || c == ';') {
 				c = ';';
 				parser->state = STATE_FREE;
 			} else if(c == '{') {
@@ -48322,7 +48429,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 			}
 			break;
 		case STATE_BLOCK:
-			if (c == ' ' || c == '\t' || c == '\n' ) {
+			if (c == ' ' || c == '\t' || c == '\n' || c == '\r' ) {
 				c = 0;
 				break;
 			} else {
@@ -48347,7 +48454,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 				} else if (c == '}') {
 					parser->state = STATE_FREE;
 				} else {
-					if (c == '\n') {
+					if (c == '\n' || c == '\r') {
 					  c = 0;
 					} else {
 						if (c == ' ' || c == '\t') {
@@ -48427,7 +48534,7 @@ static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 		return FAILURE;
 	}
 
-	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE){
+	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE) {
 		if (Z_TYPE_P(error) == IS_STRING) {
 			phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error), 1 TSRMLS_CC);
 		} else {
@@ -48438,6 +48545,7 @@ static int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 
 	return SUCCESS;
 }
+
 
 
 

@@ -96,7 +96,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 
 	switch (parser->state) {
 		case STATE_FREE:
-			if (c == ' ' && c == '\t' && c == '\n' ) {
+			if (c == ' ' && c == '\t' && c == '\n' && c == '\r') {
 				c = 0;
 			} else if (c == '@'){
 				parser->state = STATE_ATRULE;
@@ -109,13 +109,13 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 			if (c == '{') {
 				parser->state = STATE_BLOCK;
 			} else {
-				if(c == '\n') {
+				if(c == '\n' || c == '\r') {
 					c = 0;
 				} else {
 					if(c == '@'){
 						parser->state = STATE_ATRULE;
 					} else {
-						if (c == ' ' && cssmin_peek(parser) == '{') {
+						if ((c == ' ' || c == '\t') && cssmin_peek(parser) == '{') {
 							c = 0;
 						}
 					}
@@ -127,7 +127,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 				@import etc.
 				@font-face{
 			*/
-			if (c == '\n' || c == ';') {
+			if (c == '\r' || c == '\n' || c == ';') {
 				c = ';';
 				parser->state = STATE_FREE;
 			} else if(c == '{') {
@@ -135,7 +135,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 			}
 			break;
 		case STATE_BLOCK:
-			if (c == ' ' || c == '\t' || c == '\n' ) {
+			if (c == ' ' || c == '\t' || c == '\n' || c == '\r' ) {
 				c = 0;
 				break;
 			} else {
@@ -169,7 +169,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 					 */
 					parser->state = STATE_FREE;
 				} else {
-					if (c == '\n') {
+					if (c == '\n' || c == '\r') {
 					  /**
 					   * skip new lines
 					   */
@@ -255,7 +255,7 @@ int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 		return FAILURE;
 	}
 
-	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE){
+	if (phalcon_cssmin_internal(return_value, style, &error TSRMLS_CC) == FAILURE) {
 		if (Z_TYPE_P(error) == IS_STRING) {
 			phalcon_throw_exception_string(phalcon_assets_exception_ce, Z_STRVAL_P(error), Z_STRLEN_P(error), 1 TSRMLS_CC);
 		} else {
