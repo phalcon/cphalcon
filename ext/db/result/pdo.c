@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 					phalcon_array_fetch_long(&else_clauses, matches, 1, PH_NOISY_CC);
 	
 					PHALCON_INIT_VAR(sql);
-					PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) AS \"numrows\" FROM (SELECT ", else_clauses, ")");
+					PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", else_clauses, ")");
 	
 					PHALCON_INIT_VAR(result);
 					phalcon_call_method_p3(result, connection, "query", sql, bind_params, bind_types);

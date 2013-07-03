@@ -824,9 +824,21 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 			RETURN_CCTOR(code);
 		}
 	
+		/** 
+		 * Get a dynamic URL
+		 */
 		if (PHALCON_IS_STRING(name, "url")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "$this->url->get(", arguments, ")");
+			RETURN_CCTOR(code);
+		}
+	
+		/** 
+		 * Get a static URL
+		 */
+		if (PHALCON_IS_STRING(name, "static_url")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "$this->url->getStatic(", arguments, ")");
 			RETURN_CCTOR(code);
 		}
 	
@@ -1431,11 +1443,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 	}
 	
 	/** 
-	 * 'sort' calls the "asort" function in the PHP userland
+	 * 'sort' calls 'sort' method in the engine adapter
 	 */
 	if (PHALCON_IS_STRING(name, "sort")) {
 		PHALCON_INIT_NVAR(code);
-		PHALCON_CONCAT_SVS(code, "asort(", arguments, ")");
+		PHALCON_CONCAT_SVS(code, "$this->sort(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	

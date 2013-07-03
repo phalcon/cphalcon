@@ -1799,6 +1799,54 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne){
 }
 
 /**
+ * Checks whether a model has a hasManyToMany relation with another model
+ *
+ * @param 	string $modelName
+ * @param 	string $modelRelation
+ * @return 	boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasManyToMany){
+
+	zval *model_name, *model_relation, *initialized;
+	zval *entity_name, *entity_relation, *key_relation;
+	zval *has_many_to_many;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &model_name, &model_relation);
+	
+	PHALCON_OBS_VAR(initialized);
+	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_fast_strtolower(entity_name, model_name);
+	
+	PHALCON_INIT_VAR(entity_relation);
+	phalcon_fast_strtolower(entity_relation, model_relation);
+	
+	/** 
+	 * Relationship unique key
+	 */
+	PHALCON_INIT_VAR(key_relation);
+	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", entity_relation);
+	
+	/** 
+	 * Initialize the model first
+	 */
+	if (!phalcon_array_isset(initialized, entity_name)) {
+		phalcon_call_method_p1_noret(this_ptr, "load", model_name);
+	}
+	
+	PHALCON_OBS_VAR(has_many_to_many);
+	phalcon_read_property_this(&has_many_to_many, this_ptr, SL("_hasManyToMany"), PH_NOISY_CC);
+	if (phalcon_array_isset(has_many_to_many, key_relation)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
  * Returns a relation by its alias
  *
  * @param string $modelName
@@ -2568,6 +2616,40 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne){
 		if (phalcon_array_isset(has_one_single, lower_name)) {
 			PHALCON_OBS_VAR(relations);
 			phalcon_array_fetch(&relations, has_one_single, lower_name, PH_NOISY_CC);
+			RETURN_CCTOR(relations);
+		}
+	}
+	
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	
+	RETURN_CTOR(empty_array);
+}
+
+/**
+ * Gets hasManyToMany relations defined on a model
+ *
+ * @param  Phalcon\Mvc\ModelInterface $model
+ * @return Phalcon\Mvc\Model\RelationInterface[]
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyToMany){
+
+	zval *model, *has_many_to_many_single, *lower_name;
+	zval *relations, *empty_array;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &model);
+	
+	PHALCON_OBS_VAR(has_many_to_many_single);
+	phalcon_read_property_this(&has_many_to_many_single, this_ptr, SL("_hasManyToManySingle"), PH_NOISY_CC);
+	if (Z_TYPE_P(has_many_to_many_single) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(lower_name);
+		phalcon_get_class(lower_name, model, 1 TSRMLS_CC);
+		if (phalcon_array_isset(has_many_to_many_single, lower_name)) {
+			PHALCON_OBS_VAR(relations);
+			phalcon_array_fetch(&relations, has_many_to_many_single, lower_name, PH_NOISY_CC);
 			RETURN_CCTOR(relations);
 		}
 	}

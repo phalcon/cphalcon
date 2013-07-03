@@ -467,3 +467,23 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	RETURN_CCTOR(slice);
 }
 
+/**
+ * Sorts an array
+ *
+ * @param array $value
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort){
+
+	zval *value;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &value);
+	
+	Z_SET_ISREF_P(value);
+	phalcon_call_func_p1_noret("asort", value);
+	Z_UNSET_ISREF_P(value);
+	RETURN_CCTOR(value);
+}
+
