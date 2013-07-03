@@ -250,6 +250,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *action_name = NULL, *params = NULL, *dispatcher, *controller;
 	zval *returned_response = NULL, *possible_response;
 	zval *render_status = NULL, *response = NULL, *content;
+	int flag_implicit_view;
 
 	PHALCON_MM_GROW();
 
@@ -427,7 +428,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 */
 	PHALCON_OBS_VAR(implicit_view);
 	phalcon_read_property_this(&implicit_view, this_ptr, SL("_implicitView"), PH_NOISY_CC);
-	if (PHALCON_IS_TRUE(implicit_view)) {
+	flag_implicit_view = PHALCON_IS_TRUE(implicit_view) ? 1 : 0;
+	if (flag_implicit_view) {
 		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "view", 1);
 	
@@ -471,7 +473,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * Start the view component (start output buffering)
 	 */
-	if (PHALCON_IS_TRUE(implicit_view)) {
+	if (flag_implicit_view) {
 		phalcon_call_method_noret(view, "start");
 	}
 	
@@ -525,7 +527,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 * mode
 	 */
 	if (PHALCON_IS_FALSE(returned_response)) {
-		if (PHALCON_IS_TRUE(implicit_view)) {
+		if (flag_implicit_view) {
 	
 			if (Z_TYPE_P(controller) == IS_OBJECT) {
 	
@@ -567,7 +569,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * Finish the view component (stop output buffering)
 	 */
-	if (PHALCON_IS_TRUE(implicit_view)) {
+	if (flag_implicit_view) {
 		phalcon_call_method_noret(view, "finish");
 	}
 	
@@ -578,7 +580,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 		PHALCON_INIT_VAR(response);
 		phalcon_call_method_p1(response, dependency_injector, "getshared", service);
-		if (PHALCON_IS_TRUE(implicit_view)) {
+		if (flag_implicit_view) {
 			/** 
 			 * The content returned by the view is passed to the response service
 			 */
