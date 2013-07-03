@@ -412,6 +412,9 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 		PHALCON_OBS_VAR(column_name);
 		phalcon_array_fetch_string(&column_name, data, SL("_columnName"), PH_NOISY_CC);
 	}
+	else {
+		PHALCON_INIT_VAR(column_name);
+	}
 	
 	if (phalcon_array_isset_string(data, SS("_type"))) {
 		PHALCON_OBS_VAR(column_type);
