@@ -111,6 +111,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *re
 
 				if (!EG(exception)) {
 					if (EG(return_value_ptr_ptr)) {
+						ASSUME(result != NULL);
 						if (return_value) {
 							COPY_PZVAL_TO_ZVAL(*return_value, result);
 						} else {
