@@ -18,8 +18,8 @@ kernel/operators.c \
 kernel/concat.c \
 kernel/exception.c \
 kernel/file.c \
-kernel/memory.c \
 kernel/output.c \
+kernel/memory.c \
 kernel/variables.c \
 kernel/alternative/fcall.c \
 kernel/framework/orm.c \

@@ -53,7 +53,12 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *re
 
 		file_path = Z_STRVAL_P(require_path);
 
+		#if PHP_VERSION_ID < 50400
 		ret = php_stream_open_for_zend_ex(file_path, &file_handle, ENFORCE_SAFE_MODE|USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
+		#else
+		ret = php_stream_open_for_zend_ex(file_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
+		#endif
+
 		if (likely(ret == SUCCESS)) {
 
 			if (!file_handle.opened_path) {

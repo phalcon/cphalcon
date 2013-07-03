@@ -562,11 +562,13 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 			PHALCON_INIT_NVAR(access_key);
 			PHALCON_CONCAT_VSVSV(access_key, role_name, "!", resource_name, "!", access_name);
 			phalcon_update_property_array(this_ptr, SL("_access"), access_key, action TSRMLS_CC);
+			if (!PHALCON_IS_STRING(access_name, "*")) {
 	
-			PHALCON_INIT_NVAR(access_key_all);
-			PHALCON_CONCAT_VSVS(access_key_all, role_name, "!", resource_name, "!*");
-			if (!phalcon_array_isset(internal_access, access_key_all)) {
-				phalcon_update_property_array(this_ptr, SL("_access"), access_key_all, default_access TSRMLS_CC);
+				PHALCON_INIT_NVAR(access_key_all);
+				PHALCON_CONCAT_VSVS(access_key_all, role_name, "!", resource_name, "!*");
+				if (!phalcon_array_isset(internal_access, access_key_all)) {
+					phalcon_update_property_array(this_ptr, SL("_access"), access_key_all, default_access TSRMLS_CC);
+				}
 			}
 	
 			zend_hash_move_forward_ex(ah1, &hp1);
@@ -592,16 +594,18 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		 * Define the access action for the specified accessKey
 		 */
 		phalcon_update_property_array(this_ptr, SL("_access"), access_key, action TSRMLS_CC);
+		if (!PHALCON_IS_STRING(access, "*")) {
 	
-		PHALCON_INIT_NVAR(access_key);
-		PHALCON_CONCAT_VSVS(access_key, role_name, "!", resource_name, "!*");
+			PHALCON_INIT_NVAR(access_key);
+			PHALCON_CONCAT_VSVS(access_key, role_name, "!", resource_name, "!*");
 	
-		/** 
-		 * If there is no default action for all the rest actions in the resource set the
-		 * default one
-		 */
-		if (!phalcon_array_isset(internal_access, access_key)) {
-			phalcon_update_property_array(this_ptr, SL("_access"), access_key, default_access TSRMLS_CC);
+			/** 
+			 * If there is no default action for all the rest actions in the resource set the
+			 * default one
+			 */
+			if (!phalcon_array_isset(internal_access, access_key)) {
+				phalcon_update_property_array(this_ptr, SL("_access"), access_key, default_access TSRMLS_CC);
+			}
 		}
 	}
 	

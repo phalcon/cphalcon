@@ -2040,6 +2040,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileForeach){
 		ZVAL_BOOL(extends_mode, 0);
 	}
 	
+	/** 
+	 * A valid expression is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("expr"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(compilation);
 	ZVAL_STRING(compilation, "", 1);
 	phalcon_property_incr(this_ptr, SL("_foreachLevel") TSRMLS_CC);
@@ -2269,19 +2277,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileIf){
 	PHALCON_INIT_VAR(compilation);
 	
 	/** 
-	 * Evaluate common expressions
+	 * A valid expression is required
 	 */
-	if (phalcon_array_isset_string(statement, SS("expr"))) {
-		PHALCON_OBS_VAR(expr);
-		phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(expr_code);
-		phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
-	}
-	else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted expression");
+	if (!phalcon_array_isset_string(statement, SS("expr"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
 		return;
 	}
+	
+	PHALCON_OBS_VAR(expr);
+	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(expr_code);
+	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	
 	/** 
 	 * 'If' statement
@@ -2333,6 +2340,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileElseIf){
 
 	phalcon_fetch_params(1, 1, 0, &statement);
 	
+	/** 
+	 * A valid expression is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("expr"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
+	
 	PHALCON_OBS_VAR(expr);
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
@@ -2367,6 +2382,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache){
 	if (!extends_mode) {
 		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
+	}
+	
+	/** 
+	 * A valid expression is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("expr"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
 	}
 	
 	PHALCON_INIT_VAR(compilation);
@@ -2436,6 +2459,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileEcho){
 
 	phalcon_fetch_params(1, 1, 0, &statement);
 	
+	/** 
+	 * A valid expression is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("expr"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(compilation);
 	
 	/** 
@@ -2501,6 +2532,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &statement);
+	
+	/** 
+	 * A valid expression is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("path"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
 	
 	/** 
 	 * Include statement
@@ -2617,6 +2656,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 
 	phalcon_fetch_params(1, 1, 0, &statement);
 	
+	/** 
+	 * A valid assigment list is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("assigments"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(compilation);
 	ZVAL_STRING(compilation, "<?php", 1);
 	
@@ -2701,6 +2748,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo){
 
 	phalcon_fetch_params(1, 1, 0, &statement);
 	
+	/** 
+	 * A valid expression is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("expr"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
+	
 	PHALCON_OBS_VAR(expr);
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
@@ -2709,6 +2764,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo){
 	
 	PHALCON_INIT_VAR(compilation);
 	PHALCON_CONCAT_SVS(compilation, "<?php ", expr_code, "; ?>");
+	
 	RETURN_CTOR(compilation);
 }
 
@@ -2727,6 +2783,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileReturn){
 
 	phalcon_fetch_params(1, 1, 0, &statement);
 	
+	/** 
+	 * A valid expression is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("expr"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
+	
 	PHALCON_OBS_VAR(expr);
 	phalcon_array_fetch_string(&expr, statement, SL("expr"), PH_NOISY_CC);
 	
@@ -2735,6 +2799,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileReturn){
 	
 	PHALCON_INIT_VAR(compilation);
 	PHALCON_CONCAT_SVS(compilation, "<?php return ", expr_code, "; ?>");
+	
 	RETURN_CTOR(compilation);
 }
 
@@ -2754,6 +2819,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape){
 
 	phalcon_fetch_params(1, 2, 0, &statement, &extends_mode);
 	
+	/** 
+	 * A valid option is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("enable"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
+	
+	/** 
+	 * 'autoescape' mode
+	 */
 	PHALCON_OBS_VAR(old_autoescape);
 	phalcon_read_property_this(&old_autoescape, this_ptr, SL("_autoescape"), PH_NOISY_CC);
 	
@@ -2767,6 +2843,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape){
 	PHALCON_INIT_VAR(compilation);
 	phalcon_call_method_p2(compilation, this_ptr, "_statementlist", block_statements, extends_mode);
 	phalcon_update_property_this(this_ptr, SL("_autoescape"), old_autoescape TSRMLS_CC);
+	
 	RETURN_CCTOR(compilation);
 }
 
@@ -2790,6 +2867,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &statement, &extends_mode);
+	
+	/** 
+	 * A valid name is required
+	 */
+	if (!phalcon_array_isset_string(statement, SS("name"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
+		return;
+	}
 	
 	PHALCON_OBS_VAR(name);
 	phalcon_array_fetch_string(&name, statement, SL("name"), PH_NOISY_CC);
@@ -2852,7 +2937,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
 	/** 
 	 * Block statements are allowed
 	 */
-	PHALCON_INIT_VAR(block_code);
 	if (phalcon_array_isset_string(statement, SS("block_statements"))) {
 		/** 
 		 * Get block statements
@@ -2863,10 +2947,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileMacro){
 		/** 
 		 * Process statements block
 		 */
+		PHALCON_INIT_VAR(block_code);
 		phalcon_call_method_p2(block_code, this_ptr, "_statementlist", block_statements, extends_mode);
+		PHALCON_SCONCAT_VS(code, block_code, "<?php } ?>");
+	} else {
+		phalcon_concat_self_str(&code, SL("<?php } ?>") TSRMLS_CC);
 	}
-	
-	PHALCON_SCONCAT_VS(code, block_code, "<?php } ?>");
 	
 	RETURN_CTOR(code);
 }

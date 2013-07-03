@@ -36,11 +36,11 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/output.h"
 #include "kernel/hash.h"
 #include "kernel/require.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
-#include "kernel/output.h"
 
 /**
  * Phalcon\Mvc\View\Engine\Volt

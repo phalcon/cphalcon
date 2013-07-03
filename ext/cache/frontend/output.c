@@ -180,20 +180,19 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 
-	zval *buffering;
+	zval *buffering, *contents;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(buffering);
 	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
-		phalcon_ob_get_contents(return_value TSRMLS_CC);
+		PHALCON_INIT_VAR(contents);
+		phalcon_ob_get_contents(contents TSRMLS_CC);
+		RETURN_CTOR(contents);
 	}
-	else {
-		RETVAL_NULL();
-	}
-
-	PHALCON_MM_RESTORE();
+	
+	RETURN_MM_NULL();
 }
 
 /**

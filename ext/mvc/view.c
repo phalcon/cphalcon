@@ -36,12 +36,12 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/output.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/file.h"
-#include "kernel/output.h"
 
 /**
  * Phalcon\Mvc\View
@@ -603,9 +603,11 @@ PHP_METHOD(Phalcon_Mvc_View, getParams){
 PHP_METHOD(Phalcon_Mvc_View, start){
 
 
+	PHALCON_MM_GROW();
+
 	phalcon_update_property_null(this_ptr, SL("_content") TSRMLS_CC);
 	phalcon_ob_start(TSRMLS_C);
-	RETURN_THISW();
+	RETURN_THIS();
 }
 
 /**
@@ -1472,8 +1474,10 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 PHP_METHOD(Phalcon_Mvc_View, finish){
 
 
+	PHALCON_MM_GROW();
+
 	phalcon_ob_end_clean(TSRMLS_C);
-	RETURN_THISW();
+	RETURN_THIS();
 }
 
 /**

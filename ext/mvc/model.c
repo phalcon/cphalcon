@@ -1429,7 +1429,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	 * Here we use a single COUNT(*) without PHQL to make the execution faster
 	 */
 	PHALCON_INIT_VAR(select);
-	PHALCON_CONCAT_SVSV(select, "SELECT COUNT(*) AS \"rowcount\" FROM ", escaped_table, " WHERE ", unique_key);
+	PHALCON_CONCAT_SVSV(select, "SELECT COUNT(*) \"rowcount\" FROM ", escaped_table, " WHERE ", unique_key);
 	
 	PHALCON_INIT_VAR(num);
 	phalcon_call_method_p4(num, connection, "fetchone", select, null_mode, unique_params, unique_types);
@@ -3544,10 +3544,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
  */
 PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 
-	zval *connection, *related, *class_name, *manager;
-	zval *record = NULL, *name = NULL, *relation = NULL, *type = NULL, *columns = NULL, *referenced_model = NULL;
-	zval *referenced_fields = NULL, *status = NULL, *messages = NULL;
-	zval *message = NULL, *referenced_value = NULL;
+	zval *connection, *related, *nesting, *class_name;
+	zval *manager, *record = NULL, *name = NULL, *relation = NULL, *type = NULL, *columns = NULL;
+	zval *referenced_model = NULL, *referenced_fields = NULL;
+	zval *status = NULL, *messages = NULL, *message = NULL, *referenced_value = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -3556,10 +3556,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 
 	phalcon_fetch_params(1, 2, 0, &connection, &related);
 	
+	PHALCON_INIT_VAR(nesting);
+	ZVAL_BOOL(nesting, 0);
+	
 	/** 
 	 * Start an implicit transaction
 	 */
-	phalcon_call_method_noret(connection, "begin");
+	phalcon_call_method_p1_noret(connection, "begin", nesting);
 	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
@@ -3593,6 +3596,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 			if (PHALCON_IS_LONG(type, 0)) {
 	
 				if (Z_TYPE_P(record) != IS_OBJECT) {
+					phalcon_call_method_p1_noret(connection, "rollback", nesting);
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only objects can be stored as part of belongs-to relations");
 					return;
 				}
@@ -3606,6 +3610,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 				PHALCON_INIT_NVAR(referenced_fields);
 				phalcon_call_method(referenced_fields, relation, "getreferencedfields");
 				if (Z_TYPE_P(columns) == IS_ARRAY) { 
+					phalcon_call_method_p1_noret(connection, "rollback", nesting);
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not implemented");
 					return;
 				}
@@ -3647,7 +3652,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 					/** 
 					 * Rollback the implicit transaction
 					 */
-					phalcon_call_method_noret(connection, "rollback");
+					phalcon_call_method_p1_noret(connection, "rollback", nesting);
 					RETURN_MM_FALSE;
 				}
 	
@@ -3679,11 +3684,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
  */
 PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 
-	zval *connection, *related, *class_name, *manager;
-	zval *record = NULL, *name = NULL, *relation = NULL, *type = NULL, *columns = NULL, *referenced_model = NULL;
-	zval *referenced_fields = NULL, *related_records = NULL;
-	zval *exception_message = NULL, *value = NULL, *is_through = NULL;
-	zval *new_instance = NULL, *intermediate_model_name = NULL;
+	zval *connection, *related, *nesting, *class_name;
+	zval *manager, *record = NULL, *name = NULL, *relation = NULL, *type = NULL, *columns = NULL;
+	zval *referenced_model = NULL, *referenced_fields = NULL;
+	zval *related_records = NULL, *exception_message = NULL;
+	zval *value = NULL, *is_through = NULL, *new_instance = NULL, *intermediate_model_name = NULL;
 	zval *intermediate_fields = NULL, *intermediate_referenced_fields = NULL;
 	zval *record_after = NULL, *intermediate_model = NULL, *intermediate_value = NULL;
 	zval *status = NULL, *messages = NULL, *message = NULL;
@@ -3694,6 +3699,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &connection, &related);
+	
+	PHALCON_INIT_VAR(nesting);
+	ZVAL_BOOL(nesting, 0);
 	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
@@ -3728,6 +3736,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 	
 			if (Z_TYPE_P(record) != IS_OBJECT) {
 				if (Z_TYPE_P(record) != IS_ARRAY) { 
+					phalcon_call_method_p1_noret(connection, "rollback", nesting);
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only objects/arrays can be stored as part of has-many/has-one/has-many-to-many relations");
 					return;
 				}
@@ -3742,6 +3751,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 			PHALCON_INIT_NVAR(referenced_fields);
 			phalcon_call_method(referenced_fields, relation, "getreferencedfields");
 			if (Z_TYPE_P(columns) == IS_ARRAY) { 
+				phalcon_call_method_p1_noret(connection, "rollback", nesting);
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not implemented");
 				return;
 			}
@@ -3758,6 +3768,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 			}
 	
 			if (!phalcon_isset_property_zval(this_ptr, columns TSRMLS_CC)) {
+				phalcon_call_method_p1_noret(connection, "rollback", nesting);
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVS(exception_message, "The column '", columns, "' needs to be present in the model");
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
@@ -3868,7 +3880,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 						/** 
 						 * Rollback the implicit transaction
 						 */
-						phalcon_call_method_noret(connection, "rollback");
+						phalcon_call_method_p1_noret(connection, "rollback", nesting);
 						RETURN_MM_FALSE;
 					}
 				}
@@ -3910,7 +3922,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 					/** 
 					 * Rollback the implicit transaction
 					 */
-					phalcon_call_method_noret(connection, "rollback");
+					phalcon_call_method_p1_noret(connection, "rollback", nesting);
 					RETURN_MM_FALSE;
 				}
 	
@@ -3919,8 +3931,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 	
 		} else {
 			if (Z_TYPE_P(record) != IS_ARRAY) { 
+				phalcon_call_method_p1_noret(connection, "rollback", nesting);
+	
 				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVSVS(exception_message, "There is no defined relations for the model \"", class_name, "\" using alias \"", name, "\"");
+				PHALCON_CONCAT_SVSVS(exception_message, "There are no defined relations for the model \"", class_name, "\" using alias \"", name, "\"");
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -3932,7 +3946,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 	/** 
 	 * Commit the implicit transaction
 	 */
-	phalcon_call_method_noret(connection, "commit");
+	phalcon_call_method_p1_noret(connection, "commit", nesting);
 	RETURN_MM_TRUE;
 }
 
@@ -3963,7 +3977,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	zval *attribute = NULL, *value = NULL, *possible_setter = NULL, *write_connection;
 	zval *related, *status = NULL, *schema, *source, *table = NULL, *read_connection;
 	zval *exists, *error_messages = NULL, *identity_field;
-	zval *exception, *success = NULL, *new_success = NULL;
+	zval *nesting = NULL, *exception, *success = NULL, *new_success = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -4121,7 +4135,9 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		 * Rollback the current transaction if there was validation errors
 		 */
 		if (Z_TYPE_P(related) == IS_ARRAY) { 
-			phalcon_call_method_noret(write_connection, "rollback");
+			PHALCON_INIT_VAR(nesting);
+			ZVAL_BOOL(nesting, 0);
+			phalcon_call_method_p1_noret(write_connection, "rollback", nesting);
 		}
 	
 		/** 
@@ -4179,7 +4195,9 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		 * Rollbacks the implicit transaction if the master save has failed
 		 */
 		if (PHALCON_IS_FALSE(new_success)) {
-			phalcon_call_method_noret(write_connection, "rollback");
+			PHALCON_INIT_NVAR(nesting);
+			ZVAL_BOOL(nesting, 0);
+			phalcon_call_method_p1_noret(write_connection, "rollback", nesting);
 			RETURN_MM_FALSE;
 		}
 	
@@ -6625,7 +6643,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 
 	zval *options, *disable_events, *virtual_foreign_keys;
 	zval *column_renaming, *not_null_validations;
-	zval *exception_on_failed_save, *enable_literals;
+	zval *exception_on_failed_save, *phql_literals;
 
 	PHALCON_MM_GROW();
 
@@ -6684,10 +6702,10 @@ PHP_METHOD(Phalcon_Mvc_Model, setup){
 	/** 
 	 * Enables/Disables literals in PHQL this improves the security of applications
 	 */
-	if (phalcon_array_isset_string(options, SS("enableLiterals"))) {
-		PHALCON_OBS_VAR(enable_literals);
-		phalcon_array_fetch_string(&enable_literals, options, SL("enableLiterals"), PH_NOISY_CC);
-		PHALCON_GLOBAL(orm).enable_literals = zend_is_true(enable_literals);
+	if (phalcon_array_isset_string(options, SS("phqlLiterals"))) {
+		PHALCON_OBS_VAR(phql_literals);
+		phalcon_array_fetch_string(&phql_literals, options, SL("phqlLiterals"), PH_NOISY_CC);
+		PHALCON_GLOBAL(orm).enable_literals = zend_is_true(phql_literals);
 	}
 	
 	PHALCON_MM_RESTORE();

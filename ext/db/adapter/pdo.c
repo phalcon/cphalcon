@@ -482,8 +482,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 
 	zval *sql_statement, *bind_params = NULL, *bind_types = NULL;
-	zval *events_manager, *event_name = NULL, *status, *pdo;
-	zval *statement, *new_statement, *affected_rows = NULL;
+	zval *events_manager, *event_name = NULL, *status, *affected_rows = NULL;
+	zval *pdo, *statement, *new_statement;
 
 	PHALCON_MM_GROW();
 
@@ -517,6 +517,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 		}
 	}
 	
+	/** 
+	 * Initialize affected_rows to 0
+	 */
+	PHALCON_INIT_VAR(affected_rows);
+	ZVAL_LONG(affected_rows, 0);
+	
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
@@ -527,7 +533,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 			PHALCON_INIT_VAR(new_statement);
 			phalcon_call_method_p3(new_statement, this_ptr, "executeprepared", statement, bind_params, bind_types);
 	
-			PHALCON_INIT_VAR(affected_rows);
 			phalcon_call_method(affected_rows, new_statement, "rowcount");
 		}
 	} else {
@@ -538,7 +543,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	/** 
 	 * Execute the afterQuery event if a EventsManager is available
 	 */
-	if (likely(Z_TYPE_P(affected_rows) == IS_LONG)) {
+	if (Z_TYPE_P(affected_rows) == IS_LONG) {
 		phalcon_update_property_this(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
@@ -795,15 +800,23 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId){
 /**
  * Starts a transaction in the connection
  *
+ * @param boolean $nesting
  * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin){
 
-	zval *pdo, *transaction_level, *events_manager = NULL;
+	zval *nesting = NULL, *pdo, *transaction_level, *events_manager = NULL;
 	zval *event_name = NULL, *status = NULL, *ntw_savepoint, *savepoint_name;
 
 	PHALCON_MM_GROW();
 
+	phalcon_fetch_params(1, 0, 1, &nesting);
+	
+	if (!nesting) {
+		PHALCON_INIT_VAR(nesting);
+		ZVAL_BOOL(nesting, 1);
+	}
+	
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if (Z_TYPE_P(pdo) != IS_OBJECT) {
@@ -840,30 +853,32 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin){
 		RETURN_CCTOR(status);
 	} else {
 		if (zend_is_true(transaction_level)) {
+			if (zend_is_true(nesting)) {
 	
-			PHALCON_INIT_VAR(ntw_savepoint);
-			phalcon_call_method(ntw_savepoint, this_ptr, "isnestedtransactionswithsavepoints");
-			if (zend_is_true(ntw_savepoint)) {
+				PHALCON_INIT_VAR(ntw_savepoint);
+				phalcon_call_method(ntw_savepoint, this_ptr, "isnestedtransactionswithsavepoints");
+				if (zend_is_true(ntw_savepoint)) {
 	
-				PHALCON_OBS_NVAR(events_manager);
-				phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+					PHALCON_OBS_NVAR(events_manager);
+					phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
-				PHALCON_INIT_VAR(savepoint_name);
-				phalcon_call_method(savepoint_name, this_ptr, "getnestedtransactionsavepointname");
+					PHALCON_INIT_VAR(savepoint_name);
+					phalcon_call_method(savepoint_name, this_ptr, "getnestedtransactionsavepointname");
 	
-				/** 
-				 * Notify the events manager about the created savepoint
-				 */
-				if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-					PHALCON_INIT_NVAR(event_name);
-					ZVAL_STRING(event_name, "db:createSavepoint", 1);
-					phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, savepoint_name);
+					/** 
+					 * Notify the events manager about the created savepoint
+					 */
+					if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+						PHALCON_INIT_NVAR(event_name);
+						ZVAL_STRING(event_name, "db:createSavepoint", 1);
+						phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, savepoint_name);
+					}
+	
+					PHALCON_INIT_NVAR(status);
+					phalcon_call_method_p1(status, this_ptr, "createsavepoint", savepoint_name);
+	
+					RETURN_CCTOR(status);
 				}
-	
-				PHALCON_INIT_NVAR(status);
-				phalcon_call_method_p1(status, this_ptr, "createsavepoint", savepoint_name);
-	
-				RETURN_CCTOR(status);
 			}
 		}
 	}
@@ -874,15 +889,23 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin){
 /**
  * Rollbacks the active transaction in the connection
  *
+ * @param boolean $nesting
  * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback){
 
-	zval *pdo, *transaction_level, *events_manager = NULL;
+	zval *nesting = NULL, *pdo, *transaction_level, *events_manager = NULL;
 	zval *event_name = NULL, *status = NULL, *ntw_savepoint, *savepoint_name;
 
 	PHALCON_MM_GROW();
 
+	phalcon_fetch_params(1, 0, 1, &nesting);
+	
+	if (!nesting) {
+		PHALCON_INIT_VAR(nesting);
+		ZVAL_BOOL(nesting, 1);
+	}
+	
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if (Z_TYPE_P(pdo) != IS_OBJECT) {
@@ -924,35 +947,37 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback){
 		RETURN_CCTOR(status);
 	} else {
 		if (zend_is_true(transaction_level)) {
+			if (zend_is_true(nesting)) {
 	
-			PHALCON_INIT_VAR(ntw_savepoint);
-			phalcon_call_method(ntw_savepoint, this_ptr, "isnestedtransactionswithsavepoints");
-			if (zend_is_true(ntw_savepoint)) {
+				PHALCON_INIT_VAR(ntw_savepoint);
+				phalcon_call_method(ntw_savepoint, this_ptr, "isnestedtransactionswithsavepoints");
+				if (zend_is_true(ntw_savepoint)) {
 	
-				PHALCON_OBS_NVAR(events_manager);
-				phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+					PHALCON_OBS_NVAR(events_manager);
+					phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
-				PHALCON_INIT_VAR(savepoint_name);
-				phalcon_call_method(savepoint_name, this_ptr, "getnestedtransactionsavepointname");
+					PHALCON_INIT_VAR(savepoint_name);
+					phalcon_call_method(savepoint_name, this_ptr, "getnestedtransactionsavepointname");
 	
-				/** 
-				 * Notify the events manager about the rollbacked savepoint
-				 */
-				if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-					PHALCON_INIT_NVAR(event_name);
-					ZVAL_STRING(event_name, "db:rollbackSavepoint", 1);
-					phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, savepoint_name);
+					/** 
+					 * Notify the events manager about the rollbacked savepoint
+					 */
+					if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+						PHALCON_INIT_NVAR(event_name);
+						ZVAL_STRING(event_name, "db:rollbackSavepoint", 1);
+						phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, savepoint_name);
+					}
+	
+					/** 
+					 * Reduce the transaction nesting level
+					 */
+					phalcon_property_decr(this_ptr, SL("_transactionLevel") TSRMLS_CC);
+	
+					PHALCON_INIT_NVAR(status);
+					phalcon_call_method_p1(status, this_ptr, "rollbacksavepoint", savepoint_name);
+	
+					RETURN_CCTOR(status);
 				}
-	
-				/** 
-				 * Reduce the transaction nesting level
-				 */
-				phalcon_property_decr(this_ptr, SL("_transactionLevel") TSRMLS_CC);
-	
-				PHALCON_INIT_NVAR(status);
-				phalcon_call_method_p1(status, this_ptr, "rollbacksavepoint", savepoint_name);
-	
-				RETURN_CCTOR(status);
 			}
 		}
 	}
@@ -970,15 +995,23 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback){
 /**
  * Commits the active transaction in the connection
  *
+ * @param boolean $nesting
  * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit){
 
-	zval *pdo, *transaction_level, *events_manager = NULL;
+	zval *nesting = NULL, *pdo, *transaction_level, *events_manager = NULL;
 	zval *event_name = NULL, *status = NULL, *ntw_savepoint, *savepoint_name;
 
 	PHALCON_MM_GROW();
 
+	phalcon_fetch_params(1, 0, 1, &nesting);
+	
+	if (!nesting) {
+		PHALCON_INIT_VAR(nesting);
+		ZVAL_BOOL(nesting, 1);
+	}
+	
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	if (Z_TYPE_P(pdo) != IS_OBJECT) {
@@ -1020,35 +1053,40 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit){
 		RETURN_CCTOR(status);
 	} else {
 		if (zend_is_true(transaction_level)) {
-	
-			PHALCON_INIT_VAR(ntw_savepoint);
-			phalcon_call_method(ntw_savepoint, this_ptr, "isnestedtransactionswithsavepoints");
-			if (zend_is_true(ntw_savepoint)) {
-	
-				PHALCON_OBS_NVAR(events_manager);
-				phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	
-				PHALCON_INIT_VAR(savepoint_name);
-				phalcon_call_method(savepoint_name, this_ptr, "getnestedtransactionsavepointname");
+			if (zend_is_true(nesting)) {
 	
 				/** 
-				 * Notify the events manager about the commited savepoint
+				 * Check if the current database system supports nested transactions
 				 */
-				if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-					PHALCON_INIT_NVAR(event_name);
-					ZVAL_STRING(event_name, "db:releaseSavepoint", 1);
-					phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, savepoint_name);
+				PHALCON_INIT_VAR(ntw_savepoint);
+				phalcon_call_method(ntw_savepoint, this_ptr, "isnestedtransactionswithsavepoints");
+				if (zend_is_true(ntw_savepoint)) {
+	
+					PHALCON_OBS_NVAR(events_manager);
+					phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+					PHALCON_INIT_VAR(savepoint_name);
+					phalcon_call_method(savepoint_name, this_ptr, "getnestedtransactionsavepointname");
+	
+					/** 
+					 * Notify the events manager about the commited savepoint
+					 */
+					if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+						PHALCON_INIT_NVAR(event_name);
+						ZVAL_STRING(event_name, "db:releaseSavepoint", 1);
+						phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, savepoint_name);
+					}
+	
+					/** 
+					 * Reduce the transaction nesting level
+					 */
+					phalcon_property_decr(this_ptr, SL("_transactionLevel") TSRMLS_CC);
+	
+					PHALCON_INIT_NVAR(status);
+					phalcon_call_method_p1(status, this_ptr, "releasesavepoint", savepoint_name);
+	
+					RETURN_CCTOR(status);
 				}
-	
-				/** 
-				 * Reduce the transaction nesting level
-				 */
-				phalcon_property_decr(this_ptr, SL("_transactionLevel") TSRMLS_CC);
-	
-				PHALCON_INIT_NVAR(status);
-				phalcon_call_method_p1(status, this_ptr, "releasesavepoint", savepoint_name);
-	
-				RETURN_CCTOR(status);
 			}
 		}
 	}
