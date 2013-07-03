@@ -525,6 +525,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property_this(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(affected_rows);
 	if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(statement);
@@ -536,7 +537,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 			phalcon_call_method(affected_rows, new_statement, "rowcount");
 		}
 	} else {
-		PHALCON_INIT_NVAR(affected_rows);
 		phalcon_call_method_p1(affected_rows, pdo, "exec", sql_statement);
 	}
 	

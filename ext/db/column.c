@@ -417,6 +417,9 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column name is required");
 		return;
 	}
+	else {
+		PHALCON_INIT_VAR(column_name);
+	}
 	
 	PHALCON_OBS_VAR(column_name);
 	phalcon_array_fetch_string(&column_name, data, SL("_columnName"), PH_NOISY_CC);
