@@ -1553,7 +1553,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	 * Only append conditions if it's string
 	 */
 	if (Z_TYPE_P(conditions) == IS_STRING) {
-		PHALCON_SCONCAT_SV(phql, " WHERE ", conditions);
+		if (PHALCON_IS_NOT_EMPTY(conditions)) {
+			PHALCON_SCONCAT_SV(phql, " WHERE ", conditions);
+		}
 	}
 	
 	/** 
@@ -1606,7 +1608,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		PHALCON_OBS_VAR(having);
 		phalcon_read_property_this(&having, this_ptr, SL("_having"), PH_NOISY_CC);
 		if (Z_TYPE_P(having) != IS_NULL) {
-			PHALCON_SCONCAT_SV(phql, " HAVING ", having);
+			if (PHALCON_IS_NOT_EMPTY(having)) {
+				PHALCON_SCONCAT_SV(phql, " HAVING ", having);
+			}
 		}
 	}
 	

@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Crypt, getKey){
 PHP_METHOD(Phalcon_Crypt, encrypt){
 
 	zval *text, *key = NULL, *encrypt_key = NULL, *cipher, *mode, *iv_size;
-	zval *key_size, *too_large, *rand, *iv, *encrypt, *final_encrypt;
+	zval *key_size, *rand, *iv, *encrypt, *final_encrypt;
 	zval *p0[] = { NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
@@ -206,10 +206,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	
 	PHALCON_INIT_VAR(key_size);
 	phalcon_fast_strlen(key_size, encrypt_key);
-	
-	PHALCON_INIT_VAR(too_large);
-	is_smaller_function(too_large, iv_size, key_size TSRMLS_CC);
-	if (PHALCON_IS_TRUE(too_large)) {
+	if (PHALCON_GT(key_size, iv_size)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm");
 		return;
 	}
@@ -249,8 +246,8 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 PHP_METHOD(Phalcon_Crypt, decrypt){
 
 	zval *text, *key = NULL, *decrypt_key = NULL, *cipher, *mode, *iv_size;
-	zval *key_size, *too_large = NULL, *text_size, *zero, *iv;
-	zval *text_to_decipher, *decrypted;
+	zval *key_size, *text_size, *zero, *iv, *text_to_decipher;
+	zval *decrypted;
 	zval *p0[] = { NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
@@ -288,19 +285,14 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	
 	PHALCON_INIT_VAR(key_size);
 	phalcon_fast_strlen(key_size, decrypt_key);
-	
-	PHALCON_INIT_VAR(too_large);
-	is_smaller_function(too_large, iv_size, key_size TSRMLS_CC);
-	if (PHALCON_IS_TRUE(too_large)) {
+	if (PHALCON_GT(key_size, iv_size)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Size of key is too large for this algorithm");
 		return;
 	}
 	
 	PHALCON_INIT_VAR(text_size);
 	phalcon_fast_strlen(text_size, text);
-	
-	is_smaller_function(too_large, text_size, key_size TSRMLS_CC);
-	if (PHALCON_IS_TRUE(too_large)) {
+	if (PHALCON_GT(key_size, text_size)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_crypt_exception_ce, "Size of IV is larger than text to decrypt");
 		return;
 	}
