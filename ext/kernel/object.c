@@ -507,6 +507,7 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 		zobj = zend_objects_get_address(object TSRMLS_CC);
 
 		if (phalcon_hash_find(&ce->properties_info, property_name, property_length + 1, (void **) &property_info) == SUCCESS) {
+			assert(property_info != NULL);
 
 			#if PHP_VERSION_ID < 50400
 
@@ -519,14 +520,39 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 
 			#else
 
-			if (UNEXPECTED(!property_info) || ((EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1)) {
-				if (zobj->properties && phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE) {
-					*result = *zv;
-					Z_ADDREF_PP(result);
-					EG(scope) = old_scope;
-					return SUCCESS;
+			int flag;
+			if (EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) {
+				if (zobj->properties) {
+					zv   = (zval**) zobj->properties_table[property_info->offset];
+					flag = (zv == NULL) ? 1 : 0;
 				}
-			} else {
+				else {
+					zv   = &zobj->properties_table[property_info->offset];
+					flag = (*zv == NULL) ? 1 : 0;
+				}
+			}
+			else if (UNEXPECTED(!zobj->properties)) {
+				flag = 1;
+			}
+			else if (UNEXPECTED(phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE)) {
+				flag = 2;
+			}
+			else {
+				flag = 0;
+			}
+
+			if (unlikely(flag)) {
+				if (zobj->properties) {
+					if (
+						(flag == 2 || phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE)
+						&& zv && *zv
+					) {
+						flag = 0;
+					}
+				}
+			}
+
+			if (likely(!flag)) {
 				*result = *zv;
 				Z_ADDREF_PP(result);
 				EG(scope) = old_scope;
@@ -587,12 +613,28 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 
 			#else
 
-			if (UNEXPECTED(!property_info) || (property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1) {
-				if (zobj->properties && phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == FAILURE) {
-					*result = *zv;
-					Z_ADDREF_PP(result);
-					EG(scope) = old_scope;
-					return SUCCESS;
+			if (
+				(
+					EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && 
+					property_info->offset >= 0
+				)
+					? (
+						zobj->properties 
+							? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) 
+							: (*(zv = &zobj->properties_table[property_info->offset]) == NULL)
+					) 
+					: 1
+			) {
+				if (zobj->properties) {
+					if (
+						   phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE
+						&& zv && *zv
+					) {
+						*result = *zv;
+						Z_ADDREF_PP(result);
+						EG(scope) = old_scope;
+						return SUCCESS;
+					}
 				}
 			} else {
 				*result = *zv;
@@ -655,11 +697,27 @@ int phalcon_return_property(zval *return_value, zval *object, char *property_nam
 
 			#else
 
-			if (UNEXPECTED(!property_info) || ((EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1)) {
-				if (zobj->properties && phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == FAILURE) {
-					EG(scope) = old_scope;
-					ZVAL_ZVAL(return_value, *zv, 1, 0);
-					return SUCCESS;
+			if (
+				(
+					EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && 
+					property_info->offset >= 0
+				)
+					? (
+						zobj->properties 
+							? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) 
+							: (*(zv = &zobj->properties_table[property_info->offset]) == NULL)
+					) 
+					: 1
+			) {
+				if (zobj->properties) {
+					if (
+						   phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE
+						&& zv && *zv
+					) {
+						EG(scope) = old_scope;
+						ZVAL_ZVAL(return_value, *zv, 1, 0);
+						return SUCCESS;
+					}
 				}
 			} else {
 				EG(scope) = old_scope;
@@ -717,11 +775,27 @@ int phalcon_return_property_quick(zval *return_value, zval *object, char *proper
 
 			#else
 
-			if (UNEXPECTED(!property_info) || ((EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1)) {
-				if (zobj->properties && phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == FAILURE) {
-					EG(scope) = old_scope;
-					ZVAL_ZVAL(return_value, *zv, 1, 0);
-					return SUCCESS;
+			if (
+				(
+					EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && 
+					property_info->offset >= 0
+				)
+					? (
+						zobj->properties 
+							? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) 
+							: (*(zv = &zobj->properties_table[property_info->offset]) == NULL)
+					) 
+					: 1
+			) {
+				if (zobj->properties) {
+					if (
+						   phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE
+						&& zv && *zv
+					) {
+						EG(scope) = old_scope;
+						ZVAL_ZVAL(return_value, *zv, 1, 0);
+						return SUCCESS;
+					}
 				}
 			} else {
 				EG(scope) = old_scope;
