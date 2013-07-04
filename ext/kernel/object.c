@@ -454,7 +454,11 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 	EG(scope) = ce;
 
 	if (!Z_OBJ_HT_P(object)->read_property) {
+#if PHP_VERSION_ID < 50400
 		char *class_name;
+#else
+		const char *class_name;
+#endif
 		zend_uint class_name_len;
 
 		zend_get_object_classname(object, &class_name, &class_name_len TSRMLS_CC);
@@ -463,7 +467,13 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 
 	MAKE_STD_ZVAL(property);
 	ZVAL_STRINGL(property, property_name, property_length, 0);
+
+#if PHP_VERSION_ID < 50400
 	*result = Z_OBJ_HT_P(object)->read_property(object, property, silent ? BP_VAR_IS : BP_VAR_R TSRMLS_CC);
+#else
+	*result = Z_OBJ_HT_P(object)->read_property(object, property, silent ? BP_VAR_IS : BP_VAR_R, 0 TSRMLS_CC);
+#endif
+
 	Z_ADDREF_PP(result);
 	ZVAL_NULL(property);
 	zval_ptr_dtor(&property);
