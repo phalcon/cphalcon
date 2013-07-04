@@ -688,11 +688,27 @@ int phalcon_return_property(zval *return_value, zval *object, char *property_nam
 
 			#else
 
-			if (UNEXPECTED(!property_info) || ((EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1)) {
-				if (zobj->properties && phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == FAILURE) {
-					EG(scope) = old_scope;
-					ZVAL_ZVAL(return_value, *zv, 1, 0);
-					return SUCCESS;
+			if (
+				(
+					EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && 
+					property_info->offset >= 0
+				)
+					? (
+						zobj->properties 
+							? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) 
+							: (*(zv = &zobj->properties_table[property_info->offset]) == NULL)
+					) 
+					: 1
+			) {
+				if (zobj->properties) {
+					if (
+						   phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE
+						&& zv && *zv
+					) {
+						EG(scope) = old_scope;
+						ZVAL_ZVAL(return_value, *zv, 1, 0);
+						return SUCCESS;
+					}
 				}
 			} else {
 				EG(scope) = old_scope;
@@ -750,11 +766,27 @@ int phalcon_return_property_quick(zval *return_value, zval *object, char *proper
 
 			#else
 
-			if (UNEXPECTED(!property_info) || ((EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1)) {
-				if (zobj->properties && phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == FAILURE) {
-					EG(scope) = old_scope;
-					ZVAL_ZVAL(return_value, *zv, 1, 0);
-					return SUCCESS;
+			if (
+				(
+					EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && 
+					property_info->offset >= 0
+				)
+					? (
+						zobj->properties 
+							? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) 
+							: (*(zv = &zobj->properties_table[property_info->offset]) == NULL)
+					) 
+					: 1
+			) {
+				if (zobj->properties) {
+					if (
+						   phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE
+						&& zv && *zv
+					) {
+						EG(scope) = old_scope;
+						ZVAL_ZVAL(return_value, *zv, 1, 0);
+						return SUCCESS;
+					}
 				}
 			} else {
 				EG(scope) = old_scope;
