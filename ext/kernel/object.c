@@ -450,6 +450,7 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 	}
 
 	*result = zend_read_property(ce, object, property_name, property_length, silent TSRMLS_CC);
+	Z_ADDREF_PP(result);
 	return SUCCESS;
 }
 
@@ -829,7 +830,6 @@ int phalcon_update_property_null(zval *object, char *property_name, unsigned int
 int phalcon_update_property_zval(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
 
 	zend_class_entry *ce;
-	zval *property;
 
 	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
