@@ -541,14 +541,12 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 				flag = 0;
 			}
 
-			if (unlikely(flag)) {
-				if (zobj->properties) {
-					if (
-						(flag == 2 || phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE)
-						&& zv && *zv
-					) {
-						flag = 0;
-					}
+			if (unlikely(flag) && zobj->properties) {
+				if (
+					(flag == 2 || phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE)
+					&& zv && *zv
+				) {
+					flag = 0;
 				}
 			}
 
