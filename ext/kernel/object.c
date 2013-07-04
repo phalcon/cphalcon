@@ -604,12 +604,28 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 
 			#else
 
-			if (UNEXPECTED(!property_info) || (property_info->offset >= 0) ? (zobj->properties ? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) : (*(zv = &zobj->properties_table[property_info->offset]) == NULL)) : 1) {
-				if (zobj->properties && phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == FAILURE) {
-					*result = *zv;
-					Z_ADDREF_PP(result);
-					EG(scope) = old_scope;
-					return SUCCESS;
+			if (
+				(
+					EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && 
+					property_info->offset >= 0
+				)
+					? (
+						zobj->properties 
+							? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) 
+							: (*(zv = &zobj->properties_table[property_info->offset]) == NULL)
+					) 
+					: 1
+			) {
+				if (zobj->properties) {
+					if (
+						   phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE
+						&& zv && *zv
+					) {
+						*result = *zv;
+						Z_ADDREF_PP(result);
+						EG(scope) = old_scope;
+						return SUCCESS;
+					}
 				}
 			} else {
 				*result = *zv;
