@@ -2658,7 +2658,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 
-	zval *statement, *compilation, *assigments, *assigment = NULL;
+	zval *statement, *compilation, *assignments, *assignment = NULL;
 	zval *expr = NULL, *expr_code = NULL, *variable = NULL, *op = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -2671,7 +2671,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 	/** 
 	 * A valid assigment list is required
 	 */
-	if (!phalcon_array_isset_string(statement, SS("assigments"))) {
+	if (!phalcon_array_isset_string(statement, SS("assignments"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Corrupted statement");
 		return;
 	}
@@ -2682,17 +2682,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 	/** 
 	 * A single set can have several assigments
 	 */
-	PHALCON_OBS_VAR(assigments);
-	phalcon_array_fetch_string(&assigments, statement, SL("assignments"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(assignments);
+	phalcon_array_fetch_string(&assignments, statement, SL("assignments"), PH_NOISY_CC);
 	
-	phalcon_is_iterable(assigments, &ah0, &hp0, 0, 0);
+	phalcon_is_iterable(assignments, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_HVALUE(assigment);
+		PHALCON_GET_HVALUE(assignment);
 	
 		PHALCON_OBS_NVAR(expr);
-		phalcon_array_fetch_string(&expr, assigment, SL("expr"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&expr, assignment, SL("expr"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(expr_code);
 		phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
@@ -2701,13 +2701,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 		 * Set statement
 		 */
 		PHALCON_OBS_NVAR(variable);
-		phalcon_array_fetch_string(&variable, assigment, SL("variable"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&variable, assignment, SL("variable"), PH_NOISY_CC);
 	
 		/** 
 		 * Assignment operator
 		 */
 		PHALCON_OBS_NVAR(op);
-		phalcon_array_fetch_string(&op, assigment, SL("op"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&op, assignment, SL("op"), PH_NOISY_CC);
 	
 		/** 
 		 * Generate the right operator
