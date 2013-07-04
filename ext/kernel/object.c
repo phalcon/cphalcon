@@ -507,6 +507,7 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 		zobj = zend_objects_get_address(object TSRMLS_CC);
 
 		if (phalcon_hash_find(&ce->properties_info, property_name, property_length + 1, (void **) &property_info) == SUCCESS) {
+			assert(property_info != NULL);
 
 			#if PHP_VERSION_ID < 50400
 
@@ -520,25 +521,27 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
 			#else
 
 			if (
-				UNEXPECTED(!property_info) || 
 				(
-					(
-						EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && 
-						property_info->offset >= 0
-					)
-						? (
-							zobj->properties 
-								? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) 
-								: (*(zv = &zobj->properties_table[property_info->offset]) == NULL)
-						) 
-						: 1
+					EXPECTED((property_info->flags & ZEND_ACC_STATIC) == 0) && 
+					property_info->offset >= 0
 				)
+					? (
+						zobj->properties 
+							? ((zv = (zval**) zobj->properties_table[property_info->offset]) == NULL) 
+							: (*(zv = &zobj->properties_table[property_info->offset]) == NULL)
+					) 
+					: 1
 			) {
-				if (zobj->properties && property_info && phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE) {
-					*result = *zv;
-					Z_ADDREF_PP(result);
-					EG(scope) = old_scope;
-					return SUCCESS;
+				if (zobj->properties) {
+					if (
+						   phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length+1, property_info->h, (void **) &zv) == FAILURE
+						&& zv && *zv
+					) {
+						*result = *zv;
+						Z_ADDREF_PP(result);
+						EG(scope) = old_scope;
+						return SUCCESS;
+					}
 				}
 			} else {
 				*result = *zv;
