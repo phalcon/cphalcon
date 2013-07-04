@@ -432,6 +432,7 @@ static inline zend_class_entry *phalcon_lookup_class_ce_quick(zend_class_entry *
  */
 int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 
+	zval *property;
 	zend_class_entry *ce;
 
 	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
@@ -449,8 +450,25 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 	}
 
-	*result = zend_read_property(ce, object, property_name, property_length, silent TSRMLS_CC);
+	zend_class_entry *old_scope = EG(scope);
+	EG(scope) = ce;
+
+	if (!Z_OBJ_HT_P(object)->read_property) {
+		char *class_name;
+		zend_uint class_name_len;
+
+		zend_get_object_classname(object, &class_name, &class_name_len TSRMLS_CC);
+		zend_error(E_CORE_ERROR, "Property %s of class %s cannot be read", property_name, class_name);
+	}
+
+	MAKE_STD_ZVAL(property);
+	ZVAL_STRINGL(property, property_name, property_length, 0);
+	*result = Z_OBJ_HT_P(object)->read_property(object, property, silent ? BP_VAR_IS : BP_VAR_R TSRMLS_CC);
 	Z_ADDREF_PP(result);
+	ZVAL_NULL(property);
+	zval_ptr_dtor(&property);
+
+	EG(scope) = old_scope;
 	return SUCCESS;
 }
 
@@ -1552,7 +1570,7 @@ int phalcon_property_incr(zval *object, char *property_name, unsigned int proper
 		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 	}
 
-	tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
+	phalcon_read_property(&tmp, object, property_name, property_length, 0 TSRMLS_CC);
 	if (tmp) {
 
 		/** Separation only when refcount > 1 */
@@ -1595,7 +1613,7 @@ int phalcon_property_decr(zval *object, char *property_name, unsigned int proper
 		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 	}
 
-	tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
+	phalcon_read_property(&tmp, object, property_name, property_length, 0 TSRMLS_CC);
 	if (tmp) {
 
 		/** Separation only when refcount > 1 */
