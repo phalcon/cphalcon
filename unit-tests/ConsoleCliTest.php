@@ -194,6 +194,9 @@ class ConsoleCliTest extends PHPUnit_Framework_TestCase
 		$console = new \Phalcon\CLI\Console();
 		$console->setDI($di);
 		$console->handle(array('task' => 'issue787', 'action' => 'main'));
+
+		$this->assertTrue(class_exists('Issue787Task'));
+
 		$actual   = Issue787Task::$output;
 		$expected = "beforeExecuteRoute\ninitialize\n";
 		$this->assertEquals($actual, $expected);
