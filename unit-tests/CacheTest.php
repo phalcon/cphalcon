@@ -413,7 +413,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		//Delete entry from cache
 		$this->assertTrue($cache->delete('test-output'));
-
 	}
 
 	public function testDataApcCache()
@@ -444,6 +443,17 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($cache->delete('test-data'));
 
+		$cache->save('a', 1);
+		$cache->save('long-key', 'long-val');
+		$cache->save('bcd', 3);
+		$keys = $cache->queryKeys();
+		sort($keys);
+		$this->assertEquals($keys, array('a', 'bcd', 'long-key'));
+		$this->assertEquals($cache->queryKeys('long'), array('long-key'));
+
+		$this->assertTrue($cache->delete('a'));
+		$this->assertTrue($cache->delete('long-key'));
+		$this->assertTrue($cache->delete('bcd'));
 	}
 
 	protected function _prepareMongo()
