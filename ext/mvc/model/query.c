@@ -3541,7 +3541,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	 * Store the prepared AST in the cache
 	 */
 	if (Z_TYPE_P(unique_id) == IS_LONG) {
-		if (Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
+		if (ir_phql_cache && Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
 			PHALCON_INIT_NVAR(ir_phql_cache);
 			array_init(ir_phql_cache);
 		}

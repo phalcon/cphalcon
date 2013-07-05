@@ -107,7 +107,7 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *replacements TSRMLS_DC){
 
 	char *cursor, *marker;
-	unsigned int i, bracket_count = 0, parentheses_count = 0, intermediate;
+	unsigned int i, bracket_count = 0, parentheses_count = 0, intermediate = 0;
 	unsigned char ch;
 	smart_str route_str = {0};
 	unsigned long position = 1;
@@ -269,7 +269,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 
 	unsigned int i, j, k, bracket_count = 0, parentheses_count = 0, ch;
-	unsigned int intermediate, length, number_matches = 0, found_pattern;
+	unsigned int intermediate = 0, length, number_matches = 0, found_pattern;
 	int variable_length, regexp_length, not_valid;
 	char *cursor, *cursor_var, *marker;
 	char *item, *variable = NULL, *regexp;

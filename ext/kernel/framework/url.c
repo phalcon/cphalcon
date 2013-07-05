@@ -17,9 +17,12 @@
  +------------------------------------------------------------------------+
 */
 
-#include "php.h"
+#include <main/php.h>
+#include <main/php_main.h>
+#include <ext/standard/url.h>
+
 #include "php_phalcon.h"
-#include "php_main.h"
+
 
 void phalcon_get_uri(zval *return_value, zval *path) {
 
@@ -66,7 +69,7 @@ void phalcon_raw_url_encode(zval *return_value, zval *url) {
 		}
 	}
 
-	escaped = (char *) php_raw_url_encode((unsigned char *)Z_STRVAL_P(url), Z_STRLEN_P(url), &length);
+	escaped = php_raw_url_encode(Z_STRVAL_P(url), Z_STRLEN_P(url), &length);
 
 	if (use_copy) {
 		zval_dtor(url);

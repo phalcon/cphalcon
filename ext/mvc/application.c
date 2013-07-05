@@ -53,7 +53,7 @@
  * class Application extends \Phalcon\Mvc\Application
  * {
  *
- *		/**
+ *		/\**
  *		 * Register the services here to make them general or register
  *		 * in the ModuleDefinition to make them module-specific
  *		 *\/
@@ -62,7 +62,7 @@
  *
  *		}
  *
- *		/**
+ *		/*\*
  *		 * This method registers all the modules in the application
  *		 *\/
  *		public function main()
@@ -245,11 +245,12 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *uri = NULL, *dependency_injector, *events_manager;
 	zval *event_name = NULL, *status = NULL, *service = NULL, *router, *module_name = NULL;
 	zval *modules, *exception_msg = NULL, *module, *path, *class_name = NULL;
-	zval *module_object, *module_params, *implicit_view;
+	zval *module_object = NULL, *module_params, *implicit_view;
 	zval *view, *namespace_name, *controller_name = NULL;
 	zval *action_name = NULL, *params = NULL, *dispatcher, *controller;
 	zval *returned_response = NULL, *possible_response;
 	zval *render_status = NULL, *response = NULL, *content;
+	int flag_implicit_view;
 
 	PHALCON_MM_GROW();
 
@@ -352,6 +353,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		/** 
 		 * An array module definition contains a path to a module definition class
 		 */
+		PHALCON_INIT_NVAR(module_object);
 		if (Z_TYPE_P(module) == IS_ARRAY) { 
 			if (phalcon_array_isset_string(module, SS("path"))) {
 	
@@ -380,7 +382,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				ZVAL_STRING(class_name, "Module", 1);
 			}
 	
-			PHALCON_INIT_VAR(module_object);
 			phalcon_call_method_p1(module_object, dependency_injector, "get", class_name);
 	
 			/** 
@@ -427,7 +428,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 */
 	PHALCON_OBS_VAR(implicit_view);
 	phalcon_read_property_this(&implicit_view, this_ptr, SL("_implicitView"), PH_NOISY_CC);
-	if (PHALCON_IS_TRUE(implicit_view)) {
+	flag_implicit_view = PHALCON_IS_TRUE(implicit_view) ? 1 : 0;
+	if (flag_implicit_view) {
 		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "view", 1);
 	
@@ -471,7 +473,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * Start the view component (start output buffering)
 	 */
-	if (PHALCON_IS_TRUE(implicit_view)) {
+	if (flag_implicit_view) {
 		phalcon_call_method_noret(view, "start");
 	}
 	
@@ -525,7 +527,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 * mode
 	 */
 	if (PHALCON_IS_FALSE(returned_response)) {
-		if (PHALCON_IS_TRUE(implicit_view)) {
+		if (flag_implicit_view) {
 	
 			if (Z_TYPE_P(controller) == IS_OBJECT) {
 	
@@ -567,7 +569,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * Finish the view component (stop output buffering)
 	 */
-	if (PHALCON_IS_TRUE(implicit_view)) {
+	if (flag_implicit_view) {
 		phalcon_call_method_noret(view, "finish");
 	}
 	
@@ -578,7 +580,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 		PHALCON_INIT_VAR(response);
 		phalcon_call_method_p1(response, dependency_injector, "getshared", service);
-		if (PHALCON_IS_TRUE(implicit_view)) {
+		if (flag_implicit_view) {
 			/** 
 			 * The content returned by the view is passed to the response service
 			 */

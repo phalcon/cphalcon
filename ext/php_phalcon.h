@@ -159,6 +159,14 @@ extern zend_module_entry phalcon_module_entry;
 #define likely(x)       __builtin_expect((x),1)
 #define unlikely(x)     __builtin_expect((x),0)
 #else
-#define likely(x)       x
-#define unlikely(x)     x
+#define likely(x)       EXPECTED(x)
+#define unlikely(x)     UNEXPECTED(x)
+#endif
+
+#if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
+#define UNREACHABLE() __builtin_unreachable()
+#define ASSUME(x)     if (x) {} else __builtin_unreachable()
+#else
+#define UNREACHABLE() assert(0)
+#define ASSUME(x)     assert(!!(x));
 #endif
