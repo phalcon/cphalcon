@@ -278,7 +278,11 @@ int phalcon_class_exists(const zval *class_name TSRMLS_DC) {
 
 	if (Z_TYPE_P(class_name) == IS_STRING) {
 		if (zend_lookup_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), &ce TSRMLS_CC) == SUCCESS) {
+#if PHP_VERSION_ID < 50400
 			return (((*ce)->ce_flags & ZEND_ACC_INTERFACE) == 0);
+#else
+			return ((*ce)->ce_flags & (ZEND_ACC_INTERFACE | (ZEND_ACC_TRAIT - ZEND_ACC_EXPLICIT_ABSTRACT_CLASS))) == 0;
+#endif
 		}
 		return 0;
 	}
@@ -889,6 +893,13 @@ int phalcon_update_property_bool(zval *object, char *property_name, unsigned int
 	Z_SET_REFCOUNT_P(v, 0);
 	ZVAL_BOOL(v, value ? 1 : 0);
 
+//	zend_class_entry* ce = Z_OBJCE_P(object);
+//	if (ce->parent) {
+//		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
+//	}
+
+//	zend_update_property_bool(ce, object, property_name, property_length, value TSRMLS_CC);
+//	return SUCCESS;
 	return phalcon_update_property_zval(object, property_name, property_length, v TSRMLS_CC);
 }
 
