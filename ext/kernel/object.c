@@ -278,7 +278,11 @@ int phalcon_class_exists(const zval *class_name TSRMLS_DC) {
 
 	if (Z_TYPE_P(class_name) == IS_STRING) {
 		if (zend_lookup_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), &ce TSRMLS_CC) == SUCCESS) {
+#if PHP_VERSION_ID < 50400
 			return (((*ce)->ce_flags & ZEND_ACC_INTERFACE) == 0);
+#else
+			return ((*ce)->ce_flags & (ZEND_ACC_INTERFACE | (ZEND_ACC_TRAIT - ZEND_ACC_EXPLICIT_ABSTRACT_CLASS))) == 0;
+#endif
 		}
 		return 0;
 	}

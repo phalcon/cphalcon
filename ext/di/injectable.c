@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 
 	zval *property_name, *dependency_injector = NULL;
 	zval *has_service, *service = NULL, *class_name, *arguments;
-	zval *persistent, *error_msg;
+	zval *persistent;
 
 	PHALCON_MM_GROW();
 
@@ -196,9 +196,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	/** 
 	 * A notice is shown if the property is not defined and isn't a valid service
 	 */
-	PHALCON_INIT_VAR(error_msg);
-	PHALCON_CONCAT_SV(error_msg, "Access to undefined property ", property_name);
-	phalcon_call_func_p1_noret("trigger_error", error_msg);
+	php_error_docref(NULL TSRMLS_CC, E_WARNING, "Access to undefined property %s", Z_STRVAL_P(property_name));
 	RETURN_MM_NULL();
 }
 
