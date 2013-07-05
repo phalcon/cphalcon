@@ -31,6 +31,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/framework/orm.h"
 
 
 zend_class_entry *phalcon_text_ce;
