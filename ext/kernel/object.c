@@ -893,13 +893,6 @@ int phalcon_update_property_bool(zval *object, char *property_name, unsigned int
 	Z_SET_REFCOUNT_P(v, 0);
 	ZVAL_BOOL(v, value ? 1 : 0);
 
-//	zend_class_entry* ce = Z_OBJCE_P(object);
-//	if (ce->parent) {
-//		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
-//	}
-
-//	zend_update_property_bool(ce, object, property_name, property_length, value TSRMLS_CC);
-//	return SUCCESS;
 	return phalcon_update_property_zval(object, property_name, property_length, v TSRMLS_CC);
 }
 
