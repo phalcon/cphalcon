@@ -179,4 +179,23 @@ class ConsoleCliTest extends PHPUnit_Framework_TestCase
 
 
 	}
+
+	public function testIssue787()
+	{
+		$di = new \Phalcon\DI\FactoryDefault\CLI();
+
+		$di->setShared('dispatcher', function() use ($di)
+		{
+			$dispatcher = new Phalcon\CLI\Dispatcher;
+			$dispatcher->setDI($di);
+			return $dispatcher;
+		});
+
+		$console = new \Phalcon\CLI\Console();
+		$console->setDI($di);
+		$console->handle(array('task' => 'issue787', 'action' => 'main'));
+		$actual   = Issue787Task::$output;
+		$expected = "beforeExecuteRoute\ninitialize\n";
+		$this->assertEquals($actual, $expected);
+	}
 }
