@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	/** 
 	 * A notice is shown if the property is not defined and isn't a valid service
 	 */
-	php_error_docref(NULL TSRMLS_CC, E_WARNING, "Undefined property PmtaMessage::%s", Z_STRVAL_P(property_name));
+	php_error_docref(NULL TSRMLS_CC, E_WARNING, "Access to undefined property %s", Z_STRVAL_P(property_name));
 	RETURN_MM_NULL();
 }
 
