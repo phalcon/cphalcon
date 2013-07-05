@@ -489,16 +489,9 @@ PHP_METHOD(Phalcon_Debug, _getVarDump){
 	
 	/** 
 	 * Null variables are represented as 'null'
-	 */
-	if (Z_TYPE_P(variable) == IS_NULL) {
-		RETURN_MM_STRING("null", 1);
-	}
-	
-	/** 
 	 * Other types are represented by its type
 	 */
-	phalcon_call_func_p1(return_value, "gettype", variable);
-	RETURN_MM();
+	RETURN_MM_STRING(zend_zval_type_name(variable), 1);
 }
 
 /**
