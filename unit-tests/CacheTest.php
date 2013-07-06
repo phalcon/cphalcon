@@ -23,6 +23,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
+		date_default_timezone_set('UTC');
 		$iterator = new DirectoryIterator('unit-tests/cache/');
 		foreach ($iterator as $item) {
 			if (!$item->isDir()) {
