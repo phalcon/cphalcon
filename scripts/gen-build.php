@@ -132,6 +132,7 @@ class Build_Generator
 #include "ext/standard/html.h"
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
+#include "ext/standard/head.h"
 #include "ext/spl/spl_heap.h"
 
 #if HAVE_BUNDLED_PCRE
@@ -283,6 +284,11 @@ class Build_Generator
 	 */
 	private function _appendSource($path)
 	{
+
+		//if (strpos($path, 'head')) {
+		//	return;
+		//}
+
 		//echo $path, PHP_EOL;
 		$openComment = false;
 		$fileHandler = $this->_fileHandler;

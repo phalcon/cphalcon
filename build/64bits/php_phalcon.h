@@ -147,17 +147,19 @@ extern zend_module_entry phalcon_module_entry;
 		return FAILURE; \
 	}
 
-#if PHP_VERSION_ID >= 50400
-#define PHALCON_EXPERIMENTAL_FCALL 0
-#else
-#define PHALCON_EXPERIMENTAL_FCALL 1
-#endif
-
 /** Macros for branch prediction */
 #if defined(__GNUC__) && ZEND_GCC_VERSION >= 3004 && defined(__i386__)
 #define likely(x)       __builtin_expect((x),1)
 #define unlikely(x)     __builtin_expect((x),0)
 #else
-#define likely(x)       x
-#define unlikely(x)     x
+#define likely(x)       EXPECTED(x)
+#define unlikely(x)     UNEXPECTED(x)
+#endif
+
+#if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
+#define UNREACHABLE()
+#define ASSUME(x)
+#else
+#define UNREACHABLE()
+#define ASSUME(x)
 #endif
