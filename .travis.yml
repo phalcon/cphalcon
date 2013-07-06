@@ -47,7 +47,8 @@ script:
  - ulimit -c unlimited || true
  - cat /proc/sys/kernel/core_pattern
  - cat /proc/sys/kernel/core_uses_pid
- - ./unit-tests/ci/run_script.sh
+ - ./unit-tests/ci/run_script.sh || true
+ - ls -lha
 
 notifications:
   email:
