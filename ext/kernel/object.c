@@ -338,7 +338,7 @@ int phalcon_clone(zval *destination, zval *obj TSRMLS_DC) {
  */
 int phalcon_isset_property(zval *object, const char *property_name, unsigned int property_length TSRMLS_DC) {
 
-	return phalcon_isset_property_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
+	return phalcon_isset_property_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length) TSRMLS_CC);
 }
 
 /**
