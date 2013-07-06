@@ -24,29 +24,37 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 	public function testDbMysql()
 	{
-
 		require 'unit-tests/config.db.php';
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-
-		$this->_executeTests($connection);
-
+		if (!empty($configMysql)) {
+			$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+			$this->_executeTests($connection);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testDbPostgresql()
 	{
-
 		require 'unit-tests/config.db.php';
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-
-		$this->_executeTests($connection);
+		if (!empty($configPostgresql)) {
+			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+			$this->_executeTests($connection);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testDbPostgresqlSchemas()
 	{
-
 		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$configPostgresqlDefault = array_merge(array(), $configPostgresql);
 		unset($configPostgresqlDefault['schema']);
@@ -79,12 +87,16 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 	public function testDbSqlite()
 	{
-
 		require 'unit-tests/config.db.php';
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		if (!empty($configSqlite)) {
+			$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+			$this->_executeTests($connection);
+		}
+		else {
+			echo "Skipped\n";
+		}
 
-		$this->_executeTests($connection);
 	}
 
 	protected function _executeTests($connection)

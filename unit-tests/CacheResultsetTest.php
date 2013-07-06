@@ -194,6 +194,10 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetSimpleMemcached()
 	{
+		if (!class_exists('Memcache')) {
+			echo "Memcache class does not exist, test skipped\n";
+			return;
+		}
 
 		$cache = $this->_getCache('Memcached');
 

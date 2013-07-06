@@ -18,11 +18,17 @@
   +------------------------------------------------------------------------+
 */
 
+function sqlite_now()
+{
+	return date('Y-m-d H:i:s');
+}
+
 class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 {
 
 	public function __construct()
 	{
+		date_default_timezone_set('UTC');
 		spl_autoload_register(array($this, 'modelsAutoloader'));
 	}
 
@@ -55,7 +61,13 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
-	public function testValidatorsMysql(){
+	public function testValidatorsMysql()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -68,13 +80,40 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->_testValidatorsRenamed($di);
 	}
 
-	public function testValidatorsPostgresql(){
+	public function testValidatorsPostgresql()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
+
+		$this->_testValidatorsNormal($di);
+		$this->_testValidatorsRenamed($di);
+	}
+
+	public function testValidatorsSqlite()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			echo "Skipped\n";
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			$conn = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+			$conn->getInternalHandler()->sqliteCreateFunction('now', 'sqlite_now', 0);
+			return $conn;
 		});
 
 		$this->_testValidatorsNormal($di);

@@ -62,6 +62,11 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	public function testExecuteMysql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -83,6 +88,11 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	public function testExecutePostgresql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -104,6 +114,11 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	public function testExecuteSqlite()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
