@@ -99,15 +99,7 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
  */
 int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length) {
 
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
-		return 0;
-	}
-
-	if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
-		return 0;
-	}
-
-	return phalcon_hash_exists(Z_ARRVAL_P(arr), index, index_length);
+	return phalcon_array_isset_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length + 1));
 }
 
 /**
@@ -391,36 +383,7 @@ int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flag
  */
 int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC) {
 
-	if (Z_TYPE_PP(arr) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
-		return FAILURE;
-	}
-
-	if ((flags & PH_CTOR) == PH_CTOR) {
-		zval *new_zv;
-		Z_DELREF_PP(value);
-		ALLOC_ZVAL(new_zv);
-		INIT_PZVAL_COPY(new_zv, *value);
-		*value = new_zv;
-		zval_copy_ctor(new_zv);
-	}
-
-	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		if (Z_REFCOUNT_PP(arr) > 1) {
-			zval *new_zv;
-			Z_DELREF_PP(arr);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, *arr);
-			*arr = new_zv;
-			zval_copy_ctor(new_zv);
-		}
-	}
-
-	if ((flags & PH_COPY) == PH_COPY) {
-		Z_ADDREF_PP(value);
-	}
-
-	return zend_hash_update(Z_ARRVAL_PP(arr), index, index_length + 1, value, sizeof(zval *), NULL);
+	return phalcon_array_update_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length + 1), value, flags TSRMLS_CC);
 }
 
 /**
@@ -671,36 +634,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
  */
 int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent TSRMLS_DC){
 
-	zval **zv;
-	int result = FAILURE;
-
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
-
-		if (silent == PH_NOISY) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
-		}
-
-		ALLOC_INIT_ZVAL(*return_value);
-		ZVAL_NULL(*return_value);
-
-		return FAILURE;
-	}
-
-	if ((result = phalcon_hash_find(Z_ARRVAL_P(arr), index, index_length + 1, (void**) &zv)) == SUCCESS) {
-		*return_value = *zv;
-		Z_ADDREF_PP(return_value);
-		return SUCCESS;
-	}
-
-	if (silent == PH_NOISY) {
-		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: %s", index);
-	}
-
-	ALLOC_INIT_ZVAL(*return_value);
-	ZVAL_NULL(*return_value);
-
-	return FAILURE;
-
+	return phalcon_array_fetch_quick_string(return_value, arr, index, index_length, zend_inline_hash_func(index, index_length + 1), silent TSRMLS_CC);
 }
 
 /**
