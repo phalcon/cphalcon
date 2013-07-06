@@ -28,6 +28,10 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 	{
 
 		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
@@ -41,6 +45,10 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 	{
 
 		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
@@ -49,17 +57,21 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 		$this->_executeBindByTypeTests($connection);
 	}
 
-    public function testDbBindSqlite()
-   	{
+	public function testDbBindSqlite()
+	{
 
-   		require 'unit-tests/config.db.php';
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			echo "Skipped\n";
+			return;
+		}
 
-   		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
-   		//$this->_executeRawBindTests($connection);
-   		//$this->_executeRawBindTestsSqlite($connection);
-   		$this->_executeBindByTypeTests($connection);
-   	}
+		//$this->_executeRawBindTests($connection);
+		//$this->_executeRawBindTestsSqlite($connection);
+		$this->_executeBindByTypeTests($connection);
+	}
 
 	/*protected function _executeRawBindTests($connection)
 	{
@@ -111,16 +123,16 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
 	}
 
-    protected function _executeRawBindTestsSqlite($connection)
-   	{
-   		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:)", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'"));
-   		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
+	protected function _executeRawBindTestsSqlite($connection)
+	{
+		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:)", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'"));
+		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
 
-   		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'", 2 => 'le-nice'));
-   		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
-   	}*/
+		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'", 2 => 'le-nice'));
+		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
+	}*/
 
-   	protected function _executeConvertBindTests($connection)
+	protected function _executeConvertBindTests($connection)
 	{
 
 		$params = $connection->convertBoundParams("a=?0", array(0 => 100));
@@ -139,8 +151,8 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($params, array('sql' => "a=? AND b = ? AND c > ? AND d = ?", 'params' => array(0 => 'some-name', 1 => 15, 2 => 1000, 3 => 400)));
 	}
 
-   	protected function _executeBindByTypeTests($connection)
-   	{
+	protected function _executeBindByTypeTests($connection)
+	{
 
 		$success = $connection->execute(
 			'INSERT INTO prueba(id, nombre, estado) VALUES ('.$connection->getDefaultIdValue().', ?, ?)',
@@ -220,6 +232,6 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 		);
 		$this->assertTrue($success);
 
-   	}
+	}
 
 }

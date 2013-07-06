@@ -43,6 +43,10 @@ class CollectionsEventsTest extends PHPUnit_Framework_TestCase
 
 	public function testCollectionsEvents()
 	{
+		if (!class_exists('Mongo')) {
+			echo "Mongo class does not exist, test skipped\n";
+			return;
+		}
 
 		Phalcon\DI::reset();
 
