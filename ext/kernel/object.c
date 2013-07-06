@@ -336,14 +336,6 @@ int phalcon_clone(zval *destination, zval *obj TSRMLS_DC) {
 /**
  * Checks if property exists on object
  */
-int phalcon_isset_property(zval *object, const char *property_name, unsigned int property_length TSRMLS_DC) {
-
-	return phalcon_isset_property_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length) TSRMLS_CC);
-}
-
-/**
- * Checks if property exists on object
- */
 int phalcon_isset_property_quick(zval *object, const char *property_name, unsigned int property_length, unsigned long hash TSRMLS_DC) {
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
@@ -355,6 +347,14 @@ int phalcon_isset_property_quick(zval *object, const char *property_name, unsign
 	}
 
 	return 0;
+}
+
+/**
+ * Checks if property exists on object
+ */
+int phalcon_isset_property(zval *object, const char *property_name, unsigned int property_length TSRMLS_DC) {
+
+	return phalcon_isset_property_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length) TSRMLS_CC);
 }
 
 /**
@@ -561,14 +561,6 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 /**
  * Returns an object's member
  */
-int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
-
-	return phalcon_return_property_quick(return_value, object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
-}
-
-/**
- * Returns an object's member
- */
 int phalcon_return_property_quick(zval *return_value, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC) {
 
 	zval **zv;
@@ -646,6 +638,14 @@ int phalcon_return_property_quick(zval *return_value, zval *object, char *proper
 
 	ZVAL_NULL(return_value);
 	return FAILURE;
+}
+
+/**
+ * Returns an object's member
+ */
+int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
+
+	return phalcon_return_property_quick(return_value, object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
 }
 
 /**
@@ -948,7 +948,7 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 		Z_ADDREF_P(value);
 
 		if (Z_TYPE_P(index) == IS_STRING) {
-			zend_hash_update(Z_ARRVAL_P(tmp), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, &value, sizeof(zval *), NULL);
+			zend_hash_update(Z_ARRVAL_P(tmp), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1, &value, sizeof(zval *), NULL);
 		} else {
 			if (Z_TYPE_P(index) == IS_LONG) {
 				zend_hash_index_update(Z_ARRVAL_P(tmp), Z_LVAL_P(index), &value, sizeof(zval *), NULL);
@@ -1087,11 +1087,30 @@ int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char
 int phalcon_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC) {
 
 	zval *tmp;
+	int separated = 0;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
+
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 		Z_DELREF_P(tmp);
+
+		/** Separation only when refcount > 2 */
+		if (Z_REFCOUNT_P(tmp) > 2) {
+			zval *new_zv;
+			Z_DELREF_P(tmp);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp);
+			tmp = new_zv;
+			zval_copy_ctor(new_zv);
+			separated = 1;
+		}
+
 		phalcon_array_unset(&tmp, index, 0);
+
+		if (separated) {
+			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+			zval_ptr_dtor(&tmp);
+		}
 	}
 
 	return SUCCESS;
