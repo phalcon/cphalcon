@@ -924,17 +924,6 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 		separated = Z_REFCOUNT_P(tmp) > 1;
 		SEPARATE_ZVAL(&tmp);
 
-		/** Separation only when refcount > 2 */
-		if (Z_REFCOUNT_P(tmp) > 2) {
-			zval *new_zv;
-			//Z_DELREF_P(tmp);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, tmp);
-			tmp = new_zv;
-			zval_copy_ctor(new_zv);
-			separated = 1;
-		}
-
 		/** Convert the value to array if not is an array */
 		convert_to_array_ex(&tmp);
 
