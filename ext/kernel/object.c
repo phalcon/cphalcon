@@ -790,15 +790,6 @@ int phalcon_update_property_zval(zval *object, char *property_name, unsigned int
 }
 
 /**
- * Updates properties on this_ptr
- * Variables must be defined in the class definition. This function ignores magic methods or dynamic properties
- */
-int phalcon_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
-
-	return phalcon_update_property_this_quick(object, property_name, property_length, value, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
-}
-
-/**
  * Updates properties on this_ptr (quick)
  * Variables must be defined in the class definition. This function ignores magic methods or dynamic properties
  */
@@ -896,6 +887,15 @@ int phalcon_update_property_this_quick(zval *object, char *property_name, unsign
 }
 
 /**
+ * Updates properties on this_ptr
+ * Variables must be defined in the class definition. This function ignores magic methods or dynamic properties
+ */
+int phalcon_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
+
+	return phalcon_update_property_this_quick(object, property_name, property_length, value, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
+}
+
+/**
  * Checks whether obj is an object and updates zval property with another zval
  */
 int phalcon_update_property_zval_zval(zval *object, zval *property, zval *value TSRMLS_DC){
@@ -957,9 +957,8 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 
 		if (separated) {
 			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+			zval_ptr_dtor(&tmp);
 		}
-
-		zval_ptr_dtor(&tmp);
 	}
 
 	return SUCCESS;
@@ -1008,9 +1007,9 @@ int phalcon_update_property_array_string(zval *object, char *property, unsigned 
 
 		if (separated) {
 			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+			zval_ptr_dtor(&tmp);
 		}
 
-		zval_ptr_dtor(&tmp);
 	}
 
 	return SUCCESS;
@@ -1060,9 +1059,9 @@ int phalcon_update_property_array_append(zval *object, char *property, unsigned 
 
 	if (separated) {
 		phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+		zval_ptr_dtor(&tmp);
 	}
 
-	zval_ptr_dtor(&tmp);
 	return SUCCESS;
 }
 
@@ -1090,12 +1089,9 @@ int phalcon_unset_property_array(zval *object, char *property, unsigned int prop
 	zval *tmp;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
-
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 		Z_DELREF_P(tmp);
 		phalcon_array_unset(&tmp, index, 0);
-
-		zval_ptr_dtor(&tmp);
 	}
 
 	return SUCCESS;

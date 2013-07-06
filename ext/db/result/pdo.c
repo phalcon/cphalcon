@@ -456,6 +456,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 
+
 	long fetch_mode;
 	zval *pdo_statement, *fetch_type;
 
@@ -477,8 +478,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 		ZVAL_LONG(fetch_type, 3);
 	} else if (fetch_mode == 4) {
 		ZVAL_LONG(fetch_type, 5);
-	}
-	else {
+	} else {
 		ZVAL_LONG(fetch_type, 0);
 	}
 
@@ -497,12 +497,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult){
 
-	zval *pdo_statement;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(pdo_statement);
-	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	RETURN_CCTOR(pdo_statement);
+	RETURN_MEMBER(this_ptr, "_pdoStatement");
 }
 

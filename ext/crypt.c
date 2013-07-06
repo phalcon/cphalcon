@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Crypt, getKey){
 PHP_METHOD(Phalcon_Crypt, encrypt){
 
 	zval *text, *key = NULL, *encrypt_key = NULL, *cipher, *mode, *iv_size;
-	zval *key_size, *rand, *iv, *encrypt;
+	zval *key_size, *rand, *iv, *encrypt, *final_encrypt;
 
 	PHALCON_MM_GROW();
 
@@ -219,8 +219,10 @@ PHP_METHOD(Phalcon_Crypt, encrypt){
 	PHALCON_INIT_VAR(encrypt);
 	phalcon_call_func_p5(encrypt, "mcrypt_encrypt", cipher, encrypt_key, text, mode, iv);
 	
-	PHALCON_CONCAT_VV(return_value, iv, encrypt);
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_VAR(final_encrypt);
+	PHALCON_CONCAT_VV(final_encrypt, iv, encrypt);
+	
+	RETURN_CTOR(final_encrypt);
 }
 
 /**
@@ -238,6 +240,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 
 	zval *text, *key = NULL, *decrypt_key = NULL, *cipher, *mode, *iv_size;
 	zval *key_size, *text_size, *zero, *iv, *text_to_decipher;
+	zval *decrypted;
 
 	PHALCON_MM_GROW();
 
@@ -295,8 +298,10 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	PHALCON_INIT_VAR(text_to_decipher);
 	phalcon_call_func_p2(text_to_decipher, "substr", text, iv_size);
 	
-	phalcon_call_func_p5(return_value, "mcrypt_decrypt", cipher, decrypt_key, text_to_decipher, mode, iv);
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_VAR(decrypted);
+	phalcon_call_func_p5(decrypted, "mcrypt_decrypt", cipher, decrypt_key, text_to_decipher, mode, iv);
+	
+	RETURN_CCTOR(decrypted);
 }
 
 /**

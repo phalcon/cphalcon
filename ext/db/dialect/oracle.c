@@ -815,7 +815,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit){
 
 	if (phalcon_is_numeric(number)) {
 		PHALCON_INIT_VAR(limit);
-		ZVAL_LONG(limit, phalcon_get_intval(number));
+		phalcon_call_func_p1(limit, "intval", number);
 
 		PHALCON_INIT_VAR(sql_limit);
 		PHALCON_CONCAT_VSV(sql_limit, sql_query, " LIMIT ", limit);
@@ -1240,7 +1240,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_CPY_WRT(sql, sql_limit);
 		}
 	}
-
 
 	RETURN_CTOR(sql);
 }
