@@ -5336,6 +5336,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany){
  * @param string $intermediateFields
  * @param string $intermediateReferencedFields
  * @param string $referencedModel
+ * @param   string $referencedFields
  * @param   array $options
  * @return  Phalcon\Mvc\Model\Relation
  */
@@ -5343,18 +5344,16 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany){
 
 	zval *fields, *intermediate_model, *intermediate_fields;
 	zval *intermediate_referenced_fields, *reference_model;
-	zval *referenced_model, *options = NULL, *manager, *relation = NULL;
-	zval *r0 = NULL;
+	zval *referenced_fields, *options = NULL, *manager;
+	zval *relation;
 	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 6, 1, &fields, &intermediate_model, &intermediate_fields, &intermediate_referenced_fields, &reference_model, &referenced_model, &options);
+	phalcon_fetch_params(1, 6, 1, &fields, &intermediate_model, &intermediate_fields, &intermediate_referenced_fields, &reference_model, &referenced_fields, &options);
 	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
-	} else {
-		PHALCON_SEPARATE_PARAM(options);
 	}
 	
 	PHALCON_OBS_VAR(manager);
@@ -5366,14 +5365,11 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany){
 	p0[3] = intermediate_fields;
 	p0[4] = intermediate_referenced_fields;
 	p0[5] = reference_model;
-	p0[6] = referenced_model;
-	
-	PHALCON_INIT_NVAR(options);
+	p0[6] = referenced_fields;
 	p0[7] = options;
 	
-	PHALCON_INIT_VAR(r0);
-	phalcon_call_method_pn(r0, manager, "addhasmanytomany", 8, p0);
-	PHALCON_CPY_WRT(relation, r0);
+	PHALCON_INIT_VAR(relation);
+	phalcon_call_method_pn(relation, manager, "addhasmanytomany", 8, p0);
 	RETURN_CCTOR(relation);
 }
 

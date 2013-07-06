@@ -1534,7 +1534,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany){
 	phalcon_fast_strtolower(referenced_entity, referenced_model);
 	
 	PHALCON_INIT_VAR(key_relation);
-	PHALCON_CONCAT_VSVSV(key_relation, entity_name, "$", intermediate_entity, "$", referenced_entity);
+	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", referenced_entity);
 	
 	PHALCON_OBS_VAR(has_many_to_many);
 	phalcon_read_property_this(&has_many_to_many, this_ptr, SL("_hasManyToMany"), PH_NOISY_CC);
@@ -1893,18 +1893,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 
 	zval *relation, *method, *record, *parameters = NULL, *pre_conditions = NULL;
-	zval *referenced_model, *is_through, *placeholders = NULL;
-	zval *conditions = NULL, *intermediate_model, *fields = NULL;
-	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *referenced_fields = NULL;
-	zval *field = NULL, *field_position = NULL, *join_conditions;
-	zval *intermediate_fields, *referenced_position = NULL;
-	zval *joined_join_conditions, *joined_conditions = NULL;
-	zval *builder, *query, *records = NULL, *ref_position = NULL;
+	zval *placeholders = NULL, *referenced_model, *is_through;
+	zval *conditions = NULL, *intermediate_model, *intermediate_fields = NULL;
+	zval *fields = NULL, *value = NULL, *condition = NULL, *join_conditions;
+	zval *referenced_fields = NULL, *joined_join_conditions;
+	zval *joined_conditions = NULL, *builder, *query, *records = NULL;
+	zval *referenced_field = NULL, *field = NULL, *ref_position = NULL;
 	zval *dependency_injector, *find_params, *find_arguments = NULL;
 	zval *arguments, *type, *retrieve_method = NULL, *reusable;
 	zval *unique_key, *referenced_entity, *call_object;
-	HashTable *ah0, *ah1, *ah2;
-	HashPosition hp0, hp1, hp2;
+	HashTable *ah0;
+	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -1941,6 +1940,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	}
 	
 	/** 
+	 * Re-use bound parameters
+	 */
+	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
+		if (phalcon_array_isset_string(parameters, SS("bind"))) {
+			PHALCON_OBS_VAR(placeholders);
+			phalcon_array_fetch_string(&placeholders, parameters, SL("bind"), PH_NOISY_CC);
+			phalcon_array_unset_string(&parameters, SS("bind"), PH_SEPARATE);
+		} else {
+			PHALCON_INIT_NVAR(placeholders);
+			array_init(placeholders);
+		}
+	} else {
+		PHALCON_INIT_NVAR(placeholders);
+		array_init(placeholders);
+	}
+	
+	/** 
 	 * Perform the query on the referenced model
 	 */
 	PHALCON_INIT_VAR(referenced_model);
@@ -1953,14 +1969,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	phalcon_call_method(is_through, relation, "isthrough");
 	if (zend_is_true(is_through)) {
 	
-		PHALCON_INIT_VAR(placeholders);
-		array_init(placeholders);
-	
 		PHALCON_INIT_VAR(conditions);
 		array_init(conditions);
 	
 		PHALCON_INIT_VAR(intermediate_model);
 		phalcon_call_method(intermediate_model, relation, "getintermediatemodel");
+	
+		PHALCON_INIT_VAR(intermediate_fields);
+		phalcon_call_method(intermediate_fields, relation, "getintermediatefields");
 	
 		/** 
 		 * Appends conditions created from the fields defined in the relation
@@ -1971,41 +1987,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 			PHALCON_INIT_VAR(value);
 			phalcon_call_method_p1(value, record, "readattribute", fields);
 	
-			PHALCON_INIT_VAR(referenced_field);
-			phalcon_call_method(referenced_field, relation, "getintermediatereferencedfields");
-	
 			PHALCON_INIT_VAR(condition);
-			PHALCON_CONCAT_SVSVS(condition, "[", intermediate_model, "].[", referenced_field, "] = ?0");
+			PHALCON_CONCAT_SVSVS(condition, "[", intermediate_model, "].[", intermediate_fields, "] = ?0");
 			phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 		} else {
-			/** 
-			 * Compound relation
-			 */
-			PHALCON_INIT_VAR(referenced_fields);
-			phalcon_call_method(referenced_fields, relation, "getreferencedfields");
-	
-			phalcon_is_iterable(fields, &ah0, &hp0, 0, 0);
-	
-			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-				PHALCON_GET_HKEY(field_position, ah0, hp0);
-				PHALCON_GET_HVALUE(field);
-	
-				PHALCON_INIT_NVAR(value);
-				phalcon_call_method_p1(value, record, "readattribute", field);
-	
-				PHALCON_OBS_NVAR(referenced_field);
-				phalcon_array_fetch(&referenced_field, referenced_fields, field_position, PH_NOISY_CC);
-	
-				PHALCON_INIT_NVAR(condition);
-				PHALCON_CONCAT_SVSV(condition, "[", referenced_field, "] = ?", field_position);
-				phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
-	
-				zend_hash_move_forward_ex(ah0, &hp0);
-			}
-	
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not supported");
+			return;
 		}
 	
 		PHALCON_INIT_VAR(join_conditions);
@@ -2014,10 +2002,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		/** 
 		 * Create the join conditions
 		 */
-		PHALCON_INIT_VAR(intermediate_fields);
+		PHALCON_INIT_NVAR(intermediate_fields);
 		phalcon_call_method(intermediate_fields, relation, "getintermediatereferencedfields");
 		if (Z_TYPE_P(intermediate_fields) != IS_ARRAY) { 
-			PHALCON_INIT_NVAR(referenced_fields);
+			PHALCON_INIT_VAR(referenced_fields);
 			phalcon_call_method(referenced_fields, relation, "getreferencedfields");
 	
 			PHALCON_INIT_NVAR(condition);
@@ -2025,33 +2013,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 			PHALCON_SCONCAT_SVSVS(condition, "] = [", referenced_model, "].[", referenced_fields, "]");
 			phalcon_array_append(&join_conditions, condition, PH_SEPARATE TSRMLS_CC);
 		} else {
-			/** 
-			 * Compound join relation
-			 */
-			PHALCON_INIT_NVAR(referenced_fields);
-			phalcon_call_method(referenced_fields, relation, "getreferencedfields");
-	
-			phalcon_is_iterable(fields, &ah1, &hp1, 0, 0);
-	
-			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-	
-				PHALCON_GET_HKEY(referenced_position, ah1, hp1);
-				PHALCON_GET_HVALUE(field);
-	
-				PHALCON_INIT_NVAR(value);
-				phalcon_call_method_p1(value, record, "readattribute", field);
-	
-				PHALCON_OBS_NVAR(referenced_field);
-				phalcon_array_fetch(&referenced_field, referenced_fields, referenced_position, PH_NOISY_CC);
-	
-				PHALCON_INIT_NVAR(condition);
-				PHALCON_CONCAT_SVSV(condition, "[", referenced_field, "] = ?", referenced_position);
-				phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
-	
-				zend_hash_move_forward_ex(ah1, &hp1);
-			}
-	
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not supported");
+			return;
 		}
 	
 		/** 
@@ -2059,6 +2022,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		 */
 		PHALCON_INIT_VAR(joined_join_conditions);
 		phalcon_fast_join_str(joined_join_conditions, SL(" AND "), join_conditions TSRMLS_CC);
+	
+		/** 
+		 * Add extra conditions passed by the programmer
+		 */
+		if (PHALCON_IS_NOT_EMPTY(pre_conditions)) {
+			phalcon_array_append(&conditions, pre_conditions, PH_SEPARATE TSRMLS_CC);
+		}
 	
 		/** 
 		 * We don't trust the user or the database so we use bound parameters
@@ -2090,23 +2060,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		RETURN_CCTOR(records);
 	}
 	
-	/** 
-	 * Re-use bound parameters
-	 */
-	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(parameters, SS("bind"))) {
-			PHALCON_OBS_NVAR(placeholders);
-			phalcon_array_fetch_string(&placeholders, parameters, SL("bind"), PH_NOISY_CC);
-			phalcon_array_unset_string(&parameters, SS("bind"), PH_SEPARATE);
-		} else {
-			PHALCON_INIT_NVAR(placeholders);
-			array_init(placeholders);
-		}
-	} else {
-		PHALCON_INIT_NVAR(placeholders);
-		array_init(placeholders);
-	}
-	
 	if (Z_TYPE_P(pre_conditions) != IS_NULL) {
 		PHALCON_INIT_NVAR(conditions);
 		array_init_size(conditions, 1);
@@ -2125,7 +2078,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		PHALCON_INIT_NVAR(value);
 		phalcon_call_method_p1(value, record, "readattribute", fields);
 	
-		PHALCON_INIT_NVAR(referenced_field);
+		PHALCON_INIT_VAR(referenced_field);
 		phalcon_call_method(referenced_field, relation, "getreferencedfields");
 	
 		PHALCON_INIT_NVAR(condition);
@@ -2139,11 +2092,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		PHALCON_INIT_NVAR(referenced_fields);
 		phalcon_call_method(referenced_fields, relation, "getreferencedfields");
 	
-		phalcon_is_iterable(fields, &ah2, &hp2, 0, 0);
+		phalcon_is_iterable(fields, &ah0, &hp0, 0, 0);
 	
-		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_HKEY(ref_position, ah2, hp2);
+			PHALCON_GET_HKEY(ref_position, ah0, hp0);
 			PHALCON_GET_HVALUE(field);
 	
 			PHALCON_INIT_NVAR(value);
@@ -2157,7 +2110,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 			phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 	
-			zend_hash_move_forward_ex(ah2, &hp2);
+			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
 	}

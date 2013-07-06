@@ -119,6 +119,9 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$success = $manager->existsHasMany('Parts', 'RobotsParts');
 		$this->assertTrue($success);
 
+		$success = $manager->existsHasManyToMany('Robots', 'Parts');
+		$this->assertTrue($success);
+
 		$robot = Robots::findFirst();
 		$this->assertNotEquals($robot, false);
 
@@ -126,10 +129,19 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 3);
 
+		$parts = $robot->getParts();
+		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($parts), 3);
+
 		/** Passing parameters to magic methods **/
 		$robotsParts = $robot->getRobotsParts("parts_id = 1");
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 1);
+
+		/** Passing parameters to magic methods **/
+		$parts = $robot->getParts("Parts.id = 1");
+		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($parts), 1);
 
 		$robotsParts = $robot->getRobotsParts(array(
 			"parts_id > :parts_id:",
@@ -138,6 +150,14 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 2);
 		$this->assertEquals($robotsParts->getFirst()->parts_id, 2);
+
+		$parts = $robot->getParts(array(
+			"Parts.id > :id:",
+			"bind" => array("id" => 1)
+		));
+		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($parts), 2);
+		$this->assertEquals($parts->getFirst()->id, 2);
 
 		$robotsParts = $robot->getRobotsParts(array(
 			"parts_id > :parts_id:",

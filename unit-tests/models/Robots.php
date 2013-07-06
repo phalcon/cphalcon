@@ -8,6 +8,7 @@ class Robots extends Phalcon\Mvc\Model
 		$this->hasMany('id', 'RobotsParts', 'robots_id', array(
 			'foreignKey' => true
 		));
+		$this->hasManyToMany('id', 'RobotsParts', 'robots_id', 'parts_id', 'Parts', 'id');
 	}
 
 }
