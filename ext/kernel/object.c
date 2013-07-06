@@ -954,7 +954,12 @@ int phalcon_update_property_zval(zval *object, char *property_name, unsigned int
 	Z_OBJ_HT_P(object)->write_property(object, property, value, 0 TSRMLS_CC);
 #endif
 
-	ZVAL_NULL(property);
+	if (Z_REFCOUNT_P(property) > 1) {
+		ZVAL_STRINGL(property, property_name, property_length, 1);
+	} else {
+		ZVAL_NULL(property);
+	}
+
 	zval_ptr_dtor(&property);
 
 	EG(scope) = old_scope;
@@ -1180,6 +1185,8 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 
+		Z_DELREF_P(tmp);
+
 		/** Separation only when refcount > 2 */
 		if (Z_REFCOUNT_P(tmp) > 2) {
 			zval *new_zv;
@@ -1235,6 +1242,8 @@ int phalcon_update_property_array_string(zval *object, char *property, unsigned 
 
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 
+		Z_DELREF_P(tmp);
+
 		/** Separation only when refcount > 2 */
 		if (Z_REFCOUNT_P(tmp) > 2) {
 			zval *new_zv;
@@ -1285,6 +1294,8 @@ int phalcon_update_property_array_append(zval *object, char *property, unsigned 
 	}
 
 	phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+
+	Z_DELREF_P(tmp);
 
 	/** Separation only when refcount > 2 */
 	if (Z_REFCOUNT_P(tmp) > 2) {
@@ -1346,6 +1357,7 @@ int phalcon_unset_property_array(zval *object, char *property, unsigned int prop
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+		Z_DELREF_P(tmp);
 		phalcon_array_unset(&tmp, index, 0);
 
 		zval_ptr_dtor(&tmp);
@@ -1594,6 +1606,8 @@ int phalcon_property_incr(zval *object, char *property_name, unsigned int proper
 	phalcon_read_property(&tmp, object, property_name, property_length, 0 TSRMLS_CC);
 	if (tmp) {
 
+		Z_DELREF_P(tmp);
+
 		/** Separation only when refcount > 1 */
 		if (Z_REFCOUNT_P(tmp) > 1) {
 			zval *new_zv;
@@ -1636,6 +1650,8 @@ int phalcon_property_decr(zval *object, char *property_name, unsigned int proper
 
 	phalcon_read_property(&tmp, object, property_name, property_length, 0 TSRMLS_CC);
 	if (tmp) {
+
+		Z_DELREF_P(tmp);
 
 		/** Separation only when refcount > 1 */
 		if (Z_REFCOUNT_P(tmp) > 1) {
