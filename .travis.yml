@@ -43,12 +43,10 @@ before_script:
  - chmod +x unit-tests/ci/run_script.sh
 
 script:
- - ulimit -a
- - ulimit -c unlimited || true
- - cat /proc/sys/kernel/core_pattern
- - cat /proc/sys/kernel/core_uses_pid
- - ./unit-tests/ci/run_script.sh || true
- - ls -lha
+ - ulimit -c unlimited
+ - sudo sh -c 'echo 0 > /proc/sys/kernel/core_uses_pid'
+ - sudo sh -c 'echo core > /proc/sys/kernel/core_pattern'
+ - ./unit-tests/ci/run_script.sh
 
 notifications:
   email:
