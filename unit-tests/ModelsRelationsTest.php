@@ -34,8 +34,8 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 	public function modelsAutoloader($className)
 	{
 		$className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
+		if (file_exists('unit-tests/models/Relations/' . $className . '.php')) {
+			require 'unit-tests/models/Relations/' . $className . '.php';
 		}
 	}
 
