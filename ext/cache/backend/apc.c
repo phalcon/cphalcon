@@ -64,11 +64,16 @@
  *</code>
  */
 
+static int phalcon_cache_backend_is_apcu = -1;
 
 /**
  * Phalcon\Cache\Backend\Apc initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Apc){
+
+	if (-1 == phalcon_cache_backend_is_apcu) {
+		phalcon_cache_backend_is_apcu = zend_hash_exists(&module_registry, SS("apcu"));
+	}
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Apc, cache_backend_apc, "phalcon\\cache\\backend", phalcon_cache_backend_apc_method_entry, 0);
 
@@ -257,10 +262,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	zval *prefix = NULL, *keys, *type, *prefix_pattern, *iterator;
 	zval *key = NULL;
 	zend_class_entry *ce0;
+#if PHP_VERSION_ID < 50500
 	char *str_key;
 	uint str_key_len;
 	ulong int_key;
 	int key_type;
+#else
+	zval *itkey = NULL;
+#endif
 
 	PHALCON_MM_GROW();
 
@@ -284,7 +293,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	PHALCON_INIT_VAR(iterator);
 	object_init_ex(iterator, ce0);
 	if (phalcon_has_constructor(iterator TSRMLS_CC)) {
-		phalcon_call_method_p2_noret(iterator, "__construct", type, prefix_pattern);
+		if (!phalcon_cache_backend_is_apcu) {
+			phalcon_call_method_p2_noret(iterator, "__construct", type, prefix_pattern);
+		}
+		else {
+			phalcon_call_method_p1_noret(iterator, "__construct", prefix_pattern);
+		}
 	}
 
 	/* APCIterator implements Iterator */
@@ -302,6 +316,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	it->funcs->rewind(it TSRMLS_CC);
 	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_NVAR(key);
+#if PHP_VERSION_ID < 50500
 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
 		if (likely(key_type == HASH_KEY_IS_STRING)) {
 			/**
@@ -312,6 +327,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 
 			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
 		}
+#else
+		PHALCON_INIT_NVAR(itkey);
+		it->funcs->get_current_key(it, itkey TSRMLS_CC);
+		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
+			ZVAL_STRINGL(key, Z_STRVAL_P(itkey)+5, Z_STRLEN_P(itkey)-5, 1);
+			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
+		}
+#endif
 
 		it->funcs->move_forward(it TSRMLS_CC);
 	}
