@@ -3424,14 +3424,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
  * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
  * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
  *
- * @param Phalcon\Mvc\Model\ManagerInterface $manager
- * @param Phalcon\Mvc\Model\MetaDataInterface $metaData
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 
-	zval *intermediate, *phql, *ast, *ir_phql = NULL, *unique_id = NULL;
-	zval *ir_phql_cache = NULL, *type = NULL, *exception_message;
+	zval *intermediate, *phql, *ast, *ir_phql = NULL, *ir_phql_cache = NULL;
+	zval *unique_id = NULL, *type = NULL, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -3454,6 +3452,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	
 	PHALCON_INIT_VAR(ir_phql);
 	
+	PHALCON_INIT_VAR(ir_phql_cache);
+	
 	PHALCON_INIT_VAR(unique_id);
 	
 	if (Z_TYPE_P(ast) == IS_ARRAY) { 
@@ -3469,7 +3469,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 			PHALCON_OBS_NVAR(unique_id);
 			phalcon_array_fetch_string(&unique_id, ast, SL("id"), PH_NOISY_CC);
 	
-			PHALCON_OBS_VAR(ir_phql_cache);
+			PHALCON_OBS_NVAR(ir_phql_cache);
 			phalcon_read_static_property(&ir_phql_cache, SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache") TSRMLS_CC);
 			if (phalcon_array_isset(ir_phql_cache, unique_id)) {
 	
@@ -3541,7 +3541,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	 * Store the prepared AST in the cache
 	 */
 	if (Z_TYPE_P(unique_id) == IS_LONG) {
-		if (ir_phql_cache && Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
+		if (Z_TYPE_P(ir_phql_cache) != IS_ARRAY) { 
 			PHALCON_INIT_NVAR(ir_phql_cache);
 			array_init(ir_phql_cache);
 		}

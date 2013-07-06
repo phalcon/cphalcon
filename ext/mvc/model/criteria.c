@@ -1325,7 +1325,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	HashPosition hp0;
 	zval **hd;
 	zend_class_entry *ce0;
-	int n_conditions = 0;
 
 	PHALCON_MM_GROW();
 
@@ -1406,7 +1405,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		n_conditions = phalcon_fast_count_ev(conditions TSRMLS_CC);
 	}
 	
 	/** 
@@ -1414,7 +1412,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	 */
 	PHALCON_INIT_VAR(criteria);
 	object_init_ex(criteria, phalcon_mvc_model_criteria_ce);
-	if (n_conditions) {
+	if (phalcon_fast_count_ev(conditions TSRMLS_CC)) {
 		PHALCON_INIT_VAR(join_conditions);
 		phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
 		phalcon_call_method_p1_noret(criteria, "where", join_conditions);

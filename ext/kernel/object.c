@@ -831,6 +831,7 @@ int phalcon_return_property_quick(zval *return_value, zval *object, char *proper
 int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC) {
 
 	if (unlikely(Z_TYPE_P(property) != IS_STRING)) {
+
 		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot access empty property %d", Z_TYPE_P(property));
 		}
@@ -872,7 +873,7 @@ int phalcon_update_property_string(zval *object, char *property_name, unsigned i
 	ZVAL_STRINGL(value, str, str_length, 1);
 
 	res = phalcon_update_property_zval(object, property_name, property_length, value TSRMLS_CC);
-	if (likely(res) == SUCCESS) {
+	if (res == SUCCESS) {
 		return SUCCESS;
 	}
 
@@ -920,7 +921,7 @@ int phalcon_update_property_zval(zval *object, char *property_name, unsigned int
 	zval *property;
 	zend_class_entry *old_scope = EG(scope);
 
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -1159,7 +1160,7 @@ int phalcon_update_property_this_quick(zval *object, char *property_name, unsign
  */
 int phalcon_update_property_zval_zval(zval *object, zval *property, zval *value TSRMLS_DC){
 
-	if (unlikely(Z_TYPE_P(property) != IS_STRING)) {
+	if (Z_TYPE_P(property) != IS_STRING) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property should be string");
 		return FAILURE;
 	}

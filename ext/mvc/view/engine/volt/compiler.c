@@ -2658,8 +2658,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSet){
 
-	zval *statement, *compilation, *assignments, *assignment = NULL;
-	zval *expr = NULL, *expr_code = NULL, *variable = NULL, *op = NULL;
+	zval *statement, *compilation, *assignments;
+	zval *assignment = NULL, *expr = NULL, *expr_code = NULL, *variable = NULL;
+	zval *op = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;

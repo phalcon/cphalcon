@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity){
  */
 PHP_METHOD(Phalcon_Debug, debugVar){
 
-	zval *var, *key = NULL, *backtrace;
+	zval *var, *key = NULL, *ztime, *backtrace, *data;
 
 	PHALCON_MM_GROW();
 
@@ -225,9 +225,18 @@ PHP_METHOD(Phalcon_Debug, debugVar){
 		PHALCON_INIT_VAR(key);
 	}
 	
+	PHALCON_INIT_VAR(ztime);
+	ZVAL_LONG(ztime, (long) time(NULL));
+	
 	PHALCON_INIT_VAR(backtrace);
 	phalcon_call_func(backtrace, "debug_backtrace");
-	phalcon_update_property_array_append(this_ptr, SL("_data"), backtrace TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(data);
+	array_init_size(data, 3);
+	phalcon_array_append(&data, var, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&data, backtrace, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&data, ztime, PH_SEPARATE TSRMLS_CC);
+	phalcon_update_property_array_append(this_ptr, SL("_data"), data TSRMLS_CC);
 	RETURN_THIS();
 }
 
@@ -994,7 +1003,8 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	zval *data_vars, *trace, *trace_item = NULL, *n = NULL, *html_item = NULL;
 	zval *_REQUEST, *value = NULL, *key_request = NULL, *_SERVER;
 	zval *key_server = NULL, *files, *key_file = NULL, *true_usage;
-	zval *memory, *key_var = NULL, *dumped_argument = NULL, *js_sources;
+	zval *memory, *data_var = NULL, *key_var = NULL, *variable = NULL, *dumped_argument = NULL;
+	zval *js_sources;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
 	HashPosition hp0, hp1, hp2, hp3, hp4;
 	zval **hd;
@@ -1204,7 +1214,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		PHALCON_INIT_VAR(memory);
 		phalcon_call_func_p1(memory, "memory_get_usage", true_usage);
 		phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-5\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
-		PHALCON_SCONCAT_SVS(html, "<tr><th>Memory</th></tr><tr><td>", memory, "</td></tr>");
+		PHALCON_SCONCAT_SVS(html, "<tr><th colspan=\"2\">Memory</th></tr><tr><td>Usage</td><td>", memory, "</td></tr>");
 		phalcon_concat_self_str(&html, SL("</table></div>") TSRMLS_CC);
 	
 		/** 
@@ -1219,10 +1229,13 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 			while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
 				PHALCON_GET_HKEY(key_var, ah4, hp4);
-				PHALCON_GET_HVALUE(value);
+				PHALCON_GET_HVALUE(data_var);
+	
+				PHALCON_OBS_NVAR(variable);
+				phalcon_array_fetch_long(&variable, data_var, 0, PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(dumped_argument);
-				phalcon_call_method_p1(dumped_argument, this_ptr, "_getvardump", value);
+				phalcon_call_method_p1(dumped_argument, this_ptr, "_getvardump", variable);
 				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_var, "</td><td>", dumped_argument, "</td></tr>");
 	
 				zend_hash_move_forward_ex(ah4, &hp4);

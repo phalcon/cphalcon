@@ -135,6 +135,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_remove, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_clear, 0, 0, 0)
+	ZEND_ARG_INFO(0, fields)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_forms_form_method_entry){
 	PHP_ME(Phalcon_Forms_Form, __construct, arginfo_phalcon_forms_form___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Forms_Form, setAction, arginfo_phalcon_forms_form_setaction, ZEND_ACC_PUBLIC) 
@@ -159,7 +163,7 @@ PHALCON_INIT_FUNCS(phalcon_forms_form_method_entry){
 	PHP_ME(Phalcon_Forms_Form, getValue, arginfo_phalcon_forms_form_getvalue, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, has, arginfo_phalcon_forms_form_has, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, remove, arginfo_phalcon_forms_form_remove, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Forms_Form, clear, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Form, clear, arginfo_phalcon_forms_form_clear, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, count, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, rewind, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Form, current, NULL, ZEND_ACC_PUBLIC) 

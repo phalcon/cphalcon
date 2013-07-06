@@ -467,7 +467,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *handler_suffix, *action_suffix, *_finished = NULL;
 	zval *namespace_name = NULL, *handler_name = NULL, *action_name = NULL;
 	zval *finished = NULL, *camelized_class = NULL, *handler_class = NULL;
-	zval *has_service = NULL, *params = NULL, *action_method = NULL, *was_fresh = NULL;
+	zval *has_service = NULL, *was_fresh = NULL, *params = NULL, *action_method = NULL;
 	zval *call_object = NULL;
 
 	PHALCON_MM_GROW();
@@ -631,12 +631,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_INIT_NVAR(has_service);
 		phalcon_call_method_p1(has_service, dependency_injector, "has", handler_class);
 		if (!zend_is_true(has_service)) {
-			zend_class_entry** ce;
 			/** 
 			 * DI doesn't have a service with that name, try to load it using an autoloader
 			 */
 			PHALCON_INIT_NVAR(has_service);
-			ZVAL_BOOL(has_service, phalcon_class_exists(handler_class TSRMLS_CC));
+			ZVAL_LONG(has_service, phalcon_class_exists(handler_class TSRMLS_CC));
 		}
 	
 		/** 
@@ -672,10 +671,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 */
 		PHALCON_INIT_NVAR(handler);
 		phalcon_call_method_p1(handler, dependency_injector, "getshared", handler_class);
-
-		PHALCON_INIT_NVAR(was_fresh);
-		phalcon_call_method(was_fresh, dependency_injector, "wasfreshinstance");
-
 		if (Z_TYPE_P(handler) != IS_OBJECT) {
 	
 			PHALCON_INIT_NVAR(exception_code);
@@ -698,6 +693,15 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			break;
 		}
 	
+		/** 
+		 * If the object was recently created in the DI we initialize it
+		 */
+		PHALCON_INIT_NVAR(was_fresh);
+		phalcon_call_method(was_fresh, dependency_injector, "wasfreshinstance");
+	
+		/** 
+		 * Update the active handler making it available for events
+		 */
 		phalcon_update_property_this(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
 	
 		/** 
@@ -827,7 +831,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 	
 		/** 
-		 * If the object was recently created in the DI we initialize it
+		 * Call the 'initialize' method just once per request
 		 */
 		if (PHALCON_IS_TRUE(was_fresh)) {
 			if (phalcon_method_exists_ex(handler, SS("initialize") TSRMLS_CC) == SUCCESS) {

@@ -53,7 +53,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/queue", "beanstalk.c", "phalcon")
   ADD_SOURCES("ext/phalcon/queue/beanstalk", "job.c", "phalcon")
   ADD_SOURCES("ext/phalcon/assets/resource", "css.c js.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/assets", "resource.c manager.c exception.c collection.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/assets", "filterinterface.c resource.c manager.c exception.c collection.c", "phalcon")
   ADD_SOURCES("ext/phalcon/escaper", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/tag", "select.c exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/acl", "resource.c resourceinterface.c exception.c role.c adapterinterface.c adapter.c roleinterface.c", "phalcon")

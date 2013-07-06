@@ -36,6 +36,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 
@@ -291,7 +292,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 
 	zval *attributes = NULL, *use_checked = NULL, *name, *widget_attributes = NULL;
 	zval *default_attributes, *merged_attributes = NULL;
-	zval *value;
+	zval *value, *current_value;
 
 	PHALCON_MM_GROW();
 
@@ -343,7 +344,25 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 	 * If the widget has a value set it as default value
 	 */
 	if (Z_TYPE_P(value) != IS_NULL) {
-		phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		if (zend_is_true(use_checked)) {
+	
+			/** 
+			 * Check if the element already has a default value, compare it with the one in the
+			 * attributes, if they are the same mark the element as checked
+			 */
+			if (phalcon_array_isset_string(merged_attributes, SS("value"))) {
+	
+				PHALCON_OBS_VAR(current_value);
+				phalcon_array_fetch_string(&current_value, merged_attributes, SL("value"), PH_NOISY_CC);
+				if (PHALCON_IS_EQUAL(current_value, value)) {
+					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
+				}
+			} else {
+				phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			}
+		} else {
+			phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
 	}
 	
 	RETURN_CCTOR(merged_attributes);

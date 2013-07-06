@@ -963,17 +963,24 @@ PHP_METHOD(Phalcon_Forms_Form, remove){
 /**
  * Clears every element in the form to its default value
  *
+ * @param array $fields
  * @return Phalcon\Forms\Form
  */
 PHP_METHOD(Phalcon_Forms_Form, clear){
 
-	zval *elements, *element = NULL;
+	zval *fields = NULL, *elements, *element = NULL, *name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
+	phalcon_fetch_params(1, 0, 1, &fields);
+	
+	if (!fields) {
+		PHALCON_INIT_VAR(fields);
+	}
+	
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	if (Z_TYPE_P(elements) == IS_ARRAY) { 
@@ -984,7 +991,15 @@ PHP_METHOD(Phalcon_Forms_Form, clear){
 	
 			PHALCON_GET_HVALUE(element);
 	
-			phalcon_call_method_noret(element, "clear");
+			if (Z_TYPE_P(fields) != IS_ARRAY) { 
+				phalcon_call_method_noret(element, "clear");
+			} else {
+				PHALCON_INIT_NVAR(name);
+				phalcon_call_method(name, element, "getname");
+				if (phalcon_fast_in_array(name, fields TSRMLS_CC)) {
+					phalcon_call_method_noret(element, "clear");
+				}
+			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
