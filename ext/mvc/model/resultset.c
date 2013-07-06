@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek){
 			 */
 			PHALCON_OBS_VAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "dataseek", position);
+			phalcon_call_method_p1_noret(result, "dataseek", position);
 
 		} else {
 
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek){
 				phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 				if (PHALCON_IS_NOT_FALSE(result)) {
 					PHALCON_INIT_NVAR(rows);
-					PHALCON_CALL_METHOD(rows, result, "fetchall");
+					phalcon_call_method(rows, result, "fetchall");
 					phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
 				}
 			}
