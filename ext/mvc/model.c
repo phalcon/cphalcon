@@ -5372,7 +5372,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany){
 	p0[7] = options;
 	
 	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_METHOD_PARAMS(r0, manager, "addhasmanytomany", 8, p0);
+	phalcon_call_method_pn(r0, manager, "addhasmanytomany", 8, p0);
 	PHALCON_CPY_WRT(relation, r0);
 	RETURN_CCTOR(relation);
 }

@@ -274,11 +274,19 @@ int phalcon_call_func_three_params(zval *return_value, const char *func_name, in
 }
 
 /**
- * Call single function which requires only 3 parameters
+ * Call single function which requires only 4 parameters
  */
 int phalcon_call_func_four_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2, param3, param4 };
 	return phalcon_call_func_params(return_value, func_name, func_length, 4, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call single function which requires only 5 parameters
+ */
+int phalcon_call_func_five_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4, param5 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 5, params, noreturn TSRMLS_CC);
 }
 
 /**

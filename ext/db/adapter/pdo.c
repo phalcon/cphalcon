@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 
 	PHALCON_INIT_VAR(pdo);
 	object_init_ex(pdo, ce);
-	PHALCON_CALL_METHOD_PARAMS_4_NORETURN(pdo, "__construct", dsn, username, password, options);
+	phalcon_call_method_p4_noret(pdo, "__construct", dsn, username, password, options);
 
 	phalcon_update_property_zval(this_ptr, SL("_pdo"), pdo TSRMLS_CC);
 
@@ -350,9 +350,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 				 */
 				Z_SET_ISREF_P(cast_value);
 				if (phalcon_compare_strict_long(type, 1024 TSRMLS_CC)) {
-					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(statement, "bindparam", parameter, cast_value);
+					phalcon_call_method_p2_noret(statement, "bindparam", parameter, cast_value);
 				} else {
-					PHALCON_CALL_METHOD_PARAMS_3_NORETURN(statement, "bindparam", parameter, cast_value, type);
+					phalcon_call_method_p3_noret(statement, "bindparam", parameter, cast_value, type);
 				}
 				Z_UNSET_ISREF_P(cast_value);
 
@@ -362,14 +362,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 			}
 		} else {
 			Z_SET_ISREF_P(value);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(statement, "bindparam", parameter, value);
+			phalcon_call_method_p2_noret(statement, "bindparam", parameter, value);
 			Z_UNSET_ISREF_P(value);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 
-	PHALCON_CALL_METHOD_NORETURN(statement, "execute");
+	phalcon_call_method_noret(statement, "execute");
 
 	RETURN_CCTOR(statement);
 }

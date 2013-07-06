@@ -815,7 +815,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit){
 
 	if (phalcon_is_numeric(number)) {
 		PHALCON_INIT_VAR(limit);
-		PHALCON_CALL_FUNC_PARAMS_1(limit, "intval", number);
+		ZVAL_LONG(limit, phalcon_get_intval(number));
 
 		PHALCON_INIT_VAR(sql_limit);
 		PHALCON_CONCAT_VSV(sql_limit, sql_query, " LIMIT ", limit);
@@ -902,7 +902,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			phalcon_array_fetch_long(&column_item, column, 0, PH_NOISY_CC);
 			if (Z_TYPE_P(column_item) == IS_ARRAY) {
 				PHALCON_INIT_NVAR(column_sql);
-				PHALCON_CALL_METHOD_PARAMS_2(column_sql, this_ptr, "getsqlexpression", column_item, escape_char);
+				phalcon_call_method_p2(column_sql, this_ptr, "getsqlexpression", column_item, escape_char);
 			} else {
 				if (PHALCON_IS_STRING(column_item, "*")) {
 					PHALCON_CPY_WRT(column_sql, column_item);
@@ -990,7 +990,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_GET_FOREACH_VALUE(table);
 
 			PHALCON_INIT_NVAR(sql_table);
-			PHALCON_CALL_METHOD_PARAMS_2(sql_table, this_ptr, "getsqltable", table, escape_char);
+			phalcon_call_method_p2(sql_table, this_ptr, "getsqltable", table, escape_char);
 			phalcon_array_append(&selected_tables, sql_table, PH_SEPARATE TSRMLS_CC);
 
 			zend_hash_move_forward_ex(ah1, &hp1);
@@ -1110,7 +1110,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_GET_FOREACH_VALUE(group_field);
 
 			PHALCON_INIT_NVAR(group_expression);
-			PHALCON_CALL_METHOD_PARAMS_2(group_expression, this_ptr, "getsqlexpression", group_field, escape_char);
+			phalcon_call_method_p2(group_expression, this_ptr, "getsqlexpression", group_field, escape_char);
 			phalcon_array_append(&group_items, group_expression, PH_SEPARATE TSRMLS_CC);
 
 			zend_hash_move_forward_ex(ah4, &hp4);
@@ -1159,7 +1159,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			phalcon_array_fetch_long(&order_expression, order_item, 0, PH_NOISY_CC);
 
 			PHALCON_INIT_NVAR(order_sql_item);
-			PHALCON_CALL_METHOD_PARAMS_2(order_sql_item, this_ptr, "getsqlexpression", order_expression, escape_char);
+			phalcon_call_method_p2(order_sql_item, this_ptr, "getsqlexpression", order_expression, escape_char);
 
 			/**
 			 * In the numeric 1 position could be a ASC/DESC clause
