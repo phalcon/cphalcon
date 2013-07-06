@@ -1104,7 +1104,7 @@ int phalcon_method_exists(const zval *object, const zval *method_name TSRMLS_DC)
  */
 int phalcon_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC){
 
-	return phalcon_method_quick_exists_ex(object, method_name, method_len, zend_inline_hash_func(method_name, method_len + 1) TSRMLS_CC);
+	return phalcon_method_quick_exists_ex(object, method_name, method_len, zend_inline_hash_func(method_name, method_len) TSRMLS_CC);
 }
 
 /**

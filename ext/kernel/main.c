@@ -253,7 +253,7 @@ int phalcon_function_exists(const zval *function_name TSRMLS_DC) {
 
 	return phalcon_function_quick_exists_ex(
 		Z_STRVAL_P(function_name),
-		Z_STRLEN_P(function_name),
+		Z_STRLEN_P(function_name) + 1,
 		zend_inline_hash_func(Z_STRVAL_P(function_name), Z_STRLEN_P(function_name) + 1) TSRMLS_CC
 	);
 }
@@ -263,7 +263,7 @@ int phalcon_function_exists(const zval *function_name TSRMLS_DC) {
  */
 int phalcon_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC) {
 
-	return phalcon_function_quick_exists_ex(function_name, function_len, zend_inline_hash_func(function_name, function_len + 1) TSRMLS_CC);
+	return phalcon_function_quick_exists_ex(function_name, function_len, zend_inline_hash_func(function_name, function_len) TSRMLS_CC);
 }
 
 /**
