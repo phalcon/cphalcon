@@ -383,7 +383,7 @@ int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flag
  */
 int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC) {
 
-	return phalcon_array_update_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length + 1), value, flags TSRMLS_CC);
+	return phalcon_array_update_quick_string(arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), value, flags TSRMLS_CC);
 }
 
 /**
@@ -634,7 +634,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
  */
 int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent TSRMLS_DC){
 
-	return phalcon_array_fetch_quick_string(return_value, arr, index, index_length, zend_inline_hash_func(index, index_length + 1), silent TSRMLS_CC);
+	return phalcon_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), silent TSRMLS_CC);
 }
 
 /**
