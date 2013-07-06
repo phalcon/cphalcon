@@ -18,11 +18,17 @@
   +------------------------------------------------------------------------+
 */
 
+function sqlite_now()
+{
+	return date('Y-m-d H:i:s');
+}
+
 class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 {
 
 	public function __construct()
 	{
+		date_default_timezone_set('UTC');
 		spl_autoload_register(array($this, 'modelsAutoloader'));
 	}
 
@@ -95,7 +101,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 
 	public function testValidatorsSqlite()
 	{
-	return; // FIXME: there's no NOW() in SQLite
 		require 'unit-tests/config.db.php';
 		if (empty($configSqlite)) {
 			echo "Skipped\n";
@@ -106,7 +111,9 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+			$conn = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+			$conn->getInternalHandler()->sqliteCreateFunction('now', 'sqlite_now', 0);
+			return $conn;
 		});
 
 		$this->_testValidatorsNormal($di);
