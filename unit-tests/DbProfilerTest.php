@@ -72,6 +72,10 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 	{
 
 		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
@@ -82,8 +86,26 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 	{
 
 		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+
+		$this->_executeTests($connection);
+	}
+
+	public function testDbSqlite()
+	{
+
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			echo "Skipped\n";
+			return;
+		}
+
+		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
 		$this->_executeTests($connection);
 	}
