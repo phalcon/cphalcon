@@ -384,20 +384,6 @@ int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flag
 }
 
 /**
- * Updates values on arrays by string indexes only
- *
- * @param arr
- * @param index
- * @param index_length strlen(index)
- * @param value
- * @param flags
- */
-int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC) {
-
-	return phalcon_array_update_quick_string(arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), value, flags TSRMLS_CC);
-}
-
-/**
  * Updates values on arrays by string indexes only with a pre-calculated hash
  */
 int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length, unsigned long key, zval **value, int flags TSRMLS_DC){
@@ -432,6 +418,20 @@ int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length
 	}
 
 	return zend_hash_quick_update(Z_ARRVAL_PP(arr), index, index_length, key, value, sizeof(zval *), NULL);
+}
+
+/**
+ * Updates values on arrays by string indexes only
+ *
+ * @param arr
+ * @param index
+ * @param index_length strlen(index)
+ * @param value
+ * @param flags
+ */
+int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC) {
+
+	return phalcon_array_update_quick_string(arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), value, flags TSRMLS_CC);
 }
 
 /**
@@ -642,19 +642,6 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 
 /**
  * Reads an item from an array using a string as index
- *
- * @param return_value
- * @param arr
- * @param index
- * @param index_length strlen(index)
- */
-int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent TSRMLS_DC){
-
-	return phalcon_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), silent TSRMLS_CC);
-}
-
-/**
- * Reads an item from an array using a string as index
  */
 int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index, uint index_length, unsigned long key, int silent TSRMLS_DC){
 
@@ -688,6 +675,19 @@ int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index
 
 	return FAILURE;
 
+}
+
+/**
+ * Reads an item from an array using a string as index
+ *
+ * @param return_value
+ * @param arr
+ * @param index
+ * @param index_length strlen(index)
+ */
+int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent TSRMLS_DC){
+
+	return phalcon_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), silent TSRMLS_CC);
 }
 
 /**

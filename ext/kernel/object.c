@@ -916,14 +916,14 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 	zval *tmp;
 	int separated = 0;
 
-	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
+	if (Z_TYPE_P(object) == IS_OBJECT) {
 
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 
 		Z_DELREF_P(tmp);
 
-		/** Separation only when refcount > 2 */
-		if (Z_REFCOUNT_P(tmp) > 2) {
+		/** Separation only when refcount > 1 */
+		if (Z_REFCOUNT_P(tmp) > 1) {
 			zval *new_zv;
 			//Z_DELREF_P(tmp);
 			ALLOC_ZVAL(new_zv);
@@ -978,8 +978,8 @@ int phalcon_update_property_array_string(zval *object, char *property, unsigned 
 
 		Z_DELREF_P(tmp);
 
-		/** Separation only when refcount > 2 */
-		if (Z_REFCOUNT_P(tmp) > 2) {
+		/** Separation only when refcount > 1 */
+		if (Z_REFCOUNT_P(tmp) > 1) {
 			zval *new_zv;
 			//Z_DELREF_P(tmp);
 			ALLOC_ZVAL(new_zv);
@@ -1031,8 +1031,8 @@ int phalcon_update_property_array_append(zval *object, char *property, unsigned 
 
 	Z_DELREF_P(tmp);
 
-	/** Separation only when refcount > 2 */
-	if (Z_REFCOUNT_P(tmp) > 2) {
+	/** Separation only when refcount > 1 */
+	if (Z_REFCOUNT_P(tmp) > 1) {
 		zval *new_zv;
 		//Z_DELREF_P(tmp);
 		ALLOC_ZVAL(new_zv);
@@ -1094,8 +1094,8 @@ int phalcon_unset_property_array(zval *object, char *property, unsigned int prop
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 		Z_DELREF_P(tmp);
 
-		/** Separation only when refcount > 2 */
-		if (Z_REFCOUNT_P(tmp) > 2) {
+		/** Separation only when refcount > 1 */
+		if (Z_REFCOUNT_P(tmp) > 1) {
 			zval *new_zv;
 			//Z_DELREF_P(tmp);
 			ALLOC_ZVAL(new_zv);
