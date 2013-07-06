@@ -350,7 +350,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 							zend_vm_stack_clear_multiple(TSRMLS_C);
 							#else
 							zend_vm_stack_push((void *) (zend_uintptr_t)i TSRMLS_CC);
-							zend_vm_stack_clear_multiple(0 TSRMLS_C);
+							zend_vm_stack_clear_multiple(0 TSRMLS_CC);
 							#endif
 						}
 
@@ -506,7 +506,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	#if PHP_VERSION_ID < 50500
 	zend_vm_stack_clear_multiple(TSRMLS_C);
 	#else
-	zend_vm_stack_clear_multiple(0 TSRMLS_C);
+	zend_vm_stack_clear_multiple(0 TSRMLS_CC);
 	#endif
 
 	if (EG(This)) {
@@ -692,7 +692,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 						zend_vm_stack_clear_multiple(TSRMLS_C);
 						#else
 						zend_vm_stack_push((void *) (zend_uintptr_t)i TSRMLS_CC);
-						zend_vm_stack_clear_multiple(0 TSRMLS_C);
+						zend_vm_stack_clear_multiple(0 TSRMLS_CC);
 						#endif
 					}
 
@@ -861,7 +861,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	#if PHP_VERSION_ID < 50500
 	zend_vm_stack_clear_multiple(TSRMLS_C);
 	#else
-	zend_vm_stack_clear_multiple(0 TSRMLS_C);
+	zend_vm_stack_clear_multiple(0 TSRMLS_CC);
 	#endif
 
 	if (executor_globals_ptr->This) {
