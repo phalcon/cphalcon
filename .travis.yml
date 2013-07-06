@@ -42,7 +42,12 @@ before_script:
  - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/schemas/sqlite/phalcon_test.sql
  - chmod +x unit-tests/ci/run_script.sh
 
-script: ./unit-tests/ci/run_script.sh
+script:
+ - ulimit -a
+ - ulimit -c unlimited || true
+ - cat /proc/sys/kernel/core_pattern
+ - cat /proc/sys/kernel/core_uses_pid
+ - ./unit-tests/ci/run_script.sh
 
 notifications:
   email:
