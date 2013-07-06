@@ -920,7 +920,9 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 
 		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
 
-		Z_DELREF_P(tmp);
+		Z_DELREF_P(tmp); /* Compensate for phalcon_read_property() */
+		separated = Z_REFCOUNT_P(tmp) > 1;
+		SEPARATE_ZVAL(&tmp);
 
 		/** Separation only when refcount > 2 */
 		if (Z_REFCOUNT_P(tmp) > 2) {
@@ -934,16 +936,7 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 		}
 
 		/** Convert the value to array if not is an array */
-		if (Z_TYPE_P(tmp) != IS_ARRAY) {
-			if (separated) {
-				convert_to_array(tmp);
-			} else {
-				zval_ptr_dtor(&tmp);
-				ALLOC_INIT_ZVAL(tmp);
-				array_init(tmp);
-				separated = 1;
-			}
-		}
+		convert_to_array_ex(&tmp);
 
 		Z_ADDREF_P(value);
 
