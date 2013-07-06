@@ -55,7 +55,13 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
-	public function testValidatorsMysql(){
+	public function testValidatorsMysql()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -68,13 +74,39 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->_testValidatorsRenamed($di);
 	}
 
-	public function testValidatorsPostgresql(){
+	public function testValidatorsPostgresql()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
+
+		$this->_testValidatorsNormal($di);
+		$this->_testValidatorsRenamed($di);
+	}
+
+	public function testValidatorsSqlite()
+	{
+	return; // FIXME: there's no NOW() in SQLite
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			echo "Skipped\n";
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 		});
 
 		$this->_testValidatorsNormal($di);
