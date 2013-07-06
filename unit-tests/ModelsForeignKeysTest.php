@@ -58,6 +58,11 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 	public function testForeignKeysMysql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -72,6 +77,11 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 	public function testForeignKeysPostgresql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -86,6 +96,11 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 	public function testForeignKeysSqlite()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
