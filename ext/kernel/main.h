@@ -193,7 +193,7 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
  * Returns a zval in an object member
  */
 #define RETURN_MEMBER(object, member_name) \
- 	phalcon_return_property(return_value, object, SL(member_name) TSRMLS_CC); \
+	phalcon_return_property_quick(return_value, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
 	return;
 
 /**

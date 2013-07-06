@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/standard/head.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -323,7 +325,6 @@ PHP_METHOD(Phalcon_Http_Cookie, send){
 	zval *http_only, *dependency_injector, *definition;
 	zval *service = NULL, *session, *key, *encryption, *crypt;
 	zval *encrypt_value = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
 
@@ -423,15 +424,24 @@ PHP_METHOD(Phalcon_Http_Cookie, send){
 	/** 
 	 * Sets the cookie using the standard 'setcookie' function
 	 */
-	
-	p0[0] = name;
-	p0[1] = encrypt_value;
-	p0[2] = expire;
-	p0[3] = path;
-	p0[4] = domain;
-	p0[5] = secure;
-	p0[6] = http_only;
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("setcookie", 7, p0);
+	convert_to_string_ex(&name);
+	convert_to_string_ex(&encrypt_value);
+	convert_to_long_ex(&expire);
+	convert_to_string_ex(&path);
+	convert_to_string_ex(&domain);
+	convert_to_long_ex(&secure);
+	convert_to_long_ex(&http_only);
+
+	php_setcookie(
+		Z_STRVAL_P(name), Z_STRLEN_P(name),
+		Z_STRVAL_P(encrypt_value), Z_STRLEN_P(encrypt_value),
+		Z_DVAL_P(expire),
+		Z_STRVAL_P(path), Z_STRLEN_P(path),
+		Z_STRVAL_P(domain), Z_STRLEN_P(domain),
+		Z_DVAL_P(secure),
+		1,
+		Z_DVAL_P(http_only) TSRMLS_CC
+	);
 	
 	RETURN_THIS();
 }
@@ -517,9 +527,7 @@ PHP_METHOD(Phalcon_Http_Cookie, restore){
 PHP_METHOD(Phalcon_Http_Cookie, delete){
 
 	zval *name, *domain, *path, *secure, *http_only, *dependency_injector;
-	zval *service, *session, *key, *now, *days, *yesterday;
-	zval *znull;
-	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+	zval *service, *session, *key;
 
 	PHALCON_MM_GROW();
 
@@ -552,26 +560,24 @@ PHP_METHOD(Phalcon_Http_Cookie, delete){
 		phalcon_call_method_p1_noret(session, "remove", key);
 	}
 	
-	PHALCON_INIT_VAR(now);
-	ZVAL_LONG(now, (long) time(NULL));
-	
-	PHALCON_INIT_VAR(days);
-	ZVAL_LONG(days, 691200);
-	
-	PHALCON_INIT_VAR(yesterday);
-	sub_function(yesterday, now, days TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(znull);
 	phalcon_update_property_null(this_ptr, SL("_value") TSRMLS_CC);
-	
-	p0[0] = name;
-	p0[1] = znull;
-	p0[2] = yesterday;
-	p0[3] = path;
-	p0[4] = domain;
-	p0[5] = secure;
-	p0[6] = http_only;
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("setcookie", 7, p0);
+
+	convert_to_string_ex(&name);
+	convert_to_string_ex(&path);
+	convert_to_string_ex(&domain);
+	convert_to_long_ex(&secure);
+	convert_to_long_ex(&http_only);
+
+	php_setcookie(
+		Z_STRVAL_P(name), Z_STRLEN_P(name),
+		NULL, 0,
+		time(NULL) - 691200,
+		Z_STRVAL_P(path), Z_STRLEN_P(path),
+		Z_STRVAL_P(domain), Z_STRLEN_P(domain),
+		Z_DVAL_P(secure),
+		1,
+		Z_DVAL_P(http_only) TSRMLS_CC
+	);
 	
 	PHALCON_MM_RESTORE();
 }

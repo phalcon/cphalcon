@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		p0[4] = secure;
 		p0[5] = domain;
 		p0[6] = http_only;
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(cookie, "__construct", 7, p0);
+		phalcon_call_method_pn_noret(cookie, "__construct", 7, p0);
 	
 		/** 
 		 * Pass the DI to created cookies

@@ -247,33 +247,30 @@ int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 }
 
 /**
- * Check if method exists on certain object using explicit char param
+ * Check if a function exists
  */
 int phalcon_function_exists(const zval *function_name TSRMLS_DC) {
 
-	if (Z_TYPE_P(function_name) == IS_STRING) {
-		if (zend_hash_exists(CG(function_table), Z_STRVAL_P(function_name), Z_STRLEN_P(function_name))) {
-			return SUCCESS;
-		}
-	}
-
-	return FAILURE;
+	return phalcon_function_quick_exists_ex(
+		Z_STRVAL_P(function_name),
+		Z_STRLEN_P(function_name) + 1,
+		zend_inline_hash_func(Z_STRVAL_P(function_name), Z_STRLEN_P(function_name) + 1) TSRMLS_CC
+	);
 }
 
 /**
- * Check if method exists on certain object using explicit char param
+ * Check if a function exists using explicit char param
+ *
+ * @param function_name
+ * @param function_len strlen(function_name)+1
  */
 int phalcon_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC) {
 
-	if (zend_hash_exists(CG(function_table), function_name, function_len)) {
-		return SUCCESS;
-	}
-
-	return FAILURE;
+	return phalcon_function_quick_exists_ex(function_name, function_len, zend_inline_hash_func(function_name, function_len) TSRMLS_CC);
 }
 
 /**
- * Check if method exists on certain object using explicit char param (without calculate hash key)
+ * Check if a function exists using explicit char param (using precomputed hash key)
  */
 int phalcon_function_quick_exists_ex(const char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
 
