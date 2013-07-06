@@ -1094,13 +1094,17 @@ int phalcon_unset_property_array(zval *object, char *property, unsigned int prop
 int phalcon_method_exists(const zval *object, const zval *method_name TSRMLS_DC){
 
 	char *lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
-	int res = phalcon_method_exists_ex(object, lcname, Z_STRLEN_P(method_name) TSRMLS_CC);
+	int res = phalcon_method_exists_ex(object, lcname, Z_STRLEN_P(method_name)+1 TSRMLS_CC);
 	efree(lcname);
 	return res;
 }
 
 /**
  * Check if method exists on certain object using explicit char param
+ *
+ * @param object
+ * @param method_name
+ * @param method_length strlen(method_name)+1
  */
 int phalcon_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC){
 

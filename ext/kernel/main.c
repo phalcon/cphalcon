@@ -260,6 +260,9 @@ int phalcon_function_exists(const zval *function_name TSRMLS_DC) {
 
 /**
  * Check if a function exists using explicit char param
+ *
+ * @param function_name
+ * @param function_len strlen(function_name)+1
  */
 int phalcon_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC) {
 

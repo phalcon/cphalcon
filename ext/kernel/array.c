@@ -31,6 +31,7 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
+#include "kernel/backtrace.h"
 
 /**
  * Check if index exists on an array zval
@@ -96,6 +97,10 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
 
 /**
  * Check if char index exists on an array zval
+ *
+ * @param arr Array
+ * @param index Index
+ * @param index_length strlen(index)+1
  */
 int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length) {
 
@@ -380,6 +385,12 @@ int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flag
 
 /**
  * Updates values on arrays by string indexes only
+ *
+ * @param arr
+ * @param index
+ * @param index_length strlen(index)
+ * @param value
+ * @param flags
  */
 int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC) {
 
@@ -631,6 +642,11 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 
 /**
  * Reads an item from an array using a string as index
+ *
+ * @param return_value
+ * @param arr
+ * @param index
+ * @param index_length strlen(index)
  */
 int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent TSRMLS_DC){
 
