@@ -937,8 +937,8 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 			}
 		}
 
+		phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
 		if (separated) {
-			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
 			zval_ptr_dtor(&tmp);
 		}
 	}
@@ -969,8 +969,8 @@ int phalcon_update_property_array_string(zval *object, char *property, unsigned 
 
 		zend_hash_update(Z_ARRVAL_P(tmp), index, index_length, &value, sizeof(zval *), NULL);
 
+		phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
 		if (separated) {
-			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
 			zval_ptr_dtor(&tmp);
 		}
 
@@ -1003,8 +1003,8 @@ int phalcon_update_property_array_append(zval *object, char *property, unsigned 
 	Z_ADDREF_P(value);
 	add_next_index_zval(tmp, value);
 
+	phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
 	if (separated) {
-		phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
 		zval_ptr_dtor(&tmp);
 	}
 
@@ -1048,8 +1048,8 @@ int phalcon_unset_property_array(zval *object, char *property, unsigned int prop
 
 		phalcon_array_unset(&tmp, index, 0);
 
+		phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
 		if (separated) {
-			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
 			zval_ptr_dtor(&tmp);
 		}
 	}
