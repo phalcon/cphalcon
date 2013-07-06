@@ -6,10 +6,6 @@ echo $PHP_BIN
 $PHP_BIN ./php-tests/ci/phpunit.php --debug -c php-tests/tests/phpunit.xml
 STATUS=$?
 if [ $STATUS != 0 ]; then
-	ls -lha
-	ulimit -a
-	cat /proc/sys/kernel/core_pattern
-	cat /proc/sys/kernel/core_uses_pid
 	if [ -f core ]; then
 		sudo apt-get install gdb
 		gdb -q -batch -x ./php-tests/ci/gdb-commands -e $PHP_BIN -c core
