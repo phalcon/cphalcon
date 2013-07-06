@@ -304,6 +304,11 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeNormalMysql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$this->_prepareTestMysql();
 
