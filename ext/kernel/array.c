@@ -99,7 +99,7 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
  */
 int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length) {
 
-	return phalcon_array_isset_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length + 1));
+	return phalcon_array_isset_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length));
 }
 
 /**
