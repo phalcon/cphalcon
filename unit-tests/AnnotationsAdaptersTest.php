@@ -18,8 +18,8 @@
 	+------------------------------------------------------------------------+
 */
 
-require 'annotations/TestClass.php';
-require 'annotations/TestClassNs.php';
+require_once 'annotations/TestClass.php';
+require_once 'annotations/TestClassNs.php';
 
 class AnnotationsAdaptersTest extends PHPUnit_Framework_TestCase
 {
