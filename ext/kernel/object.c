@@ -1557,7 +1557,7 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 
 		params_hash = Z_ARRVAL_P(params);
 		zend_hash_internal_pointer_reset_ex(params_hash, &pos);
-		for (i=0; ; zend_hash_move_forward_ex(params_hash, &pos), i++) {
+		for (i = 0; ; zend_hash_move_forward_ex(params_hash, &pos), i++) {
 			zval ** item;
 			if (zend_hash_get_current_data_ex(params_hash, (void**)&item, &pos) == FAILURE) {
 				break;

@@ -255,12 +255,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 
 	zval *prefix = NULL, *keys, *type, *prefix_pattern, *iterator;
-	zval *key = NULL;
+	zval *key = NULL, *real_key = NULL;
+	zval *r0 = NULL;
 	zend_class_entry *ce0;
-	char *str_key;
-	uint str_key_len;
-	ulong int_key;
-	int key_type;
 
 	PHALCON_MM_GROW();
 
@@ -286,37 +283,29 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	if (phalcon_has_constructor(iterator TSRMLS_CC)) {
 		phalcon_call_method_p2_noret(iterator, "__construct", type, prefix_pattern);
 	}
-
-	/* APCIterator implements Iterator */
-	assert(instanceof_function_ex(ce0, zend_ce_iterator, 1 TSRMLS_CC));
-
-	zend_object_iterator* it = ce0->get_iterator(ce0, iterator, 0 TSRMLS_CC);
-
-	/* APCIterator is an iterator */
-	assert(it != NULL);
-	/* APCIterator has key() method */
-	assert(it->funcs->get_current_key != NULL);
-	/* APCIterator has rewind() method */
-	assert(it->funcs->rewind != NULL);
-
-	it->funcs->rewind(it TSRMLS_CC);
-	while (it->funcs->valid(it TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_NVAR(key);
-		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
-		if (likely(key_type == HASH_KEY_IS_STRING)) {
-			/**
-			 * Note that str_key_len includes the trailing zero.
-			 * Remove the _PHCA prefix.
-			 */
-			ZVAL_STRINGL(key, str_key+5, str_key_len-5-1, 1);
-
-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
+	phalcon_call_method_noret(iterator, "rewind");
+	
+	while (1) {
+	
+		PHALCON_INIT_NVAR(r0);
+		phalcon_call_method(r0, iterator, "valid");
+		if (zend_is_true(r0)) {
+		} else {
+			break;
 		}
-
-		it->funcs->move_forward(it TSRMLS_CC);
+	
+		PHALCON_INIT_NVAR(key);
+		phalcon_call_method(key, iterator, "key");
+	
+		/** 
+		 * Remove the _PHCA prefix
+		 */
+		PHALCON_INIT_NVAR(real_key);
+		phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
+		phalcon_array_append(&keys, real_key, PH_SEPARATE TSRMLS_CC);
+		phalcon_call_method_noret(iterator, "next");
 	}
 	
-	it->funcs->dtor(it TSRMLS_CC);
 	RETURN_CTOR(keys);
 }
 
