@@ -457,7 +457,12 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 
 	Z_ADDREF_PP(result);
 
-	ZVAL_NULL(property);
+	if (Z_REFCOUNT_P(property) > 1) {
+		ZVAL_STRINGL(property, property_name, property_length, 1);
+	} else {
+		ZVAL_NULL(property);
+	}
+
 	zval_ptr_dtor(&property);
 
 	EG(scope) = old_scope;
@@ -826,7 +831,12 @@ int phalcon_update_property_this_quick(zval *object, char *property_name, unsign
 
 		Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
 
-		ZVAL_NULL(property);
+		if (Z_REFCOUNT_P(property) > 1) {
+			ZVAL_STRINGL(property, property_name, property_length, 1);
+		} else {
+			ZVAL_NULL(property);
+		}
+
 		zval_ptr_dtor(&property);
 	}
 
@@ -938,8 +948,12 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 			if (separated) {
 				convert_to_array(tmp);
 			} else {
-				zval_ptr_dtor(&tmp);
-				ALLOC_INIT_ZVAL(tmp);
+				zval *new_zv;
+				ALLOC_ZVAL(new_zv);
+				INIT_PZVAL_COPY(new_zv, tmp);
+				tmp = new_zv;
+				zval_copy_ctor(new_zv);
+				Z_SET_REFCOUNT_P(tmp, 0);
 				array_init(tmp);
 				separated = 1;
 			}
@@ -993,8 +1007,12 @@ int phalcon_update_property_array_string(zval *object, char *property, unsigned 
 			if (separated) {
 				convert_to_array(tmp);
 			} else {
-				zval_ptr_dtor(&tmp);
-				ALLOC_INIT_ZVAL(tmp);
+				zval *new_zv;
+				ALLOC_ZVAL(new_zv);
+				INIT_PZVAL_COPY(new_zv, tmp);
+				tmp = new_zv;
+				zval_copy_ctor(new_zv);
+				Z_SET_REFCOUNT_P(tmp, 0);
 				array_init(tmp);
 				separated = 1;
 			}
@@ -1045,8 +1063,12 @@ int phalcon_update_property_array_append(zval *object, char *property, unsigned 
 		if (separated) {
 			convert_to_array(tmp);
 		} else {
-			zval_ptr_dtor(&tmp);
-			ALLOC_INIT_ZVAL(tmp);
+			zval *new_zv;
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp);
+			tmp = new_zv;
+			zval_copy_ctor(new_zv);
+			Z_SET_REFCOUNT_P(tmp, 0);
 			array_init(tmp);
 			separated = 1;
 		}
