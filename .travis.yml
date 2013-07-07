@@ -44,9 +44,13 @@ before_script:
 
 script:
  - ulimit -c unlimited
- - sudo sh -c 'echo 0 > /proc/sys/kernel/core_uses_pid'
- - sudo sh -c 'echo core > /proc/sys/kernel/core_pattern'
- - ./unit-tests/ci/run_script.sh
+ - gcc core.c -o makecore
+ - ./makecore || true
+ - ls -lha
+ - sh -c 'for i in core.*; do gdb -q ./makecore $i <<EOF
+set pagination 0; backtrace full; info registers; x/16i $pc; thread apply all backtrace; quit
+EOF
+'
 
 notifications:
   email:
