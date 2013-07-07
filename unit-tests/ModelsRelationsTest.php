@@ -122,43 +122,43 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 		$manager = $di->getShared('modelsManager');
 
-		$success = $manager->existsBelongsTo('RobotsParts', 'Robots');
+		$success = $manager->existsBelongsTo('RelationsRobotsParts', 'RelationsRobots');
 		$this->assertTrue($success);
 
-		$success = $manager->existsBelongsTo('RobotsParts', 'Parts');
+		$success = $manager->existsBelongsTo('RelationsRobotsParts', 'RelationsParts');
 		$this->assertTrue($success);
 
-		$success = $manager->existsHasMany('Robots', 'RobotsParts');
+		$success = $manager->existsHasMany('RelationsRobots', 'RelationsRobotsParts');
 		$this->assertTrue($success);
 
-		$success = $manager->existsHasMany('Parts', 'RobotsParts');
+		$success = $manager->existsHasMany('RelationsParts', 'RelationsRobotsParts');
 		$this->assertTrue($success);
 
-		$success = $manager->existsHasManyToMany('Robots', 'Parts');
+		$success = $manager->existsHasManyToMany('RelationsRobots', 'RelationsParts');
 		$this->assertTrue($success);
 
-		$robot = Robots::findFirst();
+		$robot = RelationsRobots::findFirst();
 		$this->assertNotEquals($robot, false);
 
-		$robotsParts = $robot->getRobotsParts();
+		$robotsParts = $robot->getRelationsRobotsParts();
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 3);
 
-		$parts = $robot->getParts();
+		$parts = $robot->getRelationsParts();
 		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($parts), 3);
 
 		/** Passing parameters to magic methods **/
-		$robotsParts = $robot->getRobotsParts("parts_id = 1");
+		$robotsParts = $robot->getRelationsRobotsParts("parts_id = 1");
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 1);
 
 		/** Passing parameters to magic methods **/
-		$parts = $robot->getParts("Parts.id = 1");
+		$parts = $robot->getRelationsParts("RelationsParts.id = 1");
 		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($parts), 1);
 
-		$robotsParts = $robot->getRobotsParts(array(
+		$robotsParts = $robot->getRelationsRobotsParts(array(
 			"parts_id > :parts_id:",
 			"bind" => array("parts_id" => 1)
 		));
@@ -166,15 +166,15 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robotsParts), 2);
 		$this->assertEquals($robotsParts->getFirst()->parts_id, 2);
 
-		$parts = $robot->getParts(array(
-			"Parts.id > :id:",
+		$parts = $robot->getRelationsParts(array(
+			"RelationsParts.id > :id:",
 			"bind" => array("id" => 1)
 		));
 		$this->assertEquals(get_class($parts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($parts), 2);
 		$this->assertEquals($parts->getFirst()->id, 2);
 
-		$robotsParts = $robot->getRobotsParts(array(
+		$robotsParts = $robot->getRelationsRobotsParts(array(
 			"parts_id > :parts_id:",
 			"bind" => array("parts_id" => 1),
 			"order" => "parts_id DESC"
@@ -184,27 +184,27 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($robotsParts->getFirst()->parts_id, 3);
 
 		/** Magic counting */
-		$number = $robot->countRobotsParts();
+		$number = $robot->countRelationsRobotsParts();
 		$this->assertEquals($number, 3);
 
-		$part = Parts::findFirst();
+		$part = RelationsParts::findFirst();
 		$this->assertNotEquals($part, false);
 
-		$robotsParts = $part->getRobotsParts();
+		$robotsParts = $part->getRelationsRobotsParts();
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 1);
 
-		$number = $part->countRobotsParts();
+		$number = $part->countRelationsRobotsParts();
 		$this->assertEquals($number, 1);
 
-		$robotPart = RobotsParts::findFirst();
+		$robotPart = RelationsRobotsParts::findFirst();
 		$this->assertNotEquals($robotPart, false);
 
-		$robot = $robotPart->getRobots();
-		$this->assertEquals(get_class($robot), 'Robots');
+		$robot = $robotPart->getRelationsRobots();
+		$this->assertEquals(get_class($robot), 'RelationsRobots');
 
-		$part = $robotPart->getParts();
-		$this->assertEquals(get_class($part), 'Parts');
+		$part = $robotPart->getRelationsParts();
+		$this->assertEquals(get_class($part), 'RelationsParts');
 
 		/** Relations in namespaced models */
 		$robot = Some\Robots::findFirst();
