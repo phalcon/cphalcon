@@ -10,9 +10,9 @@ services:
   - mongodb
 
 before_install:
- - ./unit-tests/ci/install_memcached
- - ./unit-tests/ci/install_apc
- - ./unit-tests/ci/install_mongo
+ - ./unit-tests/ci/install_memcached.sh
+ - ./unit-tests/ci/install_apc.sh
+ - ./unit-tests/ci/install_mongo.sh
  - sudo apt-get -qq install gdb
 
 before_script:
