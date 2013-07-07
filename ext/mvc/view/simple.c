@@ -544,6 +544,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render){
 PHP_METHOD(Phalcon_Mvc_View_Simple, partial){
 
 	zval *partial_path, *params = NULL, *view_params, *merged_params = NULL;
+	zval *content;
 
 	PHALCON_MM_GROW();
 
@@ -551,9 +552,12 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial){
 	
 	if (!params) {
 		PHALCON_INIT_VAR(params);
-	} else {
-		PHALCON_SEPARATE_PARAM(params);
 	}
+	
+	/** 
+	 * Start ouput buffering
+	 */
+	phalcon_ob_start(TSRMLS_C);
 	
 	/** 
 	 * If the developer pass an array of variables we create a new virtual symbol table
@@ -579,7 +583,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial){
 		phalcon_create_symbol_table(TSRMLS_C);
 	
 	} else {
-		PHALCON_CPY_WRT(params, merged_params);
+		PHALCON_CPY_WRT(merged_params, params);
 	}
 	
 	/** 
@@ -596,6 +600,16 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial){
 		 */
 		phalcon_update_property_this(this_ptr, SL("_viewParams"), view_params TSRMLS_CC);
 	}
+	
+	phalcon_ob_end_clean(TSRMLS_C);
+	
+	PHALCON_OBS_VAR(content);
+	phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);
+	
+	/** 
+	 * Content is output to the parent view
+	 */
+	zend_print_zval(content, 0);
 	
 	PHALCON_MM_RESTORE();
 }
