@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #  Phalcon Framework
 #
@@ -14,39 +14,23 @@
 #  Authors: Andres Gutierrez <andres@phalconphp.com>
 #            Eduar Carvajal <eduar@phalconphp.com>
 
-find_core_dump() {
-	find /home/travis -name "core"
-}
-
-ulimit -c unlimited
-PHP_VERSION=`php -r "echo PHP_VERSION;"`
-PHP_BIN="/home/travis/.phpenv/versions/$PHP_VERSION/bin/php"
-echo $PHP_BIN
-
-$PHP_BIN ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
+php ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
 STATUS=$?
 if [ $STATUS != 0 ]; then
-	if [ -f /tmp/core ]; then
-		sudo apt-get install gdb
-		gdb -q -batch -x ./unit-tests/ci/gdb-commands -e $PHP_BIN -c /tmp/core
-	else
-		find_core_dump
-		echo "No core dump was found"
-	fi
-
-	exit $STATUS
-fi
-
-$PHP_BIN ./php-tests/ci/phpunit.php --debug -c php-tests/tests/phpunit.xml
-STATUS=$?
-if [ $STATUS != 0 ]; then
-	if [ -f /tmp/core ]; then
-		sudo apt-get install gdb
-		gdb -q -batch -x ./unit-tests/ci/gdb-commands -e $PHP_BIN -c /tmp/core
-	else
-		find_core_dump
-		echo "No core dump was found"
-	fi
+	shopt -s nullglob
+	export LC_ALL=C
+	for i in core core.*; do
+		if [ -f "$i" -a "$(file "$i" | grep -o 'core file')" ]; then
+			gdb -q $(file "$i" | grep -Eo "'.*'\$") "$i" <<EOF
+set pagination 0
+backtrace full
+info registers
+x/16i \$pc
+thread apply all backtrace
+quit
+EOF
+		fi
+	done
 fi
 
 exit $STATUS

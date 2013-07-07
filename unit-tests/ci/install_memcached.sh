@@ -1,3 +1,4 @@
+#! /bin/sh
 
 if [ "`php -r 'echo substr(PHP_VERSION, 0, 3);'`" = "5.3" ]; then
 	wget http://pecl.php.net/get/memcache-2.2.7.tgz

@@ -1,8 +1,44 @@
-language: c
+language: php
+
+php:
+  - 5.3
+  - 5.3.3
+  - 5.4
+  - 5.5
+
+services:
+  - mongodb
+
+before_install:
+ - ./unit-tests/ci/install_memcached
+ - ./unit-tests/ci/install_apc
+ - ./unit-tests/ci/install_mongo
+ - sudo apt-get -qq install gdb
+
+before_script:
+ - git submodule init
+ - git submodule update
+ - cd php-tests/library/Mustache
+ - git checkout master
+ - cd ../../..
+ - cd php-tests/library/Twig
+ - git checkout master
+ - cd ../../..
+ - mkdir -p unit-tests/engines
+ - cd unit-tests/engines/
+ - git clone https://github.com/bobthecow/mustache.php.git
+ - git clone git://github.com/fabpot/Twig.git
+ - cd ../../ext
+ - export CFLAGS="-g3 -O1 -fno-delete-null-pointer-checks"
+ - phpize && ./configure --enable-phalcon && make && sudo make install
+ - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+ - cd ..
+ - mysql -uroot -e 'create database phalcon_test charset=utf8 collate=utf8_unicode_ci;'
+ - mysql -uroot phalcon_test < unit-tests/schemas/mysql/phalcon_test.sql
+ - psql -c 'create database phalcon_test;' -U postgres
+ - psql -U postgres phalcon_test -q -f unit-tests/schemas/postgresql/phalcon_test.sql
+ - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/schemas/sqlite/phalcon_test.sql
+ - ulimit -c unlimited
 
 script:
- - ulimit -c unlimited
- - gcc core.c -o makecore
- - ./makecore || true
- - ls -lha
- - ./process-core.sh
+ - ./unit-tests/ci/run_script.sh

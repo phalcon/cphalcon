@@ -1,3 +1,4 @@
+#! /bin/sh
 
 wget http://pecl.php.net/get/mongo-1.3.4.tgz
 tar -xzf mongo-1.3.4.tgz
