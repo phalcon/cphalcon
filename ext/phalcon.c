@@ -340,7 +340,6 @@ ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
 PHP_MINIT_FUNCTION(phalcon){
 
-	*(long*)0 = 0x12345678l;
 	if (!spl_ce_Countable) {
 		fprintf(stderr, "Phalcon Error: Interface Countable was not found");
 		return FAILURE;
