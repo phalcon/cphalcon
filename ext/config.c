@@ -332,7 +332,7 @@ static void array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 PHP_METHOD(Phalcon_Config, merge){
 
 	zval *config, *array_config, *value = NULL, *key = NULL, *active_value = NULL;
-	zval *other_array = NULL, *tmp = NULL;
+	zval *other_array = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;

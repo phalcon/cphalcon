@@ -260,8 +260,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 
 	zval *prefix = NULL, *keys, *type, *prefix_pattern, *iterator;
-	zval *key = NULL, *real_key = NULL;
-	zval *r0 = NULL;
+	zval *key = NULL;
 	zend_class_entry *ce0;
 #if PHP_VERSION_ID < 50500
 	char *str_key;
