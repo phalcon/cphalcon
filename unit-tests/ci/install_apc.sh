@@ -8,3 +8,4 @@ if [ "$(php -r 'echo substr(PHP_VERSION, 0, 3);')" = "5.5" ]; then
 else
 	phpenv config-add "$DIR/apc.ini"
 fi
+
