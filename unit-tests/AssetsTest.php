@@ -21,7 +21,7 @@
 class AssetsTest extends PHPUnit_Framework_TestCase
 {
 
-	public function testResource()
+	/*public function testResource()
 	{
 		$resource = new Phalcon\Assets\Resource('js', 'js/jquery.js');
 		$this->assertEquals($resource->getType(), 'js');
@@ -162,7 +162,7 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 <script src="http:://cdn.example.com/js/bootstrap.min.js" type="text/javascript"></script>' . PHP_EOL);
 	}
 
-	public function testJsmin()
+	public function testJsminFilter()
 	{
 		$jsmin = new Phalcon\Assets\Filters\Jsmin();
 
@@ -202,14 +202,14 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$filtered = $jsmin->filter("if ( a == b ) {    document . writeln('\t') ; }");
 		$this->assertEquals($filtered, PHP_EOL . "if(a==b){document.writeln('\t');}");
 
-		$filtered = $jsmin->filter("/** this is a comment */ if ( a == b ) {    document . writeln('\t') ; /** this is a comment */ }");
+		$filtered = $jsmin->filter("/** this is a comment * / if ( a == b ) {    document . writeln('\t') ; /** this is a comment * / }");
 		$this->assertEquals($filtered, PHP_EOL . "if(a==b){document.writeln('\t');}");
 
 		$filtered = $jsmin->filter("\t\ta\t\r\n= \n \r\n100;\t");
 		$this->assertEquals($filtered, PHP_EOL . 'a=100;');
 	}
 
-	public function testCssmin()
+	public function testCssminFilter()
 	{
 		$cssmin = new Phalcon\Assets\Filters\Cssmin();
 
@@ -238,7 +238,7 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($filtered, 'h2:after{border-width: 1px;}');
 
 		$filtered = $cssmin->filter("h1 > p { font-family: 'Helvetica Neue'; }");
-		$this->assertEquals($filtered, "h1>p{font-family: 'Helvetica Neue';}");
+		$this->assertEquals($filtered, "h1> p{font-family: 'Helvetica Neue';}");
 
 		$filtered = $cssmin->filter("h2:after,
 		.h2:after {
@@ -250,8 +250,55 @@ class AssetsTest extends PHPUnit_Framework_TestCase
     	position: absolute;
     		bottom: 	0; left: 	0;
 }	");
-		$this->assertEquals($filtered, "h2:after,.h2:after{content: '';display : block;height: 1px;width: 100%;border-color: #c0c0c0;border-style: solid none;border-width: 1px;position: absolute;bottom: 0;left: 0;}");
+		$this->assertEquals($filtered, "h2:after, .h2:after{content: '';display : block;height: 1px;width: 100%;border-color: #c0c0c0;border-style: solid none;border-width: 1px;position: absolute;bottom: 0;left: 0;} ");
 
+		$filtered = $cssmin->filter(".navbar .nav>li>a { color: #111; text-decoration: underline; }");
+		$this->assertEquals($filtered, ".navbar .nav>li>a{color: #111;text-decoration: underline;}");
+	}*/
+
+	public function testNoneFilter()
+	{
+		$cssmin = new Phalcon\Assets\Filters\None();
+
+		$filtered = $cssmin->filter(' ');
+		$this->assertEquals($filtered, ' ');
+	}
+
+	public function testFilterSimple()
+	{
+		$di = new Phalcon\DI();
+
+		$di['url'] = function() {
+			$url = new Phalcon\Mvc\Url();
+			$url->setStaticBaseUri('/');
+			return $url;
+		};
+
+		$assets = new Phalcon\Assets\Manager();
+
+		$assets->useImplicitOutput(false);
+
+		$js = $assets->collection('js');
+
+		$js->setTargetPath('unit-tests/assets/production/combined.js');
+
+		$js->setTargetUri('production/combined.js');
+
+		$js->addJs('jquery.js', false, false);
+
+		//Basic output
+		$this->assertEquals($assets->outputJs('js'), '<script src="jquery.js" type="text/javascript"></script>' . PHP_EOL);
+
+		//Enabling join
+		$js->join(true);
+		$this->assertEquals($assets->outputJs('js'), '<script src="jquery.js" type="text/javascript"></script>' . PHP_EOL);
+
+		//Disabling join
+		$js->join(true);
+		$this->assertEquals($assets->outputJs('js'), '<script src="jquery.js" type="text/javascript"></script>' . PHP_EOL);
+
+		$js->addFilter(new Phalcon\Assets\Filters\None());
+		$this->assertEquals($assets->outputJs('js'), '<script src="/production/combined.js" type="text/javascript"></script>' . PHP_EOL);
 
 	}
 

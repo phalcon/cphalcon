@@ -96,6 +96,8 @@ static char cssmin_back_peek(cssmin_parser *parser){
 */
 static int phalcon_cssmin_machine(cssmin_parser *parser, unsigned char c TSRMLS_DC){
 
+	unsigned char p;
+
 	if (parser->state != STATE_COMMENT) {
 		if (c == '/' && cssmin_peek(parser) == '*') {
 			parser->tmp_state = parser->state;
@@ -125,10 +127,12 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, unsigned char c TSRMLS_
 						parser->state = STATE_ATRULE;
 					} else {
 						if ((c == ' ' || c == '\t')) {
-							if (cssmin_peek(parser) == '{') {
+							p = cssmin_peek(parser);
+							if (p == '{' || p == '\t' || p == ' ' || p == '>' || p == ',') {
 								c = 0;
 							} else {
-								if (cssmin_back_peek(parser) == '\t' || cssmin_back_peek(parser) == ' ') {
+								p = cssmin_back_peek(parser);
+								if (p == ',' || p == '>' || p == ':') {
 									c = 0;
 								} else {
 									c = ' ';
@@ -197,8 +201,9 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, unsigned char c TSRMLS_
 						if (c == ' ' || c == '\t') {
 							/**
 							 * skip multiple spaces after each other
-						     */
-							if (cssmin_peek(parser) == ' ' || cssmin_peek(parser) == '\t') {
+							 */
+							p = cssmin_peek(parser);
+							if (p == ' ' || p == '\t') {
 								c = 0;
 							} else {
 								c = ' ';

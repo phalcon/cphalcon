@@ -465,11 +465,11 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 	zval *target_base_path = NULL, *options, *collection_source_path;
 	zval *complete_source_path = NULL, *collection_target_path;
 	zval *complete_target_path = NULL, *filtered_joined_content = NULL;
-	zval *join, *resource = NULL, *local = NULL, *path = NULL, *prefixed_path = NULL;
-	zval *attributes = NULL, *parameters = NULL, *html = NULL, *content = NULL;
-	zval *must_filter = NULL, *filter = NULL, *filtered_content = NULL;
-	zval *source_path = NULL, *exception_message = NULL, *target_path = NULL;
-	zval *is_directory, *target_uri;
+	zval *join, *exception_message = NULL, *is_directory;
+	zval *resource = NULL, *filter_needed = NULL, *local = NULL, *source_path = NULL;
+	zval *target_path = NULL, *path = NULL, *prefixed_path = NULL, *attributes = NULL;
+	zval *parameters = NULL, *html = NULL, *content = NULL, *must_filter = NULL;
+	zval *filter = NULL, *filtered_content = NULL, *target_uri;
 	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -578,6 +578,35 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 		 */
 		PHALCON_INIT_VAR(join);
 		phalcon_call_method(join, collection, "getjoin");
+	
+		/** 
+		 * Check for valid target paths if the collection must be joined
+		 */
+		if (zend_is_true(join)) {
+	
+			/** 
+			 * We need a valid final target path
+			 */
+			if (PHALCON_IS_EMPTY(complete_target_path)) {
+				PHALCON_INIT_VAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Path '", complete_target_path, "' is not a valid target path (1)");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+				return;
+			}
+	
+			PHALCON_INIT_VAR(is_directory);
+			phalcon_call_func_p1(is_directory, "is_dir", complete_target_path);
+	
+			/** 
+			 * The targetpath needs to be a valid file
+			 */
+			if (PHALCON_IS_TRUE(is_directory)) {
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Path '", complete_target_path, "' is not a valid target path (2)");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+				return;
+			}
+		}
 	}
 	
 	phalcon_is_iterable(resources, &ah0, &hp0, 0, 0);
@@ -586,8 +615,74 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 	
 		PHALCON_GET_HVALUE(resource);
 	
+		PHALCON_INIT_NVAR(filter_needed);
+		ZVAL_BOOL(filter_needed, 0);
+	
+		/** 
+		 * Is the resource local?
+		 */
 		PHALCON_INIT_NVAR(local);
 		phalcon_call_method(local, resource, "getlocal");
+	
+		/** 
+		 * If the collection must not be joined we must print a HTML for each one
+		 */
+		if (Z_TYPE_P(filters) == IS_ARRAY) { 
+			if (!zend_is_true(join)) {
+	
+				/** 
+				 * Get the complete path
+				 */
+				PHALCON_INIT_NVAR(source_path);
+				phalcon_call_method_p1(source_path, resource, "getrealsourcepath", complete_source_path);
+	
+				/** 
+				 * We need a valid source path
+				 */
+				if (!zend_is_true(source_path)) {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Resource '", source_path, "' does not have a valid source path");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+					return;
+				}
+	
+				/** 
+				 * Get the target path, we need to write the filtered content to a file
+				 */
+				PHALCON_INIT_NVAR(target_path);
+				phalcon_call_method_p1(target_path, resource, "getrealtargetpath", complete_target_path);
+	
+				/** 
+				 * We need a valid final target path
+				 */
+				if (PHALCON_IS_EMPTY(target_path)) {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Resource '", source_path, "' does not have a valid target path");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+					return;
+				}
+	
+				/** 
+				 * Make sure the target path is not the same source path
+				 */
+				if (PHALCON_IS_EQUAL(target_path, source_path)) {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Resource '", target_path, "' have the same source and target paths");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+					return;
+				}
+	
+				if (phalcon_file_exists(target_path TSRMLS_CC) == SUCCESS) {
+					if (phalcon_compare_mtime(target_path, source_path TSRMLS_CC)) {
+						PHALCON_INIT_NVAR(filter_needed);
+						ZVAL_BOOL(filter_needed, 1);
+					}
+				} else {
+					PHALCON_INIT_NVAR(filter_needed);
+					ZVAL_BOOL(filter_needed, 1);
+				}
+			}
+		}
 	
 		/** 
 		 * If there are not filters, just print/buffer the HTML
@@ -645,126 +740,86 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			continue;
 		}
 	
-		/** 
-		 * Gets the resource's content
-		 */
-		PHALCON_INIT_NVAR(content);
-		phalcon_call_method_p1(content, resource, "getcontent", complete_source_path);
+		if (zend_is_true(filter_needed)) {
 	
-		/** 
-		 * Check if the resource must be filtered
-		 */
-		PHALCON_INIT_NVAR(must_filter);
-		phalcon_call_method(must_filter, resource, "getfilter");
+			/** 
+			 * Gets the resource's content
+			 */
+			PHALCON_INIT_NVAR(content);
+			phalcon_call_method_p1(content, resource, "getcontent", complete_source_path);
 	
-		/** 
-		 * Only filter the resource if it's marked as 'filterable'
-		 */
-		if (zend_is_true(must_filter)) {
+			/** 
+			 * Check if the resource must be filtered
+			 */
+			PHALCON_INIT_NVAR(must_filter);
+			phalcon_call_method(must_filter, resource, "getfilter");
 	
-			phalcon_is_iterable(filters, &ah1, &hp1, 0, 0);
+			/** 
+			 * Only filter the resource if it's marked as 'filterable'
+			 */
+			if (zend_is_true(must_filter)) {
 	
-			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+				phalcon_is_iterable(filters, &ah1, &hp1, 0, 0);
 	
-				PHALCON_GET_HVALUE(filter);
+				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-				/** 
-				 * Filters must be valid objects
-				 */
-				if (Z_TYPE_P(filter) != IS_OBJECT) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Filter is invalid");
-					return;
+					PHALCON_GET_HVALUE(filter);
+	
+					/** 
+					 * Filters must be valid objects
+					 */
+					if (Z_TYPE_P(filter) != IS_OBJECT) {
+						PHALCON_THROW_EXCEPTION_STR(phalcon_assets_exception_ce, "Filter is invalid");
+						return;
+					}
+	
+					/** 
+					 * Calls the method 'filter' which must return a filtered version of the content
+					 */
+					PHALCON_INIT_NVAR(filtered_content);
+					phalcon_call_method_p1(filtered_content, filter, "filter", content);
+	
+					/** 
+					 * Update the joined filtered content
+					 */
+					if (zend_is_true(join)) {
+						if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
+							PHALCON_INIT_NVAR(filtered_joined_content);
+							PHALCON_CONCAT_VS(filtered_joined_content, filtered_content, ";");
+						} else {
+							PHALCON_SCONCAT_VS(filtered_joined_content, filtered_content, ";");
+						}
+					}
+	
+					zend_hash_move_forward_ex(ah1, &hp1);
 				}
 	
-				/** 
-				 * Calls the method 'filter' which must return a filtered version of the content
-				 */
-				PHALCON_INIT_NVAR(filtered_content);
-				phalcon_call_method_p1(filtered_content, filter, "filter", content);
-	
+			} else {
 				/** 
 				 * Update the joined filtered content
 				 */
 				if (zend_is_true(join)) {
 					if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
-						PHALCON_INIT_NVAR(filtered_joined_content);
-						PHALCON_CONCAT_VS(filtered_joined_content, filtered_content, ";");
+						PHALCON_CPY_WRT(filtered_joined_content, content);
 					} else {
-						PHALCON_SCONCAT_VS(filtered_joined_content, filtered_content, ";");
+						phalcon_concat_self(&filtered_joined_content, content TSRMLS_CC);
 					}
+				} else {
+					PHALCON_CPY_WRT(filtered_content, content);
 				}
-	
-				zend_hash_move_forward_ex(ah1, &hp1);
 			}
 	
-		} else {
-			/** 
-			 * Update the joined filtered content
-			 */
-			if (zend_is_true(join)) {
-				if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
-					PHALCON_CPY_WRT(filtered_joined_content, content);
-				} else {
-					phalcon_concat_self(&filtered_joined_content, content TSRMLS_CC);
-				}
-			} else {
-				PHALCON_CPY_WRT(filtered_content, content);
+			if (!zend_is_true(join)) {
+				/** 
+				 * Write the file using file-put-contents. This respects the openbase-dir also
+				 * writes to streams
+				 */
+				PHALCON_INIT_NVAR(r0);
+				phalcon_file_put_contents(r0, target_path, filtered_content TSRMLS_CC);
 			}
 		}
 	
-		/** 
-		 * If the collection must not be joined we must print a HTML for each one
-		 */
 		if (!zend_is_true(join)) {
-	
-			/** 
-			 * Get the complete path
-			 */
-			PHALCON_INIT_NVAR(source_path);
-			phalcon_call_method_p1(source_path, resource, "getrealsourcepath", complete_source_path);
-	
-			/** 
-			 * We need a valid source path
-			 */
-			if (!zend_is_true(source_path)) {
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Resource '", source_path, "' does not have a valid source path");
-				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
-				return;
-			}
-	
-			/** 
-			 * Get the target path, we need to write the filtered content to a file
-			 */
-			PHALCON_INIT_NVAR(target_path);
-			phalcon_call_method_p1(target_path, resource, "getrealtargetpath", complete_target_path);
-	
-			/** 
-			 * We need a valid final target path
-			 */
-			if (PHALCON_IS_EMPTY(target_path)) {
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Resource '", source_path, "' does not have a valid target path");
-				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
-				return;
-			}
-	
-			/** 
-			 * Make sure the target path is not the same source path
-			 */
-			if (PHALCON_IS_EQUAL(target_path, source_path)) {
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Resource '", target_path, "' have the same source and target paths");
-				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
-				return;
-			}
-	
-			/** 
-			 * Write the file using file_put_contents. This respects the openbase-dir also
-			 * writes to streams
-			 */
-			PHALCON_INIT_NVAR(r0);
-			phalcon_file_put_contents(r0, target_path, filtered_content TSRMLS_CC);
 	
 			/** 
 			 * Generate the HTML using the original path in the resource
@@ -826,34 +881,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	/** 
-	 * Output the joined resource
-	 */
 	if (Z_TYPE_P(filters) == IS_ARRAY) { 
 		if (zend_is_true(join)) {
-	
-			/** 
-			 * We need a valid final target path
-			 */
-			if (PHALCON_IS_EMPTY(complete_target_path)) {
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Resource '", complete_target_path, "' is not a valid target path");
-				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
-				return;
-			}
-	
-			PHALCON_INIT_VAR(is_directory);
-			phalcon_call_func_p1(is_directory, "is_dir", complete_target_path);
-	
-			/** 
-			 * The targetpath needs to be a valid file
-			 */
-			if (PHALCON_IS_TRUE(is_directory)) {
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Resource '", complete_target_path, "' is not a valid target path");
-				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
-				return;
-			}
 	
 			/** 
 			 * Write the file using file_put_contents. This respects the openbase-dir also

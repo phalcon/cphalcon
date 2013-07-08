@@ -195,6 +195,29 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 }
 
 /**
+ * Returns the prefix for all the generated static urls. By default /
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri){
+
+	zval *static_base_uri, *base_uri;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(static_base_uri);
+	phalcon_read_property_this(&static_base_uri, this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
+	if (Z_TYPE_P(static_base_uri) != IS_NULL) {
+		RETURN_CCTOR(static_base_uri);
+	}
+	
+	PHALCON_INIT_VAR(base_uri);
+	phalcon_call_method(base_uri, this_ptr, "getbaseuri");
+	
+	RETURN_CCTOR(base_uri);
+}
+
+/**
  * Sets a base path for all the generated paths
  *
  *<code>

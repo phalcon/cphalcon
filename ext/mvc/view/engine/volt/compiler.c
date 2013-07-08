@@ -2775,6 +2775,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo){
 	PHALCON_INIT_VAR(expr_code);
 	phalcon_call_method_p1(expr_code, this_ptr, "expression", expr);
 	
+	/** 
+	 * 'Do' statement
+	 */
 	PHALCON_INIT_VAR(compilation);
 	PHALCON_CONCAT_SVS(compilation, "<?php ", expr_code, "; ?>");
 	

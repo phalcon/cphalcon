@@ -32,69 +32,35 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
-#include "kernel/fcall.h"
-
 /**
- * Phalcon\Mvc\Controller
+ * Phalcon\Assets\Filters\None
  *
- * Every application controller should extend this class that encapsulates all the controller functionality
- *
- * The controllers provide the “flow” between models and views. Controllers are responsible
- * for processing the incoming requests from the web browser, interrogating the models for data,
- * and passing that data on to the views for presentation.
- *
- *<code>
- *
- *class PeopleController extends \Phalcon\Mvc\Controller
- *{
- *
- *  //This action will be executed by default
- *  public function indexAction()
- *  {
- *
- *  }
- *
- *  public function findAction()
- *  {
- *
- *  }
- *
- *  public function saveAction()
- *  {
- *   //Forwards flow to the index action
- *   return $this->dispatcher->forward(array('controller' => 'people', 'action' => 'index'));
- *  }
- *
- *}
- *
- *</code>
+ * Returns the content without make any modification to the original source
  */
 
 
 /**
- * Phalcon\Mvc\Controller initializer
+ * Phalcon\Assets\Filters\None initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Mvc_Controller){
+PHALCON_INIT_CLASS(Phalcon_Assets_Filters_None){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Controller, mvc_controller, "phalcon\\di\\injectable", phalcon_mvc_controller_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS(Phalcon\\Assets\\Filters, None, assets_filters_none, phalcon_assets_filters_none_method_entry, 0);
 
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Mvc\Controller constructor
+ * Returns the content without be touched
  *
+ * @param string $content
+ * @return $content
  */
-PHP_METHOD(Phalcon_Mvc_Controller, __construct){
+PHP_METHOD(Phalcon_Assets_Filters_None, filter){
 
+	zval *content;
 
-	PHALCON_MM_GROW();
-
-	if (phalcon_method_exists_ex(this_ptr, SS("onconstruct") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_noret(this_ptr, "onconstruct");
-	}
+	phalcon_fetch_params(0, 1, 0, &content);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_CCTORW(content);
 }
 

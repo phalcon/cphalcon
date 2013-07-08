@@ -26,6 +26,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getDI);
 PHP_METHOD(Phalcon_Mvc_Url, setBaseUri);
 PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri);
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri);
 PHP_METHOD(Phalcon_Mvc_Url, setBasePath);
 PHP_METHOD(Phalcon_Mvc_Url, getBasePath);
 PHP_METHOD(Phalcon_Mvc_Url, get);
@@ -66,6 +67,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_url_method_entry){
 	PHP_ME(Phalcon_Mvc_Url, setBaseUri, arginfo_phalcon_mvc_url_setbaseuri, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Url, setStaticBaseUri, arginfo_phalcon_mvc_url_setstaticbaseuri, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Url, getBaseUri, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Url, getStaticBaseUri, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Url, setBasePath, arginfo_phalcon_mvc_url_setbasepath, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Url, getBasePath, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Url, get, arginfo_phalcon_mvc_url_get, ZEND_ACC_PUBLIC) 
