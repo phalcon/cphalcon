@@ -82,10 +82,19 @@ static char cssmin_peek(cssmin_parser *parser){
 	return EOF;
 }
 
+static char cssmin_back_peek(cssmin_parser *parser){
+	char ch;
+	if (parser->style_pointer > 1) {
+		ch = Z_STRVAL_P(parser->style)[parser->style_pointer - 1];
+		return ch;
+	}
+	return EOF;
+}
+
 /* machine
 
 */
-static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
+static int phalcon_cssmin_machine(cssmin_parser *parser, unsigned char c TSRMLS_DC){
 
 	if (parser->state != STATE_COMMENT) {
 		if (c == '/' && cssmin_peek(parser) == '*') {
@@ -115,8 +124,16 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 					if(c == '@'){
 						parser->state = STATE_ATRULE;
 					} else {
-						if ((c == ' ' || c == '\t') && cssmin_peek(parser) == '{') {
-							c = 0;
+						if ((c == ' ' || c == '\t')) {
+							if (cssmin_peek(parser) == '{') {
+								c = 0;
+							} else {
+								if (cssmin_back_peek(parser) == '\t' || cssmin_back_peek(parser) == ' ') {
+									c = 0;
+								} else {
+									c = ' ';
+								}
+							}
 						}
 					}
 				}
@@ -130,8 +147,10 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 			if (c == '\r' || c == '\n' || c == ';') {
 				c = ';';
 				parser->state = STATE_FREE;
-			} else if(c == '{') {
-				parser->state = STATE_BLOCK;
+			} else {
+				if(c == '{') {
+					parser->state = STATE_BLOCK;
+				}
 			}
 			break;
 		case STATE_BLOCK:
@@ -179,8 +198,10 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 							/**
 							 * skip multiple spaces after each other
 						     */
-							if (cssmin_peek(parser) == c) {
+							if (cssmin_peek(parser) == ' ' || cssmin_peek(parser) == '\t') {
 								c = 0;
+							} else {
+								c = ' ';
 							}
 						}
 					}
@@ -207,7 +228,8 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, int c TSRMLS_DC){
 
 int phalcon_cssmin_internal(zval *return_value, zval *style, zval **error TSRMLS_DC) {
 
-	int i, c;
+	int i;
+	unsigned char c;
 	cssmin_parser parser;
 	smart_str minified = {0};
 

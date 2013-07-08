@@ -4,7 +4,7 @@
 	+------------------------------------------------------------------------+
 	| Phalcon Framework                                                      |
 	+------------------------------------------------------------------------+
-	| Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+	| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
 	+------------------------------------------------------------------------+
 	| This source file is subject to the New BSD License that is bundled     |
 	| with this package in the file docs/LICENSE.txt.                        |
@@ -160,6 +160,99 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($html, '<script src="http:://cdn.example.com/js/jquery.js" type="text/javascript"></script>
 <script src="http:://cdn.example.com/js/bootstrap.min.js" type="text/javascript"></script>' . PHP_EOL);
+	}
+
+	public function testJsmin()
+	{
+		$jsmin = new Phalcon\Assets\Filters\Jsmin();
+
+		try {
+			$filtered = $jsmin->filter(null);
+		} catch(Exception $e) {
+			$this->assertEquals($e->getMessage(), 'Script must be a string');
+		}
+
+		try {
+			$filtered = $jsmin->filter('/*');
+		} catch(Exception $e) {
+			$this->assertEquals($e->getMessage(), 'Unterminated comment.');
+		}
+
+		try {
+			$filtered = $jsmin->filter('a = "');
+		} catch(Exception $e) {
+			$this->assertEquals($e->getMessage(), 'Unterminated string literal.');
+		}
+
+		try {
+			$filtered = $jsmin->filter('b = /[a-z]+');
+		} catch(Exception $e) {
+			$this->assertEquals($e->getMessage(), 'Unterminated Regular Expression literal.');
+		}
+
+		$filtered = $jsmin->filter('');
+		$this->assertEquals($filtered, '');
+
+		$filtered = $jsmin->filter('{}}');
+		$this->assertEquals($filtered, PHP_EOL . '{}}');
+
+		$filtered = $jsmin->filter('if ( a == b ) {    document . writeln("hello") ; }');
+		$this->assertEquals($filtered, PHP_EOL . 'if(a==b){document.writeln("hello");}');
+
+		$filtered = $jsmin->filter("if ( a == b ) {    document . writeln('\t') ; }");
+		$this->assertEquals($filtered, PHP_EOL . "if(a==b){document.writeln('\t');}");
+
+		$filtered = $jsmin->filter("/** this is a comment */ if ( a == b ) {    document . writeln('\t') ; /** this is a comment */ }");
+		$this->assertEquals($filtered, PHP_EOL . "if(a==b){document.writeln('\t');}");
+
+		$filtered = $jsmin->filter("\t\ta\t\r\n= \n \r\n100;\t");
+		$this->assertEquals($filtered, PHP_EOL . 'a=100;');
+	}
+
+	public function testCssmin()
+	{
+		$cssmin = new Phalcon\Assets\Filters\Cssmin();
+
+		try {
+			$filtered = $cssmin->filter(null);
+		} catch(Exception $e) {
+			$this->assertEquals($e->getMessage(), 'Style must be a string');
+		}
+
+		$filtered = $cssmin->filter('');
+		$this->assertEquals($filtered, '');
+
+		$filtered = $cssmin->filter(' ');
+		$this->assertEquals($filtered, ' ');
+
+		$filtered = $cssmin->filter('{}}');
+		$this->assertEquals($filtered, '{}}');
+
+		$filtered = $cssmin->filter(".s { d 	:		b; }");
+		$this->assertEquals($filtered, ".s{d : b;}");
+
+		$filtered = $cssmin->filter(".social-link {display: inline-block; width: 44px; height: 44px; text-align: left; text-indent: -9999px; overflow: hidden; background: url('../images/social-links.png'); }");
+		$this->assertEquals($filtered, ".social-link{display: inline-block;width: 44px;height: 44px;text-align: left;text-indent: -9999px;overflow: hidden;background: url('../images/social-links.png');}");
+
+		$filtered = $cssmin->filter("h2:after 	    { border-width:   	  1px; }");
+		$this->assertEquals($filtered, 'h2:after{border-width: 1px;}');
+
+		$filtered = $cssmin->filter("h1 > p { font-family: 'Helvetica Neue'; }");
+		$this->assertEquals($filtered, "h1>p{font-family: 'Helvetica Neue';}");
+
+		$filtered = $cssmin->filter("h2:after,
+		.h2:after {
+    		content: ''; display 	:
+    		block; height: 1px; width: 100%; border-color:         #c0c0c0; border-style:
+    		solid
+    		none;
+    			border-width: 1px;
+    	position: absolute;
+    		bottom: 	0; left: 	0;
+}	");
+		$this->assertEquals($filtered, "h2:after,.h2:after{content: '';display : block;height: 1px;width: 100%;border-color: #c0c0c0;border-style: solid none;border-width: 1px;position: absolute;bottom: 0;left: 0;}");
+
+
 	}
 
 }

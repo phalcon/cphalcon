@@ -51,6 +51,7 @@ typedef struct _jsmin_parser {
 	zval *script;
 	zval **error;
 	int script_pointer;
+	int inside_string;
 	smart_str    *minified;
 } jsmin_parser;
 
@@ -95,8 +96,14 @@ static char jsmin_get(jsmin_parser *parser) {
 
 	parser->theC = c;
 
-	if (c >= ' ' || c == '\n' || c == EOF) {
-		return c;
+	if (parser->inside_string == 1) {
+		if (c >= ' ' || c == '\n' || c == '\t' || c == EOF) {
+			return c;
+		}
+	} else {
+		if (c >= ' ' || c == '\n' || c == EOF) {
+			return c;
+		}
 	}
 	if (c == '\r') {
 		return '\n';
@@ -166,6 +173,7 @@ static int jsmin_action(jsmin_parser *parser, char d TSRMLS_DC) {
 		case JSMIN_ACTION_NEXT_DELETE:
 			parser->theA = parser->theB;
 			if (parser->theA == '\'' || parser->theA == '"' || parser->theA == '`') {
+				parser->inside_string = 1;
 				for (;;) {
 					smart_str_appendc(parser->minified, parser->theA);
 					parser->theA = jsmin_get(parser);
@@ -181,6 +189,7 @@ static int jsmin_action(jsmin_parser *parser, char d TSRMLS_DC) {
 						return FAILURE;
 					}
 				}
+				parser->inside_string = 0;
 			}
 		case JSMIN_ACTION_NEXT:
 			parser->theB = jsmin_next(parser TSRMLS_CC);
@@ -259,6 +268,7 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 
 	jsmin_parser parser;
 	smart_str minified = {0};
+	int status = SUCCESS;
 
 	parser.theA = '\n';
 	parser.theX = EOF;
@@ -266,6 +276,7 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 	parser.script = script;
 	parser.error = error;
 	parser.script_pointer = 0;
+	parser.inside_string = 0;
 	parser.minified = &minified;
 
 	if (jsmin_action(&parser, JSMIN_ACTION_NEXT TSRMLS_CC) == FAILURE) {
@@ -273,10 +284,14 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 	}
 
 	while (parser.theA != EOF) {
+		if (status == FAILURE) {
+			break;
+		}
 		switch (parser.theA) {
 			case ' ':
 				if (jsmin_action(&parser, jsmin_isAlphanum(parser.theB) ? JSMIN_ACTION_OUTPUT_NEXT : JSMIN_ACTION_NEXT_DELETE TSRMLS_CC)) {
-					return FAILURE;
+					status = FAILURE;
+					break;
 				}
 				break;
 			case '\n':
@@ -289,17 +304,20 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 					case '!':
 					case '~':
 						if (jsmin_action(&parser, JSMIN_ACTION_OUTPUT_NEXT TSRMLS_CC) == FAILURE) {
-							return FAILURE;
+							status = FAILURE;
+							break;
 						}
 						break;
 					case ' ':
 						if (jsmin_action(&parser, JSMIN_ACTION_NEXT TSRMLS_CC) == FAILURE) {
-							return FAILURE;
+							status = FAILURE;
+							break;
 						}
 						break;
 					default:
 						if (jsmin_action(&parser, jsmin_isAlphanum(parser.theB) ? JSMIN_ACTION_OUTPUT_NEXT : JSMIN_ACTION_NEXT_DELETE TSRMLS_CC) == FAILURE) {
-							return FAILURE;
+							status = FAILURE;
+							break;
 						}
 				}
 				break;
@@ -307,7 +325,8 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 				switch (parser.theB) {
 					case ' ':
 						if (jsmin_action(&parser, jsmin_isAlphanum(parser.theA) ? JSMIN_ACTION_OUTPUT_NEXT : JSMIN_ACTION_NEXT TSRMLS_CC) == FAILURE) {
-							return FAILURE;
+							status = FAILURE;
+							break;
 						}
 						break;
 					case '\n':
@@ -321,22 +340,30 @@ int phalcon_jsmin_internal(zval *return_value, zval *script, zval **error TSRMLS
 							case '\'':
 							case '`':
 								if (jsmin_action(&parser, JSMIN_ACTION_OUTPUT_NEXT TSRMLS_CC) == FAILURE) {
-									return FAILURE;
+									status = FAILURE;
+									break;
 								}
 								break;
 							default:
 								if (jsmin_action(&parser, jsmin_isAlphanum(parser.theA) ? JSMIN_ACTION_OUTPUT_NEXT : JSMIN_ACTION_NEXT TSRMLS_CC) == FAILURE) {
-									return FAILURE;
+									status = FAILURE;
+									break;
 								}
 							}
 							break;
 					default:
 						if (jsmin_action(&parser, JSMIN_ACTION_OUTPUT_NEXT TSRMLS_CC) == FAILURE) {
-							return FAILURE;
+							status = FAILURE;
+							break;
 						}
 						break;
 				}
 		}
+	}
+
+	if (status == FAILURE) {
+		smart_str_free(&minified);
+		return FAILURE;
 	}
 
 	smart_str_0(&minified);
