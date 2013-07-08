@@ -114,6 +114,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getDI){
  *</code>
  *
  * @param string $baseUri
+ * @return Phalcon\Mvc\Url
  */
 PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 
@@ -131,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 		phalcon_update_property_this(this_ptr, SL("_staticBaseUri"), base_uri TSRMLS_CC);
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_THIS();
 }
 
 /**
@@ -142,6 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
  *</code>
  *
  * @param string $staticBaseUri
+ * @return Phalcon\Mvc\Url
  */
 PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri){
 
@@ -150,7 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri){
 	phalcon_fetch_params(0, 1, 0, &static_base_uri);
 	
 	phalcon_update_property_this(this_ptr, SL("_staticBaseUri"), static_base_uri TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
@@ -225,6 +227,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri){
  *</code>
  *
  * @param string $basePath
+ * @return Phalcon\Mvc\Url
  */
 PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
 
@@ -233,7 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
 	phalcon_fetch_params(0, 1, 0, &base_path);
 	
 	phalcon_update_property_this(this_ptr, SL("_basePath"), base_path TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**

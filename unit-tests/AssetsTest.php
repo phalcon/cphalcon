@@ -21,7 +21,7 @@
 class AssetsTest extends PHPUnit_Framework_TestCase
 {
 
-	/*public function testResource()
+	public function testResource()
 	{
 		$resource = new Phalcon\Assets\Resource('js', 'js/jquery.js');
 		$this->assertEquals($resource->getType(), 'js');
@@ -202,7 +202,7 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$filtered = $jsmin->filter("if ( a == b ) {    document . writeln('\t') ; }");
 		$this->assertEquals($filtered, PHP_EOL . "if(a==b){document.writeln('\t');}");
 
-		$filtered = $jsmin->filter("/** this is a comment * / if ( a == b ) {    document . writeln('\t') ; /** this is a comment * / }");
+		$filtered = $jsmin->filter("/** this is a comment */ if ( a == b ) {    document . writeln('\t') ; /** this is a comment */ }");
 		$this->assertEquals($filtered, PHP_EOL . "if(a==b){document.writeln('\t');}");
 
 		$filtered = $jsmin->filter("\t\ta\t\r\n= \n \r\n100;\t");
@@ -254,7 +254,7 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 		$filtered = $cssmin->filter(".navbar .nav>li>a { color: #111; text-decoration: underline; }");
 		$this->assertEquals($filtered, ".navbar .nav>li>a{color: #111;text-decoration: underline;}");
-	}*/
+	}
 
 	public function testNoneFilter()
 	{
@@ -266,6 +266,8 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 
 	public function testFilterSimple()
 	{
+		Phalcon\DI::reset();
+
 		$di = new Phalcon\DI();
 
 		$di['url'] = function() {

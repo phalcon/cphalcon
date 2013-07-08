@@ -470,7 +470,6 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 	zval *target_path = NULL, *path = NULL, *prefixed_path = NULL, *attributes = NULL;
 	zval *parameters = NULL, *html = NULL, *content = NULL, *must_filter = NULL;
 	zval *filter = NULL, *filtered_content = NULL, *target_uri;
-	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -814,8 +813,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 				 * Write the file using file-put-contents. This respects the openbase-dir also
 				 * writes to streams
 				 */
-				PHALCON_INIT_NVAR(r0);
-				phalcon_file_put_contents(r0, target_path, filtered_content TSRMLS_CC);
+				phalcon_file_put_contents(NULL, target_path, filtered_content TSRMLS_CC);
 			}
 		}
 	
@@ -888,8 +886,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			 * Write the file using file_put_contents. This respects the openbase-dir also
 			 * writes to streams
 			 */
-			PHALCON_INIT_VAR(r1);
-			phalcon_file_put_contents(r1, complete_target_path, filtered_joined_content TSRMLS_CC);
+			phalcon_file_put_contents(NULL, complete_target_path, filtered_joined_content TSRMLS_CC);
 	
 			/** 
 			 * Generate the HTML using the original path in the resource
