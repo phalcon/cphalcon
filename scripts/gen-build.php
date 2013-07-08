@@ -133,6 +133,7 @@ class Build_Generator
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
 #include "ext/standard/head.h"
+#include "ext/standard/url.h"
 #include "ext/spl/spl_heap.h"
 
 #if HAVE_BUNDLED_PCRE
@@ -567,6 +568,11 @@ class Build_Generator
 			if (preg_match('/^#include "(.+)"/', $line, $matches)) {
 
 				if (strpos($line, 'Zend/') !== false) {
+					//echo $line, PHP_EOL;
+					continue;
+				}
+
+				if (strpos($line, 'ext/') !== false) {
 					//echo $line, PHP_EOL;
 					continue;
 				}
