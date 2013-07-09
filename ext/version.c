@@ -37,6 +37,7 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Version
@@ -74,7 +75,7 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	PHALCON_INIT_VAR(version);
 	array_init_size(version, 5);
 	add_next_index_long(version, 1);
-	add_next_index_long(version, 1);
+	add_next_index_long(version, 2);
 	add_next_index_long(version, 0);
 	add_next_index_long(version, 4);
 	add_next_index_long(version, 0);
@@ -144,8 +145,8 @@ PHP_METHOD(Phalcon_Version, get){
 	phalcon_concat_self(&result, suffix TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(final_version);
-	PHALCON_CALL_FUNC_PARAMS_1(final_version, "trim", result);
-	RETURN_CCTOR(final_version);
+	phalcon_fast_trim(final_version, result, PHALCON_TRIM_BOTH TSRMLS_CC);
+	RETURN_CTOR(final_version);
 }
 
 /**
@@ -186,10 +187,10 @@ PHP_METHOD(Phalcon_Version, getId){
 	ZVAL_STRING(format, "%02s", 1);
 	
 	PHALCON_INIT_VAR(real_medium);
-	PHALCON_CALL_FUNC_PARAMS_2(real_medium, "sprintf", format, medium);
+	phalcon_call_func_p2(real_medium, "sprintf", format, medium);
 	
 	PHALCON_INIT_VAR(real_minor);
-	PHALCON_CALL_FUNC_PARAMS_2(real_minor, "sprintf", format, minor);
+	phalcon_call_func_p2(real_minor, "sprintf", format, minor);
 	
 	PHALCON_INIT_NVAR(version);
 	PHALCON_CONCAT_VVVVV(version, major, real_medium, real_minor, special, special_number);

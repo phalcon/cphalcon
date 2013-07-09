@@ -133,6 +133,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
  * @param array $data
  * @param array $columnMap
  * @param int $dirtyState
+ * @param boolean $keepSnapshots
  * @return Phalcon\Mvc\Model $result
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMap);
@@ -140,9 +141,10 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMap);
 /**
  * Assigns values to a model from an array returning a new model
  *
- * @param array $result
- * @param Phalcon\Mvc\ModelInterface $base
- * @return Phalcon\Mvc\ModelInterface $result
+ * @param Phalcon\Mvc\Model $base
+ * @param array $data
+ * @param int $dirtyState
+ * @return Phalcon\Mvc\Model
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResult);
 
@@ -261,6 +263,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getMessages);
  * Inserts or updates a model instance. Returning true on success or false otherwise.
  *
  * @param  array $data
+ * @param  array $whiteList
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, save);
@@ -270,6 +273,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, save);
  * Returning true on success or false otherwise.
  *
  * @param  array $data
+ * @param  array $whiteList
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
@@ -279,6 +283,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
  * Returning true on success or false otherwise.
  *
  * @param  array $data
+ * @param  array $whiteList
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, update);
@@ -322,7 +327,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, writeAttribute);
 /**
  * Returns related records based on defined relations
  *
- * @param string $modelName
+ * @param string $alias
  * @param array $arguments
  * @return Phalcon\Mvc\Model\ResultsetInterface
  */

@@ -63,8 +63,9 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage);
 PHP_METHOD(Phalcon_Mvc_Model, validate);
 PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed);
 PHP_METHOD(Phalcon_Mvc_Model, getMessages);
-PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys);
-PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse);
+PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict);
+PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict);
+PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade);
 PHP_METHOD(Phalcon_Mvc_Model, _preSave);
 PHP_METHOD(Phalcon_Mvc_Model, _postSave);
 PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert);
@@ -86,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate);
 PHP_METHOD(Phalcon_Mvc_Model, hasOne);
 PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
 PHP_METHOD(Phalcon_Mvc_Model, hasMany);
-PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough);
+PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany);
 PHP_METHOD(Phalcon_Mvc_Model, addBehavior);
 PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots);
 PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData);
@@ -322,8 +323,9 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, validate, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, validationHasFailed, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getMessages, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeys, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysReverse, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysRestrict, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, _preSave, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, _postSave, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, _doLowInsert, NULL, ZEND_ACC_PROTECTED) 
@@ -345,7 +347,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, hasOne, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, belongsTo, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, hasMany, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Mvc_Model, hasManyThrough, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, hasManyToMany, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, addBehavior, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, keepSnapshots, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, setSnapshotData, arginfo_phalcon_mvc_model_setsnapshotdata, ZEND_ACC_PUBLIC) 

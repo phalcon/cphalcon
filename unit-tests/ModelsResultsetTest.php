@@ -58,37 +58,61 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	protected function _prepareTestMysql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			return false;
+		}
+
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
+
+		return true;
 	}
 
 	protected function _prepareTestPostgresql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			return false;
+		}
+
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		});
+
+		return true;
 	}
 
 	protected function _prepareTestSqlite()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			return false;
+		}
+
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 		});
+
+		return true;
 	}
 
 	public function testResultsetNormalMysql()
 	{
-		$this->_prepareTestMysql();
+		if (!$this->_prepareTestMysql()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$robots = Robots::find(array(
 			'order' => 'id'
@@ -99,7 +123,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testResultsetBindingMysql()
 	{
-		$this->_prepareTestMysql();
+		if (!$this->_prepareTestMysql()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$initialId = 0;
 		$finalId = 4;
@@ -115,7 +142,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testResultsetNormalPostgresql()
 	{
-		$this->_prepareTestPostgresql();
+		if (!$this->_prepareTestPostgresql()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$robots = Robots::find(array('order' => 'id'));
 
@@ -124,7 +154,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testResultsetBindingPostgresql()
 	{
-		$this->_prepareTestPostgresql();
+		if (!$this->_prepareTestPostgresql()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$initialId = 0;
 		$finalId = 4;
@@ -140,7 +173,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testResultsetNormalSqlite()
 	{
-		$this->_prepareTestSqlite();
+		if (!$this->_prepareTestSqlite()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$robots = Robots::find(array('order' => 'id'));
 
@@ -149,7 +185,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testResultsetBindingSqlite()
 	{
-		$this->_prepareTestSqlite();
+		if (!$this->_prepareTestSqlite()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$initialId = 0;
 		$finalId = 4;
@@ -265,6 +304,11 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeNormalMysql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$this->_prepareTestMysql();
 
@@ -280,8 +324,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBindingsMysql()
 	{
-
-		$this->_prepareTestMysql();
+		if (!$this->_prepareTestMysql()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$initialId = 0;
 		$finalId = 4;
@@ -302,8 +348,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeNormalPostgresql()
 	{
-
-		$this->_prepareTestPostgresql();
+		if (!$this->_prepareTestPostgresql()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$data = serialize(Robots::find(array('order' => 'id')));
 
@@ -317,8 +365,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBindingsPostgresql()
 	{
-
-		$this->_prepareTestPostgresql();
+		if (!$this->_prepareTestPostgresql()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$initialId = 0;
 		$finalId = 4;
@@ -339,8 +389,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeNormalSqlite()
 	{
-
-		$this->_prepareTestPostgresql();
+		if (!$this->_prepareTestSqlite()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$data = serialize(Robots::find(array('order' => 'id')));
 
@@ -354,8 +406,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBindingsSqlite()
 	{
-
-		$this->_prepareTestPostgresql();
+		if (!$this->_prepareTestSqlite()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$initialId = 0;
 		$finalId = 4;
@@ -376,8 +430,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBigMysql()
 	{
-
-		$this->_prepareTestMysql();
+		if (!$this->_prepareTestMysql()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$data = serialize(Personas::find(array(
 			'limit' => 33
@@ -393,8 +449,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBigPostgresql()
 	{
-
-		$this->_prepareTestPostgresql();
+		if (!$this->_prepareTestPostgresql()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$data = serialize(Personas::find(array(
 			'limit' => 33
@@ -410,8 +468,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testSerializeBigSqlite()
 	{
-
-		$this->_prepareTestSqlite();
+		if (!$this->_prepareTestSqlite()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$data = serialize(Personas::find(array(
 			'limit' => 33
@@ -427,7 +487,10 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testResultsetNormalZero()
 	{
-		$this->_prepareTestMysql();
+		if (!$this->_prepareTestMysql()) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$robots = Robots::find('id > 1000');
 
@@ -478,7 +541,6 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->assertFalse(isset($robots[0]));
-
 	}
 
 }

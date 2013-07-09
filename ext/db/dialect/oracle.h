@@ -35,14 +35,21 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, _getTableOptions);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, getSqlTable);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit);
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, select);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsSavepoints);
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsReleaseSavepoints);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
@@ -113,8 +120,25 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_droptable, 0, 0, 2)
 	ZEND_ARG_INFO(0, ifExists)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_createview, 0, 0, 3)
+	ZEND_ARG_INFO(0, viewName)
+	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_INFO(0, schemaName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_dropview, 0, 0, 2)
+	ZEND_ARG_INFO(0, viewName)
+	ZEND_ARG_INFO(0, schemaName)
+	ZEND_ARG_INFO(0, ifExists)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_tableexists, 0, 0, 1)
 	ZEND_ARG_INFO(0, tableName)
+	ZEND_ARG_INFO(0, schemaName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_viewexists, 0, 0, 1)
+	ZEND_ARG_INFO(0, viewName)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
@@ -124,6 +148,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_describecolumns, 0, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_listtables, 0, 0, 0)
+	ZEND_ARG_INFO(0, schemaName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_listviews, 0, 0, 0)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
@@ -140,6 +168,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_tableoptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_INFO(0, schema)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_getsqltable, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, escapeChar)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_oracle_limit, 0, 0, 2)
@@ -165,14 +198,21 @@ PHALCON_INIT_FUNCS(phalcon_db_dialect_oracle_method_entry){
 	PHP_ME(Phalcon_Db_Dialect_Oracle, _getTableOptions, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, createTable, arginfo_phalcon_db_dialect_oracle_createtable, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, dropTable, arginfo_phalcon_db_dialect_oracle_droptable, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Oracle, createView, arginfo_phalcon_db_dialect_oracle_createview, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Oracle, dropView, arginfo_phalcon_db_dialect_oracle_dropview, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, tableExists, arginfo_phalcon_db_dialect_oracle_tableexists, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Oracle, viewExists, arginfo_phalcon_db_dialect_oracle_viewexists, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, describeColumns, arginfo_phalcon_db_dialect_oracle_describecolumns, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, listTables, arginfo_phalcon_db_dialect_oracle_listtables, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Oracle, listViews, arginfo_phalcon_db_dialect_oracle_listviews, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, describeIndexes, arginfo_phalcon_db_dialect_oracle_describeindexes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, describeReferences, arginfo_phalcon_db_dialect_oracle_describereferences, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, tableOptions, arginfo_phalcon_db_dialect_oracle_tableoptions, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Oracle, getSqlTable, arginfo_phalcon_db_dialect_oracle_getsqltable, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, limit, arginfo_phalcon_db_dialect_oracle_limit, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Oracle, select, arginfo_phalcon_db_dialect_oracle_select, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Oracle, supportsSavepoints, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Oracle, supportsReleaseSavepoints, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

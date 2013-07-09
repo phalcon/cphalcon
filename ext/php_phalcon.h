@@ -20,7 +20,7 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "1.1.0"
+#define PHP_PHALCON_VERSION "1.2.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_MAX_MEMORY_STACK 48
@@ -28,7 +28,9 @@
 /** Memory frame */
 typedef struct _phalcon_memory_entry {
 	int pointer;
-	zval **addresses[PHALCON_MAX_MEMORY_STACK];
+	zval ***addresses;
+	int hash_pointer;
+	zval ***hash_addresses;
 	struct _phalcon_memory_entry *prev;
 	struct _phalcon_memory_entry *next;
 } phalcon_memory_entry;
@@ -47,13 +49,24 @@ typedef struct _phalcon_orm_options {
 	zend_bool column_renaming;
 	zend_bool not_null_validations;
 	zend_bool exception_on_failed_save;
+	zend_bool enable_literals;
+	int cache_level;
+	int unique_cache_id;
 	HashTable *parser_cache;
+	HashTable *ast_cache;
 } phalcon_orm_options;
 
 /** DB options */
 typedef struct _phalcon_db_options {
 	zend_bool escape_identifiers;
 } phalcon_db_options;
+
+/** DI options */
+typedef struct _phalcon_di_options {
+	zend_bool cache_enabled;
+	zval **injector;
+	HashTable *shared_services_cache;
+} phalcon_di_options;
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
@@ -74,6 +87,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 #ifndef PHALCON_RELEASE
 	unsigned int phalcon_stack_stats;
 	unsigned int phalcon_number_grows;
+	unsigned int phalcon_stack_derivate[PHALCON_MAX_MEMORY_STACK];
 #endif
 
 	/** ORM */
@@ -134,17 +148,19 @@ extern zend_module_entry phalcon_module_entry;
 		return FAILURE; \
 	}
 
-#if PHP_VERSION_ID >= 50400
-#define PHALCON_EXPERIMENTAL_FCALL 0
-#else
-#define PHALCON_EXPERIMENTAL_FCALL 1
-#endif
-
 /** Macros for branch prediction */
 #if defined(__GNUC__) && ZEND_GCC_VERSION >= 3004 && defined(__i386__)
 #define likely(x)       __builtin_expect((x),1)
 #define unlikely(x)     __builtin_expect((x),0)
 #else
-#define likely(x)       x
-#define unlikely(x)     x
+#define likely(x)       EXPECTED(x)
+#define unlikely(x)     UNEXPECTED(x)
+#endif
+
+#if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
+#define UNREACHABLE() __builtin_unreachable()
+#define ASSUME(x)     if (x) {} else __builtin_unreachable()
+#else
+#define UNREACHABLE() assert(0)
+#define ASSUME(x)     assert(!!(x));
 #endif

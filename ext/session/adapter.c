@@ -35,8 +35,8 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/array.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 #include "kernel/concat.h"
 
 /**
@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "setoptions", options);
+		phalcon_call_method_p1_noret(this_ptr, "setoptions", options);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -96,9 +96,9 @@ PHP_METHOD(Phalcon_Session_Adapter, start){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(headers_sent);
-	PHALCON_CALL_FUNC(headers_sent, "headers_sent");
+	phalcon_call_func(headers_sent, "headers_sent");
 	if (PHALCON_IS_FALSE(headers_sent)) {
-		PHALCON_CALL_FUNC_NORETURN("session_start");
+		phalcon_call_func_noret("session_start");
 		phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
 		RETURN_MM_TRUE;
 	}
@@ -125,17 +125,17 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions){
 
 	phalcon_fetch_params(1, 1, 0, &options);
 	
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("uniqueId"))) {
-			PHALCON_OBS_VAR(unique_id);
-			phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY_CC);
-			phalcon_update_property_this(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
-		}
-		phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	} else {
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "Options must be an Array");
 		return;
 	}
+	if (phalcon_array_isset_string(options, SS("uniqueId"))) {
+		PHALCON_OBS_VAR(unique_id);
+		phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY_CC);
+		phalcon_update_property_this(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
+	}
+	
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -191,7 +191,6 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 		}
 	}
 	
-	
 	RETURN_CCTOR(default_value);
 }
 
@@ -232,6 +231,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
  *</code>
  *
  * @param string $index
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Adapter, has){
 
@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Session_Adapter, getId){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(session_id);
-	PHALCON_CALL_FUNC(session_id, "session_id");
+	phalcon_call_func(session_id, "session_id");
 	RETURN_CCTOR(session_id);
 }
 
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Session_Adapter, destroy){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(destroyed);
-	PHALCON_CALL_FUNC(destroyed, "session_destroy");
+	phalcon_call_func(destroyed, "session_destroy");
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
 	RETURN_CCTOR(destroyed);
 }

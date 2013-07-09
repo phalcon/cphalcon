@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Flash_Direct, message){
 	phalcon_fetch_params(1, 2, 0, &type, &message);
 	
 	PHALCON_INIT_VAR(flash_message);
-	PHALCON_CALL_METHOD_PARAMS_2(flash_message, this_ptr, "outputmessage", type, message);
+	phalcon_call_method_p2(flash_message, this_ptr, "outputmessage", type, message);
 	RETURN_CCTOR(flash_message);
 }
 

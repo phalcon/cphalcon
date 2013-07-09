@@ -67,25 +67,26 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable){
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 
 	zval *type, *model, *take_action, *options, *timestamp = NULL;
-	zval *format, *generator, *field;
+	zval *format, *generator, *field, *single_field = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &model) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &type, &model);
+	
 	/** 
 	 * Check if the developer decided to take action here
 	 */
 	PHALCON_INIT_VAR(take_action);
-	PHALCON_CALL_METHOD_PARAMS_1(take_action, this_ptr, "musttakeaction", type);
+	phalcon_call_method_p1(take_action, this_ptr, "musttakeaction", type);
 	if (PHALCON_IS_NOT_TRUE(take_action)) {
 		RETURN_MM_NULL();
 	}
 	
 	PHALCON_INIT_VAR(options);
-	PHALCON_CALL_METHOD_PARAMS_1(options, this_ptr, "getoptions", type);
+	phalcon_call_method_p1(options, this_ptr, "getoptions", type);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 	
 		/** 
@@ -104,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 			PHALCON_OBS_VAR(format);
 			phalcon_array_fetch_string(&format, options, SL("format"), PH_NOISY_CC);
 	
-			PHALCON_CALL_FUNC_PARAMS_1(timestamp, "date", format);
+			phalcon_call_func_p1(timestamp, "date", format);
 		} else {
 			if (phalcon_array_isset_string(options, SS("generator"))) {
 	
@@ -132,7 +133,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 	
 		PHALCON_OBS_VAR(field);
 		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(model, "writeattribute", field, timestamp);
+	
+		/** 
+		 * Assign the value to the field, use writeattribute if the property is protected
+		 */
+		if (unlikely(Z_TYPE_P(field) == IS_ARRAY)) { 
+	
+			phalcon_is_iterable(field, &ah0, &hp0, 0, 0);
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_HVALUE(single_field);
+	
+				phalcon_call_method_p2_noret(model, "writeattribute", single_field, timestamp);
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+		} else {
+			phalcon_call_method_p2_noret(model, "writeattribute", field, timestamp);
+		}
 	}
 	
 	PHALCON_MM_RESTORE();

@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Forms_Element, getMessages);
 PHP_METHOD(Phalcon_Forms_Element, hasMessages);
 PHP_METHOD(Phalcon_Forms_Element, setMessages);
 PHP_METHOD(Phalcon_Forms_Element, appendMessage);
+PHP_METHOD(Phalcon_Forms_Element, clear);
 PHP_METHOD(Phalcon_Forms_Element, __toString);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element___construct, 0, 0, 1)
@@ -85,6 +86,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_prepareattributes, 0, 0, 0)
 	ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_INFO(0, useChecked)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_setattribute, 0, 0, 2)
@@ -162,6 +164,7 @@ PHALCON_INIT_FUNCS(phalcon_forms_element_method_entry){
 	PHP_ME(Phalcon_Forms_Element, hasMessages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, setMessages, arginfo_phalcon_forms_element_setmessages, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, appendMessage, arginfo_phalcon_forms_element_appendmessage, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Forms_Element, clear, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Forms_Element, __toString, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

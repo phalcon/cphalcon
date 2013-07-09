@@ -93,15 +93,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &record) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &record);
+	
 	PHALCON_INIT_VAR(option);
 	ZVAL_STRING(option, "field", 1);
 	
 	PHALCON_INIT_VAR(field_name);
-	PHALCON_CALL_METHOD_PARAMS_1(field_name, this_ptr, "getoption", option);
+	phalcon_call_method_p1(field_name, this_ptr, "getoption", option);
 	if (Z_TYPE_P(field_name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
@@ -114,14 +112,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	ZVAL_STRING(option, "pattern", 1);
 	
 	PHALCON_INIT_VAR(is_set);
-	PHALCON_CALL_METHOD_PARAMS_1(is_set, this_ptr, "issetoption", option);
+	phalcon_call_method_p1(is_set, this_ptr, "issetoption", option);
 	if (!zend_is_true(is_set)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator requires a perl-compatible regex pattern");
 		return;
 	}
 	
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name);
+	phalcon_call_method_p1(value, record, "readattribute", field_name);
 	
 	PHALCON_INIT_VAR(failed);
 	ZVAL_BOOL(failed, 0);
@@ -132,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	 * The regular expression is set in the option 'pattern'
 	 */
 	PHALCON_INIT_VAR(pattern);
-	PHALCON_CALL_METHOD_PARAMS_1(pattern, this_ptr, "getoption", option);
+	phalcon_call_method_p1(pattern, this_ptr, "getoption", option);
 	
 	/** 
 	 * Check if the value match using preg_match in the PHP userland
@@ -144,7 +142,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	#if HAVE_BUNDLED_PCRE
 	phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC);
 	#else
-	PHALCON_CALL_FUNC_PARAMS_3(match_pattern, "preg_match", pattern, value, matches);
+	phalcon_call_func_p3(match_pattern, "preg_match", pattern, value, matches);
 	#endif
 	
 	Z_UNSET_ISREF_P(matches);
@@ -155,6 +153,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	
 		is_not_equal_function(failed, match_zero, value TSRMLS_CC);
 	} else {
+		PHALCON_INIT_NVAR(failed);
 		ZVAL_BOOL(failed, 1);
 	}
 	
@@ -167,7 +166,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message);
-		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option);
+		phalcon_call_method_p1(message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_NVAR(message);
 			PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' doesn't match regular expression");
@@ -175,7 +174,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "Regex", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, type);
+		phalcon_call_method_p3_noret(this_ptr, "appendmessage", message, field_name, type);
 		RETURN_MM_FALSE;
 	}
 	

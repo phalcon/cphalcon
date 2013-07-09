@@ -41,7 +41,20 @@
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
  *
- * Component of pagination by array data
+ * Pagination using a PHQL query builder as source of data
+ *
+ *<code>
+ *  $builder = $this->modelsManager->createBuilder()
+ *                   ->columns('id, name')
+ *                   ->from('Robots')
+ *                   ->orderBy('name');
+ *
+ *  $paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
+ *      "builder" => $builder,
+ *      "limit"=> 20,
+ *      "page" => 1
+ *  ));
+ *</code>
  */
 
 
@@ -73,10 +86,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &config) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &config);
+	
 	phalcon_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	if (!phalcon_array_isset_string(config, SS("builder"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required");
@@ -114,10 +125,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setCurrentPage){
 
 	zval *current_page;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &current_page) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &current_page);
+	
 	phalcon_update_property_this(this_ptr, SL("_page"), current_page TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -131,21 +140,26 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 
 	zval *original_builder, *builder, *total_builder;
 	zval *limit, *number_page = NULL, *one, *prev_number_page;
-	zval *number, *compare = NULL, *query, *page, *before = NULL, *items;
-	zval *select_count, *total_query, *result, *row;
-	zval *rowcount, *total_pages = NULL, *int_total_pages;
-	zval *next = NULL;
+	zval *number, *query, *page, *before = NULL, *items, *select_count;
+	zval *null_order, *total_query, *result, *row, *rowcount;
+	zval *total_pages = NULL, *int_total_pages, *next = NULL;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(original_builder);
 	phalcon_read_property_this(&original_builder, this_ptr, SL("_builder"), PH_NOISY_CC);
 	
+	/** 
+	 * We make a copy of the original builder to leave it as it is
+	 */
 	PHALCON_INIT_VAR(builder);
 	if (phalcon_clone(builder, original_builder TSRMLS_CC) == FAILURE) {
 		return;
 	}
 	
+	/** 
+	 * We make a copy of the original builder to count the total of records
+	 */
 	PHALCON_INIT_VAR(total_builder);
 	if (phalcon_clone(total_builder, builder TSRMLS_CC) == FAILURE) {
 		return;
@@ -169,16 +183,17 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	PHALCON_INIT_VAR(number);
 	mul_function(number, limit, prev_number_page TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(compare);
-	is_smaller_function(compare, number, limit TSRMLS_CC);
-	if (PHALCON_IS_TRUE(compare)) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "limit", limit);
+	/** 
+	 * Set the limit clause avoiding negative offsets
+	 */
+	if (PHALCON_LT(number, limit)) {
+		phalcon_call_method_p1_noret(builder, "limit", limit);
 	} else {
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(builder, "limit", limit, number);
+		phalcon_call_method_p2_noret(builder, "limit", limit, number);
 	}
 	
 	PHALCON_INIT_VAR(query);
-	PHALCON_CALL_METHOD(query, builder, "getquery");
+	phalcon_call_method(query, builder, "getquery");
 	
 	PHALCON_INIT_VAR(page);
 	object_init(page);
@@ -186,28 +201,47 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	if (PHALCON_IS_EQUAL(number_page, one)) {
 		PHALCON_CPY_WRT(before, one);
 	} else {
-		PHALCON_INIT_VAR(before);
+		PHALCON_INIT_NVAR(before);
 		sub_function(before, number_page, one TSRMLS_CC);
 	}
 	
 	phalcon_update_property_zval(page, SL("before"), before TSRMLS_CC);
 	
+	/** 
+	 * Execute the query an return the requested slice of data
+	 */
 	PHALCON_INIT_VAR(items);
-	PHALCON_CALL_METHOD(items, query, "execute");
+	phalcon_call_method(items, query, "execute");
 	phalcon_update_property_zval(page, SL("items"), items TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(select_count);
-	ZVAL_STRING(select_count, "COUNT(*) rowcount", 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(total_builder, "columns", select_count);
+	ZVAL_STRING(select_count, "COUNT(*) [rowcount]", 1);
 	
+	/** 
+	 * Change the queried columns by a COUNT(*)
+	 */
+	phalcon_call_method_p1_noret(total_builder, "columns", select_count);
+	
+	/** 
+	 * Remove the 'ORDER BY' clause, PostgreSQL requires this
+	 */
+	PHALCON_INIT_VAR(null_order);
+	phalcon_call_method_p1_noret(total_builder, "orderby", null_order);
+	
+	/** 
+	 * Obtain the PHQL for the total query
+	 */
 	PHALCON_INIT_VAR(total_query);
-	PHALCON_CALL_METHOD(total_query, total_builder, "getquery");
+	phalcon_call_method(total_query, total_builder, "getquery");
 	
+	/** 
+	 * Obtain the result of the total query
+	 */
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_METHOD(result, total_query, "execute");
+	phalcon_call_method(result, total_query, "execute");
 	
 	PHALCON_INIT_VAR(row);
-	PHALCON_CALL_METHOD(row, result, "getfirst");
+	phalcon_call_method(row, result, "getfirst");
 	
 	PHALCON_OBS_VAR(rowcount);
 	phalcon_read_property(&rowcount, row, SL("rowcount"), PH_NOISY_CC);
@@ -216,13 +250,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getPaginate){
 	div_function(total_pages, rowcount, limit TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(int_total_pages);
-	PHALCON_CALL_FUNC_PARAMS_1(int_total_pages, "intval", total_pages);
+	ZVAL_LONG(int_total_pages, phalcon_get_intval(total_pages));
 	if (!PHALCON_IS_EQUAL(int_total_pages, total_pages)) {
 		phalcon_add_function(total_pages, int_total_pages, one TSRMLS_CC);
 	}
 	
-	is_smaller_function(compare, number_page, total_pages TSRMLS_CC);
-	if (PHALCON_IS_TRUE(compare)) {
+	if (PHALCON_LT(number_page, total_pages)) {
 		PHALCON_INIT_VAR(next);
 		phalcon_add_function(next, number_page, one TSRMLS_CC);
 	} else {

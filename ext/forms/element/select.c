@@ -67,10 +67,8 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &name, &options, &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &name, &options, &attributes);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -95,10 +93,8 @@ PHP_METHOD(Phalcon_Forms_Element_Select, setOptions){
 
 	zval *options;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &options);
+	
 	phalcon_update_property_this(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -124,10 +120,8 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption){
 
 	zval *option;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &option) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &option);
+	
 	phalcon_update_property_array_append(this_ptr, SL("_optionsValues"), option TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -145,10 +139,8 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &attributes);
+	
 	if (!attributes) {
 		PHALCON_INIT_VAR(attributes);
 	}
@@ -156,8 +148,11 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render){
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property_this(&options, this_ptr, SL("_optionsValues"), PH_NOISY_CC);
 	
+	/** 
+	 * Merged passed attributes with previously defined ones
+	 */
 	PHALCON_INIT_VAR(widget_attributes);
-	PHALCON_CALL_METHOD_PARAMS_1(widget_attributes, this_ptr, "prepareattributes", attributes);
+	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
 	
 	PHALCON_INIT_VAR(code);
 	PHALCON_CALL_STATIC_PARAMS_2(code, "phalcon\\tag\\select", "selectfield", widget_attributes, options);

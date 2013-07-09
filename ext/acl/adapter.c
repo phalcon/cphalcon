@@ -69,10 +69,8 @@ PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager){
 
 	zval *events_manager;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &events_manager);
+	
 	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 }
@@ -97,10 +95,8 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction){
 
 	zval *default_access;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &default_access) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &default_access);
+	
 	phalcon_update_property_this(this_ptr, SL("_defaultAccess"), default_access TSRMLS_CC);
 	
 }

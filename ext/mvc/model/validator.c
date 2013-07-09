@@ -67,21 +67,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
 
 	zval *options;
 
-	PHALCON_MM_GROW();
-
 	phalcon_update_property_empty_array(phalcon_mvc_model_validator_ce, this_ptr, SL("_options") TSRMLS_CC);
 	
 	phalcon_update_property_empty_array(phalcon_mvc_model_validator_ce, this_ptr, SL("_messages") TSRMLS_CC);
 	
-	phalcon_fetch_params(1, 1, 0, &options);
+	phalcon_fetch_params(0, 1, 0, &options);
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "$options argument must be an Array");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "$options argument must be an Array");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -126,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 	
 	PHALCON_INIT_VAR(model_message);
 	object_init_ex(model_message, phalcon_mvc_model_message_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(model_message, "__construct", message, field, type);
+	phalcon_call_method_p3_noret(model_message, "__construct", message, field, type);
 	
 	phalcon_update_property_array_append(this_ptr, SL("_messages"), model_message TSRMLS_CC);
 	

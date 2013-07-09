@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/variables.h"
 
 /**
  * Phalcon\Cache\Frontend\Data
@@ -101,10 +102,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &frontend_options);
+	
 	if (!frontend_options) {
 		PHALCON_INIT_VAR(frontend_options);
 	}
@@ -180,9 +179,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, stop){
 }
 
 /**
- * Serializes data before storing it
+ * Serializes data before storing them
  *
  * @param mixed $data
+ * @return string
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 
@@ -190,19 +190,18 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	PHALCON_INIT_VAR(serialized);
-	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
-	RETURN_CCTOR(serialized);
+	phalcon_serialize(serialized, &data TSRMLS_CC);
+	RETURN_CTOR(serialized);
 }
 
 /**
- * Unserializes data after retrieving it
+ * Unserializes data after retrieval
  *
  * @param mixed $data
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 
@@ -210,12 +209,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	PHALCON_INIT_VAR(unserialized);
-	PHALCON_CALL_FUNC_PARAMS_1(unserialized, "unserialize", data);
-	RETURN_CCTOR(unserialized);
+	phalcon_unserialize(unserialized, data TSRMLS_CC);
+	RETURN_CTOR(unserialized);
 }
 

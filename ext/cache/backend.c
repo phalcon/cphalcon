@@ -56,6 +56,7 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend){
 	zend_declare_property_null(phalcon_cache_backend_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_cache_backend_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_cache_backend_ce, SL("_lastKey"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cache_backend_ce, SL("_lastLifetime"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_fresh"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_started"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -124,14 +125,14 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 	 * Get the cache content verifying if it was expired
 	 */
 	PHALCON_INIT_VAR(existing_cache);
-	PHALCON_CALL_METHOD_PARAMS_2(existing_cache, this_ptr, "get", key_name, lifetime);
+	phalcon_call_method_p2(existing_cache, this_ptr, "get", key_name, lifetime);
 	if (Z_TYPE_P(existing_cache) == IS_NULL) {
 		PHALCON_INIT_VAR(fresh);
 		ZVAL_BOOL(fresh, 1);
 	
 		PHALCON_OBS_VAR(frontend);
 		phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_NORETURN(frontend, "start");
+		phalcon_call_method_noret(frontend, "start");
 	} else {
 		PHALCON_INIT_NVAR(fresh);
 		ZVAL_BOOL(fresh, 0);
@@ -139,6 +140,13 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 	
 	phalcon_update_property_this(this_ptr, SL("_fresh"), fresh TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
+	
+	/** 
+	 * Update the last lifetime to be used in save()
+	 */
+	if (Z_TYPE_P(lifetime) != IS_NULL) {
+		phalcon_update_property_this(this_ptr, SL("_lastLifetime"), lifetime TSRMLS_CC);
+	}
 	
 	RETURN_CCTOR(existing_cache);
 }
@@ -164,7 +172,7 @@ PHP_METHOD(Phalcon_Cache_Backend, stop){
 	if (PHALCON_IS_TRUE(stop_buffer)) {
 		PHALCON_OBS_VAR(frontend);
 		phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_NORETURN(frontend, "stop");
+		phalcon_call_method_noret(frontend, "stop");
 	}
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
 	
@@ -239,5 +247,16 @@ PHP_METHOD(Phalcon_Cache_Backend, getLastKey){
 
 
 	RETURN_MEMBER(this_ptr, "_lastKey");
+}
+
+/**
+ * Gets the last lifetime set
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Cache_Backend, getLifetime){
+
+
+	RETURN_MEMBER(this_ptr, "_lastLifetime");
 }
 

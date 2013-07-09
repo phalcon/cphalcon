@@ -66,11 +66,20 @@
 #define PHVOLT_T_ASSIGN '='
 #define PHVOLT_T_COLON 277
 #define PHVOLT_T_QUESTION '?'
+#define PHVOLT_T_POW 278
+#define PHVOLT_T_INCR 279
+#define PHVOLT_T_DECR 280
+#define PHVOLT_T_ADD_ASSIGN 281
+#define PHVOLT_T_SUB_ASSIGN 282
+#define PHVOLT_T_MUL_ASSIGN 283
+#define PHVOLT_T_DIV_ASSIGN 284
 
 #define PHVOLT_T_PARENTHESES_OPEN '('
 #define PHVOLT_T_PARENTHESES_CLOSE ')'
 #define PHVOLT_T_SBRACKET_OPEN '['
 #define PHVOLT_T_SBRACKET_CLOSE ']'
+#define PHVOLT_T_CBRACKET_OPEN '{'
+#define PHVOLT_T_CBRACKET_CLOSE '}'
 
 /** Reserved words */
 #define PHVOLT_T_IF 300
@@ -95,6 +104,12 @@
 #define PHVOLT_T_CONTINUE 319
 #define PHVOLT_T_BREAK 320
 #define PHVOLT_T_ELSEFOR 321
+#define PHVOLT_T_MACRO 322
+#define PHVOLT_T_ENDMACRO 323
+#define PHVOLT_T_WITH 324
+#define PHVOLT_T_CALL 325
+#define PHVOLT_T_ENDCALL 326
+#define PHVOLT_T_RETURN 327
 
 /** Delimiters */
 #define PHVOLT_T_OPEN_DELIMITER  330
@@ -126,6 +141,7 @@
 typedef struct _phvolt_token_names {
 	unsigned int code;
 	char *name;
+	int len;
 } phvolt_token_names;
 
 /* Active token state */
@@ -140,6 +156,7 @@ typedef struct _phvolt_scanner_state {
 	unsigned int statement_position;
 	unsigned int extends_mode;
 	unsigned int block_level;
+	unsigned int macro_level;
 	char *raw_buffer;
 	unsigned int raw_buffer_cursor;
 	unsigned int raw_buffer_size;

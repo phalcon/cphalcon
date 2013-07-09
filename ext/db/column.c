@@ -406,13 +406,20 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(definition);
-	array_init(definition);
-	if (phalcon_array_isset_string(data, SS("_columnName"))) {
-		PHALCON_OBS_VAR(column_name);
-		phalcon_array_fetch_string(&column_name, data, SL("_columnName"), PH_NOISY_CC);
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column state must be an array");
+		return;
 	}
 	
+	PHALCON_INIT_VAR(definition);
+	array_init(definition);
+	if (!phalcon_array_isset_string(data, SS("_columnName"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column name is required");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(column_name);
+	phalcon_array_fetch_string(&column_name, data, SL("_columnName"), PH_NOISY_CC);
 	if (phalcon_array_isset_string(data, SS("_type"))) {
 		PHALCON_OBS_VAR(column_type);
 		phalcon_array_fetch_string(&column_type, data, SL("_type"), PH_NOISY_CC);
@@ -469,8 +476,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 	
 	PHALCON_INIT_VAR(column);
 	object_init_ex(column, phalcon_db_column_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);
-	
+	phalcon_call_method_p2_noret(column, "__construct", column_name, definition);
 	
 	RETURN_CTOR(column);
 }

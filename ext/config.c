@@ -32,11 +32,12 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/array.h"
+#include "kernel/exception.h"
+#include "kernel/hash.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Config
@@ -97,40 +98,56 @@ PHP_METHOD(Phalcon_Config, __construct){
 		PHALCON_INIT_VAR(array_config);
 	}
 	
-	if (Z_TYPE_P(array_config) == IS_ARRAY) { 
-	
-		if (!phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(value);
-	
-			if (Z_TYPE_P(value) == IS_ARRAY) { 
-				if (!phalcon_array_isset_long(value, 0)) {
-					PHALCON_INIT_NVAR(config_value);
-					object_init_ex(config_value, phalcon_config_ce);
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(config_value, "__construct", value);
-	
-					phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
-				} else {
-					phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
-				}
-			} else {
-				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
-			}
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-	
-	} else {
+	/** 
+	 * Throw exceptions if bad parameters are passed
+	 */
+	if (Z_TYPE_P(array_config) != IS_ARRAY) { 
 		if (Z_TYPE_P(array_config) != IS_NULL) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "The configuration must be an Array");
 			return;
+		} else {
+			RETURN_MM_NULL();
 		}
 	}
+	
+	phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0);
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
+	
+		/** 
+		 * Phalcon\Config does not support numeric keys as properties
+		 */
+		if (Z_TYPE_P(key) != IS_STRING) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties");
+			return;
+		}
+		if (Z_TYPE_P(value) == IS_ARRAY) { 
+	
+			/** 
+			 * Check if sub-arrays contains numeric keys
+			 */
+			if (!phalcon_has_numeric_keys(value)) {
+				PHALCON_INIT_NVAR(config_value);
+				object_init_ex(config_value, phalcon_config_ce);
+				phalcon_call_method_p1_noret(config_value, "__construct", value);
+	
+				phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
+			} else {
+				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+			}
+		} else {
+			/** 
+			 * Assign normal keys as properties
+			 */
+			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -241,7 +258,7 @@ PHP_METHOD(Phalcon_Config, offsetSet){
 	if (Z_TYPE_P(value) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(array_value);
 		object_init_ex(array_value, phalcon_config_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(array_value, "__construct", value);
+		phalcon_call_method_p1_noret(array_value, "__construct", value);
 	
 	} else {
 		PHALCON_CPY_WRT(array_value, value);
@@ -270,6 +287,38 @@ PHP_METHOD(Phalcon_Config, offsetUnset){
 	RETURN_TRUE;
 }
 
+static void array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
+{
+	HashTable *ah2;
+	HashPosition hp2;
+	zval **hd;
+	zval *key = NULL, *value = NULL;
+	zval *tmp1 = NULL, *tmp2 = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_is_iterable(a2, &ah2, &hp2, 0, 0);
+	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+		PHALCON_GET_HKEY(key, ah2, hp2);
+		PHALCON_GET_HVALUE(value);
+
+		if (!phalcon_array_isset(*a1, key) || Z_TYPE_P(value) != IS_ARRAY) {
+			phalcon_array_update_zval(a1, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+		else {
+			PHALCON_INIT_NVAR(tmp1);
+			PHALCON_INIT_NVAR(tmp2);
+			phalcon_array_fetch(&tmp1, *a1, key, PH_NOISY_CC);
+			phalcon_array_fetch(&tmp2, a2, key, PH_NOISY_CC);
+			array_merge_recursive_n(&tmp1, tmp2 TSRMLS_CC);
+		}
+
+		zend_hash_move_forward_ex(ah2, &hp2);
+	}
+
+	PHALCON_MM_RESTORE();
+}
+
 /**
  * Merges a configuration into the current one
  *
@@ -283,6 +332,7 @@ PHP_METHOD(Phalcon_Config, offsetUnset){
 PHP_METHOD(Phalcon_Config, merge){
 
 	zval *config, *array_config, *value = NULL, *key = NULL, *active_value = NULL;
+	zval *other_array = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -297,32 +347,57 @@ PHP_METHOD(Phalcon_Config, merge){
 	}
 	
 	PHALCON_INIT_VAR(array_config);
-	PHALCON_CALL_FUNC_PARAMS_1(array_config, "get_object_vars", config);
+	phalcon_call_func_p1(array_config, "get_object_vars", config);
 	
-	if (!phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(value);
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
 	
-		if (Z_TYPE_P(value) == IS_OBJECT) {
-			if (phalcon_isset_property_zval(this_ptr, key TSRMLS_CC)) {
+		if (phalcon_isset_property_zval(this_ptr, key TSRMLS_CC)) {
 	
-				PHALCON_OBS_NVAR(active_value);
-				phalcon_read_property_zval(&active_value, this_ptr, key, PH_NOISY_CC);
-				if (Z_TYPE_P(active_value) == IS_OBJECT) {
-					if (phalcon_method_exists_ex(active_value, SS("merge") TSRMLS_CC) == SUCCESS) {
-						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(active_value, "merge", value);
-						zend_hash_move_forward_ex(ah0, &hp0);
-						continue;
-					}
+			/** 
+			 * The key is already defined in the object, we have to merge it
+			 */
+			PHALCON_OBS_NVAR(active_value);
+			phalcon_read_property_zval(&active_value, this_ptr, key, PH_NOISY_CC);
+
+			if (Z_TYPE_P(value) == IS_OBJECT && Z_TYPE_P(active_value) == IS_OBJECT) {
+				if (phalcon_method_exists_ex(active_value, SS("merge") TSRMLS_CC) == SUCCESS) { /* Path AAA in the test */
+					phalcon_call_method_p1_noret(active_value, "merge", value);
+				}
+				else { /* Path AAB in the test */
+					phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 				}
 			}
+			else if (Z_TYPE_P(value) == IS_OBJECT && Z_TYPE_P(active_value) == IS_ARRAY) { /* Path AB in the test */
+				PHALCON_INIT_NVAR(other_array);
+				phalcon_call_func_p1(other_array, "get_object_vars", value);
+				array_merge_recursive_n(&active_value, other_array TSRMLS_CC);
+				phalcon_update_property_zval_zval(this_ptr, key, active_value TSRMLS_CC);
+			}
+			else if (Z_TYPE_P(value) == IS_ARRAY && Z_TYPE_P(active_value) == IS_OBJECT) { /* Path AC in the test */
+				PHALCON_INIT_NVAR(other_array);
+				phalcon_call_func_p1(other_array, "get_object_vars", active_value);
+				array_merge_recursive_n(&other_array, value TSRMLS_CC);
+				phalcon_update_property_zval_zval(this_ptr, key, other_array TSRMLS_CC);
+			}
+			else if (Z_TYPE_P(value) == IS_ARRAY && Z_TYPE_P(active_value) == IS_ARRAY) { /* Path AD in the test */
+				array_merge_recursive_n(&active_value, value TSRMLS_CC);
+				phalcon_update_property_zval_zval(this_ptr, key, active_value TSRMLS_CC);
+			}
+			else { /* Path AE in the test */
+				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+			}
 		}
-		phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+		else { /* Path B in the test */
+			/**
+			 * The key is not defined in the object, add it
+			 */
+			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -350,21 +425,19 @@ PHP_METHOD(Phalcon_Config, toArray){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(array_config);
-	PHALCON_CALL_FUNC_PARAMS_1(array_config, "get_object_vars", this_ptr);
+	phalcon_call_func_p1(array_config, "get_object_vars", this_ptr);
 	
-	if (!phalcon_is_iterable(array_config, &ah0, &hp0, 1, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(array_config, &ah0, &hp0, 1, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(value);
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
 	
 		if (Z_TYPE_P(value) == IS_OBJECT) {
 			if (phalcon_method_exists_ex(value, SS("toarray") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_NVAR(array_value);
-				PHALCON_CALL_METHOD(array_value, value, "toarray");
+				phalcon_call_method(array_value, value, "toarray");
 				phalcon_array_update_zval(&array_config, key, &array_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			}
 		}
@@ -373,7 +446,6 @@ PHP_METHOD(Phalcon_Config, toArray){
 	}
 	zend_hash_destroy(ah0);
 	efree(ah0);
-	
 	
 	RETURN_CCTOR(array_config);
 }
@@ -394,8 +466,7 @@ PHP_METHOD(Phalcon_Config, __set_state){
 	
 	PHALCON_INIT_VAR(config);
 	object_init_ex(config, phalcon_config_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(config, "__construct", data);
+	phalcon_call_method_p1_noret(config, "__construct", data);
 	
 	RETURN_CTOR(config);
 }
-

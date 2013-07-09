@@ -34,11 +34,12 @@
 
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Mvc\Model\Relation
  *
- * This class represents each relationship between two models
+ * This class represents a relationship between two models
  */
 
 
@@ -53,6 +54,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Relation){
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_referencedModel"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_fields"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_referencedFields"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_intermediateModel"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_intermediateFields"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_intermediateReferencedFields"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("BELONGS_TO"), 0 TSRMLS_CC);
@@ -60,7 +64,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Relation){
 	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_MANY"), 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_ONE_THROUGH"), 3 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_MANY_THROUGH"), 4 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("MANY_TO_MANY"), 3 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("NO_ACTION"), 0 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("ACTION_RESTRICT"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("ACTION_CASCADE"), 2 TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_relation_ce TSRMLS_CC, 1, phalcon_mvc_model_relationinterface_ce);
 
@@ -99,7 +105,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct){
 }
 
 /**
- * Returns the relation's type
+ * Sets the intermediate model data for has-*-through relations
+ *
+ * @param string|array $intermediateFields
+ * @param string $intermediateModel
+ * @param string $intermediateReferencedFields
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation){
+
+	zval *intermediate_fields, *intermediate_model;
+	zval *intermediate_referenced_fields;
+
+	phalcon_fetch_params(0, 3, 0, &intermediate_fields, &intermediate_model, &intermediate_referenced_fields);
+	
+	phalcon_update_property_this(this_ptr, SL("_intermediateFields"), intermediate_fields TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_intermediateModel"), intermediate_model TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_intermediateReferencedFields"), intermediate_referenced_fields TSRMLS_CC);
+	
+}
+
+/**
+ * Returns the relation type
  *
  * @return int
  */
@@ -203,20 +229,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey){
 }
 
 /**
- * Check whether the relation
+ * Check whether the relation is a 'many-to-many' relation or not
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Mvc_Model_Relation, hasThrough){
+PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough){
 
-	zval *options;
+	zval *type;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("through"))) {
+	PHALCON_OBS_VAR(type);
+	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
+	if (PHALCON_IS_LONG(type, 3)) {
+		RETURN_MM_TRUE;
+	} else {
+		if (PHALCON_IS_LONG(type, 4)) {
 			RETURN_MM_TRUE;
 		}
 	}
@@ -225,31 +253,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, hasThrough){
 }
 
 /**
- * Returns the 'through' relation if any
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getThrough){
-
-	zval *options, *through;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("through"))) {
-			PHALCON_OBS_VAR(through);
-			phalcon_array_fetch_string(&through, options, SL("through"), PH_NOISY_CC);
-			RETURN_CCTOR(through);
-		}
-	}
-	
-	RETURN_MM_FALSE;
-}
-
-/**
- * Check if records in belongs-to/has-many are implicitly cached during the current request
+ * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
  *
  * @return boolean
  */
@@ -270,5 +274,38 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable){
 	}
 	
 	RETURN_MM_FALSE;
+}
+
+/**
+ * Gets the intermediate fields for has-*-through relations
+ *
+ * @return string|array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields){
+
+
+	RETURN_MEMBER(this_ptr, "_intermediateFields");
+}
+
+/**
+ * Gets the intermediate model for has-*-through relations
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel){
+
+
+	RETURN_MEMBER(this_ptr, "_intermediateModel");
+}
+
+/**
+ * Gets the intermediate referenced fields for has-*-through relations
+ *
+ * @return string|array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields){
+
+
+	RETURN_MEMBER(this_ptr, "_intermediateReferencedFields");
 }
 

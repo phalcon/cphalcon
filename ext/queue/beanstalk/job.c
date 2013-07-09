@@ -70,10 +70,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, __construct){
 
 	zval *queue, *id, *body;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &queue, &id, &body) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 3, 0, &queue, &id, &body);
+	
 	phalcon_update_property_this(this_ptr, SL("_queue"), queue TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_id"), id TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_body"), body TSRMLS_CC);
@@ -122,10 +120,10 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete){
 	
 	PHALCON_OBS_VAR(queue);
 	phalcon_read_property_this(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(queue, "write", command);
+	phalcon_call_method_p1_noret(queue, "write", command);
 	
 	PHALCON_INIT_VAR(response);
-	PHALCON_CALL_METHOD(response, queue, "readstatus");
+	phalcon_call_method(response, queue, "readstatus");
 	
 	PHALCON_OBS_VAR(status);
 	phalcon_array_fetch_long(&status, response, 0, PH_NOISY_CC);

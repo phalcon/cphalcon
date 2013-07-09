@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state){
 	
 	PHALCON_INIT_VAR(message_object);
 	object_init_ex(message_object, phalcon_mvc_model_message_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message_object, "__construct", message_text, field, type);
+	phalcon_call_method_p3_noret(message_object, "__construct", message_text, field, type);
 	
 	RETURN_CTOR(message_object);
 }

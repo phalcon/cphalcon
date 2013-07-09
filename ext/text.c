@@ -35,6 +35,7 @@
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
@@ -144,7 +145,7 @@ PHP_METHOD(Phalcon_Text, increment){
 		PHALCON_OBS_VAR(number);
 		phalcon_array_fetch_long(&number, parts, 1, PH_NOISY_CC);
 		PHALCON_SEPARATE(number);
-		increment_function(number);
+		phalcon_increment(number);
 	} else {
 		PHALCON_INIT_NVAR(number);
 		ZVAL_LONG(number, 1);
@@ -255,7 +256,7 @@ PHP_METHOD(Phalcon_Text, endsWith){
 }
 
 /**
- * Lowecases a string, this function make use of the mbstring extension if available
+ * Lowercases a string, this function makes use of the mbstring extension if available
  *
  * @param string $str
  * @return string
@@ -274,7 +275,7 @@ PHP_METHOD(Phalcon_Text, lower){
 	 */
 	if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(lower);
-		PHALCON_CALL_FUNC_PARAMS_1(lower, "mb_strtolower", str);
+		phalcon_call_func_p1(lower, "mb_strtolower", str);
 	} else {
 		PHALCON_INIT_NVAR(lower);
 		phalcon_fast_strtolower(lower, str);
@@ -284,7 +285,7 @@ PHP_METHOD(Phalcon_Text, lower){
 }
 
 /**
- * Uppercases a string, this function make use of the mbstring extension if available
+ * Uppercases a string, this function makes use of the mbstring extension if available
  *
  * @param string $str
  * @return string
@@ -303,10 +304,10 @@ PHP_METHOD(Phalcon_Text, upper){
 	 */
 	if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(upper);
-		PHALCON_CALL_FUNC_PARAMS_1(upper, "mb_strtoupper", str);
+		phalcon_call_func_p1(upper, "mb_strtoupper", str);
 	} else {
 		PHALCON_INIT_NVAR(upper);
-		PHALCON_CALL_FUNC_PARAMS_1(upper, "strtoupper", str);
+		phalcon_fast_strtoupper(upper, str);
 	}
 	
 	RETURN_CCTOR(upper);

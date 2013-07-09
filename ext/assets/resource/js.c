@@ -56,25 +56,41 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Resource_Js){
  *
  * @param string $path
  * @param boolean $local
+ * @param boolean $filter
+ * @param array $attributes
  */
 PHP_METHOD(Phalcon_Assets_Resource_Js, __construct){
 
-	zval *path, *local = NULL, *type;
+	zval *path, *local = NULL, *filter = NULL, *attributes = NULL, *type;
+	zval *p0[] = { NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &path, &local) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 3, &path, &local, &filter, &attributes);
+	
 	if (!local) {
 		PHALCON_INIT_VAR(local);
 		ZVAL_BOOL(local, 1);
 	}
 	
+	if (!filter) {
+		PHALCON_INIT_VAR(filter);
+		ZVAL_BOOL(filter, 1);
+	}
+	
+	if (!attributes) {
+		PHALCON_INIT_VAR(attributes);
+	}
+	
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "js", 1);
-	PHALCON_CALL_PARENT_PARAMS_3_NORETURN(this_ptr, "Phalcon\\Assets\\Resource\\Js", "__construct", type, path, local);
+	
+	p0[0] = type;
+	p0[1] = path;
+	p0[2] = local;
+	p0[3] = filter;
+	p0[4] = attributes;
+	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon\\Assets\\Resource\\Js", "__construct", 5, p0);
 	
 	PHALCON_MM_RESTORE();
 }

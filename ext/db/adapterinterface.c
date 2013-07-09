@@ -170,6 +170,26 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, createTable);
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, dropTable);
 
 /**
+ * Creates a view
+ *
+ * @param string $tableName
+ * @param array $definition
+ * @param string $schemaName
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, createView);
+
+/**
+ * Drops a view
+ *
+ * @param string $viewName
+ * @param   string $schemaName
+ * @param boolean $ifExists
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, dropView);
+
+/**
  * Adds a column to a table
  *
  * @param string $tableName
@@ -269,12 +289,18 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, getColumnDefinition);
 /**
  * List all tables on a database
  *
- * <code> print_r($connection->listTables("blog") ?></code>
- *
  * @param string $schemaName
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, listTables);
+
+/**
+ * List all views on a database
+ *
+ * @param string $schemaName
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, listViews);
 
 /**
  * Return descriptor used to connect to the active database
@@ -499,6 +525,52 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, getDefaultIdValue);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, supportSequences);
+
+/**
+ * Creates a new savepoint
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, createSavepoint);
+
+/**
+ * Releases given savepoint
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, releaseSavepoint);
+
+/**
+ * Rollbacks given savepoint
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, rollbackSavepoint);
+
+/**
+ * Set if nested transactions should use savepoints
+ *
+ * @param boolean $nestedTransactionsWithSavepoints
+ * @return Phalcon\Db\AdapterInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, setNestedTransactionsWithSavepoints);
+
+/**
+ * Returns if nested transactions should use savepoints
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, isNestedTransactionsWithSavepoints);
+
+/**
+ * Returns the savepoint name to use for nested transactions
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, getNestedTransactionSavepointName);
 
 /**
  * Returns an array of Phalcon\Db\Column objects describing a table

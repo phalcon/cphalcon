@@ -67,16 +67,14 @@ PHP_METHOD(Phalcon_Translate_Adapter, _){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &translate_key, &placeholders) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &translate_key, &placeholders);
+	
 	if (!placeholders) {
 		PHALCON_INIT_VAR(placeholders);
 	}
 	
 	PHALCON_INIT_VAR(translation);
-	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", translate_key, placeholders);
+	phalcon_call_method_p2(translation, this_ptr, "query", translate_key, placeholders);
 	RETURN_CCTOR(translation);
 }
 
@@ -90,13 +88,9 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetSet){
 
 	zval *offset, *value;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &offset, &value) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
+	phalcon_fetch_params(0, 2, 0, &offset, &value);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
 	return;
 }
 
@@ -112,17 +106,15 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &translate_key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &translate_key);
+	
 	PHALCON_INIT_VAR(exists);
-	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "exists", translate_key);
+	phalcon_call_method_p1(exists, this_ptr, "exists", translate_key);
 	RETURN_CCTOR(exists);
 }
 
 /**
- * Elimina un indice del diccionario
+ * Unsets a translation from the dictionary
  *
  * @param string $offset
  */
@@ -130,13 +122,9 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset){
 
 	zval *offset;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
+	phalcon_fetch_params(0, 1, 0, &offset);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
 	return;
 }
 
@@ -152,14 +140,12 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &translate_key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &translate_key);
+	
 	PHALCON_INIT_VAR(null_value);
 	
 	PHALCON_INIT_VAR(translation);
-	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", translate_key, null_value);
+	phalcon_call_method_p2(translation, this_ptr, "query", translate_key, null_value);
 	RETURN_CCTOR(translation);
 }
 

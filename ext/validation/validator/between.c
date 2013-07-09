@@ -79,24 +79,22 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &validator, &attribute) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
+	
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
+	phalcon_call_method_p1(value, validator, "getvalue", attribute);
 	
 	PHALCON_INIT_VAR(option);
 	ZVAL_STRING(option, "minimum", 1);
 	
 	PHALCON_INIT_VAR(minimum);
-	PHALCON_CALL_METHOD_PARAMS_1(minimum, this_ptr, "getoption", option);
+	phalcon_call_method_p1(minimum, this_ptr, "getoption", option);
 	
 	PHALCON_INIT_NVAR(option);
 	ZVAL_STRING(option, "maximum", 1);
 	
 	PHALCON_INIT_VAR(maximum);
-	PHALCON_CALL_METHOD_PARAMS_1(maximum, this_ptr, "getoption", option);
+	phalcon_call_method_p1(maximum, this_ptr, "getoption", option);
 	
 	PHALCON_INIT_VAR(valid);
 	is_smaller_or_equal_function(valid, minimum, value TSRMLS_CC);
@@ -113,7 +111,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message_str);
-		PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
+		phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_NVAR(message_str);
 			PHALCON_CONCAT_VS(message_str, attribute, " is not between a valid range");
@@ -121,9 +119,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 	
 		PHALCON_INIT_VAR(message);
 		object_init_ex(message, phalcon_validation_message_ce);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message, "__construct", message_str, attribute, type);
+		phalcon_call_method_p3_noret(message, "__construct", message_str, attribute, type);
 	
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validator, "appendmessage", message);
+		phalcon_call_method_p1_noret(validator, "appendmessage", message);
 		RETURN_MM_FALSE;
 	}
 	

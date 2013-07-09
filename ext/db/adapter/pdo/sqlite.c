@@ -40,6 +40,7 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Db\Adapter\Pdo\Sqlite
@@ -85,10 +86,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &descriptor) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &descriptor);
+	
 	if (!descriptor) {
 		PHALCON_INIT_VAR(descriptor);
 	} else {
@@ -136,10 +135,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
@@ -154,7 +151,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 	ZVAL_STRING(size_pattern, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describecolumns", table, schema);
+	phalcon_call_method_p2(sql, dialect, "describecolumns", table, schema);
 	
 	/** 
 	 * We're using FETCH_NUM to fetch the columns
@@ -163,17 +160,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 	ZVAL_LONG(fetch_num, 3);
 	
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
+	phalcon_call_method_p2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	PHALCON_INIT_VAR(old_column);
 	
-	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(describe, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(field);
+		PHALCON_GET_HVALUE(field);
 	
 		PHALCON_INIT_NVAR(definition);
 		array_init_size(definition, 1);
@@ -249,7 +244,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 			#if HAVE_BUNDLED_PCRE
 			phalcon_preg_match(pos, size_pattern, column_type, matches TSRMLS_CC);
 			#else
-			PHALCON_CALL_FUNC_PARAMS_3(pos, "preg_match", size_pattern, column_type, matches);
+			phalcon_call_func_p3(pos, "preg_match", size_pattern, column_type, matches);
 			#endif
 	
 			Z_UNSET_ISREF_P(matches);
@@ -299,14 +294,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		 */
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);
+		phalcon_call_method_p2_noret(column, "__construct", column_name, definition);
 	
 		phalcon_array_append(&columns, column, PH_SEPARATE TSRMLS_CC);
 		PHALCON_CPY_WRT(old_column, column_name);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	RETURN_CTOR(columns);
 }
@@ -330,10 +324,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
@@ -348,10 +340,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 	ZVAL_LONG(fetch_num, 3);
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describeindexes", table, schema);
+	phalcon_call_method_p2(sql, dialect, "describeindexes", table, schema);
 	
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
+	phalcon_call_method_p2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	/** 
 	 * Cryptic Guide: 0: position, 1: name
@@ -359,13 +351,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 	PHALCON_INIT_VAR(indexes);
 	array_init(indexes);
 	
-	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(describe, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(index);
+		PHALCON_GET_HVALUE(index);
 	
 		PHALCON_OBS_NVAR(key_name);
 		phalcon_array_fetch_long(&key_name, index, 1, PH_NOISY_CC);
@@ -376,18 +366,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 		}
 	
 		PHALCON_INIT_NVAR(sql_index_describe);
-		PHALCON_CALL_METHOD_PARAMS_1(sql_index_describe, dialect, "describeindex", key_name);
+		phalcon_call_method_p1(sql_index_describe, dialect, "describeindex", key_name);
 	
 		PHALCON_INIT_NVAR(describe_index);
-		PHALCON_CALL_METHOD_PARAMS_2(describe_index, this_ptr, "fetchall", sql_index_describe, fetch_num);
+		phalcon_call_method_p2(describe_index, this_ptr, "fetchall", sql_index_describe, fetch_num);
 	
-		if (!phalcon_is_iterable(describe_index, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(describe_index, &ah1, &hp1, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(index_column);
+			PHALCON_GET_HVALUE(index_column);
 	
 			PHALCON_OBS_NVAR(column_name);
 			phalcon_array_fetch_long(&column_name, index_column, 2, PH_NOISY_CC);
@@ -396,31 +384,27 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
 	
-	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
 	PHALCON_INIT_VAR(index_objects);
 	array_init(index_objects);
 	
-	if (!phalcon_is_iterable(indexes, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(indexes, &ah2, &hp2, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(name, ah2, hp2);
-		PHALCON_GET_FOREACH_VALUE(index_columns);
+		PHALCON_GET_HKEY(name, ah2, hp2);
+		PHALCON_GET_HVALUE(index_columns);
 	
 		PHALCON_INIT_NVAR(index);
 		object_init_ex(index, phalcon_db_index_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(index, "__construct", name, index_columns);
+		phalcon_call_method_p2_noret(index, "__construct", name, index_columns);
 	
 		phalcon_array_update_zval(&index_objects, name, &index, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah2, &hp2);
 	}
-	
 	
 	RETURN_CTOR(index_objects);
 }
@@ -445,10 +429,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
@@ -460,7 +442,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 	 * Get the SQL to describe the references
 	 */
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describereferences", table, schema);
+	phalcon_call_method_p2(sql, dialect, "describereferences", table, schema);
 	
 	/** 
 	 * We're using FETCH_NUM to fetch the columns
@@ -472,7 +454,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 	 * Execute the SQL describing the references
 	 */
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_num);
+	phalcon_call_method_p2(describe, this_ptr, "fetchall", sql, fetch_num);
 	
 	/** 
 	 * Cryptic Guide: 2: table, 3: from, 4: to
@@ -480,14 +462,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 	PHALCON_INIT_VAR(reference_objects);
 	array_init(reference_objects);
 	
-	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(describe, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(number, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(reference_describe);
+		PHALCON_GET_HKEY(number, ah0, hp0);
+		PHALCON_GET_HVALUE(reference_describe);
 	
 		PHALCON_INIT_NVAR(constraint_name);
 		PHALCON_CONCAT_SV(constraint_name, "foreign_key_", number);
@@ -521,13 +501,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 		 */
 		PHALCON_INIT_NVAR(reference);
 		object_init_ex(reference, phalcon_db_reference_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(reference, "__construct", constraint_name, reference_array);
+		phalcon_call_method_p2_noret(reference, "__construct", constraint_name, reference_array);
 	
 		phalcon_array_update_zval(&reference_objects, constraint_name, &reference, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	RETURN_CTOR(reference_objects);
 }

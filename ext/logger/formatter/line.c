@@ -40,7 +40,7 @@
 /**
  * Phalcon\Logger\Formatter\Line
  *
- * Formats messages using a one-line string
+ * Formats messages using an one-line string
  */
 
 
@@ -71,10 +71,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &format, &date_format) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &format, &date_format);
+	
 	if (!format) {
 		PHALCON_INIT_VAR(format);
 	}
@@ -102,10 +100,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat){
 
 	zval *format;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &format) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &format);
+	
 	phalcon_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
 	
 }
@@ -130,10 +126,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat){
 
 	zval *date;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &date) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &date);
+	
 	phalcon_update_property_this(this_ptr, SL("_dateFormat"), date TSRMLS_CC);
 	
 }
@@ -155,6 +149,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat){
  * @param string $message
  * @param int $type
  * @param int $timestamp
+ * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 
@@ -164,10 +159,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &message, &type, &timestamp) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &message, &type, &timestamp);
+	
 	PHALCON_OBS_VAR(format);
 	phalcon_read_property_this(&format, this_ptr, SL("_format"), PH_NOISY_CC);
 	
@@ -179,7 +172,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 		phalcon_read_property_this(&date_format, this_ptr, SL("_dateFormat"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(date);
-		PHALCON_CALL_FUNC_PARAMS_2(date, "date", date_format, timestamp);
+		phalcon_call_func_p2(date, "date", date_format, timestamp);
 	
 		PHALCON_INIT_VAR(date_wildcard);
 		ZVAL_STRING(date_wildcard, "%date%", 1);
@@ -195,7 +188,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	 */
 	if (phalcon_memnstr_str(format, SL("%type%") TSRMLS_CC)) {
 		PHALCON_INIT_VAR(type_string);
-		PHALCON_CALL_METHOD_PARAMS_1(type_string, this_ptr, "gettypestring", type);
+		phalcon_call_method_p1(type_string, this_ptr, "gettypestring", type);
 	
 		PHALCON_INIT_VAR(type_wildcard);
 		ZVAL_STRING(type_wildcard, "%type%", 1);

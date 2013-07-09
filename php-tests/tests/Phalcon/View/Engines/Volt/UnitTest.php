@@ -191,7 +191,7 @@ class UnitTest extends PhTestUnitTestCase
         $this->assertTrue(is_array($intermediate));
         $this->assertEquals(count($intermediate), 1);
 
-        $intermediate = $volt->parse('{{ --10 }}');
+        $intermediate = $volt->parse('{{ -+10 }}');
         $this->assertTrue(is_array($intermediate));
         $this->assertEquals(count($intermediate), 1);
 

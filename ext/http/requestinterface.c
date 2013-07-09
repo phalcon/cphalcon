@@ -247,6 +247,7 @@ PHALCON_DOC_METHOD(Phalcon_Http_RequestInterface, isOptions);
 /**
  * Checks whether request include attached files
  *
+ * @param boolean $notErrored
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Http_RequestInterface, hasFiles);
@@ -254,6 +255,7 @@ PHALCON_DOC_METHOD(Phalcon_Http_RequestInterface, hasFiles);
 /**
  * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
  *
+ * @param boolean $notErrored
  * @return Phalcon\Http\Request\FileInterface[]
  */
 PHALCON_DOC_METHOD(Phalcon_Http_RequestInterface, getUploadedFiles);

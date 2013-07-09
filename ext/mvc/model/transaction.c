@@ -110,10 +110,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &dependency_injector, &auto_begin, &service) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 2, &dependency_injector, &auto_begin, &service);
+	
 	if (!auto_begin) {
 		PHALCON_INIT_VAR(auto_begin);
 		ZVAL_BOOL(auto_begin, 0);
@@ -135,10 +133,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 	}
 	
 	PHALCON_INIT_VAR(connection);
-	PHALCON_CALL_METHOD_PARAMS_1(connection, dependency_injector, "get", service);
+	phalcon_call_method_p1(connection, dependency_injector, "get", service);
 	phalcon_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	if (zend_is_true(auto_begin)) {
-		PHALCON_CALL_METHOD_NORETURN(connection, "begin");
+		phalcon_call_method_noret(connection, "begin");
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -153,19 +151,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
 
 	zval *manager;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &manager) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &manager);
+	
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "Manager must be an Object");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_transaction_exception_ce, "Manager must be an Object");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -183,7 +176,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin){
 	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD(success, connection, "begin");
+	phalcon_call_method(success, connection, "begin");
 	RETURN_CCTOR(success);
 }
 
@@ -210,14 +203,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 		PHALCON_INIT_VAR(arguments);
 		array_init_size(arguments, 1);
 		phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", call_object, arguments);
+		phalcon_call_func_p2_noret("call_user_func_array", call_object, arguments);
 	}
 	
 	PHALCON_OBS_VAR(connection);
 	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD(success, connection, "commit");
+	phalcon_call_method(success, connection, "commit");
 	
 	RETURN_CCTOR(success);
 }
@@ -237,10 +230,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &rollback_message, &rollback_record) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 2, &rollback_message, &rollback_record);
+	
 	if (!rollback_message) {
 		PHALCON_INIT_VAR(rollback_message);
 	} else {
@@ -264,14 +255,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 		PHALCON_INIT_VAR(arguments);
 		array_init_size(arguments, 1);
 		phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", call_object, arguments);
+		phalcon_call_func_p2_noret("call_user_func_array", call_object, arguments);
 	}
 	
 	PHALCON_OBS_VAR(connection);
 	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD(success, connection, "rollback");
+	phalcon_call_method(success, connection, "rollback");
 	if (zend_is_true(success)) {
 		if (!zend_is_true(rollback_message)) {
 			PHALCON_INIT_NVAR(rollback_message);
@@ -286,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 	
 		PHALCON_INIT_VAR(exception);
 		object_init_ex(exception, phalcon_mvc_model_transaction_failed_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", rollback_message, rollback_record);
+		phalcon_call_method_p2_noret(exception, "__construct", rollback_message, rollback_record);
 	
 		phalcon_throw_exception(exception TSRMLS_CC);
 		return;
@@ -312,11 +303,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection){
 	if (zend_is_true(rollback_on_abort)) {
 	
 		PHALCON_INIT_VAR(was_aborted);
-		PHALCON_CALL_FUNC(was_aborted, "connection_aborted");
+		phalcon_call_func(was_aborted, "connection_aborted");
 		if (zend_is_true(was_aborted)) {
 			PHALCON_INIT_VAR(message);
 			ZVAL_STRING(message, "The request was aborted", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "rollback", message);
+			phalcon_call_method_p1_noret(this_ptr, "rollback", message);
 		}
 	}
 	
@@ -335,10 +326,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction){
 
 	zval *is_new;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &is_new) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &is_new);
+	
 	phalcon_update_property_this(this_ptr, SL("_isNewTransaction"), is_new TSRMLS_CC);
 	
 }
@@ -352,10 +341,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort){
 
 	zval *rollback_on_abort;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &rollback_on_abort) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &rollback_on_abort);
+	
 	phalcon_update_property_this(this_ptr, SL("_rollbackOnAbort"), rollback_on_abort TSRMLS_CC);
 	
 }
@@ -407,7 +394,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid){
 	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(is_valid);
-	PHALCON_CALL_METHOD(is_valid, connection, "isundertransaction");
+	phalcon_call_method(is_valid, connection, "isundertransaction");
 	RETURN_CCTOR(is_valid);
 }
 
@@ -420,10 +407,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord){
 
 	zval *record;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &record) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &record);
+	
 	phalcon_update_property_this(this_ptr, SL("_rollbackRecord"), record TSRMLS_CC);
 	
 }

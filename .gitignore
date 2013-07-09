@@ -1,5 +1,7 @@
 .settings/
 .idea
+.cproject
+.project
 unit-tests/engines/*
 unit-tests/logs/*
 unit-tests/cache/2e11fab3b6861010be11a5deb92bddff
@@ -55,9 +57,11 @@ ext/cache/backend/.libs/
 ext/cache/backend/apc.lo
 ext/cache/backend/file.lo
 ext/cache/backend/memcache.lo
+ext/cache/backend/xcache.lo
 ext/cache/exception.lo
 ext/cache/frontend/.libs/
 ext/cache/frontend/data.lo
+ext/cache/frontend/igbinary.lo
 ext/cache/frontend/none.lo
 ext/cache/frontend/output.lo
 ext/cli/.libs/
@@ -187,6 +191,7 @@ ext/mvc/model/metadata/.libs/
 ext/mvc/model/metadata/apc.lo
 ext/mvc/model/metadata/memory.lo
 ext/mvc/model/metadata/session.lo
+ext/mvc/model/metadata/xcache.lo
 ext/mvc/model/query.lo
 ext/mvc/model/query/.libs/
 ext/mvc/model/query/lang.lo
@@ -444,6 +449,7 @@ ext/annotations/.libs/
 ext/annotations/adapter.lo
 ext/annotations/adapter/.libs/
 ext/annotations/adapter/memory.lo
+ext/annotations/adapter/xcache.lo
 ext/annotations/annotation.lo
 ext/annotations/collection.lo
 ext/annotations/exception.lo
@@ -462,3 +468,7 @@ ext/mvc/model/metadata/strategy/introspection.lo
 ext/mvc/model/relationinterface.lo
 ext/mvc/router/annotations.lo
 ext/mvc/router/group.lo
+unit-tests/annotations/cache/*.php
+*.o
+*.lo
+.libs

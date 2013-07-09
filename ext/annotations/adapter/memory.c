@@ -33,12 +33,14 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 /**
  * Phalcon\Annotations\Adapter\Memory
  *
- * Stores the parsed annotations in memory. This adapter is the suitable for development/testing
+ * Stores the parsed annotations in memory. This adapter is the suitable development/testing
  */
 
 
@@ -57,26 +59,27 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
 }
 
 /**
- * Reads meta-data from memory
+ * Reads parsed annotations from memory
  *
  * @param string $key
- * @return array
+ * @return Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 
-	zval *key, *data, *annotations;
+	zval *key, *data, *lowercased_key, *annotations;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	PHALCON_OBS_VAR(data);
 	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	if (phalcon_array_isset(data, key)) {
+	
+	PHALCON_INIT_VAR(lowercased_key);
+	phalcon_fast_strtolower(lowercased_key, key);
+	if (phalcon_array_isset(data, lowercased_key)) {
 		PHALCON_OBS_VAR(annotations);
-		phalcon_array_fetch(&annotations, data, key, PH_NOISY_CC);
+		phalcon_array_fetch(&annotations, data, lowercased_key, PH_NOISY_CC);
 		RETURN_CCTOR(annotations);
 	}
 	
@@ -84,20 +87,23 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 }
 
 /**
- * Writes the meta-data to files
+ * Writes parsed annotations to memory
  *
  * @param string $key
- * @param array $data
+ * @param Phalcon\Annotations\Reflection $data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
 
-	zval *key, *data;
+	zval *key, *data, *lowercased_key;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		RETURN_NULL();
-	}
+	PHALCON_MM_GROW();
 
-	phalcon_update_property_array(this_ptr, SL("_data"), key, data TSRMLS_CC);
+	phalcon_fetch_params(1, 2, 0, &key, &data);
 	
+	PHALCON_INIT_VAR(lowercased_key);
+	phalcon_fast_strtolower(lowercased_key, key);
+	phalcon_update_property_array(this_ptr, SL("_data"), lowercased_key, data TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
 }
 

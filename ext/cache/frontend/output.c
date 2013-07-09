@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/output.h"
 
 /**
  * Phalcon\Cache\Frontend\Output
@@ -111,10 +112,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &frontend_options);
+	
 	if (!frontend_options) {
 		PHALCON_INIT_VAR(frontend_options);
 	}
@@ -156,13 +155,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering){
 
-	zval *buffering;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(buffering);
-	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
-	RETURN_CCTOR(buffering);
+	RETURN_MEMBER(this_ptr, "_buffering");
 }
 
 /**
@@ -174,7 +168,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
 	PHALCON_MM_GROW();
 
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 1 TSRMLS_CC);
-	PHALCON_CALL_FUNC_NORETURN("ob_start");
+	phalcon_ob_start(TSRMLS_C);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -194,8 +188,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
 		PHALCON_INIT_VAR(contents);
-		PHALCON_CALL_FUNC(contents, "ob_get_contents");
-		RETURN_CCTOR(contents);
+		phalcon_ob_get_contents(contents TSRMLS_CC);
+		RETURN_CTOR(contents);
 	}
 	
 	RETURN_MM_NULL();
@@ -213,7 +207,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 	PHALCON_OBS_VAR(buffering);
 	phalcon_read_property_this(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
-		PHALCON_CALL_FUNC_NORETURN("ob_end_clean");
+		phalcon_ob_end_clean(TSRMLS_C);
 	}
 	
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 0 TSRMLS_CC);
@@ -225,15 +219,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
  * Prepare data to be stored
  *
  * @param mixed $data
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
 
 	zval *data;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &data);
+	
 	RETURN_CCTORW(data);
 }
 
@@ -241,15 +234,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
  * Prepares data to be retrieved to user
  *
  * @param mixed $data
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve){
 
 	zval *data;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &data);
+	
 	RETURN_CCTORW(data);
 }
 

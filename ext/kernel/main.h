@@ -43,6 +43,7 @@ extern ZEND_API zend_class_entry *zend_ce_serializable;
 extern PHPAPI zend_class_entry *spl_ce_RuntimeException;
 extern PHPAPI zend_class_entry *spl_ce_Countable;
 extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
+extern PHPAPI zend_class_entry *spl_ce_BadMethodCallException;
 #endif
 
 /* Startup functions */
@@ -51,23 +52,23 @@ extern zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry
 
 /* Globals functions */
 extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
-extern int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC);
-extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
+extern int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
 
 extern int phalcon_is_callable(zval *var TSRMLS_DC);
-extern int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
-extern int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC);
+extern int phalcon_function_exists(const zval *function_name TSRMLS_DC);
+extern int phalcon_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
+extern int phalcon_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
 
 /* Count */
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
-extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
-extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
+extern void phalcon_inherit_not_found(const char *class_name, const char *inherit_name);
+extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
 /* Fetch Parameters */
-extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
+extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int required_args, int optional_args, ...);
 
 /* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
@@ -192,7 +193,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
  * Returns a zval in an object member
  */
 #define RETURN_MEMBER(object, member_name) \
- 	phalcon_return_property(return_value, object, SL(member_name) TSRMLS_CC); \
+	phalcon_return_property_quick(return_value, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
 	return;
 
 /**
@@ -216,8 +217,12 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #define IS_INTERNED(key) 0
 #endif
 
-/** Foreach */
-#define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
+/** Get the current hash key without copying the hash key */
+#define PHALCON_GET_HKEY(var, hash, hash_position) \
+	phalcon_get_current_key(&var, hash, &hash_position TSRMLS_CC);
+
+/** Get current hash key copying the hash_value if needed */
+#define PHALCON_GET_HMKEY(var, hash, hash_pointer) \
 	{\
 		int hash_type; \
 		char *hash_index; \
@@ -239,7 +244,18 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 		}\
 	}
 
+/** Foreach */
+#define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) PHALCON_GET_HMKEY(var, hash, hash_pointer)
+
+/** Check if an array is iterable or not */
+#define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse TSRMLS_CC)) { return; }
+
 #define PHALCON_GET_FOREACH_VALUE(var) \
+	PHALCON_OBSERVE_VAR(var); \
+	var = *hd; \
+	Z_ADDREF_P(var);
+
+#define PHALCON_GET_HVALUE(var) \
 	PHALCON_OBSERVE_VAR(var); \
 	var = *hd; \
 	Z_ADDREF_P(var);
@@ -292,10 +308,11 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 
 /** Low overhead parse/fetch parameters */
 #define phalcon_fetch_params(memory_grow, required_params, optional_params, ...) \
-	if (phalcon_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+	if (phalcon_fetch_parameters(memory_grow, ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
 		if (memory_grow) { \
 			RETURN_MM_NULL(); \
 		} else { \
 			RETURN_NULL(); \
 		} \
 	}
+

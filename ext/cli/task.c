@@ -74,7 +74,7 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Task){
 }
 
 /**
- * Phalcon\CLI\Task constructor
+ * Phalcon_CLI_Task constructor
  */
 PHP_METHOD(Phalcon_CLI_Task, __construct){
 

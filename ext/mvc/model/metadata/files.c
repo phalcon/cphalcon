@@ -79,10 +79,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -115,10 +113,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	PHALCON_INIT_VAR(separator);
 	ZVAL_STRING(separator, "_", 1);
 	
@@ -130,6 +126,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 	
 	PHALCON_INIT_VAR(path);
 	PHALCON_CONCAT_VVS(path, meta_data_dir, virtual_key, ".php");
+	
 	if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(data);
 		if (phalcon_require_ret(data, path TSRMLS_CC) == FAILURE) {
@@ -154,10 +151,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &key, &data);
+	
 	PHALCON_INIT_VAR(separator);
 	ZVAL_STRING(separator, "_", 1);
 	
@@ -174,13 +169,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 	ZVAL_BOOL(to_string, 1);
 	
 	PHALCON_INIT_VAR(export);
-	PHALCON_CALL_FUNC_PARAMS_2(export, "var_export", data, to_string);
+	phalcon_call_func_p2(export, "var_export", data, to_string);
 	
 	PHALCON_INIT_VAR(php_export);
 	PHALCON_CONCAT_SVS(php_export, "<?php return ", export, "; ");
 	
 	PHALCON_INIT_VAR(status);
-	PHALCON_CALL_FUNC_PARAMS_2(status, "file_put_contents", path, php_export);
+	phalcon_file_put_contents(status, path, php_export TSRMLS_CC);
 	if (PHALCON_IS_FALSE(status)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written");
 		return;

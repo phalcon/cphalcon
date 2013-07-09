@@ -71,17 +71,14 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
 
 	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Dependency Injector is invalid");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -101,7 +98,6 @@ PHP_METHOD(Phalcon_DI_Injectable, getDI){
 		PHALCON_INIT_NVAR(dependency_injector);
 		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
 	}
-	
 	
 	RETURN_CCTOR(dependency_injector);
 }
@@ -139,69 +135,69 @@ PHP_METHOD(Phalcon_DI_Injectable, getEventsManager){
  */
 PHP_METHOD(Phalcon_DI_Injectable, __get){
 
+
 	zval *property_name, *dependency_injector = NULL;
 	zval *has_service, *service = NULL, *class_name, *arguments;
-	zval *persistent, *error_msg;
+	zval *persistent;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &property_name);
-	
+
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-	
+
 		PHALCON_INIT_NVAR(dependency_injector);
 		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
 			return;
 		}
 	}
-	
-	/** 
-	 * This class injects a public property with a resolved service
+
+	/**
+	 * Fallback to the PHP userland if the cache is not available
 	 */
 	PHALCON_INIT_VAR(has_service);
-	PHALCON_CALL_METHOD_PARAMS_1(has_service, dependency_injector, "has", property_name);
+	phalcon_call_method_p1(has_service, dependency_injector, "has", property_name);
 	if (zend_is_true(has_service)) {
 		PHALCON_INIT_VAR(service);
-		PHALCON_CALL_METHOD_PARAMS_1(service, dependency_injector, "getshared", property_name);
+		phalcon_call_method_p1(service, dependency_injector, "getshared", property_name);
 		phalcon_update_property_zval_zval(this_ptr, property_name, service TSRMLS_CC);
 		RETURN_CCTOR(service);
 	}
-	
+
 	if (PHALCON_IS_STRING(property_name, "di")) {
 		phalcon_update_property_this(this_ptr, SL("di"), dependency_injector TSRMLS_CC);
 		RETURN_CCTOR(dependency_injector);
 	}
-	
-	/** 
+
+	/**
 	 * Accessing the persistent property will create a session bag in any class
 	 */
 	if (PHALCON_IS_STRING(property_name, "persistent")) {
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
-	
+
 		PHALCON_INIT_VAR(arguments);
 		array_init_size(arguments, 1);
 		phalcon_array_append(&arguments, class_name, PH_SEPARATE TSRMLS_CC);
-	
+
 		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "sessionBag", 1);
-	
+
 		PHALCON_INIT_VAR(persistent);
-		PHALCON_CALL_METHOD_PARAMS_2(persistent, dependency_injector, "get", service, arguments);
+		phalcon_call_method_p2(persistent, dependency_injector, "get", service, arguments);
 		phalcon_update_property_this(this_ptr, SL("persistent"), persistent TSRMLS_CC);
 		RETURN_CCTOR(persistent);
 	}
-	
-	/** 
+
+	/**
 	 * A notice is shown if the property is not defined and isn't a valid service
 	 */
-	PHALCON_INIT_VAR(error_msg);
-	PHALCON_CONCAT_SV(error_msg, "Access to undefined property ", property_name);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("trigger_error", error_msg);
+	php_error_docref(NULL TSRMLS_CC, E_WARNING, "Access to undefined property %s", Z_STRVAL_P(property_name));
 	RETURN_MM_NULL();
 }
 

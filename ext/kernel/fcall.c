@@ -31,29 +31,44 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/hash.h"
 #include "kernel/exception.h"
+#include "kernel/backtrace.h"
 
-#include "kernel/experimental/fcall.h"
+#include "kernel/alternative/fcall.h"
 
 /**
  * Finds the correct scope to execute the function
  */
-inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len TSRMLS_DC){
+static inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len, int lower, unsigned long hash TSRMLS_DC){
 
-	char *lcname = zend_str_tolower_dup(method_name, method_len);
-	unsigned long hash = zend_inline_hash_func(lcname, method_len + 1);
+	char *lcname;
+
+	if (lower) {
+		lcname = method_name;
+	} else {
+		lcname = zend_str_tolower_dup(method_name, method_len);
+	}
+
+	if (!hash) {
+		hash = zend_inline_hash_func(lcname, method_len + 1);
+	}
 
 	while (ce) {
-		if (zend_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
+		if (phalcon_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
 			EG(scope) = ce;
-			efree(lcname);
+			if (!lower) {
+				efree(lcname);
+			}
 			return SUCCESS;
 		}
 		ce = ce->parent;
 	}
 
-	if (lcname) {
-		efree(lcname);
+	if (!lower) {
+		if (lcname) {
+			efree(lcname);
+		}
 	}
 
 	return FAILURE;
@@ -62,15 +77,15 @@ inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int metho
 /**
  * Find out the function scope on parent classes
  */
-inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
+static inline int phalcon_find_parent_scope(zend_class_entry *ce, const char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
 
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
-	unsigned long hash = zend_inline_hash_func(lcname, method_len+1);
+	unsigned long hash = zend_inline_hash_func(lcname, method_len + 1);
 
 	while (ce) {
 		if (ce->name_length == active_class_len) {
 			if (!zend_binary_strcasecmp(ce->name, ce->name_length, active_class, active_class_len)) {
-				if (zend_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
+				if (phalcon_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
 					EG(scope) = ce;
 					efree(lcname);
 					return SUCCESS;
@@ -90,7 +105,7 @@ inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, i
 /**
  * Check if an object has a constructor
  */
-int phalcon_has_constructor(zval *object TSRMLS_DC){
+int phalcon_has_constructor(const zval *object TSRMLS_DC){
 
 	zend_class_entry *ce = Z_OBJCE_P(object);
 
@@ -107,7 +122,7 @@ int phalcon_has_constructor(zval *object TSRMLS_DC){
 /**
  * This is a function to call PHP functions in a old-style secure way
  */
-static inline int phalcon_call_func_internal(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
+static inline int phalcon_call_func_internal(zval *return_value, const char *func_name, int func_length, int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -115,12 +130,32 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
+#ifndef PHALCON_RELEASE
+	else {
+		int valid_return_value = 1;
+
+		if (Z_REFCOUNT_P(return_value) > 1) {
+			valid_return_value = 0;
+			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
+		}
+
+		if (!valid_return_value) {
+			PHALCON_INIT_NVAR(return_value);
+			phalcon_print_backtrace();
+		}
+	}
+#endif
 
 	PHALCON_ALLOC_ZVAL(fn);
 	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
@@ -135,7 +170,7 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -143,9 +178,9 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 }
 
 /**
- * This is an experimental function to call PHP functions that requires parameters in a faster way
+ * This is an alternative function to call PHP functions (that requires parameters) in a faster way
  */
-static inline int phalcon_call_func_params_internal(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+static inline int phalcon_call_func_params_internal(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -153,12 +188,32 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
+#ifndef PHALCON_RELEASE
+	else {
+		int valid_return_value = 1;
+
+		if (Z_REFCOUNT_P(return_value) > 1) {
+			valid_return_value = 0;
+			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
+		}
+
+		if (!valid_return_value) {
+			PHALCON_INIT_NVAR(return_value);
+			phalcon_print_backtrace();
+		}
+	}
+#endif
 
 	PHALCON_ALLOC_ZVAL(fn);
 	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
@@ -173,7 +228,7 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -183,82 +238,21 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 /**
  * Call single function which not requires parameters
  */
-int phalcon_call_func(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
+int phalcon_call_func_ex(zval *return_value, const char *func_name, int func_length, int noreturn TSRMLS_DC){
 	return phalcon_call_func_internal(return_value, func_name, func_length, noreturn TSRMLS_CC);
-}
-
-/**
- * This function implements a secure old-style way to call functions
- */
-static inline int phalcon_call_method_internal(zval *return_value, zval *object, char *method_name, int method_len, int noreturn PH_MEHASH_D TSRMLS_DC){
-
-	zval *fn = NULL;
-	int status = FAILURE;
-	zend_class_entry *ce, *active_scope = NULL;
-
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
-		phalcon_memory_restore_stack(TSRMLS_C);
-		return FAILURE;
-	}
-
-	if (!noreturn) {
-		ALLOC_INIT_ZVAL(return_value);
-	}
-
-	PHALCON_ALLOC_ZVAL(fn);
-	ZVAL_STRINGL(fn, method_name, method_len, 0);
-
-	active_scope = EG(scope);
-
-	/* Find class_entry scope */
-	ce = Z_OBJCE_P(object);
-	if (ce->parent) {
-		phalcon_find_scope(ce, method_name, method_len TSRMLS_CC);
-	} else {
-		EG(scope) = ce;
-	}
-
-	#if PHALCON_EXPERIMENTAL_FCALL
-	status = phalcon_exp_call_user_method(ce, &object, fn, return_value, 0, NULL PH_MEHASH_C TSRMLS_CC);
-	#else
-	status = phalcon_call_user_function(&ce->function_table, &object, fn, return_value, 0, NULL TSRMLS_CC);
-	#endif
-
-	if (unlikely(status == FAILURE)) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s()", method_name);
-	}
-	EG(scope) = active_scope;
-
-	ZVAL_NULL(fn);
-	zval_ptr_dtor(&fn);
-
-	if (!noreturn) {
-		zval_ptr_dtor(&return_value);
-	}
-
-	if (EG(exception)) {
-		status = FAILURE;
-	}
-
-	if (unlikely(status == FAILURE)) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
-
-	return status;
 }
 
 /**
  * Call single function which requires arbitrary number of parameters
  */
-int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 	return phalcon_call_func_params_internal(return_value, func_name, func_length, param_count, params, noreturn TSRMLS_CC);
 }
 
 /**
  * Call single function which requires only 1 parameter
  */
-int phalcon_call_func_one_param(zval *return_value, char *func_name, int func_length, zval *param1, int noreturn TSRMLS_DC){
+int phalcon_call_func_one_param(zval *return_value, const char *func_name, int func_length, zval *param1, int noreturn TSRMLS_DC){
 	zval *params[] = { param1 };
 	return phalcon_call_func_params(return_value, func_name, func_length, 1, params, noreturn TSRMLS_CC);
 }
@@ -266,7 +260,7 @@ int phalcon_call_func_one_param(zval *return_value, char *func_name, int func_le
 /**
  * Call single function which requires only 2 parameters
  */
-int phalcon_call_func_two_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, int noreturn TSRMLS_DC){
+int phalcon_call_func_two_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2 };
 	return phalcon_call_func_params(return_value, func_name, func_length, 2, params, noreturn TSRMLS_CC);
 }
@@ -274,21 +268,36 @@ int phalcon_call_func_two_params(zval *return_value, char *func_name, int func_l
 /**
  * Call single function which requires only 3 parameters
  */
-int phalcon_call_func_three_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
+int phalcon_call_func_three_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
 	return phalcon_call_func_params(return_value, func_name, func_length, 3, params, noreturn TSRMLS_CC);
 }
 
 /**
- * Call methods that require parameters in a old-style secure way
+ * Call single function which requires only 4 parameters
  */
-static inline int phalcon_call_method_params_internal(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn PH_MEHASH_D TSRMLS_DC){
+int phalcon_call_func_four_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 4, params, noreturn TSRMLS_CC);
+}
 
-	zval *fn = NULL;
+/**
+ * Call single function which requires only 5 parameters
+ */
+int phalcon_call_func_five_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4, param5 };
+	return phalcon_call_func_params(return_value, func_name, func_length, 5, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * This function implements a secure old-style way to call functions
+ */
+static inline int phalcon_call_method_internal(zval *return_value, zval *object, char *method_name, int method_len, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+
 	int status = FAILURE;
 	zend_class_entry *ce, *active_scope = NULL;
 
-	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
@@ -297,35 +306,113 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
+#ifndef PHALCON_RELEASE
+	else {
+		int valid_return_value = 1;
 
-	PHALCON_ALLOC_ZVAL(fn);
-	ZVAL_STRINGL(fn, method_name, method_len, 0);
+		if (Z_REFCOUNT_P(return_value) > 1) {
+			valid_return_value = 0;
+			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
+		}
+
+		if (!valid_return_value) {
+			PHALCON_INIT_NVAR(return_value);
+			phalcon_print_backtrace();
+		}
+	}
+#endif
 
 	active_scope = EG(scope);
 
 	/* Find class_entry scope */
 	ce = Z_OBJCE_P(object);
 	if (ce->parent) {
-		phalcon_find_scope(ce, method_name, method_len TSRMLS_CC);
+		phalcon_find_scope(ce, method_name, method_len, lower, method_key TSRMLS_CC);
 	} else {
 		EG(scope) = ce;
 	}
 
-	#if PHALCON_EXPERIMENTAL_FCALL
-	status = phalcon_exp_call_user_method(ce, &object, fn, return_value, param_count, params PH_MEHASH_C TSRMLS_CC);
-	#else
-	status = phalcon_call_user_function(&ce->function_table, &object, fn, return_value, param_count, params TSRMLS_CC);
-	#endif
+	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, 0, NULL, method_key TSRMLS_CC);
+	if (status == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s()", method_name);
+	}
+	EG(scope) = active_scope;
 
-	if (unlikely(status == FAILURE)) {
+	if (!noreturn) {
+			zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)) {
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_memory_restore_stack(TSRMLS_C);
+	}
+
+	return status;
+}
+
+/**
+ * Call methods that require parameters in an old-style secure way
+ */
+static inline int phalcon_call_method_params_internal(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+
+	int status = FAILURE;
+	zend_class_entry *ce, *active_scope = NULL;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
+		phalcon_memory_restore_stack(TSRMLS_C);
+		return FAILURE;
+	}
+
+	if (!noreturn) {
+		ALLOC_INIT_ZVAL(return_value);
+	}
+#ifndef PHALCON_RELEASE
+	else {
+		int valid_return_value = 1;
+
+		if (Z_REFCOUNT_P(return_value) > 1) {
+			valid_return_value = 0;
+			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
+		} else {
+			 if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
+		}
+
+		if (!valid_return_value) {
+			PHALCON_INIT_NVAR(return_value);
+			phalcon_print_backtrace();
+		}
+	}
+#endif
+
+	active_scope = EG(scope);
+
+	/* Find class_entry scope */
+	ce = Z_OBJCE_P(object);
+	if (ce->parent) {
+		phalcon_find_scope(ce, method_name, method_len, lower, method_key TSRMLS_CC);
+	} else {
+		EG(scope) = ce;
+	}
+
+	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, param_count, params, method_key TSRMLS_CC);
+	if (status == FAILURE) {
 		EG(scope) = active_scope;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, ce->name);
 		status = FAILURE;
 	}
 	EG(scope) = active_scope;
-
-	ZVAL_NULL(fn);
-	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
@@ -336,7 +423,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -347,61 +434,99 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
  * Call method on an object that not requires parameters
  *
  */
-int phalcon_call_method(zval *return_value, zval *object, char *method_name, int method_len, int noreturn PH_MEHASH_D TSRMLS_DC){
-	return phalcon_call_method_internal(return_value, object, method_name, method_len, noreturn PH_MEHASH_C TSRMLS_CC);
+int phalcon_call_method_ex(zval *return_value, zval *object, char *method_name, int method_len, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	return phalcon_call_method_internal(return_value, object, method_name, method_len, noreturn, method_key, lower TSRMLS_CC);
+}
+
+/**
+ * Call a zval method on an object that not requires parameters
+ *
+ */
+int phalcon_call_method_zval_ex(zval *return_value, zval *object, zval *method, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	if (likely(Z_TYPE_P(method) == IS_STRING)) {
+		return phalcon_call_method_internal(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), noreturn, method_key, lower TSRMLS_CC);
+	}
+	php_error_docref(NULL TSRMLS_CC, E_ERROR, "Method name must be string");
+	return FAILURE;
 }
 
 /**
  * Call method on an object that requires an arbitrary number of parameters
  *
  */
-int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn PH_MEHASH_D TSRMLS_DC){
-	return phalcon_call_method_params_internal(return_value, object, method_name, method_len, param_count, params, noreturn PH_MEHASH_C TSRMLS_CC);
+int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	return phalcon_call_method_params_internal(return_value, object, method_name, method_len, param_count, params, noreturn, method_key, lower TSRMLS_CC);
 }
 
 /**
  * Call method on an object that requires only 1 parameter
  *
  */
-int phalcon_call_method_one_param(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, int noreturn PH_MEHASH_D TSRMLS_DC){
+int phalcon_call_method_one_param(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	zval *params[] = { param1 };
-	return phalcon_call_method_params(return_value, object, method_name, method_len, 1, params, noreturn PH_MEHASH_C TSRMLS_CC);
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 1, params, noreturn, method_key, lower TSRMLS_CC);
+}
+
+/**
+ * Call zval method on an object that requires only 1 parameter
+ *
+ */
+int phalcon_call_method_zval_one_param(zval *return_value, zval *object, zval *method, zval *param1, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	zval *params[] = { param1 };
+	if (likely(Z_TYPE_P(method) == IS_STRING)) {
+		return phalcon_call_method_params(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), 1, params, noreturn, method_key, lower TSRMLS_CC);
+	}
+	php_error_docref(NULL TSRMLS_CC, E_ERROR, "Method name must be string");
+	return FAILURE;
 }
 
 /**
  * Call method on an object that requires only 2 parameters
  *
  */
-int phalcon_call_method_two_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, int noreturn PH_MEHASH_D TSRMLS_DC){
+int phalcon_call_method_two_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	zval *params[] = { param1, param2 };
-	return phalcon_call_method_params(return_value, object, method_name, method_len, 2, params, noreturn PH_MEHASH_C TSRMLS_CC);
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 2, params, noreturn, method_key, lower TSRMLS_CC);
 }
 
 /**
  * Call method on an object that requires only 3 parameters
  *
  */
-int phalcon_call_method_three_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn PH_MEHASH_D TSRMLS_DC){
+int phalcon_call_method_three_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
-	return phalcon_call_method_params(return_value, object, method_name, method_len, 3, params, noreturn PH_MEHASH_C TSRMLS_CC);
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 3, params, noreturn, method_key, lower TSRMLS_CC);
+}
+
+/**
+ * Call method on an object that requires only 3 parameters
+ *
+ */
+int phalcon_call_method_zval_three_params(zval *return_value, zval *object, zval *method, zval *param1, zval *param2, zval *param3, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
+	zval *params[] = { param1, param2, param3 };
+	if (likely(Z_TYPE_P(method) == IS_STRING)) {
+		return phalcon_call_method_params(return_value, object, Z_STRVAL_P(method), Z_STRLEN_P(method), 3, params, noreturn, method_key, lower TSRMLS_CC);
+	}
+	php_error_docref(NULL TSRMLS_CC, E_ERROR, "Method name must be string");
+	return FAILURE;
 }
 
 /**
  * Call method on an object that requires only 4 parameters
  *
  */
-int phalcon_call_method_four_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn PH_MEHASH_D TSRMLS_DC){
+int phalcon_call_method_four_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	zval *params[] = { param1, param2, param3, param4 };
-	return phalcon_call_method_params(return_value, object, method_name, method_len, 4, params, noreturn PH_MEHASH_C TSRMLS_CC);
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 4, params, noreturn, method_key, lower TSRMLS_CC);
 }
 
 /**
  * Call method on an object that requires only 5 parameters
  *
  */
-int phalcon_call_method_five_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int noreturn PH_MEHASH_D TSRMLS_DC){
+int phalcon_call_method_five_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int noreturn, unsigned long method_key, int lower TSRMLS_DC){
 	zval *params[] = { param1, param2, param3, param4, param5 };
-	return phalcon_call_method_params(return_value, object, method_name, method_len, 5, params, noreturn PH_MEHASH_C TSRMLS_CC);
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 5, params, noreturn, method_key, lower TSRMLS_CC);
 }
 
 /**
@@ -415,6 +540,26 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
+#ifndef PHALCON_RELEASE
+	else {
+		int valid_return_value = 1;
+
+		if (Z_REFCOUNT_P(return_value) > 1) {
+			valid_return_value = 0;
+			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
+		}
+
+		if (!valid_return_value) {
+			PHALCON_INIT_NVAR(return_value);
+			phalcon_print_backtrace();
+		}
+	}
+#endif
 
 	ALLOC_INIT_ZVAL(fn);
 	array_init_size(fn, 2);
@@ -428,7 +573,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 	add_next_index_zval(fn, fn_method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}
 
@@ -445,7 +590,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -463,6 +608,26 @@ inline int phalcon_call_static_func(zval *return_value, char *class_name, int cl
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
+#ifndef PHALCON_RELEASE
+	else {
+		int valid_return_value = 1;
+
+		if (Z_REFCOUNT_P(return_value) > 1) {
+			valid_return_value = 0;
+			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
+		}
+
+		if (!valid_return_value) {
+			PHALCON_INIT_NVAR(return_value);
+			phalcon_print_backtrace();
+		}
+	}
+#endif
 
 	ALLOC_INIT_ZVAL(fn);
 	array_init_size(fn, 2);
@@ -476,7 +641,7 @@ inline int phalcon_call_static_func(zval *return_value, char *class_name, int cl
 	add_next_index_zval(fn, fn_method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}
 
@@ -493,7 +658,7 @@ inline int phalcon_call_static_func(zval *return_value, char *class_name, int cl
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -595,7 +760,7 @@ int phalcon_call_self_func(zval *return_value, zval *object, char *method_name, 
 		active_scope = EG(scope);
 		ce = Z_OBJCE_P(object);
 		if (ce->parent) {
-			phalcon_find_scope(ce, method_name, method_len TSRMLS_CC);
+			phalcon_find_scope(ce, method_name, method_len, 0, 0 TSRMLS_CC);
 		}
 	}
 
@@ -620,7 +785,7 @@ inline int phalcon_call_self_func_params(zval *return_value, zval *object, char 
 		active_scope = EG(scope);
 		ce = Z_OBJCE_P(object);
 		if (ce->parent) {
-			phalcon_find_scope(ce, method_name, method_len TSRMLS_CC);
+			phalcon_find_scope(ce, method_name, method_len, 0, 0 TSRMLS_CC);
 		}
 	}
 
@@ -700,28 +865,54 @@ int phalcon_call_static_func_five_params(zval *return_value, char *class_name, i
 /**
  * Call single static function on a zval which not requires any parameter
  */
-int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *method_name, int method_len, int noreturn TSRMLS_DC){
+int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, zval *method, int noreturn TSRMLS_DC){
 
 	zval *fn;
 	int status = FAILURE;
 
+	if (Z_TYPE_P(method) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::not-callable()");
+		phalcon_memory_restore_stack(TSRMLS_C);
+		return FAILURE;
+	}
+
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
+#ifndef PHALCON_RELEASE
+	else {
+		int valid_return_value = 1;
+
+		if (Z_REFCOUNT_P(return_value) > 1) {
+			valid_return_value = 0;
+			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
+		}
+
+		if (!valid_return_value) {
+			PHALCON_INIT_NVAR(return_value);
+			phalcon_print_backtrace();
+		}
+	}
+#endif
 
 	Z_ADDREF_P(mixed_name);
 
 	ALLOC_INIT_ZVAL(fn);
 	array_init_size(fn, 2);
 	add_next_index_zval(fn, mixed_name);
-	add_next_index_stringl(fn, method_name, method_len, 1);
+	add_next_index_zval(fn, method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
-		if(Z_TYPE_P(mixed_name) == IS_STRING) {
-			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
+	if (status == FAILURE) {
+		if (Z_TYPE_P(mixed_name) == IS_STRING) {
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), Z_STRVAL_P(method));
 		} else {
-			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", method_name);
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", Z_STRVAL_P(method));
 		}
 	}
 
@@ -745,7 +936,78 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 /**
  * Call single static function on a zval which requires parameters
  */
-inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, zval *method, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+
+	zval *fn;
+	int status = FAILURE;
+
+	if (Z_TYPE_P(method) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::not-callable()");
+		phalcon_memory_restore_stack(TSRMLS_C);
+		return FAILURE;
+	}
+
+	if (!noreturn) {
+		ALLOC_INIT_ZVAL(return_value);
+	}
+#ifndef PHALCON_RELEASE
+	else {
+		int valid_return_value = 1;
+
+		if (Z_REFCOUNT_P(return_value) > 1) {
+			valid_return_value = 0;
+			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
+		}
+
+		if (!valid_return_value) {
+			PHALCON_INIT_NVAR(return_value);
+			phalcon_print_backtrace();
+		}
+	}
+#endif
+
+	Z_ADDREF_P(mixed_name);
+
+	ALLOC_INIT_ZVAL(fn);
+	array_init_size(fn, 2);
+	add_next_index_zval(fn, mixed_name);
+	add_next_index_zval(fn, method);
+
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
+	if (status == FAILURE) {
+		if (Z_TYPE_P(mixed_name) == IS_STRING) {
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), Z_STRVAL_P(method));
+		} else {
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", Z_STRVAL_P(method));
+		}
+	}
+
+	zval_ptr_dtor(&fn);
+
+	if (!noreturn) {
+		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)) {
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_memory_restore_stack(TSRMLS_C);
+	}
+
+	return status;
+}
+
+/**
+ * Call single static function on a zval which requires parameters
+ */
+inline int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn;
 	int status = FAILURE;
@@ -753,6 +1015,26 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
+#ifndef PHALCON_RELEASE
+	else {
+		int valid_return_value = 1;
+
+		if (Z_REFCOUNT_P(return_value) > 1) {
+			valid_return_value = 0;
+			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
+		}
+
+		if (!valid_return_value) {
+			PHALCON_INIT_NVAR(return_value);
+			phalcon_print_backtrace();
+		}
+	}
+#endif
 
 	Z_ADDREF_P(mixed_name);
 
@@ -762,8 +1044,8 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 	add_next_index_stringl(fn, method_name, method_len, 1);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
-		if(Z_TYPE_P(mixed_name) == IS_STRING) {
+	if (status == FAILURE) {
+		if (Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
 		} else {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", method_name);
@@ -790,25 +1072,33 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 /**
  * Call single static function on a zval that requires one parameter
  */
-int phalcon_call_static_zval_func_one_param(zval *return_value, zval *mixed_name, char *method_name, int method_len, zval *param1, int noreturn TSRMLS_DC){
+int phalcon_call_static_zval_func_one_param(zval *return_value, zval *mixed_name, zval *method, zval *param1, int noreturn TSRMLS_DC){
 	zval *params[] = { param1 };
-	return phalcon_call_static_zval_func_params(return_value, mixed_name, method_name, method_len, 1, params, noreturn TSRMLS_CC);
+	return phalcon_call_static_zval_func_params(return_value, mixed_name, method, 1, params, noreturn TSRMLS_CC);
 }
 
 /**
  * Call single static function on a zval that requires one parameter
  */
-int phalcon_call_static_zval_func_two_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zval *param1, zval *param2, int noreturn TSRMLS_DC){
+int phalcon_call_static_zval_str_func_one_param(zval *return_value, zval *mixed_name, char *method_name, int method_len, zval *param1, int noreturn TSRMLS_DC){
+	zval *params[] = { param1 };
+	return phalcon_call_static_zval_str_func_params(return_value, mixed_name, method_name, method_len, 1, params, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call single static function on a zval that requires one parameter
+ */
+int phalcon_call_static_zval_func_two_params(zval *return_value, zval *mixed_name, zval *method, int method_len, zval *param1, zval *param2, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2 };
-	return phalcon_call_static_zval_func_params(return_value, mixed_name, method_name, method_len, 2, params, noreturn TSRMLS_CC);
+	return phalcon_call_static_zval_func_params(return_value, mixed_name, method, 2, params, noreturn TSRMLS_CC);
 }
 
 /**
  * Call single static function on a zval that requires one parameter
  */
-int phalcon_call_static_zval_func_three_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
+int phalcon_call_static_zval_func_three_params(zval *return_value, zval *mixed_name, zval *method, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
-	return phalcon_call_static_zval_func_params(return_value, mixed_name, method_name, method_len, 3, params, noreturn TSRMLS_CC);
+	return phalcon_call_static_zval_func_params(return_value, mixed_name, method, 3, params, noreturn TSRMLS_CC);
 }
 
 /**
@@ -822,6 +1112,26 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
+#ifndef PHALCON_RELEASE
+	else {
+		int valid_return_value = 1;
+
+		if (Z_REFCOUNT_P(return_value) > 1) {
+			valid_return_value = 0;
+			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", "phalcon_call_func_internal", Z_REFCOUNT_P(return_value));
+		} else {
+			if (Z_TYPE_P(return_value) > IS_BOOL) {
+				valid_return_value = 0;
+				fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", "phalcon_call_func_internal", Z_TYPE_P(return_value));
+			}
+		}
+
+		if (!valid_return_value) {
+			PHALCON_INIT_NVAR(return_value);
+			phalcon_print_backtrace();
+		}
+	}
+#endif
 
 	ALLOC_INIT_ZVAL(fn);
 	array_init_size(fn, 2);
@@ -829,7 +1139,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 	add_next_index_stringl(fn, method_name, method_len, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name);
 	}
 
@@ -841,7 +1151,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -951,7 +1261,7 @@ int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC){
 		status = FAILURE;
 	}
 
-	if (unlikely(status == FAILURE)) {
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -963,32 +1273,41 @@ int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC){
  */
 int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[] TSRMLS_DC) {
 
-	zval ***params_array;
+	zval ***params_array = NULL;
+	zval **static_params_array[5];
 	zend_uint i;
 	int ex_retval;
 	zval *local_retval_ptr = NULL;
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
-	PHALCON_GLOBAL(recursive_lock)++;
+	phalcon_globals_ptr->recursive_lock++;
 
-	if (PHALCON_GLOBAL(recursive_lock) > 2048) {
+	if (unlikely(phalcon_globals_ptr->recursive_lock > 2048)) {
 		ex_retval = FAILURE;
-		params_array = NULL;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");
 	} else {
 
 		if (param_count) {
-			params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-			for (i = 0; i < param_count; i++) {
-				params_array[i] = &params[i];
+			if (param_count > 5) {
+				params_array = (zval ***) emalloc(sizeof(zval **) * param_count);
+				for (i = 0; i < param_count; i++) {
+					params_array[i] = &params[i];
+				}
+			} else {
+				for (i = 0; i < param_count; i++) {
+					static_params_array[i] = &params[i];
+				}
 			}
-		} else {
-			params_array = NULL;
 		}
 
-		ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
+		if (likely(param_count > 5)) {
+			ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
+		} else {
+			ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, static_params_array, 1, NULL TSRMLS_CC);
+		}
 	}
 
-	PHALCON_GLOBAL(recursive_lock)--;
+	phalcon_globals_ptr->recursive_lock--;
 
 	if (local_retval_ptr) {
 		if (Z_TYPE_P(local_retval_ptr) == IS_NULL) {
@@ -1012,7 +1331,6 @@ int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval
 /**
  * These functions are based on the ones in PHP 5.3.21, versions lower than 5.3.9 have problems with closures
  */
-
 int phalcon_call_user_function_ex(HashTable *function_table, zval **object_pp, zval *function_name, zval **retval_ptr_ptr, zend_uint param_count, zval **params[], int no_separation, HashTable *symbol_table TSRMLS_DC) {
 
 	zend_fcall_info fci;
@@ -1114,7 +1432,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 	fci->object_ptr = fci_cache->object_ptr;
 	EX(object) = fci->object_ptr;
 	if (fci->object_ptr && Z_TYPE_P(fci->object_ptr) == IS_OBJECT &&
-	    (!EG(objects_store).object_buckets || !EG(objects_store).object_buckets[Z_OBJ_HANDLE_P(fci->object_ptr)].valid)) {
+		(!EG(objects_store).object_buckets || !EG(objects_store).object_buckets[Z_OBJ_HANDLE_P(fci->object_ptr)].valid)) {
 		return FAILURE;
 	}
 
@@ -1143,11 +1461,15 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 				zval *new_zval;
 
 				if (fci->no_separation &&
-				    !ARG_MAY_BE_SENT_BY_REF(EX(function_state).function, i + 1)) {
+					!ARG_MAY_BE_SENT_BY_REF(EX(function_state).function, i + 1)) {
 					if (i || UNEXPECTED(ZEND_VM_STACK_ELEMETS(EG(argument_stack)) == EG(argument_stack)->top)) {
 						/* hack to clean up the stack */
 						zend_vm_stack_push_nocheck((void *) (zend_uintptr_t)i TSRMLS_CC);
+						#if PHP_VERSION_ID <= 50500
 						zend_vm_stack_clear_multiple(TSRMLS_C);
+						#else
+						zend_vm_stack_clear_multiple(0 TSRMLS_C);
+						#endif
 					}
 
 					zend_error(E_WARNING, "Parameter %d to %s%s%s() expected to be a reference, value given",
@@ -1293,7 +1615,11 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 			*fci->retval_ptr_ptr = NULL;
 		}
 	}
+	#if PHP_VERSION_ID <= 50500
 	zend_vm_stack_clear_multiple(TSRMLS_C);
+	#else
+	zend_vm_stack_clear_multiple(0 TSRMLS_C);
+	#endif
 
 	if (EG(This)) {
 		zval_ptr_dtor(&EG(This));
@@ -1367,7 +1693,7 @@ int phalcon_lookup_class_ex(const char *name, int name_length, int use_autoload,
 	ALLOC_ZVAL(class_name_ptr);
 	INIT_PZVAL(class_name_ptr);
 	if (name[0] == '\\') {
-		ZVAL_STRINGL(class_name_ptr, name+1, name_length-1, 1);
+		ZVAL_STRINGL(class_name_ptr, name + 1, name_length - 1, 1);
 	} else {
 		ZVAL_STRINGL(class_name_ptr, name, name_length, 1);
 	}

@@ -88,7 +88,7 @@ void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 	}
 
 	length = Z_STRLEN_PP(left) + Z_STRLEN_P(right);
-	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length+1);
+	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length + 1);
 
 	memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
 	Z_STRVAL_PP(left)[length] = 0;
@@ -107,7 +107,7 @@ void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 /**
  * Appends the content of the right operator to the left operator
  */
-void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_DC){
+void phalcon_concat_self_str(zval **left, const char *right, int right_length TSRMLS_DC){
 
 	zval left_copy;
 	uint length;
@@ -145,9 +145,9 @@ void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_D
 }
 
 /**
- * Natural compare with string operadus on right
+ * Natural compare with string operandus on right
  */
-int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
+int phalcon_compare_strict_string(zval *op1, const char *op2, int op2_length){
 
 	switch (Z_TYPE_P(op1)) {
 		case IS_STRING:
@@ -157,14 +157,14 @@ int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 			if (Z_STRLEN_P(op1) != op2_length) {
 				return 0;
 			}
-			return zend_binary_strcmp(Z_STRVAL_P(op1), Z_STRLEN_P(op1), op2, op2_length)==0;
+			return !zend_binary_strcmp(Z_STRVAL_P(op1), Z_STRLEN_P(op1), op2, op2_length);
 		case IS_NULL:
-			return zend_binary_strcmp("", 0, op2, op2_length)==0;
+			return !zend_binary_strcmp("", 0, op2, op2_length);
 		case IS_BOOL:
 			if (!Z_BVAL_P(op1)) {
-				return zend_binary_strcmp("0", strlen("0"), op2, op2_length)==0;
+				return !zend_binary_strcmp("0", strlen("0"), op2, op2_length);
 			} else {
-				return zend_binary_strcmp("1", strlen("1"), op2, op2_length)==0;
+				return !zend_binary_strcmp("1", strlen("1"), op2, op2_length);
 			}
 	}
 
@@ -172,11 +172,10 @@ int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 }
 
 /**
- * Natural compare with long operadus on right
+ * Natural compare with long operandus on right
  */
 int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 
-	zval *op2_tmp, *result;
 	int bool_result;
 
 	switch (Z_TYPE_P(op1)) {
@@ -193,85 +192,16 @@ int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 				return 1 == op2;
 			}
 		default:
-			ALLOC_INIT_ZVAL(result);
-			ALLOC_INIT_ZVAL(op2_tmp);
-			ZVAL_LONG(op2_tmp, op2);
-			is_equal_function(result, op1, op2_tmp TSRMLS_CC);
-			bool_result = Z_BVAL_P(result);
-			zval_ptr_dtor(&result);
-			zval_ptr_dtor(&op2_tmp);
-			return bool_result;
+			{
+				zval result, op2_tmp;
+				ZVAL_LONG(&op2_tmp, op2);
+				is_equal_function(&result, op1, &op2_tmp TSRMLS_CC);
+				bool_result = Z_BVAL(result);
+				return bool_result;
+			}
 	}
 
 	return 0;
-}
-
-/**
- * Natural is smaller compare with long operadus on right
- */
-int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC){
-
-	zval *op2_tmp, *result;
-	int bool_result;
-
-	switch (Z_TYPE_P(op1)) {
-		case IS_LONG:
-			return Z_LVAL_P(op1) < op2;
-		case IS_DOUBLE:
-			return Z_LVAL_P(op1) < (double) op2;
-		case IS_NULL:
-			return 0 < op2;
-		case IS_BOOL:
-			if (Z_BVAL_P(op1)) {
-				return 0 < op2;
-			} else {
-				return 1 < op2;
-			}
-		default:
-			ALLOC_INIT_ZVAL(result);
-			ALLOC_INIT_ZVAL(op2_tmp);
-			ZVAL_LONG(op2_tmp, op2);
-			is_smaller_function(result, op1, op2_tmp TSRMLS_CC);
-			bool_result = Z_BVAL_P(result);
-			zval_ptr_dtor(&result);
-			zval_ptr_dtor(&op2_tmp);
-			return bool_result;
-	}
-
-}
-
-/**
- * Natural is smaller or equal compare with long operadus on right
- */
-int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC){
-
-	zval *op2_tmp, *result;
-	int bool_result;
-
-	switch (Z_TYPE_P(op1)) {
-		case IS_LONG:
-			return Z_LVAL_P(op1) <= op2;
-		case IS_DOUBLE:
-			return Z_DVAL_P(op1) <= (double) op2;
-		case IS_NULL:
-			return 0 < op2;
-		case IS_BOOL:
-			if (Z_BVAL_P(op1)) {
-				return 0 <= op2;
-			} else {
-				return 1 <= op2;
-			}
-		default:
-			ALLOC_INIT_ZVAL(result);
-			ALLOC_INIT_ZVAL(op2_tmp);
-			ZVAL_LONG(op2_tmp, op2);
-			is_smaller_or_equal_function(result, op1, op2_tmp TSRMLS_CC);
-			bool_result = Z_BVAL_P(result);
-			zval_ptr_dtor(&result);
-			zval_ptr_dtor(&op2_tmp);
-			return bool_result;
-	}
-
 }
 
 /**
@@ -301,6 +231,9 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 		case IS_LONG:
 			convert_to_long(result);
 			break;
+		case IS_DOUBLE:
+			convert_to_double(result);
+			break;
 		/*case IS_BOOL:
 			convert_to_bool(result);
 			break;*/
@@ -316,7 +249,7 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 /**
  * Returns the long value of a zval
  */
-long phalcon_get_intval(zval *op) {
+long phalcon_get_intval(const zval *op) {
 
 	int type;
 	long long_value;
@@ -330,7 +263,7 @@ long phalcon_get_intval(zval *op) {
 		case IS_DOUBLE:
 			return (long) Z_DVAL_P(op);
 		case IS_STRING:
-			if((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0))){
+			if ((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0))) {
 				if (type == IS_LONG) {
 					return long_value;
 				} else {
@@ -349,7 +282,7 @@ long phalcon_get_intval(zval *op) {
 /**
  * Returns the long value of a zval
  */
-int phalcon_is_numeric(zval *op) {
+int phalcon_is_numeric(const zval *op) {
 
 	int type;
 
@@ -361,7 +294,7 @@ int phalcon_is_numeric(zval *op) {
 		case IS_DOUBLE:
 			return 1;
 		case IS_STRING:
-			if((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), NULL, NULL, 0))){
+			if ((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), NULL, NULL, 0))) {
 				if (type == IS_LONG || type == IS_DOUBLE) {
 					return 1;
 				}
@@ -378,6 +311,72 @@ int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
 	zval result;
 	is_equal_function(&result, op1, op2 TSRMLS_CC);
 	return Z_BVAL(result);
+}
+
+/**
+ * Check if a zval is less than other
+ */
+int phalcon_less(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_smaller_function(&result, op1, op2 TSRMLS_CC);
+	return Z_BVAL(result);
+}
+
+/**
+ * Check if a zval is less/equal than other
+ */
+int phalcon_less_equal(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_smaller_or_equal_function(&result, op1, op2 TSRMLS_CC);
+	return Z_BVAL(result);
+}
+
+/**
+ * Check if a zval is less than a long value
+ */
+int phalcon_less_long(zval *op1, long op2 TSRMLS_DC) {
+	zval result, op2_zval;
+	ZVAL_LONG(&op2_zval, op2);
+	is_smaller_function(&result, op1, &op2_zval TSRMLS_CC);
+	return Z_BVAL(result);
+}
+
+/**
+ * Check if a zval is greater than other
+ */
+int phalcon_greater(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_smaller_or_equal_function(&result, op1, op2 TSRMLS_CC);
+	return !Z_BVAL(result);
+}
+
+/**
+ * Check if a zval is greater than a long value
+ */
+int phalcon_greater_long(zval *op1, long op2 TSRMLS_DC) {
+	zval result, op2_zval;
+	ZVAL_LONG(&op2_zval, op2);
+	is_smaller_or_equal_function(&result, op1, &op2_zval TSRMLS_CC);
+	return !Z_BVAL(result);
+}
+
+/**
+ * Check if a zval is greater/equal than other
+ */
+int phalcon_greater_equal(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_smaller_function(&result, op1, op2 TSRMLS_CC);
+	return !Z_BVAL(result);
+}
+
+/**
+ * Check for greater/equal
+ */
+int phalcon_greater_equal_long(zval *op1, long op2 TSRMLS_DC) {
+	zval result, op2_zval;
+	ZVAL_LONG(&op2_zval, op2);
+	is_smaller_function(&result, op1, &op2_zval TSRMLS_CC);
+	return !Z_BVAL(result);
 }
 
 /**

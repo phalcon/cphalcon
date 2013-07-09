@@ -39,6 +39,8 @@
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/framework/router.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Mvc\Router\Route
@@ -97,7 +99,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	/** 
 	 * Configure the route (extract parameters, paths, etc)
 	 */
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "reconfigure", pattern, paths);
+	phalcon_call_method_p2_noret(this_ptr, "reconfigure", pattern, paths);
 	
 	/** 
 	 * Update the HTTP method constraints
@@ -167,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			ZVAL_STRING(wildcard, "/:module", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
-			PHALCON_INIT_VAR(compiled_pattern);
+			PHALCON_INIT_NVAR(compiled_pattern);
 			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
 		}
 	
@@ -256,7 +258,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 		}
 	}
 	
-	
 	RETURN_CCTOR(final_pattern);
 }
 
@@ -290,9 +291,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, via){
 PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 
 	zval *pattern, *paths = NULL, *module_name = NULL, *controller_name = NULL;
-	zval *action_name = NULL, *double_colon, *parts, *number_parts;
-	zval *route_paths = NULL, *real_class_name = NULL, *namespace_name;
-	zval *lower_name, *pcre_pattern = NULL, *compiled_pattern = NULL;
+	zval *action_name = NULL, *parts, *number_parts, *route_paths = NULL;
+	zval *real_class_name = NULL, *namespace_name, *lower_name;
+	zval *pcre_pattern = NULL, *compiled_pattern = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -315,14 +316,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	
 			PHALCON_INIT_VAR(action_name);
 	
-			PHALCON_INIT_VAR(double_colon);
-			ZVAL_STRING(double_colon, "::", 1);
-	
 			/** 
 			 * Explode the short paths using the :: separator
 			 */
 			PHALCON_INIT_VAR(parts);
-			phalcon_fast_explode(parts, double_colon, paths TSRMLS_CC);
+			phalcon_fast_explode_str(parts, SL("::"), paths TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(number_parts);
 			phalcon_fast_count(number_parts, parts TSRMLS_CC);
@@ -405,7 +403,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 				 * Always pass the controller to lowercase
 				 */
 				PHALCON_INIT_VAR(lower_name);
-				phalcon_fast_strtolower(lower_name, real_class_name);
+				phalcon_uncamelize(lower_name, real_class_name TSRMLS_CC);
 	
 				/** 
 				 * Update the controller path
@@ -450,7 +448,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 		 * Transform the route's pattern to a regular expression
 		 */
 		PHALCON_INIT_VAR(compiled_pattern);
-		PHALCON_CALL_METHOD_PARAMS_1(compiled_pattern, this_ptr, "compilepattern", pcre_pattern);
+		phalcon_call_method_p1(compiled_pattern, this_ptr, "compilepattern", pcre_pattern);
 	} else {
 		PHALCON_CPY_WRT(compiled_pattern, pattern);
 	}
@@ -599,20 +597,17 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths){
 	PHALCON_OBS_VAR(paths);
 	phalcon_read_property_this(&paths, this_ptr, SL("_paths"), PH_NOISY_CC);
 	
-	if (!phalcon_is_iterable(paths, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(paths, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_KEY(path, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(position);
+		PHALCON_GET_HKEY(path, ah0, hp0);
+		PHALCON_GET_HVALUE(position);
 	
 		phalcon_array_update_zval(&reversed, position, &path, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	RETURN_CTOR(reversed);
 }

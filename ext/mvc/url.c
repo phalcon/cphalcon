@@ -36,8 +36,9 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "kernel/string.h"
+#include "kernel/framework/url.h"
 #include "kernel/concat.h"
+#include "kernel/framework/router.h"
 
 /**
  * Phalcon\Mvc\Url
@@ -46,10 +47,10 @@
  *
  *<code>
  *
- * //Generate a url appending a uri to the base Uri
+ * //Generate a URL appending the URI to the base URI
  * echo $url->get('products/edit/1');
  *
- * //Generate a url for a predefined route
+ * //Generate a URL for a predefined route
  * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
  *
  *</code>
@@ -65,7 +66,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Url){
 
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("_baseUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("_staticBaseUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("_basePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_url_ce, SL("_router"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_url_ce TSRMLS_CC, 2, phalcon_mvc_urlinterface_ce, phalcon_di_injectionawareinterface_ce);
 
@@ -81,17 +84,14 @@ PHP_METHOD(Phalcon_Mvc_Url, setDI){
 
 	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "The dependency injector must be an Object");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_url_exception_ce, "The dependency injector must be an Object");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -106,22 +106,53 @@ PHP_METHOD(Phalcon_Mvc_Url, getDI){
 }
 
 /**
- * Sets a prefix to all the urls generated
+ * Sets a prefix for all the URIs to be generated
  *
  *<code>
  *	$url->setBaseUri('/invo/');
+ *	$url->setBaseUri('/invo/index.php/');
  *</code>
  *
  * @param string $baseUri
+ * @return Phalcon\Mvc\Url
  */
 PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 
-	zval *base_uri;
+	zval *base_uri, *static_base_uri;
 
-	phalcon_fetch_params(0, 1, 0, &base_uri);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &base_uri);
 	
 	phalcon_update_property_this(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
 	
+	PHALCON_OBS_VAR(static_base_uri);
+	phalcon_read_property_this(&static_base_uri, this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
+	if (Z_TYPE_P(static_base_uri) == IS_NULL) {
+		phalcon_update_property_this(this_ptr, SL("_staticBaseUri"), base_uri TSRMLS_CC);
+	}
+	
+	RETURN_THIS();
+}
+
+/**
+ * Sets a prefix for all static URLs generated
+ *
+ *<code>
+ *	$url->setStaticBaseUri('/invo/');
+ *</code>
+ *
+ * @param string $staticBaseUri
+ * @return Phalcon\Mvc\Url
+ */
+PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri){
+
+	zval *static_base_uri;
+
+	phalcon_fetch_params(0, 1, 0, &static_base_uri);
+	
+	phalcon_update_property_this(this_ptr, SL("_staticBaseUri"), static_base_uri TSRMLS_CC);
+	RETURN_THISW();
 }
 
 /**
@@ -131,9 +162,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
  */
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 
-	zval *base_uri = NULL, *slash, *_SERVER, *one, *minus_one = NULL;
-	zval *php_self, *dirname, *dir_parts, *slice, *uri = NULL;
-	zval *c0 = NULL;
+	zval *base_uri = NULL, *slash, *_SERVER, *php_self, *uri = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -145,27 +174,11 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 		ZVAL_STRING(slash, "/", 1);
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		if (phalcon_array_isset_string(_SERVER, SS("PHP_SELF"))) {
-			PHALCON_INIT_VAR(one);
-			ZVAL_LONG(one, 1);
-	
-			PHALCON_INIT_VAR(c0);
-			ZVAL_LONG(c0, -1);
-			PHALCON_CPY_WRT(minus_one, c0);
-	
 			PHALCON_OBS_VAR(php_self);
 			phalcon_array_fetch_string(&php_self, _SERVER, SL("PHP_SELF"), PH_NOISY_CC);
 	
-			PHALCON_INIT_VAR(dirname);
-			PHALCON_CALL_FUNC_PARAMS_1(dirname, "dirname", php_self);
-	
-			PHALCON_INIT_VAR(dir_parts);
-			phalcon_fast_explode(dir_parts, slash, dirname TSRMLS_CC);
-	
-			PHALCON_INIT_VAR(slice);
-			PHALCON_CALL_FUNC_PARAMS_3(slice, "array_slice", dir_parts, one, minus_one);
-	
 			PHALCON_INIT_VAR(uri);
-			phalcon_fast_join(uri, slash, slice TSRMLS_CC);
+			phalcon_get_uri(uri, php_self);
 		} else {
 			PHALCON_INIT_NVAR(uri);
 		}
@@ -180,18 +193,41 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 		phalcon_update_property_this(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
 	}
 	
+	RETURN_CCTOR(base_uri);
+}
+
+/**
+ * Returns the prefix for all the generated static urls. By default /
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri){
+
+	zval *static_base_uri, *base_uri;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(static_base_uri);
+	phalcon_read_property_this(&static_base_uri, this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
+	if (Z_TYPE_P(static_base_uri) != IS_NULL) {
+		RETURN_CCTOR(static_base_uri);
+	}
+	
+	PHALCON_INIT_VAR(base_uri);
+	phalcon_call_method(base_uri, this_ptr, "getbaseuri");
 	
 	RETURN_CCTOR(base_uri);
 }
 
 /**
- * Sets a base paths for all the generated paths
+ * Sets a base path for all the generated paths
  *
  *<code>
- *	$url->setBasePath('/var/www/');
+ *	$url->setBasePath('/var/www/htdocs/');
  *</code>
  *
  * @param string $basePath
+ * @return Phalcon\Mvc\Url
  */
 PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
 
@@ -200,11 +236,11 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
 	phalcon_fetch_params(0, 1, 0, &base_path);
 	
 	phalcon_update_property_this(this_ptr, SL("_basePath"), base_path TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
- * Returns a base path
+ * Returns the base path
  *
  * @return string
  */
@@ -217,13 +253,23 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath){
 /**
  * Generates a URL
  *
+ *<code>
+ *
+ * //Generate a URL appending the URI to the base URI
+ * echo $url->get('products/edit/1');
+ *
+ * //Generate a URL for a predefined route
+ * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
+ *
+ *</code>
+ *
  * @param string|array $uri
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Url, get){
 
-	zval *uri = NULL, *base_uri, *dependency_injector, *service;
-	zval *router, *route_name, *route, *exception_message;
+	zval *uri = NULL, *base_uri, *router = NULL, *dependency_injector;
+	zval *service, *route_name, *route, *exception_message;
 	zval *pattern, *paths, *processed_uri, *final_uri = NULL;
 
 	PHALCON_MM_GROW();
@@ -235,25 +281,35 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	}
 	
 	PHALCON_INIT_VAR(base_uri);
-	PHALCON_CALL_METHOD(base_uri, this_ptr, "getbaseuri");
+	phalcon_call_method(base_uri, this_ptr, "getbaseuri");
 	if (Z_TYPE_P(uri) == IS_ARRAY) { 
 		if (!phalcon_array_isset_string(uri, SS("for"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "It's necessary to define the route name with the parameter \"for\"");
 			return;
 		}
 	
-		PHALCON_OBS_VAR(dependency_injector);
-		phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		if (!zend_is_true(dependency_injector)) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "A dependency injector container is required to obtain the \"url\" service");
-			return;
+		PHALCON_OBS_VAR(router);
+		phalcon_read_property_this(&router, this_ptr, SL("_router"), PH_NOISY_CC);
+	
+		/** 
+		 * Check if the router has not previously set
+		 */
+		if (Z_TYPE_P(router) != IS_OBJECT) {
+	
+			PHALCON_OBS_VAR(dependency_injector);
+			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+			if (!zend_is_true(dependency_injector)) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "A dependency injector container is required to obtain the \"url\" service");
+				return;
+			}
+	
+			PHALCON_INIT_VAR(service);
+			ZVAL_STRING(service, "router", 1);
+	
+			PHALCON_INIT_NVAR(router);
+			phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+			phalcon_update_property_this(this_ptr, SL("_router"), router TSRMLS_CC);
 		}
-	
-		PHALCON_INIT_VAR(service);
-		ZVAL_STRING(service, "router", 1);
-	
-		PHALCON_INIT_VAR(router);
-		PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", service);
 	
 		PHALCON_OBS_VAR(route_name);
 		phalcon_array_fetch_string(&route_name, uri, SL("for"), PH_NOISY_CC);
@@ -262,7 +318,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		 * Every route is uniquely differenced by a name
 		 */
 		PHALCON_INIT_VAR(route);
-		PHALCON_CALL_METHOD_PARAMS_1(route, router, "getroutebyname", route_name);
+		phalcon_call_method_p1(route, router, "getroutebyname", route_name);
 		if (Z_TYPE_P(route) != IS_OBJECT) {
 			PHALCON_INIT_VAR(exception_message);
 			PHALCON_CONCAT_SVS(exception_message, "Cannot obtain a route using the name \"", route_name, "\"");
@@ -271,13 +327,13 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		}
 	
 		PHALCON_INIT_VAR(pattern);
-		PHALCON_CALL_METHOD(pattern, route, "getpattern");
+		phalcon_call_method(pattern, route, "getpattern");
 	
 		/** 
 		 * Return the reversed paths
 		 */
 		PHALCON_INIT_VAR(paths);
-		PHALCON_CALL_METHOD(paths, route, "getreversedpaths");
+		phalcon_call_method(paths, route, "getreversedpaths");
 	
 		/** 
 		 * Replace the patterns by its variables
@@ -290,6 +346,41 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	
 		RETURN_CTOR(final_uri);
 	}
+	
+	PHALCON_INIT_NVAR(final_uri);
+	PHALCON_CONCAT_VV(final_uri, base_uri, uri);
+	
+	RETURN_CTOR(final_uri);
+}
+
+/**
+ * Generates a URL for a static resource
+ *
+ * @param string|array $uri
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Url, getStatic){
+
+	zval *uri = NULL, *static_base_uri, *final_uri = NULL, *base_uri;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &uri);
+	
+	if (!uri) {
+		PHALCON_INIT_VAR(uri);
+	}
+	
+	PHALCON_OBS_VAR(static_base_uri);
+	phalcon_read_property_this(&static_base_uri, this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
+	if (Z_TYPE_P(static_base_uri) != IS_NULL) {
+		PHALCON_INIT_VAR(final_uri);
+		PHALCON_CONCAT_VV(final_uri, static_base_uri, uri);
+		RETURN_CTOR(final_uri);
+	}
+	
+	PHALCON_INIT_VAR(base_uri);
+	phalcon_call_method(base_uri, this_ptr, "getbaseuri");
 	
 	PHALCON_INIT_NVAR(final_uri);
 	PHALCON_CONCAT_VV(final_uri, base_uri, uri);

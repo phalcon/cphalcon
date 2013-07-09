@@ -36,15 +36,17 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
+#include "kernel/variables.h"
 #include "kernel/exception.h"
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
  *
  * Complex resultsets may include complete objects and scalar values.
- * This class builds every complex row as the're required
+ * This class builds every complex row as it is required
  */
 
 
@@ -94,7 +96,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 	/** 
 	 * Update the related cache if any
 	 */
-	phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	if (Z_TYPE_P(cache) != IS_NULL) {
+		phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	}
 	
 	/** 
 	 * Resultsets type 1 are traversed one-by-one
@@ -107,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 	if (Z_TYPE_P(result) == IS_OBJECT) {
 		PHALCON_INIT_VAR(fetch_assoc);
 		ZVAL_LONG(fetch_assoc, 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_assoc);
+		phalcon_call_method_p1_noret(result, "setfetchmode", fetch_assoc);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -143,7 +147,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 		phalcon_read_property_this(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (PHALCON_IS_NOT_FALSE(result)) {
 			PHALCON_INIT_VAR(row);
-			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetch", result);
+			phalcon_call_method_p1(row, result, "fetch", result);
 		} else {
 			PHALCON_INIT_NVAR(row);
 			ZVAL_BOOL(row, 0);
@@ -224,14 +228,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 			PHALCON_INIT_VAR(dirty_state);
 			ZVAL_LONG(dirty_state, 0);
 	
-			if (!phalcon_is_iterable(columns_types, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-				return;
-			}
+			phalcon_is_iterable(columns_types, &ah0, &hp0, 0, 0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-				PHALCON_GET_FOREACH_KEY(alias, ah0, hp0);
-				PHALCON_GET_FOREACH_VALUE(column);
+				PHALCON_GET_HKEY(alias, ah0, hp0);
+				PHALCON_GET_HVALUE(column);
 	
 				PHALCON_OBS_NVAR(type);
 				phalcon_array_fetch_string(&type, column, SL("type"), PH_NOISY_CC);
@@ -255,13 +257,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					PHALCON_INIT_NVAR(row_model);
 					array_init(row_model);
 	
-					if (!phalcon_is_iterable(attributes, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-						return;
-					}
+					phalcon_is_iterable(attributes, &ah1, &hp1, 0, 0);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-						PHALCON_GET_FOREACH_VALUE(attribute);
+						PHALCON_GET_HVALUE(attribute);
 	
 						/** 
 						 * Columns are supposed to be in the form _table_field
@@ -404,12 +404,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray){
 
 	PHALCON_INIT_VAR(records);
 	array_init(records);
-	PHALCON_CALL_METHOD_NORETURN(this_ptr, "rewind");
+	phalcon_call_method_noret(this_ptr, "rewind");
 	
 	while (1) {
 	
 		PHALCON_INIT_NVAR(r0);
-		PHALCON_CALL_METHOD(r0, this_ptr, "valid");
+		phalcon_call_method(r0, this_ptr, "valid");
 		PHALCON_CPY_WRT(valid, r0);
 		if (PHALCON_IS_NOT_FALSE(valid)) {
 		} else {
@@ -417,9 +417,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray){
 		}
 	
 		PHALCON_INIT_NVAR(current);
-		PHALCON_CALL_METHOD(current, this_ptr, "current");
+		phalcon_call_method(current, this_ptr, "current");
 		phalcon_array_append(&records, current, PH_SEPARATE TSRMLS_CC);
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "next");
+		phalcon_call_method_noret(this_ptr, "next");
 	}
 	
 	RETURN_CTOR(records);
@@ -441,7 +441,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 	 * Obtain the records as an array
 	 */
 	PHALCON_INIT_VAR(records);
-	PHALCON_CALL_METHOD(records, this_ptr, "toarray");
+	phalcon_call_method(records, this_ptr, "toarray");
 	
 	PHALCON_OBS_VAR(cache);
 	phalcon_read_property_this(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
@@ -460,8 +460,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 	phalcon_array_update_string(&data, SL("hydrateMode"), &hydrate_mode, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(serialized);
-	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
-	RETURN_CCTOR(serialized);
+	phalcon_serialize(serialized, &data TSRMLS_CC);
+	
+	/** 
+	 * Avoid return bad serialized data
+	 */
+	if (Z_TYPE_P(serialized) != IS_STRING) {
+		RETURN_MM_NULL();
+	}
+	
+	RETURN_CTOR(serialized);
 }
 
 /**
@@ -481,7 +489,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize){
 	phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_FUNC_PARAMS_1(resultset, "unserialize", data);
+	phalcon_unserialize(resultset, data TSRMLS_CC);
 	if (Z_TYPE_P(resultset) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;

@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		/** 
 		 * Object definitions can be a Closure or an already resolved instance
 		 */
-		if (Z_TYPE_P(definition) == IS_OBJECT) {
+		if (likely(Z_TYPE_P(definition) == IS_OBJECT)) {
 			if (phalcon_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 					PHALCON_INIT_NVAR(instance);
@@ -273,8 +273,9 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 				object_init_ex(builder, phalcon_di_service_builder_ce);
 	
 				PHALCON_INIT_NVAR(instance);
-				PHALCON_CALL_METHOD_PARAMS_3(instance, builder, "build", dependency_injector, definition, parameters);
+				phalcon_call_method_p3(instance, builder, "build", dependency_injector, definition, parameters);
 			} else {
+				PHALCON_INIT_NVAR(found);
 				ZVAL_BOOL(found, 0);
 			}
 		}
@@ -293,10 +294,12 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		return;
 	}
 	
+	/** 
+	 * Update the shared instance if the service is shared
+	 */
 	if (zend_is_true(shared)) {
 		phalcon_update_property_this(this_ptr, SL("_sharedInstance"), instance TSRMLS_CC);
 	}
-	
 	
 	RETURN_CCTOR(instance);
 }
@@ -318,17 +321,17 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 	
 	PHALCON_OBS_VAR(definition);
 	phalcon_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
-	if (Z_TYPE_P(definition) != IS_ARRAY) { 
+	if (unlikely(Z_TYPE_P(definition) != IS_ARRAY)) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters");
 		return;
 	}
 	
-	if (Z_TYPE_P(position) != IS_LONG) {
+	if (unlikely(Z_TYPE_P(position) != IS_LONG)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Position must be integer");
 		return;
 	}
 	
-	if (Z_TYPE_P(parameter) != IS_ARRAY) { 
+	if (unlikely(Z_TYPE_P(parameter) != IS_ARRAY)) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The parameter must be an array");
 		return;
 	}
@@ -441,8 +444,7 @@ PHP_METHOD(Phalcon_DI_Service, __set_state){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
-	
+	phalcon_call_method_p3_noret(service, "__construct", name, definition, shared);
 	
 	RETURN_CTOR(service);
 }

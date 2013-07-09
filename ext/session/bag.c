@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
@@ -79,18 +79,14 @@ PHP_METHOD(Phalcon_Session_Bag, __construct){
 
 	zval *name;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
-	if (Z_TYPE_P(name) == IS_STRING) {
-		phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "The dependency injector must be an Object");
+	if (Z_TYPE_P(name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_session_exception_ce, "The name parameter must be a string");
 		return;
 	}
+	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -102,17 +98,14 @@ PHP_METHOD(Phalcon_Session_Bag, setDI){
 
 	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "The dependency injector must be an Object");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_session_exception_ce, "The dependency injector must be an Object");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -146,6 +139,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 	
 			PHALCON_INIT_NVAR(dependency_injector);
 			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service");
 				return;
@@ -156,7 +150,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 		ZVAL_STRING(service, "session", 1);
 	
 		PHALCON_INIT_NVAR(session);
-		PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service);
+		phalcon_call_method_p1(session, dependency_injector, "getshared", service);
 		phalcon_update_property_this(this_ptr, SL("_session"), session TSRMLS_CC);
 	}
 	
@@ -164,7 +158,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(data);
-	PHALCON_CALL_METHOD_PARAMS_1(data, session, "get", name);
+	phalcon_call_method_p1(data, session, "get", name);
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		PHALCON_INIT_NVAR(data);
 		array_init(data);
@@ -192,7 +186,7 @@ PHP_METHOD(Phalcon_Session_Bag, destroy){
 	PHALCON_OBS_VAR(initalized);
 	phalcon_read_property_this(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initalized)) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+		phalcon_call_method_noret(this_ptr, "initialize");
 	}
 	
 	PHALCON_OBS_VAR(name);
@@ -200,7 +194,7 @@ PHP_METHOD(Phalcon_Session_Bag, destroy){
 	
 	PHALCON_OBS_VAR(session);
 	phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(session, "remove", name);
+	phalcon_call_method_p1_noret(session, "remove", name);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -227,7 +221,7 @@ PHP_METHOD(Phalcon_Session_Bag, set){
 	PHALCON_OBS_VAR(initalized);
 	phalcon_read_property_this(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initalized)) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+		phalcon_call_method_noret(this_ptr, "initialize");
 	}
 	
 	phalcon_update_property_array(this_ptr, SL("_data"), property, value TSRMLS_CC);
@@ -240,7 +234,7 @@ PHP_METHOD(Phalcon_Session_Bag, set){
 	
 	PHALCON_OBS_VAR(session);
 	phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", name, data);
+	phalcon_call_method_p2_noret(session, "set", name, data);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -263,7 +257,7 @@ PHP_METHOD(Phalcon_Session_Bag, __set){
 
 	phalcon_fetch_params(1, 2, 0, &property, &value);
 	
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", property, value);
+	phalcon_call_method_p2_noret(this_ptr, "set", property, value);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -298,7 +292,7 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 	PHALCON_OBS_VAR(initalized);
 	phalcon_read_property_this(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initalized)) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+		phalcon_call_method_noret(this_ptr, "initialize");
 	}
 	
 	/** 
@@ -314,7 +308,6 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 			RETURN_CCTOR(value);
 		}
 	}
-	
 	
 	RETURN_CCTOR(default_value);
 }
@@ -338,7 +331,7 @@ PHP_METHOD(Phalcon_Session_Bag, __get){
 	phalcon_fetch_params(1, 1, 0, &property);
 	
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, this_ptr, "get", property);
+	phalcon_call_method_p1(value, this_ptr, "get", property);
 	RETURN_CCTOR(value);
 }
 
@@ -363,7 +356,7 @@ PHP_METHOD(Phalcon_Session_Bag, has){
 	PHALCON_OBS_VAR(initalized);
 	phalcon_read_property_this(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initalized)) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+		phalcon_call_method_noret(this_ptr, "initialize");
 	}
 	
 	PHALCON_OBS_VAR(data);
@@ -394,7 +387,7 @@ PHP_METHOD(Phalcon_Session_Bag, __isset){
 	phalcon_fetch_params(1, 1, 0, &property);
 	
 	PHALCON_INIT_VAR(exists);
-	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "has", property);
+	phalcon_call_method_p1(exists, this_ptr, "has", property);
 	RETURN_CCTOR(exists);
 }
 
@@ -429,7 +422,7 @@ PHP_METHOD(Phalcon_Session_Bag, remove){
 	
 		PHALCON_OBS_VAR(session);
 		phalcon_read_property_this(&session, this_ptr, SL("_session"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", name, data);
+		phalcon_call_method_p2_noret(session, "set", name, data);
 		RETURN_MM_TRUE;
 	}
 	
@@ -455,7 +448,7 @@ PHP_METHOD(Phalcon_Session_Bag, __unset){
 	phalcon_fetch_params(1, 1, 0, &property);
 	
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD_PARAMS_1(success, this_ptr, "remove", property);
+	phalcon_call_method_p1(success, this_ptr, "remove", property);
 	RETURN_CCTOR(success);
 }
 

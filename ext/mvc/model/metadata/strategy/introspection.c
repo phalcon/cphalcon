@@ -39,6 +39,7 @@
 #include "kernel/file.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Mvc\Model\MetaData\Strategy\Instrospection
@@ -80,27 +81,25 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &model, &dependency_injector);
+	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, model, 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(schema);
-	PHALCON_CALL_METHOD(schema, model, "getschema");
+	phalcon_call_method(schema, model, "getschema");
 	
 	PHALCON_INIT_VAR(table);
-	PHALCON_CALL_METHOD(table, model, "getsource");
+	phalcon_call_method(table, model, "getsource");
 	
 	/** 
 	 * Check if the mapped table exists on the database
 	 */
 	PHALCON_INIT_VAR(read_connection);
-	PHALCON_CALL_METHOD(read_connection, model, "getreadconnection");
+	phalcon_call_method(read_connection, model, "getreadconnection");
 	
 	PHALCON_INIT_VAR(exists);
-	PHALCON_CALL_METHOD_PARAMS_2(exists, read_connection, "tableexists", table, schema);
+	phalcon_call_method_p2(exists, read_connection, "tableexists", table, schema);
 	if (!zend_is_true(exists)) {
 		if (zend_is_true(schema)) {
 			PHALCON_INIT_VAR(complete_table);
@@ -122,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	 * Try to describe the table
 	 */
 	PHALCON_INIT_VAR(columns);
-	PHALCON_CALL_METHOD_PARAMS_2(columns, read_connection, "describecolumns", table, schema);
+	phalcon_call_method_p2(columns, read_connection, "describecolumns", table, schema);
 	if (!phalcon_fast_count_ev(columns TSRMLS_CC)) {
 		if (zend_is_true(schema)) {
 			PHALCON_INIT_NVAR(complete_table);
@@ -170,23 +169,21 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	PHALCON_INIT_VAR(identity_field);
 	ZVAL_BOOL(identity_field, 0);
 	
-	if (!phalcon_is_iterable(columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+	phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(column);
+		PHALCON_GET_HVALUE(column);
 	
 		PHALCON_INIT_NVAR(field_name);
-		PHALCON_CALL_METHOD(field_name, column, "getname");
+		phalcon_call_method(field_name, column, "getname");
 		phalcon_array_append(&attributes, field_name, PH_SEPARATE TSRMLS_CC);
 	
 		/** 
 		 * To mark fields as primary keys
 		 */
 		PHALCON_INIT_NVAR(feature);
-		PHALCON_CALL_METHOD(feature, column, "isprimary");
+		phalcon_call_method(feature, column, "isprimary");
 		if (PHALCON_IS_TRUE(feature)) {
 			phalcon_array_append(&primary_keys, field_name, PH_SEPARATE TSRMLS_CC);
 		} else {
@@ -197,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		 * To mark fields as numeric
 		 */
 		PHALCON_INIT_NVAR(feature);
-		PHALCON_CALL_METHOD(feature, column, "isnumeric");
+		phalcon_call_method(feature, column, "isnumeric");
 		if (PHALCON_IS_TRUE(feature)) {
 			phalcon_array_update_zval_bool(&numeric_typed, field_name, 1, PH_SEPARATE TSRMLS_CC);
 		}
@@ -206,7 +203,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		 * To mark fields as not null
 		 */
 		PHALCON_INIT_NVAR(feature);
-		PHALCON_CALL_METHOD(feature, column, "isnotnull");
+		phalcon_call_method(feature, column, "isnotnull");
 		if (PHALCON_IS_TRUE(feature)) {
 			phalcon_array_append(&not_null, field_name, PH_SEPARATE TSRMLS_CC);
 		}
@@ -215,7 +212,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		 * To mark fields as identity columns
 		 */
 		PHALCON_INIT_NVAR(feature);
-		PHALCON_CALL_METHOD(feature, column, "isautoincrement");
+		phalcon_call_method(feature, column, "isautoincrement");
 		if (PHALCON_IS_TRUE(feature)) {
 			PHALCON_CPY_WRT(identity_field, field_name);
 		}
@@ -224,14 +221,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		 * To get the internal types
 		 */
 		PHALCON_INIT_NVAR(type);
-		PHALCON_CALL_METHOD(type, column, "gettype");
+		phalcon_call_method(type, column, "gettype");
 		phalcon_array_update_zval(&field_types, field_name, &type, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		/** 
 		 * To mark how the fields must be escaped
 		 */
 		PHALCON_INIT_NVAR(bind_type);
-		PHALCON_CALL_METHOD(bind_type, column, "getbindtype");
+		phalcon_call_method(bind_type, column, "getbindtype");
 		phalcon_array_update_zval(&field_bind_types, field_name, &bind_type, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -274,10 +271,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &dependency_injector) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &model, &dependency_injector);
+	
 	PHALCON_INIT_VAR(ordered_column_map);
 	
 	PHALCON_INIT_VAR(reversed_column_map);
@@ -288,7 +283,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 	if (phalcon_method_exists_ex(model, SS("columnmap") TSRMLS_CC) == SUCCESS) {
 	
 		PHALCON_INIT_VAR(user_column_map);
-		PHALCON_CALL_METHOD(user_column_map, model, "columnmap");
+		phalcon_call_method(user_column_map, model, "columnmap");
 		if (Z_TYPE_P(user_column_map) != IS_ARRAY) { 
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "columnMap() not returned an array");
 			return;
@@ -297,14 +292,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 		array_init(reversed_column_map);
 		PHALCON_CPY_WRT(ordered_column_map, user_column_map);
 	
-		if (!phalcon_is_iterable(user_column_map, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(user_column_map, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_KEY(name, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(user_name);
+			PHALCON_GET_HKEY(name, ah0, hp0);
+			PHALCON_GET_HVALUE(user_name);
 	
 			phalcon_array_update_zval(&reversed_column_map, user_name, &name, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
