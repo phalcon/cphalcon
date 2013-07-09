@@ -163,12 +163,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 			}
 	
 			break;
-
-        case 8:
-            PHALCON_INIT_VAR(column_sql);
-            ZVAL_STRING(column_sql, "TINYINT(1)", 1);
-            break;
-
+	
 		default:
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized MySQL data type");
 			return;

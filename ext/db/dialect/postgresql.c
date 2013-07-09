@@ -130,11 +130,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 			PHALCON_INIT_NVAR(column_sql);
 			ZVAL_STRING(column_sql, "FLOAT", 1);
 			break;
-
-		case 8:
-            PHALCON_INIT_VAR(column_sql);
-            ZVAL_STRING(column_sql, "SMALLINT(1)", 1);
-            break;
 	
 		default:
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type");
