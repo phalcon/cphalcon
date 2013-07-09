@@ -270,6 +270,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 #else
 	zval *itkey = NULL;
 #endif
+	zend_object_iterator *it;
 
 	PHALCON_MM_GROW();
 
@@ -304,7 +305,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	/* APCIterator implements Iterator */
 	assert(instanceof_function_ex(ce0, zend_ce_iterator, 1 TSRMLS_CC));
 
-	zend_object_iterator* it = ce0->get_iterator(ce0, iterator, 0 TSRMLS_CC);
+	it = ce0->get_iterator(ce0, iterator, 0 TSRMLS_CC);
 
 	/* APCIterator is an iterator */
 	assert(it != NULL);
