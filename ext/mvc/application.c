@@ -356,23 +356,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 * An array module definition contains a path to a module definition class
 		 */
 		if (Z_TYPE_P(module) == IS_ARRAY) { 
-			if (phalcon_array_isset_string(module, SS("path"))) {
-	
-				PHALCON_OBS_VAR(path);
-				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY_CC);
-				if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
-					if (phalcon_require(path TSRMLS_CC) == FAILURE) {
-						return;
-					}
-				} else {
-					PHALCON_INIT_NVAR(exception_msg);
-					PHALCON_CONCAT_SVS(exception_msg, "Module definition path '", path, "' doesn't exist");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_application_exception_ce, exception_msg);
-					return;
-				}
-			}
-	
-			/** 
+			/**
 			 * Class name used to load the module definition
 			 */
 			if (phalcon_array_isset_string(module, SS("className"))) {
@@ -381,6 +365,24 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			} else {
 				PHALCON_INIT_NVAR(class_name);
 				ZVAL_STRING(class_name, "Module", 1);
+			}
+
+			if (!phalcon_class_exists(class_name TSRMLS_CC)) {
+				if (phalcon_array_isset_string(module, SS("path"))) {
+
+					PHALCON_OBS_VAR(path);
+					phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY_CC);
+					if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
+						if (phalcon_require(path TSRMLS_CC) == FAILURE) {
+							return;
+						}
+					} else {
+						PHALCON_INIT_NVAR(exception_msg);
+						PHALCON_CONCAT_SVS(exception_msg, "Module definition path '", path, "' doesn't exist");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_application_exception_ce, exception_msg);
+						return;
+					}
+				}
 			}
 	
 			phalcon_call_method_p1(module_object, dependency_injector, "get", class_name);
