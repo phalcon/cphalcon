@@ -51467,7 +51467,7 @@ static PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	
 	if (phalcon_array_isset_quick_string(params, SS("fields"), 2881624156UL)) {
 		PHALCON_INIT_VAR(base);
-		object_init(base);
+		object_init_ex(base, phalcon_mvc_collection_document_ce);
 	} else {
 		PHALCON_CPY_WRT(base, collection);
 	}

@@ -628,11 +628,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	}
 	
 	/** 
-	 * If a group of specific fields are requested we use a stdclass instead
+	 * If a group of specific fields are requested we use a
+	 * Phalcon\Mvc\Collection\Document instead
 	 */
 	if (phalcon_array_isset_string(params, SS("fields"))) {
 		PHALCON_INIT_VAR(base);
-		object_init(base);
+		object_init_ex(base, phalcon_mvc_collection_document_ce);
 	} else {
 		PHALCON_CPY_WRT(base, collection);
 	}
