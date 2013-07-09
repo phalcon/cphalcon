@@ -30,4 +30,4 @@ extern void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message, in
 extern void phalcon_throw_exception_internal(zval *exception TSRMLS_DC);
 
 /** Catch Exceptions */
-extern void phalcon_try_execute(zval *success, zval *return_value, zval *call_object, zval *params, zval **exception TSRMLS_DC);
+/* extern void phalcon_try_execute(zval *success, zval *return_value, zval *call_object, zval *params, zval **exception TSRMLS_DC); */
