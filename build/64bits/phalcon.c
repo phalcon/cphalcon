@@ -181,6 +181,7 @@ PHP includes the Zend Engine, freely available at
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
 #include "ext/standard/head.h"
+#include "ext/standard/url.h"
 #include "ext/spl/spl_heap.h"
 
 #if HAVE_BUNDLED_PCRE
@@ -10436,8 +10437,9 @@ static void phalcon_file_get_contents(zval *return_value, zval *filename TSRMLS_
 static void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_DC)
 {
 	php_stream *stream;
-	int numbytes = 0;
+	int numbytes = 0, use_copy = 0;
 	zval *zcontext = NULL;
+	zval copy;
 	php_stream_context *context = NULL;
 
 	if (Z_TYPE_P(filename) != IS_STRING) {
@@ -10465,7 +10467,10 @@ static void phalcon_file_put_contents(zval *return_value, zval *filename, zval *
 		case IS_DOUBLE:
 		case IS_BOOL:
 		case IS_CONSTANT:
-			convert_to_string_ex(&data);
+			zend_make_printable_zval(data, &copy, &use_copy);
+			if (use_copy) {
+				data = &copy;
+			}
 
 		case IS_STRING:
 			if (Z_STRLEN_P(data)) {
@@ -10482,6 +10487,10 @@ static void phalcon_file_put_contents(zval *return_value, zval *filename, zval *
 	}
 
 	php_stream_close(stream);
+
+	if (use_copy) {
+		zval_dtor(data);
+	}
 
 	if (numbytes < 0) {
 		if (return_value) {
@@ -12410,8 +12419,6 @@ static void phalcon_raw_url_encode(zval *return_value, zval *url) {
 #define PDO_ERRMODE_SILENT 0
 #define PDO_ERRMODE_WARNING 1
 #define PDO_ERRMODE_EXCEPTION 2
-
-
 
 
 
@@ -18879,15 +18886,26 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 	
 		if (Z_TYPE_P(filters) == IS_ARRAY) { 
 			if (!zend_is_true(join)) {
+				if (zend_is_true(local)) {
 	
-				PHALCON_INIT_NVAR(source_path);
-				phalcon_call_method_p1_key(source_path, resource, "getrealsourcepath", complete_source_path, 13776328471776670855UL);
+					PHALCON_INIT_NVAR(source_path);
+					phalcon_call_method_p1_key(source_path, resource, "getrealsourcepath", complete_source_path, 13776328471776670855UL);
 	
-				if (!zend_is_true(source_path)) {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Resource '", source_path, "' does not have a valid source path");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
-					return;
+					if (!zend_is_true(source_path)) {
+						PHALCON_INIT_NVAR(source_path);
+						phalcon_call_method_key(source_path, resource, "getpath", 7572409588790706UL);
+	
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Resource '", source_path, "' does not have a valid source path");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_INIT_NVAR(source_path);
+					phalcon_call_method_key(source_path, resource, "getpath", 7572409588790706UL);
+	
+					PHALCON_INIT_NVAR(filter_needed);
+					ZVAL_BOOL(filter_needed, 1);
 				}
 	
 				PHALCON_INIT_NVAR(target_path);
@@ -18900,21 +18918,23 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 					return;
 				}
 	
-				if (PHALCON_IS_EQUAL(target_path, source_path)) {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Resource '", target_path, "' have the same source and target paths");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
-					return;
-				}
+				if (zend_is_true(local)) {
 	
-				if (phalcon_file_exists(target_path TSRMLS_CC) == SUCCESS) {
-					if (phalcon_compare_mtime(target_path, source_path TSRMLS_CC)) {
+					if (PHALCON_IS_EQUAL(target_path, source_path)) {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Resource '", target_path, "' have the same source and target paths");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+						return;
+					}
+					if (phalcon_file_exists(target_path TSRMLS_CC) == SUCCESS) {
+						if (phalcon_compare_mtime(target_path, source_path TSRMLS_CC)) {
+							PHALCON_INIT_NVAR(filter_needed);
+							ZVAL_BOOL(filter_needed, 1);
+						}
+					} else {
 						PHALCON_INIT_NVAR(filter_needed);
 						ZVAL_BOOL(filter_needed, 1);
 					}
-				} else {
-					PHALCON_INIT_NVAR(filter_needed);
-					ZVAL_BOOL(filter_needed, 1);
 				}
 			}
 		}
@@ -18922,7 +18942,7 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 		if (Z_TYPE_P(filters) != IS_ARRAY) { 
 	
 			PHALCON_INIT_NVAR(path);
-			phalcon_call_method_key(path, resource, "getpath", 7572409588790706UL);
+			phalcon_call_method_key(path, resource, "getrealtargeturi", 6566405770179792128UL);
 			if (Z_TYPE_P(prefix) != IS_NULL) {
 				PHALCON_INIT_NVAR(prefixed_path);
 				PHALCON_CONCAT_VV(prefixed_path, prefix, path);
@@ -19016,7 +19036,7 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 		if (!zend_is_true(join)) {
 	
 			PHALCON_INIT_NVAR(path);
-			phalcon_call_method_key(path, resource, "getpath", 7572409588790706UL);
+			phalcon_call_method_key(path, resource, "getrealtargeturi", 6566405770179792128UL);
 			if (Z_TYPE_P(prefix) != IS_NULL) {
 				PHALCON_INIT_NVAR(prefixed_path);
 				PHALCON_CONCAT_VV(prefixed_path, prefix, path);
@@ -19474,7 +19494,7 @@ static PHP_METHOD(Phalcon_Assets_Resource, getTargetPath){
 static PHP_METHOD(Phalcon_Assets_Resource, getContent){
 
 	zval *base_path = NULL, *source_path = NULL, *complete_path;
-	zval *local, *exception_message, *content;
+	zval *local, *exception_message = NULL, *content;
 
 	PHALCON_MM_GROW();
 
@@ -19509,13 +19529,35 @@ static PHP_METHOD(Phalcon_Assets_Resource, getContent){
 	
 	PHALCON_INIT_VAR(content);
 	phalcon_file_get_contents(content, complete_path TSRMLS_CC);
+	if (PHALCON_IS_FALSE(content)) {
+		PHALCON_INIT_NVAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "Resource's content for \"", complete_path, "\" cannot be read");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+		return;
+	}
 	
 	RETURN_CCTOR(content);
 }
 
+static PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri){
+
+	zval *target_uri = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(target_uri);
+	phalcon_read_property_this_quick(&target_uri, this_ptr, SL("_targetUri"), 13863683271474122203UL, PH_NOISY_CC);
+	if (PHALCON_IS_EMPTY(target_uri)) {
+		PHALCON_OBS_NVAR(target_uri);
+		phalcon_read_property_this_quick(&target_uri, this_ptr, SL("_path"), 6953243442321UL, PH_NOISY_CC);
+	}
+	
+	RETURN_CCTOR(target_uri);
+}
+
 static PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 
-	zval *base_path = NULL, *source_path = NULL, *complete_path;
+	zval *base_path = NULL, *source_path = NULL, *local, *complete_path;
 	zval *real_complete_path;
 
 	PHALCON_MM_GROW();
@@ -19533,18 +19575,23 @@ static PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 		phalcon_read_property_this_quick(&source_path, this_ptr, SL("_path"), 6953243442321UL, PH_NOISY_CC);
 	}
 	
-	PHALCON_INIT_VAR(complete_path);
-	PHALCON_CONCAT_VV(complete_path, base_path, source_path);
+	PHALCON_OBS_VAR(local);
+	phalcon_read_property_this_quick(&local, this_ptr, SL("_local"), 229456893042927UL, PH_NOISY_CC);
+	if (zend_is_true(local)) {
+		PHALCON_INIT_VAR(complete_path);
+		PHALCON_CONCAT_VV(complete_path, base_path, source_path);
 	
-	PHALCON_INIT_VAR(real_complete_path);
-	phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
+		PHALCON_INIT_VAR(real_complete_path);
+		phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
+		RETURN_CCTOR(real_complete_path);
+	}
 	
-	RETURN_CCTOR(real_complete_path);
+	RETURN_CCTOR(source_path);
 }
 
 static PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 
-	zval *base_path = NULL, *target_path = NULL, *complete_path;
+	zval *base_path = NULL, *target_path = NULL, *local, *complete_path;
 	zval *real_complete_path;
 
 	PHALCON_MM_GROW();
@@ -19562,16 +19609,23 @@ static PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 		phalcon_read_property_this_quick(&target_path, this_ptr, SL("_path"), 6953243442321UL, PH_NOISY_CC);
 	}
 	
-	PHALCON_INIT_VAR(complete_path);
-	PHALCON_CONCAT_VV(complete_path, base_path, target_path);
+	PHALCON_OBS_VAR(local);
+	phalcon_read_property_this_quick(&local, this_ptr, SL("_local"), 229456893042927UL, PH_NOISY_CC);
+	if (zend_is_true(local)) {
 	
-	if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(real_complete_path);
-		phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
-		RETURN_CCTOR(real_complete_path);
+		PHALCON_INIT_VAR(complete_path);
+		PHALCON_CONCAT_VV(complete_path, base_path, target_path);
+	
+		if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
+			PHALCON_INIT_VAR(real_complete_path);
+			phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
+			RETURN_CCTOR(real_complete_path);
+		}
+	
+		RETURN_CTOR(complete_path);
 	}
 	
-	RETURN_CTOR(complete_path);
+	RETURN_CCTOR(target_path);
 }
 
 
@@ -19745,8 +19799,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 static PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 
 	zval *prefix = NULL, *keys, *type, *prefix_pattern, *iterator;
-	zval *key = NULL, *real_key = NULL;
-	zval *r0 = NULL;
+	zval *key = NULL;
 	zend_class_entry *ce0;
 #if PHP_VERSION_ID < 50500
 	char *str_key;
@@ -23679,7 +23732,7 @@ static void array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 static PHP_METHOD(Phalcon_Config, merge){
 
 	zval *config, *array_config, *value = NULL, *key = NULL, *active_value = NULL;
-	zval *other_array = NULL, *tmp = NULL;
+	zval *other_array = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -38833,6 +38886,9 @@ static PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
 				}
 			} else {
+				if (zend_is_true(value)) {
+					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
+				}
 				phalcon_array_update_quick_string(&merged_attributes, SS("value"), 6954126163842UL, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			}
 		} else {
@@ -99987,8 +100043,8 @@ static PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(version, 1);
 	add_next_index_long(version, 2);
 	add_next_index_long(version, 0);
-	add_next_index_long(version, 2);
-	add_next_index_long(version, 3);
+	add_next_index_long(version, 4);
+	add_next_index_long(version, 0);
 	RETURN_CTOR(version);
 }
 
