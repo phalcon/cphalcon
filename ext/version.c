@@ -77,8 +77,8 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(version, 1);
 	add_next_index_long(version, 2);
 	add_next_index_long(version, 0);
-	add_next_index_long(version, 2);
-	add_next_index_long(version, 3);
+	add_next_index_long(version, 4);
+	add_next_index_long(version, 0);
 	RETURN_CTOR(version);
 }
 
