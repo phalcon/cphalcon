@@ -39,6 +39,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getSourcePath);
 PHP_METHOD(Phalcon_Assets_Resource, setTargetPath);
 PHP_METHOD(Phalcon_Assets_Resource, getTargetPath);
 PHP_METHOD(Phalcon_Assets_Resource, getContent);
+PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri);
 PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath);
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath);
 
@@ -113,6 +114,7 @@ PHALCON_INIT_FUNCS(phalcon_assets_resource_method_entry){
 	PHP_ME(Phalcon_Assets_Resource, setTargetPath, arginfo_phalcon_assets_resource_settargetpath, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Resource, getTargetPath, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Resource, getContent, arginfo_phalcon_assets_resource_getcontent, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Assets_Resource, getRealTargetUri, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Resource, getRealSourcePath, arginfo_phalcon_assets_resource_getrealsourcepath, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Assets_Resource, getRealTargetPath, arginfo_phalcon_assets_resource_getrealtargetpath, ZEND_ACC_PUBLIC) 
 	PHP_FE_END

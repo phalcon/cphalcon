@@ -336,8 +336,9 @@ void phalcon_file_get_contents(zval *return_value, zval *filename TSRMLS_DC)
 void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_DC)
 {
 	php_stream *stream;
-	int numbytes = 0;
+	int numbytes = 0, use_copy = 0;
 	zval *zcontext = NULL;
+	zval copy;
 	php_stream_context *context = NULL;
 
 	if (Z_TYPE_P(filename) != IS_STRING) {
@@ -365,7 +366,10 @@ void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TS
 		case IS_DOUBLE:
 		case IS_BOOL:
 		case IS_CONSTANT:
-			convert_to_string_ex(&data);
+			zend_make_printable_zval(data, &copy, &use_copy);
+			if (use_copy) {
+				data = &copy;
+			}
 
 		case IS_STRING:
 			if (Z_STRLEN_P(data)) {
@@ -382,6 +386,10 @@ void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TS
 	}
 
 	php_stream_close(stream);
+
+	if (use_copy) {
+		zval_dtor(data);
+	}
 
 	if (numbytes < 0) {
 		if (return_value) {

@@ -628,21 +628,38 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 		 */
 		if (Z_TYPE_P(filters) == IS_ARRAY) { 
 			if (!zend_is_true(join)) {
+				if (zend_is_true(local)) {
 	
-				/** 
-				 * Get the complete path
-				 */
-				PHALCON_INIT_NVAR(source_path);
-				phalcon_call_method_p1(source_path, resource, "getrealsourcepath", complete_source_path);
+					/** 
+					 * Get the complete path
+					 */
+					PHALCON_INIT_NVAR(source_path);
+					phalcon_call_method_p1(source_path, resource, "getrealsourcepath", complete_source_path);
 	
-				/** 
-				 * We need a valid source path
-				 */
-				if (!zend_is_true(source_path)) {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Resource '", source_path, "' does not have a valid source path");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
-					return;
+					/** 
+					 * We need a valid source path
+					 */
+					if (!zend_is_true(source_path)) {
+						PHALCON_INIT_NVAR(source_path);
+						phalcon_call_method(source_path, resource, "getpath");
+	
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Resource '", source_path, "' does not have a valid source path");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					/** 
+					 * Get the complete source path
+					 */
+					PHALCON_INIT_NVAR(source_path);
+					phalcon_call_method(source_path, resource, "getpath");
+	
+					/** 
+					 * resources paths are always filtered
+					 */
+					PHALCON_INIT_NVAR(filter_needed);
+					ZVAL_BOOL(filter_needed, 1);
 				}
 	
 				/** 
@@ -661,24 +678,26 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 					return;
 				}
 	
-				/** 
-				 * Make sure the target path is not the same source path
-				 */
-				if (PHALCON_IS_EQUAL(target_path, source_path)) {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Resource '", target_path, "' have the same source and target paths");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
-					return;
-				}
+				if (zend_is_true(local)) {
 	
-				if (phalcon_file_exists(target_path TSRMLS_CC) == SUCCESS) {
-					if (phalcon_compare_mtime(target_path, source_path TSRMLS_CC)) {
+					/** 
+					 * Make sure the target path is not the same source path
+					 */
+					if (PHALCON_IS_EQUAL(target_path, source_path)) {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Resource '", target_path, "' have the same source and target paths");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+						return;
+					}
+					if (phalcon_file_exists(target_path TSRMLS_CC) == SUCCESS) {
+						if (phalcon_compare_mtime(target_path, source_path TSRMLS_CC)) {
+							PHALCON_INIT_NVAR(filter_needed);
+							ZVAL_BOOL(filter_needed, 1);
+						}
+					} else {
 						PHALCON_INIT_NVAR(filter_needed);
 						ZVAL_BOOL(filter_needed, 1);
 					}
-				} else {
-					PHALCON_INIT_NVAR(filter_needed);
-					ZVAL_BOOL(filter_needed, 1);
 				}
 			}
 		}
@@ -689,7 +708,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 		if (Z_TYPE_P(filters) != IS_ARRAY) { 
 	
 			PHALCON_INIT_NVAR(path);
-			phalcon_call_method(path, resource, "getpath");
+			phalcon_call_method(path, resource, "getrealtargeturi");
 			if (Z_TYPE_P(prefix) != IS_NULL) {
 				PHALCON_INIT_NVAR(prefixed_path);
 				PHALCON_CONCAT_VV(prefixed_path, prefix, path);
@@ -823,7 +842,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			 * Generate the HTML using the original path in the resource
 			 */
 			PHALCON_INIT_NVAR(path);
-			phalcon_call_method(path, resource, "getpath");
+			phalcon_call_method(path, resource, "getrealtargeturi");
 			if (Z_TYPE_P(prefix) != IS_NULL) {
 				PHALCON_INIT_NVAR(prefixed_path);
 				PHALCON_CONCAT_VV(prefixed_path, prefix, path);

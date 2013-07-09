@@ -358,6 +358,12 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
 				}
 			} else {
+				/** 
+				 * Evaluate the current value and mark the check as checked
+				 */
+				if (zend_is_true(value)) {
+					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
+				}
 				phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			}
 		} else {

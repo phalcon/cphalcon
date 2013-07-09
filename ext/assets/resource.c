@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getTargetPath){
 PHP_METHOD(Phalcon_Assets_Resource, getContent){
 
 	zval *base_path = NULL, *source_path = NULL, *complete_path;
-	zval *local, *exception_message, *content;
+	zval *local, *exception_message = NULL, *content;
 
 	PHALCON_MM_GROW();
 
@@ -385,8 +385,35 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent){
 	 */
 	PHALCON_INIT_VAR(content);
 	phalcon_file_get_contents(content, complete_path TSRMLS_CC);
+	if (PHALCON_IS_FALSE(content)) {
+		PHALCON_INIT_NVAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "Resource's content for \"", complete_path, "\" cannot be read");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+		return;
+	}
 	
 	RETURN_CCTOR(content);
+}
+
+/**
+ * Returns the real target uri for the generated HTML
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri){
+
+	zval *target_uri = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(target_uri);
+	phalcon_read_property_this(&target_uri, this_ptr, SL("_targetUri"), PH_NOISY_CC);
+	if (PHALCON_IS_EMPTY(target_uri)) {
+		PHALCON_OBS_NVAR(target_uri);
+		phalcon_read_property_this(&target_uri, this_ptr, SL("_path"), PH_NOISY_CC);
+	}
+	
+	RETURN_CCTOR(target_uri);
 }
 
 /**
@@ -397,7 +424,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent){
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 
-	zval *base_path = NULL, *source_path = NULL, *complete_path;
+	zval *base_path = NULL, *source_path = NULL, *local, *complete_path;
 	zval *real_complete_path;
 
 	PHALCON_MM_GROW();
@@ -415,19 +442,24 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 		phalcon_read_property_this(&source_path, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
 	
-	/** 
-	 * A base path for resources can be set in the assets manager
-	 */
-	PHALCON_INIT_VAR(complete_path);
-	PHALCON_CONCAT_VV(complete_path, base_path, source_path);
+	PHALCON_OBS_VAR(local);
+	phalcon_read_property_this(&local, this_ptr, SL("_local"), PH_NOISY_CC);
+	if (zend_is_true(local)) {
+		/** 
+		 * A base path for resources can be set in the assets manager
+		 */
+		PHALCON_INIT_VAR(complete_path);
+		PHALCON_CONCAT_VV(complete_path, base_path, source_path);
 	
-	/** 
-	 * Get the real template path
-	 */
-	PHALCON_INIT_VAR(real_complete_path);
-	phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
+		/** 
+		 * Get the real template path
+		 */
+		PHALCON_INIT_VAR(real_complete_path);
+		phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
+		RETURN_CCTOR(real_complete_path);
+	}
 	
-	RETURN_CCTOR(real_complete_path);
+	RETURN_CCTOR(source_path);
 }
 
 /**
@@ -438,7 +470,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 
-	zval *base_path = NULL, *target_path = NULL, *complete_path;
+	zval *base_path = NULL, *target_path = NULL, *local, *complete_path;
 	zval *real_complete_path;
 
 	PHALCON_MM_GROW();
@@ -456,21 +488,28 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 		phalcon_read_property_this(&target_path, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
 	
-	/** 
-	 * A base path for resources can be set in the assets manager
-	 */
-	PHALCON_INIT_VAR(complete_path);
-	PHALCON_CONCAT_VV(complete_path, base_path, target_path);
+	PHALCON_OBS_VAR(local);
+	phalcon_read_property_this(&local, this_ptr, SL("_local"), PH_NOISY_CC);
+	if (zend_is_true(local)) {
 	
-	/** 
-	 * Get the real template path, the target path can optionally don't exist
-	 */
-	if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(real_complete_path);
-		phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
-		RETURN_CCTOR(real_complete_path);
+		/** 
+		 * A base path for resources can be set in the assets manager
+		 */
+		PHALCON_INIT_VAR(complete_path);
+		PHALCON_CONCAT_VV(complete_path, base_path, target_path);
+	
+		/** 
+		 * Get the real template path, the target path can optionally don't exist
+		 */
+		if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
+			PHALCON_INIT_VAR(real_complete_path);
+			phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
+			RETURN_CCTOR(real_complete_path);
+		}
+	
+		RETURN_CTOR(complete_path);
 	}
 	
-	RETURN_CTOR(complete_path);
+	RETURN_CCTOR(target_path);
 }
 
