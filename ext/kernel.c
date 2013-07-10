@@ -96,3 +96,62 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey){
 	RETURN_STRING(strKey, 0);
 }
 
+PHP_METHOD(Phalcon_Kernel, preComputeHashKey32)
+{
+	char *arKey, *strKey;
+	unsigned int nKeyLength;
+	ulong hash;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arKey, &nKeyLength) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	nKeyLength++;
+	hash = zend_inline_hash_func(arKey, nKeyLength) & 0xFFFFFFFFul;
+	strKey = emalloc(24);
+	sprintf(strKey, "%lu", hash);
+
+	RETURN_STRING(strKey, 0);
+}
+
+
+PHP_METHOD(Phalcon_Kernel, preComputeHashKey64)
+{
+	char *arKey, *strKey;
+	unsigned int nKeyLength;
+	register unsigned long long hash = 5381;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arKey, &nKeyLength) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	nKeyLength++;
+
+	/* variant with the hash unrolled eight times */
+	for (; nKeyLength >= 8; nKeyLength -= 8) {
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+	}
+
+	switch (nKeyLength) {
+		case 7: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 6: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 5: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 4: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 3: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 2: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 1: hash = ((hash << 5) + hash) + *arKey++; break;
+		case 0: break;
+	}
+
+	strKey = emalloc(24);
+	sprintf(strKey, "%llu", hash);
+
+	RETURN_STRING(strKey, 0);
+}
