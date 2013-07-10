@@ -65,6 +65,102 @@
  *
  */
 
+static zend_object_handlers phalcon_config_object_handlers;
+
+static void phalcon_config_construct_internal(zval *return_value, zval* this_ptr, zval *array_config TSRMLS_DC);
+
+static zval* phalcon_config_read_dimension_internal(zval *object, zval *offset, int type TSRMLS_DC)
+{
+	zval* ret;
+	zend_class_entry *old_scope = EG(scope);
+
+	if (!offset) {
+		return EG(uninitialized_zval_ptr);
+	}
+
+	EG(scope) = Z_OBJCE_P(object);
+	ret = zend_get_std_object_handlers()->read_property(object, offset, type ZLK_NULL_CC TSRMLS_CC);
+	EG(scope) = old_scope;
+
+	return ret;
+}
+
+static zval* phalcon_config_read_dimension(zval *object, zval *offset, int type TSRMLS_DC)
+{
+	zend_object *obj = zend_objects_get_address(object TSRMLS_CC);
+
+	if (obj->ce->type != ZEND_INTERNAL_CLASS) {
+		return zend_get_std_object_handlers()->read_dimension(object, offset, type TSRMLS_CC);
+	}
+
+	return phalcon_config_read_dimension_internal(object, offset, type TSRMLS_CC);
+}
+
+static void phalcon_config_write_dimension_internal(zval *object, zval *offset, zval *value TSRMLS_DC)
+{
+	zval* ret;
+	zend_class_entry *old_scope = EG(scope);
+
+	if (!offset) {
+		return;
+	}
+
+	if (Z_TYPE_P(offset) != IS_STRING) {
+		zend_throw_exception(phalcon_config_exception_ce, "Index key must be string", 0 TSRMLS_CC);
+		return;
+	}
+
+	EG(scope) = Z_OBJCE_P(object);
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		zval *tmp, *dummy;
+		ALLOC_ZVAL(tmp);
+		object_init_ex(tmp, phalcon_config_ce);
+		MAKE_STD_ZVAL(dummy);
+		phalcon_config_construct_internal(dummy, tmp, value TSRMLS_CC);
+		zval_ptr_dtor(&dummy);
+		zend_get_std_object_handlers()->write_property(object, offset, value ZLK_NULL_CC TSRMLS_CC);
+		zval_ptr_dtor(&tmp);
+	}
+	else {
+		zend_get_std_object_handlers()->write_property(object, offset, value ZLK_NULL_CC TSRMLS_CC);
+	}
+
+	EG(scope) = old_scope;
+}
+
+static void phalcon_config_write_dimension(zval *object, zval *offset, zval *value TSRMLS_DC)
+{
+	zend_object *obj = zend_objects_get_address(object TSRMLS_CC);
+
+	if (obj->ce->type != ZEND_INTERNAL_CLASS) {
+		zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
+	}
+
+	phalcon_config_write_dimension_internal(object, offset, value TSRMLS_CC);
+}
+
+static int phalcon_config_has_dimension_internal(zval *object, zval *offset, int check_empty TSRMLS_DC)
+{
+	int ret;
+	zend_class_entry *old_scope = EG(scope);
+
+	EG(scope) = Z_OBJCE_P(object);
+	ret = zend_get_std_object_handlers()->has_property(object, offset, check_empty ZLK_NULL_CC TSRMLS_CC);
+	EG(scope) = old_scope;
+
+	return ret;
+}
+
+static int phalcon_config_has_dimension(zval *object, zval *offset, int check_empty TSRMLS_DC)
+{
+	zend_object *obj = zend_objects_get_address(object TSRMLS_CC);
+
+	if (obj->ce->type != ZEND_INTERNAL_CLASS) {
+		return zend_get_std_object_handlers()->has_dimension(object, offset, check_empty TSRMLS_CC);
+	}
+
+	return phalcon_config_has_dimension_internal(object, offset, check_empty TSRMLS_CC);
+}
 
 /**
  * Phalcon\Config initializer
@@ -73,9 +169,67 @@ PHALCON_INIT_CLASS(Phalcon_Config){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Config, config, phalcon_config_method_entry, 0);
 
+	phalcon_config_object_handlers = *zend_get_std_object_handlers();
+	phalcon_config_object_handlers.read_dimension  = phalcon_config_read_dimension;
+	phalcon_config_object_handlers.write_dimension = phalcon_config_write_dimension;
+	phalcon_config_object_handlers.has_dimension   = phalcon_config_has_dimension;
+
 	zend_class_implements(phalcon_config_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
 
 	return SUCCESS;
+}
+
+void phalcon_config_construct_internal(zval *return_value, zval* this_ptr, zval *array_config TSRMLS_DC)
+{
+	zval *value = NULL, *key = NULL, *config_value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0);
+
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
+
+		/**
+		 * Phalcon\Config does not support numeric keys as properties
+		 */
+		if (Z_TYPE_P(key) != IS_STRING) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties");
+			return;
+		}
+		if (Z_TYPE_P(value) == IS_ARRAY) {
+
+			/**
+			 * Check if sub-arrays contains numeric keys
+			 */
+			if (!phalcon_has_numeric_keys(value)) {
+				zval *dummy;
+				MAKE_STD_ZVAL(dummy);
+
+				PHALCON_INIT_NVAR(config_value);
+				object_init_ex(config_value, phalcon_config_ce);
+				phalcon_config_construct_internal(dummy, config_value, value TSRMLS_CC);
+				phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
+				zval_ptr_dtor(&dummy);
+			} else {
+				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+			}
+		} else {
+			/**
+			 * Assign normal keys as properties
+			 */
+			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+		}
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -85,14 +239,9 @@ PHALCON_INIT_CLASS(Phalcon_Config){
  */
 PHP_METHOD(Phalcon_Config, __construct){
 
-	zval *array_config = NULL, *value = NULL, *key = NULL, *config_value = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	zval *array_config = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &array_config);
+	phalcon_fetch_params(0, 0, 1, &array_config);
 	
 	if (!array_config) {
 		PHALCON_INIT_VAR(array_config);
@@ -103,53 +252,14 @@ PHP_METHOD(Phalcon_Config, __construct){
 	 */
 	if (Z_TYPE_P(array_config) != IS_ARRAY) { 
 		if (Z_TYPE_P(array_config) != IS_NULL) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "The configuration must be an Array");
-			return;
-		} else {
-			RETURN_MM_NULL();
-		}
-	}
-	
-	phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0);
-	
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-		PHALCON_GET_HKEY(key, ah0, hp0);
-		PHALCON_GET_HVALUE(value);
-	
-		/** 
-		 * Phalcon\Config does not support numeric keys as properties
-		 */
-		if (Z_TYPE_P(key) != IS_STRING) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Only string keys are allowed as configuration properties");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_config_exception_ce, "The configuration must be an Array");
 			return;
 		}
-		if (Z_TYPE_P(value) == IS_ARRAY) { 
-	
-			/** 
-			 * Check if sub-arrays contains numeric keys
-			 */
-			if (!phalcon_has_numeric_keys(value)) {
-				PHALCON_INIT_NVAR(config_value);
-				object_init_ex(config_value, phalcon_config_ce);
-				phalcon_call_method_p1_noret(config_value, "__construct", value);
-	
-				phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
-			} else {
-				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
-			}
-		} else {
-			/** 
-			 * Assign normal keys as properties
-			 */
-			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
-		}
-	
-		zend_hash_move_forward_ex(ah0, &hp0);
+
+		RETURN_NULL();
 	}
 	
-	
-	PHALCON_MM_RESTORE();
+	phalcon_config_construct_internal(return_value, getThis(), array_config TSRMLS_CC);
 }
 
 /**
@@ -167,11 +277,7 @@ PHP_METHOD(Phalcon_Config, offsetExists){
 	zval *index;
 
 	phalcon_fetch_params(0, 1, 0, &index);
-	
-	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
-		RETURN_TRUE;
-	}
-	RETURN_FALSE;
+	RETURN_BOOL(phalcon_config_has_dimension_internal(getThis(), index, 0 TSRMLS_CC));
 }
 
 /**
@@ -190,24 +296,21 @@ PHP_METHOD(Phalcon_Config, get){
 
 	zval *index, *default_value = NULL, *value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &index, &default_value);
+	phalcon_fetch_params(0, 1, 1, &index, &default_value);
 	
-	if (!default_value) {
-		PHALCON_INIT_VAR(default_value);
-	}
+	if (phalcon_config_has_dimension_internal(this_ptr, index, 0 TSRMLS_CC)) {
 	
-	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
-	
-		PHALCON_OBS_VAR(value);
-		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
-		if (PHALCON_IS_NOT_EMPTY(value)) {
-			RETURN_CCTOR(value);
+		value = phalcon_config_read_dimension_internal(getThis(), index, BP_VAR_R TSRMLS_CC);
+		if (Z_TYPE_P(value) != IS_NULL) {
+			RETURN_CCTORW(value);
 		}
 	}
-	
-	RETURN_CCTOR(default_value);
+
+	if (default_value) {
+		RETURN_CCTORW(default_value);
+	}
+
+	RETURN_NULL();
 }
 
 /**
@@ -222,15 +325,13 @@ PHP_METHOD(Phalcon_Config, get){
  */
 PHP_METHOD(Phalcon_Config, offsetGet){
 
-	zval *index, *value;
+	zval *index;
+	zval* retval;
 
-	PHALCON_MM_GROW();
+	phalcon_fetch_params(0, 1, 0, &index);
 
-	phalcon_fetch_params(1, 1, 0, &index);
-	
-	PHALCON_OBS_VAR(value);
-	phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
-	RETURN_CCTOR(value);
+	retval = phalcon_config_read_dimension_internal(getThis(), index, BP_VAR_R TSRMLS_CC);
+	RETURN_ZVAL(retval, 1, 0);
 }
 
 /**
@@ -245,28 +346,10 @@ PHP_METHOD(Phalcon_Config, offsetGet){
  */
 PHP_METHOD(Phalcon_Config, offsetSet){
 
-	zval *index, *value, *array_value = NULL;
+	zval *index, *value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &index, &value);
-	
-	if (Z_TYPE_P(index) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "Index key must be string");
-		return;
-	}
-	if (Z_TYPE_P(value) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(array_value);
-		object_init_ex(array_value, phalcon_config_ce);
-		phalcon_call_method_p1_noret(array_value, "__construct", value);
-	
-	} else {
-		PHALCON_CPY_WRT(array_value, value);
-	}
-	
-	phalcon_update_property_zval_zval(this_ptr, index, array_value TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	phalcon_fetch_params(0, 2, 0, &index, &value);
+	phalcon_config_write_dimension_internal(getThis(), index, value TSRMLS_CC);
 }
 
 /**
@@ -431,15 +514,12 @@ PHP_METHOD(Phalcon_Config, toArray){
  */
 PHP_METHOD(Phalcon_Config, __set_state){
 
-	zval *data, *config;
+	zval *data, *tmp;
 
-	PHALCON_MM_GROW();
+	phalcon_fetch_params(0, 1, 0, &data);
 
-	phalcon_fetch_params(1, 1, 0, &data);
-	
-	PHALCON_INIT_VAR(config);
-	object_init_ex(config, phalcon_config_ce);
-	phalcon_call_method_p1_noret(config, "__construct", data);
-	
-	RETURN_CTOR(config);
+	MAKE_STD_ZVAL(tmp);
+	object_init_ex(return_value, phalcon_config_ce);
+	phalcon_config_construct_internal(tmp, return_value, data TSRMLS_CC);
+	zval_ptr_dtor(&tmp);
 }
