@@ -38,61 +38,36 @@
  */
 int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
 
-	zval *copy;
-	int i, exists, copied = 0;
+	HashTable *h;
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
 
-	if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+	h = Z_ARRVAL_P(arr);
+	if (!zend_hash_num_elements(h)) {
 		return 0;
 	}
 
-	if (Z_TYPE_P(index) == IS_NULL) {
-		ALLOC_INIT_ZVAL(copy);
-		ZVAL_ZVAL(copy, index, 1, 0);
-		convert_to_string(copy);
-		index = copy;
-		copied = 1;
-	} else {
-		if (Z_TYPE_P(index) == IS_BOOL || Z_TYPE_P(index) == IS_DOUBLE) {
-			ALLOC_INIT_ZVAL(copy);
-			ZVAL_ZVAL(copy, index, 0, 0);
-			convert_to_long(copy);
-			index = copy;
-			copied = 1;
-		}
-	}
+	switch (Z_TYPE_P(index)) {
+		case IS_NULL:
+			return phalcon_hash_exists(h, ZEND_STRS(""));
 
-	if (Z_TYPE_P(index) == IS_STRING) {
-		if (Z_STRLEN_P(index) > 0) {
-			for (i = 0; i < Z_STRLEN_P(index); i++) {
-				if (Z_STRVAL_P(index)[i] < '0' || Z_STRVAL_P(index)[i] > '9') {
-					break;
-				}
-			}
-			if (i == Z_STRLEN_P(index)) {
-				ALLOC_INIT_ZVAL(copy);
-				ZVAL_ZVAL(copy, index, 1, 0);
-				convert_to_long(copy);
-				index = copy;
-				copied = 1;
-			}
-		}
-	}
+		case IS_DOUBLE:
+			return zend_hash_index_exists(h, (ulong)Z_DVAL_P(index));
 
-	if (Z_TYPE_P(index) == IS_STRING) {
-		exists = phalcon_hash_exists(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1);
-	} else {
-		exists = zend_hash_index_exists(Z_ARRVAL_P(arr), Z_LVAL_P(index));
-	}
+		case IS_BOOL:
+		case IS_LONG:
+		case IS_RESOURCE:
+			return zend_hash_index_exists(h, Z_LVAL_P(index));
 
-	if (copied) {
-		zval_ptr_dtor(&copy);
-	}
+		case IS_STRING:
+			return zend_symtable_exists(h, Z_STRVAL_P(index), Z_STRLEN_P(index)+1);
 
-	return exists;
+		default:
+			zend_error(E_WARNING, "Illegal offset type");
+			return 0;
+	}
 }
 
 /**
