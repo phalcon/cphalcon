@@ -143,14 +143,7 @@ int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags) {
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		if (Z_REFCOUNT_PP(arr) > 1) {
-			zval *new_zv;
-			Z_DELREF_PP(arr);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, *arr);
-			*arr = new_zv;
-			zval_copy_ctor(new_zv);
-		}
+		SEPARATE_ZVAL(arr);
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
@@ -176,14 +169,7 @@ int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, char *index, uint in
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		if (Z_REFCOUNT_PP(arr) > 1) {
-			zval *new_zv;
-			Z_DELREF_PP(arr);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, *arr);
-			*arr = new_zv;
-			zval_copy_ctor(new_zv);
-		}
+		SEPARATE_ZVAL(arr);
 	}
 
 	return zend_hash_del(Z_ARRVAL_PP(arr), index, index_length);
@@ -199,14 +185,7 @@ int PHALCON_FASTCALL phalcon_array_unset_long(zval **arr, unsigned long index, i
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		if (Z_REFCOUNT_PP(arr) > 1) {
-			zval *new_zv;
-			Z_DELREF_PP(arr);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, *arr);
-			*arr = new_zv;
-			zval_copy_ctor(new_zv);
-		}
+		SEPARATE_ZVAL(arr);
 	}
 
 	return zend_hash_index_del(Z_ARRVAL_PP(arr), index);
@@ -223,14 +202,7 @@ int phalcon_array_append(zval **arr, zval *value, int flags TSRMLS_DC) {
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		if (Z_REFCOUNT_PP(arr) > 1) {
-			zval *new_zv;
-			Z_DELREF_PP(arr);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, *arr);
-			*arr = new_zv;
-			zval_copy_ctor(new_zv);
-		}
+		SEPARATE_ZVAL(arr);
 	}
 
 	Z_ADDREF_P(value);
@@ -293,14 +265,7 @@ int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags T
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		if (Z_REFCOUNT_PP(arr) > 1) {
-			zval *new_zv;
-			Z_DELREF_PP(arr);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, *arr);
-			*arr = new_zv;
-			zval_copy_ctor(new_zv);
-		}
+		SEPARATE_ZVAL(arr);
 	}
 
 	if ((flags & PH_COPY) == PH_COPY) {
@@ -378,14 +343,7 @@ int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		if (Z_REFCOUNT_PP(arr) > 1) {
-			zval *new_zv;
-			Z_DELREF_PP(arr);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, *arr);
-			*arr = new_zv;
-			zval_copy_ctor(new_zv);
-		}
+		SEPARATE_ZVAL(arr);
 	}
 
 	if ((flags & PH_COPY) == PH_COPY) {
@@ -468,14 +426,7 @@ int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		if (Z_REFCOUNT_PP(arr) > 1) {
-			zval *new_zv;
-			Z_DELREF_PP(arr);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, *arr);
-			*arr = new_zv;
-			zval_copy_ctor(new_zv);
-		}
+		SEPARATE_ZVAL(arr);
 	}
 
 	if ((flags & PH_COPY) == PH_COPY) {
