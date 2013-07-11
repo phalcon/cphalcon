@@ -490,88 +490,61 @@ int phalcon_array_update_long_bool(zval **arr, unsigned long index, int value, i
 int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent TSRMLS_DC){
 
 	zval **zv;
-	int result = FAILURE, i;
+	HashTable *ht;
+	int result, i;
+	ulong uidx;
+	char *sidx = NULL;
 
-	if (Z_TYPE_P(index) == IS_ARRAY || Z_TYPE_P(index) == IS_OBJECT) {
+	if (Z_TYPE_P(arr) == IS_ARRAY) {
+		ht = Z_ARRVAL_P(arr);
+		switch (Z_TYPE_P(index)) {
+			case IS_NULL:
+				result = phalcon_hash_find(ht, ZEND_STRS(""), (void**) &zv);
+				sidx   = "";
+				break;
 
-		if (silent == PH_NOISY) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
-		}
+			case IS_DOUBLE:
+				uidx   = (ulong)Z_DVAL_P(index);
+				result = zend_hash_index_find(ht, uidx, (void**) &zv);
+				break;
 
-		ALLOC_INIT_ZVAL(*return_value);
-		ZVAL_NULL(*return_value);
+			case IS_LONG:
+			case IS_BOOL:
+			case IS_RESOURCE:
+				uidx   = Z_LVAL_P(index);
+				result = zend_hash_index_find(ht, uidx, (void**) &zv);
+				break;
 
-		return FAILURE;
-	}
+			case IS_STRING:
+				sidx   = Z_STRLEN_P(index) ? Z_STRVAL_P(index) : "";
+				result = zend_symtable_find(ht, Z_STRVAL_P(index), Z_STRLEN_P(index)+1, (void**) &zv);
+				break;
 
-	if (Z_TYPE_P(arr) == IS_NULL || Z_TYPE_P(arr) == IS_BOOL) {
-
-		ALLOC_INIT_ZVAL(*return_value);
-		ZVAL_NULL(*return_value);
-
-		return FAILURE;
-	}
-
-	if (Z_TYPE_P(index) != IS_NULL && Z_TYPE_P(index) != IS_STRING && Z_TYPE_P(index) != IS_LONG && Z_TYPE_P(index) != IS_DOUBLE) {
-
-		if (silent == PH_NOISY) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
-		}
-
-		ALLOC_INIT_ZVAL(*return_value);
-		ZVAL_NULL(*return_value);
-
-		return FAILURE;
-	}
-
-	if (Z_TYPE_P(index) == IS_NULL) {
-		convert_to_string(index);
-	}
-
-	if (Z_TYPE_P(index) == IS_STRING) {
-		if (Z_STRLEN_P(index) > 0) {
-			for (i = 0; i < Z_STRLEN_P(index); i++) {
-				if (Z_STRVAL_P(index)[i] < '0' || Z_STRVAL_P(index)[i] > '9') {
-					break;
+			default:
+				if (silent == PH_NOISY) {
+					zend_error(E_WARNING, "Illegal offset type");
 				}
-			}
-			if (i == Z_STRLEN_P(index)) {
-				convert_to_long(index);
-			}
-		}
-	} else {
-		if (Z_TYPE_P(index) == IS_DOUBLE) {
-			convert_to_long(index);
-		}
-	}
 
-	if (Z_TYPE_P(index) == IS_STRING) {
-		if ((result = phalcon_hash_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1, (void**) &zv)) == SUCCESS) {
+				result = FAILURE;
+				break;
+		}
+
+		if (result != FAILURE) {
 			*return_value = *zv;
 			Z_ADDREF_PP(return_value);
 			return SUCCESS;
 		}
-	}
 
-	if (Z_TYPE_P(index) == IS_LONG) {
-		if ((result = zend_hash_index_find(Z_ARRVAL_P(arr), Z_LVAL_P(index), (void**) &zv)) == SUCCESS) {
-			*return_value = *zv;
-			Z_ADDREF_PP(return_value);
-			return SUCCESS;
-		}
-	}
-
-	if (silent == PH_NOISY) {
-		if (Z_TYPE_P(index) == IS_LONG) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: %ld", Z_LVAL_P(index));
-		} else {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: %s", Z_STRVAL_P(index));
+		if (silent == PH_NOISY) {
+			if (sidx == NULL) {
+				zend_error(E_NOTICE, "Undefined index: %ld", uidx);
+			} else {
+				zend_error(E_NOTICE, "Undefined index: %s", sidx);
+			}
 		}
 	}
 
 	ALLOC_INIT_ZVAL(*return_value);
-	ZVAL_NULL(*return_value);
-
 	return FAILURE;
 }
 
