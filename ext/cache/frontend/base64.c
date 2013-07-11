@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, getLifetime){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("lifetime"))) {
 			PHALCON_OBS_VAR(lifetime);
-			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY);
 			RETURN_CCTOR(lifetime);
 		}
 	}

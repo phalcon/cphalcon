@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	
 		PHALCON_INIT_NVAR(field_name);
 		phalcon_call_method(field_name, column, "getname");
-		phalcon_array_append(&attributes, field_name, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&attributes, field_name, PH_SEPARATE);
 	
 		/** 
 		 * To mark fields as primary keys
@@ -185,9 +185,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		PHALCON_INIT_NVAR(feature);
 		phalcon_call_method(feature, column, "isprimary");
 		if (PHALCON_IS_TRUE(feature)) {
-			phalcon_array_append(&primary_keys, field_name, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&primary_keys, field_name, PH_SEPARATE);
 		} else {
-			phalcon_array_append(&non_primary_keys, field_name, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&non_primary_keys, field_name, PH_SEPARATE);
 		}
 	
 		/** 
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		PHALCON_INIT_NVAR(feature);
 		phalcon_call_method(feature, column, "isnumeric");
 		if (PHALCON_IS_TRUE(feature)) {
-			phalcon_array_update_zval_bool(&numeric_typed, field_name, 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_zval_bool(&numeric_typed, field_name, 1, PH_SEPARATE);
 		}
 	
 		/** 
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		PHALCON_INIT_NVAR(feature);
 		phalcon_call_method(feature, column, "isnotnull");
 		if (PHALCON_IS_TRUE(feature)) {
-			phalcon_array_append(&not_null, field_name, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&not_null, field_name, PH_SEPARATE);
 		}
 	
 		/** 
@@ -222,14 +222,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 		 */
 		PHALCON_INIT_NVAR(type);
 		phalcon_call_method(type, column, "gettype");
-		phalcon_array_update_zval(&field_types, field_name, &type, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_zval(&field_types, field_name, &type, PH_COPY | PH_SEPARATE);
 	
 		/** 
 		 * To mark how the fields must be escaped
 		 */
 		PHALCON_INIT_NVAR(bind_type);
 		phalcon_call_method(bind_type, column, "getbindtype");
-		phalcon_array_update_zval(&field_bind_types, field_name, &bind_type, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_zval(&field_bind_types, field_name, &bind_type, PH_COPY | PH_SEPARATE);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -239,16 +239,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData){
 	 */
 	PHALCON_INIT_VAR(model_metadata);
 	array_init(model_metadata);
-	phalcon_array_update_long(&model_metadata, 0, &attributes, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long(&model_metadata, 1, &primary_keys, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long(&model_metadata, 2, &non_primary_keys, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long(&model_metadata, 3, &not_null, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long(&model_metadata, 4, &field_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long(&model_metadata, 5, &numeric_typed, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long(&model_metadata, 8, &identity_field, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long(&model_metadata, 9, &field_bind_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long(&model_metadata, 10, &automatic_default, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long(&model_metadata, 11, &automatic_default, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_long(&model_metadata, 0, &attributes, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&model_metadata, 1, &primary_keys, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&model_metadata, 2, &non_primary_keys, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&model_metadata, 3, &not_null, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&model_metadata, 4, &field_types, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&model_metadata, 5, &numeric_typed, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&model_metadata, 8, &identity_field, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&model_metadata, 9, &field_bind_types, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&model_metadata, 10, &automatic_default, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&model_metadata, 11, &automatic_default, PH_COPY | PH_SEPARATE);
 	
 	RETURN_CTOR(model_metadata);
 }
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 			PHALCON_GET_HKEY(name, ah0, hp0);
 			PHALCON_GET_HVALUE(user_name);
 	
-			phalcon_array_update_zval(&reversed_column_map, user_name, &name, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_zval(&reversed_column_map, user_name, &name, PH_COPY | PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -311,8 +311,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps){
 	 */
 	PHALCON_INIT_VAR(model_column_map);
 	array_init(model_column_map);
-	phalcon_array_update_long(&model_column_map, 0, &ordered_column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_long(&model_column_map, 1, &reversed_column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_long(&model_column_map, 0, &ordered_column_map, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_long(&model_column_map, 1, &reversed_column_map, PH_COPY | PH_SEPARATE);
 	
 	RETURN_CTOR(model_column_map);
 }

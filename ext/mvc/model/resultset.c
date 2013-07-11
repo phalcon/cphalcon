@@ -653,7 +653,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 	
 			PHALCON_INIT_NVAR(parameters);
 			array_init_size(parameters, 1);
-			phalcon_array_append(&parameters, record, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&parameters, record, PH_SEPARATE);
 	
 			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_USER_FUNC_ARRAY(status, condition_callback, parameters);
@@ -739,7 +739,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
 	
 		PHALCON_INIT_NVAR(record);
 		phalcon_call_method(record, this_ptr, "current");
-		phalcon_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE);
 	
 		PHALCON_INIT_NVAR(processed_record);
 		PHALCON_CALL_USER_FUNC_ARRAY(processed_record, filter, parameters);
@@ -753,7 +753,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
 			}
 		}
 	
-		phalcon_array_append(&records, processed_record, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&records, processed_record, PH_SEPARATE);
 		phalcon_call_method_noret(this_ptr, "next");
 	}
 	

@@ -341,18 +341,18 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 	 */
 	if (phalcon_array_isset_string(definition, SS("arguments"))) {
 		PHALCON_OBS_VAR(arguments);
-		phalcon_array_fetch_string(&arguments, definition, SL("arguments"), PH_NOISY_CC);
-		phalcon_array_update_zval(&arguments, position, &parameter, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_fetch_string(&arguments, definition, SL("arguments"), PH_NOISY);
+		phalcon_array_update_zval(&arguments, position, &parameter, PH_COPY | PH_SEPARATE);
 	} else {
 		PHALCON_INIT_NVAR(arguments);
 		array_init_size(arguments, 1);
-		phalcon_array_update_zval(&arguments, position, &parameter, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_zval(&arguments, position, &parameter, PH_COPY | PH_SEPARATE);
 	}
 	
 	/** 
 	 * Re-update the arguments
 	 */
-	phalcon_array_update_string(&definition, SL("arguments"), &arguments, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&definition, SL("arguments"), &arguments, PH_COPY | PH_SEPARATE);
 	
 	/** 
 	 * Re-update the definition
@@ -394,10 +394,10 @@ PHP_METHOD(Phalcon_DI_Service, getParameter){
 	if (phalcon_array_isset_string(definition, SS("arguments"))) {
 	
 		PHALCON_OBS_VAR(arguments);
-		phalcon_array_fetch_string(&arguments, definition, SL("arguments"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&arguments, definition, SL("arguments"), PH_NOISY);
 		if (phalcon_array_isset(arguments, position)) {
 			PHALCON_OBS_VAR(parameter);
-			phalcon_array_fetch(&parameter, arguments, position, PH_NOISY_CC);
+			phalcon_array_fetch(&parameter, arguments, position, PH_NOISY);
 			RETURN_CCTOR(parameter);
 		}
 	}
@@ -421,14 +421,14 @@ PHP_METHOD(Phalcon_DI_Service, __set_state){
 	
 	if (phalcon_array_isset_string(attributes, SS("_name"))) {
 		PHALCON_OBS_VAR(name);
-		phalcon_array_fetch_string(&name, attributes, SL("_name"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&name, attributes, SL("_name"), PH_NOISY);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_name' is required");
 		return;
 	}
 	if (phalcon_array_isset_string(attributes, SS("_definition"))) {
 		PHALCON_OBS_VAR(definition);
-		phalcon_array_fetch_string(&definition, attributes, SL("_definition"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&definition, attributes, SL("_definition"), PH_NOISY);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_name' is required");
 		return;
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_DI_Service, __set_state){
 	
 	if (phalcon_array_isset_string(attributes, SS("_shared"))) {
 		PHALCON_OBS_VAR(shared);
-		phalcon_array_fetch_string(&shared, attributes, SL("_shared"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&shared, attributes, SL("_shared"), PH_NOISY);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_shared' is required");
 		return;

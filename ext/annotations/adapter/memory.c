@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 	phalcon_fast_strtolower(lowercased_key, key);
 	if (phalcon_array_isset(data, lowercased_key)) {
 		PHALCON_OBS_VAR(annotations);
-		phalcon_array_fetch(&annotations, data, lowercased_key, PH_NOISY_CC);
+		phalcon_array_fetch(&annotations, data, lowercased_key, PH_NOISY);
 		RETURN_CCTOR(annotations);
 	}
 	

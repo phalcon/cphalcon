@@ -325,14 +325,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 			 */
 			ZVAL_STRINGL(key, str_key+5, str_key_len-5-1, 1);
 
-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&keys, key, PH_SEPARATE);
 		}
 #else
 		PHALCON_INIT_NVAR(itkey);
 		it->funcs->get_current_key(it, itkey TSRMLS_CC);
 		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
 			ZVAL_STRINGL(key, Z_STRVAL_P(itkey)+5, Z_STRLEN_P(itkey)-5, 1);
-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&keys, key, PH_SEPARATE);
 		}
 #endif
 

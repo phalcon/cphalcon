@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Loader, register){
 	if (PHALCON_IS_FALSE(registered)) {
 		PHALCON_INIT_VAR(autoloader);
 		array_init_size(autoloader, 2);
-		phalcon_array_append(&autoloader, this_ptr, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&autoloader, this_ptr, PH_SEPARATE);
 		add_next_index_stringl(autoloader, SL("autoLoad"), 1);
 		phalcon_call_func_p1_noret("spl_autoload_register", autoloader);
 		phalcon_update_property_bool(this_ptr, SL("_registered"), 1 TSRMLS_CC);
@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Loader, unregister){
 	if (PHALCON_IS_TRUE(registered)) {
 		PHALCON_INIT_VAR(autoloader);
 		array_init_size(autoloader, 2);
-		phalcon_array_append(&autoloader, this_ptr, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&autoloader, this_ptr, PH_SEPARATE);
 		add_next_index_stringl(autoloader, SL("autoLoad"), 1);
 		phalcon_call_func_p1_noret("spl_autoload_unregister", autoloader);
 		phalcon_update_property_bool(this_ptr, SL("_registered"), 0 TSRMLS_CC);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		if (phalcon_array_isset(classes, class_name)) {
 	
 			PHALCON_OBS_VAR(file_path);
-			phalcon_array_fetch(&file_path, classes, class_name, PH_NOISY_CC);
+			phalcon_array_fetch(&file_path, classes, class_name, PH_NOISY);
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				phalcon_update_property_this(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 	

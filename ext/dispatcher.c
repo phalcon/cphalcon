@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 	if (phalcon_array_isset(params, param)) {
 	
 		PHALCON_OBS_VAR(param_value);
-		phalcon_array_fetch(&param_value, params, param, PH_NOISY_CC);
+		phalcon_array_fetch(&param_value, params, param, PH_NOISY);
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(dependency_injector);
@@ -839,8 +839,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 */
 		PHALCON_INIT_NVAR(call_object);
 		array_init_size(call_object, 2);
-		phalcon_array_append(&call_object, handler, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&call_object, action_method, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_object, handler, PH_SEPARATE);
+		phalcon_array_append(&call_object, action_method, PH_SEPARATE);
 	
 		/** 
 		 * Call the function in the PHP userland
@@ -946,7 +946,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 	 */
 	if (phalcon_array_isset_string(forward, SS("namespace"))) {
 		PHALCON_OBS_VAR(namespace_name);
-		phalcon_array_fetch_string(&namespace_name, forward, SL("namespace"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&namespace_name, forward, SL("namespace"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
 	}
 	
@@ -955,12 +955,12 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 	 */
 	if (phalcon_array_isset_string(forward, SS("controller"))) {
 		PHALCON_OBS_VAR(controller_name);
-		phalcon_array_fetch_string(&controller_name, forward, SL("controller"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&controller_name, forward, SL("controller"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
 	} else {
 		if (phalcon_array_isset_string(forward, SS("task"))) {
 			PHALCON_OBS_VAR(task_name);
-			phalcon_array_fetch_string(&task_name, forward, SL("task"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&task_name, forward, SL("task"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_handlerName"), task_name TSRMLS_CC);
 		}
 	}
@@ -970,7 +970,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 	 */
 	if (phalcon_array_isset_string(forward, SS("action"))) {
 		PHALCON_OBS_VAR(action_name);
-		phalcon_array_fetch_string(&action_name, forward, SL("action"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&action_name, forward, SL("action"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 	}
 	
@@ -979,7 +979,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 	 */
 	if (phalcon_array_isset_string(forward, SS("params"))) {
 		PHALCON_OBS_VAR(params);
-		phalcon_array_fetch_string(&params, forward, SL("params"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&params, forward, SL("params"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	}
 	

@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
 	if (Z_TYPE_P(annotations) == IS_ARRAY) { 
 		if (phalcon_array_isset(annotations, real_class_name)) {
 			PHALCON_OBS_VAR(class_annotations);
-			phalcon_array_fetch(&class_annotations, annotations, real_class_name, PH_NOISY_CC);
+			phalcon_array_fetch(&class_annotations, annotations, real_class_name, PH_NOISY);
 			RETURN_CCTOR(class_annotations);
 		}
 	}

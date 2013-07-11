@@ -323,27 +323,27 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	 */
 	PHALCON_INIT_VAR(services);
 	array_init_size(services, 21);
-	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("url"), &url, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("modelsManager"), &models_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("modelsMetadata"), &models_metadata, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("response"), &response, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("cookies"), &cookies, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("request"), &request, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("filter"), &filter, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("escaper"), &escaper, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("crypt"), &crypt, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("annotations"), &annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("flash"), &flash, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("flashSession"), &flash_session, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("tag"), &tag, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("session"), &session, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("sessionBag"), &session_bag, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&services, SL("assets"), &assets, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("url"), &url, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("modelsManager"), &models_manager, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("modelsMetadata"), &models_metadata, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("response"), &response, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("cookies"), &cookies, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("request"), &request, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("filter"), &filter, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("escaper"), &escaper, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("crypt"), &crypt, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("annotations"), &annotations, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("flash"), &flash, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("flashSession"), &flash_session, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("tag"), &tag, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("session"), &session, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("sessionBag"), &session_bag, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&services, SL("assets"), &assets, PH_COPY | PH_SEPARATE);
 	
 	/** 
 	 * Update the internal services properties

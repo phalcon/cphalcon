@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 	}
 	
 	PHALCON_OBS_VAR(cache_dir);
-	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY);
 	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\File", "__construct", frontend, options);
 	
 	PHALCON_MM_RESTORE();
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	phalcon_update_property_this(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(cache_dir);
-	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY);
 	
 	PHALCON_INIT_VAR(cache_file);
 	PHALCON_CONCAT_VV(cache_file, cache_dir, prefixed_key);
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(cache_dir);
-	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY);
 	
 	PHALCON_INIT_VAR(cache_file);
 	PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
@@ -343,7 +343,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	
 	PHALCON_OBS_VAR(cache_dir);
-	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY);
 	
 	PHALCON_INIT_VAR(cache_file);
 	PHALCON_CONCAT_VV(cache_file, cache_dir, prefixed_key);
@@ -384,7 +384,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(cache_dir);
-	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY);
 	
 	/** 
 	 * We use a directory iterator to traverse the cache dir directory
@@ -422,7 +422,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 				}
 			}
 	
-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&keys, key, PH_SEPARATE);
 		}
 	
 		phalcon_call_method_noret(iterator, "next");
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 		phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(cache_dir);
-		phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY);
 	
 		PHALCON_INIT_VAR(cache_file);
 		PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);

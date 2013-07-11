@@ -102,13 +102,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 		 * 'value' is the value to be updated instead of delete the record
 		 */
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch_string(&value, options, SL("value"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&value, options, SL("value"), PH_NOISY);
 	
 		/** 
 		 * 'field' is the attribute to be updated instead of delete the record
 		 */
 		PHALCON_OBS_VAR(field);
-		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY);
 	
 		PHALCON_INIT_VAR(actual_value);
 		phalcon_call_method_p1(actual_value, model, "readattribute", field);

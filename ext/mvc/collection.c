@@ -304,11 +304,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes){
 	
 		PHALCON_INIT_NVAR(reserved);
 		array_init_size(reserved, 5);
-		phalcon_array_update_string(&reserved, SL("_connection"), &dummy, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&reserved, SL("_dependencyInjector"), &dummy, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&reserved, SL("_source"), &dummy, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&reserved, SL("_operationMade"), &dummy, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&reserved, SL("_errorMessages"), &dummy, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&reserved, SL("_connection"), &dummy, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&reserved, SL("_dependencyInjector"), &dummy, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&reserved, SL("_source"), &dummy, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&reserved, SL("_operationMade"), &dummy, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&reserved, SL("_errorMessages"), &dummy, PH_COPY | PH_SEPARATE);
 		phalcon_update_static_property(SL("phalcon\\mvc\\collection"), SL("_reserved"), reserved TSRMLS_CC);
 	}
 	
@@ -571,11 +571,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	 */
 	if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(conditions);
-		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY_CC);
+		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY);
 	} else {
 		if (phalcon_array_isset_string(params, SS("conditions"))) {
 			PHALCON_OBS_NVAR(conditions);
-			phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY);
 		} else {
 			PHALCON_INIT_NVAR(conditions);
 			array_init(conditions);
@@ -587,7 +587,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	 */
 	if (phalcon_array_isset_string(params, SS("fields"))) {
 		PHALCON_OBS_VAR(fields);
-		phalcon_array_fetch_string(&fields, params, SL("fields"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&fields, params, SL("fields"), PH_NOISY);
 	
 		PHALCON_INIT_VAR(documents_cursor);
 		phalcon_call_method_p2(documents_cursor, mongo_collection, "find", conditions, fields);
@@ -601,7 +601,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	 */
 	if (phalcon_array_isset_string(params, SS("limit"))) {
 		PHALCON_OBS_VAR(limit);
-		phalcon_array_fetch_string(&limit, params, SL("limit"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&limit, params, SL("limit"), PH_NOISY);
 		phalcon_call_method_p1_noret(documents_cursor, "limit", limit);
 	}
 	
@@ -610,7 +610,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	 */
 	if (phalcon_array_isset_string(params, SS("sort"))) {
 		PHALCON_OBS_VAR(sort);
-		phalcon_array_fetch_string(&sort, params, SL("sort"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&sort, params, SL("sort"), PH_NOISY);
 		phalcon_call_method_p1_noret(documents_cursor, "sort", sort);
 	}
 	
@@ -619,7 +619,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	 */
 	if (phalcon_array_isset_string(params, SS("skip"))) {
 		PHALCON_OBS_NVAR(sort);
-		phalcon_array_fetch_string(&sort, params, SL("skip"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&sort, params, SL("skip"), PH_NOISY);
 		phalcon_call_method_p1_noret(documents_cursor, "skip", sort);
 	}
 	
@@ -674,7 +674,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		 */
 		PHALCON_INIT_NVAR(collection_cloned);
 		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", base, document);
-		phalcon_array_append(&collections, collection_cloned, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&collections, collection_cloned, PH_SEPARATE);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -715,11 +715,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 	 */
 	if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(conditions);
-		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY_CC);
+		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY);
 	} else {
 		if (phalcon_array_isset_string(params, SS("conditions"))) {
 			PHALCON_OBS_NVAR(conditions);
-			phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY);
 		} else {
 			PHALCON_INIT_NVAR(conditions);
 			array_init(conditions);
@@ -755,7 +755,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 		 */
 		if (phalcon_array_isset_string(params, SS("limit"))) {
 			PHALCON_OBS_VAR(limit);
-			phalcon_array_fetch_string(&limit, params, SL("limit"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&limit, params, SL("limit"), PH_NOISY);
 			phalcon_call_method_p1_noret(documents_cursor, "limit", limit);
 		}
 	
@@ -764,7 +764,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 		 */
 		if (phalcon_array_isset_string(params, SS("sort"))) {
 			PHALCON_OBS_VAR(sort);
-			phalcon_array_fetch_string(&sort, params, SL("sort"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&sort, params, SL("sort"), PH_NOISY);
 			phalcon_call_method_p1_noret(documents_cursor, "sort", sort);
 		}
 	
@@ -773,7 +773,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 		 */
 		if (phalcon_array_isset_string(params, SS("skip"))) {
 			PHALCON_OBS_NVAR(sort);
-			phalcon_array_fetch_string(&sort, params, SL("skip"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&sort, params, SL("skip"), PH_NOISY);
 			phalcon_call_method_p1_noret(documents_cursor, "skip", sort);
 		}
 	
@@ -1206,7 +1206,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 	
 		PHALCON_INIT_VAR(parameters);
 		array_init_size(parameters, 1);
-		phalcon_array_update_string(&parameters, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&parameters, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE);
 	
 		/** 
 		 * Perform the count using the function provided by the driver
@@ -1385,11 +1385,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		if (PHALCON_IS_STRING(key, "_id")) {
 	
 			if (Z_TYPE_P(value) != IS_NULL) {
-				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
 			}
 		} else {
 			if (!phalcon_array_isset(reserved, key)) {
-				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
 			}
 		}
 	
@@ -1415,14 +1415,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		if (phalcon_array_isset_string(status, SS("ok"))) {
 	
 			PHALCON_OBS_VAR(ok);
-			phalcon_array_fetch_string(&ok, status, SL("ok"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&ok, status, SL("ok"), PH_NOISY);
 			if (zend_is_true(ok)) {
 	
 				ZVAL_BOOL(success, 1);
 				if (PHALCON_IS_FALSE(exists)) {
 					if (phalcon_array_isset_string(data, SS("_id"))) {
 						PHALCON_OBS_VAR(id);
-						phalcon_array_fetch_string(&id, data, SL("_id"), PH_NOISY_CC);
+						phalcon_array_fetch_string(&id, data, SL("_id"), PH_NOISY);
 						phalcon_update_property_this(this_ptr, SL("_id"), id TSRMLS_CC);
 					}
 				}
@@ -1493,11 +1493,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 	
 	PHALCON_INIT_VAR(conditions);
 	array_init_size(conditions, 1);
-	phalcon_array_update_string(&conditions, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&conditions, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE);
 	
 	PHALCON_INIT_VAR(parameters);
 	array_init_size(parameters, 1);
-	phalcon_array_append(&parameters, conditions, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&parameters, conditions, PH_SEPARATE);
 	PHALCON_CALL_SELF_PARAMS_1(return_value, this_ptr, "findfirst", parameters);
 	RETURN_MM();
 }
@@ -1809,7 +1809,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory){
 	 */
 	PHALCON_INIT_VAR(initial);
 	array_init_size(initial, 1);
-	phalcon_array_update_string(&initial, SL("summatory"), &empty_array, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&initial, SL("summatory"), &empty_array, PH_COPY | PH_SEPARATE);
 	
 	/** 
 	 * Uses a javascript hash to group the results, however this is slow with larger
@@ -1822,14 +1822,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory){
 	if (phalcon_array_isset_string(group, SS("retval"))) {
 	
 		PHALCON_OBS_VAR(retval);
-		phalcon_array_fetch_string(&retval, group, SL("retval"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&retval, group, SL("retval"), PH_NOISY);
 		if (phalcon_array_isset_long(retval, 0)) {
 	
 			PHALCON_OBS_VAR(first_retval);
-			phalcon_array_fetch_long(&first_retval, retval, 0, PH_NOISY_CC);
+			phalcon_array_fetch_long(&first_retval, retval, 0, PH_NOISY);
 			if (phalcon_array_isset_string(first_retval, SS("summatory"))) {
 				PHALCON_OBS_VAR(summatory);
-				phalcon_array_fetch_string(&summatory, first_retval, SL("summatory"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&summatory, first_retval, SL("summatory"), PH_NOISY);
 				RETURN_CCTOR(summatory);
 			}
 	
@@ -1929,7 +1929,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 	
 	PHALCON_INIT_VAR(id_condition);
 	array_init_size(id_condition, 1);
-	phalcon_array_update_string(&id_condition, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&id_condition, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE);
 	
 	PHALCON_INIT_VAR(success);
 	ZVAL_BOOL(success, 0);
@@ -1953,7 +1953,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 	if (phalcon_array_isset_string(status, SS("ok"))) {
 	
 		PHALCON_OBS_VAR(ok);
-		phalcon_array_fetch_string(&ok, status, SL("ok"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&ok, status, SL("ok"), PH_NOISY);
 		if (zend_is_true(ok)) {
 	
 			ZVAL_BOOL(success, 1);
@@ -2014,11 +2014,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray){
 		if (PHALCON_IS_STRING(key, "_id")) {
 	
 			if (Z_TYPE_P(value) != IS_NULL) {
-				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
 			}
 		} else {
 			if (!phalcon_array_isset(reserved, key)) {
-				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
 			}
 		}
 	

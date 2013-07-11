@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 		if (Z_TYPE_P(rows) == IS_ARRAY) { 
 	
 			PHALCON_INIT_NVAR(row);
-			phalcon_array_get_current(row, rows TSRMLS_CC);
+			phalcon_array_get_current(row, rows);
 			if (PHALCON_IS_NOT_FALSE(row)) {
 				phalcon_array_next(rows);
 			}
@@ -388,12 +388,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 					 * Get the renamed column
 					 */
 					PHALCON_OBS_NVAR(renamed_key);
-					phalcon_array_fetch(&renamed_key, column_map, key, PH_NOISY_CC);
+					phalcon_array_fetch(&renamed_key, column_map, key, PH_NOISY);
 	
 					/** 
 					 * Add the value renamed
 					 */
-					phalcon_array_update_zval(&renamed, renamed_key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_zval(&renamed, renamed_key, &value, PH_COPY | PH_SEPARATE);
 	
 					zend_hash_move_forward_ex(ah1, &hp1);
 				}
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 				/** 
 				 * Append the renamed records to the main array
 				 */
-				phalcon_array_append(&renamed_records, renamed, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&renamed_records, renamed, PH_SEPARATE);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -446,11 +446,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	
 	PHALCON_INIT_VAR(data);
 	array_init_size(data, 5);
-	phalcon_array_update_string(&data, SL("model"), &model, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&data, SL("cache"), &cache, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&data, SL("rows"), &records, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&data, SL("columnMap"), &column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&data, SL("hydrateMode"), &hydrate_mode, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&data, SL("model"), &model, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&data, SL("cache"), &cache, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&data, SL("rows"), &records, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&data, SL("columnMap"), &column_map, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&data, SL("hydrateMode"), &hydrate_mode, PH_COPY | PH_SEPARATE);
 	
 	/** 
 	 * Force to re-execute the query
@@ -488,23 +488,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 	}
 	
 	PHALCON_OBS_VAR(model);
-	phalcon_array_fetch_string(&model, resultset, SL("model"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&model, resultset, SL("model"), PH_NOISY);
 	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(rows);
-	phalcon_array_fetch_string(&rows, resultset, SL("rows"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&rows, resultset, SL("rows"), PH_NOISY);
 	phalcon_update_property_this(this_ptr, SL("_rows"), rows TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(cache);
-	phalcon_array_fetch_string(&cache, resultset, SL("cache"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&cache, resultset, SL("cache"), PH_NOISY);
 	phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(column_map);
-	phalcon_array_fetch_string(&column_map, resultset, SL("columnMap"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&column_map, resultset, SL("columnMap"), PH_NOISY);
 	phalcon_update_property_this(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(hydrate_mode);
-	phalcon_array_fetch_string(&hydrate_mode, resultset, SL("hydrateMode"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&hydrate_mode, resultset, SL("hydrateMode"), PH_NOISY);
 	phalcon_update_property_this(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
