@@ -315,7 +315,7 @@ int phalcon_array_append_string(zval **arr, char *value, uint value_length, int 
  * @throw @c E_WARNING if @a offset is not a scalar or @c arr is not an array
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP.
- * Flags may be one a bitwise OR of the following values:
+ * Flags may be a bitwise OR of the following values:
  * @arg @c PH_CTOR: create a copy of @a value and work with that copy; @c *value will be updated with the newly constructed value
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
@@ -382,7 +382,7 @@ int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags T
  * @see phalcon_array_update_zval()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $value is a boolean.
- * Flags may be one a bitwise OR of the following values:
+ * Flags may be a bitwise OR of the following values:
  * @arg @c PH_CTOR: create a copy of @a value and work with that copy
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on the internally constructed value
@@ -413,7 +413,7 @@ int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags
  * @see phalcon_array_update_zval()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $value is a string.
- * Flags may be one a bitwise OR of the following values:
+ * Flags may be a bitwise OR of the following values:
  * @arg @c PH_CTOR: create a copy of @a value and work with that copy
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on the internally constructed value
@@ -443,7 +443,7 @@ int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint 
  * @see phalcon_array_update_zval()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $value is an integer.
- * Flags may be one a bitwise OR of the following values:
+ * Flags may be a bitwise OR of the following values:
  * @arg @c PH_CTOR: create a copy of @a value and work with that copy
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on the internally constructed value
@@ -475,7 +475,7 @@ int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flag
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP.
  *
- * Flags may be one a bitwise OR of the following values:
+ * Flags may be a bitwise OR of the following values:
  * @arg @c PH_CTOR: create a copy of @a value and work with that copy; @c *value will be updated with the newly constructed value
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
@@ -522,7 +522,7 @@ int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length
  *
  * The function is a wrapper over @c phalcon_array_update_quick_string()
  *
- * Flags may be one a bitwise OR of the following values:
+ * Flags may be a bitwise OR of the following values:
  * @arg @c PH_CTOR: create a copy of @a value and work with that copy; @c *value will be updated with the newly constructed value
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
@@ -547,7 +547,7 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $index is a string key and $value is a boolean.
  *
- * Flags may be one a bitwise OR of the following values:
+ * Flags may be a bitwise OR of the following values:
  * @arg @c PH_CTOR: create a copy of @a value and work with that copy
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on the internally constructed value
@@ -579,7 +579,7 @@ int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length,
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $index is a string key and $value is an integer.
  *
- * Flags may be one a bitwise OR of the following values:
+ * Flags may be a bitwise OR of the following values:
  * @arg @c PH_CTOR: create a copy of @a value and work with that copy
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on the internally constructed value
@@ -612,7 +612,7 @@ int phalcon_array_update_string_long(zval **arr, char *index, uint index_length,
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $index is a string key and $value is a boolean.
  *
- * Flags may be one a bitwise OR of the following values:
+ * Flags may be a bitwise OR of the following values:
  * @arg @c PH_CTOR: create a copy of @a value and work with that copy
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on the internally constructed value
@@ -630,12 +630,26 @@ int phalcon_array_update_string_string(zval **arr, char *index, uint index_lengt
 }
 
 /**
- * Updates values on arrays by long indexes only
+ * @brief Updates value in @a arr at position @a index with @a value
+ * @param[in,out] arr Array
+ * @param index Index
+ * @param[in,out] value Value
+ * @param flags Flags
+ * @return Whether the operation succeeded
+ * @retval @c FAILURE Failure, @a arr is not an array
+ * @retval @c SUCCESS Success
+ * @throw @c E_WARNING if @c arr is not an array
+ *
+ * Equivalent to <tt>$arr[$index] = $value</tt> in PHP where @c $index is an integer.
+ * Flags may be a bitwise OR of the following values:
+ * @arg @c PH_CTOR: create a copy of @a value and work with that copy; @c *value will be updated with the newly constructed value
+ * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
+ * @arg @c PH_COPY: increment the reference count on @c **value
  */
 int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int flags TSRMLS_DC){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
+		zend_error(E_WARNING, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
 
@@ -660,7 +674,25 @@ int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int
 }
 
 /**
- * Updates an array with a string value in a long index
+ * @brief Updates value in @a arr at position @a index with string @a value
+ * @param[in,out] arr Array
+ * @param index Index
+ * @param value Value
+ * @param value_length Value lenth, usually <tt>strlen(value)</tt>
+ * @param flags Flags
+ * @return Whether the operation succeeded
+ * @retval @c FAILURE Failure, @a arr is not an array
+ * @retval @c SUCCESS Success
+ * @throw @c E_WARNING if @c arr is not an array
+ * @see phalcon_array_update_long()
+ *
+ * Equivalent to <tt>$arr[$index] = $value</tt> in PHP where @c $index is an integer and @c $value is a string.
+ * Flags may be a bitwise OR of the following values:
+ * @arg @c PH_CTOR: create a copy of @a value and work with that copy
+ * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
+ * @arg @c PH_COPY: increment the reference count on the internally constructed value
+ *
+ * Only @c PH_SEPARATE is meaningful with this function.
  */
 int phalcon_array_update_long_string(zval **arr, unsigned long index, char *value, uint value_length, int flags TSRMLS_DC){
 
@@ -673,7 +705,24 @@ int phalcon_array_update_long_string(zval **arr, unsigned long index, char *valu
 }
 
 /**
- * Updates an array with a long value in a long index
+ * @brief Updates value in @a arr at position @a index with integer @a value
+ * @param[in,out] arr Array
+ * @param index Index
+ * @param value Value
+ * @param flags Flags
+ * @return Whether the operation succeeded
+ * @retval @c FAILURE Failure, @a arr is not an array
+ * @retval @c SUCCESS Success
+ * @throw @c E_WARNING if @c arr is not an array
+ * @see phalcon_array_update_long()
+ *
+ * Equivalent to <tt>$arr[$index] = $value</tt> in PHP where @c $index is an integer and @c $value is an integer.
+ * Flags may be a bitwise OR of the following values:
+ * @arg @c PH_CTOR: create a copy of @a value and work with that copy
+ * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
+ * @arg @c PH_COPY: increment the reference count on the internally constructed value
+ *
+ * Only @c PH_SEPARATE is meaningful with this function.
  */
 int phalcon_array_update_long_long(zval **arr, unsigned long index, long value, int flags TSRMLS_DC){
 
@@ -686,7 +735,24 @@ int phalcon_array_update_long_long(zval **arr, unsigned long index, long value, 
 }
 
 /**
- * Updates an array with a bool value in a long index
+ * @brief Updates value in @a arr at position @a index with boolean @a value
+ * @param[in,out] arr Array
+ * @param index Index
+ * @param value Value
+ * @param flags Flags
+ * @return Whether the operation succeeded
+ * @retval @c FAILURE Failure, @a arr is not an array
+ * @retval @c SUCCESS Success
+ * @throw @c E_WARNING if @c arr is not an array
+ * @see phalcon_array_update_long()
+ *
+ * Equivalent to <tt>$arr[$index] = $value</tt> in PHP where @c $index is an integer and @c $value is an integer.
+ * Flags may be a bitwise OR of the following values:
+ * @arg @c PH_CTOR: create a copy of @a value and work with that copy
+ * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
+ * @arg @c PH_COPY: increment the reference count on the internally constructed value
+ *
+ * Only @c PH_SEPARATE is meaningful with this function.
  */
 int phalcon_array_update_long_bool(zval **arr, unsigned long index, int value, int flags TSRMLS_DC){
 
@@ -699,7 +765,19 @@ int phalcon_array_update_long_bool(zval **arr, unsigned long index, int value, i
 }
 
 /**
- * Reads an item from an array using a zval as index
+ * @brief Reads an item from @a arr at position @a index and stores it to @a return_value
+ * @param return_value[out] Return value
+ * @param arr Array
+ * @param index Index
+ * @param silent 0 to suppress all warnings, @c PH_NOISY to enable
+ * @return Whether the operation succeeded
+ * @retval @c FAILURE Failure, @a arr is not an array
+ * @retval @c SUCCESS Success
+ * @throw @c E_WARNING if @c arr is not an array and @c silent = @c PH_NOISY
+ * @throw @c E_WARNING if @c index is not of the supported type and @c silent = @c PH_NOISY
+ * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
+ * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
+ * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  */
 int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent TSRMLS_DC){
 
@@ -763,7 +841,19 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 }
 
 /**
- * Reads an item from an array using a string as index
+ * @brief Reads an item from @a arr at position @a index using the precomputed hash @c key and stores it to @a return_value
+ * @param return_value[out] Return value
+ * @param arr Array
+ * @param index Index
+ * @param index Index length; must contain the trailing zero, if any
+ * @param key Precomputed hash of @c index
+ * @param silent 0 to suppress all warnings, @c PH_NOISY to enable
+ * @return Whether the operation succeeded
+ * @retval @c FAILURE Failure, @a arr is not an array
+ * @retval @c SUCCESS Success
+ * @throw @c E_WARNING if @c arr is not an array and @c silent = @c PH_NOISY
+ * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
+ * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  */
 int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index, uint index_length, unsigned long key, int silent TSRMLS_DC){
 
@@ -791,12 +881,21 @@ int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index
 }
 
 /**
- * Reads an item from an array using a string as index
+ * @brief Reads an item from @a arr at position @a index and stores it to @a return_value
+ * @param return_value[out] Return value
+ * @param arr Array
+ * @param index Index
+ * @param index Index length; must contain the trailing zero, if any
+ * @param silent 0 to suppress all warnings, @c PH_NOISY to enable
+ * @return Whether the operation succeeded
+ * @retval @c FAILURE Failure, @a arr is not an array
+ * @retval @c SUCCESS Success
+ * @throw @c E_WARNING if @c arr is not an array and @c silent = @c PH_NOISY
+ * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
+ * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
+ * @see phalcon_array_fetch_quick_string()
  *
- * @param return_value
- * @param arr
- * @param index
- * @param index_length strlen(index)
+ * The function is a wrapper over @c phalcon_array_fetch_quick_string()
  */
 int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent TSRMLS_DC){
 
@@ -804,7 +903,17 @@ int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint
 }
 
 /**
- * Reads an item from an array using a long as index
+ * @brief Reads an item from @a arr at position @a index and stores it to @a return_value
+ * @param return_value[out] Return value
+ * @param arr Array
+ * @param index Index
+ * @param silent 0 to suppress all warnings, @c PH_NOISY to enable
+ * @return Whether the operation succeeded
+ * @retval @c FAILURE Failure, @a arr is not an array
+ * @retval @c SUCCESS Success
+ * @throw @c E_WARNING if @c arr is not an array and @c silent = @c PH_NOISY
+ * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
+ * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  */
 int phalcon_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int silent TSRMLS_DC){
 
@@ -1245,6 +1354,17 @@ void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 T
 
 }
 
+/**
+ * @brief Merge @a a1 and @a a2 recursively preserving all keys
+ * @warning Both @a a1 and @a a2 are assumed to be arrays, no checks are performed
+ * @param[in,out] a1 LHS operand
+ * @param a2 RHS operand
+ *
+ * Equivalent to <tt>$a1 = array_merge_recursive($a1, $a2)</tt> in PHP with the only exception
+ * that Phalcon's version preserves numeric keys
+ *
+ * @todo @c PHALCON_GET_HVALUE() calls @c PHALCON_OBSERVE_VAR; does it mean that the calling function needs a memory frame? Are there any limitations?
+ */
 void phalcon_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 {
 	HashTable *ah2;
