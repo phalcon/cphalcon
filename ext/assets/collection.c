@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Assets_Collection, current){
 	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
 	if (phalcon_array_isset(resources, position)) {
 		PHALCON_OBS_VAR(resource);
-		phalcon_array_fetch(&resource, resources, position, PH_NOISY_CC);
+		phalcon_array_fetch(&resource, resources, position, PH_NOISY);
 		RETURN_CCTOR(resource);
 	}
 	

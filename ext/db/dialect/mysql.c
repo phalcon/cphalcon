@@ -561,7 +561,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 		array_init(table_options);
 	
 		PHALCON_OBS_VAR(options);
-		phalcon_array_fetch_string(&options, definition, SL("options"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&options, definition, SL("options"), PH_NOISY);
 	
 		/** 
 		 * Check if there is an ENGINE option
@@ -569,11 +569,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 		if (phalcon_array_isset_string(options, SS("ENGINE"))) {
 	
 			PHALCON_OBS_VAR(engine);
-			phalcon_array_fetch_string(&engine, options, SL("ENGINE"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&engine, options, SL("ENGINE"), PH_NOISY);
 			if (zend_is_true(engine)) {
 				PHALCON_INIT_VAR(sql_engine);
 				PHALCON_CONCAT_SV(sql_engine, "ENGINE=", engine);
-				phalcon_array_append(&table_options, sql_engine, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&table_options, sql_engine, PH_SEPARATE);
 			}
 		}
 	
@@ -583,11 +583,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 		if (phalcon_array_isset_string(options, SS("AUTO_INCREMENT"))) {
 	
 			PHALCON_OBS_VAR(auto_increment);
-			phalcon_array_fetch_string(&auto_increment, options, SL("AUTO_INCREMENT"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&auto_increment, options, SL("AUTO_INCREMENT"), PH_NOISY);
 			if (zend_is_true(auto_increment)) {
 				PHALCON_INIT_VAR(sql_autoincrement);
 				PHALCON_CONCAT_SV(sql_autoincrement, "AUTO_INCREMENT=", auto_increment);
-				phalcon_array_append(&table_options, sql_autoincrement, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&table_options, sql_autoincrement, PH_SEPARATE);
 			}
 		}
 	
@@ -597,21 +597,21 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 		if (phalcon_array_isset_string(options, SS("TABLE_COLLATION"))) {
 	
 			PHALCON_OBS_VAR(table_collation);
-			phalcon_array_fetch_string(&table_collation, options, SL("TABLE_COLLATION"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&table_collation, options, SL("TABLE_COLLATION"), PH_NOISY);
 			if (zend_is_true(table_collation)) {
 				PHALCON_INIT_VAR(collation_parts);
 				phalcon_fast_explode_str(collation_parts, SL("_"), table_collation TSRMLS_CC);
 	
 				PHALCON_OBS_VAR(first_part);
-				phalcon_array_fetch_long(&first_part, collation_parts, 0, PH_NOISY_CC);
+				phalcon_array_fetch_long(&first_part, collation_parts, 0, PH_NOISY);
 	
 				PHALCON_INIT_VAR(sql_charset);
 				PHALCON_CONCAT_SV(sql_charset, "DEFAULT CHARSET=", first_part);
-				phalcon_array_append(&table_options, sql_charset, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&table_options, sql_charset, PH_SEPARATE);
 	
 				PHALCON_INIT_VAR(sql_collate);
 				PHALCON_CONCAT_SV(sql_collate, "COLLATE=", table_collation);
-				phalcon_array_append(&table_options, sql_collate, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&table_options, sql_collate, PH_SEPARATE);
 			}
 		}
 	
@@ -666,10 +666,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	if (phalcon_array_isset_string(definition, SS("options"))) {
 	
 		PHALCON_OBS_VAR(options);
-		phalcon_array_fetch_string(&options, definition, SL("options"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&options, definition, SL("options"), PH_NOISY);
 		if (phalcon_array_isset_string(options, SS("temporary"))) {
 			PHALCON_OBS_NVAR(temporary);
-			phalcon_array_fetch_string(&temporary, options, SL("temporary"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&temporary, options, SL("temporary"), PH_NOISY);
 		}
 	}
 	
@@ -688,7 +688,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	array_init(create_lines);
 	
 	PHALCON_OBS_VAR(columns);
-	phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY);
 	
 	phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
 	
@@ -732,7 +732,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			phalcon_concat_self_str(&column_line, SL(" PRIMARY KEY") TSRMLS_CC);
 		}
 	
-		phalcon_array_append(&create_lines, column_line, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&create_lines, column_line, PH_SEPARATE);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -743,7 +743,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	if (phalcon_array_isset_string(definition, SS("indexes"))) {
 	
 		PHALCON_OBS_VAR(indexes);
-		phalcon_array_fetch_string(&indexes, definition, SL("indexes"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&indexes, definition, SL("indexes"), PH_NOISY);
 	
 		phalcon_is_iterable(indexes, &ah1, &hp1, 0, 0);
 	
@@ -771,7 +771,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 				PHALCON_CONCAT_SVSVS(index_sql, "KEY `", index_name, "` (", column_list, ")");
 			}
 	
-			phalcon_array_append(&create_lines, index_sql, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&create_lines, index_sql, PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
@@ -784,7 +784,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	if (phalcon_array_isset_string(definition, SS("references"))) {
 	
 		PHALCON_OBS_VAR(references);
-		phalcon_array_fetch_string(&references, definition, SL("references"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&references, definition, SL("references"), PH_NOISY);
 	
 		phalcon_is_iterable(references, &ah2, &hp2, 0, 0);
 	
@@ -815,7 +815,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	
 			PHALCON_INIT_NVAR(reference_sql);
 			PHALCON_CONCAT_VSVSVS(reference_sql, constaint_sql, " REFERENCES `", referenced_table, "`(", column_list, ")");
-			phalcon_array_append(&create_lines, reference_sql, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&create_lines, reference_sql, PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
@@ -897,7 +897,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createView){
 	}
 	
 	PHALCON_OBS_VAR(view_sql);
-	phalcon_array_fetch_string(&view_sql, definition, SL("sql"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&view_sql, definition, SL("sql"), PH_NOISY);
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(view);
 		PHALCON_CONCAT_SVSVS(view, "`", schema_name, "`.`", view_name, "`");

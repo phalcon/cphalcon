@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions){
 	}
 	if (phalcon_array_isset_string(options, SS("uniqueId"))) {
 		PHALCON_OBS_VAR(unique_id);
-		phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
 	}
 	
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	if (phalcon_array_isset(_SESSION, key)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, _SESSION, key, PH_NOISY_CC);
+		phalcon_array_fetch(&value, _SESSION, key, PH_NOISY);
 		if (PHALCON_IS_NOT_EMPTY(value)) {
 			RETURN_CCTOR(value);
 		}
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
 	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_update_zval(&_SESSION, key, &value, PH_COPY TSRMLS_CC);
+	phalcon_array_update_zval(&_SESSION, key, &value, PH_COPY);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Db, setup){
 	 */
 	if (phalcon_array_isset_string(options, SS("escapeSqlIdentifiers"))) {
 		PHALCON_OBS_VAR(escape_identifiers);
-		phalcon_array_fetch_string(&escape_identifiers, options, SL("escapeSqlIdentifiers"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&escape_identifiers, options, SL("escapeSqlIdentifiers"), PH_NOISY);
 		PHALCON_GLOBAL(db).escape_identifiers = zend_is_true(escape_identifiers);
 	}
 	

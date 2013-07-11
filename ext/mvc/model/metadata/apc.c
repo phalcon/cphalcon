@@ -90,12 +90,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("prefix"))) {
 			PHALCON_OBS_VAR(prefix);
-			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 		}
 		if (phalcon_array_isset_string(options, SS("lifetime"))) {
 			PHALCON_OBS_VAR(ttl);
-			phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
 		}
 	}

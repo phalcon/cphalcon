@@ -308,13 +308,13 @@ static void array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 		PHALCON_GET_HVALUE(value);
 
 		if (!phalcon_array_isset(*a1, key) || Z_TYPE_P(value) != IS_ARRAY) {
-			phalcon_array_update_zval(a1, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_zval(a1, key, &value, PH_COPY | PH_SEPARATE);
 		}
 		else {
 			PHALCON_INIT_NVAR(tmp1);
 			PHALCON_INIT_NVAR(tmp2);
-			phalcon_array_fetch(&tmp1, *a1, key, PH_NOISY_CC);
-			phalcon_array_fetch(&tmp2, a2, key, PH_NOISY_CC);
+			phalcon_array_fetch(&tmp1, *a1, key, PH_NOISY);
+			phalcon_array_fetch(&tmp2, a2, key, PH_NOISY);
 			array_merge_recursive_n(&tmp1, tmp2 TSRMLS_CC);
 		}
 
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Config, toArray){
 			if (phalcon_method_exists_ex(value, SS("toarray") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_NVAR(array_value);
 				phalcon_call_method(array_value, value, "toarray");
-				phalcon_array_update_zval(&array_config, key, &array_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_zval(&array_config, key, &array_value, PH_COPY | PH_SEPARATE);
 			}
 		}
 	

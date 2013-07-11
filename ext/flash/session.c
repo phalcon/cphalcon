@@ -187,10 +187,10 @@ PHP_METHOD(Phalcon_Flash_Session, message){
 	if (!phalcon_array_isset(messages, type)) {
 		PHALCON_INIT_VAR(empty_array);
 		array_init(empty_array);
-		phalcon_array_update_zval(&messages, type, &empty_array, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_zval(&messages, type, &empty_array, PH_COPY | PH_SEPARATE);
 	}
 	
-	phalcon_array_update_append_multi_2(&messages, type, message, 0 TSRMLS_CC);
+	phalcon_array_update_append_multi_2(&messages, type, message, 0);
 	phalcon_call_method_p1_noret(this_ptr, "_setsessionmessages", messages);
 	
 	PHALCON_MM_RESTORE();
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 		if (likely(Z_TYPE_P(type) == IS_STRING)) {
 			if (phalcon_array_isset(messages, type)) {
 				PHALCON_OBS_VAR(return_messages);
-				phalcon_array_fetch(&return_messages, messages, type, PH_NOISY_CC);
+				phalcon_array_fetch(&return_messages, messages, type, PH_NOISY);
 				RETURN_CCTOR(return_messages);
 			}
 		}

@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct){
 		array_init(options);
 	}
 	if (!phalcon_array_isset_string(options, SS("statsKey"))) {
-		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCX"), PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCX"), PH_SEPARATE);
 	}
 	
 	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\Xcache", "__construct", frontend, options);
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 		phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(special_key);
-		phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY);
 	
 		/** 
 		 * xcache_list() is available only to the administrator (unless XCache was
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 		}
 	
 		if (!zend_is_true(keys)) {
-			phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE);
 	
 			PHALCON_INIT_VAR(zero);
 			ZVAL_LONG(zero, 0);
@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete){
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(special_key);
-	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY);
 	
 	PHALCON_INIT_VAR(keys);
 	phalcon_call_func_p1(keys, "xcache_get", special_key);
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys){
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(special_key);
-	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY);
 	
 	/** 
 	 * Get the key from XCache (we cannot use xcache_list() as it is available only to
@@ -392,7 +392,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys){
 	
 			PHALCON_INIT_NVAR(real_key);
 			phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
-			phalcon_array_append(&prefixed_keys, real_key, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&prefixed_keys, real_key, PH_SEPARATE);
 	
 			RETURN_CTOR(prefixed_keys);
 	

@@ -77,13 +77,13 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct){
 	phalcon_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	if (phalcon_array_isset_string(config, SS("limit"))) {
 		PHALCON_OBS_VAR(limit);
-		phalcon_array_fetch_string(&limit, config, SL("limit"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&limit, config, SL("limit"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
 	}
 	
 	if (phalcon_array_isset_string(config, SS("page"))) {
 		PHALCON_OBS_VAR(page);
-		phalcon_array_fetch_string(&page, config, SL("page"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&page, config, SL("page"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
 	}
 	
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	phalcon_read_property_this(&config, this_ptr, SL("_config"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(items);
-	phalcon_array_fetch_string(&items, config, SL("data"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&items, config, SL("data"), PH_NOISY);
 	
 	PHALCON_OBS_VAR(page_number);
 	phalcon_read_property_this(&page_number, this_ptr, SL("_page"), PH_NOISY_CC);
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	
 			PHALCON_INIT_NVAR(current);
 			phalcon_call_method(current, items, "current");
-			phalcon_array_append(&page_items, current, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&page_items, current, PH_SEPARATE);
 			if (PHALCON_GE(i, show)) {
 				break;
 			}

@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		 * Append the class annotations to the annotations var
 		 */
 		if (Z_TYPE_P(class_annotations) == IS_ARRAY) { 
-			phalcon_array_update_string(&annotations, SL("class"), &class_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&annotations, SL("class"), &class_annotations, PH_COPY | PH_SEPARATE);
 		}
 	}
 	
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 				if (Z_TYPE_P(property_annotations) == IS_ARRAY) { 
 					PHALCON_OBS_NVAR(name);
 					phalcon_read_property(&name, property, SL("name"), PH_NOISY_CC);
-					phalcon_array_update_zval(&annotations_properties, name, &property_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_zval(&annotations_properties, name, &property_annotations, PH_COPY | PH_SEPARATE);
 				}
 			}
 	
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		}
 	
 		if (phalcon_fast_count_ev(annotations_properties TSRMLS_CC)) {
-			phalcon_array_update_string(&annotations, SL("properties"), &annotations_properties, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&annotations, SL("properties"), &annotations_properties, PH_COPY | PH_SEPARATE);
 		}
 	}
 	
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 				if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
 					PHALCON_OBS_NVAR(name);
 					phalcon_read_property(&name, method, SL("name"), PH_NOISY_CC);
-					phalcon_array_update_zval(&annotations_methods, name, &method_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_zval(&annotations_methods, name, &method_annotations, PH_COPY | PH_SEPARATE);
 				}
 			}
 	
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		}
 	
 		if (phalcon_fast_count_ev(annotations_methods TSRMLS_CC)) {
-			phalcon_array_update_string(&annotations, SL("methods"), &annotations_methods, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&annotations, SL("methods"), &annotations_methods, PH_COPY | PH_SEPARATE);
 		}
 	}
 	

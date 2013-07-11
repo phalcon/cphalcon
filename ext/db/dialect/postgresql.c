@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView){
 	}
 	
 	PHALCON_OBS_VAR(view_sql);
-	phalcon_array_fetch_string(&view_sql, definition, SL("sql"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&view_sql, definition, SL("sql"), PH_NOISY);
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(view);
 		PHALCON_CONCAT_VSV(view, view_name, ".", schema_name);

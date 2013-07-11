@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		phalcon_update_property_array(this_ptr, SL("_cookies"), name, cookie TSRMLS_CC);
 	} else {
 		PHALCON_OBS_NVAR(cookie);
-		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
+		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY);
 	
 		/** 
 		 * Override any settings in the cookie
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
 	if (phalcon_array_isset(cookies, name)) {
 		PHALCON_OBS_VAR(cookie);
-		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
+		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY);
 		RETURN_CCTOR(cookie);
 	}
 	
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete){
 	 */
 	if (phalcon_array_isset(cookies, name)) {
 		PHALCON_OBS_VAR(cookie);
-		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
+		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY);
 		phalcon_call_method_noret(cookie, "delete");
 		RETURN_MM_TRUE;
 	}

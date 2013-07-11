@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset(options, key)) {
 			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch(&value, options, key, PH_NOISY_CC);
+			phalcon_array_fetch(&value, options, key, PH_NOISY);
 			RETURN_CCTOR(value);
 		}
 	}

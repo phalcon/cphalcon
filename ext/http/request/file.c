@@ -98,25 +98,25 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
 	}
 	if (phalcon_array_isset_string(file, SS("name"))) {
 		PHALCON_OBS_VAR(name);
-		phalcon_array_fetch_string(&name, file, SL("name"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&name, file, SL("name"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	}
 	
 	if (phalcon_array_isset_string(file, SS("tmp_name"))) {
 		PHALCON_OBS_VAR(temp_name);
-		phalcon_array_fetch_string(&temp_name, file, SL("tmp_name"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&temp_name, file, SL("tmp_name"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_tmp"), temp_name TSRMLS_CC);
 	}
 	
 	if (phalcon_array_isset_string(file, SS("size"))) {
 		PHALCON_OBS_VAR(size);
-		phalcon_array_fetch_string(&size, file, SL("size"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&size, file, SL("size"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_size"), size TSRMLS_CC);
 	}
 	
 	if (phalcon_array_isset_string(file, SS("type"))) {
 		PHALCON_OBS_VAR(type);
-		phalcon_array_fetch_string(&type, file, SL("type"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&type, file, SL("type"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	}
 	
