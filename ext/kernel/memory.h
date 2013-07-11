@@ -38,7 +38,7 @@ extern int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
 
 /* Virtual symbol tables */
 extern void phalcon_create_symbol_table(TSRMLS_D);
-extern void phalcon_restore_symbol_table(TSRMLS_D);
+/*extern void phalcon_restore_symbol_table(TSRMLS_D);*/
 extern void phalcon_clean_symbol_tables(TSRMLS_D);
 
 /** Export symbols to active symbol table */
