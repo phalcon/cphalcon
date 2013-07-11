@@ -130,7 +130,22 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		PHALCON_GET_HKEY(section, ah0, hp0);
 		PHALCON_GET_HVALUE(directives);
 	
+		if (unlikely(Z_TYPE_P(directives) != IS_ARRAY)) {
+			Z_ADDREF_P(directives);
+			if (phalcon_array_update_zval(&config, section, &directives, 0 TSRMLS_CC) != SUCCESS) {
+				Z_DELREF_P(directives);
+			}
+			zend_hash_move_forward_ex(ah0, &hp0);
+			continue;
+	}
+	
 		phalcon_is_iterable(directives, &ah1, &hp1, 0, 0);
+	
+		if (zend_hash_num_elements(ah1) == 0) {
+			phalcon_array_update_zval(&config, section, &directives, 0 TSRMLS_CC);
+			zend_hash_move_forward_ex(ah0, &hp0);
+			continue;
+		}
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
