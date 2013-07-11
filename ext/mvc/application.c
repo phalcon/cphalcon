@@ -253,8 +253,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *dispatcher, *controller, *returned_response = NULL;
 	zval *possible_response, *render_status = NULL, *response = NULL;
 	zval *content;
-	zval *c0 = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -379,13 +377,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 				PHALCON_OBS_VAR(path);
 				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY_CC);
-	
-				PHALCON_INIT_VAR(c0);
-				ZVAL_BOOL(c0, 0);
-	
-				PHALCON_INIT_VAR(r0);
-				phalcon_call_func_p2(r0, "class_exists", class_name, c0);
-				if (!zend_is_true(r0)) {
+				if (!phalcon_class_exists(class_name, 0 TSRMLS_CC)) {
 					if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 						if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 							return;
