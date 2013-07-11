@@ -1095,7 +1095,7 @@ zval *phalcon_eol(int eol TSRMLS_DC) {
     if (eol) {
 	    ZVAL_STRING(local_eol, PHP_EOL, 1);
     } else {
-        ZVAL_STRING(local_eol, "", 1);
+        ZVAL_EMPTY_STRING(local_eol);
     }
 
     return local_eol;

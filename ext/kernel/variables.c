@@ -35,10 +35,6 @@ void phalcon_serialize(zval *return_value, zval **var  TSRMLS_DC) {
 	php_serialize_data_t var_hash;
 	smart_str buf = {0};
 
-	Z_TYPE_P(return_value) = IS_STRING;
-	Z_STRVAL_P(return_value) = NULL;
-	Z_STRLEN_P(return_value) = 0;
-
 	PHP_VAR_SERIALIZE_INIT(var_hash);
 	php_var_serialize(&buf, var, &var_hash TSRMLS_CC);
 	PHP_VAR_SERIALIZE_DESTROY(var_hash);
