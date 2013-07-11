@@ -246,17 +246,11 @@ int phalcon_array_append_string(zval **arr, char *value, uint value_length, int 
  */
 int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags TSRMLS_DC) {
 
-	if (Z_TYPE_PP(arr) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
-		return FAILURE;
-	}
+	HashTable *ht;
 
-	if (Z_TYPE_P(index) == IS_NULL) {
-		convert_to_string(index);
-	} else {
-		if (Z_TYPE_P(index) == IS_BOOL || Z_TYPE_P(index) == IS_DOUBLE) {
-			convert_to_long(index);
-		}
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
+		zend_error(E_WARNING, "Cannot use a scalar value as an array");
+		return FAILURE;
 	}
 
 	if ((flags & PH_CTOR) == PH_CTOR) {
@@ -276,16 +270,27 @@ int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags T
 		Z_ADDREF_PP(value);
 	}
 
-	if (Z_TYPE_P(index) == IS_STRING) {
-		return zend_hash_update(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1, value, sizeof(zval *), NULL);
-	}
+	ht = Z_ARRVAL_PP(arr);
 
-	if (Z_TYPE_P(index) == IS_LONG) {
-		return zend_hash_index_update(Z_ARRVAL_PP(arr), Z_LVAL_P(index), value, sizeof(zval *), NULL);
-	}
+	switch (Z_TYPE_P(index)) {
+		case IS_NULL:
+			return zend_symtable_update(ht, "", 1, value, sizeof(zval*), NULL);
 
-	php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
-	return FAILURE;
+		case IS_DOUBLE:
+			return zend_hash_index_update(ht, (ulong)Z_DVAL_P(index), value, sizeof(zval*), NULL);
+
+		case IS_LONG:
+		case IS_BOOL:
+		case IS_RESOURCE:
+			return zend_hash_index_update(ht, Z_LVAL_P(index), value, sizeof(zval*), NULL);
+
+		case IS_STRING:
+			return zend_symtable_update(ht, Z_STRVAL_P(index), Z_STRLEN_P(index)+1, value, sizeof(zval*), NULL);
+
+		default:
+			zend_error(E_WARNING, "Illegal offset type");
+			return FAILURE;
+	}
 }
 
 /**
