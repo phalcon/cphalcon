@@ -554,35 +554,26 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index, uint index_length, unsigned long key, int silent TSRMLS_DC){
 
 	zval **zv;
-	int result = FAILURE;
 
-	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
-
-		if (silent == PH_NOISY) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		if (phalcon_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
+			*return_value = *zv;
+			Z_ADDREF_PP(return_value);
+			return SUCCESS;
 		}
 
-		ALLOC_INIT_ZVAL(*return_value);
-		ZVAL_NULL(*return_value);
-
-		return FAILURE;
+		if (silent == PH_NOISY) {
+			zend_error(E_NOTICE, "Undefined index: %s", index);
+		}
 	}
-
-	if ((result = phalcon_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv)) == SUCCESS) {
-		*return_value = *zv;
-		Z_ADDREF_PP(return_value);
-		return SUCCESS;
-	}
-
-	if (silent == PH_NOISY) {
-		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: %s", index);
+	else {
+		if (silent == PH_NOISY) {
+			zend_error(E_NOTICE, "Cannot use a scalar value as an array");
+		}
 	}
 
 	ALLOC_INIT_ZVAL(*return_value);
-	ZVAL_NULL(*return_value);
-
 	return FAILURE;
-
 }
 
 /**
