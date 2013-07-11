@@ -117,46 +117,50 @@ int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long ind
 /**
  * Unsets zval index from array
  */
+/**
+ * @brief Unsets @a index from array @a arr
+ * @param arr Array
+ * @param index Index
+ * @param flags Flags (@c PH_SEPARATE: separate array if its reference count is greater than 1)
+ * @return Whether the operation succeeded
+ * @retval 0 Failure, @a arr is not an array or @a index is of not supported type
+ * @retval 1 Success
+ * @note @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
+ * @throw E_WARNING if @a offset is not a scalar
+ */
 int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags) {
 
-	zval *copy;
-	int exists, copied = 0;
+	HashTable *ht;
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
-	}
-
-	if (Z_TYPE_P(index) == IS_NULL) {
-		ALLOC_INIT_ZVAL(copy);
-		ZVAL_ZVAL(copy, index, 1, 0);
-		convert_to_string(copy);
-		index = copy;
-		copied = 1;
-	} else {
-		if (Z_TYPE_P(index) == IS_BOOL || Z_TYPE_P(index) == IS_DOUBLE) {
-			ALLOC_INIT_ZVAL(copy);
-			ZVAL_ZVAL(copy, index, 1, 0);
-			convert_to_long(copy);
-			index = copy;
-			copied = 1;
-		}
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
 		SEPARATE_ZVAL(arr);
 	}
 
-	if (Z_TYPE_P(index) == IS_STRING) {
-		exists = zend_hash_del(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1);
-	} else {
-		exists = zend_hash_index_del(Z_ARRVAL_PP(arr), Z_LVAL_P(index));
-	}
+	ht = Z_ARRVAL_PP(arr);
 
-	if (copied) {
-		zval_ptr_dtor(&copy);
-	}
+	switch (Z_TYPE_P(index)) {
+		case IS_NULL:
+			return (zend_hash_del(ht, "", 1) == SUCCESS);
 
-	return exists;
+		case IS_DOUBLE:
+			return (zend_hash_index_del(ht, (ulong)Z_DVAL_P(index)) == SUCCESS);
+
+		case IS_LONG:
+		case IS_BOOL:
+		case IS_RESOURCE:
+			return (zend_hash_index_del(ht, Z_LVAL_P(index)) == SUCCESS);
+
+		case IS_STRING:
+			return (zend_symtable_del(ht, Z_STRVAL_P(index), Z_STRLEN_P(index)+1) == SUCCESS);
+
+		default:
+			zend_error(E_WARNING, "Illegal offset type");
+			return 0;
+	}
 }
 
 /**
