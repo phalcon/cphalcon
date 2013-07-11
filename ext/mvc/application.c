@@ -376,7 +376,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			if (phalcon_array_isset_string(module, SS("path"))) {
 	
 				PHALCON_OBS_VAR(path);
-				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY);
 				if (!phalcon_class_exists(class_name, 0 TSRMLS_CC)) {
 					if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 						if (phalcon_require(path TSRMLS_CC) == FAILURE) {
