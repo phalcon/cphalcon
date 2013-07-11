@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("metaDataDir"))) {
 			PHALCON_OBS_VAR(meta_data_dir);
-			phalcon_array_fetch_string(&meta_data_dir, options, SL("metaDataDir"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&meta_data_dir, options, SL("metaDataDir"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_metaDataDir"), meta_data_dir TSRMLS_CC);
 		}
 	}

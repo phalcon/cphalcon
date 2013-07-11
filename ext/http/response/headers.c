@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
 	phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (phalcon_array_isset(headers, name)) {
 		PHALCON_OBS_VAR(header_value);
-		phalcon_array_fetch(&header_value, headers, name, PH_NOISY_CC);
+		phalcon_array_fetch(&header_value, headers, name, PH_NOISY);
 		RETURN_CCTOR(header_value);
 	}
 	
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 	if (phalcon_array_isset_string(data, SS("_headers"))) {
 	
 		PHALCON_OBS_VAR(data_headers);
-		phalcon_array_fetch_string(&data_headers, data, SL("_headers"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&data_headers, data, SL("_headers"), PH_NOISY);
 	
 		phalcon_is_iterable(data_headers, &ah0, &hp0, 0, 0);
 	

@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 	}
 	
 	PHALCON_OBS_VAR(data);
-	phalcon_array_fetch_string(&data, options, SL("content"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&data, options, SL("content"), PH_NOISY);
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation data must be an array");
 		return;
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 	if (phalcon_array_isset(translate, index)) {
 	
 		PHALCON_OBS_VAR(translation);
-		phalcon_array_fetch(&translation, translate, index, PH_NOISY_CC);
+		phalcon_array_fetch(&translation, translate, index, PH_NOISY);
 		if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
 			if (phalcon_fast_count_ev(placeholders TSRMLS_CC)) {
 	

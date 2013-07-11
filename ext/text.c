@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Text, increment){
 	phalcon_fast_explode(parts, separator, str TSRMLS_CC);
 	if (phalcon_array_isset_long(parts, 1)) {
 		PHALCON_OBS_VAR(number);
-		phalcon_array_fetch_long(&number, parts, 1, PH_NOISY_CC);
+		phalcon_array_fetch_long(&number, parts, 1, PH_NOISY);
 		PHALCON_SEPARATE(number);
 		phalcon_increment(number);
 	} else {
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Text, increment){
 	}
 	
 	PHALCON_OBS_VAR(first_part);
-	phalcon_array_fetch_long(&first_part, parts, 0, PH_NOISY_CC);
+	phalcon_array_fetch_long(&first_part, parts, 0, PH_NOISY);
 	PHALCON_CONCAT_VVV(return_value, first_part, separator, number);
 	
 	RETURN_MM();

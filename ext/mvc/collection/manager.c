@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager){
 		phalcon_get_class(class_name, model, 1 TSRMLS_CC);
 		if (phalcon_array_isset(custom_events_manager, class_name)) {
 			PHALCON_OBS_VAR(events_manager);
-			phalcon_array_fetch(&events_manager, custom_events_manager, class_name, PH_NOISY_CC);
+			phalcon_array_fetch(&events_manager, custom_events_manager, class_name, PH_NOISY);
 			RETURN_CCTOR(events_manager);
 		}
 	}
@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
 	phalcon_read_property_this(&implicit_objects_ids, this_ptr, SL("_implicitObjectsIds"), PH_NOISY_CC);
 	if (phalcon_array_isset(implicit_objects_ids, entity_name)) {
 		PHALCON_OBS_VAR(implicit);
-		phalcon_array_fetch(&implicit, implicit_objects_ids, entity_name, PH_NOISY_CC);
+		phalcon_array_fetch(&implicit, implicit_objects_ids, entity_name, PH_NOISY);
 		RETURN_CCTOR(implicit);
 	}
 	
@@ -402,7 +402,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 		 */
 		if (phalcon_array_isset(connection_services, entity_name)) {
 			PHALCON_OBS_NVAR(service);
-			phalcon_array_fetch(&service, connection_services, entity_name, PH_NOISY_CC);
+			phalcon_array_fetch(&service, connection_services, entity_name, PH_NOISY);
 		}
 	}
 	

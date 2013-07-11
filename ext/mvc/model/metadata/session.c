@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("prefix"))) {
 			PHALCON_OBS_VAR(prefix);
-			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 		}
 	}
@@ -125,12 +125,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 	if (phalcon_array_isset(session, prefix_key)) {
 	
 		PHALCON_OBS_VAR(r0);
-		phalcon_array_fetch(&r0, session, prefix_key, PH_NOISY_CC);
+		phalcon_array_fetch(&r0, session, prefix_key, PH_NOISY);
 		if (phalcon_array_isset(r0, key)) {
 			PHALCON_OBS_VAR(r1);
-			phalcon_array_fetch(&r1, session, prefix_key, PH_NOISY_CC);
+			phalcon_array_fetch(&r1, session, prefix_key, PH_NOISY);
 			PHALCON_OBS_VAR(meta_data);
-			phalcon_array_fetch(&meta_data, r1, key, PH_NOISY_CC);
+			phalcon_array_fetch(&meta_data, r1, key, PH_NOISY);
 			RETURN_CCTOR(meta_data);
 		}
 	}
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write){
 	PHALCON_INIT_VAR(prefix_key);
 	PHALCON_CONCAT_SV(prefix_key, "$PMM$", prefix);
 	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_update_multi_2(&_SESSION, prefix_key, key, &data, 0 TSRMLS_CC);
+	phalcon_array_update_multi_2(&_SESSION, prefix_key, key, &data, 0);
 	
 	PHALCON_MM_RESTORE();
 }

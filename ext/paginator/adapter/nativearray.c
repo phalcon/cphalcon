@@ -94,13 +94,13 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct){
 	phalcon_update_property_this(this_ptr, SL("_config"), config TSRMLS_CC);
 	if (phalcon_array_isset_string(config, SS("limit"))) {
 		PHALCON_OBS_VAR(limit);
-		phalcon_array_fetch_string(&limit, config, SL("limit"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&limit, config, SL("limit"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_limitRows"), limit TSRMLS_CC);
 	}
 	
 	if (phalcon_array_isset_string(config, SS("page"))) {
 		PHALCON_OBS_VAR(page);
-		phalcon_array_fetch_string(&page, config, SL("page"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&page, config, SL("page"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_page"), page TSRMLS_CC);
 	}
 	
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	phalcon_read_property_this(&config, this_ptr, SL("_config"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(items);
-	phalcon_array_fetch_string(&items, config, SL("data"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&items, config, SL("data"), PH_NOISY);
 	if (Z_TYPE_P(items) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
 		return;

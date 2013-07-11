@@ -65,7 +65,7 @@ extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
 extern void phalcon_inherit_not_found(const char *class_name, const char *inherit_name);
-extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
+extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
 
 /* Fetch Parameters */
 extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int required_args, int optional_args, ...);
@@ -256,7 +256,7 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) PHALCON_GET_HMKEY(var, hash, hash_pointer)
 
 /** Check if an array is iterable or not */
-#define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse TSRMLS_CC)) { return; }
+#define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { return; }
 
 #define PHALCON_GET_FOREACH_VALUE(var) \
 	PHALCON_OBSERVE_VAR(var); \

@@ -548,21 +548,21 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 			}
 	
 			PHALCON_OBS_NVAR(methods);
-			phalcon_array_fetch_long(&methods, handler, 0, PH_NOISY_CC);
+			phalcon_array_fetch_long(&methods, handler, 0, PH_NOISY);
 	
 			PHALCON_OBS_NVAR(pattern);
-			phalcon_array_fetch_long(&pattern, handler, 1, PH_NOISY_CC);
+			phalcon_array_fetch_long(&pattern, handler, 1, PH_NOISY);
 	
 			PHALCON_OBS_NVAR(sub_handler);
-			phalcon_array_fetch_long(&sub_handler, handler, 2, PH_NOISY_CC);
+			phalcon_array_fetch_long(&sub_handler, handler, 2, PH_NOISY);
 	
 			/** 
 			 * Create a real handler
 			 */
 			PHALCON_INIT_NVAR(real_handler);
 			array_init_size(real_handler, 2);
-			phalcon_array_append(&real_handler, lazy_handler, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_append(&real_handler, sub_handler, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&real_handler, lazy_handler, PH_SEPARATE);
+			phalcon_array_append(&real_handler, sub_handler, PH_SEPARATE);
 			if (PHALCON_IS_NOT_EMPTY(prefix)) {
 				if (PHALCON_IS_STRING(pattern, "/")) {
 					PHALCON_CPY_WRT(prefixed_pattern, prefix);
@@ -854,7 +854,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 * Updating active handler
 		 */
 		PHALCON_OBS_VAR(handler);
-		phalcon_array_fetch(&handler, handlers, route_id, PH_NOISY_CC);
+		phalcon_array_fetch(&handler, handlers, route_id, PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
 	
 		/** 
@@ -1131,7 +1131,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			if (Z_TYPE_P(params) == IS_NULL) {
 				PHALCON_INIT_NVAR(params);
 				array_init_size(params, 1);
-				phalcon_array_append(&params, this_ptr, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&params, this_ptr, PH_SEPARATE);
 			}
 	
 			/** 

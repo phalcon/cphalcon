@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet){
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_array_isset(messages, index)) {
 		PHALCON_OBS_VAR(message);
-		phalcon_array_fetch(&message, messages, index, PH_NOISY_CC);
+		phalcon_array_fetch(&message, messages, index, PH_NOISY);
 		RETURN_CCTOR(message);
 	}
 	
@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter){
 				PHALCON_INIT_NVAR(field);
 				phalcon_call_method(field, message, "getfield");
 				if (PHALCON_IS_EQUAL(field_name, field)) {
-					phalcon_array_append(&filtered, message, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&filtered, message, PH_SEPARATE);
 				}
 			}
 	
@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, current){
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_array_isset(messages, position)) {
 		PHALCON_OBS_VAR(message);
-		phalcon_array_fetch(&message, messages, position, PH_NOISY_CC);
+		phalcon_array_fetch(&message, messages, position, PH_NOISY);
 		RETURN_CCTOR(message);
 	}
 	
@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state){
 	phalcon_fetch_params(1, 1, 0, &group);
 	
 	PHALCON_OBS_VAR(messages);
-	phalcon_array_fetch_string(&messages, group, SL("_messages"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&messages, group, SL("_messages"), PH_NOISY);
 	
 	PHALCON_INIT_VAR(group_object);
 	object_init_ex(group_object, phalcon_validation_message_group_ce);

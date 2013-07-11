@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Http_Request, get){
 		if (phalcon_array_isset(request, name)) {
 	
 			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch(&value, request, name, PH_NOISY_CC);
+			phalcon_array_fetch(&value, request, name, PH_NOISY);
 			if (Z_TYPE_P(filters) != IS_NULL) {
 	
 				PHALCON_OBS_VAR(filter);
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 		if (phalcon_array_isset(post, name)) {
 	
 			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch(&value, post, name, PH_NOISY_CC);
+			phalcon_array_fetch(&value, post, name, PH_NOISY);
 			if (Z_TYPE_P(filters) != IS_NULL) {
 	
 				PHALCON_OBS_VAR(filter);
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 		if (phalcon_array_isset(get, name)) {
 	
 			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch(&value, get, name, PH_NOISY_CC);
+			phalcon_array_fetch(&value, get, name, PH_NOISY);
 			if (Z_TYPE_P(filters) != IS_NULL) {
 	
 				PHALCON_OBS_VAR(filter);
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Http_Request, getServer){
 	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	if (phalcon_array_isset(_SERVER, name)) {
 		PHALCON_OBS_VAR(server_value);
-		phalcon_array_fetch(&server_value, _SERVER, name, PH_NOISY_CC);
+		phalcon_array_fetch(&server_value, _SERVER, name, PH_NOISY);
 		RETURN_CCTOR(server_value);
 	}
 	RETURN_MM_NULL();
@@ -461,14 +461,14 @@ PHP_METHOD(Phalcon_Http_Request, getHeader){
 	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	if (phalcon_array_isset(_SERVER, header)) {
 		PHALCON_OBS_VAR(server_value);
-		phalcon_array_fetch(&server_value, _SERVER, header, PH_NOISY_CC);
+		phalcon_array_fetch(&server_value, _SERVER, header, PH_NOISY);
 		RETURN_CCTOR(server_value);
 	} else {
 		PHALCON_INIT_VAR(key);
 		PHALCON_CONCAT_SV(key, "HTTP_", header);
 		if (phalcon_array_isset(_SERVER, key)) {
 			PHALCON_OBS_NVAR(server_value);
-			phalcon_array_fetch(&server_value, _SERVER, key, PH_NOISY_CC);
+			phalcon_array_fetch(&server_value, _SERVER, key, PH_NOISY);
 			RETURN_CCTOR(server_value);
 		}
 	}
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested){
 		if (phalcon_array_isset_string(server, SS("CONTENT_TYPE"))) {
 	
 			PHALCON_OBS_VAR(content_type);
-			phalcon_array_fetch_string(&content_type, server, SL("CONTENT_TYPE"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&content_type, server, SL("CONTENT_TYPE"), PH_NOISY);
 			if (phalcon_memnstr_str(content_type, SL("application/soap+xml") TSRMLS_CC)) {
 				RETURN_MM_TRUE;
 			}
@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Http_Request, getServerAddress){
 	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_string(server, SS("SERVER_ADDR"))) {
 		PHALCON_OBS_VAR(server_addr);
-		phalcon_array_fetch_string(&server_addr, server, SL("SERVER_ADDR"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&server_addr, server, SL("SERVER_ADDR"), PH_NOISY);
 		RETURN_CCTOR(server_addr);
 	}
 	
@@ -671,7 +671,7 @@ PHP_METHOD(Phalcon_Http_Request, getServerName){
 	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_string(server, SS("SERVER_NAME"))) {
 		PHALCON_OBS_VAR(server_name);
-		phalcon_array_fetch_string(&server_name, server, SL("SERVER_NAME"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&server_name, server, SL("SERVER_NAME"), PH_NOISY);
 		RETURN_CCTOR(server_name);
 	}
 	
@@ -816,14 +816,14 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	if (phalcon_array_isset_string(_SERVER, SS("HTTP_X_FORWARDED_FOR"))) {
 		if (zend_is_true(trust_forwarded_header)) {
 			PHALCON_OBS_NVAR(address);
-			phalcon_array_fetch_string(&address, _SERVER, SL("HTTP_X_FORWARDED_FOR"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&address, _SERVER, SL("HTTP_X_FORWARDED_FOR"), PH_NOISY);
 		}
 	}
 	
 	if (Z_TYPE_P(address) == IS_NULL) {
 		if (phalcon_array_isset_string(_SERVER, SS("REMOTE_ADDR"))) {
 			PHALCON_OBS_NVAR(address);
-			phalcon_array_fetch_string(&address, _SERVER, SL("REMOTE_ADDR"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&address, _SERVER, SL("REMOTE_ADDR"), PH_NOISY);
 		}
 	}
 	
@@ -836,7 +836,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 			phalcon_fast_explode_str(addresses, SL(","), address TSRMLS_CC);
 	
 			PHALCON_OBS_VAR(first);
-			phalcon_array_fetch_long(&first, addresses, 0, PH_NOISY_CC);
+			phalcon_array_fetch_long(&first, addresses, 0, PH_NOISY);
 			RETURN_CCTOR(first);
 		}
 	
@@ -861,7 +861,7 @@ PHP_METHOD(Phalcon_Http_Request, getMethod){
 	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_string(server, SS("REQUEST_METHOD"))) {
 		PHALCON_OBS_VAR(request_method);
-		phalcon_array_fetch_string(&request_method, server, SL("REQUEST_METHOD"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&request_method, server, SL("REQUEST_METHOD"), PH_NOISY);
 	} else {
 		PHALCON_INIT_NVAR(request_method);
 		ZVAL_STRING(request_method, "", 1);
@@ -885,7 +885,7 @@ PHP_METHOD(Phalcon_Http_Request, getUserAgent){
 	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_string(server, SS("HTTP_USER_AGENT"))) {
 		PHALCON_OBS_VAR(user_agent);
-		phalcon_array_fetch_string(&user_agent, server, SL("HTTP_USER_AGENT"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&user_agent, server, SL("HTTP_USER_AGENT"), PH_NOISY);
 	} else {
 		PHALCON_INIT_NVAR(user_agent);
 		ZVAL_STRING(user_agent, "", 1);
@@ -1120,7 +1120,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 	
 			if (phalcon_array_isset_string(file, SS("error"))) {
 				PHALCON_OBS_NVAR(error);
-				phalcon_array_fetch_string(&error, file, SL("error"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&error, file, SL("error"), PH_NOISY);
 			} else {
 				PHALCON_INIT_NVAR(error);
 				ZVAL_BOOL(error, 1);
@@ -1180,7 +1180,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 			if (zend_is_true(not_errored)) {
 				if (phalcon_array_isset_string(file, SS("error"))) {
 					PHALCON_OBS_NVAR(error);
-					phalcon_array_fetch_string(&error, file, SL("error"), PH_NOISY_CC);
+					phalcon_array_fetch_string(&error, file, SL("error"), PH_NOISY);
 				} else {
 					PHALCON_INIT_NVAR(error);
 					ZVAL_BOOL(error, 1);
@@ -1190,14 +1190,14 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 					object_init_ex(request_file, phalcon_http_request_file_ce);
 					phalcon_call_method_p1_noret(request_file, "__construct", file);
 	
-					phalcon_array_append(&files, request_file, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&files, request_file, PH_SEPARATE);
 				}
 			} else {
 				PHALCON_INIT_NVAR(request_file);
 				object_init_ex(request_file, phalcon_http_request_file_ce);
 				phalcon_call_method_p1_noret(request_file, "__construct", file);
 	
-				phalcon_array_append(&files, request_file, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&files, request_file, PH_SEPARATE);
 			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -1246,7 +1246,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders){
 		if (phalcon_start_with(key, http, NULL)) {
 			PHALCON_INIT_NVAR(header);
 			phalcon_fast_str_replace(header, http, empty_string, key TSRMLS_CC);
-			phalcon_array_update_zval(&headers, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_zval(&headers, key, &value, PH_COPY | PH_SEPARATE);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1269,7 +1269,7 @@ PHP_METHOD(Phalcon_Http_Request, getHTTPReferer){
 	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	if (phalcon_array_isset_string(_SERVER, SS("HTTP_REFERER"))) {
 		PHALCON_OBS_VAR(http_referer);
-		phalcon_array_fetch_string(&http_referer, _SERVER, SL("HTTP_REFERER"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&http_referer, _SERVER, SL("HTTP_REFERER"), PH_NOISY);
 		RETURN_CCTOR(http_referer);
 	}
 	RETURN_MM_EMPTY_STRING();
@@ -1319,7 +1319,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 		phalcon_fast_explode_str(header_parts, SL(";"), part TSRMLS_CC);
 		if (phalcon_array_isset_long(header_parts, 1)) {
 			PHALCON_OBS_NVAR(quality_part);
-			phalcon_array_fetch_long(&quality_part, header_parts, 1, PH_NOISY_CC);
+			phalcon_array_fetch_long(&quality_part, header_parts, 1, PH_NOISY);
 	
 			PHALCON_INIT_NVAR(quality);
 			phalcon_substr(quality, quality_part, 2, 0 TSRMLS_CC);
@@ -1328,13 +1328,13 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 		}
 	
 		PHALCON_OBS_NVAR(header_name);
-		phalcon_array_fetch_long(&header_name, header_parts, 0, PH_NOISY_CC);
+		phalcon_array_fetch_long(&header_name, header_parts, 0, PH_NOISY);
 	
 		PHALCON_INIT_NVAR(quality_part);
 		array_init_size(quality_part, 2);
-		phalcon_array_update_zval(&quality_part, name, &header_name, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&quality_part, SL("quality"), &quality, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&returned_parts, quality_part, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_zval(&quality_part, name, &header_name, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&quality_part, SL("quality"), &quality, PH_COPY | PH_SEPARATE);
+		phalcon_array_append(&returned_parts, quality_part, PH_SEPARATE);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -1378,13 +1378,13 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 	
 		if (PHALCON_IS_LONG(i, 0)) {
 			PHALCON_OBS_NVAR(quality);
-			phalcon_array_fetch_string(&quality, accept, SL("quality"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&quality, accept, SL("quality"), PH_NOISY);
 	
 			PHALCON_OBS_NVAR(selected_name);
-			phalcon_array_fetch(&selected_name, accept, name, PH_NOISY_CC);
+			phalcon_array_fetch(&selected_name, accept, name, PH_NOISY);
 		} else {
 			PHALCON_OBS_NVAR(accept_quality);
-			phalcon_array_fetch_string(&accept_quality, accept, SL("quality"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&accept_quality, accept, SL("quality"), PH_NOISY);
 	
 			PHALCON_INIT_NVAR(best_quality);
 			is_smaller_function(best_quality, quality, accept_quality TSRMLS_CC);
@@ -1392,7 +1392,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 				PHALCON_CPY_WRT(quality, accept_quality);
 	
 				PHALCON_OBS_NVAR(selected_name);
-				phalcon_array_fetch(&selected_name, accept, name, PH_NOISY_CC);
+				phalcon_array_fetch(&selected_name, accept, name, PH_NOISY);
 			}
 		}
 		PHALCON_SEPARATE(i);

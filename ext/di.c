@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_DI, getRaw){
 	phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (phalcon_array_isset(services, name)) {
 		PHALCON_OBS_VAR(service);
-		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
+		phalcon_array_fetch(&service, services, name, PH_NOISY);
 	
 		PHALCON_INIT_VAR(definition);
 		phalcon_call_method(definition, service, "getdefinition");
@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_DI, getService){
 	phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (phalcon_array_isset(services, name)) {
 		PHALCON_OBS_VAR(service);
-		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
+		phalcon_array_fetch(&service, services, name, PH_NOISY);
 		RETURN_CCTOR(service);
 	}
 	
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_DI, get){
 		 * The service is registered in the DI
 		 */
 		PHALCON_OBS_VAR(service);
-		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
+		phalcon_array_fetch(&service, services, name, PH_NOISY);
 	
 		PHALCON_INIT_VAR(instance);
 		phalcon_call_method_p2(instance, service, "resolve", parameters, this_ptr);
@@ -449,7 +449,7 @@ PHP_METHOD(Phalcon_DI, getShared){
 	phalcon_read_property_this(&shared_instances, this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	if (phalcon_array_isset(shared_instances, name)) {
 		PHALCON_OBS_VAR(instance);
-		phalcon_array_fetch(&instance, shared_instances, name, PH_NOISY_CC);
+		phalcon_array_fetch(&instance, shared_instances, name, PH_NOISY);
 		phalcon_update_property_bool(this_ptr, SL("_freshInstance"), 0 TSRMLS_CC);
 	} else {
 		/** 
@@ -657,7 +657,7 @@ PHP_METHOD(Phalcon_DI, __call){
 			phalcon_call_func_p1(possible_service, "lcfirst", service_name);
 	
 			PHALCON_OBS_VAR(handler);
-			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
+			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY);
 			phalcon_call_method_p2_noret(this_ptr, "set", possible_service, handler);
 			RETURN_MM_NULL();
 		}

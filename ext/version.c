@@ -102,19 +102,19 @@ PHP_METHOD(Phalcon_Version, get){
 	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
 	
 	PHALCON_OBS_VAR(major);
-	phalcon_array_fetch_long(&major, version, 0, PH_NOISY_CC);
+	phalcon_array_fetch_long(&major, version, 0, PH_NOISY);
 	
 	PHALCON_OBS_VAR(medium);
-	phalcon_array_fetch_long(&medium, version, 1, PH_NOISY_CC);
+	phalcon_array_fetch_long(&medium, version, 1, PH_NOISY);
 	
 	PHALCON_OBS_VAR(minor);
-	phalcon_array_fetch_long(&minor, version, 2, PH_NOISY_CC);
+	phalcon_array_fetch_long(&minor, version, 2, PH_NOISY);
 	
 	PHALCON_OBS_VAR(special);
-	phalcon_array_fetch_long(&special, version, 3, PH_NOISY_CC);
+	phalcon_array_fetch_long(&special, version, 3, PH_NOISY);
 	
 	PHALCON_OBS_VAR(special_number);
-	phalcon_array_fetch_long(&special_number, version, 4, PH_NOISY_CC);
+	phalcon_array_fetch_long(&special_number, version, 4, PH_NOISY);
 	
 	PHALCON_INIT_VAR(result);
 	PHALCON_CONCAT_VSVSVS(result, major, ".", medium, ".", minor, " ");
@@ -167,19 +167,19 @@ PHP_METHOD(Phalcon_Version, getId){
 	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
 	
 	PHALCON_OBS_VAR(major);
-	phalcon_array_fetch_long(&major, version, 0, PH_NOISY_CC);
+	phalcon_array_fetch_long(&major, version, 0, PH_NOISY);
 	
 	PHALCON_OBS_VAR(medium);
-	phalcon_array_fetch_long(&medium, version, 1, PH_NOISY_CC);
+	phalcon_array_fetch_long(&medium, version, 1, PH_NOISY);
 	
 	PHALCON_OBS_VAR(minor);
-	phalcon_array_fetch_long(&minor, version, 2, PH_NOISY_CC);
+	phalcon_array_fetch_long(&minor, version, 2, PH_NOISY);
 	
 	PHALCON_OBS_VAR(special);
-	phalcon_array_fetch_long(&special, version, 3, PH_NOISY_CC);
+	phalcon_array_fetch_long(&special, version, 3, PH_NOISY);
 	
 	PHALCON_OBS_VAR(special_number);
-	phalcon_array_fetch_long(&special_number, version, 4, PH_NOISY_CC);
+	phalcon_array_fetch_long(&special_number, version, 4, PH_NOISY);
 	
 	PHALCON_INIT_VAR(format);
 	ZVAL_STRING(format, "%02s", 1);

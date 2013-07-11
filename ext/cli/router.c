@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	 */
 	if (phalcon_array_isset_string(arguments, SS("module"))) {
 		PHALCON_OBS_NVAR(module_name);
-		phalcon_array_fetch_string(&module_name, arguments, SL("module"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&module_name, arguments, SL("module"), PH_NOISY);
 		phalcon_array_unset_string(&arguments, SS("module"), PH_SEPARATE);
 	}
 	
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	 */
 	if (phalcon_array_isset_string(arguments, SS("task"))) {
 		PHALCON_OBS_NVAR(task_name);
-		phalcon_array_fetch_string(&task_name, arguments, SL("task"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&task_name, arguments, SL("task"), PH_NOISY);
 		phalcon_array_unset_string(&arguments, SS("task"), PH_SEPARATE);
 	}
 	
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	 */
 	if (phalcon_array_isset_string(arguments, SS("action"))) {
 		PHALCON_OBS_NVAR(action_name);
-		phalcon_array_fetch_string(&action_name, arguments, SL("action"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&action_name, arguments, SL("action"), PH_NOISY);
 		phalcon_array_unset_string(&arguments, SS("action"), PH_SEPARATE);
 	}
 	
