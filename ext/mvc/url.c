@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		if (phalcon_array_isset_string(_SERVER, SS("PHP_SELF"))) {
 			PHALCON_OBS_VAR(php_self);
-			phalcon_array_fetch_string(&php_self, _SERVER, SL("PHP_SELF"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&php_self, _SERVER, SL("PHP_SELF"), PH_NOISY);
 	
 			PHALCON_INIT_VAR(uri);
 			phalcon_get_uri(uri, php_self);
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		}
 	
 		PHALCON_OBS_VAR(route_name);
-		phalcon_array_fetch_string(&route_name, uri, SL("for"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&route_name, uri, SL("for"), PH_NOISY);
 	
 		/** 
 		 * Every route is uniquely differenced by a name

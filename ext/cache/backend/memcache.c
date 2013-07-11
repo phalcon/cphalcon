@@ -111,19 +111,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 		array_init(options);
 	}
 	if (!phalcon_array_isset_string(options, SS("host"))) {
-		phalcon_array_update_string_string(&options, SL("host"), SL("127.0.0.1"), PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string_string(&options, SL("host"), SL("127.0.0.1"), PH_SEPARATE);
 	}
 	
 	if (!phalcon_array_isset_string(options, SS("port"))) {
-		phalcon_array_update_string_string(&options, SL("port"), SL("11211"), PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string_string(&options, SL("port"), SL("11211"), PH_SEPARATE);
 	}
 	
 	if (!phalcon_array_isset_string(options, SS("persistent"))) {
-		phalcon_array_update_string_bool(&options, SL("persistent"), 0, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string_bool(&options, SL("persistent"), 0, PH_SEPARATE);
 	}
 	
 	if (!phalcon_array_isset_string(options, SS("statsKey"))) {
-		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCM"), PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCM"), PH_SEPARATE);
 	}
 	
 	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\Memcache", "__construct", frontend, options);
@@ -153,13 +153,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 	}
 	
 	PHALCON_OBS_VAR(host);
-	phalcon_array_fetch_string(&host, options, SL("host"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&host, options, SL("host"), PH_NOISY);
 	
 	PHALCON_OBS_VAR(port);
-	phalcon_array_fetch_string(&port, options, SL("port"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&port, options, SL("port"), PH_NOISY);
 	
 	PHALCON_OBS_VAR(persistent);
-	phalcon_array_fetch_string(&persistent, options, SL("persistent"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&persistent, options, SL("persistent"), PH_NOISY);
 	if (zend_is_true(persistent)) {
 		PHALCON_INIT_VAR(success);
 		phalcon_call_method_p2(success, memcache, "pconnect", host, port);
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(special_key);
-	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY);
 	
 	/** 
 	 * Update the stats key
@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 	}
 	
 	if (!phalcon_array_isset(keys, last_key)) {
-		phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE);
 		phalcon_call_method_p2_noret(memcache, "set", special_key, keys);
 	}
 	
@@ -398,7 +398,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(special_key);
-	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY);
 	
 	PHALCON_INIT_VAR(keys);
 	phalcon_call_method_p1(keys, memcache, "get", special_key);
@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(special_key);
-	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY);
 	
 	/** 
 	 * Get the key from memcached
@@ -476,7 +476,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 					continue;
 				}
 			}
-			phalcon_array_append(&prefixed_keys, key, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&prefixed_keys, key, PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}

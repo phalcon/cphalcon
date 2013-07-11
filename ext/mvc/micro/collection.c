@@ -92,9 +92,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap){
 	
 	PHALCON_INIT_VAR(handler_definition);
 	array_init_size(handler_definition, 3);
-	phalcon_array_append(&handler_definition, method, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&handler_definition, route_pattern, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&handler_definition, handler, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&handler_definition, method, PH_SEPARATE);
+	phalcon_array_append(&handler_definition, route_pattern, PH_SEPARATE);
+	phalcon_array_append(&handler_definition, handler, PH_SEPARATE);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), handler_definition TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

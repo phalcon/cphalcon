@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get){
 	}
 	
 	PHALCON_OBS_VAR(cached_content);
-	phalcon_array_fetch(&cached_content, data, last_key, PH_NOISY_CC);
+	phalcon_array_fetch(&cached_content, data, last_key, PH_NOISY);
 	if (Z_TYPE_P(cached_content) == IS_NULL) {
 		RETURN_MM_NULL();
 	}

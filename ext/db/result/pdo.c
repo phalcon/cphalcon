@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	
 				if (zend_is_true(match)) {
 					PHALCON_OBS_VAR(else_clauses);
-					phalcon_array_fetch_long(&else_clauses, matches, 1, PH_NOISY_CC);
+					phalcon_array_fetch_long(&else_clauses, matches, 1, PH_NOISY);
 	
 					PHALCON_INIT_VAR(sql);
 					PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", else_clauses, ")");
@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 					phalcon_call_method(row, result, "fetch");
 	
 					PHALCON_OBS_NVAR(row_count);
-					phalcon_array_fetch_string(&row_count, row, SL("numrows"), PH_NOISY_CC);
+					phalcon_array_fetch_string(&row_count, row, SL("numrows"), PH_NOISY);
 				}
 			} else {
 				PHALCON_INIT_NVAR(row_count);

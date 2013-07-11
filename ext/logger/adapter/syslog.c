@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 	if (zend_is_true(name)) {
 		if (phalcon_array_isset_string(options, SS("option"))) {
 			PHALCON_OBS_VAR(option);
-			phalcon_array_fetch_string(&option, options, SL("option"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&option, options, SL("option"), PH_NOISY);
 		} else {
 			/** 
 			 * Open the log in LOG_ODELAY mode
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 		}
 		if (phalcon_array_isset_string(options, SS("facility"))) {
 			PHALCON_OBS_VAR(facility);
-			phalcon_array_fetch_string(&facility, options, SL("facility"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&facility, options, SL("facility"), PH_NOISY);
 		} else {
 			/** 
 			 * By default the facility is LOG_USER
@@ -167,10 +167,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 	}
 	
 	PHALCON_OBS_VAR(syslog_type);
-	phalcon_array_fetch_long(&syslog_type, applied_format, 0, PH_NOISY_CC);
+	phalcon_array_fetch_long(&syslog_type, applied_format, 0, PH_NOISY);
 	
 	PHALCON_OBS_VAR(syslog_message);
-	phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY_CC);
+	phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY);
 	phalcon_call_func_p2_noret("syslog", syslog_type, syslog_message);
 	
 	PHALCON_MM_RESTORE();

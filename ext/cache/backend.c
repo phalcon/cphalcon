@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 	 */
 	if (phalcon_array_isset_string(options, SS("prefix"))) {
 		PHALCON_OBS_VAR(prefix);
-		phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	}
 	

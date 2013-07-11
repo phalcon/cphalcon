@@ -124,10 +124,10 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 	}
 	
 	PHALCON_OBS_VAR(index_name);
-	phalcon_array_fetch_string(&index_name, data, SL("_indexName"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&index_name, data, SL("_indexName"), PH_NOISY);
 	
 	PHALCON_OBS_VAR(columns);
-	phalcon_array_fetch_string(&columns, data, SL("_columns"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&columns, data, SL("_columns"), PH_NOISY);
 	
 	/** 
 	 * Return a Phalcon\Db\Index as part of the returning state

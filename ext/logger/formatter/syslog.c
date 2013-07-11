@@ -71,8 +71,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format){
 	
 	PHALCON_INIT_VAR(log);
 	array_init_size(log, 2);
-	phalcon_array_append(&log, type, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&log, message, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&log, type, PH_SEPARATE);
+	phalcon_array_append(&log, message, PH_SEPARATE);
 	RETURN_CTOR(log);
 }
 

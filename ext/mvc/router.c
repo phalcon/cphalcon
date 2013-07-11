@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		object_init_ex(route, phalcon_mvc_router_route_ce);
 		phalcon_call_method_p2_noret(route, "__construct", action_pattern, paths);
 	
-		phalcon_array_append(&routes, route, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&routes, route, PH_SEPARATE);
 	
 		PHALCON_INIT_NVAR(paths);
 		array_init_size(paths, 3);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		object_init_ex(route, phalcon_mvc_router_route_ce);
 		phalcon_call_method_p2_noret(route, "__construct", params_pattern, paths);
 	
-		phalcon_array_append(&routes, route, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&routes, route, PH_SEPARATE);
 	}
 	
 	PHALCON_INIT_VAR(params);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 		if (phalcon_array_isset_string(_GET, SS("_url"))) {
 	
 			PHALCON_OBS_VAR(url);
-			phalcon_array_fetch_string(&url, _GET, SL("_url"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&url, _GET, SL("_url"), PH_NOISY);
 			if (PHALCON_IS_NOT_EMPTY(url)) {
 				RETURN_CCTOR(url);
 			}
@@ -234,13 +234,13 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 		if (phalcon_array_isset_string(_SERVER, SS("REQUEST_URI"))) {
 	
 			PHALCON_OBS_NVAR(url);
-			phalcon_array_fetch_string(&url, _SERVER, SL("REQUEST_URI"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&url, _SERVER, SL("REQUEST_URI"), PH_NOISY);
 	
 			PHALCON_INIT_VAR(url_parts);
 			phalcon_fast_explode_str(url_parts, SL("?"), url TSRMLS_CC);
 	
 			PHALCON_OBS_VAR(real_uri);
-			phalcon_array_fetch_long(&real_uri, url_parts, 0, PH_NOISY_CC);
+			phalcon_array_fetch_long(&real_uri, url_parts, 0, PH_NOISY);
 			if (PHALCON_IS_NOT_EMPTY(real_uri)) {
 				RETURN_CCTOR(real_uri);
 			}
@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 	 */
 	if (phalcon_array_isset_string(defaults, SS("namespace"))) {
 		PHALCON_OBS_VAR(namespace_name);
-		phalcon_array_fetch_string(&namespace_name, defaults, SL("namespace"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&namespace_name, defaults, SL("namespace"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_defaultNamespace"), namespace_name TSRMLS_CC);
 	}
 	
@@ -392,7 +392,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 	 */
 	if (phalcon_array_isset_string(defaults, SS("module"))) {
 		PHALCON_OBS_VAR(module_name);
-		phalcon_array_fetch_string(&module_name, defaults, SL("module"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&module_name, defaults, SL("module"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_defaultModule"), module_name TSRMLS_CC);
 	}
 	
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 	 */
 	if (phalcon_array_isset_string(defaults, SS("controller"))) {
 		PHALCON_OBS_VAR(controller_name);
-		phalcon_array_fetch_string(&controller_name, defaults, SL("controller"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&controller_name, defaults, SL("controller"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_defaultController"), controller_name TSRMLS_CC);
 	}
 	
@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 	 */
 	if (phalcon_array_isset_string(defaults, SS("action"))) {
 		PHALCON_OBS_VAR(action_name);
-		phalcon_array_fetch_string(&action_name, defaults, SL("action"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&action_name, defaults, SL("action"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_defaultAction"), action_name TSRMLS_CC);
 	}
 	
@@ -419,7 +419,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 	 */
 	if (phalcon_array_isset_string(defaults, SS("params"))) {
 		PHALCON_OBS_VAR(params);
-		phalcon_array_fetch_string(&params, defaults, SL("params"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&params, defaults, SL("params"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_defaultParams"), params TSRMLS_CC);
 	}
 	
@@ -670,9 +670,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				 */
 				PHALCON_INIT_NVAR(before_match_params);
 				array_init_size(before_match_params, 3);
-				phalcon_array_append(&before_match_params, handled_uri, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&before_match_params, route, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&before_match_params, this_ptr, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&before_match_params, handled_uri, PH_SEPARATE);
+				phalcon_array_append(&before_match_params, route, PH_SEPARATE);
+				phalcon_array_append(&before_match_params, this_ptr, PH_SEPARATE);
 	
 				/** 
 				 * Call the function in the PHP userland
@@ -712,7 +712,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 					if (phalcon_array_isset(matches, position)) {
 	
 						PHALCON_OBS_NVAR(match_position);
-						phalcon_array_fetch(&match_position, matches, position, PH_NOISY_CC);
+						phalcon_array_fetch(&match_position, matches, position, PH_NOISY);
 	
 						/** 
 						 * Check if the part has a converter
@@ -721,14 +721,14 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 							if (phalcon_array_isset(converters, part)) {
 								PHALCON_INIT_NVAR(parameters);
 								array_init_size(parameters, 1);
-								phalcon_array_append(&parameters, match_position, PH_SEPARATE TSRMLS_CC);
+								phalcon_array_append(&parameters, match_position, PH_SEPARATE);
 	
 								PHALCON_OBS_NVAR(converter);
-								phalcon_array_fetch(&converter, converters, part, PH_NOISY_CC);
+								phalcon_array_fetch(&converter, converters, part, PH_NOISY);
 	
 								PHALCON_INIT_NVAR(converted_part);
 								PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
-								phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY | PH_SEPARATE TSRMLS_CC);
+								phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY | PH_SEPARATE);
 								zend_hash_move_forward_ex(ah1, &hp1);
 								continue;
 							}
@@ -737,7 +737,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 						/** 
 						 * Update the parts if there is no converter
 						 */
-						phalcon_array_update_zval(&parts, part, &match_position, PH_COPY | PH_SEPARATE TSRMLS_CC);
+						phalcon_array_update_zval(&parts, part, &match_position, PH_COPY | PH_SEPARATE);
 					} else {
 						/** 
 						 * Apply the converters anyway
@@ -746,14 +746,14 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 							if (phalcon_array_isset(converters, part)) {
 								PHALCON_INIT_NVAR(parameters);
 								array_init_size(parameters, 1);
-								phalcon_array_append(&parameters, position, PH_SEPARATE TSRMLS_CC);
+								phalcon_array_append(&parameters, position, PH_SEPARATE);
 	
 								PHALCON_OBS_NVAR(converter);
-								phalcon_array_fetch(&converter, converters, part, PH_NOISY_CC);
+								phalcon_array_fetch(&converter, converters, part, PH_NOISY);
 	
 								PHALCON_INIT_NVAR(converted_part);
 								PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
-								phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY | PH_SEPARATE TSRMLS_CC);
+								phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY | PH_SEPARATE);
 							}
 						}
 					}
@@ -806,7 +806,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		if (phalcon_array_isset_string(parts, SS("namespace"))) {
 	
 			PHALCON_OBS_VAR(namespace);
-			phalcon_array_fetch_string(&namespace, parts, SL("namespace"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&namespace, parts, SL("namespace"), PH_NOISY);
 			if (!phalcon_is_numeric(namespace)) {
 				phalcon_update_property_this(this_ptr, SL("_namespace"), namespace TSRMLS_CC);
 			}
@@ -824,7 +824,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		if (phalcon_array_isset_string(parts, SS("module"))) {
 	
 			PHALCON_OBS_VAR(module);
-			phalcon_array_fetch_string(&module, parts, SL("module"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&module, parts, SL("module"), PH_NOISY);
 			if (!phalcon_is_numeric(module)) {
 				phalcon_update_property_this(this_ptr, SL("_module"), module TSRMLS_CC);
 			}
@@ -842,7 +842,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		if (phalcon_array_isset_string(parts, SS("controller"))) {
 	
 			PHALCON_OBS_VAR(controller);
-			phalcon_array_fetch_string(&controller, parts, SL("controller"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&controller, parts, SL("controller"), PH_NOISY);
 			if (!phalcon_is_numeric(controller)) {
 				phalcon_update_property_this(this_ptr, SL("_controller"), controller TSRMLS_CC);
 			}
@@ -860,7 +860,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		if (phalcon_array_isset_string(parts, SS("action"))) {
 	
 			PHALCON_OBS_VAR(action);
-			phalcon_array_fetch_string(&action, parts, SL("action"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&action, parts, SL("action"), PH_NOISY);
 			if (!phalcon_is_numeric(action)) {
 				phalcon_update_property_this(this_ptr, SL("_action"), action TSRMLS_CC);
 			}
@@ -878,7 +878,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		if (phalcon_array_isset_string(parts, SS("params"))) {
 	
 			PHALCON_OBS_VAR(params_str);
-			phalcon_array_fetch_string(&params_str, parts, SL("params"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&params_str, parts, SL("params"), PH_NOISY);
 	
 			PHALCON_INIT_VAR(str_params);
 			phalcon_substr(str_params, params_str, 1, 0 TSRMLS_CC);

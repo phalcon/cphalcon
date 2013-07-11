@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset(options, option)) {
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, options, option, PH_NOISY_CC);
+		phalcon_array_fetch(&value, options, option, PH_NOISY);
 		RETURN_CCTOR(value);
 	}
 	

@@ -142,13 +142,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				phalcon_fast_explode_str(directive_parts, SL("."), key TSRMLS_CC);
 	
 				PHALCON_OBS_NVAR(left_part);
-				phalcon_array_fetch_long(&left_part, directive_parts, 0, PH_NOISY_CC);
+				phalcon_array_fetch_long(&left_part, directive_parts, 0, PH_NOISY);
 	
 				PHALCON_OBS_NVAR(right_part);
-				phalcon_array_fetch_long(&right_part, directive_parts, 1, PH_NOISY_CC);
-				phalcon_array_update_zval_zval_zval_multi_3(&config, section, left_part, right_part, &value, 0 TSRMLS_CC);
+				phalcon_array_fetch_long(&right_part, directive_parts, 1, PH_NOISY);
+				phalcon_array_update_zval_zval_zval_multi_3(&config, section, left_part, right_part, &value, 0);
 			} else {
-				phalcon_array_update_multi_2(&config, section, key, &value, 0 TSRMLS_CC);
+				phalcon_array_update_multi_2(&config, section, key, &value, 0);
 			}
 	
 			zend_hash_move_forward_ex(ah1, &hp1);

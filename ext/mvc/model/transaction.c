@@ -194,12 +194,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 	if (Z_TYPE_P(manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(call_object);
 		array_init_size(call_object, 2);
-		phalcon_array_append(&call_object, manager, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_object, manager, PH_SEPARATE);
 		add_next_index_stringl(call_object, SL("notifyCommit"), 1);
 	
 		PHALCON_INIT_VAR(arguments);
 		array_init_size(arguments, 1);
-		phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&arguments, this_ptr, PH_SEPARATE);
 		phalcon_call_func_p2_noret("call_user_func_array", call_object, arguments);
 	}
 	
@@ -244,12 +244,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 	if (Z_TYPE_P(manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(call_object);
 		array_init_size(call_object, 2);
-		phalcon_array_append(&call_object, manager, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_object, manager, PH_SEPARATE);
 		add_next_index_stringl(call_object, SL("notifyRollback"), 1);
 	
 		PHALCON_INIT_VAR(arguments);
 		array_init_size(arguments, 1);
-		phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&arguments, this_ptr, PH_SEPARATE);
 		phalcon_call_func_p2_noret("call_user_func_array", call_object, arguments);
 	}
 	

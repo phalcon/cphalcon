@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 		}
 	
 		PHALCON_OBS_VAR(module);
-		phalcon_array_fetch(&module, modules, module_name, PH_NOISY_CC);
+		phalcon_array_fetch(&module, modules, module_name, PH_NOISY);
 		if (Z_TYPE_P(module) != IS_ARRAY) { 
 			PHALCON_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Invalid module definition path");
 			return;
@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 		if (phalcon_array_isset_string(module, SS("path"))) {
 	
 			PHALCON_OBS_VAR(path);
-			phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY);
 			if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 				if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 					return;
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	
 		if (phalcon_array_isset_string(module, SS("className"))) {
 			PHALCON_OBS_VAR(class_name);
-			phalcon_array_fetch_string(&class_name, module, SL("className"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&class_name, module, SL("className"), PH_NOISY);
 		} else {
 			PHALCON_INIT_NVAR(class_name);
 			ZVAL_STRING(class_name, "Module", 1);

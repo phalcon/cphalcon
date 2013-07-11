@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 * A module definition must ne an array or an object
 		 */
 		PHALCON_OBS_VAR(module);
-		phalcon_array_fetch(&module, modules, module_name, PH_NOISY_CC);
+		phalcon_array_fetch(&module, modules, module_name, PH_NOISY);
 		if (Z_TYPE_P(module) != IS_ARRAY) { 
 			if (Z_TYPE_P(module) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			 */
 			if (phalcon_array_isset_string(module, SS("className"))) {
 				PHALCON_OBS_VAR(class_name);
-				phalcon_array_fetch_string(&class_name, module, SL("className"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&class_name, module, SL("className"), PH_NOISY);
 			} else {
 				PHALCON_INIT_NVAR(class_name);
 				ZVAL_STRING(class_name, "Module", 1);
@@ -376,7 +376,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			if (phalcon_array_isset_string(module, SS("path"))) {
 	
 				PHALCON_OBS_VAR(path);
-				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY);
 				if (!phalcon_class_exists(class_name, 0 TSRMLS_CC)) {
 					if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 						if (phalcon_require(path TSRMLS_CC) == FAILURE) {
@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			if (phalcon_is_instance_of(module, SL("Closure") TSRMLS_CC)) {
 				PHALCON_INIT_VAR(module_params);
 				array_init_size(module_params, 1);
-				phalcon_array_append(&module_params, dependency_injector, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&module_params, dependency_injector, PH_SEPARATE);
 	
 				PHALCON_INIT_NVAR(status);
 				PHALCON_CALL_USER_FUNC_ARRAY(status, module, module_params);

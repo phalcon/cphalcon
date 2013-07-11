@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 			/** 
 			 * Append the events to the queue
 			 */
-			phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE);
 			phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 		} else {
 			PHALCON_INIT_NVAR(priority_queue);
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		 * Get the current SplPriorityQueue
 		 */
 		PHALCON_OBS_NVAR(priority_queue);
-		phalcon_array_fetch(&priority_queue, events, event_type, PH_NOISY_CC);
+		phalcon_array_fetch(&priority_queue, events, event_type, PH_NOISY);
 	}
 	
 	/** 
@@ -153,12 +153,12 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 	if (unlikely(Z_TYPE_P(priority_queue) == IS_OBJECT)) {
 		phalcon_call_method_p2_noret(priority_queue, "insert", handler, priority);
 	} else {
-		phalcon_array_append(&priority_queue, handler, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&priority_queue, handler, PH_SEPARATE);
 	
 		/** 
 		 * Append the events to the queue
 		 */
-		phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_zval(&events, event_type, &priority_queue, PH_COPY | PH_SEPARATE);
 		phalcon_update_property_this(this_ptr, SL("_events"), events TSRMLS_CC);
 	}
 	
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 	} else {
 		if (phalcon_array_isset(events, type)) {
 			PHALCON_INIT_VAR(null_value);
-			phalcon_array_update_zval(&events, type, &null_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_zval(&events, type, &null_value, PH_COPY | PH_SEPARATE);
 		}
 	}
 	
@@ -376,9 +376,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					if (Z_TYPE_P(arguments) == IS_NULL) {
 						PHALCON_INIT_NVAR(arguments);
 						array_init_size(arguments, 3);
-						phalcon_array_append(&arguments, event, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_append(&arguments, source, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_append(&arguments, data, PH_SEPARATE TSRMLS_CC);
+						phalcon_array_append(&arguments, event, PH_SEPARATE);
+						phalcon_array_append(&arguments, source, PH_SEPARATE);
+						phalcon_array_append(&arguments, data, PH_SEPARATE);
 					}
 	
 					/** 
@@ -468,9 +468,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 					if (Z_TYPE_P(arguments) == IS_NULL) {
 						PHALCON_INIT_NVAR(arguments);
 						array_init_size(arguments, 3);
-						phalcon_array_append(&arguments, event, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_append(&arguments, source, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_append(&arguments, data, PH_SEPARATE TSRMLS_CC);
+						phalcon_array_append(&arguments, event, PH_SEPARATE);
+						phalcon_array_append(&arguments, source, PH_SEPARATE);
+						phalcon_array_append(&arguments, data, PH_SEPARATE);
 					}
 	
 					/** 
@@ -596,10 +596,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	phalcon_fast_explode_str(event_parts, SL(":"), event_type TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(type);
-	phalcon_array_fetch_long(&type, event_parts, 0, PH_NOISY_CC);
+	phalcon_array_fetch_long(&type, event_parts, 0, PH_NOISY);
 	
 	PHALCON_OBS_VAR(event_name);
-	phalcon_array_fetch_long(&event_name, event_parts, 1, PH_NOISY_CC);
+	phalcon_array_fetch_long(&event_name, event_parts, 1, PH_NOISY);
 	
 	PHALCON_INIT_VAR(status);
 	
@@ -620,7 +620,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	if (phalcon_array_isset(events, type)) {
 	
 		PHALCON_OBS_VAR(fire_events);
-		phalcon_array_fetch(&fire_events, events, type, PH_NOISY_CC);
+		phalcon_array_fetch(&fire_events, events, type, PH_NOISY);
 		if (Z_TYPE_P(fire_events) == IS_ARRAY || Z_TYPE_P(fire_events) == IS_OBJECT) {
 			/** 
 			 * Create the event context
@@ -641,7 +641,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	if (phalcon_array_isset(events, event_type)) {
 	
 		PHALCON_OBS_NVAR(fire_events);
-		phalcon_array_fetch(&fire_events, events, event_type, PH_NOISY_CC);
+		phalcon_array_fetch(&fire_events, events, event_type, PH_NOISY);
 		if (Z_TYPE_P(fire_events) == IS_ARRAY || Z_TYPE_P(fire_events) == IS_OBJECT) {
 	
 			/** 
@@ -709,7 +709,7 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners){
 	if (Z_TYPE_P(events) == IS_ARRAY) { 
 		if (phalcon_array_isset(events, type)) {
 			PHALCON_OBS_VAR(fire_events);
-			phalcon_array_fetch(&fire_events, events, type, PH_NOISY_CC);
+			phalcon_array_fetch(&fire_events, events, type, PH_NOISY);
 			RETURN_CCTOR(fire_events);
 		}
 	}
