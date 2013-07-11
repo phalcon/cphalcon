@@ -262,7 +262,6 @@ PHP_METHOD(Phalcon_Debug, _escapeString){
 
 	zval *value, *charset, *ent_compat, *line_break;
 	zval *escaped_line_break, *replaced_value;
-	zval *escaped_value;
 
 	PHALCON_MM_GROW();
 
@@ -283,10 +282,8 @@ PHP_METHOD(Phalcon_Debug, _escapeString){
 	
 		PHALCON_INIT_VAR(replaced_value);
 		phalcon_fast_str_replace(replaced_value, line_break, escaped_line_break, value TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(escaped_value);
-		phalcon_call_func_p3(escaped_value, "htmlentities", replaced_value, ent_compat, charset);
-		RETURN_CCTOR(escaped_value);
+		phalcon_call_func_p3(return_value, "htmlentities", replaced_value, ent_compat, charset);
+		RETURN_MM();
 	}
 	
 	RETURN_CCTOR(value);
@@ -409,8 +406,8 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump){
  */
 PHP_METHOD(Phalcon_Debug, _getVarDump){
 
-	zval *variable, *escaped_string, *class_name;
-	zval *dumped_object, *array_dump = NULL, *dump = NULL, *type;
+	zval *variable, *class_name, *dumped_object;
+	zval *array_dump = NULL, *dump = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -423,11 +420,9 @@ PHP_METHOD(Phalcon_Debug, _getVarDump){
 		 */
 		if (Z_TYPE_P(variable) == IS_BOOL) {
 			if (zend_is_true(variable)) {
-				PHALCON_MM_RESTORE();
-				RETURN_STRING("true", 1);
+				RETURN_MM_STRING("true", 1);
 			} else {
-				PHALCON_MM_RESTORE();
-				RETURN_STRING("false", 1);
+				RETURN_MM_STRING("false", 1);
 			}
 		}
 	
@@ -435,9 +430,8 @@ PHP_METHOD(Phalcon_Debug, _getVarDump){
 		 * String variables are escaped to avoid XSS injections
 		 */
 		if (Z_TYPE_P(variable) == IS_STRING) {
-			PHALCON_INIT_VAR(escaped_string);
-			phalcon_call_method_p1(escaped_string, this_ptr, "_escapestring", variable);
-			RETURN_CCTOR(escaped_string);
+			phalcon_call_method_p1(return_value, this_ptr, "_escapestring", variable);
+			RETURN_MM();
 		}
 	
 		/** 
@@ -489,27 +483,22 @@ PHP_METHOD(Phalcon_Debug, _getVarDump){
 	if (Z_TYPE_P(variable) == IS_ARRAY) { 
 		PHALCON_INIT_NVAR(array_dump);
 		phalcon_call_method_p1(array_dump, this_ptr, "_getarraydump", variable);
-	
-		PHALCON_INIT_NVAR(dump);
-		PHALCON_CONCAT_SVS(dump, "Array(", array_dump, ")");
-		RETURN_CTOR(dump);
+		PHALCON_CONCAT_SVS(return_value, "Array(", array_dump, ")");
+		RETURN_MM();
 	}
 	
 	/** 
 	 * Null variables are represented as 'null'
 	 */
 	if (Z_TYPE_P(variable) == IS_NULL) {
-		PHALCON_MM_RESTORE();
-		RETURN_STRING("null", 1);
+		RETURN_MM_STRING("null", 1);
 	}
 	
 	/** 
 	 * Other types are represented by its type
 	 */
-	PHALCON_INIT_VAR(type);
-	phalcon_call_func_p1(type, "gettype", variable);
-	
-	RETURN_CCTOR(type);
+	phalcon_call_func_p1(return_value, "gettype", variable);
+	RETURN_MM();
 }
 
 /**
@@ -541,16 +530,14 @@ PHP_METHOD(Phalcon_Debug, getMajorVersion){
  */
 PHP_METHOD(Phalcon_Debug, getVersion){
 
-	zval *version, *version_link;
+	zval *version;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(version);
 	phalcon_call_method(version, this_ptr, "getmajorversion");
-	
-	PHALCON_INIT_VAR(version_link);
-	PHALCON_CONCAT_SVSVS(version_link, "<div class=\"version\">Phalcon Framework <a target=\"_new\" href=\"http://docs.phalconphp.com/en/", version, "/\">", version, "</a></div>");
-	RETURN_CTOR(version_link);
+	PHALCON_CONCAT_SVSVS(return_value, "<div class=\"version\">Phalcon Framework <a target=\"_new\" href=\"http://docs.phalconphp.com/en/", version, "/\">", version, "</a></div>");
+	RETURN_MM();
 }
 
 /**

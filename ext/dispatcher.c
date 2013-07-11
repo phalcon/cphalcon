@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 
 	zval *param, *filters = NULL, *default_value = NULL, *params;
 	zval *param_value, *dependency_injector, *exception_code;
-	zval *exception_message, *service, *filter, *sanitized_value;
+	zval *exception_message, *service, *filter;
 
 	PHALCON_MM_GROW();
 
@@ -382,11 +382,8 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 	
 			PHALCON_INIT_VAR(filter);
 			phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
-	
-			PHALCON_INIT_VAR(sanitized_value);
-			phalcon_call_method_p2(sanitized_value, filter, "sanitize", param_value, filters);
-	
-			RETURN_CCTOR(sanitized_value);
+			phalcon_call_method_p2(return_value, filter, "sanitize", param_value, filters);
+			RETURN_MM();
 		} else {
 			RETURN_CCTOR(param_value);
 		}
@@ -402,7 +399,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
  */
 PHP_METHOD(Phalcon_Dispatcher, getActiveMethod){
 
-	zval *suffix, *action_name, *method_name;
+	zval *suffix, *action_name;
 
 	PHALCON_MM_GROW();
 
@@ -411,10 +408,8 @@ PHP_METHOD(Phalcon_Dispatcher, getActiveMethod){
 	
 	PHALCON_OBS_VAR(action_name);
 	phalcon_read_property_this(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(method_name);
-	PHALCON_CONCAT_VV(method_name, action_name, suffix);
-	RETURN_CTOR(method_name);
+	PHALCON_CONCAT_VV(return_value, action_name, suffix);
+	RETURN_MM();
 }
 
 /**
@@ -467,8 +462,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *handler_suffix, *action_suffix, *_finished = NULL;
 	zval *namespace_name = NULL, *handler_name = NULL, *action_name = NULL;
 	zval *finished = NULL, *camelized_class = NULL, *handler_class = NULL;
-	zval *has_service = NULL, *was_fresh = NULL, *params = NULL, *action_method = NULL;
-	zval *call_object = NULL;
+	zval *has_service = NULL, *was_fresh = NULL, *action_method = NULL;
+	zval *params = NULL, *call_object = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -635,7 +630,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			 * DI doesn't have a service with that name, try to load it using an autoloader
 			 */
 			PHALCON_INIT_NVAR(has_service);
-			ZVAL_LONG(has_service, phalcon_class_exists(handler_class TSRMLS_CC));
+			ZVAL_LONG(has_service, phalcon_class_exists(handler_class, 1 TSRMLS_CC));
 		}
 	
 		/** 
@@ -703,36 +698,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 * Update the active handler making it available for events
 		 */
 		phalcon_update_property_this(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
-	
-		/** 
-		 * Check if the params is an array
-		 */
-		PHALCON_OBS_NVAR(params);
-		phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-		if (Z_TYPE_P(params) != IS_ARRAY) { 
-	
-			PHALCON_INIT_NVAR(exception_code);
-			ZVAL_LONG(exception_code, 4);
-	
-			PHALCON_INIT_NVAR(exception_message);
-			ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
-	
-			/** 
-			 * An invalid parameter variable was passed throw an exception
-			 */
-			PHALCON_INIT_NVAR(status);
-			phalcon_call_method_p2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
-			if (PHALCON_IS_FALSE(status)) {
-	
-				PHALCON_OBS_NVAR(finished);
-				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(finished)) {
-					continue;
-				}
-			}
-	
-			break;
-		}
 	
 		/** 
 		 * Check if the method exists in the handler
@@ -828,6 +793,36 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			if (PHALCON_IS_FALSE(finished)) {
 				continue;
 			}
+		}
+	
+		/** 
+		 * Check if the params is an array
+		 */
+		PHALCON_OBS_NVAR(params);
+		phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+		if (Z_TYPE_P(params) != IS_ARRAY) { 
+	
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 4);
+	
+			PHALCON_INIT_NVAR(exception_message);
+			ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
+	
+			/** 
+			 * An invalid parameter variable was passed throw an exception
+			 */
+			PHALCON_INIT_NVAR(status);
+			phalcon_call_method_p2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
+			if (PHALCON_IS_FALSE(status)) {
+	
+				PHALCON_OBS_NVAR(finished);
+				phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(finished)) {
+					continue;
+				}
+			}
+	
+			break;
 		}
 	
 		/** 

@@ -481,7 +481,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument){
 
-	zval *argument, *argument_type, *argument_expr = NULL;
+	zval *argument, *argument_type;
 
 	PHALCON_MM_GROW();
 
@@ -490,15 +490,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument){
 	PHALCON_OBS_VAR(argument_type);
 	phalcon_array_fetch_string(&argument_type, argument, SL("type"), PH_NOISY_CC);
 	if (PHALCON_IS_LONG(argument_type, 352)) {
-		PHALCON_INIT_VAR(argument_expr);
-		array_init_size(argument_expr, 1);
-		add_assoc_stringl_ex(argument_expr, SS("type"), SL("all"), 1);
-	} else {
-		PHALCON_INIT_NVAR(argument_expr);
-		phalcon_call_method_p1(argument_expr, this_ptr, "_getexpression", argument);
+		array_init_size(return_value, 1);
+		add_assoc_stringl_ex(return_value, SS("type"), SL("all"), 1);
+		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(argument_expr);
+	phalcon_call_method_p1(return_value, this_ptr, "_getexpression", argument);
+	RETURN_MM();
 }
 
 /**

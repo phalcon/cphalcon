@@ -422,7 +422,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 
 	zval *rename_columns, *records, *model, *cache;
-	zval *column_map, *hydrate_mode, *data, *serialized;
+	zval *column_map, *hydrate_mode, *data;
 
 	PHALCON_MM_GROW();
 
@@ -460,9 +460,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	/** 
 	 * Serialize the cache using the serialize function
 	 */
-	PHALCON_INIT_VAR(serialized);
-	phalcon_serialize(serialized, &data TSRMLS_CC);
-	RETURN_CTOR(serialized);
+	phalcon_serialize(return_value, &data TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**

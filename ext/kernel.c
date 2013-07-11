@@ -96,8 +96,14 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey){
 	RETURN_STRING(strKey, 0);
 }
 
-PHP_METHOD(Phalcon_Kernel, preComputeHashKey32)
-{
+/**
+ * Produces a pre-computed hash key based on a string. This function produce a hash for a 32bits processor
+ *
+ * @param string $arrKey
+ * @return string
+ */
+PHP_METHOD(Phalcon_Kernel, preComputeHashKey32){
+
 	char *arKey, *strKey;
 	unsigned int nKeyLength;
 	ulong hash;
@@ -114,9 +120,14 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey32)
 	RETURN_STRING(strKey, 0);
 }
 
+/**
+ * Produces a pre-computed hash key based on a string. This function produce a hash for a 64bits processor
+ *
+ * @param string $arrKey
+ * @return string
+ */
+PHP_METHOD(Phalcon_Kernel, preComputeHashKey64){
 
-PHP_METHOD(Phalcon_Kernel, preComputeHashKey64)
-{
 	char *arKey, *strKey;
 	unsigned int nKeyLength;
 	register unsigned long long hash = 5381;
@@ -155,3 +166,4 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey64)
 
 	RETURN_STRING(strKey, 0);
 }
+

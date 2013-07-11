@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
  */
 PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri){
 
-	zval *static_base_uri, *base_uri;
+	zval *static_base_uri;
 
 	PHALCON_MM_GROW();
 
@@ -213,10 +213,8 @@ PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri){
 		RETURN_CCTOR(static_base_uri);
 	}
 	
-	PHALCON_INIT_VAR(base_uri);
-	phalcon_call_method(base_uri, this_ptr, "getbaseuri");
-	
-	RETURN_CCTOR(base_uri);
+	phalcon_call_method(return_value, this_ptr, "getbaseuri");
+	RETURN_MM();
 }
 
 /**
@@ -361,7 +359,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
  */
 PHP_METHOD(Phalcon_Mvc_Url, getStatic){
 
-	zval *uri = NULL, *static_base_uri, *final_uri = NULL, *base_uri;
+	zval *uri = NULL, *static_base_uri, *base_uri;
 
 	PHALCON_MM_GROW();
 
@@ -374,18 +372,15 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic){
 	PHALCON_OBS_VAR(static_base_uri);
 	phalcon_read_property_this(&static_base_uri, this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
 	if (Z_TYPE_P(static_base_uri) != IS_NULL) {
-		PHALCON_INIT_VAR(final_uri);
-		PHALCON_CONCAT_VV(final_uri, static_base_uri, uri);
-		RETURN_CTOR(final_uri);
+		PHALCON_CONCAT_VV(return_value, static_base_uri, uri);
+		RETURN_MM();
 	}
 	
 	PHALCON_INIT_VAR(base_uri);
 	phalcon_call_method(base_uri, this_ptr, "getbaseuri");
+	PHALCON_CONCAT_VV(return_value, base_uri, uri);
 	
-	PHALCON_INIT_NVAR(final_uri);
-	PHALCON_CONCAT_VV(final_uri, base_uri, uri);
-	
-	RETURN_CTOR(final_uri);
+	RETURN_MM();
 }
 
 /**
@@ -396,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic){
  */
 PHP_METHOD(Phalcon_Mvc_Url, path){
 
-	zval *path = NULL, *base_path, *final_path;
+	zval *path = NULL, *base_path;
 
 	PHALCON_MM_GROW();
 
@@ -408,9 +403,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path){
 	
 	PHALCON_OBS_VAR(base_path);
 	phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(final_path);
-	PHALCON_CONCAT_VV(final_path, base_path, path);
-	RETURN_CTOR(final_path);
+	PHALCON_CONCAT_VV(return_value, base_path, path);
+	RETURN_MM();
 }
 

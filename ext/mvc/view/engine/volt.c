@@ -269,13 +269,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
 	phalcon_fetch_params(1, 2, 0, &needle, &haystack);
 	
 	if (Z_TYPE_P(haystack) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(included);
-		phalcon_call_func_p2(included, "in_array", needle, haystack);
-		RETURN_CCTOR(included);
+		phalcon_call_func_p2(return_value, "in_array", needle, haystack);
+		RETURN_MM();
 	}
 	if (Z_TYPE_P(haystack) == IS_STRING) {
 		if (phalcon_function_exists_ex(SS("mb_strpos") TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_NVAR(included);
+			PHALCON_INIT_VAR(included);
 			phalcon_call_func_p2(included, "mb_strpos", haystack, needle);
 		} else {
 			PHALCON_INIT_NVAR(included);
@@ -299,7 +298,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 
-	zval *text, *from, *to, *converted = NULL;
+	zval *text, *from, *to;
 
 	PHALCON_MM_GROW();
 
@@ -310,9 +309,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 	 */
 	if (PHALCON_IS_STRING(from, "latin1")) {
 		if (PHALCON_IS_STRING(to, "utf8")) {
-			PHALCON_INIT_VAR(converted);
-			phalcon_call_func_p1(converted, "utf8_encode", text);
-			RETURN_CCTOR(converted);
+			phalcon_call_func_p1(return_value, "utf8_encode", text);
+			RETURN_MM();
 		}
 	}
 	
@@ -321,9 +319,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 	 */
 	if (PHALCON_IS_STRING(to, "latin1")) {
 		if (PHALCON_IS_STRING(from, "utf8")) {
-			PHALCON_INIT_NVAR(converted);
-			phalcon_call_func_p1(converted, "utf8_decode", text);
-			RETURN_CCTOR(converted);
+			phalcon_call_func_p1(return_value, "utf8_decode", text);
+			RETURN_MM();
 		}
 	}
 	
@@ -331,18 +328,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 	 * Fallback to mb_convert_encoding
 	 */
 	if (phalcon_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_NVAR(converted);
-		phalcon_call_func_p3(converted, "mb_convert_encoding", text, from, to);
-		RETURN_CCTOR(converted);
+		phalcon_call_func_p3(return_value, "mb_convert_encoding", text, from, to);
+		RETURN_MM();
 	}
 	
 	/** 
 	 * Fallback to iconv
 	 */
 	if (phalcon_function_exists_ex(SS("iconv") TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_NVAR(converted);
-		phalcon_call_func_p3(converted, "iconv", from, to, text);
-		RETURN_CCTOR(converted);
+		phalcon_call_func_p3(return_value, "iconv", from, to, text);
+		RETURN_MM();
 	}
 	
 	/** 
@@ -433,9 +428,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	 * Use array_slice on arrays
 	 */
 	if (Z_TYPE_P(value) == IS_ARRAY) { 
-		PHALCON_INIT_NVAR(slice);
-		phalcon_call_func_p3(slice, "array_slice", value, start, length);
-		RETURN_CTOR(slice);
+		phalcon_call_func_p3(return_value, "array_slice", value, start, length);
+		RETURN_MM();
 	}
 	
 	/** 

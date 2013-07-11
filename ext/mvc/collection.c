@@ -264,16 +264,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager){
 
-	zval *models_manager, *events_manager;
+	zval *models_manager;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(events_manager);
-	phalcon_call_method_p1(events_manager, models_manager, "getcustomeventsmanager", this_ptr);
-	RETURN_CCTOR(events_manager);
+	phalcon_call_method_p1(return_value, models_manager, "getcustomeventsmanager", this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -405,16 +403,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, setConnectionService){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getConnectionService){
 
-	zval *models_manager, *connection_service;
+	zval *models_manager;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(connection_service);
-	phalcon_call_method_p1(connection_service, models_manager, "getconnectionservice", this_ptr);
-	RETURN_CCTOR(connection_service);
+	phalcon_call_method_p1(return_value, models_manager, "getconnectionservice", this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -550,8 +546,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	zval *params, *collection, *connection, *unique;
 	zval *source, *mongo_collection, *conditions = NULL;
 	zval *fields, *documents_cursor = NULL, *limit, *sort = NULL;
-	zval *base = NULL, *document = NULL, *collection_cloned = NULL, *collections;
-	zval *documents_array;
+	zval *base = NULL, *document = NULL, *collections, *documents_array;
+	zval *collection_cloned = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -651,9 +647,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 			/** 
 			 * Assign the values to the base object
 			 */
-			PHALCON_INIT_VAR(collection_cloned);
-			PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", base, document);
-			RETURN_CCTOR(collection_cloned);
+			PHALCON_CALL_SELF_PARAMS_2(return_value, this_ptr, "cloneresult", base, document);
+			RETURN_MM();
 		}
 	
 		RETURN_MM_FALSE;
@@ -699,7 +694,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 
 	zval *params, *collection, *connection, *source;
 	zval *mongo_collection, *conditions = NULL, *simple = NULL;
-	zval *documents_cursor, *limit, *sort = NULL, *group = NULL;
+	zval *documents_cursor, *limit, *sort = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -785,16 +780,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
 		/** 
 		 * Only 'count' is supported
 		 */
-		PHALCON_INIT_VAR(group);
-		phalcon_fast_count(group, documents_cursor TSRMLS_CC);
-	
-		RETURN_NCTOR(group);
+		phalcon_fast_count(return_value, documents_cursor TSRMLS_CC);
+		RETURN_MM();
 	}
 	
-	PHALCON_INIT_NVAR(group);
-	phalcon_call_method_p1(group, mongo_collection, "count", conditions);
-	
-	RETURN_CCTOR(group);
+	phalcon_call_method_p1(return_value, mongo_collection, "count", conditions);
+	RETURN_MM();
 }
 
 /**
@@ -1076,7 +1067,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, validationHasFailed){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, fireEvent){
 
-	zval *event_name, *models_manager, *success;
+	zval *event_name, *models_manager;
 
 	PHALCON_MM_GROW();
 
@@ -1094,11 +1085,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEvent){
 	 */
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p2(success, models_manager, "notifyevent", event_name, this_ptr);
-	
-	RETURN_CCTOR(success);
+	phalcon_call_method_p2(return_value, models_manager, "notifyevent", event_name, this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -1181,7 +1169,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 
 	zval *collection, *id, *mongo_id = NULL, *models_manager;
 	zval *use_implicit_ids, *parameters, *document_count;
-	zval *zero, *exist;
+	zval *zero;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1228,11 +1216,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 	
 		PHALCON_INIT_VAR(zero);
 		ZVAL_LONG(zero, 0);
+		is_smaller_function(return_value, zero, document_count TSRMLS_CC);
 	
-		PHALCON_INIT_VAR(exist);
-		is_smaller_function(exist, zero, document_count TSRMLS_CC);
-	
-		RETURN_NCTOR(exist);
+		RETURN_MM();
 	}
 	RETURN_MM_FALSE;
 }
@@ -1316,7 +1302,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	zval *dependency_injector, *source, *connection;
 	zval *collection, *exists, *empty_array, *disable_events;
 	zval *status = NULL, *data, *reserved, *properties, *value = NULL;
-	zval *key = NULL, *success = NULL, *options, *ok, *id, *post_success;
+	zval *key = NULL, *success = NULL, *options, *ok, *id;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1450,10 +1436,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	/** 
 	 * Call the postSave hooks
 	 */
-	PHALCON_INIT_VAR(post_success);
-	phalcon_call_method_p3(post_success, this_ptr, "_postsave", disable_events, success, exists);
-	
-	RETURN_CCTOR(post_success);
+	phalcon_call_method_p3(return_value, this_ptr, "_postsave", disable_events, success, exists);
+	RETURN_MM();
 }
 
 /**
@@ -1466,7 +1450,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 
 	zval *id, *class_name, *collection, *models_manager;
 	zval *use_implicit_ids, *mongo_id = NULL, *conditions;
-	zval *parameters, *result;
+	zval *parameters;
 	zend_class_entry *ce0, *ce1;
 
 	PHALCON_MM_GROW();
@@ -1514,11 +1498,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 	PHALCON_INIT_VAR(parameters);
 	array_init_size(parameters, 1);
 	phalcon_array_append(&parameters, conditions, PH_SEPARATE TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_SELF_PARAMS_1(result, this_ptr, "findfirst", parameters);
-	
-	RETURN_CCTOR(result);
+	PHALCON_CALL_SELF_PARAMS_1(return_value, this_ptr, "findfirst", parameters);
+	RETURN_MM();
 }
 
 /**
@@ -1551,7 +1532,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 
 	zval *parameters = NULL, *class_name, *collection, *connection;
-	zval *unique, *resultset;
+	zval *unique;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1584,11 +1565,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	
 	PHALCON_INIT_VAR(unique);
 	ZVAL_BOOL(unique, 1);
-	
-	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", parameters, collection, connection, unique);
-	
-	RETURN_CCTOR(resultset);
+	PHALCON_CALL_SELF_PARAMS_4(return_value, this_ptr, "_getresultset", parameters, collection, connection, unique);
+	RETURN_MM();
 }
 
 /**
@@ -1632,7 +1610,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 PHP_METHOD(Phalcon_Mvc_Collection, find){
 
 	zval *parameters = NULL, *class_name, *collection, *connection;
-	zval *unique, *resultset;
+	zval *unique;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1665,11 +1643,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	
 	PHALCON_INIT_VAR(unique);
 	ZVAL_BOOL(unique, 0);
-	
-	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", parameters, collection, connection, unique);
-	
-	RETURN_CCTOR(resultset);
+	PHALCON_CALL_SELF_PARAMS_4(return_value, this_ptr, "_getresultset", parameters, collection, connection, unique);
+	RETURN_MM();
 }
 
 /**
@@ -1685,7 +1660,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 PHP_METHOD(Phalcon_Mvc_Collection, count){
 
 	zval *parameters = NULL, *class_name, *collection, *connection;
-	zval *result;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1715,11 +1689,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	
 	PHALCON_INIT_VAR(connection);
 	phalcon_call_method(connection, collection, "getconnection");
-	
-	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_SELF_PARAMS_3(result, this_ptr, "_getgroupresultset", parameters, collection, connection);
-	
-	RETURN_CCTOR(result);
+	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_getgroupresultset", parameters, collection, connection);
+	RETURN_MM();
 }
 
 /**
@@ -1731,7 +1702,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 PHP_METHOD(Phalcon_Mvc_Collection, aggregate){
 
 	zval *parameters, *class_name, *model, *connection;
-	zval *source, *collection, *agregation;
+	zval *source, *collection;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1767,11 +1738,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate){
 	
 	PHALCON_INIT_VAR(collection);
 	phalcon_call_method_p1(collection, connection, "selectcollection", source);
-	
-	PHALCON_INIT_VAR(agregation);
-	phalcon_call_method_p1(agregation, collection, "aggregate", parameters);
-	
-	RETURN_CCTOR(agregation);
+	phalcon_call_method_p1(return_value, collection, "aggregate", parameters);
+	RETURN_MM();
 }
 
 /**
@@ -2067,7 +2035,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 
-	zval *data, *serialize;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
@@ -2077,9 +2045,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 	/** 
 	 * Use the standard serialize function to serialize the array data
 	 */
-	PHALCON_INIT_VAR(serialize);
-	phalcon_serialize(serialize, &data TSRMLS_CC);
-	RETURN_CTOR(serialize);
+	phalcon_serialize(return_value, &data TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**

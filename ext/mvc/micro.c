@@ -660,7 +660,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 PHP_METHOD(Phalcon_Mvc_Micro, setService){
 
 	zval *service_name, *definition, *shared = NULL, *dependency_injector = NULL;
-	zval *service;
 
 	PHALCON_MM_GROW();
 
@@ -681,10 +680,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService){
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(service);
-	phalcon_call_method_p3(service, dependency_injector, "set", service_name, definition, shared);
-	
-	RETURN_CCTOR(service);
+	phalcon_call_method_p3(return_value, dependency_injector, "set", service_name, definition, shared);
+	RETURN_MM();
 }
 
 /**
@@ -696,7 +693,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService){
 PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 
 	zval *service_name, *dependency_injector = NULL;
-	zval *exists;
 
 	PHALCON_MM_GROW();
 
@@ -712,10 +708,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(exists);
-	phalcon_call_method_p1(exists, dependency_injector, "has", service_name);
-	
-	RETURN_CCTOR(exists);
+	phalcon_call_method_p1(return_value, dependency_injector, "has", service_name);
+	RETURN_MM();
 }
 
 /**
@@ -727,7 +721,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 PHP_METHOD(Phalcon_Mvc_Micro, getService){
 
 	zval *service_name, *dependency_injector = NULL;
-	zval *service;
 
 	PHALCON_MM_GROW();
 
@@ -743,10 +736,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(service);
-	phalcon_call_method_p1(service, dependency_injector, "get", service_name);
-	
-	RETURN_CCTOR(service);
+	phalcon_call_method_p1(return_value, dependency_injector, "get", service_name);
+	RETURN_MM();
 }
 
 /**
@@ -758,7 +749,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 
 	zval *service_name, *dependency_injector = NULL;
-	zval *service;
 
 	PHALCON_MM_GROW();
 
@@ -774,10 +764,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(service);
-	phalcon_call_method_p1(service, dependency_injector, "getshared", service_name);
-	
-	RETURN_CCTOR(service);
+	phalcon_call_method_p1(return_value, dependency_injector, "getshared", service_name);
+	RETURN_MM();
 }
 
 /**
@@ -1243,15 +1231,14 @@ PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue){
  */
 PHP_METHOD(Phalcon_Mvc_Micro, offsetExists){
 
-	zval *alias, *exists;
+	zval *alias;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &alias);
 	
-	PHALCON_INIT_VAR(exists);
-	phalcon_call_method_p1(exists, this_ptr, "hasservice", alias);
-	RETURN_CCTOR(exists);
+	phalcon_call_method_p1(return_value, this_ptr, "hasservice", alias);
+	RETURN_MM();
 }
 
 /**
@@ -1289,15 +1276,14 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetSet){
  */
 PHP_METHOD(Phalcon_Mvc_Micro, offsetGet){
 
-	zval *alias, *service;
+	zval *alias;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &alias);
 	
-	PHALCON_INIT_VAR(service);
-	phalcon_call_method_p1(service, this_ptr, "getservice", alias);
-	RETURN_CCTOR(service);
+	phalcon_call_method_p1(return_value, this_ptr, "getservice", alias);
+	RETURN_MM();
 }
 
 /**

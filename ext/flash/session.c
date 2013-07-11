@@ -206,7 +206,6 @@ PHP_METHOD(Phalcon_Flash_Session, message){
 PHP_METHOD(Phalcon_Flash_Session, getMessages){
 
 	zval *type = NULL, *remove = NULL, *messages, *return_messages;
-	zval *empty_arr;
 
 	PHALCON_MM_GROW();
 
@@ -235,10 +234,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 		RETURN_CCTOR(messages);
 	}
 	
-	PHALCON_INIT_VAR(empty_arr);
-	array_init(empty_arr);
-	
-	RETURN_CTOR(empty_arr);
+	RETURN_MM_EMPTY_ARRAY();
 }
 
 /**

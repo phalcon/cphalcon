@@ -397,7 +397,6 @@ PHP_METHOD(Phalcon_Validation, getValue){
 	zval *attribute, *entity, *method, *value = NULL, *data, *values;
 	zval *filters, *field_filters, *service_name;
 	zval *dependency_injector = NULL, *filter_service;
-	zval *filtered;
 
 	PHALCON_MM_GROW();
 
@@ -503,10 +502,8 @@ PHP_METHOD(Phalcon_Validation, getValue){
 						return;
 					}
 	
-					PHALCON_INIT_VAR(filtered);
-					phalcon_call_method_p2(filtered, filter_service, "sanitize", value, field_filters);
-	
-					RETURN_CCTOR(filtered);
+					phalcon_call_method_p2(return_value, filter_service, "sanitize", value, field_filters);
+					RETURN_MM();
 				}
 			}
 		}

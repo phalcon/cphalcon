@@ -240,7 +240,6 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 
 	zval *text, *key = NULL, *decrypt_key = NULL, *cipher, *mode, *iv_size;
 	zval *key_size, *text_size, *zero, *iv, *text_to_decipher;
-	zval *decrypted;
 
 	PHALCON_MM_GROW();
 
@@ -297,11 +296,8 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
 	
 	PHALCON_INIT_VAR(text_to_decipher);
 	phalcon_call_func_p2(text_to_decipher, "substr", text, iv_size);
-	
-	PHALCON_INIT_VAR(decrypted);
-	phalcon_call_func_p5(decrypted, "mcrypt_decrypt", cipher, decrypt_key, text_to_decipher, mode, iv);
-	
-	RETURN_CCTOR(decrypted);
+	phalcon_call_func_p5(return_value, "mcrypt_decrypt", cipher, decrypt_key, text_to_decipher, mode, iv);
+	RETURN_MM();
 }
 
 /**
@@ -313,7 +309,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt){
  */
 PHP_METHOD(Phalcon_Crypt, encryptBase64){
 
-	zval *text, *key = NULL, *encrypted, *encoded;
+	zval *text, *key = NULL, *encrypted;
 
 	PHALCON_MM_GROW();
 
@@ -325,10 +321,8 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
 	
 	PHALCON_INIT_VAR(encrypted);
 	phalcon_call_method_p2(encrypted, this_ptr, "encrypt", text, key);
-	
-	PHALCON_INIT_VAR(encoded);
-	phalcon_base64_encode(encoded, encrypted);
-	RETURN_CTOR(encoded);
+	phalcon_base64_encode(return_value, encrypted);
+	RETURN_MM();
 }
 
 /**
@@ -340,7 +334,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
  */
 PHP_METHOD(Phalcon_Crypt, decryptBase64){
 
-	zval *text, *key = NULL, *decrypt_text, *decrypted;
+	zval *text, *key = NULL, *decrypt_text;
 
 	PHALCON_MM_GROW();
 
@@ -352,10 +346,8 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 	
 	PHALCON_INIT_VAR(decrypt_text);
 	phalcon_base64_decode(decrypt_text, text);
-	
-	PHALCON_INIT_VAR(decrypted);
-	phalcon_call_method_p2(decrypted, this_ptr, "decrypt", decrypt_text, key);
-	RETURN_CCTOR(decrypted);
+	phalcon_call_method_p2(return_value, this_ptr, "decrypt", decrypt_text, key);
+	RETURN_MM();
 }
 
 /**
@@ -365,13 +357,11 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
  */
 PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
 
-	zval *algos;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(algos);
-	phalcon_call_func(algos, "mcrypt_list_algorithms");
-	RETURN_CCTOR(algos);
+	phalcon_call_func(return_value, "mcrypt_list_algorithms");
+	RETURN_MM();
 }
 
 /**
@@ -381,12 +371,10 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
  */
 PHP_METHOD(Phalcon_Crypt, getAvailableModes){
 
-	zval *modes;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(modes);
-	phalcon_call_func(modes, "mcrypt_list_modes");
-	RETURN_CCTOR(modes);
+	phalcon_call_func(return_value, "mcrypt_list_modes");
+	RETURN_MM();
 }
 

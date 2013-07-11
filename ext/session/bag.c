@@ -324,15 +324,14 @@ PHP_METHOD(Phalcon_Session_Bag, get){
  */
 PHP_METHOD(Phalcon_Session_Bag, __get){
 
-	zval *property, *value;
+	zval *property;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &property);
 	
-	PHALCON_INIT_VAR(value);
-	phalcon_call_method_p1(value, this_ptr, "get", property);
-	RETURN_CCTOR(value);
+	phalcon_call_method_p1(return_value, this_ptr, "get", property);
+	RETURN_MM();
 }
 
 /**
@@ -380,15 +379,14 @@ PHP_METHOD(Phalcon_Session_Bag, has){
  */
 PHP_METHOD(Phalcon_Session_Bag, __isset){
 
-	zval *property, *exists;
+	zval *property;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &property);
 	
-	PHALCON_INIT_VAR(exists);
-	phalcon_call_method_p1(exists, this_ptr, "has", property);
-	RETURN_CCTOR(exists);
+	phalcon_call_method_p1(return_value, this_ptr, "has", property);
+	RETURN_MM();
 }
 
 /**
@@ -441,14 +439,13 @@ PHP_METHOD(Phalcon_Session_Bag, remove){
  */
 PHP_METHOD(Phalcon_Session_Bag, __unset){
 
-	zval *property, *success;
+	zval *property;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &property);
 	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p1(success, this_ptr, "remove", property);
-	RETURN_CCTOR(success);
+	phalcon_call_method_p1(return_value, this_ptr, "remove", property);
+	RETURN_MM();
 }
 

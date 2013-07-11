@@ -131,6 +131,7 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct){
  * You can full disable the view component using this method
  *
  * @param boolean $implicitView
+ * @return Phalcon\Mvc\Application
  */
 PHP_METHOD(Phalcon_Mvc_Application, useImplicitView){
 
@@ -139,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView){
 	phalcon_fetch_params(0, 1, 0, &implicit_view);
 	
 	phalcon_update_property_this(this_ptr, SL("_implicitView"), implicit_view TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
@@ -212,6 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getModules){
  * Sets the module name to be used if the router doesn't return a valid module
  *
  * @param string $defaultModule
+ * @return Phalcon\Mvc\Application
  */
 PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule){
 
@@ -220,7 +222,7 @@ PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule){
 	phalcon_fetch_params(0, 1, 0, &default_module);
 	
 	phalcon_update_property_this(this_ptr, SL("_defaultModule"), default_module TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
@@ -245,12 +247,14 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *uri = NULL, *dependency_injector, *events_manager;
 	zval *event_name = NULL, *status = NULL, *service = NULL, *router, *module_name = NULL;
 	zval *module_object = NULL, *modules, *exception_msg = NULL;
-	zval *module, *path, *class_name = NULL, *module_params;
+	zval *module, *class_name = NULL, *path, *module_params;
 	zval *implicit_view, *view, *namespace_name;
 	zval *controller_name = NULL, *action_name = NULL, *params = NULL;
 	zval *dispatcher, *controller, *returned_response = NULL;
 	zval *possible_response, *render_status = NULL, *response = NULL;
 	zval *content;
+	zval *c0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -356,7 +360,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 * An array module definition contains a path to a module definition class
 		 */
 		if (Z_TYPE_P(module) == IS_ARRAY) { 
-			/**
+	
+			/** 
 			 * Class name used to load the module definition
 			 */
 			if (phalcon_array_isset_string(module, SS("className"))) {
@@ -366,12 +371,21 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				PHALCON_INIT_NVAR(class_name);
 				ZVAL_STRING(class_name, "Module", 1);
 			}
-
-			if (!phalcon_class_exists(class_name TSRMLS_CC)) {
-				if (phalcon_array_isset_string(module, SS("path"))) {
-
-					PHALCON_OBS_VAR(path);
-					phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY_CC);
+	
+			/** 
+			 * If developer specify a path try to include the file
+			 */
+			if (phalcon_array_isset_string(module, SS("path"))) {
+	
+				PHALCON_OBS_VAR(path);
+				phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY_CC);
+	
+				PHALCON_INIT_VAR(c0);
+				ZVAL_BOOL(c0, 0);
+	
+				PHALCON_INIT_VAR(r0);
+				phalcon_call_func_p2(r0, "class_exists", class_name, c0);
+				if (!zend_is_true(r0)) {
 					if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 						if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 							return;

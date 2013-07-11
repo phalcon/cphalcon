@@ -345,7 +345,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys){
 
 	zval *prefix = NULL, *prefixed, *options, *special_key;
 	zval *keys, *prefixed_keys, *ttl = NULL, *key = NULL, *real_key = NULL;
-	zval *empty_arr;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -402,10 +401,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys){
 	
 	}
 	
-	PHALCON_INIT_VAR(empty_arr);
-	array_init(empty_arr);
-	
-	RETURN_CTOR(empty_arr);
+	RETURN_MM_EMPTY_ARRAY();
 }
 
 /**

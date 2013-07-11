@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_DI, get){
 		/** 
 		 * The DI also acts as builder for any class even if it isn't defined in the DI
 		 */
-		if (phalcon_class_exists(name TSRMLS_CC)) {
+		if (phalcon_class_exists(name, 1 TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
 					PHALCON_INIT_NVAR(instance);
@@ -574,15 +574,14 @@ PHP_METHOD(Phalcon_DI, offsetSet){
  */
 PHP_METHOD(Phalcon_DI, offsetGet){
 
-	zval *name, *service;
+	zval *name;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &name);
 	
-	PHALCON_INIT_VAR(service);
-	phalcon_call_method_p1(service, this_ptr, "getshared", name);
-	RETURN_CCTOR(service);
+	phalcon_call_method_p1(return_value, this_ptr, "getshared", name);
+	RETURN_MM();
 }
 
 /**

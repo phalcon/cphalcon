@@ -134,16 +134,14 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, execute){
 
-	zval *pdo_statement, *status;
+	zval *pdo_statement;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo_statement);
 	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(status);
-	phalcon_call_method(status, pdo_statement, "execute");
-	RETURN_CCTOR(status);
+	phalcon_call_method(return_value, pdo_statement, "execute");
+	RETURN_MM();
 }
 
 /**
@@ -162,16 +160,14 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetch){
 
-	zval *pdo_statement, *row;
+	zval *pdo_statement;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo_statement);
 	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(row);
-	phalcon_call_method(row, pdo_statement, "fetch");
-	RETURN_CCTOR(row);
+	phalcon_call_method(return_value, pdo_statement, "fetch");
+	RETURN_MM();
 }
 
 /**
@@ -190,16 +186,14 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
 
-	zval *pdo_statement, *row;
+	zval *pdo_statement;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo_statement);
 	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(row);
-	phalcon_call_method(row, pdo_statement, "fetch");
-	RETURN_CCTOR(row);
+	phalcon_call_method(return_value, pdo_statement, "fetch");
+	RETURN_MM();
 }
 
 /**
@@ -215,16 +209,14 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
 
-	zval *pdo_statement, *rows;
+	zval *pdo_statement;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo_statement);
 	phalcon_read_property_this(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(rows);
-	phalcon_call_method(rows, pdo_statement, "fetchall");
-	RETURN_CCTOR(rows);
+	phalcon_call_method(return_value, pdo_statement, "fetchall");
+	RETURN_MM();
 }
 
 /**

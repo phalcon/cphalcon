@@ -560,7 +560,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessages){
 
-	zval *by_item_name = NULL, *messages, *group = NULL, *element_messages = NULL;
+	zval *by_item_name = NULL, *messages, *group, *element_messages = NULL;
 	zval *element = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -579,17 +579,16 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages){
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (zend_is_true(by_item_name)) {
 		if (Z_TYPE_P(messages) != IS_ARRAY) { 
-			PHALCON_INIT_VAR(group);
-			object_init_ex(group, phalcon_validation_message_group_ce);
-			phalcon_call_method_noret(group, "__construct");
+			object_init_ex(return_value, phalcon_validation_message_group_ce);
+			phalcon_call_method_noret(return_value, "__construct");
 	
-			RETURN_CTOR(group);
+			RETURN_MM();
 		}
 	
 		RETURN_CCTOR(messages);
 	}
 	
-	PHALCON_INIT_NVAR(group);
+	PHALCON_INIT_VAR(group);
 	object_init_ex(group, phalcon_validation_message_group_ce);
 	phalcon_call_method_noret(group, "__construct");
 	
@@ -1016,16 +1015,14 @@ PHP_METHOD(Phalcon_Forms_Form, clear){
  */
 PHP_METHOD(Phalcon_Forms_Form, count){
 
-	zval *elements, *number;
+	zval *elements;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number);
-	phalcon_fast_count(number, elements TSRMLS_CC);
-	RETURN_NCTOR(number);
+	phalcon_fast_count(return_value, elements TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**

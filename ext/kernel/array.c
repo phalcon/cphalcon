@@ -783,7 +783,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 
 	zval **zv;
 	HashTable *ht;
-	int result, i;
+	int result;
 	ulong uidx;
 	char *sidx = NULL;
 

@@ -59,7 +59,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_TextArea){
  */
 PHP_METHOD(Phalcon_Forms_Element_TextArea, render){
 
-	zval *attributes = NULL, *widget_attributes, *code;
+	zval *attributes = NULL, *widget_attributes;
 
 	PHALCON_MM_GROW();
 
@@ -71,9 +71,7 @@ PHP_METHOD(Phalcon_Forms_Element_TextArea, render){
 	
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	
-	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "textarea", widget_attributes);
-	RETURN_CCTOR(code);
+	PHALCON_CALL_STATIC_PARAMS_1(return_value, "phalcon\\tag", "textarea", widget_attributes);
+	RETURN_MM();
 }
 

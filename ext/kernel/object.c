@@ -272,7 +272,7 @@ zend_class_entry *phalcon_fetch_class(const zval *class_name TSRMLS_DC) {
 /**
  * Checks if a class exist
  */
-int phalcon_class_exists(const zval *class_name TSRMLS_DC) {
+int phalcon_class_exists(const zval *class_name, int autoload TSRMLS_DC) {
 
 	zend_class_entry **ce;
 

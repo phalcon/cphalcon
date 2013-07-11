@@ -698,7 +698,7 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners){
  */
 PHP_METHOD(Phalcon_Events_Manager, getListeners){
 
-	zval *type, *events, *fire_events, *empty_array;
+	zval *type, *events, *fire_events;
 
 	PHALCON_MM_GROW();
 
@@ -714,9 +714,6 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners){
 		}
 	}
 	
-	PHALCON_INIT_VAR(empty_array);
-	array_init(empty_array);
-	
-	RETURN_CTOR(empty_array);
+	RETURN_MM_EMPTY_ARRAY();
 }
 

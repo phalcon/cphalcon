@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 
 	zval *prefix = NULL, *memcache = NULL, *options, *special_key;
-	zval *keys, *prefixed_keys, *ttl = NULL, *key = NULL, *empty_arr;
+	zval *keys, *prefixed_keys, *ttl = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -484,10 +484,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 		RETURN_CTOR(prefixed_keys);
 	}
 	
-	PHALCON_INIT_VAR(empty_arr);
-	array_init(empty_arr);
-	
-	RETURN_CTOR(empty_arr);
+	RETURN_MM_EMPTY_ARRAY();
 }
 
 /**

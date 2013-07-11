@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Http_Request, get){
 
 	zval *name = NULL, *filters = NULL, *default_value = NULL, *request = NULL;
 	zval *_REQUEST, *value, *filter = NULL, *dependency_injector;
-	zval *service, *sanitized_value;
+	zval *service;
 
 	PHALCON_MM_GROW();
 
@@ -171,10 +171,8 @@ PHP_METHOD(Phalcon_Http_Request, get){
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
-				PHALCON_INIT_VAR(sanitized_value);
-				phalcon_call_method_p2(sanitized_value, filter, "sanitize", value, filters);
-	
-				RETURN_CCTOR(sanitized_value);
+				phalcon_call_method_p2(return_value, filter, "sanitize", value, filters);
+				RETURN_MM();
 			} else {
 				RETURN_CCTOR(value);
 			}
@@ -207,7 +205,6 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 
 	zval *name = NULL, *filters = NULL, *default_value = NULL, *post = NULL, *_POST;
 	zval *value, *filter = NULL, *dependency_injector, *service;
-	zval *sanitized_value;
 
 	PHALCON_MM_GROW();
 
@@ -253,10 +250,8 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
-				PHALCON_INIT_VAR(sanitized_value);
-				phalcon_call_method_p2(sanitized_value, filter, "sanitize", value, filters);
-	
-				RETURN_CCTOR(sanitized_value);
+				phalcon_call_method_p2(return_value, filter, "sanitize", value, filters);
+				RETURN_MM();
 			} else {
 				RETURN_CCTOR(value);
 			}
@@ -292,7 +287,6 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 
 	zval *name = NULL, *filters = NULL, *default_value = NULL, *get = NULL, *_GET;
 	zval *value, *filter = NULL, *dependency_injector, *service;
-	zval *sanitized_value;
 
 	PHALCON_MM_GROW();
 
@@ -338,10 +332,8 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
-				PHALCON_INIT_VAR(sanitized_value);
-				phalcon_call_method_p2(sanitized_value, filter, "sanitize", value, filters);
-	
-				RETURN_CCTOR(sanitized_value);
+				phalcon_call_method_p2(return_value, filter, "sanitize", value, filters);
+				RETURN_MM();
 			} else {
 				RETURN_CCTOR(value);
 			}
@@ -480,8 +472,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeader){
 			RETURN_CCTOR(server_value);
 		}
 	}
-	PHALCON_MM_RESTORE();
-	RETURN_EMPTY_STRING();
+	RETURN_MM_EMPTY_STRING();
 }
 
 /**
@@ -524,7 +515,7 @@ PHP_METHOD(Phalcon_Http_Request, getScheme){
 PHP_METHOD(Phalcon_Http_Request, isAjax){
 
 	zval *requested_header, *xml_http_request;
-	zval *requested_with, *is_ajax;
+	zval *requested_with;
 
 	PHALCON_MM_GROW();
 
@@ -536,10 +527,8 @@ PHP_METHOD(Phalcon_Http_Request, isAjax){
 	
 	PHALCON_INIT_VAR(requested_with);
 	phalcon_call_method_p1(requested_with, this_ptr, "getheader", requested_header);
-	
-	PHALCON_INIT_VAR(is_ajax);
-	is_equal_function(is_ajax, requested_with, xml_http_request TSRMLS_CC);
-	RETURN_NCTOR(is_ajax);
+	is_equal_function(return_value, requested_with, xml_http_request TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -578,7 +567,7 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested){
  */
 PHP_METHOD(Phalcon_Http_Request, isSecureRequest){
 
-	zval *scheme, *https, *is_equal;
+	zval *scheme, *https;
 
 	PHALCON_MM_GROW();
 
@@ -587,10 +576,8 @@ PHP_METHOD(Phalcon_Http_Request, isSecureRequest){
 	
 	PHALCON_INIT_VAR(https);
 	ZVAL_STRING(https, "https", 1);
-	
-	PHALCON_INIT_VAR(is_equal);
-	is_identical_function(is_equal, https, scheme TSRMLS_CC);
-	RETURN_NCTOR(is_equal);
+	is_identical_function(return_value, https, scheme TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -630,16 +617,15 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
  */
 PHP_METHOD(Phalcon_Http_Request, getJsonRawBody){
 
-	zval *raw_body, *json_raw_body;
+	zval *raw_body;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(raw_body);
 	phalcon_call_method(raw_body, this_ptr, "getrawbody");
 	if (Z_TYPE_P(raw_body) == IS_STRING) {
-		PHALCON_INIT_VAR(json_raw_body);
-		phalcon_call_func_p1(json_raw_body, "json_decode", raw_body);
-		RETURN_CCTOR(json_raw_body);
+		phalcon_call_func_p1(return_value, "json_decode", raw_body);
+		RETURN_MM();
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -652,7 +638,7 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody){
  */
 PHP_METHOD(Phalcon_Http_Request, getServerAddress){
 
-	zval *server = NULL, *_SERVER, *server_addr = NULL, *localhost;
+	zval *server = NULL, *_SERVER, *server_addr, *localhost;
 
 	PHALCON_MM_GROW();
 
@@ -666,11 +652,8 @@ PHP_METHOD(Phalcon_Http_Request, getServerAddress){
 	
 	PHALCON_INIT_VAR(localhost);
 	ZVAL_STRING(localhost, "localhost", 1);
-	
-	PHALCON_INIT_NVAR(server_addr);
-	phalcon_call_func_p1(server_addr, "gethostbyname", localhost);
-	
-	RETURN_CCTOR(server_addr);
+	phalcon_call_func_p1(return_value, "gethostbyname", localhost);
+	RETURN_MM();
 }
 
 /**
@@ -705,7 +688,7 @@ PHP_METHOD(Phalcon_Http_Request, getServerName){
  */
 PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 
-	zval *host, *http_host = NULL, *scheme, *server_name, *name;
+	zval *host, *http_host, *scheme, *server_name, *name;
 	zval *server_port, *port, *http, *standard_port;
 	zval *is_std_name, *is_std_port, *is_std_http;
 	zval *https, *secure_port, *is_secure_scheme;
@@ -799,10 +782,9 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 		RETURN_CCTOR(name);
 	}
 	
-	PHALCON_INIT_NVAR(http_host);
-	PHALCON_CONCAT_VSV(http_host, name, ":", port);
+	PHALCON_CONCAT_VSV(return_value, name, ":", port);
 	
-	RETURN_CCTOR(http_host);
+	RETURN_MM();
 }
 
 /**
@@ -962,7 +944,7 @@ PHP_METHOD(Phalcon_Http_Request, isMethod){
  */
 PHP_METHOD(Phalcon_Http_Request, isPost){
 
-	zval *post, *method, *is_post;
+	zval *post, *method;
 
 	PHALCON_MM_GROW();
 
@@ -971,10 +953,8 @@ PHP_METHOD(Phalcon_Http_Request, isPost){
 	
 	PHALCON_INIT_VAR(method);
 	phalcon_call_method(method, this_ptr, "getmethod");
-	
-	PHALCON_INIT_VAR(is_post);
-	is_equal_function(is_post, method, post TSRMLS_CC);
-	RETURN_NCTOR(is_post);
+	is_equal_function(return_value, method, post TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -985,7 +965,7 @@ PHP_METHOD(Phalcon_Http_Request, isPost){
  */
 PHP_METHOD(Phalcon_Http_Request, isGet){
 
-	zval *get, *method, *is_get;
+	zval *get, *method;
 
 	PHALCON_MM_GROW();
 
@@ -994,10 +974,8 @@ PHP_METHOD(Phalcon_Http_Request, isGet){
 	
 	PHALCON_INIT_VAR(method);
 	phalcon_call_method(method, this_ptr, "getmethod");
-	
-	PHALCON_INIT_VAR(is_get);
-	is_equal_function(is_get, method, get TSRMLS_CC);
-	RETURN_NCTOR(is_get);
+	is_equal_function(return_value, method, get TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -1007,7 +985,7 @@ PHP_METHOD(Phalcon_Http_Request, isGet){
  */
 PHP_METHOD(Phalcon_Http_Request, isPut){
 
-	zval *put, *method, *is_put;
+	zval *put, *method;
 
 	PHALCON_MM_GROW();
 
@@ -1016,10 +994,8 @@ PHP_METHOD(Phalcon_Http_Request, isPut){
 	
 	PHALCON_INIT_VAR(method);
 	phalcon_call_method(method, this_ptr, "getmethod");
-	
-	PHALCON_INIT_VAR(is_put);
-	is_equal_function(is_put, method, put TSRMLS_CC);
-	RETURN_NCTOR(is_put);
+	is_equal_function(return_value, method, put TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -1029,7 +1005,7 @@ PHP_METHOD(Phalcon_Http_Request, isPut){
  */
 PHP_METHOD(Phalcon_Http_Request, isPatch){
 
-	zval *patch, *method, *is_patch;
+	zval *patch, *method;
 
 	PHALCON_MM_GROW();
 
@@ -1038,10 +1014,8 @@ PHP_METHOD(Phalcon_Http_Request, isPatch){
 	
 	PHALCON_INIT_VAR(method);
 	phalcon_call_method(method, this_ptr, "getmethod");
-	
-	PHALCON_INIT_VAR(is_patch);
-	is_equal_function(is_patch, method, patch TSRMLS_CC);
-	RETURN_NCTOR(is_patch);
+	is_equal_function(return_value, method, patch TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -1051,7 +1025,7 @@ PHP_METHOD(Phalcon_Http_Request, isPatch){
  */
 PHP_METHOD(Phalcon_Http_Request, isHead){
 
-	zval *head, *method, *is_head;
+	zval *head, *method;
 
 	PHALCON_MM_GROW();
 
@@ -1060,10 +1034,8 @@ PHP_METHOD(Phalcon_Http_Request, isHead){
 	
 	PHALCON_INIT_VAR(method);
 	phalcon_call_method(method, this_ptr, "getmethod");
-	
-	PHALCON_INIT_VAR(is_head);
-	is_equal_function(is_head, method, head TSRMLS_CC);
-	RETURN_NCTOR(is_head);
+	is_equal_function(return_value, method, head TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -1073,7 +1045,7 @@ PHP_METHOD(Phalcon_Http_Request, isHead){
  */
 PHP_METHOD(Phalcon_Http_Request, isDelete){
 
-	zval *delete, *method, *is_delete;
+	zval *delete, *method;
 
 	PHALCON_MM_GROW();
 
@@ -1082,10 +1054,8 @@ PHP_METHOD(Phalcon_Http_Request, isDelete){
 	
 	PHALCON_INIT_VAR(method);
 	phalcon_call_method(method, this_ptr, "getmethod");
-	
-	PHALCON_INIT_VAR(is_delete);
-	is_equal_function(is_delete, method, delete TSRMLS_CC);
-	RETURN_NCTOR(is_delete);
+	is_equal_function(return_value, method, delete TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -1095,7 +1065,7 @@ PHP_METHOD(Phalcon_Http_Request, isDelete){
  */
 PHP_METHOD(Phalcon_Http_Request, isOptions){
 
-	zval *options, *method, *is_options;
+	zval *options, *method;
 
 	PHALCON_MM_GROW();
 
@@ -1104,10 +1074,8 @@ PHP_METHOD(Phalcon_Http_Request, isOptions){
 	
 	PHALCON_INIT_VAR(method);
 	phalcon_call_method(method, this_ptr, "getmethod");
-	
-	PHALCON_INIT_VAR(is_options);
-	is_equal_function(is_options, method, options TSRMLS_CC);
-	RETURN_NCTOR(is_options);
+	is_equal_function(return_value, method, options TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -1118,7 +1086,7 @@ PHP_METHOD(Phalcon_Http_Request, isOptions){
 PHP_METHOD(Phalcon_Http_Request, hasFiles){
 
 	zval *not_errored = NULL, *files = NULL, *_FILES, *zero, *number_files = NULL;
-	zval *file = NULL, *error = NULL, *has_files;
+	zval *file = NULL, *error = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1167,10 +1135,9 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 	
 	}
 	
-	PHALCON_INIT_VAR(has_files);
-	is_smaller_function(has_files, zero, number_files TSRMLS_CC);
+	is_smaller_function(return_value, zero, number_files TSRMLS_CC);
 	
-	RETURN_NCTOR(has_files);
+	RETURN_MM();
 }
 
 /**
@@ -1182,7 +1149,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
 	zval *not_errored = NULL, *super_files = NULL, *_FILES, *files;
-	zval *file = NULL, *error = NULL, *request_file = NULL, *empty_files;
+	zval *file = NULL, *error = NULL, *request_file = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1239,10 +1206,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 		RETURN_CTOR(files);
 	}
 	
-	PHALCON_INIT_VAR(empty_files);
-	array_init(empty_files);
-	
-	RETURN_CTOR(empty_files);
+	RETURN_MM_EMPTY_ARRAY();
 }
 
 /**
@@ -1308,8 +1272,7 @@ PHP_METHOD(Phalcon_Http_Request, getHTTPReferer){
 		phalcon_array_fetch_string(&http_referer, _SERVER, SL("HTTP_REFERER"), PH_NOISY_CC);
 		RETURN_CCTOR(http_referer);
 	}
-	PHALCON_MM_RESTORE();
-	RETURN_EMPTY_STRING();
+	RETURN_MM_EMPTY_STRING();
 }
 
 /**
@@ -1448,7 +1411,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
  */
 PHP_METHOD(Phalcon_Http_Request, getAcceptableContent){
 
-	zval *accept_header, *quality_index, *quality_header;
+	zval *accept_header, *quality_index;
 
 	PHALCON_MM_GROW();
 
@@ -1457,10 +1420,8 @@ PHP_METHOD(Phalcon_Http_Request, getAcceptableContent){
 	
 	PHALCON_INIT_VAR(quality_index);
 	ZVAL_STRING(quality_index, "accept", 1);
-	
-	PHALCON_INIT_VAR(quality_header);
-	phalcon_call_method_p2(quality_header, this_ptr, "_getqualityheader", accept_header, quality_index);
-	RETURN_CCTOR(quality_header);
+	phalcon_call_method_p2(return_value, this_ptr, "_getqualityheader", accept_header, quality_index);
+	RETURN_MM();
 }
 
 /**
@@ -1471,7 +1432,6 @@ PHP_METHOD(Phalcon_Http_Request, getAcceptableContent){
 PHP_METHOD(Phalcon_Http_Request, getBestAccept){
 
 	zval *quality_index, *acceptable_content;
-	zval *best_quality;
 
 	PHALCON_MM_GROW();
 
@@ -1480,10 +1440,8 @@ PHP_METHOD(Phalcon_Http_Request, getBestAccept){
 	
 	PHALCON_INIT_VAR(acceptable_content);
 	phalcon_call_method(acceptable_content, this_ptr, "getacceptablecontent");
-	
-	PHALCON_INIT_VAR(best_quality);
-	phalcon_call_method_p2(best_quality, this_ptr, "_getbestquality", acceptable_content, quality_index);
-	RETURN_CCTOR(best_quality);
+	phalcon_call_method_p2(return_value, this_ptr, "_getbestquality", acceptable_content, quality_index);
+	RETURN_MM();
 }
 
 /**
@@ -1493,7 +1451,7 @@ PHP_METHOD(Phalcon_Http_Request, getBestAccept){
  */
 PHP_METHOD(Phalcon_Http_Request, getClientCharsets){
 
-	zval *charset_header, *quality_index, *quality_charset;
+	zval *charset_header, *quality_index;
 
 	PHALCON_MM_GROW();
 
@@ -1502,10 +1460,8 @@ PHP_METHOD(Phalcon_Http_Request, getClientCharsets){
 	
 	PHALCON_INIT_VAR(quality_index);
 	ZVAL_STRING(quality_index, "charset", 1);
-	
-	PHALCON_INIT_VAR(quality_charset);
-	phalcon_call_method_p2(quality_charset, this_ptr, "_getqualityheader", charset_header, quality_index);
-	RETURN_CCTOR(quality_charset);
+	phalcon_call_method_p2(return_value, this_ptr, "_getqualityheader", charset_header, quality_index);
+	RETURN_MM();
 }
 
 /**
@@ -1515,7 +1471,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientCharsets){
  */
 PHP_METHOD(Phalcon_Http_Request, getBestCharset){
 
-	zval *quality_index, *client_charsets, *best_charset;
+	zval *quality_index, *client_charsets;
 
 	PHALCON_MM_GROW();
 
@@ -1524,10 +1480,8 @@ PHP_METHOD(Phalcon_Http_Request, getBestCharset){
 	
 	PHALCON_INIT_VAR(client_charsets);
 	phalcon_call_method(client_charsets, this_ptr, "getclientcharsets");
-	
-	PHALCON_INIT_VAR(best_charset);
-	phalcon_call_method_p2(best_charset, this_ptr, "_getbestquality", client_charsets, quality_index);
-	RETURN_CCTOR(best_charset);
+	phalcon_call_method_p2(return_value, this_ptr, "_getbestquality", client_charsets, quality_index);
+	RETURN_MM();
 }
 
 /**
@@ -1537,7 +1491,7 @@ PHP_METHOD(Phalcon_Http_Request, getBestCharset){
  */
 PHP_METHOD(Phalcon_Http_Request, getLanguages){
 
-	zval *language_header, *quality_index, *languages;
+	zval *language_header, *quality_index;
 
 	PHALCON_MM_GROW();
 
@@ -1546,10 +1500,8 @@ PHP_METHOD(Phalcon_Http_Request, getLanguages){
 	
 	PHALCON_INIT_VAR(quality_index);
 	ZVAL_STRING(quality_index, "language", 1);
-	
-	PHALCON_INIT_VAR(languages);
-	phalcon_call_method_p2(languages, this_ptr, "_getqualityheader", language_header, quality_index);
-	RETURN_CCTOR(languages);
+	phalcon_call_method_p2(return_value, this_ptr, "_getqualityheader", language_header, quality_index);
+	RETURN_MM();
 }
 
 /**
@@ -1559,7 +1511,7 @@ PHP_METHOD(Phalcon_Http_Request, getLanguages){
  */
 PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
 
-	zval *languages, *quality_index, *best_language;
+	zval *languages, *quality_index;
 
 	PHALCON_MM_GROW();
 
@@ -1568,9 +1520,7 @@ PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
 	
 	PHALCON_INIT_VAR(quality_index);
 	ZVAL_STRING(quality_index, "language", 1);
-	
-	PHALCON_INIT_VAR(best_language);
-	phalcon_call_method_p2(best_language, this_ptr, "_getbestquality", languages, quality_index);
-	RETURN_CCTOR(best_language);
+	phalcon_call_method_p2(return_value, this_ptr, "_getbestquality", languages, quality_index);
+	RETURN_MM();
 }
 

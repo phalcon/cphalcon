@@ -75,7 +75,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect){
  */
 PHP_METHOD(Phalcon_Db_Dialect, limit){
 
-	zval *sql_query, *number, *limit, *sql_limit;
+	zval *sql_query, *number, *limit;
 
 	PHALCON_MM_GROW();
 
@@ -84,10 +84,8 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 	if (phalcon_is_numeric(number)) {
 		PHALCON_INIT_VAR(limit);
 		ZVAL_LONG(limit, phalcon_get_intval(number));
-	
-		PHALCON_INIT_VAR(sql_limit);
-		PHALCON_CONCAT_VSV(sql_limit, sql_query, " LIMIT ", limit);
-		RETURN_CTOR(sql_limit);
+		PHALCON_CONCAT_VSV(return_value, sql_query, " LIMIT ", limit);
+		RETURN_MM();
 	}
 	
 	RETURN_CCTOR(sql_query);
@@ -106,15 +104,12 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
  */
 PHP_METHOD(Phalcon_Db_Dialect, forUpdate){
 
-	zval *sql_query, *sql;
+	zval *sql_query;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &sql_query);
+	phalcon_fetch_params(0, 1, 0, &sql_query);
 	
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_VS(sql, sql_query, " FOR UPDATE");
-	RETURN_CTOR(sql);
+	PHALCON_CONCAT_VS(return_value, sql_query, " FOR UPDATE");
+	return;
 }
 
 /**
@@ -130,15 +125,12 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate){
  */
 PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 
-	zval *sql_query, *sql;
+	zval *sql_query;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &sql_query);
+	phalcon_fetch_params(0, 1, 0, &sql_query);
 	
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_VS(sql, sql_query, " LOCK IN SHARE MODE");
-	RETURN_CTOR(sql);
+	PHALCON_CONCAT_VS(return_value, sql_query, " LOCK IN SHARE MODE");
+	return;
 }
 
 /**
@@ -154,7 +146,7 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 
 	zval *column_list, *str_list, *escape_char, *column = NULL;
-	zval *column_quoted = NULL, *joined_list;
+	zval *column_quoted = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -182,10 +174,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(joined_list);
-	phalcon_fast_join_str(joined_list, SL(", "), str_list TSRMLS_CC);
-	
-	RETURN_CTOR(joined_list);
+	phalcon_fast_join_str(return_value, SL(", "), str_list TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -200,12 +190,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	zval *expression, *escape_char = NULL, *type, *name = NULL, *escaped_name = NULL;
 	zval *domain, *escaped_domain = NULL, *value = NULL, *operator = NULL;
 	zval *left = NULL, *expression_left = NULL, *right = NULL, *expression_right = NULL;
-	zval *binary_expr, *unary_expr = NULL, *expression_group;
-	zval *sql_arguments, *arguments, *argument = NULL, *argument_expression = NULL;
-	zval *arguments_joined, *function_expression = NULL;
+	zval *expression_group, *sql_arguments, *arguments;
+	zval *argument = NULL, *argument_expression = NULL, *arguments_joined;
 	zval *sql_items, *items, *item = NULL, *item_expression = NULL;
-	zval *list_expression, *group_expression;
-	zval *expression_cast = NULL, *exception_message;
+	zval *list_expression, *exception_message;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -301,10 +289,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 		PHALCON_INIT_VAR(expression_right);
 		phalcon_call_method_p2(expression_right, this_ptr, "getsqlexpression", right, escape_char);
-	
-		PHALCON_INIT_VAR(binary_expr);
-		PHALCON_CONCAT_VSVSV(binary_expr, expression_left, " ", operator, " ", expression_right);
-		RETURN_CTOR(binary_expr);
+		PHALCON_CONCAT_VSVSV(return_value, expression_left, " ", operator, " ", expression_right);
+		RETURN_MM();
 	}
 	
 	/** 
@@ -324,10 +310,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 			PHALCON_INIT_NVAR(expression_left);
 			phalcon_call_method_p2(expression_left, this_ptr, "getsqlexpression", left, escape_char);
-	
-			PHALCON_INIT_VAR(unary_expr);
-			PHALCON_CONCAT_VV(unary_expr, expression_left, operator);
-			RETURN_CTOR(unary_expr);
+			PHALCON_CONCAT_VV(return_value, expression_left, operator);
+			RETURN_MM();
 		}
 	
 		/** 
@@ -339,10 +323,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 			PHALCON_INIT_NVAR(expression_right);
 			phalcon_call_method_p2(expression_right, this_ptr, "getsqlexpression", right, escape_char);
-	
-			PHALCON_INIT_NVAR(unary_expr);
-			PHALCON_CONCAT_VV(unary_expr, operator, expression_right);
-			RETURN_CTOR(unary_expr);
+			PHALCON_CONCAT_VV(return_value, operator, expression_right);
+			RETURN_MM();
 		}
 	}
 	
@@ -400,15 +382,13 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 			PHALCON_INIT_VAR(arguments_joined);
 			phalcon_fast_join_str(arguments_joined, SL(", "), sql_arguments TSRMLS_CC);
+			PHALCON_CONCAT_VSVS(return_value, name, "(", arguments_joined, ")");
 	
-			PHALCON_INIT_VAR(function_expression);
-			PHALCON_CONCAT_VSVS(function_expression, name, "(", arguments_joined, ")");
+			RETURN_MM();
 		} else {
-			PHALCON_INIT_NVAR(function_expression);
-			PHALCON_CONCAT_VS(function_expression, name, "()");
+			PHALCON_CONCAT_VS(return_value, name, "()");
+			RETURN_MM();
 		}
-	
-		RETURN_CTOR(function_expression);
 	}
 	
 	/** 
@@ -437,19 +417,16 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 		PHALCON_INIT_VAR(list_expression);
 		phalcon_fast_join_str(list_expression, SL(", "), sql_items TSRMLS_CC);
+		PHALCON_CONCAT_SVS(return_value, "(", list_expression, ")");
 	
-		PHALCON_INIT_VAR(group_expression);
-		PHALCON_CONCAT_SVS(group_expression, "(", list_expression, ")");
-	
-		RETURN_CTOR(group_expression);
+		RETURN_MM();
 	}
 	
 	/** 
 	 * Resolve *
 	 */
 	if (PHALCON_IS_STRING(type, "all")) {
-		PHALCON_MM_RESTORE();
-		RETURN_STRING("*", 1);
+		RETURN_MM_STRING("*", 1);
 	}
 	
 	/** 
@@ -467,10 +444,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 		PHALCON_INIT_NVAR(expression_right);
 		phalcon_call_method_p2(expression_right, this_ptr, "getsqlexpression", right, escape_char);
-	
-		PHALCON_INIT_VAR(expression_cast);
-		PHALCON_CONCAT_SVSVS(expression_cast, "CAST(", expression_left, " AS ", expression_right, ")");
-		RETURN_CTOR(expression_cast);
+		PHALCON_CONCAT_SVSVS(return_value, "CAST(", expression_left, " AS ", expression_right, ")");
+		RETURN_MM();
 	}
 	
 	/** 
@@ -488,10 +463,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 		PHALCON_INIT_NVAR(expression_right);
 		phalcon_call_method_p2(expression_right, this_ptr, "getsqlexpression", right, escape_char);
-	
-		PHALCON_INIT_NVAR(expression_cast);
-		PHALCON_CONCAT_SVSVS(expression_cast, "CONVERT(", expression_left, " USING ", expression_right, ")");
-		RETURN_CTOR(expression_cast);
+		PHALCON_CONCAT_SVSVS(return_value, "CONVERT(", expression_left, " USING ", expression_right, ")");
+		RETURN_MM();
 	}
 	
 	/** 
@@ -583,9 +556,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 	}
 	
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
-		PHALCON_INIT_NVAR(sql_table);
-		PHALCON_CONCAT_VVV(sql_table, escape_char, table, escape_char);
-		RETURN_CCTOR(sql_table);
+		PHALCON_CONCAT_VVV(return_value, escape_char, table, escape_char);
+		RETURN_MM();
 	}
 	
 	RETURN_CCTOR(table);
@@ -983,13 +955,11 @@ PHP_METHOD(Phalcon_Db_Dialect, supportsSavepoints){
  */
 PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints){
 
-	zval *supports_sp;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(supports_sp);
-	phalcon_call_method(supports_sp, this_ptr, "supportssavepoints");
-	RETURN_CCTOR(supports_sp);
+	phalcon_call_method(return_value, this_ptr, "supportssavepoints");
+	RETURN_MM();
 }
 
 /**
@@ -1000,15 +970,12 @@ PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints){
  */
 PHP_METHOD(Phalcon_Db_Dialect, createSavepoint){
 
-	zval *name, *sql;
+	zval *name;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SV(sql, "SAVEPOINT ", name);
-	RETURN_CTOR(sql);
+	PHALCON_CONCAT_SV(return_value, "SAVEPOINT ", name);
+	return;
 }
 
 /**
@@ -1019,15 +986,12 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint){
  */
 PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint){
 
-	zval *name, *sql;
+	zval *name;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SV(sql, "RELEASE SAVEPOINT ", name);
-	RETURN_CTOR(sql);
+	PHALCON_CONCAT_SV(return_value, "RELEASE SAVEPOINT ", name);
+	return;
 }
 
 /**
@@ -1038,14 +1002,11 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint){
  */
 PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint){
 
-	zval *name, *sql;
+	zval *name;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SV(sql, "ROLLBACK TO SAVEPOINT ", name);
-	RETURN_CTOR(sql);
+	PHALCON_CONCAT_SV(return_value, "ROLLBACK TO SAVEPOINT ", name);
+	return;
 }
 

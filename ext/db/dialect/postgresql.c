@@ -130,11 +130,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 			PHALCON_INIT_NVAR(column_sql);
 			ZVAL_STRING(column_sql, "FLOAT", 1);
 			break;
-
-		case 8:
-            PHALCON_INIT_VAR(column_sql);
-            ZVAL_STRING(column_sql, "SMALLINT(1)", 1);
-            break;
 	
 		default:
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type");
@@ -314,15 +309,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions){
 
-	zval *definition, *empty_array;
+	zval *definition;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &definition);
+	phalcon_fetch_params(0, 1, 0, &definition);
 	
-	PHALCON_INIT_VAR(empty_array);
-	array_init(empty_array);
-	RETURN_CTOR(empty_array);
+	RETURN_EMPTY_ARRAY();
 }
 
 /**
@@ -688,7 +679,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions){
 		PHALCON_INIT_VAR(schema);
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_EMPTY_STRING();
+	RETURN_MM_EMPTY_STRING();
 }
 

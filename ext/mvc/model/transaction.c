@@ -168,16 +168,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin){
 
-	zval *connection, *success;
+	zval *connection;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(connection);
 	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method(success, connection, "begin");
-	RETURN_CCTOR(success);
+	phalcon_call_method(return_value, connection, "begin");
+	RETURN_MM();
 }
 
 /**
@@ -188,7 +186,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin){
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 
 	zval *manager, *call_object, *arguments, *connection;
-	zval *success;
 
 	PHALCON_MM_GROW();
 
@@ -208,11 +205,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 	
 	PHALCON_OBS_VAR(connection);
 	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method(success, connection, "commit");
-	
-	RETURN_CCTOR(success);
+	phalcon_call_method(return_value, connection, "commit");
+	RETURN_MM();
 }
 
 /**
@@ -226,7 +220,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 
 	zval *rollback_message = NULL, *rollback_record = NULL;
 	zval *manager, *call_object, *arguments, *connection;
-	zval *success, *exception;
+	zval *success;
+	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -275,11 +270,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 		PHALCON_OBS_NVAR(rollback_record);
 		phalcon_read_property_this(&rollback_record, this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(exception);
-		object_init_ex(exception, phalcon_mvc_model_transaction_failed_ce);
-		phalcon_call_method_p2_noret(exception, "__construct", rollback_message, rollback_record);
+		PHALCON_INIT_VAR(i0);
+		object_init_ex(i0, phalcon_mvc_model_transaction_failed_ce);
+		phalcon_call_method_p2_noret(i0, "__construct", rollback_message, rollback_record);
 	
-		phalcon_throw_exception(exception TSRMLS_CC);
+		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
 	
@@ -354,7 +349,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged){
 
-	zval *manager, *is_managed = NULL;
+	zval *manager;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -364,8 +359,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	boolean_not_function(r0, manager TSRMLS_CC);
-	PHALCON_CPY_WRT(is_managed, r0);
-	RETURN_NCTOR(is_managed);
+	RETURN_NCTOR(r0);
 }
 
 /**
@@ -386,16 +380,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid){
 
-	zval *connection, *is_valid;
+	zval *connection;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(connection);
 	phalcon_read_property_this(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(is_valid);
-	phalcon_call_method(is_valid, connection, "isundertransaction");
-	RETURN_CCTOR(is_valid);
+	phalcon_call_method(return_value, connection, "isundertransaction");
+	RETURN_MM();
 }
 
 /**

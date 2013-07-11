@@ -203,6 +203,9 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
  	phalcon_return_property_quick(return_value, object, SL(member_name), key TSRMLS_CC); \
 	return;
 
+/** Return without change return_value */
+#define RETURN_MM() PHALCON_MM_RESTORE(); return;
+
 /** Return null restoring memory frame */
 #define RETURN_MM_NULL() PHALCON_MM_RESTORE(); RETURN_NULL();
 
@@ -211,7 +214,12 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 #define RETURN_MM_TRUE PHALCON_MM_RESTORE(); RETURN_TRUE;
 
 /** Return string restoring memory frame */
-#define RETURN_MM_STRING(str) RETURN_STRING(str); PHALCON_MM_RESTORE();
+#define RETURN_MM_STRING(str, copy) PHALCON_MM_RESTORE(); RETURN_STRING(str, copy);
+#define RETURN_MM_EMPTY_STRING() PHALCON_MM_RESTORE(); RETURN_EMPTY_STRING();
+
+/** Return empty array */
+#define RETURN_EMPTY_ARRAY() array_init(return_value); return;
+#define RETURN_MM_EMPTY_ARRAY() PHALCON_MM_RESTORE(); RETURN_EMPTY_ARRAY();
 
 #ifndef IS_INTERNED
 #define IS_INTERNED(key) 0

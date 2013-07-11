@@ -174,8 +174,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 		RETURN_CCTOR(value);
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_EMPTY_STRING();
+	RETURN_MM_EMPTY_STRING();
 }
 
 /**

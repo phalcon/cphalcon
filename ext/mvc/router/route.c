@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 
 	zval *pattern, *compiled_pattern = NULL, *id_pattern;
 	zval *wildcard = NULL, *pattern_copy = NULL, *params_pattern;
-	zval *int_pattern, *final_pattern = NULL;
+	zval *int_pattern;
 
 	PHALCON_MM_GROW();
 
@@ -244,21 +244,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 	 * Check if the pattern has parantheses in order to add the regex delimiters
 	 */
 	if (phalcon_memnstr_str(compiled_pattern, SL("(") TSRMLS_CC)) {
-		PHALCON_INIT_VAR(final_pattern);
-		PHALCON_CONCAT_SVS(final_pattern, "#^", compiled_pattern, "$#");
-	} else {
-		/** 
-		 * Square brackets are also checked
-		 */
-		if (phalcon_memnstr_str(compiled_pattern, SL("[") TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(final_pattern);
-			PHALCON_CONCAT_SVS(final_pattern, "#^", compiled_pattern, "$#");
-		} else {
-			PHALCON_CPY_WRT(final_pattern, compiled_pattern);
-		}
+		PHALCON_CONCAT_SVS(return_value, "#^", compiled_pattern, "$#");
+		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(final_pattern);
+	/** 
+	 * Square brackets are also checked
+	 */
+	if (phalcon_memnstr_str(compiled_pattern, SL("[") TSRMLS_CC)) {
+		PHALCON_CONCAT_SVS(return_value, "#^", compiled_pattern, "$#");
+		RETURN_MM();
+	}
+	
+	RETURN_CCTOR(compiled_pattern);
 }
 
 /**

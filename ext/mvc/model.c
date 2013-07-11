@@ -242,16 +242,14 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getEventsManager){
 
-	zval *models_manager, *events_manager;
+	zval *models_manager;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(events_manager);
-	phalcon_call_method_p1(events_manager, models_manager, "getcustomeventsmanager", this_ptr);
-	RETURN_CCTOR(events_manager);
+	phalcon_call_method_p1(return_value, models_manager, "getcustomeventsmanager", this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -392,16 +390,14 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getSource){
 
-	zval *models_manager, *source;
+	zval *models_manager;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(source);
-	phalcon_call_method_p1(source, models_manager, "getmodelsource", this_ptr);
-	RETURN_CCTOR(source);
+	phalcon_call_method_p1(return_value, models_manager, "getmodelsource", this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -431,16 +427,14 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getSchema){
 
-	zval *models_manager, *schema;
+	zval *models_manager;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(schema);
-	phalcon_call_method_p1(schema, models_manager, "getmodelschema", this_ptr);
-	RETURN_CCTOR(schema);
+	phalcon_call_method_p1(return_value, models_manager, "getmodelschema", this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -510,16 +504,14 @@ PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService){
 
-	zval *models_manager, *connection_service;
+	zval *models_manager;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(connection_service);
-	phalcon_call_method_p1(connection_service, models_manager, "getreadconnectionservice", this_ptr);
-	RETURN_CCTOR(connection_service);
+	phalcon_call_method_p1(return_value, models_manager, "getreadconnectionservice", this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -529,16 +521,14 @@ PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getWriteConnectionService){
 
-	zval *models_manager, *connection_service;
+	zval *models_manager;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(connection_service);
-	phalcon_call_method_p1(connection_service, models_manager, "getwriteconnectionservice", this_ptr);
-	RETURN_CCTOR(connection_service);
+	phalcon_call_method_p1(return_value, models_manager, "getwriteconnectionservice", this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -575,16 +565,14 @@ PHP_METHOD(Phalcon_Mvc_Model, getDirtyState){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getReadConnection){
 
-	zval *models_manager, *connection;
+	zval *models_manager;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(connection);
-	phalcon_call_method_p1(connection, models_manager, "getreadconnection", this_ptr);
-	RETURN_CCTOR(connection);
+	phalcon_call_method_p1(return_value, models_manager, "getreadconnection", this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -594,24 +582,21 @@ PHP_METHOD(Phalcon_Mvc_Model, getReadConnection){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection){
 
-	zval *transaction, *connection = NULL, *models_manager;
+	zval *transaction, *models_manager;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(transaction);
 	phalcon_read_property_this(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (Z_TYPE_P(transaction) == IS_OBJECT) {
-		PHALCON_INIT_VAR(connection);
-		phalcon_call_method(connection, transaction, "getconnection");
-	} else {
-		PHALCON_OBS_VAR(models_manager);
-		phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-		PHALCON_INIT_NVAR(connection);
-		phalcon_call_method_p1(connection, models_manager, "getwriteconnection", this_ptr);
+		phalcon_call_method(return_value, transaction, "getconnection");
+		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(connection);
+	PHALCON_OBS_VAR(models_manager);
+	phalcon_read_property_this(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	phalcon_call_method_p1(return_value, models_manager, "getwriteconnection", this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -1096,7 +1081,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
 	zval *one, *query, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *unique, *resultset;
+	zval *unique;
 
 	PHALCON_MM_GROW();
 
@@ -1174,10 +1159,8 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	/** 
 	 * Execute the query passing the bind-params and casting-types
 	 */
-	PHALCON_INIT_VAR(resultset);
-	phalcon_call_method_p2(resultset, query, "execute", bind_params, bind_types);
-	
-	RETURN_CCTOR(resultset);
+	phalcon_call_method_p2(return_value, query, "execute", bind_params, bind_types);
+	RETURN_MM();
 }
 
 /**
@@ -1597,7 +1580,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
  */
 PHP_METHOD(Phalcon_Mvc_Model, count){
 
-	zval *parameters = NULL, *function, *alias, *group;
+	zval *parameters = NULL, *function, *alias;
 
 	PHALCON_MM_GROW();
 
@@ -1612,10 +1595,8 @@ PHP_METHOD(Phalcon_Mvc_Model, count){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "rowcount", 1);
-	
-	PHALCON_INIT_VAR(group);
-	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_groupresult", function, alias, parameters);
-	RETURN_CCTOR(group);
+	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_groupresult", function, alias, parameters);
+	RETURN_MM();
 }
 
 /**
@@ -1638,7 +1619,7 @@ PHP_METHOD(Phalcon_Mvc_Model, count){
  */
 PHP_METHOD(Phalcon_Mvc_Model, sum){
 
-	zval *parameters = NULL, *function, *alias, *group;
+	zval *parameters = NULL, *function, *alias;
 
 	PHALCON_MM_GROW();
 
@@ -1653,10 +1634,8 @@ PHP_METHOD(Phalcon_Mvc_Model, sum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "sumatory", 1);
-	
-	PHALCON_INIT_VAR(group);
-	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_groupresult", function, alias, parameters);
-	RETURN_CCTOR(group);
+	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_groupresult", function, alias, parameters);
+	RETURN_MM();
 }
 
 /**
@@ -1679,7 +1658,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum){
  */
 PHP_METHOD(Phalcon_Mvc_Model, maximum){
 
-	zval *parameters = NULL, *function, *alias, *group;
+	zval *parameters = NULL, *function, *alias;
 
 	PHALCON_MM_GROW();
 
@@ -1694,10 +1673,8 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "maximum", 1);
-	
-	PHALCON_INIT_VAR(group);
-	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_groupresult", function, alias, parameters);
-	RETURN_CCTOR(group);
+	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_groupresult", function, alias, parameters);
+	RETURN_MM();
 }
 
 /**
@@ -1720,7 +1697,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum){
  */
 PHP_METHOD(Phalcon_Mvc_Model, minimum){
 
-	zval *parameters = NULL, *function, *alias, *group;
+	zval *parameters = NULL, *function, *alias;
 
 	PHALCON_MM_GROW();
 
@@ -1735,10 +1712,8 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "minimum", 1);
-	
-	PHALCON_INIT_VAR(group);
-	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_groupresult", function, alias, parameters);
-	RETURN_CCTOR(group);
+	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_groupresult", function, alias, parameters);
+	RETURN_MM();
 }
 
 /**
@@ -1761,7 +1736,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum){
  */
 PHP_METHOD(Phalcon_Mvc_Model, average){
 
-	zval *parameters = NULL, *function, *alias, *group;
+	zval *parameters = NULL, *function, *alias;
 
 	PHALCON_MM_GROW();
 
@@ -1776,10 +1751,8 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "average", 1);
-	
-	PHALCON_INIT_VAR(group);
-	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_groupresult", function, alias, parameters);
-	RETURN_CCTOR(group);
+	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_groupresult", function, alias, parameters);
+	RETURN_MM();
 }
 
 /**
@@ -1790,7 +1763,7 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
  */
 PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 
-	zval *event_name, *models_manager, *success;
+	zval *event_name, *models_manager;
 
 	PHALCON_MM_GROW();
 
@@ -1809,10 +1782,8 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 	/** 
 	 * Send a notification to the events manager
 	 */
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p2(success, models_manager, "notifyevent", event_name, this_ptr);
-	
-	RETURN_CCTOR(success);
+	phalcon_call_method_p2(return_value, models_manager, "notifyevent", event_name, this_ptr);
+	RETURN_MM();
 }
 
 /**
@@ -3290,7 +3261,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *changed = NULL;
 	zval *snapshot_value = NULL, *unique_key, *unique_params = NULL;
 	zval *unique_types, *primary_keys, *conditions;
-	zval *success;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -3529,10 +3499,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	/** 
 	 * Perform the low level update
 	 */
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p5(success, connection, "update", table, fields, values, conditions, bind_types);
-	
-	RETURN_CCTOR(success);
+	phalcon_call_method_p5(return_value, connection, "update", table, fields, values, conditions, bind_types);
+	RETURN_MM();
 }
 
 /**
@@ -4245,7 +4213,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 	zval *attributes, *attribute = NULL, *attribute_field = NULL;
 	zval *exception_message = NULL, *value = NULL, *possible_setter = NULL;
 	zval *read_connection, *exists, *field, *type, *message;
-	zval *model_message, *messages, *success;
+	zval *model_message, *messages;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -4385,10 +4353,8 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 	/** 
 	 * Using save() anyways
 	 */
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method(success, this_ptr, "save");
-	
-	RETURN_CCTOR(success);
+	phalcon_call_method(return_value, this_ptr, "save");
+	RETURN_MM();
 }
 
 /**
@@ -4413,7 +4379,6 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 	zval *exception_message = NULL, *value = NULL, *possible_setter = NULL;
 	zval *dirty_state, *read_connection, *exists;
 	zval *field, *type, *message, *model_message, *messages;
-	zval *success;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -4556,10 +4521,8 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 	/** 
 	 * Call save() anyways
 	 */
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method(success, this_ptr, "save");
-	
-	RETURN_CCTOR(success);
+	phalcon_call_method(return_value, this_ptr, "save");
+	RETURN_MM();
 }
 
 /**
@@ -5203,7 +5166,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 PHP_METHOD(Phalcon_Mvc_Model, hasOne){
 
 	zval *fields, *reference_model, *referenced_fields;
-	zval *options = NULL, *manager, *relation;
+	zval *options = NULL, *manager;
 
 	PHALCON_MM_GROW();
 
@@ -5215,10 +5178,8 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne){
 	
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(relation);
-	phalcon_call_method_p5(relation, manager, "addhasone", this_ptr, fields, reference_model, referenced_fields, options);
-	RETURN_CCTOR(relation);
+	phalcon_call_method_p5(return_value, manager, "addhasone", this_ptr, fields, reference_model, referenced_fields, options);
+	RETURN_MM();
 }
 
 /**
@@ -5246,7 +5207,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne){
 PHP_METHOD(Phalcon_Mvc_Model, belongsTo){
 
 	zval *fields, *reference_model, *referenced_fields;
-	zval *options = NULL, *manager, *relation;
+	zval *options = NULL, *manager;
 
 	PHALCON_MM_GROW();
 
@@ -5258,10 +5219,8 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo){
 	
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(relation);
-	phalcon_call_method_p5(relation, manager, "addbelongsto", this_ptr, fields, reference_model, referenced_fields, options);
-	RETURN_CCTOR(relation);
+	phalcon_call_method_p5(return_value, manager, "addbelongsto", this_ptr, fields, reference_model, referenced_fields, options);
+	RETURN_MM();
 }
 
 /**
@@ -5289,7 +5248,7 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo){
 PHP_METHOD(Phalcon_Mvc_Model, hasMany){
 
 	zval *fields, *reference_model, *referenced_fields;
-	zval *options = NULL, *manager, *relation;
+	zval *options = NULL, *manager;
 
 	PHALCON_MM_GROW();
 
@@ -5301,10 +5260,8 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany){
 	
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(relation);
-	phalcon_call_method_p5(relation, manager, "addhasmany", this_ptr, fields, reference_model, referenced_fields, options);
-	RETURN_CCTOR(relation);
+	phalcon_call_method_p5(return_value, manager, "addhasmany", this_ptr, fields, reference_model, referenced_fields, options);
+	RETURN_MM();
 }
 
 /**
@@ -5884,7 +5841,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 
 	zval *alias, *arguments = NULL, *manager, *class_name;
 	zval *relation, *exception_message, *call_object;
-	zval *model_args, *result;
+	zval *model_args;
 
 	PHALCON_MM_GROW();
 
@@ -5926,11 +5883,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	add_next_index_null(model_args);
 	phalcon_array_append(&model_args, this_ptr, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&model_args, arguments, PH_SEPARATE TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_USER_FUNC_ARRAY(result, call_object, model_args);
-	
-	RETURN_CCTOR(result);
+	PHALCON_CALL_USER_FUNC_ARRAY(return_value, call_object, model_args);
+	RETURN_MM();
 }
 
 /**
@@ -5945,7 +5899,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 
 	zval *model_name, *method, *arguments, *manager;
 	zval *relation = NULL, *query_method = NULL, *alias = NULL, *extra_args = NULL;
-	zval *call_args, *call_object, *result;
+	zval *call_args, *call_object;
 
 	PHALCON_MM_GROW();
 
@@ -6006,11 +5960,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 		array_init_size(call_object, 2);
 		phalcon_array_append(&call_object, manager, PH_SEPARATE TSRMLS_CC);
 		add_next_index_stringl(call_object, SL("getRelationRecords"), 1);
-	
-		PHALCON_INIT_VAR(result);
-		PHALCON_CALL_USER_FUNC_ARRAY(result, call_object, call_args);
-	
-		RETURN_CCTOR(result);
+		PHALCON_CALL_USER_FUNC_ARRAY(return_value, call_object, call_args);
+		RETURN_MM();
 	}
 	
 	RETURN_MM_NULL();
@@ -6083,7 +6034,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	zval *model_name, *exception_message = NULL, *value;
 	zval *model, *meta_data, *attributes = NULL, *field = NULL, *extra_method_first;
 	zval *conditions, *bind_params, *parameters;
-	zval *result;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -6226,10 +6176,8 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 	/** 
 	 * Execute the query
 	 */
-	PHALCON_INIT_VAR(result);
-	phalcon_call_zval_static_p1(result, model_name, type, parameters);
-	
-	RETURN_CCTOR(result);
+	phalcon_call_zval_static_p1(return_value, model_name, type, parameters);
+	RETURN_MM();
 }
 
 /**
@@ -6403,7 +6351,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __isset){
 PHP_METHOD(Phalcon_Mvc_Model, serialize){
 
 	zval *meta_data, *attributes, *null_value, *data;
-	zval *attribute = NULL, *value = NULL, *serialize;
+	zval *attribute = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -6444,10 +6392,8 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	/** 
 	 * Use the standard serialize function to serialize the array data
 	 */
-	PHALCON_INIT_VAR(serialize);
-	phalcon_serialize(serialize, &data TSRMLS_CC);
-	
-	RETURN_CTOR(serialize);
+	phalcon_serialize(return_value, &data TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -6545,13 +6491,11 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
  */
 PHP_METHOD(Phalcon_Mvc_Model, dump){
 
-	zval *array_data;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(array_data);
-	phalcon_call_func_p1(array_data, "get_object_vars", this_ptr);
-	RETURN_CCTOR(array_data);
+	phalcon_call_func_p1(return_value, "get_object_vars", this_ptr);
+	RETURN_MM();
 }
 
 /**

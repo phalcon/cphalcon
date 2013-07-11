@@ -203,16 +203,14 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs){
  */
 PHP_METHOD(Phalcon_Assets_Collection, getResources){
 
-	zval *resources, *empty_array;
+	zval *resources;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(resources);
 	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
 	if (Z_TYPE_P(resources) != IS_ARRAY) { 
-		PHALCON_INIT_VAR(empty_array);
-		array_init(empty_array);
-		RETURN_CTOR(empty_array);
+		RETURN_MM_EMPTY_ARRAY();
 	}
 	
 	RETURN_CCTOR(resources);

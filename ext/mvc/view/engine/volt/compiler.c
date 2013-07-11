@@ -398,6 +398,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFilters){
  * Set a unique prefix to be used as prefix for compiled variables
  *
  * @param string $prefix
+ * @return Phalcon\Mvc\View\Engine\Volt\Compiler
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setUniquePrefix){
 
@@ -406,7 +407,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setUniquePrefix){
 	phalcon_fetch_params(0, 1, 0, &prefix);
 	
 	phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
@@ -707,18 +708,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 		 * Alias of 'get_content'
 		 */
 		if (PHALCON_IS_STRING(name, "content")) {
-			PHALCON_INIT_NVAR(code);
-			ZVAL_STRING(code, "$this->getContent()", 1);
-			RETURN_CCTOR(code);
+			RETURN_MM_STRING("$this->getContent()", 1);
 		}
 	
 		/** 
 		 * This function includes views of volt or others template engines dynamically
 		 */
 		if (PHALCON_IS_STRING(name, "partial")) {
-			PHALCON_INIT_NVAR(code);
-			PHALCON_CONCAT_SVS(code, "$this->partial(", arguments, ")");
-			RETURN_CCTOR(code);
+			PHALCON_CONCAT_SVS(return_value, "$this->partial(", arguments, ")");
+			RETURN_MM();
 		}
 	
 		/** 
@@ -772,8 +770,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 				}
 			}
 	
-			PHALCON_MM_RESTORE();
-			RETURN_STRING("''", 1);
+			RETURN_MM_STRING("''", 1);
 		}
 	
 		PHALCON_INIT_VAR(camelized);
@@ -828,24 +825,21 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 		 * Get a dynamic URL
 		 */
 		if (PHALCON_IS_STRING(name, "url")) {
-			PHALCON_INIT_NVAR(code);
-			PHALCON_CONCAT_SVS(code, "$this->url->get(", arguments, ")");
-			RETURN_CCTOR(code);
+			PHALCON_CONCAT_SVS(return_value, "$this->url->get(", arguments, ")");
+			RETURN_MM();
 		}
 	
 		/** 
 		 * Get a static URL
 		 */
 		if (PHALCON_IS_STRING(name, "static_url")) {
-			PHALCON_INIT_NVAR(code);
-			PHALCON_CONCAT_SVS(code, "$this->url->getStatic(", arguments, ")");
-			RETURN_CCTOR(code);
+			PHALCON_CONCAT_SVS(return_value, "$this->url->getStatic(", arguments, ")");
+			RETURN_MM();
 		}
 	
 		if (PHALCON_IS_STRING(name, "date")) {
-			PHALCON_INIT_NVAR(code);
-			PHALCON_CONCAT_SVS(code, "date(", arguments, ")");
-			RETURN_CCTOR(code);
+			PHALCON_CONCAT_SVS(return_value, "date(", arguments, ")");
+			RETURN_MM();
 		}
 	
 		if (PHALCON_IS_STRING(name, "time")) {
@@ -3017,8 +3011,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	 * Nothing to compile
 	 */
 	if (!phalcon_fast_count_ev(statements TSRMLS_CC)) {
-		PHALCON_MM_RESTORE();
-		RETURN_EMPTY_STRING();
+		RETURN_MM_EMPTY_STRING();
 	}
 	
 	/** 

@@ -83,7 +83,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Mysql){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
 
-	zval *identifier, *domain, *name, *escaped = NULL;
+	zval *identifier, *domain, *name;
 
 	PHALCON_MM_GROW();
 
@@ -97,19 +97,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_long(&name, identifier, 1, PH_NOISY_CC);
 		if (PHALCON_GLOBAL(db).escape_identifiers) {
-			PHALCON_INIT_VAR(escaped);
-			PHALCON_CONCAT_SVSVS(escaped, "`", domain, "`.`", name, "`");
-		} else {
-			PHALCON_INIT_NVAR(escaped);
-			PHALCON_CONCAT_VSV(escaped, domain, ".", name);
+			PHALCON_CONCAT_SVSVS(return_value, "`", domain, "`.`", name, "`");
+			RETURN_MM();
 		}
 	
-		RETURN_CTOR(escaped);
+		PHALCON_CONCAT_VSV(return_value, domain, ".", name);
+	
+		RETURN_MM();
 	}
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
-		PHALCON_INIT_NVAR(escaped);
-		PHALCON_CONCAT_SVS(escaped, "`", identifier, "`");
-		RETURN_CTOR(escaped);
+		PHALCON_CONCAT_SVS(return_value, "`", identifier, "`");
+		RETURN_MM();
 	}
 	
 	RETURN_CCTOR(identifier);

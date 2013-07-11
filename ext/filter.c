@@ -210,8 +210,8 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 PHP_METHOD(Phalcon_Filter, _sanitize){
 
 	zval *value, *filter, *filters, *filter_object;
-	zval *arguments, *filtered = NULL, *type = NULL, *quote, *empty_str;
-	zval *escaped, *allow_fraction, *options, *exception_message;
+	zval *arguments, *type = NULL, *quote, *empty_str, *escaped;
+	zval *filtered = NULL, *allow_fraction, *options, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -231,15 +231,12 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 1);
 			phalcon_array_append(&arguments, value, PH_SEPARATE TSRMLS_CC);
-	
-			PHALCON_INIT_VAR(filtered);
-			PHALCON_CALL_USER_FUNC_ARRAY(filtered, filter_object, arguments);
-		} else {
-			PHALCON_INIT_NVAR(filtered);
-			phalcon_call_method_p1(filtered, filter_object, "filter", value);
+			PHALCON_CALL_USER_FUNC_ARRAY(return_value, filter_object, arguments);
+			RETURN_MM();
 		}
 	
-		RETURN_CCTOR(filtered);
+		phalcon_call_method_p1(return_value, filter_object, "filter", value);
+		RETURN_MM();
 	}
 	
 	
@@ -259,7 +256,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_INIT_VAR(escaped);
 		phalcon_fast_str_replace(escaped, quote, empty_str, value TSRMLS_CC);
 	
-		PHALCON_INIT_NVAR(filtered);
+		PHALCON_INIT_VAR(filtered);
 		phalcon_call_func_p2(filtered, "filter_var", escaped, type);
 		goto ph_end_0;
 	}

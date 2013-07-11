@@ -135,12 +135,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 			PHALCON_INIT_NVAR(column_sql);
 			PHALCON_CONCAT_SVSVS(column_sql, "FLOAT(", size, ",", scale, ")");
 			break;
-
-	    case 8:
-            PHALCON_INIT_VAR(column_sql);
-            ZVAL_STRING(column_sql, "TINYINT(1)", 1);
-            break;
-
+	
 		default:
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized Oracle data type");
 			return;
@@ -704,8 +699,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions){
 		PHALCON_INIT_VAR(schema);
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_EMPTY_STRING();
+	RETURN_MM_EMPTY_STRING();
 }
 
 /**

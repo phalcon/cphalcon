@@ -60,7 +60,6 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Check){
 PHP_METHOD(Phalcon_Forms_Element_Check, render){
 
 	zval *attributes = NULL, *use_checked, *widget_attributes;
-	zval *code;
 
 	PHALCON_MM_GROW();
 
@@ -75,9 +74,7 @@ PHP_METHOD(Phalcon_Forms_Element_Check, render){
 	
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p2(widget_attributes, this_ptr, "prepareattributes", attributes, use_checked);
-	
-	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "checkfield", widget_attributes);
-	RETURN_CCTOR(code);
+	PHALCON_CALL_STATIC_PARAMS_1(return_value, "phalcon\\tag", "checkfield", widget_attributes);
+	RETURN_MM();
 }
 
