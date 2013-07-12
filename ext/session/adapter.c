@@ -29,6 +29,10 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#if HAVE_PHP_SESSION
+#include "ext/session/php_session.h"
+#endif
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -98,7 +102,11 @@ PHP_METHOD(Phalcon_Session_Adapter, start){
 	PHALCON_INIT_VAR(headers_sent);
 	phalcon_call_func(headers_sent, "headers_sent");
 	if (PHALCON_IS_FALSE(headers_sent)) {
+#ifdef HAVE_PHP_SESSION
+		php_session_start(TSRMLS_C);
+#else
 		phalcon_call_func_noret("session_start");
+#endif
 		phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
 		RETURN_MM_TRUE;
 	}
@@ -293,11 +301,18 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
  */
 PHP_METHOD(Phalcon_Session_Adapter, getId){
 
+#if HAVE_PHP_SESSION
+	if (PS(id)) {
+		RETURN_STRING(PS(id), 1);
+	}
 
+	RETURN_EMPTY_STRING();
+#else
 	PHALCON_MM_GROW();
 
 	phalcon_call_func(return_value, "session_id");
 	RETURN_MM();
+#endif
 }
 
 /**
