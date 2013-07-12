@@ -17,6 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
+#include <ctype.h>
+
 #include "php.h"
 #include "php_phalcon.h"
 #include "php_main.h"
@@ -1275,3 +1277,55 @@ void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 }
 
 #endif
+
+void phalcon_lcfirst(zval *return_value, zval *s)
+{
+	zval copy;
+	int use_copy;
+
+	if (unlikely(Z_TYPE_P(s) != IS_STRING)) {
+		zend_make_printable_zval(s, &copy, &use_copy);
+		if (use_copy) {
+			s = &copy;
+		}
+	}
+
+	if (!Z_STRLEN_P(s)) {
+		ZVAL_EMPTY_STRING(return_value);
+	}
+	else {
+		ZVAL_STRINGL(return_value, Z_STRVAL_P(s), Z_STRLEN_P(s), 1);
+		char *c = Z_STRVAL_P(s);
+		*c = tolower((unsigned char)*c);
+	}
+
+	if (unlikely(use_copy)) {
+		zval_dtor(&copy);
+	}
+}
+
+void phalcon_ucfirst(zval *return_value, zval *s)
+{
+	zval copy;
+	int use_copy;
+
+	if (unlikely(Z_TYPE_P(s) != IS_STRING)) {
+		zend_make_printable_zval(s, &copy, &use_copy);
+		if (use_copy) {
+			s = &copy;
+		}
+	}
+
+	if (!Z_STRLEN_P(s)) {
+		ZVAL_EMPTY_STRING(return_value);
+	}
+	else {
+		ZVAL_STRINGL(return_value, Z_STRVAL_P(s), Z_STRLEN_P(s), 1);
+		char *c = Z_STRVAL_P(s);
+		*c = toupper((unsigned char)*c);
+	}
+
+	if (unlikely(use_copy)) {
+		zval_dtor(&copy);
+	}
+}
