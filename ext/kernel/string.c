@@ -1235,7 +1235,6 @@ void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 
 void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 {
-	long int options = assoc ? PHP_JSON_OBJECT_AS_ARRAY : 0;
 	zval copy;
 	int use_copy;
 
@@ -1246,7 +1245,7 @@ void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 		}
 	}
 
-	php_json_decode_ex(return_value, Z_STRVAL_P(v), Z_STRLEN_P(v), options, 512 /* JSON_PARSER_DEFAULT_DEPTH */ TSRMLS_CC);
+	php_json_decode(return_value, Z_STRVAL_P(v), Z_STRLEN_P(v), assoc, 512 /* JSON_PARSER_DEFAULT_DEPTH */ TSRMLS_CC);
 
 	if (unlikely(use_copy)) {
 		zval_dtor(v);
