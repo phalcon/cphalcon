@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Session_Adapter, start){
 #if HAVE_PHP_SESSION
 		php_session_start(TSRMLS_C);
 #else
-		phalcon_call_func_ex(NULL, ZEND_STRL("session_start"), 0 TSRMLS_CC)
+		phalcon_call_func_ex(NULL, ZEND_STRL("session_start"), 0 TSRMLS_CC);
 #endif
 		phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
 		RETURN_TRUE;

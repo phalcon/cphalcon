@@ -1263,7 +1263,7 @@ void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 	ALLOC_INIT_ZVAL(zopts);
 	ZVAL_LONG(zopts, opts)
 	phalcon_call_func_two_params(return_value, ZEND_STRL("json_encode"), v, opts, 1 TSRMLS_CC);
-	zval_ptr_dtor(zassoc);
+	zval_ptr_dtor(zopts);
 }
 
 void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
