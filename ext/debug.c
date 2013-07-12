@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Debug, _escapeString){
 		ZVAL_STRING(escaped_line_break, "\\n", 1);
 	
 		PHALCON_INIT_VAR(replaced_value);
-		phalcon_fast_str_replace(replaced_value, line_break, escaped_line_break, value TSRMLS_CC);
+		phalcon_fast_str_replace(replaced_value, line_break, escaped_line_break, value);
 		phalcon_call_func_p3(return_value, "htmlentities", replaced_value, ent_compat, charset);
 		RETURN_MM();
 	}
@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_Debug, getMajorVersion){
 	PHALCON_CALL_STATIC(version, "phalcon\\version", "get");
 	
 	PHALCON_INIT_VAR(parts);
-	phalcon_fast_explode_str(parts, SL(" "), version TSRMLS_CC);
+	phalcon_fast_explode_str(parts, SL(" "), version);
 	
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, parts, 0, PH_NOISY);
@@ -659,7 +659,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 			 * Prepare the class name according to the Phalcon's conventions
 			 */
 			PHALCON_INIT_VAR(prepare_uri_class);
-			phalcon_fast_str_replace(prepare_uri_class, namespace_separator, underscore, class_name TSRMLS_CC);
+			phalcon_fast_str_replace(prepare_uri_class, namespace_separator, underscore, class_name);
 	
 			/** 
 			 * Generate a link to the official docs
@@ -683,7 +683,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				phalcon_fast_strtolower(lower_class_name, class_name);
 	
 				PHALCON_INIT_VAR(prepare_internal_class);
-				phalcon_fast_str_replace(prepare_internal_class, underscore, minus, lower_class_name TSRMLS_CC);
+				phalcon_fast_str_replace(prepare_internal_class, underscore, minus, lower_class_name);
 	
 				/** 
 				 * Generate a link to the official docs
@@ -735,7 +735,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				 * Prepare function's name according to the conventions in the docs
 				 */
 				PHALCON_INIT_VAR(prepared_function_name);
-				phalcon_fast_str_replace(prepared_function_name, underscore, minus, function_name TSRMLS_CC);
+				phalcon_fast_str_replace(prepared_function_name, underscore, minus, function_name);
 				PHALCON_SCONCAT_SVSVS(html, "<span class=\"error-function\"><a target=\"_new\" href=\"http://php.net/manual/en/function.", prepared_function_name, ".php\">", function_name, "</a></span>");
 			} else {
 				PHALCON_SCONCAT_SVS(html, "<span class=\"error-function\">", function_name, "</span>");
@@ -939,7 +939,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	
 						if (zend_is_true(is_comment)) {
 							PHALCON_INIT_NVAR(spaced_current_line);
-							phalcon_fast_str_replace(spaced_current_line, comment, space, current_line TSRMLS_CC);
+							phalcon_fast_str_replace(spaced_current_line, comment, space, current_line);
 							PHALCON_CPY_WRT(current_line, spaced_current_line);
 						}
 					}
@@ -956,7 +956,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 						phalcon_concat_self_str(&html, SL("&nbsp;\n") TSRMLS_CC);
 					} else {
 						PHALCON_INIT_NVAR(spaced_current_line);
-						phalcon_fast_str_replace(spaced_current_line, tab, two_spaces, current_line TSRMLS_CC);
+						phalcon_fast_str_replace(spaced_current_line, tab, two_spaces, current_line);
 	
 						PHALCON_INIT_NVAR(escaped_line);
 						phalcon_call_func_p3(escaped_line, "htmlentities", spaced_current_line, ent_compat, utf8);

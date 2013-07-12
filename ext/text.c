@@ -75,12 +75,9 @@ PHP_METHOD(Phalcon_Text, camelize){
 
 	zval *str;
 
-	PHALCON_MM_GROW();
-
 	phalcon_fetch_params(1, 1, 0, &str);
 	
-	phalcon_camelize(return_value, str TSRMLS_CC);
-	RETURN_MM();
+	phalcon_camelize(return_value, str);
 }
 
 /**
@@ -97,12 +94,9 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 
 	zval *str;
 
-	PHALCON_MM_GROW();
-
 	phalcon_fetch_params(1, 1, 0, &str);
 	
-	phalcon_uncamelize(return_value, str TSRMLS_CC);
-	RETURN_MM();
+	phalcon_uncamelize(return_value, str);
 }
 
 /**
@@ -137,7 +131,7 @@ PHP_METHOD(Phalcon_Text, increment){
 	}
 	
 	PHALCON_INIT_VAR(parts);
-	phalcon_fast_explode(parts, separator, str TSRMLS_CC);
+	phalcon_fast_explode(parts, separator, str);
 	if (phalcon_array_isset_long(parts, 1)) {
 		PHALCON_OBS_VAR(number);
 		phalcon_array_fetch_long(&number, parts, 1, PH_NOISY);

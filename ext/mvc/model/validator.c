@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 		ZVAL_STRING(empty_string, "", 1);
 	
 		PHALCON_INIT_NVAR(type);
-		phalcon_fast_str_replace(type, suffix, empty_string, class_name TSRMLS_CC);
+		phalcon_fast_str_replace(type, suffix, empty_string, class_name);
 	}
 	
 	PHALCON_INIT_VAR(model_message);

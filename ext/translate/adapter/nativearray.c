@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 					PHALCON_CONCAT_SVS(key_placeholder, "%", key, "%");
 	
 					PHALCON_INIT_NVAR(replaced);
-					phalcon_fast_str_replace(replaced, key_placeholder, value, translation TSRMLS_CC);
+					phalcon_fast_str_replace(replaced, key_placeholder, value, translation);
 					PHALCON_CPY_WRT(translation, replaced);
 	
 					zend_hash_move_forward_ex(ah0, &hp0);

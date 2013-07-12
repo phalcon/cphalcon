@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					 */
 					PHALCON_OBS_NVAR(handler);
 					phalcon_array_fetch_long(&handler, scope, 1, PH_NOISY);
-					if (phalcon_memnstr_str(handler, SL("\\") TSRMLS_CC)) {
+					if (phalcon_memnstr_str(handler, SL("\\"))) {
 						/** 
 						 * Extract the real class name from the namespaced class
 						 */
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						 * The lowercased class name is used as controller
 						 */
 						PHALCON_INIT_NVAR(lower_controller_name);
-						phalcon_uncamelize(lower_controller_name, controller_name TSRMLS_CC);
+						phalcon_uncamelize(lower_controller_name, controller_name);
 	
 						/** 
 						 * Extract the namespace from the namespaced class
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						PHALCON_CPY_WRT(controller_name, handler);
 	
 						PHALCON_INIT_NVAR(lower_controller_name);
-						phalcon_uncamelize(lower_controller_name, controller_name TSRMLS_CC);
+						phalcon_uncamelize(lower_controller_name, controller_name);
 	
 						PHALCON_INIT_NVAR(namespace_name);
 					}
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
 	
 						PHALCON_INIT_NVAR(lowercased);
-						phalcon_uncamelize(lowercased, handler TSRMLS_CC);
+						phalcon_uncamelize(lowercased, handler);
 	
 						phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0);
 	
@@ -490,7 +490,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		ZVAL_STRING(empty_str, "", 1);
 	
 		PHALCON_INIT_VAR(real_action_name);
-		phalcon_fast_str_replace(real_action_name, action_suffix, empty_str, action TSRMLS_CC);
+		phalcon_fast_str_replace(real_action_name, action_suffix, empty_str, action);
 	
 		PHALCON_INIT_VAR(action_name);
 		phalcon_fast_strtolower(action_name, real_action_name);

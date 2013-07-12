@@ -585,7 +585,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	/** 
 	 * All valid events must have a colon separator
 	 */
-	if (!phalcon_memnstr_str(event_type, SL(":") TSRMLS_CC)) {
+	if (!phalcon_memnstr_str(event_type, SL(":"))) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SV(exception_message, "Invalid event type ", event_type);
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_events_exception_ce, exception_message);
@@ -593,7 +593,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	}
 	
 	PHALCON_INIT_VAR(event_parts);
-	phalcon_fast_explode_str(event_parts, SL(":"), event_type TSRMLS_CC);
+	phalcon_fast_explode_str(event_parts, SL(":"), event_type);
 	
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_long(&type, event_parts, 0, PH_NOISY);

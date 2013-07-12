@@ -600,7 +600,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 			phalcon_array_fetch_string(&table_collation, options, SL("TABLE_COLLATION"), PH_NOISY);
 			if (zend_is_true(table_collation)) {
 				PHALCON_INIT_VAR(collation_parts);
-				phalcon_fast_explode_str(collation_parts, SL("_"), table_collation TSRMLS_CC);
+				phalcon_fast_explode_str(collation_parts, SL("_"), table_collation);
 	
 				PHALCON_OBS_VAR(first_part);
 				phalcon_array_fetch_long(&first_part, collation_parts, 0, PH_NOISY);

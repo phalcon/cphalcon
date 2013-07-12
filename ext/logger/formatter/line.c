@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	/** 
 	 * Check if the format has the %date% placeholder
 	 */
-	if (phalcon_memnstr_str(format, SL("%date%") TSRMLS_CC)) {
+	if (phalcon_memnstr_str(format, SL("%date%"))) {
 		PHALCON_OBS_VAR(date_format);
 		phalcon_read_property_this(&date_format, this_ptr, SL("_dateFormat"), PH_NOISY_CC);
 	
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 		ZVAL_STRING(date_wildcard, "%date%", 1);
 	
 		PHALCON_INIT_VAR(new_format);
-		phalcon_fast_str_replace(new_format, date_wildcard, date, format TSRMLS_CC);
+		phalcon_fast_str_replace(new_format, date_wildcard, date, format);
 	} else {
 		PHALCON_CPY_WRT(new_format, format);
 	}
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	/** 
 	 * Check if the format has the %type% placeholder
 	 */
-	if (phalcon_memnstr_str(format, SL("%type%") TSRMLS_CC)) {
+	if (phalcon_memnstr_str(format, SL("%type%"))) {
 		PHALCON_INIT_VAR(type_string);
 		phalcon_call_method_p1(type_string, this_ptr, "gettypestring", type);
 	
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 		ZVAL_STRING(type_wildcard, "%type%", 1);
 	
 		PHALCON_INIT_NVAR(format);
-		phalcon_fast_str_replace(format, type_wildcard, type_string, new_format TSRMLS_CC);
+		phalcon_fast_str_replace(format, type_wildcard, type_string, new_format);
 	} else {
 		PHALCON_CPY_WRT(format, new_format);
 	}
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	ZVAL_STRING(message_wildcard, "%message%", 1);
 	
 	PHALCON_INIT_NVAR(new_format);
-	phalcon_fast_str_replace(new_format, message_wildcard, message, format TSRMLS_CC);
+	phalcon_fast_str_replace(new_format, message_wildcard, message, format);
 	
 	PHALCON_INIT_VAR(eol);
 	ZVAL_STRING(eol, PHP_EOL, 1);

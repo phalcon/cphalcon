@@ -400,11 +400,8 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl){
 
 	zval *url;
 
-	PHALCON_MM_GROW();
-
 	phalcon_fetch_params(1, 1, 0, &url);
 	
 	phalcon_raw_url_encode(return_value, url);
-	RETURN_MM();
 }
 

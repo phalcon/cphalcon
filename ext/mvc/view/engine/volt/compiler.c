@@ -767,7 +767,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 		}
 	
 		PHALCON_INIT_VAR(camelized);
-		phalcon_camelize(camelized, name TSRMLS_CC);
+		phalcon_camelize(camelized, name);
 	
 		PHALCON_INIT_VAR(method);
 		phalcon_call_func_p1(method, "lcfirst", camelized);
@@ -846,11 +846,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 		}
 	
 		if (PHALCON_IS_STRING(name, "version")) {
-			RETURN_MM_STRING("Phalcon\Version::get()", 1);
+			RETURN_MM_STRING("Phalcon\\Version::get()", 1);
 		}
 	
 		if (PHALCON_IS_STRING(name, "version_id")) {
-			RETURN_MM_STRING("Phalcon\Version::getId()", 1);
+			RETURN_MM_STRING("Phalcon\\Version::getId()", 1);
 		}
 	
 		/** 
@@ -1703,7 +1703,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 				ZVAL_STRING(escaped_quoute, "\\'", 1);
 	
 				PHALCON_INIT_NVAR(escaped_string);
-				phalcon_fast_str_replace(escaped_string, single_quote, escaped_quoute, value TSRMLS_CC);
+				phalcon_fast_str_replace(escaped_string, single_quote, escaped_quoute, value);
 	
 				PHALCON_INIT_NVAR(expr_code);
 				PHALCON_CONCAT_SVS(expr_code, "'", escaped_string, "'");

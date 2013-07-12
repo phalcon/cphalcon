@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource){
 	phalcon_get_class_ns(class_name, model, 0 TSRMLS_CC);
 	
 	PHALCON_INIT_NVAR(source);
-	phalcon_uncamelize(source, class_name TSRMLS_CC);
+	phalcon_uncamelize(source, class_name);
 	phalcon_update_property_array(this_ptr, SL("_sources"), entity_name, source TSRMLS_CC);
 	
 	RETURN_CCTOR(source);
