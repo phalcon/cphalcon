@@ -103,9 +103,12 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists){
 
 	zval *translate_key;
 
-	phalcon_fetch_params(0, 1, 0, &translate_key);
+	PHALCON_MM_GROW();
+	
+	phalcon_fetch_params(1, 1, 0, &translate_key);
 	
 	phalcon_call_method_p1(return_value, this_ptr, "exists", translate_key);
+	RETURN_MM();
 }
 
 /**

@@ -519,22 +519,17 @@ PHP_METHOD(Phalcon_DI, getServices){
 }
 
 /**
- * Check if a service is registered using the array syntax
+ * Check if a service is registered using the array syntax.
+ * Alias for Phalcon\Di::has()
  *
  * @param string $name
  * @return boolean
  */
-PHP_METHOD(Phalcon_DI, offsetExists){
-
-	zval *name;
-
-	phalcon_fetch_params(0, 1, 0, &name);
-	
-	phalcon_call_method_p1(return_value, this_ptr, "has", name);
-}
+PHALCON_DOC_METHOD(Phalcon_DI, offsetExists);
 
 /**
- * Allows to register a shared service using the array syntax
+ * Allows to register a shared service using the array syntax.
+ * Alias for Phalcon\Di::setShared()
  *
  *<code>
  *	$di['request'] = new Phalcon\Http\Request();
@@ -543,17 +538,11 @@ PHP_METHOD(Phalcon_DI, offsetExists){
  * @param string $name
  * @param mixed $definition
  */
-PHP_METHOD(Phalcon_DI, offsetSet){
-
-	zval *name, *definition;
-
-	phalcon_fetch_params(0, 2, 0, &name, &definition);
-	
-	phalcon_call_method_p2_noret(this_ptr, "setshared", name, definition);
-}
+PHALCON_DOC_METHOD(Phalcon_DI, offsetSet);
 
 /**
- * Allows to obtain a shared service using the array syntax
+ * Allows to obtain a shared service using the array syntax.
+ * Alias for Phalcon\Di::getShared()
  *
  *<code>
  *	var_dump($di['request']);
@@ -562,28 +551,15 @@ PHP_METHOD(Phalcon_DI, offsetSet){
  * @param string $name
  * @return mixed
  */
-PHP_METHOD(Phalcon_DI, offsetGet){
-
-	zval *name;
-
-	phalcon_fetch_params(0, 1, 0, &name);
-	
-	phalcon_call_method_p1(return_value, this_ptr, "getshared", name);
-}
+PHALCON_DOC_METHOD(Phalcon_DI, offsetGet);
 
 /**
- * Removes a service from the services container using the array syntax
+ * Removes a service from the services container using the array syntax.
+ * Alias for Phalcon\Di::remove()
  *
  * @param string $name
  */
-PHP_METHOD(Phalcon_DI, offsetUnset){
-
-	zval *name;
-
-	phalcon_fetch_params(0, 1, 0, &name);
-	
-	RETURN_CCTORW(name);
-}
+PHALCON_DOC_METHOD(Phalcon_DI, offsetUnset);
 
 /**
  * Magic method to get or set services using setters/getters
