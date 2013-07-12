@@ -1362,30 +1362,27 @@ void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 T
  *
  * Equivalent to <tt>$a1 = array_merge_recursive($a1, $a2)</tt> in PHP with the only exception
  * that Phalcon's version preserves numeric keys
- *
- * @todo @c PHALCON_GET_HVALUE() calls @c PHALCON_OBSERVE_VAR; does it mean that the calling function needs a memory frame? Are there any limitations?
  */
-void phalcon_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
+void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
 {
 	HashTable *ah2;
 	HashPosition hp2;
 	zval **hd;
-	zval *key = NULL, *value = NULL;
+	zval key;
 	zval *tmp1 = NULL, *tmp2 = NULL;
 
 	phalcon_is_iterable(a2, &ah2, &hp2, 0, 0);
 
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 
-		PHALCON_GET_HKEY(key, ah2, hp2);
-		PHALCON_GET_HVALUE(value);
+		key = phalcon_get_current_key_w(ah2, &hp2);
 
-		if (!phalcon_array_isset(*a1, key) || Z_TYPE_P(value) != IS_ARRAY) {
-			phalcon_array_update_zval(a1, key, &value, PH_COPY | PH_SEPARATE);
+		if (!phalcon_array_isset(*a1, &key) || Z_TYPE_PP(hd) != IS_ARRAY) {
+			phalcon_array_update_zval(a1, &key, hd, PH_COPY | PH_SEPARATE);
 		} else {
-			phalcon_array_fetch(&tmp1, *a1, key, PH_NOISY);
-			phalcon_array_fetch(&tmp2, a2, key, PH_NOISY);
-			phalcon_array_merge_recursive_n(&tmp1, tmp2 TSRMLS_CC);
+			phalcon_array_fetch(&tmp1, *a1, &key, PH_NOISY);
+			phalcon_array_fetch(&tmp2, a2, &key, PH_NOISY);
+			phalcon_array_merge_recursive_n(&tmp1, tmp2);
 			zval_ptr_dtor(&tmp1);
 			zval_ptr_dtor(&tmp2);
 			tmp1 = NULL;

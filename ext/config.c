@@ -292,38 +292,6 @@ PHP_METHOD(Phalcon_Config, offsetUnset){
 	RETURN_TRUE;
 }
 
-static void array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
-{
-	HashTable *ah2;
-	HashPosition hp2;
-	zval **hd;
-	zval *key = NULL, *value = NULL;
-	zval *tmp1 = NULL, *tmp2 = NULL;
-
-	PHALCON_MM_GROW();
-
-	phalcon_is_iterable(a2, &ah2, &hp2, 0, 0);
-	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
-		PHALCON_GET_HKEY(key, ah2, hp2);
-		PHALCON_GET_HVALUE(value);
-
-		if (!phalcon_array_isset(*a1, key) || Z_TYPE_P(value) != IS_ARRAY) {
-			phalcon_array_update_zval(a1, key, &value, PH_COPY | PH_SEPARATE);
-		}
-		else {
-			PHALCON_INIT_NVAR(tmp1);
-			PHALCON_INIT_NVAR(tmp2);
-			phalcon_array_fetch(&tmp1, *a1, key, PH_NOISY);
-			phalcon_array_fetch(&tmp2, a2, key, PH_NOISY);
-			array_merge_recursive_n(&tmp1, tmp2 TSRMLS_CC);
-		}
-
-		zend_hash_move_forward_ex(ah2, &hp2);
-	}
-
-	PHALCON_MM_RESTORE();
-}
-
 /**
  * Merges a configuration into the current one
  *
@@ -380,17 +348,17 @@ PHP_METHOD(Phalcon_Config, merge){
 			else if (Z_TYPE_P(value) == IS_OBJECT && Z_TYPE_P(active_value) == IS_ARRAY) { /* Path AB in the test */
 				PHALCON_INIT_NVAR(other_array);
 				phalcon_call_func_p1(other_array, "get_object_vars", value);
-				array_merge_recursive_n(&active_value, other_array TSRMLS_CC);
+				phalcon_array_merge_recursive_n(&active_value, other_array);
 				phalcon_update_property_zval_zval(this_ptr, key, active_value TSRMLS_CC);
 			}
 			else if (Z_TYPE_P(value) == IS_ARRAY && Z_TYPE_P(active_value) == IS_OBJECT) { /* Path AC in the test */
 				PHALCON_INIT_NVAR(other_array);
 				phalcon_call_func_p1(other_array, "get_object_vars", active_value);
-				array_merge_recursive_n(&other_array, value TSRMLS_CC);
+				phalcon_array_merge_recursive_n(&other_array, value);
 				phalcon_update_property_zval_zval(this_ptr, key, other_array TSRMLS_CC);
 			}
 			else if (Z_TYPE_P(value) == IS_ARRAY && Z_TYPE_P(active_value) == IS_ARRAY) { /* Path AD in the test */
-				array_merge_recursive_n(&active_value, value TSRMLS_CC);
+				phalcon_array_merge_recursive_n(&active_value, value);
 				phalcon_update_property_zval_zval(this_ptr, key, active_value TSRMLS_CC);
 			}
 			else { /* Path AE in the test */

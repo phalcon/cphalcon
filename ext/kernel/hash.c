@@ -137,6 +137,25 @@ void phalcon_get_current_key(zval **key, const HashTable *hash_table, HashPositi
 
 }
 
+zval phalcon_get_current_key_w(const HashTable *hash_table, HashPosition *hash_position)
+{
+	Bucket *p;
+	zval result;
+
+	INIT_ZVAL(result);
+	p = hash_position ? (*hash_position) : hash_table->pInternalPointer;
+
+	if (p) {
+		if (p->nKeyLength) {
+			ZVAL_STRINGL(&result, (char *) p->arKey, p->nKeyLength - 1, 0);
+		} else {
+			ZVAL_LONG(&result, p->h);
+		}
+	}
+
+	return result;
+}
+
 /**
  * Traverses the hash checking if at least one of the keys is numeric
  */
