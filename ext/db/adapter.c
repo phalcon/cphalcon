@@ -637,7 +637,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 			if (phalcon_array_isset_string(where_condition, SS("bind"))) {
 				PHALCON_OBS_VAR(where_bind);
 				phalcon_array_fetch_string(&where_bind, where_condition, SL("bind"), PH_NOISY);
-				phalcon_merge_append(update_values, where_bind);
+				phalcon_merge_append(update_values, where_bind TSRMLS_CC);
 			}
 	
 			/** 
@@ -647,7 +647,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 			if (phalcon_array_isset_string(where_condition, SS("bindTypes"))) {
 				PHALCON_OBS_VAR(where_types);
 				phalcon_array_fetch_string(&where_types, where_condition, SL("bindTypes"), PH_NOISY);
-				phalcon_merge_append(bind_data_types, where_types);
+				phalcon_merge_append(bind_data_types, where_types TSRMLS_CC);
 			}
 		}
 	} else {

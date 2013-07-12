@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put){
 PHP_METHOD(Phalcon_Queue_Beanstalk, reserve){
 
 	zval *timeout = NULL, *command = NULL, *response, *status, *job_id;
-	zval *length, *serialized_body, *body, *job;
+	zval *length, *serialized_body, *body;
 
 	PHALCON_MM_GROW();
 
@@ -288,11 +288,10 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, reserve){
 		/** 
 		 * Create a beanstalk job abstraction
 		 */
-		PHALCON_INIT_VAR(job);
-		object_init_ex(job, phalcon_queue_beanstalk_job_ce);
-		phalcon_call_method_p3_noret(job, "__construct", this_ptr, job_id, body);
+		object_init_ex(return_value, phalcon_queue_beanstalk_job_ce);
+		phalcon_call_method_p3_noret(return_value, "__construct", this_ptr, job_id, body);
 	
-		RETURN_CTOR(job);
+		RETURN_MM();
 	}
 	
 	RETURN_MM_FALSE;
@@ -370,7 +369,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, watch){
 PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady){
 
 	zval *command, *response, *status, *job_id, *length;
-	zval *serialized_body, *body, *job;
+	zval *serialized_body, *body;
 
 	PHALCON_MM_GROW();
 
@@ -395,12 +394,10 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady){
 	
 		PHALCON_INIT_VAR(body);
 		phalcon_unserialize(body, serialized_body TSRMLS_CC);
+		object_init_ex(return_value, phalcon_queue_beanstalk_job_ce);
+		phalcon_call_method_p3_noret(return_value, "__construct", this_ptr, job_id, body);
 	
-		PHALCON_INIT_VAR(job);
-		object_init_ex(job, phalcon_queue_beanstalk_job_ce);
-		phalcon_call_method_p3_noret(job, "__construct", this_ptr, job_id, body);
-	
-		RETURN_CTOR(job);
+		RETURN_MM();
 	}
 	
 	RETURN_MM_FALSE;
@@ -413,16 +410,14 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, peekReady){
  */
 PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus){
 
-	zval *response, *parts;
+	zval *response;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(response);
 	phalcon_call_method(response, this_ptr, "read");
-	
-	PHALCON_INIT_VAR(parts);
-	phalcon_fast_explode_str(parts, SL(" "), response TSRMLS_CC);
-	RETURN_CTOR(parts);
+	phalcon_fast_explode_str(return_value, SL(" "), response TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -512,7 +507,6 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read){
 PHP_METHOD(Phalcon_Queue_Beanstalk, write){
 
 	zval *data, *connection = NULL, *packet, *data_length;
-	zval *status;
 
 	PHALCON_MM_GROW();
 
@@ -534,11 +528,8 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, write){
 	
 	PHALCON_INIT_VAR(data_length);
 	phalcon_fast_strlen(data_length, packet);
-	
-	PHALCON_INIT_VAR(status);
-	phalcon_call_func_p3(status, "fwrite", connection, packet, data_length);
-	
-	RETURN_CCTOR(status);
+	phalcon_call_func_p3(return_value, "fwrite", connection, packet, data_length);
+	RETURN_MM();
 }
 
 /**

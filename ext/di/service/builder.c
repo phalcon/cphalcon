@@ -115,11 +115,8 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, argument, SL("name"), PH_NOISY);
-	
-		PHALCON_INIT_VAR(value);
-		phalcon_call_method_p1(value, dependency_injector, "get", name);
-	
-		RETURN_CCTOR(value);
+		phalcon_call_method_p1(return_value, dependency_injector, "get", name);
+		RETURN_MM();
 	}
 	
 	/** 
@@ -133,7 +130,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			return;
 		}
 	
-		PHALCON_OBS_NVAR(value);
+		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch_string(&value, argument, SL("value"), PH_NOISY);
 	
 		RETURN_CCTOR(value);
@@ -169,8 +166,8 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			/** 
 			 * Build the instance with arguments
 			 */
-			PHALCON_INIT_NVAR(value);
-			phalcon_call_method_p2(value, dependency_injector, "get", name, instance_arguments);
+			phalcon_call_method_p2(return_value, dependency_injector, "get", name, instance_arguments);
+			RETURN_MM();
 		}
 	
 		RETURN_CCTOR(value);

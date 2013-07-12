@@ -207,10 +207,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 	
 	PHALCON_INIT_VAR(eol);
 	ZVAL_STRING(eol, PHP_EOL, 1);
+	PHALCON_CONCAT_VV(return_value, new_format, eol);
 	
-	PHALCON_INIT_NVAR(format);
-	PHALCON_CONCAT_VV(format, new_format, eol);
-	
-	RETURN_CCTOR(format);
+	RETURN_MM();
 }
 

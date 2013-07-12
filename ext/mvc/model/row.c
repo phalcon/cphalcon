@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
 
 	phalcon_fetch_params(0, 1, 0, &index);
 	
-	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
+	if (phalcon_isset_property_zval(this_ptr, index)) {
 		RETURN_TRUE;
 	}
 	RETURN_FALSE;
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
 
 	phalcon_fetch_params(1, 1, 0, &index);
 	
-	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
+	if (phalcon_isset_property_zval(this_ptr, index)) {
 		PHALCON_OBS_VAR(value);
 		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
 		RETURN_CCTOR(value);

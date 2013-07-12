@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute){
 
 	phalcon_fetch_params(1, 1, 0, &attribute);
 	
-	if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
+	if (phalcon_isset_property_zval(this_ptr, attribute)) {
 		PHALCON_OBS_VAR(attribute_value);
 		phalcon_read_property_zval(&attribute_value, this_ptr, attribute, PH_NOISY_CC);
 		RETURN_CCTOR(attribute_value);
@@ -1176,7 +1176,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 
 	phalcon_fetch_params(1, 1, 0, &collection);
 	
-	if (phalcon_isset_property(this_ptr, SS("_id") TSRMLS_CC)) {
+	if (phalcon_isset_property(this_ptr, SS("_id"))) {
 	
 		PHALCON_OBS_VAR(id);
 		phalcon_read_property_this(&id, this_ptr, SL("_id"), PH_NOISY_CC);
@@ -1867,7 +1867,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 
 	PHALCON_MM_GROW();
 
-	if (!phalcon_isset_property(this_ptr, SS("_id") TSRMLS_CC)) {
+	if (!phalcon_isset_property(this_ptr, SS("_id"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist");
 		return;
 	}

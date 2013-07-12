@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	zval *data, *definition, *column_name, *column_type;
 	zval *not_null, *primary, *size, *dunsigned, *after;
-	zval *is_numeric, *first, *bind_type, *column;
+	zval *is_numeric, *first, *bind_type;
 
 	PHALCON_MM_GROW();
 
@@ -474,10 +474,9 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 		phalcon_array_update_string(&definition, SL("bindType"), &bind_type, PH_COPY | PH_SEPARATE);
 	}
 	
-	PHALCON_INIT_VAR(column);
-	object_init_ex(column, phalcon_db_column_ce);
-	phalcon_call_method_p2_noret(column, "__construct", column_name, definition);
+	object_init_ex(return_value, phalcon_db_column_ce);
+	phalcon_call_method_p2_noret(return_value, "__construct", column_name, definition);
 	
-	RETURN_CTOR(column);
+	RETURN_MM();
 }
 

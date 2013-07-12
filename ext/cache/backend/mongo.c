@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key;
 	zval *collection, *conditions, *document, *timestamp;
 	zval *ttl = NULL, *modified_time, *difference, *not_expired;
-	zval *cached_content, *content;
+	zval *cached_content;
 
 	PHALCON_MM_GROW();
 
@@ -295,11 +295,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	
 			PHALCON_OBS_VAR(cached_content);
 			phalcon_array_fetch_string(&cached_content, document, SL("data"), PH_NOISY);
-	
-			PHALCON_INIT_VAR(content);
-			phalcon_call_method_p1(content, frontend, "afterretrieve", cached_content);
-	
-			RETURN_CCTOR(content);
+			phalcon_call_method_p1(return_value, frontend, "afterretrieve", cached_content);
+			RETURN_MM();
 		}
 	}
 	
@@ -427,7 +424,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete){
 
 	zval *key_name, *prefix, *prefixed_key, *collection;
-	zval *conditions, *success;
+	zval *conditions;
 
 	PHALCON_MM_GROW();
 
@@ -445,9 +442,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete){
 	PHALCON_INIT_VAR(conditions);
 	array_init_size(conditions, 1);
 	phalcon_array_update_string(&conditions, SL("key"), &prefixed_key, PH_COPY | PH_SEPARATE);
-	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p1(success, collection, "remove", conditions);
+	phalcon_call_method_p1_noret(collection, "remove", conditions);
 	RETURN_MM_TRUE;
 }
 
@@ -539,7 +534,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists){
 
 	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *collection;
-	zval *conditions, *number, *zero, *exists;
+	zval *conditions, *number, *zero;
 
 	PHALCON_MM_GROW();
 
@@ -576,10 +571,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists){
 	
 		PHALCON_INIT_VAR(zero);
 		ZVAL_LONG(zero, 0);
-	
-		PHALCON_INIT_VAR(exists);
-		is_smaller_function(exists, zero, number TSRMLS_CC);
-		RETURN_NCTOR(exists);
+		is_smaller_function(return_value, zero, number TSRMLS_CC);
+		RETURN_MM();
 	}
 	
 	RETURN_MM_FALSE;

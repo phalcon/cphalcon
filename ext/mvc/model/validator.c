@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
@@ -67,10 +67,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
 
 	zval *options;
 
-	phalcon_update_property_empty_array(phalcon_mvc_model_validator_ce, this_ptr, SL("_options") TSRMLS_CC);
-	
-	phalcon_update_property_empty_array(phalcon_mvc_model_validator_ce, this_ptr, SL("_messages") TSRMLS_CC);
-	
 	phalcon_fetch_params(0, 1, 0, &options);
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 

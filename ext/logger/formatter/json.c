@@ -65,7 +65,6 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Json){
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 
 	zval *message, *type, *timestamp, *type_str, *log;
-	zval *encoded;
 
 	PHALCON_MM_GROW();
 
@@ -79,9 +78,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY | PH_SEPARATE);
 	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY | PH_SEPARATE);
 	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY | PH_SEPARATE);
-	
-	PHALCON_INIT_VAR(encoded);
-	phalcon_call_func_p1(encoded, "json_encode", log);
-	RETURN_CCTOR(encoded);
+	phalcon_call_func_p1(return_value, "json_encode", log);
+	RETURN_MM();
 }
 

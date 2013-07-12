@@ -189,7 +189,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 
 	zval *key_name, *lifetime = NULL, *memcache = NULL, *frontend;
 	zval *prefix, *prefixed_key, *cached_content;
-	zval *content;
 
 	PHALCON_MM_GROW();
 
@@ -224,10 +223,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 		RETURN_MM_NULL();
 	}
 	
-	PHALCON_INIT_VAR(content);
-	phalcon_call_method_p1(content, frontend, "afterretrieve", cached_content);
-	
-	RETURN_CCTOR(content);
+	phalcon_call_method_p1(return_value, frontend, "afterretrieve", cached_content);
+	RETURN_MM();
 }
 
 /**
@@ -373,7 +370,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 
 	zval *key_name, *memcache = NULL, *prefix, *prefixed_key;
-	zval *options, *special_key, *keys, *success;
+	zval *options, *special_key, *keys;
 
 	PHALCON_MM_GROW();
 
@@ -410,10 +407,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 	/** 
 	 * Delete the key from memcached
 	 */
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p1(success, memcache, "delete", prefixed_key);
-	
-	RETURN_CCTOR(success);
+	phalcon_call_method_p1(return_value, memcache, "delete", prefixed_key);
+	RETURN_MM();
 }
 
 /**

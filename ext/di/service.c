@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_DI_Service, getParameter){
  */
 PHP_METHOD(Phalcon_DI_Service, __set_state){
 
-	zval *attributes, *name, *definition, *shared, *service;
+	zval *attributes, *name, *definition, *shared;
 
 	PHALCON_MM_GROW();
 
@@ -442,10 +442,9 @@ PHP_METHOD(Phalcon_DI_Service, __set_state){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(service);
-	object_init_ex(service, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(service, "__construct", name, definition, shared);
+	object_init_ex(return_value, phalcon_di_service_ce);
+	phalcon_call_method_p3_noret(return_value, "__construct", name, definition, shared);
 	
-	RETURN_CTOR(service);
+	RETURN_MM();
 }
 

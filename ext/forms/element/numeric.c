@@ -48,6 +48,8 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Numeric){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Numeric, forms_element_numeric, "phalcon\\forms\\element", phalcon_forms_element_numeric_method_entry, 0);
 
+	zend_class_implements(phalcon_forms_element_numeric_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
+
 	return SUCCESS;
 }
 

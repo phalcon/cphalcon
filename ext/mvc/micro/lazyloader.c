@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct){
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call){
 
 	zval *method, *arguments, *handler = NULL, *definition;
-	zval *call_handler, *result;
+	zval *call_handler;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -116,9 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call){
 	/** 
 	 * Call the handler
 	 */
-	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_USER_FUNC_ARRAY(result, call_handler, arguments);
-	
-	RETURN_CCTOR(result);
+	PHALCON_CALL_USER_FUNC_ARRAY(return_value, call_handler, arguments);
+	RETURN_MM();
 }
 

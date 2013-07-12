@@ -270,7 +270,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 #else
 	zval *itkey = NULL;
 #endif
-	zend_object_iterator *it;
 
 	PHALCON_MM_GROW();
 
@@ -305,7 +304,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	/* APCIterator implements Iterator */
 	assert(instanceof_function_ex(ce0, zend_ce_iterator, 1 TSRMLS_CC));
 
-	it = ce0->get_iterator(ce0, iterator, 0 TSRMLS_CC);
+	zend_object_iterator* it = ce0->get_iterator(ce0, iterator, 0 TSRMLS_CC);
 
 	/* APCIterator is an iterator */
 	assert(it != NULL);
@@ -324,7 +323,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 			 * Note that str_key_len includes the trailing zero.
 			 * Remove the _PHCA prefix.
 			 */
-			ZVAL_STRINGL(key, str_key+5, str_key_len-5-1, 1);
+			ZVAL_STRINGL(key, str_key + 5, str_key_len - 5 - 1, 1);
 
 			phalcon_array_append(&keys, key, PH_SEPARATE);
 		}
@@ -332,7 +331,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 		PHALCON_INIT_NVAR(itkey);
 		it->funcs->get_current_key(it, itkey TSRMLS_CC);
 		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
-			ZVAL_STRINGL(key, Z_STRVAL_P(itkey)+5, Z_STRLEN_P(itkey)-5, 1);
+			ZVAL_STRINGL(key, Z_STRVAL_P(itkey) + 5, Z_STRLEN_P(itkey) - 5, 1);
 			phalcon_array_append(&keys, key, PH_SEPARATE);
 		}
 #endif

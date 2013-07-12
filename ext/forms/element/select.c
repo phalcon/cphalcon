@@ -51,6 +51,8 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Select){
 
 	zend_declare_property_null(phalcon_forms_element_select_ce, SL("_optionsValues"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_forms_element_select_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
+
 	return SUCCESS;
 }
 

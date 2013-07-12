@@ -84,7 +84,7 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Memory){
 PHP_METHOD(Phalcon_Cache_Backend_Memory, get){
 
 	zval *key_name, *lifetime = NULL, *last_key = NULL, *prefix, *data;
-	zval *cached_content, *frontend, *processed;
+	zval *cached_content, *frontend;
 
 	PHALCON_MM_GROW();
 
@@ -119,11 +119,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get){
 	
 	PHALCON_OBS_VAR(frontend);
 	phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(processed);
-	phalcon_call_method_p1(processed, frontend, "afterretrieve", cached_content);
-	
-	RETURN_CCTOR(processed);
+	phalcon_call_method_p1(return_value, frontend, "afterretrieve", cached_content);
+	RETURN_MM();
 }
 
 /**

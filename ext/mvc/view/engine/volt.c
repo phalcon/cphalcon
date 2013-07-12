@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
 
-	zval *needle, *haystack, *included = NULL;
+	zval *needle, *haystack;
 
 	PHALCON_MM_GROW();
 
@@ -274,14 +274,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
 	}
 	if (Z_TYPE_P(haystack) == IS_STRING) {
 		if (phalcon_function_exists_ex(SS("mb_strpos") TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_VAR(included);
-			phalcon_call_func_p2(included, "mb_strpos", haystack, needle);
-		} else {
-			PHALCON_INIT_NVAR(included);
-			phalcon_fast_strpos(included, haystack, needle TSRMLS_CC);
+			phalcon_call_func_p2(return_value, "mb_strpos", haystack, needle);
+			RETURN_MM();
 		}
-	
-		RETURN_CCTOR(included);
+		phalcon_fast_strpos(return_value, haystack, needle TSRMLS_CC);
+		RETURN_MM();
 	}
 	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid haystack");
@@ -354,7 +351,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 
-	zval *value, *start, *end = NULL, *slice = NULL, *length = NULL, *position;
+	zval *value, *start, *end = NULL, *slice, *length = NULL, *position;
 	zval *current = NULL, *one, *range;
 	zval *r0 = NULL;
 
@@ -437,28 +434,23 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	 */
 	if (phalcon_function_exists_ex(SS("mb_substr") TSRMLS_CC) == SUCCESS) {
 		if (Z_TYPE_P(length) != IS_NULL) {
-			PHALCON_INIT_NVAR(slice);
-			phalcon_call_func_p3(slice, "mb_substr", value, start, length);
-		} else {
-			PHALCON_INIT_NVAR(slice);
-			phalcon_call_func_p2(slice, "mb_substr", value, start);
+			phalcon_call_func_p3(return_value, "mb_substr", value, start, length);
+			RETURN_MM();
 		}
-	
-		RETURN_CCTOR(slice);
+		phalcon_call_func_p2(return_value, "mb_substr", value, start);
+		RETURN_MM();
 	}
 	
 	/** 
 	 * Use the standard substr function
 	 */
 	if (Z_TYPE_P(length) != IS_NULL) {
-		PHALCON_INIT_NVAR(slice);
-		phalcon_call_func_p3(slice, "substr", value, start, length);
-	} else {
-		PHALCON_INIT_NVAR(slice);
-		phalcon_call_func_p2(slice, "substr", value, start);
+		phalcon_call_func_p3(return_value, "substr", value, start, length);
+		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(slice);
+	phalcon_call_func_p2(return_value, "substr", value, start);
+	RETURN_MM();
 }
 
 /**

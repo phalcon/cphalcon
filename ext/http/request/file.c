@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType){
  */
 PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 
-	zval *destination, *temp_file, *success;
+	zval *destination, *temp_file;
 
 	PHALCON_MM_GROW();
 
@@ -195,9 +195,7 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 	
 	PHALCON_OBS_VAR(temp_file);
 	phalcon_read_property_this(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_func_p2(success, "move_uploaded_file", temp_file, destination);
-	RETURN_CCTOR(success);
+	phalcon_call_func_p2(return_value, "move_uploaded_file", temp_file, destination);
+	RETURN_MM();
 }
 

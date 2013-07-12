@@ -184,16 +184,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 
-	zval *file_handler, *success;
+	zval *file_handler;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(file_handler);
 	phalcon_read_property_this(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_func_p1(success, "fclose", file_handler);
-	RETURN_CCTOR(success);
+	phalcon_call_func_p1(return_value, "fclose", file_handler);
+	RETURN_MM();
 }
 
 /**

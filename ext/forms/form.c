@@ -868,16 +868,15 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
 		PHALCON_INIT_VAR(method);
 		PHALCON_CONCAT_SV(method, "get", name);
 		if (phalcon_method_exists(entity, method TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_VAR(value);
-			phalcon_call_method_zval(value, entity, method);
-			RETURN_CCTOR(value);
+			phalcon_call_method_zval(return_value, entity, method);
+			RETURN_MM();
 		}
 	
 		/** 
 		 * Check if the entity has a public property
 		 */
-		if (phalcon_isset_property_zval(entity, name TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(value);
+		if (phalcon_isset_property_zval(entity, name)) {
+			PHALCON_OBS_VAR(value);
 			phalcon_read_property_zval(&value, entity, name, PH_NOISY_CC);
 			RETURN_CCTOR(value);
 		}

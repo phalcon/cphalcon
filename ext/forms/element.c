@@ -817,12 +817,10 @@ PHP_METHOD(Phalcon_Forms_Element, clear){
  */
 PHP_METHOD(Phalcon_Forms_Element, __toString){
 
-	zval *content;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(content);
-	phalcon_call_method(content, this_ptr, "render");
-	RETURN_CCTOR(content);
+	phalcon_call_method(return_value, this_ptr, "render");
+	RETURN_MM();
 }
 

@@ -178,15 +178,13 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, close){
 
-	zval *stream, *success;
+	zval *stream;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(stream);
 	phalcon_read_property_this(&stream, this_ptr, SL("_stream"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_func_p1(success, "fclose", stream);
-	RETURN_CCTOR(success);
+	phalcon_call_func_p1(return_value, "fclose", stream);
+	RETURN_MM();
 }
 

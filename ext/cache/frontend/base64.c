@@ -182,15 +182,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, stop){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore){
 
-	zval *data, *serialized;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(serialized);
-	phalcon_base64_encode(serialized, data);
-	RETURN_CTOR(serialized);
+	phalcon_base64_encode(return_value, data);
+	RETURN_MM();
 }
 
 /**
@@ -201,14 +200,13 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve){
 
-	zval *data, *unserialized;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(unserialized);
-	phalcon_base64_decode(unserialized, data);
-	RETURN_CTOR(unserialized);
+	phalcon_base64_decode(return_value, data);
+	RETURN_MM();
 }
 

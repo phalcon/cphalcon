@@ -339,16 +339,14 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, count){
 
-	zval *messages, *number;
+	zval *messages;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(messages);
 	phalcon_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number);
-	phalcon_fast_count(number, messages TSRMLS_CC);
-	RETURN_NCTOR(number);
+	phalcon_fast_count(return_value, messages TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -439,7 +437,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid){
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, __set_state){
 
-	zval *group, *messages, *group_object;
+	zval *group, *messages;
 
 	PHALCON_MM_GROW();
 
@@ -447,11 +445,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state){
 	
 	PHALCON_OBS_VAR(messages);
 	phalcon_array_fetch_string(&messages, group, SL("_messages"), PH_NOISY);
+	object_init_ex(return_value, phalcon_validation_message_group_ce);
+	phalcon_call_method_p1_noret(return_value, "__construct", messages);
 	
-	PHALCON_INIT_VAR(group_object);
-	object_init_ex(group_object, phalcon_validation_message_group_ce);
-	phalcon_call_method_p1_noret(group_object, "__construct", messages);
-	
-	RETURN_CTOR(group_object);
+	RETURN_MM();
 }
 

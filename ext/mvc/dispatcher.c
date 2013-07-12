@@ -143,8 +143,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
 	zval *message, *exception_code = NULL, *dependency_injector;
-	zval *exception_message, *service, *response;
-	zval *status_code, *status_message, *exception;
+	zval *exception_message, *exception = NULL, *service;
+	zval *response, *status_code, *status_message;
 	zval *events_manager, *event_name, *status;
 
 	PHALCON_MM_GROW();
@@ -166,10 +166,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "A dependency injection container is required to access the 'response' service", 1);
-		object_init_ex(return_value, phalcon_mvc_dispatcher_exception_ce);
-		phalcon_call_method_p2_noret(return_value, "__construct", exception_message, exception_code);
 	
-		RETURN_MM();
+		PHALCON_INIT_VAR(exception);
+		object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
+		phalcon_call_method_p2_noret(exception, "__construct", exception_message, exception_code);
+	
+		RETURN_CTOR(exception);
 	}
 	
 	PHALCON_INIT_VAR(service);
@@ -191,7 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	/** 
 	 * Create the real exception
 	 */
-	PHALCON_INIT_VAR(exception);
+	PHALCON_INIT_NVAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 	phalcon_call_method_p2_noret(exception, "__construct", message, exception_code);
 	

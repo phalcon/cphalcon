@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 
 		PHALCON_INIT_VAR(arguments);
 		array_init_size(arguments, 1);
-		phalcon_array_append(&arguments, class_name, PH_SEPARATE);
+		phalcon_array_append(&arguments, class_name, PH_SEPARATE TSRMLS_CC);
 
 		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "sessionBag", 1);

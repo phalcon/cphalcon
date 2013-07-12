@@ -1049,9 +1049,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	 * Is a qualified column
 	 */
 	if (phalcon_array_isset_string(expr, SS("domain"))) {
-		PHALCON_INIT_NVAR(expr_return);
-		phalcon_call_method_p1(expr_return, this_ptr, "_getqualified", expr);
-		RETURN_CCTOR(expr_return);
+		phalcon_call_method_p1(return_value, this_ptr, "_getqualified", expr);
+		RETURN_MM();
 	}
 	
 	/** 
@@ -1075,12 +1074,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		PHALCON_INIT_NVAR(expr_return);
-		array_init_size(expr_return, 2);
-		add_assoc_stringl_ex(expr_return, SS("type"), SL("list"), 1);
-		phalcon_array_append(&expr_return, list_items, PH_SEPARATE);
+		array_init_size(return_value, 2);
+		add_assoc_stringl_ex(return_value, SS("type"), SL("list"), 1);
+		phalcon_array_append(&return_value, list_items, PH_SEPARATE);
 	
-		RETURN_CCTOR(expr_return);
+		RETURN_MM();
 	}
 	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Unknown expression");

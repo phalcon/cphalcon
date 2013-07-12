@@ -75,6 +75,7 @@ forms/element/submit.c \
 forms/element/date.c \
 forms/exception.c \
 forms/element.c \
+forms/elementinterface.c \
 http/response.c \
 http/requestinterface.c \
 http/request.c \

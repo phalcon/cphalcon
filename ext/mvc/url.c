@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 
 	zval *uri = NULL, *base_uri, *router = NULL, *dependency_injector;
 	zval *service, *route_name, *route, *exception_message;
-	zval *pattern, *paths, *processed_uri, *final_uri = NULL;
+	zval *pattern, *paths, *processed_uri;
 
 	PHALCON_MM_GROW();
 
@@ -338,17 +338,14 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		 */
 		PHALCON_INIT_VAR(processed_uri);
 		phalcon_replace_paths(processed_uri, pattern, paths, uri TSRMLS_CC);
+		PHALCON_CONCAT_VV(return_value, base_uri, processed_uri);
 	
-		PHALCON_INIT_VAR(final_uri);
-		PHALCON_CONCAT_VV(final_uri, base_uri, processed_uri);
-	
-		RETURN_CTOR(final_uri);
+		RETURN_MM();
 	}
 	
-	PHALCON_INIT_NVAR(final_uri);
-	PHALCON_CONCAT_VV(final_uri, base_uri, uri);
+	PHALCON_CONCAT_VV(return_value, base_uri, uri);
 	
-	RETURN_CTOR(final_uri);
+	RETURN_MM();
 }
 
 /**

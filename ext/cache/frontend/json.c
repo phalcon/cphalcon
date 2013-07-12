@@ -178,15 +178,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, stop){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
 
-	zval *data, *serialized;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "json_encode", data);
-	RETURN_CCTOR(serialized);
+	phalcon_call_func_p1(return_value, "json_encode", data);
+	RETURN_MM();
 }
 
 /**
@@ -197,14 +196,13 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve){
 
-	zval *data, *unserialized;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(unserialized);
-	phalcon_call_func_p1(unserialized, "json_decode", data);
-	RETURN_CCTOR(unserialized);
+	phalcon_call_func_p1(return_value, "json_decode", data);
+	RETURN_MM();
 }
 
