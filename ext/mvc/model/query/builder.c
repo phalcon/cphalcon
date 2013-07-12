@@ -1578,7 +1578,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 				if (phalcon_is_numeric(group_item)) {
 					phalcon_array_append(&group_items, group_item, PH_SEPARATE);
 				} else {
-					if (phalcon_memnstr_str(group_item, SL(".") TSRMLS_CC)) {
+					if (phalcon_memnstr_str(group_item, SL("."))) {
 						phalcon_array_append(&group_items, group_item, PH_SEPARATE);
 					} else {
 						PHALCON_INIT_NVAR(escaped_item);
@@ -1597,7 +1597,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			if (phalcon_is_numeric(group)) {
 				PHALCON_SCONCAT_SV(phql, " GROUP BY ", group);
 			} else {
-				if (phalcon_memnstr_str(group, SL(".") TSRMLS_CC)) {
+				if (phalcon_memnstr_str(group, SL("."))) {
 					PHALCON_SCONCAT_SV(phql, " GROUP BY ", group);
 				} else {
 					PHALCON_SCONCAT_SVS(phql, " GROUP BY [", group, "]");
@@ -1634,7 +1634,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 				if (phalcon_is_numeric(order_item)) {
 					phalcon_array_append(&order_items, order_item, PH_SEPARATE);
 				} else {
-					if (phalcon_memnstr_str(order_item, SL(".") TSRMLS_CC)) {
+					if (phalcon_memnstr_str(order_item, SL("."))) {
 						phalcon_array_append(&order_items, order_item, PH_SEPARATE);
 					} else {
 						PHALCON_INIT_NVAR(escaped_item);

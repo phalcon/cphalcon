@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, readStatus){
 
 	PHALCON_INIT_VAR(response);
 	phalcon_call_method(response, this_ptr, "read");
-	phalcon_fast_explode_str(return_value, SL(" "), response TSRMLS_CC);
+	phalcon_fast_explode_str(return_value, SL(" "), response);
 	RETURN_MM();
 }
 

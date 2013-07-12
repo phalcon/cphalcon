@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		ZVAL_STRING(empty_str, "", 1);
 	
 		PHALCON_INIT_VAR(escaped);
-		phalcon_fast_str_replace(escaped, quote, empty_str, value TSRMLS_CC);
+		phalcon_fast_str_replace(escaped, quote, empty_str, value);
 	
 		PHALCON_INIT_VAR(filtered);
 		phalcon_call_func_p2(filtered, "filter_var", escaped, type);

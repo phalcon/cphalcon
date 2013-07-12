@@ -5915,7 +5915,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 	 */
 	if (phalcon_start_with_str(method, SL("get"))) {
 		PHALCON_INIT_VAR(alias);
-		phalcon_substr(alias, method, 3, 0 TSRMLS_CC);
+		phalcon_substr(alias, method, 3, 0);
 	
 		phalcon_call_method_p2(relation, manager, "getrelationbyalias", model_name, alias);
 	}
@@ -5928,7 +5928,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 			ZVAL_STRING(query_method, "count", 1);
 	
 			PHALCON_INIT_NVAR(alias);
-			phalcon_substr(alias, method, 5, 0 TSRMLS_CC);
+			phalcon_substr(alias, method, 5, 0);
 	
 			PHALCON_INIT_NVAR(relation);
 			phalcon_call_method_p2(relation, manager, "getrelationbyalias", model_name, alias);
@@ -6050,7 +6050,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "findFirst", 1);
 	
-		phalcon_substr(extra_method, method, 11, 0 TSRMLS_CC);
+		phalcon_substr(extra_method, method, 11, 0);
 	}
 	
 	/** 
@@ -6062,7 +6062,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 			ZVAL_STRING(type, "find", 1);
 	
 			PHALCON_INIT_NVAR(extra_method);
-			phalcon_substr(extra_method, method, 6, 0 TSRMLS_CC);
+			phalcon_substr(extra_method, method, 6, 0);
 		}
 	}
 	
@@ -6075,7 +6075,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 			ZVAL_STRING(type, "count", 1);
 	
 			PHALCON_INIT_NVAR(extra_method);
-			phalcon_substr(extra_method, method, 7, 0 TSRMLS_CC);
+			phalcon_substr(extra_method, method, 7, 0);
 		}
 	}
 	
@@ -6148,7 +6148,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 			 * Get the possible real method name
 			 */
 			PHALCON_INIT_NVAR(field);
-			phalcon_uncamelize(field, extra_method TSRMLS_CC);
+			phalcon_uncamelize(field, extra_method);
 			if (!phalcon_array_isset(attributes, field)) {
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVS(exception_message, "Cannot resolve attribute \"", extra_method, "' in the model");

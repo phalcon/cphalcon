@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 	/** 
 	 * If a pattern contains ':', maybe there are placeholders to replace
 	 */
-	if (phalcon_memnstr_str(pattern, SL(":") TSRMLS_CC)) {
+	if (phalcon_memnstr_str(pattern, SL(":"))) {
 	
 		/** 
 		 * This is a pattern for valid identifiers
@@ -164,55 +164,55 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 		/** 
 		 * Replace the module part
 		 */
-		if (phalcon_memnstr_str(pattern, SL("/:module") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(pattern, SL("/:module"))) {
 			PHALCON_INIT_VAR(wildcard);
 			ZVAL_STRING(wildcard, "/:module", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy);
 		}
 	
 		/** 
 		 * Replace the controller placeholder
 		 */
-		if (phalcon_memnstr_str(pattern, SL("/:controller") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(pattern, SL("/:controller"))) {
 			PHALCON_INIT_NVAR(wildcard);
 			ZVAL_STRING(wildcard, "/:controller", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy);
 		}
 	
 		/** 
 		 * Replace the namespace placeholder
 		 */
-		if (phalcon_memnstr_str(pattern, SL("/:namespace") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(pattern, SL("/:namespace"))) {
 			PHALCON_INIT_NVAR(wildcard);
 			ZVAL_STRING(wildcard, "/:namespace", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy);
 		}
 	
 		/** 
 		 * Replace the action placeholder
 		 */
-		if (phalcon_memnstr_str(pattern, SL("/:action") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(pattern, SL("/:action"))) {
 			PHALCON_INIT_NVAR(wildcard);
 			ZVAL_STRING(wildcard, "/:action", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy);
 		}
 	
 		/** 
 		 * Replace the params placeholder
 		 */
-		if (phalcon_memnstr_str(pattern, SL("/:params") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(pattern, SL("/:params"))) {
 			PHALCON_INIT_NVAR(wildcard);
 			ZVAL_STRING(wildcard, "/:params", 1);
 	
@@ -221,13 +221,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, wildcard, params_pattern, pattern_copy TSRMLS_CC);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, params_pattern, pattern_copy);
 		}
 	
 		/** 
 		 * Replace the int placeholder
 		 */
-		if (phalcon_memnstr_str(pattern, SL("/:int") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(pattern, SL("/:int"))) {
 			PHALCON_INIT_NVAR(wildcard);
 			ZVAL_STRING(wildcard, "/:int", 1);
 	
@@ -236,14 +236,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, wildcard, int_pattern, pattern_copy TSRMLS_CC);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, int_pattern, pattern_copy);
 		}
 	}
 	
 	/** 
 	 * Check if the pattern has parantheses in order to add the regex delimiters
 	 */
-	if (phalcon_memnstr_str(compiled_pattern, SL("(") TSRMLS_CC)) {
+	if (phalcon_memnstr_str(compiled_pattern, SL("("))) {
 		PHALCON_CONCAT_SVS(return_value, "#^", compiled_pattern, "$#");
 		RETURN_MM();
 	}
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 	/** 
 	 * Square brackets are also checked
 	 */
-	if (phalcon_memnstr_str(compiled_pattern, SL("[") TSRMLS_CC)) {
+	if (phalcon_memnstr_str(compiled_pattern, SL("["))) {
 		PHALCON_CONCAT_SVS(return_value, "#^", compiled_pattern, "$#");
 		RETURN_MM();
 	}
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 			 * Explode the short paths using the :: separator
 			 */
 			PHALCON_INIT_VAR(parts);
-			phalcon_fast_explode_str(parts, SL("::"), paths TSRMLS_CC);
+			phalcon_fast_explode_str(parts, SL("::"), paths);
 	
 			PHALCON_INIT_VAR(number_parts);
 			phalcon_fast_count(number_parts, parts TSRMLS_CC);
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 				/** 
 				 * Check if we need to obtain the namespace
 				 */
-				if (phalcon_memnstr_str(controller_name, SL("\\") TSRMLS_CC)) {
+				if (phalcon_memnstr_str(controller_name, SL("\\"))) {
 	
 					/** 
 					 * Extract the real class name from the namespaced class
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 				 * Always pass the controller to lowercase
 				 */
 				PHALCON_INIT_VAR(lower_name);
-				phalcon_uncamelize(lower_name, real_class_name TSRMLS_CC);
+				phalcon_uncamelize(lower_name, real_class_name);
 	
 				/** 
 				 * Update the controller path
@@ -432,7 +432,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	 * If the route starts with '#' we assume that it is a regular expression
 	 */
 	if (!phalcon_start_with_str(pattern, SL("#"))) {
-		if (phalcon_memnstr_str(pattern, SL("{") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(pattern, SL("{"))) {
 			/** 
 			 * The route has named parameters so we need to extract them
 			 */
