@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Debug, debugVar){
 	
 	PHALCON_INIT_VAR(backtrace);
 #if PHP_VERSION_ID < 50400
-	zend_fetch_debug_backtrace(backtrace, 0, DEBUG_BACKTRACE_PROVIDE_OBJECT, 0 TSRMLS_CC);
+	zend_fetch_debug_backtrace(backtrace, 0, DEBUG_BACKTRACE_PROVIDE_OBJECT TSRMLS_CC);
 #else
 	zend_fetch_debug_backtrace(backtrace, 0, DEBUG_BACKTRACE_PROVIDE_OBJECT, 0 TSRMLS_CC);
 #endif
