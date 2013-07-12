@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_INIT_VAR(dsn_parts);
 		array_init(dsn_parts);
 
-		if (!phalcon_is_iterable_ex(descriptor, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(descriptor, &ah0, &hp0, 0, 0)) {
 			return;
 		}
 

@@ -1305,7 +1305,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 			/** 
 			 * If the primary key attribute is set append it to the conditions
 			 */
-			if (phalcon_isset_property_zval(this_ptr, attribute_field)) {
+			if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 	
 				PHALCON_OBS_NVAR(value);
 				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
@@ -2142,7 +2142,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 							PHALCON_GET_HKEY(position, ah1, hp1);
 							PHALCON_GET_HVALUE(field);
 	
-							if (phalcon_isset_property_zval(this_ptr, field)) {
+							if (phalcon_isset_property_zval(this_ptr, field TSRMLS_CC)) {
 								PHALCON_OBS_NVAR(value);
 								phalcon_read_property_zval(&value, this_ptr, field, PH_NOISY_CC);
 							} else {
@@ -2164,7 +2164,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict){
 						/** 
 						 * Create a simple condition
 						 */
-						if (phalcon_isset_property_zval(this_ptr, fields)) {
+						if (phalcon_isset_property_zval(this_ptr, fields TSRMLS_CC)) {
 							PHALCON_OBS_NVAR(value);
 							phalcon_read_property_zval(&value, this_ptr, fields, PH_NOISY_CC);
 						} else {
@@ -2365,7 +2365,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 							PHALCON_GET_HKEY(position, ah1, hp1);
 							PHALCON_GET_HVALUE(field);
 	
-							if (phalcon_isset_property_zval(this_ptr, field)) {
+							if (phalcon_isset_property_zval(this_ptr, field TSRMLS_CC)) {
 								PHALCON_OBS_NVAR(value);
 								phalcon_read_property_zval(&value, this_ptr, field, PH_NOISY_CC);
 							} else {
@@ -2384,7 +2384,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict){
 						}
 	
 					} else {
-						if (phalcon_isset_property_zval(this_ptr, fields)) {
+						if (phalcon_isset_property_zval(this_ptr, fields TSRMLS_CC)) {
 							PHALCON_OBS_NVAR(value);
 							phalcon_read_property_zval(&value, this_ptr, fields, PH_NOISY_CC);
 						} else {
@@ -2573,7 +2573,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 							PHALCON_GET_HKEY(position, ah1, hp1);
 							PHALCON_GET_HVALUE(field);
 	
-							if (phalcon_isset_property_zval(this_ptr, field)) {
+							if (phalcon_isset_property_zval(this_ptr, field TSRMLS_CC)) {
 								PHALCON_OBS_NVAR(value);
 								phalcon_read_property_zval(&value, this_ptr, field, PH_NOISY_CC);
 							} else {
@@ -2592,7 +2592,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade){
 						}
 	
 					} else {
-						if (phalcon_isset_property_zval(this_ptr, fields)) {
+						if (phalcon_isset_property_zval(this_ptr, fields TSRMLS_CC)) {
 							PHALCON_OBS_NVAR(value);
 							phalcon_read_property_zval(&value, this_ptr, fields, PH_NOISY_CC);
 						} else {
@@ -2794,7 +2794,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 					 * Field is null when: 1) is not set, 2) is numeric but its value is not numeric,
 					 * 3) is null or 4) is empty string
 					 */
-					if (phalcon_isset_property_zval(this_ptr, attribute_field)) {
+					if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 	
 						/** 
 						 * Read the attribute from the this_ptr using the real or renamed name
@@ -3093,7 +3093,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 				/** 
 				 * This isset checks that the property be defined in the model
 				 */
-				if (phalcon_isset_property_zval(this_ptr, attribute_field)) {
+				if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 	
 					/** 
 					 * Every column must have a bind data type defined
@@ -3159,7 +3159,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 		/** 
 		 * Check if the developer set an explicit value for the column
 		 */
-		if (phalcon_isset_property_zval(this_ptr, attribute_field)) {
+		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 	
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
@@ -3358,7 +3358,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 			/** 
 			 * If a field isn't set we pass a null value
 			 */
-			if (phalcon_isset_property_zval(this_ptr, attribute_field)) {
+			if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 	
 				/** 
 				 * Get the field's value
@@ -3474,7 +3474,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 			} else {
 				PHALCON_CPY_WRT(attribute_field, field);
 			}
-			if (phalcon_isset_property_zval(this_ptr, attribute_field)) {
+			if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 				PHALCON_OBS_NVAR(value);
 				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
 				phalcon_array_append(&unique_params, value, PH_SEPARATE);
@@ -3735,7 +3735,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 				PHALCON_CPY_WRT(related_records, record);
 			}
 	
-			if (!phalcon_isset_property_zval(this_ptr, columns)) {
+			if (!phalcon_isset_property_zval(this_ptr, columns TSRMLS_CC)) {
 				phalcon_call_method_p1_noret(connection, "rollback", nesting);
 	
 				PHALCON_INIT_NVAR(exception_message);
@@ -4650,7 +4650,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 		/** 
 		 * If the attribute is currently set in the object add it to the conditions
 		 */
-		if (!phalcon_isset_property_zval(this_ptr, attribute_field)) {
+		if (!phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SVS(exception_message, "Cannot delete the record because the primary key attribute: '", attribute_field, "' wasn't set");
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
@@ -4935,7 +4935,7 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute){
 
 	phalcon_fetch_params(1, 1, 0, &attribute);
 	
-	if (phalcon_isset_property_zval(this_ptr, attribute)) {
+	if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		PHALCON_OBS_VAR(attribute_value);
 		phalcon_read_property_zval(&attribute_value, this_ptr, attribute, PH_NOISY_CC);
 		RETURN_CCTOR(attribute_value);
@@ -5607,7 +5607,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 		/** 
 		 * The field is not part of the model, throw exception
 		 */
-		if (!phalcon_isset_property_zval(this_ptr, field_name)) {
+		if (!phalcon_isset_property_zval(this_ptr, field_name TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SVS(exception_message, "The field '", field_name, "' is not defined on the model");
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
@@ -5661,7 +5661,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged){
 		/** 
 		 * If some attribute is not present in the model, we assume the record as changed
 		 */
-		if (!phalcon_isset_property_zval(this_ptr, name)) {
+		if (!phalcon_isset_property_zval(this_ptr, name TSRMLS_CC)) {
 			RETURN_MM_TRUE;
 		}
 	
@@ -5767,7 +5767,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields){
 		/** 
 		 * If some attribute is not present in the model, we assume the record as changed
 		 */
-		if (!phalcon_isset_property_zval(this_ptr, name)) {
+		if (!phalcon_isset_property_zval(this_ptr, name TSRMLS_CC)) {
 			phalcon_array_append(&changed, name, PH_SEPARATE);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			continue;
@@ -6375,7 +6375,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	
 		PHALCON_GET_HVALUE(attribute);
 	
-		if (phalcon_isset_property_zval(this_ptr, attribute)) {
+		if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute, PH_NOISY_CC);
 			phalcon_array_update_zval(&data, attribute, &value, PH_COPY | PH_SEPARATE);
@@ -6557,7 +6557,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 		} else {
 			PHALCON_CPY_WRT(attribute_field, attribute);
 		}
-		if (phalcon_isset_property_zval(this_ptr, attribute_field)) {
+		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
 			phalcon_array_update_zval(&data, attribute_field, &value, PH_COPY | PH_SEPARATE);

@@ -34,8 +34,8 @@
 
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Mvc\Dispatcher
@@ -171,7 +171,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 		object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 		phalcon_call_method_p2_noret(exception, "__construct", exception_message, exception_code);
 	
-		RETURN_CTOR(exception);
+		phalcon_throw_exception(exception TSRMLS_CC);
+		return;
 	}
 	
 	PHALCON_INIT_VAR(service);

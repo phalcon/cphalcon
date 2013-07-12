@@ -892,7 +892,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_INIT_VAR(selected_columns);
 		array_init(selected_columns);
 
-		if (!phalcon_is_iterable_ex(columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(columns, &ah0, &hp0, 0, 0)) {
 			return;
 		}
 
@@ -986,7 +986,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_INIT_VAR(selected_tables);
 		array_init(selected_tables);
 
-		if (!phalcon_is_iterable_ex(tables, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(tables, &ah1, &hp1, 0, 0)) {
 			return;
 		}
 
@@ -1018,7 +1018,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_OBS_VAR(joins);
 		phalcon_array_fetch_string(&joins, definition, SL("joins"), PH_NOISY);
 
-		if (!phalcon_is_iterable_ex(joins, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(joins, &ah2, &hp2, 0, 0)) {
 			return;
 		}
 
@@ -1051,7 +1051,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 					PHALCON_INIT_NVAR(join_expressions);
 					array_init(join_expressions);
 
-					if (!phalcon_is_iterable_ex(join_conditions_array, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
+					if (!phalcon_is_iterable_ex(join_conditions_array, &ah3, &hp3, 0, 0)) {
 						return;
 					}
 
@@ -1106,7 +1106,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_OBS_VAR(group_fields);
 		phalcon_array_fetch_string(&group_fields, definition, SL("group"), PH_NOISY);
 
-		if (!phalcon_is_iterable_ex(group_fields, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(group_fields, &ah4, &hp4, 0, 0)) {
 			return;
 		}
 
@@ -1152,7 +1152,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_INIT_VAR(order_items);
 		array_init(order_items);
 
-		if (!phalcon_is_iterable_ex(order_fields, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(order_fields, &ah5, &hp5, 0, 0)) {
 			return;
 		}
 

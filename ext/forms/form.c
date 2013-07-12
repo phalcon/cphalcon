@@ -875,7 +875,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
 		/** 
 		 * Check if the entity has a public property
 		 */
-		if (phalcon_isset_property_zval(entity, name)) {
+		if (phalcon_isset_property_zval(entity, name TSRMLS_CC)) {
 			PHALCON_OBS_VAR(value);
 			phalcon_read_property_zval(&value, entity, name, PH_NOISY_CC);
 			RETURN_CCTOR(value);

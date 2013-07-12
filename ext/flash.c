@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 		if (phalcon_array_isset(classes, type)) {
 
 			PHALCON_OBS_VAR(type_classes);
-			phalcon_array_fetch(&type_classes, classes, type, PH_NOISY_CC);
+			phalcon_array_fetch(&type_classes, classes, type, PH_NOISY);
 			if (Z_TYPE_P(type_classes) == IS_ARRAY) {
 				PHALCON_INIT_VAR(joined_classes);
 				phalcon_fast_join_str(joined_classes, SL(" "), type_classes TSRMLS_CC);

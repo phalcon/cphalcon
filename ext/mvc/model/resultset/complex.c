@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 		if (Z_TYPE_P(rows) == IS_ARRAY) { 
 	
 			PHALCON_INIT_NVAR(row);
-			phalcon_array_get_current(row, rows TSRMLS_CC);
+			phalcon_array_get_current(row, rows);
 			if (Z_TYPE_P(row) == IS_OBJECT) {
 				phalcon_array_next(rows);
 			}

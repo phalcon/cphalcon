@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 				PHALCON_INIT_NVAR(value);
 				phalcon_call_method(value, entity, "readattribute");
 			} else {
-				if (phalcon_isset_property_zval(entity, attribute)) {
+				if (phalcon_isset_property_zval(entity, attribute TSRMLS_CC)) {
 					PHALCON_OBS_NVAR(value);
 					phalcon_read_property_zval(&value, entity, attribute, PH_NOISY_CC);
 				} else {
@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 		}
 	} else {
 		if (Z_TYPE_P(data) == IS_OBJECT) {
-			if (phalcon_isset_property_zval(data, attribute)) {
+			if (phalcon_isset_property_zval(data, attribute TSRMLS_CC)) {
 				PHALCON_OBS_NVAR(value);
 				phalcon_read_property_zval(&value, data, attribute, PH_NOISY_CC);
 			}

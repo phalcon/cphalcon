@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 		if (Z_TYPE_P(rows) == IS_ARRAY) { 
 	
 			PHALCON_INIT_NVAR(row);
-			phalcon_array_get_current(row, rows TSRMLS_CC);
+			phalcon_array_get_current(row, rows);
 			if (PHALCON_IS_NOT_FALSE(row)) {
 				phalcon_array_next(rows);
 			}

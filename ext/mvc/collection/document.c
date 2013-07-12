@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists){
 
 	phalcon_fetch_params(0, 1, 0, &index);
 	
-	if (phalcon_isset_property_zval(this_ptr, index)) {
+	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
 		RETURN_TRUE;
 	}
 	RETURN_FALSE;
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet){
 
 	phalcon_fetch_params(1, 1, 0, &index);
 	
-	if (phalcon_isset_property_zval(this_ptr, index)) {
+	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
 		PHALCON_OBS_VAR(value);
 		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
 		RETURN_CCTOR(value);
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute){
 
 	phalcon_fetch_params(1, 1, 0, &attribute);
 	
-	if (phalcon_isset_property_zval(this_ptr, attribute)) {
+	if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		PHALCON_OBS_VAR(attribute_value);
 		phalcon_read_property_zval(&attribute_value, this_ptr, attribute, PH_NOISY_CC);
 		RETURN_CCTOR(attribute_value);
