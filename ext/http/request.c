@@ -551,7 +551,7 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested){
 	
 			PHALCON_OBS_VAR(content_type);
 			phalcon_array_fetch_string(&content_type, server, SL("CONTENT_TYPE"), PH_NOISY);
-			if (phalcon_memnstr_str(content_type, SL("application/soap+xml") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(content_type, SL("application/soap+xml"))) {
 				RETURN_MM_TRUE;
 			}
 		}
@@ -828,12 +828,12 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	}
 	
 	if (Z_TYPE_P(address) == IS_STRING) {
-		if (phalcon_memnstr_str(address, SL(",") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(address, SL(","))) {
 			/** 
 			 * The client address has multiples parts, only return the first part
 			 */
 			PHALCON_INIT_VAR(addresses);
-			phalcon_fast_explode_str(addresses, SL(","), address TSRMLS_CC);
+			phalcon_fast_explode_str(addresses, SL(","), address);
 	
 			PHALCON_OBS_VAR(first);
 			phalcon_array_fetch_long(&first, addresses, 0, PH_NOISY);
@@ -1245,7 +1245,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders){
 	
 		if (phalcon_start_with(key, http, NULL)) {
 			PHALCON_INIT_NVAR(header);
-			phalcon_fast_str_replace(header, http, empty_string, key TSRMLS_CC);
+			phalcon_fast_str_replace(header, http, empty_string, key);
 			phalcon_array_update_zval(&headers, key, &value, PH_COPY | PH_SEPARATE);
 		}
 	
@@ -1316,13 +1316,13 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 		PHALCON_GET_HVALUE(part);
 	
 		PHALCON_INIT_NVAR(header_parts);
-		phalcon_fast_explode_str(header_parts, SL(";"), part TSRMLS_CC);
+		phalcon_fast_explode_str(header_parts, SL(";"), part);
 		if (phalcon_array_isset_long(header_parts, 1)) {
 			PHALCON_OBS_NVAR(quality_part);
 			phalcon_array_fetch_long(&quality_part, header_parts, 1, PH_NOISY);
 	
 			PHALCON_INIT_NVAR(quality);
-			phalcon_substr(quality, quality_part, 2, 0 TSRMLS_CC);
+			phalcon_substr(quality, quality_part, 2, 0);
 		} else {
 			PHALCON_CPY_WRT(quality, quality_one);
 		}

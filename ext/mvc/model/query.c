@@ -836,7 +836,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 					/** 
 					 * Check if static literals have single quotes and escape them
 					 */
-					if (phalcon_memnstr_str(value, SL("'") TSRMLS_CC)) {
+					if (phalcon_memnstr_str(value, SL("'"))) {
 						PHALCON_INIT_VAR(escaped_value);
 						phalcon_orm_singlequotes(escaped_value, value TSRMLS_CC);
 					} else {
@@ -866,7 +866,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				ZVAL_STRING(double_colon, ":", 1);
 	
 				PHALCON_INIT_VAR(placeholder);
-				phalcon_fast_str_replace(placeholder, question_mark, double_colon, value TSRMLS_CC);
+				phalcon_fast_str_replace(placeholder, question_mark, double_colon, value);
 	
 				PHALCON_INIT_NVAR(expr_return);
 				array_init_size(expr_return, 2);
@@ -4260,7 +4260,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 				phalcon_call_method_p1(insert_expr, dialect, "getsqlexpression", expr_value);
 	
 				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
+				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr);
 				if (!phalcon_array_isset(bind_params, wildcard)) {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it isn't in the placeholders list");
@@ -4282,7 +4282,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 				phalcon_call_method_p1(insert_expr, dialect, "getsqlexpression", expr_value);
 	
 				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
+				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr);
 				if (!phalcon_array_isset(bind_params, wildcard)) {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
@@ -4604,7 +4604,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 				phalcon_call_method_p1(update_expr, dialect, "getsqlexpression", expr_value);
 	
 				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr TSRMLS_CC);
+				phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr);
 				if (phalcon_array_isset(bind_params, wildcard)) {
 					PHALCON_OBS_NVAR(update_value);
 					phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY);
@@ -4629,7 +4629,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 				phalcon_call_method_p1(update_expr, dialect, "getsqlexpression", expr_value);
 	
 				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr TSRMLS_CC);
+				phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr);
 				if (phalcon_array_isset(bind_params, wildcard)) {
 					PHALCON_OBS_NVAR(update_value);
 					phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY);

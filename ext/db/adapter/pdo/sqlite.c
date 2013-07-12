@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		phalcon_array_fetch_long(&column_type, field, 2, PH_NOISY);
 	
 		PHALCON_INIT_NVAR(pos);
-		phalcon_fast_stripos_str(pos, column_type, SL("int") TSRMLS_CC);
+		phalcon_fast_stripos_str(pos, column_type, SL("int"));
 		if (PHALCON_IS_NOT_FALSE(pos)) {
 			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE);
 			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
@@ -194,32 +194,32 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 				phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE);
 			}
 		} else {
-			if (phalcon_memnstr_str(column_type, SL("varchar") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(column_type, SL("varchar"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE);
 			} else {
-				if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
+				if (phalcon_memnstr_str(column_type, SL("date"))) {
 					phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE);
 				} else {
-					if (phalcon_memnstr_str(column_type, SL("decimal") TSRMLS_CC)) {
+					if (phalcon_memnstr_str(column_type, SL("decimal"))) {
 						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE);
 						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
 						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
 					} else {
-						if (phalcon_memnstr_str(column_type, SL("char") TSRMLS_CC)) {
+						if (phalcon_memnstr_str(column_type, SL("char"))) {
 							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
 						} else {
-							if (phalcon_memnstr_str(column_type, SL("datetime") TSRMLS_CC)) {
+							if (phalcon_memnstr_str(column_type, SL("datetime"))) {
 								phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE);
 							} else {
-								if (phalcon_memnstr_str(column_type, SL("text") TSRMLS_CC)) {
+								if (phalcon_memnstr_str(column_type, SL("text"))) {
 									phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE);
 								} else {
-									if (phalcon_memnstr_str(column_type, SL("float") TSRMLS_CC)) {
+									if (phalcon_memnstr_str(column_type, SL("float"))) {
 										phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE);
 										phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
 										phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
 									} else {
-										if (phalcon_memnstr_str(column_type, SL("enum") TSRMLS_CC)) {
+										if (phalcon_memnstr_str(column_type, SL("enum"))) {
 											phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
 										} else {
 											phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE);
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 			}
 		}
 	
-		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(column_type, SL("("))) {
 	
 			PHALCON_INIT_NVAR(matches);
 	
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 			}
 		}
 	
-		if (phalcon_memnstr_str(column_type, SL("unsigned") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(column_type, SL("unsigned"))) {
 			phalcon_array_update_string_bool(&definition, SL("unsigned"), 1, PH_SEPARATE);
 		}
 	

@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource){
 		phalcon_get_class_ns(class_name, this_ptr, 0 TSRMLS_CC);
 	
 		PHALCON_INIT_NVAR(source);
-		phalcon_uncamelize(source, class_name TSRMLS_CC);
+		phalcon_uncamelize(source, class_name);
 		phalcon_update_property_this(this_ptr, SL("_source"), source TSRMLS_CC);
 	}
 	

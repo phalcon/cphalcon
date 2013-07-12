@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			/** 
 			 * Enum are treated as char
 			 */
-			if (phalcon_memnstr_str(column_type, SL("enum") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(column_type, SL("enum"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
 				break;
 			}
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			/** 
 			 * Smallint/Bigint/Integers/Int are int
 			 */
-			if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(column_type, SL("int"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE);
 				phalcon_array_update_string(&definition, SL("isNumeric"), &ztrue, PH_COPY | PH_SEPARATE);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE);
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			/** 
 			 * Varchar are varchars
 			 */
-			if (phalcon_memnstr_str(column_type, SL("varchar") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(column_type, SL("varchar"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE);
 				break;
 			}
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			/** 
 			 * Special type for datetime
 			 */
-			if (phalcon_memnstr_str(column_type, SL("datetime") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(column_type, SL("datetime"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE);
 				break;
 			}
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			/** 
 			 * Decimals are floats
 			 */
-			if (phalcon_memnstr_str(column_type, SL("decimal") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(column_type, SL("decimal"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE);
 				phalcon_array_update_string(&definition, SL("isNumeric"), &ztrue, PH_COPY | PH_SEPARATE);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			/** 
 			 * Chars are chars
 			 */
-			if (phalcon_memnstr_str(column_type, SL("char") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(column_type, SL("char"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
 				break;
 			}
@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			/** 
 			 * Date/Datetime are varchars
 			 */
-			if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(column_type, SL("date"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE);
 				break;
 			}
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			/** 
 			 * Text are varchars
 			 */
-			if (phalcon_memnstr_str(column_type, SL("text") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(column_type, SL("text"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE);
 				break;
 			}
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			/** 
 			 * Float/Smallfloats/Decimals are float
 			 */
-			if (phalcon_memnstr_str(column_type, SL("float") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(column_type, SL("float"))) {
 				phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE);
 				phalcon_array_update_string(&definition, SL("isNumeric"), &ztrue, PH_COPY | PH_SEPARATE);
 				phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		/** 
 		 * If the column type has a parentheses we try to get the column size from it
 		 */
-		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(column_type, SL("("))) {
 	
 			PHALCON_INIT_NVAR(matches);
 	
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		/** 
 		 * Check if the column is unsigned, only MySQL support this
 		 */
-		if (phalcon_memnstr_str(column_type, SL("unsigned") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(column_type, SL("unsigned"))) {
 			phalcon_array_update_string(&definition, SL("unsigned"), &ztrue, PH_COPY | PH_SEPARATE);
 		}
 	

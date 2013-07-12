@@ -628,7 +628,7 @@ PHP_METHOD(Phalcon_DI, __call){
 		phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(service_name);
-		phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
+		phalcon_substr(service_name, method, 3, 0);
 	
 		PHALCON_INIT_VAR(possible_service);
 		phalcon_call_func_p1(possible_service, "lcfirst", service_name);
@@ -651,7 +651,7 @@ PHP_METHOD(Phalcon_DI, __call){
 	if (phalcon_start_with_str(method, SL("set"))) {
 		if (phalcon_array_isset_long(arguments, 0)) {
 			PHALCON_INIT_NVAR(service_name);
-			phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
+			phalcon_substr(service_name, method, 3, 0);
 	
 			PHALCON_INIT_NVAR(possible_service);
 			phalcon_call_func_p1(possible_service, "lcfirst", service_name);

@@ -137,9 +137,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			PHALCON_GET_HKEY(key, ah1, hp1);
 			PHALCON_GET_HVALUE(value);
 	
-			if (phalcon_memnstr_str(key, SL(".") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(key, SL("."))) {
 				PHALCON_INIT_NVAR(directive_parts);
-				phalcon_fast_explode_str(directive_parts, SL("."), key TSRMLS_CC);
+				phalcon_fast_explode_str(directive_parts, SL("."), key);
 	
 				PHALCON_OBS_NVAR(left_part);
 				phalcon_array_fetch_long(&left_part, directive_parts, 0, PH_NOISY);

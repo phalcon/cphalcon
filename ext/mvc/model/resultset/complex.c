@@ -345,7 +345,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 						PHALCON_CPY_WRT(attribute, alias);
 					} else {
 						PHALCON_INIT_NVAR(n_alias);
-						phalcon_fast_str_replace(n_alias, underscore, empty_str, alias TSRMLS_CC);
+						phalcon_fast_str_replace(n_alias, underscore, empty_str, alias);
 						PHALCON_CPY_WRT(attribute, n_alias);
 					}
 				}

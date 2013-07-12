@@ -1262,9 +1262,9 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
 		PHALCON_CPY_WRT(pick_view, render_view);
 	} else {
 		PHALCON_INIT_VAR(layout);
-		if (phalcon_memnstr_str(render_view, SL("/") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(render_view, SL("/"))) {
 			PHALCON_INIT_VAR(parts);
-			phalcon_fast_explode_str(parts, SL("/"), render_view TSRMLS_CC);
+			phalcon_fast_explode_str(parts, SL("/"), render_view);
 	
 			PHALCON_OBS_NVAR(layout);
 			phalcon_array_fetch_long(&layout, parts, 0, PH_NOISY);
