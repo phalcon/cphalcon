@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl){
 
 	phalcon_fetch_params(1, 1, 0, &url);
 	
-	phalcon_raw_url_encode(return_value, url TSRMLS_CC);
+	phalcon_raw_url_encode(return_value, url);
 	RETURN_MM();
 }
 
