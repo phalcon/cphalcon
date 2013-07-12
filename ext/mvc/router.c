@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRewriteUri){
 			phalcon_array_fetch_string(&url, _SERVER, SL("REQUEST_URI"), PH_NOISY);
 	
 			PHALCON_INIT_VAR(url_parts);
-			phalcon_fast_explode_str(url_parts, SL("?"), url TSRMLS_CC);
+			phalcon_fast_explode_str(url_parts, SL("?"), url);
 	
 			PHALCON_OBS_VAR(real_uri);
 			phalcon_array_fetch_long(&real_uri, url_parts, 0, PH_NOISY);
@@ -598,8 +598,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			/** 
 			 * Check if the hostname restriction is the same as the current in the route
 			 */
-			if (phalcon_memnstr_str(hostname, SL("(") TSRMLS_CC)) {
-				if (!phalcon_memnstr_str(hostname, SL("#") TSRMLS_CC)) {
+			if (phalcon_memnstr_str(hostname, SL("("))) {
+				if (!phalcon_memnstr_str(hostname, SL("#"))) {
 					PHALCON_INIT_NVAR(regex_host_name);
 					PHALCON_CONCAT_SVS(regex_host_name, "#^", hostname, "$#");
 				} else {
@@ -630,7 +630,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 */
 		PHALCON_INIT_NVAR(pattern);
 		phalcon_call_method(pattern, route, "getcompiledpattern");
-		if (phalcon_memnstr_str(pattern, SL("^") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(pattern, SL("^"))) {
 			PHALCON_INIT_NVAR(route_found);
 	
 			Z_SET_ISREF_P(matches);
@@ -881,13 +881,13 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			phalcon_array_fetch_string(&params_str, parts, SL("params"), PH_NOISY);
 	
 			PHALCON_INIT_VAR(str_params);
-			phalcon_substr(str_params, params_str, 1, 0 TSRMLS_CC);
+			phalcon_substr(str_params, params_str, 1, 0);
 			if (zend_is_true(str_params)) {
 				PHALCON_INIT_VAR(slash);
 				ZVAL_STRING(slash, "/", 1);
 	
 				PHALCON_INIT_NVAR(params);
-				phalcon_fast_explode(params, slash, str_params TSRMLS_CC);
+				phalcon_fast_explode(params, slash, str_params);
 			}
 	
 			phalcon_array_unset_string(&parts, SS("params"), PH_SEPARATE);

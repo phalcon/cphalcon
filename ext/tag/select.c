@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	/** 
 	 * Automatically assign the id if the name is not an array
 	 */
-	if (!phalcon_memnstr_str(id, SL("[") TSRMLS_CC)) {
+	if (!phalcon_memnstr_str(id, SL("["))) {
 		if (!phalcon_array_isset_string(params, SS("id"))) {
 			phalcon_array_update_string(&params, SL("id"), &id, PH_COPY | PH_SEPARATE);
 		}

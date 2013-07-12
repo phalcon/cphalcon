@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	
 		PHALCON_OBS_VAR(mode);
 		phalcon_array_fetch_string(&mode, options, SL("mode"), PH_NOISY);
-		if (phalcon_memnstr_str(mode, SL("r") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(mode, SL("r"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Logger must be opened in append or write mode");
 			return;
 		}

@@ -383,20 +383,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys){
 			PHALCON_GET_HKEY(key, ah0, hp0);
 			PHALCON_GET_HVALUE(ttl);
 	
-			if (!phalcon_memnstr(key, prefix TSRMLS_CC)) {
+			if (!phalcon_memnstr(key, prefix)) {
 				zend_hash_move_forward_ex(ah0, &hp0);
 				continue;
 			}
 	
 			PHALCON_INIT_NVAR(real_key);
-			phalcon_substr(real_key, key, 5, 0 TSRMLS_CC);
+			phalcon_substr(real_key, key, 5, 0);
 			phalcon_array_append(&prefixed_keys, real_key, PH_SEPARATE);
-	
-			RETURN_CTOR(prefixed_keys);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
+		RETURN_CTOR(prefixed_keys);
 	}
 	
 	RETURN_MM_EMPTY_ARRAY();

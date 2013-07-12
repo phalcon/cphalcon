@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
 			phalcon_call_func_p2(return_value, "mb_strpos", haystack, needle);
 			RETURN_MM();
 		}
-		phalcon_fast_strpos(return_value, haystack, needle TSRMLS_CC);
+		phalcon_fast_strpos(return_value, haystack, needle);
 		RETURN_MM();
 	}
 	

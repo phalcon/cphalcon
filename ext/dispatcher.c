@@ -597,9 +597,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		/** 
 		 * We don't camelize the classes if they are in namespaces
 		 */
-		if (!phalcon_memnstr_str(handler_name, SL("\\") TSRMLS_CC)) {
+		if (!phalcon_memnstr_str(handler_name, SL("\\"))) {
 			PHALCON_INIT_NVAR(camelized_class);
-			phalcon_camelize(camelized_class, handler_name TSRMLS_CC);
+			phalcon_camelize(camelized_class, handler_name);
 		} else {
 			PHALCON_CPY_WRT(camelized_class, handler_name);
 		}
