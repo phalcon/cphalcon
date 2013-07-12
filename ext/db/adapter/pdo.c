@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
 
-	if (!phalcon_is_iterable_ex(placeholders, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+	if (!phalcon_is_iterable_ex(placeholders, &ah0, &hp0, 0, 0)) {
 		return;
 	}
 
