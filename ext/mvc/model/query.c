@@ -1204,7 +1204,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		 */
 		if (PHALCON_IS_EQUAL(best_alias, model_name)) {
 			PHALCON_INIT_VAR(prepared_alias);
-			phalcon_call_func_p1(prepared_alias, "lcfirst", model_name);
+			phalcon_lcfirst(prepared_alias, model_name);
 		} else {
 			PHALCON_CPY_WRT(prepared_alias, best_alias);
 		}

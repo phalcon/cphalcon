@@ -28,6 +28,7 @@
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
+#include "Zend/zend_builtin_functions.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -229,7 +230,15 @@ PHP_METHOD(Phalcon_Debug, debugVar){
 	ZVAL_LONG(ztime, (long) time(NULL));
 	
 	PHALCON_INIT_VAR(backtrace);
-	phalcon_call_func(backtrace, "debug_backtrace");
+#if PHP_VERSION_ID < 50400
+#ifdef DEBUG_BACKTRACE_PROVIDE_OBJECT
+	zend_fetch_debug_backtrace(backtrace, 0, DEBUG_BACKTRACE_PROVIDE_OBJECT TSRMLS_CC);
+#else
+	zend_fetch_debug_backtrace(backtrace, 0, 1 TSRMLS_CC);
+#endif
+#else
+	zend_fetch_debug_backtrace(backtrace, 0, DEBUG_BACKTRACE_PROVIDE_OBJECT, 0 TSRMLS_CC);
+#endif
 	
 	PHALCON_INIT_VAR(data);
 	array_init_size(data, 3);
@@ -489,16 +498,9 @@ PHP_METHOD(Phalcon_Debug, _getVarDump){
 	
 	/** 
 	 * Null variables are represented as 'null'
-	 */
-	if (Z_TYPE_P(variable) == IS_NULL) {
-		RETURN_MM_STRING("null", 1);
-	}
-	
-	/** 
 	 * Other types are represented by its type
 	 */
-	phalcon_call_func_p1(return_value, "gettype", variable);
-	RETURN_MM();
+	RETURN_MM_STRING(zend_zval_type_name(variable), 1);
 }
 
 /**
@@ -984,12 +986,12 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
  */
 PHP_METHOD(Phalcon_Debug, onUncaughtException){
 
-	zval *exception, *ob_level, *is_active = NULL, *message = NULL;
+	zval *exception, *is_active = NULL, *message = NULL;
 	zval *class_name, *css_sources, *escaped_message = NULL;
 	zval *html, *version, *file, *line, *show_back_trace;
 	zval *data_vars, *trace, *trace_item = NULL, *n = NULL, *html_item = NULL;
 	zval *_REQUEST, *value = NULL, *key_request = NULL, *_SERVER;
-	zval *key_server = NULL, *files, *key_file = NULL, *true_usage;
+	zval *key_server = NULL, *files, *key_file = NULL;
 	zval *memory, *data_var = NULL, *key_var = NULL, *variable = NULL, *dumped_argument = NULL;
 	zval *js_sources;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
@@ -1000,13 +1002,10 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 
 	phalcon_fetch_params(1, 1, 0, &exception);
 	
-	PHALCON_INIT_VAR(ob_level);
-	phalcon_call_func(ob_level, "ob_get_level");
-	
 	/** 
 	 * Cancel the output buffer if active
 	 */
-	if (PHALCON_GT_LONG(ob_level, 0)) {
+	if (phalcon_ob_get_level(TSRMLS_C) > 0) {
 		phalcon_ob_end_clean(TSRMLS_C);
 	}
 	
@@ -1195,11 +1194,8 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		/** 
 		 * Memory usage
 		 */
-		PHALCON_INIT_VAR(true_usage);
-		ZVAL_BOOL(true_usage, 1);
-	
 		PHALCON_INIT_VAR(memory);
-		phalcon_call_func_p1(memory, "memory_get_usage", true_usage);
+		ZVAL_LONG(memory, zend_memory_usage(1 TSRMLS_CC));
 		phalcon_concat_self_str(&html, SL("<div id=\"error-tabs-5\"><table cellspacing=\"0\" align=\"center\" class=\"superglobal-detail\">") TSRMLS_CC);
 		PHALCON_SCONCAT_SVS(html, "<tr><th colspan=\"2\">Memory</th></tr><tr><td>Usage</td><td>", memory, "</td></tr>");
 		phalcon_concat_self_str(&html, SL("</table></div>") TSRMLS_CC);

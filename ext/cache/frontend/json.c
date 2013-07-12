@@ -180,12 +180,9 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
 
 	zval *data;
 
-	PHALCON_MM_GROW();
-
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	phalcon_call_func_p1(return_value, "json_encode", data);
-	RETURN_MM();
+	phalcon_json_encode(return_value, data, 0 TSRMLS_CC);
 }
 
 /**
@@ -198,11 +195,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve){
 
 	zval *data;
 
-	PHALCON_MM_GROW();
-
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	phalcon_call_func_p1(return_value, "json_decode", data);
-	RETURN_MM();
+	phalcon_json_decode(return_value, data, 0 TSRMLS_CC);
 }
 

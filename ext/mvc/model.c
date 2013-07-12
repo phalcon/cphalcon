@@ -6140,7 +6140,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 		 * Lowercase the first letter of the extra-method
 		 */
 		PHALCON_INIT_VAR(extra_method_first);
-		phalcon_call_func_p1(extra_method_first, "lcfirst", extra_method);
+		phalcon_lcfirst(extra_method_first, extra_method);
 		if (phalcon_array_isset(attributes, extra_method_first)) {
 			PHALCON_CPY_WRT(field, extra_method_first);
 		} else {
