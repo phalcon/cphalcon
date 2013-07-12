@@ -714,7 +714,7 @@ PHP_METHOD(Phalcon_Http_Response, sendCookies){
  */
 PHP_METHOD(Phalcon_Http_Response, send){
 
-	zval *sent, *headers, *cookies, *content;
+	zval *sent, *headers, *cookies, *content, *file;
 
 	PHALCON_MM_GROW();
 
@@ -742,7 +742,24 @@ PHP_METHOD(Phalcon_Http_Response, send){
 		 */
 		PHALCON_OBS_VAR(content);
 		phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);
-		zend_print_zval(content, 0);
+		if (Z_STRLEN_P(content)) {
+			zend_print_zval(content, 0);
+		}
+		else {
+			PHALCON_OBS_VAR(file);
+			phalcon_read_property_this(&file, this_ptr, SL("_file"), PH_NOISY_CC);
+
+			if (Z_STRLEN_P(file)) {
+				php_stream *stream;
+
+				stream = php_stream_open_wrapper(Z_STRVAL_P(file), "rb", REPORT_ERRORS, NULL);
+				if (stream != NULL) {
+					php_stream_passthru(stream);
+					php_stream_close(stream);
+				}
+			}
+		}
+
 		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
 	
 		RETURN_THIS();
