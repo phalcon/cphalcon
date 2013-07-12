@@ -1295,7 +1295,7 @@ void phalcon_lcfirst(zval *return_value, zval *s)
 	}
 	else {
 		ZVAL_STRINGL(return_value, Z_STRVAL_P(s), Z_STRLEN_P(s), 1);
-		char *c = Z_STRVAL_P(s);
+		char *c = Z_STRVAL_P(return_value);
 		*c = tolower((unsigned char)*c);
 	}
 
@@ -1321,7 +1321,7 @@ void phalcon_ucfirst(zval *return_value, zval *s)
 	}
 	else {
 		ZVAL_STRINGL(return_value, Z_STRVAL_P(s), Z_STRLEN_P(s), 1);
-		char *c = Z_STRVAL_P(s);
+		char *c = Z_STRVAL_P(return_value);
 		*c = toupper((unsigned char)*c);
 	}
 
