@@ -472,3 +472,5 @@ unit-tests/annotations/cache/*.php
 *.o
 *.lo
 .libs
+build/t.dSYM/
+build/install2
