@@ -164,3 +164,21 @@ extern zend_module_entry phalcon_module_entry;
 #define UNREACHABLE() assert(0)
 #define ASSUME(x)     assert(!!(x));
 #endif
+
+/* This is a temporary fix until config.w32 is updated */
+#if !defined(__CYGWIN__) && defined(WIN32) && defined(HAVE_CONFIG_H)
+#	define PHALCON_USE_PHP_FILTER 1 /* no way to check yet */
+
+#	if defined(HAVE_JSON) && !defined(PHALCON_USE_PHP_JSON)
+#		define PHALCON_USE_PHP_JSON 1
+#	endif
+
+#	if defined(HAVE_BUNDLED_PCRE) && !defined(PHALCON_USE_PHP_PCRE)
+#		define PHALCON_USE_PHP_PCRE 1
+#	endif
+
+#	if defined(HAVE_PHP_SESSION) && !defined(PHALCON_USE_PHP_SESSION)
+#		define PHALCON_USE_PHP_SESSION 1
+#	endif
+
+#endif /* !defined(__CYGWIN__) && !defined(WIN32) && defined(HAVE_CONFIG_H) */

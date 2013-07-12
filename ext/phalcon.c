@@ -715,10 +715,33 @@ PHP_RSHUTDOWN_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
-zend_module_entry phalcon_module_entry = {
-#if ZEND_MODULE_API_NO >= 20010901
-	STANDARD_MODULE_HEADER,
+static
+#if ZEND_MODULE_API_NO > 20060613
+const
 #endif
+zend_module_dep phalcon_deps[] = {
+	ZEND_MOD_REQUIRED("spl")
+#if HAVE_JSON
+	ZEND_MOD_REQUIRED("json")
+#endif
+#if HAVE_PHP_SESSION
+	ZEND_MOD_REQUIRED("session")
+#endif
+#if HAVE_BUNDLED_PCRE
+	ZEND_MOD_REQUIRED("pcre")
+#endif
+#ifdef HAVE_EXT_FILTER_PHP_FILTER_H
+	ZEND_MOD_REQUIRED("filter")
+#endif
+	{ NULL, NULL, NULL, 0 }
+};
+
+
+
+zend_module_entry phalcon_module_entry = {
+	STANDARD_MODULE_HEADER_EX,
+	NULL,
+	phalcon_deps,
 	PHP_PHALCON_EXTNAME,
 	NULL,
 	PHP_MINIT(phalcon),
@@ -726,9 +749,7 @@ zend_module_entry phalcon_module_entry = {
 	PHP_RINIT(phalcon),
 	PHP_RSHUTDOWN(phalcon),
 	NULL,
-#if ZEND_MODULE_API_NO >= 20010901
 	PHP_PHALCON_VERSION,
-#endif
 	STANDARD_MODULE_PROPERTIES
 };
 
