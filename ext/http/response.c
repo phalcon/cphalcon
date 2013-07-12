@@ -606,18 +606,18 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
 PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 
 	zval *content, *json_options = NULL, *json_content;
+	int options = 0;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &content, &json_options);
 	
-	if (!json_options) {
-		PHALCON_INIT_VAR(json_options);
-		ZVAL_LONG(json_options, 0);
+	if (json_options) {
+		options = phalcon_get_intval(json_options);
 	}
 	
 	PHALCON_INIT_VAR(json_content);
-	phalcon_call_func_p2(json_content, "json_encode", content, json_options);
+	phalcon_json_encode(json_content, content, options TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_content"), json_content TSRMLS_CC);
 	RETURN_THIS();
 }

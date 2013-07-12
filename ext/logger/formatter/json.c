@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY | PH_SEPARATE);
 	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY | PH_SEPARATE);
 	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY | PH_SEPARATE);
-	phalcon_call_func_p1(return_value, "json_encode", log);
+	phalcon_json_encode(return_value, log, 0 TSRMLS_CC);
 	RETURN_MM();
 }
 

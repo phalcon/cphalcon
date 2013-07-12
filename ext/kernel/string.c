@@ -32,6 +32,10 @@
 #include "ext/pcre/php_pcre.h"
 #endif
 
+#if HAVE_JSON
+#include "ext/json/php_json.h"
+#endif
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -1215,6 +1219,60 @@ void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *ma
 	if (use_copy) {
 		zval_dtor(subject);
 	}
+}
+
+#endif
+
+#if HAVE_JSON
+
+void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
+{
+	smart_str buf = { NULL, 0, 0 };
+
+	php_json_encode(&buf, v, opts TSRMLS_CC);
+	ZVAL_STRINGL(return_value, buf.c, buf.len, 0);
+}
+
+void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
+{
+	long int options = assoc ? PHP_JSON_OBJECT_AS_ARRAY : 0;
+	zval copy;
+	int use_copy;
+
+	if (unlikely(Z_TYPE_P(v) != IS_STRING)) {
+		zend_make_printable_zval(v, &copy, &use_copy);
+		if (use_copy) {
+			v = &copy;
+		}
+	}
+
+	php_json_decode_ex(return_value, Z_STRVAL_P(v), Z_STRLEN_P(v), options, 512 /* JSON_PARSER_DEFAULT_DEPTH */ TSRMLS_CC);
+
+	if (unlikely(use_copy)) {
+		zval_dtor(v);
+	}
+}
+
+#else
+
+void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
+{
+	zval *zopts;
+
+	ALLOC_INIT_ZVAL(zopts);
+	ZVAL_LONG(zopts, opts)
+	phalcon_call_func_two_params(return_value, ZEND_STRL("json_encode"), v, opts, 1 TSRMLS_CC);
+	zval_ptr_dtor(zassoc);
+}
+
+void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
+{
+	zval *zassoc;
+
+	ALLOC_INIT_ZVAL(zassoc);
+	ZVAL_BOOL(zassoc, assoc);
+	phalcon_call_func_two_params(return_value, ZEND_STRL("json_decode"), v, zassoc, 1 TSRMLS_CC);
+	zval_ptr_dtor(zassoc);
 }
 
 #endif
