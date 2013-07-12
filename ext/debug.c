@@ -28,6 +28,7 @@
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
+#include "Zend/zend_builtin_functions.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -229,7 +230,7 @@ PHP_METHOD(Phalcon_Debug, debugVar){
 	ZVAL_LONG(ztime, (long) time(NULL));
 	
 	PHALCON_INIT_VAR(backtrace);
-	phalcon_call_func(backtrace, "debug_backtrace");
+	zend_fetch_debug_backtrace(backtrace, 0, DEBUG_BACKTRACE_PROVIDE_OBJECT, 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(data);
 	array_init_size(data, 3);
