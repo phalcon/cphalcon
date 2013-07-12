@@ -982,7 +982,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
  */
 PHP_METHOD(Phalcon_Debug, onUncaughtException){
 
-	zval *exception, *ob_level, *is_active = NULL, *message = NULL;
+	zval *exception, *is_active = NULL, *message = NULL;
 	zval *class_name, *css_sources, *escaped_message = NULL;
 	zval *html, *version, *file, *line, *show_back_trace;
 	zval *data_vars, *trace, *trace_item = NULL, *n = NULL, *html_item = NULL;
@@ -998,13 +998,10 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 
 	phalcon_fetch_params(1, 1, 0, &exception);
 	
-	PHALCON_INIT_VAR(ob_level);
-	phalcon_call_func(ob_level, "ob_get_level");
-	
 	/** 
 	 * Cancel the output buffer if active
 	 */
-	if (PHALCON_GT_LONG(ob_level, 0)) {
+	if (phalcon_ob_get_level(TSRMLS_C) > 0) {
 		phalcon_ob_end_clean(TSRMLS_C);
 	}
 	
