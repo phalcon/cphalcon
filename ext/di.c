@@ -528,12 +528,9 @@ PHP_METHOD(Phalcon_DI, offsetExists){
 
 	zval *name;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	phalcon_call_method_p1(return_value, this_ptr, "has", name);
-	RETURN_MM();
 }
 
 /**
@@ -550,13 +547,9 @@ PHP_METHOD(Phalcon_DI, offsetSet){
 
 	zval *name, *definition;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &name, &definition);
+	phalcon_fetch_params(0, 2, 0, &name, &definition);
 	
 	phalcon_call_method_p2_noret(this_ptr, "setshared", name, definition);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -573,12 +566,9 @@ PHP_METHOD(Phalcon_DI, offsetGet){
 
 	zval *name;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
 	phalcon_call_method_p1(return_value, this_ptr, "getshared", name);
-	RETURN_MM();
 }
 
 /**

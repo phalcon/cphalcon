@@ -1233,12 +1233,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetExists){
 
 	zval *alias;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &alias);
+	phalcon_fetch_params(0, 1, 0, &alias);
 	
 	phalcon_call_method_p1(return_value, this_ptr, "hasservice", alias);
-	RETURN_MM();
 }
 
 /**
@@ -1255,13 +1252,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetSet){
 
 	zval *alias, *definition;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &alias, &definition);
+	phalcon_fetch_params(0, 2, 0, &alias, &definition);
 	
 	phalcon_call_method_p2_noret(this_ptr, "setservice", alias, definition);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -1278,12 +1271,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetGet){
 
 	zval *alias;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &alias);
+	phalcon_fetch_params(0, 1, 0, &alias);
 	
 	phalcon_call_method_p1(return_value, this_ptr, "getservice", alias);
-	RETURN_MM();
 }
 
 /**
