@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get){
  */
 PHP_METHOD(Phalcon_Assets_Manager, getCss){
 
-	zval *collections, *collection = NULL;
+	zval *collections, *collection;
 
 	PHALCON_MM_GROW();
 
@@ -384,12 +384,11 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss){
 	 * Check if the collection does not exist and create an implicit collection
 	 */
 	if (!phalcon_array_isset_string(collections, SS("css"))) {
-		PHALCON_INIT_VAR(collection);
-		object_init_ex(collection, phalcon_assets_collection_ce);
-		RETURN_CTOR(collection);
+		object_init_ex(return_value, phalcon_assets_collection_ce);
+		RETURN_MM();
 	}
 	
-	PHALCON_OBS_NVAR(collection);
+	PHALCON_OBS_VAR(collection);
 	phalcon_array_fetch_string(&collection, collections, SL("css"), PH_NOISY);
 	
 	RETURN_CCTOR(collection);
@@ -402,7 +401,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss){
  */
 PHP_METHOD(Phalcon_Assets_Manager, getJs){
 
-	zval *collections, *collection = NULL;
+	zval *collections, *collection;
 
 	PHALCON_MM_GROW();
 
@@ -413,12 +412,11 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs){
 	 * Check if the collection does not exist and create an implicit collection
 	 */
 	if (!phalcon_array_isset_string(collections, SS("js"))) {
-		PHALCON_INIT_VAR(collection);
-		object_init_ex(collection, phalcon_assets_collection_ce);
-		RETURN_CTOR(collection);
+		object_init_ex(return_value, phalcon_assets_collection_ce);
+		RETURN_MM();
 	}
 	
-	PHALCON_OBS_NVAR(collection);
+	PHALCON_OBS_VAR(collection);
 	phalcon_array_fetch_string(&collection, collections, SL("js"), PH_NOISY);
 	
 	RETURN_CCTOR(collection);

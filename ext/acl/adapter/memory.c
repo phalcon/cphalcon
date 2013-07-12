@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 
 	zval *role, *access_inherits = NULL, *role_name = NULL, *object = NULL;
 	zval *roles_names, *exists, *default_access;
-	zval *key, *success;
+	zval *key;
 
 	PHALCON_MM_GROW();
 
@@ -202,9 +202,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 	PHALCON_CONCAT_VS(key, role_name, "!*!*");
 	phalcon_update_property_array(this_ptr, SL("_access"), key, default_access TSRMLS_CC);
 	if (Z_TYPE_P(access_inherits) != IS_NULL) {
-		PHALCON_INIT_VAR(success);
-		phalcon_call_method_p2(success, this_ptr, "addinherit", role_name, access_inherits);
-		RETURN_CCTOR(success);
+		phalcon_call_method_p2(return_value, this_ptr, "addinherit", role_name, access_inherits);
+		RETURN_MM();
 	}
 	
 	RETURN_MM_TRUE;
@@ -341,7 +340,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isResource){
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 
 	zval *resource, *access_list = NULL, *resource_name = NULL;
-	zval *object = NULL, *resources_names, *exists, *status;
+	zval *object = NULL, *resources_names, *exists;
 
 	PHALCON_MM_GROW();
 
@@ -373,10 +372,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 		phalcon_update_property_array(this_ptr, SL("_resourcesNames"), resource_name, exists TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(status);
-	phalcon_call_method_p2(status, this_ptr, "addresourceaccess", resource_name, access_list);
-	
-	RETURN_CCTOR(status);
+	phalcon_call_method_p2(return_value, this_ptr, "addresourceaccess", resource_name, access_list);
+	RETURN_MM();
 }
 
 /**
@@ -639,7 +636,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow){
 
 	zval *role_name, *resource_name, *access, *action;
-	zval *status;
 
 	PHALCON_MM_GROW();
 
@@ -647,10 +643,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow){
 	
 	PHALCON_INIT_VAR(action);
 	ZVAL_LONG(action, 1);
-	
-	PHALCON_INIT_VAR(status);
-	phalcon_call_method_p4(status, this_ptr, "_allowordeny", role_name, resource_name, access, action);
-	RETURN_CCTOR(status);
+	phalcon_call_method_p4(return_value, this_ptr, "_allowordeny", role_name, resource_name, access, action);
+	RETURN_MM();
 }
 
 /**
@@ -681,7 +675,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow){
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny){
 
 	zval *role_name, *resource_name, *access, *action;
-	zval *status;
 
 	PHALCON_MM_GROW();
 
@@ -689,10 +682,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny){
 	
 	PHALCON_INIT_VAR(action);
 	ZVAL_LONG(action, 0);
-	
-	PHALCON_INIT_VAR(status);
-	phalcon_call_method_p4(status, this_ptr, "_allowordeny", role_name, resource_name, access, action);
-	RETURN_CCTOR(status);
+	phalcon_call_method_p4(return_value, this_ptr, "_allowordeny", role_name, resource_name, access, action);
+	RETURN_MM();
 }
 
 /**

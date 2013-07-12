@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct){
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, get){
 
 	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key;
-	zval *cached_content, *processed;
+	zval *cached_content;
 
 	PHALCON_MM_GROW();
 
@@ -148,10 +148,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, get){
 		RETURN_MM_NULL();
 	}
 	
-	PHALCON_INIT_VAR(processed);
-	phalcon_call_method_p1(processed, frontend, "afterretrieve", cached_content);
-	
-	RETURN_CCTOR(processed);
+	phalcon_call_method_p1(return_value, frontend, "afterretrieve", cached_content);
+	RETURN_MM();
 }
 
 /**

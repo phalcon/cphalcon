@@ -1538,7 +1538,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
  */
 PHP_METHOD(Phalcon_Mvc_View, isCaching){
 
-	zval *zero, *cache_level, *is_caching;
+	zval *zero, *cache_level;
 
 	PHALCON_MM_GROW();
 
@@ -1547,10 +1547,8 @@ PHP_METHOD(Phalcon_Mvc_View, isCaching){
 	
 	PHALCON_OBS_VAR(cache_level);
 	phalcon_read_property_this(&cache_level, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(is_caching);
-	is_smaller_function(is_caching, zero, cache_level TSRMLS_CC);
-	RETURN_NCTOR(is_caching);
+	is_smaller_function(return_value, zero, cache_level TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**

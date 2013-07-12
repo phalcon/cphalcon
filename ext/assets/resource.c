@@ -425,7 +425,6 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri){
 PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 
 	zval *base_path = NULL, *source_path = NULL, *local, *complete_path;
-	zval *real_complete_path;
 
 	PHALCON_MM_GROW();
 
@@ -454,9 +453,8 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 		/** 
 		 * Get the real template path
 		 */
-		PHALCON_INIT_VAR(real_complete_path);
-		phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
-		RETURN_CCTOR(real_complete_path);
+		phalcon_call_func_p1(return_value, "realpath", complete_path);
+		RETURN_MM();
 	}
 	
 	RETURN_CCTOR(source_path);
@@ -471,7 +469,6 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 
 	zval *base_path = NULL, *target_path = NULL, *local, *complete_path;
-	zval *real_complete_path;
 
 	PHALCON_MM_GROW();
 
@@ -502,9 +499,8 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 		 * Get the real template path, the target path can optionally don't exist
 		 */
 		if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_VAR(real_complete_path);
-			phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
-			RETURN_CCTOR(real_complete_path);
+			phalcon_call_func_p1(return_value, "realpath", complete_path);
+			RETURN_MM();
 		}
 	
 		RETURN_CTOR(complete_path);

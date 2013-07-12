@@ -659,7 +659,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 
-	zval *sql, *params, *query_params = NULL, *placeholders;
+	zval *sql, *params, *query_params, *placeholders;
 	zval *matches, *set_order, *bind_pattern, *status;
 	zval *place_match = NULL, *numeric_place = NULL, *value = NULL, *str_place = NULL;
 	zval *question, *bound_sql = NULL;
@@ -737,12 +737,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	/** 
 	 * Returns an array with the processed SQL and parameters
 	 */
-	PHALCON_INIT_NVAR(query_params);
-	array_init_size(query_params, 2);
-	phalcon_array_update_string(&query_params, SL("sql"), &bound_sql, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&query_params, SL("params"), &placeholders, PH_COPY | PH_SEPARATE);
+	array_init_size(return_value, 2);
+	phalcon_array_update_string(&return_value, SL("sql"), &bound_sql, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&return_value, SL("params"), &placeholders, PH_COPY | PH_SEPARATE);
 	
-	RETURN_CTOR(query_params);
+	RETURN_MM();
 }
 
 /**
@@ -794,7 +793,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId){
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin){
 
 	zval *nesting = NULL, *pdo, *transaction_level, *events_manager = NULL;
-	zval *event_name = NULL, *status, *ntw_savepoint, *savepoint_name;
+	zval *event_name = NULL, *ntw_savepoint, *savepoint_name;
 
 	PHALCON_MM_GROW();
 
@@ -835,10 +834,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin){
 			phalcon_call_method_p2_noret(events_manager, "fire", event_name, this_ptr);
 		}
 	
-		PHALCON_INIT_VAR(status);
-		phalcon_call_method(status, pdo, "begintransaction");
-	
-		RETURN_CCTOR(status);
+		phalcon_call_method(return_value, pdo, "begintransaction");
+		RETURN_MM();
 	} else {
 		if (zend_is_true(transaction_level)) {
 			if (zend_is_true(nesting)) {

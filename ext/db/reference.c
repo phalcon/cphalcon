@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 
 	zval *data, *constraint_name, *referenced_schema = NULL;
 	zval *referenced_table = NULL, *columns = NULL, *referenced_columns = NULL;
-	zval *definition, *reference;
+	zval *definition;
 
 	PHALCON_MM_GROW();
 
@@ -266,11 +266,9 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 	phalcon_array_update_string(&definition, SL("referencedTable"), &referenced_table, PH_COPY | PH_SEPARATE);
 	phalcon_array_update_string(&definition, SL("columns"), &columns, PH_COPY | PH_SEPARATE);
 	phalcon_array_update_string(&definition, SL("referencedColumns"), &referenced_columns, PH_COPY | PH_SEPARATE);
+	object_init_ex(return_value, phalcon_db_reference_ce);
+	phalcon_call_method_p2_noret(return_value, "__construct", constraint_name, definition);
 	
-	PHALCON_INIT_VAR(reference);
-	object_init_ex(reference, phalcon_db_reference_ce);
-	phalcon_call_method_p2_noret(reference, "__construct", constraint_name, definition);
-	
-	RETURN_CTOR(reference);
+	RETURN_MM();
 }
 

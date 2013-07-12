@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
 
-	zval *doc_block, *file = NULL, *line = NULL, *annotations;
+	zval *doc_block, *file = NULL, *line = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -280,12 +280,9 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
 		PHALCON_INIT_NVAR(file);
 		ZVAL_STRING(file, "eval code", 1);
 	}
-	
-	PHALCON_INIT_VAR(annotations);
-	if (phannot_parse_annotations(annotations, doc_block, file, line TSRMLS_CC) == FAILURE) {
+	if (phannot_parse_annotations(return_value, doc_block, file, line TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	
-	RETURN_CTOR(annotations);
+	RETURN_MM();
 }
 

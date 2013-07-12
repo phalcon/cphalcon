@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData){
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, __set_state){
 
-	zval *data, *reflection_data, *reflection = NULL;
+	zval *data, *reflection_data;
 
 	PHALCON_MM_GROW();
 
@@ -285,19 +285,15 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __set_state){
 		if (phalcon_array_isset_string(data, SS("_reflectionData"))) {
 			PHALCON_OBS_VAR(reflection_data);
 			phalcon_array_fetch_string(&reflection_data, data, SL("_reflectionData"), PH_NOISY);
+			object_init_ex(return_value, phalcon_annotations_reflection_ce);
+			phalcon_call_method_p1_noret(return_value, "__construct", reflection_data);
 	
-			PHALCON_INIT_VAR(reflection);
-			object_init_ex(reflection, phalcon_annotations_reflection_ce);
-			phalcon_call_method_p1_noret(reflection, "__construct", reflection_data);
-	
-			RETURN_CTOR(reflection);
+			RETURN_MM();
 		}
 	}
+	object_init_ex(return_value, phalcon_annotations_reflection_ce);
+	phalcon_call_method_noret(return_value, "__construct");
 	
-	PHALCON_INIT_NVAR(reflection);
-	object_init_ex(reflection, phalcon_annotations_reflection_ce);
-	phalcon_call_method_noret(reflection, "__construct");
-	
-	RETURN_CTOR(reflection);
+	RETURN_MM();
 }
 

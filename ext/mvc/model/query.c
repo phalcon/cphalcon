@@ -4121,7 +4121,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	zval *value = NULL, *number = NULL, *type = NULL, *expr_value = NULL, *insert_value = NULL;
 	zval *insert_expr = NULL, *wildcard = NULL, *exception_message = NULL;
 	zval *field_name = NULL, *attribute_name = NULL, *base_model;
-	zval *insert_model, *success, *status;
+	zval *insert_model, *success;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -4360,11 +4360,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	/** 
 	 * Return the insertation status
 	 */
-	PHALCON_INIT_VAR(status);
-	object_init_ex(status, phalcon_mvc_model_query_status_ce);
-	phalcon_call_method_p2_noret(status, "__construct", success, insert_model);
+	object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
+	phalcon_call_method_p2_noret(return_value, "__construct", success, insert_model);
 	
-	RETURN_CTOR(status);
+	RETURN_MM();
 }
 
 /**
@@ -4485,7 +4484,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	zval *null_value, *field = NULL, *number = NULL, *field_name = NULL;
 	zval *value = NULL, *type = NULL, *expr_value = NULL, *update_value = NULL;
 	zval *update_expr = NULL, *wildcard = NULL, *exception_message = NULL;
-	zval *records, *success = NULL, *status = NULL, *record = NULL;
+	zval *records, *success = NULL, *record = NULL;
 	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -4672,12 +4671,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	if (!phalcon_fast_count_ev(records TSRMLS_CC)) {
 		PHALCON_INIT_VAR(success);
 		ZVAL_BOOL(success, 1);
+		object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
+		phalcon_call_method_p2_noret(return_value, "__construct", success, null_value);
 	
-		PHALCON_INIT_VAR(status);
-		object_init_ex(status, phalcon_mvc_model_query_status_ce);
-		phalcon_call_method_p2_noret(status, "__construct", success, null_value);
-	
-		RETURN_CTOR(status);
+		RETURN_MM();
 	}
 	
 	PHALCON_INIT_NVAR(connection);
@@ -4714,12 +4711,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 			 * Rollback the transaction on failure
 			 */
 			phalcon_call_method_noret(connection, "rollback");
+			object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
+			phalcon_call_method_p2_noret(return_value, "__construct", success, record);
 	
-			PHALCON_INIT_NVAR(status);
-			object_init_ex(status, phalcon_mvc_model_query_status_ce);
-			phalcon_call_method_p2_noret(status, "__construct", success, record);
-	
-			RETURN_CTOR(status);
+			RETURN_MM();
 		}
 	
 		/** 
@@ -4735,12 +4730,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	
 	PHALCON_INIT_NVAR(success);
 	ZVAL_BOOL(success, 1);
+	object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
+	phalcon_call_method_p2_noret(return_value, "__construct", success, null_value);
 	
-	PHALCON_INIT_NVAR(status);
-	object_init_ex(status, phalcon_mvc_model_query_status_ce);
-	phalcon_call_method_p2_noret(status, "__construct", success, null_value);
-	
-	RETURN_CTOR(status);
+	RETURN_MM();
 }
 
 /**
@@ -4756,7 +4749,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 	zval *intermediate, *bind_params, *bind_types;
 	zval *models, *model_name, *models_instances;
 	zval *model = NULL, *manager, *records, *success = NULL, *null_value = NULL;
-	zval *status = NULL, *connection, *record = NULL;
+	zval *connection, *record = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -4803,12 +4796,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 		ZVAL_BOOL(success, 1);
 	
 		PHALCON_INIT_VAR(null_value);
+		object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
+		phalcon_call_method_p2_noret(return_value, "__construct", success, null_value);
 	
-		PHALCON_INIT_VAR(status);
-		object_init_ex(status, phalcon_mvc_model_query_status_ce);
-		phalcon_call_method_p2_noret(status, "__construct", success, null_value);
-	
-		RETURN_CTOR(status);
+		RETURN_MM();
 	}
 	
 	PHALCON_INIT_VAR(connection);
@@ -4842,12 +4833,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 			 * Rollback the transaction
 			 */
 			phalcon_call_method_noret(connection, "rollback");
+			object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
+			phalcon_call_method_p2_noret(return_value, "__construct", success, record);
 	
-			PHALCON_INIT_NVAR(status);
-			object_init_ex(status, phalcon_mvc_model_query_status_ce);
-			phalcon_call_method_p2_noret(status, "__construct", success, record);
-	
-			RETURN_CTOR(status);
+			RETURN_MM();
 		}
 	
 		/** 
@@ -4870,11 +4859,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 	/** 
 	 * Create a status to report the deletion status
 	 */
-	PHALCON_INIT_NVAR(status);
-	object_init_ex(status, phalcon_mvc_model_query_status_ce);
-	phalcon_call_method_p2_noret(status, "__construct", success, null_value);
+	object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
+	phalcon_call_method_p2_noret(return_value, "__construct", success, null_value);
 	
-	RETURN_CTOR(status);
+	RETURN_MM();
 }
 
 /**

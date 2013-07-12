@@ -373,18 +373,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, useExplicitIdValue){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, getDefaultIdValue){
 
-	zval *null_value, *default_value;
+	zval *null_value;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(null_value);
 	ZVAL_STRING(null_value, "default", 1);
+	object_init_ex(return_value, phalcon_db_rawvalue_ce);
+	phalcon_call_method_p1_noret(return_value, "__construct", null_value);
 	
-	PHALCON_INIT_VAR(default_value);
-	object_init_ex(default_value, phalcon_db_rawvalue_ce);
-	phalcon_call_method_p1_noret(default_value, "__construct", null_value);
-	
-	RETURN_CTOR(default_value);
+	RETURN_MM();
 }
 
 /**

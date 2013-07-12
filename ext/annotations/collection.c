@@ -134,16 +134,14 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct){
  */
 PHP_METHOD(Phalcon_Annotations_Collection, count){
 
-	zval *annotations, *number;
+	zval *annotations;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(annotations);
 	phalcon_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number);
-	phalcon_fast_count(number, annotations TSRMLS_CC);
-	RETURN_NCTOR(number);
+	phalcon_fast_count(return_value, annotations TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**

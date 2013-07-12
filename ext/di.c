@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_DI, setRaw){
  */
 PHP_METHOD(Phalcon_DI, getRaw){
 
-	zval *name, *services, *service, *definition, *exception_message;
+	zval *name, *services, *service, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -290,10 +290,8 @@ PHP_METHOD(Phalcon_DI, getRaw){
 	if (phalcon_array_isset(services, name)) {
 		PHALCON_OBS_VAR(service);
 		phalcon_array_fetch(&service, services, name, PH_NOISY);
-	
-		PHALCON_INIT_VAR(definition);
-		phalcon_call_method(definition, service, "getdefinition");
-		RETURN_CCTOR(definition);
+		phalcon_call_method(return_value, service, "getdefinition");
+		RETURN_MM();
 	}
 	
 	PHALCON_INIT_VAR(exception_message);
@@ -528,15 +526,14 @@ PHP_METHOD(Phalcon_DI, getServices){
  */
 PHP_METHOD(Phalcon_DI, offsetExists){
 
-	zval *name, *exists;
+	zval *name;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &name);
 	
-	PHALCON_INIT_VAR(exists);
-	phalcon_call_method_p1(exists, this_ptr, "has", name);
-	RETURN_CCTOR(exists);
+	phalcon_call_method_p1(return_value, this_ptr, "has", name);
+	RETURN_MM();
 }
 
 /**
@@ -608,8 +605,7 @@ PHP_METHOD(Phalcon_DI, offsetUnset){
 PHP_METHOD(Phalcon_DI, __call){
 
 	zval *method, *arguments = NULL, *services, *service_name = NULL;
-	zval *possible_service = NULL, *instance = NULL, *handler;
-	zval *exception_message;
+	zval *possible_service = NULL, *handler, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -634,14 +630,11 @@ PHP_METHOD(Phalcon_DI, __call){
 		phalcon_call_func_p1(possible_service, "lcfirst", service_name);
 		if (phalcon_array_isset(services, possible_service)) {
 			if (phalcon_fast_count_ev(arguments TSRMLS_CC)) {
-				PHALCON_INIT_VAR(instance);
-				phalcon_call_method_p2(instance, this_ptr, "get", possible_service, arguments);
-			} else {
-				PHALCON_INIT_NVAR(instance);
-				phalcon_call_method_p1(instance, this_ptr, "get", possible_service);
+				phalcon_call_method_p2(return_value, this_ptr, "get", possible_service, arguments);
+				RETURN_MM();
 			}
-	
-			RETURN_CCTOR(instance);
+			phalcon_call_method_p1(return_value, this_ptr, "get", possible_service);
+			RETURN_MM();
 		}
 	}
 	

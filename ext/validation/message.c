@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Validation_Message, __toString){
  */
 PHP_METHOD(Phalcon_Validation_Message, __set_state){
 
-	zval *message, *message_text, *field, *type, *message_object;
+	zval *message, *message_text, *field, *type;
 
 	PHALCON_MM_GROW();
 
@@ -201,11 +201,9 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state){
 	
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_string(&type, message, SL("_type"), PH_NOISY);
+	object_init_ex(return_value, phalcon_validation_message_ce);
+	phalcon_call_method_p3_noret(return_value, "__construct", message_text, field, type);
 	
-	PHALCON_INIT_VAR(message_object);
-	object_init_ex(message_object, phalcon_validation_message_ce);
-	phalcon_call_method_p3_noret(message_object, "__construct", message_text, field, type);
-	
-	RETURN_CTOR(message_object);
+	RETURN_MM();
 }
 

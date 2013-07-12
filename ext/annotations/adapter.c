@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethods){
 
-	zval *class_name, *class_annotations, *methods;
+	zval *class_name, *class_annotations;
 
 	PHALCON_MM_GROW();
 
@@ -191,9 +191,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods){
 	 * A valid annotations reflection is an object
 	 */
 	if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
-		PHALCON_INIT_VAR(methods);
-		phalcon_call_method(methods, class_annotations, "getmethodsannotations");
-		RETURN_CCTOR(methods);
+		phalcon_call_method(return_value, class_annotations, "getmethodsannotations");
+		RETURN_MM();
 	}
 	
 	RETURN_MM_EMPTY_ARRAY();
