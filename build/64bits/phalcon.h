@@ -4965,6 +4965,7 @@ static PHP_METHOD(Phalcon_Dispatcher, getReturnedValue);
 static PHP_METHOD(Phalcon_Dispatcher, dispatch);
 static PHP_METHOD(Phalcon_Dispatcher, forward);
 static PHP_METHOD(Phalcon_Dispatcher, wasForwarded);
+static PHP_METHOD(Phalcon_Dispatcher, getHandlerClass);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -5048,6 +5049,7 @@ PHALCON_INIT_FUNCS(phalcon_dispatcher_method_entry){
 	PHP_ME(Phalcon_Dispatcher, dispatch, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, forward, arginfo_phalcon_dispatcher_forward, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, wasForwarded, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Dispatcher, getHandlerClass, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -8816,6 +8818,8 @@ static PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask);
 static PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName);
 static PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName);
 static PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException);
+static PHP_METHOD(Phalcon_CLI_Dispatcher, _handleException);
+static PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskClass);
 static PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask);
 static PHP_METHOD(Phalcon_CLI_Dispatcher, getActiveTask);
 
@@ -8837,6 +8841,8 @@ PHALCON_INIT_FUNCS(phalcon_cli_dispatcher_method_entry){
 	PHP_ME(Phalcon_CLI_Dispatcher, setTaskName, arginfo_phalcon_cli_dispatcher_settaskname, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Dispatcher, getTaskName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Dispatcher, _throwDispatchException, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_CLI_Dispatcher, _handleException, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_CLI_Dispatcher, getTaskClass, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Dispatcher, getLastTask, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Dispatcher, getActiveTask, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
@@ -12325,6 +12331,8 @@ static PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController);
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName);
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName);
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException);
+static PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException);
+static PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass);
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController);
 static PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController);
 
@@ -12346,6 +12354,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_dispatcher_method_entry){
 	PHP_ME(Phalcon_Mvc_Dispatcher, setControllerName, arginfo_phalcon_mvc_dispatcher_setcontrollername, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Dispatcher, _throwDispatchException, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Dispatcher, _handleException, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerClass, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Dispatcher, getLastController, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Dispatcher, getActiveController, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
