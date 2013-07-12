@@ -627,7 +627,7 @@ PHP_METHOD(Phalcon_DI, __call){
 		phalcon_substr(service_name, method, 3, 0);
 	
 		PHALCON_INIT_VAR(possible_service);
-		phalcon_call_func_p1(possible_service, "lcfirst", service_name);
+		phalcon_lcfirst(possible_service, service_name);
 		if (phalcon_array_isset(services, possible_service)) {
 			if (phalcon_fast_count_ev(arguments TSRMLS_CC)) {
 				phalcon_call_method_p2(return_value, this_ptr, "get", possible_service, arguments);
@@ -647,7 +647,7 @@ PHP_METHOD(Phalcon_DI, __call){
 			phalcon_substr(service_name, method, 3, 0);
 	
 			PHALCON_INIT_NVAR(possible_service);
-			phalcon_call_func_p1(possible_service, "lcfirst", service_name);
+			phalcon_lcfirst(possible_service, service_name);
 	
 			PHALCON_OBS_VAR(handler);
 			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY);
