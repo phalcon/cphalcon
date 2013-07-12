@@ -348,17 +348,17 @@ PHP_METHOD(Phalcon_Config, merge){
 			else if (Z_TYPE_P(value) == IS_OBJECT && Z_TYPE_P(active_value) == IS_ARRAY) { /* Path AB in the test */
 				PHALCON_INIT_NVAR(other_array);
 				phalcon_call_func_p1(other_array, "get_object_vars", value);
-				phalcon_array_merge_recursive_n(&active_value, other_array TSRMLS_CC);
+				phalcon_array_merge_recursive_n(&active_value, other_array);
 				phalcon_update_property_zval_zval(this_ptr, key, active_value TSRMLS_CC);
 			}
 			else if (Z_TYPE_P(value) == IS_ARRAY && Z_TYPE_P(active_value) == IS_OBJECT) { /* Path AC in the test */
 				PHALCON_INIT_NVAR(other_array);
 				phalcon_call_func_p1(other_array, "get_object_vars", active_value);
-				phalcon_array_merge_recursive_n(&other_array, value TSRMLS_CC);
+				phalcon_array_merge_recursive_n(&other_array, value);
 				phalcon_update_property_zval_zval(this_ptr, key, other_array TSRMLS_CC);
 			}
 			else if (Z_TYPE_P(value) == IS_ARRAY && Z_TYPE_P(active_value) == IS_ARRAY) { /* Path AD in the test */
-				phalcon_array_merge_recursive_n(&active_value, value TSRMLS_CC);
+				phalcon_array_merge_recursive_n(&active_value, value);
 				phalcon_update_property_zval_zval(this_ptr, key, active_value TSRMLS_CC);
 			}
 			else { /* Path AE in the test */
