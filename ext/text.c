@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Text, camelize){
 
 	zval *str;
 
-	phalcon_fetch_params(1, 1, 0, &str);
+	phalcon_fetch_params(0, 1, 0, &str);
 	
 	phalcon_camelize(return_value, str);
 }
@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 
 	zval *str;
 
-	phalcon_fetch_params(1, 1, 0, &str);
+	phalcon_fetch_params(0, 1, 0, &str);
 	
 	phalcon_uncamelize(return_value, str);
 }
