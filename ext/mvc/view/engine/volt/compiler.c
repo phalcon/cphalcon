@@ -770,7 +770,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 		phalcon_camelize(camelized, name);
 	
 		PHALCON_INIT_VAR(method);
-		phalcon_call_func_p1(method, "lcfirst", camelized);
+		phalcon_lcfirst(method, camelized);
 	
 		PHALCON_INIT_VAR(class_name);
 		ZVAL_STRING(class_name, "Phalcon\\Tag", 1);

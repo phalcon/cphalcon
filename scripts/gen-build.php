@@ -123,6 +123,7 @@ class Build_Generator
 #include "main/php_main.h"
 #include "main/php_streams.h"
 #include "main/php_output.h"
+#include "main/SAPI.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_smart_str.h"
 #include "ext/pdo/php_pdo_driver.h"
@@ -144,11 +145,20 @@ class Build_Generator
 #include "ext/pcre/php_pcre.h"
 #endif
 
+#if HAVE_JSON
+#include "ext/json/php_json.h"
+#endif
+
+#if HAVE_PHP_SESSION
+#include "ext/session/php_session.h"
+#endif
+
 #include "Zend/zend_API.h"
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 #include "Zend/zend_execute.h"
+#include "Zend/zend_builtin_functions.h"
 
 ');
 
@@ -573,6 +583,11 @@ class Build_Generator
 			if (preg_match('/^#include "(.+)"/', $line, $matches)) {
 
 				if (strpos($line, 'Zend/') !== false) {
+					//echo $line, PHP_EOL;
+					continue;
+				}
+
+				if (strpos($line, 'main/') !== false) {
 					//echo $line, PHP_EOL;
 					continue;
 				}
