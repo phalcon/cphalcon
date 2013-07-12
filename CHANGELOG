@@ -1,3 +1,12 @@
+1.2.1
+ - Reduced overall memory usage
+ - Faster internal array manipulation
+ - Fixing PHP 5.5 compilation on Windows
+ - Dispatching parameters now can be modified in 'beforeExecuteRoute' events
+ - 'beforeException' events now can handle exceptions ocurred when executing actions
+ - Added Phalcon\Dispatcher::getHandlerClass and Phalcon\Dispatch::getActionMethod
+ - Now Phalcon\Form\Element\* classes implement Phalcon\Form\ElementInterface
+
 1.2.0
  - Now 'compiledPath' option accept a closure to dynamically create the compilation path in Volt
  - Volt now supports user extensions, these can be used to extend better Volt

@@ -26,6 +26,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException);
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController);
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController);
 
@@ -47,6 +49,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_dispatcher_method_entry){
 	PHP_ME(Phalcon_Mvc_Dispatcher, setControllerName, arginfo_phalcon_mvc_dispatcher_setcontrollername, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Dispatcher, _throwDispatchException, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Dispatcher, _handleException, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Dispatcher, getControllerClass, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Dispatcher, getLastController, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Dispatcher, getActiveController, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END

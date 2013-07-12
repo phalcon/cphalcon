@@ -27,6 +27,8 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask);
 PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName);
 PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName);
 PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException);
+PHP_METHOD(Phalcon_CLI_Dispatcher, _handleException);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskClass);
 PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask);
 PHP_METHOD(Phalcon_CLI_Dispatcher, getActiveTask);
 
@@ -48,6 +50,8 @@ PHALCON_INIT_FUNCS(phalcon_cli_dispatcher_method_entry){
 	PHP_ME(Phalcon_CLI_Dispatcher, setTaskName, arginfo_phalcon_cli_dispatcher_settaskname, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Dispatcher, getTaskName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Dispatcher, _throwDispatchException, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_CLI_Dispatcher, _handleException, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_CLI_Dispatcher, getTaskClass, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Dispatcher, getLastTask, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Dispatcher, getActiveTask, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END

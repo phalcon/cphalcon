@@ -39,6 +39,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/exception.h"
 
 /**
  * Phalcon\Dispatcher
@@ -459,11 +460,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *dependency_injector, *exception_code = NULL;
 	zval *exception_message = NULL, *events_manager;
 	zval *event_name = NULL, *status = NULL, *value = NULL, *handler = NULL, *number_dispatches;
-	zval *handler_suffix, *action_suffix, *_finished = NULL;
+	zval *handler_suffix, *action_suffix, *finished = NULL;
 	zval *namespace_name = NULL, *handler_name = NULL, *action_name = NULL;
-	zval *finished = NULL, *camelized_class = NULL, *handler_class = NULL;
-	zval *has_service = NULL, *was_fresh = NULL, *action_method = NULL;
-	zval *params = NULL, *call_object = NULL;
+	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
+	zval *was_fresh = NULL, *action_method = NULL, *params = NULL, *call_object = NULL;
+	zval *exception = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -508,14 +509,20 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	
 	PHALCON_OBS_VAR(action_suffix);
 	phalcon_read_property_this(&action_suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	
+	/** 
+	 * Do at least one dispatch
+	 */
 	phalcon_update_property_bool(this_ptr, SL("_finished"), 0 TSRMLS_CC);
 	
 	while (1) {
 	
-		PHALCON_OBS_NVAR(_finished);
-		phalcon_read_property_this(&_finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-		if (!zend_is_true(_finished)) {
-		} else {
+		/** 
+		 * Loop until finished is false
+		 */
+		PHALCON_OBS_NVAR(finished);
+		phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+		if (zend_is_true(finished)) {
 			break;
 		}
 	
@@ -843,15 +850,69 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		phalcon_array_append(&call_object, action_method, PH_SEPARATE);
 	
 		/** 
-		 * Call the function in the PHP userland
+		 * Call the method with/without exceptions if an events manager is present
 		 */
-		PHALCON_INIT_NVAR(value);
-		PHALCON_CALL_USER_FUNC_ARRAY(value, call_object, params);
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
-		/** 
-		 * We update the latest value produced by the latest handler
-		 */
-		phalcon_update_property_this(this_ptr, SL("_returnedValue"), value TSRMLS_CC);
+			/** 
+			 * Call the method allowing exceptions
+			 */
+			PHALCON_INIT_NVAR(value);
+			PHALCON_CALL_USER_FUNC_ARRAY_NOEX(value, call_object, params);
+	
+			/** 
+			 * Check if an exception has ocurred
+			 */
+			if (EG(exception)) {
+	
+				/** 
+				 * Copy the exception to rethrow it later if needed
+				 */
+				PHALCON_CPY_WRT(exception, EG(exception));
+	
+				/** 
+				 * Clear the exception
+				 */
+				zend_clear_exception(TSRMLS_C);
+	
+				/** 
+				 * Try to handle the exception
+				 */
+				PHALCON_INIT_NVAR(status);
+				phalcon_call_method_p1(status, this_ptr, "_handleexception", exception);
+				if (PHALCON_IS_FALSE(status)) {
+	
+					PHALCON_OBS_NVAR(finished);
+					phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+					if (PHALCON_IS_FALSE(finished)) {
+						continue;
+					}
+				} else {
+					/** 
+					 * Exception wasn't handled, re throw it
+					 */
+					phalcon_throw_exception(exception TSRMLS_CC);
+					return;
+				}
+			} else {
+				/** 
+				 * Update the latest value produced by the latest handler
+				 */
+				phalcon_update_property_this(this_ptr, SL("_returnedValue"), value TSRMLS_CC);
+			}
+		} else {
+			/** 
+			 * Call the method handling exceptions as normal
+			 */
+			PHALCON_INIT_NVAR(value);
+			PHALCON_CALL_USER_FUNC_ARRAY(value, call_object, params);
+	
+			/** 
+			 * Update the latest value produced by the latest handler
+			 */
+			phalcon_update_property_this(this_ptr, SL("_returnedValue"), value TSRMLS_CC);
+		}
+	
 		phalcon_update_property_this(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
 	
 		/** 
@@ -998,5 +1059,74 @@ PHP_METHOD(Phalcon_Dispatcher, wasForwarded){
 
 
 	RETURN_MEMBER(this_ptr, "_forwarded");
+}
+
+/**
+ * Possible class name that will be located to dispatch the request
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
+
+	zval *handler_suffix, *namespace_name = NULL, *handler_name = NULL;
+	zval *camelized_class = NULL, *handler_class = NULL;
+
+	PHALCON_MM_GROW();
+
+	/** 
+	 * The handler suffix
+	 */
+	PHALCON_OBS_VAR(handler_suffix);
+	phalcon_read_property_this(&handler_suffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
+	
+	/** 
+	 * If the current namespace is null we used the set in this_ptr::_defaultNamespace
+	 */
+	PHALCON_OBS_VAR(namespace_name);
+	phalcon_read_property_this(&namespace_name, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+	if (!zend_is_true(namespace_name)) {
+		PHALCON_OBS_NVAR(namespace_name);
+		phalcon_read_property_this(&namespace_name, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+		phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
+	}
+	
+	/** 
+	 * If the handler is null we use the set in this_ptr::_defaultHandler
+	 */
+	PHALCON_OBS_VAR(handler_name);
+	phalcon_read_property_this(&handler_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
+	if (!zend_is_true(handler_name)) {
+		PHALCON_OBS_NVAR(handler_name);
+		phalcon_read_property_this(&handler_name, this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
+		phalcon_update_property_this(this_ptr, SL("_handlerName"), handler_name TSRMLS_CC);
+	}
+	
+	/** 
+	 * We don't camelize the classes if they are in namespaces
+	 */
+	if (!phalcon_memnstr_str(handler_name, SL("\\"))) {
+		PHALCON_INIT_VAR(camelized_class);
+		phalcon_camelize(camelized_class, handler_name);
+	} else {
+		PHALCON_CPY_WRT(camelized_class, handler_name);
+	}
+	
+	/** 
+	 * Create the complete controller class name prepending the namespace
+	 */
+	if (zend_is_true(namespace_name)) {
+		if (phalcon_end_with_str(namespace_name, SL("\\"))) {
+			PHALCON_INIT_VAR(handler_class);
+			PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
+		} else {
+			PHALCON_INIT_NVAR(handler_class);
+			PHALCON_CONCAT_VSVV(handler_class, namespace_name, "\\", camelized_class, handler_suffix);
+		}
+	} else {
+		PHALCON_INIT_NVAR(handler_class);
+		PHALCON_CONCAT_VV(handler_class, camelized_class, handler_suffix);
+	}
+	
+	RETURN_CTOR(handler_class);
 }
 

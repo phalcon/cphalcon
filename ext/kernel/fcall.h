@@ -127,6 +127,7 @@
 /** Use these functions to call functions in the PHP userland using an arbitrary zval as callable */
 #define PHALCON_CALL_USER_FUNC(return_value, handler) if(phalcon_call_user_func(return_value, handler TSRMLS_CC)==FAILURE) return;
 #define PHALCON_CALL_USER_FUNC_ARRAY(return_value, handler, params) if(phalcon_call_user_func_array(return_value, handler, params TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_USER_FUNC_ARRAY_NOEX(return_value, handler, params) if(phalcon_call_user_func_array_noex(return_value, handler, params TSRMLS_CC)==FAILURE) return;
 
 /** Call single functions */
 extern int phalcon_call_func_ex(zval *return_value, const char *func_name, int func_length, int noreturn TSRMLS_DC);
@@ -185,6 +186,7 @@ extern int phalcon_call_static_zval_str_func_one_param(zval *return_value, zval 
 /** Fast call_user_func_array/call_user_func */
 extern int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC);
 extern int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params TSRMLS_DC);
+extern int phalcon_call_user_func_array_noex(zval *return_value, zval *handler, zval *params TSRMLS_DC);
 
 /** Check constructors */
 extern int phalcon_has_constructor(const zval *object TSRMLS_DC);
