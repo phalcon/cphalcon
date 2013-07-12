@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "main/SAPI.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -389,16 +391,14 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete){
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, send){
 
-	zval *headers_was_sent, *cookies, *cookie = NULL;
+	zval *cookies, *cookie = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(headers_was_sent);
-	phalcon_call_func(headers_was_sent, "headers_sent");
-	if (!zend_is_true(headers_was_sent)) {
+	if (!SG(headers_sent)) {
 	
 		PHALCON_OBS_VAR(cookies);
 		phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);

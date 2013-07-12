@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "main/SAPI.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -127,7 +129,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, send){
 
-	zval *headers_was_sent, *t, *headers, *value = NULL, *header = NULL;
+	zval *t, *headers, *value = NULL, *header = NULL;
 	zval *http_header = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -135,9 +137,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(headers_was_sent);
-	phalcon_call_func(headers_was_sent, "headers_sent");
-	if (!zend_is_true(headers_was_sent)) {
+	if (!SG(headers_sent)) {
 	
 		PHALCON_INIT_VAR(t);
 		ZVAL_BOOL(t, 1);
