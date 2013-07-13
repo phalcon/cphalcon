@@ -1224,25 +1224,17 @@ PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue){
 }
 
 /**
- * Check if a service is registered in the internal services container using the array syntax
+ * Check if a service is registered in the internal services container using the array syntax.
+ * Alias for Phalcon\Mvc\Micro::hasService()
  *
  * @param string $alias
  * @return boolean
  */
-PHP_METHOD(Phalcon_Mvc_Micro, offsetExists){
-
-	zval *alias;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &alias);
-	
-	phalcon_call_method_p1(return_value, this_ptr, "hasservice", alias);
-	RETURN_MM();
-}
+PHALCON_DOC_METHOD(Phalcon_Mvc_Micro, offsetExists);
 
 /**
- * Allows to register a shared service in the internal services container using the array syntax
+ * Allows to register a shared service in the internal services container using the array syntax.
+ * Alias for Phalcon\Mvc\Micro::setService()
  *
  *<code>
  *	$app['request'] = new Phalcon\Http\Request();
@@ -1251,21 +1243,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetExists){
  * @param string $alias
  * @param mixed $definition
  */
-PHP_METHOD(Phalcon_Mvc_Micro, offsetSet){
-
-	zval *alias, *definition;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &alias, &definition);
-	
-	phalcon_call_method_p2_noret(this_ptr, "setservice", alias, definition);
-	
-	PHALCON_MM_RESTORE();
-}
+PHALCON_DOC_METHOD(Phalcon_Mvc_Micro, offsetSet);
 
 /**
- * Allows to obtain a shared service in the internal services container using the array syntax
+ * Allows to obtain a shared service in the internal services container using the array syntax.
+ * Alias for Phalcon\Mvc\Micro::getService()
  *
  *<code>
  *	var_dump($di['request']);
@@ -1274,22 +1256,13 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetSet){
  * @param string $alias
  * @return mixed
  */
-PHP_METHOD(Phalcon_Mvc_Micro, offsetGet){
-
-	zval *alias;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &alias);
-	
-	phalcon_call_method_p1(return_value, this_ptr, "getservice", alias);
-	RETURN_MM();
-}
+PHALCON_DOC_METHOD(Phalcon_Mvc_Micro, offsetGet);
 
 /**
  * Removes a service from the internal services container using the array syntax
  *
  * @param string $alias
+ * @todo Not implemented
  */
 PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset){
 

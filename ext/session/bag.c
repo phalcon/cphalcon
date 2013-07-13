@@ -240,7 +240,8 @@ PHP_METHOD(Phalcon_Session_Bag, set){
 }
 
 /**
- * Magic setter to assign values to the session bag
+ * Magic setter to assign values to the session bag.
+ * Alias for Phalcon\Session\Bag::set()
  *
  *<code>
  * $user->name = "Kimbra";
@@ -249,18 +250,7 @@ PHP_METHOD(Phalcon_Session_Bag, set){
  * @param string $property
  * @param string $value
  */
-PHP_METHOD(Phalcon_Session_Bag, __set){
-
-	zval *property, *value;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &property, &value);
-	
-	phalcon_call_method_p2_noret(this_ptr, "set", property, value);
-	
-	PHALCON_MM_RESTORE();
-}
+PHALCON_DOC_METHOD(Phalcon_Session_Bag, __set);
 
 /**
  * Obtains a value from the session bag optionally setting a default value
@@ -313,7 +303,8 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 }
 
 /**
- * Magic getter to obtain values from the session bag
+ * Magic getter to obtain values from the session bag.
+ * Alias for Phalcon\Session\Bag::get()
  *
  *<code>
  * echo $user->name;
@@ -322,17 +313,7 @@ PHP_METHOD(Phalcon_Session_Bag, get){
  * @param string $property
  * @return string
  */
-PHP_METHOD(Phalcon_Session_Bag, __get){
-
-	zval *property;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &property);
-	
-	phalcon_call_method_p1(return_value, this_ptr, "get", property);
-	RETURN_MM();
-}
+PHALCON_DOC_METHOD(Phalcon_Session_Bag, __get);
 
 /**
  * Check whether a property is defined in the internal bag
@@ -368,7 +349,8 @@ PHP_METHOD(Phalcon_Session_Bag, has){
 }
 
 /**
- * Magic isset to check whether a property is defined in the bag
+ * Magic isset to check whether a property is defined in the bag.
+ * Alias for Phalcon\Session\Bag::has()
  *
  *<code>
  * var_dump(isset($user['name']));
@@ -377,17 +359,7 @@ PHP_METHOD(Phalcon_Session_Bag, has){
  * @param string $property
  * @return boolean
  */
-PHP_METHOD(Phalcon_Session_Bag, __isset){
-
-	zval *property;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &property);
-	
-	phalcon_call_method_p1(return_value, this_ptr, "has", property);
-	RETURN_MM();
-}
+PHALCON_DOC_METHOD(Phalcon_Session_Bag, __isset);
 
 /**
  * Removes a property from the internal bag
@@ -428,7 +400,8 @@ PHP_METHOD(Phalcon_Session_Bag, remove){
 }
 
 /**
- * Magic unset to remove items using the array syntax
+ * Magic unset to remove items using the property syntax.
+ * Alias for Phalcon\Session\Bag::remove()
  *
  *<code>
  * unset($user['name']);
@@ -437,15 +410,4 @@ PHP_METHOD(Phalcon_Session_Bag, remove){
  * @param string $property
  * @return boolean
  */
-PHP_METHOD(Phalcon_Session_Bag, __unset){
-
-	zval *property;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &property);
-	
-	phalcon_call_method_p1(return_value, this_ptr, "remove", property);
-	RETURN_MM();
-}
-
+PHALCON_DOC_METHOD(Phalcon_Session_Bag, __unset);
