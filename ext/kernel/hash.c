@@ -180,49 +180,114 @@ int phalcon_has_numeric_keys(const zval *data)
 	return 0;
 }
 
-void phalcon_hash_update_or_insert(HashTable *ht, zval *offset, zval *value)
+void phalcon_hash_update_or_insert(HashTable *ht, zval *key, zval *value)
 {
-	if (!offset || Z_TYPE_P(offset) == IS_NULL) {
-		zend_hash_next_index_insert(ht, value, sizeof(zval*), NULL);
+	if (!key || Z_TYPE_P(key) == IS_NULL) {
+		zend_hash_next_index_insert(ht, (void**)&value, sizeof(zval*), NULL);
+		return;
 	}
-	else {
-		if (Z_TYPE_P(offset) == IS_LONG || Z_TYPE_P(offset) == IS_DOUBLE || Z_TYPE_P(offset) == IS_BOOL) {
-			zend_hash_index_update(ht, phalcon_get_intval(offset), value, sizeof(zval*), NULL);
-		}
-		else {
-			zval copy;
-			int use_copy = 0;
 
-			if (Z_TYPE_P(offset) != IS_STRING) {
-				zend_make_printable_zval(offset, &copy, &use_copy);
-				if (use_copy) {
-					offset = &copy;
-				}
-			}
+	switch (Z_TYPE_P(key)) {
+		case IS_STRING:
+			zend_symtable_update(ht, Z_STRVAL_P(key), Z_STRLEN_P(key)+1, (void**)&value, sizeof(zval*), NULL);
+			return;
 
-			zend_hash_update(ht, Z_STRVAL_P(offset), Z_STRLEN_P(offset)+1, &value, sizeof(zval*), NULL);
-			if (use_copy) {
-				zval_dtor(&copy);
-			}
-		}
-	}
-}
-
-int phalcon_hash_get(HashTable *ht, zval *offset, zval **value)
-{
-	switch (Z_TYPE_P(offset)) {
-		case IS_LONG:
+		case IS_RESOURCE:
 		case IS_DOUBLE:
 		case IS_BOOL:
-		case IS_RESOURCE:
-			return (zend_hash_index_find(ht, (Z_TYPE_P(offset) == IS_DOUBLE) ? ((long int)Z_DVAL_P(offset)) : Z_LVAL_P(offset), (void**)value) == SUCCESS);
-
-		case IS_STRING:
-			return (zend_symtable_find(ht, Z_STRVAL_P(offset), Z_STRLEN_P(offset)+1, (void**)value) == SUCCESS);
+		case IS_LONG:
+			zend_hash_index_update(ht, ((Z_TYPE_P(key) == IS_DOUBLE) ? (ulong)Z_DVAL_P(key) : Z_LVAL_P(key)), (void*)&value, sizeof(zval*), NULL);
+			return;
 
 		default:
 			zend_error(E_WARNING, "Illegal offset type");
-			return 0;
+			return;
+	}
+}
+
+/**
+ * @brief Gets an entry from @a ht identified by @a key and puts it to @a *value
+ * @param[in] ht Hash table
+ * @param[in] offset
+ * @param[out] value
+ * @return
+ * @retval @c SUCCESS
+ * @retval @c FAILURE
+ * @throw @c E_WARNING when @a key is of not supported type
+ * @note @a *value is not modified on failure
+ * @note Reference count of the retrieved item is not modified
+ */
+zval** phalcon_hash_get(HashTable *ht, const zval *key, int type)
+{
+	zval **ret = NULL;
+
+	switch (Z_TYPE_P(key)) {
+		case IS_RESOURCE:
+			zend_error(E_STRICT, "Resource ID#%ld used as offset, casting to integer (%ld)", Z_LVAL_P(key), Z_LVAL_P(key));
+			/* no break */
+		case IS_LONG:
+		case IS_DOUBLE:
+		case IS_BOOL: {
+			ulong index = (Z_TYPE_P(key) == IS_DOUBLE) ? ((long int)Z_DVAL_P(key)) : Z_LVAL_P(key);
+			if (FAILURE == zend_hash_index_find(ht, index, (void**)&ret)) {
+				switch (type) {
+					case BP_VAR_R:
+						zend_error(E_NOTICE, "Undefined offset: %ld", index);
+						/* no break */
+					case BP_VAR_UNSET:
+					case BP_VAR_IS: {
+						TSRMLS_FETCH();
+						ret = &EG(uninitialized_zval_ptr);
+						break;
+					}
+
+					case BP_VAR_RW:
+						zend_error(E_NOTICE, "Undefined offset: %ld", index);
+						/* no break */
+					case BP_VAR_W: {
+						zval *value;
+						ALLOC_INIT_ZVAL(value);
+						zend_hash_index_update(ht, index, (void**)&value, sizeof(void*), NULL);
+						break;
+					}
+				}
+			}
+
+			return ret;
+		}
+
+		case IS_STRING:
+			if (FAILURE == zend_symtable_find(ht, Z_STRVAL_P(key), Z_STRLEN_P(key)+1, (void**)&ret)) {
+				switch (type) {
+					case BP_VAR_R:
+						zend_error(E_NOTICE, "Undefined offset: %s", Z_STRVAL_P(key));
+						/* no break */
+					case BP_VAR_UNSET:
+					case BP_VAR_IS: {
+						TSRMLS_FETCH();
+						ret = &EG(uninitialized_zval_ptr);
+						break;
+					}
+
+					case BP_VAR_RW:
+						zend_error(E_NOTICE, "Undefined offset: %s", Z_STRVAL_P(key));
+						/* no break */
+					case BP_VAR_W: {
+						zval *value;
+						ALLOC_INIT_ZVAL(value);
+						zend_symtable_update(ht, Z_STRVAL_P(key), Z_STRLEN_P(key)+1, (void**)&value, sizeof(void*), NULL);
+						break;
+					}
+				}
+			}
+
+			return ret;
+
+		default: {
+			TSRMLS_FETCH();
+			zend_error(E_WARNING, "Illegal offset type");
+			return (type == BP_VAR_W || type == BP_VAR_RW) ? &EG(error_zval_ptr) : &EG(uninitialized_zval_ptr);
+		}
 	}
 }
 
