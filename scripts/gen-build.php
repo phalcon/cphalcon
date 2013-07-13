@@ -143,15 +143,15 @@ class Build_Generator
 #include "ext/standard/url.h"
 #include "ext/spl/spl_heap.h"
 
-#if PHALCON_USE_PHP_PCRE
+#ifdef PHALCON_USE_PHP_PCRE
 #include "ext/pcre/php_pcre.h"
 #endif
 
-#if PHALCON_USE_PHP_JSON
+#ifdef PHALCON_USE_PHP_JSON
 #include "ext/json/php_json.h"
 #endif
 
-#if PHALCON_USE_PHP_SESSION
+#ifdef PHALCON_USE_PHP_SESSION
 #include "ext/session/php_session.h"
 #endif
 
