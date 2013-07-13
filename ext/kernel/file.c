@@ -370,6 +370,7 @@ void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TS
 			if (use_copy) {
 				data = &copy;
 			}
+			/* no break */
 
 		case IS_STRING:
 			if (Z_STRLEN_P(data)) {

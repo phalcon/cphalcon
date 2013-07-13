@@ -608,11 +608,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	
 				PHALCON_INIT_NVAR(matched);
 	
-				#if HAVE_BUNDLED_PCRE
 				phalcon_preg_match(matched, regex_host_name, current_host_name, NULL TSRMLS_CC);
-				#else
-				phalcon_call_func_p2(matched, "preg_match", regex_host_name, current_host_name);
-				#endif
 	
 			} else {
 				PHALCON_INIT_NVAR(matched);
@@ -635,11 +631,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	
 			Z_SET_ISREF_P(matches);
 	
-			#if HAVE_BUNDLED_PCRE
 			phalcon_preg_match(route_found, pattern, handled_uri, matches TSRMLS_CC);
-			#else
-			phalcon_call_func_p3(route_found, "preg_match", pattern, handled_uri, matches);
-			#endif
 	
 			Z_UNSET_ISREF_P(matches);
 	

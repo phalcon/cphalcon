@@ -29,10 +29,6 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
-#if HAVE_PHP_SESSION
-#include "ext/session/php_session.h"
-#endif
-
 #include "main/SAPI.h"
 
 #include "kernel/main.h"
@@ -44,6 +40,7 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/session.h"
 
 /**
  * Phalcon\Session\Adapter
@@ -98,11 +95,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 PHP_METHOD(Phalcon_Session_Adapter, start){
 
 	if (!SG(headers_sent)) {
-#if HAVE_PHP_SESSION
-		php_session_start(TSRMLS_C);
-#else
-		phalcon_call_func_ex(NULL, ZEND_STRL("session_start"), 0 TSRMLS_CC);
-#endif
+		phalcon_session_start(TSRMLS_C);
 		phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
 		RETURN_TRUE;
 	}
@@ -297,18 +290,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
  */
 PHP_METHOD(Phalcon_Session_Adapter, getId){
 
-#if HAVE_PHP_SESSION
-	if (PS(id)) {
-		RETURN_STRING(PS(id), 1);
-	}
-
-	RETURN_EMPTY_STRING();
-#else
-	PHALCON_MM_GROW();
-
-	phalcon_call_func(return_value, "session_id");
-	RETURN_MM();
-#endif
+	phalcon_get_session_id(return_value TSRMLS_CC);
 }
 
 /**
@@ -330,18 +312,13 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted){
  * Destroys the active session
  *
  *<code>
- *	var_dump($session->destroy());
+ *	$session->destroy();
  *</code>
  *
- * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Adapter, destroy){
 
-
-	PHALCON_MM_GROW();
-
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
-	phalcon_call_func(return_value, "session_destroy");
-	RETURN_MM();
+	phalcon_session_destroy(TSRMLS_C);
 }
 

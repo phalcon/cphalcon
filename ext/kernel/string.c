@@ -17,6 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <ctype.h>
 
 #include "php.h"
@@ -30,11 +34,11 @@
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
 
-#if HAVE_BUNDLED_PCRE
+#ifdef PHALCON_USE_PHP_PCRE
 #include "ext/pcre/php_pcre.h"
 #endif
 
-#if HAVE_JSON
+#ifdef PHALCON_USE_PHP_JSON
 #include "ext/json/php_json.h"
 #endif
 
@@ -1183,7 +1187,7 @@ void phalcon_md5(zval *return_value, zval *str) {
 	ZVAL_STRINGL(return_value, hexdigest, 32, 1);
 }
 
-#if HAVE_BUNDLED_PCRE
+#if PHALCON_USE_PHP_PCRE
 
 /**
  * Execute preg-match without function lookup in the PHP userland
@@ -1223,9 +1227,22 @@ void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *ma
 	}
 }
 
-#endif
+#else
 
-#if HAVE_JSON
+void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC)
+{
+	zval *params[] = {
+		regex,
+		subject,
+		matches
+	};
+
+	phalcon_call_func_params(return_value, SL("preg_match"), (matches ? 3 : 2), params, 1 TSRMLS_CC);
+}
+
+#endif /* PHALCON_USE_PHP_PCRE */
+
+#ifdef PHALCON_USE_PHP_JSON
 
 void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 {
@@ -1276,7 +1293,7 @@ void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 	zval_ptr_dtor(zassoc);
 }
 
-#endif
+#endif /* PHALCON_USE_PHP_JSON */
 
 void phalcon_lcfirst(zval *return_value, zval *s)
 {
