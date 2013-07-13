@@ -474,3 +474,4 @@ unit-tests/annotations/cache/*.php
 .libs
 build/t.dSYM/
 build/install2
+*~

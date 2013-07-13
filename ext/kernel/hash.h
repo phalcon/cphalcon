@@ -24,3 +24,6 @@ int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLen
 void phalcon_get_current_key(zval **key, const HashTable *hash_table, HashPosition *hash_position TSRMLS_DC);
 zval phalcon_get_current_key_w(const HashTable *hash_table, HashPosition *hash_position);
 int phalcon_has_numeric_keys(const zval *data);
+void phalcon_hash_update_or_insert(HashTable *ht, zval *offset, zval *value);
+int phalcon_hash_get(HashTable *ht, zval *offset, zval **value);
+int phalcon_hash_unset(HashTable *ht, zval *offset);

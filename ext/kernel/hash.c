@@ -179,3 +179,67 @@ int phalcon_has_numeric_keys(const zval *data)
 
 	return 0;
 }
+
+void phalcon_hash_update_or_insert(HashTable *ht, zval *offset, zval *value)
+{
+	if (!offset || Z_TYPE_P(offset) == IS_NULL) {
+		zend_hash_next_index_insert(ht, value, sizeof(zval*), NULL);
+	}
+	else {
+		if (Z_TYPE_P(offset) == IS_LONG || Z_TYPE_P(offset) == IS_DOUBLE || Z_TYPE_P(offset) == IS_BOOL) {
+			zend_hash_index_update(ht, phalcon_get_intval(offset), value, sizeof(zval*), NULL);
+		}
+		else {
+			zval copy;
+			int use_copy = 0;
+
+			if (Z_TYPE_P(offset) != IS_STRING) {
+				zend_make_printable_zval(offset, &copy, &use_copy);
+				if (use_copy) {
+					offset = &copy;
+				}
+			}
+
+			zend_hash_update(ht, Z_STRVAL_P(offset), Z_STRLEN_P(offset)+1, &value, sizeof(zval*), NULL);
+			if (use_copy) {
+				zval_dtor(&copy);
+			}
+		}
+	}
+}
+
+int phalcon_hash_get(HashTable *ht, zval *offset, zval **value)
+{
+	switch (Z_TYPE_P(offset)) {
+		case IS_LONG:
+		case IS_DOUBLE:
+		case IS_BOOL:
+		case IS_RESOURCE:
+			return (zend_hash_index_find(ht, (Z_TYPE_P(offset) == IS_DOUBLE) ? ((long int)Z_DVAL_P(offset)) : Z_LVAL_P(offset), (void**)value) == SUCCESS);
+
+		case IS_STRING:
+			return (zend_symtable_find(ht, Z_STRVAL_P(offset), Z_STRLEN_P(offset)+1, (void**)value) == SUCCESS);
+
+		default:
+			zend_error(E_WARNING, "Illegal offset type");
+			return 0;
+	}
+}
+
+int phalcon_hash_unset(HashTable *ht, zval *offset)
+{
+	switch (Z_TYPE_P(offset)) {
+		case IS_LONG:
+		case IS_DOUBLE:
+		case IS_BOOL:
+		case IS_RESOURCE:
+			return (zend_hash_index_del(ht, (Z_TYPE_P(offset) == IS_DOUBLE) ? ((long int)Z_DVAL_P(offset)) : Z_LVAL_P(offset)) == SUCCESS);
+
+		case IS_STRING:
+			return (zend_symtable_del(ht, Z_STRVAL_P(offset), Z_STRLEN_P(offset)+1) == SUCCESS);
+
+		default:
+			zend_error(E_WARNING, "Illegal offset type");
+			return 0;
+	}
+}
