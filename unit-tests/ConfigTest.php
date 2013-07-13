@@ -231,5 +231,26 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		unset($a['a']);
 		$this->assertTrue(!isset($a['a']));
 	}
-}
 
+	public function testIssue829()
+	{
+		$config = new \Phalcon\Config\Adapter\Ini('unit-tests/config/829-no-sections.ini');
+		$actual = $config->toArray();
+		$expected = array(
+			'hoge' => 'test',
+			'foo'  => 'bar',
+		);
+
+		$this->assertEquals($actual, $expected);
+
+		$config = new \Phalcon\Config\Adapter\Ini('unit-tests/config/829-with-empty-section.ini');
+		$actual = $config->toArray();
+		$expected = array(
+			'section' => array('hoge' => 'test'),
+			'empty'   => array(),
+			'test'    => array('foo'  => 'bar'),
+		);
+
+		$this->assertEquals($actual, $expected);
+	}
+}
