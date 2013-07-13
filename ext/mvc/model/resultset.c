@@ -398,7 +398,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 }
 
 /**
- * Resulsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+ * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
  * @param int $index
  * @param Phalcon\Mvc\ModelInterface $value
@@ -414,7 +414,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet){
 }
 
 /**
- * Resulsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+ * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
  * @param int $offset
  */
