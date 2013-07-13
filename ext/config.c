@@ -90,6 +90,9 @@ static inline phalcon_config_object* fetchPhalconConfigObject(zval* zobj TSRMLS_
 
 static void phalcon_config_construct_internal(zval *this_ptr, zval *array_config TSRMLS_DC);
 
+/**
+ * @brief Counts the number of elements in the configuration; this is the part of Countable interface
+ */
 static int phalcon_config_count_elements(zval *object, long int *count TSRMLS_DC)
 {
 	phalcon_config_object* obj = fetchPhalconConfigObject(object TSRMLS_CC);
@@ -97,6 +100,9 @@ static int phalcon_config_count_elements(zval *object, long int *count TSRMLS_DC
 	return SUCCESS;
 }
 
+/**
+ * @brief Common part of @c __get() and @c offsetGet()
+ */
 static zval* phalcon_config_read_internal(phalcon_config_object *object, zval *key, int type TSRMLS_DC)
 {
 	zval **retval;
@@ -108,6 +114,9 @@ static zval* phalcon_config_read_internal(phalcon_config_object *object, zval *k
 	return retval ? *retval : NULL;
 }
 
+/**
+ * @brief @c read_property handler, used instead of @c __get() magic method
+ */
 static zval* phalcon_config_read_property(zval *object, zval *offset, int type ZLK_DC TSRMLS_DC)
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
@@ -119,6 +128,9 @@ static zval* phalcon_config_read_property(zval *object, zval *offset, int type Z
 	return phalcon_config_read_internal(obj, offset, type TSRMLS_CC);
 }
 
+/**
+ * @brief @c read_dimension handler, used instead of @c offsetGet() method
+ */
 static zval* phalcon_config_read_dimension(zval *object, zval *offset, int type TSRMLS_DC)
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
@@ -130,6 +142,9 @@ static zval* phalcon_config_read_dimension(zval *object, zval *offset, int type 
 	return phalcon_config_read_internal(obj, offset, type TSRMLS_CC);
 }
 
+/**
+ * @brief Common part of @c __set() and @c offsetSet()
+ */
 static void phalcon_config_write_internal(phalcon_config_object *object, zval *offset, zval *value TSRMLS_DC)
 {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
@@ -145,6 +160,9 @@ static void phalcon_config_write_internal(phalcon_config_object *object, zval *o
 	}
 }
 
+/**
+ * @brief @c write_property handler, used instead of @c __set() magic method
+ */
 static void phalcon_config_write_property(zval *object, zval *offset, zval *value ZLK_DC TSRMLS_DC)
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
@@ -156,6 +174,9 @@ static void phalcon_config_write_property(zval *object, zval *offset, zval *valu
 	phalcon_config_write_internal(obj, offset, value TSRMLS_CC);
 }
 
+/**
+ * @brief @c write_dimension handler, used instead of @c offsetSet() method
+ */
 static void phalcon_config_write_dimension(zval *object, zval *offset, zval *value TSRMLS_DC)
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(object TSRMLS_CC);
@@ -167,6 +188,9 @@ static void phalcon_config_write_dimension(zval *object, zval *offset, zval *val
 	phalcon_config_write_internal(obj, offset, value TSRMLS_CC);
 }
 
+/**
+ * @brief Common part of @c __isset() and @c offsetExists()
+ */
 static int phalcon_config_has_internal(phalcon_config_object *object, zval *key, int check_empty TSRMLS_DC)
 {
 	zval **tmp = phalcon_hash_get(object->props, key, BP_VAR_NA);
@@ -208,6 +232,9 @@ static int phalcon_config_has_dimension(zval *object, zval *offset, int check_em
 	return phalcon_config_has_internal(obj, offset, check_empty TSRMLS_CC);
 }
 
+/**
+ * @brief Common part of @c __unset() and @c offsetUnset()
+ */
 static void phalcon_config_unset_internal(phalcon_config_object *obj, zval *key TSRMLS_DC)
 {
 	phalcon_hash_unset(obj->props, key);
@@ -235,7 +262,9 @@ static void phalcon_config_unset_dimension(zval *object, zval *offset TSRMLS_DC)
 	phalcon_config_unset_internal(obj, offset TSRMLS_CC);
 }
 
-
+/**
+ * @brief Returns the list of all internal properties. Used by @c print_r() and other functions
+ */
 static HashTable* phalcon_config_get_properties(zval* object TSRMLS_DC)
 {
 	phalcon_config_object* obj = fetchPhalconConfigObject(object TSRMLS_CC);
@@ -246,6 +275,9 @@ static HashTable* phalcon_config_get_properties(zval* object TSRMLS_DC)
 	return props;
 }
 
+/**
+ * @brief Fast object compare function
+ */
 static int phalcon_config_compare_objects(zval *object1, zval *object2 TSRMLS_DC)
 {
 	phalcon_config_object *zobj1, *zobj2;
@@ -267,6 +299,9 @@ static int phalcon_config_compare_objects(zval *object1, zval *object2 TSRMLS_DC
 	return Z_LVAL_P(&result);
 }
 
+/**
+ * @brief Frees all memory associated with @c phalcon_config_object
+ */
 static void phalcon_config_object_dtor(void* v TSRMLS_DC)
 {
 	phalcon_config_object* obj = v;
@@ -280,6 +315,9 @@ static void phalcon_config_object_dtor(void* v TSRMLS_DC)
 	efree(obj);
 }
 
+/**
+ * @brief Constructs @c phalcon_config_object
+ */
 static zend_object_value phalcon_config_object_ctor(zend_class_entry* ce TSRMLS_DC)
 {
 	phalcon_config_object* obj = ecalloc(1, sizeof(phalcon_config_object));
@@ -325,6 +363,10 @@ PHALCON_INIT_CLASS(Phalcon_Config){
 	return SUCCESS;
 }
 
+/**
+ * Internal implementation of __construct(). Used to avoid calls to userspace when
+ * recursively walking the configuration array. Does not use MM.
+ */
 void phalcon_config_construct_internal(zval* this_ptr, zval *array_config TSRMLS_DC)
 {
 	HashTable *ah0;
@@ -354,6 +396,10 @@ void phalcon_config_construct_internal(zval* this_ptr, zval *array_config TSRMLS
 	}
 }
 
+/**
+ * Internal implementation of non-recursive @c toArray(). Used as an alternative
+ * to @c get_object_properties().
+ */
 static void phalcon_config_toarray_internal(zval *return_value, zval *this_ptr TSRMLS_DC)
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(this_ptr TSRMLS_CC);
@@ -606,7 +652,7 @@ PHP_METHOD(Phalcon_Config, toArray){
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
+
 	RETURN_MM();
 }
 

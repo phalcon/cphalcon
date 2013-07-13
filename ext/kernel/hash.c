@@ -180,6 +180,15 @@ int phalcon_has_numeric_keys(const zval *data)
 	return 0;
 }
 
+/**
+ * @brief Adds or updates item @a key in the hash table @a ht
+ * @param ht Hash table
+ * @param[in] key Key
+ * @param[in] value Value
+ * @note @a value's reference count in not updated
+ * @note If @a key is @c NULL or is @c IS_NULL, @a value is appended to @a ht
+ * @throw E_WARNING if @a key type is not supported
+ */
 void phalcon_hash_update_or_insert(HashTable *ht, zval *key, zval *value)
 {
 	if (!key || Z_TYPE_P(key) == IS_NULL) {
@@ -206,16 +215,20 @@ void phalcon_hash_update_or_insert(HashTable *ht, zval *key, zval *value)
 }
 
 /**
- * @brief Gets an entry from @a ht identified by @a key and puts it to @a *value
+ * @brief Returns the entry @a ht identified by @a key
  * @param[in] ht Hash table
- * @param[in] offset
- * @param[out] value
- * @return
- * @retval @c SUCCESS
- * @retval @c FAILURE
- * @throw @c E_WARNING when @a key is of not supported type
- * @note @a *value is not modified on failure
- * @note Reference count of the retrieved item is not modified
+ * @param[in] key
+ * @param[in] type One of @c BP_VAR_XXX values
+ * @return Pointer to the stored value or a pointer to the special variable / @c NULL if @a key was not found
+ * @retval <tt>&EG(error_zval_ptr)</tt> when @a key was not found and @a type is one of @c BP_VAR_W, @c BP_VAR_RW
+ * @retval <tt>&EG(uninitialized_zval_ptr)</tt> when @a key was not found and @a type is one of @c BP_VAR_R, @c BP_VAR_UNSET, @c BP_VAR_IS
+ * @retval @c NULL when @a key was not found and @a type is not any of the above
+ * @throw @c E_WARNING when @a key is of not supported typel in this case the function never returns @c NULL
+ * @throw @c E_STRICT when @a key is a resource
+ * @throw @c E_NOTICE if @a key was not found and @a type is @c BP_VAR_R or @c BP_VAR_RW
+ * @note Reference count of the returned item is not modified
+ * @note The implementation is suitable for @c read_property, @c get_property_ptr_ptr and @c read_dimension object handlers
+ * @warning If @a type is @c BP_VAR_W or @c BP_VAR_RW and @a key was not found, it is added to @a ht and its value is set to @c IS_NULL
  */
 zval** phalcon_hash_get(HashTable *ht, const zval *key, int type)
 {
@@ -291,17 +304,23 @@ zval** phalcon_hash_get(HashTable *ht, const zval *key, int type)
 	}
 }
 
-int phalcon_hash_unset(HashTable *ht, zval *offset)
+/**
+ * @brief Unset @a key from @a ht
+ * @param ht
+ * @param key
+ * @return
+ */
+int phalcon_hash_unset(HashTable *ht, zval *key)
 {
-	switch (Z_TYPE_P(offset)) {
+	switch (Z_TYPE_P(key)) {
 		case IS_LONG:
 		case IS_DOUBLE:
 		case IS_BOOL:
 		case IS_RESOURCE:
-			return (zend_hash_index_del(ht, (Z_TYPE_P(offset) == IS_DOUBLE) ? ((long int)Z_DVAL_P(offset)) : Z_LVAL_P(offset)) == SUCCESS);
+			return (zend_hash_index_del(ht, (Z_TYPE_P(key) == IS_DOUBLE) ? ((long int)Z_DVAL_P(key)) : Z_LVAL_P(key)) == SUCCESS);
 
 		case IS_STRING:
-			return (zend_symtable_del(ht, Z_STRVAL_P(offset), Z_STRLEN_P(offset)+1) == SUCCESS);
+			return (zend_symtable_del(ht, Z_STRVAL_P(key), Z_STRLEN_P(key)+1) == SUCCESS);
 
 		default:
 			zend_error(E_WARNING, "Illegal offset type");
