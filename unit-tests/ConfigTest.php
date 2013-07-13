@@ -231,5 +231,13 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		unset($a['a']);
 		$this->assertTrue(!isset($a['a']));
 	}
-}
 
+	public function testGet()
+	{
+		$config = new \Phalcon\Config(array('a' => 0, 'b' => null, 'c' => ''));
+		$this->assertTrue($config->get('a', 1) === 0);
+		$this->assertTrue($config->get('b', 1) === 1);
+		$this->assertTrue($config->get('c', 1) === '');
+		$this->assertTrue($config->get('d', 1) === 1);
+	}
+}
