@@ -22,8 +22,11 @@
 #endif
 
 #include "php.h"
+#include "php_ini.h"
 #include "php_phalcon.h"
 #include "phalcon.h"
+
+#include "ext/standard/info.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -340,7 +343,7 @@ zend_class_entry *phalcon_exception_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
-PHP_MINIT_FUNCTION(phalcon){
+static PHP_MINIT_FUNCTION(phalcon){
 
 	if (!spl_ce_Countable) {
 		fprintf(stderr, "Phalcon Error: Interface Countable was not found");
@@ -362,9 +365,6 @@ PHP_MINIT_FUNCTION(phalcon){
 		fprintf(stderr, "Phalcon Error: Interface SeekableIterator was not found");
 		return FAILURE;
 	}
-
-	/** Init globals */
-	ZEND_INIT_MODULE_GLOBALS(phalcon, php_phalcon_init_globals, NULL);
 
 	PHALCON_INIT(Phalcon_DI_InjectionAwareInterface);
 	PHALCON_INIT(Phalcon_Forms_ElementInterface);
@@ -674,7 +674,7 @@ PHP_MINIT_FUNCTION(phalcon){
 }
 
 
-PHP_MSHUTDOWN_FUNCTION(phalcon){
+static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
 	if (PHALCON_GLOBAL(active_memory) != NULL) {
 		phalcon_clean_shutdown_stack(TSRMLS_C);
@@ -691,14 +691,14 @@ PHP_MSHUTDOWN_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
-PHP_RINIT_FUNCTION(phalcon){
+static PHP_RINIT_FUNCTION(phalcon){
 
 	php_phalcon_init_globals(PHALCON_VGLOBAL TSRMLS_CC);
 
 	return SUCCESS;
 }
 
-PHP_RSHUTDOWN_FUNCTION(phalcon){
+static PHP_RSHUTDOWN_FUNCTION(phalcon){
 
 	if (PHALCON_GLOBAL(active_memory) != NULL) {
 		phalcon_clean_shutdown_stack(TSRMLS_C);
@@ -713,6 +713,19 @@ PHP_RSHUTDOWN_FUNCTION(phalcon){
 	phalcon_orm_destroy_cache(TSRMLS_C);
 
 	return SUCCESS;
+}
+
+static PHP_MINFO_FUNCTION(phalcon)
+{
+	php_info_print_table_start();
+	php_info_print_table_row(2, "Phalcon Framework", "enabled");
+	php_info_print_table_row(2, "Phalcon Vesion", PHP_PHALCON_VERSION);
+	php_info_print_table_end();
+}
+
+static PHP_GINIT_FUNCTION(phalcon)
+{
+	php_phalcon_init_globals(phalcon_globals TSRMLS_CC);
 }
 
 static
@@ -721,22 +734,20 @@ const
 #endif
 zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_REQUIRED("spl")
-#if HAVE_JSON
+#if PHALCON_USE_PHP_JSON
 	ZEND_MOD_REQUIRED("json")
 #endif
-#if HAVE_PHP_SESSION
+#if PHALCON_USE_PHP_SESSION
 	ZEND_MOD_REQUIRED("session")
 #endif
-#if HAVE_BUNDLED_PCRE
+#if PHALCON_USE_PHP_PCRE
 	ZEND_MOD_REQUIRED("pcre")
 #endif
-#ifdef HAVE_EXT_FILTER_PHP_FILTER_H
+#ifdef PHALCON_USE_PHP_FILTER
 	ZEND_MOD_REQUIRED("filter")
 #endif
-	{ NULL, NULL, NULL, 0 }
+	ZEND_MOD_END
 };
-
-
 
 zend_module_entry phalcon_module_entry = {
 	STANDARD_MODULE_HEADER_EX,
@@ -748,9 +759,13 @@ zend_module_entry phalcon_module_entry = {
 	PHP_MSHUTDOWN(phalcon),
 	PHP_RINIT(phalcon),
 	PHP_RSHUTDOWN(phalcon),
-	NULL,
+	PHP_MINFO(phalcon),
 	PHP_PHALCON_VERSION,
-	STANDARD_MODULE_PROPERTIES
+	ZEND_MODULE_GLOBALS(phalcon),
+	PHP_GINIT(phalcon),
+	NULL,
+	NULL,
+	STANDARD_MODULE_PROPERTIES_EX
 };
 
 #ifdef COMPILE_DL_PHALCON
