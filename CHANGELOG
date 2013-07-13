@@ -6,6 +6,7 @@
  - 'beforeException' events now can handle exceptions ocurred when executing actions
  - Added Phalcon\Dispatcher::getHandlerClass and Phalcon\Dispatch::getActionMethod
  - Now Phalcon\Form\Element\* classes implement Phalcon\Form\ElementInterface
+ - Phalcon\Config\Adapter\Ini correctly handles empty sections and INI files without any sections
 
 1.2.0
  - Now 'compiledPath' option accept a closure to dynamically create the compilation path in Volt
