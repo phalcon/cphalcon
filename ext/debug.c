@@ -644,11 +644,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	
 		PHALCON_INIT_VAR(is_phalcon_class);
 	
-		#if HAVE_BUNDLED_PCRE
 		phalcon_preg_match(is_phalcon_class, pattern, class_name, NULL TSRMLS_CC);
-		#else
-		phalcon_call_func_p2(is_phalcon_class, "preg_match", pattern, class_name);
-		#endif
 	
 		/** 
 		 * We assume that classes starting by Phalcon are framework's classes
@@ -933,11 +929,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	
 						PHALCON_INIT_NVAR(is_comment);
 	
-						#if HAVE_BUNDLED_PCRE
 						phalcon_preg_match(is_comment, comment_pattern, current_line, NULL TSRMLS_CC);
-						#else
-						phalcon_call_func_p2(is_comment, "preg_match", comment_pattern, current_line);
-						#endif
 	
 						if (zend_is_true(is_comment)) {
 							PHALCON_INIT_NVAR(spaced_current_line);

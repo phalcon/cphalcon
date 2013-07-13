@@ -295,11 +295,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	
 			Z_SET_ISREF_P(matches);
 	
-			#if HAVE_BUNDLED_PCRE
 			phalcon_preg_match(pos, size_pattern, column_type, matches TSRMLS_CC);
-			#else
-			phalcon_call_func_p3(pos, "preg_match", size_pattern, column_type, matches);
-			#endif
 	
 			Z_UNSET_ISREF_P(matches);
 	
