@@ -165,6 +165,10 @@ extern zend_module_entry phalcon_module_entry;
 #define ASSUME(x)     assert(!!(x));
 #endif
 
+#ifndef ZEND_MOD_END
+#define ZEND_MOD_END { NULL, NULL, NULL, 0 }
+#endif
+
 /* This is a temporary fix until config.w32 is updated */
 #if !defined(__CYGWIN__) && defined(WIN32) && defined(HAVE_CONFIG_H)
 #	define PHALCON_USE_PHP_FILTER 1 /* no way to check yet */
