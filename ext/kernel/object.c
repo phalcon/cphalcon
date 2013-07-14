@@ -1236,7 +1236,7 @@ int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC
 
 	object_init_ex(return_value, ce);
 	if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-		if (phalcon_call_method_ex(NULL, return_value, SL("__construct"), 0, 0, 1 TSRMLS_CC) == FAILURE) {
+		if (phalcon_call_method_ex(NULL, return_value, SL("__construct"), 0, 0 TSRMLS_CC) == FAILURE) {
 			return FAILURE;
 		}
 	}
@@ -1289,7 +1289,7 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 		}
 
 		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, 0, 0, 1 TSRMLS_CC) == FAILURE) {
+			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, 0, 0 TSRMLS_CC) == FAILURE) {
 				efree(params_array);
 				return FAILURE;
 			}
@@ -1298,7 +1298,7 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 		efree(params_array);
 	} else {
 		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-			if (phalcon_call_method_ex(NULL, return_value, SL("__construct"), 0, 0, 1 TSRMLS_CC) == FAILURE) {
+			if (phalcon_call_method_ex(NULL, return_value, SL("__construct"), 0, 0 TSRMLS_CC) == FAILURE) {
 				return FAILURE;
 			}
 		}
