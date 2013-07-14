@@ -1238,7 +1238,7 @@ void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 {
 	zval copy;
-	int use_copy;
+	int use_copy = 0;
 
 	if (unlikely(Z_TYPE_P(v) != IS_STRING)) {
 		zend_make_printable_zval(v, &copy, &use_copy);
@@ -1281,7 +1281,7 @@ void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 void phalcon_lcfirst(zval *return_value, zval *s)
 {
 	zval copy;
-	int use_copy;
+	int use_copy = 0;
 
 	if (unlikely(Z_TYPE_P(s) != IS_STRING)) {
 		zend_make_printable_zval(s, &copy, &use_copy);
@@ -1307,7 +1307,7 @@ void phalcon_lcfirst(zval *return_value, zval *s)
 void phalcon_ucfirst(zval *return_value, zval *s)
 {
 	zval copy;
-	int use_copy;
+	int use_copy = 0;
 
 	if (unlikely(Z_TYPE_P(s) != IS_STRING)) {
 		zend_make_printable_zval(s, &copy, &use_copy);

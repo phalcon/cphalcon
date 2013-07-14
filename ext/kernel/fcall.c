@@ -120,11 +120,11 @@ int phalcon_has_constructor(const zval *object TSRMLS_DC){
 int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[] TSRMLS_DC){
 	zval *fn = NULL;
 	int status;
-	int return_result = 1;
+	int caller_wants_result = 1;
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
-		return_result = 0;
+		caller_wants_result = 0;
 	}
 #ifndef PHALCON_RELEASE
 	else {
@@ -156,7 +156,7 @@ int phalcon_call_func_params(zval *return_value, const char *func_name, int func
 	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
 
-	if (!return_result) {
+	if (!caller_wants_result) {
 		zval_ptr_dtor(&return_value);
 	}
 
@@ -217,7 +217,7 @@ int phalcon_call_func_five_params(zval *return_value, const char *func_name, int
 int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], ulong method_key, int lower TSRMLS_DC){
 
 	int status;
-	int return_result = 1;
+	int caller_wants_result = 1;
 	zend_class_entry *ce, *active_scope = NULL;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
@@ -228,7 +228,7 @@ int phalcon_call_method_params(zval *return_value, zval *object, char *method_na
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
-		return_value = 0;
+		caller_wants_result = 0;
 	}
 #ifndef PHALCON_RELEASE
 	else {
@@ -267,7 +267,7 @@ int phalcon_call_method_params(zval *return_value, zval *object, char *method_na
 	}
 	EG(scope) = active_scope;
 
-	if (!return_result) {
+	if (!caller_wants_result) {
 		zval_ptr_dtor(&return_value);
 	}
 
@@ -339,10 +339,10 @@ int phalcon_call_static_func_params(zval *return_value, char *class_name, int cl
 
 	zval *fn, *fn_class, *fn_method;
 	int status;
-	int return_result = 1;
+	int caller_wants_result = 1;
 
 	if (!return_value) {
-		return_result = 0;
+		caller_wants_result = 0;
 		ALLOC_INIT_ZVAL(return_value);
 	}
 #ifndef PHALCON_RELEASE
@@ -385,7 +385,7 @@ int phalcon_call_static_func_params(zval *return_value, char *class_name, int cl
 
 	zval_ptr_dtor(&fn);
 
-	if (!return_result) {
+	if (!caller_wants_result) {
 		zval_ptr_dtor(&return_value);
 	}
 
@@ -558,11 +558,11 @@ static inline int phalcon_call_static_zval_str_func_params(zval *return_value, z
 
 	zval *fn;
 	int status;
-	int return_result = 1;
+	int caller_wants_result = 1;
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
-		return_result = 0;
+		caller_wants_result = 0;
 	}
 #ifndef PHALCON_RELEASE
 	else {
@@ -601,7 +601,7 @@ static inline int phalcon_call_static_zval_str_func_params(zval *return_value, z
 
 	zval_ptr_dtor(&fn);
 
-	if (!return_result) {
+	if (!caller_wants_result) {
 		zval_ptr_dtor(&return_value);
 	}
 
@@ -669,11 +669,11 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 
 	zval *fn;
 	int status;
-	int return_result = 1;
+	int caller_wants_result = 1;
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
-		return_result = 0;
+		caller_wants_result = 0;
 	}
 #ifndef PHALCON_RELEASE
 	else {
@@ -704,7 +704,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name);
 	}
 
-	if (!return_result) {
+	if (!caller_wants_result) {
 		zval_ptr_dtor(&return_value);
 	}
 
