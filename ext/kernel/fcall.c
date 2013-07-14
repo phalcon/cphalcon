@@ -678,6 +678,7 @@ int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval
 
 	zval ***params_array = NULL;
 	zval **static_params_array[5];
+	zval ***params_ptr;
 	zend_uint i;
 	int ex_retval;
 	zval *local_retval_ptr = NULL;
@@ -704,10 +705,12 @@ int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval
 		}
 
 		if (unlikely(param_count > 5)) {
-			ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
+			params_ptr = params_array;
 		} else {
-			ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, static_params_array, 1, NULL TSRMLS_CC);
+			params_ptr = static_params_array;
 		}
+
+		ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_ptr, 1, NULL TSRMLS_CC);
 	}
 
 	phalcon_globals_ptr->recursive_lock--;
@@ -1036,115 +1039,6 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 		phalcon_throw_exception_internal(NULL TSRMLS_CC);
 	}
 	return SUCCESS;
-}
-
-int phalcon_lookup_class_ex(const char *name, int name_length, int use_autoload, zend_class_entry ***ce TSRMLS_DC){
-
-	zval **args[1];
-	zval autoload_function;
-	zval *class_name_ptr;
-	zval *retval_ptr = NULL;
-	int retval, lc_length;
-	char *lc_name;
-	char *lc_free;
-	zend_fcall_info fcall_info;
-	zend_fcall_info_cache fcall_cache;
-	char dummy = 1;
-	ulong hash;
-	ALLOCA_FLAG(use_heap)
-
-	if (name == NULL || !name_length) {
-		return FAILURE;
-	}
-
-	lc_free = lc_name = do_alloca(name_length + 1, use_heap);
-	zend_str_tolower_copy(lc_name, name, name_length);
-	lc_length = name_length + 1;
-
-	if (lc_name[0] == '\\') {
-		lc_name += 1;
-		lc_length -= 1;
-	}
-
-	hash = zend_inline_hash_func(lc_name, lc_length);
-
-	if (zend_hash_quick_find(EG(class_table), lc_name, lc_length, hash, (void **) ce) == SUCCESS) {
-		free_alloca(lc_free, use_heap);
-		return SUCCESS;
-	}
-
-	/* The compiler is not-reentrant. Make sure we __autoload() only during run-time
-	 * (doesn't impact fuctionality of __autoload()
-	*/
-	if (!use_autoload || zend_is_compiling(TSRMLS_C)) {
-		free_alloca(lc_free, use_heap);
-		return FAILURE;
-	}
-
-	if (EG(in_autoload) == NULL) {
-		ALLOC_HASHTABLE(EG(in_autoload));
-		zend_hash_init(EG(in_autoload), 0, NULL, NULL, 0);
-	}
-
-	if (zend_hash_quick_add(EG(in_autoload), lc_name, lc_length, hash, (void**)&dummy, sizeof(char), NULL) == FAILURE) {
-		free_alloca(lc_free, use_heap);
-		return FAILURE;
-	}
-
-	ZVAL_STRINGL(&autoload_function, ZEND_AUTOLOAD_FUNC_NAME, sizeof(ZEND_AUTOLOAD_FUNC_NAME) - 1, 0);
-
-	ALLOC_ZVAL(class_name_ptr);
-	INIT_PZVAL(class_name_ptr);
-	if (name[0] == '\\') {
-		ZVAL_STRINGL(class_name_ptr, name + 1, name_length - 1, 1);
-	} else {
-		ZVAL_STRINGL(class_name_ptr, name, name_length, 1);
-	}
-
-	args[0] = &class_name_ptr;
-
-	fcall_info.size = sizeof(fcall_info);
-	fcall_info.function_table = EG(function_table);
-	fcall_info.function_name = &autoload_function;
-	fcall_info.symbol_table = NULL;
-	fcall_info.retval_ptr_ptr = &retval_ptr;
-	fcall_info.param_count = 1;
-	fcall_info.params = args;
-	fcall_info.object_ptr = NULL;
-	fcall_info.no_separation = 1;
-
-	fcall_cache.initialized = EG(autoload_func) ? 1 : 0;
-	fcall_cache.function_handler = EG(autoload_func);
-	fcall_cache.calling_scope = NULL;
-	fcall_cache.called_scope = NULL;
-	fcall_cache.object_ptr = NULL;
-
-	zend_exception_save(TSRMLS_C);
-	retval = phalcon_call_function(&fcall_info, &fcall_cache TSRMLS_CC);
-	zend_exception_restore(TSRMLS_C);
-
-	EG(autoload_func) = fcall_cache.function_handler;
-
-	zval_ptr_dtor(&class_name_ptr);
-
-	zend_hash_quick_del(EG(in_autoload), lc_name, lc_length, hash);
-
-	if (retval_ptr) {
-		zval_ptr_dtor(&retval_ptr);
-	}
-
-	if (retval == FAILURE) {
-		free_alloca(lc_free, use_heap);
-		return FAILURE;
-	}
-
-	retval = zend_hash_quick_find(EG(class_table), lc_name, lc_length, hash, (void **) ce);
-	free_alloca(lc_free, use_heap);
-	return retval;
-}
-
-int phalcon_lookup_class(const char *name, int name_length, zend_class_entry ***ce TSRMLS_DC){
-	return phalcon_lookup_class_ex(name, name_length, 1, ce TSRMLS_CC);
 }
 
 #endif
