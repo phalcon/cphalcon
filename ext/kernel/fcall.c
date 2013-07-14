@@ -173,13 +173,6 @@ static inline int phalcon_call_func_params_internal(zval *return_value, const ch
 }
 
 /**
- * Call single function which not requires parameters
- */
-int phalcon_call_func_ex(zval *return_value, const char *func_name, int func_length TSRMLS_DC){
-	return phalcon_call_func_params_internal(return_value, func_name, func_length, 0, NULL TSRMLS_CC);
-}
-
-/**
  * Call single function which requires arbitrary number of parameters
  */
 int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[] TSRMLS_DC){
@@ -299,16 +292,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 }
 
 /**
- * Call method on an object that not requires parameters
- *
- */
-int phalcon_call_method_ex(zval *return_value, zval *object, char *method_name, int method_len, ulong method_key, int lower TSRMLS_DC){
-	return phalcon_call_method_params_internal(return_value, object, method_name, method_len, 0, NULL, method_key, lower TSRMLS_CC);
-}
-
-/**
  * Call method on an object that requires an arbitrary number of parameters
- *
  */
 int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], ulong method_key, int lower TSRMLS_DC){
 	return phalcon_call_method_params_internal(return_value, object, method_name, method_len, param_count, params, method_key, lower TSRMLS_CC);

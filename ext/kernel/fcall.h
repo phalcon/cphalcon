@@ -18,8 +18,8 @@
 */
 
 /* Macros to call functions in the PHP userland */
-#define phalcon_call_func(return_value, func_name)                         if (phalcon_call_func_ex(return_value, func_name, sizeof(func_name)-1 TSRMLS_CC)==FAILURE) return;
-#define phalcon_call_func_noret(func_name)                                 if (phalcon_call_func_ex(NULL, func_name, sizeof(func_name)-1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func(return_value, func_name)                         if (phalcon_call_func_params(return_value, func_name, sizeof(func_name)-1, 0, NULL TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_func_noret(func_name)                                 if (phalcon_call_func_params(NULL, func_name, sizeof(func_name)-1, 0, NULL TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_func_pn(return_value, func_name, param_count, params) if (phalcon_call_func_params(return_value, func_name, sizeof(func_name)-1, param_count, params TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_func_pn_noret(func_name, param_count, params)         if (phalcon_call_func_params(NULL, func_name, sizeof(func_name)-1, param_count, params TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_func_p1(return_value, func_name, p1)                  if (phalcon_call_func_one_param(return_value, func_name, sizeof(func_name)-1, p1 TSRMLS_CC)==FAILURE) return;
@@ -34,7 +34,7 @@
 #define phalcon_call_func_p5_noret(func_name, p1, p2, p3, p4, p5)          if (phalcon_call_func_five_params(NULL, func_name, sizeof(func_name)-1, p1, p2, p3, p4, p5 TSRMLS_CC)==FAILURE) return;
 
 /** Macros to call methods in the PHP userland with a precalculated hash key (do not use these in development) */
-#define phalcon_call_method_key(return_value, object, method_name, key)                             if (phalcon_call_method_ex(return_value, object, method_name, sizeof(method_name)-1, key, 1 TSRMLS_CC)==FAILURE) return;
+#define phalcon_call_method_key(return_value, object, method_name, key)                             if (phalcon_call_method_params(return_value, object, method_name, sizeof(method_name)-1, 0, NULL, key, 1 TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_method_params_key(return_value, object, method_name, param_count, params, key) if (phalcon_call_method_params(return_value, object, method_name, sizeof(method_name)-1, param_count, params, key, 1 TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_method_p1_key(return_value, object, method_name, p1, key)                      if (phalcon_call_method_one_param(return_value, object, method_name, sizeof(method_name)-1, p1, key, 1 TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_method_p2_key(return_value, object, method_name, p1, p2, key)                  if (phalcon_call_method_two_params(return_value, object, method_name, sizeof(method_name)-1, p1, p2, key, 1 TSRMLS_CC)==FAILURE) return;
@@ -140,7 +140,6 @@
 #define PHALCON_CALL_USER_FUNC_ARRAY_NOEX(return_value, handler, params) if(phalcon_call_user_func_array_noex(return_value, handler, params TSRMLS_CC)==FAILURE) return;
 
 /** Call single functions */
-extern int phalcon_call_func_ex(zval *return_value, const char *func_name, int func_length TSRMLS_DC);
 extern int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[] TSRMLS_DC);
 extern int phalcon_call_func_one_param(zval *return_value, const char *func_name, int func_length, zval *param1 TSRMLS_DC);
 extern int phalcon_call_func_two_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2 TSRMLS_DC);
@@ -149,7 +148,6 @@ extern int phalcon_call_func_four_params(zval *return_value, const char *func_na
 extern int phalcon_call_func_five_params(zval *return_value, const char *func_name, int func_length, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5 TSRMLS_DC);
 
 /** Call methods on object instances */
-extern int phalcon_call_method_ex(zval *return_value, zval *object, char *method_name, int method_len, ulong method_key, int lower TSRMLS_DC);
 extern int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], ulong method_key, int lower TSRMLS_DC);
 extern int phalcon_call_method_one_param(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, ulong method_key, int lower TSRMLS_DC);
 extern int phalcon_call_method_two_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, ulong method_key, int lower TSRMLS_DC);
