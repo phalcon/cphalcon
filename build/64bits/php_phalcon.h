@@ -23,8 +23,6 @@
 #define PHP_PHALCON_VERSION "1.2.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
-#define PHALCON_RELEASE 1
-
 #define PHALCON_MAX_MEMORY_STACK 48
 
 /** Memory frame */
@@ -32,7 +30,7 @@ typedef struct _phalcon_memory_entry {
 	int pointer;
 	zval ***addresses;
 	int hash_pointer;
-        zval ***hash_addresses;
+	zval ***hash_addresses;
 	struct _phalcon_memory_entry *prev;
 	struct _phalcon_memory_entry *next;
 } phalcon_memory_entry;
@@ -63,6 +61,13 @@ typedef struct _phalcon_db_options {
 	zend_bool escape_identifiers;
 } phalcon_db_options;
 
+/** DI options */
+typedef struct _phalcon_di_options {
+	zend_bool cache_enabled;
+	zval **injector;
+	HashTable *shared_services_cache;
+} phalcon_di_options;
+
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/** Memory */
@@ -82,6 +87,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 #ifndef PHALCON_RELEASE
 	unsigned int phalcon_stack_stats;
 	unsigned int phalcon_number_grows;
+	unsigned int phalcon_stack_derivate[PHALCON_MAX_MEMORY_STACK];
 #endif
 
 	/** ORM */
@@ -134,13 +140,8 @@ extern zend_module_entry phalcon_module_entry;
 # define PHALCON_FASTCALL
 #endif
 
-#ifndef PHALCON_RELEASE
 #define PHALCON_INIT_CLASS(name) \
-	int inline phalcon_ ##name## _init(INIT_FUNC_ARGS)
-#else
-#define PHALCON_INIT_CLASS(name) \
-	static inline int phalcon_ ##name## _init(INIT_FUNC_ARGS)
-#endif
+	int phalcon_ ##name## _init(INIT_FUNC_ARGS)
 
 #define PHALCON_INIT(name) \
 	if (phalcon_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE) { \
@@ -157,9 +158,23 @@ extern zend_module_entry phalcon_module_entry;
 #endif
 
 #if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
-#define UNREACHABLE()
-#define ASSUME(x)
+#define UNREACHABLE() __builtin_unreachable()
+#define ASSUME(x)     if (x) {} else __builtin_unreachable()
 #else
-#define UNREACHABLE()
-#define ASSUME(x)
+#define UNREACHABLE() assert(0)
+#define ASSUME(x)     assert(!!(x));
+#endif
+
+#ifndef __func__
+#define __func__ __FUNCTION__
+#endif
+
+#if PHP_VERSION_ID > 50399
+#	define ZLK_DC , const struct _zend_literal* key
+#	define ZLK_CC , key
+#	define ZLK_NULL_CC , NULL
+#else
+#	define ZLK_DC
+#	define ZLK_CC
+#	define ZLK_NULL_CC
 #endif
