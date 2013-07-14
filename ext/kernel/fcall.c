@@ -115,10 +115,9 @@ int phalcon_has_constructor(const zval *object TSRMLS_DC){
 }
 
 /**
- * This is an alternative function to call PHP functions (that requires parameters) in a faster way
+ * Call single function which requires arbitrary number of parameters
  */
-static inline int phalcon_call_func_params_internal(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[] TSRMLS_DC){
-
+int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[] TSRMLS_DC){
 	zval *fn = NULL;
 	int status;
 	int return_result = 1;
@@ -157,7 +156,7 @@ static inline int phalcon_call_func_params_internal(zval *return_value, const ch
 	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
 
-	if (return_result) {
+	if (!return_result) {
 		zval_ptr_dtor(&return_value);
 	}
 
@@ -170,13 +169,6 @@ static inline int phalcon_call_func_params_internal(zval *return_value, const ch
 	}
 
 	return status;
-}
-
-/**
- * Call single function which requires arbitrary number of parameters
- */
-int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[] TSRMLS_DC){
-	return phalcon_call_func_params_internal(return_value, func_name, func_length, param_count, params TSRMLS_CC);
 }
 
 /**
@@ -220,9 +212,9 @@ int phalcon_call_func_five_params(zval *return_value, const char *func_name, int
 }
 
 /**
- * Call methods that require parameters in an old-style secure way
+ * Call method on an object that requires an arbitrary number of parameters
  */
-static inline int phalcon_call_method_params_internal(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], ulong method_key, int lower TSRMLS_DC){
+int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], ulong method_key, int lower TSRMLS_DC){
 
 	int status;
 	int return_result = 1;
@@ -234,7 +226,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 		return FAILURE;
 	}
 
-	if (!return_result) {
+	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
 		return_value = 0;
 	}
@@ -277,7 +269,6 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 
 	if (!return_result) {
 		zval_ptr_dtor(&return_value);
-		return_value = NULL;
 	}
 
 	if (EG(exception)) {
@@ -289,13 +280,6 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	}
 
 	return status;
-}
-
-/**
- * Call method on an object that requires an arbitrary number of parameters
- */
-int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], ulong method_key, int lower TSRMLS_DC){
-	return phalcon_call_method_params_internal(return_value, object, method_name, method_len, param_count, params, method_key, lower TSRMLS_CC);
 }
 
 int phalcon_call_method_zval_params(zval *return_value, zval *object, zval *method, zend_uint param_count, zval *params[] TSRMLS_DC){

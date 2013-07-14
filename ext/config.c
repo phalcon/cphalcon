@@ -410,10 +410,10 @@ static void phalcon_config_toarray_internal(zval *return_value, zval *this_ptr T
 		zend_hash_copy(Z_ARRVAL_P(return_value), obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
 	}
 	else if (phalcon_method_exists_ex(this_ptr, SS("toarray") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method(return_value, this_ptr, "toarray");
+		phalcon_call_method_params(return_value, this_ptr, SL("toarray"), 0, NULL, 0, 0 TSRMLS_CC);
 	}
 	else {
-		phalcon_call_func(return_value, "get_object_vars");
+		phalcon_call_func_params(return_value, SL("get_object_vars"), 0, NULL TSRMLS_CC);
 	}
 }
 
