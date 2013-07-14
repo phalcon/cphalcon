@@ -337,67 +337,15 @@ int phalcon_call_method_five_params(zval *return_value, zval *object, char *meth
  */
 int phalcon_call_static_func_params(zval *return_value, char *class_name, int class_length, char *method_name, int method_length, zend_uint param_count, zval *params[] TSRMLS_DC){
 
-	zval *fn, *fn_class, *fn_method;
-	int status;
-	int caller_wants_result = 1;
+	zval cls;
+	int result;
 
-	if (!return_value) {
-		caller_wants_result = 0;
-		ALLOC_INIT_ZVAL(return_value);
-	}
-#ifndef PHALCON_RELEASE
-	else {
-		int valid_return_value = 1;
-
-		if (Z_REFCOUNT_P(return_value) > 1) {
-			valid_return_value = 0;
-			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", __func__, Z_REFCOUNT_P(return_value));
-		} else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			valid_return_value = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", __func__, Z_TYPE_P(return_value));
-		}
-
-		if (!valid_return_value) {
-			PHALCON_INIT_NVAR(return_value);
-			phalcon_print_backtrace();
-		}
-	}
-#endif
-
-	ALLOC_INIT_ZVAL(fn);
-	array_init_size(fn, 2);
-
-	ALLOC_INIT_ZVAL(fn_class);
-	ZVAL_STRINGL(fn_class, class_name, class_length, 0);
-	add_next_index_zval(fn, fn_class);
-
-	ALLOC_INIT_ZVAL(fn_method);
-	ZVAL_STRINGL(fn_method, method_name, method_length, 0);
-	add_next_index_zval(fn, fn_method);
-
-	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
-	}
-
-	ZVAL_NULL(fn_class);
-	ZVAL_NULL(fn_method);
-
-	zval_ptr_dtor(&fn);
-
-	if (!caller_wants_result) {
-		zval_ptr_dtor(&return_value);
-	}
-
-	if (EG(exception)) {
-		status = FAILURE;
-	}
-
-	if (status == FAILURE) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
-
-	return status;
+	INIT_ZVAL(cls);
+	ZVAL_STRINGL(&cls, class_name, class_length, 0);
+	result = phalcon_call_static_zval_str_func_params(return_value, &cls, method_name, method_length, param_count, params TSRMLS_CC);
+	assert(!Z_ISREF_P(&cls));
+	assert(Z_REFCOUNT_P(&cls) == 1);
+	return result;
 }
 
 /**
@@ -554,7 +502,7 @@ int phalcon_call_static_func_five_params(zval *return_value, char *class_name, i
 /**
  * Call single static function on a zval which requires parameters
  */
-static inline int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[] TSRMLS_DC){
+int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[] TSRMLS_DC){
 
 	zval *fn;
 	int status;
@@ -660,63 +608,6 @@ int phalcon_call_static_zval_func_two_params(zval *return_value, zval *mixed_nam
 int phalcon_call_static_zval_func_three_params(zval *return_value, zval *mixed_name, zval *method, zval *param1, zval *param2, zval *param3 TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
 	return phalcon_call_static_zval_func_params(return_value, mixed_name, method, 3, params TSRMLS_CC);
-}
-
-/**
- * Call single static function direct on a zend_class_entry which requires parameters
- */
-int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce, char *method_name, int method_len, zend_uint param_count, zval *params[] TSRMLS_DC){
-
-	zval *fn;
-	int status;
-	int caller_wants_result = 1;
-
-	if (!return_value) {
-		ALLOC_INIT_ZVAL(return_value);
-		caller_wants_result = 0;
-	}
-#ifndef PHALCON_RELEASE
-	else {
-		int valid_return_value = 1;
-
-		if (Z_REFCOUNT_P(return_value) > 1) {
-			valid_return_value = 0;
-			fprintf(stderr, "%s: return_value has %d references, expect crashes!\n", __func__, Z_REFCOUNT_P(return_value));
-		} else if (Z_TYPE_P(return_value) > IS_BOOL) {
-			valid_return_value = 0;
-			fprintf(stderr, "%s: return_value is of complex type (%d), expect memory leaks!\n", __func__, Z_TYPE_P(return_value));
-		}
-
-		if (!valid_return_value) {
-			PHALCON_INIT_NVAR(return_value);
-			phalcon_print_backtrace();
-		}
-	}
-#endif
-
-	ALLOC_INIT_ZVAL(fn);
-	array_init_size(fn, 2);
-	add_next_index_stringl(fn, ce->name, ce->name_length, 0);
-	add_next_index_stringl(fn, method_name, method_len, 0);
-
-	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name);
-	}
-
-	if (!caller_wants_result) {
-		zval_ptr_dtor(&return_value);
-	}
-
-	if (EG(exception)) {
-		status = FAILURE;
-	}
-
-	if (status == FAILURE) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
-
-	return status;
 }
 
 /**
