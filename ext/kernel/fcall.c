@@ -66,9 +66,7 @@ static inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, in
 	}
 
 	if (!lower) {
-		if (lcname) {
-			efree(lcname);
-		}
+		efree(lcname);
 	}
 
 	return FAILURE;
@@ -95,10 +93,7 @@ static inline int phalcon_find_parent_scope(zend_class_entry *ce, const char *ac
 		ce = ce->parent;
 	}
 
-	if (lcname) {
-		efree(lcname);
-	}
-
+	efree(lcname);
 	return FAILURE;
 }
 
@@ -532,7 +527,7 @@ int phalcon_call_method_five_params(zval *return_value, zval *object, char *meth
 /**
  * Call single static function that requires an arbitrary number of parameters
  */
-inline int phalcon_call_static_func_params(zval *return_value, char *class_name, int class_length, char *method_name, int method_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+static inline int phalcon_call_static_func_params(zval *return_value, char *class_name, int class_length, char *method_name, int method_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn, *fn_class, *fn_method;
 	int status;
@@ -600,7 +595,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 /**
  * Call single static function which not requires parameters
  */
-inline int phalcon_call_static_func(zval *return_value, char *class_name, int class_length, char *method_name, int method_length, int noreturn TSRMLS_DC){
+static inline int phalcon_call_static_func(zval *return_value, char *class_name, int class_length, char *method_name, int method_length, int noreturn TSRMLS_DC){
 
 	zval *fn, *fn_class, *fn_method;
 	int status = FAILURE;
@@ -776,7 +771,7 @@ int phalcon_call_self_func(zval *return_value, zval *object, char *method_name, 
 /**
  * Call self-class static function which requires parameters
  */
-inline int phalcon_call_self_func_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+static inline int phalcon_call_self_func_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	int success;
 	zend_class_entry *ce, *active_scope = NULL;
@@ -936,7 +931,7 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, zval *me
 /**
  * Call single static function on a zval which requires parameters
  */
-inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, zval *method, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+static inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, zval *method, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn;
 	int status = FAILURE;
@@ -1007,7 +1002,7 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 /**
  * Call single static function on a zval which requires parameters
  */
-inline int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+static inline int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn;
 	int status = FAILURE;
