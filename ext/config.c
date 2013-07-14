@@ -88,8 +88,6 @@ static inline phalcon_config_object* fetchPhalconConfigObject(zval* zobj TSRMLS_
 	return (phalcon_config_object*)zend_objects_get_address(zobj TSRMLS_CC);
 }
 
-static void phalcon_config_construct_internal(zval *this_ptr, zval *array_config TSRMLS_DC);
-
 /**
  * @brief Counts the number of elements in the configuration; this is the part of Countable interface
  */
