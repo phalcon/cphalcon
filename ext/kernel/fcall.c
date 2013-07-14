@@ -115,9 +115,18 @@ int phalcon_has_constructor(const zval *object TSRMLS_DC){
 }
 
 /**
- * Call single function which requires arbitrary number of parameters
+ * @brief Calls function @a func_name which accepts @a param_count arguments @a params
+ * @param[out] Return value; set to @c NULL if the return value is not needed
+ * @param func_name Function name
+ * @param func_length Length of the function name
+ * @param param_count Number of arguments
+ * @param params Arguments
+ * @return Whether the call succeeded
+ * @retval @c SUCCESS
+ * @retval @c FAILURE
+ * @note @c phalcon_memory_restore_stack() is NOT called upon failure
  */
-int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[] TSRMLS_DC){
+int phalcon_call_func_params_w(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[] TSRMLS_DC){
 	zval *fn = NULL;
 	int status;
 	int caller_wants_result = 1;
@@ -139,13 +148,12 @@ int phalcon_call_func_params(zval *return_value, const char *func_name, int func
 		}
 
 		if (!valid_return_value) {
-			PHALCON_INIT_NVAR(return_value);
 			phalcon_print_backtrace();
 		}
 	}
 #endif
 
-	PHALCON_ALLOC_ZVAL(fn);
+	ALLOC_INIT_ZVAL(fn);
 	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
@@ -164,6 +172,15 @@ int phalcon_call_func_params(zval *return_value, const char *func_name, int func
 		status = FAILURE;
 	}
 
+	return status;
+}
+
+/**
+ * Call single function which requires arbitrary number of parameters
+ */
+int phalcon_call_func_params(zval *return_value, const char *func_name, int func_length, zend_uint param_count, zval *params[] TSRMLS_DC){
+
+	int status = phalcon_call_func_params_w(return_value, func_name, func_length, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
@@ -211,18 +228,28 @@ int phalcon_call_func_five_params(zval *return_value, const char *func_name, int
 	return phalcon_call_func_params(return_value, func_name, func_length, 5, params TSRMLS_CC);
 }
 
+
 /**
- * Call method on an object that requires an arbitrary number of parameters
+ * @brief Calls methid @a method_name from @a object which accepts @a param_count arguments @a params
+ * @param[out] Return value; set to @c NULL if the return value is not needed
+ * @param object Object
+ * @param method_name Method name
+ * @param method_length Length of the method name
+ * @param param_count Number of arguments
+ * @param params Arguments
+ * @return Whether the call succeeded
+ * @retval @c SUCCESS
+ * @retval @c FAILURE
+ * @note @c phalcon_memory_restore_stack() is NOT called upon failure
  */
-int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], ulong method_key, int lower TSRMLS_DC){
+int phalcon_call_method_params_w(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], ulong method_key, int lower TSRMLS_DC){
 
 	int status;
 	int caller_wants_result = 1;
 	zend_class_entry *ce, *active_scope = NULL;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
-		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
 	}
 
@@ -243,7 +270,6 @@ int phalcon_call_method_params(zval *return_value, zval *object, char *method_na
 		}
 
 		if (!valid_return_value) {
-			PHALCON_INIT_NVAR(return_value);
 			phalcon_print_backtrace();
 		}
 	}
@@ -275,6 +301,15 @@ int phalcon_call_method_params(zval *return_value, zval *object, char *method_na
 		status = FAILURE;
 	}
 
+	return status;
+}
+
+/**
+ * Call method on an object that requires an arbitrary number of parameters
+ */
+int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], ulong method_key, int lower TSRMLS_DC){
+
+	int status = phalcon_call_method_params_w(return_value, object, method_name, method_len, param_count, params, method_key, lower TSRMLS_CC);
 	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
