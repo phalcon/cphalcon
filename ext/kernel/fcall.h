@@ -17,6 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_KERNEL_FCALL_H
+#define PHALCON_KERNEL_FCALL_H
+
 /* Macros to call functions in the PHP userland */
 #define phalcon_call_func(return_value, func_name)                         if (phalcon_call_func_params(return_value, func_name, sizeof(func_name)-1, 0, NULL TSRMLS_CC)==FAILURE) return;
 #define phalcon_call_func_pn(return_value, func_name, param_count, params) if (phalcon_call_func_params(return_value, func_name, sizeof(func_name)-1, param_count, params TSRMLS_CC)==FAILURE) return;
@@ -74,7 +77,7 @@
 #define phalcon_call_method_zval_p3(return_value, object, method, param1, param2, param3) \
 	{ \
 		zval *params[] = { param1, param2, param3 }; \
-		if (phalcon_call_method_zval_params(NULL, object, method, 3, params TSRMLS_CC)==FAILURE) return; \
+		if (phalcon_call_method_zval_params(return_value, object, method, 3, params TSRMLS_CC)==FAILURE) return; \
 	}
 
 /** Use these macros to call functions in the parent class */
@@ -180,11 +183,7 @@ extern int phalcon_call_static_func_five_params(zval *return_value, char *class_
 
 extern int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[] TSRMLS_DC);
 
-inline int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce, char *method_name, int method_len, zend_uint param_count, zval *params[] TSRMLS_DC)
-{
-	return phalcon_call_static_func_params(return_value, (char*)ce->name, ce->name_length, method_name, method_len, param_count, params TSRMLS_CC);
-}
-
+extern int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce, char *method_name, int method_len, zend_uint param_count, zval *params[] TSRMLS_DC);
 
 /** Call methods on static classes from a zval class name */
 extern int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, zval *method, zend_uint param_count, zval *params[] TSRMLS_DC);
@@ -216,3 +215,5 @@ int phalcon_lookup_class(const char *name, int name_length, zend_class_entry ***
 #ifndef zend_error_noreturn
 #define zend_error_noreturn zend_error
 #endif
+
+#endif /* PHALCON_KERNEL_FCALL_H */

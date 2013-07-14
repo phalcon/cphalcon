@@ -610,6 +610,11 @@ int phalcon_call_static_zval_func_three_params(zval *return_value, zval *mixed_n
 	return phalcon_call_static_zval_func_params(return_value, mixed_name, method, 3, params TSRMLS_CC);
 }
 
+int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce, char *method_name, int method_len, zend_uint param_count, zval *params[] TSRMLS_DC)
+{
+	return phalcon_call_static_func_params(return_value, (char*)ce->name, ce->name_length, method_name, method_len, param_count, params TSRMLS_CC);
+}
+
 /**
  * Replaces call_user_func_array avoiding function lookup
  */
