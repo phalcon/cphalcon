@@ -616,7 +616,7 @@ int phalcon_call_user_func_array_noex(zval *return_value, zval *handler, zval *p
 	char *is_callable_error = NULL;
 	int status = FAILURE;
 
-	if (Z_TYPE_P(params) != IS_ARRAY) {
+	if (params && Z_TYPE_P(params) != IS_ARRAY) {
 		ZVAL_NULL(return_value);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_call_user_func_array_noex()");
 		phalcon_memory_restore_stack(TSRMLS_C);
@@ -668,50 +668,7 @@ int phalcon_call_user_func_array_noex(zval *return_value, zval *handler, zval *p
  */
 int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC){
 
-	zval *retval_ptr = NULL;
-	zend_fcall_info fci;
-	zend_fcall_info_cache fci_cache;
-	char *is_callable_error = NULL;
-	int status = FAILURE;
-
-	if (zend_fcall_info_init(handler, 0, &fci, &fci_cache, NULL, &is_callable_error TSRMLS_CC) == SUCCESS) {
-		if (is_callable_error) {
-			zend_error(E_STRICT, "%s", is_callable_error);
-			efree(is_callable_error);
-		}
-		status = SUCCESS;
-	} else {
-		if (is_callable_error) {
-			zend_error(E_WARNING, "%s", is_callable_error);
-			efree(is_callable_error);
-		} else {
-			status = SUCCESS;
-		}
-	}
-
-	if (likely(status == SUCCESS)) {
-
-		fci.param_count = 0;
-		fci.retval_ptr_ptr = &retval_ptr;
-
-		if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && fci.retval_ptr_ptr && *fci.retval_ptr_ptr) {
-			COPY_PZVAL_TO_ZVAL(*return_value, *fci.retval_ptr_ptr);
-		}
-
-		if (fci.params) {
-			efree(fci.params);
-		}
-	}
-
-	if (EG(exception)) {
-		status = FAILURE;
-	}
-
-	if (status == FAILURE) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
-
-	return status;
+	return phalcon_call_user_func_array(return_value, handler, NULL TSRMLS_CC);
 }
 
 /**
