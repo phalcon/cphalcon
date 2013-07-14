@@ -34,6 +34,7 @@
 
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Logger\Formatter\Json

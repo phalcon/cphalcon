@@ -37,6 +37,7 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Http\Response
