@@ -43,7 +43,7 @@
 /**
  * Phalcon\Logger\Adapter\Firephp
  *
- * Sends logs to FirePHPr
+ * Sends logs to FirePHP
  *
  *<code>
  *	$logger = new \Phalcon\Logger\Adapter\Firephp("");
