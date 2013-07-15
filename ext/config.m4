@@ -200,11 +200,13 @@ config/adapter/json.c \
 config/exception.c \
 filterinterface.c \
 logger/multiple.c \
+logger/formatter/firephp.c \
 logger/formatter/json.c \
 logger/formatter/line.c \
 logger/formatter/syslog.c \
 logger/formatter.c \
 logger/adapter/file.c \
+logger/adapter/firephp.c \
 logger/adapter/stream.c \
 logger/adapter/syslog.c \
 logger/exception.c \

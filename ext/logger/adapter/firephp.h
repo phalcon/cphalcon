@@ -14,66 +14,26 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#ifndef PHALCON_LOGGER_ADAPTER_FIREPHP_H
+#define PHALCON_LOGGER_ADAPTER_FIREPHP_H
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+extern zend_class_entry *phalcon_logger_adapter_firephp_ce;
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Firephp);
 
-#include "kernel/main.h"
-#include "kernel/memory.h"
+PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter);
+PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal);
+PHP_METHOD(Phalcon_Logger_Adapter_Firephp, close);
 
-#include "kernel/operators.h"
+PHALCON_INIT_FUNCS(phalcon_logger_adapter_firephp_method_entry){
+	PHP_ME(Phalcon_Logger_Adapter_Firephp, getFormatter, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Firephp, logInternal, arginfo_phalcon_logger_adapter_file_loginternal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Firephp, close, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
-/**
- * Phalcon\Logger\Formatter
- *
- * This is a base class for logger formatters
- */
-
-
-/**
- * Phalcon\Logger\Formatter initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Logger_Formatter){
-
-	PHALCON_REGISTER_CLASS(Phalcon\\Logger, Formatter, logger_formatter, phalcon_logger_formatter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	return SUCCESS;
-}
-
-/**
- * Returns the string meaning of a logger constant
- *
- * @param  integer $type
- * @return string
- */
-PHP_METHOD(Phalcon_Logger_Formatter, getTypeString){
-
-	static const char *lut[10] = {
-		"EMERGENCY", "CRITICAL", "ALERT", "ERROR",  "WARNING",
-		"NOTICE",    "INFO",     "DEBUG", "CUSTOM", "SPECIAL"
-	};
-
-	zval *type;
-	int itype;
-
-	phalcon_fetch_params(0, 1, 0, &type);
-	
-	itype = phalcon_get_intval(type);
-	if (itype > 0 && itype < 10) {
-		RETURN_STRING(lut[itype], 1);
-	}
-	
-	RETURN_STRING("CUSTOM", 1);
-}
-
+#endif /* PHALCON_LOGGER_ADAPTER_FIREPHP_H */
