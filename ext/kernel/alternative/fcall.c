@@ -915,7 +915,7 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 		}
 
 		/** Create a unique key */
-		if (ce->name[7] == '\\') {
+		if (ce->name_length >= 8 && ce->name[7] == '\\') {
 
 			for (i = 7; i < ce->name_length; i++) {
 				hash_key = ce->name[i] + (hash_key << 6) + (hash_key << 16) - hash_key;
