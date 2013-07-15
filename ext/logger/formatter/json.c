@@ -31,7 +31,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
+#include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/string.h"

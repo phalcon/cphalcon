@@ -78,13 +78,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($this->_compareConfig($this->_config, $config));
 	}
 
-	public function testJSONConfig()
-	{
-		$config = new Phalcon\Config\Adapter\Json('unit-tests/config/config.json');
-		$this->assertTrue($this->_compareConfig($this->_config, $config));
-	}
-
-	public function testStandardConfig()
+	public function testStandarConfig()
 	{
 		$config = new Phalcon\Config($this->_config);
 		$this->_compareConfig($this->_config, $config);
@@ -238,12 +232,26 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(!isset($a['a']));
 	}
 
-	public function testGet()
+	public function testIssue829()
 	{
-		$config = new \Phalcon\Config(array('a' => 0, 'b' => null, 'c' => ''));
-		$this->assertTrue($config->get('a', 1) === 0);
-		$this->assertTrue($config->get('b', 1) === 1);
-		$this->assertTrue($config->get('c', 1) === '');
-		$this->assertTrue($config->get('d', 1) === 1);
+		$config = new \Phalcon\Config\Adapter\Ini('unit-tests/config/829-no-sections.ini');
+		$actual = $config->toArray();
+		$expected = array(
+			'hoge' => 'test',
+			'foo'  => 'bar',
+		);
+
+		$this->assertEquals($actual, $expected);
+
+		$config = new \Phalcon\Config\Adapter\Ini('unit-tests/config/829-with-empty-section.ini');
+		$actual = $config->toArray();
+		$expected = array(
+			'section' => array('hoge' => 'test'),
+			'empty'   => array(),
+			'test'    => array('foo'  => 'bar'),
+		);
+
+		$this->assertEquals($actual, $expected);
 	}
 }
+
