@@ -408,10 +408,10 @@ static void phalcon_config_toarray_internal(zval *return_value, zval *this_ptr T
 		zend_hash_copy(Z_ARRVAL_P(return_value), obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
 	}
 	else if (phalcon_method_exists_ex(this_ptr, SS("toarray") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method(return_value, this_ptr, "toarray");
+		phalcon_call_method_params_w(return_value, this_ptr, SL("toarray"), 0, NULL, 0, 0 TSRMLS_CC);
 	}
 	else {
-		phalcon_call_func(return_value, "get_object_vars");
+		phalcon_call_func_params_w(return_value, SL("get_object_vars"), 0, NULL TSRMLS_CC);
 	}
 }
 
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Config, offsetUnset){
  */
 PHP_METHOD(Phalcon_Config, merge){
 
-	zval *config, *array_config, *value = NULL, key, *active_value = NULL;
+	zval *config, *array_config, key, *active_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -566,7 +566,6 @@ PHP_METHOD(Phalcon_Config, merge){
 		return;
 	}
 
-	PHALCON_MM_GROW();
 	ALLOC_INIT_ZVAL(array_config);
 	phalcon_config_toarray_internal(array_config, config TSRMLS_CC);
 	
@@ -577,7 +576,6 @@ PHP_METHOD(Phalcon_Config, merge){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		key = phalcon_get_current_key_w(ah0, &hp0);
-		PHALCON_GET_HVALUE(value);
 	
 		active_value = phalcon_config_read_internal(obj, &key, BP_VAR_NA TSRMLS_CC);
 
@@ -585,23 +583,26 @@ PHP_METHOD(Phalcon_Config, merge){
 		 * The key is already defined in the object, we have to merge it
 		 */
 		if (active_value) {
-			if (Z_TYPE_P(value) == IS_OBJECT && Z_TYPE_P(active_value) == IS_OBJECT) {
+			if (Z_TYPE_PP(hd) == IS_OBJECT && Z_TYPE_P(active_value) == IS_OBJECT) {
 				if (phalcon_method_exists_ex(active_value, SS("merge") TSRMLS_CC) == SUCCESS) { /* Path AAA in the test */
-					phalcon_call_method_p1_noret(active_value, "merge", value);
+					zval *params[] = {*hd};
+					Z_ADDREF_PP(hd);
+					phalcon_call_method_params_w(NULL, active_value, SL("merge"), 1, params, 0, 0 TSRMLS_CC);
+					Z_DELREF_PP(hd);
 				}
 				else { /* Path AAB in the test */
-					phalcon_config_write_internal(obj, &key, value TSRMLS_CC);
+					phalcon_config_write_internal(obj, &key, *hd TSRMLS_CC);
 				}
 			}
 			else { /* Path AE in the test */
-				phalcon_config_write_internal(obj, &key, value TSRMLS_CC);
+				phalcon_config_write_internal(obj, &key, *hd TSRMLS_CC);
 			}
 		}
 		else { /* Path B in the test */
 			/**
 			 * The key is not defined in the object, add it
 			 */
-			phalcon_config_write_internal(obj, &key, value TSRMLS_CC);
+			phalcon_config_write_internal(obj, &key, *hd TSRMLS_CC);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -622,14 +623,13 @@ PHP_METHOD(Phalcon_Config, merge){
  */
 PHP_METHOD(Phalcon_Config, toArray){
 
-	zval *value = NULL, *key = NULL, *array_value = NULL, *tmp;
+	zval key, *array_value = NULL, *tmp;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	phalcon_config_object *obj = fetchPhalconConfigObject(getThis() TSRMLS_CC);
+	phalcon_config_object *obj;
 
-	PHALCON_MM_GROW();
-
+	obj = fetchPhalconConfigObject(getThis() TSRMLS_CC);
 	array_init_size(return_value, zend_hash_num_elements(obj->props));
 	zend_hash_copy(Z_ARRVAL_P(return_value), obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
 
@@ -637,21 +637,16 @@ PHP_METHOD(Phalcon_Config, toArray){
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_HKEY(key, ah0, hp0);
-		PHALCON_GET_HVALUE(value);
+		key = phalcon_get_current_key_w(ah0, &hp0);
 	
-		if (Z_TYPE_P(value) == IS_OBJECT) {
-			if (phalcon_method_exists_ex(value, SS("toarray") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_NVAR(array_value);
-				phalcon_call_method(array_value, value, "toarray");
-				phalcon_array_update_zval(&return_value, key, &array_value, PH_COPY | PH_SEPARATE);
-			}
+		if (Z_TYPE_PP(hd) == IS_OBJECT && phalcon_method_exists_ex(*hd, SS("toarray") TSRMLS_CC) == SUCCESS) {
+			ALLOC_INIT_ZVAL(array_value);
+			phalcon_call_method_params_w(array_value, *hd, SL("toarray"), 0, NULL, 0, 0 TSRMLS_CC);
+			phalcon_array_update_zval(&return_value, &key, &array_value, PH_SEPARATE);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-
-	RETURN_MM();
 }
 
 PHP_METHOD(Phalcon_Config, count)
