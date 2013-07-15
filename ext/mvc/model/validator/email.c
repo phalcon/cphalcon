@@ -122,11 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	
 	Z_SET_ISREF_P(regs);
 	
-	#if HAVE_BUNDLED_PCRE
 	phalcon_preg_match(match_pattern, pattern, value, regs TSRMLS_CC);
-	#else
-	phalcon_call_func_p3(match_pattern, "preg_match", pattern, value, regs);
-	#endif
 	
 	Z_UNSET_ISREF_P(regs);
 	

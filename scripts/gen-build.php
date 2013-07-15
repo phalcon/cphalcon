@@ -125,9 +125,11 @@ class Build_Generator
 #include "main/php_main.h"
 #include "main/php_streams.h"
 #include "main/php_output.h"
+#include "main/php_ini.h"
 #include "main/SAPI.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_smart_str.h"
+#include "ext/standard/info.h"
 #include "ext/pdo/php_pdo_driver.h"
 #include "ext/standard/file.h"
 #include "ext/standard/php_filestat.h"
@@ -143,15 +145,15 @@ class Build_Generator
 #include "ext/standard/url.h"
 #include "ext/spl/spl_heap.h"
 
-#if HAVE_BUNDLED_PCRE
+#ifdef PHALCON_USE_PHP_PCRE
 #include "ext/pcre/php_pcre.h"
 #endif
 
-#if HAVE_JSON
+#ifdef PHALCON_USE_PHP_JSON
 #include "ext/json/php_json.h"
 #endif
 
-#if HAVE_PHP_SESSION
+#ifdef PHALCON_USE_PHP_SESSION
 #include "ext/session/php_session.h"
 #endif
 
