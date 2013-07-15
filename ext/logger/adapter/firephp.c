@@ -83,9 +83,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter){
 	PHALCON_OBS_VAR(formatter);
 	phalcon_read_property_this(&formatter, this_ptr, SL("_formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(formatter) != IS_OBJECT) {
-		PHALCON_INIT_NVAR(formatter);
+		/* This will update $this->_formatter, no need to call phalcon_update_property_this() explicitly */
 		object_init_ex(formatter, phalcon_logger_formatter_firephp_ce);
-		phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	}
 
 	RETURN_CCTOR(formatter);
@@ -141,8 +140,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		h.line_len = sizeof("X-Wf-1-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1")-1;
 		sapi_header_op(SAPI_HEADER_REPLACE, &h TSRMLS_CC);
 
-		ZVAL_TRUE(initialized);
-		phalcon_update_static_property(SL("phalcon\\logger\\adapter\\firephp"), SL("_initialized"), initialized TSRMLS_CC);
+		ZVAL_TRUE(initialized); /* This will also update the property because "initialized" was not separated */
 	}
 
 	PHALCON_INIT_VAR(applied_format);
@@ -193,7 +191,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		h.line_len = str.len;
 		sapi_header_op(SAPI_HEADER_REPLACE, &h TSRMLS_CC);
 
-		/* Update header index */
+		/* Update header index; this will update Phalcon\Logger\Adapter\Firephp as well */
 		ZVAL_LONG(index, Z_LVAL_P(index)+1);
 
 		/**
@@ -202,9 +200,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		 */
 		str.len = 0;
 	}
-
-	/* Update the index */
-	phalcon_update_static_property(SL("phalcon\\logger\\adapter\\firephp"), SL("_index"), index TSRMLS_CC);
 
 	/* Deallocate the smnart string if it is not empty */
 	if (str.c) {
