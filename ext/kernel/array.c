@@ -1392,3 +1392,63 @@ void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
 		zend_hash_move_forward_ex(ah2, &hp2);
 	}
 }
+
+/**
+ * @brief array_unshift($arr, $arg)
+ * @param arr
+ * @param arg
+ * @note Reefernce count of @c arg will be incremented
+ */
+void phalcon_array_unshift(zval *arr, zval *arg)
+{
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		zval** args[1]      = { &arg };
+		HashTable *newhash = php_splice(Z_ARRVAL_P(arr), 0, 0, args, 1, NULL);
+		HashTable  oldhash = *Z_ARRVAL_P(arr);
+		*Z_ARRVAL_P(arr)   = *newhash;
+
+		FREE_HASHTABLE(newhash);
+		zend_hash_destroy(&oldhash);
+	}
+}
+
+void phalcon_array_values(zval *return_value, zval *arr)
+{
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		zval **entry;
+		HashPosition pos;
+
+		array_init_size(return_value, zend_hash_num_elements(Z_ARRVAL_P(arr)));
+		for (
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arr), &pos);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(arr), (void **)&entry, &pos) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(arr), &pos)
+		) {
+			Z_ADDREF_PP(entry);
+			zend_hash_next_index_insert(Z_ARRVAL_P(return_value), entry, sizeof(zval*), NULL);
+		}
+	}
+}
+
+int phalcon_array_key_exists(zval *arr, zval *key TSRMLS_DC)
+{
+	HashTable *h = HASH_OF(arr);
+	if (h) {
+		switch (Z_TYPE_P(key)) {
+			case IS_STRING:
+				return zend_symtable_exists(h, Z_STRVAL_P(key), Z_STRLEN_P(key) + 1);
+
+			case IS_LONG:
+				return zend_hash_index_exists(h, Z_LVAL_P(key));
+
+			case IS_NULL:
+				return zend_hash_exists(h, "", 1);
+
+			default:
+				zend_error(E_WARNING, "The key should be either a string or an integer");
+				return 0;
+		}
+	}
+
+	return 0;
+}
