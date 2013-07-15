@@ -230,7 +230,7 @@ void phalcon_hash_update_or_insert(HashTable *ht, zval *key, zval *value)
  * @note The implementation is suitable for @c read_property, @c get_property_ptr_ptr and @c read_dimension object handlers
  * @warning If @a type is @c BP_VAR_W or @c BP_VAR_RW and @a key was not found, it is added to @a ht and its value is set to @c IS_NULL
  */
-zval** phalcon_hash_get(HashTable *ht, const zval *key, int type)
+zval** phalcon_hash_get(HashTable *ht, zval *key, int type)
 {
 	zval **ret = NULL;
 

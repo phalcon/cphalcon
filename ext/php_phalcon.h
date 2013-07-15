@@ -165,6 +165,10 @@ extern zend_module_entry phalcon_module_entry;
 #define ASSUME(x)     assert(!!(x));
 #endif
 
+#ifndef __func__
+#define __func__ __FUNCTION__
+#endif
+
 #if PHP_VERSION_ID > 50399
 #	define ZLK_DC , const struct _zend_literal* key
 #	define ZLK_CC , key

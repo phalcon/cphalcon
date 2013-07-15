@@ -61,7 +61,7 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 		retval = 1;
 		if ((fcc->function_handler->op_array.fn_flags & ZEND_ACC_CHANGED) && PHALCON_EG(scope) && instanceof_function(fcc->function_handler->common.scope, EG(scope) TSRMLS_CC)) {
 			zend_function *priv_fbc;
-			if (phalcon_hash_quick_find(&PHALCON_EG(scope)->function_table, method_name, method_len + 1, method_key, (void **) &priv_fbc)==SUCCESS && priv_fbc->common.fn_flags & ZEND_ACC_PRIVATE && priv_fbc->common.scope == EG(scope)) {
+			if (phalcon_hash_quick_find(&PHALCON_EG(scope)->function_table, method_name, method_len + 1, method_key, (void **) &priv_fbc)==SUCCESS && (priv_fbc->common.fn_flags & ZEND_ACC_PRIVATE) && priv_fbc->common.scope == EG(scope)) {
 				fcc->function_handler = priv_fbc;
 			}
 		}
