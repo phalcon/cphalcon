@@ -1126,12 +1126,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 			phalcon_array_update_string(&resolved_param, SL("file"), &file, PH_COPY | PH_SEPARATE);
 			phalcon_array_update_string(&resolved_param, SL("line"), &line, PH_COPY | PH_SEPARATE);
 	
-			/** 
-			 * TODO: Implement this function directly
-			 */
-			Z_SET_ISREF_P(func_arguments);
-			phalcon_call_func_p2_noret("array_unshift", func_arguments, resolved_param);
-			Z_UNSET_ISREF_P(func_arguments);
+			phalcon_array_unshift(func_arguments, resolved_param);
 		}
 	
 		phalcon_call_method_p1(arguments, this_ptr, "expression", func_arguments);
