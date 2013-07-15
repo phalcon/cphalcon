@@ -84,3 +84,7 @@ extern void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **a
 
 /** Recursive merge */
 extern void phalcon_array_merge_recursive_n(zval **a1, zval *a2);
+
+extern void phalcon_array_unshift(zval *arr, zval *arg);
+extern void phalcon_array_values(zval *return_value, zval *arr);
+extern int phalcon_array_key_exists(zval *arr, zval *key TSRMLS_DC);
