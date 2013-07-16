@@ -1410,7 +1410,17 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	 * Save the document
 	 */
 	PHALCON_INIT_NVAR(status);
+#if PHP_VERSION_ID < 50400
+	{
+		zval *params[2] = { data, options };
+		zval func;
+		INIT_ZVAL(func);
+		ZVAL_STRING(&func, "save", 0);
+		call_user_function(EG(function_table), &collection, &func, status, 2, params TSRMLS_CC);
+	}
+#else
 	phalcon_call_method_p2(status, collection, "save", data, options);
+#endif
 	if (Z_TYPE_P(status) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(status, SS("ok"))) {
 	
