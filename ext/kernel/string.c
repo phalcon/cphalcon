@@ -1223,7 +1223,7 @@ void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *ma
 	php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, matches, 0, 0, 0, 0 TSRMLS_CC);
 
 	if (use_copy) {
-		zval_dtor(subject);
+		zval_dtor(&copy);
 	}
 }
 
@@ -1237,7 +1237,7 @@ void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *ma
 		matches
 	};
 
-	phalcon_call_func_params(return_value, SL("preg_match"), (matches ? 3 : 2), params, 1 TSRMLS_CC);
+	phalcon_call_func_params_w(return_value, SL("preg_match"), (matches ? 3 : 2), params TSRMLS_CC);
 }
 
 #endif /* PHALCON_USE_PHP_PCRE */
@@ -1268,7 +1268,7 @@ void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 	php_json_decode(return_value, Z_STRVAL_P(v), Z_STRLEN_P(v), assoc, 512 /* JSON_PARSER_DEFAULT_DEPTH */ TSRMLS_CC);
 
 	if (unlikely(use_copy)) {
-		zval_dtor(v);
+		zval_dtor(&copy);
 	}
 }
 
@@ -1279,9 +1279,14 @@ void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 	zval *zopts;
 
 	ALLOC_INIT_ZVAL(zopts);
-	ZVAL_LONG(zopts, opts)
-	phalcon_call_func_two_params(return_value, ZEND_STRL("json_encode"), v, opts, 1 TSRMLS_CC);
-	zval_ptr_dtor(zopts);
+	ZVAL_LONG(zopts, opts);
+
+	{
+		zval *params[2] = { v, zopts };
+		phalcon_call_func_params_w(return_value, ZEND_STRL("json_encode"), 2, params TSRMLS_CC);
+	}
+
+	zval_ptr_dtor(&zopts);
 }
 
 void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
@@ -1290,8 +1295,13 @@ void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 
 	ALLOC_INIT_ZVAL(zassoc);
 	ZVAL_BOOL(zassoc, assoc);
-	phalcon_call_func_two_params(return_value, ZEND_STRL("json_decode"), v, zassoc, 1 TSRMLS_CC);
-	zval_ptr_dtor(zassoc);
+
+	{
+		zval *params[2] = { v, zassoc };
+		phalcon_call_func_params_w(return_value, ZEND_STRL("json_decode"), 2, params TSRMLS_CC);
+	}
+
+	zval_ptr_dtor(&zassoc);
 }
 
 #endif /* PHALCON_USE_PHP_JSON */

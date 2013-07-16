@@ -92,4 +92,4 @@ PHALCON_INIT_FUNCS(phalcon_config_method_entry){
 /**
  * @internal
  */
-void phalcon_config_construct_internal(zval *this_ptr, zval *array_config TSRMLS_DC);
+PHALCON_STATIC void phalcon_config_construct_internal(zval *this_ptr, zval *array_config TSRMLS_DC);
