@@ -169,6 +169,20 @@ extern zend_module_entry phalcon_module_entry;
 #define ZEND_MOD_END { NULL, NULL, NULL, 0 }
 #endif
 
+#ifndef __func__
+#define __func__ __FUNCTION__
+#endif
+
+#if PHP_VERSION_ID > 50399
+#	define ZLK_DC , const struct _zend_literal* key
+#	define ZLK_CC , key
+#	define ZLK_NULL_CC , NULL
+#else
+#	define ZLK_DC
+#	define ZLK_CC
+#	define ZLK_NULL_CC
+#endif
+
 /* This is a temporary fix until config.w32 is updated */
 #if !defined(__CYGWIN__) && defined(WIN32) && defined(HAVE_CONFIG_H)
 #	define PHALCON_USE_PHP_FILTER 1 /* no way to check yet */
