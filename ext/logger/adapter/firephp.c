@@ -37,6 +37,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 
 #include "logger/adapter/firephp.h"
 
