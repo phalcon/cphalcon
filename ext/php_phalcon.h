@@ -183,6 +183,8 @@ extern zend_module_entry phalcon_module_entry;
 #	define ZLK_NULL_CC
 #endif
 
+#define PHALCON_STATIC
+
 /* This is a temporary fix until config.w32 is updated */
 #if !defined(__CYGWIN__) && defined(WIN32) && defined(HAVE_CONFIG_H)
 #	define PHALCON_USE_PHP_FILTER 1 /* no way to check yet */

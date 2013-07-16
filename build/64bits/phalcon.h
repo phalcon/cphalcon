@@ -5230,6 +5230,7 @@ PHALCON_INIT_FUNCS(phalcon_config_method_entry){
 	PHP_FE_END
 };
 
+static void phalcon_config_construct_internal(zval *this_ptr, zval *array_config TSRMLS_DC);
 
 
 zend_class_entry *phalcon_mvc_model_transaction_exception_ce;
@@ -9362,6 +9363,31 @@ PHALCON_INIT_FUNCS(phalcon_logger_formatter_line_method_entry){
 
 
 
+#ifndef PHALCON_LOGGER_FORMATTER_FIREPHP_H
+#define PHALCON_LOGGER_FORMATTER_FIREPHP_H
+
+zend_class_entry *phalcon_logger_formatter_firephp_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Firephp);
+
+static PHP_METHOD(Phalcon_Logger_Formatter_Firephp, getTypeString);
+static PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_firephp_format, 0, 0, 3)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, timestamp)
+ZEND_END_ARG_INFO()
+
+PHALCON_INIT_FUNCS(phalcon_logger_formatter_firephp_method_entry){
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, getTypeString, arginfo_phalcon_logger_formatter_gettypestring, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_Firephp, format, arginfo_phalcon_logger_formatter_firephp_format, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+#endif /* PHALCON_LOGGER_FORMATTER_FIREPHP_H */
+
+
 zend_class_entry *phalcon_logger_adapter_stream_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Stream);
@@ -9454,6 +9480,27 @@ PHALCON_INIT_FUNCS(phalcon_logger_adapter_file_method_entry){
 
 
 
+#ifndef PHALCON_LOGGER_ADAPTER_FIREPHP_H
+#define PHALCON_LOGGER_ADAPTER_FIREPHP_H
+
+zend_class_entry *phalcon_logger_adapter_firephp_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Firephp);
+
+static PHP_METHOD(Phalcon_Logger_Adapter_Firephp, getFormatter);
+static PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal);
+static PHP_METHOD(Phalcon_Logger_Adapter_Firephp, close);
+
+PHALCON_INIT_FUNCS(phalcon_logger_adapter_firephp_method_entry){
+	PHP_ME(Phalcon_Logger_Adapter_Firephp, getFormatter, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Firephp, logInternal, arginfo_phalcon_logger_adapter_file_loginternal, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_Firephp, close, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+#endif /* PHALCON_LOGGER_ADAPTER_FIREPHP_H */
+
+
 zend_class_entry *phalcon_logger_formatter_syslog_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Syslog);
@@ -9488,6 +9535,27 @@ PHALCON_INIT_FUNCS(phalcon_config_adapter_ini_method_entry){
 	PHP_FE_END
 };
 
+
+
+#ifndef PHALCON_CONFIG_ADAPTER_JSON_H
+#define PHALCON_CONFIG_ADAPTER_JSON_H
+
+zend_class_entry *phalcon_config_adapter_json_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Json);
+
+static PHP_METHOD(Phalcon_Config_Adapter_Json, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_json___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, filePath)
+ZEND_END_ARG_INFO()
+
+PHALCON_INIT_FUNCS(phalcon_config_adapter_json_method_entry){
+	PHP_ME(Phalcon_Config_Adapter_Json, __construct, arginfo_phalcon_config_adapter_json___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+#endif /* PHALCON_CONFIG_ADAPTER_JSON_H */
 
 
 zend_class_entry *phalcon_config_exception_ce;

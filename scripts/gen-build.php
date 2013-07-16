@@ -53,6 +53,7 @@ class Build_Generator
 		'kernel/exception.h',
 		'kernel/require.h',
 		'kernel/variables.h',
+		'kernel/session.h',
 		'kernel/alternative/fcall.h',
 		'kernel/framework/orm.h',
 		'kernel/framework/router.h',
@@ -76,6 +77,7 @@ class Build_Generator
 		'kernel/exception.c',
 		'kernel/require.c',
 		'kernel/variables.c',
+		'kernel/session.c',
 		'kernel/alternative/fcall.c',
 		'kernel/framework/orm.c',
 		'kernel/framework/router.c',
@@ -225,6 +227,7 @@ class Build_Generator
 			if (preg_match('/PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
 				$line = str_replace($matches[0], 'static PHP_METHOD('.$matches[1].', '.$matches[2].')', $line);
 			}
+			$line = preg_replace('/^PHALCON_STATIC /', 'static ', $line);
 			$hlines .= $line;
 		}
 		file_put_contents($this->_destination . 'phalcon.h', $hlines);
