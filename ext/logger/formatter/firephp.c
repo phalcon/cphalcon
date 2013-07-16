@@ -28,11 +28,13 @@
 
 #include "ext/standard/php_smart_str.h"
 
+#include "Zend/zend_builtin_functions.h"
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/string.h"
 
 #include "logger/formatter/firephp.h"
