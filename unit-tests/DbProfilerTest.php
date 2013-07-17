@@ -73,7 +73,7 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 
 		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -87,7 +87,7 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 
 		require 'unit-tests/config.db.php';
 		if (empty($configPostgresql)) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -101,7 +101,7 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 
 		require 'unit-tests/config.db.php';
 		if (empty($configSqlite)) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
