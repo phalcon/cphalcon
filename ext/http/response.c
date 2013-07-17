@@ -802,10 +802,10 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 		PHALCON_CPY_WRT(base_path, attachment_name);
 	}
 	
-	PHALCON_INIT_VAR(headers);
-	phalcon_call_method(headers, this_ptr, "getheaders");
-	
-	if (zend_is_true(attachment)) {
+	if (zend_is_true(attachment)) {		
+		PHALCON_INIT_VAR(headers);
+		phalcon_call_method(headers, this_ptr, "getheaders");
+
 		PHALCON_INIT_VAR(content_description);
 		ZVAL_STRING(content_description, "Content-Description: File Transfer", 1);
 		phalcon_call_method_p1_noret(headers, "setraw", content_description);
