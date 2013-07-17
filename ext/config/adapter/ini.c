@@ -71,6 +71,52 @@
  *
  */
 
+static inline void phalcon_config_adapter_ini_update_zval_directive(zval **arr, zval *section, zval *directive, zval **value, int flags TSRMLS_DC) {
+	zval *temp1 = NULL, *temp2 = NULL, *index = NULL;
+	int i, n;
+
+	n = zend_hash_num_elements(Z_ARRVAL_P(directive));
+
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		phalcon_array_fetch(&temp1, *arr, section, PH_SILENT_CC);
+		if (Z_REFCOUNT_P(temp1) > 1) {
+			phalcon_array_update_zval(arr, section, &temp1, PH_COPY | PH_CTOR TSRMLS_CC);
+		}
+		if (Z_TYPE_P(temp1) != IS_ARRAY) {
+			convert_to_array(temp1);
+			phalcon_array_update_zval(arr, section, &temp1, PH_COPY TSRMLS_CC);
+		}
+
+		for (i = 0; i < n - 1; i++) {
+			phalcon_array_fetch_long(&index, directive, i, PH_NOISY_CC);
+
+			phalcon_array_fetch(&temp2, temp1, index, PH_SILENT_CC);
+			if (Z_REFCOUNT_P(temp2) > 1) {
+				phalcon_array_update_zval(&temp1, index, &temp2, PH_COPY | PH_CTOR TSRMLS_CC);
+			}
+			if (Z_TYPE_P(temp2) != IS_ARRAY) {
+				convert_to_array(temp2);
+				phalcon_array_update_zval(&temp1, index, &temp2, PH_COPY TSRMLS_CC);
+			}
+			zval_ptr_dtor(&index);
+
+			if (temp1 != NULL) {
+				zval_ptr_dtor(&temp1);
+			}
+			temp1 = temp2;
+			temp2 = NULL;
+		}
+
+		phalcon_array_fetch_long(&index, directive, n - 1, PH_NOISY_CC);
+		phalcon_array_update_zval(&temp1, index, value, PH_COPY TSRMLS_CC);
+
+		zval_ptr_dtor(&index);
+
+		if (temp1 != NULL) {
+			zval_ptr_dtor(&temp1);
+		}
+	}
+}
 
 /**
  * Phalcon\Config\Adapter\Ini initializer
@@ -91,8 +137,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
 	zval *file_path, *process_sections, *ini_config;
 	zval *exception_message, *config, *directives = NULL;
-	zval *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL, *left_part = NULL;
-	zval *right_part = NULL;
+	zval *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -155,14 +200,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	
 			if (phalcon_memnstr_str(key, SL("."))) {
 				PHALCON_INIT_NVAR(directive_parts);
-				phalcon_fast_explode_str(directive_parts, SL("."), key);
-	
-				PHALCON_OBS_NVAR(left_part);
-				phalcon_array_fetch_long(&left_part, directive_parts, 0, PH_NOISY);
-	
-				PHALCON_OBS_NVAR(right_part);
-				phalcon_array_fetch_long(&right_part, directive_parts, 1, PH_NOISY);
-				phalcon_array_update_zval_zval_zval_multi_3(&config, section, left_part, right_part, &value, 0);
+				phalcon_fast_explode_str(directive_parts, SL("."), key TSRMLS_CC);
+				phalcon_config_adapter_ini_update_zval_directive(&config, section, directive_parts, &value, 0 TSRMLS_CC);
 			} else {
 				phalcon_array_update_multi_2(&config, section, key, &value, 0);
 			}
