@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 
 	zval *options, *memcache, *host, *port, *persistent;
-	zval *success = NULL;
+	zval *success;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -160,11 +160,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 	
 	PHALCON_OBS_VAR(persistent);
 	phalcon_array_fetch_string(&persistent, options, SL("persistent"), PH_NOISY);
+
+	PHALCON_INIT_VAR(success);
 	if (zend_is_true(persistent)) {
-		PHALCON_INIT_VAR(success);
 		phalcon_call_method_p2(success, memcache, "pconnect", host, port);
 	} else {
-		PHALCON_INIT_NVAR(success);
 		phalcon_call_method_p2(success, memcache, "connect", host, port);
 	}
 	
