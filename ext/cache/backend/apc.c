@@ -152,8 +152,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
-	} else {
-		PHALCON_SEPARATE_PARAM(lifetime);
 	}
 	
 	if (!stop_buffer) {
@@ -192,14 +190,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	 * Take the lifetime from the frontend or read it from the set in start()
 	 */
 	if (Z_TYPE_P(lifetime) == IS_NULL) {
-	
-		PHALCON_OBS_NVAR(lifetime);
-		phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
-		if (Z_TYPE_P(lifetime) == IS_NULL) {
-			PHALCON_INIT_VAR(ttl);
+
+		PHALCON_OBS_VAR(ttl);
+		phalcon_read_property_this(&ttl, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+		if (Z_TYPE_P(ttl) == IS_NULL) {
+			PHALCON_INIT_NVAR(ttl);
 			phalcon_call_method(ttl, frontend, "getlifetime");
-		} else {
-			PHALCON_CPY_WRT(ttl, lifetime);
 		}
 	} else {
 		PHALCON_CPY_WRT(ttl, lifetime);
@@ -234,7 +230,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 
-	zval *key_name, *prefix, *key, *success;
+	zval *key_name, *prefix, *key;
 
 	PHALCON_MM_GROW();
 
@@ -246,9 +242,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_SVV(key, "_PHCA", prefix, key_name);
 	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_func_p1(success, "apc_delete", key);
-	RETURN_CCTOR(success);
+	phalcon_call_func_p1(return_value, "apc_delete", key);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -276,9 +271,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 
 	phalcon_fetch_params(1, 0, 1, &prefix);
 	
+	PHALCON_INIT_VAR(prefix_pattern);
 	if (!prefix) {
-		PHALCON_INIT_VAR(prefix);
-		ZVAL_STRING(prefix, "", 1);
+		ZVAL_STRING(prefix_pattern, "/^_PHCA/", 1);
+	}
+	else {
+		PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
 	}
 	
 	PHALCON_INIT_VAR(keys);
@@ -287,8 +285,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "user", 1);
 	
-	PHALCON_INIT_VAR(prefix_pattern);
-	PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
 	ce0 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(iterator);
@@ -327,21 +323,24 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 			 * Remove the _PHCA prefix.
 			 */
 			ZVAL_STRINGL(key, str_key + 5, str_key_len - 5 - 1, 1);
+			efree(str_key);
 
-			phalcon_array_append(&keys, key, PH_SEPARATE);
+			phalcon_array_append(&keys, key, PH_COPY);
 		}
 #else
 		PHALCON_INIT_NVAR(itkey);
 		it->funcs->get_current_key(it, itkey TSRMLS_CC);
 		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
 			ZVAL_STRINGL(key, Z_STRVAL_P(itkey) + 5, Z_STRLEN_P(itkey) - 5, 1);
-			phalcon_array_append(&keys, key, PH_SEPARATE);
+			phalcon_array_append(&keys, key, PH_COPY);
 		}
 #endif
 
 		it->funcs->move_forward(it TSRMLS_CC);
 	}
 	
+	it->funcs->dtor(it TSRMLS_CC);
+
 	RETURN_CTOR(keys);
 }
 
