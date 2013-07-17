@@ -110,7 +110,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testResultsetNormalMysql()
 	{
 		if (!$this->_prepareTestMysql()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -124,7 +124,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testResultsetBindingMysql()
 	{
 		if (!$this->_prepareTestMysql()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -143,7 +143,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testResultsetNormalPostgresql()
 	{
 		if (!$this->_prepareTestPostgresql()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -155,7 +155,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testResultsetBindingPostgresql()
 	{
 		if (!$this->_prepareTestPostgresql()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -174,7 +174,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testResultsetNormalSqlite()
 	{
 		if (!$this->_prepareTestSqlite()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -186,7 +186,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testResultsetBindingSqlite()
 	{
 		if (!$this->_prepareTestSqlite()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -306,7 +306,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	{
 		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -325,7 +325,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testSerializeBindingsMysql()
 	{
 		if (!$this->_prepareTestMysql()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -349,7 +349,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testSerializeNormalPostgresql()
 	{
 		if (!$this->_prepareTestPostgresql()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -366,7 +366,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testSerializeBindingsPostgresql()
 	{
 		if (!$this->_prepareTestPostgresql()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -390,7 +390,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testSerializeNormalSqlite()
 	{
 		if (!$this->_prepareTestSqlite()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -407,7 +407,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testSerializeBindingsSqlite()
 	{
 		if (!$this->_prepareTestSqlite()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -431,7 +431,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testSerializeBigMysql()
 	{
 		if (!$this->_prepareTestMysql()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -450,7 +450,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testSerializeBigPostgresql()
 	{
 		if (!$this->_prepareTestPostgresql()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -469,7 +469,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testSerializeBigSqlite()
 	{
 		if (!$this->_prepareTestSqlite()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -488,7 +488,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testResultsetNormalZero()
 	{
 		if (!$this->_prepareTestMysql()) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
