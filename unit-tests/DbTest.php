@@ -31,7 +31,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 			$this->_executeTests($connection);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 
@@ -44,7 +44,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 			$this->_executeTests($connection);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 
@@ -52,7 +52,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 	{
 		require 'unit-tests/config.db.php';
 		if (empty($configPostgresql)) {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 			return;
 		}
 
@@ -94,7 +94,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 			$this->_executeTests($connection);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 
 	}
@@ -246,7 +246,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		//Transactions without savepoints.
 		$connection->setNestedTransactionsWithSavepoints(false);
-		
+
 		$success = $connection->begin(); // level 1 - real
 		$this->assertTrue($success);
 
@@ -308,7 +308,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($success);
 
 		$success = $connection->rollback(); // rollback - real rollback
-		$this->assertTrue($success);		
+		$this->assertTrue($success);
 	}
 
 }
