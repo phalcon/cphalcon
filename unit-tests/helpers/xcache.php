@@ -9,7 +9,7 @@ function xcache_get($key)
 	return $ok ? $result : null;
 }
 
-function xcache_set($key, $value, $ttl)
+function xcache_set($key, $value, $ttl = 0)
 {
 	return apc_store($key, $value, $ttl);
 }
