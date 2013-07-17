@@ -29,15 +29,18 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "main/SAPI.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/array.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/session.h"
 
 /**
  * Phalcon\Session\Adapter
@@ -78,7 +81,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "setoptions", options);
+		phalcon_call_method_p1_noret(this_ptr, "setoptions", options);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -91,19 +94,13 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
  */
 PHP_METHOD(Phalcon_Session_Adapter, start){
 
-	zval *headers_sent;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(headers_sent);
-	PHALCON_CALL_FUNC(headers_sent, "headers_sent");
-	if (PHALCON_IS_FALSE(headers_sent)) {
-		PHALCON_CALL_FUNC_NORETURN("session_start");
+	if (!SG(headers_sent)) {
+		phalcon_session_start(TSRMLS_C);
 		phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
-		RETURN_MM_TRUE;
+		RETURN_TRUE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -125,17 +122,17 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions){
 
 	phalcon_fetch_params(1, 1, 0, &options);
 	
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("uniqueId"))) {
-			PHALCON_OBS_VAR(unique_id);
-			phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY_CC);
-			phalcon_update_property_this(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
-		}
-		phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	} else {
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "Options must be an Array");
 		return;
 	}
+	if (phalcon_array_isset_string(options, SS("uniqueId"))) {
+		PHALCON_OBS_VAR(unique_id);
+		phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY);
+		phalcon_update_property_this(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
+	}
+	
+	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -185,12 +182,11 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	if (phalcon_array_isset(_SESSION, key)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, _SESSION, key, PH_NOISY_CC);
+		phalcon_array_fetch(&value, _SESSION, key, PH_NOISY);
 		if (PHALCON_IS_NOT_EMPTY(value)) {
 			RETURN_CCTOR(value);
 		}
 	}
-	
 	
 	RETURN_CCTOR(default_value);
 }
@@ -219,7 +215,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
 	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_update_zval(&_SESSION, key, &value, PH_COPY TSRMLS_CC);
+	phalcon_array_update_zval(&_SESSION, key, &value, PH_COPY);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -232,6 +228,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
  *</code>
  *
  * @param string $index
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Adapter, has){
 
@@ -293,13 +290,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
  */
 PHP_METHOD(Phalcon_Session_Adapter, getId){
 
-	zval *session_id;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(session_id);
-	PHALCON_CALL_FUNC(session_id, "session_id");
-	RETURN_CCTOR(session_id);
+	phalcon_get_session_id(return_value TSRMLS_CC);
 }
 
 /**
@@ -313,13 +304,8 @@ PHP_METHOD(Phalcon_Session_Adapter, getId){
  */
 PHP_METHOD(Phalcon_Session_Adapter, isStarted){
 
-	zval *started;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(started);
-	phalcon_read_property_this(&started, this_ptr, SL("_started"), PH_NOISY_CC);
-	RETURN_CCTOR(started);
+	RETURN_MEMBER(this_ptr, "_started");
 }
 
 /**
@@ -333,13 +319,9 @@ PHP_METHOD(Phalcon_Session_Adapter, isStarted){
  */
 PHP_METHOD(Phalcon_Session_Adapter, destroy){
 
-	zval *destroyed;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(destroyed);
-	PHALCON_CALL_FUNC(destroyed, "session_destroy");
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
-	RETURN_CCTOR(destroyed);
+	phalcon_session_destroy(TSRMLS_C);
+	RETURN_TRUE;
 }
 

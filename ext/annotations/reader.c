@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 
 	phalcon_fetch_params(1, 1, 0, &class_name);
 	
-	if (Z_TYPE_P(class_name) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(class_name) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The class name must be an object");
 		return;
 	}
@@ -98,24 +98,24 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	PHALCON_INIT_VAR(reflection);
 	object_init_ex(reflection, ce0);
 	if (phalcon_has_constructor(reflection TSRMLS_CC)) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", class_name);
+		phalcon_call_method_p1_noret(reflection, "__construct", class_name);
 	}
 	
 	PHALCON_INIT_VAR(comment);
-	PHALCON_CALL_METHOD(comment, reflection, "getdoccomment");
+	phalcon_call_method(comment, reflection, "getdoccomment");
 	if (Z_TYPE_P(comment) == IS_STRING) {
 	
 		/** 
 		 * Get the file where the class was declared
 		 */
 		PHALCON_INIT_VAR(file);
-		PHALCON_CALL_METHOD(file, reflection, "getfilename");
+		phalcon_call_method(file, reflection, "getfilename");
 	
 		/** 
 		 * Get the line where the class was declared
 		 */
 		PHALCON_INIT_VAR(line);
-		PHALCON_CALL_METHOD(line, reflection, "getstartline");
+		phalcon_call_method(line, reflection, "getstartline");
 	
 		/** 
 		 * Read annotations from class
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		 * Append the class annotations to the annotations var
 		 */
 		if (Z_TYPE_P(class_annotations) == IS_ARRAY) { 
-			phalcon_array_update_string(&annotations, SL("class"), &class_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&annotations, SL("class"), &class_annotations, PH_COPY | PH_SEPARATE);
 		}
 	}
 	
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	 * Get the class properties
 	 */
 	PHALCON_INIT_VAR(properties);
-	PHALCON_CALL_METHOD(properties, reflection, "getproperties");
+	phalcon_call_method(properties, reflection, "getproperties");
 	if (phalcon_fast_count_ev(properties TSRMLS_CC)) {
 	
 		/** 
@@ -149,26 +149,24 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		PHALCON_INIT_VAR(annotations_properties);
 		array_init(annotations_properties);
 	
-		if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(properties, &ah0, &hp0, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(property);
+			PHALCON_GET_HVALUE(property);
 	
 			/** 
 			 * Read comment from method
 			 */
 			PHALCON_INIT_NVAR(comment);
-			PHALCON_CALL_METHOD(comment, property, "getdoccomment");
+			phalcon_call_method(comment, property, "getdoccomment");
 			if (Z_TYPE_P(comment) == IS_STRING) {
 	
 				/** 
 				 * Get the file where the property was declared
 				 */
 				PHALCON_INIT_NVAR(file);
-				PHALCON_CALL_METHOD(file, reflection, "getfilename");
+				phalcon_call_method(file, reflection, "getfilename");
 	
 				/** 
 				 * Read annotations from the docblock
@@ -180,7 +178,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 				if (Z_TYPE_P(property_annotations) == IS_ARRAY) { 
 					PHALCON_OBS_NVAR(name);
 					phalcon_read_property(&name, property, SL("name"), PH_NOISY_CC);
-					phalcon_array_update_zval(&annotations_properties, name, &property_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_zval(&annotations_properties, name, &property_annotations, PH_COPY | PH_SEPARATE);
 				}
 			}
 	
@@ -188,7 +186,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		}
 	
 		if (phalcon_fast_count_ev(annotations_properties TSRMLS_CC)) {
-			phalcon_array_update_string(&annotations, SL("properties"), &annotations_properties, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&annotations, SL("properties"), &annotations_properties, PH_COPY | PH_SEPARATE);
 		}
 	}
 	
@@ -196,38 +194,36 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	 * Get the class methods
 	 */
 	PHALCON_INIT_VAR(methods);
-	PHALCON_CALL_METHOD(methods, reflection, "getmethods");
+	phalcon_call_method(methods, reflection, "getmethods");
 	if (phalcon_fast_count_ev(methods TSRMLS_CC)) {
 	
 		PHALCON_INIT_VAR(annotations_methods);
 		array_init(annotations_methods);
 	
-		if (!phalcon_is_iterable(methods, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+		phalcon_is_iterable(methods, &ah1, &hp1, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(method);
+			PHALCON_GET_HVALUE(method);
 	
 			/** 
 			 * Read comment from method
 			 */
 			PHALCON_INIT_NVAR(comment);
-			PHALCON_CALL_METHOD(comment, method, "getdoccomment");
+			phalcon_call_method(comment, method, "getdoccomment");
 			if (Z_TYPE_P(comment) == IS_STRING) {
 	
 				/** 
 				 * Get the file where the method was declared
 				 */
 				PHALCON_INIT_NVAR(file);
-				PHALCON_CALL_METHOD(file, method, "getfilename");
+				phalcon_call_method(file, method, "getfilename");
 	
 				/** 
 				 * Get the line where the method was declared
 				 */
 				PHALCON_INIT_NVAR(line);
-				PHALCON_CALL_METHOD(line, method, "getstartline");
+				phalcon_call_method(line, method, "getstartline");
 	
 				/** 
 				 * Read annotations from class
@@ -239,7 +235,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 				if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
 					PHALCON_OBS_NVAR(name);
 					phalcon_read_property(&name, method, SL("name"), PH_NOISY_CC);
-					phalcon_array_update_zval(&annotations_methods, name, &method_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_zval(&annotations_methods, name, &method_annotations, PH_COPY | PH_SEPARATE);
 				}
 			}
 	
@@ -247,10 +243,9 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		}
 	
 		if (phalcon_fast_count_ev(annotations_methods TSRMLS_CC)) {
-			phalcon_array_update_string(&annotations, SL("methods"), &annotations_methods, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&annotations, SL("methods"), &annotations_methods, PH_COPY | PH_SEPARATE);
 		}
 	}
-	
 	
 	RETURN_CTOR(annotations);
 }
@@ -259,11 +254,13 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
  * Parses a raw doc block returning the annotations found
  *
  * @param string $docBlock
+ * @param string $file
+ * @param int $line
  * @return array
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
 
-	zval *doc_block, *file = NULL, *line = NULL, *annotations;
+	zval *doc_block, *file = NULL, *line = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -283,12 +280,9 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
 		PHALCON_INIT_NVAR(file);
 		ZVAL_STRING(file, "eval code", 1);
 	}
-	
-	PHALCON_INIT_VAR(annotations);
-	if (phannot_parse_annotations(annotations, doc_block, file, line TSRMLS_CC) == FAILURE) {
+	if (phannot_parse_annotations(return_value, doc_block, file, line TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	
-	RETURN_CTOR(annotations);
+	RETURN_MM();
 }
 

@@ -73,7 +73,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element = new Text("name");
 
 		$this->assertEquals($element->getLabel(), null);
-		$this->assertEquals($element->getAttributes(), null);
+		$this->assertEquals($element->getAttributes(), array());
 	}
 
 	public function testFormElement()

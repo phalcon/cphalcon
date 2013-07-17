@@ -65,10 +65,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -89,10 +87,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &event_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &event_name);
+	
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset(options, event_name)) {
@@ -114,10 +110,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &event_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &event_name);
+	
 	if (!event_name) {
 		PHALCON_INIT_VAR(event_name);
 	}
@@ -127,12 +121,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions){
 	if (Z_TYPE_P(event_name) != IS_NULL) {
 		if (phalcon_array_isset(options, event_name)) {
 			PHALCON_OBS_VAR(event_options);
-			phalcon_array_fetch(&event_options, options, event_name, PH_NOISY_CC);
+			phalcon_array_fetch(&event_options, options, event_name, PH_NOISY);
 			RETURN_CCTOR(event_options);
 		}
 		RETURN_MM_NULL();
 	}
-	
 	
 	RETURN_CCTOR(options);
 }
@@ -147,10 +140,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify){
 
 	zval *type, *model;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &model) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &type, &model);
+	
 	RETURN_NULL();
 }
 
@@ -167,10 +158,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &model, &method, &arguments) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &model, &method, &arguments);
+	
 	if (!arguments) {
 		PHALCON_INIT_VAR(arguments);
 	}

@@ -2909,9 +2909,7 @@ class UnitTest extends PhTestUnitTestCase
             'size'  => '10',
         );
         PhTag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="checkbox" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked">';
+        $expected = '<input type="checkbox" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value">';
         $actual   = PhTag::checkField($options);
         PhTag::setDefault('some_field_name', '');
 
@@ -2936,9 +2934,7 @@ class UnitTest extends PhTestUnitTestCase
             'size'  => '10',
         );
         PhTag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="checkbox" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked">';
+        $expected = '<input type="checkbox" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value">';
         $actual   = PhTag::checkField($options);
         PhTag::displayTo('some_field_name', '');
 
@@ -3121,9 +3117,7 @@ class UnitTest extends PhTestUnitTestCase
             'size'  => '10',
         );
         PhTag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="checkbox" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked" />';
+        $expected = '<input type="checkbox" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value" />';
         $actual   = PhTag::checkField($options);
         PhTag::setDefault('some_field_name', '');
         PhTag::setDoctype('');
@@ -3150,9 +3144,7 @@ class UnitTest extends PhTestUnitTestCase
             'size'  => '10',
         );
         PhTag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="checkbox" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked" />';
+        $expected = '<input type="checkbox" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value" />';
         $actual   = PhTag::checkField($options);
         PhTag::displayTo('some_field_name', '');
         PhTag::setDoctype('');
@@ -3334,9 +3326,7 @@ class UnitTest extends PhTestUnitTestCase
             'size'  => '10',
         );
         PhTag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="radio" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked">';
+        $expected = '<input type="radio" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value">';
         $actual   = PhTag::radioField($options);
         PhTag::setDefault('some_field_name', '');
 
@@ -3361,9 +3351,7 @@ class UnitTest extends PhTestUnitTestCase
             'size'  => '10',
         );
         PhTag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="radio" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked">';
+        $expected = '<input type="radio" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value">';
         $actual   = PhTag::radioField($options);
         PhTag::displayTo('some_field_name', '');
 
@@ -3546,9 +3534,7 @@ class UnitTest extends PhTestUnitTestCase
             'size'  => '10',
         );
         PhTag::setDefault('some_field_name', 'some_default_value');
-        $expected = '<input type="radio" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked" />';
+        $expected = '<input type="radio" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value" />';
         $actual   = PhTag::radioField($options);
         PhTag::setDefault('some_field_name', '');
         PhTag::setDoctype('');
@@ -3575,9 +3561,7 @@ class UnitTest extends PhTestUnitTestCase
             'size'  => '10',
         );
         PhTag::displayTo('some_field_name', 'some_default_value');
-        $expected = '<input type="radio" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked" />';
+        $expected = '<input type="radio" class="some_class" size="10" name="some_field_name" id="some_field_name" checked="checked" value="some_default_value" />';
         $actual   = PhTag::radioField($options);
         PhTag::displayTo('some_field_name', '');
         PhTag::setDoctype('');

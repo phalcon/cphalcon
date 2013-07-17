@@ -80,10 +80,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &name, &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &name, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -94,7 +92,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 	if (zend_is_true(name)) {
 		if (phalcon_array_isset_string(options, SS("option"))) {
 			PHALCON_OBS_VAR(option);
-			phalcon_array_fetch_string(&option, options, SL("option"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&option, options, SL("option"), PH_NOISY);
 		} else {
 			/** 
 			 * Open the log in LOG_ODELAY mode
@@ -104,7 +102,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 		}
 		if (phalcon_array_isset_string(options, SS("facility"))) {
 			PHALCON_OBS_VAR(facility);
-			phalcon_array_fetch_string(&facility, options, SL("facility"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&facility, options, SL("facility"), PH_NOISY);
 		} else {
 			/** 
 			 * By default the facility is LOG_USER
@@ -113,7 +111,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct){
 			ZVAL_LONG(facility, 8);
 		}
 	
-		PHALCON_CALL_FUNC_PARAMS_3_NORETURN("openlog", name, option, facility);
+		phalcon_call_func_p3_noret("openlog", name, option, facility);
 		phalcon_update_property_bool(this_ptr, SL("_opened"), 1 TSRMLS_CC);
 	}
 	
@@ -139,7 +137,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter){
 		phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	}
 	
-	
 	RETURN_CCTOR(formatter);
 }
 
@@ -157,35 +154,33 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logInternal){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &message, &type, &time) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &message, &type, &time);
+	
 	PHALCON_INIT_VAR(formatter);
-	PHALCON_CALL_METHOD(formatter, this_ptr, "getformatter");
+	phalcon_call_method(formatter, this_ptr, "getformatter");
 	
 	PHALCON_INIT_VAR(applied_format);
-	PHALCON_CALL_METHOD_PARAMS_3(applied_format, formatter, "format", message, type, time);
+	phalcon_call_method_p3(applied_format, formatter, "format", message, type, time);
 	if (Z_TYPE_P(applied_format) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "The formatted message is not valid");
 		return;
 	}
 	
 	PHALCON_OBS_VAR(syslog_type);
-	phalcon_array_fetch_long(&syslog_type, applied_format, 0, PH_NOISY_CC);
+	phalcon_array_fetch_long(&syslog_type, applied_format, 0, PH_NOISY);
 	
 	PHALCON_OBS_VAR(syslog_message);
-	phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY_CC);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("syslog", syslog_type, syslog_message);
+	phalcon_array_fetch_long(&syslog_message, applied_format, 1, PH_NOISY);
+	phalcon_call_func_p2_noret("syslog", syslog_type, syslog_message);
 	
 	PHALCON_MM_RESTORE();
 }
 
 /**
-  * Closes the logger
-  *
-  * @return boolean
-  */
+ * Closes the logger
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close){
 
 	zval *opened;
@@ -195,7 +190,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close){
 	PHALCON_OBS_VAR(opened);
 	phalcon_read_property_this(&opened, this_ptr, SL("_opened"), PH_NOISY_CC);
 	if (zend_is_true(opened)) {
-		PHALCON_CALL_FUNC_NORETURN("closelog");
+		phalcon_call_func_noret("closelog");
 	}
 	
 	PHALCON_MM_RESTORE();

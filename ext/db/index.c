@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Db_Index, getColumns){
  */
 PHP_METHOD(Phalcon_Db_Index, __set_state){
 
-	zval *data, *index_name, *columns, *index;
+	zval *data, *index_name, *columns;
 
 	PHALCON_MM_GROW();
 
@@ -124,19 +124,17 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 	}
 	
 	PHALCON_OBS_VAR(index_name);
-	phalcon_array_fetch_string(&index_name, data, SL("_indexName"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&index_name, data, SL("_indexName"), PH_NOISY);
 	
 	PHALCON_OBS_VAR(columns);
-	phalcon_array_fetch_string(&columns, data, SL("_columns"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&columns, data, SL("_columns"), PH_NOISY);
 	
 	/** 
 	 * Return a Phalcon\Db\Index as part of the returning state
 	 */
-	PHALCON_INIT_VAR(index);
-	object_init_ex(index, phalcon_db_index_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(index, "__construct", index_name, columns);
+	object_init_ex(return_value, phalcon_db_index_ce);
+	phalcon_call_method_p2_noret(return_value, "__construct", index_name, columns);
 	
-	
-	RETURN_CTOR(index);
+	RETURN_MM();
 }
 

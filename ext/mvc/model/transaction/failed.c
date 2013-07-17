@@ -47,7 +47,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Failed, mvc_model_transaction_failed, "exception", phalcon_mvc_model_transaction_failed_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Failed, mvc_model_transaction_failed, "phalcon\\mvc\\model\\transaction\\exception", phalcon_mvc_model_transaction_failed_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_transaction_failed_ce, SL("_record"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -66,10 +66,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &message, &record) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &message, &record);
+	
 	phalcon_update_property_this(this_ptr, SL("_record"), record TSRMLS_CC);
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Mvc\\Model\\Transaction\\Failed", "__construct", message);
 	
@@ -91,12 +89,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
 	phalcon_read_property_this(&record, this_ptr, SL("_record"), PH_NOISY_CC);
 	if (Z_TYPE_P(record) != IS_NULL) {
 		PHALCON_INIT_NVAR(record);
-		PHALCON_CALL_METHOD(record, record, "getmessages");
+		phalcon_call_method(record, record, "getmessages");
 		RETURN_CCTOR(record);
 	}
 	
 	PHALCON_INIT_VAR(messages);
-	PHALCON_CALL_METHOD(messages, this_ptr, "getmessage");
+	phalcon_call_method(messages, this_ptr, "getmessage");
 	
 	RETURN_CCTOR(messages);
 }

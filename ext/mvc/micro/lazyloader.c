@@ -66,19 +66,14 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct){
 
 	zval *definition;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &definition);
+	
 	if (Z_TYPE_P(definition) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "Only strings can be lazy loaded");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_micro_exception_ce, "Only strings can be lazy loaded");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -91,15 +86,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct){
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call){
 
 	zval *method, *arguments, *handler = NULL, *definition;
-	zval *call_handler, *result;
+	zval *call_handler;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &method, &arguments) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &method, &arguments);
+	
 	PHALCON_OBS_VAR(handler);
 	phalcon_read_property_this(&handler, this_ptr, SL("_handler"), PH_NOISY_CC);
 	if (Z_TYPE_P(handler) != IS_OBJECT) {
@@ -110,22 +103,20 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __call){
 		PHALCON_INIT_NVAR(handler);
 		object_init_ex(handler, ce0);
 		if (phalcon_has_constructor(handler TSRMLS_CC)) {
-			PHALCON_CALL_METHOD_NORETURN(handler, "__construct");
+			phalcon_call_method_noret(handler, "__construct");
 		}
 		phalcon_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(call_handler);
 	array_init_size(call_handler, 2);
-	phalcon_array_append(&call_handler, handler, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&call_handler, method, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&call_handler, handler, PH_SEPARATE);
+	phalcon_array_append(&call_handler, method, PH_SEPARATE);
 	
 	/** 
 	 * Call the handler
 	 */
-	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_USER_FUNC_ARRAY(result, call_handler, arguments);
-	
-	RETURN_CCTOR(result);
+	PHALCON_CALL_USER_FUNC_ARRAY(return_value, call_handler, arguments);
+	RETURN_MM();
 }
 

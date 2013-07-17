@@ -69,10 +69,8 @@ PHP_METHOD(Phalcon_Logger_Item, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &message, &type, &time) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &message, &type, &time);
+	
 	if (!time) {
 		PHALCON_INIT_VAR(time);
 		ZVAL_LONG(time, 0);

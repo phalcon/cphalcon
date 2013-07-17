@@ -90,17 +90,14 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI){
 
 	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &dependency_injector);
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The dependency injector is invalid");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "The dependency injector is invalid");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -184,7 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager){
 		phalcon_get_class(class_name, model, 1 TSRMLS_CC);
 		if (phalcon_array_isset(custom_events_manager, class_name)) {
 			PHALCON_OBS_VAR(events_manager);
-			phalcon_array_fetch(&events_manager, custom_events_manager, class_name, PH_NOISY_CC);
+			phalcon_array_fetch(&events_manager, custom_events_manager, class_name, PH_NOISY);
 			RETURN_CCTOR(events_manager);
 		}
 	}
@@ -221,7 +218,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize){
 		 * Call the 'initialize' method if it's implemented
 		 */
 		if (phalcon_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD_NORETURN(model, "initialize");
+			phalcon_call_method_noret(model, "initialize");
 		}
 	
 		/** 
@@ -232,7 +229,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize){
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "collectionManager:afterInitialize", 1);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+			phalcon_call_method_p2_noret(events_manager, "fire", event_name, this_ptr);
 		}
 	
 		phalcon_update_property_array(this_ptr, SL("_initialized"), class_name, model TSRMLS_CC);
@@ -363,7 +360,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
 	phalcon_read_property_this(&implicit_objects_ids, this_ptr, SL("_implicitObjectsIds"), PH_NOISY_CC);
 	if (phalcon_array_isset(implicit_objects_ids, entity_name)) {
 		PHALCON_OBS_VAR(implicit);
-		phalcon_array_fetch(&implicit, implicit_objects_ids, entity_name, PH_NOISY_CC);
+		phalcon_array_fetch(&implicit, implicit_objects_ids, entity_name, PH_NOISY);
 		RETURN_CCTOR(implicit);
 	}
 	
@@ -405,7 +402,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 		 */
 		if (phalcon_array_isset(connection_services, entity_name)) {
 			PHALCON_OBS_NVAR(service);
-			phalcon_array_fetch(&service, connection_services, entity_name, PH_NOISY_CC);
+			phalcon_array_fetch(&service, connection_services, entity_name, PH_NOISY);
 		}
 	}
 	
@@ -420,12 +417,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 	 * Request the connection service from the DI
 	 */
 	PHALCON_INIT_VAR(connection);
-	PHALCON_CALL_METHOD_PARAMS_1(connection, dependency_injector, "getshared", service);
+	phalcon_call_method_p1(connection, dependency_injector, "getshared", service);
 	if (Z_TYPE_P(connection) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid injected connection service");
 		return;
 	}
-	
 	
 	RETURN_CCTOR(connection);
 }
@@ -459,7 +455,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent){
 		PHALCON_INIT_VAR(fire_event_name);
 		PHALCON_CONCAT_SV(fire_event_name, "collection:", event_name);
 	
-		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", fire_event_name, model);
+		phalcon_call_method_p2(status, events_manager, "fire", fire_event_name, model);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_CCTOR(status);
 		}
@@ -480,13 +476,12 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent){
 			PHALCON_CONCAT_SV(fire_event_name, "collection:", event_name);
 	
 			PHALCON_INIT_NVAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, custom_events_manager, "fire", fire_event_name, model);
+			phalcon_call_method_p2(status, custom_events_manager, "fire", fire_event_name, model);
 			if (PHALCON_IS_FALSE(status)) {
 				RETURN_CCTOR(status);
 			}
 		}
 	}
-	
 	
 	RETURN_CCTOR(status);
 }

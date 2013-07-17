@@ -31,13 +31,14 @@ extern int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
 extern int PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC);
 extern int PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC);
 extern int PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
+extern int PHALCON_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
 
 extern int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D);
 extern int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
 
 /* Virtual symbol tables */
 extern void phalcon_create_symbol_table(TSRMLS_D);
-extern void phalcon_restore_symbol_table(TSRMLS_D);
+/*extern void phalcon_restore_symbol_table(TSRMLS_D);*/
 extern void phalcon_clean_symbol_tables(TSRMLS_D);
 
 /** Export symbols to active symbol table */
@@ -51,11 +52,7 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 
 /* Memory macros */
 #define PHALCON_ALLOC_ZVAL(z) \
-	ALLOC_ZVAL(z); INIT_PZVAL(z); ZVAL_NULL(z);
-
-#define PHALCON_INIT_VAR_OLD(z) \
-	PHALCON_ALLOC_ZVAL(z); \
-	phalcon_memory_observe(&z TSRMLS_CC);
+	ALLOC_INIT_ZVAL(z);
 
 #define PHALCON_INIT_VAR(z) \
 	phalcon_memory_alloc(&z TSRMLS_CC);
@@ -74,6 +71,26 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		} \
 	} else { \
 		phalcon_memory_alloc(&z TSRMLS_CC); \
+	}
+
+#define PHALCON_INIT_NVAR_PNULL(z)\
+	if (z) { \
+		if (Z_REFCOUNT_P(z) > 1) { \
+			Z_DELREF_P(z); \
+			if (Z_REFCOUNT_P(z) >= 1) { \
+				zval_copy_ctor(z); \
+			} \
+			ALLOC_ZVAL(z); \
+			Z_SET_REFCOUNT_P(z, 1); \
+			Z_UNSET_ISREF_P(z); \
+			ZVAL_NULL(z); \
+		} else {\
+			ZVAL_NULL(z); \
+			zval_ptr_dtor(&z); \
+			PHALCON_ALLOC_ZVAL(z); \
+		} \
+	} else { \
+		phalcon_memory_alloc_pnull(&z TSRMLS_CC); \
 	}
 
 #define PHALCON_CPY_WRT(d, v) \
@@ -131,8 +148,6 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 			zval_copy_ctor(new_zv); \
 		} \
 	}
-
-//phalcon_memory_observe(&z TSRMLS_CC); \
 
 #define PHALCON_SEPARATE(z) \
 	{ \

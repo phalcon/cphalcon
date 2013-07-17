@@ -32,6 +32,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/object.h"
+#include "kernel/fcall.h"
+
 /**
  * Phalcon\Mvc\Controller
  *
@@ -63,12 +66,6 @@
  *   return $this->dispatcher->forward(array('controller' => 'people', 'action' => 'index'));
  *  }
  *
- *  //This action will be executed when a non existent action is requested
- *  public function notFoundAction()
- *  {
- *
- *  }
- *
  *}
  *
  *</code>
@@ -92,6 +89,12 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Controller){
 PHP_METHOD(Phalcon_Mvc_Controller, __construct){
 
 
+	PHALCON_MM_GROW();
+
+	if (phalcon_method_exists_ex(this_ptr, SS("onconstruct") TSRMLS_CC) == SUCCESS) {
+		phalcon_call_method_noret(this_ptr, "onconstruct");
+	}
 	
+	PHALCON_MM_RESTORE();
 }
 

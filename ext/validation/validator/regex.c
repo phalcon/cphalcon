@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	phalcon_fetch_params(1, 2, 0, &validator, &attribute);
 	
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
+	phalcon_call_method_p1(value, validator, "getvalue", attribute);
 	
 	/** 
 	 * The regular expression is set in the option 'pattern'
@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	ZVAL_STRING(option, "pattern", 1);
 	
 	PHALCON_INIT_VAR(pattern);
-	PHALCON_CALL_METHOD_PARAMS_1(pattern, this_ptr, "getoption", option);
+	phalcon_call_method_p1(pattern, this_ptr, "getoption", option);
 	
 	PHALCON_INIT_VAR(matches);
 	
@@ -104,17 +104,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	
 	Z_SET_ISREF_P(matches);
 	
-	#if HAVE_BUNDLED_PCRE
 	phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC);
-	#else
-	PHALCON_CALL_FUNC_PARAMS_3(match_pattern, "preg_match", pattern, value, matches);
-	#endif
 	
 	Z_UNSET_ISREF_P(matches);
 	
 	if (zend_is_true(match_pattern)) {
 		PHALCON_OBS_VAR(match_zero);
-		phalcon_array_fetch_long(&match_zero, matches, 0, PH_NOISY_CC);
+		phalcon_array_fetch_long(&match_zero, matches, 0, PH_NOISY);
 	
 		PHALCON_INIT_VAR(failed);
 		is_not_equal_function(failed, match_zero, value TSRMLS_CC);
@@ -132,7 +128,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message_str);
-		PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
+		phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
 		if (!zend_is_true(message_str)) {
 			PHALCON_INIT_NVAR(message_str);
 			PHALCON_CONCAT_SVS(message_str, "Value of field '", attribute, "' doesn't match regular expression");
@@ -143,9 +139,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	
 		PHALCON_INIT_VAR(message);
 		object_init_ex(message, phalcon_validation_message_ce);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message, "__construct", message_str, attribute, type);
+		phalcon_call_method_p3_noret(message, "__construct", message_str, attribute, type);
 	
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validator, "appendmessage", message);
+		phalcon_call_method_p1_noret(validator, "appendmessage", message);
 		RETURN_MM_FALSE;
 	}
 	

@@ -509,6 +509,10 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 	{
 
 		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
@@ -611,6 +615,10 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 	{
 
 		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
@@ -700,6 +708,10 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 	{
 
 		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 

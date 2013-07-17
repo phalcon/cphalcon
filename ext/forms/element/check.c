@@ -48,6 +48,8 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Check){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Check, forms_element_check, "phalcon\\forms\\element", phalcon_forms_element_check_method_entry, 0);
 
+	zend_class_implements(phalcon_forms_element_check_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -59,23 +61,22 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Check){
  */
 PHP_METHOD(Phalcon_Forms_Element_Check, render){
 
-	zval *attributes = NULL, *widget_attributes, *code;
+	zval *attributes = NULL, *use_checked, *widget_attributes;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &attributes);
+	
 	if (!attributes) {
 		PHALCON_INIT_VAR(attributes);
 	}
 	
-	PHALCON_INIT_VAR(widget_attributes);
-	PHALCON_CALL_METHOD_PARAMS_1(widget_attributes, this_ptr, "prepareattributes", attributes);
+	PHALCON_INIT_VAR(use_checked);
+	ZVAL_BOOL(use_checked, 1);
 	
-	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "checkfield", widget_attributes);
-	RETURN_CCTOR(code);
+	PHALCON_INIT_VAR(widget_attributes);
+	phalcon_call_method_p2(widget_attributes, this_ptr, "prepareattributes", attributes, use_checked);
+	PHALCON_CALL_STATIC_PARAMS_1(return_value, "phalcon\\tag", "checkfield", widget_attributes);
+	RETURN_MM();
 }
 

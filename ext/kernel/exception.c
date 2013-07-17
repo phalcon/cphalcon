@@ -33,7 +33,7 @@
 #include "Zend/zend_exceptions.h"
 
 /**
- * Throws an zval object as exception
+ * Throws a zval object as exception
  */
 void phalcon_throw_exception(zval *object TSRMLS_DC){
 	Z_ADDREF_P(object);
@@ -42,40 +42,46 @@ void phalcon_throw_exception(zval *object TSRMLS_DC){
 }
 
 /**
- * Throws a exception with a single string parameter
+ * Throws an exception with a single string parameter
  */
-void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC){
+void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
 
 	zval *object, *msg;
 
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-	PHALCON_INIT_VAR(msg);
+	ALLOC_INIT_ZVAL(msg);
 	ZVAL_STRINGL(msg, message, message_len, 1);
 
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", msg);
+	phalcon_call_method_p1_noret(object, "__construct", msg);
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
-	phalcon_memory_restore_stack(TSRMLS_C);
+	zval_ptr_dtor(&msg);
+
+	if (restore_stack) {
+		phalcon_memory_restore_stack(TSRMLS_C);
+	}
 }
 
 /**
- * Throws a exception with a single zval parameter
+ * Throws an exception with a single zval parameter
  */
-void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
+void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message, int restore_stack TSRMLS_DC){
 
 	zval *object;
 
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", message);
+	phalcon_call_method_p1_noret(object, "__construct", message);
 
 	zend_throw_exception_object(object TSRMLS_CC);
 
-	phalcon_memory_restore_stack(TSRMLS_C);
+	if (restore_stack) {
+		phalcon_memory_restore_stack(TSRMLS_C);
+	}
 }
 
 /**
@@ -91,8 +97,9 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 			return;
 		}
 	}
+
 	if (!EG(current_execute_data)) {
-		if(EG(exception)) {
+		if (EG(exception)) {
 			zend_exception_error(EG(exception), E_ERROR TSRMLS_CC);
 		}
 		zend_error(E_ERROR, "Exception thrown without a stack frame");
@@ -103,7 +110,7 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 	}
 
 	if (EG(current_execute_data)->opline == NULL ||
-    	(EG(current_execute_data)->opline+1)->opcode == ZEND_HANDLE_EXCEPTION) {
+    	(EG(current_execute_data)->opline + 1)->opcode == ZEND_HANDLE_EXCEPTION) {
 		/* no need to rethrow the exception */
 		return;
 	}

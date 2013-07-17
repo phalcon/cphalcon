@@ -56,7 +56,13 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
-	public function testCalculationsMysql(){
+	public function testCalculationsMysql()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -72,6 +78,11 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 
 	public function testCalculationsPostgresql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -87,6 +98,11 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 
 	public function testCalculationsSqlite()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$di = $this->_getDI();
 

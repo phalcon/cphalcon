@@ -65,10 +65,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -90,10 +88,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read){
 
 	zval *key;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &key);
+	
 	RETURN_NULL();
 }
 
@@ -107,10 +103,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write){
 
 	zval *key, *meta_data;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &meta_data) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 2, 0, &key, &meta_data);
+	
 	RETURN_NULL();
 }
 

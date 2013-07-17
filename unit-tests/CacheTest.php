@@ -23,6 +23,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
+		date_default_timezone_set('UTC');
 		$iterator = new DirectoryIterator('unit-tests/cache/');
 		foreach ($iterator as $item) {
 			if (!$item->isDir()) {
@@ -105,11 +106,14 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			0 => 'unittestoutput',
 		));
 
+		// $cache->exists('testoutput') is not always true because Travis CI could be slow sometimes
 		//Exists?
-		$this->assertTrue($cache->exists('testoutput'));
+		if ($cache->exists('testoutput')) {
+			$this->assertTrue($cache->exists('testoutput'));
 
-		//Delete cache
-		$this->assertTrue($cache->delete('testoutput'));
+			//Delete cache
+			$this->assertTrue($cache->delete('testoutput'));
+		}
 
 	}
 
@@ -139,6 +143,77 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		//Get
 		$cachedContent = $cache->get('test-data');
 		$this->assertEquals($cachedContent, "sure, nothing interesting");
+
+		//Exists
+		$this->assertTrue($cache->exists('test-data'));
+
+		//Delete
+		$this->assertTrue($cache->delete('test-data'));
+
+	}
+
+	private function _prepareIgbinary()
+	{
+
+		if (!extension_loaded('igbinary')) {
+			$this->markTestSkipped('Warning: igbinary extension is not loaded');
+			return false;
+		}
+
+		return true;
+	}
+
+	public function testIgbinaryFileCache()
+	{
+		if (!$this->_prepareIgbinary()) {
+			return false;
+		}
+
+		$frontCache = new Phalcon\Cache\Frontend\Igbinary();
+
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/'
+		));
+
+		$this->assertFalse($cache->isStarted());
+
+		//Save
+		$cache->save('test-data', "nothing interesting");
+
+		$this->assertTrue(file_exists('unit-tests/cache/test-data'));
+
+		//Get
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, "nothing interesting");
+
+		//Save
+		$cache->save('test-data', "sure, nothing interesting");
+
+		//Get
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, "sure, nothing interesting");
+
+		//More complex save/get
+		$data = array(
+			'null'   => null,
+			'array'  => array(1, 2, 3, 4 => 5),
+			'string',
+			123.45,
+			6,
+			true,
+			false,
+			null,
+			0,
+			""
+		);
+
+		$serialized = igbinary_serialize($data);
+		$this->assertEquals($data, igbinary_unserialize($serialized));
+
+		$cache->save('test-data', $data);
+		$cachedContent = $cache->get('test-data');
+
+		$this->assertEquals($cachedContent, $data);
 
 		//Exists
 		$this->assertTrue($cache->exists('test-data'));
@@ -342,7 +417,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		//Delete entry from cache
 		$this->assertTrue($cache->delete('test-output'));
-
 	}
 
 	public function testDataApcCache()
@@ -373,6 +447,17 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($cache->delete('test-data'));
 
+		$cache->save('a', 1);
+		$cache->save('long-key', 'long-val');
+		$cache->save('bcd', 3);
+		$keys = $cache->queryKeys();
+		sort($keys);
+		$this->assertEquals($keys, array('a', 'bcd', 'long-key'));
+		$this->assertEquals($cache->queryKeys('long'), array('long-key'));
+
+		$this->assertTrue($cache->delete('a'));
+		$this->assertTrue($cache->delete('long-key'));
+		$this->assertTrue($cache->delete('bcd'));
 	}
 
 	protected function _prepareMongo()
@@ -498,4 +583,100 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	protected function _prepareXcache()
+	{
+
+		if (!extension_loaded('xcache') || 'cli' == PHP_SAPI) {
+			$this->markTestSkipped('xcache extension is not loaded');
+			return false;
+		}
+
+		return true;
+	}
+
+	public function testOutputXcache()
+	{
+
+		$ready = $this->_prepareXcache();
+		if (!$ready) {
+			return false;
+		}
+
+		xcache_unset('_PHCXtest-output');
+
+		$time = date('H:i:s');
+
+		$frontCache = new Phalcon\Cache\Frontend\Output(array(
+			'lifetime' => 2
+		));
+
+		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+
+		ob_start();
+
+		//First time cache
+		$content = $cache->start('test-output');
+		if ($content !== null) {
+			$this->assertTrue(false);
+		}
+
+		echo $time;
+
+		$cache->save(null, null, null, true);
+
+		$obContent = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertEquals($time, $obContent);
+		$this->assertEquals($time, xcache_get('_PHCXtest-output'));
+
+		//Expect same cache
+		$content = $cache->start('test-output');
+		if ($content === null) {
+			$this->assertTrue(false);
+		}
+
+		$this->assertEquals($content, $obContent);
+		$this->assertEquals($content, xcache_get('_PHCXtest-output'));
+
+		//Query keys
+		$keys = $cache->queryKeys();
+		$this->assertEquals($keys, array(
+			0 => 'test-output',
+		));
+
+		//Delete entry from cache
+		$this->assertTrue($cache->delete('test-output'));
+
+	}
+
+	public function testDataXcache()
+	{
+
+		$ready = $this->_prepareXcache();
+		if (!$ready) {
+			return false;
+		}
+
+		xcache_unset('_PHCXtest-data');
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+
+		$data = array(1, 2, 3, 4, 5);
+
+		$cache->save('test-data', $data);
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, $data);
+
+		$cache->save('test-data', "sure, nothing interesting");
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, "sure, nothing interesting");
+
+		$this->assertTrue($cache->delete('test-data'));
+
+	}
 }

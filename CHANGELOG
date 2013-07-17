@@ -1,8 +1,73 @@
+1.2.1
+ - Reduced overall memory usage
+ - Faster internal array manipulation
+ - Fixing PHP 5.5 compilation on Windows
+ - Dispatching parameters now can be modified in 'beforeExecuteRoute' events
+ - 'beforeException' events now can handle exceptions ocurred when executing actions
+ - Added Phalcon\Dispatcher::getHandlerClass and Phalcon\Dispatch::getActionMethod
+ - Now Phalcon\Form\Element\* classes implement Phalcon\Form\ElementInterface
+ - Phalcon\Config\Adapter\Ini correctly handles empty sections and INI files without any sections
+
+1.2.0
+ - Now 'compiledPath' option accept a closure to dynamically create the compilation path in Volt
+ - Volt now supports user extensions, these can be used to extend better Volt
+ - Now Phalcon\Mvc\Url provides an internal separation for uris for static resources and uris to rewrite resources
+ - Added Mvc\Model\Criteria::inWhere to append an IN expression to the criteria
+ - Added Mvc\Model\Criteria::notInWhere to append a NOT IN expression to the criteria
+ - Added Mvc\Model\Criteria::notBetweenWhere to append a NOT BETWEEN expression to the criteria
+ - Added Mvc\Model\Criteria::betweenWhere to append a BETWEEN expression to the criteria
+ - Phalcon\Tag::image accepts a second parameter to allow external URLs
+ - Added Phalcon\Mvc\View\Simple as an alternative view component, this only have a single level of rendering and works better with Volt's inheritance
+ - Better escaping of reserved words in internal PHQL generation
+ - Added Phalcon\Http\Request::getJsonRawBody() to return the request body as a decoded JSON
+ - Added Phalcon\Http\Request::getHeaders()
+ - Support for many to many relations in the ORM
+ - Added Phalcon\Assets\Filters\Jsmin to provide on-the-fly javascript minification
+ - Added Phalcon\Assets\Filters\Cssmin to provide on-the-fly CSS minification
+ - Support for real nested transactions in Phalcon\Db using database savepoints
+ - Support for create/list/drop views in Phalcon\Db
+ - Added event application:viewRender to Phalcon\Mvc\Application allowing the developer to call the $view->render method as he/she needs
+ - Added option to disable literals in PHQL statements, this highly reduces the possibility
+ to be attacked using SQL injections
+ - Now you can pass an array of variables with virtual local scope in Phalcon\Mvc\View::partial()
+ - Syntax CAST(expr AS datatype) is now supported by PHQL
+ - Support for CONVERT(expr USING charset) in PHQL
+ - Support for {% include "hello" with [var1, var2] %}
+ - Phalcon\Mvc\Collection::find receives a parameter 'fields' to specify a list of fields
+ - Added Phalcon\Forms\Element\Email and Phalcon\Tag::emailField
+ - Support to define arrays using curly braces in Volt {'a': 'b', 'c': 'd'} in Volt
+ - Support to make multiple assigments in a single set in Volt {% set a = b, c = d %} in Volt
+ - Volt now support 'if'/'else' blocks with empty bodies
+ - Support for 'cascade' action in addition to 'restrict' in Virtual Foreign Keys (ORM)
+ - Added missing Phalcon\Http\Request\File::getType()
+ - Phalcon\Tag is not abstract anymore allowing to create instances of it
+ - Phalcon\Tag is now registered as 'tag' in Phalcon\DI\FactoryDefault
+ - In a handler in Phalcon\Mvc\Micro returns an object that implements Phalcon\Http\ResponseInterface the response is automatically send()
+ - Phalcon\Mvc\View now have a chaineable API
+ - Phalcon\Mvc\Micro now can optionally receive the DI in its constructor
+ - Now if a method receives an incorrect number of parameters an exception BadMethodCallException is thrown instead of a warning
+ - Phalcon\Mvc\Model/Phalcon\Mvc\Collection now checks for a method 'onConstruct' allowing the developer to execute initialization stuff every time a model/collection instance is created
+ - Phalcon\Mvc\Model/Phalcon\Mvc\Collection now checks for a method 'afterFetch' allowing the developer to execute initialization stuff every time a model/collection instance is created
+ in a findFirst/find operation is created
+ - Added Phalcon\Mvc\Collection::summatory easing the generation of this type of aggregation
+ - Support for boolean literals in PHQL
+ - Support for complex expressions in GROUP BY clauses in PHQL
+ - Now PHQL exceptions include the PHQL statement itself
+ - Aliases for namespaces are now supported in PHQL
+ - Acl\Memory was rewritted to make it simpler and faster, you may regenerate your serialized ACLs
+ - Support for assigment operators +=, -=, *=, /= in Volt
+ - Support for Profile-Guided optimization installation scripts (See blog)
+ - Added Phalcon\Annotations\Adapter\Xcache to store annotations in Xcache
+ - Added Phalcon\Mvc\Model\Metadata\Xcache to store models meta-data in Xcache
+ - Added
+ - Now if a controller implements 'initialize' it only is called if 'beforeExecuteRoute' is not stopped
+ - Listeners implementing 'beforeExecuteRoute'/'afterExecuteRoute' are executed first than the ones implemented as methods in the controller/task
+
 1.1.0
  - Improvements to the query builder allowing to define bound parameters in the "where" methods
- - Added Mvc\Query\Builder::inWhere to append a IN expression to the query
- - Added Mvc\Query\Builder::notInWhere to append a NOT IN expression to the query
- - Added Mvc\Query\Builder::betweenWhere to append a BETWEEN expression to the query
+ - Added Mvc\Model\Query\Builder::inWhere to append an IN expression to the query
+ - Added Mvc\Model\Query\Builder::notInWhere to append a NOT IN expression to the query
+ - Added Mvc\Model\Query\Builder::betweenWhere to append a BETWEEN expression to the query
  - Now Phalcon\Session\Bag injects automatically the default DI if one hasn't beed manually assigned
  - Added Phalcon\Forms\Manager to reference forms and retrieve them from any part of the application
  - If an element in Phalcon\Forms doesn't have a label defined now returns the element's name as label
@@ -37,7 +102,7 @@
  - Added support for filters in Phalcon\Forms\Form elements
  - Added maximum recursion depth exceeded control in Phalcon\Kernel
  - Performance: Now Phalcon makes use of interned strings if PHP 5.4 to reduce memory usage
- - Performance: Implemented cache of visibility for all intern properties in 5.3/5.4 increasing performance 
+ - Performance: Implemented cache of visibility for all intern properties in 5.3/5.4 increasing performance
  - Performance: All hash keys are now pre-calculated in compilation time to read/write internal properties faster
  - Performance: Now all functions are static allowing the compiler to inline functions or remove those that aren't used by the framework
  - Performance: Now Phalcon provides specific optimizations when the extension is compiled for NTS modules

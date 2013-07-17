@@ -195,6 +195,15 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
+						->from('Robots')
+						->leftJoin('RobotsParts', 'Robots.id = RobotsParts.robots_id')
+						->leftJoin('Parts', 'Parts.id = RobotsParts.parts_id')
+						->where('Robots.id > 0')
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LEFT JOIN [RobotsParts] ON Robots.id = RobotsParts.robots_id LEFT JOIN [Parts] ON Parts.id = RobotsParts.parts_id WHERE Robots.id > 0');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
 						->addFrom('Robots', 'r')
 						->getPhql();
 		$this->assertEquals($phql, 'SELECT [r].* FROM [Robots] AS [r]');

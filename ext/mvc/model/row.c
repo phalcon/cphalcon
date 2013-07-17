@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
 }
 
 /**
- * Gets row in a specific position of the row
+ * Gets a record in a specific position of the row
  *
  * @param int $index
  * @return string|\Phalcon\Mvc\ModelInterface
@@ -120,11 +120,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet){
 
 	zval *index, *value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &index, &value);
+	phalcon_fetch_params(0, 2, 0, &index, &value);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
 	return;
 }
 
@@ -137,11 +135,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset){
 
 	zval *offset;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &offset);
+	phalcon_fetch_params(0, 1, 0, &offset);
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
 	return;
 }
 

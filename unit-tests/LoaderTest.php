@@ -21,7 +21,7 @@
 class LoaderTest extends PHPUnit_Framework_TestCase
 {
 
-	/*public function testNamespaces()
+	public function testNamespaces()
 	{
 
 		$loader = new Phalcon\Loader();
@@ -66,7 +66,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($leEngine->some());
 
 		$loader->unregister();
-	}*/
+	}
 
 	public function testDirectories()
 	{
@@ -145,6 +145,26 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$loader->registerPrefixes(array(
 			"Pseudo" => "unit-tests/vendor/example/Pseudo/",
+		));
+
+		$loader->register();
+
+		$pseudoClass = new Pseudo_Some_Something();
+		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Some_Something');
+
+		$pseudoClass = new Pseudo_Base();
+		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Base');
+
+		$loader->unregister();
+	}
+
+	public function testPrefixesUnderscore()
+	{
+
+		$loader = new Phalcon\Loader();
+
+		$loader->registerPrefixes(array(
+			"Pseudo_" => "unit-tests/vendor/example/Pseudo/",
 		));
 
 		$loader->register();

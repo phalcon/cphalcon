@@ -49,7 +49,16 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_RelationInterface){
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, __construct);
 
 /**
- * Returns the relation's type
+ * Sets the intermediate model dat for has-*-through relations
+ *
+ * @param string|array $intermediateFields
+ * @param string $intermediateModel
+ * @param string $intermediateReferencedFields
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, setIntermediateRelation);
+
+/**
+ * Returns the relations type
  *
  * @return int
  */
@@ -98,16 +107,30 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isForeignKey);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getForeignKey);
 
 /**
- * Check whether the relation
+ * Check whether the relation is a 'many-to-many' relation or not
  *
  * @return boolean
  */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, hasThrough);
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isThrough);
 
 /**
- * Returns the 'through' relation if any
+ * Gets the intermediate fields for has-*-through relations
+ *
+ * @return string|array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateFields);
+
+/**
+ * Gets the intermediate model for has-*-through relations
  *
  * @return string
  */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getThrough);
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateModel);
+
+/**
+ * Gets the intermediate referenced fields for has-*-through relations
+ *
+ * @return string|array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateReferencedFields);
 

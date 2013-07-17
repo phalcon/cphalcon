@@ -36,6 +36,7 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/file.h"
+#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
@@ -73,10 +74,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &options);
+	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Invalid options");
 		return;
@@ -87,7 +86,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 	}
 	
 	PHALCON_OBS_VAR(data);
-	phalcon_array_fetch_string(&data, options, SL("content"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&data, options, SL("content"), PH_NOISY);
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation data must be an array");
 		return;
@@ -115,10 +114,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &index, &placeholders) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &index, &placeholders);
+	
 	if (!placeholders) {
 		PHALCON_INIT_VAR(placeholders);
 	}
@@ -128,24 +125,22 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 	if (phalcon_array_isset(translate, index)) {
 	
 		PHALCON_OBS_VAR(translation);
-		phalcon_array_fetch(&translation, translate, index, PH_NOISY_CC);
+		phalcon_array_fetch(&translation, translate, index, PH_NOISY);
 		if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
 			if (phalcon_fast_count_ev(placeholders TSRMLS_CC)) {
 	
-				if (!phalcon_is_iterable(placeholders, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-					return;
-				}
+				phalcon_is_iterable(placeholders, &ah0, &hp0, 0, 0);
 	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-					PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-					PHALCON_GET_FOREACH_VALUE(value);
+					PHALCON_GET_HKEY(key, ah0, hp0);
+					PHALCON_GET_HVALUE(value);
 	
 					PHALCON_INIT_NVAR(key_placeholder);
 					PHALCON_CONCAT_SVS(key_placeholder, "%", key, "%");
 	
 					PHALCON_INIT_NVAR(replaced);
-					phalcon_fast_str_replace(replaced, key_placeholder, value, translation TSRMLS_CC);
+					phalcon_fast_str_replace(replaced, key_placeholder, value, translation);
 					PHALCON_CPY_WRT(translation, replaced);
 	
 					zend_hash_move_forward_ex(ah0, &hp0);
@@ -154,10 +149,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 			}
 		}
 	
-	
 		RETURN_CCTOR(translation);
 	}
-	
 	
 	RETURN_CCTOR(index);
 }
@@ -175,10 +168,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &index);
+	
 	PHALCON_OBS_VAR(translate);
 	phalcon_read_property_this(&translate, this_ptr, SL("_translate"), PH_NOISY_CC);
 	

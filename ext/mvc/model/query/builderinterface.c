@@ -94,9 +94,42 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getFrom);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, join);
 
 /**
+ * Adds a INNER join to the query
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @param string $type
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, innerJoin);
+
+/**
+ * Adds a LEFT join to the query
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, leftJoin);
+
+/**
+ * Adds a RIGHT join to the query
+ *
+ * @param string $model
+ * @param string $conditions
+ * @param string $alias
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, rightJoin);
+
+/**
  * Sets conditions for the query
  *
  * @param string $conditions
+ * @param array $bindParams
+ * @param array $bindTypes
  * @return Phalcon\Mvc\Model\Query\BuilderInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, where);
@@ -105,6 +138,8 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, where);
  * Appends a condition to the current conditions using a AND operator
  *
  * @param string $conditions
+ * @param array $bindParams
+ * @param array $bindTypes
  * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, andWhere);
@@ -113,9 +148,53 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, andWhere);
  * Appends a condition to the current conditions using a OR operator
  *
  * @param string $conditions
+ * @param array $bindParams
+ * @param array $bindTypes
  * @return Phalcon\Mvc\Model\Query\Builder
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere);
+
+/**
+ * Appends a BETWEEN condition to the current conditions
+ *
+ * @param string $expr
+ * @param mixed $minimum
+ * @param mixed $maximum
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, betweenWhere);
+
+/**
+ * Appends a NOT BETWEEN condition to the current conditions
+ *
+ *<code>
+ *	$builder->notBetweenWhere('price', 100.25, 200.50);
+ *</code>
+ *
+ * @param string $expr
+ * @param mixed $minimum
+ * @param mixed $maximum
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notBetweenWhere);
+
+/**
+ * Appends an IN condition to the current conditions
+ *
+ * @param string $expr
+ * @param array $values
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, inWhere);
+
+/**
+ * Appends a NOT IN condition to the current conditions
+ *
+ * @param string $expr
+ * @param array $values
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere);
 
 /**
  * Return the conditions for the query

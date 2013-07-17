@@ -71,10 +71,8 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &name, &description) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &name, &description);
+	
 	if (!description) {
 		PHALCON_INIT_VAR(description);
 	}

@@ -24,29 +24,37 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 	public function testDbMysql()
 	{
-
 		require 'unit-tests/config.db.php';
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-
-		$this->_executeTests($connection);
-
+		if (!empty($configMysql)) {
+			$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+			$this->_executeTests($connection);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testDbPostgresql()
 	{
-
 		require 'unit-tests/config.db.php';
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-
-		$this->_executeTests($connection);
+		if (!empty($configPostgresql)) {
+			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+			$this->_executeTests($connection);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testDbPostgresqlSchemas()
 	{
-
 		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			echo "Skipped\n";
+			return;
+		}
 
 		$configPostgresqlDefault = array_merge(array(), $configPostgresql);
 		unset($configPostgresqlDefault['schema']);
@@ -79,12 +87,16 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 	public function testDbSqlite()
 	{
-
 		require 'unit-tests/config.db.php';
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		if (!empty($configSqlite)) {
+			$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+			$this->_executeTests($connection);
+		}
+		else {
+			echo "Skipped\n";
+		}
 
-		$this->_executeTests($connection);
 	}
 
 	protected function _executeTests($connection)
@@ -94,7 +106,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_object($result));
 		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
 
-		for ($i=0; $i<3; $i++) {
+		for ($i = 0; $i < 3; $i++) {
 			$row = $result->fetch();
 			$this->assertEquals(count($row), 22);
 		}
@@ -209,6 +221,94 @@ class DbTest extends PHPUnit_Framework_TestCase
 		//Check for auto-increment column
 		$this->assertTrue($connection->lastInsertId('subscriptores_id_seq') > 0);
 
+		// Create View
+		$success = $connection->createView('phalcon_test_view', array('sql' => 'SELECT 1 AS one, 2 AS two, 3 AS three'));
+		$this->assertTrue($success);
+
+		//Check view exists
+		$success = $connection->viewExists('phalcon_test_view');
+		$this->assertTrue((bool) $success);
+
+		//Gets the list of all views.
+		$views = $connection->listViews();
+		$this->assertTrue(is_array($views));
+		$this->assertTrue(in_array('phalcon_test_view', $views));
+
+		//Execute created view
+		$row = $connection->fetchOne("SELECT * FROM phalcon_test_view");
+		$this->assertEquals(count($row), 6);
+		$this->assertTrue(array_key_exists('one', $row));
+		$this->assertEquals($row['two'], 2);
+
+		//Drop view
+		$success = $connection->dropView('phalcon_test_view');
+		$this->assertTrue($success);
+
+		//Transactions without savepoints.
+		$connection->setNestedTransactionsWithSavepoints(false);
+		
+		$success = $connection->begin(); // level 1 - real
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 2 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->begin(); // level 3 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->rollback(); // level 2 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->commit(); // level 1 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->commit(); // commit - real
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 1 - real
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 2 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->commit(); // level 1 - virtual
+		$this->assertFalse($success);
+
+		$success = $connection->rollback(); // rollback - real
+		$this->assertTrue($success);
+
+		//Transactions with savepoints.
+		$connection->setNestedTransactionsWithSavepoints(true);
+
+		$success = $connection->begin(); // level 1 - begin transaction
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 2 - uses savepoint_1
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 3 - uses savepoint_2
+		$this->assertTrue($success);
+
+		$success = $connection->rollback(); // level 2 - uses rollback savepoint_2
+		$this->assertTrue($success);
+
+		$success = $connection->commit(); // level 1  - uses release savepoint_1
+		$this->assertTrue($success);
+
+		$success = $connection->commit(); // commit - real commit
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 1 - real begin transaction
+		$this->assertTrue($success);
+
+		$success = $connection->begin(); // level 2 - uses savepoint_1
+		$this->assertTrue($success);
+
+		$success = $connection->commit(); // level 1 - uses release savepoint_1
+		$this->assertTrue($success);
+
+		$success = $connection->rollback(); // rollback - real rollback
+		$this->assertTrue($success);		
 	}
 
 }

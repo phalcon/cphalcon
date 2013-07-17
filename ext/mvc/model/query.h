@@ -35,6 +35,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType);
+PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin);
+PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause);
@@ -64,6 +66,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getIntermediate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, phql)
+	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setdi, 0, 0, 1)
@@ -118,6 +121,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_query_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Query, _getTable, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _getJoin, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _getJoinType, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model_Query, _getSingleJoin, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model_Query, _getMultiJoin, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _getJoins, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _getOrderClause, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _getGroupClause, NULL, ZEND_ACC_PROTECTED) 

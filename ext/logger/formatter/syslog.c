@@ -59,21 +59,17 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Syslog){
  * @param string $message
  * @param int $type
  * @param int $timestamp
+ * @return array
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format){
 
-	zval *message, *type, *timestamp, *log;
+	zval *message, *type, *timestamp;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &message, &type, &timestamp) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_INIT_VAR(log);
-	array_init_size(log, 2);
-	phalcon_array_append(&log, type, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&log, message, PH_SEPARATE TSRMLS_CC);
-	RETURN_CTOR(log);
+	phalcon_fetch_params(0, 3, 0, &message, &type, &timestamp);
+	
+	array_init_size(return_value, 2);
+	phalcon_array_append(&return_value, type, PH_SEPARATE);
+	phalcon_array_append(&return_value, message, PH_SEPARATE);
+	return;
 }
 

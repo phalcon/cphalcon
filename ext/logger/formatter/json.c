@@ -31,14 +31,15 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
+#include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Logger\Formatter\Json
  *
- * Formats messages using JSON format
+ * Formats messages using JSON encoding
  */
 
 
@@ -60,29 +61,25 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Json){
  * @param string $message
  * @param int $type
  * @param int $timestamp
+ * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 
 	zval *message, *type, *timestamp, *type_str, *log;
-	zval *encoded;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &message, &type, &timestamp) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &message, &type, &timestamp);
+	
 	PHALCON_INIT_VAR(type_str);
-	PHALCON_CALL_METHOD_PARAMS_1(type_str, this_ptr, "gettypestring", type);
+	phalcon_call_method_p1(type_str, this_ptr, "gettypestring", type);
 	
 	PHALCON_INIT_VAR(log);
 	array_init_size(log, 3);
-	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(encoded);
-	PHALCON_CALL_FUNC_PARAMS_1(encoded, "json_encode", log);
-	RETURN_CCTOR(encoded);
+	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY | PH_SEPARATE);
+	phalcon_json_encode(return_value, log, 0 TSRMLS_CC);
+	RETURN_MM();
 }
 

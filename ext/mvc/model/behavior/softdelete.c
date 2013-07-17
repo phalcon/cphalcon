@@ -74,14 +74,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &model) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &type, &model);
+	
 	if (PHALCON_IS_STRING(type, "beforeDelete")) {
 	
 		PHALCON_INIT_VAR(options);
-		PHALCON_CALL_METHOD(options, this_ptr, "getoptions");
+		phalcon_call_method(options, this_ptr, "getoptions");
 		if (!phalcon_array_isset_string(options, SS("value"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'value' is required");
 			return;
@@ -98,22 +96,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 		/** 
 		 * Skip the current operation
 		 */
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "skipoperation", skip);
+		phalcon_call_method_p1_noret(model, "skipoperation", skip);
 	
 		/** 
 		 * 'value' is the value to be updated instead of delete the record
 		 */
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch_string(&value, options, SL("value"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&value, options, SL("value"), PH_NOISY);
 	
 		/** 
 		 * 'field' is the attribute to be updated instead of delete the record
 		 */
 		PHALCON_OBS_VAR(field);
-		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY);
 	
 		PHALCON_INIT_VAR(actual_value);
-		PHALCON_CALL_METHOD_PARAMS_1(actual_value, model, "readattribute", field);
+		phalcon_call_method_p1(actual_value, model, "readattribute", field);
 	
 		/** 
 		 * If the record is already flagged as 'deleted' we don't delete it again
@@ -127,30 +125,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			if (phalcon_clone(update_model, model TSRMLS_CC) == FAILURE) {
 				return;
 			}
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(update_model, "writeattribute", field, value);
+			phalcon_call_method_p2_noret(update_model, "writeattribute", field, value);
 	
 			/** 
 			 * Update the cloned model
 			 */
 			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD(status, update_model, "save");
+			phalcon_call_method(status, update_model, "save");
 			if (!zend_is_true(status)) {
 	
 				/** 
 				 * Transfer the messages from the cloned model to the original model
 				 */
 				PHALCON_INIT_VAR(messages);
-				PHALCON_CALL_METHOD(messages, update_model, "getmessages");
+				phalcon_call_method(messages, update_model, "getmessages");
 	
-				if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-					return;
-				}
+				phalcon_is_iterable(messages, &ah0, &hp0, 0, 0);
 	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-					PHALCON_GET_FOREACH_VALUE(message);
+					PHALCON_GET_HVALUE(message);
 	
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "appendmessage", message);
+					phalcon_call_method_p1_noret(model, "appendmessage", message);
 	
 					zend_hash_move_forward_ex(ah0, &hp0);
 				}
@@ -161,7 +157,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			/** 
 			 * Update the original model too
 			 */
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(model, "writeattribute", field, value);
+			phalcon_call_method_p2_noret(model, "writeattribute", field, value);
 		}
 	}
 	

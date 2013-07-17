@@ -88,14 +88,12 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &reference_name, &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &reference_name, &definition);
+	
 	phalcon_update_property_this(this_ptr, SL("_referenceName"), reference_name TSRMLS_CC);
 	if (phalcon_array_isset_string(definition, SS("referencedTable"))) {
 		PHALCON_OBS_VAR(referenced_table);
-		phalcon_array_fetch_string(&referenced_table, definition, SL("referencedTable"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&referenced_table, definition, SL("referencedTable"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_referencedTable"), referenced_table TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Referenced table is required");
@@ -104,7 +102,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	
 	if (phalcon_array_isset_string(definition, SS("columns"))) {
 		PHALCON_OBS_VAR(columns);
-		phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Foreign key columns are required");
@@ -113,7 +111,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	
 	if (phalcon_array_isset_string(definition, SS("referencedColumns"))) {
 		PHALCON_OBS_VAR(referenced_columns);
-		phalcon_array_fetch_string(&referenced_columns, definition, SL("referencedColumns"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&referenced_columns, definition, SL("referencedColumns"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_referencedColumns"), referenced_columns TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Referenced columns of the foreign key are required");
@@ -122,13 +120,13 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	
 	if (phalcon_array_isset_string(definition, SS("schema"))) {
 		PHALCON_OBS_VAR(schema);
-		phalcon_array_fetch_string(&schema, definition, SL("schema"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&schema, definition, SL("schema"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_schemaName"), schema TSRMLS_CC);
 	}
 	
 	if (phalcon_array_isset_string(definition, SS("referencedSchema"))) {
 		PHALCON_OBS_VAR(referenced_schema);
-		phalcon_array_fetch_string(&referenced_schema, definition, SL("referencedSchema"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&referenced_schema, definition, SL("referencedSchema"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_referencedSchema"), referenced_schema TSRMLS_CC);
 	}
 	
@@ -221,61 +219,56 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 
 	zval *data, *constraint_name, *referenced_schema = NULL;
 	zval *referenced_table = NULL, *columns = NULL, *referenced_columns = NULL;
-	zval *definition, *reference;
+	zval *definition;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &data);
+	
 	if (!phalcon_array_isset_string(data, SS("_referenceName"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_referenceName parameter is required");
 		return;
 	} else {
 		PHALCON_OBS_VAR(constraint_name);
-		phalcon_array_fetch_string(&constraint_name, data, SL("_referenceName"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&constraint_name, data, SL("_referenceName"), PH_NOISY);
 	}
 	if (phalcon_array_isset_string(data, SS("_referencedSchema"))) {
 		PHALCON_OBS_VAR(referenced_schema);
-		phalcon_array_fetch_string(&referenced_schema, data, SL("_referencedSchema"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&referenced_schema, data, SL("_referencedSchema"), PH_NOISY);
 	} else {
 		PHALCON_INIT_NVAR(referenced_schema);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_referencedTable"))) {
 		PHALCON_OBS_VAR(referenced_table);
-		phalcon_array_fetch_string(&referenced_table, data, SL("_referencedTable"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&referenced_table, data, SL("_referencedTable"), PH_NOISY);
 	} else {
 		PHALCON_INIT_NVAR(referenced_table);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_columns"))) {
 		PHALCON_OBS_VAR(columns);
-		phalcon_array_fetch_string(&columns, data, SL("_columns"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&columns, data, SL("_columns"), PH_NOISY);
 	} else {
 		PHALCON_INIT_NVAR(columns);
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_referencedColumns"))) {
 		PHALCON_OBS_VAR(referenced_columns);
-		phalcon_array_fetch_string(&referenced_columns, data, SL("_referencedColumns"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&referenced_columns, data, SL("_referencedColumns"), PH_NOISY);
 	} else {
 		PHALCON_INIT_NVAR(referenced_columns);
 	}
 	
 	PHALCON_INIT_VAR(definition);
 	array_init_size(definition, 4);
-	phalcon_array_update_string(&definition, SL("referencedSchema"), &referenced_schema, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&definition, SL("referencedTable"), &referenced_table, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&definition, SL("columns"), &columns, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&definition, SL("referencedColumns"), &referenced_columns, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&definition, SL("referencedSchema"), &referenced_schema, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&definition, SL("referencedTable"), &referenced_table, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&definition, SL("columns"), &columns, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&definition, SL("referencedColumns"), &referenced_columns, PH_COPY | PH_SEPARATE);
+	object_init_ex(return_value, phalcon_db_reference_ce);
+	phalcon_call_method_p2_noret(return_value, "__construct", constraint_name, definition);
 	
-	PHALCON_INIT_VAR(reference);
-	object_init_ex(reference, phalcon_db_reference_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(reference, "__construct", constraint_name, definition);
-	
-	
-	RETURN_CTOR(reference);
+	RETURN_MM();
 }
 

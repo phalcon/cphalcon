@@ -24,7 +24,7 @@
 
 			<!-- Annotations -->
 			<file>unit-tests/AnnotationsTest.php</file>
-			<file>unit-tests/AnnotationsAdapterTest.php</file>
+			<file>unit-tests/AnnotationsAdaptersTest.php</file>
 
 			<!-- MVC Routing -->
 			<file>unit-tests/RouterMvcTest.php</file>
@@ -36,7 +36,7 @@
 			<file>unit-tests/DbDialectTest.php</file>
 			<file>unit-tests/DbBindTest.php</file>
 			<file>unit-tests/DbProfilerTest.php</file>
-			<file>unit-tests/DbLoggerTest.php</file>
+			<!--<file>unit-tests/DbLoggerTest.php</file>-->
 
 			<!-- ORM tests / First Part -->
 			<file>unit-tests/ModelsMetadataTest.php</file>

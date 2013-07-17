@@ -30,7 +30,7 @@
 #include "kernel/debug.h"
 #include "Zend/zend_exceptions.h"
 
-int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_path TSRMLS_DC){
+int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *require_path TSRMLS_DC){
 
 	int ret;
 	char *file_path;
@@ -46,15 +46,20 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 
 	zend_op_array *new_op_array = NULL;
 
-	if (Z_TYPE_P(require_path) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(require_path) != IS_STRING)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Invalid require path value");
 		status = FAILURE;
 	} else {
 
 		file_path = Z_STRVAL_P(require_path);
 
+		#if PHP_VERSION_ID < 50400
 		ret = php_stream_open_for_zend_ex(file_path, &file_handle, ENFORCE_SAFE_MODE|USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
-		if (ret == SUCCESS) {
+		#else
+		ret = php_stream_open_for_zend_ex(file_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
+		#endif
+
+		if (likely(ret == SUCCESS)) {
 
 			if (!file_handle.opened_path) {
 				file_path_length = Z_STRLEN_P(require_path);
@@ -87,7 +92,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 			new_op_array = zend_compile_file(&file_handle, ZEND_REQUIRE TSRMLS_CC);
 			zend_destroy_file_handle(&file_handle TSRMLS_CC);
 
-			if (new_op_array) {
+			if (likely(new_op_array != NULL)) {
 
 				EG(return_value_ptr_ptr) = &result;
 				EG(active_op_array) = new_op_array;
@@ -106,6 +111,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 
 				if (!EG(exception)) {
 					if (EG(return_value_ptr_ptr)) {
+						ASSUME(result != NULL);
 						if (return_value) {
 							COPY_PZVAL_TO_ZVAL(*return_value, result);
 						} else {
@@ -131,7 +137,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 
 	}
 
-	if (status == FAILURE){
+	if (status == FAILURE) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -141,13 +147,13 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 /**
  * Do an internal require to a plain php file without taking care of the value returned by the file
  */
-int PHALCON_FASTCALL phalcon_require(zval *require_path TSRMLS_DC){
+int PHALCON_FASTCALL phalcon_require(const zval *require_path TSRMLS_DC){
 	return phalcon_internal_require(NULL, require_path TSRMLS_CC);
 }
 
 /**
  * Do an internal require to a plain php file taking care of the value returned by the file
  */
-int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, zval *require_path TSRMLS_DC){
+int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, const zval *require_path TSRMLS_DC){
 	return phalcon_internal_require(return_value, require_path TSRMLS_CC);
 }

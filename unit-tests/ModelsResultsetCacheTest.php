@@ -68,6 +68,10 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 
 	private function _prepareTestMysql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			return null;
+		}
 
 		$di = $this->_getDI();
 
@@ -81,6 +85,10 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 
 	private function _prepareTestPostgresql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configPostgresql)) {
+			return null;
+		}
 
 		$di = $this->_getDI();
 
@@ -94,6 +102,10 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 
 	private function _prepareTestSqlite()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configSqlite)) {
+			return null;
+		}
 
 		$di = $this->_getDI();
 
@@ -203,55 +215,100 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 	public function testCacheDefaultDIMysql()
 	{
 		$di = $this->_prepareTestMysql();
-		$this->_testCacheDefaultDI($di);
+		if ($di) {
+			$this->_testCacheDefaultDI($di);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testCacheDefaultDIPostgresql()
 	{
 		$di = $this->_prepareTestPostgresql();
-		$this->_testCacheDefaultDI($di);
+		if ($di) {
+			$this->_testCacheDefaultDI($di);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testCacheDefaultDISqlite()
 	{
 		$di = $this->_prepareTestSqlite();
-		$this->_testCacheDefaultDI($di);
+		if ($di) {
+			$this->_testCacheDefaultDI($di);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testCacheDefaultDIBindingsMysql()
 	{
 		$di = $this->_prepareTestMysql();
-		$this->_testCacheDefaultDIBindings($di);
+		if ($di) {
+			$this->_testCacheDefaultDIBindings($di);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testCacheDefaultDIBindingsPostgresql()
 	{
 		$di = $this->_prepareTestPostgresql();
-		$this->_testCacheDefaultDIBindings($di);
+		if ($di) {
+			$this->_testCacheDefaultDIBindings($di);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testCacheDefaultDIBindingsSqlite()
 	{
 		$di = $this->_prepareTestSqlite();
-		$this->_testCacheDefaultDIBindings($di);
+		if ($di) {
+			$this->_testCacheDefaultDIBindings($di);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testCacheOtherServiceMysql()
 	{
 		$di = $this->_prepareTestMysql();
-		$this->_testCacheOtherService($di);
+		if ($di) {
+			$this->_testCacheOtherService($di);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testCacheOtherServicePostgresql()
 	{
 		$di = $this->_prepareTestPostgresql();
-		$robots = $this->_testCacheOtherService($di);
+		if ($di) {
+			$robots = $this->_testCacheOtherService($di);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 	public function testCacheOtherServiceSqlite()
 	{
 		$di = $this->_prepareTestSqlite();
-		$robots = $this->_testCacheOtherService($di);
+		if ($di) {
+			$robots = $this->_testCacheOtherService($di);
+		}
+		else {
+			echo "Skipped\n";
+		}
 	}
 
 }

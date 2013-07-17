@@ -102,10 +102,8 @@ PHP_METHOD(Phalcon_CLI_Router, setDI){
 
 	zval *dependency_injector;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &dependency_injector);
+	
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 }
@@ -130,10 +128,8 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultModule){
 
 	zval *module_name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &module_name) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &module_name);
+	
 	phalcon_update_property_this(this_ptr, SL("_defaultModule"), module_name TSRMLS_CC);
 	
 }
@@ -147,10 +143,8 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultTask){
 
 	zval *task_name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &task_name) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &task_name);
+	
 	phalcon_update_property_this(this_ptr, SL("_defaultTask"), task_name TSRMLS_CC);
 	
 }
@@ -164,10 +158,8 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultAction){
 
 	zval *action_name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &action_name) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &action_name);
+	
 	phalcon_update_property_this(this_ptr, SL("_defaultAction"), action_name TSRMLS_CC);
 	
 }
@@ -183,10 +175,8 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &arguments) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &arguments);
+	
 	if (!arguments) {
 		PHALCON_INIT_VAR(arguments);
 		array_init(arguments);
@@ -210,7 +200,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	 */
 	if (phalcon_array_isset_string(arguments, SS("module"))) {
 		PHALCON_OBS_NVAR(module_name);
-		phalcon_array_fetch_string(&module_name, arguments, SL("module"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&module_name, arguments, SL("module"), PH_NOISY);
 		phalcon_array_unset_string(&arguments, SS("module"), PH_SEPARATE);
 	}
 	
@@ -219,7 +209,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	 */
 	if (phalcon_array_isset_string(arguments, SS("task"))) {
 		PHALCON_OBS_NVAR(task_name);
-		phalcon_array_fetch_string(&task_name, arguments, SL("task"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&task_name, arguments, SL("task"), PH_NOISY);
 		phalcon_array_unset_string(&arguments, SS("task"), PH_SEPARATE);
 	}
 	
@@ -228,7 +218,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	 */
 	if (phalcon_array_isset_string(arguments, SS("action"))) {
 		PHALCON_OBS_NVAR(action_name);
-		phalcon_array_fetch_string(&action_name, arguments, SL("action"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&action_name, arguments, SL("action"), PH_NOISY);
 		phalcon_array_unset_string(&arguments, SS("action"), PH_SEPARATE);
 	}
 	

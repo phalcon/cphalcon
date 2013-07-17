@@ -34,11 +34,12 @@
 
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Annotations\Adapter\Apc
  *
- * Stores the parsed annotations in APC. This adapter is the suitable for production
+ * Stores the parsed annotations in APC. This adapter is suitable for production
  *
  *<code>
  * $annotations = new \Phalcon\Annotations\Adapter\Apc();
@@ -59,48 +60,54 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Apc){
 }
 
 /**
- * Reads parsed annotations from Apc
+ * Reads parsed annotations from APC
  *
  * @param string $key
- * @return array
+ * @return Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read){
 
-	zval *key, *prefixed_key, *data;
+	zval *key, *prefixed_key, *prefixed_lower, *data;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_SV(prefixed_key, "_PHAN", key);
 	
+	PHALCON_INIT_VAR(prefixed_lower);
+	phalcon_fast_strtolower(prefixed_lower, prefixed_key);
+	
 	PHALCON_INIT_VAR(data);
-	PHALCON_CALL_FUNC_PARAMS_1(data, "apc_fetch", prefixed_key);
-	RETURN_CCTOR(data);
+	phalcon_call_func_p1(data, "apc_fetch", prefixed_lower);
+	if (Z_TYPE_P(data) == IS_OBJECT) {
+		RETURN_CCTOR(data);
+	}
+	
+	RETURN_MM_NULL();
 }
 
 /**
  * Writes parsed annotations to APC
  *
  * @param string $key
- * @param array $data
+ * @param Phalcon\Annotations\Reflection $data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write){
 
-	zval *key, *data, *prefixed_key;
+	zval *key, *data, *prefixed_key, *prefixed_lower;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &key, &data);
+	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_SV(prefixed_key, "_PHAN", key);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("apc_store", prefixed_key, data);
+	
+	PHALCON_INIT_VAR(prefixed_lower);
+	phalcon_fast_strtolower(prefixed_lower, prefixed_key);
+	phalcon_call_func_p2_noret("apc_store", prefixed_lower, data);
 	
 	PHALCON_MM_RESTORE();
 }

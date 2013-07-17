@@ -126,7 +126,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropColumn);
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, addIndex);
 
 /**
-  * Generates SQL to delete an index from a table
+ * Generates SQL to delete an index from a table
  *
  * @param string $tableName
  * @param string $schemaName
@@ -245,4 +245,42 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeReferences);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, tableOptions);
+
+/**
+ * Checks whether the platform supports savepoints
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, supportsSavepoints);
+
+/**
+ * Checks whether the platform supports releasing savepoints.
+ *
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, supportsReleaseSavepoints);
+
+/**
+ * Generate SQL to create a new savepoint
+ *
+ * @param string $name
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, createSavepoint);
+
+/**
+ * Generate SQL to release a savepoint
+ *
+ * @param string $name
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, releaseSavepoint);
+
+/**
+ * Generate SQL to rollback a savepoint
+ *
+ * @param string $name
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, rollbackSavepoint);
 

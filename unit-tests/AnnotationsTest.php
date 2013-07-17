@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-require 'annotations/TestClass.php';
+require_once 'annotations/TestClass.php';
 
 class AnnotationsTest extends PHPUnit_Framework_TestCase
 {

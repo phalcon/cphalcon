@@ -120,6 +120,18 @@ PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, redirect);
 PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, setContent);
 
 /**
+ * Sets HTTP response body. The parameter is automatically converted to JSON
+ *
+ *<code>
+ *	$response->setJsonContent(array("status" => "OK"));
+ *</code>
+ *
+ * @param string $content
+ * @return Phalcon\Http\ResponseInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, setJsonContent);
+
+/**
  * Appends a string to the HTTP response body
  *
  * @param string $content
@@ -142,9 +154,24 @@ PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, getContent);
 PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, sendHeaders);
 
 /**
+ * Sends cookies to the client
+ *
+ * @return Phalcon\Http\ResponseInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, sendCookies);
+
+/**
  * Prints out HTTP response to the client
  *
  * @return Phalcon\Http\ResponseInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, send);
+
+/**
+ * Sets an attached file to be sent at the end of the request
+ *
+ * @param string $filePath
+ * @param string $attachmentName
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_ResponseInterface, setFileToSend);
 

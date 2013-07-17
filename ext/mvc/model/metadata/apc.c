@@ -81,10 +81,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &options);
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	}
@@ -92,12 +90,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("prefix"))) {
 			PHALCON_OBS_VAR(prefix);
-			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 		}
 		if (phalcon_array_isset_string(options, SS("lifetime"))) {
 			PHALCON_OBS_VAR(ttl);
-			phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
 		}
 	}
@@ -121,10 +119,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &key);
+	
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
@@ -132,7 +128,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", prefix, key);
 	
 	PHALCON_INIT_VAR(data);
-	PHALCON_CALL_FUNC_PARAMS_1(data, "apc_fetch", apc_key);
+	phalcon_call_func_p1(data, "apc_fetch", apc_key);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		RETURN_CCTOR(data);
 	}
@@ -152,10 +148,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &key, &data);
+	
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
@@ -164,7 +158,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 	
 	PHALCON_OBS_VAR(ttl);
 	phalcon_read_property_this(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
-	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", apc_key, data, ttl);
+	phalcon_call_func_p3_noret("apc_store", apc_key, data, ttl);
 	
 	PHALCON_MM_RESTORE();
 }

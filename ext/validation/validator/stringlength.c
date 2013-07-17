@@ -94,13 +94,13 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	ZVAL_STRING(option, "min", 1);
 	
 	PHALCON_INIT_VAR(is_set_min);
-	PHALCON_CALL_METHOD_PARAMS_1(is_set_min, this_ptr, "issetoption", option);
+	phalcon_call_method_p1(is_set_min, this_ptr, "issetoption", option);
 	
 	PHALCON_INIT_NVAR(option);
 	ZVAL_STRING(option, "max", 1);
 	
 	PHALCON_INIT_VAR(is_set_max);
-	PHALCON_CALL_METHOD_PARAMS_1(is_set_max, this_ptr, "issetoption", option);
+	phalcon_call_method_p1(is_set_max, this_ptr, "issetoption", option);
 	if (!zend_is_true(is_set_min)) {
 		if (!zend_is_true(is_set_max)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A minimum or maximum must be set");
@@ -109,14 +109,14 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	}
 	
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, validator, "getvalue", attribute);
+	phalcon_call_method_p1(value, validator, "getvalue", attribute);
 	
 	/** 
 	 * Check if mbstring is available to calculate the correct length
 	 */
 	if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(length);
-		PHALCON_CALL_FUNC_PARAMS_1(length, "mb_strlen", value);
+		phalcon_call_func_p1(length, "mb_strlen", value);
 	} else {
 		PHALCON_INIT_NVAR(length);
 		phalcon_fast_strlen(length, value);
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 		ZVAL_STRING(option, "max", 1);
 	
 		PHALCON_INIT_VAR(maximum);
-		PHALCON_CALL_METHOD_PARAMS_1(maximum, this_ptr, "getoption", option);
+		phalcon_call_method_p1(maximum, this_ptr, "getoption", option);
 	
 		is_smaller_function(invalid_maximum, maximum, length TSRMLS_CC);
 		if (PHALCON_IS_TRUE(invalid_maximum)) {
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 			ZVAL_STRING(option, "messageMaximum", 1);
 	
 			PHALCON_INIT_VAR(message_str);
-			PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
+			phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
 			if (!zend_is_true(message_str)) {
 				PHALCON_INIT_NVAR(message_str);
 				PHALCON_CONCAT_SVSVS(message_str, "Value of field '", attribute, "' exceeds the maximum ", maximum, " characters");
@@ -160,9 +160,9 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	
 			PHALCON_INIT_VAR(message);
 			object_init_ex(message, phalcon_validation_message_ce);
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message, "__construct", message_str, attribute, type);
+			phalcon_call_method_p3_noret(message, "__construct", message_str, attribute, type);
 	
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validator, "appendmessage", message);
+			phalcon_call_method_p1_noret(validator, "appendmessage", message);
 			RETURN_MM_FALSE;
 		}
 	}
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 		ZVAL_STRING(option, "min", 1);
 	
 		PHALCON_INIT_VAR(minimum);
-		PHALCON_CALL_METHOD_PARAMS_1(minimum, this_ptr, "getoption", option);
+		phalcon_call_method_p1(minimum, this_ptr, "getoption", option);
 	
 		is_smaller_function(invalid_minimum, length, minimum TSRMLS_CC);
 		if (PHALCON_IS_TRUE(invalid_minimum)) {
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 			ZVAL_STRING(option, "messageMinimum", 1);
 	
 			PHALCON_INIT_NVAR(message_str);
-			PHALCON_CALL_METHOD_PARAMS_1(message_str, this_ptr, "getoption", option);
+			phalcon_call_method_p1(message_str, this_ptr, "getoption", option);
 			if (!zend_is_true(message_str)) {
 				PHALCON_INIT_NVAR(message_str);
 				PHALCON_CONCAT_SVSVS(message_str, "Value of field '", attribute, "' is less than the minimum ", minimum, " characters");
@@ -199,9 +199,9 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	
 			PHALCON_INIT_NVAR(message);
 			object_init_ex(message, phalcon_validation_message_ce);
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message, "__construct", message_str, attribute, type);
+			phalcon_call_method_p3_noret(message, "__construct", message_str, attribute, type);
 	
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(validator, "appendmessage", message);
+			phalcon_call_method_p1_noret(validator, "appendmessage", message);
 			RETURN_MM_FALSE;
 		}
 	}

@@ -34,6 +34,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/array.h"
+#include "kernel/object.h"
+#include "kernel/string.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -53,7 +55,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Oracle){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Oracle, db_dialect_oracle, "phalcon\\db\\dialect", phalcon_db_dialect_oracle_method_entry, 0);
 
-	zend_declare_property_string(phalcon_db_dialect_oracle_ce, SL("_escapeChar"), "\"", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_dialect_oracle_ce, SL("_escapeChar"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_dialect_oracle_ce TSRMLS_CC, 1, phalcon_db_dialectinterface_ce);
 
@@ -73,20 +75,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &column);
+	
 	if (Z_TYPE_P(column) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		return;
 	}
 	
 	PHALCON_INIT_VAR(size);
-	PHALCON_CALL_METHOD(size, column, "getsize");
+	phalcon_call_method(size, column, "getsize");
 	
 	PHALCON_INIT_VAR(column_type);
-	PHALCON_CALL_METHOD(column_type, column, "gettype");
+	phalcon_call_method(column_type, column, "gettype");
 	
 	switch (phalcon_get_intval(column_type)) {
 	
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 	
 		case 3:
 			PHALCON_INIT_VAR(scale);
-			PHALCON_CALL_METHOD(scale, column, "getscale");
+			phalcon_call_method(scale, column, "getscale");
 	
 			PHALCON_INIT_NVAR(column_sql);
 			PHALCON_CONCAT_SVSVS(column_sql, "NUMBER(", size, ",", scale, ")");
@@ -130,10 +130,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, getColumnDefinition){
 	
 		case 7:
 			PHALCON_INIT_NVAR(scale);
-			PHALCON_CALL_METHOD(scale, column, "getscale");
+			phalcon_call_method(scale, column, "getscale");
 	
 			PHALCON_INIT_NVAR(column_sql);
 			PHALCON_CONCAT_SVSVS(column_sql, "FLOAT(", size, ",", scale, ")");
+			break;
+	
+		case 8:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "TINYINT(1)", 1);
 			break;
 	
 		default:
@@ -157,13 +162,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addColumn){
 
 	zval *table_name, *schema_name, *column;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -179,13 +180,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, modifyColumn){
 
 	zval *table_name, *schema_name, *column;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -201,13 +198,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropColumn){
 
 	zval *table_name, *schema_name, *column_name;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &column_name);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -223,18 +216,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addIndex){
 
 	zval *table_name, *schema_name, *index;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
 /**
-  * Generates SQL to delete an index from a table
+ * Generates SQL to delete an index from a table
  *
  * @param string $tableName
  * @param string $schemaName
@@ -245,13 +234,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropIndex){
 
 	zval *table_name, *schema_name, *index_name;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index_name);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -267,13 +252,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addPrimaryKey){
 
 	zval *table_name, *schema_name, *index;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &index);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -288,13 +269,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropPrimaryKey){
 
 	zval *table_name, *schema_name;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &table_name, &schema_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	phalcon_fetch_params(0, 2, 0, &table_name, &schema_name);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -310,13 +287,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, addForeignKey){
 
 	zval *table_name, *schema_name, *reference;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &reference) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &reference);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -332,13 +305,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropForeignKey){
 
 	zval *table_name, *schema_name, *reference_name;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &reference_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &reference_name);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -354,10 +323,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, _getTableOptions){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 0, &definition);
+	
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
 	RETURN_CTOR(empty_array);
@@ -375,13 +342,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, createTable){
 
 	zval *table_name, *schema_name, *definition;
 
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &definition) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	phalcon_fetch_params(0, 3, 0, &table_name, &schema_name, &definition);
+	
+	PHALCON_THROW_EXCEPTION_STRW(phalcon_db_exception_ce, "Not implemented yet");
 	return;
 }
 
@@ -400,10 +363,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &table_name, &schema_name, &if_exists) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 1, &table_name, &schema_name, &if_exists);
+	
 	if (!if_exists) {
 		PHALCON_INIT_VAR(if_exists);
 		ZVAL_BOOL(if_exists, 1);
@@ -423,6 +384,82 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable){
 		PHALCON_CONCAT_SV(sql, "DROP TABLE ", table);
 	}
 	
+	RETURN_CTOR(sql);
+}
+
+/**
+ * Generates SQL to create a view
+ *
+ * @param string $viewName
+ * @param array $definition
+ * @param string $schemaName
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, createView){
+
+	zval *view_name, *definition, *schema_name, *view_sql;
+	zval *view = NULL, *sql;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 3, 0, &view_name, &definition, &schema_name);
+	
+	if (!phalcon_array_isset_string(definition, SS("sql"))) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The index 'sql' is required in the definition array");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(view_sql);
+	phalcon_array_fetch_string(&view_sql, definition, SL("sql"), PH_NOISY);
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(view);
+		PHALCON_CONCAT_VSV(view, view_name, ".", schema_name);
+	} else {
+		PHALCON_CPY_WRT(view, view_name);
+	}
+	
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CONCAT_SVSV(sql, "CREATE VIEW ", view, " AS ", view_sql);
+	
+	RETURN_CTOR(sql);
+}
+
+/**
+ * Generates SQL to drop a view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @param boolean $ifExists
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropView){
+
+	zval *view_name, *schema_name, *if_exists = NULL, *view = NULL;
+	zval *sql = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 1, &view_name, &schema_name, &if_exists);
+	
+	if (!if_exists) {
+		PHALCON_INIT_VAR(if_exists);
+		ZVAL_BOOL(if_exists, 1);
+	}
+	
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(view);
+		PHALCON_CONCAT_SVSVS(view, "`", schema_name, "`.`", view_name, "`");
+	} else {
+		PHALCON_INIT_NVAR(view);
+		PHALCON_CONCAT_SVS(view, "`", view_name, "`");
+	}
+	if (zend_is_true(if_exists)) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SV(sql, "DROP VIEW IF EXISTS ", view);
+	} else {
+		PHALCON_INIT_NVAR(sql);
+		PHALCON_CONCAT_SV(sql, "DROP VIEW ", view);
+	}
 	
 	RETURN_CTOR(sql);
 }
@@ -430,8 +467,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, dropTable){
 /**
  * Generates SQL checking for the existence of a schema.table
  *
- * <code>echo $dialect->tableExists("posts", "blog")</code>
- * <code>echo $dialect->tableExists("posts")</code>
+ *<code>
+ *	var_dump($dialect->tableExists("posts", "blog"));
+ *	var_dump($dialect->tableExists("posts"));
+ *</code>
  *
  * @param string $tableName
  * @param string $schemaName
@@ -443,10 +482,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table_name, &schema_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table_name, &schema_name);
+	
 	if (!schema_name) {
 		PHALCON_INIT_VAR(schema_name);
 	}
@@ -463,9 +500,41 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableExists){
 }
 
 /**
+ * Generates SQL checking for the existence of a schema.view
+ *
+ * @param string $viewName
+ * @param string $schemaName
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, viewExists){
+
+	zval *view_name, *schema_name = NULL, *sql = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &view_name, &schema_name);
+	
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+	
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVSVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_VIEWS WHERE VIEW_NAME='", view_name, "' AND OWNER='", schema_name, "'");
+	} else {
+		PHALCON_INIT_NVAR(sql);
+		PHALCON_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END RET FROM ALL_VIEWS WHERE VIEW_NAME='", view_name, "'");
+	}
+	
+	RETURN_CTOR(sql);
+}
+
+/**
  * Generates a SQL describing a table
  *
- * <code>print_r($dialect->describeColumns("posts")) ?></code>
+ *<code>
+ *	print_r($dialect->describeColumns("posts")); ?>
+ *</code>
  *
  * @param string $table
  * @param string $schema
@@ -477,10 +546,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
@@ -499,7 +566,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeColumns){
 /**
  * List all tables on database
  *
- * <code>print_r($dialect->listTables("blog")) ?></code>
+ *<code>
+ *	print_r($dialect->listTables("blog")) ?>
+ *</code>
  *
  * @param       string $schemaName
  * @return      array
@@ -510,10 +579,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &schema_name) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &schema_name);
+	
 	if (!schema_name) {
 		PHALCON_INIT_VAR(schema_name);
 	}
@@ -524,6 +591,35 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, listTables){
 	} else {
 		PHALCON_INIT_NVAR(sql);
 		ZVAL_STRING(sql, "SELECT TABLE_NAME, OWNER FROM ALL_TABLES ORDER BY OWNER, TABLE_NAME ", 1);
+	}
+	
+	RETURN_CTOR(sql);
+}
+
+/**
+ * Generates the SQL to list all views of a schema or user
+ *
+ * @param string $schemaName
+ * @return array
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, listViews){
+
+	zval *schema_name = NULL, *sql = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &schema_name);
+	
+	if (!schema_name) {
+		PHALCON_INIT_VAR(schema_name);
+	}
+	
+	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVS(sql, "SELECT VIEW_NAME FROM ALL_VIEWS WHERE OWNER='", schema_name, "' ORDER BY VIEW_NAME");
+	} else {
+		PHALCON_INIT_NVAR(sql);
+		ZVAL_STRING(sql, "SELECT VIEW_NAME FROM ALL_VIEWS VIEW_NAME", 1);
 	}
 	
 	RETURN_CTOR(sql);
@@ -542,10 +638,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeIndexes){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
@@ -574,10 +668,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
@@ -589,7 +681,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, describeReferences){
 	} else {
 		PHALCON_SCONCAT_SVS(sql, "AND AC.TABLE_NAME = '", table, "'");
 	}
-	
 	
 	RETURN_CTOR(sql);
 }
@@ -607,16 +698,101 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, tableOptions){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &table, &schema);
+	
 	if (!schema) {
 		PHALCON_INIT_VAR(schema);
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_EMPTY_STRING();
+	RETURN_MM_EMPTY_STRING();
+}
+
+/**
+ * Transform an intermediate representation for a schema/table into a database system valid expression
+ *
+ * @param array $table
+ * @param string $escapeChar
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, getSqlTable){
+
+	zval *table, *escape_char = NULL, *table_name, *sql_table = NULL;
+	zval *schema_name, *sql_schema = NULL, *alias_name;
+	zval *sql_table_alias = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &table, &escape_char);
+	
+	if (!escape_char) {
+		PHALCON_INIT_VAR(escape_char);
+	} else {
+		PHALCON_SEPARATE_PARAM(escape_char);
+	}
+	
+	if (Z_TYPE_P(escape_char) == IS_NULL) {
+		PHALCON_OBS_NVAR(escape_char);
+		phalcon_read_property_this(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+	}
+	if (Z_TYPE_P(table) == IS_ARRAY) { 
+	
+		/** 
+		 * The index '0' is the table name
+		 */
+		PHALCON_OBS_VAR(table_name);
+		phalcon_array_fetch_long(&table_name, table, 0, PH_NOISY);
+		if (PHALCON_GLOBAL(db).escape_identifiers) {
+			PHALCON_INIT_VAR(sql_table);
+			PHALCON_CONCAT_VVV(sql_table, escape_char, table_name, escape_char);
+		} else {
+			PHALCON_CPY_WRT(sql_table, table_name);
+		}
+	
+		/** 
+		 * The index '1' is the schema name
+		 */
+		PHALCON_OBS_VAR(schema_name);
+		phalcon_array_fetch_long(&schema_name, table, 1, PH_NOISY);
+		if (Z_TYPE_P(schema_name) != IS_NULL) {
+			if (PHALCON_GLOBAL(db).escape_identifiers) {
+				PHALCON_INIT_VAR(sql_schema);
+				PHALCON_CONCAT_VVVSV(sql_schema, escape_char, schema_name, escape_char, ".", sql_table);
+			} else {
+				PHALCON_INIT_NVAR(sql_schema);
+				PHALCON_CONCAT_VSV(sql_schema, schema_name, ".", sql_table);
+			}
+		} else {
+			PHALCON_CPY_WRT(sql_schema, sql_table);
+		}
+	
+		/** 
+		 * The index '2' is the table alias
+		 */
+		if (phalcon_array_isset_long(table, 2)) {
+	
+			PHALCON_OBS_VAR(alias_name);
+			phalcon_array_fetch_long(&alias_name, table, 2, PH_NOISY);
+			if (PHALCON_GLOBAL(db).escape_identifiers) {
+				PHALCON_INIT_VAR(sql_table_alias);
+				PHALCON_CONCAT_VSVVV(sql_table_alias, sql_schema, " ", escape_char, alias_name, escape_char);
+			} else {
+				PHALCON_INIT_NVAR(sql_table_alias);
+				PHALCON_CONCAT_VSV(sql_table_alias, sql_schema, " ", alias_name);
+			}
+		} else {
+			PHALCON_CPY_WRT(sql_table_alias, sql_schema);
+		}
+	
+		RETURN_CCTOR(sql_table_alias);
+	}
+	
+	if (PHALCON_GLOBAL(db).escape_identifiers) {
+		PHALCON_INIT_NVAR(sql_table);
+		PHALCON_CONCAT_VVV(sql_table, escape_char, table, escape_char);
+		RETURN_CCTOR(sql_table);
+	}
+	
+	RETURN_CCTOR(table);
 }
 
 /**
@@ -642,8 +818,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit){
 	}
 
 	if (phalcon_is_numeric(number)) {
+
 		PHALCON_INIT_VAR(limit);
-		PHALCON_CALL_FUNC_PARAMS_1(limit, "intval", number);
+		ZVAL_LONG(limit, phalcon_get_intval(number));
 
 		PHALCON_INIT_VAR(sql_limit);
 		PHALCON_CONCAT_VSV(sql_limit, sql_query, " LIMIT ", limit);
@@ -709,13 +886,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	}
 
 	PHALCON_OBS_VAR(columns);
-	phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY);
 	if (Z_TYPE_P(columns) == IS_ARRAY) {
 
 		PHALCON_INIT_VAR(selected_columns);
 		array_init(selected_columns);
 
-		if (!phalcon_is_iterable(columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(columns, &ah0, &hp0, 0, 0)) {
 			return;
 		}
 
@@ -727,10 +904,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			 * Escape column name
 			 */
 			PHALCON_OBS_NVAR(column_item);
-			phalcon_array_fetch_long(&column_item, column, 0, PH_NOISY_CC);
+			phalcon_array_fetch_long(&column_item, column, 0, PH_NOISY);
 			if (Z_TYPE_P(column_item) == IS_ARRAY) {
 				PHALCON_INIT_NVAR(column_sql);
-				PHALCON_CALL_METHOD_PARAMS_2(column_sql, this_ptr, "getsqlexpression", column_item, escape_char);
+				phalcon_call_method_p2(column_sql, this_ptr, "getsqlexpression", column_item, escape_char);
 			} else {
 				if (PHALCON_IS_STRING(column_item, "*")) {
 					PHALCON_CPY_WRT(column_sql, column_item);
@@ -750,7 +927,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			if (phalcon_array_isset_long(column, 1)) {
 
 				PHALCON_OBS_NVAR(column_domain);
-				phalcon_array_fetch_long(&column_domain, column, 1, PH_NOISY_CC);
+				phalcon_array_fetch_long(&column_domain, column, 1, PH_NOISY);
 				if (zend_is_true(column_domain)) {
 					if (PHALCON_GLOBAL(db).escape_identifiers) {
 						PHALCON_INIT_NVAR(column_domain_sql);
@@ -772,14 +949,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			if (phalcon_array_isset_long(column, 2)) {
 
 				PHALCON_OBS_NVAR(column_alias);
-				phalcon_array_fetch_long(&column_alias, column, 2, PH_NOISY_CC);
+				phalcon_array_fetch_long(&column_alias, column, 2, PH_NOISY);
 				if (zend_is_true(column_alias)) {
 					if (PHALCON_GLOBAL(db).escape_identifiers) {
 						PHALCON_INIT_NVAR(column_alias_sql);
-						PHALCON_CONCAT_VSVVV(column_alias_sql, column_domain_sql, " AS ", escape_char, column_alias, escape_char);
+						PHALCON_CONCAT_VSVVV(column_alias_sql, column_domain_sql, " ", escape_char, column_alias, escape_char);
 					} else {
 						PHALCON_INIT_NVAR(column_alias_sql);
-						PHALCON_CONCAT_VSV(column_alias_sql, column_domain_sql, " AS ", column_alias);
+						PHALCON_CONCAT_VSV(column_alias_sql, column_domain_sql, " ", column_alias);
 					}
 				} else {
 					PHALCON_CPY_WRT(column_alias_sql, column_domain_sql);
@@ -788,7 +965,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 				PHALCON_CPY_WRT(column_alias_sql, column_domain_sql);
 			}
 
-			phalcon_array_append(&selected_columns, column_alias_sql, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&selected_columns, column_alias_sql, PH_SEPARATE);
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -803,13 +980,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	 * Check and escape tables
 	 */
 	PHALCON_OBS_VAR(tables);
-	phalcon_array_fetch_string(&tables, definition, SL("tables"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&tables, definition, SL("tables"), PH_NOISY);
 	if (Z_TYPE_P(tables) == IS_ARRAY) {
 
 		PHALCON_INIT_VAR(selected_tables);
 		array_init(selected_tables);
 
-		if (!phalcon_is_iterable(tables, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(tables, &ah1, &hp1, 0, 0)) {
 			return;
 		}
 
@@ -818,8 +995,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_GET_FOREACH_VALUE(table);
 
 			PHALCON_INIT_NVAR(sql_table);
-			PHALCON_CALL_METHOD_PARAMS_2(sql_table, this_ptr, "getsqltable", table, escape_char);
-			phalcon_array_append(&selected_tables, sql_table, PH_SEPARATE TSRMLS_CC);
+			phalcon_call_method_p2(sql_table, this_ptr, "getsqltable", table, escape_char);
+			phalcon_array_append(&selected_tables, sql_table, PH_SEPARATE);
 
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
@@ -839,9 +1016,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	if (phalcon_array_isset_string(definition, SS("joins"))) {
 
 		PHALCON_OBS_VAR(joins);
-		phalcon_array_fetch_string(&joins, definition, SL("joins"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&joins, definition, SL("joins"), PH_NOISY);
 
-		if (!phalcon_is_iterable(joins, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(joins, &ah2, &hp2, 0, 0)) {
 			return;
 		}
 
@@ -850,14 +1027,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_GET_FOREACH_VALUE(join);
 
 			PHALCON_OBS_NVAR(type);
-			phalcon_array_fetch_string(&type, join, SL("type"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&type, join, SL("type"), PH_NOISY);
 
 			PHALCON_OBS_NVAR(table);
-			phalcon_array_fetch_string(&table, join, SL("source"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&table, join, SL("source"), PH_NOISY);
 
 			PHALCON_INIT_NVAR(sql_table);
-			PHALCON_CALL_METHOD_PARAMS_2(sql_table, this_ptr, "getsqltable", table, escape_char);
-			phalcon_array_append(&selected_tables, sql_table, PH_SEPARATE TSRMLS_CC);
+			phalcon_call_method_p2(sql_table, this_ptr, "getsqltable", table, escape_char);
+			phalcon_array_append(&selected_tables, sql_table, PH_SEPARATE);
 
 			PHALCON_INIT_NVAR(sql_join);
 			PHALCON_CONCAT_SVSV(sql_join, " ", type, " JOIN ", sql_table);
@@ -868,13 +1045,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			if (phalcon_array_isset_string(join, SS("conditions"))) {
 
 				PHALCON_OBS_NVAR(join_conditions_array);
-				phalcon_array_fetch_string(&join_conditions_array, join, SL("conditions"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&join_conditions_array, join, SL("conditions"), PH_NOISY);
 				if (phalcon_fast_count_ev(join_conditions_array TSRMLS_CC)) {
 
 					PHALCON_INIT_NVAR(join_expressions);
 					array_init(join_expressions);
 
-					if (!phalcon_is_iterable(join_conditions_array, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
+					if (!phalcon_is_iterable_ex(join_conditions_array, &ah3, &hp3, 0, 0)) {
 						return;
 					}
 
@@ -883,8 +1060,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 						PHALCON_GET_FOREACH_VALUE(join_condition);
 
 						PHALCON_INIT_NVAR(join_expression);
-						PHALCON_CALL_METHOD_PARAMS_2(join_expression, this_ptr, "getsqlexpression", join_condition, escape_char);
-						phalcon_array_append(&join_expressions, join_expression, PH_SEPARATE TSRMLS_CC);
+						phalcon_call_method_p2(join_expression, this_ptr, "getsqlexpression", join_condition, escape_char);
+						phalcon_array_append(&join_expressions, join_expression, PH_SEPARATE);
 
 						zend_hash_move_forward_ex(ah3, &hp3);
 					}
@@ -908,10 +1085,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	if (phalcon_array_isset_string(definition, SS("where"))) {
 
 		PHALCON_OBS_VAR(where_conditions);
-		phalcon_array_fetch_string(&where_conditions, definition, SL("where"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&where_conditions, definition, SL("where"), PH_NOISY);
 		if (Z_TYPE_P(where_conditions) == IS_ARRAY) {
 			PHALCON_INIT_VAR(where_expression);
-			PHALCON_CALL_METHOD_PARAMS_2(where_expression, this_ptr, "getsqlexpression", where_conditions, escape_char);
+			phalcon_call_method_p2(where_expression, this_ptr, "getsqlexpression", where_conditions, escape_char);
 			PHALCON_SCONCAT_SV(sql, " WHERE ", where_expression);
 		} else {
 			PHALCON_SCONCAT_SV(sql, " WHERE ", where_conditions);
@@ -927,9 +1104,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		array_init(group_items);
 
 		PHALCON_OBS_VAR(group_fields);
-		phalcon_array_fetch_string(&group_fields, definition, SL("group"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&group_fields, definition, SL("group"), PH_NOISY);
 
-		if (!phalcon_is_iterable(group_fields, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(group_fields, &ah4, &hp4, 0, 0)) {
 			return;
 		}
 
@@ -938,8 +1115,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_GET_FOREACH_VALUE(group_field);
 
 			PHALCON_INIT_NVAR(group_expression);
-			PHALCON_CALL_METHOD_PARAMS_2(group_expression, this_ptr, "getsqlexpression", group_field, escape_char);
-			phalcon_array_append(&group_items, group_expression, PH_SEPARATE TSRMLS_CC);
+			phalcon_call_method_p2(group_expression, this_ptr, "getsqlexpression", group_field, escape_char);
+			phalcon_array_append(&group_items, group_expression, PH_SEPARATE);
 
 			zend_hash_move_forward_ex(ah4, &hp4);
 		}
@@ -956,10 +1133,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		 */
 		if (phalcon_array_isset_string(definition, SS("having"))) {
 			PHALCON_OBS_VAR(having_conditions);
-			phalcon_array_fetch_string(&having_conditions, definition, SL("having"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&having_conditions, definition, SL("having"), PH_NOISY);
 
 			PHALCON_INIT_VAR(having_expression);
-			PHALCON_CALL_METHOD_PARAMS_2(having_expression, this_ptr, "getsqlexpression", having_conditions, escape_char);
+			phalcon_call_method_p2(having_expression, this_ptr, "getsqlexpression", having_conditions, escape_char);
 			PHALCON_SCONCAT_SV(sql, " HAVING ", having_expression);
 		}
 	}
@@ -970,12 +1147,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	if (phalcon_array_isset_string(definition, SS("order"))) {
 
 		PHALCON_OBS_VAR(order_fields);
-		phalcon_array_fetch_string(&order_fields, definition, SL("order"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&order_fields, definition, SL("order"), PH_NOISY);
 
 		PHALCON_INIT_VAR(order_items);
 		array_init(order_items);
 
-		if (!phalcon_is_iterable(order_fields, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable_ex(order_fields, &ah5, &hp5, 0, 0)) {
 			return;
 		}
 
@@ -984,17 +1161,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_GET_FOREACH_VALUE(order_item);
 
 			PHALCON_OBS_NVAR(order_expression);
-			phalcon_array_fetch_long(&order_expression, order_item, 0, PH_NOISY_CC);
+			phalcon_array_fetch_long(&order_expression, order_item, 0, PH_NOISY);
 
 			PHALCON_INIT_NVAR(order_sql_item);
-			PHALCON_CALL_METHOD_PARAMS_2(order_sql_item, this_ptr, "getsqlexpression", order_expression, escape_char);
+			phalcon_call_method_p2(order_sql_item, this_ptr, "getsqlexpression", order_expression, escape_char);
 
 			/**
 			 * In the numeric 1 position could be a ASC/DESC clause
 			 */
 			if (phalcon_array_isset_long(order_item, 1)) {
 				PHALCON_OBS_NVAR(sql_order_type);
-				phalcon_array_fetch_long(&sql_order_type, order_item, 1, PH_NOISY_CC);
+				phalcon_array_fetch_long(&sql_order_type, order_item, 1, PH_NOISY);
 
 				PHALCON_INIT_NVAR(order_sql_item_type);
 				PHALCON_CONCAT_VSV(order_sql_item_type, order_sql_item, " ", sql_order_type);
@@ -1002,7 +1179,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 				PHALCON_CPY_WRT(order_sql_item_type, order_sql_item);
 			}
 
-			phalcon_array_append(&order_items, order_sql_item_type, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&order_items, order_sql_item_type, PH_SEPARATE);
 
 			zend_hash_move_forward_ex(ah5, &hp5);
 		}
@@ -1021,16 +1198,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	if (phalcon_array_isset_string(definition, SS("limit"))) {
 
 		PHALCON_OBS_VAR(limit_value);
-		phalcon_array_fetch_string(&limit_value, definition, SL("limit"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&limit_value, definition, SL("limit"), PH_NOISY);
 
 		if (Z_TYPE_P(limit_value) == IS_ARRAY) {
 
 			PHALCON_OBS_VAR(number);
-			phalcon_array_fetch_string(&number, limit_value, SL("number"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&number, limit_value, SL("number"), PH_NOISY);
 
 			if (phalcon_array_isset_string(limit_value, SS("offset"))) {
 				PHALCON_OBS_VAR(offset);
-				phalcon_array_fetch_string(&offset, limit_value, SL("offset"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&offset, limit_value, SL("offset"), PH_NOISY);
 			} else {
 				PHALCON_INIT_VAR(offset);
 				ZVAL_LONG(offset, 0);
@@ -1069,7 +1246,28 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		}
 	}
 
-
 	RETURN_CTOR(sql);
+}
+
+/**
+ * Checks whether the platform supports savepoints
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsSavepoints){
+
+
+	RETURN_FALSE;
+}
+
+/**
+ * Checks whether the platform supports releasing savepoints.
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Oracle, supportsReleaseSavepoints){
+
+
+	RETURN_FALSE;
 }
 

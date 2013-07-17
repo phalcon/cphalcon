@@ -48,6 +48,8 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_TextArea){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, TextArea, forms_element_textarea, "phalcon\\forms\\element", phalcon_forms_element_textarea_method_entry, 0);
 
+	zend_class_implements(phalcon_forms_element_textarea_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -59,23 +61,19 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_TextArea){
  */
 PHP_METHOD(Phalcon_Forms_Element_TextArea, render){
 
-	zval *attributes = NULL, *widget_attributes, *code;
+	zval *attributes = NULL, *widget_attributes;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &attributes) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 0, 1, &attributes);
+	
 	if (!attributes) {
 		PHALCON_INIT_VAR(attributes);
 	}
 	
 	PHALCON_INIT_VAR(widget_attributes);
-	PHALCON_CALL_METHOD_PARAMS_1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	
-	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "textarea", widget_attributes);
-	RETURN_CCTOR(code);
+	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
+	PHALCON_CALL_STATIC_PARAMS_1(return_value, "phalcon\\tag", "textarea", widget_attributes);
+	RETURN_MM();
 }
 

@@ -88,15 +88,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &method, &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 3, 0, &method, &route_pattern, &handler);
+	
 	PHALCON_INIT_VAR(handler_definition);
 	array_init_size(handler_definition, 3);
-	phalcon_array_append(&handler_definition, method, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&handler_definition, route_pattern, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&handler_definition, handler, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&handler_definition, method, PH_SEPARATE);
+	phalcon_array_append(&handler_definition, route_pattern, PH_SEPARATE);
+	phalcon_array_append(&handler_definition, handler, PH_SEPARATE);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), handler_definition TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -112,10 +110,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix){
 
 	zval *prefix;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &prefix) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &prefix);
+	
 	phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -155,10 +151,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &handler, &lazy) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 1, 1, &handler, &lazy);
+	
 	if (!lazy) {
 		PHALCON_INIT_VAR(lazy);
 		ZVAL_BOOL(lazy, 0);
@@ -179,10 +173,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy){
 
 	zval *lazy;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &lazy) == FAILURE) {
-		RETURN_NULL();
-	}
-
+	phalcon_fetch_params(0, 1, 0, &lazy);
+	
 	phalcon_update_property_this(this_ptr, SL("_lazy"), lazy TSRMLS_CC);
 	RETURN_THISW();
 }
@@ -218,19 +210,15 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler){
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, map){
 
-	zval *route_pattern, *handler, *method, *route;
+	zval *route_pattern, *handler, *method;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	PHALCON_INIT_VAR(method);
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_CCTOR(route);
+	PHALCON_INIT_VAR(method);
+	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
+	RETURN_MM();
 }
 
 /**
@@ -242,20 +230,16 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map){
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, get){
 
-	zval *route_pattern, *handler, *method, *route;
+	zval *route_pattern, *handler, *method;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	PHALCON_INIT_VAR(method);
 	ZVAL_STRING(method, "GET", 1);
-	
-	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_CCTOR(route);
+	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
+	RETURN_MM();
 }
 
 /**
@@ -267,20 +251,16 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get){
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, post){
 
-	zval *route_pattern, *handler, *method, *route;
+	zval *route_pattern, *handler, *method;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	PHALCON_INIT_VAR(method);
 	ZVAL_STRING(method, "POST", 1);
-	
-	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_CCTOR(route);
+	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
+	RETURN_MM();
 }
 
 /**
@@ -292,20 +272,16 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post){
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, put){
 
-	zval *route_pattern, *handler, *method, *route;
+	zval *route_pattern, *handler, *method;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	PHALCON_INIT_VAR(method);
 	ZVAL_STRING(method, "PUT", 1);
-	
-	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_CCTOR(route);
+	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
+	RETURN_MM();
 }
 
 /**
@@ -317,20 +293,16 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put){
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch){
 
-	zval *route_pattern, *handler, *method, *route;
+	zval *route_pattern, *handler, *method;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	PHALCON_INIT_VAR(method);
 	ZVAL_STRING(method, "PATCH", 1);
-	
-	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_CCTOR(route);
+	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
+	RETURN_MM();
 }
 
 /**
@@ -342,20 +314,16 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch){
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, head){
 
-	zval *route_pattern, *handler, *method, *route;
+	zval *route_pattern, *handler, *method;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	PHALCON_INIT_VAR(method);
 	ZVAL_STRING(method, "HEAD", 1);
-	
-	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_CCTOR(route);
+	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
+	RETURN_MM();
 }
 
 /**
@@ -367,20 +335,16 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head){
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete){
 
-	zval *route_pattern, *handler, *method, *route;
+	zval *route_pattern, *handler, *method;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	PHALCON_INIT_VAR(method);
 	ZVAL_STRING(method, "DELETE", 1);
-	
-	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_CCTOR(route);
+	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
+	RETURN_MM();
 }
 
 /**
@@ -392,19 +356,15 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete){
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, options){
 
-	zval *route_pattern, *handler, *method, *route;
+	zval *route_pattern, *handler, *method;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
+	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	
 	PHALCON_INIT_VAR(method);
 	ZVAL_STRING(method, "OPTIONS", 1);
-	
-	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_3(route, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_CCTOR(route);
+	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
+	RETURN_MM();
 }
 

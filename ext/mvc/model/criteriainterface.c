@@ -61,6 +61,15 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getModelName);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bind);
 
 /**
+ * Sets the bind types in the criteria
+ * This method replaces all previously set bound parameters
+ *
+ * @param string $bindTypes
+ * @return Phalcon\Mvc\Model\Criteria
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bindTypes);
+
+/**
  * Adds the conditions parameter to the criteria
  *
  * @param string $conditions
@@ -82,10 +91,10 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, conditions);
  * @param string $orderColumns
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, order);
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
 
 /**
- * Adds the limit parameter to the criteria
+ * Sets the limit parameter to the criteria
  *
  * @param int $limit
  * @param int $offset
@@ -94,7 +103,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, order);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
 
 /**
- * Adds the "for_update" parameter to the criteria
+ * Sets the "for_update" parameter to the criteria
  *
  * @param boolean $forUpdate
  * @return Phalcon\Mvc\Model\CriteriaInterface
@@ -102,7 +111,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, forUpdate);
 
 /**
- * Adds the "shared_lock" parameter to the criteria
+ * Sets the "shared_lock" parameter to the criteria
  *
  * @param boolean $sharedLock
  * @return Phalcon\Mvc\Model\Criteria
@@ -113,6 +122,8 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, sharedLock);
  * Appends a condition to the current conditions using an AND operator
  *
  * @param string $conditions
+ * @param array $bindParams
+ * @param array $bindTypes
  * @return Phalcon\Mvc\Model\Criteria
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
@@ -121,9 +132,65 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
  * Appends a condition to the current conditions using an OR operator
  *
  * @param string $conditions
+ * @param array $bindParams
+ * @param array $bindTypes
  * @return Phalcon\Mvc\Model\Criteria
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
+
+/**
+ * Appends a BETWEEN condition to the current conditions
+ *
+ *<code>
+ *	$builder->betweenWhere('price', 100.25, 200.50);
+ *</code>
+ *
+ * @param string $expr
+ * @param mixed $minimum
+ * @param mixed $maximum
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
+
+/**
+ * Appends a NOT BETWEEN condition to the current conditions
+ *
+ *<code>
+ *	$builder->notBetweenWhere('price', 100.25, 200.50);
+ *</code>
+ *
+ * @param string $expr
+ * @param mixed $minimum
+ * @param mixed $maximum
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
+
+/**
+ * Appends an IN condition to the current conditions
+ *
+ *<code>
+ *	$builder->inWhere('id', [1, 2, 3]);
+ *</code>
+ *
+ * @param string $expr
+ * @param array $values
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
+
+/**
+ * Appends a NOT IN condition to the current conditions
+ *
+ *<code>
+ *	$builder->notInWhere('id', [1, 2, 3]);
+ *</code>
+ *
+ * @param string $expr
+ * @param array $values
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notInWhere);
 
 /**
  * Returns the conditions parameter in the criteria

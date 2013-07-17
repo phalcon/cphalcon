@@ -16,18 +16,22 @@
 
 # Check best compilation flags for GCC
 export CC="gcc"
-export CFLAGS="-march=native -mtune=native -O2 -fno-delete-null-pointer-checks -finline-functions -fomit-frame-pointer"
+export CFLAGS="-march=native -mtune=native -O2 -fno-delete-null-pointer-checks -finline-functions -fomit-frame-pointer -fno-builtin-memcmp"
 echo "int main() {}" > t.c
 gcc $CFLAGS t.c -o t 2> t.t
 if [ $? != 0 ]; then
 	chmod +x gcccpuopt
 	BFLAGS=`./gcccpuopt`
-	export CFLAGS="-O2 -fno-delete-null-pointer-checks -finline-functions -fomit-frame-pointer $BFLAGS"
+	export CFLAGS="-O2 -fno-delete-null-pointer-checks -finline-functions -fomit-frame-pointer -fno-builtin-memcmp $BFLAGS"
 	gcc $CFLAGS t.c -o t 2> t.t
 	if [ $? != 0 ]; then
 		export CFLAGS="-O2 -fno-delete-null-pointer-checks"
 	fi
 fi
+if [ $(gcc -dumpversion | cut -f1 -d.) -ge 4 ]; then
+	gcc $CFLAGS -fvisibility=hidden t.c -o t 2> t.t && export CFLAGS="$CFLAGS -fvisibility=hidden"
+fi
+#gcc $CFLAGS -flto t.c -o t 2> t.t && { export CFLAGS="$CFLAGS -flto"; export LDFLAGS="$LDFLAGS $CFLAGS"; }
 rm -f t.t t.c t
 
 #Check processor architecture
@@ -56,7 +60,7 @@ fi
 LIBTOOLIZE_BIN="libtoolize"
 
 #GNU 'libtoolize' on MAC OS X is called 'glibtoolize'
-if [ `(uname -s) 2>/dev/null` == 'Darwin' ]
+if [ "$(uname -s 2>/dev/null)" = "Darwin" ] && $(which glibtoolize > /dev/null 2>&1)
 then
   LIBTOOLIZE_BIN="glibtoolize"
 fi
