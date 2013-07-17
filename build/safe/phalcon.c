@@ -15105,17 +15105,23 @@ static PHP_METHOD(Phalcon_Http_Response, send){
 
 static PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 
-	zval *file_path, *attachment_name = NULL, *base_path = NULL;
+	zval *file_path, *attachment_name = NULL, *attachment, *base_path = NULL;
 	zval *headers, *content_description, *content_disposition;
 	zval *content_transfer;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &file_path, &attachment_name);
+	phalcon_fetch_params(1, 1, 2, &file_path, &attachment_name, &attachment);
 	
 	if (!attachment_name) {
 		PHALCON_INIT_VAR(attachment_name);
 	}
+
+        if (!attachment) {
+                PHALCON_INIT_VAR(attachment);
+                ZVAL_BOOL(attachment, 1);
+        }
+
 	
 	if (Z_TYPE_P(attachment_name) != IS_STRING) {
 		PHALCON_INIT_VAR(base_path);
@@ -15126,7 +15132,7 @@ static PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 	
 	PHALCON_INIT_VAR(headers);
 	phalcon_call_method(headers, this_ptr, "getheaders");
-	
+if (zend_is_true(attachment)) {	
 	PHALCON_INIT_VAR(content_description);
 	ZVAL_STRING(content_description, "Content-Description: File Transfer", 1);
 	phalcon_call_method_p1_noret(headers, "setraw", content_description);
@@ -15138,6 +15144,7 @@ static PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 	PHALCON_INIT_VAR(content_transfer);
 	ZVAL_STRING(content_transfer, "Content-Transfer-Encoding: binary", 1);
 	phalcon_call_method_p1_noret(headers, "setraw", content_transfer);
+}
 	phalcon_update_property_this(this_ptr, SL("_file"), file_path TSRMLS_CC);
 	
 	RETURN_THIS();
