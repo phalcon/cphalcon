@@ -43,7 +43,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 	public function testCollections()
 	{
 		if (!class_exists('Mongo')) {
-			echo "Mongo class does not exist, test skipped\n";
+			$this->markTestSkipped("Mongo class does not exist, test skipped");
 			return;
 		}
 
