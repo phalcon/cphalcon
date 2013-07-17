@@ -142,6 +142,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		phalcon_is_iterable(directives, &ah1, &hp1, 0, 0);
 	
 		if (zend_hash_num_elements(ah1) == 0) {
+			Z_ADDREF_P(directives);
 			phalcon_array_update_zval(&config, section, &directives, 0);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			continue;
