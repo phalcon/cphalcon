@@ -68,8 +68,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Criteria){
 
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_bindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_model_criteria_ce, SL("_hiddenParamNumber"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_criteria_ce TSRMLS_CC, 2, phalcon_mvc_model_criteriainterface_ce, phalcon_di_injectionawareinterface_ce);
@@ -1320,7 +1318,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	zval *dependency_injector, *model_name, *data;
 	zval *conditions, *service, *meta_data, *model;
 	zval *data_types, *bind, *value = NULL, *field = NULL, *type = NULL, *condition = NULL;
-	zval *value_pattern = NULL, *criteria, *join_conditions;
+	zval *value_pattern = NULL, *join_conditions;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1410,16 +1408,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	/** 
 	 * Create an object instance and pass the paramaters to it
 	 */
-	PHALCON_INIT_VAR(criteria);
-	object_init_ex(criteria, phalcon_mvc_model_criteria_ce);
+	object_init_ex(return_value, phalcon_mvc_model_criteria_ce);
 	if (phalcon_fast_count_ev(conditions TSRMLS_CC)) {
 		PHALCON_INIT_VAR(join_conditions);
 		phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
-		phalcon_call_method_p1_noret(criteria, "where", join_conditions);
-		phalcon_call_method_p1_noret(criteria, "bind", bind);
+		phalcon_call_method_p1_noret(return_value, "where", join_conditions);
+		phalcon_call_method_p1_noret(return_value, "bind", bind);
 	}
 	
-	RETURN_CTOR(criteria);
+	phalcon_call_method_p1_noret(return_value, "setmodelname", model_name);
+	RETURN_MM();
 }
 
 /**
