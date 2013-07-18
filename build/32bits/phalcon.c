@@ -7465,7 +7465,7 @@ static int phalcon_http_build_query(zval *return_value, zval *params, char *sep 
 		smart_str formstr = { NULL, 0, 0 };
 		int res;
 
-#if PHP_VERSION_ID < 504000
+#if PHP_VERSION_ID < 50400
 		res = php_url_encode_hash_ex(HASH_OF(params), &formstr, NULL, 0, NULL, 0, NULL, 0, (Z_TYPE_P(params) == IS_OBJECT ? params : NULL), sep TSRMLS_CC);
 #else
 		php_url_encode_hash_ex(HASH_OF(params), &formstr, NULL, 0, NULL, 0, NULL, 0, (Z_TYPE_P(params) == IS_OBJECT ? params : NULL), sep, PHP_QUERY_RFC1738 TSRMLS_CC)
