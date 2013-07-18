@@ -78,25 +78,25 @@ static inline void phalcon_config_adapter_ini_update_zval_directive(zval **arr, 
 	n = zend_hash_num_elements(Z_ARRVAL_P(directive));
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch(&temp1, *arr, section, PH_SILENT_CC);
+		phalcon_array_fetch(&temp1, *arr, section, PH_SILENT);
 		if (Z_REFCOUNT_P(temp1) > 1) {
-			phalcon_array_update_zval(arr, section, &temp1, PH_COPY | PH_CTOR TSRMLS_CC);
+			phalcon_array_update_zval(arr, section, &temp1, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp1) != IS_ARRAY) {
 			convert_to_array(temp1);
-			phalcon_array_update_zval(arr, section, &temp1, PH_COPY TSRMLS_CC);
+			phalcon_array_update_zval(arr, section, &temp1, PH_COPY);
 		}
 
 		for (i = 0; i < n - 1; i++) {
-			phalcon_array_fetch_long(&index, directive, i, PH_NOISY_CC);
+			phalcon_array_fetch_long(&index, directive, i, PH_NOISY);
 
-			phalcon_array_fetch(&temp2, temp1, index, PH_SILENT_CC);
+			phalcon_array_fetch(&temp2, temp1, index, PH_SILENT);
 			if (Z_REFCOUNT_P(temp2) > 1) {
-				phalcon_array_update_zval(&temp1, index, &temp2, PH_COPY | PH_CTOR TSRMLS_CC);
+				phalcon_array_update_zval(&temp1, index, &temp2, PH_COPY | PH_CTOR);
 			}
 			if (Z_TYPE_P(temp2) != IS_ARRAY) {
 				convert_to_array(temp2);
-				phalcon_array_update_zval(&temp1, index, &temp2, PH_COPY TSRMLS_CC);
+				phalcon_array_update_zval(&temp1, index, &temp2, PH_COPY);
 			}
 			zval_ptr_dtor(&index);
 
@@ -107,8 +107,8 @@ static inline void phalcon_config_adapter_ini_update_zval_directive(zval **arr, 
 			temp2 = NULL;
 		}
 
-		phalcon_array_fetch_long(&index, directive, n - 1, PH_NOISY_CC);
-		phalcon_array_update_zval(&temp1, index, value, PH_COPY TSRMLS_CC);
+		phalcon_array_fetch_long(&index, directive, n - 1, PH_NOISY);
+		phalcon_array_update_zval(&temp1, index, value, PH_COPY);
 
 		zval_ptr_dtor(&index);
 
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	
 			if (phalcon_memnstr_str(key, SL("."))) {
 				PHALCON_INIT_NVAR(directive_parts);
-				phalcon_fast_explode_str(directive_parts, SL("."), key TSRMLS_CC);
+				phalcon_fast_explode_str(directive_parts, SL("."), key);
 				phalcon_config_adapter_ini_update_zval_directive(&config, section, directive_parts, &value, 0 TSRMLS_CC);
 			} else {
 				phalcon_array_update_multi_2(&config, section, key, &value, 0);
