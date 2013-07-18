@@ -625,7 +625,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 		 * If the collection must not be joined we must print a HTML for each one
 		 */
 		if (Z_TYPE_P(filters) == IS_ARRAY) { 
-			if (!zend_is_true(join)) {
+			if (zend_is_true(join)) {
 				if (zend_is_true(local)) {
 	
 					/** 

@@ -84495,8 +84495,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
-	} else {
-		PHALCON_SEPARATE_PARAM(lifetime);
 	}
 	
 	if (!stop_buffer) {
@@ -84533,13 +84531,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, save){
 	
 	if (Z_TYPE_P(lifetime) == IS_NULL) {
 	
-		PHALCON_OBS_NVAR(lifetime);
-		phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
-		if (Z_TYPE_P(lifetime) == IS_NULL) {
-			PHALCON_INIT_VAR(ttl);
+		PHALCON_OBS_NVAR(ttl);
+		phalcon_read_property_this(&ttl, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+		if (Z_TYPE_P(ttl) == IS_NULL) {
+			PHALCON_INIT_NVAR(ttl);
 			phalcon_call_method(ttl, frontend, "getlifetime");
-		} else {
-			PHALCON_CPY_WRT(ttl, lifetime);
 		}
 	} else {
 		PHALCON_CPY_WRT(ttl, lifetime);
@@ -84634,14 +84630,14 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 1, &prefix);
-	
-	if (!prefix) {
-		PHALCON_INIT_VAR(prefix);
-		ZVAL_STRING(prefix, "", 1);
-	}
-	
+
 	PHALCON_INIT_VAR(prefixed);
-	PHALCON_CONCAT_SV(prefixed, "_PHCX", prefix);
+	if (!prefix) {
+		ZVAL_STRING(prefixed, "_PHCX", 1);
+	}
+	else {
+		PHALCON_CONCAT_SV(prefixed, "_PHCX", prefix);
+	}
 	
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
@@ -84663,7 +84659,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys){
 			PHALCON_GET_HKEY(key, ah0, hp0);
 			PHALCON_GET_HVALUE(ttl);
 	
-			if (!phalcon_memnstr(key, prefix)) {
+			if (!phalcon_memnstr(key, prefixed)) {
 				zend_hash_move_forward_ex(ah0, &hp0);
 				continue;
 			}
@@ -84785,7 +84781,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 static PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 
 	zval *options, *memcache, *host, *port, *persistent;
-	zval *success = NULL;
+	zval *success;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -84808,11 +84804,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 	
 	PHALCON_OBS_VAR(persistent);
 	phalcon_array_fetch_string(&persistent, options, SL("persistent"), PH_NOISY);
+
+	PHALCON_INIT_VAR(success);
 	if (zend_is_true(persistent)) {
-		PHALCON_INIT_VAR(success);
 		phalcon_call_method_p2(success, memcache, "pconnect", host, port);
 	} else {
-		PHALCON_INIT_NVAR(success);
 		phalcon_call_method_p2(success, memcache, "connect", host, port);
 	}
 	
@@ -86269,8 +86265,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
-	} else {
-		PHALCON_SEPARATE_PARAM(lifetime);
 	}
 	
 	if (!stop_buffer) {
@@ -86306,14 +86300,12 @@ static PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	phalcon_call_method_p1(prepared_content, frontend, "beforestore", cached_content);
 	
 	if (Z_TYPE_P(lifetime) == IS_NULL) {
-	
-		PHALCON_OBS_NVAR(lifetime);
-		phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
-		if (Z_TYPE_P(lifetime) == IS_NULL) {
-			PHALCON_INIT_VAR(ttl);
+
+		PHALCON_OBS_VAR(ttl);
+		phalcon_read_property_this(&ttl, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+		if (Z_TYPE_P(ttl) == IS_NULL) {
+			PHALCON_INIT_NVAR(ttl);
 			phalcon_call_method(ttl, frontend, "getlifetime");
-		} else {
-			PHALCON_CPY_WRT(ttl, lifetime);
 		}
 	} else {
 		PHALCON_CPY_WRT(ttl, lifetime);
@@ -86338,7 +86330,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 
 static PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 
-	zval *key_name, *prefix, *key, *success;
+	zval *key_name, *prefix, *key;
 
 	PHALCON_MM_GROW();
 
@@ -86350,9 +86342,8 @@ static PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_SVV(key, "_PHCA", prefix, key_name);
 	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_func_p1(success, "apc_delete", key);
-	RETURN_CCTOR(success);
+	phalcon_call_func_p1(return_value, "apc_delete", key);
+	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
@@ -86374,9 +86365,12 @@ static PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 
 	phalcon_fetch_params(1, 0, 1, &prefix);
 	
+	PHALCON_INIT_VAR(prefix_pattern);
 	if (!prefix) {
-		PHALCON_INIT_VAR(prefix);
-		ZVAL_STRING(prefix, "", 1);
+		ZVAL_STRING(prefix_pattern, "/^_PHCA/", 1);
+	}
+	else {
+		PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
 	}
 	
 	PHALCON_INIT_VAR(keys);
@@ -86385,8 +86379,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "user", 1);
 	
-	PHALCON_INIT_VAR(prefix_pattern);
-	PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
 	ce0 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(iterator);
@@ -86421,21 +86413,24 @@ static PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
 		if (likely(key_type == HASH_KEY_IS_STRING)) {
 			ZVAL_STRINGL(key, str_key + 5, str_key_len - 5 - 1, 1);
+			efree(str_key);
 
-			phalcon_array_append(&keys, key, PH_SEPARATE);
+			phalcon_array_append(&keys, key, PH_COPY);
 		}
 #else
 		PHALCON_INIT_NVAR(itkey);
 		it->funcs->get_current_key(it, itkey TSRMLS_CC);
 		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
 			ZVAL_STRINGL(key, Z_STRVAL_P(itkey) + 5, Z_STRLEN_P(itkey) - 5, 1);
-			phalcon_array_append(&keys, key, PH_SEPARATE);
+			phalcon_array_append(&keys, key, PH_COPY);
 		}
 #endif
 
 		it->funcs->move_forward(it TSRMLS_CC);
 	}
 	
+	it->funcs->dtor(it TSRMLS_CC);
+
 	RETURN_CTOR(keys);
 }
 
@@ -91011,7 +91006,7 @@ static PHP_METHOD(Phalcon_Assets_Manager, output){
 		phalcon_call_method(local, resource, "getlocal");
 	
 		if (Z_TYPE_P(filters) == IS_ARRAY) { 
-			if (!zend_is_true(join)) {
+			if (zend_is_true(join)) {
 				if (zend_is_true(local)) {
 	
 					PHALCON_INIT_NVAR(source_path);
@@ -98016,6 +98011,7 @@ static PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		phalcon_is_iterable(directives, &ah1, &hp1, 0, 0);
 	
 		if (zend_hash_num_elements(ah1) == 0) {
+			Z_ADDREF_P(directives);
 			phalcon_array_update_zval(&config, section, &directives, 0);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			continue;
