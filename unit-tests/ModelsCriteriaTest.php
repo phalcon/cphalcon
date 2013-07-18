@@ -288,11 +288,12 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$data = array();
 		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
-        $this->assertEquals($criteria->getParams(), NULL);
+		$this->assertEquals($criteria->getParams(), NULL);
+		$this->assertEquals($criteria->getModelName(), "Robots");
 
-        $data = array('id' => 1);
+		$data = array('id' => 1);
 		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
-        $this->assertEquals($criteria->getParams(), array(
+		$this->assertEquals($criteria->getParams(), array(
 			'conditions' => 'id=:id:',
 			'bind' => array(
 				'id' => 1,
@@ -301,7 +302,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$data = array('name' => 'ol');
 		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
-        $this->assertEquals($criteria->getParams(), array(
+		$this->assertEquals($criteria->getParams(), array(
 			'conditions' => 'name LIKE :name:',
 			'bind' => array(
 				'name' => '%ol%',
