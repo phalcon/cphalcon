@@ -216,7 +216,8 @@ PHP_METHOD(Phalcon_Crypt, getPadding) {
 }
 
 /**
- * @param return_value Result, possible padded
+ * @brief Adds padding @a padding_type to @a text
+ * @param return_value Result, possibly padded
  * @param text Message to be padded
  * @param mode Encryption mode; padding is applied only in CBC or ECB mode
  * @param block_size Cipher block size
@@ -229,7 +230,7 @@ static void phalcon_crypt_pad_text(zval *return_value, zval *text, zval *mode, u
 	assert(Z_TYPE_P(mode) == IS_STRING);
 
 	uint padding_size = 0, i;
-	char padding[257];
+	char padding[256];
 	char *str_mode = Z_STRVAL_P(mode);
 
 	if (!strcmp(str_mode, "ecb") || !strcmp(str_mode, "cbc")) {
@@ -238,7 +239,7 @@ static void phalcon_crypt_pad_text(zval *return_value, zval *text, zval *mode, u
 		switch (padding_type) {
 			case PHALCON_CRYPT_PADDING_ANSI_X_923:
 				memset(padding, 0, padding_size - 1);
-				padding[padding_size - 1] = (unsigned char)padding_size;
+				padding[padding_size-1] = (unsigned char)padding_size;
 				break;
 
 			case PHALCON_CRYPT_PADDING_PKCS7:
@@ -250,7 +251,7 @@ static void phalcon_crypt_pad_text(zval *return_value, zval *text, zval *mode, u
 					padding[i] = (unsigned char)rand();
 				}
 
-				padding[padding_size - 1] = (unsigned char)padding_size;
+				padding[padding_size-1] = (unsigned char)padding_size;
 				break;
 
 			case PHALCON_CRYPT_PADDING_ISO_IEC_7816_4:
@@ -281,12 +282,22 @@ static void phalcon_crypt_pad_text(zval *return_value, zval *text, zval *mode, u
 	}
 }
 
+/**
+ * @brief Removes padding @a padding_type from @a text
+ * @param return_value Result, possibly unpadded
+ * @param text Message to be unpadded
+ * @param mode Encryption mode; unpadding is applied only in CBC or ECB mode
+ * @param block_size Cipher block size
+ * @param padding_type Padding scheme
+ * @note If the function detects that the text was not padded, it will return it unmodified
+ */
 static void phalcon_crypt_unpad_text(zval *return_value, zval *text, zval *mode, uint block_size, int padding_type TSRMLS_DC)
 {
 	assert(Z_TYPE_P(text) == IS_STRING);
 	assert(Z_TYPE_P(mode) == IS_STRING);
 
 	uint padding_size = 0;
+	char padding[256];
 	int i;
 	char *str_mode = Z_STRVAL_P(mode);
 	char *str_text = Z_STRVAL_P(text);
@@ -295,9 +306,33 @@ static void phalcon_crypt_unpad_text(zval *return_value, zval *text, zval *mode,
 	if (text_len && (text_len % block_size == 0) && (!strcmp(str_mode, "ecb") || !strcmp(str_mode, "cbc"))) {
 		switch (padding_type) {
 			case PHALCON_CRYPT_PADDING_ANSI_X_923:
+				if (str_text[text_len-1] <= block_size) {
+					padding_size = str_text[text_len-1];
+
+					memset(padding, 0, padding_size - 1);
+					padding[padding_size-1] = (unsigned char)padding_size;
+
+					if (memcmp(padding, str_text + text_len - padding_size, padding_size)) {
+						padding_size = 0;
+					}
+				}
+
+				break;
+
 			case PHALCON_CRYPT_PADDING_PKCS7:
+				if (str_text[text_len-1] <= block_size) {
+					padding_size = str_text[text_len-1];
+
+					memset(padding, padding_size, padding_size);
+
+					if (memcmp(padding, str_text + text_len - padding_size, padding_size)) {
+						padding_size = 0;
+					}
+				}
+
+				break;
+
 			case PHALCON_CRYPT_PADDING_ISO_10126:
-				/* For the sake of performance we do not verify the exact padding type here */
 				padding_size = str_text[text_len-1];
 				break;
 
