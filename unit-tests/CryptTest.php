@@ -32,17 +32,53 @@ class CryptTest extends PHPUnit_Framework_TestCase
 		);
 
 		$encrypt = new Phalcon\Crypt();
-		foreach ($tests as $key => $test) {
-			$encrypt->setKey($key);
-			$encryption = $encrypt->encrypt($test);
-			$this->assertEquals(trim($encrypt->decrypt($encryption)), $test);
-		}
 
-		foreach ($tests as $key => $test) {
-			$encryption = $encrypt->encrypt($test, $key);
-			$this->assertEquals(trim($encrypt->decrypt($encryption, $key)), $test);
-		}
+		foreach (array(MCRYPT_MODE_ECB, MCRYPT_MODE_CBC, MCRYPT_MODE_CFB, MCRYPT_MODE_CFB, MCRYPT_MODE_NOFB) as $mode) {
+			$encrypt->setMode($mode);
 
+			foreach ($tests as $key => $test) {
+				$encrypt->setKey($key);
+				$encryption = $encrypt->encrypt($test);
+				$this->assertEquals(rtrim($encrypt->decrypt($encryption), "\0"), $test);
+			}
+
+			foreach ($tests as $key => $test) {
+				$encryption = $encrypt->encrypt($test, $key);
+				$this->assertEquals(rtrim($encrypt->decrypt($encryption, $key), "\0"), $test);
+			}
+		}
 	}
 
+	public function testPadding()
+	{
+		$texts = array('');
+		$key   = '0123456789ABCDEF0123456789ABCDEF';
+		$modes = array('ecb', 'cbc', 'cfb');
+		$pads  = array(
+			Phalcon\Crypt::PADDING_ANSI_X_923, Phalcon\Crypt::PADDING_PKCS7,
+			Phalcon\Crypt::PADDING_ISO_10126, Phalcon\Crypt::PADDING_ISO_IEC_7816_4,
+			Phalcon\Crypt::PADDING_ZERO, Phalcon\Crypt::PADDING_SPACE
+		);
+
+		for ($i=1; $i<128; ++$i) {
+			$texts[] = str_repeat('A', $i);
+		}
+
+		$crypt = new Phalcon\Crypt();
+		$crypt->setCipher(MCRYPT_RIJNDAEL_256)->setKey($key);
+
+		foreach ($pads as $padding) {
+			$crypt->setPadding($padding);
+			foreach ($modes as $mode) {
+				$crypt->setMode($mode);
+
+				foreach ($texts as $text) {
+					$encrypted = $crypt->encrypt($text);
+					$actual    = $crypt->decrypt($encrypted);
+
+					$this->assertEquals($actual, $text);
+				}
+			}
+		}
+	}
 }
