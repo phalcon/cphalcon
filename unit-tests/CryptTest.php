@@ -28,7 +28,7 @@ class CryptTest extends PHPUnit_Framework_TestCase
 			mt_rand(0, 100) => 'Some text',
 			md5(uniqid()) => str_repeat('x', mt_rand(1, 255)),
 			time() => str_shuffle('abcdefeghijklmnopqrst'),
-			'le$ki' => null,
+			'le$ki' => null
 		);
 
 		$encrypt = new Phalcon\Crypt();
