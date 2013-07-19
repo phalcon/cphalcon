@@ -681,4 +681,222 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$this->assertTrue($cache->delete('test-data'));
 	}
+
+	private function _prepareLibmemcached()
+	{
+
+		if (!extension_loaded('memcached')) {
+			$this->markTestSkipped('Warning: memcached extension is not loaded');
+			return false;
+		}
+
+		$memcache = new Memcached();
+		$this->assertFalse(!$memcache->addServers(array(array('127.0.0.1', 11211, 1))));
+
+		return $memcache;
+	}
+
+	public function testOutputLibmemcachedCache()
+	{
+
+		$memcache = $this->_prepareLibmemcached();
+		if (!$memcache) {
+			return false;
+		}
+
+		$memcache->delete('test-output');
+
+		$time = date('H:i:s');
+
+		$frontCache = new Phalcon\Cache\Frontend\Output(array(
+			'lifetime' => 2
+		));
+
+		$cache = new Phalcon\Cache\Backend\Libmemcached($frontCache);
+
+		ob_start();
+
+		//First time cache
+		$content = $cache->start('test-output');
+		if ($content !== null) {
+			$this->assertTrue(false);
+		}
+
+		echo $time;
+
+		$cache->save(null, null, null, true);
+
+		$obContent = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertEquals($time, $obContent);
+		$this->assertEquals($time, $memcache->get('test-output'));
+
+		//Expect same cache
+		$content = $cache->start('test-output');
+		if ($content === null) {
+			$this->assertTrue(false);
+		}
+
+		$this->assertEquals($time, $obContent);
+
+		//Refresh cache
+		sleep(3);
+
+		$time2 = date('H:i:s');
+
+		ob_start();
+
+		$content = $cache->start('test-output');
+		if($content!==null){
+			$this->assertTrue(false);
+		}
+		echo $time2;
+		$cache->save(null, null, null, true);
+
+		$obContent2 = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertNotEquals($time, $obContent2);
+		$this->assertEquals($time2, $obContent2);
+		$this->assertEquals($time2, $memcache->get('test-output'));
+
+		//Check if exists
+		$this->assertTrue($cache->exists('test-output'));
+
+		//Delete entry from cache
+		$this->assertTrue($cache->delete('test-output'));
+
+		$memcache->quit();
+
+	}
+
+	public function testDataLibmemcachedCache()
+	{
+
+		$memcache = $this->_prepareLibmemcached();
+		if (!$memcache) {
+			return false;
+		}
+
+		$memcache->delete('test-data');
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
+			'servers' => array(
+				array(
+					'host' => '127.0.0.1',
+					'port' => '11211',
+					'weight' => '1'),
+			)
+		));
+
+		$keys = $cache->queryKeys();
+		foreach ($keys as $key) {
+			$cache->delete($key);
+		}
+
+		$data = array(1, 2, 3, 4, 5);
+
+		$cache->save('test-data', $data);
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, $data);
+
+		$cache->save('test-data', "sure, nothing interesting");
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, "sure, nothing interesting");
+
+		$this->assertEquals($cache->queryKeys(), array(
+			0 => 'test-data',
+		));
+
+		//Check if exists
+		$this->assertTrue($cache->exists('test-data'));
+
+		//Delete
+		$this->assertTrue($cache->delete('test-data'));
+
+		$memcache->quit();
+
+	}
+
+	public function testDataLibmemcachedCacheOption()
+	{
+
+		$memcache = $this->_prepareLibmemcached();
+		if (!$memcache) {
+			return false;
+		}
+
+		$memcache->delete('test-data');
+
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+        //Memcached OPT_PREFIX_KEY: prefix.
+		$cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
+			'servers' => array(
+				array(
+					'host' => '127.0.0.1',
+					'port' => '11211',
+					'weight' => '1'),
+			),
+			'client' => array(
+				Memcached::OPT_PREFIX_KEY => 'prefix.',
+			)
+		));
+
+		$data = array(1, 2, 3, 4, 5);
+
+		$cache->save('test-data', $data);
+
+		$cachedContent = $cache->get('test-data');
+		$this->assertEquals($cachedContent, $data);
+
+		$cachedContent = $memcache->get('test-data');
+		//$this->assertNotEquals($cachedContent, $data);
+		$this->assertFalse($cachedContent);
+
+		$cachedContent = $memcache->get('prefix.test-data');
+		$cachedUnserialize = unserialize($cachedContent);
+		$this->assertEquals($cachedUnserialize, $data);
+
+        //Memcached Option None
+		$cache2 = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
+			'servers' => array(
+				array(
+					'host' => '127.0.0.1',
+					'port' => '11211',
+					'weight' => '1'),
+			),
+			'client' => array(),
+		));
+
+		$cachedContent = $cache2->get('test-data');
+		$this->assertNotEquals($cachedContent, $data);
+
+		$cache2->save('test-data', "sure, nothing interesting");
+
+		$cachedContent = $cache2->get('test-data');
+		$this->assertEquals($cachedContent, "sure, nothing interesting");
+
+		$cachedContent = $memcache->get('test-data');
+		$cachedUnserialize = unserialize($cachedContent);
+		$this->assertEquals($cachedUnserialize, "sure, nothing interesting");
+
+		$cachedContent = $memcache->get('prefix.test-data');
+		$cachedUnserialize = unserialize($cachedContent);
+		$this->assertNotEquals($cachedUnserialize, "sure, nothing interesting");
+		$this->assertEquals($cachedUnserialize, $data);
+
+		//Delete
+		$this->assertTrue($cache->delete('test-data'));
+		$this->assertTrue($cache2->delete('test-data'));
+
+		$memcache->quit();
+
+	}
+
 }
