@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+require_once 'helpers/xcache.php';
+
 class CacheTest extends PHPUnit_Framework_TestCase
 {
 
@@ -356,7 +358,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 	protected function _prepareApc()
 	{
 
-		if (!extension_loaded('apc')) {
+		if (!function_exists('apc_fetch')) {
 			$this->markTestSkipped('apc extension is not loaded');
 			return false;
 		}
@@ -585,6 +587,9 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	protected function _prepareXcache()
 	{
+		if (function_exists('xcache_emulation')) {
+			return true;
+		}
 
 		if (!extension_loaded('xcache') || 'cli' == PHP_SAPI) {
 			$this->markTestSkipped('xcache extension is not loaded');
@@ -647,12 +652,10 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		//Delete entry from cache
 		$this->assertTrue($cache->delete('test-output'));
-
 	}
 
 	public function testDataXcache()
 	{
-
 		$ready = $this->_prepareXcache();
 		if (!$ready) {
 			return false;
@@ -677,6 +680,5 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($cachedContent, "sure, nothing interesting");
 
 		$this->assertTrue($cache->delete('test-data'));
-
 	}
 }

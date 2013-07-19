@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -44,7 +43,7 @@
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
  *
- * Simple resultsets only contains a complete objects
+ * Simple resultsets only contains complete objects.
  * This class builds every complete object as it is required
  */
 
@@ -137,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 }
 
 /**
- * Check whether internal resource has rows to fetch
+ * Check whether the internal resource has rows to fetch
  *
  * @return boolean
  */
@@ -252,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 /**
  * Returns a complete resultset as an array, if the resultset has a big number of rows
- * it could consume more memory than currently it does. Export the resultset to an array
+ * it could consume more memory than it currently does. Exporting the resultset to an array
  * couldn't be faster with a large number of records
  *
  * @param boolean $renameColumns
@@ -465,7 +464,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 }
 
 /**
- * Unserializing a resultset will allow to only works on the rows present in the saved state
+ * Unserializing a resultset only works on the rows present in the saved state
  *
  * @param string $data
  */

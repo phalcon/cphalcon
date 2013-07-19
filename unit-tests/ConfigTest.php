@@ -253,5 +253,36 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($actual, $expected);
 	}
+
+	public function testIniConfigDirective()
+	{
+		$config = new \Phalcon\Config\Adapter\Ini('unit-tests/config/directive.ini');
+		$actual = $config->toArray();
+		$expected = array(
+			'test' => array(
+				'parent' => array(
+					'property' => 1,
+					'property2' => 'yeah',
+					'property3' => array('baseuri' => '/phalcon/'),
+					'property4' => array(
+						'models' => array('metadata' => 'memory'),
+					),
+					'property5' => array(
+						'database' => array(
+							'adapter' => 'mysql',
+							'host' => 'localhost',
+							'username' => 'user',
+							'password' => 'passwd',
+							'name' => 'demo'),
+					),
+					'property6' => array(
+						'test' => array('a', 'b', 'c'),
+					),
+				),
+			),
+		);
+
+		$this->assertEquals($actual, $expected);
+	}
 }
 
