@@ -1154,6 +1154,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
 	zval *not_errored = NULL, *super_files = NULL, *_FILES, *files;
 	zval *file = NULL, *error = NULL, *request_file = NULL;
+	zval *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1181,22 +1182,16 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 	
 			PHALCON_GET_HVALUE(file);
 			
-			zval *key;
 			char *string_key;
 			uint string_key_len;
 			ulong num_key;
 			
-			PHALCON_INIT_VAR(key);
+			PHALCON_INIT_NVAR(key);
 			
 			if (zend_hash_get_current_key_ex(ah0, &string_key, &string_key_len, &num_key, 0, &hp0) == HASH_KEY_IS_STRING) {
-                Z_TYPE_P(key) = IS_STRING;
-				Z_STRLEN_P(key) = string_key_len;
-                Z_STRVAL_P(key) = (char *) emalloc(string_key_len + 1);
-                memcpy(Z_STRVAL_P(key), string_key, string_key_len);
-                Z_STRVAL_P(key)[Z_STRLEN_P(key)] = 0;
+                ZVAL_STRINGL(key, string_key, string_key_len, 1);
 			} else {
-				Z_TYPE_P(key) = IS_LONG;
-				Z_LVAL_P(key) = num_key;
+				ZVAL_LONG(key, num_key);
 			}
 			
 	

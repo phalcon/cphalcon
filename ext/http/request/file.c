@@ -98,7 +98,9 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
 		return;
 	}
 	
-	phalcon_update_property_this(this_ptr, SL("_key"), key TSRMLS_CC);
+	if (key) {
+		phalcon_update_property_this(this_ptr, SL("_key"), key TSRMLS_CC);
+	}
 	
 	if (phalcon_array_isset_string(file, SS("name"))) {
 		PHALCON_OBS_VAR(name);
