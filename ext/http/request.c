@@ -1105,10 +1105,13 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 	
 	PHALCON_INIT_VAR(zero);
 	ZVAL_LONG(zero, 0);
+
 	if (zend_is_true(not_errored)) {
+		
 		PHALCON_INIT_VAR(number_files);
 		phalcon_fast_count(number_files, _FILES TSRMLS_CC);
 	} else {
+		
 		PHALCON_INIT_NVAR(number_files);
 		ZVAL_LONG(number_files, 0);
 	
@@ -1125,11 +1128,12 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 				PHALCON_INIT_NVAR(error);
 				ZVAL_BOOL(error, 1);
 			}
-			if (!zend_is_true(error)) {
+			if (Z_TYPE_P(error) == IS_ARRAY) {
+				// TODO: Waiting for Superman to perfect
+			} else if (!zend_is_true(error)) {
 				PHALCON_SEPARATE(number_files);
 				phalcon_increment(number_files);
 			}
-	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
@@ -1176,6 +1180,25 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_HVALUE(file);
+			
+			zval *key;
+			char *string_key;
+			uint string_key_len;
+			ulong num_key;
+			
+			PHALCON_INIT_VAR(key);
+			
+			if (zend_hash_get_current_key_ex(ah0, &string_key, &string_key_len, &num_key, 0, &hp0) == HASH_KEY_IS_STRING) {
+                Z_TYPE_P(key) = IS_STRING;
+				Z_STRLEN_P(key) = string_key_len;
+                Z_STRVAL_P(key) = (char *) emalloc(string_key_len + 1);
+                memcpy(Z_STRVAL_P(key), string_key, string_key_len);
+                Z_STRVAL_P(key)[Z_STRLEN_P(key)] = 0;
+			} else {
+				Z_TYPE_P(key) = IS_LONG;
+				Z_LVAL_P(key) = num_key;
+			}
+			
 	
 			if (zend_is_true(not_errored)) {
 				if (phalcon_array_isset_string(file, SS("error"))) {
@@ -1185,17 +1208,20 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 					PHALCON_INIT_NVAR(error);
 					ZVAL_BOOL(error, 1);
 				}
-				if (!zend_is_true(error)) {
+				if (Z_TYPE_P(error) == IS_ARRAY) {
+					// TODO: Waiting for Superman to perfect					
+				} else if (!zend_is_true(error)) {
 					PHALCON_INIT_NVAR(request_file);
 					object_init_ex(request_file, phalcon_http_request_file_ce);
-					phalcon_call_method_p1_noret(request_file, "__construct", file);
+					phalcon_call_method_p2_noret(request_file, "__construct", file, key);
+					
 	
 					phalcon_array_append(&files, request_file, PH_SEPARATE);
 				}
 			} else {
 				PHALCON_INIT_NVAR(request_file);
 				object_init_ex(request_file, phalcon_http_request_file_ce);
-				phalcon_call_method_p1_noret(request_file, "__construct", file);
+				phalcon_call_method_p2_noret(request_file, "__construct", file, key);
 	
 				phalcon_array_append(&files, request_file, PH_SEPARATE);
 			}

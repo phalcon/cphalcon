@@ -69,6 +69,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Http\\Request, File, http_request_file, phalcon_http_request_file_method_entry, 0);
 
+	zend_declare_property_null(phalcon_http_request_file_ce, SL("_key"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_tmp"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_size"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -86,16 +87,19 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
  */
 PHP_METHOD(Phalcon_Http_Request_File, __construct){
 
-	zval *file, *name, *temp_name, *size, *type;
+	zval *file, *key, *name, *temp_name, *size, *type;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &file);
+	phalcon_fetch_params(1, 1, 1, &file, &key);
 	
 	if (Z_TYPE_P(file) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file");
 		return;
 	}
+	
+	phalcon_update_property_this(this_ptr, SL("_key"), key TSRMLS_CC);
+	
 	if (phalcon_array_isset_string(file, SS("name"))) {
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, file, SL("name"), PH_NOISY);
@@ -121,6 +125,17 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the file key of the uploaded file
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Http_Request_File, getKey){
+
+
+	RETURN_MEMBER(this_ptr, "_key");
 }
 
 /**
