@@ -28,19 +28,19 @@ class CryptTest extends PHPUnit_Framework_TestCase
 			mt_rand(0, 100) => 'Some text',
 			md5(uniqid()) => str_repeat('x', mt_rand(1, 255)),
 			time() => str_shuffle('abcdefeghijklmnopqrst'),
-			'le$ki' => null
+			'le$ki' => ''
 		);
 
 		$encrypt = new Phalcon\Crypt();
 		foreach ($tests as $key => $test) {
 			$encrypt->setKey($key);
 			$encryption = $encrypt->encrypt($test);
-			$this->assertEquals(trim($encrypt->decrypt($encryption)), $test);
+			$this->assertEquals($encrypt->decrypt($encryption), $test);
 		}
 
 		foreach ($tests as $key => $test) {
 			$encryption = $encrypt->encrypt($test, $key);
-			$this->assertEquals(trim($encrypt->decrypt($encryption, $key)), $test);
+			$this->assertEquals($encrypt->decrypt($encryption, $key), $test);
 		}
 
 	}
