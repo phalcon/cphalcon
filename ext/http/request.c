@@ -1116,32 +1116,31 @@ static int phalcon_http_request_hasfiles_helper(zval *arr, int only_successful)
  */
 PHP_METHOD(Phalcon_Http_Request, hasFiles){
 
-	zval *not_errored = NULL, *files = NULL, *_FILES;
-	zval *file = NULL, *error = NULL;
+	zval *not_errored = NULL, *_FILES, *error = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 	int nfiles = 0;
 	int only_successful;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &not_errored);
+	phalcon_fetch_params(0, 0, 1, &not_errored);
 	
 	only_successful = not_errored ? phalcon_get_intval(not_errored) : 1;
 	
 	phalcon_get_global(&_FILES, SS("_FILES") TSRMLS_CC);
-	PHALCON_CPY_WRT(files, _FILES);
-	
-	phalcon_is_iterable(files, &ah0, &hp0, 0, 0);
+	if (unlikely(Z_TYPE_P(_FILES) != IS_ARRAY)) {
+		RETURN_LONG(0);
+	}
+
+	phalcon_is_iterable(_FILES, &ah0, &hp0, 0, 0);
 
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
-		PHALCON_GET_HVALUE(file);
+		if (phalcon_array_isset_string(*hd, SS("error"))) {
+			phalcon_array_fetch_string(&error, *hd, SL("error"), PH_NOISY);
+			assert(Z_REFCOUNT_P(error) > 1);
+			Z_DELREF_P(error);
 
-		if (phalcon_array_isset_string(file, SS("error"))) {
-			PHALCON_OBS_NVAR(error);
-			phalcon_array_fetch_string(&error, file, SL("error"), PH_NOISY);
 			if (Z_TYPE_P(error) < IS_ARRAY) {
 				if (!zend_is_true(error) || !only_successful) {
 					++nfiles;
@@ -1162,8 +1161,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 
-	RETVAL_LONG(nfiles);
-	RETURN_MM();
+	RETURN_LONG(nfiles);
 }
 
 /**
