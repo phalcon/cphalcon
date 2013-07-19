@@ -88729,10 +88729,13 @@ static PHP_METHOD(Phalcon_Http_Request, hasFiles){
 	
 	PHALCON_INIT_VAR(zero);
 	ZVAL_LONG(zero, 0);
+
 	if (zend_is_true(not_errored)) {
+		
 		PHALCON_INIT_VAR(number_files);
 		phalcon_fast_count(number_files, _FILES TSRMLS_CC);
 	} else {
+		
 		PHALCON_INIT_NVAR(number_files);
 		ZVAL_LONG(number_files, 0);
 	
@@ -88749,11 +88752,12 @@ static PHP_METHOD(Phalcon_Http_Request, hasFiles){
 				PHALCON_INIT_NVAR(error);
 				ZVAL_BOOL(error, 1);
 			}
-			if (!zend_is_true(error)) {
+			if (Z_TYPE_P(error) == IS_ARRAY) {
+				// TODO: Waiting for Superman to perfect
+			} else if (!zend_is_true(error)) {
 				PHALCON_SEPARATE(number_files);
 				phalcon_increment(number_files);
 			}
-	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
@@ -88794,6 +88798,25 @@ static PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_HVALUE(file);
+			
+			zval *key;
+			char *string_key;
+			uint string_key_len;
+			ulong num_key;
+			
+			PHALCON_INIT_VAR(key);
+			
+			if (zend_hash_get_current_key_ex(ah0, &string_key, &string_key_len, &num_key, 0, &hp0) == HASH_KEY_IS_STRING) {
+                Z_TYPE_P(key) = IS_STRING;
+				Z_STRLEN_P(key) = string_key_len;
+                Z_STRVAL_P(key) = (char *) emalloc(string_key_len + 1);
+                memcpy(Z_STRVAL_P(key), string_key, string_key_len);
+                Z_STRVAL_P(key)[Z_STRLEN_P(key)] = 0;
+			} else {
+				Z_TYPE_P(key) = IS_LONG;
+				Z_LVAL_P(key) = num_key;
+			}
+			
 	
 			if (zend_is_true(not_errored)) {
 				if (phalcon_array_isset_quick_string(file, SS("error"), 6953481232335UL)) {
@@ -88803,17 +88826,20 @@ static PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 					PHALCON_INIT_NVAR(error);
 					ZVAL_BOOL(error, 1);
 				}
-				if (!zend_is_true(error)) {
+				if (Z_TYPE_P(error) == IS_ARRAY) {
+					// TODO: Waiting for Superman to perfect					
+				} else if (!zend_is_true(error)) {
 					PHALCON_INIT_NVAR(request_file);
 					object_init_ex(request_file, phalcon_http_request_file_ce);
-					phalcon_call_method_p1_key(NULL, request_file, "__construct", file, 14747615951113338888UL);
+					phalcon_call_method_p2_key(NULL, request_file, "__construct", file, key, 14747615951113338888UL);
+					
 	
 					phalcon_array_append(&files, request_file, PH_SEPARATE);
 				}
 			} else {
 				PHALCON_INIT_NVAR(request_file);
 				object_init_ex(request_file, phalcon_http_request_file_ce);
-				phalcon_call_method_p1_key(NULL, request_file, "__construct", file, 14747615951113338888UL);
+				phalcon_call_method_p2_key(NULL, request_file, "__construct", file, key, 14747615951113338888UL);
 	
 				phalcon_array_append(&files, request_file, PH_SEPARATE);
 			}
@@ -89147,6 +89173,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Http\\Request, File, http_request_file, phalcon_http_request_file_method_entry, 0);
 
+	zend_declare_property_null(phalcon_http_request_file_ce, SL("_key"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_tmp"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("_size"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -89159,16 +89186,19 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
 
 static PHP_METHOD(Phalcon_Http_Request_File, __construct){
 
-	zval *file, *name, *temp_name, *size, *type;
+	zval *file, *key, *name, *temp_name, *size, *type;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &file);
+	phalcon_fetch_params(1, 1, 1, &file, &key);
 	
 	if (Z_TYPE_P(file) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file");
 		return;
 	}
+	
+	phalcon_update_property_this_quick(this_ptr, SL("_key"), key, 210704171469UL TSRMLS_CC);
+	
 	if (phalcon_array_isset_quick_string(file, SS("name"), 210721608966UL)) {
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_quick_string(&name, file, SS("name"), 210721608966UL, PH_NOISY);
@@ -89194,6 +89224,12 @@ static PHP_METHOD(Phalcon_Http_Request_File, __construct){
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+static PHP_METHOD(Phalcon_Http_Request_File, getKey){
+
+
+	RETURN_MEMBER_QUICK(this_ptr, "_key", 210704171469UL);
 }
 
 static PHP_METHOD(Phalcon_Http_Request_File, getSize){
