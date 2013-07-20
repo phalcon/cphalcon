@@ -851,7 +851,23 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
 static const char* phalcon_http_request_getmethod_helper(TSRMLS_D)
 {
-	return SG(request_info).request_method;
+	const char *method = SG(request_info).request_method;
+	if (unlikely(!method)) {
+		zval *_SERVER, key;
+
+		INIT_ZVAL(key);
+		ZVAL_STRING(&key, "REQUEST_METHOD", 0);
+
+		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+		zval **value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA);
+		if (value && Z_TYPE_PP(value) == IS_STRING) {
+			return Z_STRVAL_PP(value);
+		}
+
+		return "";
+	}
+
+	return method;
 }
 
 /**
@@ -948,7 +964,7 @@ PHP_METHOD(Phalcon_Http_Request, isPost){
 
 	if (Z_OBJCE_P(getThis()) == phalcon_http_request_ce) {
 		const char *method = phalcon_http_request_getmethod_helper(TSRMLS_C);
-		RETURN_BOOL(method && !strcmp(method, "POST"));
+		RETURN_BOOL(!strcmp(method, "POST"));
 	}
 
 	PHALCON_MM_GROW();
@@ -974,7 +990,7 @@ PHP_METHOD(Phalcon_Http_Request, isGet){
 
 	if (Z_OBJCE_P(getThis()) == phalcon_http_request_ce) {
 		const char *method = phalcon_http_request_getmethod_helper(TSRMLS_C);
-		RETURN_BOOL(method && !strcmp(method, "GET"));
+		RETURN_BOOL(!strcmp(method, "GET"));
 	}
 
 	PHALCON_MM_GROW();
@@ -1000,7 +1016,7 @@ PHP_METHOD(Phalcon_Http_Request, isPut){
 
 	if (Z_OBJCE_P(getThis()) == phalcon_http_request_ce) {
 		const char *method = phalcon_http_request_getmethod_helper(TSRMLS_C);
-		RETURN_BOOL(method && !strcmp(method, "PUT"));
+		RETURN_BOOL(!strcmp(method, "PUT"));
 	}
 
 	PHALCON_MM_GROW();
@@ -1026,7 +1042,7 @@ PHP_METHOD(Phalcon_Http_Request, isPatch){
 
 	if (Z_OBJCE_P(getThis()) == phalcon_http_request_ce) {
 		const char *method = phalcon_http_request_getmethod_helper(TSRMLS_C);
-		RETURN_BOOL(method && !strcmp(method, "PATCH"));
+		RETURN_BOOL(!strcmp(method, "PATCH"));
 	}
 
 	PHALCON_MM_GROW();
@@ -1052,7 +1068,7 @@ PHP_METHOD(Phalcon_Http_Request, isHead){
 
 	if (Z_OBJCE_P(getThis()) == phalcon_http_request_ce) {
 		const char *method = phalcon_http_request_getmethod_helper(TSRMLS_C);
-		RETURN_BOOL(method && !strcmp(method, "HEAD"));
+		RETURN_BOOL(!strcmp(method, "HEAD"));
 	}
 
 	PHALCON_MM_GROW();
@@ -1078,7 +1094,7 @@ PHP_METHOD(Phalcon_Http_Request, isDelete){
 
 	if (Z_OBJCE_P(getThis()) == phalcon_http_request_ce) {
 		const char *method = phalcon_http_request_getmethod_helper(TSRMLS_C);
-		RETURN_BOOL(method && !strcmp(method, "DELETE"));
+		RETURN_BOOL(!strcmp(method, "DELETE"));
 	}
 
 	PHALCON_MM_GROW();
@@ -1104,7 +1120,7 @@ PHP_METHOD(Phalcon_Http_Request, isOptions){
 
 	if (Z_OBJCE_P(getThis()) == phalcon_http_request_ce) {
 		const char *method = phalcon_http_request_getmethod_helper(TSRMLS_C);
-		RETURN_BOOL(method && !strcmp(method, "OPTIONS"));
+		RETURN_BOOL(!strcmp(method, "OPTIONS"));
 	}
 
 	PHALCON_MM_GROW();
