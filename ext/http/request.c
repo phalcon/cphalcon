@@ -1209,7 +1209,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 	RETURN_LONG(nfiles);
 }
 
-static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zval *name, zval *type, zval *tmp_name, zval *error, zval *size, int only_successful TSRMLS_DC)
+static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zval *name, zval *type, zval *tmp_name, zval *error, zval *size, int only_successful, smart_str *prefix TSRMLS_DC)
 {
 	if (
 		   Z_TYPE_P(name) == IS_ARRAY && Z_TYPE_P(type) == IS_ARRAY
@@ -1218,7 +1218,8 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 	) {
 		HashPosition pos_name, pos_type, pos_tmp, pos_error, pos_size;
 		zval **dname, **dtype, **dtmp, **derror, **dsize;
-		zval *arr, *file;
+		zval *arr, *file, *key;
+		size_t prefix_len = prefix->len;
 
 		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(name),     &pos_name);
 		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(type),     &pos_type);
@@ -1233,6 +1234,15 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 			&& zend_hash_get_current_data_ex(Z_ARRVAL_P(error),    (void**)&derror, &pos_error) == SUCCESS
 			&& zend_hash_get_current_data_ex(Z_ARRVAL_P(size),     (void**)&dsize,  &pos_size)  == SUCCESS
 		) {
+			zval index = phalcon_get_current_key_w(Z_ARRVAL_P(name), &pos_name);
+
+			if (Z_TYPE(index) == IS_STRING) {
+				smart_str_appendl(prefix, Z_STRVAL(index), Z_STRLEN(index));
+			}
+			else {
+				smart_str_append_long(prefix, Z_LVAL(index));
+			}
+
 			if (Z_TYPE_PP(derror) < IS_ARRAY) {
 				if (!zend_is_true(*derror) || !only_successful) {
 					Z_ADDREF_PP(dname);
@@ -1249,16 +1259,31 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 					add_assoc_zval_ex(arr, SS("error"),    *derror);
 					add_assoc_zval_ex(arr, SS("size"),     *dsize);
 
+					ALLOC_INIT_ZVAL(key);
+					ZVAL_STRINGL(key, prefix->c, prefix->len, 1);
+					prefix->len = prefix_len;
+
 					ALLOC_INIT_ZVAL(file);
 					object_init_ex(file, phalcon_http_request_file_ce);
-					phalcon_call_method_p1_noret(file, "__construct", arr);
-					zval_ptr_dtor(&arr);
 
-					add_next_index_zval(*return_value, file);
+					zval* params[2] = { arr, key };
+					int res = phalcon_call_method_params_w(NULL, file, SL("__construct"), 2, params, 0, 0 TSRMLS_CC);
+
+					zval_ptr_dtor(&arr);
+					zval_ptr_dtor(&key);
+
+					if (res != FAILURE) {
+						add_next_index_zval(*return_value, file);
+					}
+					else {
+						break;
+					}
 				}
 			}
 			else if (Z_TYPE_PP(derror) == IS_ARRAY) {
-				phalcon_http_request_getuploadedfiles_helper(return_value, *dname, *dtype, *dtmp, *derror, *dsize, only_successful TSRMLS_CC);
+				smart_str_appendc(prefix, '.');
+				phalcon_http_request_getuploadedfiles_helper(return_value, *dname, *dtype, *dtmp, *derror, *dsize, only_successful, prefix TSRMLS_CC);
+				prefix->len = prefix_len;
 			}
 
 			zend_hash_move_forward_ex(Z_ARRVAL_P(name),     &pos_name);
@@ -1279,15 +1304,14 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
 	zval *name = NULL, *type = NULL, *tmp_name = NULL, *error = NULL, *size = NULL;
-	zval *not_errored = NULL, *_FILES, *request_file = NULL;
+	zval *not_errored = NULL, *_FILES, *request_file = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 	int only_successful;
+	smart_str prefix = { NULL, 0, 0 };
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &not_errored);
+	phalcon_fetch_params(0, 0, 1, &not_errored);
 	
 	only_successful = not_errored ? phalcon_get_intval(not_errored) : 1;
 
@@ -1295,9 +1319,10 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
 	phalcon_get_global(&_FILES, SS("_FILES") TSRMLS_CC);
 	if (Z_TYPE_P(_FILES) != IS_ARRAY || !zend_hash_num_elements(Z_ARRVAL_P(_FILES))) {
-		RETURN_MM();
+		return;
 	}
 
+	PHALCON_MM_GROW();
 	phalcon_is_iterable(_FILES, &ah0, &hp0, 0, 0);
 
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
@@ -1305,13 +1330,18 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 		if (phalcon_array_isset_string(*hd, SS("error"))) {
 			PHALCON_OBS_NVAR(error);
 			phalcon_array_fetch_string(&error, *hd, SL("error"), PH_NOISY);
+			zval index = phalcon_get_current_key_w(ah0, &hp0);
 
 			if (Z_TYPE_P(error) < IS_ARRAY) {
 				if (!zend_is_true(error) || !only_successful) {
 					PHALCON_INIT_NVAR(request_file);
 					object_init_ex(request_file, phalcon_http_request_file_ce);
+
+					PHALCON_INIT_NVAR(key);
+					ZVAL_STRINGL(key, Z_STRVAL(index), Z_STRLEN(index), 1);
+
 					Z_ADDREF_PP(hd);
-					phalcon_call_method_p1_noret(request_file, "__construct", *hd);
+					phalcon_call_method_p2_noret(request_file, "__construct", *hd, key);
 
 					phalcon_array_append(&return_value, request_file, 0);
 				}
@@ -1326,13 +1356,29 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 				phalcon_array_fetch_string(&tmp_name, *hd, SL("tmp_name"), PH_NOISY);
 				phalcon_array_fetch_string(&size,     *hd, SL("size"),     PH_NOISY);
 
-				phalcon_http_request_getuploadedfiles_helper(&return_value, name, type, tmp_name, error, size, only_successful TSRMLS_CC);
+				if (prefix.len) {
+					prefix.len = 0;
+				}
+
+				if (likely(Z_TYPE(index) == IS_STRING)) {
+					smart_str_appendl(&prefix, Z_STRVAL(index), Z_STRLEN(index));
+				}
+				else {
+					smart_str_append_long(&prefix, Z_LVAL(index));
+				}
+
+				smart_str_appendc(&prefix, '.');
+				phalcon_http_request_getuploadedfiles_helper(&return_value, name, type, tmp_name, error, size, only_successful, &prefix TSRMLS_CC);
 			}
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
+	if (prefix.c) {
+		smart_str_free(&prefix);
+	}
+
 	RETURN_MM();
 }
 
