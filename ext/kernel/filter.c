@@ -21,6 +21,8 @@
 #include "config.h"
 #endif
 
+#include <ctype.h>
+
 #include "php.h"
 #include "php_phalcon.h"
 #include "php_main.h"
@@ -57,7 +59,7 @@ void phalcon_filter_alphanum(zval *return_value, zval *param){
 		if (ch == '\0') {
 			break;
 		}
-		if ((ch > 96 && ch < 123) || (ch > 64 && ch < 91) || (ch > 47 && ch < 58)) {
+		if (isalnum(ch)) {
 			smart_str_appendc(&filtered_str, ch);
 		}
 	}
@@ -68,10 +70,9 @@ void phalcon_filter_alphanum(zval *return_value, zval *param){
 
 	smart_str_0(&filtered_str);
 
-	if (filtered_str.len) {
+	if (filtered_str.c) {
 		RETURN_STRINGL(filtered_str.c, filtered_str.len, 0);
 	} else {
-		smart_str_free(&filtered_str);
 		RETURN_EMPTY_STRING();
 	}
 }
@@ -99,7 +100,7 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 		if (ch == '\0') {
 			break;
 		}
-		if ((ch > 96 && ch < 123) || (ch > 64 && ch < 91) || (ch > 47 && ch < 58) || ch == 95) {
+		if (isalnum(ch) || ch == '_') {
 			smart_str_appendc(&filtered_str, ch);
 		}
 	}
@@ -110,10 +111,9 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 
 	smart_str_0(&filtered_str);
 
-	if (filtered_str.len) {
+	if (filtered_str.c) {
 		RETURN_STRINGL(filtered_str.c, filtered_str.len, 0);
 	} else {
-		smart_str_free(&filtered_str);
 		RETURN_EMPTY_STRING();
 	}
 
@@ -176,8 +176,8 @@ static inline char *phalcon_longtohex(unsigned long value) {
 	end = ptr = buf + sizeof(buf) - 1;
 	*ptr = '\0';
 	do {
-		*--ptr = digits[value % 16];
-		value /= 16;
+		*--ptr = digits[value & 0x0F];
+		value >>= 4;
 	} while (ptr > buf && value);
 
 	return estrndup(ptr, end - ptr);
@@ -257,15 +257,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 		/**
 		 * Alphanumeric characters are not escaped
 		 */
-		if ((value >= 'A' && value <= 'Z') || (value >= 'a' && value <= 'z')) {
-			smart_str_appendc(&escaped_str, (unsigned char) value);
-			continue;
-		}
-
-		/**
-		 * Escape numbers here
-		 */
-		if (value >= '0' && value <= '9') {
+		if (isalnum(value)) {
 			smart_str_appendc(&escaped_str, (unsigned char) value);
 			continue;
 		}
@@ -328,10 +320,9 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 
 	smart_str_0(&escaped_str);
 
-	if (escaped_str.len) {
+	if (escaped_str.c) {
 		RETURN_STRINGL(escaped_str.c, escaped_str.len, 0);
 	} else {
-		smart_str_free(&escaped_str);
 		RETURN_EMPTY_STRING();
 	}
 
