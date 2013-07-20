@@ -168,6 +168,15 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($all), 5);
 		$this->assertEquals(count($successful), 4);
 
+		for ($i=0; $i<=4; ++$i) {
+			$this->assertFalse($all[$i]->isUploadedFile());
+		}
+
+		$keys = array('photo.0', 'photo.1', 'photo.2.0', 'photo.2.1', 'photo.3.0.0.0.0');
+		for ($i=0; $i<=4; ++$i) {
+			$this->assertEquals($all[$i]->getKey(), $keys[$i]);
+		}
+
 		$this->assertEquals($all[0]->getName(), 'f0');
 		$this->assertEquals($all[1]->getName(), 'f1');
 		$this->assertEquals($all[2]->getName(), 'f2');
