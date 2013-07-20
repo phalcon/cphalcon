@@ -140,6 +140,7 @@ class Build_Generator
 #include "ext/standard/php_math.h"
 #include "ext/standard/php_array.h"
 #include "ext/standard/php_var.h"
+#include "ext/standard/php_http.h"
 #include "ext/standard/html.h"
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"

@@ -1975,6 +1975,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_urlinterface_get, 0, 0, 0)
 	ZEND_ARG_INFO(0, uri)
+	ZEND_ARG_INFO(0, args)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_urlinterface_path, 0, 0, 0)
@@ -10896,12 +10897,15 @@ zend_class_entry *phalcon_http_request_file_ce;
 PHALCON_INIT_CLASS(Phalcon_Http_Request_File);
 
 static PHP_METHOD(Phalcon_Http_Request_File, __construct);
+static PHP_METHOD(Phalcon_Http_Request_File, getKey);
 static PHP_METHOD(Phalcon_Http_Request_File, getSize);
 static PHP_METHOD(Phalcon_Http_Request_File, getName);
 static PHP_METHOD(Phalcon_Http_Request_File, getTempName);
 static PHP_METHOD(Phalcon_Http_Request_File, getType);
 static PHP_METHOD(Phalcon_Http_Request_File, getRealType);
+static PHP_METHOD(Phalcon_Http_Request_File, getError);
 static PHP_METHOD(Phalcon_Http_Request_File, moveTo);
+static PHP_METHOD(Phalcon_Http_Request_File, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
@@ -10913,12 +10917,15 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_http_request_file_method_entry){
 	PHP_ME(Phalcon_Http_Request_File, __construct, arginfo_phalcon_http_request_file___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Http_Request_File, getKey, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request_File, getSize, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request_File, getName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request_File, getTempName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request_File, getType, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Http_Request_File, getRealType, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Http_Request_File, moveTo, arginfo_phalcon_http_request_file_moveto, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request_File, getRealType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, getError, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, moveTo, arginfo_phalcon_http_request_file_moveto, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, __set_state, arginfo_phalcon_http_request_file___construct, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
