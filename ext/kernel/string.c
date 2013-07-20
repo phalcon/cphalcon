@@ -31,8 +31,10 @@
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_rand.h"
 #include "ext/standard/php_lcg.h"
+#include "ext/standard/php_http.h"
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
+#include "ext/standard/url.h"
 
 #ifdef PHALCON_USE_PHP_PCRE
 #include "ext/pcre/php_pcre.h"
@@ -1356,4 +1358,38 @@ void phalcon_ucfirst(zval *return_value, zval *s)
 	if (unlikely(use_copy)) {
 		zval_dtor(&copy);
 	}
+}
+
+int phalcon_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC)
+{
+	if (Z_TYPE_P(params) == IS_ARRAY || Z_TYPE_P(params) == IS_OBJECT) {
+		smart_str formstr = { NULL, 0, 0 };
+		int res;
+
+#if PHP_VERSION_ID < 50400
+		res = php_url_encode_hash_ex(HASH_OF(params), &formstr, NULL, 0, NULL, 0, NULL, 0, (Z_TYPE_P(params) == IS_OBJECT ? params : NULL), sep TSRMLS_CC);
+#else
+		res = php_url_encode_hash_ex(HASH_OF(params), &formstr, NULL, 0, NULL, 0, NULL, 0, (Z_TYPE_P(params) == IS_OBJECT ? params : NULL), sep, PHP_QUERY_RFC1738 TSRMLS_CC);
+#endif
+
+		if (res == SUCCESS) {
+			if (!formstr.c) {
+				ZVAL_EMPTY_STRING(return_value);
+			}
+			else {
+				smart_str_0(&formstr);
+				ZVAL_STRINGL(return_value, formstr.c, formstr.len, 0);
+			}
+
+			return SUCCESS;
+		}
+
+		smart_str_free(&formstr);
+		ZVAL_FALSE(return_value);
+	}
+	else {
+		ZVAL_NULL(return_value);
+	}
+
+	return FAILURE;
 }

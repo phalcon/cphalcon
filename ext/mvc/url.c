@@ -262,17 +262,18 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath){
  *</code>
  *
  * @param string|array $uri
+ * @param array|object args Optional arguments to be appended to the query string
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Url, get){
 
 	zval *uri = NULL, *base_uri, *router = NULL, *dependency_injector;
 	zval *service, *route_name, *route, *exception_message;
-	zval *pattern, *paths, *processed_uri;
+	zval *pattern, *paths, *processed_uri, *args = NULL, *query_string;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &uri);
+	phalcon_fetch_params(1, 0, 2, &uri, &args);
 	
 	if (!uri) {
 		PHALCON_INIT_VAR(uri);
@@ -339,12 +340,24 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		PHALCON_INIT_VAR(processed_uri);
 		phalcon_replace_paths(processed_uri, pattern, paths, uri TSRMLS_CC);
 		PHALCON_CONCAT_VV(return_value, base_uri, processed_uri);
-	
-		RETURN_MM();
+	}
+	else {
+		PHALCON_CONCAT_VV(return_value, base_uri, uri);
 	}
 	
-	PHALCON_CONCAT_VV(return_value, base_uri, uri);
-	
+	if (args) {
+		PHALCON_INIT_VAR(query_string);
+		phalcon_http_build_query(query_string, args, "&" TSRMLS_CC);
+		if (Z_TYPE_P(query_string) == IS_STRING && Z_STRLEN_P(query_string)) {
+			if (phalcon_memnstr_str(return_value, "?", 1)) {
+				PHALCON_SCONCAT_SV(return_value, "&", query_string);
+			}
+			else {
+				PHALCON_SCONCAT_SV(return_value, "?", query_string);
+			}
+		}
+	}
+
 	RETURN_MM();
 }
 

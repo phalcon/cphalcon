@@ -180,6 +180,7 @@ PHP includes the Zend Engine, freely available at
 #include "ext/standard/php_math.h"
 #include "ext/standard/php_array.h"
 #include "ext/standard/php_var.h"
+#include "ext/standard/php_http.h"
 #include "ext/standard/html.h"
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
@@ -1781,6 +1782,7 @@ static void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSR
 /***/
 static void phalcon_lcfirst(zval *return_value, zval *s);
 static void phalcon_ucfirst(zval *return_value, zval *s);
+static int phalcon_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC);
 
 
 
@@ -7455,6 +7457,40 @@ static void phalcon_ucfirst(zval *return_value, zval *s)
 	if (unlikely(use_copy)) {
 		zval_dtor(&copy);
 	}
+}
+
+static int phalcon_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC)
+{
+	if (Z_TYPE_P(params) == IS_ARRAY || Z_TYPE_P(params) == IS_OBJECT) {
+		smart_str formstr = { NULL, 0, 0 };
+		int res;
+
+#if PHP_VERSION_ID < 50400
+		res = php_url_encode_hash_ex(HASH_OF(params), &formstr, NULL, 0, NULL, 0, NULL, 0, (Z_TYPE_P(params) == IS_OBJECT ? params : NULL), sep TSRMLS_CC);
+#else
+		res = php_url_encode_hash_ex(HASH_OF(params), &formstr, NULL, 0, NULL, 0, NULL, 0, (Z_TYPE_P(params) == IS_OBJECT ? params : NULL), sep, PHP_QUERY_RFC1738 TSRMLS_CC);
+#endif
+
+		if (res == SUCCESS) {
+			if (!formstr.c) {
+				ZVAL_EMPTY_STRING(return_value);
+			}
+			else {
+				smart_str_0(&formstr);
+				ZVAL_STRINGL(return_value, formstr.c, formstr.len, 0);
+			}
+
+			return SUCCESS;
+		}
+
+		smart_str_free(&formstr);
+		ZVAL_FALSE(return_value);
+	}
+	else {
+		ZVAL_NULL(return_value);
+	}
+
+	return FAILURE;
 }
 
 
@@ -50929,11 +50965,11 @@ static PHP_METHOD(Phalcon_Mvc_Url, get){
 
 	zval *uri = NULL, *base_uri, *router = NULL, *dependency_injector;
 	zval *service, *route_name, *route, *exception_message;
-	zval *pattern, *paths, *processed_uri;
+	zval *pattern, *paths, *processed_uri, *args = NULL, *query_string;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &uri);
+	phalcon_fetch_params(1, 0, 2, &uri, &args);
 	
 	if (!uri) {
 		PHALCON_INIT_VAR(uri);
@@ -50988,12 +51024,24 @@ static PHP_METHOD(Phalcon_Mvc_Url, get){
 		PHALCON_INIT_VAR(processed_uri);
 		phalcon_replace_paths(processed_uri, pattern, paths, uri TSRMLS_CC);
 		PHALCON_CONCAT_VV(return_value, base_uri, processed_uri);
-	
-		RETURN_MM();
+	}
+	else {
+		PHALCON_CONCAT_VV(return_value, base_uri, uri);
 	}
 	
-	PHALCON_CONCAT_VV(return_value, base_uri, uri);
-	
+	if (args) {
+		PHALCON_INIT_VAR(query_string);
+		phalcon_http_build_query(query_string, args, "&" TSRMLS_CC);
+		if (Z_TYPE_P(query_string) == IS_STRING && Z_STRLEN_P(query_string)) {
+			if (phalcon_memnstr_str(return_value, "?", 1)) {
+				PHALCON_SCONCAT_SV(return_value, "&", query_string);
+			}
+			else {
+				PHALCON_SCONCAT_SV(return_value, "?", query_string);
+			}
+		}
+	}
+
 	RETURN_MM();
 }
 
