@@ -1233,6 +1233,7 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 			&& zend_hash_get_current_data_ex(Z_ARRVAL_P(tmp_name), (void**)&dtmp,   &pos_tmp)   == SUCCESS
 			&& zend_hash_get_current_data_ex(Z_ARRVAL_P(error),    (void**)&derror, &pos_error) == SUCCESS
 			&& zend_hash_get_current_data_ex(Z_ARRVAL_P(size),     (void**)&dsize,  &pos_size)  == SUCCESS
+			&& !EG(exception)
 		) {
 			zval index = phalcon_get_current_key_w(Z_ARRVAL_P(name), &pos_name);
 
@@ -1325,7 +1326,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 	PHALCON_MM_GROW();
 	phalcon_is_iterable(_FILES, &ah0, &hp0, 0, 0);
 
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS && !EG(exception)) {
 
 		if (phalcon_array_isset_string(*hd, SS("error"))) {
 			PHALCON_OBS_NVAR(error);
