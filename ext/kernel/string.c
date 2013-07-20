@@ -1167,7 +1167,15 @@ void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *ma
 		matches
 	};
 
+	if (matches) {
+		Z_SET_ISREF_P(matches);
+	}
+
 	phalcon_call_func_params_w(return_value, SL("preg_match"), (matches ? 3 : 2), params TSRMLS_CC);
+
+	if (matches) {
+		Z_UNSET_ISREF_P(matches);
+	}
 }
 
 #endif /* PHALCON_USE_PHP_PCRE */

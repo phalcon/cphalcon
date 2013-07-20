@@ -299,12 +299,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 				ZVAL_STRING(pattern, "/^SELECT\\s+(.*)$/i", 1);
 	
 				PHALCON_INIT_VAR(match);
-	
-				Z_SET_ISREF_P(matches);
-	
 				phalcon_preg_match(match, pattern, sql_statement, matches TSRMLS_CC);
-	
-				Z_UNSET_ISREF_P(matches);
 	
 				if (zend_is_true(match)) {
 					PHALCON_OBS_VAR(else_clauses);
