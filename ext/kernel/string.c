@@ -123,7 +123,7 @@ void phalcon_append_printable_zval(smart_str *implstr, zval **tmp TSRMLS_DC) {
 	zval tmp_val;
 	unsigned int str_len;
 
-	switch ((*tmp)->type) {
+	switch (Z_TYPE_PP(tmp)) {
 		case IS_STRING:
 			smart_str_appendl(implstr, Z_STRVAL_PP(tmp), Z_STRLEN_PP(tmp));
 			break;
@@ -220,46 +220,43 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
  */
 void phalcon_camelize(zval *return_value, const zval *str){
 
-	unsigned int i;
+	int i, len;
 	smart_str camelize_str = {0};
 	char *marker, ch;
 
-	if (Z_TYPE_P(str) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for camelize()");
 		RETURN_EMPTY_STRING();
 		return;
 	}
 
 	marker = Z_STRVAL_P(str);
-	for (i = 0; i < Z_STRLEN_P(str); i++) {
+	len    = Z_STRLEN_P(str);
+
+	for (i = 0; i < len - 1; i++) {
 		ch = *marker;
-		if (ch == '\0') {
-			break;
-		}
 		if (i == 0 || ch == '-' || ch == '_') {
 			if (ch == '-' || ch == '_') {
 				i++;
 				marker++;
-				ch = *marker;
 			}
-			if (ch >= 'a' && ch <= 'z') {
-				smart_str_appendc(&camelize_str, (*marker) - 32);
-			} else {
-				smart_str_appendc(&camelize_str, (*marker));
-			}
-			marker++;
-			continue;
+
+			smart_str_appendc(&camelize_str, toupper(*marker));
 		}
-		if (ch >= 'A' && ch <= 'Z') {
-			smart_str_appendc(&camelize_str, (*marker) + 32);
-		} else {
-			smart_str_appendc(&camelize_str, (*marker));
+		else {
+			smart_str_appendc(&camelize_str, tolower(*marker));
 		}
+
 		marker++;
 	}
+
+	if (likely(i == len - 1)) {
+		smart_str_appendc(&camelize_str, *marker);
+	}
+
 	smart_str_0(&camelize_str);
 
-	if (camelize_str.len) {
+	if (camelize_str.c) {
 		RETURN_STRINGL(camelize_str.c, camelize_str.len, 0);
 	} else {
 		RETURN_EMPTY_STRING();
