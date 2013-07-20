@@ -672,65 +672,23 @@ int phalcon_start_with(const zval *str, const zval *compared, zval *ignore_case)
  */
 int phalcon_start_with_str(const zval *str, char *compared, unsigned int compared_length){
 
-	char *op1_cursor, *op2_cursor;
-	unsigned int i, number;
-
-	if (Z_TYPE_P(str) != IS_STRING) {
+	if (Z_TYPE_P(str) != IS_STRING || compared_length > Z_STRLEN_P(str)) {
 		return 0;
 	}
 
-	if (compared_length > Z_STRLEN_P(str)) {
-		return 0;
-	}
-
-	if (compared_length < Z_STRLEN_P(str)) {
-		number = compared_length;
-	} else {
-		number = Z_STRLEN_P(str);
-	}
-
-	op1_cursor = Z_STRVAL_P(str);
-	op2_cursor = compared;
-	for (i = 0; i < number; i++){
-		if ((*op1_cursor) != (*op2_cursor)) {
-			return 0;
-		}
-		op1_cursor++;
-		op2_cursor++;
-	}
-
-	return 1;
+	return !memcmp(Z_STRVAL_P(str), compared, compared_length);
 }
 
 /**
- * Checks if a string starts with other  string
+ * Checks if a string starts with other string
  */
 int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length){
-
-	char *op1_cursor, *op2_cursor;
-	unsigned int i, number;
 
 	if (compared_length > str_length) {
 		return 0;
 	}
 
-	if (compared_length < str_length) {
-		number = compared_length;
-	} else {
-		number = str_length;
-	}
-
-	op1_cursor = str;
-	op2_cursor = compared;
-	for (i = 0; i < number; i++){
-		if ((*op1_cursor) != (*op2_cursor)) {
-			return 0;
-		}
-		op1_cursor++;
-		op2_cursor++;
-	}
-
-	return 1;
+	return !memcmp(str, compared, compared_length);
 }
 
 /**
@@ -796,43 +754,15 @@ int phalcon_end_with(const zval *str, const zval *compared, zval *ignore_case){
  */
 int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_length){
 
-	int number = 0;
-	unsigned int i;
-	char *op1_cursor, *op2_cursor;
-
 	if (Z_TYPE_P(str) != IS_STRING) {
 		return 0;
 	}
 
-	if (!compared_length || !Z_STRLEN_P(str)) {
+	if (!compared_length || !Z_STRLEN_P(str) || compared_length > Z_STRLEN_P(str)) {
 		return 0;
 	}
 
-	if (compared_length > Z_STRLEN_P(str)) {
-		return 0;
-	}
-
-	op1_cursor = Z_STRVAL_P(str);
-	op2_cursor = compared;
-
-	op1_cursor += (Z_STRLEN_P(str) - 1);
-	op2_cursor += (compared_length - 1);
-
-	if (compared_length < Z_STRLEN_P(str)) {
-		number = compared_length;
-	} else {
-		number = Z_STRLEN_P(str);
-	}
-
-	for (i = number; i > 0; i--) {
-		if ((*op1_cursor) != (*op2_cursor)) {
-			return 0;
-		}
-		op1_cursor--;
-		op2_cursor--;
-	}
-
-	return 1;
+	return !memcmp(Z_STRVAL_P(str) + Z_STRLEN_P(str) - compared_length, compared, compared_length);
 }
 
 /**
