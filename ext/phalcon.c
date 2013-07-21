@@ -706,7 +706,7 @@ static PHP_RINIT_FUNCTION(phalcon){
 
 static PHP_RSHUTDOWN_FUNCTION(phalcon){
 
-	if (PHALCON_GLOBAL(active_memory) != NULL) {
+	if (PHALCON_GLOBAL(start_memory) != NULL) {
 		phalcon_clean_shutdown_stack(TSRMLS_C);
 	}
 
