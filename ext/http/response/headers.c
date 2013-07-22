@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -136,7 +135,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	sapi_header_line *ctr;
+	sapi_header_line ctr = { NULL, 0, 0 };
 
 	PHALCON_MM_GROW();
 
@@ -152,15 +151,11 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 			PHALCON_GET_HKEY(header, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
 
-			ctr->line = NULL;
-			ctr->line_len = 0;
-			ctr->response_code = 0;
-
 			if (PHALCON_IS_NOT_EMPTY(value)) {
 				PHALCON_INIT_NVAR(http_header);
 				PHALCON_CONCAT_VSV(http_header, header, ": ", value);
-				ctr->line     = Z_STRVAL_P(http_header);
-				ctr->line_len = Z_STRLEN_P(http_header);
+				ctr.line     = Z_STRVAL_P(http_header);
+				ctr.line_len = Z_STRLEN_P(http_header);
 				sapi_header_op(SAPI_HEADER_REPLACE, &ctr TSRMLS_CC);
 			} else {
 				zend_make_printable_zval(header, &copy, &use_copy);
@@ -168,8 +163,8 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 					header = &copy;
 				}
 
-				ctr->line     = Z_STRVAL_P(header);
-				ctr->line_len = Z_STRLEN_P(header);
+				ctr.line     = Z_STRVAL_P(header);
+				ctr.line_len = Z_STRLEN_P(header);
 				sapi_header_op(SAPI_HEADER_REPLACE, &ctr TSRMLS_CC);
 
 				if (unlikely(use_copy)) {
