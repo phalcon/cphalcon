@@ -475,3 +475,5 @@ unit-tests/annotations/cache/*.php
 build/t.dSYM/
 build/install2
 *~
+.DS_Store
+ext/.DS_Store
