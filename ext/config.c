@@ -609,7 +609,6 @@ PHP_METHOD(Phalcon_Config, merge){
 	}
 	
 	zval_ptr_dtor(&array_config);
-	PHALCON_MM_RESTORE();
 }
 
 /**
