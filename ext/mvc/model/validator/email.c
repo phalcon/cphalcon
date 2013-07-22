@@ -119,12 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	ZVAL_STRING(pattern, "/^[a-zA-Z0-9\\-_\\.\\+]+@[a-zA-Z0-9_\\-]+(\\.[a-zA-Z0-9_\\-]+)*$/", 1);
 	
 	PHALCON_INIT_VAR(match_pattern);
-	
-	Z_SET_ISREF_P(regs);
-	
 	phalcon_preg_match(match_pattern, pattern, value, regs TSRMLS_CC);
-	
-	Z_UNSET_ISREF_P(regs);
 	
 	if (zend_is_true(match_pattern)) {
 		PHALCON_OBS_VAR(match_zero);

@@ -45,10 +45,10 @@ extern void phalcon_camelize(zval *return_value, const zval *str);
 extern void phalcon_uncamelize(zval *return_value, const zval *str);
 
 /** Starts/Ends with */
-extern int phalcon_start_with(const zval *str, const zval *compared, zval *ignore_case);
+extern int phalcon_start_with(const zval *str, const zval *compared, zval *case_sensitive);
 extern int phalcon_start_with_str(const zval *str, char *compared, unsigned int compared_length);
 extern int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length);
-extern int phalcon_end_with(const zval *str, const zval *compared, zval *ignore_case);
+extern int phalcon_end_with(const zval *str, const zval *compared, zval *case_sensitive);
 extern int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_length);
 
 /** Random string */
