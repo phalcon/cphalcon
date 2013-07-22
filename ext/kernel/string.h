@@ -86,4 +86,5 @@ void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 /***/
 void phalcon_lcfirst(zval *return_value, zval *s);
 void phalcon_ucfirst(zval *return_value, zval *s);
+int phalcon_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC);
 
