@@ -28,8 +28,8 @@
 /** Memory frame */
 typedef struct _phalcon_memory_entry {
 	int pointer;
-	zval ***addresses;
 	int hash_pointer;
+	zval ***addresses;
 	zval ***hash_addresses;
 	struct _phalcon_memory_entry *prev;
 	struct _phalcon_memory_entry *next;
@@ -44,16 +44,16 @@ typedef struct _phalcon_symbol_table {
 
 /** ORM options */
 typedef struct _phalcon_orm_options {
+	HashTable *parser_cache;
+	HashTable *ast_cache;
+	int cache_level;
+	int unique_cache_id;
 	zend_bool events;
 	zend_bool virtual_foreign_keys;
 	zend_bool column_renaming;
 	zend_bool not_null_validations;
 	zend_bool exception_on_failed_save;
 	zend_bool enable_literals;
-	int cache_level;
-	int unique_cache_id;
-	HashTable *parser_cache;
-	HashTable *ast_cache;
 } phalcon_orm_options;
 
 /** DB options */
@@ -63,9 +63,9 @@ typedef struct _phalcon_db_options {
 
 /** DI options */
 typedef struct _phalcon_di_options {
-	zend_bool cache_enabled;
 	zval **injector;
 	HashTable *shared_services_cache;
+	zend_bool cache_enabled;
 } phalcon_di_options;
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
@@ -80,6 +80,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/** Function cache */
 	HashTable *function_cache;
 
+	/** ORM */
+	phalcon_orm_options orm;
+
 	/** Max recursion control */
 	unsigned int recursive_lock;
 
@@ -89,9 +92,6 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	unsigned int phalcon_number_grows;
 	unsigned int phalcon_stack_derivate[PHALCON_MAX_MEMORY_STACK];
 #endif
-
-	/** ORM */
-	phalcon_orm_options orm;
 
 	/** DB */
 	phalcon_db_options db;
