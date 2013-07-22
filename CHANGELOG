@@ -1,12 +1,26 @@
 1.2.1
- - Reduced overall memory usage
- - Faster internal array and string manipulation
- - Fixing PHP 5.5 compilation on Windows
+ - Reduced overall memory usage (#834, #891, #893)
+ - Faster internal array and string manipulation (#830, #833, #837)
+ - Fixed PHP 5.5 compilation on Windows
  - Dispatching parameters now can be modified in 'beforeExecuteRoute' events
- - 'beforeException' events now can handle exceptions ocurred when executing actions
+ - 'beforeException' events can now handle exceptions occurred when executing actions (#140)
  - Added Phalcon\Dispatcher::getHandlerClass and Phalcon\Dispatch::getActionMethod
- - Now Phalcon\Form\Element\* classes implement Phalcon\Form\ElementInterface
- - Phalcon\Config\Adapter\Ini correctly handles empty sections and INI files without any sections
+ - Phalcon\Form\Element\* classes now implement Phalcon\Form\ElementInterface
+ - Phalcon\Config\Adapter\Ini correctly handles empty sections and INI files without any sections (#829, #837)
+ - Phalcon\Http\Request fully supports file arrays (#884, #888)
+ - Added support for various padding schemes (PKCS7, ANSI X.923, ISO 10126, ISO/IEC 7816-4, zero padding, space padding) to Phalcon\Crypt (#864, #887)
+ - Added getKey(), getError(), isUploadedFile() methods to Phalcon\Http\Request\File (#878, #888)
+ - Dot-delimited directives in INI-files are now prsed correctly (#872)
+ - Fixed memory leaks in cache backends (#860)
+ - Fixed various memory corruption issues (#849, #852, #858, #860, #861)
+ - Fixed broken Phalcon\Http\Response::setFileToSend() method (#831, #832)
+ - Phalcon\Http\Response::setFileToSend() can now show the file in the browser instead of offering to download it (#853)
+ - Added Phalcon\Adapter\Config\Json class to read JSON configs (#844)
+ - Added FirePHP Log Adapter and Formatter (#845)
+ - Faster Phalcon\Config implementation (#837)
+ - Phalcon\Config now support numeric properties as well (#837)
+ - Database dialects now support BOOLEAN data type (#816)
+ - Phalcon\Mvc\Application::handle() now checks whether the class exists before include()'ing its file (#812, #818)
 
 1.2.0
  - Now 'compiledPath' option accept a closure to dynamically create the compilation path in Volt

@@ -20,10 +20,8 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "1.2.1"
+#define PHP_PHALCON_VERSION "1.2.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
-
-#define PHALCON_MAX_MEMORY_STACK 48
 
 /** Memory frame */
 typedef struct _phalcon_memory_entry {
@@ -82,18 +80,11 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/** Function cache */
 	HashTable *function_cache;
 
-	/** Max recursion control */
-	unsigned int recursive_lock;
-
-	/** Stats */
-#ifndef PHALCON_RELEASE
-	unsigned int phalcon_stack_stats;
-	unsigned int phalcon_number_grows;
-	unsigned int phalcon_stack_derivate[PHALCON_MAX_MEMORY_STACK];
-#endif
-
 	/** ORM */
 	phalcon_orm_options orm;
+
+	/** Max recursion control */
+	unsigned int recursive_lock;
 
 	/** DB */
 	phalcon_db_options db;
@@ -189,7 +180,6 @@ extern zend_module_entry phalcon_module_entry;
 
 /* This is a temporary fix until config.w32 is updated */
 #if !defined(__CYGWIN__) && defined(WIN32) && defined(HAVE_CONFIG_H)
-#	define PHALCON_USE_PHP_FILTER 1 /* no way to check yet */
 
 #	if defined(HAVE_JSON) && !defined(PHALCON_USE_PHP_JSON)
 #		define PHALCON_USE_PHP_JSON 1
