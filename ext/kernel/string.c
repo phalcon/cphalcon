@@ -123,7 +123,7 @@ void phalcon_append_printable_zval(smart_str *implstr, zval **tmp TSRMLS_DC) {
 	zval tmp_val;
 	unsigned int str_len;
 
-	switch ((*tmp)->type) {
+	switch (Z_TYPE_PP(tmp)) {
 		case IS_STRING:
 			smart_str_appendl(implstr, Z_STRVAL_PP(tmp), Z_STRLEN_PP(tmp));
 			break;
@@ -220,46 +220,43 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
  */
 void phalcon_camelize(zval *return_value, const zval *str){
 
-	unsigned int i;
+	int i, len;
 	smart_str camelize_str = {0};
 	char *marker, ch;
 
-	if (Z_TYPE_P(str) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for camelize()");
 		RETURN_EMPTY_STRING();
 		return;
 	}
 
 	marker = Z_STRVAL_P(str);
-	for (i = 0; i < Z_STRLEN_P(str); i++) {
+	len    = Z_STRLEN_P(str);
+
+	for (i = 0; i < len - 1; i++) {
 		ch = *marker;
-		if (ch == '\0') {
-			break;
-		}
 		if (i == 0 || ch == '-' || ch == '_') {
 			if (ch == '-' || ch == '_') {
 				i++;
 				marker++;
-				ch = *marker;
 			}
-			if (ch >= 'a' && ch <= 'z') {
-				smart_str_appendc(&camelize_str, (*marker) - 32);
-			} else {
-				smart_str_appendc(&camelize_str, (*marker));
-			}
-			marker++;
-			continue;
+
+			smart_str_appendc(&camelize_str, toupper(*marker));
 		}
-		if (ch >= 'A' && ch <= 'Z') {
-			smart_str_appendc(&camelize_str, (*marker) + 32);
-		} else {
-			smart_str_appendc(&camelize_str, (*marker));
+		else {
+			smart_str_appendc(&camelize_str, tolower(*marker));
 		}
+
 		marker++;
 	}
+
+	if (likely(i == len - 1)) {
+		smart_str_appendc(&camelize_str, *marker);
+	}
+
 	smart_str_0(&camelize_str);
 
-	if (camelize_str.len) {
+	if (camelize_str.c) {
 		RETURN_STRINGL(camelize_str.c, camelize_str.len, 0);
 	} else {
 		RETURN_EMPTY_STRING();
@@ -299,7 +296,7 @@ void phalcon_uncamelize(zval *return_value, const zval *str){
 	}
 	smart_str_0(&uncamelize_str);
 
-	if (uncamelize_str.len) {
+	if (uncamelize_str.c) {
 		RETURN_STRINGL(uncamelize_str.c, uncamelize_str.len, 0);
 	} else {
 		RETURN_EMPTY_STRING();
@@ -311,7 +308,7 @@ void phalcon_uncamelize(zval *return_value, const zval *str){
  */
 void phalcon_fast_explode(zval *result, zval *delimiter, zval *str){
 
-	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING)) {
 		ZVAL_NULL(result);
 		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
 		return;
@@ -328,7 +325,7 @@ void phalcon_fast_explode_str(zval *result, const char *delimiter, int delimiter
 
 	zval delimiter_zval;
 
-	if (Z_TYPE_P(str) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
 		ZVAL_NULL(result);
 		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
 		return;
@@ -345,19 +342,13 @@ void phalcon_fast_explode_str(zval *result, const char *delimiter, int delimiter
  */
 int phalcon_memnstr(const zval *haystack, const zval *needle) {
 
-	char *found = NULL;
-
 	if (Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING) {
 		zend_error(E_WARNING, "Invalid arguments supplied for memnstr()");
 		return 0;
 	}
 
 	if (Z_STRLEN_P(haystack) >= Z_STRLEN_P(needle)) {
-		found = php_memnstr(Z_STRVAL_P(haystack), Z_STRVAL_P(needle), Z_STRLEN_P(needle), Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack));
-	}
-
-	if (found) {
-		return 1;
+		return php_memnstr(Z_STRVAL_P(haystack), Z_STRVAL_P(needle), Z_STRLEN_P(needle), Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack)) ? 1 : 0;
 	}
 
 	return 0;
@@ -368,19 +359,13 @@ int phalcon_memnstr(const zval *haystack, const zval *needle) {
  */
 int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length) {
 
-	char *found = NULL;
-
 	if (Z_TYPE_P(haystack) != IS_STRING) {
 		zend_error(E_WARNING, "Invalid arguments supplied for memnstr()");
 		return 0;
 	}
 
 	if (Z_STRLEN_P(haystack) >= needle_length) {
-		found = php_memnstr(Z_STRVAL_P(haystack), needle, needle_length, Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack));
-	}
-
-	if (found) {
-		return 1;
+		return php_memnstr(Z_STRVAL_P(haystack), needle, needle_length, Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack)) ? 1 : 0;
 	}
 
 	return 0;
@@ -393,7 +378,7 @@ void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *n
 
 	char *found = NULL;
 
-	if (Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING)) {
 		ZVAL_NULL(return_value);
 		zend_error(E_WARNING, "Invalid arguments supplied for strpos()");
 		return;
@@ -422,7 +407,7 @@ void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *nee
 
 	char *found = NULL;
 
-	if (Z_TYPE_P(haystack) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(haystack) != IS_STRING)) {
 		ZVAL_NULL(return_value);
 		zend_error(E_WARNING, "Invalid arguments supplied for strpos()");
 		return;
@@ -446,7 +431,7 @@ void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, 
 	char *found = NULL;
 	char *needle_dup, *haystack_dup;
 
-	if (Z_TYPE_P(haystack) != IS_STRING) {
+	if (unlikely(Z_TYPE_P(haystack) != IS_STRING)) {
 		ZVAL_NULL(return_value);
 		zend_error(E_WARNING, "Invalid arguments supplied for stripos()");
 		return;
@@ -473,7 +458,7 @@ void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, 
 
 
 /**
- * Inmediate function resolution for str_replace function
+ * Immediate function resolution for str_replace function
  */
 void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject) {
 
@@ -553,9 +538,8 @@ void phalcon_fast_trim(zval *return_value, zval *str, int where TSRMLS_DC) {
 	php_trim(Z_STRVAL_P(str), Z_STRLEN_P(str), NULL, 0, return_value, where TSRMLS_CC);
 
 	if (use_copy) {
-		zval_dtor(str);
+		zval_dtor(&copy);
 	}
-
 }
 
 /**
@@ -579,7 +563,7 @@ void phalcon_fast_strip_tags(zval *return_value, zval *str) {
 	len = php_strip_tags(stripped, Z_STRLEN_P(str), NULL, NULL, 0);
 
 	if (use_copy) {
-		zval_dtor(str);
+		zval_dtor(&copy);
 	}
 
 	ZVAL_STRINGL(return_value, stripped, len, 0);
@@ -616,50 +600,35 @@ void phalcon_fast_strtoupper(zval *return_value, zval *str) {
 /**
  * Checks if a zval string starts with a zval string
  */
-int phalcon_start_with(const zval *str, const zval *compared, zval *ignore_case){
+int phalcon_start_with(const zval *str, const zval *compared, zval *case_sensitive){
 
-	int ignore = 1;
-	unsigned int i, number;
+	int sensitive = 0;
+	int i;
 	char *op1_cursor, *op2_cursor;
 
 	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(compared) != IS_STRING) {
 		return 0;
 	}
 
-	if (!Z_STRLEN_P(compared) || !Z_STRLEN_P(str)) {
+	if (!Z_STRLEN_P(compared) || !Z_STRLEN_P(str) || Z_STRLEN_P(compared) > Z_STRLEN_P(str)) {
 		return 0;
 	}
 
-	if (Z_STRLEN_P(compared) > Z_STRLEN_P(str)) {
-		return 0;
+	if (case_sensitive) {
+		sensitive = zend_is_true(case_sensitive);
 	}
 
-	if (ignore_case) {
-		ignore = zend_is_true(ignore_case);
-	}
-
-	if (Z_STRLEN_P(compared) < Z_STRLEN_P(str)) {
-		number = Z_STRLEN_P(compared);
-	} else {
-		number = Z_STRLEN_P(str);
+	if (!sensitive) {
+		return !memcmp(Z_STRVAL_P(str), Z_STRVAL_P(compared), Z_STRLEN_P(compared));
 	}
 
 	op1_cursor = Z_STRVAL_P(str);
 	op2_cursor = Z_STRVAL_P(compared);
-	for (i = 0; i < number; i++) {
-		if (ignore) {
-			if ((*op1_cursor) != (*op2_cursor)) {
-				return 0;
-			}
-		} else {
-			if ((*op1_cursor) != (*op2_cursor)) {
-				if (((*op1_cursor) + 32) != (*op2_cursor)) {
-					if ((*op1_cursor - 32) != (*op2_cursor)) {
-						return 0;
-					}
-				}
-			}
+	for (i = 0; i < Z_STRLEN_P(compared); i++) {
+		if (tolower(*op1_cursor) != tolower(*op2_cursor)) {
+			return 0;
 		}
+
 		op1_cursor++;
 		op2_cursor++;
 	}
@@ -672,120 +641,60 @@ int phalcon_start_with(const zval *str, const zval *compared, zval *ignore_case)
  */
 int phalcon_start_with_str(const zval *str, char *compared, unsigned int compared_length){
 
-	char *op1_cursor, *op2_cursor;
-	unsigned int i, number;
-
-	if (Z_TYPE_P(str) != IS_STRING) {
+	if (Z_TYPE_P(str) != IS_STRING || compared_length > Z_STRLEN_P(str)) {
 		return 0;
 	}
 
-	if (compared_length > Z_STRLEN_P(str)) {
-		return 0;
-	}
-
-	if (compared_length < Z_STRLEN_P(str)) {
-		number = compared_length;
-	} else {
-		number = Z_STRLEN_P(str);
-	}
-
-	op1_cursor = Z_STRVAL_P(str);
-	op2_cursor = compared;
-	for (i = 0; i < number; i++){
-		if ((*op1_cursor) != (*op2_cursor)) {
-			return 0;
-		}
-		op1_cursor++;
-		op2_cursor++;
-	}
-
-	return 1;
+	return !memcmp(Z_STRVAL_P(str), compared, compared_length);
 }
 
 /**
- * Checks if a string starts with other  string
+ * Checks if a string starts with other string
  */
 int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length){
-
-	char *op1_cursor, *op2_cursor;
-	unsigned int i, number;
 
 	if (compared_length > str_length) {
 		return 0;
 	}
 
-	if (compared_length < str_length) {
-		number = compared_length;
-	} else {
-		number = str_length;
-	}
-
-	op1_cursor = str;
-	op2_cursor = compared;
-	for (i = 0; i < number; i++){
-		if ((*op1_cursor) != (*op2_cursor)) {
-			return 0;
-		}
-		op1_cursor++;
-		op2_cursor++;
-	}
-
-	return 1;
+	return !memcmp(str, compared, compared_length);
 }
 
 /**
  * Checks if a zval string ends with a zval string
  */
-int phalcon_end_with(const zval *str, const zval *compared, zval *ignore_case){
+int phalcon_end_with(const zval *str, const zval *compared, zval *case_sensitive){
 
-	int ignore = 1, number = 0;
-	unsigned int i;
+	int sensitive = 0;
+	int i;
 	char *op1_cursor, *op2_cursor;
 
 	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(compared) != IS_STRING) {
 		return 0;
 	}
 
-	if (!Z_STRLEN_P(compared) || !Z_STRLEN_P(str)) {
+	if (!Z_STRLEN_P(compared) || !Z_STRLEN_P(str) || Z_STRLEN_P(compared) > Z_STRLEN_P(str)) {
 		return 0;
 	}
 
-	if (Z_STRLEN_P(compared) > Z_STRLEN_P(str)) {
-		return 0;
+	if (case_sensitive) {
+		sensitive = zend_is_true(case_sensitive);
 	}
 
-	if (ignore_case) {
-		ignore = zend_is_true(ignore_case);
+	if (!sensitive) {
+		return !memcmp(Z_STRVAL_P(str) + Z_STRLEN_P(str) - Z_STRLEN_P(compared), Z_STRVAL_P(compared), Z_STRLEN_P(compared));
 	}
 
-	op1_cursor = Z_STRVAL_P(str);
+	op1_cursor = Z_STRVAL_P(str) + Z_STRLEN_P(str) - Z_STRLEN_P(compared);
 	op2_cursor = Z_STRVAL_P(compared);
 
-	op1_cursor += (Z_STRLEN_P(str) - 1);
-	op2_cursor += (Z_STRLEN_P(compared) - 1);
-
-	if (Z_STRLEN_P(compared) < Z_STRLEN_P(str)) {
-		number = Z_STRLEN_P(compared);
-	} else {
-		number = Z_STRLEN_P(str);
-	}
-
-	for (i = number; i > 0; i--) {
-		if (ignore) {
-			if ((*op1_cursor) != (*op2_cursor)) {
-				return 0;
-			}
-		} else {
-			if ((*op1_cursor) != (*op2_cursor)) {
-				if (((*op1_cursor) + 32) != (*op2_cursor)) {
-					if ((*op1_cursor - 32) != (*op2_cursor)) {
-						return 0;
-					}
-				}
-			}
+	for (i = 0; i < Z_STRLEN_P(compared); ++i) {
+		if (tolower(*op1_cursor) != tolower(*op2_cursor)) {
+			return 0;
 		}
-		op1_cursor--;
-		op2_cursor--;
+
+		++op1_cursor;
+		++op2_cursor;
 	}
 
 	return 1;
@@ -796,43 +705,15 @@ int phalcon_end_with(const zval *str, const zval *compared, zval *ignore_case){
  */
 int phalcon_end_with_str(const zval *str, char *compared, unsigned int compared_length){
 
-	int number = 0;
-	unsigned int i;
-	char *op1_cursor, *op2_cursor;
-
 	if (Z_TYPE_P(str) != IS_STRING) {
 		return 0;
 	}
 
-	if (!compared_length || !Z_STRLEN_P(str)) {
+	if (!compared_length || !Z_STRLEN_P(str) || compared_length > Z_STRLEN_P(str)) {
 		return 0;
 	}
 
-	if (compared_length > Z_STRLEN_P(str)) {
-		return 0;
-	}
-
-	op1_cursor = Z_STRVAL_P(str);
-	op2_cursor = compared;
-
-	op1_cursor += (Z_STRLEN_P(str) - 1);
-	op2_cursor += (compared_length - 1);
-
-	if (compared_length < Z_STRLEN_P(str)) {
-		number = compared_length;
-	} else {
-		number = Z_STRLEN_P(str);
-	}
-
-	for (i = number; i > 0; i--) {
-		if ((*op1_cursor) != (*op2_cursor)) {
-			return 0;
-		}
-		op1_cursor--;
-		op2_cursor--;
-	}
-
-	return 1;
+	return !memcmp(Z_STRVAL_P(str) + Z_STRLEN_P(str) - compared_length, compared, compared_length);
 }
 
 /**
@@ -935,7 +816,6 @@ void phalcon_remove_extra_slashes(zval *return_value, const zval *str) {
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		RETURN_EMPTY_STRING();
-		return;
 	}
 
 	if (Z_STRLEN_P(str) > 1) {
@@ -1237,7 +1117,15 @@ void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *ma
 		matches
 	};
 
+	if (matches) {
+		Z_SET_ISREF_P(matches);
+	}
+
 	phalcon_call_func_params_w(return_value, SL("preg_match"), (matches ? 3 : 2), params TSRMLS_CC);
+
+	if (matches) {
+		Z_UNSET_ISREF_P(matches);
+	}
 }
 
 #endif /* PHALCON_USE_PHP_PCRE */

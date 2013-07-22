@@ -598,6 +598,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			/** 
 			 * Check if the hostname restriction is the same as the current in the route
 			 */
+			PHALCON_INIT_NVAR(matched);
 			if (phalcon_memnstr_str(hostname, SL("("))) {
 				if (!phalcon_memnstr_str(hostname, SL("#"))) {
 					PHALCON_INIT_NVAR(regex_host_name);
@@ -606,12 +607,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 					PHALCON_CPY_WRT(regex_host_name, hostname);
 				}
 	
-				PHALCON_INIT_NVAR(matched);
-	
 				phalcon_preg_match(matched, regex_host_name, current_host_name, NULL TSRMLS_CC);
-	
 			} else {
-				PHALCON_INIT_NVAR(matched);
 				is_equal_function(matched, current_host_name, hostname TSRMLS_CC);
 			}
 	
@@ -626,17 +623,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		 */
 		PHALCON_INIT_NVAR(pattern);
 		phalcon_call_method(pattern, route, "getcompiledpattern");
+
+		PHALCON_INIT_NVAR(route_found);
 		if (phalcon_memnstr_str(pattern, SL("^"))) {
-			PHALCON_INIT_NVAR(route_found);
-	
-			Z_SET_ISREF_P(matches);
-	
 			phalcon_preg_match(route_found, pattern, handled_uri, matches TSRMLS_CC);
-	
-			Z_UNSET_ISREF_P(matches);
-	
 		} else {
-			PHALCON_INIT_NVAR(route_found);
 			is_equal_function(route_found, pattern, handled_uri TSRMLS_CC);
 		}
 	

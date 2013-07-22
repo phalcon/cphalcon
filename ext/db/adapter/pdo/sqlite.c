@@ -238,12 +238,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 			PHALCON_INIT_NVAR(matches);
 	
 			PHALCON_INIT_NVAR(pos);
-	
-			Z_SET_ISREF_P(matches);
-	
 			phalcon_preg_match(pos, size_pattern, column_type, matches TSRMLS_CC);
-	
-			Z_UNSET_ISREF_P(matches);
 	
 			if (zend_is_true(pos)) {
 				if (phalcon_array_isset_long(matches, 1)) {

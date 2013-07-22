@@ -41,10 +41,7 @@ void phalcon_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy){
  * Performs logical AND function operator
  */
 int phalcon_and_function(zval *result, zval *left, zval *right){
-	int istrue = zend_is_true(left);
-	if (istrue) {
-		istrue = zend_is_true(right);
-	}
+	int istrue = zend_is_true(left) && zend_is_true(right);
 	ZVAL_BOOL(result, istrue);
 	return SUCCESS;
 }
