@@ -84,13 +84,13 @@ PHP_METHOD(Phalcon_Escaper, setEncoding){
 	zval *encoding;
 
 	phalcon_fetch_params(0, 1, 0, &encoding);
-	
+
 	if (unlikely(Z_TYPE_P(encoding) != IS_STRING)) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The character set must be string");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
-	
+
 }
 
 /**
@@ -118,13 +118,13 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 	zval *quote_type;
 
 	phalcon_fetch_params(0, 1, 0, &quote_type);
-	
+
 	if (Z_TYPE_P(quote_type) != IS_LONG) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The quoting type is not valid");
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_htmlQuoteType"), quote_type TSRMLS_CC);
-	
+
 }
 
 /**
@@ -142,8 +142,8 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &str);
-	
-	/** 
+
+	/**
 	 * Check if charset is ASCII or ISO-8859-1
 	 */
 	PHALCON_INIT_VAR(charset);
@@ -151,24 +151,24 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	if (Z_TYPE_P(charset) == IS_STRING) {
 		RETURN_CTOR(charset);
 	}
-	
-	/** 
+
+	/**
 	 * We require mbstring extension here
 	 */
 	if (phalcon_function_exists_ex(SS("mb_detect_encoding") TSRMLS_CC) == FAILURE) {
 		RETURN_MM_NULL();
 	}
-	
-	/** 
+
+	/**
 	 * Strict encoding detection with fallback to non-strict detection.
 	 */
 	PHALCON_INIT_VAR(strict_check);
 	ZVAL_BOOL(strict_check, 1);
-	
+
 	PHALCON_INIT_NVAR(charset);
 	ZVAL_STRING(charset, "UTF-32", 1);
-	
-	/** 
+
+	/**
 	 * Check for UTF-32 encoding
 	 */
 	PHALCON_INIT_VAR(detected);
@@ -176,11 +176,11 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
 	}
-	
+
 	PHALCON_INIT_NVAR(charset);
 	ZVAL_STRING(charset, "UTF-16", 1);
-	
-	/** 
+
+	/**
 	 * Check for UTF-16 encoding
 	 */
 	PHALCON_INIT_NVAR(detected);
@@ -188,11 +188,11 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
 	}
-	
+
 	PHALCON_INIT_NVAR(charset);
 	ZVAL_STRING(charset, "UTF-8", 1);
-	
-	/** 
+
+	/**
 	 * Check for UTF-8 encoding
 	 */
 	PHALCON_INIT_NVAR(detected);
@@ -200,11 +200,11 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
 	}
-	
+
 	PHALCON_INIT_NVAR(charset);
 	ZVAL_STRING(charset, "ISO-8859-1", 1);
-	
-	/** 
+
+	/**
 	 * Check for ISO-8859-1 encoding
 	 */
 	PHALCON_INIT_NVAR(detected);
@@ -212,11 +212,11 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
 	}
-	
+
 	PHALCON_INIT_NVAR(charset);
 	ZVAL_STRING(charset, "ASCII", 1);
-	
-	/** 
+
+	/**
 	 * Check for ASCII encoding
 	 */
 	PHALCON_INIT_NVAR(detected);
@@ -224,8 +224,8 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	if (zend_is_true(detected)) {
 		RETURN_CTOR(charset);
 	}
-	
-	/** 
+
+	/**
 	 * Fallback to global detection
 	 */
 	phalcon_call_func_p1(return_value, "mb_detect_encoding", str);
@@ -245,22 +245,22 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &str);
-	
-	/** 
+
+	/**
 	 * mbstring is required here
 	 */
 	if (phalcon_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == FAILURE) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required");
 		return;
 	}
-	
+
 	PHALCON_INIT_VAR(encoding);
 	phalcon_call_method_p1(encoding, this_ptr, "detectencoding", str);
-	
+
 	PHALCON_INIT_VAR(charset);
 	ZVAL_STRING(charset, "UTF-32", 1);
-	
-	/** 
+
+	/**
 	 * Convert to UTF-32 (4 byte characters, regardless of actual number of bytes in
 	 * the character).
 	 */
@@ -281,17 +281,18 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &text);
-	
+
 	if (Z_TYPE_P(text) == IS_STRING) {
 		PHALCON_OBS_VAR(html_quote_type);
 		phalcon_read_property_this(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
-	
+
 		PHALCON_OBS_VAR(encoding);
 		phalcon_read_property_this(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
 		phalcon_call_func_p3(return_value, "htmlspecialchars", text, html_quote_type, encoding);
 		RETURN_MM();
 	}
-	RETURN_MM_NULL();
+
+	RETURN_CCTOR(text);
 }
 
 /**
@@ -307,23 +308,25 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &attribute);
-	
+
 	if (Z_TYPE_P(attribute) == IS_STRING) {
 		if (zend_is_true(attribute)) {
-			/** 
+
+			/**
 			 * Normalize encoding to UTF-32
 			 */
 			PHALCON_INIT_VAR(normalized);
 			phalcon_call_method_p1(normalized, this_ptr, "normalizeencoding", attribute);
-	
-			/** 
+
+			/**
 			 * Escape the string
 			 */
 			phalcon_escape_htmlattr(return_value, normalized);
 			RETURN_MM();
 		}
 	}
-	RETURN_MM_NULL();
+
+	RETURN_CCTOR(attribute);
 }
 
 /**
@@ -339,23 +342,25 @@ PHP_METHOD(Phalcon_Escaper, escapeCss){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &css);
-	
+
 	if (Z_TYPE_P(css) == IS_STRING) {
 		if (zend_is_true(css)) {
-			/** 
+
+			/**
 			 * Normalize encoding to UTF-32
 			 */
 			PHALCON_INIT_VAR(normalized);
 			phalcon_call_method_p1(normalized, this_ptr, "normalizeencoding", css);
-	
-			/** 
+
+			/**
 			 * Escape the string
 			 */
 			phalcon_escape_css(return_value, normalized);
 			RETURN_MM();
 		}
 	}
-	RETURN_MM_NULL();
+
+	RETURN_CCTOR(css);
 }
 
 /**
@@ -371,23 +376,25 @@ PHP_METHOD(Phalcon_Escaper, escapeJs){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &js);
-	
+
 	if (Z_TYPE_P(js) == IS_STRING) {
 		if (zend_is_true(js)) {
-			/** 
+
+			/**
 			 * Normalize encoding to UTF-32
 			 */
 			PHALCON_INIT_VAR(normalized);
 			phalcon_call_method_p1(normalized, this_ptr, "normalizeencoding", js);
-	
-			/** 
+
+			/**
 			 * Escape the string
 			 */
 			phalcon_escape_js(return_value, normalized);
 			RETURN_MM();
 		}
 	}
-	RETURN_MM_NULL();
+
+	RETURN_CCTOR(js);
 }
 
 /**
@@ -401,7 +408,7 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl){
 	zval *url;
 
 	phalcon_fetch_params(0, 1, 0, &url);
-	
+
 	phalcon_raw_url_encode(return_value, url);
 	return;
 }
