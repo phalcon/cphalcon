@@ -682,17 +682,10 @@ static PHP_MINIT_FUNCTION(phalcon){
 
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
-	if (PHALCON_GLOBAL(active_memory) != NULL) {
-		phalcon_clean_shutdown_stack(TSRMLS_C);
-	}
-
-	if (PHALCON_GLOBAL(function_cache) != NULL) {
-		zend_hash_destroy(PHALCON_GLOBAL(function_cache));
-		FREE_HASHTABLE(PHALCON_GLOBAL(function_cache));
-		PHALCON_GLOBAL(function_cache) = NULL;
-	}
-
-	phalcon_orm_destroy_cache(TSRMLS_C);
+	assert(PHALCON_GLOBAL(start_memory) == NULL);
+	assert(PHALCON_GLOBAL(function_cache) == NULL);
+	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
+	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
 
 	return SUCCESS;
 }
@@ -706,7 +699,7 @@ static PHP_RINIT_FUNCTION(phalcon){
 
 static PHP_RSHUTDOWN_FUNCTION(phalcon){
 
-	if (PHALCON_GLOBAL(active_memory) != NULL) {
+	if (PHALCON_GLOBAL(start_memory) != NULL) {
 		phalcon_clean_shutdown_stack(TSRMLS_C);
 	}
 
@@ -725,7 +718,7 @@ static PHP_MINFO_FUNCTION(phalcon)
 {
 	php_info_print_table_start();
 	php_info_print_table_row(2, "Phalcon Framework", "enabled");
-	php_info_print_table_row(2, "Phalcon Vesion", PHP_PHALCON_VERSION);
+	php_info_print_table_row(2, "Phalcon Version", PHP_PHALCON_VERSION);
 	php_info_print_table_end();
 }
 

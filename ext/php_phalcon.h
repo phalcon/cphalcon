@@ -23,13 +23,13 @@
 #define PHP_PHALCON_VERSION "1.2.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
-#define PHALCON_MAX_MEMORY_STACK 48
-
 /** Memory frame */
 typedef struct _phalcon_memory_entry {
-	int pointer;
-	int hash_pointer;
+	size_t pointer;
+	size_t capacity;
 	zval ***addresses;
+	size_t hash_pointer;
+	size_t hash_capacity;
 	zval ***hash_addresses;
 	struct _phalcon_memory_entry *prev;
 	struct _phalcon_memory_entry *next;
@@ -85,13 +85,6 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/** Max recursion control */
 	unsigned int recursive_lock;
-
-	/** Stats */
-#ifndef PHALCON_RELEASE
-	unsigned int phalcon_stack_stats;
-	unsigned int phalcon_number_grows;
-	unsigned int phalcon_stack_derivate[PHALCON_MAX_MEMORY_STACK];
-#endif
 
 	/** DB */
 	phalcon_db_options db;
