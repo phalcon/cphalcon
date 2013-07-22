@@ -20,16 +20,18 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "1.2.0"
+#define PHP_PHALCON_VERSION "1.2.1"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_MAX_MEMORY_STACK 48
 
 /** Memory frame */
 typedef struct _phalcon_memory_entry {
-	int pointer;
+	size_t pointer;
+	size_t capacity;
 	zval ***addresses;
-	int hash_pointer;
+	size_t hash_pointer;
+	size_t hash_capacity;
 	zval ***hash_addresses;
 	struct _phalcon_memory_entry *prev;
 	struct _phalcon_memory_entry *next;
@@ -44,16 +46,16 @@ typedef struct _phalcon_symbol_table {
 
 /** ORM options */
 typedef struct _phalcon_orm_options {
+	HashTable *parser_cache;
+	HashTable *ast_cache;
+	int cache_level;
+	int unique_cache_id;
 	zend_bool events;
 	zend_bool virtual_foreign_keys;
 	zend_bool column_renaming;
 	zend_bool not_null_validations;
 	zend_bool exception_on_failed_save;
 	zend_bool enable_literals;
-	int cache_level;
-	int unique_cache_id;
-	HashTable *parser_cache;
-	HashTable *ast_cache;
 } phalcon_orm_options;
 
 /** DB options */
@@ -63,9 +65,9 @@ typedef struct _phalcon_db_options {
 
 /** DI options */
 typedef struct _phalcon_di_options {
-	zend_bool cache_enabled;
 	zval **injector;
 	HashTable *shared_services_cache;
+	zend_bool cache_enabled;
 } phalcon_di_options;
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)

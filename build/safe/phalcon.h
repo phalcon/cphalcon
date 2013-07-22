@@ -9973,6 +9973,14 @@ PHALCON_INIT_FUNCS(phalcon_forms_element_textarea_method_entry){
 
 
 
+#define PHALCON_CRYPT_PADDING_DEFAULT        0
+#define PHALCON_CRYPT_PADDING_ANSI_X_923     1
+#define PHALCON_CRYPT_PADDING_PKCS7          2
+#define PHALCON_CRYPT_PADDING_ISO_10126      3
+#define PHALCON_CRYPT_PADDING_ISO_IEC_7816_4 4
+#define PHALCON_CRYPT_PADDING_ZERO           5
+#define PHALCON_CRYPT_PADDING_SPACE          6
+
 zend_class_entry *phalcon_crypt_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Crypt);
@@ -9983,6 +9991,8 @@ static PHP_METHOD(Phalcon_Crypt, setMode);
 static PHP_METHOD(Phalcon_Crypt, getMode);
 static PHP_METHOD(Phalcon_Crypt, setKey);
 static PHP_METHOD(Phalcon_Crypt, getKey);
+static PHP_METHOD(Phalcon_Crypt, setPadding);
+static PHP_METHOD(Phalcon_Crypt, getPadding);
 static PHP_METHOD(Phalcon_Crypt, encrypt);
 static PHP_METHOD(Phalcon_Crypt, decrypt);
 static PHP_METHOD(Phalcon_Crypt, encryptBase64);
@@ -10022,6 +10032,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_decryptbase64, 0, 0, 1)
 	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_getpadding, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_setpadding, 0, 0, 1)
+	ZEND_ARG_INFO(0, scheme)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_crypt_method_entry){
 	PHP_ME(Phalcon_Crypt, setCipher, arginfo_phalcon_crypt_setcipher, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Crypt, getCipher, NULL, ZEND_ACC_PUBLIC) 
@@ -10029,6 +10046,8 @@ PHALCON_INIT_FUNCS(phalcon_crypt_method_entry){
 	PHP_ME(Phalcon_Crypt, getMode, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Crypt, setKey, arginfo_phalcon_crypt_setkey, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Crypt, getKey, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Crypt, setPadding, arginfo_phalcon_crypt_setpadding, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Crypt, getPadding, arginfo_phalcon_crypt_getpadding, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Crypt, encrypt, arginfo_phalcon_crypt_encrypt, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Crypt, decrypt, arginfo_phalcon_crypt_decrypt, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Crypt, encryptBase64, arginfo_phalcon_crypt_encryptbase64, ZEND_ACC_PUBLIC) 
@@ -10902,10 +10921,15 @@ static PHP_METHOD(Phalcon_Http_Request_File, getName);
 static PHP_METHOD(Phalcon_Http_Request_File, getTempName);
 static PHP_METHOD(Phalcon_Http_Request_File, getType);
 static PHP_METHOD(Phalcon_Http_Request_File, getRealType);
+static PHP_METHOD(Phalcon_Http_Request_File, getError);
+static PHP_METHOD(Phalcon_Http_Request_File, getKey);
+static PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile);
 static PHP_METHOD(Phalcon_Http_Request_File, moveTo);
+static PHP_METHOD(Phalcon_Http_Request_File, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
+	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file_moveto, 0, 0, 1)
@@ -10918,8 +10942,12 @@ PHALCON_INIT_FUNCS(phalcon_http_request_file_method_entry){
 	PHP_ME(Phalcon_Http_Request_File, getName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request_File, getTempName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request_File, getType, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Http_Request_File, getRealType, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Http_Request_File, moveTo, arginfo_phalcon_http_request_file_moveto, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request_File, getRealType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, getError, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, getKey, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, isUploadedFile, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_File, moveTo, arginfo_phalcon_http_request_file_moveto, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Config, __set_state, arginfo_phalcon_http_request_file___construct, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 

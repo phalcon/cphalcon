@@ -95,29 +95,29 @@ if try_gcc_options -march=native; then
     #gcc -march=native --verbose -xc /dev/null 2>&1 | sed -n 's|.*/dev/null \(-march.*-mtune[^ ]*\).*|\1|p' >&2
 fi
 
-if ! try_gcc_options -march=i386; then
-    if ! try_gcc_options -m32 -march=i386; then
-        echo "Error: This script only supports 32 bit x86 architectures" >&2
-        exit 1
-    else
-        echo "Warning: The optimum *32 bit* architecture is reported" >&2
-        m32="-m32 "
-    fi
-fi
+#if ! try_gcc_options -march=i386; then
+#    if ! try_gcc_options -m32 -march=i386; then
+#        echo "Error: This script only supports 32 bit x86 architectures" >&2
+#        exit 1
+#    else
+#        echo "Warning: The optimum *32 bit* architecture is reported" >&2
+#        m32="-m32 "
+#    fi
+#fi
 
-try_line() {
-    skip=0
-    for arch in $1; do
-        if try_gcc_options $m32 -march=$arch; then
-            echo $arch
-            return
-        elif [ "$skip" = "0" ] && [ "$arch" != "native" ]; then
-            skip=1
-            echo "Warning: Newer versions of GCC better support your CPU with -march=$arch" >&2
-        fi
-    done
-    return 1
-}
+#try_line() {
+#    skip=0
+#    for arch in $1; do
+#        if try_gcc_options $m32 -march=$arch; then
+#            echo $arch
+#            return
+#        elif [ "$skip" = "0" ] && [ "$arch" != "native" ]; then
+#            skip=1
+#            echo "Warning: Newer versions of GCC better support your CPU with -march=$arch" >&2
+#        fi
+#    done
+#    return 1
+#}
 
 read_cpu_data_linux() {
     IFS=":"
@@ -343,7 +343,7 @@ Unrecognised CPU. Please email the following to: P@draigBrady.com
     exit 1
 fi
 
-[ -z "$_CFLAGS" ] && _CFLAGS="-march=`try_line "$line"`"
+#[ -z "$_CFLAGS" ] && _CFLAGS="-march=`try_line "$line"`"
 
 #The Atom CPU supports the full core2 instruction set,
 #but it's an in-order core, the last one of those being the i586.
@@ -361,11 +361,11 @@ fi
 
 #SSE is not used for floating point by default in gcc 32 bit
 #so turn that on here.
-if echo "$flags" | grep -q "sse"; then
-    if try_gcc_options "-mfpmath=sse"; then #gcc >= 3.1
-        _CFLAGS="$_CFLAGS -mfpmath=sse"
-    fi
-fi
+#if echo "$flags" | grep -q "sse"; then
+#    if try_gcc_options "-mfpmath=sse"; then #gcc >= 3.1
+#        _CFLAGS="$_CFLAGS -mfpmath=sse"
+#    fi
+#fi
 
 #The SSE options are mostly selected automatically
 #when a particular march option is selected.
@@ -375,28 +375,28 @@ fi
 #   amd:   [sse5] sse4a [sse3] sse2 sse ...
 # The bracketed ones are only available on some cpus
 # in a particular family and so need to be added explicitly.
-if echo "$_CFLAGS" | grep -q "amdfam10"; then
-    if echo "$flags" | grep -q "sse5"; then
-        if try_gcc_options "-msse5"; then #gcc >= 4.3
-            _CFLAGS="$_CFLAGS -msse5"
-        fi
-    fi
-elif echo "$_CFLAGS" | grep -E -q "(k8|c3-2)"; then
-    if echo "$flags" | grep -E -q "(sse3|pni)"; then
-        if try_gcc_options "-msse3"; then #gcc >= 3.3.3
-            _CFLAGS="$_CFLAGS -msse3"
-        fi
-    fi
-elif echo "$_CFLAGS" | grep -q "core2"; then
-    if echo "$flags" | grep -q "sse4_2"; then
-        if try_gcc_options "-msse4"; then #gcc >= 4.3
-            _CFLAGS="$_CFLAGS -msse4"
-        fi
-    elif echo "$flags" | grep -q "sse4_1"; then
-        if try_gcc_options "-msse4.1"; then #gcc >= 4.3
-            _CFLAGS="$_CFLAGS -msse4.1"
-        fi
-    fi
-fi
+#if echo "$_CFLAGS" | grep -q "amdfam10"; then
+#    if echo "$flags" | grep -q "sse5"; then
+#        if try_gcc_options "-msse5"; then #gcc >= 4.3
+#            _CFLAGS="$_CFLAGS -msse5"
+#        fi
+#    fi
+#elif echo "$_CFLAGS" | grep -E -q "(k8|c3-2)"; then
+#    if echo "$flags" | grep -E -q "(sse3|pni)"; then
+#        if try_gcc_options "-msse3"; then #gcc >= 3.3.3
+#            _CFLAGS="$_CFLAGS -msse3"
+#        fi
+#    fi
+#elif echo "$_CFLAGS" | grep -q "core2"; then
+#    if echo "$flags" | grep -q "sse4_2"; then
+#        if try_gcc_options "-msse4"; then #gcc >= 4.3
+#            _CFLAGS="$_CFLAGS -msse4"
+#        fi
+#    elif echo "$flags" | grep -q "sse4_1"; then
+#        if try_gcc_options "-msse4.1"; then #gcc >= 4.3
+#            _CFLAGS="$_CFLAGS -msse4.1"
+#        fi
+#    fi
+#fi
 
-echo "$m32$_CFLAGS"
+echo "$_CFLAGS"
