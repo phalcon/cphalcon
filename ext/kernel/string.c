@@ -1199,6 +1199,7 @@ void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 void phalcon_lcfirst(zval *return_value, zval *s)
 {
 	zval copy;
+	char *c;
 	int use_copy = 0;
 
 	if (unlikely(Z_TYPE_P(s) != IS_STRING)) {
@@ -1213,7 +1214,7 @@ void phalcon_lcfirst(zval *return_value, zval *s)
 	}
 	else {
 		ZVAL_STRINGL(return_value, Z_STRVAL_P(s), Z_STRLEN_P(s), 1);
-		char *c = Z_STRVAL_P(return_value);
+		c = Z_STRVAL_P(return_value);
 		*c = tolower((unsigned char)*c);
 	}
 
@@ -1225,6 +1226,7 @@ void phalcon_lcfirst(zval *return_value, zval *s)
 void phalcon_ucfirst(zval *return_value, zval *s)
 {
 	zval copy;
+	char *c;
 	int use_copy = 0;
 
 	if (unlikely(Z_TYPE_P(s) != IS_STRING)) {
@@ -1239,7 +1241,7 @@ void phalcon_ucfirst(zval *return_value, zval *s)
 	}
 	else {
 		ZVAL_STRINGL(return_value, Z_STRVAL_P(s), Z_STRLEN_P(s), 1);
-		char *c = Z_STRVAL_P(return_value);
+		c = Z_STRVAL_P(return_value);
 		*c = toupper((unsigned char)*c);
 	}
 
