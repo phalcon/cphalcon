@@ -851,6 +851,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
 static const char* phalcon_http_request_getmethod_helper(TSRMLS_D)
 {
+	zval **value;
 	const char *method = SG(request_info).request_method;
 	if (unlikely(!method)) {
 		zval *_SERVER, key;
@@ -859,7 +860,7 @@ static const char* phalcon_http_request_getmethod_helper(TSRMLS_D)
 		ZVAL_STRING(&key, "REQUEST_METHOD", 0);
 
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-		zval **value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA);
+		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA);
 		if (value && Z_TYPE_PP(value) == IS_STRING) {
 			return Z_STRVAL_PP(value);
 		}
@@ -1220,6 +1221,8 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 		zval **dname, **dtype, **dtmp, **derror, **dsize;
 		zval *arr, *file, *key;
 		size_t prefix_len = prefix->len;
+		zval *params[2];
+		int res;
 
 		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(name),     &pos_name);
 		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(type),     &pos_type);
@@ -1267,8 +1270,9 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 					ALLOC_INIT_ZVAL(file);
 					object_init_ex(file, phalcon_http_request_file_ce);
 
-					zval* params[2] = { arr, key };
-					int res = phalcon_call_method_params_w(NULL, file, SL("__construct"), 2, params, 0, 0 TSRMLS_CC);
+					params[0] = arr;
+					params[1] = key;
+					res = phalcon_call_method_params_w(NULL, file, SL("__construct"), 2, params, 0, 0 TSRMLS_CC);
 
 					zval_ptr_dtor(&arr);
 					zval_ptr_dtor(&key);
@@ -1306,6 +1310,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
 	zval *name = NULL, *type = NULL, *tmp_name = NULL, *error = NULL, *size = NULL;
 	zval *not_errored = NULL, *_FILES, *request_file = NULL, *key = NULL;
+	zval index;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1331,7 +1336,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 		if (phalcon_array_isset_string(*hd, SS("error"))) {
 			PHALCON_OBS_NVAR(error);
 			phalcon_array_fetch_string(&error, *hd, SL("error"), PH_NOISY);
-			zval index = phalcon_get_current_key_w(ah0, &hp0);
+			index = phalcon_get_current_key_w(ah0, &hp0);
 
 			if (Z_TYPE_P(error) < IS_ARRAY) {
 				if (!zend_is_true(error) || !only_successful) {

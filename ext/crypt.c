@@ -226,12 +226,15 @@ PHP_METHOD(Phalcon_Crypt, getPadding) {
  */
 static void phalcon_crypt_pad_text(zval *return_value, zval *text, zval *mode, uint block_size, int padding_type TSRMLS_DC)
 {
+	uint padding_size, i;
+	char padding[256];
+	char *str_mode;
+
 	assert(Z_TYPE_P(text) == IS_STRING);
 	assert(Z_TYPE_P(mode) == IS_STRING);
 
-	uint padding_size = 0, i;
-	char padding[256];
-	char *str_mode = Z_STRVAL_P(mode);
+	padding_size = 0;
+	str_mode = Z_STRVAL_P(mode);
 
 	if (!strcmp(str_mode, "ecb") || !strcmp(str_mode, "cbc")) {
 		padding_size = block_size - (Z_STRLEN_P(text) % block_size);
@@ -293,15 +296,20 @@ static void phalcon_crypt_pad_text(zval *return_value, zval *text, zval *mode, u
  */
 static void phalcon_crypt_unpad_text(zval *return_value, zval *text, zval *mode, uint block_size, int padding_type TSRMLS_DC)
 {
+	uint padding_size;
+	char padding[256];
+	int i;
+	char *str_mode;
+	char *str_text;
+	int text_len;
+
 	assert(Z_TYPE_P(text) == IS_STRING);
 	assert(Z_TYPE_P(mode) == IS_STRING);
 
-	uint padding_size = 0;
-	char padding[256];
-	int i;
-	char *str_mode = Z_STRVAL_P(mode);
-	char *str_text = Z_STRVAL_P(text);
-	int text_len   = Z_STRLEN_P(text);
+	padding_size = 0;
+	str_mode = Z_STRVAL_P(mode);
+	str_text = Z_STRVAL_P(text);
+	text_len   = Z_STRLEN_P(text);
 
 	if (text_len && (text_len % block_size == 0) && (!strcmp(str_mode, "ecb") || !strcmp(str_mode, "cbc"))) {
 		switch (padding_type) {
