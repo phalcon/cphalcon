@@ -742,9 +742,6 @@ zend_module_dep phalcon_deps[] = {
 #if PHALCON_USE_PHP_PCRE
 	ZEND_MOD_REQUIRED("pcre")
 #endif
-#ifdef PHALCON_USE_PHP_FILTER
-	ZEND_MOD_REQUIRED("filter")
-#endif
 	ZEND_MOD_END
 };
 
