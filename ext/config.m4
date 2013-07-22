@@ -348,16 +348,6 @@ annotations/scanner.c"
 	CPPFLAGS="$CPPFLAGS $INCLUDES"
 
 	AC_CHECK_HEADERS(
-		[ext/filter/php_filter.h],
-		[
-			PHP_ADD_EXTENSION_DEP([phalcon], [filter])
-			AC_DEFINE([PHALCON_USE_PHP_FILTER], [1], [Whether PHP filter extension is present at compile time])
-		],
-		,
-		[[#include "main/php.h"]]
-	)
-
-	AC_CHECK_HEADERS(
 		[ext/igbinary/igbinary.h],
 		[
 			PHP_ADD_EXTENSION_DEP([phalcon], [igbinary])
