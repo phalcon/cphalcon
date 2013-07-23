@@ -422,12 +422,12 @@ PHP_METHOD(Phalcon_Http_Cookie, send){
 	php_setcookie(
 		Z_STRVAL_P(name), Z_STRLEN_P(name),
 		Z_STRVAL_P(encrypt_value), Z_STRLEN_P(encrypt_value),
-		Z_DVAL_P(expire),
+		Z_LVAL_P(expire),
 		Z_STRVAL_P(path), Z_STRLEN_P(path),
 		Z_STRVAL_P(domain), Z_STRLEN_P(domain),
-		Z_DVAL_P(secure),
+		Z_LVAL_P(secure),
 		1,
-		Z_DVAL_P(http_only) TSRMLS_CC
+		Z_LVAL_P(http_only) TSRMLS_CC
 	);
 	
 	RETURN_THIS();
@@ -561,9 +561,9 @@ PHP_METHOD(Phalcon_Http_Cookie, delete){
 		time(NULL) - 691200,
 		Z_STRVAL_P(path), Z_STRLEN_P(path),
 		Z_STRVAL_P(domain), Z_STRLEN_P(domain),
-		Z_DVAL_P(secure),
+		Z_LVAL_P(secure),
 		1,
-		Z_DVAL_P(http_only) TSRMLS_CC
+		Z_LVAL_P(http_only) TSRMLS_CC
 	);
 	
 	PHALCON_MM_RESTORE();
