@@ -63,16 +63,13 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Syslog){
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format){
 
-	zval *message, *type, *timestamp, *log;
+	zval *message, *type, *timestamp;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 3, 0, &message, &type, &timestamp);
+	phalcon_fetch_params(0, 3, 0, &message, &type, &timestamp);
 	
-	PHALCON_INIT_VAR(log);
-	array_init_size(log, 2);
-	phalcon_array_append(&log, type, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&log, message, PH_SEPARATE TSRMLS_CC);
-	RETURN_CTOR(log);
+	array_init_size(return_value, 2);
+	phalcon_array_append(&return_value, type, PH_SEPARATE);
+	phalcon_array_append(&return_value, message, PH_SEPARATE);
+	return;
 }
 

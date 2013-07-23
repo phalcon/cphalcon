@@ -181,10 +181,10 @@ PHP_METHOD(Phalcon_Validation, validate){
 		}
 	
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_long(&attribute, scope, 0, PH_NOISY_CC);
+		phalcon_array_fetch_long(&attribute, scope, 0, PH_NOISY);
 	
 		PHALCON_OBS_NVAR(validator);
-		phalcon_array_fetch_long(&validator, scope, 1, PH_NOISY_CC);
+		phalcon_array_fetch_long(&validator, scope, 1, PH_NOISY);
 		if (Z_TYPE_P(validator) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "One of the validators is not valid");
 			return;
@@ -246,8 +246,8 @@ PHP_METHOD(Phalcon_Validation, add){
 	
 	PHALCON_INIT_VAR(scope);
 	array_init_size(scope, 2);
-	phalcon_array_append(&scope, attribute, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&scope, validator, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&scope, attribute, PH_SEPARATE);
+	phalcon_array_append(&scope, validator, PH_SEPARATE);
 	phalcon_update_property_array_append(this_ptr, SL("_validators"), scope TSRMLS_CC);
 	
 	RETURN_THIS();
@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Validation, getFilters){
 	if (Z_TYPE_P(attribute) == IS_STRING) {
 		if (phalcon_array_isset(filters, attribute)) {
 			PHALCON_OBS_VAR(attribute_filters);
-			phalcon_array_fetch(&attribute_filters, filters, attribute, PH_NOISY_CC);
+			phalcon_array_fetch(&attribute_filters, filters, attribute, PH_NOISY);
 			RETURN_CCTOR(attribute_filters);
 		}
 		RETURN_MM_NULL();
@@ -397,7 +397,6 @@ PHP_METHOD(Phalcon_Validation, getValue){
 	zval *attribute, *entity, *method, *value = NULL, *data, *values;
 	zval *filters, *field_filters, *service_name;
 	zval *dependency_injector = NULL, *filter_service;
-	zval *filtered;
 
 	PHALCON_MM_GROW();
 
@@ -449,7 +448,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 	phalcon_read_property_this(&values, this_ptr, SL("_values"), PH_NOISY_CC);
 	if (phalcon_array_isset(values, attribute)) {
 		PHALCON_OBS_NVAR(value);
-		phalcon_array_fetch(&value, values, attribute, PH_NOISY_CC);
+		phalcon_array_fetch(&value, values, attribute, PH_NOISY);
 		RETURN_CCTOR(value);
 	}
 	
@@ -458,7 +457,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
 		if (phalcon_array_isset(data, attribute)) {
 			PHALCON_OBS_NVAR(value);
-			phalcon_array_fetch(&value, data, attribute, PH_NOISY_CC);
+			phalcon_array_fetch(&value, data, attribute, PH_NOISY);
 		}
 	} else {
 		if (Z_TYPE_P(data) == IS_OBJECT) {
@@ -477,7 +476,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 			if (phalcon_array_isset(filters, attribute)) {
 	
 				PHALCON_OBS_VAR(field_filters);
-				phalcon_array_fetch(&field_filters, filters, attribute, PH_NOISY_CC);
+				phalcon_array_fetch(&field_filters, filters, attribute, PH_NOISY);
 				if (zend_is_true(field_filters)) {
 	
 					PHALCON_INIT_VAR(service_name);
@@ -503,10 +502,8 @@ PHP_METHOD(Phalcon_Validation, getValue){
 						return;
 					}
 	
-					PHALCON_INIT_VAR(filtered);
-					phalcon_call_method_p2(filtered, filter_service, "sanitize", value, field_filters);
-	
-					RETURN_CCTOR(filtered);
+					phalcon_call_method_p2(return_value, filter_service, "sanitize", value, field_filters);
+					RETURN_MM();
 				}
 			}
 		}

@@ -37,6 +37,7 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Http\Response
@@ -606,18 +607,18 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
 PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 
 	zval *content, *json_options = NULL, *json_content;
+	int options = 0;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &content, &json_options);
 	
-	if (!json_options) {
-		PHALCON_INIT_VAR(json_options);
-		ZVAL_LONG(json_options, 0);
+	if (json_options) {
+		options = phalcon_get_intval(json_options);
 	}
 	
 	PHALCON_INIT_VAR(json_content);
-	phalcon_call_func_p2(json_content, "json_encode", content, json_options);
+	phalcon_json_encode(json_content, content, options TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_content"), json_content TSRMLS_CC);
 	RETURN_THIS();
 }
@@ -714,7 +715,7 @@ PHP_METHOD(Phalcon_Http_Response, sendCookies){
  */
 PHP_METHOD(Phalcon_Http_Response, send){
 
-	zval *sent, *headers, *cookies, *content;
+	zval *sent, *headers, *cookies, *content, *file;
 
 	PHALCON_MM_GROW();
 
@@ -742,7 +743,24 @@ PHP_METHOD(Phalcon_Http_Response, send){
 		 */
 		PHALCON_OBS_VAR(content);
 		phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);
-		zend_print_zval(content, 0);
+		if (Z_STRLEN_P(content)) {
+			zend_print_zval(content, 0);
+		}
+		else {
+			PHALCON_OBS_VAR(file);
+			phalcon_read_property_this(&file, this_ptr, SL("_file"), PH_NOISY_CC);
+
+			if (Z_STRLEN_P(file)) {
+				php_stream *stream;
+
+				stream = php_stream_open_wrapper(Z_STRVAL_P(file), "rb", REPORT_ERRORS, NULL);
+				if (stream != NULL) {
+					php_stream_passthru(stream);
+					php_stream_close(stream);
+				}
+			}
+		}
+
 		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
 	
 		RETURN_THIS();
@@ -760,16 +778,21 @@ PHP_METHOD(Phalcon_Http_Response, send){
  */
 PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 
-	zval *file_path, *attachment_name = NULL, *base_path = NULL;
+	zval *file_path, *attachment_name = NULL, *attachment = NULL, *base_path = NULL;
 	zval *headers, *content_description, *content_disposition;
 	zval *content_transfer;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &file_path, &attachment_name);
+	phalcon_fetch_params(1, 1, 2, &file_path, &attachment_name, &attachment);
 	
 	if (!attachment_name) {
 		PHALCON_INIT_VAR(attachment_name);
+	}
+
+	if (!attachment) {		
+		PHALCON_INIT_VAR(attachment);
+		ZVAL_BOOL(attachment, 1);
 	}
 	
 	if (Z_TYPE_P(attachment_name) != IS_STRING) {
@@ -779,20 +802,22 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 		PHALCON_CPY_WRT(base_path, attachment_name);
 	}
 	
-	PHALCON_INIT_VAR(headers);
-	phalcon_call_method(headers, this_ptr, "getheaders");
+	if (zend_is_true(attachment)) {		
+		PHALCON_INIT_VAR(headers);
+		phalcon_call_method(headers, this_ptr, "getheaders");
+
+		PHALCON_INIT_VAR(content_description);
+		ZVAL_STRING(content_description, "Content-Description: File Transfer", 1);
+		phalcon_call_method_p1_noret(headers, "setraw", content_description);
 	
-	PHALCON_INIT_VAR(content_description);
-	ZVAL_STRING(content_description, "Content-Description: File Transfer", 1);
-	phalcon_call_method_p1_noret(headers, "setraw", content_description);
+		PHALCON_INIT_VAR(content_disposition);
+		PHALCON_CONCAT_SV(content_disposition, "Content-Disposition: attachment; filename=", base_path);
+		phalcon_call_method_p1_noret(headers, "setraw", content_disposition);
 	
-	PHALCON_INIT_VAR(content_disposition);
-	PHALCON_CONCAT_SV(content_disposition, "Content-Disposition: attachment; filename=", base_path);
-	phalcon_call_method_p1_noret(headers, "setraw", content_disposition);
-	
-	PHALCON_INIT_VAR(content_transfer);
-	ZVAL_STRING(content_transfer, "Content-Transfer-Encoding: binary", 1);
-	phalcon_call_method_p1_noret(headers, "setraw", content_transfer);
+		PHALCON_INIT_VAR(content_transfer);
+		ZVAL_STRING(content_transfer, "Content-Transfer-Encoding: binary", 1);
+		phalcon_call_method_p1_noret(headers, "setraw", content_transfer);
+	}
 	phalcon_update_property_this(this_ptr, SL("_file"), file_path TSRMLS_CC);
 	
 	RETURN_THIS();

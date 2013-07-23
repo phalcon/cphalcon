@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_DI, setRaw){
  */
 PHP_METHOD(Phalcon_DI, getRaw){
 
-	zval *name, *services, *service, *definition, *exception_message;
+	zval *name, *services, *service, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -289,11 +289,9 @@ PHP_METHOD(Phalcon_DI, getRaw){
 	phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (phalcon_array_isset(services, name)) {
 		PHALCON_OBS_VAR(service);
-		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(definition);
-		phalcon_call_method(definition, service, "getdefinition");
-		RETURN_CCTOR(definition);
+		phalcon_array_fetch(&service, services, name, PH_NOISY);
+		phalcon_call_method(return_value, service, "getdefinition");
+		RETURN_MM();
 	}
 	
 	PHALCON_INIT_VAR(exception_message);
@@ -325,7 +323,7 @@ PHP_METHOD(Phalcon_DI, getService){
 	phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (phalcon_array_isset(services, name)) {
 		PHALCON_OBS_VAR(service);
-		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
+		phalcon_array_fetch(&service, services, name, PH_NOISY);
 		RETURN_CCTOR(service);
 	}
 	
@@ -370,7 +368,7 @@ PHP_METHOD(Phalcon_DI, get){
 		 * The service is registered in the DI
 		 */
 		PHALCON_OBS_VAR(service);
-		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
+		phalcon_array_fetch(&service, services, name, PH_NOISY);
 	
 		PHALCON_INIT_VAR(instance);
 		phalcon_call_method_p2(instance, service, "resolve", parameters, this_ptr);
@@ -378,7 +376,7 @@ PHP_METHOD(Phalcon_DI, get){
 		/** 
 		 * The DI also acts as builder for any class even if it isn't defined in the DI
 		 */
-		if (phalcon_class_exists(name TSRMLS_CC)) {
+		if (phalcon_class_exists(name, 1 TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
 					PHALCON_INIT_NVAR(instance);
@@ -449,7 +447,7 @@ PHP_METHOD(Phalcon_DI, getShared){
 	phalcon_read_property_this(&shared_instances, this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	if (phalcon_array_isset(shared_instances, name)) {
 		PHALCON_OBS_VAR(instance);
-		phalcon_array_fetch(&instance, shared_instances, name, PH_NOISY_CC);
+		phalcon_array_fetch(&instance, shared_instances, name, PH_NOISY);
 		phalcon_update_property_bool(this_ptr, SL("_freshInstance"), 0 TSRMLS_CC);
 	} else {
 		/** 
@@ -521,26 +519,17 @@ PHP_METHOD(Phalcon_DI, getServices){
 }
 
 /**
- * Check if a service is registered using the array syntax
+ * Check if a service is registered using the array syntax.
+ * Alias for Phalcon\Di::has()
  *
  * @param string $name
  * @return boolean
  */
-PHP_METHOD(Phalcon_DI, offsetExists){
-
-	zval *name, *exists;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
-	
-	PHALCON_INIT_VAR(exists);
-	phalcon_call_method_p1(exists, this_ptr, "has", name);
-	RETURN_CCTOR(exists);
-}
+PHALCON_DOC_METHOD(Phalcon_DI, offsetExists);
 
 /**
- * Allows to register a shared service using the array syntax
+ * Allows to register a shared service using the array syntax.
+ * Alias for Phalcon\Di::setShared()
  *
  *<code>
  *	$di['request'] = new Phalcon\Http\Request();
@@ -549,21 +538,11 @@ PHP_METHOD(Phalcon_DI, offsetExists){
  * @param string $name
  * @param mixed $definition
  */
-PHP_METHOD(Phalcon_DI, offsetSet){
-
-	zval *name, *definition;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &name, &definition);
-	
-	phalcon_call_method_p2_noret(this_ptr, "setshared", name, definition);
-	
-	PHALCON_MM_RESTORE();
-}
+PHALCON_DOC_METHOD(Phalcon_DI, offsetSet);
 
 /**
- * Allows to obtain a shared service using the array syntax
+ * Allows to obtain a shared service using the array syntax.
+ * Alias for Phalcon\Di::getShared()
  *
  *<code>
  *	var_dump($di['request']);
@@ -572,32 +551,15 @@ PHP_METHOD(Phalcon_DI, offsetSet){
  * @param string $name
  * @return mixed
  */
-PHP_METHOD(Phalcon_DI, offsetGet){
-
-	zval *name, *service;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
-	
-	PHALCON_INIT_VAR(service);
-	phalcon_call_method_p1(service, this_ptr, "getshared", name);
-	RETURN_CCTOR(service);
-}
+PHALCON_DOC_METHOD(Phalcon_DI, offsetGet);
 
 /**
- * Removes a service from the services container using the array syntax
+ * Removes a service from the services container using the array syntax.
+ * Alias for Phalcon\Di::remove()
  *
  * @param string $name
  */
-PHP_METHOD(Phalcon_DI, offsetUnset){
-
-	zval *name;
-
-	phalcon_fetch_params(0, 1, 0, &name);
-	
-	RETURN_CCTORW(name);
-}
+PHALCON_DOC_METHOD(Phalcon_DI, offsetUnset);
 
 /**
  * Magic method to get or set services using setters/getters
@@ -609,8 +571,7 @@ PHP_METHOD(Phalcon_DI, offsetUnset){
 PHP_METHOD(Phalcon_DI, __call){
 
 	zval *method, *arguments = NULL, *services, *service_name = NULL;
-	zval *possible_service = NULL, *instance = NULL, *handler;
-	zval *exception_message;
+	zval *possible_service = NULL, *handler, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -629,20 +590,17 @@ PHP_METHOD(Phalcon_DI, __call){
 		phalcon_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(service_name);
-		phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
+		phalcon_substr(service_name, method, 3, 0);
 	
 		PHALCON_INIT_VAR(possible_service);
-		phalcon_call_func_p1(possible_service, "lcfirst", service_name);
+		phalcon_lcfirst(possible_service, service_name);
 		if (phalcon_array_isset(services, possible_service)) {
 			if (phalcon_fast_count_ev(arguments TSRMLS_CC)) {
-				PHALCON_INIT_VAR(instance);
-				phalcon_call_method_p2(instance, this_ptr, "get", possible_service, arguments);
-			} else {
-				PHALCON_INIT_NVAR(instance);
-				phalcon_call_method_p1(instance, this_ptr, "get", possible_service);
+				phalcon_call_method_p2(return_value, this_ptr, "get", possible_service, arguments);
+				RETURN_MM();
 			}
-	
-			RETURN_CCTOR(instance);
+			phalcon_call_method_p1(return_value, this_ptr, "get", possible_service);
+			RETURN_MM();
 		}
 	}
 	
@@ -652,13 +610,13 @@ PHP_METHOD(Phalcon_DI, __call){
 	if (phalcon_start_with_str(method, SL("set"))) {
 		if (phalcon_array_isset_long(arguments, 0)) {
 			PHALCON_INIT_NVAR(service_name);
-			phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
+			phalcon_substr(service_name, method, 3, 0);
 	
 			PHALCON_INIT_NVAR(possible_service);
-			phalcon_call_func_p1(possible_service, "lcfirst", service_name);
+			phalcon_lcfirst(possible_service, service_name);
 	
 			PHALCON_OBS_VAR(handler);
-			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
+			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY);
 			phalcon_call_method_p2_noret(this_ptr, "set", possible_service, handler);
 			RETURN_MM_NULL();
 		}

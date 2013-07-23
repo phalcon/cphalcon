@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk_Job, delete){
 	phalcon_call_method(response, queue, "readstatus");
 	
 	PHALCON_OBS_VAR(status);
-	phalcon_array_fetch_long(&status, response, 0, PH_NOISY_CC);
+	phalcon_array_fetch_long(&status, response, 0, PH_NOISY);
 	if (PHALCON_IS_STRING(status, "DELETED")) {
 		RETURN_MM_TRUE;
 	}

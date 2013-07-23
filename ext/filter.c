@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	
 						PHALCON_INIT_NVAR(filter_value);
 						phalcon_call_method_p2(filter_value, this_ptr, "_sanitize", item_value, filter);
-						phalcon_array_update_zval(&array_value, item_key, &filter_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+						phalcon_array_update_zval(&array_value, item_key, &filter_value, PH_COPY | PH_SEPARATE);
 	
 						zend_hash_move_forward_ex(ah1, &hp1);
 					}
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	
 			PHALCON_INIT_NVAR(filter_value);
 			phalcon_call_method_p2(filter_value, this_ptr, "_sanitize", item_value, filters);
-			phalcon_array_update_zval(&sanizited_value, key, &filter_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_zval(&sanizited_value, key, &filter_value, PH_COPY | PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah2, &hp2);
 		}
@@ -210,8 +210,8 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 PHP_METHOD(Phalcon_Filter, _sanitize){
 
 	zval *value, *filter, *filters, *filter_object;
-	zval *arguments, *filtered = NULL, *type = NULL, *quote, *empty_str;
-	zval *escaped, *allow_fraction, *options, *exception_message;
+	zval *arguments, *type = NULL, *quote, *empty_str, *escaped;
+	zval *filtered = NULL, *allow_fraction, *options, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	if (phalcon_array_isset(filters, filter)) {
 	
 		PHALCON_OBS_VAR(filter_object);
-		phalcon_array_fetch(&filter_object, filters, filter, PH_NOISY_CC);
+		phalcon_array_fetch(&filter_object, filters, filter, PH_NOISY);
 	
 		/** 
 		 * If the filter is a closure we call it in the PHP userland
@@ -230,16 +230,13 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		if (phalcon_is_instance_of(filter_object, SL("Closure") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 1);
-			phalcon_array_append(&arguments, value, PH_SEPARATE TSRMLS_CC);
-	
-			PHALCON_INIT_VAR(filtered);
-			PHALCON_CALL_USER_FUNC_ARRAY(filtered, filter_object, arguments);
-		} else {
-			PHALCON_INIT_NVAR(filtered);
-			phalcon_call_method_p1(filtered, filter_object, "filter", value);
+			phalcon_array_append(&arguments, value, PH_SEPARATE);
+			PHALCON_CALL_USER_FUNC_ARRAY(return_value, filter_object, arguments);
+			RETURN_MM();
 		}
 	
-		RETURN_CCTOR(filtered);
+		phalcon_call_method_p1(return_value, filter_object, "filter", value);
+		RETURN_MM();
 	}
 	
 	
@@ -257,9 +254,9 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		ZVAL_STRING(empty_str, "", 1);
 	
 		PHALCON_INIT_VAR(escaped);
-		phalcon_fast_str_replace(escaped, quote, empty_str, value TSRMLS_CC);
+		phalcon_fast_str_replace(escaped, quote, empty_str, value);
 	
-		PHALCON_INIT_NVAR(filtered);
+		PHALCON_INIT_VAR(filtered);
 		phalcon_call_func_p2(filtered, "filter_var", escaped, type);
 		goto ph_end_0;
 	}
@@ -294,7 +291,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	
 		PHALCON_INIT_VAR(options);
 		array_init_size(options, 1);
-		phalcon_array_update_string(&options, SL("flags"), &allow_fraction, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&options, SL("flags"), &allow_fraction, PH_COPY | PH_SEPARATE);
 	
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 520);

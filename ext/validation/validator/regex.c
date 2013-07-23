@@ -101,20 +101,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	 * Check if the value match using preg_match in the PHP userland
 	 */
 	PHALCON_INIT_VAR(match_pattern);
-	
-	Z_SET_ISREF_P(matches);
-	
-	#if HAVE_BUNDLED_PCRE
 	phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC);
-	#else
-	phalcon_call_func_p3(match_pattern, "preg_match", pattern, value, matches);
-	#endif
-	
-	Z_UNSET_ISREF_P(matches);
 	
 	if (zend_is_true(match_pattern)) {
 		PHALCON_OBS_VAR(match_zero);
-		phalcon_array_fetch_long(&match_zero, matches, 0, PH_NOISY_CC);
+		phalcon_array_fetch_long(&match_zero, matches, 0, PH_NOISY);
 	
 		PHALCON_INIT_VAR(failed);
 		is_not_equal_function(failed, match_zero, value TSRMLS_CC);

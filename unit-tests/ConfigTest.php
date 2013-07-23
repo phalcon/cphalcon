@@ -78,7 +78,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($this->_compareConfig($this->_config, $config));
 	}
 
-	public function testStandarConfig()
+	public function testStandardConfig()
 	{
 		$config = new Phalcon\Config($this->_config);
 		$this->_compareConfig($this->_config, $config);
@@ -185,7 +185,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	}
 
-
 	public function testIssue731()
 	{
 		// Code path AAA, B, AE, B
@@ -223,4 +222,67 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$a->merge($b);
 		$this->assertEquals($a->toArray(), $c);
 	}
+
+	public function testIssue732()
+	{
+		$a = new Phalcon\Config(array('a' => 0));
+
+		$this->assertTrue(isset($a['a']));
+		unset($a['a']);
+		$this->assertTrue(!isset($a['a']));
+	}
+
+	public function testIssue829()
+	{
+		$config = new \Phalcon\Config\Adapter\Ini('unit-tests/config/829-no-sections.ini');
+		$actual = $config->toArray();
+		$expected = array(
+			'hoge' => 'test',
+			'foo'  => 'bar',
+		);
+
+		$this->assertEquals($actual, $expected);
+
+		$config = new \Phalcon\Config\Adapter\Ini('unit-tests/config/829-with-empty-section.ini');
+		$actual = $config->toArray();
+		$expected = array(
+			'section' => array('hoge' => 'test'),
+			'empty'   => array(),
+			'test'    => array('foo'  => 'bar'),
+		);
+
+		$this->assertEquals($actual, $expected);
+	}
+
+	public function testIniConfigDirective()
+	{
+		$config = new \Phalcon\Config\Adapter\Ini('unit-tests/config/directive.ini');
+		$actual = $config->toArray();
+		$expected = array(
+			'test' => array(
+				'parent' => array(
+					'property' => 1,
+					'property2' => 'yeah',
+					'property3' => array('baseuri' => '/phalcon/'),
+					'property4' => array(
+						'models' => array('metadata' => 'memory'),
+					),
+					'property5' => array(
+						'database' => array(
+							'adapter' => 'mysql',
+							'host' => 'localhost',
+							'username' => 'user',
+							'password' => 'passwd',
+							'name' => 'demo'),
+					),
+					'property6' => array(
+						'test' => array('a', 'b', 'c'),
+					),
+				),
+			),
+		);
+
+		$this->assertEquals($actual, $expected);
+	}
 }
+

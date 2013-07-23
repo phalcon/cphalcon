@@ -18,7 +18,7 @@
 */
 
 /** Class Retrieving/Checking */
-extern int phalcon_class_exists(const zval *class_name TSRMLS_DC);
+extern int phalcon_class_exists(const zval *class_name, int autoload TSRMLS_DC);
 extern void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC);
 extern void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC);
 extern void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC);

@@ -191,4 +191,15 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testSetFileToSend()
+	{
+		$filename = __FILE__;
+		$this->_response->setFileToSend($filename);
+		ob_start();
+		$this->_response->send();
+		$actual   = ob_get_clean();
+		$expected = file_get_contents($filename);
+		$this->assertEquals($actual, $expected);
+		$this->assertEquals($this->_response->isSent(), true);
+	}
 }

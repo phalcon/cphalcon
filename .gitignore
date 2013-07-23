@@ -4,8 +4,7 @@
 .project
 unit-tests/engines/*
 unit-tests/logs/*
-unit-tests/cache/2e11fab3b6861010be11a5deb92bddff
-unit-tests/cache/7ea1207f9d82bf4982cf5e1aec693375
+unit-tests/cache/*
 build/.deps
 build/.libs/
 build/Makefile
@@ -471,4 +470,10 @@ ext/mvc/router/group.lo
 unit-tests/annotations/cache/*.php
 *.o
 *.lo
+*.loT
 .libs
+build/t.dSYM/
+build/install2
+*~
+.DS_Store
+ext/.DS_Store

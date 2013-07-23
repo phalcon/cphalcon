@@ -44,7 +44,7 @@ class CollectionsSerializeTest extends PHPUnit_Framework_TestCase
 	public function testCollectionsEvents()
 	{
 		if (!class_exists('Mongo')) {
-			echo "Mongo class does not exist, test skipped\n";
+			$this->markTestSkipped("Mongo class does not exist, test skipped");
 			return;
 		}
 

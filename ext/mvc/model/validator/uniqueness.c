@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
 				if (phalcon_array_isset(column_map, compose_field)) {
 					PHALCON_OBS_NVAR(column_field);
-					phalcon_array_fetch(&column_field, column_map, compose_field, PH_NOISY_CC);
+					phalcon_array_fetch(&column_field, column_map, compose_field, PH_NOISY);
 				} else {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Column '", compose_field, "\" isn't part of the column map");
@@ -190,12 +190,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 			PHALCON_INIT_NVAR(compose_condition);
 			PHALCON_CONCAT_SVSV(compose_condition, "[", compose_field, "] = ?", number);
-			phalcon_array_append(&conditions, compose_condition, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&conditions, compose_condition, PH_SEPARATE);
+			phalcon_array_append(&bind_params, value, PH_SEPARATE);
 	
 			PHALCON_OBS_NVAR(bind_type);
-			phalcon_array_fetch(&bind_type, bind_data_types, column_field, PH_NOISY_CC);
-			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_fetch(&bind_type, bind_data_types, column_field, PH_NOISY);
+			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE);
 			PHALCON_SEPARATE(number);
 			phalcon_increment(number);
 	
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		if (Z_TYPE_P(column_map) == IS_ARRAY) { 
 			if (phalcon_array_isset(column_map, field)) {
 				PHALCON_OBS_NVAR(column_field);
-				phalcon_array_fetch(&column_field, column_map, field, PH_NOISY_CC);
+				phalcon_array_fetch(&column_field, column_map, field, PH_NOISY);
 			} else {
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVS(exception_message, "Column '", field, "\" isn't part of the column map");
@@ -238,12 +238,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 		PHALCON_INIT_VAR(condition);
 		PHALCON_CONCAT_SVS(condition, "[", field, "] = ?0");
-		phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&conditions, condition, PH_SEPARATE);
+		phalcon_array_append(&bind_params, value, PH_SEPARATE);
 	
 		PHALCON_OBS_NVAR(bind_type);
-		phalcon_array_fetch(&bind_type, bind_data_types, column_field, PH_NOISY_CC);
-		phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_fetch(&bind_type, bind_data_types, column_field, PH_NOISY);
+		phalcon_array_append(&bind_types, bind_type, PH_SEPARATE);
 		PHALCON_SEPARATE(number);
 		phalcon_increment(number);
 	}
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
 				if (phalcon_array_isset(column_map, primary_field)) {
 					PHALCON_OBS_NVAR(attribute_field);
-					phalcon_array_fetch(&attribute_field, column_map, primary_field, PH_NOISY_CC);
+					phalcon_array_fetch(&attribute_field, column_map, primary_field, PH_NOISY);
 				} else {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Column '", primary_field, "\" isn't part of the column map");
@@ -306,12 +306,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 			PHALCON_INIT_NVAR(condition);
 			PHALCON_CONCAT_SVSV(condition, "[", attribute_field, "] <> ?", number);
-			phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&conditions, condition, PH_SEPARATE);
+			phalcon_array_append(&bind_params, value, PH_SEPARATE);
 	
 			PHALCON_OBS_NVAR(bind_type);
-			phalcon_array_fetch(&bind_type, bind_data_types, primary_field, PH_NOISY_CC);
-			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_fetch(&bind_type, bind_data_types, primary_field, PH_NOISY);
+			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE);
 			PHALCON_SEPARATE(number);
 			phalcon_increment(number);
 	
@@ -328,10 +328,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	 */
 	PHALCON_INIT_VAR(params);
 	array_init(params);
-	phalcon_array_update_string(&params, SL("di"), &dependency_injector, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&params, SL("conditions"), &join_conditions, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&params, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&params, SL("bindTypes"), &bind_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&params, SL("di"), &dependency_injector, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&params, SL("conditions"), &join_conditions, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&params, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&params, SL("bindTypes"), &bind_types, PH_COPY | PH_SEPARATE);
 	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, record, 0 TSRMLS_CC);

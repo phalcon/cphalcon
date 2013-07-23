@@ -56,15 +56,15 @@
 
 /* List of tokens and their names */
 typedef struct _phannot_token_names {
-	unsigned int code;
 	char *name;
+	unsigned int code;
 } phannot_token_names;
 
 /* Active token state */
 typedef struct _phannot_scanner_state {
-	int active_token;
 	char* start;
 	char* end;
+	int active_token;
 	unsigned int start_length;
 	int mode;
 	unsigned int active_line;
@@ -73,8 +73,8 @@ typedef struct _phannot_scanner_state {
 
 /* Extra information tokens */
 typedef struct _phannot_scanner_token {
-	int opcode;
 	char *value;
+	int opcode;
 	int len;
 } phannot_scanner_token;
 

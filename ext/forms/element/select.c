@@ -51,6 +51,8 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Select){
 
 	zend_declare_property_null(phalcon_forms_element_select_ce, SL("_optionsValues"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_forms_element_select_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -135,7 +137,6 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption){
 PHP_METHOD(Phalcon_Forms_Element_Select, render){
 
 	zval *attributes = NULL, *options, *widget_attributes;
-	zval *code;
 
 	PHALCON_MM_GROW();
 
@@ -153,9 +154,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render){
 	 */
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	
-	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_2(code, "phalcon\\tag\\select", "selectfield", widget_attributes, options);
-	RETURN_CCTOR(code);
+	PHALCON_CALL_STATIC_PARAMS_2(return_value, "phalcon\\tag\\select", "selectfield", widget_attributes, options);
+	RETURN_MM();
 }
 

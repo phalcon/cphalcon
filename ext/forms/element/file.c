@@ -48,6 +48,8 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_File){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, File, forms_element_file, "phalcon\\forms\\element", phalcon_forms_element_file_method_entry, 0);
 
+	zend_class_implements(phalcon_forms_element_file_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -59,7 +61,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_File){
  */
 PHP_METHOD(Phalcon_Forms_Element_File, render){
 
-	zval *attributes = NULL, *widget_attributes, *code;
+	zval *attributes = NULL, *widget_attributes;
 
 	PHALCON_MM_GROW();
 
@@ -71,9 +73,7 @@ PHP_METHOD(Phalcon_Forms_Element_File, render){
 	
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	
-	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "filefield", widget_attributes);
-	RETURN_CCTOR(code);
+	PHALCON_CALL_STATIC_PARAMS_1(return_value, "phalcon\\tag", "filefield", widget_attributes);
+	RETURN_MM();
 }
 

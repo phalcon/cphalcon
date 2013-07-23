@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 			 * Format is a format for date()
 			 */
 			PHALCON_OBS_VAR(format);
-			phalcon_array_fetch_string(&format, options, SL("format"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&format, options, SL("format"), PH_NOISY);
 	
 			phalcon_call_func_p1(timestamp, "date", format);
 		} else {
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 				 * A generator is a closure that produce the correct timestamp value
 				 */
 				PHALCON_OBS_VAR(generator);
-				phalcon_array_fetch_string(&generator, options, SL("generator"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&generator, options, SL("generator"), PH_NOISY);
 				if (Z_TYPE_P(generator) == IS_OBJECT) {
 					if (phalcon_is_instance_of(generator, SL("Closure") TSRMLS_CC)) {
 						PHALCON_INIT_NVAR(timestamp);
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 		}
 	
 		PHALCON_OBS_VAR(field);
-		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY);
 	
 		/** 
 		 * Assign the value to the field, use writeattribute if the property is protected

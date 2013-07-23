@@ -73,15 +73,12 @@ PHALCON_INIT_CLASS(Phalcon_Text){
  */
 PHP_METHOD(Phalcon_Text, camelize){
 
-	zval *str, *camelized;
+	zval *str;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &str);
+	phalcon_fetch_params(0, 1, 0, &str);
 	
-	PHALCON_INIT_VAR(camelized);
-	phalcon_camelize(camelized, str TSRMLS_CC);
-	RETURN_CTOR(camelized);
+	phalcon_camelize(return_value, str);
+	return;
 }
 
 /**
@@ -96,15 +93,12 @@ PHP_METHOD(Phalcon_Text, camelize){
  */
 PHP_METHOD(Phalcon_Text, uncamelize){
 
-	zval *str, *uncamelized;
+	zval *str;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &str);
+	phalcon_fetch_params(0, 1, 0, &str);
 	
-	PHALCON_INIT_VAR(uncamelized);
-	phalcon_uncamelize(uncamelized, str TSRMLS_CC);
-	RETURN_CTOR(uncamelized);
+	phalcon_uncamelize(return_value, str);
+	return;
 }
 
 /**
@@ -122,7 +116,6 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 PHP_METHOD(Phalcon_Text, increment){
 
 	zval *str, *separator = NULL, *parts, *number = NULL, *first_part;
-	zval *incremented;
 
 	PHALCON_MM_GROW();
 
@@ -140,10 +133,10 @@ PHP_METHOD(Phalcon_Text, increment){
 	}
 	
 	PHALCON_INIT_VAR(parts);
-	phalcon_fast_explode(parts, separator, str TSRMLS_CC);
+	phalcon_fast_explode(parts, separator, str);
 	if (phalcon_array_isset_long(parts, 1)) {
 		PHALCON_OBS_VAR(number);
-		phalcon_array_fetch_long(&number, parts, 1, PH_NOISY_CC);
+		phalcon_array_fetch_long(&number, parts, 1, PH_NOISY);
 		PHALCON_SEPARATE(number);
 		phalcon_increment(number);
 	} else {
@@ -152,12 +145,10 @@ PHP_METHOD(Phalcon_Text, increment){
 	}
 	
 	PHALCON_OBS_VAR(first_part);
-	phalcon_array_fetch_long(&first_part, parts, 0, PH_NOISY_CC);
+	phalcon_array_fetch_long(&first_part, parts, 0, PH_NOISY);
+	PHALCON_CONCAT_VVV(return_value, first_part, separator, number);
 	
-	PHALCON_INIT_VAR(incremented);
-	PHALCON_CONCAT_VVV(incremented, first_part, separator, number);
-	
-	RETURN_CTOR(incremented);
+	RETURN_MM();
 }
 
 /**
@@ -173,7 +164,7 @@ PHP_METHOD(Phalcon_Text, increment){
  */
 PHP_METHOD(Phalcon_Text, random){
 
-	zval *type, *length = NULL, *random;
+	zval *type, *length = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -184,9 +175,8 @@ PHP_METHOD(Phalcon_Text, random){
 		ZVAL_LONG(length, 8);
 	}
 	
-	PHALCON_INIT_VAR(random);
-	phalcon_random_string(random, type, length TSRMLS_CC);
-	RETURN_CTOR(random);
+	phalcon_random_string(return_value, type, length TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -263,7 +253,7 @@ PHP_METHOD(Phalcon_Text, endsWith){
  */
 PHP_METHOD(Phalcon_Text, lower){
 
-	zval *str, *lower = NULL;
+	zval *str;
 
 	PHALCON_MM_GROW();
 
@@ -274,14 +264,11 @@ PHP_METHOD(Phalcon_Text, lower){
 	 * transformation
 	 */
 	if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(lower);
-		phalcon_call_func_p1(lower, "mb_strtolower", str);
-	} else {
-		PHALCON_INIT_NVAR(lower);
-		phalcon_fast_strtolower(lower, str);
+		phalcon_call_func_p1(return_value, "mb_strtolower", str);
+		RETURN_MM();
 	}
-	
-	RETURN_CCTOR(lower);
+	phalcon_fast_strtolower(return_value, str);
+	RETURN_MM();
 }
 
 /**
@@ -292,7 +279,7 @@ PHP_METHOD(Phalcon_Text, lower){
  */
 PHP_METHOD(Phalcon_Text, upper){
 
-	zval *str, *upper = NULL;
+	zval *str;
 
 	PHALCON_MM_GROW();
 
@@ -303,13 +290,10 @@ PHP_METHOD(Phalcon_Text, upper){
 	 * transformation
 	 */
 	if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(upper);
-		phalcon_call_func_p1(upper, "mb_strtoupper", str);
-	} else {
-		PHALCON_INIT_NVAR(upper);
-		phalcon_fast_strtoupper(upper, str);
+		phalcon_call_func_p1(return_value, "mb_strtoupper", str);
+		RETURN_MM();
 	}
-	
-	RETURN_CCTOR(upper);
+	phalcon_fast_strtoupper(return_value, str);
+	RETURN_MM();
 }
 

@@ -272,7 +272,7 @@ zend_class_entry *phalcon_fetch_class(const zval *class_name TSRMLS_DC) {
 /**
  * Checks if a class exist
  */
-int phalcon_class_exists(const zval *class_name TSRMLS_DC) {
+int phalcon_class_exists(const zval *class_name, int autoload TSRMLS_DC) {
 
 	zend_class_entry **ce;
 
@@ -413,7 +413,7 @@ static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, ch
 int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 
 	zval *property;
-	zend_class_entry *ce;
+	zend_class_entry *ce, *old_scope;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 
@@ -431,7 +431,7 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 	}
 
-	zend_class_entry *old_scope = EG(scope);
+	old_scope = EG(scope);
 	EG(scope) = ce;
 
 	if (!Z_OBJ_HT_P(object)->read_property) {
@@ -745,10 +745,10 @@ int phalcon_update_property_null(zval *object, char *property_name, unsigned int
  */
 int phalcon_update_property_zval(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
 
-	zend_class_entry *ce;
+	zend_class_entry *ce, *old_scope;
 	zval *property;
-	zend_class_entry *old_scope = EG(scope);
 
+	old_scope = EG(scope);
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
@@ -1236,7 +1236,7 @@ int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC
 
 	object_init_ex(return_value, ce);
 	if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-		if (phalcon_call_method_ex(NULL, return_value, SL("__construct"), 0, 0, 1 TSRMLS_CC) == FAILURE) {
+		if (phalcon_call_method_params(NULL, return_value, SL("__construct"), 0, NULL, 0, 0 TSRMLS_CC) == FAILURE) {
 			return FAILURE;
 		}
 	}
@@ -1289,7 +1289,7 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 		}
 
 		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, 0, 0, 1 TSRMLS_CC) == FAILURE) {
+			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, 0, 0 TSRMLS_CC) == FAILURE) {
 				efree(params_array);
 				return FAILURE;
 			}
@@ -1298,7 +1298,7 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 		efree(params_array);
 	} else {
 		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-			if (phalcon_call_method_ex(NULL, return_value, SL("__construct"), 0, 0, 1 TSRMLS_CC) == FAILURE) {
+			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), 0, NULL, 0, 0 TSRMLS_CC) == FAILURE) {
 				return FAILURE;
 			}
 		}

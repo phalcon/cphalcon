@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("annotationsDir"))) {
 			PHALCON_OBS_VAR(annotations_dir);
-			phalcon_array_fetch_string(&annotations_dir, options, SL("annotationsDir"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&annotations_dir, options, SL("annotationsDir"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_annotationsDir"), annotations_dir TSRMLS_CC);
 		}
 	}

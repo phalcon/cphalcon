@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
 
-	zval *index, *count, *exists;
+	zval *index, *count;
 
 	PHALCON_MM_GROW();
 
@@ -343,10 +343,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
 	
 	PHALCON_INIT_VAR(count);
 	phalcon_call_method(count, this_ptr, "count");
-	
-	PHALCON_INIT_VAR(exists);
-	is_smaller_function(exists, index, count TSRMLS_CC);
-	RETURN_NCTOR(exists);
+	is_smaller_function(return_value, index, count TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -357,7 +355,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 
-	zval *index, *count, *exists, *pointer, *current = NULL, *valid;
+	zval *index, *count, *pointer, *valid;
 
 	PHALCON_MM_GROW();
 
@@ -365,10 +363,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 	
 	PHALCON_INIT_VAR(count);
 	phalcon_call_method(count, this_ptr, "count");
-	
-	PHALCON_INIT_VAR(exists);
-	is_smaller_function(exists, index, count TSRMLS_CC);
-	if (PHALCON_IS_TRUE(exists)) {
+	if (PHALCON_LT(index, count)) {
 	
 		/** 
 		 * Check if the last record returned is the current requested
@@ -376,9 +371,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 		PHALCON_OBS_VAR(pointer);
 		phalcon_read_property_this(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
 		if (PHALCON_IS_EQUAL(pointer, index)) {
-			PHALCON_INIT_VAR(current);
-			phalcon_call_method(current, this_ptr, "current");
-			RETURN_CCTOR(current);
+			phalcon_call_method(return_value, this_ptr, "current");
+			RETURN_MM();
 		}
 	
 		/** 
@@ -392,9 +386,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 		PHALCON_INIT_VAR(valid);
 		phalcon_call_method(valid, this_ptr, "valid");
 		if (PHALCON_IS_NOT_FALSE(valid)) {
-			PHALCON_INIT_NVAR(current);
-			phalcon_call_method(current, this_ptr, "current");
-			RETURN_CCTOR(current);
+			phalcon_call_method(return_value, this_ptr, "current");
+			RETURN_MM();
 		}
 	
 		RETURN_MM_FALSE;
@@ -405,7 +398,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 }
 
 /**
- * Resulsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+ * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
  * @param int $index
  * @param Phalcon\Mvc\ModelInterface $value
@@ -421,7 +414,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet){
 }
 
 /**
- * Resulsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+ * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
  * @param int $offset
  */
@@ -453,7 +446,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 
-	zval *pointer, *current = NULL, *valid;
+	zval *pointer, *valid;
 
 	PHALCON_MM_GROW();
 
@@ -463,9 +456,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 	PHALCON_OBS_VAR(pointer);
 	phalcon_read_property_this(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
 	if (PHALCON_IS_LONG(pointer, 0)) {
-		PHALCON_INIT_VAR(current);
-		phalcon_call_method(current, this_ptr, "current");
-		RETURN_CCTOR(current);
+		phalcon_call_method(return_value, this_ptr, "current");
+		RETURN_MM();
 	}
 	
 	/** 
@@ -476,9 +468,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 	PHALCON_INIT_VAR(valid);
 	phalcon_call_method(valid, this_ptr, "valid");
 	if (PHALCON_IS_NOT_FALSE(valid)) {
-		PHALCON_INIT_NVAR(current);
-		phalcon_call_method(current, this_ptr, "current");
-		RETURN_CCTOR(current);
+		phalcon_call_method(return_value, this_ptr, "current");
+		RETURN_MM();
 	}
 	
 	RETURN_MM_FALSE;
@@ -491,7 +482,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
 
-	zval *one, *count, *pre_count, *valid, *current;
+	zval *one, *count, *pre_count, *valid;
 
 	PHALCON_MM_GROW();
 
@@ -508,9 +499,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
 	PHALCON_INIT_VAR(valid);
 	phalcon_call_method(valid, this_ptr, "valid");
 	if (PHALCON_IS_NOT_FALSE(valid)) {
-		PHALCON_INIT_VAR(current);
-		phalcon_call_method(current, this_ptr, "current");
-		RETURN_CCTOR(current);
+		phalcon_call_method(return_value, this_ptr, "current");
+		RETURN_MM();
 	}
 	
 	RETURN_MM_FALSE;
@@ -663,7 +653,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 	
 			PHALCON_INIT_NVAR(parameters);
 			array_init_size(parameters, 1);
-			phalcon_array_append(&parameters, record, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&parameters, record, PH_SEPARATE);
 	
 			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_USER_FUNC_ARRAY(status, condition_callback, parameters);
@@ -749,7 +739,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
 	
 		PHALCON_INIT_NVAR(record);
 		phalcon_call_method(record, this_ptr, "current");
-		phalcon_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_long(&parameters, 0, &record, PH_COPY | PH_SEPARATE);
 	
 		PHALCON_INIT_NVAR(processed_record);
 		PHALCON_CALL_USER_FUNC_ARRAY(processed_record, filter, parameters);
@@ -763,7 +753,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter){
 			}
 		}
 	
-		phalcon_array_append(&records, processed_record, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&records, processed_record, PH_SEPARATE);
 		phalcon_call_method_noret(this_ptr, "next");
 	}
 	

@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addResourceByType){
 	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (phalcon_array_isset(collections, type)) {
 		PHALCON_OBS_VAR(collection);
-		phalcon_array_fetch(&collection, collections, type, PH_NOISY_CC);
+		phalcon_array_fetch(&collection, collections, type, PH_NOISY);
 	} else {
 		PHALCON_INIT_NVAR(collection);
 		object_init_ex(collection, phalcon_assets_collection_ce);
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get){
 	}
 	
 	PHALCON_OBS_VAR(collection);
-	phalcon_array_fetch(&collection, collections, id, PH_NOISY_CC);
+	phalcon_array_fetch(&collection, collections, id, PH_NOISY);
 	
 	RETURN_CCTOR(collection);
 }
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Assets_Manager, get){
  */
 PHP_METHOD(Phalcon_Assets_Manager, getCss){
 
-	zval *collections, *collection = NULL;
+	zval *collections, *collection;
 
 	PHALCON_MM_GROW();
 
@@ -384,13 +384,12 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss){
 	 * Check if the collection does not exist and create an implicit collection
 	 */
 	if (!phalcon_array_isset_string(collections, SS("css"))) {
-		PHALCON_INIT_VAR(collection);
-		object_init_ex(collection, phalcon_assets_collection_ce);
-		RETURN_CTOR(collection);
+		object_init_ex(return_value, phalcon_assets_collection_ce);
+		RETURN_MM();
 	}
 	
-	PHALCON_OBS_NVAR(collection);
-	phalcon_array_fetch_string(&collection, collections, SL("css"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(collection);
+	phalcon_array_fetch_string(&collection, collections, SL("css"), PH_NOISY);
 	
 	RETURN_CCTOR(collection);
 }
@@ -402,7 +401,7 @@ PHP_METHOD(Phalcon_Assets_Manager, getCss){
  */
 PHP_METHOD(Phalcon_Assets_Manager, getJs){
 
-	zval *collections, *collection = NULL;
+	zval *collections, *collection;
 
 	PHALCON_MM_GROW();
 
@@ -413,13 +412,12 @@ PHP_METHOD(Phalcon_Assets_Manager, getJs){
 	 * Check if the collection does not exist and create an implicit collection
 	 */
 	if (!phalcon_array_isset_string(collections, SS("js"))) {
-		PHALCON_INIT_VAR(collection);
-		object_init_ex(collection, phalcon_assets_collection_ce);
-		RETURN_CTOR(collection);
+		object_init_ex(return_value, phalcon_assets_collection_ce);
+		RETURN_MM();
 	}
 	
-	PHALCON_OBS_NVAR(collection);
-	phalcon_array_fetch_string(&collection, collections, SL("js"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(collection);
+	phalcon_array_fetch_string(&collection, collections, SL("js"), PH_NOISY);
 	
 	RETURN_CCTOR(collection);
 }
@@ -442,7 +440,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection){
 	phalcon_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	if (phalcon_array_isset(collections, name)) {
 		PHALCON_OBS_VAR(collection);
-		phalcon_array_fetch(&collection, collections, name, PH_NOISY_CC);
+		phalcon_array_fetch(&collection, collections, name, PH_NOISY);
 	} else {
 		PHALCON_INIT_NVAR(collection);
 		object_init_ex(collection, phalcon_assets_collection_ce);
@@ -523,7 +521,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			 */
 			if (phalcon_array_isset_string(options, SS("sourceBasePath"))) {
 				PHALCON_OBS_NVAR(source_base_path);
-				phalcon_array_fetch_string(&source_base_path, options, SL("sourceBasePath"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&source_base_path, options, SL("sourceBasePath"), PH_NOISY);
 			}
 	
 			/** 
@@ -531,7 +529,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			 */
 			if (phalcon_array_isset_string(options, SS("targetBasePath"))) {
 				PHALCON_OBS_NVAR(target_base_path);
-				phalcon_array_fetch_string(&target_base_path, options, SL("targetBasePath"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&target_base_path, options, SL("targetBasePath"), PH_NOISY);
 			}
 		}
 	
@@ -726,17 +724,17 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			 * Prepare the parameters for the callback
 			 */
 			if (Z_TYPE_P(attributes) == IS_ARRAY) { 
-				phalcon_array_update_long(&attributes, 0, &prefixed_path, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_long(&attributes, 0, &prefixed_path, PH_COPY | PH_SEPARATE);
 	
 				PHALCON_INIT_NVAR(parameters);
 				array_init_size(parameters, 2);
-				phalcon_array_append(&parameters, attributes, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&parameters, local, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&parameters, attributes, PH_SEPARATE);
+				phalcon_array_append(&parameters, local, PH_SEPARATE);
 			} else {
 				PHALCON_INIT_NVAR(parameters);
 				array_init_size(parameters, 2);
-				phalcon_array_append(&parameters, prefixed_path, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&parameters, local, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&parameters, prefixed_path, PH_SEPARATE);
+				phalcon_array_append(&parameters, local, PH_SEPARATE);
 			}
 	
 			/** 
@@ -866,17 +864,17 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			 * Prepare the parameters for the callback
 			 */
 			if (Z_TYPE_P(attributes) == IS_ARRAY) { 
-				phalcon_array_update_long(&attributes, 0, &prefixed_path, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_long(&attributes, 0, &prefixed_path, PH_COPY | PH_SEPARATE);
 	
 				PHALCON_INIT_NVAR(parameters);
 				array_init_size(parameters, 2);
-				phalcon_array_append(&parameters, attributes, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&parameters, local, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&parameters, attributes, PH_SEPARATE);
+				phalcon_array_append(&parameters, local, PH_SEPARATE);
 			} else {
 				PHALCON_INIT_NVAR(parameters);
 				array_init_size(parameters, 2);
-				phalcon_array_append(&parameters, prefixed_path, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&parameters, local, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&parameters, prefixed_path, PH_SEPARATE);
+				phalcon_array_append(&parameters, local, PH_SEPARATE);
 			}
 	
 			/** 
@@ -935,17 +933,17 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			 * Prepare the parameters for the callback
 			 */
 			if (Z_TYPE_P(attributes) == IS_ARRAY) { 
-				phalcon_array_update_long(&attributes, 0, &prefixed_path, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_long(&attributes, 0, &prefixed_path, PH_COPY | PH_SEPARATE);
 	
 				PHALCON_INIT_NVAR(parameters);
 				array_init_size(parameters, 2);
-				phalcon_array_append(&parameters, attributes, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&parameters, local, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&parameters, attributes, PH_SEPARATE);
+				phalcon_array_append(&parameters, local, PH_SEPARATE);
 			} else {
 				PHALCON_INIT_NVAR(parameters);
 				array_init_size(parameters, 2);
-				phalcon_array_append(&parameters, prefixed_path, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&parameters, local, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&parameters, prefixed_path, PH_SEPARATE);
+				phalcon_array_append(&parameters, local, PH_SEPARATE);
 			}
 	
 			/** 

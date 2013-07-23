@@ -219,7 +219,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$this->_testCacheDefaultDI($di);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 
@@ -230,7 +230,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$this->_testCacheDefaultDI($di);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 
@@ -241,7 +241,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$this->_testCacheDefaultDI($di);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 
@@ -252,7 +252,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$this->_testCacheDefaultDIBindings($di);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 
@@ -263,7 +263,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$this->_testCacheDefaultDIBindings($di);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 
@@ -274,7 +274,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$this->_testCacheDefaultDIBindings($di);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 
@@ -285,7 +285,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$this->_testCacheOtherService($di);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 
@@ -296,7 +296,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$robots = $this->_testCacheOtherService($di);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 
@@ -307,7 +307,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			$robots = $this->_testCacheOtherService($di);
 		}
 		else {
-			echo "Skipped\n";
+			$this->markTestSkipped("Skipped");
 		}
 	}
 

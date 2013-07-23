@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "main/SAPI.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -212,7 +214,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		phalcon_update_property_array(this_ptr, SL("_cookies"), name, cookie TSRMLS_CC);
 	} else {
 		PHALCON_OBS_NVAR(cookie);
-		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
+		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY);
 	
 		/** 
 		 * Override any settings in the cookie
@@ -279,7 +281,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 	phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
 	if (phalcon_array_isset(cookies, name)) {
 		PHALCON_OBS_VAR(cookie);
-		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
+		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY);
 		RETURN_CCTOR(cookie);
 	}
 	
@@ -373,7 +375,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete){
 	 */
 	if (phalcon_array_isset(cookies, name)) {
 		PHALCON_OBS_VAR(cookie);
-		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
+		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY);
 		phalcon_call_method_noret(cookie, "delete");
 		RETURN_MM_TRUE;
 	}
@@ -389,16 +391,14 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete){
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, send){
 
-	zval *headers_was_sent, *cookies, *cookie = NULL;
+	zval *cookies, *cookie = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(headers_was_sent);
-	phalcon_call_func(headers_was_sent, "headers_sent");
-	if (!zend_is_true(headers_was_sent)) {
+	if (!SG(headers_sent)) {
 	
 		PHALCON_OBS_VAR(cookies);
 		phalcon_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);

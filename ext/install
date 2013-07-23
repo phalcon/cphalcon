@@ -15,13 +15,10 @@
 #            Eduar Carvajal <eduar@phalconphp.com>
 
 if [ -f Makefile ]; then
-	make clean
+	make distclean
 	phpize --clean
 fi
 
-# This flags produce a larger but debuggable binary
-export CC="gcc"
-export CFLAGS="-g -O0 -fno-delete-null-pointer-checks"
-
 phpize
-./configure --enable-phalcon && make && make install && echo "Notice: Phalcon was compiled in debug mode.\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+CC="gcc" CFLAGS="-g -O0 -fno-delete-null-pointer-checks -Wall" ./configure --enable-phalcon && make && make install && echo "Notice: Phalcon was compiled in debug mode.\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+

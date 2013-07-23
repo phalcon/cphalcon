@@ -95,15 +95,14 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Igbinary){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore){
 
-	zval *data, *serialized;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "igbinary_serialize", data);
-	RETURN_CCTOR(serialized);
+	phalcon_call_func_p1(return_value, "igbinary_serialize", data);
+	RETURN_MM();
 }
 
 /**
@@ -114,14 +113,13 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve){
 
-	zval *data, *unserialized;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(unserialized);
-	phalcon_call_func_p1(unserialized, "igbinary_unserialize", data);
-	RETURN_CCTOR(unserialized);
+	phalcon_call_func_p1(return_value, "igbinary_unserialize", data);
+	RETURN_MM();
 }
 

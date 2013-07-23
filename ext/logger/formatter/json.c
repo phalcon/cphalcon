@@ -31,9 +31,10 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
+#include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Logger\Formatter\Json
@@ -65,7 +66,6 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Json){
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 
 	zval *message, *type, *timestamp, *type_str, *log;
-	zval *encoded;
 
 	PHALCON_MM_GROW();
 
@@ -76,12 +76,10 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 	
 	PHALCON_INIT_VAR(log);
 	array_init_size(log, 3);
-	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(encoded);
-	phalcon_call_func_p1(encoded, "json_encode", log);
-	RETURN_CCTOR(encoded);
+	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY | PH_SEPARATE);
+	phalcon_json_encode(return_value, log, 0 TSRMLS_CC);
+	RETURN_MM();
 }
 

@@ -133,23 +133,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	phalcon_call_method_p1(pattern, this_ptr, "getoption", option);
 	
 	/** 
-	 * Check if the value match using preg_match in the PHP userland
+	 * Check if the value matches using preg_match
 	 */
 	PHALCON_INIT_VAR(match_pattern);
-	
-	Z_SET_ISREF_P(matches);
-	
-	#if HAVE_BUNDLED_PCRE
 	phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC);
-	#else
-	phalcon_call_func_p3(match_pattern, "preg_match", pattern, value, matches);
-	#endif
-	
-	Z_UNSET_ISREF_P(matches);
 	
 	if (zend_is_true(match_pattern)) {
 		PHALCON_OBS_VAR(match_zero);
-		phalcon_array_fetch_long(&match_zero, matches, 0, PH_NOISY_CC);
+		phalcon_array_fetch_long(&match_zero, matches, 0, PH_NOISY);
 	
 		is_not_equal_function(failed, match_zero, value TSRMLS_CC);
 	} else {

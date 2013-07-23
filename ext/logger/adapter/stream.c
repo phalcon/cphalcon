@@ -88,8 +88,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct){
 	if (phalcon_array_isset_string(options, SS("mode"))) {
 	
 		PHALCON_OBS_VAR(mode);
-		phalcon_array_fetch_string(&mode, options, SL("mode"), PH_NOISY_CC);
-		if (phalcon_memnstr_str(mode, SL("r") TSRMLS_CC)) {
+		phalcon_array_fetch_string(&mode, options, SL("mode"), PH_NOISY);
+		if (phalcon_memnstr_str(mode, SL("r"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Stream must be opened in append or write mode");
 			return;
 		}
@@ -178,15 +178,13 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, logInternal){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, close){
 
-	zval *stream, *success;
+	zval *stream;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(stream);
 	phalcon_read_property_this(&stream, this_ptr, SL("_stream"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_func_p1(success, "fclose", stream);
-	RETURN_CCTOR(success);
+	phalcon_call_func_p1(return_value, "fclose", stream);
+	RETURN_MM();
 }
 
