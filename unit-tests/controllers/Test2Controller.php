@@ -5,7 +5,7 @@ class Test2Controller extends Phalcon\Mvc\Controller
 
 	public function indexAction()
 	{
-
+		new djddksdla();
 	}
 
 	public function otherAction()
