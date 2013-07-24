@@ -759,7 +759,34 @@ static PHP_MINFO_FUNCTION(phalcon)
 
 static PHP_GINIT_FUNCTION(phalcon)
 {
+	phalcon_memory_entry *start;
+	int i;
+
 	php_phalcon_init_globals(phalcon_globals TSRMLS_CC);
+
+	start = (phalcon_memory_entry *) pecalloc(1, sizeof(phalcon_memory_entry), 1);
+/* pecalloc() will take care of these members
+	start->pointer      = 0;
+	start->hash_pointer = 0;
+	start->prev = NULL;
+	start->next = NULL;
+*/
+	start->addresses       = pecalloc(24, sizeof(zval*), 1);
+	start->capacity        = 24;
+	start->hash_addresses  = pecalloc(8, sizeof(zval*), 1);
+	start->hash_capacity   = 8;
+
+	phalcon_globals->start_memory = start;
+}
+
+static PHP_GSHUTDOWN_FUNCTION(phalcon)
+{
+	assert(phalcon_globals->start_memory != NULL);
+
+	pefree(phalcon_globals->start_memory->hash_addresses, 1);
+	pefree(phalcon_globals->start_memory->addresses, 1);
+	pefree(phalcon_globals->start_memory, 1);
+	phalcon_globals->start_memory = NULL;
 }
 
 static
@@ -794,7 +821,7 @@ zend_module_entry phalcon_module_entry = {
 	PHP_PHALCON_VERSION,
 	ZEND_MODULE_GLOBALS(phalcon),
 	PHP_GINIT(phalcon),
-	NULL,
+	PHP_GSHUTDOWN(phalcon),
 	NULL,
 	STANDARD_MODULE_PROPERTIES_EX
 };

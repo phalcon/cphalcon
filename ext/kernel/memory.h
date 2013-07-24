@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-#define PHALCON_MEMORY_FRAME_CHUNK 16
-
 /* Variable Tracking */
 extern void phalcon_init_nvar(zval **var TSRMLS_DC);
 extern void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
