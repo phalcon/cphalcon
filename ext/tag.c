@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Tag, getValue){
 		if (zend_is_true(autoescape)) {
 			PHALCON_INIT_VAR(escaper);
 			PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
-			phalcon_call_method_p1(return_value, escaper, "escapehtmlattr", value);
+			phalcon_call_method_p1(return_value, escaper, "escapehtml", value);
 			RETURN_MM();
 		} else {
 			if (Z_TYPE_P(params) == IS_ARRAY) { 
@@ -398,7 +398,7 @@ PHP_METHOD(Phalcon_Tag, getValue){
 					if (zend_is_true(autoescape)) {
 						PHALCON_INIT_NVAR(escaper);
 						PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
-						phalcon_call_method_p1(return_value, escaper, "escapehtmlattr", value);
+						phalcon_call_method_p1(return_value, escaper, "escapehtml", value);
 						RETURN_MM();
 					}
 				}
