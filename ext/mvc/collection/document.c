@@ -56,7 +56,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Document){
 }
 
 /**
- * Checks whether offset exists in the row
+ * Checks whether an offset exists in the document
  *
  * @param int $index
  * @return boolean

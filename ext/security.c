@@ -109,30 +109,21 @@ PHP_METHOD(Phalcon_Security, getDI){
  */
 PHP_METHOD(Phalcon_Security, setRandomBytes){
 
-	zval *random_bytes, *sixteen, *minimum_bytes;
+	zval *random_bytes;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &random_bytes);
+	phalcon_fetch_params(0, 1, 0, &random_bytes);
 	
 	if (Z_TYPE_P(random_bytes) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "Random bytes must be integer");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "Random bytes must be integer");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(sixteen);
-	ZVAL_LONG(sixteen, 16);
-	
-	PHALCON_INIT_VAR(minimum_bytes);
-	is_smaller_function(minimum_bytes, random_bytes, sixteen TSRMLS_CC);
-	if (PHALCON_IS_TRUE(minimum_bytes)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_security_exception_ce, "At least 16 bytes are needed to produce a correct salt");
+	if (PHALCON_LT_LONG(random_bytes, 16)) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_security_exception_ce, "At least 16 bytes are needed to produce a correct salt");
 		return;
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_numberBytes"), random_bytes TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -232,7 +223,7 @@ PHP_METHOD(Phalcon_Security, getSaltBytes){
 PHP_METHOD(Phalcon_Security, hash){
 
 	zval *password, *work_factor = NULL, *format, *factor;
-	zval *salt_bytes, *salt, *hash;
+	zval *salt_bytes, *salt;
 
 	PHALCON_MM_GROW();
 
@@ -260,11 +251,8 @@ PHP_METHOD(Phalcon_Security, hash){
 	
 	PHALCON_INIT_VAR(salt);
 	PHALCON_CONCAT_SVSV(salt, "$2a$", factor, "$", salt_bytes);
-	
-	PHALCON_INIT_VAR(hash);
-	phalcon_call_func_p2(hash, "crypt", password, salt);
-	
-	RETURN_CCTOR(hash);
+	phalcon_call_func_p2(return_value, "crypt", password, salt);
+	RETURN_MM();
 }
 
 /**
@@ -276,7 +264,7 @@ PHP_METHOD(Phalcon_Security, hash){
  */
 PHP_METHOD(Phalcon_Security, checkHash){
 
-	zval *password, *password_hash, *hash, *are_equals;
+	zval *password, *password_hash, *hash;
 
 	PHALCON_MM_GROW();
 
@@ -284,10 +272,8 @@ PHP_METHOD(Phalcon_Security, checkHash){
 	
 	PHALCON_INIT_VAR(hash);
 	phalcon_call_func_p2(hash, "crypt", password, password_hash);
-	
-	PHALCON_INIT_VAR(are_equals);
-	is_equal_function(are_equals, hash, password_hash TSRMLS_CC);
-	RETURN_NCTOR(are_equals);
+	is_equal_function(return_value, hash, password_hash TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -426,7 +412,6 @@ PHP_METHOD(Phalcon_Security, checkToken){
 
 	zval *token_key = NULL, *token_value = NULL, *dependency_injector;
 	zval *service = NULL, *session, *key = NULL, *request, *token = NULL, *session_token;
-	zval *same;
 
 	PHALCON_MM_GROW();
 
@@ -487,10 +472,9 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	/** 
 	 * The value is the same?
 	 */
-	PHALCON_INIT_VAR(same);
-	is_equal_function(same, token, session_token TSRMLS_CC);
+	is_equal_function(return_value, token, session_token TSRMLS_CC);
 	
-	RETURN_NCTOR(same);
+	RETURN_MM();
 }
 
 /**

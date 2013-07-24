@@ -74,7 +74,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 
-	zval *phql, *intermediate;
+	zval *phql;
 
 	PHALCON_MM_GROW();
 
@@ -84,12 +84,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "PHQL statement must be string");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(intermediate);
-	if (phql_parse_phql(intermediate, phql TSRMLS_CC) == FAILURE) {
+	if (phql_parse_phql(return_value, phql TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	
-	RETURN_CTOR(intermediate);
+	RETURN_MM();
 }
 

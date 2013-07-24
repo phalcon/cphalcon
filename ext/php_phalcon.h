@@ -20,16 +20,16 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "1.2.0"
+#define PHP_PHALCON_VERSION "1.2.1"
 #define PHP_PHALCON_EXTNAME "phalcon"
-
-#define PHALCON_MAX_MEMORY_STACK 48
 
 /** Memory frame */
 typedef struct _phalcon_memory_entry {
-	int pointer;
+	size_t pointer;
+	size_t capacity;
 	zval ***addresses;
-	int hash_pointer;
+	size_t hash_pointer;
+	size_t hash_capacity;
 	zval ***hash_addresses;
 	struct _phalcon_memory_entry *prev;
 	struct _phalcon_memory_entry *next;
@@ -44,16 +44,16 @@ typedef struct _phalcon_symbol_table {
 
 /** ORM options */
 typedef struct _phalcon_orm_options {
+	HashTable *parser_cache;
+	HashTable *ast_cache;
+	int cache_level;
+	int unique_cache_id;
 	zend_bool events;
 	zend_bool virtual_foreign_keys;
 	zend_bool column_renaming;
 	zend_bool not_null_validations;
 	zend_bool exception_on_failed_save;
 	zend_bool enable_literals;
-	int cache_level;
-	int unique_cache_id;
-	HashTable *parser_cache;
-	HashTable *ast_cache;
 } phalcon_orm_options;
 
 /** DB options */
@@ -63,9 +63,9 @@ typedef struct _phalcon_db_options {
 
 /** DI options */
 typedef struct _phalcon_di_options {
-	zend_bool cache_enabled;
 	zval **injector;
 	HashTable *shared_services_cache;
+	zend_bool cache_enabled;
 } phalcon_di_options;
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
@@ -80,18 +80,11 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/** Function cache */
 	HashTable *function_cache;
 
-	/** Max recursion control */
-	unsigned int recursive_lock;
-
-	/** Stats */
-#ifndef PHALCON_RELEASE
-	unsigned int phalcon_stack_stats;
-	unsigned int phalcon_number_grows;
-	unsigned int phalcon_stack_derivate[PHALCON_MAX_MEMORY_STACK];
-#endif
-
 	/** ORM */
 	phalcon_orm_options orm;
+
+	/** Max recursion control */
+	unsigned int recursive_lock;
 
 	/** DB */
 	phalcon_db_options db;
@@ -164,3 +157,40 @@ extern zend_module_entry phalcon_module_entry;
 #define UNREACHABLE() assert(0)
 #define ASSUME(x)     assert(!!(x));
 #endif
+
+#ifndef ZEND_MOD_END
+#define ZEND_MOD_END { NULL, NULL, NULL, 0 }
+#endif
+
+#ifndef __func__
+#define __func__ __FUNCTION__
+#endif
+
+#if PHP_VERSION_ID > 50399
+#	define ZLK_DC , const struct _zend_literal* key
+#	define ZLK_CC , key
+#	define ZLK_NULL_CC , NULL
+#else
+#	define ZLK_DC
+#	define ZLK_CC
+#	define ZLK_NULL_CC
+#endif
+
+#define PHALCON_STATIC
+
+/* This is a temporary fix until config.w32 is updated */
+#if !defined(__CYGWIN__) && defined(WIN32) && defined(HAVE_CONFIG_H)
+
+#	if defined(HAVE_JSON) && !defined(PHALCON_USE_PHP_JSON)
+#		define PHALCON_USE_PHP_JSON 1
+#	endif
+
+#	if defined(HAVE_BUNDLED_PCRE) && !defined(PHALCON_USE_PHP_PCRE)
+#		define PHALCON_USE_PHP_PCRE 1
+#	endif
+
+#	if defined(HAVE_PHP_SESSION) && !defined(PHALCON_USE_PHP_SESSION)
+#		define PHALCON_USE_PHP_SESSION 1
+#	endif
+
+#endif /* !defined(__CYGWIN__) && !defined(WIN32) && defined(HAVE_CONFIG_H) */

@@ -52,19 +52,6 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	/* Recursive Lock */
 	phalcon_globals->recursive_lock = 0;
 
-	/* Stats options */
-	#ifndef PHALCON_RELEASE
-
-	phalcon_globals->phalcon_stack_stats = 0;
-	phalcon_globals->phalcon_number_grows = 0;
-
-	//int i;
-	//for (i = 0; i < PHALCON_MAX_MEMORY_STACK; i++) {
-	//	phalcon_globals->phalcon_stack_derivate[i] = 0;
-	//}
-
-	#endif
-
 	/* ORM options*/
 	phalcon_globals->orm.events = 1;
 	phalcon_globals->orm.virtual_foreign_keys = 1;
@@ -300,10 +287,11 @@ int phalcon_is_callable(zval *var TSRMLS_DC) {
 /**
  * Initialize an array to start an iteration over it
  */
-int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC) {
+int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse) {
 
 	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "The argument is not iterable()");
+		TSRMLS_FETCH();
+		zend_error(E_ERROR, "The argument is not iterable()");
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return 0;
 	}

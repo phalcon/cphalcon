@@ -188,8 +188,8 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter){
 	} else {
 		PHALCON_INIT_VAR(new_filters);
 		array_init_size(new_filters, 2);
-		phalcon_array_append(&new_filters, filters, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&new_filters, filter, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&new_filters, filters, PH_SEPARATE);
+		phalcon_array_append(&new_filters, filter, PH_SEPARATE);
 		phalcon_update_property_this(this_ptr, SL("_filters"), new_filters TSRMLS_CC);
 	}
 	
@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 		PHALCON_CPY_WRT(widget_attributes, attributes);
 	}
 	
-	phalcon_array_update_long(&widget_attributes, 0, &name, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_long(&widget_attributes, 0, &name, PH_COPY | PH_SEPARATE);
 	
 	/** 
 	 * Merge passed parameters with default ones
@@ -353,21 +353,21 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 			if (phalcon_array_isset_string(merged_attributes, SS("value"))) {
 	
 				PHALCON_OBS_VAR(current_value);
-				phalcon_array_fetch_string(&current_value, merged_attributes, SL("value"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&current_value, merged_attributes, SL("value"), PH_NOISY);
 				if (PHALCON_IS_EQUAL(current_value, value)) {
-					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE);
 				}
 			} else {
 				/** 
 				 * Evaluate the current value and mark the check as checked
 				 */
 				if (zend_is_true(value)) {
-					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_string_string(&merged_attributes, SL("checked"), SL("checked"), PH_SEPARATE);
 				}
-				phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE);
 			}
 		} else {
-			phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&merged_attributes, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		}
 	}
 	
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Forms_Element, getAttribute){
 	phalcon_read_property_this(&attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if (phalcon_array_isset(attributes, attribute)) {
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, attributes, attribute, PH_NOISY_CC);
+		phalcon_array_fetch(&value, attributes, attribute, PH_NOISY);
 		RETURN_CCTOR(value);
 	}
 	
@@ -450,16 +450,14 @@ PHP_METHOD(Phalcon_Forms_Element, setAttributes){
  */
 PHP_METHOD(Phalcon_Forms_Element, getAttributes){
 
-	zval *attributes, *empty_array;
+	zval *attributes;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(attributes);
 	phalcon_read_property_this(&attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
-		PHALCON_INIT_VAR(empty_array);
-		array_init(empty_array);
-		RETURN_CTOR(empty_array);
+		RETURN_MM_EMPTY_ARRAY();
 	}
 	
 	RETURN_CCTOR(attributes);
@@ -505,7 +503,7 @@ PHP_METHOD(Phalcon_Forms_Element, getUserOption){
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset(options, option)) {
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, options, option, PH_NOISY_CC);
+		phalcon_array_fetch(&value, options, option, PH_NOISY);
 		RETURN_CCTOR(value);
 	}
 	
@@ -593,7 +591,7 @@ PHP_METHOD(Phalcon_Forms_Element, label){
 	 */
 	if (phalcon_array_isset_string(attributes, SS("id"))) {
 		PHALCON_OBS_VAR(name);
-		phalcon_array_fetch_string(&name, attributes, SL("id"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&name, attributes, SL("id"), PH_NOISY);
 	} else {
 		PHALCON_OBS_NVAR(name);
 		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
@@ -819,12 +817,10 @@ PHP_METHOD(Phalcon_Forms_Element, clear){
  */
 PHP_METHOD(Phalcon_Forms_Element, __toString){
 
-	zval *content;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(content);
-	phalcon_call_method(content, this_ptr, "render");
-	RETURN_CCTOR(content);
+	phalcon_call_method(return_value, this_ptr, "render");
+	RETURN_MM();
 }
 

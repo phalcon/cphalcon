@@ -212,8 +212,56 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 		}
 	}
 	
+	/** 
+	 * Throw the exception if it wasn't handled
+	 */
 	phalcon_throw_exception(exception TSRMLS_CC);
 	return;
+}
+
+/**
+ * Handles a user exception
+ *
+ * @param \Exception $exception
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, _handleException){
+
+	zval *exception, *events_manager, *event_name;
+	zval *status;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &exception);
+	
+	PHALCON_OBS_VAR(events_manager);
+	phalcon_read_property_this(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
+	
+		PHALCON_INIT_VAR(status);
+		phalcon_call_method_p3(status, events_manager, "fire", event_name, this_ptr, exception);
+		if (PHALCON_IS_FALSE(status)) {
+			RETURN_MM_FALSE;
+		}
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Possible controller class name that will be located to dispatch the request
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass){
+
+
+	PHALCON_MM_GROW();
+
+	phalcon_call_method(return_value, this_ptr, "gethandlername");
+	RETURN_MM();
 }
 
 /**

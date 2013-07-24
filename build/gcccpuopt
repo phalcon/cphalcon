@@ -57,11 +57,11 @@
 #   V0.99.3, 11 Aug 2009, Support for AMD Geode LX processor.
 #   V0.99.4, 24 Oct 2009, Following a report from Maxime de Roucy, add support
 #                         for AMD family 17 (griffin).
-#   V0.99.10, 22 Aug 2012
+#   V0.99.11, 04 Jul 2013
 #     http://github.com/pixelb/scripts/commits/master/scripts/gcccpuopt
 
 if [ "$1" = "--version" ]; then
-    echo "0.99.10" && exit
+    echo "0.99.11" && exit
 fi
 
 # This table shows when -march options were introduced into _official_ gcc releases.
@@ -90,34 +90,34 @@ if ! try_gcc_options; then
     exit 1
 fi
 
-#if try_gcc_options -march=native; then
-#    echo "Warning: Your compiler supports the -march=native option which you may prefer" >&2
-#    gcc -march=native --verbose -xc /dev/null 2>&1 | sed -n 's|.*/dev/null \(-march.*-mtune[^ ]*\).*|\1|p' >&2
-#fi
-
-if ! try_gcc_options -march=i386; then
-    if ! try_gcc_options -m32 -march=i386; then
-        #echo "Error: This script only supports 32 bit x86 architectures" >&2
-        exit 1
-    else
-        #echo "Warning: The optimum *32 bit* architecture is reported" >&2
-        m32="-m32 "
-    fi
+if try_gcc_options -march=native; then
+    echo "Warning: Your compiler supports the -march=native option which you may prefer" >&2
+    #gcc -march=native --verbose -xc /dev/null 2>&1 | sed -n 's|.*/dev/null \(-march.*-mtune[^ ]*\).*|\1|p' >&2
 fi
 
-try_line() {
-    skip=0
-    for arch in $1; do
-        if try_gcc_options $m32 -march=$arch; then
-            echo $arch
-            return
-        elif [ "$skip" = "0" ] && [ "$arch" != "native" ]; then
-            skip=1
-            #echo "Warning: Newer versions of GCC better support your CPU with -march=$arch" >&2
-        fi
-    done
-    return 1
-}
+#if ! try_gcc_options -march=i386; then
+#    if ! try_gcc_options -m32 -march=i386; then
+#        echo "Error: This script only supports 32 bit x86 architectures" >&2
+#        exit 1
+#    else
+#        echo "Warning: The optimum *32 bit* architecture is reported" >&2
+#        m32="-m32 "
+#    fi
+#fi
+
+#try_line() {
+#    skip=0
+#    for arch in $1; do
+#        if try_gcc_options $m32 -march=$arch; then
+#            echo $arch
+#            return
+#        elif [ "$skip" = "0" ] && [ "$arch" != "native" ]; then
+#            skip=1
+#            echo "Warning: Newer versions of GCC better support your CPU with -march=$arch" >&2
+#        fi
+#    done
+#    return 1
+#}
 
 read_cpu_data_linux() {
     IFS=":"
@@ -274,8 +274,13 @@ elif [ "$vendor_id" = "GenuineIntel" ]; then
     elif [ $cpu_family -eq 6 ]; then
         if [ \( $cpu_model -eq 0 \) -o \( $cpu_model -eq 1 \) ]; then
             _CFLAGS="-march=pentiumpro"
-        elif [ \( $cpu_model -ge 3 \) -a \( $cpu_model -le 6 \) ]; then #4=TM5600 at least
+        elif [ \( $cpu_model -ge 2 \) -a \( $cpu_model -le 6 \) ]; then #4=TM5600 at least
             line="pentium2 pentiumpro pentium-mmx pentium i486 i386"
+            if [ \( $cpu_model -eq 2 \) ]; then #qemu generic
+                echo "\
+Warning: Unspecified QEMU CPU model.
+Please consider upgrading QEMU or configuring it to use a specific model." >&2
+            fi
         elif [ \( $cpu_model -eq 9 \) -o \( $cpu_model -eq 13 \) ]; then #centrino
             line="pentium-m pentium4 pentium3 pentium2 pentiumpro pentium-mmx pentium i486 i386"
         elif [ \( $cpu_model -eq 14 \) ]; then #Core
@@ -338,7 +343,7 @@ Unrecognised CPU. Please email the following to: P@draigBrady.com
     exit 1
 fi
 
-[ -z "$_CFLAGS" ] && _CFLAGS="-march=`try_line "$line"`"
+#[ -z "$_CFLAGS" ] && _CFLAGS="-march=`try_line "$line"`"
 
 #The Atom CPU supports the full core2 instruction set,
 #but it's an in-order core, the last one of those being the i586.

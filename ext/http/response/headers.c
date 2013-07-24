@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -28,6 +27,8 @@
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
+
+#include "main/SAPI.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -94,7 +95,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
 	phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (phalcon_array_isset(headers, name)) {
 		PHALCON_OBS_VAR(header_value);
-		phalcon_array_fetch(&header_value, headers, name, PH_NOISY_CC);
+		phalcon_array_fetch(&header_value, headers, name, PH_NOISY);
 		RETURN_CCTOR(header_value);
 	}
 	
@@ -127,20 +128,18 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, send){
 
-	zval *headers_was_sent, *t, *headers, *value = NULL, *header = NULL;
+	zval *headers, *value = NULL, *header = NULL;
 	zval *http_header = NULL;
+	zval copy;
+	int use_copy;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	sapi_header_line ctr = { NULL, 0, 0 };
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(headers_was_sent);
-	phalcon_call_func(headers_was_sent, "headers_sent");
-	if (!zend_is_true(headers_was_sent)) {
-	
-		PHALCON_INIT_VAR(t);
-		ZVAL_BOOL(t, 1);
+	if (!SG(headers_sent)) {
 	
 		PHALCON_OBS_VAR(headers);
 		phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
@@ -151,15 +150,28 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 	
 			PHALCON_GET_HKEY(header, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
-	
+
 			if (PHALCON_IS_NOT_EMPTY(value)) {
 				PHALCON_INIT_NVAR(http_header);
 				PHALCON_CONCAT_VSV(http_header, header, ": ", value);
-				phalcon_call_func_p2_noret("header", http_header, t);
+				ctr.line     = Z_STRVAL_P(http_header);
+				ctr.line_len = Z_STRLEN_P(http_header);
+				sapi_header_op(SAPI_HEADER_REPLACE, &ctr TSRMLS_CC);
 			} else {
-				phalcon_call_func_p2_noret("header", header, t);
+				zend_make_printable_zval(header, &copy, &use_copy);
+				if (unlikely(use_copy)) {
+					header = &copy;
+				}
+
+				ctr.line     = Z_STRVAL_P(header);
+				ctr.line_len = Z_STRLEN_P(header);
+				sapi_header_op(SAPI_HEADER_REPLACE, &ctr TSRMLS_CC);
+
+				if (unlikely(use_copy)) {
+					zval_dtor(&copy);
+				}
 			}
-	
+
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
@@ -208,7 +220,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 	if (phalcon_array_isset_string(data, SS("_headers"))) {
 	
 		PHALCON_OBS_VAR(data_headers);
-		phalcon_array_fetch_string(&data_headers, data, SL("_headers"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&data_headers, data, SL("_headers"), PH_NOISY);
 	
 		phalcon_is_iterable(data_headers, &ah0, &hp0, 0, 0);
 	

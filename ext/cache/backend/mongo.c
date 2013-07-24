@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 		if (phalcon_array_isset_string(options, SS("mongo"))) {
 	
 			PHALCON_OBS_VAR(mongo);
-			phalcon_array_fetch_string(&mongo, options, SL("mongo"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&mongo, options, SL("mongo"), PH_NOISY);
 			if (Z_TYPE_P(mongo) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The 'mongo' parameter must be a valid Mongo instance");
 				return;
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 			 * Server must be defined otherwise
 			 */
 			PHALCON_OBS_VAR(server);
-			phalcon_array_fetch_string(&server, options, SL("server"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&server, options, SL("server"), PH_NOISY);
 			if (Z_TYPE_P(server) != IS_STRING) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB connection string");
 				return;
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 		 * Check if the database name is a string
 		 */
 		PHALCON_OBS_VAR(database);
-		phalcon_array_fetch_string(&database, options, SL("db"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&database, options, SL("db"), PH_NOISY);
 		if (Z_TYPE_P(database) != IS_STRING) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB db");
 			return;
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 		 * Retrieve the connection name
 		 */
 		PHALCON_OBS_VAR(collection);
-		phalcon_array_fetch_string(&collection, options, SL("collection"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&collection, options, SL("collection"), PH_NOISY);
 		if (Z_TYPE_P(collection) != IS_STRING) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB collection");
 			return;
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key;
 	zval *collection, *conditions, *document, *timestamp;
 	zval *ttl = NULL, *modified_time, *difference, *not_expired;
-	zval *cached_content, *content;
+	zval *cached_content;
 
 	PHALCON_MM_GROW();
 
@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	
 	PHALCON_INIT_VAR(conditions);
 	array_init_size(conditions, 1);
-	phalcon_array_update_string(&conditions, SL("key"), &prefixed_key, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&conditions, SL("key"), &prefixed_key, PH_COPY | PH_SEPARATE);
 	
 	PHALCON_INIT_VAR(document);
 	phalcon_call_method_p1(document, collection, "findone", conditions);
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 		}
 	
 		PHALCON_OBS_VAR(modified_time);
-		phalcon_array_fetch_string(&modified_time, document, SL("time"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&modified_time, document, SL("time"), PH_NOISY);
 	
 		PHALCON_INIT_VAR(difference);
 		sub_function(difference, timestamp, ttl TSRMLS_CC);
@@ -294,12 +294,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 			}
 	
 			PHALCON_OBS_VAR(cached_content);
-			phalcon_array_fetch_string(&cached_content, document, SL("data"), PH_NOISY_CC);
-	
-			PHALCON_INIT_VAR(content);
-			phalcon_call_method_p1(content, frontend, "afterretrieve", cached_content);
-	
-			RETURN_CCTOR(content);
+			phalcon_array_fetch_string(&cached_content, document, SL("data"), PH_NOISY);
+			phalcon_call_method_p1(return_value, frontend, "afterretrieve", cached_content);
+			RETURN_MM();
 		}
 	}
 	
@@ -386,20 +383,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 	
 	PHALCON_INIT_VAR(conditions);
 	array_init_size(conditions, 1);
-	phalcon_array_update_string(&conditions, SL("key"), &last_key, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&conditions, SL("key"), &last_key, PH_COPY | PH_SEPARATE);
 	
 	PHALCON_INIT_VAR(document);
 	phalcon_call_method_p1(document, collection, "findone", conditions);
 	if (Z_TYPE_P(document) == IS_ARRAY) { 
-		phalcon_array_update_string(&document, SL("time"), &ttl, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&document, SL("data"), &prepared_content, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&document, SL("time"), &ttl, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&document, SL("data"), &prepared_content, PH_COPY | PH_SEPARATE);
 		phalcon_call_method_p1_noret(collection, "save", document);
 	} else {
 		PHALCON_INIT_VAR(data);
 		array_init_size(data, 3);
-		phalcon_array_update_string(&data, SL("key"), &last_key, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&data, SL("time"), &ttl, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&data, SL("data"), &prepared_content, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&data, SL("key"), &last_key, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&data, SL("time"), &ttl, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&data, SL("data"), &prepared_content, PH_COPY | PH_SEPARATE);
 		phalcon_call_method_p1_noret(collection, "save", data);
 	}
 	
@@ -427,7 +424,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete){
 
 	zval *key_name, *prefix, *prefixed_key, *collection;
-	zval *conditions, *success;
+	zval *conditions;
 
 	PHALCON_MM_GROW();
 
@@ -444,10 +441,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete){
 	
 	PHALCON_INIT_VAR(conditions);
 	array_init_size(conditions, 1);
-	phalcon_array_update_string(&conditions, SL("key"), &prefixed_key, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(success);
-	phalcon_call_method_p1(success, collection, "remove", conditions);
+	phalcon_array_update_string(&conditions, SL("key"), &prefixed_key, PH_COPY | PH_SEPARATE);
+	phalcon_call_method_p1_noret(collection, "remove", conditions);
 	RETURN_MM_TRUE;
 }
 
@@ -494,7 +489,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
 	
 		PHALCON_INIT_VAR(conditions);
 		array_init_size(conditions, 1);
-		phalcon_array_update_string(&conditions, SL("key"), &regex, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&conditions, SL("key"), &regex, PH_COPY | PH_SEPARATE);
 	} else {
 		PHALCON_INIT_NVAR(conditions);
 		array_init(conditions);
@@ -520,8 +515,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
 		PHALCON_GET_HVALUE(document);
 	
 		PHALCON_OBS_NVAR(key);
-		phalcon_array_fetch_string(&key, document, SL("key"), PH_NOISY_CC);
-		phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_fetch_string(&key, document, SL("key"), PH_NOISY);
+		phalcon_array_append(&keys, key, PH_SEPARATE);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -539,7 +534,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists){
 
 	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *collection;
-	zval *conditions, *number, *zero, *exists;
+	zval *conditions, *number, *zero;
 
 	PHALCON_MM_GROW();
 
@@ -569,17 +564,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists){
 	
 		PHALCON_INIT_VAR(conditions);
 		array_init_size(conditions, 1);
-		phalcon_array_update_string(&conditions, SL("key"), &last_key, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&conditions, SL("key"), &last_key, PH_COPY | PH_SEPARATE);
 	
 		PHALCON_INIT_VAR(number);
 		phalcon_call_method_p1(number, collection, "count", conditions);
 	
 		PHALCON_INIT_VAR(zero);
 		ZVAL_LONG(zero, 0);
-	
-		PHALCON_INIT_VAR(exists);
-		is_smaller_function(exists, zero, number TSRMLS_CC);
-		RETURN_NCTOR(exists);
+		is_smaller_function(return_value, zero, number TSRMLS_CC);
+		RETURN_MM();
 	}
 	
 	RETURN_MM_FALSE;

@@ -168,16 +168,14 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
  */
 PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements){
 
-	zval *all_profiles, *number_profiles;
+	zval *all_profiles;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(all_profiles);
 	phalcon_read_property_this(&all_profiles, this_ptr, SL("_allProfiles"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number_profiles);
-	phalcon_fast_count(number_profiles, all_profiles TSRMLS_CC);
-	RETURN_NCTOR(number_profiles);
+	phalcon_fast_count(return_value, all_profiles TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**

@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Flash, setCssClasses){
  */
 PHP_METHOD(Phalcon_Flash, error){
 
-	zval *message, *type, *flash_message;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
 
@@ -170,10 +170,8 @@ PHP_METHOD(Phalcon_Flash, error){
 	
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "error", 1);
-	
-	PHALCON_INIT_VAR(flash_message);
-	phalcon_call_method_p2(flash_message, this_ptr, "message", type, message);
-	RETURN_CCTOR(flash_message);
+	phalcon_call_method_p2(return_value, this_ptr, "message", type, message);
+	RETURN_MM();
 }
 
 /**
@@ -188,7 +186,7 @@ PHP_METHOD(Phalcon_Flash, error){
  */
 PHP_METHOD(Phalcon_Flash, notice){
 
-	zval *message, *type, *flash_message;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
 
@@ -196,10 +194,8 @@ PHP_METHOD(Phalcon_Flash, notice){
 	
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "notice", 1);
-	
-	PHALCON_INIT_VAR(flash_message);
-	phalcon_call_method_p2(flash_message, this_ptr, "message", type, message);
-	RETURN_CCTOR(flash_message);
+	phalcon_call_method_p2(return_value, this_ptr, "message", type, message);
+	RETURN_MM();
 }
 
 /**
@@ -214,7 +210,7 @@ PHP_METHOD(Phalcon_Flash, notice){
  */
 PHP_METHOD(Phalcon_Flash, success){
 
-	zval *message, *type, *flash_message;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
 
@@ -222,10 +218,8 @@ PHP_METHOD(Phalcon_Flash, success){
 	
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "success", 1);
-	
-	PHALCON_INIT_VAR(flash_message);
-	phalcon_call_method_p2(flash_message, this_ptr, "message", type, message);
-	RETURN_CCTOR(flash_message);
+	phalcon_call_method_p2(return_value, this_ptr, "message", type, message);
+	RETURN_MM();
 }
 
 /**
@@ -240,7 +234,7 @@ PHP_METHOD(Phalcon_Flash, success){
  */
 PHP_METHOD(Phalcon_Flash, warning){
 
-	zval *message, *type, *flash_message;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
 
@@ -248,10 +242,8 @@ PHP_METHOD(Phalcon_Flash, warning){
 	
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "warning", 1);
-	
-	PHALCON_INIT_VAR(flash_message);
-	phalcon_call_method_p2(flash_message, this_ptr, "message", type, message);
-	RETURN_CCTOR(flash_message);
+	phalcon_call_method_p2(return_value, this_ptr, "message", type, message);
+	RETURN_MM();
 }
 
 /**
@@ -289,7 +281,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 		if (phalcon_array_isset(classes, type)) {
 
 			PHALCON_OBS_VAR(type_classes);
-			phalcon_array_fetch(&type_classes, classes, type, PH_NOISY_CC);
+			phalcon_array_fetch(&type_classes, classes, type, PH_NOISY);
 			if (Z_TYPE_P(type_classes) == IS_ARRAY) {
 				PHALCON_INIT_VAR(joined_classes);
 				phalcon_fast_join_str(joined_classes, SL(" "), type_classes TSRMLS_CC);

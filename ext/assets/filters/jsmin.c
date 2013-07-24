@@ -62,17 +62,16 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Filters_Jsmin){
  */
 PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter){
 
-	zval *content, *filtered;
+	zval *content;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &content);
 	
-	PHALCON_INIT_VAR(filtered);
-	if (phalcon_jsmin(filtered, content TSRMLS_CC) == FAILURE) {
+	if (phalcon_jsmin(return_value, content TSRMLS_CC) == FAILURE) {
 		return;
 	}
 	
-	RETURN_CCTOR(filtered);
+	RETURN_MM();
 }
 

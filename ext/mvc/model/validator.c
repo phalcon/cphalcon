@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
@@ -67,10 +67,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
 
 	zval *options;
 
-	phalcon_update_property_empty_array(phalcon_mvc_model_validator_ce, this_ptr, SL("_options") TSRMLS_CC);
-	
-	phalcon_update_property_empty_array(phalcon_mvc_model_validator_ce, this_ptr, SL("_messages") TSRMLS_CC);
-	
 	phalcon_fetch_params(0, 1, 0, &options);
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
@@ -118,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 		ZVAL_STRING(empty_string, "", 1);
 	
 		PHALCON_INIT_NVAR(type);
-		phalcon_fast_str_replace(type, suffix, empty_string, class_name TSRMLS_CC);
+		phalcon_fast_str_replace(type, suffix, empty_string, class_name);
 	}
 	
 	PHALCON_INIT_VAR(model_message);
@@ -170,12 +166,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset(options, option)) {
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, options, option, PH_NOISY_CC);
+		phalcon_array_fetch(&value, options, option, PH_NOISY);
 		RETURN_CCTOR(value);
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_EMPTY_STRING();
+	RETURN_MM_EMPTY_STRING();
 }
 
 /**

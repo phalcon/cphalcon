@@ -86,16 +86,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
 
-	zval *view, *content;
+	zval *view;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(view);
 	phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(content);
-	phalcon_call_method(content, view, "getcontent");
-	RETURN_CCTOR(content);
+	phalcon_call_method(return_value, view, "getcontent");
+	RETURN_MM();
 }
 
 /**
@@ -107,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 
-	zval *partial_path, *params = NULL, *view, *content;
+	zval *partial_path, *params = NULL, *view;
 
 	PHALCON_MM_GROW();
 
@@ -119,10 +117,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 	
 	PHALCON_OBS_VAR(view);
 	phalcon_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(content);
-	phalcon_call_method_p2(content, view, "partial", partial_path, params);
-	RETURN_CCTOR(content);
+	phalcon_call_method_p2(return_value, view, "partial", partial_path, params);
+	RETURN_MM();
 }
 
 /**

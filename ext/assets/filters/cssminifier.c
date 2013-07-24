@@ -64,8 +64,8 @@ typedef struct _cssmin_parser {
 	int in_paren;
 	zval *style;
 	zval **error;
+	smart_str *minified;
 	int style_pointer;
-	smart_str    *minified;
 } cssmin_parser;
 
 /* get -- return the next character from stdin. Watch out for lookahead. If
@@ -116,6 +116,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, unsigned char c TSRMLS_
 				//fprintf(stdout,"one to 3 - %c %i",c,c);
 				parser->state = STATE_SELECTOR;
 			}
+			/* no break */
 		case STATE_SELECTOR:
 			if (c == '{') {
 				parser->state = STATE_BLOCK;
@@ -170,6 +171,7 @@ static int phalcon_cssmin_machine(cssmin_parser *parser, unsigned char c TSRMLS_
 					parser->state = STATE_DECLARATION;
 				}
 			}
+			/* no break */
 		case STATE_DECLARATION:
 			/**
 			 * support in paren because data can uris have ;

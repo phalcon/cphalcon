@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
 		phalcon_read_property_this(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
 		if (phalcon_array_isset_string(reflection_data, SS("class"))) {
 			PHALCON_OBS_VAR(reflection_class);
-			phalcon_array_fetch_string(&reflection_class, reflection_data, SL("class"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&reflection_class, reflection_data, SL("class"), PH_NOISY);
 	
 			PHALCON_INIT_VAR(collection);
 			object_init_ex(collection, phalcon_annotations_collection_ce);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 		if (phalcon_array_isset_string(reflection_data, SS("methods"))) {
 	
 			PHALCON_OBS_VAR(reflection_methods);
-			phalcon_array_fetch_string(&reflection_methods, reflection_data, SL("methods"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&reflection_methods, reflection_data, SL("methods"), PH_NOISY);
 			if (phalcon_fast_count_ev(reflection_methods TSRMLS_CC)) {
 	
 				PHALCON_INIT_VAR(collections);
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 					object_init_ex(collection, phalcon_annotations_collection_ce);
 					phalcon_call_method_p1_noret(collection, "__construct", reflection_method);
 	
-					phalcon_array_update_zval(&collections, method_name, &collection, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_zval(&collections, method_name, &collection, PH_COPY | PH_SEPARATE);
 	
 					zend_hash_move_forward_ex(ah0, &hp0);
 				}
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 		if (phalcon_array_isset_string(reflection_data, SS("properties"))) {
 	
 			PHALCON_OBS_VAR(reflection_properties);
-			phalcon_array_fetch_string(&reflection_properties, reflection_data, SL("properties"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&reflection_properties, reflection_data, SL("properties"), PH_NOISY);
 			if (phalcon_fast_count_ev(reflection_properties TSRMLS_CC)) {
 	
 				PHALCON_INIT_VAR(collections);
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 					object_init_ex(collection, phalcon_annotations_collection_ce);
 					phalcon_call_method_p1_noret(collection, "__construct", reflection_property);
 	
-					phalcon_array_update_zval(&collections, property, &collection, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_zval(&collections, property, &collection, PH_COPY | PH_SEPARATE);
 	
 					zend_hash_move_forward_ex(ah0, &hp0);
 				}
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData){
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, __set_state){
 
-	zval *data, *reflection_data, *reflection = NULL;
+	zval *data, *reflection_data;
 
 	PHALCON_MM_GROW();
 
@@ -284,20 +284,16 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __set_state){
 		 */
 		if (phalcon_array_isset_string(data, SS("_reflectionData"))) {
 			PHALCON_OBS_VAR(reflection_data);
-			phalcon_array_fetch_string(&reflection_data, data, SL("_reflectionData"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&reflection_data, data, SL("_reflectionData"), PH_NOISY);
+			object_init_ex(return_value, phalcon_annotations_reflection_ce);
+			phalcon_call_method_p1_noret(return_value, "__construct", reflection_data);
 	
-			PHALCON_INIT_VAR(reflection);
-			object_init_ex(reflection, phalcon_annotations_reflection_ce);
-			phalcon_call_method_p1_noret(reflection, "__construct", reflection_data);
-	
-			RETURN_CTOR(reflection);
+			RETURN_MM();
 		}
 	}
+	object_init_ex(return_value, phalcon_annotations_reflection_ce);
+	phalcon_call_method_noret(return_value, "__construct");
 	
-	PHALCON_INIT_NVAR(reflection);
-	object_init_ex(reflection, phalcon_annotations_reflection_ce);
-	phalcon_call_method_noret(reflection, "__construct");
-	
-	RETURN_CTOR(reflection);
+	RETURN_MM();
 }
 

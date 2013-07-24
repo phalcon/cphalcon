@@ -39,6 +39,7 @@ class Build_Generator
 		'annotations/annot.h',
 		'kernel/main.h',
 		'kernel/memory.h',
+		'kernel/backtrace.h',
 		'kernel/fcall.h',
 		'kernel/array.h',
 		'kernel/hash.h',
@@ -52,6 +53,7 @@ class Build_Generator
 		'kernel/exception.h',
 		'kernel/require.h',
 		'kernel/variables.h',
+		'kernel/session.h',
 		'kernel/alternative/fcall.h',
 		'kernel/framework/orm.h',
 		'kernel/framework/router.h',
@@ -61,6 +63,7 @@ class Build_Generator
 	private $_kernelSources = array(
 		'kernel/main.c',
 		'kernel/memory.c',
+		'kernel/backtrace.c',
 		'kernel/fcall.c',
 		'kernel/array.c',
 		'kernel/hash.c',
@@ -74,6 +77,7 @@ class Build_Generator
 		'kernel/exception.c',
 		'kernel/require.c',
 		'kernel/variables.c',
+		'kernel/session.c',
 		'kernel/alternative/fcall.c',
 		'kernel/framework/orm.c',
 		'kernel/framework/router.c',
@@ -92,7 +96,9 @@ class Build_Generator
 		'ext/mvc/view/engine/volt/lempar.c' => true,
 	);
 
-	public function generate($path, $destination='build/', $calculateHashKeys=false)
+	private $_hash;
+
+	public function generate($path, $destination='build/', $calculateHashKeys=false, $hash='preComputeHashKey')
 	{
 
 		$this->_path = $path;
@@ -100,6 +106,8 @@ class Build_Generator
 		$this->_destination = $destination;
 
 		$this->_calculateHashKeys = $calculateHashKeys;
+
+		$this->_hash = $hash;
 
 		$this->_fileHandler = fopen($destination.'phalcon.c', 'w');
 
@@ -119,8 +127,11 @@ class Build_Generator
 #include "main/php_main.h"
 #include "main/php_streams.h"
 #include "main/php_output.h"
+#include "main/php_ini.h"
+#include "main/SAPI.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_smart_str.h"
+#include "ext/standard/info.h"
 #include "ext/pdo/php_pdo_driver.h"
 #include "ext/standard/file.h"
 #include "ext/standard/php_filestat.h"
@@ -129,6 +140,7 @@ class Build_Generator
 #include "ext/standard/php_math.h"
 #include "ext/standard/php_array.h"
 #include "ext/standard/php_var.h"
+#include "ext/standard/php_http.h"
 #include "ext/standard/html.h"
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
@@ -136,8 +148,16 @@ class Build_Generator
 #include "ext/standard/url.h"
 #include "ext/spl/spl_heap.h"
 
-#if HAVE_BUNDLED_PCRE
+#ifdef PHALCON_USE_PHP_PCRE
 #include "ext/pcre/php_pcre.h"
+#endif
+
+#ifdef PHALCON_USE_PHP_JSON
+#include "ext/json/php_json.h"
+#endif
+
+#ifdef PHALCON_USE_PHP_SESSION
+#include "ext/session/php_session.h"
 #endif
 
 #include "Zend/zend_API.h"
@@ -145,6 +165,7 @@ class Build_Generator
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 #include "Zend/zend_execute.h"
+#include "Zend/zend_builtin_functions.h"
 
 ');
 
@@ -207,6 +228,7 @@ class Build_Generator
 			if (preg_match('/PHP_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
 				$line = str_replace($matches[0], 'static PHP_METHOD('.$matches[1].', '.$matches[2].')', $line);
 			}
+			$line = preg_replace('/^PHALCON_STATIC /', 'static ', $line);
 			$hlines .= $line;
 		}
 		file_put_contents($this->_destination . 'phalcon.h', $hlines);
@@ -304,7 +326,7 @@ class Build_Generator
 
 			if ($openComment === false) {
 
-				if (preg_match('/^#include /', $line)) {
+				if (preg_match('/^#include "/', $line)) {
 					//echo $line, PHP_EOL;
 					continue;
 				}
@@ -330,12 +352,13 @@ class Build_Generator
 				}
 
 				if ($this->_calculateHashKeys) {
+					$hash = $this->_hash;
 
 					/**
 					 * Pre-compute the hash key for isset using strings
 					 */
 					if (preg_match('/phalcon_array_isset_string\(([a-zA-Z0-9\_]+), SS\("([a-zA-Z\_\-]+)"\)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$key = Phalcon\Kernel::$hash($matches[2]);
 						$line = str_replace($matches[0], 'phalcon_array_isset_quick_string('.$matches[1].', SS("'.$matches[2].'"), '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
@@ -345,7 +368,7 @@ class Build_Generator
 					 * Pre-compute the hash key for reading elements using hashes
 					 */
 					if (preg_match('/phalcon_array_fetch_string\(\&([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), SL\("([a-zA-Z\_\-]+)"\), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
+						$key = Phalcon\Kernel::$hash($matches[3]);
 						$line = str_replace($matches[0], 'phalcon_array_fetch_quick_string(&'.$matches[1].', '.$matches[2].', SS("'.$matches[3].'"), '.$key.'UL, '.$matches[4].')', $line);
 						fputs($fileHandler, $line);
 						continue;
@@ -355,7 +378,7 @@ class Build_Generator
 					 * Pre-compute hash for updating elements
 					 */
 					if (preg_match('/phalcon_array_update_string\(\&([a-zA-Z0-9\_]+), SL\("([a-zA-Z\_\-]+)"\), \&([a-zA-Z0-9\_]+), (.+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$key = Phalcon\Kernel::$hash($matches[2]);
 						$line = str_replace($matches[0], 'phalcon_array_update_quick_string(&'.$matches[1].', SS("'.$matches[2].'"), '.$key.'UL, &'.$matches[3].', '.$matches[4].')', $line);
 						fputs($fileHandler, $line);
 						continue;
@@ -365,7 +388,7 @@ class Build_Generator
 					 * Pre-compute hash key for method checking
 					 */
 					if (preg_match('/phalcon_method_exists_ex\(([a-zA-Z0-9\_]+), SS\("([a-zA-Z\_\-]+)"\) TSRMLS_CC\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$key = Phalcon\Kernel::$hash($matches[2]);
 						$line = str_replace($matches[0], 'phalcon_method_quick_exists_ex('.$matches[1].', SS("'.$matches[2].'"), '.$key.'UL TSRMLS_CC)', $line);
 						fputs($fileHandler, $line);
 						continue;
@@ -375,7 +398,7 @@ class Build_Generator
 					 * Pre-compute hash key for method checking
 					 */
 					if (preg_match('/phalcon_function_exists_ex\(SS\("([a-zA-Z\_\-]+)"\) TSRMLS_CC\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[1]);
+						$key = Phalcon\Kernel::$hash($matches[1]);
 						$line = str_replace($matches[0], 'phalcon_function_quick_exists_ex(SS("'.$matches[1].'"), '.$key.'UL TSRMLS_CC)', $line);
 						fputs($fileHandler, $line);
 						continue;
@@ -384,162 +407,99 @@ class Build_Generator
 					/**
 					 * Pre-compute hashes for method calls
 					 */
-					if (preg_match('/PHALCON_CALL_METHOD\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)"\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
-						$line = str_replace($matches[0], 'phalcon_call_method_key('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$key.'UL)', $line);
-						fputs($fileHandler, $line);
-						continue;
-					}
-
 					if (preg_match('/phalcon_call_method\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)"\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
+						$key = Phalcon\Kernel::$hash($matches[3]);
 						$line = str_replace($matches[0], 'phalcon_call_method_key('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
 					if (preg_match('/phalcon_call_method_noret\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)"\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-						$line = str_replace($matches[0], 'phalcon_call_method_noret_key('.$matches[1].', "'.$matches[2].'", '.$key.'UL)', $line);
-						fputs($fileHandler, $line);
-						continue;
-					}
-
-					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_1_NORETURN\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$key.'UL)', $line);
+						$key = Phalcon\Kernel::$hash($matches[2]);
+						$line = str_replace($matches[0], 'phalcon_call_method_key(NULL, '.$matches[1].', "'.$matches[2].'", '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
 					if (preg_match('/phalcon_call_method_p1_noret\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-						$line = str_replace($matches[0], 'phalcon_call_method_p1_noret_key('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$key.'UL)', $line);
-						fputs($fileHandler, $line);
-						continue;
-					}
-
-					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_1\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
-						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_1_KEY('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$matches[4].', '.$key.'UL)', $line);
+						$key = Phalcon\Kernel::$hash($matches[2]);
+						$line = str_replace($matches[0], 'phalcon_call_method_p1_key(NULL, '.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
 					if (preg_match('/phalcon_call_method_p1\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
+						$key = Phalcon\Kernel::$hash($matches[3]);
 						$line = str_replace($matches[0], 'phalcon_call_method_p1_key('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$matches[4].', '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
-					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_2_NORETURN\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$key.'UL)', $line);
-						fputs($fileHandler, $line);
-						continue;
-					}
-
 					if (preg_match('/phalcon_call_method_p2_noret\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-						$line = str_replace($matches[0], 'phalcon_call_method_p2_noret_key('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$key.'UL)', $line);
-						fputs($fileHandler, $line);
-						continue;
-					}
-
-					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_2\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
-						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_2_KEY('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$matches[4].', '.$matches[5].', '.$key.'UL)', $line);
+						$key = Phalcon\Kernel::$hash($matches[2]);
+						$line = str_replace($matches[0], 'phalcon_call_method_p2_key(NULL, '.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
 					if (preg_match('/phalcon_call_method_p2\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
+						$key = Phalcon\Kernel::$hash($matches[3]);
 						$line = str_replace($matches[0], 'phalcon_call_method_p2_key('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$matches[4].', '.$matches[5].', '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
-					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_3_NORETURN\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$matches[5].', '.$key.'UL)', $line);
-						fputs($fileHandler, $line);
-						continue;
-					}
-
 					if (preg_match('/phalcon_call_method_p3_noret\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-						$line = str_replace($matches[0], 'phalcon_call_method_p3_noret_key('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$matches[5].', '.$key.'UL)', $line);
-						fputs($fileHandler, $line);
-						continue;
-					}
-
-					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_3\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
-						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_3_KEY('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$matches[4].', '.$matches[5].', '.$matches[6].', '.$key.'UL)', $line);
+						$key = Phalcon\Kernel::$hash($matches[2]);
+						$line = str_replace($matches[0], 'phalcon_call_method_p3_key(NULL, '.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$matches[5].', '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
 					if (preg_match('/phalcon_call_method_p3\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
+						$key = Phalcon\Kernel::$hash($matches[3]);
 						$line = str_replace($matches[0], 'phalcon_call_method_p3_key('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$matches[4].', '.$matches[5].', '.$matches[6].', '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
-					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_4_NORETURN\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_4_NORETURN_KEY('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$matches[5].', '.$matches[6].', '.$key.'UL)', $line);
-						fputs($fileHandler, $line);
-						continue;
-					}
-
 					if (preg_match('/phalcon_call_method_p4_noret\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-						$line = str_replace($matches[0], 'phalcon_call_method_p4_noret_key('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$matches[5].', '.$matches[6].', '.$key.'UL)', $line);
-						fputs($fileHandler, $line);
-						continue;
-					}
-
-					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_4\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
-						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_4_KEY('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$matches[4].', '.$matches[5].', '.$matches[6].', '.$matches[7].', '.$key.'UL)', $line);
+						$key = Phalcon\Kernel::$hash($matches[2]);
+						$line = str_replace($matches[0], 'phalcon_call_method_p4_key(NULL, '.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$matches[5].', '.$matches[6].', '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
 					if (preg_match('/phalcon_call_method_p4\(([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
+						$key = Phalcon\Kernel::$hash($matches[3]);
 						$line = str_replace($matches[0], 'phalcon_call_method_p4_key('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$matches[4].', '.$matches[5].', '.$matches[6].', '.$matches[7].', '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
 					if (preg_match('/phalcon_call_method_p5_noret\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)", ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+), ([a-zA-Z0-9\_]+)\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-						$line = str_replace($matches[0], 'phalcon_call_method_p5_noret_key('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$matches[5].', '.$matches[6].', '.$matches[7].', '.$key.'UL)', $line);
+						$key = Phalcon\Kernel::$hash($matches[2]);
+						$line = str_replace($matches[0], 'phalcon_call_method_p5_key(NULL, '.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$matches[5].', '.$matches[6].', '.$matches[7].', '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
 					if (preg_match('/phalcon_read_property_this\(&([a-zA-Z0-9\_]+), this_ptr, SL\("([a-zA-Z0-9\_]+)"\), PH_NOISY_CC\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$key = Phalcon\Kernel::$hash($matches[2]);
 						$line = str_replace($matches[0], 'phalcon_read_property_this_quick(&'.$matches[1].', this_ptr, SL("'.$matches[2].'"), '.$key.'UL, PH_NOISY_CC)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
 					if (preg_match('/phalcon_update_property_this\(this_ptr, SL\("([a-zA-Z0-9\_]+)"\), ([a-zA-Z0-9\_]+) TSRMLS_CC\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[1]);
+						$key = Phalcon\Kernel::$hash($matches[1]);
 						$line = str_replace($matches[0], 'phalcon_update_property_this_quick(this_ptr, SL("'.$matches[1].'"), '.$matches[2].', '.$key.'UL TSRMLS_CC)', $line);
 						fputs($fileHandler, $line);
 						continue;
 					}
 
 					if (preg_match('/RETURN_MEMBER\(([a-zA-Z0-9\_]+), "([a-zA-Z0-9\_]+)"\)/', $line, $matches)) {
-						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$key = Phalcon\Kernel::$hash($matches[2]);
 						$line = str_replace($matches[0], 'RETURN_MEMBER_QUICK('.$matches[1].', "'.$matches[2].'", '.$key.'UL)', $line);
 						fputs($fileHandler, $line);
 						continue;
@@ -568,6 +528,11 @@ class Build_Generator
 			if (preg_match('/^#include "(.+)"/', $line, $matches)) {
 
 				if (strpos($line, 'Zend/') !== false) {
+					//echo $line, PHP_EOL;
+					continue;
+				}
+
+				if (strpos($line, 'main/') !== false) {
 					//echo $line, PHP_EOL;
 					continue;
 				}
@@ -613,19 +578,18 @@ class Build_Generator
 
 //Create the builds files based on the following directory
 
-if (stripos(php_uname(), 'x86_64')!==false) {
+//if (stripos(php_uname(), 'x86_64')!==false) {
 	echo 'Generating 64bits build... ';
 	$build = new Build_Generator();
-	$build->generate('ext/', 'build/64bits/', true);
+	$build->generate('ext/', 'build/64bits/', true, 'preComputeHashKey64');
 	echo 'OK', PHP_EOL;
-} else {
-	if (preg_match('/i[0-9]{1}86/', php_uname())) {
-		echo 'Generating 32bits build... ';
-		$build = new Build_Generator();
-		$build->generate('ext/', 'build/32bits/', true);
-		echo 'OK', PHP_EOL;
-	}
-}
+//}
+//if (preg_match('/i[0-9]{1}86/', php_uname())) {
+	echo 'Generating 32bits build... ';
+	$build = new Build_Generator();
+	$build->generate('ext/', 'build/32bits/', true, 'preComputeHashKey32');
+	echo 'OK', PHP_EOL;
+//}
 
 echo 'Generating safe build... ';
 $build = new Build_Generator();

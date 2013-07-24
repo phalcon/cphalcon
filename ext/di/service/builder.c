@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 	}
 	
 	PHALCON_OBS_VAR(type);
-	phalcon_array_fetch_string(&type, argument, SL("type"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&type, argument, SL("type"), PH_NOISY);
 	
 	/** 
 	 * If the argument type is 'service', we obtain the service from the DI
@@ -114,12 +114,9 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 		}
 	
 		PHALCON_OBS_VAR(name);
-		phalcon_array_fetch_string(&name, argument, SL("name"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(value);
-		phalcon_call_method_p1(value, dependency_injector, "get", name);
-	
-		RETURN_CCTOR(value);
+		phalcon_array_fetch_string(&name, argument, SL("name"), PH_NOISY);
+		phalcon_call_method_p1(return_value, dependency_injector, "get", name);
+		RETURN_MM();
 	}
 	
 	/** 
@@ -133,8 +130,8 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			return;
 		}
 	
-		PHALCON_OBS_NVAR(value);
-		phalcon_array_fetch_string(&value, argument, SL("value"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch_string(&value, argument, SL("value"), PH_NOISY);
 	
 		RETURN_CCTOR(value);
 	}
@@ -155,7 +152,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 		}
 	
 		PHALCON_OBS_NVAR(name);
-		phalcon_array_fetch_string(&name, argument, SL("className"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&name, argument, SL("className"), PH_NOISY);
 		if (!phalcon_array_isset_string(argument, SS("arguments"))) {
 			/** 
 			 * The instance parameter does not have arguments for its constructor
@@ -164,13 +161,13 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			phalcon_call_method_p1(value, dependency_injector, "get", name);
 		} else {
 			PHALCON_OBS_VAR(instance_arguments);
-			phalcon_array_fetch_string(&instance_arguments, argument, SL("arguments"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&instance_arguments, argument, SL("arguments"), PH_NOISY);
 	
 			/** 
 			 * Build the instance with arguments
 			 */
-			PHALCON_INIT_NVAR(value);
-			phalcon_call_method_p2(value, dependency_injector, "get", name, instance_arguments);
+			phalcon_call_method_p2(return_value, dependency_injector, "get", name, instance_arguments);
+			RETURN_MM();
 		}
 	
 		RETURN_CCTOR(value);
@@ -224,7 +221,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 	
 		PHALCON_INIT_NVAR(value);
 		phalcon_call_method_p3(value, this_ptr, "_buildparameter", dependency_injector, position, argument);
-		phalcon_array_append(&build_arguments, value, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&build_arguments, value, PH_SEPARATE);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -274,7 +271,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 	}
 	
 	PHALCON_OBS_VAR(class_name);
-	phalcon_array_fetch_string(&class_name, definition, SL("className"), PH_NOISY_CC);
+	phalcon_array_fetch_string(&class_name, definition, SL("className"), PH_NOISY);
 	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 	
 		/** 
@@ -297,7 +294,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		 */
 		if (phalcon_array_isset_string(definition, SS("arguments"))) {
 			PHALCON_OBS_VAR(arguments);
-			phalcon_array_fetch_string(&arguments, definition, SL("arguments"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&arguments, definition, SL("arguments"), PH_NOISY);
 	
 			/** 
 			 * Resolve the constructor parameters
@@ -330,7 +327,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		}
 	
 		PHALCON_OBS_VAR(param_calls);
-		phalcon_array_fetch_string(&param_calls, definition, SL("calls"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&param_calls, definition, SL("calls"), PH_NOISY);
 		if (Z_TYPE_P(param_calls) != IS_ARRAY) { 
 			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Setter injection parameters must be an array");
 			return;
@@ -367,19 +364,19 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			}
 	
 			PHALCON_OBS_NVAR(method_name);
-			phalcon_array_fetch_string(&method_name, method, SL("method"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&method_name, method, SL("method"), PH_NOISY);
 	
 			/** 
 			 * Create the method call
 			 */
 			PHALCON_INIT_NVAR(method_call);
 			array_init_size(method_call, 2);
-			phalcon_array_append(&method_call, instance, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_append(&method_call, method_name, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&method_call, instance, PH_SEPARATE);
+			phalcon_array_append(&method_call, method_name, PH_SEPARATE);
 			if (phalcon_array_isset_string(method, SS("arguments"))) {
 	
 				PHALCON_OBS_NVAR(arguments);
-				phalcon_array_fetch_string(&arguments, method, SL("arguments"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&arguments, method, SL("arguments"), PH_NOISY);
 				if (Z_TYPE_P(arguments) != IS_ARRAY) { 
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SV(exception_message, "Call arguments must be an array ", method_position);
@@ -429,7 +426,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		}
 	
 		PHALCON_OBS_NVAR(param_calls);
-		phalcon_array_fetch_string(&param_calls, definition, SL("properties"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&param_calls, definition, SL("properties"), PH_NOISY);
 		if (Z_TYPE_P(param_calls) != IS_ARRAY) { 
 			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Setter injection parameters must be an array");
 			return;
@@ -476,10 +473,10 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			}
 	
 			PHALCON_OBS_NVAR(property_name);
-			phalcon_array_fetch_string(&property_name, property, SL("name"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&property_name, property, SL("name"), PH_NOISY);
 	
 			PHALCON_OBS_NVAR(property_value);
-			phalcon_array_fetch_string(&property_value, property, SL("value"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&property_value, property, SL("value"), PH_NOISY);
 	
 			/** 
 			 * Resolve the parameter

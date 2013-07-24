@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
 	if (Z_TYPE_P(annotations) == IS_ARRAY) { 
 		if (phalcon_array_isset(annotations, real_class_name)) {
 			PHALCON_OBS_VAR(class_annotations);
-			phalcon_array_fetch(&class_annotations, annotations, real_class_name, PH_NOISY_CC);
+			phalcon_array_fetch(&class_annotations, annotations, real_class_name, PH_NOISY);
 			RETURN_CCTOR(class_annotations);
 		}
 	}
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethods){
 
-	zval *class_name, *class_annotations, *methods = NULL;
+	zval *class_name, *class_annotations;
 
 	PHALCON_MM_GROW();
 
@@ -191,15 +191,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods){
 	 * A valid annotations reflection is an object
 	 */
 	if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
-		PHALCON_INIT_VAR(methods);
-		phalcon_call_method(methods, class_annotations, "getmethodsannotations");
-		RETURN_CCTOR(methods);
+		phalcon_call_method(return_value, class_annotations, "getmethodsannotations");
+		RETURN_MM();
 	}
 	
-	PHALCON_INIT_NVAR(methods);
-	array_init(methods);
-	
-	RETURN_CCTOR(methods);
+	RETURN_MM_EMPTY_ARRAY();
 }
 
 /**
@@ -212,7 +208,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods){
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 
 	zval *class_name, *method_name, *class_annotations;
-	zval *methods, *method = NULL, *name = NULL, *collection;
+	zval *methods, *method = NULL, *name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -256,11 +252,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 	/** 
 	 * Returns a collection anyways
 	 */
-	PHALCON_INIT_VAR(collection);
-	object_init_ex(collection, phalcon_annotations_collection_ce);
-	phalcon_call_method_noret(collection, "__construct");
+	object_init_ex(return_value, phalcon_annotations_collection_ce);
+	phalcon_call_method_noret(return_value, "__construct");
 	
-	RETURN_CTOR(collection);
+	RETURN_MM();
 }
 
 /**
@@ -271,7 +266,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getProperties){
 
-	zval *class_name, *class_annotations, *properties = NULL;
+	zval *class_name, *class_annotations;
 
 	PHALCON_MM_GROW();
 
@@ -287,15 +282,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties){
 	 * A valid annotations reflection is an object
 	 */
 	if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
-		PHALCON_INIT_VAR(properties);
-		phalcon_call_method(properties, class_annotations, "getpropertiesannotations");
-		RETURN_CCTOR(properties);
+		phalcon_call_method(return_value, class_annotations, "getpropertiesannotations");
+		RETURN_MM();
 	}
 	
-	PHALCON_INIT_NVAR(properties);
-	array_init(properties);
-	
-	RETURN_CCTOR(properties);
+	RETURN_MM_EMPTY_ARRAY();
 }
 
 /**
@@ -308,7 +299,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties){
 PHP_METHOD(Phalcon_Annotations_Adapter, getProperty){
 
 	zval *class_name, *property_name, *class_annotations;
-	zval *properties, *property = NULL, *name = NULL, *collection;
+	zval *properties, *property = NULL, *name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -352,10 +343,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty){
 	/** 
 	 * Returns a collection anyways
 	 */
-	PHALCON_INIT_VAR(collection);
-	object_init_ex(collection, phalcon_annotations_collection_ce);
-	phalcon_call_method_noret(collection, "__construct");
+	object_init_ex(return_value, phalcon_annotations_collection_ce);
+	phalcon_call_method_noret(return_value, "__construct");
 	
-	RETURN_CTOR(collection);
+	RETURN_MM();
 }
 

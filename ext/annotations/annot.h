@@ -18,19 +18,19 @@
 */
 
 typedef struct _phannot_parser_token {
-	int opcode;
 	char *token;
+	int opcode;
 	int token_len;
 	int free_flag;
 } phannot_parser_token;
 
 typedef struct _phannot_parser_status {
-	int status;
 	zval *ret;
 	phannot_scanner_state *scanner_state;
 	phannot_scanner_token *token;
-	char *syntax_error;
+	int status;
 	zend_uint syntax_error_len;
+	char *syntax_error;
 } phannot_parser_status;
 
 #define PHANNOT_PARSING_OK 1

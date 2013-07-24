@@ -203,16 +203,14 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs){
  */
 PHP_METHOD(Phalcon_Assets_Collection, getResources){
 
-	zval *resources, *empty_array;
+	zval *resources;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(resources);
 	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
 	if (Z_TYPE_P(resources) != IS_ARRAY) { 
-		PHALCON_INIT_VAR(empty_array);
-		array_init(empty_array);
-		RETURN_CTOR(empty_array);
+		RETURN_MM_EMPTY_ARRAY();
 	}
 	
 	RETURN_CCTOR(resources);
@@ -225,16 +223,14 @@ PHP_METHOD(Phalcon_Assets_Collection, getResources){
  */
 PHP_METHOD(Phalcon_Assets_Collection, count){
 
-	zval *resources, *number;
+	zval *resources;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(resources);
 	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number);
-	phalcon_fast_count(number, resources TSRMLS_CC);
-	RETURN_NCTOR(number);
+	phalcon_fast_count(return_value, resources TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -265,7 +261,7 @@ PHP_METHOD(Phalcon_Assets_Collection, current){
 	phalcon_read_property_this(&resources, this_ptr, SL("_resources"), PH_NOISY_CC);
 	if (phalcon_array_isset(resources, position)) {
 		PHALCON_OBS_VAR(resource);
-		phalcon_array_fetch(&resource, resources, position, PH_NOISY_CC);
+		phalcon_array_fetch(&resource, resources, position, PH_NOISY);
 		RETURN_CCTOR(resource);
 	}
 	
@@ -568,7 +564,6 @@ PHP_METHOD(Phalcon_Assets_Collection, getJoin){
 PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath){
 
 	zval *base_path = NULL, *target_path, *complete_path;
-	zval *real_complete_path;
 
 	PHALCON_MM_GROW();
 
@@ -591,9 +586,8 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath){
 	 * Get the real template path, the target path can optionally don't exist
 	 */
 	if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(real_complete_path);
-		phalcon_call_func_p1(real_complete_path, "realpath", complete_path);
-		RETURN_CCTOR(real_complete_path);
+		phalcon_call_func_p1(return_value, "realpath", complete_path);
+		RETURN_MM();
 	}
 	
 	RETURN_CTOR(complete_path);

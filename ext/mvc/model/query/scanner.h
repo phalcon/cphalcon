@@ -125,23 +125,23 @@
 
 /* list of tokens and their names */
 typedef struct _phql_token_names {
-	unsigned int code;
 	char *name;
 	unsigned int length;
+	unsigned int code;
 } phql_token_names;
 
 /* active token state */
 typedef struct _phql_scanner_state {
 	int active_token;
+	unsigned int start_length;
 	char* start;
 	char* end;
-	unsigned int start_length;
 } phql_scanner_state;
 
 /* extra information tokens */
 typedef struct _phql_scanner_token {
-	int opcode;
 	char *value;
+	int opcode;
 	unsigned int len;
 } phql_scanner_token;
 

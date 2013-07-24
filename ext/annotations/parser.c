@@ -1207,22 +1207,22 @@ void phannot_(
 
 const phannot_token_names phannot_tokens[] =
 {
-	{ PHANNOT_T_INTEGER,       		"INTEGER" },
-	{ PHANNOT_T_DOUBLE,        		"DOUBLE" },
-	{ PHANNOT_T_STRING,        		"STRING" },
-	{ PHANNOT_T_IDENTIFIER,    		"IDENTIFIER" },
-	{ PHANNOT_T_AT,	   	    		"@" },
-	{ PHANNOT_T_COMMA,	   	    	"," },
-	{ PHANNOT_T_EQUALS,       		"=" },
-	{ PHANNOT_T_COLON,            	":" },
-	{ PHANNOT_T_PARENTHESES_OPEN,  	"(" },
-	{ PHANNOT_T_PARENTHESES_CLOSE, 	")" },
-	{ PHANNOT_T_BRACKET_OPEN,     	"{" },
-	{ PHANNOT_T_BRACKET_CLOSE,    	"}" },
- 	{ PHANNOT_T_SBRACKET_OPEN,    	"[" },
-	{ PHANNOT_T_SBRACKET_CLOSE,   	"]" },
-	{ PHANNOT_T_ARBITRARY_TEXT, 	"ARBITRARY TEXT" },
-	{  0, NULL }
+	{ "INTEGER",        PHANNOT_T_INTEGER },
+	{ "DOUBLE",         PHANNOT_T_DOUBLE },
+	{ "STRING",         PHANNOT_T_STRING },
+	{ "IDENTIFIER",     PHANNOT_T_IDENTIFIER },
+	{ "@",              PHANNOT_T_AT },
+	{ ",",              PHANNOT_T_COMMA },
+	{ "=",              PHANNOT_T_EQUALS },
+	{ ":",              PHANNOT_T_COLON },
+	{ "(",              PHANNOT_T_PARENTHESES_OPEN },
+	{ ")",              PHANNOT_T_PARENTHESES_CLOSE },
+	{ "{",              PHANNOT_T_BRACKET_OPEN },
+	{ "}",              PHANNOT_T_BRACKET_CLOSE },
+	{ "[",              PHANNOT_T_SBRACKET_OPEN },
+	{ "]",              PHANNOT_T_SBRACKET_CLOSE },
+	{ "ARBITRARY TEXT", PHANNOT_T_ARBITRARY_TEXT },
+	{ NULL, 0 }
 };
 
 /**

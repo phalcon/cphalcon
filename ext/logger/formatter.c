@@ -59,70 +59,21 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Formatter){
  */
 PHP_METHOD(Phalcon_Logger_Formatter, getTypeString){
 
-	zval *type, *type_str = NULL;
+	static const char *lut[10] = {
+		"EMERGENCY", "CRITICAL", "ALERT", "ERROR",  "WARNING",
+		"NOTICE",    "INFO",     "DEBUG", "CUSTOM", "SPECIAL"
+	};
 
-	PHALCON_MM_GROW();
+	zval *type;
+	int itype;
 
-	phalcon_fetch_params(1, 1, 0, &type);
+	phalcon_fetch_params(0, 1, 0, &type);
 	
-	
-	switch (phalcon_get_intval(type)) {
-	
-		case 7:
-			PHALCON_INIT_VAR(type_str);
-			ZVAL_STRING(type_str, "DEBUG", 1);
-			break;
-	
-		case 3:
-			PHALCON_INIT_NVAR(type_str);
-			ZVAL_STRING(type_str, "ERROR", 1);
-			break;
-	
-		case 4:
-			PHALCON_INIT_NVAR(type_str);
-			ZVAL_STRING(type_str, "WARNING", 1);
-			break;
-	
-		case 1:
-			PHALCON_INIT_NVAR(type_str);
-			ZVAL_STRING(type_str, "CRITICAL", 1);
-			break;
-	
-		case 8:
-			PHALCON_INIT_NVAR(type_str);
-			ZVAL_STRING(type_str, "CUSTOM", 1);
-			break;
-	
-		case 2:
-			PHALCON_INIT_NVAR(type_str);
-			ZVAL_STRING(type_str, "ALERT", 1);
-			break;
-	
-		case 5:
-			PHALCON_INIT_NVAR(type_str);
-			ZVAL_STRING(type_str, "NOTICE", 1);
-			break;
-	
-		case 6:
-			PHALCON_INIT_NVAR(type_str);
-			ZVAL_STRING(type_str, "INFO", 1);
-			break;
-	
-		case 0:
-			PHALCON_INIT_NVAR(type_str);
-			ZVAL_STRING(type_str, "EMERGENCE", 1);
-			break;
-	
-		case 9:
-			PHALCON_INIT_NVAR(type_str);
-			ZVAL_STRING(type_str, "SPECIAL", 1);
-			break;
-	
-		default:
-			PHALCON_INIT_NVAR(type_str);
-			ZVAL_STRING(type_str, "CUSTOM", 1);
-	
+	itype = phalcon_get_intval(type);
+	if (itype > 0 && itype < 10) {
+		RETURN_STRING(lut[itype], 1);
 	}
-	RETURN_CTOR(type_str);
+	
+	RETURN_STRING("CUSTOM", 1);
 }
 

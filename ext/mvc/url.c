@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 		if (phalcon_array_isset_string(_SERVER, SS("PHP_SELF"))) {
 			PHALCON_OBS_VAR(php_self);
-			phalcon_array_fetch_string(&php_self, _SERVER, SL("PHP_SELF"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&php_self, _SERVER, SL("PHP_SELF"), PH_NOISY);
 	
 			PHALCON_INIT_VAR(uri);
 			phalcon_get_uri(uri, php_self);
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
  */
 PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri){
 
-	zval *static_base_uri, *base_uri;
+	zval *static_base_uri;
 
 	PHALCON_MM_GROW();
 
@@ -213,10 +213,8 @@ PHP_METHOD(Phalcon_Mvc_Url, getStaticBaseUri){
 		RETURN_CCTOR(static_base_uri);
 	}
 	
-	PHALCON_INIT_VAR(base_uri);
-	phalcon_call_method(base_uri, this_ptr, "getbaseuri");
-	
-	RETURN_CCTOR(base_uri);
+	phalcon_call_method(return_value, this_ptr, "getbaseuri");
+	RETURN_MM();
 }
 
 /**
@@ -264,17 +262,18 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath){
  *</code>
  *
  * @param string|array $uri
+ * @param array|object args Optional arguments to be appended to the query string
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Url, get){
 
 	zval *uri = NULL, *base_uri, *router = NULL, *dependency_injector;
 	zval *service, *route_name, *route, *exception_message;
-	zval *pattern, *paths, *processed_uri, *final_uri = NULL;
+	zval *pattern, *paths, *processed_uri, *args = NULL, *query_string;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &uri);
+	phalcon_fetch_params(1, 0, 2, &uri, &args);
 	
 	if (!uri) {
 		PHALCON_INIT_VAR(uri);
@@ -312,7 +311,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		}
 	
 		PHALCON_OBS_VAR(route_name);
-		phalcon_array_fetch_string(&route_name, uri, SL("for"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&route_name, uri, SL("for"), PH_NOISY);
 	
 		/** 
 		 * Every route is uniquely differenced by a name
@@ -340,17 +339,26 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		 */
 		PHALCON_INIT_VAR(processed_uri);
 		phalcon_replace_paths(processed_uri, pattern, paths, uri TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(final_uri);
-		PHALCON_CONCAT_VV(final_uri, base_uri, processed_uri);
-	
-		RETURN_CTOR(final_uri);
+		PHALCON_CONCAT_VV(return_value, base_uri, processed_uri);
+	}
+	else {
+		PHALCON_CONCAT_VV(return_value, base_uri, uri);
 	}
 	
-	PHALCON_INIT_NVAR(final_uri);
-	PHALCON_CONCAT_VV(final_uri, base_uri, uri);
-	
-	RETURN_CTOR(final_uri);
+	if (args) {
+		PHALCON_INIT_VAR(query_string);
+		phalcon_http_build_query(query_string, args, "&" TSRMLS_CC);
+		if (Z_TYPE_P(query_string) == IS_STRING && Z_STRLEN_P(query_string)) {
+			if (phalcon_memnstr_str(return_value, "?", 1)) {
+				PHALCON_SCONCAT_SV(return_value, "&", query_string);
+			}
+			else {
+				PHALCON_SCONCAT_SV(return_value, "?", query_string);
+			}
+		}
+	}
+
+	RETURN_MM();
 }
 
 /**
@@ -361,7 +369,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
  */
 PHP_METHOD(Phalcon_Mvc_Url, getStatic){
 
-	zval *uri = NULL, *static_base_uri, *final_uri = NULL, *base_uri;
+	zval *uri = NULL, *static_base_uri, *base_uri;
 
 	PHALCON_MM_GROW();
 
@@ -374,18 +382,15 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic){
 	PHALCON_OBS_VAR(static_base_uri);
 	phalcon_read_property_this(&static_base_uri, this_ptr, SL("_staticBaseUri"), PH_NOISY_CC);
 	if (Z_TYPE_P(static_base_uri) != IS_NULL) {
-		PHALCON_INIT_VAR(final_uri);
-		PHALCON_CONCAT_VV(final_uri, static_base_uri, uri);
-		RETURN_CTOR(final_uri);
+		PHALCON_CONCAT_VV(return_value, static_base_uri, uri);
+		RETURN_MM();
 	}
 	
 	PHALCON_INIT_VAR(base_uri);
 	phalcon_call_method(base_uri, this_ptr, "getbaseuri");
+	PHALCON_CONCAT_VV(return_value, base_uri, uri);
 	
-	PHALCON_INIT_NVAR(final_uri);
-	PHALCON_CONCAT_VV(final_uri, base_uri, uri);
-	
-	RETURN_CTOR(final_uri);
+	RETURN_MM();
 }
 
 /**
@@ -396,7 +401,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic){
  */
 PHP_METHOD(Phalcon_Mvc_Url, path){
 
-	zval *path = NULL, *base_path, *final_path;
+	zval *path = NULL, *base_path;
 
 	PHALCON_MM_GROW();
 
@@ -408,9 +413,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path){
 	
 	PHALCON_OBS_VAR(base_path);
 	phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(final_path);
-	PHALCON_CONCAT_VV(final_path, base_path, path);
-	RETURN_CTOR(final_path);
+	PHALCON_CONCAT_VV(return_value, base_path, path);
+	RETURN_MM();
 }
 

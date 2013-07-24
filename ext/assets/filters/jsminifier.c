@@ -43,16 +43,16 @@ SOFTWARE.
 #define JSMIN_ACTION_NEXT 3
 
 typedef struct _jsmin_parser {
+	zval *script;
+	zval **error;
+	int script_pointer;
+	int inside_string;
+	smart_str *minified;
 	char theA;
 	char theB;
 	char theC;
 	char theX;
 	char theY;
-	zval *script;
-	zval **error;
-	int script_pointer;
-	int inside_string;
-	smart_str    *minified;
 } jsmin_parser;
 
 static void jsmin_error(jsmin_parser *parser, char* s, int s_length TSRMLS_DC) {
@@ -170,6 +170,7 @@ static int jsmin_action(jsmin_parser *parser, char d TSRMLS_DC) {
 			) {
 				smart_str_appendc(parser->minified, parser->theY);
 			}
+			/* no break */
 		case JSMIN_ACTION_NEXT_DELETE:
 			parser->theA = parser->theB;
 			if (parser->theA == '\'' || parser->theA == '"' || parser->theA == '`') {
@@ -191,6 +192,7 @@ static int jsmin_action(jsmin_parser *parser, char d TSRMLS_DC) {
 				}
 				parser->inside_string = 0;
 			}
+			/* no break */
 		case JSMIN_ACTION_NEXT:
 			parser->theB = jsmin_next(parser TSRMLS_CC);
 			if (*parser->error != NULL) {

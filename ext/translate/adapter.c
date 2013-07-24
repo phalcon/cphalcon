@@ -63,7 +63,7 @@ PHALCON_INIT_CLASS(Phalcon_Translate_Adapter){
  */
 PHP_METHOD(Phalcon_Translate_Adapter, _){
 
-	zval *translate_key, *placeholders = NULL, *translation;
+	zval *translate_key, *placeholders = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -73,9 +73,8 @@ PHP_METHOD(Phalcon_Translate_Adapter, _){
 		PHALCON_INIT_VAR(placeholders);
 	}
 	
-	PHALCON_INIT_VAR(translation);
-	phalcon_call_method_p2(translation, this_ptr, "query", translate_key, placeholders);
-	RETURN_CCTOR(translation);
+	phalcon_call_method_p2(return_value, this_ptr, "query", translate_key, placeholders);
+	RETURN_MM();
 }
 
 /**
@@ -102,15 +101,14 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetSet){
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetExists){
 
-	zval *translate_key, *exists;
+	zval *translate_key;
 
 	PHALCON_MM_GROW();
-
+	
 	phalcon_fetch_params(1, 1, 0, &translate_key);
 	
-	PHALCON_INIT_VAR(exists);
-	phalcon_call_method_p1(exists, this_ptr, "exists", translate_key);
-	RETURN_CCTOR(exists);
+	phalcon_call_method_p1(return_value, this_ptr, "exists", translate_key);
+	RETURN_MM();
 }
 
 /**
@@ -136,16 +134,14 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset){
  */
 PHP_METHOD(Phalcon_Translate_Adapter, offsetGet){
 
-	zval *translate_key, *null_value, *translation;
+	zval *translate_key, *null_value;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &translate_key);
 	
 	PHALCON_INIT_VAR(null_value);
-	
-	PHALCON_INIT_VAR(translation);
-	phalcon_call_method_p2(translation, this_ptr, "query", translate_key, null_value);
-	RETURN_CCTOR(translation);
+	phalcon_call_method_p2(return_value, this_ptr, "query", translate_key, null_value);
+	RETURN_MM();
 }
 

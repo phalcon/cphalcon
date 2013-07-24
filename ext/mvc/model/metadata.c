@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 					PHALCON_INIT_NVAR(meta_data);
 					array_init(meta_data);
 				}
-				phalcon_array_update_zval(&meta_data, key, &data, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_zval(&meta_data, key, &data, PH_COPY | PH_SEPARATE);
 				phalcon_update_property_this(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
 			} else {
 				/** 
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 	PHALCON_INIT_NVAR(data);
 	phalcon_call_method_p1(data, this_ptr, "read", prefix_key);
 	if (Z_TYPE_P(data) != IS_NULL) {
-		phalcon_array_update_zval(&column_map, key_name, &data, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_zval(&column_map, key_name, &data, PH_COPY | PH_SEPARATE);
 		phalcon_update_property_this(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
 		RETURN_MM_NULL();
 	}
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
 	}
 	
 	PHALCON_OBS_VAR(data);
-	phalcon_array_fetch(&data, meta_data, key, PH_NOISY_CC);
+	phalcon_array_fetch(&data, meta_data, key, PH_NOISY);
 	
 	RETURN_CCTOR(data);
 }
@@ -424,10 +424,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 	}
 	
 	PHALCON_OBS_VAR(meta_data_index);
-	phalcon_array_fetch(&meta_data_index, meta_data, key, PH_NOISY_CC);
+	phalcon_array_fetch(&meta_data_index, meta_data, key, PH_NOISY);
 	
 	PHALCON_OBS_VAR(attributes);
-	phalcon_array_fetch(&attributes, meta_data_index, index, PH_NOISY_CC);
+	phalcon_array_fetch(&attributes, meta_data_index, index, PH_NOISY);
 	
 	RETURN_CCTOR(attributes);
 }
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 		phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	}
 	
-	phalcon_array_update_multi_2(&meta_data, key, index, &data, 0 TSRMLS_CC);
+	phalcon_array_update_multi_2(&meta_data, key, index, &data, 0);
 	phalcon_update_property_this(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -538,7 +538,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
 	}
 	
 	PHALCON_OBS_VAR(data);
-	phalcon_array_fetch(&data, column_map, key_name, PH_NOISY_CC);
+	phalcon_array_fetch(&data, column_map, key_name, PH_NOISY);
 	
 	RETURN_CCTOR(data);
 }
@@ -585,10 +585,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 	}
 	
 	PHALCON_OBS_VAR(column_map_model);
-	phalcon_array_fetch(&column_map_model, column_map, key_name, PH_NOISY_CC);
+	phalcon_array_fetch(&column_map_model, column_map, key_name, PH_NOISY);
 	
 	PHALCON_OBS_VAR(attributes);
-	phalcon_array_fetch(&attributes, column_map_model, index, PH_NOISY_CC);
+	phalcon_array_fetch(&attributes, column_map_model, index, PH_NOISY);
 	
 	RETURN_CCTOR(attributes);
 }
@@ -1050,7 +1050,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute){
 		phalcon_call_method_p1(meta_data, this_ptr, "readmetadata", model);
 	
 		PHALCON_OBS_VAR(data_types);
-		phalcon_array_fetch_long(&data_types, meta_data, 4, PH_NOISY_CC);
+		phalcon_array_fetch_long(&data_types, meta_data, 4, PH_NOISY);
 		if (phalcon_array_isset(data_types, attribute)) {
 			RETURN_MM_TRUE;
 		}

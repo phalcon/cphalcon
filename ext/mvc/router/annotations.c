@@ -104,8 +104,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
 	
 	PHALCON_INIT_VAR(scope);
 	array_init_size(scope, 2);
-	phalcon_array_append(&scope, prefix, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&scope, handler, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&scope, prefix, PH_SEPARATE);
+	phalcon_array_append(&scope, handler, PH_SEPARATE);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), scope TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_processed"), 0 TSRMLS_CC);
 	
@@ -145,9 +145,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource){
 	
 	PHALCON_INIT_VAR(scope);
 	array_init_size(scope, 3);
-	phalcon_array_append(&scope, prefix, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&scope, handler, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&scope, module, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&scope, prefix, PH_SEPARATE);
+	phalcon_array_append(&scope, handler, PH_SEPARATE);
+	phalcon_array_append(&scope, module, PH_SEPARATE);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), scope TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_processed"), 0 TSRMLS_CC);
 	
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					 * A prefix (if any) must be in position 0
 					 */
 					PHALCON_OBS_NVAR(prefix);
-					phalcon_array_fetch_long(&prefix, scope, 0, PH_NOISY_CC);
+					phalcon_array_fetch_long(&prefix, scope, 0, PH_NOISY);
 					if (Z_TYPE_P(prefix) == IS_STRING) {
 						if (!phalcon_start_with(real_uri, prefix, NULL)) {
 							zend_hash_move_forward_ex(ah0, &hp0);
@@ -244,8 +244,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					 * The controller must be in position 1
 					 */
 					PHALCON_OBS_NVAR(handler);
-					phalcon_array_fetch_long(&handler, scope, 1, PH_NOISY_CC);
-					if (phalcon_memnstr_str(handler, SL("\\") TSRMLS_CC)) {
+					phalcon_array_fetch_long(&handler, scope, 1, PH_NOISY);
+					if (phalcon_memnstr_str(handler, SL("\\"))) {
 						/** 
 						 * Extract the real class name from the namespaced class
 						 */
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						 * The lowercased class name is used as controller
 						 */
 						PHALCON_INIT_NVAR(lower_controller_name);
-						phalcon_uncamelize(lower_controller_name, controller_name TSRMLS_CC);
+						phalcon_uncamelize(lower_controller_name, controller_name);
 	
 						/** 
 						 * Extract the namespace from the namespaced class
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						PHALCON_CPY_WRT(controller_name, handler);
 	
 						PHALCON_INIT_NVAR(lower_controller_name);
-						phalcon_uncamelize(lower_controller_name, controller_name TSRMLS_CC);
+						phalcon_uncamelize(lower_controller_name, controller_name);
 	
 						PHALCON_INIT_NVAR(namespace_name);
 					}
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					 */
 					if (phalcon_array_isset_long(scope, 2)) {
 						PHALCON_OBS_NVAR(module_name);
-						phalcon_array_fetch_long(&module_name, scope, 2, PH_NOISY_CC);
+						phalcon_array_fetch_long(&module_name, scope, 2, PH_NOISY);
 					} else {
 						PHALCON_INIT_NVAR(module_name);
 					}
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
 	
 						PHALCON_INIT_NVAR(lowercased);
-						phalcon_uncamelize(lowercased, handler TSRMLS_CC);
+						phalcon_uncamelize(lowercased, handler);
 	
 						phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0);
 	
@@ -490,7 +490,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		ZVAL_STRING(empty_str, "", 1);
 	
 		PHALCON_INIT_VAR(real_action_name);
-		phalcon_fast_str_replace(real_action_name, action_suffix, empty_str, action TSRMLS_CC);
+		phalcon_fast_str_replace(real_action_name, action_suffix, empty_str, action);
 	
 		PHALCON_INIT_VAR(action_name);
 		phalcon_fast_strtolower(action_name, real_action_name);
@@ -515,18 +515,18 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		 * Update the module if any
 		 */
 		if (Z_TYPE_P(module) == IS_STRING) {
-			phalcon_array_update_string(&paths, SL("module"), &module, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&paths, SL("module"), &module, PH_COPY | PH_SEPARATE);
 		}
 	
 		/** 
 		 * Update the namespace if any
 		 */
 		if (Z_TYPE_P(namespace) == IS_STRING) {
-			phalcon_array_update_string(&paths, SL("namespace"), &namespace, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&paths, SL("namespace"), &namespace, PH_COPY | PH_SEPARATE);
 		}
 	
-		phalcon_array_update_string(&paths, SL("controller"), &controller, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&paths, SL("action"), &action_name, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&paths, SL("controller"), &controller, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&paths, SL("action"), &action_name, PH_COPY | PH_SEPARATE);
 	
 		PHALCON_INIT_VAR(position);
 		ZVAL_LONG(position, 0);

@@ -31,10 +31,11 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
+#include "kernel/string.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Cache\Frontend\Json
@@ -121,7 +122,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, getLifetime){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("lifetime"))) {
 			PHALCON_OBS_VAR(lifetime);
-			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY);
 			RETURN_CCTOR(lifetime);
 		}
 	}
@@ -178,15 +179,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, stop){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
 
-	zval *data, *serialized;
-
-	PHALCON_MM_GROW();
+	zval *data;
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "json_encode", data);
-	RETURN_CCTOR(serialized);
+	phalcon_json_encode(return_value, data, 0 TSRMLS_CC);
 }
 
 /**
@@ -197,14 +194,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve){
 
-	zval *data, *unserialized;
-
-	PHALCON_MM_GROW();
+	zval *data;
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(unserialized);
-	phalcon_call_func_p1(unserialized, "json_decode", data);
-	RETURN_CCTOR(unserialized);
+	phalcon_json_decode(return_value, data, 0 TSRMLS_CC);
 }
 

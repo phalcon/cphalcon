@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 	PHALCON_INIT_VAR(schema);
 	if (phalcon_array_isset_string(descriptor, SS("schema"))) {
 		PHALCON_OBS_NVAR(schema);
-		phalcon_array_fetch_string(&schema, descriptor, SL("schema"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&schema, descriptor, SL("schema"), PH_NOISY);
 		phalcon_array_unset_string(&descriptor, SS("schema"), PH_SEPARATE);
 	}
 	
@@ -184,66 +184,66 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		add_assoc_long_ex(definition, SS("bindType"), 2);
 	
 		PHALCON_OBS_NVAR(char_size);
-		phalcon_array_fetch_long(&char_size, field, 2, PH_NOISY_CC);
+		phalcon_array_fetch_long(&char_size, field, 2, PH_NOISY);
 	
 		PHALCON_OBS_NVAR(numeric_size);
-		phalcon_array_fetch_long(&numeric_size, field, 3, PH_NOISY_CC);
+		phalcon_array_fetch_long(&numeric_size, field, 3, PH_NOISY);
 	
 		PHALCON_OBS_NVAR(column_type);
-		phalcon_array_fetch_long(&column_type, field, 1, PH_NOISY_CC);
+		phalcon_array_fetch_long(&column_type, field, 1, PH_NOISY);
 	
 		/** 
 		 * Check the column type to get the correct Phalcon type
 		 */
-		if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
-			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE TSRMLS_CC);
+		if (phalcon_memnstr_str(column_type, SL("int"))) {
+			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE);
+			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
+			phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE);
 		} else {
-			if (phalcon_memnstr_str(column_type, SL("varying") TSRMLS_CC)) {
-				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			if (phalcon_memnstr_str(column_type, SL("varying"))) {
+				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE);
+				phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE);
 			} else {
-				if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
-					phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
-					phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
+				if (phalcon_memnstr_str(column_type, SL("date"))) {
+					phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE);
+					phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE);
 				} else {
-					if (phalcon_memnstr_str(column_type, SL("numeric") TSRMLS_CC)) {
-						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
+					if (phalcon_memnstr_str(column_type, SL("numeric"))) {
+						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE);
+						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
+						phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE);
+						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
 					} else {
-						if (phalcon_memnstr_str(column_type, SL("char") TSRMLS_CC)) {
-							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-							phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+						if (phalcon_memnstr_str(column_type, SL("char"))) {
+							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
+							phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE);
 						} else {
-							if (phalcon_memnstr_str(column_type, SL("timestamp") TSRMLS_CC)) {
-								phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
-								phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
+							if (phalcon_memnstr_str(column_type, SL("timestamp"))) {
+								phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE);
+								phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE);
 							} else {
-								if (phalcon_memnstr_str(column_type, SL("text") TSRMLS_CC)) {
-									phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
-									phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+								if (phalcon_memnstr_str(column_type, SL("text"))) {
+									phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE);
+									phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE);
 								} else {
-									if (phalcon_memnstr_str(column_type, SL("float") TSRMLS_CC)) {
-										phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE TSRMLS_CC);
-										phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
-										phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
-										phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
+									if (phalcon_memnstr_str(column_type, SL("float"))) {
+										phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE);
+										phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
+										phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE);
+										phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
 									} else {
-										if (phalcon_memnstr_str(column_type, SL("bool") TSRMLS_CC)) {
-											phalcon_array_update_string_long(&definition, SL("type"), 8, PH_SEPARATE TSRMLS_CC);
-											phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
-											phalcon_array_update_string_long(&definition, SL("bindType"), 5, PH_SEPARATE TSRMLS_CC);
+										if (phalcon_memnstr_str(column_type, SL("bool"))) {
+											phalcon_array_update_string_long(&definition, SL("type"), 8, PH_SEPARATE);
+											phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE);
+											phalcon_array_update_string_long(&definition, SL("bindType"), 5, PH_SEPARATE);
 										} else {
-											if (phalcon_memnstr_str(column_type, SL("uuid") TSRMLS_CC)) {
-												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-												phalcon_array_update_string_long(&definition, SL("size"), 36, PH_SEPARATE TSRMLS_CC);
+											if (phalcon_memnstr_str(column_type, SL("uuid"))) {
+												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
+												phalcon_array_update_string_long(&definition, SL("size"), 36, PH_SEPARATE);
 											} else {
-												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-												phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE);
+												phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE);
 											}
 										}
 									}
@@ -255,45 +255,45 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 			}
 		}
 	
-		if (phalcon_memnstr_str(column_type, SL("unsigned") TSRMLS_CC)) {
-			phalcon_array_update_string_bool(&definition, SL("unsigned"), 1, PH_SEPARATE TSRMLS_CC);
+		if (phalcon_memnstr_str(column_type, SL("unsigned"))) {
+			phalcon_array_update_string_bool(&definition, SL("unsigned"), 1, PH_SEPARATE);
 		}
 	
 		if (Z_TYPE_P(old_column) == IS_NULL) {
-			phalcon_array_update_string_bool(&definition, SL("first"), 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string_bool(&definition, SL("first"), 1, PH_SEPARATE);
 		} else {
-			phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE);
 		}
 	
 		/** 
 		 * Check if the field is primary key
 		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_long(&attribute, field, 5, PH_NOISY_CC);
+		phalcon_array_fetch_long(&attribute, field, 5, PH_NOISY);
 		if (PHALCON_IS_STRING(attribute, "PRI")) {
-			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE);
 		}
 	
 		/** 
 		 * Check if the column allows null values
 		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_long(&attribute, field, 4, PH_NOISY_CC);
+		phalcon_array_fetch_long(&attribute, field, 4, PH_NOISY);
 		if (PHALCON_IS_STRING(attribute, "NO")) {
-			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE);
 		}
 	
 		/** 
 		 * Check if the column is auto increment
 		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_long(&attribute, field, 6, PH_NOISY_CC);
+		phalcon_array_fetch_long(&attribute, field, 6, PH_NOISY);
 		if (PHALCON_IS_STRING(attribute, "auto_increment")) {
-			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE);
 		}
 	
 		PHALCON_OBS_NVAR(column_name);
-		phalcon_array_fetch_long(&column_name, field, 0, PH_NOISY_CC);
+		phalcon_array_fetch_long(&column_name, field, 0, PH_NOISY);
 	
 		/** 
 		 * Create a Phalcon\Db\Column to abstract the column
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		object_init_ex(column, phalcon_db_column_ce);
 		phalcon_call_method_p2_noret(column, "__construct", column_name, definition);
 	
-		phalcon_array_append(&columns, column, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&columns, column, PH_SEPARATE);
 		PHALCON_CPY_WRT(old_column, column_name);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);

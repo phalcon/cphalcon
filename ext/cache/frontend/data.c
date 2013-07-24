@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		if (phalcon_array_isset_string(options, SS("lifetime"))) {
 			PHALCON_OBS_VAR(lifetime);
-			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY);
 			RETURN_CCTOR(lifetime);
 		}
 	}
@@ -186,15 +186,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, stop){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 
-	zval *data, *serialized;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(serialized);
-	phalcon_serialize(serialized, &data TSRMLS_CC);
-	RETURN_CTOR(serialized);
+	phalcon_serialize(return_value, &data TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -205,14 +204,13 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 
-	zval *data, *unserialized;
+	zval *data;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	PHALCON_INIT_VAR(unserialized);
-	phalcon_unserialize(unserialized, data TSRMLS_CC);
-	RETURN_CTOR(unserialized);
+	phalcon_unserialize(return_value, data TSRMLS_CC);
+	RETURN_MM();
 }
 

@@ -548,21 +548,21 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount){
 			}
 	
 			PHALCON_OBS_NVAR(methods);
-			phalcon_array_fetch_long(&methods, handler, 0, PH_NOISY_CC);
+			phalcon_array_fetch_long(&methods, handler, 0, PH_NOISY);
 	
 			PHALCON_OBS_NVAR(pattern);
-			phalcon_array_fetch_long(&pattern, handler, 1, PH_NOISY_CC);
+			phalcon_array_fetch_long(&pattern, handler, 1, PH_NOISY);
 	
 			PHALCON_OBS_NVAR(sub_handler);
-			phalcon_array_fetch_long(&sub_handler, handler, 2, PH_NOISY_CC);
+			phalcon_array_fetch_long(&sub_handler, handler, 2, PH_NOISY);
 	
 			/** 
 			 * Create a real handler
 			 */
 			PHALCON_INIT_NVAR(real_handler);
 			array_init_size(real_handler, 2);
-			phalcon_array_append(&real_handler, lazy_handler, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_append(&real_handler, sub_handler, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&real_handler, lazy_handler, PH_SEPARATE);
+			phalcon_array_append(&real_handler, sub_handler, PH_SEPARATE);
 			if (PHALCON_IS_NOT_EMPTY(prefix)) {
 				if (PHALCON_IS_STRING(pattern, "/")) {
 					PHALCON_CPY_WRT(prefixed_pattern, prefix);
@@ -660,7 +660,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 PHP_METHOD(Phalcon_Mvc_Micro, setService){
 
 	zval *service_name, *definition, *shared = NULL, *dependency_injector = NULL;
-	zval *service;
 
 	PHALCON_MM_GROW();
 
@@ -681,10 +680,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService){
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(service);
-	phalcon_call_method_p3(service, dependency_injector, "set", service_name, definition, shared);
-	
-	RETURN_CCTOR(service);
+	phalcon_call_method_p3(return_value, dependency_injector, "set", service_name, definition, shared);
+	RETURN_MM();
 }
 
 /**
@@ -696,7 +693,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService){
 PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 
 	zval *service_name, *dependency_injector = NULL;
-	zval *exists;
 
 	PHALCON_MM_GROW();
 
@@ -712,10 +708,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(exists);
-	phalcon_call_method_p1(exists, dependency_injector, "has", service_name);
-	
-	RETURN_CCTOR(exists);
+	phalcon_call_method_p1(return_value, dependency_injector, "has", service_name);
+	RETURN_MM();
 }
 
 /**
@@ -727,7 +721,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService){
 PHP_METHOD(Phalcon_Mvc_Micro, getService){
 
 	zval *service_name, *dependency_injector = NULL;
-	zval *service;
 
 	PHALCON_MM_GROW();
 
@@ -743,10 +736,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(service);
-	phalcon_call_method_p1(service, dependency_injector, "get", service_name);
-	
-	RETURN_CCTOR(service);
+	phalcon_call_method_p1(return_value, dependency_injector, "get", service_name);
+	RETURN_MM();
 }
 
 /**
@@ -758,7 +749,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 
 	zval *service_name, *dependency_injector = NULL;
-	zval *service;
 
 	PHALCON_MM_GROW();
 
@@ -774,10 +764,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(service);
-	phalcon_call_method_p1(service, dependency_injector, "getshared", service_name);
-	
-	RETURN_CCTOR(service);
+	phalcon_call_method_p1(return_value, dependency_injector, "getshared", service_name);
+	RETURN_MM();
 }
 
 /**
@@ -866,7 +854,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 * Updating active handler
 		 */
 		PHALCON_OBS_VAR(handler);
-		phalcon_array_fetch(&handler, handlers, route_id, PH_NOISY_CC);
+		phalcon_array_fetch(&handler, handlers, route_id, PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
 	
 		/** 
@@ -1143,7 +1131,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			if (Z_TYPE_P(params) == IS_NULL) {
 				PHALCON_INIT_NVAR(params);
 				array_init_size(params, 1);
-				phalcon_array_append(&params, this_ptr, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&params, this_ptr, PH_SEPARATE);
 			}
 	
 			/** 
@@ -1236,26 +1224,17 @@ PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue){
 }
 
 /**
- * Check if a service is registered in the internal services container using the array syntax
+ * Check if a service is registered in the internal services container using the array syntax.
+ * Alias for Phalcon\Mvc\Micro::hasService()
  *
  * @param string $alias
  * @return boolean
  */
-PHP_METHOD(Phalcon_Mvc_Micro, offsetExists){
-
-	zval *alias, *exists;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &alias);
-	
-	PHALCON_INIT_VAR(exists);
-	phalcon_call_method_p1(exists, this_ptr, "hasservice", alias);
-	RETURN_CCTOR(exists);
-}
+PHALCON_DOC_METHOD(Phalcon_Mvc_Micro, offsetExists);
 
 /**
- * Allows to register a shared service in the internal services container using the array syntax
+ * Allows to register a shared service in the internal services container using the array syntax.
+ * Alias for Phalcon\Mvc\Micro::setService()
  *
  *<code>
  *	$app['request'] = new Phalcon\Http\Request();
@@ -1264,21 +1243,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetExists){
  * @param string $alias
  * @param mixed $definition
  */
-PHP_METHOD(Phalcon_Mvc_Micro, offsetSet){
-
-	zval *alias, *definition;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &alias, &definition);
-	
-	phalcon_call_method_p2_noret(this_ptr, "setservice", alias, definition);
-	
-	PHALCON_MM_RESTORE();
-}
+PHALCON_DOC_METHOD(Phalcon_Mvc_Micro, offsetSet);
 
 /**
- * Allows to obtain a shared service in the internal services container using the array syntax
+ * Allows to obtain a shared service in the internal services container using the array syntax.
+ * Alias for Phalcon\Mvc\Micro::getService()
  *
  *<code>
  *	var_dump($di['request']);
@@ -1287,23 +1256,13 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetSet){
  * @param string $alias
  * @return mixed
  */
-PHP_METHOD(Phalcon_Mvc_Micro, offsetGet){
-
-	zval *alias, *service;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &alias);
-	
-	PHALCON_INIT_VAR(service);
-	phalcon_call_method_p1(service, this_ptr, "getservice", alias);
-	RETURN_CCTOR(service);
-}
+PHALCON_DOC_METHOD(Phalcon_Mvc_Micro, offsetGet);
 
 /**
  * Removes a service from the internal services container using the array syntax
  *
  * @param string $alias
+ * @todo Not implemented
  */
 PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset){
 

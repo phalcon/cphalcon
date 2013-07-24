@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get){
 	}
 	
 	PHALCON_OBS_VAR(form);
-	phalcon_array_fetch(&form, forms, name, PH_NOISY_CC);
+	phalcon_array_fetch(&form, forms, name, PH_NOISY);
 	
 	RETURN_CCTOR(form);
 }

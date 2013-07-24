@@ -23,11 +23,11 @@
 #define PHPR(v) phalcon_print_r(v)
 
 typedef struct _phalcon_debug_entry {
+	struct _phalcon_debug_entry *prev;
+	struct _phalcon_debug_entry *next;
 	char *class_name;
 	char *method_name;
 	int lineno;
-	struct _phalcon_debug_entry *prev;
-	struct _phalcon_debug_entry *next;
 } phalcon_debug_entry;
 
 extern int phalcon_start_debug();

@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore){
 	if (Z_TYPE_P(template_before) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(array_template);
 		array_init_size(array_template, 1);
-		phalcon_array_append(&array_template, template_before, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&array_template, template_before, PH_SEPARATE);
 		phalcon_update_property_this(this_ptr, SL("_templatesBefore"), array_template TSRMLS_CC);
 	} else {
 		phalcon_update_property_this(this_ptr, SL("_templatesBefore"), template_before TSRMLS_CC);
@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter){
 	if (Z_TYPE_P(template_after) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(array_template);
 		array_init_size(array_template, 1);
-		phalcon_array_append(&array_template, template_after, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&array_template, template_after, PH_SEPARATE);
 		phalcon_update_property_this(this_ptr, SL("_templatesAfter"), array_template TSRMLS_CC);
 	} else {
 		phalcon_update_property_this(this_ptr, SL("_templatesAfter"), template_after TSRMLS_CC);
@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Mvc_View, getVar){
 	phalcon_read_property_this(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
 	if (phalcon_array_isset(params, key)) {
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, params, key, PH_NOISY_CC);
+		phalcon_array_fetch(&value, params, key, PH_NOISY);
 		RETURN_CCTOR(value);
 	}
 	
@@ -650,7 +650,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 			object_init_ex(php_engine, phalcon_mvc_view_engine_php_ce);
 			phalcon_call_method_p2_noret(php_engine, "__construct", this_ptr, dependency_injector);
 	
-			phalcon_array_update_string(&engines, SL(".phtml"), &php_engine, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&engines, SL(".phtml"), &php_engine, PH_COPY | PH_SEPARATE);
 		} else {
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the application services");
@@ -659,8 +659,8 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 	
 			PHALCON_INIT_VAR(arguments);
 			array_init_size(arguments, 2);
-			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
-			phalcon_array_append(&arguments, dependency_injector, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE);
+			phalcon_array_append(&arguments, dependency_injector, PH_SEPARATE);
 	
 			phalcon_is_iterable(registered_engines, &ah0, &hp0, 0, 0);
 	
@@ -694,7 +694,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 						return;
 					}
 				}
-				phalcon_array_update_zval(&engines, extension, &engine_object, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_zval(&engines, extension, &engine_object, PH_COPY | PH_SEPARATE);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -780,15 +780,15 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 					if (phalcon_array_isset_string(view_options, SS("cache"))) {
 	
 						PHALCON_OBS_VAR(cache_options);
-						phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
+						phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY);
 						if (Z_TYPE_P(cache_options) == IS_ARRAY) { 
 							if (phalcon_array_isset_string(cache_options, SS("key"))) {
 								PHALCON_OBS_NVAR(key);
-								phalcon_array_fetch_string(&key, cache_options, SL("key"), PH_NOISY_CC);
+								phalcon_array_fetch_string(&key, cache_options, SL("key"), PH_NOISY);
 							}
 							if (phalcon_array_isset_string(cache_options, SS("lifetime"))) {
 								PHALCON_OBS_NVAR(lifetime);
-								phalcon_array_fetch_string(&lifetime, cache_options, SL("lifetime"), PH_NOISY_CC);
+								phalcon_array_fetch_string(&lifetime, cache_options, SL("lifetime"), PH_NOISY);
 							}
 						}
 					}
@@ -1026,10 +1026,10 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		 * second the action
 		 */
 		PHALCON_OBS_NVAR(render_view);
-		phalcon_array_fetch_long(&render_view, pick_view, 0, PH_NOISY_CC);
+		phalcon_array_fetch_long(&render_view, pick_view, 0, PH_NOISY);
 		if (phalcon_array_isset_long(pick_view, 1)) {
 			PHALCON_OBS_VAR(pick_view_action);
-			phalcon_array_fetch_long(&pick_view_action, pick_view, 1, PH_NOISY_CC);
+			phalcon_array_fetch_long(&pick_view_action, pick_view, 1, PH_NOISY);
 			PHALCON_CPY_WRT(layout_name, pick_view_action);
 		}
 	}
@@ -1262,19 +1262,19 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
 		PHALCON_CPY_WRT(pick_view, render_view);
 	} else {
 		PHALCON_INIT_VAR(layout);
-		if (phalcon_memnstr_str(render_view, SL("/") TSRMLS_CC)) {
+		if (phalcon_memnstr_str(render_view, SL("/"))) {
 			PHALCON_INIT_VAR(parts);
-			phalcon_fast_explode_str(parts, SL("/"), render_view TSRMLS_CC);
+			phalcon_fast_explode_str(parts, SL("/"), render_view);
 	
 			PHALCON_OBS_NVAR(layout);
-			phalcon_array_fetch_long(&layout, parts, 0, PH_NOISY_CC);
+			phalcon_array_fetch_long(&layout, parts, 0, PH_NOISY);
 		}
 	
 		PHALCON_INIT_NVAR(pick_view);
 		array_init_size(pick_view, 1);
-		phalcon_array_append(&pick_view, render_view, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&pick_view, render_view, PH_SEPARATE);
 		if (Z_TYPE_P(layout) != IS_NULL) {
-			phalcon_array_append(&pick_view, layout, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&pick_view, layout, PH_SEPARATE);
 		}
 	}
 	phalcon_update_property_this(this_ptr, SL("_pickView"), pick_view TSRMLS_CC);
@@ -1436,7 +1436,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	if (Z_TYPE_P(config_callback) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, view, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&params, view, PH_SEPARATE);
 	
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_USER_FUNC_ARRAY(status, config_callback, params);
@@ -1508,11 +1508,11 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 		if (phalcon_array_isset_string(view_options, SS("cache"))) {
 	
 			PHALCON_OBS_VAR(cache_options);
-			phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY);
 			if (Z_TYPE_P(cache_options) == IS_ARRAY) { 
 				if (phalcon_array_isset_string(cache_options, SS("service"))) {
 					PHALCON_OBS_NVAR(cache_service);
-					phalcon_array_fetch_string(&cache_service, cache_options, SL("service"), PH_NOISY_CC);
+					phalcon_array_fetch_string(&cache_service, cache_options, SL("service"), PH_NOISY);
 				}
 			}
 		}
@@ -1538,7 +1538,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
  */
 PHP_METHOD(Phalcon_Mvc_View, isCaching){
 
-	zval *zero, *cache_level, *is_caching;
+	zval *zero, *cache_level;
 
 	PHALCON_MM_GROW();
 
@@ -1547,10 +1547,8 @@ PHP_METHOD(Phalcon_Mvc_View, isCaching){
 	
 	PHALCON_OBS_VAR(cache_level);
 	phalcon_read_property_this(&cache_level, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(is_caching);
-	is_smaller_function(is_caching, zero, cache_level TSRMLS_CC);
-	RETURN_NCTOR(is_caching);
+	is_smaller_function(return_value, zero, cache_level TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
@@ -1622,7 +1620,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 		 */
 		if (phalcon_array_isset_string(view_options, SS("cache"))) {
 			PHALCON_OBS_VAR(cache_options);
-			phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY);
 		} else {
 			PHALCON_INIT_NVAR(cache_options);
 			array_init(cache_options);
@@ -1635,7 +1633,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 			PHALCON_GET_HKEY(key, ah0, hp0);
 			PHALCON_GET_HVALUE(value);
 	
-			phalcon_array_update_zval(&cache_options, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_zval(&cache_options, key, &value, PH_COPY | PH_SEPARATE);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -1645,13 +1643,13 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 		 */
 		if (phalcon_array_isset_string(cache_options, SS("level"))) {
 			PHALCON_OBS_VAR(cache_level);
-			phalcon_array_fetch_string(&cache_level, cache_options, SL("level"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&cache_level, cache_options, SL("level"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_cacheLevel"), cache_level TSRMLS_CC);
 		} else {
 			phalcon_update_property_long(this_ptr, SL("_cacheLevel"), 5 TSRMLS_CC);
 		}
 	
-		phalcon_array_update_string(&view_options, SL("cache"), &cache_options, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&view_options, SL("cache"), &cache_options, PH_COPY | PH_SEPARATE);
 		phalcon_update_property_this(this_ptr, SL("_options"), view_options TSRMLS_CC);
 	} else {
 		/** 
@@ -1803,7 +1801,7 @@ PHP_METHOD(Phalcon_Mvc_View, __get){
 	phalcon_read_property_this(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
 	if (phalcon_array_isset(params, key)) {
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, params, key, PH_NOISY_CC);
+		phalcon_array_fetch(&value, params, key, PH_NOISY);
 		RETURN_CCTOR(value);
 	}
 	
