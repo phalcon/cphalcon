@@ -1808,3 +1808,30 @@ PHP_METHOD(Phalcon_Mvc_View, __get){
 	RETURN_MM_NULL();
 }
 
+
+/**
+ * Magic method to inaccessible a variable passed to the view
+ *
+ *<code>
+ *	isset($this->view->products)
+ *</code>
+ *
+ * @param string $key
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_View, __isset){
+
+	zval *key, *params;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &key);
+
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property_this(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	if (phalcon_array_isset(params, key)) {
+		RETURN_MM_TRUE;
+	}
+
+	RETURN_MM_FALSE;
+}
