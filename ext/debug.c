@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Debug, listenExceptions){
  * @return Phalcon\Debug
  */
 PHP_METHOD(Phalcon_Debug, listenLowSeverity){
-
+/*
 	zval *handler;
 
 	PHALCON_MM_GROW();
@@ -204,6 +204,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity){
 	phalcon_array_append(&handler, this_ptr, PH_SEPARATE);
 	add_next_index_stringl(handler, SL("onUncaughtLowSeverity"), 1);
 	phalcon_call_func_p1_noret("set_exception_handler", handler);
+*/
 	RETURN_THIS();
 }
 
