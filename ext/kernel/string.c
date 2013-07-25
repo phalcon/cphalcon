@@ -1302,7 +1302,7 @@ void phalcon_htmlspecialchars(zval *return_value, zval *string, zval *quoting, z
 	cs = (charset && Z_TYPE_P(charset) == IS_STRING) ? Z_STRVAL_P(charset) : NULL;
 	qs = (quoting && Z_TYPE_P(quoting) == IS_LONG)   ? Z_LVAL_P(quoting)   : ENT_COMPAT;
 
-	escaped = php_escape_html_entities_ex(Z_STRVAL_P(string), Z_STRLEN_P(string), &escaped_len, 0, qs, cs, 1 TSRMLS_CC);
+	escaped = php_escape_html_entities_ex((unsigned char *)(Z_STRVAL_P(string)), Z_STRLEN_P(string), &escaped_len, 0, qs, cs, 1 TSRMLS_CC);
 	ZVAL_STRINGL(return_value, escaped, escaped_len, 0);
 
 	if (unlikely(use_copy)) {
