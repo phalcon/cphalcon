@@ -351,8 +351,10 @@ static void (*old_error_cb)(int, const char *, const uint, const char *, va_list
 
 static void phalcon_error_cb(int type, const char *error_filename, const uint error_lineno, const char *format, va_list args)
 {
-	TSRMLS_FETCH();
-	phalcon_clean_restore_stack(TSRMLS_C);
+	if (type == E_ERROR || type == E_CORE_ERROR || type == E_RECOVERABLE_ERROR || type == E_COMPILE_ERROR || type == E_USER_ERROR) {
+		TSRMLS_FETCH();
+		phalcon_clean_restore_stack(TSRMLS_C);
+	}
 
 	if (likely(old_error_cb != NULL)) {
 	/**
