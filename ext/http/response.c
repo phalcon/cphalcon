@@ -598,10 +598,11 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
  *
  *<code>
  *	$response->setJsonContent(array("status" => "OK"));
- *</code>
+ *	$response->setJsonContent(array("status" => "OK"), JSON_NUMERIC_CHECK);
+*</code>
  *
  * @param string $content
- * @param int $jsonOptions
+ * @param int $jsonOptions bitmask consisting on http://www.php.net/manual/en/json.constants.php
  * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setJsonContent){
