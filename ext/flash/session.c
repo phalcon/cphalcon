@@ -229,6 +229,8 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 				phalcon_array_fetch(&return_messages, messages, type, PH_NOISY);
 				RETURN_CCTOR(return_messages);
 			}
+
+			RETURN_MM_EMPTY_ARRAY();
 		}
 	
 		RETURN_CCTOR(messages);
