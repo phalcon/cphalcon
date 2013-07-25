@@ -115,6 +115,7 @@
 #include "cache/backend/xcache.h"
 #include "cache/backend/mongo.h"
 #include "cache/backend/memcache.h"
+#include "cache/backend/libmemcached.h"
 #include "cache/frontend/json.h"
 #include "cache/frontend/output.h"
 #include "cache/frontend/none.h"
