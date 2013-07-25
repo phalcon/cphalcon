@@ -108,22 +108,8 @@ void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
-	if (!phalcon_globals_ptr->start_memory) {
-		phalcon_memory_entry *start = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
-	/* ecalloc() will take care of these members
-		start->pointer   = 0;
-		start->capacity  = 0;
-		start->addresses = NULL;
-		start->hash_pointer   = 0;
-		start->hash_capacity  = 0;
-		start->hash_addresses = NULL;
-		start->prev = NULL;
-		start->next = NULL;
-	*/
-		phalcon_globals_ptr->start_memory  = start;
-		phalcon_globals_ptr->active_memory = start;
-	}
-	else if (!phalcon_globals_ptr->active_memory) {
+	assert(phalcon_globals_ptr->start_memory != NULL);
+	if (!phalcon_globals_ptr->active_memory) {
 		phalcon_globals_ptr->active_memory = phalcon_globals_ptr->start_memory;
 	}
 	else {
@@ -195,7 +181,6 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 				Z_DELREF_PP(active_memory->addresses[i]);
 			}
 		}
-
 	}
 
 	prev = active_memory->prev;
@@ -237,7 +222,7 @@ int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D)
 
 static void phalcon_reallocate_memory(phalcon_memory_entry *frame)
 {
-	void *buf = erealloc(frame->addresses, sizeof(zval **) * (frame->capacity + 16));
+	void *buf = perealloc(frame->addresses, sizeof(zval **) * (frame->capacity + 16), unlikely(frame->prev == NULL));
 	if (likely(buf != NULL)) {
 		frame->capacity += 16;
 		frame->addresses = buf;
@@ -249,7 +234,7 @@ static void phalcon_reallocate_memory(phalcon_memory_entry *frame)
 
 static void phalcon_reallocate_hmemory(phalcon_memory_entry *frame)
 {
-	void *buf = erealloc(frame->hash_addresses, sizeof(zval **) * (frame->hash_capacity + 4));
+	void *buf = perealloc(frame->hash_addresses, sizeof(zval **) * (frame->hash_capacity + 4), unlikely(frame->prev == NULL));
 	if (likely(buf != NULL)) {
 		frame->hash_capacity += 4;
 		frame->hash_addresses = buf;
@@ -278,7 +263,7 @@ void PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) {
 }
 
 /**
- * Observe a variable and allocates memory for it
+ * Observes a variable and allocates memory for it
  */
 void PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC) {
 
@@ -322,19 +307,6 @@ int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
 
 	while (phalcon_globals_ptr->active_memory != NULL) {
 		phalcon_memory_restore_stack(TSRMLS_C);
-	}
-
-	if (likely(phalcon_globals_ptr->start_memory != NULL)) {
-		if (phalcon_globals_ptr->start_memory->hash_addresses != NULL) {
-			efree(phalcon_globals_ptr->start_memory->hash_addresses);
-		}
-
-		if (likely(phalcon_globals_ptr->start_memory->addresses != NULL)) {
-			efree(phalcon_globals_ptr->start_memory->addresses);
-		}
-
-		efree(phalcon_globals_ptr->start_memory);
-		phalcon_globals_ptr->start_memory = NULL;
 	}
 
 	return SUCCESS;
