@@ -265,11 +265,15 @@ static void phalcon_config_unset_dimension(zval *object, zval *offset TSRMLS_DC)
  */
 static HashTable* phalcon_config_get_properties(zval* object TSRMLS_DC)
 {
-	phalcon_config_object* obj = fetchPhalconConfigObject(object TSRMLS_CC);
-	HashTable* props           = zend_std_get_properties(object TSRMLS_CC);
-	zval *tmp;
+	HashTable* props = zend_std_get_properties(object TSRMLS_CC);
 
-	zend_hash_copy(props, obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
+	if (!GC_G(gc_active)) {
+		phalcon_config_object* obj = fetchPhalconConfigObject(object TSRMLS_CC);
+		zval *tmp;
+
+		zend_hash_copy(props, obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
+	}
+
 	return props;
 }
 

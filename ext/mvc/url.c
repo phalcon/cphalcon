@@ -38,6 +38,7 @@
 #include "kernel/fcall.h"
 #include "kernel/framework/url.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 #include "kernel/framework/router.h"
 
 /**
