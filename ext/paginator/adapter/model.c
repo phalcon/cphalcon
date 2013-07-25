@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage){
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 
 	zval *one, *zero, *show, *config, *items, *page_number = NULL;
-	zval *n, *page, *last_show_page, *start, *last_page;
+	zval *n, *page, *last_show_page, *start;
 	zval *possible_pages = NULL, *total_pages, *page_items;
 	zval *i, *valid = NULL, *current = NULL, *maximum_pages, *next = NULL, *additional_page;
 	zval *before = NULL, *remainder, *pages_total = NULL;
@@ -159,12 +159,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	PHALCON_INIT_VAR(start);
 	mul_function(start, show, last_show_page TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(last_page);
-	sub_function(last_page, n, one TSRMLS_CC);
-	
 	PHALCON_INIT_VAR(possible_pages);
-	div_function(possible_pages, last_page, show TSRMLS_CC);
-	
+	div_function(possible_pages, n, show TSRMLS_CC);
+
 	PHALCON_INIT_VAR(total_pages);
 	phalcon_call_func_p1(total_pages, "ceil", possible_pages);
 	if (Z_TYPE_P(items) != IS_OBJECT) {
