@@ -33,7 +33,6 @@ extern void PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC);
 extern void PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
 extern void PHALCON_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
 
-extern int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D);
 extern int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
 
 /* Virtual symbol tables */
@@ -134,8 +133,8 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 	}
 
 #define PHALCON_ALLOC_ZVAL_MM(z) \
-	PHALCON_ALLOC_ZVAL(z); \
-	phalcon_memory_observe(&z TSRMLS_CC);
+	phalcon_memory_observe(&z TSRMLS_CC); \
+	PHALCON_ALLOC_ZVAL(z);
 
 #define PHALCON_SEPARATE_ARRAY(a) \
 	{ \
@@ -179,8 +178,8 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 	{\
 		zval *orig_ptr = z;\
 		if (Z_REFCOUNT_P(orig_ptr) > 1) {\
-			ALLOC_ZVAL(z);\
 			phalcon_memory_observe(&z TSRMLS_CC);\
+			ALLOC_ZVAL(z);\
 			*z = *orig_ptr;\
 			zval_copy_ctor(z);\
 			Z_SET_REFCOUNT_P(z, 1);\

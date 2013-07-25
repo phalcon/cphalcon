@@ -346,6 +346,38 @@ zend_class_entry *phalcon_exception_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
+static void (*old_error_cb)(int, const char *, const uint, const char *, va_list) = NULL;
+
+static void phalcon_error_cb(int type, const char *error_filename, const uint error_lineno, const char *format, va_list args)
+{
+	if (type == E_ERROR || type == E_CORE_ERROR || type == E_RECOVERABLE_ERROR || type == E_COMPILE_ERROR || type == E_USER_ERROR) {
+		TSRMLS_FETCH();
+		phalcon_clean_restore_stack(TSRMLS_C);
+	}
+
+	if (likely(old_error_cb != NULL)) {
+	/**
+	 * va_copy() is __va_copy() in old gcc versions.
+	 * According to the autoconf manual, using memcpy(&dst, &src, sizeof(va_list))
+	 * gives maximum portability.
+	 */
+#ifndef va_copy
+#	ifdef __va_copy
+#		define va_copy(dest, src) __va_copy((dest), (src))
+#	else
+#		define va_copy(dest, src) memcpy(&(dest), &(src), sizeof(va_list))
+#	endif
+#endif
+		va_list copy;
+		va_copy(copy, args);
+		old_error_cb(type, error_filename, error_lineno, format, copy);
+		va_end(copy);
+	}
+	else {
+		exit(255);
+	}
+}
+
 static PHP_MINIT_FUNCTION(phalcon){
 
 	if (!spl_ce_Countable) {
@@ -676,13 +708,16 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Events_Manager);
 	PHALCON_INIT(Phalcon_Events_Exception);
 
+	old_error_cb  = zend_error_cb;
+	zend_error_cb = phalcon_error_cb;
 	return SUCCESS;
 }
 
 
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
-	assert(PHALCON_GLOBAL(start_memory) == NULL);
+	zend_error_cb = old_error_cb;
+
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
@@ -700,7 +735,7 @@ static PHP_RINIT_FUNCTION(phalcon){
 static PHP_RSHUTDOWN_FUNCTION(phalcon){
 
 	if (PHALCON_GLOBAL(start_memory) != NULL) {
-		phalcon_clean_shutdown_stack(TSRMLS_C);
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	if (PHALCON_GLOBAL(function_cache) != NULL) {
