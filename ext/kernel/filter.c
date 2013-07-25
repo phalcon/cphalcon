@@ -257,13 +257,13 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 		/**
 		 * Alphanumeric characters are not escaped
 		 */
-		if (isalnum(value)) {
+		if (value < 256 && isalnum(value)) {
 			smart_str_appendc(&escaped_str, (unsigned char) value);
 			continue;
 		}
 
 		/**
-		 * Chararters in the whitelist are leave as they are
+		 * Chararters in the whitelist are left as they are
 		 */
 		if (use_whitelist) {
 			switch (value) {
