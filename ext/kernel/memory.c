@@ -176,7 +176,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 	/**
 	 * Check for non freed hash key zvals, mark as null to avoid string freeing
 	 */
-	for (i=0; i<active_memory->hash_pointer; ++i) {
+	for (i = 0; i < active_memory->hash_pointer; ++i) {
 		if (Z_REFCOUNT_PP(active_memory->hash_addresses[i]) <= 1) {
 			ZVAL_NULL(*active_memory->hash_addresses[i]);
 		} else {
@@ -187,7 +187,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 	/**
 	 * Traverse all zvals allocated, reduce the reference counting or free them
 	 */
-	for (i=0; i<active_memory->pointer; ++i) {
+	for (i = 0; i < active_memory->pointer; ++i) {
 		if (likely(active_memory->addresses[i] != NULL)) {
 			if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
 				zval_ptr_dtor(active_memory->addresses[i]);
@@ -226,9 +226,13 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 /**
  * Finishes memory stack when PHP throws a fatal error
  */
-int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D) {
-
+int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D)
+{
+	#if !ZEND_DEBUG && PHP_VERSION_ID <= 50400
 	return phalcon_clean_restore_stack(TSRMLS_C);
+	#else
+	return SUCCESS;
+	#endif
 }
 
 static void phalcon_reallocate_memory(phalcon_memory_entry *frame)
