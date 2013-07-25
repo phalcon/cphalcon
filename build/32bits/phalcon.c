@@ -48849,6 +48849,23 @@ static PHP_METHOD(Phalcon_Mvc_View, __get){
 }
 
 
+static PHP_METHOD(Phalcon_Mvc_View, __isset){
+
+	zval *key, *params;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &key);
+
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property_this_quick(&params, this_ptr, SL("_viewParams"), 1685283331UL, PH_NOISY_CC);
+	if (phalcon_array_isset(params, key)) {
+		RETURN_MM_TRUE;
+	}
+
+	RETURN_MM_FALSE;
+}
+
 
 
 
