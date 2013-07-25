@@ -68,6 +68,7 @@ PHP_METHOD(Phalcon_Mvc_View, enable);
 PHP_METHOD(Phalcon_Mvc_View, reset);
 PHP_METHOD(Phalcon_Mvc_View, __set);
 PHP_METHOD(Phalcon_Mvc_View, __get);
+PHP_METHOD(Phalcon_Mvc_View, __isset);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -223,6 +224,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_method_entry){
 	PHP_ME(Phalcon_Mvc_View, reset, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, __set, arginfo_phalcon_mvc_view___set, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, __get, arginfo_phalcon_mvc_view___get, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View, __isset, arginfo_phalcon_mvc_view___get, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
