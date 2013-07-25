@@ -259,4 +259,27 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT 10 OFFSET 5');
 	}
 
+	public function testIssue701()
+	{
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->from('Robots')
+			->leftJoin('RobotsParts', 'Robots.id = RobotsParts.robots_id')
+			->leftJoin('Parts', 'Parts.id = RobotsParts.parts_id')
+			->where('Robots.id > :1: AND Robots.id < :2:', array(1 => 0, 2 => 1000))
+		;
+
+		$params = $phql->getQuery()->getBindParams();
+		$this->assertEquals($params[1], 0);
+		$this->assertEquals($params[2], 1000);
+
+		$phql->andWhere('Robots.name = :name:', array('name' => 'Voltron'));
+
+		$params = $phql->getQuery()->getBindParams();
+		$this->assertEquals($params[1], 0);
+		$this->assertEquals($params[2], 1000);
+		$this->assertEquals($params['name'], 'Voltron');
+	}
 }
