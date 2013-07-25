@@ -350,16 +350,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort){
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged){
 
 	zval *manager;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	boolean_not_function(r0, manager TSRMLS_CC);
-	RETURN_NCTOR(r0);
+	boolean_not_function(return_value, manager TSRMLS_CC);
+	PHALCON_MM_RESTORE();
 }
 
 /**
