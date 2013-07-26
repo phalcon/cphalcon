@@ -184,6 +184,15 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 			return;
 		}
 	}
+
+        /** 
+         * Check if the field is numeric
+         */
+        if (phalcon_array_isset_string(definition, SS("isNumeric"))) {
+                PHALCON_OBS_NVAR(is_numeric);
+                phalcon_array_fetch_string(&is_numeric, definition, SL("isNumeric"), PH_NOISY);
+                phalcon_update_property_this(this_ptr, SL("_isNumeric"), is_numeric TSRMLS_CC);
+        }
 	
 	/** 
 	 * Check if the field is unsigned (only MySQL)
@@ -192,15 +201,6 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		PHALCON_OBS_VAR(dunsigned);
 		phalcon_array_fetch_string(&dunsigned, definition, SL("unsigned"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_unsigned"), dunsigned TSRMLS_CC);
-	}
-	
-	/** 
-	 * Check if the field is numeric
-	 */
-	if (phalcon_array_isset_string(definition, SS("isNumeric"))) {
-		PHALCON_OBS_NVAR(is_numeric);
-		phalcon_array_fetch_string(&is_numeric, definition, SL("isNumeric"), PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_isNumeric"), is_numeric TSRMLS_CC);
 	}
 	
 	/** 
@@ -399,8 +399,9 @@ PHP_METHOD(Phalcon_Db_Column, getBindType){
 PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	zval *data, *definition, *column_name, *column_type;
-	zval *not_null, *primary, *size, *dunsigned, *after;
-	zval *is_numeric, *first, *bind_type;
+	zval *not_null, *primary, *size, *scale, *dunsigned, *after;
+	zval *is_numeric = NULL, *first, *bind_type;
+	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -443,6 +444,24 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 		phalcon_array_fetch_string(&size, data, SL("_size"), PH_NOISY);
 		phalcon_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
 	}
+
+        if (phalcon_array_isset_string(data, SS("_scale"))) {
+                PHALCON_INIT_VAR(t0);
+                ZVAL_LONG(t0, 3);
+                PHALCON_INIT_VAR(is_numeric);
+                is_equal_function(is_numeric, column_type, t0 TSRMLS_CC);
+                if (PHALCON_IS_NOT_TRUE(is_numeric)) {
+                        PHALCON_INIT_VAR(t1);
+                        ZVAL_LONG(t1, 7);
+                        is_equal_function(is_numeric, column_type, t1 TSRMLS_CC);
+                }
+
+                if (PHALCON_IS_TRUE(is_numeric)) {
+                        PHALCON_OBS_VAR(scale);
+                        phalcon_array_fetch_string(&scale, data, SL("_scale"), PH_NOISY);
+                        phalcon_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
+                }
+        }
 	
 	if (phalcon_array_isset_string(data, SS("_unsigned"))) {
 		PHALCON_OBS_VAR(dunsigned);
