@@ -459,7 +459,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
                 if (PHALCON_IS_TRUE(is_numeric)) {
                         PHALCON_OBS_VAR(scale);
                         phalcon_array_fetch_string(&scale, data, SL("_scale"), PH_NOISY);
-                        phalcon_update_property_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
+                        phalcon_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
                 }
         }
 	
