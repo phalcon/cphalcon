@@ -592,7 +592,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 			}
 	
 			PHALCON_INIT_VAR(is_directory);
-			phalcon_call_func_p1(is_directory, "is_dir", complete_target_path);
+			phalcon_is_dir(is_directory, complete_target_path TSRMLS_CC);
 	
 			/** 
 			 * The targetpath needs to be a valid file

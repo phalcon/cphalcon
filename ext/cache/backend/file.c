@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 		}
 	
 		PHALCON_INIT_VAR(modified_time);
-		phalcon_call_func_p1(modified_time, "filemtime", cache_file);
+		phalcon_filemtime(modified_time, cache_file TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(difference);
 		sub_function(difference, timestamp, ttl TSRMLS_CC);
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 	PHALCON_CONCAT_VV(cache_file, cache_dir, prefixed_key);
 	
 	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
-		phalcon_call_func_p1(return_value, "unlink", cache_file);
+		phalcon_unlink(return_value, cache_file TSRMLS_CC);
 		RETURN_MM();
 	}
 	
@@ -495,7 +495,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 			}
 	
 			PHALCON_INIT_VAR(modified_time);
-			phalcon_call_func_p1(modified_time, "filemtime", cache_file);
+			phalcon_filemtime(modified_time, cache_file TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(difference);
 			sub_function(difference, timestamp, ttl TSRMLS_CC);

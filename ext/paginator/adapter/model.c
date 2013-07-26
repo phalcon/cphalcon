@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	
 	PHALCON_INIT_VAR(n);
 	phalcon_fast_count(n, items TSRMLS_CC);
-	
+
 	PHALCON_INIT_VAR(page);
 	object_init(page);
 	
@@ -164,9 +164,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	
 	PHALCON_INIT_VAR(possible_pages);
 	div_function(possible_pages, last_page, show TSRMLS_CC);
+	if (unlikely(Z_TYPE_P(possible_pages)) != IS_DOUBLE) {
+		convert_to_double(possible_pages);
+	}
 	
 	PHALCON_INIT_VAR(total_pages);
-	phalcon_call_func_p1(total_pages, "ceil", possible_pages);
+	ZVAL_LONG(total_pages, ceil(Z_DVAL_P(possible_pages)));
 	if (Z_TYPE_P(items) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
 		return;

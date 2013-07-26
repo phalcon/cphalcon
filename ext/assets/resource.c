@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 		/** 
 		 * Get the real template path
 		 */
-		phalcon_call_func_p1(return_value, "realpath", complete_path);
+		phalcon_realpath(return_value, complete_path TSRMLS_CC);
 		RETURN_MM();
 	}
 	
@@ -499,7 +499,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 		 * Get the real template path, the target path can optionally don't exist
 		 */
 		if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
-			phalcon_call_func_p1(return_value, "realpath", complete_path);
+			phalcon_realpath(return_value, complete_path TSRMLS_CC);
 			RETURN_MM();
 		}
 	

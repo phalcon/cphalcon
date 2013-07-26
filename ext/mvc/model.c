@@ -1886,7 +1886,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
 	
 	if (Z_TYPE_P(message) != IS_OBJECT) {
 		PHALCON_INIT_VAR(type);
-		phalcon_call_func_p1(type, "gettype", message);
+		ZVAL_STRING(type, zend_zval_type_name(message), 1);
 	
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Invalid message format '", type, "'");
@@ -6267,7 +6267,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 
 	zval *property, *model_name, *manager, *lower_property;
 	zval *relation, *call_args, *call_object, *result;
-	zval *is_simple_model, *error_msg;
+	zval *is_simple_model;
 
 	PHALCON_MM_GROW();
 
@@ -6333,9 +6333,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	/** 
 	 * A notice is shown if the property is not defined and it isn't a relationship
 	 */
-	PHALCON_INIT_VAR(error_msg);
-	PHALCON_CONCAT_SVSV(error_msg, "Access to undefined property ", model_name, "::", property);
-	phalcon_call_func_p1_noret("trigger_error", error_msg);
+	zend_error(E_NOTICE, "Access to undefined property %s::%s", Z_STRVAL_P(model_name), Z_STRVAL_P(property));
 	RETURN_MM_NULL();
 }
 

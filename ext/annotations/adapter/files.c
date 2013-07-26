@@ -29,6 +29,9 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/standard/php_smart_str.h"
+#include "ext/standard/php_var.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -146,8 +149,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read){
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 
 	zval *key, *data, *annotations_dir, *separator;
-	zval *virtual_key, *path, *to_string, *export, *php_export;
+	zval *virtual_key, *path, *php_export;
 	zval *status;
+	smart_str exp = { NULL, 0, 0 };
 
 	PHALCON_MM_GROW();
 
@@ -168,14 +172,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write){
 	PHALCON_INIT_VAR(path);
 	PHALCON_CONCAT_VVS(path, annotations_dir, virtual_key, ".php");
 	
-	PHALCON_INIT_VAR(to_string);
-	ZVAL_BOOL(to_string, 1);
-	
-	PHALCON_INIT_VAR(export);
-	phalcon_call_func_p2(export, "var_export", data, to_string);
+	smart_str_appends(&exp, "<?php return ");
+	php_var_export_ex(&data, 0, &exp TSRMLS_CC);
+	smart_str_appendc(&exp, ';');
+	smart_str_0(&exp);
 	
 	PHALCON_INIT_VAR(php_export);
-	PHALCON_CONCAT_SVS(php_export, "<?php return ", export, "; ");
+	ZVAL_STRINGL(php_export, exp.c, exp.len, 0);
 	
 	PHALCON_INIT_VAR(status);
 	phalcon_file_put_contents(status, path, php_export TSRMLS_CC);

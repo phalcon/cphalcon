@@ -164,10 +164,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 			}
 		}
 	
-		if (Z_TYPE_P(rows) == IS_ARRAY) { 
-			Z_SET_ISREF_P(rows);
-			phalcon_call_func_p1_noret("reset", rows);
-			Z_UNSET_ISREF_P(rows);
+		if (Z_TYPE_P(rows) == IS_ARRAY) {
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(rows), NULL);
 		}
 	}
 	
