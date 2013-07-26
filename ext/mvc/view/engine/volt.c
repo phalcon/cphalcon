@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
 	phalcon_fetch_params(1, 2, 0, &needle, &haystack);
 	
 	if (Z_TYPE_P(haystack) == IS_ARRAY) { 
-		phalcon_call_func_p2(return_value, "in_array", needle, haystack);
+		RETVAL_BOOL(phalcon_fast_in_array(needle, haystack TSRMLS_CC));
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(haystack) == IS_STRING) {

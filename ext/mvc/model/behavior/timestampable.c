@@ -37,6 +37,7 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\Model\Behavior\Timestampable
@@ -105,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 			PHALCON_OBS_VAR(format);
 			phalcon_array_fetch_string(&format, options, SL("format"), PH_NOISY);
 	
-			phalcon_call_func_p1(timestamp, "date", format);
+			phalcon_date(timestamp, format, NULL TSRMLS_CC);
 		} else {
 			if (phalcon_array_isset_string(options, SS("generator"))) {
 	

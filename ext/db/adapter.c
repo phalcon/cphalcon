@@ -404,14 +404,14 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	
 		if (Z_TYPE_P(value) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(str_value);
-			phalcon_call_func_p1(str_value, "strval", value);
-			phalcon_array_append(&placeholders, str_value, PH_SEPARATE);
+			phalcon_strval(str_value, value);
+			phalcon_array_append(&placeholders, str_value, 0);
 		} else {
 			if (Z_TYPE_P(value) == IS_NULL) {
-				phalcon_array_append_string(&placeholders, SL("null"), PH_SEPARATE);
+				phalcon_array_append_string(&placeholders, SL("null"), 0);
 			} else {
-				phalcon_array_append_string(&placeholders, SL("?"), PH_SEPARATE);
-				phalcon_array_append(&insert_values, value, PH_SEPARATE);
+				phalcon_array_append_string(&placeholders, SL("?"), 0);
+				phalcon_array_append(&insert_values, value, 0);
 				if (Z_TYPE_P(data_types) == IS_ARRAY) { 
 					if (!phalcon_array_isset(data_types, position)) {
 						PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Incomplete number of bind types");

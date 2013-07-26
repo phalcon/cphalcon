@@ -17,18 +17,28 @@
   +------------------------------------------------------------------------+
 */
 
-extern int phalcon_file_exists(zval *filename TSRMLS_DC);
-extern int phalcon_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC);
-extern void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator TSRMLS_DC);
-extern void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_separator TSRMLS_DC);
-extern void phalcon_unique_path_key(zval *return_value, zval *path TSRMLS_DC);
-extern void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC);
-extern void phalcon_file_get_contents(zval *return_value, zval *filename TSRMLS_DC);
-extern void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_DC);
-extern void phalcon_possible_autoload_filepath(zval *return_value, zval *prefix, zval *class_name, zval *virtual_separator, zval *separator TSRMLS_DC);
+#ifndef PHALCON_KERNEL_FILE_H
+#define PHALCON_KERNEL_FILE_H
+
+int phalcon_file_exists(zval *filename TSRMLS_DC);
+int phalcon_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC);
+void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator TSRMLS_DC);
+void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_separator TSRMLS_DC);
+void phalcon_unique_path_key(zval *return_value, zval *path TSRMLS_DC);
+void phalcon_realpath(zval *return_value, zval *filename TSRMLS_DC);
+void phalcon_file_get_contents(zval *return_value, zval *filename TSRMLS_DC);
+void phalcon_file_put_contents(zval *return_value, zval *filename, zval *data TSRMLS_DC);
+void phalcon_possible_autoload_filepath(zval *return_value, zval *prefix, zval *class_name, zval *virtual_separator, zval *separator TSRMLS_DC);
+
+void phalcon_is_dir(zval *return_value, zval *path TSRMLS_DC);
+void phalcon_unlink(zval *return_value, zval *path TSRMLS_DC);
+void phalcon_filemtime(zval *return_value, zval *path TSRMLS_DC);
+void phalcon_basename(zval *return_value, zval *path TSRMLS_DC);
 
 #ifdef TSRM_WIN32
 #define PHALCON_DIRECTORY_SEPARATOR "\\"
 #else
 #define PHALCON_DIRECTORY_SEPARATOR "/"
 #endif
+
+#endif /* PHALCON_KERNEL_FILE_H */

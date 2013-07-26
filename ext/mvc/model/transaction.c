@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection){
 
-	zval *rollback_on_abort, *was_aborted, *message;
+	zval *rollback_on_abort, *message;
 	zval *connection;
 
 	PHALCON_MM_GROW();
@@ -297,9 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection){
 	phalcon_read_property_this(&rollback_on_abort, this_ptr, SL("_rollbackOnAbort"), PH_NOISY_CC);
 	if (zend_is_true(rollback_on_abort)) {
 	
-		PHALCON_INIT_VAR(was_aborted);
-		phalcon_call_func(was_aborted, "connection_aborted");
-		if (zend_is_true(was_aborted)) {
+		if (PG(connection_status) & PHP_CONNECTION_ABORTED) {
 			PHALCON_INIT_VAR(message);
 			ZVAL_STRING(message, "The request was aborted", 1);
 			phalcon_call_method_p1_noret(this_ptr, "rollback", message);

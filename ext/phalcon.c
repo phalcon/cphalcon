@@ -762,7 +762,6 @@ static PHP_MINFO_FUNCTION(phalcon)
 static PHP_GINIT_FUNCTION(phalcon)
 {
 	phalcon_memory_entry *start;
-	int i;
 
 	php_phalcon_init_globals(phalcon_globals TSRMLS_CC);
 

@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect){
 		HashTable *ah;
 		HashPosition hp;
 		zval **hd;
-		zval *option = NULL, *value = NULL, *res = NULL, *opt = NULL;
+		zval *option = NULL, *value = NULL, *res = NULL;
 
 		phalcon_is_iterable(client, &ah, &hp, 0, 0);
 		while (zend_hash_get_current_data_ex(ah, (void**) &hd, &hp) == SUCCESS) {
@@ -195,14 +195,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect){
 
 			if (Z_TYPE_P(option) == IS_STRING) {
 				PHALCON_INIT_NVAR(res);
-				phalcon_call_func_p1(res, "defined", option);
-				if (zend_is_true(res)) {
-					PHALCON_INIT_NVAR(opt);
-					phalcon_call_func_p1(opt, "constant", option);
-					phalcon_call_method_p2_noret(memcache, "setOption", opt, value);
+				if (zend_get_constant(Z_STRVAL_P(option), Z_STRLEN_P(option), res TSRMLS_CC)) {
+					phalcon_call_method_p2_noret(memcache, "setOption", res, value);
 				}
 			} else {
-				convert_to_long(option);
 				phalcon_call_method_p2_noret(memcache, "setOption", option, value);
 			}
 

@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix){
 		if (phalcon_is_instance_of(prefix, SL("Closure") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(parameters);
 			array_init_size(parameters, 1);
-			phalcon_array_append(&parameters, this_ptr, PH_SEPARATE);
+			phalcon_array_append(&parameters, this_ptr, 0);
 	
 			PHALCON_INIT_VAR(calculated_prefix);
 			phalcon_call_func_p2(calculated_prefix, "call_user_func_array", prefix, parameters);
@@ -739,14 +739,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 							PHALCON_CPY_WRT(escaped_code, code);
 						} else {
 							PHALCON_INIT_NVAR(escaped_code);
-							phalcon_call_func_p1(escaped_code, "addslashes", code);
+							phalcon_addslashes(escaped_code, code TSRMLS_CC);
 						}
 					} else {
 						if (PHALCON_IS_LONG(expr_level, 1)) {
 							PHALCON_CPY_WRT(escaped_code, block);
 						} else {
 							PHALCON_INIT_NVAR(escaped_code);
-							phalcon_call_func_p1(escaped_code, "addslashes", block);
+							phalcon_addslashes(escaped_code, block TSRMLS_CC);
 						}
 					}
 	
@@ -3690,7 +3690,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (PHALCON_IS_NOT_EMPTY(compiled_path)) {
 			PHALCON_INIT_VAR(real_template_path);
-			phalcon_call_func_p1(real_template_path, "realpath", template_path);
+			phalcon_realpath(real_template_path, template_path TSRMLS_CC);
 	
 			/** 
 			 * Create the virtual path replacing the directory separator by the compiled
