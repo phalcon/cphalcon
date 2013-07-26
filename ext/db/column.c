@@ -443,12 +443,6 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 		phalcon_array_fetch_string(&size, data, SL("_size"), PH_NOISY);
 		phalcon_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
 	}
-
-	if (phalcon_array_isset_string(data, SS("_scale"))) {
-                PHALCON_OBS_VAR(scale);
-                phalcon_array_fetch_string(&scale, data, SL("_scale"), PH_NOISY);
-                phalcon_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
-        }
 	
 	if (phalcon_array_isset_string(data, SS("_unsigned"))) {
 		PHALCON_OBS_VAR(dunsigned);
@@ -466,6 +460,14 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 		PHALCON_OBS_VAR(is_numeric);
 		phalcon_array_fetch_string(&is_numeric, data, SL("_isNumeric"), PH_NOISY);
 		phalcon_array_update_string(&definition, SL("isNumeric"), &is_numeric, PH_COPY | PH_SEPARATE);
+	}
+
+	if (PHALCON_IS_TRUE(is_numeric)) {
+		if (phalcon_array_isset_string(data, SS("_scale"))) {
+        	        PHALCON_OBS_VAR(scale);
+	                phalcon_array_fetch_string(&scale, data, SL("_scale"), PH_NOISY);
+                	phalcon_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
+        	}
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_first"))) {
