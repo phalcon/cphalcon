@@ -403,7 +403,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
                 $this->assertEquals(count($page->items), 1);
 
                 $this->assertEquals($page->before, 2178);
-                $this->assertEquals($page->next, 2179);
+                $this->assertEquals($page->next, 2180);
                 $this->assertEquals($page->last, 2180);
 
                 $this->assertEquals($page->current, 2179);
