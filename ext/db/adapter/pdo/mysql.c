@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -170,7 +169,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	PHALCON_INIT_VAR(old_column);
 	
 	PHALCON_INIT_VAR(size_pattern);
-	ZVAL_STRING(size_pattern, "#\\(([0-9]+)[,]?([0-9]+)*\\)#", 1);
+	ZVAL_STRING(size_pattern, "#\\(([0-9]++)(?:,\\s*([0-9]++))?\\)#", 1);
 	
 	PHALCON_INIT_VAR(columns);
 	array_init(columns);
