@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		 * Check if the field is primary key
 		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_long(&attribute, field, 5, PH_NOISY);
+		phalcon_array_fetch_long(&attribute, field, 6, PH_NOISY);
 		if (PHALCON_IS_STRING(attribute, "PRI")) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE);
 		}
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		 * Check if the column allows null values
 		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_long(&attribute, field, 4, PH_NOISY);
+		phalcon_array_fetch_long(&attribute, field, 5, PH_NOISY);
 		if (PHALCON_IS_STRING(attribute, "NO")) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE);
 		}
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		 * Check if the column is auto increment
 		 */
 		PHALCON_OBS_NVAR(attribute);
-		phalcon_array_fetch_long(&attribute, field, 6, PH_NOISY);
+		phalcon_array_fetch_long(&attribute, field, 7, PH_NOISY);
 		if (PHALCON_IS_STRING(attribute, "auto_increment")) {
 			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE);
 		}
