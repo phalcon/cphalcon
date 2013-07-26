@@ -185,15 +185,6 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		}
 	}
 
-        /** 
-         * Check if the field is numeric
-         */
-        if (phalcon_array_isset_string(definition, SS("isNumeric"))) {
-                PHALCON_OBS_NVAR(is_numeric);
-                phalcon_array_fetch_string(&is_numeric, definition, SL("isNumeric"), PH_NOISY);
-                phalcon_update_property_this(this_ptr, SL("_isNumeric"), is_numeric TSRMLS_CC);
-        }
-	
 	/** 
 	 * Check if the field is unsigned (only MySQL)
 	 */
@@ -202,6 +193,15 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		phalcon_array_fetch_string(&dunsigned, definition, SL("unsigned"), PH_NOISY);
 		phalcon_update_property_this(this_ptr, SL("_unsigned"), dunsigned TSRMLS_CC);
 	}
+
+	/** 
+         * Check if the field is numeric
+         */
+        if (phalcon_array_isset_string(definition, SS("isNumeric"))) {
+                PHALCON_OBS_NVAR(is_numeric);
+                phalcon_array_fetch_string(&is_numeric, definition, SL("isNumeric"), PH_NOISY);
+                phalcon_update_property_this(this_ptr, SL("_isNumeric"), is_numeric TSRMLS_CC);
+        }
 	
 	/** 
 	 * Check if the field is auto-increment/serial
