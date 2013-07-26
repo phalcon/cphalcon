@@ -476,7 +476,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 	}
 	
 	if (phalcon_array_isset_string(data, SS("_isNumeric"))) {
-		PHALCON_OBS_VAR(is_numeric);
+		PHALCON_OBS_NVAR(is_numeric);
 		phalcon_array_fetch_string(&is_numeric, data, SL("_isNumeric"), PH_NOISY);
 		phalcon_array_update_string(&definition, SL("isNumeric"), &is_numeric, PH_COPY | PH_SEPARATE);
 	}
