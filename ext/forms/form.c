@@ -1039,7 +1039,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind){
 	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(elements_indexed);
-	phalcon_call_func_p1(elements_indexed, "array_values", elements);
+	phalcon_array_values(elements_indexed, elements);
 	phalcon_update_property_this(this_ptr, SL("_elementsIndexed"), elements_indexed TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

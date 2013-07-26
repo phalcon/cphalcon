@@ -36,6 +36,7 @@
 #include "ext/standard/md5.h"
 #include "ext/standard/url.h"
 #include "ext/standard/html.h"
+#include "ext/date/php_date.h"
 
 #ifdef PHALCON_USE_PHP_PCRE
 #include "ext/pcre/php_pcre.h"
@@ -47,6 +48,8 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/string.h"
+#include "kernel/operators.h"
 
 #define PH_RANDOM_ALNUM 0
 #define PH_RANDOM_ALPHA 1
@@ -1304,6 +1307,64 @@ void phalcon_htmlspecialchars(zval *return_value, zval *string, zval *quoting, z
 
 	escaped = php_escape_html_entities_ex((unsigned char *)(Z_STRVAL_P(string)), Z_STRLEN_P(string), &escaped_len, 0, qs, cs, 1 TSRMLS_CC);
 	ZVAL_STRINGL(return_value, escaped, escaped_len, 0);
+
+	if (unlikely(use_copy)) {
+		zval_dtor(&copy);
+	}
+}
+
+void phalcon_strval(zval *return_value, zval *v)
+{
+	zval copy;
+	int use_copy = 0;
+
+	zend_make_printable_zval(v, &copy, &use_copy);
+	if (use_copy) {
+		zval *tmp = &copy;
+		ZVAL_ZVAL(return_value, tmp, 0, 0);
+	}
+	else {
+		ZVAL_ZVAL(return_value, v, 1, 0);
+	}
+}
+
+void phalcon_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC)
+{
+	long int ts;
+	zval copy;
+	int use_copy = 0;
+	char *formatted;
+
+	if (unlikely(Z_TYPE_P(format) != IS_STRING)) {
+		zend_make_printable_zval(format, &copy, &use_copy);
+		if (use_copy) {
+			format = &copy;
+		}
+	}
+
+	ts = (timestamp) ? phalcon_get_intval(timestamp) : time(NULL);
+
+	formatted = php_format_date(Z_STRVAL_P(format), Z_STRLEN_P(format), ts, 1 TSRMLS_CC);
+	ZVAL_STRING(return_value, formatted, 0);
+
+	if (unlikely(use_copy)) {
+		zval_dtor(&copy);
+	}
+}
+
+void phalcon_addslashes(zval *return_value, zval *str TSRMLS_DC)
+{
+	zval copy;
+	int use_copy = 0;
+
+	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	ZVAL_STRING(return_value, php_addslashes(Z_STRVAL_P(str), Z_STRLEN_P(str), &Z_STRLEN_P(return_value), 0 TSRMLS_CC), 0);
 
 	if (unlikely(use_copy)) {
 		zval_dtor(&copy);

@@ -38,6 +38,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Http\Response
@@ -798,7 +799,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 	
 	if (Z_TYPE_P(attachment_name) != IS_STRING) {
 		PHALCON_INIT_VAR(base_path);
-		phalcon_call_func_p1(base_path, "basename", file_path);
+		phalcon_basename(base_path, file_path TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(base_path, attachment_name);
 	}
