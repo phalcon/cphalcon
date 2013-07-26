@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	zval *data, *definition, *column_name, *column_type;
 	zval *not_null, *primary, *size, *scale, *dunsigned, *after;
-	zval *is_numeric, *first, *bind_type;
+	zval *is_numeric = NULL, *first, *bind_type;
 	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
