@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Db_Column, getBindType){
 PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	zval *data, *definition, *column_name, *column_type;
-	zval *not_null, *primary, *size, *dunsigned, *after;
+	zval *not_null, *primary, *size, *scale, *dunsigned, *after;
 	zval *is_numeric, *first, *bind_type;
 
 	PHALCON_MM_GROW();
@@ -443,6 +443,12 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 		phalcon_array_fetch_string(&size, data, SL("_size"), PH_NOISY);
 		phalcon_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
 	}
+
+	if (phalcon_array_isset_string(data, SS("_scale"))) {
+                PHALCON_OBS_VAR(scale);
+                phalcon_array_fetch_string(&scale, data, SL("_scale"), PH_NOISY);
+                phalcon_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
+        }
 	
 	if (phalcon_array_isset_string(data, SS("_unsigned"))) {
 		PHALCON_OBS_VAR(dunsigned);
