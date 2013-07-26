@@ -158,7 +158,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_type' => 3,
 				'_isNumeric' => true,
 				'_size' => 16,
-				'_scale' => 2,
+				'_scale' => 0,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -318,7 +318,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_type' => 3,
 				'_isNumeric' => true,
 				'_size' => 16,
-				'_scale' => 2,
+				'_scale' => 0,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -480,7 +480,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_type' => 3,
 				'_isNumeric' => true,
 				'_size' => 16,
-				'_scale' => 2,
+				'_scale' => 0,
 				'_unsigned' => false,
 				'_notNull' => true,
 				'_autoIncrement' => false,
@@ -510,7 +510,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		require 'unit-tests/config.db.php';
 		if (empty($configMysql)) {
-			$this->markTestSkipped("Skipped");
+			echo "Skipped\n";
 			return;
 		}
 
@@ -616,7 +616,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		require 'unit-tests/config.db.php';
 		if (empty($configPostgresql)) {
-			$this->markTestSkipped("Skipped");
+			echo "Skipped\n";
 			return;
 		}
 
@@ -709,7 +709,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		require 'unit-tests/config.db.php';
 		if (empty($configSqlite)) {
-			$this->markTestSkipped("Skipped");
+			echo "Skipped\n";
 			return;
 		}
 
