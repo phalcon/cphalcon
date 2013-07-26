@@ -1,3 +1,12 @@
+1.2.2
+ - Phalcon\Mvc\Model\Query\Builder may now use both integer and string placeholders (#701)
+ - Fixed invalid memory reads when GC is on (#469, #927)
+ - Phalcon\Flash\Session::getMessage('key') returns now an empty array if the key is not found (#908, #920)
+ - Fixed bugs in Phalcon\Escaper (#917)
+ - Fixed memory leaks for PHP < 5.4 (#910, #914, #916)
+ - Fixed memory access violations (#911, #918, #927, #928)
+ - Memory allocation optimizations (#912)
+
 1.2.1
  - Reduced overall memory usage (#834, #891, #893)
  - Faster internal array and string manipulation (#830, #833, #837)

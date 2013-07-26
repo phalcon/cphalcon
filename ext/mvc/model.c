@@ -2034,8 +2034,38 @@ PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getMessages){
 
+	zval *filter = NULL, *messages;
 
-	RETURN_MEMBER(this_ptr, "_errorMessages");
+	phalcon_fetch_params(0, 0, 1, &filter);
+	if (!filter || Z_TYPE_P(filter) != IS_STRING) {
+		RETURN_MEMBER(this_ptr, "_errorMessages");
+	}
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(messages);
+	phalcon_read_property_this(&messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+	if (Z_TYPE_P(messages) == IS_ARRAY) {
+		HashPosition pos;
+		zval **value, *field = NULL;
+
+		array_init(return_value);
+
+		for (
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(messages), &pos);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(messages), (void**)&value, &pos) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(messages), &pos)
+		) {
+			PHALCON_INIT_NVAR(field);
+			phalcon_call_method(field, *value, "getfield");
+
+			if (PHALCON_IS_EQUAL(filter, field)) {
+				phalcon_array_append(&return_value, *value, PH_COPY);
+			}
+		}
+	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
