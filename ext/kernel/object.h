@@ -24,6 +24,9 @@ extern void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC
 extern void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC);
 extern void phalcon_get_called_class(zval *return_value TSRMLS_DC);
 extern zend_class_entry *phalcon_fetch_class(const zval *class_name TSRMLS_DC);
+zend_class_entry* phalcon_fetch_self_class(TSRMLS_D);
+zend_class_entry* phalcon_fetch_parent_class(TSRMLS_D);
+zend_class_entry* phalcon_fetch_static_class(TSRMLS_D);
 
 /** Class constants */
 extern int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC);
@@ -74,9 +77,11 @@ extern int phalcon_property_decr(zval *object, char *property_name, unsigned int
 extern int phalcon_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index TSRMLS_DC);
 
 /** Static properties */
-extern int phalcon_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC);
-extern int phalcon_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC);
-extern int phalcon_update_static_property_nts(zend_class_entry *ce, char *name, unsigned int name_length, zval *value TSRMLS_DC);
+int phalcon_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC);
+int phalcon_update_static_property_ce(zend_class_entry *ce, char *name, int len, zval *value TSRMLS_DC);
+int phalcon_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC);
+int phalcon_read_static_property_ce(zval **result, zend_class_entry *ce, char *property, int len TSRMLS_DC);
+int phalcon_read_class_property(zval **result, int type, char *property, int len TSRMLS_DC);
 
 /** Create instances */
 extern int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC);
