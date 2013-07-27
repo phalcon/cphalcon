@@ -277,16 +277,9 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		/** 
 		 * Build the instance overriding the definition constructor parameters
 		 */
-		if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
-			PHALCON_INIT_VAR(instance);
-			if (phalcon_create_instance_params(instance, class_name, parameters TSRMLS_CC) == FAILURE) {
-				return;
-			}
-		} else {
-			PHALCON_INIT_NVAR(instance);
-			if (phalcon_create_instance(instance, class_name TSRMLS_CC) == FAILURE) {
-				return;
-			}
+		PHALCON_INIT_VAR(instance);
+		if (phalcon_create_instance_params(instance, class_name, parameters TSRMLS_CC) == FAILURE) {
+			return;
 		}
 	} else {
 		/** 
