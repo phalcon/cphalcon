@@ -216,6 +216,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE);
 						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE);
 						phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE);
+						phalcon_array_update_string(&definition, SL("scale"), &numeric_scale, PH_COPY | PH_SEPARATE);
 						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE);
 					} else {
 						if (phalcon_memnstr_str(column_type, SL("char"))) {
