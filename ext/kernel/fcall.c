@@ -39,7 +39,7 @@
 
 static zend_class_entry* phalcon_find_class_entry(zend_class_entry *ce, const char *active_class, zend_uint active_class_len) {
 	while (ce) {
-		if (ce->name_length == active_class_len && !memcmp(ce->name, active_class, active_class_len)) {
+		if (ce->name_length == active_class_len && !zend_binary_strcasecmp(ce->name, active_class_len, active_class, active_class_len)) {
 			return ce;
 		}
 
