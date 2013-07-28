@@ -377,20 +377,12 @@ PHP_METHOD(Phalcon_DI, get){
 		 * The DI also acts as builder for any class even if it isn't defined in the DI
 		 */
 		if (phalcon_class_exists(name, 1 TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(instance);
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
-					PHALCON_INIT_NVAR(instance);
-					if (phalcon_create_instance_params(instance, name, parameters TSRMLS_CC) == FAILURE) {
-						return;
-					}
-				} else {
-					PHALCON_INIT_NVAR(instance);
-					if (phalcon_create_instance(instance, name TSRMLS_CC) == FAILURE) {
-						return;
-					}
+				if (phalcon_create_instance_params(instance, name, parameters TSRMLS_CC) == FAILURE) {
+					return;
 				}
 			} else {
-				PHALCON_INIT_NVAR(instance);
 				if (phalcon_create_instance(instance, name TSRMLS_CC) == FAILURE) {
 					return;
 				}
