@@ -1411,7 +1411,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		 */
 		ALLOC_INIT_ZVAL(options);
 		array_init(options);
-		add_assoc_bool_ex(options, SS("safe"), 1);
+		add_assoc_long_ex(options, SS("w"), 1);
+		Z_SET_ISREF_P(options);
 
 		params[0] = data;
 		params[1] = options;
@@ -1419,7 +1420,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		/**
 		 * Save the document
 		 */
-		call_user_function(EG(function_table), &collection, &func, status, 2, params TSRMLS_CC);
+		call_user_function(NULL, &collection, &func, status, 2, params TSRMLS_CC);
 		zval_ptr_dtor(&options);
 	}
 
