@@ -23,6 +23,8 @@
 #define PHP_PHALCON_VERSION "1.2.1"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
+#include "main/php.h"
+
 /** Memory frame */
 typedef struct _phalcon_memory_entry {
 	size_t pointer;

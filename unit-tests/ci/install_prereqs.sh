@@ -8,8 +8,8 @@ else
 	phpenv config-add "$DIR/apc.ini"
 fi
 
-pecl install igbinary < /dev/null && phpenv config-add $(DIR)/igbinary.ini &
-pecl upgrade mongo < /dev/null && phpenv config-add $(DIR)/mongo.ini &
+pecl install igbinary < /dev/null &
+CFLAGS="-O1 -g" pecl upgrade mongo < /dev/null &
 
-phpenv config-add $(DIR)/memcache.ini
+phpenv config-add "$DIR/memcache.ini"
 wait

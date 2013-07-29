@@ -1385,11 +1385,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		if (PHALCON_IS_STRING(key, "_id")) {
 	
 			if (Z_TYPE_P(value) != IS_NULL) {
-				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&data, key, &value, PH_COPY);
 			}
 		} else {
 			if (!phalcon_array_isset(reserved, key)) {
-				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&data, key, &value, PH_COPY);
 			}
 		}
 	
@@ -1398,24 +1398,29 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	
 	PHALCON_INIT_VAR(success);
 	ZVAL_BOOL(success, 0);
-	
-	/** 
-	 * We always use safe stores to get the success state
-	 */
-	PHALCON_INIT_VAR(options);
-	array_init_size(options, 1);
-	add_assoc_bool_ex(options, SS("safe"), 1);
-	
-	/** 
-	 * Save the document
-	 */
+
 	PHALCON_INIT_NVAR(status);
-	Z_SET_ISREF_P(options);
-	Z_ADDREF_P(options);
-	phalcon_call_method_p2(status, collection, "save", data, options);
-	if (Z_REFCOUNT_P(options) > 1) {
-		Z_UNSET_ISREF_P(options);
-		Z_DELREF_P(options);
+	{
+		zval *params[2];
+		zval func;
+
+		ZVAL_STRING(&func, "save", 0);
+
+		/**
+		 * We always use safe stores to get the success state
+		 */
+		ALLOC_INIT_ZVAL(options);
+		array_init(options);
+		add_assoc_long_ex(options, SS("w"), 1);
+
+		params[0] = data;
+		params[1] = options;
+
+		/**
+		 * Save the document
+		 */
+		call_user_function(NULL, &collection, &func, status, 2, params TSRMLS_CC);
+		zval_ptr_dtor(&options);
 	}
 
 	if (Z_TYPE_P(status) == IS_ARRAY) { 
