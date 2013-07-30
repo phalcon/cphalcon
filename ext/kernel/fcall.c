@@ -67,7 +67,7 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 	zval **static_params_array[5];
 	zval ***params_ptr;
 	zend_uint i;
-	int ex_retval;
+	int ex_retval, use_heap;
 	zval *local_retval_ptr = NULL;
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
@@ -80,7 +80,7 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 
 		if (param_count) {
 			if (param_count > 5) {
-				params_array = (zval ***) emalloc(sizeof(zval **) * param_count);
+				params_array = (zval ***) do_alloca(sizeof(zval **) * param_count, use_heap);
 				for (i = 0; i < param_count; i++) {
 					params_array[i] = &params[i];
 				}
@@ -113,7 +113,7 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 	}
 
 	if (params_array) {
-		efree(params_array);
+		free_alloca(params_array, use_heap);
 	}
 
 	return ex_retval;
