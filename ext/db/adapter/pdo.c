@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
 		return;
 	}
 	phalcon_call_method_p1_noret(this_ptr, "connect", descriptor);
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo", "__construct", descriptor);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_db_adapter_pdo_ce, "__construct", descriptor);
 	
 	PHALCON_MM_RESTORE();
 }

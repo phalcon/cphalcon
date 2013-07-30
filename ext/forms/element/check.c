@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Forms_Element_Check, render){
 	
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p2(widget_attributes, this_ptr, "prepareattributes", attributes, use_checked);
-	PHALCON_CALL_STATIC_PARAMS_1(return_value, "phalcon\\tag", "checkfield", widget_attributes);
+	phalcon_call_static_p1(return_value, "phalcon\\tag", "checkfield", widget_attributes);
 	RETURN_MM();
 }
 

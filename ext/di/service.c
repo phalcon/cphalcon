@@ -230,11 +230,11 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		if (phalcon_class_exists(definition, 1 TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 				if (phalcon_create_instance_params(instance, definition, parameters TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 			} else {
 				if (phalcon_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 			}
 		} else {

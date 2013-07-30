@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, connect){
 	/** 
 	 * Connect
 	 */
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo\\Oracle", "connect", descriptor);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_db_adapter_pdo_oracle_ce, "connect", descriptor);
 	
 	/** 
 	 * Database session settings initiated with each HTTP request. Oracle behaviour

@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect){
 		phalcon_array_update_string(&descriptor, SL("dsn"), &dbname, PH_COPY | PH_SEPARATE);
 	}
 	
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo\\Sqlite", "connect", descriptor);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_db_adapter_pdo_sqlite_ce, "connect", descriptor);
 	
 	PHALCON_MM_RESTORE();
 }

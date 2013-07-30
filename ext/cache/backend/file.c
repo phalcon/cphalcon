@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 	
 	PHALCON_OBS_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY);
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\File", "__construct", frontend, options);
+	phalcon_call_parent_p2_noret(this_ptr, phalcon_cache_backend_file_ce, "__construct", frontend, options);
 	
 	PHALCON_MM_RESTORE();
 }

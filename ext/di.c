@@ -380,11 +380,11 @@ PHP_METHOD(Phalcon_DI, get){
 			PHALCON_INIT_NVAR(instance);
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 				if (phalcon_create_instance_params(instance, name, parameters TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 			} else {
 				if (phalcon_create_instance(instance, name TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 			}
 		} else {
