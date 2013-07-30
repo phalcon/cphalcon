@@ -228,14 +228,14 @@
 #define phalcon_call_method_p2(return_value, object, method_name, p1, p2)              PHALCON_CALL_METHOD(return_value, object, method_name, 0, 2, p1, p2)
 #define phalcon_call_method_p3(return_value, object, method_name, p1, p2, p3)          PHALCON_CALL_METHOD(return_value, object, method_name, 0, 3, p1, p2, p3)
 #define phalcon_call_method_p4(return_value, object, method_name, p1, p2, p3, p4)      PHALCON_CALL_METHOD(return_value, object, method_name, 0, 4, p1, p2, p3, p4)
-#define phalcon_call_method_p5(return_value, object, method_name, p1, p2, p3, p4, p5)  PHALCON_CALL_METHOD(return_value, object, method_name, 0, 2, p1, p2, p3, p4, p5)
+#define phalcon_call_method_p5(return_value, object, method_name, p1, p2, p3, p4, p5)  PHALCON_CALL_METHOD(return_value, object, method_name, 0, 5, p1, p2, p3, p4, p5)
 
 #define phalcon_call_method_noret(object, method_name)                                 PHALCON_CALL_METHOD(NULL, object, method_name, 0, 0, NULL)
 #define phalcon_call_method_p1_noret(object, method_name, p1)                          PHALCON_CALL_METHOD(NULL, object, method_name, 0, 1, p1)
 #define phalcon_call_method_p2_noret(object, method_name, p1, p2)                      PHALCON_CALL_METHOD(NULL, object, method_name, 0, 2, p1, p2)
 #define phalcon_call_method_p3_noret(object, method_name, p1, p2, p3)                  PHALCON_CALL_METHOD(NULL, object, method_name, 0, 3, p1, p2, p3)
 #define phalcon_call_method_p4_noret(object, method_name, p1, p2, p3, p4)              PHALCON_CALL_METHOD(NULL, object, method_name, 0, 4, p1, p2, p3, p4)
-#define phalcon_call_method_p5_noret(object, method_name, p1, p2, p3, p4, p5)          PHALCON_CALL_METHOD(NULL, object, method_name, 0, 2, p1, p2, p3, p4, p5)
+#define phalcon_call_method_p5_noret(object, method_name, p1, p2, p3, p4, p5)          PHALCON_CALL_METHOD(NULL, object, method_name, 0, 5, p1, p2, p3, p4, p5)
 
 /** Macros to call methods with zvals as method names */
 #define phalcon_call_method_zval(return_value, object, method)                  PHALCON_CALL_ZMETHOD(return_value, object, method, 0, NULL)
@@ -259,7 +259,7 @@
 #define phalcon_call_parent_p2_noret(object, active_class, method, p1, p2)              PHALCON_CALL_PARENT(NULL, object, active_class, method, 2, p1, p2)
 #define phalcon_call_parent_p3_noret(object, active_class, method, p1, p2, p3)          PHALCON_CALL_PARENT(NULL, object, active_class, method, 3, p1, p2, p3)
 #define phalcon_call_parent_p4_noret(object, active_class, method, p1, p2, p3, p4)      PHALCON_CALL_PARENT(NULL, object, active_class, method, 4, p1, p2, p3, p4)
-#define phalcon_call_parent_p5_noret(object, active_class, method, p1, p2, p3, p4, p5)  PHALCON_CALL_PARENT(NULL, object, active_class, method, 3, p1, p2, p3, p4, p5)
+#define phalcon_call_parent_p5_noret(object, active_class, method, p1, p2, p3, p4, p5)  PHALCON_CALL_PARENT(NULL, object, active_class, method, 5, p1, p2, p3, p4, p5)
 
 /** Use these functions to call static functions on the current class */
 #define phalcon_call_self(return_value, object, method)                     PHALCON_CALL_SELF(return_value, object, method, 0, NULL)
