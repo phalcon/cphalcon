@@ -1324,7 +1324,7 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 			}
 
 			outcome = phalcon_call_method_params(NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, -param_count, params_array);
-			efree(params_array);
+			free_alloca(params, use_heap);
 		} else {
 			outcome = phalcon_call_method_params(NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 0);
 		}
