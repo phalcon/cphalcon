@@ -719,8 +719,10 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 	
 		PHALCON_OBS_VAR(current_value);
 		phalcon_array_fetch_string(&current_value, params, SL("value"), PH_NOISY);
-		if (PHALCON_IS_EQUAL(current_value, value)) {
-			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE);
+		if (Z_TYPE_P(value) != IS_NULL) {
+			if (PHALCON_IS_EQUAL(current_value, value)) {
+				phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE);
+			}
 		}
 	} else {
 		/** 
