@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct){
 		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCM"), PH_SEPARATE);
 	}
 
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\Libmemcached", "__construct", frontend, options);
+	phalcon_call_parent_p2_noret(this_ptr, phalcon_cache_backend_libmemcached_ce, "__construct", frontend, options);
 
 	PHALCON_MM_RESTORE();
 }

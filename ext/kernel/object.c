@@ -1259,7 +1259,7 @@ int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC
 	zend_class_entry *ce;
 
 	if (Z_TYPE_P(class_name) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name"), 1 TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name"), 0 TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -1269,10 +1269,8 @@ int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC
 	}
 
 	object_init_ex(return_value, ce);
-	if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-		if (phalcon_call_method_params(NULL, return_value, SL("__construct"), 0, NULL, 0, 0 TSRMLS_CC) == FAILURE) {
-			return FAILURE;
-		}
+	if (phalcon_has_constructor_ce(ce)) {
+		return phalcon_call_method_params(NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 0);
 	}
 
 	return SUCCESS;
@@ -1283,7 +1281,7 @@ int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC
  */
 int phalcon_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC){
 
-	int i;
+	int i, outcome;
 	zend_class_entry *ce;
 	long param_count;
 	zval **params_array;
@@ -1291,12 +1289,12 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 	HashTable *params_hash;
 
 	if (Z_TYPE_P(class_name) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name"), 1 TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name"), 0 TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (Z_TYPE_P(params) != IS_ARRAY) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Instantiation parameters must be an array"), 1 TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Instantiation parameters must be an array"), 0 TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -1306,39 +1304,33 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 	}
 
 	object_init_ex(return_value, ce);
+	outcome = SUCCESS;
 
-	param_count = zend_hash_num_elements(Z_ARRVAL_P(params));
-	if (param_count > 0){
+	if (phalcon_has_constructor_ce(ce)) {
+		param_count = zend_hash_num_elements(Z_ARRVAL_P(params));
+		if (param_count > 0) {
+			zval **item;
+			int use_heap;
 
-		params_array = emalloc(sizeof(zval *) * param_count);
+			params_array = do_alloca(sizeof(zval *) * param_count, use_heap);
 
-		params_hash = Z_ARRVAL_P(params);
-		zend_hash_internal_pointer_reset_ex(params_hash, &pos);
-		for (i = 0; ; zend_hash_move_forward_ex(params_hash, &pos), i++) {
-			zval ** item;
-			if (zend_hash_get_current_data_ex(params_hash, (void**)&item, &pos) == FAILURE) {
-				break;
+			params_hash = Z_ARRVAL_P(params);
+			for (
+				zend_hash_internal_pointer_reset_ex(params_hash, &pos), i = 0;
+				zend_hash_get_current_data_ex(params_hash, (void**)&item, &pos) == SUCCESS;
+				zend_hash_move_forward_ex(params_hash, &pos), ++i
+			) {
+				params_array[i] = *item;
 			}
-			params_array[i] = *item;
-		}
 
-		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, 0, 0 TSRMLS_CC) == FAILURE) {
-				efree(params_array);
-				return FAILURE;
-			}
-		}
-
-		efree(params_array);
-	} else {
-		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), 0, NULL, 0, 0 TSRMLS_CC) == FAILURE) {
-				return FAILURE;
-			}
+			outcome = phalcon_call_method_params(NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, -param_count, params_array);
+			efree(params_array);
+		} else {
+			outcome = phalcon_call_method_params(NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 0);
 		}
 	}
 
-	return SUCCESS;
+	return outcome;
 }
 
 /**

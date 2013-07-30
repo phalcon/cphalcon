@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct){
 		return;
 	}
 	
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\Mongo", "__construct", frontend, options);
+	phalcon_call_parent_p2_noret(this_ptr, phalcon_cache_backend_mongo_ce, "__construct", frontend, options);
 	
 	PHALCON_MM_RESTORE();
 }

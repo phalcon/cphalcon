@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_Debug, getMajorVersion){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(version);
-	PHALCON_CALL_STATIC(version, "phalcon\\version", "get");
+	phalcon_call_static(version, "phalcon\\version", "get");
 	
 	PHALCON_INIT_VAR(parts);
 	phalcon_fast_explode_str(parts, SL(" "), version);

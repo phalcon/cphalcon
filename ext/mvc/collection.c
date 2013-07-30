@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 	 */
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	}
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
@@ -647,7 +647,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 			/** 
 			 * Assign the values to the base object
 			 */
-			PHALCON_CALL_SELF_PARAMS_2(return_value, this_ptr, "cloneresult", base, document);
+			phalcon_call_self_p2(return_value, this_ptr, "cloneresult", base, document);
 			RETURN_MM();
 		}
 	
@@ -673,7 +673,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		 * Assign the values to the base object
 		 */
 		PHALCON_INIT_NVAR(collection_cloned);
-		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", base, document);
+		phalcon_call_self_p2(collection_cloned, this_ptr, "cloneresult", base, document);
 		phalcon_array_append(&collections, collection_cloned, PH_SEPARATE);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1510,7 +1510,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 	PHALCON_INIT_VAR(parameters);
 	array_init_size(parameters, 1);
 	phalcon_array_append(&parameters, conditions, PH_SEPARATE);
-	PHALCON_CALL_SELF_PARAMS_1(return_value, this_ptr, "findfirst", parameters);
+	phalcon_call_self_p1(return_value, this_ptr, "findfirst", parameters);
 	RETURN_MM();
 }
 
@@ -1577,7 +1577,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	
 	PHALCON_INIT_VAR(unique);
 	ZVAL_BOOL(unique, 1);
-	PHALCON_CALL_SELF_PARAMS_4(return_value, this_ptr, "_getresultset", parameters, collection, connection, unique);
+	phalcon_call_self_p4(return_value, this_ptr, "_getresultset", parameters, collection, connection, unique);
 	RETURN_MM();
 }
 
@@ -1655,7 +1655,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	
 	PHALCON_INIT_VAR(unique);
 	ZVAL_BOOL(unique, 0);
-	PHALCON_CALL_SELF_PARAMS_4(return_value, this_ptr, "_getresultset", parameters, collection, connection, unique);
+	phalcon_call_self_p4(return_value, this_ptr, "_getresultset", parameters, collection, connection, unique);
 	RETURN_MM();
 }
 
@@ -1701,7 +1701,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	
 	PHALCON_INIT_VAR(connection);
 	phalcon_call_method(connection, collection, "getconnection");
-	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_getgroupresultset", parameters, collection, connection);
+	phalcon_call_self_p3(return_value, this_ptr, "_getgroupresultset", parameters, collection, connection);
 	RETURN_MM();
 }
 
@@ -2088,7 +2088,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 			 * Obtain the default DI
 			 */
 			PHALCON_INIT_VAR(dependency_injector);
-			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+			phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ODM");

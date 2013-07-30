@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Forms_Element_TextArea, render){
 	
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	PHALCON_CALL_STATIC_PARAMS_1(return_value, "phalcon\\tag", "textarea", widget_attributes);
+	phalcon_call_static_p1(return_value, "phalcon\\tag", "textarea", widget_attributes);
 	RETURN_MM();
 }
 

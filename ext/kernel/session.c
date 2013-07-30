@@ -37,13 +37,13 @@ void phalcon_session_start(TSRMLS_D)
 #ifdef PHALCON_USE_PHP_SESSION
 	php_session_start(TSRMLS_C);
 #else
-	phalcon_call_func_params_w(NULL, SL("session_start"), 0, NULL TSRMLS_CC);
+	phalcon_call_func_params(NULL, SL("session_start") TSRMLS_CC, 0);
 #endif
 }
 
 void phalcon_session_destroy(TSRMLS_D)
 {
-	phalcon_call_func_params_w(NULL, SL("session_destroy"), 0, NULL TSRMLS_CC);
+	phalcon_call_func_params(NULL, SL("session_destroy") TSRMLS_CC, 0);
 }
 
 void phalcon_get_session_id(zval *return_value TSRMLS_DC)
@@ -55,7 +55,7 @@ void phalcon_get_session_id(zval *return_value TSRMLS_DC)
 
 	RETURN_EMPTY_STRING();
 #else
-	phalcon_call_func_params_w(return_value, SL("session_id"), 0, NULL TSRMLS_CC);
+	phalcon_call_func_params(return_value, SL("session_id") TSRMLS_CC, 0);
 #endif
 }
 
@@ -82,8 +82,6 @@ void phalcon_set_session_id(zval *sid TSRMLS_DC)
 		zval_dtor(&copy);
 	}
 #else
-	zval *params[] = { sid };
-
-	phalcon_call_func_params_w(NULL, SL("session_id"), 1, params TSRMLS_CC);
+	phalcon_call_func_params(NULL, SL("session_id") TSRMLS_CC, 1, sid);
 #endif
 }

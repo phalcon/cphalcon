@@ -61,7 +61,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Submit){
  */
 PHP_METHOD(Phalcon_Forms_Element_Submit, render){
 
-	zval *attributes = NULL, *widget_attributes, *code;
+	zval *attributes = NULL, *widget_attributes;
 
 	PHALCON_MM_GROW();
 
@@ -77,8 +77,7 @@ PHP_METHOD(Phalcon_Forms_Element_Submit, render){
 	/** 
 	 * Merged passed attributes with previously defined ones
 	 */
-	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "submitbutton", widget_attributes);
-	RETURN_CCTOR(code);
+	phalcon_call_static_p1(return_value, "phalcon\\tag", "submitbutton", widget_attributes);
+	PHALCON_MM_RESTORE();
 }
 
