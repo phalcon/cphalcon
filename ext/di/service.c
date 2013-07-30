@@ -229,18 +229,10 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		 */
 		if (phalcon_class_exists(definition, 1 TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
-					if (phalcon_create_instance_params(instance, definition, parameters TSRMLS_CC) == FAILURE) {
-						return;
-					}
-				} else {
-					PHALCON_INIT_NVAR(instance);
-					if (phalcon_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
-						return;
-					}
+				if (phalcon_create_instance_params(instance, definition, parameters TSRMLS_CC) == FAILURE) {
+					return;
 				}
 			} else {
-				PHALCON_INIT_NVAR(instance);
 				if (phalcon_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
 					return;
 				}
@@ -255,10 +247,8 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		if (likely(Z_TYPE_P(definition) == IS_OBJECT)) {
 			if (phalcon_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-					PHALCON_INIT_NVAR(instance);
 					PHALCON_CALL_USER_FUNC_ARRAY(instance, definition, parameters);
 				} else {
-					PHALCON_INIT_NVAR(instance);
 					PHALCON_CALL_USER_FUNC(instance, definition);
 				}
 			} else {
@@ -272,7 +262,6 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 				PHALCON_INIT_VAR(builder);
 				object_init_ex(builder, phalcon_di_service_builder_ce);
 	
-				PHALCON_INIT_NVAR(instance);
 				phalcon_call_method_p3(instance, builder, "build", dependency_injector, definition, parameters);
 			} else {
 				PHALCON_INIT_NVAR(found);

@@ -269,6 +269,18 @@ zend_class_entry *phalcon_fetch_class(const zval *class_name TSRMLS_DC) {
 	return zend_fetch_class("stdclass", strlen("stdclass"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 }
 
+zend_class_entry* phalcon_fetch_self_class(TSRMLS_D) {
+	return zend_fetch_class(NULL, 0, ZEND_FETCH_CLASS_SELF TSRMLS_CC);
+}
+
+zend_class_entry* phalcon_fetch_parent_class(TSRMLS_D) {
+	return zend_fetch_class(NULL, 0, ZEND_FETCH_CLASS_PARENT TSRMLS_CC);
+}
+
+zend_class_entry* phalcon_fetch_static_class(TSRMLS_D) {
+	return zend_fetch_class(NULL, 0, ZEND_FETCH_CLASS_STATIC TSRMLS_CC);
+}
+
 /**
  * Checks if a class exist
  */
@@ -1184,19 +1196,33 @@ int phalcon_method_quick_exists_ex(const zval *object, const char *method_name, 
 	return FAILURE;
 }
 
+int phalcon_read_static_property_ce(zval **result, zend_class_entry *ce, char *property, int len TSRMLS_DC) {
+	assert(ce != NULL);
+
+	*result = zend_read_static_property(ce, property, len, (zend_bool)ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if (*result) {
+		Z_ADDREF_PP(result);
+		return SUCCESS;
+	}
+
+	return FAILURE;
+}
+
 /**
  * Query a static property value from a zend_class_entry
  */
 int phalcon_read_static_property(zval **result, const char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
-		*result = zend_read_static_property(*ce, property_name, property_length, PH_FETCH_CLASS_SILENT);
-		if (*result) {
-			Z_ADDREF_PP(result);
-			return SUCCESS;
-		}
+		return phalcon_read_static_property_ce(result, *ce, property_name, property_length TSRMLS_CC);
 	}
+
 	return FAILURE;
+}
+
+int phalcon_update_static_property_ce(zend_class_entry *ce, char *name, int len, zval *value TSRMLS_DC) {
+	assert(ce != NULL);
+	return zend_update_static_property(ce, name, len, value TSRMLS_CC);
 }
 
 /**
@@ -1205,16 +1231,24 @@ int phalcon_read_static_property(zval **result, const char *class_name, unsigned
 int phalcon_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
-		return zend_update_static_property(*ce, name, name_length, value TSRMLS_CC);
+		return phalcon_update_static_property_ce(*ce, name, name_length, value TSRMLS_CC);
 	}
+
 	return FAILURE;
 }
 
-/**
- * Update a static property (in NTS)
- */
-int phalcon_update_static_property_nts(zend_class_entry *ce, char *name, unsigned int name_length, zval *value TSRMLS_DC){
-	return zend_update_static_property(ce, name, name_length, value TSRMLS_CC);
+int phalcon_read_class_property(zval **result, int type, char *property, int len TSRMLS_DC) {
+	zend_class_entry *ce;
+
+	type |= (ZEND_FETCH_CLASS_SILENT | ZEND_FETCH_CLASS_NO_AUTOLOAD);
+	type &= ZEND_FETCH_CLASS_MASK;
+	ce    = zend_fetch_class(NULL, 0, type TSRMLS_CC);
+
+	if (likely(ce != NULL)) {
+		return phalcon_read_static_property_ce(result, ce, property, len TSRMLS_CC);
+	}
+
+	return FAILURE;
 }
 
 /**

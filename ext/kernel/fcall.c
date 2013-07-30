@@ -37,64 +37,16 @@
 
 #include "kernel/alternative/fcall.h"
 
-/**
- * Finds the correct scope to execute the function
- */
-int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len, int lower, ulong hash TSRMLS_DC){
-
-	char *lcname;
-
-	if (lower) {
-		lcname = method_name;
-	} else {
-		lcname = zend_str_tolower_dup(method_name, method_len);
-	}
-
-	if (!hash) {
-		hash = zend_inline_hash_func(lcname, method_len + 1);
-	}
-
+static zend_class_entry* phalcon_find_class_entry(zend_class_entry *ce, const char *active_class, zend_uint active_class_len) {
 	while (ce) {
-		if (phalcon_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
-			EG(scope) = ce;
-			if (!lower) {
-				efree(lcname);
-			}
-			return SUCCESS;
+		if (ce->name_length == active_class_len && !zend_binary_strcasecmp(ce->name, active_class_len, active_class, active_class_len)) {
+			return ce;
 		}
+
 		ce = ce->parent;
 	}
 
-	if (!lower) {
-		efree(lcname);
-	}
-
-	return FAILURE;
-}
-
-/**
- * Find out the function scope on parent classes
- */
-static inline int phalcon_find_parent_scope(zend_class_entry *ce, const char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
-
-	char *lcname = zend_str_tolower_dup(method_name, method_len);
-	ulong hash = zend_inline_hash_func(lcname, method_len + 1);
-
-	while (ce) {
-		if (ce->name_length == active_class_len) {
-			if (!zend_binary_strcasecmp(ce->name, ce->name_length, active_class, active_class_len)) {
-				if (phalcon_hash_quick_exists(&ce->function_table, lcname, method_len + 1, hash)) {
-					EG(scope) = ce;
-					efree(lcname);
-					return SUCCESS;
-				}
-			}
-		}
-		ce = ce->parent;
-	}
-
-	efree(lcname);
-	return FAILURE;
+	return NULL;
 }
 
 /**
@@ -279,19 +231,14 @@ int phalcon_call_method_params_w(zval *return_value, zval *object, char *method_
 
 	/* Find class_entry scope */
 	ce = Z_OBJCE_P(object);
-	if (ce->parent) {
-		phalcon_find_scope(ce, method_name, method_len, lower, method_key TSRMLS_CC);
-	} else {
-		EG(scope) = ce;
-	}
-
+	EG(scope) = ce;
 	status = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, param_count, params, method_key TSRMLS_CC);
+	EG(scope) = active_scope;
+
 	if (status == FAILURE) {
-		EG(scope) = active_scope;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, ce->name);
 		status = FAILURE;
 	}
-	EG(scope) = active_scope;
 
 	if (!caller_wants_result) {
 		zval_ptr_dtor(&return_value);
@@ -389,11 +336,27 @@ int phalcon_call_static_func_params(zval *return_value, char *class_name, int cl
 int phalcon_call_parent_func_params(zval *return_value, zval *object, char *active_class, int active_class_len, char *method_name, int method_len, zend_uint param_count, zval *params[] TSRMLS_DC){
 
 	int success;
-	zend_class_entry *active_scope = NULL;
+	zend_class_entry *active_scope;
+	zend_class_entry *parent_scope;
 
 	if (object) {
+		parent_scope = phalcon_find_class_entry(Z_OBJCE_P(object), active_class, active_class_len);
+		if (unlikely(parent_scope == NULL)) {
+			char *cn;
+			zend_uint cn_len;
+			int dup;
+
+			dup = zend_get_object_classname(object, &cn, &cn_len TSRMLS_CC);
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Unable to find class '%s' in the inheritance chain of class '%s'", active_class, cn);
+			if (dup) {
+				efree(cn);
+			}
+
+			return FAILURE;
+		}
+
 		active_scope = EG(scope);
-		phalcon_find_parent_scope(Z_OBJCE_P(object), active_class, active_class_len, method_name, method_len TSRMLS_CC);
+		EG(scope)    = parent_scope;
 	}
 
 	success = phalcon_call_static_func_params(return_value, SL("parent"), method_name, method_len, param_count, params TSRMLS_CC);
@@ -431,13 +394,11 @@ int phalcon_call_self_func_params(zval *return_value, zval *object, char *method
 
 	if (object) {
 		active_scope = EG(scope);
-		ce = Z_OBJCE_P(object);
-		if (ce->parent) {
-			phalcon_find_scope(ce, method_name, method_len, 0, 0 TSRMLS_CC);
-		}
+		EG(scope)    = Z_OBJCE_P(object);
 	}
 
 	success = phalcon_call_static_func_params(return_value, SL("self"), method_name, method_len, param_count, params TSRMLS_CC);
+
 	if (object) {
 		EG(scope) = active_scope;
 	}

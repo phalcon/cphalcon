@@ -30,8 +30,6 @@
 #define PH_COPY 1024
 #define PH_CTOR 4096
 
-#define PH_FETCH_CLASS_SILENT (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC
-
 #define SL(str) ZEND_STRL(str)
 #define SS(str) ZEND_STRS(str)
 
