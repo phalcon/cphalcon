@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		PHALCON_INIT_VAR(cookie);
 		object_init_ex(cookie, phalcon_http_cookie_ce);
 	
-		PHALCON_CALL_METHOD(NULL, cookie, "__construct", 0, 7, name, value, expire, path, secure, domain, http_only);
+		PHALCON_CALL_METHOD(NULL, cookie, "__construct", zend_inline_hash_func(SS("__construct")), 7, name, value, expire, path, secure, domain, http_only);
 	
 		/** 
 		 * Pass the DI to created cookies
