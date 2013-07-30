@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	 */
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	}
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
@@ -1191,7 +1191,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	 */
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	}
 	
 	PHALCON_INIT_VAR(criteria);
@@ -1595,7 +1595,7 @@ PHP_METHOD(Phalcon_Mvc_Model, count){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "rowcount", 1);
-	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_groupresult", function, alias, parameters);
+	phalcon_call_self_p3(return_value, this_ptr, "_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -1634,7 +1634,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "sumatory", 1);
-	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_groupresult", function, alias, parameters);
+	phalcon_call_self_p3(return_value, this_ptr, "_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -1673,7 +1673,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "maximum", 1);
-	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_groupresult", function, alias, parameters);
+	phalcon_call_self_p3(return_value, this_ptr, "_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -1712,7 +1712,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "minimum", 1);
-	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_groupresult", function, alias, parameters);
+	phalcon_call_self_p3(return_value, this_ptr, "_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -1751,7 +1751,7 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
 	
 	PHALCON_INIT_VAR(alias);
 	ZVAL_STRING(alias, "average", 1);
-	PHALCON_CALL_SELF_PARAMS_3(return_value, this_ptr, "_groupresult", function, alias, parameters);
+	phalcon_call_self_p3(return_value, this_ptr, "_groupresult", function, alias, parameters);
 	RETURN_MM();
 }
 
@@ -5332,28 +5332,15 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany){
 	zval *fields, *intermediate_model, *intermediate_fields;
 	zval *intermediate_referenced_fields, *reference_model;
 	zval *referenced_fields, *options = NULL, *manager;
-	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 6, 1, &fields, &intermediate_model, &intermediate_fields, &intermediate_referenced_fields, &reference_model, &referenced_fields, &options);
 	
-	if (!options) {
-		PHALCON_INIT_VAR(options);
-	}
-	
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
-	p0[0] = this_ptr;
-	p0[1] = fields;
-	p0[2] = intermediate_model;
-	p0[3] = intermediate_fields;
-	p0[4] = intermediate_referenced_fields;
-	p0[5] = reference_model;
-	p0[6] = referenced_fields;
-	p0[7] = options;
-	phalcon_call_method_pn(return_value, manager, "addhasmanytomany", 8, p0);
+	PHALCON_CALL_METHOD(return_value, manager, "addhasmanytomany", zend_inline_hash_func(SS("addhasmanytomany")), (options ? 8 : 7), this_ptr, fields, intermediate_model, intermediate_fields, intermediate_referenced_fields, reference_model, referenced_fields, options);
 	RETURN_MM();
 }
 
@@ -6448,7 +6435,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			 * Obtain the default DI
 			 */
 			PHALCON_INIT_VAR(dependency_injector);
-			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+			phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");

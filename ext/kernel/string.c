@@ -1117,17 +1117,11 @@ void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *ma
 
 void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC)
 {
-	zval *params[] = {
-		regex,
-		subject,
-		matches
-	};
-
 	if (matches) {
 		Z_SET_ISREF_P(matches);
 	}
 
-	phalcon_call_func_params_w(return_value, SL("preg_match"), (matches ? 3 : 2), params TSRMLS_CC);
+	phalcon_call_func_params(return_value, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
 
 	if (matches) {
 		Z_UNSET_ISREF_P(matches);
@@ -1175,11 +1169,7 @@ void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 	ALLOC_INIT_ZVAL(zopts);
 	ZVAL_LONG(zopts, opts);
 
-	{
-		zval *params[2] = { v, zopts };
-		phalcon_call_func_params_w(return_value, ZEND_STRL("json_encode"), 2, params TSRMLS_CC);
-	}
-
+	phalcon_call_func_params(return_value, ZEND_STRL("json_encode") TSRMLS_CC, 2, v, zopts);
 	zval_ptr_dtor(&zopts);
 }
 
@@ -1190,11 +1180,7 @@ void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 	ALLOC_INIT_ZVAL(zassoc);
 	ZVAL_BOOL(zassoc, assoc);
 
-	{
-		zval *params[2] = { v, zassoc };
-		phalcon_call_func_params_w(return_value, ZEND_STRL("json_decode"), 2, params TSRMLS_CC);
-	}
-
+	phalcon_call_func_params(return_value, ZEND_STRL("json_decode") TSRMLS_CC, 2, v, zassoc);
 	zval_ptr_dtor(&zassoc);
 }
 

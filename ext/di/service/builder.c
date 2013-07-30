@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		 */
 		PHALCON_INIT_VAR(instance);
 		if (phalcon_create_instance_params(instance, class_name, parameters TSRMLS_CC) == FAILURE) {
-			return;
+			RETURN_MM();
 		}
 	} else {
 		/** 
@@ -300,12 +300,12 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			 */
 			PHALCON_INIT_NVAR(instance);
 			if (phalcon_create_instance_params(instance, class_name, build_arguments TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 		} else {
 			PHALCON_INIT_NVAR(instance);
 			if (phalcon_create_instance(instance, class_name TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 		}
 	}

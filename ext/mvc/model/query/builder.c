@@ -1259,7 +1259,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	

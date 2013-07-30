@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_DI_Injectable, getDI){
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	}
 	
 	RETURN_CCTOR(dependency_injector);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 
 		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");

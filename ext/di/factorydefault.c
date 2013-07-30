@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_CALL_PARENT_NORETURN(this_ptr, "Phalcon\\DI\\FactoryDefault", "__construct");
+	phalcon_call_parent_noret(this_ptr, phalcon_di_factorydefault_ce, "__construct");
 	
 	PHALCON_INIT_VAR(shared);
 	ZVAL_BOOL(shared, 1);

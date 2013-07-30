@@ -666,7 +666,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue){
 		 * Check if the tag has a default value
 		 */
 		PHALCON_INIT_VAR(has_default_value);
-		PHALCON_CALL_STATIC_PARAMS_1(has_default_value, "phalcon\\tag", "hasvalue", name);
+		phalcon_call_static_p1(has_default_value, "phalcon\\tag", "hasvalue", name);
 		if (!zend_is_true(has_default_value)) {
 			/** 
 			 * Gets the possible value for the widget
@@ -806,7 +806,7 @@ PHP_METHOD(Phalcon_Forms_Element, clear){
 	
 	PHALCON_OBS_VAR(name);
 	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	PHALCON_CALL_STATIC_PARAMS_2_NORETURN("phalcon\\tag", "setdefault", name, znull);
+	phalcon_call_static_p2_noret("phalcon\\tag", "setdefault", name, znull);
 	RETURN_THIS();
 }
 

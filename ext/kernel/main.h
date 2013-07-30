@@ -221,6 +221,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 
 #ifndef IS_INTERNED
 #define IS_INTERNED(key) 0
+#define INTERNED_HASH(key) 0
 #endif
 
 /** Get the current hash key without copying the hash key */

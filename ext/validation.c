@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 	
 						PHALCON_INIT_NVAR(dependency_injector);
-						PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+						phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	
 						if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 							PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A dependency injector is required to obtain the 'filter' service");

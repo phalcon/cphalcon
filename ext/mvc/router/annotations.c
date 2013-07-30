@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	/** 
 	 * Call the parent handle method()
 	 */
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Mvc\\Router\\Annotations", "handle", real_uri);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_mvc_router_annotations_ce, "handle", real_uri);
 	
 	PHALCON_MM_RESTORE();
 }
