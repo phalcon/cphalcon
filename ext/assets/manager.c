@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection){
  */
 PHP_METHOD(Phalcon_Assets_Manager, output){
 
-	zval *collection, *callback, *output, *use_implicit_output;
+	zval *collection, *callback, *type = NULL, *output, *use_implicit_output;
 	zval *resources, *filters, *prefix, *source_base_path = NULL;
 	zval *target_base_path = NULL, *options, *collection_source_path;
 	zval *complete_source_path = NULL, *collection_target_path;
@@ -471,10 +471,11 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
+	zval *type_css;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &collection, &callback);
+	phalcon_fetch_params(1, 2, 1, &collection, &callback, &type);
 	
 	PHALCON_INIT_VAR(output);
 	
@@ -498,6 +499,9 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 	 */
 	PHALCON_INIT_VAR(prefix);
 	phalcon_call_method(prefix, collection, "getprefix");
+
+	PHALCON_INIT_VAR(type_css);
+	ZVAL_STRING(type_css, "css", 1);
 	
 	/** 
 	 * Prepare options if the collection must be filtered
@@ -614,7 +618,11 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 	
 		PHALCON_INIT_NVAR(filter_needed);
 		ZVAL_BOOL(filter_needed, 0);
-	
+
+		if (!type) {
+			PHALCON_INIT_VAR(type);
+			phalcon_call_method(type, resource, "gettype");
+		}	
 		/** 
 		 * Is the resource local?
 		 */
@@ -799,11 +807,20 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 					 * Update the joined filtered content
 					 */
 					if (zend_is_true(join)) {
-						if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
-							PHALCON_INIT_NVAR(filtered_joined_content);
-							PHALCON_CONCAT_VS(filtered_joined_content, filtered_content, ";");
+						if (PHALCON_IS_EQUAL(type, type_css)) {
+							if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
+								PHALCON_INIT_NVAR(filtered_joined_content);
+								PHALCON_CONCAT_VS(filtered_joined_content, filtered_content, "");
+							} else {
+								PHALCON_SCONCAT_VS(filtered_joined_content, filtered_content, "");
+							}
 						} else {
-							PHALCON_SCONCAT_VS(filtered_joined_content, filtered_content, ";");
+							if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
+								PHALCON_INIT_NVAR(filtered_joined_content);
+								PHALCON_CONCAT_VS(filtered_joined_content, filtered_content, ";");
+							} else {
+								PHALCON_SCONCAT_VS(filtered_joined_content, filtered_content, ";");
+							}
 						}
 					}
 	
@@ -973,7 +990,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
  */
 PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 
-	zval *collection_name = NULL, *collection = NULL, *callback;
+	zval *collection_name = NULL, *collection = NULL, *callback, *type = NULL;
 	zval *output;
 
 	PHALCON_MM_GROW();
@@ -996,9 +1013,12 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 	array_init_size(callback, 2);
 	add_next_index_stringl(callback, SL("Phalcon\\Tag"), 1);
 	add_next_index_stringl(callback, SL("stylesheetLink"), 1);
+
+	PHALCON_INIT_VAR(type);
+        ZVAL_STRING(type, "css", 1);
 	
 	PHALCON_INIT_VAR(output);
-	phalcon_call_method_p2(output, this_ptr, "output", collection, callback);
+	phalcon_call_method_p3(output, this_ptr, "output", collection, callback, type);
 	
 	RETURN_CCTOR(output);
 }
@@ -1010,7 +1030,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
  */
 PHP_METHOD(Phalcon_Assets_Manager, outputJs){
 
-	zval *collection_name = NULL, *collection = NULL, *callback;
+	zval *collection_name = NULL, *collection = NULL, *callback, *type = NULL;
 	zval *output;
 
 	PHALCON_MM_GROW();
@@ -1034,8 +1054,11 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs){
 	add_next_index_stringl(callback, SL("Phalcon\\Tag"), 1);
 	add_next_index_stringl(callback, SL("javascriptInclude"), 1);
 	
+	PHALCON_INIT_VAR(type);
+        ZVAL_STRING(type, "js", 1);
+
 	PHALCON_INIT_VAR(output);
-	phalcon_call_method_p2(output, this_ptr, "output", collection, callback);
+	phalcon_call_method_p3(output, this_ptr, "output", collection, callback, type);
 	
 	RETURN_CCTOR(output);
 }
