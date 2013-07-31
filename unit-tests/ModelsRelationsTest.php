@@ -356,10 +356,10 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($robot->save());
 
 		$parts = M2MParts::find(array('order' => 'id'));
-		$this->assertTrue(count($parts), 4);
+		$this->assertEquals(count($parts), 4);
 
 		$rp = M2MRobotsParts::find(array('order' => 'robots_id, parts_id'));
-		$this->assertTrue(count($rp), 4);
+		$this->assertEquals(count($rp), 4);
 
 		for ($i=0; $i<count($rp); ++$i) {
 			$this->assertEquals($parts[$i]->name, 'Part '. ($i+1));
