@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss){
 	
 	PHALCON_INIT_VAR(resource);
 	object_init_ex(resource, phalcon_assets_resource_css_ce);
-	phalcon_call_method_p5_noret(resource, "__construct", type, path, local, filter, attributes);
+	phalcon_call_method_p4_noret(resource, "__construct", path, local, filter, attributes);
 	
 	phalcon_call_method_p2_noret(this_ptr, "addresourcebytype", type, resource);
 	RETURN_THIS();
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs){
 	
 	PHALCON_INIT_VAR(resource);
 	object_init_ex(resource, phalcon_assets_resource_js_ce);
-	phalcon_call_method_p5_noret(resource, "__construct", type, path, local, filter, attributes);
+	phalcon_call_method_p4_noret(resource, "__construct", path, local, filter, attributes);
 	
 	phalcon_call_method_p2_noret(this_ptr, "addresourcebytype", type, resource);
 	RETURN_THIS();
