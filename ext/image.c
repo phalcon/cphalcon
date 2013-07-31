@@ -38,7 +38,7 @@
  * Image manipulation support. Allows images to be resized, cropped, etc.
  *
  *<code>
- *	$image = new Phalcon\Image\Adapter\GD("'upload/test.jpg'");
+ *	$image = new Phalcon\Image\Adapter\GD("upload/test.jpg");
  *	$image->resize(200, 200);
  *	$$image->save();
  *</code>
