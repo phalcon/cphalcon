@@ -52,8 +52,7 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Image\\Adapter, GD, image_adapter_gd, "phalcon\\image\\adapter", phalcon_image_adapter_gd_method_entry, 0);
 	
-
-	zend_declare_property_long(phalcon_image_ce, SL("_driver"), 21, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_image_adapter_gd_ce, SL("_imageinfo"), 21, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_image_adapter_gd_ce TSRMLS_CC, 1, phalcon_image_adapterinterface_ce);
 
@@ -89,6 +88,7 @@ PHP_METHOD(Phalcon_Image, __construct){
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
 		return;
 	}
+	phalcon_update_property_this(this_ptr, SL("_imageinfo"), imageinfo TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
