@@ -1014,7 +1014,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
         ZVAL_STRING(type, "css", 1);
 	
 	PHALCON_INIT_VAR(output);
-	phalcon_call_method_p2(output, this_ptr, "output", collection, callback, type);
+	phalcon_call_method_p3(output, this_ptr, "output", collection, callback, type);
 	
 	RETURN_CCTOR(output);
 }
@@ -1054,7 +1054,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputJs){
         ZVAL_STRING(type, "js", 1);
 
 	PHALCON_INIT_VAR(output);
-	phalcon_call_method_p2(output, this_ptr, "output", collection, callback, type);
+	phalcon_call_method_p3(output, this_ptr, "output", collection, callback, type);
 	
 	RETURN_CCTOR(output);
 }
