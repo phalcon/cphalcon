@@ -620,9 +620,9 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 		ZVAL_BOOL(filter_needed, 0);
 
 		if (!type) {
-                        PHALCON_INIT_VAR(type);
-                        phalcon_call_method(type, resource, "gettype");
-                }	
+			PHALCON_INIT_VAR(type);
+			phalcon_call_method(type, resource, "gettype");
+		}	
 		/** 
 		 * Is the resource local?
 		 */
@@ -809,11 +809,11 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 					if (zend_is_true(join)) {
 						if (PHALCON_IS_EQUAL(type, type_css)) {
 							if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
-                                                                PHALCON_INIT_NVAR(filtered_joined_content);
-                                                                PHALCON_CONCAT_VS(filtered_joined_content, filtered_content, "");
-                                                        } else {
-                                                                PHALCON_SCONCAT_VS(filtered_joined_content, filtered_content, "");
-                                                        }
+								PHALCON_INIT_NVAR(filtered_joined_content);
+								PHALCON_CONCAT_VS(filtered_joined_content, filtered_content, "");
+							} else {
+								PHALCON_SCONCAT_VS(filtered_joined_content, filtered_content, "");
+							}
 						} else {
 							if (Z_TYPE_P(filtered_joined_content) == IS_NULL) {
 								PHALCON_INIT_NVAR(filtered_joined_content);
