@@ -345,6 +345,8 @@ zend_class_entry *phalcon_events_managerinterface_ce;
 zend_class_entry *phalcon_events_eventsawareinterface_ce;
 zend_class_entry *phalcon_exception_ce;
 zend_class_entry *phalcon_image_ce;
+zend_class_entry *phalcon_image_adapter_ce;
+zend_class_entry *phalcon_image_adapter_gd_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 

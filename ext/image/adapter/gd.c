@@ -48,25 +48,50 @@
 /**
  * Phalcon\Image initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Image){
+PHALCON_INIT_CLASS(Phalcon_Image_Adapter){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Logger, logger, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Image\\Adapter, GD, image_adapter_gd, "phalcon\\image\\adapter", phalcon_image_adapter_gd_method_entry, 0);
 	
-	// Resizing constraints
-	zend_declare_class_constant_long(phalcon_image_ce, SL("NONE"), 1 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("WIDTH"), 2 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("HEIGHT"), 3 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("AUTO"), 4 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("INVERSE"), 5 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("PRECISE"), 6 TSRMLS_CC);
 
-	// Flipping directions
-	zend_declare_class_constant_long(phalcon_image_ce, SL("HORIZONTAL"), 11 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("VERTICAL"), 12 TSRMLS_CC);
+	zend_declare_property_long(phalcon_image_ce, SL("_driver"), 21, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	// Driver: GD, ImageMagick, etc
-	zend_declare_class_constant_long(phalcon_image_ce, SL("GD"), 21 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("IMAGICK"), 22 TSRMLS_CC);
+	zend_class_implements(phalcon_image_adapter_gd_ce TSRMLS_CC, 1, phalcon_image_adapterinterface_ce);
 
 	return SUCCESS;
 }
+
+/**
+ * Phalcon\Image constructor
+ *
+ * @param string $file
+ * @param int $driver
+ */
+PHP_METHOD(Phalcon_Image, __construct){
+
+	zval *file, *driver = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &file, &driver);
+	
+	if (driver) {
+		if (Z_TYPE_P(driver) != IS_LONG) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_image_exception_ce, "The image driver is not valid");
+			return;
+		}
+		phalcon_update_property_this(this_ptr, SL("_driver"), driver TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Image, resize) {
+	zval *width = NULL, *height = NULL, *master = NULL;
+
+	phalcon_fetch_params(0, 0, 3, &width, &height, &master);
+
+	PHALCON_MM_GROW();
+
+	PHALCON_MM_RESTORE();
+}
+
