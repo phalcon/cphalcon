@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Assets_Manager, collection){
  */
 PHP_METHOD(Phalcon_Assets_Manager, output){
 
-	zval *collection, *callback, *type, *output, *use_implicit_output;
+	zval *collection, *callback, *type = NULL, *output, *use_implicit_output;
 	zval *resources, *filters, *prefix, *source_base_path = NULL;
 	zval *target_base_path = NULL, *options, *collection_source_path;
 	zval *complete_source_path = NULL, *collection_target_path;
@@ -619,8 +619,8 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 		PHALCON_INIT_NVAR(filter_needed);
 		ZVAL_BOOL(filter_needed, 0);
 
-		if (Z_TYPE_P(type) == IS_NULL) {
-                        PHALCON_INIT_NVAR(type);
+		if (!type) {
+                        PHALCON_INIT_VAR(type);
                         phalcon_call_method(type, resource, "gettype");
                 }	
 		/** 
