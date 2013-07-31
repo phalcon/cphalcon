@@ -714,6 +714,8 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Events_Manager);
 	PHALCON_INIT(Phalcon_Events_Exception);
 	PHALCON_INIT(Phalcon_Image);
+	PHALCON_INIT(Phalcon_Image_AdapterInterface);
+	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 
 	old_error_cb  = zend_error_cb;
 	zend_error_cb = phalcon_error_cb;

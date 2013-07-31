@@ -50,7 +50,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Image){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Logger, logger, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS(Phalcon, Image, image, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 	
 	// Resizing constraints
 	zend_declare_class_constant_long(phalcon_image_ce, SL("NONE"), 1 TSRMLS_CC);

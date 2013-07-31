@@ -340,8 +340,11 @@ mvc/model/query/scanner.c \
 mvc/view/engine/volt/parser.c \
 mvc/view/engine/volt/scanner.c \
 annotations/parser.c \
-annotations/scanner.c \
-image.c"
+annotations/scanner.c
+image.c \
+image/adapterinterface.c \
+image/exception.c \
+image/adapter/gd.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
 	PHP_ADD_EXTENSION_DEP([phalcon], [spl])

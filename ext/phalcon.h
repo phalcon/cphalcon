@@ -326,5 +326,5 @@
 #include "events/exception.h"
 #include "image.h"
 #include "image/adapterinterface.h"
-#include "image/adapter/gd.h"
 #include "image/exception.h"
+#include "image/adapter/gd.h"
