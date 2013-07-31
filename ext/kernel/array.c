@@ -1394,7 +1394,7 @@ void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
  * @brief array_unshift($arr, $arg)
  * @param arr
  * @param arg
- * @note Reefernce count of @c arg will be incremented
+ * @note Reference count of @c arg will be incremented
  */
 void phalcon_array_unshift(zval *arr, zval *arg)
 {
