@@ -19,7 +19,7 @@
 
 extern zend_class_entry *phalcon_image_adapter_gd_ce;
 
-PHALCON_INIT_CLASS(Phalcon_Image_GD);
+PHALCON_INIT_CLASS(Phalcon_Image_Adapter_GD);
 
 PHP_METHOD(Phalcon_Image_Adapter_GD, __construct);
 PHP_METHOD(Phalcon_Image_Adapter_GD, resize);
@@ -35,8 +35,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_resize, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_image_adapter_gd_method_entry) {
-	PHP_ME(Phalcon_Image, __construct, arginfo_phalcon_image_adapter_gd___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Image, resize, arginfo_phalcon_image_adapter_gd_resize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter_GD, __construct, arginfo_phalcon_image_adapter_gd___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Image_Adapter_GD, resize, arginfo_phalcon_image_adapter_gd_resize, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 

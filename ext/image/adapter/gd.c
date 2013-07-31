@@ -33,7 +33,7 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon\Image
+ * Phalcon\Image\\Adapter\GD
  *
  * Image manipulation support. Allows images to be resized, cropped, etc.
  *
@@ -48,7 +48,7 @@
 /**
  * Phalcon\Image initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Image_Adapter){
+PHALCON_INIT_CLASS(Phalcon_Image_Adapter_GD){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Image\\Adapter, GD, image_adapter_gd, "phalcon\\image\\adapter", phalcon_image_adapter_gd_method_entry, 0);
 	
@@ -64,7 +64,7 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter){
  *
  * @param string $file
  */
-PHP_METHOD(Phalcon_Image, __construct){
+PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
 	zval *file, *real_file_path, *imageinfo, *exception_message;
 
@@ -78,11 +78,11 @@ PHP_METHOD(Phalcon_Image, __construct){
 	}
 
 	PHALCON_INIT_VAR(real_file_path);
-    phalcon_realpath(real_file_path, file TSRMLS_CC);
+	phalcon_realpath(real_file_path, file TSRMLS_CC);
 
 	PHALCON_INIT_VAR(imageinfo);
 	phalcon_call_func_p1(imageinfo, "getimagesize", real_file_path);
-	if (!zend_is_true(handler)) {
+	if (Z_TYPE_P(imageinfo) != IS_ARRAY) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Can't open image file at '", real_file_path, "'");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Image, __construct){
  * @param int $master  master dimension
  * @return Phalcon\Image\Adapter
  */
-PHP_METHOD(Phalcon_Image, resize) {
+PHP_METHOD(Phalcon_Image_Adapter_GD, resize) {
 	zval *width = NULL, *height = NULL, *master = NULL;
 
 	phalcon_fetch_params(0, 0, 3, &width, &height, &master);
