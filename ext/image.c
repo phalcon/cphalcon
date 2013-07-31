@@ -50,7 +50,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Image){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Image, image, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS(Phalcon, Image, image, phalcon_image_method_entry, 0);
 	
 	// Resizing constraints
 	zend_declare_class_constant_long(phalcon_image_ce, SL("NONE"), 1 TSRMLS_CC);
@@ -65,5 +65,15 @@ PHALCON_INIT_CLASS(Phalcon_Image){
 	zend_declare_class_constant_long(phalcon_image_ce, SL("VERTICAL"), 12 TSRMLS_CC);
 
 	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Image, resize) {
+	zval *width = NULL, *height = NULL, *master = NULL;
+
+	phalcon_fetch_params(0, 0, 3, &width, &height, &master);
+
+	PHALCON_MM_GROW();
+
+	PHALCON_MM_RESTORE();
 }
 

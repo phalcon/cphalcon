@@ -324,3 +324,4 @@
 #include "events/event.h"
 #include "events/manager.h"
 #include "events/exception.h"
+#include "image.h"

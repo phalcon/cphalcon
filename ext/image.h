@@ -20,3 +20,17 @@
 extern zend_class_entry *phalcon_image_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Image);
+
+PHP_METHOD(Phalcon_Image, resize);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_resize, 0, 0, 0)
+	ZEND_ARG_INFO(0, width)
+	ZEND_ARG_INFO(0, height)
+	ZEND_ARG_INFO(0, master)
+ZEND_END_ARG_INFO()
+
+PHALCON_INIT_FUNCS(phalcon_image_method_entry) {
+	PHP_ME(Phalcon_Image, resize, arginfo_phalcon_image_resize, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
