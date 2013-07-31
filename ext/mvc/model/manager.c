@@ -344,11 +344,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 		PHALCON_OBS_VAR(model);
 		phalcon_array_fetch(&model, initialized, lowercased, PH_NOISY);
 		if (zend_is_true(new_instance)) {
-			PHALCON_INIT_VAR(cloned);
-			if (phalcon_clone(cloned, model TSRMLS_CC) == FAILURE) {
-				return;
+			PHALCON_OBS_VAR(dependency_injector);
+			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+
+			ce0 = Z_OBJCE_P(model);
+			object_init_ex(return_value, ce0);
+
+			if (phalcon_has_constructor(return_value TSRMLS_CC)) {
+				phalcon_call_method_p2_noret(return_value, "__construct", dependency_injector, this_ptr);
 			}
-			RETURN_CCTOR(cloned);
+
+			RETURN_MM();
 		}
 	
 		RETURN_CCTOR(model);
