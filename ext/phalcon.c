@@ -347,6 +347,7 @@ zend_class_entry *phalcon_exception_ce;
 zend_class_entry *phalcon_image_ce;
 zend_class_entry *phalcon_image_adapter_ce;
 zend_class_entry *phalcon_image_adapter_gd_ce;
+zend_class_entry *phalcon_image_exception_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
