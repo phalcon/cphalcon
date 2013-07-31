@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &collection, &callback, &type);
+	phalcon_fetch_params(1, 2, 1, &collection, &callback, &type);
 	
 	PHALCON_INIT_VAR(output);
 	
@@ -618,7 +618,11 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 	
 		PHALCON_INIT_NVAR(filter_needed);
 		ZVAL_BOOL(filter_needed, 0);
-	
+
+		if (Z_TYPE_P(type) == IS_NULL) {
+                        PHALCON_INIT_NVAR(type);
+                        phalcon_call_method(type, resource, "gettype");
+                }	
 		/** 
 		 * Is the resource local?
 		 */
