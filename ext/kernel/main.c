@@ -289,9 +289,6 @@ int phalcon_is_callable(zval *var TSRMLS_DC) {
 int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse) {
 
 	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
-		TSRMLS_FETCH();
-		zend_error(E_ERROR, "The argument is not iterable()");
-		phalcon_memory_restore_stack(TSRMLS_C);
 		return 0;
 	}
 
