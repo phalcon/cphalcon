@@ -57,13 +57,5 @@ if [ -f Makefile ]; then
 	phpize --clean
 fi
 
-LIBTOOLIZE_BIN="libtoolize"
-
-#GNU 'libtoolize' on MAC OS X is called 'glibtoolize'
-if [ "$(uname -s 2>/dev/null)" = "Darwin" ] && $(which glibtoolize > /dev/null 2>&1)
-then
-  LIBTOOLIZE_BIN="glibtoolize"
-fi
-
 #Perform the compilation
-phpize && aclocal && $LIBTOOLIZE_BIN --force && autoheader && autoconf && ./configure --enable-phalcon && make && make install && echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+phpize && ./configure --enable-phalcon && make && make install && echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
