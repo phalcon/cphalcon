@@ -270,7 +270,7 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 
 	unsigned int i, j, k, bracket_count = 0, parentheses_count = 0, ch;
 	unsigned int intermediate = 0, length, number_matches = 0, found_pattern;
-	int variable_length, regexp_length, not_valid;
+	int variable_length, regexp_length = 0, not_valid;
 	char *cursor, *cursor_var, *marker;
 	char *item, *variable = NULL, *regexp;
 	smart_str route_str = {0};
