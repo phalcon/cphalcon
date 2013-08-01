@@ -413,7 +413,7 @@ class Build_Generator
 						continue;
 					}
 
-					/* phalcon_all_method, phalcon_all_method_pX */
+					/* phalcon_call_method, phalcon_call_method_pX */
 					if (preg_match('/(phalcon_call_method(?:_p[0-9]+)?)\([a-zA-Z0-9\_]+, [a-zA-Z0-9\_]+, ("[a-zA-Z0-9\_]+")/', $line, $matches)) {
 						$matches[1] = $matches[1] . '_key';
 						$matches[2] = $matches[2] . ', ' . Phalcon\Kernel::$hash(substr($matches[2], -1, 1)) . 'UL';
@@ -421,7 +421,7 @@ class Build_Generator
 						continue;
 					}
 
-					/* phalcon_all_method_noret, phalcon_all_method_pX_noret */
+					/* phalcon_call_method_noret, phalcon_call_method_pX_noret */
 					if (preg_match('/phalcon_call_method(?:_p[0-9]+)?(_noret\()[a-zA-Z0-9\_]+, ("[a-zA-Z0-9\_]+")/', $line, $matches)) {
 						$matches[1] = '_key(NULL, ';
 						$matches[2] = $matches[2] . ', ' . Phalcon\Kernel::$hash(substr($matches[2], -1, 1)) . 'UL';
