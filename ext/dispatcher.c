@@ -892,7 +892,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					 * Exception wasn't handled, re throw it
 					 */
 					phalcon_throw_exception(exception TSRMLS_CC);
-					return;
+					RETURN_MM();
 				}
 			} else {
 				/** 

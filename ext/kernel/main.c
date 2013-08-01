@@ -327,12 +327,12 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 	int i;
 
 	if (num_args < required_args || (num_args > (required_args + optional_args))) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters"), 0 TSRMLS_CC);
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters") TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (num_args > arg_count) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing"), 0 TSRMLS_CC);
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing") TSRMLS_CC);
 		return FAILURE;
 	}
 

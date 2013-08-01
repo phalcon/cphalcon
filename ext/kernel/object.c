@@ -1259,7 +1259,7 @@ int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC
 	zend_class_entry *ce;
 
 	if (Z_TYPE_P(class_name) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name"), 0 TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name") TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -1289,12 +1289,12 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 	HashTable *params_hash;
 
 	if (Z_TYPE_P(class_name) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name"), 0 TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name") TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (Z_TYPE_P(params) != IS_ARRAY) {
-		phalcon_throw_exception_string(phalcon_exception_ce, SL("Instantiation parameters must be an array"), 0 TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Instantiation parameters must be an array") TSRMLS_CC);
 		return FAILURE;
 	}
 

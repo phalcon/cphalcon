@@ -38,13 +38,12 @@
 void phalcon_throw_exception(zval *object TSRMLS_DC){
 	Z_ADDREF_P(object);
 	zend_throw_exception_object(object TSRMLS_CC);
-	phalcon_memory_restore_stack(TSRMLS_C);
 }
 
 /**
  * Throws an exception with a single string parameter
  */
-void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len, int restore_stack TSRMLS_DC){
+void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len TSRMLS_DC){
 
 	zval *object, *msg;
 
@@ -59,16 +58,12 @@ void phalcon_throw_exception_string(zend_class_entry *ce, const char *message, z
 	zend_throw_exception_object(object TSRMLS_CC);
 
 	zval_ptr_dtor(&msg);
-
-	if (restore_stack) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
 }
 
 /**
  * Throws an exception with a single zval parameter
  */
-void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message, int restore_stack TSRMLS_DC){
+void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
 
 	zval *object;
 
@@ -78,10 +73,6 @@ void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message, int resto
 	phalcon_call_method_p1_noret(object, "__construct", message);
 
 	zend_throw_exception_object(object TSRMLS_CC);
-
-	if (restore_stack) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
 }
 
 /**
