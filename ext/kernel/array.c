@@ -784,7 +784,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent)
 	zval **zv;
 	HashTable *ht;
 	int result;
-	ulong uidx;
+	ulong uidx = 0;
 	char *sidx = NULL;
 
 	if (Z_TYPE_P(arr) == IS_ARRAY) {
