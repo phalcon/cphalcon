@@ -62,6 +62,11 @@ class ModelsSerializeTest extends PHPUnit_Framework_TestCase
 
 	public function testSerialize()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$this->_prepareDI();
 

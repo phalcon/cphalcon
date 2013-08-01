@@ -224,6 +224,12 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 	public function testModelPaginator()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		$this->_loadDI();
 
 		$personnes = Personnes::find();
@@ -280,6 +286,12 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 	public function testModelPaginatorBind()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		$this->_loadDI();
 
 		$personnes = Personnes::find(array(
@@ -311,13 +323,18 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 	public function testQueryBuilderPaginator()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_loadDI();
 
 		$builder = $di['modelsManager']->createBuilder()
-	        		->columns('cedula, nombres')
-	        		->from('Personnes')
-	        		->orderBy('cedula');
+					->columns('cedula, nombres')
+					->from('Personnes')
+					->orderBy('cedula');
 
 		$paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
 			"builder" => $builder,

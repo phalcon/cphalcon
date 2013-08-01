@@ -101,6 +101,11 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetNormal()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$cache = $this->_getCache();
 
@@ -118,6 +123,11 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetBinding()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$cache = $this->_getCache();
 
@@ -142,6 +152,11 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetSimple()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$cache = $this->_getCache();
 
@@ -163,6 +178,11 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetSimpleNoComplete()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$cache = $this->_getCache();
 
@@ -184,6 +204,11 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetSimpleNoComplex()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$cache = $this->_getCache();
 
@@ -205,6 +230,12 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetSimpleMemcached()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		if (!class_exists('Memcache')) {
 			$this->markTestSkipped("Memcache class does not exist, test skipped");
 			return;
@@ -286,6 +317,12 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function testCacheResultsetSimpleLibmemcached()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		if (!class_exists('Memcached')) {
 			$this->markTestSkipped("Memcached class does not exist, test skipped");
 			return;

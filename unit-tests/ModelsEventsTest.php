@@ -75,6 +75,11 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 	public function testEventsCreate()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$trace = array();
 
@@ -118,6 +123,11 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 	public function testEventsUpdate()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$trace = array();
 
@@ -163,6 +173,11 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 
 	public function testEventsDelete()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$trace = array();
 

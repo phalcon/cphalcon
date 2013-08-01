@@ -59,6 +59,11 @@ class ModelsDynamicOperationsTest extends PHPUnit_Framework_TestCase
 
 	public function testModelsMysql()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
