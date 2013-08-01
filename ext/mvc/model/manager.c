@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 
 	zval *model_name, *new_instance = NULL, *initialized;
-	zval *lowercased, *model, *cloned, *dependency_injector;
+	zval *lowercased, *model, *dependency_injector;
 	zval *exception_message;
 	zend_class_entry *ce0;
 
