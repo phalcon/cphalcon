@@ -240,6 +240,7 @@ int phalcon_cssmin_internal(zval *return_value, zval *style, zval **error TSRMLS
 	cssmin_parser parser;
 	smart_str minified = {0};
 
+	parser.tmp_state = 0;
 	parser.state = 1;
 	parser.last_state = 1;
 	parser.in_paren = 0;
