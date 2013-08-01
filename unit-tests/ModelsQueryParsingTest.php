@@ -67,6 +67,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 	public function testSelectParsing()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -6740,6 +6745,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 	public function testInsertParsing()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -7100,6 +7110,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 	public function testUpdateParsing()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -7692,9 +7707,13 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 	public function testDeleteParsing()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
 
 		$di = $this->_getDI();
-
 
 		$expected = array(
 			'tables' => array(
