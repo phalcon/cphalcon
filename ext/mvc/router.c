@@ -447,15 +447,16 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval *route = NULL, *methods = NULL;
 	zval *service, *match_method = NULL, *hostname = NULL, *regex_host_name = NULL;
 	zval *matched = NULL, *pattern = NULL, *before_match = NULL, *before_match_params = NULL;
-	zval *paths = NULL, *converters = NULL, *position = NULL, *part = NULL, *match_position = NULL;
-	zval *parameters = NULL, *converter = NULL, *converted_part = NULL;
+	zval *paths = NULL, *converters = NULL, *position = NULL, *part = NULL;
+	zval *parameters = NULL, *converted_part = NULL;
 	zval *namespace, *module, *controller;
 	zval *action, *params_str, *str_params;
-	zval *slash, *params_merge = NULL;
+	zval *params_merge = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
 	zval **dependency_injector, **tmp;
+	zval **match_position = NULL, **converter = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -678,52 +679,39 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 					PHALCON_GET_HKEY(part, ah1, hp1);
 					PHALCON_GET_HVALUE(position);
 	
-					if (phalcon_array_isset(matches, position)) {
-	
-						PHALCON_OBS_NVAR(match_position);
-						phalcon_array_fetch(&match_position, matches, position, PH_NOISY);
+					if (phalcon_array_isset_fetch(&match_position, matches, position)) {
 	
 						/** 
 						 * Check if the part has a converter
 						 */
-						if (Z_TYPE_P(converters) == IS_ARRAY) { 
-							if (phalcon_array_isset(converters, part)) {
-								PHALCON_INIT_NVAR(parameters);
-								array_init_size(parameters, 1);
-								phalcon_array_append(&parameters, match_position, 0);
-	
-								PHALCON_OBS_NVAR(converter);
-								phalcon_array_fetch(&converter, converters, part, PH_NOISY);
-	
-								PHALCON_INIT_NVAR(converted_part);
-								PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
-								phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY | PH_SEPARATE);
-								zend_hash_move_forward_ex(ah1, &hp1);
-								continue;
-							}
+						if (phalcon_array_isset_fetch(&converter, converters, part)) {
+							PHALCON_INIT_NVAR(parameters);
+							array_init_size(parameters, 1);
+							phalcon_array_append(&parameters, *match_position, 0);
+
+							PHALCON_INIT_NVAR(converted_part);
+							PHALCON_CALL_USER_FUNC_ARRAY(converted_part, *converter, parameters);
+							phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY);
+							zend_hash_move_forward_ex(ah1, &hp1);
+							continue;
 						}
 	
 						/** 
 						 * Update the parts if there is no converter
 						 */
-						phalcon_array_update_zval(&parts, part, &match_position, PH_COPY | PH_SEPARATE);
+						phalcon_array_update_zval(&parts, part, match_position, PH_COPY);
 					} else {
 						/** 
 						 * Apply the converters anyway
 						 */
-						if (Z_TYPE_P(converters) == IS_ARRAY) { 
-							if (phalcon_array_isset(converters, part)) {
-								PHALCON_INIT_NVAR(parameters);
-								array_init_size(parameters, 1);
-								phalcon_array_append(&parameters, position, 0);
-	
-								PHALCON_OBS_NVAR(converter);
-								phalcon_array_fetch(&converter, converters, part, PH_NOISY);
-	
-								PHALCON_INIT_NVAR(converted_part);
-								PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
-								phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY | PH_SEPARATE);
-							}
+						if (phalcon_array_isset_fetch(&converter, converters, part)) {
+							PHALCON_INIT_NVAR(parameters);
+							array_init_size(parameters, 1);
+							phalcon_array_append(&parameters, position, 0);
+
+							PHALCON_INIT_NVAR(converted_part);
+							PHALCON_CALL_USER_FUNC_ARRAY(converted_part, *converter, parameters);
+							phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY);
 						}
 					}
 	
@@ -843,11 +831,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			PHALCON_INIT_VAR(str_params);
 			phalcon_substr(str_params, params_str, 1, 0);
 			if (zend_is_true(str_params)) {
-				PHALCON_INIT_VAR(slash);
-				ZVAL_STRING(slash, "/", 1);
+				zval slash;
+				ZVAL_STRINGL(&slash, "/", 1, 0);
 	
 				PHALCON_INIT_NVAR(params);
-				phalcon_fast_explode(params, slash, str_params);
+				phalcon_fast_explode(params, &slash, str_params);
 			}
 	
 			phalcon_array_unset_string(&parts, SS("params"), PH_SEPARATE);
