@@ -574,6 +574,18 @@ class UnitTest extends PhTestUnitTestCase
             $actual,
             'Email is not correct'
         );
+		
+	
+	$expected = 'first.guy@my-domain.com.rx';
+        $actual   = $filter->sanitize('!(first.guy)
+		@*my-domain**##.com.rx//', 'email');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Email is not correct'
+        );
+		
     }
 
     /**
