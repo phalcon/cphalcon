@@ -49,6 +49,30 @@ class UnitTest extends PhTestUnitTestCase
             $actual,
             'String filter with latin does not return correct data'
         );
+    	
+		
+		$source = 'this is a string>{';
+
+        $expected = 'this is a string';
+        $actual   = $filter->sanitize($source, 'string');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'String filter with latin does not return correct data'
+        );
+		
+		
+		$source = '{[<<whitin french quotes>>]}';
+
+        $expected = 'whitin french quotes';
+        $actual   = $filter->sanitize($source, 'string');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'String filter with latin does not return correct data'
+        );
     }
 
     /**
@@ -70,6 +94,30 @@ class UnitTest extends PhTestUnitTestCase
             $expected,
             $actual,
             'String filter with UTF8 does not return correct data'
+        );
+    	
+        
+		$source = 'buenos días 123 καλημέρα! 早安>';
+
+        $expected = 'buenos días 123 καλημέρα! 早安';
+        $actual   = $filter->sanitize($source, 'string');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'String filter with latin does not return correct data'
+        );
+		
+		
+		$source = '{[<<buenos días 123 καλημέρα! 早安>>]}';
+
+		$expected = 'buenos días 123 καλημέρα! 早安';
+        $actual   = $filter->sanitize($source, 'string');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'String filter with latin does not return correct data'
         );
     }
 
@@ -837,3 +885,6 @@ class UnitTest extends PhTestUnitTestCase
     }
 }
 
+);
+
+        $this-
