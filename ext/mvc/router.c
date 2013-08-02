@@ -926,7 +926,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
  */
 PHP_METHOD(Phalcon_Mvc_Router, add){
 
-	zval *pattern, *paths = NULL, *http_methods = NULL, *route;
+	zval *pattern, *paths = NULL, *http_methods = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -943,12 +943,11 @@ PHP_METHOD(Phalcon_Mvc_Router, add){
 	/** 
 	 * Every route is internally stored as a Phalcon\Mvc\Router\Route
 	 */
-	PHALCON_INIT_VAR(route);
-	object_init_ex(route, phalcon_mvc_router_route_ce);
-	phalcon_call_method_p3_noret(route, "__construct", pattern, paths, http_methods);
+	object_init_ex(return_value, phalcon_mvc_router_route_ce);
+	phalcon_call_method_p3_noret(return_value, "__construct", pattern, paths, http_methods);
 	
-	phalcon_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
-	RETURN_CTOR(route);
+	phalcon_update_property_array_append(this_ptr, SL("_routes"), return_value TSRMLS_CC);
+	RETURN_MM();
 }
 
 /**
