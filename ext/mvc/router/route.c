@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 		 * This is a pattern for valid identifiers
 		 */
 		PHALCON_INIT_VAR(id_pattern);
-		ZVAL_STRING(id_pattern, "/((?>[a-zA-Z0-9_-]+))", 1);
+		ZVAL_STRING(id_pattern, "/([a-zA-Z0-9_-]++)", 1);
 	
 		/** 
 		 * Replace the module part
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			ZVAL_STRING(wildcard, "/:params", 1);
 	
 			PHALCON_INIT_VAR(params_pattern);
-			ZVAL_STRING(params_pattern, "(?>(/.*))?", 1);
+			ZVAL_STRING(params_pattern, "(/.*+)?+", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			ZVAL_STRING(wildcard, "/:int", 1);
 	
 			PHALCON_INIT_VAR(int_pattern);
-			ZVAL_STRING(int_pattern, "/((?>[0-9]+))", 1);
+			ZVAL_STRING(int_pattern, "/([0-9]++)", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
