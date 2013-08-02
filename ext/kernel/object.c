@@ -496,6 +496,23 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
  */
 int phalcon_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC) {
 
+	zval **tmp = phalcon_fetch_property_this_quick(object, property_name, property_length, key, silent TSRMLS_CC);
+	if (likely(tmp != NULL)) {
+		*result = *tmp;
+		Z_ADDREF_PP(result);
+		return SUCCESS;
+	}
+
+	ALLOC_INIT_ZVAL(*result);
+	return FAILURE;
+}
+
+zval** phalcon_fetch_property_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
+	return phalcon_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+}
+
+zval** phalcon_fetch_property_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC) {
+
 	zval **zv = NULL;
 	zend_object *zobj;
 	zend_property_info *property_info;
@@ -518,10 +535,8 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 			#if PHP_VERSION_ID < 50400
 
 			if (phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == SUCCESS) {
-				*result = *zv;
-				Z_ADDREF_PP(result);
 				EG(scope) = old_scope;
-				return SUCCESS;
+				return zv;
 			}
 
 			#else
@@ -553,10 +568,8 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 			}
 
 			if (likely(!flag)) {
-				*result = *zv;
-				Z_ADDREF_PP(result);
 				EG(scope) = old_scope;
-				return SUCCESS;
+				return zv;
 			}
 
 			#endif
@@ -571,10 +584,7 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 		}
 	}
 
-	ALLOC_INIT_ZVAL(*result);
-	ZVAL_NULL(*result);
-
-	return FAILURE;
+	return NULL;
 }
 
 /**
