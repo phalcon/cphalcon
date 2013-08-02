@@ -4140,7 +4140,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 			phalcon_call_method_p2_noret(exception, "__construct", this_ptr, error_messages);
 	
 			phalcon_throw_exception(exception TSRMLS_CC);
-			return;
+			RETURN_MM();
 		}
 	
 		RETURN_MM_FALSE;
