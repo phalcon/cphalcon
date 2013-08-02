@@ -127,13 +127,7 @@ extern zend_module_entry phalcon_module_entry;
 #endif
 
 /** Define FASTCALL */
-#if defined(__GNUC__) && ZEND_GCC_VERSION >= 3004 && defined(__i386__)
-# define PHALCON_FASTCALL __attribute__((fastcall))
-#elif defined(_MSC_VER) && defined(_M_IX86)
-# define PHALCON_FASTCALL __fastcall
-#else
-# define PHALCON_FASTCALL
-#endif
+#define PHALCON_FASTCALL ZEND_FASTCALL
 
 #define PHALCON_INIT_CLASS(name) \
 	int phalcon_ ##name## _init(INIT_FUNC_ARGS)
@@ -144,13 +138,8 @@ extern zend_module_entry phalcon_module_entry;
 	}
 
 /** Macros for branch prediction */
-#if defined(__GNUC__) && ZEND_GCC_VERSION >= 3004 && defined(__i386__)
-#define likely(x)       __builtin_expect((x),1)
-#define unlikely(x)     __builtin_expect((x),0)
-#else
 #define likely(x)       EXPECTED(x)
 #define unlikely(x)     UNEXPECTED(x)
-#endif
 
 #if defined(__GNUC__) && (defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 405))
 #define UNREACHABLE() __builtin_unreachable()
