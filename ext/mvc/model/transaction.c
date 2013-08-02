@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 		phalcon_call_method_p2_noret(i0, "__construct", rollback_message, rollback_record);
 	
 		phalcon_throw_exception(i0 TSRMLS_CC);
-		return;
+		RETURN_MM();
 	}
 	
 	PHALCON_MM_RESTORE();

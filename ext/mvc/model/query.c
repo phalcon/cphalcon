@@ -1038,7 +1038,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				phalcon_call_method_p1_noret(expression, "__construct", expression_message);
 	
 				phalcon_throw_exception(expression TSRMLS_CC);
-				return;
+				RETURN_MM();
 	
 		}
 	
