@@ -82,7 +82,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Route){
 PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 
 	zval *pattern, *paths = NULL, *http_methods = NULL, *unique_id = NULL;
-	zval *route_id = NULL, *one, *next_id;
+	zval *route_id = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -112,22 +112,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	PHALCON_OBS_VAR(unique_id);
 	phalcon_read_static_property(&unique_id, SL("phalcon\\mvc\\router\\route"), SL("_uniqueId") TSRMLS_CC);
 	if (Z_TYPE_P(unique_id) == IS_NULL) {
-		PHALCON_INIT_NVAR(unique_id);
-		ZVAL_LONG(unique_id, 0);
+		ZVAL_LONG(unique_id, 0); /* This updates the value of the static property as well */
 	}
 	
-	/** 
-	 * TODO: Add a function that increase static members
-	 */
-	PHALCON_CPY_WRT(route_id, unique_id);
+	PHALCON_CPY_WRT_CTOR(route_id, unique_id); /* route_id is now separated from unique_id */
 	phalcon_update_property_this(this_ptr, SL("_id"), route_id TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(one);
-	ZVAL_LONG(one, 1);
-	
-	PHALCON_INIT_VAR(next_id);
-	phalcon_add_function(next_id, unique_id, one TSRMLS_CC);
-	phalcon_update_static_property(SL("phalcon\\mvc\\router\\route"), SL("_uniqueId"), next_id TSRMLS_CC);
+	/* increment_function() will increment the value of the statis property as well */
+	increment_function(unique_id);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -159,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 		 * This is a pattern for valid identifiers
 		 */
 		PHALCON_INIT_VAR(id_pattern);
-		ZVAL_STRING(id_pattern, "/([a-zA-Z0-9\\_\\-]+)", 1);
+		ZVAL_STRING(id_pattern, "/((?>[a-zA-Z0-9_-]+))", 1);
 	
 		/** 
 		 * Replace the module part
@@ -217,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			ZVAL_STRING(wildcard, "/:params", 1);
 	
 			PHALCON_INIT_VAR(params_pattern);
-			ZVAL_STRING(params_pattern, "(/.*)*", 1);
+			ZVAL_STRING(params_pattern, "(?>(/.*))?", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
@@ -232,7 +224,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			ZVAL_STRING(wildcard, "/:int", 1);
 	
 			PHALCON_INIT_VAR(int_pattern);
-			ZVAL_STRING(int_pattern, "/([0-9]+)", 1);
+			ZVAL_STRING(int_pattern, "/((?>[0-9]+))", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
@@ -582,32 +574,31 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths){
 
-	zval *reversed, *paths, *position = NULL, *path = NULL;
+	zval *paths, *position = NULL, *path = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(reversed);
-	array_init(reversed);
-	
 	PHALCON_OBS_VAR(paths);
 	phalcon_read_property_this(&paths, this_ptr, SL("_paths"), PH_NOISY_CC);
 	
 	phalcon_is_iterable(paths, &ah0, &hp0, 0, 0);
-	
+
+	array_init_size(return_value, zend_hash_num_elements(ah0));
+
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_HKEY(path, ah0, hp0);
 		PHALCON_GET_HVALUE(position);
 	
-		phalcon_array_update_zval(&reversed, position, &path, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_zval(&return_value, position, &path, PH_COPY);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	RETURN_CTOR(reversed);
+	RETURN_MM();
 }
 
 /**

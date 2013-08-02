@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		add_assoc_long_ex(paths, SS("controller"), 1);
 	
 		PHALCON_INIT_VAR(action_pattern);
-		ZVAL_STRING(action_pattern, "#^/([a-zA-Z0-9\\_\\-]+)[/]{0,1}$#", 1);
+		ZVAL_STRING(action_pattern, "#^/((?>[a-zA-Z0-9_-]+))/?$#", 1);
 	
 		PHALCON_INIT_VAR(route);
 		object_init_ex(route, phalcon_mvc_router_route_ce);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		add_assoc_long_ex(paths, SS("params"), 3);
 	
 		PHALCON_INIT_VAR(params_pattern);
-		ZVAL_STRING(params_pattern, "#^/([a-zA-Z0-9\\_\\-]+)/([a-zA-Z0-9\\.\\_]+)(/.*)*$#", 1);
+		ZVAL_STRING(params_pattern, "#^/((?>[a-zA-Z0-9_-]+))/((?>[a-zA-Z0-9\\._]+))((?>/.*))?$#", 1);
 	
 		PHALCON_INIT_NVAR(route);
 		object_init_ex(route, phalcon_mvc_router_route_ce);
