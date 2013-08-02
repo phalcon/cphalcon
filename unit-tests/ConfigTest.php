@@ -291,4 +291,12 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$config->merge(new Phalcon\Config(array('test2')));
 		gc_collect_cycles();
 	}
+
+	public function testIssue980()
+	{
+		$a = new Phalcon\Config(array('aaa' => array('b' => 2, 'c' => 3)));
+		$s = serialize($a);
+		$b = unserialize($s);
+		$this->assertEquals($a, $b);
+	}
 }
