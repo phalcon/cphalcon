@@ -791,45 +791,67 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 		}
 	
-		/** 
-		 * Check if the params is an array
-		 */
-		PHALCON_OBS_NVAR(params);
-		phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-		if (Z_TYPE_P(params) != IS_ARRAY) { 
-	
-			PHALCON_INIT_NVAR(exception_code);
-			ZVAL_LONG(exception_code, 4);
-	
-			PHALCON_INIT_NVAR(exception_message);
-			ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
-	
-			/** 
-			 * An invalid parameter variable was passed throw an exception
-			 */
-			PHALCON_INIT_NVAR(status);
-			phalcon_call_method_p2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
-			if (PHALCON_IS_FALSE(status)) {
-	
-				tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (PHALCON_IS_FALSE(*tmp)) {
-					continue;
-				}
-			}
-	
-			break;
-		}
-	
-		/** 
+		/**
 		 * Call the 'initialize' method just once per request
 		 */
 		if (PHALCON_IS_TRUE(was_fresh)) {
 			if (phalcon_method_exists_ex(handler, SS("initialize") TSRMLS_CC) == SUCCESS) {
 				phalcon_call_method_noret(handler, "initialize");
 			}
+
+			/**
+			 * Calling afterInitialize
+			 */
+			if (events_manager) {
+				PHALCON_INIT_NVAR(status);
+				if (FAILURE == phalcon_dispatcher_fire_event(status, events_manager, "dispatch:afterInitialize", this_ptr, NULL TSRMLS_CC)) {
+					RETURN_MM();
+				}
+
+				if (PHALCON_IS_FALSE(status)) {
+					continue;
+				}
+
+				/**
+				 * Check if the user made a forward in the listener
+				 */
+				tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(*tmp)) {
+					continue;
+				}
+			}
 		}
-	
-		/** 
+
+		/**
+		 * Check if the params is an array
+		 */
+		PHALCON_OBS_NVAR(params);
+		phalcon_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+		if (Z_TYPE_P(params) != IS_ARRAY) {
+
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 4);
+
+			PHALCON_INIT_NVAR(exception_message);
+			ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
+
+			/**
+			 * An invalid parameter variable was passed throw an exception
+			 */
+			PHALCON_INIT_NVAR(status);
+			phalcon_call_method_p2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
+			if (PHALCON_IS_FALSE(status)) {
+
+				tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(*tmp)) {
+					continue;
+				}
+			}
+
+			break;
+		}
+
+		/**
 		 * Create a call handler
 		 */
 		PHALCON_INIT_NVAR(call_object);
