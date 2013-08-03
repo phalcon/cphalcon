@@ -464,12 +464,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *exception_code = NULL;
 	zval *exception_message = NULL;
 	zval *status = NULL, *value = NULL, *handler = NULL;
-	zval *handler_suffix, *action_suffix, *finished = NULL;
-	zval *namespace_name = NULL, *handler_name = NULL, *action_name = NULL;
 	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
 	zval *was_fresh = NULL, *action_method = NULL, *params = NULL, *call_object = NULL;
 	zval *exception = NULL;
 	zval **dependency_injector, **events_manager, **tmp;
+	zval **handler_suffix, **action_suffix, **namespace_name, **handler_name, **action_name;
 	int number_dispatches = 0;
 
 	PHALCON_MM_GROW();
@@ -506,11 +505,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	
 	PHALCON_INIT_VAR(handler);
 	
-	PHALCON_OBS_VAR(handler_suffix);
-	phalcon_read_property_this(&handler_suffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(action_suffix);
-	phalcon_read_property_this(&action_suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	handler_suffix = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
+	action_suffix  = phalcon_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	
 	/** 
 	 * Do at least one dispatch
@@ -522,9 +518,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		/** 
 		 * Loop until finished is false
 		 */
-		PHALCON_OBS_NVAR(finished);
-		phalcon_read_property_this(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
-		if (zend_is_true(finished)) {
+		tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+		if (zend_is_true(*tmp)) {
 			break;
 		}
 
@@ -548,34 +543,28 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		/** 
 		 * If the current namespace is null we used the set in this_ptr::_defaultNamespace
 		 */
-		PHALCON_OBS_NVAR(namespace_name);
-		phalcon_read_property_this(&namespace_name, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
-		if (!zend_is_true(namespace_name)) {
-			PHALCON_OBS_NVAR(namespace_name);
-			phalcon_read_property_this(&namespace_name, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
-			phalcon_update_property_this(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
+		namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+		if (!zend_is_true(*namespace_name)) {
+			namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+			phalcon_update_property_this(this_ptr, SL("_namespaceName"), *namespace_name TSRMLS_CC);
 		}
 	
 		/** 
 		 * If the handler is null we use the set in this_ptr::_defaultHandler
 		 */
-		PHALCON_OBS_NVAR(handler_name);
-		phalcon_read_property_this(&handler_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
-		if (!zend_is_true(handler_name)) {
-			PHALCON_OBS_NVAR(handler_name);
-			phalcon_read_property_this(&handler_name, this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
-			phalcon_update_property_this(this_ptr, SL("_handlerName"), handler_name TSRMLS_CC);
+		handler_name = phalcon_fetch_nproperty_this(this_ptr, SL("_handlerName"), PH_NOISY_CC);
+		if (!zend_is_true(*handler_name)) {
+			handler_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
+			phalcon_update_property_this(this_ptr, SL("_handlerName"), *handler_name TSRMLS_CC);
 		}
 	
 		/** 
 		 * If the action is null we use the set in this_ptr::_defaultAction
 		 */
-		PHALCON_OBS_NVAR(action_name);
-		phalcon_read_property_this(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
-		if (!zend_is_true(action_name)) {
-			PHALCON_OBS_NVAR(action_name);
-			phalcon_read_property_this(&action_name, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
-			phalcon_update_property_this(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
+		action_name = phalcon_fetch_nproperty_this(this_ptr, SL("_actionName"), PH_NOISY_CC);
+		if (!zend_is_true(*action_name)) {
+			action_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultAction"), PH_NOISY_CC);
+			phalcon_update_property_this(this_ptr, SL("_actionName"), *action_name TSRMLS_CC);
 		}
 	
 		/** 
@@ -603,25 +592,25 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		/** 
 		 * We don't camelize the classes if they are in namespaces
 		 */
-		if (!phalcon_memnstr_str(handler_name, SL("\\"))) {
+		if (!phalcon_memnstr_str(*handler_name, SL("\\"))) {
 			PHALCON_INIT_NVAR(camelized_class);
-			phalcon_camelize(camelized_class, handler_name);
+			phalcon_camelize(camelized_class, *handler_name);
 		} else {
-			camelized_class = handler_name;
+			camelized_class = *handler_name;
 		}
 	
 		/** 
 		 * Create the complete controller class name prepending the namespace
 		 */
 		PHALCON_INIT_NVAR(handler_class);
-		if (zend_is_true(namespace_name)) {
-			if (phalcon_end_with_str(namespace_name, SL("\\"))) {
-				PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
+		if (zend_is_true(*namespace_name)) {
+			if (phalcon_end_with_str(*namespace_name, SL("\\"))) {
+				PHALCON_CONCAT_VVV(handler_class, *namespace_name, camelized_class, *handler_suffix);
 			} else {
-				PHALCON_CONCAT_VSVV(handler_class, namespace_name, "\\", camelized_class, handler_suffix);
+				PHALCON_CONCAT_VSVV(handler_class, *namespace_name, "\\", camelized_class, *handler_suffix);
 			}
 		} else {
-			PHALCON_CONCAT_VV(handler_class, camelized_class, handler_suffix);
+			PHALCON_CONCAT_VV(handler_class, camelized_class, *handler_suffix);
 		}
 	
 		/** 
@@ -705,7 +694,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		 * Check if the method exists in the handler
 		 */
 		PHALCON_INIT_NVAR(action_method);
-		PHALCON_CONCAT_VV(action_method, action_name, action_suffix);
+		PHALCON_CONCAT_VV(action_method, *action_name, *action_suffix);
 		if (phalcon_method_exists(handler, action_method TSRMLS_CC) == FAILURE) {
 	
 			/** 
@@ -730,7 +719,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			ZVAL_LONG(exception_code, 5);
 	
 			PHALCON_INIT_NVAR(exception_message);
-			PHALCON_CONCAT_SVSVS(exception_message, "Action '", action_name, "' was not found on handler '", handler_name, "'");
+			PHALCON_CONCAT_SVSVS(exception_message, "Action '", *action_name, "' was not found on handler '", *handler_name, "'");
 	
 			/** 
 			 * Try to throw an exception when an action isn't defined on the object
