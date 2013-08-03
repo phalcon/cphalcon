@@ -88,6 +88,13 @@ class DispatcherListener
 		}
 	}
 
+	public function afterInitialize(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
+	{
+		$this->_trace[] = 'afterInitialize';
+		$this->_test->assertEquals($this->_controllerName, $dispatcher->getControllerName());
+		$this->_test->assertEquals($this->_actionName, $dispatcher->getActionName());
+	}
+
 	public function afterExecuteRoute(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
 	{
 		$this->_trace[] = 'afterExecuteRoute';
@@ -188,7 +195,7 @@ class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
 		$dispatcher->dispatch();
 
 		$trace = join('-', $listener->getTrace());
-		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-afterExecuteRoute-afterDispatch');
+		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-afterInitialize-afterExecuteRoute-afterDispatch');
 
 		//Stop at beforeDispatch event
 		$listener->stopAt('beforeDispatch');
