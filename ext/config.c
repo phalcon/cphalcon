@@ -262,7 +262,11 @@ static HashTable* phalcon_config_get_properties(zval* object TSRMLS_DC)
 {
 	HashTable* props = zend_std_get_properties(object TSRMLS_CC);
 	phalcon_config_object* obj = fetchPhalconConfigObject(object TSRMLS_CC);
-	zend_hash_copy(props, obj->props, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
+
+	if (!GC_G(gc_active)) {
+		zend_hash_copy(props, obj->props, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
+	}
+
 	return props;
 }
 
