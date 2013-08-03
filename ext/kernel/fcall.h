@@ -20,6 +20,7 @@
 #ifndef PHALCON_KERNEL_FCALL_H
 #define PHALCON_KERNEL_FCALL_H
 
+#include <stdarg.h>
 #include "Zend/zend_hash.h"
 
 #ifdef __GNUC__
@@ -313,6 +314,7 @@ int phalcon_call_static_func_params(zval *return_value, char *class_name, int cl
 int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, zval *method TSRMLS_DC, int param_count, ...);
 int phalcon_call_static_zval_str_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, ...);
 
+int phalcon_call_method_vparams(zval *return_value, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap);
 
 /** Fast call_user_func_array/call_user_func */
 int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params TSRMLS_DC);

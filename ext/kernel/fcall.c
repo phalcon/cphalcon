@@ -182,7 +182,7 @@ static int phalcon_call_func_vparams(zval *return_value, zval *func TSRMLS_DC, i
 	return status;
 }
 
-static int phalcon_call_method_vparams(zval *return_value, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
+int phalcon_call_method_vparams(zval *return_value, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
 
 	int i, status, use_heap = -1, caller_wants_result = 1;
 	zend_class_entry *ce, *active_scope = NULL;

@@ -18,37 +18,37 @@
 */
 
 /** Strict comparing */
-#define PHALCON_IS_LONG(op1, op2) phalcon_compare_strict_long(op1, op2 TSRMLS_CC)
+#define PHALCON_IS_LONG(op1, op2)   phalcon_compare_strict_long(op1, op2 TSRMLS_CC)
 #define PHALCON_IS_STRING(op1, op2) phalcon_compare_strict_string(op1, op2, strlen(op2))
 
 /** strict boolean comparison */
-#define PHALCON_IS_FALSE(var) Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var)
-#define PHALCON_IS_TRUE(var) Z_TYPE_P(var) == IS_BOOL && Z_BVAL_P(var)
+#define PHALCON_IS_FALSE(var)       (Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var))
+#define PHALCON_IS_TRUE(var)        (Z_TYPE_P(var) == IS_BOOL && Z_BVAL_P(var))
 
-#define PHALCON_IS_NOT_FALSE(var) Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && Z_BVAL_P(var))
-#define PHALCON_IS_NOT_TRUE(var) Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var))
+#define PHALCON_IS_NOT_FALSE(var)   (Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && Z_BVAL_P(var)))
+#define PHALCON_IS_NOT_TRUE(var)    (Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var)))
 
 /** SQL null empty **/
-#define PHALCON_IS_EMPTY(var) Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var))
-#define PHALCON_IS_NOT_EMPTY(var) !(Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var)))
+#define PHALCON_IS_EMPTY(var)       (Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var)))
+#define PHALCON_IS_NOT_EMPTY(var)   (!(Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var))))
 
 /** Is scalar */
-#define PHALCON_IS_SCALAR(var) !(Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE)
-#define PHALCON_IS_NOT_SCALAR(var) Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE
+#define PHALCON_IS_SCALAR(var)      (!(Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE))
+#define PHALCON_IS_NOT_SCALAR(var)  (Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE)
 
 /** Equals/Identical */
-#define PHALCON_IS_EQUAL(op1, op2) phalcon_is_equal(op1, op2 TSRMLS_CC)
-#define PHALCON_IS_IDENTICAL(op1, op2) phalcon_is_identical(op1, op2 TSRMLS_CC)
+#define PHALCON_IS_EQUAL(op1, op2)      phalcon_is_equal(op1, op2 TSRMLS_CC)
+#define PHALCON_IS_IDENTICAL(op1, op2)  phalcon_is_identical(op1, op2 TSRMLS_CC)
 
 /** Greater/Smaller equals */
-#define PHALCON_LE(op1, op2) phalcon_less_equal(op1, op2 TSRMLS_CC)
-#define PHALCON_LE_LONG(op1, op2) phalcon_less_equal_long(op1, op2 TSRMLS_CC)
-#define PHALCON_GE(op1, op2) phalcon_greater_equal(op1, op2 TSRMLS_CC)
-#define PHALCON_GE_LONG(op1, op2) phalcon_greater_equal_long(op1, op2 TSRMLS_CC)
-#define PHALCON_LT(op1, op2) phalcon_less(op1, op2 TSRMLS_CC)
-#define PHALCON_LT_LONG(op1, op2) phalcon_less_long(op1, op2 TSRMLS_CC)
-#define PHALCON_GT(op1, op2) phalcon_greater(op1, op2 TSRMLS_CC)
-#define PHALCON_GT_LONG(op1, op2) phalcon_greater_long(op1, op2 TSRMLS_CC)
+#define PHALCON_LE(op1, op2)       phalcon_less_equal(op1, op2 TSRMLS_CC)
+#define PHALCON_LE_LONG(op1, op2)  phalcon_less_equal_long(op1, op2 TSRMLS_CC)
+#define PHALCON_GE(op1, op2)       phalcon_greater_equal(op1, op2 TSRMLS_CC)
+#define PHALCON_GE_LONG(op1, op2)  phalcon_greater_equal_long(op1, op2 TSRMLS_CC)
+#define PHALCON_LT(op1, op2)       phalcon_less(op1, op2 TSRMLS_CC)
+#define PHALCON_LT_LONG(op1, op2)  phalcon_less_long(op1, op2 TSRMLS_CC)
+#define PHALCON_GT(op1, op2)       phalcon_greater(op1, op2 TSRMLS_CC)
+#define PHALCON_GT_LONG(op1, op2)  phalcon_greater_long(op1, op2 TSRMLS_CC)
 
 #if PHP_VERSION_ID < 50400
 #define phalcon_increment(var) increment_function(var)
