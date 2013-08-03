@@ -507,6 +507,16 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 	return FAILURE;
 }
 
+zval** phalcon_fetch_nproperty_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
+	return phalcon_fetch_nproperty_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+}
+
+zval** phalcon_fetch_nproperty_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC) {
+	zval **result = phalcon_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+	return result ? result : &EG(uninitialized_zval_ptr);
+}
+
+
 zval** phalcon_fetch_property_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 	return phalcon_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
 }
