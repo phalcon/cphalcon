@@ -104,6 +104,8 @@ class PHPUnit_Framework_TestCase
 			$reflectionClass = new ReflectionClass($class);
 			$hasSetup = $reflectionClass->hasMethod('setUp');
 
+			gc_collect_cycles();
+
 			$m = microtime(true);
 			$mm = memory_get_usage(true);
 			$mf = memory_get_usage(false);
