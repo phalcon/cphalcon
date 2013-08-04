@@ -26,13 +26,13 @@
 #define PHALCON_THROW_EXCEPTION_STR(class_entry, message) \
 	do { \
 		phalcon_throw_exception_string(class_entry, message, strlen(message) TSRMLS_CC); \
-		phalcon_memory_restore_stack(TSRMLS_C); \
+		PHALCON_MM_RESTORE(); \
 	} while (0)
 
 #define PHALCON_THROW_EXCEPTION_ZVAL(class_entry, message) \
 	do { \
 		phalcon_throw_exception_zval(class_entry, message TSRMLS_CC); \
-		phalcon_memory_restore_stack(TSRMLS_C); \
+		PHALCON_MM_RESTORE(); \
 	} while (0)
 
 #define PHALCON_THROW_EXCEPTION_STRW(class_entry, message) phalcon_throw_exception_string(class_entry, message, strlen(message) TSRMLS_CC)

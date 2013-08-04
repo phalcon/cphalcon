@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult){
 	
 	PHALCON_INIT_VAR(cloned_collection);
 	if (phalcon_clone(cloned_collection, collection TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	phalcon_is_iterable(document, &ah0, &hp0, 0, 0);

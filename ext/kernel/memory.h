@@ -23,8 +23,21 @@ extern void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
 extern void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
 
 /* Memory Frames */
-extern void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D);
-extern int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
+#ifndef PHALCON_RELEASE
+void PHALCON_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC);
+int PHALCON_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC);
+
+#define PHALCON_MM_GROW() phalcon_memory_grow_stack(__func__ TSRMLS_CC)
+#define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(__func__ TSRMLS_CC)
+
+#else
+void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D);
+int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
+
+#define PHALCON_MM_GROW() phalcon_memory_grow_stack(TSRMLS_C)
+#define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(TSRMLS_C)
+
+#endif
 
 extern void PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC);
 extern void PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC);
@@ -43,9 +56,6 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
 
 extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
-
-#define PHALCON_MM_GROW() phalcon_memory_grow_stack(TSRMLS_C)
-#define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(TSRMLS_C)
 
 /* Memory macros */
 #define PHALCON_ALLOC_ZVAL(z) \

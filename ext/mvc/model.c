@@ -764,7 +764,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 	
 	PHALCON_INIT_VAR(object);
 	if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	/** 
@@ -952,7 +952,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 	 */
 	PHALCON_INIT_VAR(object);
 	if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	/** 

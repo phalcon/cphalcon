@@ -383,6 +383,8 @@ int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 
 	zval *error = NULL;
 
+	PHALCON_MM_GROW();
+
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(script) != IS_STRING) {
@@ -399,5 +401,6 @@ int phalcon_jsmin(zval *return_value, zval *script TSRMLS_DC) {
 		return FAILURE;
 	}
 
+	PHALCON_MM_RESTORE();
 	return SUCCESS;
 }

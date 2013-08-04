@@ -137,10 +137,6 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *re
 
 	}
 
-	if (status == FAILURE) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
-
 	return status;
 }
 

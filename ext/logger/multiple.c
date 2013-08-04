@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, emergence){
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SS("EMERGENCE") TSRMLS_CC);
+	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "EMERGENCE");
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, debug){
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SS("DEBUG") TSRMLS_CC);
+	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "DEBUG");
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, error){
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SS("ERROR") TSRMLS_CC);
+	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "ERROR");
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, info){
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SS("INFO") TSRMLS_CC);
+	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "INFO");
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, notice){
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SS("NOTICE") TSRMLS_CC);
+	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "NOTICE");
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, warning){
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SS("WARNING") TSRMLS_CC);
+	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "WARNING");
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();
@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, alert){
 	phalcon_fetch_params(1, 1, 0, &message);
 	
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SS("ALERT") TSRMLS_CC);
+	PHALCON_GET_CLASS_CONSTANT(type, phalcon_logger_ce, "ALERT");
 	phalcon_call_method_p2_noret(this_ptr, "log", message, type);
 	
 	PHALCON_MM_RESTORE();

@@ -258,7 +258,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) \
 	if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { \
 		zend_error(E_ERROR, "The argument is not iterable()"); \
-		phalcon_memory_restore_stack(TSRMLS_C); \
+		PHALCON_MM_RESTORE(); \
 		return; \
 	}
 
