@@ -100,15 +100,10 @@ PHP_METHOD(Phalcon_DI, __construct){
 
 	zval *default_di;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(default_di);
-	phalcon_read_static_property(&default_di, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
+	default_di = phalcon_fetch_static_property_ce(phalcon_di_ce, SL("_default") TSRMLS_CC);
 	if (!zend_is_true(default_di)) {
 		phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), this_ptr TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -626,11 +621,8 @@ PHP_METHOD(Phalcon_DI, getDefault){
 
 	zval *default_di;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(default_di);
-	phalcon_read_static_property(&default_di, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
-	RETURN_CCTOR(default_di);
+	default_di = phalcon_fetch_static_property_ce(phalcon_di_ce, SL("_default") TSRMLS_CC);
+	RETURN_CTORW(default_di);
 }
 
 /**
