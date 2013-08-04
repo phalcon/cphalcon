@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding){
 }
 
 /**
- * Escapes a HTML string. Internally uses htmlspeciarchars
+ * Escapes a HTML string. Internally uses htmlspecialchars
  *
  * @param string $text
  * @return string
