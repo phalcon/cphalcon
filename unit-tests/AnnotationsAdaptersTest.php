@@ -48,6 +48,11 @@ class AnnotationsAdaptersTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_object($classAnnotations));
 		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
 		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+
+		$property = $adapter->getProperty('TestClass', 'testProp1');
+		$this->assertTrue(is_object($property));
+		$this->assertEquals(get_class($property), 'Phalcon\Annotations\Collection');
+		$this->assertEquals($property->count(), 4);
 	}
 
 	public function testFilesAdapter()
@@ -108,6 +113,11 @@ class AnnotationsAdaptersTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_object($classAnnotations));
 		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
 		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+
+		$property = $adapter->getProperty('TestClass', 'testProp1');
+		$this->assertTrue(is_object($property));
+		$this->assertEquals(get_class($property), 'Phalcon\Annotations\Collection');
+		$this->assertEquals($property->count(), 4);
 	}
 
 
@@ -139,6 +149,11 @@ class AnnotationsAdaptersTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_object($classAnnotations));
 		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Reflection');
 		$this->assertEquals(get_class($classAnnotations->getClassAnnotations()), 'Phalcon\Annotations\Collection');
+
+		$property = $adapter->getProperty('TestClass', 'testProp1');
+		$this->assertTrue(is_object($property));
+		$this->assertEquals(get_class($property), 'Phalcon\Annotations\Collection');
+		$this->assertEquals($property->count(), 4);
 	}
 
 }

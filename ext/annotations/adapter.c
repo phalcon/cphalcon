@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty){
 	if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(properties);
-		phalcon_call_method(properties, class_annotations, "getpropertyannotations");
+		phalcon_call_method(properties, class_annotations, "getpropertiesannotations");
 		if (Z_TYPE_P(properties) == IS_ARRAY) { 
 	
 			phalcon_is_iterable(properties, &ah0, &hp0, 0, 0);
