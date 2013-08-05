@@ -1415,7 +1415,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	 */
 	PHALCON_INIT_VAR(view);
 	if (phalcon_clone(view, this_ptr TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	/** 

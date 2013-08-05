@@ -28,6 +28,14 @@ zend_class_entry* phalcon_fetch_self_class(TSRMLS_D);
 zend_class_entry* phalcon_fetch_parent_class(TSRMLS_D);
 zend_class_entry* phalcon_fetch_static_class(TSRMLS_D);
 
+#define PHALCON_GET_CLASS_CONSTANT(return_value, ce, const_name) \
+	do { \
+		if (FAILURE == phalcon_get_class_constant(return_value, ce, const_name, strlen(const_name)+1 TSRMLS_CC)) { \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
+
 /** Class constants */
 extern int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC);
 

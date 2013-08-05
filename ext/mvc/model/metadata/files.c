@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 	if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(data);
 		if (phalcon_require_ret(data, path TSRMLS_CC) == FAILURE) {
-			return;
+			RETURN_MM();
 		}
 		RETURN_CCTOR(data);
 	}

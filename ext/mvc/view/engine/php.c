@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	 * Require the file
 	 */
 	if (phalcon_require(path TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_INIT_VAR(contents);

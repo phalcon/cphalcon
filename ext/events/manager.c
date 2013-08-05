@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 		 */
 		PHALCON_INIT_VAR(iterator);
 		if (phalcon_clone(iterator, queue TSRMLS_CC) == FAILURE) {
-			return;
+			RETURN_MM();
 		}
 	
 		/** 
