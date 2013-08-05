@@ -199,6 +199,18 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset){
 }
 
 /**
+ * Returns the current stored headers as an array
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Response_Headers, toArray){
+
+
+	RETURN_MEMBER(this_ptr, "_headers");
+}
+
+
+/**
  * Restore a Phalcon\Http\Response\Headers object
  *
  * @param array $data
