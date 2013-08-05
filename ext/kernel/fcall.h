@@ -116,7 +116,7 @@
 #define PHALCON_CALL_STATIC_PARAMS_5(return_value, class_name, method_name, p1, p2, p3, p4, p5) if (phalcon_call_static_func_five_params(return_value, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, p1, p2, p3, p4, p5 TSRMLS_CC)==FAILURE) return;
 #define PHALCON_CALL_STATIC_PARAMS_5_NORETURN(class_name, method_name, p1, p2, p3, p4, p5)      if (phalcon_call_static_func_five_params(NULL, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, p1, p2, p3, p4, p5 TSRMLS_CC)==FAILURE) return;
 #define PHALCON_CALL_STATIC(return_value, class_name, method_name)                              if (phalcon_call_static_func_params(return_value, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, 0, NULL TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_STATIC_NORETURN(class_name, method_name)                                   if (phalcon_call_static_func_params(NULL, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, NULL TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_STATIC_NORETURN(class_name, method_name)                                   if (phalcon_call_static_func_params(NULL, class_name, sizeof(class_name)-1, method_name, sizeof(method_name)-1, 0, NULL TSRMLS_CC)==FAILURE) return;
 
 /** Use these functions to call static functions using a zval as callable */
 #define PHALCON_CALL_ZVAL_STATIC(return_value, class_zval, method)                             if (phalcon_call_static_zval_func_params(return_value, class_zval, method, 0, NULL TSRMLS_CC)==FAILURE) return;
