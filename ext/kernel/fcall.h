@@ -50,7 +50,7 @@
 			} \
 		} \
 		else { \
-			if (phalcon_call_method_params(return_value, object, method, strlen(method), (_key ? _key : (IS_INTERNED(_key) ? INTERNED_HASH(_key) : 0)) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			if (phalcon_call_method_params(return_value, object, method, strlen(method), (_key ? _key : (IS_INTERNED(method) ? INTERNED_HASH(method) : 0)) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
 				phalcon_memory_restore_stack(TSRMLS_C); \
 				return; \
 			} \
@@ -134,7 +134,7 @@
 #define PHALCON_CALL_METHOD(return_value, object, method, key, nparams, ...) \
 	do { \
 		register ulong _key = key; \
-		if (phalcon_call_method_params(return_value, object, method, strlen(method), (_key ? _key : (IS_INTERNED(_key) ? INTERNED_HASH(_key) : 0)) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+		if (phalcon_call_method_params(return_value, object, method, strlen(method), (_key ? _key : (IS_INTERNED(method) ? INTERNED_HASH(method) : 0)) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
 			phalcon_memory_restore_stack(TSRMLS_C); \
 			return; \
 		} \
