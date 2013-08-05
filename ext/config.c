@@ -162,6 +162,7 @@ static void phalcon_config_write_property(zval *object, zval *offset, zval *valu
 
 	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
 		zend_get_std_object_handlers()->write_property(object, offset, value ZLK_CC TSRMLS_CC);
+		return;
 	}
 
 	phalcon_config_write_internal(obj, offset, value TSRMLS_CC);
@@ -176,6 +177,7 @@ static void phalcon_config_write_dimension(zval *object, zval *offset, zval *val
 
 	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
 		zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
+		return;
 	}
 
 	phalcon_config_write_internal(obj, offset, value TSRMLS_CC);
@@ -239,6 +241,7 @@ static void phalcon_config_unset_property(zval *object, zval *member ZLK_DC TSRM
 
 	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
 		zend_get_std_object_handlers()->unset_property(object, member ZLK_CC TSRMLS_CC);
+		return;
 	}
 
 	phalcon_config_unset_internal(obj, member TSRMLS_CC);
@@ -250,6 +253,7 @@ static void phalcon_config_unset_dimension(zval *object, zval *offset TSRMLS_DC)
 
 	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
 		zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
+		return;
 	}
 
 	phalcon_config_unset_internal(obj, offset TSRMLS_CC);
@@ -261,9 +265,9 @@ static void phalcon_config_unset_dimension(zval *object, zval *offset TSRMLS_DC)
 static HashTable* phalcon_config_get_properties(zval* object TSRMLS_DC)
 {
 	HashTable* props = zend_std_get_properties(object TSRMLS_CC);
-	phalcon_config_object* obj = fetchPhalconConfigObject(object TSRMLS_CC);
 
 	if (!GC_G(gc_active)) {
+		phalcon_config_object* obj = fetchPhalconConfigObject(object TSRMLS_CC);
 		zend_hash_copy(props, obj->props, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
 	}
 
@@ -318,7 +322,11 @@ static zend_object_value phalcon_config_object_ctor(zend_class_entry* ce TSRMLS_
 	phalcon_config_object* obj = ecalloc(1, sizeof(phalcon_config_object));
 	zend_object_value retval;
 
-	zend_object_std_init(&(obj->obj), ce TSRMLS_CC);
+	zend_object_std_init(&obj->obj, ce TSRMLS_CC);
+#if PHP_VERSION_ID >= 50400
+	object_properties_init(&obj->obj, ce);
+#endif
+
 	ALLOC_HASHTABLE(obj->props);
 	zend_hash_init(obj->props, 0, NULL, ZVAL_PTR_DTOR, 0);
 
