@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 			phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY);
 			if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 				if (phalcon_require(path TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 			} else {
 				PHALCON_INIT_NVAR(exception_msg);

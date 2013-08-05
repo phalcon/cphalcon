@@ -28,13 +28,13 @@
 	do { \
 		if (__builtin_constant_p(func_name)) { \
 			if (phalcon_call_func_params(return_value, func_name, sizeof(func_name)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
 		else { \
 			if (phalcon_call_func_params(return_value, func_name, strlen(func_name) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
@@ -45,13 +45,13 @@
 		register ulong _key = key; \
 		if (__builtin_constant_p(method)) { \
 			if (phalcon_call_method_params(return_value, object, method, sizeof(method)-1, (_key ? _key : zend_inline_hash_func(method, sizeof(method))) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
 		else { \
 			if (phalcon_call_method_params(return_value, object, method, strlen(method), (_key ? _key : (IS_INTERNED(method) ? INTERNED_HASH(method) : 0)) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
@@ -61,13 +61,13 @@
 	do { \
 		if (__builtin_constant_p(class_name) && __builtin_constant_p(method)) { \
 			if (phalcon_call_static_func_params(return_value, class_name, sizeof(class_name)-1, method, sizeof(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
 		else { \
 			if (phalcon_call_static_func_params(return_value, class_name, strlen(class_name), method, strlen(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
@@ -77,13 +77,13 @@
 	do { \
 		if (__builtin_constant_p(method)) { \
 			if (phalcon_call_parent_func_params(return_value, this_ptr, class_entry, method, sizeof(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
 		else { \
 			if (phalcon_call_parent_func_params(return_value, this_ptr, class_entry, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
@@ -93,13 +93,13 @@
 	do { \
 		if (__builtin_constant_p(method)) { \
 			if (phalcon_call_self_func_params(return_value, this_ptr, method, sizeof(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
 		else { \
 			if (phalcon_call_self_func_params(return_value, this_ptr, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
@@ -109,13 +109,13 @@
 	do { \
 		if (__builtin_constant_p(method)) { \
 			if (phalcon_call_static_zval_str_func_params(return_value, zclass, method, sizeof(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
 		else { \
 			if (phalcon_call_static_zval_str_func_params(return_value, zclass, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-				phalcon_memory_restore_stack(TSRMLS_C); \
+				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
 		} \
@@ -126,7 +126,7 @@
 #define PHALCON_CALL_FUNCTION(return_value, func_name, nparams, ...) \
 	do { \
 		if (phalcon_call_func_params(return_value, func_name, strlen(func_name) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-			phalcon_memory_restore_stack(TSRMLS_C); \
+			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -135,7 +135,7 @@
 	do { \
 		register ulong _key = key; \
 		if (phalcon_call_method_params(return_value, object, method, strlen(method), (_key ? _key : (IS_INTERNED(method) ? INTERNED_HASH(method) : 0)) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-			phalcon_memory_restore_stack(TSRMLS_C); \
+			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -143,7 +143,7 @@
 #define PHALCON_CALL_STATIC(return_value, class_name, method, nparams, ...) \
 	do { \
 		if (phalcon_call_static_func_params(return_value, class_name, strlen(class_name), method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-			phalcon_memory_restore_stack(TSRMLS_C); \
+			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -151,7 +151,7 @@
 #define PHALCON_CALL_PARENT(return_value, this_ptr, class_entry, method, nparams, ...) \
 	do { \
 		if (phalcon_call_parent_func_params(return_value, this_ptr, class_entry, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-			phalcon_memory_restore_stack(TSRMLS_C); \
+			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -159,7 +159,7 @@
 #define PHALCON_CALL_SELF(return_value, this_ptr, method, nparams, ...) \
 	do { \
 		if (phalcon_call_self_func_params(return_value, this_ptr, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-			phalcon_memory_restore_stack(TSRMLS_C); \
+			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -167,7 +167,7 @@
 #define PHALCON_CALL_ZSTATIC_STR(return_value, zclass, method, nparams, ...) \
 	do { \
 		if (phalcon_call_static_zval_str_func_params(return_value, zclass, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-			phalcon_memory_restore_stack(TSRMLS_C); \
+			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -177,7 +177,7 @@
 #define PHALCON_CALL_ZMETHOD(return_value, object, method, nparams, ...) \
 	do { \
 		if (phalcon_call_method_zval_params(return_value, object, method TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-			phalcon_memory_restore_stack(TSRMLS_C); \
+			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -185,7 +185,7 @@
 #define PHALCON_CALL_ZSTATIC(return_value, object, method, nparams, ...) \
 	do { \
 		if (phalcon_call_static_zval_func_params(return_value, object, method TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
-			phalcon_memory_restore_stack(TSRMLS_C); \
+			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -196,7 +196,7 @@
 #define PHALCON_CALL_USER_FUNC_ARRAY(return_value, handler, params) \
 	do { \
 		if (phalcon_call_user_func_array(return_value, handler, params TSRMLS_CC) == FAILURE) { \
-			phalcon_memory_restore_stack(TSRMLS_C); \
+			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -204,7 +204,7 @@
 #define PHALCON_CALL_USER_FUNC_ARRAY_NOEX(return_value, handler, params) \
 	do { \
 		if (phalcon_call_user_func_array_noex(return_value, handler, params TSRMLS_CC) == FAILURE) { \
-			phalcon_memory_restore_stack(TSRMLS_C); \
+			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)

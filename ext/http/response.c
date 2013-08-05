@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 	
 	PHALCON_INIT_VAR(date);
 	if (phalcon_clone(date, datetime TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	/** 

@@ -4348,7 +4348,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	 */
 	PHALCON_INIT_VAR(insert_model);
 	if (phalcon_clone(insert_model, base_model TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	/** 

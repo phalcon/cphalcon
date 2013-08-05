@@ -278,6 +278,8 @@ int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 
 	zval *error = NULL;
 
+	PHALCON_MM_GROW();
+
 	ZVAL_NULL(return_value);
 
 	if (Z_TYPE_P(style) != IS_STRING) {
@@ -294,5 +296,6 @@ int phalcon_cssmin(zval *return_value, zval *style TSRMLS_DC) {
 		return FAILURE;
 	}
 
+	PHALCON_MM_RESTORE();
 	return SUCCESS;
 }

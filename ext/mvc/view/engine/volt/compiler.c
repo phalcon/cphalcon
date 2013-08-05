@@ -2527,7 +2527,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 			 */
 			PHALCON_INIT_VAR(sub_compiler);
 			if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 	
 			/** 
@@ -3134,7 +3134,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				 */
 				PHALCON_INIT_NVAR(sub_compiler);
 				if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 	
 				PHALCON_INIT_NVAR(temp_compilation);
