@@ -18,6 +18,16 @@
   +------------------------------------------------------------------------+
 */
 
+class Issue1000 extends Phalcon\Config
+{
+	private $_section;
+
+	public function __construct($file, $section = null)
+	{
+		$this->_section = $section;
+	}
+}
+
 class ConfigTest extends PHPUnit_Framework_TestCase
 {
 
@@ -298,5 +308,12 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$s = serialize($a);
 		$b = unserialize($s);
 		$this->assertEquals($a, $b);
+	}
+
+	public function testIssue1000()
+	{
+		$t1 = new Issue1000('test');
+		$t2 = new Issue1000('test', 'test');
+		$this->assertTrue(true);
 	}
 }
