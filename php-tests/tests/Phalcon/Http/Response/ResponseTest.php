@@ -92,6 +92,23 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 		)), $this->_response->getHeaders());
 
 	}
+	
+	public function testToArrayHeader()
+	{
+
+		$this->_response->resetHeaders();
+
+		$this->_response->setHeader('Content-Type', 'text/html');
+		$this->_response->setHeader('Content-Length', '1234');
+		
+		$headers = $this->_response->getHeaders();
+		$headersArray = $headers->toArray();
+		
+		$this->assertArrayHasKey('Content-Type', $headersArray);
+		$this->assertArrayHasKey('Content-Length', $headersArray);
+		$this->assertEquals('text/html', $headersArray['Content-Type']);
+		$this->assertEquals('1234', $headersArray['Content-Length']);
+	}
 
 	public function testSetContentType()
 	{
