@@ -1278,8 +1278,12 @@ void phalcon_htmlspecialchars(zval *return_value, zval *string, zval *quoting, z
 {
 	zval copy;
 	char *escaped, *cs;
-	int escaped_len, qs;
-	int use_copy = 0;
+	int qs, use_copy = 0;
+#if PHP_VERSION_ID < 50400
+	int escaped_len;
+#else
+	size_t escaped_len;
+#endif
 
 	if (unlikely(Z_TYPE_P(string) != IS_STRING)) {
 		zend_make_printable_zval(string, &copy, &use_copy);
