@@ -199,9 +199,9 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset){
 }
 
 /**
- * Returns the lastest dispatched controller
+ * Returns the current headers as an array
  *
- * @return Phalcon\Mvc\ControllerInterface
+ * @return array
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, toArray){
 
