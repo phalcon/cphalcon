@@ -3443,7 +3443,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	 */
 	PHALCON_INIT_VAR(ast);
 	if (phql_parse_phql(ast, phql TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	PHALCON_INIT_VAR(ir_phql);
