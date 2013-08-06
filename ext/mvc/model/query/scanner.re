@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -69,7 +69,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		SPLACEHOLDER = ":"[a-zA-Z0-9\_]+":";
+		SPLACEHOLDER = ":"[a-zA-Z0-9\_\-]+":";
 		SPLACEHOLDER {
 			token->opcode = PHQL_T_SPLACEHOLDER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
@@ -263,6 +263,31 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		'CAST' {
+			token->opcode = PHQL_T_CAST;
+			return 0;
+		}
+
+		'CONVERT' {
+			token->opcode = PHQL_T_CONVERT;
+			return 0;
+		}
+
+		'USING' {
+			token->opcode = PHQL_T_USING;
+			return 0;
+		}
+
+		'TRUE' {
+			token->opcode = PHQL_T_TRUE;
+			return 0;
+		}
+
+		'FALSE' {
+			token->opcode = PHQL_T_FALSE;
+			return 0;
+		}
+
 		STRING = (["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\].|[\001-\377]\[\\'])* [']);
 		STRING {
 			token->opcode = PHQL_T_STRING;
@@ -275,8 +300,18 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		IDENTIFIER = [\\]?[a-zA-Z\_][a-zA-Z0-9\_\\]*;
 		IDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
-			token->value = estrndup(q, YYCURSOR - q);
-			token->len = YYCURSOR - q;
+			if ((YYCURSOR - q) > 1) {
+				if (q[0] == '\\') {
+					token->value = estrndup(q + 1, YYCURSOR - q - 1);
+					token->len = YYCURSOR - q - 1;
+				} else {
+					token->value = estrndup(q, YYCURSOR - q);
+					token->len = YYCURSOR - q;
+				}
+			} else {
+				token->value = estrndup(q, YYCURSOR - q);
+				token->len = YYCURSOR - q;
+			}
 			q = YYCURSOR;
 			return 0;
 		}
@@ -320,18 +355,23 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		":" {
+			token->opcode = PHQL_T_COLON;
+			return 0;
+		}
+
 		"," {
 			token->opcode = PHQL_T_COMMA;
 			return 0;
 		}
 
 		"(" {
-			token->opcode = PHQL_T_BRACKET_OPEN;
+			token->opcode = PHQL_T_PARENTHESES_OPEN;
 			return 0;
 		}
 
 		")" {
-			token->opcode = PHQL_T_BRACKET_CLOSE;
+			token->opcode = PHQL_T_PARENTHESES_CLOSE;
 			return 0;
 		}
 
@@ -355,6 +395,16 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		"<" {
+			token->opcode = PHQL_T_LESS;
+			return 0;
+		}
+
+		">" {
+			token->opcode = PHQL_T_GREATER;
+			return 0;
+		}
+
 		"=" {
 			token->opcode = PHQL_T_EQUALS;
 			return 0;
@@ -365,13 +415,13 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		"<" {
-			token->opcode = PHQL_T_LESS;
+		"~" {
+			token->opcode = PHQL_T_BITWISE_NOT;
 			return 0;
 		}
 
-		">" {
-			token->opcode = PHQL_T_GREATER;
+		"^" {
+			token->opcode = PHQL_T_BITWISE_XOR;
 			return 0;
 		}
 

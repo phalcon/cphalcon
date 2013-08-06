@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -28,12 +28,12 @@
 %left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL .
 %left AND OR .
 %left LIKE ILIKE .
-%left BITWISE_AND BITWISE_OR .
+%left BITWISE_AND BITWISE_OR BITWISE_XOR .
 %left DIVIDE TIMES MOD .
 %left PLUS MINUS .
 %left IS .
 %right IN DISTINCT .
-%right NOT .
+%right NOT BITWISE_NOT .
 
 %include {
 
@@ -82,13 +82,39 @@ static zval *phql_ret_placeholder_zval(int type, phql_parser_token *T)
 	return ret;
 }
 
-static zval *phql_ret_qualified_name(phql_parser_token *A, phql_parser_token *B)
+static zval *phql_ret_qualified_name(phql_parser_token *A, phql_parser_token *B, phql_parser_token *C)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
+
 	add_assoc_long(ret, "type", PHQL_T_QUALIFIED);
+
+	if (A != NULL) {
+		add_assoc_stringl(ret, "ns-alias", A->token, A->token_len, 0);
+		efree(A);
+	}
+
+	if (B != NULL) {
+		add_assoc_stringl(ret, "domain", B->token, B->token_len, 0);
+		efree(B);
+	}
+
+	add_assoc_stringl(ret, "name", C->token, C->token_len, 0);
+	efree(C);
+
+	return ret;
+}
+
+static zval *phql_ret_raw_qualified_name(phql_parser_token *A, phql_parser_token *B)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHQL_T_RAW_QUALIFIED);
 	if (B != NULL) {
 		add_assoc_stringl(ret, "domain", A->token, A->token_len, 0);
 		add_assoc_stringl(ret, "name", B->token, B->token_len, 0);
@@ -448,26 +474,26 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 				token_found = 0;
 			}
 
-			status->syntax_error_len = 64 + status->token->len + token_length + near_length;
+			status->syntax_error_len = 96 + status->token->len + token_length + near_length + status->phql_length;;
 			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
 
 			if (near_length > 0) {
 				if (status->token->value) {
-					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s'", token_name, status->token->value, status->scanner_state->start);
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s', when parsing: %s (%d)", token_name, status->token->value, status->scanner_state->start, status->phql, status->phql_length);
 				} else {
-					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s'", token_name, status->scanner_state->start);
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s', when parsing: %s (%d)", token_name, status->scanner_state->start, status->phql, status->phql_length);
 				}
 			} else {
 				if (active_token != PHQL_T_IGNORE) {
 					if (status->token->value) {
-						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of query", token_name, status->token->value);
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of query, when parsing: %s (%d)", token_name, status->token->value, status->phql, status->phql_length);
 					} else {
-						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of query", token_name);
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of query, when parsing: %s (%d)", token_name, status->phql, status->phql_length);
 					}
 				} else {
 					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected EOF, at the end of query");
 				}
-				status->syntax_error[status->syntax_error_len-1] = '\0';
+				status->syntax_error[status->syntax_error_len - 1] = '\0';
 			}
 
 			if (!token_found) {
@@ -684,33 +710,33 @@ join_item(R) ::= join_clause(C) . {
 %destructor join_clause { zval_ptr_dtor(&$$); }
 
 /** Join - conditions - alias */
-join_clause(R) ::= join_type(T) qualified_name(Q) . {
+join_clause(R) ::= join_type(T) aliased_or_qualified_name(Q) . {
 	R = phql_ret_join_item(T, Q, NULL, NULL);
 }
 
 /** Join - conditions + alias */
-join_clause(R) ::= join_type(T) qualified_name(Q) join_associated_name(A) . {
+join_clause(R) ::= join_type(T) aliased_or_qualified_name(Q) join_associated_name(A) . {
 	R = phql_ret_join_item(T, Q, A, NULL);
 }
 
 /** Join + conditions - alias */
-join_clause(R) ::= join_type(T) qualified_name(Q) join_conditions(C) . {
+join_clause(R) ::= join_type(T) aliased_or_qualified_name(Q) join_conditions(C) . {
 	R = phql_ret_join_item(T, Q, NULL, C);
 }
 
 /** Join + conditions + alias */
-join_clause(R) ::= join_type(T) qualified_name(Q) join_associated_name(A) join_conditions(C) . {
+join_clause(R) ::= join_type(T) aliased_or_qualified_name(Q) join_associated_name(A) join_conditions(C) . {
 	R = phql_ret_join_item(T, Q, A, C);
 }
 
 %destructor join_associated_name { zval_ptr_dtor(&$$); }
 
 join_associated_name(R) ::= AS IDENTIFIER(I) . {
-	R = phql_ret_qualified_name(I, NULL);
+	R = phql_ret_qualified_name(NULL, NULL, I);
 }
 
 join_associated_name(R) ::= IDENTIFIER(I) . {
-	R = phql_ret_qualified_name(I, NULL);
+	R = phql_ret_qualified_name(NULL, NULL, I);
 }
 
 %destructor join_type { zval_ptr_dtor(&$$); }
@@ -760,11 +786,11 @@ join_conditions(R) ::= ON expr(E) . {
 %destructor insert_statement { zval_ptr_dtor(&$$); }
 
 /* Insert */
-insert_statement(R) ::= INSERT INTO qualified_name(Q) VALUES BRACKET_OPEN values_list(V) BRACKET_CLOSE . {
+insert_statement(R) ::= INSERT INTO aliased_or_qualified_name(Q) VALUES PARENTHESES_OPEN values_list(V) PARENTHESES_CLOSE . {
 	R = phql_ret_insert_statement(Q, NULL, V);
 }
 
-insert_statement(R) ::= INSERT INTO qualified_name(Q) BRACKET_OPEN field_list(F) BRACKET_CLOSE VALUES BRACKET_OPEN values_list(V) BRACKET_CLOSE . {
+insert_statement(R) ::= INSERT INTO aliased_or_qualified_name(Q) PARENTHESES_OPEN field_list(F) PARENTHESES_CLOSE VALUES PARENTHESES_OPEN values_list(V) PARENTHESES_CLOSE . {
 	R = phql_ret_insert_statement(Q, F, V);
 }
 
@@ -795,7 +821,7 @@ field_list(R) ::= field_item(F) . {
 %destructor field_item { zval_ptr_dtor(&$$); }
 
 field_item(R) ::= IDENTIFIER(I) . {
-	R = phql_ret_qualified_name(I, NULL);
+	R = phql_ret_qualified_name(NULL, NULL, I);
 }
 
 /* Update */
@@ -872,16 +898,22 @@ delete_clause(R) ::= DELETE FROM associated_name(A) . {
 
 %destructor associated_name { zval_ptr_dtor(&$$); }
 
-associated_name(R) ::= qualified_name(Q) AS IDENTIFIER(I) . {
+associated_name(R) ::= aliased_or_qualified_name(Q) AS IDENTIFIER(I) . {
 	R = phql_ret_assoc_name(Q, I);
 }
 
-associated_name(R) ::= qualified_name(Q) IDENTIFIER(I) . {
+associated_name(R) ::= aliased_or_qualified_name(Q) IDENTIFIER(I) . {
 	R = phql_ret_assoc_name(Q, I);
 }
 
-associated_name(R) ::= qualified_name(Q) . {
+associated_name(R) ::= aliased_or_qualified_name(Q) . {
 	R = phql_ret_assoc_name(Q, NULL);
+}
+
+%destructor aliased_or_qualified_name { zval_ptr_dtor(&$$); }
+
+aliased_or_qualified_name(R) ::= qualified_name(Q) . {
+	R = Q;
 }
 
 %destructor where_clause { zval_ptr_dtor(&$$); }
@@ -938,12 +970,8 @@ group_list(R) ::= group_item(I) . {
 
 %destructor group_item { zval_ptr_dtor(&$$); }
 
-group_item(R) ::= qualified_name(Q) . {
-	R = Q;
-}
-
-group_item(R) ::= INTEGER(I) . {
-	R = phql_ret_literal_zval(PHQL_T_INTEGER, I);
+group_item(R) ::= expr(E) . {
+	R = E;
 }
 
 %destructor having_clause { zval_ptr_dtor(&$$); }
@@ -1014,6 +1042,10 @@ expr(R) ::= expr(O1) BITWISE_OR expr(O2) . {
 	R = phql_ret_expr(PHQL_T_BITWISE_OR, O1, O2);
 }
 
+expr(R) ::= expr(O1) BITWISE_XOR expr(O2) . {
+	R = phql_ret_expr(PHQL_T_BITWISE_XOR, O1, O2);
+}
+
 expr(R) ::= expr(O1) EQUALS expr(O2) . {
 	R = phql_ret_expr(PHQL_T_EQUALS, O1, O2);
 }
@@ -1054,16 +1086,24 @@ expr(R) ::= expr(O1) NOT ILIKE expr(O2) . {
 	R = phql_ret_expr(PHQL_T_NILIKE, O1, O2);
 }
 
-expr(R) ::= expr(E) IN BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
+expr(R) ::= expr(E) IN PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
 	R = phql_ret_expr(PHQL_T_IN, E, L);
 }
 
-expr(R) ::= expr(E) NOT IN BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
+expr(R) ::= expr(E) NOT IN PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
 	R = phql_ret_expr(PHQL_T_NOTIN, E, L);
 }
 
 expr(R) ::= expr(O1) AGAINST expr(O2) . {
 	R = phql_ret_expr(PHQL_T_AGAINST, O1, O2);
+}
+
+expr(R) ::= CAST PARENTHESES_OPEN expr(E) AS IDENTIFIER(I) PARENTHESES_CLOSE . {
+	R = phql_ret_expr(PHQL_T_CAST, E, phql_ret_raw_qualified_name(I, NULL));
+}
+
+expr(R) ::= CONVERT PARENTHESES_OPEN expr(E) USING IDENTIFIER(I) PARENTHESES_CLOSE . {
+	R = phql_ret_expr(PHQL_T_CONVERT, E, phql_ret_raw_qualified_name(I, NULL));
 }
 
 %destructor function_call { zval_ptr_dtor(&$$); }
@@ -1072,11 +1112,11 @@ expr(R) ::= function_call(F) . {
 	R = F;
 }
 
-function_call(R) ::= IDENTIFIER(I) BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
+function_call(R) ::= IDENTIFIER(I) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
 	R = phql_ret_func_call(I, L);
 }
 
-function_call(R) ::= IDENTIFIER(I) BRACKET_OPEN BRACKET_CLOSE . {
+function_call(R) ::= IDENTIFIER(I) PARENTHESES_OPEN PARENTHESES_CLOSE . {
 	R = phql_ret_func_call(I, NULL);
 }
 
@@ -1120,7 +1160,11 @@ expr(R) ::= NOT expr(E) . {
 	R = phql_ret_expr(PHQL_T_NOT, NULL, E);
 }
 
-expr(R) ::= BRACKET_OPEN expr(E) BRACKET_CLOSE . {
+expr(R) ::= BITWISE_NOT expr(E) . {
+	R = phql_ret_expr(PHQL_T_BITWISE_NOT, NULL, E);
+}
+
+expr(R) ::= PARENTHESES_OPEN expr(E) PARENTHESES_CLOSE . {
 	R = phql_ret_expr(PHQL_T_ENCLOSED, E, NULL);
 }
 
@@ -1144,6 +1188,14 @@ expr(R) ::= NULL . {
 	R = phql_ret_literal_zval(PHQL_T_NULL, NULL);
 }
 
+expr(R) ::= TRUE . {
+	R = phql_ret_literal_zval(PHQL_T_TRUE, NULL);
+}
+
+expr(R) ::= FALSE . {
+	R = phql_ret_literal_zval(PHQL_T_FALSE, NULL);
+}
+
 expr(R) ::= NPLACEHOLDER(P) . {
 	R = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, P);
 }
@@ -1154,10 +1206,19 @@ expr(R) ::= SPLACEHOLDER(P) . {
 
 %destructor qualified_name { zval_ptr_dtor(&$$); }
 
+qualified_name(R) ::= IDENTIFIER(A) COLON IDENTIFIER(B) DOT IDENTIFIER(C) . {
+	R = phql_ret_qualified_name(A, B, C);
+}
+
+qualified_name(R) ::= IDENTIFIER(A) COLON IDENTIFIER(B) . {
+	R = phql_ret_qualified_name(A, NULL, B);
+}
+
 qualified_name(R) ::= IDENTIFIER(A) DOT IDENTIFIER(B) . {
-	R = phql_ret_qualified_name(A, B);
+	R = phql_ret_qualified_name(NULL, A, B);
 }
 
 qualified_name(R) ::= IDENTIFIER(A) . {
-	R = phql_ret_qualified_name(A, NULL);
+	R = phql_ret_qualified_name(NULL, NULL, A);
 }
+
