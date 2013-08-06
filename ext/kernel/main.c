@@ -40,7 +40,6 @@
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 
 	/* Memory options */
-	phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
 
 	/* Virtual Symbol Tables */
@@ -323,7 +322,7 @@ void phalcon_inherit_not_found(const char *class_name, const char *inherit_name)
 /**
  * Parses method parameters with minimum overhead
  */
-int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int required_args, int optional_args, ...)
+int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
 {
 	va_list va;
 	int arg_count = (int) (zend_uintptr_t) *(zend_vm_stack_top(TSRMLS_C) - 1);
@@ -331,12 +330,12 @@ int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int require
 	int i;
 
 	if (num_args < required_args || (num_args > (required_args + optional_args))) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters"), grow_stack TSRMLS_CC);
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters"), 0 TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (num_args > arg_count) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing"), grow_stack TSRMLS_CC);
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing"), 0 TSRMLS_CC);
 		return FAILURE;
 	}
 

@@ -284,5 +284,11 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($actual, $expected);
 	}
-}
 
+	public function testConfigWithMergeAndGarbageCollection()
+	{
+		$config = new Phalcon\Config(array('test1' => 1, 'test2' => 2));
+		$config->merge(new Phalcon\Config(array('test2')));
+		gc_collect_cycles();
+	}
+}
