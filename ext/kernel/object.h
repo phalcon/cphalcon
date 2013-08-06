@@ -94,6 +94,7 @@ int phalcon_update_static_property_ce(zend_class_entry *ce, char *name, int len,
 int phalcon_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC);
 int phalcon_read_static_property_ce(zval **result, zend_class_entry *ce, char *property, int len TSRMLS_DC);
 int phalcon_read_class_property(zval **result, int type, char *property, int len TSRMLS_DC);
+zval* phalcon_fetch_static_property_ce(zend_class_entry *ce, char *property, int len TSRMLS_DC);
 
 /** Create instances */
 extern int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC);
