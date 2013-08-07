@@ -325,6 +325,8 @@
 #include "events/manager.h"
 #include "events/exception.h"
 #include "image.h"
+#include "image/adapter.h"
 #include "image/adapterinterface.h"
 #include "image/exception.h"
 #include "image/adapter/gd.h"
+#include "image/adapter/imagick.h"

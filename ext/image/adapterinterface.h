@@ -24,7 +24,6 @@ PHALCON_INIT_CLASS(Phalcon_Image_AdapterInterface);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapterinterface_resize, 0, 0, 0)
 	ZEND_ARG_INFO(0, width)
 	ZEND_ARG_INFO(0, height)
-	ZEND_ARG_INFO(0, master)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapterinterface_crop, 0, 0, 2)

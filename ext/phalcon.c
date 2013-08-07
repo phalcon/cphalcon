@@ -346,8 +346,10 @@ zend_class_entry *phalcon_events_eventsawareinterface_ce;
 zend_class_entry *phalcon_exception_ce;
 zend_class_entry *phalcon_image_ce;
 zend_class_entry *phalcon_image_adapter_ce;
-zend_class_entry *phalcon_image_adapter_gd_ce;
+zend_class_entry *phalcon_image_adapterinterface_ce;
 zend_class_entry *phalcon_image_exception_ce;
+zend_class_entry *phalcon_image_adapter_gd_ce;
+zend_class_entry *phalcon_image_adapter_imagick_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
@@ -714,8 +716,11 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Events_Manager);
 	PHALCON_INIT(Phalcon_Events_Exception);
 	PHALCON_INIT(Phalcon_Image);
+	PHALCON_INIT(Phalcon_Image_Adapter);
 	PHALCON_INIT(Phalcon_Image_AdapterInterface);
+	PHALCON_INIT(Phalcon_Image_Exception);
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
+	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
 
 	old_error_cb  = zend_error_cb;
 	zend_error_cb = phalcon_error_cb;
