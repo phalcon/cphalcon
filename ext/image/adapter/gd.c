@@ -240,8 +240,9 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 
 	zval *width = NULL, *height = NULL, *ori_width, *ori_height, *pre_width, *pre_height, *reduction_width, *reduction_height;
-	zval *w = NULL, *h = NULL, *w0, *h0, *image = NULL, *tmp_image = NULL, *ret = NULL, *dst;
+	zval *image = NULL, *tmp_image = NULL, *ret = NULL, *dst;
 	int tmp_width, tmp_height, tmp_pre_width, tmp_pre_height, tmp_reduction_width, tmp_reduction_height;
+	double num;
 
 	PHALCON_MM_GROW();
 
@@ -253,11 +254,11 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 	PHALCON_OBS_VAR(ori_height);
 	phalcon_read_property_this(&ori_height, this_ptr, SL("_height"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(pre_width);
-	phalcon_read_property_this(&pre_width, this_ptr, SL("_width"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(pre_width);
+	ZVAL_LONG(pre_width, Z_LVAL_P(ori_width));
 
-	PHALCON_OBS_VAR(pre_height);
-	phalcon_read_property_this(&pre_height, this_ptr, SL("_height"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(pre_height);
+	ZVAL_LONG(pre_height, Z_LVAL_P(ori_height));
 
 	PHALCON_OBS_VAR(image);
 	phalcon_read_property_this(&image, this_ptr, SL("_image"), PH_NOISY_CC);
@@ -271,37 +272,28 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 	tmp_pre_height = Z_LVAL_P(pre_height);
 
 	if (tmp_width > (tmp_pre_width / 2) && tmp_height > (tmp_pre_height / 2)) {
-		PHALCON_INIT_VAR(w);
-		ZVAL_LONG(w, tmp_width*1.1);
+		num = tmp_width*1.1;
+		tmp_reduction_width = (int)(num + 0.5);
 
 		PHALCON_INIT_VAR(reduction_width);
-		phalcon_call_func_p1(reduction_width, "round", w);
+		ZVAL_LONG(reduction_width, tmp_reduction_width);
 
-		PHALCON_INIT_VAR(h);
-		ZVAL_LONG(h, tmp_height*1.1);
+		num = tmp_height*1.1;
+		tmp_reduction_height = (int)(num + 0.5);
 
 		PHALCON_INIT_VAR(reduction_height);
-		phalcon_call_func_p1(reduction_height, "round", h);
-
-		tmp_reduction_width = Z_LVAL_P(reduction_width);
-		tmp_reduction_height = Z_LVAL_P(reduction_height);
+		ZVAL_LONG(reduction_height, tmp_reduction_height);
 
 		while ((tmp_pre_width / 2 > tmp_reduction_width) && (tmp_pre_height / 2 > tmp_reduction_height)) {
-			PHALCON_INIT_NVAR(w0);
-			ZVAL_LONG(w0, tmp_pre_width/2);
-
-			PHALCON_INIT_NVAR(h0);
-			ZVAL_LONG(h0, tmp_pre_height/2);
-
-			PHALCON_INIT_NVAR(pre_width);
-			ZVAL_LONG(pre_width, (int)Z_LVAL_P(w0));
-
-			PHALCON_INIT_NVAR(pre_height);
-			ZVAL_LONG(pre_height, (int)Z_LVAL_P(h0));
-					
-			tmp_pre_width = Z_LVAL_P(pre_width);
-			tmp_pre_height = Z_LVAL_P(pre_height);
+			tmp_pre_width = (int)(tmp_pre_width/2);
+			tmp_pre_height = (int)(tmp_pre_height/2);
 		}
+
+		PHALCON_INIT_NVAR(pre_width);
+		ZVAL_LONG(pre_width, tmp_pre_width);
+
+		PHALCON_INIT_NVAR(pre_height);
+		ZVAL_LONG(pre_height, tmp_pre_height);
 
 		PHALCON_INIT_VAR(tmp_image);
 
@@ -312,8 +304,6 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 		
 		if (zend_is_true(ret)) {
 			phalcon_call_func_p1_noret("imagedestroy", image);
-			phalcon_update_property_this(this_ptr, SL("_image"), tmp_image TSRMLS_CC);
-
 			PHALCON_CPY_WRT(image, tmp_image);
 		}
 	}
@@ -328,14 +318,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 		phalcon_call_func_p1_noret("imagedestroy", image);
 		phalcon_update_property_this(this_ptr, SL("_image"), tmp_image TSRMLS_CC);
 
-		PHALCON_INIT_NVAR(w);
-		phalcon_call_func_p1(w, "imagesx", tmp_image);
-
-		PHALCON_INIT_NVAR(h);
-		phalcon_call_func_p1(h, "imagesy", tmp_image);
-
-		phalcon_update_property_this(this_ptr, SL("_width"), w TSRMLS_CC);
-		phalcon_update_property_this(this_ptr, SL("_height"), h TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
 	}
 
 	PHALCON_MM_RESTORE();
@@ -351,7 +335,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, _crop) {
 	zval *width, *height, *offset_x, *offset_y;
-	zval *w = NULL, *h = NULL, *image, *tmp_image = NULL, *dst, *ret = NULL;
+	zval *image, *tmp_image = NULL, *dst, *ret = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -373,14 +357,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _crop) {
 		phalcon_call_func_p1_noret("imagedestroy", image);
 		phalcon_update_property_this(this_ptr, SL("_image"), tmp_image TSRMLS_CC);
 
-		PHALCON_INIT_NVAR(w);
-		phalcon_call_func_p1(w, "imagesx", tmp_image);
-
-		PHALCON_INIT_NVAR(h);
-		phalcon_call_func_p1(h, "imagesy", tmp_image);
-
-		phalcon_update_property_this(this_ptr, SL("_width"), w TSRMLS_CC);
-		phalcon_update_property_this(this_ptr, SL("_height"), h TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
 	}
 
 	PHALCON_MM_RESTORE();
@@ -554,13 +532,12 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
 
 	b = -18 + (a * 0.08);
 
-	PHALCON_INIT_NVAR(tmp);
-	ZVAL_LONG(tmp, b);
+	if (b < 0) {
+		b = b * -1;
+	}
 
 	PHALCON_INIT_NVAR(tmp_amount);
-	phalcon_call_func_p1(tmp_amount, "abs", tmp);
-
-	b = Z_LVAL_P(tmp_amount);
+	ZVAL_LONG(tmp_amount, b);
 
 	PHALCON_INIT_NVAR(tmp);
 	ZVAL_LONG(tmp, a);
