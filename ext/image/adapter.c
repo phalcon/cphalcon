@@ -771,12 +771,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 
 	i = Z_STRLEN_P(tmp_color);
 
-	zend_printf("i:%d \n", i);
-
 	strncpy(str, Z_STRVAL_P(tmp_color), i > 6 ? 6 : i);
-
-
-	zend_printf("str:%s \n", str);
 
 	if (strlen(str) >= 6) {
 
