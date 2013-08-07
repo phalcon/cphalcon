@@ -67,6 +67,11 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 
 	public function testAction()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -261,6 +266,11 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 
 	public function testIssue701()
 	{
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
 		$di = $this->_getDI();
 
 		$builder = new Builder();

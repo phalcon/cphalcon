@@ -28,6 +28,14 @@ zend_class_entry* phalcon_fetch_self_class(TSRMLS_D);
 zend_class_entry* phalcon_fetch_parent_class(TSRMLS_D);
 zend_class_entry* phalcon_fetch_static_class(TSRMLS_D);
 
+#define PHALCON_GET_CLASS_CONSTANT(return_value, ce, const_name) \
+	do { \
+		if (FAILURE == phalcon_get_class_constant(return_value, ce, const_name, strlen(const_name)+1 TSRMLS_CC)) { \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
+
 /** Class constants */
 extern int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC);
 
@@ -47,12 +55,16 @@ extern int phalcon_isset_property_quick(zval *object, const char *property_name,
 extern int phalcon_isset_property_zval(zval *object, const zval *property TSRMLS_DC);
 
 /** Reading properties */
-extern int phalcon_read_property_this(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
-extern int phalcon_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
-extern int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
-extern int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
-extern int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
-extern int phalcon_return_property_quick(zval *return_value, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC);
+int phalcon_read_property_this(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
+int phalcon_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
+zval** phalcon_fetch_nproperty_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
+zval** phalcon_fetch_nproperty_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
+zval** phalcon_fetch_property_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
+zval** phalcon_fetch_property_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
+int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
+int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
+int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
+int phalcon_return_property_quick(zval *return_value, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC);
 
 /** Updating properties */
 extern int phalcon_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
@@ -82,6 +94,7 @@ int phalcon_update_static_property_ce(zend_class_entry *ce, char *name, int len,
 int phalcon_update_static_property(const char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC);
 int phalcon_read_static_property_ce(zval **result, zend_class_entry *ce, char *property, int len TSRMLS_DC);
 int phalcon_read_class_property(zval **result, int type, char *property, int len TSRMLS_DC);
+zval* phalcon_fetch_static_property_ce(zend_class_entry *ce, char *property, int len TSRMLS_DC);
 
 /** Create instances */
 extern int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC);

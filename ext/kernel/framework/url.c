@@ -17,16 +17,16 @@
  +------------------------------------------------------------------------+
 */
 
-#include <main/php.h>
-#include <main/php_main.h>
-#include <ext/standard/url.h>
+#include "main/php.h"
+#include "main/php_main.h"
+#include "ext/standard/url.h"
 
 #include "php_phalcon.h"
 
 
 void phalcon_get_uri(zval *return_value, zval *path) {
 
-	int i, found = 0, mark;
+	int i, found = 0, mark = 0;
 	char *cursor, *str, ch;
 
 	if (Z_TYPE_P(path) != IS_STRING) {

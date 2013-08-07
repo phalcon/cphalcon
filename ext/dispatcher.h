@@ -18,6 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_DISPATCHER_H
+#define PHALCON_DISPATCHER_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_dispatcher_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Dispatcher);
@@ -136,3 +141,4 @@ PHALCON_INIT_FUNCS(phalcon_dispatcher_method_entry){
 	PHP_FE_END
 };
 
+#endif /* PHALCON_DISPATCHER_H */

@@ -221,6 +221,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 
 #ifndef IS_INTERNED
 #define IS_INTERNED(key) 0
+#define INTERNED_HASH(key) 0
 #endif
 
 /** Get the current hash key without copying the hash key */
@@ -254,7 +255,12 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) PHALCON_GET_HMKEY(var, hash, hash_pointer)
 
 /** Check if an array is iterable or not */
-#define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { return; }
+#define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) \
+	if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { \
+		zend_error(E_ERROR, "The argument is not iterable()"); \
+		PHALCON_MM_RESTORE(); \
+		return; \
+	}
 
 #define PHALCON_GET_FOREACH_VALUE(var) \
 	PHALCON_OBS_NVAR(var); \

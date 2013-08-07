@@ -77,14 +77,9 @@ typedef struct _phalcon_config_object {
  * @see phalcon_config_object
  * @param zobj @c \Phalcon\Config instance
  * @return phalcon_config_object associated with @a zobj
- * @pre <tt>Z_TYPE_P(zobj) == IS_OBJECT && instanceof_function(Z_OBJCE_P(zobj), phalcon_config_ce TSRMLS_CC)</tt>
  */
 static inline phalcon_config_object* fetchPhalconConfigObject(zval* zobj TSRMLS_DC)
 {
-#ifndef PHALCON_RELEASE
-	assert(Z_TYPE_P(zobj) == IS_OBJECT && instanceof_function(Z_OBJCE_P(zobj), phalcon_config_ce TSRMLS_CC));
-#endif
-
 	return (phalcon_config_object*)zend_objects_get_address(zobj TSRMLS_CC);
 }
 
@@ -167,6 +162,7 @@ static void phalcon_config_write_property(zval *object, zval *offset, zval *valu
 
 	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
 		zend_get_std_object_handlers()->write_property(object, offset, value ZLK_CC TSRMLS_CC);
+		return;
 	}
 
 	phalcon_config_write_internal(obj, offset, value TSRMLS_CC);
@@ -181,6 +177,7 @@ static void phalcon_config_write_dimension(zval *object, zval *offset, zval *val
 
 	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
 		zend_get_std_object_handlers()->write_dimension(object, offset, value TSRMLS_CC);
+		return;
 	}
 
 	phalcon_config_write_internal(obj, offset, value TSRMLS_CC);
@@ -244,6 +241,7 @@ static void phalcon_config_unset_property(zval *object, zval *member ZLK_DC TSRM
 
 	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
 		zend_get_std_object_handlers()->unset_property(object, member ZLK_CC TSRMLS_CC);
+		return;
 	}
 
 	phalcon_config_unset_internal(obj, member TSRMLS_CC);
@@ -255,6 +253,7 @@ static void phalcon_config_unset_dimension(zval *object, zval *offset TSRMLS_DC)
 
 	if (obj->obj.ce->type != ZEND_INTERNAL_CLASS) {
 		zend_get_std_object_handlers()->unset_dimension(object, offset TSRMLS_CC);
+		return;
 	}
 
 	phalcon_config_unset_internal(obj, offset TSRMLS_CC);
@@ -269,9 +268,7 @@ static HashTable* phalcon_config_get_properties(zval* object TSRMLS_DC)
 
 	if (!GC_G(gc_active)) {
 		phalcon_config_object* obj = fetchPhalconConfigObject(object TSRMLS_CC);
-		zval *tmp;
-
-		zend_hash_copy(props, obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
+		zend_hash_copy(props, obj->props, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
 	}
 
 	return props;
@@ -308,11 +305,8 @@ static void phalcon_config_object_dtor(void* v TSRMLS_DC)
 {
 	phalcon_config_object* obj = v;
 
-	if (obj->props) {
-		zend_hash_destroy(obj->props);
-		FREE_HASHTABLE(obj->props);
-	}
-
+	zend_hash_destroy(obj->props);
+	FREE_HASHTABLE(obj->props);
 	zend_object_std_dtor(&(obj->obj) TSRMLS_CC);
 	efree(obj);
 }
@@ -325,7 +319,14 @@ static zend_object_value phalcon_config_object_ctor(zend_class_entry* ce TSRMLS_
 	phalcon_config_object* obj = ecalloc(1, sizeof(phalcon_config_object));
 	zend_object_value retval;
 
-	zend_object_std_init(&(obj->obj), ce TSRMLS_CC);
+	zend_object_std_init(&obj->obj, ce TSRMLS_CC);
+#if PHP_VERSION_ID >= 50400
+	object_properties_init(&obj->obj, ce);
+#endif
+
+	ALLOC_HASHTABLE(obj->props);
+	zend_hash_init(obj->props, 0, NULL, ZVAL_PTR_DTOR, 0);
+
 	retval.handle = zend_objects_store_put(
 		obj,
 		(zend_objects_store_dtor_t)zend_objects_destroy_object,
@@ -377,23 +378,16 @@ void phalcon_config_construct_internal(zval* this_ptr, zval *array_config TSRMLS
 	phalcon_config_object* obj;
 
 	if (!array_config || Z_TYPE_P(array_config) == IS_NULL) {
-		obj = fetchPhalconConfigObject(getThis() TSRMLS_CC);
-		ALLOC_HASHTABLE(obj->props);
-		zend_hash_init(obj->props, 0, NULL, ZVAL_PTR_DTOR, 0);
 		return;
 	}
 
 	phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0);
 
 	obj = fetchPhalconConfigObject(getThis() TSRMLS_CC);
-	ALLOC_HASHTABLE(obj->props);
-	zend_hash_init(obj->props, zend_hash_num_elements(Z_ARRVAL_P(array_config)), NULL, ZVAL_PTR_DTOR, 0);
 
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-
 		zval key = phalcon_get_current_key_w(ah0, &hp0);
 		phalcon_config_write_internal(obj, &key, *hd TSRMLS_CC);
-
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 }
@@ -412,10 +406,10 @@ static void phalcon_config_toarray_internal(zval *return_value, zval *this_ptr T
 		zend_hash_copy(Z_ARRVAL_P(return_value), obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
 	}
 	else if (phalcon_method_exists_ex(this_ptr, SS("toarray") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_params_w(return_value, this_ptr, SL("toarray"), 0, NULL, 0, 0 TSRMLS_CC);
+		phalcon_call_method_params(return_value, this_ptr, SL("toarray"), zend_inline_hash_func(SS("toarray")) TSRMLS_CC, 0);
 	}
 	else {
-		phalcon_call_func_params_w(return_value, SL("get_object_vars"), 0, NULL TSRMLS_CC);
+		phalcon_call_func_params(return_value, SL("get_object_vars") TSRMLS_CC, 1, this_ptr);
 	}
 }
 
@@ -589,9 +583,8 @@ PHP_METHOD(Phalcon_Config, merge){
 		if (active_value) {
 			if (Z_TYPE_PP(hd) == IS_OBJECT && Z_TYPE_P(active_value) == IS_OBJECT) {
 				if (phalcon_method_exists_ex(active_value, SS("merge") TSRMLS_CC) == SUCCESS) { /* Path AAA in the test */
-					zval *params[] = {*hd};
 					Z_ADDREF_PP(hd);
-					phalcon_call_method_params_w(NULL, active_value, SL("merge"), 1, params, 0, 0 TSRMLS_CC);
+					phalcon_call_method_params(NULL, active_value, SL("merge"), zend_inline_hash_func(SS("merge")) TSRMLS_CC, 1, *hd);
 					Z_DELREF_PP(hd);
 				}
 				else { /* Path AAB in the test */
@@ -644,7 +637,7 @@ PHP_METHOD(Phalcon_Config, toArray){
 	
 		if (Z_TYPE_PP(hd) == IS_OBJECT && phalcon_method_exists_ex(*hd, SS("toarray") TSRMLS_CC) == SUCCESS) {
 			ALLOC_INIT_ZVAL(array_value);
-			phalcon_call_method_params_w(array_value, *hd, SL("toarray"), 0, NULL, 0, 0 TSRMLS_CC);
+			phalcon_call_method_params(array_value, *hd, SL("toarray"), zend_inline_hash_func(SS("toarray")) TSRMLS_CC, 0);
 			phalcon_array_update_zval(&return_value, &key, &array_value, PH_SEPARATE);
 		}
 	
@@ -658,6 +651,16 @@ PHP_METHOD(Phalcon_Config, count)
 
 	phalcon_config_count_elements(getThis(), &cnt TSRMLS_CC);
 	RETURN_LONG(cnt);
+}
+
+PHP_METHOD(Phalcon_Config, __wakeup)
+{
+	HashTable *props;
+	phalcon_config_object *obj;
+
+	obj   = fetchPhalconConfigObject(getThis() TSRMLS_CC);
+	props = zend_std_get_properties(getThis() TSRMLS_CC);
+	zend_hash_copy(obj->props, props, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
 }
 
 /**

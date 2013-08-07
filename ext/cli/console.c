@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -225,7 +224,17 @@ PHP_METHOD(Phalcon_CLI_Console, getModules){
 }
 
 /**
- * Handle the whole command-line tasks
+ * Handle the command-line arguments.
+ *  
+ * 
+ * <code>
+ * 	$arguments = array(
+ * 		'task' => 'taskname',
+ * 		'action' => 'action',
+ * 		'params' => array('parameter1', 'parameter2')
+ * 	);
+ * 	$console->handle($arguments);
+ * </code>
  *
  * @param array $arguments
  * @return mixed
@@ -301,7 +310,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 			phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY);
 			if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 				if (phalcon_require(path TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 			} else {
 				PHALCON_INIT_NVAR(exception_msg);

@@ -74,6 +74,13 @@ PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, send);
 PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, reset);
 
 /**
+ * Returns the current headers as an array
+ *
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, toArray);
+
+/**
  * Restore a Phalcon\Http\Response\Headers object
  *
  * @param array $data

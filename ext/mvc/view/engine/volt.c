@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	}
 	
 	if (phalcon_require(compiled_template_path TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_INIT_VAR(contents);

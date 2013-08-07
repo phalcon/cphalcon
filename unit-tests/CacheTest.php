@@ -122,10 +122,10 @@ class CacheTest extends PHPUnit_Framework_TestCase
 	public function testDataFileCache()
 	{
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
+		$frontCache = new Phalcon\Cache\Frontend\Data(array('lifetime' => 10));
 
 		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
-			'cacheDir' => 'unit-tests/cache/'
+			'cacheDir' => 'unit-tests/cache/',
 		));
 
 		$this->assertFalse($cache->isStarted());
@@ -171,7 +171,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 
-		$frontCache = new Phalcon\Cache\Frontend\Igbinary();
+		$frontCache = new Phalcon\Cache\Frontend\Igbinary(array('lifetime' => 600));
 
 		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
 			'cacheDir' => 'unit-tests/cache/'

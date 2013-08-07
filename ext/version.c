@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Version, get){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(version);
-	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
+	phalcon_call_self(version, this_ptr, "_getversion");
 
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, version, 0, PH_NOISY);
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Version, getId){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(version);
-	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
+	phalcon_call_self(version, this_ptr, "_getversion");
 
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, version, 0, PH_NOISY);

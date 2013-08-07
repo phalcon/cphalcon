@@ -22,6 +22,22 @@ CREATE INDEX customers_credit_line_idx ON customers (`credit_line`);
 CREATE INDEX customers_status_idx ON customers (`status`);
 
 
+CREATE TABLE `m2m_parts` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `name` varchar(70) NOT NULL
+);
+
+CREATE TABLE `m2m_robots` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `name` varchar(70) NOT NULL
+);
+
+CREATE TABLE `m2m_robots_parts` (
+  `robots_id` INTEGER NOT NULL,
+  `parts_id` INTEGER NOT NULL,
+  PRIMARY KEY (`robots_id`, `parts_id`)
+);
+
 
 
 CREATE TABLE `parts` (

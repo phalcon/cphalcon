@@ -123,8 +123,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			 */
 			PHALCON_INIT_VAR(update_model);
 			if (phalcon_clone(update_model, model TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
+
 			phalcon_call_method_p2_noret(update_model, "writeattribute", field, value);
 	
 			/** 
