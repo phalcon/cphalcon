@@ -271,6 +271,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_CLASS(router, phalcon_cli_router_ce);
 	phalcon_call_method_p1_noret(router, "handle", arguments);
 	
 	PHALCON_INIT_VAR(module_name);
@@ -360,6 +361,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	
 	PHALCON_INIT_VAR(dispatcher);
 	phalcon_call_method_p1(dispatcher, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(dispatcher, phalcon_mvc_dispatcherinterface_ce);
 	phalcon_call_method_p1_noret(dispatcher, "settaskname", task_name);
 	phalcon_call_method_p1_noret(dispatcher, "setactionname", action_name);
 	phalcon_call_method_p1_noret(dispatcher, "setparams", params);
