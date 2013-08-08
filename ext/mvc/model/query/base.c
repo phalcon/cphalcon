@@ -166,10 +166,10 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
-	int scanner_status, status = SUCCESS, error_length;
+	int scanner_status, status = SUCCESS, error_length, cache_level;
 	phql_scanner_state *state;
 	phql_scanner_token token;
-	unsigned long phql_key;
+	unsigned long phql_key = 0;
 	void* phql_parser;
 	char *error;
 	zval **temp_ast;
@@ -180,7 +180,8 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		return FAILURE;
 	}
 
-	if (phalcon_globals_ptr->orm.cache_level >= 0) {
+	cache_level = phalcon_globals_ptr->orm.cache_level;
+	if (cache_level >= 0) {
 
 		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 
@@ -538,7 +539,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				/**
 				 * Store the parsed definition in the cache
 				 */
-				if (phalcon_globals_ptr->orm.cache_level >= 0) {
+				if (cache_level >= 0) {
 
 					if (!phalcon_globals_ptr->orm.parser_cache) {
 						ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
