@@ -687,6 +687,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 					if (Z_TYPE_P(engine_service) == IS_STRING) {
 						PHALCON_INIT_NVAR(engine_object);
 						phalcon_call_method_p2(engine_object, dependency_injector, "getshared", engine_service, arguments);
+						PHALCON_VERIFY_INTERFACE(engine_object, phalcon_mvc_view_engineinterface_ce);
 					} else {
 						PHALCON_INIT_NVAR(exception_message);
 						PHALCON_CONCAT_SV(exception_message, "Invalid template engine registration for extension: ", extension);
@@ -1528,6 +1529,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(view_cache, phalcon_cache_backendinterface_ce);
 	RETURN_CCTOR(view_cache);
 }
 
