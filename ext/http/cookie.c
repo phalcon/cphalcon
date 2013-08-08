@@ -242,6 +242,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	
 				PHALCON_INIT_VAR(crypt);
 				phalcon_call_method_p1(crypt, dependency_injector, "getshared", service);
+				PHALCON_VERIFY_INTERFACE(crypt, phalcon_cryptinterface_ce);
 	
 				/** 
 				 * Decrypt the value also decoding it with base64
@@ -276,6 +277,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
@@ -377,6 +379,8 @@ PHP_METHOD(Phalcon_Http_Cookie, send){
 				phalcon_call_method_p1(session, dependency_injector, "getshared", service);
 
 				if (Z_TYPE_P(session) != IS_NULL) {
+					PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
+
 					PHALCON_INIT_VAR(key);
 					PHALCON_CONCAT_SV(key, "_PHCOOKIE_", name);
 					phalcon_call_method_p2_noret(session, "set", key, definition);
@@ -398,6 +402,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send){
 
 		PHALCON_INIT_VAR(crypt);
 		phalcon_call_method_p1(crypt, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(crypt, phalcon_cryptinterface_ce);
 
 		/**
 		 * Encrypt the value also coding it with base64
@@ -460,6 +465,7 @@ PHP_METHOD(Phalcon_Http_Cookie, restore){
 	
 			PHALCON_INIT_VAR(session);
 			phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 			PHALCON_OBS_VAR(name);
 			phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
@@ -541,6 +547,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete){
 	
 		PHALCON_INIT_VAR(session);
 		phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 		PHALCON_INIT_VAR(key);
 		PHALCON_CONCAT_SV(key, "_PHCOOKIE_", name);
