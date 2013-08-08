@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -3068,7 +3067,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	zval *attribute_field = NULL, *exception_message = NULL;
 	zval *value = NULL, *bind_type = NULL, *default_value, *use_explicit_identity;
 	zval *success, *sequence_name = NULL, *support_sequences;
-	zval *source, *last_insert_id;
+	zval *schema, *source, *last_insert_id;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3268,11 +3267,19 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 			if (phalcon_method_exists_ex(this_ptr, SS("getsequencename") TSRMLS_CC) == SUCCESS) {
 				phalcon_call_method(sequence_name, this_ptr, "getsequencename");
 			} else {
+				PHALCON_INIT_VAR(schema);
+				phalcon_call_method(schema, this_ptr, "getschema");
+
 				PHALCON_INIT_VAR(source);
 				phalcon_call_method(source, this_ptr, "getsource");
-	
-				PHALCON_INIT_NVAR(sequence_name);
-				PHALCON_CONCAT_VSVS(sequence_name, source, "_", identity_field, "_seq");
+
+				if (PHALCON_IS_EMPTY(schema)) {	
+					PHALCON_INIT_NVAR(sequence_name);
+					PHALCON_CONCAT_VSVS(sequence_name, source, "_", identity_field, "_seq");
+				} else {
+					PHALCON_INIT_NVAR(sequence_name);
+					PHALCON_CONCAT_VSVSVS(sequence_name, schema, ".", source, "_", identity_field, "_seq");
+				}
 			}
 		}
 	
