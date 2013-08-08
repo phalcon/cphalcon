@@ -12,8 +12,8 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Vladimir Kolesnikov <vladimir@free-sevastopol.com>            |
-  |          ZhuZongXin <dreamsxin@qq.com>                                 |
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
 

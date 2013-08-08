@@ -12,8 +12,8 @@
   | obtain it through the world-wide-web, please send an email             |
   | to license@phalconphp.com so we can send you a copy immediately.       |
   +------------------------------------------------------------------------+
-  | Authors: Vladimir Kolesnikov <vladimir@free-sevastopol.com>            |
-  |          ZhuZongXin <dreamsxin@qq.com>                                 |
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
   +------------------------------------------------------------------------+
 */
 
@@ -50,7 +50,7 @@
  *<code>
  *	$image = new Phalcon\Image\Adapter\Imagick("upload/test.jpg");
  *	$image->resize(200, 200);
- *	$$image->save();
+ *	$image->save();
  *</code>
  */
 
@@ -555,6 +555,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 4, 0, &watermark_image, &offset_x, &offset_y, &opacity);
+
+	PHALCON_SEPARATE_PARAM(watermark_image);
 
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);

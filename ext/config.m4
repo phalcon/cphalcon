@@ -340,7 +340,7 @@ mvc/model/query/scanner.c \
 mvc/view/engine/volt/parser.c \
 mvc/view/engine/volt/scanner.c \
 annotations/parser.c \
-annotations/scanner.c
+annotations/scanner.c \
 image.c \
 image/adapter.c \
 image/adapterinterface.c \
