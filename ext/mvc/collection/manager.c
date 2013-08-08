@@ -423,6 +423,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce);
 	RETURN_CCTOR(connection);
 }
 
