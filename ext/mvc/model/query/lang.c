@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 		return;
 	}
 	if (phql_parse_phql(return_value, phql TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	RETURN_MM();
 }

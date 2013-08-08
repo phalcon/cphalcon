@@ -40,6 +40,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause);
+PHP_METHOD(Phalcon_Mvc_Model_Query, _getLimitClause);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate);
@@ -126,6 +127,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_query_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Query, _getJoins, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _getOrderClause, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _getGroupClause, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model_Query, _getLimitClause, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, _prepareSelect, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _prepareInsert, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _prepareUpdate, NULL, ZEND_ACC_PROTECTED) 

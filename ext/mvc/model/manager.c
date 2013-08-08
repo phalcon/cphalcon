@@ -2828,17 +2828,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 
-	zval *phql, *placeholders = NULL, *dependency_injector;
+	zval *phql, *placeholders = NULL, *types = NULL, *dependency_injector;
 	zval *query;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &phql, &placeholders);
+	phalcon_fetch_params(1, 1, 2, &phql, &placeholders, &types);
 	
 	if (!placeholders) {
 		PHALCON_INIT_VAR(placeholders);
 	}
 	
+	if (!types) {
+		PHALCON_INIT_VAR(types);
+	}
+
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -2859,7 +2863,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	/** 
 	 * Execute the query
 	 */
-	phalcon_call_method_p1(return_value, query, "execute", placeholders);
+	phalcon_call_method_p2(return_value, query, "execute", placeholders, types);
 	RETURN_MM();
 }
 

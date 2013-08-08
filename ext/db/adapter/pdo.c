@@ -351,8 +351,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 				Z_UNSET_ISREF_P(cast_value);
 
 			} else {
+				PHALCON_INIT_NVAR(type);
+				ZVAL_LONG(type, 2 /* BIND_PARAM_STR */);
+				Z_SET_ISREF_P(value);
+				phalcon_call_method_p3_noret(statement, "bindparam", parameter, value, type);
+				Z_UNSET_ISREF_P(value);
+/*
 				PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind type parameter");
 				return;
+*/
 			}
 		} else {
 			Z_SET_ISREF_P(value);

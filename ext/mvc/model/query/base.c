@@ -152,7 +152,7 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 	ZVAL_NULL(result);
 
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
 		return FAILURE;
 	}
 
