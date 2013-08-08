@@ -185,19 +185,17 @@ static zval *phql_ret_order_item(zval *column, int sort){
 	return ret;
 }
 
-static zval *phql_ret_limit_clause(phql_parser_token *L, phql_parser_token *O)
+static zval *phql_ret_limit_clause(zval *L, zval *O)
 {
-	zval *ret;
+	zval *ret, **type, **value;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 
-	add_assoc_stringl(ret, "number", L->token, L->token_len, 0);
-	efree(L);
+	add_assoc_zval(ret, "number", L);
 
 	if (O != NULL) {
-		add_assoc_stringl(ret, "offset", O->token, O->token_len, 0);
-		efree(O);
+		add_assoc_zval(ret, "offset", O);
 	}
 
 	return ret;
@@ -982,22 +980,34 @@ having_clause(R) ::= HAVING expr(E) . {
 
 %destructor select_limit_clause { zval_ptr_dtor(&$$); }
 
-select_limit_clause(R) ::= LIMIT INTEGER(I) . {
+select_limit_clause(R) ::= LIMIT integer_or_placeholder(I) . {
 	R = phql_ret_limit_clause(I, NULL);
 }
 
-select_limit_clause(R) ::= LIMIT INTEGER(O) COMMA INTEGER(I). {
+select_limit_clause(R) ::= LIMIT integer_or_placeholder(O) COMMA integer_or_placeholder(I). {
 	R = phql_ret_limit_clause(I, O);
 }
 
-select_limit_clause(R) ::= LIMIT INTEGER(I) OFFSET INTEGER(O). {
+select_limit_clause(R) ::= LIMIT integer_or_placeholder(I) OFFSET integer_or_placeholder(O). {
 	R = phql_ret_limit_clause(I, O);
 }
 
 %destructor limit_clause { zval_ptr_dtor(&$$); }
 
-limit_clause(R) ::= LIMIT INTEGER(I) . {
+limit_clause(R) ::= LIMIT integer_or_placeholder(I) . {
 	R = phql_ret_limit_clause(I, NULL);
+}
+
+integer_or_placeholder(R) ::= INTEGER(I) . {
+	R = phql_ret_literal_zval(PHQL_T_INTEGER, I);
+}
+
+integer_or_placeholder(R) ::= NPLACEHOLDER(P) . {
+	R = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, P);
+}
+
+integer_or_placeholder(R) ::= SPLACEHOLDER(P) . {
+	R = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, P);
 }
 
 %destructor expr { zval_ptr_dtor(&$$); }
