@@ -316,4 +316,19 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$t2 = new Issue1000('test', 'test');
 		$this->assertTrue(true);
 	}
+
+	public function testIssue1024()
+	{
+		$config1 = new \Phalcon\Config\Adapter\Ini(__DIR__ . '/config/1024-a.ini');
+		$config2 = new \Phalcon\Config\Adapter\Ini(__DIR__ . '/config/1024-b.ini');
+
+		$config1->merge($config2);
+		$actual   = $config1->toArray();
+		$expected = array(
+			'a' => array(
+				'a_1' => 1,
+				'a_2' => 1,
+			),
+		);
+	}
 }
