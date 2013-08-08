@@ -74,15 +74,15 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_Imagick){
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, check){
 
-	zval *module_name, *ret = NULL, *exception_message;
+	zval *class_name, *ret = NULL, *exception_message;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(module_name);
-	ZVAL_STRING(module_name, "imagick", 1);
+	PHALCON_INIT_VAR(class_name);
+	ZVAL_STRING(class_name, "imagick", 1);
 
 	PHALCON_INIT_NVAR(ret);
-	phalcon_call_func_p1(ret, "extension_loaded", module_name);
+	phalcon_call_func_p1(ret, "class_exists", class_name);
 
 	if (!zend_is_true(ret)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Imagick is not installed, or the extension is not loaded");
@@ -610,6 +610,49 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 }
 
 /**
+ * Composite one image onto another
+
+ *
+ * @param Phalcon\Image\Adapter $mask  mask Image instance
+ */
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask){
+
+	zval *mask, *im, *mask_im, *matte, *composite, *tmp;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &mask);
+	
+	PHALCON_SEPARATE_PARAM(mask);
+
+	PHALCON_OBS_VAR(im);
+	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(mask_im);
+	phalcon_call_method(mask_im, mask, "getImage");
+
+	PHALCON_INIT_VAR(matte);
+	ZVAL_LONG(matte, 1);
+
+	PHALCON_INIT_VAR(tmp);
+	ZVAL_LONG(tmp, 0);
+
+	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
+	PHALCON_INIT_VAR(composite);
+	phalcon_get_class_constant(composite, ce0, SS("COMPOSITE_DSTIN") TSRMLS_CC);
+
+	phalcon_call_method_p1_noret(im, "setImageMatte", matte);
+	phalcon_call_method_p4_noret(im, "compositeImage", mask_im, composite, tmp, tmp);
+
+	phalcon_call_method_noret(mask_im, "clear");
+	phalcon_call_method_noret(mask_im, "destroy");
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Execute a background.
  *
  * @param int $r
@@ -850,3 +893,24 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 
 	RETURN_CCTOR(image_string);
 }
+
+/**
+ * Destroys the loaded image to free up resources.
+ */
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct){
+
+	zval *im = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(im);
+	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
+
+	if (!im) {
+		phalcon_call_method_noret(im, "clear");
+		phalcon_call_method_noret(im, "destroy");
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
