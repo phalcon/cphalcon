@@ -171,6 +171,7 @@ PHP_METHOD(Phalcon_Http_Request, get){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
@@ -250,6 +251,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
@@ -332,6 +334,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
