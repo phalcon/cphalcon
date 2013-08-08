@@ -151,6 +151,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 	
 		PHALCON_INIT_NVAR(session);
 		phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 		phalcon_update_property_this(this_ptr, SL("_session"), session TSRMLS_CC);
 	}
 	
