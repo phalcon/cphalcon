@@ -30,6 +30,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _flip);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark);
+PHP_METHOD(Phalcon_Image_Adapter_GD, _mask);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _background);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _save);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _render);
@@ -77,6 +78,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd__watermark, 0, 0, 4)
 	ZEND_ARG_INFO(0, opacity)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd__mask, 0, 0, 1)
+	ZEND_ARG_INFO(0, mask)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd__background, 0, 0, 4)
 	ZEND_ARG_INFO(0, r)
 	ZEND_ARG_INFO(0, g)
@@ -109,6 +114,7 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_gd_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_GD, _sharpen, arginfo_phalcon_image_adapter_gd__sharpen, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _reflection, arginfo_phalcon_image_adapter_gd__reflection, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _watermark, arginfo_phalcon_image_adapter_gd__watermark, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Image_Adapter_GD, _mask, arginfo_phalcon_image_adapter_gd__mask, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _background, arginfo_phalcon_image_adapter_gd__background, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _save, arginfo_phalcon_image_adapter_gd__save, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _render, arginfo_phalcon_image_adapter_gd__render, ZEND_ACC_PROTECTED) 

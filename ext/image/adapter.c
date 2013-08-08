@@ -703,6 +703,23 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 }
 
 /**
+ * Composite one image onto another
+
+ *
+ * @param Phalcon\Image\Adapter $mask  mask Image instance
+ * @return Phalcon\Image\Adapter
+ */
+PHP_METHOD(Phalcon_Image_Adapter, mask){
+
+	zval *mask;
+
+	phalcon_fetch_params(1, 1, 0, &mask);
+	phalcon_call_method_p1_noret(this_ptr, "_mask", mask);
+
+	RETURN_THISW();
+}
+
+/**
  * Set the background color of an image. This is only useful for images
  * with alpha transparency.
  *
