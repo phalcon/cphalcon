@@ -1,0 +1,5 @@
+rm -f *.o
+rm -f *.lo
+re2c -o scanner.c scanner.re && ./lemon parser.lemon && cat base.c >> parser.c
+sed s/"\#line"/"\/\/"/g scanner.c > xx && mv -f xx scanner.c
+sed s/"#line"/"\/\/"/g parser.c > xx && mv -f xx parser.c

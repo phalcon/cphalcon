@@ -1,0 +1,13 @@
+rm -f *.o
+rm -f *.lo
+if [ ! -f lemon ]; then
+	gcc -g lemon.c -o lemon
+fi
+re2c -o scanner.c scanner.re && ./lemon -s parser.lemon && cat base.c >> parser.c
+sed s/"\#line"/"\/\/"/g scanner.c > xx && mv -f xx scanner.c
+sed s/"#line"/"\/\/"/g parser.c > xx && mv -f xx parser.c
+sed s/"YY"/"KK"/g parser.c > xx && mv -f xx parser.c
+sed s/"yy"/"kk"/g parser.c > xx && mv -f xx parser.c
+sed s/"TOKEN"/"KTOKEN"/g parser.c > xx && mv -f xx parser.c
+sed s/"YY"/"KK"/g scanner.c > xx && mv -f xx scanner.c
+sed s/"yy"/"kk"/g scanner.c > xx && mv -f xx scanner.c
