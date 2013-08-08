@@ -238,6 +238,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	
 		PHALCON_INIT_VAR(response);
 		phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	
 		/** 
 		 * Pass the cookies bag to the response so it can send the headers at the of the
