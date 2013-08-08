@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -3278,6 +3277,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 					PHALCON_INIT_NVAR(sequence_name);
 					PHALCON_CONCAT_VSVS(sequence_name, source, "_", identity_field, "_seq");
 				} else {
+					PHALCON_INIT_NVAR(sequence_name);
 					PHALCON_CONCAT_VSVSVS(sequence_name, schema, ".", source, "_", identity_field, "_seq");
 				}
 			}
