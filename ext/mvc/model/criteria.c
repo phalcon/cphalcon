@@ -1346,6 +1346,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	
 		PHALCON_INIT_VAR(meta_data);
 		phalcon_call_method_p1(meta_data, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 		ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(model);
