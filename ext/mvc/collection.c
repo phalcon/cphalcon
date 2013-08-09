@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 			return;
 		}
 
-		PHALCON_VERIFY_INTERFACE(models_manager, phalcon_mvc_model_managerinterface_ce);
+		//PHALCON_VERIFY_INTERFACE(models_manager, phalcon_mvc_model_managerinterface_ce);
 	}
 	
 	/** 
@@ -2110,7 +2110,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 				return;
 			}
 
-			PHALCON_VERIFY_INTERFACE(manager, phalcon_mvc_model_managerinterface_ce);
+			//PHALCON_VERIFY_INTERFACE(manager, phalcon_mvc_model_managerinterface_ce);
 	
 			/** 
 			 * Update the models manager
