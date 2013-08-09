@@ -346,6 +346,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 	
 				PHALCON_INIT_NVAR(filter);
 				phalcon_call_method_p1(filter, dependency_injector, "getshared", service_name);
+				PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 			}
 	
 			/** 

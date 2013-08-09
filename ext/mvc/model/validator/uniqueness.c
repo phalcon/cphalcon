@@ -119,6 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method_p1(meta_data, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 	
 	/** 
 	 * PostgreSQL check if the compared constant has the same type as the column, so we
