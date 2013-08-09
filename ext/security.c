@@ -342,6 +342,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
@@ -393,6 +394,7 @@ PHP_METHOD(Phalcon_Security, getToken){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
@@ -439,6 +441,8 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
+
 	if (Z_TYPE_P(token_key) == IS_NULL) {
 		PHALCON_INIT_VAR(key);
 		ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
@@ -453,6 +457,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	
 		PHALCON_INIT_VAR(request);
 		phalcon_call_method_p1(request, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(request, phalcon_http_requestinterface_ce);
 	
 		/** 
 		 * We always check if the value is correct in post
@@ -501,6 +506,7 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);

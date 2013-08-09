@@ -60,3 +60,18 @@
 #define PHVOLT_SBRACKET_CLOSE                 60
 #define PHVOLT_DOUBLE                         61
 #define PHVOLT_NULL                           62
+
+#define PHVOLT_ADD_ASSIGN                     63
+#define PHVOLT_SUB_ASSIGN                     64
+#define PHVOLT_MUL_ASSIGN                     65
+#define PHVOLT_DIV_ASSIGN                     66
+#define PHVOLT_INCR                           67
+#define PHVOLT_DECR                           68
+#define PHVOLT_CALL                           69
+#define PHVOLT_ENDCALL                        70
+#define PHVOLT_CBRACKET_OPEN                  71
+#define PHVOLT_CBRACKET_CLOSE                 72
+#define PHVOLT_RETURN                         73
+#define PHVOLT_WITH                           74
+#define PHVOLT_MACRO                          75
+#define PHVOLT_ENDMACRO                       76

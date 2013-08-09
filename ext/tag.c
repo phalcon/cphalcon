@@ -149,6 +149,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 	
 		PHALCON_INIT_NVAR(url);
 		phalcon_call_method_p1(url, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
 		phalcon_update_static_property(SL("phalcon\\tag"), SL("_urlService"), url TSRMLS_CC);
 	}
 	
@@ -187,6 +188,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService){
 	
 		PHALCON_INIT_NVAR(escaper);
 		phalcon_call_method_p1(escaper, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(escaper, phalcon_escaperinterface_ce);
 		phalcon_update_static_property(SL("phalcon\\tag"), SL("_escaperService"), escaper TSRMLS_CC);
 	}
 	

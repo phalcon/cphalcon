@@ -238,6 +238,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	
 						PHALCON_INIT_NVAR(annotations_service);
 						phalcon_call_method_p1(annotations_service, dependency_injector, "getshared", service);
+						PHALCON_VERIFY_INTERFACE(annotations_service, phalcon_annotations_adapterinterface_ce);
 					}
 	
 					/** 

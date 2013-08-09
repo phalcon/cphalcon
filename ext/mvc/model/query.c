@@ -169,6 +169,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(manager, phalcon_mvc_model_managerinterface_ce);
+
 	PHALCON_INIT_NVAR(service);
 	ZVAL_STRING(service, "modelsMetadata", 1);
 	
@@ -179,6 +181,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
+
 	phalcon_update_property_this(this_ptr, SL("_manager"), manager TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
@@ -4973,6 +4977,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache service must be an object");
 			return;
 		}
+
+		PHALCON_VERIFY_INTERFACE(cache, phalcon_cache_backendinterface_ce);
 	
 		PHALCON_INIT_VAR(result);
 		phalcon_call_method_p2(result, cache, "get", key, lifetime);

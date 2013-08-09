@@ -626,6 +626,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 	
 		PHALCON_INIT_NVAR(router);
 		phalcon_call_method_p1(router, this_ptr, "getsharedservice", service_name);
+		PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 	
 		/** 
 		 * Clear the set routes if any
@@ -827,6 +828,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 	
 	/** 
 	 * Handle the URI as normal

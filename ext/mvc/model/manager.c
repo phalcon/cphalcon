@@ -652,6 +652,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce);
 	RETURN_CCTOR(connection);
 }
 
@@ -706,6 +707,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce);
 	RETURN_CCTOR(connection);
 }
 
