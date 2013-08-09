@@ -195,6 +195,33 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _resize) {
 }
 
 /**
+ * This method scales the images using liquid rescaling method. Only support Imagick
+ *
+ * @param int $width   new width
+ * @param int $height  new height
+ * @param int $delta_x How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight. 
+ * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
+ * @return Phalcon\Image\Adapter
+ */
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, _liquidRescale){
+
+	zval *width, *height, *delta_x = NULL, *rigidity = NULL;
+	zval *im, *ret;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 4, 0, &width, &height, &delta_x, &rigidity);
+
+	PHALCON_OBS_VAR(im);
+	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(ret);
+	phalcon_call_method_p4(ret, im, "liquidRescaleImage", width, height, delta_x, rigidity);
+
+	RETURN_CTOR(ret);
+}
+
+/**
  * Execute a crop.
  *
  * @param int $width
@@ -891,7 +918,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 	PHALCON_INIT_VAR(image_string);
 	phalcon_call_method(image_string, im, "getImagesBlob");
 
-	RETURN_CCTOR(image_string);
+	RETURN_CTOR(image_string);
 }
 
 /**
