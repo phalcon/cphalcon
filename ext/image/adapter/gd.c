@@ -48,9 +48,11 @@
  * Image manipulation support. Allows images to be resized, cropped, etc.
  *
  *<code>
- *	$image = new Phalcon\Image\Adapter\GD("upload/test.jpg");
- *	$image->resize(200, 200);
- *	$image->save();
+ *	$image = new Phalcon\Image\Adapter\Imagick("upload/test.jpg");
+ *	$image->resize(200, 200)->rotate(90)->crop(100, 100);
+ *	if ($image->save()) {
+ *		echo 'success';
+ *	}
  *</code>
  */
 
@@ -136,7 +138,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 
 	if (!zend_is_true(ret)) {
 		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVSVS(exception_message, "Image_GD requires GD version '", version ,"' or greater, you have '", gd_version, ",");
+		PHALCON_CONCAT_SVSVS(exception_message, "Phalcon\\Image\\Adapter\\GD requires GD version '", version ,"' or greater, you have '", gd_version, ",");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
 		return;
 	}
@@ -321,6 +323,28 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 	}
 
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * This method scales the images using liquid rescaling method. Only support Imagick
+ *
+ * @param int $width   new width
+ * @param int $height  new height
+ * @param int $delta_x How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight. 
+ * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
+ * @return Phalcon\Image\Adapter
+ */
+PHP_METHOD(Phalcon_Image_Adapter_GD, _liquidRescale){
+
+	zval *width, *height, *delta_x = NULL, *rigidity = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 4, 0, &width, &height, &delta_x, &rigidity);
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "The GD does not support liquidRescale");
+
+	RETURN_THIS();
 }
 
 /**
