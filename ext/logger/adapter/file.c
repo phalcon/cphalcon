@@ -194,3 +194,43 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 	RETURN_MM();
 }
 
+/**
+ * Opens the internal file handler after unserialization
+ *
+ */
+PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
+
+	zval *path, *options, *mode = NULL, *file_handler;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(path);
+	phalcon_read_property_this(&path, this_ptr, SL("_path"), PH_NOISY_CC);
+	if (Z_TYPE_P(path) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+		return;
+	}
+
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (phalcon_array_isset_string(options, SS("mode"))) {
+		PHALCON_OBS_VAR(mode);
+		phalcon_array_fetch_string(&mode, options, SL("mode"), PH_NOISY);
+		if (Z_TYPE_P(mode) != IS_STRING) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+			return;
+		}
+	} else {
+		PHALCON_INIT_NVAR(mode);
+		ZVAL_STRING(mode, "ab", 1);
+	}
+
+	/**
+	 * Re-open the file handler if the logger was serialized
+	 */
+	PHALCON_INIT_VAR(file_handler);
+	phalcon_call_func_p2(file_handler, "fopen", path, mode);
+	phalcon_update_property_this(this_ptr, SL("_fileHandler"), file_handler TSRMLS_CC);
+
+	PHALCON_MM_RESTORE();
+}
