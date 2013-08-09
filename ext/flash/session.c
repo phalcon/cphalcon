@@ -113,6 +113,7 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(index_name);
 	ZVAL_STRING(index_name, "_flashMessages", 1);
@@ -152,6 +153,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(index_name);
 	ZVAL_STRING(index_name, "_flashMessages", 1);

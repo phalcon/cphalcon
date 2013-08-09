@@ -502,6 +502,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 						return;
 					}
 	
+					PHALCON_VERIFY_INTERFACE(filter_service, phalcon_filterinterface_ce);
 					phalcon_call_method_p2(return_value, filter_service, "sanitize", value, field_filters);
 					RETURN_MM();
 				}

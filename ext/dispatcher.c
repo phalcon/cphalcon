@@ -383,6 +383,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 	
 			PHALCON_INIT_VAR(filter);
 			phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 			phalcon_call_method_p2(return_value, filter, "sanitize", param_value, filters);
 			RETURN_MM();
 		} else {
