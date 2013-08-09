@@ -533,6 +533,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 				PHALCON_INIT_NVAR(request);
 				phalcon_call_method_p1(request, *dependency_injector, "getshared", service);
+				PHALCON_VERIFY_INTERFACE(request, phalcon_http_requestinterface_ce);
 			}
 
 			/**
@@ -565,6 +566,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 				PHALCON_INIT_NVAR(request);
 				phalcon_call_method_p1(request, *dependency_injector, "getshared", service);
+				PHALCON_VERIFY_INTERFACE(request, phalcon_http_requestinterface_ce);
 			}
 
 			/**
