@@ -551,6 +551,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	
 		PHALCON_INIT_VAR(url);
 		phalcon_call_method_p1(url, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
 	
 		PHALCON_INIT_NVAR(header);
 		phalcon_call_method_p1(header, url, "get", location);

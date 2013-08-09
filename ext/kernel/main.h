@@ -17,6 +17,8 @@
   +------------------------------------------------------------------------+
 */
 
+#include "ext/spl/spl_exceptions.h"
+
 /** Main macros */
 #define PH_DEBUG 0
 
@@ -324,3 +326,34 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 		} \
 	}
 
+#define PHALCON_VERIFY_INTERFACE(instance, interface_ce) \
+	do { \
+		if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), interface_ce, 1 TSRMLS_CC)) { \
+			char *buf; \
+			if (Z_TYPE_P(instance) != IS_OBJECT) { \
+				spprintf(&buf, 0, "Unexpected value type: expected object implementing %s, %s given", interface_ce->name, zend_zval_type_name(instance)); \
+			} \
+			else { \
+				spprintf(&buf, 0, "Unexpected value type: expected object implementing %s, object of type %s given", interface_ce->name, Z_OBJCE_P(instance)->name); \
+			} \
+			PHALCON_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
+			efree(buf); \
+			return; \
+		} \
+	} while (0)
+
+#define PHALCON_VERIFY_CLASS(instance, class_ce) \
+	do { \
+		if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), class_ce, 0 TSRMLS_CC)) { \
+			char *buf; \
+			if (Z_TYPE_P(instance) != IS_OBJECT) { \
+				spprintf(&buf, 0, "Unexpected value type: expected object of type %s, %s given", class_ce->name, zend_zval_type_name(instance)); \
+			} \
+			else { \
+				spprintf(&buf, 0, "Unexpected value type: expected object of type %s, object of type %s given", class_ce->name, Z_OBJCE_P(instance)->name); \
+			} \
+			PHALCON_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
+			efree(buf); \
+			return; \
+		} \
+	} while (0)
