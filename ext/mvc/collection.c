@@ -130,9 +130,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 		PHALCON_INIT_NVAR(models_manager);
 		phalcon_call_method_p1(models_manager, dependency_injector, "getshared", service_name);
 		if (Z_TYPE_P(models_manager) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'collectionManager' is not valid");
 			return;
 		}
+
+		PHALCON_VERIFY_INTERFACE(models_manager, phalcon_mvc_model_managerinterface_ce);
 	}
 	
 	/** 
@@ -2092,6 +2094,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'collectionManager' is not valid");
 				return;
 			}
+
+			PHALCON_VERIFY_INTERFACE(manager, phalcon_mvc_model_managerinterface_ce);
 	
 			/** 
 			 * Update the models manager
