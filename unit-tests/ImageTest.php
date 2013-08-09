@@ -122,6 +122,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		}
 
 		@unlink('unit-tests/assets/production/imagick-resize.jpg');
+		@unlink('unit-tests/assets/production/imagick-liquidRescale.jpg');
 		@unlink('unit-tests/assets/production/imagick-crop.jpg');
 		@unlink('unit-tests/assets/production/imagick-rotate.jpg');
 		@unlink('unit-tests/assets/production/imagick-flip.jpg');
@@ -148,6 +149,13 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 			// Resize to 200x500 pixels, ignoring aspect ratio
 			//$image->resize(200, 500, Phalcon\Image::NONE);
+
+			 // The images using liquid rescaling resize to 200x200
+			$image->liquidRescale(200, 200)->save('unit-tests/assets/production/imagick-liquidRescale.jpg');
+			$this->assertTrue(file_exists('unit-tests/assets/production/imagick-liquidRescale.jpg'));
+
+			 // The images using liquid rescaling resize to 500x500
+			//$image->liquidRescale(500, 500, 3, 25);
 
 			// Crop the image to 200x200 pixels, from the center
 			$image->crop(200, 200)->save('unit-tests/assets/production/imagick-crop.jpg');
