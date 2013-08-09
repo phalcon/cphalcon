@@ -49,8 +49,10 @@
  *
  *<code>
  *	$image = new Phalcon\Image\Adapter\Imagick("upload/test.jpg");
- *	$image->resize(200, 200);
- *	$image->save();
+ *	$image->resize(200, 200)->rotate(90)->crop(100, 100);
+ *	if ($image->save()) {
+ *		echo 'success';
+ *	}
  *</code>
  */
 
@@ -379,7 +381,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 
 	zval *height, *opacity, *fade_in, *o;
-	zval *im, *reflection, *image_width, *image_height, *reflection_width, *reflection_height, *tmp, *direction, *tmp_direction;
+	zval *im, *reflection, *image_width, *image_height, *reflection_width, *reflection_height, *tmp, *direction, *tmp_direction = NULL;
 	zval *fade, *pseudoString, *composite, *constant, *channel, *image, *background, *mode, *ret, *w, *h;
 	zend_class_entry *ce0, *ce1;
 	int int_amount, ini_h;
@@ -422,7 +424,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		PHALCON_CPY_WRT(tmp_direction, direction);
 	}
 
-
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(fade);
@@ -437,7 +438,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	PHALCON_INIT_VAR(pseudoString);
 	phalcon_call_func_p2(pseudoString, "vsprintf", tmp, tmp_direction);
 
-	
 	PHALCON_INIT_VAR(reflection_width);
 	phalcon_call_method(reflection_width, reflection, "getImageWidth");
 
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	PHALCON_INIT_VAR(constant);
 	phalcon_get_class_constant(constant, ce0, SS("EVALUATE_MULTIPLY") TSRMLS_CC);
 
-	int_amount = Z_LVAL_P(opacity);
+	int_amount = phalcon_get_intval(opacity);
 	num = int_amount / 100;
 
 	PHALCON_INIT_VAR(o);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		phalcon_call_method_noret(image, "__construct");
 	}
 
-	ini_h = Z_LVAL_P(image_height) + Z_LVAL_P(height);
+	ini_h = phalcon_get_intval(image_height) + phalcon_get_intval(height);
 
 	PHALCON_INIT_NVAR(tmp);
 	ZVAL_LONG(tmp, ini_h);

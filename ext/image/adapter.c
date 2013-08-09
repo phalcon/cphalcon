@@ -818,7 +818,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
  *
  * @param string $file new image path
  * @param int $quality quality of image: 1-100
- * @return Phalcon\Image\Adapter
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Image_Adapter, save){
 
@@ -894,9 +894,10 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 		ZVAL_LONG(quality, 1);
 	}
 
-	phalcon_call_method_p2_noret(this_ptr, "_save", file, quality);
+	PHALCON_INIT_NVAR(ret);
+	phalcon_call_method_p2(ret, this_ptr, "_save", file, quality);
 
-	RETURN_THIS();
+	RETURN_CTOR(ret);
 }
 
 /**
