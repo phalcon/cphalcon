@@ -180,6 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	
 	PHALCON_INIT_VAR(response);
 	phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	
 	/** 
 	 * Dispatcher exceptions automatically sends 404 status
