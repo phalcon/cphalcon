@@ -111,9 +111,6 @@ PHP_METHOD(Phalcon_Image_Adapter, __construct){
 	if (phalcon_array_isset_long(imageinfo, 2)) {
 		PHALCON_OBS_VAR(type);
 		phalcon_array_fetch_long(&type, imageinfo, 2, PH_NOISY);
-		if (Z_TYPE_P(type) != IS_LONG) {
-			convert_to_long(type);
-		}
 		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	}
 
