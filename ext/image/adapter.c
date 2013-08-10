@@ -581,9 +581,9 @@ PHP_METHOD(Phalcon_Image_Adapter, sharpen){
 		convert_to_long(amount);
 	}
 
-	if (Z_LVAL_P(amount) > 100) {
+	if (phalcon_get_intval(amount) > 100) {
 		ZVAL_LONG(amount, 100);
-	} else if (Z_LVAL_P(amount) < 1) {
+	} else if (phalcon_get_intval(amount) < 1) {
 		ZVAL_LONG(amount, 1);
 	}
 

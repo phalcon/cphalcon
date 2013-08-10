@@ -517,7 +517,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen) {
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 
-	int_amount = Z_LVAL_P(amount);
+	int_amount = phalcon_get_intval(amount);
 
 	int_amount = (int_amount < 5) ? 5 : int_amount;
 	num = (int_amount * 3.0) / 100;

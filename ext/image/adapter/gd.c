@@ -547,6 +547,12 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
 	phalcon_read_property_this(&image, this_ptr, SL("_image"), PH_NOISY_CC);
 
 	a = phalcon_get_intval(amount);
+
+	if (a > 100) {
+		a = 100;
+	} else if (a < 1) {
+		a = 1;
+	}
 	b = a;
 
 	b = -18 + (a * 0.08);
@@ -612,7 +618,6 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
 	phalcon_call_func_p4(ret, "imageconvolution", image, matrix, tmp_amount, tmp);
 
 	if (zend_is_true(ret)) {
-		phalcon_update_property_this(this_ptr, SL("_image"), image TSRMLS_CC);
 
 		PHALCON_INIT_NVAR(width);
 		phalcon_call_func_p1(width, "imagesx", image);
