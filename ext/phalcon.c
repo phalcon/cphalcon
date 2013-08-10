@@ -388,7 +388,6 @@ static void phalcon_error_cb(int type, const char *error_filename, const uint er
 
 static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int return_value_used TSRMLS_DC)
 {
-	zval **original_return_value = EG(return_value_ptr_ptr);
 #if PHP_VERSION_ID < 50400
 	zval **return_value_ptr = &(*(temp_variable *)((char *) execute_data_ptr->Ts + execute_data_ptr->opline->result.u.var)).var.ptr;
 #elif PHP_VERSION_ID < 50500
@@ -397,9 +396,7 @@ static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int re
 	zval **return_value_ptr = &EX_TMP_VAR(execute_data_ptr, execute_data_ptr->opline->result.var)->var.ptr;
 #endif
 
-	EG(return_value_ptr_ptr) = return_value_ptr;
 	((zend_internal_function *) execute_data_ptr->function_state.function)->handler(execute_data_ptr->opline->extended_value, *return_value_ptr, return_value_ptr, execute_data_ptr->object, return_value_used TSRMLS_CC);
-	EG(return_value_ptr_ptr) = original_return_value;
 }
 
 static PHP_MINIT_FUNCTION(phalcon){
