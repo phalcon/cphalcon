@@ -76,7 +76,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Manager){
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_connectionServices"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_implicitObjectsIds"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_collection_manager_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
+	zend_class_implements(phalcon_mvc_collection_manager_ce TSRMLS_CC, 3, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce, phalcon_mvc_collection_managerinterface_ce);
 
 	return SUCCESS;
 }
@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
  * Returns the connection related to a model
  *
  * @param Phalcon\Mvc\CollectionInterface $model
- * @return Phalcon\Db\AdapterInterface
+ * @return Phalcon\Db\AdapterInterface(?) MongoDB
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 
@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 		return;
 	}
 	
-	PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce);
+	/* PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce); */
 	RETURN_CCTOR(connection);
 }
 
