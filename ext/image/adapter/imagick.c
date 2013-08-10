@@ -1023,7 +1023,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 
 	zval *file, *quality, *exception_message;
-	zval *constant, *ret, *extension, *mime, *format, *type, *im, *adjoin;
+	zval *constant, *ret, *extension, *mime, *format, *type, *im, *fp, *mode;
 	char *ext;
 
 	PHALCON_MM_GROW();
@@ -1069,11 +1069,19 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 	phalcon_call_method_p1_noret(im, "setImageCompressionQuality", quality);
 
 	if (phalcon_get_intval(type) == 1) {
-		PHALCON_INIT_VAR(adjoin);
-		ZVAL_BOOL(adjoin, 1);
+		PHALCON_INIT_VAR(mode);
+		ZVAL_STRING(mode, "w", 1);
+
+		PHALCON_INIT_VAR(fp);
+		phalcon_call_func_p2(fp, "fopen", file, mode);
+
+		if (Z_TYPE_P(fp) != IS_RESOURCE || !zend_is_true(fp)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "The image file cannot be saved");
+			return;
+		}
 
 		PHALCON_INIT_NVAR(ret);
-		phalcon_call_method_p2(ret, im, "writeImages", file, adjoin);
+		phalcon_call_method_p1(ret, im, "writeImagesFile", fp);
 	} else {
 		PHALCON_INIT_NVAR(ret);
 		phalcon_call_method_p1(ret, im, "writeImage", file);
@@ -1150,8 +1158,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 		PHALCON_INIT_VAR(image_string);
 		phalcon_call_method(image_string, im, "getImagesBlob");
 	} else {
-                PHALCON_INIT_VAR(image_string);
-                phalcon_call_method(image_string, im, "getImageBlob");
+		PHALCON_INIT_VAR(image_string);
+		phalcon_call_method(image_string, im, "getImageBlob");
 	}
 	RETURN_CTOR(image_string);
 }
