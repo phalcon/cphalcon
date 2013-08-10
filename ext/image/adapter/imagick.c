@@ -1146,9 +1146,13 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 
 	phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
 
-	PHALCON_INIT_VAR(image_string);
-	phalcon_call_method(image_string, im, "getImagesBlob");
-
+	if (phalcon_get_intval(type) == 1) {
+		PHALCON_INIT_VAR(image_string);
+		phalcon_call_method(image_string, im, "getImagesBlob");
+	} else {
+                PHALCON_INIT_VAR(image_string);
+                phalcon_call_method(image_string, im, "getImageBlob");
+	}
 	RETURN_CTOR(image_string);
 }
 
