@@ -569,7 +569,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 
 	zval *height, *opacity, *fade_in, *o;
-	zval *im, *reflection, *image_width, *image_height, *reflection_width, *reflection_height, *tmp, *direction, *tmp_direction = NULL;
+	zval *im, *reflection, *image_width, *image_height, *reflection_width, *reflection_height, *tmp;
 	zval *fade, *pseudoString, *composite = NULL, *constant, *channel, *image, *background, *mode, *ret = NULL, *w, *h, *delay, *h0, *colorspace;
 	zval *index, *next = NULL, *type;
 	zend_class_entry *ce0, *ce1;
@@ -579,6 +579,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 0, &height, &opacity, &fade_in);
+
+	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
@@ -619,32 +621,14 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		phalcon_call_method_p4_noret(reflection, "setImagePage", image_width, height, tmp, tmp);
 	}
 
-	PHALCON_INIT_VAR(direction);
-	array_init_size(direction, 2);
-
-	phalcon_array_append_string(&direction, SL("transparent"), PH_SEPARATE);
-	phalcon_array_append_string(&direction, SL("black"), PH_SEPARATE);
-
-	if (zend_is_true(fade_in)) {
-		PHALCON_INIT_NVAR(tmp_direction);
-		phalcon_call_func_p1(tmp_direction, "array_reverse", direction);
-	} else {
-		PHALCON_CPY_WRT(tmp_direction, direction);
-	}
-
-	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	/*
 	PHALCON_INIT_VAR(fade);
 	object_init_ex(fade, ce0);
 	if (phalcon_has_constructor(fade TSRMLS_CC)) {
 		phalcon_call_method_noret(fade, "__construct");
 	}
 
-	PHALCON_INIT_NVAR(tmp);
-	ZVAL_STRING(tmp, "gradient:%s-%s", 1);
-
 	PHALCON_INIT_VAR(pseudoString);
-	phalcon_call_func_p2(pseudoString, "vsprintf", tmp, tmp_direction);
+	ZVAL_STRING(pseudoString, "gradient:transparent-black", 1);
 
 	PHALCON_INIT_VAR(reflection_width);
 	phalcon_call_method(reflection_width, reflection, "getImageWidth");
@@ -685,7 +669,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 			return;
 		}
 	}
-*/
+/**/
 	PHALCON_INIT_VAR(constant);
 	phalcon_get_class_constant(constant, ce0, SS("EVALUATE_MULTIPLY") TSRMLS_CC);
 
