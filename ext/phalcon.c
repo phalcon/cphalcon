@@ -353,6 +353,7 @@ zend_class_entry *phalcon_image_adapter_imagick_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
+static void (*orig_execute_internal)(zend_execute_data *, int TSRMLS_DC) = NULL;
 static void (*old_error_cb)(int, const char *, const uint, const char *, va_list) = NULL;
 
 static void phalcon_error_cb(int type, const char *error_filename, const uint error_lineno, const char *format, va_list args)
@@ -383,6 +384,22 @@ static void phalcon_error_cb(int type, const char *error_filename, const uint er
 	else {
 		exit(255);
 	}
+}
+
+static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int return_value_used TSRMLS_DC)
+{
+	zval **original_return_value = EG(return_value_ptr_ptr);
+#if PHP_VERSION_ID < 50400
+	zval **return_value_ptr = &(*(temp_variable *)((char *) execute_data_ptr->Ts + execute_data_ptr->opline->result.u.var)).var.ptr;
+#elif PHP_VERSION_ID < 50500
+	zval **return_value_ptr = &(*(temp_variable *)((char *) execute_data_ptr->Ts + execute_data_ptr->opline->result.var)).var.ptr;
+#else
+	zval **return_value_ptr = &EX_TMP_VAR(execute_data_ptr, execute_data_ptr->opline->result.var)->var.ptr;
+#endif
+
+	EG(return_value_ptr_ptr) = return_value_ptr;
+	((zend_internal_function *) execute_data_ptr->function_state.function)->handler(execute_data_ptr->opline->extended_value, *return_value_ptr, return_value_ptr, execute_data_ptr->object, return_value_used TSRMLS_CC);
+	EG(return_value_ptr_ptr) = original_return_value;
 }
 
 static PHP_MINIT_FUNCTION(phalcon){
@@ -724,6 +741,12 @@ static PHP_MINIT_FUNCTION(phalcon){
 
 	old_error_cb  = zend_error_cb;
 	zend_error_cb = phalcon_error_cb;
+
+	orig_execute_internal = zend_execute_internal;
+	if (!zend_execute_internal) {
+		zend_execute_internal = phalcon_execute_internal;
+	}
+
 	return SUCCESS;
 }
 
@@ -731,6 +754,7 @@ static PHP_MINIT_FUNCTION(phalcon){
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
 	zend_error_cb = old_error_cb;
+	zend_execute_internal = orig_execute_internal;
 
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);

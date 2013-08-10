@@ -622,7 +622,15 @@ int phalcon_return_property_quick(zval *return_value, zval *object, char *proper
 
 				EG(scope) = old_scope;
 
-				ZVAL_ZVAL(return_value, *zv, 1, 0);
+				if (EG(return_value_ptr_ptr)) {
+					zval_ptr_dtor(EG(return_value_ptr_ptr));
+					Z_ADDREF_PP(zv);
+					*EG(return_value_ptr_ptr) = *zv;
+				}
+				else {
+					ZVAL_ZVAL(return_value, *zv, 1, 0);
+				}
+
 				return SUCCESS;
 			}
 
@@ -656,7 +664,16 @@ int phalcon_return_property_quick(zval *return_value, zval *object, char *proper
 
 			if (likely(!flag)) {
 				EG(scope) = old_scope;
-				ZVAL_ZVAL(return_value, *zv, 1, 0);
+
+				if (EG(return_value_ptr_ptr)) {
+					zval_ptr_dtor(EG(return_value_ptr_ptr));
+					Z_ADDREF_PP(zv);
+					*EG(return_value_ptr_ptr) = *zv;
+				}
+				else {
+					ZVAL_ZVAL(return_value, *zv, 1, 0);
+				}
+
 				return SUCCESS;
 			}
 
