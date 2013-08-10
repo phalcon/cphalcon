@@ -165,11 +165,6 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
 	phalcon_fetch_params(1, 1, 0, &file);
 
-	if (Z_TYPE_P(file) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "file didn't return a valid string");
-		return;
-	}
-
 	PHALCON_OBS_VAR(checked);
 	phalcon_read_static_property(&checked, SL("phalcon\\image\\adapter\\gd"), SL("_checked") TSRMLS_CC);
 
