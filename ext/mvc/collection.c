@@ -134,6 +134,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
 			return;
 		}
+
+		PHALCON_VERIFY_INTERFACE(models_manager, phalcon_mvc_collection_managerinterface_ce);
 	}
 	
 	/** 
@@ -2107,6 +2109,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'collectionManager' is not valid");
 				return;
 			}
+
+			PHALCON_VERIFY_INTERFACE(manager, phalcon_mvc_collection_managerinterface_ce);
 	
 			/** 
 			 * Update the models manager
