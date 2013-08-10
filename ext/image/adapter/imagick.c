@@ -669,7 +669,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 			return;
 		}
 	}
-/**/
+
 	PHALCON_INIT_VAR(constant);
 	phalcon_get_class_constant(constant, ce0, SS("EVALUATE_MULTIPLY") TSRMLS_CC);
 
@@ -1157,6 +1157,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
 
 	phalcon_call_method_p1_noret(im, "setFormat", format);
+	phalcon_call_method_noret(im, "stripImage");
 
 	if (phalcon_get_intval(type) == 1) {
 		phalcon_call_method_noret(im, "optimizeImageLayers");
@@ -1247,6 +1248,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
 
 	phalcon_call_method_p1_noret(im, "setFormat", format);
+	phalcon_call_method_noret(im, "stripImage");
 
 	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 
