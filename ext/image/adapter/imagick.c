@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _crop) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _rotate) {
 
 	zval *degrees;
-	zval *im, *background, *color, *ret = NULL, *w, *h, *tmp, *index, *next = NULL;
+	zval *im, *background, *color, *ret = NULL, *w = NULL, *h = NULL, *tmp, *index, *next = NULL;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -339,17 +339,19 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _rotate) {
 			return;
 		}
 
+		if (!w) {
+			PHALCON_INIT_NVAR(w);
+			phalcon_call_method(w, im, "getImageWidth");
+
+			PHALCON_INIT_NVAR(h);
+			phalcon_call_method(h, im, "getImageHeight");
+		}
+
 		phalcon_call_method_p4_noret(im, "setImagePage", w, h, tmp, tmp);
 
 		PHALCON_INIT_NVAR(next);
 		phalcon_call_method(next, im, "nextImage");
 	} while (zend_is_true(next));
-
-	PHALCON_INIT_VAR(w);
-	phalcon_call_method(w, im, "getImageWidth");
-
-	PHALCON_INIT_VAR(h);
-	phalcon_call_method(h, im, "getImageHeight");
 
 	phalcon_update_property_this(this_ptr, SL("_width"), w TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_height"), h TSRMLS_CC);
