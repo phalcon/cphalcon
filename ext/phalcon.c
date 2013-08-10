@@ -353,7 +353,12 @@ zend_class_entry *phalcon_image_adapter_imagick_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
+#if PHP_VERSION_ID >= 50500
+static void (*orig_execute_internal)(zend_execute_data *, zend_fcall_info *, int TSRMLS_DC) = NULL;
+#else
 static void (*orig_execute_internal)(zend_execute_data *, int TSRMLS_DC) = NULL;
+#endif
+
 static void (*old_error_cb)(int, const char *, const uint, const char *, va_list) = NULL;
 
 static void phalcon_error_cb(int type, const char *error_filename, const uint error_lineno, const char *format, va_list args)
@@ -682,8 +687,8 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Mvc_Controller);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Document);
-	PHALCON_INIT(Phalcon_Mvc_Collection_Manager);
 	PHALCON_INIT(Phalcon_Mvc_Collection_ManagerInterface);
+	PHALCON_INIT(Phalcon_Mvc_Collection_Manager);
 	PHALCON_INIT(Phalcon_Mvc_ControllerInterface);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher_Exception);
