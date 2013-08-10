@@ -193,14 +193,14 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
  * Returns a zval in an object member
  */
 #define RETURN_MEMBER(object, member_name) \
-	phalcon_return_property_quick(return_value, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
+	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
 	return;
 
 /**
  * Returns a zval in an object member (quick)
  */
 #define RETURN_MEMBER_QUICK(object, member_name, key) \
- 	phalcon_return_property_quick(return_value, object, SL(member_name), key TSRMLS_CC); \
+ 	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), key TSRMLS_CC); \
 	return;
 
 /** Return without change return_value */
