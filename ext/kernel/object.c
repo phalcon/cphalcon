@@ -595,7 +595,7 @@ zval** phalcon_fetch_property_this_quick(zval *object, char *property_name, unsi
 /**
  * Returns an object's member
  */
-int phalcon_return_property_quick(zval *return_value, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC) {
+int phalcon_return_property_quick(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC) {
 
 	zval **zv;
 	zend_object *zobj;
@@ -622,10 +622,10 @@ int phalcon_return_property_quick(zval *return_value, zval *object, char *proper
 
 				EG(scope) = old_scope;
 
-				if (EG(return_value_ptr_ptr)) {
-					zval_ptr_dtor(EG(return_value_ptr_ptr));
+				if (return_value_ptr) {
+					zval_ptr_dtor(return_value_ptr);
 					Z_ADDREF_PP(zv);
-					*EG(return_value_ptr_ptr) = *zv;
+					*return_value_ptr = *zv;
 				}
 				else {
 					ZVAL_ZVAL(return_value, *zv, 1, 0);
@@ -665,10 +665,10 @@ int phalcon_return_property_quick(zval *return_value, zval *object, char *proper
 			if (likely(!flag)) {
 				EG(scope) = old_scope;
 
-				if (EG(return_value_ptr_ptr)) {
-					zval_ptr_dtor(EG(return_value_ptr_ptr));
+				if (return_value_ptr) {
+					zval_ptr_dtor(return_value_ptr);
 					Z_ADDREF_PP(zv);
-					*EG(return_value_ptr_ptr) = *zv;
+					*return_value_ptr = *zv;
 				}
 				else {
 					ZVAL_ZVAL(return_value, *zv, 1, 0);
@@ -694,9 +694,9 @@ int phalcon_return_property_quick(zval *return_value, zval *object, char *proper
 /**
  * Returns an object's member
  */
-int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
+int phalcon_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
-	return phalcon_return_property_quick(return_value, object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
+	return phalcon_return_property_quick(return_value, return_value_ptr, object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
 }
 
 /**
