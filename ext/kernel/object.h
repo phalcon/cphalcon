@@ -63,8 +63,8 @@ zval** phalcon_fetch_property_this(zval *object, char *property_name, unsigned i
 zval** phalcon_fetch_property_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
 int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
 int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
-int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
-int phalcon_return_property_quick(zval *return_value, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC);
+int phalcon_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
+int phalcon_return_property_quick(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC);
 
 /** Updating properties */
 extern int phalcon_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
