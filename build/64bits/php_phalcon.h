@@ -20,7 +20,7 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "1.2.1"
+#define PHP_PHALCON_VERSION "1.3.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #include "main/php.h"
@@ -35,6 +35,7 @@ typedef struct _phalcon_memory_entry {
 	zval ***hash_addresses;
 	struct _phalcon_memory_entry *prev;
 	struct _phalcon_memory_entry *next;
+	const char *func;
 } phalcon_memory_entry;
 
 /** Virtual Symbol Table */

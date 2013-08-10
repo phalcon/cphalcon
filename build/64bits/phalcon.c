@@ -187,6 +187,7 @@ PHP includes the Zend Engine, freely available at
 #include "ext/standard/head.h"
 #include "ext/standard/url.h"
 #include "ext/spl/spl_heap.h"
+#include "ext/spl/spl_exceptions.h"
 #include "ext/date/php_date.h"
 
 #ifdef PHALCON_USE_PHP_PCRE
@@ -502,63 +503,77 @@ static int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql
 #define PHVOLT_IN                              3
 #define PHVOLT_QUESTION                        4
 #define PHVOLT_COLON                           5
-#define PHVOLT_SBRACKET_OPEN                   6
-#define PHVOLT_RANGE                           7
-#define PHVOLT_AND                             8
-#define PHVOLT_OR                              9
-#define PHVOLT_IS                             10
-#define PHVOLT_EQUALS                         11
-#define PHVOLT_NOTEQUALS                      12
-#define PHVOLT_LESS                           13
-#define PHVOLT_GREATER                        14
-#define PHVOLT_GREATEREQUAL                   15
-#define PHVOLT_LESSEQUAL                      16
-#define PHVOLT_IDENTICAL                      17
-#define PHVOLT_NOTIDENTICAL                   18
-#define PHVOLT_DIVIDE                         19
-#define PHVOLT_TIMES                          20
-#define PHVOLT_MOD                            21
-#define PHVOLT_PLUS                           22
-#define PHVOLT_MINUS                          23
-#define PHVOLT_CONCAT                         24
+#define PHVOLT_RANGE                           6
+#define PHVOLT_AND                             7
+#define PHVOLT_OR                              8
+#define PHVOLT_IS                              9
+#define PHVOLT_EQUALS                         10
+#define PHVOLT_NOTEQUALS                      11
+#define PHVOLT_LESS                           12
+#define PHVOLT_GREATER                        13
+#define PHVOLT_GREATEREQUAL                   14
+#define PHVOLT_LESSEQUAL                      15
+#define PHVOLT_IDENTICAL                      16
+#define PHVOLT_NOTIDENTICAL                   17
+#define PHVOLT_DIVIDE                         18
+#define PHVOLT_TIMES                          19
+#define PHVOLT_MOD                            20
+#define PHVOLT_PLUS                           21
+#define PHVOLT_MINUS                          22
+#define PHVOLT_CONCAT                         23
+#define PHVOLT_SBRACKET_OPEN                  24
 #define PHVOLT_PIPE                           25
 #define PHVOLT_NOT                            26
-#define PHVOLT_PARENTHESES_OPEN               27
-#define PHVOLT_DOT                            28
-#define PHVOLT_IF                             29
-#define PHVOLT_CLOSE_DELIMITER                30
-#define PHVOLT_ENDIF                          31
-#define PHVOLT_ELSE                           32
-#define PHVOLT_ELSEIF                         33
-#define PHVOLT_ELSEFOR                        34
-#define PHVOLT_FOR                            35
-#define PHVOLT_IDENTIFIER                     36
-#define PHVOLT_ENDFOR                         37
-#define PHVOLT_SET                            38
-#define PHVOLT_ASSIGN                         39
-#define PHVOLT_OPEN_EDELIMITER                40
-#define PHVOLT_CLOSE_EDELIMITER               41
-#define PHVOLT_BLOCK                          42
-#define PHVOLT_ENDBLOCK                       43
-#define PHVOLT_CACHE                          44
-#define PHVOLT_ENDCACHE                       45
-#define PHVOLT_INTEGER                        46
-#define PHVOLT_EXTENDS                        47
-#define PHVOLT_STRING                         48
-#define PHVOLT_INCLUDE                        49
-#define PHVOLT_DO                             50
-#define PHVOLT_AUTOESCAPE                     51
-#define PHVOLT_FALSE                          52
-#define PHVOLT_ENDAUTOESCAPE                  53
+#define PHVOLT_INCR                           27
+#define PHVOLT_DECR                           28
+#define PHVOLT_PARENTHESES_OPEN               29
+#define PHVOLT_DOT                            30
+#define PHVOLT_IF                             31
+#define PHVOLT_CLOSE_DELIMITER                32
+#define PHVOLT_ENDIF                          33
+#define PHVOLT_ELSE                           34
+#define PHVOLT_ELSEIF                         35
+#define PHVOLT_ELSEFOR                        36
+#define PHVOLT_FOR                            37
+#define PHVOLT_IDENTIFIER                     38
+#define PHVOLT_ENDFOR                         39
+#define PHVOLT_SET                            40
+#define PHVOLT_ASSIGN                         41
+#define PHVOLT_ADD_ASSIGN                     42
+#define PHVOLT_SUB_ASSIGN                     43
+#define PHVOLT_MUL_ASSIGN                     44
+#define PHVOLT_DIV_ASSIGN                     45
+#define PHVOLT_MACRO                          46
+#define PHVOLT_PARENTHESES_CLOSE              47
+#define PHVOLT_ENDMACRO                       48
+#define PHVOLT_INTEGER                        49
+#define PHVOLT_STRING                         50
+#define PHVOLT_DOUBLE                         51
+#define PHVOLT_NULL                           52
+#define PHVOLT_FALSE                          53
 #define PHVOLT_TRUE                           54
-#define PHVOLT_BREAK                          55
-#define PHVOLT_CONTINUE                       56
-#define PHVOLT_RAW_FRAGMENT                   57
-#define PHVOLT_DEFINED                        58
-#define PHVOLT_PARENTHESES_CLOSE              59
-#define PHVOLT_SBRACKET_CLOSE                 60
-#define PHVOLT_DOUBLE                         61
-#define PHVOLT_NULL                           62
+#define PHVOLT_CALL                           55
+#define PHVOLT_ENDCALL                        56
+#define PHVOLT_OPEN_EDELIMITER                57
+#define PHVOLT_CLOSE_EDELIMITER               58
+#define PHVOLT_BLOCK                          59
+#define PHVOLT_ENDBLOCK                       60
+#define PHVOLT_CACHE                          61
+#define PHVOLT_ENDCACHE                       62
+#define PHVOLT_EXTENDS                        63
+#define PHVOLT_INCLUDE                        64
+#define PHVOLT_WITH                           65
+#define PHVOLT_DO                             66
+#define PHVOLT_RETURN                         67
+#define PHVOLT_AUTOESCAPE                     68
+#define PHVOLT_ENDAUTOESCAPE                  69
+#define PHVOLT_BREAK                          70
+#define PHVOLT_CONTINUE                       71
+#define PHVOLT_RAW_FRAGMENT                   72
+#define PHVOLT_DEFINED                        73
+#define PHVOLT_SBRACKET_CLOSE                 74
+#define PHVOLT_CBRACKET_OPEN                  75
+#define PHVOLT_CBRACKET_CLOSE                 76
 
 
 
@@ -863,6 +878,7 @@ static int phannot_internal_parse_annotations(zval **result, zval *view_code, zv
 
 
 
+
 /** Main macros */
 #define PH_DEBUG 0
 
@@ -1004,11 +1020,11 @@ static int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 	return;
 
 #define RETURN_MEMBER(object, member_name) \
-	phalcon_return_property_quick(return_value, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
+	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
 	return;
 
 #define RETURN_MEMBER_QUICK(object, member_name, key) \
- 	phalcon_return_property_quick(return_value, object, SL(member_name), key TSRMLS_CC); \
+ 	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), key TSRMLS_CC); \
 	return;
 
 /** Return without change return_value */
@@ -1138,6 +1154,37 @@ static int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 		} \
 	}
 
+#define PHALCON_VERIFY_INTERFACE(instance, interface_ce) \
+	do { \
+		if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), interface_ce, 1 TSRMLS_CC)) { \
+			char *buf; \
+			if (Z_TYPE_P(instance) != IS_OBJECT) { \
+				spprintf(&buf, 0, "Unexpected value type: expected object implementing %s, %s given", interface_ce->name, zend_zval_type_name(instance)); \
+			} \
+			else { \
+				spprintf(&buf, 0, "Unexpected value type: expected object implementing %s, object of type %s given", interface_ce->name, Z_OBJCE_P(instance)->name); \
+			} \
+			PHALCON_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
+			efree(buf); \
+			return; \
+		} \
+	} while (0)
+
+#define PHALCON_VERIFY_CLASS(instance, class_ce) \
+	do { \
+		if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), class_ce, 0 TSRMLS_CC)) { \
+			char *buf; \
+			if (Z_TYPE_P(instance) != IS_OBJECT) { \
+				spprintf(&buf, 0, "Unexpected value type: expected object of type %s, %s given", class_ce->name, zend_zval_type_name(instance)); \
+			} \
+			else { \
+				spprintf(&buf, 0, "Unexpected value type: expected object of type %s, object of type %s given", class_ce->name, Z_OBJCE_P(instance)->name); \
+			} \
+			PHALCON_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
+			efree(buf); \
+			return; \
+		} \
+	} while (0)
 
 
 
@@ -1795,8 +1842,8 @@ zval** phalcon_fetch_property_this(zval *object, char *property_name, unsigned i
 zval** phalcon_fetch_property_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC);
 static int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
 static int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
-static int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
-static int phalcon_return_property_quick(zval *return_value, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC);
+static int phalcon_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
+static int phalcon_return_property_quick(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC);
 
 /** Updating properties */
 static int phalcon_update_property_this(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
@@ -5588,7 +5635,7 @@ zval** phalcon_fetch_property_this_quick(zval *object, char *property_name, unsi
 	return NULL;
 }
 
-static int phalcon_return_property_quick(zval *return_value, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC) {
+static int phalcon_return_property_quick(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length, unsigned long key TSRMLS_DC) {
 
 	zval **zv;
 	zend_object *zobj;
@@ -5615,7 +5662,15 @@ static int phalcon_return_property_quick(zval *return_value, zval *object, char 
 
 				EG(scope) = old_scope;
 
-				ZVAL_ZVAL(return_value, *zv, 1, 0);
+				if (return_value_ptr) {
+					zval_ptr_dtor(return_value_ptr);
+					Z_ADDREF_PP(zv);
+					*return_value_ptr = *zv;
+				}
+				else {
+					ZVAL_ZVAL(return_value, *zv, 1, 0);
+				}
+
 				return SUCCESS;
 			}
 
@@ -5649,7 +5704,16 @@ static int phalcon_return_property_quick(zval *return_value, zval *object, char 
 
 			if (likely(!flag)) {
 				EG(scope) = old_scope;
-				ZVAL_ZVAL(return_value, *zv, 1, 0);
+
+				if (return_value_ptr) {
+					zval_ptr_dtor(return_value_ptr);
+					Z_ADDREF_PP(zv);
+					*return_value_ptr = *zv;
+				}
+				else {
+					ZVAL_ZVAL(return_value, *zv, 1, 0);
+				}
+
 				return SUCCESS;
 			}
 
@@ -5667,9 +5731,9 @@ static int phalcon_return_property_quick(zval *return_value, zval *object, char 
 	return FAILURE;
 }
 
-static int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
+static int phalcon_return_property(zval *return_value, zval **return_value_ptr, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
-	return phalcon_return_property_quick(return_value, object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
+	return phalcon_return_property_quick(return_value, return_value_ptr, object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1) TSRMLS_CC);
 }
 
 static int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC) {
@@ -10539,9 +10603,9 @@ static int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const z
 		file_path = Z_STRVAL_P(require_path);
 
 		#if PHP_VERSION_ID < 50400
-		ret = php_stream_open_for_zend_ex(file_path, &file_handle, ENFORCE_SAFE_MODE|USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
+		ret = php_stream_open_for_zend_ex(file_path, &file_handle, ENFORCE_SAFE_MODE|USE_PATH|STREAM_OPEN_FOR_INCLUDE|IGNORE_URL TSRMLS_CC);
 		#else
-		ret = php_stream_open_for_zend_ex(file_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
+		ret = php_stream_open_for_zend_ex(file_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE|IGNORE_URL TSRMLS_CC);
 		#endif
 
 		if (likely(ret == SUCCESS)) {
@@ -23187,6 +23251,7 @@ static PHP_METHOD(Phalcon_CLI_Console, handle){
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_CLASS(router, phalcon_cli_router_ce);
 	phalcon_call_method_p1_noret(router, "handle", arguments);
 	
 	PHALCON_INIT_VAR(module_name);
@@ -23276,6 +23341,7 @@ static PHP_METHOD(Phalcon_CLI_Console, handle){
 	
 	PHALCON_INIT_VAR(dispatcher);
 	phalcon_call_method_p1(dispatcher, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(dispatcher, phalcon_dispatcherinterface_ce);
 	phalcon_call_method_p1_noret(dispatcher, "settaskname", task_name);
 	phalcon_call_method_p1_noret(dispatcher, "setactionname", action_name);
 	phalcon_call_method_p1_noret(dispatcher, "setparams", params);
@@ -23341,6 +23407,8 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Dispatcher){
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_handlerSuffix"), "Task", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultHandler"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultAction"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_cli_dispatcher_ce TSRMLS_CC, 1, phalcon_dispatcherinterface_ce);
 
 	return SUCCESS;
 }
@@ -26876,7 +26944,6 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler){
 	phalcon_read_property_this_quick(&pdo, this_ptr, SL("_pdo"), 210704349735UL, PH_NOISY_CC);
 	RETURN_CCTOR(pdo);
 }
-
 
 
 
@@ -36242,6 +36309,7 @@ static PHP_METHOD(Phalcon_Dispatcher, getParam){
 	
 			PHALCON_INIT_VAR(filter);
 			phalcon_call_method_p1(filter, *dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 			phalcon_call_method_p2(return_value, filter, "sanitize", *param_value, filters);
 			RETURN_MM();
 		} else {
@@ -38198,6 +38266,7 @@ static PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(index_name);
 	ZVAL_STRING(index_name, "_flashMessages", 1);
@@ -38232,6 +38301,7 @@ static PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(index_name);
 	ZVAL_STRING(index_name, "_flashMessages", 1);
@@ -39947,6 +40017,7 @@ static PHP_METHOD(Phalcon_Forms_Form, bind){
 	
 				PHALCON_INIT_NVAR(filter);
 				phalcon_call_method_p1(filter, dependency_injector, "getshared", service_name);
+				PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 			}
 	
 			PHALCON_INIT_NVAR(filtered_value);
@@ -40837,6 +40908,7 @@ static PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	
 				PHALCON_INIT_VAR(crypt);
 				phalcon_call_method_p1(crypt, dependency_injector, "getshared", service);
+				PHALCON_VERIFY_INTERFACE(crypt, phalcon_cryptinterface_ce);
 	
 				PHALCON_INIT_VAR(decrypted_value);
 				phalcon_call_method_p1(decrypted_value, crypt, "decryptbase64", value);
@@ -40865,6 +40937,7 @@ static PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this_quick(this_ptr, SL("_filter"), filter, 7572069498148650UL TSRMLS_CC);
 				}
 	
@@ -40954,6 +41027,8 @@ static PHP_METHOD(Phalcon_Http_Cookie, send){
 				phalcon_call_method_p1(session, dependency_injector, "getshared", service);
 
 				if (Z_TYPE_P(session) != IS_NULL) {
+					PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
+
 					PHALCON_INIT_VAR(key);
 					PHALCON_CONCAT_SV(key, "_PHCOOKIE_", name);
 					phalcon_call_method_p2_noret(session, "set", key, definition);
@@ -40975,6 +41050,7 @@ static PHP_METHOD(Phalcon_Http_Cookie, send){
 
 		PHALCON_INIT_VAR(crypt);
 		phalcon_call_method_p1(crypt, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(crypt, phalcon_cryptinterface_ce);
 
 		PHALCON_INIT_VAR(encrypt_value);
 		phalcon_call_method_p1(encrypt_value, crypt, "encryptbase64", value);
@@ -41025,6 +41101,7 @@ static PHP_METHOD(Phalcon_Http_Cookie, restore){
 	
 			PHALCON_INIT_VAR(session);
 			phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 			PHALCON_OBS_VAR(name);
 			phalcon_read_property_this_quick(&name, this_ptr, SL("_name"), 6953241062757UL, PH_NOISY_CC);
@@ -41102,6 +41179,7 @@ static PHP_METHOD(Phalcon_Http_Cookie, delete){
 	
 		PHALCON_INIT_VAR(session);
 		phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 		PHALCON_INIT_VAR(key);
 		PHALCON_CONCAT_SV(key, "_PHCOOKIE_", name);
@@ -41646,6 +41724,7 @@ static PHP_METHOD(Phalcon_Http_Request, get){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this_quick(this_ptr, SL("_filter"), filter, 7572069498148650UL TSRMLS_CC);
 				}
 	
@@ -41708,6 +41787,7 @@ static PHP_METHOD(Phalcon_Http_Request, getPost){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this_quick(this_ptr, SL("_filter"), filter, 7572069498148650UL TSRMLS_CC);
 				}
 	
@@ -41770,6 +41850,7 @@ static PHP_METHOD(Phalcon_Http_Request, getQuery){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this_quick(this_ptr, SL("_filter"), filter, 7572069498148650UL TSRMLS_CC);
 				}
 	
@@ -43097,6 +43178,7 @@ static PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	
 		PHALCON_INIT_VAR(response);
 		phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	
 		phalcon_call_method_p1_noret(response, "setcookies", this_ptr);
 	}
@@ -43831,6 +43913,7 @@ static PHP_METHOD(Phalcon_Http_Response, redirect){
 	
 		PHALCON_INIT_VAR(url);
 		phalcon_call_method_p1(url, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
 	
 		PHALCON_INIT_NVAR(header);
 		phalcon_call_method_p1(header, url, "get", location);
@@ -44152,7 +44235,7 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 
 	if (!zend_is_true(ret)) {
 		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVSVS(exception_message, "Image_GD requires GD version '", version ,"' or greater, you have '", gd_version, ",");
+		PHALCON_CONCAT_SVSVS(exception_message, "Phalcon\\Image\\Adapter\\GD requires GD version '", version ,"' or greater, you have '", gd_version, ",");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
 		return;
 	}
@@ -44326,6 +44409,19 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 	}
 
 	PHALCON_MM_RESTORE();
+}
+
+static PHP_METHOD(Phalcon_Image_Adapter_GD, _liquidRescale){
+
+	zval *width, *height, *delta_x = NULL, *rigidity = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 4, 0, &width, &height, &delta_x, &rigidity);
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "The GD does not support liquidRescale");
+
+	RETURN_THIS();
 }
 
 static PHP_METHOD(Phalcon_Image_Adapter_GD, _crop) {
@@ -45285,6 +45381,24 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _resize) {
 	PHALCON_MM_RESTORE();
 }
 
+static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _liquidRescale){
+
+	zval *width, *height, *delta_x = NULL, *rigidity = NULL;
+	zval *im, *ret;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 4, 0, &width, &height, &delta_x, &rigidity);
+
+	PHALCON_OBS_VAR(im);
+	phalcon_read_property_this_quick(&im, this_ptr, SL("_image"), 229456773199335UL, PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(ret);
+	phalcon_call_method_p4(ret, im, "liquidRescaleImage", width, height, delta_x, rigidity);
+
+	RETURN_CTOR(ret);
+}
+
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _crop) {
 
 	zval *width, *height, *offset_x, *offset_y;
@@ -45441,7 +45555,7 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen) {
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 
 	zval *height, *opacity, *fade_in, *o;
-	zval *im, *reflection, *image_width, *image_height, *reflection_width, *reflection_height, *tmp, *direction, *tmp_direction;
+	zval *im, *reflection, *image_width, *image_height, *reflection_width, *reflection_height, *tmp, *direction, *tmp_direction = NULL;
 	zval *fade, *pseudoString, *composite, *constant, *channel, *image, *background, *mode, *ret, *w, *h;
 	zend_class_entry *ce0, *ce1;
 	int int_amount, ini_h;
@@ -45484,7 +45598,6 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		PHALCON_CPY_WRT(tmp_direction, direction);
 	}
 
-
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(fade);
@@ -45499,7 +45612,6 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	PHALCON_INIT_VAR(pseudoString);
 	phalcon_call_func_p2(pseudoString, "vsprintf", tmp, tmp_direction);
 
-	
 	PHALCON_INIT_VAR(reflection_width);
 	phalcon_call_method(reflection_width, reflection, "getImageWidth");
 
@@ -45519,7 +45631,7 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	PHALCON_INIT_VAR(constant);
 	phalcon_get_class_constant(constant, ce0, SS("EVALUATE_MULTIPLY") TSRMLS_CC);
 
-	int_amount = Z_LVAL_P(opacity);
+	int_amount = phalcon_get_intval(opacity);
 	num = int_amount / 100;
 
 	PHALCON_INIT_VAR(o);
@@ -45536,7 +45648,7 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 		phalcon_call_method_noret(image, "__construct");
 	}
 
-	ini_h = Z_LVAL_P(image_height) + Z_LVAL_P(height);
+	ini_h = phalcon_get_intval(image_height) + phalcon_get_intval(height);
 
 	PHALCON_INIT_NVAR(tmp);
 	ZVAL_LONG(tmp, ini_h);
@@ -45917,7 +46029,7 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render) {
 	PHALCON_INIT_VAR(image_string);
 	phalcon_call_method(image_string, im, "getImagesBlob");
 
-	RETURN_CCTOR(image_string);
+	RETURN_CTOR(image_string);
 }
 
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct){
@@ -46187,6 +46299,45 @@ static PHP_METHOD(Phalcon_Image_Adapter, resize){
 	ZVAL_LONG(height, tmp_height);
 
 	phalcon_call_method_p2_noret(this_ptr, "_resize", width, height);
+
+	RETURN_THIS();
+}
+
+static PHP_METHOD(Phalcon_Image_Adapter, liquidRescale){
+
+	zval *width, *height, *delta_x = NULL, *rigidity = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 2, &width, &height, &delta_x, &rigidity);
+
+	if (Z_TYPE_P(width) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(width);
+		convert_to_long(width);
+	}
+
+	if (Z_TYPE_P(height) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(height);
+		convert_to_long(height);
+	}
+
+	if (!delta_x) {
+		PHALCON_INIT_VAR(delta_x);
+		ZVAL_LONG(delta_x, 0);
+	} else if (Z_TYPE_P(delta_x) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(delta_x);
+		convert_to_long(delta_x);
+	}
+
+	if (!rigidity) {
+		PHALCON_INIT_VAR(rigidity);
+		ZVAL_LONG(rigidity, 0);
+	} else if (Z_TYPE_P(rigidity) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(rigidity);
+		convert_to_long(rigidity);
+	}
+
+	phalcon_call_method_p4_noret(this_ptr, "_liquidRescale", width, height, delta_x, rigidity);
 
 	RETURN_THIS();
 }
@@ -46682,9 +46833,10 @@ static PHP_METHOD(Phalcon_Image_Adapter, save){
 		ZVAL_LONG(quality, 1);
 	}
 
-	phalcon_call_method_p2_noret(this_ptr, "_save", file, quality);
+	PHALCON_INIT_NVAR(ret);
+	phalcon_call_method_p2(ret, this_ptr, "_save", file, quality);
 
-	RETURN_THIS();
+	RETURN_CTOR(ret);
 }
 
 static PHP_METHOD(Phalcon_Image_Adapter, render){
@@ -47625,6 +47777,39 @@ static PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 	RETURN_MM();
 }
 
+static PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
+
+	zval *path, *options, *mode = NULL, *file_handler;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(path);
+	phalcon_read_property_this_quick(&path, this_ptr, SL("_path"), 6953243442321UL, PH_NOISY_CC);
+	if (Z_TYPE_P(path) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+		return;
+	}
+
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property_this_quick(&options, this_ptr, SL("_options"), 249878686345564848UL, PH_NOISY_CC);
+	if (phalcon_array_isset_quick_string(options, SS("mode"), 210720916362UL)) {
+		PHALCON_OBS_VAR(mode);
+		phalcon_array_fetch_quick_string(&mode, options, SS("mode"), 210720916362UL, PH_NOISY);
+		if (Z_TYPE_P(mode) != IS_STRING) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+			return;
+		}
+	} else {
+		PHALCON_INIT_NVAR(mode);
+		ZVAL_STRING(mode, "ab", 1);
+	}
+
+	PHALCON_INIT_VAR(file_handler);
+	phalcon_call_func_p2(file_handler, "fopen", path, mode);
+	phalcon_update_property_this_quick(this_ptr, SL("_fileHandler"), file_handler, 7418810940361414882UL TSRMLS_CC);
+
+	PHALCON_MM_RESTORE();
+}
 
 
 
@@ -49230,6 +49415,7 @@ static PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 	
 	phalcon_call_method_p1_noret(router, "handle", uri);
 	
@@ -49342,6 +49528,7 @@ static PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 		PHALCON_INIT_VAR(view);
 		phalcon_call_method_p1(view, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(view, phalcon_mvc_viewinterface_ce);
 	}
 	
 	PHALCON_INIT_NVAR(module_name);
@@ -49364,6 +49551,7 @@ static PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 	PHALCON_INIT_VAR(dispatcher);
 	phalcon_call_method_p1(dispatcher, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(dispatcher, phalcon_dispatcherinterface_ce);
 	
 	phalcon_call_method_p1_noret(dispatcher, "setmodulename", module_name);
 	phalcon_call_method_p1_noret(dispatcher, "setnamespacename", namespace_name);
@@ -49447,6 +49635,7 @@ static PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 		PHALCON_INIT_VAR(response);
 		phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 		if (PHALCON_IS_TRUE(implicit_view)) {
 			PHALCON_INIT_VAR(content);
 			phalcon_call_method(content, view, "getcontent");
@@ -49868,6 +50057,7 @@ static PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce);
 	RETURN_CCTOR(connection);
 }
 
@@ -50020,9 +50210,11 @@ static PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 		PHALCON_INIT_NVAR(models_manager);
 		phalcon_call_method_p1(models_manager, dependency_injector, "getshared", service_name);
 		if (Z_TYPE_P(models_manager) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'collectionManager' is not valid");
 			return;
 		}
+
+		PHALCON_VERIFY_INTERFACE(models_manager, phalcon_mvc_model_managerinterface_ce);
 	}
 	
 	phalcon_update_property_this_quick(this_ptr, SL("_modelsManager"), models_manager, 6916757131228058019UL TSRMLS_CC);
@@ -51447,6 +51639,8 @@ static PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'collectionManager' is not valid");
 				return;
 			}
+
+			PHALCON_VERIFY_INTERFACE(manager, phalcon_mvc_model_managerinterface_ce);
 	
 			phalcon_update_property_this_quick(this_ptr, SL("_modelsManager"), manager, 6916757131228058019UL TSRMLS_CC);
 	
@@ -51594,7 +51788,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Dispatcher){
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultHandler"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultAction"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_dispatcher_ce TSRMLS_CC, 1, phalcon_mvc_dispatcherinterface_ce);
+	zend_class_implements(phalcon_mvc_dispatcher_ce TSRMLS_CC, 2, phalcon_dispatcherinterface_ce, phalcon_mvc_dispatcherinterface_ce);
 
 	return SUCCESS;
 }
@@ -51675,6 +51869,7 @@ static PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	
 	PHALCON_INIT_VAR(response);
 	phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	
 	PHALCON_INIT_VAR(status_code);
 	ZVAL_LONG(status_code, 404);
@@ -52507,6 +52702,7 @@ static PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 	
 		PHALCON_INIT_NVAR(router);
 		phalcon_call_method_p1(router, this_ptr, "getsharedservice", service_name);
+		PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 	
 		phalcon_call_method_noret(router, "clear");
 	
@@ -52661,6 +52857,7 @@ static PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 	
 	phalcon_call_method_p1_noret(router, "handle", uri);
 	
@@ -54296,6 +54493,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	
 		PHALCON_INIT_VAR(meta_data);
 		phalcon_call_method_p1(meta_data, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 		ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(model);
@@ -54900,6 +55098,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce);
 	RETURN_CCTOR(connection);
 }
 
@@ -54942,6 +55141,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce);
 	RETURN_CCTOR(connection);
 }
 
@@ -59438,6 +59638,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	
 		PHALCON_INIT_VAR(meta_data);
 		phalcon_call_method_p1(meta_data, dependency_injector, "getshared", service_name);
+		PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 		ce0 = phalcon_fetch_class(model TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(model_instance);
@@ -65747,6 +65948,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(manager, phalcon_mvc_model_managerinterface_ce);
+
 	PHALCON_INIT_NVAR(service);
 	ZVAL_STRING(service, "modelsMetadata", 1);
 	
@@ -65757,6 +65960,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
+
 	phalcon_update_property_this_quick(this_ptr, SL("_manager"), manager, 249878581492062303UL TSRMLS_CC);
 	phalcon_update_property_this_quick(this_ptr, SL("_metaData"), meta_data, 8245993367418990117UL TSRMLS_CC);
 	phalcon_update_property_this_quick(this_ptr, SL("_dependencyInjector"), dependency_injector, 9934233281666745441UL TSRMLS_CC);
@@ -69634,6 +69839,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache service must be an object");
 			return;
 		}
+
+		PHALCON_VERIFY_INTERFACE(cache, phalcon_cache_backendinterface_ce);
 	
 		PHALCON_INIT_VAR(result);
 		phalcon_call_method_p2(result, cache, "get", key, lifetime);
@@ -73014,6 +73221,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method_p1(meta_data, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 	
 	PHALCON_INIT_VAR(bind_types);
 	array_init(bind_types);
@@ -73555,6 +73763,8 @@ static PHP_METHOD(Phalcon_Mvc_Model, __construct){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
 			return;
 		}
+
+		PHALCON_VERIFY_INTERFACE(models_manager, phalcon_mvc_model_managerinterface_ce);
 	}
 	
 	phalcon_update_property_this_quick(this_ptr, SL("_modelsManager"), models_manager, 6916757131228058019UL TSRMLS_CC);
@@ -73638,6 +73848,8 @@ static PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 			return;
 		}
 	
+		PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
+
 		phalcon_update_property_this_quick(this_ptr, SL("_modelsMetaData"), meta_data, 6892056624192229353UL TSRMLS_CC);
 	}
 	
@@ -77968,6 +78180,8 @@ static PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
 				return;
 			}
+
+			PHALCON_VERIFY_INTERFACE(manager, phalcon_mvc_model_managerinterface_ce);
 	
 			phalcon_update_property_this_quick(this_ptr, SL("_modelsManager"), manager, 6916757131228058019UL TSRMLS_CC);
 	
@@ -78342,6 +78556,7 @@ static PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	
 						PHALCON_INIT_NVAR(annotations_service);
 						phalcon_call_method_p1(annotations_service, dependency_injector, "getshared", service);
+						PHALCON_VERIFY_INTERFACE(annotations_service, phalcon_annotations_adapterinterface_ce);
 					}
 	
 					PHALCON_OBS_NVAR(handler);
@@ -79859,6 +80074,7 @@ static PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 				PHALCON_INIT_NVAR(request);
 				phalcon_call_method_p1(request, *dependency_injector, "getshared", service);
+				PHALCON_VERIFY_INTERFACE(request, phalcon_http_requestinterface_ce);
 			}
 
 			PHALCON_INIT_NVAR(match_method);
@@ -79882,6 +80098,7 @@ static PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 				PHALCON_INIT_NVAR(request);
 				phalcon_call_method_p1(request, *dependency_injector, "getshared", service);
+				PHALCON_VERIFY_INTERFACE(request, phalcon_http_requestinterface_ce);
 			}
 
 			if (Z_TYPE_P(current_host_name) == IS_NULL) {
@@ -80731,6 +80948,7 @@ static PHP_METHOD(Phalcon_Mvc_Url, get){
 	
 			PHALCON_INIT_NVAR(router);
 			phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 			phalcon_update_property_this_quick(this_ptr, SL("_router"), router, 7572085241249925UL TSRMLS_CC);
 		}
 	
@@ -83901,11 +84119,12 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse){
 /* First off, code is include which follows the "include" declaration
 ** in the input file. */
 #include <stdio.h>
-// 41 "parser.lemon"
+// 42 "parser.lemon"
 
 
 #ifdef HAVE_CONFIG_H
 #endif
+
 
 
 
@@ -83937,8 +84156,10 @@ static zval *phvolt_ret_if_statement(zval *expr, zval *true_statements, zval *fa
 	array_init(ret);
 	add_assoc_long(ret, "type", PHVOLT_T_IF);
 	add_assoc_zval(ret, "expr", expr);
-	add_assoc_zval(ret, "true_statements", true_statements);
 
+	if (true_statements) {
+		add_assoc_zval(ret, "true_statements", true_statements);
+	}
 	if (false_statements) {
 		add_assoc_zval(ret, "false_statements", false_statements);
 	}
@@ -84035,16 +84256,31 @@ static zval *phvolt_ret_cache_statement(zval *expr, phvolt_parser_token *lifetim
 	return ret;
 }
 
-static zval *phvolt_ret_set_statement(phvolt_parser_token *variable, zval *expr, phvolt_scanner_state *state)
+static zval *phvolt_ret_set_statement(zval *assignments)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init_size(ret, 5);
+	array_init_size(ret, 2);
 	add_assoc_long(ret, "type", PHVOLT_T_SET);
+
+	add_assoc_zval(ret, "assignments", assignments);
+
+	return ret;
+}
+
+static zval *phvolt_ret_set_assignment(phvolt_parser_token *variable, int operator, zval *expr, phvolt_scanner_state *state)
+{
+
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 5);
 
 	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
 	efree(variable);
+
+	add_assoc_long(ret, "op", operator);
 
 	add_assoc_zval(ret, "expr", expr);
 
@@ -84094,6 +84330,53 @@ static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_s
 	return ret;
 }
 
+static zval *phvolt_ret_macro_statement(phvolt_parser_token *macro_name, zval *parameters, zval *block_statements, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_MACRO);
+
+	add_assoc_stringl(ret, "name", macro_name->token, macro_name->token_len, 0);
+	efree(macro_name);
+
+	if (parameters) {
+		add_assoc_zval(ret, "parameters", parameters);
+	}
+
+	if (block_statements) {
+		add_assoc_zval(ret, "block_statements", block_statements);
+	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_macro_parameter(phvolt_parser_token *variable, zval *default_value, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 5);
+
+	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
+	efree(variable);
+
+	if (default_value) {
+		add_assoc_zval(ret, "default", default_value);
+	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
 static zval *phvolt_ret_extends_statement(phvolt_parser_token *P, phvolt_scanner_state *state)
 {
 	zval *ret;
@@ -84112,7 +84395,7 @@ static zval *phvolt_ret_extends_statement(phvolt_parser_token *P, phvolt_scanner
 	return ret;
 }
 
-static zval *phvolt_ret_include_statement(phvolt_parser_token *P, phvolt_scanner_state *state)
+static zval *phvolt_ret_include_statement(zval *path, zval *params, phvolt_scanner_state *state)
 {
 	zval *ret;
 
@@ -84121,8 +84404,10 @@ static zval *phvolt_ret_include_statement(phvolt_parser_token *P, phvolt_scanner
 
 	add_assoc_long(ret, "type", PHVOLT_T_INCLUDE);
 
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
-	efree(P);
+	add_assoc_zval(ret, "path", path);
+	if (params) {
+		add_assoc_zval(ret, "params", params);
+	}
 
 	Z_ADDREF_P(state->active_file);
 	add_assoc_zval(ret, "file", state->active_file);
@@ -84139,6 +84424,24 @@ static zval *phvolt_ret_do_statement(zval *expr, phvolt_scanner_state *state)
 	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHVOLT_T_DO);
+
+	add_assoc_zval(ret, "expr", expr);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_return_statement(zval *expr, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 4);
+
+	add_assoc_long(ret, "type", PHVOLT_T_RETURN);
 
 	add_assoc_zval(ret, "expr", expr);
 
@@ -84341,8 +84644,33 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 	return ret;
 }
 
+static zval *phvolt_ret_macro_call_statement(zval *expr, zval *arguments, zval *caller, phvolt_scanner_state *state)
+{
 
-// 460 "parser.c"
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_CALL);
+	add_assoc_zval(ret, "name", expr);
+
+	if (arguments) {
+		add_assoc_zval(ret, "arguments", arguments);
+	}
+
+	if (caller) {
+		add_assoc_zval(ret, "caller", caller);
+	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+
+// 571 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -84385,23 +84713,23 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 **                       defined, then do no error processing.
 */
 #define KKCODETYPE unsigned char
-#define KKNOCODE 92
+#define KKNOCODE 114
 #define KKACTIONTYPE unsigned short int
 #define phvolt_KTOKENTYPE phvolt_parser_token*
 typedef union {
   phvolt_KTOKENTYPE kk0;
-  zval* kk176;
-  int kk183;
+  zval* kk132;
+  int kk227;
 } KKMINORTYPE;
 #define KKSTACKDEPTH 100
 #define phvolt_ARG_SDECL phvolt_parser_status *status;
 #define phvolt_ARG_PDECL ,phvolt_parser_status *status
 #define phvolt_ARG_FETCH phvolt_parser_status *status = kkpParser->status
 #define phvolt_ARG_STORE kkpParser->status = status
-#define KKNSTATE 236
-#define KKNRULE 97
-#define KKERRORSYMBOL 63
-#define KKERRSYMDT kk183
+#define KKNSTATE 322
+#define KKNRULE 133
+#define KKERRORSYMBOL 77
+#define KKERRSYMDT kk227
 #define KK_NO_ACTION      (KKNSTATE+KKNRULE+2)
 #define KK_ACCEPT_ACTION  (KKNSTATE+KKNRULE+1)
 #define KK_ERROR_ACTION   (KKNSTATE+KKNRULE)
@@ -84454,356 +84782,535 @@ typedef union {
 **  kk_default[]       Default action for each state.
 */
 static KKACTIONTYPE kk_action[] = {
- /*     0 */    79,   87,  236,   84,   57,   49,   51,   61,   59,   63,
- /*    10 */    69,   71,   73,   75,   65,   67,   45,   43,   47,   40,
- /*    20 */    37,   53,   55,   81,   91,   77,  213,  148,   79,   87,
- /*    30 */    27,   84,   57,   49,   51,   61,   59,   63,   69,   71,
- /*    40 */    73,   75,   65,   67,   45,   43,   47,   40,   37,   53,
- /*    50 */    55,   81,   91,   77,   29,  168,   45,   43,   47,   40,
- /*    60 */    37,   53,   55,   81,   91,   77,   55,   81,   91,   77,
- /*    70 */    33,  204,   81,   91,   77,   79,   87,   82,   84,   57,
- /*    80 */    49,   51,   61,   59,   63,   69,   71,   73,   75,   65,
- /*    90 */    67,   45,   43,   47,   40,   37,   53,   55,   81,   91,
- /*   100 */    77,  229,  224,   79,   87,  126,   84,   57,   49,   51,
- /*   110 */    61,   59,   63,   69,   71,   73,   75,   65,   67,   45,
- /*   120 */    43,   47,   40,   37,   53,   55,   81,   91,   77,   22,
- /*   130 */    23,   79,   87,  107,   84,   57,   49,   51,   61,   59,
- /*   140 */    63,   69,   71,   73,   75,   65,   67,   45,   43,   47,
- /*   150 */    40,   37,   53,   55,   81,   91,   77,   35,   36,   79,
- /*   160 */    87,  107,   84,   57,   49,   51,   61,   59,   63,   69,
- /*   170 */    71,   73,   75,   65,   67,   45,   43,   47,   40,   37,
- /*   180 */    53,   55,   81,   91,   77,   79,   87,   89,   84,   57,
- /*   190 */    49,   51,   61,   59,   63,   69,   71,   73,   75,   65,
- /*   200 */    67,   45,   43,   47,   40,   37,   53,   55,   81,   91,
- /*   210 */    77,  220,  146,  105,   79,   87,   86,   84,   57,   49,
- /*   220 */    51,   61,   59,   63,   69,   71,   73,   75,   65,   67,
- /*   230 */    45,   43,   47,   40,   37,   53,   55,   81,   91,   77,
- /*   240 */    79,   87,  143,   84,   57,   49,   51,   61,   59,   63,
- /*   250 */    69,   71,   73,   75,   65,   67,   45,   43,   47,   40,
- /*   260 */    37,   53,   55,   81,   91,   77,  121,  157,   79,   87,
- /*   270 */    97,   84,   57,   49,   51,   61,   59,   63,   69,   71,
- /*   280 */    73,   75,   65,   67,   45,   43,   47,   40,   37,   53,
- /*   290 */    55,   81,   91,   77,  141,  181,   79,   87,  107,   84,
- /*   300 */    57,   49,   51,   61,   59,   63,   69,   71,   73,   75,
- /*   310 */    65,   67,   45,   43,   47,   40,   37,   53,   55,   81,
- /*   320 */    91,   77,   40,   37,   53,   55,   81,   91,   77,   99,
- /*   330 */   100,   92,  115,  107,  195,  107,  116,  124,   79,   87,
- /*   340 */   133,   84,   57,   49,   51,   61,   59,   63,   69,   71,
- /*   350 */    73,   75,   65,   67,   45,   43,   47,   40,   37,   53,
- /*   360 */    55,   81,   91,   77,   39,  215,   79,   87,  107,   84,
- /*   370 */    57,   49,   51,   61,   59,   63,   69,   71,   73,   75,
- /*   380 */    65,   67,   45,   43,   47,   40,   37,   53,   55,   81,
- /*   390 */    91,   77,  140,  231,   79,   87,  107,   84,   57,   49,
- /*   400 */    51,   61,   59,   63,   69,   71,   73,   75,   65,   67,
- /*   410 */    45,   43,   47,   40,   37,   53,   55,   81,   91,   77,
- /*   420 */    87,  127,   84,   57,   49,   51,   61,   59,   63,   69,
- /*   430 */    71,   73,   75,   65,   67,   45,   43,   47,   40,   37,
- /*   440 */    53,   55,   81,   91,   77,   84,   57,   49,   51,   61,
- /*   450 */    59,   63,   69,   71,   73,   75,   65,   67,   45,   43,
- /*   460 */    47,   40,   37,   53,   55,   81,   91,   77,   49,   51,
- /*   470 */    61,   59,   63,   69,   71,   73,   75,   65,   67,   45,
- /*   480 */    43,   47,   40,   37,   53,   55,   81,   91,   77,  334,
- /*   490 */     1,    2,  197,    4,    5,    6,    7,    8,    9,   10,
- /*   500 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   61,
- /*   510 */    59,   63,   69,   71,   73,   75,   65,   67,   45,   43,
- /*   520 */    47,   40,   37,   53,   55,   81,   91,   77,   24,  197,
- /*   530 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
- /*   540 */    14,   15,   16,   17,   18,   19,   30,  197,    4,    5,
- /*   550 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
- /*   560 */    16,   17,   18,   19,  149,  197,    4,    5,    6,    7,
- /*   570 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
- /*   580 */    18,   19,  162,  197,    4,    5,    6,    7,    8,    9,
- /*   590 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
- /*   600 */   169,  197,    4,    5,    6,    7,    8,    9,   10,   11,
- /*   610 */    12,   13,   14,   15,   16,   17,   18,   19,  185,  197,
- /*   620 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
- /*   630 */    14,   15,   16,   17,   18,   19,  200,  197,    4,    5,
- /*   640 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
- /*   650 */    16,   17,   18,   19,  206,  197,    4,    5,    6,    7,
- /*   660 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
- /*   670 */    18,   19,  216,  197,    4,    5,    6,    7,    8,    9,
- /*   680 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
- /*   690 */   225,  197,    4,    5,    6,    7,    8,    9,   10,   11,
- /*   700 */    12,   13,   14,   15,   16,   17,   18,   19,  232,  197,
- /*   710 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
- /*   720 */    14,   15,   16,   17,   18,   19,    3,    4,    5,    6,
- /*   730 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
- /*   740 */    17,   18,   19,   21,  158,   26,   28,   34,  142,  144,
- /*   750 */   237,   20,  153,   85,  102,  130,  159,  107,  166,  131,
- /*   760 */   313,  173,   92,  176,  179,  182,  107,  314,  119,  189,
- /*   770 */   191,   21,  158,   32,  118,   34,  142,  144,   99,   20,
- /*   780 */   153,  103,  107,   42,  159,  134,  166,  107,  313,  173,
- /*   790 */   193,  176,  179,  182,  314,   21,  158,  189,  191,   34,
- /*   800 */   142,  144,   44,  151,  153,   46,  107,  196,  159,  107,
- /*   810 */   166,  145,  101,  173,  152,  176,  179,  182,  193,   21,
- /*   820 */   158,  189,  191,   34,  142,  144,  155,   25,  153,  154,
- /*   830 */   160,  117,  159,  164,  166,  196,   31,  173,  221,  176,
- /*   840 */   179,  182,  150,   21,  158,  189,  191,   34,  142,  144,
- /*   850 */   161,  210,  153,   48,  165,  172,  159,  107,  166,  171,
- /*   860 */   183,  173,  198,  176,  179,  182,  193,   21,  158,  189,
- /*   870 */   191,   34,  142,  144,  175,  193,  153,  174,  177,  222,
- /*   880 */   159,  193,  166,  196,  178,  173,  184,  176,  179,  182,
- /*   890 */   193,  187,  196,  189,  191,   21,  158,  188,  196,   34,
- /*   900 */   142,  144,   50,  163,  153,   52,  107,  196,  159,  107,
- /*   910 */   166,  190,  192,  173,  199,  176,  179,  182,  203,  202,
- /*   920 */   205,  189,  191,   21,  158,  170,   54,   34,  142,  144,
- /*   930 */   107,  186,  153,   56,  209,  212,  159,  107,  166,  208,
- /*   940 */   219,  173,  193,  176,  179,  182,  201,   21,  158,  189,
- /*   950 */   191,   34,  142,  144,   58,  207,  153,  228,  107,  196,
- /*   960 */   159,  211,  166,  235,  193,  173,  190,  176,  179,  182,
- /*   970 */   193,   21,  158,  189,  191,   34,  142,  144,  190,  218,
- /*   980 */   153,  196,  190,  190,  159,  193,  166,  196,  190,  173,
- /*   990 */   190,  176,  179,  182,  193,   21,  158,  189,  191,   34,
- /*  1000 */   142,  144,  196,  227,  153,  190,  190,  190,  159,  190,
- /*  1010 */   166,  196,  190,  173,  190,  176,  179,  182,  190,   21,
- /*  1020 */   158,  189,  191,   34,  142,  144,  190,  234,  153,  190,
- /*  1030 */   190,   60,  159,  190,  166,  107,  217,  173,  226,  176,
- /*  1040 */   179,  182,  190,   21,  158,  189,  191,   34,  142,  144,
- /*  1050 */   190,   98,  153,   62,  190,   64,  159,  107,  166,  107,
- /*  1060 */   190,  173,   66,  176,  179,  182,  107,   41,   38,  189,
- /*  1070 */   191,  137,   95,  233,  129,  193,   68,  193,   70,   72,
- /*  1080 */   107,  108,  107,  107,  128,   74,   76,  125,   98,  107,
- /*  1090 */   107,  109,  196,  110,  196,  190,   78,  113,  132,  114,
- /*  1100 */   107,  129,  190,  139,   41,   38,  111,  112,   93,   95,
- /*  1110 */    80,  128,  193,   83,  107,  190,   88,  107,  136,  190,
- /*  1120 */   107,  190,  190,   90,  190,   98,  190,  107,  135,  196,
- /*  1130 */   110,   94,  190,   96,  113,  107,  114,  107,  190,  190,
- /*  1140 */   190,   41,   38,  111,  112,   93,   95,  106,  122,  190,
- /*  1150 */   147,  107,  107,  156,  107,  108,  190,  107,  167,  180,
- /*  1160 */   194,  190,  107,  107,  107,  109,  190,  120,  190,  190,
- /*  1170 */   214,  113,   98,  114,  107,  223,  190,  190,  123,  107,
- /*  1180 */   111,  112,  230,  190,  190,  190,  107,  190,   41,   38,
- /*  1190 */   190,  190,   93,   95,  190,  190,  190,  190,  190,  190,
- /*  1200 */   190,  190,  108,  190,  190,  190,  190,  190,  190,   98,
- /*  1210 */   190,  190,  109,  190,  110,  190,  190,  190,  113,  190,
- /*  1220 */   114,  190,  190,  190,  138,   41,   38,  111,  112,   93,
- /*  1230 */    95,  190,  190,  190,  190,  190,  190,  190,  190,  108,
- /*  1240 */   190,  190,  190,  190,  190,  190,   98,  190,  190,  109,
- /*  1250 */   190,  110,  190,  190,  190,  113,  190,  114,  190,  190,
- /*  1260 */   190,  190,   41,   38,  111,  112,   93,   95,  190,  190,
- /*  1270 */   190,  190,  190,  190,  190,  190,  108,  190,  190,  190,
- /*  1280 */   190,  190,  190,   98,  190,  190,  109,  190,  104,  190,
- /*  1290 */   190,  190,  113,  190,  114,  190,  190,  190,  190,   41,
- /*  1300 */    38,  111,  112,   93,   95,  190,  190,  190,  190,  190,
- /*  1310 */   190,  190,  190,  108,  190,  190,  190,  190,  190,  190,
- /*  1320 */   190,  190,  190,  109,  190,  120,  190,  190,  190,  113,
- /*  1330 */   190,  114,  190,  190,  190,  190,  190,  190,  111,  112,
+ /*     0 */    82,   92,   23,   60,   52,   54,   64,   62,   66,   72,
+ /*    10 */    74,   76,   78,   68,   70,   48,   46,   50,   43,   40,
+ /*    20 */    56,   89,   58,   84,   87,   88,   96,   80,  288,  162,
+ /*    30 */    82,   92,  128,   60,   52,   54,   64,   62,   66,   72,
+ /*    40 */    74,   76,   78,   68,   70,   48,   46,   50,   43,   40,
+ /*    50 */    56,   89,   58,   84,   87,   88,   96,   80,  244,  213,
+ /*    60 */    48,   46,   50,   43,   40,   56,   89,   58,   84,   87,
+ /*    70 */    88,   96,   80,  247,  295,  160,  255,  127,  168,  183,
+ /*    80 */    82,   92,  170,   60,   52,   54,   64,   62,   66,   72,
+ /*    90 */    74,   76,   78,   68,   70,   48,   46,   50,   43,   40,
+ /*   100 */    56,   89,   58,   84,   87,   88,   96,   80,  322,  223,
+ /*   110 */    82,   92,  169,   60,   52,   54,   64,   62,   66,   72,
+ /*   120 */    74,   76,   78,   68,   70,   48,   46,   50,   43,   40,
+ /*   130 */    56,   89,   58,   84,   87,   88,   96,   80,  304,  299,
+ /*   140 */    82,   92,  224,   60,   52,   54,   64,   62,   66,   72,
+ /*   150 */    74,   76,   78,   68,   70,   48,   46,   50,   43,   40,
+ /*   160 */    56,   89,   58,   84,   87,   88,   96,   80,   30,   26,
+ /*   170 */    82,   92,   32,   60,   52,   54,   64,   62,   66,   72,
+ /*   180 */    74,   76,   78,   68,   70,   48,   46,   50,   43,   40,
+ /*   190 */    56,   89,   58,   84,   87,   88,   96,   80,  108,   39,
+ /*   200 */    82,   92,  108,   60,   52,   54,   64,   62,   66,   72,
+ /*   210 */    74,   76,   78,   68,   70,   48,   46,   50,   43,   40,
+ /*   220 */    56,   89,   58,   84,   87,   88,   96,   80,   82,   92,
+ /*   230 */    94,   60,   52,   54,   64,   62,   66,   72,   74,   76,
+ /*   240 */    78,   68,   70,   48,   46,   50,   43,   40,   56,   89,
+ /*   250 */    58,   84,   87,   88,   96,   80,   43,   40,   56,   89,
+ /*   260 */    58,   84,   87,   88,   96,   80,   84,   87,   88,   96,
+ /*   270 */    80,   91,  112,  128,  107,   82,   92,  276,   60,   52,
+ /*   280 */    54,   64,   62,   66,   72,   74,   76,   78,   68,   70,
+ /*   290 */    48,   46,   50,   43,   40,   56,   89,   58,   84,   87,
+ /*   300 */    88,   96,   80,   89,   58,   84,   87,   88,   96,   80,
+ /*   310 */   281,  282,  283,  284,  285,  286,  269,  287,  197,  102,
+ /*   320 */   234,  249,  270,   82,   92,   36,   60,   52,   54,   64,
+ /*   330 */    62,   66,   72,   74,   76,   78,   68,   70,   48,   46,
+ /*   340 */    50,   43,   40,   56,   89,   58,   84,   87,   88,   96,
+ /*   350 */    80,   85,  226,   82,   92,  136,   60,   52,   54,   64,
+ /*   360 */    62,   66,   72,   74,   76,   78,   68,   70,   48,   46,
+ /*   370 */    50,   43,   40,   56,   89,   58,   84,   87,   88,   96,
+ /*   380 */    80,  115,  229,   82,   92,  137,   60,   52,   54,   64,
+ /*   390 */    62,   66,   72,   74,   76,   78,   68,   70,   48,   46,
+ /*   400 */    50,   43,   40,   56,   89,   58,   84,   87,   88,   96,
+ /*   410 */    80,  131,  232,   82,   92,  435,   60,   52,   54,   64,
+ /*   420 */    62,   66,   72,   74,   76,   78,   68,   70,   48,   46,
+ /*   430 */    50,   43,   40,   56,   89,   58,   84,   87,   88,   96,
+ /*   440 */    80,   92,  436,   60,   52,   54,   64,   62,   66,   72,
+ /*   450 */    74,   76,   78,   68,   70,   48,   46,   50,   43,   40,
+ /*   460 */    56,   89,   58,   84,   87,   88,   96,   80,  246,  141,
+ /*   470 */   143,  144,   82,   92,  157,   60,   52,   54,   64,   62,
+ /*   480 */    66,   72,   74,   76,   78,   68,   70,   48,   46,   50,
+ /*   490 */    43,   40,   56,   89,   58,   84,   87,   88,   96,   80,
+ /*   500 */   435,  290,   82,   92,  159,   60,   52,   54,   64,   62,
+ /*   510 */    66,   72,   74,   76,   78,   68,   70,   48,   46,   50,
+ /*   520 */    43,   40,   56,   89,   58,   84,   87,   88,   96,   80,
+ /*   530 */   436,  306,   82,   92,  166,   60,   52,   54,   64,   62,
+ /*   540 */    66,   72,   74,   76,   78,   68,   70,   48,   46,   50,
+ /*   550 */    43,   40,   56,   89,   58,   84,   87,   88,   96,   80,
+ /*   560 */    82,   92,  172,   60,   52,   54,   64,   62,   66,   72,
+ /*   570 */    74,   76,   78,   68,   70,   48,   46,   50,   43,   40,
+ /*   580 */    56,   89,   58,   84,   87,   88,  195,   80,   60,   52,
+ /*   590 */    54,   64,   62,   66,   72,   74,   76,   78,   68,   70,
+ /*   600 */    48,   46,   50,   43,   40,   56,   89,   58,   84,   87,
+ /*   610 */    88,   96,   80,   52,   54,   64,   62,   66,   72,   74,
+ /*   620 */    76,   78,   68,   70,   48,   46,   50,   43,   40,   56,
+ /*   630 */    89,   58,   84,   87,   88,   96,   80,  456,    1,    2,
+ /*   640 */   248,    4,    5,    6,    7,    8,    9,   10,   11,   12,
+ /*   650 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   660 */    64,   62,   66,   72,   74,   76,   78,   68,   70,   48,
+ /*   670 */    46,   50,   43,   40,   56,   89,   58,   84,   87,   88,
+ /*   680 */    96,   80,   27,  248,    4,    5,    6,    7,    8,    9,
+ /*   690 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   700 */    20,   21,   22,   33,  248,    4,    5,    6,    7,    8,
+ /*   710 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
+ /*   720 */    19,   20,   21,   22,  163,  248,    4,    5,    6,    7,
+ /*   730 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   740 */    18,   19,   20,   21,   22,  189,  248,    4,    5,    6,
+ /*   750 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*   760 */    17,   18,   19,   20,   21,   22,  199,  248,    4,    5,
+ /*   770 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
+ /*   780 */    16,   17,   18,   19,   20,   21,   22,  207,  248,    4,
+ /*   790 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+ /*   800 */    15,   16,   17,   18,   19,   20,   21,   22,  214,  248,
+ /*   810 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
+ /*   820 */    14,   15,   16,   17,   18,   19,   20,   21,   22,  236,
+ /*   830 */   248,    4,    5,    6,    7,    8,    9,   10,   11,   12,
+ /*   840 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   850 */   251,  248,    4,    5,    6,    7,    8,    9,   10,   11,
+ /*   860 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
+ /*   870 */    22,  257,  248,    4,    5,    6,    7,    8,    9,   10,
+ /*   880 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   890 */    21,   22,  272,  248,    4,    5,    6,    7,    8,    9,
+ /*   900 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   910 */    20,   21,   22,  291,  248,    4,    5,    6,    7,    8,
+ /*   920 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
+ /*   930 */    19,   20,   21,   22,  300,  248,    4,    5,    6,    7,
+ /*   940 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   950 */    18,   19,   20,   21,   22,  307,  248,    4,    5,    6,
+ /*   960 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*   970 */    17,   18,   19,   20,   21,   22,    3,    4,    5,    6,
+ /*   980 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*   990 */    17,   18,   19,   20,   21,   22,   24,  203,   29,   31,
+ /*  1000 */    37,  156,  158,  323,   23,  167,  171,  185,   25,   90,
+ /*  1010 */   139,  184,  173,  175,  177,  179,  181,  140,  117,  117,
+ /*  1020 */   193,  138,  186,  188,  204,  278,  211,  192,  218,  221,
+ /*  1030 */   198,  227,  230,  233,  187,  240,  242,   24,  203,  315,
+ /*  1040 */   317,   37,  156,  158,   97,  314,  167,   38,  202,  104,
+ /*  1050 */   126,   28,  184,  104,  117,  134,  106,  117,  113,  117,
+ /*  1060 */   244,  193,  125,  117,  205,  204,  266,  211,  206,  218,
+ /*  1070 */   221,  219,  227,  230,  233,  247,  240,  242,   24,  203,
+ /*  1080 */    35,  104,   37,  156,  158,  155,   97,  167,  111,   97,
+ /*  1090 */   113,  117,  196,  184,  139,  117,  117,  134,  210,  117,
+ /*  1100 */   129,  244,  193,  217,  220,  138,  204,  244,  211,  235,
+ /*  1110 */   218,  221,  311,  227,  230,  233,  247,  240,  242,   24,
+ /*  1120 */   203,   42,  247,   37,  156,  158,  154,  165,  167,  239,
+ /*  1130 */   142,  117,  241,  243,  184,   45,  117,  250,   47,  267,
+ /*  1140 */    49,  254,  256,  193,  260,  117,  263,  204,  117,  211,
+ /*  1150 */   117,  218,  221,   34,  227,  230,  233,  164,  240,  242,
+ /*  1160 */    24,  203,   51,   53,   37,  156,  158,  265,  244,  167,
+ /*  1170 */   268,   55,  117,  117,  271,  184,   57,  191,  275,  190,
+ /*  1180 */   279,  117,  280,  247,  193,  278,  117,  277,  204,  297,
+ /*  1190 */   211,  294,  218,  221,   59,  227,  230,  233,  200,  240,
+ /*  1200 */   242,   24,  203,  296,  117,   37,  156,  158,   61,  244,
+ /*  1210 */   167,  303,  310,  244,  313,  316,  184,   63,  117,  318,
+ /*  1220 */   319,  320,   65,  321,  247,  193,  201,  117,  247,  204,
+ /*  1230 */   261,  211,  117,  218,  221,  244,  227,  230,  233,  208,
+ /*  1240 */   240,  242,   24,  203,  248,   67,   37,  156,  158,   69,
+ /*  1250 */   247,  167,   71,  248,  244,  117,  215,  184,   73,  117,
+ /*  1260 */   248,  248,  117,   75,  248,  248,  193,  248,  117,  247,
+ /*  1270 */   204,  209,  211,  117,  218,  221,  237,  227,  230,  233,
+ /*  1280 */   252,  240,  242,   24,  203,  248,  244,   37,  156,  158,
+ /*  1290 */    77,  248,  167,  248,   79,  244,   81,  258,  184,   83,
+ /*  1300 */   117,  247,  248,  248,  117,  248,  117,  193,  248,  117,
+ /*  1310 */   247,  204,  244,  211,  216,  218,  221,  273,  227,  230,
+ /*  1320 */   233,  292,  240,  242,   24,  203,  248,  247,   37,  156,
+ /*  1330 */   158,   86,  244,  167,   93,   95,  244,  248,  301,  184,
+ /*  1340 */    99,  117,  248,  248,  117,  117,  248,  247,  193,  248,
+ /*  1350 */   117,  247,  204,  244,  211,  248,  218,  221,  308,  227,
+ /*  1360 */   230,  233,  238,  240,  242,   24,  203,  248,  247,   37,
+ /*  1370 */   156,  158,  101,  244,  167,  116,  248,  244,  248,  248,
+ /*  1380 */   184,  132,  117,  248,  248,  117,  151,  248,  247,  193,
+ /*  1390 */   248,  117,  247,  204,  244,  211,  117,  218,  221,  248,
+ /*  1400 */   227,  230,  233,  253,  240,  242,   24,  203,  153,  247,
+ /*  1410 */    37,  156,  158,  161,  244,  167,  174,  248,  117,  248,
+ /*  1420 */   248,  184,  176,  117,  248,  178,  117,  248,  248,  247,
+ /*  1430 */   193,  248,  117,  248,  204,  117,  211,  259,  218,  221,
+ /*  1440 */   180,  227,  230,  233,  248,  240,  242,   24,  203,  182,
+ /*  1450 */   117,   37,  156,  158,  194,  212,  167,  248,  248,  117,
+ /*  1460 */   222,  248,  184,  225,  117,  117,  248,  248,  228,  248,
+ /*  1470 */   117,  193,  248,  117,  248,  204,  262,  211,  117,  218,
+ /*  1480 */   221,  248,  227,  230,  233,  248,  240,  242,   24,  203,
+ /*  1490 */   231,  245,   37,  156,  158,  248,  289,  167,  298,  305,
+ /*  1500 */   117,  117,  248,  184,  248,  274,  117,  248,  117,  117,
+ /*  1510 */   248,  248,  193,  248,  248,  248,  204,  248,  211,  248,
+ /*  1520 */   218,  221,  248,  227,  230,  233,  248,  240,  242,   24,
+ /*  1530 */   203,  248,  248,   37,  156,  158,  248,  293,  167,  248,
+ /*  1540 */   248,  248,  248,  248,  184,  248,  248,  248,  248,  248,
+ /*  1550 */   248,  248,  248,  193,  248,  248,  248,  204,  248,  211,
+ /*  1560 */   248,  218,  221,  248,  227,  230,  233,  248,  240,  242,
+ /*  1570 */    24,  203,  248,  248,   37,  156,  158,  248,  302,  167,
+ /*  1580 */   248,  248,  248,  248,  248,  184,  248,  248,  248,  248,
+ /*  1590 */   248,  248,  248,  248,  193,  248,  248,  248,  204,  248,
+ /*  1600 */   211,  248,  218,  221,  248,  227,  230,  233,  248,  240,
+ /*  1610 */   242,   24,  203,  248,  248,   37,  156,  158,  248,  309,
+ /*  1620 */   167,  248,  248,  248,  248,  248,  184,  248,  248,  248,
+ /*  1630 */   248,  248,  248,  248,  248,  193,  248,  248,  248,  204,
+ /*  1640 */   248,  211,  248,  218,  221,  248,  227,  230,  233,  248,
+ /*  1650 */   240,  242,   24,  203,  312,  248,   37,  156,  158,  248,
+ /*  1660 */   248,  167,  248,  248,  248,  248,  248,  184,  248,  248,
+ /*  1670 */   248,  248,  248,  248,  248,  248,  193,  248,  248,  248,
+ /*  1680 */   204,  248,  211,  248,  218,  221,  248,  227,  230,  233,
+ /*  1690 */   248,  240,  242,   24,  203,  248,  248,   37,  156,  158,
+ /*  1700 */   248,  248,  167,  248,  248,  248,  248,  248,  184,  248,
+ /*  1710 */   248,  248,  248,  248,  248,  248,  248,  193,  248,  248,
+ /*  1720 */   248,  204,  248,  211,  248,  218,  221,  248,  227,  230,
+ /*  1730 */   233,  248,  240,  242,  248,  248,  248,  152,  248,   44,
+ /*  1740 */    41,  248,  103,  248,   98,  248,  248,  100,  248,  248,
+ /*  1750 */   248,  248,  248,  248,  248,  248,  118,  248,  248,  248,
+ /*  1760 */   248,  248,  248,  248,  248,  248,  248,  119,  120,  121,
+ /*  1770 */   122,  123,  124,  248,  248,  150,  248,  248,   44,   41,
+ /*  1780 */   248,  103,  248,   98,  248,  248,  100,  248,  248,  248,
+ /*  1790 */   248,  248,  248,  109,  248,  118,  248,   44,   41,  248,
+ /*  1800 */   103,  248,  147,  248,  248,  100,  119,  120,  121,  122,
+ /*  1810 */   123,  124,  248,  248,  118,  248,  248,  135,  248,  248,
+ /*  1820 */   248,  248,  248,  248,  248,  119,  120,  121,  122,  123,
+ /*  1830 */   124,  248,  109,   44,   41,  248,  103,  248,   98,  248,
+ /*  1840 */   248,  100,  248,  248,  248,  248,  248,  248,  248,  149,
+ /*  1850 */   146,  109,   44,   41,  248,  103,  248,   98,  248,  248,
+ /*  1860 */   100,  145,  120,  121,  122,  123,  124,  248,  248,  118,
+ /*  1870 */   248,   44,   41,  248,  103,  248,   98,  248,  133,  100,
+ /*  1880 */   119,  130,  121,  122,  123,  124,  248,  109,  118,  248,
+ /*  1890 */   248,  248,  248,  248,  248,  248,  248,  248,  248,  119,
+ /*  1900 */   114,  121,  122,  123,  124,  248,  109,  248,  248,   44,
+ /*  1910 */    41,  248,  103,  248,   98,  248,  248,  100,  248,  248,
+ /*  1920 */   248,  248,  248,  248,  105,  109,  118,  248,   44,   41,
+ /*  1930 */   248,  103,  248,   98,  248,  248,  100,  119,  114,  121,
+ /*  1940 */   122,  123,  124,  248,  248,  118,  248,  248,  248,  248,
+ /*  1950 */   248,  248,  248,  248,  248,  248,  119,  120,  121,  122,
+ /*  1960 */   123,  124,  248,  109,  110,  248,  248,   44,   41,  248,
+ /*  1970 */   103,  248,   98,  248,  248,  100,  248,  248,  248,  248,
+ /*  1980 */   148,  248,  109,  248,  118,  248,   44,   41,  248,  103,
+ /*  1990 */   248,   98,  248,  264,  100,  119,  130,  121,  122,  123,
+ /*  2000 */   124,  248,  248,  118,  248,  248,  248,  248,  248,  248,
+ /*  2010 */   248,  248,  248,  248,  119,  120,  121,  122,  123,  124,
+ /*  2020 */   248,  109,   44,   41,  248,  103,  248,   98,  248,  248,
+ /*  2030 */   100,  248,  248,  248,  248,  248,  248,  248,  248,  118,
+ /*  2040 */   109,   44,   41,  248,  103,  248,   98,  248,  248,  100,
+ /*  2050 */   119,  114,  121,  122,  123,  124,  248,  248,  118,  248,
+ /*  2060 */   248,  248,  248,  248,  248,  248,  248,  248,  248,  119,
+ /*  2070 */   130,  121,  122,  123,  124,  248,  109,  248,  248,  248,
+ /*  2080 */   248,  248,  248,  248,  248,  248,  248,  248,  248,  248,
+ /*  2090 */   248,  248,  248,  248,  248,  109,
 };
 static KKCODETYPE kk_lookahead[] = {
- /*     0 */     3,    4,    0,    6,    7,    8,    9,   10,   11,   12,
+ /*     0 */     3,    4,    1,    6,    7,    8,    9,   10,   11,   12,
  /*    10 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
- /*    20 */    23,   24,   25,   26,   27,   28,   29,   30,    3,    4,
- /*    30 */    30,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*    40 */    15,   16,   17,   18,   19,   20,   21,   22,   23,   24,
- /*    50 */    25,   26,   27,   28,   30,   30,   19,   20,   21,   22,
- /*    60 */    23,   24,   25,   26,   27,   28,   25,   26,   27,   28,
- /*    70 */    30,   46,   26,   27,   28,    3,    4,    3,    6,    7,
- /*    80 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
- /*    90 */    18,   19,   20,   21,   22,   23,   24,   25,   26,   27,
- /*   100 */    28,   29,   30,    3,    4,   86,    6,    7,    8,    9,
- /*   110 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
- /*   120 */    20,   21,   22,   23,   24,   25,   26,   27,   28,   84,
- /*   130 */    30,    3,    4,   88,    6,    7,    8,    9,   10,   11,
- /*   140 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
- /*   150 */    22,   23,   24,   25,   26,   27,   28,   84,   30,    3,
- /*   160 */     4,   88,    6,    7,    8,    9,   10,   11,   12,   13,
- /*   170 */    14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
- /*   180 */    24,   25,   26,   27,   28,    3,    4,    5,    6,    7,
- /*   190 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
- /*   200 */    18,   19,   20,   21,   22,   23,   24,   25,   26,   27,
- /*   210 */    28,    2,    3,    5,    3,    4,   60,    6,    7,    8,
- /*   220 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
- /*   230 */    19,   20,   21,   22,   23,   24,   25,   26,   27,   28,
- /*   240 */     3,    4,   30,    6,    7,    8,    9,   10,   11,   12,
- /*   250 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
- /*   260 */    23,   24,   25,   26,   27,   28,    5,   30,    3,    4,
- /*   270 */    59,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*   280 */    15,   16,   17,   18,   19,   20,   21,   22,   23,   24,
- /*   290 */    25,   26,   27,   28,   84,   30,    3,    4,   88,    6,
- /*   300 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
- /*   310 */    17,   18,   19,   20,   21,   22,   23,   24,   25,   26,
- /*   320 */    27,   28,   22,   23,   24,   25,   26,   27,   28,   84,
- /*   330 */    85,   84,   87,   88,   41,   88,   89,   90,    3,    4,
- /*   340 */    86,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*   350 */    15,   16,   17,   18,   19,   20,   21,   22,   23,   24,
- /*   360 */    25,   26,   27,   28,   84,   30,    3,    4,   88,    6,
- /*   370 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
- /*   380 */    17,   18,   19,   20,   21,   22,   23,   24,   25,   26,
- /*   390 */    27,   28,   84,   30,    3,    4,   88,    6,    7,    8,
- /*   400 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
- /*   410 */    19,   20,   21,   22,   23,   24,   25,   26,   27,   28,
- /*   420 */     4,   60,    6,    7,    8,    9,   10,   11,   12,   13,
- /*   430 */    14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
- /*   440 */    24,   25,   26,   27,   28,    6,    7,    8,    9,   10,
- /*   450 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   460 */    21,   22,   23,   24,   25,   26,   27,   28,    8,    9,
- /*   470 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
- /*   480 */    20,   21,   22,   23,   24,   25,   26,   27,   28,   64,
- /*   490 */    65,   66,   67,   68,   69,   70,   71,   72,   73,   74,
- /*   500 */    75,   76,   77,   78,   79,   80,   81,   82,   83,   10,
+ /*    20 */    23,   24,   25,   26,   27,   28,   29,   30,   31,   32,
+ /*    30 */     3,    4,    2,    6,    7,    8,    9,   10,   11,   12,
+ /*    40 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*    50 */    23,   24,   25,   26,   27,   28,   29,   30,   57,   32,
+ /*    60 */    18,   19,   20,   21,   22,   23,   24,   25,   26,   27,
+ /*    70 */    28,   29,   30,   72,    2,    3,   49,   47,  102,  103,
+ /*    80 */     3,    4,    2,    6,    7,    8,    9,   10,   11,   12,
+ /*    90 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   100 */    23,   24,   25,   26,   27,   28,   29,   30,    0,   32,
+ /*   110 */     3,    4,   32,    6,    7,    8,    9,   10,   11,   12,
+ /*   120 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   130 */    23,   24,   25,   26,   27,   28,   29,   30,   31,   32,
+ /*   140 */     3,    4,   65,    6,    7,    8,    9,   10,   11,   12,
+ /*   150 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   160 */    23,   24,   25,   26,   27,   28,   29,   30,   32,   32,
+ /*   170 */     3,    4,   32,    6,    7,    8,    9,   10,   11,   12,
+ /*   180 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   190 */    23,   24,   25,   26,   27,   28,   29,   30,    2,   32,
+ /*   200 */     3,    4,    2,    6,    7,    8,    9,   10,   11,   12,
+ /*   210 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   220 */    23,   24,   25,   26,   27,   28,   29,   30,    3,    4,
+ /*   230 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+ /*   240 */    15,   16,   17,   18,   19,   20,   21,   22,   23,   24,
+ /*   250 */    25,   26,   27,   28,   29,   30,   21,   22,   23,   24,
+ /*   260 */    25,   26,   27,   28,   29,   30,   26,   27,   28,   29,
+ /*   270 */    30,   74,   76,    2,   74,    3,    4,    2,    6,    7,
+ /*   280 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   290 */    18,   19,   20,   21,   22,   23,   24,   25,   26,   27,
+ /*   300 */    28,   29,   30,   24,   25,   26,   27,   28,   29,   30,
+ /*   310 */    49,   50,   51,   52,   53,   54,  104,  105,   47,   47,
+ /*   320 */    53,   54,   47,    3,    4,   32,    6,    7,    8,    9,
+ /*   330 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   340 */    20,   21,   22,   23,   24,   25,   26,   27,   28,   29,
+ /*   350 */    30,    3,   32,    3,    4,  109,    6,    7,    8,    9,
+ /*   360 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   370 */    20,   21,   22,   23,   24,   25,   26,   27,   28,   29,
+ /*   380 */    30,    5,   32,    3,    4,   74,    6,    7,    8,    9,
+ /*   390 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   400 */    20,   21,   22,   23,   24,   25,   26,   27,   28,   29,
+ /*   410 */    30,    5,   32,    3,    4,   74,    6,    7,    8,    9,
+ /*   420 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   430 */    20,   21,   22,   23,   24,   25,   26,   27,   28,   29,
+ /*   440 */    30,    4,   74,    6,    7,    8,    9,   10,   11,   12,
+ /*   450 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   460 */    23,   24,   25,   26,   27,   28,   29,   30,   58,    5,
+ /*   470 */   109,   74,    3,    4,   32,    6,    7,    8,    9,   10,
+ /*   480 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   490 */    21,   22,   23,   24,   25,   26,   27,   28,   29,   30,
+ /*   500 */     5,   32,    3,    4,   38,    6,    7,    8,    9,   10,
  /*   510 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   520 */    21,   22,   23,   24,   25,   26,   27,   28,   66,   67,
- /*   530 */    68,   69,   70,   71,   72,   73,   74,   75,   76,   77,
- /*   540 */    78,   79,   80,   81,   82,   83,   66,   67,   68,   69,
- /*   550 */    70,   71,   72,   73,   74,   75,   76,   77,   78,   79,
- /*   560 */    80,   81,   82,   83,   66,   67,   68,   69,   70,   71,
- /*   570 */    72,   73,   74,   75,   76,   77,   78,   79,   80,   81,
- /*   580 */    82,   83,   66,   67,   68,   69,   70,   71,   72,   73,
- /*   590 */    74,   75,   76,   77,   78,   79,   80,   81,   82,   83,
- /*   600 */    66,   67,   68,   69,   70,   71,   72,   73,   74,   75,
- /*   610 */    76,   77,   78,   79,   80,   81,   82,   83,   66,   67,
- /*   620 */    68,   69,   70,   71,   72,   73,   74,   75,   76,   77,
- /*   630 */    78,   79,   80,   81,   82,   83,   66,   67,   68,   69,
- /*   640 */    70,   71,   72,   73,   74,   75,   76,   77,   78,   79,
- /*   650 */    80,   81,   82,   83,   66,   67,   68,   69,   70,   71,
- /*   660 */    72,   73,   74,   75,   76,   77,   78,   79,   80,   81,
- /*   670 */    82,   83,   66,   67,   68,   69,   70,   71,   72,   73,
- /*   680 */    74,   75,   76,   77,   78,   79,   80,   81,   82,   83,
- /*   690 */    66,   67,   68,   69,   70,   71,   72,   73,   74,   75,
- /*   700 */    76,   77,   78,   79,   80,   81,   82,   83,   66,   67,
- /*   710 */    68,   69,   70,   71,   72,   73,   74,   75,   76,   77,
- /*   720 */    78,   79,   80,   81,   82,   83,   67,   68,   69,   70,
- /*   730 */    71,   72,   73,   74,   75,   76,   77,   78,   79,   80,
- /*   740 */    81,   82,   83,   29,   30,   31,   32,   33,   34,   35,
- /*   750 */     0,    1,   38,   84,    2,   86,   42,   88,   44,    5,
- /*   760 */    60,   47,   84,   49,   50,   51,   88,   60,   90,   55,
- /*   770 */    56,   29,   30,   31,    2,   33,   34,   35,   84,    1,
- /*   780 */    38,   87,   88,   84,   42,   60,   44,   88,    5,   47,
- /*   790 */    40,   49,   50,   51,    5,   29,   30,   55,   56,   33,
- /*   800 */    34,   35,   84,   37,   38,   84,   88,   57,   42,   88,
- /*   810 */    44,   36,   60,   47,   30,   49,   50,   51,   40,   29,
- /*   820 */    30,   55,   56,   33,   34,   35,   39,    1,   38,   36,
- /*   830 */    36,   59,   42,   43,   44,   57,    1,   47,   36,   49,
- /*   840 */    50,   51,    1,   29,   30,   55,   56,   33,   34,   35,
- /*   850 */    30,    1,   38,   84,   30,   30,   42,   88,   44,   45,
- /*   860 */    52,   47,   54,   49,   50,   51,   40,   29,   30,   55,
- /*   870 */    56,   33,   34,   35,   30,   40,   38,   48,   48,    3,
- /*   880 */    42,   40,   44,   57,   30,   47,   30,   49,   50,   51,
- /*   890 */    40,   53,   57,   55,   56,   29,   30,   30,   57,   33,
- /*   900 */    34,   35,   84,    1,   38,   84,   88,   57,   42,   88,
- /*   910 */    44,   30,   30,   47,   30,   49,   50,   51,   30,   53,
- /*   920 */    30,   55,   56,   29,   30,    1,   84,   33,   34,   35,
- /*   930 */    88,    1,   38,   84,   30,   30,   42,   88,   44,   45,
- /*   940 */    30,   47,   40,   49,   50,   51,    1,   29,   30,   55,
- /*   950 */    56,   33,   34,   35,   84,    1,   38,   30,   88,   57,
- /*   960 */    42,   43,   44,   30,   40,   47,   91,   49,   50,   51,
- /*   970 */    40,   29,   30,   55,   56,   33,   34,   35,   91,   37,
- /*   980 */    38,   57,   91,   91,   42,   40,   44,   57,   91,   47,
- /*   990 */    91,   49,   50,   51,   40,   29,   30,   55,   56,   33,
- /*  1000 */    34,   35,   57,   37,   38,   91,   91,   91,   42,   91,
- /*  1010 */    44,   57,   91,   47,   91,   49,   50,   51,   91,   29,
- /*  1020 */    30,   55,   56,   33,   34,   35,   91,   37,   38,   91,
- /*  1030 */    91,   84,   42,   91,   44,   88,    1,   47,    1,   49,
- /*  1040 */    50,   51,   91,   29,   30,   55,   56,   33,   34,   35,
- /*  1050 */    91,    6,   38,   84,   91,   84,   42,   88,   44,   88,
- /*  1060 */    91,   47,   84,   49,   50,   51,   88,   22,   23,   55,
- /*  1070 */    56,   26,   27,    1,   36,   40,   84,   40,   84,   84,
- /*  1080 */    88,   36,   88,   88,   46,   84,   84,    5,    6,   88,
- /*  1090 */    88,   46,   57,   48,   57,   91,   84,   52,   60,   54,
- /*  1100 */    88,   36,   91,   58,   22,   23,   61,   62,   26,   27,
- /*  1110 */    84,   46,   40,   84,   88,   91,   84,   88,   36,   91,
- /*  1120 */    88,   91,   91,   84,   91,    6,   91,   88,   46,   57,
- /*  1130 */    48,   84,   91,   84,   52,   88,   54,   88,   91,   91,
- /*  1140 */    91,   22,   23,   61,   62,   26,   27,   84,   84,   91,
- /*  1150 */    84,   88,   88,   84,   88,   36,   91,   88,   84,   84,
- /*  1160 */    84,   91,   88,   88,   88,   46,   91,   48,   91,   91,
- /*  1170 */    84,   52,    6,   54,   88,   84,   91,   91,   59,   88,
- /*  1180 */    61,   62,   84,   91,   91,   91,   88,   91,   22,   23,
- /*  1190 */    91,   91,   26,   27,   91,   91,   91,   91,   91,   91,
- /*  1200 */    91,   91,   36,   91,   91,   91,   91,   91,   91,    6,
- /*  1210 */    91,   91,   46,   91,   48,   91,   91,   91,   52,   91,
- /*  1220 */    54,   91,   91,   91,   58,   22,   23,   61,   62,   26,
- /*  1230 */    27,   91,   91,   91,   91,   91,   91,   91,   91,   36,
- /*  1240 */    91,   91,   91,   91,   91,   91,    6,   91,   91,   46,
- /*  1250 */    91,   48,   91,   91,   91,   52,   91,   54,   91,   91,
- /*  1260 */    91,   91,   22,   23,   61,   62,   26,   27,   91,   91,
- /*  1270 */    91,   91,   91,   91,   91,   91,   36,   91,   91,   91,
- /*  1280 */    91,   91,   91,    6,   91,   91,   46,   91,   48,   91,
- /*  1290 */    91,   91,   52,   91,   54,   91,   91,   91,   91,   22,
- /*  1300 */    23,   61,   62,   26,   27,   91,   91,   91,   91,   91,
- /*  1310 */    91,   91,   91,   36,   91,   91,   91,   91,   91,   91,
- /*  1320 */    91,   91,   91,   46,   91,   48,   91,   91,   91,   52,
- /*  1330 */    91,   54,   91,   91,   91,   91,   91,   91,   61,   62,
+ /*   520 */    21,   22,   23,   24,   25,   26,   27,   28,   29,   30,
+ /*   530 */     5,   32,    3,    4,   32,    6,    7,    8,    9,   10,
+ /*   540 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   550 */    21,   22,   23,   24,   25,   26,   27,   28,   29,   30,
+ /*   560 */     3,    4,   38,    6,    7,    8,    9,   10,   11,   12,
+ /*   570 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   22,
+ /*   580 */    23,   24,   25,   26,   27,   28,   29,   30,    6,    7,
+ /*   590 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   600 */    18,   19,   20,   21,   22,   23,   24,   25,   26,   27,
+ /*   610 */    28,   29,   30,    7,    8,    9,   10,   11,   12,   13,
+ /*   620 */    14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
+ /*   630 */    24,   25,   26,   27,   28,   29,   30,   78,   79,   80,
+ /*   640 */    81,   82,   83,   84,   85,   86,   87,   88,   89,   90,
+ /*   650 */    91,   92,   93,   94,   95,   96,   97,   98,   99,  100,
+ /*   660 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
+ /*   670 */    19,   20,   21,   22,   23,   24,   25,   26,   27,   28,
+ /*   680 */    29,   30,   80,   81,   82,   83,   84,   85,   86,   87,
+ /*   690 */    88,   89,   90,   91,   92,   93,   94,   95,   96,   97,
+ /*   700 */    98,   99,  100,   80,   81,   82,   83,   84,   85,   86,
+ /*   710 */    87,   88,   89,   90,   91,   92,   93,   94,   95,   96,
+ /*   720 */    97,   98,   99,  100,   80,   81,   82,   83,   84,   85,
+ /*   730 */    86,   87,   88,   89,   90,   91,   92,   93,   94,   95,
+ /*   740 */    96,   97,   98,   99,  100,   80,   81,   82,   83,   84,
+ /*   750 */    85,   86,   87,   88,   89,   90,   91,   92,   93,   94,
+ /*   760 */    95,   96,   97,   98,   99,  100,   80,   81,   82,   83,
+ /*   770 */    84,   85,   86,   87,   88,   89,   90,   91,   92,   93,
+ /*   780 */    94,   95,   96,   97,   98,   99,  100,   80,   81,   82,
+ /*   790 */    83,   84,   85,   86,   87,   88,   89,   90,   91,   92,
+ /*   800 */    93,   94,   95,   96,   97,   98,   99,  100,   80,   81,
+ /*   810 */    82,   83,   84,   85,   86,   87,   88,   89,   90,   91,
+ /*   820 */    92,   93,   94,   95,   96,   97,   98,   99,  100,   80,
+ /*   830 */    81,   82,   83,   84,   85,   86,   87,   88,   89,   90,
+ /*   840 */    91,   92,   93,   94,   95,   96,   97,   98,   99,  100,
+ /*   850 */    80,   81,   82,   83,   84,   85,   86,   87,   88,   89,
+ /*   860 */    90,   91,   92,   93,   94,   95,   96,   97,   98,   99,
+ /*   870 */   100,   80,   81,   82,   83,   84,   85,   86,   87,   88,
+ /*   880 */    89,   90,   91,   92,   93,   94,   95,   96,   97,   98,
+ /*   890 */    99,  100,   80,   81,   82,   83,   84,   85,   86,   87,
+ /*   900 */    88,   89,   90,   91,   92,   93,   94,   95,   96,   97,
+ /*   910 */    98,   99,  100,   80,   81,   82,   83,   84,   85,   86,
+ /*   920 */    87,   88,   89,   90,   91,   92,   93,   94,   95,   96,
+ /*   930 */    97,   98,   99,  100,   80,   81,   82,   83,   84,   85,
+ /*   940 */    86,   87,   88,   89,   90,   91,   92,   93,   94,   95,
+ /*   950 */    96,   97,   98,   99,  100,   80,   81,   82,   83,   84,
+ /*   960 */    85,   86,   87,   88,   89,   90,   91,   92,   93,   94,
+ /*   970 */    95,   96,   97,   98,   99,  100,   81,   82,   83,   84,
+ /*   980 */    85,   86,   87,   88,   89,   90,   91,   92,   93,   94,
+ /*   990 */    95,   96,   97,   98,   99,  100,   31,   32,   33,   34,
+ /*  1000 */    35,   36,   37,    0,    1,   40,  103,   38,  101,  101,
+ /*  1010 */    38,   46,   41,   42,   43,   44,   45,  109,  111,  111,
+ /*  1020 */    55,   49,   29,   32,   59,   38,   61,   32,   63,   64,
+ /*  1030 */    32,   66,   67,   68,   47,   70,   71,   31,   32,   33,
+ /*  1040 */    34,   35,   36,   37,  101,    1,   40,  101,   32,  101,
+ /*  1050 */   107,    1,   46,  101,  111,  112,  108,  111,  110,  111,
+ /*  1060 */    57,   55,  110,  111,   38,   59,    1,   61,   32,   63,
+ /*  1070 */    64,   50,   66,   67,   68,   72,   70,   71,   31,   32,
+ /*  1080 */    33,  101,   35,   36,   37,  101,  101,   40,  108,  101,
+ /*  1090 */   110,  111,  107,   46,   38,  111,  111,  112,   32,  111,
+ /*  1100 */   112,   57,   55,   32,   32,   49,   59,   57,   61,   32,
+ /*  1110 */    63,   64,    1,   66,   67,   68,   72,   70,   71,   31,
+ /*  1120 */    32,  101,   72,   35,   36,   37,  101,   39,   40,   32,
+ /*  1130 */    74,  111,   32,   32,   46,  101,  111,   32,  101,   56,
+ /*  1140 */   101,   32,   32,   55,   32,  111,   32,   59,  111,   61,
+ /*  1150 */   111,   63,   64,    1,   66,   67,   68,    1,   70,   71,
+ /*  1160 */    31,   32,  101,  101,   35,   36,   37,   32,   57,   40,
+ /*  1170 */    32,  101,  111,  111,   32,   46,  101,   48,   32,    1,
+ /*  1180 */    41,  111,  106,   72,   55,   38,  111,  105,   59,    3,
+ /*  1190 */    61,   32,   63,   64,  101,   66,   67,   68,    1,   70,
+ /*  1200 */    71,   31,   32,   38,  111,   35,   36,   37,  101,   57,
+ /*  1210 */    40,   32,   32,   57,   32,   32,   46,  101,  111,   32,
+ /*  1220 */     1,   33,  101,   32,   72,   55,   56,  111,   72,   59,
+ /*  1230 */     1,   61,  111,   63,   64,   57,   66,   67,   68,    1,
+ /*  1240 */    70,   71,   31,   32,  113,  101,   35,   36,   37,  101,
+ /*  1250 */    72,   40,  101,  113,   57,  111,    1,   46,  101,  111,
+ /*  1260 */   113,  113,  111,  101,  113,  113,   55,  113,  111,   72,
+ /*  1270 */    59,   60,   61,  111,   63,   64,    1,   66,   67,   68,
+ /*  1280 */     1,   70,   71,   31,   32,  113,   57,   35,   36,   37,
+ /*  1290 */   101,  113,   40,  113,  101,   57,  101,    1,   46,  101,
+ /*  1300 */   111,   72,  113,  113,  111,  113,  111,   55,  113,  111,
+ /*  1310 */    72,   59,   57,   61,   62,   63,   64,    1,   66,   67,
+ /*  1320 */    68,    1,   70,   71,   31,   32,  113,   72,   35,   36,
+ /*  1330 */    37,  101,   57,   40,  101,  101,   57,  113,    1,   46,
+ /*  1340 */   101,  111,  113,  113,  111,  111,  113,   72,   55,  113,
+ /*  1350 */   111,   72,   59,   57,   61,  113,   63,   64,    1,   66,
+ /*  1360 */    67,   68,   69,   70,   71,   31,   32,  113,   72,   35,
+ /*  1370 */    36,   37,  101,   57,   40,  101,  113,   57,  113,  113,
+ /*  1380 */    46,  101,  111,  113,  113,  111,  101,  113,   72,   55,
+ /*  1390 */   113,  111,   72,   59,   57,   61,  111,   63,   64,  113,
+ /*  1400 */    66,   67,   68,   69,   70,   71,   31,   32,  101,   72,
+ /*  1410 */    35,   36,   37,  101,   57,   40,  101,  113,  111,  113,
+ /*  1420 */   113,   46,  101,  111,  113,  101,  111,  113,  113,   72,
+ /*  1430 */    55,  113,  111,  113,   59,  111,   61,   62,   63,   64,
+ /*  1440 */   101,   66,   67,   68,  113,   70,   71,   31,   32,  101,
+ /*  1450 */   111,   35,   36,   37,  101,  101,   40,  113,  113,  111,
+ /*  1460 */   101,  113,   46,  101,  111,  111,  113,  113,  101,  113,
+ /*  1470 */   111,   55,  113,  111,  113,   59,   60,   61,  111,   63,
+ /*  1480 */    64,  113,   66,   67,   68,  113,   70,   71,   31,   32,
+ /*  1490 */   101,  101,   35,   36,   37,  113,  101,   40,  101,  101,
+ /*  1500 */   111,  111,  113,   46,  113,   48,  111,  113,  111,  111,
+ /*  1510 */   113,  113,   55,  113,  113,  113,   59,  113,   61,  113,
+ /*  1520 */    63,   64,  113,   66,   67,   68,  113,   70,   71,   31,
+ /*  1530 */    32,  113,  113,   35,   36,   37,  113,   39,   40,  113,
+ /*  1540 */   113,  113,  113,  113,   46,  113,  113,  113,  113,  113,
+ /*  1550 */   113,  113,  113,   55,  113,  113,  113,   59,  113,   61,
+ /*  1560 */   113,   63,   64,  113,   66,   67,   68,  113,   70,   71,
+ /*  1570 */    31,   32,  113,  113,   35,   36,   37,  113,   39,   40,
+ /*  1580 */   113,  113,  113,  113,  113,   46,  113,  113,  113,  113,
+ /*  1590 */   113,  113,  113,  113,   55,  113,  113,  113,   59,  113,
+ /*  1600 */    61,  113,   63,   64,  113,   66,   67,   68,  113,   70,
+ /*  1610 */    71,   31,   32,  113,  113,   35,   36,   37,  113,   39,
+ /*  1620 */    40,  113,  113,  113,  113,  113,   46,  113,  113,  113,
+ /*  1630 */   113,  113,  113,  113,  113,   55,  113,  113,  113,   59,
+ /*  1640 */   113,   61,  113,   63,   64,  113,   66,   67,   68,  113,
+ /*  1650 */    70,   71,   31,   32,   33,  113,   35,   36,   37,  113,
+ /*  1660 */   113,   40,  113,  113,  113,  113,  113,   46,  113,  113,
+ /*  1670 */   113,  113,  113,  113,  113,  113,   55,  113,  113,  113,
+ /*  1680 */    59,  113,   61,  113,   63,   64,  113,   66,   67,   68,
+ /*  1690 */   113,   70,   71,   31,   32,  113,  113,   35,   36,   37,
+ /*  1700 */   113,  113,   40,  113,  113,  113,  113,  113,   46,  113,
+ /*  1710 */   113,  113,  113,  113,  113,  113,  113,   55,  113,  113,
+ /*  1720 */   113,   59,  113,   61,  113,   63,   64,  113,   66,   67,
+ /*  1730 */    68,  113,   70,   71,  113,  113,  113,   19,  113,   21,
+ /*  1740 */    22,  113,   24,  113,   26,  113,  113,   29,  113,  113,
+ /*  1750 */   113,  113,  113,  113,  113,  113,   38,  113,  113,  113,
+ /*  1760 */   113,  113,  113,  113,  113,  113,  113,   49,   50,   51,
+ /*  1770 */    52,   53,   54,  113,  113,   18,  113,  113,   21,   22,
+ /*  1780 */   113,   24,  113,   26,  113,  113,   29,  113,  113,  113,
+ /*  1790 */   113,  113,  113,   75,  113,   38,  113,   21,   22,  113,
+ /*  1800 */    24,  113,   26,  113,  113,   29,   49,   50,   51,   52,
+ /*  1810 */    53,   54,  113,  113,   38,  113,  113,    5,  113,  113,
+ /*  1820 */   113,  113,  113,  113,  113,   49,   50,   51,   52,   53,
+ /*  1830 */    54,  113,   75,   21,   22,  113,   24,  113,   26,  113,
+ /*  1840 */   113,   29,  113,  113,  113,  113,  113,  113,  113,   73,
+ /*  1850 */    38,   75,   21,   22,  113,   24,  113,   26,  113,  113,
+ /*  1860 */    29,   49,   50,   51,   52,   53,   54,  113,  113,   38,
+ /*  1870 */   113,   21,   22,  113,   24,  113,   26,  113,   47,   29,
+ /*  1880 */    49,   50,   51,   52,   53,   54,  113,   75,   38,  113,
+ /*  1890 */   113,  113,  113,  113,  113,  113,  113,  113,  113,   49,
+ /*  1900 */    50,   51,   52,   53,   54,  113,   75,  113,  113,   21,
+ /*  1910 */    22,  113,   24,  113,   26,  113,  113,   29,  113,  113,
+ /*  1920 */   113,  113,  113,  113,   74,   75,   38,  113,   21,   22,
+ /*  1930 */   113,   24,  113,   26,  113,  113,   29,   49,   50,   51,
+ /*  1940 */    52,   53,   54,  113,  113,   38,  113,  113,  113,  113,
+ /*  1950 */   113,  113,  113,  113,  113,  113,   49,   50,   51,   52,
+ /*  1960 */    53,   54,  113,   75,   76,  113,  113,   21,   22,  113,
+ /*  1970 */    24,  113,   26,  113,  113,   29,  113,  113,  113,  113,
+ /*  1980 */    73,  113,   75,  113,   38,  113,   21,   22,  113,   24,
+ /*  1990 */   113,   26,  113,   47,   29,   49,   50,   51,   52,   53,
+ /*  2000 */    54,  113,  113,   38,  113,  113,  113,  113,  113,  113,
+ /*  2010 */   113,  113,  113,  113,   49,   50,   51,   52,   53,   54,
+ /*  2020 */   113,   75,   21,   22,  113,   24,  113,   26,  113,  113,
+ /*  2030 */    29,  113,  113,  113,  113,  113,  113,  113,  113,   38,
+ /*  2040 */    75,   21,   22,  113,   24,  113,   26,  113,  113,   29,
+ /*  2050 */    49,   50,   51,   52,   53,   54,  113,  113,   38,  113,
+ /*  2060 */   113,  113,  113,  113,  113,  113,  113,  113,  113,   49,
+ /*  2070 */    50,   51,   52,   53,   54,  113,   75,  113,  113,  113,
+ /*  2080 */   113,  113,  113,  113,  113,  113,  113,  113,  113,  113,
+ /*  2090 */   113,  113,  113,  113,  113,   75,
 };
 #define KK_SHIFT_USE_DFLT (-4)
 static short kk_shift_ofst[] = {
- /*     0 */   778,    2,  750,   -4,   -4,   -4,   -4,   -4,   -4,   -4,
+ /*     0 */     1,  108, 1003,   -4,   -4,   -4,   -4,   -4,   -4,   -4,
  /*    10 */    -4,   -4,   -4,   -4,   -4,   -4,   -4,   -4,   -4,   -4,
- /*    20 */  1014, 1203,  100,  778,  826,  714,    0,   -4,   24,  778,
- /*    30 */   835,  742,   40,   -4, 1203,  128,   -4, 1203, 1203,   41,
- /*    40 */  1203, 1203,   41, 1203,  300, 1203,  300, 1203,  300, 1203,
- /*    50 */   499, 1203,  499, 1203,   41, 1203,   46, 1203,  460, 1203,
- /*    60 */    37, 1045,   37, 1203,   37, 1203,   37, 1203,   37, 1203,
- /*    70 */    37, 1203,   37, 1203,   37, 1203,   37, 1203,   -4, 1203,
- /*    80 */   416,   74, 1203,   46, 1082,  156,   -4, 1203,  182, 1203,
- /*    90 */   439, 1119,  391, 1203,   46, 1203,  211,   -4, 1240,  391,
- /*   100 */   752,   -4, 1240,   -4,  208, 1203,  391,   -4,   -4,   -4,
- /*   110 */    -4,   -4,   -4,   -4,   -4,   -4,  772,   -4, 1277,   -4,
- /*   120 */   261, 1203,  391,   -4,   -4, 1065,  361,   -4,  700,  707,
- /*   130 */   754, 1038,   -4,  725,   -4,  783,  789, 1166,   -4,   -4,
- /*   140 */    41,   41,  212,   -4,  775,  209, 1203,   -3,  778,  841,
- /*   150 */   766,  784,   -4,  793,  787, 1203,  237,   -4,   -4,  794,
- /*   160 */   820,  850,  902,  790,  824,   -4, 1203,   25,  778,  924,
- /*   170 */   814,  825,   -4,  829,  844,   -4,  830,  854,   -4, 1203,
- /*   180 */   265,   -4,  808,  856,  778,  930,  838,  867,   -4,  881,
- /*   190 */    -4,  882,   -4, 1203,  293,   -4,   -4,   -4,  884,  778,
- /*   200 */   945,  866,  888,   -4,  890,  778,  954,  894,  904,   -4,
- /*   210 */   918,  905,   -4, 1203,  335,  778, 1035,  942,  910,   -4,
- /*   220 */   802,  876, 1203,   72,  778, 1037,  966,  927,   -4, 1203,
- /*   230 */   363,  778, 1072,  990,  933,   -4,
+ /*    20 */    -4,   -4,   -4, 1662, 1965,  137, 1044, 1050,  965,  136,
+ /*    30 */    -4,  140, 1111, 1152, 1047,  293,   -4, 1965,  167,   -4,
+ /*    40 */  1965, 1965,  279, 1965, 1965,  279, 1718,  235, 1757,  235,
+ /*    50 */  1965,  235, 1965,  651, 1965,  651, 1965,  279, 1965,  240,
+ /*    60 */  1965,  606, 1965,   42, 1776,   42, 1965,   42, 1965,   42,
+ /*    70 */  1965,   42, 1965,   42, 1965,   42, 1965,   42, 1965,   42,
+ /*    80 */  1965,   -4, 1965,  437,  348, 1965,  240,   -4,   -4, 1812,
+ /*    90 */   197,   -4, 1965,  225, 1965,  582, 1831,  529, 1965,  240,
+ /*   100 */  1965,  272,   -4, 1850,  529,   -4,  200,   -4, 2001, 1888,
+ /*   110 */    -4,  196,   -4,   -4,  376, 1965,  529,   -4,   -4,   -4,
+ /*   120 */    -4,   -4,   -4,   -4,   -4,   -4,   30,   -4, 2020,   -4,
+ /*   130 */   406, 1965,  529,   -4,   -4,  972,  311,   -4,  341,  368,
+ /*   140 */   464, 1056,   -4,  397,   -4,  495,  525, 1907,   -4,   -4,
+ /*   150 */  1965,  235, 1965,  235,  279,  279,  442,   -4,  466,   72,
+ /*   160 */  1965,   -3,    1, 1156, 1088,  502,   -4,  524,   80,   -4,
+ /*   170 */   524,   -4,  971, 1965,  529, 1965,  529, 1965,  529, 1965,
+ /*   180 */   529, 1965,  529,   -4,  969,  993,  987,  991,    1, 1178,
+ /*   190 */  1129,  995,   -4, 1965,  557, 1946,  271,  998,    1, 1197,
+ /*   200 */  1170, 1016,   -4,   -4, 1026, 1036, 1229, 1238, 1211, 1066,
+ /*   210 */    -4, 1965,   27,    1, 1255, 1252, 1071,   -4, 1021, 1072,
+ /*   220 */    -4, 1965,   77,   -4, 1965,  320,   -4, 1965,  350,   -4,
+ /*   230 */  1965,  380,   -4,  267, 1077,    1, 1275, 1293, 1097,   -4,
+ /*   240 */  1100,   -4, 1101,   -4, 1965,  410,   -4,   -4,   -4, 1105,
+ /*   250 */     1, 1279, 1334, 1109,   -4, 1110,    1, 1296, 1375, 1112,
+ /*   260 */    -4, 1416, 1114,   -4, 1135, 1065, 1083, 1138,   -4,  275,
+ /*   270 */  1142,    1, 1316, 1457, 1146,   -4, 1147,   -4, 1139,  261,
+ /*   280 */    -4,   -4,   -4,   -4,   -4,   -4,   -4,   -4, 1965,  469,
+ /*   290 */     1, 1320, 1498, 1159,   -4, 1165, 1186, 1965,  107,    1,
+ /*   300 */  1337, 1539, 1179,   -4, 1965,  499,    1, 1357, 1580, 1180,
+ /*   310 */    -4, 1621, 1182,   -4, 1006, 1183,   -4, 1187, 1219, 1188,
+ /*   320 */  1191,   -4,
 };
-#define KK_REDUCE_USE_DFLT (-1)
+#define KK_REDUCE_USE_DFLT (-25)
 static short kk_reduce_ofst[] = {
- /*     0 */   425,   -1,  659,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
- /*    10 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
- /*    20 */    -1,   45,   -1,  462,  659,   -1,   -1,   -1,   -1,  480,
- /*    30 */   659,   -1,   -1,   -1,   73,   -1,   -1,  210,  280,   -1,
- /*    40 */   308,  699,   -1,  718,   -1,  721,   -1,  769,   -1,  818,
- /*    50 */    -1,  821,   -1,  842,   -1,  849,   -1,  870,   -1,  947,
- /*    60 */    -1,  969,   -1,  971,   -1,  978,   -1,  992,   -1,  994,
- /*    70 */    -1,  995,   -1, 1001,   -1, 1002,   -1, 1012,   -1, 1026,
- /*    80 */    -1,   -1, 1029,   -1,  669,   -1,   -1, 1032,   -1, 1039,
- /*    90 */    -1,  247,   -1, 1047,   -1, 1049,   -1,   -1,  245,   -1,
- /*   100 */    -1,   -1,  694,   -1,   -1, 1063,   -1,   -1,   -1,   -1,
- /*   110 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,  678,   -1,
- /*   120 */    -1, 1064,   -1,   -1,   -1,   19,   -1,   -1,   -1,   -1,
- /*   130 */    -1,  254,   -1,   -1,   -1,   -1,   -1, 1047,   -1,   -1,
- /*   140 */    -1,   -1,   -1,   -1,   -1,   -1, 1066,   -1,  498,  659,
- /*   150 */    -1,   -1,   -1,   -1,   -1, 1069,   -1,   -1,   -1,   -1,
- /*   160 */    -1,  516,  659,   -1,   -1,   -1, 1074,   -1,  534,  659,
- /*   170 */    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1, 1075,
- /*   180 */    -1,   -1,   -1,   -1,  552,  659,   -1,   -1,   -1,   -1,
- /*   190 */    -1,   -1,   -1, 1076,   -1,   -1,   -1,   -1,   -1,  570,
- /*   200 */   659,   -1,   -1,   -1,   -1,  588,  659,   -1,   -1,   -1,
- /*   210 */    -1,   -1,   -1, 1086,   -1,  606,  659,   -1,   -1,   -1,
- /*   220 */    -1,   -1, 1091,   -1,  624,  659,   -1,   -1,   -1, 1098,
- /*   230 */    -1,  642,  659,   -1,   -1,   -1,
+ /*     0 */   559,  -25,  895,  -25,  -25,  -25,  -25,  -25,  -25,  -25,
+ /*    10 */   -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,
+ /*    20 */   -25,  -25,  -25,  -25,  907,  -25,  602,  895,  -25,  -25,
+ /*    30 */   -25,  -25,  623,  895,  -25,  -25,  -25,  946,  -25,  -25,
+ /*    40 */   984, 1020,  -25, 1025, 1034,  -25, 1037,  -25, 1039,  -25,
+ /*    50 */  1061,  -25, 1062,  -25, 1070,  -25, 1075,  -25, 1093,  -25,
+ /*    60 */  1107,  -25, 1116,  -25, 1121,  -25, 1144,  -25, 1148,  -25,
+ /*    70 */  1151,  -25, 1157,  -25, 1162,  -25, 1189,  -25, 1193,  -25,
+ /*    80 */  1195,  -25, 1198,  -25,  -25, 1230,  -25,  -25,  -25,  908,
+ /*    90 */   -25,  -25, 1233,  -25, 1234,  -25,  943,  -25, 1239,  -25,
+ /*   100 */  1271,  -25,  -25,  948,  -25,  -25,  -25,  -25,  952,  980,
+ /*   110 */   -25,  -25,  -25,  -25,  -25, 1274,  -25,  -25,  -25,  -25,
+ /*   120 */   -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  988,  -25,
+ /*   130 */   -25, 1280,  -25,  -25,  -25,  246,  -25,  -25,  -25,  -25,
+ /*   140 */   -25,  361,  -25,  -25,  -25,  -25,  -25, 1239,  -25,  -25,
+ /*   150 */  1285,  -25, 1307,  -25,  -25,  -25,  -25,  -25,  -25,  -25,
+ /*   160 */  1312,  -25,  644,  895,  -25,  -25,  -25,  -24,  -25,  -25,
+ /*   170 */   903,  -25,  -25, 1315,  -25, 1321,  -25, 1324,  -25, 1339,
+ /*   180 */   -25, 1348,  -25,  -25,  -25,  -25,  212,  -25,  665,  895,
+ /*   190 */   -25,  -25,  -25, 1353,  -25,  985,  -25,  -25,  686,  895,
+ /*   200 */   -25,  -25,  -25,  -25,  -25,  -25,  707,  895,  -25,  -25,
+ /*   210 */   -25, 1354,  -25,  728,  895,  -25,  -25,  -25,  -25,  -25,
+ /*   220 */   -25, 1359,  -25,  -25, 1362,  -25,  -25, 1367,  -25,  -25,
+ /*   230 */  1389,  -25,  -25,  -25,  -25,  749,  895,  -25,  -25,  -25,
+ /*   240 */   -25,  -25,  -25,  -25, 1390,  -25,  -25,  -25,  -25,  -25,
+ /*   250 */   770,  895,  -25,  -25,  -25,  -25,  791,  895,  -25,  -25,
+ /*   260 */   -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,
+ /*   270 */   -25,  812,  895,  -25,  -25,  -25, 1082,  -25,  -25, 1076,
+ /*   280 */   -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25, 1395,  -25,
+ /*   290 */   833,  895,  -25,  -25,  -25,  -25,  -25, 1397,  -25,  854,
+ /*   300 */   895,  -25,  -25,  -25, 1398,  -25,  875,  895,  -25,  -25,
+ /*   310 */   -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,  -25,
+ /*   320 */   -25,  -25,
 };
 static KKACTIONTYPE kk_default[] = {
- /*     0 */   333,  333,  333,  238,  240,  241,  242,  243,  244,  245,
- /*    10 */   246,  247,  248,  249,  250,  251,  252,  253,  254,  255,
- /*    20 */   333,  333,  333,  333,  333,  333,  333,  256,  333,  333,
- /*    30 */   333,  333,  333,  257,  333,  333,  258,  333,  333,  279,
- /*    40 */   333,  333,  280,  333,  283,  333,  284,  333,  285,  333,
- /*    50 */   286,  333,  287,  333,  288,  333,  289,  333,  290,  333,
- /*    60 */   291,  333,  294,  333,  295,  333,  296,  333,  297,  333,
- /*    70 */   298,  333,  299,  333,  300,  333,  301,  333,  302,  333,
- /*    80 */   303,  333,  333,  304,  333,  333,  308,  333,  333,  333,
- /*    90 */   309,  333,  324,  333,  305,  333,  333,  306,  333,  318,
- /*   100 */   333,  307,  333,  315,  328,  333,  317,  319,  326,  327,
- /*   110 */   328,  329,  330,  331,  332,  316,  333,  320,  333,  322,
- /*   120 */   328,  333,  325,  321,  323,  333,  333,  310,  333,  333,
- /*   130 */   333,  333,  311,  333,  312,  327,  326,  333,  292,  293,
- /*   140 */   282,  281,  333,  259,  333,  333,  333,  333,  333,  333,
- /*   150 */   333,  333,  260,  333,  333,  333,  333,  264,  265,  333,
- /*   160 */   333,  333,  333,  333,  333,  267,  333,  333,  333,  333,
- /*   170 */   333,  333,  269,  333,  333,  271,  333,  333,  272,  333,
- /*   180 */   333,  273,  333,  333,  333,  333,  333,  333,  274,  333,
- /*   190 */   276,  333,  277,  333,  333,  266,  278,  239,  333,  333,
- /*   200 */   333,  333,  333,  275,  333,  333,  333,  333,  333,  270,
- /*   210 */   333,  333,  268,  333,  333,  333,  333,  333,  333,  261,
- /*   220 */   333,  333,  333,  333,  333,  333,  333,  333,  262,  333,
- /*   230 */   333,  333,  333,  333,  333,  263,
+ /*     0 */   455,  455,  455,  324,  326,  327,  328,  329,  330,  331,
+ /*    10 */   332,  333,  334,  335,  336,  337,  338,  339,  340,  341,
+ /*    20 */   342,  343,  344,  455,  455,  455,  455,  455,  455,  455,
+ /*    30 */   345,  455,  455,  455,  455,  455,  347,  455,  455,  350,
+ /*    40 */   455,  455,  394,  455,  455,  395,  455,  398,  455,  400,
+ /*    50 */   455,  402,  455,  403,  455,  404,  455,  405,  455,  406,
+ /*    60 */   455,  407,  455,  408,  455,  411,  455,  412,  455,  413,
+ /*    70 */   455,  414,  455,  415,  455,  416,  455,  417,  455,  418,
+ /*    80 */   455,  419,  455,  420,  455,  455,  421,  423,  424,  455,
+ /*    90 */   455,  430,  455,  455,  455,  431,  455,  446,  455,  422,
+ /*   100 */   455,  455,  425,  455,  440,  426,  455,  427,  455,  455,
+ /*   110 */   428,  455,  429,  438,  450,  455,  439,  441,  448,  449,
+ /*   120 */   450,  451,  452,  453,  454,  437,  455,  442,  455,  444,
+ /*   130 */   450,  455,  447,  443,  445,  455,  455,  432,  455,  455,
+ /*   140 */   455,  455,  433,  455,  434,  449,  448,  455,  409,  410,
+ /*   150 */   455,  401,  455,  399,  397,  396,  455,  351,  455,  455,
+ /*   160 */   455,  455,  455,  455,  455,  455,  352,  455,  455,  356,
+ /*   170 */   455,  357,  455,  455,  359,  455,  360,  455,  361,  455,
+ /*   180 */   362,  455,  363,  358,  455,  455,  455,  455,  455,  455,
+ /*   190 */   455,  455,  364,  455,  455,  455,  455,  442,  455,  455,
+ /*   200 */   455,  455,  376,  378,  455,  455,  455,  455,  455,  455,
+ /*   210 */   380,  455,  455,  455,  455,  455,  455,  382,  455,  455,
+ /*   220 */   384,  455,  455,  385,  455,  455,  386,  455,  455,  387,
+ /*   230 */   455,  455,  388,  455,  455,  455,  455,  455,  455,  389,
+ /*   240 */   455,  391,  455,  392,  455,  455,  379,  393,  325,  455,
+ /*   250 */   455,  455,  455,  455,  390,  455,  455,  455,  455,  455,
+ /*   260 */   383,  455,  455,  381,  443,  455,  455,  455,  377,  455,
+ /*   270 */   455,  455,  455,  455,  455,  365,  455,  366,  368,  455,
+ /*   280 */   369,  370,  371,  372,  373,  374,  375,  367,  455,  455,
+ /*   290 */   455,  455,  455,  455,  353,  455,  455,  455,  455,  455,
+ /*   300 */   455,  455,  455,  354,  455,  455,  455,  455,  455,  455,
+ /*   310 */   355,  455,  455,  348,  455,  455,  346,  455,  455,  455,
+ /*   320 */   455,  349,
 };
 #define KK_SZ_ACTTAB (sizeof(kk_action)/sizeof(kk_action[0]))
 
@@ -84873,28 +85380,34 @@ static void phvolt_Trace(FILE *TraceFILE, char *zTracePrompt){
 ** are required.  The following table supplies these names */
 static const char *kkTokenName[] = { 
   "$",             "OPEN_DELIMITER",  "COMMA",         "IN",          
-  "QUESTION",      "COLON",         "SBRACKET_OPEN",  "RANGE",       
-  "AND",           "OR",            "IS",            "EQUALS",      
-  "NOTEQUALS",     "LESS",          "GREATER",       "GREATEREQUAL",
-  "LESSEQUAL",     "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",      
-  "TIMES",         "MOD",           "PLUS",          "MINUS",       
-  "CONCAT",        "PIPE",          "NOT",           "PARENTHESES_OPEN",
-  "DOT",           "IF",            "CLOSE_DELIMITER",  "ENDIF",       
-  "ELSE",          "ELSEIF",        "ELSEFOR",       "FOR",         
-  "IDENTIFIER",    "ENDFOR",        "SET",           "ASSIGN",      
-  "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",         "ENDBLOCK",    
-  "CACHE",         "ENDCACHE",      "INTEGER",       "EXTENDS",     
-  "STRING",        "INCLUDE",       "DO",            "AUTOESCAPE",  
-  "FALSE",         "ENDAUTOESCAPE",  "TRUE",          "BREAK",       
-  "CONTINUE",      "RAW_FRAGMENT",  "DEFINED",       "PARENTHESES_CLOSE",
-  "SBRACKET_CLOSE",  "DOUBLE",        "NULL",          "error",       
-  "program",       "volt_language",  "statement_list",  "statement",   
-  "raw_fragment",  "if_statement",  "elseif_statement",  "elsefor_statement",
-  "for_statement",  "set_statement",  "echo_statement",  "block_statement",
-  "cache_statement",  "extends_statement",  "include_statement",  "do_statement",
-  "autoescape_statement",  "break_statement",  "continue_statement",  "empty_statement",
-  "expr",          "array_list",    "slice_offset",  "array_item",  
-  "function_call",  "argument_list",  "argument_item",
+  "QUESTION",      "COLON",         "RANGE",         "AND",         
+  "OR",            "IS",            "EQUALS",        "NOTEQUALS",   
+  "LESS",          "GREATER",       "GREATEREQUAL",  "LESSEQUAL",   
+  "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",        "TIMES",       
+  "MOD",           "PLUS",          "MINUS",         "CONCAT",      
+  "SBRACKET_OPEN",  "PIPE",          "NOT",           "INCR",        
+  "DECR",          "PARENTHESES_OPEN",  "DOT",           "IF",          
+  "CLOSE_DELIMITER",  "ENDIF",         "ELSE",          "ELSEIF",      
+  "ELSEFOR",       "FOR",           "IDENTIFIER",    "ENDFOR",      
+  "SET",           "ASSIGN",        "ADD_ASSIGN",    "SUB_ASSIGN",  
+  "MUL_ASSIGN",    "DIV_ASSIGN",    "MACRO",         "PARENTHESES_CLOSE",
+  "ENDMACRO",      "INTEGER",       "STRING",        "DOUBLE",      
+  "NULL",          "FALSE",         "TRUE",          "CALL",        
+  "ENDCALL",       "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",       
+  "ENDBLOCK",      "CACHE",         "ENDCACHE",      "EXTENDS",     
+  "INCLUDE",       "WITH",          "DO",            "RETURN",      
+  "AUTOESCAPE",    "ENDAUTOESCAPE",  "BREAK",         "CONTINUE",    
+  "RAW_FRAGMENT",  "DEFINED",       "SBRACKET_CLOSE",  "CBRACKET_OPEN",
+  "CBRACKET_CLOSE",  "error",         "program",       "volt_language",
+  "statement_list",  "statement",     "raw_fragment",  "if_statement",
+  "elseif_statement",  "elsefor_statement",  "for_statement",  "set_statement",
+  "echo_statement",  "block_statement",  "cache_statement",  "extends_statement",
+  "include_statement",  "do_statement",  "return_statement",  "autoescape_statement",
+  "break_statement",  "continue_statement",  "macro_statement",  "empty_statement",
+  "macro_call_statement",  "expr",          "set_assignments",  "set_assignment",
+  "macro_parameters",  "macro_parameter",  "macro_parameter_default",  "argument_list",
+  "array_list",    "slice_offset",  "array_item",    "function_call",
+  "argument_item",
 };
 #endif /* NDEBUG */
 
@@ -84918,87 +85431,123 @@ static const char *kkRuleName[] = {
  /*  13 */ "statement ::= extends_statement",
  /*  14 */ "statement ::= include_statement",
  /*  15 */ "statement ::= do_statement",
- /*  16 */ "statement ::= autoescape_statement",
- /*  17 */ "statement ::= break_statement",
- /*  18 */ "statement ::= continue_statement",
- /*  19 */ "statement ::= empty_statement",
- /*  20 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
- /*  21 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ELSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
- /*  22 */ "elseif_statement ::= OPEN_DELIMITER ELSEIF expr CLOSE_DELIMITER",
- /*  23 */ "elsefor_statement ::= OPEN_DELIMITER ELSEFOR CLOSE_DELIMITER",
- /*  24 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
- /*  25 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER IN expr IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
- /*  26 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER COMMA IDENTIFIER IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
- /*  27 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER COMMA IDENTIFIER IN expr IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
- /*  28 */ "set_statement ::= OPEN_DELIMITER SET IDENTIFIER ASSIGN expr CLOSE_DELIMITER",
- /*  29 */ "empty_statement ::= OPEN_DELIMITER CLOSE_DELIMITER",
- /*  30 */ "echo_statement ::= OPEN_EDELIMITER expr CLOSE_EDELIMITER",
- /*  31 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
- /*  32 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
- /*  33 */ "cache_statement ::= OPEN_DELIMITER CACHE expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER",
- /*  34 */ "cache_statement ::= OPEN_DELIMITER CACHE expr INTEGER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER",
- /*  35 */ "extends_statement ::= OPEN_DELIMITER EXTENDS STRING CLOSE_DELIMITER",
- /*  36 */ "include_statement ::= OPEN_DELIMITER INCLUDE STRING CLOSE_DELIMITER",
- /*  37 */ "do_statement ::= OPEN_DELIMITER DO expr CLOSE_DELIMITER",
- /*  38 */ "autoescape_statement ::= OPEN_DELIMITER AUTOESCAPE FALSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER",
- /*  39 */ "autoescape_statement ::= OPEN_DELIMITER AUTOESCAPE TRUE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER",
- /*  40 */ "break_statement ::= OPEN_DELIMITER BREAK CLOSE_DELIMITER",
- /*  41 */ "continue_statement ::= OPEN_DELIMITER CONTINUE CLOSE_DELIMITER",
- /*  42 */ "raw_fragment ::= RAW_FRAGMENT",
- /*  43 */ "expr ::= MINUS expr",
- /*  44 */ "expr ::= PLUS expr",
- /*  45 */ "expr ::= expr MINUS expr",
- /*  46 */ "expr ::= expr PLUS expr",
- /*  47 */ "expr ::= expr TIMES expr",
- /*  48 */ "expr ::= expr DIVIDE expr",
- /*  49 */ "expr ::= expr MOD expr",
- /*  50 */ "expr ::= expr AND expr",
- /*  51 */ "expr ::= expr OR expr",
- /*  52 */ "expr ::= expr CONCAT expr",
- /*  53 */ "expr ::= expr PIPE expr",
- /*  54 */ "expr ::= expr RANGE expr",
- /*  55 */ "expr ::= expr EQUALS expr",
- /*  56 */ "expr ::= expr IS NOT DEFINED",
- /*  57 */ "expr ::= expr IS DEFINED",
- /*  58 */ "expr ::= expr IS expr",
- /*  59 */ "expr ::= expr NOTEQUALS expr",
- /*  60 */ "expr ::= expr IDENTICAL expr",
- /*  61 */ "expr ::= expr NOTIDENTICAL expr",
- /*  62 */ "expr ::= expr LESS expr",
- /*  63 */ "expr ::= expr GREATER expr",
- /*  64 */ "expr ::= expr GREATEREQUAL expr",
- /*  65 */ "expr ::= expr LESSEQUAL expr",
- /*  66 */ "expr ::= expr DOT expr",
- /*  67 */ "expr ::= expr IN expr",
- /*  68 */ "expr ::= expr NOT IN expr",
- /*  69 */ "expr ::= NOT expr",
- /*  70 */ "expr ::= PARENTHESES_OPEN expr PARENTHESES_CLOSE",
- /*  71 */ "expr ::= SBRACKET_OPEN array_list SBRACKET_CLOSE",
- /*  72 */ "expr ::= expr SBRACKET_OPEN expr SBRACKET_CLOSE",
- /*  73 */ "expr ::= expr QUESTION expr COLON expr",
- /*  74 */ "expr ::= expr SBRACKET_OPEN COLON slice_offset SBRACKET_CLOSE",
- /*  75 */ "expr ::= expr SBRACKET_OPEN slice_offset COLON SBRACKET_CLOSE",
- /*  76 */ "expr ::= expr SBRACKET_OPEN slice_offset COLON slice_offset SBRACKET_CLOSE",
- /*  77 */ "slice_offset ::= INTEGER",
- /*  78 */ "slice_offset ::= IDENTIFIER",
- /*  79 */ "array_list ::= array_list COMMA array_item",
- /*  80 */ "array_list ::= array_item",
- /*  81 */ "array_item ::= STRING COLON expr",
- /*  82 */ "array_item ::= expr",
- /*  83 */ "expr ::= function_call",
- /*  84 */ "function_call ::= expr PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
- /*  85 */ "function_call ::= expr PARENTHESES_OPEN PARENTHESES_CLOSE",
- /*  86 */ "argument_list ::= argument_list COMMA argument_item",
- /*  87 */ "argument_list ::= argument_item",
- /*  88 */ "argument_item ::= expr",
- /*  89 */ "argument_item ::= STRING COLON expr",
- /*  90 */ "expr ::= IDENTIFIER",
- /*  91 */ "expr ::= INTEGER",
- /*  92 */ "expr ::= STRING",
- /*  93 */ "expr ::= DOUBLE",
- /*  94 */ "expr ::= NULL",
- /*  95 */ "expr ::= FALSE",
- /*  96 */ "expr ::= TRUE",
+ /*  16 */ "statement ::= return_statement",
+ /*  17 */ "statement ::= autoescape_statement",
+ /*  18 */ "statement ::= break_statement",
+ /*  19 */ "statement ::= continue_statement",
+ /*  20 */ "statement ::= macro_statement",
+ /*  21 */ "statement ::= empty_statement",
+ /*  22 */ "statement ::= macro_call_statement",
+ /*  23 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
+ /*  24 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
+ /*  25 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ELSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
+ /*  26 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ELSE CLOSE_DELIMITER OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
+ /*  27 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER OPEN_DELIMITER ELSE CLOSE_DELIMITER OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
+ /*  28 */ "elseif_statement ::= OPEN_DELIMITER ELSEIF expr CLOSE_DELIMITER",
+ /*  29 */ "elsefor_statement ::= OPEN_DELIMITER ELSEFOR CLOSE_DELIMITER",
+ /*  30 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  31 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER IN expr IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  32 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER COMMA IDENTIFIER IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  33 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER COMMA IDENTIFIER IN expr IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  34 */ "set_statement ::= OPEN_DELIMITER SET set_assignments CLOSE_DELIMITER",
+ /*  35 */ "set_assignments ::= set_assignments COMMA set_assignment",
+ /*  36 */ "set_assignments ::= set_assignment",
+ /*  37 */ "set_assignment ::= IDENTIFIER ASSIGN expr",
+ /*  38 */ "set_assignment ::= IDENTIFIER ADD_ASSIGN expr",
+ /*  39 */ "set_assignment ::= IDENTIFIER SUB_ASSIGN expr",
+ /*  40 */ "set_assignment ::= IDENTIFIER MUL_ASSIGN expr",
+ /*  41 */ "set_assignment ::= IDENTIFIER DIV_ASSIGN expr",
+ /*  42 */ "macro_statement ::= OPEN_DELIMITER MACRO IDENTIFIER PARENTHESES_OPEN PARENTHESES_CLOSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDMACRO CLOSE_DELIMITER",
+ /*  43 */ "macro_statement ::= OPEN_DELIMITER MACRO IDENTIFIER PARENTHESES_OPEN macro_parameters PARENTHESES_CLOSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDMACRO CLOSE_DELIMITER",
+ /*  44 */ "macro_parameters ::= macro_parameters COMMA macro_parameter",
+ /*  45 */ "macro_parameters ::= macro_parameter",
+ /*  46 */ "macro_parameter ::= IDENTIFIER",
+ /*  47 */ "macro_parameter ::= IDENTIFIER ASSIGN macro_parameter_default",
+ /*  48 */ "macro_parameter_default ::= INTEGER",
+ /*  49 */ "macro_parameter_default ::= STRING",
+ /*  50 */ "macro_parameter_default ::= DOUBLE",
+ /*  51 */ "macro_parameter_default ::= NULL",
+ /*  52 */ "macro_parameter_default ::= FALSE",
+ /*  53 */ "macro_parameter_default ::= TRUE",
+ /*  54 */ "macro_call_statement ::= OPEN_DELIMITER CALL expr PARENTHESES_OPEN argument_list PARENTHESES_CLOSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCALL CLOSE_DELIMITER",
+ /*  55 */ "macro_call_statement ::= OPEN_DELIMITER CALL expr PARENTHESES_OPEN PARENTHESES_CLOSE CLOSE_DELIMITER OPEN_DELIMITER ENDCALL CLOSE_DELIMITER",
+ /*  56 */ "empty_statement ::= OPEN_DELIMITER CLOSE_DELIMITER",
+ /*  57 */ "echo_statement ::= OPEN_EDELIMITER expr CLOSE_EDELIMITER",
+ /*  58 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
+ /*  59 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
+ /*  60 */ "cache_statement ::= OPEN_DELIMITER CACHE expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER",
+ /*  61 */ "cache_statement ::= OPEN_DELIMITER CACHE expr INTEGER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER",
+ /*  62 */ "extends_statement ::= OPEN_DELIMITER EXTENDS STRING CLOSE_DELIMITER",
+ /*  63 */ "include_statement ::= OPEN_DELIMITER INCLUDE expr CLOSE_DELIMITER",
+ /*  64 */ "include_statement ::= OPEN_DELIMITER INCLUDE expr WITH expr CLOSE_DELIMITER",
+ /*  65 */ "do_statement ::= OPEN_DELIMITER DO expr CLOSE_DELIMITER",
+ /*  66 */ "return_statement ::= OPEN_DELIMITER RETURN expr CLOSE_DELIMITER",
+ /*  67 */ "autoescape_statement ::= OPEN_DELIMITER AUTOESCAPE FALSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER",
+ /*  68 */ "autoescape_statement ::= OPEN_DELIMITER AUTOESCAPE TRUE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER",
+ /*  69 */ "break_statement ::= OPEN_DELIMITER BREAK CLOSE_DELIMITER",
+ /*  70 */ "continue_statement ::= OPEN_DELIMITER CONTINUE CLOSE_DELIMITER",
+ /*  71 */ "raw_fragment ::= RAW_FRAGMENT",
+ /*  72 */ "expr ::= MINUS expr",
+ /*  73 */ "expr ::= PLUS expr",
+ /*  74 */ "expr ::= expr MINUS expr",
+ /*  75 */ "expr ::= expr PLUS expr",
+ /*  76 */ "expr ::= expr TIMES expr",
+ /*  77 */ "expr ::= expr TIMES TIMES expr",
+ /*  78 */ "expr ::= expr DIVIDE expr",
+ /*  79 */ "expr ::= expr DIVIDE DIVIDE expr",
+ /*  80 */ "expr ::= expr MOD expr",
+ /*  81 */ "expr ::= expr AND expr",
+ /*  82 */ "expr ::= expr OR expr",
+ /*  83 */ "expr ::= expr CONCAT expr",
+ /*  84 */ "expr ::= expr PIPE expr",
+ /*  85 */ "expr ::= expr RANGE expr",
+ /*  86 */ "expr ::= expr EQUALS expr",
+ /*  87 */ "expr ::= expr IS NOT DEFINED",
+ /*  88 */ "expr ::= expr IS DEFINED",
+ /*  89 */ "expr ::= expr IS expr",
+ /*  90 */ "expr ::= expr NOTEQUALS expr",
+ /*  91 */ "expr ::= expr IDENTICAL expr",
+ /*  92 */ "expr ::= expr NOTIDENTICAL expr",
+ /*  93 */ "expr ::= expr LESS expr",
+ /*  94 */ "expr ::= expr GREATER expr",
+ /*  95 */ "expr ::= expr GREATEREQUAL expr",
+ /*  96 */ "expr ::= expr LESSEQUAL expr",
+ /*  97 */ "expr ::= expr DOT expr",
+ /*  98 */ "expr ::= expr IN expr",
+ /*  99 */ "expr ::= expr NOT IN expr",
+ /* 100 */ "expr ::= NOT expr",
+ /* 101 */ "expr ::= expr INCR",
+ /* 102 */ "expr ::= expr DECR",
+ /* 103 */ "expr ::= PARENTHESES_OPEN expr PARENTHESES_CLOSE",
+ /* 104 */ "expr ::= SBRACKET_OPEN SBRACKET_CLOSE",
+ /* 105 */ "expr ::= SBRACKET_OPEN array_list SBRACKET_CLOSE",
+ /* 106 */ "expr ::= CBRACKET_OPEN CBRACKET_CLOSE",
+ /* 107 */ "expr ::= CBRACKET_OPEN array_list CBRACKET_CLOSE",
+ /* 108 */ "expr ::= expr SBRACKET_OPEN expr SBRACKET_CLOSE",
+ /* 109 */ "expr ::= expr QUESTION expr COLON expr",
+ /* 110 */ "expr ::= expr SBRACKET_OPEN COLON slice_offset SBRACKET_CLOSE",
+ /* 111 */ "expr ::= expr SBRACKET_OPEN slice_offset COLON SBRACKET_CLOSE",
+ /* 112 */ "expr ::= expr SBRACKET_OPEN slice_offset COLON slice_offset SBRACKET_CLOSE",
+ /* 113 */ "slice_offset ::= INTEGER",
+ /* 114 */ "slice_offset ::= IDENTIFIER",
+ /* 115 */ "array_list ::= array_list COMMA array_item",
+ /* 116 */ "array_list ::= array_item",
+ /* 117 */ "array_item ::= STRING COLON expr",
+ /* 118 */ "array_item ::= expr",
+ /* 119 */ "expr ::= function_call",
+ /* 120 */ "function_call ::= expr PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
+ /* 121 */ "function_call ::= expr PARENTHESES_OPEN PARENTHESES_CLOSE",
+ /* 122 */ "argument_list ::= argument_list COMMA argument_item",
+ /* 123 */ "argument_list ::= argument_item",
+ /* 124 */ "argument_item ::= expr",
+ /* 125 */ "argument_item ::= STRING COLON expr",
+ /* 126 */ "expr ::= IDENTIFIER",
+ /* 127 */ "expr ::= INTEGER",
+ /* 128 */ "expr ::= STRING",
+ /* 129 */ "expr ::= DOUBLE",
+ /* 130 */ "expr ::= NULL",
+ /* 131 */ "expr ::= FALSE",
+ /* 132 */ "expr ::= TRUE",
 };
 #endif /* NDEBUG */
 
@@ -85102,17 +85651,9 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 60:
     case 61:
     case 62:
-// 539 "parser.lemon"
-{
-	if ((kkpminor->kk0)) {
-		if ((kkpminor->kk0)->free_flag) {
-			efree((kkpminor->kk0)->token);
-		}
-		efree((kkpminor->kk0));
-	}
-}
-// 1269 "parser.c"
-      break;
+    case 63:
+    case 64:
+    case 65:
     case 66:
     case 67:
     case 68:
@@ -85124,9 +85665,17 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 74:
     case 75:
     case 76:
-    case 77:
-    case 78:
-    case 79:
+// 703 "parser.lemon"
+{
+	if ((kkpminor->kk0)) {
+		if ((kkpminor->kk0)->free_flag) {
+			efree((kkpminor->kk0)->token);
+		}
+		efree((kkpminor->kk0));
+	}
+}
+// 1615 "parser.c"
+      break;
     case 80:
     case 81:
     case 82:
@@ -85138,9 +85687,30 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 88:
     case 89:
     case 90:
-// 556 "parser.lemon"
-{ zval_ptr_dtor(&(kkpminor->kk176)); }
-// 1298 "parser.c"
+    case 91:
+    case 92:
+    case 93:
+    case 94:
+    case 95:
+    case 96:
+    case 97:
+    case 98:
+    case 99:
+    case 100:
+    case 101:
+    case 102:
+    case 103:
+    case 104:
+    case 105:
+    case 107:
+    case 108:
+    case 109:
+    case 110:
+    case 111:
+    case 112:
+// 720 "parser.lemon"
+{ zval_ptr_dtor(&(kkpminor->kk132)); }
+// 1651 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -85277,103 +85847,139 @@ static struct {
   KKCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } kkRuleInfo[] = {
-  { 64, 1 },
-  { 65, 1 },
-  { 66, 2 },
-  { 66, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 69, 8 },
-  { 69, 12 },
-  { 70, 4 },
-  { 71, 3 },
-  { 72, 10 },
-  { 72, 12 },
-  { 72, 12 },
-  { 72, 14 },
-  { 73, 6 },
-  { 83, 2 },
-  { 74, 3 },
-  { 75, 8 },
-  { 75, 7 },
-  { 76, 8 },
-  { 76, 9 },
-  { 77, 4 },
-  { 78, 4 },
-  { 79, 4 },
-  { 80, 8 },
-  { 80, 8 },
-  { 81, 3 },
-  { 82, 3 },
-  { 68, 1 },
-  { 84, 2 },
-  { 84, 2 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
+  { 78, 1 },
+  { 79, 1 },
+  { 80, 2 },
+  { 80, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 81, 1 },
+  { 83, 8 },
+  { 83, 7 },
+  { 83, 12 },
+  { 83, 11 },
+  { 83, 10 },
   { 84, 4 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 4 },
-  { 84, 2 },
-  { 84, 3 },
-  { 84, 3 },
-  { 84, 4 },
-  { 84, 5 },
-  { 84, 5 },
-  { 84, 5 },
-  { 84, 6 },
-  { 86, 1 },
-  { 86, 1 },
   { 85, 3 },
-  { 85, 1 },
-  { 87, 3 },
-  { 87, 1 },
-  { 84, 1 },
-  { 88, 4 },
+  { 86, 10 },
+  { 86, 12 },
+  { 86, 12 },
+  { 86, 14 },
+  { 87, 4 },
+  { 102, 3 },
+  { 102, 1 },
+  { 103, 3 },
+  { 103, 3 },
+  { 103, 3 },
+  { 103, 3 },
+  { 103, 3 },
+  { 98, 10 },
+  { 98, 11 },
+  { 104, 3 },
+  { 104, 1 },
+  { 105, 1 },
+  { 105, 3 },
+  { 106, 1 },
+  { 106, 1 },
+  { 106, 1 },
+  { 106, 1 },
+  { 106, 1 },
+  { 106, 1 },
+  { 100, 11 },
+  { 100, 9 },
+  { 99, 2 },
   { 88, 3 },
-  { 89, 3 },
-  { 89, 1 },
-  { 90, 1 },
-  { 90, 3 },
-  { 84, 1 },
-  { 84, 1 },
-  { 84, 1 },
-  { 84, 1 },
-  { 84, 1 },
-  { 84, 1 },
-  { 84, 1 },
+  { 89, 8 },
+  { 89, 7 },
+  { 90, 8 },
+  { 90, 9 },
+  { 91, 4 },
+  { 92, 4 },
+  { 92, 6 },
+  { 93, 4 },
+  { 94, 4 },
+  { 95, 8 },
+  { 95, 8 },
+  { 96, 3 },
+  { 97, 3 },
+  { 82, 1 },
+  { 101, 2 },
+  { 101, 2 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 4 },
+  { 101, 3 },
+  { 101, 4 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 4 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 3 },
+  { 101, 4 },
+  { 101, 2 },
+  { 101, 2 },
+  { 101, 2 },
+  { 101, 3 },
+  { 101, 2 },
+  { 101, 3 },
+  { 101, 2 },
+  { 101, 3 },
+  { 101, 4 },
+  { 101, 5 },
+  { 101, 5 },
+  { 101, 5 },
+  { 101, 6 },
+  { 109, 1 },
+  { 109, 1 },
+  { 108, 3 },
+  { 108, 1 },
+  { 110, 3 },
+  { 110, 1 },
+  { 101, 1 },
+  { 111, 4 },
+  { 111, 3 },
+  { 107, 3 },
+  { 107, 1 },
+  { 112, 1 },
+  { 112, 3 },
+  { 101, 1 },
+  { 101, 1 },
+  { 101, 1 },
+  { 101, 1 },
+  { 101, 1 },
+  { 101, 1 },
+  { 101, 1 },
 };
 
 static void kk_accept(kkParser*);  /* Forward Declaration */
@@ -85407,11 +86013,11 @@ static void kk_reduce(
   **     break;
   */
       case 0:
-// 548 "parser.lemon"
+// 712 "parser.lemon"
 {
-	status->ret = kkmsp[0].minor.kk176;
+	status->ret = kkmsp[0].minor.kk132;
 }
-// 1612 "parser.c"
+// 2001 "parser.c"
         break;
       case 1:
       case 4:
@@ -85430,687 +86036,941 @@ static void kk_reduce(
       case 17:
       case 18:
       case 19:
-      case 83:
-// 552 "parser.lemon"
+      case 20:
+      case 21:
+      case 22:
+      case 119:
+// 716 "parser.lemon"
 {
-	kkgotominor.kk176 = kkmsp[0].minor.kk176;
+	kkgotominor.kk132 = kkmsp[0].minor.kk132;
 }
-// 1636 "parser.c"
+// 2028 "parser.c"
         break;
       case 2:
-// 558 "parser.lemon"
+// 722 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_zval_list(kkmsp[-1].minor.kk176, kkmsp[0].minor.kk176);
+	kkgotominor.kk132 = phvolt_ret_zval_list(kkmsp[-1].minor.kk132, kkmsp[0].minor.kk132);
 }
-// 1643 "parser.c"
+// 2035 "parser.c"
         break;
       case 3:
-      case 80:
-      case 87:
-// 562 "parser.lemon"
+      case 36:
+      case 45:
+      case 116:
+      case 123:
+// 726 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_zval_list(NULL, kkmsp[0].minor.kk176);
+	kkgotominor.kk132 = phvolt_ret_zval_list(NULL, kkmsp[0].minor.kk132);
 }
-// 1652 "parser.c"
-        break;
-      case 20:
-// 634 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_if_statement(kkmsp[-5].minor.kk176, kkmsp[-3].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(1,&kkmsp[-7].minor);
-  kk_destructor(29,&kkmsp[-6].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(31,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1665 "parser.c"
-        break;
-      case 21:
-// 638 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_if_statement(kkmsp[-9].minor.kk176, kkmsp[-7].minor.kk176, kkmsp[-3].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-11].minor);
-  kk_destructor(29,&kkmsp[-10].minor);
-  kk_destructor(30,&kkmsp[-8].minor);
-  kk_destructor(1,&kkmsp[-6].minor);
-  kk_destructor(32,&kkmsp[-5].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(31,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1681 "parser.c"
-        break;
-      case 22:
-// 644 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_elseif_statement(kkmsp[-1].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-3].minor);
-  kk_destructor(33,&kkmsp[-2].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1691 "parser.c"
+// 2046 "parser.c"
         break;
       case 23:
-// 650 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_elsefor_statement(status->scanner_state);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(34,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1701 "parser.c"
-        break;
-      case 24:
-// 656 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, NULL, kkmsp[-5].minor.kk176, NULL, kkmsp[-3].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-9].minor);
-  kk_destructor(35,&kkmsp[-8].minor);
-  kk_destructor(3,&kkmsp[-6].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(37,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1715 "parser.c"
-        break;
-      case 25:
-// 660 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, NULL, kkmsp[-7].minor.kk176, kkmsp[-5].minor.kk176, kkmsp[-3].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-11].minor);
-  kk_destructor(35,&kkmsp[-10].minor);
-  kk_destructor(3,&kkmsp[-8].minor);
-  kk_destructor(29,&kkmsp[-6].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(37,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1730 "parser.c"
-        break;
-      case 26:
-// 664 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, kkmsp[-9].minor.kk0, kkmsp[-5].minor.kk176, NULL, kkmsp[-3].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-11].minor);
-  kk_destructor(35,&kkmsp[-10].minor);
-  kk_destructor(2,&kkmsp[-8].minor);
-  kk_destructor(3,&kkmsp[-6].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(37,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1745 "parser.c"
-        break;
-      case 27:
-// 668 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, kkmsp[-11].minor.kk0, kkmsp[-7].minor.kk176, kkmsp[-5].minor.kk176, kkmsp[-3].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-13].minor);
-  kk_destructor(35,&kkmsp[-12].minor);
-  kk_destructor(2,&kkmsp[-10].minor);
-  kk_destructor(3,&kkmsp[-8].minor);
-  kk_destructor(29,&kkmsp[-6].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(37,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1761 "parser.c"
-        break;
-      case 28:
-// 674 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_set_statement(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-5].minor);
-  kk_destructor(38,&kkmsp[-4].minor);
-  kk_destructor(39,&kkmsp[-2].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1772 "parser.c"
-        break;
-      case 29:
-// 680 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_empty_statement(status->scanner_state);
-  kk_destructor(1,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1781 "parser.c"
-        break;
-      case 30:
-// 686 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk176, status->scanner_state);
-  kk_destructor(40,&kkmsp[-2].minor);
-  kk_destructor(41,&kkmsp[0].minor);
-}
-// 1790 "parser.c"
-        break;
-      case 31:
-// 692 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-7].minor);
-  kk_destructor(42,&kkmsp[-6].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(43,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1803 "parser.c"
-        break;
-      case 32:
-// 696 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL, status->scanner_state);
-  kk_destructor(1,&kkmsp[-6].minor);
-  kk_destructor(42,&kkmsp[-5].minor);
-  kk_destructor(30,&kkmsp[-3].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(43,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1816 "parser.c"
-        break;
-      case 33:
-// 702 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_cache_statement(kkmsp[-5].minor.kk176, NULL, kkmsp[-3].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-7].minor);
-  kk_destructor(44,&kkmsp[-6].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(45,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1829 "parser.c"
-        break;
-      case 34:
-// 706 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_cache_statement(kkmsp[-6].minor.kk176, kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-8].minor);
-  kk_destructor(44,&kkmsp[-7].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(45,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1842 "parser.c"
-        break;
-      case 35:
-// 712 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0, status->scanner_state);
-  kk_destructor(1,&kkmsp[-3].minor);
-  kk_destructor(47,&kkmsp[-2].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1852 "parser.c"
-        break;
-      case 36:
-// 718 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_include_statement(kkmsp[-1].minor.kk0, status->scanner_state);
-  kk_destructor(1,&kkmsp[-3].minor);
-  kk_destructor(49,&kkmsp[-2].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1862 "parser.c"
-        break;
-      case 37:
-// 724 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_do_statement(kkmsp[-1].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-3].minor);
-  kk_destructor(50,&kkmsp[-2].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1872 "parser.c"
-        break;
-      case 38:
-// 730 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_autoescape_statement(0, kkmsp[-3].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-7].minor);
-  kk_destructor(51,&kkmsp[-6].minor);
-  kk_destructor(52,&kkmsp[-5].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(53,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1886 "parser.c"
-        break;
-      case 39:
-// 734 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_autoescape_statement(1, kkmsp[-3].minor.kk176, status->scanner_state);
-  kk_destructor(1,&kkmsp[-7].minor);
-  kk_destructor(51,&kkmsp[-6].minor);
-  kk_destructor(54,&kkmsp[-5].minor);
-  kk_destructor(30,&kkmsp[-4].minor);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(53,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1900 "parser.c"
-        break;
-      case 40:
-// 740 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_break_statement(status->scanner_state);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(55,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1910 "parser.c"
-        break;
-      case 41:
-// 746 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_continue_statement(status->scanner_state);
-  kk_destructor(1,&kkmsp[-2].minor);
-  kk_destructor(56,&kkmsp[-1].minor);
-  kk_destructor(30,&kkmsp[0].minor);
-}
-// 1920 "parser.c"
-        break;
-      case 42:
-// 752 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0, status->scanner_state);
-}
-// 1927 "parser.c"
-        break;
-      case 43:
-// 758 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(23,&kkmsp[-1].minor);
-}
-// 1935 "parser.c"
-        break;
-      case 44:
-// 762 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_PLUS, NULL, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(22,&kkmsp[-1].minor);
-}
-// 1943 "parser.c"
-        break;
-      case 45:
-// 766 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(23,&kkmsp[-1].minor);
-}
-// 1951 "parser.c"
-        break;
-      case 46:
-// 770 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(22,&kkmsp[-1].minor);
-}
-// 1959 "parser.c"
-        break;
-      case 47:
-// 774 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(20,&kkmsp[-1].minor);
-}
-// 1967 "parser.c"
-        break;
-      case 48:
-// 778 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(19,&kkmsp[-1].minor);
-}
-// 1975 "parser.c"
-        break;
-      case 49:
-// 782 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(21,&kkmsp[-1].minor);
-}
-// 1983 "parser.c"
-        break;
-      case 50:
-// 786 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(8,&kkmsp[-1].minor);
-}
-// 1991 "parser.c"
-        break;
-      case 51:
-// 790 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(9,&kkmsp[-1].minor);
-}
-// 1999 "parser.c"
-        break;
-      case 52:
-// 794 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(24,&kkmsp[-1].minor);
-}
-// 2007 "parser.c"
-        break;
-      case 53:
-// 798 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(25,&kkmsp[-1].minor);
-}
-// 2015 "parser.c"
-        break;
-      case 54:
-// 802 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(7,&kkmsp[-1].minor);
-}
-// 2023 "parser.c"
-        break;
-      case 55:
-// 806 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(11,&kkmsp[-1].minor);
-}
-// 2031 "parser.c"
-        break;
-      case 56:
 // 810 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk176, NULL, NULL, status->scanner_state);
-  kk_destructor(10,&kkmsp[-2].minor);
-  kk_destructor(26,&kkmsp[-1].minor);
-  kk_destructor(58,&kkmsp[0].minor);
+	kkgotominor.kk132 = phvolt_ret_if_statement(kkmsp[-5].minor.kk132, kkmsp[-3].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(1,&kkmsp[-7].minor);
+  kk_destructor(31,&kkmsp[-6].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(33,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
 }
-// 2041 "parser.c"
+// 2059 "parser.c"
         break;
-      case 57:
+      case 24:
 // 814 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk176, NULL, NULL, status->scanner_state);
-  kk_destructor(10,&kkmsp[-1].minor);
-  kk_destructor(58,&kkmsp[0].minor);
+	kkgotominor.kk132 = phvolt_ret_if_statement(kkmsp[-4].minor.kk132, NULL, NULL, status->scanner_state);
+  kk_destructor(1,&kkmsp[-6].minor);
+  kk_destructor(31,&kkmsp[-5].minor);
+  kk_destructor(32,&kkmsp[-3].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(33,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
 }
-// 2050 "parser.c"
+// 2072 "parser.c"
         break;
-      case 58:
+      case 25:
 // 818 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_IS, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(10,&kkmsp[-1].minor);
+	kkgotominor.kk132 = phvolt_ret_if_statement(kkmsp[-9].minor.kk132, kkmsp[-7].minor.kk132, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-11].minor);
+  kk_destructor(31,&kkmsp[-10].minor);
+  kk_destructor(32,&kkmsp[-8].minor);
+  kk_destructor(1,&kkmsp[-6].minor);
+  kk_destructor(34,&kkmsp[-5].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(33,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
 }
-// 2058 "parser.c"
+// 2088 "parser.c"
         break;
-      case 59:
+      case 26:
 // 822 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(12,&kkmsp[-1].minor);
+	kkgotominor.kk132 = phvolt_ret_if_statement(kkmsp[-8].minor.kk132, kkmsp[-6].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(1,&kkmsp[-10].minor);
+  kk_destructor(31,&kkmsp[-9].minor);
+  kk_destructor(32,&kkmsp[-7].minor);
+  kk_destructor(1,&kkmsp[-5].minor);
+  kk_destructor(34,&kkmsp[-4].minor);
+  kk_destructor(32,&kkmsp[-3].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(33,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
 }
-// 2066 "parser.c"
+// 2104 "parser.c"
         break;
-      case 60:
+      case 27:
 // 826 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(17,&kkmsp[-1].minor);
+	kkgotominor.kk132 = phvolt_ret_if_statement(kkmsp[-7].minor.kk132, NULL, NULL, status->scanner_state);
+  kk_destructor(1,&kkmsp[-9].minor);
+  kk_destructor(31,&kkmsp[-8].minor);
+  kk_destructor(32,&kkmsp[-6].minor);
+  kk_destructor(1,&kkmsp[-5].minor);
+  kk_destructor(34,&kkmsp[-4].minor);
+  kk_destructor(32,&kkmsp[-3].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(33,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
 }
-// 2074 "parser.c"
+// 2120 "parser.c"
         break;
-      case 61:
-// 830 "parser.lemon"
+      case 28:
+// 832 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(18,&kkmsp[-1].minor);
-}
-// 2082 "parser.c"
-        break;
-      case 62:
-// 834 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(13,&kkmsp[-1].minor);
-}
-// 2090 "parser.c"
-        break;
-      case 63:
-// 838 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(14,&kkmsp[-1].minor);
-}
-// 2098 "parser.c"
-        break;
-      case 64:
-// 842 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(15,&kkmsp[-1].minor);
-}
-// 2106 "parser.c"
-        break;
-      case 65:
-// 846 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(16,&kkmsp[-1].minor);
-}
-// 2114 "parser.c"
-        break;
-      case 66:
-// 850 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_DOT, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(28,&kkmsp[-1].minor);
-}
-// 2122 "parser.c"
-        break;
-      case 67:
-// 854 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_IN, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(3,&kkmsp[-1].minor);
+	kkgotominor.kk132 = phvolt_ret_elseif_statement(kkmsp[-1].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-3].minor);
+  kk_destructor(35,&kkmsp[-2].minor);
+  kk_destructor(32,&kkmsp[0].minor);
 }
 // 2130 "parser.c"
         break;
-      case 68:
-// 858 "parser.lemon"
+      case 29:
+// 838 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_NOT_IN, kkmsp[-3].minor.kk176, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(26,&kkmsp[-2].minor);
-  kk_destructor(3,&kkmsp[-1].minor);
+	kkgotominor.kk132 = phvolt_ret_elsefor_statement(status->scanner_state);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(36,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
 }
-// 2139 "parser.c"
+// 2140 "parser.c"
         break;
-      case 69:
+      case 30:
+// 844 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, NULL, kkmsp[-5].minor.kk132, NULL, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-9].minor);
+  kk_destructor(37,&kkmsp[-8].minor);
+  kk_destructor(3,&kkmsp[-6].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(39,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2154 "parser.c"
+        break;
+      case 31:
+// 848 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, NULL, kkmsp[-7].minor.kk132, kkmsp[-5].minor.kk132, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-11].minor);
+  kk_destructor(37,&kkmsp[-10].minor);
+  kk_destructor(3,&kkmsp[-8].minor);
+  kk_destructor(31,&kkmsp[-6].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(39,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2169 "parser.c"
+        break;
+      case 32:
+// 852 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, kkmsp[-9].minor.kk0, kkmsp[-5].minor.kk132, NULL, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-11].minor);
+  kk_destructor(37,&kkmsp[-10].minor);
+  kk_destructor(2,&kkmsp[-8].minor);
+  kk_destructor(3,&kkmsp[-6].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(39,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2184 "parser.c"
+        break;
+      case 33:
+// 856 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, kkmsp[-11].minor.kk0, kkmsp[-7].minor.kk132, kkmsp[-5].minor.kk132, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-13].minor);
+  kk_destructor(37,&kkmsp[-12].minor);
+  kk_destructor(2,&kkmsp[-10].minor);
+  kk_destructor(3,&kkmsp[-8].minor);
+  kk_destructor(31,&kkmsp[-6].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(39,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2200 "parser.c"
+        break;
+      case 34:
 // 862 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(26,&kkmsp[-1].minor);
+	kkgotominor.kk132 = phvolt_ret_set_statement(kkmsp[-1].minor.kk132);
+  kk_destructor(1,&kkmsp[-3].minor);
+  kk_destructor(40,&kkmsp[-2].minor);
+  kk_destructor(32,&kkmsp[0].minor);
 }
-// 2147 "parser.c"
+// 2210 "parser.c"
         break;
-      case 70:
-// 866 "parser.lemon"
+      case 35:
+      case 44:
+      case 115:
+      case 122:
+// 868 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk176, NULL, NULL, status->scanner_state);
-  kk_destructor(27,&kkmsp[-2].minor);
-  kk_destructor(59,&kkmsp[0].minor);
-}
-// 2156 "parser.c"
-        break;
-      case 71:
-// 870 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk176, NULL, NULL, status->scanner_state);
-  kk_destructor(6,&kkmsp[-2].minor);
-  kk_destructor(60,&kkmsp[0].minor);
-}
-// 2165 "parser.c"
-        break;
-      case 72:
-// 874 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk176, kkmsp[-1].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(6,&kkmsp[-2].minor);
-  kk_destructor(60,&kkmsp[0].minor);
-}
-// 2174 "parser.c"
-        break;
-      case 73:
-// 878 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_expr(PHVOLT_T_TERNARY, kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176, kkmsp[-4].minor.kk176, status->scanner_state);
-  kk_destructor(4,&kkmsp[-3].minor);
-  kk_destructor(5,&kkmsp[-1].minor);
-}
-// 2183 "parser.c"
-        break;
-      case 74:
-// 882 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_slice(kkmsp[-4].minor.kk176, NULL, kkmsp[-1].minor.kk176, status->scanner_state);
-  kk_destructor(6,&kkmsp[-3].minor);
-  kk_destructor(5,&kkmsp[-2].minor);
-  kk_destructor(60,&kkmsp[0].minor);
-}
-// 2193 "parser.c"
-        break;
-      case 75:
-// 886 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_slice(kkmsp[-4].minor.kk176, kkmsp[-2].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(6,&kkmsp[-3].minor);
-  kk_destructor(5,&kkmsp[-1].minor);
-  kk_destructor(60,&kkmsp[0].minor);
-}
-// 2203 "parser.c"
-        break;
-      case 76:
-// 890 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_slice(kkmsp[-5].minor.kk176, kkmsp[-3].minor.kk176, kkmsp[-1].minor.kk176, status->scanner_state);
-  kk_destructor(6,&kkmsp[-4].minor);
-  kk_destructor(5,&kkmsp[-2].minor);
-  kk_destructor(60,&kkmsp[0].minor);
-}
-// 2213 "parser.c"
-        break;
-      case 77:
-      case 91:
-// 896 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0, status->scanner_state);
+	kkgotominor.kk132 = phvolt_ret_zval_list(kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132);
+  kk_destructor(2,&kkmsp[-1].minor);
 }
 // 2221 "parser.c"
         break;
-      case 78:
-      case 90:
-// 900 "parser.lemon"
+      case 37:
+// 878 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, kkmsp[0].minor.kk0, status->scanner_state);
+	kkgotominor.kk132 = phvolt_ret_set_assignment(kkmsp[-2].minor.kk0, PHVOLT_T_ASSIGN, kkmsp[0].minor.kk132, status->scanner_state);
+  kk_destructor(41,&kkmsp[-1].minor);
 }
 // 2229 "parser.c"
         break;
-      case 79:
-      case 86:
-// 906 "parser.lemon"
+      case 38:
+// 882 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_zval_list(kkmsp[-2].minor.kk176, kkmsp[0].minor.kk176);
-  kk_destructor(2,&kkmsp[-1].minor);
+	kkgotominor.kk132 = phvolt_ret_set_assignment(kkmsp[-2].minor.kk0, PHVOLT_T_ADD_ASSIGN, kkmsp[0].minor.kk132, status->scanner_state);
+  kk_destructor(42,&kkmsp[-1].minor);
 }
-// 2238 "parser.c"
+// 2237 "parser.c"
         break;
-      case 81:
-      case 89:
-// 916 "parser.lemon"
+      case 39:
+// 886 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk176, status->scanner_state);
-  kk_destructor(5,&kkmsp[-1].minor);
+	kkgotominor.kk132 = phvolt_ret_set_assignment(kkmsp[-2].minor.kk0, PHVOLT_T_SUB_ASSIGN, kkmsp[0].minor.kk132, status->scanner_state);
+  kk_destructor(43,&kkmsp[-1].minor);
 }
-// 2247 "parser.c"
+// 2245 "parser.c"
         break;
-      case 82:
-      case 88:
+      case 40:
+// 890 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_set_assignment(kkmsp[-2].minor.kk0, PHVOLT_T_MUL_ASSIGN, kkmsp[0].minor.kk132, status->scanner_state);
+  kk_destructor(44,&kkmsp[-1].minor);
+}
+// 2253 "parser.c"
+        break;
+      case 41:
+// 894 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_set_assignment(kkmsp[-2].minor.kk0, PHVOLT_T_DIV_ASSIGN, kkmsp[0].minor.kk132, status->scanner_state);
+  kk_destructor(45,&kkmsp[-1].minor);
+}
+// 2261 "parser.c"
+        break;
+      case 42:
+// 900 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_macro_statement(kkmsp[-7].minor.kk0, NULL, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-9].minor);
+  kk_destructor(46,&kkmsp[-8].minor);
+  kk_destructor(29,&kkmsp[-6].minor);
+  kk_destructor(47,&kkmsp[-5].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(48,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2276 "parser.c"
+        break;
+      case 43:
+// 904 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_macro_statement(kkmsp[-8].minor.kk0, kkmsp[-6].minor.kk132, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-10].minor);
+  kk_destructor(46,&kkmsp[-9].minor);
+  kk_destructor(29,&kkmsp[-7].minor);
+  kk_destructor(47,&kkmsp[-5].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(48,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2291 "parser.c"
+        break;
+      case 46:
 // 920 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk176, status->scanner_state);
+	kkgotominor.kk132 = phvolt_ret_macro_parameter(kkmsp[0].minor.kk0, NULL, status->scanner_state);
 }
-// 2255 "parser.c"
+// 2298 "parser.c"
         break;
-      case 84:
-// 930 "parser.lemon"
+      case 47:
+// 924 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_func_call(kkmsp[-3].minor.kk176, kkmsp[-1].minor.kk176, status->scanner_state);
-  kk_destructor(27,&kkmsp[-2].minor);
-  kk_destructor(59,&kkmsp[0].minor);
+	kkgotominor.kk132 = phvolt_ret_macro_parameter(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk132, status->scanner_state);
+  kk_destructor(41,&kkmsp[-1].minor);
 }
-// 2264 "parser.c"
+// 2306 "parser.c"
         break;
-      case 85:
-// 934 "parser.lemon"
+      case 48:
+      case 113:
+      case 127:
+// 928 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_func_call(kkmsp[-2].minor.kk176, NULL, status->scanner_state);
-  kk_destructor(27,&kkmsp[-1].minor);
-  kk_destructor(59,&kkmsp[0].minor);
+	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 2273 "parser.c"
+// 2315 "parser.c"
         break;
-      case 92:
-// 966 "parser.lemon"
+      case 49:
+      case 128:
+// 932 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0, status->scanner_state);
+	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 2280 "parser.c"
+// 2323 "parser.c"
         break;
-      case 93:
-// 970 "parser.lemon"
+      case 50:
+      case 129:
+// 936 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0, status->scanner_state);
+	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 2287 "parser.c"
+// 2331 "parser.c"
         break;
-      case 94:
-// 974 "parser.lemon"
+      case 51:
+      case 130:
+// 940 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL, status->scanner_state);
-  kk_destructor(62,&kkmsp[0].minor);
-}
-// 2295 "parser.c"
-        break;
-      case 95:
-// 978 "parser.lemon"
-{
-	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL, status->scanner_state);
+	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL, status->scanner_state);
   kk_destructor(52,&kkmsp[0].minor);
 }
-// 2303 "parser.c"
+// 2340 "parser.c"
         break;
-      case 96:
-// 982 "parser.lemon"
+      case 52:
+      case 131:
+// 944 "parser.lemon"
 {
-	kkgotominor.kk176 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL, status->scanner_state);
+	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL, status->scanner_state);
+  kk_destructor(53,&kkmsp[0].minor);
+}
+// 2349 "parser.c"
+        break;
+      case 53:
+      case 132:
+// 948 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL, status->scanner_state);
   kk_destructor(54,&kkmsp[0].minor);
 }
-// 2311 "parser.c"
+// 2358 "parser.c"
+        break;
+      case 54:
+// 954 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_macro_call_statement(kkmsp[-8].minor.kk132, kkmsp[-6].minor.kk132, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-10].minor);
+  kk_destructor(55,&kkmsp[-9].minor);
+  kk_destructor(29,&kkmsp[-7].minor);
+  kk_destructor(47,&kkmsp[-5].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(56,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2373 "parser.c"
+        break;
+      case 55:
+// 958 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_macro_call_statement(kkmsp[-6].minor.kk132, NULL, NULL, status->scanner_state);
+  kk_destructor(1,&kkmsp[-8].minor);
+  kk_destructor(55,&kkmsp[-7].minor);
+  kk_destructor(29,&kkmsp[-5].minor);
+  kk_destructor(47,&kkmsp[-4].minor);
+  kk_destructor(32,&kkmsp[-3].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(56,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2388 "parser.c"
+        break;
+      case 56:
+// 964 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_empty_statement(status->scanner_state);
+  kk_destructor(1,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2397 "parser.c"
+        break;
+      case 57:
+// 970 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk132, status->scanner_state);
+  kk_destructor(57,&kkmsp[-2].minor);
+  kk_destructor(58,&kkmsp[0].minor);
+}
+// 2406 "parser.c"
+        break;
+      case 58:
+// 976 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-7].minor);
+  kk_destructor(59,&kkmsp[-6].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(60,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2419 "parser.c"
+        break;
+      case 59:
+// 980 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL, status->scanner_state);
+  kk_destructor(1,&kkmsp[-6].minor);
+  kk_destructor(59,&kkmsp[-5].minor);
+  kk_destructor(32,&kkmsp[-3].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(60,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2432 "parser.c"
+        break;
+      case 60:
+// 986 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_cache_statement(kkmsp[-5].minor.kk132, NULL, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-7].minor);
+  kk_destructor(61,&kkmsp[-6].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(62,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2445 "parser.c"
+        break;
+      case 61:
+// 990 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_cache_statement(kkmsp[-6].minor.kk132, kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-8].minor);
+  kk_destructor(61,&kkmsp[-7].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(62,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2458 "parser.c"
+        break;
+      case 62:
+// 996 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0, status->scanner_state);
+  kk_destructor(1,&kkmsp[-3].minor);
+  kk_destructor(63,&kkmsp[-2].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2468 "parser.c"
+        break;
+      case 63:
+// 1002 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_include_statement(kkmsp[-1].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(1,&kkmsp[-3].minor);
+  kk_destructor(64,&kkmsp[-2].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2478 "parser.c"
+        break;
+      case 64:
+// 1006 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_include_statement(kkmsp[-3].minor.kk132, kkmsp[-1].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-5].minor);
+  kk_destructor(64,&kkmsp[-4].minor);
+  kk_destructor(65,&kkmsp[-2].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2489 "parser.c"
+        break;
+      case 65:
+// 1012 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_do_statement(kkmsp[-1].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-3].minor);
+  kk_destructor(66,&kkmsp[-2].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2499 "parser.c"
+        break;
+      case 66:
+// 1018 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_return_statement(kkmsp[-1].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-3].minor);
+  kk_destructor(67,&kkmsp[-2].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2509 "parser.c"
+        break;
+      case 67:
+// 1024 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_autoescape_statement(0, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-7].minor);
+  kk_destructor(68,&kkmsp[-6].minor);
+  kk_destructor(53,&kkmsp[-5].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(69,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2523 "parser.c"
+        break;
+      case 68:
+// 1028 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_autoescape_statement(1, kkmsp[-3].minor.kk132, status->scanner_state);
+  kk_destructor(1,&kkmsp[-7].minor);
+  kk_destructor(68,&kkmsp[-6].minor);
+  kk_destructor(54,&kkmsp[-5].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(69,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2537 "parser.c"
+        break;
+      case 69:
+// 1034 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_break_statement(status->scanner_state);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(70,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2547 "parser.c"
+        break;
+      case 70:
+// 1040 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_continue_statement(status->scanner_state);
+  kk_destructor(1,&kkmsp[-2].minor);
+  kk_destructor(71,&kkmsp[-1].minor);
+  kk_destructor(32,&kkmsp[0].minor);
+}
+// 2557 "parser.c"
+        break;
+      case 71:
+// 1046 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 2564 "parser.c"
+        break;
+      case 72:
+// 1052 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(22,&kkmsp[-1].minor);
+}
+// 2572 "parser.c"
+        break;
+      case 73:
+// 1056 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_PLUS, NULL, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(21,&kkmsp[-1].minor);
+}
+// 2580 "parser.c"
+        break;
+      case 74:
+// 1060 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(22,&kkmsp[-1].minor);
+}
+// 2588 "parser.c"
+        break;
+      case 75:
+// 1064 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(21,&kkmsp[-1].minor);
+}
+// 2596 "parser.c"
+        break;
+      case 76:
+// 1068 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(19,&kkmsp[-1].minor);
+}
+// 2604 "parser.c"
+        break;
+      case 77:
+// 1072 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_POW, kkmsp[-3].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(19,&kkmsp[-2].minor);
+  kk_destructor(19,&kkmsp[-1].minor);
+}
+// 2613 "parser.c"
+        break;
+      case 78:
+// 1076 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(18,&kkmsp[-1].minor);
+}
+// 2621 "parser.c"
+        break;
+      case 79:
+// 1080 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-3].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(18,&kkmsp[-2].minor);
+  kk_destructor(18,&kkmsp[-1].minor);
+}
+// 2630 "parser.c"
+        break;
+      case 80:
+// 1084 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(20,&kkmsp[-1].minor);
+}
+// 2638 "parser.c"
+        break;
+      case 81:
+// 1088 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(7,&kkmsp[-1].minor);
+}
+// 2646 "parser.c"
+        break;
+      case 82:
+// 1092 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(8,&kkmsp[-1].minor);
+}
+// 2654 "parser.c"
+        break;
+      case 83:
+// 1096 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(23,&kkmsp[-1].minor);
+}
+// 2662 "parser.c"
+        break;
+      case 84:
+// 1100 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(25,&kkmsp[-1].minor);
+}
+// 2670 "parser.c"
+        break;
+      case 85:
+// 1104 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(6,&kkmsp[-1].minor);
+}
+// 2678 "parser.c"
+        break;
+      case 86:
+// 1108 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(10,&kkmsp[-1].minor);
+}
+// 2686 "parser.c"
+        break;
+      case 87:
+// 1112 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk132, NULL, NULL, status->scanner_state);
+  kk_destructor(9,&kkmsp[-2].minor);
+  kk_destructor(26,&kkmsp[-1].minor);
+  kk_destructor(73,&kkmsp[0].minor);
+}
+// 2696 "parser.c"
+        break;
+      case 88:
+// 1116 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk132, NULL, NULL, status->scanner_state);
+  kk_destructor(9,&kkmsp[-1].minor);
+  kk_destructor(73,&kkmsp[0].minor);
+}
+// 2705 "parser.c"
+        break;
+      case 89:
+// 1120 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_IS, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(9,&kkmsp[-1].minor);
+}
+// 2713 "parser.c"
+        break;
+      case 90:
+// 1124 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(11,&kkmsp[-1].minor);
+}
+// 2721 "parser.c"
+        break;
+      case 91:
+// 1128 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(16,&kkmsp[-1].minor);
+}
+// 2729 "parser.c"
+        break;
+      case 92:
+// 1132 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(17,&kkmsp[-1].minor);
+}
+// 2737 "parser.c"
+        break;
+      case 93:
+// 1136 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(12,&kkmsp[-1].minor);
+}
+// 2745 "parser.c"
+        break;
+      case 94:
+// 1140 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(13,&kkmsp[-1].minor);
+}
+// 2753 "parser.c"
+        break;
+      case 95:
+// 1144 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(14,&kkmsp[-1].minor);
+}
+// 2761 "parser.c"
+        break;
+      case 96:
+// 1148 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(15,&kkmsp[-1].minor);
+}
+// 2769 "parser.c"
+        break;
+      case 97:
+// 1152 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_DOT, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(30,&kkmsp[-1].minor);
+}
+// 2777 "parser.c"
+        break;
+      case 98:
+// 1156 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_IN, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(3,&kkmsp[-1].minor);
+}
+// 2785 "parser.c"
+        break;
+      case 99:
+// 1160 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_NOT_IN, kkmsp[-3].minor.kk132, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(26,&kkmsp[-2].minor);
+  kk_destructor(3,&kkmsp[-1].minor);
+}
+// 2794 "parser.c"
+        break;
+      case 100:
+// 1164 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(26,&kkmsp[-1].minor);
+}
+// 2802 "parser.c"
+        break;
+      case 101:
+// 1168 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_INCR, kkmsp[-1].minor.kk132, NULL, NULL, status->scanner_state);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 2810 "parser.c"
+        break;
+      case 102:
+// 1172 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_DECR, kkmsp[-1].minor.kk132, NULL, NULL, status->scanner_state);
+  kk_destructor(28,&kkmsp[0].minor);
+}
+// 2818 "parser.c"
+        break;
+      case 103:
+// 1176 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk132, NULL, NULL, status->scanner_state);
+  kk_destructor(29,&kkmsp[-2].minor);
+  kk_destructor(47,&kkmsp[0].minor);
+}
+// 2827 "parser.c"
+        break;
+      case 104:
+// 1180 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
+  kk_destructor(24,&kkmsp[-1].minor);
+  kk_destructor(74,&kkmsp[0].minor);
+}
+// 2836 "parser.c"
+        break;
+      case 105:
+// 1184 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk132, NULL, NULL, status->scanner_state);
+  kk_destructor(24,&kkmsp[-2].minor);
+  kk_destructor(74,&kkmsp[0].minor);
+}
+// 2845 "parser.c"
+        break;
+      case 106:
+// 1188 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
+  kk_destructor(75,&kkmsp[-1].minor);
+  kk_destructor(76,&kkmsp[0].minor);
+}
+// 2854 "parser.c"
+        break;
+      case 107:
+// 1192 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk132, NULL, NULL, status->scanner_state);
+  kk_destructor(75,&kkmsp[-2].minor);
+  kk_destructor(76,&kkmsp[0].minor);
+}
+// 2863 "parser.c"
+        break;
+      case 108:
+// 1196 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk132, kkmsp[-1].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(24,&kkmsp[-2].minor);
+  kk_destructor(74,&kkmsp[0].minor);
+}
+// 2872 "parser.c"
+        break;
+      case 109:
+// 1200 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_expr(PHVOLT_T_TERNARY, kkmsp[-2].minor.kk132, kkmsp[0].minor.kk132, kkmsp[-4].minor.kk132, status->scanner_state);
+  kk_destructor(4,&kkmsp[-3].minor);
+  kk_destructor(5,&kkmsp[-1].minor);
+}
+// 2881 "parser.c"
+        break;
+      case 110:
+// 1204 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_slice(kkmsp[-4].minor.kk132, NULL, kkmsp[-1].minor.kk132, status->scanner_state);
+  kk_destructor(24,&kkmsp[-3].minor);
+  kk_destructor(5,&kkmsp[-2].minor);
+  kk_destructor(74,&kkmsp[0].minor);
+}
+// 2891 "parser.c"
+        break;
+      case 111:
+// 1208 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_slice(kkmsp[-4].minor.kk132, kkmsp[-2].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(24,&kkmsp[-3].minor);
+  kk_destructor(5,&kkmsp[-1].minor);
+  kk_destructor(74,&kkmsp[0].minor);
+}
+// 2901 "parser.c"
+        break;
+      case 112:
+// 1212 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_slice(kkmsp[-5].minor.kk132, kkmsp[-3].minor.kk132, kkmsp[-1].minor.kk132, status->scanner_state);
+  kk_destructor(24,&kkmsp[-4].minor);
+  kk_destructor(5,&kkmsp[-2].minor);
+  kk_destructor(74,&kkmsp[0].minor);
+}
+// 2911 "parser.c"
+        break;
+      case 114:
+      case 126:
+// 1222 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 2919 "parser.c"
+        break;
+      case 117:
+      case 125:
+// 1238 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk132, status->scanner_state);
+  kk_destructor(5,&kkmsp[-1].minor);
+}
+// 2928 "parser.c"
+        break;
+      case 118:
+      case 124:
+// 1242 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk132, status->scanner_state);
+}
+// 2936 "parser.c"
+        break;
+      case 120:
+// 1252 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_func_call(kkmsp[-3].minor.kk132, kkmsp[-1].minor.kk132, status->scanner_state);
+  kk_destructor(29,&kkmsp[-2].minor);
+  kk_destructor(47,&kkmsp[0].minor);
+}
+// 2945 "parser.c"
+        break;
+      case 121:
+// 1256 "parser.lemon"
+{
+	kkgotominor.kk132 = phvolt_ret_func_call(kkmsp[-2].minor.kk132, NULL, status->scanner_state);
+  kk_destructor(29,&kkmsp[-1].minor);
+  kk_destructor(47,&kkmsp[0].minor);
+}
+// 2954 "parser.c"
         break;
   };
   kkgoto = kkRuleInfo[kkruleno].lhs;
@@ -86146,22 +87006,25 @@ static void kk_syntax_error(
 ){
   phvolt_ARG_FETCH;
 #define KTOKEN (kkminor.kk0)
-// 493 "parser.lemon"
+// 605 "parser.lemon"
 
-	if (status->scanner_state->start_length) {
-		{
+	{
 
-			char *token_name = NULL;
-			const phvolt_token_names *tokens = phvolt_tokens;
-			int token_found = 0;
-			int active_token = status->scanner_state->active_token;
+		smart_str error_str = {0};
+
+		char *token_name = NULL;
+		const phvolt_token_names *tokens = phvolt_tokens;
+		int token_len = 0;
+		int active_token = status->scanner_state->active_token;
+
+		if (status->scanner_state->start_length) {
 
 			if (active_token) {
 
 				do {
 					if (tokens->code == active_token) {
-						token_found = 1;
 						token_name = tokens->name;
+						token_len = tokens->len;
 						break;
 					}
 					++tokens;
@@ -86169,30 +87032,79 @@ static void kk_syntax_error(
 
 			}
 
+			smart_str_appendl(&error_str, "Syntax error, unexpected token ", sizeof("Syntax error, unexpected token ") - 1);
 			if (!token_name) {
-				token_found = 0;
-				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
+				smart_str_appendl(&error_str, "UNKNOWN", sizeof("UNKNOWN") - 1);
+			} else {
+				smart_str_appendl(&error_str, token_name, token_len);
+			}
+			if (status->token->value) {
+				smart_str_appendc(&error_str, '(');
+				smart_str_appendl(&error_str, status->token->value, status->token->len);
+				smart_str_appendc(&error_str, ')');
+			}
+			smart_str_appendl(&error_str, " in ", sizeof(" in ") - 1);
+			smart_str_appendl(&error_str, Z_STRVAL_P(status->scanner_state->active_file), Z_STRLEN_P(status->scanner_state->active_file));
+			smart_str_appendl(&error_str, " on line ", sizeof(" on line ") - 1);
+			{
+				char stmp[MAX_LENGTH_OF_LONG + 1];
+				int str_len;
+				str_len = slprintf(stmp, sizeof(stmp), "%ld", status->scanner_state->active_line);
+				smart_str_appendl(&error_str, stmp, str_len);
 			}
 
-			status->syntax_error_len = 64 + strlen(token_name) + Z_STRLEN_P(status->scanner_state->active_file);
-			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
-			sprintf(status->syntax_error, "Syntax error, unexpected token %s in %s on line %d", token_name, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+		} else {
 
-			if (!token_found) {
-				if (token_name) {
-					efree(token_name);
+			smart_str_appendl(&error_str, "Syntax error, unexpected EOF in ", sizeof("Syntax error, unexpected EOF in ") - 1);
+			smart_str_appendl(&error_str, Z_STRVAL_P(status->scanner_state->active_file), Z_STRLEN_P(status->scanner_state->active_file));
+
+			/* Report unclosed 'if' blocks */
+			if ((status->scanner_state->if_level + status->scanner_state->old_if_level) > 0) {
+				if ((status->scanner_state->if_level + status->scanner_state->old_if_level) == 1) {
+					smart_str_appendl(&error_str, ", there is one 'if' block without close", sizeof(", there is one 'if' block without close") - 1);
+				} else {
+					smart_str_appendl(&error_str, ", there are ", sizeof(", there are ") - 1);
+					{
+						char stmp[MAX_LENGTH_OF_LONG + 1];
+						int str_len;
+						str_len = slprintf(stmp, sizeof(stmp), "%ld", status->scanner_state->if_level + status->scanner_state->old_if_level);
+						smart_str_appendl(&error_str, stmp, str_len);
+					}
+					smart_str_appendl(&error_str, " 'if' blocks without close", sizeof(" 'if' blocks without close") - 1);
+				}
+			}
+
+			/* Report unclosed 'for' blocks */
+			if (status->scanner_state->for_level > 0) {
+				if (status->scanner_state->for_level == 1) {
+					smart_str_appendl(&error_str, ", there is one 'for' block without close", sizeof(", there is one 'for' block without close") - 1);
+				} else {
+					smart_str_appendl(&error_str, ", there are ", sizeof(", there are ") - 1);
+					{
+						char stmp[MAX_LENGTH_OF_LONG + 1];
+						int str_len;
+						str_len = slprintf(stmp, sizeof(stmp), "%ld", status->scanner_state->if_level);
+						smart_str_appendl(&error_str, stmp, str_len);
+					}
+					smart_str_appendl(&error_str, " 'for' blocks without close", sizeof(" 'for' blocks without close") - 1);
 				}
 			}
 		}
-	} else {
-		status->syntax_error_len = 48 + Z_STRLEN_P(status->scanner_state->active_file);
-		status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
-		sprintf(status->syntax_error, "Syntax error, unexpected EOF in %s", Z_STRVAL_P(status->scanner_state->active_file));
+
+		smart_str_0(&error_str);
+
+		if (error_str.len) {
+			status->syntax_error = error_str.c;
+			status->syntax_error_len = error_str.len;
+		} else {
+			status->syntax_error = NULL;
+		}
+
 	}
 
 	status->status = PHVOLT_PARSING_FAILED;
 
-// 2399 "parser.c"
+// 3094 "parser.c"
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -87014,7 +87926,7 @@ static int phvolt_internal_parse_view(zval **result, zval *view_code, zval *temp
 }
 
 
-/* Generated by re2c 0.13.5 on Thu Aug  8 11:16:38 2013 */
+/* Generated by re2c 0.13.5 on Fri Aug  9 13:45:47 2013 */
 // 1 "scanner.re"
 
 
@@ -91261,6 +92173,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Simple, _loadTemplateEngines){
 					if (Z_TYPE_P(engine_service) == IS_STRING) {
 						PHALCON_INIT_NVAR(engine_object);
 						phalcon_call_method_p2(engine_object, dependency_injector, "getshared", engine_service, arguments);
+						PHALCON_VERIFY_INTERFACE(engine_object, phalcon_mvc_view_engineinterface_ce);
 					} else {
 						PHALCON_INIT_NVAR(exception_message);
 						PHALCON_CONCAT_SV(exception_message, "Invalid template engine registration for extension: ", extension);
@@ -91585,6 +92498,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Simple, _createCache){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(view_cache, phalcon_cache_backendinterface_ce);
 	RETURN_CCTOR(view_cache);
 }
 
@@ -92190,6 +93104,7 @@ static PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 					if (Z_TYPE_P(engine_service) == IS_STRING) {
 						PHALCON_INIT_NVAR(engine_object);
 						phalcon_call_method_p2(engine_object, dependency_injector, "getshared", engine_service, arguments);
+						PHALCON_VERIFY_INTERFACE(engine_object, phalcon_mvc_view_engineinterface_ce);
 					} else {
 						PHALCON_INIT_NVAR(exception_message);
 						PHALCON_CONCAT_SV(exception_message, "Invalid template engine registration for extension: ", extension);
@@ -92787,6 +93702,7 @@ static PHP_METHOD(Phalcon_Mvc_View, _createCache){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(view_cache, phalcon_cache_backendinterface_ce);
 	RETURN_CCTOR(view_cache);
 }
 
@@ -94399,6 +95315,7 @@ static PHP_METHOD(Phalcon_Security, getTokenKey){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
@@ -94444,6 +95361,7 @@ static PHP_METHOD(Phalcon_Security, getToken){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
@@ -94483,6 +95401,8 @@ static PHP_METHOD(Phalcon_Security, checkToken){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
+
 	if (Z_TYPE_P(token_key) == IS_NULL) {
 		PHALCON_INIT_VAR(key);
 		ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
@@ -94497,6 +95417,7 @@ static PHP_METHOD(Phalcon_Security, checkToken){
 	
 		PHALCON_INIT_VAR(request);
 		phalcon_call_method_p1(request, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(request, phalcon_http_requestinterface_ce);
 	
 		PHALCON_INIT_VAR(token);
 		phalcon_call_method_p1(token, request, "getpost", token_key);
@@ -94534,6 +95455,7 @@ static PHP_METHOD(Phalcon_Security, getSessionToken){
 	
 	PHALCON_INIT_VAR(session);
 	phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 	
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
@@ -94881,6 +95803,7 @@ static PHP_METHOD(Phalcon_Session_Bag, initialize){
 	
 		PHALCON_INIT_NVAR(session);
 		phalcon_call_method_p1(session, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(session, phalcon_session_adapterinterface_ce);
 		phalcon_update_property_this_quick(this_ptr, SL("_session"), session, 249878842585698216UL TSRMLS_CC);
 	}
 	
@@ -95530,6 +96453,7 @@ static PHP_METHOD(Phalcon_Tag, getUrlService){
 	
 		PHALCON_INIT_NVAR(url);
 		phalcon_call_method_p1(url, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
 		phalcon_update_static_property(SL("phalcon\\tag"), SL("_urlService"), url TSRMLS_CC);
 	}
 	
@@ -95563,6 +96487,7 @@ static PHP_METHOD(Phalcon_Tag, getEscaperService){
 	
 		PHALCON_INIT_NVAR(escaper);
 		phalcon_call_method_p1(escaper, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(escaper, phalcon_escaperinterface_ce);
 		phalcon_update_static_property(SL("phalcon\\tag"), SL("_escaperService"), escaper TSRMLS_CC);
 	}
 	
@@ -98984,6 +99909,7 @@ static PHP_METHOD(Phalcon_Validation, getValue){
 						return;
 					}
 	
+					PHALCON_VERIFY_INTERFACE(filter_service, phalcon_filterinterface_ce);
 					phalcon_call_method_p2(return_value, filter_service, "sanitize", value, field_filters);
 					RETURN_MM();
 				}
@@ -99455,6 +100381,12 @@ zend_class_entry *phalcon_image_adapter_imagick_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
+#if PHP_VERSION_ID >= 50500
+static void (*orig_execute_internal)(zend_execute_data *, zend_fcall_info *, int TSRMLS_DC) = NULL;
+#else
+static void (*orig_execute_internal)(zend_execute_data *, int TSRMLS_DC) = NULL;
+#endif
+
 static void (*old_error_cb)(int, const char *, const uint, const char *, va_list) = NULL;
 
 static void phalcon_error_cb(int type, const char *error_filename, const uint error_lineno, const char *format, va_list args)
@@ -99481,6 +100413,31 @@ static void phalcon_error_cb(int type, const char *error_filename, const uint er
 		exit(255);
 	}
 }
+#if PHP_VERSION_ID >= 50500
+static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, zend_fcall_info *fci, int return_value_used TSRMLS_DC)
+{
+	if (fci) {
+		((zend_internal_function *) execute_data_ptr->function_state.function)->handler(fci->param_count, *fci->retval_ptr_ptr, fci->retval_ptr_ptr, fci->object_ptr, return_value_used TSRMLS_CC);
+	}
+	else {
+		zval **return_value_ptr = &EX_TMP_VAR(execute_data_ptr, execute_data_ptr->opline->result.var)->var.ptr;
+		((zend_internal_function *) execute_data_ptr->function_state.function)->handler(execute_data_ptr->opline->extended_value, *return_value_ptr, return_value_ptr, execute_data_ptr->object, return_value_used TSRMLS_CC);
+	}
+}
+#else
+
+static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int return_value_used TSRMLS_DC)
+{
+#if PHP_VERSION_ID < 50400
+	zval **return_value_ptr = &(*(temp_variable *)((char *) execute_data_ptr->Ts + execute_data_ptr->opline->result.u.var)).var.ptr;
+#else
+	zval **return_value_ptr = &(*(temp_variable *)((char *) execute_data_ptr->Ts + execute_data_ptr->opline->result.var)).var.ptr;
+#endif
+
+	((zend_internal_function *) execute_data_ptr->function_state.function)->handler(execute_data_ptr->opline->extended_value, *return_value_ptr, return_value_ptr, execute_data_ptr->object, return_value_used TSRMLS_CC);
+}
+
+#endif
 
 static PHP_MINIT_FUNCTION(phalcon){
 
@@ -99753,8 +100710,8 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Mvc_Controller);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Document);
-	PHALCON_INIT(Phalcon_Mvc_Collection_Manager);
 	PHALCON_INIT(Phalcon_Mvc_Collection_ManagerInterface);
+	PHALCON_INIT(Phalcon_Mvc_Collection_Manager);
 	PHALCON_INIT(Phalcon_Mvc_ControllerInterface);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher_Exception);
@@ -99821,6 +100778,12 @@ static PHP_MINIT_FUNCTION(phalcon){
 
 	old_error_cb  = zend_error_cb;
 	zend_error_cb = phalcon_error_cb;
+
+	orig_execute_internal = zend_execute_internal;
+	if (!zend_execute_internal) {
+		zend_execute_internal = phalcon_execute_internal;
+	}
+
 	return SUCCESS;
 }
 
@@ -99828,6 +100791,7 @@ static PHP_MINIT_FUNCTION(phalcon){
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
 	zend_error_cb = old_error_cb;
+	zend_execute_internal = orig_execute_internal;
 
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);

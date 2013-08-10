@@ -9528,6 +9528,7 @@ static PHP_METHOD(Phalcon_Logger_Adapter_File, __construct);
 static PHP_METHOD(Phalcon_Logger_Adapter_File, getFormatter);
 static PHP_METHOD(Phalcon_Logger_Adapter_File, logInternal);
 static PHP_METHOD(Phalcon_Logger_Adapter_File, close);
+static PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_file___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -9545,9 +9546,9 @@ PHALCON_INIT_FUNCS(phalcon_logger_adapter_file_method_entry){
 	PHP_ME(Phalcon_Logger_Adapter_File, getFormatter, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter_File, logInternal, arginfo_phalcon_logger_adapter_file_loginternal, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Logger_Adapter_File, close, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Logger_Adapter_File, __wakeup, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
-
 
 
 #ifndef PHALCON_LOGGER_ADAPTER_FIREPHP_H
@@ -15275,6 +15276,7 @@ static PHP_METHOD(Phalcon_Image_Adapter, getType);
 static PHP_METHOD(Phalcon_Image_Adapter, getMime);
 static PHP_METHOD(Phalcon_Image_Adapter, getImage);
 static PHP_METHOD(Phalcon_Image_Adapter, resize);
+static PHP_METHOD(Phalcon_Image_Adapter, liquidRescale);
 static PHP_METHOD(Phalcon_Image_Adapter, crop);
 static PHP_METHOD(Phalcon_Image_Adapter, rotate);
 static PHP_METHOD(Phalcon_Image_Adapter, flip);
@@ -15294,6 +15296,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_resize, 0, 0, 0)
 	ZEND_ARG_INFO(0, width)
 	ZEND_ARG_INFO(0, height)
 	ZEND_ARG_INFO(0, master)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_liquidrescale, 0, 0, 2)
+	ZEND_ARG_INFO(0, width)
+	ZEND_ARG_INFO(0, height)
+	ZEND_ARG_INFO(0, delta_x)
+	ZEND_ARG_INFO(0, rigidity)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_crop, 0, 0, 2)
@@ -15356,6 +15365,7 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_method_entry){
 	PHP_ME(Phalcon_Image_Adapter, getMime, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter, getImage, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter, resize, arginfo_phalcon_image_adapter_resize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Image_Adapter, liquidRescale, arginfo_phalcon_image_adapter_liquidrescale, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter, crop, arginfo_phalcon_image_adapter_crop, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter, rotate, arginfo_phalcon_image_adapter_rotate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Image_Adapter, flip, arginfo_phalcon_image_adapter_flip, ZEND_ACC_PUBLIC)
@@ -15455,6 +15465,7 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_GD);
 static PHP_METHOD(Phalcon_Image_Adapter_GD, check);
 static PHP_METHOD(Phalcon_Image_Adapter_GD, __construct);
 static PHP_METHOD(Phalcon_Image_Adapter_GD, _resize);
+static PHP_METHOD(Phalcon_Image_Adapter_GD, _liquidRescale);
 static PHP_METHOD(Phalcon_Image_Adapter_GD, _crop);
 static PHP_METHOD(Phalcon_Image_Adapter_GD, _rotate);
 static PHP_METHOD(Phalcon_Image_Adapter_GD, _flip);
@@ -15475,6 +15486,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd__resize, 0, 0, 2)
 	ZEND_ARG_INFO(0, width)
 	ZEND_ARG_INFO(0, height)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd__liquidrescale, 0, 0, 4)
+	ZEND_ARG_INFO(0, width)
+	ZEND_ARG_INFO(0, height)
+	ZEND_ARG_INFO(0, delta_x)
+	ZEND_ARG_INFO(0, rigidity)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd__crop, 0, 0, 4)
@@ -15539,6 +15557,7 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_gd_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_GD, check, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Image_Adapter_GD, __construct, arginfo_phalcon_image_adapter_gd___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _resize, arginfo_phalcon_image_adapter_gd__resize, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Image_Adapter_GD, _liquidRescale, arginfo_phalcon_image_adapter_gd__liquidrescale, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _crop, arginfo_phalcon_image_adapter_gd__crop, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _rotate, arginfo_phalcon_image_adapter_gd__rotate, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _flip, arginfo_phalcon_image_adapter_gd__flip, ZEND_ACC_PROTECTED) 
@@ -15563,6 +15582,7 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_Imagick);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, check);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _resize);
+static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _liquidRescale);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _crop);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _rotate);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _flip);
@@ -15582,6 +15602,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__resize, 0, 0, 2)
 	ZEND_ARG_INFO(0, width)
 	ZEND_ARG_INFO(0, height)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__liquidrescale, 0, 0, 4)
+	ZEND_ARG_INFO(0, width)
+	ZEND_ARG_INFO(0, height)
+	ZEND_ARG_INFO(0, delta_x)
+	ZEND_ARG_INFO(0, rigidity)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__crop, 0, 0, 4)
@@ -15641,6 +15668,7 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, check, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __construct, arginfo_phalcon_image_adapter_imagick___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _resize, arginfo_phalcon_image_adapter_imagick__resize, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Image_Adapter_Imagick, _liquidRescale, arginfo_phalcon_image_adapter_imagick__liquidrescale, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _crop, arginfo_phalcon_image_adapter_imagick__crop, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _rotate, arginfo_phalcon_image_adapter_imagick__rotate, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _flip, arginfo_phalcon_image_adapter_imagick__flip, ZEND_ACC_PROTECTED) 
