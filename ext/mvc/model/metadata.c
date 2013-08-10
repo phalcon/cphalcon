@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 		phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	}
 
-	phalcon_array_update_append_multi_2(&meta_data, key,  &data, 0);	
+	phalcon_array_update_append_multi_2(&meta_data, key, data, 0);	
 	phalcon_update_property_this(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
