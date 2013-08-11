@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -267,7 +266,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes){
 /**
  * Return current prefixes registered in the autoloader
  *
- * @param array
+ * @return array
  */
 PHP_METHOD(Phalcon_Loader, getPrefixes){
 
