@@ -450,7 +450,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 	HashTable *ah2;
 	HashPosition hp2;
 	zval **hd;
-	zval *tmp1 = NULL, *tmp2 = NULL;
 
 	PHALCON_MM_GROW();
 
