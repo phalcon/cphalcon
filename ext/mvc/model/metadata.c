@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -320,7 +319,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy){
  * Reads the complete meta-data for certain model
  *
  *<code>
- *	print_r($metaData->readMetaData(new Robots());
+ *	print_r($metaData->readMetaData(new Robots()));
  *</code>
  *
  * @param Phalcon\Mvc\ModelInterface $model
