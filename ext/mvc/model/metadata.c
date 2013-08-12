@@ -501,7 +501,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 		phalcon_array_fetch(&arr, meta_data, key, PH_NOISY);
 		
 		PHALCON_OBS_VAR(value);
-                phalcon_array_fetch(&value, arr, index, PH_NOISY);
+		phalcon_array_fetch(&value, arr, index, PH_NOISY);
 
 		PHALCON_SEPARATE_PARAM(data);
 		phalcon_is_iterable(value, &ah2, &hp2, 0, 0);
