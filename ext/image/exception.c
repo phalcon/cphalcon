@@ -14,6 +14,8 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          ZhuZongXin <dreamsxin@qq.com>                                 |
+  |          Vladimir Kolesnikov <vladimir@free-sevastopol.com>            |
   +------------------------------------------------------------------------+
 */
 
@@ -31,6 +33,8 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+
+#include "image/exception.h"
 
 /**
  * Phalcon\Image\Exception
