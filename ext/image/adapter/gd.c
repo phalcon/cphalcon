@@ -94,11 +94,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 
 	PHALCON_INIT_NVAR(gd_version);
 	if (zend_get_constant(SL("GD_VERSION"), gd_version TSRMLS_CC) == FAILURE) {
-
-		if (!gd_info) {
-			PHALCON_INIT_NVAR(gd_info);
-			phalcon_call_func(gd_info, "gd_info");
-		}
+		PHALCON_INIT_NVAR(gd_info);
+		phalcon_call_func(gd_info, "gd_info");
 
 		PHALCON_INIT_NVAR(pattern);
 		ZVAL_STRING(pattern, "#\\d+\\.\\d+(?:\\.\\d+)?#", 1);
@@ -553,7 +550,6 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
 	} else if (a < 1) {
 		a = 1;
 	}
-	b = a;
 
 	b = -18 + (a * 0.08);
 
