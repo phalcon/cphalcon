@@ -446,7 +446,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 
 	zval *model, *index, *data, *table, *schema, *class_name;
-	zval *key, *meta_data = NULL;
+	zval *key, *meta_data = NULL, *arr, *value;
+	HashTable *ah2;
+	HashPosition hp2;
+	zval **hd;
+	zval *tmp1 = NULL, *tmp2 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -492,6 +496,26 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 	
 		PHALCON_OBS_NVAR(meta_data);
 		phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	} else {
+		PHALCON_OBS_VAR(arr);
+		phalcon_array_fetch(&arr, meta_data, key, PH_NOISY);
+		
+		PHALCON_OBS_VAR(value);
+                phalcon_array_fetch(&value, arr, index, PH_NOISY);
+
+		PHALCON_SEPARATE_PARAM(data);
+		phalcon_is_iterable(value, &ah2, &hp2, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+
+			zval key2 = phalcon_get_current_key_w(ah2, &hp2);
+
+			if (!phalcon_array_isset(data, &key2)) {
+				phalcon_array_update_zval(&data, &key2, hd, PH_COPY | PH_SEPARATE);
+			} 
+
+			zend_hash_move_forward_ex(ah2, &hp2);
+		}
 	}
 	
 	phalcon_array_update_multi_2(&meta_data, key, index, &data, 0);
