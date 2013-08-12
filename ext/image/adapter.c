@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Image_Adapter, getImage){
  *
  * @param int $width   new width
  * @param int $height  new height
- * @param int $master  master dimension
+ * @param int $master  master dimension, if master equal TENSILE, the width and height must be input
  * @return Phalcon\Image\Adapter
  */
 PHP_METHOD(Phalcon_Image_Adapter, resize){
@@ -210,18 +210,6 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 
 	phalcon_fetch_params(1, 0, 3, &width, &height, &master);
 
-	if (!width) {
-		PHALCON_INIT_VAR(width);
-	} else {
-		PHALCON_SEPARATE_PARAM(width);
-	}
-
-	if (!height) {
-		PHALCON_INIT_VAR(height);
-	} else {
-		PHALCON_SEPARATE_PARAM(height);
-	}
-
 	if (!master) {
 		PHALCON_INIT_VAR(master);
 		ZVAL_LONG(master, 4);
@@ -229,103 +217,130 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 		PHALCON_SEPARATE_PARAM(master);
 	}
 
-	PHALCON_OBS_VAR(image_width);
-	phalcon_read_property_this(&image_width, this_ptr, SL("_width"), PH_NOISY_CC);
-
-	PHALCON_OBS_VAR(image_height);
-	phalcon_read_property_this(&image_height, this_ptr, SL("_height"), PH_NOISY_CC);
-	
-	tmp_image_width = phalcon_get_intval(image_width);
-	tmp_image_height = phalcon_get_intval(image_height);
-
 	if (Z_TYPE_P(master) != IS_LONG) {
 		convert_to_long(master);
 	}
 
-	if (Z_LVAL_P(master) == 2 && Z_TYPE_P(width) == IS_LONG) {
-		ZVAL_LONG(master, 4);
-	} else if (Z_LVAL_P(master) == 3 && Z_TYPE_P(height) == IS_LONG) {
-		ZVAL_LONG(master, 4);
-	}
+	if (phalcon_get_intval(master) == 7) {
+		if (!width || !height) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "width and height parameter must be input");
+			return;
+		}
 
-	if (Z_TYPE_P(width) != IS_LONG) {
-		if (Z_LVAL_P(master) == 1) {
-			tmp_width = tmp_image_width;
-		} else {
-			ZVAL_LONG(master, 3);
+		if (Z_TYPE_P(width) != IS_LONG) {
+			convert_to_long(width);
+		}
+
+		if (Z_TYPE_P(height) != IS_LONG) {
+			convert_to_long(height);
 		}
 	} else {
-		tmp_width = Z_LVAL_P(width);
-	}
-
-	if (Z_TYPE_P(height) != IS_LONG) {
-		if (Z_LVAL_P(master) == 1) {
-			tmp_height = tmp_image_height;
+		if (!width) {
+			PHALCON_INIT_VAR(width);
 		} else {
-			ZVAL_LONG(master, 2);
+			PHALCON_SEPARATE_PARAM(width);
 		}
-	} else {
-		tmp_height = Z_LVAL_P(height);
-	}
 
-	switch (Z_LVAL_P(master)) {
-		case 4: // AUTO
-		{
-			if ( (tmp_image_width / tmp_width) > (tmp_image_height / tmp_height)) {
-				ZVAL_LONG(master, 2);
+		if (!height) {
+			PHALCON_INIT_VAR(height);
+		} else {
+			PHALCON_SEPARATE_PARAM(height);
+		}
+
+		PHALCON_OBS_VAR(image_width);
+		phalcon_read_property_this(&image_width, this_ptr, SL("_width"), PH_NOISY_CC);
+
+		PHALCON_OBS_VAR(image_height);
+		phalcon_read_property_this(&image_height, this_ptr, SL("_height"), PH_NOISY_CC);
+		
+		tmp_image_width = phalcon_get_intval(image_width);
+		tmp_image_height = phalcon_get_intval(image_height);
+
+		if (Z_LVAL_P(master) == 2 && Z_TYPE_P(width) == IS_LONG) {
+			ZVAL_LONG(master, 4);
+		} else if (Z_LVAL_P(master) == 3 && Z_TYPE_P(height) == IS_LONG) {
+			ZVAL_LONG(master, 4);
+		}
+
+		if (Z_TYPE_P(width) != IS_LONG) {
+			if (Z_LVAL_P(master) == 1) {
+				tmp_width = tmp_image_width;
 			} else {
 				ZVAL_LONG(master, 3);
 			}
-			break;
+		} else {
+			tmp_width = Z_LVAL_P(width);
 		}
-		case 5: // INVERSE
-		{
-			if ( (tmp_image_width / tmp_width) > (tmp_image_height / tmp_height)) {
-				ZVAL_LONG(master, 3);
+
+		if (Z_TYPE_P(height) != IS_LONG) {
+			if (Z_LVAL_P(master) == 1) {
+				tmp_height = tmp_image_height;
 			} else {
 				ZVAL_LONG(master, 2);
 			}
-			break;
+		} else {
+			tmp_height = Z_LVAL_P(height);
 		}
-	
-	}
 
-	switch (Z_LVAL_P(master)) {
-		case 2: // WIDTH
-		{
-			tmp_height = (int)((tmp_image_height * tmp_width / tmp_image_width) + 0.5);
-			break;
+		switch (phalcon_get_intval(master)) {
+			case 4: // AUTO
+			{
+				if ( (tmp_image_width / tmp_width) > (tmp_image_height / tmp_height)) {
+					ZVAL_LONG(master, 2);
+				} else {
+					ZVAL_LONG(master, 3);
+				}
+				break;
+			}
+			case 5: // INVERSE
+			{
+				if ( (tmp_image_width / tmp_width) > (tmp_image_height / tmp_height)) {
+					ZVAL_LONG(master, 3);
+				} else {
+					ZVAL_LONG(master, 2);
+				}
+				break;
+			}
+		
 		}
-		case 3: // HEIGHT
-		{
-			tmp_width = (int)((tmp_image_width * tmp_height / tmp_image_height) + 0.5);
-			break;
-		}
-		case 6: //PRECISE
-		{
-			if ((tmp_width / tmp_height) > (tmp_image_width / tmp_image_height)) {
+
+		switch (phalcon_get_intval(master)) {
+			case 2: // WIDTH
+			{
 				tmp_height = (int)((tmp_image_height * tmp_width / tmp_image_width) + 0.5);
-			} else {
-				tmp_width = (int)((tmp_image_width * tmp_height / tmp_image_height) + 0.5);
+				break;
 			}
-			break;
+			case 3: // HEIGHT
+			{
+				tmp_width = (int)((tmp_image_width * tmp_height / tmp_image_height) + 0.5);
+				break;
+			}
+			case 6: //PRECISE
+			{
+				if ((tmp_width / tmp_height) > (tmp_image_width / tmp_image_height)) {
+					tmp_height = (int)((tmp_image_height * tmp_width / tmp_image_width) + 0.5);
+				} else {
+					tmp_width = (int)((tmp_image_width * tmp_height / tmp_image_height) + 0.5);
+				}
+				break;
+			}
+		
 		}
-	
-	}
-	
-	if (tmp_width <= 0) {
-		tmp_width = 1;
-	}
+		
+		if (tmp_width <= 0) {
+			tmp_width = 1;
+		}
 
-	if (tmp_height <= 0) {
-		tmp_height = 1;
+		if (tmp_height <= 0) {
+			tmp_height = 1;
+		}
+
+		PHALCON_INIT_NVAR(width);
+		ZVAL_LONG(width, tmp_width);
+
+		PHALCON_INIT_NVAR(height);
+		ZVAL_LONG(height, tmp_height);
 	}
-
-	PHALCON_INIT_NVAR(width);
-	ZVAL_LONG(width, tmp_width);
-
-	PHALCON_INIT_NVAR(height);
-	ZVAL_LONG(height, tmp_height);
 
 	phalcon_call_method_p2_noret(this_ptr, "_resize", width, height);
 
