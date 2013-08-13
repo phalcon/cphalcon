@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 
-	zval *model, *index, *data, *table, *schema, *class_name;
+	zval *model, *index, *data, *replace, *table, *schema, *class_name;
 	zval *key, *meta_data = NULL, *arr, *value;
 	HashTable *ah2;
 	HashPosition hp2;
@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &model, &index, &data);
+	phalcon_fetch_params(1, 4, 0, &model, &index, &data, &replace);
 	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
@@ -496,7 +496,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 	
 		PHALCON_OBS_NVAR(meta_data);
 		phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
-	} else {
+	} else if (!zend_is_true(replace)) {
 		PHALCON_OBS_VAR(arr);
 		phalcon_array_fetch(&arr, meta_data, key, PH_NOISY);
 		
@@ -934,15 +934,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes){
 
-	zval *model, *attributes, *create_index;
+	zval *model, *attributes, *replace, *create_index;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &model, &attributes);
+	phalcon_fetch_params(1, 3, 0, &model, &attributes, &replace);
 	
 	PHALCON_INIT_VAR(create_index);
 	ZVAL_LONG(create_index, 10);
-	phalcon_call_method_p3_noret(this_ptr, "writemetadataindex", model, create_index, attributes);
+	phalcon_call_method_p4_noret(this_ptr, "writemetadataindex", model, create_index, attributes, replace);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -959,15 +959,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes){
 
-	zval *model, *attributes, *create_index;
+	zval *model, *attributes, *replace, *create_index;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &model, &attributes);
+	phalcon_fetch_params(1, 3, 0, &model, &attributes, &replace);
 	
 	PHALCON_INIT_VAR(create_index);
 	ZVAL_LONG(create_index, 11);
-	phalcon_call_method_p3_noret(this_ptr, "writemetadataindex", model, create_index, attributes);
+	phalcon_call_method_p4_noret(this_ptr, "writemetadataindex", model, create_index, attributes, replace);
 	
 	PHALCON_MM_RESTORE();
 }
