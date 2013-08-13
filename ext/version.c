@@ -64,7 +64,7 @@ PHALCON_INIT_CLASS(Phalcon_Version){
  * B - Med version (two digits)
  * C - Min version (two digits)
  * D - Special release: 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
- * E - Special release version i.e. RC1, Beta2 etc.
+ * E - Special release version i.e. RC1, Beta2 etc. 
  */
 PHP_METHOD(Phalcon_Version, _getVersion){
 
