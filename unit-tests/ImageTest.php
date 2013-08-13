@@ -27,6 +27,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
+		@unlink('unit-tests/assets/new.jpg');
 		@unlink('unit-tests/assets/gd-resize.jpg');
 		@unlink('unit-tests/assets/gd-crop.jpg');
 		@unlink('unit-tests/assets/gd-rotate.jpg');
@@ -37,6 +38,10 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		@unlink('unit-tests/assets/gd-background.jpg');
 
 		try {
+			$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/new.jpg', 100, 100);
+			$image->save();
+			$this->assertTrue(file_exists('unit-tests/assets/production/new.jpg'));
+
 			$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/phalconphp.jpg');
 
 			 // Resize to 200 pixels on the shortest side
@@ -121,6 +126,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
+		@unlink('unit-tests/assets/production/new.jpg');
 		@unlink('unit-tests/assets/production/imagick-resize.jpg');
 		@unlink('unit-tests/assets/production/imagick-liquidRescale.jpg');
 		@unlink('unit-tests/assets/production/imagick-crop.jpg');
@@ -132,6 +138,10 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		@unlink('unit-tests/assets/production/imagick-background.jpg');
 
 		try {
+			$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/new.jpg', 100, 100);
+			$image->save();
+			$this->assertTrue(file_exists('unit-tests/assets/production/new.jpg'));
+
 			$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/phalconphp.jpg');
 
 			 // Resize to 200 pixels on the shortest side
