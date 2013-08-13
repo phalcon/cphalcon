@@ -5048,7 +5048,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &attributes);
+	phalcon_fetch_params(1, 1, 1, &attributes, &replace);
 	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
@@ -5112,7 +5112,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &attributes);
+	phalcon_fetch_params(1, 1, 1, &attributes, &replace);
 	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
