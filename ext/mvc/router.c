@@ -597,7 +597,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 					PHALCON_CPY_WRT(regex_host_name, hostname);
 				}
 
-				phalcon_preg_match(matched, regex_host_name, current_host_name, NULL TSRMLS_CC);
+				phalcon_preg_match(matched, NULL, regex_host_name, current_host_name, NULL TSRMLS_CC);
 			} else {
 				is_equal_function(matched, current_host_name, hostname TSRMLS_CC);
 			}
@@ -616,7 +616,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 
 		PHALCON_INIT_NVAR(route_found);
 		if (Z_TYPE_P(pattern) == IS_STRING && Z_STRLEN_P(pattern) > 3 && Z_STRVAL_P(pattern)[1] == '^') {
-			phalcon_preg_match(route_found, pattern, handled_uri, matches TSRMLS_CC);
+			phalcon_preg_match(route_found, NULL, pattern, handled_uri, matches TSRMLS_CC);
 		} else {
 			is_equal_function(route_found, pattern, handled_uri TSRMLS_CC);
 		}

@@ -630,7 +630,7 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody){
 	PHALCON_INIT_VAR(raw_body);
 	phalcon_call_method(raw_body, this_ptr, "getrawbody");
 	if (Z_TYPE_P(raw_body) == IS_STRING) {
-		phalcon_json_decode(return_value, raw_body, 0 TSRMLS_CC);
+		phalcon_json_decode(return_value, return_value_ptr, raw_body, 0 TSRMLS_CC);
 		RETURN_MM();
 	}
 	

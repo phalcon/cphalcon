@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 	 * Check if the value match using preg_match in the PHP userland
 	 */
 	PHALCON_INIT_VAR(match_pattern);
-	phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC);
+	phalcon_preg_match(match_pattern, NULL, pattern, value, matches TSRMLS_CC);
 	
 	if (zend_is_true(match_pattern)) {
 		PHALCON_OBS_VAR(match_zero);

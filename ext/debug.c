@@ -644,13 +644,13 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 		ZVAL_STRING(pattern, "/^Phalcon/", 1);
 	
 		PHALCON_INIT_VAR(is_phalcon_class);
-	
-		phalcon_preg_match(is_phalcon_class, pattern, class_name, NULL TSRMLS_CC);
+		phalcon_preg_match(is_phalcon_class, NULL, pattern, class_name, NULL TSRMLS_CC);
 	
 		/** 
 		 * We assume that classes starting by Phalcon are framework's classes
 		 */
 		if (zend_is_true(is_phalcon_class)) {
+
 			PHALCON_INIT_VAR(namespace_separator);
 			ZVAL_STRING(namespace_separator, "\\", 1);
 	
@@ -930,7 +930,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	
 						PHALCON_INIT_NVAR(is_comment);
 	
-						phalcon_preg_match(is_comment, comment_pattern, current_line, NULL TSRMLS_CC);
+						phalcon_preg_match(is_comment, NULL, comment_pattern, current_line, NULL TSRMLS_CC);
 	
 						if (zend_is_true(is_comment)) {
 							PHALCON_INIT_NVAR(spaced_current_line);

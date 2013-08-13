@@ -621,7 +621,7 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 	}
 	
 	PHALCON_INIT_VAR(json_content);
-	phalcon_json_encode(json_content, content, options TSRMLS_CC);
+	phalcon_json_encode(json_content, NULL, content, options TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_content"), json_content TSRMLS_CC);
 	RETURN_THIS();
 }
@@ -635,7 +635,7 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 PHP_METHOD(Phalcon_Http_Response, appendContent){
 
 	zval *content, *_content;
-	zval *r0 = NULL;
+	zval *temp_content = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -643,9 +643,9 @@ PHP_METHOD(Phalcon_Http_Response, appendContent){
 	
 	PHALCON_OBS_VAR(_content);
 	phalcon_read_property_this(&_content, this_ptr, SL("_content"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(r0);
-	concat_function(r0, _content, content TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_content"), r0 TSRMLS_CC);
+	PHALCON_INIT_VAR(temp_content);
+	concat_function(temp_content, _content, content TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_content"), temp_content TSRMLS_CC);
 	RETURN_THIS();
 }
 

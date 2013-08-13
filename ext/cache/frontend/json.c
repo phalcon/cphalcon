@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	phalcon_json_encode(return_value, data, 0 TSRMLS_CC);
+	phalcon_json_encode(return_value, return_value_ptr, data, 0 TSRMLS_CC);
 }
 
 /**
@@ -197,6 +197,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve){
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	phalcon_json_decode(return_value, data, 0 TSRMLS_CC);
+	phalcon_json_decode(return_value, return_value_ptr, data, 0 TSRMLS_CC);
 }
 

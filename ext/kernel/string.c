@@ -50,6 +50,7 @@
 #include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 
 #define PH_RANDOM_ALNUM 0
 #define PH_RANDOM_ALPHA 1
@@ -1078,7 +1079,7 @@ void phalcon_md5(zval *return_value, zval *str) {
 /**
  * Execute preg-match without function lookup in the PHP userland
  */
-void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC)
+void phalcon_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches TSRMLS_DC)
 {
 	zval copy;
 	int use_copy = 0;
@@ -1115,13 +1116,13 @@ void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *ma
 
 #else
 
-void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC)
+void phalcon_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches TSRMLS_DC)
 {
 	if (matches) {
 		Z_SET_ISREF_P(matches);
 	}
 
-	phalcon_call_func_params(return_value, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
+	phalcon_call_func_params(return_value, return_value_ptr, SL("preg_match") TSRMLS_CC, (matches ? 3 : 2), regex, subject, matches);
 
 	if (matches) {
 		Z_UNSET_ISREF_P(matches);
@@ -1132,7 +1133,7 @@ void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *ma
 
 #ifdef PHALCON_USE_PHP_JSON
 
-void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
+void phalcon_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
 {
 	smart_str buf = { NULL, 0, 0 };
 
@@ -1141,7 +1142,7 @@ void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
 	ZVAL_STRINGL(return_value, buf.c, buf.len, 0);
 }
 
-void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
+void phalcon_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
 {
 	zval copy;
 	int use_copy = 0;
@@ -1162,25 +1163,25 @@ void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
 
 #else
 
-void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC)
+void phalcon_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC)
 {
 	zval *zopts;
 
 	ALLOC_INIT_ZVAL(zopts);
 	ZVAL_LONG(zopts, opts);
 
-	phalcon_call_func_params(return_value, ZEND_STRL("json_encode") TSRMLS_CC, 2, v, zopts);
+	phalcon_call_func_params(return_value, return_value_ptr, ZEND_STRL("json_encode") TSRMLS_CC, 2, v, zopts);
 	zval_ptr_dtor(&zopts);
 }
 
-void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC)
+void phalcon_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
 {
 	zval *zassoc;
 
 	ALLOC_INIT_ZVAL(zassoc);
 	ZVAL_BOOL(zassoc, assoc);
 
-	phalcon_call_func_params(return_value, ZEND_STRL("json_decode") TSRMLS_CC, 2, v, zassoc);
+	phalcon_call_func_params(return_value, return_value_ptr, ZEND_STRL("json_decode") TSRMLS_CC, 2, v, zassoc);
 	zval_ptr_dtor(&zassoc);
 }
 

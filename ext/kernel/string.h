@@ -75,7 +75,7 @@ void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned 
 zval *phalcon_eol(int eol TSRMLS_DC);
 
 /** Preg-Match */
-void phalcon_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches TSRMLS_DC);
+void phalcon_preg_match(zval *return_value, zval **return_value_ptr, zval *regex, zval *subject, zval *matches TSRMLS_DC);
 
 /** Base64 */
 void phalcon_base64_encode(zval *return_value, zval *data);
@@ -85,8 +85,8 @@ void phalcon_base64_decode(zval *return_value, zval *data);
 void phalcon_md5(zval *return_value, zval *str);
 
 /** JSON */
-void phalcon_json_encode(zval *return_value, zval *v, int opts TSRMLS_DC);
-void phalcon_json_decode(zval *return_value, zval *v, zend_bool assoc TSRMLS_DC);
+void phalcon_json_encode(zval *return_value, zval **return_value_ptr, zval *v, int opts TSRMLS_DC);
+void phalcon_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC);
 
 /***/
 void phalcon_lcfirst(zval *return_value, zval *s);

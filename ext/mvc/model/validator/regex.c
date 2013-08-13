@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	 * Check if the value matches using preg_match
 	 */
 	PHALCON_INIT_VAR(match_pattern);
-	phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC);
+	phalcon_preg_match(match_pattern, NULL, pattern, value, matches TSRMLS_CC);
 	
 	if (zend_is_true(match_pattern)) {
 		PHALCON_OBS_VAR(match_zero);

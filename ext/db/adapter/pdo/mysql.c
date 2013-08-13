@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			PHALCON_INIT_NVAR(matches);
 	
 			PHALCON_INIT_NVAR(pos);
-			phalcon_preg_match(pos, size_pattern, column_type, matches TSRMLS_CC);
+			phalcon_preg_match(pos, NULL, size_pattern, column_type, matches TSRMLS_CC);
 
 			if (zend_is_true(pos)) {
 				if (phalcon_array_isset_long(matches, 1)) {

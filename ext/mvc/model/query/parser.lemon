@@ -187,7 +187,7 @@ static zval *phql_ret_order_item(zval *column, int sort){
 
 static zval *phql_ret_limit_clause(zval *L, zval *O)
 {
-	zval *ret, **type, **value;
+	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 2);

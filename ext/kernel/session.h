@@ -22,7 +22,7 @@
 
 void phalcon_session_start(TSRMLS_D);
 void phalcon_session_destroy(TSRMLS_D);
-void phalcon_get_session_id(zval *return_value TSRMLS_DC);
+void phalcon_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC);
 void phalcon_set_session_id(zval *sid TSRMLS_DC);
 
 #endif /* PHALCON_KERNEL_SESSION_H */

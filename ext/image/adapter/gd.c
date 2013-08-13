@@ -41,6 +41,7 @@
 #include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/output.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Image\\Adapter\GD
@@ -107,7 +108,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 			PHALCON_INIT_NVAR(matches);
 		
 			PHALCON_INIT_NVAR(ret);
-			phalcon_preg_match(ret, pattern, gd_version, matches TSRMLS_CC);
+			phalcon_preg_match(ret, NULL, pattern, gd_version, matches TSRMLS_CC);
 
 			if (zend_is_true(ret)) {
 				if (phalcon_array_isset_long(matches, 0)) {
@@ -156,7 +157,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
 	zval *file, *width = NULL, *height = NULL, *exception_message;
 	zval *checked = NULL, *realpath = NULL, *type = NULL, *mime = NULL, *image = NULL;
-	zval *ret, *saveflag, *blendmode;
+	zval *saveflag, *blendmode;
 
 	PHALCON_MM_GROW();
 
@@ -426,8 +427,9 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _crop) {
 PHP_METHOD(Phalcon_Image_Adapter_GD, _rotate) {
 
 	zval *degrees;
-	zval *bundled = NULL, *image = NULL, *tmp_image, *color, *alpha, *transparent, *ignore_transparent, *saveflag, *ret;
-	zval *w, *h, *dst, *pct;
+	zval *image = NULL, *tmp_image, *color, *alpha, *transparent;
+        zval *ignore_transparent, *saveflag;
+	zval *w, *h;
 	int tmp_degrees;
 
 	PHALCON_MM_GROW();

@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct){
 	phalcon_file_get_contents(contents, file_path TSRMLS_CC);
 
 	if (Z_TYPE_P(contents) == IS_STRING) {
-		phalcon_json_decode(array, contents, 1 TSRMLS_CC);
+		phalcon_json_decode(array, NULL, contents, 1 TSRMLS_CC);
 	}
 
 	zval_ptr_dtor(&contents);
