@@ -217,14 +217,13 @@ PHP_METHOD(Phalcon_Http_Request_File, getKey){
 
 PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 
-	zval *tmp_name;
+	zval *tmp_name = NULL;
 
 	if (!SG(rfc1867_uploaded_files)) {
 		RETURN_FALSE;
 	}
 
-	PHALCON_ALLOC_ZVAL(tmp_name);
-	if (phalcon_call_method_params(tmp_name, getThis(), SL("gettempname"), zend_inline_hash_func(SS("gettempname")) TSRMLS_CC, 0) == SUCCESS) {
+	if (phalcon_call_method_params(tmp_name, &tmp_name, getThis(), SL("gettempname"), zend_inline_hash_func(SS("gettempname")) TSRMLS_CC, 0) == SUCCESS) {
 		if (Z_TYPE_P(tmp_name) == IS_STRING && zend_hash_exists(SG(rfc1867_uploaded_files), Z_STRVAL_P(tmp_name), Z_STRLEN_P(tmp_name) + 1)) {
 			RETVAL_TRUE;
 		}
