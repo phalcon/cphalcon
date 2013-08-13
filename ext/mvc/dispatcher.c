@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	
 	/** 
-	 * Dispatcher exceptions automatically sends 404 status
+	 * Dispatcher exceptions automatically send 404 status
 	 */
 	PHALCON_INIT_VAR(status_code);
 	ZVAL_LONG(status_code, 404);

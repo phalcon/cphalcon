@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_DI, get){
 	 * A valid service alias is a string
 	 */
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service alias must be a string");
 		return;
 	}
 	
