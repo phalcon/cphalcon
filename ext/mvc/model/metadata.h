@@ -66,10 +66,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_readmetadataindex, 0, 
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_writemetadataindex, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_writemetadataindex, 0, 0, 4)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, index)
 	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, replace)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_readcolumnmap, 0, 0, 1)
@@ -121,14 +122,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getautomaticupdateattr
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setautomaticcreateattributes, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setautomaticcreateattributes, 0, 0, 3)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_INFO(0, replace)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setautomaticupdateattributes, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setautomaticupdateattributes, 0, 0, 3)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, attributes)
+	ZEND_ARG_INFO(0, replace)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getcolumnmap, 0, 0, 1)

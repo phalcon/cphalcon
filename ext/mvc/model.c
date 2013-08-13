@@ -5013,7 +5013,7 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute){
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 
-	zval *attributes, *null_value, *keys_attributes;
+	zval *attributes, *replace = NULL, *null_value, *keys_attributes;
 	zval *attribute = NULL, *meta_data;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -5021,11 +5021,16 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &attributes);
+	phalcon_fetch_params(1, 1, 1, &attributes, &replace);
 	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
 		return;
+	}
+
+	if (!replace) {
+		PHALCON_INIT_VAR(replace);
+		ZVAL_FALSE(replace);
 	}
 	
 	PHALCON_INIT_VAR(null_value);
@@ -5046,8 +5051,8 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method(meta_data, this_ptr, "getmodelsmetadata");
-	phalcon_call_method_p2_noret(meta_data, "setautomaticcreateattributes", this_ptr, keys_attributes);
-	phalcon_call_method_p2_noret(meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes);
+	phalcon_call_method_p3_noret(meta_data, "setautomaticcreateattributes", this_ptr, keys_attributes, replace);
+	phalcon_call_method_p3_noret(meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes, replace);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -5073,7 +5078,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 
-	zval *attributes, *null_value, *keys_attributes;
+	zval *attributes, *replace = NULL, *null_value, *keys_attributes;
 	zval *attribute = NULL, *meta_data;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -5081,11 +5086,16 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &attributes);
+	phalcon_fetch_params(1, 1, 1, &attributes, &replace);
 	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
 		return;
+	}
+
+	if (!replace) {
+		PHALCON_INIT_VAR(replace);
+		ZVAL_FALSE(replace);
 	}
 	
 	PHALCON_INIT_VAR(null_value);
@@ -5106,7 +5116,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method(meta_data, this_ptr, "getmodelsmetadata");
-	phalcon_call_method_p2_noret(meta_data, "setautomaticcreateattributes", this_ptr, keys_attributes);
+	phalcon_call_method_p3_noret(meta_data, "setautomaticcreateattributes", this_ptr, keys_attributes, replace);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -5132,7 +5142,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 
-	zval *attributes, *null_value, *keys_attributes;
+	zval *attributes, *replace = NULL, *null_value, *keys_attributes;
 	zval *attribute = NULL, *meta_data;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -5140,11 +5150,16 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &attributes);
+	phalcon_fetch_params(1, 1, 1, &attributes, &replace);
 	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
 		return;
+	}
+
+	if (!replace) {
+		PHALCON_INIT_VAR(replace);
+		ZVAL_FALSE(replace);
 	}
 	
 	PHALCON_INIT_VAR(null_value);
@@ -5165,7 +5180,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method(meta_data, this_ptr, "getmodelsmetadata");
-	phalcon_call_method_p2_noret(meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes);
+	phalcon_call_method_p3_noret(meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes, replace);
 	
 	PHALCON_MM_RESTORE();
 }
