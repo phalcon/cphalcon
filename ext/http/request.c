@@ -1272,7 +1272,7 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 					ALLOC_INIT_ZVAL(file);
 					object_init_ex(file, phalcon_http_request_file_ce);
 
-					res = phalcon_call_method_params(NULL, file, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 2, arr, key);
+					res = phalcon_call_method_params(NULL, NULL, file, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 2, arr, key);
 
 					zval_ptr_dtor(&arr);
 					zval_ptr_dtor(&key);

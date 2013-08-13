@@ -43,7 +43,7 @@ void phalcon_session_start(TSRMLS_D)
 
 void phalcon_session_destroy(TSRMLS_D)
 {
-	phalcon_call_func_params(NULL, SL("session_destroy") TSRMLS_CC, 0);
+	phalcon_call_func_params(NULL, NULL, SL("session_destroy") TSRMLS_CC, 0);
 }
 
 void phalcon_get_session_id(zval *return_value TSRMLS_DC)

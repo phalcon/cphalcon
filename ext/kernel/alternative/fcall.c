@@ -24,6 +24,8 @@
 #include "php.h"
 #include "php_phalcon.h"
 
+#include "ext/standard/php_smart_str.h"
+
 #include "Zend/zend_API.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_execute.h"
@@ -551,6 +553,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 
 	fci_cache = &fci_local;
 
+	assert(*fci->retval_ptr_ptr == NULL);
 	*fci->retval_ptr_ptr = NULL;
 
 	/* Initialize execute_data */
@@ -875,6 +878,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	if (executor_globals_ptr->exception) {
 		phalcon_throw_exception_internal(NULL TSRMLS_CC);
 	}
+
 	return SUCCESS;
 }
 
@@ -883,7 +887,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 /**
  * Calls a method caching its function handler
  */
-int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
+int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zval **retval_ptr_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
 {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	zval ***params_array = NULL;
@@ -891,7 +895,7 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 	zend_uint i;
 	int ex_retval;
 	zval *local_retval_ptr = NULL;
-	zend_fcall_info *fci, fci_local;
+	zend_fcall_info fci;
 	unsigned long hash_key = 0;
 
 	phalcon_globals_ptr->recursive_lock++;
@@ -929,26 +933,30 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 
 		}
 
-		fci = &fci_local;
-		fci->size = sizeof(fci);
-		fci->no_separation = 1;
-		fci->symbol_table = NULL;
-		fci->function_table = &ce->function_table;
-		fci->object_ptr = *object_pp;
-		fci->function_name = NULL;
-		fci->retval_ptr_ptr = &local_retval_ptr;
-		fci->param_count = param_count;
-		if (param_count > 5) {
-			fci->params = params_array;
-		} else{
-			fci->params = static_params_array;
+		if (retval_ptr_ptr && *retval_ptr_ptr) {
+			zval_ptr_dtor(retval_ptr_ptr);
+			*retval_ptr_ptr = NULL;
 		}
 
-		ex_retval = phalcon_alt_call_method(fci, ce, hash_key, method_name, method_len, method_key TSRMLS_CC);
+		fci.size = sizeof(fci);
+		fci.no_separation = 1;
+		fci.symbol_table = NULL;
+		fci.function_table = &ce->function_table;
+		fci.object_ptr = *object_pp;
+		fci.function_name = NULL;
+		fci.retval_ptr_ptr = retval_ptr_ptr ? retval_ptr_ptr : &local_retval_ptr;
+		fci.param_count = param_count;
+		if (param_count > 5) {
+			fci.params = params_array;
+		} else{
+			fci.params = static_params_array;
+		}
 
-		if (fci->function_name) {
-			ZVAL_NULL(fci->function_name);
-			zval_ptr_dtor(&fci->function_name);
+		ex_retval = phalcon_alt_call_method(&fci, ce, hash_key, method_name, method_len, method_key TSRMLS_CC);
+
+		if (fci.function_name) {
+			ZVAL_NULL(fci.function_name);
+			zval_ptr_dtor(&fci.function_name);
 		}
 	}
 
@@ -956,7 +964,7 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 
 	if (local_retval_ptr) {
 		COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);
-	} else {
+	} else if (!retval_ptr_ptr) {
 		INIT_ZVAL(*retval_ptr);
 	}
 
