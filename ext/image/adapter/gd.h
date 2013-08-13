@@ -40,6 +40,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __destruct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
+	ZEND_ARG_INFO(0, width)
+	ZEND_ARG_INFO(0, height)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd__resize, 0, 0, 2)
