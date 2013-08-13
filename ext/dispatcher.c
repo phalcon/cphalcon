@@ -445,7 +445,7 @@ static inline int phalcon_dispatcher_fire_event(zval *return_value, zval **mgr, 
 		ALLOC_INIT_ZVAL(event_name);
 		ZVAL_STRING(event_name, event, 0);
 
-		status = phalcon_call_method_params(return_value, return_value ? &return_value : NULL, *mgr, SL("fire"), zend_inline_hash_func(SS("fire")) TSRMLS_CC, (data ? 3 : 2), event_name, source, data);
+		status = phalcon_call_method_params(return_value, NULL, *mgr, SL("fire"), zend_inline_hash_func(SS("fire")) TSRMLS_CC, (data ? 3 : 2), event_name, source, data);
 
 		ZVAL_NULL(event_name);
 		zval_ptr_dtor(&event_name);
