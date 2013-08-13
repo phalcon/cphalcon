@@ -671,8 +671,8 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection){
  * will be preserved.
  *
  * @param Phalcon\Image\Adapter $watermark  watermark Image instance
- * @param int $offset_x offset from the left
- * @param int $offset_y offset from the top
+ * @param int $offset_x offset from the left, If less than 0 offset from the right, If true right the x offset
+ * @param int $offset_y offset from the top, If less than 0 offset from the bottom, If true bottom the Y offset
  * @param int $opacity opacity of watermark: 1-100
  * @return Phalcon\Image\Adapter
  */
@@ -685,8 +685,6 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 3, &watermark, &offset_x, &offset_y, &opacity);
-
-
 
 	PHALCON_OBS_VAR(image_width);
 	phalcon_read_property_this(&image_width, this_ptr, SL("_width"), PH_NOISY_CC);
