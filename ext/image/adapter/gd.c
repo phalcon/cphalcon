@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 		phalcon_call_method_p2(tmp_image, this_ptr, "_create", pre_width, pre_height);
 
 		PHALCON_INIT_NVAR(ret);
-		PHALCON_CALL_FUNCTION(ret, "imagecopyresized", 10, tmp_image, image, dst, dst, dst, dst, pre_width, pre_height, ori_width, ori_height);
+		PHALCON_CALL_FUNCTION(ret, &ret, "imagecopyresized", 10, tmp_image, image, dst, dst, dst, dst, pre_width, pre_height, ori_width, ori_height);
 		
 		if (zend_is_true(ret)) {
 			phalcon_call_func_p1_noret("imagedestroy", image);
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 	phalcon_call_method_p2(tmp_image, this_ptr, "_create", width, height);
 
 	PHALCON_INIT_NVAR(ret);
-	PHALCON_CALL_FUNCTION(ret, "imagecopyresampled", 10, tmp_image, image, dst, dst, dst, dst, width, height, pre_width, pre_height);
+	PHALCON_CALL_FUNCTION(ret, &ret, "imagecopyresampled", 10, tmp_image, image, dst, dst, dst, dst, width, height, pre_width, pre_height);
 
 	if (zend_is_true(ret)) {
 		phalcon_call_func_p1_noret("imagedestroy", image);
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _crop) {
 	ZVAL_LONG(dst, 0);
 
 	PHALCON_INIT_NVAR(ret);
-	PHALCON_CALL_FUNCTION(ret, "imagecopyresampled", 10, tmp_image, image, dst, dst, offset_x, offset_y, width, height, width, height);
+	PHALCON_CALL_FUNCTION(ret, &ret, "imagecopyresampled", 10, tmp_image, image, dst, dst, offset_x, offset_y, width, height, width, height);
 
 	if (zend_is_true(ret)) {
 		phalcon_call_func_p1_noret("imagedestroy", image);
@@ -491,7 +491,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _flip) {
 			PHALCON_INIT_NVAR(src_x);
 			ZVAL_LONG(src_x, w - x - 1);
 
-			PHALCON_CALL_FUNCTION(NULL, "imagecopy", 8, flipped_image, image, dst_x, dst_y, src_x, src_y, src_width, src_height);
+			PHALCON_CALL_FUNCTION(NULL, NULL, "imagecopy", 8, flipped_image, image, dst_x, dst_y, src_x, src_y, src_width, src_height);
 		}
 	} else {
 		PHALCON_INIT_NVAR(dst_x);
@@ -514,7 +514,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _flip) {
 			PHALCON_INIT_NVAR(src_y);
 			ZVAL_LONG(src_y, h - y - 1);
 
-			PHALCON_CALL_FUNCTION(NULL, "imagecopy", 8, flipped_image, image, dst_x, dst_y, src_x, src_y, src_width, src_height);
+			PHALCON_CALL_FUNCTION(NULL, NULL, "imagecopy", 8, flipped_image, image, dst_x, dst_y, src_x, src_y, src_width, src_height);
 		}
 	}
 
@@ -688,7 +688,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection) {
 	PHALCON_INIT_VAR(dst);
 	ZVAL_LONG(dst, 0);
 
-	PHALCON_CALL_FUNCTION(NULL, "imagecopy", 8, reflection, image, dst, dst, dst, dst, image_width, image_height);
+	PHALCON_CALL_FUNCTION(NULL, NULL, "imagecopy", 8, reflection, image, dst, dst, dst, dst, image_width, image_height);
 
 	PHALCON_INIT_NVAR(tmp);
 	ZVAL_LONG(tmp, 1);
@@ -716,10 +716,10 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection) {
 		PHALCON_INIT_NVAR(line);
 		phalcon_call_method_p2(line, this_ptr, "_create", image_width, tmp);
 
-		PHALCON_CALL_FUNCTION(NULL, "imagecopy", 8, line, image, dst, dst, dst, src_y, image_width, tmp);
-		PHALCON_CALL_FUNCTION(NULL, "imagefilter", 6, line, filtertype, dst, dst, dst, dst_opacity);
+		phalcon_call_func_p8_noret("imagecopy", line, image, dst, dst, dst, src_y, image_width, tmp);
+		phalcon_call_func_p6_noret("imagefilter", line, filtertype, dst, dst, dst, dst_opacity);
 
-		PHALCON_CALL_FUNCTION(NULL, "imagecopy", 8, reflection, line, dst, dst_y, dst, dst, image_width, tmp);
+		phalcon_call_func_p8_noret("imagecopy", reflection, line, dst, dst_y, dst, dst, image_width, tmp);
 	}
 
 	phalcon_call_func_p1_noret("imagedestroy", image);
@@ -805,7 +805,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 		PHALCON_INIT_NVAR(tmp);
 		ZVAL_LONG(tmp, 0);
 
-		PHALCON_CALL_FUNCTION(NULL, "imagefilledrectangle", 6, overlay, tmp, tmp, width, height, color);
+		phalcon_call_func_p6_noret("imagefilledrectangle", overlay, tmp, tmp, width, height, color);
 	}
 
 	PHALCON_INIT_NVAR(blendmode);
@@ -816,7 +816,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 	ZVAL_LONG(tmp, 0);
 
 	PHALCON_INIT_VAR(ret);
-	PHALCON_CALL_FUNCTION(ret, "imagecopy", 8, image, overlay, offset_x, offset_y, tmp, tmp, width, height);
+	phalcon_call_func_p8(ret, "imagecopy", image, overlay, offset_x, offset_y, tmp, tmp, width, height);
 
 	if (zend_is_true(ret)) {
 		ZVAL_BOOL(return_value, 1);
@@ -888,7 +888,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 		PHALCON_INIT_VAR(temp_image);
 		phalcon_call_func_p2(temp_image, "imagecreatetruecolor", image_width, image_height);
 
-		PHALCON_CALL_FUNCTION(NULL, "imagecopyresampled", 10, temp_image, mask_image, c, c, c, c, image_width, image_height, mask_image_width, mask_image_height);
+		PHALCON_CALL_FUNCTION(NULL, NULL, "imagecopyresampled", 10, temp_image, mask_image, c, c, c, c, image_width, image_height, mask_image_width, mask_image_height);
 		
 		phalcon_call_func_p1_noret("imagedestroy", mask_image);
 		PHALCON_CPY_WRT(mask_image, temp_image);
@@ -1007,7 +1007,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _background) {
 	PHALCON_INIT_VAR(tmp);
 	ZVAL_LONG(tmp, 0);
 
-	PHALCON_CALL_FUNCTION(NULL, "imagefilledrectangle", 6, background, tmp, tmp, width, height, color);
+	phalcon_call_func_p6_noret("imagefilledrectangle", background, tmp, tmp, width, height, color);
 
 	PHALCON_INIT_VAR(blendmode);
 	ZVAL_BOOL(blendmode, 1);
@@ -1015,7 +1015,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _background) {
 	phalcon_call_func_p2_noret("imagealphablending", background, blendmode);
 
 	PHALCON_INIT_VAR(ret);
-	PHALCON_CALL_FUNCTION(ret, "imagecopy", 8, background, image, tmp, tmp, tmp, tmp, width, height);
+	phalcon_call_func_p8(ret, "imagecopy", background, image, tmp, tmp, tmp, tmp, width, height);
 
 	if (zend_is_true(ret)) {
 		phalcon_call_func_p1_noret("imagedestroy", image);

@@ -128,13 +128,11 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
  */
 static int phalcon_mvc_model_get_messages_from_model(zval *this_ptr, zval *model, zval *target TSRMLS_DC)
 {
-	zval *messages, **message;
+	zval *messages = NULL, **message;
 	HashPosition hp;
 
-	ALLOC_INIT_ZVAL(messages);
-
 	if (
-		   phalcon_call_method_params(messages, model, SL("getmessages"), zend_inline_hash_func(SS("getmessages")) TSRMLS_CC, 0) == FAILURE
+		   phalcon_call_method_params(messages, &messages, model, SL("getmessages"), zend_inline_hash_func(SS("getmessages")) TSRMLS_CC, 0) == FAILURE
 		|| Z_TYPE_P(messages) != IS_ARRAY
 	) {
 		zval_ptr_dtor(&messages);
@@ -147,10 +145,10 @@ static int phalcon_mvc_model_get_messages_from_model(zval *this_ptr, zval *model
 		zend_hash_move_forward_ex(Z_ARRVAL_P(messages), &hp)
 	) {
 		if (Z_TYPE_PP(message) == IS_OBJECT) {
-			phalcon_call_method_params(NULL, *message, SL("setmodel"), zend_inline_hash_func(SS("setmodel")) TSRMLS_CC, 1, target);
+			phalcon_call_method_params(NULL, NULL, *message, SL("setmodel"), zend_inline_hash_func(SS("setmodel")) TSRMLS_CC, 1, target);
 		}
 
-		phalcon_call_method_params(NULL, this_ptr, SL("appendmessage"), zend_inline_hash_func(SS("appendmessage")) TSRMLS_CC, 1, *message);
+		phalcon_call_method_params(NULL, NULL, this_ptr, SL("appendmessage"), zend_inline_hash_func(SS("appendmessage")) TSRMLS_CC, 1, *message);
 	}
 
 	zval_ptr_dtor(&messages);
@@ -5339,7 +5337,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany){
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
-	PHALCON_CALL_METHOD(return_value, manager, "addhasmanytomany", zend_inline_hash_func(SS("addhasmanytomany")), (options ? 8 : 7), this_ptr, fields, intermediate_model, intermediate_fields, intermediate_referenced_fields, reference_model, referenced_fields, options);
+	PHALCON_CALL_METHOD(return_value, return_value_ptr, manager, "addhasmanytomany", zend_inline_hash_func(SS("addhasmanytomany")), (options ? 8 : 7), this_ptr, fields, intermediate_model, intermediate_fields, intermediate_referenced_fields, reference_model, referenced_fields, options);
 	RETURN_MM();
 }
 

@@ -396,20 +396,20 @@ void phalcon_config_construct_internal(zval* this_ptr, zval *array_config TSRMLS
  * Internal implementation of non-recursive @c toArray(). Used as an alternative
  * to @c get_object_properties().
  */
-static void phalcon_config_toarray_internal(zval *return_value, zval *this_ptr TSRMLS_DC)
+static void phalcon_config_toarray_internal(zval **return_value_ptr, zval *this_ptr TSRMLS_DC)
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(this_ptr TSRMLS_CC);
 
 	if (likely(obj->obj.ce == phalcon_config_ce)) {
 		zval *tmp;
-		array_init_size(return_value, zend_hash_num_elements(obj->props));
-		zend_hash_copy(Z_ARRVAL_P(return_value), obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
+		array_init_size(*return_value_ptr, zend_hash_num_elements(obj->props));
+		zend_hash_copy(Z_ARRVAL_PP(return_value_ptr), obj->props, (copy_ctor_func_t)zval_add_ref, (void*)&tmp, sizeof(zval*));
 	}
 	else if (phalcon_method_exists_ex(this_ptr, SS("toarray") TSRMLS_CC) == SUCCESS) {
-		phalcon_call_method_params(return_value, this_ptr, SL("toarray"), zend_inline_hash_func(SS("toarray")) TSRMLS_CC, 0);
+		phalcon_call_method_params(*return_value_ptr, return_value_ptr, this_ptr, SL("toarray"), zend_inline_hash_func(SS("toarray")) TSRMLS_CC, 0);
 	}
 	else {
-		phalcon_call_func_params(return_value, SL("get_object_vars") TSRMLS_CC, 1, this_ptr);
+		phalcon_call_func_params(*return_value_ptr, return_value_ptr, SL("get_object_vars") TSRMLS_CC, 1, this_ptr);
 	}
 }
 
@@ -568,7 +568,7 @@ PHP_METHOD(Phalcon_Config, merge){
 
 	if (Z_TYPE_P(config) == IS_OBJECT) {
 		ALLOC_INIT_ZVAL(array_config);
-		phalcon_config_toarray_internal(array_config, config TSRMLS_CC);
+		phalcon_config_toarray_internal(&array_config, config TSRMLS_CC);
 	}
 	else {
 		array_config = config;
@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_Config, merge){
 		if (active_value) {
 			if ((Z_TYPE_PP(hd)  == IS_OBJECT || Z_TYPE_PP(hd) == IS_ARRAY) && Z_TYPE_P(active_value) == IS_OBJECT) {
 				if (phalcon_method_exists_ex(active_value, SS("merge") TSRMLS_CC) == SUCCESS) { /* Path AAA in the test */
-					phalcon_call_method_params(NULL, active_value, SL("merge"), zend_inline_hash_func(SS("merge")) TSRMLS_CC, 1, *hd);
+					phalcon_call_method_params(NULL, NULL, active_value, SL("merge"), zend_inline_hash_func(SS("merge")) TSRMLS_CC, 1, *hd);
 				}
 				else { /* Path AAB in the test */
 					phalcon_config_write_internal(obj, &key, *hd TSRMLS_CC);
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Config, toArray){
 
 			if (Z_TYPE_PP(value) == IS_OBJECT && phalcon_method_exists_ex(*value, SS("toarray") TSRMLS_CC) == SUCCESS) {
 				ALLOC_INIT_ZVAL(array_value);
-				phalcon_call_method_params(array_value, *value, SL("toarray"), zend_inline_hash_func(SS("toarray")) TSRMLS_CC, 0);
+				phalcon_call_method_params(array_value, &array_value, *value, SL("toarray"), zend_inline_hash_func(SS("toarray")) TSRMLS_CC, 0);
 				phalcon_array_update_zval(&return_value, &key, &array_value, 0);
 			}
 		}

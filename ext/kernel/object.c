@@ -1307,7 +1307,7 @@ int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC
 
 	object_init_ex(return_value, ce);
 	if (phalcon_has_constructor_ce(ce)) {
-		return phalcon_call_method_params(NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 0);
+		return phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 0);
 	}
 
 	return SUCCESS;
@@ -1360,10 +1360,10 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 				params_array[i] = *item;
 			}
 
-			outcome = phalcon_call_method_params(NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, -param_count, params_array);
+			outcome = phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, -param_count, params_array);
 			free_alloca(params, use_heap);
 		} else {
-			outcome = phalcon_call_method_params(NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 0);
+			outcome = phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 0);
 		}
 	}
 
