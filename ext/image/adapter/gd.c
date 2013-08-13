@@ -154,13 +154,13 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
-	zval *file, *exception_message;
+	zval *file, *width = NULL, *height = NULL, *exception_message;
 	zval *checked = NULL, *realpath = NULL, *type = NULL, *mime = NULL, *image = NULL;
-	zval *ret, *saveflag;
+	zval *ret, *saveflag, *blendmode;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &file);
+	phalcon_fetch_params(1, 1, 2, &file, &width, &height);
 
 	PHALCON_OBS_VAR(checked);
 	phalcon_read_static_property(&checked, SL("phalcon\\image\\adapter\\gd"), SL("_checked") TSRMLS_CC);
@@ -169,56 +169,94 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 		phalcon_call_static_noret("phalcon\\image\\adapter\\gd", "check");
 	}
 
-	phalcon_call_parent_p1_noret(this_ptr, phalcon_image_adapter_gd_ce, "__construct", file);
+	if (phalcon_file_exists(file TSRMLS_CC) != FAILURE) {
+		phalcon_call_parent_p1_noret(this_ptr, phalcon_image_adapter_gd_ce, "__construct", file);
 
-	PHALCON_OBS_VAR(realpath);
-	phalcon_read_property_this(&realpath, this_ptr, SL("_realpath"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(realpath);
+		phalcon_read_property_this(&realpath, this_ptr, SL("_realpath"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(type);
-	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(type);
+		phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(mime);
-	phalcon_read_property_this(&mime, this_ptr, SL("_mime"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(mime);
+		phalcon_read_property_this(&mime, this_ptr, SL("_mime"), PH_NOISY_CC);
 
-	switch (Z_LVAL_P(type)) {
-		case 1: // GIF
-		{
-			PHALCON_INIT_VAR(image);
-			phalcon_call_func_p1(image, "imagecreatefromgif", realpath);
-			break;
+		switch (Z_LVAL_P(type)) {
+			case 1: // GIF
+			{
+				PHALCON_INIT_VAR(image);
+				phalcon_call_func_p1(image, "imagecreatefromgif", realpath);
+				break;
+			}
+			case 2: // JPEG
+			{
+				PHALCON_INIT_VAR(image);
+				phalcon_call_func_p1(image, "imagecreatefromjpeg", realpath);
+				break;
+			}
+			case 3: // PNG
+			{
+				PHALCON_INIT_VAR(image);
+				phalcon_call_func_p1(image, "imagecreatefrompng", realpath);
+				break;
+			}
+			default:
+			{
+				PHALCON_INIT_VAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Installed GD does not support '", mime, "' images");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
+				return;
+			}
 		}
-		case 2: // JPEG
-		{
-			PHALCON_INIT_VAR(image);
-			phalcon_call_func_p1(image, "imagecreatefromjpeg", realpath);
-			break;
-		}
-		case 3: // PNG
-		{
-			PHALCON_INIT_VAR(image);
-			phalcon_call_func_p1(image, "imagecreatefrompng", realpath);
-			break;
-		}
-		default:
-		{
+
+		if (Z_TYPE_P(image) != IS_RESOURCE) {
 			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Installed GD does not support '", mime, "' images");
+			PHALCON_CONCAT_SVS(exception_message, "Create image from file '", realpath, "' failure  ");
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
 			return;
 		}
-	}
 
-	if (Z_TYPE_P(image) != IS_RESOURCE) {
+		PHALCON_INIT_VAR(saveflag);
+		ZVAL_BOOL(saveflag, 1);
+
+		phalcon_call_func_p2_noret("imagesavealpha", image, saveflag);
+	} else if (width && height) {
+		PHALCON_INIT_VAR(image);
+		phalcon_call_func_p2(image, "imagecreatetruecolor", width, height);
+
+		if (Z_TYPE_P(image) != IS_RESOURCE) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Call imagecreatetruecolor failure");
+			return;
+		}
+
+		PHALCON_INIT_VAR(blendmode);
+		ZVAL_BOOL(blendmode, 1);
+
+		PHALCON_INIT_VAR(saveflag);
+		ZVAL_BOOL(saveflag, 1);
+
+		phalcon_call_func_p2_noret("imagealphablending", image, blendmode);
+		phalcon_call_func_p2_noret("imagesavealpha", image, saveflag);
+		
+		phalcon_update_property_this(this_ptr, SL("_realpath"), file TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
+
+		PHALCON_INIT_VAR(type);
+		ZVAL_LONG(type, 3);
+
+		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+
+		PHALCON_INIT_VAR(mime);
+		ZVAL_STRING(mime, "image/png", 1);
+
+		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
+	} else {
 		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Create image from file '", realpath, "' failure  ");
+		PHALCON_CONCAT_SVS(exception_message, "Create image from file '", file, "' failure  ");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
 		return;
 	}
-
-	PHALCON_INIT_VAR(saveflag);
-	ZVAL_BOOL(saveflag, 1);
-
-	phalcon_call_func_p2_noret("imagesavealpha", image, saveflag);
 
 	phalcon_update_property_this(this_ptr, SL("_image"), image TSRMLS_CC);
 
@@ -360,6 +398,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _crop) {
 
 	PHALCON_INIT_NVAR(tmp_image);
 	phalcon_call_method_p2(tmp_image, this_ptr, "_create", width, height);
+
+	phalcon_update_property_this(this_ptr, SL("_image"), tmp_image TSRMLS_CC);
 
 	PHALCON_INIT_VAR(dst);
 	ZVAL_LONG(dst, 0);
@@ -1216,10 +1256,10 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _create) {
 	}
 
 	PHALCON_INIT_VAR(blendmode);
-	ZVAL_BOOL(blendmode, 0);
+	ZVAL_FALSE(blendmode);
 
 	PHALCON_INIT_VAR(saveflag);
-	ZVAL_BOOL(saveflag, 1);
+	ZVAL_TRUE(saveflag);
 
 	phalcon_call_func_p2_noret("imagealphablending", image, blendmode);
 	phalcon_call_func_p2_noret("imagesavealpha", image, saveflag);
@@ -1245,4 +1285,3 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __destruct){
 	
 	PHALCON_MM_RESTORE();
 }
-
