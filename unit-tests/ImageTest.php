@@ -138,7 +138,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		@unlink('unit-tests/assets/production/imagick-background.jpg');
 
 		try {
-			$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/new.jpg', 100, 100);
+			$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/new.jpg', 100, 100);
 			$image->save();
 			$this->assertTrue(file_exists('unit-tests/assets/production/new.jpg'));
 
