@@ -74,100 +74,11 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Json){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Json, cache_frontend_json, phalcon_cache_frontend_json_method_entry, 0);
-
-	zend_declare_property_null(phalcon_cache_frontend_json_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Json, cache_frontend_json, "phalcon\\cache\\frontend\\data", phalcon_cache_frontend_json_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_json_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
 	return SUCCESS;
-}
-
-/**
- * Phalcon\Cache\Frontend\Base64 constructor
- *
- * @param array $frontendOptions
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Json, __construct){
-
-	zval *frontend_options = NULL;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &frontend_options);
-	
-	if (!frontend_options) {
-		PHALCON_INIT_VAR(frontend_options);
-	}
-	
-	phalcon_update_property_this(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Returns the cache lifetime
- *
- * @return integer
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Json, getLifetime){
-
-	zval *options, *lifetime;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("lifetime"))) {
-			PHALCON_OBS_VAR(lifetime);
-			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY);
-			RETURN_CCTOR(lifetime);
-		}
-	}
-	
-	PHALCON_MM_RESTORE();
-	RETURN_LONG(1);
-}
-
-/**
- * Check whether if frontend is buffering output
- *
- * @return boolean
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Json, isBuffering){
-
-
-	RETURN_FALSE;
-}
-
-/**
- * Starts output frontend. Actually, does nothing
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Json, start){
-
-
-	
-}
-
-/**
- * Returns output cached content
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Json, getContent){
-
-
-	RETURN_NULL();
-}
-
-/**
- * Stops output frontend
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Json, stop){
-
-
-	
 }
 
 /**
@@ -180,8 +91,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore){
 
 	zval *data;
 
-	phalcon_fetch_params(1, 1, 0, &data);
-	
+	phalcon_fetch_params(0, 1, 0, &data);
 	phalcon_json_encode(return_value, return_value_ptr, data, 0 TSRMLS_CC);
 }
 
@@ -195,8 +105,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve){
 
 	zval *data;
 
-	phalcon_fetch_params(1, 1, 0, &data);
-	
+	phalcon_fetch_params(0, 1, 0, &data);
 	phalcon_json_decode(return_value, return_value_ptr, data, 0 TSRMLS_CC);
 }
-
