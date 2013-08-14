@@ -886,6 +886,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 	PHALCON_INIT_VAR(watermark);
 	phalcon_call_method(watermark, watermark_image, "getImage");
 
+	if (Z_TYPE_P(watermark) != IS_RESOURCE) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "The watermark is not resource");
+		return;
+	}
+
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(channel);

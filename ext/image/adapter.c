@@ -680,7 +680,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 
 	zval *watermark, *offset_x = NULL, *offset_y = NULL, *opacity = NULL;
 	zval *image_width, *image_height, *watermark_width, *watermark_height;
-	int tmp_image_width, tmp_image_height, tmp_watermark_width, tmp_watermark_height, tmp_offset_x, tmp_offset_y, tmp_opacity;
+	int tmp_image_width, tmp_image_height, tmp_watermark_width, tmp_watermark_height, tmp_offset_x, tmp_offset_y;
 
 	PHALCON_MM_GROW();
 
@@ -742,7 +742,8 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 	ZVAL_LONG(offset_y, tmp_offset_y);
 
 	if (!opacity) {
-		tmp_opacity = 100;
+		PHALCON_INIT_NVAR(opacity);
+		ZVAL_LONG(opacity, 100);
 	} else {		
 		PHALCON_SEPARATE_PARAM(opacity);
 
