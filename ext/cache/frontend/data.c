@@ -100,17 +100,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 
 	zval *frontend_options = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &frontend_options);
+	phalcon_fetch_params(0, 0, 1, &frontend_options);
 	
-	if (!frontend_options) {
-		PHALCON_INIT_VAR(frontend_options);
+	if (frontend_options) {
+		phalcon_update_property_this(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
 	}
-	
-	phalcon_update_property_this(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -120,22 +114,22 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 
-	zval *options, *lifetime;
+	zval **options, **lifetime;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("lifetime"))) {
-			PHALCON_OBS_VAR(lifetime);
-			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY);
-			RETURN_CCTOR(lifetime);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
+	if (phalcon_array_isset_string_fetch(&lifetime, *options, SS("lifetime"))) {
+		if (return_value_ptr) {
+			zval_ptr_dtor(return_value_ptr);
+			*return_value_ptr = *lifetime;
+			Z_ADDREF_PP(lifetime);
+		}
+		else {
+			RETURN_ZVAL(*lifetime, 1, 0);
 		}
 	}
-	
-	PHALCON_MM_RESTORE();
-	RETURN_LONG(1);
+	else {
+		RETURN_LONG(1);
+	}
 }
 
 /**
@@ -188,12 +182,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 
 	zval *data;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &data);
-	
-	phalcon_serialize(return_value, &data TSRMLS_CC);
-	RETURN_MM();
+	phalcon_fetch_params(0, 1, 0, &data);
+	phalcon_serialize((return_value_ptr ? *return_value_ptr : return_value), &data TSRMLS_CC);
 }
 
 /**
@@ -206,11 +196,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 
 	zval *data;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &data);
-	
-	phalcon_unserialize(return_value, data TSRMLS_CC);
-	RETURN_MM();
+	phalcon_fetch_params(0, 1, 0, &data);
+	phalcon_unserialize((return_value_ptr ? *return_value_ptr : return_value), data TSRMLS_CC);
 }
-
