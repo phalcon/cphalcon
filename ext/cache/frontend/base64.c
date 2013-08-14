@@ -25,6 +25,9 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
+#include "cache/frontend/data.h"
+#include "cache/frontend/base64.h"
+
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
@@ -78,94 +81,11 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Base64){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Base64, cache_frontend_base64, phalcon_cache_frontend_base64_method_entry, 0);
-
-	zend_declare_property_null(phalcon_cache_frontend_base64_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Base64, cache_frontend_base64, "phalcon\\cache\\frontend\\data", phalcon_cache_frontend_base64_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_base64_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
 	return SUCCESS;
-}
-
-/**
- * Phalcon\Cache\Frontend\Base64 constructor
- *
- * @param array $frontendOptions
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct){
-
-	zval *frontend_options = NULL;
-
-	phalcon_fetch_params(0, 0, 1, &frontend_options);
-	
-	if (frontend_options) {
-		phalcon_update_property_this(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
-	}
-}
-
-/**
- * Returns the cache lifetime
- *
- * @return integer
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, getLifetime){
-
-	zval **options, **lifetime;
-
-	options = phalcon_fetch_nproperty_this(this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
-	if (phalcon_array_isset_string_fetch(&lifetime, *options, SS("lifetime"))) {
-		if (return_value_ptr) {
-			zval_ptr_dtor(return_value_ptr);
-			*return_value_ptr = *lifetime;
-			Z_ADDREF_PP(lifetime);
-		}
-		else {
-			RETURN_ZVAL(*lifetime, 1, 0);
-		}
-	}
-	else {
-		RETURN_LONG(1);
-	}
-}
-
-/**
- * Check whether if frontend is buffering output
- *
- * @return boolean
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, isBuffering){
-
-
-	RETURN_FALSE;
-}
-
-/**
- * Starts output frontend. Actually, does nothing
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, start){
-
-
-	
-}
-
-/**
- * Returns output cached content
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, getContent){
-
-
-	RETURN_NULL();
-}
-
-/**
- * Stops output frontend
- */
-PHP_METHOD(Phalcon_Cache_Frontend_Base64, stop){
-
-
-	
 }
 
 /**

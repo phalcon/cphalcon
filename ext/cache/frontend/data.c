@@ -25,6 +25,8 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
+#include "cache/frontend/data.h"
+
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
