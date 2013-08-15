@@ -273,9 +273,17 @@ PHALCON_INIT_FUNCS(phalcon_cache_backendinterface_method_entry){
 
 
 
+#ifndef PHALCON_CACHE_FRONTENDINTERFACE_H
+#define PHALCON_CACHE_FRONTENDINTERFACE_H
+
+#include "php_phalcon.h"
+
 zend_class_entry *phalcon_cache_frontendinterface_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_FrontendInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontendinterface_empty, 0, 0, 0)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontendinterface_beforestore, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
@@ -286,16 +294,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontendinterface_afterretrieve, 0,
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_cache_frontendinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, getLifetime, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, isBuffering, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, start, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, getContent, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, stop, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, getLifetime, arginfo_phalcon_cache_frontendinterface_empty)
+	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, isBuffering, arginfo_phalcon_cache_frontendinterface_empty)
+	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, start, arginfo_phalcon_cache_frontendinterface_empty)
+	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, getContent, arginfo_phalcon_cache_frontendinterface_empty)
+	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, stop, arginfo_phalcon_cache_frontendinterface_empty)
 	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore)
 	PHP_ABSTRACT_ME(Phalcon_Cache_FrontendInterface, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve)
 	PHP_FE_END
 };
 
+#endif /* PHALCON_CACHE_FRONTENDINTERFACE_H */
 
 
 zend_class_entry *phalcon_mvc_model_metadatainterface_ce;
@@ -5124,6 +5133,11 @@ PHALCON_INIT_FUNCS(phalcon_translate_adapter_method_entry){
 
 
 
+#ifndef PHALCON_CACHE_FRONTEND_DATA_H
+#define PHALCON_CACHE_FRONTEND_DATA_H
+
+#include "cache/frontendinterface.h"
+
 zend_class_entry *phalcon_cache_frontend_data_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Data);
@@ -5141,26 +5155,19 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_data___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, frontendOptions)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_data_beforestore, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_data_afterretrieve, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_frontend_data_method_entry){
 	PHP_ME(Phalcon_Cache_Frontend_Data, __construct, arginfo_phalcon_cache_frontend_data___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Cache_Frontend_Data, getLifetime, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Data, isBuffering, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Data, start, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Data, getContent, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Data, stop, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Data, beforeStore, arginfo_phalcon_cache_frontend_data_beforestore, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Data, afterRetrieve, arginfo_phalcon_cache_frontend_data_afterretrieve, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Frontend_Data, getLifetime, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Data, isBuffering, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Data, start, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Data, getContent, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Data, stop, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Data, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Data, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
+#endif /* PHALCON_CACHE_FRONTEND_DATA_H */
 
 
 zend_class_entry *phalcon_di_factorydefault_ce;
@@ -6081,6 +6088,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, save);
 static PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete);
 static PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys);
 static PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists);
+static PHP_METHOD(Phalcon_Cache_Backend_Mongo, gc);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontend)
@@ -6112,6 +6120,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_exists, 0, 0, 0)
 	ZEND_ARG_INFO(0, lifetime)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_empty, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_cache_backend_mongo_method_entry){
 	PHP_ME(Phalcon_Cache_Backend_Mongo, __construct, arginfo_phalcon_cache_backend_mongo___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Cache_Backend_Mongo, _getCollection, NULL, ZEND_ACC_PROTECTED) 
@@ -6120,6 +6131,7 @@ PHALCON_INIT_FUNCS(phalcon_cache_backend_mongo_method_entry){
 	PHP_ME(Phalcon_Cache_Backend_Mongo, delete, arginfo_phalcon_cache_backend_mongo_delete, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_Mongo, queryKeys, arginfo_phalcon_cache_backend_mongo_querykeys, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend_Mongo, exists, arginfo_phalcon_cache_backend_mongo_exists, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Backend_Mongo, gc, arginfo_phalcon_cache_backend_mongo_empty, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -6235,44 +6247,31 @@ PHALCON_INIT_FUNCS(phalcon_cache_backend_libmemcached_method_entry){
 
 
 
+#ifndef PHALCON_CACHE_FRONTEND_JSON_H
+#define PHALCON_CACHE_FRONTEND_JSON_H
+
+#include "cache/frontendinterface.h"
+
 zend_class_entry *phalcon_cache_frontend_json_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Json);
 
-static PHP_METHOD(Phalcon_Cache_Frontend_Json, __construct);
-static PHP_METHOD(Phalcon_Cache_Frontend_Json, getLifetime);
-static PHP_METHOD(Phalcon_Cache_Frontend_Json, isBuffering);
-static PHP_METHOD(Phalcon_Cache_Frontend_Json, start);
-static PHP_METHOD(Phalcon_Cache_Frontend_Json, getContent);
-static PHP_METHOD(Phalcon_Cache_Frontend_Json, stop);
 static PHP_METHOD(Phalcon_Cache_Frontend_Json, beforeStore);
 static PHP_METHOD(Phalcon_Cache_Frontend_Json, afterRetrieve);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_json___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, frontendOptions)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_json_beforestore, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_json_afterretrieve, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_frontend_json_method_entry){
-	PHP_ME(Phalcon_Cache_Frontend_Json, __construct, arginfo_phalcon_cache_frontend_json___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Cache_Frontend_Json, getLifetime, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Json, isBuffering, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Json, start, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Json, getContent, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Json, stop, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Json, beforeStore, arginfo_phalcon_cache_frontend_json_beforestore, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Json, afterRetrieve, arginfo_phalcon_cache_frontend_json_afterretrieve, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Frontend_Json, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Json, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
+#endif /* PHALCON_CACHE_FRONTEND_JSON_H */
 
+
+#ifndef PHALCON_CACHE_FRONTEND_OUTPUT_H
+#define PHALCON_CACHE_FRONTEND_OUTPUT_H
+
+#include "cache/frontendinterface.h"
 
 zend_class_entry *phalcon_cache_frontend_output_ce;
 
@@ -6291,99 +6290,69 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_output___construct, 0, 0, 
 	ZEND_ARG_INFO(0, frontendOptions)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_output_beforestore, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_output_afterretrieve, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_frontend_output_method_entry){
 	PHP_ME(Phalcon_Cache_Frontend_Output, __construct, arginfo_phalcon_cache_frontend_output___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Cache_Frontend_Output, getLifetime, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Output, isBuffering, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Output, start, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Output, getContent, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Output, stop, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Output, beforeStore, arginfo_phalcon_cache_frontend_output_beforestore, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Output, afterRetrieve, arginfo_phalcon_cache_frontend_output_afterretrieve, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Frontend_Output, getLifetime, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, isBuffering, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, start, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, getContent, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, stop, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Output, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
+#endif /* PHALCON_CACHE_FRONTEND_OUTPUT_H */
 
+
+#ifndef PHALCON_CACHE_FRONTEND_NONE_H
+#define PHALCON_CACHE_FRONTEND_NONE_H
+
+#include "cache/frontendinterface.h"
 
 zend_class_entry *phalcon_cache_frontend_none_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None);
 
 static PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime);
-static PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering);
-static PHP_METHOD(Phalcon_Cache_Frontend_None, start);
-static PHP_METHOD(Phalcon_Cache_Frontend_None, getContent);
-static PHP_METHOD(Phalcon_Cache_Frontend_None, stop);
 static PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore);
 static PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_none_beforestore, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_none_afterretrieve, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_frontend_none_method_entry){
-	PHP_ME(Phalcon_Cache_Frontend_None, getLifetime, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_None, isBuffering, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_None, start, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_None, getContent, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_None, stop, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_None, beforeStore, arginfo_phalcon_cache_frontend_none_beforestore, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_None, afterRetrieve, arginfo_phalcon_cache_frontend_none_afterretrieve, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Frontend_None, getLifetime, arginfo_phalcon_cache_frontendinterface_empty, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_None, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_None, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
+#endif /* PHALCON_CACHE_FRONTEND_NONE_H */
 
+
+#ifndef PHALCON_CACHE_FRONTEND_BASE64_H
+#define PHALCON_CACHE_FRONTEND_BASE64_H
+
+#include "cache/frontendinterface.h"
 
 zend_class_entry *phalcon_cache_frontend_base64_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Base64);
 
-static PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct);
-static PHP_METHOD(Phalcon_Cache_Frontend_Base64, getLifetime);
-static PHP_METHOD(Phalcon_Cache_Frontend_Base64, isBuffering);
-static PHP_METHOD(Phalcon_Cache_Frontend_Base64, start);
-static PHP_METHOD(Phalcon_Cache_Frontend_Base64, getContent);
-static PHP_METHOD(Phalcon_Cache_Frontend_Base64, stop);
 static PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore);
 static PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_base64___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, frontendOptions)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_base64_beforestore, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_base64_afterretrieve, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_frontend_base64_method_entry){
-	PHP_ME(Phalcon_Cache_Frontend_Base64, __construct, arginfo_phalcon_cache_frontend_base64___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Cache_Frontend_Base64, getLifetime, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Base64, isBuffering, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Base64, start, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Base64, getContent, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Base64, stop, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Base64, beforeStore, arginfo_phalcon_cache_frontend_base64_beforestore, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Base64, afterRetrieve, arginfo_phalcon_cache_frontend_base64_afterretrieve, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Frontend_Base64, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Base64, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
+#endif /* PHALCON_CACHE_FRONTEND_BASE64_H */
 
+
+#ifndef PHALCON_CACHE_FRONTEND_IGBINARY_H
+#define PHALCON_CACHE_FRONTEND_IGBINARY_H
+
+#include "cache/frontendinterface.h"
 
 zend_class_entry *phalcon_cache_frontend_igbinary_ce;
 
@@ -6392,20 +6361,13 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Igbinary);
 static PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore);
 static PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_igbinary_beforestore, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_frontend_igbinary_afterretrieve, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_cache_frontend_igbinary_method_entry){
-	PHP_ME(Phalcon_Cache_Frontend_Igbinary, beforeStore, arginfo_phalcon_cache_frontend_igbinary_beforestore, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Frontend_Igbinary, afterRetrieve, arginfo_phalcon_cache_frontend_igbinary_afterretrieve, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Frontend_Igbinary, beforeStore, arginfo_phalcon_cache_frontendinterface_beforestore, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cache_Frontend_Igbinary, afterRetrieve, arginfo_phalcon_cache_frontendinterface_afterretrieve, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
+#endif /* PHALCON_CACHE_FRONTEND_IGBINARY_H */
 
 
 zend_class_entry *phalcon_tag_select_ce;
