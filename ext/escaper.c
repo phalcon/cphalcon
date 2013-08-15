@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding){
 PHP_METHOD(Phalcon_Escaper, escapeHtml){
 
 	zval *text;
-	zval **html_quote_type, **encoding;
+	zval *html_quote_type, *encoding;
 
 	phalcon_fetch_params(0, 1, 0, &text);
 
@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 		html_quote_type = phalcon_fetch_nproperty_this(this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
 		encoding        = phalcon_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
 
-		phalcon_htmlspecialchars(return_value, text, *html_quote_type, *encoding TSRMLS_CC);
+		phalcon_htmlspecialchars(return_value, text, html_quote_type, encoding TSRMLS_CC);
 		return;
 	}
 
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
  */
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 
-	zval *attribute, **encoding;
+	zval *attribute, *encoding;
 
 	phalcon_fetch_params(0, 1, 0, &attribute);
 
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 
 		encoding = phalcon_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
 
-		phalcon_htmlspecialchars(return_value, attribute, &quoting, *encoding TSRMLS_CC);
+		phalcon_htmlspecialchars(return_value, attribute, &quoting, encoding TSRMLS_CC);
 		return;
 	}
 

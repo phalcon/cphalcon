@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _flip) {
 PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
 
 	zval *amount, *tmp = NULL, *tmp_amount = NULL, *precision, *matrix, *item = NULL;
-	zval *bundled = NULL, *image = NULL, *tmp_image, *ret, *width = NULL, *height = NULL;
+	zval *image = NULL, *ret, *width = NULL, *height = NULL;
 	int a;
 	double b;
 
@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection) {
 
-	zval *height, *opacity, *fade_in, *o = NULL, *tmp = NULL;
+	zval *height, *opacity, *fade_in, *tmp = NULL;
 	zval *reflection, *line = NULL, *image, *image_width, *image_height, *dst, *src_y = NULL, *dst_y = NULL, *dst_opacity = NULL, *filtertype = NULL;
 	int h0, h1, tmp_opacity, int_opacity, offset;
 	double stepping;
@@ -789,7 +789,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 
-	zval *watermark, *offset_x = NULL, *offset_y = NULL, *opacity = NULL, *ox = NULL, *oy = NULL, *op = NULL;
+	zval *watermark, *offset_x = NULL, *offset_y = NULL, *opacity = NULL, *op = NULL;
 	zval  *image, *overlay, *saveflag, *width, *height, *color, *tmp = NULL, *effect, *blendmode, *ret;
 	int int_opacity;
 	double num;

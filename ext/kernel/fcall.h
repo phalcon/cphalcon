@@ -212,47 +212,206 @@
 
 
 /** Macros to call functions in the PHP userland */
-#define phalcon_call_func(return_value, func)                                     PHALCON_CALL_FUNCTION(return_value, NULL, func, 0, NULL)
-#define phalcon_call_func_p1(return_value, func, p1)                              PHALCON_CALL_FUNCTION(return_value, NULL, func, 1, p1)
-#define phalcon_call_func_p2(return_value, func, p1, p2)                          PHALCON_CALL_FUNCTION(return_value, NULL, func, 2, p1, p2)
-#define phalcon_call_func_p3(return_value, func, p1, p2, p3)                      PHALCON_CALL_FUNCTION(return_value, NULL, func, 3, p1, p2, p3)
-#define phalcon_call_func_p4(return_value, func, p1, p2, p3, p4)                  PHALCON_CALL_FUNCTION(return_value, NULL, func, 4, p1, p2, p3, p4)
-#define phalcon_call_func_p5(return_value, func, p1, p2, p3, p4, p5)              PHALCON_CALL_FUNCTION(return_value, NULL, func, 5, p1, p2, p3, p4, p5)
-#define phalcon_call_func_p6(return_value, func, p1, p2, p3, p4, p5, p6)          PHALCON_CALL_FUNCTION(return_value, NULL, func, 5, p1, p2, p3, p4, p5, p6)
-#define phalcon_call_func_p7(return_value, func, p1, p2, p3, p4, p5, p6, p7)      PHALCON_CALL_FUNCTION(return_value, NULL, func, 5, p1, p2, p3, p4, p5, p6, p7)
-#define phalcon_call_func_p8(return_value, func, p1, p2, p3, p4, p5, p6, p7, p8)  PHALCON_CALL_FUNCTION(return_value, NULL, func, 5, p1, p2, p3, p4, p5, p6, p7, p8)
+#define phalcon_call_func_p0_ex(return_value, return_value_ptr, func) \
+	do { \
+		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func, 0, NULL); \
+	} while (0)
 
-#define phalcon_call_func_noret(func)                                             PHALCON_CALL_FUNCTION(NULL, NULL, func, 0, NULL)
-#define phalcon_call_func_p1_noret(func, p1)                                      PHALCON_CALL_FUNCTION(NULL, NULL, func, 1, p1)
-#define phalcon_call_func_p2_noret(func, p1, p2)                                  PHALCON_CALL_FUNCTION(NULL, NULL, func, 2, p1, p2)
-#define phalcon_call_func_p3_noret(func, p1, p2, p3)                              PHALCON_CALL_FUNCTION(NULL, NULL, func, 3, p1, p2, p3)
-#define phalcon_call_func_p4_noret(func, p1, p2, p3, p4)                          PHALCON_CALL_FUNCTION(NULL, NULL, func, 4, p1, p2, p3, p4)
-#define phalcon_call_func_p5_noret(func, p1, p2, p3, p4, p5)                      PHALCON_CALL_FUNCTION(NULL, NULL, func, 5, p1, p2, p3, p4, p5)
-#define phalcon_call_func_p6_noret(func, p1, p2, p3, p4, p5, p6)                  PHALCON_CALL_FUNCTION(NULL, NULL, func, 5, p1, p2, p3, p4, p5, p6)
-#define phalcon_call_func_p7_noret(func, p1, p2, p3, p4, p5, p6, p7)              PHALCON_CALL_FUNCTION(NULL, NULL, func, 5, p1, p2, p3, p4, p5, p6, p7)
-#define phalcon_call_func_p8_noret(func, p1, p2, p3, p4, p5, p6, p7, p8)          PHALCON_CALL_FUNCTION(NULL, NULL, func, 5, p1, p2, p3, p4, p5, p6, p7, p8)
+#define phalcon_call_func_p1_ex(return_value, return_value_ptr, func, p1) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+		} \
+		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func, 1, p1); \
+	} while (0)
+
+#define phalcon_call_func_p2_ex(return_value, return_value_ptr, func, p1, p2) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+		} \
+		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func, 2, p1, p2); \
+	} while (0)
+
+#define phalcon_call_func_p3_ex(return_value, return_value_ptr, func, p1, p2, p3) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+			if (Z_TYPE_P(p3)) {} \
+		} \
+		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func, 3, p1, p2, p3); \
+	} while (0)
+
+#define phalcon_call_func_p4_ex(return_value, return_value_ptr, func, p1, p2, p3, p4) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+			if (Z_TYPE_P(p3)) {} \
+			if (Z_TYPE_P(p4)) {} \
+		} \
+		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func, 4, p1, p2, p3, p4); \
+	} while (0)
+
+#define phalcon_call_func_p5_ex(return_value, return_value_ptr, func, p1, p2, p3, p4, p5) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+			if (Z_TYPE_P(p3)) {} \
+			if (Z_TYPE_P(p4)) {} \
+			if (Z_TYPE_P(p5)) {} \
+		} \
+		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func, 5, p1, p2, p3, p4, p5); \
+	} while (0)
+
+#define phalcon_call_func_p6_ex(return_value, return_value_ptr, func, p1, p2, p3, p4, p5, p6) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+			if (Z_TYPE_P(p3)) {} \
+			if (Z_TYPE_P(p4)) {} \
+			if (Z_TYPE_P(p5)) {} \
+			if (Z_TYPE_P(p6)) {} \
+		} \
+		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func, 6, p1, p2, p3, p4, p5, p6); \
+	} while (0)
+
+#define phalcon_call_func_p7_ex(return_value, return_value_ptr, func, p1, p2, p3, p4, p5, p6, p7) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+			if (Z_TYPE_P(p3)) {} \
+			if (Z_TYPE_P(p4)) {} \
+			if (Z_TYPE_P(p5)) {} \
+			if (Z_TYPE_P(p6)) {} \
+			if (Z_TYPE_P(p7)) {} \
+		} \
+		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func, 7, p1, p2, p3, p4, p5, p6, p7); \
+	} while (0)
+
+#define phalcon_call_func_p8_ex(return_value, return_value_ptr, func, p1, p2, p3, p4, p5, p6, p7, p8) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+			if (Z_TYPE_P(p3)) {} \
+			if (Z_TYPE_P(p4)) {} \
+			if (Z_TYPE_P(p5)) {} \
+			if (Z_TYPE_P(p6)) {} \
+			if (Z_TYPE_P(p7)) {} \
+			if (Z_TYPE_P(p8)) {} \
+		} \
+		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func, 8, p1, p2, p3, p4, p5, p6, p7, p8); \
+	} while (0)
+
+#define phalcon_call_func(return_value, func)                                                          phalcon_call_func_p0_ex(return_value, NULL, func)
+#define phalcon_call_func_p1(return_value, func, p1)                                                   phalcon_call_func_p1_ex(return_value, NULL, func, p1)
+#define phalcon_call_func_p2(return_value, func, p1, p2)                                               phalcon_call_func_p2_ex(return_value, NULL, func, p1, p2)
+#define phalcon_call_func_p3(return_value, func, p1, p2, p3)                                           phalcon_call_func_p3_ex(return_value, NULL, func, p1, p2, p3)
+#define phalcon_call_func_p4(return_value, func, p1, p2, p3, p4)                                       phalcon_call_func_p4_ex(return_value, NULL, func, p1, p2, p3, p4)
+#define phalcon_call_func_p5(return_value, func, p1, p2, p3, p4, p5)                                   phalcon_call_func_p5_ex(return_value, NULL, func, p1, p2, p3, p4, p5)
+#define phalcon_call_func_p6(return_value, func, p1, p2, p3, p4, p5, p6)                               phalcon_call_func_p6_ex(return_value, NULL, func, p1, p2, p3, p4, p5, p6)
+#define phalcon_call_func_p7(return_value, func, p1, p2, p3, p4, p5, p6, p7)                           phalcon_call_func_p7_ex(return_value, NULL, func, p1, p2, p3, p4, p5, p6, p7)
+#define phalcon_call_func_p8(return_value, func, p1, p2, p3, p4, p5, p6, p7, p8)                       phalcon_call_func_p8_ex(return_value, NULL, func, p1, p2, p3, p4, p5, p6, p7, p8)
+
+#define phalcon_call_func_noret(func)                                                                  phalcon_call_func_p0_ex(NULL, NULL, func)
+#define phalcon_call_func_p1_noret(func, p1)                                                           phalcon_call_func_p1_ex(NULL, NULL, func, p1)
+#define phalcon_call_func_p2_noret(func, p1, p2)                                                       phalcon_call_func_p2_ex(NULL, NULL, func, p1, p2)
+#define phalcon_call_func_p3_noret(func, p1, p2, p3)                                                   phalcon_call_func_p3_ex(NULL, NULL, func, p1, p2, p3)
+#define phalcon_call_func_p4_noret(func, p1, p2, p3, p4)                                               phalcon_call_func_p4_ex(NULL, NULL, func, p1, p2, p3, p4)
+#define phalcon_call_func_p5_noret(func, p1, p2, p3, p4, p5)                                           phalcon_call_func_p5_ex(NULL, NULL, func, p1, p2, p3, p4, p5)
+#define phalcon_call_func_p6_noret(func, p1, p2, p3, p4, p5, p6)                                       phalcon_call_func_p6_ex(NULL, NULL, func, p1, p2, p3, p4, p5, p6)
+#define phalcon_call_func_p7_noret(func, p1, p2, p3, p4, p5, p6, p7)                                   phalcon_call_func_p7_ex(NULL, NULL, func, p1, p2, p3, p4, p5, p6, p7)
+#define phalcon_call_func_p8_noret(func, p1, p2, p3, p4, p5, p6, p7, p8)                               phalcon_call_func_p8_ex(NULL, NULL, func, p1, p2, p3, p4, p5, p6, p7, p8)
 
 /** Macros to call methods in the PHP userland */
-#define phalcon_call_method(return_value, object, method_name)                         PHALCON_CALL_METHOD(return_value, NULL, object, method_name, 0, 0, NULL)
-#define phalcon_call_method_p1(return_value, object, method_name, p1)                  PHALCON_CALL_METHOD(return_value, NULL, object, method_name, 0, 1, p1)
-#define phalcon_call_method_p2(return_value, object, method_name, p1, p2)              PHALCON_CALL_METHOD(return_value, NULL, object, method_name, 0, 2, p1, p2)
-#define phalcon_call_method_p3(return_value, object, method_name, p1, p2, p3)          PHALCON_CALL_METHOD(return_value, NULL, object, method_name, 0, 3, p1, p2, p3)
-#define phalcon_call_method_p4(return_value, object, method_name, p1, p2, p3, p4)      PHALCON_CALL_METHOD(return_value, NULL, object, method_name, 0, 4, p1, p2, p3, p4)
-#define phalcon_call_method_p5(return_value, object, method_name, p1, p2, p3, p4, p5)  PHALCON_CALL_METHOD(return_value, NULL, object, method_name, 0, 5, p1, p2, p3, p4, p5)
+#define phalcon_call_method_p0_key_ex(return_value, return_value_ptr, object, method_name, key) \
+	do { \
+		PHALCON_CALL_METHOD(return_value, return_value_ptr, object, method_name, key, 0, NULL); \
+	} while (0)
 
-#define phalcon_call_method_noret(object, method_name)                                 PHALCON_CALL_METHOD(NULL, NULL, object, method_name, 0, 0, NULL)
-#define phalcon_call_method_p1_noret(object, method_name, p1)                          PHALCON_CALL_METHOD(NULL, NULL, object, method_name, 0, 1, p1)
-#define phalcon_call_method_p2_noret(object, method_name, p1, p2)                      PHALCON_CALL_METHOD(NULL, NULL, object, method_name, 0, 2, p1, p2)
-#define phalcon_call_method_p3_noret(object, method_name, p1, p2, p3)                  PHALCON_CALL_METHOD(NULL, NULL, object, method_name, 0, 3, p1, p2, p3)
-#define phalcon_call_method_p4_noret(object, method_name, p1, p2, p3, p4)              PHALCON_CALL_METHOD(NULL, NULL, object, method_name, 0, 4, p1, p2, p3, p4)
-#define phalcon_call_method_p5_noret(object, method_name, p1, p2, p3, p4, p5)          PHALCON_CALL_METHOD(NULL, NULL, object, method_name, 0, 5, p1, p2, p3, p4, p5)
+#define phalcon_call_method_p1_key_ex(return_value, return_value_ptr, object, method_name, key, p1) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+		} \
+		PHALCON_CALL_METHOD(return_value, return_value_ptr, object, method_name, key, 1, p1); \
+	} while (0)
 
-#define phalcon_call_method_key(return_value, object, method_name, key)                         PHALCON_CALL_METHOD(return_value, NULL, object, method_name, key, 0, NULL)
-#define phalcon_call_method_p1_key(return_value, object, method_name, key, p1)                  PHALCON_CALL_METHOD(return_value, NULL, object, method_name, key, 1, p1)
-#define phalcon_call_method_p2_key(return_value, object, method_name, key, p1, p2)              PHALCON_CALL_METHOD(return_value, NULL, object, method_name, key, 2, p1, p2)
-#define phalcon_call_method_p3_key(return_value, object, method_name, key, p1, p2, p3)          PHALCON_CALL_METHOD(return_value, NULL, object, method_name, key, 3, p1, p2, p3)
-#define phalcon_call_method_p4_key(return_value, object, method_name, key, p1, p2, p3, p4)      PHALCON_CALL_METHOD(return_value, NULL, object, method_name, key, 4, p1, p2, p3, p4)
-#define phalcon_call_method_p5_key(return_value, object, method_name, key, p1, p2, p3, p4, p5)  PHALCON_CALL_METHOD(return_value, NULL, object, method_name, key, 5, p1, p2, p3, p4, p5)
+#define phalcon_call_method_p2_key_ex(return_value, return_value_ptr, object, method_name, key, p1, p2) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+		} \
+		PHALCON_CALL_METHOD(return_value, return_value_ptr, object, method_name, key, 2, p1, p2); \
+	} while (0)
+
+#define phalcon_call_method_p3_key_ex(return_value, return_value_ptr, object, method_name, key, p1, p2, p3) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+			if (Z_TYPE_P(p3)) {} \
+		} \
+		PHALCON_CALL_METHOD(return_value, return_value_ptr, object, method_name, key, 3, p1, p2, p3); \
+	} while (0)
+
+#define phalcon_call_method_p4_key_ex(return_value, return_value_ptr, object, method_name, key, p1, p2, p3, p4) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+			if (Z_TYPE_P(p3)) {} \
+			if (Z_TYPE_P(p4)) {} \
+		} \
+		PHALCON_CALL_METHOD(return_value, return_value_ptr, object, method_name, key, 4, p1, p2, p3, p4); \
+	} while (0)
+
+#define phalcon_call_method_p5_key_ex(return_value, return_value_ptr, object, method_name, key, p1, p2, p3, p4, p5) \
+	do { \
+		if (0) { \
+			if (Z_TYPE_P(p1)) {} \
+			if (Z_TYPE_P(p2)) {} \
+			if (Z_TYPE_P(p3)) {} \
+			if (Z_TYPE_P(p4)) {} \
+			if (Z_TYPE_P(p5)) {} \
+		} \
+		PHALCON_CALL_METHOD(return_value, return_value_ptr, object, method_name, key, 5, p1, p2, p3, p4, p5); \
+	} while (0)
+
+#define phalcon_call_method_p0_ex(return_value, return_value_ptr, object, method_name)                               phalcon_call_method_p0_key_ex(return_value, return_value_ptr, object, method_name, 0)
+#define phalcon_call_method_p1_ex(return_value, return_value_ptr, object, method_name, p1)                           phalcon_call_method_p1_key_ex(return_value, return_value_ptr, object, method_name, 0, p1)
+#define phalcon_call_method_p2_ex(return_value, return_value_ptr, object, method_name, p1, p2)                       phalcon_call_method_p2_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2)
+#define phalcon_call_method_p3_ex(return_value, return_value_ptr, object, method_name, p1, p2, p3)                   phalcon_call_method_p3_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2, p3)
+#define phalcon_call_method_p4_ex(return_value, return_value_ptr, object, method_name, p1, p2, p3, p4)               phalcon_call_method_p4_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2, p3, p4)
+#define phalcon_call_method_p5_ex(return_value, return_value_ptr, object, method_name, p1, p2, p3, p4, p5)           phalcon_call_method_p5_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2, p3, p4, p5)
+
+#define phalcon_call_method(return_value, object, method_name)                                                       phalcon_call_method_p0_ex(return_value, NULL, object, method_name)
+#define phalcon_call_method_p1(return_value, object, method_name, p1)                                                phalcon_call_method_p1_ex(return_value, NULL, object, method_name, p1)
+#define phalcon_call_method_p2(return_value, object, method_name, p1, p2)                                            phalcon_call_method_p2_ex(return_value, NULL, object, method_name, p1, p2)
+#define phalcon_call_method_p3(return_value, object, method_name, p1, p2, p3)                                        phalcon_call_method_p3_ex(return_value, NULL, object, method_name, p1, p2, p3)
+#define phalcon_call_method_p4(return_value, object, method_name, p1, p2, p3, p4)                                    phalcon_call_method_p4_ex(return_value, NULL, object, method_name, p1, p2, p3, p4)
+#define phalcon_call_method_p5(return_value, object, method_name, p1, p2, p3, p4, p5)                                phalcon_call_method_p5_ex(return_value, NULL, object, method_name, p1, p2, p3, p4, p5)
+
+#define phalcon_call_method_noret(object, method_name)                                                               phalcon_call_method_p0_ex(NULL, NULL, object, method_name)
+#define phalcon_call_method_p1_noret(object, method_name, p1)                                                        phalcon_call_method_p1_ex(NULL, NULL, object, method_name, p1)
+#define phalcon_call_method_p2_noret(object, method_name, p1, p2)                                                    phalcon_call_method_p2_ex(NULL, NULL, object, method_name, p1, p2)
+#define phalcon_call_method_p3_noret(object, method_name, p1, p2, p3)                                                phalcon_call_method_p3_ex(NULL, NULL, object, method_name, p1, p2, p3)
+#define phalcon_call_method_p4_noret(object, method_name, p1, p2, p3, p4)                                            phalcon_call_method_p4_ex(NULL, NULL, object, method_name, p1, p2, p3, p4)
+#define phalcon_call_method_p5_noret(object, method_name, p1, p2, p3, p4, p5)                                        phalcon_call_method_p5_ex(NULL, NULL, object, method_name, p1, p2, p3, p4, p5)
+
+#define phalcon_call_method_key(return_value, object, method_name, key)                                              phalcon_call_method_p0_key_ex(return_value, NULL, object, method_name, key)
+#define phalcon_call_method_p1_key(return_value, object, method_name, key, p1)                                       phalcon_call_method_p1_key_ex(return_value, NULL, object, method_name, key, p1)
+#define phalcon_call_method_p2_key(return_value, object, method_name, key, p1, p2)                                   phalcon_call_method_p2_key_ex(return_value, NULL, object, method_name, key, p1, p2)
+#define phalcon_call_method_p3_key(return_value, object, method_name, key, p1, p2, p3)                               phalcon_call_method_p3_key_ex(return_value, NULL, object, method_name, key, p1, p2, p3)
+#define phalcon_call_method_p4_key(return_value, object, method_name, key, p1, p2, p3, p4)                           phalcon_call_method_p4_key_ex(return_value, NULL, object, method_name, key, p1, p2, p3, p4)
+#define phalcon_call_method_p5_key(return_value, object, method_name, key, p1, p2, p3, p4, p5)                       phalcon_call_method_p5_key_ex(return_value, NULL, object, method_name, key, p1, p2, p3, p4, p5)
 
 /** Macros to call methods with zvals as method names */
 #define phalcon_call_method_zval(return_value, object, method)                  PHALCON_CALL_ZMETHOD(return_value, NULL, object, method, 0, NULL)
