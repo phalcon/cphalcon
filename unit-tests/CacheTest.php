@@ -295,6 +295,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$memcache = new Memcache();
 		$this->assertFalse(!$memcache->connect('127.0.0.1'));
+		$memcache->flush();
+		sleep(1);
 
 		return $memcache;
 	}
@@ -747,6 +749,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$memcache = new Memcached();
 		$this->assertFalse(!$memcache->addServers(array(array('127.0.0.1', 11211, 1))));
+		$memcache->flush();
+		sleep(1);
 
 		return $memcache;
 	}
