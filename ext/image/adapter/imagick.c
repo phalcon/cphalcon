@@ -41,6 +41,7 @@
 #include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/output.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Image\\Adapter\Imagick
@@ -76,7 +77,7 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_Imagick){
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, check){
 
-	zval *class_name, *ret = NULL, *exception_message;
+	zval *class_name, *ret = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -340,7 +341,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _liquidRescale){
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _crop) {
 
 	zval *width, *height, *offset_x, *offset_y;
-	zval *im, *ret = NULL, *w, *h, *tmp, *index, *next = NULL, *type;
+	zval *im, *ret = NULL, *index, *next = NULL, *type, *tmp;
 
 	PHALCON_MM_GROW();
 
@@ -867,7 +868,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 
 	zval *watermark_image, *offset_x, *offset_y, *opacity, *op =NULL;
-	zval *im, *tmp, *watermark, *ret = NULL, *channel, *op_constant = NULL, *composite, *index, *next = NULL, *type;
+	zval *im, *watermark, *ret = NULL, *channel, *op_constant = NULL, *composite, *index, *next = NULL, *type;
 	zend_class_entry *ce0;
 	double num;
 

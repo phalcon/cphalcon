@@ -36,6 +36,7 @@
 #include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Image\Adapter
@@ -584,7 +585,6 @@ PHP_METHOD(Phalcon_Image_Adapter, flip){
 PHP_METHOD(Phalcon_Image_Adapter, sharpen){
 
 	zval *amount;
-	int a;
 
 	PHALCON_MM_GROW();
 
@@ -970,7 +970,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
  */
 PHP_METHOD(Phalcon_Image_Adapter, render){
 
-	zval *ext = NULL, *quality = NULL, *type, *include_dot, *exception_message;
+	zval *ext = NULL, *quality = NULL, *type, *include_dot;
 
 	PHALCON_MM_GROW();
 

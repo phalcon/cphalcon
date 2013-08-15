@@ -491,9 +491,9 @@ int phalcon_read_property_this(zval **result, zval *object, char *property_name,
  */
 int phalcon_read_property_this_quick(zval **result, zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC) {
 
-	zval **tmp = phalcon_fetch_property_this_quick(object, property_name, property_length, key, silent TSRMLS_CC);
+	zval *tmp = phalcon_fetch_property_this_quick(object, property_name, property_length, key, silent TSRMLS_CC);
 	if (likely(tmp != NULL)) {
-		*result = *tmp;
+		*result = tmp;
 		Z_ADDREF_PP(result);
 		return SUCCESS;
 	}
@@ -502,21 +502,21 @@ int phalcon_read_property_this_quick(zval **result, zval *object, char *property
 	return FAILURE;
 }
 
-zval** phalcon_fetch_nproperty_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
+zval* phalcon_fetch_nproperty_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 	return phalcon_fetch_nproperty_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
 }
 
-zval** phalcon_fetch_nproperty_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC) {
-	zval **result = phalcon_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
-	return result ? result : &EG(uninitialized_zval_ptr);
+zval* phalcon_fetch_nproperty_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC) {
+	zval *result = phalcon_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
+	return result ? result : EG(uninitialized_zval_ptr);
 }
 
 
-zval** phalcon_fetch_property_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
+zval* phalcon_fetch_property_this(zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 	return phalcon_fetch_property_this_quick(object, property_name, property_length, zend_inline_hash_func(property_name, property_length + 1), silent TSRMLS_CC);
 }
 
-zval** phalcon_fetch_property_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC) {
+zval* phalcon_fetch_property_this_quick(zval *object, char *property_name, unsigned int property_length, unsigned long key, int silent TSRMLS_DC) {
 
 	zval **zv = NULL;
 	zend_object *zobj;
@@ -541,7 +541,7 @@ zval** phalcon_fetch_property_this_quick(zval *object, char *property_name, unsi
 
 			if (phalcon_hash_quick_find(zobj->properties, property_info->name, property_info->name_length + 1, property_info->h, (void **) &zv) == SUCCESS) {
 				EG(scope) = old_scope;
-				return zv;
+				return *zv;
 			}
 
 			#else
@@ -574,7 +574,7 @@ zval** phalcon_fetch_property_this_quick(zval *object, char *property_name, unsi
 
 			if (likely(!flag)) {
 				EG(scope) = old_scope;
-				return zv;
+				return *zv;
 			}
 
 			#endif
@@ -711,7 +711,6 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 		}
 
 		ALLOC_INIT_ZVAL(*result);
-		ZVAL_NULL(*result);
 		return FAILURE;
 	}
 

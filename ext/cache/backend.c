@@ -71,7 +71,7 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend){
  */
 PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
-	zval *frontend, *options = NULL, **prefix;
+	zval *frontend, *options = NULL, *prefix;
 
 	PHALCON_MM_GROW();
 
@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 		 * A common option is the prefix
 		 */
 		if (phalcon_array_isset_string_fetch(&prefix, options, SS("prefix"))) {
-			phalcon_update_property_this(this_ptr, SL("_prefix"), *prefix TSRMLS_CC);
+			phalcon_update_property_this(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 		}
 
 		phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 PHP_METHOD(Phalcon_Cache_Backend, start){
 
 	zval *key_name, *lifetime = NULL, *fresh = NULL;
-	zval **frontend;
+	zval *frontend;
 
 	PHALCON_MM_GROW();
 
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 		ZVAL_TRUE(fresh);
 	
 		frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-		phalcon_call_method_noret(*frontend, "start");
+		phalcon_call_method_noret(frontend, "start");
 	} else {
 		ZVAL_FALSE(fresh);
 	}
@@ -149,13 +149,13 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
  */
 PHP_METHOD(Phalcon_Cache_Backend, stop){
 
-	zval *stop_buffer = NULL, **frontend;
+	zval *stop_buffer = NULL, *frontend;
 
 	phalcon_fetch_params(0, 0, 1, &stop_buffer);
 	
 	if (!stop_buffer || PHALCON_IS_TRUE(stop_buffer)) {
 		frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-		phalcon_call_method_noret(*frontend, "stop");
+		phalcon_call_method_noret(frontend, "stop");
 	}
 
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);

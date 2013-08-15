@@ -100,8 +100,7 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Libmemcached){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct){
 
-	zval *frontend, *options = NULL;
-	zval *server, *servers;
+	zval *frontend, *options = NULL, *server, *servers;
 
 	PHALCON_MM_GROW();
 
@@ -148,7 +147,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect){
 
-	zval **options, *memcache, **servers, **client = NULL, *res = NULL;
+	zval *options, *memcache, *servers, *client = NULL, *res = NULL;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -162,29 +161,29 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect){
 		phalcon_call_method_noret(memcache, "__construct");
 	}
 
-	if (!phalcon_array_isset_string_fetch(&servers, *options, SS("servers")) || Z_TYPE_PP(servers) != IS_ARRAY) {
+	if (!phalcon_array_isset_string_fetch(&servers, options, SS("servers")) || Z_TYPE_P(servers) != IS_ARRAY) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Servers must be an array");
 		return;
 	}
 
-	phalcon_array_isset_string_fetch(&client, *options, SS("client"));
+	phalcon_array_isset_string_fetch(&client, options, SS("client"));
 
-	phalcon_call_method_p1_ex(return_value, return_value_ptr, memcache, "addservers", *servers);
+	phalcon_call_method_p1_ex(return_value, return_value_ptr, memcache, "addservers", servers);
 	if ((return_value_ptr && !zend_is_true(*return_value_ptr)) || (!return_value_ptr && !zend_is_true(return_value))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cannot connect to Memcached server");
 		return;
 	}
 
-	if (client && Z_TYPE_PP(client) == IS_ARRAY) {
+	if (client && Z_TYPE_P(client) == IS_ARRAY) {
 		HashPosition hp;
 		zval **hd;
 
 		for (
-			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_PP(client), &hp);
-			zend_hash_get_current_data_ex(Z_ARRVAL_PP(client), (void**)&hd, &hp) == SUCCESS;
-			zend_hash_move_forward_ex(Z_ARRVAL_PP(client), &hp)
+			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(client), &hp);
+			zend_hash_get_current_data_ex(Z_ARRVAL_P(client), (void**)&hd, &hp) == SUCCESS;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(client), &hp)
 		) {
-			zval option = phalcon_get_current_key_w(Z_ARRVAL_PP(client), &hp);
+			zval option = phalcon_get_current_key_w(Z_ARRVAL_P(client), &hp);
 
 			if (Z_TYPE(option) == IS_STRING) {
 				PHALCON_INIT_NVAR(res);
@@ -211,7 +210,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, get){
 
-	zval *key_name, *lifetime = NULL, **memcache, **frontend, **prefix;
+	zval *key_name, *lifetime = NULL, *memcache, *frontend, *prefix;
 	zval *prefixed_key, *cached_content;
 
 	PHALCON_MM_GROW();
@@ -219,7 +218,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, get){
 	phalcon_fetch_params(1, 1, 1, &key_name, &lifetime);
 
 	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
-	if (Z_TYPE_PP(memcache) != IS_OBJECT) {
+	if (Z_TYPE_P(memcache) != IS_OBJECT) {
 		phalcon_call_method_noret(this_ptr, "_connect");
 		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
@@ -228,16 +227,16 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, get){
 	prefix   = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, *prefix, key_name);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	phalcon_update_property_this(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
 
 	PHALCON_OBS_VAR(cached_content);
-	phalcon_call_method_p1_ex(cached_content, &cached_content, *memcache, "get", prefixed_key);
+	phalcon_call_method_p1_ex(cached_content, &cached_content, memcache, "get", prefixed_key);
 	if (PHALCON_IS_FALSE(cached_content)) {
 		RETURN_MM_NULL();
 	}
 
-	phalcon_call_method_p1_ex(return_value, return_value_ptr, *frontend, "afterretrieve", cached_content);
+	phalcon_call_method_p1_ex(return_value, return_value_ptr, frontend, "afterretrieve", cached_content);
 	RETURN_MM();
 }
 
@@ -252,9 +251,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, get){
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
-	zval **last_key, **frontend, **memcache, *cached_content;
+	zval *last_key, *frontend, *memcache, *cached_content;
 	zval *prepared_content, *ttl, *success;
-	zval **options, **special_key, *keys = NULL, *is_buffering, *lk;
+	zval *options, *special_key, *keys = NULL, *is_buffering;
 
 	PHALCON_MM_GROW();
 
@@ -263,15 +262,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save){
 	if (!key_name || Z_TYPE_P(key_name) == IS_NULL) {
 		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		zval **prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 
-		PHALCON_INIT_VAR(lk);
-		PHALCON_CONCAT_VV(lk, *prefix, key_name);
-
-		last_key = &lk;
+		PHALCON_INIT_VAR(last_key);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 
-	if (!zend_is_true(*last_key)) {
+	if (!zend_is_true(last_key)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
@@ -282,14 +279,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save){
 	 * Check if a connection is created or make a new one
 	 */
 	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
-	if (Z_TYPE_PP(memcache) != IS_OBJECT) {
+	if (Z_TYPE_P(memcache) != IS_OBJECT) {
 		phalcon_call_method_noret(this_ptr, "_connect");
 		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
 
 	if (!content || Z_TYPE_P(content) == IS_NULL) {
 		PHALCON_OBS_VAR(cached_content);
-		phalcon_call_method_p0_ex(cached_content, &cached_content, *frontend, "getcontent");
+		phalcon_call_method_p0_ex(cached_content, &cached_content, frontend, "getcontent");
 	} else {
 		cached_content = content;
 	}
@@ -298,24 +295,24 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save){
 	 * Prepare the content in the frontend
 	 */
 	PHALCON_OBS_VAR(prepared_content);
-	phalcon_call_method_p1_ex(prepared_content, &prepared_content, *frontend, "beforestore", cached_content);
+	phalcon_call_method_p1_ex(prepared_content, &prepared_content, frontend, "beforestore", cached_content);
 
 	if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
-		zval **tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+		zval *tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 
-		if (Z_TYPE_PP(tmp) == IS_NULL) {
+		if (Z_TYPE_P(tmp) == IS_NULL) {
 			PHALCON_OBS_VAR(ttl);
-			phalcon_call_method_p0_ex(ttl, &ttl, *frontend, "getlifetime");
+			phalcon_call_method_p0_ex(ttl, &ttl, frontend, "getlifetime");
 		}
 		else {
-			ttl = *tmp;
+			ttl = tmp;
 		}
 	} else {
 		ttl = lifetime;
 	}
 
 	PHALCON_OBS_VAR(success);
-	phalcon_call_method_p3_ex(success, &success, *memcache, "set", *last_key, prepared_content, ttl);
+	phalcon_call_method_p3_ex(success, &success, memcache, "set", last_key, prepared_content, ttl);
 	if (!zend_is_true(success)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Failed storing data in memcached");
 		return;
@@ -323,7 +320,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save){
 
 	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 
-	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, *options, SS("statsKey")))) {
+	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;
 	}
@@ -332,22 +329,22 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save){
 	 * Update the stats key
 	 */
 	PHALCON_OBS_VAR(keys);
-	phalcon_call_method_p1_ex(keys, &keys, *memcache, "get", *special_key);
+	phalcon_call_method_p1_ex(keys, &keys, memcache, "get", special_key);
 	if (Z_TYPE_P(keys) != IS_ARRAY) {
 		PHALCON_INIT_NVAR(keys);
 		array_init(keys);
 	}
 
-	if (!phalcon_array_isset(keys, *last_key)) {
-		phalcon_array_update_zval(&keys, *last_key, &ttl, PH_COPY);
-		phalcon_call_method_p2_noret(*memcache, "set", *special_key, keys);
+	if (!phalcon_array_isset(keys, last_key)) {
+		phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY);
+		phalcon_call_method_p2_noret(memcache, "set", special_key, keys);
 	}
 
 	PHALCON_OBS_VAR(is_buffering);
-	phalcon_call_method_p0_ex(is_buffering, &is_buffering, *frontend, "isbuffering");
+	phalcon_call_method_p0_ex(is_buffering, &is_buffering, frontend, "isbuffering");
 
 	if (!stop_buffer || PHALCON_IS_TRUE(stop_buffer)) {
-		phalcon_call_method_noret(*frontend, "stop");
+		phalcon_call_method_noret(frontend, "stop");
 	}
 
 	if (PHALCON_IS_TRUE(is_buffering)) {
@@ -367,15 +364,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, delete){
 
-	zval *key_name, **memcache, **prefix, *prefixed_key;
-	zval **options, **special_key, *keys;
+	zval *key_name, *memcache, *prefix, *prefixed_key;
+	zval *options, *special_key, *keys;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &key_name);
 
 	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
-	if (Z_TYPE_PP(memcache) != IS_OBJECT) {
+	if (Z_TYPE_P(memcache) != IS_OBJECT) {
 		phalcon_call_method_noret(this_ptr, "_connect");
 		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
@@ -383,26 +380,26 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, delete){
 	prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, *prefix, key_name);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 
 	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 
-	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, *options, SS("statsKey")))) {
+	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;
 	}
 
 	PHALCON_OBS_VAR(keys);
-	phalcon_call_method_p1_ex(keys, &keys, *memcache, "get", *special_key);
+	phalcon_call_method_p1_ex(keys, &keys, memcache, "get", special_key);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		phalcon_array_unset(&keys, prefixed_key, 0);
-		phalcon_call_method_p2_noret(*memcache, "set", *special_key, keys);
+		phalcon_call_method_p2_noret(memcache, "set", special_key, keys);
 	}
 
 	/** 
 	 * Delete the key from memcached
 	 */
-	phalcon_call_method_p1_ex(return_value, return_value_ptr, *memcache, "delete", prefixed_key);
+	phalcon_call_method_p1_ex(return_value, return_value_ptr, memcache, "delete", prefixed_key);
 	RETURN_MM();
 }
 
@@ -414,7 +411,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, delete){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys){
 
-	zval *prefix = NULL, **memcache, **options, **special_key;
+	zval *prefix = NULL, *memcache, *options, *special_key;
 	zval *keys, *real_key = NULL;
 
 	PHALCON_MM_GROW();
@@ -422,14 +419,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys){
 	phalcon_fetch_params(1, 0, 1, &prefix);
 
 	memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
-	if (Z_TYPE_PP(memcache) != IS_OBJECT) {
+	if (Z_TYPE_P(memcache) != IS_OBJECT) {
 		phalcon_call_method_noret(this_ptr, "_connect");
 		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
 
 	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 
-	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, *options, SS("statsKey")))) {
+	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
 		return;
 	}
@@ -440,7 +437,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys){
 	 * Get the key from memcached
 	 */
 	PHALCON_OBS_VAR(keys);
-	phalcon_call_method_p1_ex(keys, &keys, *memcache, "get", *special_key);
+	phalcon_call_method_p1_ex(keys, &keys, memcache, "get", special_key);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		HashPosition pos;
 		zval **value;
@@ -472,7 +469,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, exists){
 
-	zval *key_name = NULL, *lifetime = NULL, *lk, **last_key, **memcache;
+	zval *key_name = NULL, *lifetime = NULL, *value;
+	zval *last_key, *memcache;
 
 	PHALCON_MM_GROW();
 
@@ -481,22 +479,22 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, exists){
 	if (!key_name || Z_TYPE_P(key_name) == IS_NULL) {
 		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		zval **prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
+		zval *prefix = phalcon_fetch_nproperty_this(this_ptr, SL("_prefix"), PH_NOISY_CC);
 
-		PHALCON_INIT_VAR(lk);
-		PHALCON_CONCAT_VV(lk, *prefix, key_name);
-
-		last_key = &lk;
+		PHALCON_INIT_VAR(last_key);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 
-	if (zend_is_true(*last_key)) {
+	if (zend_is_true(last_key)) {
 		memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
-		if (Z_TYPE_PP(memcache) != IS_OBJECT) {
+		if (Z_TYPE_P(memcache) != IS_OBJECT) {
 			phalcon_call_method_noret(this_ptr, "_connect");
 			memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 		}
 
-		phalcon_call_method_p1_ex(return_value, return_value_ptr, *memcache, "get", *last_key);
+		PHALCON_INIT_VAR(value);
+		phalcon_call_method_p1_ex(value, &value, memcache, "get", last_key);
+		RETVAL_BOOL(PHALCON_IS_NOT_FALSE(value));
 	}
 	else {
 		RETVAL_FALSE;

@@ -30,7 +30,7 @@
 /**
  * Serializes php variables without using the PHP userland
  */
-void phalcon_serialize(zval *return_value, zval **var  TSRMLS_DC) {
+void phalcon_serialize(zval *return_value, zval **var TSRMLS_DC) {
 
 	php_serialize_data_t var_hash;
 	smart_str buf = {0};
