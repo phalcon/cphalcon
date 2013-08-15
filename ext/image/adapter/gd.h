@@ -35,6 +35,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _text);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _mask);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _background);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _blur);
+PHP_METHOD(Phalcon_Image_Adapter_GD, _pixelate);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _save);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _render);
 PHP_METHOD(Phalcon_Image_Adapter_GD, _create);
@@ -117,6 +118,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd__blur, 0, 0, 1)
 	ZEND_ARG_INFO(0, radius)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd__pixelate, 0, 0, 1)
+	ZEND_ARG_INFO(0, amount)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd__save, 0, 0, 2)
 	ZEND_ARG_INFO(0, file)
 	ZEND_ARG_INFO(0, quality)
@@ -147,6 +152,7 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_gd_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_GD, _mask, arginfo_phalcon_image_adapter_gd__mask, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _background, arginfo_phalcon_image_adapter_gd__background, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _blur, arginfo_phalcon_image_adapter_gd__blur, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Image_Adapter_GD, _pixelate, arginfo_phalcon_image_adapter_gd__pixelate, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _save, arginfo_phalcon_image_adapter_gd__save, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _render, arginfo_phalcon_image_adapter_gd__render, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_GD, _create, arginfo_phalcon_image_adapter_gd__create, ZEND_ACC_PROTECTED) 

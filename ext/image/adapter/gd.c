@@ -1283,6 +1283,53 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _blur){
 }
 
 /**
+ * Pixelate image
+ *
+ * @param int $amount amount to pixelate
+ */
+PHP_METHOD(Phalcon_Image_Adapter_GD, _pixelate){
+
+	zval *amount;
+	zval *image, *tmp_image = NULL, *width, *height, *tmp_width, *tmp_height, *dst;
+	int w, h;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &amount);
+
+	PHALCON_OBS_VAR(image);
+	phalcon_read_property_this(&image, this_ptr, SL("_image"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(width);
+	phalcon_read_property_this(&width, this_ptr, SL("_width"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(height);
+	phalcon_read_property_this(&height, this_ptr, SL("_height"), PH_NOISY_CC);
+
+	w = (int)(phalcon_get_intval(width) / phalcon_get_intval(amount));
+	h = (int)(phalcon_get_intval(height) / phalcon_get_intval(amount));
+
+	PHALCON_INIT_VAR(tmp_width);
+	ZVAL_LONG(tmp_width, w);
+
+	PHALCON_INIT_VAR(tmp_height);
+	ZVAL_LONG(tmp_height, h);
+
+	PHALCON_INIT_VAR(dst);
+	ZVAL_LONG(dst, 0);
+
+	PHALCON_INIT_NVAR(tmp_image);
+	phalcon_call_method_p2(tmp_image, this_ptr, "_create", tmp_width, tmp_height);
+
+	PHALCON_CALL_FUNCTION(NULL, "imagecopyresized", 10, tmp_image, image, dst, dst, dst, dst, tmp_width, tmp_height, width, height);
+	PHALCON_CALL_FUNCTION(NULL, "imagecopyresized", 10, image, tmp_image, dst, dst, dst, dst, width, height, tmp_width, tmp_height);
+
+	phalcon_call_func_p1_noret("imagedestroy", tmp_image);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Execute a save.
  *
  * @param string $file

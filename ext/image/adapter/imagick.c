@@ -1419,6 +1419,60 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _blur){
 }
 
 /**
+ * Pixelate image
+ *
+ * @param int $amount amount to pixelate
+ */
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate){
+
+	zval *amount;
+	zval *im, *width, *height, *type, *tmp_width, *tmp_height, *next;
+	int w, h;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &amount);
+
+	PHALCON_OBS_VAR(im);
+	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(width);
+	phalcon_read_property_this(&width, this_ptr, SL("_width"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(height);
+	phalcon_read_property_this(&height, this_ptr, SL("_height"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(type);
+	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
+
+	w = (int)(phalcon_get_intval(width) / phalcon_get_intval(amount));
+	h = (int)(phalcon_get_intval(height) / phalcon_get_intval(amount));
+
+	PHALCON_INIT_VAR(tmp_width);
+	ZVAL_LONG(tmp_width, w);
+
+	PHALCON_INIT_VAR(tmp_height);
+	ZVAL_LONG(tmp_height, h);
+
+	if (phalcon_get_intval(type) == 1) {
+		phalcon_call_method_p1_noret(im, "setIteratorIndex", index);
+
+		do {
+			phalcon_call_method_p2_noret(im, "scaleImage", tmp_width, tmp_height);
+			phalcon_call_method_p2_noret(im, "scaleImage", width, height);
+
+			PHALCON_INIT_NVAR(next);
+			phalcon_call_method(next, im, "nextImage");
+		} while (zend_is_true(next));
+	} else {
+		phalcon_call_method_p2_noret(im, "scaleImage", tmp_width, tmp_height);
+		phalcon_call_method_p2_noret(im, "scaleImage", width, height);
+	}
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Execute a save.
  *
  * @param string $file

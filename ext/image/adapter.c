@@ -1051,6 +1051,40 @@ PHP_METHOD(Phalcon_Image_Adapter, blur){
 }
 
 /**
+ * Pixelate image
+ *
+ * @param int $amount amount to pixelate
+ * @return Phalcon\Image\Adapter
+ */
+PHP_METHOD(Phalcon_Image_Adapter, pixelate){
+
+	zval *amount = NULL;
+	int r;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &amount);
+
+	if (!amount) {
+		PHALCON_INIT_VAR(amount);
+		ZVAL_LONG(amount, 10);
+	} else if (Z_TYPE_P(amount) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(amount);
+
+		PHALCON_INIT_NVAR(amount);
+		ZVAL_LONG(amount, 10);
+	} else if (phalcon_get_intval(amount) < 2) {
+		PHALCON_SEPARATE_PARAM(amount);
+		PHALCON_INIT_NVAR(amount);
+		ZVAL_LONG(amount, 2);
+	}
+
+	phalcon_call_method_p1_noret(this_ptr, "_pixelate", amount);
+
+	RETURN_THIS();
+}
+
+/**
  * Save the image. If the filename is omitted, the original image will
  * be overwritten.
  *
