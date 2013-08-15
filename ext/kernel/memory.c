@@ -307,9 +307,7 @@ int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
  */
 int PHALCON_FASTCALL phalcon_memory_restore_stack_shutdown(TSRMLS_D) {
 
-	size_t i;
 	phalcon_memory_entry *prev, *active_memory;
-	phalcon_symbol_table *active_symbol_table;
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
 	active_memory = phalcon_globals_ptr->active_memory;
@@ -324,6 +322,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack_shutdown(TSRMLS_D) {
 	prev = active_memory->prev;
 
 	if (prev != NULL) {
+
 		if (active_memory->hash_addresses != NULL) {
 			efree(active_memory->hash_addresses);
 		}

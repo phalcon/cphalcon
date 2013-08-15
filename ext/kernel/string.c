@@ -46,6 +46,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 
 #define PH_RANDOM_ALNUM 0
 #define PH_RANDOM_ALPHA 1
@@ -1211,8 +1212,7 @@ void phalcon_lcfirst(zval *return_value, zval *s)
 
 	if (!Z_STRLEN_P(s)) {
 		ZVAL_EMPTY_STRING(return_value);
-	}
-	else {
+	} else {
 		ZVAL_STRINGL(return_value, Z_STRVAL_P(s), Z_STRLEN_P(s), 1);
 		c = Z_STRVAL_P(return_value);
 		*c = tolower((unsigned char)*c);
