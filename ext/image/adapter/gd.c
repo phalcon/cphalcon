@@ -1251,6 +1251,78 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _background) {
 }
 
 /**
+ * Blur image
+ *
+ * @param int $radius Blur radius
+ */
+PHP_METHOD(Phalcon_Image_Adapter_GD, _blur){
+
+	zval *radius;
+	zval *image, *constant, *matrix, *item = NULL, *div, *offset;
+	int r, i;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &radius);	
+
+	PHALCON_OBS_VAR(image);
+	phalcon_read_property_this(&image, this_ptr, SL("_image"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(constant);
+	if (zend_get_constant(SL("IMG_FILTER_GAUSSIAN_BLUR"), constant TSRMLS_CC) == FAILURE) {
+		RETURN_MM();
+	}
+
+	if (phalcon_get_intval(radius) <= 1) {
+		phalcon_call_func_p2_noret("imagefilter", image, constant);
+	} else {
+		r = phalcon_get_intval(radius);
+
+		PHALCON_INIT_VAR(matrix);
+		array_init_size(matrix, 3);
+
+		PHALCON_INIT_NVAR(item);
+		array_init_size(item, 3);
+
+		phalcon_array_append_long(&item, 1, PH_SEPARATE);
+		phalcon_array_append_long(&item, 2, PH_SEPARATE);
+		phalcon_array_append_long(&item, 1, PH_SEPARATE);
+
+		phalcon_array_append(&matrix, item, PH_SEPARATE);
+
+		PHALCON_INIT_NVAR(item);
+		array_init_size(item, 3);
+
+		phalcon_array_append_long(&item, 2, PH_SEPARATE);
+		phalcon_array_append_long(&item, 4, PH_SEPARATE);
+		phalcon_array_append_long(&item, 2, PH_SEPARATE);
+
+		phalcon_array_append(&matrix, item, PH_SEPARATE);
+
+		PHALCON_INIT_NVAR(item);
+		array_init_size(item, 3);
+
+		phalcon_array_append_long(&item, 1, PH_SEPARATE);
+		phalcon_array_append_long(&item, 2, PH_SEPARATE);
+		phalcon_array_append_long(&item, 1, PH_SEPARATE);
+
+		phalcon_array_append(&matrix, item, PH_SEPARATE);
+
+		PHALCON_INIT_VAR(div);
+		ZVAL_LONG(div, 16);
+
+		PHALCON_INIT_VAR(offset);
+		ZVAL_LONG(offset, 0);
+
+		for (i = 0; i < r; i++) {
+			phalcon_call_func_p4_noret("imageconvolution", image, matrix, div, offset);
+		}
+	}
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Execute a save.
  *
  * @param string $file

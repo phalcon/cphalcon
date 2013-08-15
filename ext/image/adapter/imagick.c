@@ -1269,7 +1269,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	ce1 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
-	
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
 
@@ -1376,6 +1375,31 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_image"), background TSRMLS_CC);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Blur image
+ *
+ * @param int $radius Blur radius
+ */
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, _blur){
+
+	zval *radius;
+	zval *im, *sigma;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &radius);
+
+	PHALCON_OBS_VAR(im);
+	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(sigma);
+	ZVAL_LONG(sigma, 3);
+
+	phalcon_call_method_p2_noret(im, "blurImage", radius, sigma);
 
 	PHALCON_MM_RESTORE();
 }

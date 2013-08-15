@@ -1010,6 +1010,40 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 }
 
 /**
+ * Blur image
+ *
+ * @param int $radius Blur radius
+ * @return Phalcon\Image\Adapter
+ */
+PHP_METHOD(Phalcon_Image_Adapter, blur){
+
+	zval *radius = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &radius);
+
+	if (!radius) {
+		PHALCON_INIT_VAR(radius);
+		ZVAL_LONG(radius, 1);
+	} else if (Z_TYPE_P(radius) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(radius);
+
+		PHALCON_INIT_NVAR(radius);
+		ZVAL_LONG(radius, 1);
+	} else if (phalcon_get_intval(radius) < 1) {
+		PHALCON_SEPARATE_PARAM(radius);
+
+		PHALCON_INIT_NVAR(radius);
+		ZVAL_LONG(radius, 1);
+	}
+
+	phalcon_call_method_p1_noret(this_ptr, "_blur", radius);
+
+	RETURN_THIS();
+}
+
+/**
  * Save the image. If the filename is omitted, the original image will
  * be overwritten.
  *
