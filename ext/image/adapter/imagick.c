@@ -1387,7 +1387,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _blur){
 
 	zval *radius;
-	zval *im, *sigma;
+	zval *im, *type, *sigma, *next = NULL;
 
 	PHALCON_MM_GROW();
 
