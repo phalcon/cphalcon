@@ -109,10 +109,10 @@ void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
 	assert(phalcon_globals_ptr->start_memory != NULL);
+
 	if (!phalcon_globals_ptr->active_memory) {
 		phalcon_globals_ptr->active_memory = phalcon_globals_ptr->start_memory;
-	}
-	else {
+	} else {
 		phalcon_memory_entry *entry = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
 	/* ecalloc() will take care of these members
 		entry->pointer   = 0;
@@ -289,7 +289,7 @@ void PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC) {
 }
 
 /**
- * Cleans the phalcon memory stack recursivery
+ * Cleans the phalcon memory stack recursivey
  */
 int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
 
@@ -297,6 +297,63 @@ int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
 
 	while (phalcon_globals_ptr->active_memory != NULL) {
 		phalcon_memory_restore_stack(TSRMLS_C);
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Finishes the current memory stack by releasing allocated memory
+ */
+int PHALCON_FASTCALL phalcon_memory_restore_stack_shutdown(TSRMLS_D) {
+
+	phalcon_memory_entry *prev, *active_memory;
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+
+	active_memory = phalcon_globals_ptr->active_memory;
+	if (unlikely(active_memory == NULL)) {
+#ifndef PHALCON_RELEASE
+		fprintf(stderr, "WARNING: calling phalcon_memory_restore_stack() without an active memory frame!\n");
+		phalcon_print_backtrace();
+#endif
+		return FAILURE;
+	}
+
+	prev = active_memory->prev;
+
+	if (prev != NULL) {
+
+		if (active_memory->hash_addresses != NULL) {
+			efree(active_memory->hash_addresses);
+		}
+
+		if (likely(active_memory->addresses != NULL)) {
+			efree(active_memory->addresses);
+		}
+
+		efree(phalcon_globals_ptr->active_memory);
+		phalcon_globals_ptr->active_memory = prev;
+		prev->next = NULL;
+	} else {
+		assert(phalcon_globals_ptr->start_memory == active_memory);
+		assert(active_memory->next == NULL);
+		active_memory->pointer      = 0;
+		active_memory->hash_pointer = 0;
+		phalcon_globals_ptr->active_memory = NULL;
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Cleans the phalcon memory stack recursivery
+ */
+int PHALCON_FASTCALL phalcon_clean_restore_stack_shutdown(TSRMLS_D) {
+
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+
+	while (phalcon_globals_ptr->active_memory != NULL) {
+		phalcon_memory_restore_stack_shutdown(TSRMLS_C);
 	}
 
 	return SUCCESS;

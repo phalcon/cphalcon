@@ -32,6 +32,7 @@ extern void PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
 extern void PHALCON_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
 
 extern int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
+extern int PHALCON_FASTCALL phalcon_clean_restore_stack_shutdown(TSRMLS_D);
 
 /* Virtual symbol tables */
 extern void phalcon_create_symbol_table(TSRMLS_D);

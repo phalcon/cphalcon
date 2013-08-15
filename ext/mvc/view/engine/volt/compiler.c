@@ -3592,7 +3592,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	
 	PHALCON_INIT_VAR(stat);
 	ZVAL_BOOL(stat, 1);
-	PHALCON_CPY_WRT(compile_always, zfalse);
+
+	PHALCON_INIT_VAR(compile_always);
+	ZVAL_BOOL(compile_always, 0);
 	
 	PHALCON_INIT_VAR(compiled_path);
 	ZVAL_STRING(compiled_path, "", 1);
@@ -3603,6 +3605,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	
 	PHALCON_INIT_VAR(compiled_extension);
 	ZVAL_STRING(compiled_extension, ".php", 1);
+
 	PHALCON_CPY_WRT(compilation, znull);
 	
 	PHALCON_OBS_VAR(options);
@@ -3613,7 +3616,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 * This makes that templates will be compiled always
 		 */
 		if (phalcon_array_isset_string(options, SS("compileAlways"))) {
-	
+
+			PHALCON_OBS_NVAR(compile_always);	
 			phalcon_array_fetch_string(&compile_always, options, SL("compileAlways"), PH_NOISY);
 			if (Z_TYPE_P(compile_always) != IS_BOOL) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compileAlways must be a bool value");
@@ -3626,6 +3630,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (phalcon_array_isset_string(options, SS("prefix"))) {
 	
+			PHALCON_OBS_NVAR(prefix);	
 			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY);
 			if (Z_TYPE_P(prefix) != IS_STRING) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "prefix must be a string");
