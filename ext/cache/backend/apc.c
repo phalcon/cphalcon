@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 		zval *last_lifetime = phalcon_fetch_nproperty_this(this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 
 		if (Z_TYPE_P(last_lifetime) == IS_NULL) {
-			PHALCON_INIT_VAR(ttl);
+			PHALCON_OBS_VAR(ttl);
 			phalcon_call_method_p0_ex(ttl, &ttl, frontend, "getlifetime");
 		}
 		else {
@@ -332,10 +332,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 2, &key_name, &lifetime);
-	
-	if (!lifetime) {
-		PHALCON_INIT_VAR(lifetime);
-	}
 	
 	if (!key_name || Z_TYPE_P(key_name) == IS_NULL) {
 		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);

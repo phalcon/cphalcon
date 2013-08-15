@@ -403,16 +403,12 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 
 	zval *key_name = NULL, *lifetime = NULL, *last_key, *options;
-	zval *cache_dir, *cache_file, *frontend, *timestamp;
-	zval *ttl = NULL, *modified_time, *difference, *not_expired;
+	zval *cache_dir, *cache_file, *frontend;
+	zval *tmp, *modified_time;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 2, &key_name, &lifetime);
-	
-	if (!lifetime) {
-		PHALCON_INIT_VAR(lifetime);
-	}
 	
 	if (!key_name || Z_TYPE_P(key_name) == IS_NULL) {
 		last_key = phalcon_fetch_nproperty_this(this_ptr, SL("_lastKey"), PH_NOISY_CC);
@@ -433,32 +429,27 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 		PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
 	
 		if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
+			long int mtime, ttl;
+
 			frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 	
 			/** 
 			 * Check if the file has expired
 			 */
-			PHALCON_INIT_VAR(timestamp);
-			ZVAL_LONG(timestamp, (long) time(NULL));
-			if (Z_TYPE_P(lifetime) == IS_NULL) {
-				PHALCON_INIT_VAR(ttl);
-				phalcon_call_method(ttl, frontend, "getlifetime");
+			if (!lifetime || Z_TYPE_P(lifetime) == IS_NULL) {
+				PHALCON_OBS_VAR(tmp);
+				phalcon_call_method_p0_ex(tmp, &tmp, frontend, "getlifetime");
+
+				ttl = likely(Z_TYPE_P(tmp) == IS_LONG) ? Z_LVAL_P(tmp) : phalcon_get_intval(tmp);
 			} else {
-				PHALCON_CPY_WRT(ttl, lifetime);
+				ttl = likely(Z_TYPE_P(lifetime) == IS_LONG) ? Z_LVAL_P(lifetime) : phalcon_get_intval(lifetime);
 			}
 	
 			PHALCON_INIT_VAR(modified_time);
 			phalcon_filemtime(modified_time, cache_file TSRMLS_CC);
+			mtime = likely(Z_TYPE_P(modified_time) == IS_LONG) ? Z_LVAL_P(modified_time) : phalcon_get_intval(modified_time);
 	
-			PHALCON_INIT_VAR(difference);
-			sub_function(difference, timestamp, ttl TSRMLS_CC);
-	
-			PHALCON_INIT_VAR(not_expired);
-			is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
-			if (PHALCON_IS_TRUE(not_expired)) {
-				/** 
-				 * We only return true if the file exists and it did not expired
-				 */
+			if (mtime + ttl > (long int)time(NULL)) {
 				RETURN_MM_TRUE;
 			}
 		}

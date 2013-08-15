@@ -492,7 +492,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, exists){
 			memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 		}
 
-		PHALCON_INIT_VAR(value);
+		PHALCON_OBS_VAR(value);
 		phalcon_call_method_p1_ex(value, &value, memcache, "get", last_key);
 		RETVAL_BOOL(PHALCON_IS_NOT_FALSE(value));
 	}

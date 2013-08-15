@@ -161,11 +161,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 		return;
 	}
 
-	PHALCON_INIT_VAR(success);
+	PHALCON_OBS_VAR(success);
 	if (zend_is_true(persistent)) {
-		phalcon_call_method_p2(success, memcache, "pconnect", host, port);
+		phalcon_call_method_p2_ex(success, &success, memcache, "pconnect", host, port);
 	} else {
-		phalcon_call_method_p2(success, memcache, "connect", host, port);
+		phalcon_call_method_p2_ex(success, &success, memcache, "connect", host, port);
 	}
 	
 	if (!zend_is_true(success)) {
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 			memcache = phalcon_fetch_nproperty_this(this_ptr, SL("_memcache"), PH_NOISY_CC);
 		}
 	
-		PHALCON_INIT_VAR(value);
+		PHALCON_OBS_VAR(value);
 		phalcon_call_method_p1_ex(value, &value, memcache, "get", last_key);
 		RETVAL_BOOL(PHALCON_IS_NOT_FALSE(value));
 	}
