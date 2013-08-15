@@ -22310,7 +22310,6 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Console_Exception){
 
 
 
-
 #ifdef HAVE_CONFIG_H
 #endif
 
@@ -26154,7 +26153,6 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler){
 	phalcon_read_property_this_quick(&pdo, this_ptr, SL("_pdo"), 250952231UL, PH_NOISY_CC);
 	RETURN_CCTOR(pdo);
 }
-
 
 
 
@@ -54504,7 +54502,6 @@ static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Xcache, write){
 
 
 
-
 #ifdef HAVE_CONFIG_H
 #endif
 
@@ -54793,12 +54790,15 @@ static PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 
-	zval *model, *index, *data, *table, *schema, *class_name;
-	zval *key, *meta_data = NULL;
+	zval *model, *index, *data, *replace, *table, *schema, *class_name;
+	zval *key, *meta_data = NULL, *arr, *value;
+	HashTable *ah2;
+	HashPosition hp2;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 0, &model, &index, &data);
+	phalcon_fetch_params(1, 4, 0, &model, &index, &data, &replace);
 	
 	if (Z_TYPE_P(model) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
@@ -54837,6 +54837,26 @@ static PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 	
 		PHALCON_OBS_NVAR(meta_data);
 		phalcon_read_property_this_quick(&meta_data, this_ptr, SL("_metaData"), 1295805989UL, PH_NOISY_CC);
+	} else if (!zend_is_true(replace)) {
+		PHALCON_OBS_VAR(arr);
+		phalcon_array_fetch(&arr, meta_data, key, PH_NOISY);
+		
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, arr, index, PH_NOISY);
+
+		PHALCON_SEPARATE_PARAM(data);
+		phalcon_is_iterable(value, &ah2, &hp2, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+
+			zval key2 = phalcon_get_current_key_w(ah2, &hp2);
+
+			if (!phalcon_array_isset(data, &key2)) {
+				phalcon_array_update_zval(&data, &key2, hd, PH_COPY | PH_SEPARATE);
+			} 
+
+			zend_hash_move_forward_ex(ah2, &hp2);
+		}
 	}
 	
 	phalcon_array_update_multi_2(&meta_data, key, index, &data, 0);
@@ -55125,30 +55145,30 @@ static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes){
 
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes){
 
-	zval *model, *attributes, *create_index;
+	zval *model, *attributes, *replace, *create_index;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &model, &attributes);
+	phalcon_fetch_params(1, 3, 0, &model, &attributes, &replace);
 	
 	PHALCON_INIT_VAR(create_index);
 	ZVAL_LONG(create_index, 10);
-	phalcon_call_method_p3_key(NULL, this_ptr, "writemetadataindex", model, create_index, attributes, 3417033257UL);
+	phalcon_call_method_p4_key(NULL, this_ptr, "writemetadataindex", model, create_index, attributes, replace, 3417033257UL);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes){
 
-	zval *model, *attributes, *create_index;
+	zval *model, *attributes, *replace, *create_index;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &model, &attributes);
+	phalcon_fetch_params(1, 3, 0, &model, &attributes, &replace);
 	
 	PHALCON_INIT_VAR(create_index);
 	ZVAL_LONG(create_index, 11);
-	phalcon_call_method_p3_key(NULL, this_ptr, "writemetadataindex", model, create_index, attributes, 3417033257UL);
+	phalcon_call_method_p4_key(NULL, this_ptr, "writemetadataindex", model, create_index, attributes, replace, 3417033257UL);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -76365,7 +76385,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, writeAttribute){
 
 static PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 
-	zval *attributes, *null_value, *keys_attributes;
+	zval *attributes, *replace = NULL, *null_value, *keys_attributes;
 	zval *attribute = NULL, *meta_data;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -76373,11 +76393,16 @@ static PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &attributes);
+	phalcon_fetch_params(1, 1, 1, &attributes, &replace);
 	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
 		return;
+	}
+
+	if (!replace) {
+		PHALCON_INIT_VAR(replace);
+		ZVAL_FALSE(replace);
 	}
 	
 	PHALCON_INIT_VAR(null_value);
@@ -76398,15 +76423,15 @@ static PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method_key(meta_data, this_ptr, "getmodelsmetadata", 3603043978UL);
-	phalcon_call_method_p2_key(NULL, meta_data, "setautomaticcreateattributes", this_ptr, keys_attributes, 316109587UL);
-	phalcon_call_method_p2_key(NULL, meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes, 2859965858UL);
+	phalcon_call_method_p3_key(NULL, meta_data, "setautomaticcreateattributes", this_ptr, keys_attributes, replace, 316109587UL);
+	phalcon_call_method_p3_key(NULL, meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes, replace, 2859965858UL);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 
-	zval *attributes, *null_value, *keys_attributes;
+	zval *attributes, *replace = NULL, *null_value, *keys_attributes;
 	zval *attribute = NULL, *meta_data;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -76414,11 +76439,16 @@ static PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &attributes);
+	phalcon_fetch_params(1, 1, 1, &attributes, &replace);
 	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
 		return;
+	}
+
+	if (!replace) {
+		PHALCON_INIT_VAR(replace);
+		ZVAL_FALSE(replace);
 	}
 	
 	PHALCON_INIT_VAR(null_value);
@@ -76439,14 +76469,14 @@ static PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method_key(meta_data, this_ptr, "getmodelsmetadata", 3603043978UL);
-	phalcon_call_method_p2_key(NULL, meta_data, "setautomaticcreateattributes", this_ptr, keys_attributes, 316109587UL);
+	phalcon_call_method_p3_key(NULL, meta_data, "setautomaticcreateattributes", this_ptr, keys_attributes, replace, 316109587UL);
 	
 	PHALCON_MM_RESTORE();
 }
 
 static PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 
-	zval *attributes, *null_value, *keys_attributes;
+	zval *attributes, *replace = NULL, *null_value, *keys_attributes;
 	zval *attribute = NULL, *meta_data;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -76454,11 +76484,16 @@ static PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &attributes);
+	phalcon_fetch_params(1, 1, 1, &attributes, &replace);
 	
 	if (Z_TYPE_P(attributes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Attributes must be an array");
 		return;
+	}
+
+	if (!replace) {
+		PHALCON_INIT_VAR(replace);
+		ZVAL_FALSE(replace);
 	}
 	
 	PHALCON_INIT_VAR(null_value);
@@ -76479,7 +76514,7 @@ static PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method_key(meta_data, this_ptr, "getmodelsmetadata", 3603043978UL);
-	phalcon_call_method_p2_key(NULL, meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes, 2859965858UL);
+	phalcon_call_method_p3_key(NULL, meta_data, "setautomaticupdateattributes", this_ptr, keys_attributes, replace, 2859965858UL);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -100334,10 +100369,8 @@ static void (*old_error_cb)(int, const char *, const uint, const char *, va_list
 static void phalcon_error_cb(int type, const char *error_filename, const uint error_lineno, const char *format, va_list args)
 {
 	if (type == E_ERROR || type == E_CORE_ERROR || type == E_RECOVERABLE_ERROR || type == E_COMPILE_ERROR || type == E_USER_ERROR) {
-		#if PHP_VERSION_ID >= 50400
 		TSRMLS_FETCH();
 		phalcon_clean_restore_stack(TSRMLS_C);
-		#endif
 	}
 
 	if (likely(old_error_cb != NULL)) {
@@ -100688,15 +100721,15 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Events_Manager);
 	PHALCON_INIT(Phalcon_Events_Exception);
 
-	old_error_cb  = zend_error_cb;
-	zend_error_cb = phalcon_error_cb;
+	//old_error_cb  = zend_error_cb;
+	//zend_error_cb = phalcon_error_cb;
 	return SUCCESS;
 }
 
 
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
-	zend_error_cb = old_error_cb;
+	//zend_error_cb = old_error_cb;
 
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
