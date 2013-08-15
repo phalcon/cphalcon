@@ -1,0 +1,5 @@
+rm: conftest.dSYM: is a directory
+rm: conftest.dSYM: is a directory
+rm: conftest.dSYM: is a directory
+clang: warning: argument unused during compilation: '-fno-delete-null-pointer-checks'
+clang: warning: argument unused during compilation: '-fno-delete-null-pointer-checks'

@@ -894,7 +894,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 		return;
 	}
 
-	PHALCON_CALL_METHOD(NULL, this_ptr, "_text", 0, 9, text, offset_x, offset_y, opacity, r, g, b, size, fontfile);
+	PHALCON_CALL_METHOD(NULL, NULL, this_ptr, "_text", 0, 9, text, offset_x, offset_y, opacity, r, g, b, size, fontfile);
 
 	RETURN_THIS();
 }
