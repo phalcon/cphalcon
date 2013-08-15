@@ -58,7 +58,7 @@ void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 	if (Z_TYPE_P(right) != IS_STRING) {
 		phalcon_make_printable_zval(right, &right_copy, &use_copy_right);
 		if (use_copy_right) {
-			PHALCON_CPY_WRT_CTOR(right, (&right_copy));
+			//PHALCON_CPY_WRT_CTOR(right, (&right_copy));
 		}
 	}
 
