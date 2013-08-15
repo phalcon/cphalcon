@@ -21,8 +21,6 @@
 #ifndef PHALCON_CACHE_FRONTEND_IGBINARY_H
 #define PHALCON_CACHE_FRONTEND_IGBINARY_H
 
-#include "cache/frontendinterface.h"
-
 extern zend_class_entry *phalcon_cache_frontend_igbinary_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Igbinary);

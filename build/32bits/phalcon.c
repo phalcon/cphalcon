@@ -188,6 +188,7 @@ PHP includes the Zend Engine, freely available at
 #include "ext/standard/url.h"
 #include "ext/spl/spl_heap.h"
 #include "ext/spl/spl_exceptions.h"
+#include "ext/spl/spl_directory.h"
 #include "ext/date/php_date.h"
 
 #ifdef PHALCON_USE_PHP_PCRE
@@ -83673,8 +83674,9 @@ static PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 }
 
 static PHP_METHOD(Phalcon_Mvc_Router, getDefaults){
+
 	zval *namespace_name, *module_name;
-	zval *controller_name, *action_name, **params;
+	zval *controller_name, *action_name, *params;
 
 	namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
 	module_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultModule"), PH_NOISY_CC);

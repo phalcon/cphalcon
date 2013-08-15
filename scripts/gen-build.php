@@ -148,6 +148,7 @@ class Build_Generator
 #include "ext/standard/url.h"
 #include "ext/spl/spl_heap.h"
 #include "ext/spl/spl_exceptions.h"
+#include "ext/spl/spl_directory.h"
 #include "ext/date/php_date.h"
 
 #ifdef PHALCON_USE_PHP_PCRE

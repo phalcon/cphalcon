@@ -20,8 +20,6 @@
 #ifndef PHALCON_CACHE_FRONTEND_JSON_H
 #define PHALCON_CACHE_FRONTEND_JSON_H
 
-#include "cache/frontendinterface.h"
-
 extern zend_class_entry *phalcon_cache_frontend_json_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Json);

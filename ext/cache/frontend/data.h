@@ -20,8 +20,6 @@
 #ifndef PHALCON_CACHE_FRONTEND_DATA_H
 #define PHALCON_CACHE_FRONTEND_DATA_H
 
-#include "cache/frontendinterface.h"
-
 extern zend_class_entry *phalcon_cache_frontend_data_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Data);

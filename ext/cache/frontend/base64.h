@@ -20,8 +20,6 @@
 #ifndef PHALCON_CACHE_FRONTEND_BASE64_H
 #define PHALCON_CACHE_FRONTEND_BASE64_H
 
-#include "cache/frontendinterface.h"
-
 extern zend_class_entry *phalcon_cache_frontend_base64_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Base64);

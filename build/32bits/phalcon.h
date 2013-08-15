@@ -5136,8 +5136,6 @@ PHALCON_INIT_FUNCS(phalcon_translate_adapter_method_entry){
 #ifndef PHALCON_CACHE_FRONTEND_DATA_H
 #define PHALCON_CACHE_FRONTEND_DATA_H
 
-#include "cache/frontendinterface.h"
-
 zend_class_entry *phalcon_cache_frontend_data_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Data);
@@ -6250,8 +6248,6 @@ PHALCON_INIT_FUNCS(phalcon_cache_backend_libmemcached_method_entry){
 #ifndef PHALCON_CACHE_FRONTEND_JSON_H
 #define PHALCON_CACHE_FRONTEND_JSON_H
 
-#include "cache/frontendinterface.h"
-
 zend_class_entry *phalcon_cache_frontend_json_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Json);
@@ -6270,8 +6266,6 @@ PHALCON_INIT_FUNCS(phalcon_cache_frontend_json_method_entry){
 
 #ifndef PHALCON_CACHE_FRONTEND_OUTPUT_H
 #define PHALCON_CACHE_FRONTEND_OUTPUT_H
-
-#include "cache/frontendinterface.h"
 
 zend_class_entry *phalcon_cache_frontend_output_ce;
 
@@ -6308,8 +6302,6 @@ PHALCON_INIT_FUNCS(phalcon_cache_frontend_output_method_entry){
 #ifndef PHALCON_CACHE_FRONTEND_NONE_H
 #define PHALCON_CACHE_FRONTEND_NONE_H
 
-#include "cache/frontendinterface.h"
-
 zend_class_entry *phalcon_cache_frontend_none_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None);
@@ -6331,8 +6323,6 @@ PHALCON_INIT_FUNCS(phalcon_cache_frontend_none_method_entry){
 #ifndef PHALCON_CACHE_FRONTEND_BASE64_H
 #define PHALCON_CACHE_FRONTEND_BASE64_H
 
-#include "cache/frontendinterface.h"
-
 zend_class_entry *phalcon_cache_frontend_base64_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Base64);
@@ -6351,8 +6341,6 @@ PHALCON_INIT_FUNCS(phalcon_cache_frontend_base64_method_entry){
 
 #ifndef PHALCON_CACHE_FRONTEND_IGBINARY_H
 #define PHALCON_CACHE_FRONTEND_IGBINARY_H
-
-#include "cache/frontendinterface.h"
 
 zend_class_entry *phalcon_cache_frontend_igbinary_ce;
 
