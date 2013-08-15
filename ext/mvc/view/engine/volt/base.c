@@ -89,6 +89,10 @@ const phvolt_token_names phvolt_tokens[] =
   { SL("BREAK"),          PHVOLT_T_BREAK },
   { SL("WITH"),           PHVOLT_T_WITH },
   { SL("RETURN"),         PHVOLT_T_RETURN },
+  { SL("MACRO"),          PHVOLT_T_MACRO },
+  { SL("ENDMACRO"),       PHVOLT_T_ENDMACRO },
+  { SL("CALL"),           PHVOLT_T_CALL },
+  { SL("WITH"),           PHVOLT_T_WITH },
   { NULL, 0, 0 }
 };
 

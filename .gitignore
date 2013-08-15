@@ -478,3 +478,4 @@ build/install2
 .DS_Store
 ext/.DS_Store
 ext/mvc/view/engine/volt/parser.out
+ext/mvc/view/engine/volt/lemon
