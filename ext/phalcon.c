@@ -734,9 +734,9 @@ static PHP_RINIT_FUNCTION(phalcon){
 
 static PHP_RSHUTDOWN_FUNCTION(phalcon){
 
-	/*if (PHALCON_GLOBAL(start_memory) != NULL) {
-		phalcon_clean_restore_stack(TSRMLS_C);
-	}*/
+	if (PHALCON_GLOBAL(start_memory) != NULL) {
+		phalcon_clean_restore_stack_shutdown(TSRMLS_C);
+	}
 
 	if (PHALCON_GLOBAL(function_cache) != NULL) {
 		zend_hash_destroy(PHALCON_GLOBAL(function_cache));

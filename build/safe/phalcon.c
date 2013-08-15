@@ -1199,6 +1199,7 @@ static void PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
 static void PHALCON_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
 
 static int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
+static int PHALCON_FASTCALL phalcon_clean_restore_stack_shutdown(TSRMLS_D);
 
 /* Virtual symbol tables */
 static void phalcon_create_symbol_table(TSRMLS_D);
@@ -2522,10 +2523,10 @@ static void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
 	assert(phalcon_globals_ptr->start_memory != NULL);
+
 	if (!phalcon_globals_ptr->active_memory) {
 		phalcon_globals_ptr->active_memory = phalcon_globals_ptr->start_memory;
-	}
-	else {
+	} else {
 		phalcon_memory_entry *entry = (phalcon_memory_entry *) ecalloc(1, sizeof(phalcon_memory_entry));
 	/* ecalloc() will take care of these members
 		entry->pointer   = 0;
@@ -2685,6 +2686,58 @@ static int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
 
 	while (phalcon_globals_ptr->active_memory != NULL) {
 		phalcon_memory_restore_stack(TSRMLS_C);
+	}
+
+	return SUCCESS;
+}
+
+static int PHALCON_FASTCALL phalcon_memory_restore_stack_shutdown(TSRMLS_D) {
+
+	size_t i;
+	phalcon_memory_entry *prev, *active_memory;
+	phalcon_symbol_table *active_symbol_table;
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+
+	active_memory = phalcon_globals_ptr->active_memory;
+	if (unlikely(active_memory == NULL)) {
+#ifndef PHALCON_RELEASE
+		fprintf(stderr, "WARNING: calling phalcon_memory_restore_stack() without an active memory frame!\n");
+		phalcon_print_backtrace();
+#endif
+		return FAILURE;
+	}
+
+	prev = active_memory->prev;
+
+	if (prev != NULL) {
+		if (active_memory->hash_addresses != NULL) {
+			efree(active_memory->hash_addresses);
+		}
+
+		if (likely(active_memory->addresses != NULL)) {
+			efree(active_memory->addresses);
+		}
+
+		efree(phalcon_globals_ptr->active_memory);
+		phalcon_globals_ptr->active_memory = prev;
+		prev->next = NULL;
+	} else {
+		assert(phalcon_globals_ptr->start_memory == active_memory);
+		assert(active_memory->next == NULL);
+		active_memory->pointer      = 0;
+		active_memory->hash_pointer = 0;
+		phalcon_globals_ptr->active_memory = NULL;
+	}
+
+	return SUCCESS;
+}
+
+static int PHALCON_FASTCALL phalcon_clean_restore_stack_shutdown(TSRMLS_D) {
+
+	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+
+	while (phalcon_globals_ptr->active_memory != NULL) {
+		phalcon_memory_restore_stack_shutdown(TSRMLS_C);
 	}
 
 	return SUCCESS;
@@ -100747,9 +100800,9 @@ static PHP_RINIT_FUNCTION(phalcon){
 
 static PHP_RSHUTDOWN_FUNCTION(phalcon){
 
-	/*if (PHALCON_GLOBAL(start_memory) != NULL) {
-		phalcon_clean_restore_stack(TSRMLS_C);
-	}*/
+	if (PHALCON_GLOBAL(start_memory) != NULL) {
+		phalcon_clean_restore_stack_shutdown(TSRMLS_C);
+	}
 
 	if (PHALCON_GLOBAL(function_cache) != NULL) {
 		zend_hash_destroy(PHALCON_GLOBAL(function_cache));
