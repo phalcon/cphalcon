@@ -473,36 +473,26 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Router, getDefaults){
-	zval *defaults, *namespace_name, *module_name;
-	zval *controller_name, *action_name, *params;
+	zval **namespace_name, **module_name;
+	zval **controller_name, **action_name, **params;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(namespace_name);
-	phalcon_read_property_this(&namespace_name, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+	namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+	module_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultModule"), PH_NOISY_CC);
+	controller_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultController"), PH_NOISY_CC);
+	action_name  = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultAction"), PH_NOISY_CC);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultParams"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(module_name);
-	phalcon_read_property_this(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
+	array_init_size(return_value, 5);
 
-	PHALCON_OBS_VAR(controller_name);
-	phalcon_read_property_this(&controller_name, this_ptr, SL("_defaultController"), PH_NOISY_CC);
+	phalcon_array_update_string(&return_value, SL("namespace"), namespace_name, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("module"), module_name, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("controller"), controller_name, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("action"), action_name, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("params"), params, PH_COPY);
 
-	PHALCON_OBS_VAR(action_name);
-	phalcon_read_property_this(&action_name, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
-
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_defaultParams"), PH_NOISY_CC);
-
-	PHALCON_INIT_VAR(defaults);
-	array_init_size(defaults, 5);
-
-	phalcon_array_update_string(&defaults, SL("namespace"), &namespace_name, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&defaults, SL("module"), &module_name, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&defaults, SL("controller"), &controller_name, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&defaults, SL("action"), &action_name, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&defaults, SL("params"), &params, PH_COPY | PH_SEPARATE);
-
-	RETURN_CTOR(defaults);
+	PHALCON_MM_RESTOR();
 }
 
 /**
