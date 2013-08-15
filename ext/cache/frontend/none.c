@@ -21,6 +21,9 @@
 #include "config.h"
 #endif
 
+#include "cache/frontend/data.h"
+#include "cache/frontend/none.h"
+
 #include "php.h"
 #include "php_phalcon.h"
 #include "phalcon.h"
@@ -74,7 +77,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, None, cache_frontend_none, phalcon_cache_frontend_none_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, None, cache_frontend_none, "phalcon\\cache\\frontend\\data", phalcon_cache_frontend_none_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_none_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
@@ -93,57 +96,22 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime){
 }
 
 /**
- * Check whether if frontend is buffering output, always false
- *
- * @return boolean
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering){
-
-
-	RETURN_FALSE;
-}
-
-/**
- * Starts output frontend
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, start){
-
-
-	
-}
-
-/**
- * Returns output cached content
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, getContent){
-
-
-	
-}
-
-/**
- * Stops output frontend
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, stop){
-
-
-	
-}
-
-/**
  * Prepare data to be stored
  *
  * @param mixed $data
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore){
 
-	zval *data;
-
-	phalcon_fetch_params(0, 1, 0, &data);
-	
-	RETURN_CCTORW(data);
+	if (return_value_ptr) {
+		zval_ptr_dtor(return_value_ptr);
+		phalcon_fetch_params(0, 1, 0, return_value_ptr);
+		Z_ADDREF_PP(return_value_ptr);
+	}
+	else {
+		zval *data;
+		phalcon_fetch_params(0, 1, 0, &data);
+		RETURN_CCTORW(data);
+	}
 }
 
 /**
@@ -153,10 +121,15 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve){
 
-	zval *data;
-
-	phalcon_fetch_params(0, 1, 0, &data);
-	
-	RETURN_CCTORW(data);
+	if (return_value_ptr) {
+		zval_ptr_dtor(return_value_ptr);
+		phalcon_fetch_params(0, 1, 0, return_value_ptr);
+		Z_ADDREF_PP(return_value_ptr);
+	}
+	else {
+		zval *data;
+		phalcon_fetch_params(0, 1, 0, &data);
+		RETURN_CCTORW(data);
+	}
 }
 

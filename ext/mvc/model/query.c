@@ -2424,7 +2424,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause){
 
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getLimitClause) {
 	zval *limit_clause, *tmp = NULL;
-	zval **limit, **offset;
+	zval *limit, *offset;
 
 	phalcon_fetch_params(0, 1, 0, &limit_clause);
 	assert(Z_TYPE_P(limit_clause) == IS_ARRAY);
@@ -2435,13 +2435,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getLimitClause) {
 
 	if (likely(phalcon_array_isset_string_fetch(&limit, limit_clause, SS("number")))) {
 		PHALCON_INIT_NVAR(tmp);
-		phalcon_call_method_p1(tmp, getThis(), "_getexpression", *limit);
+		phalcon_call_method_p1(tmp, getThis(), "_getexpression", limit);
 		phalcon_array_update_string(&return_value, SL("number"), &tmp, PH_COPY);
 	}
 
 	if (phalcon_array_isset_string_fetch(&offset, limit_clause, SS("offset"))) {
 		PHALCON_INIT_NVAR(tmp);
-		phalcon_call_method_p1(tmp, getThis(), "_getexpression", *offset);
+		phalcon_call_method_p1(tmp, getThis(), "_getexpression", offset);
 		phalcon_array_update_string(&return_value, SL("offset"), &tmp, PH_COPY);
 	}
 
@@ -2468,7 +2468,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *sql_column_group = NULL, *sql_column = NULL, *type = NULL, *sql_select;
 	zval *where, *where_expr, *group_by, *sql_group;
 	zval *having, *having_expr, *order, *sql_order;
-	zval **limit, *sql_limit;
+	zval *limit, *sql_limit;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -2856,7 +2856,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	 */
 	if (phalcon_array_isset_string_fetch(&limit, ast, SS("limit"))) {
 		PHALCON_INIT_VAR(sql_limit);
-		phalcon_call_method_p1(sql_limit, this_ptr, "_getlimitclause", *limit);
+		phalcon_call_method_p1(sql_limit, this_ptr, "_getlimitclause", limit);
 		phalcon_array_update_string(&sql_select, SL("limit"), &sql_limit, PH_COPY);
 	}
 	
@@ -3035,7 +3035,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	zval *values, *update_values = NULL, *not_quoting = NULL, *update_value = NULL;
 	zval *column = NULL, *sql_column = NULL, *expr_column = NULL, *expr_value = NULL;
 	zval *type = NULL, *value = NULL, *sql_update, *where, *where_expr;
-	zval **limit, *sql_limit;
+	zval *limit, *sql_limit;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -3258,7 +3258,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	
 	if (phalcon_array_isset_string_fetch(&limit, ast, SS("limit"))) {
 		PHALCON_INIT_VAR(sql_limit);
-		phalcon_call_method_p1(sql_limit, this_ptr, "_getlimitclause", *limit);
+		phalcon_call_method_p1(sql_limit, this_ptr, "_getlimitclause", limit);
 		phalcon_array_update_string(&sql_update, SL("limit"), &sql_limit, PH_COPY);
 	}
 	
@@ -3280,7 +3280,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	zval *real_model_name = NULL, *model = NULL, *source = NULL, *schema = NULL;
 	zval *complete_source = NULL, *alias = NULL, *sql_delete, *not_quoting;
 	zval *where, *where_expr;
-	zval **limit, *sql_limit;
+	zval *limit, *sql_limit;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3440,7 +3440,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	
 	if (phalcon_array_isset_string_fetch(&limit, ast, SS("limit"))) {
 		PHALCON_INIT_VAR(sql_limit);
-		phalcon_call_method_p1(sql_limit, this_ptr, "_getlimitclause", *limit);
+		phalcon_call_method_p1(sql_limit, this_ptr, "_getlimitclause", limit);
 		phalcon_array_update_string(&sql_delete, SL("limit"), &sql_limit, PH_COPY);
 	}
 

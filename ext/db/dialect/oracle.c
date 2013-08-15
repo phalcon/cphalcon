@@ -851,8 +851,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	zval *group_clause, *having_conditions, *having_expression;
 	zval *order_fields, *order_items, *order_item = NULL;
 	zval *order_expression = NULL, *order_sql_item = NULL, *sql_order_type = NULL;
-	zval *order_sql_item_type = NULL, *order_sql, **limit_value;
-	zval **number, **offset, *tmp1 = NULL, *tmp2 = NULL;
+	zval *order_sql_item_type = NULL, *order_sql, *limit_value;
+	zval *number, *offset, *tmp1 = NULL, *tmp2 = NULL;
 	zval *one, *ini_range, *end_range, *sql_limit;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
@@ -1184,14 +1184,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	 * this puts an extra column into the query result set.
 	 */
 	if (phalcon_array_isset_string_fetch(&limit_value, definition, SS("limit"))) {
-		if (likely(Z_TYPE_PP(limit_value) == IS_ARRAY)) {
-			if (likely(phalcon_array_isset_string_fetch(&number, *limit_value, SS("number")))) {
+		if (likely(Z_TYPE_P(limit_value) == IS_ARRAY)) {
+			if (likely(phalcon_array_isset_string_fetch(&number, limit_value, SS("number")))) {
 				PHALCON_OBS_NVAR(tmp1);
-				phalcon_array_fetch_string(&tmp1, *number, SL("value"), PH_NOISY);
+				phalcon_array_fetch_string(&tmp1, number, SL("value"), PH_NOISY);
 
-				if (phalcon_array_isset_string_fetch(&offset, *limit_value, SS("offset"))) {
+				if (phalcon_array_isset_string_fetch(&offset, limit_value, SS("offset"))) {
 					PHALCON_OBS_NVAR(tmp2);
-					phalcon_array_fetch_string(&tmp2, *offset, SL("value"), PH_NOISY);
+					phalcon_array_fetch_string(&tmp2, offset, SL("value"), PH_NOISY);
 				} else {
 					PHALCON_INIT_NVAR(tmp2);
 					ZVAL_LONG(tmp2, 0);
@@ -1215,7 +1215,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 			PHALCON_INIT_VAR(ini_range);
 			ZVAL_LONG(ini_range, 1);
 
-			PHALCON_CPY_WRT_CTOR(end_range, *limit_value);
+			PHALCON_CPY_WRT_CTOR(end_range, limit_value);
 
 			PHALCON_INIT_VAR(sql_limit);
 			PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );

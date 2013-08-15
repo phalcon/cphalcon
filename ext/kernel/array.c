@@ -45,7 +45,7 @@
  * @note $arr[$index] is returned as is: no copying occurs, reference copunt is not updated
  * @throw E_WARNING if @a offset is not a scalar
  */
-int phalcon_array_isset_fetch(zval ***fetched, const zval *arr, zval *index) {
+int phalcon_array_isset_fetch(zval **fetched, const zval *arr, zval *index) {
 
 	HashTable *h;
 	zval **val;
@@ -81,20 +81,20 @@ int phalcon_array_isset_fetch(zval ***fetched, const zval *arr, zval *index) {
 	}
 
 	if (result == SUCCESS) {
-		*fetched = val;
+		*fetched = *val;
 		return 1;
 	}
 
 	return 0;
 }
 
-int phalcon_array_isset_quick_string_fetch(zval ***fetched, zval *arr, char *index, uint index_length, unsigned long key) {
+int phalcon_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key) {
 
 	zval **zv;
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		if (phalcon_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
-			*fetched = zv;
+			*fetched = *zv;
 			return 1;
 		}
 	}
@@ -102,18 +102,18 @@ int phalcon_array_isset_quick_string_fetch(zval ***fetched, zval *arr, char *ind
 	return 0;
 }
 
-int phalcon_array_isset_string_fetch(zval ***fetched, zval *arr, char *index, uint index_length) {
+int phalcon_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length) {
 
 	return phalcon_array_isset_quick_string_fetch(fetched, arr, index, index_length, zend_inline_hash_func(index, index_length));
 }
 
-int phalcon_array_isset_long_fetch(zval ***fetched, zval *arr, unsigned long index) {
+int phalcon_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index) {
 
 	zval **zv;
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		if (zend_hash_index_find(Z_ARRVAL_P(arr), index, (void**)&zv) == SUCCESS) {
-			*fetched = zv;
+			*fetched = *zv;
 			return 1;
 		}
 	}

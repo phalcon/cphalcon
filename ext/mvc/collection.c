@@ -165,10 +165,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, setId){
 
-	zval *id, *use_implicit_ids;
+	zval *id, *use_implicit_ids, *models_manager;
 	zval *mongo_id = NULL;
 	zend_class_entry *ce0;
-	zval **models_manager;
 
 	PHALCON_MM_GROW();
 
@@ -181,7 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId){
 		 * Check if the model use implicit ids
 		 */
 		PHALCON_INIT_VAR(use_implicit_ids);
-		phalcon_call_method_p1(use_implicit_ids, *models_manager, "isusingimplicitobjectids", this_ptr);
+		phalcon_call_method_p1(use_implicit_ids, models_manager, "isusingimplicitobjectids", this_ptr);
 		if (zend_is_true(use_implicit_ids)) {
 			ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			PHALCON_INIT_VAR(mongo_id);
@@ -195,8 +194,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId){
 	} else {
 		mongo_id = id;
 	}
+
 	phalcon_update_property_this(this_ptr, SL("_id"), mongo_id TSRMLS_CC);
-	
 	PHALCON_MM_RESTORE();
 }
 
@@ -244,14 +243,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, getDI){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager){
 
-	zval *events_manager, **models_manager;
+	zval *events_manager, *models_manager;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &events_manager);
 	
 	models_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	phalcon_call_method_p2_noret(*models_manager, "setcustomeventsmanager", this_ptr, events_manager);
+	phalcon_call_method_p2_noret(models_manager, "setcustomeventsmanager", this_ptr, events_manager);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -263,12 +262,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager){
 
-	zval **models_manager;
+	zval *models_manager;
 
 	PHALCON_MM_GROW();
 
 	models_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	phalcon_call_method_p1(return_value, *models_manager, "getcustomeventsmanager", this_ptr);
+	phalcon_call_method_p1(return_value, models_manager, "getcustomeventsmanager", this_ptr);
 	RETURN_MM();
 }
 
@@ -320,14 +319,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, useImplicitObjectIds){
 
-	zval *use_implicit_object_ids, **models_manager;
+	zval *use_implicit_object_ids, *models_manager;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &use_implicit_object_ids);
 	
 	models_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	phalcon_call_method_p2_noret(*models_manager, "useimplicitobjectids", this_ptr, use_implicit_object_ids);
+	phalcon_call_method_p2_noret(models_manager, "useimplicitobjectids", this_ptr, use_implicit_object_ids);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -381,14 +380,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, setConnectionService){
 
-	zval *connection_service, **models_manager;
+	zval *connection_service, *models_manager;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &connection_service);
 	
 	models_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	phalcon_call_method_p2_noret(*models_manager, "setconnectionservice", this_ptr, connection_service);
+	phalcon_call_method_p2_noret(models_manager, "setconnectionservice", this_ptr, connection_service);
 	RETURN_THIS();
 }
 
@@ -399,12 +398,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, setConnectionService){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getConnectionService){
 
-	zval **models_manager;
+	zval *models_manager;
 
 	PHALCON_MM_GROW();
 
 	models_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	phalcon_call_method_p1(return_value, *models_manager, "getconnectionservice", this_ptr);
+	phalcon_call_method_p1_ex(return_value, return_value_ptr, models_manager, "getconnectionservice", this_ptr);
 	RETURN_MM();
 }
 
@@ -415,7 +414,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnectionService){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getConnection){
 
-	zval *connection = NULL, **models_manager;
+	zval *connection = NULL, *models_manager;
 
 	PHALCON_MM_GROW();
 
@@ -425,7 +424,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnection){
 		models_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(connection);
-		phalcon_call_method_p1(connection, *models_manager, "getconnection", this_ptr);
+		phalcon_call_method_p1(connection, models_manager, "getconnection", this_ptr);
 		phalcon_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	}
 	
@@ -1298,12 +1297,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	zval *success = NULL, *options;
 	HashPosition hp0;
 	zval **hd;
-	zval **dependency_injector, **ok, **id;
+	zval *dependency_injector, *ok, *id, *tmp;
 	zval *params[2];
 	zval func;
 
 	dependency_injector = phalcon_fetch_property_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (!dependency_injector || Z_TYPE_PP(dependency_injector) != IS_OBJECT) {
+	if (!dependency_injector || Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
@@ -1348,7 +1347,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	 * Execute the preSave hook
 	 */
 	PHALCON_INIT_VAR(status);
-	phalcon_call_method_p3(status, this_ptr, "_presave", *dependency_injector, disable_events, exists);
+	phalcon_call_method_p3(status, this_ptr, "_presave", dependency_injector, disable_events, exists);
 	if (PHALCON_IS_FALSE(status)) {
 		RETURN_MM_FALSE;
 	}
@@ -1397,7 +1396,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	 */
 	ALLOC_INIT_ZVAL(options);
 	array_init_size(options, 1);
-	zval *tmp;
+
 	ALLOC_INIT_ZVAL(tmp);
 	ZVAL_LONG(tmp, 1);
 	add_assoc_zval_ex(options, SS("w"), tmp);
@@ -1417,12 +1416,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	ZVAL_FALSE(success);
 
 	if (phalcon_array_isset_string_fetch(&ok, status, SS("ok"))) {
-		if (zend_is_true(*ok)) {
+		if (zend_is_true(ok)) {
 			ZVAL_TRUE(success);
 			if (PHALCON_IS_FALSE(exists) && phalcon_array_isset_string_fetch(&id, data, SS("_id"))) {
-				fprintf(stderr, "%d\n", Z_REFCOUNT_PP(id));
-				phalcon_update_property_this(this_ptr, SL("_id"), *id TSRMLS_CC);
-				fprintf(stderr, "%d\n", Z_REFCOUNT_PP(id));
+				phalcon_update_property_this(this_ptr, SL("_id"), id TSRMLS_CC);
 			}
 		}
 	}

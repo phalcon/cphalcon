@@ -24,10 +24,10 @@
 #include "php_phalcon.h"
 
 /** Combined isset/fetch */
-int phalcon_array_isset_fetch(zval ***fetched, const zval *arr, zval *index);
-int phalcon_array_isset_quick_string_fetch(zval ***fetched, zval *arr, char *index, uint index_length, unsigned long key);
-int phalcon_array_isset_string_fetch(zval ***fetched, zval *arr, char *index, uint index_length);
-int phalcon_array_isset_long_fetch(zval ***fetched, zval *arr, unsigned long index);
+int phalcon_array_isset_fetch(zval **fetched, const zval *arr, zval *index);
+int phalcon_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key);
+int phalcon_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length);
+int phalcon_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index);
 
 /** Check for index existence */
 int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index);
