@@ -1018,6 +1018,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 PHP_METHOD(Phalcon_Image_Adapter, blur){
 
 	zval *radius = NULL;
+	int r;
 
 	PHALCON_MM_GROW();
 
@@ -1031,11 +1032,17 @@ PHP_METHOD(Phalcon_Image_Adapter, blur){
 
 		PHALCON_INIT_NVAR(radius);
 		ZVAL_LONG(radius, 1);
-	} else if (phalcon_get_intval(radius) < 1) {
-		PHALCON_SEPARATE_PARAM(radius);
-
-		PHALCON_INIT_NVAR(radius);
-		ZVAL_LONG(radius, 1);
+	} else {
+		r = phalcon_get_intval(radius);
+		if (r < 1) {
+			PHALCON_SEPARATE_PARAM(radius);
+			PHALCON_INIT_NVAR(radius);
+			ZVAL_LONG(radius, 1);
+		} else if (r > 100) {
+			PHALCON_SEPARATE_PARAM(radius);
+			PHALCON_INIT_NVAR(radius);
+			ZVAL_LONG(radius, 100);
+		}
 	}
 
 	phalcon_call_method_p1_noret(this_ptr, "_blur", radius);
