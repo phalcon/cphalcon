@@ -473,8 +473,8 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Router, getDefaults){
-	zval **namespace_name, **module_name;
-	zval **controller_name, **action_name, **params;
+	zval *namespace_name, *module_name;
+	zval *controller_name, *action_name, **params;
 
 	namespace_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
 	module_name = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultModule"), PH_NOISY_CC);
@@ -484,11 +484,11 @@ PHP_METHOD(Phalcon_Mvc_Router, getDefaults){
 
 	array_init_size(return_value, 5);
 
-	phalcon_array_update_string(&return_value, SL("namespace"), namespace_name, PH_COPY);
-	phalcon_array_update_string(&return_value, SL("module"), module_name, PH_COPY);
-	phalcon_array_update_string(&return_value, SL("controller"), controller_name, PH_COPY);
-	phalcon_array_update_string(&return_value, SL("action"), action_name, PH_COPY);
-	phalcon_array_update_string(&return_value, SL("params"), params, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("namespace"), &namespace_name, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("module"), &module_name, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("controller"), &controller_name, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("action"), &action_name, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("params"), &params, PH_COPY);
 }
 
 /**
