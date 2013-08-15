@@ -1445,8 +1445,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate){
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 
-	w = (int)(phalcon_get_intval(width) / phalcon_get_intval(amount));
-	h = (int)(phalcon_get_intval(height) / phalcon_get_intval(amount));
+	w = (int)((phalcon_get_intval(width) / phalcon_get_intval(amount)) + 0.5);
+	h = (int)((phalcon_get_intval(height) / phalcon_get_intval(amount)) + 0.5);
 
 	PHALCON_INIT_VAR(tmp_width);
 	ZVAL_LONG(tmp_width, w);

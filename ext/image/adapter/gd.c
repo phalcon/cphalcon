@@ -1290,8 +1290,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _blur){
 PHP_METHOD(Phalcon_Image_Adapter_GD, _pixelate){
 
 	zval *amount;
-	zval *image, *tmp_image = NULL, *width, *height, *tmp_width, *tmp_height, *dst;
-	int w, h;
+	zval *image, *tmp_image = NULL, *width, *height, *color = NULL, *tmp1 = NULL, *tmp2 = NULL, *tmp3 = NULL, *tmp4 = NULL;
+	int a, x, y, x1, y1, w, h;
 
 	PHALCON_MM_GROW();
 
@@ -1306,25 +1306,42 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _pixelate){
 	PHALCON_OBS_VAR(height);
 	phalcon_read_property_this(&height, this_ptr, SL("_height"), PH_NOISY_CC);
 
-	w = (int)(phalcon_get_intval(width) / phalcon_get_intval(amount));
-	h = (int)(phalcon_get_intval(height) / phalcon_get_intval(amount));
+	a = phalcon_get_intval(amount);
+	w = phalcon_get_intval(width);
+	h = phalcon_get_intval(height);
 
-	PHALCON_INIT_VAR(tmp_width);
-	ZVAL_LONG(tmp_width, w);
+	for(x = 0; x < w; x += a) {
+		for (y = 0; y < h; y += a) {
+			x1 = (int)(x + a/2 + 0.5);
+			y1 = (int)(y + a/2 + 0.5);
 
-	PHALCON_INIT_VAR(tmp_height);
-	ZVAL_LONG(tmp_height, h);
+			PHALCON_INIT_NVAR(tmp1);
+			ZVAL_LONG(tmp1, x1)
 
-	PHALCON_INIT_VAR(dst);
-	ZVAL_LONG(dst, 0);
+			PHALCON_INIT_NVAR(tmp2);
+			ZVAL_LONG(tmp2, y1)
 
-	PHALCON_INIT_NVAR(tmp_image);
-	phalcon_call_method_p2(tmp_image, this_ptr, "_create", tmp_width, tmp_height);
+			PHALCON_INIT_NVAR(color);
+			phalcon_call_func_p3(color, "imagecolorat", image, tmp1, tmp2);
 
-	PHALCON_CALL_FUNCTION(NULL, "imagecopyresized", 10, tmp_image, image, dst, dst, dst, dst, tmp_width, tmp_height, width, height);
-	PHALCON_CALL_FUNCTION(NULL, "imagecopyresized", 10, image, tmp_image, dst, dst, dst, dst, width, height, tmp_width, tmp_height);
+			PHALCON_INIT_NVAR(tmp1);
+			ZVAL_LONG(tmp1, x)
 
-	phalcon_call_func_p1_noret("imagedestroy", tmp_image);
+			PHALCON_INIT_NVAR(tmp2);
+			ZVAL_LONG(tmp2, y)
+
+			x1 = x + a;
+			y1 = y + a;
+
+			PHALCON_INIT_NVAR(tmp3);
+			ZVAL_LONG(tmp3, x1)
+
+			PHALCON_INIT_NVAR(tmp4);
+			ZVAL_LONG(tmp4, y1)
+
+			PHALCON_CALL_FUNCTION(NULL, "imagefilledrectangle", 6, image, tmp1, tmp2, tmp3, tmp4, color);
+		}
+	}
 
 	PHALCON_MM_RESTORE();
 }
