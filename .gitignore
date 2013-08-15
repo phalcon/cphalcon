@@ -477,3 +477,5 @@ build/install2
 *~
 .DS_Store
 ext/.DS_Store
+ext/mvc/model/query/lemon
+ext/mvc/model/query/parser.out
