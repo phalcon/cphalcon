@@ -1396,10 +1396,24 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _blur){
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
 
-	PHALCON_INIT_VAR(sigma);
-	ZVAL_LONG(sigma, 3);
+	PHALCON_OBS_VAR(type);
+	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 
-	phalcon_call_method_p2_noret(im, "blurImage", radius, sigma);
+	PHALCON_INIT_VAR(sigma);
+	ZVAL_DOUBLE(sigma, 100);
+
+	if (phalcon_get_intval(type) == 1) {
+		phalcon_call_method_p1_noret(im, "setIteratorIndex", index);
+
+		do {
+			phalcon_call_method_p2_noret(im, "blurImage", radius, sigma);
+
+			PHALCON_INIT_NVAR(next);
+			phalcon_call_method(next, im, "nextImage");
+		} while (zend_is_true(next));
+	} else {
+		phalcon_call_method_p2_noret(im, "blurImage", radius, sigma);
+	}
 
 	PHALCON_MM_RESTORE();
 }
