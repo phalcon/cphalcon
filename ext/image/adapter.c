@@ -1059,7 +1059,6 @@ PHP_METHOD(Phalcon_Image_Adapter, blur){
 PHP_METHOD(Phalcon_Image_Adapter, pixelate){
 
 	zval *amount = NULL;
-	int r;
 
 	PHALCON_MM_GROW();
 

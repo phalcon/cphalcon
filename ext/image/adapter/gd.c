@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 
 	zval *width = NULL, *height = NULL, *ori_width, *ori_height, *pre_width, *pre_height, *reduction_width, *reduction_height;
-	zval *image = NULL, *tmp_image = NULL, *ret = NULL, *dst;
+	zval *image = NULL, *ret = NULL, *dst, *tmp_image;
 	int tmp_width, tmp_height, tmp_pre_width, tmp_pre_height, tmp_reduction_width, tmp_reduction_height;
 
 	PHALCON_MM_GROW();
@@ -327,7 +327,6 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 		ZVAL_LONG(pre_height, tmp_pre_height);
 
 		PHALCON_INIT_VAR(tmp_image);
-
 		phalcon_call_method_p2(tmp_image, this_ptr, "_create", pre_width, pre_height);
 
 		PHALCON_INIT_NVAR(ret);
@@ -885,7 +884,6 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 PHP_METHOD(Phalcon_Image_Adapter_GD, _text) {
 	zval *text, *offset_x, *offset_y, *opacity, *r, *g, *b, *size, *fontfile = NULL;
 	zval *image, *image_width, *image_height, *tmp = NULL, *space, *s0 = NULL, *s1 = NULL, *s4 = NULL, *s5 = NULL, *width, *height, *color;
-	zend_class_entry *ce0, *ce1, *ce2;
 	int w, h, w1, h1, x, y, i;
 
 	PHALCON_MM_GROW();
@@ -1260,7 +1258,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _background) {
 PHP_METHOD(Phalcon_Image_Adapter_GD, _blur){
 
 	zval *radius;
-	zval *image, *constant, *matrix, *item = NULL, *div, *offset;
+	zval *image, *constant;
 	int r, i;
 
 	PHALCON_MM_GROW();
@@ -1292,7 +1290,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _blur){
 PHP_METHOD(Phalcon_Image_Adapter_GD, _pixelate){
 
 	zval *amount;
-	zval *image, *tmp_image = NULL, *width, *height, *color = NULL, *tmp1 = NULL, *tmp2 = NULL, *tmp3 = NULL, *tmp4 = NULL;
+	zval *image, *width, *height, *color = NULL, *tmp1 = NULL, *tmp2 = NULL, *tmp3 = NULL, *tmp4 = NULL;
 	int a, x, y, x1, y1, w, h;
 
 	PHALCON_MM_GROW();
