@@ -21,9 +21,6 @@
 #include "config.h"
 #endif
 
-#include "cache/frontend/data.h"
-#include "cache/frontend/none.h"
-
 #include "php.h"
 #include "php_phalcon.h"
 #include "phalcon.h"
