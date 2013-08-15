@@ -171,7 +171,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_router_method_entry){
 	PHP_ME(Phalcon_Mvc_Router, getDefaultModule, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, setDefaultController, arginfo_phalcon_mvc_router_setdefaultcontroller, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getDefaultController, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Router, setDefaultAction, arginfo_phalcon_mvc_router_setdefaultaction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, setDefaultAction, arginfo_phalcon_mvc_router_setdefaultaction, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getDefaultAction, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, setDefaults, arginfo_phalcon_mvc_router_setdefaults, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getDefaults, NULL, ZEND_ACC_PUBLIC) 
