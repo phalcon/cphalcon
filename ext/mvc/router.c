@@ -304,6 +304,16 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace){
 }
 
 /**
+ * Returns the name of the default namespace
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router, getDefaultNamespace){
+
+	RETURN_MEMBER(this_ptr, "_defaultNamespace");
+}
+
+/**
  * Sets the name of the default module
  *
  * @param string $moduleName
@@ -317,6 +327,16 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultModule){
 
 	phalcon_update_property_this(this_ptr, SL("_defaultModule"), module_name TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Returns the name of the default module
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router, getDefaultModule){
+
+	RETURN_MEMBER(this_ptr, "_defaultModule");
 }
 
 /**
@@ -336,6 +356,16 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultController){
 }
 
 /**
+ * Returns the default controller name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router, getDefaultController){
+
+	RETURN_MEMBER(this_ptr, "_defaultController");
+}
+
+/**
  * Sets the default action name
  *
  * @param string $actionName
@@ -349,6 +379,16 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction){
 
 	phalcon_update_property_this(this_ptr, SL("_defaultAction"), action_name TSRMLS_CC);
 	RETURN_THISW();
+}
+
+/**
+ * Returns the default action name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router, getDefaultAction){
+
+	RETURN_MEMBER(this_ptr, "_defaultAction");
 }
 
 /**
@@ -425,6 +465,44 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 	}
 
 	RETURN_THIS();
+}
+
+/**
+ * Returns an array of default paths
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Router, getDefaults){
+	zval *defaults, *namespace_name, *module_name;
+	zval *controller_name, *action_name, *params;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(namespace_name);
+	phalcon_read_property_this(&namespace_name, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(module_name);
+	phalcon_read_property_this(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(controller_name);
+	phalcon_read_property_this(&controller_name, this_ptr, SL("_defaultController"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(action_name);
+	phalcon_read_property_this(&action_name, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property_this(&params, this_ptr, SL("_defaultParams"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(defaults);
+	array_init_size(defaults, 5);
+
+	phalcon_array_update_string(&defaults, SL("namespace"), &namespace_name, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&defaults, SL("module"), &module_name, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&defaults, SL("controller"), &controller_name, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&defaults, SL("action"), &action_name, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&defaults, SL("params"), &params, PH_COPY | PH_SEPARATE);
+
+	RETURN_CTOR(defaults);
 }
 
 /**
