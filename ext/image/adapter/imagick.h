@@ -31,8 +31,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _flip);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _sharpen);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, _blur);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _render);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct);
@@ -87,6 +90,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__watermark, 0, 0, 4
 	ZEND_ARG_INFO(0, opacity)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__text, 0, 0, 9)
+	ZEND_ARG_INFO(0, text)
+	ZEND_ARG_INFO(0, offset_x)
+	ZEND_ARG_INFO(0, offset_y)
+	ZEND_ARG_INFO(0, opacity)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, g)
+	ZEND_ARG_INFO(0, b)
+	ZEND_ARG_INFO(0, size)
+	ZEND_ARG_INFO(0, fontfile)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__mask, 0, 0, 1)
 	ZEND_ARG_INFO(0, mask)
 ZEND_END_ARG_INFO()
@@ -96,6 +111,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__background, 0, 0, 
 	ZEND_ARG_INFO(0, g)
 	ZEND_ARG_INFO(0, b)
 	ZEND_ARG_INFO(0, quality)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__blur, 0, 0, 1)
+	ZEND_ARG_INFO(0, radius)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__pixelate, 0, 0, 1)
+	ZEND_ARG_INFO(0, amount)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick__save, 0, 0, 2)
@@ -119,8 +142,11 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _sharpen, arginfo_phalcon_image_adapter_imagick__sharpen, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _reflection, arginfo_phalcon_image_adapter_imagick__reflection, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _watermark, arginfo_phalcon_image_adapter_imagick__watermark, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Image_Adapter_Imagick, _text, arginfo_phalcon_image_adapter_imagick__text, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _mask, arginfo_phalcon_image_adapter_imagick__mask, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _background, arginfo_phalcon_image_adapter_imagick__background, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Image_Adapter_Imagick, _blur, arginfo_phalcon_image_adapter_imagick__blur, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Image_Adapter_Imagick, _pixelate, arginfo_phalcon_image_adapter_imagick__pixelate, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _save, arginfo_phalcon_image_adapter_imagick__save, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, _render, arginfo_phalcon_image_adapter_imagick__render, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Image_Adapter_Imagick, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR) 

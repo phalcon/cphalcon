@@ -27,7 +27,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		@unlink('unit-tests/assets/new.jpg');
+		@unlink('unit-tests/assets/gd-new.jpg');
 		@unlink('unit-tests/assets/gd-resize.jpg');
 		@unlink('unit-tests/assets/gd-crop.jpg');
 		@unlink('unit-tests/assets/gd-rotate.jpg');
@@ -38,7 +38,9 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		@unlink('unit-tests/assets/gd-background.jpg');
 
 		try {
-			$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/new.jpg', 100, 100);
+
+			// Create new image
+			$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/gd-new.jpg', 100, 100);
 			$image->save();
 			$this->assertTrue(file_exists('unit-tests/assets/production/new.jpg'));
 
@@ -98,6 +100,18 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			$image->watermark($mark, TRUE, TRUE)->save('unit-tests/assets/production/gd-watermark.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/gd-watermark.jpg'));
 
+			// Add a text to the bottom right of the image
+			$image->text('hello', TRUE, TRUE);
+
+			// Set font size
+			// $image->text('hello', TRUE, TRUE, NULL, NULL, 12);
+
+			// Set font
+			// $image->text('hello', TRUE, TRUE, NULL, NULL, 12, /usr/share/fonts/truetype/wqy/wqy-microhei.ttc);
+
+			// Add a text to the center of the image
+			//$image->text('hello');
+
 			// Make the image background black
 			$mark->background('#000')->save('unit-tests/assets/production/gd-background.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/gd-background.jpg'));
@@ -126,7 +140,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		@unlink('unit-tests/assets/production/new.jpg');
+		@unlink('unit-tests/assets/production/imagick-new.jpg');
 		@unlink('unit-tests/assets/production/imagick-resize.jpg');
 		@unlink('unit-tests/assets/production/imagick-liquidRescale.jpg');
 		@unlink('unit-tests/assets/production/imagick-crop.jpg');
@@ -138,7 +152,8 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		@unlink('unit-tests/assets/production/imagick-background.jpg');
 
 		try {
-			$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/new.jpg', 100, 100);
+			// Create new image
+			$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/imagick-new.jpg', 100, 100);
 			$image->save();
 			$this->assertTrue(file_exists('unit-tests/assets/production/new.jpg'));
 
@@ -204,6 +219,18 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			$mark = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/logo.png');
 			$image->watermark($mark, TRUE, TRUE)->save('unit-tests/assets/production/imagick-watermark.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/imagick-watermark.jpg'));
+
+			// Add a text to the bottom right of the image
+			$image->text('hello', TRUE, TRUE);
+
+			// Set font size
+			//$image->text('hello', TRUE, TRUE, NULL, NULL, 12);
+
+			// Set font
+			//$image->text('hello', TRUE, TRUE, NULL, NULL, 12, /usr/share/fonts/truetype/wqy/wqy-microhei.ttc);
+
+			// Add a text to the center of the image
+			//$image->text('hello');
 
 			// Make the image background black
 			$mark->background('#000')->save('unit-tests/assets/production/imagick-background.jpg');

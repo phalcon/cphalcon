@@ -886,6 +886,11 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 	PHALCON_INIT_VAR(watermark);
 	phalcon_call_method(watermark, watermark_image, "getImage");
 
+	if (Z_TYPE_P(watermark) != IS_RESOURCE) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "The watermark is not resource");
+		return;
+	}
+
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(channel);
@@ -901,7 +906,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 		phalcon_call_method_p1_noret(watermark, "setImageAlphaChannel", channel);
 	}
 
-	if (Z_LVAL_P(opacity) < 100) {
+	if (phalcon_get_intval(opacity) < 100) {
 		PHALCON_INIT_NVAR(op_constant);
 		phalcon_get_class_constant(op_constant, ce0, SS("EVALUATE_MULTIPLY") TSRMLS_CC);
 
@@ -946,6 +951,237 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 			return;
 		}
 	}
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Execute a text
+ *
+ * @param string text
+ * @param int $offset_x
+ * @param int $offset_y
+ * @param int $opacity
+ * @param int $r
+ * @param int $g
+ * @param int $b
+ * @param int $size
+ * @param string $fontfile
+ */
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
+	zval *text, *offset_x, *offset_y, *opacity, *r, *g, *b, *size, *fontfile = NULL;
+	zval *im, *draw, *pixel, *format, *color, *op, *gravity, *tmp_a;
+	zend_class_entry *ce0, *ce1, *ce2;
+	int x, y;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 9, 0, &text, &offset_x, &offset_y, &opacity, &r, &g, &b, &size, &fontfile);
+
+	PHALCON_SEPARATE_PARAM(offset_x);
+	PHALCON_SEPARATE_PARAM(offset_y);
+
+	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ce1 = zend_fetch_class(SL("ImagickDraw"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ce2 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
+	PHALCON_OBS_VAR(im);
+	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(draw);
+	object_init_ex(draw, ce1);
+	if (phalcon_has_constructor(draw TSRMLS_CC)) {
+		phalcon_call_method_noret(draw, "__construct");
+	}
+
+	PHALCON_INIT_VAR(format);
+	ZVAL_STRING(format, "rgb(%d, %d, %d)", 1);
+
+	PHALCON_INIT_VAR(color);
+	phalcon_call_func_p4(color, "sprintf", format, r, g, b);
+
+	PHALCON_INIT_VAR(pixel);
+	object_init_ex(pixel, ce2);
+	if (phalcon_has_constructor(pixel TSRMLS_CC)) {
+		phalcon_call_method_p1_noret(pixel, "__construct", color);
+	}
+
+	phalcon_call_method_p1_noret(draw, "setFillColor", pixel);
+
+	if (Z_TYPE_P(fontfile) == IS_STRING) {
+		phalcon_call_method_p1_noret(draw, "setFont", fontfile);
+	}
+
+	phalcon_call_method_p1_noret(draw, "setFontSize", size);
+
+	PHALCON_INIT_VAR(op);
+	ZVAL_DOUBLE(op, phalcon_get_intval(opacity)/100);
+
+	phalcon_call_method_p1_noret(draw, "setFillAlpha", op);
+
+	PHALCON_INIT_VAR(tmp_a);
+	ZVAL_LONG(tmp_a, 0);
+
+	if (Z_TYPE_P(offset_x) == IS_BOOL) {
+		if (Z_TYPE_P(offset_y) == IS_BOOL) {
+			if (zend_is_true(offset_x) && zend_is_true(offset_y)) {
+				PHALCON_INIT_NVAR(offset_x);
+				ZVAL_LONG(offset_x, 0);
+
+				PHALCON_INIT_NVAR(offset_y);
+				ZVAL_LONG(offset_y, 0);
+
+				PHALCON_INIT_VAR(gravity);
+				phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
+			} else if (zend_is_true(offset_x)) {
+				PHALCON_INIT_NVAR(offset_x);
+				ZVAL_LONG(offset_x, 0);
+
+				PHALCON_INIT_NVAR(offset_y);
+				ZVAL_LONG(offset_y, 0);
+
+				PHALCON_INIT_VAR(gravity);
+				phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_EAST") TSRMLS_CC);
+			} else if (zend_is_true(offset_y)) {
+				PHALCON_INIT_NVAR(offset_x);
+				ZVAL_LONG(offset_x, 0);
+
+				PHALCON_INIT_NVAR(offset_y);
+				ZVAL_LONG(offset_y, 0);
+
+				PHALCON_INIT_VAR(gravity);
+				phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_SOUTH") TSRMLS_CC);
+			} else {
+				PHALCON_INIT_NVAR(offset_x);
+				ZVAL_LONG(offset_x, 0);
+
+				PHALCON_INIT_NVAR(offset_y);
+				ZVAL_LONG(offset_y, 0);
+
+				PHALCON_INIT_VAR(gravity);
+				phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_CENTER") TSRMLS_CC);
+			}
+		} else if (Z_TYPE_P(offset_y) == IS_LONG) {
+			y = phalcon_get_intval(offset_y);
+
+			if (zend_is_true(offset_x)) {
+				if (y < 0) {
+					PHALCON_INIT_NVAR(offset_x);
+					ZVAL_LONG(offset_x, 0);
+
+					PHALCON_INIT_NVAR(offset_y);
+					ZVAL_LONG(offset_y, y * -1);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
+				} else {					
+					PHALCON_INIT_NVAR(offset_x);
+					ZVAL_LONG(offset_x, 0);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_NORTHEAST") TSRMLS_CC);
+				}
+			} else {
+				if (y < 0) {
+					PHALCON_INIT_NVAR(offset_x);
+					ZVAL_LONG(offset_x, 0);
+
+					PHALCON_INIT_NVAR(offset_y);
+					ZVAL_LONG(offset_y, y * -1);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_SOUTH") TSRMLS_CC);
+				} else {					
+					PHALCON_INIT_NVAR(offset_x);
+					ZVAL_LONG(offset_x, 0);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_NORTH") TSRMLS_CC);
+				}
+			}
+		}
+	} else if (Z_TYPE_P(offset_x) == IS_LONG) {
+		x = phalcon_get_intval(offset_x);
+		if (Z_TYPE_P(offset_y) == IS_BOOL) {
+			if (zend_is_true(offset_y)) {			
+				if (x < 0) {
+					PHALCON_INIT_NVAR(offset_x);
+					ZVAL_LONG(offset_x, x * -1);
+
+					PHALCON_INIT_NVAR(offset_y);
+					ZVAL_LONG(offset_y, 0);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
+				} else {
+					PHALCON_INIT_NVAR(offset_y);
+					ZVAL_LONG(offset_y, 0);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_SOUTH") TSRMLS_CC);
+				}
+			} else {
+				if (x < 0) {
+					PHALCON_INIT_NVAR(offset_x);
+					ZVAL_LONG(offset_x, x * -1);
+
+					PHALCON_INIT_NVAR(offset_y);
+					ZVAL_LONG(offset_y, 0);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_EAST") TSRMLS_CC);
+				} else {
+					PHALCON_INIT_NVAR(offset_y);
+					ZVAL_LONG(offset_y, 0);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_WEST") TSRMLS_CC);
+				}
+			}
+		} else if (Z_TYPE_P(offset_y) == IS_LONG) {
+			x = phalcon_get_intval(offset_x);
+			y = phalcon_get_intval(offset_y);
+
+			if (x < 0) {
+				if (y < 0) {
+					PHALCON_INIT_NVAR(offset_x);
+					ZVAL_LONG(offset_x, x * -1);
+
+					PHALCON_INIT_NVAR(offset_y);
+					ZVAL_LONG(offset_y, y * -1);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_SOUTHEAST") TSRMLS_CC);
+				} else {					
+					PHALCON_INIT_NVAR(offset_x);
+					ZVAL_LONG(offset_x, x * -1);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_NORTHEAST") TSRMLS_CC);
+				}
+			} else {
+				if (y < 0) {
+					PHALCON_INIT_NVAR(offset_x);
+					ZVAL_LONG(offset_x, 0);
+
+					PHALCON_INIT_NVAR(offset_y);
+					ZVAL_LONG(offset_y, y * -1);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_SOUTHWEST") TSRMLS_CC);
+				} else {					
+					PHALCON_INIT_NVAR(offset_x);
+					ZVAL_LONG(offset_x, 0);
+
+					PHALCON_INIT_VAR(gravity);
+					phalcon_get_class_constant(gravity, ce0, SS("GRAVITY_NORTHWEST") TSRMLS_CC);
+				}
+			}
+		}
+	}
+	
+	phalcon_call_method_p1_noret(draw, "setGravity", gravity);
+	phalcon_call_method_p5_noret(im, "annotateImage", draw, offset_x, offset_y, tmp_a, text);
 
 	PHALCON_MM_RESTORE();
 }
@@ -1033,7 +1269,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	ce1 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
-	
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
 
@@ -1140,6 +1375,99 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _background) {
 	}
 
 	phalcon_update_property_this(this_ptr, SL("_image"), background TSRMLS_CC);
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Blur image
+ *
+ * @param int $radius Blur radius
+ */
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, _blur){
+
+	zval *radius;
+	zval *im, *type, *sigma, *next = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &radius);
+
+	PHALCON_OBS_VAR(im);
+	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(type);
+	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(sigma);
+	ZVAL_DOUBLE(sigma, 100);
+
+	if (phalcon_get_intval(type) == 1) {
+		phalcon_call_method_p1_noret(im, "setIteratorIndex", index);
+
+		do {
+			phalcon_call_method_p2_noret(im, "blurImage", radius, sigma);
+
+			PHALCON_INIT_NVAR(next);
+			phalcon_call_method(next, im, "nextImage");
+		} while (zend_is_true(next));
+	} else {
+		phalcon_call_method_p2_noret(im, "blurImage", radius, sigma);
+	}
+
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Pixelate image
+ *
+ * @param int $amount amount to pixelate
+ */
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, _pixelate){
+
+	zval *amount;
+	zval *im, *width, *height, *type, *tmp_width, *tmp_height, *next;
+	int w, h;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &amount);
+
+	PHALCON_OBS_VAR(im);
+	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(width);
+	phalcon_read_property_this(&width, this_ptr, SL("_width"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(height);
+	phalcon_read_property_this(&height, this_ptr, SL("_height"), PH_NOISY_CC);
+
+	PHALCON_OBS_VAR(type);
+	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
+
+	w = (int)((phalcon_get_intval(width) / phalcon_get_intval(amount)) + 0.5);
+	h = (int)((phalcon_get_intval(height) / phalcon_get_intval(amount)) + 0.5);
+
+	PHALCON_INIT_VAR(tmp_width);
+	ZVAL_LONG(tmp_width, w);
+
+	PHALCON_INIT_VAR(tmp_height);
+	ZVAL_LONG(tmp_height, h);
+
+	if (phalcon_get_intval(type) == 1) {
+		phalcon_call_method_p1_noret(im, "setIteratorIndex", index);
+
+		do {
+			phalcon_call_method_p2_noret(im, "scaleImage", tmp_width, tmp_height);
+			phalcon_call_method_p2_noret(im, "scaleImage", width, height);
+
+			PHALCON_INIT_NVAR(next);
+			phalcon_call_method(next, im, "nextImage");
+		} while (zend_is_true(next));
+	} else {
+		phalcon_call_method_p2_noret(im, "scaleImage", tmp_width, tmp_height);
+		phalcon_call_method_p2_noret(im, "scaleImage", width, height);
+	}
 
 	PHALCON_MM_RESTORE();
 }
