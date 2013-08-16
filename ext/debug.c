@@ -66,6 +66,8 @@ PHALCON_INIT_CLASS(Phalcon_Debug){
 	zend_declare_property_null(phalcon_debug_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_debug_ce, SL("_isActive"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_string(phalcon_debug_ce, SL("_charset"), "utf-8", ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_long(phalcon_debug_ce, SL("_beforeContext"), 7, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_debug_ce, SL("_afterContext"), 5, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -601,8 +603,8 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	zval *trace_args, *arguments, *argument = NULL, *dumped_argument = NULL;
 	zval *span_argument = NULL, *joined_arguments, *one;
 	zval *file, *line, *show_files, *lines, *number_lines;
-	zval *show_file_fragment, *seven, *before_line;
-	zval *first_line = NULL, *five, *after_line, *last_line = NULL;
+	zval *show_file_fragment, *before_context, *before_line;
+	zval *first_line = NULL, *after_context, *after_line, *last_line = NULL;
 	zval *comment_pattern, *charset, *ent_compat, *tab;
 	zval *comment, *i = NULL, *line_position = NULL, *current_line = NULL;
 	zval *trimmed = NULL, *is_comment = NULL, *spaced_current_line = NULL;
@@ -833,14 +835,12 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 			if (zend_is_true(show_file_fragment)) {
 	
 				/** 
-				 * Take seven lines back to the current exception's line, @TODO add an option for
-				 * this
+				 * Take lines back to the current exception's line
 				 */
-				PHALCON_INIT_VAR(seven);
-				ZVAL_LONG(seven, 7);
+				before_context = phalcon_fetch_nproperty_this(getThis(), SL("_beforeContext"), PH_NOISY TSRMLS_CC);
 	
 				PHALCON_INIT_VAR(before_line);
-				sub_function(before_line, line, seven TSRMLS_CC);
+				sub_function(before_line, line, before_context TSRMLS_CC);
 	
 				/** 
 				 * Check for overflows
@@ -852,13 +852,12 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 				}
 	
 				/** 
-				 * Take five lines after the current exception's line, @TODO add an option for this
+				 * Take lines after the current exception's line
 				 */
-				PHALCON_INIT_VAR(five);
-				ZVAL_LONG(five, 5);
+				after_context = phalcon_fetch_nproperty_this(getThis(), SL("_afterContext"), PH_NOISY TSRMLS_CC);
 	
 				PHALCON_INIT_VAR(after_line);
-				phalcon_add_function(after_line, line, five TSRMLS_CC);
+				phalcon_add_function(after_line, line, after_context TSRMLS_CC);
 	
 				/** 
 				 * Check for overflows
@@ -1255,5 +1254,65 @@ PHP_METHOD(Phalcon_Debug, setCharset) {
 	}
 
 	phalcon_update_property_this(getThis(), SL("_charset"), charset TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the number of lines deplayed before the error line
+ *
+ * @brief int \Phalcon\Debug::getLinesBeforeContext(void)
+ * @return int
+ */
+PHP_METHOD(Phalcon_Debug, getLinesBeforeContext) {
+	RETURN_MEMBER(getThis(), "_beforeContext");
+}
+
+/**
+ * Sets the number of lines deplayed before the error line
+ *
+ * @brief \Phalcon\Debug \Phalcon\Debug::setLinesBeforeContext(int $lines)
+ * @param int $lines
+ * @return \Phalcon\Debug
+ */
+PHP_METHOD(Phalcon_Debug, setLinesBeforeContext) {
+	zval *lines;
+
+	phalcon_fetch_params(0, 1, 0, &lines);
+	if (unlikely(Z_TYPE_P(lines) != IS_LONG)) {
+		PHALCON_SEPARATE_PARAM_NMO(lines);
+		convert_to_long(lines);
+	}
+
+	phalcon_update_property_this(getThis(), SL("_beforeContext"), lines TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns the number of lines deplayed after the error line
+ *
+ * @brief int \Phalcon\Debug::getLinesAfterContext(void)
+ * @return int
+ */
+PHP_METHOD(Phalcon_Debug, getLinesAfterContext) {
+	RETURN_MEMBER(getThis(), "_afterContext");
+}
+
+/**
+ * Sets the number of lines deplayed after the error line
+ *
+ * @brief \Phalcon\Debug \Phalcon\Debug::setLinesAfterContext(int $lines)
+ * @param int $lines
+ * @return \Phalcon\Debug
+ */
+PHP_METHOD(Phalcon_Debug, setLinesAfterContext) {
+	zval *lines;
+
+	phalcon_fetch_params(0, 1, 0, &lines);
+	if (unlikely(Z_TYPE_P(lines) != IS_LONG)) {
+		PHALCON_SEPARATE_PARAM_NMO(lines);
+		convert_to_long(lines);
+	}
+
+	phalcon_update_property_this(getThis(), SL("_afterContext"), lines TSRMLS_CC);
 	RETURN_THISW();
 }
