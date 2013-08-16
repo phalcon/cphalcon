@@ -65,6 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Debug){
 	zend_declare_property_bool(phalcon_debug_ce, SL("_showFileFragment"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_debug_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_debug_ce, SL("_isActive"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_debug_ce, SL("_charset"), "utf-8", ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -270,33 +271,30 @@ PHP_METHOD(Phalcon_Debug, clearVars){
  */
 PHP_METHOD(Phalcon_Debug, _escapeString){
 
-	zval *value, *charset, *ent_compat, *line_break;
-	zval *escaped_line_break, *replaced_value;
+	zval *value, *charset, *replaced_value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &value);
+	phalcon_fetch_params(0, 1, 0, &value);
 	
 	if (Z_TYPE_P(value) == IS_STRING) {
-		PHALCON_INIT_VAR(charset);
-		ZVAL_STRING(charset, "utf-8", 1);
+		zval line_break;
+		zval escaped_line_break;
+
+		charset = phalcon_fetch_nproperty_this(getThis(), SL("_charset"), PH_NOISY TSRMLS_CC);
 	
-		PHALCON_INIT_VAR(ent_compat);
-		ZVAL_LONG(ent_compat, 2);
+		INIT_ZVAL(line_break);
+		ZVAL_STRING(&line_break, "\n", 0);
 	
-		PHALCON_INIT_VAR(line_break);
-		ZVAL_STRING(line_break, "\n", 1);
-	
-		PHALCON_INIT_VAR(escaped_line_break);
-		ZVAL_STRING(escaped_line_break, "\\n", 1);
-	
+		INIT_ZVAL(escaped_line_break);
+		ZVAL_STRING(&escaped_line_break, "\\n", 0);
+
+		PHALCON_MM_GROW();
 		PHALCON_INIT_VAR(replaced_value);
-		phalcon_fast_str_replace(replaced_value, line_break, escaped_line_break, value);
-		phalcon_call_func_p3(return_value, "htmlentities", replaced_value, ent_compat, charset);
+		phalcon_fast_str_replace(replaced_value, &line_break, &escaped_line_break, value);
+		phalcon_htmlentities(return_value, replaced_value, NULL, charset TSRMLS_CC);
 		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(value);
+	RETURN_CCTORW(value);
 }
 
 /**
@@ -605,7 +603,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	zval *file, *line, *show_files, *lines, *number_lines;
 	zval *show_file_fragment, *seven, *before_line;
 	zval *first_line = NULL, *five, *after_line, *last_line = NULL;
-	zval *comment_pattern, *utf8, *ent_compat, *tab;
+	zval *comment_pattern, *charset, *ent_compat, *tab;
 	zval *comment, *i = NULL, *line_position = NULL, *current_line = NULL;
 	zval *trimmed = NULL, *is_comment = NULL, *spaced_current_line = NULL;
 	zval *escaped_line = NULL;
@@ -881,17 +879,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 			PHALCON_INIT_VAR(comment_pattern);
 			ZVAL_STRING(comment_pattern, "#\\*\\/$#", 1);
 	
-			/** 
-			 * We assume the file is utf-8 encoded, @TODO add an option for this
-			 */
-			PHALCON_INIT_VAR(utf8);
-			ZVAL_STRING(utf8, "UTF-8", 1);
-	
-			/** 
-			 * Don't escape quotes
-			 */
-			PHALCON_INIT_VAR(ent_compat);
-			ZVAL_LONG(ent_compat, 2);
+			charset = phalcon_fetch_nproperty_this(getThis(), SL("_charset"), PH_NOISY TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(tab);
 			ZVAL_STRING(tab, "\t", 1);
@@ -900,12 +888,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 			ZVAL_STRING(comment, "* /", 1);
 			PHALCON_CPY_WRT(i, first_line);
 	
-			while (1) {
-	
-				if (PHALCON_LE(i, last_line)) {
-				} else {
-					break;
-				}
+			while (PHALCON_LE(i, last_line)) {
 	
 				/** 
 				 * Current line in the file
@@ -954,12 +937,11 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 						phalcon_fast_str_replace(spaced_current_line, tab, two_spaces, current_line);
 	
 						PHALCON_INIT_NVAR(escaped_line);
-						phalcon_call_func_p3(escaped_line, "htmlentities", spaced_current_line, ent_compat, utf8);
+						phalcon_htmlentities(escaped_line, spaced_current_line, NULL, charset TSRMLS_CC);
 						phalcon_concat_self(&html, escaped_line TSRMLS_CC);
 					}
 				}
 	
-				PHALCON_SEPARATE(i);
 				phalcon_increment(i);
 			}
 			phalcon_concat_self_str(&html, SL("</pre>") TSRMLS_CC);
@@ -1245,3 +1227,33 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	RETURN_MM_TRUE;
 }
 
+/**
+ * Returns the character set used to display the HTML
+ *
+ * @brief string \Phalcon\Debug::getCharset(void)
+ * @return string
+ */
+PHP_METHOD(Phalcon_Debug, getCharset) {
+	RETURN_MEMBER(getThis(), "_charset");
+}
+
+/**
+ * Sets the character set used to display the HTML
+ *
+ * @brief \Phalcon\Debug \Phalcon\Debug::setCharset(string $charset)
+ * @param string $charset
+ * @return \Phalcon\Debug
+ */
+PHP_METHOD(Phalcon_Debug, setCharset) {
+
+	zval *charset;
+
+	phalcon_fetch_params(0, 1, 0, &charset);
+	if (unlikely(Z_TYPE_P(charset) != IS_STRING)) {
+		PHALCON_SEPARATE_PARAM_NMO(charset);
+		convert_to_string(charset);
+	}
+
+	phalcon_update_property_this(getThis(), SL("_charset"), charset TSRMLS_CC);
+	RETURN_THISW();
+}
