@@ -93,6 +93,7 @@ void phalcon_lcfirst(zval *return_value, zval *s);
 void phalcon_ucfirst(zval *return_value, zval *s);
 int phalcon_http_build_query(zval *return_value, zval *params, char *sep TSRMLS_DC);
 void phalcon_htmlspecialchars(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC);
+void phalcon_htmlentities(zval *return_value, zval *string, zval *quoting, zval *charset TSRMLS_DC);
 void phalcon_strval(zval *return_value, zval *v);
 void phalcon_date(zval *return_value, zval *format, zval *timestamp TSRMLS_DC);
 void phalcon_addslashes(zval *return_value, zval *str TSRMLS_DC);
