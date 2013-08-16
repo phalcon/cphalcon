@@ -135,7 +135,7 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 	size_t i;
 	phalcon_memory_entry *prev, *active_memory;
 	phalcon_symbol_table *active_symbol_table;
-#ifdef ZEND_DEBUG
+#if ZEND_DEBUG
 	char* __zend_filename = __FILE__;
 	char* __zend_orig_filename = __FILE__;
 	int __zend_lineno = 0;
@@ -162,7 +162,7 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 	for (i = 0; i < active_memory->hash_pointer; ++i) {
 		assert(active_memory->hash_addresses[i] != NULL && *(active_memory->hash_addresses[i]) != NULL);
 
-#ifdef ZEND_DEBUG
+#if ZEND_DEBUG
 		_mem_block_check(*active_memory->hash_addresses[i], 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
 #endif
 
@@ -178,7 +178,7 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 		if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
 			zval **var = active_memory->addresses[i];
 
-#ifdef ZEND_DEBUG
+#if ZEND_DEBUG
 			_mem_block_check(*var, 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
 #endif
 
