@@ -58,22 +58,7 @@ void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 	if (Z_TYPE_P(right) != IS_STRING) {
 		phalcon_make_printable_zval(right, &right_copy, &use_copy_right);
 		if (use_copy_right) {
-			/*if (Z_REFCOUNT_P(right) > 0) {
-				PHALCON_CPY_WRT_CTOR(right, (&right_copy));
-			} else {
-				ALLOC_ZVAL(d); \
-				* = *v; \
-				zval_copy_ctor(d); \
-				Z_SET_REFCOUNT_P(d, 1); \
-				Z_UNSET_ISREF_P(d);
-			}
-			if (d) {
-				if (Z_REFCOUNT_P(d) > 0) {
-					zval_ptr_dtor(&d);
-				}
-			} else {
-				phalcon_memory_observe(&d TSRMLS_CC); \
-			} \*/
+			right = &right_copy;
 		}
 	}
 
