@@ -479,3 +479,5 @@ build/install2
 ext/.DS_Store
 ext/mvc/model/query/lemon
 ext/mvc/model/query/parser.out
+ext/mvc/view/engine/volt/lemon
+ext/mvc/view/engine/volt/parser.out
