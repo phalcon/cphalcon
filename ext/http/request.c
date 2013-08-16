@@ -75,6 +75,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request){
 
 	zend_declare_property_null(phalcon_http_request_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_request_ce, SL("_rawBody"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_request_ce TSRMLS_CC, 2, phalcon_http_requestinterface_ce, phalcon_di_injectionawareinterface_ce);
 
@@ -593,11 +594,23 @@ PHP_METHOD(Phalcon_Http_Request, isSecureRequest){
  */
 PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
+	zval *raw;
 	if (SG(request_info).raw_post_data) {
 		RETURN_STRINGL(SG(request_info).raw_post_data, SG(request_info).raw_post_data_length, 1);
 	}
 
-	if (sapi_module.read_post) {
+	raw = phalcon_fetch_nproperty_this(getThis(), SL("_rawBody"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(raw) == IS_STRING) {
+		if (return_value_ptr) {
+			zval_ptr_dtor(return_value_ptr);
+			*return_value_ptr = raw;
+			Z_ADDREF_P(raw);
+		}
+		else {
+			RETURN_ZVAL(raw, 1, 0);
+		}
+	}
+	else if (sapi_module.read_post) {
 		int read_bytes;
 		char *buf          = emalloc(8192);
 		smart_str raw_data = { NULL, 0, 0 };
@@ -609,11 +622,18 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
 		efree(buf);
 		if (raw_data.c) {
-			RETURN_STRINGL(raw_data.c, raw_data.len, 0);
+			smart_str_0(&raw_data);
+			RETVAL_STRINGL(raw_data.c, raw_data.len, 0);
 		}
-	}
+		else {
+			RETVAL_EMPTY_STRING();
+		}
 
-	RETURN_EMPTY_STRING();
+		phalcon_update_property_this(getThis(), SL("_rawBody"), return_value TSRMLS_CC);
+	}
+	else {
+		RETURN_EMPTY_STRING();
+	}
 }
 
 /**
