@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity){
 	add_next_index_stringl(handler, SL("onUncaughtLowSeverity"), 1);
 	phalcon_call_func_p1_noret("set_exception_handler", handler);
 */
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
