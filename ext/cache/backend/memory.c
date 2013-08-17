@@ -65,7 +65,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Memory){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Memory, cache_backend_memory, "phalcon\\cache\\backend", phalcon_cache_backend_memory_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Memory, cache_backend_memory, phalcon_cache_backend_ce, phalcon_cache_backend_memory_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cache_backend_memory_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

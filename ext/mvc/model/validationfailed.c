@@ -50,7 +50,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, ValidationFailed, mvc_model_validationfailed, "phalcon\\mvc\\model\\exception", phalcon_mvc_model_validationfailed_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, ValidationFailed, mvc_model_validationfailed, phalcon_mvc_model_exception_ce, phalcon_mvc_model_validationfailed_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);

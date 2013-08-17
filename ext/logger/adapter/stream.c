@@ -58,7 +58,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Stream){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, Stream, logger_adapter_stream, "phalcon\\logger\\adapter", phalcon_logger_adapter_stream_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, Stream, logger_adapter_stream, phalcon_logger_adapter_ce, phalcon_logger_adapter_stream_method_entry, 0);
 
 	zend_declare_property_null(phalcon_logger_adapter_stream_ce, SL("_stream"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

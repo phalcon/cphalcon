@@ -46,7 +46,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_File){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, File, forms_element_file, "phalcon\\forms\\element", phalcon_forms_element_file_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, File, forms_element_file, phalcon_forms_element_ce, phalcon_forms_element_file_method_entry, 0);
 
 	zend_class_implements(phalcon_forms_element_file_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
 

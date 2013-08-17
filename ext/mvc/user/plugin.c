@@ -45,7 +45,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_User_Plugin){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\User, Plugin, mvc_user_plugin, "phalcon\\di\\injectable", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\User, Plugin, mvc_user_plugin, phalcon_di_injectable_ce, NULL, 0);
 
 	return SUCCESS;
 }

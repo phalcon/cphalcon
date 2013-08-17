@@ -46,7 +46,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Syslog){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Syslog, logger_formatter_syslog, "phalcon\\logger\\formatter", phalcon_logger_formatter_syslog_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Syslog, logger_formatter_syslog, phalcon_logger_formatter_ce, phalcon_logger_formatter_syslog_method_entry, 0);
 
 	zend_class_implements(phalcon_logger_formatter_syslog_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 

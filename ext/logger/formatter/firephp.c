@@ -50,7 +50,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Firephp){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Firephp, logger_formatter_firephp, "phalcon\\logger\\formatter", phalcon_logger_formatter_firephp_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Firephp, logger_formatter_firephp, phalcon_logger_formatter_ce, phalcon_logger_formatter_firephp_method_entry, 0);
 
 	zend_class_implements(phalcon_logger_formatter_firephp_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 

@@ -51,7 +51,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Postgresql){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Postgresql, db_dialect_postgresql, "phalcon\\db\\dialect", phalcon_db_dialect_postgresql_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Postgresql, db_dialect_postgresql, phalcon_db_dialect_ce, phalcon_db_dialect_postgresql_method_entry, 0);
 
 	zend_declare_property_string(phalcon_db_dialect_postgresql_ce, SL("_escapeChar"), "\"", ZEND_ACC_PROTECTED TSRMLS_CC);
 

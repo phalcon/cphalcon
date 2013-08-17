@@ -32,7 +32,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_DispatcherInterface){
 
-	PHALCON_REGISTER_INTERFACE_EX(Phalcon\\Mvc, DispatcherInterface, mvc_dispatcherinterface, "phalcon\\dispatcherinterface", phalcon_mvc_dispatcherinterface_method_entry);
+	PHALCON_REGISTER_INTERFACE_EX(Phalcon\\Mvc, DispatcherInterface, mvc_dispatcherinterface, phalcon_dispatcherinterface_ce, phalcon_mvc_dispatcherinterface_method_entry);
 
 	return SUCCESS;
 }

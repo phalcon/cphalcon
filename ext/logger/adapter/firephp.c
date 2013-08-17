@@ -60,7 +60,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Firephp){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, Firephp, logger_adapter_firephp, "phalcon\\logger\\adapter", phalcon_logger_adapter_firephp_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, Firephp, logger_adapter_firephp, phalcon_logger_adapter_ce, phalcon_logger_adapter_firephp_method_entry, 0);
 
 	zend_declare_property_bool(phalcon_logger_adapter_firephp_ce, SL("_initialized"), 0, ZEND_ACC_PRIVATE | ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_long(phalcon_logger_adapter_firephp_ce, SL("_index"), 1, ZEND_ACC_PRIVATE | ZEND_ACC_STATIC TSRMLS_CC);

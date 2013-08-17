@@ -45,7 +45,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Validation_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation, Exception, validation_exception, "phalcon\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation, Exception, validation_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }
