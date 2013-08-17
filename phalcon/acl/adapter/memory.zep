@@ -127,11 +127,11 @@ class Memory
 	 */
 	 public function __construct()
 	 {
-		let resourcesNames = ["*" => true]
-		let this->_resourcesNames = resourcesNames
+		let resourcesNames = ["*" => true];
+		let this->_resourcesNames = resourcesNames;
 		
-		let access_list = ["*!*" => true]
-		let this->_accessList = access_list
+		let access_list = ["*!*" => true];
+		let this->_accessList = access_list;
 	 }
 	 
 	 /**
@@ -150,32 +150,32 @@ class Memory
 	 public function addRole(role, accessInherits)
 	 {
 		if typeof role == "object" {
-			let roleName = role->getName()
-			let object = role  
+			let roleName = role->getName();
+			let object = role;
 		} else {
-			let roleName = role
-			let object = new Phalcon\Acl\Role(role)
+			let roleName = role;
+			let object = new Phalcon\Acl\Role(role);
 		}
 		
-		let rolesNames = this->_rolesNames
+		let rolesNames = this->_rolesNames;
 		if isset rolessNames[roleName] {
-			return false
+			return false;
 		}
 		 
-		let exists = true
-		let this->_roles[]= object
-		let this->_rolesNames[]= roleName
+		let exists = true;
+		let this->_roles[]= object;
+		let this->_rolesNames[]= roleName;
 		
-		let defaultAccess = this->_defaultAccess
+		let defaultAccess = this->_defaultAccess;
 		
-		let key = role . "!*!*"
-		let this->_access = key
+		let key = role . "!*!*";
+		let this->_access = key;
 		
 		if accessInherits == null {
-			return this->addInherit(roleName, accessInherits)
+			return this->addInherit(roleName, accessInherits);
 		}
 		
-		return true
+		return true;
 	 }
 	 
 	 /**
@@ -186,42 +186,42 @@ class Memory
 	 */
 	 public function addInherit(roleName, roleToInherit)
 	 {
-		let rolesNames = this->_rolesNames
+		let rolesNames = this->_rolesNames;
 		
 		if !rolesNames[roleName] {
-			let exceptionMessage = "Role '" . roleName . "' does not exist in the role list"
-			throw new Phalcon\Alc\Exeption(exceptionMessage)
-			return
+			let exceptionMessage = "Role '" . roleName . "' does not exist in the role list";
+			throw new Phalcon\Alc\Exeption(exceptionMessage);
+			return;
 		}
 		 
 		if typeof roleToInherit == "object" {
-			let roleInheritName = roleToInherit->getName()
+			let roleInheritName = roleToInherit->getName();
 		} else {
-			let roleInheritName = roleToInherit
+			let roleInheritName = roleToInherit;
 		}
 		 
 		/** 
 		* Check if the role to inherit is valid
 		*/
 		if !rolesNames[roleInheritName] {
-			let exceptionMessage = "Role '" . roleInheritName . "' (to inherit) does not exist in the role list"
-			throw new Phalcon\Alc\Exeption(exceptionMessage)
-			return
+			let exceptionMessage = "Role '" . roleInheritName . "' (to inherit) does not exist in the role list";
+			throw new Phalcon\Alc\Exeption(exceptionMessage);
+			return;
 		}
 		
 		if roleName == roleInheritName {
-			return false
+			return false;
 		}
 		
-		let rolesInherits = this->_roleInherits
+		let rolesInherits = this->_roleInherits;
 		if !rolesInherits[roleName] {
-			let this->_roleInherits = roleName
+			let this->_roleInherits = roleName;
 		}
 		
-		let _roleInherits = this->_roleInherits
-		let _roleInherits[roleName][] = _roleInherits
+		let _roleInherits = this->_roleInherits;
+		let _roleInherits[roleName][] = _roleInherits;
 		
-		return true
+		return true;
 	 }
 	 
 	 /**
@@ -232,11 +232,11 @@ class Memory
 	 */
 	 public function isRole(roleName)
 	 {
-		 let rolesName = this->_rolesNames
+		 let rolesName = this->_rolesNames;
 		 if isset rolesNames[roleName] {
-			 return true
+			 return true;
 		 }
-		 return false
+		 return false;
 	 }
 	 
 	 /**
@@ -247,11 +247,11 @@ class Memory
 	 */
 	 public function isResource(resourceName)
 	 {
-		 let resourcesNames = this->_resourcesNames
+		 let resourcesNames = this->_resourcesNames;
 		 if isset resourcesNames[resourceName] {
-			 return true
+			 return true;
 		 }
-		 return false
+		 return false;
 	 }
 	 
 	 /**
@@ -278,21 +278,21 @@ class Memory
 	 public function addResource(resource, accessList)
 	 {
 		 if typeof resource == "object" {
-			 let resourceName = resource->getName()
-			 let object = resource
+			 let resourceName = resource->getName();
+			 let object = resource;
 		 } else {
-			 let resourceName = resource
-			 let object = new Phalcon\Acl\Resource(resourceName) 
+			 let resourceName = resource;
+			 let object = new Phalcon\Acl\Resource(resourceName);
 		 }
 		 
-		 let resourcesNames = this->_resourcesNames
+		 let resourcesNames = this->_resourcesNames;
 		 if isset resourcesNames[resourceName] {
-			let exists = true
-			let this->_resources[]= object
-			let this->_resourcesNames[resourceName] = exists 
+			let exists = true;
+			let this->_resources[]= object;
+			let this->_resourcesNames[resourceName] = exists;
 		 }
 		 
-		 return this->addResourceAccess(resourceName,accessList)
+		 return this->addResourceAccess(resourceName,accessList);
 	 }
 	 
 	 
