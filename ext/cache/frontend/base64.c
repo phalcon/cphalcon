@@ -81,7 +81,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Base64){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Base64, cache_frontend_base64, "phalcon\\cache\\frontend\\data", phalcon_cache_frontend_base64_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Base64, cache_frontend_base64, phalcon_cache_frontend_data_ce, phalcon_cache_frontend_base64_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_base64_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 

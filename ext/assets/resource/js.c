@@ -46,7 +46,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Assets_Resource_Js){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Assets\\Resource, Js, assets_resource_js, "phalcon\\assets\\resource", phalcon_assets_resource_js_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Assets\\Resource, Js, assets_resource_js, phalcon_assets_resource_ce, phalcon_assets_resource_js_method_entry, 0);
 
 	return SUCCESS;
 }

@@ -74,7 +74,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, None, cache_frontend_none, "phalcon\\cache\\frontend\\data", phalcon_cache_frontend_none_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, None, cache_frontend_none, phalcon_cache_frontend_data_ce, phalcon_cache_frontend_none_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_none_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 

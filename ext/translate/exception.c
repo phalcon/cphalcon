@@ -44,7 +44,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Translate_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Translate, Exception, translate_exception, "phalcon\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Translate, Exception, translate_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }

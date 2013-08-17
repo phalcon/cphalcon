@@ -75,7 +75,7 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Apc){
 		phalcon_cache_backend_is_apcu = zend_hash_exists(&module_registry, SS("apcu"));
 	}
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Apc, cache_backend_apc, "phalcon\\cache\\backend", phalcon_cache_backend_apc_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Apc, cache_backend_apc, phalcon_cache_backend_ce, phalcon_cache_backend_apc_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_backend_apc_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
 

@@ -44,7 +44,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon, Exception, exception, "exception", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon, Exception, exception, zend_exception_get_default(TSRMLS_C), NULL, 0);
 
 	return SUCCESS;
 }
