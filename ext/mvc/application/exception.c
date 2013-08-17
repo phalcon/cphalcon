@@ -45,7 +45,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Application_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Application, Exception, mvc_application_exception, "phalcon\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Application, Exception, mvc_application_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }

@@ -60,7 +60,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Json){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, config_adapter_json, "phalcon\\config", phalcon_config_adapter_json_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, config_adapter_json, phalcon_config_ce, phalcon_config_adapter_json_method_entry, 0);
 
 	return SUCCESS;
 }

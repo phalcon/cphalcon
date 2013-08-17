@@ -46,7 +46,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Assets_Resource_Css){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Assets\\Resource, Css, assets_resource_css, "phalcon\\assets\\resource", phalcon_assets_resource_css_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Assets\\Resource, Css, assets_resource_css, phalcon_assets_resource_ce, phalcon_assets_resource_css_method_entry, 0);
 
 	return SUCCESS;
 }

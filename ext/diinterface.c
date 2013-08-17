@@ -21,6 +21,8 @@
 #include "config.h"
 #endif
 
+#include "Zend/zend_interfaces.h"
+
 #include "php.h"
 #include "php_phalcon.h"
 #include "phalcon.h"
@@ -32,7 +34,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_DiInterface){
 
-	PHALCON_REGISTER_INTERFACE_EX(Phalcon, DiInterface, diinterface, "arrayaccess", phalcon_diinterface_method_entry);
+	PHALCON_REGISTER_INTERFACE_EX(Phalcon, DiInterface, diinterface, zend_ce_arrayaccess, phalcon_diinterface_method_entry);
 
 	return SUCCESS;
 }

@@ -77,7 +77,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Json){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Json, cache_frontend_json, "phalcon\\cache\\frontend\\data", phalcon_cache_frontend_json_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Json, cache_frontend_json, phalcon_cache_frontend_data_ce, phalcon_cache_frontend_json_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_json_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 

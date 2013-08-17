@@ -59,7 +59,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, InclusionIn, validation_validator_inclusionin, "phalcon\\validation\\validator", phalcon_validation_validator_inclusionin_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, InclusionIn, validation_validator_inclusionin, phalcon_validation_validator_ce, phalcon_validation_validator_inclusionin_method_entry, 0);
 
 	zend_class_implements(phalcon_validation_validator_inclusionin_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 

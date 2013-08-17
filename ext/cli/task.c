@@ -68,7 +68,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_CLI_Task){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Task, cli_task, "phalcon\\di\\injectable", phalcon_cli_task_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Task, cli_task, phalcon_di_injectable_ce, phalcon_cli_task_method_entry, 0);
 
 	return SUCCESS;
 }

@@ -63,7 +63,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Image_Adapter_GD){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Image\\Adapter, GD, image_adapter_gd, "phalcon\\image\\adapter",  phalcon_image_adapter_gd_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Image\\Adapter, GD, image_adapter_gd, phalcon_image_adapter_ce,  phalcon_image_adapter_gd_method_entry, 0);
 
 	zend_class_implements(phalcon_image_adapter_gd_ce TSRMLS_CC, 1, phalcon_image_adapterinterface_ce);
 

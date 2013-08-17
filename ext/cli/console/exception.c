@@ -46,7 +46,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_CLI_Console_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI\\Console, Exception, cli_console_exception, "phalcon\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI\\Console, Exception, cli_console_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }
