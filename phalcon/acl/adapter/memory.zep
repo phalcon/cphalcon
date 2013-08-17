@@ -191,7 +191,6 @@ class Memory
 		if !rolesNames[roleName] {
 			let exceptionMessage = "Role '" . roleName . "' does not exist in the role list";
 			throw new Phalcon\Acl\Exception(exceptionMessage);
-			return;
 		}
 		 
 		if typeof roleToInherit == "object" {
@@ -206,7 +205,6 @@ class Memory
 		if !rolesNames[roleInheritName] {
 			let exceptionMessage = "Role '" . roleInheritName . "' (to inherit) does not exist in the role list";
 			throw new Phalcon\Acl\Exception(exceptionMessage);
-			return;
 		}
 		
 		if roleName == roleInheritName {
