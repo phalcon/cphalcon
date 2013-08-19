@@ -8174,6 +8174,12 @@ static PHP_METHOD(Phalcon_Debug, getCssSources);
 static PHP_METHOD(Phalcon_Debug, getJsSources);
 static PHP_METHOD(Phalcon_Debug, showTraceItem);
 static PHP_METHOD(Phalcon_Debug, onUncaughtException);
+static PHP_METHOD(Phalcon_Debug, getCharset);
+static PHP_METHOD(Phalcon_Debug, setCharset);
+static PHP_METHOD(Phalcon_Debug, getLinesBeforeContext);
+static PHP_METHOD(Phalcon_Debug, setLinesBeforeContext);
+static PHP_METHOD(Phalcon_Debug, getLinesAfterContext);
+static PHP_METHOD(Phalcon_Debug, setLinesAfterContext);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_seturi, 0, 0, 1)
 	ZEND_ARG_INFO(0, uri)
@@ -8205,6 +8211,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_onuncaughtexception, 0, 0, 1)
 	ZEND_ARG_INFO(0, exception)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_setcharset, 0, 0, 1)
+	ZEND_ARG_INFO(0, charset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_setlines, 0, 0, 1)
+	ZEND_ARG_INFO(0, lines)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_debug_method_entry){
 	PHP_ME(Phalcon_Debug, setUri, arginfo_phalcon_debug_seturi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Debug, setShowBackTrace, arginfo_phalcon_debug_setshowbacktrace, ZEND_ACC_PUBLIC) 
@@ -8224,9 +8238,14 @@ PHALCON_INIT_FUNCS(phalcon_debug_method_entry){
 	PHP_ME(Phalcon_Debug, getJsSources, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Debug, showTraceItem, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Debug, onUncaughtException, arginfo_phalcon_debug_onuncaughtexception, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Debug, getCharset, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, setCharset, arginfo_phalcon_debug_setcharset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, getLinesBeforeContext, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, setLinesBeforeContext, arginfo_phalcon_debug_setlines, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, getLinesAfterContext, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, setLinesAfterContext, arginfo_phalcon_debug_setlines, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
-
 
 
 zend_class_entry *phalcon_text_ce;
@@ -15226,9 +15245,40 @@ zend_class_entry *phalcon_events_exception_ce;
 PHALCON_INIT_CLASS(Phalcon_Events_Exception);
 
 
+#ifndef PHALCON_IMAGE_H
+#define PHALCON_IMAGE_H
+
+#include "php_phalcon.h"
+
+/* Resizing constraints */
+#define PHALCON_IMAGE_NONE           1
+#define PHALCON_IMAGE_WIDTH          2
+#define PHALCON_IMAGE_HEIGHT         3
+#define PHALCON_IMAGE_AUTO           4
+#define PHALCON_IMAGE_INVERSE        5
+#define PHALCON_IMAGE_PRECISE        6
+#define PHALCON_IMAGE_TENSILE        7
+
+/* Flipping directions */
+#define PHALCON_IMAGE_HORIZONTAL    11
+#define PHALCON_IMAGE_VERTICAL      12
+
+/* Driver: GD, ImageMagick, etc */
+#define PHALCON_IMAGE_GD            21
+#define PHALCON_IMAGE_IMAGICK       22
+
+
 zend_class_entry *phalcon_image_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Image);
+
+#endif /* PHALCON_IMAGE_H */
+
+
+#ifndef PHALCON_IMAGE_ADAPTER_H
+#define PHALCON_IMAGE_ADAPTER_H
+
+#include "php_phalcon.h"
 
 zend_class_entry *phalcon_image_adapter_ce;
 
@@ -15369,7 +15419,13 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_method_entry){
 	PHP_FE_END
 };
 
+#endif /* PHALCON_IMAGE_ADAPTER_H */
 
+
+#ifndef PHALCON_IMAGE_ADAPTERINTERFACE_H
+#define PHALCON_IMAGE_ADAPTERINTERFACE_H
+
+#include "php_phalcon.h"
 
 zend_class_entry *phalcon_image_adapterinterface_ce;
 
@@ -15441,12 +15497,25 @@ PHALCON_INIT_FUNCS(phalcon_image_adapterinterface_method_entry){
 	PHP_FE_END
 };
 
+#endif /* PHALCON_IMAGE_ADAPTERINTERFACE_H */
 
+
+#ifndef PHALCON_IMAGE_EXCEPTION
+#define PHALCON_IMAGE_EXCEPTION
+
+#include "php_phalcon.h"
 
 zend_class_entry *phalcon_image_exception_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Image_Exception);
 
+#endif /* PHALCON_IMAGE_EXCEPTION */
+
+
+#ifndef PHALCON_IMAGE_ADAPTER_GD_H
+#define PHALCON_IMAGE_ADAPTER_GD_H
+
+#include "php_phalcon.h"
 
 zend_class_entry *phalcon_image_adapter_gd_ce;
 
@@ -15591,7 +15660,13 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_gd_method_entry) {
 	PHP_FE_END
 };
 
+#endif /* PHALCON_IMAGE_ADAPTER_GD_H */
 
+
+#ifndef PHALCON_IMAGE_ADAPTER_IMAGICK_H
+#define PHALCON_IMAGE_ADAPTER_IMAGICK_H
+
+#include "php_phalcon.h"
 
 zend_class_entry *phalcon_image_adapter_imagick_ce;
 
@@ -15729,3 +15804,4 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 	PHP_FE_END
 };
 
+#endif /* PHALCON_IMAGE_ADAPTER_IMAGICK_H */
