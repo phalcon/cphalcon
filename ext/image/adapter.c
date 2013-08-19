@@ -56,74 +56,12 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter){
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_checked"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_file"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_realpath"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_image_adapter_ce, SL("_imageinfo"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_width"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_height"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_mime"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
-}
-
-/**
- * Phalcon\Image constructor
- */
-PHP_METHOD(Phalcon_Image_Adapter, __construct){
-
-	zval *file, *realpath, *imageinfo, *width, *height, *type, *mime, *exception_message;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &file);
-
-	if (Z_TYPE_P(file) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "file parameter should be a string");
-		return;
-	}
-	
-	phalcon_update_property_this(this_ptr, SL("_file"), file TSRMLS_CC);
-
-	PHALCON_INIT_VAR(realpath);
-	phalcon_call_func_p1(realpath, "realpath", file);
-	phalcon_update_property_this(this_ptr, SL("_realpath"), realpath TSRMLS_CC);
-
-	PHALCON_INIT_VAR(imageinfo);
-	phalcon_call_func_p1(imageinfo, "getimagesize", realpath);
-
-	if (Z_TYPE_P(imageinfo) != IS_ARRAY) {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Can't open image file at '", realpath, "'");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
-		return;
-	}
-
-	if (phalcon_array_isset_long(imageinfo, 0)) {
-		PHALCON_OBS_VAR(width);
-		phalcon_array_fetch_long(&width, imageinfo, 0, PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
-	}
-
-	if (phalcon_array_isset_long(imageinfo, 1)) {
-		PHALCON_OBS_VAR(height);
-		phalcon_array_fetch_long(&height, imageinfo, 1, PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
-	}
-
-	if (phalcon_array_isset_long(imageinfo, 2)) {
-		PHALCON_OBS_VAR(type);
-		phalcon_array_fetch_long(&type, imageinfo, 2, PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-	}
-
-	if (phalcon_array_isset_string(imageinfo, SS("mime"))) {
-		PHALCON_OBS_VAR(mime);
-		phalcon_array_fetch_string(&mime, imageinfo, SL("mime"), PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
-	}
-
-	phalcon_update_property_this(this_ptr, SL("_imageinfo"), imageinfo TSRMLS_CC);
-
-	PHALCON_MM_RESTORE();
 }
 
 /**

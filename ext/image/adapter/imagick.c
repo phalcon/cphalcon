@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check){
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 
 	zval *file, *width = NULL, *height = NULL, *exception_message;
-	zval *checked = NULL, *realpath, *format, *type = NULL, *mime = NULL, *im, *ret = NULL, *mode, *imagickpixel, *color;
+	zval *checked = NULL, *realpath, *im, *format, *type = NULL, *mime = NULL, *ret = NULL, *mode, *imagickpixel, *color;
 	zend_class_entry *ce0, *ce1;
 
 	PHALCON_MM_GROW();
@@ -116,12 +116,19 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
+	if (Z_TYPE_P(file) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "file parameter should be a string");
+		return;
+	}
+
 	PHALCON_OBS_VAR(checked);
 	phalcon_read_static_property(&checked, SL("phalcon\\image\\adapter\\imagick"), SL("_checked") TSRMLS_CC);
 
 	if (!zend_is_true(checked)) {
 		phalcon_call_static_noret("phalcon\\image\\adapter\\imagick", "check");
 	}
+	
+	phalcon_update_property_this(this_ptr, SL("_file"), file TSRMLS_CC);
 
 	PHALCON_INIT_VAR(im);
 	object_init_ex(im, ce0);
@@ -130,16 +137,42 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 	}
 
 	if (phalcon_file_exists(file TSRMLS_CC) != FAILURE) {
-		phalcon_call_parent_p1_noret(this_ptr, phalcon_image_adapter_imagick_ce, "__construct", file);
+		PHALCON_INIT_VAR(realpath);
+		phalcon_call_func_p1(realpath, "realpath", file);
+		phalcon_update_property_this(this_ptr, SL("_realpath"), realpath TSRMLS_CC);
 
-		PHALCON_OBS_VAR(realpath);
-		phalcon_read_property_this(&realpath, this_ptr, SL("_realpath"), PH_NOISY_CC);
-
-		PHALCON_OBS_VAR(type);
-		phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 		phalcon_call_method_p1_noret(im, "readImage", realpath);
 
-		PHALCON_INIT_VAR(ret);
+		if (width) {
+			PHALCON_SEPARATE_PARAM(width);
+		}
+
+		PHALCON_INIT_NVAR(width);
+		phalcon_call_method(width, im, "getImageWidth");
+		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
+
+		if (height) {
+			PHALCON_SEPARATE_PARAM(height);
+		}
+
+		PHALCON_INIT_NVAR(height);
+		phalcon_call_method(height, im, "getImageHeight");
+		phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
+
+		PHALCON_INIT_NVAR(type);
+		phalcon_call_method(type, im, "getImageType");
+		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+
+
+		PHALCON_INIT_VAR(format);
+		phalcon_call_method(format, im, "getImageFormat");
+
+		PHALCON_INIT_NVAR(mime);
+        PHALCON_CONCAT_SV(mime, "image/", format);
+
+		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
+
+		PHALCON_INIT_NVAR(ret);
 		phalcon_call_method(ret, im, "getImageAlphaChannel");
 
 		if (!zend_is_true(ret)) {		 
@@ -160,6 +193,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 			phalcon_update_property_this(this_ptr, SL("_image"), im TSRMLS_CC);
 		}
 	} else if (width && height) {
+		phalcon_update_property_this(this_ptr, SL("_realpath"), file TSRMLS_CC);
+
 		ce1 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 		PHALCON_INIT_VAR(imagickpixel);
@@ -182,8 +217,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 		phalcon_call_method_p1(ret, im, "setImageFormat", format);
 
 		phalcon_update_property_this(this_ptr, SL("_image"), im TSRMLS_CC);
-
-		phalcon_update_property_this(this_ptr, SL("_realpath"), file TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
 		phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
 
@@ -886,11 +919,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 
 	PHALCON_INIT_VAR(watermark);
 	phalcon_call_method(watermark, watermark_image, "getImage");
-
-	if (Z_TYPE_P(watermark) != IS_RESOURCE) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "The watermark is not resource");
-		return;
-	}
 
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
