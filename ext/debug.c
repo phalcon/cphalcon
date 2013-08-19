@@ -605,7 +605,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem){
 	zval *file, *line, *show_files, *lines, *number_lines;
 	zval *show_file_fragment, *before_context, *before_line;
 	zval *first_line = NULL, *after_context, *after_line, *last_line = NULL;
-	zval *comment_pattern, *charset, *ent_compat, *tab;
+	zval *comment_pattern, *charset, *tab;
 	zval *comment, *i = NULL, *line_position = NULL, *current_line = NULL;
 	zval *trimmed = NULL, *is_comment = NULL, *spaced_current_line = NULL;
 	zval *escaped_line = NULL;

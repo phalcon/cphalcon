@@ -64,11 +64,11 @@ int phalcon_has_constructor(const zval *object TSRMLS_DC){
 static int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zval **retval_ptr_ptr, zend_uint param_count, zval *params[] TSRMLS_DC) {
 
 	zval ***params_array = NULL;
-	zval **static_params_array[5];
+	zval **static_params_array[10];
 	zval ***params_ptr;
 	zval *local_retval_ptr = NULL;
 	zend_uint i;
-	int ex_retval, use_heap;
+	int ex_retval;
 	zend_fcall_info fci;
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 
@@ -85,22 +85,18 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 	} else {
 
 		if (param_count) {
-			if (param_count > 5) {
-				params_array = (zval ***) do_alloca(sizeof(zval **) * param_count, use_heap);
+			if (unlikely(param_count > 10)) {
+				params_array = (zval ***) emalloc(param_count * sizeof(zval**));
+				params_ptr   = params_array;
 				for (i = 0; i < param_count; i++) {
 					params_array[i] = &params[i];
 				}
 			} else {
+				params_ptr = static_params_array;
 				for (i = 0; i < param_count; i++) {
 					static_params_array[i] = &params[i];
 				}
 			}
-		}
-
-		if (unlikely(param_count > 5)) {
-			params_ptr = params_array;
-		} else {
-			params_ptr = static_params_array;
 		}
 
 		fci.size           = sizeof(fci);
@@ -127,8 +123,8 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 			INIT_ZVAL(*retval_ptr);
 		}
 
-		if (params_array) {
-			free_alloca(params_array, use_heap);
+		if (unlikely(params_array != NULL)) {
+			efree(params_array);
 		}
 	}
 
@@ -160,8 +156,9 @@ static void phalcon_check_return_value(zval *return_value) {
 
 static int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr, zval *func TSRMLS_DC, int param_count, va_list ap)
 {
-	zval **params = NULL;
-	int use_heap = -1, i, status, caller_wants_result = 1;
+	zval **params_ptr, **params = NULL;
+	zval *static_params[10];
+	int free_params = 0, i, status, caller_wants_result = 1;
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
@@ -174,18 +171,27 @@ static int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr
 	if (param_count < 0) {
 		params      = va_arg(ap, zval**);
 		param_count = -param_count;
+		params_ptr  = params;
 	}
-	else if (param_count > 0) {
-		params = (zval**)do_alloca(sizeof(zval*) * param_count, use_heap);
+	else if (param_count > 0 && param_count <= 10) {
+		params_ptr = static_params;
+		for (i=0; i<param_count; ++i) {
+			static_params[i] = va_arg(ap, zval*);
+		}
+	}
+	else if (unlikely(param_count > 10)) {
+		free_params = 1;
+		params      = (zval**)emalloc(param_count * sizeof(zval*));
+		params_ptr  = params;
 		for (i=0; i<param_count; ++i) {
 			params[i] = va_arg(ap, zval*);
 		}
 	}
 
-	status = phalcon_call_user_function(EG(function_table), NULL, func, return_value, return_value_ptr, param_count, params TSRMLS_CC);
+	status = phalcon_call_user_function(EG(function_table), NULL, func, return_value, return_value_ptr, param_count, params_ptr TSRMLS_CC);
 
-	if (-1 != use_heap) {
-		free_alloca(params, use_heap);
+	if (unlikely(free_params)) {
+		efree(params);
 	}
 
 	if (status == FAILURE) {
@@ -204,9 +210,10 @@ static int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr
 
 int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
 
-	int i, status, use_heap = -1, caller_wants_result = 1;
+	int i, status, free_params = -0, caller_wants_result = 1;
 	zend_class_entry *ce, *active_scope = NULL;
-	zval **params = NULL;
+	zval **params_ptr, **params = NULL;
+	zval *static_params[10];
 
 	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
@@ -224,9 +231,18 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 	if (param_count < 0) {
 		params      = va_arg(ap, zval**);
 		param_count = -param_count;
+		params_ptr  = params;
 	}
-	else if (param_count > 0) {
-		params = (zval**)do_alloca(sizeof(zval*) * param_count, use_heap);
+	else if (param_count > 0 && param_count <= 10) {
+		params_ptr = static_params;
+		for (i=0; i<param_count; ++i) {
+			static_params[i] = va_arg(ap, zval*);
+		}
+	}
+	else if (unlikely(param_count > 10)) {
+		free_params = 1;
+		params      = (zval**)emalloc(param_count * sizeof(zval*));
+		params_ptr  = params;
 		for (i=0; i<param_count; ++i) {
 			params[i] = va_arg(ap, zval*);
 		}
@@ -235,11 +251,11 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 	ce           = Z_OBJCE_P(object);
 	active_scope = EG(scope);
 	EG(scope)    = ce;
-	status       = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, return_value_ptr, param_count, params, method_key TSRMLS_CC);
+	status       = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, return_value_ptr, param_count, params_ptr, method_key TSRMLS_CC);
 	EG(scope)    = active_scope;
 
-	if (-1 != use_heap) {
-		free_alloca(params, use_heap);
+	if (unlikely(free_params)) {
+		efree(params);
 	}
 
 	if (status == FAILURE) {
@@ -262,8 +278,9 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
  */
 static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **return_value_ptr, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, va_list ap) {
 
-	zval **params = NULL, *fn;
-	int use_heap = -1, i, status, caller_wants_result = 1;
+	zval **params_ptr, **params = NULL, *fn;
+	zval *static_params[10];
+	int free_params = 0, i, status, caller_wants_result = 1;
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
@@ -283,18 +300,27 @@ static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **
 	if (param_count < 0) {
 		params      = va_arg(ap, zval**);
 		param_count = -param_count;
+		params_ptr  = params;
 	}
-	else if (param_count > 0) {
-		params = (zval**)do_alloca(sizeof(zval*) * param_count, use_heap);
+	else if (param_count > 0 && param_count <= 10) {
+		params_ptr = static_params;
+		for (i=0; i<param_count; ++i) {
+			static_params[i] = va_arg(ap, zval*);
+		}
+	}
+	else if (unlikely(param_count > 10)) {
+		free_params = 1;
+		params      = (zval**)emalloc(param_count * sizeof(zval*));
+		params_ptr  = params;
 		for (i=0; i<param_count; ++i) {
 			params[i] = va_arg(ap, zval*);
 		}
 	}
 
-	status = phalcon_call_user_function(EG(function_table), NULL, fn, return_value, return_value_ptr, param_count, params TSRMLS_CC);
+	status = phalcon_call_user_function(EG(function_table), NULL, fn, return_value, return_value_ptr, param_count, params_ptr TSRMLS_CC);
 
-	if (-1 != use_heap) {
-		free_alloca(params, use_heap);
+	if (unlikely(free_params)) {
+		efree(params);
 	}
 
 	if (status == FAILURE) {
