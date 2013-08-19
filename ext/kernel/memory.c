@@ -145,75 +145,78 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 	active_memory = phalcon_globals_ptr->active_memory;
 	assert(active_memory != NULL);
 
-	if (phalcon_globals_ptr->active_symbol_table) {
-		active_symbol_table = phalcon_globals_ptr->active_symbol_table;
-		if (active_symbol_table->scope == active_memory) {
-			zend_hash_destroy(EG(active_symbol_table));
-			FREE_HASHTABLE(EG(active_symbol_table));
-			EG(active_symbol_table) = active_symbol_table->symbol_table;
-			phalcon_globals_ptr->active_symbol_table = active_symbol_table->prev;
-			efree(active_symbol_table);
+	if (likely(!CG(unclean_shutdown))) {
+		/* Clean active symbol table */
+		if (phalcon_globals_ptr->active_symbol_table) {
+			active_symbol_table = phalcon_globals_ptr->active_symbol_table;
+			if (active_symbol_table->scope == active_memory) {
+				zend_hash_destroy(EG(active_symbol_table));
+				FREE_HASHTABLE(EG(active_symbol_table));
+				EG(active_symbol_table) = active_symbol_table->symbol_table;
+				phalcon_globals_ptr->active_symbol_table = active_symbol_table->prev;
+				efree(active_symbol_table);
+			}
 		}
-	}
 
-	/**
-	 * Check for non freed hash key zvals, mark as null to avoid string freeing
-	 */
-	for (i = 0; i < active_memory->hash_pointer; ++i) {
-		assert(active_memory->hash_addresses[i] != NULL && *(active_memory->hash_addresses[i]) != NULL);
+		/**
+		 * Check for non freed hash key zvals, mark as null to avoid string freeing
+		 */
+		for (i = 0; i < active_memory->hash_pointer; ++i) {
+			assert(active_memory->hash_addresses[i] != NULL && *(active_memory->hash_addresses[i]) != NULL);
 
 #if ZEND_DEBUG
-		_mem_block_check(*active_memory->hash_addresses[i], 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
+			_mem_block_check(*active_memory->hash_addresses[i], 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
 #endif
 
-		if (Z_REFCOUNT_PP(active_memory->hash_addresses[i]) <= 1) {
-			ZVAL_NULL(*active_memory->hash_addresses[i]);
-		} else {
-			zval_copy_ctor(*active_memory->hash_addresses[i]);
+			if (Z_REFCOUNT_PP(active_memory->hash_addresses[i]) <= 1) {
+				ZVAL_NULL(*active_memory->hash_addresses[i]);
+			} else {
+				zval_copy_ctor(*active_memory->hash_addresses[i]);
+			}
 		}
-	}
 
 #ifndef PHALCON_RELEASE
-	for (i = 0; i < active_memory->pointer; ++i) {
-		if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
-			zval **var = active_memory->addresses[i];
+		for (i = 0; i < active_memory->pointer; ++i) {
+			if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
+				zval **var = active_memory->addresses[i];
 
 #if ZEND_DEBUG
-			_mem_block_check(*var, 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
+				_mem_block_check(*var, 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
 #endif
 
 #if PHP_VERSION_ID < 50400
-			if (Z_TYPE_PP(var) > IS_CONSTANT_ARRAY) {
-				fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u\n", __func__, (int)i, *var, Z_TYPE_PP(var));
-			}
+				if (Z_TYPE_PP(var) > IS_CONSTANT_ARRAY) {
+					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u\n", __func__, (int)i, *var, Z_TYPE_PP(var));
+				}
 #else
-			if (Z_TYPE_PP(var) > IS_CALLABLE) {
-				fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u\n", __func__, (int)i, *var, Z_TYPE_PP(var));
-			}
+				if (Z_TYPE_PP(var) > IS_CALLABLE) {
+					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u\n", __func__, (int)i, *var, Z_TYPE_PP(var));
+				}
 #endif
 
-			if (Z_REFCOUNT_PP(var) == 0) {
-				fprintf(stderr, "%s: observed variable #%d (%p) has 0 references\n", __func__, (int)i, *var);
-			}
-			else if (Z_REFCOUNT_PP(var) >= 1000000) {
-				fprintf(stderr, "%s: observed variable #%d (%p) has too many references (%u)\n", __func__, (int)i, *var, Z_REFCOUNT_PP(var));
-			}
-			else if (Z_REFCOUNT_PP(var) == 1 && Z_ISREF_PP(var)) {
-				fprintf(stderr, "%s: observed variable #%d (%p) is a reference with reference count = 1\n", __func__, (int)i, *var);
+				if (Z_REFCOUNT_PP(var) == 0) {
+					fprintf(stderr, "%s: observed variable #%d (%p) has 0 references\n", __func__, (int)i, *var);
+				}
+				else if (Z_REFCOUNT_PP(var) >= 1000000) {
+					fprintf(stderr, "%s: observed variable #%d (%p) has too many references (%u)\n", __func__, (int)i, *var, Z_REFCOUNT_PP(var));
+				}
+				else if (Z_REFCOUNT_PP(var) == 1 && Z_ISREF_PP(var)) {
+					fprintf(stderr, "%s: observed variable #%d (%p) is a reference with reference count = 1\n", __func__, (int)i, *var);
+				}
 			}
 		}
-	}
 #endif
 
-	/**
-	 * Traverse all zvals allocated, reduce the reference counting or free them
-	 */
-	for (i = 0; i < active_memory->pointer; ++i) {
-		if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
-			if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
-				zval_ptr_dtor(active_memory->addresses[i]);
-			} else {
-				Z_DELREF_PP(active_memory->addresses[i]);
+		/**
+		 * Traverse all zvals allocated, reduce the reference counting or free them
+		 */
+		for (i = 0; i < active_memory->pointer; ++i) {
+			if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
+				if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
+					zval_ptr_dtor(active_memory->addresses[i]);
+				} else {
+					Z_DELREF_PP(active_memory->addresses[i]);
+				}
 			}
 		}
 	}
