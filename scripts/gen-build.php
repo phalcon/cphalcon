@@ -141,6 +141,7 @@ class Build_Generator
 #include "ext/standard/php_array.h"
 #include "ext/standard/php_var.h"
 #include "ext/standard/php_http.h"
+#include "ext/standard/php_versioning.h"
 #include "ext/standard/html.h"
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
@@ -149,6 +150,7 @@ class Build_Generator
 #include "ext/spl/spl_heap.h"
 #include "ext/spl/spl_exceptions.h"
 #include "ext/spl/spl_directory.h"
+#include "ext/spl/spl_iterators.h"
 #include "ext/date/php_date.h"
 
 #ifdef PHALCON_USE_PHP_PCRE
