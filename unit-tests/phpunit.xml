@@ -106,6 +106,8 @@
 			<file>unit-tests/TasksCliTest.php</file>
 			<file>unit-tests/ConsoleCliTest.php</file>
 
+			<!-- Image -->
+			<file>unit-tests/ImageTest.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>

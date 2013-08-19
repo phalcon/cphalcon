@@ -14,8 +14,15 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          ZhuZongXin <dreamsxin@qq.com>                                 |
+  |          Vladimir Kolesnikov <vladimir@free-sevastopol.com>            |
   +------------------------------------------------------------------------+
 */
+
+#ifndef PHALCON_IMAGE_ADAPTERINTERFACE_H
+#define PHALCON_IMAGE_ADAPTERINTERFACE_H
+
+#include "php_phalcon.h"
 
 extern zend_class_entry *phalcon_image_adapterinterface_ce;
 
@@ -87,3 +94,4 @@ PHALCON_INIT_FUNCS(phalcon_image_adapterinterface_method_entry){
 	PHP_FE_END
 };
 
+#endif /* PHALCON_IMAGE_ADAPTERINTERFACE_H */
