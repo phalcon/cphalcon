@@ -1317,12 +1317,8 @@ int phalcon_create_instance(zval *return_value, const zval *class_name TSRMLS_DC
  */
 int phalcon_create_instance_params(zval *return_value, const zval *class_name, zval *params TSRMLS_DC){
 
-	int i, outcome;
+	int outcome;
 	zend_class_entry *ce;
-	long param_count;
-	zval **params_array;
-	HashPosition pos;
-	HashTable *params_hash;
 
 	if (Z_TYPE_P(class_name) != IS_STRING) {
 		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name") TSRMLS_CC);
@@ -1343,28 +1339,36 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 	outcome = SUCCESS;
 
 	if (phalcon_has_constructor_ce(ce)) {
-		param_count = zend_hash_num_elements(Z_ARRVAL_P(params));
+		int param_count = zend_hash_num_elements(Z_ARRVAL_P(params));
+		zval *static_params[10];
+		zval **params_ptr, **params_arr = NULL;
+
 		if (param_count > 0) {
+			HashPosition pos;
 			zval **item;
-			int use_heap;
+			int i = 0;
 
-			//params_array = do_alloca(sizeof(zval *) * param_count, use_heap);
-			zval *params_array[10];
-
-			params_hash = Z_ARRVAL_P(params);
-			for (
-				zend_hash_internal_pointer_reset_ex(params_hash, &pos), i = 0;
-				zend_hash_get_current_data_ex(params_hash, (void**)&item, &pos) == SUCCESS;
-				zend_hash_move_forward_ex(params_hash, &pos), ++i
-			) {
-				params_array[i] = *item;
+			if (likely(param_count) <= 10) {
+				params_ptr = static_params;
+			}
+			else {
+				params_arr = emalloc(param_count * sizeof(zval*));
+				params_ptr = &params;
 			}
 
-			outcome = phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, -param_count, params_array);
-			//free_alloca(params, use_heap);
+			for (
+				zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(params), &pos);
+				zend_hash_get_current_data_ex(Z_ARRVAL_P(params), (void**)&item, &pos) == SUCCESS;
+				zend_hash_move_forward_ex(Z_ARRVAL_P(params), &pos), ++i
+			) {
+				params_ptr[i] = *item;
+			}
+		}
 
-		} else {
-			outcome = phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 0);
+		outcome = phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, -param_count, params_ptr);
+
+		if (unlikely(params_arr != NULL)) {
+			efree(params_arr);
 		}
 	}
 
