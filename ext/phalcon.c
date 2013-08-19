@@ -359,37 +359,6 @@ static void (*orig_execute_internal)(zend_execute_data *, zend_fcall_info *, int
 static void (*orig_execute_internal)(zend_execute_data *, int TSRMLS_DC) = NULL;
 #endif
 
-static void (*old_error_cb)(int, const char *, const uint, const char *, va_list) = NULL;
-
-static void phalcon_error_cb(int type, const char *error_filename, const uint error_lineno, const char *format, va_list args)
-{
-	if (type == E_ERROR || type == E_CORE_ERROR || type == E_RECOVERABLE_ERROR || type == E_COMPILE_ERROR || type == E_USER_ERROR) {
-		TSRMLS_FETCH();
-		phalcon_clean_restore_stack(TSRMLS_C);
-	}
-
-	if (likely(old_error_cb != NULL)) {
-	/**
-	 * va_copy() is __va_copy() in old gcc versions.
-	 * According to the autoconf manual, using memcpy(&dst, &src, sizeof(va_list))
-	 * gives maximum portability.
-	 */
-#ifndef va_copy
-#	ifdef __va_copy
-#		define va_copy(dest, src) __va_copy((dest), (src))
-#	else
-#		define va_copy(dest, src) memcpy(&(dest), &(src), sizeof(va_list))
-#	endif
-#endif
-		va_list copy;
-		va_copy(copy, args);
-		old_error_cb(type, error_filename, error_lineno, format, copy);
-		va_end(copy);
-	}
-	else {
-		exit(255);
-	}
-}
 #if PHP_VERSION_ID >= 50500
 
 static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, zend_fcall_info *fci, int return_value_used TSRMLS_DC)
@@ -419,27 +388,6 @@ static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int re
 #endif
 
 static PHP_MINIT_FUNCTION(phalcon){
-
-	if (!spl_ce_Countable) {
-		fprintf(stderr, "Phalcon Error: Interface Countable was not found");
-		return FAILURE;
-	}
-	if (!zend_ce_iterator) {
-		fprintf(stderr, "Phalcon Error: Interface Iterator was not found");
-		return FAILURE;
-	}
-	if (!zend_ce_arrayaccess) {
-		fprintf(stderr, "Phalcon Error: Interface ArrayAccess was not found");
-		return FAILURE;
-	}
-	if (!zend_ce_serializable) {
-		fprintf(stderr, "Phalcon Error: Interface Serializable was not found");
-		return FAILURE;
-	}
-	if (!spl_ce_SeekableIterator) {
-		fprintf(stderr, "Phalcon Error: Interface SeekableIterator was not found");
-		return FAILURE;
-	}
 
 	PHALCON_INIT(Phalcon_DI_InjectionAwareInterface);
 	PHALCON_INIT(Phalcon_Forms_ElementInterface);
@@ -755,9 +703,6 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
 
-	old_error_cb  = zend_error_cb;
-	zend_error_cb = phalcon_error_cb;
-
 	orig_execute_internal = zend_execute_internal;
 	if (!zend_execute_internal) {
 		zend_execute_internal = phalcon_execute_internal;
@@ -766,11 +711,8 @@ static PHP_MINIT_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
-
+#ifndef PHALCON_RELEASE
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
-
-	zend_error_cb = old_error_cb;
-	zend_execute_internal = orig_execute_internal;
 
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
@@ -778,6 +720,7 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
 	return SUCCESS;
 }
+#endif
 
 static PHP_RINIT_FUNCTION(phalcon){
 
@@ -867,7 +810,11 @@ zend_module_entry phalcon_module_entry = {
 	PHP_PHALCON_EXTNAME,
 	NULL,
 	PHP_MINIT(phalcon),
+#ifndef PHALCON_RELEASE
 	PHP_MSHUTDOWN(phalcon),
+#else
+	NULL
+#endif
 	PHP_RINIT(phalcon),
 	PHP_RSHUTDOWN(phalcon),
 	PHP_MINFO(phalcon),
@@ -882,4 +829,3 @@ zend_module_entry phalcon_module_entry = {
 #ifdef COMPILE_DL_PHALCON
 ZEND_GET_MODULE(phalcon)
 #endif
-
