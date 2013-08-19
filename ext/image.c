@@ -32,6 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "image.h"
+
 /**
  * Phalcon\Image
  *
@@ -40,7 +42,7 @@
  *<code>
  *	$image = new Phalcon\Image\Adapter\GD("upload/test.jpg");
  *	$image->resize(200, 200);
- *	$$image->save();
+ *	$image->save();
  *</code>
  */
 
@@ -52,22 +54,22 @@ PHALCON_INIT_CLASS(Phalcon_Image){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Image, image, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 	
-	// Resizing constraints
-	zend_declare_class_constant_long(phalcon_image_ce, SL("NONE"), 1 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("WIDTH"), 2 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("HEIGHT"), 3 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("AUTO"), 4 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("INVERSE"), 5 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("PRECISE"), 6 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("TENSILE"), 7 TSRMLS_CC);
+	/* Resizing constraints */
+	zend_declare_class_constant_long(phalcon_image_ce, SL("NONE"),    PHALCON_IMAGE_NONE TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_image_ce, SL("WIDTH"),   PHALCON_IMAGE_WIDTH TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_image_ce, SL("HEIGHT"),  PHALCON_IMAGE_HEIGHT TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_image_ce, SL("AUTO"),    PHALCON_IMAGE_AUTO TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_image_ce, SL("INVERSE"), PHALCON_IMAGE_INVERSE TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_image_ce, SL("PRECISE"), PHALCON_IMAGE_PRECISE TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_image_ce, SL("TENSILE"), PHALCON_IMAGE_TENSILE TSRMLS_CC);
 
-	// Flipping directions
-	zend_declare_class_constant_long(phalcon_image_ce, SL("HORIZONTAL"), 11 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("VERTICAL"), 12 TSRMLS_CC);
+	/* Flipping directions */
+	zend_declare_class_constant_long(phalcon_image_ce, SL("HORIZONTAL"), PHALCON_IMAGE_HORIZONTAL TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_image_ce, SL("VERTICAL"),   PHALCON_IMAGE_VERTICAL TSRMLS_CC);
 
-	// Driver: GD, ImageMagick, etc
-	zend_declare_class_constant_long(phalcon_image_ce, SL("GD"), 21 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_image_ce, SL("IMAGICK"), 22 TSRMLS_CC);
+	/* Driver: GD, ImageMagick, etc */
+	zend_declare_class_constant_long(phalcon_image_ce, SL("GD"),      PHALCON_IMAGE_GD TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_image_ce, SL("IMAGICK"), PHALCON_IMAGE_IMAGICK TSRMLS_CC);
 
 	return SUCCESS;
 }

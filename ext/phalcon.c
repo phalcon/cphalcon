@@ -793,13 +793,28 @@ zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_REQUIRED("spl")
 #if PHALCON_USE_PHP_JSON
 	ZEND_MOD_REQUIRED("json")
+#else
+	ZEND_MOD_OPTIONAL("json")
 #endif
 #if PHALCON_USE_PHP_SESSION
 	ZEND_MOD_REQUIRED("session")
+#else
+	ZEND_MOD_OPTIONAL("session")
 #endif
 #if PHALCON_USE_PHP_PCRE
 	ZEND_MOD_REQUIRED("pcre")
+#else
+	ZEND_MOD_OPTIONAL("pcre")
 #endif
+	ZEND_MOD_OPTIONAL("filter")
+	ZEND_MOD_OPTIONAL("iconv")
+	ZEND_MOD_OPTIONAL("libxml")
+	ZEND_MOD_OPTIONAL("mbstring")
+	ZEND_MOD_OPTIONAL("mcrypt")
+	ZEND_MOD_OPTIONAL("openssl")
+	ZEND_MOD_OPTIONAL("pdo")
+	ZEND_MOD_OPTIONAL("gd")
+	ZEND_MOD_OPTIONAL("imagick")
 	ZEND_MOD_END
 };
 
