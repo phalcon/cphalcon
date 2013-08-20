@@ -365,9 +365,6 @@ PHP_METHOD(Phalcon_Image_Adapter, crop){
 	tmp_image_width  = phalcon_get_intval(image_width);
 	tmp_image_height = phalcon_get_intval(image_height);
 
-	zend_print_zval_r(image_width, 0);
-	zend_print_zval_r(image_height, 0);
-
 	if (tmp_width > tmp_image_width) {
 		tmp_width = tmp_image_width;
 	}
