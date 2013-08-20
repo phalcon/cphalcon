@@ -292,4 +292,57 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($params[2], 1000);
 		$this->assertEquals($params['name'], 'Voltron');
 	}
+
+	public function testIssue1115()
+	{
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->having('Robots.price > 1000')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name FROM [Robots] HAVING Robots.price > 1000');
+	}
+
+	public function testSelectDistinctAll()
+	{
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->distinct(true)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT DISTINCT Robots.name FROM [Robots]');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->distinct(false)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT ALL Robots.name FROM [Robots]');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->distinct(true)
+			->distinct(null)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name FROM [Robots]');
+	}
 }

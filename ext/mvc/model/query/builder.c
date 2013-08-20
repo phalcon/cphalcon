@@ -80,6 +80,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_sharedLock"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_bindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_distinct"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_model_query_builder_ce, SL("_hiddenParamNumber"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_query_builder_ce TSRMLS_CC, 2, phalcon_mvc_model_query_builderinterface_ce, phalcon_di_injectionawareinterface_ce);
@@ -202,6 +203,40 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	
 	PHALCON_MM_RESTORE();
 }
+
+/**
+ * Sets SELECT DISTINCT / SELECT ALL flag
+ *
+ * @param bool|null distinct
+ * @return Phalcon\Mvc\Model\Query\BuilderInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, distinct){
+
+	zval *distinct;
+
+	phalcon_fetch_params(0, 1, 0, &distinct);
+
+	if (Z_TYPE_P(distinct) != IS_NULL && Z_TYPE_P(distinct) != IS_BOOL) {
+		PHALCON_SEPARATE_PARAM_NMO(distinct);
+		convert_to_long(distinct);
+	}
+
+	phalcon_update_property_this(this_ptr, SL("_distinct"), distinct TSRMLS_CC);
+
+	RETURN_THISW();
+}
+
+/**
+ * Returns SELECT DISTINCT / SELECT ALL flag
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDistinct){
+
+
+	RETURN_MEMBER(this_ptr, "_distinct");
+}
+
 
 /**
  * Sets the DependencyInjector container
@@ -1233,7 +1268,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 
-	zval *dependency_injector = NULL, *models, *conditions = NULL;
+	zval *dependency_injector = NULL, *models, *conditions = NULL, *distinct;
 	zval *one, *number_models, *invalid_condition;
 	zval *model = NULL, *service_name, *meta_data, *model_instance;
 	zval *no_primary = NULL, *primary_keys, *first_primary_key;
@@ -1377,7 +1412,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	}
 	
 	PHALCON_INIT_VAR(phql);
-	ZVAL_STRING(phql, "SELECT ", 1);
+
+	distinct = phalcon_fetch_nproperty_this(this_ptr, SL("_distinct"), PH_NOISY_CC);
+	if (Z_TYPE_P(distinct) == IS_BOOL) {
+		if (Z_BVAL_P(distinct)) {
+			ZVAL_STRING(phql, "SELECT DISTINCT ", 1);
+		}
+		else {
+			ZVAL_STRING(phql, "SELECT ALL ", 1);
+		}
+	}
+	else {
+		ZVAL_STRING(phql, "SELECT ", 1);
+	}
 	
 	PHALCON_OBS_VAR(columns);
 	phalcon_read_property_this(&columns, this_ptr, SL("_columns"), PH_NOISY_CC);
@@ -1605,16 +1652,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 				}
 			}
 		}
-	
-		PHALCON_OBS_VAR(having);
-		phalcon_read_property_this(&having, this_ptr, SL("_having"), PH_NOISY_CC);
-		if (Z_TYPE_P(having) != IS_NULL) {
-			if (PHALCON_IS_NOT_EMPTY(having)) {
-				PHALCON_SCONCAT_SV(phql, " HAVING ", having);
-			}
-		}
 	}
 	
+	/* Process HAVING clause */
+	PHALCON_OBS_VAR(having);
+	phalcon_read_property_this(&having, this_ptr, SL("_having"), PH_NOISY_CC);
+	if (Z_TYPE_P(having) != IS_NULL) {
+		if (PHALCON_IS_NOT_EMPTY(having)) {
+			PHALCON_SCONCAT_SV(phql, " HAVING ", having);
+		}
+	}
+
 	/** 
 	 * Process order clause
 	 */
