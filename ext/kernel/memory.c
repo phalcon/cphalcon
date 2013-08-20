@@ -135,12 +135,14 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 	size_t i;
 	phalcon_memory_entry *prev, *active_memory;
 	phalcon_symbol_table *active_symbol_table;
+/*
 #if ZEND_DEBUG
 	char* __zend_filename = __FILE__;
 	char* __zend_orig_filename = __FILE__;
 	int __zend_lineno = 0;
 	int __zend_orig_lineno = 0;
 #endif
+*/
 
 	active_memory = phalcon_globals_ptr->active_memory;
 	assert(active_memory != NULL);
@@ -163,11 +165,11 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 		 */
 		for (i = 0; i < active_memory->hash_pointer; ++i) {
 			assert(active_memory->hash_addresses[i] != NULL && *(active_memory->hash_addresses[i]) != NULL);
-
+/*
 #if ZEND_DEBUG
 			_mem_block_check(*active_memory->hash_addresses[i], 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
 #endif
-
+*/
 			if (Z_REFCOUNT_PP(active_memory->hash_addresses[i]) <= 1) {
 				ZVAL_NULL(*active_memory->hash_addresses[i]);
 			} else {
@@ -179,11 +181,11 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 		for (i = 0; i < active_memory->pointer; ++i) {
 			if (likely(active_memory->addresses[i] != NULL && *(active_memory->addresses[i]) != NULL)) {
 				zval **var = active_memory->addresses[i];
-
+/*
 #if ZEND_DEBUG
 				_mem_block_check(*var, 1 ZEND_FILE_LINE_RELAY_CC ZEND_FILE_LINE_ORIG_RELAY_CC);
 #endif
-
+*/
 #if PHP_VERSION_ID < 50400
 				if (Z_TYPE_PP(var) > IS_CONSTANT_ARRAY) {
 					fprintf(stderr, "%s: observed variable #%d (%p) has invalid type %u\n", __func__, (int)i, *var, Z_TYPE_PP(var));
