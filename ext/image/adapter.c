@@ -66,71 +66,12 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter){
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_checked"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_file"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_realpath"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_image_adapter_ce, SL("_imageinfo"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_width"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_height"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_image_adapter_ce, SL("_mime"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
-}
-
-/**
- * Phalcon\Image constructor
- */
-PHP_METHOD(Phalcon_Image_Adapter, __construct){
-
-	zval *file, *realpath, *imageinfo, *exception_message;
-	zval *width, *height, *type, *mime;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &file);
-
-	if (Z_TYPE_P(file) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "file parameter should be a string");
-		return;
-	}
-	
-	phalcon_update_property_this(this_ptr, SL("_file"), file TSRMLS_CC);
-
-	PHALCON_INIT_VAR(realpath);
-	phalcon_realpath(realpath, file TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_realpath"), realpath TSRMLS_CC);
-
-	/**
-	 * @todo getimagesize() is from GD, we need to create a method getImageSize()
-	 * and implement it for every adapter
-	 */
-	PHALCON_INIT_VAR(imageinfo);
-	phalcon_call_func_p1(imageinfo, "getimagesize", realpath);
-
-	if (Z_TYPE_P(imageinfo) != IS_ARRAY) {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Can't open image file at '", realpath, "'");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_image_exception_ce, exception_message);
-		return;
-	}
-
-	if (phalcon_array_isset_long_fetch(&width, imageinfo, 0)) {
-		phalcon_update_property_this(this_ptr, SL("_width"), width TSRMLS_CC);
-	}
-
-	if (phalcon_array_isset_long_fetch(&height, imageinfo, 1)) {
-		phalcon_update_property_this(this_ptr, SL("_height"), height TSRMLS_CC);
-	}
-
-	if (phalcon_array_isset_long_fetch(&type, imageinfo, 2)) {
-		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-	}
-
-	if (phalcon_array_isset_string_fetch(&mime, imageinfo, SS("mime"))) {
-		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
-	}
-
-	phalcon_update_property_this(this_ptr, SL("_imageinfo"), imageinfo TSRMLS_CC);
-
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -423,6 +364,9 @@ PHP_METHOD(Phalcon_Image_Adapter, crop){
 	tmp_height       = Z_LVAL_P(height);
 	tmp_image_width  = phalcon_get_intval(image_width);
 	tmp_image_height = phalcon_get_intval(image_height);
+
+	zend_print_zval_r(image_width, 0);
+	zend_print_zval_r(image_height, 0);
 
 	if (tmp_width > tmp_image_width) {
 		tmp_width = tmp_image_width;
@@ -761,7 +705,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 PHP_METHOD(Phalcon_Image_Adapter, text){
 
 	zval *text, *offset_x = NULL, *offset_y = NULL, *opacity = NULL, *color = NULL, *size = NULL, *fontfile = NULL;
-	zval *tmp_color = NULL, *pattern, *replacement, *tmp = NULL, *r, *g, *b;
+	zval *tmp_color = NULL, *pattern, *replacement, *r, *g, *b;
 	int i;
 	char *c;
 
@@ -844,40 +788,40 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 	}
 
 	if (Z_STRLEN_P(tmp_color) == 3) {
-		PHALCON_INIT_VAR(pattern);
-		ZVAL_STRING(pattern, "#.#", 1);
-
-		PHALCON_INIT_VAR(replacement);
-		ZVAL_STRING(replacement, "$0$0", 1);
-
-		PHALCON_INIT_NVAR(tmp);
-		phalcon_call_func_p3(tmp, "preg_replace", pattern, replacement, tmp_color);
-
-		PHALCON_CPY_WRT(tmp_color, tmp);
+		/* Convert RGB to RRGGBB */
+		c = Z_STRVAL_P(tmp_color);
+		STR_REALLOC(c, 7);
+		c[6] = '\0';
+		c[5] = c[2];
+		c[4] = c[2];
+		c[3] = c[1];
+		c[2] = c[1];
+		c[1] = c[0];
 	}
 
+	ZVAL_STRING(tmp_color, c, 1);
+
 	if (Z_STRLEN_P(tmp_color) >= 6) {
-		PHALCON_INIT_NVAR(tmp);
-		phalcon_substr(tmp, tmp_color, 0, 2);
-
-		PHALCON_INIT_VAR(r);
-		phalcon_call_func_p1(r, "hexdec", tmp);
-
-		PHALCON_INIT_NVAR(tmp);
-		phalcon_substr(tmp, tmp_color, 2, 2);
-
-		PHALCON_INIT_VAR(g);
-		phalcon_call_func_p1(g, "hexdec", tmp);
-
-		PHALCON_INIT_NVAR(tmp);
-		phalcon_substr(tmp, tmp_color, 4, 2);
-
-		PHALCON_INIT_VAR(b);
-		phalcon_call_func_p1(b, "hexdec", tmp);
-	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "color is not valid");
 		return;
 	}
+
+	zval tmp;
+	INIT_ZVAL(tmp);
+
+	Z_TYPE(tmp) = IS_STRING;
+	ZVAL_STRINGL(&tmp, Z_STRVAL_P(tmp_color), 2, 0);
+
+	PHALCON_INIT_NVAR(r);
+	_php_math_basetozval(&tmp, 16, r);
+
+	Z_STRVAL(tmp) += 2;
+	PHALCON_INIT_NVAR(g);
+	_php_math_basetozval(&tmp, 16, g);
+
+	Z_STRVAL(tmp) += 2;
+	PHALCON_INIT_NVAR(b);
+	_php_math_basetozval(&tmp, 16, b);
 
 	PHALCON_CALL_METHOD(NULL, NULL, this_ptr, "_text", 0, 9, text, offset_x, offset_y, opacity, r, g, b, size, fontfile);
 
@@ -947,27 +891,30 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 		c[1] = c[0];
 	}
 
-	if (Z_STRLEN_P(tmp_color) >= 6) {
-		zval tmp;
-		INIT_ZVAL(tmp);
+	ZVAL_STRING(tmp_color, c, 1);
 
-		Z_TYPE(tmp) = IS_STRING;
-		ZVAL_STRINGL(&tmp, Z_STRVAL_P(tmp_color), 2, 0);
-
-		PHALCON_INIT_NVAR(r);
-		_php_math_basetozval(&tmp, 16, r);
-
-		Z_STRVAL(tmp) += 2;
-		PHALCON_INIT_NVAR(g);
-		_php_math_basetozval(&tmp, 16, g);
-
-		Z_STRVAL(tmp) += 2;
-		PHALCON_INIT_NVAR(b);
-		_php_math_basetozval(&tmp, 16, b);
-	} else {
+	if (Z_STRLEN_P(tmp_color) < 6) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "color is not valid");
 		return;
 	}
+
+	zval tmp;
+	INIT_ZVAL(tmp);
+
+	Z_TYPE(tmp) = IS_STRING;
+	ZVAL_STRINGL(&tmp, Z_STRVAL_P(tmp_color), 2, 0);
+
+	PHALCON_INIT_NVAR(r);
+	_php_math_basetozval(&tmp, 16, r);
+
+	Z_STRVAL(tmp) += 2;
+	PHALCON_INIT_NVAR(g);
+	_php_math_basetozval(&tmp, 16, g);
+
+	Z_STRVAL(tmp) += 2;
+	PHALCON_INIT_NVAR(b);
+	_php_math_basetozval(&tmp, 16, b);
+		
 
 	if (!opacity) {
 		PHALCON_INIT_NVAR(opacity);
