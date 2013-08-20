@@ -1120,7 +1120,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 				zend_print_zval_r(value, 0);
 				phalcon_ob_get_contents(joined_value TSRMLS_CC);
 				phalcon_ob_end_clean(TSRMLS_C);
-				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>Array( ", joined_value, " )</td></tr>");
+				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", joined_value, "</td></tr>");
 			} else {
 				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", value, "</td></tr>");
 			}
