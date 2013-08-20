@@ -964,13 +964,13 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	zval *class_name, *css_sources, *escaped_message = NULL;
 	zval *html, *version, *file, *line, *show_back_trace;
 	zval *data_vars, *trace, *trace_item = NULL, *n = NULL, *html_item = NULL;
-	zval *_REQUEST, *value = NULL, *key_request = NULL, *_SERVER;
+	zval *_REQUEST, *value = NULL, *key_request = NULL, *key_value = NULL, *value_value = NULL, *joined_value = NULL, *_SERVER;
 	zval *key_server = NULL, *files, *key_file = NULL;
 	zval *memory, *data_var = NULL, *key_var = NULL, *variable = NULL, *dumped_argument = NULL;
 	zval *js_sources;
-	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
-	HashPosition hp0, hp1, hp2, hp3, hp4;
-	zval **hd;
+	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
+	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
+	zval **hd, **hd1;
 
 	PHALCON_MM_GROW();
 
@@ -1111,12 +1111,27 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		phalcon_is_iterable(_REQUEST, &ah1, &hp1, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-	
 			PHALCON_GET_HKEY(key_request, ah1, hp1);
 			PHALCON_GET_HVALUE(value);
-	
-			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", value, "</td></tr>");
-	
+
+			if (Z_TYPE_P(value) == IS_ARRAY) {
+				phalcon_is_iterable(value, &ah5, &hp5, 0, 0);
+				PHALCON_INIT_NVAR(joined_value);
+				while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
+					PHALCON_GET_HKEY(key_value, ah5, hp5);
+					PHALCON_GET_HVALUE(value_value);
+
+					if (PHALCON_IS_EMPTY(joined_value)) {
+						PHALCON_CONCAT_VSV(joined_value, key_value, " => ", value_value);
+					} else {
+						PHALCON_SCONCAT_SVSV(joined_value, ", ", key_value, " => ", value_value);
+					}
+					zend_hash_move_forward_ex(ah5, &hp5);
+				}
+				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>Array( ", joined_value, " )</td></tr>");
+			} else {
+				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", value, "</td></tr>");
+			}
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
 	
