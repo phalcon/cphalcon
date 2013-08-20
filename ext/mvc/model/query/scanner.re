@@ -258,6 +258,11 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		'ALL' {
+			token->opcode = PHQL_T_ALL;
+			return 0;
+		}
+
 		'BETWEEN' {
 			token->opcode = PHQL_T_BETWEEN;
 			return 0;

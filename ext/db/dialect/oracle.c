@@ -838,7 +838,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
-	zval *definition, *escape_char = NULL, *columns, *selected_columns;
+	zval *definition, *escape_char = NULL, *columns, *selected_columns, *distinct;
 	zval *column = NULL, *column_item = NULL, *column_sql = NULL, *columns_sql = NULL;
 	zval *column_domain = NULL, *column_domain_sql = NULL, *column_alias = NULL;
 	zval *column_alias_sql = NULL, *tables, *selected_tables;
@@ -1003,8 +1003,21 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_CPY_WRT(tables_sql, tables);
 	}
 
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVSV(sql, "SELECT ", columns_sql, " FROM ", tables_sql);
+	if (phalcon_array_isset_string_fetch(&distinct, definition, SS("definition"))) {
+		assert(Z_TYPE_P(distinct) == IS_LONG);
+		if (Z_LVAL_P(distinct) == 0) {
+			ZVAL_STRING(sql, "SELECT ALL ", 1);
+		}
+		else if (Z_LVAL_P(distinct) == 1) {
+			ZVAL_STRING(sql, "SELECT DISTINCT ", 1);
+		}
+		else {
+			ZVAL_STRING(sql, "SELECT ", 1);
+		}
+	}
+	else {
+		ZVAL_STRING(sql, "SELECT ", 1);
+	}
 
 	/**
 	 * Check for joins

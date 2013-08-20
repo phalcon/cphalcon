@@ -32,7 +32,7 @@
 %left DIVIDE TIMES MOD .
 %left PLUS MINUS .
 %left IS .
-%right IN DISTINCT .
+%right IN .
 %right NOT BITWISE_NOT .
 %left COMMA .
 
@@ -157,17 +157,42 @@ static zval *phql_ret_select_statement(zval *S, zval *W, zval *O, zval *G, zval 
 	return ret;
 }
 
-static zval *phql_ret_select_clause(zval *columns, zval *tables, zval *join_list)
+static zval *phql_ret_select_clause(zval *distinct, zval *columns, zval *tables, zval *join_list)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
+
+	if (distinct) {
+		add_assoc_zval(ret, "distinct", distinct);
+	}
+
 	add_assoc_zval(ret, "columns", columns);
 	add_assoc_zval(ret, "tables", tables);
 	if (join_list) {
 		add_assoc_zval(ret, "joins", join_list);
 	}
+
+	return ret;
+}
+
+static zval *phql_ret_distinct_all(int distinct)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	ZVAL_LONG(ret, distinct);
+
+	return ret;
+}
+
+static zval *phql_ret_distinct(void)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	ZVAL_TRUE(ret);
 
 	return ret;
 }
@@ -422,7 +447,7 @@ static zval *phql_ret_expr(int type, zval *left, zval *right)
 	return ret;
 }
 
-static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
+static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments, zval *distinct)
 {
 
 	zval *ret;
@@ -435,6 +460,10 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 
 	if (arguments) {
 		add_assoc_zval(ret, "arguments", arguments);
+	}
+	
+	if (distinct) {
+		add_assoc_zval(ret, "distinct", distinct);
 	}
 
 	return ret;
@@ -548,12 +577,22 @@ select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_
 
 %destructor select_clause { zval_ptr_dtor(&$$); }
 
-select_clause(R) ::= SELECT column_list(C) FROM associated_name_list(A) join_list(J) . {
-	R = phql_ret_select_clause(C, A, J);
+select_clause(R) ::= SELECT distinct_all(D) column_list(C) FROM associated_name_list(A) join_list_or_null(J) . {
+	R = phql_ret_select_clause(D, C, A, J);
 }
 
-select_clause(R) ::= SELECT column_list(C) FROM associated_name_list(A) . {
-	R = phql_ret_select_clause(C, A, NULL);
+%destructor distinct_all { phalcon_safe_zval_ptr_dtor($$); }
+
+distinct_all(R) ::= DISTINCT . {
+	R = phql_ret_distinct_all(1);
+}
+
+distinct_all(R) ::= ALL . {
+	R = phql_ret_distinct_all(0);
+}
+
+distinct_all(R) ::= . {
+	R = NULL;
 }
 
 %destructor column_list { zval_ptr_dtor(&$$); }
@@ -569,7 +608,7 @@ column_list(R) ::= column_item(I) . {
 %destructor column_item { zval_ptr_dtor(&$$); }
 
 column_item(R) ::= TIMES . {
-	R = phql_ret_column_item(PHQL_T_ALL, NULL, NULL, NULL);
+	R = phql_ret_column_item(PHQL_T_STARALL, NULL, NULL, NULL);
 }
 
 column_item(R) ::= IDENTIFIER(I) DOT TIMES . {
@@ -596,6 +635,14 @@ associated_name_list(R) ::= associated_name_list(L) COMMA associated_name(A) . {
 
 associated_name_list(R) ::= associated_name(L) . {
 	R = L;
+}
+
+join_list_or_null(R) ::= join_list(L) . {
+	R = L;
+}
+
+join_list_or_null(R) ::= . {
+	R = NULL;
 }
 
 %destructor join_list { zval_ptr_dtor(&$$); }
@@ -1024,12 +1071,28 @@ expr(R) ::= function_call(F) . {
 	R = F;
 }
 
-function_call(R) ::= IDENTIFIER(I) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
-	R = phql_ret_func_call(I, L);
+function_call(R) ::= IDENTIFIER(I) PARENTHESES_OPEN distinct_or_null(D) argument_list_or_null(L) PARENTHESES_CLOSE . {
+	R = phql_ret_func_call(I, L, D);
 }
 
-function_call(R) ::= IDENTIFIER(I) PARENTHESES_OPEN PARENTHESES_CLOSE . {
-	R = phql_ret_func_call(I, NULL);
+%destructor distinct_or_null { phalcon_safe_zval_ptr_dtor($$); }
+
+distinct_or_null(R) ::= DISTINCT . {
+	R = phql_ret_distinct();
+}
+
+distinct_or_null(R) ::=  . {
+	R = NULL;
+}
+
+%destructor argument_list_or_null { phalcon_safe_zval_ptr_dtor($$); }
+
+argument_list_or_null(R) ::= argument_list(L) . {
+	R = L;
+}
+
+argument_list_or_null(R) ::= . {
+	R = NULL;
 }
 
 %destructor argument_list { zval_ptr_dtor(&$$); }
@@ -1045,7 +1108,7 @@ argument_list(R) ::= argument_item(I) . {
 %destructor argument_item { zval_ptr_dtor(&$$); }
 
 argument_item(R) ::= TIMES . {
-	R = phql_ret_column_item(PHQL_T_ALL, NULL, NULL, NULL);
+	R = phql_ret_column_item(PHQL_T_STARALL, NULL, NULL, NULL);
 }
 
 argument_item(R) ::= expr(E) . {
@@ -1058,10 +1121,6 @@ expr(R) ::= expr(E) IS NULL . {
 
 expr(R) ::= expr(E) IS NOT NULL . {
 	R = phql_ret_expr(PHQL_T_ISNOTNULL, E, NULL);
-}
-
-expr(R) ::= DISTINCT expr(E) . {
-	R = phql_ret_expr(PHQL_T_DISTINCT, NULL, E);
 }
 
 expr(R) ::= expr(E) BETWEEN expr(L) . {
