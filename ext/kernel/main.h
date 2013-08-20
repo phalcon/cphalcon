@@ -56,6 +56,8 @@ extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
 extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
+void phalcon_safe_zval_ptr_dtor(zval *pzval);
+
 
 /* Fetch Parameters */
 extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);

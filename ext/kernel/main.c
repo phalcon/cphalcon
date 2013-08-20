@@ -305,11 +305,11 @@ int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_p
 	return 1;
 }
 
-/**
- * Generates error when inherited class isn't found
- */
-void phalcon_inherit_not_found(const char *class_name, const char *inherit_name) {
-	fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", class_name, inherit_name);
+void phalcon_safe_zval_ptr_dtor(zval *pzval)
+{
+	if (pzval) {
+		zval_ptr_dtor(&pzval);
+	}
 }
 
 /**

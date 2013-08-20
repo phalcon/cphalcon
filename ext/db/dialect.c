@@ -382,7 +382,12 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 			PHALCON_INIT_VAR(arguments_joined);
 			phalcon_fast_join_str(arguments_joined, SL(", "), sql_arguments TSRMLS_CC);
-			PHALCON_CONCAT_VSVS(return_value, name, "(", arguments_joined, ")");
+			if (phalcon_array_isset_string(expression, SS("distinct"))) {
+				PHALCON_CONCAT_VSVS(return_value, name, "(DISTINCT ", arguments_joined, ")");
+			}
+			else {
+				PHALCON_CONCAT_VSVS(return_value, name, "(", arguments_joined, ")");
+			}
 	
 			RETURN_MM();
 		} else {
@@ -571,7 +576,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
  */
 PHP_METHOD(Phalcon_Db_Dialect, select){
 
-	zval *definition, *escape_char = NULL, *columns, *selected_columns;
+	zval *definition, *escape_char = NULL, *columns, *selected_columns, *distinct;
 	zval *column = NULL, *column_item = NULL, *column_sql = NULL, *column_domain = NULL;
 	zval *column_domain_sql = NULL, *column_alias = NULL, *column_alias_sql = NULL;
 	zval *columns_sql = NULL, *tables, *selected_tables;
@@ -733,9 +738,25 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	} else {
 		PHALCON_CPY_WRT(tables_sql, tables);
 	}
-	
+
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVSV(sql, "SELECT ", columns_sql, " FROM ", tables_sql);
+	if (phalcon_array_isset_string_fetch(&distinct, definition, SS("definition"))) {
+		assert(Z_TYPE_P(distinct) == IS_LONG);
+		if (Z_LVAL_P(distinct) == 0) {
+			ZVAL_STRING(sql, "SELECT ALL ", 1);
+		}
+		else if (Z_LVAL_P(distinct) == 1) {
+			ZVAL_STRING(sql, "SELECT DISTINCT ", 1);
+		}
+		else {
+			ZVAL_STRING(sql, "SELECT ", 1);
+		}
+	}
+	else {
+		ZVAL_STRING(sql, "SELECT ", 1);
+	}
+	
+	PHALCON_SCONCAT_VSV(sql, columns_sql, " FROM ", tables_sql);
 	
 	/** 
 	 * Check for joins

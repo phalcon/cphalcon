@@ -416,4 +416,6 @@ image/adapter/imagick.c"
 	)
 
 	CPPFLAGS=$old_CPPFLAGS
+
+	PHP_ADD_MAKEFILE_FRAGMENT
 fi
