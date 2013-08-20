@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 PHP_METHOD(Phalcon_Image_Adapter, text){
 
 	zval *text, *offset_x = NULL, *offset_y = NULL, *opacity = NULL, *color = NULL, *size = NULL, *fontfile = NULL;
-	zval *tmp_color = NULL, *pattern, *replacement, *r, *g, *b;
+	zval *tmp_color = NULL, *r, *g, *b;
 	int i;
 	char *c;
 

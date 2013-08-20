@@ -964,7 +964,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	zval *class_name, *css_sources, *escaped_message = NULL;
 	zval *html, *version, *file, *line, *show_back_trace;
 	zval *data_vars, *trace, *trace_item = NULL, *n = NULL, *html_item = NULL;
-	zval *_REQUEST, *value = NULL, *key_request = NULL, *_SERVER;
+	zval *_REQUEST, *value = NULL, *key_request = NULL, *joined_value = NULL, *_SERVER;
 	zval *key_server = NULL, *files, *key_file = NULL;
 	zval *memory, *data_var = NULL, *key_var = NULL, *variable = NULL, *dumped_argument = NULL;
 	zval *js_sources;
@@ -1111,12 +1111,16 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		phalcon_is_iterable(_REQUEST, &ah1, &hp1, 0, 0);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-	
 			PHALCON_GET_HKEY(key_request, ah1, hp1);
 			PHALCON_GET_HVALUE(value);
-	
-			PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", value, "</td></tr>");
-	
+
+			if (Z_TYPE_P(value) == IS_ARRAY) {
+				PHALCON_INIT_NVAR(joined_value);
+				phalcon_call_method_p1(joined_value, this_ptr, "_getvardump", value);
+				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", joined_value, "</td></tr>");
+			} else {
+				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", value, "</td></tr>");
+			}
 			zend_hash_move_forward_ex(ah1, &hp1);
 		}
 	
