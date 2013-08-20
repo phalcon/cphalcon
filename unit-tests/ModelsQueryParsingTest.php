@@ -3976,16 +3976,13 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						'name' => 'COUNT',
 						'arguments' => array(
 							array(
-								'type' => 'unary-op',
-								'op' => 'DISTINCT ',
-								'right' => array(
-									'type' => 'qualified',
-									'domain' => 'le_products',
-									'name' => 'type',
-									'balias' => 'type',
-								),
+								'type' => 'qualified',
+								'domain' => 'le_products',
+								'name' => 'type',
+								'balias' => 'type',
 							),
 						),
+						'distinct' => 1,
 					),
 					'balias' => 'price',
 					'sqlAlias' => 'price',
@@ -4011,16 +4008,13 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						'name' => 'COUNT',
 						'arguments' => array(
 							array(
-								'type' => 'unary-op',
-								'op' => 'DISTINCT ',
-								'right' => array(
-									'type' => 'qualified',
-									'domain' => 'le_products',
-									'name' => 'type',
-									'balias' => 'type',
-								),
+								'type' => 'qualified',
+								'domain' => 'le_products',
+								'name' => 'type',
+								'balias' => 'type',
 							),
 						),
+						'distinct' => 1,
 					),
 					'balias' => 'price',
 					'sqlAlias' => 'price',
@@ -6824,6 +6818,50 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 		);
 		$query = new Query('SELECT * FROM Robots r LIMIT ?1,:limit:');
 		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		// SELECT DISTINCT and SELECT ALL
+		$expected = array(
+			'distinct' => 1,
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'id' => array(
+					'type' => 'scalar',
+					'balias' => 'id',
+					'sqlAlias' => 'id',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+				'name' => array(
+					'type' => 'scalar',
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
+		);
+
+		$query = new Query('SELECT DISTINCT id, name FROM Robots');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$query = new Query('SELECT ALL id, name FROM Robots');
+		$query->setDI($di);
+		$expected['distinct'] = 0;
 		$this->assertEquals($query->parse(), $expected);
 	}
 
