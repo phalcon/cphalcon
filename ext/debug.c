@@ -1116,10 +1116,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 
 			if (Z_TYPE_P(value) == IS_ARRAY) {
 				PHALCON_INIT_NVAR(joined_value);
-				phalcon_ob_start(TSRMLS_C);
-				zend_print_zval_r(value, 0 TSRMLS_CC);
-				phalcon_ob_get_contents(joined_value TSRMLS_CC);
-				phalcon_ob_end_clean(TSRMLS_C);
+				phalcon_call_method_p1(joined_value, this_ptr, "_getvardump", value);
 				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", joined_value, "</td></tr>");
 			} else {
 				PHALCON_SCONCAT_SVSVS(html, "<tr><td class=\"key\">", key_request, "</td><td>", value, "</td></tr>");
