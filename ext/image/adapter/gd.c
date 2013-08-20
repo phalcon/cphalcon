@@ -81,7 +81,7 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_GD){
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 
-	zval *func_name, *ret, *gd_info, *gd_version, *version, *exception_message;
+	zval *ret, *gd_info, *gd_version, *version, *exception_message;
 	zval *pattern, *matches;
 	int rc;
 
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _flip) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
 
-	zval *amount, *tmp = NULL, *tmp_amount = NULL, *precision, *matrix, *item = NULL;
+	zval *amount, *tmp = NULL, *tmp_amount = NULL, *matrix, *item = NULL;
 	zval *image = NULL, *ret, *width = NULL, *height = NULL;
 	int a;
 	double b;
