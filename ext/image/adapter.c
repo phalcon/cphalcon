@@ -365,9 +365,6 @@ PHP_METHOD(Phalcon_Image_Adapter, crop){
 	tmp_image_width  = phalcon_get_intval(image_width);
 	tmp_image_height = phalcon_get_intval(image_height);
 
-	zend_print_zval_r(image_width, 0);
-	zend_print_zval_r(image_height, 0);
-
 	if (tmp_width > tmp_image_width) {
 		tmp_width = tmp_image_width;
 	}
@@ -705,7 +702,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 PHP_METHOD(Phalcon_Image_Adapter, text){
 
 	zval *text, *offset_x = NULL, *offset_y = NULL, *opacity = NULL, *color = NULL, *size = NULL, *fontfile = NULL;
-	zval *tmp_color = NULL, *pattern, *replacement, *r, *g, *b;
+	zval *tmp_color = NULL, *r, *g, *b;
 	int i;
 	char *c;
 
