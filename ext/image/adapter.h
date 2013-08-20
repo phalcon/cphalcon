@@ -28,7 +28,6 @@ extern zend_class_entry *phalcon_image_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Image_Adapter);
 
-PHP_METHOD(Phalcon_Image_Adapter, __construct);
 PHP_METHOD(Phalcon_Image_Adapter, getRealPath);
 PHP_METHOD(Phalcon_Image_Adapter, getWidth);
 PHP_METHOD(Phalcon_Image_Adapter, getHeight);
@@ -50,10 +49,6 @@ PHP_METHOD(Phalcon_Image_Adapter, blur);
 PHP_METHOD(Phalcon_Image_Adapter, pixelate);
 PHP_METHOD(Phalcon_Image_Adapter, save);
 PHP_METHOD(Phalcon_Image_Adapter, render);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, file)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_resize, 0, 0, 0)
 	ZEND_ARG_INFO(0, width)
@@ -138,7 +133,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_render, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_image_adapter_method_entry){
-	PHP_ME(Phalcon_Image_Adapter, __construct, arginfo_phalcon_image_adapter___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Image_Adapter, getRealPath, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Image_Adapter, getWidth, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Image_Adapter, getHeight, NULL, ZEND_ACC_PUBLIC) 
