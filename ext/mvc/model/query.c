@@ -2288,7 +2288,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause){
 
-	zval *group, *group_parts = NULL, *group_item = NULL, *group_part_expr = NULL;
+	zval *group, *group_item = NULL, *group_part_expr = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2300,12 +2300,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause){
 	if (phalcon_array_isset_long(group, 0)) {
 	
 		/** 
-		 * The select is gruped by several columns
+		 * The select is grouped by several columns
 		 */
-		PHALCON_INIT_VAR(group_parts);
-		array_init(group_parts);
-	
 		phalcon_is_iterable(group, &ah0, &hp0, 0, 0);
+
+		array_init_size(return_value, zend_hash_num_elements(ah0));
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2313,21 +2312,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause){
 	
 			PHALCON_INIT_NVAR(group_part_expr);
 			phalcon_call_method_p1(group_part_expr, this_ptr, "_getexpression", group_item);
-			phalcon_array_append(&group_parts, group_part_expr, PH_SEPARATE);
+			phalcon_array_append(&return_value, group_part_expr, 0);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
 	} else {
-		PHALCON_INIT_NVAR(group_part_expr);
-		phalcon_call_method_p1(group_part_expr, this_ptr, "_getexpression", group);
+		PHALCON_OBS_VAR(group_part_expr);
+		phalcon_call_method_p1_ex(group_part_expr, &group_part_expr, this_ptr, "_getexpression", group);
 	
-		PHALCON_INIT_NVAR(group_parts);
-		array_init_size(group_parts, 1);
-		phalcon_array_append(&group_parts, group_part_expr, PH_SEPARATE);
+		array_init_size(return_value, 1);
+		phalcon_array_append(&return_value, group_part_expr, 0);
 	}
 	
-	RETURN_CTOR(group_parts);
+	RETURN_MM();
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getLimitClause) {
