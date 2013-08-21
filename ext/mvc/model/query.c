@@ -1047,12 +1047,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 
-	zval *column, *sql_columns, *column_type, *models;
-	zval *source = NULL, *model_name = NULL, *sql_column = NULL, *sql_aliases;
-	zval *column_domain, *phql, *exception_message = NULL;
-	zval *sql_column_alias = NULL, *sql_aliases_models;
-	zval *sql_models_aliases, *best_alias, *prepared_alias = NULL;
-	zval *column_data, *sql_expr_column, *balias;
+	zval *column, *column_type;
+	zval *source = NULL, *model_name = NULL, *sql_column = NULL;
+	zval *column_domain, *exception_message = NULL;
+	zval *sql_column_alias = NULL;
+	zval *best_alias, *prepared_alias = NULL;
+	zval *column_data, *sql_expr_column;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1066,20 +1066,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(sql_columns);
-	array_init(sql_columns);
-	
 	/** 
 	 * Check for select * (all)
 	 */
 	PHALCON_OBS_VAR(column_type);
 	phalcon_array_fetch_string(&column_type, column, SL("type"), PH_NOISY);
-	if (PHALCON_IS_LONG(column_type, 352)) {
-	
-		PHALCON_OBS_VAR(models);
-		phalcon_read_property_this(&models, this_ptr, SL("_models"), PH_NOISY_CC);
+	if (PHALCON_IS_LONG(column_type, PHQL_T_STARALL)) {
+		zval *models = phalcon_fetch_nproperty_this(this_ptr, SL("_models"), PH_NOISY_CC);
 	
 		phalcon_is_iterable(models, &ah0, &hp0, 0, 0);
+
+		array_init_size(return_value, zend_hash_num_elements(ah0));
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1089,14 +1086,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 			PHALCON_INIT_NVAR(sql_column);
 			array_init_size(sql_column, 3);
 			add_assoc_stringl_ex(sql_column, SS("type"), SL("object"), 1);
-			phalcon_array_update_string(&sql_column, SL("model"), &model_name, PH_COPY | PH_SEPARATE);
-			phalcon_array_update_string(&sql_column, SL("column"), &source, PH_COPY | PH_SEPARATE);
-			phalcon_array_append(&sql_columns, sql_column, PH_SEPARATE);
+			phalcon_array_update_string(&sql_column, SL("model"), &model_name, PH_COPY);
+			phalcon_array_update_string(&sql_column, SL("column"), &source, PH_COPY);
+
+			phalcon_array_append(&return_value, sql_column, 0);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		RETURN_CTOR(sql_columns);
+		RETURN_MM();
 	}
 	
 	if (!phalcon_array_isset_string(column, SS("column"))) {
@@ -1107,19 +1105,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	/** 
 	 * Check if selected column is qualified.*
 	 */
-	if (PHALCON_IS_LONG(column_type, 353)) {
-	
-		PHALCON_OBS_VAR(sql_aliases);
-		phalcon_read_property_this(&sql_aliases, this_ptr, SL("_sqlAliases"), PH_NOISY_CC);
+	if (PHALCON_IS_LONG(column_type, PHQL_T_DOMAINALL)) {
+		zval *source, *sql_aliases_models, *sql_models_aliases;
+		zval *sql_aliases = phalcon_fetch_nproperty_this(this_ptr, SL("_sqlAliases"), PH_NOISY_CC);
 	
 		/** 
 		 * We only allow the alias.*
 		 */
 		PHALCON_OBS_VAR(column_domain);
 		phalcon_array_fetch_string(&column_domain, column, SL("column"), PH_NOISY);
-		if (!phalcon_array_isset(sql_aliases, column_domain)) {
-			PHALCON_OBS_VAR(phql);
-			phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+		if (!phalcon_array_isset_fetch(&source, sql_aliases, column_domain)) {
+			zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(exception_message);
 			PHALCON_CONCAT_SVSV(exception_message, "Unknown model or alias '", column_domain, "' (2), when preparing: ", phql);
@@ -1130,15 +1126,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		/** 
 		 * Get the SQL alias if any
 		 */
-		PHALCON_OBS_VAR(source);
-		phalcon_array_fetch(&source, sql_aliases, column_domain, PH_NOISY);
 		PHALCON_CPY_WRT(sql_column_alias, source);
 	
 		/** 
 		 * Get the real source name
 		 */
-		PHALCON_OBS_VAR(sql_aliases_models);
-		phalcon_read_property_this(&sql_aliases_models, this_ptr, SL("_sqlAliasesModels"), PH_NOISY_CC);
+		sql_aliases_models = phalcon_fetch_nproperty_this(this_ptr, SL("_sqlAliasesModels"), PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(model_name);
 		phalcon_array_fetch(&model_name, sql_aliases_models, column_domain, PH_NOISY);
@@ -1146,8 +1139,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		/** 
 		 * Get the best alias for the column
 		 */
-		PHALCON_OBS_VAR(sql_models_aliases);
-		phalcon_read_property_this(&sql_models_aliases, this_ptr, SL("_sqlModelsAliases"), PH_NOISY_CC);
+		sql_models_aliases = phalcon_fetch_nproperty_this(this_ptr, SL("_sqlModelsAliases"), PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(best_alias);
 		phalcon_array_fetch(&best_alias, sql_models_aliases, model_name, PH_NOISY);
@@ -1165,52 +1157,55 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		/** 
 		 * The sql_column is a complex type returning a complete object
 		 */
-		PHALCON_INIT_NVAR(sql_column);
+		PHALCON_INIT_VAR(sql_column);
 		array_init_size(sql_column, 4);
 		add_assoc_stringl_ex(sql_column, SS("type"), SL("object"), 1);
-		phalcon_array_update_string(&sql_column, SL("model"), &model_name, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_string(&sql_column, SL("column"), &sql_column_alias, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_string(&sql_column, SL("balias"), &prepared_alias, PH_COPY | PH_SEPARATE);
-		phalcon_array_append(&sql_columns, sql_column, PH_SEPARATE);
+		phalcon_array_update_string(&sql_column, SL("model"), &model_name, PH_COPY);
+		phalcon_array_update_string(&sql_column, SL("column"), &sql_column_alias, PH_COPY);
+		phalcon_array_update_string(&sql_column, SL("balias"), &prepared_alias, PH_COPY);
+
+		array_init_size(return_value, 1);
+		phalcon_array_append(&return_value, sql_column, 0);
 	
-		RETURN_CTOR(sql_columns);
+		RETURN_MM();
 	}
 	
 	/** 
 	 * Check for columns qualified and not qualified
 	 */
 	if (PHALCON_IS_LONG(column_type, PHQL_T_EXPR)) {
-	
+		zval *balias;
+
 		/** 
 		 * The sql_column is a scalar type returning a simple string
 		 */
 		PHALCON_INIT_NVAR(sql_column);
-		array_init_size(sql_column, 1);
+		array_init_size(sql_column, 4);
 		add_assoc_stringl_ex(sql_column, SS("type"), SL("scalar"), 1);
 	
 		PHALCON_OBS_VAR(column_data);
 		phalcon_array_fetch_string(&column_data, column, SL("column"), PH_NOISY);
 	
-		PHALCON_INIT_VAR(sql_expr_column);
-		phalcon_call_method_p1(sql_expr_column, this_ptr, "_getexpression", column_data);
+		PHALCON_OBS_VAR(sql_expr_column);
+		phalcon_call_method_p1_ex(sql_expr_column, &sql_expr_column, this_ptr, "_getexpression", column_data);
 	
 		/** 
 		 * Create balias and sqlAlias
 		 */
-		if (phalcon_array_isset_string(sql_expr_column, SS("balias"))) {
-			PHALCON_OBS_VAR(balias);
-			phalcon_array_fetch_string(&balias, sql_expr_column, SL("balias"), PH_NOISY);
-			phalcon_array_update_string(&sql_column, SL("balias"), &balias, PH_COPY | PH_SEPARATE);
-			phalcon_array_update_string(&sql_column, SL("sqlAlias"), &balias, PH_COPY | PH_SEPARATE);
+		if (phalcon_array_isset_string_fetch(&balias, sql_expr_column, SS("balias"))) {
+			phalcon_array_update_string(&sql_column, SL("balias"), &balias, PH_COPY);
+			phalcon_array_update_string(&sql_column, SL("sqlAlias"), &balias, PH_COPY);
 		}
 	
-		phalcon_array_update_string(&sql_column, SL("column"), &sql_expr_column, PH_COPY | PH_SEPARATE);
-		phalcon_array_append(&sql_columns, sql_column, PH_SEPARATE);
+		phalcon_array_update_string(&sql_column, SL("column"), &sql_expr_column, PH_COPY);
+
+		array_init_size(return_value, 1);
+		phalcon_array_append(&return_value, sql_column, 0);
 	
-		RETURN_CTOR(sql_columns);
+		RETURN_MM();
 	}
 	
-	PHALCON_INIT_NVAR(exception_message);
+	PHALCON_INIT_VAR(exception_message);
 	PHALCON_CONCAT_SV(exception_message, "Unknown type of column ", column_type);
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 	return;
