@@ -2219,7 +2219,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 
-	zval *order, *order_columns = NULL, *order_parts, *order_item = NULL;
+	zval *order, *order_columns = NULL, *order_item = NULL;
 	zval *order_column = NULL, *order_part_expr = NULL, *order_sort = NULL;
 	zval *order_part_sort = NULL;
 	HashTable *ah0;
@@ -2233,15 +2233,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 	if (!phalcon_array_isset_long(order, 0)) {
 		PHALCON_INIT_VAR(order_columns);
 		array_init_size(order_columns, 1);
-		phalcon_array_append(&order_columns, order, PH_SEPARATE);
+		phalcon_array_append(&order_columns, order, 0);
 	} else {
 		PHALCON_CPY_WRT(order_columns, order);
 	}
 	
-	PHALCON_INIT_VAR(order_parts);
-	array_init(order_parts);
-	
 	phalcon_is_iterable(order_columns, &ah0, &hp0, 0, 0);
+	array_init_size(return_value, zend_hash_num_elements(ah0));
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2256,33 +2254,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 		/** 
 		 * Check if the order has a predefined ordering mode
 		 */
-		if (phalcon_array_isset_string(order_item, SS("sort"))) {
-	
-			PHALCON_OBS_NVAR(order_sort);
-			phalcon_array_fetch_string(&order_sort, order_item, SL("sort"), PH_NOISY);
-			if (PHALCON_IS_LONG(order_sort, 327)) {
-				PHALCON_INIT_NVAR(order_part_sort);
+		if (phalcon_array_isset_string_fetch(&order_sort, order_item, SS("sort"))) {
+
+			PHALCON_INIT_NVAR(order_part_sort);
+			if (PHALCON_IS_LONG(order_sort, PHQL_T_ASC)) {
 				array_init_size(order_part_sort, 2);
-				phalcon_array_append(&order_part_sort, order_part_expr, PH_SEPARATE);
+				phalcon_array_append(&order_part_sort, order_part_expr, 0);
 				add_next_index_stringl(order_part_sort, SL("ASC"), 1);
 			} else {
-				PHALCON_INIT_NVAR(order_part_sort);
 				array_init_size(order_part_sort, 2);
-				phalcon_array_append(&order_part_sort, order_part_expr, PH_SEPARATE);
+				phalcon_array_append(&order_part_sort, order_part_expr, 0);
 				add_next_index_stringl(order_part_sort, SL("DESC"), 1);
 			}
 		} else {
 			PHALCON_INIT_NVAR(order_part_sort);
 			array_init_size(order_part_sort, 1);
-			phalcon_array_append(&order_part_sort, order_part_expr, PH_SEPARATE);
+			phalcon_array_append(&order_part_sort, order_part_expr, 0);
 		}
 	
-		phalcon_array_append(&order_parts, order_part_sort, PH_SEPARATE);
+		phalcon_array_append(&return_value, order_part_sort, 0);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	RETURN_CTOR(order_parts);
+	RETURN_MM();
 }
 
 /**
