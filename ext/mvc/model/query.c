@@ -4824,8 +4824,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	/** 
 	 * The statement is parsed from its PHQL string or a previously processed IR
 	 */
-	PHALCON_INIT_VAR(intermediate);
-	phalcon_call_method(intermediate, this_ptr, "parse");
+	PHALCON_OBS_VAR(intermediate);
+	phalcon_call_method_p0_ex(intermediate, &intermediate, this_ptr, "parse");
 	
 	/** 
 	 * Check for default bind parameters and merge them with the passed ones
@@ -4864,22 +4864,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	
 	switch (phalcon_get_intval(type)) {
 	
-		case 309:
+		case PHQL_T_SELECT:
 			PHALCON_INIT_NVAR(result);
 			phalcon_call_method_p3(result, this_ptr, "_executeselect", intermediate, merged_params, merged_types);
 			break;
 	
-		case 306:
+		case PHQL_T_INSERT:
 			PHALCON_INIT_NVAR(result);
 			phalcon_call_method_p3(result, this_ptr, "_executeinsert", intermediate, merged_params, merged_types);
 			break;
 	
-		case 300:
+		case PHQL_T_UPDATE:
 			PHALCON_INIT_NVAR(result);
 			phalcon_call_method_p3(result, this_ptr, "_executeupdate", intermediate, merged_params, merged_types);
 			break;
 	
-		case 303:
+		case PHQL_T_DELETE:
 			PHALCON_INIT_NVAR(result);
 			phalcon_call_method_p3(result, this_ptr, "_executedelete", intermediate, merged_params, merged_types);
 			break;
@@ -4900,7 +4900,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		/** 
 		 * Only PHQL SELECTs can be cached
 		 */
-		if (!PHALCON_IS_LONG(type, 309)) {
+		if (!PHALCON_IS_LONG(type, PHQL_T_SELECT)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only PHQL statements that return resultsets can be cached");
 			return;
 		}
@@ -4911,13 +4911,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	 * Check if only the first row must be returned
 	 */
 	if (zend_is_true(unique_row)) {
-		PHALCON_INIT_NVAR(prepared_result);
-		phalcon_call_method(prepared_result, result, "getfirst");
+		phalcon_call_method_p0_ex(return_value, return_value_ptr, result, "getfirst");
+		RETURN_MM();
 	} else {
-		PHALCON_CPY_WRT(prepared_result, result);
+		RETURN_CCTOR(result);
 	}
-	
-	RETURN_CCTOR(prepared_result);
 }
 
 /**
