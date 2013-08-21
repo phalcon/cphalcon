@@ -1369,9 +1369,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 	zval *join_alias, *relation, *fields, *referenced_fields;
 	zval *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL, *sql_join_condition;
 	zval *sql_join_conditions, *sql_join_partial_conditions;
-	zval *field = NULL, *position = NULL, *phql = NULL, *exception_message = NULL;
-	zval *referenced_field = NULL, *sql_equals_join_condition = NULL;
-	zval *sql_joins;
+	zval *field = NULL, *position = NULL, *exception_message = NULL;
+	zval *sql_equals_join_condition = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1383,26 +1382,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 	/** 
 	 * Local fields in the 'from' relation
 	 */
-	PHALCON_INIT_VAR(fields);
-	phalcon_call_method(fields, relation, "getfields");
+	PHALCON_OBS_VAR(fields);
+	phalcon_call_method_p0_ex(fields, &fields, relation, "getfields");
 	
 	/** 
 	 * Referenced fields in the joined relation
 	 */
-	PHALCON_INIT_VAR(referenced_fields);
-	phalcon_call_method(referenced_fields, relation, "getreferencedfields");
+	PHALCON_OBS_VAR(referenced_fields);
+	phalcon_call_method_p0_ex(referenced_fields, &referenced_fields, relation, "getreferencedfields");
 	if (Z_TYPE_P(fields) != IS_ARRAY) { 
 		/** 
 		 * Create the left part of the expression
 		 */
 		PHALCON_INIT_VAR(left);
 		array_init_size(left, 3);
-		add_assoc_long_ex(left, SS("type"), 355);
-		phalcon_array_update_string(&left, SL("domain"), &model_alias, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_string(&left, SL("name"), &fields, PH_COPY | PH_SEPARATE);
+		add_assoc_long_ex(left, SS("type"), PHQL_T_QUALIFIED);
+		phalcon_array_update_string(&left, SL("domain"), &model_alias, PH_COPY);
+		phalcon_array_update_string(&left, SL("name"), &fields, PH_COPY);
 	
-		PHALCON_INIT_VAR(left_expr);
-		phalcon_call_method_p1(left_expr, this_ptr, "_getqualified", left);
+		PHALCON_OBS_VAR(left_expr);
+		phalcon_call_method_p1_ex(left_expr, &left_expr, this_ptr, "_getqualified", left);
 	
 		/** 
 		 * Create the right part of the expression
@@ -1410,11 +1409,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 		PHALCON_INIT_VAR(right);
 		array_init_size(right, 3);
 		add_assoc_stringl_ex(right, SS("type"), SL("qualified"), 1);
-		phalcon_array_update_string(&right, SL("domain"), &join_alias, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_string(&right, SL("name"), &referenced_fields, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&right, SL("domain"), &join_alias, PH_COPY);
+		phalcon_array_update_string(&right, SL("name"), &referenced_fields, PH_COPY);
 	
-		PHALCON_INIT_VAR(right_expr);
-		phalcon_call_method_p1(right_expr, this_ptr, "_getqualified", right);
+		PHALCON_OBS_VAR(right_expr);
+		phalcon_call_method_p1_ex(right_expr, &right_expr, this_ptr, "_getqualified", right);
 	
 		/** 
 		 * Create a binary operation for the join conditions
@@ -1423,42 +1422,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 		array_init_size(sql_join_condition, 4);
 		add_assoc_stringl_ex(sql_join_condition, SS("type"), SL("binary-op"), 1);
 		add_assoc_stringl_ex(sql_join_condition, SS("op"), SL("="), 1);
-		phalcon_array_update_string(&sql_join_condition, SL("left"), &left_expr, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_string(&sql_join_condition, SL("right"), &right_expr, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&sql_join_condition, SL("left"), &left_expr, PH_COPY);
+		phalcon_array_update_string(&sql_join_condition, SL("right"), &right_expr, PH_COPY);
 	
 		PHALCON_INIT_VAR(sql_join_conditions);
 		array_init_size(sql_join_conditions, 1);
-		phalcon_array_append(&sql_join_conditions, sql_join_condition, PH_SEPARATE);
+		phalcon_array_append(&sql_join_conditions, sql_join_condition, 0);
 	} else {
 		/** 
 		 * Resolve the compound operation
 		 */
 		PHALCON_INIT_VAR(sql_join_partial_conditions);
-		array_init(sql_join_partial_conditions);
 	
 		phalcon_is_iterable(fields, &ah0, &hp0, 0, 0);
+		array_init_size(sql_join_partial_conditions, zend_hash_num_elements(ah0));
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
+			zval *referenced_field;
+
 			PHALCON_GET_HKEY(position, ah0, hp0);
 			PHALCON_GET_HVALUE(field);
 	
-			if (!phalcon_array_isset(referenced_fields, position)) {
-				PHALCON_OBS_NVAR(phql);
-				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+			if (!phalcon_array_isset_fetch(&referenced_field, referenced_fields, position)) {
+				zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVSV(exception_message, "The number of fields must be equal to the number of referenced fields in join ", model_alias, "-", join_alias);
-				PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
+				PHALCON_INIT_VAR(exception_message);
+				PHALCON_CONCAT_SVSVSV(exception_message, "The number of fields must be equal to the number of referenced fields in join ", model_alias, "-", join_alias, ", when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
-	
-			/** 
-			 * Get the referenced field in the same position
-			 */
-			PHALCON_OBS_NVAR(referenced_field);
-			phalcon_array_fetch(&referenced_field, referenced_fields, position, PH_NOISY);
 	
 			/** 
 			 * Create the left part of the expression
@@ -1466,8 +1458,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 			PHALCON_INIT_NVAR(left);
 			array_init_size(left, 3);
 			add_assoc_long_ex(left, SS("type"), 355);
-			phalcon_array_update_string(&left, SL("domain"), &model_alias, PH_COPY | PH_SEPARATE);
-			phalcon_array_update_string(&left, SL("name"), &field, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&left, SL("domain"), &model_alias, PH_COPY);
+			phalcon_array_update_string(&left, SL("name"), &field, PH_COPY);
 	
 			PHALCON_INIT_NVAR(left_expr);
 			phalcon_call_method_p1(left_expr, this_ptr, "_getqualified", left);
@@ -1478,8 +1470,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 			PHALCON_INIT_NVAR(right);
 			array_init_size(right, 3);
 			add_assoc_stringl_ex(right, SS("type"), SL("qualified"), 1);
-			phalcon_array_update_string(&right, SL("domain"), &join_alias, PH_COPY | PH_SEPARATE);
-			phalcon_array_update_string(&right, SL("name"), &referenced_field, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&right, SL("domain"), &join_alias, PH_COPY);
+			phalcon_array_update_string(&right, SL("name"), &referenced_field, PH_COPY);
 	
 			PHALCON_INIT_NVAR(right_expr);
 			phalcon_call_method_p1(right_expr, this_ptr, "_getqualified", right);
@@ -1491,9 +1483,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 			array_init_size(sql_equals_join_condition, 4);
 			add_assoc_stringl_ex(sql_equals_join_condition, SS("type"), SL("binary-op"), 1);
 			add_assoc_stringl_ex(sql_equals_join_condition, SS("op"), SL("="), 1);
-			phalcon_array_update_string(&sql_equals_join_condition, SL("left"), &left_expr, PH_COPY | PH_SEPARATE);
-			phalcon_array_update_string(&sql_equals_join_condition, SL("right"), &right_expr, PH_COPY | PH_SEPARATE);
-			phalcon_array_append(&sql_join_partial_conditions, sql_equals_join_condition, PH_SEPARATE);
+			phalcon_array_update_string(&sql_equals_join_condition, SL("left"), &left_expr, PH_COPY);
+			phalcon_array_update_string(&sql_equals_join_condition, SL("right"), &right_expr, PH_COPY);
+			phalcon_array_append(&sql_join_partial_conditions, sql_equals_join_condition, 0);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -1503,13 +1495,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSingleJoin){
 	/** 
 	 * A single join
 	 */
-	PHALCON_INIT_VAR(sql_joins);
-	array_init_size(sql_joins, 3);
-	phalcon_array_update_string(&sql_joins, SL("type"), &join_type, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&sql_joins, SL("source"), &join_source, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&sql_joins, SL("conditions"), &sql_join_conditions, PH_COPY | PH_SEPARATE);
+	array_init_size(return_value, 3);
+	phalcon_array_update_string(&return_value, SL("type"), &join_type, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("source"), &join_source, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("conditions"), &sql_join_conditions, PH_COPY);
 	
-	RETURN_CTOR(sql_joins);
+	RETURN_MM();
 }
 
 /**
