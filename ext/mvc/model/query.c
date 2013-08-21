@@ -1303,7 +1303,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType){
 
-	zval *join, *type, *join_type = NULL, *phql, *exception_message;
+	zval *join, *type, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -1319,43 +1319,38 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType){
 	
 	switch (phalcon_get_intval(type)) {
 	
-		case 360:
-			PHALCON_INIT_VAR(join_type);
-			ZVAL_STRING(join_type, "INNER", 1);
+		case PHQL_T_INNERJOIN:
+			RETVAL_STRING("INNER", 1);
 			break;
 	
-		case 361:
-			PHALCON_INIT_NVAR(join_type);
-			ZVAL_STRING(join_type, "LEFT", 1);
+		case PHQL_T_LEFTJOIN:
+			RETVAL_STRING("LEFT", 1);
 			break;
 	
-		case 362:
-			PHALCON_INIT_NVAR(join_type);
-			ZVAL_STRING(join_type, "RIGHT", 1);
+		case PHQL_T_RIGHTJOIN:
+			RETVAL_STRING("RIGHT", 1);
 			break;
 	
-		case 363:
-			PHALCON_INIT_NVAR(join_type);
-			ZVAL_STRING(join_type, "CROSS", 1);
+		case PHQL_T_CROSSJOIN:
+			RETVAL_STRING("CROSS", 1);
 			break;
 	
-		case 364:
-			PHALCON_INIT_NVAR(join_type);
-			ZVAL_STRING(join_type, "FULL OUTER", 1);
+		case PHQL_T_FULLJOIN:
+			RETVAL_STRING("FULL OUTER", 1);
 			break;
 	
-		default:
-			PHALCON_OBS_VAR(phql);
-			phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+		default: {
+			zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(exception_message);
 			PHALCON_CONCAT_SVSV(exception_message, "Unknown join type ", type, ", when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
+		}
 	
 	}
 	
-	RETURN_CTOR(join_type);
+	PHALCON_MM_RESTORE();
 }
 
 /**
