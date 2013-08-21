@@ -4136,26 +4136,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 		switch (phalcon_get_intval(type)) {
 	
-			case 260:
+			case PHQL_T_STRING:
+			case PHQL_T_INTEGER:
+			case PHQL_T_DOUBLE:
 				PHALCON_INIT_NVAR(insert_value);
 				phalcon_call_method_p1(insert_value, dialect, "getsqlexpression", expr_value);
 				break;
 	
-			case 258:
-				PHALCON_INIT_NVAR(insert_value);
-				phalcon_call_method_p1(insert_value, dialect, "getsqlexpression", expr_value);
-				break;
-	
-			case 259:
-				PHALCON_INIT_NVAR(insert_value);
-				phalcon_call_method_p1(insert_value, dialect, "getsqlexpression", expr_value);
-				break;
-	
-			case 322:
+			case PHQL_T_NULL:
 				PHALCON_CPY_WRT(insert_value, null_value);
 				break;
 	
-			case 273:
+			case PHQL_T_NPLACEHOLDER:
+			case PHQL_T_SPLACEHOLDER:
 				if (Z_TYPE_P(bind_params) != IS_ARRAY) { 
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
 					return;
@@ -4169,28 +4162,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 				if (!phalcon_array_isset(bind_params, wildcard)) {
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it isn't in the placeholders list");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
-	
-				PHALCON_OBS_NVAR(insert_value);
-				phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY);
-				break;
-	
-			case 274:
-				if (Z_TYPE_P(bind_params) != IS_ARRAY) { 
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
-					return;
-				}
-	
-				PHALCON_INIT_NVAR(insert_expr);
-				phalcon_call_method_p1(insert_expr, dialect, "getsqlexpression", expr_value);
-	
-				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr);
-				if (!phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 					return;
 				}
