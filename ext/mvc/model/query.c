@@ -1221,31 +1221,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable){
 
 	zval *manager, *qualified_name, *model_name;
-	zval *model, *source, *schema, *complete_source;
+	zval *model, *source, *schema;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &manager, &qualified_name);
 	
-	if (phalcon_array_isset_string(qualified_name, SS("name"))) {
+	if (phalcon_array_isset_string_fetch(&model_name, qualified_name, SS("name"))) {
 	
-		PHALCON_OBS_VAR(model_name);
-		phalcon_array_fetch_string(&model_name, qualified_name, SL("name"), PH_NOISY);
+		PHALCON_OBS_VAR(model);
+		phalcon_call_method_p1_ex(model, &model, manager, "load", model_name);
 	
-		PHALCON_INIT_VAR(model);
-		phalcon_call_method_p1(model, manager, "load", model_name);
+		PHALCON_OBS_VAR(source);
+		phalcon_call_method_p0_ex(source, &source, model, "getsource");
 	
-		PHALCON_INIT_VAR(source);
-		phalcon_call_method(source, model, "getsource");
-	
-		PHALCON_INIT_VAR(schema);
-		phalcon_call_method(schema, model, "getschema");
+		PHALCON_OBS_VAR(schema);
+		phalcon_call_method_p0_ex(schema, &schema, model, "getschema");
 		if (zend_is_true(schema)) {
-			PHALCON_INIT_VAR(complete_source);
-			array_init_size(complete_source, 2);
-			phalcon_array_append(&complete_source, schema, PH_SEPARATE);
-			phalcon_array_append(&complete_source, source, PH_SEPARATE);
-			RETURN_CTOR(complete_source);
+			array_init_size(return_value, 2);
+			phalcon_array_append(&return_value, schema, 0);
+			phalcon_array_append(&return_value, source, 0);
+			RETURN_MM();
 		}
 	
 		RETURN_CCTOR(source);
