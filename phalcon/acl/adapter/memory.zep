@@ -293,5 +293,27 @@ class Memory
 		 return this->addResourceAccess(resourceName,accessList);
 	 }
 	 
-	 
+	 /**
+	 * Adds access to resources
+	 *
+	 * @param string $resourceName
+	 * @param mixed $accessList
+	 */
+	 public function addResourceAccess(resourceName, accessList)
+	 {
+	 	let resourcesNames = this->_resourcesNames;
+	 	if isset resourcesNames[resourceName] {
+	 		let exceptionMessage = "Resource '" . resource_name . "' does not exist in ACL";
+	 		throw new  Phalcon\Acl\Exception(exceptionMessage);
+	 	}
+	 	
+	 	let exists = true;
+	 	let internalAccessList = this->accessList;
+	 	
+	 	if typeof accessList == "array" {
+	 		for accesKey, accessName in accessList {
+	 			
+	 		}
+	 	}
+	 }
 }
