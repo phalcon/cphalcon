@@ -2347,10 +2347,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *sql_columns, *sql_aliases_models, *sql_models_aliases;
 	zval *sql_aliases_models_instances, *models;
 	zval *models_instances, *tables, *selected_models = NULL;
-	zval *manager, *meta_data, *selected_model = NULL, *qualified_name = NULL;
-	zval *model_name = NULL, *ns_alias = NULL, *real_namespace = NULL;
+	zval *manager, *selected_model = NULL, *qualified_name = NULL;
+	zval *model_name = NULL, *real_namespace = NULL;
 	zval *real_model_name = NULL, *model = NULL, *schema = NULL, *source = NULL;
-	zval *complete_source = NULL, *alias = NULL, *phql = NULL, *exception_message = NULL;
+	zval *complete_source = NULL, *alias = NULL, *exception_message = NULL;
 	zval *joins, *sql_joins = NULL, *columns, *select_columns = NULL;
 	zval *position, *sql_column_aliases, *column = NULL;
 	zval *sql_column_group = NULL, *sql_column = NULL, *type = NULL, *sql_select;
@@ -2363,17 +2363,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(ast);
-	phalcon_read_property_this(&ast, this_ptr, SL("_ast"), PH_NOISY_CC);
+	ast = phalcon_fetch_nproperty_this(this_ptr, SL("_ast"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(select);
 	phalcon_array_fetch_string(&select, ast, SL("select"), PH_NOISY);
-	if (!phalcon_array_isset_string(select, SS("tables"))) {
+	if (!phalcon_array_isset_string_fetch(&tables, select, SS("tables"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Corrupted SELECT AST");
 		return;
 	}
 	
-	if (!phalcon_array_isset_string(select, SS("columns"))) {
+	if (!phalcon_array_isset_string_fetch(&columns, select, SS("columns"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Corrupted SELECT AST");
 		return;
 	}
@@ -2432,8 +2431,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	PHALCON_INIT_VAR(models_instances);
 	array_init(models_instances);
 	
-	PHALCON_OBS_VAR(tables);
-	phalcon_array_fetch_string(&tables, select, SL("tables"), PH_NOISY);
 	if (!phalcon_array_isset_long(tables, 0)) {
 		PHALCON_INIT_VAR(selected_models);
 		array_init_size(selected_models, 1);
@@ -2442,11 +2439,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		PHALCON_CPY_WRT(selected_models, tables);
 	}
 	
-	PHALCON_OBS_VAR(manager);
-	phalcon_read_property_this(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(meta_data);
-	phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_manager"), PH_NOISY_CC);
 	
 	/** 
 	 * Processing selected columns
@@ -2454,6 +2447,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	phalcon_is_iterable(selected_models, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		zval *ns_alias;
 	
 		PHALCON_GET_HVALUE(selected_model);
 	
@@ -2466,9 +2460,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		/** 
 		 * Check if the table have a namespace alias
 		 */
-		if (phalcon_array_isset_string(qualified_name, SS("ns-alias"))) {
-			PHALCON_OBS_NVAR(ns_alias);
-			phalcon_array_fetch_string(&ns_alias, qualified_name, SL("ns-alias"), PH_NOISY);
+		if (phalcon_array_isset_string_fetch(&ns_alias, qualified_name, SS("ns-alias"))) {
 	
 			/** 
 			 * Get the real namespace alias
@@ -2507,7 +2499,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 			PHALCON_INIT_NVAR(complete_source);
 			array_init_size(complete_source, 2);
 			phalcon_array_append(&complete_source, source, PH_SEPARATE);
-			phalcon_array_append(&complete_source, schema, PH_SEPARATE);
+			phalcon_array_append(&complete_source, schema, 0);
 		} else {
 			PHALCON_CPY_WRT(complete_source, source);
 		}
@@ -2516,21 +2508,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		 * If an alias is defined for a model the model cannot be referenced in the column
 		 * list
 		 */
-		if (phalcon_array_isset_string(selected_model, SS("alias"))) {
-	
-			PHALCON_OBS_NVAR(alias);
-			phalcon_array_fetch_string(&alias, selected_model, SL("alias"), PH_NOISY);
+		if (phalcon_array_isset_string_fetch(&alias, selected_model, SS("alias"))) {
 	
 			/** 
 			 * Check that the alias hasn't been used before
 			 */
 			if (phalcon_array_isset(sql_aliases, alias)) {
-				PHALCON_OBS_NVAR(phql);
-				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+				zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Alias \"", alias, " is already used");
-				PHALCON_SCONCAT_SV(exception_message, ", when preparing: ", phql);
+				PHALCON_INIT_VAR(exception_message);
+				PHALCON_CONCAT_SVSV(exception_message, "Alias \"", alias, " is already used when preparing: ", phql);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
@@ -2548,7 +2535,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 			} else {
 				PHALCON_INIT_NVAR(complete_source);
 				array_init_size(complete_source, 3);
-				phalcon_array_append(&complete_source, source, 0);
+				phalcon_array_append(&complete_source, source, PH_SEPARATE);
 				add_next_index_null(complete_source);
 				phalcon_array_append(&complete_source, alias, 0);
 			}
@@ -2583,15 +2570,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	/** 
 	 * Processing joins
 	 */
-	if (phalcon_array_isset_string(select, SS("joins"))) {
+	if (phalcon_array_isset_string_fetch(&joins, select, SS("joins"))) {
 	
-		PHALCON_OBS_VAR(joins);
-		phalcon_array_fetch_string(&joins, select, SL("joins"), PH_NOISY);
+		PHALCON_INIT_VAR(sql_joins);
 		if (phalcon_fast_count_ev(joins TSRMLS_CC)) {
-			PHALCON_INIT_VAR(sql_joins);
 			phalcon_call_method_p1(sql_joins, this_ptr, "_getjoins", select);
 		} else {
-			PHALCON_INIT_NVAR(sql_joins);
 			array_init(sql_joins);
 		}
 	} else {
@@ -2602,8 +2586,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	/** 
 	 * Processing selected columns
 	 */
-	PHALCON_OBS_VAR(columns);
-	phalcon_array_fetch_string(&columns, select, SL("columns"), PH_NOISY);
 	if (!phalcon_array_isset_long(columns, 0)) {
 		PHALCON_INIT_VAR(select_columns);
 		array_init_size(select_columns, 1);
@@ -2639,9 +2621,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 			/** 
 			 * If 'alias' is set, the user had defined a alias for the column
 			 */
-			if (phalcon_array_isset_string(column, SS("alias"))) {
-				PHALCON_OBS_NVAR(alias);
-				phalcon_array_fetch_string(&alias, column, SL("alias"), PH_NOISY);
+			if (phalcon_array_isset_string_fetch(&alias, column, SS("alias"))) {
 	
 				/** 
 				 * The best alias is the one provided by the user
@@ -2651,18 +2631,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 				phalcon_array_update_zval(&sql_columns, alias, &sql_column, PH_COPY | PH_SEPARATE);
 				phalcon_array_update_zval_bool(&sql_column_aliases, alias, 1, PH_SEPARATE);
 			} else {
+
 				/** 
 				 * 'balias' is the best alias selected for the column
 				 */
-				if (phalcon_array_isset_string(sql_column, SS("balias"))) {
-					PHALCON_OBS_NVAR(alias);
-					phalcon_array_fetch_string(&alias, sql_column, SL("balias"), PH_NOISY);
+				if (phalcon_array_isset_string_fetch(&alias, sql_column, SS("balias"))) {
 					phalcon_array_update_zval(&sql_columns, alias, &sql_column, PH_COPY | PH_SEPARATE);
 				} else {
 					PHALCON_OBS_NVAR(type);
 					phalcon_array_fetch_string(&type, sql_column, SL("type"), PH_NOISY);
 					if (PHALCON_IS_STRING(type, "scalar")) {
-						PHALCON_INIT_NVAR(alias);
+						PHALCON_INIT_VAR(alias);
 						PHALCON_CONCAT_SV(alias, "_", position);
 						phalcon_array_update_zval(&sql_columns, alias, &sql_column, PH_COPY | PH_SEPARATE);
 					} else {
