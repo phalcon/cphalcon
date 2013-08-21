@@ -1260,39 +1260,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable){
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin){
 
 	zval *manager, *join, *qualified, *qualified_type;
-	zval *model_name, *model, *source, *schema, *data;
+	zval *model_name, *model, *source, *schema;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 2, 0, &manager, &join);
 	
-	if (phalcon_array_isset_string(join, SS("qualified"))) {
-	
-		PHALCON_OBS_VAR(qualified);
-		phalcon_array_fetch_string(&qualified, join, SL("qualified"), PH_NOISY);
+	if (phalcon_array_isset_string_fetch(&qualified, join, SS("qualified"))) {
 	
 		PHALCON_OBS_VAR(qualified_type);
 		phalcon_array_fetch_string(&qualified_type, qualified, SL("type"), PH_NOISY);
-		if (PHALCON_IS_LONG(qualified_type, 355)) {
+		if (PHALCON_IS_LONG(qualified_type, PHQL_T_QUALIFIED)) {
 			PHALCON_OBS_VAR(model_name);
 			phalcon_array_fetch_string(&model_name, qualified, SL("name"), PH_NOISY);
 	
-			PHALCON_INIT_VAR(model);
-			phalcon_call_method_p1(model, manager, "load", model_name);
+			PHALCON_OBS_VAR(model);
+			phalcon_call_method_p1_ex(model, &model, manager, "load", model_name);
 	
-			PHALCON_INIT_VAR(source);
-			phalcon_call_method(source, model, "getsource");
+			PHALCON_OBS_VAR(source);
+			phalcon_call_method_p0_ex(source, &source, model, "getsource");
 	
-			PHALCON_INIT_VAR(schema);
-			phalcon_call_method(schema, model, "getschema");
+			PHALCON_OBS_VAR(schema);
+			phalcon_call_method_p0_ex(schema, &schema, model, "getschema");
 	
-			PHALCON_INIT_VAR(data);
-			array_init_size(data, 4);
-			phalcon_array_update_string(&data, SL("schema"), &schema, PH_COPY | PH_SEPARATE);
-			phalcon_array_update_string(&data, SL("source"), &source, PH_COPY | PH_SEPARATE);
-			phalcon_array_update_string(&data, SL("modelName"), &model_name, PH_COPY | PH_SEPARATE);
-			phalcon_array_update_string(&data, SL("model"), &model, PH_COPY | PH_SEPARATE);
-			RETURN_CTOR(data);
+			array_init_size(return_value, 4);
+			phalcon_array_update_string(&return_value, SL("schema"), &schema, PH_COPY);
+			phalcon_array_update_string(&return_value, SL("source"), &source, PH_COPY);
+			phalcon_array_update_string(&return_value, SL("modelName"), &model_name, PH_COPY);
+			phalcon_array_update_string(&return_value, SL("model"), &model, PH_COPY);
+			RETURN_MM();
 		}
 	}
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Corrupted SELECT AST");
