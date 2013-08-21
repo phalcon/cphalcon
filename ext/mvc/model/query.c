@@ -154,10 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 
 	phalcon_fetch_params(1, 1, 0, &dependency_injector);
 	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the ORM services");
-		return;
-	}
+	PHALCON_VERIFY_INTERFACE(dependency_injector, phalcon_diinterface_ce);
 	
 	PHALCON_INIT_VAR(service);
 	ZVAL_STRING(service, "modelsManager", 1);
@@ -237,11 +234,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow){
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 
 	zval *expr, *column_name, *sql_column_aliases;
-	zval *source_column = NULL, *meta_data, *column_domain;
-	zval *sql_aliases, *phql = NULL, *exception_message = NULL;
-	zval *source = NULL, *sql_aliases_models_instances;
+	zval *meta_data, *column_domain;
+	zval *source, *exception_message = NULL;
 	zval *model = NULL, *column_map = NULL, *real_column_name = NULL;
-	zval *number, *has_model = NULL, *models_instances;
+	zval *has_model = NULL, *models_instances;
 	zval *has_attribute = NULL, *models, *class_name;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -254,49 +250,42 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 	PHALCON_OBS_VAR(column_name);
 	phalcon_array_fetch_string(&column_name, expr, SL("name"), PH_NOISY);
 	
-	PHALCON_OBS_VAR(sql_column_aliases);
-	phalcon_read_property_this(&sql_column_aliases, this_ptr, SL("_sqlColumnAliases"), PH_NOISY_CC);
+	sql_column_aliases = phalcon_fetch_nproperty_this(this_ptr, SL("_sqlColumnAliases"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the qualified name is a column alias
 	 */
 	if (phalcon_array_isset(sql_column_aliases, column_name)) {
-		PHALCON_INIT_VAR(source_column);
-		array_init_size(source_column, 2);
-		add_assoc_stringl_ex(source_column, SS("type"), SL("qualified"), 1);
-		phalcon_array_update_string(&source_column, SL("name"), &column_name, PH_COPY | PH_SEPARATE);
-		RETURN_CTOR(source_column);
+		array_init_size(return_value, 2);
+		add_assoc_stringl_ex(return_value, SS("type"), SL("qualified"), 1);
+		phalcon_array_update_string(&return_value, SL("name"), &column_name, PH_COPY);
+		RETURN_MM();
 	}
 	
-	PHALCON_OBS_VAR(meta_data);
-	phalcon_read_property_this(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	meta_data = phalcon_fetch_nproperty_this(this_ptr, SL("_metaData"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the qualified name has a domain
 	 */
 	if (phalcon_array_isset_string(expr, SS("domain"))) {
-	
+		zval *sql_aliases;
+
 		PHALCON_OBS_VAR(column_domain);
 		phalcon_array_fetch_string(&column_domain, expr, SL("domain"), PH_NOISY);
 	
-		PHALCON_OBS_VAR(sql_aliases);
-		phalcon_read_property_this(&sql_aliases, this_ptr, SL("_sqlAliases"), PH_NOISY_CC);
+		sql_aliases = phalcon_fetch_nproperty_this(this_ptr, SL("_sqlAliases"), PH_NOISY_CC);
 	
 		/** 
 		 * The column has a domain, we need to check if it's an alias
 		 */
-		if (!phalcon_array_isset(sql_aliases, column_domain)) {
-			PHALCON_OBS_VAR(phql);
-			phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+		if (!phalcon_array_isset_fetch(&source, sql_aliases, column_domain)) {
+			zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(exception_message);
 			PHALCON_CONCAT_SVSV(exception_message, "Unknown model or alias '", column_domain, "' (1), when preparing: ", phql);
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
-	
-		PHALCON_OBS_VAR(source);
-		phalcon_array_fetch(&source, sql_aliases, column_domain, PH_NOISY);
 	
 		/** 
 		 * Change the selected column by its real name on its mapped table
@@ -306,15 +295,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			/** 
 			 * Retrieve the corresponding model by its alias
 			 */
-			PHALCON_OBS_VAR(sql_aliases_models_instances);
-			phalcon_read_property_this(&sql_aliases_models_instances, this_ptr, SL("_sqlAliasesModelsInstances"), PH_NOISY_CC);
+			zval *sql_aliases_models_instances = phalcon_fetch_nproperty_this(this_ptr, SL("_sqlAliasesModelsInstances"), PH_NOISY_CC);
 	
 			/** 
 			 * We need to model instance to retrieve the reversed column map
 			 */
 			if (!phalcon_array_isset(sql_aliases_models_instances, column_domain)) {
-				PHALCON_OBS_NVAR(phql);
-				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+				zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSV(exception_message, "There is no model related to model or alias '", column_domain, "', when executing: ", phql);
@@ -336,8 +323,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 				PHALCON_OBS_VAR(real_column_name);
 				phalcon_array_fetch(&real_column_name, column_map, column_name, PH_NOISY);
 			} else {
-				PHALCON_OBS_NVAR(phql);
-				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+				zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSVSV(exception_message, "Column '", column_name, "' doesn't belong to the model or alias '", column_domain, "', when executing: ", phql);
@@ -348,14 +334,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			PHALCON_CPY_WRT(real_column_name, column_name);
 		}
 	} else {
+		long int number = 0;
+
 		/** 
 		 * If the column IR doesn't have a domain, we must check for ambiguities
 		 */
-		PHALCON_INIT_VAR(number);
-		ZVAL_LONG(number, 0);
-	
 		PHALCON_INIT_VAR(has_model);
-		ZVAL_BOOL(has_model, 0);
+		ZVAL_FALSE(has_model);
 	
 		PHALCON_OBS_VAR(models_instances);
 		phalcon_read_property_this(&models_instances, this_ptr, SL("_modelsInstances"), PH_NOISY_CC);
@@ -372,11 +357,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			PHALCON_INIT_NVAR(has_attribute);
 			phalcon_call_method_p2(has_attribute, meta_data, "hasattribute", model, column_name);
 			if (zend_is_true(has_attribute)) {
-				PHALCON_SEPARATE(number);
-				phalcon_increment(number);
-				if (PHALCON_GT_LONG(number, 1)) {
-					PHALCON_OBS_NVAR(phql);
-					phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+				++number;
+				if (number > 1) {
+					zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
 					PHALCON_INIT_NVAR(exception_message);
 					PHALCON_CONCAT_SVSV(exception_message, "The column '", column_name, "' is ambiguous, when preparing: ", phql);
@@ -395,8 +378,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		 * models
 		 */
 		if (PHALCON_IS_FALSE(has_model)) {
-			PHALCON_OBS_NVAR(phql);
-			phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+			zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SVSV(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (1), when preparing: ", phql);
@@ -419,12 +401,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		 */
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, has_model, 0 TSRMLS_CC);
-		if (phalcon_array_isset(models, class_name)) {
-			PHALCON_OBS_NVAR(source);
-			phalcon_array_fetch(&source, models, class_name, PH_NOISY);
-		} else {
-			PHALCON_OBS_NVAR(phql);
-			phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+		if (!phalcon_array_isset_fetch(&source, models, class_name)) {
+			zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SVSV(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (2), when preparing: ", phql);
@@ -442,7 +420,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			PHALCON_INIT_NVAR(column_map);
 		}
 	
-		if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+		if (Z_TYPE_P(column_map) == IS_ARRAY) {
 	
 			/** 
 			 * The real column name is in the column map
@@ -451,8 +429,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 				PHALCON_OBS_NVAR(real_column_name);
 				phalcon_array_fetch(&real_column_name, column_map, column_name, PH_NOISY);
 			} else {
-				PHALCON_OBS_NVAR(phql);
-				phalcon_read_property_this(&phql, this_ptr, SL("_phql"), PH_NOISY_CC);
+				zval *phql = phalcon_fetch_nproperty_this(this_ptr, SL("_phql"), PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSV(exception_message, "Column '", column_name, "' doesn't belong to any of the selected models (3), when preparing: ", phql);
@@ -467,14 +444,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 	/** 
 	 * Create an array with the qualified info
 	 */
-	PHALCON_INIT_NVAR(source_column);
-	array_init_size(source_column, 4);
-	add_assoc_stringl_ex(source_column, SS("type"), SL("qualified"), 1);
-	phalcon_array_update_string(&source_column, SL("domain"), &source, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&source_column, SL("name"), &real_column_name, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&source_column, SL("balias"), &column_name, PH_COPY | PH_SEPARATE);
+	array_init_size(return_value, 4);
+	add_assoc_stringl_ex(return_value, SS("type"), SL("qualified"), 1);
+	phalcon_array_update_string(&return_value, SL("domain"), &source, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("name"), &real_column_name, PH_COPY);
+	phalcon_array_update_string(&return_value, SL("balias"), &column_name, PH_COPY);
 	
-	RETURN_CTOR(source_column);
+	RETURN_MM();
 }
 
 /**
