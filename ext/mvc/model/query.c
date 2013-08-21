@@ -4450,27 +4450,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	
 		switch (phalcon_get_intval(type)) {
 	
-			case 260:
+			case PHQL_T_STRING:
+			case PHQL_T_DOUBLE:
+			case PHQL_T_INTEGER:
 				PHALCON_INIT_NVAR(update_value);
 				phalcon_call_method_p1(update_value, dialect, "getsqlexpression", expr_value);
 				break;
 	
-			case 258:
-				PHALCON_INIT_NVAR(update_value);
-				phalcon_call_method_p1(update_value, dialect, "getsqlexpression", expr_value);
-				break;
-	
-			case 259:
-				PHALCON_INIT_NVAR(update_value);
-				phalcon_call_method_p1(update_value, dialect, "getsqlexpression", expr_value);
-				break;
-	
-			case 322:
+			case PHQL_T_NULL:
 				PHALCON_CPY_WRT(update_value, null_value);
 				break;
 	
-			case 273:
-				if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+			case PHQL_T_NPLACEHOLDER:
+			case PHQL_T_SPLACEHOLDER:
+				if (Z_TYPE_P(bind_params) != IS_ARRAY) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
 					return;
 				}
@@ -4493,32 +4486,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 				}
 	
 				break;
-	
-			case 274:
-				if (Z_TYPE_P(bind_params) != IS_ARRAY) { 
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
-					return;
-				}
-	
-				PHALCON_INIT_NVAR(update_expr);
-				phalcon_call_method_p1(update_expr, dialect, "getsqlexpression", expr_value);
-	
-				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr);
-				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(update_value);
-					phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY);
-					phalcon_array_unset(&select_bind_params, wildcard, PH_SEPARATE);
-					phalcon_array_unset(&select_bind_types, wildcard, PH_SEPARATE);
-				} else {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
-	
-				break;
-	
+
 			default:
 				PHALCON_INIT_NVAR(update_expr);
 				phalcon_call_method_p1(update_expr, dialect, "getsqlexpression", expr_value);
@@ -4538,15 +4506,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	/** 
 	 * We need to query the records related to the update
 	 */
-	PHALCON_INIT_VAR(records);
-	phalcon_call_method_p4(records, this_ptr, "_getrelatedrecords", model, intermediate, select_bind_params, select_bind_types);
+	PHALCON_OBS_VAR(records);
+	phalcon_call_method_p4_ex(records, &records, this_ptr, "_getrelatedrecords", model, intermediate, select_bind_params, select_bind_types);
 	
 	/** 
 	 * If there are no records to apply the update we return success
 	 */
 	if (!phalcon_fast_count_ev(records TSRMLS_CC)) {
 		PHALCON_INIT_VAR(success);
-		ZVAL_BOOL(success, 1);
+		ZVAL_TRUE(success);
 		object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
 		phalcon_call_method_p2_noret(return_value, "__construct", success, null_value);
 	
@@ -4605,7 +4573,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	phalcon_call_method_noret(connection, "commit");
 	
 	PHALCON_INIT_NVAR(success);
-	ZVAL_BOOL(success, 1);
+	ZVAL_TRUE(success);
 	object_init_ex(return_value, phalcon_mvc_model_query_status_ce);
 	phalcon_call_method_p2_noret(return_value, "__construct", success, null_value);
 	
