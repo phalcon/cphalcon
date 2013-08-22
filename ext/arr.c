@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Arr, is_assoc){
  * Test if a value is an array with an additional check for array-like objects.
  *
  *     // Returns TRUE
- *     Arr::is_array(array());
+ *     \Phalcon\Arr::is_array(array());
  *
  * @param mixed $value
  * @return boolean
@@ -111,15 +111,15 @@ PHP_METHOD(Phalcon_Arr, is_array){
  * Gets a value from an array using a dot separated path.
  *
  *     // Get the value of $array['foo']['bar']
- *     $value = Arr::path($array, 'foo.bar');
+ *     $value = \Phalcon\Arr::path($array, 'foo.bar');
  *
  * Using a wildcard "*" will search intermediate arrays and return an array.
  *
  *     // Get the values of "color" in theme
- *     $colors = Arr::path($array, 'theme.*.color');
+ *     $colors = \Phalcon\Arr::path($array, 'theme.*.color');
  *
  *     // Using an array of keys
- *     $colors = Arr::path($array, array('theme', '*', 'color'));
+ *     $colors = \Phalcon\Arr::path($array, array('theme', '*', 'color'));
  *
  * @param array $array
  * @param mixed $path
@@ -194,8 +194,6 @@ PHP_METHOD(Phalcon_Arr, path){
 				}
 			} else {
 				RETURN_CCTOR(values);
-				//RETURN_ZVAL(values, 1, 0);
-				//RETURN_MM();
 			}
 		} else if (PHALCON_IS_STRING(key, "*")) {		
 			PHALCON_INIT_NVAR(values);
@@ -243,7 +241,13 @@ end:
 /**
  * Set a value on an array by path.
  *
- * @see Arr::path()
+ * Using a wildcard "*" will search intermediate arrays and return an array.
+ *
+ *     // Set the values of "color" in theme
+ *     $array = array('theme' => array('one' => array('color' => 'green'), 'two' => array('size' => 11));
+ *     \Phalcon\Arr::set_path($array, 'theme.*.color', 'red');
+ *     // Result: array('theme' => array('one' => array('color' => 'red'), 'two' => array('size' => 11, 'color' => 'red'));
+ *
  * @param array $array
  * @param string $path
  * @param mixed $value
