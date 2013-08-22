@@ -32,15 +32,15 @@ int phalcon_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long inde
 /** Check for index existence */
 int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index);
 int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long index);
-int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length);
+int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, const char *index, uint index_length);
 
 /** Fast index existence checking */
-int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, unsigned long key);
+int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key);
 
 /** Unset existing indexes */
 int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags);
 int PHALCON_FASTCALL phalcon_array_unset_long(zval **arr, unsigned long index, int flags);
-int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, char *index, uint index_length, int flags);
+int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, const char *index, uint index_length, int flags);
 
 /** Append elements to arrays */
 int phalcon_array_append(zval **arr, zval *value, int separate);
@@ -53,10 +53,10 @@ int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags
 int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flags);
 int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint value_length, int flags);
 
-int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags);
-int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length, int value, int flags);
-int phalcon_array_update_string_long(zval **arr, char *index, uint index_length, long value, int flags);
-int phalcon_array_update_string_string(zval **arr, char *index, uint index_length, char *value, uint value_length, int flags);
+int phalcon_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags);
+int phalcon_array_update_string_bool(zval **arr, const char *index, uint index_length, int value, int flags);
+int phalcon_array_update_string_long(zval **arr, const char *index, uint index_length, long value, int flags);
+int phalcon_array_update_string_string(zval **arr, const char *index, uint index_length, char *value, uint value_length, int flags);
 
 int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int flags);
 int phalcon_array_update_long_string(zval **arr, unsigned long index, char *value, uint value_length, int flags);
@@ -78,7 +78,7 @@ void phalcon_array_update_zval_string_string_multi_3(zval **arr, zval *index1, c
 
 /** Fetch items from arrays */
 int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent);
-int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent);
+int phalcon_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int silent);
 int phalcon_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int silent);
 
 /** Merge+Append */

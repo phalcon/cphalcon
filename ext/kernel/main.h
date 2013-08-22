@@ -36,6 +36,9 @@
 
 #define SL(str) ZEND_STRL(str)
 #define SS(str) ZEND_STRS(str)
+#define ISL(str) (phalcon_interned_##str), (sizeof(#str)-1)
+#define ISS(str) (phalcon_interned_##str), (sizeof(#str))
+
 
 /* Startup functions */
 extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
