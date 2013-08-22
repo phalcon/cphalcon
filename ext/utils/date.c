@@ -466,7 +466,7 @@ PHP_METHOD(Phalcon_Utils_Date, days){
  *
  * But you can customise this by passing in either Date::MONTHS_LONG
  *
- *     Phalcon\Utils\Date::months(Date::MONTHS_LONG);
+ *     Phalcon\Utils\Date::months(Phalcon\Utils\Date::MONTHS_LONG);
  *     // array(1 => 'January', 2 => 'February', ..., 12 => 'December')
  *
  * Or Date::MONTHS_SHORT
@@ -479,6 +479,40 @@ PHP_METHOD(Phalcon_Utils_Date, days){
  * @return array
  */
 PHP_METHOD(Phalcon_Utils_Date, months){
+
+	zval *format, *tmp = NULL, *tmp1, *tmp2, *tmp3 = NULL, *value = NULL;
+	int i;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &format);
+
+	if (PHALCON_IS_STRING(format, PHALCON_DATE_MONTHS_LONG) || PHALCON_IS_STRING(format, PHALCON_DATE_MONTHS_SHORT)) {
+		array_init(return_value);
+
+		PHALCON_INIT_VAR(tmp1);
+		ZVAL_LONG(tmp1, 0);
+
+		PHALCON_INIT_VAR(tmp2);
+		ZVAL_LONG(tmp2, 1);
+
+		for (i = 1; i <= 12; ++i) {
+			PHALCON_INIT_NVAR(tmp3);
+			ZVAL_LONG(tmp3, i);
+
+			PHALCON_INIT_NVAR(tmp);
+			phalcon_call_func_p5(tmp, "mktime", tmp1, tmp1, tmp1, tmp3, tmp2);
+
+			PHALCON_INIT_NVAR(value);
+			phalcon_call_func_p2(value, "strftime", format, tmp);
+
+			phalcon_array_update_long(&return_value, i, &value, PH_COPY | PH_SEPARATE);
+		}
+	} else {
+		phalcon_call_self(return_value, this_ptr, "hours");
+	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
