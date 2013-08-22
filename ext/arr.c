@@ -150,9 +150,8 @@ PHP_METHOD(Phalcon_Arr, path){
 	if (Z_TYPE_P(path) == IS_ARRAY) {
 		PHALCON_CPY_WRT(keys, path);
 	} else {
-		PHALCON_INIT_VAR(values);
 		if (phalcon_array_isset_fetch(&values, array, path)) {
-			RETURN_ZVAL(values, 1, 0);
+			RETURN_CCTOR(values);
 		}
 
 		if (!delimiter) {
@@ -196,8 +195,7 @@ PHP_METHOD(Phalcon_Arr, path){
 				//RETURN_ZVAL(values, 1, 0);
 				//RETURN_MM();
 			}
-		} else if (PHALCON_IS_STRING(key, "*")) {
-		
+		} else if (PHALCON_IS_STRING(key, "*")) {		
 			PHALCON_INIT_NVAR(values);
 			array_init(values);
 			
@@ -213,7 +211,7 @@ PHP_METHOD(Phalcon_Arr, path){
 				phalcon_call_self_p2(value, this_ptr, "path", arr, joined_keys);
 				
 				if (Z_TYPE_P(value) != IS_NULL) {
-					phalcon_array_append(&values, value, PH_SEPARATE);
+					phalcon_array_append(&values, value, PH_COPY);
 				}
 
 				zend_hash_move_forward_ex(ah0, &hp0);
@@ -222,8 +220,6 @@ PHP_METHOD(Phalcon_Arr, path){
 			if (phalcon_fast_count_ev(values TSRMLS_CC)) {
 				// Found the values requested
 				RETURN_CCTOR(values);
-				//RETURN_ZVAL(values, 1, 0);
-				//RETURN_MM();
 			} else {
 				// Unable to dig deeper
 				break;
