@@ -297,7 +297,7 @@ static zval *phql_ret_delete_statement(zval *D, zval *W, zval *L)
 	array_init(ret);
 
 	add_assoc_long(ret, phalcon_interned_type, PHQL_T_DELETE);
-	add_assoc_zval(ret, "delete", D);
+	add_assoc_zval(ret, phalcon_interned_delete, D);
 	if (W != NULL) {
 		add_assoc_zval(ret, phalcon_interned_where, W);
 	}
