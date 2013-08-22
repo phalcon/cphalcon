@@ -201,6 +201,10 @@ PHP_METHOD(Phalcon_Utils_Date, seconds){
 	s = Z_LVAL_P(start);
 	e = Z_LVAL_P(end);
 
+	if (p < 1) {
+		p = 1;
+	}
+
 	array_init(return_value);
 
 	for (i = s; i < e; i += p) {
@@ -245,11 +249,60 @@ PHP_METHOD(Phalcon_Utils_Date, minutes){
  *     $hours = Phalcon\Utils\Date::hours(); // 01, 02, 03, ..., 10, 11, 12
  *
  * @param int $step
- * @param boolean $long
+ * @param boolean $is_long
  * @param int $start
  * @return array
  */
 PHP_METHOD(Phalcon_Utils_Date, hours){
+
+	zval *step = NULL, *is_long = NULL, *start = NULL;
+	int i, p, s, e;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 3, &step, &is_long, &start);
+
+	if (!step) {
+		PHALCON_INIT_VAR(step);
+		ZVAL_LONG(step, 1);
+	} else if (Z_TYPE_P(step) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(step);
+		convert_to_long(step);
+	}
+
+	if (!is_long) {
+		PHALCON_INIT_VAR(is_long);
+		ZVAL_FALSE(is_long);
+	}
+
+	if (!start) {
+		PHALCON_INIT_VAR(start);
+	} 
+
+	p = Z_LVAL_P(step);
+	if (p < 1) {
+		p = 1;
+	}
+
+	if (Z_TYPE_P(start) == IS_NULL) {
+		if (zend_is_true(is_long)) {
+			s = 0;
+		} else {
+			s = 1;
+		}
+	} else {
+		s = phalcon_get_intval(start);
+	}
+
+	e = zend_is_true(is_long) ? 23 : 12;
+
+	array_init(return_value);
+
+	for (i = s; i <= e; i += p) {
+		phalcon_array_update_long_long(&return_value, i, i, 0);
+	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
