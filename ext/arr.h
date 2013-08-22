@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -111,20 +110,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_arr_flatten, 0, 0, 1)
 	ZEND_ARG_INFO(0, array)
 ZEND_END_ARG_INFO()
-PHP_METHOD(Phalcon_Arr, is_assoc);
-PHP_METHOD(Phalcon_Arr, is_array);
-PHP_METHOD(Phalcon_Arr, path);
-PHP_METHOD(Phalcon_Arr, set_path);
-PHP_METHOD(Phalcon_Arr, range);
-PHP_METHOD(Phalcon_Arr, get);
-PHP_METHOD(Phalcon_Arr, extract);
-PHP_METHOD(Phalcon_Arr, pluck);
-PHP_METHOD(Phalcon_Arr, unshift);
-PHP_METHOD(Phalcon_Arr, map);
-PHP_METHOD(Phalcon_Arr, merge);
-PHP_METHOD(Phalcon_Arr, overwrite);
-PHP_METHOD(Phalcon_Arr, callback);
-PHP_METHOD(Phalcon_Arr, flatten);
 
 PHALCON_INIT_FUNCS(phalcon_arr_method_entry){
 	PHP_ME(Phalcon_Arr, is_assoc, arginfo_phalcon_arr_is_assoc, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
