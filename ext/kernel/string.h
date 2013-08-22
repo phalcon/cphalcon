@@ -102,4 +102,14 @@ void phalcon_addslashes(zval *return_value, zval *str TSRMLS_DC);
 const char* zend_new_interned_string(const char *arKey, int nKeyLength, int free_src TSRMLS_DC);
 #endif
 
+#define PHALCON_ZVAL_MAYBE_INTERNED_STRING(pz, string) \
+	do { \
+		if (IS_INTERNED(string)) { \
+			ZVAL_STRINGL(pz, string, INTERNED_LEN(string)-1, 0); \
+		} \
+		else { \
+			ZVAL_STRING(pz, string, 1); \
+		} \
+	} while (0)
+
 #endif /* PHALCON_KERNEL_STRING_H */

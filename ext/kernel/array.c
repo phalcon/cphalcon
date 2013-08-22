@@ -172,7 +172,7 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
  * @note The function is a wrapper around phalcon_array_isset_quick_string()
  * @see phalcon_array_isset_quick_string()
  */
-int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length) {
+int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, const char *index, uint index_length) {
 
 	return phalcon_array_isset_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length));
 }
@@ -187,7 +187,7 @@ int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, ui
  * @retval 0 Not exists or @a arr is not an array
  * @retval 1 Exists
  */
-int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, unsigned long key) {
+int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key) {
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_quick_exists(Z_ARRVAL_P(arr), index, index_length, key);
@@ -269,7 +269,7 @@ int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags) {
  * @retval @c FAILURE Failure or @a arr is not an array
  * @retval @c SUCCESS Success
  */
-int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, char *index, uint index_length, int flags) {
+int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, const char *index, uint index_length, int flags) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
@@ -556,7 +556,7 @@ int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flag
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length, unsigned long key, zval **value, int flags){
+int phalcon_array_update_quick_string(zval **arr, const char *index, uint index_length, unsigned long key, zval **value, int flags){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array");
@@ -603,7 +603,7 @@ int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags) {
+int phalcon_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags) {
 
 	return phalcon_array_update_quick_string(arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), value, flags);
 }
@@ -630,7 +630,7 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length, int value, int flags){
+int phalcon_array_update_string_bool(zval **arr, const char *index, uint index_length, int value, int flags){
 
 	zval *zvalue;
 
@@ -662,7 +662,7 @@ int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length,
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_string_long(zval **arr, char *index, uint index_length, long value, int flags){
+int phalcon_array_update_string_long(zval **arr, const char *index, uint index_length, long value, int flags){
 
 	zval *zvalue;
 
@@ -695,7 +695,7 @@ int phalcon_array_update_string_long(zval **arr, char *index, uint index_length,
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_string_string(zval **arr, char *index, uint index_length, char *value, uint value_length, int flags){
+int phalcon_array_update_string_string(zval **arr, const char *index, uint index_length, char *value, uint value_length, int flags){
 
 	zval *zvalue;
 
@@ -931,7 +931,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent)
  * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  */
-int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index, uint index_length, unsigned long key, int silent){
+int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, const char *index, uint index_length, unsigned long key, int silent){
 
 	zval **zv;
 
@@ -973,7 +973,7 @@ int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index
  *
  * The function is a wrapper over @c phalcon_array_fetch_quick_string()
  */
-int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent){
+int phalcon_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int silent){
 
 	return phalcon_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), silent);
 }
