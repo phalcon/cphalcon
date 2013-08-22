@@ -252,14 +252,15 @@ end:
 PHP_METHOD(Phalcon_Arr, set_path){
 
 	zval *array, *path, *value, *delimiter = NULL;
-	zval *keys, *key = NULL, *is_digit = NULL, *cpy_array = NULL, *arr, *tmp;
-	zend_class_entry *ce;
+	zval *keys, *key = NULL, *is_digit = NULL, *cpy_array = NULL, *arr = NULL, *tmp, *is_array = NULL, *joined_keys = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	int found = 1;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 3, 1, &array, &path, &value, &delimiter);
-
-	PHALCON_SEPARATE_PARAM(array);
 
 	if (Z_TYPE_P(path) == IS_ARRAY) {
 		PHALCON_CPY_WRT(keys, path);
@@ -275,34 +276,63 @@ PHP_METHOD(Phalcon_Arr, set_path){
 
 	PHALCON_CPY_WRT(cpy_array, array);
 
-	PHALCON_INIT_VAR(arr);
-	array_init(arr);
-
 	// Set current $array to inner-most array  path
 	while ((int) zend_hash_num_elements(Z_ARRVAL_P(keys)) > 1) {
 		PHALCON_INIT_NVAR(key);
+		Z_SET_ISREF_P(keys);
 		phalcon_call_func_p1(key, "array_shift", keys);
+		Z_UNSET_ISREF_P(keys);
 
-		PHALCON_INIT_NVAR(is_digit);
-		phalcon_call_func_p1(is_digit, "ctype_digit", key);
-	
-		if (zend_is_true(is_digit)) {
-			convert_to_long(key);
-		}
+		if (PHALCON_IS_STRING(key, "*")) {
+			phalcon_is_iterable(cpy_array, &ah0, &hp0, 0, 0);
 
-		if (!phalcon_array_isset(cpy_array, key)) {
-			phalcon_array_update_zval(&cpy_array, key, &arr, PH_COPY);
-		}
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+				PHALCON_GET_HVALUE(arr);
 
-		if (phalcon_array_isset_fetch(&tmp, cpy_array, key)) {
-			PHALCON_CPY_WRT(cpy_array, tmp);
+				PHALCON_INIT_NVAR(is_array);
+				phalcon_call_self_p1(is_array, this_ptr, "is_array", arr);
+
+				if (zend_is_true(is_array)) {
+					PHALCON_INIT_NVAR(joined_keys);
+					phalcon_fast_join_str(joined_keys, SL("."), keys TSRMLS_CC);
+
+					Z_SET_ISREF_P(arr);
+					phalcon_call_self_p3_noret(this_ptr, "set_path", arr, joined_keys, value);
+					Z_UNSET_ISREF_P(arr);
+				}
+
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+			found = 0;
+			break;
+		} else {
+			PHALCON_INIT_NVAR(is_digit);
+			phalcon_call_func_p1(is_digit, "ctype_digit", key);
+		
+			if (zend_is_true(is_digit)) {
+				convert_to_long(key);
+			}
+
+			if (!phalcon_array_isset(cpy_array, key)) {
+				PHALCON_INIT_NVAR(arr);
+				array_init(arr);
+				phalcon_array_update_zval(&cpy_array, key, &arr, PH_COPY);
+			}
+
+			if (phalcon_array_isset_fetch(&tmp, cpy_array, key)) {
+				PHALCON_CPY_WRT(cpy_array, tmp);
+			}
 		}
 	}
 
-	PHALCON_INIT_NVAR(key);
-	phalcon_call_func_p1(key, "array_shift", keys);
+	if (found) {
+		PHALCON_INIT_NVAR(key);
+		Z_SET_ISREF_P(keys);
+		phalcon_call_func_p1(key, "array_shift", keys);
+		Z_UNSET_ISREF_P(keys);
 
-	phalcon_array_update_zval(&cpy_array, key, &value, 0);
+		phalcon_array_update_zval(&cpy_array, key, &value, 0);
+	}
 
 	PHALCON_MM_RESTORE();
 }
