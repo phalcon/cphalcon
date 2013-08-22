@@ -221,6 +221,21 @@ PHP_METHOD(Phalcon_Utils_Date, seconds){
  * @return array
  */
 PHP_METHOD(Phalcon_Utils_Date, minutes){
+
+	zval *step = NULL;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &step);
+
+	if (!step) {
+		PHALCON_INIT_VAR(step);
+		ZVAL_LONG(step, 5);
+	}
+
+	phalcon_call_self_p1(return_value, this_ptr, "seconds", step);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
