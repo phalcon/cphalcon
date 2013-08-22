@@ -315,7 +315,31 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testDataMemcachedCache()
+    public function testIncrAndDecrMemcacheCache()
+    {
+
+        $memcache = $this->_prepareMemcached();
+        if (!$memcache) {
+            return false;
+        }
+
+        $memcache->delete('test-incr');
+
+        $memcache->set('test-incr', 1);
+        $newValue = $memcache->increment('test-incr');
+        $this->assertEquals('2', $newValue);
+
+        $newValue = $memcache->increment('test-incr', 5);
+        $this->assertEquals('7', $newValue);
+
+        $newValue = $memcache->decrement('test-incr');
+        $this->assertEquals('6', $newValue);
+
+        $newValue = $memcache->decrement('test-incr', '3');
+        $this->assertEquals('3', $newValue);
+    }
+
+    public function testDataMemcachedCache()
 	{
 
 		$memcache = $this->_prepareMemcached();

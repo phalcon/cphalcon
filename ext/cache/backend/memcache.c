@@ -555,7 +555,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment){
 
 	zval *key_name = NULL, *value = NULL, *memcache = NULL;
-    zval *newVal;
+	zval *newVal;
 
 	PHALCON_MM_GROW();
 
@@ -569,25 +569,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment){
 		PHALCON_INIT_VAR(value);
 	}
 
-    if (Z_TYPE_P(value) == IS_NULL) {
-        Z_LVAL_P(value) = 1;
-        Z_TYPE_P(value) = IS_LONG;
-    }
+	if (Z_TYPE_P(value) == IS_NULL) {
+		Z_LVAL_P(value) = 1;
+		Z_TYPE_P(value) = IS_LONG;
+	}
 
 	if (Z_TYPE_P(value) != IS_LONG) {
-        convert_to_long_ex(&value);
+		convert_to_long_ex(&value);
 	}
 
-    PHALCON_OBS_VAR(memcache);
-    phalcon_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(memcache);
+	phalcon_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
 
-    PHALCON_INIT_VAR(newVal);
-    phalcon_call_method_p2(newVal, memcache, "increment", key_name, value);
-
-    if (!zend_is_true(newVal)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Failed to increment data - maybe not numeric?");
-		return;
-	}
+	PHALCON_INIT_VAR(newVal);
+	phalcon_call_method_p2(newVal, memcache, "increment", key_name, value);
 
 	RETURN_CTOR(newVal);
 }
@@ -602,7 +597,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
 
 	zval *key_name = NULL, *value = NULL, *memcache = NULL;
-    zval *newVal;
+	zval *newVal;
 
 	PHALCON_MM_GROW();
 
@@ -616,25 +611,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
 		PHALCON_INIT_VAR(value);
 	}
 
-    if (Z_TYPE_P(value) == IS_NULL) {
-        Z_LVAL_P(value) = 1;
-        Z_TYPE_P(value) = IS_LONG;
-    }
+	if (Z_TYPE_P(value) == IS_NULL) {
+		Z_LVAL_P(value) = 1;
+		Z_TYPE_P(value) = IS_LONG;
+	}
 
 	if (Z_TYPE_P(value) != IS_LONG) {
-        convert_to_long_ex(&value);
+		convert_to_long_ex(&value);
 	}
 
-    PHALCON_OBS_VAR(memcache);
-    phalcon_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(memcache);
+	phalcon_read_property_this(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
 
-    PHALCON_INIT_VAR(newVal);
-    phalcon_call_method_p2(newVal, memcache, "decrement", key_name, value);
-
-    if (!zend_is_true(newVal)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Failed to decrement data - maybe not numeric?");
-		return;
-	}
+	PHALCON_INIT_VAR(newVal);
+	phalcon_call_method_p2(newVal, memcache, "decrement", key_name, value);
 
 	RETURN_CTOR(newVal);
 }
