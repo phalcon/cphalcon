@@ -164,6 +164,51 @@ PHP_METHOD(Phalcon_Utils_Date, offset){
  * @return array
  */
 PHP_METHOD(Phalcon_Utils_Date, seconds){
+
+	zval *step = NULL, *start = NULL, *end = NULL;
+	char buf[2];
+	int i, p, s, e;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 3, &step, &start, &end);
+
+	if (!step) {
+		PHALCON_INIT_VAR(step);
+		ZVAL_LONG(step, 1);
+	} else if (Z_TYPE_P(step) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(step);
+		convert_to_long(step);
+	}
+
+	if (!start) {
+		PHALCON_INIT_VAR(start);
+		ZVAL_LONG(start, 0);
+	} else if (Z_TYPE_P(start) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(start);
+		convert_to_long(start);
+	}
+
+	if (!end) {
+		PHALCON_INIT_VAR(end);
+		ZVAL_LONG(end, 60);
+	} else if (Z_TYPE_P(end) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(end);
+		convert_to_long(end);
+	}
+
+	p = Z_LVAL_P(step);
+	s = Z_LVAL_P(start);
+	e = Z_LVAL_P(end);
+
+	array_init(return_value);
+
+	for (i = s; i < e; i += p) {
+		sprintf(buf, "%02d", i);
+		phalcon_array_update_long_string(&return_value, i, buf, 2, 0);
+	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
