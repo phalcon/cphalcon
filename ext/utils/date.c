@@ -336,7 +336,39 @@ PHP_METHOD(Phalcon_Utils_Date, ampm){
  * @param string $ampm
  * @return string
  */
-PHP_METHOD(Phalcon_Utils_Date, adjust){
+PHP_METHOD(Phalcon_Utils_Date, adjust){	
+	
+	zval *hour, *ampm, *lowercased_ampm;
+	char buf[2];
+	int h;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &hour, &ampm);
+
+	PHALCON_SEPARATE_PARAM(hour);
+	convert_to_long(hour);
+
+	h = Z_LVAL_P(hour);
+
+	PHALCON_INIT_VAR(lowercased_ampm);
+	phalcon_fast_strtolower(lowercased_ampm, ampm);
+
+	if (PHALCON_IS_STRING(lowercased_ampm, "am")) {
+		if (h == 12) {
+			h = 0;
+		}
+	} else if (PHALCON_IS_STRING(lowercased_ampm, "pm")) {
+		if (h < 12) {
+			h += 12;
+		}
+	}
+
+	sprintf(buf, "%02d", h);
+
+	ZVAL_STRING(return_value, buf, 1);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
