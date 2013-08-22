@@ -43,6 +43,8 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 
+#include "utils/date.h"
+
 /**
  * Phalcon\Utils\Date
  *
@@ -70,6 +72,7 @@ PHALCON_INIT_CLASS(Phalcon_Utils_Date){
 
 	zend_declare_property_string(phalcon_utils_date_ce, SL("timestamp_format"), "Y-m-d H:i:s", ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_utils_date_ce, SL("timezone"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_utils_date_ce, SL("_months"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -382,6 +385,74 @@ PHP_METHOD(Phalcon_Utils_Date, adjust){
  * @return array
  */
 PHP_METHOD(Phalcon_Utils_Date, days){
+
+	zval *month, *year, *tmp = NULL, *tmp1, *tmp2, *total;
+	zval *months;
+	int y, m, i, t;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &month, &year);
+
+	PHALCON_OBS_VAR(months);
+	phalcon_read_static_property_ce(&months, phalcon_utils_date_ce, SL("_months") TSRMLS_CC);
+
+	if (!year) {
+		PHALCON_INIT_VAR(year);
+		ZVAL_FALSE(year);
+	} else if (Z_TYPE_P(year) == IS_BOOL && !zend_is_true(year)) {
+		PHALCON_SEPARATE_PARAM(year);
+
+		PHALCON_INIT_VAR(tmp);
+		ZVAL_STRING(tmp, "Y", 1);
+		
+		PHALCON_INIT_NVAR(year);
+		phalcon_call_func_p1(year, "date", tmp);
+	}
+
+	y = phalcon_get_intval(year);
+	m = phalcon_get_intval(month);
+
+	if (phalcon_array_isset_long_fetch(&tmp, months, y)) {
+		if (phalcon_array_isset_long_fetch(&return_value, tmp, m)) {
+			RETURN_MM();
+		}
+	}
+
+	PHALCON_INIT_VAR(tmp1);
+	ZVAL_LONG(tmp1, 1);
+
+	PHALCON_INIT_VAR(tmp2);
+	ZVAL_LONG(tmp2, 0);
+
+	PHALCON_INIT_NVAR(tmp);
+	phalcon_call_func_p6(tmp, "mktime", tmp1, tmp2, tmp2, month, tmp1, year);
+	
+	PHALCON_INIT_VAR(tmp1);
+	ZVAL_STRING(tmp1, "t", 1);
+
+	PHALCON_INIT_VAR(total);
+	phalcon_call_func_p2(total, "date", tmp1, tmp);
+
+	t = phalcon_get_intval(total);
+
+	PHALCON_INIT_NVAR(tmp);
+	array_init(tmp);
+
+	PHALCON_INIT_NVAR(months);
+	array_init(months);
+
+	phalcon_array_update_long(&months, y, &tmp, PH_COPY | PH_SEPARATE);
+
+	for (i = 1; i < t; i++) {
+		phalcon_array_update_long_long(&tmp, i, i, 0);
+	}
+
+	phalcon_array_update_long_long_multi_2(&months, y, m, &tmp, PH_COPY | PH_SEPARATE);
+
+	phalcon_update_static_property_ce(phalcon_utils_date_ce, SL("_months"), months TSRMLS_CC);
+
+	RETURN_CCTOR(tmp);
 }
 
 /**
