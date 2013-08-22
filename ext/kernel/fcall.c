@@ -142,14 +142,15 @@ static void phalcon_check_return_value(zval *return_value) {
 
 	if (Z_REFCOUNT_P(return_value) > 1) {
 		valid_return_value = 0;
-		fprintf(stderr, "return_value has %d references, expect crashes!\n", Z_REFCOUNT_P(return_value));
+		fprintf(stderr, "return_value has %u references, expect crashes!\n", Z_REFCOUNT_P(return_value));
 	} else if (Z_TYPE_P(return_value) > IS_BOOL) {
 		valid_return_value = 0;
-		fprintf(stderr, "return_value is of complex type (%d), expect memory leaks!\n", Z_TYPE_P(return_value));
+		fprintf(stderr, "return_value is of complex type (%d), expect memory leaks (refcnt=%u)!\n", Z_TYPE_P(return_value), Z_REFCOUNT_P(return_value));
 	}
 
 	if (!valid_return_value) {
 		phalcon_print_backtrace();
+		abort();
 	}
 #endif
 }
