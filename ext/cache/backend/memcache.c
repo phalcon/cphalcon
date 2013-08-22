@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &frontend, &options);
-
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	} else {
