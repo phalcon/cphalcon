@@ -315,6 +315,16 @@ PHP_METHOD(Phalcon_Utils_Date, hours){
  * @return string
  */
 PHP_METHOD(Phalcon_Utils_Date, ampm){
+
+	zval *hour;
+
+	phalcon_fetch_params(0, 1, 0, &hour);
+
+	if (phalcon_get_intval(hour) > 11) {
+		ZVAL_STRING(return_value, "PM", 1);
+	} else {
+		ZVAL_STRING(return_value, "AM", 1);
+	}
 }
 
 /**
