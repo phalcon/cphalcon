@@ -23,6 +23,20 @@ class DateTest extends PHPUnit_Framework_TestCase
 
 	public function testGD()
 	{
-		$seconds = \Phalcon\Utils\Date::offset('America/Chicago', 'GMT');
+		$ret = \Phalcon\Utils\Date::offset('America/Chicago', 'GMT');
+
+		$ret = \Phalcon\Utils\Date::seconds();
+
+		$ret = \Phalcon\Utils\Date::minutes();
+
+		$ret = \Phalcon\Utils\Date::hours(NULL);
+
+		$ret = \Phalcon\Utils\Date::ampm(12);
+
+		$ret = \Phalcon\Utils\Date::adjust(3, 'pm');
+
+		$ret = \Phalcon\Utils\Date::days(4, 2010);
+
+		$ret = \Phalcon\Utils\Date::months(\Phalcon\Utils\Date::MONTHS_LONG);
 	}
 }
