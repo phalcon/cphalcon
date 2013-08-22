@@ -831,7 +831,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			{
 				INIT_PZVAL(*fci->retval_ptr_ptr);
 			}*/
-			if (executor_globals_ptr->exception && fci->retval_ptr_ptr) {
+			if (executor_globals_ptr->exception && fci->retval_ptr_ptr && *fci->retval_ptr_ptr) {
 				zval_ptr_dtor(fci->retval_ptr_ptr);
 				*fci->retval_ptr_ptr = NULL;
 			}
@@ -855,7 +855,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			}
 			efree(EX(function_state).function);
 
-			if (executor_globals_ptr->exception && fci->retval_ptr_ptr) {
+			if (executor_globals_ptr->exception && fci->retval_ptr_ptr && *fci->retval_ptr_ptr) {
 				zval_ptr_dtor(fci->retval_ptr_ptr);
 				*fci->retval_ptr_ptr = NULL;
 			}
