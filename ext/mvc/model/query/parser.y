@@ -55,15 +55,17 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
+#include "interned-strings.h"
+
 static zval *phql_ret_literal_zval(int type, phql_parser_token *T)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
-	add_assoc_long(ret, "type", type);
+	add_assoc_long(ret, phalcon_interned_type, type);
 	if (T) {
-		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_value, T->token, T->token_len, 0);
 		efree(T);
 	}
 
@@ -76,8 +78,8 @@ static zval *phql_ret_placeholder_zval(int type, phql_parser_token *T)
 
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 2);
-	add_assoc_long(ret, "type", type);
-	add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
+	add_assoc_long(ret, phalcon_interned_type, type);
+	add_assoc_stringl(ret, phalcon_interned_value, T->token, T->token_len, 0);
 	efree(T);
 
 	return ret;
@@ -90,19 +92,19 @@ static zval *phql_ret_qualified_name(phql_parser_token *A, phql_parser_token *B,
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_long(ret, "type", PHQL_T_QUALIFIED);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_QUALIFIED);
 
 	if (A != NULL) {
-		add_assoc_stringl(ret, "ns-alias", A->token, A->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_ns_alias, A->token, A->token_len, 0);
 		efree(A);
 	}
 
 	if (B != NULL) {
-		add_assoc_stringl(ret, "domain", B->token, B->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_domain, B->token, B->token_len, 0);
 		efree(B);
 	}
 
-	add_assoc_stringl(ret, "name", C->token, C->token_len, 0);
+	add_assoc_stringl(ret, phalcon_interned_name, C->token, C->token_len, 0);
 	efree(C);
 
 	return ret;
@@ -115,13 +117,13 @@ static zval *phql_ret_raw_qualified_name(phql_parser_token *A, phql_parser_token
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_long(ret, "type", PHQL_T_RAW_QUALIFIED);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_RAW_QUALIFIED);
 	if (B != NULL) {
-		add_assoc_stringl(ret, "domain", A->token, A->token_len, 0);
-		add_assoc_stringl(ret, "name", B->token, B->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_domain, A->token, A->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_name, B->token, B->token_len, 0);
 		efree(B);
 	} else {
-		add_assoc_stringl(ret, "name", A->token, A->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_name, A->token, A->token_len, 0);
 	}
 	efree(A);
 
@@ -135,23 +137,23 @@ static zval *phql_ret_select_statement(zval *S, zval *W, zval *O, zval *G, zval 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_long(ret, "type", PHQL_T_SELECT);
-	add_assoc_zval(ret, "select", S);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_SELECT);
+	add_assoc_zval(ret, phalcon_interned_select, S);
 
 	if (W != NULL) {
-		add_assoc_zval(ret, "where", W);
+		add_assoc_zval(ret, phalcon_interned_where, W);
 	}
 	if (O != NULL) {
-		add_assoc_zval(ret, "orderBy", O);
+		add_assoc_zval(ret, phalcon_interned_orderBy, O);
 	}
 	if (G != NULL) {
-		add_assoc_zval(ret, "groupBy", G);
+		add_assoc_zval(ret, phalcon_interned_groupBy, G);
 	}
 	if (H != NULL) {
-		add_assoc_zval(ret, "having", H);
+		add_assoc_zval(ret, phalcon_interned_having, H);
 	}
 	if (L != NULL) {
-		add_assoc_zval(ret, "limit", L);
+		add_assoc_zval(ret, phalcon_interned_limit, L);
 	}
 
 	return ret;
@@ -162,16 +164,16 @@ static zval *phql_ret_select_clause(zval *distinct, zval *columns, zval *tables,
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 4);
 
 	if (distinct) {
-		add_assoc_zval(ret, "distinct", distinct);
+		add_assoc_zval(ret, phalcon_interned_distinct, distinct);
 	}
 
-	add_assoc_zval(ret, "columns", columns);
-	add_assoc_zval(ret, "tables", tables);
+	add_assoc_zval(ret, phalcon_interned_columns, columns);
+	add_assoc_zval(ret, phalcon_interned_tables, tables);
 	if (join_list) {
-		add_assoc_zval(ret, "joins", join_list);
+		add_assoc_zval(ret, phalcon_interned_joins, join_list);
 	}
 
 	return ret;
@@ -203,9 +205,9 @@ static zval *phql_ret_order_item(zval *column, int sort){
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
-	add_assoc_zval(ret, "column", column);
+	add_assoc_zval(ret, phalcon_interned_column, column);
 	if (sort != 0 ) {
-		add_assoc_long(ret, "sort", sort);
+		add_assoc_long(ret, phalcon_interned_sort, sort);
 	}
 
 	return ret;
@@ -218,10 +220,10 @@ static zval *phql_ret_limit_clause(zval *L, zval *O)
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 2);
 
-	add_assoc_zval(ret, "number", L);
+	add_assoc_zval(ret, phalcon_interned_number, L);
 
 	if (O != NULL) {
-		add_assoc_zval(ret, "offset", O);
+		add_assoc_zval(ret, phalcon_interned_offset, O);
 	}
 
 	return ret;
@@ -232,14 +234,14 @@ static zval *phql_ret_insert_statement(zval *Q, zval *F, zval *V)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 4);
 
-	add_assoc_long(ret, "type", PHQL_T_INSERT);
-	add_assoc_zval(ret, "qualifiedName", Q);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_INSERT);
+	add_assoc_zval(ret, phalcon_interned_qualifiedName, Q);
 	if (F != NULL) {
-		add_assoc_zval(ret, "fields", F);
+		add_assoc_zval(ret, phalcon_interned_fields, F);
 	}
-	add_assoc_zval(ret, "values", V);
+	add_assoc_zval(ret, phalcon_interned_values, V);
 
 	return ret;
 }
@@ -251,13 +253,13 @@ static zval *phql_ret_update_statement(zval *U, zval *W, zval *L)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_long(ret, "type", PHQL_T_UPDATE);
-	add_assoc_zval(ret, "update", U);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_UPDATE);
+	add_assoc_zval(ret, phalcon_interned_update, U);
 	if (W != NULL) {
-		add_assoc_zval(ret, "where", W);
+		add_assoc_zval(ret, phalcon_interned_where, W);
 	}
 	if (L != NULL) {
-		add_assoc_zval(ret, "limit", L);
+		add_assoc_zval(ret, phalcon_interned_limit, L);
 	}
 
 	return ret;
@@ -269,21 +271,20 @@ static zval *phql_ret_update_clause(zval *tables, zval *values)
 
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 2);
-	add_assoc_zval(ret, "tables", tables);
-	add_assoc_zval(ret, "values", values);
+	add_assoc_zval(ret, phalcon_interned_tables, tables);
+	add_assoc_zval(ret, phalcon_interned_values, values);
 
 	return ret;
 }
 
 static zval *phql_ret_update_item(zval *column, zval *expr)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 2);
-	add_assoc_zval(ret, "column", column);
-	add_assoc_zval(ret, "expr", expr);
+	add_assoc_zval(ret, phalcon_interned_column, column);
+	add_assoc_zval(ret, phalcon_interned_expr, expr);
 
 	return ret;
 }
@@ -295,13 +296,13 @@ static zval *phql_ret_delete_statement(zval *D, zval *W, zval *L)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_long(ret, "type", PHQL_T_DELETE);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_DELETE);
 	add_assoc_zval(ret, "delete", D);
 	if (W != NULL) {
-		add_assoc_zval(ret, "where", W);
+		add_assoc_zval(ret, phalcon_interned_where, W);
 	}
 	if (L != NULL) {
-		add_assoc_zval(ret, "limit", L);
+		add_assoc_zval(ret, phalcon_interned_limit, L);
 	}
 
 	return ret;
@@ -313,16 +314,14 @@ static zval *phql_ret_delete_clause(zval *tables)
 
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 1);
-	add_assoc_zval(ret, "tables", tables);
+	add_assoc_zval(ret, phalcon_interned_tables, tables);
 
 	return ret;
 }
 
 static zval *phql_ret_zval_list(zval *list_left, zval *right_list)
 {
-
 	zval *ret;
-	HashPosition pos;
 	HashTable *list;
 
 	MAKE_STD_ZVAL(ret);
@@ -330,19 +329,18 @@ static zval *phql_ret_zval_list(zval *list_left, zval *right_list)
 
 	list = Z_ARRVAL_P(list_left);
 	if (zend_hash_index_exists(list, 0)) {
-		zend_hash_internal_pointer_reset_ex(list, &pos);
-		for (;; zend_hash_move_forward_ex(list, &pos)) {
+		HashPosition pos;
+		zval **item;
 
-			zval ** item;
-
-			if (zend_hash_get_current_data_ex(list, (void**)&item, &pos) == FAILURE) {
-				break;
-			}
-
+		for (
+			zend_hash_internal_pointer_reset_ex(list, &pos);
+			zend_hash_get_current_data_ex(list, (void**)&item, &pos) != FAILURE;
+			zend_hash_move_forward_ex(list, &pos)
+		) {
 			Z_ADDREF_PP(item);
 			add_next_index_zval(ret, *item);
-
 		}
+
 		zval_ptr_dtor(&list_left);
 	} else {
 		add_next_index_zval(ret, list_left);
@@ -357,21 +355,20 @@ static zval *phql_ret_zval_list(zval *list_left, zval *right_list)
 
 static zval *phql_ret_column_item(int type, zval *column, phql_parser_token *identifier_column, phql_parser_token *alias)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_long(ret, "type", type);
+	array_init_size(ret, 4);
+	add_assoc_long(ret, phalcon_interned_type, type);
 	if (column) {
-		add_assoc_zval(ret, "column", column);
+		add_assoc_zval(ret, phalcon_interned_column, column);
 	}
 	if (identifier_column) {
-		add_assoc_stringl(ret, "column", identifier_column->token, identifier_column->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_column, identifier_column->token, identifier_column->token_len, 0);
 		efree(identifier_column);
 	}
 	if (alias) {
-		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_alias, alias->token, alias->token_len, 0);
 		efree(alias);
 	}
 
@@ -380,19 +377,17 @@ static zval *phql_ret_column_item(int type, zval *column, phql_parser_token *ide
 
 static zval *phql_ret_assoc_name(zval *qualified_name, phql_parser_token *alias)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_zval(ret, "qualifiedName", qualified_name);
+	array_init_size(ret, 2);
+	add_assoc_zval(ret, phalcon_interned_qualifiedName, qualified_name);
 	if (alias) {
-		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_alias, alias->token, alias->token_len, 0);
 		efree(alias);
 	}
 
 	return ret;
-
 }
 
 static zval *phql_ret_join_type(int type)
@@ -407,27 +402,25 @@ static zval *phql_ret_join_type(int type)
 
 static zval *phql_ret_join_item(zval *type, zval *qualified, zval *alias, zval *conditions)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_zval(ret, "type", type);
+	array_init_size(ret, 4);
+	add_assoc_zval(ret, phalcon_interned_type, type);
 
 	if (qualified) {
-		add_assoc_zval(ret, "qualified", qualified);
+		add_assoc_zval(ret, phalcon_interned_qualified, qualified);
 	}
 
 	if (alias) {
-		add_assoc_zval(ret, "alias", alias);
+		add_assoc_zval(ret, phalcon_interned_alias, alias);
 	}
 
 	if (conditions) {
-		add_assoc_zval(ret, "conditions", conditions);
+		add_assoc_zval(ret, phalcon_interned_conditions, conditions);
 	}
 
 	return ret;
-
 }
 
 static zval *phql_ret_expr(int type, zval *left, zval *right)
@@ -435,13 +428,13 @@ static zval *phql_ret_expr(int type, zval *left, zval *right)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_long(ret, "type", type);
+	array_init_size(ret, 2);
+	add_assoc_long(ret, phalcon_interned_type, type);
 	if (left) {
-		add_assoc_zval(ret, "left", left);
+		add_assoc_zval(ret, phalcon_interned_left, left);
 	}
 	if (right) {
-		add_assoc_zval(ret, "right", right);
+		add_assoc_zval(ret, phalcon_interned_right, right);
 	}
 
 	return ret;
@@ -449,21 +442,20 @@ static zval *phql_ret_expr(int type, zval *left, zval *right)
 
 static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments, zval *distinct)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_long(ret, "type", PHQL_T_FCALL);
-	add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+	array_init_size(ret, 4);
+	add_assoc_long(ret, phalcon_interned_type, PHQL_T_FCALL);
+	add_assoc_stringl(ret, phalcon_interned_name, name->token, name->token_len, 0);
 	efree(name);
 
 	if (arguments) {
-		add_assoc_zval(ret, "arguments", arguments);
+		add_assoc_zval(ret, phalcon_interned_arguments, arguments);
 	}
 	
 	if (distinct) {
-		add_assoc_zval(ret, "distinct", distinct);
+		add_assoc_zval(ret, phalcon_interned_distinct, distinct);
 	}
 
 	return ret;
@@ -1192,4 +1184,3 @@ qualified_name(R) ::= IDENTIFIER(A) DOT IDENTIFIER(B) . {
 qualified_name(R) ::= IDENTIFIER(A) . {
 	R = phql_ret_qualified_name(NULL, NULL, A);
 }
-
