@@ -725,6 +725,7 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon){
 static PHP_RINIT_FUNCTION(phalcon){
 
 	php_phalcon_init_globals(PHALCON_VGLOBAL TSRMLS_CC);
+	phalcon_init_interned_strings(TSRMLS_C);
 
 	return SUCCESS;
 }

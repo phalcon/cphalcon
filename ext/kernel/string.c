@@ -1390,3 +1390,12 @@ void phalcon_addslashes(zval *return_value, zval *str TSRMLS_DC)
 		zval_dtor(&copy);
 	}
 }
+
+#if PHP_VERSION_ID < 50400
+
+const char* zend_new_interned_string(const char *arKey, int nKeyLength, int free_src TSRMLS_DC)
+{
+	return arKey;
+}
+
+#endif

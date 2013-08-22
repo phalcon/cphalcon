@@ -17,6 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
+#include "interned-strings.h"
 #include "di/injectionawareinterface.h"
 #include "forms/elementinterface.h"
 #include "mvc/model/validatorinterface.h"
