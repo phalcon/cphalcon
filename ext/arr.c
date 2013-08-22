@@ -352,7 +352,42 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * @return array
  */
  PHP_METHOD(Phalcon_Arr, range){
+
+	zval *step = NULL, *max = NULL;
+	int i, s, m;
+
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 2, &step, &max);
+
+	if (!step) {
+		PHALCON_INIT_VAR(step);
+		ZVAL_LONG(step, 10);
+	} else if (Z_TYPE_P(step) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(step);
+		convert_to_long(step);
+	}
+
+	if (!max) {
+		PHALCON_INIT_VAR(max);
+		ZVAL_LONG(max, 100);
+	} else if (Z_TYPE_P(max) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(max);
+		convert_to_long(max);
+	}
+
+	s = Z_LVAL_P(step);
+	m = Z_LVAL_P(max);
+
+	if (s < 1) {
+		RETURN_MM_EMPTY_ARRAY();
+	}
+
+	array_init(return_value);
+	for (i = s; i <= m; i += s) {
+		phalcon_array_update_long_long(&return_value, i, i, 0);
+	}
+
 	PHALCON_MM_RESTORE();
 }
 
