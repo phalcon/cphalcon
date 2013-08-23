@@ -23,6 +23,8 @@
 #include "config.h"
 #endif
 
+#include <math.h>
+
 #include "php.h"
 #include "php_phalcon.h"
 #include "phalcon.h"
@@ -588,6 +590,123 @@ PHP_METHOD(Phalcon_Utils_Date, years){
  * @return string/array
  */
 PHP_METHOD(Phalcon_Utils_Date, span){
+
+	zval *remote, *local = NULL, *output = NULL;
+	zval *lowercased_output, *count_output, *tmp = NULL, *tmp1, *pattern, *extract_type;
+	long remote_time, local_time, timespan;
+	int i;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 2, &remote, &local, &output);
+
+	if (!output) {
+		PHALCON_INIT_VAR(lowercased_output);
+		ZVAL_STRING(lowercased_output, "years,months,weeks,days,hours,minutes,seconds", 1);
+	} else {
+		PHALCON_SEPARATE_PARAM(output);
+
+		PHALCON_INIT_VAR(tmp);
+		phalcon_fast_trim(tmp, output, PHALCON_TRIM_BOTH TSRMLS_CC);
+
+		PHALCON_INIT_VAR(lowercased_output);
+		phalcon_fast_strtolower(lowercased_output, tmp);
+
+		if (PHALCON_IS_EMPTY(lowercased_output)) {
+			RETURN_MM_FALSE;
+		}
+	}
+
+	PHALCON_INIT_VAR(pattern);
+	ZVAL_STRING(pattern, "/[^a-z]+/", 1);
+
+	PHALCON_INIT_NVAR(output);
+	phalcon_call_func_p2(output, "preg_split", pattern, lowercased_output);
+
+	PHALCON_INIT_VAR(tmp1);
+	ZVAL_LONG(tmp1, 0);
+
+	PHALCON_INIT_VAR(count_output);
+	phalcon_fast_count(count_output, output TSRMLS_CC);
+
+	PHALCON_INIT_NVAR(tmp);
+	phalcon_call_func_p3(tmp, "array_fill", tmp1, count_output, tmp1);
+
+	PHALCON_CPY_WRT(tmp1, output);
+
+	PHALCON_INIT_NVAR(output);
+	phalcon_call_func_p2(output, "array_combine", tmp1, tmp);
+/*
+	PHALCON_INIT_NVAR(tmp);
+	phalcon_call_func_p1(tmp, "array_flip", output);
+
+	PHALCON_INIT_VAR(extract_type);
+	zend_get_constant(SL("EXTR_SKIP"), extract_type TSRMLS_CC);
+
+	phalcon_call_func_p2_noret("extract", tmp, extract_type);
+*/
+	remote_time = phalcon_get_intval(remote);
+	
+	if (!local || Z_TYPE_P(local) == IS_NULL) {
+		local_time = (long) time(NULL);
+	} else {
+		local_time = phalcon_get_intval(local);
+	}
+
+	// Calculate timespan (seconds)
+	timespan = remote_time - local_time;
+	if (timespan < 0) {
+		timespan *= -1;
+	}
+
+	if (phalcon_array_isset_string(output, SS("years"))) {
+		i = (int) floor(timespan / PHALCON_DATE_YEAR);
+		phalcon_array_update_string_long(&output, SL("years"), i, 0);
+		timespan -= PHALCON_DATE_YEAR * i;
+	}
+
+	if (phalcon_array_isset_string(output, SS("months"))) {
+		i = (int) floor(timespan / PHALCON_DATE_MONTH);
+		phalcon_array_update_string_long(&output, SL("months"), i, 0);
+		timespan -= PHALCON_DATE_MONTH * i;
+	}
+
+	if (phalcon_array_isset_string(output, SS("weeks"))) {
+		i = (int) floor(timespan / PHALCON_DATE_WEEK);
+		phalcon_array_update_string_long(&output, SL("weeks"), i, 0);
+		timespan -= PHALCON_DATE_WEEK * i;
+	}
+
+	if (phalcon_array_isset_string(output, SS("days"))) {
+		i = (int) floor(timespan / PHALCON_DATE_DAY);
+		phalcon_array_update_string_long(&output, SL("days"), i, 0);
+		timespan -= PHALCON_DATE_DAY * i;
+	}
+
+	if (phalcon_array_isset_string(output, SS("hours"))) {
+		i = (int) floor(timespan / PHALCON_DATE_HOUR);
+		phalcon_array_update_string_long(&output, SL("hours"), i, 0);
+		timespan -= PHALCON_DATE_HOUR * i;
+	}
+
+	if (phalcon_array_isset_string(output, SS("minutes"))) {
+		i = (int) floor(timespan / PHALCON_DATE_MINUTE);
+		phalcon_array_update_string_long(&output, SL("minutes"), i, 0);
+		timespan -= PHALCON_DATE_MINUTE * i;
+	}
+
+	if (phalcon_array_isset_string(output, SS("seconds"))) {
+		phalcon_array_update_string_long(&output, SL("seconds"), timespan, 0);
+	}
+
+	if (Z_LVAL_P(count_output) == 1) {
+		Z_SET_ISREF_P(output);
+		phalcon_call_func_p1(return_value, "array_pop", output);
+		Z_UNSET_ISREF_P(output);
+		RETURN_MM();
+	}
+
+	RETURN_CCTOR(output);
 }
 
 /**
