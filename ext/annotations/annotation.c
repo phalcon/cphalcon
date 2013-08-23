@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
 }
 
 /**
- *
+ * Checks if the annotation has a specific argument
  *
  * @return bool
  */
@@ -317,62 +317,20 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
  * @param string $name
  * @return mixed
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument){
-
-	zval *name, *arguments, *tmp;
-
-	phalcon_fetch_params(0, 1, 0, &name);
-	
-	arguments = phalcon_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
-	if (phalcon_array_isset_fetch(&tmp, arguments, name)) {
-		Z_ADDREF_P(tmp);
-		if (return_value_ptr) {
-			zval_ptr_dtor(return_value_ptr);
-			*return_value_ptr = tmp;
-		}
-		else {
-			RETURN_ZVAL(tmp, 1, 0);
-		}
-	}
-}
+PHALCON_DOC_METHOD(Phalcon_Annotations_Annotation, getNamedArgument);
 
 /**
  * Returns a named argument (deprecated)
  *
+ * @deprecated
  * @param string $name
  * @return mixed
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
-
-	zval *name, *arguments, *tmp;
-
-	phalcon_fetch_params(0, 1, 0, &name);
-	
-	arguments = phalcon_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
-
-	if (phalcon_array_isset_fetch(&tmp, arguments, name)) {
-		Z_ADDREF_P(tmp);
-		if (return_value_ptr) {
-			zval_ptr_dtor(return_value_ptr);
-			*return_value_ptr = tmp;
-		}
-		else {
-			RETURN_ZVAL(tmp, 1, 0);
-		}
-	}
-}
+PHALCON_DOC_METHOD(Phalcon_Annotations_Annotation, getNamedParameter);
 
 /**
  * Checks if the annotation has a specific named argument
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument){
-
-	zval *name, *arguments;
-
-	phalcon_fetch_params(0, 1, 0, &name);
-	
-	arguments = phalcon_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
-	RETURN_BOOL(phalcon_array_isset(arguments, name));
-}
+PHALCON_DOC_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument);
