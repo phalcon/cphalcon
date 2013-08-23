@@ -67,9 +67,9 @@ class Adapter
 	 *
 	 * @param Phalcon\Events\ManagerInterface $eventsManager
 	 */
-	public function setEventsManager(events_manager)
+	public function setEventsManager(eventsManager)
 	{
-		let this->_eventsManager = events_manager;
+		let this->_eventsManager = eventsManager;
 	}
 	
 	/**
