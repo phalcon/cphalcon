@@ -679,6 +679,29 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($cache->delete('test-output'));
 	}
 
+    public function testXcacheIncrement()
+    {
+
+        $ready = $this->_prepareXcache();
+        if (!$ready) {
+            return false;
+        }
+
+        $frontCache = new Phalcon\Cache\Frontend\Output(array(
+            'lifetime' => 20
+        ));
+
+        $cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+        $cache->delete('foo');
+
+        $cache->save('foo', 1);
+        $newValue = $cache->increment('foo');
+        $this->assertSame('2', $newValue);
+
+        $newValue = $cache->increment('foo', 3);
+        $this->assertSame('5', $newValue);
+    }
+
 	public function testDataXcache()
 	{
 		$ready = $this->_prepareXcache();

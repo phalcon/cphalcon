@@ -75429,6 +75429,70 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists){
 	RETURN_MM_FALSE;
 }
 
+static PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
+	
+	zval *key_name = NULL, *value = NULL;
+	zval *newVal;
+	
+	PHALCON_MM_GROW();
+	
+	phalcon_fetch_params(1, 0, 2, &key_name, &value);
+	
+	if (!key_name) {
+		PHALCON_INIT_VAR(key_name);
+	}
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+	
+	if (Z_TYPE_P(value) == IS_NULL) {
+		Z_LVAL_P(value) = 1;
+		Z_TYPE_P(value) = IS_LONG;
+	}
+	
+	if (Z_TYPE_P(value) != IS_LONG) {
+		convert_to_long_ex(&value);
+	}
+	
+	PHALCON_INIT_VAR(newVal);
+	phalcon_call_func_p2(newVal, "xcache_inc", key_name, value);
+	
+	RETURN_CTOR(newVal);
+}
+
+static PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
+	
+	zval *key_name = NULL, *value = NULL;
+	zval *newVal;
+	
+	PHALCON_MM_GROW();
+	
+	phalcon_fetch_params(1, 0, 2, &key_name, &value);
+	
+	if (!key_name) {
+		PHALCON_INIT_VAR(key_name);
+	}
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+	
+	if (Z_TYPE_P(value) == IS_NULL) {
+		Z_LVAL_P(value) = 1;
+		Z_TYPE_P(value) = IS_LONG;
+	}
+	
+	if (Z_TYPE_P(value) != IS_LONG) {
+		convert_to_long_ex(&value);
+	}
+	
+	PHALCON_INIT_VAR(newVal);
+	phalcon_call_func_p2(newVal, "xcache_dec", key_name, value);
+	
+	RETURN_CTOR(newVal);
+}
+
 
 
 
@@ -76060,35 +76124,35 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &frontend, &options);
-
+	
 	if (!options) {
 		PHALCON_INIT_VAR(options);
 	} else {
 		PHALCON_SEPARATE_PARAM(options);
 	}
-
-	if (Z_TYPE_P(options) != IS_ARRAY) {
+	
+	if (Z_TYPE_P(options) != IS_ARRAY) {	
 		PHALCON_INIT_NVAR(options);
 		array_init(options);
 	}
 	if (!phalcon_array_isset_quick_string(options, SS("host"), 210715003587UL)) {
 		phalcon_array_update_string_string(&options, SL("host"), SL("127.0.0.1"), PH_SEPARATE);
 	}
-
+	
 	if (!phalcon_array_isset_quick_string(options, SS("port"), 210724489866UL)) {
 		phalcon_array_update_string_string(&options, SL("port"), SL("11211"), PH_SEPARATE);
 	}
-
+	
 	if (!phalcon_array_isset_quick_string(options, SS("persistent"), 13889047896653944054UL)) {
 		phalcon_array_update_string_bool(&options, SL("persistent"), 0, PH_SEPARATE);
 	}
-
+	
 	if (!phalcon_array_isset_quick_string(options, SS("statsKey"), 249907008248680893UL)) {
 		phalcon_array_update_string_string(&options, SL("statsKey"), SL("_PHCM"), PH_SEPARATE);
 	}
-
+	
 	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\Memcache", "__construct", frontend, options);
-
+	
 	PHALCON_MM_RESTORE();
 }
 
@@ -76103,19 +76167,19 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property_this_quick(&options, this_ptr, SL("_options"), 249878686345564848UL, PH_NOISY_CC);
 	ce0 = zend_fetch_class(SL("Memcache"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-
+	
 	PHALCON_INIT_VAR(memcache);
 	object_init_ex(memcache, ce0);
 	if (phalcon_has_constructor(memcache TSRMLS_CC)) {
 		phalcon_call_method_key(NULL, memcache, "__construct", 14747615951113338888UL);
 	}
-
+	
 	PHALCON_OBS_VAR(host);
 	phalcon_array_fetch_quick_string(&host, options, SS("host"), 210715003587UL, PH_NOISY);
-
+	
 	PHALCON_OBS_VAR(port);
 	phalcon_array_fetch_quick_string(&port, options, SS("port"), 210724489866UL, PH_NOISY);
-
+	
 	PHALCON_OBS_VAR(persistent);
 	phalcon_array_fetch_quick_string(&persistent, options, SS("persistent"), 13889047896653944054UL, PH_NOISY);
 
@@ -76125,14 +76189,14 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 	} else {
 		phalcon_call_method_p2_key(success, memcache, "connect", host, port, 7572251792639919UL);
 	}
-
+	
 	if (!zend_is_true(success)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cannot connect to Memcached server");
 		return;
 	}
-
+	
 	phalcon_update_property_this_quick(this_ptr, SL("_memcache"), memcache, 8245993358491435767UL TSRMLS_CC);
-
+	
 	PHALCON_MM_RESTORE();
 }
 
@@ -76144,39 +76208,39 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &key_name, &lifetime);
-
+	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
 	}
-
+	
 	PHALCON_OBS_VAR(memcache);
 	phalcon_read_property_this_quick(&memcache, this_ptr, SL("_memcache"), 8245993358491435767UL, PH_NOISY_CC);
 	if (Z_TYPE_P(memcache) != IS_OBJECT) {
 		phalcon_call_method_key(NULL, this_ptr, "_connect", 249878173403527086UL);
-
+	
 		PHALCON_OBS_NVAR(memcache);
 		phalcon_read_property_this_quick(&memcache, this_ptr, SL("_memcache"), 8245993358491435767UL, PH_NOISY_CC);
 	}
-
+	
 	PHALCON_OBS_VAR(frontend);
 	phalcon_read_property_this_quick(&frontend, this_ptr, SL("_frontend"), 8245984070706902916UL, PH_NOISY_CC);
-
+	
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property_this_quick(&prefix, this_ptr, SL("_prefix"), 7572082756246866UL, PH_NOISY_CC);
-
+	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	phalcon_update_property_this_quick(this_ptr, SL("_lastKey"), prefixed_key, 249878539090822785UL TSRMLS_CC);
-
+	
 	PHALCON_INIT_VAR(cached_content);
 	phalcon_call_method_p1_key(cached_content, memcache, "get", prefixed_key, 6385256229UL);
 	if (PHALCON_IS_FALSE(cached_content)) {
 		RETURN_MM_NULL();
 	}
-
+	
 	if(phalcon_is_numeric(cached_content)) {
-        RETURN_CCTOR(cached_content);
-    }
+		RETURN_CCTOR(cached_content);
+	}
 
 	phalcon_call_method_p1_key(return_value, frontend, "afterretrieve", cached_content, 4959236334322478333UL);
 	RETURN_MM();
@@ -76192,31 +76256,31 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 4, &key_name, &content, &lifetime, &stop_buffer);
-
+	
 	if (!key_name) {
 		PHALCON_INIT_VAR(key_name);
 	}
-
+	
 	if (!content) {
 		PHALCON_INIT_VAR(content);
 	}
-
+	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
 	}
-
+	
 	if (!stop_buffer) {
 		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
 	}
-
+	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
 		PHALCON_OBS_VAR(last_key);
 		phalcon_read_property_this_quick(&last_key, this_ptr, SL("_lastKey"), 249878539090822785UL, PH_NOISY_CC);
 	} else {
 		PHALCON_OBS_VAR(prefix);
 		phalcon_read_property_this_quick(&prefix, this_ptr, SL("_prefix"), 7572082756246866UL, PH_NOISY_CC);
-
+	
 		PHALCON_INIT_NVAR(last_key);
 		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
@@ -76224,26 +76288,26 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
-
+	
 	PHALCON_OBS_VAR(frontend);
 	phalcon_read_property_this_quick(&frontend, this_ptr, SL("_frontend"), 8245984070706902916UL, PH_NOISY_CC);
-
+	
 	PHALCON_OBS_VAR(memcache);
 	phalcon_read_property_this_quick(&memcache, this_ptr, SL("_memcache"), 8245993358491435767UL, PH_NOISY_CC);
 	if (Z_TYPE_P(memcache) != IS_OBJECT) {
 		phalcon_call_method_key(NULL, this_ptr, "_connect", 249878173403527086UL);
-
+	
 		PHALCON_OBS_NVAR(memcache);
 		phalcon_read_property_this_quick(&memcache, this_ptr, SL("_memcache"), 8245993358491435767UL, PH_NOISY_CC);
 	}
-
+	
 	if (Z_TYPE_P(content) == IS_NULL) {
 		PHALCON_INIT_VAR(cached_content);
 		phalcon_call_method_key(cached_content, frontend, "getcontent", 13875265824261843712UL);
 	} else {
 		PHALCON_CPY_WRT(cached_content, content);
 	}
-
+	
 	PHALCON_INIT_VAR(prepared_content);
 	phalcon_call_method_p1_key(prepared_content, frontend, "beforestore", cached_content, 14908571131375568901UL);
 	if (Z_TYPE_P(lifetime) == IS_NULL) {
@@ -76252,51 +76316,51 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 	} else {
 		PHALCON_CPY_WRT(ttl, lifetime);
 	}
-
+	
 	PHALCON_INIT_VAR(flags);
 	ZVAL_LONG(flags, 0);
-
+	
 	PHALCON_INIT_VAR(success);
 	if(phalcon_is_numeric(cached_content)) {
-        phalcon_call_method_p4_key(success, memcache, "set", last_key, cached_content, flags, ttl, 6385687473UL);
-    } else {
-        phalcon_call_method_p4_key(success, memcache, "set", last_key, prepared_content, flags, ttl, 6385687473UL);
-    }
+		phalcon_call_method_p4_key(success, memcache, "set", last_key, cached_content, flags, ttl, 6385687473UL);
+	} else {
+		phalcon_call_method_p4_key(success, memcache, "set", last_key, prepared_content, flags, ttl, 6385687473UL);
+	}
 	if (!zend_is_true(success)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Failed storing data in memcached");
 		return;
 	}
-
+	
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property_this_quick(&options, this_ptr, SL("_options"), 249878686345564848UL, PH_NOISY_CC);
-
+	
 	PHALCON_OBS_VAR(special_key);
 	phalcon_array_fetch_quick_string(&special_key, options, SS("statsKey"), 249907008248680893UL, PH_NOISY);
-
+	
 	PHALCON_INIT_VAR(keys);
 	phalcon_call_method_p1_key(keys, memcache, "get", special_key, 6385256229UL);
-	if (Z_TYPE_P(keys) != IS_ARRAY) {
+	if (Z_TYPE_P(keys) != IS_ARRAY) {	
 		PHALCON_INIT_NVAR(keys);
 		array_init(keys);
 	}
-
+	
 	if (!phalcon_array_isset(keys, last_key)) {
 		phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE);
 		phalcon_call_method_p2_key(NULL, memcache, "set", special_key, keys, 6385687473UL);
 	}
-
+	
 	PHALCON_INIT_VAR(is_buffering);
 	phalcon_call_method_key(is_buffering, frontend, "isbuffering", 15283630264599125529UL);
 	if (PHALCON_IS_TRUE(stop_buffer)) {
 		phalcon_call_method_key(NULL, frontend, "stop", 210728223915UL);
 	}
-
+	
 	if (PHALCON_IS_TRUE(is_buffering)) {
 		zend_print_zval(cached_content, 0);
 	}
-
+	
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
-
+	
 	PHALCON_MM_RESTORE();
 }
 
@@ -76313,30 +76377,30 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 	phalcon_read_property_this_quick(&memcache, this_ptr, SL("_memcache"), 8245993358491435767UL, PH_NOISY_CC);
 	if (Z_TYPE_P(memcache) != IS_OBJECT) {
 		phalcon_call_method_key(NULL, this_ptr, "_connect", 249878173403527086UL);
-
+		
 		PHALCON_OBS_NVAR(memcache);
 		phalcon_read_property_this_quick(&memcache, this_ptr, SL("_memcache"), 8245993358491435767UL, PH_NOISY_CC);
 	}
-
+	
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property_this_quick(&prefix, this_ptr, SL("_prefix"), 7572082756246866UL, PH_NOISY_CC);
-
+	
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
-
+	
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property_this_quick(&options, this_ptr, SL("_options"), 249878686345564848UL, PH_NOISY_CC);
-
+	
 	PHALCON_OBS_VAR(special_key);
 	phalcon_array_fetch_quick_string(&special_key, options, SS("statsKey"), 249907008248680893UL, PH_NOISY);
-
+	
 	PHALCON_INIT_VAR(keys);
 	phalcon_call_method_p1_key(keys, memcache, "get", special_key, 6385256229UL);
-	if (Z_TYPE_P(keys) == IS_ARRAY) {
+	if (Z_TYPE_P(keys) == IS_ARRAY) {	
 		phalcon_array_unset(&keys, prefixed_key, PH_SEPARATE);
 		phalcon_call_method_p2_key(NULL, memcache, "set", special_key, keys, 6385687473UL);
 	}
-
+	
 	phalcon_call_method_p1_key(return_value, memcache, "delete", prefixed_key, 229463072969592UL);
 	RETURN_MM();
 }
@@ -76352,11 +76416,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 1, &prefix);
-
+	
 	if (!prefix) {
 		PHALCON_INIT_VAR(prefix);
 	}
-
+	
 	PHALCON_OBS_VAR(memcache);
 	phalcon_read_property_this_quick(&memcache, this_ptr, SL("_memcache"), 8245993358491435767UL, PH_NOISY_CC);
 	if (Z_TYPE_P(memcache) != IS_OBJECT) {
@@ -76365,22 +76429,22 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 		PHALCON_OBS_NVAR(memcache);
 		phalcon_read_property_this_quick(&memcache, this_ptr, SL("_memcache"), 8245993358491435767UL, PH_NOISY_CC);
 	}
-
+	
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property_this_quick(&options, this_ptr, SL("_options"), 249878686345564848UL, PH_NOISY_CC);
-
+	
 	PHALCON_OBS_VAR(special_key);
 	phalcon_array_fetch_quick_string(&special_key, options, SS("statsKey"), 249907008248680893UL, PH_NOISY);
-
+	
 	PHALCON_INIT_VAR(keys);
 	phalcon_call_method_p1_key(keys, memcache, "get", special_key, 6385256229UL);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
-
+		
 		PHALCON_INIT_VAR(prefixed_keys);
 		array_init(prefixed_keys);
 
 		phalcon_is_iterable(keys, &ah0, &hp0, 0, 0);
-
+		
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
 			PHALCON_GET_HKEY(key, ah0, hp0);
@@ -76396,10 +76460,10 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
-
+		
 		RETURN_CTOR(prefixed_keys);
 	}
-
+	
 	RETURN_MM_EMPTY_ARRAY();
 }
 
@@ -76411,15 +76475,15 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 2, &key_name, &lifetime);
-
+	
 	if (!key_name) {
 		PHALCON_INIT_VAR(key_name);
 	}
-
+	
 	if (!lifetime) {
 		PHALCON_INIT_VAR(lifetime);
 	}
-
+	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
 		PHALCON_OBS_VAR(last_key);
 		phalcon_read_property_this_quick(&last_key, this_ptr, SL("_lastKey"), 249878539090822785UL, PH_NOISY_CC);
@@ -76447,77 +76511,77 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 			RETURN_MM_TRUE;
 		}
 	}
-
+	
 	RETURN_MM_FALSE;
 }
 
 static PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment){
-
+	
 	zval *key_name = NULL, *value = NULL, *memcache = NULL;
 	zval *newVal;
-
+	
 	PHALCON_MM_GROW();
-
+	
 	phalcon_fetch_params(1, 0, 2, &key_name, &value);
-
+	
 	if (!key_name) {
 		PHALCON_INIT_VAR(key_name);
 	}
-
+	
 	if (!value) {
 		PHALCON_INIT_VAR(value);
 	}
-
+	
 	if (Z_TYPE_P(value) == IS_NULL) {
 		Z_LVAL_P(value) = 1;
 		Z_TYPE_P(value) = IS_LONG;
 	}
-
+	
 	if (Z_TYPE_P(value) != IS_LONG) {
 		convert_to_long_ex(&value);
 	}
-
+	
 	PHALCON_OBS_VAR(memcache);
 	phalcon_read_property_this_quick(&memcache, this_ptr, SL("_memcache"), 8245993358491435767UL, PH_NOISY_CC);
-
+	
 	PHALCON_INIT_VAR(newVal);
 	phalcon_call_method_p2_key(newVal, memcache, "increment", key_name, value, 8246458801057108170UL);
-
+	
 	RETURN_CTOR(newVal);
 }
 
 static PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
-
+	
 	zval *key_name = NULL, *value = NULL, *memcache = NULL;
 	zval *newVal;
-
+	
 	PHALCON_MM_GROW();
-
+	
 	phalcon_fetch_params(1, 0, 2, &key_name, &value);
-
+	
 	if (!key_name) {
 		PHALCON_INIT_VAR(key_name);
 	}
-
+	
 	if (!value) {
 		PHALCON_INIT_VAR(value);
 	}
-
+	
 	if (Z_TYPE_P(value) == IS_NULL) {
 		Z_LVAL_P(value) = 1;
 		Z_TYPE_P(value) = IS_LONG;
 	}
-
+	
 	if (Z_TYPE_P(value) != IS_LONG) {
 		convert_to_long_ex(&value);
 	}
-
+	
 	PHALCON_OBS_VAR(memcache);
 	phalcon_read_property_this_quick(&memcache, this_ptr, SL("_memcache"), 8245993358491435767UL, PH_NOISY_CC);
-
+	
 	PHALCON_INIT_VAR(newVal);
 	phalcon_call_method_p2_key(newVal, memcache, "decrement", key_name, value, 8246214085957534236UL);
-
+	
 	RETURN_CTOR(newVal);
 }
 

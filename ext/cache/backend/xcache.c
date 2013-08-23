@@ -442,3 +442,81 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists){
 	RETURN_MM_FALSE;
 }
 
+/**
+ * Atomic increment of a given key, by number $value
+ *
+ * @param  string $keyName
+ * @param  long $value
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
+	
+	zval *key_name = NULL, *value = NULL;
+	zval *newVal;
+	
+	PHALCON_MM_GROW();
+	
+	phalcon_fetch_params(1, 0, 2, &key_name, &value);
+	
+	if (!key_name) {
+		PHALCON_INIT_VAR(key_name);
+	}
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+	
+	if (Z_TYPE_P(value) == IS_NULL) {
+		Z_LVAL_P(value) = 1;
+		Z_TYPE_P(value) = IS_LONG;
+	}
+	
+	if (Z_TYPE_P(value) != IS_LONG) {
+		convert_to_long_ex(&value);
+	}
+	
+	PHALCON_INIT_VAR(newVal);
+	phalcon_call_func_p2(newVal, "xcache_inc", key_name, value);
+	
+	RETURN_CTOR(newVal);
+}
+
+/**
+ * Atomic decrement of a given key, by number $value
+ *
+ * @param  string $keyName
+ * @param  long $value
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
+	
+	zval *key_name = NULL, *value = NULL;
+	zval *newVal;
+	
+	PHALCON_MM_GROW();
+	
+	phalcon_fetch_params(1, 0, 2, &key_name, &value);
+	
+	if (!key_name) {
+		PHALCON_INIT_VAR(key_name);
+	}
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+	
+	if (Z_TYPE_P(value) == IS_NULL) {
+		Z_LVAL_P(value) = 1;
+		Z_TYPE_P(value) = IS_LONG;
+	}
+	
+	if (Z_TYPE_P(value) != IS_LONG) {
+		convert_to_long_ex(&value);
+	}
+	
+	PHALCON_INIT_VAR(newVal);
+	phalcon_call_func_p2(newVal, "xcache_dec", key_name, value);
+	
+	RETURN_CTOR(newVal);
+}
+
