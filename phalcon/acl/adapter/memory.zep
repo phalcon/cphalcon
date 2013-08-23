@@ -311,9 +311,322 @@ class Memory
 	 	let internalAccessList = this->accessList;
 	 	
 	 	if typeof accessList == "array" {
-	 		for accesKey, accessName in accessList {
-	 			
+	 		for accessName in accessList {
+	 			let accessKey = resourceName . "!" . accessName;
+	 			if isset internalAccessList[accessKey] {
+	 				let this->_accessList[accessKey] = exists;
+	 			}
+	 		}
+	 	} else {
+	 		if typeof accessList == "string" {
+	 			let accessKey = resourceName . "!" . accessName;
+	 			if isset internalAccessList[accessKey] {
+	 				let this->_accessList[accessKey] = exists;
+	 			}		
 	 		}
 	 	}
+	 }
+	 
+	 /**
+	 * Removes an access from a resource
+	 *
+	 * @param string $resourceName
+	 * @param mixed $accessList
+	 */
+	 public function dropResourceAccess(resourceName, accessList)
+	 {
+	 	let internalAccessList = this->accessList;
+	 	
+	 	if typeof accessList == "array" {
+	 		for accessName in accessList {
+	 			let accessKey = resourceName . "!" . accessName;
+	 			if isset internalAccessList[accessKey] {
+	 				unset this->_accessList[accessKey];
+	 			}
+	 		}
+	 	} else {
+	 		if typeof accessList == "string" {
+	 			let accessKey = resourceName . "!" . accessName;
+	 			if isset internalAccessList[accessKey] {
+	 				unset this->_accessList[accessKey];
+	 			}		
+	 		}
+	 	}
+	 }
+	 
+	 /**
+	 * Checks if a role has access to a resource
+	 *
+	 * @param string $roleName
+	 * @param string $resourceName
+	 * @param string $access
+	 * @param string $action
+	 */
+	 public function _allowOrDeny(roleName, resourceName, access, action)
+	 {
+	 	let rolesNames = this->_rolesNames;
+	 	if isset rolesNames[roleName] {
+	 		let exceptionMessage = "Role \"" . role_name . "\" does not exist in ACL";
+	 		throw new  Phalcon\Acl\Exception(exceptionMessage);
+	 	}
+	 	
+	 	let resourcesNames = this->_resourcesNames;
+	 	if isset resourcesNames[resourceName] {
+	 		let exceptionMessage = "Resource '" . resource_name . "' does not exist in ACL";
+	 		throw new  Phalcon\Acl\Exception(exceptionMessage);
+	 	}
+	 	
+	 	let defaultAccess = this->_defaultAccess;
+	 	let accessList = this->_accessList;
+	 	
+	 	let internalAccess = this->_access;
+	 	if typeof access == "array" {
+	 		
+	 		for accessName in access {
+	 			let accessKey = resourceName . "!" . accessName;
+	 			if !isset internalAccessList[accessKey] {
+	 				let exceptionMessage = "Acccess '" . accessName . "' does not exist in resource '" . resourceName . "'";
+	 				throw new  Phalcon\Acl\Exception(exceptionMessage);
+	 			}
+	 		}
+	 		
+	 		for accessName in access {
+	 			let accessKey = roleName . "!" .resourceName . "!" . accessName;
+	 			let this->_access[accessKey] = action;
+	 			
+	 			if accessName != "*" {
+	 				let accessKeyAll = roleName . "!" . resourceName . "!*";
+	 				if isset internalAccess[accessKeyAll] {
+		 				let this->_access[accessKeyAll] = defaultAccess ;
+		 			}
+	 			}
+	 		}
+	 	} else {
+	 		if access != "*" {
+	 			let accessKey = resourceName . "!" . access;
+	 			if !isset accessList[accessKey] {
+	 				let exceptionMessage = "Acccess '" . access . "' does not exist in resource '" . resourceName . "'";
+	 				throw new  Phalcon\Acl\Exception(exceptionMessage);
+	 			}
+	 		}
+	 		
+	 		let accessKey = roleName . "!" . resourceName . "!" . access;
+	 		
+	 		/** 
+			 * Define the access action for the specified accessKey
+			 */
+			 let this->_access[accesskey] = action;
+			 
+			 if access != "*" {
+			 	let accessKey = roleName . "!" . resourceName . "!*";
+			 	
+			 	/** 
+				 * If there is no default action for all the rest actions in the resource set the
+				 * default one
+				 */
+				 if !isset internalAccess[accessKey] {
+				 	let this->_access[accessKey] = defaultAccess; 
+				 }
+			 }
+			 
+	 	}
+	 }
+	 
+	 /**
+	 * Allow access to a role on a resource
+	 *
+	 * You can use '*' as wildcard
+	 *
+	 * Example:
+	 * <code>
+	 * //Allow access to guests to search on customers
+	 * $acl->allow('guests', 'customers', 'search');
+	 *
+	 * //Allow access to guests to search or create on customers
+	 * $acl->allow('guests', 'customers', array('search', 'create'));
+	 *
+	 * //Allow access to any role to browse on products
+	 * $acl->allow('*', 'products', 'browse');
+	 *
+	 * //Allow access to any role to browse on any resource
+	 * $acl->allow('*', '*', 'browse');
+	 * </code>
+	 *
+	 * @param string $roleName
+	 * @param string $resourceName
+	 * @param mixed $access
+	 */
+	 public function allow(roleName, resourceName, access)
+	 {
+	 	return this->_allowordeny(roleName, resourceName, access, action);
+	 }
+	 
+	 /**
+	 * Deny access to a role on a resource
+	 *
+	 * You can use '*' as wildcard
+	 *
+	 * Example:
+	 * <code>
+	 * //Deny access to guests to search on customers
+	 * $acl->deny('guests', 'customers', 'search');
+	 *
+	 * //Deny access to guests to search or create on customers
+	 * $acl->deny('guests', 'customers', array('search', 'create'));
+	 *
+	 * //Deny access to any role to browse on products
+	 * $acl->deny('*', 'products', 'browse');
+	 *
+	 * //Deny access to any role to browse on any resource
+	 * $acl->deny('*', '*', 'browse');
+	 * </code>
+	 *
+	 * @param string $roleName
+	 * @param string $resourceName
+	 * @param mixed $access
+	 * @return boolean
+	 */
+	 public function deny(roleName, resourceName, access)
+	 {
+	 	let action = 0;
+	 	return this->_allowordeny(roleName, resourceName, access, action);
+	 }
+	 
+	 /**
+	 * Check whether a role is allowed to access an action from a resource
+	 *
+	 * <code>
+	 * //Does andres have access to the customers resource to create?
+	 * $acl->isAllowed('andres', 'Products', 'create');
+	 *
+	 * //Do guests have access to any resource to edit?
+	 * $acl->isAllowed('guests', '*', 'edit');
+	 * </code>
+	 *
+	 * @param  string $role
+	 * @param  string $resource
+	 * @param  string $access
+	 * @return boolean
+	 */
+	 public function isAllowed(role, resource, access)
+	 {
+	 	let _activeRole = role;
+	 	let _activeResource = resource;
+	 	let _activeAccess = resource;
+	 	
+	 	let eventsManager = this->_eventsManager;
+	 	if typeof eventsManager == "object" {
+	 		let eventName = "acl:beforeCheckAccess";
+	 		let status = eventsManager->fire(eventName, this);
+	 		
+	 		if !status {
+	 			return status;
+	 		}
+		
+	 	}
+	 	
+	 	let defaultAccess = this->_defaultAccess;
+	 	
+	 	/** 
+		 * Check if the role exists
+		 */
+		 let rolesNames = this->_rolesNames;
+		 if !isset rolesNames[role] {
+		 	return defaultAccess;
+		 }
+		 
+		 let accessList = this->_access;
+		 let accesskey = role . "!" . resource . "!" . access;
+		 
+		 /** 
+		 * Check if there is a direct combination for role-resource-access
+		 */
+		 if isset accessList[accessKey] {
+		 	let haveAccess = accessList[accessKey];
+		 }
+		 
+		 /** 
+		 * Check in the inherits roles
+		 */
+		 if haveAccess == null {
+		 	
+		 	let roleInherits = this->_roleInherits;
+		 	if isset roleInherits[role] {
+		 		let inheritedRoles = roleInherits[role];
+		 	}
+		 	
+		 	if typeof inheritedRoles == "array" {
+		 		for inheritedRole in inheritedRoles {
+		 			let accessKey = inheritedRole . "!" . resource . "!" . access;
+		 			
+		 			/** 
+					 * Check if there is a direct combination in one of the inherited roles
+					 */
+					 if isset accessList[accessKey] {
+					 	let haveAccess = accessList[accessKey];
+					 }
+		 		}
+		 	}
+		 }
+		 
+		 /** 
+		 * If access wasn't found yet, try role-resource-*
+		 */
+		 if haveAccess == null {
+		 
+		 	let accessKey =  role . "!" . resource . "!*";
+		 	
+		 	/** 
+			 * In the direct role
+			 */
+			 if isset accessList[accessKey] {
+			 	let haveAccess = accessList[accessKey];
+			 } else {
+			 	if typeof inheritedRoles == "array" {
+			 		for inheritedRole in inheritedRoles {
+			 			let accessKey = inheritedRole, "!", resource, "!*";
+			 			
+			 			/** 
+						 * In the inherited roles
+						 */
+						 if isset accessList[accessKey] {
+						 	let haveAccess = accessList[accessKey];
+						 	break;
+						 }
+			 		}
+			 	}
+			 }
+		 }
+		 
+		 /** 
+		 * If access wasn't found yet, try role-*-*
+		 */
+		 if haveAccess == null {
+		 
+		 	let accessKey =  role, "!*!*";
+		 	
+		 	/** 
+			 * Try in the direct role
+			 */
+			 if isset accessList[accessKey] {
+			 	let haveAccess = accessList[accessKey];
+			 } else {
+			 	if typeof inheritedRoles == "array" {
+			 		for inheritedRole in inheritedRoles {
+			 			let accessKey = inheritedRole, "!*!*";
+			 			
+			 			/** 
+						 * In the inherited roles
+						 */
+						 if isset accessList[accessKey] {
+						 	let haveAccess = accessList[accessKey];
+						 	break;
+						 }
+			 		}
+			 	}
+			 }
+		}
+		
+		#continue.....
 	 }
 }
