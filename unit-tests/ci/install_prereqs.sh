@@ -9,6 +9,7 @@ else
 fi
 
 pecl install igbinary < /dev/null && phpenv config-add $(DIR)/igbinary.ini &
+php -v
 
 PREVDIR=$(pwd)
 cd ~; svn co svn://svn.lighttpd.net/xcache/trunk xcache-trunk; cd xcache-trunk
