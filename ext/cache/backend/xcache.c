@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists){
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 	
 	zval *key_name = NULL, *value = NULL, *last_key = NULL;
-	zval *newVal, *prefix;
+	zval *newVal, *prefix, *origVal, *success;
 	
 	PHALCON_MM_GROW();
 	
@@ -493,11 +493,21 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
-	
+
 	PHALCON_INIT_VAR(newVal);
-	phalcon_call_func_p2(newVal, "xcache_inc", last_key, value);
+	if (zend_hash_exists(EG(function_table), "xcache_inc", 11) == 1) {
+		phalcon_call_func_p2(newVal, "xcache_inc", last_key, value);
 	
-	RETURN_CTOR(newVal);
+		RETURN_CTOR(newVal);
+	} else {
+		PHALCON_INIT_VAR(origVal);
+		PHALCON_INIT_VAR(success);
+		phalcon_call_func_p1(origVal, "xcache_get", last_key);
+		Z_LVAL_P(newVal) = Z_LVAL_P(origVal) + Z_LVAL_P(value);
+		phalcon_call_func_p2(success, "xcache_set", last_key, newVal);
+
+		RETURN_CTOR(newVal);
+	}
 }
 
 /**
@@ -510,7 +520,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 	
 	zval *key_name = NULL, *value = NULL, *last_key = NULL;
-	zval *newVal, *prefix;
+	zval *newVal, *prefix, *origVal, *success;
 	
 	PHALCON_MM_GROW();
 	
@@ -547,10 +557,20 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
-	
+
 	PHALCON_INIT_VAR(newVal);
-	phalcon_call_func_p2(newVal, "xcache_dec", last_key, value);
+	if (zend_hash_exists(EG(function_table), "xcache_dec", 11) == 1) {
+		phalcon_call_func_p2(newVal, "xcache_dec", last_key, value);
 	
-	RETURN_CTOR(newVal);
+		RETURN_CTOR(newVal);
+	} else {
+		PHALCON_INIT_VAR(origVal);
+		PHALCON_INIT_VAR(success);
+		phalcon_call_func_p1(origVal, "xcache_get", last_key);
+		Z_LVAL_P(newVal) = Z_LVAL_P(origVal) - Z_LVAL_P(value);
+		phalcon_call_func_p2(success, "xcache_set", last_key, newVal);
+
+		RETURN_CTOR(newVal);
+	}
 }
 
