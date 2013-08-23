@@ -436,7 +436,7 @@ class Memory
 	 */
 	 public function allow(roleName, resourceName, access)
 	 {
-	 	return this->_allowordeny(roleName, resourceName, access, action);
+	 	return this->_allowordeny(roleName, resourceName, access, 1);
 	 }
 	 
 	 /**
