@@ -627,6 +627,37 @@ class Memory
 			 }
 		}
 		
-		#continue.....
+		this->_accessGranted = haveAccess;
+		
+		if typeof eventsManager == "object" {
+			let eventName = "acl:afterCheckAccess";
+			eventsManager->fire(eventName,this);
+		}
+	
+		if haveAccess == null {
+			return 0;
+		}
+		
+		return haveAccess;
+	 }
+	 
+	 /**
+	 * Return an array with every role registered in the list
+	 *
+	 * @return Phalcon\Acl\Role[]
+	 */
+	 public function getRoles()
+	 {
+	 	return this->_roles;
+	 }
+	 
+	 /**
+	 * Return an array with every resource registered in the list
+	 *
+	 * @return Phalcon\Acl\Resource[]
+	 */
+	 public function getResources()
+	 {
+	 	return this->_resources;
 	 }
 }
