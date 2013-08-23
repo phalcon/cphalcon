@@ -527,6 +527,51 @@ PHP_METHOD(Phalcon_Utils_Date, months){
  * @return array
  */
 PHP_METHOD(Phalcon_Utils_Date, years){
+
+	zval *start = NULL, *end = NULL, *tmp;
+	int i, s, e;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 2, &start, &end);
+
+	if (!start || (Z_TYPE_P(start) == IS_BOOL && !zend_is_true(start))) {
+		if (start) {
+			PHALCON_SEPARATE_PARAM(start);
+		}
+		PHALCON_INIT_VAR(tmp);
+		ZVAL_STRING(tmp, "Y", 1);
+		
+		PHALCON_INIT_NVAR(start);
+		phalcon_call_func_p1(start, "date", tmp);
+
+		s = phalcon_get_intval(start) - 5;
+	} else {
+		s = phalcon_get_intval(start);
+	}
+
+	if (!end || (Z_TYPE_P(end) == IS_BOOL && !zend_is_true(end))) {
+		if (end) {
+			PHALCON_SEPARATE_PARAM(end);
+		}
+		PHALCON_INIT_NVAR(tmp);
+		ZVAL_STRING(tmp, "Y", 1);
+		
+		PHALCON_INIT_NVAR(end);
+		phalcon_call_func_p1(end, "date", tmp);
+
+		e = phalcon_get_intval(end) + 5;
+	} else {
+		e = phalcon_get_intval(end);
+	}
+	
+	array_init(return_value);
+
+	for (i = s; i <= e; i++) {
+		phalcon_array_update_long_long(&return_value, i, i, 0);
+	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
