@@ -26,7 +26,7 @@ before_script:
 
 script:
  - $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
- - phpenv config-rm $(DIR)/$(APCEXT)
+ - phpenv config-rm $DIR/$APCEXT
  - export PREVDIR=$(pwd)
  - cd ~; svn co svn://svn.lighttpd.net/xcache/trunk xcache-trunk; cd xcache-trunk
  - phpize && ./configure --enable-xcache && make && make install
