@@ -163,7 +163,7 @@ class Memory
 		let this->_roles[]= object;
 		let this->_rolesNames[]= roleName;
 		
-		let this->_access = roleName . "!*!*";
+		let this->_access[] = roleName . "!*!*";
 		
 		if accessInherits == null {
 			return this->addInherit(roleName, accessInherits);
@@ -182,7 +182,8 @@ class Memory
 	 {
 	 	var roleInheritName, rolesInherits, _roleInherits;
 	 	
-		if !this->_rolesNames[roleName] {
+	 	let rolesNames = this->_rolesNames;
+		if !rolesNames[roleName] {
 			throw new Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in the role list");
 		}
 		 
@@ -195,7 +196,7 @@ class Memory
 		/** 
 		* Check if the role to inherit is valid
 		*/
-		if !this->_rolesNames[roleInheritName] {
+		if !rolesNames[roleInheritName] {
 			throw new Phalcon\Acl\Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
 		}
 		
@@ -204,10 +205,10 @@ class Memory
 		}
 		
 		if !this->_roleInherits[roleName] {
-			let this->_roleInherits[] = roleName;
+			let this->_roleInherits[roleName] = true;
 		}
 		
-		let _roleInherits[roleName][] = this->_roleInherits;
+		let this->_roleInherits[roleName][] = this->_roleInherits;
 		
 		return true;
 	 }
@@ -292,20 +293,20 @@ class Memory
 	 	var accessName, accessKey;
 	 	
 	 	if isset this->_resourcesNames[resourceName] {
-	 		throw new  Phalcon\Acl\Exception("Resource '" . resource_name . "' does not exist in ACL");
+	 		throw new Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
 	 	}
 	 	
 	 	if typeof accessList == "array" {
 	 		for accessName in accessList {
 	 			let accessKey = resourceName . "!" . accessName;
-	 			if isset this->accessList[accessKey] {
+	 			if isset accessList[accessKey] {
 	 				let this->_accessList[accessKey] = exists;
 	 			}
 	 		}
 	 	} else {
 	 		if typeof accessList == "string" {
 	 			let accessKey = resourceName . "!" . accessName;
-	 			if isset this->accessList[accessKey] {
+	 			if isset accessList[accessKey] {
 	 				let this->_accessList[accessKey] = exists;
 	 			}		
 	 		}
@@ -325,14 +326,14 @@ class Memory
 	 	if typeof accessList == "array" {
 	 		for accessName in accessList {
 	 			let accessKey = resourceName . "!" . accessName;
-	 			if isset this->accessList[accessKey] {
+	 			if isset accessList[accessKey] {
 	 				unset this->_accessList[accessKey];
 	 			}
 	 		}
 	 	} else {
 	 		if typeof accessList == "string" {
 	 			let accessKey = resourceName . "!" . accessName;
-	 			if isset this->accessList[accessKey] {
+	 			if isset accessList[accessKey] {
 	 				unset this->_accessList[accessKey];
 	 			}		
 	 		}
@@ -360,11 +361,14 @@ class Memory
 	 		throw new Phalcon\Acl\Exception("Resource '" . resource_name . "' does not exist in ACL");
 	 	}
 	 	
+	 	let defaultAccess = this->_defaultAccess;
+	 	let accessList = this->_access;
+	 		
 	 	if typeof access == "array" {
 	 		
 	 		for accessName in access {
 	 			let accessKey = resourceName . "!" . accessName;
-	 			if !isset this->_access[accessKey] {
+	 			if !isset accessList[accessKey] {
 	 				throw new Phalcon\Acl\Exception("Acccess '" . accessName . "' does not exist in resource '" . resourceName . "'");
 	 			}
 	 		}
@@ -375,15 +379,15 @@ class Memory
 	 			
 	 			if accessName != "*" {
 	 				let accessKeyAll = roleName . "!" . resourceName . "!*";
-	 				if isset this->_access[accessKeyAll] {
-		 				let this->_access[accessKeyAll] = this->_defaultAccess;
+	 				if isset accessList[accessKeyAll] {
+		 				let this->_access[accessKeyAll] = defaultAccess;
 		 			}
 	 			}
 	 		}
 	 	} else {
 	 		if access != "*" {
 	 			let accessKey = resourceName . "!" . access;
-	 			if !isset this->_accessList[accessKey] {
+	 			if !isset accessList[accessKey] {
 	 				throw new Phalcon\Acl\Exception("Acccess '" . access . "' does not exist in resource '" . resourceName . "'");
 	 			}
 	 		}
@@ -402,7 +406,7 @@ class Memory
 				 * If there is no default action for all the rest actions in the resource set the
 				 * default one
 				 */
-				 if !isset this->_access[accessKey] {
+				 if !isset accessList[accessKey] {
 				 	let this->_access[accessKey] = this->_defaultAccess; 
 				 }
 			 }
@@ -487,13 +491,15 @@ class Memory
 	 */
 	 public function isAllowed(role, resource, access)
 	 {
-	 	var eventName, status, accessKey, haveAccess, roleInherits, inheritedRole;
+	 	var eventsManager, accessList, eventName, status, accessKey, haveAccess, roleInherits, inheritedRole;
 	 	
 	 	let this->_activeRole = role;
 	 	let this->_activeResource = resource;
 	 	let this->_activeAccess = resource;
+	 	let accessList = this->_access;
+	 	let eventsManager = this->_eventsManager;
 	 	
-	 	if typeof this->_eventsManager == "object" {
+	 	if typeof eventsManager == "object" {
 	 		let status = eventsManager->fire("acl:beforeCheckAccess", this);
 	 		if !status {
 	 			return status;
@@ -512,8 +518,8 @@ class Memory
 		 /** 
 		 * Check if there is a direct combination for role-resource-access
 		 */
-		 if isset this->_access[accessKey] {
-		 	let haveAccess = this->_access[accessKey];
+		 if isset accessList[accessKey] {
+		 	let haveAccess = accessList[accessKey];
 		 }
 		 
 		 /** 
@@ -532,8 +538,8 @@ class Memory
 		 			/** 
 					 * Check if there is a direct combination in one of the inherited roles
 					 */
-					 if isset this->_access[accessKey] {
-					 	let haveAccess = this->_access[accessKey];
+					 if isset accessList[accessKey] {
+					 	let haveAccess = accessList[accessKey];
 					 }
 		 		}
 		 	}
@@ -549,8 +555,8 @@ class Memory
 		 	/** 
 			 * In the direct role
 			 */
-			 if isset this->_access[accessKey] {
-			 	let haveAccess = this->_access[accessKey];
+			 if isset accessList[accessKey] {
+			 	let haveAccess = accessList[accessKey];
 			 } else {
 			 	if typeof inheritedRoles == "array" {
 			 		for inheritedRole in inheritedRoles {
@@ -559,8 +565,8 @@ class Memory
 			 			/** 
 						 * In the inherited roles
 						 */
-						 if isset this->_access[accessKey] {
-						 	let haveAccess = this->_access[accessKey];
+						 if isset accessList[accessKey] {
+						 	let haveAccess = accessList[accessKey];
 						 	break;
 						 }
 			 		}
@@ -578,8 +584,8 @@ class Memory
 		 	/** 
 			 * Try in the direct role
 			 */
-			 if isset this->_access[accessKey] {
-			 	let haveAccess = this->_access[accessKey];
+			 if isset accessList[accessKey] {
+			 	let haveAccess = accessList[accessKey];
 			 } else {
 			 	if typeof inheritedRoles == "array" {
 			 		for inheritedRole in inheritedRoles {
@@ -588,8 +594,8 @@ class Memory
 			 			/** 
 						 * In the inherited roles
 						 */
-						 if isset this->_access[accessKey] {
-						 	let haveAccess = this->_access[accessKey];
+						 if isset accessList[accessKey] {
+						 	let haveAccess = accessList[accessKey];
 						 	break;
 						 }
 			 		}
@@ -599,8 +605,8 @@ class Memory
 		
 		this->_accessGranted = haveAccess;
 		
-		if typeof this->_eventsManager == "object" {
-			this->_eventsManager->fire("acl:afterCheckAccess",this);
+		if typeof eventsManager == "object" {
+			eventsManager->fire("acl:afterCheckAccess",this);
 		}
 	
 		if haveAccess == null {
