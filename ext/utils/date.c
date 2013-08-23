@@ -805,6 +805,54 @@ PHP_METHOD(Phalcon_Utils_Date, fuzzy_span){
  * @return int
  */
 PHP_METHOD(Phalcon_Utils_Date, unix2dos){
+
+	zval *timestamp = NULL, *day, *year, *mon, *mday, *hours, *minutes, *seconds;
+	int y, m, d, h, min, sec;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &timestamp);
+
+	PHALCON_INIT_VAR(day);
+	if (!timestamp || (Z_TYPE_P(timestamp) == IS_BOOL && !zend_is_true(timestamp))) {
+		phalcon_call_func(day, "getdate");
+	} else {
+		phalcon_call_func_p1(day, "getdate", timestamp);
+	}
+
+	PHALCON_OBS_VAR(year);
+	phalcon_array_fetch_string(&year, day, SL("year"), PH_NOISY);
+
+	PHALCON_OBS_VAR(mon);
+	phalcon_array_fetch_string(&mon, day, SL("mon"), PH_NOISY);
+
+	PHALCON_OBS_VAR(mday);
+	phalcon_array_fetch_string(&mday, day, SL("mday"), PH_NOISY);
+	
+	PHALCON_OBS_VAR(hours);
+	phalcon_array_fetch_string(&hours, day, SL("hours"), PH_NOISY);
+	
+	PHALCON_OBS_VAR(minutes);
+	phalcon_array_fetch_string(&minutes, day, SL("minutes"), PH_NOISY);
+	
+	PHALCON_OBS_VAR(seconds);
+	phalcon_array_fetch_string(&seconds, day, SL("seconds"), PH_NOISY);
+
+	y = phalcon_get_intval(year);
+	m = phalcon_get_intval(mon);
+	d = phalcon_get_intval(mday);
+	h = phalcon_get_intval(hours);
+	min = phalcon_get_intval(minutes);
+	sec = phalcon_get_intval(seconds);
+
+	if (y < 1980) {
+		ZVAL_LONG(return_value, (1 << 21 | 1 << 16));
+	} else {
+		y -= 1980;
+		ZVAL_LONG(return_value, (y << 25 | m  << 21 | d  << 16 | h  << 11 | min << 5 | sec >> 1));
+	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
