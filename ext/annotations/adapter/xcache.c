@@ -69,8 +69,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read){
 
-	zval *key, *prefixed_key, *prefixed_lower, *serialized;
-	zval *data;
+	zval *key, *prefixed_key, *serialized;
 
 	PHALCON_MM_GROW();
 
@@ -79,21 +78,19 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read){
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_SV(prefixed_key, "_PHAN", key);
 	
-	PHALCON_INIT_VAR(prefixed_lower);
-	phalcon_fast_strtolower(prefixed_lower, prefixed_key);
+	phalcon_strtolower_inplace(prefixed_key);
 	
-	PHALCON_INIT_VAR(serialized);
-	phalcon_call_func_p1(serialized, "xcache_get", prefixed_lower);
+	PHALCON_OBS_VAR(serialized);
+	phalcon_call_func_p1_ex(serialized, &serialized, "xcache_get", prefixed_key);
 	if (Z_TYPE_P(serialized) == IS_STRING) {
-	
-		PHALCON_INIT_VAR(data);
-		phalcon_unserialize(data, serialized TSRMLS_CC);
-		if (Z_TYPE_P(data) == IS_OBJECT) {
-			RETURN_CTOR(data);
+		phalcon_unserialize(return_value, serialized TSRMLS_CC);
+		if (Z_TYPE_P(return_value) != IS_OBJECT) {
+			zval_dtor(return_value);
+			RETVAL_NULL();
 		}
 	}
 	
-	RETURN_MM_NULL();
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -104,7 +101,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write){
 
-	zval *key, *data, *prefixed_key, *prefixed_lower;
+	zval *key, *data, *prefixed_key;
 	zval *serialized;
 
 	PHALCON_MM_GROW();
@@ -114,13 +111,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write){
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_SV(prefixed_key, "_PHAN", key);
 	
-	PHALCON_INIT_VAR(prefixed_lower);
-	phalcon_fast_strtolower(prefixed_lower, prefixed_key);
+	phalcon_strtolower_inplace(prefixed_key);
 	
 	PHALCON_INIT_VAR(serialized);
 	phalcon_serialize(serialized, &data TSRMLS_CC);
-	phalcon_call_func_p2_noret("xcache_set", prefixed_lower, serialized);
+	phalcon_call_func_p2_noret("xcache_set", prefixed_key, serialized);
 	
 	PHALCON_MM_RESTORE();
 }
-

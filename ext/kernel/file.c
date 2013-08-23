@@ -148,12 +148,9 @@ void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_
 		}
 		if (ch == '/' || ch == '\\' || ch == ':') {
 			smart_str_appendl(&virtual_str, Z_STRVAL_P(virtual_separator), Z_STRLEN_P(virtual_separator));
-			continue;
 		}
-		if (ch >= 'A' && ch <= 'Z') {
-			smart_str_appendc(&virtual_str, ch + 32);
-		} else {
-			smart_str_appendc(&virtual_str, ch);
+		else {
+			smart_str_appendc(&virtual_str, tolower(ch));
 		}
 	}
 
