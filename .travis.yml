@@ -26,13 +26,7 @@ before_script:
 
 script:
  - $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
- - export PREVDIR=$(pwd)
- - cd ~; svn co svn://svn.lighttpd.net/xcache/trunk xcache-trunk; cd xcache-trunk
- - phpize && ./configure --enable-xcache && make && make install
- - phpenv config-add xcache.ini
- - cd $PREVDIR
- - echo "flush_all" | nc localhost 11211
- - $(phpenv which php) -d apc.enabled=0 ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml ./unit-tests/CacheTest.php
+ - $(which bash) ./unit-tests/ci/check_for_xcache.sh
 
 after_failure:
  - sudo apt-get -qq install gdb
