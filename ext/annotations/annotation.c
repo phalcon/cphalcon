@@ -318,9 +318,9 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
 }
 
 /**
- * Returns an argument in a specific position
+ * Checks if the annotation has a specific argument
  *
- * @return mixed
+ * @return bool
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
 
@@ -345,69 +345,20 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
  * @param string $name
  * @return mixed
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument){
-
-	zval *name, *arguments, *value;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
-	
-	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
-	if (phalcon_array_isset(arguments, name)) {
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, arguments, name, PH_NOISY);
-		RETURN_CCTOR(value);
-	}
-	
-	RETURN_MM_NULL();
-}
+PHALCON_DOC_METHOD(Phalcon_Annotations_Annotation, getNamedArgument);
 
 /**
  * Returns a named argument (deprecated)
  *
+ * @deprecated
  * @param string $name
  * @return mixed
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
-
-	zval *name, *arguments, *value;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
-	
-	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
-	if (phalcon_array_isset(arguments, name)) {
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, arguments, name, PH_NOISY);
-		RETURN_CCTOR(value);
-	}
-	
-	RETURN_MM_NULL();
-}
+PHALCON_DOC_METHOD(Phalcon_Annotations_Annotation, getNamedParameter);
 
 /**
  * Checks if the annotation has a specific named argument
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument){
-
-	zval *name, *arguments;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
-	
-	PHALCON_OBS_VAR(arguments);
-	phalcon_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
-	if (phalcon_array_isset(arguments, name)) {
-		RETURN_MM_TRUE;
-	}
-	
-	RETURN_MM_FALSE;
-}
-
+PHALCON_DOC_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument);
