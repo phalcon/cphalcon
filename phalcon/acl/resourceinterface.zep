@@ -15,3 +15,10 @@
 |          Eduar Carvajal <eduar@phalconphp.com>                         |
 +------------------------------------------------------------------------+
 */
+
+namespace Phalcon\Acl;
+
+/**
+* Phalcon\Acl\ResourceInterface initializer
+*/
+ 
