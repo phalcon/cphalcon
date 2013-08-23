@@ -15,3 +15,19 @@
 |          Eduar Carvajal <eduar@phalconphp.com>                         |
 +------------------------------------------------------------------------+
 */
+
+namespace Phalcon\Acl;
+
+/**
+ * Phalcon\Acl\AdapterInterface initializer
+ */
+class AdapterInterface
+{
+
+  /**
+   * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+   *
+   * @param int $defaultAccess
+   */
+   
+}
