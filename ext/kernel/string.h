@@ -33,6 +33,7 @@ int phalcon_memnstr_str(const zval *haystack, char *needle, unsigned int needle_
 /** Function replacement */
 void phalcon_fast_strlen(zval *return_value, zval *str);
 void phalcon_fast_strtolower(zval *return_value, zval *str);
+void phalcon_strtolower_inplace(zval *s);
 void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
 void phalcon_fast_explode(zval *result, zval *delimiter, zval *str);
