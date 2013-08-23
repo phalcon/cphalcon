@@ -15,3 +15,21 @@
 |          Eduar Carvajal <eduar@phalconphp.com>                         |
 +------------------------------------------------------------------------+
 */
+
+namespace Phalcon\Acl;
+
+/**
+* Phalcon\Acl\Role
+*
+* This class defines role entity and its description
+*
+*/
+class Role
+{
+  /**
+  * Role's name
+  *
+  */
+  protected _name;
+  protected _description;
+}
