@@ -866,6 +866,40 @@ PHP_METHOD(Phalcon_Utils_Date, unix2dos){
  * @return int
  */
 PHP_METHOD(Phalcon_Utils_Date, dos2unix){
+	
+	zval *timestamp = NULL;
+	zval *hrs, *min, *sec, *mon, *day, *year;
+	long t = 0;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &timestamp);
+
+	if (timestamp) {
+		t = phalcon_get_intval(timestamp);
+	}
+
+	PHALCON_INIT_VAR(sec);
+	ZVAL_LONG(sec, (2 * (t & 0x1f)));
+
+	PHALCON_INIT_VAR(min);
+	ZVAL_LONG(min, ((t >>  5) & 0x3f));
+
+	PHALCON_INIT_VAR(hrs);
+	ZVAL_LONG(hrs, ((t >> 11) & 0x1f));
+
+	PHALCON_INIT_VAR(day);
+	ZVAL_LONG(day, ((t >> 16) & 0x1f));
+
+	PHALCON_INIT_VAR(mon);
+	ZVAL_LONG(mon, ((t >> 21) & 0x0f));
+
+	PHALCON_INIT_VAR(year);
+	ZVAL_LONG(year, (((t >> 25) & 0x7f)+1980));
+
+	phalcon_call_func_p6(return_value, "mktime", hrs, min, sec, mon, day, year);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
