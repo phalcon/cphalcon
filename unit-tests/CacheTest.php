@@ -616,7 +616,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return true;
 		}
 
-		if (!extension_loaded('xcache') || 'cli' == PHP_SAPI) {
+		if (!extension_loaded('xcache')) {
 			$this->markTestSkipped('xcache extension is not loaded');
 			return false;
 		}
@@ -696,10 +696,39 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
         $cache->save('foo', 1);
         $newValue = $cache->increment('foo');
-        $this->assertSame('2', $newValue);
+        $this->assertEquals('2', $newValue);
 
-        $newValue = $cache->increment('foo', 3);
-        $this->assertSame('5', $newValue);
+        $newValue = $cache->increment('foo');
+        $this->assertEquals('3', $newValue);
+
+        $newValue = $cache->increment('foo', 4);
+        $this->assertEquals('7', $newValue);
+    }
+
+    public function testXcacheDecr()
+    {
+
+        $ready = $this->_prepareXcache();
+        if (!$ready) {
+            return false;
+        }
+
+        $frontCache = new Phalcon\Cache\Frontend\Output(array(
+            'lifetime' => 20
+        ));
+
+        $cache = new Phalcon\Cache\Backend\Xcache($frontCache);
+        $cache->delete('foo');
+
+        $cache->save('foo', 20);
+        $newValue = $cache->decrement('foo');
+        $this->assertEquals('19', $newValue);
+
+        $newValue = $cache->decrement('foo');
+        $this->assertEquals('18', $newValue);
+
+        $newValue = $cache->decrement('foo', 4);
+        $this->assertEquals('14', $newValue);
     }
 
 	public function testDataXcache()

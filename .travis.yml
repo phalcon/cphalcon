@@ -26,6 +26,14 @@ before_script:
 
 script:
  - $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
+ - phpenv config-rm $(DIR)/apc.ini
+ - phpenv config-rm $(DIR)/apcu.ini
+ - export PREVDIR=$(pwd)
+ - cd ~; svn co svn://svn.lighttpd.net/xcache/trunk xcache-trunk; cd xcache-trunk
+ - phpize && ./configure --enable-xcache && make && make install
+ - phpenv config-add xcache.ini
+ - cd $PREVDIR
+ - $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml ./unit-tests/CacheTest.php
 
 after_failure:
  - sudo apt-get -qq install gdb
