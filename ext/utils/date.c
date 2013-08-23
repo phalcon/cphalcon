@@ -83,7 +83,7 @@ PHALCON_INIT_CLASS(Phalcon_Utils_Date){
  * Returns the offset (in seconds) between two time zones. Use this to
  * display dates to users in different time zones.
  *
- *     $seconds = Phalcon\Utils\Date::offset('America/Chicago', 'GMT');
+ *     $seconds = Phalcon\Utils\PHALCON_DATE_offset('America/Chicago', 'GMT');
  *
  * @param string $remote
  * @param string $local
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Utils_Date, offset){
  * Number of seconds in a minute, incrementing by a step. Typically used as
  * a shortcut for generating a list that can used in a form.
  *
- *     $seconds = Phalcon\Utils\Date::seconds(); // 01, 02, 03, ..., 58, 59, 60
+ *     $seconds = Phalcon\Utils\PHALCON_DATE_seconds(); // 01, 02, 03, ..., 58, 59, 60
  *
  * @param int $step
  * @param int $start
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Utils_Date, seconds){
  * Number of minutes in an hour, incrementing by a step. Typically used as
  * a shortcut for generating a list that can be used in a form.
  *
- *     $minutes = Phalcon\Utils\Date::minutes(); // 05, 10, 15, ..., 50, 55, 60
+ *     $minutes = Phalcon\Utils\PHALCON_DATE_minutes(); // 05, 10, 15, ..., 50, 55, 60
  *
  * @param int $step
  * @return array
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Utils_Date, minutes){
  * Number of hours in a day. Typically used as a shortcut for generating a
  * list that can be used in a form.
  *
- *     $hours = Phalcon\Utils\Date::hours(); // 01, 02, 03, ..., 10, 11, 12
+ *     $hours = Phalcon\Utils\PHALCON_DATE_hours(); // 01, 02, 03, ..., 10, 11, 12
  *
  * @param int $step
  * @param boolean $is_long
@@ -313,8 +313,8 @@ PHP_METHOD(Phalcon_Utils_Date, hours){
 /**
  * Returns AM or PM, based on a given hour (in 24 hour format).
  *
- *     $type = Phalcon\Utils\Date::ampm(12); // PM
- *     $type = Phalcon\Utils\Date::ampm(1);  // AM
+ *     $type = Phalcon\Utils\PHALCON_DATE_ampm(12); // PM
+ *     $type = Phalcon\Utils\PHALCON_DATE_ampm(1);  // AM
  *
  * @param int $hour
  * @return string
@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Utils_Date, ampm){
 /**
  * Adjusts a non-24-hour number into a 24-hour number.
  *
- *     $hour = Phalcon\Utils\Date::adjust(3, 'pm'); // 15
+ *     $hour = Phalcon\Utils\PHALCON_DATE_adjust(3, 'pm'); // 15
  *
  * @param int $hour
  * @param string $ampm
@@ -380,7 +380,7 @@ PHP_METHOD(Phalcon_Utils_Date, adjust){
  * Number of days in a given month and year. Typically used as a shortcut
  * for generating a list that can be used in a form.
  *
- *     Phalcon\Utils\Date::days(4, 2010); // 1, 2, 3, ..., 28, 29, 30
+ *     Phalcon\Utils\PHALCON_DATE_days(4, 2010); // 1, 2, 3, ..., 28, 29, 30
  *
  * @param int $month
  * @param int $year
@@ -463,20 +463,20 @@ PHP_METHOD(Phalcon_Utils_Date, days){
  *
  * By default a mirrored array of $month_number => $month_number is returned
  *
- *     Phalcon\Utils\Date::months();
+ *     Phalcon\Utils\PHALCON_DATE_months();
  *     // aray(1 => 1, 2 => 2, 3 => 3, ..., 12 => 12)
  *
- * But you can customise this by passing in either Date::MONTHS_LONG
+ * But you can customise this by passing in either PHALCON_DATE_MONTHS_LONG
  *
- *     Phalcon\Utils\Date::months(Phalcon\Utils\Date::MONTHS_LONG);
+ *     Phalcon\Utils\PHALCON_DATE_months(Phalcon\Utils\PHALCON_DATE_MONTHS_LONG);
  *     // array(1 => 'January', 2 => 'February', ..., 12 => 'December')
  *
- * Or Date::MONTHS_SHORT
+ * Or PHALCON_DATE_MONTHS_SHORT
  *
- *     Phalcon\Utils\Date::months(Date::MONTHS_SHORT);
+ *     Phalcon\Utils\PHALCON_DATE_months(PHALCON_DATE_MONTHS_SHORT);
  *     // array(1 => 'Jan', 2 => 'Feb', ..., 12 => 'Dec')
  *
- * @uses Date::hours
+ * @uses PHALCON_DATE_hours
  * @param string $format
  * @return array
  */
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Utils_Date, months){
  * the the current year - 5 and current year + 5 will be used. Typically used
  * as a shortcut for generating a list that can be used in a form.
  *
- *     $years = Phalcon\Utils\Date::years(2000, 2010); // 2000, 2001, ..., 2009, 2010
+ *     $years = Phalcon\Utils\PHALCON_DATE_years(2000, 2010); // 2000, 2001, ..., 2009, 2010
  *
  * @param int $start
  * @param int $end
@@ -579,10 +579,10 @@ PHP_METHOD(Phalcon_Utils_Date, years){
 /**
  * Returns time difference between two timestamps, in human readable format.
  * If the second timestamp is not given, the current time will be used.
- * Also consider using [Date::fuzzy_span] when displaying a span.
+ * Also consider using [PHALCON_DATE_fuzzy_span] when displaying a span.
  *
- *     $span = Phalcon\Utils\Date::span(60, 182, 'minutes,seconds'); // array('minutes' => 2, 'seconds' => 2)
- *     $span = Phalcon\Utils\Date::span(60, 182, 'minutes'); // 2
+ *     $span = Phalcon\Utils\PHALCON_DATE_span(60, 182, 'minutes,seconds'); // array('minutes' => 2, 'seconds' => 2)
+ *     $span = Phalcon\Utils\PHALCON_DATE_span(60, 182, 'minutes'); // 2
  *
  * @param int $remote
  * @param int $local
@@ -592,7 +592,7 @@ PHP_METHOD(Phalcon_Utils_Date, years){
 PHP_METHOD(Phalcon_Utils_Date, span){
 
 	zval *remote, *local = NULL, *output = NULL;
-	zval *lowercased_output, *count_output, *tmp = NULL, *tmp1, *pattern, *extract_type;
+	zval *lowercased_output, *count_output, *tmp = NULL, *tmp1, *pattern;
 	long remote_time, local_time, timespan;
 	int i;
 
@@ -636,15 +636,7 @@ PHP_METHOD(Phalcon_Utils_Date, span){
 
 	PHALCON_INIT_NVAR(output);
 	phalcon_call_func_p2(output, "array_combine", tmp1, tmp);
-/*
-	PHALCON_INIT_NVAR(tmp);
-	phalcon_call_func_p1(tmp, "array_flip", output);
 
-	PHALCON_INIT_VAR(extract_type);
-	zend_get_constant(SL("EXTR_SKIP"), extract_type TSRMLS_CC);
-
-	phalcon_call_func_p2_noret("extract", tmp, extract_type);
-*/
 	remote_time = phalcon_get_intval(remote);
 	
 	if (!local || Z_TYPE_P(local) == IS_NULL) {
@@ -713,8 +705,8 @@ PHP_METHOD(Phalcon_Utils_Date, span){
  * Returns the difference between a time and now in a "fuzzy" way.
  * Displaying a fuzzy time instead of a date is usually faster to read and understand.
  *
- *     $span = Phalcon\Utils\Date::fuzzy_span(time() - 10); // "moments ago"
- *     $span = Phalcon\Utils\Date::fuzzy_span(time() + 20); // "in moments"
+ *     $span = Phalcon\Utils\PHALCON_DATE_fuzzy_span(time() - 10); // "moments ago"
+ *     $span = Phalcon\Utils\PHALCON_DATE_fuzzy_span(time() + 20); // "in moments"
  *
  * A second parameter is available to manually set the "local" timestamp,
  * however this parameter shouldn't be needed in normal usage and is only
@@ -725,14 +717,89 @@ PHP_METHOD(Phalcon_Utils_Date, span){
  * @return string
  */
 PHP_METHOD(Phalcon_Utils_Date, fuzzy_span){
+	zval *timestamp, *local_timestamp = NULL;
+	zval *span;
+	long now_time, local_time, offset;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &timestamp, &local_timestamp);
+
+	now_time = phalcon_get_intval(timestamp);
+
+	if (!local_timestamp || Z_TYPE_P(local_timestamp) == IS_NULL) {
+		local_time = (long) time(NULL);
+	} else {
+		local_time = phalcon_get_intval(local_timestamp);
+	}
+
+	// Determine the difference in seconds
+	offset = local_time - now_time;
+	if (offset < 0) {
+		offset *= -1;
+	}
+
+	PHALCON_INIT_VAR(span);
+
+	if (offset <= PHALCON_DATE_MINUTE) {
+		ZVAL_STRING(span, "moments", 1);
+	} else if (offset < (PHALCON_DATE_MINUTE * 20)) {
+		ZVAL_STRING(span, "a few minutes", 1);
+	} else if (offset <  PHALCON_DATE_HOUR) {
+		ZVAL_STRING(span, "less than an hour", 1);
+	} else if (offset < (PHALCON_DATE_HOUR * 4)) {
+		ZVAL_STRING(span, "a couple of hours", 1);
+	} else if (offset < PHALCON_DATE_DAY) {
+		ZVAL_STRING(span, "less than a day", 1);
+	} else if (offset < (PHALCON_DATE_DAY * 2)) {
+		ZVAL_STRING(span, "about a day", 1);
+	} else if (offset < (PHALCON_DATE_DAY * 4)) {
+		ZVAL_STRING(span, "a couple of days", 1);
+	} else if (offset < PHALCON_DATE_WEEK) {
+		ZVAL_STRING(span, "less than a week", 1);
+	} else if (offset < (PHALCON_DATE_WEEK * 2)) {
+		ZVAL_STRING(span, "about a week", 1);
+	} else if (offset < PHALCON_DATE_MONTH) {
+		ZVAL_STRING(span, "less than a month", 1);
+	} else if (offset < (PHALCON_DATE_MONTH * 2)) {
+		ZVAL_STRING(span, "about a month", 1);
+	} else if (offset < (PHALCON_DATE_MONTH * 4)) {
+		ZVAL_STRING(span, "a couple of months", 1);
+	} else if (offset < PHALCON_DATE_YEAR) {
+		ZVAL_STRING(span, "less than a year", 1);
+	} else if (offset < (PHALCON_DATE_YEAR * 2)) {
+		ZVAL_STRING(span, "about a year", 1);
+	} else if (offset < (PHALCON_DATE_YEAR * 4)) {
+		ZVAL_STRING(span, "a couple of years", 1);
+	} else if (offset < (PHALCON_DATE_YEAR * 8)) {
+		ZVAL_STRING(span, "a few years", 1);
+	} else if (offset < (PHALCON_DATE_YEAR * 12)) {
+		ZVAL_STRING(span, "about a decade", 1);
+	} else if (offset < (PHALCON_DATE_YEAR * 24)) {
+		ZVAL_STRING(span, "a couple of decades", 1);
+	} else if (offset < (PHALCON_DATE_YEAR * 64)) {
+		ZVAL_STRING(span, "several decades", 1);
+	} else {
+		ZVAL_STRING(span, "a long time", 1);
+	}
+
+	if (now_time <= local_time) {
+		// This is in the past
+		PHALCON_CONCAT_VS(return_value, span, " ago");
+	} else {
+		// This in the future
+		PHALCON_CONCAT_SV(return_value, "in ", span);
+	}
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
  * Converts a UNIX timestamp to DOS format. There are very few cases where
  * this is needed, but some binary formats use it (eg: zip files.)
- * Converting the other direction is done using {@link Date::dos2unix}.
+ * Converting the other direction is done using {@link PHALCON_DATE_dos2unix}.
  *
- *     $dos = Phalcon\Utils\Date::unix2dos($unix);
+ *     $dos = Phalcon\Utils\PHALCON_DATE_unix2dos($unix);
  *
  * @param int $timestamp
  * @return int
@@ -743,9 +810,9 @@ PHP_METHOD(Phalcon_Utils_Date, unix2dos){
 /**
  * Converts a DOS timestamp to UNIX format.There are very few cases where
  * this is needed, but some binary formats use it (eg: zip files.)
- * Converting the other direction is done using {@link Date::unix2dos}.
+ * Converting the other direction is done using {@link PHALCON_DATE_unix2dos}.
  *
- *     $unix = Phalcon\Utils\Date::dos2unix($dos);
+ *     $unix = Phalcon\Utils\PHALCON_DATE_dos2unix($dos);
  *
  * @param int $timestamp
  * @return int
@@ -756,7 +823,7 @@ PHP_METHOD(Phalcon_Utils_Date, dos2unix){
 /**
  * Returns a date/time string with the specified timestamp format
  *
- *     $time = Phalcon\Utils\Date::formatted_time('5 minutes ago');
+ *     $time = Phalcon\Utils\PHALCON_DATE_formatted_time('5 minutes ago');
  *
  * @param string $datetime_str
  * @param string $timestamp_format
