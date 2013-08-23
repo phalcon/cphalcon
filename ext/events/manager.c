@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -71,7 +70,7 @@ PHALCON_INIT_CLASS(Phalcon_Events_Manager){
  * Attach a listener to the events manager
  *
  * @param string $eventType
- * @param object $handler
+ * @param object|callable $handler
  * @param int $priority
  */
 PHP_METHOD(Phalcon_Events_Manager, attach){
