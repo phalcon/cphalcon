@@ -108,6 +108,12 @@ void phalcon_fast_strtolower(zval *return_value, zval *str){
 	ZVAL_STRINGL(return_value, lower_str, length, 0);
 }
 
+void phalcon_strtolower_inplace(zval *s) {
+	if (likely(Z_TYPE_P(s) == IS_STRING)) {
+		php_strtolower(Z_STRVAL_P(s), Z_STRLEN_P(s));
+	}
+}
+
 /**
  * Fast call to php join  function
  */
