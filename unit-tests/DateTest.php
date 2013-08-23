@@ -38,5 +38,17 @@ class DateTest extends PHPUnit_Framework_TestCase
 		$ret = \Phalcon\Utils\Date::days(4, 2010);
 
 		$ret = \Phalcon\Utils\Date::months(\Phalcon\Utils\Date::MONTHS_LONG);
+
+		$ret = \Phalcon\Utils\Date::years(2000, 2010);
+
+		$ret = \Phalcon\Utils\Date::span(60, 182, 'minutes');
+
+		$ret = \Phalcon\Utils\Date::fuzzy_span(time() - 160);
+
+		$ret = \Phalcon\Utils\Date::unix2dos();
+
+		$ret = \Phalcon\Utils\Date::dos2unix();
+
+		$ret = \Phalcon\Utils\Date::formatted_time('5 minutes ago');
 	}
 }

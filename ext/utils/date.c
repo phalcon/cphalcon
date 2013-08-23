@@ -913,4 +913,75 @@ PHP_METHOD(Phalcon_Utils_Date, dos2unix){
  * @return string
  */
 PHP_METHOD(Phalcon_Utils_Date, formatted_time){
+	
+	zval *datetime_str = NULL, *timestamp_format = NULL, *timezone = NULL, *tz, *dt, *tmp, *tmp1;
+	zend_class_entry *ce0, *ce1;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 3, &datetime_str, &timestamp_format, &timezone);
+
+	ce0 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ce1 = zend_fetch_class(SL("DateTime"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
+	if (!datetime_str) {
+		PHALCON_INIT_VAR(datetime_str);
+		ZVAL_STRING(datetime_str, "now", 1);
+	}
+
+	if (!timestamp_format) {
+		PHALCON_OBS_VAR(timestamp_format);
+		phalcon_read_static_property_ce(&timestamp_format, phalcon_utils_date_ce, SL("timestamp_format") TSRMLS_CC);
+	} else if (Z_TYPE_P(timestamp_format) == IS_NULL) {
+		PHALCON_SEPARATE_PARAM(timestamp_format);
+
+		PHALCON_OBS_NVAR(timestamp_format);
+		phalcon_read_static_property_ce(&timestamp_format, phalcon_utils_date_ce, SL("timestamp_format") TSRMLS_CC);
+	}
+
+	if (!timezone) {
+		PHALCON_OBS_VAR(timezone);
+		phalcon_read_static_property_ce(&timezone, phalcon_utils_date_ce, SL("timezone") TSRMLS_CC);
+	} else if (Z_TYPE_P(timezone) == IS_NULL) {
+		PHALCON_SEPARATE_PARAM(timezone);
+
+		PHALCON_OBS_NVAR(timezone);
+		phalcon_read_static_property_ce(&timezone, phalcon_utils_date_ce, SL("timezone") TSRMLS_CC);
+	} else {
+		PHALCON_SEPARATE_PARAM(timezone);
+	}
+	
+	if (!zend_is_true(timezone)) {
+		PHALCON_INIT_NVAR(timezone);
+		phalcon_call_func(timezone, "date_default_timezone_get");
+	}
+
+	PHALCON_INIT_VAR(tz);
+	object_init_ex(tz, ce0);
+	if (phalcon_has_constructor(tz TSRMLS_CC)) {
+		phalcon_call_method_p1_noret(tz, "__construct", timezone);
+	}
+
+	PHALCON_INIT_VAR(dt);
+	object_init_ex(dt, ce1);
+	if (phalcon_has_constructor(dt TSRMLS_CC)) {
+		phalcon_call_method_p2_noret(dt, "__construct", datetime_str, tz);
+	}
+
+	PHALCON_INIT_VAR(tmp);
+	phalcon_call_method(tmp, dt, "getTimeZone");
+
+	PHALCON_INIT_VAR(tmp1);
+	phalcon_call_method(tmp1, tmp, "getName");
+
+	PHALCON_INIT_NVAR(tmp);
+	phalcon_call_method(tmp, tz, "getName");
+
+	if (PHALCON_IS_EQUAL(tmp1, tmp)) {
+		phalcon_call_method_p1_noret(dt, "setTimeZone", tz);
+	}
+
+	phalcon_call_method_p1(return_value, dt, "format", timestamp_format);
+
+	PHALCON_MM_RESTORE();
 }
