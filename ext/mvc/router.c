@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 		 */
 		PHALCON_INIT_VAR(paths);
 		array_init_size(paths, 1);
-		add_assoc_long_ex(paths, SS("controller"), 1);
+		add_assoc_long_ex(paths, ISS(controller), 1);
 
 		PHALCON_INIT_VAR(action_pattern);
 		ZVAL_STRING(action_pattern, "#^/([a-zA-Z0-9_-]++)/?+$#", 1);
@@ -255,9 +255,9 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 
 		PHALCON_INIT_NVAR(paths);
 		array_init_size(paths, 3);
-		add_assoc_long_ex(paths, SS("controller"), 1);
-		add_assoc_long_ex(paths, SS("action"), 2);
-		add_assoc_long_ex(paths, SS("params"), 3);
+		add_assoc_long_ex(paths, ISS(controller), 1);
+		add_assoc_long_ex(paths, ISS(action), 2);
+		add_assoc_long_ex(paths, ISS(params), 3);
 
 		PHALCON_INIT_VAR(params_pattern);
 		ZVAL_STRING(params_pattern, "#^/([a-zA-Z0-9_-]++)/([a-zA-Z0-9\\._]++)(/.*+)?+$#", 1);
@@ -561,11 +561,11 @@ PHP_METHOD(Phalcon_Mvc_Router, getDefaults){
 
 	array_init_size(return_value, 5);
 
-	phalcon_array_update_string(&return_value, SL("namespace"),  &namespace_name,  PH_COPY);
-	phalcon_array_update_string(&return_value, SL("module"),     &module_name,     PH_COPY);
-	phalcon_array_update_string(&return_value, SL("controller"), &controller_name, PH_COPY);
-	phalcon_array_update_string(&return_value, SL("action"),     &action_name,     PH_COPY);
-	phalcon_array_update_string(&return_value, SL("params"),     &params,          PH_COPY);
+	phalcon_array_update_string(&return_value, ISL(namespace),  &namespace_name,  PH_COPY);
+	phalcon_array_update_string(&return_value, ISL(module),     &module_name,     PH_COPY);
+	phalcon_array_update_string(&return_value, ISL(controller), &controller_name, PH_COPY);
+	phalcon_array_update_string(&return_value, ISL(action),     &action_name,     PH_COPY);
+	phalcon_array_update_string(&return_value, ISL(params),     &params,          PH_COPY);
 }
 
 /**
