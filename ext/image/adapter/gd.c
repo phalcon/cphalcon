@@ -81,7 +81,7 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_GD){
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 
-	zval *ret, *gd_info, *gd_version, *version, *exception_message;
+	zval *ret = NULL, *gd_info, *gd_version, *version, *exception_message;
 	zval *pattern, *matches;
 	int rc;
 
@@ -131,6 +131,8 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 		return;
 	}
 
+	PHALCON_INIT_NVAR(ret);
+	ZVAL_TRUE(ret);
 	phalcon_update_static_property(SL("phalcon\\image\\adapter\\gd"), SL("_checked"), ret TSRMLS_CC);
 
 	RETURN_MM_TRUE;
