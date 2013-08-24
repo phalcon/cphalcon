@@ -575,6 +575,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment){
 	}
 	
 	if (Z_TYPE_P(value) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(value);
 		convert_to_long_ex(&value);
 	}
 	
@@ -617,6 +618,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
 	}
 	
 	if (Z_TYPE_P(value) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(value);
 		convert_to_long_ex(&value);
 	}
 	

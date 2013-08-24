@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists){
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 	
 	zval *key_name = NULL, *value = NULL, *last_key = NULL;
-	zval *newVal, *prefix, *origVal, *success;
+	zval *newVal, *prefix, *origVal, *success, *function_name;
 	
 	PHALCON_MM_GROW();
 	
@@ -495,7 +495,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 	}
 
 	PHALCON_INIT_VAR(newVal);
-	if (zend_hash_exists(EG(function_table), "xcache_inc", 11) == 1) {
+	PHALCON_INIT_VAR(function_name);
+	ZVAL_STRING(function_name, "xcache_inc", 11);
+	if (phalcon_function_exists(function_name TSRMLS_CC) == SUCCESS) {
 		phalcon_call_func_p2(newVal, "xcache_inc", last_key, value);
 	
 		RETURN_CTOR(newVal);
@@ -503,7 +505,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 		PHALCON_INIT_VAR(origVal);
 		PHALCON_INIT_VAR(success);
 		phalcon_call_func_p1(origVal, "xcache_get", last_key);
-		Z_LVAL_P(newVal) = Z_LVAL_P(origVal) + Z_LVAL_P(value);
+		PHALCON_SEPARATE_PARAM(origVal);
+		convert_to_long_ex(&origVal);
+		add_function(newVal, origVal, value TSRMLS_CC);
 		phalcon_call_func_p2(success, "xcache_set", last_key, newVal);
 
 		RETURN_CTOR(newVal);
@@ -520,7 +524,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 	
 	zval *key_name = NULL, *value = NULL, *last_key = NULL;
-	zval *newVal, *prefix, *origVal, *success;
+	zval *newVal, *prefix, *origVal, *success, *function_name;
 	
 	PHALCON_MM_GROW();
 	
@@ -559,7 +563,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 	}
 
 	PHALCON_INIT_VAR(newVal);
-	if (zend_hash_exists(EG(function_table), "xcache_dec", 11) == 1) {
+	PHALCON_INIT_VAR(function_name);
+	ZVAL_STRING(function_name, "xcache_dec", 11);
+
+	if (phalcon_function_exists(function_name TSRMLS_CC) == SUCCESS) {
 		phalcon_call_func_p2(newVal, "xcache_dec", last_key, value);
 	
 		RETURN_CTOR(newVal);
@@ -567,7 +574,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 		PHALCON_INIT_VAR(origVal);
 		PHALCON_INIT_VAR(success);
 		phalcon_call_func_p1(origVal, "xcache_get", last_key);
-		Z_LVAL_P(newVal) = Z_LVAL_P(origVal) - Z_LVAL_P(value);
+		PHALCON_SEPARATE_PARAM(origVal);
+		convert_to_long_ex(&origVal);
+		sub_function(newVal, origVal, value TSRMLS_CC);
 		phalcon_call_func_p2(success, "xcache_set", last_key, newVal);
 
 		RETURN_CTOR(newVal);
