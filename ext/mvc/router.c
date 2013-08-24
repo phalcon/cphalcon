@@ -107,6 +107,7 @@ PHP_METHOD(Phalcon_Mvc_Router, wasMatched);
 PHP_METHOD(Phalcon_Mvc_Router, getRoutes);
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById);
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName);
+PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, defaultRoutes)
@@ -172,6 +173,7 @@ static const zend_function_entry phalcon_mvc_router_method_entry[] = {
 	PHP_ME(Phalcon_Mvc_Router, getRoutes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getRouteById, arginfo_phalcon_mvc_routerinterface_getroutebyid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getRouteByName, arginfo_phalcon_mvc_routerinterface_getroutebyname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, isExactControllerName, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -200,6 +202,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_removeExtraSlashes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_notFoundPaths"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_router_ce, SL("_isExactControllerName"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_router_ce, SL("URI_SOURCE_GET_URL"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_router_ce, SL("URI_SOURCE_SERVER_REQUEST_URI"), 1 TSRMLS_CC);
@@ -596,6 +599,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval **hd;
 	zval *dependency_injector, *tmp;
 	zval *match_position = NULL, *converter = NULL;
+	zval *exact = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -906,6 +910,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		} else {
 			tmp = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 			phalcon_update_property_this(this_ptr, SL("_module"), tmp TSRMLS_CC);
+		}
+
+		if (phalcon_array_isset_string_fetch(&exact, parts, SS("exact"))) {
+			phalcon_update_property_this(this_ptr, SL("_isExactControllerName"), exact TSRMLS_CC);
+			phalcon_array_unset_string(&parts, SS("exact"), PH_SEPARATE);
 		}
 
 		/**
@@ -1416,4 +1425,11 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	}
 
 	RETURN_MM_FALSE;
+}
+
+/**
+ * Returns whether controller name should not be mangled
+ */
+PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName) {
+	RETURN_MEMBER(this_ptr, "_isExactControllerName");
 }
