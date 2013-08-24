@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	zval *namespace_name = NULL, *module_name = NULL, *suffixed = NULL;
 	zval *handler_annotations = NULL, *class_annotations = NULL;
 	zval *annotations = NULL, *annotation = NULL, *method_annotations = NULL;
-	zval *lowercased = NULL, *collection = NULL, *method = NULL;
+	zval *collection = NULL, *method = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
@@ -320,9 +320,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 					phalcon_call_method(method_annotations, handler_annotations, "getmethodsannotations");
 					if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
 	
-						PHALCON_INIT_NVAR(lowercased);
-						phalcon_uncamelize(lowercased, handler);
-	
 						phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0);
 	
 						while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
@@ -414,21 +411,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 
 	zval *module, *namespace, *controller, *action;
-	zval *annotation, *is_route = NULL, *methods = NULL, *name, *action_suffix;
+	zval *annotation, *methods = NULL, *name;
 	zval *empty_str, *real_action_name, *action_name;
-	zval *route_prefix, *parameter = NULL, *paths = NULL, *position;
+	zval *parameter = NULL, *paths = NULL, *position;
 	zval *value, *uri = NULL, *route, *converts = NULL, *convert = NULL, *param = NULL;
 	zval *conversor_param = NULL, *route_name;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
+	int is_route = 1;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 5, 0, &module, &namespace, &controller, &action, &annotation);
-	
-	PHALCON_INIT_VAR(is_route);
-	ZVAL_BOOL(is_route, 0);
 	
 	PHALCON_INIT_VAR(methods);
 	
@@ -439,56 +434,35 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	 * Find if the route is for adding routes
 	 */
 	if (PHALCON_IS_STRING(name, "Route")) {
-		ZVAL_BOOL(is_route, 1);
-	} else {
-		if (PHALCON_IS_STRING(name, "Get")) {
-			PHALCON_INIT_NVAR(is_route);
-			ZVAL_BOOL(is_route, 1);
-	
-			ZVAL_STRING(methods, "GET", 1);
-		} else {
-			if (PHALCON_IS_STRING(name, "Post")) {
-				PHALCON_INIT_NVAR(is_route);
-				ZVAL_BOOL(is_route, 1);
-	
-				PHALCON_INIT_NVAR(methods);
-				ZVAL_STRING(methods, "POST", 1);
-			} else {
-				if (PHALCON_IS_STRING(name, "Put")) {
-					PHALCON_INIT_NVAR(is_route);
-					ZVAL_BOOL(is_route, 1);
-	
-					PHALCON_INIT_NVAR(methods);
-					ZVAL_STRING(methods, "PUT", 1);
-				} else {
-					if (PHALCON_IS_STRING(name, "Options")) {
-						PHALCON_INIT_NVAR(is_route);
-						ZVAL_BOOL(is_route, 1);
-	
-						PHALCON_INIT_NVAR(methods);
-						ZVAL_STRING(methods, "OPTIONS", 1);
-					}
-				}
-			}
-		}
+		is_route = 1;
+	} else if (PHALCON_IS_STRING(name, "Get")) {
+		is_route = 1;
+		ZVAL_STRING(methods, "GET", 1);
+	} else if (PHALCON_IS_STRING(name, "Post")) {
+		is_route = 1;
+		ZVAL_STRING(methods, "POST", 1);
+	} else if (PHALCON_IS_STRING(name, "Put")) {
+		is_route = 1;
+		ZVAL_STRING(methods, "PUT", 1);
+	} else if (PHALCON_IS_STRING(name, "Options")) {
+		is_route = 1;
+		ZVAL_STRING(methods, "OPTIONS", 1);
 	}
 	
-	if (PHALCON_IS_TRUE(is_route)) {
-	
-		PHALCON_OBS_VAR(action_suffix);
-		phalcon_read_property_this(&action_suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	if (is_route) {
+		zval *action_suffix, *route_prefix;
+
+		action_suffix = phalcon_fetch_nproperty_this(this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+		route_prefix  = phalcon_fetch_nproperty_this(this_ptr, SL("_routePrefix"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(empty_str);
-		ZVAL_STRING(empty_str, "", 1);
+		ZVAL_EMPTY_STRING(empty_str);
 	
 		PHALCON_INIT_VAR(real_action_name);
 		phalcon_fast_str_replace(real_action_name, action_suffix, empty_str, action);
 	
 		PHALCON_INIT_VAR(action_name);
 		phalcon_fast_strtolower(action_name, real_action_name);
-	
-		PHALCON_OBS_VAR(route_prefix);
-		phalcon_read_property_this(&route_prefix, this_ptr, SL("_routePrefix"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(parameter);
 		ZVAL_STRING(parameter, "paths", 1);
