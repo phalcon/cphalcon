@@ -164,8 +164,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	zval *uri = NULL, *real_uri = NULL, *processed, *annotations_service = NULL;
 	zval *handlers, *controller_suffix, *scope = NULL, *prefix = NULL;
 	zval *dependency_injector = NULL, *service = NULL, *handler = NULL;
-	zval *controller_name = NULL, *lower_controller_name = NULL;
-	zval *namespace_name = NULL, *module_name = NULL, *sufixed = NULL;
+	zval *controller_name = NULL;
+	zval *namespace_name = NULL, *module_name = NULL, *suffixed = NULL;
 	zval *handler_annotations = NULL, *class_annotations = NULL;
 	zval *annotations = NULL, *annotation = NULL, *method_annotations = NULL;
 	zval *lowercased = NULL, *collection = NULL, *method = NULL;
@@ -254,21 +254,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						phalcon_get_class_ns(controller_name, handler, 0 TSRMLS_CC);
 	
 						/** 
-						 * The lowercased class name is used as controller
-						 */
-						PHALCON_INIT_NVAR(lower_controller_name);
-						phalcon_uncamelize(lower_controller_name, controller_name);
-	
-						/** 
 						 * Extract the namespace from the namespaced class
 						 */
 						PHALCON_INIT_NVAR(namespace_name);
 						phalcon_get_ns_class(namespace_name, handler, 0 TSRMLS_CC);
 					} else {
 						PHALCON_CPY_WRT(controller_name, handler);
-	
-						PHALCON_INIT_NVAR(lower_controller_name);
-						phalcon_uncamelize(lower_controller_name, controller_name);
 	
 						PHALCON_INIT_NVAR(namespace_name);
 					}
@@ -285,14 +276,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 						PHALCON_INIT_NVAR(module_name);
 					}
 	
-					PHALCON_INIT_NVAR(sufixed);
-					PHALCON_CONCAT_VV(sufixed, handler, controller_suffix);
+					PHALCON_INIT_NVAR(suffixed);
+					PHALCON_CONCAT_VV(suffixed, handler, controller_suffix);
 	
 					/** 
 					 * Get the annotations from the class
 					 */
 					PHALCON_INIT_NVAR(handler_annotations);
-					phalcon_call_method_p1(handler_annotations, annotations_service, "get", sufixed);
+					phalcon_call_method_p1(handler_annotations, annotations_service, "get", suffixed);
 	
 					/** 
 					 * Process class annotations
@@ -350,7 +341,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	
 									PHALCON_GET_HVALUE(annotation);
 	
-									phalcon_call_method_p5_noret(this_ptr, "processactionannotation", module_name, namespace_name, lower_controller_name, method, annotation);
+									phalcon_call_method_p5_noret(this_ptr, "processactionannotation", module_name, namespace_name, controller_name, method, annotation);
 	
 									zend_hash_move_forward_ex(ah3, &hp3);
 								}
@@ -528,6 +519,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	
 		phalcon_array_update_string(&paths, SL("controller"), &controller, PH_COPY | PH_SEPARATE);
 		phalcon_array_update_string(&paths, SL("action"), &action_name, PH_COPY | PH_SEPARATE);
+		add_assoc_bool_ex(paths, SS("exact"), 1);
 	
 		PHALCON_INIT_VAR(position);
 		ZVAL_LONG(position, 0);
