@@ -41,6 +41,8 @@
 #include "kernel/hash.h"
 #include "kernel/operators.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Mvc\Router\Annotations
  *
@@ -104,8 +106,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
 	
 	PHALCON_INIT_VAR(scope);
 	array_init_size(scope, 2);
-	phalcon_array_append(&scope, prefix, PH_SEPARATE);
-	phalcon_array_append(&scope, handler, PH_SEPARATE);
+	phalcon_array_append(&scope, prefix, 0);
+	phalcon_array_append(&scope, handler, 0);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), scope TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_processed"), 0 TSRMLS_CC);
 	
@@ -145,9 +147,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource){
 	
 	PHALCON_INIT_VAR(scope);
 	array_init_size(scope, 3);
-	phalcon_array_append(&scope, prefix, PH_SEPARATE);
-	phalcon_array_append(&scope, handler, PH_SEPARATE);
-	phalcon_array_append(&scope, module, PH_SEPARATE);
+	phalcon_array_append(&scope, prefix, 0);
+	phalcon_array_append(&scope, handler, 0);
+	phalcon_array_append(&scope, module, 0);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), scope TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_processed"), 0 TSRMLS_CC);
 	
@@ -465,7 +467,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		phalcon_fast_strtolower(action_name, real_action_name);
 	
 		PHALCON_INIT_VAR(parameter);
-		ZVAL_STRING(parameter, "paths", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(parameter, phalcon_interned_paths);
 	
 		/** 
 		 * Check for existing paths in the annotation
@@ -481,18 +483,18 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		 * Update the module if any
 		 */
 		if (Z_TYPE_P(module) == IS_STRING) {
-			phalcon_array_update_string(&paths, SL("module"), &module, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&paths, ISL(module), &module, PH_COPY | PH_SEPARATE);
 		}
 	
 		/** 
 		 * Update the namespace if any
 		 */
 		if (Z_TYPE_P(namespace) == IS_STRING) {
-			phalcon_array_update_string(&paths, SL("namespace"), &namespace, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&paths, ISL(namespace), &namespace, PH_COPY | PH_SEPARATE);
 		}
 	
-		phalcon_array_update_string(&paths, SL("controller"), &controller, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_string(&paths, SL("action"), &action_name, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&paths, ISL(controller), &controller, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&paths, ISL(action), &action_name, PH_COPY | PH_SEPARATE);
 		add_assoc_bool_ex(paths, SS("exact"), 1);
 	
 		PHALCON_INIT_VAR(position);
@@ -582,7 +584,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		}
 	
 		PHALCON_INIT_NVAR(parameter);
-		ZVAL_STRING(parameter, "name", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(parameter, phalcon_interned_name);
 	
 		PHALCON_INIT_VAR(route_name);
 		phalcon_call_method_p1(route_name, annotation, "getnamedparameter", parameter);
