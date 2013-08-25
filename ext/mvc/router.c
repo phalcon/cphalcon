@@ -737,39 +737,40 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 					PHALCON_GET_HKEY(part, ah1, hp1);
 					PHALCON_GET_HVALUE(position);
 
-					if (phalcon_array_isset_fetch(&match_position, matches, position)) {
+					if (Z_TYPE_P(part) != IS_STRING || Z_STRVAL_P(part)[0] != '\0') {
+						if (phalcon_array_isset_fetch(&match_position, matches, position)) {
+							/**
+							 * Check if the part has a converter
+							 */
+							if (phalcon_array_isset_fetch(&converter, converters, part)) {
+								PHALCON_INIT_NVAR(parameters);
+								array_init_size(parameters, 1);
+								phalcon_array_append(&parameters, match_position, 0);
 
-						/**
-						 * Check if the part has a converter
-						 */
-						if (phalcon_array_isset_fetch(&converter, converters, part)) {
-							PHALCON_INIT_NVAR(parameters);
-							array_init_size(parameters, 1);
-							phalcon_array_append(&parameters, match_position, 0);
+								PHALCON_INIT_NVAR(converted_part);
+								PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
+								phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY);
+								zend_hash_move_forward_ex(ah1, &hp1);
+								continue;
+							}
 
-							PHALCON_INIT_NVAR(converted_part);
-							PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
-							phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY);
-							zend_hash_move_forward_ex(ah1, &hp1);
-							continue;
-						}
+							/**
+							 * Update the parts if there is no converter
+							 */
+							phalcon_array_update_zval(&parts, part, &match_position, PH_COPY);
+						} else {
+							/**
+							 * Apply the converters anyway
+							 */
+							if (phalcon_array_isset_fetch(&converter, converters, part)) {
+								PHALCON_INIT_NVAR(parameters);
+								array_init_size(parameters, 1);
+								phalcon_array_append(&parameters, position, 0);
 
-						/**
-						 * Update the parts if there is no converter
-						 */
-						phalcon_array_update_zval(&parts, part, &match_position, PH_COPY);
-					} else {
-						/**
-						 * Apply the converters anyway
-						 */
-						if (phalcon_array_isset_fetch(&converter, converters, part)) {
-							PHALCON_INIT_NVAR(parameters);
-							array_init_size(parameters, 1);
-							phalcon_array_append(&parameters, position, 0);
-
-							PHALCON_INIT_NVAR(converted_part);
-							PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
-							phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY);
+								PHALCON_INIT_NVAR(converted_part);
+								PHALCON_CALL_USER_FUNC_ARRAY(converted_part, converter, parameters);
+								phalcon_array_update_zval(&parts, part, &converted_part, PH_COPY);
+							}
 						}
 					}
 
@@ -844,9 +845,14 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			phalcon_update_property_this(this_ptr, SL("_module"), tmp TSRMLS_CC);
 		}
 
-		if (phalcon_array_isset_string_fetch(&exact, parts, SS("exact"))) {
+		if (phalcon_array_isset_string_fetch(&exact, parts, SS("\0exact"))) {
 			phalcon_update_property_this(this_ptr, SL("_isExactControllerName"), exact TSRMLS_CC);
-			phalcon_array_unset_string(&parts, SS("exact"), PH_SEPARATE);
+			phalcon_array_unset_string(&parts, SS("\0exact"), PH_SEPARATE);
+		}
+		else {
+			PHALCON_INIT_VAR(exact);
+			ZVAL_FALSE(exact);
+			phalcon_update_property_this(this_ptr, SL("_isExactControllerName"), exact TSRMLS_CC);
 		}
 
 		/**

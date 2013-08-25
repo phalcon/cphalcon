@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	zval *empty_str, *real_action_name, *action_name;
 	zval *parameter = NULL, *paths = NULL, *position;
 	zval *value, *uri = NULL, *route, *converts = NULL, *convert = NULL, *param = NULL;
-	zval *conversor_param = NULL, *route_name;
+	zval *conversor_param = NULL, *route_name, *z_true;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -492,10 +492,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		if (Z_TYPE_P(namespace) == IS_STRING) {
 			phalcon_array_update_string(&paths, ISL(namespace), &namespace, PH_COPY | PH_SEPARATE);
 		}
+
+		PHALCON_INIT_VAR(z_true);
+		ZVAL_TRUE(z_true);
 	
 		phalcon_array_update_string(&paths, ISL(controller), &controller, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_string(&paths, ISL(action), &action_name, PH_COPY | PH_SEPARATE);
-		add_assoc_bool_ex(paths, SS("exact"), 1);
+		phalcon_array_update_string(&paths, ISL(action), &action_name, PH_COPY);
+		phalcon_array_update_string(&paths, SL("\0exact"), &z_true, PH_COPY);
 	
 		PHALCON_INIT_VAR(position);
 		ZVAL_LONG(position, 0);
