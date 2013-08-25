@@ -471,8 +471,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 	}
 	
 	if (Z_TYPE_P(value) == IS_NULL) {
-		Z_LVAL_P(value) = 1;
-		Z_TYPE_P(value) = IS_LONG;
+		ZVAL_LONG(value, 1);
 	}
 	
 	if (Z_TYPE_P(value) != IS_LONG) {
@@ -539,8 +538,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 	}
 	
 	if (Z_TYPE_P(value) == IS_NULL) {
-		Z_LVAL_P(value) = 1;
-		Z_TYPE_P(value) = IS_LONG;
+		ZVAL_LONG(value, 1);
 	}
 	
 	if (Z_TYPE_P(value) != IS_LONG) {
