@@ -240,6 +240,17 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		return $memcache;
 	}
 
+    public function testMemoryCache()
+    {
+        $frontCache = new Phalcon\Cache\Frontend\Output(array(
+            'lifetime' => 20
+        ));
+
+        $cache = new Phalcon\Cache\Backend\Memory($frontCache);
+        $cache->save('foo', 2);
+        $this->assertEquals(2, $cache->get('foo'));
+    }
+
 	public function testOutputMemcacheCache()
 	{
 
