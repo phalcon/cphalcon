@@ -501,9 +501,10 @@ PHP_METHOD(Phalcon_Arr, set_path){
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 		PHALCON_GET_HVALUE(row);
 
-		PHALCON_INIT_NVAR(value);
-		if (phalcon_array_isset_fetch(&value, row, key)) {
-			phalcon_array_append(&return_value, value, 0);
+		if (phalcon_array_isset(row, key)) {
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch(&value, row, key, PH_NOISY);
+			phalcon_array_append(&return_value, value, PH_COPY | PH_SEPARATE);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -537,7 +538,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
 	PHALCON_INIT_VAR(tmp1);
 	phalcon_call_func_p2(tmp1, "array_reverse", array, tmp);
 
-	phalcon_array_update_zval(&tmp1, key, &val, 0);
+	phalcon_array_update_zval(&tmp1, key, &val, PH_COPY | PH_SEPARATE);
 
 	phalcon_call_func_p2(return_value, "array_reverse", tmp1, tmp);
 
@@ -785,8 +786,6 @@ PHP_METHOD(Phalcon_Arr, set_path){
 		PHALCON_INIT_VAR(tmp);
 		ZVAL_LONG(tmp, 2);
 
-		zend_print_zval_r(tmp, 2);
-
 		PHALCON_INIT_VAR(args);
 		phalcon_call_func_p2(args, "array_slice", arg_list, tmp);
 
@@ -898,9 +897,9 @@ PHP_METHOD(Phalcon_Arr, set_path){
  */
  PHP_METHOD(Phalcon_Arr, flatten){
 
-	zval *array, *is_assoc, *key = NULL, *value = NULL, *arr = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
+	zval *array, *is_assoc, *key = NULL, *value = NULL, *arr = NULL, *tmp = NULL;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -921,7 +920,19 @@ PHP_METHOD(Phalcon_Arr, set_path){
 			PHALCON_INIT_NVAR(arr);
 			phalcon_call_self_p1(arr, this_ptr, "flatten", value);
 
-			phalcon_merge_append(return_value, arr);
+			PHALCON_INIT_NVAR(tmp);
+			phalcon_call_func_p2(tmp, "array_merge", return_value, arr);
+/*
+			phalcon_is_iterable(array, &ah0, &hp0, 0, 0);
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+				if (zend_is_true(is_assoc)) {
+					phalcon_array_update_zval(&return_value, key, &value, PH_COPY);
+				} else {
+					phalcon_array_append(&return_value, value, PH_COPY);
+				}
+			}
+*/
+			PHALCON_CPY_WRT_CTOR(return_value, tmp);
 		} else {
 			if (zend_is_true(is_assoc)) {
 				phalcon_array_update_zval(&return_value, key, &value, PH_COPY);
