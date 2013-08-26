@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Arr, is_array){
 PHP_METHOD(Phalcon_Arr, path){
 
 	zval *array, *path, *default_value = NULL, *delimiter = NULL;
-	zval *is_array, *keys, *key = NULL, *values = NULL, *is_digit = NULL, *arr = NULL, *value = NULL;
+	zval *is_array, *keys = NULL, *key = NULL, *values = NULL, *is_digit = NULL, *arr = NULL, *value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Arr, path){
 	}
 
 	if (Z_TYPE_P(path) == IS_ARRAY) {
-		PHALCON_CPY_WRT(keys, path);
+		PHALCON_CPY_WRT_CTOR(keys, path);
 	} else {
 		if (phalcon_array_isset_fetch(&values, array, path)) {
 			RETURN_CCTOR(values);
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Arr, path){
 		if (zend_is_true(is_digit)) {
 			convert_to_long(key);
 		}
-		
+
 		if (phalcon_array_isset(array, key)) {
 			PHALCON_OBS_NVAR(values);
 			phalcon_array_fetch(&values, array, key, PH_NOISY);
@@ -195,12 +195,12 @@ PHP_METHOD(Phalcon_Arr, path){
 			} else {
 				RETURN_CCTOR(values);
 			}
-		} else if (PHALCON_IS_STRING(key, "*")) {		
+		} else if (PHALCON_IS_STRING(key, "*")) {
 			PHALCON_INIT_NVAR(values);
 			array_init(values);
 			
 			phalcon_is_iterable(array, &ah0, &hp0, 0, 0);
-
+	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 				PHALCON_GET_HVALUE(arr);
 
