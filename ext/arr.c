@@ -833,8 +833,6 @@ PHP_METHOD(Phalcon_Arr, set_path){
 	phalcon_preg_match(ret, &ret, pattern, str, matches TSRMLS_CC);
 
 	if (zend_is_true(ret)) {
-
-		zend_print_zval_r(matches, 0);
 		if (!phalcon_array_isset_long_fetch(&command, matches, 1)) {
 			PHALCON_INIT_VAR(command);
 			ZVAL_EMPTY_STRING(command);
@@ -888,7 +886,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  *     $array = array('set' => array('one' => 'something'), 'two' => 'other');
  *
  *     // Flatten the array
- *     $array = Arr::flatten($array);
+ *     $array = \Phalcon\Arr::flatten($array);
  *
  *     // The array will now be
  *     array('one' => 'something', 'two' => 'other');
@@ -897,7 +895,42 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * @return array
  */
  PHP_METHOD(Phalcon_Arr, flatten){
+
+	zval *array, *is_assoc, *key = NULL, *value = NULL, *arr = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &array);
+
+	PHALCON_INIT_VAR(is_assoc);
+	phalcon_call_self_p1(is_assoc, this_ptr, "is_assoc", array);
+
+	array_init(return_value);
+
+	phalcon_is_iterable(array, &ah0, &hp0, 0, 0);
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
+
+		if (Z_TYPE_P(value) == IS_ARRAY) {
+			PHALCON_INIT_NVAR(arr);
+			phalcon_call_self_p1(arr, this_ptr, "flatten", value);
+
+			phalcon_merge_append(return_value, arr);
+		} else {
+			if (zend_is_true(is_assoc)) {
+				phalcon_array_update_zval(&return_value, key, &value, PH_COPY);
+			} else {
+				phalcon_array_append(&return_value, value, PH_COPY);
+			}
+		}
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
 	PHALCON_MM_RESTORE();
 }
 
