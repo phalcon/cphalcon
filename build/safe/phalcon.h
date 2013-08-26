@@ -18,6 +18,65 @@
 */
 
 
+#ifndef PHALCON_INTERNED_STRINGS_H
+#define PHALCON_INTERNED_STRINGS_H
+
+#include "main/php.h"
+
+const char *phalcon_interned_alias;
+const char *phalcon_interned_all;
+const char *phalcon_interned_arguments;
+const char *phalcon_interned_balias;
+const char *phalcon_interned_binary_op;
+const char *phalcon_interned_column;
+const char *phalcon_interned_columns;
+const char *phalcon_interned_conditions;
+const char *phalcon_interned_delete;
+const char *phalcon_interned_distinct;
+const char *phalcon_interned_domain;
+const char *phalcon_interned_expr;
+const char *phalcon_interned_fields;
+const char *phalcon_interned_file;
+const char *phalcon_interned_functionCall;
+const char *phalcon_interned_group;
+const char *phalcon_interned_groupBy;
+const char *phalcon_interned_having;
+const char *phalcon_interned_items;
+const char *phalcon_interned_joins;
+const char *phalcon_interned_left;
+const char *phalcon_interned_limit;
+const char *phalcon_interned_line;
+const char *phalcon_interned_model;
+const char *phalcon_interned_models;
+const char *phalcon_interned_modelsCache;
+const char *phalcon_interned_modelsManager;
+const char *phalcon_interned_modelsMetadata;
+const char *phalcon_interned_name;
+const char *phalcon_interned_ns_alias;
+const char *phalcon_interned_number;
+const char *phalcon_interned_offset;
+const char *phalcon_interned_op;
+const char *phalcon_interned_order;
+const char *phalcon_interned_orderBy;
+const char *phalcon_interned_qualified;
+const char *phalcon_interned_qualifiedName;
+const char *phalcon_interned_right;
+const char *phalcon_interned_select;
+const char *phalcon_interned_sort;
+const char *phalcon_interned_source;
+const char *phalcon_interned_sqlAlias;
+const char *phalcon_interned_table;
+const char *phalcon_interned_tables;
+const char *phalcon_interned_type;
+const char *phalcon_interned_update;
+const char *phalcon_interned_value;
+const char *phalcon_interned_values;
+const char *phalcon_interned_where;
+
+void phalcon_init_interned_strings(TSRMLS_D);
+
+#endif /* PHALCON_INTERNED_STRINGS_H */
+
 
 zend_class_entry *phalcon_di_injectionawareinterface_ce;
 
@@ -1711,6 +1770,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface___constr
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_distinct, 0, 0, 1)
+	ZEND_ARG_INFO(0, distinct)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_columns, 0, 0, 1)
 	ZEND_ARG_INFO(0, columns)
 ZEND_END_ARG_INFO()
@@ -1807,6 +1870,8 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_query_builderinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, __construct, arginfo_phalcon_mvc_model_query_builderinterface___construct)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, distinct, arginfo_phalcon_mvc_model_query_builderinterface_distinct)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getDistinct, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, columns, arginfo_phalcon_mvc_model_query_builderinterface_columns)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, getColumns, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, from, arginfo_phalcon_mvc_model_query_builderinterface_from)
@@ -8933,9 +8998,6 @@ static PHP_METHOD(Phalcon_Annotations_Annotation, getArguments);
 static PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments);
 static PHP_METHOD(Phalcon_Annotations_Annotation, getArgument);
 static PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument);
-static PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument);
-static PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter);
-static PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, reflectionData)
@@ -8953,18 +9015,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation_hasargument, 0, 0,
 	ZEND_ARG_INFO(0, position)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation_getnamedargument, 0, 0, 1)
-	ZEND_ARG_INFO(0, name)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation_getnamedparameter, 0, 0, 1)
-	ZEND_ARG_INFO(0, name)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation_hasnamedargument, 0, 0, 1)
-	ZEND_ARG_INFO(0, name)
-ZEND_END_ARG_INFO()
-
 PHALCON_INIT_FUNCS(phalcon_annotations_annotation_method_entry){
 	PHP_ME(Phalcon_Annotations_Annotation, __construct, arginfo_phalcon_annotations_annotation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Annotations_Annotation, getName, NULL, ZEND_ACC_PUBLIC) 
@@ -8974,9 +9024,9 @@ PHALCON_INIT_FUNCS(phalcon_annotations_annotation_method_entry){
 	PHP_ME(Phalcon_Annotations_Annotation, numberArguments, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Annotations_Annotation, getArgument, arginfo_phalcon_annotations_annotation_getargument, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Annotations_Annotation, hasArgument, arginfo_phalcon_annotations_annotation_hasargument, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Annotations_Annotation, getNamedArgument, arginfo_phalcon_annotations_annotation_getnamedargument, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Annotations_Annotation, getNamedParameter, arginfo_phalcon_annotations_annotation_getnamedparameter, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Annotations_Annotation, hasNamedArgument, arginfo_phalcon_annotations_annotation_hasnamedargument, ZEND_ACC_PUBLIC) 
+	PHP_MALIAS(Phalcon_Annotations_Annotation, getNamedArgument, getArgument, arginfo_phalcon_annotations_annotation_getargument, ZEND_ACC_PUBLIC)
+	PHP_MALIAS(Phalcon_Annotations_Annotation, getNamedParameter, getArgument, arginfo_phalcon_annotations_annotation_getargument, ZEND_ACC_PUBLIC | ZEND_ACC_DEPRECATED)
+	PHP_MALIAS(Phalcon_Annotations_Annotation, hasNamedArgument, hasArgument, arginfo_phalcon_annotations_annotation_hasargument, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -13700,8 +13750,10 @@ zend_class_entry *phalcon_mvc_model_query_builder_ce;
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct);
-static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, distinct);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDistinct);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDI);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getColumns);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from);
@@ -13735,6 +13787,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, params)
 	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_distinct, 0, 0, 1)
+	ZEND_ARG_INFO(0, distinct)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_setdi, 0, 0, 1)
@@ -13842,6 +13898,8 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_query_builder_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, __construct, arginfo_phalcon_mvc_model_query_builder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, distinct, arginfo_phalcon_mvc_model_query_builder_distinct, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getDistinct, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setDI, arginfo_phalcon_mvc_model_query_builder_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, columns, arginfo_phalcon_mvc_model_query_builder_columns, ZEND_ACC_PUBLIC) 
@@ -15284,7 +15342,6 @@ zend_class_entry *phalcon_image_adapter_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Image_Adapter);
 
-static PHP_METHOD(Phalcon_Image_Adapter, __construct);
 static PHP_METHOD(Phalcon_Image_Adapter, getRealPath);
 static PHP_METHOD(Phalcon_Image_Adapter, getWidth);
 static PHP_METHOD(Phalcon_Image_Adapter, getHeight);
@@ -15306,10 +15363,6 @@ static PHP_METHOD(Phalcon_Image_Adapter, blur);
 static PHP_METHOD(Phalcon_Image_Adapter, pixelate);
 static PHP_METHOD(Phalcon_Image_Adapter, save);
 static PHP_METHOD(Phalcon_Image_Adapter, render);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, file)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_resize, 0, 0, 0)
 	ZEND_ARG_INFO(0, width)
@@ -15394,7 +15447,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_render, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_image_adapter_method_entry){
-	PHP_ME(Phalcon_Image_Adapter, __construct, arginfo_phalcon_image_adapter___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Image_Adapter, getRealPath, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Image_Adapter, getWidth, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Image_Adapter, getHeight, NULL, ZEND_ACC_PUBLIC) 
@@ -15805,3 +15857,255 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 };
 
 #endif /* PHALCON_IMAGE_ADAPTER_IMAGICK_H */
+
+#ifndef PHALCON_UTILS_DATE_H
+#define PHALCON_UTILS_DATE_H
+
+#include "php_phalcon.h"
+
+/* Second amounts for various time increments */
+#define PHALCON_DATE_YEAR          31556926
+#define PHALCON_DATE_MONTH         2629744
+#define PHALCON_DATE_WEEK          604800
+#define PHALCON_DATE_DAY           86400
+#define PHALCON_DATE_HOUR          3600
+#define PHALCON_DATE_MINUTE        60
+
+/* Available formats for Phalcon\Utils\Date::months() */
+#define PHALCON_DATE_MONTHS_LONG   "%B"
+#define PHALCON_DATE_MONTHS_SHORT  "%b"
+
+zend_class_entry *phalcon_utils_date_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Utils_Date);
+
+static PHP_METHOD(Phalcon_Utils_Date, offset);
+static PHP_METHOD(Phalcon_Utils_Date, seconds);
+static PHP_METHOD(Phalcon_Utils_Date, minutes);
+static PHP_METHOD(Phalcon_Utils_Date, hours);
+static PHP_METHOD(Phalcon_Utils_Date, ampm);
+static PHP_METHOD(Phalcon_Utils_Date, adjust);
+static PHP_METHOD(Phalcon_Utils_Date, days);
+static PHP_METHOD(Phalcon_Utils_Date, months);
+static PHP_METHOD(Phalcon_Utils_Date, years);
+static PHP_METHOD(Phalcon_Utils_Date, span);
+static PHP_METHOD(Phalcon_Utils_Date, fuzzy_span);
+static PHP_METHOD(Phalcon_Utils_Date, unix2dos);
+static PHP_METHOD(Phalcon_Utils_Date, dos2unix);
+static PHP_METHOD(Phalcon_Utils_Date, formatted_time);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_offset, 0, 0, 1)
+	ZEND_ARG_INFO(0, remote)
+	ZEND_ARG_INFO(0, local)
+	ZEND_ARG_INFO(0, now)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_seconds, 0, 0, 0)
+	ZEND_ARG_INFO(0, step)
+	ZEND_ARG_INFO(0, start)
+	ZEND_ARG_INFO(0, end)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_minutes, 0, 0, 0)
+	ZEND_ARG_INFO(0, step)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_hours, 0, 0, 0)
+	ZEND_ARG_INFO(0, step)
+	ZEND_ARG_INFO(0, long)
+	ZEND_ARG_INFO(0, start)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_ampm, 0, 0, 1)
+	ZEND_ARG_INFO(0, hour)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_adjust, 0, 0, 2)
+	ZEND_ARG_INFO(0, hour)
+	ZEND_ARG_INFO(0, ampm)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_days, 0, 0, 1)
+	ZEND_ARG_INFO(0, month)
+	ZEND_ARG_INFO(0, year)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_months, 0, 0, 0)
+	ZEND_ARG_INFO(0, format)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_years, 0, 0, 0)
+	ZEND_ARG_INFO(0, start)
+	ZEND_ARG_INFO(0, end)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_span, 0, 0, 1)
+	ZEND_ARG_INFO(0, remote)
+	ZEND_ARG_INFO(0, local)
+	ZEND_ARG_INFO(0, output)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_fuzzy_span, 0, 0, 1)
+	ZEND_ARG_INFO(0, timestamp)
+	ZEND_ARG_INFO(0, local_timestamp)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_unix2dos, 0, 0, 0)
+	ZEND_ARG_INFO(0, timestamp)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_dos2unix, 0, 0, 0)
+	ZEND_ARG_INFO(0, timestamp)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_date_formatted_time, 0, 0, 0)
+	ZEND_ARG_INFO(0, datetime_str)
+	ZEND_ARG_INFO(0, timestamp_format)
+	ZEND_ARG_INFO(0, timezone)
+ZEND_END_ARG_INFO()
+
+PHALCON_INIT_FUNCS(phalcon_utils_date_method_entry){
+	PHP_ME(Phalcon_Utils_Date, offset, arginfo_phalcon_utils_date_offset, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, seconds, arginfo_phalcon_utils_date_seconds, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, minutes, arginfo_phalcon_utils_date_minutes, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, hours, arginfo_phalcon_utils_date_hours, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, adjust, arginfo_phalcon_utils_date_adjust, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, ampm, arginfo_phalcon_utils_date_ampm, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, days, arginfo_phalcon_utils_date_days, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, months, arginfo_phalcon_utils_date_months, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, years, arginfo_phalcon_utils_date_years, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, span, arginfo_phalcon_utils_date_span, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, fuzzy_span, arginfo_phalcon_utils_date_fuzzy_span, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, unix2dos, arginfo_phalcon_utils_date_unix2dos, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, dos2unix, arginfo_phalcon_utils_date_dos2unix, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Date, formatted_time, arginfo_phalcon_utils_date_formatted_time, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_FE_END
+};
+
+#endif /* PHALCON_UTILS_DATE_H */
+
+zend_class_entry *phalcon_utils_arr_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Utils_Arr);
+
+static PHP_METHOD(Phalcon_Utils_Arr, is_assoc);
+static PHP_METHOD(Phalcon_Utils_Arr, is_array);
+static PHP_METHOD(Phalcon_Utils_Arr, path);
+static PHP_METHOD(Phalcon_Utils_Arr, set_path);
+static PHP_METHOD(Phalcon_Utils_Arr, range);
+static PHP_METHOD(Phalcon_Utils_Arr, get);
+static PHP_METHOD(Phalcon_Utils_Arr, extract);
+static PHP_METHOD(Phalcon_Utils_Arr, pluck);
+static PHP_METHOD(Phalcon_Utils_Arr, unshift);
+static PHP_METHOD(Phalcon_Utils_Arr, map);
+static PHP_METHOD(Phalcon_Utils_Arr, merge);
+static PHP_METHOD(Phalcon_Utils_Arr, overwrite);
+static PHP_METHOD(Phalcon_Utils_Arr, callback);
+static PHP_METHOD(Phalcon_Utils_Arr, flatten);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_is_assoc, 0, 0, 1)
+	ZEND_ARG_INFO(0, array)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_is_array, 0, 0, 1)
+	ZEND_ARG_INFO(0, array)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_path, 0, 0, 2)
+	ZEND_ARG_INFO(0, array)
+	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, default_value)
+	ZEND_ARG_INFO(0, delimiter)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_set_path, 0, 0, 3)
+	ZEND_ARG_INFO(1, array)
+	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO(0, delimiter)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_range, 0, 0, 0)
+	ZEND_ARG_INFO(0, step)
+	ZEND_ARG_INFO(0, max)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_get, 0, 0, 2)
+	ZEND_ARG_INFO(0, array)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, default_value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_extract, 0, 0, 2)
+	ZEND_ARG_INFO(0, array)
+	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO(0, default_value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_pluck, 0, 0, 2)
+	ZEND_ARG_INFO(0, array)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_unshift, 0, 0, 3)
+	ZEND_ARG_INFO(1, array)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, val)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_map, 0, 0, 2)
+	ZEND_ARG_INFO(0, callbacks)
+	ZEND_ARG_INFO(0, array)
+	ZEND_ARG_INFO(0, keys)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_merge, 0, 0, 2)
+	ZEND_ARG_INFO(0, array1)
+	ZEND_ARG_INFO(0, array2)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_overwrite, 0, 0, 2)
+	ZEND_ARG_INFO(0, array1)
+	ZEND_ARG_INFO(0, array2)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_callback, 0, 0, 1)
+	ZEND_ARG_INFO(0, str)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_flatten, 0, 0, 1)
+	ZEND_ARG_INFO(0, array)
+ZEND_END_ARG_INFO()
+static PHP_METHOD(Phalcon_Utils_Arr, is_assoc);
+static PHP_METHOD(Phalcon_Utils_Arr, is_array);
+static PHP_METHOD(Phalcon_Utils_Arr, path);
+static PHP_METHOD(Phalcon_Utils_Arr, set_path);
+static PHP_METHOD(Phalcon_Utils_Arr, range);
+static PHP_METHOD(Phalcon_Utils_Arr, get);
+static PHP_METHOD(Phalcon_Utils_Arr, extract);
+static PHP_METHOD(Phalcon_Utils_Arr, pluck);
+static PHP_METHOD(Phalcon_Utils_Arr, unshift);
+static PHP_METHOD(Phalcon_Utils_Arr, map);
+static PHP_METHOD(Phalcon_Utils_Arr, merge);
+static PHP_METHOD(Phalcon_Utils_Arr, overwrite);
+static PHP_METHOD(Phalcon_Utils_Arr, callback);
+static PHP_METHOD(Phalcon_Utils_Arr, flatten);
+
+PHALCON_INIT_FUNCS(phalcon_utils_arr_method_entry){
+	PHP_ME(Phalcon_Utils_Arr, is_assoc, arginfo_phalcon_utils_arr_is_assoc, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, is_array, arginfo_phalcon_utils_arr_is_array, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, path, arginfo_phalcon_utils_arr_path, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, set_path, arginfo_phalcon_utils_arr_set_path, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, range, arginfo_phalcon_utils_arr_range, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, get, arginfo_phalcon_utils_arr_get, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, extract, arginfo_phalcon_utils_arr_extract, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, pluck, arginfo_phalcon_utils_arr_pluck, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, unshift, arginfo_phalcon_utils_arr_unshift, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, map, arginfo_phalcon_utils_arr_map, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, merge, arginfo_phalcon_utils_arr_merge, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, overwrite, arginfo_phalcon_utils_arr_overwrite, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, callback, arginfo_phalcon_utils_arr_callback, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Utils_Arr, flatten, arginfo_phalcon_utils_arr_flatten, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_FE_END
+};
+
