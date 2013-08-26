@@ -28,7 +28,7 @@ class ArrTest extends PHPUnit_Framework_TestCase
 		$array = array('theme' => array('one' => array('color' => array('red', 'blur', 'green'), 'fontsize' => '12'), 'two' => array('color' => array(1, 2, 3))), 'path' => 'path1');
 		$noarray = 'array';
 		$keys = array('theme', '*', 'color');
-/*
+
 		$ret = \Phalcon\Utils\Arr::is_assoc(array('red', 'blur', 'green'));
 		$this->assertTrue(!$ret);
 
@@ -46,10 +46,10 @@ class ArrTest extends PHPUnit_Framework_TestCase
 
 		$ret = \Phalcon\Utils\Arr::path($array, $keys);
 		$this->assertEquals($ret, array(array('red', 'blur', 'green'), array(1, 2, 3))); 
-*/
+
 		\Phalcon\Utils\Arr::set_path($array, $keys, array('while', 'black'));
 		$this->assertEquals($array, array('theme' => array('one' => array('color' => array('while', 'black'), 'fontsize' => '12'), 'two' => array('color' => array('while', 'black'))), 'path' => 'path1'));
-		/*
+
 		$ret = \Phalcon\Utils\Arr::range(5, 20);
 		$this->assertEquals($ret, array(5 => 5, 10 => 10, 15 => 15, 20 => 20));
 
@@ -87,6 +87,5 @@ class ArrTest extends PHPUnit_Framework_TestCase
 		$array = array('set' => array('one' => 'something'), 'two' => 'other');
 		$ret = \Phalcon\Utils\Arr::flatten($array);
 		$this->assertEquals($ret, array('one' => 'something', 'two' => 'other'));
-		*/
 	}
 }
