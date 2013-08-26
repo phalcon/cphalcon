@@ -495,7 +495,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 
 	PHALCON_INIT_VAR(newVal);
 	PHALCON_INIT_VAR(function_name);
-	ZVAL_STRING(function_name, "xcache_inc", 11);
+	ZVAL_STRING(function_name, "xcache_inc", 1);
 	if (phalcon_function_exists(function_name TSRMLS_CC) == SUCCESS) {
 		phalcon_call_func_p2(newVal, "xcache_inc", last_key, value);
 	
@@ -562,7 +562,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 
 	PHALCON_INIT_VAR(newVal);
 	PHALCON_INIT_VAR(function_name);
-	ZVAL_STRING(function_name, "xcache_dec", 11);
+	ZVAL_STRING(function_name, "xcache_dec", 1);
 
 	if (phalcon_function_exists(function_name TSRMLS_CC) == SUCCESS) {
 		phalcon_call_func_p2(newVal, "xcache_dec", last_key, value);

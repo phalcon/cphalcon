@@ -226,6 +226,40 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
+    public function testMemoryCache()
+    {
+        $frontCache = new Phalcon\Cache\Frontend\Output(array(
+            'lifetime' => 2
+        ));
+
+        $cache = new Phalcon\Cache\Backend\Memory($frontCache);
+        $cache->delete('foo');
+
+        $cache->save('foo', 'bar');
+
+        $this->assertEquals('bar', $cache->get('foo'));
+    }
+
+    public function testMemoryCacheIncrAndDecr()
+    {
+        $frontCache = new Phalcon\Cache\Frontend\Output(array(
+            'lifetime' => 2
+        ));
+
+        $cache = new Phalcon\Cache\Backend\Memory($frontCache);
+        $cache->delete('foo');
+
+        $cache->save('foo', 20);
+
+        $this->assertEquals('21', $cache->increment('foo'));
+        $this->assertEquals('24', $cache->increment('foo', 3));
+
+        $this->assertEquals('23', $cache->decrement('foo'));
+        $this->assertEquals('3', $cache->decrement('foo', 20));
+
+        $this->assertEquals(3, $cache->get('foo'));
+    }
+
 	private function _prepareMemcached()
 	{
 

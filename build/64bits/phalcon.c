@@ -75451,8 +75451,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 	}
 	
 	if (Z_TYPE_P(value) == IS_NULL) {
-		Z_LVAL_P(value) = 1;
-		Z_TYPE_P(value) = IS_LONG;
+		ZVAL_LONG(value, 1);
 	}
 	
 	if (Z_TYPE_P(value) != IS_LONG) {
@@ -75476,7 +75475,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, increment){
 
 	PHALCON_INIT_VAR(newVal);
 	PHALCON_INIT_VAR(function_name);
-	ZVAL_STRING(function_name, "xcache_inc", 11);
+	ZVAL_STRING(function_name, "xcache_inc", 1);
 	if (phalcon_function_exists(function_name TSRMLS_CC) == SUCCESS) {
 		phalcon_call_func_p2(newVal, "xcache_inc", last_key, value);
 	
@@ -75512,8 +75511,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 	}
 	
 	if (Z_TYPE_P(value) == IS_NULL) {
-		Z_LVAL_P(value) = 1;
-		Z_TYPE_P(value) = IS_LONG;
+		ZVAL_LONG(value, 1);
 	}
 	
 	if (Z_TYPE_P(value) != IS_LONG) {
@@ -75537,7 +75535,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Xcache, decrement){
 
 	PHALCON_INIT_VAR(newVal);
 	PHALCON_INIT_VAR(function_name);
-	ZVAL_STRING(function_name, "xcache_dec", 11);
+	ZVAL_STRING(function_name, "xcache_dec", 1);
 
 	if (phalcon_function_exists(function_name TSRMLS_CC) == SUCCESS) {
 		phalcon_call_func_p2(newVal, "xcache_dec", last_key, value);
@@ -75616,9 +75614,14 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memory, get){
 		RETURN_MM_NULL();
 	}
 	
-	PHALCON_OBS_VAR(frontend);
-	phalcon_read_property_this_quick(&frontend, this_ptr, SL("_frontend"), 8245984070706902916UL, PH_NOISY_CC);
-	phalcon_call_method_p1_key(return_value, frontend, "afterretrieve", cached_content, 4959236334322478333UL);
+	if (phalcon_is_numeric(cached_content)) {
+		RETURN_ZVAL(cached_content, 1, 0);
+	} else {
+		PHALCON_OBS_VAR(frontend);
+		phalcon_read_property_this_quick(&frontend, this_ptr, SL("_frontend"), 8245984070706902916UL, PH_NOISY_CC);
+		phalcon_call_method_p1_key(return_value, frontend, "afterretrieve", cached_content, 4959236334322478333UL);
+	}
+
 	RETURN_MM();
 }
 
@@ -75673,9 +75676,13 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memory, save){
 		PHALCON_CPY_WRT(cached_content, content);
 	}
 	
-	PHALCON_INIT_VAR(prepared_content);
-	phalcon_call_method_p1_key(prepared_content, frontend, "beforestore", cached_content, 14908571131375568901UL);
-	phalcon_update_property_array(this_ptr, SL("_data"), last_key, prepared_content TSRMLS_CC);
+	if (phalcon_is_numeric(cached_content)) {
+		phalcon_update_property_array(this_ptr, SL("_data"), last_key, cached_content TSRMLS_CC);
+	} else {
+		PHALCON_INIT_VAR(prepared_content);
+		phalcon_call_method_p1_key(prepared_content, frontend, "beforestore", cached_content, 14908571131375568901UL);
+		phalcon_update_property_array(this_ptr, SL("_data"), last_key, prepared_content TSRMLS_CC);
+	}
 	
 	PHALCON_INIT_VAR(is_buffering);
 	phalcon_call_method_key(is_buffering, frontend, "isbuffering", 15283630264599125529UL);
@@ -75773,6 +75780,101 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memory, exists){
 	RETURN_MM_FALSE;
 }
 
+static PHP_METHOD(Phalcon_Cache_Backend_Memory, increment){
+
+	zval *key_name, *value = NULL, *last_key = NULL, *prefix, *data;
+	zval *cached_content, *frontend, *result;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &key_name, &value);
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+	
+	if (Z_TYPE_P(key_name) == IS_NULL) {
+		PHALCON_OBS_VAR(last_key);
+		phalcon_read_property_this_quick(&last_key, this_ptr, SL("_lastKey"), 249878539090822785UL, PH_NOISY_CC);
+	} else {
+		PHALCON_OBS_VAR(prefix);
+		phalcon_read_property_this_quick(&prefix, this_ptr, SL("_prefix"), 7572082756246866UL, PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(last_key);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
+	}
+	
+	PHALCON_OBS_VAR(data);
+	phalcon_read_property_this_quick(&data, this_ptr, SL("_data"), 6953229211038UL, PH_NOISY_CC);
+	if (!phalcon_array_isset(data, last_key)) {
+		RETURN_MM_NULL();
+	}
+	
+	PHALCON_OBS_VAR(cached_content);
+	phalcon_array_fetch(&cached_content, data, last_key, PH_NOISY);
+	if (Z_TYPE_P(cached_content) == IS_NULL) {
+		RETURN_MM_NULL();
+	}
+	
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+
+	PHALCON_INIT_VAR(result);
+	add_function(result, cached_content, value TSRMLS_CC);	
+	phalcon_update_property_array(this_ptr, SL("_data"), last_key, result TSRMLS_CC);
+	RETURN_ZVAL(result, 1, 0);
+
+	RETURN_MM();
+}
+
+static PHP_METHOD(Phalcon_Cache_Backend_Memory, decrement){
+
+	zval *key_name, *value = NULL, *last_key = NULL, *prefix, *data;
+	zval *cached_content, *frontend, *result;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &key_name, &value);
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	}
+	
+	if (Z_TYPE_P(key_name) == IS_NULL) {
+		PHALCON_OBS_VAR(last_key);
+		phalcon_read_property_this_quick(&last_key, this_ptr, SL("_lastKey"), 249878539090822785UL, PH_NOISY_CC);
+	} else {
+		PHALCON_OBS_VAR(prefix);
+		phalcon_read_property_this_quick(&prefix, this_ptr, SL("_prefix"), 7572082756246866UL, PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(last_key);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
+	}
+	
+	PHALCON_OBS_VAR(data);
+	phalcon_read_property_this_quick(&data, this_ptr, SL("_data"), 6953229211038UL, PH_NOISY_CC);
+	if (!phalcon_array_isset(data, last_key)) {
+		RETURN_MM_NULL();
+	}
+	
+	PHALCON_OBS_VAR(cached_content);
+	phalcon_array_fetch(&cached_content, data, last_key, PH_NOISY);
+	if (Z_TYPE_P(cached_content) == IS_NULL) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+
+	PHALCON_INIT_VAR(result);
+	sub_function(result, cached_content, value TSRMLS_CC);	
+	phalcon_update_property_array(this_ptr, SL("_data"), last_key, result TSRMLS_CC);
+	RETURN_ZVAL(result, 1, 0);
+
+	RETURN_MM();
+}
 
 
 
@@ -76596,8 +76698,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, increment){
 	}
 	
 	if (Z_TYPE_P(value) == IS_NULL) {
-		Z_LVAL_P(value) = 1;
-		Z_TYPE_P(value) = IS_LONG;
+		ZVAL_LONG(value, 1);
 	}
 	
 	if (Z_TYPE_P(value) != IS_LONG) {
@@ -76632,8 +76733,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Memcache, decrement){
 	}
 	
 	if (Z_TYPE_P(value) == IS_NULL) {
-		Z_LVAL_P(value) = 1;
-		Z_TYPE_P(value) = IS_LONG;
+		ZVAL_LONG(value, 1);
 	}
 	
 	if (Z_TYPE_P(value) != IS_LONG) {
