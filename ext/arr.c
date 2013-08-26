@@ -549,10 +549,10 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * callbacks to all elements in an array, including sub-arrays.
  *
  *     // Apply "strip_tags" to every element in the array
- *     $array = Arr::map('strip_tags', $array);
+ *     $array = \Phalcon\Arr::map('strip_tags', $array);
  *
  *     // Apply $this->filter to every element in the array
- *     $array = Arr::map(array(array($this,'filter')), $array);
+ *     $array = \Phalcon\Arr::map(array(array($this,'filter')), $array);
  *
  * @param mixed $callbacks
  * @param array $array
@@ -565,7 +565,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
 	zval *key = NULL, *val = NULL, *value = NULL, *key1 = NULL, **callback = NULL, *params = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
-	zval **hd, **hd1;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -588,7 +588,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
 			if (Z_TYPE_P(callbacks) == IS_ARRAY) {
 				phalcon_is_iterable(callbacks, &ah1, &hp1, 0, 0);
 
-				while (zend_hash_get_current_data_ex(ah1, (void**) &hd1, &hp1) == SUCCESS) {
+				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 					PHALCON_INIT_NVAR(key1);
 					phalcon_get_current_key(&key1, ah1, &hp1);
 
@@ -638,7 +638,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  *     $mary = array('name' => 'mary', 'children' => array('jane'));
  *
  *     // John and Mary are married, merge them together
- *     $john = Arr::merge($john, $mary);
+ *     $john = \Phalcon\Arr::merge($john, $mary);
  *
  *     // The output of $john will now be:
  *     array('name' => 'mary', 'children' => array('fred', 'paul', 'sally', 'jane'))
@@ -739,7 +739,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  *     $a2 = array('name' => 'jack', 'food' => 'tacos', 'drink' => 'beer');
  *
  *     // Overwrite the values of $a1 with $a2
- *     $array = Arr::overwrite($a1, $a2);
+ *     $array = \Phalcon\Arr::overwrite($a1, $a2);
  *
  *     // The output of $array will now be:
  *     array('name' => 'jack', 'mood' => 'happy', 'food' => 'tacos')
@@ -749,7 +749,56 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * @return array
  */
  PHP_METHOD(Phalcon_Arr, overwrite){
+
+	zval *array1, *array2, *array, *key = NULL, *value = NULL, *arg_num, *arg_list, *args, *tmp;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 2, 0, &array1, &array2);
+
+	PHALCON_CPY_WRT_CTOR(return_value, array1);
+
+	PHALCON_INIT_VAR(array);
+	phalcon_call_func_p2(array, "array_intersect_key", array2, return_value);
+
+	phalcon_is_iterable(array, &ah0, &hp0, 0, 0);
+
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		PHALCON_GET_HKEY(key, ah0, hp0);
+		PHALCON_GET_HVALUE(value);
+
+		phalcon_array_update_zval(&return_value, key, &value, PH_COPY);
+
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+
+	PHALCON_INIT_VAR(arg_num);
+	phalcon_call_func(arg_num, "func_num_args");
+
+	if (Z_LVAL_P(arg_num) > 2) {
+		PHALCON_INIT_VAR(arg_list);
+		phalcon_call_func(arg_list, "func_get_args");
+
+		PHALCON_INIT_VAR(tmp);
+		ZVAL_LONG(tmp, 2);
+
+		PHALCON_INIT_VAR(args);
+		phalcon_call_func_p2(args, "array_slice", arg_list, tmp);
+
+		phalcon_is_iterable(args, &ah0, &hp0, 0, 0);
+
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+			PHALCON_GET_HVALUE(value);
+
+			phalcon_call_self_p2(return_value, this_ptr, "overwrite", array1, value);
+
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	}
+
 	PHALCON_MM_RESTORE();
 }
 
