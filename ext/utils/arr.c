@@ -44,21 +44,21 @@
 #include "kernel/string.h"
 
 /**
- * Phalcon\Arr
+ * Phalcon\Utils\Arr
  *
- * Phalcon\Arr is array helper.
+ * Phalcon\Utils\Arr is array helper.
  * This component is an abstract class that you can extend to add more helpers.
  */
 
 
 /**
- * Phalcon\Arr initializer
+ * Phalcon\Utils\Arr initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Arr){
+PHALCON_INIT_CLASS(Phalcon_Utils_Arr){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Arr, arr, phalcon_arr_method_entry, 0);
+	PHALCON_REGISTER_CLASS(Phalcon\\Utils, Arr, utils_arr, phalcon_utils_arr_method_entry, 0);
 
-	zend_declare_property_string(phalcon_arr_ce, SL("delimiter"), ".", ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_utils_arr_ce, SL("delimiter"), ".", ZEND_ACC_PUBLIC|ZEND_ACC_STATIC TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -67,12 +67,12 @@ PHALCON_INIT_CLASS(Phalcon_Arr){
  * Tests if an array is associative or not.
  *
  *     // Returns TRUE
- *     \Phalcon\Arr::is_assoc(array('username' => 'john.doe'))
+ *     \Phalcon\Utils\Arr::is_assoc(array('username' => 'john.doe'))
  *
  * @param array $array
  * @return boolean
  */
-PHP_METHOD(Phalcon_Arr, is_assoc){
+PHP_METHOD(Phalcon_Utils_Arr, is_assoc){
 
 	zval *array;
 
@@ -89,12 +89,12 @@ PHP_METHOD(Phalcon_Arr, is_assoc){
  * Test if a value is an array with an additional check for array-like objects.
  *
  *     // Returns TRUE
- *     \Phalcon\Arr::is_array(array());
+ *     \Phalcon\Utils\Arr::is_array(array());
  *
  * @param mixed $value
  * @return boolean
  */
-PHP_METHOD(Phalcon_Arr, is_array){
+PHP_METHOD(Phalcon_Utils_Arr, is_array){
 
 	zval *value;
 
@@ -111,15 +111,15 @@ PHP_METHOD(Phalcon_Arr, is_array){
  * Gets a value from an array using a dot separated path.
  *
  *     // Get the value of $array['foo']['bar']
- *     $value = \Phalcon\Arr::path($array, 'foo.bar');
+ *     $value = \Phalcon\Utils\Arr::path($array, 'foo.bar');
  *
  * Using a wildcard "*" will search intermediate arrays and return an array.
  *
  *     // Get the values of "color" in theme
- *     $colors = \Phalcon\Arr::path($array, 'theme.*.color');
+ *     $colors = \Phalcon\Utils\Arr::path($array, 'theme.*.color');
  *
  *     // Using an array of keys
- *     $colors = \Phalcon\Arr::path($array, array('theme', '*', 'color'));
+ *     $colors = \Phalcon\Utils\Arr::path($array, array('theme', '*', 'color'));
  *
  * @param array $array
  * @param mixed $path
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Arr, is_array){
  * @param string $delimiter
  * @return mixed
  */
-PHP_METHOD(Phalcon_Arr, path){
+PHP_METHOD(Phalcon_Utils_Arr, path){
 
 	zval *array, *path, *default_value = NULL, *delimiter = NULL;
 	zval *is_array, *keys = NULL, *key = NULL, *values = NULL, *is_digit = NULL, *arr = NULL, *value = NULL;
@@ -242,7 +242,7 @@ end:
  *
  *     // Set the values of "color" in theme
  *     $array = array('theme' => array('one' => array('color' => 'green'), 'two' => array('size' => 11));
- *     \Phalcon\Arr::set_path($array, 'theme.*.color', 'red');
+ *     \Phalcon\Utils\Arr::set_path($array, 'theme.*.color', 'red');
  *     // Result: array('theme' => array('one' => array('color' => 'red'), 'two' => array('size' => 11, 'color' => 'red'));
  *
  * @param array $array
@@ -250,10 +250,10 @@ end:
  * @param mixed $value
  * @param string $delimiter
  */
-PHP_METHOD(Phalcon_Arr, set_path){
+PHP_METHOD(Phalcon_Utils_Arr, set_path){
 
 	zval *array, *path, *value, *delimiter = NULL;
-	zval *keys, *key = NULL, *is_digit = NULL, *cpy_array = NULL, *arr = NULL, *tmp, *is_array = NULL, *joined_keys = NULL;
+	zval *keys = NULL, *key = NULL, *is_digit = NULL, *cpy_array = NULL, *arr = NULL, *tmp, *is_array = NULL, *joined_keys = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -342,13 +342,13 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * Fill an array with a range of numbers.
  *
  *     // Fill an array with values 5, 10, 15, 20
- *     $values = \Phalcon\Arr::range(5, 20);
+ *     $values = \Phalcon\Utils\Arr::range(5, 20);
  *
  * @param integer $step
  * @param integer $max
  * @return array
  */
- PHP_METHOD(Phalcon_Arr, range){
+ PHP_METHOD(Phalcon_Utils_Arr, range){
 
 	zval *step = NULL, *max = NULL;
 	int i, s, m;
@@ -393,14 +393,14 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * array, the default value will be returned instead.
  *
  *     // Get the value "username" from $_POST, if it exists
- *     $username = \Phalcon\Arr::get($_POST, 'username');
+ *     $username = \Phalcon\Utils\Arr::get($_POST, 'username');
  *
  * @param array $array
  * @param string $key
  * @param mixed $default_value
  * @return mixed
  */
- PHP_METHOD(Phalcon_Arr, get){
+ PHP_METHOD(Phalcon_Utils_Arr, get){
 
 	zval *array, *key, *default_value = NULL;
 	zval *value;
@@ -427,18 +427,18 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * array, the default value will be added instead.
  *
  *     // Get the values "username", "password" from $_POST
- *     $auth = \Phalcon\Arr::extract($_POST, array('username', 'password'));
+ *     $auth = \Phalcon\Utils\Arr::extract($_POST, array('username', 'password'));
  *     
  *     // Get the value "level1.level2a" from $data
  *     $data = array('level1' => array('level2a' => 'value 1', 'level2b' => 'value 2'));
- *     \Phalcon\Arr::extract($data, array('level1.level2a', 'password'));
+ *     \Phalcon\Utils\Arr::extract($data, array('level1.level2a', 'password'));
  *
  * @param array $array
  * @param array $paths
  * @param mixed $default_value
  * @return array
  */
- PHP_METHOD(Phalcon_Arr, extract){
+ PHP_METHOD(Phalcon_Utils_Arr, extract){
 
 	zval *array, *paths, *default_value = NULL, *path = NULL, *value = NULL;
 	HashTable *ah0;
@@ -477,13 +477,13 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * Retrieves muliple single-key values from a list of arrays.
  *
  *     // Get all of the "id" values from a result
- *     $ids = \Phalcon\Arr::pluck($result, 'id');
+ *     $ids = \Phalcon\Utils\Arr::pluck($result, 'id');
  *
  * @param array $array
  * @param string $key
  * @return array
  */
- PHP_METHOD(Phalcon_Arr, pluck){
+ PHP_METHOD(Phalcon_Utils_Arr, pluck){
 
 	zval *array, *key, *row = NULL, *value = NULL;
 	HashTable *ah0;
@@ -517,14 +517,14 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * Adds a value to the beginning of an associative array.
  *
  *     // Add an empty value to the start of a select list
- *     \Phalcon\Arr::unshift($array, 'none', 'Select a value');
+ *     \Phalcon\Utils\Arr::unshift($array, 'none', 'Select a value');
  *
  * @param array $array
  * @param string $key
  * @param mixed $val
  * @return array
  */
- PHP_METHOD(Phalcon_Arr, unshift){
+ PHP_METHOD(Phalcon_Utils_Arr, unshift){
 
 	zval *array, *key, *val, *tmp, *tmp1;
 
@@ -550,17 +550,17 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * callbacks to all elements in an array, including sub-arrays.
  *
  *     // Apply "strip_tags" to every element in the array
- *     $array = \Phalcon\Arr::map('strip_tags', $array);
+ *     $array = \Phalcon\Utils\Arr::map('strip_tags', $array);
  *
  *     // Apply $this->filter to every element in the array
- *     $array = \Phalcon\Arr::map(array(array($this,'filter')), $array);
+ *     $array = \Phalcon\Utils\Arr::map(array(array($this,'filter')), $array);
  *
  * @param mixed $callbacks
  * @param array $array
  * @param array $keys
  * @return array
  */
- PHP_METHOD(Phalcon_Arr, map){
+ PHP_METHOD(Phalcon_Utils_Arr, map){
 
 	zval *callbacks, *array, *keys = NULL;
 	zval *key = NULL, *val = NULL, *value = NULL, *key1 = NULL, **callback = NULL, *params = NULL;
@@ -639,7 +639,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  *     $mary = array('name' => 'mary', 'children' => array('jane'));
  *
  *     // John and Mary are married, merge them together
- *     $john = \Phalcon\Arr::merge($john, $mary);
+ *     $john = \Phalcon\Utils\Arr::merge($john, $mary);
  *
  *     // The output of $john will now be:
  *     array('name' => 'mary', 'children' => array('fred', 'paul', 'sally', 'jane'))
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * @param array $array2,...
  * @return array
  */
- PHP_METHOD(Phalcon_Arr, merge){
+ PHP_METHOD(Phalcon_Utils_Arr, merge){
 
 	zval *array1, *array2;
 	zval *is_assoc, *key = NULL, *value = NULL, *value1 = NULL, *arr = NULL;
@@ -740,7 +740,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  *     $a2 = array('name' => 'jack', 'food' => 'tacos', 'drink' => 'beer');
  *
  *     // Overwrite the values of $a1 with $a2
- *     $array = \Phalcon\Arr::overwrite($a1, $a2);
+ *     $array = \Phalcon\Utils\Arr::overwrite($a1, $a2);
  *
  *     // The output of $array will now be:
  *     array('name' => 'jack', 'mood' => 'happy', 'food' => 'tacos')
@@ -749,7 +749,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * @param array $array2
  * @return array
  */
- PHP_METHOD(Phalcon_Arr, overwrite){
+ PHP_METHOD(Phalcon_Utils_Arr, overwrite){
 
 	zval *array1, *array2, *array, *key = NULL, *value = NULL, *arg_num, *arg_list, *args, *tmp;
 	HashTable *ah0;
@@ -808,7 +808,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * Note that this function does not validate the callback string.
  *
  *     // Get the callback function and parameters
- *     list($func, $params) = \Phalcon\Arr::callback('Foo::bar(apple,orange)');
+ *     list($func, $params) = \Phalcon\Utils\Arr::callback('Foo::bar(apple,orange)');
  *
  *     // Get the result of the callback
  *     $result = call_user_func_array($func, $params);
@@ -816,7 +816,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * @param string $str
  * @return array function, params
  */
- PHP_METHOD(Phalcon_Arr, callback){
+ PHP_METHOD(Phalcon_Utils_Arr, callback){
 
 	zval *str, *pattern, *matches, *match, *command, *command_parts, *params, *search, *replace;
 	zval *ret, *tmp;
@@ -887,7 +887,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  *     $array = array('set' => array('one' => 'something'), 'two' => 'other');
  *
  *     // Flatten the array
- *     $array = \Phalcon\Arr::flatten($array);
+ *     $array = \Phalcon\Utils\Arr::flatten($array);
  *
  *     // The array will now be
  *     array('one' => 'something', 'two' => 'other');
@@ -895,7 +895,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * @param array $array
  * @return array
  */
- PHP_METHOD(Phalcon_Arr, flatten){
+ PHP_METHOD(Phalcon_Utils_Arr, flatten){
 
 	zval *array, *is_assoc, *key = NULL, *value = NULL, *arr = NULL, *tmp = NULL;
 	HashTable *ah0, *ah1;

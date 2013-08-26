@@ -347,7 +347,7 @@ image/adapterinterface.c \
 image/exception.c \
 image/adapter/gd.c \
 image/adapter/imagick.c \
-arr.c"
+utils/arr.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
 	PHP_ADD_EXTENSION_DEP([phalcon], [spl])
