@@ -922,16 +922,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
 
 			PHALCON_INIT_NVAR(tmp);
 			phalcon_call_func_p2(tmp, "array_merge", return_value, arr);
-/*
-			phalcon_is_iterable(array, &ah0, &hp0, 0, 0);
-			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-				if (zend_is_true(is_assoc)) {
-					phalcon_array_update_zval(&return_value, key, &value, PH_COPY);
-				} else {
-					phalcon_array_append(&return_value, value, PH_COPY);
-				}
-			}
-*/
+
 			PHALCON_CPY_WRT_CTOR(return_value, tmp);
 		} else {
 			if (zend_is_true(is_assoc)) {
