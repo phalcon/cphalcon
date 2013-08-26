@@ -531,10 +531,10 @@ PHP_METHOD(Phalcon_Arr, set_path){
 
 	phalcon_fetch_params(1, 3, 0, &array, &key, &val);
 
-	PHALCON_INIT_NVAR(tmp);
+	PHALCON_INIT_VAR(tmp);
 	ZVAL_TRUE(tmp);
 
-	PHALCON_INIT_NVAR(tmp1);
+	PHALCON_INIT_VAR(tmp1);
 	phalcon_call_func_p2(tmp1, "array_reverse", array, tmp);
 
 	phalcon_array_update_zval(&tmp1, key, &val, 0);
@@ -785,6 +785,8 @@ PHP_METHOD(Phalcon_Arr, set_path){
 		PHALCON_INIT_VAR(tmp);
 		ZVAL_LONG(tmp, 2);
 
+		zend_print_zval_r(tmp, 2);
+
 		PHALCON_INIT_VAR(args);
 		phalcon_call_func_p2(args, "array_slice", arg_list, tmp);
 
@@ -933,4 +935,3 @@ PHP_METHOD(Phalcon_Arr, set_path){
 
 	PHALCON_MM_RESTORE();
 }
-
