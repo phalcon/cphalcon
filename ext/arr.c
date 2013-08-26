@@ -807,7 +807,7 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * Note that this function does not validate the callback string.
  *
  *     // Get the callback function and parameters
- *     list($func, $params) = Arr::callback('Foo::bar(apple,orange)');
+ *     list($func, $params) = \Phalcon\Arr::callback('Foo::bar(apple,orange)');
  *
  *     // Get the result of the callback
  *     $result = call_user_func_array($func, $params);
@@ -816,7 +816,69 @@ PHP_METHOD(Phalcon_Arr, set_path){
  * @return array function, params
  */
  PHP_METHOD(Phalcon_Arr, callback){
+
+	zval *str, *pattern, *matches, *match, *command, *command_parts, *params, *search, *replace;
+	zval *ret, *tmp;
+
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &str);
+
+	PHALCON_INIT_VAR(pattern);
+	ZVAL_STRING(pattern, "#^([^\\(]*+)\\((.*)\\)$#", 1);
+
+	PHALCON_INIT_VAR(matches);
+
+	PHALCON_INIT_VAR(ret);
+	phalcon_preg_match(ret, &ret, pattern, str, matches TSRMLS_CC);
+
+	if (zend_is_true(ret)) {
+
+		zend_print_zval_r(matches, 0);
+		if (!phalcon_array_isset_long_fetch(&command, matches, 1)) {
+			PHALCON_INIT_VAR(command);
+			ZVAL_EMPTY_STRING(command);
+		}
+
+		if (phalcon_array_isset_long(matches, 2)) {
+			PHALCON_OBS_VAR(match);
+			phalcon_array_fetch_long(&match, matches, 2, PH_NOISY);
+
+			PHALCON_INIT_NVAR(pattern);
+			ZVAL_STRING(pattern, "#(?<!\\\\\\\\),#", 1);
+
+			PHALCON_INIT_VAR(tmp);
+			phalcon_call_func_p2(tmp, "preg_split", pattern, match);
+
+			PHALCON_INIT_VAR(search);
+			ZVAL_STRING(search, "\\,", 1);
+
+			PHALCON_INIT_VAR(replace);
+			ZVAL_STRING(replace, ",", 1);
+
+			PHALCON_INIT_VAR(params);
+			phalcon_call_func_p3(params, "str_replace", search, replace, tmp);
+		}
+	} else {
+		PHALCON_INIT_VAR(command);
+		ZVAL_ZVAL(command, str, 1, 0);
+
+		PHALCON_INIT_VAR(params);
+	}
+
+	array_init(return_value);
+
+	if (phalcon_memnstr_str(command, SL("::"))) {
+		PHALCON_INIT_VAR(command_parts);
+		phalcon_fast_explode_str(command_parts, SL("::"), command);
+
+		phalcon_array_append(&return_value, command_parts, 0);
+	} else {
+		phalcon_array_append(&return_value, command, 0);
+	}
+
+	phalcon_array_append(&return_value, params, 0);
+
 	PHALCON_MM_RESTORE();
 }
 
