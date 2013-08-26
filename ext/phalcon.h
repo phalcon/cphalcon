@@ -331,3 +331,4 @@
 #include "image/exception.h"
 #include "image/adapter/gd.h"
 #include "image/adapter/imagick.h"
+#include "utils/date.h"
