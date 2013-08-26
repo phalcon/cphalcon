@@ -48,7 +48,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Json){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Json, logger_formatter_json, "phalcon\\logger\\formatter", phalcon_logger_formatter_json_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Json, logger_formatter_json, phalcon_logger_formatter_ce, phalcon_logger_formatter_json_method_entry, 0);
 
 	zend_class_implements(phalcon_logger_formatter_json_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format){
 	phalcon_array_update_string(&log, SL("type"), &type_str, PH_COPY | PH_SEPARATE);
 	phalcon_array_update_string(&log, SL("message"), &message, PH_COPY | PH_SEPARATE);
 	phalcon_array_update_string(&log, SL("timestamp"), &timestamp, PH_COPY | PH_SEPARATE);
-	phalcon_json_encode(return_value, log, 0 TSRMLS_CC);
+	phalcon_json_encode(return_value, return_value_ptr, log, 0 TSRMLS_CC);
 	RETURN_MM();
 }
 

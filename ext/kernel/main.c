@@ -40,7 +40,6 @@
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 
 	/* Memory options */
-	phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
 
 	/* Virtual Symbol Tables */
@@ -72,17 +71,13 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 /**
  * Initializes internal interface with extends
  */
-zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC) {
+zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC) {
 
-	zend_class_entry *ce, **pce;
+	zend_class_entry *ce;
 
-	if (zend_hash_find(CG(class_table), parent_name, strlen(parent_name) + 1, (void **) &pce) == FAILURE) {
-		return NULL;
-	}
-
-	ce = zend_register_internal_interface(orig_class_entry TSRMLS_CC);
-	if (*pce) {
-		zend_do_inheritance(ce, *pce TSRMLS_CC);
+	ce = zend_register_internal_interface(orig_ce TSRMLS_CC);
+	if (parent_ce) {
+		zend_do_inheritance(ce, parent_ce TSRMLS_CC);
 	}
 
 	return ce;
@@ -290,9 +285,6 @@ int phalcon_is_callable(zval *var TSRMLS_DC) {
 int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse) {
 
 	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
-		TSRMLS_FETCH();
-		zend_error(E_ERROR, "The argument is not iterable()");
-		phalcon_memory_restore_stack(TSRMLS_C);
 		return 0;
 	}
 
@@ -313,17 +305,17 @@ int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_p
 	return 1;
 }
 
-/**
- * Generates error when inherited class isn't found
- */
-void phalcon_inherit_not_found(const char *class_name, const char *inherit_name) {
-	fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", class_name, inherit_name);
+void phalcon_safe_zval_ptr_dtor(zval *pzval)
+{
+	if (pzval) {
+		zval_ptr_dtor(&pzval);
+	}
 }
 
 /**
  * Parses method parameters with minimum overhead
  */
-int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int required_args, int optional_args, ...)
+int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
 {
 	va_list va;
 	int arg_count = (int) (zend_uintptr_t) *(zend_vm_stack_top(TSRMLS_C) - 1);
@@ -331,12 +323,12 @@ int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int require
 	int i;
 
 	if (num_args < required_args || (num_args > (required_args + optional_args))) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters"), grow_stack TSRMLS_CC);
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters") TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (num_args > arg_count) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing"), grow_stack TSRMLS_CC);
+		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing") TSRMLS_CC);
 		return FAILURE;
 	}
 

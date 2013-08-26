@@ -46,7 +46,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Submit){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Submit, forms_element_submit, "phalcon\\forms\\element", phalcon_forms_element_submit_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Submit, forms_element_submit, phalcon_forms_element_ce, phalcon_forms_element_submit_method_entry, 0);
 
 	zend_class_implements(phalcon_forms_element_submit_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
 
@@ -61,7 +61,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Submit){
  */
 PHP_METHOD(Phalcon_Forms_Element_Submit, render){
 
-	zval *attributes = NULL, *widget_attributes, *code;
+	zval *attributes = NULL, *widget_attributes;
 
 	PHALCON_MM_GROW();
 
@@ -77,8 +77,7 @@ PHP_METHOD(Phalcon_Forms_Element_Submit, render){
 	/** 
 	 * Merged passed attributes with previously defined ones
 	 */
-	PHALCON_INIT_VAR(code);
-	PHALCON_CALL_STATIC_PARAMS_1(code, "phalcon\\tag", "submitbutton", widget_attributes);
-	RETURN_CCTOR(code);
+	phalcon_call_static_p1(return_value, "phalcon\\tag", "submitbutton", widget_attributes);
+	PHALCON_MM_RESTORE();
 }
 

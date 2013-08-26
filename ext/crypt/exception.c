@@ -45,7 +45,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Crypt_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Crypt, Exception, crypt_exception, "phalcon\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Crypt, Exception, crypt_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }

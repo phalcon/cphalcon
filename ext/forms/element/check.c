@@ -46,7 +46,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Check){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Check, forms_element_check, "phalcon\\forms\\element", phalcon_forms_element_check_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Check, forms_element_check, phalcon_forms_element_ce, phalcon_forms_element_check_method_entry, 0);
 
 	zend_class_implements(phalcon_forms_element_check_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
 
@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Forms_Element_Check, render){
 	
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p2(widget_attributes, this_ptr, "prepareattributes", attributes, use_checked);
-	PHALCON_CALL_STATIC_PARAMS_1(return_value, "phalcon\\tag", "checkfield", widget_attributes);
+	phalcon_call_static_p1(return_value, "phalcon\\tag", "checkfield", widget_attributes);
 	RETURN_MM();
 }
 

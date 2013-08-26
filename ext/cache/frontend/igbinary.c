@@ -26,6 +26,9 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
+#include "cache/frontend/data.h"
+#include "cache/frontend/igbinary.h"
+
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
@@ -80,7 +83,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Igbinary){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Igbinary, cache_frontend_igbinary, "phalcon\\cache\\frontend\\data", phalcon_cache_frontend_igbinary_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Igbinary, cache_frontend_igbinary, phalcon_cache_frontend_data_ce, phalcon_cache_frontend_igbinary_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_igbinary_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
@@ -101,7 +104,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore){
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	phalcon_call_func_p1(return_value, "igbinary_serialize", data);
+	phalcon_call_func_p1_ex(return_value, return_value_ptr, "igbinary_serialize", data);
 	RETURN_MM();
 }
 
@@ -119,7 +122,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve){
 
 	phalcon_fetch_params(1, 1, 0, &data);
 	
-	phalcon_call_func_p1(return_value, "igbinary_unserialize", data);
+	phalcon_call_func_p1_ex(return_value, return_value_ptr, "igbinary_unserialize", data);
 	RETURN_MM();
 }
 

@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -213,7 +212,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 /**
  * Return current namespaces registered in the autoloader
  *
- * @param array
+ * @return array
  */
 PHP_METHOD(Phalcon_Loader, getNamespaces){
 
@@ -484,7 +483,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			}
 	
 			if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 			RETURN_MM_TRUE;
 		}
@@ -573,7 +572,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 							 * Simulate a require
 							 */
 							if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
-								return;
+								RETURN_MM();
 							}
 	
 							/** 
@@ -658,7 +657,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 								phalcon_call_method_p3_noret(events_manager, "fire", event_name, this_ptr, file_path);
 							}
 							if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
-								return;
+								RETURN_MM();
 							}
 							RETURN_MM_TRUE;
 						}
@@ -745,7 +744,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					 * Simulate a require
 					 */
 					if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
-						return;
+						RETURN_MM();
 					}
 	
 					/** 

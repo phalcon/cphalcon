@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 
 	zval *model_name, *new_instance = NULL, *initialized;
-	zval *lowercased, *model, *cloned, *dependency_injector;
+	zval *lowercased, *model, *dependency_injector;
 	zval *exception_message;
 	zend_class_entry *ce0;
 
@@ -344,11 +344,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 		PHALCON_OBS_VAR(model);
 		phalcon_array_fetch(&model, initialized, lowercased, PH_NOISY);
 		if (zend_is_true(new_instance)) {
-			PHALCON_INIT_VAR(cloned);
-			if (phalcon_clone(cloned, model TSRMLS_CC) == FAILURE) {
-				return;
+			PHALCON_OBS_VAR(dependency_injector);
+			phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+
+			ce0 = Z_OBJCE_P(model);
+			object_init_ex(return_value, ce0);
+
+			if (phalcon_has_constructor(return_value TSRMLS_CC)) {
+				phalcon_call_method_p2_noret(return_value, "__construct", dependency_injector, this_ptr);
 			}
-			RETURN_CCTOR(cloned);
+
+			RETURN_MM();
 		}
 	
 		RETURN_CCTOR(model);
@@ -646,6 +652,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce);
 	RETURN_CCTOR(connection);
 }
 
@@ -700,6 +707,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(connection, phalcon_db_adapterinterface_ce);
 	RETURN_CCTOR(connection);
 }
 
@@ -2822,17 +2830,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 
-	zval *phql, *placeholders = NULL, *dependency_injector;
+	zval *phql, *placeholders = NULL, *types = NULL, *dependency_injector;
 	zval *query;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 1, &phql, &placeholders);
+	phalcon_fetch_params(1, 1, 2, &phql, &placeholders, &types);
 	
 	if (!placeholders) {
 		PHALCON_INIT_VAR(placeholders);
 	}
 	
+	if (!types) {
+		PHALCON_INIT_VAR(types);
+	}
+
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -2853,7 +2865,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	/** 
 	 * Execute the query
 	 */
-	phalcon_call_method_p1(return_value, query, "execute", placeholders);
+	phalcon_call_method_p2(return_value, query, "execute", placeholders, types);
 	RETURN_MM();
 }
 

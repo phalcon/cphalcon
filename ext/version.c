@@ -75,10 +75,10 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	PHALCON_INIT_VAR(version);
 	array_init_size(version, 5);
 	add_next_index_long(version, 1);
-	add_next_index_long(version, 2);
-	add_next_index_long(version, 1);
-	add_next_index_long(version, 4);
+	add_next_index_long(version, 3);
 	add_next_index_long(version, 0);
+	add_next_index_long(version, 1);
+	add_next_index_long(version, 1);
 	RETURN_CTOR(version);
 }
 
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Version, get){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(version);
-	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
+	phalcon_call_self(version, this_ptr, "_getversion");
 
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, version, 0, PH_NOISY);
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Version, getId){
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(version);
-	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
+	phalcon_call_self(version, this_ptr, "_getversion");
 
 	PHALCON_OBS_VAR(major);
 	phalcon_array_fetch_long(&major, version, 0, PH_NOISY);

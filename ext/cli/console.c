@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -225,7 +224,17 @@ PHP_METHOD(Phalcon_CLI_Console, getModules){
 }
 
 /**
- * Handle the whole command-line tasks
+ * Handle the command-line arguments.
+ *  
+ * 
+ * <code>
+ * 	$arguments = array(
+ * 		'task' => 'taskname',
+ * 		'action' => 'action',
+ * 		'params' => array('parameter1', 'parameter2')
+ * 	);
+ * 	$console->handle($arguments);
+ * </code>
  *
  * @param array $arguments
  * @return mixed
@@ -262,6 +271,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_CLASS(router, phalcon_cli_router_ce);
 	phalcon_call_method_p1_noret(router, "handle", arguments);
 	
 	PHALCON_INIT_VAR(module_name);
@@ -301,7 +311,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 			phalcon_array_fetch_string(&path, module, SL("path"), PH_NOISY);
 			if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 				if (phalcon_require(path TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 			} else {
 				PHALCON_INIT_NVAR(exception_msg);
@@ -351,6 +361,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	
 	PHALCON_INIT_VAR(dispatcher);
 	phalcon_call_method_p1(dispatcher, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(dispatcher, phalcon_dispatcherinterface_ce);
 	phalcon_call_method_p1_noret(dispatcher, "settaskname", task_name);
 	phalcon_call_method_p1_noret(dispatcher, "setactionname", action_name);
 	phalcon_call_method_p1_noret(dispatcher, "setparams", params);

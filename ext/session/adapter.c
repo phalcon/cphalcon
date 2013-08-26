@@ -290,7 +290,8 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
  */
 PHP_METHOD(Phalcon_Session_Adapter, getId){
 
-	phalcon_get_session_id(return_value TSRMLS_CC);
+
+	phalcon_get_session_id(return_value, return_value_ptr TSRMLS_CC);
 }
 
 /**

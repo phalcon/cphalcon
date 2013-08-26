@@ -45,7 +45,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_CLI_Dispatcher_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI\\Dispatcher, Exception, cli_dispatcher_exception, "phalcon\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI\\Dispatcher, Exception, cli_dispatcher_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }

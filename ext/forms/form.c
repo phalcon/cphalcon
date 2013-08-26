@@ -53,7 +53,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Forms_Form){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms, Form, forms_form, "phalcon\\di\\injectable", phalcon_forms_form_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms, Form, forms_form, phalcon_di_injectable_ce, phalcon_forms_form_method_entry, 0);
 
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_entity"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -346,6 +346,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind){
 	
 				PHALCON_INIT_NVAR(filter);
 				phalcon_call_method_p1(filter, dependency_injector, "getshared", service_name);
+				PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 			}
 	
 			/** 
@@ -1039,7 +1040,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind){
 	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(elements_indexed);
-	phalcon_call_func_p1(elements_indexed, "array_values", elements);
+	phalcon_array_values(elements_indexed, elements);
 	phalcon_update_property_this(this_ptr, SL("_elementsIndexed"), elements_indexed TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

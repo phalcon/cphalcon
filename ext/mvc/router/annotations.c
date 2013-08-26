@@ -66,7 +66,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Annotations){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Router, Annotations, mvc_router_annotations, "phalcon\\mvc\\router", phalcon_mvc_router_annotations_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Router, Annotations, mvc_router_annotations, phalcon_mvc_router_ce, phalcon_mvc_router_annotations_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_router_annotations_ce, SL("_processed"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -238,6 +238,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	
 						PHALCON_INIT_NVAR(annotations_service);
 						phalcon_call_method_p1(annotations_service, dependency_injector, "getshared", service);
+						PHALCON_VERIFY_INTERFACE(annotations_service, phalcon_annotations_adapterinterface_ce);
 					}
 	
 					/** 
@@ -373,7 +374,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	/** 
 	 * Call the parent handle method()
 	 */
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Mvc\\Router\\Annotations", "handle", real_uri);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_mvc_router_annotations_ce, "handle", real_uri);
 	
 	PHALCON_MM_RESTORE();
 }

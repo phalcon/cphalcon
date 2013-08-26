@@ -46,7 +46,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Forms_Element_Numeric){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Numeric, forms_element_numeric, "phalcon\\forms\\element", phalcon_forms_element_numeric_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Numeric, forms_element_numeric, phalcon_forms_element_ce, phalcon_forms_element_numeric_method_entry, 0);
 
 	zend_class_implements(phalcon_forms_element_numeric_ce TSRMLS_CC, 1, phalcon_forms_elementinterface_ce);
 
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Forms_Element_Numeric, render){
 	
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	PHALCON_CALL_STATIC_PARAMS_1(return_value, "phalcon\\tag", "numericfield", widget_attributes);
+	phalcon_call_static_p1(return_value, "phalcon\\tag", "numericfield", widget_attributes);
 	RETURN_MM();
 }
 

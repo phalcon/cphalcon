@@ -54,7 +54,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Volt, mvc_view_engine_volt, "phalcon\\mvc\\view\\engine", phalcon_mvc_view_engine_volt_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Volt, mvc_view_engine_volt, phalcon_mvc_view_engine_ce, phalcon_mvc_view_engine_volt_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("_compiler"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	}
 	
 	if (phalcon_require(compiled_template_path TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_INIT_VAR(contents);
@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded){
 	phalcon_fetch_params(1, 2, 0, &needle, &haystack);
 	
 	if (Z_TYPE_P(haystack) == IS_ARRAY) { 
-		phalcon_call_func_p2(return_value, "in_array", needle, haystack);
+		RETVAL_BOOL(phalcon_fast_in_array(needle, haystack TSRMLS_CC));
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(haystack) == IS_STRING) {

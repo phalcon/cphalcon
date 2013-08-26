@@ -71,7 +71,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Email, mvc_model_validator_email, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_email_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Email, mvc_model_validator_email, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_email_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_validator_email_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	ZVAL_STRING(pattern, "/^[a-zA-Z0-9\\-_\\.\\+]+@[a-zA-Z0-9_\\-]+(\\.[a-zA-Z0-9_\\-]+)*$/", 1);
 	
 	PHALCON_INIT_VAR(match_pattern);
-	phalcon_preg_match(match_pattern, pattern, value, regs TSRMLS_CC);
+	phalcon_preg_match(match_pattern, NULL, pattern, value, regs TSRMLS_CC);
 	
 	if (zend_is_true(match_pattern)) {
 		PHALCON_OBS_VAR(match_zero);

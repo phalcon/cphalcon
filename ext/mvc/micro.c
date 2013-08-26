@@ -67,7 +67,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Micro){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Micro, mvc_micro, "phalcon\\di\\injectable", phalcon_mvc_micro_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Micro, mvc_micro, phalcon_di_injectable_ce, phalcon_mvc_micro_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -626,6 +626,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 	
 		PHALCON_INIT_NVAR(router);
 		phalcon_call_method_p1(router, this_ptr, "getsharedservice", service_name);
+		PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 	
 		/** 
 		 * Clear the set routes if any
@@ -827,6 +828,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 	
 	/** 
 	 * Handle the URI as normal

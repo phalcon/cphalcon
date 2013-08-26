@@ -51,7 +51,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Validation){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon, Validation, validation, "phalcon\\di\\injectable", phalcon_validation_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon, Validation, validation, phalcon_di_injectable_ce, phalcon_validation_method_entry, 0);
 
 	zend_declare_property_null(phalcon_validation_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_entity"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 	
 						PHALCON_INIT_NVAR(dependency_injector);
-						PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+						phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	
 						if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 							PHALCON_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "A dependency injector is required to obtain the 'filter' service");
@@ -502,6 +502,7 @@ PHP_METHOD(Phalcon_Validation, getValue){
 						return;
 					}
 	
+					PHALCON_VERIFY_INTERFACE(filter_service, phalcon_filterinterface_ce);
 					phalcon_call_method_p2(return_value, filter_service, "sanitize", value, field_filters);
 					RETURN_MM();
 				}

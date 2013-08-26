@@ -188,8 +188,11 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter){
 	} else {
 		PHALCON_INIT_VAR(new_filters);
 		array_init_size(new_filters, 2);
-		phalcon_array_append(&new_filters, filters, PH_SEPARATE);
-		phalcon_array_append(&new_filters, filter, PH_SEPARATE);
+		if (Z_TYPE_P(filters) == IS_STRING) {
+			phalcon_array_append(&new_filters, filters, 0);
+		}
+
+		phalcon_array_append(&new_filters, filter, 0);
 		phalcon_update_property_this(this_ptr, SL("_filters"), new_filters TSRMLS_CC);
 	}
 	
@@ -666,7 +669,7 @@ PHP_METHOD(Phalcon_Forms_Element, getValue){
 		 * Check if the tag has a default value
 		 */
 		PHALCON_INIT_VAR(has_default_value);
-		PHALCON_CALL_STATIC_PARAMS_1(has_default_value, "phalcon\\tag", "hasvalue", name);
+		phalcon_call_static_p1(has_default_value, "phalcon\\tag", "hasvalue", name);
 		if (!zend_is_true(has_default_value)) {
 			/** 
 			 * Gets the possible value for the widget
@@ -806,7 +809,7 @@ PHP_METHOD(Phalcon_Forms_Element, clear){
 	
 	PHALCON_OBS_VAR(name);
 	phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	PHALCON_CALL_STATIC_PARAMS_2_NORETURN("phalcon\\tag", "setdefault", name, znull);
+	phalcon_call_static_p2_noret("phalcon\\tag", "setdefault", name, znull);
 	RETURN_THIS();
 }
 

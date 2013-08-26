@@ -63,7 +63,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Sqlite){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, Sqlite, db_adapter_pdo_sqlite, "phalcon\\db\\adapter\\pdo", phalcon_db_adapter_pdo_sqlite_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, Sqlite, db_adapter_pdo_sqlite, phalcon_db_adapter_pdo_ce, phalcon_db_adapter_pdo_sqlite_method_entry, 0);
 
 	zend_declare_property_string(phalcon_db_adapter_pdo_sqlite_ce, SL("_type"), "sqlite", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_db_adapter_pdo_sqlite_ce, SL("_dialectType"), "sqlite", ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect){
 		phalcon_array_update_string(&descriptor, SL("dsn"), &dbname, PH_COPY | PH_SEPARATE);
 	}
 	
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo\\Sqlite", "connect", descriptor);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_db_adapter_pdo_sqlite_ce, "connect", descriptor);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 	phalcon_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(size_pattern);
-	ZVAL_STRING(size_pattern, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
+	ZVAL_STRING(size_pattern, "#\\(([0-9]++)(?:,\\s*([0-9]++))?\\)#", 1);
 	
 	PHALCON_INIT_VAR(sql);
 	phalcon_call_method_p2(sql, dialect, "describecolumns", table, schema);
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 			PHALCON_INIT_NVAR(matches);
 	
 			PHALCON_INIT_NVAR(pos);
-			phalcon_preg_match(pos, size_pattern, column_type, matches TSRMLS_CC);
+			phalcon_preg_match(pos, NULL, size_pattern, column_type, matches TSRMLS_CC);
 	
 			if (zend_is_true(pos)) {
 				if (phalcon_array_isset_long(matches, 1)) {
@@ -247,10 +247,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 					phalcon_array_update_string(&definition, SL("size"), &match_one, PH_COPY | PH_SEPARATE);
 				}
 				if (phalcon_array_isset_long(matches, 2)) {
-                                        PHALCON_OBS_NVAR(match_two);
-                                        phalcon_array_fetch_long(&match_two, matches, 2, PH_NOISY);
-                                        phalcon_array_update_string(&definition, SL("scale"), &match_two, PH_COPY | PH_SEPARATE);
-                                }
+					PHALCON_OBS_NVAR(match_two);
+					phalcon_array_fetch_long(&match_two, matches, 2, PH_NOISY);
+					phalcon_array_update_string(&definition, SL("scale"), &match_two, PH_COPY | PH_SEPARATE);
+				}
 			}
 		}
 	

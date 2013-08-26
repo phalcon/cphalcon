@@ -73,7 +73,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Uniqueness){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Uniqueness, mvc_model_validator_uniqueness, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_uniqueness_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Uniqueness, mvc_model_validator_uniqueness, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_uniqueness_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_validator_uniqueness_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 
@@ -119,6 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_call_method_p1(meta_data, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(meta_data, phalcon_mvc_model_metadatainterface_ce);
 	
 	/** 
 	 * PostgreSQL check if the compared constant has the same type as the column, so we

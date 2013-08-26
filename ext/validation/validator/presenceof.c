@@ -56,7 +56,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, PresenceOf, validation_validator_presenceof, "phalcon\\validation\\validator", phalcon_validation_validator_presenceof_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, PresenceOf, validation_validator_presenceof, phalcon_validation_validator_ce, phalcon_validation_validator_presenceof_method_entry, 0);
 
 	zend_class_implements(phalcon_validation_validator_presenceof_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
 

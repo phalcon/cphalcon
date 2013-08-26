@@ -64,7 +64,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Pdo, db_adapter_pdo, "phalcon\\db\\adapter", phalcon_db_adapter_pdo_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Pdo, db_adapter_pdo, phalcon_db_adapter_ce, phalcon_db_adapter_pdo_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_pdo"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_affectedRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
 		return;
 	}
 	phalcon_call_method_p1_noret(this_ptr, "connect", descriptor);
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo", "__construct", descriptor);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_db_adapter_pdo_ce, "__construct", descriptor);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -185,9 +185,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_INIT_VAR(dsn_parts);
 		array_init(dsn_parts);
 
-		if (!phalcon_is_iterable_ex(descriptor, &ah0, &hp0, 0, 0)) {
-			return;
-		}
+		phalcon_is_iterable(descriptor, &ah0, &hp0, 0, 0);
 
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
@@ -302,9 +300,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
 
-	if (!phalcon_is_iterable_ex(placeholders, &ah0, &hp0, 0, 0)) {
-		return;
-	}
+	phalcon_is_iterable(placeholders, &ah0, &hp0, 0, 0);
 
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
@@ -355,8 +351,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 				Z_UNSET_ISREF_P(cast_value);
 
 			} else {
+				PHALCON_INIT_NVAR(type);
+				ZVAL_LONG(type, 2 /* BIND_PARAM_STR */);
+				Z_SET_ISREF_P(value);
+				phalcon_call_method_p3_noret(statement, "bindparam", parameter, value, type);
+				Z_UNSET_ISREF_P(value);
+/*
 				PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind type parameter");
 				return;
+*/
 			}
 		} else {
 			Z_SET_ISREF_P(value);

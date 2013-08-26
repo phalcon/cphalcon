@@ -75,6 +75,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request){
 
 	zend_declare_property_null(phalcon_http_request_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_request_ce, SL("_rawBody"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_request_ce TSRMLS_CC, 2, phalcon_http_requestinterface_ce, phalcon_di_injectionawareinterface_ce);
 
@@ -171,6 +172,7 @@ PHP_METHOD(Phalcon_Http_Request, get){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
@@ -250,6 +252,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
@@ -332,6 +335,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 	
 					PHALCON_INIT_NVAR(filter);
 					phalcon_call_method_p1(filter, dependency_injector, "getshared", service);
+					PHALCON_VERIFY_INTERFACE(filter, phalcon_filterinterface_ce);
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
@@ -590,11 +594,23 @@ PHP_METHOD(Phalcon_Http_Request, isSecureRequest){
  */
 PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
+	zval *raw;
 	if (SG(request_info).raw_post_data) {
 		RETURN_STRINGL(SG(request_info).raw_post_data, SG(request_info).raw_post_data_length, 1);
 	}
 
-	if (sapi_module.read_post) {
+	raw = phalcon_fetch_nproperty_this(getThis(), SL("_rawBody"), PH_NOISY TSRMLS_CC);
+	if (Z_TYPE_P(raw) == IS_STRING) {
+		if (return_value_ptr) {
+			zval_ptr_dtor(return_value_ptr);
+			*return_value_ptr = raw;
+			Z_ADDREF_P(raw);
+		}
+		else {
+			RETURN_ZVAL(raw, 1, 0);
+		}
+	}
+	else if (sapi_module.read_post) {
 		int read_bytes;
 		char *buf          = emalloc(8192);
 		smart_str raw_data = { NULL, 0, 0 };
@@ -606,11 +622,18 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
 		efree(buf);
 		if (raw_data.c) {
-			RETURN_STRINGL(raw_data.c, raw_data.len, 0);
+			smart_str_0(&raw_data);
+			RETVAL_STRINGL(raw_data.c, raw_data.len, 0);
 		}
-	}
+		else {
+			RETVAL_EMPTY_STRING();
+		}
 
-	RETURN_EMPTY_STRING();
+		phalcon_update_property_this(getThis(), SL("_rawBody"), return_value TSRMLS_CC);
+	}
+	else {
+		RETURN_EMPTY_STRING();
+	}
 }
 
 /**
@@ -627,7 +650,7 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody){
 	PHALCON_INIT_VAR(raw_body);
 	phalcon_call_method(raw_body, this_ptr, "getrawbody");
 	if (Z_TYPE_P(raw_body) == IS_STRING) {
-		phalcon_json_decode(return_value, raw_body, 0 TSRMLS_CC);
+		phalcon_json_decode(return_value, return_value_ptr, raw_body, 0 TSRMLS_CC);
 		RETURN_MM();
 	}
 	
@@ -1138,25 +1161,25 @@ PHP_METHOD(Phalcon_Http_Request, isOptions){
 
 static int phalcon_http_request_hasfiles_helper(zval *arr, int only_successful)
 {
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	HashPosition hp;
+	zval **value;
 	int nfiles = 0;
 
 	assert(Z_TYPE_P(arr) == IS_ARRAY);
 
-	phalcon_is_iterable_ex(arr, &ah0, &hp0, 0, 0);
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-		if (Z_TYPE_PP(hd) < IS_ARRAY) {
-			if (!zend_is_true(*hd) || !only_successful) {
+	for (
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arr), &hp);
+		zend_hash_get_current_data_ex(Z_ARRVAL_P(arr), (void**) &value, &hp) == SUCCESS;
+		zend_hash_move_forward_ex(Z_ARRVAL_P(arr), &hp)
+	) {
+		if (Z_TYPE_PP(value) < IS_ARRAY) {
+			if (!zend_is_true(*value) || !only_successful) {
 				++nfiles;
 			}
 		}
-		else if (Z_TYPE_PP(hd) == IS_ARRAY) {
-			nfiles += phalcon_http_request_hasfiles_helper(*hd, only_successful);
+		else if (Z_TYPE_PP(value) == IS_ARRAY) {
+			nfiles += phalcon_http_request_hasfiles_helper(*value, only_successful);
 		}
-
-		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 
 	return nfiles;
@@ -1221,7 +1244,6 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 		zval **dname, **dtype, **dtmp, **derror, **dsize;
 		zval *arr, *file, *key;
 		size_t prefix_len = prefix->len;
-		zval *params[2];
 		int res;
 
 		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(name),     &pos_name);
@@ -1270,9 +1292,7 @@ static void phalcon_http_request_getuploadedfiles_helper(zval **return_value, zv
 					ALLOC_INIT_ZVAL(file);
 					object_init_ex(file, phalcon_http_request_file_ce);
 
-					params[0] = arr;
-					params[1] = key;
-					res = phalcon_call_method_params_w(NULL, file, SL("__construct"), 2, params, 0, 0 TSRMLS_CC);
+					res = phalcon_call_method_params(NULL, NULL, file, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, 2, arr, key);
 
 					zval_ptr_dtor(&arr);
 					zval_ptr_dtor(&key);

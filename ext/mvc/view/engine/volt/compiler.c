@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getUniquePrefix){
 		if (phalcon_is_instance_of(prefix, SL("Closure") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(parameters);
 			array_init_size(parameters, 1);
-			phalcon_array_append(&parameters, this_ptr, PH_SEPARATE);
+			phalcon_array_append(&parameters, this_ptr, 0);
 	
 			PHALCON_INIT_VAR(calculated_prefix);
 			phalcon_call_func_p2(calculated_prefix, "call_user_func_array", prefix, parameters);
@@ -739,14 +739,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 							PHALCON_CPY_WRT(escaped_code, code);
 						} else {
 							PHALCON_INIT_NVAR(escaped_code);
-							phalcon_call_func_p1(escaped_code, "addslashes", code);
+							phalcon_addslashes(escaped_code, code TSRMLS_CC);
 						}
 					} else {
 						if (PHALCON_IS_LONG(expr_level, 1)) {
 							PHALCON_CPY_WRT(escaped_code, block);
 						} else {
 							PHALCON_INIT_NVAR(escaped_code);
-							phalcon_call_func_p1(escaped_code, "addslashes", block);
+							phalcon_addslashes(escaped_code, block TSRMLS_CC);
 						}
 					}
 	
@@ -2527,7 +2527,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileInclude){
 			 */
 			PHALCON_INIT_VAR(sub_compiler);
 			if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
 	
 			/** 
@@ -3134,7 +3134,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				 */
 				PHALCON_INIT_NVAR(sub_compiler);
 				if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
-					return;
+					RETURN_MM();
 				}
 	
 				PHALCON_INIT_NVAR(temp_compilation);
@@ -3592,8 +3592,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	
 	PHALCON_INIT_VAR(stat);
 	ZVAL_BOOL(stat, 1);
-	PHALCON_CPY_WRT(compile_always, zfalse);
 	
+	PHALCON_INIT_VAR(compile_always);
+	ZVAL_FALSE(compile_always);
+
 	PHALCON_INIT_VAR(compiled_path);
 	ZVAL_STRING(compiled_path, "", 1);
 	PHALCON_CPY_WRT(prefix, znull);
@@ -3614,6 +3616,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (phalcon_array_isset_string(options, SS("compileAlways"))) {
 	
+			PHALCON_OBS_NVAR(compile_always);
 			phalcon_array_fetch_string(&compile_always, options, SL("compileAlways"), PH_NOISY);
 			if (Z_TYPE_P(compile_always) != IS_BOOL) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compileAlways must be a bool value");
@@ -3626,6 +3629,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (phalcon_array_isset_string(options, SS("prefix"))) {
 	
+			PHALCON_OBS_NVAR(prefix);
 			phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY);
 			if (Z_TYPE_P(prefix) != IS_STRING) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "prefix must be a string");
@@ -3690,7 +3694,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		 */
 		if (PHALCON_IS_NOT_EMPTY(compiled_path)) {
 			PHALCON_INIT_VAR(real_template_path);
-			phalcon_call_func_p1(real_template_path, "realpath", template_path);
+			phalcon_realpath(real_template_path, template_path TSRMLS_CC);
 	
 			/** 
 			 * Create the virtual path replacing the directory separator by the compiled
@@ -3705,11 +3709,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		/** 
 		 * In extends mode we add an additional 'e' suffix to the file
 		 */
+		PHALCON_INIT_VAR(compiled_template_path);
 		if (PHALCON_IS_TRUE(extends_mode)) {
-			PHALCON_INIT_VAR(compiled_template_path);
 			PHALCON_CONCAT_VVVVSVV(compiled_template_path, compiled_path, prefix, template_sep_path, compiled_separator, "e", compiled_separator, compiled_extension);
 		} else {
-			PHALCON_INIT_NVAR(compiled_template_path);
 			PHALCON_CONCAT_VVVV(compiled_template_path, compiled_path, prefix, template_sep_path, compiled_extension);
 		}
 	} else {
@@ -3721,9 +3724,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	
 				PHALCON_INIT_VAR(params);
 				array_init_size(params, 3);
-				phalcon_array_append(&params, template_path, PH_SEPARATE);
-				phalcon_array_append(&params, options, PH_SEPARATE);
-				phalcon_array_append(&params, extends_mode, PH_SEPARATE);
+				phalcon_array_append(&params, template_path, 0);
+				phalcon_array_append(&params, options, 0);
+				phalcon_array_append(&params, extends_mode, 0);
 	
 				PHALCON_INIT_NVAR(compiled_template_path);
 				PHALCON_CALL_USER_FUNC_ARRAY(compiled_template_path, compiled_path, params);

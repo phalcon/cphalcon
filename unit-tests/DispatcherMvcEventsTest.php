@@ -88,6 +88,13 @@ class DispatcherListener
 		}
 	}
 
+	public function afterInitialize(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
+	{
+		$this->_trace[] = 'afterInitialize';
+		$this->_test->assertEquals($this->_controllerName, $dispatcher->getControllerName());
+		$this->_test->assertEquals($this->_actionName, $dispatcher->getActionName());
+	}
+
 	public function afterExecuteRoute(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
 	{
 		$this->_trace[] = 'afterExecuteRoute';
@@ -188,7 +195,7 @@ class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
 		$dispatcher->dispatch();
 
 		$trace = join('-', $listener->getTrace());
-		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-afterExecuteRoute-afterDispatch');
+		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-afterInitialize-afterExecuteRoute-afterDispatch');
 
 		//Stop at beforeDispatch event
 		$listener->stopAt('beforeDispatch');
@@ -232,7 +239,6 @@ class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
 		$trace = join('-', $listener->getTrace());
 		$this->assertEquals($trace, 'beforeDispatch-beforeException');
 
-		/*
 		//Still we can't completely stop exceptions
 		$listener->clearTrace();
 		$listener->resetStop();
@@ -240,7 +246,7 @@ class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
 		//Uncaught exception
 		$listener->setControllerName('test8');
 		$listener->setActionName('buggy');
-		$listener->setExceptionMessage("This is an uncatched exception");
+		$listener->setExceptionMessage("This is an uncaught exception");
 		$listener->setExceptionType("Exception");
 
 		$dispatcher->setControllerName('test8');
@@ -249,32 +255,6 @@ class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
 		$dispatcher->dispatch();
 
 		$trace = join('-', $listener->getTrace());
-		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-beforeException');*/
-
+		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-afterInitialize-beforeException-afterExecuteRoute-afterDispatch');
 	}
-
-	/*public function testEventsExceptions()
-	{
-
-		$dispatcher = $this->_getDispatcher();
-
-		$listener = new DispatcherListener($this);
-
-		$eventsManager = new Phalcon\Events\Manager();
-		$eventsManager->attach('dispatch',
-			function(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher, $e){
-				//var_dump($event);
-				return false;
-			}
-		);
-
-		$dispatcher->setEventsManager($eventsManager);
-
-		$dispatcher->setControllerName('test8');
-		$dispatcher->setActionName('buggy');
-		$dispatcher->setParams(array());
-		$dispatcher->dispatch();
-
-	}*/
-
 }

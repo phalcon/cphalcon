@@ -46,7 +46,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Assets_Resource_Css){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Assets\\Resource, Css, assets_resource_css, "phalcon\\assets\\resource", phalcon_assets_resource_css_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Assets\\Resource, Css, assets_resource_css, phalcon_assets_resource_ce, phalcon_assets_resource_css_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -62,7 +62,6 @@ PHALCON_INIT_CLASS(Phalcon_Assets_Resource_Css){
 PHP_METHOD(Phalcon_Assets_Resource_Css, __construct){
 
 	zval *path, *local = NULL, *filter = NULL, *attributes = NULL, *type;
-	zval *p0[] = { NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
 
@@ -85,12 +84,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct){
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "css", 1);
 	
-	p0[0] = type;
-	p0[1] = path;
-	p0[2] = local;
-	p0[3] = filter;
-	p0[4] = attributes;
-	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon\\Assets\\Resource\\Css", "__construct", 5, p0);
+	phalcon_call_parent_p5_noret(this_ptr, phalcon_assets_resource_css_ce, "__construct", type, path, local, filter, attributes);
 	
 	PHALCON_MM_RESTORE();
 }

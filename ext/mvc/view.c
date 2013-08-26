@@ -71,7 +71,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, View, mvc_view, "phalcon\\di\\injectable", phalcon_mvc_view_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, View, mvc_view, phalcon_di_injectable_ce, phalcon_mvc_view_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_basePath"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -687,6 +687,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 					if (Z_TYPE_P(engine_service) == IS_STRING) {
 						PHALCON_INIT_NVAR(engine_object);
 						phalcon_call_method_p2(engine_object, dependency_injector, "getshared", engine_service, arguments);
+						PHALCON_VERIFY_INTERFACE(engine_object, phalcon_mvc_view_engineinterface_ce);
 					} else {
 						PHALCON_INIT_NVAR(exception_message);
 						PHALCON_CONCAT_SV(exception_message, "Invalid template engine registration for extension: ", extension);
@@ -1415,7 +1416,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	 */
 	PHALCON_INIT_VAR(view);
 	if (phalcon_clone(view, this_ptr TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	/** 
@@ -1528,6 +1529,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 		return;
 	}
 	
+	PHALCON_VERIFY_INTERFACE(view_cache, phalcon_cache_backendinterface_ce);
 	RETURN_CCTOR(view_cache);
 }
 
@@ -1808,3 +1810,30 @@ PHP_METHOD(Phalcon_Mvc_View, __get){
 	RETURN_MM_NULL();
 }
 
+
+/**
+ * Magic method to inaccessible a variable passed to the view
+ *
+ *<code>
+ *	isset($this->view->products)
+ *</code>
+ *
+ * @param string $key
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_View, __isset){
+
+	zval *key, *params;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &key);
+
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property_this(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	if (phalcon_array_isset(params, key)) {
+		RETURN_MM_TRUE;
+	}
+
+	RETURN_MM_FALSE;
+}

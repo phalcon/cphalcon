@@ -64,14 +64,10 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter){
 
 	zval *content;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &content);
+	phalcon_fetch_params(0, 1, 0, &content);
 	
 	if (phalcon_jsmin(return_value, content TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	
-	RETURN_MM();
 }
 

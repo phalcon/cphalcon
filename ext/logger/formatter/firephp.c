@@ -50,7 +50,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Firephp){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Firephp, logger_formatter_firephp, "phalcon\\logger\\formatter", phalcon_logger_formatter_firephp_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Firephp, logger_formatter_firephp, phalcon_logger_formatter_ce, phalcon_logger_formatter_firephp_method_entry, 0);
 
 	zend_class_implements(phalcon_logger_formatter_firephp_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	 * Convert everything to JSON
 	 */
 	ALLOC_INIT_ZVAL(encoded);
-	phalcon_json_encode(encoded, payload, 0 TSRMLS_CC);
+	phalcon_json_encode(encoded, NULL, payload, 0 TSRMLS_CC);
 
 	/**
 	 * As promised, kill the payload and all associated elements
@@ -227,22 +227,25 @@ PHP_METHOD(Phalcon_Logger_Formatter_Firephp, format) {
 	 * in one go and this allows us to avoid performance penalties due to
 	 * memory reallocations.
 	 */
-	smart_str_alloc4(&result, Z_STRLEN_P(encoded) + 2 + 5, 0, i);
+	if (Z_TYPE_P(encoded) == IS_STRING) {
 
-	/**
-	 * The format is:
-	 *
-	 * <size>|[meta,body]|
-	 *
-	 * Meta and body are contained in encoded inside the array, as required
-	 * by the protocol specification
-	 * @see http://www.firephp.org/Wiki/Reference/Protocol
-	 */
-	smart_str_append_long(&result, Z_STRLEN_P(encoded));
-	smart_str_appendc(&result, '|');
-	smart_str_appendl(&result, Z_STRVAL_P(encoded), Z_STRLEN_P(encoded));
-	smart_str_appendc(&result, '|');
-	smart_str_0(&result);
+		smart_str_alloc4(&result, Z_STRLEN_P(encoded) + 2 + 5, 0, i);
+
+		/**
+		 * The format is:
+		 *
+		 * <size>|[meta,body]|
+		 *
+		 * Meta and body are contained in encoded inside the array, as required
+		 * by the protocol specification
+		 * @see http://www.firephp.org/Wiki/Reference/Protocol
+		 */
+		smart_str_append_long(&result, Z_STRLEN_P(encoded));
+		smart_str_appendc(&result, '|');
+		smart_str_appendl(&result, Z_STRVAL_P(encoded), Z_STRLEN_P(encoded));
+		smart_str_appendc(&result, '|');
+		smart_str_0(&result);
+	}
 
 	/* We don't need the JSON message anymore */
 	zval_ptr_dtor(&encoded);

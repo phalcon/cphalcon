@@ -85,6 +85,7 @@ const phql_token_names phql_tokens[] =
   { SL("CAST"),          PHQL_T_CAST },
   { SL("CONVERT"),       PHQL_T_CONVERT },
   { SL("USING"),         PHQL_T_USING },
+  { SL("ALL"),           PHQL_T_ALL },
   { NULL, 0, 0 }
 };
 
@@ -152,7 +153,7 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC) {
 	ZVAL_NULL(result);
 
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE) {
-		phalcon_throw_exception_string(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg), 1 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
 		return FAILURE;
 	}
 
@@ -166,10 +167,10 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
-	int scanner_status, status = SUCCESS, error_length;
+	int scanner_status, status = SUCCESS, error_length, cache_level;
 	phql_scanner_state *state;
 	phql_scanner_token token;
-	unsigned long phql_key;
+	unsigned long phql_key = 0;
 	void* phql_parser;
 	char *error;
 	zval **temp_ast;
@@ -180,7 +181,8 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		return FAILURE;
 	}
 
-	if (phalcon_globals_ptr->orm.cache_level >= 0) {
+	cache_level = phalcon_globals_ptr->orm.cache_level;
+	if (cache_level >= 0) {
 
 		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 
@@ -457,6 +459,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_DISTINCT:
 				phql_(phql_parser, PHQL_DISTINCT, NULL, parser_status);
 				break;
+			case PHQL_T_ALL:
+				phql_(phql_parser, PHQL_ALL, NULL, parser_status);
+				break;
 			case PHQL_T_CAST:
 				phql_(phql_parser, PHQL_CAST, NULL, parser_status);
 				break;
@@ -538,7 +543,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				/**
 				 * Store the parsed definition in the cache
 				 */
-				if (phalcon_globals_ptr->orm.cache_level >= 0) {
+				if (cache_level >= 0) {
 
 					if (!phalcon_globals_ptr->orm.parser_cache) {
 						ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);

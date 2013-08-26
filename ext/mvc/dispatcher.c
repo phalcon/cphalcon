@@ -67,13 +67,13 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Dispatcher){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Dispatcher, mvc_dispatcher, "phalcon\\dispatcher", phalcon_mvc_dispatcher_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Dispatcher, mvc_dispatcher, phalcon_dispatcher_ce, phalcon_mvc_dispatcher_method_entry, 0);
 
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_handlerSuffix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultHandler"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultAction"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_dispatcher_ce TSRMLS_CC, 1, phalcon_mvc_dispatcherinterface_ce);
+	zend_class_implements(phalcon_mvc_dispatcher_ce TSRMLS_CC, 2, phalcon_dispatcherinterface_ce, phalcon_mvc_dispatcherinterface_ce);
 
 	return SUCCESS;
 }
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 		phalcon_call_method_p2_noret(exception, "__construct", exception_message, exception_code);
 	
 		phalcon_throw_exception(exception TSRMLS_CC);
-		return;
+		RETURN_MM();
 	}
 	
 	PHALCON_INIT_VAR(service);
@@ -180,9 +180,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	
 	PHALCON_INIT_VAR(response);
 	phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	
 	/** 
-	 * Dispatcher exceptions automatically sends 404 status
+	 * Dispatcher exceptions automatically send 404 status
 	 */
 	PHALCON_INIT_VAR(status_code);
 	ZVAL_LONG(status_code, 404);
@@ -216,7 +217,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	 * Throw the exception if it wasn't handled
 	 */
 	phalcon_throw_exception(exception TSRMLS_CC);
-	return;
+	RETURN_MM();
 }
 
 /**

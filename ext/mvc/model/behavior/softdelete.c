@@ -51,7 +51,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Behavior, SoftDelete, mvc_model_behavior_softdelete, "phalcon\\mvc\\model\\behavior", phalcon_mvc_model_behavior_softdelete_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Behavior, SoftDelete, mvc_model_behavior_softdelete, phalcon_mvc_model_behavior_ce, phalcon_mvc_model_behavior_softdelete_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_behavior_softdelete_ce TSRMLS_CC, 1, phalcon_mvc_model_behaviorinterface_ce);
 
@@ -123,8 +123,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			 */
 			PHALCON_INIT_VAR(update_model);
 			if (phalcon_clone(update_model, model TSRMLS_CC) == FAILURE) {
-				return;
+				RETURN_MM();
 			}
+
 			phalcon_call_method_p2_noret(update_model, "writeattribute", field, value);
 	
 			/** 

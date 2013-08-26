@@ -59,7 +59,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_Syslog){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, Syslog, logger_adapter_syslog, "phalcon\\logger\\adapter", phalcon_logger_adapter_syslog_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, Syslog, logger_adapter_syslog, phalcon_logger_adapter_ce, phalcon_logger_adapter_syslog_method_entry, 0);
 
 	zend_declare_property_bool(phalcon_logger_adapter_syslog_ce, SL("_opened"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 

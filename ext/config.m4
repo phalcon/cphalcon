@@ -26,6 +26,7 @@ kernel/alternative/fcall.c \
 kernel/framework/orm.c \
 kernel/framework/router.c \
 kernel/framework/url.c \
+interned-strings.c \
 logger.c \
 flash.c \
 cli/dispatcher/exception.c \
@@ -258,6 +259,7 @@ cache/backend/apc.c \
 cache/backend/xcache.c \
 cache/backend/mongo.c \
 cache/backend/memcache.c \
+cache/backend/libmemcached.c \
 cache/backend/memory.c \
 cache/exception.c \
 cache/backendinterface.c \
@@ -339,7 +341,13 @@ mvc/model/query/scanner.c \
 mvc/view/engine/volt/parser.c \
 mvc/view/engine/volt/scanner.c \
 annotations/parser.c \
-annotations/scanner.c"
+annotations/scanner.c \
+image.c \
+image/adapter.c \
+image/adapterinterface.c \
+image/exception.c \
+image/adapter/gd.c \
+image/adapter/imagick.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
 	PHP_ADD_EXTENSION_DEP([phalcon], [spl])
@@ -409,4 +417,6 @@ annotations/scanner.c"
 	)
 
 	CPPFLAGS=$old_CPPFLAGS
+
+	PHP_ADD_MAKEFILE_FRAGMENT
 fi

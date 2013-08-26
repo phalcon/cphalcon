@@ -71,6 +71,11 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 
 	public function testSourcesStatic()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->marktestSkipped('Test skipped');
+			return;
+		}
 
 		$this->_prepareDI();
 
@@ -89,6 +94,11 @@ class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 
 	public function testSourcesInstance()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->marktestSkipped('Test skipped');
+			return;
+		}
 
 		$this->_prepareDI();
 

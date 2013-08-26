@@ -38,6 +38,7 @@
 #include "kernel/fcall.h"
 #include "kernel/framework/url.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 #include "kernel/framework/router.h"
 
 /**
@@ -307,6 +308,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	
 			PHALCON_INIT_NVAR(router);
 			phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+			PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 			phalcon_update_property_this(this_ptr, SL("_router"), router TSRMLS_CC);
 		}
 	

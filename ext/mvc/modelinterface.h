@@ -111,6 +111,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_appendmessage, 0, 0, 1
 	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_getmessages, 0, 0, 0)
+	ZEND_ARG_INFO(0, filter)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_save, 0, 0, 0)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, whiteList)
@@ -168,7 +172,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, fireEventCancel, arginfo_phalcon_mvc_modelinterface_fireeventcancel)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, appendMessage, arginfo_phalcon_mvc_modelinterface_appendmessage)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, validationHasFailed, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getMessages, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getMessages, arginfo_phalcon_mvc_modelinterface_getmessages)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, save, arginfo_phalcon_mvc_modelinterface_save)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, create, arginfo_phalcon_mvc_modelinterface_create)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, update, arginfo_phalcon_mvc_modelinterface_update)

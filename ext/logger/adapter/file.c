@@ -59,7 +59,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_File){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, File, logger_adapter_file, "phalcon\\logger\\adapter", phalcon_logger_adapter_file_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, File, logger_adapter_file, phalcon_logger_adapter_ce, phalcon_logger_adapter_file_method_entry, 0);
 
 	zend_declare_property_null(phalcon_logger_adapter_file_ce, SL("_fileHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_logger_adapter_file_ce, SL("_path"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -206,24 +206,31 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
 
 	PHALCON_OBS_VAR(path);
 	phalcon_read_property_this(&path, this_ptr, SL("_path"), PH_NOISY_CC);
-	
+	if (Z_TYPE_P(path) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+		return;
+	}
+
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset_string(options, SS("mode"))) {
 		PHALCON_OBS_VAR(mode);
 		phalcon_array_fetch_string(&mode, options, SL("mode"), PH_NOISY);
+		if (Z_TYPE_P(mode) != IS_STRING) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Invalid data passed to Phalcon\\Logger\\Adapter\\File::__wakeup()");
+			return;
+		}
 	} else {
 		PHALCON_INIT_NVAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
-	
-	/** 
+
+	/**
 	 * Re-open the file handler if the logger was serialized
 	 */
 	PHALCON_INIT_VAR(file_handler);
 	phalcon_call_func_p2(file_handler, "fopen", path, mode);
 	phalcon_update_property_this(this_ptr, SL("_fileHandler"), file_handler TSRMLS_CC);
-	
+
 	PHALCON_MM_RESTORE();
 }
-

@@ -123,7 +123,7 @@ static inline void phalcon_config_adapter_ini_update_zval_directive(zval **arr, 
  */
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Ini, config_adapter_ini, "phalcon\\config", phalcon_config_adapter_ini_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Ini, config_adapter_ini, phalcon_config_ce, phalcon_config_adapter_ini_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	/** 
 	 * Calls the Phalcon\Config constructor
 	 */
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Config\\Adapter\\Ini", "__construct", config);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_config_adapter_ini_ce, "__construct", config);
 	
 	PHALCON_MM_RESTORE();
 }

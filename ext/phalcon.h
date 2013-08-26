@@ -17,6 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
+#include "interned-strings.h"
 #include "di/injectionawareinterface.h"
 #include "forms/elementinterface.h"
 #include "mvc/model/validatorinterface.h"
@@ -115,6 +116,7 @@
 #include "cache/backend/xcache.h"
 #include "cache/backend/mongo.h"
 #include "cache/backend/memcache.h"
+#include "cache/backend/libmemcached.h"
 #include "cache/frontend/json.h"
 #include "cache/frontend/output.h"
 #include "cache/frontend/none.h"
@@ -323,3 +325,9 @@
 #include "events/event.h"
 #include "events/manager.h"
 #include "events/exception.h"
+#include "image.h"
+#include "image/adapter.h"
+#include "image/adapterinterface.h"
+#include "image/exception.h"
+#include "image/adapter/gd.h"
+#include "image/adapter/imagick.h"

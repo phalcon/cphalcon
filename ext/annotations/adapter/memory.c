@@ -49,7 +49,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, annotations_adapter_memory, "phalcon\\annotations\\adapter", phalcon_annotations_adapter_memory_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, annotations_adapter_memory, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_memory_method_entry, 0);
 
 	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -72,14 +72,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 
 	phalcon_fetch_params(1, 1, 0, &key);
 	
-	PHALCON_OBS_VAR(data);
-	phalcon_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	data = phalcon_fetch_nproperty_this(this_ptr, SL("_data"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(lowercased_key);
 	phalcon_fast_strtolower(lowercased_key, key);
-	if (phalcon_array_isset(data, lowercased_key)) {
-		PHALCON_OBS_VAR(annotations);
-		phalcon_array_fetch(&annotations, data, lowercased_key, PH_NOISY);
+	if (phalcon_array_isset_fetch(&annotations, data, lowercased_key)) {
 		RETURN_CCTOR(annotations);
 	}
 	
@@ -96,14 +93,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
 
 	zval *key, *data, *lowercased_key;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &key, &data);
+	phalcon_fetch_params(0, 2, 0, &key, &data);
 	
-	PHALCON_INIT_VAR(lowercased_key);
+	MAKE_STD_ZVAL(lowercased_key);
 	phalcon_fast_strtolower(lowercased_key, key);
 	phalcon_update_property_array(this_ptr, SL("_data"), lowercased_key, data TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	zval_ptr_dtor(&lowercased_key);
 }
-

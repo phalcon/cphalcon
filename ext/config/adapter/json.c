@@ -60,7 +60,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Json){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, config_adapter_json, "phalcon\\config", phalcon_config_adapter_json_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, config_adapter_json, phalcon_config_ce, phalcon_config_adapter_json_method_entry, 0);
 
 	return SUCCESS;
 }
@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct){
 	phalcon_file_get_contents(contents, file_path TSRMLS_CC);
 
 	if (Z_TYPE_P(contents) == IS_STRING) {
-		phalcon_json_decode(array, contents, 1 TSRMLS_CC);
+		phalcon_json_decode(array, NULL, contents, 1 TSRMLS_CC);
 	}
 
 	zval_ptr_dtor(&contents);

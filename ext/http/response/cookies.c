@@ -136,7 +136,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	zval *name, *value = NULL, *expire = NULL, *path = NULL, *secure = NULL, *domain = NULL;
 	zval *http_only = NULL, *cookies, *encryption, *dependency_injector = NULL;
 	zval *cookie = NULL, *registered, *service, *response;
-	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
 
@@ -190,14 +189,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		PHALCON_INIT_VAR(cookie);
 		object_init_ex(cookie, phalcon_http_cookie_ce);
 	
-		p0[0] = name;
-		p0[1] = value;
-		p0[2] = expire;
-		p0[3] = path;
-		p0[4] = secure;
-		p0[5] = domain;
-		p0[6] = http_only;
-		phalcon_call_method_pn_noret(cookie, "__construct", 7, p0);
+		PHALCON_CALL_METHOD(NULL, NULL, cookie, "__construct", zend_inline_hash_func(SS("__construct")), 7, name, value, expire, path, secure, domain, http_only);
 	
 		/** 
 		 * Pass the DI to created cookies
@@ -246,6 +238,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	
 		PHALCON_INIT_VAR(response);
 		phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 	
 		/** 
 		 * Pass the cookies bag to the response so it can send the headers at the of the

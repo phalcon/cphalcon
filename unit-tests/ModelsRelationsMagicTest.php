@@ -63,6 +63,11 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped('Test skipped');
+			return;
+		}
+
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
 		$di->set('db', $connection);

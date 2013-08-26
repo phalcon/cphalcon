@@ -68,11 +68,13 @@
  */
 PHALCON_INIT_CLASS(Phalcon_CLI_Dispatcher){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Dispatcher, cli_dispatcher, "phalcon\\dispatcher", phalcon_cli_dispatcher_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Dispatcher, cli_dispatcher, phalcon_dispatcher_ce, phalcon_cli_dispatcher_method_entry, 0);
 
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_handlerSuffix"), "Task", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultHandler"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultAction"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_cli_dispatcher_ce TSRMLS_CC, 1, phalcon_dispatcherinterface_ce);
 
 	return SUCCESS;
 }
@@ -175,7 +177,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 	 * Throw the exception if it wasn't handled
 	 */
 	phalcon_throw_exception(exception TSRMLS_CC);
-	return;
+	RETURN_MM();
 }
 
 /**

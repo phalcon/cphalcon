@@ -18,6 +18,16 @@
   +------------------------------------------------------------------------+
 */
 
+class Issue1000 extends Phalcon\Config
+{
+	private $_section;
+
+	public function __construct($file, $section = null)
+	{
+		$this->_section = $section;
+	}
+}
+
 class ConfigTest extends PHPUnit_Framework_TestCase
 {
 
@@ -284,5 +294,41 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($actual, $expected);
 	}
-}
 
+	public function testConfigWithMergeAndGarbageCollection()
+	{
+		$config = new Phalcon\Config(array('test1' => 1, 'test2' => 2));
+		$config->merge(new Phalcon\Config(array('test2')));
+		gc_collect_cycles();
+	}
+
+	public function testIssue980()
+	{
+		$a = new Phalcon\Config(array('aaa' => array('b' => 2, 'c' => 3)));
+		$s = serialize($a);
+		$b = unserialize($s);
+		$this->assertEquals($a, $b);
+	}
+
+	public function testIssue1000()
+	{
+		$t1 = new Issue1000('test');
+		$t2 = new Issue1000('test', 'test');
+		$this->assertTrue(true);
+	}
+
+	public function testIssue1024()
+	{
+		$config1 = new \Phalcon\Config\Adapter\Ini(__DIR__ . '/config/1024-a.ini');
+		$config2 = new \Phalcon\Config\Adapter\Ini(__DIR__ . '/config/1024-b.ini');
+
+		$config1->merge($config2);
+		$actual   = $config1->toArray();
+		$expected = array(
+			'a' => array(
+				'a_1' => 1,
+				'a_2' => 1,
+			),
+		);
+	}
+}

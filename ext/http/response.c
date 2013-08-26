@@ -38,6 +38,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Http\Response
@@ -142,7 +143,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 	
 		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
 	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
@@ -368,7 +369,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 	
 	PHALCON_INIT_VAR(date);
 	if (phalcon_clone(date, datetime TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
 	
 	/** 
@@ -551,6 +552,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	
 		PHALCON_INIT_VAR(url);
 		phalcon_call_method_p1(url, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(url, phalcon_mvc_urlinterface_ce);
 	
 		PHALCON_INIT_NVAR(header);
 		phalcon_call_method_p1(header, url, "get", location);
@@ -598,10 +600,11 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
  *
  *<code>
  *	$response->setJsonContent(array("status" => "OK"));
- *</code>
+ *	$response->setJsonContent(array("status" => "OK"), JSON_NUMERIC_CHECK);
+*</code>
  *
  * @param string $content
- * @param int $jsonOptions
+ * @param int $jsonOptions bitmask consisting on http://www.php.net/manual/en/json.constants.php
  * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setJsonContent){
@@ -618,7 +621,7 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 	}
 	
 	PHALCON_INIT_VAR(json_content);
-	phalcon_json_encode(json_content, content, options TSRMLS_CC);
+	phalcon_json_encode(json_content, NULL, content, options TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_content"), json_content TSRMLS_CC);
 	RETURN_THIS();
 }
@@ -632,7 +635,7 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 PHP_METHOD(Phalcon_Http_Response, appendContent){
 
 	zval *content, *_content;
-	zval *r0 = NULL;
+	zval *temp_content = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -640,9 +643,9 @@ PHP_METHOD(Phalcon_Http_Response, appendContent){
 	
 	PHALCON_OBS_VAR(_content);
 	phalcon_read_property_this(&_content, this_ptr, SL("_content"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	concat_function(r0, _content, content TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_content"), r0 TSRMLS_CC);
+	PHALCON_INIT_VAR(temp_content);
+	concat_function(temp_content, _content, content TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_content"), temp_content TSRMLS_CC);
 	RETURN_THIS();
 }
 
@@ -797,7 +800,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend){
 	
 	if (Z_TYPE_P(attachment_name) != IS_STRING) {
 		PHALCON_INIT_VAR(base_path);
-		phalcon_call_func_p1(base_path, "basename", file_path);
+		phalcon_basename(base_path, file_path TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(base_path, attachment_name);
 	}

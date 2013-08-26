@@ -472,6 +472,8 @@ unit-tests/annotations/cache/*.php
 *.lo
 *.loT
 .libs
+parser.out
+lemon
 build/t.dSYM/
 build/install2
 *~

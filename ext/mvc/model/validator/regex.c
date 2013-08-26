@@ -72,7 +72,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Regex, mvc_model_validator_regex, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_regex_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Regex, mvc_model_validator_regex, phalcon_mvc_model_validator_ce, phalcon_mvc_model_validator_regex_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_validator_regex_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
 
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	 * Check if the value matches using preg_match
 	 */
 	PHALCON_INIT_VAR(match_pattern);
-	phalcon_preg_match(match_pattern, pattern, value, matches TSRMLS_CC);
+	phalcon_preg_match(match_pattern, NULL, pattern, value, matches TSRMLS_CC);
 	
 	if (zend_is_true(match_pattern)) {
 		PHALCON_OBS_VAR(match_zero);

@@ -53,7 +53,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Oracle){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Oracle, db_dialect_oracle, "phalcon\\db\\dialect", phalcon_db_dialect_oracle_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Oracle, db_dialect_oracle, phalcon_db_dialect_ce, phalcon_db_dialect_oracle_method_entry, 0);
 
 	zend_declare_property_string(phalcon_db_dialect_oracle_ce, SL("_escapeChar"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -838,7 +838,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, limit){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 
-	zval *definition, *escape_char = NULL, *columns, *selected_columns;
+	zval *definition, *escape_char = NULL, *columns, *selected_columns, *distinct;
 	zval *column = NULL, *column_item = NULL, *column_sql = NULL, *columns_sql = NULL;
 	zval *column_domain = NULL, *column_domain_sql = NULL, *column_alias = NULL;
 	zval *column_alias_sql = NULL, *tables, *selected_tables;
@@ -852,8 +852,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	zval *order_fields, *order_items, *order_item = NULL;
 	zval *order_expression = NULL, *order_sql_item = NULL, *sql_order_type = NULL;
 	zval *order_sql_item_type = NULL, *order_sql, *limit_value;
-	zval *number, *offset;
-	zval *one, *ini_range, *end_range, *sql_limit;
+	zval *number, *offset, *tmp1 = NULL, *tmp2 = NULL;
+	zval *one, *ini_range, *end_range = NULL, *sql_limit;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -892,9 +892,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_INIT_VAR(selected_columns);
 		array_init(selected_columns);
 
-		if (!phalcon_is_iterable_ex(columns, &ah0, &hp0, 0, 0)) {
-			return;
-		}
+		phalcon_is_iterable(columns, &ah0, &hp0, 0, 0);
 
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
@@ -986,9 +984,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_INIT_VAR(selected_tables);
 		array_init(selected_tables);
 
-		if (!phalcon_is_iterable_ex(tables, &ah1, &hp1, 0, 0)) {
-			return;
-		}
+		phalcon_is_iterable(tables, &ah1, &hp1, 0, 0);
 
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 
@@ -1007,8 +1003,21 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_CPY_WRT(tables_sql, tables);
 	}
 
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVSV(sql, "SELECT ", columns_sql, " FROM ", tables_sql);
+	if (phalcon_array_isset_string_fetch(&distinct, definition, SS("definition"))) {
+		assert(Z_TYPE_P(distinct) == IS_LONG);
+		if (Z_LVAL_P(distinct) == 0) {
+			ZVAL_STRING(sql, "SELECT ALL ", 1);
+		}
+		else if (Z_LVAL_P(distinct) == 1) {
+			ZVAL_STRING(sql, "SELECT DISTINCT ", 1);
+		}
+		else {
+			ZVAL_STRING(sql, "SELECT ", 1);
+		}
+	}
+	else {
+		ZVAL_STRING(sql, "SELECT ", 1);
+	}
 
 	/**
 	 * Check for joins
@@ -1018,9 +1027,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_OBS_VAR(joins);
 		phalcon_array_fetch_string(&joins, definition, SL("joins"), PH_NOISY);
 
-		if (!phalcon_is_iterable_ex(joins, &ah2, &hp2, 0, 0)) {
-			return;
-		}
+		phalcon_is_iterable(joins, &ah2, &hp2, 0, 0);
 
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 
@@ -1051,9 +1058,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 					PHALCON_INIT_NVAR(join_expressions);
 					array_init(join_expressions);
 
-					if (!phalcon_is_iterable_ex(join_conditions_array, &ah3, &hp3, 0, 0)) {
-						return;
-					}
+					phalcon_is_iterable(join_conditions_array, &ah3, &hp3, 0, 0);
 
 					while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 
@@ -1106,9 +1111,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_OBS_VAR(group_fields);
 		phalcon_array_fetch_string(&group_fields, definition, SL("group"), PH_NOISY);
 
-		if (!phalcon_is_iterable_ex(group_fields, &ah4, &hp4, 0, 0)) {
-			return;
-		}
+		phalcon_is_iterable(group_fields, &ah4, &hp4, 0, 0);
 
 		while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 
@@ -1152,9 +1155,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_INIT_VAR(order_items);
 		array_init(order_items);
 
-		if (!phalcon_is_iterable_ex(order_fields, &ah5, &hp5, 0, 0)) {
-			return;
-		}
+		phalcon_is_iterable(order_fields, &ah5, &hp5, 0, 0);
 
 		while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 
@@ -1195,50 +1196,39 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 	 * Unfortunately because we use the column wildcard "*",
 	 * this puts an extra column into the query result set.
 	 */
-	if (phalcon_array_isset_string(definition, SS("limit"))) {
+	if (phalcon_array_isset_string_fetch(&limit_value, definition, SS("limit"))) {
+		if (likely(Z_TYPE_P(limit_value) == IS_ARRAY)) {
+			if (likely(phalcon_array_isset_string_fetch(&number, limit_value, SS("number")))) {
+				PHALCON_OBS_NVAR(tmp1);
+				phalcon_array_fetch_string(&tmp1, number, SL("value"), PH_NOISY);
 
-		PHALCON_OBS_VAR(limit_value);
-		phalcon_array_fetch_string(&limit_value, definition, SL("limit"), PH_NOISY);
+				if (phalcon_array_isset_string_fetch(&offset, limit_value, SS("offset"))) {
+					PHALCON_OBS_NVAR(tmp2);
+					phalcon_array_fetch_string(&tmp2, offset, SL("value"), PH_NOISY);
+				} else {
+					PHALCON_INIT_NVAR(tmp2);
+					ZVAL_LONG(tmp2, 0);
+				}
 
-		if (Z_TYPE_P(limit_value) == IS_ARRAY) {
+				PHALCON_INIT_VAR(one);
+				ZVAL_LONG(one, 1);
 
-			PHALCON_OBS_VAR(number);
-			phalcon_array_fetch_string(&number, limit_value, SL("number"), PH_NOISY);
+				PHALCON_INIT_VAR(ini_range);
+				phalcon_add_function(ini_range, tmp2, one TSRMLS_CC);
 
-			if (phalcon_array_isset_string(limit_value, SS("offset"))) {
-				PHALCON_OBS_VAR(offset);
-				phalcon_array_fetch_string(&offset, limit_value, SL("offset"), PH_NOISY);
-			} else {
-				PHALCON_INIT_VAR(offset);
-				ZVAL_LONG(offset, 0);
+				PHALCON_INIT_VAR(end_range);
+				phalcon_add_function(end_range, tmp2, tmp1 TSRMLS_CC);
+
+				PHALCON_INIT_VAR(sql_limit);
+				PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
+				PHALCON_CPY_WRT(sql, sql_limit);
 			}
-
-			PHALCON_INIT_VAR(one);
-			ZVAL_LONG(one, 1);
-
-			PHALCON_INIT_VAR(ini_range);
-			phalcon_add_function(ini_range, offset, one TSRMLS_CC);
-
-			PHALCON_INIT_VAR(end_range);
-			phalcon_add_function(end_range, offset, number TSRMLS_CC);
-
-			PHALCON_INIT_VAR(sql_limit);
-			PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );
-			PHALCON_CPY_WRT(sql, sql_limit);
-
 		} else {
 
-			PHALCON_INIT_VAR(offset);
-			ZVAL_LONG(offset, 0);
-
-			PHALCON_INIT_VAR(one);
-			ZVAL_LONG(one, 1);
-
 			PHALCON_INIT_VAR(ini_range);
-			phalcon_add_function(ini_range, offset, one TSRMLS_CC);
+			ZVAL_LONG(ini_range, 1);
 
-			PHALCON_INIT_VAR(end_range);
-			phalcon_add_function(end_range, offset, limit_value TSRMLS_CC);
+			PHALCON_CPY_WRT(end_range, limit_value);
 
 			PHALCON_INIT_VAR(sql_limit);
 			PHALCON_SCONCAT_SVSVSV(sql_limit,"SELECT Z2.* FROM (SELECT Z1.*, ROWNUM DB_ROWNUM FROM ( ", sql, " ) Z1 ) Z2 WHERE Z2.DB_ROWNUM BETWEEN ", ini_range , " AND ",  end_range );

@@ -46,7 +46,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Flash_Direct){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Flash, Direct, flash_direct, "phalcon\\flash", phalcon_flash_direct_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Flash, Direct, flash_direct, phalcon_flash_ce, phalcon_flash_direct_method_entry, 0);
 
 	zend_class_implements(phalcon_flash_direct_ce TSRMLS_CC, 1, phalcon_flashinterface_ce);
 

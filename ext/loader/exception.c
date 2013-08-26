@@ -45,7 +45,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Loader_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Loader, Exception, loader_exception, "phalcon\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Loader, Exception, loader_exception, phalcon_di_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }

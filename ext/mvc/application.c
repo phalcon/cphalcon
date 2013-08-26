@@ -92,7 +92,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Application){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, mvc_application, "phalcon\\di\\injectable", phalcon_mvc_application_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, mvc_application, phalcon_di_injectable_ce, phalcon_mvc_application_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_defaultModule"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -292,6 +292,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 	PHALCON_INIT_VAR(router);
 	phalcon_call_method_p1(router, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(router, phalcon_mvc_routerinterface_ce);
 	
 	/** 
 	 * Handle the URI pattern (if any)
@@ -380,7 +381,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				if (!phalcon_class_exists(class_name, 0 TSRMLS_CC)) {
 					if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 						if (phalcon_require(path TSRMLS_CC) == FAILURE) {
-							return;
+							RETURN_MM();
 						}
 					} else {
 						PHALCON_INIT_NVAR(exception_msg);
@@ -443,6 +444,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 		PHALCON_INIT_VAR(view);
 		phalcon_call_method_p1(view, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(view, phalcon_mvc_viewinterface_ce);
 	}
 	
 	/** 
@@ -468,6 +470,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 	PHALCON_INIT_VAR(dispatcher);
 	phalcon_call_method_p1(dispatcher, dependency_injector, "getshared", service);
+	PHALCON_VERIFY_INTERFACE(dispatcher, phalcon_dispatcherinterface_ce);
 	
 	/** 
 	 * Assign the values passed from the router
@@ -588,6 +591,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 		PHALCON_INIT_VAR(response);
 		phalcon_call_method_p1(response, dependency_injector, "getshared", service);
+		PHALCON_VERIFY_INTERFACE(response, phalcon_http_responseinterface_ce);
 		if (PHALCON_IS_TRUE(implicit_view)) {
 			/** 
 			 * The content returned by the view is passed to the response service

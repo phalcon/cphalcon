@@ -55,7 +55,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Complex){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Resultset, Complex, mvc_model_resultset_complex, "phalcon\\mvc\\model\\resultset", phalcon_mvc_model_resultset_complex_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Resultset, Complex, mvc_model_resultset_complex, phalcon_mvc_model_resultset_ce, phalcon_mvc_model_resultset_complex_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_resultset_complex_ce, SL("_columnTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 							 * Assign the values to the attributes using a column map
 							 */
 							PHALCON_INIT_NVAR(value);
-							PHALCON_CALL_STATIC_PARAMS_5(value, "phalcon\\mvc\\model", "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots);
+							phalcon_call_static_p5(value, "phalcon\\mvc\\model", "cloneresultmap", instance, row_model, column_map, dirty_state, keep_snapshots);
 							break;
 	
 						default:
@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 							 * Other kinds of hydrations
 							 */
 							PHALCON_INIT_NVAR(value);
-							PHALCON_CALL_STATIC_PARAMS_3(value, "phalcon\\mvc\\model", "cloneresultmaphydrate", row_model, column_map, hydrate_mode);
+							phalcon_call_static_p3(value, "phalcon\\mvc\\model", "cloneresultmaphydrate", row_model, column_map, hydrate_mode);
 							break;
 	
 					}

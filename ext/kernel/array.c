@@ -34,6 +34,94 @@
 #include "kernel/backtrace.h"
 
 /**
+ * @brief Fetches @a index if it exists from the array @a arr
+ * @param[out] fetched <code>&$arr[$index]</code>; @a fetched is modified only when the function returns 1
+ * @param arr Array
+ * @param index Index
+ * @return isset($arr[$index])
+ * @retval 0 Not exists, @a arr is not an array or @a index is of not supported type
+ * @retval 1 Exists
+ * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
+ * @note $arr[$index] is returned as is: no copying occurs, reference copunt is not updated
+ * @throw E_WARNING if @a offset is not a scalar
+ */
+int phalcon_array_isset_fetch(zval **fetched, const zval *arr, zval *index) {
+
+	HashTable *h;
+	zval **val;
+	int result;
+
+	if (Z_TYPE_P(arr) != IS_ARRAY) {
+		return 0;
+	}
+
+	h = Z_ARRVAL_P(arr);
+	switch (Z_TYPE_P(index)) {
+		case IS_NULL:
+			result = phalcon_hash_find(h, ZEND_STRS(""), (void**)&val);
+			break;
+
+		case IS_DOUBLE:
+			result = zend_hash_index_find(h, (ulong)Z_DVAL_P(index), (void**)&val);
+			break;
+
+		case IS_LONG:
+		case IS_BOOL:
+		case IS_RESOURCE:
+			result = zend_hash_index_find(h, Z_LVAL_P(index), (void**)&val);
+			break;
+
+		case IS_STRING:
+			result = zend_symtable_find(h, (Z_STRLEN_P(index) ? Z_STRVAL_P(index) : ""), Z_STRLEN_P(index)+1, (void**)&val);
+			break;
+
+		default:
+			zend_error(E_WARNING, "Illegal offset type");
+			return 0;
+	}
+
+	if (result == SUCCESS) {
+		*fetched = *val;
+		return 1;
+	}
+
+	return 0;
+}
+
+int phalcon_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key) {
+
+	zval **zv;
+
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		if (phalcon_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
+			*fetched = *zv;
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+int phalcon_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length) {
+
+	return phalcon_array_isset_quick_string_fetch(fetched, arr, index, index_length, zend_inline_hash_func(index, index_length));
+}
+
+int phalcon_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index) {
+
+	zval **zv;
+
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		if (zend_hash_index_find(Z_ARRVAL_P(arr), index, (void**)&zv) == SUCCESS) {
+			*fetched = *zv;
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+/**
  * @brief Checks whether @a index exists in array @a arr
  * @param arr Array
  * @param index Index
@@ -52,10 +140,6 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
 	}
 
 	h = Z_ARRVAL_P(arr);
-	if (!zend_hash_num_elements(h)) {
-		return 0;
-	}
-
 	switch (Z_TYPE_P(index)) {
 		case IS_NULL:
 			return phalcon_hash_exists(h, ZEND_STRS(""));
@@ -88,7 +172,7 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
  * @note The function is a wrapper around phalcon_array_isset_quick_string()
  * @see phalcon_array_isset_quick_string()
  */
-int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length) {
+int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, const char *index, uint index_length) {
 
 	return phalcon_array_isset_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length));
 }
@@ -103,17 +187,13 @@ int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, ui
  * @retval 0 Not exists or @a arr is not an array
  * @retval 1 Exists
  */
-int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, unsigned long key) {
+int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key) {
 
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
-		return 0;
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		return zend_hash_quick_exists(Z_ARRVAL_P(arr), index, index_length, key);
 	}
 
-	if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
-		return 0;
-	}
-
-	return zend_hash_quick_exists(Z_ARRVAL_P(arr), index, index_length, key);
+	return 0;
 }
 
 /**
@@ -126,15 +206,11 @@ int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *ind
  */
 int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long index) {
 
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
-		return 0;
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
 	}
 
-	if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
-		return 0;
-	}
-
-	return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
+	return 0;
 }
 
 /**
@@ -193,7 +269,7 @@ int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags) {
  * @retval @c FAILURE Failure or @a arr is not an array
  * @retval @c SUCCESS Success
  */
-int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, char *index, uint index_length, int flags) {
+int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, const char *index, uint index_length, int flags) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
@@ -480,7 +556,7 @@ int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flag
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length, unsigned long key, zval **value, int flags){
+int phalcon_array_update_quick_string(zval **arr, const char *index, uint index_length, unsigned long key, zval **value, int flags){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array");
@@ -527,7 +603,7 @@ int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags) {
+int phalcon_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags) {
 
 	return phalcon_array_update_quick_string(arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), value, flags);
 }
@@ -554,7 +630,7 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length, int value, int flags){
+int phalcon_array_update_string_bool(zval **arr, const char *index, uint index_length, int value, int flags){
 
 	zval *zvalue;
 
@@ -586,7 +662,7 @@ int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length,
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_string_long(zval **arr, char *index, uint index_length, long value, int flags){
+int phalcon_array_update_string_long(zval **arr, const char *index, uint index_length, long value, int flags){
 
 	zval *zvalue;
 
@@ -619,7 +695,7 @@ int phalcon_array_update_string_long(zval **arr, char *index, uint index_length,
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_string_string(zval **arr, char *index, uint index_length, char *value, uint value_length, int flags){
+int phalcon_array_update_string_string(zval **arr, const char *index, uint index_length, char *value, uint value_length, int flags){
 
 	zval *zvalue;
 
@@ -784,7 +860,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent)
 	zval **zv;
 	HashTable *ht;
 	int result;
-	ulong uidx;
+	ulong uidx = 0;
 	char *sidx = NULL;
 
 	if (Z_TYPE_P(arr) == IS_ARRAY) {
@@ -855,7 +931,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent)
  * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  */
-int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index, uint index_length, unsigned long key, int silent){
+int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, const char *index, uint index_length, unsigned long key, int silent){
 
 	zval **zv;
 
@@ -897,7 +973,7 @@ int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index
  *
  * The function is a wrapper over @c phalcon_array_fetch_quick_string()
  */
-int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent){
+int phalcon_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int silent){
 
 	return phalcon_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), silent);
 }
@@ -1365,31 +1441,28 @@ void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 T
  */
 void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
 {
-	HashTable *ah2;
-	HashPosition hp2;
-	zval **hd;
-	zval key;
-	zval *tmp1 = NULL, *tmp2 = NULL;
+	HashPosition hp;
+	zval **value, key, *tmp1, *tmp2;
 
-	phalcon_is_iterable(a2, &ah2, &hp2, 0, 0);
+	assert(Z_TYPE_PP(a1) == IS_ARRAY);
+	assert(Z_TYPE_P(a2)  == IS_ARRAY);
 
-	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+	for (
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(a2), &hp);
+		zend_hash_get_current_data_ex(Z_ARRVAL_P(a2), (void**) &value, &hp) == SUCCESS;
+		zend_hash_move_forward_ex(Z_ARRVAL_P(a2), &hp)
+	) {
+		key = phalcon_get_current_key_w(Z_ARRVAL_P(a2), &hp);
 
-		key = phalcon_get_current_key_w(ah2, &hp2);
-
-		if (!phalcon_array_isset(*a1, &key) || Z_TYPE_PP(hd) != IS_ARRAY) {
-			phalcon_array_update_zval(a1, &key, hd, PH_COPY | PH_SEPARATE);
+		if (!phalcon_array_isset(*a1, &key) || Z_TYPE_PP(value) != IS_ARRAY) {
+			phalcon_array_update_zval(a1, &key, value, PH_COPY | PH_SEPARATE);
 		} else {
 			phalcon_array_fetch(&tmp1, *a1, &key, PH_NOISY);
 			phalcon_array_fetch(&tmp2, a2, &key, PH_NOISY);
 			phalcon_array_merge_recursive_n(&tmp1, tmp2);
 			zval_ptr_dtor(&tmp1);
 			zval_ptr_dtor(&tmp2);
-			tmp1 = NULL;
-			tmp2 = NULL;
 		}
-
-		zend_hash_move_forward_ex(ah2, &hp2);
 	}
 }
 
@@ -1397,7 +1470,7 @@ void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
  * @brief array_unshift($arr, $arg)
  * @param arr
  * @param arg
- * @note Reefernce count of @c arg will be incremented
+ * @note Reference count of @c arg will be incremented
  */
 void phalcon_array_unshift(zval *arr, zval *arg)
 {
@@ -1409,6 +1482,38 @@ void phalcon_array_unshift(zval *arr, zval *arg)
 
 		FREE_HASHTABLE(newhash);
 		zend_hash_destroy(&oldhash);
+	}
+}
+
+void phalcon_array_keys(zval *return_value, zval *arr) {
+
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		HashPosition pos;
+		zval **entry, *new_val;
+		char *skey;
+		uint skey_len;
+		ulong nkey;
+
+		array_init_size(return_value, zend_hash_num_elements(Z_ARRVAL_P(arr)));
+
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arr), &pos);
+		while (zend_hash_get_current_data_ex(Z_ARRVAL_P(arr), (void**)&entry, &pos) == SUCCESS) {
+			MAKE_STD_ZVAL(new_val);
+
+			switch (zend_hash_get_current_key_ex(Z_ARRVAL_P(arr), &skey, &skey_len, &nkey, 1, &pos)) {
+				case HASH_KEY_IS_STRING:
+					ZVAL_STRINGL(new_val, skey, skey_len - 1, 0);
+					zend_hash_next_index_insert(Z_ARRVAL_P(arr), &new_val, sizeof(zval*), NULL);
+					break;
+
+				case HASH_KEY_IS_LONG:
+					ZVAL_LONG(new_val, nkey);
+					zend_hash_next_index_insert(Z_ARRVAL_P(arr), &new_val, sizeof(zval*), NULL);
+					break;
+			}
+
+			zend_hash_move_forward_ex(Z_ARRVAL_P(arr), &pos);
+		}
 	}
 }
 
@@ -1447,6 +1552,36 @@ int phalcon_array_key_exists(zval *arr, zval *key TSRMLS_DC)
 			default:
 				zend_error(E_WARNING, "The key should be either a string or an integer");
 				return 0;
+		}
+	}
+
+	return 0;
+}
+
+int phalcon_array_is_associative(zval *arr) {
+
+	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
+		HashPosition pos;
+		zval **entry;
+		char *skey;
+		uint skey_len;
+		ulong nkey;
+		ulong expected = 0;
+
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arr), &pos);
+		while (zend_hash_get_current_data_ex(Z_ARRVAL_P(arr), (void**)&entry, &pos) == SUCCESS) {
+
+			if (HASH_KEY_IS_LONG == zend_hash_get_current_key_ex(Z_ARRVAL_P(arr), &skey, &skey_len, &nkey, 1, &pos)) {
+				if (expected != nkey) {
+					return 1;
+				}
+			}
+			else {
+				return 1;
+			}
+
+			++expected;
+			zend_hash_move_forward_ex(Z_ARRVAL_P(arr), &pos);
 		}
 	}
 

@@ -50,7 +50,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, ValidationFailed, mvc_model_validationfailed, "phalcon\\mvc\\model\\exception", phalcon_mvc_model_validationfailed_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, ValidationFailed, mvc_model_validationfailed, phalcon_mvc_model_exception_ce, phalcon_mvc_model_validationfailed_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct){
 	}
 	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_messages"), validation_messages TSRMLS_CC);
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Mvc\\Model\\ValidationFailed", "__construct", message_str);
+	phalcon_call_parent_p1_noret(this_ptr, phalcon_mvc_model_validationfailed_ce, "__construct", message_str);
 	
 	PHALCON_MM_RESTORE();
 }

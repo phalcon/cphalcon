@@ -53,7 +53,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Resultset, Simple, mvc_model_resultset_simple, "phalcon\\mvc\\model\\resultset", phalcon_mvc_model_resultset_simple_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Resultset, Simple, mvc_model_resultset_simple, phalcon_mvc_model_resultset_ce, phalcon_mvc_model_resultset_simple_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_columnMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			 * Performs the standard hydration based on objects
 			 */
 			PHALCON_INIT_VAR(active_row);
-			PHALCON_CALL_STATIC_PARAMS_5(active_row, "phalcon\\mvc\\model", "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
+			phalcon_call_static_p5(active_row, "phalcon\\mvc\\model", "cloneresultmap", model, row, column_map, dirty_state, keep_snapshots);
 			break;
 	
 		default:
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			 * Other kinds of hydrations
 			 */
 			PHALCON_INIT_NVAR(active_row);
-			PHALCON_CALL_STATIC_PARAMS_3(active_row, "phalcon\\mvc\\model", "cloneresultmaphydrate", row, column_map, hydrate_mode);
+			phalcon_call_static_p3(active_row, "phalcon\\mvc\\model", "cloneresultmaphydrate", row, column_map, hydrate_mode);
 			break;
 	
 	}

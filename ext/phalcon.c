@@ -59,6 +59,7 @@ zend_class_entry *phalcon_cache_frontend_igbinary_ce;
 zend_class_entry *phalcon_cache_backendinterface_ce;
 zend_class_entry *phalcon_cache_frontend_output_ce;
 zend_class_entry *phalcon_cache_backend_memcache_ce;
+zend_class_entry *phalcon_cache_backend_libmemcached_ce;
 zend_class_entry *phalcon_tag_select_ce;
 zend_class_entry *phalcon_tag_exception_ce;
 zend_class_entry *phalcon_paginator_exception_ce;
@@ -343,31 +344,50 @@ zend_class_entry *phalcon_events_manager_ce;
 zend_class_entry *phalcon_events_managerinterface_ce;
 zend_class_entry *phalcon_events_eventsawareinterface_ce;
 zend_class_entry *phalcon_exception_ce;
+zend_class_entry *phalcon_image_ce;
+zend_class_entry *phalcon_image_adapter_ce;
+zend_class_entry *phalcon_image_adapterinterface_ce;
+zend_class_entry *phalcon_image_exception_ce;
+zend_class_entry *phalcon_image_adapter_gd_ce;
+zend_class_entry *phalcon_image_adapter_imagick_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
-static PHP_MINIT_FUNCTION(phalcon){
+#if PHP_VERSION_ID >= 50500
+static void (*orig_execute_internal)(zend_execute_data *, zend_fcall_info *, int TSRMLS_DC) = NULL;
+#else
+static void (*orig_execute_internal)(zend_execute_data *, int TSRMLS_DC) = NULL;
+#endif
 
-	if (!spl_ce_Countable) {
-		fprintf(stderr, "Phalcon Error: Interface Countable was not found");
-		return FAILURE;
+#if PHP_VERSION_ID >= 50500
+
+static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, zend_fcall_info *fci, int return_value_used TSRMLS_DC)
+{
+	if (fci) {
+		((zend_internal_function *) execute_data_ptr->function_state.function)->handler(fci->param_count, *fci->retval_ptr_ptr, fci->retval_ptr_ptr, fci->object_ptr, return_value_used TSRMLS_CC);
 	}
-	if (!zend_ce_iterator) {
-		fprintf(stderr, "Phalcon Error: Interface Iterator was not found");
-		return FAILURE;
+	else {
+		zval **return_value_ptr = EX_TMP_VAR(execute_data_ptr, execute_data_ptr->opline->result.var)->var.ptr_ptr;
+		((zend_internal_function *) execute_data_ptr->function_state.function)->handler(execute_data_ptr->opline->extended_value, *return_value_ptr, return_value_ptr, execute_data_ptr->object, return_value_used TSRMLS_CC);
 	}
-	if (!zend_ce_arrayaccess) {
-		fprintf(stderr, "Phalcon Error: Interface ArrayAccess was not found");
-		return FAILURE;
-	}
-	if (!zend_ce_serializable) {
-		fprintf(stderr, "Phalcon Error: Interface Serializable was not found");
-		return FAILURE;
-	}
-	if (!spl_ce_SeekableIterator) {
-		fprintf(stderr, "Phalcon Error: Interface SeekableIterator was not found");
-		return FAILURE;
-	}
+}
+
+#else
+
+static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, int return_value_used TSRMLS_DC)
+{
+#if PHP_VERSION_ID < 50400
+	zval **return_value_ptr = &(*(temp_variable *)((char *) execute_data_ptr->Ts + execute_data_ptr->opline->result.u.var)).var.ptr;
+#else
+	zval **return_value_ptr = &(*(temp_variable *)((char *) execute_data_ptr->Ts + execute_data_ptr->opline->result.var)).var.ptr;
+#endif
+
+	((zend_internal_function *) execute_data_ptr->function_state.function)->handler(execute_data_ptr->opline->extended_value, *return_value_ptr, return_value_ptr, execute_data_ptr->object, return_value_used TSRMLS_CC);
+}
+
+#endif
+
+static PHP_MINIT_FUNCTION(phalcon){
 
 	PHALCON_INIT(Phalcon_DI_InjectionAwareInterface);
 	PHALCON_INIT(Phalcon_Forms_ElementInterface);
@@ -467,6 +487,7 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Cache_Backend_Xcache);
 	PHALCON_INIT(Phalcon_Cache_Backend_Mongo);
 	PHALCON_INIT(Phalcon_Cache_Backend_Memcache);
+	PHALCON_INIT(Phalcon_Cache_Backend_Libmemcached);
 	PHALCON_INIT(Phalcon_Cache_Frontend_Json);
 	PHALCON_INIT(Phalcon_Cache_Frontend_Output);
 	PHALCON_INIT(Phalcon_Cache_Frontend_None);
@@ -616,8 +637,8 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Mvc_Controller);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Document);
-	PHALCON_INIT(Phalcon_Mvc_Collection_Manager);
 	PHALCON_INIT(Phalcon_Mvc_Collection_ManagerInterface);
+	PHALCON_INIT(Phalcon_Mvc_Collection_Manager);
 	PHALCON_INIT(Phalcon_Mvc_ControllerInterface);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher_Exception);
@@ -675,24 +696,36 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Events_Event);
 	PHALCON_INIT(Phalcon_Events_Manager);
 	PHALCON_INIT(Phalcon_Events_Exception);
+	PHALCON_INIT(Phalcon_Image);
+	PHALCON_INIT(Phalcon_Image_Adapter);
+	PHALCON_INIT(Phalcon_Image_AdapterInterface);
+	PHALCON_INIT(Phalcon_Image_Exception);
+	PHALCON_INIT(Phalcon_Image_Adapter_GD);
+	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
+
+	orig_execute_internal = zend_execute_internal;
+	if (!zend_execute_internal && !getenv("PHALCON_NO_RVO")) {
+		zend_execute_internal = phalcon_execute_internal;
+	}
 
 	return SUCCESS;
 }
 
-
+#ifndef PHALCON_RELEASE
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
-	assert(PHALCON_GLOBAL(start_memory) == NULL);
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
 
 	return SUCCESS;
 }
+#endif
 
 static PHP_RINIT_FUNCTION(phalcon){
 
 	php_phalcon_init_globals(PHALCON_VGLOBAL TSRMLS_CC);
+	phalcon_init_interned_strings(TSRMLS_C);
 
 	return SUCCESS;
 }
@@ -700,7 +733,7 @@ static PHP_RINIT_FUNCTION(phalcon){
 static PHP_RSHUTDOWN_FUNCTION(phalcon){
 
 	if (PHALCON_GLOBAL(start_memory) != NULL) {
-		phalcon_clean_shutdown_stack(TSRMLS_C);
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	if (PHALCON_GLOBAL(function_cache) != NULL) {
@@ -724,7 +757,33 @@ static PHP_MINFO_FUNCTION(phalcon)
 
 static PHP_GINIT_FUNCTION(phalcon)
 {
+	phalcon_memory_entry *start;
+
 	php_phalcon_init_globals(phalcon_globals TSRMLS_CC);
+
+	start = (phalcon_memory_entry *) pecalloc(1, sizeof(phalcon_memory_entry), 1);
+/* pecalloc() will take care of these members
+	start->pointer      = 0;
+	start->hash_pointer = 0;
+	start->prev = NULL;
+	start->next = NULL;
+*/
+	start->addresses       = pecalloc(24, sizeof(zval*), 1);
+	start->capacity        = 24;
+	start->hash_addresses  = pecalloc(8, sizeof(zval*), 1);
+	start->hash_capacity   = 8;
+
+	phalcon_globals->start_memory = start;
+}
+
+static PHP_GSHUTDOWN_FUNCTION(phalcon)
+{
+	assert(phalcon_globals->start_memory != NULL);
+
+	pefree(phalcon_globals->start_memory->hash_addresses, 1);
+	pefree(phalcon_globals->start_memory->addresses, 1);
+	pefree(phalcon_globals->start_memory, 1);
+	phalcon_globals->start_memory = NULL;
 }
 
 static
@@ -735,13 +794,28 @@ zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_REQUIRED("spl")
 #if PHALCON_USE_PHP_JSON
 	ZEND_MOD_REQUIRED("json")
+#else
+	ZEND_MOD_OPTIONAL("json")
 #endif
 #if PHALCON_USE_PHP_SESSION
 	ZEND_MOD_REQUIRED("session")
+#else
+	ZEND_MOD_OPTIONAL("session")
 #endif
 #if PHALCON_USE_PHP_PCRE
 	ZEND_MOD_REQUIRED("pcre")
+#else
+	ZEND_MOD_OPTIONAL("pcre")
 #endif
+	ZEND_MOD_OPTIONAL("filter")
+	ZEND_MOD_OPTIONAL("iconv")
+	ZEND_MOD_OPTIONAL("libxml")
+	ZEND_MOD_OPTIONAL("mbstring")
+	ZEND_MOD_OPTIONAL("mcrypt")
+	ZEND_MOD_OPTIONAL("openssl")
+	ZEND_MOD_OPTIONAL("pdo")
+	ZEND_MOD_OPTIONAL("gd")
+	ZEND_MOD_OPTIONAL("imagick")
 	ZEND_MOD_END
 };
 
@@ -752,14 +826,18 @@ zend_module_entry phalcon_module_entry = {
 	PHP_PHALCON_EXTNAME,
 	NULL,
 	PHP_MINIT(phalcon),
+#ifndef PHALCON_RELEASE
 	PHP_MSHUTDOWN(phalcon),
+#else
+	NULL
+#endif
 	PHP_RINIT(phalcon),
 	PHP_RSHUTDOWN(phalcon),
 	PHP_MINFO(phalcon),
 	PHP_PHALCON_VERSION,
 	ZEND_MODULE_GLOBALS(phalcon),
 	PHP_GINIT(phalcon),
-	NULL,
+	PHP_GSHUTDOWN(phalcon),
 	NULL,
 	STANDARD_MODULE_PROPERTIES_EX
 };
@@ -767,4 +845,3 @@ zend_module_entry phalcon_module_entry = {
 #ifdef COMPILE_DL_PHALCON
 ZEND_GET_MODULE(phalcon)
 #endif
-

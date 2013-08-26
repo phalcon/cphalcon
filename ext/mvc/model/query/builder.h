@@ -22,8 +22,10 @@ extern zend_class_entry *phalcon_mvc_model_query_builder_ce;
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder);
 
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct);
-PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, distinct);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDistinct);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDI);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getColumns);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from);
@@ -57,6 +59,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, params)
 	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_distinct, 0, 0, 1)
+	ZEND_ARG_INFO(0, distinct)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_setdi, 0, 0, 1)
@@ -164,6 +170,8 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_query_builder_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, __construct, arginfo_phalcon_mvc_model_query_builder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, distinct, arginfo_phalcon_mvc_model_query_builder_distinct, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getDistinct, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setDI, arginfo_phalcon_mvc_model_query_builder_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, columns, arginfo_phalcon_mvc_model_query_builder_columns, ZEND_ACC_PUBLIC) 

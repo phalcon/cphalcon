@@ -52,7 +52,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Apc){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Apc, annotations_adapter_apc, "phalcon\\annotations\\adapter", phalcon_annotations_adapter_apc_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Apc, annotations_adapter_apc, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_apc_method_entry, 0);
 
 	zend_class_implements(phalcon_annotations_adapter_apc_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
 
@@ -67,7 +67,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Apc){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read){
 
-	zval *key, *prefixed_key, *prefixed_lower, *data;
+	zval *key, *prefixed_key;
 
 	PHALCON_MM_GROW();
 
@@ -76,16 +76,15 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read){
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_SV(prefixed_key, "_PHAN", key);
 	
-	PHALCON_INIT_VAR(prefixed_lower);
-	phalcon_fast_strtolower(prefixed_lower, prefixed_key);
+	phalcon_strtolower_inplace(prefixed_key);
 	
-	PHALCON_INIT_VAR(data);
-	phalcon_call_func_p1(data, "apc_fetch", prefixed_lower);
-	if (Z_TYPE_P(data) == IS_OBJECT) {
-		RETURN_CCTOR(data);
+	phalcon_call_func_p1_ex(return_value, return_value_ptr, "apc_fetch", prefixed_key);
+	if (Z_TYPE_P(return_value) != IS_OBJECT) {
+		zval_dtor(return_value);
+		RETVAL_NULL();
 	}
 	
-	RETURN_MM_NULL();
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -96,7 +95,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read){
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write){
 
-	zval *key, *data, *prefixed_key, *prefixed_lower;
+	zval *key, *data, *prefixed_key;
 
 	PHALCON_MM_GROW();
 
@@ -105,10 +104,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write){
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_SV(prefixed_key, "_PHAN", key);
 	
-	PHALCON_INIT_VAR(prefixed_lower);
-	phalcon_fast_strtolower(prefixed_lower, prefixed_key);
-	phalcon_call_func_p2_noret("apc_store", prefixed_lower, data);
+	phalcon_strtolower_inplace(prefixed_key);
+	phalcon_call_func_p2_noret("apc_store", prefixed_key, data);
 	
 	PHALCON_MM_RESTORE();
 }
-

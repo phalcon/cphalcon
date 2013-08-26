@@ -29,6 +29,8 @@
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "ext/date/php_date.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
@@ -49,7 +51,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Line){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Line, logger_formatter_line, "phalcon\\logger\\formatter", phalcon_logger_formatter_line_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Line, logger_formatter_line, phalcon_logger_formatter_ce, phalcon_logger_formatter_line_method_entry, 0);
 
 	zend_declare_property_string(phalcon_logger_formatter_line_ce, SL("_dateFormat"), "D, d M y H:i:s O", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_logger_formatter_line_ce, SL("_format"), "[%date%][%type%] %message%", ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -172,7 +174,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format){
 		phalcon_read_property_this(&date_format, this_ptr, SL("_dateFormat"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(date);
-		phalcon_call_func_p2(date, "date", date_format, timestamp);
+		phalcon_date(date, date_format, timestamp TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(date_wildcard);
 		ZVAL_STRING(date_wildcard, "%date%", 1);

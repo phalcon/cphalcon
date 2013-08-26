@@ -231,36 +231,36 @@ class DiTest extends PHPUnit_Framework_TestCase
 					array('type' => 'parameter', 'value' => 'response')
 				)
 			)
-    	);
+		);
 
 		//Injection of simple setters
-    	$this->_di->set('simpleSetters',
+		$this->_di->set('simpleSetters',
 			array(
 				'className' => 'InjectableComponent',
 				'calls' => array(
-			        array(
-			            'method' => 'setResponse',
-			            'arguments' => array(
-			                array('type' => 'parameter', 'value' => 'response'),
-			            )
-			        ),
+					array(
+						'method' => 'setResponse',
+						'arguments' => array(
+							array('type' => 'parameter', 'value' => 'response'),
+						)
+					),
 				)
 			)
-    	);
+		);
 
-    	//Injection of properties
-    	$this->_di->set('simpleProperties',
+		//Injection of properties
+		$this->_di->set('simpleProperties',
 			array(
 				'className' => 'InjectableComponent',
 				'properties' => array(
-        			array(
-            			'name' => 'response', 'value' => array('type' => 'parameter', 'value' => 'response')
-        			),
-        		)
+					array(
+						'name' => 'response', 'value' => array('type' => 'parameter', 'value' => 'response')
+					),
+				)
 			)
-    	);
+		);
 
-    	//Injection of parameters in the constructor resolving the service parameter
+		//Injection of parameters in the constructor resolving the service parameter
 		$this->_di->set('complexConstructor',
 			array(
 				'className' => 'InjectableComponent',
@@ -268,58 +268,58 @@ class DiTest extends PHPUnit_Framework_TestCase
 					array('type' => 'service', 'name' => 'response')
 				)
 			)
-    	);
+		);
 
 		//Injection of simple setters resolving the service parameter
-    	$this->_di->set('complexSetters',
+		$this->_di->set('complexSetters',
 			array(
 				'className' => 'InjectableComponent',
 				'calls' => array(
-			        array(
-			            'method' => 'setResponse',
-			            'arguments' => array(
-			                array('type' => 'service', 'name' => 'response')
-			            )
-			        ),
+					array(
+						'method' => 'setResponse',
+						'arguments' => array(
+							array('type' => 'service', 'name' => 'response')
+						)
+					),
 				)
 			)
-    	);
+		);
 
-    	//Injection of properties resolving the service parameter
-    	$this->_di->set('complexProperties',
+		//Injection of properties resolving the service parameter
+		$this->_di->set('complexProperties',
 			array(
 				'className' => 'InjectableComponent',
 				'properties' => array(
-        			array(
-            			'name' => 'response', 'value' => array('type' => 'service', 'name' => 'response')
-        			),
-        		)
+					array(
+						'name' => 'response', 'value' => array('type' => 'service', 'name' => 'response')
+					),
+				)
 			)
-    	);
+		);
 
-    	$component = $this->_di->get('simpleConstructor');
-    	$this->assertTrue(is_string($component->getResponse()));
-    	$this->assertEquals($component->getResponse(), 'response');
+		$component = $this->_di->get('simpleConstructor');
+		$this->assertTrue(is_string($component->getResponse()));
+		$this->assertEquals($component->getResponse(), 'response');
 
-    	$component = $this->_di->get('simpleSetters');
-    	$this->assertTrue(is_string($component->getResponse()));
-    	$this->assertEquals($component->getResponse(), 'response');
+		$component = $this->_di->get('simpleSetters');
+		$this->assertTrue(is_string($component->getResponse()));
+		$this->assertEquals($component->getResponse(), 'response');
 
-    	$component = $this->_di->get('simpleProperties');
-    	$this->assertTrue(is_string($component->getResponse()));
-    	$this->assertEquals($component->getResponse(), 'response');
+		$component = $this->_di->get('simpleProperties');
+		$this->assertTrue(is_string($component->getResponse()));
+		$this->assertEquals($component->getResponse(), 'response');
 
-    	$component = $this->_di->get('complexConstructor');
-    	$this->assertTrue(is_object($component->getResponse()));
-    	$this->assertEquals($component->getResponse(), $response);
+		$component = $this->_di->get('complexConstructor');
+		$this->assertTrue(is_object($component->getResponse()));
+		$this->assertEquals($component->getResponse(), $response);
 
-    	$component = $this->_di->get('complexSetters');
-    	$this->assertTrue(is_object($component->getResponse()));
-    	$this->assertEquals($component->getResponse(), $response);
+		$component = $this->_di->get('complexSetters');
+		$this->assertTrue(is_object($component->getResponse()));
+		$this->assertEquals($component->getResponse(), $response);
 
-    	$component = $this->_di->get('complexProperties');
-    	$this->assertTrue(is_object($component->getResponse()));
-    	$this->assertEquals($component->getResponse(), $response);
+		$component = $this->_di->get('complexProperties');
+		$this->assertTrue(is_object($component->getResponse()));
+		$this->assertEquals($component->getResponse(), $response);
 	}
 
 	public function testFactoryDefault()
@@ -370,4 +370,10 @@ class DiTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Phalcon\DI', $di);
 	}
 
+	public function testCrash()
+	{
+		$di = new Phalcon\DI\FactoryDefault();
+		$bag = $di->get('sessionBag', array('dummy'));
+		$this->assertTrue(true);
+	}
 }

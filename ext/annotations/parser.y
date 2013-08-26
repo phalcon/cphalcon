@@ -45,15 +45,17 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
+#include "interned-strings.h"
+
 static zval *phannot_ret_literal_zval(int type, phannot_parser_token *T)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_long(ret, "type", type);
+	array_init_size(ret, 2);
+	add_assoc_long(ret, phalcon_interned_type, type);
 	if (T) {
-		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_value, T->token, T->token_len, 0);
 		efree(T);
 	}
 
@@ -65,11 +67,11 @@ static zval *phannot_ret_array(zval *items)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_long(ret, "type", PHANNOT_T_ARRAY);
+	array_init_size(ret, 2);
+	add_assoc_long(ret, phalcon_interned_type, PHANNOT_T_ARRAY);
 
 	if (items) {
-		add_assoc_zval(ret, "items", items);
+		add_assoc_zval(ret, phalcon_interned_items, items);
 	}
 
 	return ret;
@@ -77,7 +79,6 @@ static zval *phannot_ret_array(zval *items)
 
 static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 {
-
 	zval *ret;
 	HashPosition pos;
 	HashTable *list;
@@ -118,10 +119,10 @@ static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_zval(ret, "expr", expr);
+	array_init_size(ret, 2);
+	add_assoc_zval(ret, phalcon_interned_expr, expr);
 	if (name != NULL) {
-		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_name, name->token, name->token_len, 0);
 		efree(name);
 	}
 
@@ -130,26 +131,25 @@ static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
 
 static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments, phannot_scanner_state *state)
 {
-
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 5);
 
-	add_assoc_long(ret, "type", PHANNOT_T_ANNOTATION);
+	add_assoc_long(ret, phalcon_interned_type, PHANNOT_T_ANNOTATION);
 
 	if (name) {
-		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+		add_assoc_stringl(ret, phalcon_interned_name, name->token, name->token_len, 0);
 		efree(name);
 	}
 
 	if (arguments) {
-		add_assoc_zval(ret, "arguments", arguments);
+		add_assoc_zval(ret, phalcon_interned_arguments, arguments);
 	}
 
 	Z_ADDREF_P(state->active_file);
-	add_assoc_zval(ret, "file", state->active_file);
-	add_assoc_long(ret, "line", state->active_line);
+	add_assoc_zval(ret, phalcon_interned_file, state->active_file);
+	add_assoc_long(ret, phalcon_interned_line, state->active_line);
 
 	return ret;
 }

@@ -103,6 +103,41 @@ LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+--
+-- Table structure for table `m2m_parts`
+--
+
+DROP TABLE IF EXISTS `m2m_parts`;
+CREATE TABLE `m2m_parts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(70) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+--
+-- Table structure for table `m2m_robotos`
+--
+
+DROP TABLE IF EXISTS `m2m_robots`;
+CREATE TABLE `m2m_robots` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+--
+-- Table structure for table `m2m_robots_parts`
+--
+
+DROP TABLE IF EXISTS `m2m_robots_parts`;
+CREATE TABLE `m2m_robots_parts` (
+  `robots_id` int(10) unsigned NOT NULL,
+  `parts_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`robots_id`, `parts_id`)
+);
+
+
 --
 -- Table structure for table `parts`
 --

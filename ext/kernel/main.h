@@ -17,6 +17,10 @@
   +------------------------------------------------------------------------+
 */
 
+#include "Zend/zend_interfaces.h"
+#include "ext/spl/spl_exceptions.h"
+#include "ext/spl/spl_iterators.h"
+
 /** Main macros */
 #define PH_DEBUG 0
 
@@ -30,25 +34,15 @@
 #define PH_COPY 1024
 #define PH_CTOR 4096
 
-#define PH_FETCH_CLASS_SILENT (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC
-
 #define SL(str) ZEND_STRL(str)
 #define SS(str) ZEND_STRS(str)
+#define ISL(str) (phalcon_interned_##str), (sizeof(#str)-1)
+#define ISS(str) (phalcon_interned_##str), (sizeof(#str))
 
-/** SPL dependencies */
-#if defined(HAVE_SPL) && ((PHP_MAJOR_VERSION > 5) || (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION >= 1))
-extern ZEND_API zend_class_entry *zend_ce_iterator;
-extern ZEND_API zend_class_entry *zend_ce_arrayaccess;
-extern ZEND_API zend_class_entry *zend_ce_serializable;
-extern PHPAPI zend_class_entry *spl_ce_RuntimeException;
-extern PHPAPI zend_class_entry *spl_ce_Countable;
-extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
-extern PHPAPI zend_class_entry *spl_ce_BadMethodCallException;
-#endif
 
 /* Startup functions */
 extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
-extern zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC);
+extern zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
 
 /* Globals functions */
 extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
@@ -64,11 +58,12 @@ extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
-extern void phalcon_inherit_not_found(const char *class_name, const char *inherit_name);
 extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
+void phalcon_safe_zval_ptr_dtor(zval *pzval);
+
 
 /* Fetch Parameters */
-extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int required_args, int optional_args, ...);
+extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
 
 /* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
@@ -193,14 +188,14 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
  * Returns a zval in an object member
  */
 #define RETURN_MEMBER(object, member_name) \
-	phalcon_return_property_quick(return_value, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
+	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
 	return;
 
 /**
  * Returns a zval in an object member (quick)
  */
 #define RETURN_MEMBER_QUICK(object, member_name, key) \
- 	phalcon_return_property_quick(return_value, object, SL(member_name), key TSRMLS_CC); \
+ 	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), key TSRMLS_CC); \
 	return;
 
 /** Return without change return_value */
@@ -223,6 +218,7 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 
 #ifndef IS_INTERNED
 #define IS_INTERNED(key) 0
+#define INTERNED_HASH(key) 0
 #endif
 
 /** Get the current hash key without copying the hash key */
@@ -256,15 +252,20 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) PHALCON_GET_HMKEY(var, hash, hash_pointer)
 
 /** Check if an array is iterable or not */
-#define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { return; }
+#define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) \
+	if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { \
+		zend_error(E_ERROR, "The argument is not iterable()"); \
+		PHALCON_MM_RESTORE(); \
+		return; \
+	}
 
 #define PHALCON_GET_FOREACH_VALUE(var) \
-	PHALCON_OBSERVE_VAR(var); \
+	PHALCON_OBS_NVAR(var); \
 	var = *hd; \
 	Z_ADDREF_P(var);
 
 #define PHALCON_GET_HVALUE(var) \
-	PHALCON_OBSERVE_VAR(var); \
+	PHALCON_OBS_NVAR(var); \
 	var = *hd; \
 	Z_ADDREF_P(var);
 
@@ -278,17 +279,17 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 		phalcon_ ##name## _ce->ce_flags |= flags;  \
 	}
 
-#define PHALCON_REGISTER_CLASS_EX(ns, class_name, name, parent, methods, flags) \
+#define PHALCON_REGISTER_CLASS_EX(ns, class_name, lcname, parent_ce, methods, flags) \
 	{ \
 		zend_class_entry ce; \
 		memset(&ce, 0, sizeof(zend_class_entry)); \
 		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods); \
-		phalcon_ ##name## _ce = zend_register_internal_class_ex(&ce, NULL, parent TSRMLS_CC); \
-		if (!phalcon_ ##name## _ce) { \
-			phalcon_inherit_not_found(parent, ZEND_NS_NAME(#ns, #class_name)); \
-			return FAILURE;	\
-		}  \
-		phalcon_ ##name## _ce->ce_flags |= flags;  \
+		phalcon_ ##lcname## _ce = zend_register_internal_class_ex(&ce, parent_ce, NULL TSRMLS_CC); \
+		if (!phalcon_ ##lcname## _ce) { \
+			fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", (parent_ce ? parent_ce->name : "(null)"), ZEND_NS_NAME(#ns, #class_name)); \
+			return FAILURE; \
+		} \
+		phalcon_ ##lcname## _ce->ce_flags |= flags;  \
 	}
 
 #define PHALCON_REGISTER_INTERFACE(ns, classname, name, methods) \
@@ -299,16 +300,16 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 		phalcon_ ##name## _ce = zend_register_internal_interface(&ce TSRMLS_CC); \
 	}
 
-#define PHALCON_REGISTER_INTERFACE_EX(ns, classname, name, parent, methods) \
+#define PHALCON_REGISTER_INTERFACE_EX(ns, classname, lcname, parent_ce, methods) \
 	{ \
 		zend_class_entry ce; \
 		memset(&ce, 0, sizeof(zend_class_entry)); \
 		INIT_NS_CLASS_ENTRY(ce, #ns, #classname, methods); \
-		phalcon_ ##name## _ce = phalcon_register_internal_interface_ex(&ce, parent TSRMLS_CC); \
-		if (!phalcon_ ##name## _ce) { \
-			fprintf(stderr, "Can't register interface with parent: %s", parent); \
-			return FAILURE;	\
-		}  \
+		phalcon_ ##lcname## _ce = phalcon_register_internal_interface_ex(&ce, parent_ce TSRMLS_CC); \
+		if (!phalcon_ ##lcname## _ce) { \
+			fprintf(stderr, "Can't register interface %s with parent %s\n", ZEND_NS_NAME(#ns, #classname), (parent_ce ? parent_ce->name : "(null)")); \
+			return FAILURE; \
+		} \
 	}
 
 /** Method declaration for API generation */
@@ -316,7 +317,7 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 
 /** Low overhead parse/fetch parameters */
 #define phalcon_fetch_params(memory_grow, required_params, optional_params, ...) \
-	if (phalcon_fetch_parameters(memory_grow, ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+	if (phalcon_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
 		if (memory_grow) { \
 			RETURN_MM_NULL(); \
 		} else { \
@@ -324,3 +325,34 @@ extern int phalcon_fetch_parameters(int grow_stack, int num_args TSRMLS_DC, int 
 		} \
 	}
 
+#define PHALCON_VERIFY_INTERFACE(instance, interface_ce) \
+	do { \
+		if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), interface_ce, 1 TSRMLS_CC)) { \
+			char *buf; \
+			if (Z_TYPE_P(instance) != IS_OBJECT) { \
+				spprintf(&buf, 0, "Unexpected value type: expected object implementing %s, %s given", interface_ce->name, zend_zval_type_name(instance)); \
+			} \
+			else { \
+				spprintf(&buf, 0, "Unexpected value type: expected object implementing %s, object of type %s given", interface_ce->name, Z_OBJCE_P(instance)->name); \
+			} \
+			PHALCON_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
+			efree(buf); \
+			return; \
+		} \
+	} while (0)
+
+#define PHALCON_VERIFY_CLASS(instance, class_ce) \
+	do { \
+		if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), class_ce, 0 TSRMLS_CC)) { \
+			char *buf; \
+			if (Z_TYPE_P(instance) != IS_OBJECT) { \
+				spprintf(&buf, 0, "Unexpected value type: expected object of type %s, %s given", class_ce->name, zend_zval_type_name(instance)); \
+			} \
+			else { \
+				spprintf(&buf, 0, "Unexpected value type: expected object of type %s, object of type %s given", class_ce->name, Z_OBJCE_P(instance)->name); \
+			} \
+			PHALCON_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
+			efree(buf); \
+			return; \
+		} \
+	} while (0)

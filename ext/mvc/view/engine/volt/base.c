@@ -89,6 +89,10 @@ const phvolt_token_names phvolt_tokens[] =
   { SL("BREAK"),          PHVOLT_T_BREAK },
   { SL("WITH"),           PHVOLT_T_WITH },
   { SL("RETURN"),         PHVOLT_T_RETURN },
+  { SL("MACRO"),          PHVOLT_T_MACRO },
+  { SL("ENDMACRO"),       PHVOLT_T_ENDMACRO },
+  { SL("CALL"),           PHVOLT_T_CALL },
+  { SL("WITH"),           PHVOLT_T_WITH },
   { NULL, 0, 0 }
 };
 
@@ -182,12 +186,12 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 	ZVAL_NULL(result);
 
 	if (Z_TYPE_P(view_code) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("View code must be a string"), 1 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "View code must be a string");
 		return FAILURE;
 	}
 
 	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE) {
-		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg), 1 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
 		return FAILURE;
 	}
 

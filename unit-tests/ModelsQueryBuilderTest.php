@@ -67,6 +67,11 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 
 	public function testAction()
 	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
 
 		$di = $this->_getDI();
 
@@ -259,4 +264,85 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT 10 OFFSET 5');
 	}
 
+	public function testIssue701()
+	{
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->from('Robots')
+			->leftJoin('RobotsParts', 'Robots.id = RobotsParts.robots_id')
+			->leftJoin('Parts', 'Parts.id = RobotsParts.parts_id')
+			->where('Robots.id > :1: AND Robots.id < :2:', array(1 => 0, 2 => 1000))
+		;
+
+		$params = $phql->getQuery()->getBindParams();
+		$this->assertEquals($params[1], 0);
+		$this->assertEquals($params[2], 1000);
+
+		$phql->andWhere('Robots.name = :name:', array('name' => 'Voltron'));
+
+		$params = $phql->getQuery()->getBindParams();
+		$this->assertEquals($params[1], 0);
+		$this->assertEquals($params[2], 1000);
+		$this->assertEquals($params['name'], 'Voltron');
+	}
+
+	public function testIssue1115()
+	{
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->having('Robots.price > 1000')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name FROM [Robots] HAVING Robots.price > 1000');
+	}
+
+	public function testSelectDistinctAll()
+	{
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->distinct(true)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT DISTINCT Robots.name FROM [Robots]');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->distinct(false)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT ALL Robots.name FROM [Robots]');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+			->distinct(true)
+			->distinct(null)
+			->columns(array('Robots.name'))
+			->from('Robots')
+			->getPhql();
+		$this->assertEquals($phql, 'SELECT Robots.name FROM [Robots]');
+	}
 }
