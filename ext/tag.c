@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -1692,17 +1691,17 @@ PHP_METHOD(Phalcon_Tag, image){
 	if (!local) {
 		if (Z_TYPE_P(parameters) == IS_ARRAY && phalcon_array_isset_long(parameters, 1)) {
 			PHALCON_OBS_VAR(second_param);
-                        phalcon_array_fetch_long(&second_param, parameters, 1, PH_NOISY);
+			phalcon_array_fetch_long(&second_param, parameters, 1, PH_NOISY);
 			if (Z_TYPE_P(second_param) == IS_BOOL) {
 				PHALCON_INIT_VAR(local);
 				ZVAL_BOOL(local, zend_is_true(second_param));
 			} else {
 				PHALCON_INIT_VAR(local);
-	                        ZVAL_BOOL(local, 1);
+				ZVAL_BOOL(local, 1);
 			}
 		} else {
 			PHALCON_INIT_VAR(local);
-	                ZVAL_BOOL(local, 1);
+			ZVAL_BOOL(local, 1);
 		}
 	}
 	
