@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -1675,7 +1674,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
  */
 PHP_METHOD(Phalcon_Tag, image){
 
-	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
+	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param, *second_param;
 	zval *url, *url_src, *src, *code, *value = NULL, *key = NULL, *doctype;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1690,8 +1689,20 @@ PHP_METHOD(Phalcon_Tag, image){
 	}
 	
 	if (!local) {
-		PHALCON_INIT_VAR(local);
-		ZVAL_BOOL(local, 1);
+		if (Z_TYPE_P(parameters) == IS_ARRAY && phalcon_array_isset_long(parameters, 1)) {
+			PHALCON_OBS_VAR(second_param);
+			phalcon_array_fetch_long(&second_param, parameters, 1, PH_NOISY);
+			if (Z_TYPE_P(second_param) == IS_BOOL) {
+				PHALCON_INIT_VAR(local);
+				ZVAL_BOOL(local, zend_is_true(second_param));
+			} else {
+				PHALCON_INIT_VAR(local);
+				ZVAL_BOOL(local, 1);
+			}
+		} else {
+			PHALCON_INIT_VAR(local);
+			ZVAL_BOOL(local, 1);
+		}
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
