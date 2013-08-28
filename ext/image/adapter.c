@@ -809,15 +809,15 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 	Z_TYPE(tmp) = IS_STRING;
 	ZVAL_STRINGL(&tmp, Z_STRVAL_P(tmp_color), 2, 0);
 
-	PHALCON_INIT_NVAR(r);
+	PHALCON_INIT_VAR(r);
 	_php_math_basetozval(&tmp, 16, r);
 
 	Z_STRVAL(tmp) += 2;
-	PHALCON_INIT_NVAR(g);
+	PHALCON_INIT_VAR(g);
 	_php_math_basetozval(&tmp, 16, g);
 
 	Z_STRVAL(tmp) += 2;
-	PHALCON_INIT_NVAR(b);
+	PHALCON_INIT_VAR(b);
 	_php_math_basetozval(&tmp, 16, b);
 
 	PHALCON_CALL_METHOD(NULL, NULL, this_ptr, "_text", 0, 9, text, offset_x, offset_y, opacity, r, g, b, size, fontfile);
