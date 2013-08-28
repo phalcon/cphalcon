@@ -1003,6 +1003,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Oracle, select){
 		PHALCON_CPY_WRT(tables_sql, tables);
 	}
 
+	PHALCON_INIT_VAR(sql);
 	if (phalcon_array_isset_string_fetch(&distinct, definition, SS("definition"))) {
 		assert(Z_TYPE_P(distinct) == IS_LONG);
 		if (Z_LVAL_P(distinct) == 0) {
