@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 
 	zval *width = NULL, *height = NULL, *zmaster = NULL;
 	zval *image_width, *image_height;
-	int tmp_image_width, tmp_image_height, tmp_width, tmp_height, master;
+	int tmp_image_width, tmp_image_height, tmp_width = 0, tmp_height = 0, master;
 
 	PHALCON_MM_GROW();
 
