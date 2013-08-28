@@ -277,33 +277,30 @@ class Build_Generator
 	 */
 	private function _recursiveAction($path, $handler)
 	{
-		$iterator = new DirectoryIterator($path);
+		$flags = FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS;
+		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, $flags));
 		foreach ($iterator as $item) {
 			if ($item->isDir()) {
-				$fileName = $item->getFileName();
-				if ($fileName != '.' && $fileName != '..') {
-					$this->_recursiveAction($item->getPathname(), $handler);
-				}
-			} else {
-				$itemPath = $item->getPathname();
-				if (!preg_match('/\.c$/', $itemPath)) {
-					//echo $itemPath, PHP_EOL;
-					continue;
-				}
-				if (strpos($itemPath, '/kernel/') !== false) {
-					//echo $itemPath, PHP_EOL;
-					continue;
-				}
-				if (strpos($itemPath, '/phalcon.c') !== false) {
-					//echo $itemPath, PHP_EOL;
-					continue;
-				}
-				if (isset($this->_exclusions[$itemPath])){
-					//echo $itemPath, PHP_EOL;
-					continue;
-				}
-				call_user_func_array($handler, array($itemPath));
+				continue;
 			}
+			$itemPath = $item->getPathname();
+			if (!preg_match('/\.c$/', $itemPath)) {
+				//echo $itemPath, PHP_EOL;
+				continue;
+			}
+			if (strpos($itemPath, '/kernel/') !== false) {
+				//echo $itemPath, PHP_EOL;
+				continue;
+			}
+			if (strpos($itemPath, '/phalcon.c') !== false) {
+				//echo $itemPath, PHP_EOL;
+				continue;
+			}
+			if (isset($this->_exclusions[$itemPath])){
+				//echo $itemPath, PHP_EOL;
+				continue;
+			}
+			call_user_func_array($handler, array($itemPath));
 		}
 	}
 
