@@ -21,7 +21,7 @@ before_script:
  - (cd php-tests/library/Mustache; git checkout master)
  - (cd php-tests/library/Twig; git checkout master)
  - (cd unit-tests/engines/; git clone -q git://github.com/bobthecow/mustache.php.git & git clone -q git://github.com/fabpot/Twig.git & wait)
- - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -Werror -Wno-error=uninitialized"; phpize && ./configure --enable-phalcon && make --silent -j4 && sudo make --silent install && phpenv config-add ../unit-tests/ci/phalcon.ini)
+ - (cd ext; export CFLAGS="-g3 -O1 -std=gnu90 -Wall -Werror -Wno-error=uninitialized"; phpize && ./configure --enable-phalcon && make --silent -j4 > /dev/null && sudo make --silent install && phpenv config-add ../unit-tests/ci/phalcon.ini)
  - ulimit -c unlimited || true
 
 script:
