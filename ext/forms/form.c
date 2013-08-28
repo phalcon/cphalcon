@@ -780,12 +780,16 @@ PHP_METHOD(Phalcon_Forms_Form, get){
  */
 PHP_METHOD(Phalcon_Forms_Form, label){
 
-	zval *name, *elements, *exception_message, *element;
+	zval *name, *attributes = NULL, *elements, *exception_message, *element;
 	zval *html;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(1, 1, 1, &name, &attributes);
+
+	if (!attributes) {
+		PHALCON_INIT_VAR(attributes);
+	}
 	
 	PHALCON_OBS_VAR(elements);
 	phalcon_read_property_this(&elements, this_ptr, SL("_elements"), PH_NOISY_CC);
@@ -800,7 +804,7 @@ PHP_METHOD(Phalcon_Forms_Form, label){
 	phalcon_array_fetch(&element, elements, name, PH_NOISY);
 	
 	PHALCON_INIT_VAR(html);
-	phalcon_call_method(html, element, "label");
+	phalcon_call_method_p1(html, element, "label", attributes);
 	
 	RETURN_CCTOR(html);
 }

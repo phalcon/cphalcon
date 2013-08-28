@@ -446,5 +446,19 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($entity->getAddress(), 'hello');
 	}
 
+	public function testIssues1029()
+	{
+		$form = new Form();
+		$form->add(new Text("name"));
+
+		$telephone = new Text("telephone");
+		$telephone->setLabel("The Telephone");
+
+		$form->add($telephone);
+
+		$this->assertEquals($form->label('name', array('class' => 'form-control')), '<label for="name" class="form-control">name</label>');
+		$this->assertEquals($form->label('telephone', array('class' => 'form-control')), '<label for="telephone" class="form-control">The Telephone</label>');
+	}
+
 }
 
