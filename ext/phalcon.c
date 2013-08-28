@@ -225,6 +225,9 @@ zend_class_entry *phalcon_assets_filters_jsmin_ce;
 zend_class_entry *phalcon_assets_resource_css_ce;
 zend_class_entry *phalcon_assets_filterinterface_ce;
 zend_class_entry *phalcon_assets_filters_cssmin_ce;
+#ifdef PHALCON_USE_PHP_CURL
+zend_class_entry *phalcon_http_client_ce;
+#endif
 zend_class_entry *phalcon_http_request_ce;
 zend_class_entry *phalcon_http_cookie_ce;
 zend_class_entry *phalcon_http_response_ce;
@@ -616,6 +619,9 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Assets_Filters_Jsmin);
 	PHALCON_INIT(Phalcon_Assets_Resource_Css);
 	PHALCON_INIT(Phalcon_Assets_FilterInterface);
+	#ifdef PHALCON_USE_PHP_CURL
+	PHALCON_INIT(Phalcon_Http_Client);
+	#endif
 	PHALCON_INIT(Phalcon_Http_Request);
 	PHALCON_INIT(Phalcon_Http_Cookie);
 	PHALCON_INIT(Phalcon_Http_Response);
@@ -806,6 +812,11 @@ zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_REQUIRED("pcre")
 #else
 	ZEND_MOD_OPTIONAL("pcre")
+#endif
+#if PHALCON_USE_PHP_CURL
+	ZEND_MOD_REQUIRED("curl")
+#else
+	ZEND_MOD_OPTIONAL("curl")
 #endif
 	ZEND_MOD_OPTIONAL("filter")
 	ZEND_MOD_OPTIONAL("iconv")

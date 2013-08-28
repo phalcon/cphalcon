@@ -81,6 +81,7 @@ forms/elementinterface.c \
 http/response.c \
 http/requestinterface.c \
 http/request.c \
+http/client.c \
 http/cookie.c \
 http/request/file.c \
 http/request/exception.c \
@@ -407,6 +408,23 @@ image/adapter/imagick.c"
 				[
 					PHP_ADD_EXTENSION_DEP([phalcon], [session])
 					AC_DEFINE([PHALCON_USE_PHP_SESSION], [1], [Whether PHP session extension is present at compile time])
+				],
+				,
+				[[#include "main/php.h"]]
+			)
+		],
+		,
+		[[#include "php_config.h"]]
+	)
+
+	AC_CHECK_DECL(
+		[HAVE_PHP_CURL],
+		[
+			AC_CHECK_HEADERS(
+				[ext/curl/php_curl.h],
+				[
+					PHP_ADD_EXTENSION_DEP([phalcon], [curl])
+					AC_DEFINE([PHALCON_USE_PHP_CURL], [1], [Whether PHP curl extension is present at compile time])
 				],
 				,
 				[[#include "main/php.h"]]
