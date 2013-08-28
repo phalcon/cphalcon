@@ -249,8 +249,8 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 long phalcon_get_intval(const zval *op) {
 
 	int type;
-	long long_value;
-	double double_value;
+	long long_value = 0;
+	double double_value = 0;
 
 	switch (Z_TYPE_P(op)) {
 		case IS_LONG:
