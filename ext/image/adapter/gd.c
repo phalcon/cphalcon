@@ -834,7 +834,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 		phalcon_call_func_p6_noret("imagefilledrectangle", overlay, tmp, tmp, width, height, color);
 	}
 
-	PHALCON_INIT_NVAR(blendmode);
+	PHALCON_INIT_VAR(blendmode);
 	ZVAL_LONG(blendmode, 1);
 	phalcon_call_func_p2_noret("imagealphablending", image, blendmode);
 
