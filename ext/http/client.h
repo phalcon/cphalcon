@@ -41,6 +41,8 @@ PHP_METHOD(Phalcon_Http_Client, setMethod);
 PHP_METHOD(Phalcon_Http_Client, getMethod);
 PHP_METHOD(Phalcon_Http_Client, setOptions);
 PHP_METHOD(Phalcon_Http_Client, getOptions);
+PHP_METHOD(Phalcon_Http_Client, setBody);
+PHP_METHOD(Phalcon_Http_Client, getBody);
 PHP_METHOD(Phalcon_Http_Client, setData);
 PHP_METHOD(Phalcon_Http_Client, getData);
 PHP_METHOD(Phalcon_Http_Client, setFiles);
@@ -86,6 +88,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_setoptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_setbody, 0, 0, 1)
+	ZEND_ARG_INFO(0, body)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_setdata, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
@@ -115,7 +121,7 @@ PHALCON_INIT_FUNCS(phalcon_http_client_method_entry){
 	PHP_ME(Phalcon_Http_Client, getMethod, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, setOptions, arginfo_phalcon_http_client_setoptions, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, getOptions, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Http_Client, setBody, arginfo_phalcon_http_client_setfields, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Client, setBody, arginfo_phalcon_http_client_setbody, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, getBody, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, setData, arginfo_phalcon_http_client_setdata, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, getData, NULL, ZEND_ACC_PUBLIC) 

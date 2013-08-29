@@ -481,7 +481,7 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 	zval *url, *method, *options, *data, *files, *cookies, *content_type, *body, *headers;
 	zval *ch, *constant0, *constant1, *httphead, *httpcookie, *key = NULL, *value = NULL, *tmp = NULL;
-	zval *timeout, *connecttimeout, *cookiesession, *maxfilesize, *protocol, *httpauth, *httpauthtype, *upper_method, *query_string, *boundary, *mpboundary, *endmpboundary, *multipartbody, *filename, *type;
+	zval *timeout, *connecttimeout, *cookiesession, *maxfilesize, *protocol, *httpauth, *httpauthtype, *upper_method, *query_string, *boundary, *mpboundary, *endmpboundary, *multipartbody, *filename, *type, *filecontent;
 	zval *response_body, *response_status;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -792,6 +792,9 @@ PHP_METHOD(Phalcon_Http_Client, send){
 			PHALCON_SCONCAT_SV(multipartbody, mpboundary, "\r\n");
 			PHALCON_SCONCAT_VSV(multipartbody, "Content-Disposition: form-data; name=\"", key, "\"; filename=\"", filename, "\" \r\n");
 			PHALCON_SCONCAT_VSV(multipartbody, "Content-Type: ", type, "\r\n\r\n");
+
+			PHALCON_INIT_VAR(filecontent);
+			phalcon_call_func_p1(filecontent, "file_get_contents", filename);
 
 			PHALCON_SCONCAT_VS(multipartbody, filecontent, "\r\n");
 
