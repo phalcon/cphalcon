@@ -480,14 +480,13 @@ PHP_METHOD(Phalcon_Http_Client, getResponseBody){
 PHP_METHOD(Phalcon_Http_Client, send){
 
 	zval *url, *method, *options, *data, *files, *cookies, *content_type, *body, *headers;
-#ifdef PHALCON_USE_PHP_CURL
 	zval *ch, *constant0, *constant1, *httphead, *httpcookie, *key = NULL, *value = NULL, *tmp = NULL;
 	zval *timeout, *connecttimeout, *cookiesession, *maxfilesize, *protocol, *httpauth, *httpauthtype, *upper_method, *query_string, *boundary, *mpboundary, *endmpboundary, *multipartbody, *filename, *type;
 	zval *response_body, *response_status;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-#endif
+
 	PHALCON_MM_GROW();
 
 	url = phalcon_fetch_nproperty_this(this_ptr, SL("_url"), PH_NOISY_CC);
@@ -505,7 +504,6 @@ PHP_METHOD(Phalcon_Http_Client, send){
 	phalcon_update_property_null(this_ptr, SL("_response_cookie") TSRMLS_CC);
 	phalcon_update_property_null(this_ptr, SL("_response_body") TSRMLS_CC);
 
-#ifdef PHALCON_USE_PHP_CURL
 	if (PHALCON_IS_EMPTY(url)) {
 		ZVAL_FALSE(return_value);
 		RETURN_MM();
@@ -856,9 +854,6 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 	PHALCON_INIT_VAR(response_status);
 	phalcon_call_func_p2(response_status, "curl_getinfo", ch, constant0);
-
-#else
-#endif
 	
 	ZVAL_TRUE(return_value);
 
