@@ -28,7 +28,7 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 
 	zval **zv, **tmp;
 	int result = FAILURE;
-	unsigned int length, variable_length, ch;
+	unsigned int length = 0, variable_length, ch;
 	char *item = NULL, *cursor_var, *variable = NULL;
 	int not_valid = 0, j;
 
@@ -272,7 +272,7 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 	unsigned int intermediate = 0, length, number_matches = 0, found_pattern;
 	int variable_length, regexp_length = 0, not_valid = 0;
 	char *cursor, *cursor_var, *marker = NULL;
-	char *item, *variable = NULL, *regexp;
+	char *item, *variable = NULL, *regexp = NULL;
 	smart_str route_str = {0};
 
 	if (Z_TYPE_P(str) != IS_STRING) {
@@ -351,6 +351,7 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 
 									if (variable) {
 										if (regexp_length > 0) {
+											ASSUME(regexp != NULL);
 
 											/**
 											 * Check if we need to add parentheses to the expression
