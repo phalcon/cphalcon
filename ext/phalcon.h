@@ -245,6 +245,7 @@
 #include "assets/filters/jsmin.h"
 #include "assets/resource/css.h"
 #include "assets/filterinterface.h"
+#include "http/client.h"
 #include "http/request.h"
 #include "http/cookie.h"
 #include "http/response.h"
@@ -331,4 +332,3 @@
 #include "image/exception.h"
 #include "image/adapter/gd.h"
 #include "image/adapter/imagick.h"
-#include "http/client.h"

@@ -17,7 +17,11 @@
   |          ZhuZongXin <dreamsxin@qq.com>                                 |
   +------------------------------------------------------------------------+
 */
-#ifdef PHALCON_USE_PHP_CURL
+#ifndef PHALCON_HTTP_CLIENT_H
+#define PHALCON_HTTP_CLIENT_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_http_client_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Client);
@@ -119,4 +123,4 @@ PHALCON_INIT_FUNCS(phalcon_http_client_method_entry){
 	PHP_FE_END
 };
 
-#endif
+#endif /* PHALCON_HTTP_CLIENT_H */
