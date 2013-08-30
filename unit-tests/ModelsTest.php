@@ -241,21 +241,25 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 				'_type' => 'PresenceOf',
 				'_message' => 'tipo_documento_id is required',
 				'_field' => 'tipo_documento_id',
+				'_code' => 0,
 			)),
 			1 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'nombres is required',
 				'_field' => 'nombres',
+				'_code' => 0,
 			)),
 			2 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'cupo is required',
 				'_field' => 'cupo',
+				'_code' => 0,
 			)),
 			3 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'estado is required',
 				'_field' => 'estado',
+				'_code' => 0,
 			)),
 		);
 		$this->assertEquals($persona->getMessages(), $messages);
@@ -499,21 +503,25 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 				'_type' => 'PresenceOf',
 				'_message' => 'slagBorgerId is required',
 				'_field' => 'slagBorgerId',
+				'_code' => 0,
 			)),
 			1 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'navnes is required',
 				'_field' => 'navnes',
+				'_code' => 0,
 			)),
 			2 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'kredit is required',
 				'_field' => 'kredit',
+				'_code' => 0,
 			)),
 			3 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'status is required',
 				'_field' => 'status',
+				'_code' => 0,
 			)),
 		);
 		$this->assertEquals($personer->getMessages(), $messages);
