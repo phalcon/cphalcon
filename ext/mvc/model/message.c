@@ -53,7 +53,8 @@
  *        $text = "A robot cannot be named Peter";
  *        $field = "name";
  *        $type = "InvalidValue";
- *        $message = new Message($text, $field, $type);
+ *        $code = 103;
+ *        $message = new Message($text, $field, $type, $code);
  *        $this->appendMessage($message);
  *     }
  *   }

@@ -75,7 +75,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Between){
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 
 	zval *validator, *attribute, *value, *option = NULL, *minimum;
-	zval *maximum, *valid = NULL, *type, *message_str = NULL, *message;
+	zval *maximum, *valid = NULL, *type, *message_str = NULL, *message, *is_set_code, *code;
 
 	PHALCON_MM_GROW();
 
@@ -116,10 +116,23 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate){
 			PHALCON_INIT_NVAR(message_str);
 			PHALCON_CONCAT_VS(message_str, attribute, " is not between a valid range");
 		}
+
+		// Is code set
+		PHALCON_INIT_NVAR(option);
+		ZVAL_STRING(option, "code", 1);
+
+		PHALCON_INIT_VAR(is_set_code);
+		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+		PHALCON_INIT_VAR(code);
+		if (zend_is_true(is_set_code)) {
+			phalcon_call_method_p1(code, this_ptr, "getoption", option);
+		} else {
+			ZVAL_LONG(code, 0);
+		}
 	
 		PHALCON_INIT_VAR(message);
 		object_init_ex(message, phalcon_validation_message_ce);
-		phalcon_call_method_p3_noret(message, "__construct", message_str, attribute, type);
+		phalcon_call_method_p4_noret(message, "__construct", message_str, attribute, type, code);
 	
 		phalcon_call_method_p1_noret(validator, "appendmessage", message);
 		RETURN_MM_FALSE;
