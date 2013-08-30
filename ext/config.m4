@@ -418,6 +418,8 @@ http/client/exception.c"
 		[[#include "php_config.h"]]
 	)
 
+	CPPFLAGS=$old_CPPFLAGS
+
 	for i in /usr/local /usr; do
 		if test -r $i/include/curl/easy.h; then
 			CURL_DIR=$i
@@ -428,17 +430,23 @@ http/client/exception.c"
 					CURL_CONFIG=${CURL_DIR}/curl-config
 				fi
 			fi
-			CURL_LIBS=`$CURL_CONFIG --libs`
-			PHP_ADD_INCLUDE($CURL_DIR/include)
-			PHP_EVAL_LIBLINE($CURL_LIBS, PHALCON_SHARED_LIBADD)
-			PHP_ADD_LIBRARY_WITH_PATH(curl, $CURL_DIR/$PHP_LIBDIR, PHALCON_SHARED_LIBADD)
+			curl_version_full=`$CURL_CONFIG --version`
+			AC_MSG_RESULT($curl_version_full)
 
-			AC_DEFINE([PHALCON_USE_CURL], [1], [Have cURL with  SSL support])
+			CURL_LIBS=`$CURL_CONFIG --libs`
+			AC_MSG_RESULT($CURL_LIBS)
+
+			CPPFLAGS+=" ${CURL_LIBS}"
+			AC_MSG_RESULT($CPPFLAGS)
+
+			PHP_ADD_INCLUDE($CURL_DIR/include)
+			PHP_EVAL_LIBLINE($CURL_LIBS, CURL_SHARED_LIBADD)
+			PHP_ADD_LIBRARY_WITH_PATH(curl, $CURL_DIR/$PHP_LIBDIR, CURL_SHARED_LIBADD)
+
+			AC_DEFINE([PHALCON_USE_CURL], [1], [Have CURL support])
 			break
 		fi
 	done
-
-	CPPFLAGS=$old_CPPFLAGS
 
 	PHP_ADD_MAKEFILE_FRAGMENT
 fi
