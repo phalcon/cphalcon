@@ -22,7 +22,7 @@
  * Phalcon\DI
  *
  * Phalcon\DI is a component that implements Dependency Injection/Service Location
- * of services and it's itself a container for them.
+ * of services and it"s itself a container for them.
  *
  * Since Phalcon is highly decoupled, Phalcon\DI is essential to integrate the different
  * components of the framework. The developer can also use this component to inject dependencies
@@ -39,10 +39,10 @@
  * $di = new Phalcon\DI();
  *
  * //Using a string definition
- * $di->set('request', 'Phalcon\Http\Request', true);
+ * $di->set("request", "Phalcon\Http\Request", true);
  *
  * //Using an anonymous function
- * $di->set('request', function(){
+ * $di->set("request", function(){
  *	  return new Phalcon\Http\Request();
  * }, true);
  *
@@ -123,7 +123,7 @@ class DI implements Phalcon\DiInterface
 
 	/**
 	 * Attempts to register a service in the services container
-	 * Only is successful if a service hasn't been registered previously
+	 * Only is successful if a service hasn"t been registered previously
 	 * with the same name
 	 *
 	 * @param string name
@@ -189,7 +189,7 @@ class DI implements Phalcon\DiInterface
 				return service->getDefinition();
 		}
 
-		throw new Phalcon_DI_Exception("Service '" . name . "' wasn't found in the dependency injection container");
+		throw new Phalcon\DI\Exception("Service '" . name . "' wasn't found in the dependency injection container");
 	}
 
 	/**
@@ -224,7 +224,7 @@ class DI implements Phalcon\DiInterface
 	{
 
 		/**
-		 * <comment>A valid service alias is a string</comment>
+		 * A valid service alias is a string
 		 */
 		if typeof name != "string" {
 			throw new Phalcon\DI\Exception("The service name must be a string");
@@ -233,12 +233,12 @@ class DI implements Phalcon\DiInterface
 		let services = this->_services;
 		if fetch setvice, services[name] {
 			/**
-			 * <comment>The service is registered in the DI</comment>
+			 * The service is registered in the DI
 			 */
 			let instance = service->resolve(parameters, this);
 		} else {
 			/**
-			 * <comment>The DI also acts as builder for any class even if it isn't defined in the DI</comment>
+			 * The DI also acts as builder for any class even if it isn"t defined in the DI
 			 */
 			if class_exists(name) {
 				if typeof parameters == "string" {
@@ -256,7 +256,7 @@ class DI implements Phalcon\DiInterface
 		}
 
 		/**
-		 * <comment>Pass the DI itself if the instance implements Phalcon\DI\InjectionAwareInterface</comment>
+		 * Pass the DI itself if the instance implements Phalcon\DI\InjectionAwareInterface
 		 */
 		if typeof instance == "object" {
 			if method_exists(instance, "setDI") {
@@ -282,7 +282,7 @@ class DI implements Phalcon\DiInterface
 		}
 
 		/**
-		 * <comment>This method provides a first level to shared instances allowing to use non-shared services as shared</comment>
+		 * This method provides a first level to shared instances allowing to use non-shared services as shared
 		 */
 		let sharedInstances = this->_sharedInstances;
 		if !fetch instance, sharedInstances[name] {
@@ -290,12 +290,12 @@ class DI implements Phalcon\DiInterface
 		} else {
 
 			/**
-			 * <comment>Resolve the instance normally</comment>
+			 * Resolve the instance normally
 			 */
 			let instance = this->get(name, parameters);
 
 			/**
-			 * <comment>Save the instance in the first level shared</comment>
+			 * Save the instance in the first level shared
 			 */
 			let this->_sharedInstances[name] = instance,
 				this->_freshInstance = true;
@@ -355,7 +355,7 @@ class DI implements Phalcon\DiInterface
 	 * Allows to register a shared service using the array syntax
 	 *
 	 *<code>
-	 *	$di['request'] = new Phalcon\Http\Request();
+	 *	$di["request"] = new Phalcon\Http\Request();
 	 *</code>
 	 *
 	 * @param string name
@@ -370,7 +370,7 @@ class DI implements Phalcon\DiInterface
 	 * Allows to obtain a shared service using the array syntax
 	 *
 	 *<code>
-	 *	var_dump($di['request']);
+	 *	var_dump($di["request"]);
 	 *</code>
 	 *
 	 * @param string name
@@ -402,9 +402,9 @@ class DI implements Phalcon\DiInterface
 	{
 
 		/**
-		 * <comment>If the magic method starts with 'get' we try to get a service with that name</comment>
+		 * If the magic method starts with "get" we try to get a service with that name
 		 */
-		if starts_with(method, 'get') {
+		if starts_with(method, "get") {
 			let services = this->_services,
 				possibleService = lcfirst(substr(method, 3));
 			if isset services[possibleService] {
@@ -418,9 +418,9 @@ class DI implements Phalcon\DiInterface
 		}
 
 		/**
-		 * <comment>If the magic method starts with 'set' we try to set a service using that name</comment>
+		 * If the magic method starts with "set" we try to set a service using that name
 		 */
-		if starts_with(method, 'set') {
+		if starts_with(method, "set") {
 			if isset arguments[0] {
 				this->set(lcfirst(substr(method, 3)), arguments[0]);
 				return null;
@@ -428,7 +428,7 @@ class DI implements Phalcon\DiInterface
 		}
 
 		/**
-		 * <comment>The method doesn't start with set/get throw an exception</comment>
+		 * The method doesn"t start with set/get throw an exception
 		 */
 		throw new Phalcon\DI\Exception("Call to undefined method or service '" . method . "'");
 	}

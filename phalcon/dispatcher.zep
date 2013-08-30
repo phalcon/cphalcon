@@ -24,7 +24,7 @@ namespace Phalcon;
  * Phalcon\Dispatcher
  *
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
- * This class can't be instantiated directly, you can use it to create your own dispatchers
+ * This class can"t be instantiated directly, you can use it to create your own dispatchers
  */
 abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface {
 
@@ -56,11 +56,11 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 
 	protected _defaultHandler = null;
 
-	protected _defaultAction = '';
+	protected _defaultAction = "";
 
-	protected _handlerSuffix = '';
+	protected _handlerSuffix = "";
 
-	protected _actionSuffix = 'Action';
+	protected _actionSuffix = "Action";
 
 	const EXCEPTION_NO_DI = 0;
 
@@ -265,9 +265,9 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			if filters !== null {
 				let dependencyInjector = this->_dependencyInjector;
 				if typeof dependencyInjector != "object" {
-					this->_throwDispatchException("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
+					this->_throwDispatchException("A dependency injection object is required to access the "filter" service", self::EXCEPTION_NO_DI);
 				}
-				let filter = dependencyInjector->getShared('filter');
+				let filter = dependencyInjector->getShared("filter");
 				return filter->sanitize(paramValue, filters);
 			} else {
 				return paramValue;
@@ -335,7 +335,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 		 */
 		let eventsManager = this->_eventsManager;
 		if typeof eventsManager == "object" {
-			if eventsManager->fire('dispatch:beforeDispatchLoop', this) === false {
+			if eventsManager->fire("dispatch:beforeDispatchLoop", this) === false {
 				return false;
 			}
 		}
@@ -392,7 +392,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			 */
 			if typeof eventsManager == "object" {
 
-				if eventsManager->fire('dispatch:beforeDispatch', this) === false {
+				if eventsManager->fire("dispatch:beforeDispatch", this) === false {
 					continue;
 				}
 
@@ -405,7 +405,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			}
 
 			/**
-			 * We don't camelize the classes if they are in namespaces
+			 * We don"t camelize the classes if they are in namespaces
 			 */
 			if !memnstr(handlerName, "\\") {
 				let camelizedClass = camelize(handlerName);
@@ -432,7 +432,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			let hasService = dependencyInjector->has(handlerClass);
 			if hasService {
 				/**
-				 * DI doesn't have a service with that name, try to load it using an autoloader
+				 * DI doesn"t have a service with that name, try to load it using an autoloader
 				 */
 				let hasService = class_exists(handlerClass);
 			}
@@ -499,7 +499,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 				 */
 				if typeof eventsManager == "object" {
 
-					if eventsManager->fire('dispatch:beforeNotFoundAction', this) === false {
+					if eventsManager->fire("dispatch:beforeNotFoundAction", this) === false {
 						continue;
 					}
 
@@ -509,9 +509,9 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 				}
 
 				/**
-				 * Try to throw an exception when an action isn't defined on the object
+				 * Try to throw an exception when an action isn"t defined on the object
 				 */
-				let status = this->_throwDispatchException("Action '" . actionName . "' was not found on handler '" . handlerName . "'", self::EXCEPTION_ACTION_NOT_FOUND);
+				let status = this->_throwDispatchException("Action "" . actionName . "" was not found on handler "" . handlerName . """, self::EXCEPTION_ACTION_NOT_FOUND);
 				if status === false {
 					if this->_finished === false {
 						continue;
@@ -526,7 +526,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			 */
 			if typeof eventsManager == "object" {
 
-				if eventsManager->fire('dispatch:beforeExecuteRoute', this) === false {
+				if eventsManager->fire("dispatch:beforeExecuteRoute", this) === false {
 					continue;
 				}
 
@@ -541,7 +541,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			/**
 			 * Calling beforeExecuteRoute as callback and event
 			 */
-			if method_exists(handler, 'beforeExecuteRoute') {
+			if method_exists(handler, "beforeExecuteRoute") {
 
 				if handler->beforeExecuteRoute(this) === false {
 					continue;
@@ -559,7 +559,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			 * If the object was recently created in the DI we initialize it
 			 */
 			if dependencyInjector->wasFreshInstance() === true {
-				if method_exists(handler, 'initialize') {
+				if method_exists(handler, "initialize") {
 					handler->initialize();
 				}
 			}
@@ -575,7 +575,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			  */
 			if typeof eventsManager == "object" {
 
-				if eventsManager->fire('dispatch:afterExecuteRoute', this, value) === false {
+				if eventsManager->fire("dispatch:afterExecuteRoute", this, value) === false {
 					continue;
 				}
 
@@ -586,13 +586,13 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 				/**
 				 * Call afterDispatch
 				 */
-				eventsManager->fire('dispatch:afterDispatch', this);
+				eventsManager->fire("dispatch:afterDispatch", this);
 			}
 
 			/**
 			 * Calling afterExecuteRoute as callback and event
 			 */
-			if method_exists(handler, 'afterExecuteRoute')) {
+			if method_exists(handler, "afterExecuteRoute")) {
 
 				if handler->afterExecuteRoute(this, value) === false {
 					continue;
@@ -609,7 +609,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 		 * Call afterDispatchLoop
 		 */
 		if typeof eventsManager == "object" {
-			eventsManager->fire('dispatch:afterDispatchLoop', this);
+			eventsManager->fire("dispatch:afterDispatchLoop", this);
 		}
 
 		return handler;
@@ -620,7 +620,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 	 * Dispatchers are unique per module. Forwarding between modules is not allowed
 	 *
 	 *<code>
-	 *  $this->dispatcher->forward(array('controller' => 'posts', 'action' => 'index'));
+	 *  $this->dispatcher->forward(array("controller" => "posts", "action" => "index"));
 	 *</code>
 	 *
 	 * @param array forward
@@ -629,24 +629,24 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 	{
 
 		if typeof forwrd != "array" {
-			this->_throwDispatchException('Forward parameter must be an Array');
+			this->_throwDispatchException("Forward parameter must be an Array");
 			return null;
 		}
 
 		/**
 		 * Check if we need to forward to another namespace
 		 */
-		if fetch namespaceName, forward['namespace'] {
+		if fetch namespaceName, forward["namespace"] {
 			let this->_namespaceName = namespaceName;
 		}
 
 		/**
 		 * Check if we need to forward to another controller
 		 */
-		if fetch controllerName, forward['controller'] {
+		if fetch controllerName, forward["controller"] {
 			let this->_handlerName = controllerName;
 		} else {
-			if fetch taskName, forward['task'] {
+			if fetch taskName, forward["task"] {
 				let this->_handlerName = taskName;
 			}
 		}
@@ -654,14 +654,14 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 		/**
 		 * Check if we need to forward to another action
 		 */
-		if isset actionName, forward['action'] {
+		if isset actionName, forward["action"] {
 			let this->_actionName = actionName;
 		}
 
 		/**
 		 * Check if we need to forward changing the current parameters
 		 */
-		if isset params, forward['params'] {
+		if isset params, forward["params"] {
 			let this->_params = params;
 		}
 
