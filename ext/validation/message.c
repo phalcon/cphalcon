@@ -53,6 +53,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message){
 	zend_declare_property_null(phalcon_validation_message_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_message_ce, SL("_message"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_message_ce, SL("_field"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_validation_message_ce, SL("_code"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -63,14 +64,15 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Message){
  * @param string $message
  * @param string $field
  * @param string $type
+ * @param int    $code
  */
 PHP_METHOD(Phalcon_Validation_Message, __construct){
 
-	zval *message, *field = NULL, *type = NULL;
+	zval *message, *field = NULL, *type = NULL, *code = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 2, &message, &field, &type);
+	phalcon_fetch_params(1, 1, 3, &message, &field, &type, &code);
 	
 	if (!field) {
 		PHALCON_INIT_VAR(field);
@@ -79,10 +81,15 @@ PHP_METHOD(Phalcon_Validation_Message, __construct){
 	if (!type) {
 		PHALCON_INIT_VAR(type);
 	}
+
+	if (!code) {
+		PHALCON_INIT_VAR(code);
+	}
 	
 	phalcon_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_field"), field TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+    phalcon_update_property_this(this_ptr, SL("_code"), code TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -112,6 +119,32 @@ PHP_METHOD(Phalcon_Validation_Message, getType){
 
 
 	RETURN_MEMBER(this_ptr, "_type");
+}
+
+/**
+ * Sets message code
+ *
+ * @param int $code
+ * @return Phalcon\Mvc\Model\Message
+ */
+PHP_METHOD(Phalcon_Validation_Message, setCode){
+
+	zval *code;
+
+	phalcon_fetch_params(0, 1, 0, &code);
+
+	phalcon_update_property_this(this_ptr, SL("_code"), code TSRMLS_CC);
+	RETURN_THISW();
+}
+
+/**
+ * Returns message code
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Validation_Message, getCode){
+
+	RETURN_MEMBER(this_ptr, "_code");
 }
 
 /**
@@ -187,7 +220,7 @@ PHP_METHOD(Phalcon_Validation_Message, __toString){
  */
 PHP_METHOD(Phalcon_Validation_Message, __set_state){
 
-	zval *message, *message_text, *field, *type;
+	zval *message, *message_text, *field, *type, *code;
 
 	PHALCON_MM_GROW();
 
@@ -201,6 +234,9 @@ PHP_METHOD(Phalcon_Validation_Message, __set_state){
 	
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_string(&type, message, SL("_type"), PH_NOISY);
+
+	PHALCON_OBS_VAR(code);
+	phalcon_array_fetch_string(&code, message, SL("_code"), PH_NOISY);
 	object_init_ex(return_value, phalcon_validation_message_ce);
 	phalcon_call_method_p3_noret(return_value, "__construct", message_text, field, type);
 	
