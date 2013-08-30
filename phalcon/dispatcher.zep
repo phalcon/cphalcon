@@ -26,7 +26,7 @@ namespace Phalcon;
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
  * This class can't be instantiated directly, you can use it to create your own dispatchers
  */
-abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface {
+abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface {
 
 	protected _dependencyInjector;
 
@@ -186,7 +186,7 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 
 	/**
 	 * Sets the default action name
-     *
+	 *
 	 * @param string actionName
 	 */
 	public function setDefaultAction(actionName)
@@ -240,9 +240,9 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 
 	/**
 	 * Set a param by its name or numeric index
-     *
-     * @param  mixed param
-     * @param  mixed value
+	 *
+	 * @param  mixed param
+	 * @param  mixed value
 	 */
 	public function setParam(var param, var value)
 	{
@@ -251,10 +251,10 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 
 	/**
 	 * Gets a param by its name or numeric index
-     *
-     * @param  mixed param
-     * @param  string|array filters
-     * @param  mixed defaultValue
+	 *
+	 * @param  mixed param
+	 * @param  string|array filters
+	 * @param  mixed defaultValue
 	 * @return mixed
 	 */
 	public function getParam(param, filters=null, defaultValue=null)
@@ -364,32 +364,32 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 			let this->_finished = true;
 
 			/**
-		 	 * If the current namespace is null we used the set in this->_defaultNamespace
-		 	 */
+			 * If the current namespace is null we used the set in this->_defaultNamespace
+			 */
 			let namespaceName = this->_namespaceName;
 			if !namespaceName {
 				let this->_namespaceName = this->_defaultNamespace;
 			}
 
 			/**
-		 	 * If the handler is null we use the set in this->_defaultHandler
-		 	 */
+			 * If the handler is null we use the set in this->_defaultHandler
+			 */
 			let handlerName = this->_handlerName;
 			if !handlerName {
 				let this->_handlerName = this->_defaultHandler;
 			}
 
 			/**
-		 	 * If the action is null we use the set in this_ptr::_defaultAction
-		 	 */
+			 * If the action is null we use the set in this_ptr::_defaultAction
+			 */
 			let actionName = this->_actionName;
 			if !actionName {
 				let this->_actionName = this->_defaultAction;
 			}
 
 			/**
-		 	 * Calling beforeDispatch
-		 	 */
+			 * Calling beforeDispatch
+			 */
 			if typeof eventsManager == "object" {
 
 				if eventsManager->fire('dispatch:beforeDispatch', this) === false {
@@ -405,8 +405,8 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 			}
 
 			/**
-		 	 * We don't camelize the classes if they are in namespaces
-		 	 */
+			 * We don't camelize the classes if they are in namespaces
+			 */
 			if !memnstr(handlerName, "\\") {
 				let camelizedClass = camelize(handlerName);
 			} else {
@@ -427,9 +427,9 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 			}
 
 			/**
-		 	 * Handlers are retrieved as shared instances from the Service Container
-		 	 */
-		 	let hasService = dependencyInjector->has(handlerClass);
+			 * Handlers are retrieved as shared instances from the Service Container
+			 */
+			let hasService = dependencyInjector->has(handlerClass);
 			if hasService {
 				/**
 				 * DI doesn't have a service with that name, try to load it using an autoloader
@@ -455,8 +455,8 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 			}
 
 			/**
-		 	 * Handlers must be only objects
-		 	 */
+			 * Handlers must be only objects
+			 */
 			let handler = dependencyInjector->getShared(handlerClass);
 			if typeof handler != "object" {
 				let status = this->_throwDispatchException("Invalid handler returned from the services container", self::EXCEPTION_INVALID_HANDLER);
@@ -471,8 +471,8 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 			let this->_activeHandler = handler;
 
 			/**
-		 	 * Check if the params is an array
-		 	 */
+			 * Check if the params is an array
+			 */
 			let params = this->_params;
 			if typeof params != "array" {
 
@@ -490,8 +490,8 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 			}
 
 			/**
-		 	 * Check if the method exists in the handler
-		 	 */
+			 * Check if the method exists in the handler
+			 */
 			if !method_exists(handler, actionName . actionSuffix) {
 
 				/**
@@ -522,8 +522,8 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 			}
 
 			/**
-		 	 * Calling beforeExecuteRoute
-		 	 */
+			 * Calling beforeExecuteRoute
+			 */
 			if typeof eventsManager == "object" {
 
 				if eventsManager->fire('dispatch:beforeExecuteRoute', this) === false {
@@ -539,8 +539,8 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 			}
 
 			/**
-		 	 * Calling beforeExecuteRoute as callback and event
-		 	 */
+			 * Calling beforeExecuteRoute as callback and event
+			 */
 			if method_exists(handler, 'beforeExecuteRoute') {
 
 				if handler->beforeExecuteRoute(this) === false {
@@ -556,8 +556,8 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 			}
 
 			/**
-		 	 * If the object was recently created in the DI we initialize it
-		 	 */
+			 * If the object was recently created in the DI we initialize it
+			 */
 			if dependencyInjector->wasFreshInstance() === true {
 				if method_exists(handler, 'initialize') {
 					handler->initialize();
@@ -571,8 +571,8 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 				this->_lastHandler = handler;
 
 			/**
-		 	  * Calling afterExecuteRoute
-		 	  */
+			  * Calling afterExecuteRoute
+			  */
 			if typeof eventsManager == "object" {
 
 				if eventsManager->fire('dispatch:afterExecuteRoute', this, value) === false {
@@ -590,8 +590,8 @@ abstract class Phalcon\Dispatcher implements Phalcon\DispatcherInterface, Phalco
 			}
 
 			/**
-		 	 * Calling afterExecuteRoute as callback and event
-		 	 */
+			 * Calling afterExecuteRoute as callback and event
+			 */
 			if method_exists(handler, 'afterExecuteRoute')) {
 
 				if handler->afterExecuteRoute(this, value) === false {
