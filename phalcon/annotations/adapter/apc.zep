@@ -15,3 +15,33 @@
 |          Eduar Carvajal <eduar@phalconphp.com>                         |
 +------------------------------------------------------------------------+
 */
+
+namepsace Phalcon\Annotations\Adapter;
+
+/**
+* Phalcon\Annotations\Adapter\Apc
+*
+* Stores the parsed annotations in APC. This adapter is suitable for production
+*
+*<code>
+* $annotations = new \Phalcon\Annotations\Adapter\Apc();
+*</code>
+*/
+
+class Apc 
+{
+  /**
+  * Reads parsed annotations from APC
+  *
+  * @param string $key
+  * @return Phalcon\Annotations\Reflection
+  */
+  public function read(key)
+  {
+    var prefixedKey, prefixedLower;
+    
+    let prefixedKey = "_PHAN" . key;
+    let prefixedLower = strtolower(prefixedKey);
+    
+  }
+}
