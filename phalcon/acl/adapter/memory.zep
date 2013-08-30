@@ -1,20 +1,21 @@
+
 /*
-+------------------------------------------------------------------------+
-| Phalcon Framework                                                      |
-+------------------------------------------------------------------------+
-| Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-+------------------------------------------------------------------------+
-| This source file is subject to the New BSD License that is bundled     |
-| with this package in the file docs/LICENSE.txt.                        |
-|                                                                        |
-| If you did not receive a copy of the license and are unable to         |
-| obtain it through the world-wide-web, please send an email             |
-| to license@phalconphp.com so we can send you a copy immediately.       |
-+------------------------------------------------------------------------+
-| Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-|          Eduar Carvajal <eduar@phalconphp.com>                         |
-+------------------------------------------------------------------------+
-*/
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 
 namespace Phalcon\Acl\Adapter;
 
@@ -78,49 +79,49 @@ namespace Phalcon\Acl\Adapter;
 
 class Memory
 {
-	
+
 	/**
 	 * Roles Names
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _rolesNames;
-	
+
 	/**
 	 * Roles
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _roles;
-	
+
 	/**
 	 * Resource Names
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _resourcesNames;
-	
+
 	/**
 	 * Resources
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _resources;
-	
+
 	/**
 	 * Access
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _access;
-	
+
 	/**
 	 * Role Inherits
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _roleInherits;
-	
+
 	/**
 	 * Access List
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _accessList;
-	
+
 	/**
 	 * Phalcon\Acl\Adapter\Memory constructor
 	 *
@@ -130,7 +131,7 @@ class Memory
 	 	let this->_resourcesNames = ["*" => true];
 		let this->_accessList = ["*!*" => true];
 	 }
-	 
+
 	 /**
 	 * Adds a role to the ACL list. Second parameter allows inheriting access data from other existing role
 	 *
@@ -146,8 +147,8 @@ class Memory
 	 */
 	 public function addRole(role, accessInherits)
 	 {
-	 	var roleName, object, defaultAccess; 
-	 	
+	 	var roleName, object, defaultAccess;
+
 		if typeof role == "object" {
 			let roleName = role->getName();
 			let object = role;
@@ -155,23 +156,23 @@ class Memory
 			let roleName = role;
 			let object = new Phalcon\Acl\Role(role);
 		}
-		
+
 		if isset this->_rolesNames[roleName] {
 			return false;
 		}
-		 
-		let this->_roles[]= object;
-		let this->_rolesNames[]= roleName;
-		
+
+		let this->_roles[] = object;
+		let this->_rolesNames[] = roleName;
+
 		let this->_access[] = roleName . "!*!*";
-		
+
 		if accessInherits == null {
 			return this->addInherit(roleName, accessInherits);
 		}
-		
+
 		return true;
 	 }
-	 
+
 	 /**
 	 * Do a role inherit from another existing role
 	 *
@@ -181,38 +182,38 @@ class Memory
 	 public function addInherit(roleName, roleToInherit)
 	 {
 	 	var roleInheritName, rolesInherits, _roleInherits;
-	 	
+
 	 	let rolesNames = this->_rolesNames;
 		if !rolesNames[roleName] {
 			throw new Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in the role list");
 		}
-		 
+
 		if typeof roleToInherit == "object" {
 			let roleInheritName = roleToInherit->getName();
 		} else {
 			let roleInheritName = roleToInherit;
 		}
-		 
-		/** 
-		* Check if the role to inherit is valid
-		*/
-		if !rolesNames[roleInheritName] {
+
+		/**
+		 * Check if the role to inherit is valid
+		 */
+		if !isset rolesNames[roleInheritName] {
 			throw new Phalcon\Acl\Exception("Role '" . roleInheritName . "' (to inherit) does not exist in the role list");
 		}
-		
+
 		if roleName == roleInheritName {
 			return false;
 		}
-		
+
 		if !this->_roleInherits[roleName] {
 			let this->_roleInherits[roleName] = true;
 		}
-		
+
 		let this->_roleInherits[roleName][] = this->_roleInherits;
-		
+
 		return true;
 	 }
-	 
+
 	 /**
 	 * Check whether role exist in the roles list
 	 *
@@ -226,7 +227,7 @@ class Memory
 		}
 		return false;
 	 }
-	 
+
 	 /**
 	 * Check whether resource exist in the resources list
 	 *
@@ -240,7 +241,7 @@ class Memory
 		}
 		return false;
 	 }
-	 
+
 	 /**
 	 * Adds a resource to the ACL list
 	 *
@@ -260,12 +261,12 @@ class Memory
 	 *
 	 * @param   Phalcon\Acl\Resource $resource
 	 * @param   array $accessList
-	 * @return  boolean 
+	 * @return  boolean
 	 */
 	 public function addResource(resource, accessList)
 	 {
 	 	var resourceName, object;
-	 	
+
 		if typeof resource == "object" {
 			let resourceName = resource->getName();
 			let object = resource;
@@ -273,15 +274,15 @@ class Memory
 			let resourceName = resource;
 			let object = new Phalcon\Acl\Resource(resourceName);
 		 }
-		 
+
 		 if isset this->_resourcesNames[resourceName] {
 			let this->_resources[]= object;
 			let this->_resourcesNames[resourceName] = true;
 		 }
-		 
+
 		 return this->addResourceAccess(resourceName,accessList);
 	 }
-	 
+
 	 /**
 	 * Adds access to resources
 	 *
@@ -291,11 +292,11 @@ class Memory
 	 public function addResourceAccess(resourceName, accessList)
 	 {
 	 	var accessName, accessKey;
-	 	
+
 	 	if isset this->_resourcesNames[resourceName] {
 	 		throw new Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
 	 	}
-	 	
+
 	 	if typeof accessList == "array" {
 	 		for accessName in accessList {
 	 			let accessKey = resourceName . "!" . accessName;
@@ -308,11 +309,11 @@ class Memory
 	 			let accessKey = resourceName . "!" . accessName;
 	 			if isset accessList[accessKey] {
 	 				let this->_accessList[accessKey] = exists;
-	 			}		
+	 			}
 	 		}
 	 	}
 	 }
-	 
+
 	 /**
 	 * Removes an access from a resource
 	 *
@@ -322,7 +323,7 @@ class Memory
 	 public function dropResourceAccess(resourceName, accessList)
 	 {
 	 	var accessName, accessKey;
-	 	
+
 	 	if typeof accessList == "array" {
 	 		for accessName in accessList {
 	 			let accessKey = resourceName . "!" . accessName;
@@ -335,11 +336,11 @@ class Memory
 	 			let accessKey = resourceName . "!" . accessName;
 	 			if isset accessList[accessKey] {
 	 				unset this->_accessList[accessKey];
-	 			}		
+	 			}
 	 		}
 	 	}
 	 }
-	 
+
 	 /**
 	 * Checks if a role has access to a resource
 	 *
@@ -352,31 +353,31 @@ class Memory
 	 {
 	 	var defaultAccess, accessList, internalAccess,
 	 		accessName, accessKey, accessKeyAll;
-	 	
+
 	 	if isset this->_rolesNames[roleName] {
-	 		throw new Phalcon\Acl\Exception("Role \"" . role_name . "\" does not exist in ACL");
+	 		throw new Phalcon\Acl\Exception("Role \"" . roleName . "\" does not exist in ACL");
 	 	}
-	 	
+
 	 	if isset this->_resourcesNames[resourceName] {
-	 		throw new Phalcon\Acl\Exception("Resource '" . resource_name . "' does not exist in ACL");
+	 		throw new Phalcon\Acl\Exception("Resource '" . resourceName . "' does not exist in ACL");
 	 	}
-	 	
+
 	 	let defaultAccess = this->_defaultAccess;
 	 	let accessList = this->_access;
-	 		
+
 	 	if typeof access == "array" {
-	 		
+
 	 		for accessName in access {
 	 			let accessKey = resourceName . "!" . accessName;
 	 			if !isset accessList[accessKey] {
 	 				throw new Phalcon\Acl\Exception("Acccess '" . accessName . "' does not exist in resource '" . resourceName . "'");
 	 			}
 	 		}
-	 		
+
 	 		for accessName in access {
 	 			let accessKey = roleName . "!" .resourceName . "!" . accessName;
 	 			let this->_access[accessKey] = action;
-	 			
+
 	 			if accessName != "*" {
 	 				let accessKeyAll = roleName . "!" . resourceName . "!*";
 	 				if isset accessList[accessKeyAll] {
@@ -391,29 +392,29 @@ class Memory
 	 				throw new Phalcon\Acl\Exception("Acccess '" . access . "' does not exist in resource '" . resourceName . "'");
 	 			}
 	 		}
-	 		
+
 	 		let accessKey = roleName . "!" . resourceName . "!" . access;
-	 		
-	 		/** 
+
+	 		/**
 			 * Define the access action for the specified accessKey
 			 */
 			 let this->_access[accesskey] = action;
-			 
+
 			 if access != "*" {
 			 	let accessKey = roleName . "!" . resourceName . "!*";
-			 	
-			 	/** 
+
+			 	/**
 				 * If there is no default action for all the rest actions in the resource set the
 				 * default one
 				 */
 				 if !isset accessList[accessKey] {
-				 	let this->_access[accessKey] = this->_defaultAccess; 
+				 	let this->_access[accessKey] = this->_defaultAccess;
 				 }
 			 }
-			 
+
 	 	}
 	 }
-	 
+
 	 /**
 	 * Allow access to a role on a resource
 	 *
@@ -440,9 +441,9 @@ class Memory
 	 */
 	 public function allow(roleName, resourceName, access)
 	 {
-	 	return this->_allowordeny(roleName, resourceName, access, 1);
+	 	return this->_allowordeny(roleName, resourceName, access, Phalcon\Acl::ALLOW);
 	 }
-	 
+
 	 /**
 	 * Deny access to a role on a resource
 	 *
@@ -470,9 +471,9 @@ class Memory
 	 */
 	 public function deny(roleName, resourceName, access)
 	 {
-	 	return this->_allowordeny(roleName, resourceName, access, 0);
+	 	return this->_allowordeny(roleName, resourceName, access, Phalcon\Acl::DENY);
 	 }
-	 
+
 	 /**
 	 * Check whether a role is allowed to access an action from a resource
 	 *
@@ -492,50 +493,49 @@ class Memory
 	 public function isAllowed(role, resource, access)
 	 {
 	 	var eventsManager, accessList, eventName, status, accessKey, haveAccess, roleInherits, inheritedRole;
-	 	
+
 	 	let this->_activeRole = role;
 	 	let this->_activeResource = resource;
 	 	let this->_activeAccess = resource;
 	 	let accessList = this->_access;
 	 	let eventsManager = this->_eventsManager;
-	 	
+
 	 	if typeof eventsManager == "object" {
-	 		let status = eventsManager->fire("acl:beforeCheckAccess", this);
-	 		if !status {
+	 		if eventsManager->fire("acl:beforeCheckAccess", this) === false {
 	 			return status;
 	 		}
 	 	}
-	 	
-	 	/** 
+
+	 	/**
 		 * Check if the role exists
 		 */
 		 if !isset this->_rolesNames[role] {
 		 	return this->_defaultAccess;
 		 }
-		 
+
 		 let accessKey = role . "!" . resource . "!" . access;
-		 
-		 /** 
+
+		 /**
 		 * Check if there is a direct combination for role-resource-access
 		 */
 		 if isset accessList[accessKey] {
 		 	let haveAccess = accessList[accessKey];
 		 }
-		 
-		 /** 
+
+		 /**
 		 * Check in the inherits roles
 		 */
 		 if haveAccess == null {
-		 	
+
 		 	if isset this->_roleInherits[role] {
 		 		let inheritedRoles = this->_roleInherits[role];
 		 	}
-		 	
+
 		 	if typeof inheritedRoles == "array" {
 		 		for inheritedRole in inheritedRoles {
 		 			let accessKey = inheritedRole . "!" . resource . "!" . access;
-		 			
-		 			/** 
+
+		 			/**
 					 * Check if there is a direct combination in one of the inherited roles
 					 */
 					 if isset accessList[accessKey] {
@@ -544,15 +544,15 @@ class Memory
 		 		}
 		 	}
 		 }
-		 
-		 /** 
+
+		 /**
 		 * If access wasn't found yet, try role-resource-*
 		 */
 		 if haveAccess == null {
-		 
+
 		 	let accessKey =  role . "!" . resource . "!*";
-		 	
-		 	/** 
+
+		 	/**
 			 * In the direct role
 			 */
 			 if isset accessList[accessKey] {
@@ -560,9 +560,9 @@ class Memory
 			 } else {
 			 	if typeof inheritedRoles == "array" {
 			 		for inheritedRole in inheritedRoles {
-			 			let accessKey = inheritedRole, "!", resource, "!*";
-			 			
-			 			/** 
+			 			let accessKey = inheritedRole . "!" . resource . "!*";
+
+			 			/**
 						 * In the inherited roles
 						 */
 						 if isset accessList[accessKey] {
@@ -573,15 +573,15 @@ class Memory
 			 	}
 			 }
 		 }
-		 
-		 /** 
+
+		 /**
 		 * If access wasn't found yet, try role-*-*
 		 */
 		 if haveAccess == null {
-		 
+
 		 	let accessKey =  role, "!*!*";
-		 	
-		 	/** 
+
+		 	/**
 			 * Try in the direct role
 			 */
 			 if isset accessList[accessKey] {
@@ -589,9 +589,9 @@ class Memory
 			 } else {
 			 	if typeof inheritedRoles == "array" {
 			 		for inheritedRole in inheritedRoles {
-			 			let accessKey = inheritedRole, "!*!*";
-			 			
-			 			/** 
+			 			let accessKey = inheritedRole . "!*!*";
+
+			 			/**
 						 * In the inherited roles
 						 */
 						 if isset accessList[accessKey] {
@@ -602,20 +602,19 @@ class Memory
 			 	}
 			 }
 		}
-		
-		this->_accessGranted = haveAccess;
-		
+
+		let this->_accessGranted = haveAccess;
 		if typeof eventsManager == "object" {
-			eventsManager->fire("acl:afterCheckAccess",this);
+			eventsManager->fire("acl:afterCheckAccess", this);
 		}
-	
+
 		if haveAccess == null {
 			return 0;
 		}
-		
+
 		return haveAccess;
 	 }
-	 
+
 	 /**
 	 * Return an array with every role registered in the list
 	 *
@@ -625,7 +624,7 @@ class Memory
 	 {
 	 	return this->_roles;
 	 }
-	 
+
 	 /**
 	 * Return an array with every resource registered in the list
 	 *

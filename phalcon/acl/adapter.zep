@@ -28,50 +28,50 @@ class Adapter
 {
 	/**
 	 * Events manager
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _eventsManager;
-	
+
 	/**
 	 * Default access
-	 * "@var bool 
+	 * "@var bool
 	 */
 	protected _defaultAccess = true;
-	
+
 	/**
 	 * Access Granted
 	 * "@var bool
 	 */
 	protected _accessGranted = false;
-	
+
 	/**
 	 * Events manager
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _activeRole;
-	
+
 	/**
 	 * Active resource
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _activeResource;
-	
+
 	/**
 	 * Active Access
-	 * "@var mixed 
+	 * "@var mixed
 	 */
 	protected _activeAccess;
 
 	/**
 	 * Sets the events manager
 	 *
-	 * @param Phalcon\Events\ManagerInterface $eventsManager
+	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setEventsManager(eventsManager)
+	public function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager)
 	{
 		let this->_eventsManager = eventsManager;
 	}
-	
+
 	/**
 	 * Returns the internal event manager
 	 *
@@ -81,17 +81,17 @@ class Adapter
 	{
 		return this->_eventsManager;
 	}
-	
+
 	/**
 	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
 	 *
-	 * @param int $defaultAccess
+	 * @param int defaultAccess
 	 */
-	public function setDefaultAction(default_access)
+	public function setDefaultAction(defaultAccess)
 	{
-		let this->_defaultAccess = default_access;
+		let this->_defaultAccess = defaultAccess;
 	}
-	
+
 	/**
 	 * Returns the default ACL access level
 	 *
@@ -101,17 +101,17 @@ class Adapter
 	{
 		return this->_defaultAccess;
 	}
-	
+
 	/**
 	 * Returns the role which the list is checking if it's allowed to certain resource/access
 	 *
 	 * @return string
 	 */
-	public function getActiveRole() 
+	public function getActiveRole()
 	{
 		return this->_activeRole;
 	}
-	
+
 	/**
 	 * Returns the resource which the list is checking if some role can access it
 	 *
@@ -121,7 +121,7 @@ class Adapter
 	{
 		return this->_activeResource;
 	}
-	
+
 	/**
 	 * Returns the access which the list is checking if some role can access it
 	 *
