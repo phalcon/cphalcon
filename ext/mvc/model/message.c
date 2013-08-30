@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 4, &message, &field, &type, &model, &code);
+	phalcon_fetch_params(1, 1, 4, &message, &field, &type, &code, &model);
 	
 	if (!field) {
 		PHALCON_INIT_VAR(field);
