@@ -132,7 +132,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "Regex", 1);
 
-		// Is code set
+		/*
+		 * Is code set
+		 */
 		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "code", 1);
 

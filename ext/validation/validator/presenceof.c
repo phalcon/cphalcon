@@ -96,7 +96,9 @@ PHP_METHOD(Phalcon_Validation_Validator_PresenceOf, validate){
 			PHALCON_CONCAT_VS(message_str, attribute, " is required");
 		}
 
-		// Is code set
+		/*
+		 * Is code set
+		 */
 		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "code", 1);
 
