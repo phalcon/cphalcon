@@ -261,21 +261,25 @@ class FormsTest extends PHPUnit_Framework_TestCase
 						'_type' => 'PresenceOf',
 						'_message' => 'The telephone is required',
 						'_field' => 'telephone',
+						'_code' => 0,
 					)),
 					1 => Phalcon\Validation\Message::__set_state(array(
 						'_type' => 'TooShort',
 						'_message' => 'Value of field \'telephone\' is less than the minimum 5 characters',
 						'_field' => 'telephone',
+						'_code' => 0,
 					)),
 					2 => Phalcon\Validation\Message::__set_state(array(
 						'_type' => 'Regex',
 						'_message' => 'The telephone has an invalid format',
 						'_field' => 'telephone',
+						'_code' => 0,
 					)),
 					3 => Phalcon\Validation\Message::__set_state(array(
 						'_type' => 'PresenceOf',
 						'_message' => 'The address is required',
 						'_field' => 'address',
+						'_code' => 0,
 					)),
 				),
 			)
@@ -294,6 +298,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 					'_type' => 'Regex',
 					'_message' => 'The telephone has an invalid format',
 					'_field' => 'telephone',
+					'_code' => 0,
 				)),
 			),
 		));
