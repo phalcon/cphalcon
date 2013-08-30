@@ -16,3 +16,139 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Annotations;
+
+ /**
+ * Phalcon\Annotations\Reader
+ *
+ * Parses docblocks returning an array with the found annotations
+ */
+class Reader implements Phalcon\Annotations\ReaderInterface
+{
+
+	/**
+	 * Reads annotations from the class dockblocks, its methods and/or properties
+	 *
+	 * @param string className
+	 * @return array
+	 */
+	public function parse(className)
+	{
+
+		var annotations, reflection, comment;
+
+		if typeof className != "string" {
+			throw new Phalcon\Annotations\Exception("The class name must be an object");
+		}
+
+		let annotations = [];
+
+		/**
+		 * A ReflectionClass is used to obtain the class dockblock</comment>
+		 */
+		let reflection = new \ReflectionClass(className);
+
+		let comment = reflection->getDocComment();
+		if typeof comment == "string" {
+
+			/**
+			 * Read annotations from class</comment>
+			 */
+			let classAnnotations = phannot_parse_annotations(comment, reflection->getFileName(), reflection->getStartLine());
+
+			/**
+			 * Append the class annotations to the annotations var</comment>
+			 */
+			if typeof classAnnotations == "array" {
+				let annotations['class'] = classAnnotations;
+			}
+		}
+
+		/**
+		 * Get the class properties</comment>
+		 */
+		let properties = reflection->getProperties();
+		if count(properties) {
+
+			/**
+			 * Line declaration for properties isn't available</comment>
+			 */
+			let line = 1;
+
+			let annotationsProperties = [];
+			for property in properties {
+
+				/**
+				 * Read comment from method</comment>
+				 */
+				let comment = property->getDocComment();
+				if typeof comment == "string" {
+
+					/**
+					 * Read annotations from the docblock</comment>
+					 */
+					let propertyAnnotations = phannot_parse_annotations(comment, reflection->getFileName(), line);
+					if typeof propertyAnnotations == "array" {
+						let annotationsProperties[property->name] = propertyAnnotations;
+					}
+
+				}
+			}
+
+			if count(annotationsProperties) {
+				let annotations['properties'] = annotationsProperties;
+			}
+		}
+
+		/**
+		 * Get the class methods</comment>
+		 */
+		let methods = reflection->getMethods();
+		if count(methods) {
+
+			let annotationsMethods = [];
+			for method in methods {
+
+				/**
+				 * Read comment from method</comment>
+				 */
+				let comment = method->getDocComment();
+				if typeof comment == "string" {
+
+					/**
+					 * Read annotations from class</comment>
+					 */
+					let methodAnnotations = phannot_parse_annotations(comment, method->getFileName(), method->getStartLine());
+					if typeof methodAnnotations == "array" {
+						let annotationsMethods[method->name] = methodAnnotations;
+					}
+				}
+			}
+
+			if count(annotationsMethods) {
+				let annotations['methods'] = annotationsMethods;
+			}
+
+		}
+
+		return annotations;
+	}
+
+	/**
+	 * Parses a raw doc block returning the annotations found
+	 *
+	 * @param string docBlock
+	 * @return array
+	 */
+	public + static function parseDocBlock(docBlock, file=null, line=null)
+	{
+
+		if typeof file != "string" {
+			let file = 'eval code';
+		}
+
+		return phannot_parse_annotations(docBlock, file, line);
+	}
+
+}

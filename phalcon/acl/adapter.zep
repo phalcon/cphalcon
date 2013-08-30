@@ -88,7 +88,7 @@ class Adapter
 	 *
 	 * @param int defaultAccess
 	 */
-	public function setDefaultAction(defaultAccess)
+	public function setDefaultAction(int defaultAccess)
 	{
 		let this->_defaultAccess = defaultAccess;
 	}

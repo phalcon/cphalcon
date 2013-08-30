@@ -17,7 +17,7 @@
  +------------------------------------------------------------------------+
  */
 
-namepsace Phalcon\Annotations\Adapter;
+namespace Phalcon\Annotations\Adapter;
 
 /**
  * Phalcon\Annotations\Adapter\Apc
