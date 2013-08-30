@@ -16,3 +16,139 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Flash;
+
+/**
+ * Phalcon\Flash\Session
+ *
+ * Temporarily stores the messages in session, then messages can be printed in the next request
+ */
+class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\DI\InjectionAwareInterface
+{
+
+	protected _dependencyInjector;
+
+	/**
+	 * Sets the dependency injector
+	 *
+	 * @param Phalcon\DiInterface dependencyInjector
+	 */
+	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	{
+		let this->_dependencyInjector = dependencyInjector;
+	}
+
+	/**
+	 * Returns the internal dependency injector
+	 *
+	 * @return Phalcon\DiInterface
+	 */
+	public function getDI()
+	{
+		return this->_dependencyInjector;
+	}
+
+	/**
+	 * Returns the messages stored in session
+	 *
+	 * @param boolean remove
+	 * @return array
+	 */
+	protected function _getSessionMessages(boolean remove)
+	{
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
+		}
+
+		let session = dependencyInjector->getShared('session');
+		let messages = session->get('_flashMessages');
+
+		if remove === true {
+			session->remove(indexName);
+		}
+
+		return messages;
+	}
+
+	/**
+	 * Stores the messages in session
+	 *
+	 * @param array messages
+	 */
+	protected function _setSessionMessages(messages)
+	{
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
+		}
+
+		let session = dependencyInjector->getShared("session");
+		session->set("_flashMessages", messages);
+		return messages;
+	}
+
+	/**
+	 * Adds a message to the session flasher
+	 *
+	 * @param string type
+	 * @param string message
+	 */
+	public function message(type, message)
+	{
+
+		let messages = this->_getSessionMessages(false);
+		if typeof messages != "array" {
+			let messages = [];
+		}
+		if !isset messages[type] {
+			let messages[type] = [];
+		}
+		let messages[type][] = message;
+
+		this->_setSessionMessages(messages);
+	}
+
+	/**
+	 * Returns the messages in the session flasher
+	 *
+	 * @param string type
+	 * @param boolean remove
+	 * @return array
+	 */
+	public function getMessages(type=null, remove=true)
+	{
+
+		let messages = this->_getSessionMessages(remove);
+		if typeof messages == "array" {
+			if typeof type == "string" {
+				if fetch returnMessages, messages[type] {
+					return messages[type];
+				}
+			}
+			return messages;
+		}
+
+		return [];
+	}
+
+	/**
+	 * Prints the messages in the session flasher
+	 *
+	 * @param string type
+	 * @param boolean remove
+	 */
+	public function output(remove=true)
+	{
+		let messages = this->_getSessionMessages(remove);
+		if typeof messages == "array" {
+			for type, message in messages {
+				this->outputMessage(type, message);
+			}
+		}
+	}
+
+}
