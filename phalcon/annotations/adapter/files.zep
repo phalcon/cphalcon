@@ -36,7 +36,7 @@ class Files
   * Annotations's dir
   * @var string
   */
-  protected _annotationsDir = '';
+  protected _annotationsDir;
   
   /**
   * Phalcon\Annotations\Adapter\Files constructor
@@ -45,9 +45,9 @@ class Files
   */
   public function __construct(options)
   {
-    if typeof options == 'array' {
-      if isset options['annotationsDir'] {
-        let this->_annotationsDir = options['annotationsDir'];
+    if typeof options == "array" {
+      if isset options["annotationsDir"] {
+        let this->_annotationsDir = options["annotationsDir"];
       }
     }
   }
