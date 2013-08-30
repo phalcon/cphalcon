@@ -22,6 +22,13 @@
 
 #include "php_phalcon.h"
 
+#include "ext/standard/php_smart_str.h"
+
+#ifdef PHALCON_USE_CURL
+#include <curl/curl.h>
+#include <curl/multi.h>
+#endif
+
 extern zend_class_entry *phalcon_http_client_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Http_Client);
@@ -136,5 +143,84 @@ PHALCON_INIT_FUNCS(phalcon_http_client_method_entry){
 	PHP_ME(Phalcon_Http_Client, send, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
+
+#ifdef PHALCON_USE_CURL
+#define CURLOPT_RETURNTRANSFER 19913
+#define CURLOPT_BINARYTRANSFER 19914
+#define PHP_CURL_STDOUT 0
+#define PHP_CURL_FILE   1
+#define PHP_CURL_USER   2
+#define PHP_CURL_DIRECT 3
+#define PHP_CURL_RETURN 4
+#define PHP_CURL_ASCII  5
+#define PHP_CURL_BINARY 6
+#define PHP_CURL_IGNORE 7
+
+extern int  le_curl;
+#define le_curl_name "cURL handle"
+
+typedef struct {
+	zval            *func_name;
+	zend_fcall_info_cache fci_cache;
+	FILE            *fp;
+	smart_str       buf;
+	int             method;
+	int             type;
+	zval		*stream;
+} php_curl_write;
+
+typedef struct {
+	zval            *func_name;
+	zend_fcall_info_cache fci_cache;
+	FILE            *fp;
+	long            fd;
+	int             method;
+	zval		*stream;
+} php_curl_read;
+
+typedef struct {
+	zval 		*func_name;
+	zend_fcall_info_cache fci_cache;
+	int    	        method;
+} php_curl_progress;
+
+typedef struct {
+	php_curl_write *write;
+	php_curl_write *write_header;
+	php_curl_read  *read;
+	zval           *passwd;
+	zval           *std_err;
+	php_curl_progress *progress;
+} php_curl_handlers;
+
+struct _php_curl_error  {
+	char str[CURL_ERROR_SIZE + 1];
+	int  no;
+};
+
+struct _php_curl_send_headers {
+	char *str;
+	size_t str_len;
+};
+
+struct _php_curl_free {
+	zend_llist str;
+	zend_llist post;
+	zend_llist slist;
+};
+
+typedef struct {
+	struct _php_curl_error   err;
+	struct _php_curl_free    *to_free;
+	struct _php_curl_send_headers header;
+	void ***thread_ctx;
+	CURL                    *cp;
+	php_curl_handlers       *handlers;
+	long                     id;
+	unsigned int             uses;
+	zend_bool                in_callback;
+	zval                     *clone;
+} php_curl;
+#endif
 
 #endif /* PHALCON_HTTP_CLIENT_H */

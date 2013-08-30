@@ -418,6 +418,26 @@ http/client/exception.c"
 		[[#include "php_config.h"]]
 	)
 
+	for i in /usr/local /usr; do
+		if test -r $i/include/curl/easy.h; then
+			CURL_DIR=$i
+			if ${CURL_DIR}/bin/curl-config --libs > /dev/null 2>&1; then
+				CURL_CONFIG=${CURL_DIR}/bin/curl-config
+			else
+				if ${CURL_DIR}/curl-config --libs > /dev/null 2>&1; then
+					CURL_CONFIG=${CURL_DIR}/curl-config
+				fi
+			fi
+			CURL_LIBS=`$CURL_CONFIG --libs`
+			PHP_ADD_INCLUDE($CURL_DIR/include)
+			PHP_EVAL_LIBLINE($CURL_LIBS, PHALCON_SHARED_LIBADD)
+			PHP_ADD_LIBRARY_WITH_PATH(curl, $CURL_DIR/$PHP_LIBDIR, PHALCON_SHARED_LIBADD)
+
+			AC_DEFINE([PHALCON_USE_CURL], [1], [Have cURL with  SSL support])
+			break
+		fi
+	done
+
 	CPPFLAGS=$old_CPPFLAGS
 
 	PHP_ADD_MAKEFILE_FRAGMENT
