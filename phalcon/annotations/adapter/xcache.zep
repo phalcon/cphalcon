@@ -16,3 +16,56 @@
 |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
 +------------------------------------------------------------------------+
 */
+
+namespace Phalcon\Annotations\Adapter;
+
+/**
+* Phalcon\Annotations\Adapter\Xcache
+*
+* Stores the parsed annotations to XCache. This adapter is suitable for production
+*
+*<code>
+* $annotations = new \Phalcon\Annotations\Adapter\Xcache();
+*</code>
+*/
+class Xcache
+{
+  /**
+  * Reads parsed annotations from XCache
+  *
+  * @param string $key
+  * @return Phalcon\Annotations\Reflection
+  */
+  public function read(key)
+  {
+    var prefixedKey, prefixedLower, serialized, data;
+    
+    let prefixedKey = "_PHAN" . key;
+    let prefixedLower = strtolower(prefixedKey);
+    
+    let serialized = xcache_get(prefixedLower);
+    if typeof serialized == "string" {
+      let data = unserialize(serialized);
+      if typeof data == "object" {
+        return data;
+      }
+    }
+  }
+  
+  /**
+  * Writes parsed annotations to XCache
+  *
+  * @param string $key
+  * @param Phalcon\Annotations\Reflection $data
+  */
+  public function write(key, data)
+  {
+    var prefixedKey, prefixedLower, serialized;
+    
+    let prefixedKey = "_PHAN" . key;
+    let prefixedLower = strtolower(prefixedKey);
+    let serialized = serialize(data);
+    
+    xcache_set(prefixedLower, serialized);
+  }
+}
