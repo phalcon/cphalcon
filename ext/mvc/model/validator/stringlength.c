@@ -179,7 +179,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 			PHALCON_INIT_VAR(type);
 			ZVAL_STRING(type, "TooLong", 1);
 
-			// Is code set
+			/*
+			 * Is code set
+			 */
 			PHALCON_INIT_NVAR(option);
 			ZVAL_STRING(option, "code", 1);
 
@@ -227,7 +229,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 			PHALCON_INIT_NVAR(type);
 			ZVAL_STRING(type, "TooShort", 1);
 
-			// Is code set
+			/*
+			 * Is code set
+			 */
 			PHALCON_INIT_NVAR(option);
 			ZVAL_STRING(option, "code", 1);
 
