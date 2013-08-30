@@ -428,7 +428,7 @@ class DI implements Phalcon\DiInterface
 		}
 
 		/**
-		 * The method doesn"t start with set/get throw an exception
+		 * The method doesn't start with set/get throw an exception
 		 */
 		throw new Phalcon\DI\Exception("Call to undefined method or service '" . method . "'");
 	}

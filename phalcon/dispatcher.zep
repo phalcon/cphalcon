@@ -432,7 +432,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			let hasService = dependencyInjector->has(handlerClass);
 			if hasService {
 				/**
-				 * DI doesn"t have a service with that name, try to load it using an autoloader
+				 * DI doesn't have a service with that name, try to load it using an autoloader
 				 */
 				let hasService = class_exists(handlerClass);
 			}
