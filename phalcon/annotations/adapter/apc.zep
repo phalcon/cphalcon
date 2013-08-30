@@ -42,6 +42,21 @@ class Apc
     
     let prefixedKey = "_PHAN" . key;
     let prefixedLower = strtolower(prefixedKey);
+    return apc_fetch(prefixedLower); 
+  }
+  
+  /**
+  * Writes parsed annotations to APC
+  *
+  * @param string $key
+  * @param Phalcon\Annotations\Reflection $data
+  */
+  public function write(key, data)
+  {
+    var prefixedKey, prefixedLower;
     
+    let prefixedKey = "_PHAN" . key;
+    let prefixedLower = strtolower(prefixedKey);
+    return apc_store(prefixedLower, data); 
   }
 }
