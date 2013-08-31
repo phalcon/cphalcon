@@ -1812,7 +1812,7 @@ PHP_METHOD(Phalcon_Http_Client, send){
 	zval *url, *method, *options, *data, *files, *cookies, *content_type, *body, *headers, *username, *password, *authtype;
 	zval *ch, *constant0 = NULL, *constant1 = NULL, *httphead, *httpcookie, *key = NULL, *value = NULL, *tmp = NULL;
 	zval *timeout, *connecttimeout, *cookiesession, *maxfilesize, *protocol, *useragent, *upper_method, *postfields = NULL;
-	zval *response_body, *response_code, *response_status;
+	zval *response_body, *response_code;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2070,6 +2070,14 @@ PHP_METHOD(Phalcon_Http_Client, send){
 		}
 #endif
 		CURL_SETOPT(NULL, ch, constant0, postfields, num, count);
+	}
+
+	if (content_type) {
+		if (Z_TYPE_P(headers) != IS_ARRAY) {
+			array_init(headers);
+		}
+
+		phalcon_array_update_string(&headers, SL("Content-Type"), &content_type, PH_COPY | PH_SEPARATE);
 	}
 
 	// Set headers
