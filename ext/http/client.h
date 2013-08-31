@@ -60,7 +60,8 @@ PHP_METHOD(Phalcon_Http_Client, setFiles);
 PHP_METHOD(Phalcon_Http_Client, getFiles);
 PHP_METHOD(Phalcon_Http_Client, setResponseHeader);
 PHP_METHOD(Phalcon_Http_Client, getResponseHeaders);
-PHP_METHOD(Phalcon_Http_Client, getResponseStatus);
+PHP_METHOD(Phalcon_Http_Client, getResponseCode);
+PHP_METHOD(Phalcon_Http_Client, getResponseStatus); 
 PHP_METHOD(Phalcon_Http_Client, getResponseCookies);
 PHP_METHOD(Phalcon_Http_Client, getResponseBody);
 PHP_METHOD(Phalcon_Http_Client, send);
@@ -160,6 +161,7 @@ PHALCON_INIT_FUNCS(phalcon_http_client_method_entry){
 	PHP_ME(Phalcon_Http_Client, getFiles, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, setResponseHeader, arginfo_phalcon_http_client_setresponseheader, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, getResponseHeaders, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Client, getResponseCode, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, getResponseStatus, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, getResponseCookies, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, getResponseBody, NULL, ZEND_ACC_PUBLIC) 
