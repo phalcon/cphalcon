@@ -16,3 +16,39 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Http;
+
+/**
+ * Phalcon\Http\Cookie
+ *
+ * Provide OO wrappers to manage a HTTP cookie
+ */
+class Cookie implements Phalcon\DI\InjectionAwareInterface
+{
+
+	protected _readed = false;
+
+	protected _restored = false;
+
+	protected _useEncryption = false;
+
+	protected _dependencyInjector;
+
+	protected _filter;
+
+	protected _name;
+
+	protected _value;
+
+	protected _expire;
+
+	protected _path = "/";
+
+	protected _domain;
+
+	protected _secure;
+
+	protected _httpOnly = true;
+
+}

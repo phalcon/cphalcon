@@ -24,13 +24,14 @@ namespace Phalcon;
  *
  * Interface for Phalcon\Filter
  */
-interface FilterInterface {
+interface FilterInterface
+{
 
 	/**
 	 * Adds a user-defined filter
 	 *
-	 * @param string $name
-	 * @param callable $handler
+	 * @param string name
+	 * @param callable handler
 	 * @return Phalcon\FilterInterface
 	 */
 	public function add(name, handler);
@@ -38,8 +39,8 @@ interface FilterInterface {
 	/**
 	 * Sanizites a value with a specified single or set of filters
 	 *
-	 * @param  mixed $value
-	 * @param  mixed $filters
+	 * @param  mixed value
+	 * @param  mixed filters
 	 * @return mixed
 	 */
 	public function sanitize(value, filters);
