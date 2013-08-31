@@ -55,13 +55,15 @@
 #include <curl/easy.h>
 
 int le_curl;
-int le_curl_multi_handle;
+
+static void _php_curl_close_ex(php_curl *ch TSRMLS_DC);
+static void _php_curl_close(zend_rsrc_list_entry *rsrc TSRMLS_DC);
 #else
 #define CURL_INIT(return_value) phalcon_call_func(return_value, "curl_init");
 #define CURL_SETOPT(return_value, ch, option, value, num, count) phalcon_call_func_p3(return_value, "curl_setopt", ch, option, value);
 #define CURL_EXEC(return_value, ch) phalcon_call_func_p1(return_value, "curl_exec", ch);
 #define CURL_GETINFO(return_value, ch, option) phalcon_call_func_p2(return_value, "curl_getinfo", ch, option);
-#define CURL_CLOSE(return_value, ch) phalcon_call_func_p1(return_value, "curl_close", ch);
+#define CURL_CLOSE(return_value, ch) phalcon_call_func_p1_noret("curl_close", ch);
 #endif
 
 #include "kernel/main.h"
@@ -108,7 +110,9 @@ int le_curl_multi_handle;
 PHALCON_INIT_CLASS(Phalcon_Http_Client){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Http, Client, http_client, phalcon_http_client_method_entry, 0);
-
+#ifdef PHALCON_USE_CURL
+	le_curl = zend_register_list_destructors_ex(_php_curl_close, NULL, "curl", module_number);
+#endif
 	zend_declare_property_null(phalcon_http_client_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_ce, SL("_url"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_ce, SL("_cookies"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -450,7 +454,7 @@ PHP_METHOD(Phalcon_Http_Client, getFiles){
 PHP_METHOD(Phalcon_Http_Client, setResponseHeader){
 
 	zval *ch, *header, *response_header = NULL, *response_cookie = NULL;
-	zval *pos, *key, *value, *trimmed, *cookies;
+	zval *pos, *key, *value, *trimmed = NULL, *cookies;
 
 	PHALCON_MM_GROW();
 
@@ -1191,8 +1195,7 @@ string_copy:
 					cvalue[Z_STRLEN_P(value)] = '\0';
 
 					if (num >= (count - files)) {
-						char *cfilename = NULL, *ctype = NULL;	
-						zend_printf("\nfile\n");
+						char *cfilename = NULL, *ctype = NULL;
 
 						PHALCON_INIT_VAR(constant);
 						if (zend_get_constant(SL("PATHINFO_BASENAME"), constant TSRMLS_CC) != FAILURE) {
@@ -1214,18 +1217,15 @@ string_copy:
 						error = curl_formadd(&first, &last,
 										CURLFORM_COPYNAME, ckey,
 										CURLFORM_NAMELENGTH, (long)Z_STRLEN_P(key) - 1,
-										CURLFORM_FILENAME, cfilename ? cfilename : cvalue,
-										CURLFORM_CONTENTTYPE, ctype ? ctype : "application/octet-stream",
-										CURLFORM_FILE, cvalue,
+										CURLFORM_FILENAME, filename ? Z_STRVAL_P(filename) : Z_STRVAL_P(value),
+										CURLFORM_CONTENTTYPE, type ? Z_STRVAL_P(type) : "application/octet-stream",
+										CURLFORM_FILE, Z_STRVAL_P(value),
 										CURLFORM_END);
-						
-
-						zend_print_zval_r(value, 0);
 					} else {
 						error = curl_formadd(&first, &last,
-											 CURLFORM_COPYNAME, ckey,
+											 CURLFORM_COPYNAME, Z_STRVAL_P(key),
 											 CURLFORM_NAMELENGTH, (long)Z_STRLEN_P(key) - 1,
-											 CURLFORM_COPYCONTENTS, cvalue,
+											 CURLFORM_COPYCONTENTS, Z_STRVAL_P(value),
 											 CURLFORM_CONTENTSLENGTH, (long)Z_STRLEN_P(value),
 											 CURLFORM_END);
 					}
@@ -1633,9 +1633,7 @@ static void curl_exec(zval *return_value, zval *zid)
 static void curl_close(zval *return_value, zval *zid)
 {
 	php_curl *ch;
-
 	ZEND_FETCH_RESOURCE(ch, php_curl *, &zid, -1, le_curl_name, le_curl);
-
 	if (ch->in_callback) {
 		return;
 	}
@@ -1645,6 +1643,72 @@ static void curl_close(zval *return_value, zval *zid)
 	} else {
 		zend_list_delete(Z_LVAL_P(zid));
 	}
+}
+
+
+static void _php_curl_close_ex(php_curl *ch TSRMLS_DC)
+{
+	_php_curl_verify_handlers(ch, 0 TSRMLS_CC);
+	curl_easy_cleanup(ch->cp);
+
+	/* cURL destructors should be invoked only by last curl handle */
+	if (Z_REFCOUNT_P(ch->clone) <= 1) {
+		zend_llist_clean(&ch->to_free->str);
+		zend_llist_clean(&ch->to_free->slist);
+		zend_llist_clean(&ch->to_free->post);
+		efree(ch->to_free);
+		FREE_ZVAL(ch->clone);
+	} else {
+		Z_DELREF_P(ch->clone);
+	}
+
+	if (ch->handlers->write->buf.len > 0) {
+		smart_str_free(&ch->handlers->write->buf);
+	}
+	if (ch->handlers->write->func_name) {
+		zval_ptr_dtor(&ch->handlers->write->func_name);
+	}
+	if (ch->handlers->read->func_name) {
+		zval_ptr_dtor(&ch->handlers->read->func_name);
+	}
+	if (ch->handlers->write_header->func_name) {
+		zval_ptr_dtor(&ch->handlers->write_header->func_name);
+	}
+	if (ch->handlers->progress->func_name) {
+		zval_ptr_dtor(&ch->handlers->progress->func_name);
+	}
+	if (ch->handlers->passwd) {
+		zval_ptr_dtor(&ch->handlers->passwd);
+	}
+	if (ch->handlers->std_err) {
+		zval_ptr_dtor(&ch->handlers->std_err);
+	}
+	if (ch->header.str_len > 0) {
+		efree(ch->header.str);
+	}
+
+	if (ch->handlers->write_header->stream) {
+		zval_ptr_dtor(&ch->handlers->write_header->stream);
+	}
+	if (ch->handlers->write->stream) {
+		zval_ptr_dtor(&ch->handlers->write->stream);
+	}
+	if (ch->handlers->read->stream) {
+		zval_ptr_dtor(&ch->handlers->read->stream);
+	}
+
+	efree(ch->handlers->write);
+	efree(ch->handlers->write_header);
+	efree(ch->handlers->read);
+	efree(ch->handlers->progress);
+	efree(ch->handlers);
+	efree(ch);
+}
+
+static void _php_curl_close(zend_rsrc_list_entry *rsrc TSRMLS_DC)
+{
+	php_curl *ch = (php_curl *) rsrc->ptr;
+	_php_curl_close_ex(ch TSRMLS_CC);
 }
 #endif
 
@@ -1657,7 +1721,7 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 	zval *url, *method, *options, *data, *files, *cookies, *content_type, *body, *headers;
 	zval *ch, *constant0 = NULL, *constant1 = NULL, *httphead, *httpcookie, *key = NULL, *value = NULL, *tmp = NULL;
-	zval *timeout, *connecttimeout, *cookiesession, *maxfilesize, *protocol, *useragent, *httpauth, *httpauthtype, *upper_method, *prefixfiles, *postfields;
+	zval *timeout, *connecttimeout, *cookiesession, *maxfilesize, *protocol, *useragent, *httpauth, *httpauthtype, *upper_method, *prefixfiles, *postfields = NULL;
 	zval *response_body, *response_status;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1990,7 +2054,7 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 	phalcon_update_property_this(this_ptr, SL("_response_status"), response_status TSRMLS_CC);
 
-	CURL_CLOSE(NULL, ch);
+	CURL_CLOSE(return_value, ch);
 
 	ZVAL_TRUE(return_value);
 
