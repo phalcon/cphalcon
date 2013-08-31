@@ -63,8 +63,8 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 			throw new Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = dependencyInjector->getShared('session');
-		let messages = session->get('_flashMessages');
+		let session = dependencyInjector->getShared("session");
+		let messages = session->get("_flashMessages");
 
 		if remove === true {
 			session->remove(indexName);
