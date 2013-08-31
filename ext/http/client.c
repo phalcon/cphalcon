@@ -643,7 +643,6 @@ PHP_METHOD(Phalcon_Http_Client, getResponseBody) {
 static int php_curl_option_url(php_curl *ch, const char *url, const int len TSRMLS_DC) /* {{{ */
 {
 	CURLcode error = CURLE_OK;
-	char *copystr = NULL;
 	/* Disable file:// if open_basedir are used */
 	if (PG(open_basedir) && *PG(open_basedir)) {
 		error = curl_easy_setopt(ch->cp, CURLOPT_PROTOCOLS, CURLPROTO_ALL & ~CURLPROTO_FILE);
@@ -1369,9 +1368,6 @@ string_copy:
 		case CURLOPT_SSLCERT:
 		case CURLOPT_RANDOM_FILE:
 		case CURLOPT_COOKIEFILE: {
-			char *copystr = NULL;
-
-
 			convert_to_string_ex(zvalue);
 
 			if (Z_STRLEN_PP(zvalue) && php_check_open_basedir(Z_STRVAL_PP(zvalue) TSRMLS_CC)) {
@@ -1797,14 +1793,11 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 	zval *url, *method, *options, *data, *files, *cookies, *content_type, *body, *headers, *username, *password, *authtype;
 	zval *ch, *constant0 = NULL, *constant1 = NULL, *httphead, *httpcookie, *key = NULL, *value = NULL, *tmp = NULL;
-	zval *timeout, *connecttimeout, *cookiesession, *maxfilesize, *protocol, *useragent, *upper_method, *prefixfiles, *postfields = NULL;
+	zval *timeout, *connecttimeout, *cookiesession, *maxfilesize, *protocol, *useragent, *upper_method, *postfields = NULL;
 	zval *response_body, *response_status;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-#ifdef PHALCON_USE_CURL
-	php_curl *pch;
-#endif
 
 	PHALCON_MM_GROW();
 
@@ -2031,8 +2024,8 @@ PHP_METHOD(Phalcon_Http_Client, send){
 		count = Z_LVAL_P(tmp);
 #else		
 		if (Z_TYPE_P(files) == IS_ARRAY) {
-			PHALCON_INIT_VAR(prefixfiles);
-			array_init(prefixfiles);
+			PHALCON_INIT_NVAR(tmp);
+			array_init(tmp);
 
 			phalcon_is_iterable(files, &ah0, &hp0, 0, 0);
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
@@ -2042,7 +2035,7 @@ PHP_METHOD(Phalcon_Http_Client, send){
 				PHALCON_INIT_NVAR(tmp);
 				PHALCON_CONCAT_SV(tmp, "@", value);
 
-				phalcon_array_update_zval(&prefixfiles, key, &tmp, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_zval(&tmp, key, &tmp, PH_COPY | PH_SEPARATE);
 
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -2050,11 +2043,11 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 		if (Z_TYPE_P(data) == IS_ARRAY && Z_TYPE_P(files) == IS_ARRAY) {
 			PHALCON_CPY_WRT_CTOR(postfields, data);
-			phalcon_merge_append(postfields, prefixfiles);
+			phalcon_merge_append(postfields, tmp);
 		} else if (Z_TYPE_P(data) == IS_ARRAY) {
-			PHALCON_CPY_WRT(postfields, data);
+			PHALCON_CPY_WRT_CTOR(postfields, data);
 		} else if (Z_TYPE_P(files) == IS_ARRAY) {
-			PHALCON_CPY_WRT(postfields, prefixfiles);
+			PHALCON_CPY_WRT_CTOR(postfields, tmp);
 		}
 #endif
 		CURL_SETOPT(NULL, ch, constant0, postfields, num, count);
