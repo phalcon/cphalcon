@@ -323,6 +323,9 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 	 */
 	public function dispatch()
 	{
+		int numberDispatches;
+		var value, handler, dependencyInjector, namespaceName, handlerName,
+			actionName, camelizedClass, handler, hasService, params;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {

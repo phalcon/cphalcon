@@ -16,3 +16,74 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon;
+
+/**
+ * Phalcon\Escaper
+ *
+ * Escapes different kinds of text securing them. By using this component you may
+ * prevent XSS attacks.
+ *
+ * This component only works with UTF-8. The PREG extension needs to be compiled with UTF-8 support.
+ *
+ *<code>
+ *	$escaper = new Phalcon\Escaper();
+ *	$escaped = $escaper->escapeCss("font-family: <Verdana>");
+ *	echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
+ *</code>
+ */
+class Escaper implements Phalcon\EscaperInterface
+{
+
+	protected _encoding = 'utf-8';
+
+	protected _htmlEscapeMap = null;
+
+	protected _htmlQuoteType = 3;
+
+	/**
+	 * Sets the encoding to be used by the escaper
+	 *
+	 *<code>
+     * $escaper->setEncoding('utf-8');
+     *</code>
+	 *
+	 * @param string $encoding
+	 */
+	public function setEncoding($encoding)
+	{
+		if typeof encoding != "string" {
+			throw new Phalcon\Escaper\Exception("The character set must be string");
+		}
+		let this->_encoding = encoding;
+	}
+
+	/**
+	 * Returns the internal encoding used by the escaper
+	 *
+	 * @return string
+	 */
+	public function getEncoding()
+	{
+        return this->_encoding;
+    }
+
+    /**
+     * Sets the HTML quoting type for htmlspecialchars
+     *
+     *<code>
+     * $escaper->setHtmlQuoteType(ENT_XHTML);
+     *</code>
+     *
+     * @param int quoteType
+     */
+    public function setHtmlQuoteType($quoteType)
+    {
+    	if typeof quoteType != "integer" {
+			throw new Phalcon\Escaper\Exception("The quoting type is not valid");
+		}
+    	let this->_htmlQuoteType = quoteType;
+    }
+
+}

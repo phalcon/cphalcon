@@ -16,3 +16,47 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+/**
+ * Phalcon\Validation
+ *
+ * Allows to validate data using validators
+ */
+class Validation extends Phalcon\DI\Injectable
+{
+	protected _data;
+
+	protected _entity;
+
+	protected _validators;
+
+	protected _filters;
+
+	protected _messages;
+
+	protected _values;
+
+	/**
+	 * Phalcon\Validation constructor
+	 *
+	 * @param array validators
+	 */
+	public function __construct(validators=null)
+	{
+
+		if typeof validators != "null" {
+			if typeof validators != "array" {
+				throw new Phalcon\Validation\Exception("Validators must be an array");
+			}
+			let this->_validators = validators;
+		}
+
+		/**
+		 * Check for an 'initialize' method
+		 */
+		if method_exists(this, "initialize") {
+			let this->initialize();
+		}
+	}
+
+}

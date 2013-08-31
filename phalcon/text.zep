@@ -16,3 +16,25 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon;
+
+/**
+ * Phalcon\Text
+ *
+ * Provides utilities to work with texts
+ */
+abstract class Text
+{
+
+	const RANDOM_ALNUM = 0;
+
+	const RANDOM_ALPHA = 1;
+
+	const RANDOM_HEXDEC = 2;
+
+	const RANDOM_NUMERIC = 3;
+
+	const RANDOM_NOZERO = 4;
+
+}
