@@ -24,7 +24,7 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 
 	public function test()
 	{		
-		$url = 'https://github.com';
+		$url = 'http://phalconphp.com/';
 		$method = 'POST';
 		$data = array('key' => 'value', 'key1' => 'value1');
 		try {

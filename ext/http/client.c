@@ -34,7 +34,7 @@
 #include "ext/standard/php_smart_str.h"
 
 #ifdef PHALCON_USE_CURL
-#define CURL_INIT(return_value) curl_init(return_value);
+#define CURL_INIT(return_value) curl_init(return_value TSRMLS_CC);
 #define CURL_SETOPT(return_value, ch, option, value, num, count) curl_setopt(return_value, ch, option, value, num, count);
 #define CURL_EXEC(return_value, ch) curl_exec(return_value, ch);
 #define CURL_GETINFO(return_value, ch, option) curl_getinfo(return_value, ch, option);
@@ -905,7 +905,7 @@ void alloc_curl_handle(php_curl **ch)
 	zend_llist_init(&(*ch)->to_free->post,  sizeof(struct HttpPost),   (llist_dtor_func_t) curl_free_post,   0);
 }
 
-void curl_init(zval *return_value) {
+void curl_init(zval *return_value TSRMLS_DC) {
 	php_curl *ch;
 	CURL *cp;
 	zval *clone;
@@ -917,6 +917,7 @@ void curl_init(zval *return_value) {
 	}
 
 	alloc_curl_handle(&ch);
+
 	TSRMLS_SET_CTX(ch->thread_ctx);
 
 	ch->cp = cp;
