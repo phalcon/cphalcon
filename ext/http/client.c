@@ -37,8 +37,8 @@
 #define CURL_INIT(return_value) curl_init(return_value TSRMLS_CC);
 #define CURL_SETOPT(return_value, ch, option, value, num, count) curl_setopt(return_value, ch, option, value, num, count TSRMLS_CC);
 #define CURL_EXEC(return_value, ch) curl_exec(return_value, ch TSRMLS_CC);
-#define CURL_GETINFO(return_value, ch, option) curl_getinfo(return_value, ch, option);
-#define CURL_CLOSE(return_value, ch) curl_close(return_value, ch);
+#define CURL_GETINFO(return_value, ch, option) curl_getinfo(return_value, ch, option TSRMLS_CC);
+#define CURL_CLOSE(return_value, ch) curl_close(return_value, ch TSRMLS_CC);
 #define CURL_CONSTANT(return_value, constant) ZVAL_LONG(return_value, constant);
 #define CAAL(s, v) add_assoc_long_ex(return_value, s, sizeof(s), (long) v);
 #define CAAD(s, v) add_assoc_double_ex(return_value, s, sizeof(s), (double) v);
@@ -1388,7 +1388,7 @@ string_copy:
 	}
 }
 
-static int curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalue, int files, int count TSRMLS_CC)
+static int curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalue, int files, int count TSRMLS_DC)
 {
 	php_curl *ch;
 	long op = Z_LVAL_P(options);
@@ -1406,7 +1406,7 @@ static int curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalu
 	}
 }
 
-static void curl_getinfo(zval *return_value, zval *zid, zval* option)
+static void curl_getinfo(zval *return_value, zval *zid, zval* option TSRMLS_DC)
 {
 	php_curl *ch;
 	long op = Z_LVAL_P(option);
@@ -1702,7 +1702,7 @@ static void curl_exec(zval *return_value, zval *zid TSRMLS_DC)
 	}
 }
 
-static void curl_close(zval *return_value, zval *zid)
+static void curl_close(zval *return_value, zval *zid TSRMLS_DC)
 {
 	php_curl *ch;
 	ZEND_FETCH_RESOURCE(ch, php_curl *, &zid, -1, le_curl_name, le_curl);
