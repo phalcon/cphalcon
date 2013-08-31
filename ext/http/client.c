@@ -1866,18 +1866,6 @@ PHP_METHOD(Phalcon_Http_Client, send){
 	ZVAL_STRING(tmp, "", 1);
 	CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
 
-	PHALCON_INIT_NVAR(constant0);	
-	CURL_CONSTANT(constant0, CURLOPT_FOLLOWLOCATION);
-	PHALCON_INIT_NVAR(tmp);
-	ZVAL_TRUE(tmp);
-	CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
-
-	PHALCON_INIT_NVAR(constant0);
-	CURL_CONSTANT(constant0, CURLOPT_AUTOREFERER);
-	PHALCON_INIT_NVAR(tmp);
-	ZVAL_TRUE(tmp);
-	CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
-
 	/* Header */
 	PHALCON_INIT_NVAR(constant0);
 	CURL_CONSTANT(constant0, CURLOPT_HEADER);
