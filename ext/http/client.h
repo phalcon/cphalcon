@@ -34,6 +34,7 @@ extern zend_class_entry *phalcon_http_client_ce;
 PHALCON_INIT_CLASS(Phalcon_Http_Client);
 
 PHP_METHOD(Phalcon_Http_Client, __construct);
+PHP_METHOD(Phalcon_Http_Client, isCurl);
 PHP_METHOD(Phalcon_Http_Client, setDI);
 PHP_METHOD(Phalcon_Http_Client, getDI);
 PHP_METHOD(Phalcon_Http_Client, setUrl);
@@ -44,6 +45,9 @@ PHP_METHOD(Phalcon_Http_Client, setContentType);
 PHP_METHOD(Phalcon_Http_Client, getContentType);
 PHP_METHOD(Phalcon_Http_Client, setHeaders);
 PHP_METHOD(Phalcon_Http_Client, getHeaders);
+PHP_METHOD(Phalcon_Http_Client, setAuthentication);
+PHP_METHOD(Phalcon_Http_Client, setBasicAuthentication);
+PHP_METHOD(Phalcon_Http_Client, setDigestAuthentication);
 PHP_METHOD(Phalcon_Http_Client, setMethod);
 PHP_METHOD(Phalcon_Http_Client, getMethod);
 PHP_METHOD(Phalcon_Http_Client, setOptions);
@@ -87,6 +91,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_setheaders, 0, 0, 1)
 	ZEND_ARG_INFO(0, headers)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_setauthentication, 0, 0, 2)
+	ZEND_ARG_INFO(0, username)
+	ZEND_ARG_INFO(0, password)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_setbasicauthentication, 0, 0, 2)
+	ZEND_ARG_INFO(0, username)
+	ZEND_ARG_INFO(0, password)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_setdigestauthentication, 0, 0, 2)
+	ZEND_ARG_INFO(0, username)
+	ZEND_ARG_INFO(0, password)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client_setmethod, 0, 0, 1)
 	ZEND_ARG_INFO(0, request_method)
 ZEND_END_ARG_INFO()
@@ -114,7 +133,8 @@ ZEND_END_ARG_INFO()
 
 
 PHALCON_INIT_FUNCS(phalcon_http_client_method_entry){
-	PHP_ME(Phalcon_Http_Client, __construct, arginfo_phalcon_http_client___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Client, __construct, arginfo_phalcon_http_client___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Http_Client, isCurl, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, setDI, arginfo_phalcon_http_client_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, setUrl, arginfo_phalcon_http_client_seturl, ZEND_ACC_PUBLIC) 
@@ -125,6 +145,9 @@ PHALCON_INIT_FUNCS(phalcon_http_client_method_entry){
 	PHP_ME(Phalcon_Http_Client, getContentType, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, setHeaders, arginfo_phalcon_http_client_setheaders, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, getHeaders, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Client, setAuthentication, arginfo_phalcon_http_client_setauthentication, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Client, setBasicAuthentication, arginfo_phalcon_http_client_setbasicauthentication, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Client, setDigestAuthentication, arginfo_phalcon_http_client_setdigestauthentication, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, setMethod, arginfo_phalcon_http_client_setmethod, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, getMethod, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Client, setOptions, arginfo_phalcon_http_client_setoptions, ZEND_ACC_PUBLIC) 

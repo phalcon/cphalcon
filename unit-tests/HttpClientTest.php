@@ -23,14 +23,36 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 {
 
 	public function test()
-	{
-		$client = new use Phalcon\Http\Client;
+	{		
+		$url = 'http://localhost/upload.php';
+		$method = 'POST';
+		$data = array('key' => 'value', 'key1' => 'value1');
+
+		//$client = new \Phalcon\Http\Client($url, 'POST');
+		$client = new \Phalcon\Http\Client;
+		$client->setUrl($url);
+		$client->setMethod($method);
+
+		// $client->setAuthentication('username', 'password');
+		// $client->setDigestAuthentication('username', 'password');
+		// $client->setBasicAuthentication('username', 'password');
+
+		$client->setData($data);
+		//$client->setFiles(array('unit-tests/assets/phalconphp.jpg'));
 		try {
-			$ret = $client->setUrl('http://phalconphp.com/');
-			$this->assertTrue(true);
-		}
-		catch (Exception $e) {
-			$this->assertTrue(false);
+			
+			$ret = $client->getUrl();
+			$this->assertEquals($ret, $url);
+
+			$ret = $client->getMethod();
+			$this->assertEquals($ret, $method);
+
+			$ret = $client->getData();
+			$this->assertEquals($ret, $data);
+
+			$ret = $client->send();
+			$this->assertTrue($ret);
+		} catch (Exception $ex) {
 		}
 	}
 }
