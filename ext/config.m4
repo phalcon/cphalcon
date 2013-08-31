@@ -418,8 +418,6 @@ http/client/exception.c"
 		[[#include "php_config.h"]]
 	)
 
-	CPPFLAGS=$old_CPPFLAGS
-
 	for i in /usr/local /usr; do
 		if test -r $i/include/curl/easy.h; then
 			CURL_DIR=$i
@@ -433,12 +431,6 @@ http/client/exception.c"
 			curl_version_full=`$CURL_CONFIG --version`
 			AC_MSG_RESULT($curl_version_full)
 
-			CPPFLAGS+=`$CURL_CONFIG --cflags`
-			AC_MSG_RESULT($CPPFLAGS)
-
-			LDFLAGS+=`$CURL_CONFIG --libs`
-			AC_MSG_RESULT($LDFLAGS)
-
 			EXTRA_CFLAGS=`$CURL_CONFIG --cflags`
 			EXTRA_LDFLAGS=`$CURL_CONFIG --libs`
 			AC_MSG_RESULT($EXTRA_CFLAGS)
@@ -448,6 +440,8 @@ http/client/exception.c"
 			break
 		fi
 	done
+
+	CPPFLAGS=$old_CPPFLAGS
 
 	PHP_ADD_MAKEFILE_FRAGMENT
 fi
