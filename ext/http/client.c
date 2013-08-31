@@ -1880,6 +1880,38 @@ PHP_METHOD(Phalcon_Http_Client, send){
 		CURL_CONSTANT(constant0, CURLOPT_USERPWD);
 
 		CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
+	} else if (PHALCON_IS_STRING(authtype, "basic")) {
+		PHALCON_INIT_NVAR(constant0);
+		CURL_CONSTANT(constant0, CURLOPT_HTTPAUTH);
+
+		PHALCON_INIT_NVAR(constant1);
+		CURL_CONSTANT(constant1, CURLAUTH_BASIC);
+
+		CURL_SETOPT(NULL, ch, constant0, constant1, 0, 0);
+
+		PHALCON_INIT_NVAR(tmp);
+		PHALCON_CONCAT_VSV(tmp, username, ":", password);
+
+		PHALCON_INIT_NVAR(constant0);
+		CURL_CONSTANT(constant0, CURLOPT_USERPWD);
+
+		CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
+	} else if (PHALCON_IS_STRING(authtype, "digest")) {
+		PHALCON_INIT_NVAR(constant0);
+		CURL_CONSTANT(constant0, CURLOPT_HTTPAUTH);
+
+		PHALCON_INIT_NVAR(constant1);
+		CURL_CONSTANT(constant1, CURLAUTH_DIGEST);
+
+		CURL_SETOPT(NULL, ch, constant0, constant1, 0, 0);
+
+		PHALCON_INIT_NVAR(tmp);
+		PHALCON_CONCAT_VSV(tmp, username, ":", password);
+
+		PHALCON_INIT_NVAR(constant0);
+		CURL_CONSTANT(constant0, CURLOPT_USERPWD);
+
+		CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
 	}
 
 	PHALCON_INIT_NVAR(constant0);
