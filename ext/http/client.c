@@ -35,8 +35,8 @@
 
 #ifdef PHALCON_USE_CURL
 #define CURL_INIT(return_value) curl_init(return_value TSRMLS_CC);
-#define CURL_SETOPT(return_value, ch, option, value, num, count) curl_setopt(return_value, ch, option, value, num, count);
-#define CURL_EXEC(return_value, ch) curl_exec(return_value, ch);
+#define CURL_SETOPT(return_value, ch, option, value, num, count) curl_setopt(return_value, ch, option, value, num, count TSRMLS_CC);
+#define CURL_EXEC(return_value, ch) curl_exec(return_value, ch TSRMLS_CC);
 #define CURL_GETINFO(return_value, ch, option) curl_getinfo(return_value, ch, option);
 #define CURL_CLOSE(return_value, ch) curl_close(return_value, ch);
 #define CURL_CONSTANT(return_value, constant) ZVAL_LONG(return_value, constant);
@@ -1392,7 +1392,7 @@ string_copy:
 	}
 }
 
-static int curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalue, int files, int count)
+static int curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalue, int files, int count TSRMLS_CC)
 {
 	php_curl *ch;
 	long op = Z_LVAL_P(options);
@@ -1657,7 +1657,7 @@ int _php_curl_verify_handlers(php_curl *ch, int reporterror TSRMLS_DC) /* {{{ */
 	return 1;
 }
 
-static void curl_exec(zval *return_value, zval *zid)
+static void curl_exec(zval *return_value, zval *zid TSRMLS_DC)
 {
 	CURLcode	error;
 	php_curl	*ch;
