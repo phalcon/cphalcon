@@ -1080,8 +1080,6 @@ static int php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, 
 		case CURLOPT_SSH_PUBLIC_KEYFILE:
 		case CURLOPT_SSH_PRIVATE_KEYFILE:
 		{
-			char *copystr = NULL;
-
 			convert_to_string_ex(zvalue);
 			if (
 				option == CURLOPT_SSH_PUBLIC_KEYFILE || option == CURLOPT_SSH_PRIVATE_KEYFILE
