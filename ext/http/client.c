@@ -133,6 +133,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Client){
 	zend_declare_property_null(phalcon_http_client_ce, SL("_fields"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_ce, SL("_files"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_ce, SL("_response_header"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_client_ce, SL("_response_code"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_ce, SL("_response_status"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_ce, SL("_response_message"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_ce, SL("_response_cookie"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -529,7 +530,7 @@ PHP_METHOD(Phalcon_Http_Client, getFiles){
 PHP_METHOD(Phalcon_Http_Client, setResponseHeader){
 
 	zval *ch, *header, *response_header = NULL, *response_cookie = NULL;
-	zval *pos, *key, *value, *trimmed = NULL, *cookies;
+	zval *pos, *key, *value, *trimmed = NULL, *cookies, *arr, *response_status;
 
 	PHALCON_MM_GROW();
 
@@ -591,6 +592,15 @@ PHP_METHOD(Phalcon_Http_Client, setResponseHeader){
 		} else {
 			phalcon_array_update_zval(&response_header, key, &trimmed, PH_COPY | PH_SEPARATE);
 		}
+	} else if (phalcon_memnstr_str(header, SL("HTTP/"))) {
+		PHALCON_INIT_VAR(arr);
+		phalcon_fast_explode_str(arr, SL(" "), header);
+
+		if (phalcon_array_isset_long(arr, 2)) {
+			PHALCON_OBS_VAR(response_status);
+			phalcon_array_fetch_long(&response_status, arr, 2, PH_NOISY);
+			phalcon_update_property_this(this_ptr, SL("_response_status"), response_status TSRMLS_CC);
+		}
 	}
 
 	ZVAL_LONG(return_value, Z_STRLEN_P(header));
@@ -607,6 +617,16 @@ PHP_METHOD(Phalcon_Http_Client, setResponseHeader){
 PHP_METHOD(Phalcon_Http_Client, getResponseHeaders){
 
 	RETURN_MEMBER(this_ptr, "_response_header");
+}
+
+/**
+ * Get response code
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Client, getResponseCode){
+
+	RETURN_MEMBER(this_ptr, "_response_code");
 }
 
 /**
@@ -1792,7 +1812,7 @@ PHP_METHOD(Phalcon_Http_Client, send){
 	zval *url, *method, *options, *data, *files, *cookies, *content_type, *body, *headers, *username, *password, *authtype;
 	zval *ch, *constant0 = NULL, *constant1 = NULL, *httphead, *httpcookie, *key = NULL, *value = NULL, *tmp = NULL;
 	zval *timeout, *connecttimeout, *cookiesession, *maxfilesize, *protocol, *useragent, *upper_method, *postfields = NULL;
-	zval *response_body, *response_status;
+	zval *response_body, *response_code;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1813,6 +1833,7 @@ PHP_METHOD(Phalcon_Http_Client, send){
 	authtype = phalcon_fetch_nproperty_this(this_ptr, SL("_authtype"), PH_NOISY_CC);
 
 	phalcon_update_property_null(this_ptr, SL("_response_header") TSRMLS_CC);
+	phalcon_update_property_null(this_ptr, SL("_response_code") TSRMLS_CC);
 	phalcon_update_property_null(this_ptr, SL("_response_status") TSRMLS_CC);
 	phalcon_update_property_null(this_ptr, SL("_response_cookie") TSRMLS_CC);
 	phalcon_update_property_null(this_ptr, SL("_response_body") TSRMLS_CC);
@@ -2051,6 +2072,14 @@ PHP_METHOD(Phalcon_Http_Client, send){
 		CURL_SETOPT(NULL, ch, constant0, postfields, num, count);
 	}
 
+	if (content_type) {
+		if (Z_TYPE_P(headers) != IS_ARRAY) {
+			array_init(headers);
+		}
+
+		phalcon_array_update_string(&headers, SL("Content-Type"), &content_type, PH_COPY | PH_SEPARATE);
+	}
+
 	// Set headers
 	if (Z_TYPE_P(headers) == IS_ARRAY) {
 		PHALCON_INIT_NVAR(constant0);
@@ -2083,10 +2112,10 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 	PHALCON_INIT_NVAR(constant0);
 	CURL_CONSTANT(constant0, CURLINFO_HTTP_CODE);
-	PHALCON_INIT_VAR(response_status);
-	CURL_GETINFO(response_status, ch, constant0);
+	PHALCON_INIT_VAR(response_code);
+	CURL_GETINFO(response_code, ch, constant0);
 
-	phalcon_update_property_this(this_ptr, SL("_response_status"), response_status TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_response_code"), response_code TSRMLS_CC);
 
 	CURL_CLOSE(return_value, ch);
 
