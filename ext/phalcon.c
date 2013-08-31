@@ -350,6 +350,8 @@ zend_class_entry *phalcon_image_adapterinterface_ce;
 zend_class_entry *phalcon_image_exception_ce;
 zend_class_entry *phalcon_image_adapter_gd_ce;
 zend_class_entry *phalcon_image_adapter_imagick_ce;
+zend_class_entry *phalcon_http_client_ce;
+zend_class_entry *phalcon_http_client_exception_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
@@ -702,6 +704,8 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Image_Exception);
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
+	PHALCON_INIT(Phalcon_Http_Client);
+	PHALCON_INIT(Phalcon_Http_Client_Exception);
 
 	orig_execute_internal = zend_execute_internal;
 	if (!zend_execute_internal && !getenv("PHALCON_NO_RVO")) {
@@ -806,6 +810,11 @@ zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_REQUIRED("pcre")
 #else
 	ZEND_MOD_OPTIONAL("pcre")
+#endif
+#if PHALCON_USE_PHP_CURL
+	ZEND_MOD_REQUIRED("curl")
+#else
+	ZEND_MOD_OPTIONAL("curl")
 #endif
 	ZEND_MOD_OPTIONAL("filter")
 	ZEND_MOD_OPTIONAL("iconv")

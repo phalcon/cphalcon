@@ -331,3 +331,5 @@
 #include "image/exception.h"
 #include "image/adapter/gd.h"
 #include "image/adapter/imagick.h"
+#include "http/client.h"
+#include "http/client/exception.h"
