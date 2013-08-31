@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Http_Client, setAuthentication){
 	
 	phalcon_update_property_this(this_ptr, SL("_username"), username TSRMLS_CC);	
 	phalcon_update_property_this(this_ptr, SL("_password"), password TSRMLS_CC);	
-	phalcon_update_property_string(this_ptr, SL("_auth"), SL("any") TSRMLS_CC);
+	phalcon_update_property_string(this_ptr, SL("_authtype"), SL("any") TSRMLS_CC);
 }
 
 /**
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Http_Client, setBasicAuthentication){
 	
 	phalcon_update_property_this(this_ptr, SL("_username"), username TSRMLS_CC);	
 	phalcon_update_property_this(this_ptr, SL("_password"), password TSRMLS_CC);	
-	phalcon_update_property_string(this_ptr, SL("_auth"), SL("basic") TSRMLS_CC);
+	phalcon_update_property_string(this_ptr, SL("_authtype"), SL("basic") TSRMLS_CC);
 }
 
 /**
@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Http_Client, setDigestAuthentication){
 	
 	phalcon_update_property_this(this_ptr, SL("_username"), username TSRMLS_CC);	
 	phalcon_update_property_this(this_ptr, SL("_password"), password TSRMLS_CC);	
-	phalcon_update_property_string(this_ptr, SL("_auth"), SL("digest") TSRMLS_CC);
+	phalcon_update_property_string(this_ptr, SL("_authtype"), SL("digest") TSRMLS_CC);
 }
 
 /**
