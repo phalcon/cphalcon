@@ -349,7 +349,9 @@ image/exception.c \
 image/adapter/gd.c \
 image/adapter/imagick.c \
 utils/date.c \
-utils/arr.c"
+utils/arr.c \
+http/client.c \
+http/client/exception.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
 	PHP_ADD_EXTENSION_DEP([phalcon], [spl])
@@ -417,6 +419,29 @@ utils/arr.c"
 		,
 		[[#include "php_config.h"]]
 	)
+
+	for i in /usr/local /usr; do
+		if test -r $i/include/curl/easy.h; then
+			CURL_DIR=$i
+			if ${CURL_DIR}/bin/curl-config --libs > /dev/null 2>&1; then
+				CURL_CONFIG=${CURL_DIR}/bin/curl-config
+			else
+				if ${CURL_DIR}/curl-config --libs > /dev/null 2>&1; then
+					CURL_CONFIG=${CURL_DIR}/curl-config
+				fi
+			fi
+			curl_version_full=`$CURL_CONFIG --version`
+			AC_MSG_RESULT($curl_version_full)
+
+			EXTRA_CFLAGS=`$CURL_CONFIG --cflags`
+			EXTRA_LDFLAGS=`$CURL_CONFIG --libs`
+			AC_MSG_RESULT($EXTRA_CFLAGS)
+			AC_MSG_RESULT($EXTRA_LDFLAGS)
+
+			AC_DEFINE([PHALCON_USE_CURL], [1], [Have CURL support])
+			break
+		fi
+	done
 
 	CPPFLAGS=$old_CPPFLAGS
 
