@@ -829,7 +829,7 @@ zend_module_entry phalcon_module_entry = {
 #ifndef PHALCON_RELEASE
 	PHP_MSHUTDOWN(phalcon),
 #else
-	NULL
+	NULL,
 #endif
 	PHP_RINIT(phalcon),
 	PHP_RSHUTDOWN(phalcon),
