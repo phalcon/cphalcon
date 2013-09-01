@@ -87,7 +87,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Inclusionin){
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 
 	zval *record, *field = NULL, *field_name, *is_set, *domain;
-	zval *value, *option, *message = NULL, *joined_domain;
+	zval *value, *option, *message = NULL, *joined_domain, *is_set_code, *code;
 	zval *type;
 
 	PHALCON_MM_GROW();
@@ -153,7 +153,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 	
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "Inclusion", 1);
-		phalcon_call_method_p3_noret(this_ptr, "appendmessage", message, field_name, type);
+
+		/*
+		 * Is code set
+		 */
+		PHALCON_INIT_NVAR(option);
+		ZVAL_STRING(option, "code", 1);
+
+		PHALCON_INIT_VAR(is_set_code);
+		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+		PHALCON_INIT_VAR(code);
+		if (zend_is_true(is_set_code)) {
+			phalcon_call_method_p1(code, this_ptr, "getoption", option);
+		} else {
+			ZVAL_LONG(code, 0);
+		}
+
+		phalcon_call_method_p4_noret(this_ptr, "appendmessage", message, field_name, type, code);
 		RETURN_MM_FALSE;
 	}
 	
