@@ -646,6 +646,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => NULL,
 				'_message' => 'Sorry Marina, but you are not allowed here',
 				'_field' => NULL,
+				'_code' => 0,
 			)),
 		));
 
@@ -656,6 +657,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => 'Email',
 				'_message' => "Value of field 'email' must have a valid e-mail format",
 				'_field' => 'email',
+				'_code' => 0,
 			)),
 		));
 
@@ -696,6 +698,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => NULL,
 				'_message' => 'Désolé Marina, mais vous n\'êtes pas autorisé ici',
 				'_field' => NULL,
+				'_code' => 0,
 			)),
 		));
 
@@ -709,6 +712,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 				'_type' => 'Email',
 				'_message' => "Le courrier électronique est invalide",
 				'_field' => 'courrierElectronique',
+				'_code' => 0,
 			)),
 		));
 

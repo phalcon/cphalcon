@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 
 	zval *record, *option = NULL, *field, *is_set_min, *is_set_max;
 	zval *value, *length = NULL, *invalid_maximum = NULL, *invalid_minimum = NULL;
-	zval *maximum, *message = NULL, *type = NULL, *minimum;
+	zval *maximum, *message = NULL, *type = NULL, *minimum, *is_set_code, *code;
 
 	PHALCON_MM_GROW();
 
@@ -178,6 +178,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 	
 			PHALCON_INIT_VAR(type);
 			ZVAL_STRING(type, "TooLong", 1);
+
+			/*
+			 * Is code set
+			 */
+			PHALCON_INIT_NVAR(option);
+			ZVAL_STRING(option, "code", 1);
+
+			PHALCON_INIT_VAR(is_set_code);
+			phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+			PHALCON_INIT_VAR(code);
+			if (zend_is_true(is_set_code)) {
+				phalcon_call_method_p1(code, this_ptr, "getoption", option);
+			} else {
+				ZVAL_LONG(code, 0);
+			}
+
 			phalcon_call_method_p3_noret(this_ptr, "appendmessage", message, field, type);
 			RETURN_MM_FALSE;
 		}
@@ -212,7 +228,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 	
 			PHALCON_INIT_NVAR(type);
 			ZVAL_STRING(type, "TooShort", 1);
-			phalcon_call_method_p3_noret(this_ptr, "appendmessage", message, field, type);
+
+			/*
+			 * Is code set
+			 */
+			PHALCON_INIT_NVAR(option);
+			ZVAL_STRING(option, "code", 1);
+
+			PHALCON_INIT_VAR(is_set_code);
+			phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+			PHALCON_INIT_VAR(code);
+			if (zend_is_true(is_set_code)) {
+				phalcon_call_method_p1(code, this_ptr, "getoption", option);
+			} else {
+				ZVAL_LONG(code, 0);
+			}
+
+			phalcon_call_method_p4_noret(this_ptr, "appendmessage", message, field, type, code);
 			RETURN_MM_FALSE;
 		}
 	}

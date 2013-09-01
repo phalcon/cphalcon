@@ -86,12 +86,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 
-	zval *message, *field = NULL, *type = NULL, *class_name, *suffix;
+	zval *message, *field = NULL, *type = NULL, *code = NULL, *class_name, *suffix;
 	zval *empty_string, *model_message;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 2, &message, &field, &type);
+	phalcon_fetch_params(1, 1, 3, &message, &field, &type, &code);
 	
 	if (!field) {
 		PHALCON_INIT_VAR(field);
@@ -101,6 +101,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 		PHALCON_INIT_VAR(type);
 	} else {
 		PHALCON_SEPARATE_PARAM(type);
+	}
+
+	if (!code) {
+		PHALCON_INIT_VAR(code);
+		ZVAL_LONG(code, 0);
 	}
 	
 	if (!zend_is_true(type)) {
@@ -119,7 +124,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 	
 	PHALCON_INIT_VAR(model_message);
 	object_init_ex(model_message, phalcon_mvc_model_message_ce);
-	phalcon_call_method_p3_noret(model_message, "__construct", message, field, type);
+	phalcon_call_method_p4_noret(model_message, "__construct", message, field, type, code);
 	
 	phalcon_update_property_array_append(this_ptr, SL("_messages"), model_message TSRMLS_CC);
 	
