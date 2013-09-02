@@ -64,6 +64,7 @@ PHP_METHOD(Phalcon_Http_Client, getResponseCode);
 PHP_METHOD(Phalcon_Http_Client, getResponseStatus); 
 PHP_METHOD(Phalcon_Http_Client, getResponseCookies);
 PHP_METHOD(Phalcon_Http_Client, getResponseBody);
+PHP_METHOD(Phalcon_Http_Client, getMessage);
 PHP_METHOD(Phalcon_Http_Client, send);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_client___construct, 0, 0, 0)
