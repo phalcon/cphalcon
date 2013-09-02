@@ -175,14 +175,14 @@ abstract class Flash
 			let classes = this->_cssClasses;
 			if fetch typeClasses, classes[type] {
 				if typeof typeClasses == "array" {
-					cssClasses = " class=\"" . join(' ', typeClasses) . "\"";
+					let cssClasses = " class=\"" . join(" ", typeClasses) . "\"";
 				} else {
 					let cssClasses = " class=\"" . typeClasses . "\"";
 				}
 			} else {
-				cssClasses = "";
+				let cssClasses = "";
 			}
-			eol = PHP_EOL;
+			let eol = PHP_EOL;
 		}
 
 		let implicitFlush = (bool) this->_implicitFlush;
