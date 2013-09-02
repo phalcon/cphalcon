@@ -1881,7 +1881,7 @@ PHP_METHOD(Phalcon_Http_Client, send){
 	phalcon_update_property_null(this_ptr, SL("_response_status") TSRMLS_CC);
 	phalcon_update_property_null(this_ptr, SL("_response_cookie") TSRMLS_CC);
 	phalcon_update_property_null(this_ptr, SL("_response_body") TSRMLS_CC);
-	phalcon_update_property_null(this_ptr, SL("_error"), error TSRMLS_CC);
+	phalcon_update_property_null(this_ptr, SL("_error") TSRMLS_CC);
 
 	PHALCON_INIT_VAR(ch);
 	CURL_INIT(ch);
