@@ -94,10 +94,6 @@ static void _php_curl_close(zend_rsrc_list_entry *rsrc TSRMLS_DC);
  *
  *<code>
  *	$client = new Phalcon\Http\Client('http://localhost', Phalcon\Http\Client::METH_PUT);
- *	$http->setOptions(array(
- *		'httpauthtype' => HTTP_AUTH_DIGEST,
- *		'httpauth' => 'phalcon:phalcon'
- *	));
  *	if ($client->send() == true) {
  *		if ($client->getStatusCode() == 200) {
  *			echo $client->getRawBody();
@@ -1304,7 +1300,9 @@ string_copy:
 						ctype[(int)Z_STRLEN_P(type)] = '\0';
 
 						if (php_check_open_basedir(cvalue TSRMLS_CC)) {
-							RETURN_MM_FALSE;
+							PHALCON_MM_RESTORE();
+							RETVAL_FALSE;
+							return 1;
 						}
 
 						error = curl_formadd(&first, &last,
@@ -1435,8 +1433,6 @@ static void curl_getinfo(zval *return_value, zval *zid, zval* option TSRMLS_DC)
 		char   *s_code;
 		long    l_code;
 		double  d_code;
-		struct curl_certinfo *ci = NULL;
-		zval *listcode;
 
 		array_init(return_value);
 
