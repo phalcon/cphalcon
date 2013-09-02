@@ -2019,16 +2019,14 @@ PHP_METHOD(Phalcon_Http_Client, send){
 		PHALCON_INIT_NVAR(tmp);
 		ZVAL_TRUE(tmp);
 		CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
-	}
-	/*
-	else if (PHALCON_IS_STRING(upper_method, "PUT")) {
+	} else if (PHALCON_IS_STRING(upper_method, "PUT") && PHALCON_IS_EMPTY(body)) {
 		PHALCON_INIT_NVAR(constant0);
 		CURL_CONSTANT(constant0, CURLOPT_UPLOAD);
 		PHALCON_INIT_NVAR(tmp);
 		ZVAL_TRUE(tmp);
 		CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
 	}
-	*/
+
 	if (PHALCON_IS_NOT_EMPTY(upper_method)) {
 		PHALCON_INIT_NVAR(constant0);
 		CURL_CONSTANT(constant0, CURLOPT_CUSTOMREQUEST);
