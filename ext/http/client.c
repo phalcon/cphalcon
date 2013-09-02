@@ -1923,12 +1923,6 @@ PHP_METHOD(Phalcon_Http_Client, send){
 	CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
 
 	PHALCON_INIT_NVAR(constant0);
-	CURL_CONSTANT(constant0, CURLOPT_NOBODY);
-	PHALCON_INIT_NVAR(tmp);
-	ZVAL_FALSE(tmp);
-	CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
-
-	PHALCON_INIT_NVAR(constant0);
 	CURL_CONSTANT(constant0, CURLOPT_HEADERFUNCTION);
 	PHALCON_INIT_NVAR(tmp);
 	array_init(tmp);
@@ -2025,13 +2019,17 @@ PHP_METHOD(Phalcon_Http_Client, send){
 		PHALCON_INIT_NVAR(tmp);
 		ZVAL_TRUE(tmp);
 		CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
-	} else if (PHALCON_IS_STRING(upper_method, "PUT")) {
+	}
+	/*
+	else if (PHALCON_IS_STRING(upper_method, "PUT")) {
 		PHALCON_INIT_NVAR(constant0);
 		CURL_CONSTANT(constant0, CURLOPT_UPLOAD);
 		PHALCON_INIT_NVAR(tmp);
 		ZVAL_TRUE(tmp);
 		CURL_SETOPT(NULL, ch, constant0, tmp, 0, 0);
-	} else {
+	}
+	*/
+	if (PHALCON_IS_NOT_EMPTY(upper_method)) {
 		PHALCON_INIT_NVAR(constant0);
 		CURL_CONSTANT(constant0, CURLOPT_CUSTOMREQUEST);
 		CURL_SETOPT(NULL, ch, constant0, upper_method, 0, 0);
@@ -2041,6 +2039,14 @@ PHP_METHOD(Phalcon_Http_Client, send){
 		PHALCON_INIT_NVAR(constant0);
 		CURL_CONSTANT(constant0, CURLOPT_POSTFIELDS);
 		CURL_SETOPT(NULL, ch, constant0, body, 0, 0);
+
+		if (!PHALCON_IS_STRING(upper_method, "POST")) {
+			if (Z_TYPE_P(headers) != IS_ARRAY) {
+				array_init(headers);
+			}
+
+			phalcon_array_update_string_long(&headers, SL("Content-Length"), Z_STRLEN_P(body), PH_SEPARATE);
+		}
 	} else {
 		PHALCON_INIT_NVAR(constant0);
 		CURL_CONSTANT(constant0, CURLOPT_POSTFIELDS);
@@ -2097,7 +2103,7 @@ PHP_METHOD(Phalcon_Http_Client, send){
 		CURL_SETOPT(NULL, ch, constant0, postfields, num, count);
 	}
 
-	if (content_type) {
+	if (PHALCON_IS_NOT_EMPTY(content_type)) {
 		if (Z_TYPE_P(headers) != IS_ARRAY) {
 			array_init(headers);
 		}
