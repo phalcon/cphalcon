@@ -39,7 +39,9 @@
 #define CURL_EXEC(return_value, ch) curl_exec(return_value, ch TSRMLS_CC);
 #define CURL_GETINFO(return_value, ch, option) curl_getinfo(return_value, ch, option TSRMLS_CC);
 #define CURL_CLOSE(return_value, ch) curl_close(return_value, ch TSRMLS_CC);
+#define CURL_ERROR(return_value, ch) curl_error(return_value, ch TSRMLS_CC);
 #define CURL_CONSTANT(return_value, constant) ZVAL_LONG(return_value, constant);
+
 #define CAAL(s, v) add_assoc_long_ex(return_value, s, sizeof(s), (long) v);
 #define CAAD(s, v) add_assoc_double_ex(return_value, s, sizeof(s), (double) v);
 #define CAAS(s, v) add_assoc_string_ex(return_value, s, sizeof(s), (char *) (v ? v : ""), 1);
@@ -63,6 +65,7 @@ static void _php_curl_close(zend_rsrc_list_entry *rsrc TSRMLS_DC);
 #define CURL_SETOPT(return_value, ch, option, value, num, count) phalcon_call_func_p3(return_value, "curl_setopt", ch, option, value);
 #define CURL_EXEC(return_value, ch) phalcon_call_func_p1(return_value, "curl_exec", ch);
 #define CURL_GETINFO(return_value, ch, option) phalcon_call_func_p2(return_value, "curl_getinfo", ch, option);
+#define CURL_ERROR(return_value, ch) phalcon_call_func_p1(return_value, "curl_error", ch);
 #define CURL_CLOSE(return_value, ch) phalcon_call_func_p1_noret("curl_close", ch);
 #define CURL_CONSTANT(return_value, constant) \
 	if (zend_get_constant(SL( #constant ), return_value TSRMLS_CC) == FAILURE) { \
@@ -135,6 +138,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Client){
 	zend_declare_property_null(phalcon_http_client_ce, SL("_response_cookie"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_client_ce, SL("_response_body"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_http_client_ce, SL("_curl"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_client_ce, SL("_error"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -653,6 +657,16 @@ PHP_METHOD(Phalcon_Http_Client, getResponseCookies){
 PHP_METHOD(Phalcon_Http_Client, getResponseBody) {
 
 	RETURN_MEMBER(this_ptr, "_response_body");
+}
+
+/**
+ * Get error message
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Client, getMessage) {
+
+	RETURN_MEMBER(this_ptr, "_error");
 }
 
 #ifdef PHALCON_USE_CURL
@@ -1716,6 +1730,21 @@ static void curl_exec(zval *return_value, zval *zid TSRMLS_DC)
 	}
 }
 
+static void curl_error(zval *return_value, zval *zid TSRMLS_DC)
+{
+	zval		*zid;
+	php_curl	*ch;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "r", &zid) == FAILURE) {
+		return;
+	}
+
+	ZEND_FETCH_RESOURCE(ch, php_curl *, &zid, -1, le_curl_name, le_curl);
+
+	ch->err.str[CURL_ERROR_SIZE] = 0;
+	RETURN_STRING(ch->err.str, 1);
+}
+
 static void curl_close(zval *return_value, zval *zid TSRMLS_DC)
 {
 	php_curl *ch;
@@ -1808,7 +1837,7 @@ PHP_METHOD(Phalcon_Http_Client, send){
 	zval *url, *method, *options, *data, *files, *cookies, *content_type, *body, *headers, *username, *password, *authtype;
 	zval *ch, *constant0 = NULL, *constant1 = NULL, *httphead, *httpcookie, *key = NULL, *value = NULL, *tmp = NULL;
 	zval *timeout, *connecttimeout, *cookiesession, *maxfilesize, *protocol, *useragent, *upper_method, *postfields = NULL;
-	zval *response_body, *response_code;
+	zval *error, *response_body, *response_code;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2134,6 +2163,12 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 	PHALCON_INIT_VAR(response_body);
 	CURL_EXEC(response_body, ch);
+
+	if (Z_TYPE_P(response_body) == IS_BOOL && !zend_is_true(response_body)) {		
+		PHALCON_INIT_VAR(error);
+		CURL_ERROR(error, ch);
+		phalcon_update_property_this(this_ptr, SL("_error"), error TSRMLS_CC);
+	}
 
 	phalcon_update_property_this(this_ptr, SL("_response_body"), response_body TSRMLS_CC);
 

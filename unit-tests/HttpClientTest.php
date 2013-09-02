@@ -53,6 +53,9 @@ class HttpClientTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($ret, $data);
 
 			$ret = $client->send();
+			if (!$ret) {
+				//echo $client->getMessage();
+			}
 			$this->assertTrue($ret);
 			
 			// $ret = $client->getResponseHeaders();
