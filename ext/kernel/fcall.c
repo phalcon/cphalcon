@@ -98,6 +98,9 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 				}
 			}
 		}
+		else {
+			params_ptr = NULL;
+		}
 
 		fci.size           = sizeof(fci);
 		fci.function_table = function_table;
@@ -188,6 +191,9 @@ static int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr
 			params[i] = va_arg(ap, zval*);
 		}
 	}
+	else {
+		params_ptr = NULL;
+	}
 
 	status = phalcon_call_user_function(EG(function_table), NULL, func, return_value, return_value_ptr, param_count, params_ptr TSRMLS_CC);
 
@@ -247,6 +253,9 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 		for (i=0; i<param_count; ++i) {
 			params[i] = va_arg(ap, zval*);
 		}
+	}
+	else {
+		params_ptr = NULL;
 	}
 
 	ce           = Z_OBJCE_P(object);
@@ -316,6 +325,9 @@ static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **
 		for (i=0; i<param_count; ++i) {
 			params[i] = va_arg(ap, zval*);
 		}
+	}
+	else {
+		params_ptr = NULL;
 	}
 
 	status = phalcon_call_user_function(EG(function_table), NULL, fn, return_value, return_value_ptr, param_count, params_ptr TSRMLS_CC);

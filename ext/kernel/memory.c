@@ -246,6 +246,8 @@ static void phalcon_memory_restore_stack_common(zend_phalcon_globals *phalcon_gl
 	}
 }
 
+#ifndef PHALCON_RELEASE
+
 /**
  * Finishes the current memory stack by releasing allocated memory
  */
@@ -272,7 +274,6 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC)
 	return SUCCESS;
 }
 
-#ifndef PHALCON_RELEASE
 /**
  * Adds a memory frame in the current executed method
  */
@@ -294,6 +295,7 @@ void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
  */
 int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 	phalcon_memory_restore_stack_common(PHALCON_VGLOBAL TSRMLS_CC);
+	return SUCCESS;
 }
 #endif
 
@@ -418,13 +420,13 @@ void phalcon_create_symbol_table(TSRMLS_D) {
 	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
 	HashTable *symbol_table;
 
-	#ifndef PHALCON_RELEASE
+#ifndef PHALCON_RELEASE
 	if (!phalcon_globals_ptr->active_memory) {
 		fprintf(stderr, "ERROR: Trying to create a virtual symbol table without a memory frame");
 		phalcon_print_backtrace();
 		return;
 	}
-	#endif
+#endif
 
 	entry = (phalcon_symbol_table *) emalloc(sizeof(phalcon_symbol_table));
 	entry->scope = phalcon_globals_ptr->active_memory;

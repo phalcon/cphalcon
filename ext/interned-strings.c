@@ -77,7 +77,7 @@ const char *phalcon_interned_value          = NULL;
 const char *phalcon_interned_values         = NULL;
 const char *phalcon_interned_where          = NULL;
 
-void phalcon_init_interned_strings(TSRMLS_D)
+PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 {
 	phalcon_interned_alias          = zend_new_interned_string(SS("alias"), 0 TSRMLS_CC);
 	phalcon_interned_all            = zend_new_interned_string(SS("all"), 0 TSRMLS_CC);

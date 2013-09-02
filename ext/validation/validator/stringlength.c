@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	zval *validator, *attribute, *option = NULL, *is_set_min;
 	zval *is_set_max, *value, *length = NULL, *invalid_maximum = NULL;
 	zval *invalid_minimum = NULL, *maximum, *message_str = NULL;
-	zval *type = NULL, *message = NULL, *minimum;
+	zval *type = NULL, *message = NULL, *minimum, *is_set_code, *code;
 
 	PHALCON_MM_GROW();
 
@@ -158,9 +158,24 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 			PHALCON_INIT_VAR(type);
 			ZVAL_STRING(type, "TooLong", 1);
 	
+			/*
+			 * Is code set
+			 */
+			PHALCON_INIT_NVAR(option);
+			ZVAL_STRING(option, "code", 1);
+
+			PHALCON_INIT_VAR(is_set_code);
+			phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+			PHALCON_INIT_VAR(code);
+			if (zend_is_true(is_set_code)) {
+				phalcon_call_method_p1(code, this_ptr, "getoption", option);
+			} else {
+				ZVAL_LONG(code, 0);
+			}
+
 			PHALCON_INIT_VAR(message);
 			object_init_ex(message, phalcon_validation_message_ce);
-			phalcon_call_method_p3_noret(message, "__construct", message_str, attribute, type);
+			phalcon_call_method_p4_noret(message, "__construct", message_str, attribute, type, code);
 	
 			phalcon_call_method_p1_noret(validator, "appendmessage", message);
 			RETURN_MM_FALSE;
@@ -196,10 +211,25 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	
 			PHALCON_INIT_NVAR(type);
 			ZVAL_STRING(type, "TooShort", 1);
+
+			/*
+			 * Is code set
+			 */
+			PHALCON_INIT_NVAR(option);
+			ZVAL_STRING(option, "code", 1);
+
+			PHALCON_INIT_VAR(is_set_code);
+			phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+			PHALCON_INIT_VAR(code);
+			if (zend_is_true(is_set_code)) {
+				phalcon_call_method_p1(code, this_ptr, "getoption", option);
+			} else {
+				ZVAL_LONG(code, 0);
+			}
 	
 			PHALCON_INIT_NVAR(message);
 			object_init_ex(message, phalcon_validation_message_ce);
-			phalcon_call_method_p3_noret(message, "__construct", message_str, attribute, type);
+			phalcon_call_method_p4_noret(message, "__construct", message_str, attribute, type, code);
 	
 			phalcon_call_method_p1_noret(validator, "appendmessage", message);
 			RETURN_MM_FALSE;

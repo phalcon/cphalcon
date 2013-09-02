@@ -86,7 +86,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_PresenceOf){
 PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate){
 
 	zval *record, *option = NULL, *field_name, *value, *message = NULL;
-	zval *type;
+	zval *type, *is_set_code, *code;
 
 	PHALCON_MM_GROW();
 
@@ -124,7 +124,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate){
 	
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "PresenceOf", 1);
-		phalcon_call_method_p3_noret(this_ptr, "appendmessage", message, field_name, type);
+
+		/*
+		 * Is code set
+		 */
+		PHALCON_INIT_NVAR(option);
+		ZVAL_STRING(option, "code", 1);
+
+		PHALCON_INIT_VAR(is_set_code);
+		phalcon_call_method_p1(is_set_code, this_ptr, "issetoption", option);
+		PHALCON_INIT_VAR(code);
+		if (zend_is_true(is_set_code)) {
+			phalcon_call_method_p1(code, this_ptr, "getoption", option);
+		} else {
+			ZVAL_LONG(code, 0);
+		}
+
+		phalcon_call_method_p4_noret(this_ptr, "appendmessage", message, field_name, type, code);
 		RETURN_MM_FALSE;
 	}
 	

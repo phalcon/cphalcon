@@ -1364,6 +1364,9 @@ int phalcon_create_instance_params(zval *return_value, const zval *class_name, z
 				params_ptr[i] = *item;
 			}
 		}
+		else {
+			params_ptr = NULL;
+		}
 
 		outcome = phalcon_call_method_params(NULL, NULL, return_value, SL("__construct"), zend_inline_hash_func(SS("__construct")) TSRMLS_CC, -param_count, params_ptr);
 

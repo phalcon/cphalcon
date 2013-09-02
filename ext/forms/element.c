@@ -39,6 +39,7 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
+#include "kernel/hash.h"
 
 /**
  * Phalcon\Forms\Element
@@ -579,15 +580,17 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel){
  */
 PHP_METHOD(Phalcon_Forms_Element, label){
 
-	zval *label, *attributes, *name = NULL, *html = NULL;
+	zval *label, *attributes = NULL, *name = NULL, *html = NULL, *key = NULL, *value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
+	phalcon_fetch_params(1, 0, 1, &attributes);
+
 	PHALCON_OBS_VAR(label);
 	phalcon_read_property_this(&label, this_ptr, SL("_label"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(attributes);
-	phalcon_read_property_this(&attributes, this_ptr, SL("_attributes"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if there is an 'id' attribute defined
@@ -599,16 +602,32 @@ PHP_METHOD(Phalcon_Forms_Element, label){
 		PHALCON_OBS_NVAR(name);
 		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	}
-	
+
+	PHALCON_INIT_VAR(html);
+	PHALCON_CONCAT_SVS(html, "<label for=\"", name, "\"");
+
+	if (attributes && Z_TYPE_P(attributes) == IS_ARRAY) {	
+		phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
+		
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+			PHALCON_GET_HKEY(key, ah0, hp0);
+			PHALCON_GET_HVALUE(value);
+		
+			if (Z_TYPE_P(key) != IS_LONG) {
+				PHALCON_SCONCAT_SVSVS(html, " ", key, "=\"", value, "\"");
+			}
+		
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	}
+		
 	/** 
 	 * Use the default label or leave the same name as label
 	 */
 	if (zend_is_true(label)) {
-		PHALCON_INIT_VAR(html);
-		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", label, "</label>");
+		PHALCON_SCONCAT_SVS(html, ">", label, "</label>");
 	} else {
-		PHALCON_INIT_NVAR(html);
-		PHALCON_CONCAT_SVSVS(html, "<label for=\"", name, "\">", name, "</label>");
+		PHALCON_SCONCAT_SVS(html, ">", name, "</label>");
 	}
 	
 	RETURN_CTOR(html);
