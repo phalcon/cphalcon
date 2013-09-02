@@ -416,6 +416,21 @@ image/adapter/imagick.c"
 		[[#include "php_config.h"]]
 	)
 
+	for i in /usr/local /usr; do
+		if test -r $i/include/qrencode.h; then
+			QRENCODE_DIR=$i
+
+			PHP_ADD_INCLUDE($QRENCODE_DIR/include)
+
+			PHP_SUBST(QRENCODE_SHARED_LIBADD)
+			PHP_ADD_LIBRARY_WITH_PATH(png, $QRENCODE_DIR/lib, QRENCODE_SHARED_LIBADD)
+			PHP_ADD_LIBRARY_WITH_PATH(qrencode, $QRENCODE_DIR/lib, QRENCODE_SHARED_LIBADD)
+
+			AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+			break
+		fi
+	done
+
 	CPPFLAGS=$old_CPPFLAGS
 
 	PHP_ADD_MAKEFILE_FRAGMENT
