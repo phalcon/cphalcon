@@ -585,13 +585,13 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
 			phalcon_call_self_p2(value, this_ptr, "map", callbacks, val);
 
 			phalcon_array_update_zval(&array, key, &value, 0);
-		} else if (!keys || Z_TYPE_P(keys) != IS_ARRAY || phalcon_fast_in_array(key, keys)) {
+		} else if (!keys || Z_TYPE_P(keys) != IS_ARRAY || phalcon_fast_in_array(key, keys, TSRMLS_CC)) {
 			if (Z_TYPE_P(callbacks) == IS_ARRAY) {
 				phalcon_is_iterable(callbacks, &ah1, &hp1, 0, 0);
 
 				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 					PHALCON_INIT_NVAR(key1);
-					phalcon_get_current_key(&key1, ah1, &hp1);
+					phalcon_get_current_key(&key1, ah1, &hp1 TSRMLS_CC);
 
 					callback = phalcon_hash_get(ah1, key1, BP_VAR_NA);
 
@@ -694,7 +694,7 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 			PHALCON_GET_HVALUE(value);
 
-			if (!phalcon_fast_in_array(value, array1)) {
+			if (!phalcon_fast_in_array(value, array1 TSRMLS_CC)) {
 				phalcon_array_append(&array1, value, PH_COPY);
 			}
 
@@ -898,8 +898,8 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
  PHP_METHOD(Phalcon_Utils_Arr, flatten){
 
 	zval *array, *is_assoc, *key = NULL, *value = NULL, *arr = NULL, *tmp = NULL;
-	HashTable *ah0, *ah1;
-	HashPosition hp0, hp1;
+	HashTable *ah0;
+	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
