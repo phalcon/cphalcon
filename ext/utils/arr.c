@@ -585,7 +585,7 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
 			phalcon_call_self_p2(value, this_ptr, "map", callbacks, val);
 
 			phalcon_array_update_zval(&array, key, &value, 0);
-		} else if (!keys || Z_TYPE_P(keys) != IS_ARRAY || phalcon_fast_in_array(key, keys, TSRMLS_CC)) {
+		} else if (!keys || Z_TYPE_P(keys) != IS_ARRAY || phalcon_fast_in_array(key, keys TSRMLS_CC)) {
 			if (Z_TYPE_P(callbacks) == IS_ARRAY) {
 				phalcon_is_iterable(callbacks, &ah1, &hp1, 0, 0);
 
