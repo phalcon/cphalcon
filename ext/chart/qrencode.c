@@ -84,6 +84,9 @@ PHALCON_INIT_CLASS(Phalcon_Chart_QRencode){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Chart, QRencode, chart_qrencode, phalcon_chart_qrencode_method_entry, 0);
 
+#ifdef PHALCON_USE_QRENCODE
+    le_qr = zend_register_list_destructors_ex(qr_dtor, NULL, "qr", module_number);
+
 	/* Mode */
 	zend_declare_class_constant_long(phalcon_chart_qrencode_ce, SL("MODE_NUL"), QR_MODE_NUL TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_chart_qrencode_ce, SL("MODE_NUM"), QR_MODE_NUM TSRMLS_CC);
@@ -95,15 +98,13 @@ PHALCON_INIT_CLASS(Phalcon_Chart_QRencode){
 	zend_declare_class_constant_long(phalcon_chart_qrencode_ce, SL("LEVEL_M"), QR_ECLEVEL_M TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_chart_qrencode_ce, SL("LEVEL_Q"), QR_ECLEVEL_Q TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_chart_qrencode_ce, SL("LEVEL_H"), QR_ECLEVEL_H TSRMLS_CC);
-
+#endif
 	zend_declare_property_null(phalcon_chart_qrencode_ce, SL("_qr"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_chart_qrencode_ce, SL("_text"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_chart_qrencode_ce, SL("_version"), 4, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_chart_qrencode_ce, SL("_level"), QR_ECLEVEL_L, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_chart_qrencode_ce, SL("_mode"), QR_MODE_KANJI, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_chart_qrencode_ce, SL("_level"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_chart_qrencode_ce, SL("_mode"), 3, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_chart_qrencode_ce, SL("_casesensitive"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
-
-    le_qr = zend_register_list_destructors_ex(qr_dtor, NULL, "qr", module_number);
 
 	return SUCCESS;
 }
@@ -280,15 +281,6 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
 
 	zval *zid, *size = NULL, *margin = NULL, *exception_message;
     long s = 3, m = 4;
-    FILE *fp = NULL;
-    png_structp png_ptr;
-    png_infop info_ptr;
-    unsigned char *row, *p, *q;
-    int x, y, xx, yy, bit;
-    int realwidth;
-    char *path;
-    int b;
-    char buf[4096];
 
     PHALCON_MM_GROW();
 
@@ -313,6 +305,15 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
 	}
 	
 #ifdef PHALCON_USE_QRENCODE
+    FILE *fp = NULL;
+    unsigned char *row, *p, *q;
+    int x, y, xx, yy, bit;
+    int realwidth;
+    char *path;
+    int b;
+    char buf[4096];
+    png_structp png_ptr;
+    png_infop info_ptr;
 	php_qrcode *qr = NULL;
 
 	PHALCON_OBS_VAR(zid);
