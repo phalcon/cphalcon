@@ -418,19 +418,26 @@ chart/qrencode.c"
 	)
 
 	for i in /usr/local /usr; do
-		if test -r $i/include/qrencode.h; then
-			QRENCODE_DIR=$i
-
-			PHP_ADD_INCLUDE($QRENCODE_DIR/include)
-
-			PHP_SUBST(QRENCODE_SHARED_LIBADD)
-			PHP_ADD_LIBRARY_WITH_PATH(png, $QRENCODE_DIR/lib, QRENCODE_SHARED_LIBADD)
-			PHP_ADD_LIBRARY_WITH_PATH(qrencode, $QRENCODE_DIR/lib, QRENCODE_SHARED_LIBADD)
-
-			AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+		if test -r $i/include/png.h; then
+			PNG_DIR=$i
+			AC_MSG_RESULT("libpng found")
 			break
 		fi
 	done
+
+	if test -r "$PNG_DIR"; then
+		for i in /usr/local /usr; do
+			if test -r $i/include/qrencode.h; then
+				EXTRA_CFLAGS=`pkg-config --cflags libqrencode libpng`
+				EXTRA_LDFLAGS=`pkg-config --libs libqrencode  libpng`
+
+				AC_MSG_RESULT("libqrencode found")
+
+				AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+				break
+			fi
+		done
+	fi
 
 	CPPFLAGS=$old_CPPFLAGS
 
