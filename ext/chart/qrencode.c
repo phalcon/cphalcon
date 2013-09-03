@@ -183,7 +183,10 @@ PHP_METHOD(Phalcon_Chart_QRencode, __construct){
  */
 PHP_METHOD(Phalcon_Chart_QRencode, generate){
 
-	zval *zid, *text = NULL, *version = NULL, *level = NULL, *mode = NULL, *casesensitive = NULL;
+	zval *text = NULL, *version = NULL, *level = NULL, *mode = NULL, *casesensitive = NULL;
+#ifdef PHALCON_USE_QRENCODE
+	zval *zid;
+#endif
 
 	PHALCON_MM_GROW();
 
@@ -279,32 +282,34 @@ PHP_METHOD(Phalcon_Chart_QRencode, generate){
  */
 PHP_METHOD(Phalcon_Chart_QRencode, render){
 
-	zval *zid, *size = NULL, *margin = NULL, *exception_message;
+	zval *size = NULL, *margin = NULL, *exception_message;
+#ifdef PHALCON_USE_QRENCODE
+	zval *zid;
     long s = 3, m = 4;
+#endif
 
     PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 2, &size, &margin);
 
-	if (size && Z_TYPE_P(size) != IS_NULL) {
-		if (Z_TYPE_P(size) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "size parameter must be int");
-			return;
-		} else {
-			s = Z_LVAL_P(size);
-		}
+	if (size && Z_TYPE_P(size) != IS_NULL && Z_TYPE_P(size) != IS_LONG) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "size parameter must be int");
+		return;
 	}
 
-	if (margin && Z_TYPE_P(margin) != IS_NULL) {
-		if (Z_TYPE_P(margin) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "margin parameter must be int");
-			return;
-		} else {
-			m = Z_LVAL_P(margin);
-		}
+	if (margin && Z_TYPE_P(margin) != IS_NULL && Z_TYPE_P(margin) != IS_LONG) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "margin parameter must be int");
+		return;
 	}
 	
 #ifdef PHALCON_USE_QRENCODE
+	if (Z_TYPE_P(size) == IS_LONG) {
+		s = Z_LVAL_P(size);
+	}
+	if (Z_TYPE_P(margin) == IS_LONG) {
+		m = Z_LVAL_P(margin);
+	}
+
     FILE *fp = NULL;
     unsigned char *row, *p, *q;
     int x, y, xx, yy, bit;
@@ -428,8 +433,11 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
  */
 PHP_METHOD(Phalcon_Chart_QRencode, save){
 
-	zval *zid, *filename, *size = NULL, *margin = NULL, *exception_message;
+	zval *filename, *size = NULL, *margin = NULL, *exception_message;
+#ifdef PHALCON_USE_QRENCODE
+	zval *zid;
     long s = 3, m = 4;
+#endif
 
     PHALCON_MM_GROW();
 
@@ -442,25 +450,24 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
 	
 	fn = Z_STRVAL_P(filename);
 
-	if (size && Z_TYPE_P(size) != IS_NULL) {
-		if (Z_TYPE_P(size) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "size parameter must be int");
-			return;
-		} else {
-			s = Z_LVAL_P(size);
-		}
+	if (size && Z_TYPE_P(size) != IS_NULL && Z_TYPE_P(size) != IS_LONG) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "size parameter must be int");
+		return;
 	}
 
-	if (margin && Z_TYPE_P(margin) != IS_NULL) {
-		if (Z_TYPE_P(margin) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "margin parameter must be int");
-			return;
-		} else {
-			m = Z_LVAL_P(margin);
-		}
+	if (margin && Z_TYPE_P(margin) != IS_NULL && Z_TYPE_P(margin) != IS_LONG) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "margin parameter must be int");
+		return;
 	}
 	
 #ifdef PHALCON_USE_QRENCODE
+	if (Z_TYPE_P(size) == IS_LONG) {
+		s = Z_LVAL_P(size);
+	}
+	if (Z_TYPE_P(margin) == IS_LONG) {
+		m = Z_LVAL_P(margin);
+	}
+
     FILE *fp = NULL;
     unsigned char *row, *p, *q;
     int x, y, xx, yy, bit;
