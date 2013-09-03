@@ -17,46 +17,15 @@
  +------------------------------------------------------------------------+
  */
 
- namespace Phalcon;
+namespace Phalcon\Validation;
 
- /**
- * Phalcon\Validation
+/**
+ * Phalcon\Validation\Exception
  *
- * Allows to validate data using validators
+ * Exceptions thrown in Phalcon\Validation\* classes will use this class
+ *
  */
-class Validation extends Phalcon\DI\Injectable
+class Exception extends Phalcon\Exception
 {
-	protected _data;
 
-	protected _entity;
-
-	protected _validators;
-
-	protected _filters;
-
-	protected _messages;
-
-	protected _values;
-
-	/**
-	 * Phalcon\Validation constructor
-	 *
-	 * @param array validators
-	 */
-	public function __construct(validators=null)
-	{
-
-		if validators === null {
-			if typeof validators !== "array" {
-				throw new Phalcon\Validation\Exception("Validators must be an array");
-			}
-			let this->_validators = validators;
-		}
-
-		/**
-		 * Check for an 'initialize' method
-		 */
-		if method_exists(this, "initialize") {
-			this->initialize();
-		}
-	}
+}
