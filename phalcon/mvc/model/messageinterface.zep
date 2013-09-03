@@ -24,7 +24,8 @@ namespace Phalcon\Mvc\Model;
  *
  * Interface for Phalcon\Mvc\Model\Message
  */
-interface _MessageInterface {
+interface MessageInterface
+{
 
     /**
      * Phalcon\Mvc\Model\Message constructor

@@ -30,10 +30,10 @@ interface ColumnInterface
 	/**
 	 * Phalcon\Db\ColumnInterface constructor
 	 *
-	 * @param string $columnName
-	 * @param array $definition
+	 * @param string columnName
+	 * @param array definition
 	 */
-	public function __construct($columnName, $definition);
+	public function __construct(columnName, definition);
 
 	/**
 	 * Returns schema's table related to column
@@ -129,9 +129,9 @@ interface ColumnInterface
 	/**
 	 * Restores the internal state of a Phalcon\Db\Column object
 	 *
-	 * @param array $data
+	 * @param array data
 	 * @return \Phalcon\Db\ColumnInterface
 	 */
-	public static function __set_state($data);
+	public static function __set_state(data);
 
 }
