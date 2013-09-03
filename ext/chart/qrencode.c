@@ -42,6 +42,12 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 
+#include "chart/qrencode.h"
+
+#ifdef PHALCON_USE_QRENCODE
+#include <qrencode.h>
+#endif
+
 /**
  * Phalcon\Chart\QRencode
  *

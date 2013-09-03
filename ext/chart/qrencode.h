@@ -47,15 +47,5 @@ PHALCON_INIT_FUNCS(phalcon_chart_qrencode_method_entry){
 	PHP_FE_END
 };
 
-#ifdef PHP_WIN32
-#define PHP_QRENCODE_API __declspec(dllexport)
-#else
-#define PHP_QRENCODE_API
-#endif
-
-#ifdef ZTS
-#include "TSRM.h"
-#endif
-
 #endif	/* PHALCON_CHART_QRENCODE_H */
 
