@@ -351,6 +351,7 @@ zend_class_entry *phalcon_image_exception_ce;
 zend_class_entry *phalcon_image_adapter_gd_ce;
 zend_class_entry *phalcon_image_adapter_imagick_ce;
 zend_class_entry *phalcon_chart_qrencode_ce;
+zend_class_entry *phalcon_chart_exception_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
@@ -704,6 +705,7 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
 	PHALCON_INIT(Phalcon_Chart_QRencode);
+	PHALCON_INIT(Phalcon_Chart_Exception);
 
 	orig_execute_internal = zend_execute_internal;
 	if (!zend_execute_internal && !getenv("PHALCON_NO_RVO")) {

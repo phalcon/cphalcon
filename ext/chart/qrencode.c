@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, __construct){
 	
 	if (text) {
 		if (Z_TYPE_P(text) != IS_STRING) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_qrencode_ce, "text parameter must be string");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "text parameter must be string");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_text"), text TSRMLS_CC);
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, __construct){
 	
 	if (version) {
 		if (Z_TYPE_P(version) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_qrencode_ce, "version parameter must be int");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "version parameter must be int");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_version"), version TSRMLS_CC);
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, __construct){
 	
 	if (level) {
 		if (Z_TYPE_P(level) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_qrencode_ce, "level parameter must be int");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "level parameter must be int");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_level"), level TSRMLS_CC);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, __construct){
 	
 	if (mode) {
 		if (Z_TYPE_P(mode) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_qrencode_ce, "mode parameter must be int");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "mode parameter must be int");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_mode"), mode TSRMLS_CC);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, __construct){
 	
 	if (casesensitive) {
 		if (Z_TYPE_P(casesensitive) != IS_LONG && Z_TYPE_P(casesensitive) != IS_BOOL) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_qrencode_ce, "casesensitive parameter must be int or bool");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "casesensitive parameter must be int or bool");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_casesensitive"), casesensitive TSRMLS_CC);
@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, generate){
 
 	if (text) {
 		if (Z_TYPE_P(text) != IS_STRING) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_qrencode_ce, "text parameter must be string");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "text parameter must be string");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_text"), text TSRMLS_CC);
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, generate){
 	
 	if (version) {
 		if (Z_TYPE_P(version) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_qrencode_ce, "version parameter must be int");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "version parameter must be int");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_version"), version TSRMLS_CC);
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, generate){
 	
 	if (level) {
 		if (Z_TYPE_P(level) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_qrencode_ce, "level parameter must be int");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "level parameter must be int");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_level"), level TSRMLS_CC);
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, generate){
 	
 	if (mode) {
 		if (Z_TYPE_P(mode) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_qrencode_ce, "mode parameter must be int");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "mode parameter must be int");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_mode"), mode TSRMLS_CC);
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, generate){
 	
 	if (casesensitive) {
 		if (Z_TYPE_P(casesensitive) != IS_LONG && Z_TYPE_P(casesensitive) != IS_BOOL) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_qrencode_ce, "casesensitive parameter must be int or bool");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "casesensitive parameter must be int or bool");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_casesensitive"), casesensitive TSRMLS_CC);
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
 
 	if (size && Z_TYPE_P(size) != IS_NULL) {
 		if (Z_TYPE_P(size) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_qrencode_ce, "size parameter must be int");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "size parameter must be int");
 			return;
 		} else {
 			s = Z_LVAL_P(size);
@@ -305,7 +305,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
 
 	if (margin && Z_TYPE_P(margin) != IS_NULL) {
 		if (Z_TYPE_P(margin) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_qrencode_ce, "margin parameter must be int");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "margin parameter must be int");
 			return;
 		} else {
 			m = Z_LVAL_P(margin);
@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
 
 	fp = php_open_temporary_file(NULL, NULL, &path TSRMLS_CC);
 	if (!fp) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Unable to open temporary file for writing");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Unable to open temporary file for writing");
 		return;
 	}
 
@@ -336,21 +336,21 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
 	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if(png_ptr == NULL) {
 		fclose(fp);
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Failed to initialize PNG writer");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Failed to initialize PNG writer");
 		return;
 	}
 
 	info_ptr = png_create_info_struct(png_ptr);
 	if(info_ptr == NULL) {
 		fclose(fp);
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Failed to initialize PNG writer");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Failed to initialize PNG writer");
 		return;
 	}
 
 	if(setjmp(png_jmpbuf(png_ptr))) {
 		png_destroy_write_struct(&png_ptr, &info_ptr);
 		fclose(fp);
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Failed to write PNG writer");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Failed to write PNG writer");
 		return;
 	}
 
@@ -444,8 +444,8 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
 
 	phalcon_fetch_params(1, 1, 2, &filename, &size, &margin);
 
-	if (Z_TYPE_P(filename) != IS_STRING || PHALCON_IS_NOT_EMPTY(filename)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_qrencode_ce, "filename parameter must be string");
+	if (Z_TYPE_P(filename) != IS_STRING || PHALCON_IS_EMPTY(filename)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "filename parameter must be string");
 		return;
 	}
 	
@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
 
 	if (size && Z_TYPE_P(size) != IS_NULL) {
 		if (Z_TYPE_P(size) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_qrencode_ce, "size parameter must be int");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "size parameter must be int");
 			return;
 		} else {
 			s = Z_LVAL_P(size);
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
 
 	if (margin && Z_TYPE_P(margin) != IS_NULL) {
 		if (Z_TYPE_P(margin) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_qrencode_ce, "margin parameter must be int");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "margin parameter must be int");
 			return;
 		} else {
 			m = Z_LVAL_P(margin);
@@ -495,21 +495,21 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
 	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if(png_ptr == NULL) {
 		fclose(fp);
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Failed to initialize PNG writer");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Failed to initialize PNG writer");
 		return;
 	}
 
 	info_ptr = png_create_info_struct(png_ptr);
 	if(info_ptr == NULL) {
 		fclose(fp);
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Failed to initialize PNG writer");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Failed to initialize PNG writer");
 		return;
 	}
 
 	if(setjmp(png_jmpbuf(png_ptr))) {
 		png_destroy_write_struct(&png_ptr, &info_ptr);
 		fclose(fp);
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Failed to write PNG writer");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Failed to write PNG writer");
 		return;
 	}
 
