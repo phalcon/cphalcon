@@ -282,9 +282,9 @@ PHP_METHOD(Phalcon_Chart_QRencode, generate){
  */
 PHP_METHOD(Phalcon_Chart_QRencode, render){
 
-	zval *size = NULL, *margin = NULL, *exception_message;
+	zval *size = NULL, *margin = NULL;
 #ifdef PHALCON_USE_QRENCODE
-	zval *zid;
+	zval *zid, *exception_message;
     long s = 3, m = 4;
 #endif
 
@@ -433,9 +433,10 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
  */
 PHP_METHOD(Phalcon_Chart_QRencode, save){
 
-	zval *filename, *size = NULL, *margin = NULL, *exception_message;
+	zval *filename, *size = NULL, *margin = NULL;
 #ifdef PHALCON_USE_QRENCODE
-	zval *zid;
+	zval *zid, *exception_message;
+	char *fn = NULL;
     long s = 3, m = 4;
 #endif
 
@@ -447,8 +448,6 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "filename parameter must be string");
 		return;
 	}
-	
-	fn = Z_STRVAL_P(filename);
 
 	if (size && Z_TYPE_P(size) != IS_NULL && Z_TYPE_P(size) != IS_LONG) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "size parameter must be int");
@@ -467,6 +466,8 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
 	if (Z_TYPE_P(margin) == IS_LONG) {
 		m = Z_LVAL_P(margin);
 	}
+	
+	fn = Z_STRVAL_P(filename);
 
     FILE *fp = NULL;
     unsigned char *row, *p, *q;
