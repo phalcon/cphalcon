@@ -282,11 +282,11 @@ class Service implements Phalcon\DI\ServiceInterface {
 			throw new Phalcon\DI\Exception("The attribute '_name' is required");
 		}
 
-		if fetch definition, attributes["_definition"] {
+		if !fetch definition, attributes["_definition"] {
 			throw new Phalcon\DI\Exception("The attribute '_name' is required");
 		}
 
-		if fetch shared, attributes["_shared"] {
+		if !fetch shared, attributes["_shared"] {
 			throw new Phalcon\DI\Exception("The attribute '_shared' is required");
 		}
 

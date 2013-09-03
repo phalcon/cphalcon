@@ -34,6 +34,7 @@ class FactoryDefault extends Phalcon\DI
 	 */
 	public function __construct()
 	{
+		var shared;
 
 		parent::__construct();
 
