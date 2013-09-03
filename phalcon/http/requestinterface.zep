@@ -49,7 +49,7 @@ interface RequestInterface
 
 	/**
 	 * Gets variable from $_GET superglobal applying filters if needed
-     *
+	 *
 	 * @param string name
 	 * @param string|array filters
 	 * @param mixed defaultValue
