@@ -13,6 +13,7 @@ services:
   - memcached
 
 before_install:
+ - sudo apt-get install libqrencode-dev libpng-dev
  - ./unit-tests/ci/install_prereqs.sh
  - ./unit-tests/ci/setup_dbs.sh
 
