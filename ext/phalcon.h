@@ -335,3 +335,5 @@
 #include "utils/arr.h"
 #include "http/client.h"
 #include "http/client/exception.h"
+#include "chart/qrencode.h"
+#include "chart/exception.h"

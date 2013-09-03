@@ -351,7 +351,9 @@ image/adapter/imagick.c \
 utils/date.c \
 utils/arr.c \
 http/client.c \
-http/client/exception.c"
+http/client/exception.c \
+chart/qrencode.c \
+chart/exception.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
 	PHP_ADD_EXTENSION_DEP([phalcon], [spl])
@@ -442,6 +444,29 @@ http/client/exception.c"
 			break
 		fi
 	done
+
+
+	for i in /usr/local /usr; do
+		if test -r $i/include/png.h; then
+			PNG_DIR=$i
+			AC_MSG_RESULT("libpng found")
+			break
+		fi
+	done
+
+	if test -r "$PNG_DIR"; then
+		for i in /usr/local /usr; do
+			if test -r $i/include/qrencode.h; then
+				EXTRA_CFLAGS=`pkg-config --cflags libqrencode libpng`
+				EXTRA_LDFLAGS=`pkg-config --libs libqrencode  libpng`
+
+				AC_MSG_RESULT("libqrencode found")
+
+				AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+				break
+			fi
+		done
+	fi
 
 	CPPFLAGS=$old_CPPFLAGS
 
