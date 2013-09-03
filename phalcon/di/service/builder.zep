@@ -48,47 +48,45 @@ class Builder
 		/**
 		 * All the arguments must have a type
 		 */
-		if !isset argument["type"] {
+		if !fetch type, argument["type"] {
 			throw new Phalcon\DI\Exception("Argument at position " . position . " must have a type");
 		}
 
-		switch argument["type"] {
+		switch type {
 
 			/**
 			 * If the argument type is 'service', we obtain the service from the DI
 			 */
 			case "service":
-				if !isset argument['name'] {
+				if !fetch name, argument['name'] {
 					throw new Phalcon\DI\Exception("Service 'name' is required in parameter on position " . position);
 				}
 				if typeof dependencyInjector != "object" {
 					throw new Phalcon\DI\Exception("The dependency injector container is not valid");
 				}
-				return dependencyInjector->get(argument['name']);
+				return dependencyInjector->get(name);
 
 			/**
 			 * If the argument type is 'parameter', we assign the value as it is
 			 */
 			case "parameter":
-				if !isset argument['value'] {
+				if !fetch value, argument["value"] {
 					throw new Phalcon\DI\Exception("Service 'value' is required in parameter on position " . position);
 				}
-				return argument['value'];
+				return value;
 
 			/**
 			 * If the argument type is 'instance', we assign the value as it is
 			 */
 			case "instance":
 
-				if !isset argument['className'] {
+				if !fetch name, argument['className'] {
 					throw new Phalcon_DI_Exception("Service 'className' is required in parameter on position ".position);
 				}
 
 				if typeof dependencyInjector != "object" {
 					throw new Phalcon_DI_Exception("The dependency injector container is not valid");
 				}
-
-				let name = argument['className'];
 
 				if fetch instanceArguments, argument['arguments'] {
 					/**
