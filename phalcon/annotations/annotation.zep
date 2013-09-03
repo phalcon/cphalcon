@@ -23,232 +23,224 @@ namespace Phalcon\Annotations;
 *
 * Represents a single annotation in an annotations collection
 */
-class Annotation 
+class Annotation
 {
- /**
- * Annotations's Name
- * @var string
- */
- protected _name;
-	
+
 	/**
- * Annotations's Arguments
- * @var string
- */
- protected _arguments;
-	
-	/**
- * Annotations's ExprArguments
- * @var string
- */
- protected _exprArguments;
- 
- /**
- * Phalcon\Annotations\Annotation constructor
- *
- * @param array $reflectionData
- */
- public function __construct(reflectionData) 
- {
-  var name, exprArguments, argument, expr, resolvedArgument, arguments;
-  
-  if typeof reflectionData != "array" {
-   throw new Phalcon\Annotations\Exception("Reflection data must be an array");
-  }
-  
-  let name = reflectionData["name"];
-  let this->_name = name;
-  
-  /** 
-	 * Process annotation arguments
+	 * Annotations's Name
+	 * @var string
 	 */
-	 if isset reflectionData["arguments"] {
-	  let exprArguments = reflectionData["arguments"];
-	  
-	  for argument in exprArguments {
-	   let expr = argument["expr"];
-	   let resolvedArgument =  this->getExpression(expr);
-	   if isset argument["name"] {
-	    let name = argument["name"];
-	    let arguments = name[resolvedArgument];
-	   } else {
-	    let arguments = resolvedArgument;
-	   }
-	  }
-	  
-	  let this->_arguments = arguments;
-	  let this->_exprArguments = exprArguments;
-	 }
- }
- 
- /**
- * Returns the annotation's name
- *
- * @return string
- */
- public function getName()
- {
-  return this->_name;
- }
- 
- /**
- * Resolves an annotation expression
- *
- * @param array $expr
- * @return mixed
- */
- public function getExpression(expr)
- {
-  var type, value, items, item, resolvedItem, arrayValue;
-  
-  if typeof expr != "array" {
-   throw new Phalcon\Annotations\Exception("The expression is not valid");
-  }
-  
-  let type = expr["type"];
-  switch type 
-  {
-   case 301:
-   case 302:
-   case 303:
-   case 307:
-    let value = expr["value"];
-    break;
-   case 304:
-    return null;
-    break;
-   case 305:
-    return false;
-    break;
-   case 306:
-    return true;
-    break;
-   case 308:
-    let items = expr["items"];
-    for item in items {
-     let resolvedItem = this->getExpression(item["expr"]);
-     if isset item["name"] {
-      let name = item["name"];
-      let arrayValue = name[resolvedItem];
-     } else {
-      let arrayValue[] = resolvedItem;
-     }
-    }
-    return arrayValue;
-    break;
-   case 300:
-    return new Phalcon\Annotations\Annotation(expr);
-    break;
-   default:
-    throw new Phalcon\Annotations\Exception("The expression ". type. " is unknown");
-    break;
-  }
-  
- }
- 
- /**
- * Returns the expression arguments without resolving
- *
- * @return array
- */
- public function getExprArguments()
- {
-  return this->_exprArguments;
- }
- 
- /**
- * Returns the expression arguments
- *
- * @return array
- */
- public function getArguments()
- {
-  return this->_arguments;
- }
- 
- /**
- * Returns the number of arguments that the annotation has
- *
- * @return int
- */
- public function numberArguments()
- {
-  return count(this->_arguments);
- }
- 
- /**
- * Returns an argument in a specific position
- *
- * @return mixed
- */
- public function getArgument(position)
- {
-  var arguments;
-  
-  let arguments = this->_arguments;
-  if isset arguments[position] {
-   return arguments[position];
-  }
- }
- 
- /**
- * Returns an argument in a specific position
- *
- * @return mixed
- */
- public function hasArgument(position)
- {
-  if isset this->_arguments[position] {
-   return true;
-  }
-  return false;
- }
- 
- /**
- * Returns a named argument
- *
- * @param string $name
- * @return mixed
- */
- public function getNamedArgument(name)
- {
-  if isset this->_arguments[name] {
-   return this->_arguments[name]
-  }
- }
- 
- /**
- * Returns a named argument (deprecated)
- *
- * @param string $name
- * @return mixed
- */
- public function getNamedArgument(name)
- {
-  return this->getNamedArgument(name);
- }
- 
- /**
- * Returns a named argument (deprecated)
- *
- * @param string $name
- * @return mixed
- */
- public function getNamedArgument(name)
- {
-  return this->getNamedArgument(name);
- }
- 
- /**
- * Checks if the annotation has a specific named argument
- *
- * @return boolean
- */
- public function getNamedArgument(name)
- {
-  if isset this->_arguments[name] {
-   return true;
-  }
-  return false;
- }
+	protected _name;
+
+	/**
+	 * Annotations's Arguments
+	 * @var string
+	 */
+	protected _arguments;
+
+	/**
+	 * Annotations's ExprArguments
+	 * @var string
+	 */
+	protected _exprArguments;
+
+	/**
+	 * Phalcon\Annotations\Annotation constructor
+	 *
+	 * @param array $reflectionData
+	 */
+ 	public function __construct(reflectionData)
+	{
+  		var name, exprArguments, argument, expr, resolvedArgument, arguments;
+
+		if typeof reflectionData != "array" {
+			throw new Phalcon\Annotations\Exception("Reflection data must be an array");
+		}
+
+		let this->_name = reflectionData["name"];
+
+		/**
+		 * Process annotation arguments
+		 */
+		if fetch exprArguments, reflectionData["arguments"] {
+			for argument in exprArguments {
+				let resolvedArgument =  this->getExpression(argument["expr"]);
+				if fetch name, argument["name"] {
+					let arguments = name[resolvedArgument];
+	   			} else {
+					let arguments = resolvedArgument;
+				}
+			}
+			let this->_arguments = arguments;
+			let this->_exprArguments = exprArguments;
+		}
+ 	}
+
+	/**
+	 * Returns the annotation's name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return this->_name;
+	}
+
+	/**
+	 * Resolves an annotation expression
+	 *
+	 * @param array $expr
+	 * @return mixed
+	 */
+	public function getExpression(expr)
+	{
+		var value, items, item, resolvedItem, arrayValue;
+
+		if typeof expr != "array" {
+			throw new Phalcon\Annotations\Exception("The expression is not valid");
+		}
+
+		switch expr["type"] {
+			case 301:
+			case 302:
+			case 303:
+			case 307:
+				let value = expr["value"];
+				break;
+   			case 304:
+				let value = null;
+				break;
+			case 305:
+				let value = false;
+				break;
+			case 306:
+				let value = true;
+				break;
+			case 308:
+				for expr["items"] in items {
+					let resolvedItem = this->getExpression(item["expr"]);
+					if fetch name, item["name"] {
+						let arrayValue = name[resolvedItem];
+					} else {
+						let arrayValue[] = resolvedItem;
+					}
+				}
+				return arrayValue;
+			case 300:
+				return new Phalcon\Annotations\Annotation(expr);
+   			default:
+				throw new Phalcon\Annotations\Exception("The expression ". type. " is unknown");
+		}
+
+		return value;
+	}
+
+ 	/**
+	 * Returns the expression arguments without resolving
+	 *
+	 * @return array
+	 */
+	public function getExprArguments()
+	{
+		return this->_exprArguments;
+	}
+
+	/**
+	 * Returns the expression arguments
+	 *
+	 * @return array
+	 */
+	public function getArguments()
+	{
+		return this->_arguments;
+	}
+
+	/**
+	 * Returns the number of arguments that the annotation has
+	 *
+	 * @return int
+	 */
+	public function numberArguments()
+	{
+		return count(this->_arguments);
+	}
+
+	/**
+	 * Returns an argument in a specific position
+	 *
+	 * @param int position
+	 * @return mixed
+	 */
+	public function getArgument(int position)
+	{
+		var arguments;
+		let arguments = this->_arguments;
+		if isset arguments[position] {
+			return arguments[position];
+		}
+	}
+
+	/**
+	 * Returns an argument in a specific position
+	 *
+	 * @param int position
+	 * @return mixed
+	 */
+	public function hasArgument(int position)
+	{
+		if isset this->_arguments[position] {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Returns a named argument
+	 *
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function getNamedArgument(name)
+	{
+		let arguments = this->_arguments;
+		if isset arguments[name] {
+   			return arguments[name]
+  		}
+ 	}
+
+	/**
+	 * Returns a named argument (deprecated)
+	 *
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function getNamedArgument(name)
+	{
+		return this->getNamedArgument(name);
+	}
+
+	/**
+	 * Returns a named argument (deprecated)
+	 *
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function getNamedArgument(name)
+	{
+		return this->getNamedArgument(name);
+	}
+
+	/**
+	 * Checks if the annotation has a specific named argument
+	 *
+	 * @return boolean
+	 */
+	public function getNamedArgument(name)
+	{
+		if isset this->_arguments[name] {
+			return true;
+		}
+		return false;
+	}
+
 }
