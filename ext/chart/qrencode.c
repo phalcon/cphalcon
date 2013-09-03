@@ -430,17 +430,6 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
 
 	zval *zid, *filename, *size = NULL, *margin = NULL, *exception_message;
     long s = 3, m = 4;
-    const char *fn = NULL;
-    int fn_len, argc;
-    FILE *fp = NULL;
-    png_structp png_ptr;
-    png_infop info_ptr;
-    unsigned char *row, *p, *q;
-    int x, y, xx, yy, bit;
-    int realwidth;
-    char *path;
-    int b;
-    char buf[4096];
 
     PHALCON_MM_GROW();
 
@@ -472,6 +461,15 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
 	}
 	
 #ifdef PHALCON_USE_QRENCODE
+    FILE *fp = NULL;
+    unsigned char *row, *p, *q;
+    int x, y, xx, yy, bit;
+    int realwidth;
+    char *path;
+    int b;
+    char buf[4096];
+    png_structp png_ptr;
+    png_infop info_ptr;
 	php_qrcode *qr = NULL;
 
 	PHALCON_OBS_VAR(zid);
