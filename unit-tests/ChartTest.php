@@ -23,13 +23,20 @@ class ChartTest extends PHPUnit_Framework_TestCase
 
 	public function testQRencode()
 	{
+		@unlink('unit-tests/assets/qr.png');
 		try {
 			$qr = new \Phalcon\Chart\QRencode('Phalcon is web framework');
-			if ($qr->generate()) {
-				// $data = $qr->render();
-				// $qr->save('qr.png');
+			$ret = $qr->generate();
+			$this->assertTrue($ret);
+
+			if ($ret) {
+				$data = $qr->render();
+				$this->assertTrue(strlen($ret) > 0);
+
+				$ret = $qr->save('unit-tests/assets/qr.png');
+				$this->assertTrue($ret);
 			}
-		} catch (Exception) {
+		} catch (Exception $e) {
 		}
 	}
 }
