@@ -16,3 +16,51 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Validation\Validator;
+
+/**
+ * Phalcon\Validation\Validator\Confirmation
+ *
+ * Checks that two values have the same value
+ *
+ *<code>
+ *use Phalcon\Validation\Validator\Confirmation;
+ *
+ *$validator->add('password', new Confirmation(array(
+ *   'message' => 'Password doesn\'t match confirmation',
+ *   'with' => 'confirmPassword'
+ *)));
+ *</code>
+ */
+class Confirmation extends Phalcon\Validation\Validator implements Phalcon\Validation\ValidatorInterface
+{
+
+	/**
+	 * Executes the validation
+	 *
+	 * @param Phalcon\Validation validator
+	 * @param string attribute
+	 * @return boolean
+	 */
+	public function validate(validator, attribute)
+	{
+
+		let withAttribute = this->getOption("with"),
+			value = validator->getValue(attribute),
+			withValue = validator->getValue(withAttribute);
+
+		if value != withValue {
+
+			let message = this->getOption("message");
+			if is_empty(message) {
+				let message = "Value of '" . attribute . "' and '" . withAttribute . "' don\'t match";
+			}
+
+			validator->appendMessage(new Phalcon\Validation\Message(message, attribute, "Confirmation"));
+			return false;
+		}
+
+		return true;
+	}
+}

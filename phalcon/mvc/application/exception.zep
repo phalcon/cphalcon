@@ -24,7 +24,8 @@ namespace Phalcon\Mvc\Application;
  *
  * Exceptions thrown in Phalcon\Mvc\Application class will use this class
  */
-class Exception extends Phalcon\Exception {
+class Exception extends Phalcon\Exception
+{
 
 }
 

@@ -24,7 +24,8 @@ namespace Phalcon\DI;
  *
  * Represents a service in the services container
  */
-interface Phalcon_DI_ServiceInterface {
+interface ServiceInterface
+{
 
 	/**
 	 * Phalcon\DI\ServiceInterface

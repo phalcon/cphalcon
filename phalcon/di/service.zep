@@ -30,7 +30,8 @@ namespace Phalcon\DI;
  *<code>
  *
  */
-class Service implements Phalcon\DI\ServiceInterface {
+class Service implements Phalcon\DI\ServiceInterface
+{
 
 	protected _name;
 

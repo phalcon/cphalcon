@@ -35,14 +35,14 @@ class Builder
 	 * @param array argument
 	 * @return mixed
 	 */
-	protected function _buildParameter(dependencyInjector, position, argument)
+	private function _buildParameter(<Phalcon\DiInterface> dependencyInjector, position, argument)
 	{
 
 		/**
 		 * All the arguments must be an array
 		 */
 		if typeof argument != "array" {
-			throw new Phalcon\DI\Exception("Argument at position ".position." must be an array");
+			throw new Phalcon\DI\Exception("Argument at position " . position . " must be an array");
 		}
 
 		/**
@@ -80,7 +80,7 @@ class Builder
 			 */
 			case "instance":
 
-				if !fetch name, argument['className'] {
+				if !fetch name, argument["className"] {
 					throw new Phalcon_DI_Exception("Service 'className' is required in parameter on position ".position);
 				}
 
@@ -88,7 +88,7 @@ class Builder
 					throw new Phalcon_DI_Exception("The dependency injector container is not valid");
 				}
 
-				if fetch instanceArguments, argument['arguments'] {
+				if fetch instanceArguments, argument["arguments"] {
 					/**
 					 * Build the instance with arguments
 					 */
@@ -250,7 +250,7 @@ class Builder
 		/**
 		 * The definition has properties?
 		 */
-		if fetch paramCalls, definition['properties'] {
+		if fetch paramCalls, definition["properties"] {
 
 			if typeof instance != "object" {
 				throw new Phalcon\DI\Exception("The definition has properties injection parameters but the constructor didn't return an instance");
