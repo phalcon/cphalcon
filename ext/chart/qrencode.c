@@ -365,6 +365,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
 	}
 
 	p = qr->c->data;
+
 	for(y = 0; y < qr->c->width; y++) {
 		bit = 7;
 		memset(row, 0xff, (realwidth + 7) / 8);
