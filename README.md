@@ -6,6 +6,7 @@ Phalcon Framework
 * \Phalcon\Utils\Arr -- unit-tests/ArrTest.php
 * \Phalcon\Utils\Date -- unit-tests/DateTest.php
 * \Phalcon\Http\Client -- unit-tests/HttpClientTest.php
+* \Phalcon\Chart\QRencode -- unit-tests/ChartTest.php
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
