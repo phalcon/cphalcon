@@ -1573,3 +1573,4 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __destruct){
 	
 	PHALCON_MM_RESTORE();
 }
+
