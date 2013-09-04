@@ -1283,6 +1283,13 @@ string_copy:
 
 				int num = 0;
 
+				if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) {
+			                zend_error(E_ERROR, "The argument is not iterable()");
+			                PHALCON_MM_RESTORE();
+					RETVAL_FALSE;
+					return 1;
+			        }
+
 				phalcon_is_iterable(*zvalue, &ah0, &hp0, 0, 0);
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 					PHALCON_GET_HKEY(key, ah0, hp0);
@@ -1294,8 +1301,6 @@ string_copy:
 
 					ckey = estrndup(Z_STRVAL_P(key), Z_STRLEN_P(key));
 					cvalue = estrndup(Z_STRVAL_P(value), Z_STRLEN_P(value));
-					ckey[Z_STRLEN_P(key)] = '\0';				
-					cvalue[Z_STRLEN_P(value)] = '\0';
 
 					if (num >= (count - files)) {
 						char *cfilename = NULL, *ctype = NULL;
@@ -1304,14 +1309,10 @@ string_copy:
 						if (zend_get_constant(SL("PATHINFO_BASENAME"), constant TSRMLS_CC) != FAILURE) {
 							PHALCON_INIT_VAR(filename);
 							phalcon_call_func_p2(filename, "pathinfo", value, constant);
-							cfilename = estrndup(Z_STRVAL_P(filename), Z_STRLEN_P(filename));
-							cfilename[(int)Z_STRLEN_P(filename)] = '\0';
 						}
 
 						PHALCON_INIT_VAR(type);
 						phalcon_call_func_p1(type, "mime_content_type", value);
-						ctype = estrndup(Z_STRVAL_P(type), Z_STRLEN_P(type));
-						ctype[(int)Z_STRLEN_P(type)] = '\0';
 
 						if (php_check_open_basedir(cvalue TSRMLS_CC)) {
 							PHALCON_MM_RESTORE();
@@ -1320,7 +1321,7 @@ string_copy:
 						}
 
 						error = curl_formadd(&first, &last,
-										CURLFORM_COPYNAME, ckey,
+										CURLFORM_COPYNAME, Z_STRVAL_P(key),
 										CURLFORM_NAMELENGTH, (long)Z_STRLEN_P(key) - 1,
 										CURLFORM_FILENAME, filename ? Z_STRVAL_P(filename) : Z_STRVAL_P(value),
 										CURLFORM_CONTENTTYPE, type ? Z_STRVAL_P(type) : "application/octet-stream",
@@ -1423,7 +1424,10 @@ static int curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalu
 	php_curl *ch;
 	long op = Z_LVAL_P(options);
 
-	ZEND_FETCH_RESOURCE(ch, php_curl *, &zid, -1, le_curl_name, le_curl);
+	ch = (php_curl *) zend_fetch_resource(&zid TSRMLS_CC, -1, le_curl_name,, NULL, 1, le_curl);
+	if (!rsrc) {
+		return 1;
+	}
 
 	if (options <= 0) {
 		return 0;
