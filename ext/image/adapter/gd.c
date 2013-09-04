@@ -608,7 +608,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _flip) {
 		}
 	}
 	PHALCON_OBS_VAR(flipped_image);
-	HALCON_CALL_FUNCTION(flipped_image, &flipped_image, "imageflip", 2, image, mode);
+	PHALCON_CALL_FUNCTION(flipped_image, &flipped_image, "imageflip", 2, image, mode);
 #endif
 
 	phalcon_call_func_p1_noret("imagedestroy", image);
