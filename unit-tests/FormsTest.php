@@ -465,5 +465,15 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($form->label('telephone', array('class' => 'form-control')), '<label for="telephone" class="form-control">The Telephone</label>');
 	}
 
-}
+	public function testIssue1190()
+	{
+		$object = new stdClass();
+		$object->title = 'Hello "world!"';
 
+		$form = new Phalcon\Forms\Form($object);
+		$form->add(new Phalcon\Forms\Element\Text("title"));
+		$actual   = $form->render('title');
+		$expected = '<input type="text" value="Hello &quot;world!&quot;" name="title" id="title" />';
+		$this->assertEquals($actual, $expected);
+	}
+}
