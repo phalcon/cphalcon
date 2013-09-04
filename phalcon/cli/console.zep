@@ -42,7 +42,7 @@ class Console implements Phalcon\DI\InjectionAwareInterface, Phalcon\Events\Even
 	public function __construct(dependencyInjector=null)
 	{
 		if typeof dependencyInjector == "object" {
-			this->_dependencyInjector = dependencyInjector;
+			let this->_dependencyInjector = dependencyInjector;
 		}
 	}
 
@@ -187,13 +187,13 @@ class Console implements Phalcon\DI\InjectionAwareInterface, Phalcon\Events\Even
 
 			if fetch path, module["path"] {
 				if !file_exists(path) {
-					throw new Phalcon\CLI\Console\Exception("Module definition path '" . path . '" doesn\'t exist');
+					throw new Phalcon\CLI\Console\Exception("Module definition path '" . path . "' doesn't exist");
 				}
-				require path;
+				//require path;
 			}
 
 			if !fetch className, module["className"] {
-				className = "Module";
+				let className = "Module";
 			}
 
 			let moduleObject = dependencyInjector->get(className);
@@ -202,7 +202,7 @@ class Console implements Phalcon\DI\InjectionAwareInterface, Phalcon\Events\Even
 			moduleObject->registerServices(dependencyInjector);
 
 			if typeof eventsManager == "object" {
-				this->_moduleObject = moduleObject;
+				let this->_moduleObject = moduleObject;
 				if eventsManager->fire("console:afterStartModule", this, moduleObject) === false {
 					return false;
 				}

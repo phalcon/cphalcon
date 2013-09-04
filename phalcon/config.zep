@@ -44,7 +44,7 @@
  *</code>
  *
  */
-class Phalcon\Config implements ArrayAccess
+class Config implements ArrayAccess
 {
 
 }

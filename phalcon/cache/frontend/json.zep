@@ -16,3 +16,7 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Cache\Frontend;
+
+class Json { }

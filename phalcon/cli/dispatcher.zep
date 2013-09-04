@@ -46,11 +46,11 @@ namespace Phalcon\CLI;
 class Dispatcher extends Phalcon\Dispatcher
 {
 
-	protected _handlerSuffix = 'Task';
+	protected _handlerSuffix = "Task";
 
-	protected _defaultHandler = 'main';
+	protected _defaultHandler = "main";
 
-	protected _defaultAction = 'main';
+	protected _defaultAction = "main";
 
 	/**
 	 * Sets the default task suffix

@@ -16,3 +16,7 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Cache\Backend;
+
+class Mongo { }
