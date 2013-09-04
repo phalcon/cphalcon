@@ -528,10 +528,10 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _flip) {
 #if PHP_VERSION_ID < 50500
 	zval *width, *height;
 	zval *dst_x = NULL, *dst_y = NULL, *src_x = NULL, *src_y = NULL, *src_width = NULL, *src_height = NULL;
+	int w, h, x, y;
 #else
 	zval *mode;
 #endif
-	int w, h, x, y;
 
 	PHALCON_MM_GROW();
 
