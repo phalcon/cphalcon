@@ -61,7 +61,7 @@ class Files
 		/**
 		 * Paths must be normalized before be used as keys
 		 */
-		let path = this->_annotationsDir .  prepare_virtual_path(key, "_") . ".php";
+		let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
 		if file_exists(path) {
 			return require path;
@@ -81,10 +81,10 @@ class Files
 		/**
 		 * Paths must be normalized before be used as keys
 		 */
-		let path = this->_annotationsDir .  prepare_virtual_path(key, "_") . ".php";
+		let path = this->_annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
 		if (file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false) {
-	  		throw new Phalcon_Annotations_Exception("Annotations directory cannot be written");
+	  		throw new Phalcon\Annotations\Exception("Annotations directory cannot be written");
 		}
 	}
 

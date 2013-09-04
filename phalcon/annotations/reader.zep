@@ -141,7 +141,7 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 	 * @param string docBlock
 	 * @return array
 	 */
-	public + static function parseDocBlock(docBlock, file=null, line=null)
+	public static function parseDocBlock(docBlock, file=null, line=null)
 	{
 
 		if typeof file != "string" {

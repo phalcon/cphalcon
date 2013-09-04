@@ -38,12 +38,8 @@ class Xcache
   */
   public function read(key)
   {
-    var prefixedKey, prefixedLower, serialized, data;
-    
-    let prefixedKey = "_PHAN" . key;
-    let prefixedLower = strtolower(prefixedKey);
-    
-    let serialized = xcache_get(prefixedLower);
+    var serialized, data;
+    let serialized = xcache_get(strtolower("_PHAN" . key));
     if typeof serialized == "string" {
       let data = unserialize(serialized);
       if typeof data == "object" {
@@ -51,7 +47,7 @@ class Xcache
       }
     }
   }
-  
+
   /**
   * Writes parsed annotations to XCache
   *
@@ -60,12 +56,6 @@ class Xcache
   */
   public function write(key, data)
   {
-    var prefixedKey, prefixedLower, serialized;
-    
-    let prefixedKey = "_PHAN" . key;
-    let prefixedLower = strtolower(prefixedKey);
-    let serialized = serialize(data);
-    
-    xcache_set(prefixedLower, serialized);
+    xcache_set(strtolower("_PHAN" . key), serialize(data));
   }
 }

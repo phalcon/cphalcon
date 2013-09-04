@@ -117,7 +117,7 @@ class Annotation
 				let value = true;
 				break;
 			case 308:
-				for expr["items"] in items {
+				for items in expr["items"] {
 					let resolvedItem = this->getExpression(item["expr"]);
 					if fetch name, item["name"] {
 						let arrayValue = name[resolvedItem];
@@ -188,10 +188,8 @@ class Annotation
 	 */
 	public function hasArgument(int position)
 	{
-		if isset this->_arguments[position] {
-			return true;
-		}
-		return false;
+		let arguments = this->_arguments;
+		return isset arguments[position];
 	}
 
 	/**
@@ -203,44 +201,9 @@ class Annotation
 	public function getNamedArgument(name)
 	{
 		let arguments = this->_arguments;
-		if isset arguments[name] {
-   			return arguments[name]
+		if fetch argument, arguments[name] {
+   			return argument;
   		}
  	}
-
-	/**
-	 * Returns a named argument (deprecated)
-	 *
-	 * @param string $name
-	 * @return mixed
-	 */
-	public function getNamedArgument(name)
-	{
-		return this->getNamedArgument(name);
-	}
-
-	/**
-	 * Returns a named argument (deprecated)
-	 *
-	 * @param string $name
-	 * @return mixed
-	 */
-	public function getNamedArgument(name)
-	{
-		return this->getNamedArgument(name);
-	}
-
-	/**
-	 * Checks if the annotation has a specific named argument
-	 *
-	 * @return boolean
-	 */
-	public function getNamedArgument(name)
-	{
-		if isset this->_arguments[name] {
-			return true;
-		}
-		return false;
-	}
 
 }

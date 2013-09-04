@@ -102,7 +102,7 @@ abstract class Adapter {
 			 */
 			if typeof parsedAnnotations == "array" {
 				let classAnnotations = new Phalcon\Annotations\Reflection(parsedAnnotations),
-					this->_annotations[realClassName] = classAnnotations,
+					this->_annotations[realClassName] = classAnnotations;
 					this->write(realClassName, classAnnotations);
 			}
 		}
