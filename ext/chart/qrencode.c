@@ -47,6 +47,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/output.h"
 
 #include "chart/qrencode.h"
 
@@ -284,7 +285,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
 
 	zval *size = NULL, *margin = NULL;
 #ifdef PHALCON_USE_QRENCODE
-	zval *zid, *exception_message;
+	zval *zid;
     long s = 3, m = 4;
 #endif
 
@@ -473,9 +474,7 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
     unsigned char *row, *p, *q;
     int x, y, xx, yy, bit;
     int realwidth;
-    char *path;
-    int b;
-    char buf[4096];
+
     png_structp png_ptr;
     png_infop info_ptr;
 	php_qrcode *qr = NULL;
