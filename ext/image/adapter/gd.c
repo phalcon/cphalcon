@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 	}
 
 	PHALCON_INIT_VAR(gd_version);
-	if (zend_get_constant(SL("GD_VERSION"), gd_version TSRMLS_CC) == FAILURE) {
+	if (!zend_get_constant(SL("GD_VERSION"), gd_version TSRMLS_CC)) {
 		PHALCON_OBS_VAR(gd_info);
 		phalcon_call_func_p0_ex(gd_info, &gd_info, "gd_info");
 
@@ -609,11 +609,11 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _flip) {
 #else
 	PHALCON_INIT_VAR(mode);
 	if (Z_LVAL_P(direction) == PHALCON_IMAGE_HORIZONTAL) {
-		if (zend_get_constant(SL("IMG_FLIP_HORIZONTAL"), mode TSRMLS_CC) == FAILURE) {
+		if (!zend_get_constant(SL("IMG_FLIP_HORIZONTAL"), mode TSRMLS_CC)) {
 			RETURN_MM();
 		}
 	} else {
-		if (zend_get_constant(SL("IMG_FLIP_VERTICAL"), mode TSRMLS_CC) == FAILURE) {
+		if (!zend_get_constant(SL("IMG_FLIP_VERTICAL"), mode TSRMLS_CC)) {
 			RETURN_MM();
 		}
 	}
@@ -743,7 +743,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection) {
 	image_height = phalcon_fetch_nproperty_this(this_ptr, SL("_height"), PH_NOISY_CC);
 
 	PHALCON_INIT_VAR(filtertype);
-	if (zend_get_constant(SL("IMG_FILTER_COLORIZE"), filtertype TSRMLS_CC) == FAILURE) {
+	if (!zend_get_constant(SL("IMG_FILTER_COLORIZE"), filtertype TSRMLS_CC)) {
 		RETURN_MM();
 	}
 
@@ -881,7 +881,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 		phalcon_call_func_p5_ex(color, &color, "imagecolorallocatealpha", overlay, tmp, tmp, tmp, op);
 
 		PHALCON_INIT_VAR(effect);
-		if (zend_get_constant(SL("IMG_EFFECT_OVERLAY"), effect TSRMLS_CC) == FAILURE) {
+		if (!zend_get_constant(SL("IMG_EFFECT_OVERLAY"), effect TSRMLS_CC)) {
 			RETURN_MM();
 		}
 
@@ -1297,7 +1297,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _blur){
 	image = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 
 	PHALCON_INIT_VAR(constant);
-	if (zend_get_constant(SL("IMG_FILTER_GAUSSIAN_BLUR"), constant TSRMLS_CC) == FAILURE) {
+	if (!zend_get_constant(SL("IMG_FILTER_GAUSSIAN_BLUR"), constant TSRMLS_CC)) {
 		RETURN_MM();
 	}
 
@@ -1388,7 +1388,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
 	phalcon_fetch_params(1, 2, 0, &file, &quality);
 
 	PHALCON_INIT_VAR(constant);
-	if (zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC) == FAILURE) {
+	if (!zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC)) {
 		RETURN_MM();
 	}
 
