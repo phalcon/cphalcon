@@ -1283,14 +1283,13 @@ string_copy:
 
 				int num = 0;
 
-				if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) {
+				if (!phalcon_is_iterable_ex(*zvalue, &ah0, &hp0, 0, 0)) {
 			                zend_error(E_ERROR, "The argument is not iterable()");
 			                PHALCON_MM_RESTORE();
 					RETVAL_FALSE;
 					return 1;
 			        }
 
-				phalcon_is_iterable(*zvalue, &ah0, &hp0, 0, 0);
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 					PHALCON_GET_HKEY(key, ah0, hp0);
 					PHALCON_GET_HVALUE(value);
@@ -1424,7 +1423,7 @@ static int curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalu
 	php_curl *ch;
 	long op = Z_LVAL_P(options);
 
-	ch = (php_curl *) zend_fetch_resource(&zid TSRMLS_CC, -1, le_curl_name,, NULL, 1, le_curl);
+	ch = (php_curl *) zend_fetch_resource(&zid TSRMLS_CC, -1, le_curl_name, NULL, 1, le_curl);
 	if (!rsrc) {
 		return 1;
 	}
