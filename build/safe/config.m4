@@ -70,5 +70,51 @@ if test "$PHP_PHALCON" = "yes"; then
 		[[#include "php_config.h"]]
 	)
 
+	for i in /usr/local /usr; do
+		if test -r $i/include/curl/easy.h; then
+			CURL_DIR=$i
+			if ${CURL_DIR}/bin/curl-config --libs > /dev/null 2>&1; then
+				CURL_CONFIG=${CURL_DIR}/bin/curl-config
+			else
+				if ${CURL_DIR}/curl-config --libs > /dev/null 2>&1; then
+					CURL_CONFIG=${CURL_DIR}/curl-config
+				fi
+			fi
+			curl_version_full=`$CURL_CONFIG --version`
+			AC_MSG_RESULT($curl_version_full)
+
+			EXTRA_CFLAGS=`$CURL_CONFIG --cflags`
+			EXTRA_LDFLAGS=`$CURL_CONFIG --libs`
+			AC_MSG_RESULT($EXTRA_CFLAGS)
+			AC_MSG_RESULT($EXTRA_LDFLAGS)
+
+			AC_DEFINE([PHALCON_USE_CURL], [1], [Have CURL support])
+			break
+		fi
+	done
+
+
+	for i in /usr/local /usr; do
+		if test -r $i/include/png.h; then
+			PNG_DIR=$i
+			AC_MSG_RESULT("libpng found")
+			break
+		fi
+	done
+
+	if test -r "$PNG_DIR"; then
+		for i in /usr/local /usr; do
+			if test -r $i/include/qrencode.h; then
+				EXTRA_CFLAGS=`pkg-config --cflags libqrencode libpng`
+				EXTRA_LDFLAGS=`pkg-config --libs libqrencode  libpng`
+
+				AC_MSG_RESULT("libqrencode found")
+
+				AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+				break
+			fi
+		done
+	fi
+
 	CPPFLAGS=$old_CPPFLAGS
 fi
