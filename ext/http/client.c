@@ -1424,7 +1424,7 @@ static int curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalu
 	long op = Z_LVAL_P(options);
 
 	ch = (php_curl *) zend_fetch_resource(&zid TSRMLS_CC, -1, le_curl_name, NULL, 1, le_curl);
-	if (!rsrc) {
+	if (!ch) {
 		return 1;
 	}
 
