@@ -261,10 +261,10 @@ PHP_METHOD(Phalcon_Chart_QRencode, generate){
 
 	if (qr->c == NULL)  {
 		efree(qr);
-		RETURN_MM_FALSE;
 	} else {
 		PHALCON_INIT_VAR(zid);
-		ZEND_REGISTER_RESOURCE(zid, qr, le_qr);		
+		ZEND_REGISTER_RESOURCE(zid, qr, le_qr);
+		
 		phalcon_update_property_this(this_ptr, SL("_qr"), zid TSRMLS_CC);
 		RETURN_MM_TRUE;
 	}
@@ -304,10 +304,10 @@ PHP_METHOD(Phalcon_Chart_QRencode, render){
 	}
 	
 #ifdef PHALCON_USE_QRENCODE
-	if (Z_TYPE_P(size) == IS_LONG) {
+	if (size && Z_TYPE_P(size) == IS_LONG) {
 		s = Z_LVAL_P(size);
 	}
-	if (Z_TYPE_P(margin) == IS_LONG) {
+	if (margin && Z_TYPE_P(margin) == IS_LONG) {
 		m = Z_LVAL_P(margin);
 	}
 
