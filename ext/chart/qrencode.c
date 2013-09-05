@@ -461,10 +461,10 @@ PHP_METHOD(Phalcon_Chart_QRencode, save){
 	}
 	
 #ifdef PHALCON_USE_QRENCODE
-	if (Z_TYPE_P(size) == IS_LONG) {
+	if (size && Z_TYPE_P(size) == IS_LONG) {
 		s = Z_LVAL_P(size);
 	}
-	if (Z_TYPE_P(margin) == IS_LONG) {
+	if (size && Z_TYPE_P(margin) == IS_LONG) {
 		m = Z_LVAL_P(margin);
 	}
 	
