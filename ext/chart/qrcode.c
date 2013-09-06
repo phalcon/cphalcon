@@ -556,10 +556,13 @@ static zbar_image_t *_php_zbarcode_get_page(MagickWand *wand)
 	return _php_zbarcode_image_create(width, height, image_data);
 }
 
-static zval *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
+static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
 {
+	zval *fromtext, *totext, *from, *to, *symbol_array = NULL, *loc_array = NULL, *coords = NULL;
 	int n;
 	const zbar_symbol_t *symbol;
+
+	PHALCON_MM_GROW();
 
 	array_init(return_array);
 		
@@ -571,45 +574,64 @@ static zval *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 	
 	/* Loop through all all symbols */
 	for(; symbol; symbol = zbar_symbol_next(symbol)) {
-		zval *symbol_array, *loc_array;
 		zbar_symbol_type_t symbol_type;
 		const char *data;
+		const char *type;
+		int quality;
 		unsigned int loc_size;
 
-		/* Initialize array element */
-		MAKE_STD_ZVAL(symbol_array);
+		PHALCON_INIT_NVAR(symbol_array);
 		array_init(symbol_array);
 
 		/* Get symbol type and data in it */
 		symbol_type = zbar_symbol_get_type(symbol);
 		data = zbar_symbol_get_data(symbol);
+		type = zbar_get_symbol_name(symbol_type);
+		quality = zbar_symbol_get_quality(symbol);
 
-		add_assoc_string(symbol_array, "data", (char *)data, 1);
-		add_assoc_string(symbol_array, "type", (char *)zbar_get_symbol_name(symbol_type), 1);
-		add_assoc_long(symbol_array, "quality", zbar_symbol_get_quality(symbol));
+        if (phalcon_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS) {
+			PHALCON_INIT_VAR(fromtext);
+			ZVAL_STRING(fromtext, data, 1);
+
+			PHALCON_INIT_VAR(from);
+			ZVAL_STRING(from, "shift-jis", 1);
+
+			PHALCON_INIT_VAR(to);
+			ZVAL_STRING(to, "utf-8", 1);
+
+			PHALCON_INIT_VAR(fromtext);
+			ZVAL_STRING(fromtext, data, 1);
+
+			PHALCON_INIT_VAR(totext);
+			phalcon_call_func_p3(totext, "mb_convert_encoding", fromtext, from, to);
+			phalcon_array_update_string(&symbol_array, SL("data"), &totext, PH_COPY | PH_SEPARATE);                
+        } else {
+			phalcon_array_update_string_string(&symbol_array, SL("data"), (char *)data, strlen(data), PH_COPY | PH_SEPARATE);
+		}
+		phalcon_array_update_string_string(&symbol_array, SL("type"), (char *)type, strlen(type), PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string_long(&symbol_array, SL("quality"), quality, 0);
 		
 		if (extended) {
 			unsigned int i;
-			
-			MAKE_STD_ZVAL(loc_array);
+
+			PHALCON_INIT_NVAR(loc_array);
 			array_init(loc_array);
 			loc_size = zbar_symbol_get_loc_size(symbol);
 
-			for (i = 0; i < loc_size; i++) {
-				zval *coords;
-				MAKE_STD_ZVAL(coords);
+			for (i = 0; i < loc_size; i++) {	
+				PHALCON_INIT_NVAR(coords);
 				array_init(coords);
+				phalcon_array_update_string_long(&coords, SL("x"), zbar_symbol_get_loc_x(symbol, i), 0);
+				phalcon_array_update_string_long(&coords, SL("y"), zbar_symbol_get_loc_y(symbol, i), 0);
 
-				add_assoc_long(coords, "x", zbar_symbol_get_loc_x(symbol, i));
-				add_assoc_long(coords, "y", zbar_symbol_get_loc_y(symbol, i));
-
-				add_next_index_zval(loc_array, coords);	
+				phalcon_array_append(&loc_array, coords, PH_COPY | PH_SEPARATE);	
 			}
-			add_assoc_zval(symbol_array, "location", loc_array);
+			phalcon_array_update_string(&symbol_array, SL("location"), &loc_array, PH_COPY | PH_SEPARATE);
 		}
-		add_next_index_zval(return_array, symbol_array);
+		phalcon_array_append(&return_array, symbol_array, PH_COPY | PH_SEPARATE);
 	}
-	return return_array;
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
