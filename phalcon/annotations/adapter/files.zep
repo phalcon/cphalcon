@@ -41,6 +41,7 @@ class Files
 	 */
 	public function __construct(options=null)
 	{
+		var annotationsDir;
 		if typeof options != "array" {
 			if fetch annotationsDir, options["annotationsDir"] {
 				let this->_annotationsDir = annotationsDir;
@@ -77,6 +78,7 @@ class Files
 	 */
 	public function write(key, data)
 	{
+		var path;
 
 		/**
 		 * Paths must be normalized before be used as keys

@@ -36,7 +36,10 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 	public function parse(className)
 	{
 
-		var annotations, reflection, comment;
+		var annotations, reflection, comment,
+			lassAnnotations, properties, methods, property, method,
+			classAnnotations, line, annotationsProperties,
+			propertyAnnotations, annotationsMethods, methodAnnotations;
 
 		if typeof className != "string" {
 			throw new Phalcon\Annotations\Exception("The class name must be an object");
@@ -45,7 +48,7 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 		let annotations = [];
 
 		/**
-		 * A ReflectionClass is used to obtain the class dockblock</comment>
+		 * A ReflectionClass is used to obtain the class dockblock
 		 */
 		let reflection = new \ReflectionClass(className);
 
@@ -53,26 +56,26 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 		if typeof comment == "string" {
 
 			/**
-			 * Read annotations from class</comment>
+			 * Read annotations from class
 			 */
 			let classAnnotations = phannot_parse_annotations(comment, reflection->getFileName(), reflection->getStartLine());
 
 			/**
-			 * Append the class annotations to the annotations var</comment>
+			 * Append the class annotations to the annotations var
 			 */
 			if typeof classAnnotations == "array" {
-				let annotations['class'] = classAnnotations;
+				let annotations["class"] = classAnnotations;
 			}
 		}
 
 		/**
-		 * Get the class properties</comment>
+		 * Get the class properties
 		 */
 		let properties = reflection->getProperties();
 		if count(properties) {
 
 			/**
-			 * Line declaration for properties isn't available</comment>
+			 * Line declaration for properties isn't available
 			 */
 			let line = 1;
 
@@ -80,13 +83,13 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 			for property in properties {
 
 				/**
-				 * Read comment from method</comment>
+				 * Read comment from method
 				 */
 				let comment = property->getDocComment();
 				if typeof comment == "string" {
 
 					/**
-					 * Read annotations from the docblock</comment>
+					 * Read annotations from the docblock
 					 */
 					let propertyAnnotations = phannot_parse_annotations(comment, reflection->getFileName(), line);
 					if typeof propertyAnnotations == "array" {
@@ -97,12 +100,12 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 			}
 
 			if count(annotationsProperties) {
-				let annotations['properties'] = annotationsProperties;
+				let annotations["properties"] = annotationsProperties;
 			}
 		}
 
 		/**
-		 * Get the class methods</comment>
+		 * Get the class methods
 		 */
 		let methods = reflection->getMethods();
 		if count(methods) {
@@ -111,13 +114,13 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 			for method in methods {
 
 				/**
-				 * Read comment from method</comment>
+				 * Read comment from method
 				 */
 				let comment = method->getDocComment();
 				if typeof comment == "string" {
 
 					/**
-					 * Read annotations from class</comment>
+					 * Read annotations from class
 					 */
 					let methodAnnotations = phannot_parse_annotations(comment, method->getFileName(), method->getStartLine());
 					if typeof methodAnnotations == "array" {
@@ -127,7 +130,7 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 			}
 
 			if count(annotationsMethods) {
-				let annotations['methods'] = annotationsMethods;
+				let annotations["methods"] = annotationsMethods;
 			}
 
 		}
@@ -143,11 +146,9 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 	 */
 	public static function parseDocBlock(docBlock, file=null, line=null)
 	{
-
 		if typeof file != "string" {
-			let file = 'eval code';
+			let file = "eval code";
 		}
-
 		return phannot_parse_annotations(docBlock, file, line);
 	}
 

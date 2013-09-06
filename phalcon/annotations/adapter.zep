@@ -51,6 +51,7 @@ abstract class Adapter
 	 */
 	public function getReader()
 	{
+		var reader;
 		let reader = this->_reader;
 		if typeof reader != "object" {
 			let reader = new Phalcon\Annotations\Reader(),
@@ -68,7 +69,8 @@ abstract class Adapter
 	public function get(className)
 	{
 
-		var annotations, classAnnotations, read, parsedAnnotations, realClassName;
+		var annotations, classAnnotations, read, parsedAnnotations, realClassName,
+			reader;
 
 		/**
 		 * Get the class name if it's an object
@@ -89,7 +91,7 @@ abstract class Adapter
 		/**
 		 * Try to read the annotations from the adapter
 		 */
-		let classAnnotations = this->read(realClassName);
+		let classAnnotations = this->{"read"}(realClassName);
 		if typeof classAnnotations == "null" {
 
 			/**
@@ -104,7 +106,7 @@ abstract class Adapter
 			if typeof parsedAnnotations == "array" {
 				let classAnnotations = new Phalcon\Annotations\Reflection(parsedAnnotations),
 					this->_annotations[realClassName] = classAnnotations;
-					this->write(realClassName, classAnnotations);
+					this->{"write"}(realClassName, classAnnotations);
 			}
 		}
 
@@ -145,7 +147,7 @@ abstract class Adapter
 	 */
 	public function getMethod(className, methodName)
 	{
-		var classAnnotations, methods, methodName, name;
+		var classAnnotations, methods, name, method;
 
 		/**
 		 * Get the full annotations from the class

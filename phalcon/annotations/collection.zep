@@ -51,6 +51,8 @@ class Collection implements \Iterator, \Countable
 	 */
 	public function __construct(reflectionData=null)
 	{
+		var annotations, annotationData;
+
 		if typeof reflectionData != "null" {
 			if typeof reflectionData != "array" {
 				throw new Phalcon\Annotations\Exception("Reflection data must be an array");
@@ -88,10 +90,9 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @return Phalcon\Annotations\Annotation
 	 */
-	public function current() {
-
-		var annotation;
-
+	public function current()
+	{
+		var annotation, annotations;
 		let annotations = this->_annotations;
 		if fetch annotation, annotations[this->_position] {
 			return annotation;
@@ -125,6 +126,7 @@ class Collection implements \Iterator, \Countable
 	 */
 	public function valid()
 	{
+		var annotations;
 		let annotations = this->_annotations;
 		return annotations[this->_position];
 	}
@@ -147,7 +149,7 @@ class Collection implements \Iterator, \Countable
 	 */
 	public function get(name)
 	{
-
+		var annotation, annotations;
 		let annotations = this->_annotations;
 		if typeof annotations == "array" {
 			for annotation in annotations {
@@ -168,6 +170,7 @@ class Collection implements \Iterator, \Countable
 	 */
 	public function getAll(name)
 	{
+		var annotations, found, annotation;
 
 		let found = [],
 			annotations = this->_annotations;
@@ -190,6 +193,8 @@ class Collection implements \Iterator, \Countable
 	 */
 	public function has(name)
 	{
+		var annotations, annotation;
+
 		let annotations = this->_annotations;
 		if typeof annotations == "array" {
 			for annotation in annotations {

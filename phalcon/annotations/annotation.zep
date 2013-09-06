@@ -48,7 +48,7 @@ class Annotation
 	/**
 	 * Phalcon\Annotations\Annotation constructor
 	 *
-	 * @param array $reflectionData
+	 * @param array reflectionData
 	 */
  	public function __construct(reflectionData)
 	{
@@ -90,12 +90,12 @@ class Annotation
 	/**
 	 * Resolves an annotation expression
 	 *
-	 * @param array $expr
+	 * @param array expr
 	 * @return mixed
 	 */
 	public function getExpression(expr)
 	{
-		var value, items, item, resolvedItem, arrayValue;
+		var value, items, item, resolvedItem, arrayValue, name;
 
 		if typeof expr != "array" {
 			throw new Phalcon\Annotations\Exception("The expression is not valid");
@@ -118,7 +118,7 @@ class Annotation
 				let value = true;
 				break;
 			case 308:
-				for items in expr["items"] {
+				for item in expr["items"] {
 					let resolvedItem = this->getExpression(item["expr"]);
 					if fetch name, item["name"] {
 						let arrayValue = name[resolvedItem];
@@ -189,6 +189,7 @@ class Annotation
 	 */
 	public function hasArgument(int position)
 	{
+		var arguments;
 		let arguments = this->_arguments;
 		return isset arguments[position];
 	}
@@ -196,11 +197,12 @@ class Annotation
 	/**
 	 * Returns a named argument
 	 *
-	 * @param string $name
+	 * @param string name
 	 * @return mixed
 	 */
 	public function getNamedArgument(name)
 	{
+		var arguments, argument;
 		let arguments = this->_arguments;
 		if fetch argument, arguments[name] {
    			return argument;

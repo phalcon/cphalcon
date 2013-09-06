@@ -66,11 +66,15 @@ class Reflection
 	 */
 	public function getClassAnnotations()
 	{
+
+		var annotations, reflectionData, reflectionClass, collection;
+
 		let annotations = this->_classAnnotations;
 		if typeof annotations != "object" {
 			let reflectionData = this->_reflectionData;
 			if fetch reflectionClass, reflectionData["class"] {
-				let this->_classAnnotations = new Phalcon\Annotations\Collection(reflectionClass);
+				let collection = new Phalcon\Annotations\Collection(reflectionClass),
+					this->_classAnnotations = collection;
 				return collection;
 			}
 			let this->_classAnnotations = false;
@@ -86,6 +90,9 @@ class Reflection
 	 */
 	public function getMethodsAnnotations()
 	{
+		var annotations, reflectionData, reflectionMethods,
+			collections, methodName, reflectionMethod;
+
 		let annotations = this->_methodAnnotations;
 		if typeof annotations != "object" {
 			let reflectionData = this->_reflectionData;
@@ -112,6 +119,9 @@ class Reflection
 	 */
 	public function getPropertiesAnnotations()
 	{
+		var annotations, reflectionData, reflectionProperties,
+			collections, property, reflectionProperty;
+
 		let annotations = this->_propertyAnnotations;
 		if typeof annotations != "object" {
 			let reflectionData = this->_reflectionData;
@@ -148,6 +158,7 @@ class Reflection
 	 */
 	public static function __set_state(data)
 	{
+		var reflectionData;
 
 		if typeof data == "array" {
 			/**
