@@ -348,15 +348,11 @@ image/adapterinterface.c \
 image/exception.c \
 image/adapter/gd.c \
 image/adapter/imagick.c \
-<<<<<<< HEAD
 utils/date.c \
 utils/arr.c \
 http/client.c \
 http/client/exception.c \
-chart/qrencode.c \
-=======
 chart/qrcode.c \
->>>>>>> nfr_qrcode
 chart/exception.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
