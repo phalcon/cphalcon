@@ -628,23 +628,21 @@ PHP_METHOD(Phalcon_Chart_QRcode, scan){
 	zbar_image_scanner_t *zbar_scanner;
 	zbar_image_t *zbar_page;
 	zend_bool ext = 0;
-	long i = 1, e = 0, page_num = 1, image_count = 0;
+	long i = 1, e = 0, image_count = 0;
 
     PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 3, 2, &filename, &enhance, &page, &extended);
+	phalcon_fetch_params(1, 1, 3, &filename, &enhance, &extended);
 
 	if (enhance && Z_TYPE_P(enhance) == IS_LONG) {
 		e = Z_LVAL_P(enhance);
 	}
 
-	if (page && Z_TYPE_P(page) == IS_LONG) {
-		page_num = Z_LVAL_P(page);
-	}
-
 	if (extended && Z_TYPE_P(extended) == IS_LONG) {
 		ext = Z_BVAL_P(extended);
 	}
+
+	magick_wand = NewMagickWand();
 
 	if (e & 1) {
 		MagickSetResolution(magick_wand, 200, 200);
@@ -652,6 +650,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, scan){
 	
 	if (MagickReadImage(magick_wand, Z_STRVAL_P(filename)) == MagickFalse) {
 		ClearMagickWand(magick_wand);
+		DestroyMagickWand(magick_wand);
 		RETURN_MM_FALSE;
 	}
 	
@@ -670,20 +669,22 @@ PHP_METHOD(Phalcon_Chart_QRcode, scan){
 		return;
 	}
 
-	if (page_num > 0) {
-		if (image_count < page_num) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Invalid page specified. The object contains page page(s)");
-			return;
-		}
+	zbar_scanner = zbar_image_scanner_create();
 
-		if (MagickSetIteratorIndex(magick_wand, page_num - 1) == MagickFalse) {
+	if (image_count == 1) {
+		if (MagickSetIteratorIndex(magick_wand, 0) == MagickFalse) {
+			zbar_image_scanner_destroy(zbar_scanner);
+			DestroyMagickWand(magick_wand);
 			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Failed to set the page number");
 			return;
 		} 
+
 		/* Read page */
 		zbar_page = _php_zbarcode_get_page(magick_wand);
 	
 		if (!zbar_page) {
+			zbar_image_scanner_destroy(zbar_scanner);
+			DestroyMagickWand(magick_wand);
 			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Failed to get the page");
 			return;
 		}
@@ -712,6 +713,9 @@ PHP_METHOD(Phalcon_Chart_QRcode, scan){
 			add_index_zval(return_value, i++, page_array);
 		}
 	}
+
+	zbar_image_scanner_destroy(zbar_scanner);	
+	DestroyMagickWand(magick_wand);
 
 	RETURN_MM();
 }
