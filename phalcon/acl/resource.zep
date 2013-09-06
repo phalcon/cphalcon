@@ -23,37 +23,36 @@ namespace Phalcon\Acl;
  * Phalcon\Acl\Resource
  *
  * This class defines resource entity and its description
- *
  */
 class Resource
 {
 
 	/**
-	* Resource's name
-	* @var string
-	*/
+	 * Resource's name
+	 * @var string
+	 */
 	protected _name;
 
 	/**
-	* Resource's description
-	* @var string
-	*/
+	 * Resource's description
+	 * @var string
+	 */
 	protected _description;
 
 	/**
-	* Phalcon\Acl\Resource constructor
-	*
-	* @param string name
-	* @param string description
-	*/
-	public function __construct(name, description)
+	 * Phalcon\Acl\Resource constructor
+	 *
+	 * @param string name
+	 * @param string description
+	 */
+	public function __construct(name, description=null)
 	{
 		if name == "*" {
 			throw new Phalcon\Acl\Exception("Resource name cannot be '*'");
 		}
 
 		let this->_name = name;
-		if description != null {
+		if description {
 			let this->_description = description;
 		}
 	}

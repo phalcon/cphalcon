@@ -23,23 +23,28 @@ namespace Phalcon\Acl;
  * Phalcon\Acl\Role
  *
  * This class defines role entity and its description
- *
  */
 class Role
 {
 	/**
-	* Role's name
-	* @var string
-	*/
+	 * Role's name
+	 * @var string
+	 */
 	protected _name;
 
 	/**
-	* Role's description
-	* @var string
-	*/
+	 * Role's description
+	 * @var string
+	 */
 	protected _description;
 
-	public function __construct(name, description)
+	/**
+	 * Phalcon\Acl\Role constructor
+	 *
+	 * @param string name
+	 * @param string description
+	 */
+	public function __construct(name, description=null)
 	{
 		if name == "*" {
 			throw new Phalcon\Acl\Exeption("Role name cannot be '*'");
@@ -52,30 +57,30 @@ class Role
 	}
 
 	/**
-	* Returns the role name
-	*
-	* @return string
-	*/
+	 * Returns the role name
+	 *
+	 * @return string
+	 */
 	public function getName()
 	{
 		return this->_name;
 	}
 
 	/**
-	* Returns role description
-	*
-	* @return string
-	*/
+	 * Returns role description
+	 *
+	 * @return string
+	 */
 	public function getDescription()
 	{
 		return this->_description;
 	}
 
 	/**
-	* Magic method __toString
-	*
-	* @return string
-	*/
+	 * Magic method __toString
+	 *
+	 * @return string
+	 */
 	public function __toString()
 	{
 		return this->_name;
