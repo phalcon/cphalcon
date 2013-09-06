@@ -70,6 +70,8 @@ if test "$PHP_PHALCON" = "yes"; then
 		[[#include "php_config.h"]]
 	)
 
+	CPPFLAGS=$old_CPPFLAGS
+
 	for i in /usr/local /usr; do
 		if test -r $i/include/curl/easy.h; then
 			CURL_DIR=$i
@@ -85,36 +87,74 @@ if test "$PHP_PHALCON" = "yes"; then
 
 			EXTRA_CFLAGS=`$CURL_CONFIG --cflags`
 			EXTRA_LDFLAGS=`$CURL_CONFIG --libs`
-			AC_MSG_RESULT($EXTRA_CFLAGS)
-			AC_MSG_RESULT($EXTRA_LDFLAGS)
+
+			AC_MSG_RESULT("libcurl found")
 
 			AC_DEFINE([PHALCON_USE_CURL], [1], [Have CURL support])
 			break
 		fi
 	done
 
-
-	for i in /usr/local /usr; do
+	for i in /usr /usr/local; do
 		if test -r $i/include/png.h; then
-			PNG_DIR=$i
+			PNG_CFLAGS=`pkg-config --cflags libpng`
+			PNG_LDFLAGS=`pkg-config --libs libpng`
+
+			CPPFLAGS="${CPPFLAGS} ${PNG_CFLAGS}"
+			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${PNG_LDFLAGS}"
+
 			AC_MSG_RESULT("libpng found")
+
+			AC_DEFINE([PHALCON_USE_PNG], [1], [Have libpng support])
 			break
 		fi
 	done
 
-	if test -r "$PNG_DIR"; then
-		for i in /usr/local /usr; do
-			if test -r $i/include/qrencode.h; then
-				EXTRA_CFLAGS=`pkg-config --cflags libqrencode libpng`
-				EXTRA_LDFLAGS=`pkg-config --libs libqrencode  libpng`
+	for i in /usr /usr/local; do
+		if test -r $i/include/qrencode.h; then
+			QR_CFLAGS=`pkg-config --cflags libqrencode`
+			QR_LDFLAGS=`pkg-config --libs libqrencode`
 
-				AC_MSG_RESULT("libqrencode found")
+			CPPFLAGS="${CPPFLAGS} ${QR_CFLAGS}"
+			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${QR_LDFLAGS}"
 
-				AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+			AC_MSG_RESULT("libqrencode found")
+
+			AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+			break
+		fi
+	done
+
+	for i in /usr /usr/local; do
+		if test -r $i/bin/MagickWand-config; then
+
+			WAND_BINARY=$i/bin/MagickWand-config
+
+			WAND_CFLAGS=`$WAND_BINARY --cflags`
+			WAND_LDFLAGS=`$WAND_BINARY --libs`
+
+			CPPFLAGS="${CPPFLAGS} ${WAND_CFLAGS}"
+			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${WAND_LDFLAGS}"
+
+			AC_DEFINE([PHALCON_USE_MAGICKWAND], [1], [Have ImageMagick MagickWand support])
+			break
+		fi
+	done
+
+	if test -r "$WAND_BINARY"; then
+		for i in /usr /usr/local; do
+			if test -r $i/include/zbar.h; then
+				ZBAR_CFLAGS=`pkg-config --cflags zbar`
+				ZBAR_LDFLAGS=`pkg-config --libs zbar`
+
+				CPPFLAGS="${CPPFLAGS} ${ZBAR_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${ZBAR_LDFLAGS}"
+
+				AC_MSG_RESULT("libzbar found")
+
+				AC_DEFINE([PHALCON_USE_ZBAR], [1], [Have libzbar support])
 				break
 			fi
 		done
 	fi
-
-	CPPFLAGS=$old_CPPFLAGS
 fi
