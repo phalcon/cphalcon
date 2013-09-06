@@ -38,7 +38,7 @@ class Version
 	 * D - Special release: 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
 	 * E - Special release version i.e. RC1, Beta2 etc.
 	 */
-	protected + static function _getVersion()
+	protected static function _getVersion()
 	{
 		return [2, 0, 0, 1, 1];
 	}
@@ -52,7 +52,8 @@ class Version
 	 *
 	 * @return string
 	 */
-	public static function get(){
+	public static function get()
+	{
 
 		let version       = self::_getVersion();
 
@@ -78,8 +79,8 @@ class Version
 				break;
 		}
 
-		let result .= suffix,
-			return trim(result);
+		let result .= suffix;
+		return trim(result);
 	}
 
 	/**

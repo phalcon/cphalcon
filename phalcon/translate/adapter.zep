@@ -16,3 +16,7 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Translate;
+
+class Adapter { }

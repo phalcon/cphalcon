@@ -354,7 +354,7 @@ class Validation extends Phalcon\DI\Injectable
 			/**
 			 * Cache the calculated value
 			 */
-			this->_values[attribute] = value;
+			let this->_values[attribute] = value;
 
 			return value;
 		}

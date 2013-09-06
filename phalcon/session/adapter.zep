@@ -52,7 +52,7 @@ abstract class Adapter
 	 */
 	public function start()
 	{
-		if (headers_sent()) {
+		if headers_sent() {
 			session_start();
 			let this->_started = true;
 			return true;
@@ -78,7 +78,7 @@ abstract class Adapter
 			throw new Phalcon\Session\Exception("Options must be an Array");
 		}
 
-		if fetch uniqueId, options["uniqueId"])){
+		if fetch uniqueId, options["uniqueId"] {
 			let this->_uniqueId = uniqueId;
 		}
 
@@ -125,7 +125,7 @@ abstract class Adapter
 	 */
 	public function set(index, value)
 	{
-		_SESSION[this->_uniqueId . index] = value;
+		let _SESSION[this->_uniqueId . index] = value;
 	}
 
 	/**

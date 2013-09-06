@@ -41,7 +41,7 @@ interface AdapterInterface
 	 * @param	array placeholders
 	 * @return	string
 	 */
-	public function _(translateKey, placeholders=null);
+	public function t(translateKey, placeholders=null);
 
 	/**
 	 * Returns the translation related to the given key

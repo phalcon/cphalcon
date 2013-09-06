@@ -17,3 +17,6 @@
  +------------------------------------------------------------------------+
  */
 
+namespace Phalcon\Validation\Validator;
+
+class StringLength { }
