@@ -16,3 +16,10 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Paginator\Adapter;
+
+class QueryBuilder
+{
+
+}

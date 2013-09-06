@@ -16,3 +16,10 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Mvc\Router;
+
+class Route
+{
+
+}

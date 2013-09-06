@@ -28,9 +28,9 @@ namespace Phalcon\Mvc\Collection;
  * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\DI.
  *
  * <code>
- * di = new Phalcon\DI();
+ * $di = new Phalcon\DI();
  *
- * di->set('collectionManager', function(){
+ * $di->set('collectionManager', function(){
  *      return new Phalcon\Mvc\Collection\Manager();
  * });
  *

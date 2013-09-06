@@ -16,3 +16,10 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Forms;
+
+class Element
+{
+
+}

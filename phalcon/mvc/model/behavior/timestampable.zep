@@ -16,3 +16,10 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+
+namespace Phalcon\Mvc\Model\Behavior;
+
+class Timestampable
+{
+
+}

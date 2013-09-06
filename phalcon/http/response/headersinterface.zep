@@ -69,6 +69,6 @@ interface HeadersInterface
 	 * @param array data
 	 * @return Phalcon\Http\Response\HeadersInterface
 	 */
-	public + static function __set_state(data);
+	public static function __set_state(data);
 
 }

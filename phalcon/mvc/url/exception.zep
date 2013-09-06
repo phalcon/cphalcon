@@ -25,6 +25,7 @@ namespace Phalcon\Mvc\Url;
  * Exceptions thrown in Phalcon\Mvc\Url will use this class
  *
  */
-class Exception extends Phalcon_Exception {
+class Exception extends Phalcon\Exception
+{
 
 }
