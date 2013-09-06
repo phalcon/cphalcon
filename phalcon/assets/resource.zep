@@ -19,4 +19,350 @@
 
 namespace Phalcon\Assets;
 
-class Resource { }
+/**
+ * Phalcon\Assets\Resource
+ *
+ * Represents an asset resource
+ *
+ *<code>
+ * $resource = new Phalcon\Assets\Resource('js', 'javascripts/jquery.js');
+ *</code>
+ */
+ class Resource
+{
+
+	protected _type;
+
+	protected _path;
+
+	protected _local;
+
+	protected _filter;
+
+	protected _attributes;
+
+	protected _sourcePath;
+
+	protected _targetPath;
+
+	protected _targetUri;
+
+	/**
+	 * Phalcon\Assets\Resource constructor
+	 *
+	 * @param string type
+	 * @param string path
+	 * @param boolean local
+	 * @param boolean filter
+	 * @param array attributes
+	 */
+	public function __construct(type, path, local=true, filter=true, attributes=null)
+	{
+		let this->_type = type,
+			this->_path = path,
+			this->_local = local,
+			this->_filter = filter;
+		if typeof attributes == "array" {
+			let this->_attributes = attributes;
+		}
+	}
+
+	/**
+	 * Sets the resource's type
+	 *
+	 * @param string type
+	 * @return Phalcon\Assets\Resource
+	 */
+	public function setType(type)
+	{
+		let this->_type = type;
+		return this;
+	}
+
+	/**
+	 * Returns the type of resource
+	 *
+	 * @return string
+	 */
+	public function getType()
+	{
+		return this->_type;
+	}
+
+	/**
+	 * Sets the resource's path
+	 *
+	 * @param string path
+	 * @return Phalcon\Assets\Resource
+	 */
+	public function setPath(path)
+	{
+		let this->_path = path;
+		return this;
+	}
+
+	/**
+	 * Returns the URI/URL path to the resource
+	 *
+	 * @return string
+	 */
+	public function getPath()
+	{
+		return this->_path;
+	}
+
+	/**
+	 * Sets if the resource is local or external
+	 *
+	 * @param boolean local
+	 * @return Phalcon\Assets\Resource
+	 */
+	public function setLocal(local)
+	{
+		let this->_local = local;
+		return this;
+	}
+
+	/**
+	 * Returns whether the resource is local or external
+	 *
+	 * @return boolean
+	 */
+	public function getLocal()
+	{
+		return this->_local;
+	}
+
+	/**
+	 * Sets if the resource must be filtered or not
+	 *
+	 * @param boolean filter
+	 * @return Phalcon\Assets\Resource
+	 */
+	public function setFilter(filter)
+	{
+		let this->_filter = filter;
+		return this;
+	}
+
+	/**
+	 * Returns whether the resource must be filtered or not
+	 *
+	 * @return boolean
+	 */
+	public function getFilter()
+	{
+		return this->_filter;
+	}
+
+	/**
+	 * Sets extra HTML attributes
+	 *
+	 * @param array attributes
+	 * @return Phalcon\Assets\Resource
+	 */
+	public function setAttributes(attributes)
+	{
+		let this->_attributes = attributes;
+		return this;
+	}
+
+	/**
+	 * Returns extra HTML attributes set in the resource
+	 *
+	 * @return array
+	 */
+	public function getAttributes()
+	{
+		return this->_attributes;
+	}
+
+	/**
+     * Sets a target uri for the generated HTML
+     *
+     * @param string targetUri
+     * @return Phalcon\Assets\Resource
+     */
+    public function setTargetUri(targetUri)
+    {
+        let this->_targetUri = targetUri;
+        return this;
+    }
+
+    /**
+     * Returns the target uri for the generated HTML
+     *
+     * @return string
+     */
+    public function getTargetUri()
+    {
+        return this->_targetUri;
+    }
+
+	/**
+	 * Sets the resource's source path
+	 *
+	 * @param string sourcePath
+	 * @return Phalcon\Assets\Resource
+	 */
+	public function setSourcePath(sourcePath)
+	{
+		let this->_sourcePath = sourcePath;
+		return this;
+	}
+
+	/**
+	 * Returns the resource's target path
+	 *
+	 * @return string
+	 */
+	public function getSourcePath()
+	{
+		return this->_targetPath;
+	}
+
+	/**
+	 * Sets the resource's target path
+	 *
+	 * @param string targetPath
+	 * @return Phalcon\Assets\Resource
+	 */
+	public function setTargetPath(targetPath)
+	{
+		let this->_targetPath = targetPath;
+		return this;
+	}
+
+	/**
+	 * Returns the resource's target path
+	 *
+	 * @return string
+	 */
+	public function getTargetPath()
+	{
+		return this->_sourcePath;
+	}
+
+	/**
+	 * Returns the content of the resource as an string
+	 * Optionally a base path where the resource is located can be set
+	 *
+	 * @param string basePath
+	 * @return string
+	 */
+	public function getContent(basePath=null)
+	{
+		var sourcePath, completePath, content;
+
+		let sourcePath = this->_sourcePath;
+		if is_empty(sourcePath) {
+			let sourcePath = this->_path;
+		}
+
+		/**
+		 * A base path for resources can be set in the assets manager
+		 */
+		let completePath = basePath . sourcePath;
+
+		/**
+		 * Local resources are loaded from the local disk
+		 */
+		if this->_local {
+
+			/**
+			 * Check first if the file is readable
+			 */
+			if !file_exists(completePath) {
+				throw new Phalcon\Assets\Exception("Resource's content for '" . completePath . "' cannot be read");
+			}
+
+		}
+
+		/**
+		 * Use file_get_contents to respect the openbase_dir. Access urls must be enabled
+		 */
+		let content = file_get_contents(completePath);
+		if content === false {
+			throw new Phalcon\Assets\Exception("Resource's content for '" . completePath . "' cannot be read");
+		}
+
+		return content;
+	}
+
+	/**
+	 * Returns the real target uri for the generated HTML
+	 *
+	 * @return string
+	 */
+	public function getRealTargetUri()
+	{
+		var targetUri;
+
+		let targetUri = this->_targetUri;
+		if is_empty(targetUri) {
+			let targetUri = this->_path;
+		}
+		return targetUri;
+	}
+
+	/**
+	 * Returns the complete location where the resource is located
+	 *
+	 * @param string basePath
+	 * @return string
+	 */
+	public function getRealSourcePath(basePath=null)
+	{
+		var sourcePath;
+
+		let sourcePath = this->_sourcePath;
+		if is_empty(sourcePath) {
+			let sourcePath = this->_path;
+		}
+
+		if this->_local {
+			/**
+			 * Get the real template path
+			 */
+			return realpath(basePath . sourcePath);
+		}
+
+		return sourcePath;
+	}
+
+	/**
+	 * Returns the complete location where the resource must be written
+	 *
+	 * @param string basePath
+	 * @return string
+	 */
+	public function getRealTargetPath(basePath=null)
+	{
+		var targetPath, completePath;
+
+		let targetPath = this->_targetPath;
+		if is_empty(targetPath) {
+			let targetPath = this->_path;
+		}
+
+		if this->_local {
+
+			/**
+			 * A base path for resources can be set in the assets manager
+			 */
+			let completePath = basePath . targetPath;
+
+			/**
+			 * Get the real template path, the target path can optionally don't exist
+			 */
+			if file_exists(completePath) {
+				return realpath(completePath);
+			}
+
+			return completePath;
+		}
+
+		return targetPath;
+	}
+
+}
