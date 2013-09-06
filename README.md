@@ -9,6 +9,7 @@ Phalcon Framework
 * \Phalcon\Chart\QRcode -- unit-tests/ChartTest.php
 
 ```php
+// Example 1:
 $str = 'Phalcon is web framework';
 
 $qr = new \Phalcon\Chart\QRcode();
@@ -17,6 +18,23 @@ $ret = $qr->generate($str);
 if ($ret && $qr->save('qr.png')) {
 	$ret = $qr->scan('qr.png');
 }
+
+// Example 2:
+$qr = new \Phalcon\Chart\QRcode();
+
+if ($qr->generate('欢迎使用 PhalconPHP', 1, \Phalcon\Chart\QRcode::LEVEL_H)) {
+	$ret = $qr->save('qr.png', 5, 1);
+
+	$logo = new \Phalcon\Image\Adapter\Imagick('logo.png');
+	$logo->resize(40, 40);
+
+	$image = new \Phalcon\Image\Adapter\Imagick('qr.png');
+	$image->watermark($logo);
+	$image->save('qr2.png');
+}
+
+$ret = $qr->scan('qr.png');
+var_dump($ret);
 ```
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
