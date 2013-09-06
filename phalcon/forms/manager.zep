@@ -33,6 +33,8 @@ class Manager
 	 */
 	public function create(name=null, entity=null)
 	{
+		var form;
+
 		if typeof name != "string" {
 			throw new Phalcon\Forms\Exception("The form name must be string");
 		}
@@ -50,6 +52,8 @@ class Manager
 	 */
 	public function get(name)
 	{
+		var form, forms;
+
 		let forms = this->_forms;
 		if !fetch form, forms[name] {
 			throw new Phalcon\Forms\Exception("There is no form with name='" . name . "'");
@@ -65,6 +69,7 @@ class Manager
 	 */
 	public function has(name)
 	{
+		var forms;
 		let forms = this->_forms;
 		return isset forms[name];
 	}
@@ -78,12 +83,15 @@ class Manager
 	 */
 	public function set(name, form)
 	{
+
 		if typeof name != "string" {
 			throw new Phalcon\Forms\Exception("The form name must be string");
 		}
+
 		if typeof form != "object" {
 			throw new Phalcon\Forms\Exception("The form is not valid");
 		}
+
 		let this->_forms[name] = form;
 		return this;
 	}

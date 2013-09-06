@@ -168,6 +168,8 @@ abstract class Flash
 	public function outputMessage(type, message)
 	{
 		boolean automaticHtml, implicitFlush;
+		var content, cssClasses, classes, typeClasses, eol, msg,
+			htmlMessage;
 
 		let automaticHtml = (bool) this->_automaticHtml;
 

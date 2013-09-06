@@ -73,6 +73,7 @@ abstract class Adapter
 	 */
 	public function setOptions(options)
 	{
+		var uniqueId;
 
 		if typeof options != "array" {
 			throw new Phalcon\Session\Exception("Options must be an Array");
@@ -198,6 +199,7 @@ abstract class Adapter
 	 */
 	public function destroy()
 	{
+		var destroyed;
 		let destroyed = session_destroy(),
 			this->_started = false;
 		return destroyed;
