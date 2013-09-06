@@ -72,7 +72,7 @@ class Service implements Phalcon\DI\ServiceInterface
 	 */
 	public function setShared(shared)
 	{
-		this->_shared = shared;
+		let this->_shared = shared;
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Service implements Phalcon\DI\ServiceInterface
 	 */
 	public function setSharedInstance(sharedInstance)
 	{
-		this->_sharedInstance = sharedInstance;
+		let this->_sharedInstance = sharedInstance;
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Service implements Phalcon\DI\ServiceInterface
 	 */
 	public function setDefinition(definition)
 	{
-		this->_definition = definition;
+		let this->_definition = definition;
 	}
 
 	/**
@@ -158,7 +158,7 @@ class Service implements Phalcon\DI\ServiceInterface
 					let instance = create_instance(definition);
 				}
 			} else {
-				found = false;
+				let found = false;
 			}
 		} else {
 
@@ -183,7 +183,7 @@ class Service implements Phalcon\DI\ServiceInterface
 					let builder = new Phalcon\DI\Service\Builder(),
 						instance = builder->build(dependencyInjector, definition, parameters);
 				} else {
-					found = false;
+					let found = false;
 				}
 			}
 		}
@@ -199,7 +199,7 @@ class Service implements Phalcon\DI\ServiceInterface
 		 * Update the shared instance if the service is shared
 		 */
 		if shared {
-			this->_sharedInstance = instance;
+			let this->_sharedInstance = instance;
 		}
 
 		return instance;

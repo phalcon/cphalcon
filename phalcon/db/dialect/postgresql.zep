@@ -16,3 +16,7 @@
 |          Rack Lin <racklin@gmail.com>                                  |
 +------------------------------------------------------------------------+
 */
+
+namespace Phalcon\Db\Dialect;
+
+class PostgreSQL { }

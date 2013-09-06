@@ -18,10 +18,12 @@
  +------------------------------------------------------------------------+
  */
 
+namespace Phalcon;
+
 /**
- * Phalcon\DI
+ * Phalcon\Di
  *
- * Phalcon\DI is a component that implements Dependency Injection/Service Location
+ * Phalcon\Di is a component that implements Dependency Injection/Service Location
  * of services and it"s itself a container for them.
  *
  * Since Phalcon is highly decoupled, Phalcon\DI is essential to integrate the different
@@ -50,7 +52,7 @@
  *
  *</code>
  */
-class DI implements Phalcon\DiInterface
+class Di implements Phalcon\DiInterface
 {
 
 	protected _services;
@@ -69,7 +71,7 @@ class DI implements Phalcon\DiInterface
 	{
 		let defaultDi = self::_default;
 		if !defaultDi {
-			self::_default = this;
+			let self::_default = this;
 		}
 	}
 
@@ -118,7 +120,7 @@ class DI implements Phalcon\DiInterface
 		if typeof name != "string" {
 			throw new Phalcon\DI\Exception("The service name must be a string");
 		}
-		unset this->_services[name];
+		//unset this->_services[name];
 	}
 
 	/**
@@ -185,8 +187,8 @@ class DI implements Phalcon\DiInterface
 
 		let services = this->_services;
 		if isset services[name] {
-			let service = services[name],
-				return service->getDefinition();
+			let service = services[name];
+			return service->getDefinition();
 		}
 
 		throw new Phalcon\DI\Exception("Service '" . name . "' wasn't found in the dependency injection container");
@@ -438,7 +440,7 @@ class DI implements Phalcon\DiInterface
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public + static function setDefault(<Phalcon\DiInterface> dependencyInjector)
+	public static function setDefault(<Phalcon\DiInterface> dependencyInjector)
 	{
 		let self::_default = dependencyInjector;
 	}
@@ -448,7 +450,7 @@ class DI implements Phalcon\DiInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public + static function getDefault()
+	public static function getDefault()
 	{
 		return self::_default;
 	}
@@ -456,7 +458,7 @@ class DI implements Phalcon\DiInterface
 	/**
 	 * Resets the internal default DI
 	 */
-	public + static function reset()
+	public static function reset()
 	{
 		let self::_default = null;
 	}

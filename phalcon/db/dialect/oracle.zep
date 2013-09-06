@@ -16,3 +16,7 @@
 |          Marcio Paiva <mpaivabarbosa@gmail.com>                        |
 +------------------------------------------------------------------------+
 */
+
+namespace Phalcon\Db\Dialect;
+
+class Oracle { }

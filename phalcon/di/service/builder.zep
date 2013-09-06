@@ -257,7 +257,7 @@ class Builder
 			}
 
 			if typeof paramCalls != "array" {
-				throw new PhalconºDI\Exception("Setter injection parameters must be an array");
+				throw new Phalcon\DI\Exception("Setter injection parameters must be an array");
 			}
 
 			/**
@@ -289,7 +289,7 @@ class Builder
 				/**
 				 * Update the public property
 				 */
-				instance->{propertyName} = this->_buildParameter(dependencyInjector, propertyPosition, propertyValue);
+				let instance->{propertyName} = this->_buildParameter(dependencyInjector, propertyPosition, propertyValue);
 			}
 
 		}

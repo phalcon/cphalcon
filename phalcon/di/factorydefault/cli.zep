@@ -27,7 +27,7 @@ namespace Phalcon\DI\FactoryDefault;
  * Thanks to this, the developer does not need to register each service individually.
  * This class is specially suitable for CLI applications
  */
-class CLI extends Phalcon\DI\FactoryDefault
+class Cli extends Phalcon\DI\FactoryDefault
 {
 
 	/**
@@ -42,16 +42,16 @@ class CLI extends Phalcon\DI\FactoryDefault
 		let shared = true;
 
 		let this->_services = [
-			"router" => new Phalcon\DI\Service("router", "Phalcon\\CLI\\Router"),
-			"dispatcher" => new Phalcon\DI\Service("dispatcher", "Phalcon\\CLI\\Dispatcher"),
-			"modelsManager" => new Phalcon\DI\Service("modelsManager", "Phalcon\\Mvc\\Model\\Manager"),
-			"modelsMetadata" => new Phalcon\DI\Service("modelsMetadata", "Phalcon\\Mvc\\Model\\Metadata\\Memory"),
-			"filter" => new Phalcon\DI\Service("filter", "Phalcon\\Filter", shared),
-			"escaper" => new Phalcon\DI\Service("escaper", "Phalcon\\Escaper", shared),
-			"annotations" => new Phalcon\DI\Service("annotations", "Phalcon\\Annotations\\Adapter\\Memory", shared),
-			"security" => new Phalcon\DI\Service("security", "Phalcon\\Security", shared),
-			"eventsManager" => new Phalcon\DI\Service("eventsManager", "Phalcon\\Events\\Manage", shared),
-			"transactionManager" => new Phalcon\DI\Service("transactionManager", "Phalcon\\Mvc\\Model\\Transaction\\Manager", shared),
+			"router": new Phalcon\DI\Service("router", "Phalcon\\CLI\\Router"),
+			"dispatcher": new Phalcon\DI\Service("dispatcher", "Phalcon\\CLI\\Dispatcher"),
+			"modelsManager": new Phalcon\DI\Service("modelsManager", "Phalcon\\Mvc\\Model\\Manager"),
+			"modelsMetadata": new Phalcon\DI\Service("modelsMetadata", "Phalcon\\Mvc\\Model\\Metadata\\Memory"),
+			"filter": new Phalcon\DI\Service("filter", "Phalcon\\Filter", shared),
+			"escaper": new Phalcon\DI\Service("escaper", "Phalcon\\Escaper", shared),
+			"annotations": new Phalcon\DI\Service("annotations", "Phalcon\\Annotations\\Adapter\\Memory", shared),
+			"security": new Phalcon\DI\Service("security", "Phalcon\\Security", shared),
+			"eventsManager": new Phalcon\DI\Service("eventsManager", "Phalcon\\Events\\Manage", shared),
+			"transactionManager": new Phalcon\DI\Service("transactionManager", "Phalcon\\Mvc\\Model\\Transaction\\Manager", shared)
 		];
 	}
 

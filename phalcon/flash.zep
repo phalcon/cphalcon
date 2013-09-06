@@ -50,7 +50,7 @@ abstract class Flash
 				"error": "errorMessage",
 				"notice": "noticeMessage",
 				"success": "successMessage",
-				"warning": "warningMessage",
+				"warning": "warningMessage"
 			];
 		}
 		let this->_cssClasses = cssClasses;
@@ -89,7 +89,7 @@ abstract class Flash
 	public function setCssClasses(cssClasses)
 	{
 		if typeof cssClasses == "array" {
-			this->_cssClasses = cssClasses;
+			let this->_cssClasses = cssClasses;
 			return this;
 		}
 		throw new Phalcon\Flash\Exception("CSS classes must be an Array");

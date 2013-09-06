@@ -107,7 +107,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 		if !isset messages[type] {
 			let messages[type] = [];
 		}
-		let messages[type][] = message;
+		//let messages[type][] = message;
 
 		this->_setSessionMessages(messages);
 	}

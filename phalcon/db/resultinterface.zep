@@ -52,7 +52,7 @@ interface ResultInterface
 	 *
 	 * @return mixed
 	 */
-	public function fetch();
+	public function $fetch();
 
 	/**
 	 * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.

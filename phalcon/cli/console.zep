@@ -18,7 +18,7 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\CLI;
+namespace Phalcon\Cli;
 
 /**
  * Phalcon\CLI\Console

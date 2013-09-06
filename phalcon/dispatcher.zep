@@ -246,7 +246,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 	 */
 	public function setParam(var param, var value)
 	{
-		this->_params[param] = value;
+		let this->_params[param] = value;
 	}
 
 	/**
@@ -261,11 +261,11 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 	{
 		let params = this->_params;
 		if  isset params[param] {
-			paramValue = params[param];
+			let paramValue = params[param];
 			if filters !== null {
 				let dependencyInjector = this->_dependencyInjector;
 				if typeof dependencyInjector != "object" {
-					this->_throwDispatchException("A dependency injection object is required to access the "filter" service", self::EXCEPTION_NO_DI);
+					this->_throwDispatchException("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
 				}
 				let filter = dependencyInjector->getShared("filter");
 				return filter->sanitize(paramValue, filters);
@@ -482,9 +482,8 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 				/**
 				 * An invalid parameter variable was passed throw an exception
 				 */
-				let status = this->_throwDispatchException("Action parameters must be an Array" self::EXCEPTION_INVALID_PARAMS);
+				let status = this->_throwDispatchException("Action parameters must be an Array", self::EXCEPTION_INVALID_PARAMS);
 				if status === false {
-					finished = ;
 					if this->_finished === false {
 						continue;
 					}
@@ -514,7 +513,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 				/**
 				 * Try to throw an exception when an action isn"t defined on the object
 				 */
-				let status = this->_throwDispatchException("Action "" . actionName . "" was not found on handler "" . handlerName . """, self::EXCEPTION_ACTION_NOT_FOUND);
+				let status = this->_throwDispatchException("Action '" . actionName . "' was not found on handler '" . handlerName . "'", self::EXCEPTION_ACTION_NOT_FOUND);
 				if status === false {
 					if this->_finished === false {
 						continue;
@@ -595,7 +594,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			/**
 			 * Calling afterExecuteRoute as callback and event
 			 */
-			if method_exists(handler, "afterExecuteRoute")) {
+			if method_exists(handler, "afterExecuteRoute") {
 
 				if handler->afterExecuteRoute(this, value) === false {
 					continue;
@@ -657,14 +656,14 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 		/**
 		 * Check if we need to forward to another action
 		 */
-		if isset actionName, forward["action"] {
+		if fetch actionName, forward["action"] {
 			let this->_actionName = actionName;
 		}
 
 		/**
 		 * Check if we need to forward changing the current parameters
 		 */
-		if isset params, forward["params"] {
+		if fetch params, forward["params"] {
 			let this->_params = params;
 		}
 

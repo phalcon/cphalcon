@@ -37,9 +37,9 @@ interface DispatcherInterface
 	/**
 	 * Sets the default namespace
 	 *
-	 * @param string namespace
+	 * @param string defaultNamespace
 	 */
-	public function setDefaultNamespace(namespace);
+	public function setDefaultNamespace(defaultNamespace);
 
 	/**
 	 * Sets the default action name

@@ -24,7 +24,8 @@ namespace Phalcon\Events;
  *
  * This class offers contextual information of a fired event in the EventsManager
  */
-class Event {
+class Event
+{
 
 	protected _type;
 
@@ -135,7 +136,7 @@ class Event {
 	public function stop()
 	{
 		if this->_cancelable {
-			this->_stopped = true;
+			let this->_stopped = true;
 		} else {
 			throw new Phalcon\Events\Exception("Trying to cancel a non-cancelable event");
 		}
