@@ -354,7 +354,7 @@ zend_class_entry *phalcon_utils_date_ce;
 zend_class_entry *phalcon_utils_arr_ce;
 zend_class_entry *phalcon_http_client_ce;
 zend_class_entry *phalcon_http_client_exception_ce;
-zend_class_entry *phalcon_chart_qrencode_ce;
+zend_class_entry *phalcon_chart_qrcode_ce;
 zend_class_entry *phalcon_chart_exception_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
@@ -712,7 +712,7 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Utils_Arr);
 	PHALCON_INIT(Phalcon_Http_Client);
 	PHALCON_INIT(Phalcon_Http_Client_Exception);
-	PHALCON_INIT(Phalcon_Chart_QRencode);
+	PHALCON_INIT(Phalcon_Chart_QRcode);
 	PHALCON_INIT(Phalcon_Chart_Exception);
 
 	orig_execute_internal = zend_execute_internal;
