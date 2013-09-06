@@ -451,28 +451,29 @@ chart/exception.c"
 	done
 
 	for i in /usr /usr/local; do
-		if test -r $i/include/zbar.h; then
-			ZBAR_DIR=$i
+		if test -r $i/bin/MagickWand-config; then
+
+			WAND_BINARY=$i/bin/MagickWand-config
+
+			WAND_CFLAGS=`$WAND_BINARY --cflags`
+			WAND_LDFLAGS=`$WAND_BINARY --libs`
+
+			CPPFLAGS="${CPPFLAGS} ${WAND_CFLAGS}"
+			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${WAND_LDFLAGS}"
+
+			AC_DEFINE([PHALCON_USE_MAGICKWAND], [1], [Have ImageMagick MagickWand support])
 			break
 		fi
 	done
 
-	if test -r "$ZBAR_DIR"; then
+	if test -r "$WAND_BINARY"; then
 		for i in /usr /usr/local; do
-			if test -r $i/bin/MagickWand-config; then
+			if test -r $i/include/zbar.h; then
 				ZBAR_CFLAGS=`pkg-config --cflags zbar`
 				ZBAR_LDFLAGS=`pkg-config --libs zbar`
 
 				CPPFLAGS="${CPPFLAGS} ${ZBAR_CFLAGS}"
 				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${ZBAR_LDFLAGS}"
-
-				WAND_BINARY=$i/bin/MagickWand-config
-
-				WAND_CFLAGS=`$WAND_BINARY --cflags`
-				WAND_LDFLAGS=`$WAND_BINARY --libs`
-
-				CPPFLAGS="${CPPFLAGS} ${WAND_CFLAGS}"
-				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${WAND_LDFLAGS}"
 
 				AC_MSG_RESULT("libzbar found")
 
