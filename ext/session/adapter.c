@@ -1,90 +1,81 @@
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "php_test.h"
+#include "test.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
-#include "main/SAPI.h"
-
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/session.h"
 
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Session\Adapter
  *
  * Base class for Phalcon\Session adapters
  */
+ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter) {
 
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Session, Adapter, phalcon_session_adapter, phalcon_session_adapter_method_entry, 0);
 
-/**
- * Phalcon\Session\Adapter initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Session_Adapter){
-
-	PHALCON_REGISTER_CLASS(Phalcon\\Session, Adapter, session_adapter, phalcon_session_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	zend_declare_property_null(phalcon_session_adapter_ce, SL("_uniqueId"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_session_adapter_ce, SL("_started"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_session_adapter_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_adapter_ce, SL("_uniqueId"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_session_adapter_ce, SL("_started"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_adapter_ce, SL("_options"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
+
 }
 
 /**
  * Phalcon\Session\Adapter constructor
  *
- * @param array $options
+ * @param array options
  */
-PHP_METHOD(Phalcon_Session_Adapter, __construct){
+PHP_METHOD(Phalcon_Session_Adapter, __construct) {
 
 	zval *options = NULL;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &options);
 
-	phalcon_fetch_params(1, 0, 1, &options);
-	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		ZEPHIR_INIT_VAR(options);
 	}
-	
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		phalcon_call_method_p1_noret(this_ptr, "setoptions", options);
+
+
+	if (Z_TYPE_P(options) == IS_ARRAY) {
+		zephir_call_method_p1_noret(this_ptr, "setoptions", options);
 	}
-	
-	PHALCON_MM_RESTORE();
+	ZEPHIR_MM_RESTORE();
+
 }
 
 /**
@@ -92,49 +83,56 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Session_Adapter, start){
+PHP_METHOD(Phalcon_Session_Adapter, start) {
 
-	if (!SG(headers_sent)) {
-		phalcon_session_start(TSRMLS_C);
-		phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
-		RETURN_TRUE;
+	zval *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func(_0, "headers_sent");
+	if (zend_is_true(_0)) {
+		//missing fcall
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_BOOL(_1, 1);
+		zephir_update_property_this(this_ptr, SL("_started"), _1 TSRMLS_CC);
+		RETURN_MM_BOOL(1);
 	}
-	
-	RETURN_FALSE;
+	RETURN_MM_BOOL(0);
+
 }
 
 /**
  * Sets session's options
  *
  *<code>
- *	$session->setOptions(array(
+ *	session->setOptions(array(
  *		'uniqueId' => 'my-private-app'
  *	));
  *</code>
  *
- * @param array $options
+ * @param array options
  */
-PHP_METHOD(Phalcon_Session_Adapter, setOptions){
+PHP_METHOD(Phalcon_Session_Adapter, setOptions) {
 
-	zval *options, *unique_id;
+	zval *options, *uniqueId;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &options);
 
-	phalcon_fetch_params(1, 1, 0, &options);
-	
-	if (Z_TYPE_P(options) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "Options must be an Array");
+
+
+	if (Z_TYPE_P(options) != IS_ARRAY) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "Options must be an Array");
 		return;
 	}
-	if (phalcon_array_isset_string(options, SS("uniqueId"))) {
-		PHALCON_OBS_VAR(unique_id);
-		phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY);
-		phalcon_update_property_this(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
+	ZEPHIR_OBS_VAR(uniqueId);
+	if (zephir_array_isset_string_fetch(&uniqueId, options, SS("uniqueId"))) {
+		zephir_update_property_this(this_ptr, SL("_uniqueId"), uniqueId TSRMLS_CC);
 	}
-	
-	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
 }
 
 /**
@@ -142,187 +140,185 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions){
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Session_Adapter, getOptions){
+PHP_METHOD(Phalcon_Session_Adapter, getOptions) {
 
-	zval *options;
 
-	PHALCON_MM_GROW();
+	RETURN_MEMBER(this_ptr, "_options");
 
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	RETURN_CCTOR(options);
 }
 
 /**
  * Gets a session variable from an application context
  *
- * @param string $index
- * @param mixed $defaultValue
+ * @param string index
+ * @param mixed defaultValue
  * @return mixed
  */
-PHP_METHOD(Phalcon_Session_Adapter, get){
+PHP_METHOD(Phalcon_Session_Adapter, get) {
 
-	zval *index, *default_value = NULL, *unique_id, *key, *_SESSION;
-	zval *value;
+	zval *index, *defaultValue = NULL, *value, *_SESSION, *_0, *_1, *_2;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &index, &defaultValue);
 
-	phalcon_fetch_params(1, 1, 1, &index, &default_value);
-	
-	if (!default_value) {
-		PHALCON_INIT_VAR(default_value);
+	if (!defaultValue) {
+		ZEPHIR_INIT_VAR(defaultValue);
 	}
-	
-	PHALCON_OBS_VAR(unique_id);
-	phalcon_read_property_this(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(key);
-	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	if (phalcon_array_isset(_SESSION, key)) {
-	
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, _SESSION, key, PH_NOISY);
-		if (PHALCON_IS_NOT_EMPTY(value)) {
+
+
+	ZEPHIR_OBS_VAR(value);
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	concat_function(_1, _0, index);
+	if (zephir_array_isset_fetch(&value, _SESSION, _1)) {
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_func_p1(_2, "is_empty", value);
+		if (!(zend_is_true(_2))) {
 			RETURN_CCTOR(value);
 		}
 	}
-	
-	RETURN_CCTOR(default_value);
+	RETURN_CCTOR(defaultValue);
+
 }
 
 /**
  * Sets a session variable in an application context
  *
  *<code>
- *	$session->set('auth', 'yes');
+ *	session->set('auth', 'yes');
  *</code>
  *
- * @param string $index
- * @param string $value
+ * @param string index
+ * @param string value
  */
-PHP_METHOD(Phalcon_Session_Adapter, set){
+PHP_METHOD(Phalcon_Session_Adapter, set) {
 
-	zval *index, *value, *unique_id, *key, *_SESSION;
+	zval *index, *value, *_0, *_1;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &index, &value);
 
-	phalcon_fetch_params(1, 2, 0, &index, &value);
-	
-	PHALCON_OBS_VAR(unique_id);
-	phalcon_read_property_this(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(key);
-	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_update_zval(&_SESSION, key, &value, PH_COPY);
-	
-	PHALCON_MM_RESTORE();
+
+
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	concat_function(_1, _0, index);
+	zephir_array_update_zval(&_SESSION, _1, &value, PH_COPY | PH_SEPARATE);
+	ZEPHIR_MM_RESTORE();
+
 }
 
 /**
  * Check whether a session variable is set in an application context
  *
  *<code>
- *	var_dump($session->has('auth'));
+ *	var_dump(session->has('auth'));
  *</code>
  *
- * @param string $index
+ * @param string index
  * @return boolean
  */
-PHP_METHOD(Phalcon_Session_Adapter, has){
+PHP_METHOD(Phalcon_Session_Adapter, has) {
 
-	zval *index, *unique_id, *key, *_SESSION;
+	zval *index, *_SESSION, *_0, *_1;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index);
 
-	phalcon_fetch_params(1, 1, 0, &index);
-	
-	PHALCON_OBS_VAR(unique_id);
-	phalcon_read_property_this(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(key);
-	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	if (phalcon_array_isset(_SESSION, key)) {
-		RETURN_MM_TRUE;
+
+
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	concat_function(_1, _0, index);
+	if (zephir_array_isset(_SESSION, _1)) {
+		RETURN_MM_BOOL(1);
 	}
-	
-	RETURN_MM_FALSE;
+	RETURN_MM_BOOL(0);
+
 }
 
 /**
  * Removes a session variable from an application context
  *
  *<code>
- *	$session->remove('auth');
+ *	session->remove('auth');
  *</code>
  *
- * @param string $index
+ * @param string index
  */
-PHP_METHOD(Phalcon_Session_Adapter, remove){
+PHP_METHOD(Phalcon_Session_Adapter, remove) {
 
-	zval *index, *unique_id, *key, *_SESSION;
+	zval *index;
 
-	PHALCON_MM_GROW();
+	zephir_fetch_params(0, 1, 0, &index);
 
-	phalcon_fetch_params(1, 1, 0, &index);
-	
-	PHALCON_OBS_VAR(unique_id);
-	phalcon_read_property_this(&unique_id, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(key);
-	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_unset(&_SESSION, key, 0);
-	
-	PHALCON_MM_RESTORE();
+
+
+	//missing unset
+
 }
 
 /**
  * Returns active session id
  *
  *<code>
- *	echo $session->getId();
+ *	echo session->getId();
  *</code>
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Session_Adapter, getId){
+PHP_METHOD(Phalcon_Session_Adapter, getId) {
 
+	ZEPHIR_MM_GROW();
 
-	phalcon_get_session_id(return_value, return_value_ptr TSRMLS_CC);
+	zephir_call_func(return_value, "session_id");
+	RETURN_MM();
+
 }
 
 /**
  * Check whether the session has been started
  *
  *<code>
- *	var_dump($session->isStarted());
+ *	var_dump(session->isStarted());
  *</code>
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Session_Adapter, isStarted){
+PHP_METHOD(Phalcon_Session_Adapter, isStarted) {
 
 
 	RETURN_MEMBER(this_ptr, "_started");
+
 }
 
 /**
  * Destroys the active session
  *
  *<code>
- *	var_dump($session->destroy());
+ *	var_dump(session->destroy());
  *</code>
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Session_Adapter, destroy){
+PHP_METHOD(Phalcon_Session_Adapter, destroy) {
 
+	zval *destroyed, *_0;
 
-	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
-	phalcon_session_destroy(TSRMLS_C);
-	RETURN_TRUE;
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(destroyed);
+	zephir_call_func(destroyed, "session_destroy");
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_BOOL(_0, 0);
+	zephir_update_property_this(this_ptr, SL("_started"), _0 TSRMLS_CC);
+	RETURN_CCTOR(destroyed);
+
 }
 

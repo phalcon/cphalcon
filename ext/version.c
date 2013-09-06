@@ -1,30 +1,11 @@
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Nikolaos Dimopoulos <nikos@niden.net>                         |
-  +------------------------------------------------------------------------+
-*/
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "php_test.h"
+#include "test.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -32,28 +13,42 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
-#include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
-#include "kernel/string.h"
 
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Nikolaos Dimopoulos <nikos@niden.net>                         |
+ +------------------------------------------------------------------------+
+*/
 /**
  * Phalcon\Version
  *
  * This class allows to get the installed version of the framework
  */
+ZEPHIR_INIT_CLASS(Phalcon_Version) {
 
+	ZEPHIR_REGISTER_CLASS(Phalcon, Version, phalcon_version, phalcon_version_method_entry, 0);
 
-/**
- * Phalcon\Version initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Version){
-
-	PHALCON_REGISTER_CLASS(Phalcon, Version, version, phalcon_version_method_entry, 0);
 
 	return SUCCESS;
+
 }
 
 /**
@@ -66,20 +61,30 @@ PHALCON_INIT_CLASS(Phalcon_Version){
  * D - Special release: 1 = Alpha, 2 = Beta, 3 = RC, 4 = Stable
  * E - Special release version i.e. RC1, Beta2 etc.
  */
-PHP_METHOD(Phalcon_Version, _getVersion){
+PHP_METHOD(Phalcon_Version, _getVersion) {
 
-	zval *version;
+	zval *_0 = NULL;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
 
-	PHALCON_INIT_VAR(version);
-	array_init_size(version, 5);
-	add_next_index_long(version, 1);
-	add_next_index_long(version, 3);
-	add_next_index_long(version, 0);
-	add_next_index_long(version, 1);
-	add_next_index_long(version, 1);
-	RETURN_CTOR(version);
+	array_init(return_value);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 2);
+	zephir_array_append(&return_value, _0, 0);
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_LONG(_0, 0);
+	zephir_array_append(&return_value, _0, 0);
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_LONG(_0, 0);
+	zephir_array_append(&return_value, _0, 0);
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_LONG(_0, 1);
+	zephir_array_append(&return_value, _0, 0);
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_LONG(_0, 1);
+	zephir_array_append(&return_value, _0, 0);
+	RETURN_MM();
+
 }
 
 /**
@@ -91,60 +96,54 @@ PHP_METHOD(Phalcon_Version, _getVersion){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Version, get){
+PHP_METHOD(Phalcon_Version, get) {
 
-	zval *version, *major, *medium, *minor, *special, *special_number;
-	zval *result, *suffix = NULL;
+	zval version, *major, *medium, *minor, *special, *specialNumber, *result, *suffix = NULL, *_0, *_1;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
 
-	PHALCON_INIT_VAR(version);
-	phalcon_call_self(version, this_ptr, "_getversion");
-
-	PHALCON_OBS_VAR(major);
-	phalcon_array_fetch_long(&major, version, 0, PH_NOISY);
-
-	PHALCON_OBS_VAR(medium);
-	phalcon_array_fetch_long(&medium, version, 1, PH_NOISY);
-
-	PHALCON_OBS_VAR(minor);
-	phalcon_array_fetch_long(&minor, version, 2, PH_NOISY);
-
-	PHALCON_OBS_VAR(special);
-	phalcon_array_fetch_long(&special, version, 3, PH_NOISY);
-
-	PHALCON_OBS_VAR(special_number);
-	phalcon_array_fetch_long(&special_number, version, 4, PH_NOISY);
-
-	PHALCON_INIT_VAR(result);
-	PHALCON_CONCAT_VSVSVS(result, major, ".", medium, ".", minor, " ");
-
-	switch (phalcon_get_intval(special)) {
-
-		case 1:
-			PHALCON_INIT_VAR(suffix);
-			PHALCON_CONCAT_SV(suffix, "ALPHA ", special_number);
+	ZEPHIR_SINIT_VAR(version);
+	ZEPHIR_CALL_SELF(version, this_ptr, phalcon_version_ce, "_getversion");
+	ZEPHIR_OBS_VAR(major);
+	zephir_array_fetch_long(&major, version, 0, PH_NOISY);
+	ZEPHIR_OBS_VAR(medium);
+	zephir_array_fetch_long(&medium, version, 1, PH_NOISY);
+	ZEPHIR_OBS_VAR(minor);
+	zephir_array_fetch_long(&minor, version, 2, PH_NOISY);
+	ZEPHIR_OBS_VAR(special);
+	zephir_array_fetch_long(&special, version, 3, PH_NOISY);
+	ZEPHIR_OBS_VAR(specialNumber);
+	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY);
+	ZEPHIR_INIT_VAR(_0);
+	concat_function(_0, major, medium);
+	ZEPHIR_INIT_VAR(_1);
+	concat_function(_1, _0, minor);
+	ZEPHIR_INIT_VAR(result);
+	ZEPHIR_CONCAT_VS(result, _1, " ");
+	do {
+		if (ZEPHIR_IS_LONG(special, 1)) {
+			ZEPHIR_INIT_VAR(suffix);
+			ZEPHIR_CONCAT_SV(suffix, "ALPHA ", specialNumber);
 			break;
-
-		case 2:
-			PHALCON_INIT_NVAR(suffix);
-			PHALCON_CONCAT_SV(suffix, "BETA ", special_number);
+		}
+		if (ZEPHIR_IS_LONG(special, 2)) {
+			ZEPHIR_INIT_NVAR(suffix);
+			ZEPHIR_CONCAT_SV(suffix, "BETA ", specialNumber);
 			break;
-
-		case 3:
-			PHALCON_INIT_NVAR(suffix);
-			PHALCON_CONCAT_SV(suffix, "RC ", special_number);
+		}
+		if (ZEPHIR_IS_LONG(special, 3)) {
+			ZEPHIR_INIT_NVAR(suffix);
+			ZEPHIR_CONCAT_SV(suffix, "RC ", specialNumber);
 			break;
-
-		default:
-			PHALCON_INIT_NVAR(suffix);
+		}
+			ZEPHIR_INIT_NVAR(suffix);
 			ZVAL_STRING(suffix, "", 1);
 			break;
+	} while(0);
 
-	}
-	phalcon_concat_self(&result, suffix TSRMLS_CC);
-	phalcon_fast_trim(return_value, result, PHALCON_TRIM_BOTH TSRMLS_CC);
+	zephir_call_func_p1(return_value, "trim", result);
 	RETURN_MM();
+
 }
 
 /**
@@ -156,40 +155,40 @@ PHP_METHOD(Phalcon_Version, get){
  *
  * @return int
  */
-PHP_METHOD(Phalcon_Version, getId){
+PHP_METHOD(Phalcon_Version, getId) {
 
-	zval *version, *major, *medium, *minor, *special, *special_number;
-	zval *format, *real_medium, *real_minor;
+	zval version, *major, *medium, *minor, *special, *specialNumber, _0 = zval_used_for_init, *_1, *_2, *_3, *_4, *_5;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
 
-	PHALCON_INIT_VAR(version);
-	phalcon_call_self(version, this_ptr, "_getversion");
-
-	PHALCON_OBS_VAR(major);
-	phalcon_array_fetch_long(&major, version, 0, PH_NOISY);
-
-	PHALCON_OBS_VAR(medium);
-	phalcon_array_fetch_long(&medium, version, 1, PH_NOISY);
-
-	PHALCON_OBS_VAR(minor);
-	phalcon_array_fetch_long(&minor, version, 2, PH_NOISY);
-
-	PHALCON_OBS_VAR(special);
-	phalcon_array_fetch_long(&special, version, 3, PH_NOISY);
-
-	PHALCON_OBS_VAR(special_number);
-	phalcon_array_fetch_long(&special_number, version, 4, PH_NOISY);
-
-	PHALCON_INIT_VAR(format);
-	ZVAL_STRING(format, "%02s", 1);
-
-	PHALCON_INIT_VAR(real_medium);
-	phalcon_call_func_p2(real_medium, "sprintf", format, medium);
-
-	PHALCON_INIT_VAR(real_minor);
-	phalcon_call_func_p2(real_minor, "sprintf", format, minor);
-	PHALCON_CONCAT_VVVVV(return_value, major, real_medium, real_minor, special, special_number);
+	ZEPHIR_SINIT_VAR(version);
+	ZEPHIR_CALL_SELF(version, this_ptr, phalcon_version_ce, "_getversion");
+	ZEPHIR_OBS_VAR(major);
+	zephir_array_fetch_long(&major, version, 0, PH_NOISY);
+	ZEPHIR_OBS_VAR(medium);
+	zephir_array_fetch_long(&medium, version, 1, PH_NOISY);
+	ZEPHIR_OBS_VAR(minor);
+	zephir_array_fetch_long(&minor, version, 2, PH_NOISY);
+	ZEPHIR_OBS_VAR(special);
+	zephir_array_fetch_long(&special, version, 3, PH_NOISY);
+	ZEPHIR_OBS_VAR(specialNumber);
+	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY);
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_STRING(&_0, "%02s", 0);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_func_p2(_1, "sprintf", &_0, medium);
+	ZEPHIR_INIT_VAR(_2);
+	concat_function(_2, major, _1);
+	ZEPHIR_SINIT_NVAR(_0);
+	ZVAL_STRING(&_0, "%02s", 0);
+	ZEPHIR_INIT_VAR(_3);
+	zephir_call_func_p2(_3, "sprintf", &_0, minor);
+	ZEPHIR_INIT_VAR(_4);
+	concat_function(_4, _2, _3);
+	ZEPHIR_INIT_VAR(_5);
+	concat_function(_5, _4, special);
+	concat_function(return_value, _5, specialNumber);
 	RETURN_MM();
+
 }
 

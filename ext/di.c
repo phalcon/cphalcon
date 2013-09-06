@@ -1,30 +1,11 @@
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Nikolaos Dimopoulos <nikos@niden.net>                         |
-  +------------------------------------------------------------------------+
-*/
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "php_test.h"
+#include "test.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -32,20 +13,36 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/file.h"
-#include "kernel/string.h"
 
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ |          Nikolaos Dimopoulos <nikos@niden.net>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
- * Phalcon\DI
+ * Phalcon\Di
  *
- * Phalcon\DI is a component that implements Dependency Injection/Service Location
- * of services and it's itself a container for them.
+ * Phalcon\Di is a component that implements Dependency Injection/Service Location
+ * of services and it"s itself a container for them.
  *
  * Since Phalcon is highly decoupled, Phalcon\DI is essential to integrate the different
  * components of the framework. The developer can also use this component to inject dependencies
@@ -62,10 +59,10 @@
  * $di = new Phalcon\DI();
  *
  * //Using a string definition
- * $di->set('request', 'Phalcon\Http\Request', true);
+ * $di->set("request", "Phalcon\Http\Request", true);
  *
  * //Using an anonymous function
- * $di->set('request', function(){
+ * $di->set("request", function(){
  *	  return new Phalcon\Http\Request();
  * }, true);
  *
@@ -73,390 +70,398 @@
  *
  *</code>
  */
+ZEPHIR_INIT_CLASS(Phalcon_Di) {
 
+	ZEPHIR_REGISTER_CLASS(Phalcon, Di, phalcon_di, phalcon_di_method_entry, 0);
 
-/**
- * Phalcon\DI initializer
- */
-PHALCON_INIT_CLASS(Phalcon_DI){
-
-	PHALCON_REGISTER_CLASS(Phalcon, DI, di, phalcon_di_method_entry, 0);
-
-	zend_declare_property_null(phalcon_di_ce, SL("_services"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_di_ce, SL("_sharedInstances"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_di_ce, SL("_freshInstance"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_di_ce, SL("_default"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
-
-	zend_class_implements(phalcon_di_ce TSRMLS_CC, 1, phalcon_diinterface_ce);
+	zend_declare_property_null(phalcon_di_ce, SL("_services"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_di_ce, SL("_sharedInstances"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_di_ce, SL("_freshInstance"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_di_ce, SL("_default"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
+
 }
 
 /**
  * Phalcon\DI constructor
  *
  */
-PHP_METHOD(Phalcon_DI, __construct){
+PHP_METHOD(Phalcon_Di, __construct) {
 
-	zval *default_di;
+	zval defaultDi;
 
-	default_di = phalcon_fetch_static_property_ce(phalcon_di_ce, SL("_default") TSRMLS_CC);
-	if (!zend_is_true(default_di)) {
-		phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), this_ptr TSRMLS_CC);
+
+	ZEPHIR_SINIT_VAR(defaultDi);
+	ZVAL_NULL(&defaultDi);
+	if (!(zend_is_true(&defaultDi))) {
 	}
+
 }
 
 /**
  * Registers a service in the services container
  *
- * @param string $name
- * @param mixed $definition
- * @param boolean $shared
+ * @param string name
+ * @param mixed definition
+ * @param boolean shared
  * @return Phalcon\DI\ServiceInterface
  */
-PHP_METHOD(Phalcon_DI, set){
+PHP_METHOD(Phalcon_Di, set) {
 
-	zval *name, *definition, *shared = NULL;
+	zval *name, *definition, *shared = NULL, *service;
 
-	phalcon_fetch_params(0, 2, 1, &name, &definition, &shared);
-	
-	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
-	
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 1, &name, &definition, &shared);
 
 	if (!shared) {
-		PHALCON_INIT_VAR(shared);
-		ZVAL_FALSE(shared);
+		ZEPHIR_INIT_VAR(shared);
+		ZVAL_BOOLshared, 0);
 	}
 
-	object_init_ex(return_value, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(return_value, "__construct", name, definition, shared);
-	
-	phalcon_update_property_array(this_ptr, SL("_services"), name, return_value TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+
+	if (Z_TYPE_P(name) != IS_STRING) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
+		return;
+	}
+	ZEPHIR_INIT_VAR(service);
+	object_init_ex(service, phalcon_di_service_ce);
+	zephir_call_method_p3_noret(service, "__construct", name, definition, shared);
+	zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
+	RETURN_CCTOR(service);
+
 }
 
 /**
  * Registers an "always shared" service in the services container
  *
- * @param string $name
- * @param mixed $definition
+ * @param string name
+ * @param mixed definition
  * @return Phalcon\DI\ServiceInterface
  */
-PHP_METHOD(Phalcon_DI, setShared){
+PHP_METHOD(Phalcon_Di, setShared) {
 
-	zval *name, *definition, *shared;
+	zval *name, *definition, *service, *_0;
 
-	phalcon_fetch_params(0, 2, 0, &name, &definition);
-	
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &name, &definition);
+
+
+
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	
-	PHALCON_MM_GROW();
+	ZEPHIR_INIT_VAR(service);
+	object_init_ex(service, phalcon_di_service_ce);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_BOOL(_0, 1);
+	zephir_call_method_p3_noret(service, "__construct", name, definition, _0);
+	zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
+	RETURN_CCTOR(service);
 
-	PHALCON_INIT_VAR(shared);
-	ZVAL_TRUE(shared);
-	
-	object_init_ex(return_value, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(return_value, "__construct", name, definition, shared);
-	
-	phalcon_update_property_array(this_ptr, SL("_services"), name, return_value TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
  * Removes a service in the services container
  *
- * @param string $name
+ * @param string name
  */
-PHP_METHOD(Phalcon_DI, remove){
+PHP_METHOD(Phalcon_Di, remove) {
 
 	zval *name;
 
-	phalcon_fetch_params(0, 1, 0, &name);
-	
+	zephir_fetch_params(0, 1, 0, &name);
+
+
+
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	phalcon_unset_property_array(this_ptr, SL("_services"), name TSRMLS_CC);
-	
+
 }
 
 /**
  * Attempts to register a service in the services container
- * Only is successful if a service hasn't been registered previously
+ * Only is successful if a service hasn"t been registered previously
  * with the same name
  *
- * @param string $name
- * @param mixed $definition
- * @param boolean $shared
+ * @param string name
+ * @param mixed definition
+ * @param boolean shared
  * @return Phalcon\DI\ServiceInterface
  */
-PHP_METHOD(Phalcon_DI, attempt){
+PHP_METHOD(Phalcon_Di, attempt) {
 
-	zval *name, *definition, *shared = NULL, *services;
+	zval *name, *definition, *shared = NULL, *services, *service;
 
-	phalcon_fetch_params(0, 2, 1, &name, &definition, &shared);
-	
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 1, &name, &definition, &shared);
+
+	if (!shared) {
+		ZEPHIR_INIT_VAR(shared);
+		ZVAL_BOOLshared, 0);
+	}
+
+
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	
-	services = phalcon_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (!phalcon_array_isset(services, name)) {
-		PHALCON_MM_GROW();
-
-		if (!shared) {
-			PHALCON_INIT_VAR(shared);
-			ZVAL_FALSE(shared);
-		}
-
-		object_init_ex(return_value, phalcon_di_service_ce);
-		phalcon_call_method_p3_noret(return_value, "__construct", name, definition, shared);
-	
-		phalcon_update_property_array(this_ptr, SL("_services"), name, return_value TSRMLS_CC);
-		PHALCON_MM_RESTORE();
+	ZEPHIR_OBS_VAR(services);
+	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	if (!(zephir_array_isset(services, name))) {
+		ZEPHIR_INIT_VAR(service);
+		object_init_ex(service, phalcon_di_service_ce);
+		zephir_call_method_p3_noret(service, "__construct", name, definition, shared);
+		zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
+		RETURN_CCTOR(service);
 	}
+	RETURN_MM_NULL();
+
 }
 
 /**
  * Sets a service using a raw Phalcon\DI\Service definition
  *
- * @param string $name
- * @param Phalcon\DI\ServiceInterface $rawDefinition
+ * @param string name
+ * @param Phalcon\DI\ServiceInterface rawDefinition
  * @return Phalcon\DI\ServiceInterface
  */
-PHP_METHOD(Phalcon_DI, setRaw){
+PHP_METHOD(Phalcon_Di, setRaw) {
 
-	zval *name, *raw_definition;
+	zval *name, *rawDefinition;
 
-	phalcon_fetch_params(0, 2, 0, &name, &raw_definition);
-	
+	zephir_fetch_params(0, 2, 0, &name, &rawDefinition);
+
+
+
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	if (Z_TYPE_P(raw_definition) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service definition must be an object");
+	if (Z_TYPE_P(rawDefinition) != IS_OBJECT) {
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service definition must be an object");
 		return;
 	}
-	
-	phalcon_update_property_array(this_ptr, SL("_services"), name, raw_definition TSRMLS_CC);
-	
-	RETURN_CCTORW(raw_definition);
+	zephir_update_property_array(this_ptr, SL("_services"), name, rawDefinition TSRMLS_CC);
+	RETURN_CCTORW(rawDefinition);
+
 }
 
 /**
  * Returns a service definition without resolving
  *
- * @param string $name
+ * @param string name
  * @return mixed
  */
-PHP_METHOD(Phalcon_DI, getRaw){
+PHP_METHOD(Phalcon_Di, getRaw) {
 
-	zval *name, *exception_message;
-	zval *services, *service;
+	zval *name, *services, *service, *_0, *_1, *_2;
 
-	phalcon_fetch_params(0, 1, 0, &name);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name);
+
+
 
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-
-	PHALCON_MM_GROW();
-
-	services = phalcon_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (phalcon_array_isset_fetch(&service, services, name)) {
-		phalcon_call_method_p0_ex(return_value, return_value_ptr, service, "getdefinition");
+	ZEPHIR_OBS_VAR(services);
+	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	if (zephir_array_isset(services, name)) {
+		ZEPHIR_OBS_VAR(service);
+		zephir_array_fetch(&service, services, name, PH_NOISY);
+		zephir_call_method(return_value, service, "getdefinition");
 		RETURN_MM();
 	}
-	
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SVS(exception_message, "Service '", name, "' wasn't found in the dependency injection container");
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
+	ZEPHIR_INIT_VAR(_0);
+	object_init_ex(_0, phalcon_di_exception_ce);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_SV(_1, "Service '", name);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_VS(_2, _1, "' wasn't found in the dependency injection container");
+	zephir_call_method_p1_noret(_0, "__construct", _2);
+	zephir_throw_exception(_0 TSRMLS_CC);
 	return;
+
 }
 
 /**
  * Returns a Phalcon\DI\Service instance
  *
- * @param string $name
+ * @param string name
  * @return Phalcon\DI\ServiceInterface
  */
-PHP_METHOD(Phalcon_DI, getService){
+PHP_METHOD(Phalcon_Di, getService) {
 
-	zval *name, *exception_message;
-	zval *services, *service;
+	zval *name, *services, *service, *_0, *_1, *_2;
 
-	phalcon_fetch_params(0, 1, 0, &name);
-	
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name);
+
+
+
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	
-	services = phalcon_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (phalcon_array_isset_fetch(&service, services, name)) {
-		RETURN_CTORW(service);
+	ZEPHIR_OBS_VAR(services);
+	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(service);
+	if (zephir_array_isset_fetch(&service, services, name)) {
+		RETURN_CCTOR(service);
 	}
-	
-	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SVS(exception_message, "Service '", name, "' wasn't found in the dependency injection container");
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
+	ZEPHIR_INIT_VAR(_0);
+	object_init_ex(_0, phalcon_di_exception_ce);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_SV(_1, "Service '", name);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_VS(_2, _1, "' wasn't found in the dependency injection container");
+	zephir_call_method_p1_noret(_0, "__construct", _2);
+	zephir_throw_exception(_0 TSRMLS_CC);
 	return;
+
 }
 
 /**
  * Resolves the service based on its configuration
  *
- * @param string $name
- * @param array $parameters
+ * @param string name
+ * @param array parameters
  * @return mixed
  */
-PHP_METHOD(Phalcon_DI, get){
+PHP_METHOD(Phalcon_Di, get) {
 
-	zval *name, *parameters = NULL, *instance;
-	zval *exception_message;
-	zval *services, *service;
+	zval *name, *parameters = NULL, *services, service, *instance = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3, _4;
 
-	phalcon_fetch_params(0, 1, 1, &name, &parameters);
-	
-	/** 
-	 * A valid service alias is a string
-	 */
-	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service alias must be a string");
-		return;
-	}
-	
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &name, &parameters);
 
 	if (!parameters) {
-		PHALCON_INIT_VAR(parameters);
+		ZEPHIR_INIT_VAR(parameters);
 	}
 
-	PHALCON_INIT_VAR(instance);
 
-	services = phalcon_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	if (phalcon_array_isset_fetch(&service, services, name)) {
-		/** 
-		 * The service is registered in the DI
-		 */
-		phalcon_call_method_p2(instance, service, "resolve", parameters, this_ptr);
+	if (Z_TYPE_P(name) != IS_STRING) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
+		return;
+	}
+	ZEPHIR_OBS_VAR(services);
+	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(service);
+	if (zephir_array_isset_fetch(&service, services, name)) {
+		ZEPHIR_INIT_VAR(instance);
+		zephir_call_method_p2(instance, service, "resolve", parameters, this_ptr);
 	} else {
-		/** 
-		 * The DI also acts as builder for any class even if it isn't defined in the DI
-		 */
-		if (phalcon_class_exists(name, 1 TSRMLS_CC)) {
-			int res;
-			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-				res = phalcon_create_instance_params(instance, name, parameters TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "class_exists", name);
+		if (zend_is_true(_0)) {
+			if (Z_TYPE_P(parameters) == IS_STRING) {
+				ZEPHIR_INIT_NVAR(instance);
+				ZEPHIR_INIT_VAR(_1);
+				zephir_call_func_p1(_1, "count", parameters);
+				if (zend_is_true(_1)) {
+					zephir_call_func_p2(instance, "create_instance_params", name, parameters);
+				} else {
+					zephir_call_func_p1(instance, "create_instance", name);
+				}
 			} else {
-				res = phalcon_create_instance(instance, name TSRMLS_CC);
-			}
-
-			if (res == FAILURE) {
-				RETURN_MM();
+				ZEPHIR_INIT_NVAR(instance);
+				zephir_call_func_p1(instance, "create_instance", name);
 			}
 		} else {
-			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Service '", name, "' wasn't found in the dependency injection container");
-			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
+			ZEPHIR_INIT_NVAR(_1);
+			object_init_ex(_1, phalcon_di_exception_ce);
+			ZEPHIR_INIT_VAR(_2);
+			ZEPHIR_CONCAT_SV(_2, "Service '", name);
+			ZEPHIR_INIT_VAR(_3);
+			ZEPHIR_CONCAT_VS(_3, _2, "' wasn't found in the dependency injection container");
+			zephir_call_method_p1_noret(_1, "__construct", _3);
+			zephir_throw_exception(_1 TSRMLS_CC);
 			return;
 		}
 	}
-	
-	/** 
-	 * Pass the DI itself if the instance implements Phalcon\DI\InjectionAwareInterface
-	 */
 	if (Z_TYPE_P(instance) == IS_OBJECT) {
-		if (phalcon_method_exists_ex(instance, SS("setdi") TSRMLS_CC) == SUCCESS) {
-			phalcon_call_method_p1_noret(instance, "setdi", this_ptr);
+		ZEPHIR_SINIT_VAR(_4);
+		ZVAL_STRING(&_4, "setDI", 0);
+		ZEPHIR_INIT_NVAR(_0);
+		zephir_call_func_p2(_0, "method_exists", instance, &_4);
+		if (zend_is_true(_0)) {
+			zephir_call_method_p1_noret(instance, "setdi", this_ptr);
 		}
 	}
-	
 	RETURN_CCTOR(instance);
+
 }
 
 /**
  * Resolves a service, the resolved service is stored in the DI, subsequent requests for this service will return the same instance
  *
- * @param string $name
- * @param array $parameters
+ * @param string name
+ * @param array parameters
  * @return mixed
  */
-PHP_METHOD(Phalcon_DI, getShared){
+PHP_METHOD(Phalcon_Di, getShared) {
 
-	zval *name, *parameters = NULL;
-	zval *shared_instances, *instance;
+	zval *name, *parameters = NULL, *instance = NULL, *sharedInstances, *_0 = NULL;
 
-	phalcon_fetch_params(0, 1, 1, &name, &parameters);
-	
-	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service alias must be a string");
-		return;
-	}
-	
-	/** 
-	 * This method provides a first level to shared instances allowing to use
-	 * non-shared services as shared
-	 */
-	shared_instances = phalcon_fetch_nproperty_this(this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
-	if (phalcon_array_isset_fetch(&instance, shared_instances, name)) {
-		phalcon_update_property_bool(this_ptr, SL("_freshInstance"), 0 TSRMLS_CC);
-		RETURN_CTORW(instance);
-	}
-	
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &name, &parameters);
 
 	if (!parameters) {
-		PHALCON_INIT_VAR(parameters);
+		ZEPHIR_INIT_VAR(parameters);
 	}
 
-	/**
-	 * Resolve the instance normally
-	 */
-	phalcon_call_method_p2(return_value, this_ptr, "get", name, parameters);
 
-	/**
-	 * Save the instance in the first level shared
-	 */
-	phalcon_update_property_array(this_ptr, SL("_sharedInstances"), name, return_value TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_freshInstance"), 1 TSRMLS_CC);
-	PHALCON_MM_RESTORE();
+	if (Z_TYPE_P(name) != IS_STRING) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
+		return;
+	}
+	ZEPHIR_OBS_VAR(sharedInstances);
+	zephir_read_property_this(&sharedInstances, this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(instance);
+	if (!(zephir_array_isset_fetch(&instance, sharedInstances, name))) {
+		ZEPHIR_INIT_VAR(_0);
+		ZVAL_BOOL(_0, 0);
+		zephir_update_property_this(this_ptr, SL("_freshInstance"), _0 TSRMLS_CC);
+	} else {
+		ZEPHIR_INIT_NVAR(instance);
+		zephir_call_method_p2(instance, this_ptr, "get", name, parameters);
+		zephir_update_property_array(this_ptr, SL("_sharedInstances"), name, instance TSRMLS_CC);
+		ZEPHIR_INIT_NVAR(_0);
+		ZVAL_BOOL(_0, 1);
+		zephir_update_property_this(this_ptr, SL("_freshInstance"), _0 TSRMLS_CC);
+	}
+	RETURN_CCTOR(instance);
+
 }
 
 /**
  * Check whether the DI contains a service by a name
  *
- * @param string $name
+ * @param string name
  * @return boolean
  */
-PHP_METHOD(Phalcon_DI, has){
+PHP_METHOD(Phalcon_Di, has) {
 
-	zval *name;
-	zval *services;
+	zval *name, *services;
 
-	phalcon_fetch_params(0, 1, 0, &name);
-	
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name);
+
+
+
 	if (Z_TYPE_P(name) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service alias must be a string");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	
-	services = phalcon_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	RETURN_BOOL(phalcon_array_isset(services, name));
+	ZEPHIR_OBS_VAR(services);
+	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	RETURN_MM_BOOL(zephir_array_isset(services, name));
+
 }
 
 /**
@@ -464,10 +469,11 @@ PHP_METHOD(Phalcon_DI, has){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_DI, wasFreshInstance){
+PHP_METHOD(Phalcon_Di, wasFreshInstance) {
 
 
 	RETURN_MEMBER(this_ptr, "_freshInstance");
+
 }
 
 /**
@@ -475,140 +481,186 @@ PHP_METHOD(Phalcon_DI, wasFreshInstance){
  *
  * @return Phalcon\DI\Service[]
  */
-PHP_METHOD(Phalcon_DI, getServices){
+PHP_METHOD(Phalcon_Di, getServices) {
 
 
 	RETURN_MEMBER(this_ptr, "_services");
+
 }
 
 /**
- * Check if a service is registered using the array syntax.
- * Alias for Phalcon\Di::has()
+ * Check if a service is registered using the array syntax
  *
- * @param string $name
+ * @param string name
  * @return boolean
  */
-PHALCON_DOC_METHOD(Phalcon_DI, offsetExists);
+PHP_METHOD(Phalcon_Di, offsetExists) {
+
+	zval *name;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name);
+
+
+
+	zephir_call_method_p1(return_value, this_ptr, "has", name);
+	RETURN_MM();
+
+}
 
 /**
- * Allows to register a shared service using the array syntax.
- * Alias for Phalcon\Di::setShared()
+ * Allows to register a shared service using the array syntax
  *
  *<code>
- *	$di['request'] = new Phalcon\Http\Request();
+ *	$di["request"] = new Phalcon\Http\Request();
  *</code>
  *
- * @param string $name
- * @param mixed $definition
+ * @param string name
+ * @param mixed definition
  */
-PHALCON_DOC_METHOD(Phalcon_DI, offsetSet);
+PHP_METHOD(Phalcon_Di, offsetSet) {
+
+	zval *name, *definition;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &name, &definition);
+
+
+
+	zephir_call_method_p2_noret(this_ptr, "setshared", name, definition);
+	ZEPHIR_MM_RESTORE();
+
+}
 
 /**
- * Allows to obtain a shared service using the array syntax.
- * Alias for Phalcon\Di::getShared()
+ * Allows to obtain a shared service using the array syntax
  *
  *<code>
- *	var_dump($di['request']);
+ *	var_dump($di["request"]);
  *</code>
  *
- * @param string $name
+ * @param string name
  * @return mixed
  */
-PHALCON_DOC_METHOD(Phalcon_DI, offsetGet);
+PHP_METHOD(Phalcon_Di, offsetGet) {
+
+	zval *name;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name);
+
+
+
+	zephir_call_method_p1(return_value, this_ptr, "getshared", name);
+	RETURN_MM();
+
+}
 
 /**
- * Removes a service from the services container using the array syntax.
- * Alias for Phalcon\Di::remove()
+ * Removes a service from the services container using the array syntax
  *
- * @param string $name
+ * @param string name
  */
-PHALCON_DOC_METHOD(Phalcon_DI, offsetUnset);
+PHP_METHOD(Phalcon_Di, offsetUnset) {
+
+	zval *name;
+
+	zephir_fetch_params(0, 1, 0, &name);
+
+
+
+	RETURN_CCTORW(name);
+
+}
 
 /**
  * Magic method to get or set services using setters/getters
  *
- * @param string $method
- * @param array $arguments
+ * @param string method
+ * @param array arguments
  * @return mixed
  */
-PHP_METHOD(Phalcon_DI, __call){
+PHP_METHOD(Phalcon_Di, __call) {
 
-	zval *method, *arguments = NULL, *service_name = NULL;
-	zval *exception_message;
-	zval *services, *handler;
+	zval *method, *arguments = NULL, *instance, *possibleService, *services, *_0 = NULL, *_1, _2 = zval_used_for_init, *_3 = NULL, *_4, *_5, *_6, *_7, *_8;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &method, &arguments);
 
-	phalcon_fetch_params(1, 1, 1, &method, &arguments);
-	
 	if (!arguments) {
-		PHALCON_INIT_VAR(arguments);
+		ZEPHIR_INIT_VAR(arguments);
 	}
-	
-	/** 
-	 * If the magic method starts with 'get' we try to get a service with that name
-	 */
-	if (phalcon_start_with_str(method, SL("get"))) {
-	
-		services = phalcon_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(service_name);
-		phalcon_substr(service_name, method, 3, 0);
-		if (likely(Z_STRLEN_P(service_name) > 0)) {
-			Z_STRVAL_P(service_name)[0] = tolower(Z_STRVAL_P(service_name)[0]);
-		}
-	
-		if (phalcon_array_isset(services, service_name)) {
-			if (phalcon_fast_count_ev(arguments TSRMLS_CC)) {
-				phalcon_call_method_p2(return_value, this_ptr, "get", service_name, arguments);
-			}
-			else {
-				phalcon_call_method_p1(return_value, this_ptr, "get", service_name);
-			}
 
-			RETURN_MM();
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "get", 1);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_func_p2(_1, "starts_with", method, _0);
+	if (zend_is_true(_1)) {
+		ZEPHIR_OBS_VAR(services);
+		zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+		ZEPHIR_SINIT_VAR(_2);
+		ZVAL_LONG(&_2, 3);
+		ZEPHIR_INIT_NVAR(_0);
+		zephir_call_func_p2(_0, "substr", method, &_2);
+		ZEPHIR_INIT_VAR(possibleService);
+		zephir_call_func_p1(possibleService, "lcfirst", _0);
+		if (zephir_array_isset(services, possibleService)) {
+			ZEPHIR_INIT_VAR(instance);
+			ZEPHIR_INIT_VAR(_3);
+			zephir_call_func_p1(_3, "count", arguments);
+			if (zend_is_true(_3)) {
+				zephir_call_method_p2(instance, this_ptr, "get", possibleService, arguments);
+			} else {
+				zephir_call_method_p1(instance, this_ptr, "get", possibleService);
+			}
+			RETURN_CCTOR(instance);
 		}
 	}
-	
-	/** 
-	 * If the magic method starts with 'set' we try to set a service using that name
-	 */
-	if (phalcon_start_with_str(method, SL("set"))) {
-		if (phalcon_array_isset_long_fetch(&handler, arguments, 0)) {
-			PHALCON_INIT_NVAR(service_name);
-			phalcon_substr(service_name, method, 3, 0);
-	
-			if (likely(Z_STRLEN_P(service_name) > 0)) {
-				Z_STRVAL_P(service_name)[0] = tolower(Z_STRVAL_P(service_name)[0]);
-			}
-
-			phalcon_call_method_p2_noret(this_ptr, "set", service_name, handler);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "set", 1);
+	ZEPHIR_INIT_VAR(_4);
+	zephir_call_func_p2(_4, "starts_with", method, _3);
+	if (zend_is_true(_4)) {
+		if (zephir_array_isset_long(arguments, 0)) {
+			ZEPHIR_SINIT_NVAR(_2);
+			ZVAL_LONG(&_2, 3);
+			ZEPHIR_INIT_NVAR(_3);
+			zephir_call_func_p2(_3, "substr", method, &_2);
+			ZEPHIR_INIT_VAR(_5);
+			zephir_call_func_p1(_5, "lcfirst", _3);
+			ZEPHIR_OBS_VAR(_6);
+			zephir_array_fetch_long(&_6, arguments, 0, PH_NOISY);
+			zephir_call_method_p2_noret(this_ptr, "set", _5, _6);
 			RETURN_MM_NULL();
 		}
 	}
-	
-	/** 
-	 * The method doesn't start with set/get throw an exception
-	 */
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SVS(exception_message, "Call to undefined method or service '", method, "'");
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
+	ZEPHIR_INIT_NVAR(_3);
+	object_init_ex(_3, phalcon_di_exception_ce);
+	ZEPHIR_INIT_VAR(_7);
+	ZEPHIR_CONCAT_SV(_7, "Call to undefined method or service '", method);
+	ZEPHIR_INIT_VAR(_8);
+	ZEPHIR_CONCAT_VS(_8, _7, "'");
+	zephir_call_method_p1_noret(_3, "__construct", _8);
+	zephir_throw_exception(_3 TSRMLS_CC);
 	return;
+
 }
 
 /**
  * Set a default dependency injection container to be obtained into static methods
  *
- * @param Phalcon\DiInterface $dependencyInjector
+ * @param Phalcon\DiInterface dependencyInjector
  */
-PHP_METHOD(Phalcon_DI, setDefault){
+PHP_METHOD(Phalcon_Di, setDefault) {
 
-	zval *dependency_injector;
+	zval *dependencyInjector;
 
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	
-	phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), dependency_injector TSRMLS_CC);
-	
+	zephir_fetch_params(0, 1, 0, &dependencyInjector);
+
+
+
+
 }
 
 /**
@@ -616,23 +668,19 @@ PHP_METHOD(Phalcon_DI, setDefault){
  *
  * @return Phalcon\DiInterface
  */
-PHP_METHOD(Phalcon_DI, getDefault){
+PHP_METHOD(Phalcon_Di, getDefault) {
 
-	zval *default_di;
 
-	default_di = phalcon_fetch_static_property_ce(phalcon_di_ce, SL("_default") TSRMLS_CC);
-	RETURN_CTORW(default_di);
+	RETURN_NULL();
+
 }
 
 /**
  * Resets the internal default DI
  */
-PHP_METHOD(Phalcon_DI, reset){
+PHP_METHOD(Phalcon_Di, reset) {
 
-	zval *null_value;
 
-	ALLOC_INIT_ZVAL(null_value);
-	phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), null_value TSRMLS_CC);
-	zval_ptr_dtor(&null_value);
+
 }
 

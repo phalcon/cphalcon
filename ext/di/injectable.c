@@ -1,84 +1,88 @@
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "php_test.h"
+#include "test.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/concat.h"
 
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\DI\Injectable
  *
  * This class allows to access services in the services container by just only accessing a public property
  * with the same name of a registered service
  */
+ZEPHIR_INIT_CLASS(Phalcon_DI_Injectable) {
 
+	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, Injectable, phalcon_di_injectable, phalcon_di_injectable_method_entry, 0);
 
 /**
- * Phalcon\DI\Injectable initializer
+ * Dependency Injector
+ *
+ * @var Phalcon\DiInteface
  */
-PHALCON_INIT_CLASS(Phalcon_DI_Injectable){
-
-	PHALCON_REGISTER_CLASS(Phalcon\\DI, Injectable, di_injectable, phalcon_di_injectable_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	zend_declare_property_null(phalcon_di_injectable_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_di_injectable_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	zend_class_implements(phalcon_di_injectable_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
+	zend_declare_property_null(phalcon_di_injectable_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Events Manager
+ *
+ * @var Phalcon\Events\ManagerInterface
+ */
+	zend_declare_property_null(phalcon_di_injectable_ce, SL("_eventsManager"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
+
 }
 
 /**
  * Sets the dependency injector
  *
- * @param Phalcon\DiInterface $dependencyInjector
+ * @param Phalcon\DiInterface dependencyInjector
  */
-PHP_METHOD(Phalcon_DI_Injectable, setDI){
+PHP_METHOD(Phalcon_DI_Injectable, setDI) {
 
-	zval *dependency_injector;
+	zval *dependencyInjector;
 
-	phalcon_fetch_params(0, 1, 0, &dependency_injector);
-	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "Dependency Injector is invalid");
+	zephir_fetch_params(0, 1, 0, &dependencyInjector);
+
+
+
+	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
-	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
+	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+
 }
 
 /**
@@ -86,20 +90,18 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
  *
  * @return Phalcon\DiInterface
  */
-PHP_METHOD(Phalcon_DI_Injectable, getDI){
+PHP_METHOD(Phalcon_DI_Injectable, getDI) {
 
-	zval *dependency_injector = NULL;
+	zval *dependencyInjector;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
 
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_NVAR(dependency_injector);
-		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 	}
-	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_CCTOR(dependencyInjector);
+
 }
 
 /**
@@ -107,14 +109,16 @@ PHP_METHOD(Phalcon_DI_Injectable, getDI){
  *
  * @param Phalcon\Events\ManagerInterface $eventsManager
  */
-PHP_METHOD(Phalcon_DI_Injectable, setEventsManager){
+PHP_METHOD(Phalcon_DI_Injectable, setEventsManager) {
 
-	zval *events_manager;
+	zval *eventsManager;
 
-	phalcon_fetch_params(0, 1, 0, &events_manager);
-	
-	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-	
+	zephir_fetch_params(0, 1, 0, &eventsManager);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
+
 }
 
 /**
@@ -122,82 +126,59 @@ PHP_METHOD(Phalcon_DI_Injectable, setEventsManager){
  *
  * @return Phalcon\Events\ManagerInterface
  */
-PHP_METHOD(Phalcon_DI_Injectable, getEventsManager){
+PHP_METHOD(Phalcon_DI_Injectable, getEventsManager) {
 
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
+
 }
 
 /**
  * Magic method __get
  *
- * @param string $propertyName
+ * @param string propertyName
  */
-PHP_METHOD(Phalcon_DI_Injectable, __get){
+PHP_METHOD(Phalcon_DI_Injectable, __get) {
+
+	zval *propertyName, *dependencyInjector, *hasService, *service, *persistent, *_0, *_1 = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &propertyName);
 
 
-	zval *property_name, *dependency_injector = NULL;
-	zval *has_service, *service = NULL, *class_name, *arguments;
-	zval *persistent;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &property_name);
-
-	PHALCON_OBS_VAR(dependency_injector);
-	phalcon_read_property_this(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-
-		PHALCON_INIT_NVAR(dependency_injector);
-		phalcon_call_static(dependency_injector, "phalcon\\di", "getdefault");
-
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
+	ZEPHIR_OBS_VAR(dependencyInjector);
+	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
 			return;
 		}
 	}
-
-	/**
-	 * Fallback to the PHP userland if the cache is not available
-	 */
-	PHALCON_INIT_VAR(has_service);
-	phalcon_call_method_p1(has_service, dependency_injector, "has", property_name);
-	if (zend_is_true(has_service)) {
-		PHALCON_INIT_VAR(service);
-		phalcon_call_method_p1(service, dependency_injector, "getshared", property_name);
-		phalcon_update_property_zval_zval(this_ptr, property_name, service TSRMLS_CC);
+	ZEPHIR_INIT_VAR(hasService);
+	zephir_call_method_p1(hasService, dependencyInjector, "has", propertyName);
+	if (zend_is_true(hasService)) {
+		ZEPHIR_INIT_VAR(service);
+		zephir_call_method_p1(service, dependencyInjector, "getshared", propertyName);
 		RETURN_CCTOR(service);
 	}
-
-	if (PHALCON_IS_STRING(property_name, "di")) {
-		phalcon_update_property_this(this_ptr, SL("di"), dependency_injector TSRMLS_CC);
-		RETURN_CCTOR(dependency_injector);
+	if (ZEPHIR_IS_STRING(propertyName, "di")) {
+		RETURN_CCTOR(dependencyInjector);
 	}
-
-	/**
-	 * Accessing the persistent property will create a session bag in any class
-	 */
-	if (PHALCON_IS_STRING(property_name, "persistent")) {
-		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
-
-		PHALCON_INIT_VAR(arguments);
-		array_init_size(arguments, 1);
-		phalcon_array_append(&arguments, class_name, PH_SEPARATE);
-
-		PHALCON_INIT_NVAR(service);
-		ZVAL_STRING(service, "sessionBag", 1);
-
-		PHALCON_INIT_VAR(persistent);
-		phalcon_call_method_p2(persistent, dependency_injector, "get", service, arguments);
-		phalcon_update_property_this(this_ptr, SL("persistent"), persistent TSRMLS_CC);
+	if (ZEPHIR_IS_STRING(propertyName, "persistent")) {
+		ZEPHIR_INIT_VAR(_0);
+		array_init(_0);
+		ZEPHIR_INIT_VAR(_1);
+		zephir_call_func_p1(_1, "get_class", this_ptr);
+		zephir_array_append(&_0, _1, 0);
+		ZEPHIR_INIT_NVAR(_1);
+		ZVAL_STRING(_1, "sessionBag", 1);
+		ZEPHIR_INIT_VAR(persistent);
+		zephir_call_method_p2(persistent, dependencyInjector, "get", _1, _0);
 		RETURN_CCTOR(persistent);
 	}
-
-	/**
-	 * A notice is shown if the property is not defined and isn't a valid service
-	 */
-	php_error_docref(NULL TSRMLS_CC, E_WARNING, "Access to undefined property %s", Z_STRVAL_P(property_name));
+	//missing fcall
 	RETURN_MM_NULL();
+
 }
 

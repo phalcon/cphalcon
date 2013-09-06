@@ -1,78 +1,98 @@
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "php_test.h"
+#include "test.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/object.h"
+#include "kernel/memory.h"
+#include "kernel/operators.h"
 
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Acl\Adapter
  *
  * Adapter for Phalcon\Acl adapters
  */
+ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Adapter, phalcon_acl_adapter, phalcon_acl_adapter_method_entry, 0);
 
 /**
- * Phalcon\Acl\Adapter initializer
+ * Events manager
+ * "@var mixed
  */
-PHALCON_INIT_CLASS(Phalcon_Acl_Adapter){
-
-	PHALCON_REGISTER_CLASS(Phalcon\\Acl, Adapter, acl_adapter, phalcon_acl_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_acl_adapter_ce, SL("_defaultAccess"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeResource"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	zend_class_implements(phalcon_acl_adapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
+	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_eventsManager"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Default access
+ * "@var bool
+ */
+	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_defaultAccess"), 1, ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Access Granted
+ * "@var bool
+ */
+	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_accessGranted"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Events manager
+ * "@var mixed
+ */
+	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeRole"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Active resource
+ * "@var mixed
+ */
+	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeResource"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Active Access
+ * "@var mixed
+ */
+	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeAccess"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
+
 }
 
 /**
  * Sets the events manager
  *
- * @param Phalcon\Events\ManagerInterface $eventsManager
+ * @param Phalcon\Events\ManagerInterface eventsManager
  */
-PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager){
+PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager) {
 
-	zval *events_manager;
+	zval *eventsManager;
 
-	phalcon_fetch_params(0, 1, 0, &events_manager);
-	
-	phalcon_update_property_this(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-	
+	zephir_fetch_params(0, 1, 0, &eventsManager);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
+
 }
 
 /**
@@ -80,25 +100,34 @@ PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager){
  *
  * @return Phalcon\Events\ManagerInterface
  */
-PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager){
+PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager) {
 
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
+
 }
 
 /**
  * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
  *
- * @param int $defaultAccess
+ * @param int defaultAccess
  */
-PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction){
+PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction) {
 
-	zval *default_access;
+	zval *defaultAccess_param = NULL, *_0;
+	int defaultAccess;
 
-	phalcon_fetch_params(0, 1, 0, &default_access);
-	
-	phalcon_update_property_this(this_ptr, SL("_defaultAccess"), default_access TSRMLS_CC);
-	
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &defaultAccess_param);
+
+		defaultAccess = zephir_get_intval(defaultAccess_param);
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, defaultAccess);
+	zephir_update_property_zval(this_ptr, SL("_defaultAccess"), _0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
 }
 
 /**
@@ -106,10 +135,11 @@ PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction){
  *
  * @return int
  */
-PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction){
+PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction) {
 
 
 	RETURN_MEMBER(this_ptr, "_defaultAccess");
+
 }
 
 /**
@@ -117,10 +147,11 @@ PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole){
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
 
 
 	RETURN_MEMBER(this_ptr, "_activeRole");
+
 }
 
 /**
@@ -128,10 +159,11 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource){
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
 
 
 	RETURN_MEMBER(this_ptr, "_activeResource");
+
 }
 
 /**
@@ -139,9 +171,10 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess){
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
 
 
 	RETURN_MEMBER(this_ptr, "_activeAccess");
+
 }
 

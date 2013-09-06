@@ -1,42 +1,39 @@
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Kenji Minamoto <kenji.minamoto@gmail.com>                     |
-  +------------------------------------------------------------------------+
-*/
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "php_test.h"
+#include "test.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/fcall.h"
-#include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\DI\FactoryDefault
  *
@@ -44,312 +41,239 @@
  * registers all the services provided by the framework. Thanks to this, the developer does not need
  * to register each service individually providing a full stack framework
  */
+ZEPHIR_INIT_CLASS(Phalcon_DI_FactoryDefault) {
 
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DI, FactoryDefault, phalcon_di_factorydefault, "phalcon\\di", phalcon_di_factorydefault_method_entry, 0);
 
-/**
- * Phalcon\DI\FactoryDefault initializer
- */
-PHALCON_INIT_CLASS(Phalcon_DI_FactoryDefault){
-
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\DI, FactoryDefault, di_factorydefault, "phalcon\\di", phalcon_di_factorydefault_method_entry, 0);
 
 	return SUCCESS;
+
 }
 
 /**
  * Phalcon\DI\FactoryDefault constructor
  */
-PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
+PHP_METHOD(Phalcon_DI_FactoryDefault, __construct) {
 
-	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
-	zval *url, *models_manager, *models_metadata;
-	zval *response, *cookies, *request, *filter, *escaper;
-	zval *annotations, *security, *crypt, *flash, *flash_session;
-	zval *tag, *session, *session_bag, *events_manager;
-	zval *transaction_manager, *assets, *services;
+	zval *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL;
+	zend_bool shared;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
 
-	phalcon_call_parent_noret(this_ptr, phalcon_di_factorydefault_ce, "__construct");
-	
-	PHALCON_INIT_VAR(shared);
-	ZVAL_BOOL(shared, 1);
-	
-	PHALCON_INIT_VAR(name);
-	ZVAL_STRING(name, "router", 1);
-	
-	PHALCON_INIT_VAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Mvc\\Router", 1);
-	
-	PHALCON_INIT_VAR(router);
-	object_init_ex(router, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(router, "__construct", name, definition, shared);
-	
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "dispatcher", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Mvc\\Dispatcher", 1);
-	
-	PHALCON_INIT_VAR(dispatcher);
-	object_init_ex(dispatcher, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(dispatcher, "__construct", name, definition, shared);
-	
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "url", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Mvc\\Url", 1);
-	
-	PHALCON_INIT_VAR(url);
-	object_init_ex(url, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(url, "__construct", name, definition, shared);
-	
-	/** 
-	 * Models manager for ORM
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "modelsManager", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Manager", 1);
-	
-	PHALCON_INIT_VAR(models_manager);
-	object_init_ex(models_manager, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(models_manager, "__construct", name, definition, shared);
-	
-	/** 
-	 * Models meta-data using the Memory adapter
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "modelsMetadata", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\MetaData\\Memory", 1);
-	
-	PHALCON_INIT_VAR(models_metadata);
-	object_init_ex(models_metadata, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(models_metadata, "__construct", name, definition, shared);
-	
-	/** 
-	 * Request/Response are always shared
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "response", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Http\\Response", 1);
-	
-	PHALCON_INIT_VAR(response);
-	object_init_ex(response, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(response, "__construct", name, definition, shared);
-	
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "cookies", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Http\\Response\\Cookies", 1);
-	
-	PHALCON_INIT_VAR(cookies);
-	object_init_ex(cookies, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(cookies, "__construct", name, definition, shared);
-	
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "request", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Http\\Request", 1);
-	
-	PHALCON_INIT_VAR(request);
-	object_init_ex(request, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(request, "__construct", name, definition, shared);
-	
-	/** 
-	 * Filter/Escaper services are always shared
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "filter", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Filter", 1);
-	
-	PHALCON_INIT_VAR(filter);
-	object_init_ex(filter, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(filter, "__construct", name, definition, shared);
-	
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "escaper", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Escaper", 1);
-	
-	PHALCON_INIT_VAR(escaper);
-	object_init_ex(escaper, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(escaper, "__construct", name, definition, shared);
-	
-	/** 
-	 * Default annotations service
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "annotations", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Annotations\\Adapter\\Memory", 1);
-	
-	PHALCON_INIT_VAR(annotations);
-	object_init_ex(annotations, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(annotations, "__construct", name, definition, shared);
-	
-	/** 
-	 * Security doesn't need to be shared, but anyways we register it as shared
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "security", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Security", 1);
-	
-	PHALCON_INIT_VAR(security);
-	object_init_ex(security, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(security, "__construct", name, definition, shared);
-	
-	/** 
-	 * Crypt Service
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "crypt", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Crypt", 1);
-	
-	PHALCON_INIT_VAR(crypt);
-	object_init_ex(crypt, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(crypt, "__construct", name, definition, shared);
-	
-	/** 
-	 * Flash services are always shared
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "flash", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Flash\\Direct", 1);
-	
-	PHALCON_INIT_VAR(flash);
-	object_init_ex(flash, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(flash, "__construct", name, definition, shared);
-	
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "flashSession", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Flash\\Session", 1);
-	
-	PHALCON_INIT_VAR(flash_session);
-	object_init_ex(flash_session, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(flash_session, "__construct", name, definition, shared);
-	
-	/** 
-	 * Tag/Helpers
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "tag", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Tag", 1);
-	
-	PHALCON_INIT_VAR(tag);
-	object_init_ex(tag, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(tag, "__construct", name, definition, shared);
-	
-	/** 
-	 * Session is always shared
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "session", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Session\\Adapter\\Files", 1);
-	
-	PHALCON_INIT_VAR(session);
-	object_init_ex(session, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(session, "__construct", name, definition, shared);
-	
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "sessionBag", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Session\\Bag", 1);
-	
-	PHALCON_INIT_VAR(session_bag);
-	object_init_ex(session_bag, phalcon_di_service_ce);
-	phalcon_call_method_p2_noret(session_bag, "__construct", name, definition);
-	
-	/** 
-	 * Events Manager is always shared
-	 */
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "eventsManager", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Events\\Manager", 1);
-	
-	PHALCON_INIT_VAR(events_manager);
-	object_init_ex(events_manager, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(events_manager, "__construct", name, definition, shared);
-	
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "transactions", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Transaction\\Manager", 1);
-	
-	PHALCON_INIT_VAR(transaction_manager);
-	object_init_ex(transaction_manager, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(transaction_manager, "__construct", name, definition, shared);
-	
-	PHALCON_INIT_NVAR(name);
-	ZVAL_STRING(name, "assets", 1);
-	
-	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Assets\\Manager", 1);
-	
-	PHALCON_INIT_VAR(assets);
-	object_init_ex(assets, phalcon_di_service_ce);
-	phalcon_call_method_p3_noret(assets, "__construct", name, definition, shared);
-	
-	/** 
-	 * Register services
-	 */
-	PHALCON_INIT_VAR(services);
-	array_init_size(services, 21);
-	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("url"), &url, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("modelsManager"), &models_manager, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("modelsMetadata"), &models_metadata, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("response"), &response, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("cookies"), &cookies, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("request"), &request, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("filter"), &filter, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("escaper"), &escaper, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("crypt"), &crypt, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("annotations"), &annotations, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("flash"), &flash, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("flashSession"), &flash_session, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("tag"), &tag, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("session"), &session, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("sessionBag"), &session_bag, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string(&services, SL("assets"), &assets, PH_COPY | PH_SEPARATE);
-	
-	/** 
-	 * Update the internal services properties
-	 */
-	phalcon_update_property_this(this_ptr, SL("_services"), services TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	ZEPHIR_CALL_PARENT_NORETURN("Phalcon\\DI\\FactoryDefault", "__construct");
+	shared = 1;
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	ZEPHIR_INIT_VAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_STRING(_2, "router", 1);
+	ZEPHIR_INIT_VAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Mvc\\Router", 1);
+	ZEPHIR_INIT_VAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("router"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "dispatcher", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Mvc\\Dispatcher", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("dispatcher"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "url", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Mvc\\Url", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("url"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "modelsManager", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Mvc\\Model\\Manager", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("modelsManager"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "modelsMetadata", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Mvc\\Model\\MetaData\\Memory", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("modelsMetadata"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "response", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Http\\Response", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("response"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "cookies", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Http\\Response\\Cookies", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("cookies"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "request", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Http\\Request", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("request"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "filter", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Filter", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("filter"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "escaper", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Escaper", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("escaper"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "security", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Security", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("security"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "crypt", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Crypt", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("crypt"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "annotations", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Annotations\\Adapter\\Memory", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("annotations"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "flash", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Flash\\Direct", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("flash"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "flashSession", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Flash\\Session", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("flashSession"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "tag", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Tag", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("tag"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "session", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Session\\Adapter\\Files", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("session"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "sessionBag", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Session\\Bag", 1);
+	zephir_call_method_p2_noret(_1, "__construct", _2, _3);
+	zephir_array_update_string(&_0, SS("sessionBag"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "eventsManager", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Events\\Manager", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("eventsManager"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "transactions", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Mvc\\Model\\Transaction\\Manager", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("transactionManager"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_service_ce);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "assets", 1);
+	ZEPHIR_INIT_NVAR(_3);
+	ZVAL_STRING(_3, "Phalcon\\Assets\\Manager", 1);
+	ZEPHIR_INIT_NVAR(_4);
+	ZVAL_BOOL(_4, shared);
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, _4);
+	zephir_array_update_string(&_0, SS("assets"), &_1, PH_COPY | PH_SEPARATE);
+	zephir_update_property_this(this_ptr, SL("_services"), _0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
 }
 

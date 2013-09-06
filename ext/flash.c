@@ -1,29 +1,11 @@
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "php_test.h"
+#include "test.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -31,15 +13,31 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Flash
  *
@@ -50,104 +48,108 @@
  * $flash->error("Cannot open the file");
  *</code>
  */
+ZEPHIR_INIT_CLASS(Phalcon_Flash) {
 
+	ZEPHIR_REGISTER_CLASS(Phalcon, Flash, phalcon_flash, phalcon_flash_method_entry, 0);
 
-/**
- * Phalcon\Flash initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Flash){
-
-	PHALCON_REGISTER_CLASS(Phalcon, Flash, flash, phalcon_flash_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	zend_declare_property_null(phalcon_flash_ce, SL("_cssClasses"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_flash_ce, SL("_implicitFlush"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_flash_ce, SL("_automaticHtml"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_flash_ce, SL("_cssClasses"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_flash_ce, SL("_implicitFlush"), 1, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_flash_ce, SL("_automaticHtml"), 1, ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
+
 }
 
 /**
  * Phalcon\Flash constructor
  *
- * @param array $cssClasses
+ * @param array cssClasses
  */
-PHP_METHOD(Phalcon_Flash, __construct){
+PHP_METHOD(Phalcon_Flash, __construct) {
 
-	zval *css_classes = NULL;
+	zval *cssClasses = NULL;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &cssClasses);
 
-	phalcon_fetch_params(1, 0, 1, &css_classes);
-	
-	if (!css_classes) {
-		PHALCON_INIT_VAR(css_classes);
-	} else {
-		PHALCON_SEPARATE_PARAM(css_classes);
+	if (!cssClasses) {
+		ZEPHIR_INIT_VAR(cssClasses);
 	}
-	
-	if (Z_TYPE_P(css_classes) != IS_ARRAY) { 
-		PHALCON_INIT_NVAR(css_classes);
-		array_init_size(css_classes, 4);
-		add_assoc_stringl_ex(css_classes, SS("error"), SL("errorMessage"), 1);
-		add_assoc_stringl_ex(css_classes, SS("notice"), SL("noticeMessage"), 1);
-		add_assoc_stringl_ex(css_classes, SS("success"), SL("successMessage"), 1);
-		add_assoc_stringl_ex(css_classes, SS("warning"), SL("warningMessage"), 1);
+	ZEPHIR_SEPARATE_PARAM(cssClasses);
+
+
+	if (Z_TYPE_P(cssClasses) != IS_ARRAY) {
+		ZEPHIR_INIT_NVAR(cssClasses);
+		array_init(cssClasses);
+		add_assoc_stringl_ex(cssClasses, SS("error"), SL("errorMessage"), 1);
+		add_assoc_stringl_ex(cssClasses, SS("notice"), SL("noticeMessage"), 1);
+		add_assoc_stringl_ex(cssClasses, SS("success"), SL("successMessage"), 1);
+		add_assoc_stringl_ex(cssClasses, SS("warning"), SL("warningMessage"), 1);
 	}
-	phalcon_update_property_this(this_ptr, SL("_cssClasses"), css_classes TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	zephir_update_property_this(this_ptr, SL("_cssClasses"), cssClasses TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
 }
 
 /**
  * Set whether the output must be implictly flushed to the output or returned as string
  *
- * @param boolean $implicitFlush
+ * @param boolean implicitFlush
  * @return Phalcon\FlashInterface
  */
-PHP_METHOD(Phalcon_Flash, setImplicitFlush){
+PHP_METHOD(Phalcon_Flash, setImplicitFlush) {
 
-	zval *implicit_flush;
+	zval *implicitFlush;
 
-	phalcon_fetch_params(0, 1, 0, &implicit_flush);
-	
-	phalcon_update_property_this(this_ptr, SL("_implicitFlush"), implicit_flush TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &implicitFlush);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_implicitFlush"), implicitFlush TSRMLS_CC);
 	RETURN_THISW();
+
 }
 
 /**
  * Set if the output must be implictily formatted with HTML
  *
- * @param boolean $automaticHtml
+ * @param boolean automaticHtml
  * @return Phalcon\FlashInterface
  */
-PHP_METHOD(Phalcon_Flash, setAutomaticHtml){
+PHP_METHOD(Phalcon_Flash, setAutomaticHtml) {
 
-	zval *automatic_html;
+	zval *automaticHtml;
 
-	phalcon_fetch_params(0, 1, 0, &automatic_html);
-	
-	phalcon_update_property_this(this_ptr, SL("_automaticHtml"), automatic_html TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &automaticHtml);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_automaticHtml"), automaticHtml TSRMLS_CC);
 	RETURN_THISW();
+
 }
 
 /**
  * Set an array with CSS classes to format the messages
  *
- * @param array $cssClasses
+ * @param array cssClasses
  * @return Phalcon\FlashInterface
  */
-PHP_METHOD(Phalcon_Flash, setCssClasses){
+PHP_METHOD(Phalcon_Flash, setCssClasses) {
 
-	zval *css_classes;
+	zval *cssClasses;
 
-	phalcon_fetch_params(0, 1, 0, &css_classes);
-	
-	if (Z_TYPE_P(css_classes) == IS_ARRAY) { 
-		phalcon_update_property_this(this_ptr, SL("_cssClasses"), css_classes TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &cssClasses);
+
+
+
+	if (Z_TYPE_P(cssClasses) == IS_ARRAY) {
+		zephir_update_property_this(this_ptr, SL("_cssClasses"), cssClasses TSRMLS_CC);
 		RETURN_THISW();
 	}
-	PHALCON_THROW_EXCEPTION_STRW(phalcon_flash_exception_ce, "CSS classes must be an Array");
+	ZEPHIR_THROW_EXCEPTION_STRW(phalcon_flash_exception_ce, "CSS classes must be an Array");
 	return;
+
 }
 
 /**
@@ -157,21 +159,23 @@ PHP_METHOD(Phalcon_Flash, setCssClasses){
  * $flash->error('This is an error');
  *</code>
  *
- * @param string $message
+ * @param string message
  * @return string
  */
-PHP_METHOD(Phalcon_Flash, error){
+PHP_METHOD(Phalcon_Flash, error) {
 
-	zval *message, *type;
+	zval *message, *_0;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &message);
 
-	phalcon_fetch_params(1, 1, 0, &message);
-	
-	PHALCON_INIT_VAR(type);
-	ZVAL_STRING(type, "error", 1);
-	phalcon_call_method_p2(return_value, this_ptr, "message", type, message);
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "error", 1);
+	zephir_call_method_p2(return_value, this_ptr, "message", _0, message);
 	RETURN_MM();
+
 }
 
 /**
@@ -181,21 +185,23 @@ PHP_METHOD(Phalcon_Flash, error){
  * $flash->notice('This is an information');
  *</code>
  *
- * @param string $message
+ * @param string message
  * @return string
  */
-PHP_METHOD(Phalcon_Flash, notice){
+PHP_METHOD(Phalcon_Flash, notice) {
 
-	zval *message, *type;
+	zval *message, *_0;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &message);
 
-	phalcon_fetch_params(1, 1, 0, &message);
-	
-	PHALCON_INIT_VAR(type);
-	ZVAL_STRING(type, "notice", 1);
-	phalcon_call_method_p2(return_value, this_ptr, "message", type, message);
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "notice", 1);
+	zephir_call_method_p2(return_value, this_ptr, "message", _0, message);
 	RETURN_MM();
+
 }
 
 /**
@@ -205,21 +211,23 @@ PHP_METHOD(Phalcon_Flash, notice){
  * $flash->success('The process was finished successfully');
  *</code>
  *
- * @param string $message
+ * @param string message
  * @return string
  */
-PHP_METHOD(Phalcon_Flash, success){
+PHP_METHOD(Phalcon_Flash, success) {
 
-	zval *message, *type;
+	zval *message, *_0;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &message);
 
-	phalcon_fetch_params(1, 1, 0, &message);
-	
-	PHALCON_INIT_VAR(type);
-	ZVAL_STRING(type, "success", 1);
-	phalcon_call_method_p2(return_value, this_ptr, "message", type, message);
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "success", 1);
+	zephir_call_method_p2(return_value, this_ptr, "message", _0, message);
 	RETURN_MM();
+
 }
 
 /**
@@ -229,142 +237,135 @@ PHP_METHOD(Phalcon_Flash, success){
  * $flash->warning('Hey, this is important');
  *</code>
  *
- * @param string $message
+ * @param string message
  * @return string
  */
-PHP_METHOD(Phalcon_Flash, warning){
+PHP_METHOD(Phalcon_Flash, warning) {
 
-	zval *message, *type;
+	zval *message, *_0;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &message);
 
-	phalcon_fetch_params(1, 1, 0, &message);
-	
-	PHALCON_INIT_VAR(type);
-	ZVAL_STRING(type, "warning", 1);
-	phalcon_call_method_p2(return_value, this_ptr, "message", type, message);
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "warning", 1);
+	zephir_call_method_p2(return_value, this_ptr, "message", _0, message);
 	RETURN_MM();
+
 }
 
 /**
  * Outputs a message formatting it with HTML
  *
  *<code>
- * $flash->outputMessage('error', $message);
+ * $flash->outputMessage('error', message);
  *</code>
  *
- * @param string $type
- * @param string $message
+ * @param string type
+ * @param string message
  */
-PHP_METHOD(Phalcon_Flash, outputMessage){
+PHP_METHOD(Phalcon_Flash, outputMessage) {
 
-	zval *type, *message, *automatic_html, *classes;
-	zval *type_classes, *joined_classes, *css_classes = NULL;
-	zval *implicit_flush, *content, *msg = NULL, *html_message = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-	int flag_automatic_html;
-	int flag_implicit_flush;
+	HashTable *_6;
+	HashPosition _5;
+	zend_bool automaticHtml, implicitFlush;
+	zval *type, *message, *content, *cssClasses = NULL, *classes, *typeClasses, eol, *msg = NULL, *htmlMessage = NULL, *_0, _1, *_2, *_3 = NULL, *_4, **_7, *_8 = NULL, *_9 = NULL, *_10 = NULL;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &type, &message);
 
-	phalcon_fetch_params(1, 2, 0, &type, &message);
 
-	PHALCON_OBS_VAR(automatic_html);
-	phalcon_read_property_this(&automatic_html, this_ptr, SL("_automaticHtml"), PH_NOISY_CC);
-	flag_automatic_html = PHALCON_IS_TRUE(automatic_html) ? 1 : 0;
-	if (flag_automatic_html) {
 
-		PHALCON_OBS_VAR(classes);
-		phalcon_read_property_this(&classes, this_ptr, SL("_cssClasses"), PH_NOISY_CC);
-		if (phalcon_array_isset(classes, type)) {
-
-			PHALCON_OBS_VAR(type_classes);
-			phalcon_array_fetch(&type_classes, classes, type, PH_NOISY);
-			if (Z_TYPE_P(type_classes) == IS_ARRAY) {
-				PHALCON_INIT_VAR(joined_classes);
-				phalcon_fast_join_str(joined_classes, SL(" "), type_classes TSRMLS_CC);
-
-				PHALCON_INIT_VAR(css_classes);
-				PHALCON_CONCAT_SVS(css_classes, " class=\"", joined_classes, "\"");
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_automaticHtml"), PH_NOISY_CC);
+	automaticHtml = (zephir_get_boolval(_0)) ? 1 : 0;
+	if ((automaticHtml == 1)) {
+		ZEPHIR_OBS_VAR(classes);
+		zephir_read_property_this(&classes, this_ptr, SL("_cssClasses"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(typeClasses);
+		if (zephir_array_isset_fetch(&typeClasses, classes, type)) {
+			ZEPHIR_INIT_VAR(cssClasses);
+			if (Z_TYPE_P(typeClasses) == IS_ARRAY) {
+				ZEPHIR_SINIT_VAR(_1);
+				ZVAL_STRING(&_1, " ", 0);
+				ZEPHIR_INIT_VAR(_2);
+				zephir_call_func_p2(_2, "join", &_1, typeClasses);
+				ZEPHIR_INIT_VAR(_3);
+				ZEPHIR_CONCAT_SV(_3, " class=\\"", _2);
+				ZEPHIR_CONCAT_VS(cssClasses, _3, "\\"");
 			} else {
-				PHALCON_INIT_NVAR(css_classes);
-				PHALCON_CONCAT_SVS(css_classes, " class=\"", type_classes, "\"");
+				ZEPHIR_INIT_LNVAR(_3);
+				ZEPHIR_CONCAT_SV(_3, " class=\\"", typeClasses);
+				ZEPHIR_CONCAT_VS(cssClasses, _3, "\\"");
 			}
 		} else {
-			PHALCON_INIT_NVAR(css_classes);
-			ZVAL_STRING(css_classes, "", 1);
+			ZEPHIR_INIT_NVAR(cssClasses);
+			ZVAL_STRING(cssClasses, "", 1);
 		}
+		ZEPHIR_SINIT_VAR(eol);
+		ZVAL_STRING(&eol, "
+", 1);
 	}
-
-	PHALCON_OBS_VAR(implicit_flush);
-	phalcon_read_property_this(&implicit_flush, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
-	flag_implicit_flush = PHALCON_IS_TRUE(implicit_flush) ? 1 : 0;
+	ZEPHIR_OBS_VAR(_4);
+	zephir_read_property_this(&_4, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
+	implicitFlush = (zephir_get_boolval(_4)) ? 1 : 0;
 	if (Z_TYPE_P(message) == IS_ARRAY) {
-
-		/**
-		 * We create the message with implicit flush or other
-		 */
-		if (!flag_implicit_flush) {
-			PHALCON_INIT_VAR(content);
+		if ((implicitFlush == 0)) {
+			ZEPHIR_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
-
-		/**
-		 * We create the message with implicit flush or other
-		 */
-		phalcon_is_iterable(message, &ah0, &hp0, 0, 0);
-
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-
-			PHALCON_GET_HVALUE(msg);
-
-			/**
-			 * We create the applying formatting or not
-			 */
-			if (flag_automatic_html) {
-				PHALCON_INIT_NVAR(html_message);
-				PHALCON_CONCAT_SVSVS(html_message, "<div", css_classes, ">", msg, "</div>" PHP_EOL);
+		zephir_is_iterable(message, &_6, &_5, 0, 0);
+		for (
+			; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
+			; zend_hash_move_forward_ex(_6, &_5)
+		) {
+			ZEPHIR_GET_HVALUE(msg, _7);
+			if ((automaticHtml == 1)) {
+				ZEPHIR_INIT_LNVAR(_3);
+				ZEPHIR_CONCAT_SV(_3, "<div", cssClasses);
+				ZEPHIR_INIT_LNVAR(_8);
+				ZEPHIR_CONCAT_VS(_8, _3, ">");
+				ZEPHIR_INIT_LNVAR(_9);
+				concat_function(_9, _8, msg);
+				ZEPHIR_INIT_LNVAR(_10);
+				ZEPHIR_CONCAT_VS(_10, _9, "</div>");
+				ZEPHIR_INIT_NVAR(htmlMessage);
+				concat_function(htmlMessage, _10, eol);
 			} else {
-				PHALCON_CPY_WRT(html_message, msg);
+				ZEPHIR_CPY_WRT(htmlMessage, msg);
 			}
-			if (flag_implicit_flush) {
-				zend_print_zval(html_message, 0);
+			if ((implicitFlush == 1)) {
+				zend_print_zval(htmlMessage, 0);
 			} else {
-				phalcon_concat_self(&content, html_message TSRMLS_CC);
 			}
-
-			zend_hash_move_forward_ex(ah0, &hp0);
 		}
-
-		/**
-		 * We return the message as string if the implicit_flush is turned off
-		 */
-		if (!flag_implicit_flush) {
-			RETURN_CTOR(content);
+		if ((implicitFlush == 0)) {
+			RETURN_CCTOR(content);
 		}
 	} else {
-		/**
-		 * We create the applying formatting or not
-		 */
-		if (flag_automatic_html) {
-			PHALCON_INIT_NVAR(html_message);
-			PHALCON_CONCAT_SVSVS(html_message, "<div", css_classes, ">", message, "</div>" PHP_EOL);
+		if ((automaticHtml == 1)) {
+			ZEPHIR_INIT_LNVAR(_3);
+			ZEPHIR_CONCAT_SV(_3, "<div", cssClasses);
+			ZEPHIR_INIT_LNVAR(_8);
+			ZEPHIR_CONCAT_VS(_8, _3, ">");
+			ZEPHIR_INIT_LNVAR(_9);
+			concat_function(_9, _8, message);
+			ZEPHIR_INIT_LNVAR(_10);
+			ZEPHIR_CONCAT_VS(_10, _9, "</div>");
+			ZEPHIR_INIT_NVAR(htmlMessage);
+			concat_function(htmlMessage, _10, eol);
 		} else {
-			PHALCON_CPY_WRT(html_message, message);
+			ZEPHIR_CPY_WRT(htmlMessage, message);
 		}
-
-		/**
-		 * We return the message as string if the implicit_flush is turned off
-		 */
-		if (flag_implicit_flush) {
-			zend_print_zval(html_message, 0);
+		if ((implicitFlush == 1)) {
+			zend_print_zval(htmlMessage, 0);
 		} else {
-			RETURN_CCTOR(html_message);
+			RETURN_CCTOR(htmlMessage);
 		}
 	}
+	ZEPHIR_MM_RESTORE();
 
-	PHALCON_MM_RESTORE();
 }
 

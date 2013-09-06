@@ -1,44 +1,42 @@
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "php_test.h"
+#include "test.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/object.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/file.h"
-#include "kernel/exception.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/concat.h"
+#include "kernel/exception.h"
+#include "kernel/operators.h"
 
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Assets\Resource
  *
@@ -47,85 +45,81 @@
  *<code>
  * $resource = new Phalcon\Assets\Resource('js', 'javascripts/jquery.js');
  *</code>
- *
  */
+ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource) {
 
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Resource, phalcon_assets_resource, phalcon_assets_resource_method_entry, 0);
 
-/**
- * Phalcon\Assets\Resource initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Assets_Resource){
-
-	PHALCON_REGISTER_CLASS(Phalcon\\Assets, Resource, assets_resource, phalcon_assets_resource_method_entry, 0);
-
-	zend_declare_property_null(phalcon_assets_resource_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_assets_resource_ce, SL("_path"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_assets_resource_ce, SL("_local"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_assets_resource_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_assets_resource_ce, SL("_attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_assets_resource_ce, SL("_sourcePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_assets_resource_ce, SL("_targetPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_assets_resource_ce, SL("_targetUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_resource_ce, SL("_type"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_resource_ce, SL("_path"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_resource_ce, SL("_local"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_resource_ce, SL("_filter"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_resource_ce, SL("_attributes"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_resource_ce, SL("_sourcePath"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_resource_ce, SL("_targetPath"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_assets_resource_ce, SL("_targetUri"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
+
 }
 
 /**
  * Phalcon\Assets\Resource constructor
  *
- * @param string $type
- * @param string $path
- * @param boolean $local
- * @param boolean $filter
- * @param array $attributes
+ * @param string type
+ * @param string path
+ * @param boolean local
+ * @param boolean filter
+ * @param array attributes
  */
-PHP_METHOD(Phalcon_Assets_Resource, __construct){
+PHP_METHOD(Phalcon_Assets_Resource, __construct) {
 
 	zval *type, *path, *local = NULL, *filter = NULL, *attributes = NULL;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 3, &type, &path, &local, &filter, &attributes);
 
-	phalcon_fetch_params(1, 2, 3, &type, &path, &local, &filter, &attributes);
-	
 	if (!local) {
-		PHALCON_INIT_VAR(local);
-		ZVAL_BOOL(local, 1);
+		ZEPHIR_INIT_VAR(local);
+		ZVAL_BOOLlocal, 1);
 	}
-	
 	if (!filter) {
-		PHALCON_INIT_VAR(filter);
-		ZVAL_BOOL(filter, 1);
+		ZEPHIR_INIT_VAR(filter);
+		ZVAL_BOOLfilter, 1);
 	}
-	
 	if (!attributes) {
-		PHALCON_INIT_VAR(attributes);
+		ZEPHIR_INIT_VAR(attributes);
 	}
-	
-	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_local"), local TSRMLS_CC);
-	phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
-	if (Z_TYPE_P(attributes) == IS_ARRAY) { 
-		phalcon_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
+
+
+	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_local"), local TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
+	if (Z_TYPE_P(attributes) == IS_ARRAY) {
+		zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
+	ZEPHIR_MM_RESTORE();
+
 }
 
 /**
  * Sets the resource's type
  *
- * @param string $type
+ * @param string type
  * @return Phalcon\Assets\Resource
  */
-PHP_METHOD(Phalcon_Assets_Resource, setType){
+PHP_METHOD(Phalcon_Assets_Resource, setType) {
 
 	zval *type;
 
-	phalcon_fetch_params(0, 1, 0, &type);
-	
-	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &type);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	RETURN_THISW();
+
 }
 
 /**
@@ -133,26 +127,30 @@ PHP_METHOD(Phalcon_Assets_Resource, setType){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Assets_Resource, getType){
+PHP_METHOD(Phalcon_Assets_Resource, getType) {
 
 
 	RETURN_MEMBER(this_ptr, "_type");
+
 }
 
 /**
  * Sets the resource's path
  *
- * @param string $path
+ * @param string path
  * @return Phalcon\Assets\Resource
  */
-PHP_METHOD(Phalcon_Assets_Resource, setPath){
+PHP_METHOD(Phalcon_Assets_Resource, setPath) {
 
 	zval *path;
 
-	phalcon_fetch_params(0, 1, 0, &path);
-	
-	phalcon_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &path);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
 	RETURN_THISW();
+
 }
 
 /**
@@ -160,26 +158,30 @@ PHP_METHOD(Phalcon_Assets_Resource, setPath){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Assets_Resource, getPath){
+PHP_METHOD(Phalcon_Assets_Resource, getPath) {
 
 
 	RETURN_MEMBER(this_ptr, "_path");
+
 }
 
 /**
  * Sets if the resource is local or external
  *
- * @param boolean $local
+ * @param boolean local
  * @return Phalcon\Assets\Resource
  */
-PHP_METHOD(Phalcon_Assets_Resource, setLocal){
+PHP_METHOD(Phalcon_Assets_Resource, setLocal) {
 
 	zval *local;
 
-	phalcon_fetch_params(0, 1, 0, &local);
-	
-	phalcon_update_property_this(this_ptr, SL("_local"), local TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &local);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_local"), local TSRMLS_CC);
 	RETURN_THISW();
+
 }
 
 /**
@@ -187,26 +189,30 @@ PHP_METHOD(Phalcon_Assets_Resource, setLocal){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Assets_Resource, getLocal){
+PHP_METHOD(Phalcon_Assets_Resource, getLocal) {
 
 
 	RETURN_MEMBER(this_ptr, "_local");
+
 }
 
 /**
  * Sets if the resource must be filtered or not
  *
- * @param boolean $filter
+ * @param boolean filter
  * @return Phalcon\Assets\Resource
  */
-PHP_METHOD(Phalcon_Assets_Resource, setFilter){
+PHP_METHOD(Phalcon_Assets_Resource, setFilter) {
 
 	zval *filter;
 
-	phalcon_fetch_params(0, 1, 0, &filter);
-	
-	phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &filter);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 	RETURN_THISW();
+
 }
 
 /**
@@ -214,26 +220,30 @@ PHP_METHOD(Phalcon_Assets_Resource, setFilter){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Assets_Resource, getFilter){
+PHP_METHOD(Phalcon_Assets_Resource, getFilter) {
 
 
 	RETURN_MEMBER(this_ptr, "_filter");
+
 }
 
 /**
  * Sets extra HTML attributes
  *
- * @param array $attributes
+ * @param array attributes
  * @return Phalcon\Assets\Resource
  */
-PHP_METHOD(Phalcon_Assets_Resource, setAttributes){
+PHP_METHOD(Phalcon_Assets_Resource, setAttributes) {
 
 	zval *attributes;
 
-	phalcon_fetch_params(0, 1, 0, &attributes);
-	
-	phalcon_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &attributes);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	RETURN_THISW();
+
 }
 
 /**
@@ -241,26 +251,30 @@ PHP_METHOD(Phalcon_Assets_Resource, setAttributes){
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Assets_Resource, getAttributes){
+PHP_METHOD(Phalcon_Assets_Resource, getAttributes) {
 
 
 	RETURN_MEMBER(this_ptr, "_attributes");
+
 }
 
 /**
  * Sets a target uri for the generated HTML
  *
- * @param string $targetUri
+ * @param string targetUri
  * @return Phalcon\Assets\Resource
  */
-PHP_METHOD(Phalcon_Assets_Resource, setTargetUri){
+PHP_METHOD(Phalcon_Assets_Resource, setTargetUri) {
 
-	zval *target_uri;
+	zval *targetUri;
 
-	phalcon_fetch_params(0, 1, 0, &target_uri);
-	
-	phalcon_update_property_this(this_ptr, SL("_targetUri"), target_uri TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &targetUri);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_targetUri"), targetUri TSRMLS_CC);
 	RETURN_THISW();
+
 }
 
 /**
@@ -268,26 +282,30 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetUri){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Assets_Resource, getTargetUri){
+PHP_METHOD(Phalcon_Assets_Resource, getTargetUri) {
 
 
 	RETURN_MEMBER(this_ptr, "_targetUri");
+
 }
 
 /**
  * Sets the resource's source path
  *
- * @param string $sourcePath
+ * @param string sourcePath
  * @return Phalcon\Assets\Resource
  */
-PHP_METHOD(Phalcon_Assets_Resource, setSourcePath){
+PHP_METHOD(Phalcon_Assets_Resource, setSourcePath) {
 
-	zval *source_path;
+	zval *sourcePath;
 
-	phalcon_fetch_params(0, 1, 0, &source_path);
-	
-	phalcon_update_property_this(this_ptr, SL("_sourcePath"), source_path TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &sourcePath);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_sourcePath"), sourcePath TSRMLS_CC);
 	RETURN_THISW();
+
 }
 
 /**
@@ -295,26 +313,30 @@ PHP_METHOD(Phalcon_Assets_Resource, setSourcePath){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Assets_Resource, getSourcePath){
+PHP_METHOD(Phalcon_Assets_Resource, getSourcePath) {
 
 
 	RETURN_MEMBER(this_ptr, "_targetPath");
+
 }
 
 /**
  * Sets the resource's target path
  *
- * @param string $targetPath
+ * @param string targetPath
  * @return Phalcon\Assets\Resource
  */
-PHP_METHOD(Phalcon_Assets_Resource, setTargetPath){
+PHP_METHOD(Phalcon_Assets_Resource, setTargetPath) {
 
-	zval *target_path;
+	zval *targetPath;
 
-	phalcon_fetch_params(0, 1, 0, &target_path);
-	
-	phalcon_update_property_this(this_ptr, SL("_targetPath"), target_path TSRMLS_CC);
+	zephir_fetch_params(0, 1, 0, &targetPath);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_targetPath"), targetPath TSRMLS_CC);
 	RETURN_THISW();
+
 }
 
 /**
@@ -322,77 +344,74 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetPath){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Assets_Resource, getTargetPath){
+PHP_METHOD(Phalcon_Assets_Resource, getTargetPath) {
 
 
 	RETURN_MEMBER(this_ptr, "_sourcePath");
+
 }
 
 /**
  * Returns the content of the resource as an string
  * Optionally a base path where the resource is located can be set
  *
- * @param string $basePath
+ * @param string basePath
  * @return string
  */
-PHP_METHOD(Phalcon_Assets_Resource, getContent){
+PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 
-	zval *base_path = NULL, *source_path = NULL, *complete_path;
-	zval *local, *exception_message = NULL, *content;
+	zval *basePath = NULL, *sourcePath = NULL, *completePath, *content, *_0, *_1, *_2 = NULL, *_3, *_4 = NULL, *_5 = NULL;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &basePath);
 
-	phalcon_fetch_params(1, 0, 1, &base_path);
-	
-	if (!base_path) {
-		PHALCON_INIT_VAR(base_path);
+	if (!basePath) {
+		ZEPHIR_INIT_VAR(basePath);
 	}
-	
-	PHALCON_OBS_VAR(source_path);
-	phalcon_read_property_this(&source_path, this_ptr, SL("_sourcePath"), PH_NOISY_CC);
-	if (PHALCON_IS_EMPTY(source_path)) {
-		PHALCON_OBS_NVAR(source_path);
-		phalcon_read_property_this(&source_path, this_ptr, SL("_path"), PH_NOISY_CC);
+
+
+	ZEPHIR_OBS_VAR(sourcePath);
+	zephir_read_property_this(&sourcePath, this_ptr, SL("_sourcePath"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "is_empty", sourcePath);
+	if (zend_is_true(_0)) {
+		ZEPHIR_OBS_NVAR(sourcePath);
+		zephir_read_property_this(&sourcePath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
-	
-	/** 
-	 * A base path for resources can be set in the assets manager
-	 */
-	PHALCON_INIT_VAR(complete_path);
-	PHALCON_CONCAT_VV(complete_path, base_path, source_path);
-	
-	PHALCON_OBS_VAR(local);
-	phalcon_read_property_this(&local, this_ptr, SL("_local"), PH_NOISY_CC);
-	
-	/** 
-	 * Local resources are loaded from the local disk
-	 */
-	if (zend_is_true(local)) {
-	
-		/** 
-		 * Check first if the file is readable
-		 */
-		if (phalcon_file_exists(complete_path TSRMLS_CC) == FAILURE) {
-			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Resource's content for \"", complete_path, "\" cannot be loaded");
-			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+	ZEPHIR_INIT_VAR(completePath);
+	concat_function(completePath, basePath, sourcePath);
+	ZEPHIR_OBS_VAR(_1);
+	zephir_read_property_this(&_1, this_ptr, SL("_local"), PH_NOISY_CC);
+	if (zend_is_true(_1)) {
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_func_p1(_2, "file_exists", completePath);
+		if (!(zend_is_true(_2))) {
+			ZEPHIR_INIT_VAR(_3);
+			object_init_ex(_3, phalcon_assets_exception_ce);
+			ZEPHIR_INIT_VAR(_4);
+			ZEPHIR_CONCAT_SV(_4, "Resource's content for '", completePath);
+			ZEPHIR_INIT_VAR(_5);
+			ZEPHIR_CONCAT_VS(_5, _4, "' cannot be read");
+			zephir_call_method_p1_noret(_3, "__construct", _5);
+			zephir_throw_exception(_3 TSRMLS_CC);
 			return;
 		}
 	}
-	
-	/** 
-	 * Use file_get_contents to respect the openbase_dir. Access urls must be enabled
-	 */
-	PHALCON_INIT_VAR(content);
-	phalcon_file_get_contents(content, complete_path TSRMLS_CC);
-	if (PHALCON_IS_FALSE(content)) {
-		PHALCON_INIT_NVAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Resource's content for \"", complete_path, "\" cannot be read");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
+	ZEPHIR_INIT_VAR(content);
+	zephir_call_func_p1(content, "file_get_contents", completePath);
+	if (ZEPHIR_IS_FALSE(content)) {
+		ZEPHIR_INIT_NVAR(_2);
+		object_init_ex(_2, phalcon_assets_exception_ce);
+		ZEPHIR_INIT_LNVAR(_4);
+		ZEPHIR_CONCAT_SV(_4, "Resource's content for '", completePath);
+		ZEPHIR_INIT_LNVAR(_5);
+		ZEPHIR_CONCAT_VS(_5, _4, "' cannot be read");
+		zephir_call_method_p1_noret(_2, "__construct", _5);
+		zephir_throw_exception(_2 TSRMLS_CC);
 		return;
 	}
-	
 	RETURN_CCTOR(content);
+
 }
 
 /**
@@ -400,112 +419,102 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri){
+PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri) {
 
-	zval *target_uri = NULL;
+	zval *targetUri = NULL, *_0;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
 
-	PHALCON_OBS_VAR(target_uri);
-	phalcon_read_property_this(&target_uri, this_ptr, SL("_targetUri"), PH_NOISY_CC);
-	if (PHALCON_IS_EMPTY(target_uri)) {
-		PHALCON_OBS_NVAR(target_uri);
-		phalcon_read_property_this(&target_uri, this_ptr, SL("_path"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(targetUri);
+	zephir_read_property_this(&targetUri, this_ptr, SL("_targetUri"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "is_empty", targetUri);
+	if (zend_is_true(_0)) {
+		ZEPHIR_OBS_NVAR(targetUri);
+		zephir_read_property_this(&targetUri, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
-	
-	RETURN_CCTOR(target_uri);
+	RETURN_CCTOR(targetUri);
+
 }
 
 /**
  * Returns the complete location where the resource is located
  *
- * @param string $basePath
+ * @param string basePath
  * @return string
  */
-PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
+PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 
-	zval *base_path = NULL, *source_path = NULL, *local, *complete_path;
+	zval *basePath = NULL, *sourcePath = NULL, *_0, *_1, *_2;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &basePath);
 
-	phalcon_fetch_params(1, 0, 1, &base_path);
-	
-	if (!base_path) {
-		PHALCON_INIT_VAR(base_path);
+	if (!basePath) {
+		ZEPHIR_INIT_VAR(basePath);
 	}
-	
-	PHALCON_OBS_VAR(source_path);
-	phalcon_read_property_this(&source_path, this_ptr, SL("_sourcePath"), PH_NOISY_CC);
-	if (PHALCON_IS_EMPTY(source_path)) {
-		PHALCON_OBS_NVAR(source_path);
-		phalcon_read_property_this(&source_path, this_ptr, SL("_path"), PH_NOISY_CC);
+
+
+	ZEPHIR_OBS_VAR(sourcePath);
+	zephir_read_property_this(&sourcePath, this_ptr, SL("_sourcePath"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "is_empty", sourcePath);
+	if (zend_is_true(_0)) {
+		ZEPHIR_OBS_NVAR(sourcePath);
+		zephir_read_property_this(&sourcePath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
-	
-	PHALCON_OBS_VAR(local);
-	phalcon_read_property_this(&local, this_ptr, SL("_local"), PH_NOISY_CC);
-	if (zend_is_true(local)) {
-		/** 
-		 * A base path for resources can be set in the assets manager
-		 */
-		PHALCON_INIT_VAR(complete_path);
-		PHALCON_CONCAT_VV(complete_path, base_path, source_path);
-	
-		/** 
-		 * Get the real template path
-		 */
-		phalcon_realpath(return_value, complete_path TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_1);
+	zephir_read_property_this(&_1, this_ptr, SL("_local"), PH_NOISY_CC);
+	if (zend_is_true(_1)) {
+		ZEPHIR_INIT_VAR(_2);
+		concat_function(_2, basePath, sourcePath);
+		zephir_call_func_p1(return_value, "realpath", _2);
 		RETURN_MM();
 	}
-	
-	RETURN_CCTOR(source_path);
+	RETURN_CCTOR(sourcePath);
+
 }
 
 /**
  * Returns the complete location where the resource must be written
  *
- * @param string $basePath
+ * @param string basePath
  * @return string
  */
-PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
+PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 
-	zval *base_path = NULL, *target_path = NULL, *local, *complete_path;
+	zval *basePath = NULL, *targetPath = NULL, *completePath, *_0, *_1, *_2;
 
-	PHALCON_MM_GROW();
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &basePath);
 
-	phalcon_fetch_params(1, 0, 1, &base_path);
-	
-	if (!base_path) {
-		PHALCON_INIT_VAR(base_path);
+	if (!basePath) {
+		ZEPHIR_INIT_VAR(basePath);
 	}
-	
-	PHALCON_OBS_VAR(target_path);
-	phalcon_read_property_this(&target_path, this_ptr, SL("_targetPath"), PH_NOISY_CC);
-	if (PHALCON_IS_EMPTY(target_path)) {
-		PHALCON_OBS_NVAR(target_path);
-		phalcon_read_property_this(&target_path, this_ptr, SL("_path"), PH_NOISY_CC);
+
+
+	ZEPHIR_OBS_VAR(targetPath);
+	zephir_read_property_this(&targetPath, this_ptr, SL("_targetPath"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "is_empty", targetPath);
+	if (zend_is_true(_0)) {
+		ZEPHIR_OBS_NVAR(targetPath);
+		zephir_read_property_this(&targetPath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
-	
-	PHALCON_OBS_VAR(local);
-	phalcon_read_property_this(&local, this_ptr, SL("_local"), PH_NOISY_CC);
-	if (zend_is_true(local)) {
-	
-		/** 
-		 * A base path for resources can be set in the assets manager
-		 */
-		PHALCON_INIT_VAR(complete_path);
-		PHALCON_CONCAT_VV(complete_path, base_path, target_path);
-	
-		/** 
-		 * Get the real template path, the target path can optionally don't exist
-		 */
-		if (phalcon_file_exists(complete_path TSRMLS_CC) == SUCCESS) {
-			phalcon_realpath(return_value, complete_path TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_1);
+	zephir_read_property_this(&_1, this_ptr, SL("_local"), PH_NOISY_CC);
+	if (zend_is_true(_1)) {
+		ZEPHIR_INIT_VAR(completePath);
+		concat_function(completePath, basePath, targetPath);
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_func_p1(_2, "file_exists", completePath);
+		if (zend_is_true(_2)) {
+			zephir_call_func_p1(return_value, "realpath", completePath);
 			RETURN_MM();
 		}
-	
-		RETURN_CTOR(complete_path);
+		RETURN_CCTOR(completePath);
 	}
-	
-	RETURN_CCTOR(target_path);
+	RETURN_CCTOR(targetPath);
+
 }
 

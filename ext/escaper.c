@@ -1,46 +1,39 @@
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+#include "php_test.h"
+#include "test.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
-#include "ext/standard/html.h"
-
 #include "kernel/main.h"
-#include "kernel/memory.h"
-
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/fcall.h"
-#include "kernel/filter.h"
-#include "kernel/string.h"
-#include "kernel/framework/url.h"
+#include "kernel/memory.h"
 
+
+/*
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
+ */
 /**
  * Phalcon\Escaper
  *
@@ -55,22 +48,16 @@
  *	echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *</code>
  */
+ZEPHIR_INIT_CLASS(Phalcon_Escaper) {
 
+	ZEPHIR_REGISTER_CLASS(Phalcon, Escaper, phalcon_escaper, phalcon_escaper_method_entry, 0);
 
-/**
- * Phalcon\Escaper initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Escaper){
-
-	PHALCON_REGISTER_CLASS(Phalcon, Escaper, escaper, phalcon_escaper_method_entry, 0);
-
-	zend_declare_property_string(phalcon_escaper_ce, SL("_encoding"), "utf-8", ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_escaper_ce, SL("_htmlEscapeMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_escaper_ce, SL("_htmlQuoteType"), 3, ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	zend_class_implements(phalcon_escaper_ce TSRMLS_CC, 1, phalcon_escaperinterface_ce);
+	zend_declare_property_null(phalcon_escaper_ce, SL("_encoding"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_escaper_ce, SL("_htmlEscapeMap"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_long(phalcon_escaper_ce, SL("_htmlQuoteType"), 3, ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
+
 }
 
 /**
@@ -80,19 +67,21 @@ PHALCON_INIT_CLASS(Phalcon_Escaper){
  * $escaper->setEncoding('utf-8');
  *</code>
  *
- * @param string $encoding
+ * @param string encoding
  */
-PHP_METHOD(Phalcon_Escaper, setEncoding){
+PHP_METHOD(Phalcon_Escaper, setEncoding) {
 
 	zval *encoding;
 
-	phalcon_fetch_params(0, 1, 0, &encoding);
+	zephir_fetch_params(0, 1, 0, &encoding);
 
-	if (unlikely(Z_TYPE_P(encoding) != IS_STRING)) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The character set must be string");
+
+
+	if (Z_TYPE_P(encoding) != IS_STRING) {
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The character set must be string");
 		return;
 	}
-	phalcon_update_property_this(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
 
 }
 
@@ -101,10 +90,11 @@ PHP_METHOD(Phalcon_Escaper, setEncoding){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Escaper, getEncoding){
+PHP_METHOD(Phalcon_Escaper, getEncoding) {
 
 
 	RETURN_MEMBER(this_ptr, "_encoding");
+
 }
 
 /**
@@ -114,289 +104,21 @@ PHP_METHOD(Phalcon_Escaper, getEncoding){
  * $escaper->setHtmlQuoteType(ENT_XHTML);
  *</code>
  *
- * @param int $quoteType
+ * @param int quoteType
  */
-PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
+PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
-	zval *quote_type;
+	zval *quoteType;
 
-	phalcon_fetch_params(0, 1, 0, &quote_type);
+	zephir_fetch_params(0, 1, 0, &quoteType);
 
-	if (Z_TYPE_P(quote_type) != IS_LONG) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The quoting type is not valid");
+
+
+	if (Z_TYPE_P(quoteType) != IS_LONG) {
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The quoting type is not valid");
 		return;
 	}
-	phalcon_update_property_this(this_ptr, SL("_htmlQuoteType"), quote_type TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_htmlQuoteType"), quoteType TSRMLS_CC);
 
-}
-
-/**
- * Detect the character encoding of a string to be handled by an encoder
- * Special-handling for chr(172) and chr(128) to chr(159) which fail to be detected by mb_detect_encoding()
- *
- * @param string $str
- * @param string $charset
- * @return string
- */
-PHP_METHOD(Phalcon_Escaper, detectEncoding){
-
-	zval *str, *charset = NULL, *strict_check, *detected = NULL;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &str);
-
-	/**
-	 * Check if charset is ASCII or ISO-8859-1
-	 */
-	PHALCON_INIT_VAR(charset);
-	phalcon_is_basic_charset(charset, str);
-	if (Z_TYPE_P(charset) == IS_STRING) {
-		RETURN_CTOR(charset);
-	}
-
-	/**
-	 * We require mbstring extension here
-	 */
-	if (phalcon_function_exists_ex(SS("mb_detect_encoding") TSRMLS_CC) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	/**
-	 * Strict encoding detection with fallback to non-strict detection.
-	 */
-	PHALCON_INIT_VAR(strict_check);
-	ZVAL_BOOL(strict_check, 1);
-
-	PHALCON_INIT_NVAR(charset);
-	ZVAL_STRING(charset, "UTF-32", 1);
-
-	/**
-	 * Check for UTF-32 encoding
-	 */
-	PHALCON_INIT_VAR(detected);
-	phalcon_call_func_p3(detected, "mb_detect_encoding", str, charset, strict_check);
-	if (zend_is_true(detected)) {
-		RETURN_CTOR(charset);
-	}
-
-	PHALCON_INIT_NVAR(charset);
-	ZVAL_STRING(charset, "UTF-16", 1);
-
-	/**
-	 * Check for UTF-16 encoding
-	 */
-	PHALCON_INIT_NVAR(detected);
-	phalcon_call_func_p3(detected, "mb_detect_encoding", str, charset, strict_check);
-	if (zend_is_true(detected)) {
-		RETURN_CTOR(charset);
-	}
-
-	PHALCON_INIT_NVAR(charset);
-	ZVAL_STRING(charset, "UTF-8", 1);
-
-	/**
-	 * Check for UTF-8 encoding
-	 */
-	PHALCON_INIT_NVAR(detected);
-	phalcon_call_func_p3(detected, "mb_detect_encoding", str, charset, strict_check);
-	if (zend_is_true(detected)) {
-		RETURN_CTOR(charset);
-	}
-
-	PHALCON_INIT_NVAR(charset);
-	ZVAL_STRING(charset, "ISO-8859-1", 1);
-
-	/**
-	 * Check for ISO-8859-1 encoding
-	 */
-	PHALCON_INIT_NVAR(detected);
-	phalcon_call_func_p3(detected, "mb_detect_encoding", str, charset, strict_check);
-	if (zend_is_true(detected)) {
-		RETURN_CTOR(charset);
-	}
-
-	PHALCON_INIT_NVAR(charset);
-	ZVAL_STRING(charset, "ASCII", 1);
-
-	/**
-	 * Check for ASCII encoding
-	 */
-	PHALCON_INIT_NVAR(detected);
-	phalcon_call_func_p3(detected, "mb_detect_encoding", str, charset, strict_check);
-	if (zend_is_true(detected)) {
-		RETURN_CTOR(charset);
-	}
-
-	/**
-	 * Fallback to global detection
-	 */
-	phalcon_call_func_p1(return_value, "mb_detect_encoding", str);
-	RETURN_MM();
-}
-
-/**
- * Utility to normalize a string's encoding to UTF-32.
- *
- * @param string $str
- * @return string
- */
-PHP_METHOD(Phalcon_Escaper, normalizeEncoding){
-
-	zval *str, *encoding, *charset;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &str);
-
-	/**
-	 * mbstring is required here
-	 */
-	if (phalcon_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == FAILURE) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required");
-		return;
-	}
-
-	PHALCON_INIT_VAR(encoding);
-	phalcon_call_method_p1(encoding, this_ptr, "detectencoding", str);
-
-	PHALCON_INIT_VAR(charset);
-	ZVAL_STRING(charset, "UTF-32", 1);
-
-	/**
-	 * Convert to UTF-32 (4 byte characters, regardless of actual number of bytes in
-	 * the character).
-	 */
-	phalcon_call_func_p3(return_value, "mb_convert_encoding", str, charset, encoding);
-	RETURN_MM();
-}
-
-/**
- * Escapes a HTML string. Internally uses htmlspecialchars
- *
- * @param string $text
- * @return string
- */
-PHP_METHOD(Phalcon_Escaper, escapeHtml){
-
-	zval *text;
-	zval *html_quote_type, *encoding;
-
-	phalcon_fetch_params(0, 1, 0, &text);
-
-	if (Z_TYPE_P(text) == IS_STRING) {
-		html_quote_type = phalcon_fetch_nproperty_this(this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
-		encoding        = phalcon_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
-
-		phalcon_htmlspecialchars(return_value, text, html_quote_type, encoding TSRMLS_CC);
-		return;
-	}
-
-	RETURN_CCTORW(text);
-}
-
-/**
- * Escapes a HTML attribute string
- *
- * @param string $attribute
- * @return string
- */
-PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
-
-	zval *attribute, *encoding;
-
-	phalcon_fetch_params(0, 1, 0, &attribute);
-
-	if (Z_TYPE_P(attribute) == IS_STRING && zend_is_true(attribute)) {
-		zval quoting;
-
-		INIT_ZVAL(quoting);
-		ZVAL_LONG(&quoting, ENT_QUOTES);
-
-		encoding = phalcon_fetch_nproperty_this(this_ptr, SL("_encoding"), PH_NOISY_CC);
-
-		phalcon_htmlspecialchars(return_value, attribute, &quoting, encoding TSRMLS_CC);
-		return;
-	}
-
-	RETURN_CCTORW(attribute);
-}
-
-/**
- * Escape CSS strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
- *
- * @param string $css
- * @return string
- */
-PHP_METHOD(Phalcon_Escaper, escapeCss){
-
-	zval *css, *normalized;
-
-	phalcon_fetch_params(0, 1, 0, &css);
-
-	if (Z_TYPE_P(css) == IS_STRING && zend_is_true(css)) {
-		PHALCON_MM_GROW();
-
-		/**
-		 * Normalize encoding to UTF-32
-		 */
-		PHALCON_INIT_VAR(normalized);
-		phalcon_call_method_p1(normalized, this_ptr, "normalizeencoding", css);
-
-		/**
-		 * Escape the string
-		 */
-		phalcon_escape_css(return_value, normalized);
-		RETURN_MM();
-	}
-
-	RETURN_CCTORW(css);
-}
-
-/**
- * Escape javascript strings by replacing non-alphanumeric chars by their hexadecimal escaped representation
- *
- * @param string $js
- * @return string
- */
-PHP_METHOD(Phalcon_Escaper, escapeJs){
-
-	zval *js, *normalized;
-
-	phalcon_fetch_params(0, 1, 0, &js);
-
-	if (Z_TYPE_P(js) == IS_STRING && zend_is_true(js)) {
-		PHALCON_MM_GROW();
-
-		/**
-		 * Normalize encoding to UTF-32
-		 */
-		PHALCON_INIT_VAR(normalized);
-		phalcon_call_method_p1(normalized, this_ptr, "normalizeencoding", js);
-
-		/**
-		 * Escape the string
-		 */
-		phalcon_escape_js(return_value, normalized);
-		RETURN_MM();
-	}
-
-	RETURN_CCTORW(js);
-}
-
-/**
- * Escapes a URL. Internally uses rawurlencode
- *
- * @param string $url
- * @return string
- */
-PHP_METHOD(Phalcon_Escaper, escapeUrl){
-
-	zval *url;
-
-	phalcon_fetch_params(0, 1, 0, &url);
-
-	phalcon_raw_url_encode(return_value, url);
-	return;
 }
 
