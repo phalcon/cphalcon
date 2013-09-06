@@ -18,6 +18,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 
 
 /*
@@ -335,7 +336,7 @@ PHP_METHOD(Phalcon_Di, getService) {
  */
 PHP_METHOD(Phalcon_Di, get) {
 
-	zval *name, *parameters = NULL, *services, service, *instance = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3, _4;
+	zval *name, *parameters = NULL, *services, service, *instance = NULL, *_0 = NULL, *_1, *_2, *_3, _4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name, &parameters);
@@ -361,9 +362,7 @@ PHP_METHOD(Phalcon_Di, get) {
 		if (zend_is_true(_0)) {
 			if (Z_TYPE_P(parameters) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(instance);
-				ZEPHIR_INIT_VAR(_1);
-				zephir_call_func_p1(_1, "count", parameters);
-				if (zend_is_true(_1)) {
+				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
 					zephir_call_func_p2(instance, "create_instance_params", name, parameters);
 				} else {
 					zephir_call_func_p1(instance, "create_instance", name);
@@ -373,7 +372,7 @@ PHP_METHOD(Phalcon_Di, get) {
 				zephir_call_func_p1(instance, "create_instance", name);
 			}
 		} else {
-			ZEPHIR_INIT_NVAR(_1);
+			ZEPHIR_INIT_VAR(_1);
 			object_init_ex(_1, phalcon_di_exception_ce);
 			ZEPHIR_INIT_VAR(_2);
 			ZEPHIR_CONCAT_SV(_2, "Service '", name);
@@ -582,7 +581,7 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Di, __call) {
 
-	zval *method, *arguments = NULL, *instance, *possibleService, *services, *_0 = NULL, *_1, _2 = zval_used_for_init, *_3 = NULL, *_4, *_5, *_6, *_7, *_8;
+	zval *method, *arguments = NULL, *instance, *possibleService, *services, _0 = zval_used_for_init, *_1 = NULL, *_2, *_3, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &method, &arguments);
@@ -592,24 +591,18 @@ PHP_METHOD(Phalcon_Di, __call) {
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, "get", 1);
-	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p2(_1, "starts_with", method, _0);
-	if (zend_is_true(_1)) {
+	if (zephir_start_with_str(method, SL("get"))) {
 		ZEPHIR_OBS_VAR(services);
 		zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
-		ZEPHIR_SINIT_VAR(_2);
-		ZVAL_LONG(&_2, 3);
-		ZEPHIR_INIT_NVAR(_0);
-		zephir_call_func_p2(_0, "substr", method, &_2);
+		ZEPHIR_SINIT_VAR(_0);
+		ZVAL_LONG(&_0, 3);
+		ZEPHIR_INIT_VAR(_1);
+		zephir_call_func_p2(_1, "substr", method, &_0);
 		ZEPHIR_INIT_VAR(possibleService);
-		zephir_call_func_p1(possibleService, "lcfirst", _0);
+		zephir_call_func_p1(possibleService, "lcfirst", _1);
 		if (zephir_array_isset(services, possibleService)) {
 			ZEPHIR_INIT_VAR(instance);
-			ZEPHIR_INIT_VAR(_3);
-			zephir_call_func_p1(_3, "count", arguments);
-			if (zend_is_true(_3)) {
+			if (zephir_fast_count_int(arguments TSRMLS_CC)) {
 				zephir_call_method_p2(instance, this_ptr, "get", possibleService, arguments);
 			} else {
 				zephir_call_method_p1(instance, this_ptr, "get", possibleService);
@@ -617,32 +610,28 @@ PHP_METHOD(Phalcon_Di, __call) {
 			RETURN_CCTOR(instance);
 		}
 	}
-	ZEPHIR_INIT_NVAR(_3);
-	ZVAL_STRING(_3, "set", 1);
-	ZEPHIR_INIT_VAR(_4);
-	zephir_call_func_p2(_4, "starts_with", method, _3);
-	if (zend_is_true(_4)) {
+	if (zephir_start_with_str(method, SL("set"))) {
 		if (zephir_array_isset_long(arguments, 0)) {
-			ZEPHIR_SINIT_NVAR(_2);
-			ZVAL_LONG(&_2, 3);
-			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_func_p2(_3, "substr", method, &_2);
-			ZEPHIR_INIT_VAR(_5);
-			zephir_call_func_p1(_5, "lcfirst", _3);
-			ZEPHIR_OBS_VAR(_6);
-			zephir_array_fetch_long(&_6, arguments, 0, PH_NOISY);
-			zephir_call_method_p2_noret(this_ptr, "set", _5, _6);
+			ZEPHIR_SINIT_NVAR(_0);
+			ZVAL_LONG(&_0, 3);
+			ZEPHIR_INIT_NVAR(_1);
+			zephir_call_func_p2(_1, "substr", method, &_0);
+			ZEPHIR_INIT_VAR(_2);
+			zephir_call_func_p1(_2, "lcfirst", _1);
+			ZEPHIR_OBS_VAR(_3);
+			zephir_array_fetch_long(&_3, arguments, 0, PH_NOISY);
+			zephir_call_method_p2_noret(this_ptr, "set", _2, _3);
 			RETURN_MM_NULL();
 		}
 	}
-	ZEPHIR_INIT_NVAR(_3);
-	object_init_ex(_3, phalcon_di_exception_ce);
-	ZEPHIR_INIT_VAR(_7);
-	ZEPHIR_CONCAT_SV(_7, "Call to undefined method or service '", method);
-	ZEPHIR_INIT_VAR(_8);
-	ZEPHIR_CONCAT_VS(_8, _7, "'");
-	zephir_call_method_p1_noret(_3, "__construct", _8);
-	zephir_throw_exception(_3 TSRMLS_CC);
+	ZEPHIR_INIT_NVAR(_1);
+	object_init_ex(_1, phalcon_di_exception_ce);
+	ZEPHIR_INIT_VAR(_4);
+	ZEPHIR_CONCAT_SV(_4, "Call to undefined method or service '", method);
+	ZEPHIR_INIT_VAR(_5);
+	ZEPHIR_CONCAT_VS(_5, _4, "'");
+	zephir_call_method_p1_noret(_1, "__construct", _5);
+	zephir_throw_exception(_1 TSRMLS_CC);
 	return;
 
 }

@@ -235,9 +235,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build) {
 	}
 	if (Z_TYPE_P(parameters) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(instance);
-		ZEPHIR_INIT_VAR(_0);
-		zephir_call_func_p1(_0, "count", parameters);
-		if (zend_is_true(_0)) {
+		if (zephir_fast_count_int(parameters TSRMLS_CC)) {
 			zephir_call_func_p2(instance, "create_instance_params", className, parameters);
 		} else {
 			zephir_call_func_p1(instance, "create_instance", className);
@@ -246,7 +244,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build) {
 		ZEPHIR_INIT_NVAR(instance);
 		ZEPHIR_OBS_VAR(arguments);
 		if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"))) {
-			ZEPHIR_INIT_NVAR(_0);
+			ZEPHIR_INIT_VAR(_0);
 			zephir_call_method_p2(_0, this_ptr, "_buildparameters", dependencyInjector, arguments);
 			zephir_call_func_p2(instance, "create_instance_params", className, _0);
 		} else {
@@ -304,9 +302,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build) {
 					zephir_throw_exception(_0 TSRMLS_CC);
 					return;
 				}
-				ZEPHIR_INIT_NVAR(_0);
-				zephir_call_func_p1(_0, "count", arguments);
-				if (zend_is_true(_0)) {
+				if (zephir_fast_count_int(arguments TSRMLS_CC)) {
 					//missing fcall
 					continue;
 				}

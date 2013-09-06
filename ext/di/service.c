@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_DI_Service, getDefinition) {
 PHP_METHOD(Phalcon_DI_Service, resolve) {
 
 	zend_bool found;
-	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_0 = NULL, *_1, *_2, *_3, *_4;
+	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_0 = NULL, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &dependencyInjector);
@@ -228,9 +228,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve) {
 		if (zend_is_true(_0)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) {
 				ZEPHIR_INIT_NVAR(instance);
-				ZEPHIR_INIT_VAR(_1);
-				zephir_call_func_p1(_1, "count", parameters);
-				if (zend_is_true(_1)) {
+				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
 					zephir_call_func_p2(instance, "create_instance_params", definition, parameters);
 				} else {
 					zephir_call_func_p1(instance, "create_instance", definition);
@@ -268,13 +266,13 @@ PHP_METHOD(Phalcon_DI_Service, resolve) {
 	if ((found == 0)) {
 		ZEPHIR_INIT_NVAR(_0);
 		object_init_ex(_0, phalcon_di_exception_ce);
-		ZEPHIR_OBS_VAR(_2);
-		zephir_read_property_this(&_2, this_ptr, SL("_name"), PH_NOISY_CC);
+		ZEPHIR_OBS_VAR(_1);
+		zephir_read_property_this(&_1, this_ptr, SL("_name"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_SV(_2, "Service '", _1);
 		ZEPHIR_INIT_VAR(_3);
-		ZEPHIR_CONCAT_SV(_3, "Service '", _2);
-		ZEPHIR_INIT_VAR(_4);
-		ZEPHIR_CONCAT_VS(_4, _3, "' cannot be resolved");
-		zephir_call_method_p1_noret(_0, "__construct", _4);
+		ZEPHIR_CONCAT_VS(_3, _2, "' cannot be resolved");
+		zephir_call_method_p1_noret(_0, "__construct", _3);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		return;
 	}

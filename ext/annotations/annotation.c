@@ -253,8 +253,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments) {
 
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_arguments"), PH_NOISY_CC);
-	zephir_call_func_p1(return_value, "count", _0);
-	RETURN_MM();
+	RETURN_MM_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
 }
 

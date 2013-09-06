@@ -18,6 +18,7 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 
 
 /*
@@ -550,23 +551,15 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				continue;
 			}
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		ZVAL_STRING(_3, "\\", 1);
-		ZEPHIR_INIT_NVAR(_5);
-		zephir_call_func_p2(_5, "memstr", handlerName, _3);
-		if (!(zend_is_true(_5))) {
+		if (!(zephir_memnstr_str(handlerName, SL("\\")))) {
 			ZEPHIR_INIT_NVAR(camelizedClass);
-			zephir_call_func_p1(camelizedClass, "camelize", handlerName);
+			zephir_camelize(camelizedClass, handlerName);
 		} else {
 			ZEPHIR_CPY_WRT(camelizedClass, handlerName);
 		}
 		if (zend_is_true(namespaceName)) {
 			ZEPHIR_INIT_NVAR(handlerClass);
-			ZEPHIR_INIT_NVAR(_3);
-			ZVAL_STRING(_3, "\\", 1);
-			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_func_p2(_5, "ends_with", namespaceName, _3);
-			if (zend_is_true(_5)) {
+			if (zephir_end_with_str(namespaceName, SL("\\"))) {
 				ZEPHIR_INIT_LNVAR(_6);
 				concat_function(_6, namespaceName, camelizedClass);
 				concat_function(handlerClass, _6, handlerSuffix);

@@ -202,11 +202,11 @@ PHP_METHOD(Phalcon_Cli_Console, addModules) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Modules must be an Array");
 		return;
 	}
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_modules"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p2(_1, "array_merge", modules, _0);
-	zephir_update_property_this(this_ptr, SL("_modules"), _1 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_OBS_VAR(_1);
+	zephir_read_property_this(&_1, this_ptr, SL("_modules"), PH_NOISY_CC);
+	zephir_fast_array_merge(_0, &(modules), &(_1) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_modules"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
