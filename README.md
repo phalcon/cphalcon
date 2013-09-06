@@ -6,7 +6,18 @@ Phalcon Framework
 * \Phalcon\Utils\Arr -- unit-tests/ArrTest.php
 * \Phalcon\Utils\Date -- unit-tests/DateTest.php
 * \Phalcon\Http\Client -- unit-tests/HttpClientTest.php
-* \Phalcon\Chart\QRencode -- unit-tests/ChartTest.php
+* \Phalcon\Chart\QRcode -- unit-tests/ChartTest.php
+
+```php
+$str = 'Phalcon is web framework';
+
+$qr = new \Phalcon\Chart\QRcode();
+$ret = $qr->generate($str);
+
+if ($ret && $qr->save('qr.png')) {
+	$ret = $qr->scan('qr.png');
+}
+```
 
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
