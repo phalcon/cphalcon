@@ -160,6 +160,11 @@ PHP_METHOD(Phalcon_Chart_QRcode, generate){
 			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "level parameter must be int");
 			return;
 		}
+
+		if (Z_LVAL_P(level) != QR_ECLEVEL_L && Z_TYPE_P(level) != QR_ECLEVEL_M && Z_TYPE_P(level) != QR_ECLEVEL_Q && Z_TYPE_P(level) != QR_ECLEVEL_H) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "Error level. there are 4 values: LEVEL_L, LEVEL_M, LEVEL_Q, LEVEL_H");
+			return;
+		}
 		phalcon_update_property_this(this_ptr, SL("_level"), level TSRMLS_CC);
 	} else {
 		PHALCON_OBS_VAR(level);
