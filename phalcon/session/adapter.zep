@@ -139,7 +139,8 @@ abstract class Adapter
 	 * @param string index
 	 * @return boolean
 	 */
-	public function has(index){
+	public function has(index)
+	{
 		if isset _SESSION[this->_uniqueId . index] {
 			return true;
 		}

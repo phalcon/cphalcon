@@ -57,7 +57,7 @@ class Validation extends Phalcon\DI\Injectable
 		 * Check for an 'initialize' method
 		 */
 		if (method_exists(this, "initialize")) {
-			this->initialize();
+			this->{"initialize"}();
 		}
 	}
 
@@ -70,6 +70,8 @@ class Validation extends Phalcon\DI\Injectable
 	 */
 	public function validate(data=null, entity=null)
 	{
+		var validators, messages, cancelOnFail, scope,
+			attribute, validator;
 
 		let validators = this->_validators;
 		if typeof validators != "array" {
@@ -89,8 +91,8 @@ class Validation extends Phalcon\DI\Injectable
 		/**
 		 * Validation classes can implement the 'beforeValidation' callback
 		 */
-		if method_exists(this, 'beforeValidation') {
-			if this->beforeValidation(data, entity, messages) === false {
+		if method_exists(this, "beforeValidation") {
+			if this->{"beforeValidation"}(data, entity, messages) === false {
 				return false;
 			}
 		}
@@ -135,7 +137,7 @@ class Validation extends Phalcon\DI\Injectable
 		 */
 		let messages = this->_messages;
 		if method_exists(this, "afterValidation") {
-			this->afterValidation(data, entity, messages);
+			this->{"afterValidation"}(data, entity, messages);
 		}
 
 		return messages;
@@ -184,6 +186,7 @@ class Validation extends Phalcon\DI\Injectable
 	 */
 	public function getFilters(attribute=null)
 	{
+		var filters, attributeFilters;
 		let filters = this->_filters;
 		if typeof attribute == "string" {
 			if fetch attributeFilters, filters[attribute] {
@@ -232,6 +235,7 @@ class Validation extends Phalcon\DI\Injectable
 	 */
 	public function appendMessage(<Phalcon\Validation\MessageInterface> message)
 	{
+		var messages;
 		let messages = this->_messages;
 		messages->appendMessage(message);
 		return this;
@@ -271,6 +275,9 @@ class Validation extends Phalcon\DI\Injectable
 	 */
 	public function getValue(attribute)
 	{
+		var entity, method, value, data, values,
+			filters, fieldFilters, dependencyInjector,
+			filterService;
 
 		let entity = this->_entity;
 

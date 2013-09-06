@@ -45,6 +45,7 @@ class Confirmation extends Phalcon\Validation\Validator implements Phalcon\Valid
 	 */
 	public function validate(validator, attribute)
 	{
+		var withAttribute, value, withValue, message;
 
 		let withAttribute = this->getOption("with"),
 			value = validator->getValue(attribute),

@@ -62,7 +62,8 @@ namespace Phalcon;
  *
  *</code>
  */
-abstract class Acl {
+abstract class Acl
+{
 
 	const ALLOW = 1;
 

@@ -37,4 +37,5 @@ namespace Phalcon;
  */
 class Crypt implements Phalcon\CryptInterface
 {
+
 }

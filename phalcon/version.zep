@@ -54,6 +54,8 @@ class Version
 	 */
 	public static function get()
 	{
+		var version, major, medium, minor,
+			special, specialNumber, result, suffix;
 
 		let version       = self::_getVersion();
 
@@ -94,6 +96,8 @@ class Version
 	 */
 	public static function getId()
 	{
+		var version, major, medium, minor,
+			special, specialNumber, real;
 
 		let version       = self::_getVersion();
 
@@ -103,10 +107,7 @@ class Version
 	        special       = version[3],
 	        specialNumber = version[4];
 
-		let realMedium = sprintf("%02s", medium),
-			realMinor = sprintf("%02s", minor);
-
-		return major . realMedium . realMinor . special . specialNumber;
+		return major . sprintf("%02s", medium) . sprintf("%02s", minor) . special . specialNumber;
 	}
 
 }
