@@ -10,6 +10,24 @@ Phalcon Framework
 
 ```php
 // Example 1:
+$client = new \Phalcon\Http\Client($url, 'POST');
+
+// Set post/put/other data
+$client->setData($data);
+
+// Upload file
+//$client->setFiles(array('phalconphp.jpg'));
+
+$ret = $client->send();
+if ($ret) {
+	echo $client->getResponseHeaders();
+	echo $client->getResponseCookies();
+	echo $client->getResponseBody();
+	echo $client->getResponseCode();
+	echo $client->getResponseStatus()
+}
+
+// Example 2:
 $str = 'Phalcon is web framework';
 
 $qr = new \Phalcon\Chart\QRcode();
@@ -19,7 +37,7 @@ if ($ret && $qr->save('qr.png')) {
 	$ret = $qr->scan('qr.png');
 }
 
-// Example 2:
+// Example 3:
 $qr = new \Phalcon\Chart\QRcode();
 
 if ($qr->generate('欢迎使用 PhalconPHP', 1, \Phalcon\Chart\QRcode::LEVEL_H)) {
