@@ -57,6 +57,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 	 */
 	protected function _getSessionMessages(boolean remove)
 	{
+		var dependencyInjector, session, messages;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -67,7 +68,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 		let messages = session->get("_flashMessages");
 
 		if remove === true {
-			session->remove(indexName);
+			session->remove("_flashMessages");
 		}
 
 		return messages;
@@ -80,6 +81,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 	 */
 	protected function _setSessionMessages(messages)
 	{
+		var dependencyInjector, session;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -99,6 +101,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 	 */
 	public function message(type, message)
 	{
+		var messages;
 
 		let messages = this->_getSessionMessages(false);
 		if typeof messages != "array" {
@@ -121,6 +124,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 	 */
 	public function getMessages(type=null, remove=true)
 	{
+		var messages, returnMessages;
 
 		let messages = this->_getSessionMessages(remove);
 		if typeof messages == "array" {
@@ -143,6 +147,8 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 	 */
 	public function output(remove=true)
 	{
+		var type, message, messages;
+
 		let messages = this->_getSessionMessages(remove);
 		if typeof messages == "array" {
 			for type, message in messages {

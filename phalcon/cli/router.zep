@@ -116,6 +116,7 @@ class Router implements Phalcon\DI\InjectionAwareInterface {
 	 */
 	public function handle(arguments=null)
 	{
+		var moduleName, taskName, actionName;
 
 		if typeof arguments != "array" {
 			throw new Phalcon\CLI\Router\Exception("Arguments must be an Array");

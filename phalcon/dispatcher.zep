@@ -222,7 +222,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 	public function setParams(var params)
 	{
 		if typeof params != "array" {
-			this->_throwDispatchException("Parameters must be an Array");
+			this->{"_throwDispatchException"}("Parameters must be an Array");
 			return null;
 		}
 		let this->_params = params;
@@ -259,13 +259,15 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 	 */
 	public function getParam(param, filters=null, defaultValue=null)
 	{
+		var params, filter, paramValue, dependencyInjector;
+
 		let params = this->_params;
 		if  isset params[param] {
 			let paramValue = params[param];
 			if filters !== null {
 				let dependencyInjector = this->_dependencyInjector;
 				if typeof dependencyInjector != "object" {
-					this->_throwDispatchException("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
+					this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
 				}
 				let filter = dependencyInjector->getShared("filter");
 				return filter->sanitize(paramValue, filters);
@@ -325,11 +327,12 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 	{
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
-			actionName, camelizedClass, handler, hasService, params;
+			actionName, camelizedClass, hasService, params, eventsManager,
+			handlerSuffix, actionSuffix, handlerClass, status, actionMethod;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			this->_throwDispatchException("A dependency injection container is required to access related dispatching services", self::EXCEPTION_NO_DI);
+			this->{"_throwDispatchException"}("A dependency injection container is required to access related dispatching services", self::EXCEPTION_NO_DI);
 			return false;
 		}
 
@@ -360,7 +363,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			 * Throw an exception after 256 consecutive forwards
 			 */
 			if numberDispatches == 256 {
-				this->_throwDispatchException("Dispatcher has detected a cyclic routing causing stability problems", self::EXCEPTION_CYCLIC_ROUTING);
+				this->{"_throwDispatchException"}("Dispatcher has detected a cyclic routing causing stability problems", self::EXCEPTION_CYCLIC_ROUTING);
 				break;
 			}
 
@@ -410,7 +413,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			/**
 			 * We don"t camelize the classes if they are in namespaces
 			 */
-			if !memnstr(handlerName, "\\") {
+			if !memstr(handlerName, "\\") {
 				let camelizedClass = camelize(handlerName);
 			} else {
 				let camelizedClass = handlerName;
@@ -444,7 +447,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			 * If the service can be loaded we throw an exception
 			 */
 			if !hasService {
-				let status = this->_throwDispatchException(handlerClass . " handler class cannot be loaded", self::EXCEPTION_HANDLER_NOT_FOUND);
+				let status = this->{"_throwDispatchException"}(handlerClass . " handler class cannot be loaded", self::EXCEPTION_HANDLER_NOT_FOUND);
 				if status === false {
 
 					/**
@@ -462,7 +465,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			 */
 			let handler = dependencyInjector->getShared(handlerClass);
 			if typeof handler != "object" {
-				let status = this->_throwDispatchException("Invalid handler returned from the services container", self::EXCEPTION_INVALID_HANDLER);
+				let status = this->{"_throwDispatchException"}("Invalid handler returned from the services container", self::EXCEPTION_INVALID_HANDLER);
 				if status === false {
 					if this->_finished === false {
 						continue;
@@ -482,7 +485,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 				/**
 				 * An invalid parameter variable was passed throw an exception
 				 */
-				let status = this->_throwDispatchException("Action parameters must be an Array", self::EXCEPTION_INVALID_PARAMS);
+				let status = this->{"_throwDispatchException"}("Action parameters must be an Array", self::EXCEPTION_INVALID_PARAMS);
 				if status === false {
 					if this->_finished === false {
 						continue;
@@ -492,9 +495,10 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 			}
 
 			/**
-			 * Check if the method exists in the handler
-			 */
-			if !method_exists(handler, actionName . actionSuffix) {
+		 	 * Check if the method exists in the handler
+		 	 */
+			let actionMethod = actionName . actionSuffix;
+			if !method_exists(handler, actionMethod) {
 
 				/**
 				 * Call beforeNotFoundAction
@@ -513,7 +517,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 				/**
 				 * Try to throw an exception when an action isn"t defined on the object
 				 */
-				let status = this->_throwDispatchException("Action '" . actionName . "' was not found on handler '" . handlerName . "'", self::EXCEPTION_ACTION_NOT_FOUND);
+				let status = this->{"_throwDispatchException"}("Action '" . actionName . "' was not found on handler '" . handlerName . "'", self::EXCEPTION_ACTION_NOT_FOUND);
 				if status === false {
 					if this->_finished === false {
 						continue;
@@ -629,9 +633,10 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\Inj
 	 */
 	public function forward(var forward)
 	{
+		var namespaceName, controllerName, params, actionName, taskName;
 
-		if typeof forwrd != "array" {
-			this->_throwDispatchException("Forward parameter must be an Array");
+		if typeof forward != "array" {
+			this->{"_throwDispatchException"}("Forward parameter must be an Array");
 			return null;
 		}
 

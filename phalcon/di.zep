@@ -69,6 +69,8 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function __construct()
 	{
+		var defaultDi;
+
 		let defaultDi = self::_default;
 		if !defaultDi {
 			let self::_default = this;
@@ -85,6 +87,8 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function set(name, definition, shared=false)
 	{
+		var service;
+
 		if typeof name != "string" {
 			throw new Phalcon\DI\Exception("The service name must be a string");
 		}
@@ -102,6 +106,8 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function setShared(name, definition)
 	{
+		var service;
+
 		if typeof name != "string" {
 			throw new Phalcon\DI\Exception("The service name must be a string");
 		}
@@ -135,6 +141,7 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function attempt(name, definition, shared=false)
 	{
+		var services, service;
 
 		if typeof name != "string" {
 			throw new Phalcon\DI\Exception("The service name must be a string");
@@ -180,6 +187,7 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function getRaw(name)
 	{
+		var services, service;
 
 		if typeof name != "string" {
 			throw new Phalcon\DI\Exception("The service name must be a string");
@@ -202,13 +210,14 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function getService(name)
 	{
+		var services, service;
 
 		if typeof name != "string" {
 			throw new Phalcon\DI\Exception("The service name must be a string");
 		}
 
 		let services = this->_services;
-		if fetch setvice, services[name] {
+		if fetch service, services[name] {
 			return service;
 		}
 
@@ -224,6 +233,7 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function get(name, parameters=null)
 	{
+		var services, service, instance;
 
 		/**
 		 * A valid service alias is a string
@@ -233,7 +243,7 @@ class Di implements Phalcon\DiInterface
 		}
 
 		let services = this->_services;
-		if fetch setvice, services[name] {
+		if fetch service, services[name] {
 			/**
 			 * The service is registered in the DI
 			 */
@@ -278,6 +288,7 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function getShared(name, parameters=null)
 	{
+		var instance, sharedInstances;
 
 		if typeof name != "string" {
 			throw new Phalcon\DI\Exception("The service name must be a string");
@@ -314,6 +325,8 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function has(name)
 	{
+		var services;
+
 		if typeof name != "string" {
 			throw new Phalcon\DI\Exception("The service name must be a string");
 		}
@@ -402,6 +415,7 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function __call(method, arguments=null)
 	{
+		var instance, possibleService, services;
 
 		/**
 		 * If the magic method starts with "get" we try to get a service with that name

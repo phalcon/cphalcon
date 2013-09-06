@@ -73,6 +73,7 @@ abstract class Db
 	 */
 	public static function setup(var options)
 	{
+		var escapeIdentifiers;
 
 		if typeof options != "array" {
 			throw new Phalcon\Db\Exception("Options must be an array");

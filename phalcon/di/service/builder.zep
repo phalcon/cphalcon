@@ -35,8 +35,11 @@ class Builder
 	 * @param array argument
 	 * @return mixed
 	 */
-	private function _buildParameter(<Phalcon\DiInterface> dependencyInjector, position, argument)
+	private function _buildParameter(<Phalcon\Di> dependencyInjector, position, argument)
 	{
+
+		// @todo use <Phalcon\DiInterface> instead
+		var type, name, value, instanceArguments;
 
 		/**
 		 * All the arguments must be an array
@@ -58,7 +61,7 @@ class Builder
 			 * If the argument type is 'service', we obtain the service from the DI
 			 */
 			case "service":
-				if !fetch name, argument['name'] {
+				if !fetch name, argument["name"] {
 					throw new Phalcon\DI\Exception("Service 'name' is required in parameter on position " . position);
 				}
 				if typeof dependencyInjector != "object" {
@@ -116,6 +119,7 @@ class Builder
 	 */
 	private function _buildParameters(<Phalcon\DiInterface> dependencyInjector, arguments)
 	{
+		var position, argument, buildArguments;
 
 		/**
 		 * The arguments group must be an array of arrays
@@ -141,6 +145,9 @@ class Builder
 	 */
 	public function build(<Phalcon\DiInterface> dependencyInjector, definition, parameters=null)
 	{
+		var className, arguments, paramCalls, methodPosition, method,
+			methodName, methodCall, instance, propertyPosition, property,
+			propertyName, propertyValue;
 
 		if typeof definition != "array" {
 			throw new Phalcon\DI\Exception("The service definition must be an array");
@@ -159,9 +166,9 @@ class Builder
 			 * Build the instance overriding the definition constructor parameters
 			 */
 			if count(parameters) {
-				create_instance_params(className, parameters);
+				let instance = create_instance_params(className, parameters);
 			} else {
-				create_instance(className);
+				let instance = create_instance(className);
 			}
 
 		} else {
@@ -174,10 +181,10 @@ class Builder
 				/**
 				 * Create the instance based on the parameters
 				 */
-				create_instance_params(className, this->_buildParameters(dependencyInjector, arguments));
+				let instance = create_instance_params(className, this->_buildParameters(dependencyInjector, arguments));
 
 			} else {
-				create_instance(className);
+				let instance = create_instance(className);
 			}
 		}
 

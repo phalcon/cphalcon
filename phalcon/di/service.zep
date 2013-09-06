@@ -122,9 +122,11 @@ class Service implements Phalcon\DI\ServiceInterface
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @return mixed
 	 */
-	public function resolve(parameters=null, <Phalcon\DiInterface> dependencyInjector=null){
+	public function resolve(parameters=null, <Phalcon\DiInterface> dependencyInjector=null)
+	{
 
 		boolean found;
+		var shared, definition, sharedInstance, instance, builder;
 
 		let shared = this->_shared;
 
@@ -214,6 +216,8 @@ class Service implements Phalcon\DI\ServiceInterface
 	 */
 	public function setParameter(int position, parameter)
 	{
+		var definition, arguments;
+
 		let definition = this->_definition;
 		if typeof definition != "array" {
 			throw new Phalcon\DI\Exception("Definition must be an array to update its parameters");
@@ -253,6 +257,8 @@ class Service implements Phalcon\DI\ServiceInterface
 	 */
 	public function getParameter(int position)
 	{
+		var definition, arguments, parameter;
+
 		let definition = this->_definition;
 		if typeof definition != "array" {
 			throw new Phalcon\DI\Exception("Definition must be an array to obtain its parameters");
@@ -278,6 +284,7 @@ class Service implements Phalcon\DI\ServiceInterface
 	 */
 	public static function __set_state(attributes)
 	{
+		var name, definition, shared;
 
 		if !fetch name, attributes["_name"] {
 			throw new Phalcon\DI\Exception("The attribute '_name' is required");
@@ -291,7 +298,7 @@ class Service implements Phalcon\DI\ServiceInterface
 			throw new Phalcon\DI\Exception("The attribute '_shared' is required");
 		}
 
-		return new Phalcon\DI\Service(name, definition, shared);
+		return new self(name, definition, shared);
 	}
 
 }

@@ -62,6 +62,8 @@ abstract class Injectable implements Phalcon\DI\InjectionAwareInterface, Phalcon
 	 */
 	public function getDI()
 	{
+		var dependencyInjector;
+
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			let dependencyInjector = Phalcon\DI::getDefault();
@@ -96,6 +98,7 @@ abstract class Injectable implements Phalcon\DI\InjectionAwareInterface, Phalcon
 	 */
 	public function __get(propertyName)
 	{
+		var dependencyInjector, hasService, service, persistent;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
@@ -125,7 +128,7 @@ abstract class Injectable implements Phalcon\DI\InjectionAwareInterface, Phalcon
 		 */
 		if propertyName == "persistent" {
 			let persistent = dependencyInjector->get("sessionBag", [get_class(this)]),
-				this->persistent = persistent;
+				this->{"persistent"} = persistent;
 			return persistent;
 		}
 

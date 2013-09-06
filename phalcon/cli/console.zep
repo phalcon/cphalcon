@@ -155,6 +155,9 @@ class Console implements Phalcon\DI\InjectionAwareInterface, Phalcon\Events\Even
 	 */
 	public function handle(arguments=null)
 	{
+		var dependencyInjector, router, eventsManager,
+			moduleName, modules, module, path, className,
+			moduleObject, dispatcher, task;
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {

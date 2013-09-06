@@ -107,7 +107,7 @@ abstract class Flash
 	 */
 	public function error(message)
 	{
-		return this->message("error", message);
+		return this->{"message"}("error", message);
 	}
 
 	/**
@@ -122,7 +122,7 @@ abstract class Flash
 	 */
 	public function notice(message)
 	{
-		return this->message("notice", message);
+		return this->{"message"}("notice", message);
 	}
 
 	/**
@@ -137,7 +137,7 @@ abstract class Flash
 	 */
 	public function success(message)
 	{
-		return this->message("success", message);
+		return this->{"message"}("success", message);
 	}
 
 	/**
@@ -152,7 +152,7 @@ abstract class Flash
 	 */
 	public function warning(message)
 	{
-		return this->message("warning", message);
+		return this->{"message"}("warning", message);
 	}
 
 	/**
