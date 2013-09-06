@@ -331,5 +331,5 @@
 #include "image/exception.h"
 #include "image/adapter/gd.h"
 #include "image/adapter/imagick.h"
-#include "chart/qrencode.h"
+#include "chart/qrcode.h"
 #include "chart/exception.h"
