@@ -52,9 +52,12 @@
 #include "chart/qrcode.h"
 
 #ifdef PHALCON_USE_QRENCODE
+#define INCHES_PER_METER (100.0/2.54)
+
 #include <qrencode.h>
 
 static int le_qr;
+static int dpi = 72;
 
 typedef struct {
     QRcode *c;
@@ -69,6 +72,27 @@ static void qr_dtor(zend_rsrc_list_entry *rsrc TSRMLS_DC)
     efree (qr);
 }
 #endif
+
+static int color_set(unsigned int color[4], const char *value)
+{
+        int len = strlen(value);
+        int count;
+        if(len == 6) {
+                count = sscanf(value, "%02x%02x%02x%n", &color[0], &color[1], &color[2], &len);
+                if(count < 3 || len != 6) {
+                        return -1;
+                }
+                color[3] = 255;
+        } else if(len == 8) {
+                count = sscanf(value, "%02x%02x%02x%02x%n", &color[0], &color[1], &color[2], &color[3], &len);
+                if(count < 4 || len != 8) {
+                        return -1;
+                }
+        } else {
+                return -1;
+        }
+        return 0;
+}
 
 /**
  * Phalcon\Chart\QRcode
@@ -262,18 +286,34 @@ PHP_METHOD(Phalcon_Chart_QRcode, generate){
  *
  * @param int $size
  * @param int $margin.
+ * @param string $foreground
+ * @param string $background
  * @return string
  */
 PHP_METHOD(Phalcon_Chart_QRcode, render){
 
 #ifdef PHALCON_USE_QRENCODE
-	zval *size = NULL, *margin = NULL;
+	zval *size = NULL, *margin = NULL, *foreground=NULL, *background=NULL;
 	zval *zid;
+    FILE *fp = NULL;
+    png_structp png_ptr;
+    png_infop info_ptr;
+	png_colorp palette;
+	png_byte alpha_values[2];
+	php_qrcode *qr = NULL;
+	static unsigned int fg_color[4] = {0, 0, 0, 255};
+	static unsigned int bg_color[4] = {255, 255, 255, 255};
     long s = 3, m = 4;
+    unsigned char *row, *p, *q;
+    int x, y, xx, yy, bit;
+    int realwidth;
+    char *path;
+    int b;
+    char buf[4096];
 
     PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 2, &size, &margin);
+	phalcon_fetch_params(1, 0, 4, &size, &margin, &foreground, &background);
 
 	if (size && Z_TYPE_P(size) != IS_NULL && Z_TYPE_P(size) != IS_LONG) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "size parameter must be int");
@@ -285,23 +325,32 @@ PHP_METHOD(Phalcon_Chart_QRcode, render){
 		return;
 	}
 
+	if (foreground && zend_is_true(foreground)) {
+		PHALCON_SEPARATE_PARAM(foreground);
+		convert_to_string(foreground);
+
+		if(color_set(fg_color, Z_STRVAL_P(foreground))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Invalid foreground color value");
+			return;
+		}
+	}
+
+	if (background && zend_is_true(background)) {
+		PHALCON_SEPARATE_PARAM(background);
+		convert_to_string(background);
+
+		if(color_set(bg_color, Z_STRVAL_P(background))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Invalid background color value");
+			return;
+		}
+	}
+
 	if (size && Z_TYPE_P(size) == IS_LONG) {
 		s = Z_LVAL_P(size);
 	}
 	if (margin && Z_TYPE_P(margin) == IS_LONG) {
 		m = Z_LVAL_P(margin);
 	}
-
-    FILE *fp = NULL;
-    unsigned char *row, *p, *q;
-    int x, y, xx, yy, bit;
-    int realwidth;
-    char *path;
-    int b;
-    char buf[4096];
-    png_structp png_ptr;
-    png_infop info_ptr;
-	php_qrcode *qr = NULL;
 
 	PHALCON_OBS_VAR(zid);
 	phalcon_read_property_this(&zid, this_ptr, SL("_qr"), PH_NOISY_CC);
@@ -342,10 +391,33 @@ PHP_METHOD(Phalcon_Chart_QRcode, render){
 		return;
 	}
 
+	palette = (png_colorp) malloc(sizeof(png_color) * 2);
+	palette[0].red   = fg_color[0];
+	palette[0].green = fg_color[1];
+	palette[0].blue  = fg_color[2];
+	palette[1].red   = bg_color[0];
+	palette[1].green = bg_color[1];
+	palette[1].blue  = bg_color[2];
+	alpha_values[0] = fg_color[3];
+	alpha_values[1] = bg_color[3];
+	png_set_PLTE(png_ptr, info_ptr, palette, 2);
+	png_set_tRNS(png_ptr, info_ptr, alpha_values, 2, NULL);
+
 	png_init_io(png_ptr, fp);
 
-	png_set_IHDR(png_ptr, info_ptr, realwidth, realwidth, 1, PNG_COLOR_TYPE_GRAY, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+	png_set_IHDR(png_ptr, info_ptr,
+		realwidth, realwidth,
+		1,
+		PNG_COLOR_TYPE_PALETTE,
+		PNG_INTERLACE_NONE,
+		PNG_COMPRESSION_TYPE_DEFAULT,
+		PNG_FILTER_TYPE_DEFAULT);
+	png_set_pHYs(png_ptr, info_ptr,
+		dpi * INCHES_PER_METER,
+		dpi * INCHES_PER_METER,
+		PNG_RESOLUTION_METER);
 	png_write_info(png_ptr, info_ptr);
+
 
 	memset(row, 0xff, (realwidth + 7) / 8);
 	for(y = 0; y < m * s; y++) {
@@ -418,15 +490,26 @@ PHP_METHOD(Phalcon_Chart_QRcode, render){
 PHP_METHOD(Phalcon_Chart_QRcode, save){
 
 #ifdef PHALCON_USE_QRENCODE
-	zval *filename, *size = NULL, *margin = NULL;
+	zval *filename, *size = NULL, *margin = NULL, *foreground=NULL, *background=NULL;
 	zval *zid, *exception_message;
+    png_structp png_ptr;
+    png_infop info_ptr;
+	png_colorp palette;
+	png_byte alpha_values[2];
+	php_qrcode *qr = NULL;
+    FILE *fp = NULL;
+	static unsigned int fg_color[4] = {0, 0, 0, 255};
+	static unsigned int bg_color[4] = {255, 255, 255, 255};
+    unsigned char *row, *p, *q;
+    int x, y, xx, yy, bit;
+    int realwidth;
 	char *fn = NULL;
     long s = 3, m = 4;
 
 
     PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 2, &filename, &size, &margin);
+	phalcon_fetch_params(1, 1, 4, &filename, &size, &margin, &foreground, &background);
 
 	if (Z_TYPE_P(filename) != IS_STRING || PHALCON_IS_EMPTY(filename)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "filename parameter must be string");
@@ -443,10 +526,25 @@ PHP_METHOD(Phalcon_Chart_QRcode, save){
 		return;
 	}
 
-#ifndef PHALCON_USE_PNG
-	PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Need the support of libpng");
-	return;
-#endif
+	if (foreground && zend_is_true(foreground)) {
+		PHALCON_SEPARATE_PARAM(foreground);
+		convert_to_string(foreground);
+
+		if(color_set(fg_color, Z_STRVAL_P(foreground))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Invalid foreground color value");
+			return;
+		}
+	}
+
+	if (background && zend_is_true(background)) {
+		PHALCON_SEPARATE_PARAM(background);
+		convert_to_string(background);
+
+		if(color_set(bg_color, Z_STRVAL_P(background))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Invalid background color value");
+			return;
+		}
+	}
 
 	if (size && Z_TYPE_P(size) == IS_LONG) {
 		s = Z_LVAL_P(size);
@@ -456,15 +554,6 @@ PHP_METHOD(Phalcon_Chart_QRcode, save){
 	}
 	
 	fn = Z_STRVAL_P(filename);
-
-    FILE *fp = NULL;
-    unsigned char *row, *p, *q;
-    int x, y, xx, yy, bit;
-    int realwidth;
-
-    png_structp png_ptr;
-    png_infop info_ptr;
-	php_qrcode *qr = NULL;
 
 	PHALCON_OBS_VAR(zid);
 	phalcon_read_property_this(&zid, this_ptr, SL("_qr"), PH_NOISY_CC);
@@ -507,9 +596,32 @@ PHP_METHOD(Phalcon_Chart_QRcode, save){
 		return;
 	}
 
+	palette = (png_colorp) malloc(sizeof(png_color) * 2);
+	palette[0].red   = fg_color[0];
+	palette[0].green = fg_color[1];
+	palette[0].blue  = fg_color[2];
+	palette[1].red   = bg_color[0];
+	palette[1].green = bg_color[1];
+	palette[1].blue  = bg_color[2];
+	alpha_values[0] = fg_color[3];
+	alpha_values[1] = bg_color[3];
+	png_set_PLTE(png_ptr, info_ptr, palette, 2);
+	png_set_tRNS(png_ptr, info_ptr, alpha_values, 2, NULL);
+
 	png_init_io(png_ptr, fp);
 
-	png_set_IHDR(png_ptr, info_ptr, realwidth, realwidth, 1, PNG_COLOR_TYPE_GRAY, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+	png_set_IHDR(png_ptr, info_ptr,
+		realwidth, realwidth,
+		1,
+		PNG_COLOR_TYPE_PALETTE,
+		PNG_INTERLACE_NONE,
+		PNG_COMPRESSION_TYPE_DEFAULT,
+		PNG_FILTER_TYPE_DEFAULT);
+	png_set_pHYs(png_ptr, info_ptr,
+		dpi * INCHES_PER_METER,
+		dpi * INCHES_PER_METER,
+		PNG_RESOLUTION_METER);
+
 	png_write_info(png_ptr, info_ptr);
 
 	memset(row, 0xff, (realwidth + 7) / 8);
