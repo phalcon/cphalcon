@@ -27,7 +27,7 @@ if ($ret) {
 	echo $client->getResponseStatus()
 }
 
-// Example 2: QR Code 
+// Example 2: QR Code generate
 $str = 'Phalcon is web framework';
 
 $qr = new \Phalcon\Chart\QRcode();
