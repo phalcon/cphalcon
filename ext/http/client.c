@@ -1296,14 +1296,7 @@ string_copy:
 
 					convert_to_string_ex(&key);
 					
-					char *cvalue = NULL, *ckey = NULL;
-
-					ckey = estrndup(Z_STRVAL_P(key), Z_STRLEN_P(key));
-					cvalue = estrndup(Z_STRVAL_P(value), Z_STRLEN_P(value));
-
 					if (num >= (count - files)) {
-						char *cfilename = NULL, *ctype = NULL;
-
 						PHALCON_INIT_VAR(constant);
 						if (zend_get_constant(SL("PATHINFO_BASENAME"), constant TSRMLS_CC) != FAILURE) {
 							PHALCON_INIT_VAR(filename);
@@ -1313,7 +1306,7 @@ string_copy:
 						PHALCON_INIT_VAR(type);
 						phalcon_call_func_p1(type, "mime_content_type", value);
 
-						if (php_check_open_basedir(cvalue TSRMLS_CC)) {
+						if (php_check_open_basedir(Z_STRVAL_P(value) TSRMLS_CC)) {
 							PHALCON_MM_RESTORE();
 							RETVAL_FALSE;
 							return 1;
