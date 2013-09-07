@@ -226,13 +226,13 @@ PHP_METHOD(Phalcon_Chart_QRcode, generate){
 	qr = (php_qrcode *) emalloc (sizeof (php_qrcode));
 
 	if (Z_LVAL_P(mode) == QR_MODE_8) {
-		if (micro && zend_is_true(micro)) {
+		if (zend_is_true(micro)) {
 			qr->c = QRcode_encodeString8bitMQR(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level));
 		} else {
 			qr->c = QRcode_encodeString8bit(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level));
 		}
 	} else {
-		if (micro && zend_is_true(micro)) {
+		if (zend_is_true(micro)) {
 			qr->c = QRcode_encodeStringMQR(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level), Z_LVAL_P(mode), Z_BVAL_P(casesensitive));
 		} else {
 			qr->c = QRcode_encodeString(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level), Z_LVAL_P(mode), Z_BVAL_P(casesensitive));
@@ -575,7 +575,6 @@ static zbar_image_t *_php_zbarcode_get_page(MagickWand *wand)
 {
 	unsigned long width, height;
 	unsigned char *image_data;
-	size_t image_size;
 	
 	if (MagickSetImageDepth(wand, 8) == MagickFalse) {
 		return NULL;
