@@ -38,6 +38,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_generate, 0, 0, 1)
 	ZEND_ARG_INFO(0, level)
 	ZEND_ARG_INFO(0, mode)
 	ZEND_ARG_INFO(0, casesensitive)
+	ZEND_ARG_INFO(0, micro)
 ZEND_END_ARG_INFO()
 #ifdef PHALCON_USE_ZBAR
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_scan, 0, 0, 1)
