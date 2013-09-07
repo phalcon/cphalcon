@@ -927,7 +927,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 	PHALCON_INIT_VAR(blob);	
 	phalcon_call_method(blob, watermark_image, "render");
 
-	phalcon_call_method_p2(watermark, "readImageBlob", blob, realpath);
+	phalcon_call_method_p2_noret(watermark, "readImageBlob", blob, realpath);
 
 	PHALCON_INIT_VAR(channel);
 	phalcon_get_class_constant(channel, ce0, SS("ALPHACHANNEL_ACTIVATE") TSRMLS_CC);
@@ -1243,7 +1243,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask){
 
-	zval *mask, *im, *mask_im, *realpath, *blod, *matte, *composite, *tmp, *index, *next = NULL, *type;
+	zval *mask, *im, *mask_im, *realpath, *blob, *matte, *composite, *tmp, *index, *next = NULL, *type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1267,7 +1267,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask){
 	PHALCON_INIT_VAR(blob);	
 	phalcon_call_method(blob, mask, "render");
 
-	phalcon_call_method_p2(mask_im, "readImageBlob", blob, realpath);
+	phalcon_call_method_p2_noret(mask_im, "readImageBlob", blob, realpath);
 
 	PHALCON_INIT_VAR(matte);
 	ZVAL_LONG(matte, 1);
