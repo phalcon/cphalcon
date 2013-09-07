@@ -987,7 +987,7 @@ void curl_init(zval *return_value TSRMLS_DC) {
 	ch->id = Z_LVAL_P(return_value);
 }
 
-static int php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, int count, zval *return_value TSRMLS_DC) /* {{{ */
+static void php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, int count, zval *return_value TSRMLS_DC) /* {{{ */
 {	
 	CURLcode error = CURLE_OK;
 	switch (option) {
@@ -1059,7 +1059,7 @@ static int php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, 
 				(PG(open_basedir) && *PG(open_basedir)) && (Z_LVAL_PP(zvalue) & CURLPROTO_FILE)) {
 					php_error_docref(NULL TSRMLS_CC, E_WARNING, "CURLPROTO_FILE cannot be activated when an open_basedir is set");
 					RETVAL_FALSE;
-					return 1;
+					return;
 			}
 			error = curl_easy_setopt(ch->cp, option, Z_LVAL_PP(zvalue));
 			break;
@@ -1074,7 +1074,7 @@ static int php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, 
 				if (Z_LVAL_PP(zvalue) != 0) {
 					php_error_docref(NULL TSRMLS_CC, E_WARNING, "CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set");
 					RETVAL_FALSE;
-					return 1;
+					return;
 				}
 			}
 			error = curl_easy_setopt(ch->cp, option, Z_LVAL_PP(zvalue));
@@ -1117,13 +1117,13 @@ static int php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, 
 			) {
 				if (php_check_open_basedir(Z_STRVAL_PP(zvalue) TSRMLS_CC)) {
 					RETVAL_FALSE;
-					return 1;
+					return;
 				}
 			}
 			if (option == CURLOPT_URL) {
 				if (!php_curl_option_url(ch, Z_STRVAL_PP(zvalue), Z_STRLEN_PP(zvalue) TSRMLS_CC)) {
 					RETVAL_FALSE;
-					return 1;
+					return;
 				}
 			} else {
 				if (option == CURLOPT_PRIVATE) {
@@ -1151,17 +1151,17 @@ string_copy:
 			what = zend_fetch_resource(zvalue TSRMLS_CC, -1, "File-Handle", &type, 1, php_file_le_stream(), php_file_le_pstream());
 			if (!what) {
 				RETVAL_FALSE;
-				return 1;
+				return;
 			}
 
 			if (FAILURE == php_stream_cast((php_stream *) what, PHP_STREAM_AS_STDIO, (void *) &fp, REPORT_ERRORS)) {
 				RETVAL_FALSE;
-				return 1;
+				return;
 			}
 
 			if (!fp) {
 				RETVAL_FALSE;
-				return 1;
+				return;
 			}
 
 			error = CURLE_OK;
@@ -1178,7 +1178,7 @@ string_copy:
 					} else {
 						php_error_docref(NULL TSRMLS_CC, E_WARNING, "the provided file handle is not writable");
 						RETVAL_FALSE;
-						return 1;
+						return;
 					}
 					break;
 				case CURLOPT_WRITEHEADER:
@@ -1193,7 +1193,7 @@ string_copy:
 					} else {
 						php_error_docref(NULL TSRMLS_CC, E_WARNING, "the provided file handle is not writable");
 						RETVAL_FALSE;
-						return 1;
+						return;
 					}
 					break;
 				case CURLOPT_INFILE:
@@ -1215,7 +1215,7 @@ string_copy:
 					} else {
 						php_error_docref(NULL TSRMLS_CC, E_WARNING, "the provided file handle is not writable");
 						RETVAL_FALSE;
-						return 1;
+						return;
 					}
 					/* break omitted intentionally */
 				default:
@@ -1287,7 +1287,7 @@ string_copy:
 			                zend_error(E_ERROR, "The argument is not iterable()");
 			                PHALCON_MM_RESTORE();
 					RETVAL_FALSE;
-					return 1;
+					return;
 			        }
 
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
@@ -1307,9 +1307,7 @@ string_copy:
 						phalcon_call_func_p1(type, "mime_content_type", value);
 
 						if (php_check_open_basedir(Z_STRVAL_P(value) TSRMLS_CC)) {
-							PHALCON_MM_RESTORE();
-							RETVAL_FALSE;
-							return 1;
+							RETURN_MM_FALSE;
 						}
 
 						error = curl_formadd(&first, &last,
@@ -1337,7 +1335,7 @@ string_copy:
 				SAVE_CURL_ERROR(ch, error);
 				if (error != CURLE_OK) {
 					RETVAL_FALSE;
-					return 1;
+					return;
 				}
 
 				zend_llist_add_element(&ch->to_free->post, &first);
@@ -1361,7 +1359,7 @@ string_copy:
 			if (!ph) {
 				php_error_docref(NULL TSRMLS_CC, E_WARNING, "You must pass either an object or an array with the CURLOPT_HTTPHEADER, CURLOPT_QUOTE, CURLOPT_HTTP200ALIASES and CURLOPT_POSTQUOTE arguments");
 				RETVAL_FALSE;
-				return 1;
+				return;
 			}
 
 			for (zend_hash_internal_pointer_reset(ph);
@@ -1375,7 +1373,7 @@ string_copy:
 				if (!slist) {
 					php_error_docref(NULL TSRMLS_CC, E_WARNING, "Could not build curl_slist");
 					RETVAL_FALSE;
-					return 1;
+					return;
 				}
 			}
 			zend_llist_add_element(&ch->to_free->slist, &slist);
@@ -1395,7 +1393,7 @@ string_copy:
 
 			if (Z_STRLEN_PP(zvalue) && php_check_open_basedir(Z_STRVAL_PP(zvalue) TSRMLS_CC)) {
 				RETVAL_FALSE;
-				return 1;
+				return;
 			}
 
 			error = curl_easy_setopt(ch->cp, option, Z_STRVAL_PP(zvalue));
@@ -1404,32 +1402,23 @@ string_copy:
 	}
 
 	SAVE_CURL_ERROR(ch, error);
-	if (error != CURLE_OK) {
-		return 1;
-	} else {
-		return 0;
-	}
 }
 
-static int curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalue, int files, int count TSRMLS_DC)
+static void curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalue, int files, int count TSRMLS_DC)
 {
 	php_curl *ch;
 	long op = Z_LVAL_P(options);
 
 	ch = (php_curl *) zend_fetch_resource(&zid TSRMLS_CC, -1, le_curl_name, NULL, 1, le_curl);
 	if (!ch) {
-		return 1;
+		return;
 	}
 
 	if (options <= 0) {
-		return 0;
+		return;
 	}
 
-	if (!php_curl_setopt(ch, op, &zvalue, files, count, return_value TSRMLS_CC)) {
-		return 1;
-	} else {
-		return 0;
-	}
+	php_curl_setopt(ch, op, &zvalue, files, count, return_value TSRMLS_CC);
 }
 
 static void curl_getinfo(zval *return_value, zval *zid, zval* option TSRMLS_DC)
