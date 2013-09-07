@@ -71,7 +71,7 @@ Phalcon 具有跨平台的特性. 因此, Phalcon 可安装于 Microsoft Windows
 
 ### Windows
 
-在 Windows 平台使用，下载 DLL 库（http://phalconphp.com/download）。编辑 php.ini 文件增加如下内容：
+在 Windows 平台使用，下载 DLL 库 ( http://phalconphp.com/download )。编辑 php.ini 文件增加如下内容：
 
 ```bash
 extension=php_phalcon.dll
@@ -84,10 +84,10 @@ extension=php_phalcon.dll
 在基于 Unix 的平台，您可以很容易的使用源码编译和安装。
 
 #### Requirements
-We need some packages previously installed.
+我们需要提前安装一些库和软件
 
-* PHP 5.x development resources
-* GCC compiler
+* PHP 5.x 开发库
+* GCC 编译器
 
 Ubuntu:
 
