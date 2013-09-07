@@ -103,6 +103,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
  *    'order'      => array('name', 'id'),
  *    'limit'      => 20,
  *    'offset'     => 20,
+ *    // or 'limit' => array(20, 20),
  *);
  *$queryBuilder = new Phalcon\Mvc\Model\Query\Builder($params);
  *</code> 
@@ -116,6 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	zval *models, *columns, *group_clause;
 	zval *having_clause, *order_clause, *limit_clause;
 	zval *offset_clause, *for_update, *shared_lock;
+	zval *limit, *offset;
 
 	phalcon_fetch_params(0, 0, 2, &params, &dependency_injector);
 	
@@ -169,7 +171,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		 * Assign LIMIT clause
 		 */
 		if (phalcon_array_isset_string_fetch(&limit_clause, params, SS("limit"))) {
-			phalcon_update_property_this(this_ptr, SL("_limit"), limit_clause TSRMLS_CC);
+			if (phalcon_is_numeric(limit_clause)) { 			
+				phalcon_update_property_this(this_ptr, SL("_limit"), limit_clause TSRMLS_CC);
+			} else if (Z_TYPE_P(limit_clause) == IS_ARRAY) {
+				phalcon_array_fetch_long(&limit, limit_clause, 0, PH_NOISY);
+				phalcon_array_fetch_long(&offset, limit_clause, 1, PH_NOISY);
+				if (phalcon_is_numeric(limit) && phalcon_is_numeric(offset)) {
+					phalcon_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
+					phalcon_update_property_this(this_ptr, SL("_offset"), offset TSRMLS_CC);				
+				}
+			}
 		}
 		
 		/** 
