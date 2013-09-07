@@ -898,7 +898,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 
 	zval *watermark_image, *offset_x, *offset_y, *opacity, *op =NULL;
-	zval *im, *watermark, *ret = NULL, *channel, *op_constant = NULL, *composite, *index, *next = NULL, *type;
+	zval *im, *watermark, *realpath, *blob, *ret = NULL, *channel, *op_constant = NULL, *composite, *index, *next = NULL, *type;
 	zend_class_entry *ce0;
 	double num;
 
@@ -906,18 +906,28 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 
 	phalcon_fetch_params(1, 4, 0, &watermark_image, &offset_x, &offset_y, &opacity);
 
-	PHALCON_SEPARATE_PARAM(watermark_image);
-
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
 
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 
+	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
 	PHALCON_INIT_VAR(watermark);
 	phalcon_call_method(watermark, watermark_image, "getImage");
+	object_init_ex(watermark, ce0);
+	if (phalcon_has_constructor(watermark TSRMLS_CC)) {
+		phalcon_call_method_noret(watermark, "__construct");
+	}
 
-	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	PHALCON_INIT_VAR(realpath);	
+	phalcon_call_method(realpath, watermark_image, "getRealPath");
+
+	PHALCON_INIT_VAR(blob);	
+	phalcon_call_method(blob, watermark_image, "render");
+
+	phalcon_call_method_p2_noret(watermark, "readImageBlob", blob, realpath);
 
 	PHALCON_INIT_VAR(channel);
 	phalcon_get_class_constant(channel, ce0, SS("ALPHACHANNEL_ACTIVATE") TSRMLS_CC);
@@ -1233,23 +1243,31 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask){
 
-	zval *mask, *im, *mask_im, *matte, *composite, *tmp, *index, *next = NULL, *type;
+	zval *mask, *im, *mask_im, *realpath, *blod, *matte, *composite, *tmp, *index, *next = NULL, *type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &mask);
-	
-	PHALCON_SEPARATE_PARAM(mask);
 
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
 
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
-
 	PHALCON_INIT_VAR(mask_im);
-	phalcon_call_method(mask_im, mask, "getImage");
+	object_init_ex(mask_im, ce0);
+	if (phalcon_has_constructor(mask_im TSRMLS_CC)) {
+		phalcon_call_method_noret(mask_im, "__construct");
+	}
+
+	PHALCON_INIT_VAR(realpath);	
+	phalcon_call_method(realpath, mask, "getRealPath");
+
+	PHALCON_INIT_VAR(blob);	
+	phalcon_call_method(blob, mask, "render");
+
+	phalcon_call_method_p2_noret(mask_im, "readImageBlob", blob, realpath);
 
 	PHALCON_INIT_VAR(matte);
 	ZVAL_LONG(matte, 1);
