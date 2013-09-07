@@ -447,55 +447,72 @@ chart/exception.c"
 		fi
 	done
 
-	for i in /usr /usr/local; do
-		if test -r $i/include/png.h; then
-			PNG_CFLAGS=`pkg-config --cflags libpng`
-			PNG_LDFLAGS=`pkg-config --libs libpng`
+	if test "$enable_qrcode" != "no"; then
+		for i in /usr /usr/local; do
+			if test -r $i/include/png.h; then
+				PNG_DIR=$i
+				PNG_CFLAGS=`pkg-config --cflags libpng`
+				PNG_LDFLAGS=`pkg-config --libs libpng`
 
-			CPPFLAGS="${CPPFLAGS} ${PNG_CFLAGS}"
-			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${PNG_LDFLAGS}"
+				CPPFLAGS="${CPPFLAGS} ${PNG_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${PNG_LDFLAGS}"
 
-			AC_MSG_RESULT("libpng found")
+				AC_MSG_RESULT("libpng found")
 
-			AC_DEFINE([PHALCON_USE_PNG], [1], [Have libpng support])
-			break
+				AC_DEFINE([PHALCON_USE_PNG], [1], [Have libpng support])
+				break
+			fi
+		done
+
+		if test -z $PNG_DIR; then
+			AC_MSG_RESULT("libpng not found")
+			AC_MSG_ERROR("Please check your libpng-dev installation.")
 		fi
-	done
 
-	for i in /usr /usr/local; do
-		if test -r $i/include/qrencode.h; then
-			QR_CFLAGS=`pkg-config --cflags libqrencode`
-			QR_LDFLAGS=`pkg-config --libs libqrencode`
+		for i in /usr /usr/local; do
+			if test -r $i/include/qrencode.h; then
+				QR_DIR=$i
+				QR_CFLAGS=`pkg-config --cflags libqrencode`
+				QR_LDFLAGS=`pkg-config --libs libqrencode`
 
-			CPPFLAGS="${CPPFLAGS} ${QR_CFLAGS}"
-			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${QR_LDFLAGS}"
+				CPPFLAGS="${CPPFLAGS} ${QR_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${QR_LDFLAGS}"
 
-			AC_MSG_RESULT("libqrencode found")
+				AC_MSG_RESULT("libqrencode found")
 
-			AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
-			break
+				AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+				break
+			fi
+		done
+
+		if test -z $QR_DIR; then
+			AC_MSG_RESULT("libqrencode not found")
+			AC_MSG_ERROR("Please check your libqrencode-dev installation.")
 		fi
-	done
 
-	for i in /usr /usr/local; do
-		if test -r $i/bin/MagickWand-config; then
+		for i in /usr /usr/local; do
+			if test -r $i/bin/MagickWand-config; then
+				WAND_BINARY=$i/bin/MagickWand-config
 
-			WAND_BINARY=$i/bin/MagickWand-config
+				WAND_CFLAGS=`$WAND_BINARY --cflags`
+				WAND_LDFLAGS=`$WAND_BINARY --libs`
 
-			WAND_CFLAGS=`$WAND_BINARY --cflags`
-			WAND_LDFLAGS=`$WAND_BINARY --libs`
+				CPPFLAGS="${CPPFLAGS} ${WAND_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${WAND_LDFLAGS}"
 
-			CPPFLAGS="${CPPFLAGS} ${WAND_CFLAGS}"
-			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${WAND_LDFLAGS}"
+				AC_DEFINE([PHALCON_USE_MAGICKWAND], [1], [Have ImageMagick MagickWand support])
+				break
+			fi
+		done
 
-			AC_DEFINE([PHALCON_USE_MAGICKWAND], [1], [Have ImageMagick MagickWand support])
-			break
+		if test -z $WAND_BINARY; then
+			AC_MSG_RESULT("libmagickwand not found")
+			AC_MSG_ERROR("Please check your libmagickwand-dev installation.")
 		fi
-	done
 
-	if test -r "$WAND_BINARY"; then
 		for i in /usr /usr/local; do
 			if test -r $i/include/zbar.h; then
+				ZBAR_DIR=$i
 				ZBAR_CFLAGS=`pkg-config --cflags zbar`
 				ZBAR_LDFLAGS=`pkg-config --libs zbar`
 
@@ -508,6 +525,11 @@ chart/exception.c"
 				break
 			fi
 		done
+
+		if test -z $ZBAR_DIR; then
+			AC_MSG_RESULT("libzbar not found")
+			AC_MSG_ERROR("Please check your libzbar-dev installation.")
+		fi
 	fi
 
 	PHP_ADD_MAKEFILE_FRAGMENT
