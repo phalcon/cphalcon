@@ -62,26 +62,26 @@ phpize
 make && make test
 ```
 
-Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
+Phalcon 是一款开源的Web框架，用C语言开发的PHP扩展，旨在提高性能并减少资源消耗。
 
-Get Started
------------
+开始使用
+--------
 
-Phalcon is written in C with platform independence in mind. As a result, Phalcon is available on Microsoft Windows, GNU/Linux, Mac OS X, You can either download a binary package for the system of your choice or build it from sources.
+Phalcon 具有跨平台的特性. 因此, Phalcon 可安装于 Microsoft Windows、GNU/Linux、Mac OS X等平台，您可以选择下载相关平台的二进制文件或者通过源码编译得到。
 
 ### Windows
 
-For use phalcon on windows you only should to download a DLL library (http://phalconphp.com/download). Edit your php.ini file and then add:
+在 Windows 平台使用，下载 DLL 库 (http://phalconphp.com/download)。编辑 php.ini 文件增加如下内容：
 
 ```bash
 extension=php_phalcon.dll
 ```
 
-Finally restart your webserver.
+最后重启Web服务。
 
 ### Linux/Unix/Mac
 
-On a Unix based platform you can easily compile and install the extension from sources.
+在基于 Unix 的平台，您可以很容易的使用源码编译和安装。
 
 #### Requirements
 We need some packages previously installed.
@@ -101,10 +101,10 @@ Suse:
 yast2 -i php5-pear php5-devel libmysqlclient gcc make autoconf2.13
 ```
 
-Compilation
------------
+编译
+----
 
-Follow these instructions to generate a binary extension for your platform:
+按照下面的步骤为您的平台生成扩展文件：
 
 ```bash
 git clone git://github.com/phalcon/cphalcon.git
@@ -112,13 +112,13 @@ cd cphalcon/build
 sudo ./install
 ```
 
-Add extension to your php.ini
+添加扩展到您的 php.ini 文件：
 
 ```bash
 extension=phalcon.so
 ```
 
-Finally restart the webserver
+最后重启Web服务。
 
 External Links
 --------------
