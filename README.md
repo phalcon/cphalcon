@@ -71,7 +71,7 @@ Phalcon 具有跨平台的特性. 因此, Phalcon 可安装于 Microsoft Windows
 
 ### Windows
 
-在 Windows 平台使用，下载 DLL 库 (http://phalconphp.com/download)。编辑 php.ini 文件增加如下内容：
+在 Windows 平台使用，下载 DLL 库（http://phalconphp.com/download）。编辑 php.ini 文件增加如下内容：
 
 ```bash
 extension=php_phalcon.dll
