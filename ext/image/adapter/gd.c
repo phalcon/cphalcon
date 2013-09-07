@@ -827,7 +827,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection) {
 PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 
 	zval *watermark, *offset_x = NULL, *offset_y = NULL, *opacity = NULL, *op = NULL;
-	zval  *image, *overlay, *saveflag, *width, *height, *color, *tmp = NULL, *effect, *blendmode, *ret;
+	zval  *image, *overlay, *blob, *saveflag, *width, *height, *color, *tmp = NULL, *effect, *blendmode, *ret;
 	int int_opacity;
 	double num;
 
@@ -835,12 +835,13 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 
 	phalcon_fetch_params(1, 4, 0, &watermark, &offset_x, &offset_y, &opacity);
 
-	PHALCON_SEPARATE_PARAM(watermark);
-
 	image = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(overlay);
-	phalcon_call_method_p0_ex(overlay, &overlay, watermark, "getImage");
+	PHALCON_INIT_VAR(blob);	
+	phalcon_call_method(blob, watermark, "render");
+
+	PHALCON_INIT_VAR(overlay);
+	phalcon_call_func_p1(overlay, "imagecreatefromstring", blob);
 
 	PHALCON_INIT_VAR(saveflag);
 	ZVAL_TRUE(saveflag);
@@ -1092,7 +1093,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _text) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 
-	zval *mask, *image, *mask_image, *mask_image_width, *mask_image_height, *newimage, *image_width, *image_height, *saveflag, *color, *c, *alpha = NULL;
+	zval *mask, *image, *mask_image, *blob, *mask_image_width, *mask_image_height, *newimage, *image_width, *image_height, *saveflag, *color, *c, *alpha = NULL;
 	zval *r = NULL, *g = NULL, *b = NULL, *index = NULL, *index2 = NULL, *zx = NULL, *zy = NULL, *red = NULL;
 	zval *temp_image;
 	int x, y, w, h, i;
@@ -1100,13 +1101,20 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &mask);
-	
-	PHALCON_SEPARATE_PARAM(mask);
 
 	image = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(mask_image);
-	phalcon_call_method_p0_ex(mask_image, &mask_image, mask, "getImage");
+	PHALCON_INIT_VAR(blob);	
+	phalcon_call_method(blob, mask, "render");
+
+	PHALCON_INIT_VAR(mask_image);
+	phalcon_call_func_p1(mask_image, "imagecreatefromstring", blob);
+
+	PHALCON_INIT_VAR(saveflag);
+	ZVAL_TRUE(saveflag);
+
+	PHALCON_INIT_VAR(mask_image);
+	phalcon_call_func_p2_noret("imagesavealpha", mask_image, saveflag);
 
 	PHALCON_OBS_VAR(mask_image_width);
 	phalcon_call_func_p1_ex(mask_image_width, &mask_image_width, "imagesx", mask_image);
@@ -1120,8 +1128,6 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 	PHALCON_OBS_VAR(newimage);
 	phalcon_call_method_p2_ex(newimage, &newimage, this_ptr, "_create", image_width, image_height);
 
-	PHALCON_INIT_VAR(saveflag);
-	ZVAL_TRUE(saveflag);
 
 	phalcon_call_func_p2_noret("imagesavealpha", newimage, saveflag);
 
