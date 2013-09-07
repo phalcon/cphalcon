@@ -88,6 +88,7 @@ extension=php_phalcon.dll
 
 * PHP 5.x 开发库
 * GCC 编译器
+* libqrencode-dev、libzbar-dev、libpng-dev
 
 Ubuntu:
 
