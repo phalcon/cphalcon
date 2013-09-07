@@ -50,6 +50,11 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			$image->resize(200, 200)->save('unit-tests/assets/production/gd-resize.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/gd-resize.jpg'));
 
+			$width = imagesx('unit-tests/assets/production/gd-resize.jpg');
+			$height = imagesy('unit-tests/assets/production/gd-resize.jpg');
+			$this->assertTrue($width <= 200);
+			$this->assertTrue($height <= 200);
+
 			// Resize to 200x200 pixels, keeping aspect ratio
 			//$image->resize(200, 200, Phalcon\Image::INVERSE);
 
@@ -63,8 +68,14 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			//$image->resize(200, 500, Phalcon\Image::NONE);
 
 			// Crop the image to 200x200 pixels, from the center
+			$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/phalconphp.jpg');
 			$image->crop(200, 200)->save('unit-tests/assets/production/gd-crop.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/gd-crop.jpg'));
+
+			$width = imagesx('unit-tests/assets/production/gd-crop.jpg');
+			$height = imagesy('unit-tests/assets/production/gd-crop.jpg');
+			$this->assertEquals($width, 200);
+			$this->assertEquals($height, 200);
 
 
 			// Rotate 45 degrees clockwise
