@@ -9,7 +9,7 @@ Phalcon Framework
 * \Phalcon\Chart\QRcode -- unit-tests/ChartTest.php
 
 ```php
-// Example 1:
+// Example 1: HTTP Request
 $client = new \Phalcon\Http\Client($url, 'POST');
 
 // Set post/put/other data
@@ -27,17 +27,17 @@ if ($ret) {
 	echo $client->getResponseStatus()
 }
 
-// Example 2:
+// Example 2: QR Code 
 $str = 'Phalcon is web framework';
 
 $qr = new \Phalcon\Chart\QRcode();
 $ret = $qr->generate($str);
 
-if ($ret && $qr->save('qr.png')) {
-	$ret = $qr->scan('qr.png');
+if ($ret) {
+	$qr->save('qr.png')
 }
 
-// Example 3:
+// Example 3: QR Code add logo
 $qr = new \Phalcon\Chart\QRcode();
 
 if ($qr->generate('欢迎使用 PhalconPHP', 1, \Phalcon\Chart\QRcode::LEVEL_H)) {
@@ -51,8 +51,18 @@ if ($qr->generate('欢迎使用 PhalconPHP', 1, \Phalcon\Chart\QRcode::LEVEL_H))
 	$image->save('qr2.png');
 }
 
+// QR Code reader
 $ret = $qr->scan('qr.png');
-var_dump($ret);
+
+// Example 4: Set QR Code Color
+$qr = new \Phalcon\Chart\QRcode();
+
+$ret = $qr->generate($str);
+if ($ret) {
+	$qr->save('qr.png', NULL, NULL, 'FFCC00', '000000');
+	header("Content-type: image/PNG");
+	echo $qr->render(NULL, NULL, 'FFCC00', '000000');
+} 
 ```
 
 关闭QRcode支持
