@@ -55,6 +55,13 @@ $ret = $qr->scan('qr.png');
 var_dump($ret);
 ```
 
+关闭QRcode支持
+```shell
+phpize
+./configure enable_qrcode=no
+make && make test
+```
+
 Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.
 
 Get Started
