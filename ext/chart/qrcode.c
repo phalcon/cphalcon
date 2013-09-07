@@ -599,7 +599,6 @@ static zbar_image_t *_php_zbarcode_get_page(MagickWand *wand)
 static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
 {
 	zval *fromtext, *totext, *from, *to, *symbol_array = NULL, *loc_array = NULL, *coords = NULL;
-	int n;
 	const zbar_symbol_t *symbol;
 
 	PHALCON_MM_GROW();
@@ -607,7 +606,7 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 	array_init(return_array);
 		
 	/* scan the image for barcodes */
-	n = zbar_scan_image(scanner, image);
+	zbar_scan_image(scanner, image);
 
 	/* extract results */
 	symbol = zbar_image_first_symbol(image);
