@@ -19,4 +19,12 @@
 
 namespace Phalcon\Logger;
 
-class Formatter { }
+/**
+ * Phalcon\Logger\Formatter
+ *
+ * This is a base class for logger formatters
+ */
+abstract class Formatter
+{
+
+}

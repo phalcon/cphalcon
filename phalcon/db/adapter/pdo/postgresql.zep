@@ -20,4 +20,28 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-class PostgreSQL { }
+/**
+ * Phalcon\Db\Adapter\Pdo\Postgresql
+ *
+ * Specific functions for the Postgresql database system
+ * <code>
+ *
+ * $config = array(
+ *  "host" => "192.168.0.11",
+ *  "dbname" => "blog",
+ *  "username" => "postgres",
+ *  "password" => ""
+ * );
+ *
+ * $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($config);
+ *
+ * </code>
+ */
+class Postgresql extends Phalcon\Db\Adapter\Pdo implements Phalcon\Db\AdapterInterface
+{
+
+	protected _type = "pgsql";
+
+	protected _dialectType = "postgresql";
+
+}

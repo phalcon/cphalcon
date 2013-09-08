@@ -19,4 +19,39 @@
 
 namespace Phalcon\Logger;
 
-class Adapter { }
+/**
+ * Phalcon\Logger\Adapter
+ *
+ * Base class for Phalcon\Logger adapters
+ */
+abstract class Phalcon_Logger_Adapter {
+
+	/**
+	 * Tells if there is an active transaction or not
+	 *
+	 * @var boolean
+	 */
+	protected _transaction = false;
+
+	/**
+	 * Array with messages queued in the transacction
+	 *
+	 * @var array
+	 */
+	protected _queue;
+
+	/**
+	 * Formatter
+	 *
+	 * @var object
+	 */
+	protected _formatter;
+
+	/**
+	 * Log level
+	 *
+	 * @var int
+	 */
+	protected _logLevel = 9;
+
+}

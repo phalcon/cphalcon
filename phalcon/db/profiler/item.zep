@@ -19,4 +19,34 @@
 
 namespace Phalcon\Db\Profiler;
 
-class Item { }
+/**
+ * Phalcon\Db\Profiler\Item
+ *
+ * This class identifies each profile in a Phalcon\Db\Profiler
+ *
+ */
+class Item
+{
+
+	/**
+	 * SQL statement related to the profile
+	 *
+	 * @var string
+	 */
+	protected _sqlStatement;
+
+	/**
+	 * Timestamp when the profile started
+	 *
+	 * @var double
+	 */
+	protected _initialTime;
+
+	/**
+	 * Timestamp when the profile ended
+	 *
+	 * @var double
+	 */
+	protected _finalTime;
+
+}

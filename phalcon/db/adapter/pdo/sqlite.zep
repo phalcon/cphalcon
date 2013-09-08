@@ -20,4 +20,25 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-class Sqlite { }
+/**
+ * Phalcon\Db\Adapter\Pdo\Sqlite
+ *
+ * Specific functions for the Sqlite database system
+ * <code>
+ *
+ * $config = array(
+ *  "dbname" => "/tmp/test.sqlite"
+ * );
+ *
+ * $connection = new Phalcon\Db\Adapter\Pdo\Sqlite($config);
+ *
+ * </code>
+ */
+class Sqlite extends Phalcon\Db\Adapter\Pdo implements Phalcon\Db\AdapterInterface
+{
+
+	protected _type = "sqlite";
+
+	protected _dialectType = "sqlite";
+
+}

@@ -19,4 +19,14 @@
 
 namespace Phalcon\Db\Dialect;
 
-class Oracle { }
+/**
+ * Phalcon\Db\Dialect\Oracle
+ *
+ * Generates database specific SQL for the Oracle RBDM
+ */
+class Oracle extends Phalcon\Db\Dialect implements Phalcon\Db\DialectInterface
+{
+
+	protected _escapeChar = "";
+
+}

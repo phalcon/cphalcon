@@ -19,4 +19,44 @@
 
 namespace Phalcon\Db\Result;
 
-class Pdo { }
+/**
+ * Phalcon\Db\Result\Pdo
+ *
+ * Encapsulates the resultset internals
+ *
+ * <code>
+ *	result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	result->setFetchMode(Phalcon\Db::FETCH_NUM);
+ *	while (robot = result->fetchArray()) {
+ *		print_r(robot);
+ *	}
+ * </code>
+ */
+class Pdo
+{
+
+	protected _connection;
+
+	protected _result;
+
+	/**
+	 * Active fetch mode
+	 */
+	protected _fetchMode = 4;
+
+	/**
+	 * Internal resultset
+	 *
+	 * @var PDOStatement
+	 */
+	protected _pdoStatement;
+
+	protected _sqlStatement;
+
+	protected _bindParams;
+
+	protected _bindTypes;
+
+	protected _rowCount = false;
+
+}

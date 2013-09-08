@@ -19,7 +19,13 @@
 
 namespace Phalcon\Mvc\Collection;
 
-class Document
+/**
+ * Phalcon\Mvc\Collection\Document
+ *
+ * This component allows Phalcon\Mvc\Collection to return rows without an associated entity.
+ * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
+ */
+class Document implements ArrayAccess
 {
 
 }

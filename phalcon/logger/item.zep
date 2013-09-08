@@ -19,4 +19,34 @@
 
 namespace Phalcon\Logger;
 
-class Item { }
+/**
+ * Phalcon\Logger\Item
+ *
+ * Represents each item in a logging transaction
+ *
+ */
+class Item
+{
+
+	/**
+	 * Log type
+	 *
+	 * @var integer
+	 */
+	protected _type;
+
+	/**
+	 * Log message
+	 *
+	 * @var string
+	 */
+	protected _message;
+
+	/**
+	 * Log timestamp
+	 *
+	 * @var integer
+	 */
+	protected _time;
+
+}

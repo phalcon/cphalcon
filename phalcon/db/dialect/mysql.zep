@@ -19,4 +19,14 @@
 
 namespace Phalcon\Db\Dialect;
 
-class MySQL { }
+/**
+ * Phalcon\Db\Dialect\Mysql
+ *
+ * Generates database specific SQL for the MySQL RBDM
+ */
+class MySQL extends Phalcon\Db\Dialect implements Phalcon\Db\DialectInterface
+{
+
+	protected _escapeChar = "`";
+
+}

@@ -19,7 +19,29 @@
 
 namespace Phalcon\Forms;
 
-class Element
-{
+/**
+ * Phalcon\Forms\Element
+ *
+ * This is a base class for form elements
+ */
+abstract class Element {
+
+	protected _form;
+
+	protected _name;
+
+	protected _value;
+
+	protected _label;
+
+	protected _attributes;
+
+	protected _validators;
+
+	protected _filters;
+
+	protected _options;
+
+	protected _messages;
 
 }

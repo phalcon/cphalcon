@@ -52,7 +52,8 @@ namespace Phalcon\Db;
  *</code>
  *
  */
-class Profiler {
+class Profiler
+{
 
 	/**
 	 * All the Phalcon\Db\Profiler\Item in the active profile

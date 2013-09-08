@@ -20,4 +20,27 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-class Oracle { }
+/**
+ * Phalcon\Db\Adapter\Pdo\Oracle
+ *
+ * Specific functions for the Oracle database system
+ * <code>
+ *
+ * $config = array(
+ *  "dbname" => "//localhost/dbname",
+ *  "username" => "oracle",
+ *  "password" => "oracle"
+ * );
+ *
+ * $connection = new Phalcon\Db\Adapter\Pdo\Oracle($config);
+ *
+ * </code>
+ */
+class Oracle extends Phalcon\Db\Adapter\Pdo implements Phalcon\Db\AdapterInterface
+{
+
+	protected _type = "oci";
+
+	protected _dialectType = "oracle";
+
+}

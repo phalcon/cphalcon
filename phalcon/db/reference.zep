@@ -19,4 +19,53 @@
 
 namespace Phalcon\Db;
 
-class Reference { }
+/**
+ * Phalcon\Db\Reference
+ *
+ * Allows to define reference constraints on tables
+ *
+ *<code>
+ *	reference = new Phalcon\Db\Reference("field_fk", array(
+ *		'referencedSchema' => "invoicing",
+ *		'referencedTable' => "products",
+ *		'columns' => array("product_type", "product_code"),
+ *		'referencedColumns' => array("type", "code")
+ *	));
+ *</code>
+ */
+class Reference implements Phalcon\Db\ReferenceInterface
+{
+
+	protected _schemaName;
+
+	protected _referencedSchema;
+
+	/**
+	 * Constraint name
+	 *
+	 * @var string
+	 */
+	protected _referenceName;
+
+	/**
+	 * Referenced Table
+	 *
+	 * @var string
+	 */
+	protected _referencedTable;
+
+	/**
+	 * Local reference columns
+	 *
+	 * @var array
+	 */
+	protected _columns;
+
+	/**
+	 * Referenced Columns
+	 *
+	 * @var array
+	 */
+	protected _referencedColumns;
+
+}
