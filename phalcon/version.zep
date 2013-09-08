@@ -101,11 +101,11 @@ class Version
 
 		let version       = self::_getVersion();
 
-        let major         = version[0],
-	        medium        = version[1],
-	        minor         = version[2],
-	        special       = version[3],
-	        specialNumber = version[4];
+		let major         = version[0],
+			medium        = version[1],
+			minor         = version[2],
+			special       = version[3],
+			specialNumber = version[4];
 
 		return major . sprintf("%02s", medium) . sprintf("%02s", minor) . special . specialNumber;
 	}

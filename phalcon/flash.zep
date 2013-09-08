@@ -113,9 +113,9 @@ abstract class Flash
 	/**
 	 * Shows a HTML notice/information message
 	 *
-     *<code>
-     * $flash->notice('This is an information');
-     *</code>
+	 *<code>
+	 * $flash->notice('This is an information');
+	 *</code>
 	 *
 	 * @param string message
 	 * @return string
