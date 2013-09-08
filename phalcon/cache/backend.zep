@@ -19,4 +19,26 @@
 
 namespace Phalcon\Cache;
 
-class Backend { }
+/**
+ * Phalcon\Cache\Backend
+ *
+ * This class implements common functionality for backend adapters. A backend cache adapter may extend this class
+ */
+abstract class Backend
+{
+
+	protected _frontend;
+
+	protected _options;
+
+	protected _prefix = "";
+
+	protected _lastKey = "";
+
+	protected _lastLifetime = null;
+
+	protected _fresh = false;
+
+	protected _started = false;
+
+}

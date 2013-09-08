@@ -19,4 +19,32 @@
 
 namespace Phalcon\Assets;
 
-class Collection { }
+/**
+ * Phalcon\Assets\Collection
+ *
+ * Represents a collection of resources
+ */
+class Collection implements Countable, Iterator
+{
+
+    protected _prefix;
+
+    protected _local = true;
+
+	protected _resources;
+
+	protected _position;
+
+    protected _filters;
+
+    protected _attributes;
+
+    protected _join = true;
+
+    protected _targetUri;
+
+    protected _targetPath;
+
+    protected _sourcePath;
+
+}

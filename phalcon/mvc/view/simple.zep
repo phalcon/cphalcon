@@ -19,7 +19,38 @@
 
 namespace Phalcon\Mvc\View;
 
-class Simple
+/**
+ * Phalcon\Mvc\View\Simple
+ *
+ * This component allows to render views without hicherquical levels
+ *
+ *<code>
+ * $view = new Phalcon\Mvc\View\Simple();
+ * echo $view->render('templates/my-view', array('content' => $html));
+ *</code>
+ *
+ */
+class Simple extends Phalcon\DI\Injectable
 {
+
+	protected _options;
+
+	protected _viewsDir;
+
+	protected _partialsDir;
+
+	protected _viewParams;
+
+	protected _engines = false;
+
+	protected _registeredEngines;
+
+	protected _activeRenderPath;
+
+	protected _content;
+
+	protected _cache = false;
+
+	protected _cacheOptions;
 
 }

@@ -19,4 +19,28 @@
 
 namespace Phalcon\Cache\Backend;
 
-class Memory { }
+/**
+ * Phalcon\Cache\Backend\Memory
+ *
+ * Stores content in memory. Data is lost when the request is finished
+ *
+ *<code>
+ *	//Cache data
+ *	$frontCache = new Phalcon\Cache\Frontend\Data();
+ *
+ *  $cache = new Phalcon\Cache\Backend\Memory($frontCache);
+ *
+ *	//Cache arbitrary data
+ *	$cache->save('my-data', array(1, 2, 3, 4, 5));
+ *
+ *	//Get data
+ *	$data = $cache->get('my-data');
+ *
+ *</code>
+ */
+class Memory extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterface
+{
+
+	protected _data;
+
+}

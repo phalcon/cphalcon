@@ -306,7 +306,7 @@ class Validation extends Phalcon\DI\Injectable
 
 		if typeof data != "array" {
 			if typeof data != "object" {
-				throw new Phalcon_Validation_Exception("There is no data to validate");
+				throw new Phalcon\Validation\Exception("There is no data to validate");
 			}
 		}
 

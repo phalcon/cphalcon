@@ -19,4 +19,36 @@
 
 namespace Phalcon\Cache\Backend;
 
-class Mongo { }
+/**
+ * Phalcon\Cache\Backend\Mongo
+ *
+ * Allows to cache output fragments, PHP data or raw data to a MongoDb backend
+ *
+ *<code>
+ *
+ * // Cache data for 2 days
+ * $frontCache = new Phalcon\Cache\Frontend\Base64(array(
+ *		"lifetime" => 172800
+ * ));
+ *
+ * //Create a MongoDB cache
+ * $cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
+ *		'server' => "mongodb://localhost",
+ *      'db' => 'caches',
+ *		'collection' => 'images'
+ * ));
+ *
+ * //Cache arbitrary data
+ * $cache->save('my-data', file_get_contents('some-image.jpg'));
+ *
+ * //Get data
+ * $data = $cache->get('my-data');
+ *
+ *</code>
+ */
+class Mongo extends Phalcon\Cache\Backend implements Phalcon\Cache\BackendInterface
+{
+
+	protected _collection = null;
+
+}

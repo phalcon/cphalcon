@@ -25,7 +25,7 @@ namespace Phalcon\Db;
  * Allows to define reference constraints on tables
  *
  *<code>
- *	reference = new Phalcon\Db\Reference("field_fk", array(
+ *	$reference = new Phalcon\Db\Reference("field_fk", array(
  *		'referencedSchema' => "invoicing",
  *		'referencedTable' => "products",
  *		'columns' => array("product_type", "product_code"),

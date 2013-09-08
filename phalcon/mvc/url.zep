@@ -19,7 +19,32 @@
 
 namespace Phalcon\Mvc;
 
-class Url
+/**
+ * Phalcon\Mvc\Url
+ *
+ * This components aids in the generation of: URIs, URLs and Paths
+ *
+ *<code>
+ *
+ * //Generate a URL appending the URI to the base URI
+ * echo $url->get('products/edit/1');
+ *
+ * //Generate a URL for a predefined route
+ * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
+ *
+ *</code>
+ */
+class Url implements Phalcon\Mvc\UrlInterface, Phalcon\DI\InjectionAwareInterface
 {
+
+	protected _dependencyInjector;
+
+	protected _baseUri = null;
+
+	protected _staticBaseUri = null;
+
+	protected _basePath = null;
+
+	protected _router;
 
 }

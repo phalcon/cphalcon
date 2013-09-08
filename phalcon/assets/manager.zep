@@ -19,4 +19,18 @@
 
 namespace Phalcon\Assets;
 
-class Manager { }
+/**
+ * Phalcon\Assets\Manager
+ *
+ * Manages collections of CSS/Javascript assets
+ */
+class Manager
+{
+
+	protected _options;
+
+	protected _collections;
+
+	protected _implicitOutput = true;
+
+}

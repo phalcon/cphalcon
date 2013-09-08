@@ -33,13 +33,12 @@ class Cli extends Phalcon\DI\FactoryDefault
 	/**
 	 * Phalcon\DI\FactoryDefault\CLI constructor
 	 */
-	public function __construct(){
+	public function __construct()
+	{
 
-		var shared;
+		var shared = true;
 
 		parent::__construct();
-
-		let shared = true;
 
 		let this->_services = [
 			"router": new Phalcon\DI\Service("router", "Phalcon\\CLI\\Router"),

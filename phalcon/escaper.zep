@@ -46,8 +46,8 @@ class Escaper implements Phalcon\EscaperInterface
 	 * Sets the encoding to be used by the escaper
 	 *
 	 *<code>
-     * $escaper->setEncoding('utf-8');
-     *</code>
+	 * $escaper->setEncoding('utf-8');
+	 *</code>
 	 *
 	 * @param string encoding
 	 */
@@ -66,24 +66,24 @@ class Escaper implements Phalcon\EscaperInterface
 	 */
 	public function getEncoding()
 	{
-        return this->_encoding;
-    }
+		return this->_encoding;
+	}
 
-    /**
-     * Sets the HTML quoting type for htmlspecialchars
-     *
-     *<code>
-     * $escaper->setHtmlQuoteType(ENT_XHTML);
-     *</code>
-     *
-     * @param int quoteType
-     */
-    public function setHtmlQuoteType(quoteType)
-    {
-    	if typeof quoteType != "integer" {
+	/**
+	 * Sets the HTML quoting type for htmlspecialchars
+	 *
+	 *<code>
+	 * $escaper->setHtmlQuoteType(ENT_XHTML);
+	 *</code>
+	 *
+	 * @param int quoteType
+	 */
+	public function setHtmlQuoteType(quoteType)
+	{
+		if typeof quoteType != "integer" {
 			throw new Phalcon\Escaper\Exception("The quoting type is not valid");
 		}
-    	let this->_htmlQuoteType = quoteType;
-    }
+		let this->_htmlQuoteType = quoteType;
+	}
 
 }
