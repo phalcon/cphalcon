@@ -171,15 +171,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		 * Assign LIMIT clause
 		 */
 		if (phalcon_array_isset_string_fetch(&limit_clause, params, SS("limit"))) {
-			if (phalcon_is_numeric(limit_clause)) { 			
+			if (Z_TYPE_P(limit_clause) == IS_ARRAY
+				&& phalcon_array_isset_long_fetch(&limit, limit_clause, 0)
+				&& phalcon_array_isset_long_fetch(&offset, limit_clause, 1)
+				&& phalcon_is_numeric(limit)
+				&& phalcon_is_numeric(offset)
+			) {
+				phalcon_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_offset"), offset TSRMLS_CC);
+			} else {
 				phalcon_update_property_this(this_ptr, SL("_limit"), limit_clause TSRMLS_CC);
-			} else if (Z_TYPE_P(limit_clause) == IS_ARRAY) {
-				phalcon_array_fetch_long(&limit, limit_clause, 0, PH_NOISY);
-				phalcon_array_fetch_long(&offset, limit_clause, 1, PH_NOISY);
-				if (phalcon_is_numeric(limit) && phalcon_is_numeric(offset)) {
-					phalcon_update_property_this(this_ptr, SL("_limit"), limit TSRMLS_CC);
-					phalcon_update_property_this(this_ptr, SL("_offset"), offset TSRMLS_CC);				
-				}
 			}
 		}
 		

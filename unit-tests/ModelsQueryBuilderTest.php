@@ -347,7 +347,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * Test checks passing query params and dependency injectior into
+	 * Test checks passing query params and dependency injector into
 	 * constructor
 	 */
 	public function testConstructor()
@@ -383,8 +383,10 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * Test checks passing query params and dependency injectior into
-	 * constructor
+	 * Test checks passing 'limit'/'offset' query param into constructor.
+	 * limit key can take:
+	 * - signle numeric value
+	 * - array of 2 values (limit, offset)
 	 */
 	public function testConstructorLimit()
 	{
