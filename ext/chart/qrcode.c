@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -295,23 +294,22 @@ PHP_METHOD(Phalcon_Chart_QRcode, render){
 #ifdef PHALCON_USE_QRENCODE
 	zval *size = NULL, *margin = NULL, *foreground=NULL, *background=NULL;
 	zval *zid;
-    FILE *fp = NULL;
-    png_structp png_ptr;
-    png_infop info_ptr;
+	FILE *fp = NULL;
+	png_infop info_ptr;
 	png_colorp palette;
 	png_byte alpha_values[2];
 	php_qrcode *qr = NULL;
 	static unsigned int fg_color[4] = {0, 0, 0, 255};
 	static unsigned int bg_color[4] = {255, 255, 255, 255};
-    long s = 3, m = 4;
-    unsigned char *row, *p, *q;
-    int x, y, xx, yy, bit;
-    int realwidth;
-    char *path;
-    int b;
-    char buf[4096];
+	long s = 3, m = 4;
+	unsigned char *row, *p, *q;
+	int x, y, xx, yy, bit;
+	int realwidth;
+	char *path;
+	int b;
+	char buf[4096];
 
-    PHALCON_MM_GROW();
+	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 4, &size, &margin, &foreground, &background);
 
@@ -355,7 +353,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, render){
 	PHALCON_OBS_VAR(zid);
 	phalcon_read_property_this(&zid, this_ptr, SL("_qr"), PH_NOISY_CC);
 
-    if (Z_TYPE_P(zid) == IS_NULL) {
+	if (Z_TYPE_P(zid) == IS_NULL) {
 		RETURN_MM_FALSE;
 	}
 
@@ -391,7 +389,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, render){
 		return;
 	}
 
-	palette = (png_colorp) malloc(sizeof(png_color) * 2);
+	palette = (png_colorp) emalloc(sizeof(png_color) * 2);
 	palette[0].red   = fg_color[0];
 	palette[0].green = fg_color[1];
 	palette[0].blue  = fg_color[2];
@@ -458,6 +456,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, render){
 	png_destroy_write_struct(&png_ptr, &info_ptr);
 
 	efree (row);
+	efree(palette);
 	fseek (fp, 0, SEEK_SET);
 
 	phalcon_ob_start(TSRMLS_C);
@@ -492,22 +491,21 @@ PHP_METHOD(Phalcon_Chart_QRcode, save){
 #ifdef PHALCON_USE_QRENCODE
 	zval *filename, *size = NULL, *margin = NULL, *foreground=NULL, *background=NULL;
 	zval *zid, *exception_message;
-    png_structp png_ptr;
-    png_infop info_ptr;
+	png_structp png_ptr;
+	png_infop info_ptr;
 	png_colorp palette;
 	png_byte alpha_values[2];
 	php_qrcode *qr = NULL;
-    FILE *fp = NULL;
+	FILE *fp = NULL;
 	static unsigned int fg_color[4] = {0, 0, 0, 255};
 	static unsigned int bg_color[4] = {255, 255, 255, 255};
-    unsigned char *row, *p, *q;
-    int x, y, xx, yy, bit;
-    int realwidth;
+	unsigned char *row, *p, *q;
+	int x, y, xx, yy, bit;
+	int realwidth;
 	char *fn = NULL;
-    long s = 3, m = 4;
+	long s = 3, m = 4;
 
-
-    PHALCON_MM_GROW();
+	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 4, &filename, &size, &margin, &foreground, &background);
 
@@ -558,7 +556,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, save){
 	PHALCON_OBS_VAR(zid);
 	phalcon_read_property_this(&zid, this_ptr, SL("_qr"), PH_NOISY_CC);
 
-    if (Z_TYPE_P(zid) == IS_NULL) {
+	if (Z_TYPE_P(zid) == IS_NULL) {
 		RETURN_MM_FALSE;
 	}
 
@@ -596,7 +594,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, save){
 		return;
 	}
 
-	palette = (png_colorp) malloc(sizeof(png_color) * 2);
+	palette = (png_colorp) emalloc(sizeof(png_color) * 2);
 	palette[0].red   = fg_color[0];
 	palette[0].green = fg_color[1];
 	palette[0].blue  = fg_color[2];
@@ -661,6 +659,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, save){
 	png_destroy_write_struct(&png_ptr, &info_ptr);
 
 	efree (row);
+	efree (palette);
 
 	fflush (fp);
 	fclose (fp);
