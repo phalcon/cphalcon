@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Image_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Image, Exception, phalcon_image_exception, "phalcon\\exception", phalcon_image_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Image, Exception, image_exception, "phalcon\\exception", NULL, 0);
 
 
 	return SUCCESS;

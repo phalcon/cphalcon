@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Exception, phalcon_mvc_model_transaction_exception, "phalcon\\mvc\\model\\exception", phalcon_mvc_model_transaction_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Exception, mvc_model_transaction_exception, "phalcon\\mvc\\model\\exception", NULL, 0);
 
 
 	return SUCCESS;

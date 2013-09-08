@@ -45,7 +45,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Validation, phalcon_validation, "phalcon\\di\\injectable", phalcon_validation_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Validation, validation, "phalcon\\di\\injectable", phalcon_validation_method_entry, 0);
 
 	zend_declare_property_null(phalcon_validation_ce, SL("_data"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_entity"), ZEND_ACC_PUBLIC TSRMLS_CC);

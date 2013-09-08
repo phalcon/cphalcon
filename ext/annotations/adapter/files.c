@@ -51,7 +51,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Files) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, Files, phalcon_annotations_adapter_files, phalcon_annotations_adapter_files_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, Files, annotations_adapter_files, phalcon_annotations_adapter_files_method_entry, 0);
 
 	zend_declare_property_string(phalcon_annotations_adapter_files_ce, SL("_annotationsDir"), "./", ZEND_ACC_PUBLIC TSRMLS_CC);
 
@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 
-	zval *key, *path, *_0, *_1 = NULL, *_2, *_3;
+	zval *key, *path, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key);
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 	concat_function(_3, _0, _2);
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VS(path, _3, ".php");
-	ZEPHIR_INIT_NVAR(_1);
+	ZEPHIR_INIT_BNVAR(_1);
 	zephir_call_func_p1(_1, "file_exists", path);
 	if (zend_is_true(_1)) {
 		RETURN_MM_NULL();
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
-	zval *key, *data, *path, *_0, *_1 = NULL, *_2, *_3, _4, *_5, *_6, *_7;
+	zval *key, *data, *path, *_0, *_1, *_2, *_3, _4, *_5, *_6, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key, &data);
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_CONCAT_VS(path, _3, ".php");
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_INIT_NVAR(_1);
+	ZEPHIR_INIT_BNVAR(_1);
 	zephir_call_func_p2(_1, "var_export", data, &_4);
 	ZEPHIR_INIT_VAR(_5);
 	ZEPHIR_CONCAT_SV(_5, "<?php return ", _1);

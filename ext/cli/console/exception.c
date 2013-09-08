@@ -40,7 +40,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_CLI_Console_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI\\Console, Exception, phalcon_cli_console_exception, "phalcon\\exception", phalcon_cli_console_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI\\Console, Exception, cli_console_exception, "phalcon\\exception", NULL, 0);
 
 
 	return SUCCESS;

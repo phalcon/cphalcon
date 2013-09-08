@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_MySQL) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, MySQL, phalcon_db_adapter_pdo_mysql, phalcon_db_adapter_pdo_mysql_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, MySQL, db_adapter_pdo_mysql, NULL, 0);
 
 
 	return SUCCESS;

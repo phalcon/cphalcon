@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_NativeArray) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, NativeArray, phalcon_paginator_adapter_nativearray, phalcon_paginator_adapter_nativearray_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, NativeArray, paginator_adapter_nativearray, NULL, 0);
 
 
 	return SUCCESS;

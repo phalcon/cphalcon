@@ -50,7 +50,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Security) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Security, phalcon_security, phalcon_security_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Security, security, NULL, 0);
 
 	zend_declare_property_null(phalcon_security_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_long(phalcon_security_ce, SL("_workFactor"), 8, ZEND_ACC_PUBLIC TSRMLS_CC);

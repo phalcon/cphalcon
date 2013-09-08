@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Crypt_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Crypt, Exception, phalcon_crypt_exception, "phalcon\\exception", phalcon_crypt_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Crypt, Exception, crypt_exception, "phalcon\\exception", NULL, 0);
 
 
 	return SUCCESS;

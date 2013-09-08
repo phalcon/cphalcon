@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Debug) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Debug, phalcon_debug, phalcon_debug_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Debug, debug, NULL, 0);
 
 
 	return SUCCESS;

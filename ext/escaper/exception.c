@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Escaper_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Escaper, Exception, phalcon_escaper_exception, "phalcon\\exception", phalcon_escaper_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Escaper, Exception, escaper_exception, "phalcon\\exception", NULL, 0);
 
 
 	return SUCCESS;

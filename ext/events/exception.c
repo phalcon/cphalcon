@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Events, Exception, phalcon_events_exception, "phalcon\\exception", phalcon_events_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Events, Exception, events_exception, "phalcon\\exception", NULL, 0);
 
 
 	return SUCCESS;

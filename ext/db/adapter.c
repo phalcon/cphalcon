@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Adapter, phalcon_db_adapter, phalcon_db_adapter_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Adapter, db_adapter, NULL, 0);
 
 
 	return SUCCESS;

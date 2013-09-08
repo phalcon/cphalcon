@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Base64) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Base64, phalcon_cache_frontend_base64, phalcon_cache_frontend_base64_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Base64, cache_frontend_base64, NULL, 0);
 
 
 	return SUCCESS;

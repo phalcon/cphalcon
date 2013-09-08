@@ -33,7 +33,7 @@
 */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Files) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData, Files, phalcon_mvc_model_metadata_files, phalcon_mvc_model_metadata_files_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData, Files, mvc_model_metadata_files, NULL, 0);
 
 
 	return SUCCESS;

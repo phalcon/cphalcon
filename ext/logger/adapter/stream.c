@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Stream) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger\\Adapter, Stream, phalcon_logger_adapter_stream, phalcon_logger_adapter_stream_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger\\Adapter, Stream, logger_adapter_stream, NULL, 0);
 
 
 	return SUCCESS;

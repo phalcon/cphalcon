@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations, Exception, phalcon_annotations_exception, "exception", phalcon_annotations_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations, Exception, annotations_exception, "exception", NULL, 0);
 
 
 	return SUCCESS;

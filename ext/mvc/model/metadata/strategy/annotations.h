@@ -3,6 +3,3 @@ extern zend_class_entry *phalcon_mvc_model_metadata_strategy_annotations_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Annotations);
 
-ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_strategy_annotations_method_entry) {
-	PHP_FE_END
-};

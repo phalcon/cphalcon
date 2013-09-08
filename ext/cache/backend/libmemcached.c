@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Libmemcached) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, Libmemcached, phalcon_cache_backend_libmemcached, phalcon_cache_backend_libmemcached_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, Libmemcached, cache_backend_libmemcached, NULL, 0);
 
 
 	return SUCCESS;

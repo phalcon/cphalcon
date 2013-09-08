@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Response, Exception, phalcon_http_response_exception, "phalcon\\exception", phalcon_http_response_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Response, Exception, http_response_exception, "phalcon\\exception", NULL, 0);
 
 
 	return SUCCESS;

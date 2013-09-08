@@ -34,7 +34,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Validator, StringLength, phalcon_mvc_model_validator_stringlength, phalcon_mvc_model_validator_stringlength_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Validator, StringLength, mvc_model_validator_stringlength, NULL, 0);
 
 
 	return SUCCESS;

@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_XCache) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData, XCache, phalcon_mvc_model_metadata_xcache, phalcon_mvc_model_metadata_xcache_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData, XCache, mvc_model_metadata_xcache, NULL, 0);
 
 
 	return SUCCESS;

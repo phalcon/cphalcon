@@ -15,7 +15,6 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/string_type.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
@@ -52,7 +51,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DI_Service) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, Service, phalcon_di_service, phalcon_di_service_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, Service, di_service, phalcon_di_service_method_entry, 0);
 
 	zend_declare_property_null(phalcon_di_service_ce, SL("_name"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_di_service_ce, SL("_definition"), ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -73,13 +72,13 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_Service) {
 PHP_METHOD(Phalcon_DI_Service, __construct) {
 
 	zend_bool shared;
-	zval *name_param = NULL, *definition, *shared_param = NULL, *_0, *_1;
-	zephir_str *name = NULL;
+	zval *name_param = NULL, *definition, *shared_param = NULL, *_0;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared_param);
 
-		zephir_get_strval(name_param, &name);
+		zephir_get_strval(name, name_param);
 	if (!shared_param) {
 		shared = 0;
 	} else {
@@ -87,13 +86,11 @@ PHP_METHOD(Phalcon_DI_Service, __construct) {
 	}
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_STRING(_0, name->str, 1);
-	zephir_update_property_zval(this_ptr, SL("_name"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_1);
-	ZVAL_BOOL(_1, shared);
-	zephir_update_property_zval(this_ptr, SL("_shared"), _1 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_BOOL(_0, shared);
+	zephir_update_property_this(this_ptr, SL("_shared"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -227,14 +224,14 @@ PHP_METHOD(Phalcon_DI_Service, resolve) {
 		zephir_call_func_p1(_0, "class_exists", definition);
 		if (zend_is_true(_0)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) {
-				ZEPHIR_INIT_NVAR(instance);
+				ZEPHIR_INIT_BNVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
 					zephir_call_func_p2(instance, "create_instance_params", definition, parameters);
 				} else {
 					zephir_call_func_p1(instance, "create_instance", definition);
 				}
 			} else {
-				ZEPHIR_INIT_NVAR(instance);
+				ZEPHIR_INIT_BNVAR(instance);
 				zephir_call_func_p1(instance, "create_instance", definition);
 			}
 		} else {
@@ -243,7 +240,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve) {
 	} else {
 		if (Z_TYPE_P(definition) == IS_OBJECT) {
 			if (0) {
-				ZEPHIR_INIT_NVAR(instance);
+				ZEPHIR_INIT_BNVAR(instance);
 				if (Z_TYPE_P(parameters) == IS_ARRAY) {
 					zephir_call_func_p2(instance, "call_user_func_array", definition, parameters);
 				} else {
@@ -256,7 +253,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve) {
 			if (Z_TYPE_P(definition) == IS_ARRAY) {
 				ZEPHIR_INIT_VAR(builder);
 				object_init_ex(builder, phalcon_di_service_builder_ce);
-				ZEPHIR_INIT_NVAR(instance);
+				ZEPHIR_INIT_BNVAR(instance);
 				zephir_call_method_p3(instance, builder, "build", dependencyInjector, definition, parameters);
 			} else {
 				found = 0;
@@ -292,7 +289,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve) {
  */
 PHP_METHOD(Phalcon_DI_Service, setParameter) {
 
-	zval *position_param = NULL, *parameter, *definition, *arguments = NULL;
+	zval *position_param = NULL, *parameter, *definition, *arguments;
 	int position;
 
 	ZEPHIR_MM_GROW();
@@ -315,7 +312,7 @@ PHP_METHOD(Phalcon_DI_Service, setParameter) {
 	if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"))) {
 		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE);
 	} else {
-		ZEPHIR_INIT_NVAR(arguments);
+		ZEPHIR_INIT_BNVAR(arguments);
 		array_init(arguments);
 		zephir_array_update_long(&arguments, position, &parameter, PH_COPY | PH_SEPARATE);
 	}

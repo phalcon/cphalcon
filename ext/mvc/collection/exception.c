@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Collection, Exception, phalcon_mvc_collection_exception, "phalcon\\exception", phalcon_mvc_collection_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Collection, Exception, mvc_collection_exception, "phalcon\\exception", NULL, 0);
 
 
 	return SUCCESS;

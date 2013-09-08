@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Validator, Regex, phalcon_validation_validator_regex, phalcon_validation_validator_regex_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Validator, Regex, validation_validator_regex, NULL, 0);
 
 
 	return SUCCESS;

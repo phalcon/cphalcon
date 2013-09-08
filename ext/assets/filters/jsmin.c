@@ -42,7 +42,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, Jsmin, phalcon_assets_filters_jsmin, phalcon_assets_filters_jsmin_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, Jsmin, assets_filters_jsmin, phalcon_assets_filters_jsmin_method_entry, 0);
 
 
 	return SUCCESS;

@@ -55,7 +55,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reflection) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Reflection, phalcon_annotations_reflection, phalcon_annotations_reflection_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Reflection, annotations_reflection, phalcon_annotations_reflection_method_entry, 0);
 
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("_reflectionData"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("_classAnnotations"), ZEND_ACC_PUBLIC TSRMLS_CC);

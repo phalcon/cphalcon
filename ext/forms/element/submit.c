@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Submit) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, Submit, phalcon_forms_element_submit, phalcon_forms_element_submit_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, Submit, forms_element_submit, NULL, 0);
 
 
 	return SUCCESS;

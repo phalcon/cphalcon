@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Behavior, SoftDelete, phalcon_mvc_model_behavior_softdelete, phalcon_mvc_model_behavior_softdelete_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Behavior, SoftDelete, mvc_model_behavior_softdelete, NULL, 0);
 
 
 	return SUCCESS;

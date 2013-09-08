@@ -63,7 +63,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_CLI_Task) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI, Task, phalcon_cli_task, "phalcon\\di\\injectable", phalcon_cli_task_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI, Task, cli_task, "phalcon\\di\\injectable", phalcon_cli_task_method_entry, 0);
 
 
 	return SUCCESS;

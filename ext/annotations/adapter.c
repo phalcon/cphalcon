@@ -45,7 +45,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Adapter, phalcon_annotations_adapter, phalcon_annotations_adapter_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Adapter, annotations_adapter, phalcon_annotations_adapter_method_entry, 0);
 
 	zend_declare_property_null(phalcon_annotations_adapter_ce, SL("_reader"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_annotations_adapter_ce, SL("_annotations"), ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -82,14 +82,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
 
-	zval *reader = NULL;
+	zval *reader;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(reader);
 	zephir_read_property_this(&reader, this_ptr, SL("_reader"), PH_NOISY_CC);
 	if (Z_TYPE_P(reader) != IS_OBJECT) {
-		ZEPHIR_INIT_NVAR(reader);
+		ZEPHIR_INIT_BNVAR(reader);
 		object_init_ex(reader, phalcon_annotations_reader_ce);
 		zephir_update_property_this(this_ptr, SL("_reader"), reader TSRMLS_CC);
 	}
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 
-	zval *className, *annotations, *classAnnotations = NULL, *parsedAnnotations, *realClassName = NULL, *reader;
+	zval *className, *annotations, *classAnnotations, *parsedAnnotations, *realClassName = NULL, *reader;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &className);
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 		ZEPHIR_INIT_VAR(parsedAnnotations);
 		zephir_call_method_p1(parsedAnnotations, reader, "parse", realClassName);
 		if (Z_TYPE_P(parsedAnnotations) == IS_ARRAY) {
-			ZEPHIR_INIT_NVAR(classAnnotations);
+			ZEPHIR_INIT_BNVAR(classAnnotations);
 			object_init_ex(classAnnotations, phalcon_annotations_reflection_ce);
 			zephir_call_method_p1_noret(classAnnotations, "__construct", parsedAnnotations);
 			zephir_update_property_array(this_ptr, SL("_annotations"), realClassName, classAnnotations TSRMLS_CC);

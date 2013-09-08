@@ -3,6 +3,3 @@ extern zend_class_entry *phalcon_validation_validator_exclusionin_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn);
 
-ZEPHIR_INIT_FUNCS(phalcon_validation_validator_exclusionin_method_entry) {
-	PHP_FE_END
-};

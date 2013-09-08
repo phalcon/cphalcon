@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Validator, PresenceOf, phalcon_validation_validator_presenceof, phalcon_validation_validator_presenceof_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Validator, PresenceOf, validation_validator_presenceof, NULL, 0);
 
 
 	return SUCCESS;

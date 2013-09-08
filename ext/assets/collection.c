@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Collection, phalcon_assets_collection, phalcon_assets_collection_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Collection, assets_collection, NULL, 0);
 
 
 	return SUCCESS;

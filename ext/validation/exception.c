@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation, Exception, phalcon_validation_exception, "phalcon\\exception", phalcon_validation_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation, Exception, validation_exception, "phalcon\\exception", NULL, 0);
 
 
 	return SUCCESS;

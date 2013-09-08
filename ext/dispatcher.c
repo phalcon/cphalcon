@@ -47,7 +47,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Dispatcher) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Dispatcher, phalcon_dispatcher, phalcon_dispatcher_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Dispatcher, dispatcher, phalcon_dispatcher_method_entry, 0);
 
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_eventsManager"), ZEND_ACC_PUBLIC TSRMLS_CC);

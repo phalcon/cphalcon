@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Password) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, Password, phalcon_forms_element_password, phalcon_forms_element_password_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, Password, forms_element_password, NULL, 0);
 
 
 	return SUCCESS;

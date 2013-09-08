@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Headers) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Response, Headers, phalcon_http_response_headers, phalcon_http_response_headers_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Response, Headers, http_response_headers, NULL, 0);
 
 
 	return SUCCESS;

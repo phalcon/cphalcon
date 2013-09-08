@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc, Micro, phalcon_mvc_micro, phalcon_mvc_micro_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc, Micro, mvc_micro, NULL, 0);
 
 
 	return SUCCESS;

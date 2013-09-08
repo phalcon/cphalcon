@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate, Adapter, phalcon_translate_adapter, phalcon_translate_adapter_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate, Adapter, translate_adapter, NULL, 0);
 
 
 	return SUCCESS;

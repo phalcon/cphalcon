@@ -16,9 +16,9 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 
 
 /*
@@ -50,7 +50,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Flash, phalcon_flash, phalcon_flash_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Flash, flash, phalcon_flash_method_entry, 0);
 
 	zend_declare_property_null(phalcon_flash_ce, SL("_cssClasses"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_flash_ce, SL("_implicitFlush"), 1, ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -339,6 +339,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 			if ((implicitFlush == 1)) {
 				zend_print_zval(htmlMessage, 0);
 			} else {
+				zephir_concat_self(&content, htmlMessage);
 			}
 		}
 		if ((implicitFlush == 0)) {

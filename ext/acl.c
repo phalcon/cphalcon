@@ -76,7 +76,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Acl, phalcon_acl, phalcon_acl_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Acl, acl, NULL, 0);
 
 	zend_declare_class_constant_long(phalcon_acl_ce, SL("ALLOW"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_acl_ce, SL("DENY"), 0 TSRMLS_CC);

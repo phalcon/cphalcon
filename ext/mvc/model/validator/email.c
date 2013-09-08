@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Validator, Email, phalcon_mvc_model_validator_email, phalcon_mvc_model_validator_email_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Validator, Email, mvc_model_validator_email, NULL, 0);
 
 
 	return SUCCESS;

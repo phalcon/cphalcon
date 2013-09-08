@@ -15,9 +15,9 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
 #include "kernel/concat.h"
 
 
@@ -46,7 +46,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Console) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cli, Console, phalcon_cli_console, phalcon_cli_console_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cli, Console, cli_console, phalcon_cli_console_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_eventsManager"), ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Cli_Console, getModules) {
  */
 PHP_METHOD(Phalcon_Cli_Console, handle) {
 
-	zval *arguments = NULL, *dependencyInjector, *router, *eventsManager, *moduleName, *modules, *module, *path, *className = NULL, *moduleObject, *dispatcher, *task, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5, *_6, *_7;
+	zval *arguments = NULL, *dependencyInjector, *router, *eventsManager, *moduleName, *modules, *module, *path, *className = NULL, *moduleObject, *dispatcher, *task, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5, *_6, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arguments);
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	zephir_call_method(moduleName, router, "getmodulename");
 	if (zend_is_true(moduleName)) {
 		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
-			ZEPHIR_INIT_NVAR(_0);
+			ZEPHIR_INIT_BNVAR(_0);
 			ZEPHIR_INIT_VAR(_1);
 			ZVAL_STRING(_1, "console:beforeStartModule", 1);
 			zephir_call_method_p3(_0, eventsManager, "fire", _1, this_ptr, moduleName);

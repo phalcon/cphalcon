@@ -73,7 +73,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Di, phalcon_di, phalcon_di_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Di, di, phalcon_di_method_entry, 0);
 
 	zend_declare_property_null(phalcon_di_ce, SL("_services"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_di_ce, SL("_sharedInstances"), ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Di, get) {
  */
 PHP_METHOD(Phalcon_Di, getShared) {
 
-	zval *name, *parameters = NULL, *instance = NULL, *sharedInstances, *_0 = NULL;
+	zval *name, *parameters = NULL, *instance, *sharedInstances, *_0 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name, &parameters);
@@ -427,7 +427,7 @@ PHP_METHOD(Phalcon_Di, getShared) {
 		ZVAL_BOOL(_0, 0);
 		zephir_update_property_this(this_ptr, SL("_freshInstance"), _0 TSRMLS_CC);
 	} else {
-		ZEPHIR_INIT_NVAR(instance);
+		ZEPHIR_INIT_BNVAR(instance);
 		zephir_call_method_p2(instance, this_ptr, "get", name, parameters);
 		zephir_update_property_array(this_ptr, SL("_sharedInstances"), name, instance TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_0);

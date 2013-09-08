@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Relation, phalcon_mvc_model_relation, phalcon_mvc_model_relation_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Relation, mvc_model_relation, NULL, 0);
 
 
 	return SUCCESS;

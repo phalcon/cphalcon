@@ -45,7 +45,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DI_Service_Builder) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\DI\\Service, Builder, phalcon_di_service_builder, phalcon_di_service_builder_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\DI\\Service, Builder, di_service_builder, phalcon_di_service_builder_method_entry, 0);
 
 
 	return SUCCESS;

@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\View, Simple, phalcon_mvc_view_simple, phalcon_mvc_view_simple_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\View, Simple, mvc_view_simple, NULL, 0);
 
 
 	return SUCCESS;

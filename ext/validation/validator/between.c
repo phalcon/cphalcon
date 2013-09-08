@@ -52,7 +52,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Between, phalcon_validation_validator_between, "phalcon\\validation\\validator", phalcon_validation_validator_between_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Between, validation_validator_between, "phalcon\\validation\\validator", phalcon_validation_validator_between_method_entry, 0);
 
 
 	return SUCCESS;
@@ -68,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 
-	zval *validator, *attribute, *value, *minimum, *maximum, *message = NULL, *_0 = NULL, *_1;
+	zval *validator, *attribute, *value, *minimum, *maximum, *message = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validator, &attribute);
@@ -81,16 +81,16 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	ZVAL_STRING(_0, "minimum", 1);
 	ZEPHIR_INIT_VAR(minimum);
 	zephir_call_method_p1(minimum, this_ptr, "getoption", _0);
-	ZEPHIR_INIT_NVAR(_0);
+	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_STRING(_0, "maximum", 1);
 	ZEPHIR_INIT_VAR(maximum);
 	zephir_call_method_p1(maximum, this_ptr, "getoption", _0);
 	if ((ZEPHIR_GE(value, minimum) || ZEPHIR_LE(value, maximum))) {
-		ZEPHIR_INIT_NVAR(_0);
+		ZEPHIR_INIT_BNVAR(_0);
 		ZVAL_STRING(_0, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _0);
-		ZEPHIR_INIT_NVAR(_0);
+		ZEPHIR_INIT_BNVAR(_0);
 		zephir_call_func_p1(_0, "is_empty", message);
 		if (zend_is_true(_0)) {
 			ZEPHIR_INIT_NVAR(message);

@@ -54,7 +54,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Session, phalcon_session, phalcon_session_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Session, session, NULL, 0);
 
 
 	return SUCCESS;

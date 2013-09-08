@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Document) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Collection, Document, phalcon_mvc_collection_document, phalcon_mvc_collection_document_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Collection, Document, mvc_collection_document, NULL, 0);
 
 
 	return SUCCESS;

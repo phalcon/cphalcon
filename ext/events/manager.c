@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Manager) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Manager, phalcon_events_manager, phalcon_events_manager_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Manager, events_manager, NULL, 0);
 
 
 	return SUCCESS;

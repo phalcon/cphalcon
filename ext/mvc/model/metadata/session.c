@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData, Session, phalcon_mvc_model_metadata_session, phalcon_mvc_model_metadata_session_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData, Session, mvc_model_metadata_session, NULL, 0);
 
 
 	return SUCCESS;

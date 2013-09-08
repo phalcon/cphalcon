@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData, Apc, phalcon_mvc_model_metadata_apc, phalcon_mvc_model_metadata_apc_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData, Apc, mvc_model_metadata_apc, NULL, 0);
 
 
 	return SUCCESS;

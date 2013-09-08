@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Index, phalcon_db_index, phalcon_db_index_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Index, db_index, NULL, 0);
 
 
 	return SUCCESS;

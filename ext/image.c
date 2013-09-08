@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Image) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Image, phalcon_image, phalcon_image_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Image, image, NULL, 0);
 
 
 	return SUCCESS;

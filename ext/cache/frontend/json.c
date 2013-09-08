@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Json) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Json, phalcon_cache_frontend_json, phalcon_cache_frontend_json_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Json, cache_frontend_json, NULL, 0);
 
 
 	return SUCCESS;

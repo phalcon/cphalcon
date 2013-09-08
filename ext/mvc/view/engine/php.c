@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\View\\Engine, Php, phalcon_mvc_view_engine_php, phalcon_mvc_view_engine_php_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\View\\Engine, Php, mvc_view_engine_php, NULL, 0);
 
 
 	return SUCCESS;

@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Output) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Output, phalcon_cache_frontend_output, phalcon_cache_frontend_output_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Output, cache_frontend_output, NULL, 0);
 
 
 	return SUCCESS;

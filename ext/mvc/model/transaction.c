@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Transaction, phalcon_mvc_model_transaction, phalcon_mvc_model_transaction_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Transaction, mvc_model_transaction, NULL, 0);
 
 
 	return SUCCESS;

@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate, Exception, phalcon_translate_exception, "phalcon\\exception", phalcon_translate_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate, Exception, translate_exception, "phalcon\\exception", NULL, 0);
 
 
 	return SUCCESS;

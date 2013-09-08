@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Response, Cookies, phalcon_http_response_cookies, phalcon_http_response_cookies_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Response, Cookies, http_response_cookies, NULL, 0);
 
 
 	return SUCCESS;

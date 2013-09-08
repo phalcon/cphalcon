@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Tag_Select) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Tag, Select, phalcon_tag_select, phalcon_tag_select_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Tag, Select, tag_select, NULL, 0);
 
 
 	return SUCCESS;

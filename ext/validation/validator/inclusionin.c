@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Validator, InclusionIn, phalcon_validation_validator_inclusionin, phalcon_validation_validator_inclusionin_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Validator, InclusionIn, validation_validator_inclusionin, NULL, 0);
 
 
 	return SUCCESS;

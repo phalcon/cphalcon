@@ -70,7 +70,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_None) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, None, phalcon_cache_frontend_none, phalcon_cache_frontend_none_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, None, cache_frontend_none, phalcon_cache_frontend_none_method_entry, 0);
 
 
 	return SUCCESS;

@@ -34,7 +34,7 @@
 */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_PostgreSQL) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, PostgreSQL, phalcon_db_adapter_pdo_postgresql, phalcon_db_adapter_pdo_postgresql_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, PostgreSQL, db_adapter_pdo_postgresql, NULL, 0);
 
 
 	return SUCCESS;

@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memory) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, Memory, phalcon_cache_backend_memory, phalcon_cache_backend_memory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, Memory, cache_backend_memory, NULL, 0);
 
 
 	return SUCCESS;

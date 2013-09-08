@@ -34,7 +34,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Oracle) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, Oracle, phalcon_db_adapter_pdo_oracle, phalcon_db_adapter_pdo_oracle_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, Oracle, db_adapter_pdo_oracle, NULL, 0);
 
 
 	return SUCCESS;

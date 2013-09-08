@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Profiler, phalcon_db_profiler, phalcon_db_profiler_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Profiler, db_profiler, NULL, 0);
 
 
 	return SUCCESS;

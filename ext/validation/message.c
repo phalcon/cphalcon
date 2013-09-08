@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Message) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation, Message, phalcon_validation_message, phalcon_validation_message_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation, Message, validation_message, NULL, 0);
 
 
 	return SUCCESS;

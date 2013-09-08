@@ -34,7 +34,7 @@
 */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Oracle) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Dialect, Oracle, phalcon_db_dialect_oracle, phalcon_db_dialect_oracle_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Dialect, Oracle, db_dialect_oracle, NULL, 0);
 
 
 	return SUCCESS;
