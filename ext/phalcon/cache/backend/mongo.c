@@ -31,10 +31,38 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Cache\Backend\Mongo
+ *
+ * Allows to cache output fragments, PHP data or raw data to a MongoDb backend
+ *
+ *<code>
+ *
+ * // Cache data for 2 days
+ * $frontCache = new Phalcon\Cache\Frontend\Base64(array(
+ *		"lifetime" => 172800
+ * ));
+ *
+ * //Create a MongoDB cache
+ * $cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
+ *		'server' => "mongodb://localhost",
+ *      'db' => 'caches',
+ *		'collection' => 'images'
+ * ));
+ *
+ * //Cache arbitrary data
+ * $cache->save('my-data', file_get_contents('some-image.jpg'));
+ *
+ * //Get data
+ * $data = $cache->get('my-data');
+ *
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Mongo) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, phalcon, Mongo, cache_backend_mongo, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, phalcon, Mongo, cache_backend_mongo, phalcon_cache_backend_ce, NULL, 0);
 
+	zend_declare_property_null(phalcon_cache_backend_mongo_ce, SL("_collection"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

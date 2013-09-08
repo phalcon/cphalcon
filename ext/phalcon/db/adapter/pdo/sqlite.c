@@ -32,10 +32,26 @@
  |          Rack Lin <racklin@gmail.com>                                  |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\Adapter\Pdo\Sqlite
+ *
+ * Specific functions for the Sqlite database system
+ * <code>
+ *
+ * $config = array(
+ *  "dbname" => "/tmp/test.sqlite"
+ * );
+ *
+ * $connection = new Phalcon\Db\Adapter\Pdo\Sqlite($config);
+ *
+ * </code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Sqlite) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, phalcon, Sqlite, db_adapter_pdo_sqlite, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, phalcon, Sqlite, db_adapter_pdo_sqlite, phalcon_db_adapter_pdo_ce, NULL, 0);
 
+	zend_declare_property_string(phalcon_db_adapter_pdo_sqlite_ce, SL("_type"), "sqlite", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_adapter_pdo_sqlite_ce, SL("_dialectType"), "sqlite", ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

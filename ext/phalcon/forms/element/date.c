@@ -12,6 +12,7 @@
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +32,38 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Forms\Element\Date
+ *
+ * Component INPUT[type=date] for forms
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Date) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, phalcon, Date, forms_element_date, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, phalcon, Date, forms_element_date, phalcon_forms_element_ce, phalcon_forms_element_date_method_entry, 0);
 
 
 	return SUCCESS;
+
+}
+
+/**
+ * Renders the element widget returning html
+ *
+ * @param array $attributes
+ * @return string
+ */
+PHP_METHOD(Phalcon_Forms_Element_Date, render) {
+
+	zval *attributes = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &attributes);
+
+	if (!attributes) {
+		ZEPHIR_INIT_VAR(attributes);
+	}
+
+
 
 }
 

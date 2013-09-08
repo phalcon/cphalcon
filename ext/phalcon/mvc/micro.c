@@ -31,10 +31,39 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Micro
+ *
+ * With Phalcon you can create "Micro-Framework like" applications. By doing this, you only need to
+ * write a minimal amount of code to create a PHP application. Micro applications are suitable
+ * to small applications, APIs and prototypes in a practical way.
+ *
+ *<code>
+ *
+ * $app = new Phalcon\Mvc\Micro();
+ *
+ * $app->get('/say/welcome/{name}', function ($name) {
+ *    echo "<h1>Welcome $name!</h1>";
+ * });
+ *
+ * $app->handle();
+ *
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc, phalcon, Micro, mvc_micro, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, phalcon, Micro, mvc_micro, phalcon_di_injectable_ce, NULL, 0);
 
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_handlers"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_router"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_stopped"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_notFoundHandler"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_activeHandler"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_beforeHandlers"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_afterHandlers"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_finishHandlers"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_returnedValue"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

@@ -31,10 +31,22 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Cache\Backend
+ *
+ * This class implements common functionality for backend adapters. A backend cache adapter may extend this class
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, phalcon, Backend, cache_backend, NULL, 0);
 
+	zend_declare_property_null(phalcon_cache_backend_ce, SL("_frontend"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_cache_backend_ce, SL("_options"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_cache_backend_ce, SL("_prefix"), "", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_cache_backend_ce, SL("_lastKey"), "", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_cache_backend_ce, SL("_lastLifetime"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_fresh"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_started"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

@@ -32,10 +32,28 @@
  |          Marcio Paiva <mpaivabarbosa@gmail.com>                        |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\Adapter\Pdo\Oracle
+ *
+ * Specific functions for the Oracle database system
+ * <code>
+ *
+ * $config = array(
+ *  "dbname" => "//localhost/dbname",
+ *  "username" => "oracle",
+ *  "password" => "oracle"
+ * );
+ *
+ * $connection = new Phalcon\Db\Adapter\Pdo\Oracle($config);
+ *
+ * </code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Oracle) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, phalcon, Oracle, db_adapter_pdo_oracle, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, phalcon, Oracle, db_adapter_pdo_oracle, phalcon_db_adapter_pdo_ce, NULL, 0);
 
+	zend_declare_property_string(phalcon_db_adapter_pdo_oracle_ce, SL("_type"), "oci", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_adapter_pdo_oracle_ce, SL("_dialectType"), "oracle", ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

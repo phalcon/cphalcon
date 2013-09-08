@@ -31,10 +31,16 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Model\Behavior
+ *
+ * This is an optional base class for ORM behaviors
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, phalcon, Behavior, mvc_model_behavior, NULL, 0);
 
+	zend_declare_property_null(phalcon_mvc_model_behavior_ce, SL("_options"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

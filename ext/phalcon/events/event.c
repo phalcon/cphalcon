@@ -214,6 +214,8 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 
 /**
  * Check whether the event is currently stopped
+ *
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Events_Event, isStopped) {
 

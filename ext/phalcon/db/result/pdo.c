@@ -31,10 +31,39 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\Result\Pdo
+ *
+ * Encapsulates the resultset internals
+ *
+ * <code>
+ *	result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	result->setFetchMode(Phalcon\Db::FETCH_NUM);
+ *	while (robot = result->fetchArray()) {
+ *		print_r(robot);
+ *	}
+ * </code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Result_Pdo) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Result, phalcon, Pdo, db_result_pdo, NULL, 0);
 
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_connection"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_result"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Active fetch mode
+ */
+	zend_declare_property_long(phalcon_db_result_pdo_ce, SL("_fetchMode"), 4, ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Internal resultset
+ *
+ * @var PDOStatement
+ */
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_pdoStatement"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_sqlStatement"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_bindParams"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_bindTypes"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_db_result_pdo_ce, SL("_rowCount"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

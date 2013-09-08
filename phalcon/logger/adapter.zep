@@ -24,7 +24,7 @@ namespace Phalcon\Logger;
  *
  * Base class for Phalcon\Logger adapters
  */
-abstract class Phalcon_Logger_Adapter {
+abstract class Adapter {
 
 	/**
 	 * Tells if there is an active transaction or not

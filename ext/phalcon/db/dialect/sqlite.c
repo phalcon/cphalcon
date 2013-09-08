@@ -33,10 +33,16 @@
  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\Dialect\Sqlite
+ *
+ * Generates database specific SQL for the Sqlite RBDM
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Sqlite) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Dialect, phalcon, Sqlite, db_dialect_sqlite, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, phalcon, Sqlite, db_dialect_sqlite, phalcon_db_dialect_ce, NULL, 0);
 
+	zend_declare_property_null(phalcon_db_dialect_sqlite_ce, SL("_escapeChar"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

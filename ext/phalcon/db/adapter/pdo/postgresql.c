@@ -32,10 +32,29 @@
  |          Rack Lin <racklin@gmail.com>                                  |
  +------------------------------------------------------------------------+
 */
-ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_PostgreSQL) {
+/**
+ * Phalcon\Db\Adapter\Pdo\Postgresql
+ *
+ * Specific functions for the Postgresql database system
+ * <code>
+ *
+ * $config = array(
+ *  "host" => "192.168.0.11",
+ *  "dbname" => "blog",
+ *  "username" => "postgres",
+ *  "password" => ""
+ * );
+ *
+ * $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($config);
+ *
+ * </code>
+ */
+ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Postgresql) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, phalcon, PostgreSQL, db_adapter_pdo_postgresql, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, phalcon, Postgresql, db_adapter_pdo_postgresql, phalcon_db_adapter_pdo_ce, NULL, 0);
 
+	zend_declare_property_string(phalcon_db_adapter_pdo_postgresql_ce, SL("_type"), "pgsql", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_adapter_pdo_postgresql_ce, SL("_dialectType"), "postgresql", ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

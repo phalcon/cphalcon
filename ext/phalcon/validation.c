@@ -371,7 +371,6 @@ PHP_METHOD(Phalcon_Validation, bind) {
  */
 PHP_METHOD(Phalcon_Validation, getValue) {
 
-	zend_class_entry *_3;
 	zval *attribute, *entity, *method, *value = NULL, *data, *values, *filters, *fieldFilters, *dependencyInjector, *filterService, *_0 = NULL, _1, *_2;
 
 	ZEPHIR_MM_GROW();
@@ -412,11 +411,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 	zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	if (Z_TYPE_P(data) != IS_ARRAY) {
 		if (Z_TYPE_P(data) != IS_OBJECT) {
-			ZEPHIR_INIT_NVAR(_0);
-			_3 = zend_fetch_class(SL("Phalcon_Validation_Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			object_init_ex(_0, _3);
-			zephir_throw_exception(_0 TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "There is no data to validate");
 			return;
 		}
 	}

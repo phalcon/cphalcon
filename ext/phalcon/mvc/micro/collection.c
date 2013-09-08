@@ -31,10 +31,34 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Micro\Collection
+ *
+ * Groups Micro-Mvc handlers as controllers
+ *
+ *<code>
+ *
+ * app = new Phalcon\Mvc\Micro();
+ *
+ * collection = new Phalcon\Mvc\Micro\Collection();
+ *
+ * collection->setHandler(new PostsController());
+ *
+ * collection->get('/posts/edit/{id}', 'edit');
+ *
+ * app->mount(collection);
+ *
+ *</code>
+ *
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, phalcon, Collection, mvc_micro_collection, NULL, 0);
 
+	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_prefix"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_lazy"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_handler"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("_handlers"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

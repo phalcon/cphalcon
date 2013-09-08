@@ -12,6 +12,7 @@
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +32,38 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Forms\Element\Check
+ *
+ * Component INPUT[type=check] for forms
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Check) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, phalcon, Check, forms_element_check, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, phalcon, Check, forms_element_check, phalcon_forms_element_ce, phalcon_forms_element_check_method_entry, 0);
 
 
 	return SUCCESS;
+
+}
+
+/**
+ * Renders the element widget returning html
+ *
+ * @param array $attributes
+ * @return string
+ */
+PHP_METHOD(Phalcon_Forms_Element_Check, render) {
+
+	zval *attributes = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &attributes);
+
+	if (!attributes) {
+		ZEPHIR_INIT_VAR(attributes);
+	}
+
+
 
 }
 

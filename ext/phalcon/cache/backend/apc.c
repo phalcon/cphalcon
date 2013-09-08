@@ -31,9 +31,32 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Cache\Backend\Apc
+ *
+ * Allows to cache output fragments, PHP data and raw data using an APC backend
+ *
+ *<code>
+ *	//Cache data for 2 days
+ *	$frontCache = new Phalcon\Cache\Frontend\Data(array(
+ *		'lifetime' => 172800
+ *	));
+ *
+ *  $cache = new Phalcon\Cache\Backend\Apc($frontCache, array(
+ *      'prefix' => 'app-data'
+ *  ));
+ *
+ *	//Cache arbitrary data
+ *	$cache->save('my-data', array(1, 2, 3, 4, 5));
+ *
+ *	//Get data
+ *	$data = $cache->get('my-data');
+ *
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Apc) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, phalcon, Apc, cache_backend_apc, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, phalcon, Apc, cache_backend_apc, phalcon_cache_backend_ce, NULL, 0);
 
 
 	return SUCCESS;

@@ -31,10 +31,30 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Cache\Backend\Memory
+ *
+ * Stores content in memory. Data is lost when the request is finished
+ *
+ *<code>
+ *	//Cache data
+ *	$frontCache = new Phalcon\Cache\Frontend\Data();
+ *
+ *  $cache = new Phalcon\Cache\Backend\Memory($frontCache);
+ *
+ *	//Cache arbitrary data
+ *	$cache->save('my-data', array(1, 2, 3, 4, 5));
+ *
+ *	//Get data
+ *	$data = $cache->get('my-data');
+ *
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memory) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, phalcon, Memory, cache_backend_memory, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, phalcon, Memory, cache_backend_memory, phalcon_cache_backend_ce, NULL, 0);
 
+	zend_declare_property_null(phalcon_cache_backend_memory_ce, SL("_data"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

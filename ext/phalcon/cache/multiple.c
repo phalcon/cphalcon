@@ -12,6 +12,9 @@
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
+#include "kernel/exception.h"
+#include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +34,85 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Cache\Multiple
+ *
+ * Allows to read to chained backends writing to multiple backends
+ *
+ *<code>
+ *   use Phalcon\Cache\Frontend\Data as DataFrontend,
+ *       Phalcon\Cache\Multiple,
+ *       Phalcon\Cache\Backend\Apc as ApcCache,
+ *       Phalcon\Cache\Backend\Memcache as MemcacheCache,
+ *       Phalcon\Cache\Backend\File as FileCache;
+ *
+ *   $ultraFastFrontend = new DataFrontend(array(
+ *       "lifetime" => 3600
+ *   ));
+ *
+ *   $fastFrontend = new DataFrontend(array(
+ *       "lifetime" => 86400
+ *   ));
+ *
+ *   $slowFrontend = new DataFrontend(array(
+ *       "lifetime" => 604800
+ *   ));
+ *
+ *   //Backends are registered from the fastest to the slower
+ *   $cache = new Multiple(array(
+ *       new ApcCache($ultraFastFrontend, array(
+ *           "prefix" => 'cache',
+ *       )),
+ *       new MemcacheCache($fastFrontend, array(
+ *           "prefix" => 'cache',
+ *           "host" => "localhost",
+ *           "port" => "11211"
+ *       )),
+ *       new FileCache($slowFrontend, array(
+ *           "prefix" => 'cache',
+ *           "cacheDir" => "../app/cache/"
+ *       ))
+ *   ));
+ *
+ *   //Save, saves in every backend
+ *   $cache->save('my-key', $data);
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Multiple) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, phalcon, Multiple, cache_multiple, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, phalcon, Multiple, cache_multiple, phalcon_cache_multiple_method_entry, 0);
 
+	zend_declare_property_null(phalcon_cache_multiple_ce, SL("_backends"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Phalcon\Cache\Multiple constructor
+ *
+ * @param	Phalcon\Cache\BackendInterface[] backends
+ */
+PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
+
+	zval *backends = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &backends);
+
+	if (!backends) {
+		ZEPHIR_INIT_VAR(backends);
+	}
+
+
+	if (Z_TYPE_P(backends) != IS_NULL) {
+		if (Z_TYPE_P(backends) != IS_ARRAY) {
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backends must be an array");
+			return;
+		}
+		zephir_update_property_this(this_ptr, SL("_backends"), backends TSRMLS_CC);
+	}
+	ZEPHIR_MM_RESTORE();
 
 }
 

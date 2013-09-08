@@ -31,10 +31,34 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\Profiler\Item
+ *
+ * This class identifies each profile in a Phalcon\Db\Profiler
+ *
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Profiler, phalcon, Item, db_profiler_item, NULL, 0);
 
+/**
+ * SQL statement related to the profile
+ *
+ * @var string
+ */
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_sqlStatement"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Timestamp when the profile started
+ *
+ * @var double
+ */
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_initialTime"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Timestamp when the profile ended
+ *
+ * @var double
+ */
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_finalTime"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

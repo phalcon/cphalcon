@@ -12,6 +12,7 @@
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +32,63 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Cache\Backend\Memcache
+ *
+ * Allows to cache output fragments, PHP data or raw data to a memcache backend
+ *
+ * This adapter uses the special memcached key "_PHCM" to store all the keys internally used by the adapter
+ *
+ *<code>
+ *
+ * // Cache data for 2 days
+ * $frontCache = new Phalcon\Cache\Frontend\Data(array(
+ *    "lifetime" => 172800
+ * ));
+ *
+ * //Create the Cache setting memcached connection options
+ * $cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
+ *		'host' => 'localhost',
+ *		'port' => 11211,
+ *  	'persistent' => false
+ * ));
+ *
+ * //Cache arbitrary data
+ * $cache->save('my-data', array(1, 2, 3, 4, 5));
+ *
+ * //Get data
+ * $data = $cache->get('my-data');
+ *
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memcache) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, phalcon, Memcache, cache_backend_memcache, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, phalcon, Memcache, cache_backend_memcache, phalcon_cache_backend_ce, phalcon_cache_backend_memcache_method_entry, 0);
 
+	zend_declare_property_null(phalcon_cache_backend_memcache_ce, SL("_memcache"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Phalcon\Cache\Backend\Memcache constructor
+ *
+ * @param	Phalcon\Cache\FrontendInterface $frontend
+ * @param	array options
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct) {
+
+	zval *frontend, *options = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &frontend, &options);
+
+	if (!options) {
+		ZEPHIR_INIT_VAR(options);
+	}
+
+
 
 }
 

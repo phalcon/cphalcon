@@ -31,10 +31,31 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\View\Simple
+ *
+ * This component allows to render views without hicherquical levels
+ *
+ *<code>
+ * $view = new Phalcon\Mvc\View\Simple();
+ * echo $view->render('templates/my-view', array('content' => $html));
+ *</code>
+ *
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\View, phalcon, Simple, mvc_view_simple, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, phalcon, Simple, mvc_view_simple, phalcon_di_injectable_ce, NULL, 0);
 
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_options"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_viewsDir"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_partialsDir"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_viewParams"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_view_simple_ce, SL("_engines"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_registeredEngines"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_activeRenderPath"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_content"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_view_simple_ce, SL("_cache"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_cacheOptions"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

@@ -31,6 +31,11 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Logger\Formatter
+ *
+ * This is a base class for logger formatters
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, phalcon, Formatter, logger_formatter, NULL, 0);

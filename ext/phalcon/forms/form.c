@@ -31,10 +31,23 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Forms\Form
+ *
+ * This component allows to build forms using an object-oriented interface
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Form) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms, phalcon, Form, forms_form, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms, phalcon, Form, forms_form, phalcon_di_injectable_ce, NULL, 0);
 
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_position"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_entity"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_options"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_data"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_elements"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_elementsIndexed"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_messages"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_form_ce, SL("_action"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

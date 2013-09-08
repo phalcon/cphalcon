@@ -12,6 +12,7 @@
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +32,56 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_XCache) {
+/**
+ * Phalcon\Cache\Backend\Xcache
+ *
+ * Allows to cache output fragments, PHP data and raw data using an XCache backend
+ *
+ *<code>
+ *	//Cache data for 2 days
+ *	$frontCache = new Phalcon\Cache\Frontend\Data(array(
+ *		'lifetime' => 172800
+ *	));
+ *
+ *  $cache = new Phalcon\Cache\Backend\Xcache($frontCache, array(
+ *      'prefix' => 'app-data'
+ *  ));
+ *
+ *	//Cache arbitrary data
+ *	$cache->save('my-data', array(1, 2, 3, 4, 5));
+ *
+ *	//Get data
+ *	$data = $cache->get('my-data');
+ *
+ *</code>
+ */
+ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Xcache) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, phalcon, XCache, cache_backend_xcache, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, phalcon, Xcache, cache_backend_xcache, phalcon_cache_backend_ce, phalcon_cache_backend_xcache_method_entry, 0);
 
 
 	return SUCCESS;
+
+}
+
+/**
+ * Phalcon\Cache\Backend\Xcache constructor
+ *
+ * @param Phalcon\Cache\FrontendInterface frontend
+ * @param array options
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct) {
+
+	zval *frontend, *options = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &frontend, &options);
+
+	if (!options) {
+		ZEPHIR_INIT_VAR(options);
+	}
+
+
 
 }
 

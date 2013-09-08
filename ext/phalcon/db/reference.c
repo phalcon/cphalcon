@@ -31,10 +31,50 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\Reference
+ *
+ * Allows to define reference constraints on tables
+ *
+ *<code>
+ *	$reference = new Phalcon\Db\Reference("field_fk", array(
+ *		'referencedSchema' => "invoicing",
+ *		'referencedTable' => "products",
+ *		'columns' => array("product_type", "product_code"),
+ *		'referencedColumns' => array("type", "code")
+ *	));
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Reference, db_reference, NULL, 0);
 
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_schemaName"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedSchema"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Constraint name
+ *
+ * @var string
+ */
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referenceName"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Referenced Table
+ *
+ * @var string
+ */
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedTable"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Local reference columns
+ *
+ * @var array
+ */
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_columns"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Referenced Columns
+ *
+ * @var array
+ */
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedColumns"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

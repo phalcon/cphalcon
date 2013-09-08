@@ -31,10 +31,17 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\View\Engine
+ *
+ * All the template engine adapters must inherit this class. This provides
+ * basic interfacing between the engine and the Phalcon\Mvc\View component.
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\View, phalcon, Engine, mvc_view_engine, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, phalcon, Engine, mvc_view_engine, phalcon_di_injectable_ce, NULL, 0);
 
+	zend_declare_property_null(phalcon_mvc_view_engine_ce, SL("_view"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

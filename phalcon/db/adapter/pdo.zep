@@ -34,7 +34,7 @@ namespace Phalcon\Db\Adapter;
  *	));
  *</code>
  */
-abstract class Phalcon\Db\Adapter\Pdo extends Phalcon\Db\Adapter
+abstract class Pdo extends Phalcon\Db\Adapter
 {
 
 	/**

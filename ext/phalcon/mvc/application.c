@@ -12,6 +12,8 @@
 #include "Zend/zend_interfaces.h"
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +33,83 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Application
+ *
+ * This component encapsulates all the complex operations behind instantiating every component
+ * needed and integrating it with the rest to allow the MVC pattern to operate as desired.
+ *
+ *<code>
+ *
+ * class Application extends \Phalcon\Mvc\Application
+ * {
+ *
+ *		/**
+ *		 * Register the services here to make them general or register
+ *		 * in the ModuleDefinition to make them module-specific
+ *		 *\/
+ *		protected function _registerServices()
+ *		{
+ *
+ *		}
+ *
+ *		/**
+ *		 * This method registers all the modules in the application
+ *		 *\/
+ *		public function main()
+ *		{
+ *			$this->registerModules(array(
+ *				'frontend' => array(
+ *					'className' => 'Multiple\Frontend\Module',
+ *					'path' => '../apps/frontend/Module.php'
+ *				),
+ *				'backend' => array(
+ *					'className' => 'Multiple\Backend\Module',
+ *					'path' => '../apps/backend/Module.php'
+ *				)
+ *			));
+ *		}
+ *	}
+ *
+ *	$application = new Application();
+ *	$application->main();
+ *
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc, phalcon, Application, mvc_application, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, phalcon, Application, mvc_application, phalcon_di_injectable_ce, phalcon_mvc_application_method_entry, 0);
 
+	zend_declare_property_null(phalcon_mvc_application_ce, SL("_defaultModule"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_application_ce, SL("_modules"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_application_ce, SL("_moduleObject"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_application_ce, SL("_implicitView"), 1, ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Phalcon\Mvc\Application
+ *
+ * @param Phalcon\DiInterface dependencyInjector
+ */
+PHP_METHOD(Phalcon_Mvc_Application, __construct) {
+
+	zval *dependencyInjector = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &dependencyInjector);
+
+	if (!dependencyInjector) {
+		ZEPHIR_INIT_VAR(dependencyInjector);
+	}
+
+
+	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
+		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+	}
+	ZEPHIR_MM_RESTORE();
 
 }
 

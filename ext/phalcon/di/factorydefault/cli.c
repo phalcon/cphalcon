@@ -57,12 +57,11 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_FactoryDefault_Cli) {
 PHP_METHOD(Phalcon_DI_FactoryDefault_Cli, __construct) {
 
 	zval *_0, *_1, *_2, *_3, *_4;
-	zend_bool shared;
+	zend_bool shared = 1;
 
 	ZEPHIR_MM_GROW();
 
 	zephir_call_parent_noret(this_ptr, phalcon_di_factorydefault_cli_ce, "__construct");
-	shared = 1;
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
 	ZEPHIR_INIT_VAR(_1);

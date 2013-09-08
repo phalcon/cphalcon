@@ -31,10 +31,17 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Micro\LazyLoader
+ *
+ * Lazy-Load of handlers for Mvc\Micro using auto-loading
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, phalcon, LazyLoader, mvc_micro_lazyloader, NULL, 0);
 
+	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("_handler"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("_definition"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

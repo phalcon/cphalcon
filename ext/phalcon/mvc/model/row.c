@@ -31,6 +31,12 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Model\Row
+ *
+ * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
+ * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, phalcon, Row, mvc_model_row, NULL, 0);

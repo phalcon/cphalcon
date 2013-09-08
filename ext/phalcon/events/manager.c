@@ -31,10 +31,22 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Events\Manager
+ *
+ * Phalcon Events Manager, offers an easy way to intercept and manipulate, if needed,
+ * the normal flow of operation. With the EventsManager the developer can create hooks or
+ * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
+ *
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Manager) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, phalcon, Manager, events_manager, NULL, 0);
 
+	zend_declare_property_null(phalcon_events_manager_ce, SL("_events"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_events_manager_ce, SL("_collect"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_events_manager_ce, SL("_enablePriorities"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_manager_ce, SL("_responses"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

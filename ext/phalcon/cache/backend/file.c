@@ -31,9 +31,40 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Cache\Backend\File
+ *
+ * Allows to cache output fragments using a file backend
+ *
+ *<code>
+ *	//Cache the file for 2 days
+ *	$frontendOptions = array(
+ *		'lifetime' => 172800
+ *	);
+ *
+ *  //Create a output cache
+ *  $frontCache = \Phalcon\Cache\Frontend\Output($frontOptions);
+ *
+ *	//Set the cache directory
+ *	$backendOptions = array(
+ *		'cacheDir' => '../app/cache/'
+ *	);
+ *
+ *  //Create the File backend
+ *  $cache = new \Phalcon\Cache\Backend\File($frontCache, $backendOptions);
+ *
+ *	$content = $cache->start('my-cache');
+ *	if ($content === null) {
+ *  	echo '<h1>', time(), '</h1>';
+ *  	$cache->save();
+ *	} else {
+ *		echo $content;
+ *	}
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_File) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, phalcon, File, cache_backend_file, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, phalcon, File, cache_backend_file, phalcon_cache_backend_ce, NULL, 0);
 
 
 	return SUCCESS;

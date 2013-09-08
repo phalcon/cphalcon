@@ -32,10 +32,16 @@
 |          Marcio Paiva <mpaivabarbosa@gmail.com>                        |
 +------------------------------------------------------------------------+
 */
+/**
+ * Phalcon\Db\Dialect\Oracle
+ *
+ * Generates database specific SQL for the Oracle RBDM
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Oracle) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Dialect, phalcon, Oracle, db_dialect_oracle, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, phalcon, Oracle, db_dialect_oracle, phalcon_db_dialect_ce, NULL, 0);
 
+	zend_declare_property_string(phalcon_db_dialect_oracle_ce, SL("_escapeChar"), "", ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

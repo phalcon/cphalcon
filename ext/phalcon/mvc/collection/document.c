@@ -31,6 +31,12 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Collection\Document
+ *
+ * This component allows Phalcon\Mvc\Collection to return rows without an associated entity.
+ * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Document) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Collection, phalcon, Document, mvc_collection_document, NULL, 0);

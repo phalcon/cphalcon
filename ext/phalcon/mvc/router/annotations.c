@@ -31,10 +31,33 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Mvc\Router\Annotations
+ *
+ * A router that reads routes annotations from classes/resources
+ *
+ *<code>
+ * $di['router'] = function() {
+ *
+ *		//Use the annotations router
+ *		$router = new \Phalcon\Mvc\Router\Annotations(false);
+ *
+ *		//This will do the same as above but only if the handled uri starts with /robots
+ * 		$router->addResource('Robots', '/robots');
+ *
+ * 		return $router;
+ *	};
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Annotations) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Router, phalcon, Annotations, mvc_router_annotations, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Router, phalcon, Annotations, mvc_router_annotations, phalcon_mvc_router_ce, NULL, 0);
 
+	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_handlers"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_router_annotations_ce, SL("_processed"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_controllerSuffix"), "Controller", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_actionSuffix"), "Action", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_routePrefix"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 
