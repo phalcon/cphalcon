@@ -345,4 +345,78 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 			->getPhql();
 		$this->assertEquals($phql, 'SELECT Robots.name FROM [Robots]');
 	}
+	
+	/**
+	 * Test checks passing query params and dependency injectior into
+	 * constructor
+	 */
+	public function testConstructor()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		$di = $this->_getDI();
+
+		$params = array(
+			'models'     => 'Robots',
+			'columns'    => array('id', 'name', 'status'),
+			'conditions' => "a > 5",			
+			'group'      => array('type', 'source'),
+			'having'     => "b < 5",
+			'order'      => array('name', 'created'),
+			'limit'      => 10,
+			'offset'     => 15, 
+		);
+
+		$builder = new Builder($params, $di);
+
+		$expectedPhql = "SELECT id, name, status FROM [Robots] "
+			. "WHERE a > 5 GROUP BY [type], [source] "
+			. "HAVING b < 5 ORDER BY [name], [created] "
+			. "LIMIT 10 OFFSET 15";
+
+		$this->assertEquals($expectedPhql, $builder->getPhql());
+		$this->assertEquals($di, $builder->getDI());		
+	}
+	
+	/**
+	 * Test checks passing query params and dependency injectior into
+	 * constructor
+	 */
+	public function testConstructorLimit()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		// separate limit and offset
+
+		$params = array(
+			'models' => 'Robots',
+			'limit'  => 10,
+			'offset' => 15, 
+		);
+
+		$builderLimitAndOffset = new Builder($params);
+		
+		// separate limit with offset
+
+		$params = array(
+			'models' => 'Robots',
+			'limit'  => array(10, 15), 
+		);
+
+		$builderLimitWithOffset = new Builder($params);
+		
+		$expectedPhql = "SELECT [Robots].* FROM [Robots] "
+			. "LIMIT 10 OFFSET 15";
+		
+		$this->assertEquals($expectedPhql, $builderLimitAndOffset->getPhql());
+		$this->assertEquals($expectedPhql, $builderLimitWithOffset->getPhql());
+	}	
 }
