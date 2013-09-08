@@ -19,7 +19,44 @@
 
 namespace Phalcon\Mvc\Model;
 
-class Relation
+/**
+ * Phalcon\Mvc\Model\Relation
+ *
+ * This class represents a relationship between two models
+ */
+class Relation implements Phalcon\Mvc\Model\RelationInterface
 {
+
+	protected _type;
+
+	protected _referencedModel;
+
+	protected _fields;
+
+	protected _referencedFields;
+
+	protected _intermediateModel;
+
+	protected _intermediateFields;
+
+	protected _intermediateReferencedFields;
+
+	protected _options;
+
+	const BELONGS_TO = 0;
+
+	const HAS_ONE = 1;
+
+	const HAS_MANY = 2;
+
+	const HAS_ONE_THROUGH = 3;
+
+	const HAS_MANY_THROUGH = 4;
+
+	const NO_ACTION = 0;
+
+	const ACTION_RESTRICT = 1;
+
+	const ACTION_CASCADE = 2;
 
 }

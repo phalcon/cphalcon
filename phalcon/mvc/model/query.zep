@@ -20,7 +20,77 @@
 
 namespace Phalcon\Mvc\Model;
 
-class Query
+/**
+ * Phalcon\Mvc\Model\Query
+ *
+ * This class takes a PHQL intermediate representation and executes it.
+ *
+ *<code>
+ *
+ * $phql = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b
+ *          WHERE b.name = :name: ORDER BY c.name";
+ *
+ * $result = manager->executeQuery($phql, array(
+ *   'name' => 'Lamborghini'
+ * ));
+ *
+ * foreach ($result as $row) {
+ *   echo "Name: ", $row->cars->name, "\n";
+ *   echo "Price: ", $row->cars->price, "\n";
+ *   echo "Taxes: ", $row->taxes, "\n";
+ * }
+ *
+ *</code>
+ */
+class Query implements Phalcon\Mvc\Model\QueryInterface, Phalcon\DI\InjectionAwareInterface
 {
+
+	protected _dependencyInjector;
+
+	protected _manager;
+
+	protected _metaData;
+
+	protected _type;
+
+	protected _phql;
+
+	protected _ast;
+
+	protected _intermediate;
+
+	protected _models;
+
+	protected _sqlAliases;
+
+	protected _sqlAliasesModels;
+
+	protected _sqlModelsAliases;
+
+	protected _sqlAliasesModelsInstances;
+
+	protected _sqlColumnAliases;
+
+	protected _modelsInstances;
+
+	protected _cache;
+
+	protected _cacheOptions;
+
+	protected _uniqueRow;
+
+	protected _bindParams;
+
+	protected _bindTypes;
+
+	static protected _irPhqlCache;
+
+	const TYPE_SELECT = 309;
+
+	const TYPE_INSERT = 306;
+
+	const TYPE_UPDATE = 300;
+
+	const TYPE_DELETE = 303;
 
 }

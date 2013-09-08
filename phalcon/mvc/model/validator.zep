@@ -19,7 +19,15 @@
 
 namespace Phalcon\Mvc\Model;
 
-class Validator
-{
+/**
+ * Phalcon\Mvc\Model\Validator
+ *
+ * This is a base class for Phalcon\Mvc\Model validators
+ */
+abstract class Validator {
+
+	protected _options;
+
+	protected _messages;
 
 }
