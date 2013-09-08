@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Cookie_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Cookie, Exception, http_cookie_exception, "phalcon\\exception", NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Cookie, phalcon, Exception, http_cookie_exception, phalcon_exception_ce, NULL, 0);
 
 
 	return SUCCESS;

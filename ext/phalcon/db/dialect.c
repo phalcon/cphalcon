@@ -31,10 +31,17 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\Dialect
+ *
+ * This is the base class to each database dialect. This implements
+ * common methods to transform intermediate code into its RDBM related syntax
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Dialect, db_dialect, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Dialect, db_dialect, NULL, 0);
 
+	zend_declare_property_null(phalcon_db_dialect_ce, SL("_escapeChar"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

@@ -50,7 +50,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Flash, flash, phalcon_flash_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, phalcon, Flash, flash, phalcon_flash_method_entry, 0);
 
 	zend_declare_property_null(phalcon_flash_ce, SL("_cssClasses"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_flash_ce, SL("_implicitFlush"), 1, ZEND_ACC_PUBLIC TSRMLS_CC);

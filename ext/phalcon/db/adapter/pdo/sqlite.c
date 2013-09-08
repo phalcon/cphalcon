@@ -34,7 +34,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Sqlite) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, Sqlite, db_adapter_pdo_sqlite, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Adapter\\Pdo, phalcon, Sqlite, db_adapter_pdo_sqlite, NULL, 0);
 
 
 	return SUCCESS;

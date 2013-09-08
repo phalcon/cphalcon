@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_User_Module) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\User, Module, mvc_user_module, "phalcon\\di\\injectable", NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\User, phalcon, Module, mvc_user_module, phalcon_di_injectable_ce, NULL, 0);
 
 
 	return SUCCESS;

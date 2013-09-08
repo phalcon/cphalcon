@@ -46,7 +46,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Console) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cli, Console, cli_console, phalcon_cli_console_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cli, phalcon, Console, cli_console, phalcon_cli_console_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_eventsManager"), ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -277,6 +277,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			ZEPHIR_CONCAT_VS(_3, _2, "' isn't registered in the console container");
 			zephir_call_method_p1_noret(_1, "__construct", _3);
 			zephir_throw_exception(_1 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		ZEPHIR_OBS_VAR(module);
@@ -298,6 +299,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 				ZEPHIR_CONCAT_VS(_3, _2, "' doesn't exist");
 				zephir_call_method_p1_noret(_4, "__construct", _3);
 				zephir_throw_exception(_4 TSRMLS_CC);
+				ZEPHIR_MM_RESTORE();
 				return;
 			}
 		}

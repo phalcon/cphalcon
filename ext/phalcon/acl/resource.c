@@ -42,7 +42,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Resource) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Resource, acl_resource, phalcon_acl_resource_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, phalcon, Resource, acl_resource, phalcon_acl_resource_method_entry, 0);
 
 /**
  * Resource's name

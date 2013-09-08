@@ -73,7 +73,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Di, di, phalcon_di_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, phalcon, Di, di, phalcon_di_method_entry, 0);
 
 	zend_declare_property_null(phalcon_di_ce, SL("_services"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_di_ce, SL("_sharedInstances"), ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -286,6 +286,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 	ZEPHIR_CONCAT_VS(_2, _1, "' wasn't found in the dependency injection container");
 	zephir_call_method_p1_noret(_0, "__construct", _2);
 	zephir_throw_exception(_0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 	return;
 
 }
@@ -323,6 +324,7 @@ PHP_METHOD(Phalcon_Di, getService) {
 	ZEPHIR_CONCAT_VS(_2, _1, "' wasn't found in the dependency injection container");
 	zephir_call_method_p1_noret(_0, "__construct", _2);
 	zephir_throw_exception(_0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 	return;
 
 }
@@ -380,6 +382,7 @@ PHP_METHOD(Phalcon_Di, get) {
 			ZEPHIR_CONCAT_VS(_3, _2, "' wasn't found in the dependency injection container");
 			zephir_call_method_p1_noret(_1, "__construct", _3);
 			zephir_throw_exception(_1 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	}
@@ -632,6 +635,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	ZEPHIR_CONCAT_VS(_5, _4, "'");
 	zephir_call_method_p1_noret(_1, "__construct", _5);
 	zephir_throw_exception(_1 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 	return;
 
 }

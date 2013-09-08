@@ -48,7 +48,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Resource, assets_resource, phalcon_assets_resource_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, phalcon, Resource, assets_resource, phalcon_assets_resource_method_entry, 0);
 
 	zend_declare_property_null(phalcon_assets_resource_ce, SL("_type"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_resource_ce, SL("_path"), ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -394,6 +394,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 			ZEPHIR_CONCAT_VS(_5, _4, "' cannot be read");
 			zephir_call_method_p1_noret(_3, "__construct", _5);
 			zephir_throw_exception(_3 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	}
@@ -408,6 +409,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 		ZEPHIR_CONCAT_VS(_5, _4, "' cannot be read");
 		zephir_call_method_p1_noret(_2, "__construct", _5);
 		zephir_throw_exception(_2 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	RETURN_CCTOR(content);

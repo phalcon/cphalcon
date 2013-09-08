@@ -31,10 +31,24 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\Index
+ *
+ * Allows to define indexes to be used on tables. Indexes are a common way
+ * to enhance database performance. An index allows the database server to find
+ * and retrieve specific rows much faster than it could do without an index
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Index, db_index, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Index, db_index, NULL, 0);
 
+/**
+ * Index name
+ *
+ * @var string
+ */
+	zend_declare_property_null(phalcon_db_index_ce, SL("_indexName"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

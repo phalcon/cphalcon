@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Resultset, mvc_model_resultset, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, phalcon, Resultset, mvc_model_resultset, NULL, 0);
 
 
 	return SUCCESS;

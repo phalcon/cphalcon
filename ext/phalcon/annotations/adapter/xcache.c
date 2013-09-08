@@ -46,7 +46,7 @@
 */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, Xcache, annotations_adapter_xcache, phalcon_annotations_adapter_xcache_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, phalcon, Xcache, annotations_adapter_xcache, phalcon_annotations_adapter_xcache_method_entry, 0);
 
 
 	return SUCCESS;

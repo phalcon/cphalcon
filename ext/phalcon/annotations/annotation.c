@@ -45,7 +45,7 @@
 */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Annotation, annotations_annotation, phalcon_annotations_annotation_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, phalcon, Annotation, annotations_annotation, phalcon_annotations_annotation_method_entry, 0);
 
 /**
  * Annotations's Name
@@ -209,6 +209,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			ZEPHIR_CONCAT_VS(_8, _7, " is unknown");
 			zephir_call_method_p1_noret(_6, "__construct", _8);
 			zephir_throw_exception(_6 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
 			return;
 	} while(0);
 

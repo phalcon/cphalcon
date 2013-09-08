@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Cookie) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http, Cookie, http_cookie, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http, phalcon, Cookie, http_cookie, NULL, 0);
 
 	zend_declare_property_bool(phalcon_http_cookie_ce, SL("_readed"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_http_cookie_ce, SL("_restored"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);

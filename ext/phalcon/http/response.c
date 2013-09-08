@@ -47,7 +47,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http, Response, http_response, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http, phalcon, Response, http_response, NULL, 0);
 
 	zend_declare_property_bool(phalcon_http_response_ce, SL("_sent"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_content"), ZEND_ACC_PUBLIC TSRMLS_CC);

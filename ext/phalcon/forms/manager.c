@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms, Manager, forms_manager, phalcon_forms_manager_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms, phalcon, Manager, forms_manager, phalcon_forms_manager_method_entry, 0);
 
 	zend_declare_property_null(phalcon_forms_manager_ce, SL("_forms"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
@@ -107,6 +107,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 		ZEPHIR_CONCAT_VS(_2, _1, "'");
 		zephir_call_method_p1_noret(_0, "__construct", _2);
 		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	RETURN_CCTOR(form);

@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_MySQL) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Dialect, MySQL, db_dialect_mysql, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Dialect, phalcon, MySQL, db_dialect_mysql, NULL, 0);
 
 
 	return SUCCESS;

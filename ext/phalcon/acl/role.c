@@ -42,7 +42,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Role, acl_role, phalcon_acl_role_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, phalcon, Role, acl_role, phalcon_acl_role_method_entry, 0);
 
 /**
  * Role's name
@@ -83,6 +83,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 		_1 = zend_fetch_class(SL("Phalcon\Acl\Exeption"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_0, _1);
 		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);

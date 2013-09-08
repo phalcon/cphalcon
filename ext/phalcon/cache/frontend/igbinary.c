@@ -34,7 +34,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_IgBinary) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, IgBinary, cache_frontend_igbinary, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, phalcon, IgBinary, cache_frontend_igbinary, NULL, 0);
 
 
 	return SUCCESS;

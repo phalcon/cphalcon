@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_Model) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, Model, paginator_adapter_model, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, phalcon, Model, paginator_adapter_model, NULL, 0);
 
 
 	return SUCCESS;

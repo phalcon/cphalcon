@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Ini) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Config\\Adapter, Ini, config_adapter_ini, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Config\\Adapter, phalcon, Ini, config_adapter_ini, NULL, 0);
 
 
 	return SUCCESS;

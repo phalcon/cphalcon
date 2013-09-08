@@ -40,7 +40,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource_Css) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Assets\\Resource, Css, assets_resource_css, "phalcon\\assets\\resource", phalcon_assets_resource_css_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Assets\\Resource, phalcon, Css, assets_resource_css, phalcon_assets_resource_ce, phalcon_assets_resource_css_method_entry, 0);
 
 
 	return SUCCESS;
@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "css", 1);
-	ZEPHIR_CALL_PARENT_PARAMS_5_NORETURN(this_ptr, "__construct", _0, path, local, filter, attributes);
+	zephir_call_parent_p5_noret(this_ptr, phalcon_assets_resource_css_ce, "__construct", _0, path, local, filter, attributes);
 	ZEPHIR_MM_RESTORE();
 
 }

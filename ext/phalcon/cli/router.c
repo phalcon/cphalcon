@@ -57,7 +57,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_CLI_Router) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\CLI, Router, cli_router, phalcon_cli_router_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\CLI, phalcon, Router, cli_router, phalcon_cli_router_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cli_router_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_cli_router_ce, SL("_module"), ZEND_ACC_PUBLIC TSRMLS_CC);

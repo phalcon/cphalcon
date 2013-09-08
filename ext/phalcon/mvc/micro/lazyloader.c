@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, LazyLoader, mvc_micro_lazyloader, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, phalcon, LazyLoader, mvc_micro_lazyloader, NULL, 0);
 
 
 	return SUCCESS;

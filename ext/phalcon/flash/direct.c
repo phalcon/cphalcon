@@ -40,7 +40,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Flash, Direct, flash_direct, "phalcon\\flash", phalcon_flash_direct_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Flash, phalcon, Direct, flash_direct, phalcon_flash_ce, phalcon_flash_direct_method_entry, 0);
 
 
 	return SUCCESS;

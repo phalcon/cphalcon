@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Formatter, logger_formatter, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, phalcon, Formatter, logger_formatter, NULL, 0);
 
 
 	return SUCCESS;

@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\View\\Engine, Volt, mvc_view_engine_volt, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\View\\Engine, phalcon, Volt, mvc_view_engine_volt, NULL, 0);
 
 
 	return SUCCESS;

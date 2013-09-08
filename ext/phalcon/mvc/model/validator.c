@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Validator, mvc_model_validator, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, phalcon, Validator, mvc_model_validator, NULL, 0);
 
 
 	return SUCCESS;

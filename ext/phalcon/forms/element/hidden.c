@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Hidden) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, Hidden, forms_element_hidden, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, phalcon, Hidden, forms_element_hidden, NULL, 0);
 
 
 	return SUCCESS;

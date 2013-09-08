@@ -51,7 +51,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DI_Service) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, Service, di_service, phalcon_di_service_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, phalcon, Service, di_service, phalcon_di_service_method_entry, 0);
 
 	zend_declare_property_null(phalcon_di_service_ce, SL("_name"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_di_service_ce, SL("_definition"), ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -271,6 +271,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve) {
 		ZEPHIR_CONCAT_VS(_3, _2, "' cannot be resolved");
 		zephir_call_method_p1_noret(_0, "__construct", _3);
 		zephir_throw_exception(_0 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (zend_is_true(shared)) {

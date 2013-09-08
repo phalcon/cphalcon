@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Form) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms, Form, forms_form, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms, phalcon, Form, forms_form, NULL, 0);
 
 
 	return SUCCESS;

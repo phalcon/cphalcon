@@ -44,7 +44,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Version) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Version, version, phalcon_version_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, phalcon, Version, version, phalcon_version_method_entry, 0);
 
 
 	return SUCCESS;
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Version, get) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_SINIT_VAR(version);
-	ZEPHIR_CALL_SELF(version, this_ptr, phalcon_version_ce, "_getversion");
+	zephir_call_self(version, this_ptr, "_getversion");
 	ZEPHIR_OBS_VAR(major);
 	zephir_array_fetch_long(&major, version, 0, PH_NOISY);
 	ZEPHIR_OBS_VAR(medium);
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Version, getId) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_SINIT_VAR(version);
-	ZEPHIR_CALL_SELF(version, this_ptr, phalcon_version_ce, "_getversion");
+	zephir_call_self(version, this_ptr, "_getversion");
 	ZEPHIR_OBS_VAR(major);
 	zephir_array_fetch_long(&major, version, 0, PH_NOISY);
 	ZEPHIR_OBS_VAR(medium);

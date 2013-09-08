@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Behavior, Timestampable, mvc_model_behavior_timestampable, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Behavior, phalcon, Timestampable, mvc_model_behavior_timestampable, NULL, 0);
 
 
 	return SUCCESS;

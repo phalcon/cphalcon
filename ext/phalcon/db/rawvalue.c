@@ -31,10 +31,25 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\RawValue
+ *
+ * This class allows to insert/update raw data without quoting or formating.
+ *
+ *The next example shows how to use the MySQL now() function as a field value.
+ *
+ *<code>
+ *	$subscriber = new Subscribers();
+ *	$subscriber->email = 'andres@phalconphp.com';
+ *	$subscriber->created_at = new Phalcon\Db\RawValue('now()');
+ *	$subscriber->save();
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, RawValue, db_rawvalue, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, RawValue, db_rawvalue, NULL, 0);
 
+	zend_declare_property_null(phalcon_db_rawvalue_ce, SL("_value"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

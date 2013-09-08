@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Result_Pdo) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Result, Pdo, db_result_pdo, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Result, phalcon, Pdo, db_result_pdo, NULL, 0);
 
 
 	return SUCCESS;

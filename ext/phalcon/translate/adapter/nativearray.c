@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Adapter, NativeArray, translate_adapter_nativearray, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Adapter, phalcon, NativeArray, translate_adapter_nativearray, NULL, 0);
 
 
 	return SUCCESS;

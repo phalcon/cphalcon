@@ -42,7 +42,7 @@
 */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, Memory, annotations_adapter_memory, phalcon_annotations_adapter_memory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, phalcon, Memory, annotations_adapter_memory, phalcon_annotations_adapter_memory_method_entry, 0);
 
 /**
  * Data

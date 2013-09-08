@@ -58,7 +58,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Collection, annotations_collection, phalcon_annotations_collection_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, phalcon, Collection, annotations_collection, phalcon_annotations_collection_method_entry, 0);
 
 	zend_declare_property_long(phalcon_annotations_collection_ce, SL("_position"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_annotations_collection_ce, SL("_annotations"), ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -263,6 +263,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	ZEPHIR_CONCAT_VS(_5, _4, "'");
 	zephir_call_method_p1_noret(_3, "__construct", _5);
 	zephir_throw_exception(_3 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 	return;
 
 }

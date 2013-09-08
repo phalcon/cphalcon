@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Mongo) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, Mongo, cache_backend_mongo, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, phalcon, Mongo, cache_backend_mongo, NULL, 0);
 
 
 	return SUCCESS;

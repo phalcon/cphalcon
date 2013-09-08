@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter, Exception, filter_exception, "phalcon\\exception", NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter, phalcon, Exception, filter_exception, phalcon_exception_ce, NULL, 0);
 
 
 	return SUCCESS;

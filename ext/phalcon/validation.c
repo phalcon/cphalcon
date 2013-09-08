@@ -45,7 +45,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Validation, validation, "phalcon\\di\\injectable", phalcon_validation_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon, phalcon, Validation, validation, phalcon_di_injectable_ce, phalcon_validation_method_entry, 0);
 
 	zend_declare_property_null(phalcon_validation_ce, SL("_data"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_ce, SL("_entity"), ZEND_ACC_PUBLIC TSRMLS_CC);
@@ -416,6 +416,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			_3 = zend_fetch_class(SL("Phalcon_Validation_Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			object_init_ex(_0, _3);
 			zephir_throw_exception(_0 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	}

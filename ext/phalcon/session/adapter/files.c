@@ -50,7 +50,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Files) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session\\Adapter, Files, session_adapter_files, "phalcon\\session\\adapter", NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session\\Adapter, phalcon, Files, session_adapter_files, phalcon_session_adapter_ce, NULL, 0);
 
 
 	return SUCCESS;

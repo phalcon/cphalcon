@@ -19,4 +19,78 @@
 
 namespace Phalcon\Db;
 
-class Adapter { }
+/**
+ * Phalcon\Db\Adapter
+ *
+ * Base class for Phalcon\Db adapters
+ */
+abstract class Adapter implements Phalcon\Events\EventsAwareInterface
+{
+
+	/**
+	 * Event Manager
+	 *
+	 * @var Phalcon\Events\Manager
+	 */
+	protected _eventsManager;
+
+	/**
+	 * Descriptor used to connect to a database
+	 *
+	 * @var stdClass
+	 */
+	protected _descriptor;
+
+	/**
+	 * Dialect Type
+	 */
+	protected _dialectType;
+
+	/**
+	 * Type of database backend
+	 */
+	protected _type;
+
+	/**
+	 * Dialect instance
+	 */
+	protected _dialect;
+
+	/**
+	 * Active connection ID
+	 *
+	 * @var long
+	 */
+	protected _connectionId;
+
+	/**
+	 * Active SQL Statement
+	 *
+	 * @var string
+	 */
+	protected _sqlStatement;
+
+	/**
+	 * Active SQL Variables
+	 *
+	 * @var string
+	 */
+	protected _sqlVariables;
+
+	/**
+	 * Active SQL Bind Types
+	 *
+	 * @var string
+	 */
+	protected _sqlBindTypes;
+
+	protected _transactionLevel = 0;
+
+	protected _transactionsWithSavepoints = 0;
+
+	/**
+	 * Connection ID
+	 */
+	protected static _connectionConsecutive = 0;
+
+}

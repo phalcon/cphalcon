@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations, Exception, annotations_exception, "exception", NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations, phalcon, Exception, annotations_exception, zend_exception_get_default(TSRMLS_C), NULL, 0);
 
 
 	return SUCCESS;

@@ -31,10 +31,61 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\Profiler
+ *
+ * Instances of Phalcon\Db can generate execution profiles
+ * on SQL statements sent to the relational database. Profiled
+ * information includes execution time in miliseconds.
+ * This helps you to identify bottlenecks in your applications.
+ *
+ *<code>
+ *
+ *	profiler = new Phalcon\Db\Profiler();
+ *
+ *	//Set the connection profiler
+ *	connection->setProfiler(profiler);
+ *
+ *	sql = "SELECT buyer_name, quantity, product_name
+ *	FROM buyers LEFT JOIN products ON
+ *	buyers.pid=products.id";
+ *
+ *	//Execute a SQL statement
+ *	connection->query(sql);
+ *
+ *	//Get the last profile in the profiler
+ *	profile = profiler->getLastProfile();
+ *
+ *	echo "SQL Statement: ", profile->getSQLStatement(), "\n";
+ *	echo "Start Time: ", profile->getInitialTime(), "\n";
+ *	echo "Final Time: ", profile->getFinalTime(), "\n";
+ *	echo "Total Elapsed Time: ", profile->getTotalElapsedSeconds(), "\n";
+ *
+ *</code>
+ *
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Profiler, db_profiler, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Profiler, db_profiler, NULL, 0);
 
+/**
+ * All the Phalcon\Db\Profiler\Item in the active profile
+ *
+ * @var array
+ */
+	zend_declare_property_null(phalcon_db_profiler_ce, SL("_allProfiles"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Active Phalcon\Db\Profiler\Item
+ *
+ * @var Phalcon\Db\Profiler\Item
+ */
+	zend_declare_property_null(phalcon_db_profiler_ce, SL("_activeProfile"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Total time spent by all profiles to complete
+ *
+ * @var float
+ */
+	zend_declare_property_long(phalcon_db_profiler_ce, SL("_totalSeconds"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 

@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Textarea) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, Textarea, forms_element_textarea, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, phalcon, Textarea, forms_element_textarea, NULL, 0);
 
 
 	return SUCCESS;

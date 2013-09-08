@@ -35,11 +35,10 @@
  * Phalcon\Mvc\Model\Exception
  *
  * Exceptions thrown in Phalcon\Mvc\Model\* classes will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, Exception, mvc_model_exception, "phalcon\\exception", NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, phalcon, Exception, mvc_model_exception, phalcon_exception_ce, NULL, 0);
 
 
 	return SUCCESS;

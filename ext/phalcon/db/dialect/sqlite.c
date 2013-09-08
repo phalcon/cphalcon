@@ -35,7 +35,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Sqlite) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Dialect, Sqlite, db_dialect_sqlite, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Dialect, phalcon, Sqlite, db_dialect_sqlite, NULL, 0);
 
 
 	return SUCCESS;

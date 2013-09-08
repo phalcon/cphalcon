@@ -43,7 +43,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DI_FactoryDefault) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DI, FactoryDefault, di_factorydefault, "phalcon\\di", phalcon_di_factorydefault_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DI, phalcon, FactoryDefault, di_factorydefault, phalcon_di_ce, phalcon_di_factorydefault_method_entry, 0);
 
 
 	return SUCCESS;
@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_PARENT_NORETURN("Phalcon\\DI\\FactoryDefault", "__construct");
+	zephir_call_parent_noret(this_ptr, phalcon_di_factorydefault_ce, "__construct");
 	shared = 1;
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);

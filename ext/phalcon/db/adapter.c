@@ -31,10 +31,69 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Db\Adapter
+ *
+ * Base class for Phalcon\Db adapters
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Adapter, db_adapter, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Adapter, db_adapter, NULL, 0);
 
+/**
+ * Event Manager
+ *
+ * @var Phalcon\Events\Manager
+ */
+	zend_declare_property_null(phalcon_db_adapter_ce, SL("_eventsManager"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Descriptor used to connect to a database
+ *
+ * @var stdClass
+ */
+	zend_declare_property_null(phalcon_db_adapter_ce, SL("_descriptor"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Dialect Type
+ */
+	zend_declare_property_null(phalcon_db_adapter_ce, SL("_dialectType"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Type of database backend
+ */
+	zend_declare_property_null(phalcon_db_adapter_ce, SL("_type"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Dialect instance
+ */
+	zend_declare_property_null(phalcon_db_adapter_ce, SL("_dialect"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Active connection ID
+ *
+ * @var long
+ */
+	zend_declare_property_null(phalcon_db_adapter_ce, SL("_connectionId"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Active SQL Statement
+ *
+ * @var string
+ */
+	zend_declare_property_null(phalcon_db_adapter_ce, SL("_sqlStatement"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Active SQL Variables
+ *
+ * @var string
+ */
+	zend_declare_property_null(phalcon_db_adapter_ce, SL("_sqlVariables"), ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Active SQL Bind Types
+ *
+ * @var string
+ */
+	zend_declare_property_null(phalcon_db_adapter_ce, SL("_sqlBindTypes"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_adapter_ce, SL("_transactionLevel"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_adapter_ce, SL("_transactionsWithSavepoints"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+/**
+ * Connection ID
+ */
+	zend_declare_property_long(phalcon_db_adapter_ce, SL("_connectionConsecutive"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	return SUCCESS;
 
