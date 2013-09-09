@@ -800,8 +800,8 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
  * @param string $filename
  * @param int $enhance
  * @param int $extended
- * @return string
- */
+ * @return array
+*/
 PHP_METHOD(Phalcon_Chart_QRcode, scan){
 
 	zval *filename, *enhance = NULL, *page = NULL, *extended = NULL;

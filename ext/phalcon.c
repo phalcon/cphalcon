@@ -350,6 +350,10 @@ zend_class_entry *phalcon_image_adapterinterface_ce;
 zend_class_entry *phalcon_image_exception_ce;
 zend_class_entry *phalcon_image_adapter_gd_ce;
 zend_class_entry *phalcon_image_adapter_imagick_ce;
+zend_class_entry *phalcon_utils_date_ce;
+zend_class_entry *phalcon_utils_arr_ce;
+zend_class_entry *phalcon_http_client_ce;
+zend_class_entry *phalcon_http_client_exception_ce;
 zend_class_entry *phalcon_chart_qrcode_ce;
 zend_class_entry *phalcon_chart_exception_ce;
 
@@ -704,6 +708,10 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Image_Exception);
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
+	PHALCON_INIT(Phalcon_Utils_Date);
+	PHALCON_INIT(Phalcon_Utils_Arr);
+	PHALCON_INIT(Phalcon_Http_Client);
+	PHALCON_INIT(Phalcon_Http_Client_Exception);
 	PHALCON_INIT(Phalcon_Chart_QRcode);
 	PHALCON_INIT(Phalcon_Chart_Exception);
 
@@ -810,6 +818,11 @@ zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_REQUIRED("pcre")
 #else
 	ZEND_MOD_OPTIONAL("pcre")
+#endif
+#if PHALCON_USE_PHP_CURL
+	ZEND_MOD_REQUIRED("curl")
+#else
+	ZEND_MOD_OPTIONAL("curl")
 #endif
 	ZEND_MOD_OPTIONAL("filter")
 	ZEND_MOD_OPTIONAL("iconv")

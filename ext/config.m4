@@ -348,6 +348,10 @@ image/adapterinterface.c \
 image/exception.c \
 image/adapter/gd.c \
 image/adapter/imagick.c \
+utils/date.c \
+utils/arr.c \
+http/client.c \
+http/client/exception.c \
 chart/qrcode.c \
 chart/exception.c"
 
@@ -420,55 +424,95 @@ chart/exception.c"
 
 	CPPFLAGS=$old_CPPFLAGS
 
-	for i in /usr /usr/local; do
-		if test -r $i/include/png.h; then
-			PNG_CFLAGS=`pkg-config --cflags libpng`
-			PNG_LDFLAGS=`pkg-config --libs libpng`
+	for i in /usr/local /usr; do
+		if test -r $i/include/curl/easy.h; then
+			CURL_DIR=$i
+			if ${CURL_DIR}/bin/curl-config --libs > /dev/null 2>&1; then
+				CURL_CONFIG=${CURL_DIR}/bin/curl-config
+			else
+				if ${CURL_DIR}/curl-config --libs > /dev/null 2>&1; then
+					CURL_CONFIG=${CURL_DIR}/curl-config
+				fi
+			fi
+			curl_version_full=`$CURL_CONFIG --version`
+			AC_MSG_RESULT($curl_version_full)
 
-			CPPFLAGS="${CPPFLAGS} ${PNG_CFLAGS}"
-			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${PNG_LDFLAGS}"
+			EXTRA_CFLAGS=`$CURL_CONFIG --cflags`
+			EXTRA_LDFLAGS=`$CURL_CONFIG --libs`
 
-			AC_MSG_RESULT("libpng found")
+			AC_MSG_RESULT("libcurl found")
 
-			AC_DEFINE([PHALCON_USE_PNG], [1], [Have libpng support])
+			AC_DEFINE([PHALCON_USE_CURL], [1], [Have CURL support])
 			break
 		fi
 	done
 
-	for i in /usr /usr/local; do
-		if test -r $i/include/qrencode.h; then
-			QR_CFLAGS=`pkg-config --cflags libqrencode`
-			QR_LDFLAGS=`pkg-config --libs libqrencode`
+	if test "$enable_qrcode" != "no"; then
+		for i in /usr /usr/local; do
+			if test -r $i/include/png.h; then
+				PNG_DIR=$i
+				PNG_CFLAGS=`pkg-config --cflags libpng`
+				PNG_LDFLAGS=`pkg-config --libs libpng`
 
-			CPPFLAGS="${CPPFLAGS} ${QR_CFLAGS}"
-			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${QR_LDFLAGS}"
+				CPPFLAGS="${CPPFLAGS} ${PNG_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${PNG_LDFLAGS}"
 
-			AC_MSG_RESULT("libqrencode found")
+				AC_MSG_RESULT("libpng found")
 
-			AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
-			break
+				AC_DEFINE([PHALCON_USE_PNG], [1], [Have libpng support])
+				break
+			fi
+		done
+
+		if test -z $PNG_DIR; then
+			AC_MSG_RESULT("libpng not found")
+			AC_MSG_ERROR("Please check your libpng-dev installation.")
 		fi
-	done
 
-	for i in /usr /usr/local; do
-		if test -r $i/bin/MagickWand-config; then
+		for i in /usr /usr/local; do
+			if test -r $i/include/qrencode.h; then
+				QR_DIR=$i
+				QR_CFLAGS=`pkg-config --cflags libqrencode`
+				QR_LDFLAGS=`pkg-config --libs libqrencode`
 
-			WAND_BINARY=$i/bin/MagickWand-config
+				CPPFLAGS="${CPPFLAGS} ${QR_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${QR_LDFLAGS}"
 
-			WAND_CFLAGS=`$WAND_BINARY --cflags`
-			WAND_LDFLAGS=`$WAND_BINARY --libs`
+				AC_MSG_RESULT("libqrencode found")
 
-			CPPFLAGS="${CPPFLAGS} ${WAND_CFLAGS}"
-			EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${WAND_LDFLAGS}"
+				AC_DEFINE([PHALCON_USE_QRENCODE], [1], [Have libqrencode support])
+				break
+			fi
+		done
 
-			AC_DEFINE([PHALCON_USE_MAGICKWAND], [1], [Have ImageMagick MagickWand support])
-			break
+		if test -z $QR_DIR; then
+			AC_MSG_RESULT("libqrencode not found")
+			AC_MSG_ERROR("Please check your libqrencode-dev installation.")
 		fi
-	done
 
-	if test -r "$WAND_BINARY"; then
+		for i in /usr /usr/local; do
+			if test -r $i/bin/MagickWand-config; then
+				WAND_BINARY=$i/bin/MagickWand-config
+
+				WAND_CFLAGS=`$WAND_BINARY --cflags`
+				WAND_LDFLAGS=`$WAND_BINARY --libs`
+
+				CPPFLAGS="${CPPFLAGS} ${WAND_CFLAGS}"
+				EXTRA_LDFLAGS="${EXTRA_LDFLAGS} ${WAND_LDFLAGS}"
+
+				AC_DEFINE([PHALCON_USE_MAGICKWAND], [1], [Have ImageMagick MagickWand support])
+				break
+			fi
+		done
+
+		if test -z $WAND_BINARY; then
+			AC_MSG_RESULT("libmagickwand not found")
+			AC_MSG_ERROR("Please check your libmagickwand-dev installation.")
+		fi
+
 		for i in /usr /usr/local; do
 			if test -r $i/include/zbar.h; then
+				ZBAR_DIR=$i
 				ZBAR_CFLAGS=`pkg-config --cflags zbar`
 				ZBAR_LDFLAGS=`pkg-config --libs zbar`
 
@@ -481,6 +525,11 @@ chart/exception.c"
 				break
 			fi
 		done
+
+		if test -z $ZBAR_DIR; then
+			AC_MSG_RESULT("libzbar not found")
+			AC_MSG_ERROR("Please check your libzbar-dev installation.")
+		fi
 	fi
 
 	PHP_ADD_MAKEFILE_FRAGMENT
