@@ -534,7 +534,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 PHP_METHOD(Phalcon_Tag, _inputField){
 
 	zval *type, *parameters, *as_value = NULL, *params = NULL, *value = NULL;
-	zval *id = NULL, *name, *code, *key = NULL, *doctype;
+	zval *id = NULL, *name, *code, *key = NULL, *doctype, *escaped;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -545,13 +545,13 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	
 	if (!as_value) {
 		PHALCON_INIT_VAR(as_value);
-		ZVAL_BOOL(as_value, 0);
+		ZVAL_FALSE(as_value);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, parameters, PH_SEPARATE);
+		phalcon_array_append(&params, parameters, 0);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
@@ -608,6 +608,8 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	PHALCON_INIT_VAR(code);
 	PHALCON_CONCAT_SVS(code, "<input type=\"", type, "\"");
 	
+	PHALCON_INIT_VAR(escaped);
+
 	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
@@ -616,7 +618,10 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		PHALCON_GET_HVALUE(value);
 	
 		if (Z_TYPE_P(key) != IS_LONG) {
-			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", value, "\"");
+			phalcon_htmlspecialchars(escaped, value, NULL, NULL TSRMLS_CC);
+			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", escaped, "\"");
+			zval_dtor(escaped);
+			ZVAL_NULL(escaped);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);

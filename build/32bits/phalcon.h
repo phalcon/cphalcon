@@ -16381,6 +16381,7 @@ PHALCON_INIT_CLASS(Phalcon_Chart_QRcode);
 
 static PHP_METHOD(Phalcon_Chart_QRcode, __construct);
 static PHP_METHOD(Phalcon_Chart_QRcode, generate);
+static PHP_METHOD(Phalcon_Chart_QRcode, getData);
 static PHP_METHOD(Phalcon_Chart_QRcode, render);
 static PHP_METHOD(Phalcon_Chart_QRcode, save);
 #ifdef PHALCON_USE_ZBAR
@@ -16393,26 +16394,36 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_generate, 0, 0, 1)
 	ZEND_ARG_INFO(0, level)
 	ZEND_ARG_INFO(0, mode)
 	ZEND_ARG_INFO(0, casesensitive)
+	ZEND_ARG_INFO(0, micro)
 ZEND_END_ARG_INFO()
+
 #ifdef PHALCON_USE_ZBAR
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_scan, 0, 0, 1)
 	ZEND_ARG_INFO(0, filename)
+	ZEND_ARG_INFO(0, enhance)
+	ZEND_ARG_INFO(0, extended)
 ZEND_END_ARG_INFO()
 #endif
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, size)
 	ZEND_ARG_INFO(0, margin)
+	ZEND_ARG_INFO(0, foreground)
+	ZEND_ARG_INFO(0, background)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_save, 0, 0, 0)
 	ZEND_ARG_INFO(0, filename)
 	ZEND_ARG_INFO(0, size)
 	ZEND_ARG_INFO(0, margin)
+	ZEND_ARG_INFO(0, foreground)
+	ZEND_ARG_INFO(0, background)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_chart_qrcode_method_entry){
 	PHP_ME(Phalcon_Chart_QRcode, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Chart_QRcode, generate, arginfo_phalcon_chart_qrcode_generate, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Chart_QRcode, getData, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Chart_QRcode, render, arginfo_phalcon_chart_qrcode_render, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Chart_QRcode, save, arginfo_phalcon_chart_qrcode_save, ZEND_ACC_PUBLIC) 
 #ifdef PHALCON_USE_ZBAR

@@ -37021,9 +37021,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 
 	zval *params = NULL, *dependency_injector = NULL, *conditions = NULL;
-	zval *columns, *group_clause, *having_clause;
-	zval *order_clause, *limit_clause, *for_update;
-	zval *shared_lock;
+	zval *models, *columns, *group_clause;
+	zval *having_clause, *order_clause, *limit_clause;
+	zval *offset_clause, *for_update, *shared_lock;
+	zval *limit, *offset;
 
 	phalcon_fetch_params(0, 0, 2, &params, &dependency_injector);
 	
@@ -37034,7 +37035,11 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		} else if (phalcon_array_isset_string_fetch(&conditions, params, SS("conditions"))) {
 			phalcon_update_property_this_quick(this_ptr, SL("_conditions"), conditions, 14754297359348615454UL TSRMLS_CC);
 		}
-	
+
+		if (phalcon_array_isset_string_fetch(&models, params, SS("models"))) {
+			phalcon_update_property_this_quick(this_ptr, SL("_models"), models, 7572078763218024UL TSRMLS_CC);
+		}
+
 		if (phalcon_array_isset_string_fetch(&columns, params, SS("columns"))) {
 			phalcon_update_property_this_quick(this_ptr, SL("_columns"), columns, 249878173333857189UL TSRMLS_CC);
 		}
@@ -37052,9 +37057,23 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		}
 	
 		if (phalcon_array_isset_string_fetch(&limit_clause, params, SS("limit"))) {
-			phalcon_update_property_this_quick(this_ptr, SL("_limit"), limit_clause, 229456886295747UL TSRMLS_CC);
+			if (Z_TYPE_P(limit_clause) == IS_ARRAY
+				&& phalcon_array_isset_long_fetch(&limit, limit_clause, 0)
+				&& phalcon_array_isset_long_fetch(&offset, limit_clause, 1)
+				&& phalcon_is_numeric(limit)
+				&& phalcon_is_numeric(offset)
+			) {
+				phalcon_update_property_this_quick(this_ptr, SL("_limit"), limit, 229456886295747UL TSRMLS_CC);
+				phalcon_update_property_this_quick(this_ptr, SL("_offset"), offset, 7572080996802795UL TSRMLS_CC);
+			} else {
+				phalcon_update_property_this_quick(this_ptr, SL("_limit"), limit_clause, 229456886295747UL TSRMLS_CC);
+			}
 		}
-	
+		
+		if (phalcon_array_isset_string_fetch(&offset_clause, params, SS("offset"))) {
+			phalcon_update_property_this_quick(this_ptr, SL("_offset"), offset_clause, 7572080996802795UL TSRMLS_CC);
+		}
+
 		if (phalcon_array_isset_string_fetch(&for_update, params, SS("for_update"))) {
 			phalcon_update_property_this_quick(this_ptr, SL("_forUpdate"), for_update, 13863053177578674670UL TSRMLS_CC);
 		}
@@ -58050,7 +58069,7 @@ static PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(version, 1);
 	add_next_index_long(version, 3);
 	add_next_index_long(version, 0);
-	add_next_index_long(version, 1);
+	add_next_index_long(version, 2);
 	add_next_index_long(version, 1);
 	RETURN_CTOR(version);
 }
@@ -74537,7 +74556,7 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection) {
 static PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 
 	zval *watermark, *offset_x = NULL, *offset_y = NULL, *opacity = NULL, *op = NULL;
-	zval  *image, *overlay, *saveflag, *width, *height, *color, *tmp = NULL, *effect, *blendmode, *ret;
+	zval  *image, *overlay, *blob, *saveflag, *width, *height, *color, *tmp = NULL, *effect, *blendmode, *ret;
 	int int_opacity;
 	double num;
 
@@ -74545,12 +74564,13 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 
 	phalcon_fetch_params(1, 4, 0, &watermark, &offset_x, &offset_y, &opacity);
 
-	PHALCON_SEPARATE_PARAM(watermark);
-
 	image = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(overlay);
-	phalcon_call_method_p0_ex(overlay, &overlay, watermark, "getImage");
+	PHALCON_INIT_VAR(blob);	
+	phalcon_call_method(blob, watermark, "render");
+
+	PHALCON_INIT_VAR(overlay);
+	phalcon_call_func_p1(overlay, "imagecreatefromstring", blob);
 
 	PHALCON_INIT_VAR(saveflag);
 	ZVAL_TRUE(saveflag);
@@ -74783,7 +74803,7 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _text) {
 
 static PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 
-	zval *mask, *image, *mask_image, *mask_image_width, *mask_image_height, *newimage, *image_width, *image_height, *saveflag, *color, *c, *alpha = NULL;
+	zval *mask, *image, *mask_image, *blob, *mask_image_width, *mask_image_height, *newimage, *image_width, *image_height, *saveflag, *color, *c, *alpha = NULL;
 	zval *r = NULL, *g = NULL, *b = NULL, *index = NULL, *index2 = NULL, *zx = NULL, *zy = NULL, *red = NULL;
 	zval *temp_image;
 	int x, y, w, h, i;
@@ -74791,13 +74811,20 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &mask);
-	
-	PHALCON_SEPARATE_PARAM(mask);
 
 	image = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(mask_image);
-	phalcon_call_method_p0_ex(mask_image, &mask_image, mask, "getImage");
+	PHALCON_INIT_VAR(blob);	
+	phalcon_call_method(blob, mask, "render");
+
+	PHALCON_INIT_VAR(mask_image);
+	phalcon_call_func_p1(mask_image, "imagecreatefromstring", blob);
+
+	PHALCON_INIT_VAR(saveflag);
+	ZVAL_TRUE(saveflag);
+
+	PHALCON_INIT_VAR(mask_image);
+	phalcon_call_func_p2_noret("imagesavealpha", mask_image, saveflag);
 
 	PHALCON_OBS_VAR(mask_image_width);
 	phalcon_call_func_p1_ex(mask_image_width, &mask_image_width, "imagesx", mask_image);
@@ -74811,8 +74838,6 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 	PHALCON_OBS_VAR(newimage);
 	phalcon_call_method_p2_ex(newimage, &newimage, this_ptr, "_create", image_width, image_height);
 
-	PHALCON_INIT_VAR(saveflag);
-	ZVAL_TRUE(saveflag);
 
 	phalcon_call_func_p2_noret("imagesavealpha", newimage, saveflag);
 
@@ -76009,7 +76034,7 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 
 	zval *watermark_image, *offset_x, *offset_y, *opacity, *op =NULL;
-	zval *im, *watermark, *ret = NULL, *channel, *op_constant = NULL, *composite, *index, *next = NULL, *type;
+	zval *im, *watermark, *realpath, *blob, *ret = NULL, *channel, *op_constant = NULL, *composite, *index, *next = NULL, *type;
 	zend_class_entry *ce0;
 	double num;
 
@@ -76017,18 +76042,28 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 
 	phalcon_fetch_params(1, 4, 0, &watermark_image, &offset_x, &offset_y, &opacity);
 
-	PHALCON_SEPARATE_PARAM(watermark_image);
-
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this_quick(&im, this_ptr, SL("_image"), 229456773199335UL, PH_NOISY_CC);
 
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property_this_quick(&type, this_ptr, SL("_type"), 6953249044038UL, PH_NOISY_CC);
 
+	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
 	PHALCON_INIT_VAR(watermark);
 	phalcon_call_method(watermark, watermark_image, "getImage");
+	object_init_ex(watermark, ce0);
+	if (phalcon_has_constructor(watermark TSRMLS_CC)) {
+		phalcon_call_method_noret(watermark, "__construct");
+	}
 
-	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	PHALCON_INIT_VAR(realpath);	
+	phalcon_call_method(realpath, watermark_image, "getRealPath");
+
+	PHALCON_INIT_VAR(blob);	
+	phalcon_call_method(blob, watermark_image, "render");
+
+	phalcon_call_method_p2_noret(watermark, "readImageBlob", blob, realpath);
 
 	PHALCON_INIT_VAR(channel);
 	phalcon_get_class_constant(channel, ce0, SS("ALPHACHANNEL_ACTIVATE") TSRMLS_CC);
@@ -76325,23 +76360,31 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask){
 
-	zval *mask, *im, *mask_im, *matte, *composite, *tmp, *index, *next = NULL, *type;
+	zval *mask, *im, *mask_im, *realpath, *blob, *matte, *composite, *tmp, *index, *next = NULL, *type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &mask);
-	
-	PHALCON_SEPARATE_PARAM(mask);
 
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this_quick(&im, this_ptr, SL("_image"), 229456773199335UL, PH_NOISY_CC);
 
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property_this_quick(&type, this_ptr, SL("_type"), 6953249044038UL, PH_NOISY_CC);
-
 	PHALCON_INIT_VAR(mask_im);
-	phalcon_call_method(mask_im, mask, "getImage");
+	object_init_ex(mask_im, ce0);
+	if (phalcon_has_constructor(mask_im TSRMLS_CC)) {
+		phalcon_call_method_noret(mask_im, "__construct");
+	}
+
+	PHALCON_INIT_VAR(realpath);	
+	phalcon_call_method(realpath, mask, "getRealPath");
+
+	PHALCON_INIT_VAR(blob);	
+	phalcon_call_method(blob, mask, "render");
+
+	phalcon_call_method_p2_noret(mask_im, "readImageBlob", blob, realpath);
 
 	PHALCON_INIT_VAR(matte);
 	ZVAL_LONG(matte, 1);
@@ -91633,7 +91676,7 @@ void curl_init(zval *return_value TSRMLS_DC) {
 	ch->id = Z_LVAL_P(return_value);
 }
 
-static int php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, int count, zval *return_value TSRMLS_DC) /* {{{ */
+static void php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, int count, zval *return_value TSRMLS_DC) /* {{{ */
 {	
 	CURLcode error = CURLE_OK;
 	switch (option) {
@@ -91705,7 +91748,7 @@ static int php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, 
 				(PG(open_basedir) && *PG(open_basedir)) && (Z_LVAL_PP(zvalue) & CURLPROTO_FILE)) {
 					php_error_docref(NULL TSRMLS_CC, E_WARNING, "CURLPROTO_FILE cannot be activated when an open_basedir is set");
 					RETVAL_FALSE;
-					return 1;
+					return;
 			}
 			error = curl_easy_setopt(ch->cp, option, Z_LVAL_PP(zvalue));
 			break;
@@ -91720,7 +91763,7 @@ static int php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, 
 				if (Z_LVAL_PP(zvalue) != 0) {
 					php_error_docref(NULL TSRMLS_CC, E_WARNING, "CURLOPT_FOLLOWLOCATION cannot be activated when an open_basedir is set");
 					RETVAL_FALSE;
-					return 1;
+					return;
 				}
 			}
 			error = curl_easy_setopt(ch->cp, option, Z_LVAL_PP(zvalue));
@@ -91763,13 +91806,13 @@ static int php_curl_setopt(php_curl *ch, long option, zval **zvalue, int files, 
 			) {
 				if (php_check_open_basedir(Z_STRVAL_PP(zvalue) TSRMLS_CC)) {
 					RETVAL_FALSE;
-					return 1;
+					return;
 				}
 			}
 			if (option == CURLOPT_URL) {
 				if (!php_curl_option_url(ch, Z_STRVAL_PP(zvalue), Z_STRLEN_PP(zvalue) TSRMLS_CC)) {
 					RETVAL_FALSE;
-					return 1;
+					return;
 				}
 			} else {
 				if (option == CURLOPT_PRIVATE) {
@@ -91797,17 +91840,17 @@ string_copy:
 			what = zend_fetch_resource(zvalue TSRMLS_CC, -1, "File-Handle", &type, 1, php_file_le_stream(), php_file_le_pstream());
 			if (!what) {
 				RETVAL_FALSE;
-				return 1;
+				return;
 			}
 
 			if (FAILURE == php_stream_cast((php_stream *) what, PHP_STREAM_AS_STDIO, (void *) &fp, REPORT_ERRORS)) {
 				RETVAL_FALSE;
-				return 1;
+				return;
 			}
 
 			if (!fp) {
 				RETVAL_FALSE;
-				return 1;
+				return;
 			}
 
 			error = CURLE_OK;
@@ -91824,7 +91867,7 @@ string_copy:
 					} else {
 						php_error_docref(NULL TSRMLS_CC, E_WARNING, "the provided file handle is not writable");
 						RETVAL_FALSE;
-						return 1;
+						return;
 					}
 					break;
 				case CURLOPT_WRITEHEADER:
@@ -91839,7 +91882,7 @@ string_copy:
 					} else {
 						php_error_docref(NULL TSRMLS_CC, E_WARNING, "the provided file handle is not writable");
 						RETVAL_FALSE;
-						return 1;
+						return;
 					}
 					break;
 				case CURLOPT_INFILE:
@@ -91861,7 +91904,7 @@ string_copy:
 					} else {
 						php_error_docref(NULL TSRMLS_CC, E_WARNING, "the provided file handle is not writable");
 						RETVAL_FALSE;
-						return 1;
+						return;
 					}
 					/* break omitted intentionally */
 				default:
@@ -91933,7 +91976,7 @@ string_copy:
 			                zend_error(E_ERROR, "The argument is not iterable()");
 			                PHALCON_MM_RESTORE();
 					RETVAL_FALSE;
-					return 1;
+					return;
 			        }
 
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
@@ -91942,14 +91985,7 @@ string_copy:
 
 					convert_to_string_ex(&key);
 					
-					char *cvalue = NULL, *ckey = NULL;
-
-					ckey = estrndup(Z_STRVAL_P(key), Z_STRLEN_P(key));
-					cvalue = estrndup(Z_STRVAL_P(value), Z_STRLEN_P(value));
-
 					if (num >= (count - files)) {
-						char *cfilename = NULL, *ctype = NULL;
-
 						PHALCON_INIT_VAR(constant);
 						if (zend_get_constant(SL("PATHINFO_BASENAME"), constant TSRMLS_CC) != FAILURE) {
 							PHALCON_INIT_VAR(filename);
@@ -91959,10 +91995,8 @@ string_copy:
 						PHALCON_INIT_VAR(type);
 						phalcon_call_func_p1(type, "mime_content_type", value);
 
-						if (php_check_open_basedir(cvalue TSRMLS_CC)) {
-							PHALCON_MM_RESTORE();
-							RETVAL_FALSE;
-							return 1;
+						if (php_check_open_basedir(Z_STRVAL_P(value) TSRMLS_CC)) {
+							RETURN_MM_FALSE;
 						}
 
 						error = curl_formadd(&first, &last,
@@ -91990,7 +92024,7 @@ string_copy:
 				SAVE_CURL_ERROR(ch, error);
 				if (error != CURLE_OK) {
 					RETVAL_FALSE;
-					return 1;
+					return;
 				}
 
 				zend_llist_add_element(&ch->to_free->post, &first);
@@ -92014,7 +92048,7 @@ string_copy:
 			if (!ph) {
 				php_error_docref(NULL TSRMLS_CC, E_WARNING, "You must pass either an object or an array with the CURLOPT_HTTPHEADER, CURLOPT_QUOTE, CURLOPT_HTTP200ALIASES and CURLOPT_POSTQUOTE arguments");
 				RETVAL_FALSE;
-				return 1;
+				return;
 			}
 
 			for (zend_hash_internal_pointer_reset(ph);
@@ -92028,7 +92062,7 @@ string_copy:
 				if (!slist) {
 					php_error_docref(NULL TSRMLS_CC, E_WARNING, "Could not build curl_slist");
 					RETVAL_FALSE;
-					return 1;
+					return;
 				}
 			}
 			zend_llist_add_element(&ch->to_free->slist, &slist);
@@ -92048,7 +92082,7 @@ string_copy:
 
 			if (Z_STRLEN_PP(zvalue) && php_check_open_basedir(Z_STRVAL_PP(zvalue) TSRMLS_CC)) {
 				RETVAL_FALSE;
-				return 1;
+				return;
 			}
 
 			error = curl_easy_setopt(ch->cp, option, Z_STRVAL_PP(zvalue));
@@ -92057,32 +92091,23 @@ string_copy:
 	}
 
 	SAVE_CURL_ERROR(ch, error);
-	if (error != CURLE_OK) {
-		return 1;
-	} else {
-		return 0;
-	}
 }
 
-static int curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalue, int files, int count TSRMLS_DC)
+static void curl_setopt(zval* return_value, zval *zid, zval* options, zval *zvalue, int files, int count TSRMLS_DC)
 {
 	php_curl *ch;
 	long op = Z_LVAL_P(options);
 
 	ch = (php_curl *) zend_fetch_resource(&zid TSRMLS_CC, -1, le_curl_name, NULL, 1, le_curl);
 	if (!ch) {
-		return 1;
+		return;
 	}
 
 	if (options <= 0) {
-		return 0;
+		return;
 	}
 
-	if (!php_curl_setopt(ch, op, &zvalue, files, count, return_value TSRMLS_CC)) {
-		return 1;
-	} else {
-		return 0;
-	}
+	php_curl_setopt(ch, op, &zvalue, files, count, return_value TSRMLS_CC);
 }
 
 static void curl_getinfo(zval *return_value, zval *zid, zval* option TSRMLS_DC)
@@ -94152,7 +94177,6 @@ PHALCON_INIT_CLASS(Phalcon_Chart_Exception){
 
 
 
-
 #ifdef HAVE_CONFIG_H
 #endif
 
@@ -94167,9 +94191,12 @@ PHALCON_INIT_CLASS(Phalcon_Chart_Exception){
 
 
 #ifdef PHALCON_USE_QRENCODE
+#define INCHES_PER_METER (100.0/2.54)
+
 #include <qrencode.h>
 
 static int le_qr;
+static int dpi = 72;
 
 typedef struct {
     QRcode *c;
@@ -94184,6 +94211,27 @@ static void qr_dtor(zend_rsrc_list_entry *rsrc TSRMLS_DC)
     efree (qr);
 }
 #endif
+
+static int color_set(unsigned int color[4], const char *value)
+{
+        int len = strlen(value);
+        int count;
+        if(len == 6) {
+                count = sscanf(value, "%02x%02x%02x%n", &color[0], &color[1], &color[2], &len);
+                if(count < 3 || len != 6) {
+                        return -1;
+                }
+                color[3] = 255;
+        } else if(len == 8) {
+                count = sscanf(value, "%02x%02x%02x%02x%n", &color[0], &color[1], &color[2], &color[3], &len);
+                if(count < 4 || len != 8) {
+                        return -1;
+                }
+        } else {
+                return -1;
+        }
+        return 0;
+}
 
 
 
@@ -94207,9 +94255,10 @@ PHALCON_INIT_CLASS(Phalcon_Chart_QRcode){
 	zend_declare_class_constant_long(phalcon_chart_qrcode_ce, SL("LEVEL_H"), QR_ECLEVEL_H TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_chart_qrcode_ce, SL("_qr"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_chart_qrcode_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_chart_qrcode_ce, SL("_text"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_chart_qrcode_ce, SL("_version"), 4, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_chart_qrcode_ce, SL("_level"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_chart_qrcode_ce, SL("_version"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_chart_qrcode_ce, SL("_level"), QR_ECLEVEL_H, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_chart_qrcode_ce, SL("_mode"), QR_MODE_8, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_chart_qrcode_ce, SL("_casesensitive"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 #endif
@@ -94222,22 +94271,45 @@ static PHP_METHOD(Phalcon_Chart_QRcode, __construct){
 static PHP_METHOD(Phalcon_Chart_QRcode, generate){
 
 #ifdef PHALCON_USE_QRENCODE
-	zval *text = NULL, *version = NULL, *level = NULL, *mode = NULL, *casesensitive = NULL;
-	zval *zid;
+	zval *text = NULL, *version = NULL, *level = NULL, *mode = NULL, *casesensitive = NULL, *micro = NULL;
+	zval *zid, *data;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 4, &text, &version, &level, &mode, &casesensitive);
+	phalcon_fetch_params(1, 1, 5, &text, &version, &level, &mode, &casesensitive, &micro);
 
-	if (Z_TYPE_P(text) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "text parameter must be string");
-		return;
+	if (!micro) {
+		PHALCON_INIT_VAR(micro);
+		ZVAL_FALSE(micro);
+	}
+
+	if (text) {
+		PHALCON_SEPARATE_PARAM(text);
+		convert_to_string(text);
+
+		if (zend_is_true(micro)) {
+			if (!phalcon_is_numeric(text)) {
+				PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "Micro QR Code text parameter must contain only numbers");
+				return;
+			} else if (Z_STRLEN_P(text) > 5) {
+				PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "Micro QR Code text parameter ust not exceed 5 characters long");
+				return;
+			}
+		}
 	}
 	phalcon_update_property_this_quick(this_ptr, SL("_text"), text, 6953248334505UL TSRMLS_CC);
 	
 	if (version) {
-		if (Z_TYPE_P(version) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "version parameter must be int");
+		PHALCON_SEPARATE_PARAM(version);
+		convert_to_long(version);
+
+		if (zend_is_true(micro)) {
+			if (Z_LVAL_P(version) < 1 || Z_LVAL_P(version) > 4) {
+				PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "Micro QR Code version must be within the range of 1 to 4");
+				return;
+			}
+		} else if (Z_LVAL_P(version) < 1 || Z_LVAL_P(version) > 40) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "version must be within the range of 1 to 40");
 			return;
 		}
 		phalcon_update_property_this_quick(this_ptr, SL("_version"), version, 249878970401891754UL TSRMLS_CC);
@@ -94247,8 +94319,11 @@ static PHP_METHOD(Phalcon_Chart_QRcode, generate){
 	}
 	
 	if (level) {
-		if (Z_TYPE_P(level) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "level parameter must be int");
+		PHALCON_SEPARATE_PARAM(level);
+		convert_to_long(level);
+
+		if (Z_LVAL_P(level) != QR_ECLEVEL_L && Z_LVAL_P(level) != QR_ECLEVEL_M && Z_LVAL_P(level) != QR_ECLEVEL_Q && Z_LVAL_P(level) != QR_ECLEVEL_H) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "Error level. there are 4 values: LEVEL_L, LEVEL_M, LEVEL_Q, LEVEL_H");
 			return;
 		}
 		phalcon_update_property_this_quick(this_ptr, SL("_level"), level, 229456881870876UL TSRMLS_CC);
@@ -94258,24 +94333,30 @@ static PHP_METHOD(Phalcon_Chart_QRcode, generate){
 	}
 	
 	if (mode) {
-		if (Z_TYPE_P(mode) != IS_LONG) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "mode parameter must be int");
+		PHALCON_SEPARATE_PARAM(mode);
+		convert_to_long(mode);
+
+		if (zend_is_true(micro) && Z_LVAL_P(mode) != QR_MODE_KANJI) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "Micro QR Code mode must be MODE_KANJI");
+			return;
+		} else if (Z_LVAL_P(mode) != QR_MODE_NUL && Z_LVAL_P(mode) != QR_MODE_NUM && Z_LVAL_P(mode) != QR_MODE_8 && Z_LVAL_P(mode) != QR_MODE_KANJI) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "Error mode. there are 4 values: MODE_NUL, MODE_NUM, MODE_8, MODE_KANJI");
 			return;
 		}
 		phalcon_update_property_this_quick(this_ptr, SL("_mode"), mode, 6953240370153UL TSRMLS_CC);
 	} else {
-		PHALCON_OBS_VAR(mode);
+		PHALCON_OBS_NVAR(mode);
 		phalcon_read_property_this_quick(&mode, this_ptr, SL("_mode"), 6953240370153UL, PH_NOISY_CC);
 	}
 	
 	if (casesensitive) {
-		if (Z_TYPE_P(casesensitive) != IS_LONG && Z_TYPE_P(casesensitive) != IS_BOOL) {
-			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "casesensitive parameter must be int or bool");
+		if (Z_TYPE_P(casesensitive) != IS_BOOL) {
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_chart_exception_ce, "casesensitive parameter must be bool");
 			return;
 		}
 		phalcon_update_property_this_quick(this_ptr, SL("_casesensitive"), casesensitive, 5770268490255379258UL TSRMLS_CC);
 	} else {
-		PHALCON_OBS_VAR(casesensitive);
+		PHALCON_OBS_NVAR(casesensitive);
 		phalcon_read_property_this_quick(&casesensitive, this_ptr, SL("_casesensitive"), 5770268490255379258UL, PH_NOISY_CC);
 	}
 
@@ -94284,14 +94365,30 @@ static PHP_METHOD(Phalcon_Chart_QRcode, generate){
 	qr = (php_qrcode *) emalloc (sizeof (php_qrcode));
 
 	if (Z_LVAL_P(mode) == QR_MODE_8) {
-		qr->c = QRcode_encodeString8bit(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level));
+		if (zend_is_true(micro)) {
+			qr->c = QRcode_encodeString8bitMQR(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level));
+		} else {
+			qr->c = QRcode_encodeString8bit(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level));
+		}
 	} else {
-		qr->c = QRcode_encodeString(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level), Z_LVAL_P(mode), zend_is_true(casesensitive) ? 1 : 0);
+		if (zend_is_true(micro)) {
+			qr->c = QRcode_encodeStringMQR(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level), Z_LVAL_P(mode), Z_BVAL_P(casesensitive));
+		} else {
+			qr->c = QRcode_encodeString(Z_STRVAL_P(text), Z_LVAL_P(version), Z_LVAL_P(level), Z_LVAL_P(mode), Z_BVAL_P(casesensitive));
+		}
 	}
 
 	if (qr->c == NULL)  {
 		efree(qr);
 	} else {
+		PHALCON_INIT_VAR(data);
+		array_init_size(data, 3);
+		phalcon_array_update_string_long(&data, SL("version"), qr->c->version, 0);
+		phalcon_array_update_string_long(&data, SL("width"), qr->c->width, 0);
+		phalcon_array_update_string_string(&data, SL("data"), (char *)qr->c->data, strlen(qr->c->data), PH_COPY | PH_SEPARATE);
+
+		phalcon_update_property_this_quick(this_ptr, SL("_data"), data, 6953229211038UL TSRMLS_CC);
+		
 		PHALCON_INIT_VAR(zid);
 		ZEND_REGISTER_RESOURCE(zid, qr, le_qr);
 		
@@ -94303,16 +94400,35 @@ static PHP_METHOD(Phalcon_Chart_QRcode, generate){
 	RETURN_MM_FALSE;
 }
 
+static PHP_METHOD(Phalcon_Chart_QRcode, getData){
+
+	RETURN_MEMBER_QUICK(this_ptr, "_data", 6953229211038UL);
+}
+
 static PHP_METHOD(Phalcon_Chart_QRcode, render){
 
 #ifdef PHALCON_USE_QRENCODE
-	zval *size = NULL, *margin = NULL;
+	zval *size = NULL, *margin = NULL, *foreground=NULL, *background=NULL;
 	zval *zid;
-    long s = 3, m = 4;
+	FILE *fp = NULL;
+	png_structp png_ptr;
+	png_infop info_ptr;
+	png_colorp palette;
+	png_byte alpha_values[2];
+	php_qrcode *qr = NULL;
+	static unsigned int fg_color[4] = {0, 0, 0, 255};
+	static unsigned int bg_color[4] = {255, 255, 255, 255};
+	long s = 3, m = 4;
+	unsigned char *row, *p, *q;
+	int x, y, xx, yy, bit;
+	int realwidth;
+	char *path;
+	int b;
+	char buf[4096];
 
-    PHALCON_MM_GROW();
+	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 2, &size, &margin);
+	phalcon_fetch_params(1, 0, 4, &size, &margin, &foreground, &background);
 
 	if (size && Z_TYPE_P(size) != IS_NULL && Z_TYPE_P(size) != IS_LONG) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "size parameter must be int");
@@ -94324,6 +94440,26 @@ static PHP_METHOD(Phalcon_Chart_QRcode, render){
 		return;
 	}
 
+	if (foreground && zend_is_true(foreground)) {
+		PHALCON_SEPARATE_PARAM(foreground);
+		convert_to_string(foreground);
+
+		if(color_set(fg_color, Z_STRVAL_P(foreground))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Invalid foreground color value");
+			return;
+		}
+	}
+
+	if (background && zend_is_true(background)) {
+		PHALCON_SEPARATE_PARAM(background);
+		convert_to_string(background);
+
+		if(color_set(bg_color, Z_STRVAL_P(background))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Invalid background color value");
+			return;
+		}
+	}
+
 	if (size && Z_TYPE_P(size) == IS_LONG) {
 		s = Z_LVAL_P(size);
 	}
@@ -94331,21 +94467,10 @@ static PHP_METHOD(Phalcon_Chart_QRcode, render){
 		m = Z_LVAL_P(margin);
 	}
 
-    FILE *fp = NULL;
-    unsigned char *row, *p, *q;
-    int x, y, xx, yy, bit;
-    int realwidth;
-    char *path;
-    int b;
-    char buf[4096];
-    png_structp png_ptr;
-    png_infop info_ptr;
-	php_qrcode *qr = NULL;
-
 	PHALCON_OBS_VAR(zid);
 	phalcon_read_property_this_quick(&zid, this_ptr, SL("_qr"), 6384981735UL, PH_NOISY_CC);
 
-    if (Z_TYPE_P(zid) == IS_NULL) {
+	if (Z_TYPE_P(zid) == IS_NULL) {
 		RETURN_MM_FALSE;
 	}
 
@@ -94381,10 +94506,33 @@ static PHP_METHOD(Phalcon_Chart_QRcode, render){
 		return;
 	}
 
+	palette = (png_colorp) emalloc(sizeof(png_color) * 2);
+	palette[0].red   = fg_color[0];
+	palette[0].green = fg_color[1];
+	palette[0].blue  = fg_color[2];
+	palette[1].red   = bg_color[0];
+	palette[1].green = bg_color[1];
+	palette[1].blue  = bg_color[2];
+	alpha_values[0] = fg_color[3];
+	alpha_values[1] = bg_color[3];
+	png_set_PLTE(png_ptr, info_ptr, palette, 2);
+	png_set_tRNS(png_ptr, info_ptr, alpha_values, 2, NULL);
+
 	png_init_io(png_ptr, fp);
 
-	png_set_IHDR(png_ptr, info_ptr, realwidth, realwidth, 1, PNG_COLOR_TYPE_GRAY, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+	png_set_IHDR(png_ptr, info_ptr,
+		realwidth, realwidth,
+		1,
+		PNG_COLOR_TYPE_PALETTE,
+		PNG_INTERLACE_NONE,
+		PNG_COMPRESSION_TYPE_DEFAULT,
+		PNG_FILTER_TYPE_DEFAULT);
+	png_set_pHYs(png_ptr, info_ptr,
+		dpi * INCHES_PER_METER,
+		dpi * INCHES_PER_METER,
+		PNG_RESOLUTION_METER);
 	png_write_info(png_ptr, info_ptr);
+
 
 	memset(row, 0xff, (realwidth + 7) / 8);
 	for(y = 0; y < m * s; y++) {
@@ -94425,6 +94573,7 @@ static PHP_METHOD(Phalcon_Chart_QRcode, render){
 	png_destroy_write_struct(&png_ptr, &info_ptr);
 
 	efree (row);
+	efree(palette);
 	fseek (fp, 0, SEEK_SET);
 
 	phalcon_ob_start(TSRMLS_C);
@@ -94445,15 +94594,25 @@ static PHP_METHOD(Phalcon_Chart_QRcode, render){
 static PHP_METHOD(Phalcon_Chart_QRcode, save){
 
 #ifdef PHALCON_USE_QRENCODE
-	zval *filename, *size = NULL, *margin = NULL;
+	zval *filename, *size = NULL, *margin = NULL, *foreground=NULL, *background=NULL;
 	zval *zid, *exception_message;
+	png_structp png_ptr;
+	png_infop info_ptr;
+	png_colorp palette;
+	png_byte alpha_values[2];
+	php_qrcode *qr = NULL;
+	FILE *fp = NULL;
+	static unsigned int fg_color[4] = {0, 0, 0, 255};
+	static unsigned int bg_color[4] = {255, 255, 255, 255};
+	unsigned char *row, *p, *q;
+	int x, y, xx, yy, bit;
+	int realwidth;
 	char *fn = NULL;
-    long s = 3, m = 4;
+	long s = 3, m = 4;
 
+	PHALCON_MM_GROW();
 
-    PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 2, &filename, &size, &margin);
+	phalcon_fetch_params(1, 1, 4, &filename, &size, &margin, &foreground, &background);
 
 	if (Z_TYPE_P(filename) != IS_STRING || PHALCON_IS_EMPTY(filename)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "filename parameter must be string");
@@ -94470,10 +94629,25 @@ static PHP_METHOD(Phalcon_Chart_QRcode, save){
 		return;
 	}
 
-#ifndef PHALCON_USE_PNG
-	PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Need the support of libpng");
-	return;
-#endif
+	if (foreground && zend_is_true(foreground)) {
+		PHALCON_SEPARATE_PARAM(foreground);
+		convert_to_string(foreground);
+
+		if(color_set(fg_color, Z_STRVAL_P(foreground))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Invalid foreground color value");
+			return;
+		}
+	}
+
+	if (background && zend_is_true(background)) {
+		PHALCON_SEPARATE_PARAM(background);
+		convert_to_string(background);
+
+		if(color_set(bg_color, Z_STRVAL_P(background))) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Invalid background color value");
+			return;
+		}
+	}
 
 	if (size && Z_TYPE_P(size) == IS_LONG) {
 		s = Z_LVAL_P(size);
@@ -94484,19 +94658,10 @@ static PHP_METHOD(Phalcon_Chart_QRcode, save){
 	
 	fn = Z_STRVAL_P(filename);
 
-    FILE *fp = NULL;
-    unsigned char *row, *p, *q;
-    int x, y, xx, yy, bit;
-    int realwidth;
-
-    png_structp png_ptr;
-    png_infop info_ptr;
-	php_qrcode *qr = NULL;
-
 	PHALCON_OBS_VAR(zid);
 	phalcon_read_property_this_quick(&zid, this_ptr, SL("_qr"), 6384981735UL, PH_NOISY_CC);
 
-    if (Z_TYPE_P(zid) == IS_NULL) {
+	if (Z_TYPE_P(zid) == IS_NULL) {
 		RETURN_MM_FALSE;
 	}
 
@@ -94534,9 +94699,32 @@ static PHP_METHOD(Phalcon_Chart_QRcode, save){
 		return;
 	}
 
+	palette = (png_colorp) emalloc(sizeof(png_color) * 2);
+	palette[0].red   = fg_color[0];
+	palette[0].green = fg_color[1];
+	palette[0].blue  = fg_color[2];
+	palette[1].red   = bg_color[0];
+	palette[1].green = bg_color[1];
+	palette[1].blue  = bg_color[2];
+	alpha_values[0] = fg_color[3];
+	alpha_values[1] = bg_color[3];
+	png_set_PLTE(png_ptr, info_ptr, palette, 2);
+	png_set_tRNS(png_ptr, info_ptr, alpha_values, 2, NULL);
+
 	png_init_io(png_ptr, fp);
 
-	png_set_IHDR(png_ptr, info_ptr, realwidth, realwidth, 1, PNG_COLOR_TYPE_GRAY, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+	png_set_IHDR(png_ptr, info_ptr,
+		realwidth, realwidth,
+		1,
+		PNG_COLOR_TYPE_PALETTE,
+		PNG_INTERLACE_NONE,
+		PNG_COMPRESSION_TYPE_DEFAULT,
+		PNG_FILTER_TYPE_DEFAULT);
+	png_set_pHYs(png_ptr, info_ptr,
+		dpi * INCHES_PER_METER,
+		dpi * INCHES_PER_METER,
+		PNG_RESOLUTION_METER);
+
 	png_write_info(png_ptr, info_ptr);
 
 	memset(row, 0xff, (realwidth + 7) / 8);
@@ -94576,6 +94764,7 @@ static PHP_METHOD(Phalcon_Chart_QRcode, save){
 	png_destroy_write_struct(&png_ptr, &info_ptr);
 
 	efree (row);
+	efree (palette);
 
 	fflush (fp);
 	fclose (fp);
@@ -94602,7 +94791,6 @@ static zbar_image_t *_php_zbarcode_get_page(MagickWand *wand)
 {
 	unsigned long width, height;
 	unsigned char *image_data;
-	size_t image_size;
 	
 	if (MagickSetImageDepth(wand, 8) == MagickFalse) {
 		return NULL;
@@ -94626,8 +94814,7 @@ static zbar_image_t *_php_zbarcode_get_page(MagickWand *wand)
 
 static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
 {
-	zval *fromtext, *totext, *from, *to, *symbol_array = NULL, *loc_array = NULL, *coords = NULL;
-	int n;
+	zval *symbol_array = NULL, *loc_array = NULL, *coords = NULL;
 	const zbar_symbol_t *symbol;
 
 	PHALCON_MM_GROW();
@@ -94635,7 +94822,7 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 	array_init(return_array);
 		
 	/* scan the image for barcodes */
-	n = zbar_scan_image(scanner, image);
+	zbar_scan_image(scanner, image);
 
 	/* extract results */
 	symbol = zbar_image_first_symbol(image);
@@ -94657,25 +94844,8 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 		type = zbar_get_symbol_name(symbol_type);
 		quality = zbar_symbol_get_quality(symbol);
 
-        if (phalcon_function_quick_exists_ex(SS("mb_convert_encoding"), 5515129505088608186UL TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_VAR(fromtext);
-			ZVAL_STRING(fromtext, data, 1);
+		phalcon_array_update_string_string(&symbol_array, SL("data"), (char *)data, strlen(data), PH_COPY | PH_SEPARATE);
 
-			PHALCON_INIT_VAR(from);
-			ZVAL_STRING(from, "shift-jis", 1);
-
-			PHALCON_INIT_VAR(to);
-			ZVAL_STRING(to, "utf-8", 1);
-
-			PHALCON_INIT_VAR(fromtext);
-			ZVAL_STRING(fromtext, data, 1);
-
-			PHALCON_INIT_VAR(totext);
-			phalcon_call_func_p3(totext, "mb_convert_encoding", fromtext, from, to);
-			phalcon_array_update_quick_string(&symbol_array, SS("data"), 210709757247UL, &totext, PH_COPY | PH_SEPARATE);                
-        } else {
-			phalcon_array_update_string_string(&symbol_array, SL("data"), (char *)data, strlen(data), PH_COPY | PH_SEPARATE);
-		}
 		phalcon_array_update_string_string(&symbol_array, SL("type"), (char *)type, strlen(type), PH_COPY | PH_SEPARATE);
 		phalcon_array_update_string_long(&symbol_array, SL("quality"), quality, 0);
 		
@@ -94758,7 +94928,7 @@ static PHP_METHOD(Phalcon_Chart_QRcode, scan){
 			DestroyMagickWand(magick_wand);
 			PHALCON_THROW_EXCEPTION_STR(phalcon_chart_exception_ce, "Failed to set the page number");
 			return;
-		} 
+		}
 
 		/* Read page */
 		zbar_page = _php_zbarcode_get_page(magick_wand);
@@ -104702,7 +104872,7 @@ static PHP_METHOD(Phalcon_Tag, linkTo){
 static PHP_METHOD(Phalcon_Tag, _inputField){
 
 	zval *type, *parameters, *as_value = NULL, *params = NULL, *value = NULL;
-	zval *id = NULL, *name, *code, *key = NULL, *doctype;
+	zval *id = NULL, *name, *code, *key = NULL, *doctype, *escaped;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -104713,13 +104883,13 @@ static PHP_METHOD(Phalcon_Tag, _inputField){
 	
 	if (!as_value) {
 		PHALCON_INIT_VAR(as_value);
-		ZVAL_BOOL(as_value, 0);
+		ZVAL_FALSE(as_value);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, parameters, PH_SEPARATE);
+		phalcon_array_append(&params, parameters, 0);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
@@ -104767,6 +104937,8 @@ static PHP_METHOD(Phalcon_Tag, _inputField){
 	PHALCON_INIT_VAR(code);
 	PHALCON_CONCAT_SVS(code, "<input type=\"", type, "\"");
 	
+	PHALCON_INIT_VAR(escaped);
+
 	phalcon_is_iterable(params, &ah0, &hp0, 0, 0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
@@ -104775,7 +104947,10 @@ static PHP_METHOD(Phalcon_Tag, _inputField){
 		PHALCON_GET_HVALUE(value);
 	
 		if (Z_TYPE_P(key) != IS_LONG) {
-			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", value, "\"");
+			phalcon_htmlspecialchars(escaped, value, NULL, NULL TSRMLS_CC);
+			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", escaped, "\"");
+			zval_dtor(escaped);
+			ZVAL_NULL(escaped);
 		}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
