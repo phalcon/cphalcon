@@ -122,6 +122,7 @@ PHALCON_INIT_CLASS(Phalcon_Chart_QRcode){
 	zend_declare_class_constant_long(phalcon_chart_qrcode_ce, SL("LEVEL_H"), QR_ECLEVEL_H TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_chart_qrcode_ce, SL("_qr"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_chart_qrcode_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_chart_qrcode_ce, SL("_text"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_chart_qrcode_ce, SL("_version"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_chart_qrcode_ce, SL("_level"), QR_ECLEVEL_H, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -156,7 +157,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, generate){
 
 #ifdef PHALCON_USE_QRENCODE
 	zval *text = NULL, *version = NULL, *level = NULL, *mode = NULL, *casesensitive = NULL, *micro = NULL;
-	zval *zid;
+	zval *zid, *data;
 
 	PHALCON_MM_GROW();
 
@@ -265,6 +266,14 @@ PHP_METHOD(Phalcon_Chart_QRcode, generate){
 	if (qr->c == NULL)  {
 		efree(qr);
 	} else {
+		PHALCON_INIT_VAR(data);
+		array_init_size(data, 3);
+		phalcon_array_update_string_long(&data, SL("version"), qr->c->version, 0);
+		phalcon_array_update_string_long(&data, SL("width"), qr->c->width, 0);
+		phalcon_array_update_string_string(&data, SL("data"), (char *)qr->c->data, strlen(qr->c->data), PH_COPY | PH_SEPARATE);
+
+		phalcon_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
+		
 		PHALCON_INIT_VAR(zid);
 		ZEND_REGISTER_RESOURCE(zid, qr, le_qr);
 		
@@ -277,11 +286,25 @@ PHP_METHOD(Phalcon_Chart_QRcode, generate){
 }
 
 /**
+ * Return the QR Code data.
+ *
+ *     $qr = new \Phalcon\Chart\QRcode;
+ *     $qr->generate('Phalcon is a web framework');
+ *     $data = $qr->getData();
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Chart_QRcode, getData){
+
+	RETURN_MEMBER(this_ptr, "_data");
+}
+
+/**
  * Render the image and return the binary string.
  *
  *     $qr = new \Phalcon\Chart\QRcode;
  *     $qr->generate('Phalcon is a web framework');
- *     $data = \Phalcon\Chart\QRcode::render();
+ *     $data = $qr->render();
  *
  * @param int $size
  * @param int $margin.
@@ -295,6 +318,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, render){
 	zval *size = NULL, *margin = NULL, *foreground=NULL, *background=NULL;
 	zval *zid;
 	FILE *fp = NULL;
+	png_structp png_ptr;
 	png_infop info_ptr;
 	png_colorp palette;
 	png_byte alpha_values[2];
