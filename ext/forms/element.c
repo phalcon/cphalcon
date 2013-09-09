@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Forms_Element, label){
 	/** 
 	 * Check if there is an 'id' attribute defined
 	 */
-	if (phalcon_array_isset_string(attributes, SS("id"))) {
+	if (attributes && phalcon_array_isset_string(attributes, SS("id"))) {
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, attributes, SL("id"), PH_NOISY);
 	} else {
