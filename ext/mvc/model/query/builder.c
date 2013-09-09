@@ -117,8 +117,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	zval *models, *columns, *group_clause;
 	zval *having_clause, *order_clause, *limit_clause;
 	zval *offset_clause, *for_update, *shared_lock;
-	zval *limit, *offset;
+	zval *limit, *offset, *single_condition_array;
+	zval *condition_string, *bind_params, *bind_types;
+	zval *merged_conditions, *merged_bind_params, *merged_bind_types;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
+    PHALCON_MM_GROW();
+    
 	phalcon_fetch_params(0, 0, 2, &params, &dependency_injector);
 	
 	if (params && Z_TYPE_P(params) == IS_ARRAY) {
@@ -129,7 +136,71 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		if (phalcon_array_isset_long_fetch(&conditions, params, 0)) {
 			phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 		} else if (phalcon_array_isset_string_fetch(&conditions, params, SS("conditions"))) {
-			phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
+			if (Z_TYPE_P(conditions) == IS_ARRAY) {
+
+				// ----------- INITIALIZING LOOP VARIABLES -----------				
+
+				// array containing single condition for example:
+				// array('status = ?', array(5), array("some type")
+				PHALCON_INIT_VAR(single_condition_array);
+				array_init(single_condition_array);				
+
+				// holds first param of single_condition_array
+				PHALCON_INIT_VAR(condition_string);
+
+				// holds second param of single_condition_array
+				PHALCON_INIT_VAR(bind_params);
+				array_init(bind_params);
+
+				// holds third param of single_condition_array
+				PHALCON_INIT_VAR(bind_types);
+				array_init(bind_types);
+
+				// ----------- INITIALIZING MERGED VARIABLES -----------
+
+				PHALCON_INIT_VAR(merged_conditions);				
+
+				PHALCON_INIT_VAR(merged_bind_params);
+				array_init(merged_bind_params);
+				
+				PHALCON_INIT_VAR(merged_bind_types);
+				array_init(merged_bind_types);				
+
+				phalcon_is_iterable(conditions, &ah0, &hp0, 0, 0);
+
+				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+
+					PHALCON_GET_HVALUE(single_condition_array);
+
+					if (Z_TYPE_P(single_condition_array) == IS_ARRAY
+						&& phalcon_array_isset_long_fetch(&condition_string, single_condition_array, 0)
+						&& phalcon_array_isset_long_fetch(&bind_params, single_condition_array, 1)
+						&& Z_TYPE_P(condition_string) == IS_STRING
+						&& Z_TYPE_P(bind_params) == IS_ARRAY
+					) {
+
+						if (zend_is_true(merged_conditions)) {
+							PHALCON_CONCAT_SVSVS(merged_conditions, "", merged_conditions, " AND (", condition_string, ")");
+						} else {
+							PHALCON_CONCAT_SVSVS(merged_conditions, "(", condition_string, " ", merged_conditions, ")");
+						}
+						phalcon_add_function(merged_bind_params, merged_bind_params, bind_params TSRMLS_CC);
+
+						phalcon_array_isset_long_fetch(&bind_types, single_condition_array, 2);
+						if (Z_TYPE_P(bind_types) == IS_ARRAY) {
+							phalcon_add_function(merged_bind_types, merged_bind_types, bind_types TSRMLS_CC);
+						}
+					}
+
+					zend_hash_move_forward_ex(ah0, &hp0);
+ 				}
+ 				
+				phalcon_update_property_this(this_ptr, SL("_conditions"), merged_conditions TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_bindParams"), merged_bind_params TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_bindTypes"), merged_bind_types TSRMLS_CC);
+			} else {
+				phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);                
+			}
 		}
 
 		/** 
