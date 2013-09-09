@@ -8,5 +8,5 @@ $e = new \Phalcon\Forms\Element\Text('test');
 $e->setLabel('Test');
 echo $e->label(), PHP_EOL;
 ?>
---EXPECTF--
+--EXPECT--
 <label for="test">Test</label>
