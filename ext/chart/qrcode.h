@@ -48,12 +48,16 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_render, 0, 0, 0)
 	ZEND_ARG_INFO(0, size)
 	ZEND_ARG_INFO(0, margin)
+	ZEND_ARG_INFO(0, foreground)
+	ZEND_ARG_INFO(0, background)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_save, 0, 0, 0)
 	ZEND_ARG_INFO(0, filename)
 	ZEND_ARG_INFO(0, size)
 	ZEND_ARG_INFO(0, margin)
+	ZEND_ARG_INFO(0, foreground)
+	ZEND_ARG_INFO(0, background)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_chart_qrcode_method_entry){

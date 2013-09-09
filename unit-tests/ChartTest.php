@@ -41,6 +41,12 @@ class ChartTest extends PHPUnit_Framework_TestCase
 
 				$ret = $qr->scan('unit-tests/assets/qr.png');
 				$this->assertEquals($ret, $str);
+
+				$data = $qr->render(NULL, NULL, 'FFCC00', '000000');
+				$this->assertTrue(strlen($ret) > 0);
+
+				$ret = $qr->save('unit-tests/assets/qr.png', NULL, NULL, 'FFCC00', '000000');
+				$this->assertTrue($ret);
 			}
 		} catch (Exception $e) {
 		}
