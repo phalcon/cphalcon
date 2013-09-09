@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	HashPosition hp0;
 	zval **hd;
 
-    PHALCON_MM_GROW();
+	PHALCON_MM_GROW();
     
 	phalcon_fetch_params(0, 0, 2, &params, &dependency_injector);
 	
