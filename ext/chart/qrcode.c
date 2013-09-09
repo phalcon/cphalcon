@@ -709,7 +709,7 @@ static zbar_image_t *_php_zbarcode_get_page(MagickWand *wand)
 
 static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
 {
-	zval *fromtext, *totext, *from, *to, *symbol_array = NULL, *loc_array = NULL, *coords = NULL;
+	zval *symbol_array = NULL, *loc_array = NULL, *coords = NULL;
 	const zbar_symbol_t *symbol;
 
 	PHALCON_MM_GROW();
@@ -739,25 +739,8 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 		type = zbar_get_symbol_name(symbol_type);
 		quality = zbar_symbol_get_quality(symbol);
 
-        if (phalcon_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_VAR(fromtext);
-			ZVAL_STRING(fromtext, data, 1);
+		phalcon_array_update_string_string(&symbol_array, SL("data"), (char *)data, strlen(data), PH_COPY | PH_SEPARATE);
 
-			PHALCON_INIT_VAR(from);
-			ZVAL_STRING(from, "shift-jis", 1);
-
-			PHALCON_INIT_VAR(to);
-			ZVAL_STRING(to, "utf-8", 1);
-
-			PHALCON_INIT_VAR(fromtext);
-			ZVAL_STRING(fromtext, data, 1);
-
-			PHALCON_INIT_VAR(totext);
-			phalcon_call_func_p3(totext, "mb_convert_encoding", fromtext, from, to);
-			phalcon_array_update_string(&symbol_array, SL("data"), &totext, PH_COPY | PH_SEPARATE);                
-        } else {
-			phalcon_array_update_string_string(&symbol_array, SL("data"), (char *)data, strlen(data), PH_COPY | PH_SEPARATE);
-		}
 		phalcon_array_update_string_string(&symbol_array, SL("type"), (char *)type, strlen(type), PH_COPY | PH_SEPARATE);
 		phalcon_array_update_string_long(&symbol_array, SL("quality"), quality, 0);
 		
@@ -790,7 +773,9 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
  *     $qr = new \Phalcon\Chart\QRcode;
  *     $ret = $qr->san('qr.png');
  *
- * @param string filename
+ * @param string $filename
+ * @param int $enhance
+ * @param int $extended
  * @return string
  */
 PHP_METHOD(Phalcon_Chart_QRcode, scan){

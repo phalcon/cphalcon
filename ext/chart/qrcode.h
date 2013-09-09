@@ -43,6 +43,8 @@ ZEND_END_ARG_INFO()
 #ifdef PHALCON_USE_ZBAR
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_scan, 0, 0, 1)
 	ZEND_ARG_INFO(0, filename)
+	ZEND_ARG_INFO(0, enhance)
+	ZEND_ARG_INFO(0, extended)
 ZEND_END_ARG_INFO()
 #endif
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_chart_qrcode_render, 0, 0, 0)
