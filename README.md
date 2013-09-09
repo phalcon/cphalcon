@@ -3,10 +3,10 @@ Phalcon Framework
 
 ### 该分支增加的新特性：
 
-* \Phalcon\Utils\Arr -- unit-tests/ArrTest.php
-* \Phalcon\Utils\Date -- unit-tests/DateTest.php
-* \Phalcon\Http\Client -- unit-tests/HttpClientTest.php
-* \Phalcon\Chart\QRcode -- unit-tests/ChartTest.php
+* \Phalcon\Utils\Arr -- Array functions. Get an array key or default to a set value, get an array key by path, etc.
+* \Phalcon\Utils\Date -- Useful date functions and constants. Time between two dates, convert between am/pm and military, date offset, etc.
+* \Phalcon\Http\Client -- HTTP protocol client.
+* \Phalcon\Chart\QRcode -- QR Code Generator and Scanner.
 
 ```php
 // Example 1: HTTP Request
