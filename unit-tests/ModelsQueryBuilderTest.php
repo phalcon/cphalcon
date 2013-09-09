@@ -420,5 +420,62 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		
 		$this->assertEquals($expectedPhql, $builderLimitAndOffset->getPhql());
 		$this->assertEquals($expectedPhql, $builderLimitWithOffset->getPhql());
-	}	
+	}
+	
+	/**
+	 * Test checks passing 'condition' query param into constructor.
+	 * Conditions can now be passed as an string(as before) and
+	 * as an array of 3 elements:
+	 * - condition string for example "age > :age: AND created > :created:"
+	 * - bind params for example array('age' => 18, 'created' => '2013-09-01')
+	 * - bind types for example array('age' => PDO::PARAM_INT, 'created' => PDO::PARAM_STR)
+	 * 
+	 * First two params are REQUIRED, bind types are optional.
+	 */
+	public function testConstructorConditions()
+	{
+		require 'unit-tests/config.db.php';
+		if (empty($configMysql)) {
+			$this->markTestSkipped("Test skipped");
+			return;
+		}
+
+		// test for single condition
+		$params = array(
+			'models'     => 'Robots',
+			'conditions' => array(
+				array(
+					"created > :min: AND created < :max:",
+					array("min" => '2013-01-01',   'max' => '2014-01-01'),
+					array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR),
+				),
+			),
+		);
+
+		$builderWithSingleCondition = new Builder($params);
+		
+		$params = array(
+			'models'     => 'Robots',
+			'conditions' => array(
+				array(
+					"created > :min:",
+					array("min" => '2013-01-01'),
+					array("min" => PDO::PARAM_STR),
+				),
+				array(
+					"created < :max:",
+					array('max' => '2014-01-01'),
+					// test without optional bind types
+				),				
+			),
+		);		
+		// conditions are merged!
+		$builderMultipleConditions = new Builder($params);
+		
+		$expectedPhql = "SELECT [Robots].* FROM [Robots] "
+			. "WHERE created > :min: AND created < :max:";
+		
+		$this->assertEquals($expectedPhql, $builderWithSingleCondition->getPhql());
+		$this->assertEquals($expectedPhql, $builderMultipleConditions->getPhql());
+    }
 }
