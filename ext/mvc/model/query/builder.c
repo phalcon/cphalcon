@@ -120,6 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	zval *limit, *offset, *single_condition_array;
 	zval *condition_string, *bind_params, *bind_types;
 	zval *merged_conditions, *merged_bind_params, *merged_bind_types;
+	zval *new_condition_string, *temp_merged_params, *temp_merged_types;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -138,12 +139,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		} else if (phalcon_array_isset_string_fetch(&conditions, params, SS("conditions"))) {
 			if (Z_TYPE_P(conditions) == IS_ARRAY) {
 
-				// ----------- INITIALIZING LOOP VARIABLES -----------				
+				// ----------- INITIALIZING LOOP VARIABLES -----------
 
 				// array containing single condition for example:
-				// array('status = ?', array(5), array("some type")
+				// array(
+				//      'status = :status:',
+				//      array('status' => 5),
+				//      array('status' => PDO::PARAM_INT),
+				// )
 				PHALCON_INIT_VAR(single_condition_array);
-				array_init(single_condition_array);				
+				array_init(single_condition_array);
 
 				// holds first param of single_condition_array
 				PHALCON_INIT_VAR(condition_string);
@@ -158,13 +163,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 
 				// ----------- INITIALIZING MERGED VARIABLES -----------
 
-				PHALCON_INIT_VAR(merged_conditions);				
+				PHALCON_INIT_VAR(merged_conditions);
+				array_init(merged_conditions);
 
 				PHALCON_INIT_VAR(merged_bind_params);
 				array_init(merged_bind_params);
-				
+
 				PHALCON_INIT_VAR(merged_bind_types);
-				array_init(merged_bind_types);				
+				array_init(merged_bind_types);
 
 				phalcon_is_iterable(conditions, &ah0, &hp0, 0, 0);
 
@@ -179,23 +185,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 						&& Z_TYPE_P(bind_params) == IS_ARRAY
 					) {
 
-						if (zend_is_true(merged_conditions)) {
-							PHALCON_CONCAT_SVSVS(merged_conditions, "", merged_conditions, " AND (", condition_string, ")");
-						} else {
-							PHALCON_CONCAT_SVSVS(merged_conditions, "(", condition_string, " ", merged_conditions, ")");
-						}
-						phalcon_add_function(merged_bind_params, merged_bind_params, bind_params TSRMLS_CC);
+						phalcon_array_append(&merged_conditions, condition_string, 0);
+
+						PHALCON_INIT_VAR(temp_merged_params);
+						array_init(temp_merged_params);
+						temp_merged_params = merged_bind_params;
+						phalcon_add_function(merged_bind_params, temp_merged_params, bind_params TSRMLS_CC);
 
 						phalcon_array_isset_long_fetch(&bind_types, single_condition_array, 2);
 						if (Z_TYPE_P(bind_types) == IS_ARRAY) {
-							phalcon_add_function(merged_bind_types, merged_bind_types, bind_types TSRMLS_CC);
+							PHALCON_INIT_VAR(temp_merged_types);
+							array_init(temp_merged_types);
+							temp_merged_types = merged_bind_types;
+							phalcon_add_function(merged_bind_types, temp_merged_types, bind_types TSRMLS_CC);
 						}
 					}
 
 					zend_hash_move_forward_ex(ah0, &hp0);
- 				}
- 				
-				phalcon_update_property_this(this_ptr, SL("_conditions"), merged_conditions TSRMLS_CC);
+				}
+
+				PHALCON_INIT_VAR(new_condition_string);
+				phalcon_fast_join_str(new_condition_string, SL(" AND "), merged_conditions TSRMLS_CC);
+				phalcon_update_property_this(this_ptr, SL("_conditions"), new_condition_string TSRMLS_CC);
 				phalcon_update_property_this(this_ptr, SL("_bindParams"), merged_bind_params TSRMLS_CC);
 				phalcon_update_property_this(this_ptr, SL("_bindTypes"), merged_bind_types TSRMLS_CC);
 			} else {
@@ -1869,4 +1880,3 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){
 	
 	RETURN_MM();
 }
-
