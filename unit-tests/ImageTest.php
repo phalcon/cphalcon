@@ -27,22 +27,22 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			return;
 		}
 
-		@unlink('unit-tests/assets/gd-new.jpg');
-		@unlink('unit-tests/assets/gd-resize.jpg');
-		@unlink('unit-tests/assets/gd-crop.jpg');
-		@unlink('unit-tests/assets/gd-rotate.jpg');
-		@unlink('unit-tests/assets/gd-flip.jpg');
-		@unlink('unit-tests/assets/gd-sharpen.jpg');
-		@unlink('unit-tests/assets/gd-reflection.jpg');
-		@unlink('unit-tests/assets/gd-watermark.jpg');
-		@unlink('unit-tests/assets/gd-background.jpg');
+		@unlink('unit-tests/assets/production/gd-new.jpg');
+		@unlink('unit-tests/assets/production/gd-resize.jpg');
+		@unlink('unit-tests/assets/production/gd-crop.jpg');
+		@unlink('unit-tests/assets/production/gd-rotate.jpg');
+		@unlink('unit-tests/assets/production/gd-flip.jpg');
+		@unlink('unit-tests/assets/production/gd-sharpen.jpg');
+		@unlink('unit-tests/assets/production/gd-reflection.jpg');
+		@unlink('unit-tests/assets/production/gd-watermark.jpg');
+		@unlink('unit-tests/assets/production/gd-mask.jpg');
+		@unlink('unit-tests/assets/production/gd-background.jpg');
 
 		try {
-
 			// Create new image
-			$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/gd-new.jpg', 100, 100);
+			$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/production/gd-new.jpg', 100, 100);
 			$image->save();
-			$this->assertTrue(file_exists('unit-tests/assets/production/new.jpg'));
+			$this->assertTrue(file_exists('unit-tests/assets/production/gd-new.jpg'));
 
 			$image = new Phalcon\Image\Adapter\GD('unit-tests/assets/phalconphp.jpg');
 
@@ -111,6 +111,11 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			$image->watermark($mark, TRUE, TRUE)->save('unit-tests/assets/production/gd-watermark.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/gd-watermark.jpg'));
 
+			// Mask image
+			$mask = new Phalcon\Image\Adapter\GD('unit-tests/assets/logo.png');
+			$image->mask($mark)->save('unit-tests/assets/production/gd-mask.jpg');
+			$this->assertTrue(file_exists('unit-tests/assets/production/gd-mask.jpg'));
+
 			// Add a text to the bottom right of the image
 			$image->text('hello', TRUE, TRUE);
 
@@ -142,6 +147,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			// Render the image as a PNG
 			//$data = $image->render('png');
 		} catch (Exception $e) {
+			$this->assertTrue(FALSE);
 		}
 	}
 
@@ -160,6 +166,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		@unlink('unit-tests/assets/production/imagick-sharpen.jpg');
 		@unlink('unit-tests/assets/production/imagick-reflection.jpg');
 		@unlink('unit-tests/assets/production/imagick-watermark.jpg');
+		@unlink('unit-tests/assets/production/imagick-mask.jpg');
 		@unlink('unit-tests/assets/production/imagick-background.jpg');
 
 		try {
@@ -231,6 +238,11 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			$image->watermark($mark, TRUE, TRUE)->save('unit-tests/assets/production/imagick-watermark.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/imagick-watermark.jpg'));
 
+			// Mask image
+			$mask = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/logo.png');
+			$image->mask($mark)->save('unit-tests/assets/production/imagick-mask.jpg');
+			$this->assertTrue(file_exists('unit-tests/assets/production/imagick-mask.jpg'));
+
 			// Add a text to the bottom right of the image
 			$image->text('hello', TRUE, TRUE);
 
@@ -262,6 +274,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			// Render the image as a PNG
 			//$data = $image->render('png');
 		} catch (Exception $e) {
+			$this->assertTrue(FALSE);
 		}
 	}
 }
