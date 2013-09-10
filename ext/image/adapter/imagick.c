@@ -436,6 +436,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _rotate) {
 
 	phalcon_fetch_params(1, 1, 0, &degrees);
 
+	ce0 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
 
@@ -444,8 +446,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _rotate) {
 
 	PHALCON_INIT_VAR(tmp);
 	ZVAL_LONG(tmp, 0);
-
-	ce0 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(background);
 	object_init_ex(background, ce0);
@@ -655,6 +655,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	phalcon_fetch_params(1, 3, 0, &height, &opacity, &fade_in);
 
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ce1 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
@@ -781,8 +782,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _reflection) {
 	PHALCON_INIT_VAR(h0);
 	ZVAL_LONG(h0, ini_h);
 
-	ce1 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-
 	PHALCON_INIT_VAR(background);
 	object_init_ex(background, ce1);
 	if (phalcon_has_constructor(background TSRMLS_CC)) {
@@ -906,13 +905,13 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 
 	phalcon_fetch_params(1, 4, 0, &watermark_image, &offset_x, &offset_y, &opacity);
 
+	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
 
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
-
-	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(watermark);
 	phalcon_call_method(watermark, watermark_image, "getImage");
@@ -1015,6 +1014,10 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 
 	phalcon_fetch_params(1, 9, 0, &text, &offset_x, &offset_y, &opacity, &r, &g, &b, &size, &fontfile);
 
+	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ce1 = zend_fetch_class(SL("ImagickDraw"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	ce2 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
 	if (!offset_x) {
 		PHALCON_INIT_VAR(offset_x);
 	} else {
@@ -1026,10 +1029,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _text) {
 	} else {
 		PHALCON_SEPARATE_PARAM(offset_y);
 	}
-
-	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	ce1 = zend_fetch_class(SL("ImagickDraw"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	ce2 = zend_fetch_class(SL("ImagickPixel"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
@@ -1250,6 +1249,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask){
 
 	phalcon_fetch_params(1, 1, 0, &mask);
 
+	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+
 	PHALCON_OBS_VAR(im);
 	phalcon_read_property_this(&im, this_ptr, SL("_image"), PH_NOISY_CC);
 
@@ -1274,8 +1275,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask){
 
 	PHALCON_INIT_VAR(tmp);
 	ZVAL_LONG(tmp, 0);
-
-	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(composite);
 	phalcon_get_class_constant(composite, ce0, SS("COMPOSITE_DSTIN") TSRMLS_CC);
