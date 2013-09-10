@@ -40,6 +40,7 @@
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Forms\Element
@@ -581,6 +582,7 @@ PHP_METHOD(Phalcon_Forms_Element, getLabel){
 PHP_METHOD(Phalcon_Forms_Element, label){
 
 	zval *label, *attributes = NULL, *name = NULL, *html = NULL, *key = NULL, *value = NULL;
+	zval *escaped;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -603,8 +605,14 @@ PHP_METHOD(Phalcon_Forms_Element, label){
 		phalcon_read_property_this(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	}
 
+	PHALCON_INIT_VAR(escaped);
+	phalcon_htmlspecialchars(escaped, name, NULL, NULL TSRMLS_CC);
+
 	PHALCON_INIT_VAR(html);
-	PHALCON_CONCAT_SVS(html, "<label for=\"", name, "\"");
+	PHALCON_CONCAT_SVS(html, "<label for=\"", escaped, "\"");
+
+	zval_dtor(escaped);
+	ZVAL_NULL(escaped);
 
 	if (attributes && Z_TYPE_P(attributes) == IS_ARRAY) {	
 		phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0);
@@ -614,7 +622,10 @@ PHP_METHOD(Phalcon_Forms_Element, label){
 			PHALCON_GET_HVALUE(value);
 		
 			if (Z_TYPE_P(key) != IS_LONG) {
-				PHALCON_SCONCAT_SVSVS(html, " ", key, "=\"", value, "\"");
+				phalcon_htmlspecialchars(escaped, value, NULL, NULL TSRMLS_CC);
+				PHALCON_SCONCAT_SVSVS(html, " ", key, "=\"", escaped, "\"");
+				zval_dtor(escaped);
+				ZVAL_NULL(escaped);
 			}
 		
 			zend_hash_move_forward_ex(ah0, &hp0);
