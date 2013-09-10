@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -196,14 +195,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 
 						PHALCON_INIT_VAR(temp_merged_params);
 						array_init(temp_merged_params);
-						temp_merged_params = merged_bind_params;
+						PHALCON_CPY_WRT(temp_merged_params, merged_bind_params);
 						phalcon_add_function(merged_bind_params, temp_merged_params, bind_params TSRMLS_CC);
 
 						phalcon_array_isset_long_fetch(&bind_types, single_condition_array, 2);
 						if (Z_TYPE_P(bind_types) == IS_ARRAY) {
 							PHALCON_INIT_VAR(temp_merged_types);
 							array_init(temp_merged_types);
-							temp_merged_types = merged_bind_types;
+							PHALCON_CPY_WRT(temp_merged_types, merged_bind_types);
 							phalcon_add_function(merged_bind_types, temp_merged_types, bind_types TSRMLS_CC);
 						}
 					}
