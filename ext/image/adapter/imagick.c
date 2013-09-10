@@ -160,7 +160,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 		phalcon_call_method(type, im, "getImageType");
 		phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 
-
 		PHALCON_INIT_VAR(format);
 		phalcon_call_method(format, im, "getImageFormat");
 
@@ -914,7 +913,6 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _watermark) {
 	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 
 	PHALCON_INIT_VAR(watermark);
-	phalcon_call_method(watermark, watermark_image, "getImage");
 	object_init_ex(watermark, ce0);
 	if (phalcon_has_constructor(watermark TSRMLS_CC)) {
 		phalcon_call_method_noret(watermark, "__construct");
@@ -1256,6 +1254,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask){
 
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
+
 	PHALCON_INIT_VAR(mask_im);
 	object_init_ex(mask_im, ce0);
 	if (phalcon_has_constructor(mask_im TSRMLS_CC)) {
@@ -1292,13 +1291,14 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _mask){
 			PHALCON_INIT_NVAR(next);
 			phalcon_call_method(next, im, "nextImage");
 		} while (zend_is_true(next));
-	} else {
+	} 
+
+	else {
 		phalcon_call_method_p1_noret(im, "setImageMatte", matte);
 		phalcon_call_method_p4_noret(im, "compositeImage", mask_im, composite, tmp, tmp);
 	}
 
 	phalcon_call_method_noret(mask_im, "clear");
-	phalcon_call_method_noret(mask_im, "destroy");
 
 	PHALCON_MM_RESTORE();
 }

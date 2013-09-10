@@ -798,7 +798,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 
 	ZVAL_STRING(tmp_color, c, 1);
 
-	if (Z_STRLEN_P(tmp_color) >= 6) {
+	if (Z_STRLEN_P(tmp_color) < 6) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "color is not valid");
 		return;
 	}
@@ -1106,23 +1106,26 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
  */
 PHP_METHOD(Phalcon_Image_Adapter, render){
 
-	zval *ext = NULL, *quality = NULL, *type, *include_dot;
+	zval *ext = NULL, *quality = NULL, *constant, *file;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 2, &ext, &quality);
 
 	if (!ext) {
-		PHALCON_INIT_VAR(include_dot);
-		ZVAL_FALSE(include_dot);
+		PHALCON_INIT_NVAR(ext);
+		file = phalcon_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
 
-		type = phalcon_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(constant);
+		if (zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC) == FAILURE) {
+			RETURN_MM();
+		}
 
-		/**
-		 * @todo image_type_to_extension is from GD
-		 */
-		PHALCON_INIT_VAR(ext);
-		phalcon_call_func_p2(ext, "image_type_to_extension", type, include_dot);
+		phalcon_call_func_p2(ext, "pathinfo", file, constant);
+
+		if (!PHALCON_IS_NOT_EMPTY(ext)) {
+			ZVAL_STRING(ext, "png", 1);
+		}
 	}
 	
 	if (!quality || Z_TYPE_P(quality) != IS_LONG) {

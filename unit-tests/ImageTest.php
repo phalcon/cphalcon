@@ -50,8 +50,9 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			$image->resize(200, 200)->save('unit-tests/assets/production/gd-resize.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/gd-resize.jpg'));
 
-			$width = imagesx('unit-tests/assets/production/gd-resize.jpg');
-			$height = imagesy('unit-tests/assets/production/gd-resize.jpg');
+			$tmp = imagecreatefromjpeg('unit-tests/assets/production/gd-resize.jpg');
+			$width = imagesx($tmp);
+			$height = imagesy($tmp);
 			$this->assertTrue($width <= 200);
 			$this->assertTrue($height <= 200);
 
@@ -72,8 +73,9 @@ class ImageTest extends PHPUnit_Framework_TestCase
 			$image->crop(200, 200)->save('unit-tests/assets/production/gd-crop.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/gd-crop.jpg'));
 
-			$width = imagesx('unit-tests/assets/production/gd-crop.jpg');
-			$height = imagesy('unit-tests/assets/production/gd-crop.jpg');
+			$tmp = imagecreatefromjpeg('unit-tests/assets/production/gd-crop.jpg');
+			$width = imagesx($tmp);
+			$height = imagesy($tmp);
 			$this->assertEquals($width, 200);
 			$this->assertEquals($height, 200);
 
@@ -113,7 +115,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 			// Mask image
 			$mask = new Phalcon\Image\Adapter\GD('unit-tests/assets/logo.png');
-			$image->mask($mark)->save('unit-tests/assets/production/gd-mask.jpg');
+			$image->mask($mask)->save('unit-tests/assets/production/gd-mask.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/gd-mask.jpg'));
 
 			// Add a text to the bottom right of the image
@@ -171,9 +173,9 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 		try {
 			// Create new image
-			$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/imagick-new.jpg', 100, 100);
+			$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/production/imagick-new.jpg', 100, 100);
 			$image->save();
-			$this->assertTrue(file_exists('unit-tests/assets/production/new.jpg'));
+			$this->assertTrue(file_exists('unit-tests/assets/production/imagick-new.jpg'));
 
 			$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/phalconphp.jpg');
 
@@ -240,7 +242,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
 			// Mask image
 			$mask = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/logo.png');
-			$image->mask($mark)->save('unit-tests/assets/production/imagick-mask.jpg');
+			$image->mask($mask)->save('unit-tests/assets/production/imagick-mask.jpg');
 			$this->assertTrue(file_exists('unit-tests/assets/production/imagick-mask.jpg'));
 
 			// Add a text to the bottom right of the image
