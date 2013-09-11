@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Utils_Arr, path){
 
 		if (!delimiter) {
 			PHALCON_INIT_VAR(delimiter);
-			phalcon_read_static_property(&delimiter, SL("phalcon\\arr"), SL("delimiter") TSRMLS_CC);
+			phalcon_read_static_property(&delimiter, SL("phalcon\\utils\\arr"), SL("delimiter") TSRMLS_CC);
 		}
 
 		PHALCON_INIT_VAR(keys);
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
 	} else {
 		if (!delimiter) {
 			PHALCON_OBS_VAR(delimiter);
-			phalcon_read_static_property(&delimiter, SL("phalcon\\arr"), SL("delimiter") TSRMLS_CC);
+			phalcon_read_static_property(&delimiter, SL("phalcon\\utils\\arr"), SL("delimiter") TSRMLS_CC);
 		}
 
 		PHALCON_INIT_VAR(keys);
