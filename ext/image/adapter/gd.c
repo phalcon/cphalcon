@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 	}
 #else
 	PHALCON_OBS_NVAR(tmp_image);
-	PHALCON_CALL_FUNCTION(tmp_image, &tmp_image, "imagescale", 3, tmp_image, width, height);
+	PHALCON_CALL_FUNCTION(tmp_image, &tmp_image, "imagescale", 3, image, width, height);
 
 	phalcon_call_func_p1_noret("imagedestroy", image);
 	phalcon_update_property_this(this_ptr, SL("_image"), tmp_image TSRMLS_CC);
@@ -443,10 +443,10 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _crop) {
 #else
 	PHALCON_INIT_VAR(rect);
 	array_init_size(rect, 4);
-	phalcon_array_append(&rect, offset_x, 0);
-	phalcon_array_append(&rect, offset_y, 0);
-	phalcon_array_append(&rect, width, 0);
-	phalcon_array_append(&rect, height, 0);
+	phalcon_array_update_string(&rect, SL("x"), offset_x, 0);
+	phalcon_array_update_string(&rect, SL("y"), offset_y, 0);
+	phalcon_array_update_string(&rect, SL("width"), width, 0);
+	phalcon_array_update_string(&rect, SL("height"), height, 0);
 
 	PHALCON_OBS_VAR(tmp_image);
 	PHALCON_CALL_FUNCTION(tmp_image, &tmp_image, "imagecrop", 2, image, rect);
