@@ -60,7 +60,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Mongo) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, phalcon, Mongo, cache_backend_mongo, phalcon_cache_backend_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Mongo, phalcon, cache_backend_mongo, phalcon_cache_backend_ce, NULL, 0);
 
 	zend_declare_property_null(phalcon_cache_backend_mongo_ce, SL("_collection"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

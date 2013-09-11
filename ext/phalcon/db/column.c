@@ -56,7 +56,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Column, db_column, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Column, phalcon, db_column, NULL, 0);
 
 /**
  * Column's name

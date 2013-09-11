@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, phalcon, Backend, cache_backend, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, Backend, phalcon, cache_backend, NULL, 0);
 
 	zend_declare_property_null(phalcon_cache_backend_ce, SL("_frontend"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_cache_backend_ce, SL("_options"), ZEND_ACC_PUBLIC TSRMLS_CC);

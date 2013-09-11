@@ -46,7 +46,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Console) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cli, phalcon, Console, cli_console, phalcon_cli_console_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cli, Console, phalcon, cli_console, phalcon_cli_console_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_eventsManager"), ZEND_ACC_PUBLIC TSRMLS_CC);

@@ -43,7 +43,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DI_FactoryDefault) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DI, phalcon, FactoryDefault, di_factorydefault, phalcon_di_ce, phalcon_di_factorydefault_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DI, FactoryDefault, phalcon, di_factorydefault, phalcon_di_ce, phalcon_di_factorydefault_method_entry, 0);
 
 
 	return SUCCESS;
@@ -56,12 +56,11 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_FactoryDefault) {
 PHP_METHOD(Phalcon_DI_FactoryDefault, __construct) {
 
 	zval *_0, *_1, *_2, *_3, *_4;
-	zend_bool shared;
+	zend_bool shared = 1;
 
 	ZEPHIR_MM_GROW();
 
 	zephir_call_parent_noret(this_ptr, phalcon_di_factorydefault_ce, "__construct");
-	shared = 1;
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
 	ZEPHIR_INIT_VAR(_1);

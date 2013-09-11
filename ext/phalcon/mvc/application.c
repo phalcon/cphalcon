@@ -78,7 +78,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, phalcon, Application, mvc_application, phalcon_di_injectable_ce, phalcon_mvc_application_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, phalcon, mvc_application, phalcon_di_injectable_ce, phalcon_mvc_application_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_defaultModule"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_modules"), ZEND_ACC_PUBLIC TSRMLS_CC);

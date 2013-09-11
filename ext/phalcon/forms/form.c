@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Form) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms, phalcon, Form, forms_form, phalcon_di_injectable_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms, Form, phalcon, forms_form, phalcon_di_injectable_ce, NULL, 0);
 
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_position"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_entity"), ZEND_ACC_PUBLIC TSRMLS_CC);

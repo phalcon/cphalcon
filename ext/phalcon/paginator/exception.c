@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Paginator, phalcon, Exception, paginator_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Paginator, Exception, phalcon, paginator_exception, phalcon_exception_ce, NULL, 0);
 
 
 	return SUCCESS;

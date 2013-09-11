@@ -42,7 +42,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation, phalcon, Validator, validation_validator, phalcon_validation_validator_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation, Validator, phalcon, validation_validator, phalcon_validation_validator_method_entry, 0);
 
 	zend_declare_property_null(phalcon_validation_validator_ce, SL("_options"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

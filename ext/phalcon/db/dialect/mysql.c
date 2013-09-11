@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_MySQL) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, phalcon, MySQL, db_dialect_mysql, phalcon_db_dialect_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, MySQL, phalcon, db_dialect_mysql, phalcon_db_dialect_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_db_dialect_mysql_ce, SL("_escapeChar"), "`", ZEND_ACC_PUBLIC TSRMLS_CC);
 

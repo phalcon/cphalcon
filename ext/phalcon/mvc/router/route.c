@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Router, phalcon, Route, mvc_router_route, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Router, Route, phalcon, mvc_router_route, NULL, 0);
 
 
 	return SUCCESS;

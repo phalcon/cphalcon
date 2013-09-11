@@ -80,7 +80,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Multiple) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, phalcon, Multiple, cache_multiple, phalcon_cache_multiple_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, Multiple, phalcon, cache_multiple, phalcon_cache_multiple_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cache_multiple_ce, SL("_backends"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * Interface for Phalcon\Validation\Validator
  */
+ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Validation, ValidatorInterface, phalcon, validation_validatorinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

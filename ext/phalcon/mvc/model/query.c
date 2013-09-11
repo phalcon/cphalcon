@@ -56,7 +56,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, phalcon, Query, mvc_model_query, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Query, phalcon, mvc_model_query, NULL, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_manager"), ZEND_ACC_PUBLIC TSRMLS_CC);

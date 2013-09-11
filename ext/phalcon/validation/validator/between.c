@@ -52,7 +52,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, phalcon, Between, validation_validator_between, phalcon_validation_validator_ce, phalcon_validation_validator_between_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Between, phalcon, validation_validator_between, phalcon_validation_validator_ce, phalcon_validation_validator_between_method_entry, 0);
 
 
 	return SUCCESS;

@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * Interface for Phalcon\Db\Result objects
  */
+ZEPHIR_INIT_CLASS(Phalcon_Db_ResultInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, ResultInterface, phalcon, db_resultinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

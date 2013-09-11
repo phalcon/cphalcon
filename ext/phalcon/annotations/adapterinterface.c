@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * This interface must be implemented for adapters in Phalcon\Annotations
  */
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_AdapterInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Annotations, AdapterInterface, phalcon, annotations_adapterinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

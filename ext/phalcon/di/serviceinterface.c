@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * Represents a service in the services container
  */
+ZEPHIR_INIT_CLASS(Phalcon_DI_ServiceInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\DI, ServiceInterface, phalcon, di_serviceinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

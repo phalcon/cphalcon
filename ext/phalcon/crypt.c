@@ -49,7 +49,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Crypt) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, phalcon, Crypt, crypt, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Crypt, phalcon, crypt, NULL, 0);
 
 
 	return SUCCESS;

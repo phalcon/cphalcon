@@ -24,7 +24,7 @@ namespace Phalcon\Cache\Frontend;
  *
  * Allows to cache data converting/deconverting them to JSON.
  *
- * This adapters uses the json_encode/json_decode PHP's functions
+ * This adapter uses the json_encode/json_decode PHP's functions
  *
  * As the data is encoded in JSON other systems accessing the same backend could
  * process them

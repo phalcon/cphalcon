@@ -42,7 +42,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, phalcon, Cssmin, assets_filters_cssmin, phalcon_assets_filters_cssmin_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, Cssmin, phalcon, assets_filters_cssmin, phalcon_assets_filters_cssmin_method_entry, 0);
 
 
 	return SUCCESS;

@@ -59,7 +59,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Message) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, phalcon, Message, mvc_model_message, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Message, phalcon, mvc_model_message, NULL, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_type"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_message"), ZEND_ACC_PUBLIC TSRMLS_CC);

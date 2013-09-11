@@ -58,7 +58,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, phalcon, Dispatcher, mvc_dispatcher, phalcon_dispatcher_ce, phalcon_mvc_dispatcher_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Dispatcher, phalcon, mvc_dispatcher, phalcon_dispatcher_ce, phalcon_mvc_dispatcher_method_entry, 0);
 
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_handlerSuffix"), "Controller", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultHandler"), "index", ZEND_ACC_PUBLIC TSRMLS_CC);

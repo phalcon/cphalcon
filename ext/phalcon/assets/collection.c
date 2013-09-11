@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, phalcon, Collection, assets_collection, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Collection, phalcon, assets_collection, NULL, 0);
 
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_prefix"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_assets_collection_ce, SL("_local"), 1, ZEND_ACC_PUBLIC TSRMLS_CC);

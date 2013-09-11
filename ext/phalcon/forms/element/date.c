@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Date) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, phalcon, Date, forms_element_date, phalcon_forms_element_ce, phalcon_forms_element_date_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Date, phalcon, forms_element_date, phalcon_forms_element_ce, phalcon_forms_element_date_method_entry, 0);
 
 
 	return SUCCESS;

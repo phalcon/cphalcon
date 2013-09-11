@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * Interface for Phalcon\Mvc\Model\Manager
  */
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ManagerInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ManagerInterface, phalcon, mvc_model_managerinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Select) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, phalcon, Select, forms_element_select, phalcon_forms_element_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Select, phalcon, forms_element_select, phalcon_forms_element_ce, NULL, 0);
 
 	zend_declare_property_null(phalcon_forms_element_select_ce, SL("_optionsValues"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

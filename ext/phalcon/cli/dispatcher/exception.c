@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_CLI_Dispatcher_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI\\Dispatcher, phalcon, Exception, cli_dispatcher_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI\\Dispatcher, Exception, phalcon, cli_dispatcher_exception, phalcon_exception_ce, NULL, 0);
 
 
 	return SUCCESS;

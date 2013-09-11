@@ -63,7 +63,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Memcache) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, phalcon, Memcache, cache_backend_memcache, phalcon_cache_backend_ce, phalcon_cache_backend_memcache_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Memcache, phalcon, cache_backend_memcache, phalcon_cache_backend_ce, phalcon_cache_backend_memcache_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cache_backend_memcache_ce, SL("_memcache"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

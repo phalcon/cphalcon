@@ -45,7 +45,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DI_Injectable) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, phalcon, Injectable, di_injectable, phalcon_di_injectable_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, Injectable, phalcon, di_injectable, phalcon_di_injectable_method_entry, 0);
 
 /**
  * Dependency Injector

@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, phalcon, Engine, mvc_view_engine, phalcon_di_injectable_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, Engine, phalcon, mvc_view_engine, phalcon_di_injectable_ce, NULL, 0);
 
 	zend_declare_property_null(phalcon_mvc_view_engine_ce, SL("_view"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

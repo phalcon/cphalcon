@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Status) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, phalcon, Status, mvc_model_query_status, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Status, phalcon, mvc_model_query_status, NULL, 0);
 
 
 	return SUCCESS;

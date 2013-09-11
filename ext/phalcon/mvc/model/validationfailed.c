@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, phalcon, ValidationFailed, mvc_model_validationfailed, phalcon_mvc_model_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, ValidationFailed, phalcon, mvc_model_validationfailed, phalcon_mvc_model_exception_ce, NULL, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("_model"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("_messages"), ZEND_ACC_PUBLIC TSRMLS_CC);

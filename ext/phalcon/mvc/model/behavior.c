@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, phalcon, Behavior, mvc_model_behavior, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Behavior, phalcon, mvc_model_behavior, NULL, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_behavior_ce, SL("_options"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_Imagick) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Image\\Adapter, phalcon, Imagick, image_adapter_imagick, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Image\\Adapter, Imagick, phalcon, image_adapter_imagick, NULL, 0);
 
 
 	return SUCCESS;

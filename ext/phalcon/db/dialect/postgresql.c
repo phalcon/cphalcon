@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Postgresql) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, phalcon, Postgresql, db_dialect_postgresql, phalcon_db_dialect_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Postgresql, phalcon, db_dialect_postgresql, phalcon_db_dialect_ce, NULL, 0);
 
 	zend_declare_property_null(phalcon_db_dialect_postgresql_ce, SL("_escapeChar"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

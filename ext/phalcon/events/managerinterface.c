@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -23,3 +34,12 @@
  * the normal flow of operation. With the EventsManager the developer can create hooks or
  * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
  */
+ZEPHIR_INIT_CLASS(Phalcon_Events_ManagerInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Events, ManagerInterface, phalcon, events_managerinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

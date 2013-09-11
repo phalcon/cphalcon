@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * Interface for Phalcon\Mvc\Model\Query\Status
  */
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_StatusInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model\\Query, StatusInterface, phalcon, mvc_model_query_statusinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

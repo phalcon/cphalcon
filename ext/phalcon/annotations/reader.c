@@ -43,7 +43,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reader) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, phalcon, Reader, annotations_reader, phalcon_annotations_reader_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Reader, phalcon, annotations_reader, phalcon_annotations_reader_method_entry, 0);
 
 
 	return SUCCESS;

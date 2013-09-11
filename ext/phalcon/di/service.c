@@ -51,7 +51,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DI_Service) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, phalcon, Service, di_service, phalcon_di_service_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, Service, phalcon, di_service, phalcon_di_service_method_entry, 0);
 
 	zend_declare_property_null(phalcon_di_service_ce, SL("_name"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_di_service_ce, SL("_definition"), ZEND_ACC_PUBLIC TSRMLS_CC);

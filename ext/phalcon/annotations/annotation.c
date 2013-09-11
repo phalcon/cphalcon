@@ -45,7 +45,7 @@
 */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, phalcon, Annotation, annotations_annotation, phalcon_annotations_annotation_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Annotation, phalcon, annotations_annotation, phalcon_annotations_annotation_method_entry, 0);
 
 /**
  * Annotations's Name

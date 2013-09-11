@@ -97,7 +97,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_Memory) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Acl\\Adapter, phalcon, Memory, acl_adapter_memory, phalcon_acl_adapter_ce, phalcon_acl_adapter_memory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Acl\\Adapter, Memory, phalcon, acl_adapter_memory, phalcon_acl_adapter_ce, phalcon_acl_adapter_memory_method_entry, 0);
 
 /**
  * Roles Names

@@ -24,7 +24,7 @@ namespace Phalcon\Cache\Frontend;
  *
  * Allows to cache data converting/deconverting them to base64.
  *
- * This adapters uses the base64_encode/base64_decode PHP's functions
+ * This adapter uses the base64_encode/base64_decode PHP's functions
  *
  *<code>
  *<?php

@@ -37,16 +37,16 @@
  * Encapsulates the resultset internals
  *
  * <code>
- *	result = connection->query("SELECT * FROM robots ORDER BY name");
- *	result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *	while (robot = result->fetchArray()) {
- *		print_r(robot);
+ *	$result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
+ *	while ($robot = $result->fetchArray()) {
+ *		print_r($robot);
  *	}
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Result_Pdo) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Result, phalcon, Pdo, db_result_pdo, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Result, Pdo, phalcon, db_result_pdo, NULL, 0);
 
 	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_connection"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_result"), ZEND_ACC_PUBLIC TSRMLS_CC);

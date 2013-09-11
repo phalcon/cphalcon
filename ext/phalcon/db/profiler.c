@@ -66,7 +66,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Profiler, db_profiler, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Profiler, phalcon, db_profiler, NULL, 0);
 
 /**
  * All the Phalcon\Db\Profiler\Item in the active profile

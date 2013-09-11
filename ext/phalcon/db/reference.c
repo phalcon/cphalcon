@@ -47,7 +47,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Reference, db_reference, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Reference, phalcon, db_reference, NULL, 0);
 
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_schemaName"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedSchema"), ZEND_ACC_PUBLIC TSRMLS_CC);

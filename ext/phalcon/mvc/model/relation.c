@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, phalcon, Relation, mvc_model_relation, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Relation, phalcon, mvc_model_relation, NULL, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_type"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("_referencedModel"), ZEND_ACC_PUBLIC TSRMLS_CC);

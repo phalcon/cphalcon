@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Text) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, phalcon, Text, text, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Text, phalcon, text, NULL, 0);
 
 	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_ALNUM"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_ALPHA"), 1 TSRMLS_CC);

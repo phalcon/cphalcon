@@ -48,7 +48,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, phalcon, Pdo, db_adapter_pdo, phalcon_db_adapter_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Pdo, phalcon, db_adapter_pdo, phalcon_db_adapter_ce, NULL, 0);
 
 /**
  * PDO Handler

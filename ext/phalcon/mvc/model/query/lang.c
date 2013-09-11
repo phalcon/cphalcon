@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, phalcon, Lang, mvc_model_query_lang, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Lang, phalcon, mvc_model_query_lang, NULL, 0);
 
 
 	return SUCCESS;

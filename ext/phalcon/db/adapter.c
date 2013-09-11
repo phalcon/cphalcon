@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Adapter, db_adapter, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Adapter, phalcon, db_adapter, NULL, 0);
 
 /**
  * Event Manager

@@ -41,7 +41,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, phalcon, Adapter, acl_adapter, phalcon_acl_adapter_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Adapter, phalcon, acl_adapter, phalcon_acl_adapter_method_entry, 0);
 
 /**
  * Events manager

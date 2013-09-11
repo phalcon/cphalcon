@@ -38,7 +38,7 @@
  *
  * Allows to cache data converting/deconverting them to JSON.
  *
- * This adapters uses the json_encode/json_decode PHP's functions
+ * This adapter uses the json_encode/json_decode PHP's functions
  *
  * As the data is encoded in JSON other systems accessing the same backend could
  * process them
@@ -67,7 +67,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Json) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, phalcon, Json, cache_frontend_json, phalcon_cache_frontend_json_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Json, phalcon, cache_frontend_json, phalcon_cache_frontend_json_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cache_frontend_json_ce, SL("_frontendOptions"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

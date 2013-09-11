@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -22,3 +33,12 @@
  * All single objects passed as base objects to Resultsets must implement this interface
  *
  */
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ResultInterface, phalcon, mvc_model_resultinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

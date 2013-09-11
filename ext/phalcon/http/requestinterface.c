@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * Interface for Phalcon\Http\Request
  */
+ZEPHIR_INIT_CLASS(Phalcon_Http_RequestInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Http, RequestInterface, phalcon, http_requestinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

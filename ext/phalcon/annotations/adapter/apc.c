@@ -45,7 +45,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, phalcon, Apc, annotations_adapter_apc, phalcon_annotations_adapter_apc_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, Apc, phalcon, annotations_adapter_apc, phalcon_annotations_adapter_apc_method_entry, 0);
 
 
 	return SUCCESS;

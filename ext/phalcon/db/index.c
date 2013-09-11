@@ -40,7 +40,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Index, db_index, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Index, phalcon, db_index, NULL, 0);
 
 /**
  * Index name

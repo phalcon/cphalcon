@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms, phalcon, Exception, forms_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms, Exception, phalcon, forms_exception, phalcon_exception_ce, NULL, 0);
 
 
 	return SUCCESS;

@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -34,3 +45,12 @@
  * robot = new Robots(di);
  * </code>
  */
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_ManagerInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Collection, ManagerInterface, phalcon, mvc_collection_managerinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

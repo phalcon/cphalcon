@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Validator_Uniqueness) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Validator, phalcon, Uniqueness, mvc_model_validator_uniqueness, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Validator, Uniqueness, phalcon, mvc_model_validator_uniqueness, NULL, 0);
 
 
 	return SUCCESS;

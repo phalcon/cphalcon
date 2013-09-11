@@ -62,7 +62,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_CLI_Dispatcher) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI, phalcon, Dispatcher, cli_dispatcher, phalcon_dispatcher_ce, phalcon_cli_dispatcher_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI, Dispatcher, phalcon, cli_dispatcher, phalcon_dispatcher_ce, phalcon_cli_dispatcher_method_entry, 0);
 
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_handlerSuffix"), "Task", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultHandler"), "main", ZEND_ACC_PUBLIC TSRMLS_CC);

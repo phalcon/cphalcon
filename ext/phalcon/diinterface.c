@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * Interface for Phalcon\DI
  */
+ZEPHIR_INIT_CLASS(Phalcon_DiInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE_EX(Phalcon, DiInterface, phalcon, diinterface, zend_exception_get_default(TSRMLS_C), NULL);
+
+
+	return SUCCESS;
+
+}
+

@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, phalcon, Adapter, logger_adapter, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Adapter, phalcon, logger_adapter, NULL, 0);
 
 /**
  * Tells if there is an active transaction or not

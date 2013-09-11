@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, phalcon, Translate, translate, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Translate, phalcon, translate, NULL, 0);
 
 
 	return SUCCESS;

@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * Interface for Phalcon\Http\Response\Headers compatible bags
  */
+ZEPHIR_INIT_CLASS(Phalcon_Http_Response_HeadersInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Http\\Response, HeadersInterface, phalcon, http_response_headersinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

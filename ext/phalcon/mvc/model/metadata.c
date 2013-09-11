@@ -49,7 +49,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, phalcon, MetaData, mvc_model_metadata, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, MetaData, phalcon, mvc_model_metadata, NULL, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("_strategy"), ZEND_ACC_PUBLIC TSRMLS_CC);

@@ -52,7 +52,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, phalcon, Micro, mvc_micro, phalcon_di_injectable_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Micro, phalcon, mvc_micro, phalcon_di_injectable_ce, NULL, 0);
 
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_handlers"), ZEND_ACC_PUBLIC TSRMLS_CC);

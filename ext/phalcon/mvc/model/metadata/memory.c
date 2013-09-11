@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memory) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData, phalcon, Memory, mvc_model_metadata_memory, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData, Memory, phalcon, mvc_model_metadata_memory, NULL, 0);
 
 
 	return SUCCESS;

@@ -44,7 +44,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, phalcon, Simple, mvc_view_simple, phalcon_di_injectable_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, Simple, phalcon, mvc_view_simple, phalcon_di_injectable_ce, NULL, 0);
 
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_options"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("_viewsDir"), ZEND_ACC_PUBLIC TSRMLS_CC);

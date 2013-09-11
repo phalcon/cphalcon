@@ -34,11 +34,9 @@ class FactoryDefault extends Phalcon\DI
 	 */
 	public function __construct()
 	{
-		var shared;
+		var shared = true;
 
 		parent::__construct();
-
-		let shared = true;
 
 		let this->_services = [
 			"router": new Phalcon\DI\Service("router", "Phalcon\\Mvc\\Router", shared),

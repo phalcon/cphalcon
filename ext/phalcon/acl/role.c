@@ -42,7 +42,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, phalcon, Role, acl_role, phalcon_acl_role_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Role, phalcon, acl_role, phalcon_acl_role_method_entry, 0);
 
 /**
  * Role's name

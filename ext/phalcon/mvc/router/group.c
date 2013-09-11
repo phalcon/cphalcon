@@ -71,7 +71,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Router, phalcon, Group, mvc_router_group, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Router, Group, phalcon, mvc_router_group, NULL, 0);
 
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_prefix"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_hostname"), ZEND_ACC_PUBLIC TSRMLS_CC);

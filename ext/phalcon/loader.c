@@ -59,7 +59,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Loader) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, phalcon, Loader, loader, phalcon_loader_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Loader, phalcon, loader, phalcon_loader_method_entry, 0);
 
 	zend_declare_property_null(phalcon_loader_ce, SL("_eventsManager"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_loader_ce, SL("_foundPath"), ZEND_ACC_PUBLIC TSRMLS_CC);

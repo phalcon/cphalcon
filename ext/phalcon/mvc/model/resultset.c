@@ -60,7 +60,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, phalcon, Resultset, mvc_model_resultset, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Resultset, phalcon, mvc_model_resultset, NULL, 0);
 
 	zend_declare_property_long(phalcon_mvc_model_resultset_ce, SL("_type"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_result"), ZEND_ACC_PUBLIC TSRMLS_CC);

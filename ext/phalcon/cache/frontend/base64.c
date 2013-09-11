@@ -38,7 +38,7 @@
  *
  * Allows to cache data converting/deconverting them to base64.
  *
- * This adapters uses the base64_encode/base64_decode PHP's functions
+ * This adapter uses the base64_encode/base64_decode PHP's functions
  *
  *<code>
  *<?php
@@ -70,7 +70,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Base64) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, phalcon, Base64, cache_frontend_base64, phalcon_cache_frontend_base64_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Base64, phalcon, cache_frontend_base64, phalcon_cache_frontend_base64_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cache_frontend_base64_ce, SL("_frontendOptions"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, phalcon, Dialect, db_dialect, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Dialect, phalcon, db_dialect, NULL, 0);
 
 	zend_declare_property_null(phalcon_db_dialect_ce, SL("_escapeChar"), ZEND_ACC_PUBLIC TSRMLS_CC);
 

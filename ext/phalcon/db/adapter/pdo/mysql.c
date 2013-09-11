@@ -52,7 +52,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Mysql) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, phalcon, Mysql, db_adapter_pdo_mysql, phalcon_db_adapter_pdo_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, Mysql, phalcon, db_adapter_pdo_mysql, phalcon_db_adapter_pdo_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_db_adapter_pdo_mysql_ce, SL("_type"), "mysql", ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_string(phalcon_db_adapter_pdo_mysql_ce, SL("_dialectType"), "mysql", ZEND_ACC_PUBLIC TSRMLS_CC);

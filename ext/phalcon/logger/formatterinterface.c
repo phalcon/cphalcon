@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * This interface must be implemented by formmaters in Phalcon\Logger
  */
+ZEPHIR_INIT_CLASS(Phalcon_Logger_FormatterInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Logger, FormatterInterface, phalcon, logger_formatterinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

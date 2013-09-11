@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Queue_Beanstalk) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue, phalcon, Beanstalk, queue_beanstalk, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue, Beanstalk, phalcon, queue_beanstalk, NULL, 0);
 
 
 	return SUCCESS;

@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -22,3 +33,12 @@
  * Interface for Phalcon\Mvc\Model\Resultset
  *
  */
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ResultsetInterface, phalcon, mvc_model_resultsetinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

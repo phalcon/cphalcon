@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, phalcon, Failed, mvc_model_transaction_failed, zend_exception_get_default(TSRMLS_C), NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Failed, phalcon, mvc_model_transaction_failed, zend_exception_get_default(TSRMLS_C), NULL, 0);
 
 
 	return SUCCESS;

@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * Interface for Phalcon\Mvc\View engine adapters
  */
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_EngineInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\View, EngineInterface, phalcon, mvc_view_engineinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

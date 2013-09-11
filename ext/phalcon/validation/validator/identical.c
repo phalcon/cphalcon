@@ -33,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Identical) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Validator, phalcon, Identical, validation_validator_identical, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Validation\\Validator, Identical, phalcon, validation_validator_identical, NULL, 0);
 
 
 	return SUCCESS;

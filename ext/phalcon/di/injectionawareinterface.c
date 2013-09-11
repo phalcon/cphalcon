@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * This interface must be implemented in those classes that uses internally the Phalcon\DI that creates them
  */
+ZEPHIR_INIT_CLASS(Phalcon_DI_InjectionAwareInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\DI, InjectionAwareInterface, phalcon, di_injectionawareinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

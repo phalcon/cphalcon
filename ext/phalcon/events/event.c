@@ -42,7 +42,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, phalcon, Event, events_event, phalcon_events_event_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Event, phalcon, events_event, phalcon_events_event_method_entry, 0);
 
 	zend_declare_property_null(phalcon_events_event_ce, SL("_type"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_events_event_ce, SL("_source"), ZEND_ACC_PUBLIC TSRMLS_CC);

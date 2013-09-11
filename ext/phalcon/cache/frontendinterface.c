@@ -1,4 +1,15 @@
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_test.h"
+#include "test.h"
+
+#include "kernel/main.h"
+
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -21,3 +32,12 @@
  *
  * Interface for Phalcon\Cache\Frontend adapters
  */
+ZEPHIR_INIT_CLASS(Phalcon_Cache_FrontendInterface) {
+
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Cache, FrontendInterface, phalcon, cache_frontendinterface, NULL);
+
+
+	return SUCCESS;
+
+}
+

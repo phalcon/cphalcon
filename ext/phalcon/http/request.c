@@ -59,7 +59,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http, phalcon, Request, http_request, phalcon_http_request_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http, Request, phalcon, http_request, phalcon_http_request_method_entry, 0);
 
 	zend_declare_property_null(phalcon_http_request_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_ce, SL("_rawBody"), ZEND_ACC_PUBLIC TSRMLS_CC);

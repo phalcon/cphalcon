@@ -39,7 +39,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms, phalcon, Manager, forms_manager, phalcon_forms_manager_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms, Manager, phalcon, forms_manager, phalcon_forms_manager_method_entry, 0);
 
 	zend_declare_property_null(phalcon_forms_manager_ce, SL("_forms"), ZEND_ACC_PUBLIC TSRMLS_CC);
 
