@@ -48,3 +48,4 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultInterface) {
  * @param boolean dirtyState
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultInterface, setDirtyState);
+

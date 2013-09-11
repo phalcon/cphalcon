@@ -46,9 +46,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModuleDefinitionInterface) {
  *
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModuleDefinitionInterface, registerAutoloaders);
+
 /**
  * Registers an autoloader related to the module
  *
  * @param Phalcon\DiInterface dependencyInjector
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModuleDefinitionInterface, registerServices);
+

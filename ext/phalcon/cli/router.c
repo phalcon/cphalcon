@@ -59,15 +59,15 @@ ZEPHIR_INIT_CLASS(Phalcon_CLI_Router) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\CLI, Router, phalcon, cli_router, phalcon_cli_router_method_entry, 0);
 
-	zend_declare_property_null(phalcon_cli_router_ce, SL("_dependencyInjector"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_cli_router_ce, SL("_module"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_cli_router_ce, SL("_task"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_cli_router_ce, SL("_action"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_cli_router_ce, SL("_params"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultModule"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultTask"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultAction"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultParams"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_module"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_task"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_action"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultModule"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultTask"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultAction"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

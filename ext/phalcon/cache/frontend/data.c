@@ -76,7 +76,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Data) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Data, phalcon, cache_frontend_data, phalcon_cache_frontend_data_method_entry, 0);
 
-	zend_declare_property_null(phalcon_cache_frontend_data_ce, SL("_frontendOptions"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_cache_frontend_data_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

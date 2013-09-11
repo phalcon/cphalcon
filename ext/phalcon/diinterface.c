@@ -50,6 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DiInterface) {
  * @return Phalcon\DI\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, set);
+
 /**
  * Registers an "always shared" service in the services container
  *
@@ -58,12 +59,14 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, set);
  * @return Phalcon\DI\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setShared);
+
 /**
  * Removes a service in the services container
  *
  * @param string name
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, remove);
+
 /**
  * Attempts to register a service in the services container
  * Only is successful if a service hasn't been registered previously
@@ -75,6 +78,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, remove);
  * @return Phalcon\DI\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, attempt);
+
 /**
  * Resolves the service based on its configuration
  *
@@ -83,6 +87,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, attempt);
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, get);
+
 /**
  * Returns a shared service based on their configuration
  *
@@ -91,6 +96,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, get);
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getShared);
+
 /**
  * Sets a service using a raw Phalcon\DI\Service definition
  *
@@ -99,6 +105,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getShared);
  * @return Phalcon\DI\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setRaw);
+
 /**
  * Returns a service definition without resolving
  *
@@ -106,6 +113,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setRaw);
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getRaw);
+
 /**
  * Returns the corresponding Phalcon\Di\Service instance for a service
  *
@@ -113,6 +121,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getRaw);
  * @return Phalcon\DI\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getService);
+
 /**
  * Check whether the DI contains a service by a name
  *
@@ -120,31 +129,37 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getService);
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, has);
+
 /**
  * Check whether the last service obtained via getShared produced a fresh instance or an existing one
  *
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, wasFreshInstance);
+
 /**
  * Return the services registered in the DI
  *
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getServices);
+
 /**
  * Set a default dependency injection container to be obtained into static methods
  *
  * @param Phalcon\DiInterface dependencyInjector
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setDefault);
+
 /**
  * Return the last DI created
  *
  * @return Phalcon\DiInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getDefault);
+
 /**
  * Resets the internal default DI
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, reset);
+

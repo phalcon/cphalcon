@@ -47,6 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_QueryInterface) {
  * @param string phql
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, __construct);
+
 /**
  * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
  * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
@@ -54,6 +55,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, __construct);
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, parse);
+
 /**
  * Executes a parsed PHQL statement
  *
@@ -62,3 +64,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, parse);
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, execute);
+

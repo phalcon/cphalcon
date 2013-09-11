@@ -50,12 +50,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_ManagerInterface) {
  * @param object handler
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, attach);
+
 /**
  * Removes all events from the EventsManager
  *
  * @param string type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, dettachAll);
+
 /**
  * Fires a event in the events manager causing that the acive listeners will be notified about it
  *
@@ -65,6 +67,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, dettachAll);
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, fire);
+
 /**
  * Returns all the attached listeners of a certain type
  *
@@ -72,3 +75,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, fire);
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_ManagerInterface, getListeners);
+

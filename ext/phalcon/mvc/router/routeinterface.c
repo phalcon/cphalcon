@@ -49,6 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface) {
  * @param array|string httpMethods
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, __construct);
+
 /**
  * Replaces placeholders from pattern returning a valid PCRE regular expression
  *
@@ -56,12 +57,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, __construct);
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, compilePattern);
+
 /**
  * Set one or more HTTP methods that constraint the matching of the route
  *
  * @param string|array httpMethods
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, via);
+
 /**
  * Reconfigure the route adding a new pattern and a set of paths
  *
@@ -69,55 +72,65 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, via);
  * @param array paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reConfigure);
+
 /**
  * Returns the route's name
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getName);
+
 /**
  * Sets the route's name
  *
  * @param string name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setName);
+
 /**
  * Sets a set of HTTP methods that constraint the matching of the route
  *
  * @param string|array httpMethods
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setHttpMethods);
+
 /**
  * Returns the route's id
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getRouteId);
+
 /**
  * Returns the route's pattern
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getPattern);
+
 /**
  * Returns the route's pattern
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getCompiledPattern);
+
 /**
  * Returns the paths
  *
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getPaths);
+
 /**
  * Returns the HTTP methods that constraint matching the route
  *
  * @return string|array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getHttpMethods);
+
 /**
  * Resets the internal route id generator
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reset);
+

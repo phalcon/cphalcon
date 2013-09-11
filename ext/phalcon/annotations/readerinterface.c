@@ -48,6 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_ReaderInterface) {
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_ReaderInterface, parse);
+
 /**
  * Parses a raw doc block returning the annotations found
  *
@@ -55,3 +56,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Annotations_ReaderInterface, parse);
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_ReaderInterface, parseDocBlock);
+

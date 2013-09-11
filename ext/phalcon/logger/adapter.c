@@ -45,25 +45,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter) {
  *
  * @var boolean
  */
-	zend_declare_property_bool(phalcon_logger_adapter_ce, SL("_transaction"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_logger_adapter_ce, SL("_transaction"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Array with messages queued in the transacction
  *
  * @var array
  */
-	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_queue"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Formatter
  *
  * @var object
  */
-	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_formatter"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Log level
  *
  * @var int
  */
-	zend_declare_property_long(phalcon_logger_adapter_ce, SL("_logLevel"), 9, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_long(phalcon_logger_adapter_ce, SL("_logLevel"), 9, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

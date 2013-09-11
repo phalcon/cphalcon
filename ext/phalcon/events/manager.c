@@ -43,10 +43,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Manager, phalcon, events_manager, NULL, 0);
 
-	zend_declare_property_null(phalcon_events_manager_ce, SL("_events"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_bool(phalcon_events_manager_ce, SL("_collect"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_bool(phalcon_events_manager_ce, SL("_enablePriorities"), 0, ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_events_manager_ce, SL("_responses"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_manager_ce, SL("_events"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_events_manager_ce, SL("_collect"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_events_manager_ce, SL("_enablePriorities"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_manager_ce, SL("_responses"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

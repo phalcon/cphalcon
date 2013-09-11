@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
  * Data
  * @var mixed
  */
-	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("_data"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

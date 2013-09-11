@@ -47,24 +47,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_UrlInterface) {
  * @param string baseUri
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, setBaseUri);
+
 /**
  * Returns the prefix for all the generated urls. By default /
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBaseUri);
+
 /**
  * Sets a base paths for all the generated paths
  *
  * @param string basePath
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, setBasePath);
+
 /**
  * Returns a base path
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBasePath);
+
 /**
  * Generates a URL
  *
@@ -72,6 +76,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBasePath);
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, get);
+
 /**
  * Generates a local path
  *
@@ -79,3 +84,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, get);
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_UrlInterface, path);
+

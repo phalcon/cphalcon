@@ -53,7 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Filter, phalcon, filter, phalcon_filter_method_entry, 0);
 
-	zend_declare_property_null(phalcon_filter_ce, SL("_filters"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_filter_ce, SL("_filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

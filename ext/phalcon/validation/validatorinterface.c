@@ -48,6 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorInterface) {
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, isSetOption);
+
 /**
  * Returns an option in the validator's options
  * Returns null if the option hasn't been set
@@ -56,6 +57,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, isSetOption);
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getOption);
+
 /**
  * Executes the validation
  *
@@ -64,3 +66,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getOption);
  * @return Phalcon\Validation\Message\Group
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, validate);
+

@@ -48,42 +48,49 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface) {
  * @param array definition
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, __construct);
+
 /**
  * Gets the index name
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getName);
+
 /**
  * Gets the schema where referenced table is
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getSchemaName);
+
 /**
  * Gets the schema where referenced table is
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedSchema);
+
 /**
  * Gets local columns which reference is based
  *
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getColumns);
+
 /**
  * Gets the referenced table
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedTable);
+
 /**
  * Gets referenced columns
  *
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedColumns);
+
 /**
  * Restore a Phalcon\Db\Reference object from export
  *
@@ -91,3 +98,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedColumns);
  * @return Phalcon\Db\ReferenceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, __set_state);
+

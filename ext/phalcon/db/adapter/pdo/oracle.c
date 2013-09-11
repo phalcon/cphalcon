@@ -52,8 +52,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Oracle) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, Oracle, phalcon, db_adapter_pdo_oracle, phalcon_db_adapter_pdo_ce, NULL, 0);
 
-	zend_declare_property_string(phalcon_db_adapter_pdo_oracle_ce, SL("_type"), "oci", ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_string(phalcon_db_adapter_pdo_oracle_ce, SL("_dialectType"), "oracle", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_adapter_pdo_oracle_ce, SL("_type"), "oci", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_adapter_pdo_oracle_ce, SL("_dialectType"), "oracle", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

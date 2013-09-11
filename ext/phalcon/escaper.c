@@ -52,9 +52,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Escaper) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Escaper, phalcon, escaper, phalcon_escaper_method_entry, 0);
 
-	zend_declare_property_null(phalcon_escaper_ce, SL("_encoding"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_escaper_ce, SL("_htmlEscapeMap"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_long(phalcon_escaper_ce, SL("_htmlQuoteType"), 3, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_escaper_ce, SL("_encoding"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_escaper_ce, SL("_htmlEscapeMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_escaper_ce, SL("_htmlQuoteType"), 3, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

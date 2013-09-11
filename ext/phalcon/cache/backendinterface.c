@@ -49,48 +49,56 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_BackendInterface) {
  * @return  mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, start);
+
 /**
  * Stops the frontend without store any cached content
  *
  * @param boolean stopBuffer
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, stop);
+
 /**
  * Returns front-end instance adapter related to the back-end
  *
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, getFrontend);
+
 /**
  * Returns the backend options
  *
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, getOptions);
+
 /**
  * Checks whether the last cache is fresh or cached
  *
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, isFresh);
+
 /**
  * Checks whether the cache has starting buffering or not
  *
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, isStarted);
+
 /**
  * Sets the last key used in the cache
  *
  * @param string lastKey
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, setLastKey);
+
 /**
  * Gets the last key stored by the cache
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, getLastKey);
+
 /**
  * Returns a cached content
  *
@@ -99,6 +107,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, getLastKey);
  * @return  mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, get);
+
 /**
  * Stores cached content into the file backend and stops the frontend
  *
@@ -108,6 +117,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, get);
  * @param boolean stopBuffer
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, save);
+
 /**
  * Deletes a value from the cache by its key
  *
@@ -115,6 +125,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, save);
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, delete);
+
 /**
  * Query the existing cached keys
  *
@@ -122,6 +133,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, delete);
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, queryKeys);
+
 /**
  * Checks if cache exists and it hasn't expired
  *
@@ -130,3 +142,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, queryKeys);
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_BackendInterface, exists);
+

@@ -49,32 +49,32 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Reference, phalcon, db_reference, NULL, 0);
 
-	zend_declare_property_null(phalcon_db_reference_ce, SL("_schemaName"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedSchema"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_schemaName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedSchema"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Constraint name
  *
  * @var string
  */
-	zend_declare_property_null(phalcon_db_reference_ce, SL("_referenceName"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referenceName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Referenced Table
  *
  * @var string
  */
-	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedTable"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedTable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Local reference columns
  *
  * @var array
  */
-	zend_declare_property_null(phalcon_db_reference_ce, SL("_columns"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Referenced Columns
  *
  * @var array
  */
-	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedColumns"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedColumns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

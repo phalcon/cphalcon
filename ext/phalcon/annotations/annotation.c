@@ -51,17 +51,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
  * Annotations's Name
  * @var string
  */
-	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_name"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Annotations's Arguments
  * @var string
  */
-	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_arguments"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_arguments"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Annotations's ExprArguments
  * @var string
  */
-	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_exprArguments"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_exprArguments"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

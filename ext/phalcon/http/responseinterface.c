@@ -49,12 +49,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_ResponseInterface) {
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setStatusCode);
+
 /**
  * Returns headers set by the user
  *
  * @return Phalcon\Http\Response\Headers
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getHeaders);
+
 /**
  * Overwrites a header in the response
  *
@@ -63,6 +65,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getHeaders);
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setHeader);
+
 /**
  * Send a raw header to the response
  *
@@ -70,12 +73,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setHeader);
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setRawHeader);
+
 /**
  * Resets all the stablished headers
  *
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, resetHeaders);
+
 /**
  * Sets output expire time header
  *
@@ -83,12 +88,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, resetHeaders);
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setExpires);
+
 /**
  * Sends a Not-Modified response
  *
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setNotModified);
+
 /**
  * Sets the response content-type mime, optionally the charset
  *
@@ -97,6 +104,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setNotModified);
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentType);
+
 /**
  * Redirect by HTTP to another action or URL
  *
@@ -106,6 +114,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContentType);
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, redirect);
+
 /**
  * Sets HTTP response body
  *
@@ -113,6 +122,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, redirect);
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContent);
+
 /**
  * Sets HTTP response body. The parameter is automatically converted to JSON
  *
@@ -124,6 +134,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setContent);
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setJsonContent);
+
 /**
  * Appends a string to the HTTP response body
  *
@@ -131,30 +142,35 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setJsonContent);
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, appendContent);
+
 /**
  * Gets the HTTP response body
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getContent);
+
 /**
  * Sends headers to the client
  *
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, sendHeaders);
+
 /**
  * Sends cookies to the client
  *
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, sendCookies);
+
 /**
  * Prints out HTTP response to the client
  *
  * @return Phalcon\Http\ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, send);
+
 /**
  * Sets an attached file to be sent at the end of the request
  *
@@ -162,3 +178,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, send);
  * @param string attachmentName
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setFileToSend);
+

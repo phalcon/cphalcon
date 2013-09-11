@@ -47,12 +47,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_AdapterInterface) {
  * @param Phalcon\Annotations\ReaderInterface reader
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, setReader);
+
 /**
  * Returns the annotation reader
  *
  * @return Phalcon\Annotations\ReaderInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getReader);
+
 /**
  * Parses or retrieves all the annotations found in a class
  *
@@ -60,6 +62,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getReader);
  * @return Phalcon\Annotations\Reflection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, get);
+
 /**
  * Returns the annotations found in all the class' methods
  *
@@ -67,6 +70,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, get);
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getMethods);
+
 /**
  * Returns the annotations found in a specific method
  *
@@ -75,6 +79,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getMethods);
  * @return Phalcon\Annotations\Collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getMethod);
+
 /**
  * Returns the annotations found in all the class' methods
  *
@@ -82,6 +87,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getMethod);
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getProperties);
+
 /**
  * Returns the annotations found in a specific property
  *
@@ -90,3 +96,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getProperties);
  * @return Phalcon\Annotations\Collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_AdapterInterface, getProperty);
+

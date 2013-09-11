@@ -47,35 +47,42 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_FrontendInterface) {
  * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_FrontendInterface, getLifetime);
+
 /**
  * Check whether if frontend is buffering output
  *
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_FrontendInterface, isBuffering);
+
 /**
  * Starts the frontend
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_FrontendInterface, start);
+
 /**
  * Returns output cached content
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_FrontendInterface, getContent);
+
 /**
  * Stops the frontend
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_FrontendInterface, stop);
+
 /**
  * Serializes data before storing it
  *
  * @param mixed data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_FrontendInterface, beforeStore);
+
 /**
  * Unserializes data after retrieving it
  *
  * @param mixed data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cache_FrontendInterface, afterRetrieve);
+

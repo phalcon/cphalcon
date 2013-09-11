@@ -49,21 +49,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_ResourceInterface) {
  * @param string description
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_ResourceInterface, __construct);
+
 /**
  * Returns the resource name
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_ResourceInterface, getName);
+
 /**
  * Returns resource description
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_ResourceInterface, getDescription);
+
 /**
  * Magic method __toString
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_ResourceInterface, __toString);
+

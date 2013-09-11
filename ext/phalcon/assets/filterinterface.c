@@ -48,3 +48,4 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_FilterInterface) {
  * @return $content
  */
 ZEPHIR_DOC_METHOD(Phalcon_Assets_FilterInterface, filter);
+

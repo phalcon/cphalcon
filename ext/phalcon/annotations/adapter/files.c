@@ -53,7 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Files) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, Files, phalcon, annotations_adapter_files, phalcon_annotations_adapter_files_method_entry, 0);
 
-	zend_declare_property_string(phalcon_annotations_adapter_files_ce, SL("_annotationsDir"), "./", ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_annotations_adapter_files_ce, SL("_annotationsDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

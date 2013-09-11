@@ -49,7 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, RawValue, phalcon, db_rawvalue, NULL, 0);
 
-	zend_declare_property_null(phalcon_db_rawvalue_ce, SL("_value"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_rawvalue_ce, SL("_value"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

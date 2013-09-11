@@ -48,12 +48,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_AdapterInterface) {
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, setFormatter);
+
 /**
  * Returns the internal formatter
  *
  * @return Phalcon\Logger\FormatterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, getFormatter);
+
 /**
  * Filters the logs sent to the handlers to be greater or equals than a specific level
  *
@@ -61,12 +63,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, getFormatter);
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, setLogLevel);
+
 /**
  * Returns the current log level
  *
  * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, getLogLevel);
+
 /**
  * Sends/Writes messages to the file log
  *
@@ -75,30 +79,35 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, getLogLevel);
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, log);
+
 /**
  * Starts a transaction
  *
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, begin);
+
 /**
  * Commits the internal transaction
  *
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, commit);
+
 /**
  * Rollbacks the internal transaction
  *
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, rollback);
+
 /**
  * Closes the logger
  *
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, close);
+
 /**
  * Sends/Writes a debug message to the log
  *
@@ -107,6 +116,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, close);
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, debug);
+
 /**
  * Sends/Writes an error message to the log
  *
@@ -115,6 +125,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, debug);
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
+
 /**
  * Sends/Writes an info message to the log
  *
@@ -123,6 +134,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
+
 /**
  * Sends/Writes a notice message to the log
  *
@@ -131,6 +143,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
+
 /**
  * Sends/Writes a warning message to the log
  *
@@ -139,6 +152,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, warning);
+
 /**
  * Sends/Writes an alert message to the log
  *
@@ -147,3 +161,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, warning);
  * @return Phalcon\Logger\Adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_AdapterInterface, alert);
+

@@ -48,12 +48,14 @@ ZEPHIR_INIT_CLASS(Phalcon_CryptInterface) {
  * @return Phalcon\EncryptInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, setCipher);
+
 /**
  * Returns the current cipher
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getCipher);
+
 /**
  * Sets the encrypt/decrypt mode
  *
@@ -61,12 +63,14 @@ ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getCipher);
  * @return Phalcon\EncryptInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, setMode);
+
 /**
  * Returns the current encryption mode
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getMode);
+
 /**
  * Sets the encryption key
  *
@@ -74,12 +78,14 @@ ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getMode);
  * @return Phalcon\EncryptInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, setKey);
+
 /**
  * Returns the encryption key
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getKey);
+
 /**
  * Encrypts a text
  *
@@ -88,6 +94,7 @@ ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getKey);
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, encrypt);
+
 /**
  * Decrypts a text
  *
@@ -96,6 +103,7 @@ ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, encrypt);
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, decrypt);
+
 /**
  * Encrypts a text returning the result as a base64 string
  *
@@ -104,6 +112,7 @@ ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, decrypt);
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, encryptBase64);
+
 /**
  * Decrypt a text that is coded as a base64 string
  *
@@ -112,15 +121,18 @@ ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, encryptBase64);
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, decryptBase64);
+
 /**
  * Returns a list of available cyphers
  *
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getAvailableCiphers);
+
 /**
  * Returns a list of available modes
  *
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getAvailableModes);
+

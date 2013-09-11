@@ -61,6 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_ManagerInterface) {
  * @param Phalcon\Events\ManagerInterface eventsManager
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, setCustomEventsManager);
+
 /**
  * Returns a custom events manager related to a model
  *
@@ -68,12 +69,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, setCustomEventsManage
  * @return Phalcon\Events\ManagerInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, getCustomEventsManager);
+
 /**
  * Initializes a model in the models manager
  *
  * @param Phalcon\Mvc\CollectionInterface model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, initialize);
+
 /**
  * Check whether a model is already initialized
  *
@@ -81,12 +84,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, initialize);
  * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, isInitialized);
+
 /**
  * Get the latest initialized model
  *
  * @return Phalcon\Mvc\CollectionInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, getLastInitialized);
+
 /**
  * Sets a connection service for a specific model
  *
@@ -94,6 +99,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, getLastInitialized);
  * @param string connectionService
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, setConnectionService);
+
 /**
  * Sets if a model must use implicit objects ids
  *
@@ -101,6 +107,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, setConnectionService)
  * @param boolean useImplicitObjectIds
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, useImplicitObjectIds);
+
 /**
  * Checks if a model is using implicit object ids
  *
@@ -108,6 +115,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, useImplicitObjectIds)
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, isUsingImplicitObjectIds);
+
 /**
  * Returns the connection related to a model
  *
@@ -115,6 +123,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, isUsingImplicitObject
  * @return Phalcon\Db\AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, getConnection);
+
 /**
  * Receives events generated in the models and dispatches them to a events-manager if available
  * Notify the behaviors that are listening in the model
@@ -123,3 +132,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, getConnection);
  * @param Phalcon\Mvc\CollectionInterface model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Collection_ManagerInterface, notifyEvent);
+

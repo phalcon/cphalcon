@@ -47,8 +47,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
  *
  * @var string
  */
-	zend_declare_property_null(phalcon_db_index_ce, SL("_indexName"), ZEND_ACC_PUBLIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("_indexName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 

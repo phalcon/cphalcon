@@ -49,48 +49,56 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MessageInterface) {
  * @param string type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __construct);
+
 /**
  * Sets message type
  *
  * @param string type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, setType);
+
 /**
  * Returns message type
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, getType);
+
 /**
  * Sets verbose message
  *
  * @param string message
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, setMessage);
+
 /**
  * Returns verbose message
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, getMessage);
+
 /**
  * Sets field name related to message
  *
  * @param string field
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, setField);
+
 /**
  * Returns field name related to message
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, getField);
+
 /**
  * Magic __toString method returns verbose message
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __toString);
+
 /**
  * Magic __set_state helps to recover messsages from serialization
  *
@@ -98,3 +106,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __toString);
  * @return Phalcon\Mvc\Model\MessageInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MessageInterface, __set_state);
+

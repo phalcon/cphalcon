@@ -47,9 +47,11 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_InjectionAwareInterface) {
  * @param Phalcon\DiInterface dependencyInjector
  */
 ZEPHIR_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, setDI);
+
 /**
  * Returns the internal dependency injector
  *
  * @return Phalcon\DiInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, getDI);
+

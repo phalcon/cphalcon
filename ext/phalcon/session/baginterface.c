@@ -45,10 +45,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_BagInterface) {
  * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, initialize);
+
 /**
  * Destroyes the session bag
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, destroy);
+
 /**
  * Setter of values
  *
@@ -56,6 +58,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, destroy);
  * @param string value
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, set);
+
 /**
  * Getter of values
  *
@@ -64,6 +67,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, set);
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, get);
+
 /**
  * Isset property
  *
@@ -71,6 +75,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, get);
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, has);
+
 /**
  * Setter of values
  *
@@ -78,6 +83,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, has);
  * @param string value
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __set);
+
 /**
  * Getter of values
  *
@@ -85,6 +91,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __set);
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __get);
+
 /**
  * Isset property
  *
@@ -92,3 +99,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __get);
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __isset);
+

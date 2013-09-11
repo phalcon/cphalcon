@@ -49,3 +49,4 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_FormatterInterface) {
  * @param int timestamp
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_FormatterInterface, format);
+
