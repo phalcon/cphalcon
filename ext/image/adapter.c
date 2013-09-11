@@ -266,10 +266,10 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 			tmp_height = 1;
 		}
 
-		PHALCON_INIT_NVAR(width);
+		zval_dtor(width);
 		ZVAL_LONG(width, tmp_width);
 
-		PHALCON_INIT_NVAR(height);
+		zval_dtor(height);
 		ZVAL_LONG(height, tmp_height);
 	}
 
