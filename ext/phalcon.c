@@ -717,9 +717,6 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Chart_QRcode);
 	PHALCON_INIT(Phalcon_Chart_Exception);
 
-	old_error_cb  = zend_error_cb;
-	zend_error_cb = phalcon_error_cb;
-
 	orig_execute_internal = zend_execute_internal;
 	if (!zend_execute_internal && !getenv("PHALCON_NO_RVO")) {
 		zend_execute_internal = phalcon_execute_internal;
