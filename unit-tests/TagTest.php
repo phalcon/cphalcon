@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Tag;
+
 class DIDescendant extends Phalcon\DI {}
 
 class TagTest extends PHPUnit_Framework_TestCase
@@ -74,7 +76,6 @@ class TagTest extends PHPUnit_Framework_TestCase
 
 	public function testIssue947()
         {
-		use Phalcon\Tag;
 		$di = new Phalcon\DI\FactoryDefault();
 		Tag::setDI($di);
 
@@ -100,5 +101,50 @@ class TagTest extends PHPUnit_Framework_TestCase
 		));
 		$pos = strpos($html, 'checked="checked"');
 		$this->assertTrue($pos !== FALSE);
-        }
+	}
+
+	public function testIssue1216()
+	{
+		$di = new \Phalcon\DI\FactoryDefault();
+
+		$actual   = \Phalcon\Tag::linkTo(array('url"', '<>', 'class' => 'class"'));
+		$expected = '<a href="/url&quot;" class="class&quot;"><></a>';
+		$this->assertEquals($expected, $actual);
+
+		$actual   = \Phalcon\Tag::textField(array('name"'));
+		$expected = '<input type="text" name="name&quot;" id="name&quot;" value="" />';
+		$this->assertEquals($expected, $actual);
+
+		$actual   = \Phalcon\Tag::checkField(array('name"'));
+		$expected = '<input type="checkbox" name="name&quot;" id="name&quot;" value="" />';
+		$this->assertEquals($expected, $actual);
+
+		$actual   = \Phalcon\Tag::form(array('<', 'method' => '>'));
+		$expected = '<form method="&gt;" action="/&lt;">';
+		$this->assertEquals($expected, $actual);
+
+		$actual   = \Phalcon\Tag::textArea(array('<', 'cols' => '<'));
+		$expected = '<textarea cols="&lt;" name="&lt;" id="&lt;"></textarea>';
+		$this->assertEquals($expected, $actual);
+
+		$actual   = \Phalcon\Tag::stylesheetLink(array('href' => '<', 'local' => false, 'type' => '>'));
+		$expected = '<link rel="stylesheet" href="&lt;" type="&gt;" />' . PHP_EOL;
+		$this->assertEquals($expected, $actual);
+
+		$actual   = \Phalcon\Tag::javascriptInclude(array('src' => '<', 'local' => false, 'type' => '>'));
+		$expected = '<script src="&lt;" type="&gt;"></script>' . PHP_EOL;
+		$this->assertEquals($expected, $actual);
+
+		$actual   = \Phalcon\Tag::image(array('src' => '<', 'alt' => '>'), false);
+		$expected = '<img src="&lt;" alt="&gt;" />';
+		$this->assertEquals($expected, $actual);
+
+		$actual   = \Phalcon\Tag::tagHtml('br', array('class' => '<'), true, false, false);
+		$expected = '<br class="&lt;" />';
+		$this->assertEquals($expected, $actual);
+
+		$actual   = \Phalcon\Tag\Select::selectField(array('name' => '<', 'value' => '>', 'id' => ''), array('"' => '"', '>' => 'test'));
+		$expected = '<select name="&lt;" id="">' . PHP_EOL . "\t" . '<option value="&quot;">"</option>' . PHP_EOL . "\t" . '<option selected="selected" value="&gt;">test</option>' . PHP_EOL . '</select>';
+		$this->assertEquals($expected, $actual);
+	}
 }
