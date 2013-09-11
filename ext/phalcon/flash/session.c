@@ -168,16 +168,14 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 
 
 
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_BOOL(_0, 0);
 	ZEPHIR_INIT_VAR(messages);
-	zephir_call_method_p1(messages, this_ptr, "_getsessionmessages", _0);
+	zephir_call_method_p1(messages, this_ptr, "_getsessionmessages", ZEPHIR_GLOBAL(global_false));
 	if (Z_TYPE_P(messages) != IS_ARRAY) {
 		ZEPHIR_INIT_BNVAR(messages);
 		array_init(messages);
 	}
 	if (!(zephir_array_isset(messages, type))) {
-		ZEPHIR_INIT_BNVAR(_0);
+		ZEPHIR_INIT_VAR(_0);
 		array_init(_0);
 		zephir_array_update_zval(&messages, type, &_0, PH_COPY | PH_SEPARATE);
 	}

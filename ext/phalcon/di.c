@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Di, set) {
  */
 PHP_METHOD(Phalcon_Di, setShared) {
 
-	zval *name, *definition, *service, *_0;
+	zval *name, *definition, *service;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name, &definition);
@@ -155,9 +155,7 @@ PHP_METHOD(Phalcon_Di, setShared) {
 	}
 	ZEPHIR_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	ZEPHIR_INIT_VAR(_0);
-	ZVAL_BOOL(_0, 1);
-	zephir_call_method_p3_noret(service, "__construct", name, definition, _0);
+	zephir_call_method_p3_noret(service, "__construct", name, definition, ZEPHIR_GLOBAL(global_true));
 	zephir_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	RETURN_CCTOR(service);
 

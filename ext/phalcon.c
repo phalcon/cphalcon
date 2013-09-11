@@ -697,6 +697,7 @@ static PHP_GINIT_FUNCTION(phalcon)
 
 	php_zephir_init_globals(phalcon_globals TSRMLS_CC);
 
+	/* Start Memory Frame */
 	start = (zephir_memory_entry *) pecalloc(1, sizeof(zephir_memory_entry), 1);
 	start->addresses       = pecalloc(24, sizeof(zval*), 1);
 	start->capacity        = 24;
@@ -704,6 +705,17 @@ static PHP_GINIT_FUNCTION(phalcon)
 	start->hash_capacity   = 8;
 
 	phalcon_globals->start_memory = start;
+
+	/* Global Constants */
+	ALLOC_PERMANENT_ZVAL(test_globals->global_false);
+	INIT_PZVAL(test_globals->global_false);
+	ZVAL_FALSE(test_globals->global_false);
+	Z_ADDREF_P(test_globals->global_false);
+
+	ALLOC_PERMANENT_ZVAL(test_globals->global_true);
+	INIT_PZVAL(test_globals->global_true);
+	ZVAL_TRUE(test_globals->global_true);
+	Z_ADDREF_P(test_globals->global_true);
 }
 
 static PHP_GSHUTDOWN_FUNCTION(phalcon)
