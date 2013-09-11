@@ -767,7 +767,6 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection) {
 	ZVAL_LONG(dst, 0);
 
 	PHALCON_CALL_FUNCTION(NULL, NULL, "imagecopy", 8, reflection, image, dst, dst, dst, dst, image_width, image_height);
-	phalcon_update_property_this(this_ptr, SL("_image"), reflection TSRMLS_CC);
 
 	PHALCON_INIT_NVAR(tmp);
 	ZVAL_LONG(tmp, 1);
@@ -1080,7 +1079,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _text) {
 		phalcon_call_func_p5_ex(color, &color, "imagecolorallocatealpha", image, r, g, b, opacity);
 
 		phalcon_call_func_p6_noret("imagestring", image, size, offset_x, offset_y, text, color);
-	}	
+	}
 
 	PHALCON_MM_RESTORE();
 }
@@ -1113,7 +1112,6 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 	PHALCON_INIT_VAR(saveflag);
 	ZVAL_TRUE(saveflag);
 
-	PHALCON_INIT_VAR(mask_image);
 	phalcon_call_func_p2_noret("imagesavealpha", mask_image, saveflag);
 
 	PHALCON_OBS_VAR(mask_image_width);
@@ -1127,7 +1125,6 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 
 	PHALCON_OBS_VAR(newimage);
 	phalcon_call_method_p2_ex(newimage, &newimage, this_ptr, "_create", image_width, image_height);
-
 
 	phalcon_call_func_p2_noret("imagesavealpha", newimage, saveflag);
 
@@ -1148,8 +1145,9 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 		phalcon_call_func_p2_ex(temp_image, &temp_image, "imagecreatetruecolor", image_width, image_height);
 
 		PHALCON_CALL_FUNCTION(NULL, NULL, "imagecopyresampled", 10, temp_image, mask_image, c, c, c, c, image_width, image_height, mask_image_width, mask_image_height);
-		
+
 		phalcon_call_func_p1_noret("imagedestroy", mask_image);
+
 		PHALCON_CPY_WRT(mask_image, temp_image);
 	}
 	
@@ -1204,9 +1202,9 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 		}
 	}
 
-	phalcon_update_property_this(this_ptr, SL("_image"), newimage TSRMLS_CC);
 	phalcon_call_func_p1_noret("imagedestroy", image);
 	phalcon_call_func_p1_noret("imagedestroy", mask_image);
+	phalcon_update_property_this(this_ptr, SL("_image"), newimage TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
 }
