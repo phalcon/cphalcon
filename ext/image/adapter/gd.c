@@ -448,7 +448,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _crop) {
 	phalcon_array_update_string(&rect, SL("width"), &width, PH_COPY);
 	phalcon_array_update_string(&rect, SL("height"), &height, PH_COPY);
 
-	PHALCON_INIT_VAR(tmp_image);
+	PHALCON_OBS_VAR(tmp_image);
 	PHALCON_CALL_FUNCTION(tmp_image, &tmp_image, "imagecrop", 2, image, rect);
 
 	phalcon_call_func_p1_noret("imagedestroy", image);
@@ -530,8 +530,9 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _rotate) {
 PHP_METHOD(Phalcon_Image_Adapter_GD, _flip) {
 
 	zval *direction;
-	zval *image = NULL, *flipped_image;
+	zval *image = NULL;
 #if PHP_VERSION_ID < 50500
+	zval *flipped_image;
 	zval *width, *height;
 	zval *dst_x = NULL, *dst_y = NULL, *src_x = NULL, *src_y = NULL, *src_width = NULL, *src_height = NULL;
 	int w, h, x, y;
@@ -602,6 +603,9 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _flip) {
 			PHALCON_CALL_FUNCTION(NULL, NULL, "imagecopy", 8, flipped_image, image, dst_x, dst_y, src_x, src_y, src_width, src_height);
 		}
 	}
+
+	phalcon_call_func_p1_noret("imagedestroy", image);
+	phalcon_update_property_this(this_ptr, SL("_image"), flipped_image TSRMLS_CC);
 #else
 	PHALCON_INIT_VAR(mode);
 	if (Z_LVAL_P(direction) == PHALCON_IMAGE_HORIZONTAL) {
@@ -613,12 +617,9 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _flip) {
 			RETURN_MM();
 		}
 	}
-	PHALCON_INIT_VAR(flipped_image);
-	PHALCON_CALL_FUNCTION(flipped_image, &flipped_image, "imageflip", 2, image, mode);
-#endif
 
-	phalcon_call_func_p1_noret("imagedestroy", image);
-	phalcon_update_property_this(this_ptr, SL("_image"), flipped_image TSRMLS_CC);
+	PHALCON_CALL_FUNCTION(NULL, NULL, "imageflip", 2, image, mode);
+#endif
 
 	PHALCON_MM_RESTORE();
 }
