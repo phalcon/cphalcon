@@ -47,7 +47,7 @@ class Role
 	public function __construct(name, description=null)
 	{
 		if name == "*" {
-			throw new Phalcon\Acl\Exeption("Role name cannot be '*'");
+			throw new Phalcon\Acl\Exception("Role name cannot be '*'");
 		}
 		let this->_name = name;
 

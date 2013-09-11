@@ -37,7 +37,7 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 	{
 
 		var annotations, reflection, comment,
-			lassAnnotations, properties, methods, property, method,
+			properties, methods, property, method,
 			classAnnotations, line, annotationsProperties,
 			propertyAnnotations, annotationsMethods, methodAnnotations;
 

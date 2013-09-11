@@ -153,7 +153,7 @@ class Memory extends Phalcon\Acl\Adapter
 	  */
 	 public function addRole(role, accessInherits)
 	 {
-		var roleName, object, defaultAccess, rolesNames;
+		var roleName, object, rolesNames;
 
 		if typeof role == "object" {
 			let roleName = role->getName();
@@ -188,7 +188,7 @@ class Memory extends Phalcon\Acl\Adapter
 	 */
 	 public function addInherit(roleName, roleToInherit)
 	 {
-		var roleInheritName, rolesInherits, _roleInherits, rolesNames;
+		var roleInheritName, rolesInherits, rolesNames;
 
 		let rolesNames = this->_rolesNames;
 		if !rolesNames[roleName] {
@@ -360,8 +360,7 @@ class Memory extends Phalcon\Acl\Adapter
 	 */
 	 public function _allowOrDeny(roleName, resourceName, access, action)
 	 {
-		var defaultAccess, accessList, internalAccess,
-			accessName, accessKey, accessKeyAll, rolesNames, resourcesNames;
+		var defaultAccess, accessList, accessName, accessKey, accessKeyAll, rolesNames, resourcesNames;
 
 		let rolesNames = this->_rolesNames;
 		if isset rolesNames[roleName] {
@@ -503,7 +502,7 @@ class Memory extends Phalcon\Acl\Adapter
 	 */
 	 public function isAllowed(role, resource, access)
 	 {
-		var eventsManager, accessList, eventName, status, accessKey,
+		var eventsManager, accessList, accessKey,
 			haveAccess, roleInherits, inheritedRole, rolesNames,
 			inheritedRoles;
 

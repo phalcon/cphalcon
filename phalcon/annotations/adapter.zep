@@ -69,8 +69,7 @@ abstract class Adapter
 	public function get(className)
 	{
 
-		var annotations, classAnnotations, read, parsedAnnotations, realClassName,
-			reader;
+		var annotations, classAnnotations, parsedAnnotations, realClassName, reader;
 
 		/**
 		 * Get the class name if it's an object

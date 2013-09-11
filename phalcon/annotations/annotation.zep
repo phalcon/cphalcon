@@ -52,7 +52,7 @@ class Annotation
 	 */
  	public function __construct(reflectionData)
 	{
-  		var name, exprArguments, argument, expr, resolvedArgument, arguments;
+  		var name, exprArguments, argument, resolvedArgument, arguments;
 
 		if typeof reflectionData != "array" {
 			throw new Phalcon\Annotations\Exception("Reflection data must be an array");
@@ -95,7 +95,7 @@ class Annotation
 	 */
 	public function getExpression(expr)
 	{
-		var value, items, item, resolvedItem, arrayValue, name;
+		var value, item, resolvedItem, arrayValue, name;
 
 		if typeof expr != "array" {
 			throw new Phalcon\Annotations\Exception("The expression is not valid");

@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -67,8 +67,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
  */
 PHP_METHOD(Phalcon_Acl_Role, __construct) {
 
-	zend_class_entry *_1;
-	zval *name, *description = NULL, *_0;
+	zval *name, *description = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name, &description);
@@ -79,11 +78,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 
 
 	if (ZEPHIR_IS_STRING(name, "*")) {
-		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("Phalcon\Acl\Exeption"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _1);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Role name cannot be '*'");
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);

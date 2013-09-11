@@ -250,7 +250,7 @@ namespace Phalcon\Assets;
 	 * @param string basePath
 	 * @return string
 	 */
-	public function getContent(basePath=null)
+	public function getContent(basePath = null)
 	{
 		var sourcePath, completePath, content;
 
