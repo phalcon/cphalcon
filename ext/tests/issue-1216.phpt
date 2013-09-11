@@ -1,7 +1,7 @@
 --TEST--
 XSS - https://github.com/phalcon/cphalcon/issues/1216
 --SKIPIF--
-<?php if (!extension_loaded("phalcon")) print "skip"; ?>
+<?php include('skipif.inc'); ?>
 --FILE--
 <?php
 $di = new \Phalcon\DI\FactoryDefault();
