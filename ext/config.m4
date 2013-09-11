@@ -348,6 +348,7 @@ image/adapterinterface.c \
 image/exception.c \
 image/adapter/gd.c \
 image/adapter/imagick.c \
+utils/slug.c \
 utils/date.c \
 utils/arr.c \
 http/client.c \

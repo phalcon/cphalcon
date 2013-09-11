@@ -331,6 +331,7 @@
 #include "image/exception.h"
 #include "image/adapter/gd.h"
 #include "image/adapter/imagick.h"
+#include "utils/slug.h"
 #include "utils/date.h"
 #include "utils/arr.h"
 #include "http/client.h"
