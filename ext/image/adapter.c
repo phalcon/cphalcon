@@ -374,6 +374,7 @@ PHP_METHOD(Phalcon_Image_Adapter, crop){
 	}
 
 	if (!offset_x) {
+		PHALCON_INIT_VAR(offset_x);
 		tmp_offset_x = (int)(((tmp_image_width - tmp_width) / 2) + 0.5);
 	} else {
 		PHALCON_SEPARATE_PARAM(offset_x);
@@ -390,6 +391,7 @@ PHP_METHOD(Phalcon_Image_Adapter, crop){
 	}
 
 	if (!offset_y) {
+		PHALCON_INIT_VAR(offset_y);
 		tmp_offset_y = (int)(((tmp_image_height - tmp_height) / 2) + 0.5);
 	} else {
 		PHALCON_SEPARATE_PARAM(offset_y);
