@@ -141,21 +141,21 @@ class Generator_Optimized
 
         /* phalcon_call_method, phalcon_call_method_pX */
         $result[] = array(
-            'regexp' => '/(phalcon_call_method(?:_p[0-9]+)?)\([a-zA-Z0-9\_]+, [a-zA-Z0-9\_]+, ("[a-zA-Z0-9\_]+")/',
+            'regexp' => '/(phalcon_call_method(?:_p[0-9]+)?)\([a-zA-Z0-9\_]+, [a-zA-Z0-9\_]+, "([a-zA-Z0-9\_]+)"/',
             'func' => function ($line, $matches, $hashFunc) {
-                $matches[1] = $matches[1] . '_key';
-                $matches[2] = $matches[2] . ', ' . $hashFunc(substr($matches[2], -1, 1));
-                return $line;
+                $newCall = $matches[1] . '_key' . substr($matches[0], strlen($matches[1]));
+                $newCall .= ', ' . $hashFunc($matches[2]);
+                return str_replace($matches[0], $newCall, $line);;
             }
         );
 
         /* phalcon_call_method_noret, phalcon_call_method_pX_noret */
         $result[] = array(
-            'regexp' => '/phalcon_call_method(?:_p[0-9]+)?(_noret\()[a-zA-Z0-9\_]+, ("[a-zA-Z0-9\_]+")/',
+            'regexp' => '/phalcon_call_method(?:_p[0-9]+)?_noret\([a-zA-Z0-9\_]+, "([a-zA-Z0-9\_]+)"/',
             'func' => function ($line, $matches, $hashFunc) {
-                $matches[1] = '_key(NULL, ';
-                $matches[2] = $matches[2] . ', ' . $hashFunc(substr($matches[2], -1, 1));
-                return $line;
+                $newCall = str_replace('_noret(', '_key(NULL, ', $matches[0]);
+                $newCall .= ', ' . $hashFunc($matches[1]);
+                return str_replace($matches[0], $newCall, $line);
             }
         );
 
