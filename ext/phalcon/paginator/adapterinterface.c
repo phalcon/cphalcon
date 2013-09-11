@@ -34,10 +34,28 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_AdapterInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Paginator, AdapterInterface, phalcon, paginator_adapterinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Paginator, AdapterInterface, phalcon, paginator_adapterinterface, phalcon_paginator_adapterinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Phalcon\Paginator\AdapterInterface constructor
+ *
+ * @param array config
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, __construct);
+/**
+ * Set the current page number
+ *
+ * @param int page
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setCurrentPage);
+/**
+ * Returns a slice of the resultset to show in the pagination
+ *
+ * @return stdClass
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, getPaginate);

@@ -35,10 +35,35 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_ResourceInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ResourceInterface, phalcon, acl_resourceinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ResourceInterface, phalcon, acl_resourceinterface, phalcon_acl_resourceinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Phalcon\Acl\ResourceInterface constructor
+ *
+ * @param string name
+ * @param string description
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_ResourceInterface, __construct);
+/**
+ * Returns the resource name
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_ResourceInterface, getName);
+/**
+ * Returns resource description
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_ResourceInterface, getDescription);
+/**
+ * Magic method __toString
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Acl_ResourceInterface, __toString);

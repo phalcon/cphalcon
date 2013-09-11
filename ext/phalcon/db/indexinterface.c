@@ -34,10 +34,36 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_IndexInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, IndexInterface, phalcon, db_indexinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, IndexInterface, phalcon, db_indexinterface, phalcon_db_indexinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Phalcon\Db\Index constructor
+ *
+ * @param string indexName
+ * @param array columns
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, __construct);
+/**
+ * Gets the index name
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
+/**
+ * Gets the columns that comprends the index
+ *
+ * @return array
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getColumns);
+/**
+ * Restore a Phalcon\Db\Index object from export
+ *
+ * @param array data
+ * @return Phalcon\Db\IndexInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, __set_state);

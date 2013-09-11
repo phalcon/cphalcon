@@ -35,10 +35,53 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ResultsetInterface, phalcon, mvc_model_resultsetinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ResultsetInterface, phalcon, mvc_model_resultsetinterface, phalcon_mvc_model_resultsetinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Returns the internal type of data retrieval that the resultset is using
+ *
+ * @return int
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getType);
+/**
+ * Get first row in the resultset
+ *
+ * @return Phalcon\Mvc\ModelInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getFirst);
+/**
+ * Get last row in the resultset
+ *
+ * @return Phalcon\Mvc\ModelInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getLast);
+/**
+ * Set if the resultset is fresh or an old one cached
+ *
+ * @param boolean isFresh
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh);
+/**
+ * Tell if the resultset if fresh or an old one cached
+ *
+ * @return boolean
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, isFresh);
+/**
+ * Returns the associated cache for the resultset
+ *
+ * @return Phalcon\Cache\BackendInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getCache);
+/**
+ * Returns a complete resultset as an array, if the resultset has a big number of rows
+ * it could consume more memory than currently it does.
+ *
+ * @return array
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, toArray);

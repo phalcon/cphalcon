@@ -35,10 +35,16 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ResultInterface, phalcon, mvc_model_resultinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ResultInterface, phalcon, mvc_model_resultinterface, phalcon_mvc_model_resultinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Sets the object's state
+ *
+ * @param boolean dirtyState
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultInterface, setDirtyState);

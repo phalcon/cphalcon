@@ -34,10 +34,17 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_UserFilterInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Filter, UserFilterInterface, phalcon, filter_userfilterinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Filter, UserFilterInterface, phalcon, filter_userfilterinterface, phalcon_filter_userfilterinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Filters a value
+ *
+ * @param mixed value
+ * @return mixed
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Filter_UserFilterInterface, filter);

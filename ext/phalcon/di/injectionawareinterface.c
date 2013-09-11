@@ -34,10 +34,22 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DI_InjectionAwareInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\DI, InjectionAwareInterface, phalcon, di_injectionawareinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\DI, InjectionAwareInterface, phalcon, di_injectionawareinterface, phalcon_di_injectionawareinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Sets the dependency injector
+ *
+ * @param Phalcon\DiInterface dependencyInjector
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, setDI);
+/**
+ * Returns the internal dependency injector
+ *
+ * @return Phalcon\DiInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, getDI);

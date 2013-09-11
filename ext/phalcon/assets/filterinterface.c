@@ -34,10 +34,17 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_FilterInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Assets, FilterInterface, phalcon, assets_filterinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Assets, FilterInterface, phalcon, assets_filterinterface, phalcon_assets_filterinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Filters the content returning a string with the filtered content
+ *
+ * @param string content
+ * @return $content
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Assets_FilterInterface, filter);

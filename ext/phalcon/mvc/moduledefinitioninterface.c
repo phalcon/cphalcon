@@ -34,10 +34,21 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModuleDefinitionInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, ModuleDefinitionInterface, phalcon, mvc_moduledefinitioninterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, ModuleDefinitionInterface, phalcon, mvc_moduledefinitioninterface, phalcon_mvc_moduledefinitioninterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Registers an autoloader related to the module
+ *
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModuleDefinitionInterface, registerAutoloaders);
+/**
+ * Registers an autoloader related to the module
+ *
+ * @param Phalcon\DiInterface dependencyInjector
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModuleDefinitionInterface, registerServices);

@@ -35,10 +35,54 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request_FileInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Http\\Request, FileInterface, phalcon, http_request_fileinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Http\\Request, FileInterface, phalcon, http_request_fileinterface, phalcon_http_request_fileinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Phalcon\Http\Request\FileInterface constructor
+ *
+ * @param array file
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, __construct);
+/**
+ * Returns the file size of the uploaded file
+ *
+ * @return int
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getSize);
+/**
+ * Returns the real name of the uploaded file
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getName);
+/**
+ * Returns the temporal name of the uploaded file
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getTempName);
+/**
+ * Returns the mime type reported by the browser
+ * This mime type is not completely secure, use getRealType() instead
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getType);
+/**
+ * Gets the real mime type of the upload file using finfo
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getRealType);
+/**
+ * Move the temporary file to a destination
+ *
+ * @param string destination
+ * @return boolean
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, moveTo);

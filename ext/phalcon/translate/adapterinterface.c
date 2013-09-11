@@ -34,10 +34,39 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_AdapterInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Translate, AdapterInterface, phalcon, translate_adapterinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Translate, AdapterInterface, phalcon, translate_adapterinterface, phalcon_translate_adapterinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Phalcon\Translate\Adapter\NativeArray constructor
+ *
+ * @param array options
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, __construct);
+/**
+ * Returns the translation string of the given key
+ *
+ * @param	string translateKey
+ * @param	array placeholders
+ * @return	string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, t);
+/**
+ * Returns the translation related to the given key
+ *
+ * @param	string index
+ * @param	array placeholders
+ * @return	string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, query);
+/**
+ * Check whether is defined a translation key in the internal array
+ *
+ * @param 	string index
+ * @return	bool
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, exists);

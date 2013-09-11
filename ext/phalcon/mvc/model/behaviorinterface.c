@@ -34,10 +34,31 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_BehaviorInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, BehaviorInterface, phalcon, mvc_model_behaviorinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, BehaviorInterface, phalcon, mvc_model_behaviorinterface, phalcon_mvc_model_behaviorinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Phalcon\Mvc\Model\Behavior
+ *
+ * @param array options
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, __construct);
+/**
+ * This method receives the notifications from the EventsManager
+ *
+ * @param string type
+ * @param Phalcon\Mvc\ModelInterface model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, notify);
+/**
+ * Calls a method when it's missing in the model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param string method
+ * @param array arguments
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, missingMethod);

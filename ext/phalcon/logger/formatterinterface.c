@@ -34,10 +34,18 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_FormatterInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Logger, FormatterInterface, phalcon, logger_formatterinterface, NULL);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Logger, FormatterInterface, phalcon, logger_formatterinterface, phalcon_logger_formatterinterface_method_entry);
 
 
 	return SUCCESS;
 
 }
 
+/**
+ * Applies a format to a message before sent it to the internal log
+ *
+ * @param string message
+ * @param int type
+ * @param int timestamp
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Logger_FormatterInterface, format);
