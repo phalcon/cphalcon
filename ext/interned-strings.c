@@ -27,6 +27,7 @@
 
 #include "interned-strings.h"
 
+const char *phalcon_interned_action         = NULL;
 const char *phalcon_interned_alias          = NULL;
 const char *phalcon_interned_all            = NULL;
 const char *phalcon_interned_arguments      = NULL;
@@ -35,6 +36,7 @@ const char *phalcon_interned_binary_op      = NULL;
 const char *phalcon_interned_column         = NULL;
 const char *phalcon_interned_columns        = NULL;
 const char *phalcon_interned_conditions     = NULL;
+const char *phalcon_interned_controller     = NULL;
 const char *phalcon_interned_delete         = NULL;
 const char *phalcon_interned_distinct       = NULL;
 const char *phalcon_interned_domain         = NULL;
@@ -55,13 +57,17 @@ const char *phalcon_interned_models         = NULL;
 const char *phalcon_interned_modelsCache    = NULL;
 const char *phalcon_interned_modelsManager  = NULL;
 const char *phalcon_interned_modelsMetadata = NULL;
+const char *phalcon_interned_module         = NULL;
 const char *phalcon_interned_name           = NULL;
+const char *phalcon_interned_namespace      = NULL;
 const char *phalcon_interned_ns_alias       = NULL;
 const char *phalcon_interned_number         = NULL;
 const char *phalcon_interned_offset         = NULL;
 const char *phalcon_interned_op             = NULL;
 const char *phalcon_interned_order          = NULL;
 const char *phalcon_interned_orderBy        = NULL;
+const char *phalcon_interned_params         = NULL;
+const char *phalcon_interned_paths          = NULL;
 const char *phalcon_interned_qualified      = NULL;
 const char *phalcon_interned_qualifiedName  = NULL;
 const char *phalcon_interned_right          = NULL;
@@ -79,6 +85,7 @@ const char *phalcon_interned_where          = NULL;
 
 PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 {
+	phalcon_interned_action         = zend_new_interned_string(SS("action"), 0 TSRMLS_CC);
 	phalcon_interned_alias          = zend_new_interned_string(SS("alias"), 0 TSRMLS_CC);
 	phalcon_interned_all            = zend_new_interned_string(SS("all"), 0 TSRMLS_CC);
 	phalcon_interned_arguments      = zend_new_interned_string(SS("arguments"), 0 TSRMLS_CC);
@@ -87,6 +94,7 @@ PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 	phalcon_interned_column         = zend_new_interned_string(SS("column"), 0 TSRMLS_CC);
 	phalcon_interned_columns        = zend_new_interned_string(SS("columns"), 0 TSRMLS_CC);
 	phalcon_interned_conditions     = zend_new_interned_string(SS("conditions"), 0 TSRMLS_CC);
+	phalcon_interned_controller     = zend_new_interned_string(SS("controller"), 0 TSRMLS_CC);
 	phalcon_interned_delete         = zend_new_interned_string(SS("delete"), 0 TSRMLS_CC);
 	phalcon_interned_distinct       = zend_new_interned_string(SS("distinct"), 0 TSRMLS_CC);
 	phalcon_interned_domain         = zend_new_interned_string(SS("domain"), 0 TSRMLS_CC);
@@ -107,13 +115,17 @@ PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 	phalcon_interned_modelsCache    = zend_new_interned_string(SS("modelsCache"), 0 TSRMLS_CC);
 	phalcon_interned_modelsManager  = zend_new_interned_string(SS("modelsManager"), 0 TSRMLS_CC);
 	phalcon_interned_modelsMetadata = zend_new_interned_string(SS("modelsMetadata"), 0 TSRMLS_CC);
+	phalcon_interned_module         = zend_new_interned_string(SS("module"), 0 TSRMLS_CC);
 	phalcon_interned_name           = zend_new_interned_string(SS("name"), 0 TSRMLS_CC);
+	phalcon_interned_namespace      = zend_new_interned_string(SS("namespace"), 0 TSRMLS_CC);
 	phalcon_interned_ns_alias       = zend_new_interned_string(SS("ns-alias"), 0 TSRMLS_CC);
 	phalcon_interned_number         = zend_new_interned_string(SS("number"), 0 TSRMLS_CC);
 	phalcon_interned_offset         = zend_new_interned_string(SS("offset"), 0 TSRMLS_CC);
 	phalcon_interned_op             = zend_new_interned_string(SS("op"), 0 TSRMLS_CC);
 	phalcon_interned_order          = zend_new_interned_string(SS("order"), 0 TSRMLS_CC);
 	phalcon_interned_orderBy        = zend_new_interned_string(SS("orderBy"), 0 TSRMLS_CC);
+	phalcon_interned_params         = zend_new_interned_string(SS("params"), 0 TSRMLS_CC);
+	phalcon_interned_paths          = zend_new_interned_string(SS("paths"), 0 TSRMLS_CC);
 	phalcon_interned_qualified      = zend_new_interned_string(SS("qualified"), 0 TSRMLS_CC);
 	phalcon_interned_qualifiedName  = zend_new_interned_string(SS("qualifiedName"), 0 TSRMLS_CC);
 	phalcon_interned_right          = zend_new_interned_string(SS("right"), 0 TSRMLS_CC);
