@@ -474,8 +474,8 @@ PHP_METHOD(Phalcon_Http_Client, setData){
 
 	phalcon_fetch_params(0, 1, 0, &data);
 
-	if (Z_TYPE_P(data) != IS_ARRAY) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_http_client_exception_ce, "data parameter must be array");
+	if (Z_TYPE_P(data) != IS_ARRAY || Z_TYPE_P(data) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_http_client_exception_ce, "data parameter must be array or string");
 		return;
 	}
 	
@@ -2077,27 +2077,33 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 		int num = 0, count = 0;
 
-#ifdef PHALCON_USE_CURL
-		if (Z_TYPE_P(data) == IS_ARRAY && Z_TYPE_P(files) == IS_ARRAY) {
+		if (Z_TYPE_P(data) == IS_ARRAY) {
 			PHALCON_CPY_WRT_CTOR(postfields, data);
-			phalcon_merge_append(postfields, files);
-		} else if (Z_TYPE_P(data) == IS_ARRAY) {
-			PHALCON_CPY_WRT(postfields, data);
-		} else if (Z_TYPE_P(files) == IS_ARRAY) {
-			PHALCON_CPY_WRT(postfields, files);
+		} else if (PHALCON_IS_NOT_EMPTY(data)){
+			PHALCON_INIT_NVAR(postfields);
+			array_init(postfields);
+			phalcon_array_append(&postfields, data, PH_COPY | PH_SEPARATE);
 		}
 
+		if (!postfields) {
+			PHALCON_INIT_NVAR(postfields);
+			array_init(postfields);	
+		}
+
+#ifdef PHALCON_USE_CURL
+		if (Z_TYPE_P(files) == IS_ARRAY) {
+			phalcon_merge_append(postfields, files);
+
+			PHALCON_INIT_NVAR(tmp);
+			phalcon_fast_count(tmp, files TSRMLS_CC);
+			num = Z_LVAL_P(tmp);
+		}
+#else		
 		if (Z_TYPE_P(files) == IS_ARRAY) {
 			PHALCON_INIT_NVAR(tmp);
 			phalcon_fast_count(tmp, files TSRMLS_CC);
 			num = Z_LVAL_P(tmp);
-		}		
 
-		PHALCON_INIT_NVAR(tmp);
-		phalcon_fast_count(tmp, postfields TSRMLS_CC);
-		count = Z_LVAL_P(tmp);
-#else		
-		if (Z_TYPE_P(files) == IS_ARRAY) {
 			PHALCON_INIT_NVAR(tmp);
 			array_init(tmp);
 
@@ -2113,17 +2119,14 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
-		}
 
-		if (Z_TYPE_P(data) == IS_ARRAY && Z_TYPE_P(files) == IS_ARRAY) {
-			PHALCON_CPY_WRT_CTOR(postfields, data);
 			phalcon_merge_append(postfields, tmp);
-		} else if (Z_TYPE_P(data) == IS_ARRAY) {
-			PHALCON_CPY_WRT_CTOR(postfields, data);
-		} else if (Z_TYPE_P(files) == IS_ARRAY) {
-			PHALCON_CPY_WRT_CTOR(postfields, tmp);
 		}
 #endif
+		PHALCON_INIT_NVAR(tmp);
+		phalcon_fast_count(tmp, postfields TSRMLS_CC);
+		count = Z_LVAL_P(tmp);
+
 		CURL_SETOPT(NULL, ch, constant0, postfields, num, count);
 	}
 
