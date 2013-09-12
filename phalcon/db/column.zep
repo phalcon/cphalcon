@@ -214,4 +214,293 @@ class Column implements Phalcon\Db\ColumnInterface
 	 */
 	protected _bindType = 2;
 
+	/**
+	 * Phalcon\Db\Column constructor
+	 *
+	 * @param string columnName
+	 * @param array definition
+	 */
+	public function __construct(columnName, definition)
+	{
+		var type, notNull, primary, size, scale, dunsigned, first,
+			after, bindType, isNumeric, autoIncrement;
+
+		let this->_columnName = columnName;
+
+		/**
+		 * Get the column type, one of the TYPE_* constants
+		 */
+		if fetch type, definition["type"] {
+			let this->_type = type;
+		} else {
+			throw new Phalcon\Db\Exception("Column type is required");
+		}
+
+		/**
+		 * Check if the field is nullable
+		 */
+		if fetch notNull, definition["notNull"] {
+			let this->_notNull = notNull;
+		}
+
+		/**
+		 * Check if the field is primary key
+		 */
+		if fetch primary, definition["primary"] {
+			let this->_primary = primary;
+		}
+
+		if fetch size, definition["size"] {
+			let this->_size = size;
+		}
+
+		/**
+		 * Check if the column has a decimal scale
+		 */
+		if fetch scale, definition["scale"] {
+			if type == self::TYPE_INTEGER || type == self::TYPE_FLOAT {
+				let this->_scale = scale;
+			} else {
+				throw new Phalcon\Db\Exception("Column type does not support scale parameter");
+			}
+		}
+
+		/**
+		 * Check if the field is unsigned (only MySQL)
+		 */
+		if fetch dunsigned, definition["unsigned"] {
+			let this->_unsigned = dunsigned;
+		}
+
+		/**
+		 * Check if the field is numeric
+		 */
+		if fetch isNumeric, definition["isNumeric"] {
+			let this->_isNumeric = isNumeric;
+		}
+
+		/**
+		 * Check if the field is auto-increment/serial
+		 */
+		if fetch autoIncrement, definition["autoIncrement"] {
+			if type == self::TYPE_INTEGER {
+				let this->_autoIncrement = autoIncrement;
+			} else {
+				throw new Phalcon\Db\Exception("Column type cannot be auto-increment");
+			}
+		}
+
+		/**
+		 * Check if the field is placed at the first position of the table
+		 */
+		if fetch first, definition["first"] {
+			let this->_first = first;
+		}
+
+		/**
+		 * Name of the column which is placed before the current field
+		 */
+		if fetch after, definition["after"] {
+			let this->_after = after;
+		}
+
+		/**
+		 * The bind type to cast the field when passing it to PDO
+		 */
+		if fetch bindType, definition["bindType"] {
+			let this->_bindType = bindType;
+		}
+
+	}
+
+	/**
+	 * Returns schema's table related to column
+	 *
+	 * @return string
+	 */
+	public function getSchemaName()
+	{
+		return this->_schemaName;
+	}
+
+	/**
+	 * Returns column name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return this->_columnName;
+	}
+
+	/**
+	 * Returns column type
+	 *
+	 * @return int
+	 */
+	public function getType()
+	{
+		return this->_type;
+	}
+
+	/**
+	 * Returns column size
+	 *
+	 * @return int
+	 */
+	public function getSize()
+	{
+		return this->_size;
+	}
+
+	/**
+	 * Returns column scale
+	 *
+	 * @return int
+	 */
+	public function getScale()
+	{
+		return this->_scale;
+	}
+
+	/**
+	 * Returns true if number column is unsigned
+	 *
+	 * @return boolean
+	 */
+	public function isUnsigned()
+	{
+		return this->_unsigned;
+	}
+
+	/**
+	 * Not null
+	 *
+	 * @return boolean
+	 */
+	public function isNotNull()
+	{
+		return this->_notNull;
+	}
+
+	/**
+	 * Column is part of the primary key?
+	 *
+	 * @return boolean
+	 */
+	public function isPrimary()
+	{
+		return this->_primary;
+	}
+
+	/**
+	 * Auto-Increment
+	 *
+	 * @return boolean
+	 */
+	public function isAutoIncrement()
+	{
+		return this->_autoIncrement;
+	}
+
+	/**
+	 * Check whether column have an numeric type
+	 *
+	 * @return boolean
+	 */
+	public function isNumeric()
+	{
+		return this->_isNumeric;
+	}
+
+	/**
+	 * Check whether column have first position in table
+	 *
+	 * @return boolean
+	 */
+	public function isFirst()
+	{
+		return this->_first;
+	}
+
+	/**
+	 * Check whether field absolute to position in table
+	 *
+	 * @return string
+	 */
+	public function getAfterPosition()
+	{
+		return this->_after;
+	}
+
+	/**
+	 * Returns the type of bind handling
+	 *
+	 * @return int
+	 */
+	public function getBindType()
+	{
+		return this->_bindType;
+	}
+
+	/**
+	 * Restores the internal state of a Phalcon\Db\Column object
+	 *
+	 * @param array data
+	 * @return \Phalcon\Db\Column
+	 */
+	public static function __set_state(data)
+	{
+		var definition, columnType, notNull, size, dunsigned, after,
+			isNumeric, first, bindType, primary;
+
+		if typeof data != "array" {
+			throw new Phalcon\Db\Exception("Column state must be an array");
+		}
+
+		if !isset data["_columnName"] {
+			throw new Phalcon\Db\Exception("Column name is required");
+		}
+
+		let definition = [];
+
+		if fetch columnType,  data["_type"] {
+			let definition["type"] = columnType;
+		}
+
+		if fetch notNull, data["_notNull"] {
+			let definition["_notNull"] = notNull;
+		}
+
+		if fetch primary, data["_primary"] {
+			let definition["primary"] = primary;
+		}
+
+		if fetch size, data["_size"] {
+			let definition["size"] = size;
+		}
+
+		if fetch dunsigned, data["_unsigned"] {
+			let definition["unsigned"] = dunsigned;
+		}
+
+		if fetch after, data["_after"] {
+			let definition["after"] = after;
+		}
+
+		if fetch isNumeric, data["_isNumeric"] {
+			let definition["isNumeric"] = isNumeric;
+		}
+
+		if fetch first, data["_first"] {
+			let definition["first"] = first;
+		}
+
+		if fetch bindType, data["_bindType"] {
+			let definition["bindType"] = bindType;
+		}
+
+		return new self(data["_columnName"], definition);
+	}
+
 }
