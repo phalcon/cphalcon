@@ -95,6 +95,22 @@ class LeDummyListener
 
 }
 
+class MyFirstWeakrefListener
+{
+    public function afterShow()
+    {
+        echo "show first listener\n";
+    }
+}
+
+class MySecondWeakrefListener
+{
+    public function afterShow()
+    {
+        echo "show second listener\n";
+    }
+}
+
 class EventsTest extends PHPUnit_Framework_TestCase
 {
 
@@ -169,5 +185,37 @@ class EventsTest extends PHPUnit_Framework_TestCase
 		$eventsManager->fire('some-type:beforeSome', $this);
 
 		$this->assertEquals($number, 1);
+	}
+
+	public function testEventsWeakref()
+	{
+		if (!class_exists('WeakRef')) {
+			return;
+		}
+
+		$eventsManager = new Phalcon\Events\Manager();
+
+		$firstListener = new MyFirstWeakrefListener();
+		$secondListener = new MySecondWeakrefListener();
+
+		$eventsManager->attach('my', $firstListener); // without weakref
+		$eventsManager->attach('my', new WeakRef($secondListener)); // with weakref
+
+		ob_start();
+		// fire when two listeners still exists.
+		$eventsManager->fire('my:afterShow', null);
+		$data = ob_get_clean();
+
+		$this->assertEquals($data, "show first listener\nshow second listener\n");
+
+		unset($firstListener);
+		unset($secondListener);
+
+		ob_start();
+		// fire when two listeners was unsetted.
+		$eventsManager->fire('my:afterShow', null);
+		$data = ob_get_clean();
+
+		$this->assertEquals($data, "show first listener\n");
 	}
 }
