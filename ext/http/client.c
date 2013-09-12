@@ -474,8 +474,8 @@ PHP_METHOD(Phalcon_Http_Client, setData){
 
 	phalcon_fetch_params(0, 1, 0, &data);
 
-	if (Z_TYPE_P(data) != IS_ARRAY && Z_TYPE_P(data) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STRW(phalcon_http_client_exception_ce, "data parameter must be array or string");
+	if (Z_TYPE_P(data) != IS_ARRAY) {
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_http_client_exception_ce, "data parameter must be array");
 		return;
 	}
 	
@@ -2064,10 +2064,6 @@ PHP_METHOD(Phalcon_Http_Client, send){
 
 		if (Z_TYPE_P(data) == IS_ARRAY) {
 			PHALCON_CPY_WRT_CTOR(postfields, data);
-		} else if (PHALCON_IS_NOT_EMPTY(data)){
-			PHALCON_INIT_NVAR(postfields);
-			array_init(postfields);
-			phalcon_array_append(&postfields, data, PH_COPY | PH_SEPARATE);
 		}
 
 		if (!postfields) {
