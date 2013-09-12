@@ -3,15 +3,15 @@
 #include "config.h"
 #endif
 
-#include "php.h"
+#include <php.h>
 #include "php_ext.h"
 #include "phalcon.h"
 
-#include "ext/standard/info.h"
+#include <ext/standard/info.h>
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -81,21 +81,21 @@ zend_class_entry *phalcon_session_adapterinterface_ce;
 zend_class_entry *phalcon_session_baginterface_ce;
 zend_class_entry *phalcon_translate_adapterinterface_ce;
 zend_class_entry *phalcon_validation_validatorinterface_ce;
-zend_class_entry *phalcon_cache_backend_ce;
-zend_class_entry *phalcon_di_injectable_ce;
 zend_class_entry *phalcon_exception_ce;
-zend_class_entry *phalcon_forms_element_ce;
+zend_class_entry *phalcon_di_injectable_ce;
+zend_class_entry *phalcon_cache_backend_ce;
+zend_class_entry *phalcon_db_adapter_ce;
 zend_class_entry *phalcon_db_adapter_pdo_ce;
 zend_class_entry *phalcon_db_dialect_ce;
+zend_class_entry *phalcon_forms_element_ce;
 zend_class_entry *phalcon_assets_resource_ce;
+zend_class_entry *phalcon_di_ce;
 zend_class_entry *phalcon_dispatcher_ce;
 zend_class_entry *phalcon_flash_ce;
 zend_class_entry *phalcon_mvc_model_exception_ce;
 zend_class_entry *phalcon_validation_validator_ce;
 zend_class_entry *phalcon_acl_adapter_ce;
 zend_class_entry *phalcon_cache_frontend_data_ce;
-zend_class_entry *phalcon_db_adapter_ce;
-zend_class_entry *phalcon_di_ce;
 zend_class_entry *phalcon_di_factorydefault_ce;
 zend_class_entry *phalcon_mvc_router_ce;
 zend_class_entry *phalcon_session_adapter_ce;
@@ -399,13 +399,15 @@ PHP_MINIT_FUNCTION(phalcon){
 	ZEPHIR_INIT(Phalcon_Session_BagInterface);
 	ZEPHIR_INIT(Phalcon_Translate_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Validation_ValidatorInterface);
-	ZEPHIR_INIT(Phalcon_Cache_Backend);
-	ZEPHIR_INIT(Phalcon_DI_Injectable);
 	ZEPHIR_INIT(Phalcon_Exception);
-	ZEPHIR_INIT(Phalcon_Forms_Element);
+	ZEPHIR_INIT(Phalcon_DI_Injectable);
+	ZEPHIR_INIT(Phalcon_Cache_Backend);
+	ZEPHIR_INIT(Phalcon_Db_Adapter);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo);
 	ZEPHIR_INIT(Phalcon_Db_Dialect);
+	ZEPHIR_INIT(Phalcon_Forms_Element);
 	ZEPHIR_INIT(Phalcon_Assets_Resource);
+	ZEPHIR_INIT(Phalcon_Di);
 	ZEPHIR_INIT(Phalcon_Dispatcher);
 	ZEPHIR_INIT(Phalcon_Flash);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Exception);
@@ -413,8 +415,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	ZEPHIR_INIT(Phalcon_Acl_Adapter);
 	ZEPHIR_INIT(Phalcon_Cache_Frontend_Data);
 	ZEPHIR_INIT(Phalcon_DI_FactoryDefault);
-	ZEPHIR_INIT(Phalcon_Db_Adapter);
-	ZEPHIR_INIT(Phalcon_Di);
 	ZEPHIR_INIT(Phalcon_Mvc_Router);
 	ZEPHIR_INIT(Phalcon_Session_Adapter);
 	ZEPHIR_INIT(Phalcon_Acl);

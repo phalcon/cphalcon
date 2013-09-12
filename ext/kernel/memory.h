@@ -85,8 +85,8 @@ extern void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 			Z_UNSET_ISREF_P(z); \
 			ZVAL_NULL(z); \
 		} else {\
-			zval_ptr_dtor(&z); \
-			ZEPHIR_ALLOC_ZVAL(z); \
+			zval_dtor(z); \
+			ZVAL_NULL(z); \
 		} \
 	} else { \
 		zephir_memory_alloc(&z TSRMLS_CC); \
