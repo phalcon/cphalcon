@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Http_Client, setData){
 
 	phalcon_fetch_params(0, 1, 0, &data);
 
-	if (Z_TYPE_P(data) != IS_ARRAY || Z_TYPE_P(data) != IS_STRING) {
+	if (Z_TYPE_P(data) != IS_ARRAY && Z_TYPE_P(data) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_http_client_exception_ce, "data parameter must be array or string");
 		return;
 	}
