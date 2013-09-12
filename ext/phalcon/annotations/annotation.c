@@ -3,13 +3,13 @@
 #include "ext_config.h"
 #endif
 
-#include "php.h"
+#include <php.h>
 #include "../php_ext.h"
 #include "../ext.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
@@ -137,9 +137,9 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getName) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 
-	HashTable *_3;
-	HashPosition _2;
-	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *_0, *_1, **_4, *_5 = NULL, *_6, *_7, *_8;
+	HashTable *_2;
+	HashPosition _1;
+	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type, *_0, **_3, *_4 = NULL, *_5, *_6, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr);
@@ -150,42 +150,42 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The expression is not valid");
 		return;
 	}
-	ZEPHIR_OBS_VAR(_0);
-	zephir_array_fetch_string(&_0, expr, SL("type"), PH_NOISY);
+	ZEPHIR_OBS_VAR(type);
+	zephir_array_fetch_string(&type, expr, SL("type"), PH_NOISY);
 	do {
-		if (ZEPHIR_IS_LONG(_0, 301) || ZEPHIR_IS_LONG(_0, 302) || ZEPHIR_IS_LONG(_0, 303) || ZEPHIR_IS_LONG(_0, 307)) {
+		if (ZEPHIR_IS_LONG(type, 301) || ZEPHIR_IS_LONG(type, 302) || ZEPHIR_IS_LONG(type, 303) || ZEPHIR_IS_LONG(type, 307)) {
 			ZEPHIR_OBS_VAR(value);
 			zephir_array_fetch_string(&value, expr, SL("value"), PH_NOISY);
 			break;
 		}
-		if (ZEPHIR_IS_LONG(_0, 304)) {
+		if (ZEPHIR_IS_LONG(type, 304)) {
 			ZEPHIR_INIT_NVAR(value);
 			ZVAL_NULL(value);
 			break;
 		}
-		if (ZEPHIR_IS_LONG(_0, 305)) {
+		if (ZEPHIR_IS_LONG(type, 305)) {
 			ZEPHIR_INIT_NVAR(value);
 			ZVAL_BOOL(value, 0);
 			break;
 		}
-		if (ZEPHIR_IS_LONG(_0, 306)) {
+		if (ZEPHIR_IS_LONG(type, 306)) {
 			ZEPHIR_INIT_NVAR(value);
 			ZVAL_BOOL(value, 1);
 			break;
 		}
-		if (ZEPHIR_IS_LONG(_0, 308)) {
-			ZEPHIR_OBS_VAR(_1);
-			zephir_array_fetch_string(&_1, expr, SL("items"), PH_NOISY);
-			zephir_is_iterable(_1, &_3, &_2, 0, 0);
+		if (ZEPHIR_IS_LONG(type, 308)) {
+			ZEPHIR_OBS_VAR(_0);
+			zephir_array_fetch_string(&_0, expr, SL("items"), PH_NOISY);
+			zephir_is_iterable(_0, &_2, &_1, 0, 0);
 			for (
-				; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
-				; zend_hash_move_forward_ex(_3, &_2)
+				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+				; zend_hash_move_forward_ex(_2, &_1)
 			) {
-				ZEPHIR_GET_HVALUE(item, _4);
-				ZEPHIR_OBS_NVAR(_5);
-				zephir_array_fetch_string(&_5, item, SL("expr"), PH_NOISY);
+				ZEPHIR_GET_HVALUE(item, _3);
+				ZEPHIR_OBS_NVAR(_4);
+				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY);
 				ZEPHIR_INIT_NVAR(resolvedItem);
-				zephir_call_method_p1(resolvedItem, this_ptr, "getexpression", _5);
+				zephir_call_method_p1(resolvedItem, this_ptr, "getexpression", _4);
 				ZEPHIR_OBS_NVAR(name);
 				if (zephir_array_isset_string_fetch(&name, item, SS("name"))) {
 					ZEPHIR_OBS_NVAR(arrayValue);
@@ -196,21 +196,21 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			}
 			RETURN_CCTOR(arrayValue);
 		}
-		if (ZEPHIR_IS_LONG(_0, 300)) {
+		if (ZEPHIR_IS_LONG(type, 300)) {
 			object_init_ex(return_value, phalcon_annotations_annotation_ce);
 			zephir_call_method_p1_noret(return_value, "__construct", expr);
 			RETURN_MM();
 		}
-			ZEPHIR_INIT_VAR(_6);
-			object_init_ex(_6, phalcon_annotations_exception_ce);
-			ZEPHIR_INIT_VAR(_7);
-			ZEPHIR_CONCAT_SV(_7, "The expression ", type);
-			ZEPHIR_INIT_VAR(_8);
-			ZEPHIR_CONCAT_VS(_8, _7, " is unknown");
-			zephir_call_method_p1_noret(_6, "__construct", _8);
-			zephir_throw_exception(_6 TSRMLS_CC);
-			ZEPHIR_MM_RESTORE();
-			return;
+		ZEPHIR_INIT_VAR(_5);
+		object_init_ex(_5, phalcon_annotations_exception_ce);
+		ZEPHIR_INIT_VAR(_6);
+		ZEPHIR_CONCAT_SV(_6, "The expression ", type);
+		ZEPHIR_INIT_VAR(_7);
+		ZEPHIR_CONCAT_VS(_7, _6, " is unknown");
+		zephir_call_method_p1_noret(_5, "__construct", _7);
+		zephir_throw_exception(_5 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
 	} while(0);
 
 	RETURN_CCTOR(value);

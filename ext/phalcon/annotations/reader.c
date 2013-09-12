@@ -3,13 +3,13 @@
 #include "ext_config.h"
 #endif
 
-#include "php.h"
+#include <php.h>
 #include "../php_ext.h"
 #include "../ext.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/exception.h"
@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 	ZEPHIR_INIT_VAR(annotations);
 	array_init(annotations);
 	ZEPHIR_INIT_VAR(reflection);
-	_0 = zend_fetch_class(SL("\ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	_0 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	object_init_ex(reflection, _0);
 	zephir_call_method_p1_noret(reflection, "__construct", className);
 	ZEPHIR_INIT_VAR(comment);

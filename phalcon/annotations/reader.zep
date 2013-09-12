@@ -50,7 +50,7 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 		/**
 		 * A ReflectionClass is used to obtain the class dockblock
 		 */
-		let reflection = new \ReflectionClass(className);
+		let reflection = new ReflectionClass(className);
 
 		let comment = reflection->getDocComment();
 		if typeof comment == "string" {

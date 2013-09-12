@@ -95,13 +95,14 @@ class Annotation
 	 */
 	public function getExpression(expr)
 	{
-		var value, item, resolvedItem, arrayValue, name;
+		var value, item, resolvedItem, arrayValue, name, type;
 
 		if typeof expr != "array" {
 			throw new Phalcon\Annotations\Exception("The expression is not valid");
 		}
 
-		switch expr["type"] {
+		let type = expr["type"];
+		switch type {
 			case 301:
 			case 302:
 			case 303:

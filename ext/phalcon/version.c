@@ -3,13 +3,13 @@
 #include "ext_config.h"
 #endif
 
-#include "php.h"
+#include <php.h>
 #include "../php_ext.h"
 #include "../ext.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -98,11 +98,11 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
  */
 PHP_METHOD(Phalcon_Version, get) {
 
-	zval version, *major, *medium, *minor, *special, *specialNumber, *result, *suffix = NULL, *_0, *_1;
+	zval *version, *major, *medium, *minor, *special, *specialNumber, *result, *suffix = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_SINIT_VAR(version);
+	ZEPHIR_INIT_VAR(version);
 	zephir_call_self(version, this_ptr, "_getversion");
 	ZEPHIR_OBS_VAR(major);
 	zephir_array_fetch_long(&major, version, 0, PH_NOISY);
@@ -136,9 +136,9 @@ PHP_METHOD(Phalcon_Version, get) {
 			ZEPHIR_CONCAT_SV(suffix, "RC ", specialNumber);
 			break;
 		}
-			ZEPHIR_INIT_NVAR(suffix);
-			ZVAL_STRING(suffix, "", 1);
-			break;
+		ZEPHIR_INIT_NVAR(suffix);
+		ZVAL_STRING(suffix, "", 1);
+		break;
 	} while(0);
 
 	zephir_concat_self(&result, suffix);
@@ -158,11 +158,11 @@ PHP_METHOD(Phalcon_Version, get) {
  */
 PHP_METHOD(Phalcon_Version, getId) {
 
-	zval version, *major, *medium, *minor, *special, *specialNumber, _0 = zval_used_for_init, *_1, *_2, *_3, *_4, *_5;
+	zval *version, *major, *medium, *minor, *special, *specialNumber, _0 = zval_used_for_init, *_1, *_2, *_3, *_4, *_5;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_SINIT_VAR(version);
+	ZEPHIR_INIT_VAR(version);
 	zephir_call_self(version, this_ptr, "_getversion");
 	ZEPHIR_OBS_VAR(major);
 	zephir_array_fetch_long(&major, version, 0, PH_NOISY);

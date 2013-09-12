@@ -3,13 +3,13 @@
 #include "ext_config.h"
 #endif
 
-#include "php.h"
+#include <php.h>
 #include "../php_ext.h"
 #include "../ext.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 	HashTable *_6;
 	HashPosition _5;
 	zend_bool automaticHtml, implicitFlush;
-	zval *type, *message, *content, *cssClasses = NULL, *classes, *typeClasses, eol, *msg = NULL, *htmlMessage = NULL, *_0, _1, *_2, *_3 = NULL, *_4, **_7, *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zval *type, *message, *content, *cssClasses = NULL, *classes, *typeClasses, *eol, *msg = NULL, *htmlMessage = NULL, *_0, _1, *_2, *_3 = NULL, *_4, **_7, *_8 = NULL, *_9 = NULL, *_10 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type, &message);
@@ -293,20 +293,19 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 				ZEPHIR_INIT_VAR(_2);
 				zephir_call_func_p2(_2, "join", &_1, typeClasses);
 				ZEPHIR_INIT_VAR(_3);
-				ZEPHIR_CONCAT_SV(_3, " class=\\"", _2);
-				ZEPHIR_CONCAT_VS(cssClasses, _3, "\\"");
+				ZEPHIR_CONCAT_SV(_3, " class=\\\"", _2);
+				ZEPHIR_CONCAT_VS(cssClasses, _3, "\\\"");
 			} else {
 				ZEPHIR_INIT_LNVAR(_3);
-				ZEPHIR_CONCAT_SV(_3, " class=\\"", typeClasses);
-				ZEPHIR_CONCAT_VS(cssClasses, _3, "\\"");
+				ZEPHIR_CONCAT_SV(_3, " class=\\\"", typeClasses);
+				ZEPHIR_CONCAT_VS(cssClasses, _3, "\\\"");
 			}
 		} else {
 			ZEPHIR_INIT_NVAR(cssClasses);
 			ZVAL_STRING(cssClasses, "", 1);
 		}
-		ZEPHIR_SINIT_VAR(eol);
-		ZVAL_STRING(&eol, "
-", 1);
+		ZEPHIR_INIT_VAR(eol);
+		ZVAL_STRING(eol, "\n", 1);
 	}
 	ZEPHIR_OBS_VAR(_4);
 	zephir_read_property_this(&_4, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);

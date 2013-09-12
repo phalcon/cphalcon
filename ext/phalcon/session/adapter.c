@@ -3,13 +3,13 @@
 #include "ext_config.h"
 #endif
 
-#include "php.h"
+#include <php.h>
 #include "../php_ext.h"
 #include "../ext.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, set) {
 
-	zval *index, *value, *_0, *_1;
+	zval *index, *value, *_SESSION, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &index, &value);
