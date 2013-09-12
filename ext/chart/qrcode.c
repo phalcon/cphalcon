@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, generate){
 		array_init_size(data, 3);
 		phalcon_array_update_string_long(&data, SL("version"), qr->c->version, 0);
 		phalcon_array_update_string_long(&data, SL("width"), qr->c->width, 0);
-		phalcon_array_update_string_string(&data, SL("data"), (char *)qr->c->data, strlen(qr->c->data), PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string_string(&data, SL("data"), (char *)qr->c->data, strlen((char *)qr->c->data), PH_COPY | PH_SEPARATE);
 
 		phalcon_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
 		
@@ -781,6 +781,7 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 	}
 
 	PHALCON_MM_RESTORE();
+	return;
 }
 
 /**
@@ -796,7 +797,7 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 */
 PHP_METHOD(Phalcon_Chart_QRcode, scan){
 
-	zval *filename, *enhance = NULL, *page = NULL, *extended = NULL;
+	zval *filename, *enhance = NULL, *extended = NULL;
 	MagickWand *magick_wand;
 	zbar_image_scanner_t *zbar_scanner;
 	zbar_image_t *zbar_page;
