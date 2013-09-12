@@ -266,10 +266,10 @@ PHP_METHOD(Phalcon_Image_Adapter, resize){
 			tmp_height = 1;
 		}
 
-		zval_dtor(width);
+		PHALCON_INIT_NVAR(width);
 		ZVAL_LONG(width, tmp_width);
 
-		zval_dtor(height);
+		PHALCON_INIT_NVAR(height);
 		ZVAL_LONG(height, tmp_height);
 	}
 
@@ -418,16 +418,16 @@ PHP_METHOD(Phalcon_Image_Adapter, crop){
 		tmp_height = tmp_max_height;
 	}
 
-	zval_dtor(width);
+	PHALCON_INIT_NVAR(width);
 	ZVAL_LONG(width, tmp_width);
 
-	zval_dtor(height);
+	PHALCON_INIT_NVAR(height);
 	ZVAL_LONG(height, tmp_height);
 
-	zval_dtor(offset_x);
+	PHALCON_INIT_NVAR(offset_x);
 	ZVAL_LONG(offset_x, tmp_offset_x);
 
-	zval_dtor(offset_y);
+	PHALCON_INIT_NVAR(offset_y);
 	ZVAL_LONG(offset_y, tmp_offset_y);
 	
 	phalcon_call_method_p4_noret(this_ptr, "_crop", width, height, offset_x, offset_y);
@@ -469,7 +469,7 @@ PHP_METHOD(Phalcon_Image_Adapter, rotate){
 		} while (tmp_degrees < -180);
 	}
 
-	zval_dtor(degrees);
+	PHALCON_INIT_NVAR(degrees);
 	ZVAL_LONG(degrees, tmp_degrees);
 
 	phalcon_call_method_p1_noret(this_ptr, "_rotate", degrees);
@@ -567,7 +567,7 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection){
 	} else if (Z_TYPE_P(height) != IS_LONG || Z_LVAL_P(height) > tmp_image_height) {
 		PHALCON_SEPARATE_PARAM(height);
 
-		zval_dtor(height);
+		PHALCON_INIT_NVAR(height);
 		ZVAL_LONG(height, tmp_image_height);
 	}
 
@@ -579,10 +579,10 @@ PHP_METHOD(Phalcon_Image_Adapter, reflection){
 		convert_to_long(opacity);
 
 		if (Z_LVAL_P(opacity) > 100) {
-			zval_dtor(opacity);
+			PHALCON_INIT_NVAR(opacity);
 			ZVAL_LONG(opacity, 100);
 		} else if (Z_LVAL_P(opacity) < 0) {
-			zval_dtor(opacity);
+			PHALCON_INIT_NVAR(opacity);
 			ZVAL_LONG(opacity, 0);
 		}
 	}
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 		}
 	}
 
-	zval_dtor(offset_x);
+	PHALCON_INIT_NVAR(offset_x);
 	ZVAL_LONG(offset_x, tmp_offset_x);
 
 	if (!offset_y) {
@@ -667,7 +667,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 		}
 	}
 
-	zval_dtor(offset_y);
+	PHALCON_INIT_NVAR(offset_y);
 	ZVAL_LONG(offset_y, tmp_offset_y);
 
 	if (!opacity) {
@@ -676,7 +676,7 @@ PHP_METHOD(Phalcon_Image_Adapter, watermark){
 	} else {		
 		PHALCON_SEPARATE_PARAM(opacity);
 
-		zval_dtor(opacity);
+		PHALCON_INIT_NVAR(opacity);
 		if (phalcon_get_intval(opacity) < 1) {
 			ZVAL_LONG(opacity, 1);
 		} else if (phalcon_get_intval(opacity) > 100) {
@@ -726,12 +726,12 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 	}
 
 	if (Z_TYPE_P(offset_x) == IS_NULL ) {
-		zval_dtor(offset_x);
+		PHALCON_INIT_NVAR(offset_x);
 		ZVAL_BOOL(offset_x, 0);
 	}
 
 	if (Z_TYPE_P(offset_y) == IS_NULL) {
-		zval_dtor(offset_y);
+		PHALCON_INIT_NVAR(offset_y);
 		ZVAL_BOOL(offset_y, 0);
 	}
 
@@ -740,18 +740,18 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 		ZVAL_LONG(opacity, 100);
 	} else if (Z_TYPE_P(opacity) == IS_NULL) {
 		PHALCON_SEPARATE_PARAM(opacity);
-		zval_dtor(opacity);
+		PHALCON_INIT_NVAR(opacity);
 		ZVAL_LONG(opacity, 100);
 	}  else {
 		i = phalcon_get_intval(opacity);
 
 		if (i < 1) {
 			PHALCON_SEPARATE_PARAM(opacity);
-			zval_dtor(opacity);
+			PHALCON_INIT_NVAR(opacity);
 			ZVAL_LONG(opacity, 1);
 		} else if (i > 100) {
 			PHALCON_SEPARATE_PARAM(opacity);
-			zval_dtor(opacity);
+			PHALCON_INIT_NVAR(opacity);
 			ZVAL_LONG(opacity, 100);
 		}
 	}
@@ -761,7 +761,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 		ZVAL_STRING(color, "#000000", 1);
 	} else if (Z_TYPE_P(color) == IS_NULL) {
 		PHALCON_SEPARATE_PARAM(color);
-		zval_dtor(color);
+		PHALCON_INIT_NVAR(color);
 		ZVAL_STRING(color, "#000000", 1);
 	}
 
@@ -770,7 +770,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 		ZVAL_LONG(size, 12);
 	} else if (Z_TYPE_P(size) == IS_NULL) {
 		PHALCON_SEPARATE_PARAM(size);
-		zval_dtor(size);
+		PHALCON_INIT_NVAR(size);
 		ZVAL_LONG(size, 12);
 	}
 
@@ -925,10 +925,10 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 		i = phalcon_get_intval(opacity);
 
 		if (i < 1) {
-			zval_dtor(opacity);
+			PHALCON_INIT_NVAR(opacity);
 			ZVAL_LONG(opacity, 1);
 		} else if (i > 100) {
-			zval_dtor(opacity);
+			PHALCON_INIT_NVAR(opacity);
 			ZVAL_LONG(opacity, 100);
 		}
 	}
@@ -959,17 +959,17 @@ PHP_METHOD(Phalcon_Image_Adapter, blur){
 	} else if (Z_TYPE_P(radius) != IS_LONG) {
 		PHALCON_SEPARATE_PARAM(radius);
 
-		zval_dtor(radius);
+		PHALCON_INIT_NVAR(radius);
 		ZVAL_LONG(radius, 1);
 	} else {
 		r = phalcon_get_intval(radius);
 		if (r < 1) {
 			PHALCON_SEPARATE_PARAM(radius);
-			zval_dtor(radius);
+			PHALCON_INIT_NVAR(radius);
 			ZVAL_LONG(radius, 1);
 		} else if (r > 100) {
 			PHALCON_SEPARATE_PARAM(radius);
-			zval_dtor(radius);
+			PHALCON_INIT_NVAR(radius);
 			ZVAL_LONG(radius, 100);
 		}
 	}
@@ -998,11 +998,11 @@ PHP_METHOD(Phalcon_Image_Adapter, pixelate){
 		ZVAL_LONG(amount, 10);
 	} else if (Z_TYPE_P(amount) != IS_LONG) {
 		PHALCON_SEPARATE_PARAM(amount);
-		zval_dtor(amount);
+		PHALCON_INIT_NVAR(amount);
 		ZVAL_LONG(amount, 10);
 	} else if (phalcon_get_intval(amount) < 2) {
 		PHALCON_SEPARATE_PARAM(amount);
-		zval_dtor(amount);
+		PHALCON_INIT_NVAR(amount);
 		ZVAL_LONG(amount, 2);
 	}
 
@@ -1038,7 +1038,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 		ZVAL_LONG(quality, 100);
 	} else if (Z_TYPE_P(quality) != IS_LONG) {
 		PHALCON_SEPARATE_PARAM(quality);
-		zval_dtor(quality);
+		PHALCON_INIT_NVAR(quality);
 		ZVAL_LONG(quality, 100);
 	}
 	else {
