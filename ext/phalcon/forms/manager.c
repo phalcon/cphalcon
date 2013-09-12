@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
 #include "kernel/concat.h"
 
 
@@ -62,10 +62,10 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 	zephir_fetch_params(1, 0, 2, &name, &entity);
 
 	if (!name) {
-		ZEPHIR_INIT_VAR(name);
+		ZEPHIR_CPY_WRT(name, ZEPHIR_GLOBAL(global_null));
 	}
 	if (!entity) {
-		ZEPHIR_INIT_VAR(entity);
+		ZEPHIR_CPY_WRT(entity, ZEPHIR_GLOBAL(global_null));
 	}
 
 
@@ -75,6 +75,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 	}
 	ZEPHIR_INIT_VAR(form);
 	object_init_ex(form, phalcon_forms_form_ce);
+	zephir_call_method_p1_noret(form, "__construct", entity);
 	zephir_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);
 	RETURN_CCTOR(form);
 

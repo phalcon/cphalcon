@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct) {
 	zephir_fetch_params(1, 0, 1, &options);
 
 	if (!options) {
-		ZEPHIR_INIT_VAR(options);
+		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
 	}
 
 
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	zephir_fetch_params(1, 1, 1, &index, &defaultValue);
 
 	if (!defaultValue) {
-		ZEPHIR_INIT_VAR(defaultValue);
+		ZEPHIR_CPY_WRT(defaultValue, ZEPHIR_GLOBAL(global_null));
 	}
 
 

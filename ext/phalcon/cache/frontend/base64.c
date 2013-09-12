@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct) {
 	zephir_fetch_params(1, 0, 1, &frontendOptions);
 
 	if (!frontendOptions) {
-		ZEPHIR_INIT_VAR(frontendOptions);
+		ZEPHIR_CPY_WRT(frontendOptions, ZEPHIR_GLOBAL(global_null));
 	}
 
 

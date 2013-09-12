@@ -123,13 +123,13 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 	zephir_fetch_params(1, 0, 3, &name, &filters, &defaultValue);
 
 	if (!name) {
-		ZEPHIR_INIT_VAR(name);
+		ZEPHIR_CPY_WRT(name, ZEPHIR_GLOBAL(global_null));
 	}
 	if (!filters) {
-		ZEPHIR_INIT_VAR(filters);
+		ZEPHIR_CPY_WRT(filters, ZEPHIR_GLOBAL(global_null));
 	}
 	if (!defaultValue) {
-		ZEPHIR_INIT_VAR(defaultValue);
+		ZEPHIR_CPY_WRT(defaultValue, ZEPHIR_GLOBAL(global_null));
 	}
 
 
@@ -191,13 +191,13 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 	zephir_fetch_params(1, 0, 3, &name, &filters, &defaultValue);
 
 	if (!name) {
-		ZEPHIR_INIT_VAR(name);
+		ZEPHIR_CPY_WRT(name, ZEPHIR_GLOBAL(global_null));
 	}
 	if (!filters) {
-		ZEPHIR_INIT_VAR(filters);
+		ZEPHIR_CPY_WRT(filters, ZEPHIR_GLOBAL(global_null));
 	}
 	if (!defaultValue) {
-		ZEPHIR_INIT_VAR(defaultValue);
+		ZEPHIR_CPY_WRT(defaultValue, ZEPHIR_GLOBAL(global_null));
 	}
 
 
@@ -262,13 +262,13 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 	zephir_fetch_params(1, 0, 3, &name, &filters, &defaultValue);
 
 	if (!name) {
-		ZEPHIR_INIT_VAR(name);
+		ZEPHIR_CPY_WRT(name, ZEPHIR_GLOBAL(global_null));
 	}
 	if (!filters) {
-		ZEPHIR_INIT_VAR(filters);
+		ZEPHIR_CPY_WRT(filters, ZEPHIR_GLOBAL(global_null));
 	}
 	if (!defaultValue) {
-		ZEPHIR_INIT_VAR(defaultValue);
+		ZEPHIR_CPY_WRT(defaultValue, ZEPHIR_GLOBAL(global_null));
 	}
 
 

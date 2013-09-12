@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 	zephir_fetch_params(1, 0, 1, &validators);
 
 	if (!validators) {
-		ZEPHIR_INIT_VAR(validators);
+		ZEPHIR_CPY_WRT(validators, ZEPHIR_GLOBAL(global_null));
 	}
 
 
@@ -110,10 +110,10 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zephir_fetch_params(1, 0, 2, &data, &entity);
 
 	if (!data) {
-		ZEPHIR_INIT_VAR(data);
+		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
 	}
 	if (!entity) {
-		ZEPHIR_INIT_VAR(entity);
+		ZEPHIR_CPY_WRT(entity, ZEPHIR_GLOBAL(global_null));
 	}
 
 
@@ -127,6 +127,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zephir_update_property_this(this_ptr, SL("_values"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
+	zephir_call_method_noret(messages, "__construct");
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "beforeValidation", 0);
 	ZEPHIR_INIT_VAR(_2);
@@ -256,7 +257,7 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
 	zephir_fetch_params(1, 0, 1, &attribute);
 
 	if (!attribute) {
-		ZEPHIR_INIT_VAR(attribute);
+		ZEPHIR_CPY_WRT(attribute, ZEPHIR_GLOBAL(global_null));
 	}
 
 

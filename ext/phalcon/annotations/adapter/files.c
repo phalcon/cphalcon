@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
 	zephir_fetch_params(1, 0, 1, &options);
 
 	if (!options) {
-		ZEPHIR_INIT_VAR(options);
+		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
 	}
 
 

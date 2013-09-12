@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_Forms_Element_Date, render) {
 	zephir_fetch_params(1, 0, 1, &attributes);
 
 	if (!attributes) {
-		ZEPHIR_INIT_VAR(attributes);
+		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
 	}
 
 

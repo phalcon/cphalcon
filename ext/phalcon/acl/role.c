@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 	zephir_fetch_params(1, 1, 1, &name, &description);
 
 	if (!description) {
-		ZEPHIR_INIT_VAR(description);
+		ZEPHIR_CPY_WRT(description, ZEPHIR_GLOBAL(global_null));
 	}
 
 

@@ -116,8 +116,7 @@ PHP_METHOD(Phalcon_Di, set) {
 	zephir_fetch_params(1, 2, 1, &name, &definition, &shared);
 
 	if (!shared) {
-		ZEPHIR_INIT_VAR(shared);
-		ZVAL_BOOLshared, 0);
+		ZEPHIR_CPY_WRT(shared, ZEPHIR_GLOBAL(global_false));
 	}
 
 
@@ -199,8 +198,7 @@ PHP_METHOD(Phalcon_Di, attempt) {
 	zephir_fetch_params(1, 2, 1, &name, &definition, &shared);
 
 	if (!shared) {
-		ZEPHIR_INIT_VAR(shared);
-		ZVAL_BOOLshared, 0);
+		ZEPHIR_CPY_WRT(shared, ZEPHIR_GLOBAL(global_false));
 	}
 
 
@@ -342,7 +340,7 @@ PHP_METHOD(Phalcon_Di, get) {
 	zephir_fetch_params(1, 1, 1, &name, &parameters);
 
 	if (!parameters) {
-		ZEPHIR_INIT_VAR(parameters);
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
 
 
@@ -412,7 +410,7 @@ PHP_METHOD(Phalcon_Di, getShared) {
 	zephir_fetch_params(1, 1, 1, &name, &parameters);
 
 	if (!parameters) {
-		ZEPHIR_INIT_VAR(parameters);
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
 	}
 
 
@@ -588,7 +586,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	zephir_fetch_params(1, 1, 1, &method, &arguments);
 
 	if (!arguments) {
-		ZEPHIR_INIT_VAR(arguments);
+		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
 	}
 
 

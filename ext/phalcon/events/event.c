@@ -70,11 +70,10 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	zephir_fetch_params(1, 2, 2, &type, &source, &data, &cancelable);
 
 	if (!data) {
-		ZEPHIR_INIT_VAR(data);
+		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
 	}
 	if (!cancelable) {
-		ZEPHIR_INIT_VAR(cancelable);
-		ZVAL_BOOLcancelable, 1);
+		ZEPHIR_CPY_WRT(cancelable, ZEPHIR_GLOBAL(global_true));
 	}
 
 

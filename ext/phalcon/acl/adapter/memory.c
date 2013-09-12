@@ -158,11 +158,11 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct) {
 
 	ZEPHIR_INIT_VAR(_0);
 	array_init(_0);
-	zephir_array_update_string(&_0, SS("*"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_0, SL("*"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 	zephir_update_property_this(this_ptr, SL("_resourcesNames"), _0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
 	array_init(_1);
-	zephir_array_update_string(&_1, SS("*!*"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_1, SL("*!*"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 	zephir_update_property_this(this_ptr, SL("_accessList"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 

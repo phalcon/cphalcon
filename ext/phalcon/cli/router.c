@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle) {
 	zephir_fetch_params(1, 0, 1, &arguments);
 
 	if (!arguments) {
-		ZEPHIR_INIT_VAR(arguments);
+		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
 	}
 
 

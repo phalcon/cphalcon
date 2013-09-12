@@ -25,6 +25,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/* Global constants */
 	zval *global_true;
 	zval *global_false;
+	zval *global_null;
 
 ZEND_END_MODULE_GLOBALS(phalcon)
 

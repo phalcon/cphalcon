@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 	zephir_fetch_params(1, 0, 1, &reflectionData);
 
 	if (!reflectionData) {
-		ZEPHIR_INIT_VAR(reflectionData);
+		ZEPHIR_CPY_WRT(reflectionData, ZEPHIR_GLOBAL(global_null));
 	}
 
 

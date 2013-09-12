@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 	zephir_fetch_params(1, 0, 1, &backends);
 
 	if (!backends) {
-		ZEPHIR_INIT_VAR(backends);
+		ZEPHIR_CPY_WRT(backends, ZEPHIR_GLOBAL(global_null));
 	}
 
 

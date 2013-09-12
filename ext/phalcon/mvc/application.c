@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
 	zephir_fetch_params(1, 0, 1, &dependencyInjector);
 
 	if (!dependencyInjector) {
-		ZEPHIR_INIT_VAR(dependencyInjector);
+		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
 	}
 
 

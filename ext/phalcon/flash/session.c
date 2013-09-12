@@ -199,11 +199,10 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 	zephir_fetch_params(1, 0, 2, &type, &remove);
 
 	if (!type) {
-		ZEPHIR_INIT_VAR(type);
+		ZEPHIR_CPY_WRT(type, ZEPHIR_GLOBAL(global_null));
 	}
 	if (!remove) {
-		ZEPHIR_INIT_VAR(remove);
-		ZVAL_BOOLremove, 1);
+		ZEPHIR_CPY_WRT(remove, ZEPHIR_GLOBAL(global_true));
 	}
 
 
@@ -240,8 +239,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	zephir_fetch_params(1, 0, 1, &remove);
 
 	if (!remove) {
-		ZEPHIR_INIT_VAR(remove);
-		ZVAL_BOOLremove, 1);
+		ZEPHIR_CPY_WRT(remove, ZEPHIR_GLOBAL(global_true));
 	}
 
 

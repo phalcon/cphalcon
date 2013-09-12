@@ -63,15 +63,13 @@ PHP_METHOD(Phalcon_Assets_Resource_Js, __construct) {
 	zephir_fetch_params(1, 1, 3, &path, &local, &filter, &attributes);
 
 	if (!local) {
-		ZEPHIR_INIT_VAR(local);
-		ZVAL_BOOLlocal, 1);
+		ZEPHIR_CPY_WRT(local, ZEPHIR_GLOBAL(global_true));
 	}
 	if (!filter) {
-		ZEPHIR_INIT_VAR(filter);
-		ZVAL_BOOLfilter, 1);
+		ZEPHIR_CPY_WRT(filter, ZEPHIR_GLOBAL(global_true));
 	}
 	if (!attributes) {
-		ZEPHIR_INIT_VAR(attributes);
+		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
 	}
 
 

@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Cli_Console, __construct) {
 	zephir_fetch_params(1, 0, 1, &dependencyInjector);
 
 	if (!dependencyInjector) {
-		ZEPHIR_INIT_VAR(dependencyInjector);
+		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
 	}
 
 
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	zephir_fetch_params(1, 0, 1, &arguments);
 
 	if (!arguments) {
-		ZEPHIR_INIT_VAR(arguments);
+		ZEPHIR_CPY_WRT(arguments, ZEPHIR_GLOBAL(global_null));
 	}
 
 
