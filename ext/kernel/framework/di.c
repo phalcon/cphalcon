@@ -22,7 +22,7 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 
 /**
  * Returns if there is a global cache

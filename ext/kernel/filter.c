@@ -1,19 +1,19 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -24,7 +24,7 @@
 #include <ctype.h>
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 #include "php_main.h"
 #include "ext/standard/php_smart_str.h"
 #include "ext/standard/php_math.h"
@@ -39,7 +39,7 @@
 /**
  * Filter alphanum string
  */
-void phalcon_filter_alphanum(zval *return_value, zval *param){
+void zephir_filter_alphanum(zval *return_value, zval *param){
 
 	unsigned int i;
 	unsigned char ch;
@@ -80,7 +80,7 @@ void phalcon_filter_alphanum(zval *return_value, zval *param){
 /**
  * Filter identifiers string like variables or database columns/tables
  */
-void phalcon_filter_identifier(zval *return_value, zval *param){
+void zephir_filter_identifier(zval *return_value, zval *param){
 
 	unsigned int i;
 	unsigned char ch;
@@ -122,7 +122,7 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 /**
  * Check if a string is encoded with ASCII or ISO-8859-1
  */
-void phalcon_is_basic_charset(zval *return_value, const zval *param){
+void zephir_is_basic_charset(zval *return_value, const zval *param){
 
 	unsigned int i;
 	unsigned int ch;
@@ -149,7 +149,7 @@ void phalcon_is_basic_charset(zval *return_value, const zval *param){
 	RETURN_STRING("ISO-8859-1", 1);
 }
 
-static long phalcon_unpack(char *data, int size, int issigned, int *map)
+static long zephir_unpack(char *data, int size, int issigned, int *map)
 {
 	long result;
 	char *cresult = (char *) &result;
@@ -167,7 +167,7 @@ static long phalcon_unpack(char *data, int size, int issigned, int *map)
 /**
  * Converts an unsigned long to a char*
  */
-static inline char *phalcon_longtohex(unsigned long value) {
+static inline char *zephir_longtohex(unsigned long value) {
 
 	static char digits[] = "0123456789abcdef";
 	char buf[(sizeof(unsigned long) << 3) + 1];
@@ -186,7 +186,7 @@ static inline char *phalcon_longtohex(unsigned long value) {
 /**
  * Perform escaping of non-alphanumeric characters to different formats
  */
-void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
+void zephir_escape_multi(zval *return_value, zval *param, const char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
 
 	unsigned int i;
 	zval copy;
@@ -241,7 +241,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 			value = ~INT_MAX;
 		}
 
-		value |= phalcon_unpack(&Z_STRVAL_P(param)[i], 4, issigned, big_endian_long_map);
+		value |= zephir_unpack(&Z_STRVAL_P(param)[i], 4, issigned, big_endian_long_map);
 		if (sizeof(long) > 4) {
 			value = (unsigned int) value;
 		}
@@ -300,7 +300,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 		/**
 		 * Convert character to hexadecimal
 		 */
-		hex = phalcon_longtohex(value);
+		hex = zephir_longtohex(value);
 
 		/**
 		 * Append the escaped character
@@ -331,28 +331,28 @@ void phalcon_escape_multi(zval *return_value, zval *param, const char *escape_ch
 /**
  * Escapes non-alphanumeric characters to \HH+space
  */
-void phalcon_escape_css(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ', 0);
+void zephir_escape_css(zval *return_value, zval *param) {
+	zephir_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ', 0);
 }
 
 /**
  * Escapes non-alphanumeric characters to \xHH+
  */
-void phalcon_escape_js(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0', 1);
+void zephir_escape_js(zval *return_value, zval *param) {
+	zephir_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0', 1);
 }
 
 /**
  * Escapes non-alphanumeric characters to &xHH;
  */
-void phalcon_escape_htmlattr(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';', 1);
+void zephir_escape_htmlattr(zval *return_value, zval *param) {
+	zephir_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';', 1);
 }
 
 /**
  * Escapes HTML replacing special chars by entities
  */
-void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
+void zephir_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
 
 	#if PHP_VERSION_ID < 50400
 	int length;
@@ -368,12 +368,12 @@ void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval 
 	}
 
 	if (Z_TYPE_P(quote_style) != IS_LONG) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid quote_style supplied for phalcon_escape_html()");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid quote_style supplied for zephir_escape_html()");
 		RETURN_ZVAL(str, 1, 0);
 	}
 
 	if (Z_TYPE_P(charset) != IS_STRING) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid charset supplied for phalcon_escape_html()");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid charset supplied for zephir_escape_html()");
 		RETURN_ZVAL(str, 1, 0);
 	}
 

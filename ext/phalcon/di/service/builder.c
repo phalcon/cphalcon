@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "ext_config.h"
 #endif
 
 #include "php.h"
-#include "php_test.h"
-#include "test.h"
+#include "../php_ext.h"
+#include "../ext.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -63,7 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_Service_Builder) {
 PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter) {
 
 	zend_class_entry *_3, *_4;
-	zval *dependencyInjector, *position, *argument, type, *name = NULL, *value, *instanceArguments, *_0 = NULL, *_1 = NULL, *_2 = NULL;
+	zval *dependencyInjector, *position, *argument, *type, *name = NULL, *value, *instanceArguments, *_0 = NULL, *_1 = NULL, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &dependencyInjector, &position, &argument);
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter) {
 		return;
 	}
 	do {
-		if (ZEPHIR_IS_STRING(&type, "service")) {
+		if (ZEPHIR_IS_STRING(type, "service")) {
 			ZEPHIR_OBS_VAR(name);
 			if (!(zephir_array_isset_string_fetch(&name, argument, SS("name")))) {
 				ZEPHIR_INIT_NVAR(_0);
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter) {
 			zephir_call_method_p1(return_value, dependencyInjector, "get", name);
 			RETURN_MM();
 		}
-		if (ZEPHIR_IS_STRING(&type, "parameter")) {
+		if (ZEPHIR_IS_STRING(type, "parameter")) {
 			ZEPHIR_OBS_VAR(value);
 			if (!(zephir_array_isset_string_fetch(&value, argument, SS("value")))) {
 				ZEPHIR_INIT_NVAR(_0);
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter) {
 			}
 			RETURN_CCTOR(value);
 		}
-		if (ZEPHIR_IS_STRING(&type, "instance")) {
+		if (ZEPHIR_IS_STRING(type, "instance")) {
 			ZEPHIR_OBS_NVAR(name);
 			if (!(zephir_array_isset_string_fetch(&name, argument, SS("className")))) {
 				ZEPHIR_INIT_NVAR(_0);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build) {
 
 	HashTable *_2, *_6;
 	HashPosition _1, _5;
-	zval *dependencyInjector, *definition, *parameters = NULL, *className, *arguments = NULL, paramCalls = zval_used_for_init, *methodPosition = NULL, *method = NULL, *methodName = NULL, *methodCall = NULL, *instance = NULL, *propertyPosition = NULL, *property = NULL, propertyName = zval_used_for_init, *propertyValue = NULL, *_0 = NULL, **_3, *_4 = NULL, **_7;
+	zval *dependencyInjector, *definition, *parameters = NULL, *className, *arguments = NULL, *paramCalls = NULL, *methodPosition = NULL, *method = NULL, *methodName = NULL, *methodCall = NULL, *instance = NULL, *propertyPosition = NULL, *property = NULL, *propertyName = NULL, *propertyValue = NULL, *_0 = NULL, **_3, *_4 = NULL, **_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &dependencyInjector, &definition, &parameters);

@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "ext_config.h"
 #endif
 
 #include "php.h"
-#include "php_test.h"
-#include "test.h"
+#include "../php_ext.h"
+#include "../ext.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		zephir_call_func_p2(_0, "method_exists", entity, method);
 		if (zend_is_true(_0)) {
 			ZEPHIR_INIT_VAR(value);
-			zephir_call_method(value, entity, "method");
+			zephir_call_method_zval(value, entity, method);
 		} else {
 			ZEPHIR_SINIT_VAR(_1);
 			ZVAL_STRING(&_1, "readAttribute", 0);

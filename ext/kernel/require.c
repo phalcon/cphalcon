@@ -1,19 +1,19 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -22,7 +22,7 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 #include "php_main.h"
 #include "kernel/main.h"
 #include "kernel/require.h"
@@ -30,7 +30,7 @@
 #include "kernel/debug.h"
 #include "Zend/zend_exceptions.h"
 
-int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *require_path TSRMLS_DC){
+int ZEPHIR_FASTCALL zephir_internal_require(zval *return_value, const zval *require_path TSRMLS_DC){
 
 	int ret;
 	char *file_path;
@@ -143,13 +143,13 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, const zval *re
 /**
  * Do an internal require to a plain php file without taking care of the value returned by the file
  */
-int PHALCON_FASTCALL phalcon_require(const zval *require_path TSRMLS_DC){
-	return phalcon_internal_require(NULL, require_path TSRMLS_CC);
+int ZEPHIR_FASTCALL zephir_require(const zval *require_path TSRMLS_DC){
+	return zephir_internal_require(NULL, require_path TSRMLS_CC);
 }
 
 /**
  * Do an internal require to a plain php file taking care of the value returned by the file
  */
-int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, const zval *require_path TSRMLS_DC){
-	return phalcon_internal_require(return_value, require_path TSRMLS_CC);
+int ZEPHIR_FASTCALL zephir_require_ret(zval *return_value, const zval *require_path TSRMLS_DC){
+	return zephir_internal_require(return_value, require_path TSRMLS_CC);
 }

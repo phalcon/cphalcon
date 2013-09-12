@@ -1,23 +1,28 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
+#ifndef ZEPHIR_KERNEL_MAIN_H
+#define ZEPHIR_KERNEL_MAIN_H
+
+#include "Zend/zend_interfaces.h"
 #include "ext/spl/spl_exceptions.h"
+#include "ext/spl/spl_iterators.h"
 
 /** Main macros */
 #define PH_DEBUG 0
@@ -34,41 +39,35 @@
 
 #define SL(str) ZEND_STRL(str)
 #define SS(str) ZEND_STRS(str)
+#define ISL(str) (zephir_interned_##str), (sizeof(#str)-1)
+#define ISS(str) (zephir_interned_##str), (sizeof(#str))
 
-/** SPL dependencies */
-#if defined(HAVE_SPL) && ((PHP_MAJOR_VERSION > 5) || (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION >= 1))
-extern ZEND_API zend_class_entry *zend_ce_iterator;
-extern ZEND_API zend_class_entry *zend_ce_arrayaccess;
-extern ZEND_API zend_class_entry *zend_ce_serializable;
-extern PHPAPI zend_class_entry *spl_ce_RuntimeException;
-extern PHPAPI zend_class_entry *spl_ce_Countable;
-extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
-extern PHPAPI zend_class_entry *spl_ce_BadMethodCallException;
-#endif
 
 /* Startup functions */
-extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
-extern zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC);
+void php_zephir_init_globals(zend_zephir_globals *zephir_globals TSRMLS_DC);
+zend_class_entry *zephir_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC);
 
 /* Globals functions */
-extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
-extern int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
+int zephir_init_global(char *global, unsigned int global_length TSRMLS_DC);
+int zephir_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC);
 
-extern int phalcon_is_callable(zval *var TSRMLS_DC);
-extern int phalcon_function_exists(const zval *function_name TSRMLS_DC);
-extern int phalcon_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
-extern int phalcon_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
+int zephir_is_callable(zval *var TSRMLS_DC);
+int zephir_function_exists(const zval *function_name TSRMLS_DC);
+int zephir_function_exists_ex(const char *func_name, unsigned int func_len TSRMLS_DC);
+int zephir_function_quick_exists_ex(const char *func_name, unsigned int func_len, unsigned long key TSRMLS_DC);
 
 /* Count */
-extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
-extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
+void zephir_fast_count(zval *result, zval *array TSRMLS_DC);
+int zephir_fast_count_ev(zval *array TSRMLS_DC);
+int zephir_fast_count_int(zval *value TSRMLS_DC);
 
 /* Utils functions */
-extern void phalcon_inherit_not_found(const char *class_name, const char *inherit_name);
-extern int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
+int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse);
+void zephir_safe_zval_ptr_dtor(zval *pzval);
+
 
 /* Fetch Parameters */
-extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
+int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...);
 
 /* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
@@ -84,7 +83,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #endif
 
 /** Symbols */
-#define PHALCON_READ_SYMBOL(var, auxarr, name) if (EG(active_symbol_table)){ \
+#define ZEPHIR_READ_SYMBOL(var, auxarr, name) if (EG(active_symbol_table)){ \
 	if (zend_hash_find(EG(active_symbol_table), name, sizeof(name), (void **)  &auxarr) == SUCCESS) { \
 			var = *auxarr; \
 		} else { \
@@ -100,11 +99,11 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #define RETURN_CCTOR(var) { \
 		*(return_value) = *(var); \
 		if (Z_TYPE_P(var) > IS_BOOL) { \
-			phalcon_copy_ctor(return_value, var); \
+			zephir_copy_ctor(return_value, var); \
 		} \
 		INIT_PZVAL(return_value) \
 	} \
-	PHALCON_MM_RESTORE(); \
+	ZEPHIR_MM_RESTORE(); \
 	return;
 
 /**
@@ -113,7 +112,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #define RETURN_CCTORW(var) { \
 		*(return_value) = *(var); \
 		if (Z_TYPE_P(var) > IS_BOOL) { \
-			phalcon_copy_ctor(return_value, var); \
+			zephir_copy_ctor(return_value, var); \
 		} \
 		INIT_PZVAL(return_value) \
 	} \
@@ -125,7 +124,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #define RETURN_CTOR(var) { \
 		RETVAL_ZVAL(var, 1, 0); \
 	} \
-	PHALCON_MM_RESTORE(); \
+	ZEPHIR_MM_RESTORE(); \
 	return;
 
 /**
@@ -142,7 +141,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #define RETURN_THIS() { \
 		RETVAL_ZVAL(this_ptr, 1, 0); \
 	} \
-	PHALCON_MM_RESTORE(); \
+	ZEPHIR_MM_RESTORE(); \
 	return;
 
 /**
@@ -158,7 +157,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 		*(return_value) = *(var); \
 		INIT_PZVAL(return_value) \
 	} \
-	PHALCON_MM_RESTORE(); \
+	ZEPHIR_MM_RESTORE(); \
 	return;
 
 /**
@@ -177,7 +176,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 	if (Z_TYPE_P(return_value) > IS_BOOL) { \
 		zval_copy_ctor(return_value); \
 	} \
-	PHALCON_MM_RESTORE(); \
+	ZEPHIR_MM_RESTORE(); \
 	return;
 
 /**
@@ -193,33 +192,42 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
  * Returns a zval in an object member
  */
 #define RETURN_MEMBER(object, member_name) \
-	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
+	zephir_return_property_quick(return_value, return_value_ptr, object, SL(member_name), zend_inline_hash_func(SS(member_name)) TSRMLS_CC); \
 	return;
 
 /**
  * Returns a zval in an object member (quick)
  */
 #define RETURN_MEMBER_QUICK(object, member_name, key) \
- 	phalcon_return_property_quick(return_value, return_value_ptr, object, SL(member_name), key TSRMLS_CC); \
+ 	zephir_return_property_quick(return_value, return_value_ptr, object, SL(member_name), key TSRMLS_CC); \
 	return;
 
 /** Return without change return_value */
-#define RETURN_MM() PHALCON_MM_RESTORE(); return;
+#define RETURN_MM() ZEPHIR_MM_RESTORE(); return;
 
 /** Return null restoring memory frame */
-#define RETURN_MM_NULL() PHALCON_MM_RESTORE(); RETURN_NULL();
+#define RETURN_MM_BOOL(value) ZEPHIR_MM_RESTORE(); RETURN_BOOL(value);
+
+/** Return null restoring memory frame */
+#define RETURN_MM_NULL() ZEPHIR_MM_RESTORE(); RETURN_NULL();
 
 /** Return bool restoring memory frame */
-#define RETURN_MM_FALSE PHALCON_MM_RESTORE(); RETURN_FALSE;
-#define RETURN_MM_TRUE PHALCON_MM_RESTORE(); RETURN_TRUE;
+#define RETURN_MM_FALSE ZEPHIR_MM_RESTORE(); RETURN_FALSE;
+#define RETURN_MM_TRUE ZEPHIR_MM_RESTORE(); RETURN_TRUE;
 
 /** Return string restoring memory frame */
-#define RETURN_MM_STRING(str, copy) PHALCON_MM_RESTORE(); RETURN_STRING(str, copy);
-#define RETURN_MM_EMPTY_STRING() PHALCON_MM_RESTORE(); RETURN_EMPTY_STRING();
+#define RETURN_MM_STRING(str, copy) ZEPHIR_MM_RESTORE(); RETURN_STRING(str, copy);
+#define RETURN_MM_EMPTY_STRING() ZEPHIR_MM_RESTORE(); RETURN_EMPTY_STRING();
 
 /** Return empty array */
 #define RETURN_EMPTY_ARRAY() array_init(return_value); return;
-#define RETURN_MM_EMPTY_ARRAY() PHALCON_MM_RESTORE(); RETURN_EMPTY_ARRAY();
+#define RETURN_MM_EMPTY_ARRAY() ZEPHIR_MM_RESTORE(); RETURN_EMPTY_ARRAY();
+
+/* Return long */
+#define RETURN_MM_LONG(value) ZEPHIR_MM_RESTORE(); RETURN_LONG(value);
+
+/* Return double */
+#define RETURN_MM_DOUBLE(value) ZEPHIR_MM_RESTORE(); RETURN_DOUBLE(value);
 
 #ifndef IS_INTERNED
 #define IS_INTERNED(key) 0
@@ -227,18 +235,18 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #endif
 
 /** Get the current hash key without copying the hash key */
-#define PHALCON_GET_HKEY(var, hash, hash_position) \
-	phalcon_get_current_key(&var, hash, &hash_position TSRMLS_CC);
+#define ZEPHIR_GET_HKEY(var, hash, hash_position) \
+	zephir_get_current_key(&var, hash, &hash_position TSRMLS_CC);
 
 /** Get current hash key copying the hash_value if needed */
-#define PHALCON_GET_HMKEY(var, hash, hash_pointer) \
+#define ZEPHIR_GET_HMKEY(var, hash, hash_pointer) \
 	{\
 		int hash_type; \
 		char *hash_index; \
 		uint hash_index_len; \
 		ulong hash_num; \
 		 \
-		PHALCON_INIT_NVAR(var); \
+		ZEPHIR_INIT_NVAR(var); \
 		hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
 		if (hash_type == HASH_KEY_IS_STRING) { \
 			if (IS_INTERNED(hash_index)) { \
@@ -254,75 +262,83 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 	}
 
 /** Foreach */
-#define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) PHALCON_GET_HMKEY(var, hash, hash_pointer)
+#define ZEPHIR_GET_FOREACH_KEY(var, hash, hash_pointer) ZEPHIR_GET_HMKEY(var, hash, hash_pointer)
 
 /** Check if an array is iterable or not */
-#define phalcon_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) \
-	if (!phalcon_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { \
+#define zephir_is_iterable(var, array_hash, hash_pointer, duplicate, reverse) \
+	if (!zephir_is_iterable_ex(var, array_hash, hash_pointer, duplicate, reverse)) { \
 		zend_error(E_ERROR, "The argument is not iterable()"); \
-		PHALCON_MM_RESTORE(); \
+		ZEPHIR_MM_RESTORE(); \
 		return; \
 	}
 
-#define PHALCON_GET_FOREACH_VALUE(var) \
-	PHALCON_OBS_NVAR(var); \
+#define ZEPHIR_GET_FOREACH_VALUE(var) \
+	ZEPHIR_OBS_NVAR(var); \
 	var = *hd; \
 	Z_ADDREF_P(var);
 
-#define PHALCON_GET_HVALUE(var) \
-	PHALCON_OBS_NVAR(var); \
+#define ZEPHIR_GET_HVALUE(var, hd) \
+	ZEPHIR_OBS_NVAR(var); \
 	var = *hd; \
 	Z_ADDREF_P(var);
 
 /** class/interface registering */
-#define PHALCON_REGISTER_CLASS(ns, class_name, name, methods, flags) \
+#define ZEPHIR_REGISTER_CLASS(ns, class_name, lower_ns, name, methods, flags) \
 	{ \
 		zend_class_entry ce; \
 		memset(&ce, 0, sizeof(zend_class_entry)); \
 		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods); \
-		phalcon_ ##name## _ce = zend_register_internal_class(&ce TSRMLS_CC); \
-		phalcon_ ##name## _ce->ce_flags |= flags;  \
+		lower_ns## _ ##name## _ce = zend_register_internal_class(&ce TSRMLS_CC); \
+		lower_ns## _ ##name## _ce->ce_flags |= flags;  \
 	}
 
-#define PHALCON_REGISTER_CLASS_EX(ns, class_name, name, parent, methods, flags) \
+#define ZEPHIR_REGISTER_CLASS_EX(ns, class_name, lower_ns, lcname, parent_ce, methods, flags) \
 	{ \
 		zend_class_entry ce; \
+		if (!parent_ce) { \
+			fprintf(stderr, "Can't register class %s::%s with null parent\n", #ns, #class_name); \
+			return FAILURE; \
+		} \
 		memset(&ce, 0, sizeof(zend_class_entry)); \
 		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods); \
-		phalcon_ ##name## _ce = zend_register_internal_class_ex(&ce, NULL, parent TSRMLS_CC); \
-		if (!phalcon_ ##name## _ce) { \
-			phalcon_inherit_not_found(parent, ZEND_NS_NAME(#ns, #class_name)); \
-			return FAILURE;	\
-		}  \
-		phalcon_ ##name## _ce->ce_flags |= flags;  \
+		lower_ns## _ ##lcname## _ce = zend_register_internal_class_ex(&ce, parent_ce, NULL TSRMLS_CC); \
+		if (!lower_ns## _ ##lcname## _ce) { \
+			fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", (parent_ce ? parent_ce->name : "(null)"), ZEND_NS_NAME(#ns, #class_name)); \
+			return FAILURE; \
+		} \
+		lower_ns## _ ##lcname## _ce->ce_flags |= flags;  \
 	}
 
-#define PHALCON_REGISTER_INTERFACE(ns, classname, name, methods) \
+#define ZEPHIR_REGISTER_INTERFACE(ns, classname, lower_ns, name, methods) \
 	{ \
 		zend_class_entry ce; \
 		memset(&ce, 0, sizeof(zend_class_entry)); \
 		INIT_NS_CLASS_ENTRY(ce, #ns, #classname, methods); \
-		phalcon_ ##name## _ce = zend_register_internal_interface(&ce TSRMLS_CC); \
+		lower_ns## _ ##name## _ce = zend_register_internal_interface(&ce TSRMLS_CC); \
 	}
 
-#define PHALCON_REGISTER_INTERFACE_EX(ns, classname, name, parent, methods) \
+#define ZEPHIR_REGISTER_INTERFACE_EX(ns, classname, lower_ns, lcname, parent_ce, methods) \
 	{ \
 		zend_class_entry ce; \
+		if (!parent_ce) { \
+			fprintf(stderr, "Can't register interface %s with null parent\n", ZEND_NS_NAME(#ns, #classname)); \
+			return FAILURE; \
+		} \
 		memset(&ce, 0, sizeof(zend_class_entry)); \
 		INIT_NS_CLASS_ENTRY(ce, #ns, #classname, methods); \
-		phalcon_ ##name## _ce = phalcon_register_internal_interface_ex(&ce, parent TSRMLS_CC); \
-		if (!phalcon_ ##name## _ce) { \
-			fprintf(stderr, "Can't register interface with parent: %s", parent); \
-			return FAILURE;	\
-		}  \
+		lower_ns## _ ##lcname## _ce = zephir_register_internal_interface_ex(&ce, parent_ce TSRMLS_CC); \
+		if (!lower_ns## _ ##lcname## _ce) { \
+			fprintf(stderr, "Can't register interface %s with parent %s\n", ZEND_NS_NAME(#ns, #classname), (parent_ce ? parent_ce->name : "(null)")); \
+			return FAILURE; \
+		} \
 	}
 
 /** Method declaration for API generation */
-#define PHALCON_DOC_METHOD(class_name, method)
+#define ZEPHIR_DOC_METHOD(class_name, method)
 
 /** Low overhead parse/fetch parameters */
-#define phalcon_fetch_params(memory_grow, required_params, optional_params, ...) \
-	if (phalcon_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+#define zephir_fetch_params(memory_grow, required_params, optional_params, ...) \
+	if (zephir_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
 		if (memory_grow) { \
 			RETURN_MM_NULL(); \
 		} else { \
@@ -330,7 +346,7 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 		} \
 	}
 
-#define PHALCON_VERIFY_INTERFACE(instance, interface_ce) \
+#define ZEPHIR_VERIFY_INTERFACE(instance, interface_ce) \
 	do { \
 		if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), interface_ce, 1 TSRMLS_CC)) { \
 			char *buf; \
@@ -340,13 +356,13 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 			else { \
 				spprintf(&buf, 0, "Unexpected value type: expected object implementing %s, object of type %s given", interface_ce->name, Z_OBJCE_P(instance)->name); \
 			} \
-			PHALCON_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
+			ZEPHIR_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
 			efree(buf); \
 			return; \
 		} \
 	} while (0)
 
-#define PHALCON_VERIFY_CLASS(instance, class_ce) \
+#define ZEPHIR_VERIFY_CLASS(instance, class_ce) \
 	do { \
 		if (Z_TYPE_P(instance) != IS_OBJECT || !instanceof_function_ex(Z_OBJCE_P(instance), class_ce, 0 TSRMLS_CC)) { \
 			char *buf; \
@@ -356,8 +372,10 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 			else { \
 				spprintf(&buf, 0, "Unexpected value type: expected object of type %s, object of type %s given", class_ce->name, Z_OBJCE_P(instance)->name); \
 			} \
-			PHALCON_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
+			ZEPHIR_THROW_EXCEPTION_STR(spl_ce_LogicException, buf); \
 			efree(buf); \
 			return; \
 		} \
 	} while (0)
+
+#endif

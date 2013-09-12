@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "ext_config.h"
 #endif
 
 #include "php.h"
-#include "php_test.h"
-#include "test.h"
+#include "../php_ext.h"
+#include "../ext.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -373,7 +373,8 @@ PHP_METHOD(Phalcon_Dispatcher, getParam) {
 			zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 				ZEPHIR_INIT_VAR(_0);
-				zephir_get_class_constant(_0, phalcon_dispatcher_ce, SS("EXCEPTION_NO_DI") TSRMLS_CC);
+				ZEPHIR_INIT_NVAR(_0);
+				ZVAL_LONG(_0, 0);
 				ZEPHIR_INIT_VAR(_1);
 				ZVAL_STRING(_1, "A dependency injection object is required to access the 'filter' service", 1);
 				zephir_call_method_p2_noret(this_ptr, "_throwdispatchexception", _1, _0);
@@ -469,7 +470,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(_0);
-		zephir_get_class_constant(_0, phalcon_dispatcher_ce, SS("EXCEPTION_NO_DI") TSRMLS_CC);
+		ZEPHIR_INIT_NVAR(_0);
+		ZVAL_LONG(_0, 0);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_STRING(_1, "A dependency injection container is required to access related dispatching services", 1);
 		zephir_call_method_p2_noret(this_ptr, "_throwdispatchexception", _1, _0);
@@ -506,7 +508,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		numberDispatches++;
 		if ((numberDispatches == 256)) {
 			ZEPHIR_INIT_NVAR(_1);
-			zephir_get_class_constant(_1, phalcon_dispatcher_ce, SS("EXCEPTION_CYCLIC_ROUTING") TSRMLS_CC);
+			ZEPHIR_INIT_NVAR(_1);
+			ZVAL_LONG(_1, 1);
 			ZEPHIR_INIT_NVAR(_3);
 			ZVAL_STRING(_3, "Dispatcher has detected a cyclic routing causing stability problems", 1);
 			zephir_call_method_p2_noret(this_ptr, "_throwdispatchexception", _3, _1);
@@ -582,7 +585,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			ZEPHIR_INIT_LNVAR(_7);
 			ZEPHIR_CONCAT_VS(_7, handlerClass, " handler class cannot be loaded");
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_get_class_constant(_3, phalcon_dispatcher_ce, SS("EXCEPTION_HANDLER_NOT_FOUND") TSRMLS_CC);
+			ZEPHIR_INIT_NVAR(_3);
+			ZVAL_LONG(_3, 2);
 			ZEPHIR_INIT_NVAR(status);
 			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _7, _3);
 			if (ZEPHIR_IS_FALSE(status)) {
@@ -597,7 +601,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		zephir_call_method_p1(handler, dependencyInjector, "getshared", handlerClass);
 		if (Z_TYPE_P(handler) != IS_OBJECT) {
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_get_class_constant(_3, phalcon_dispatcher_ce, SS("EXCEPTION_INVALID_HANDLER") TSRMLS_CC);
+			ZEPHIR_INIT_NVAR(_3);
+			ZVAL_LONG(_3, 3);
 			ZEPHIR_INIT_NVAR(_5);
 			ZVAL_STRING(_5, "Invalid handler returned from the services container", 1);
 			ZEPHIR_INIT_NVAR(status);
@@ -615,7 +620,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		zephir_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 		if (Z_TYPE_P(params) != IS_ARRAY) {
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_get_class_constant(_3, phalcon_dispatcher_ce, SS("EXCEPTION_INVALID_PARAMS") TSRMLS_CC);
+			ZEPHIR_INIT_NVAR(_3);
+			ZVAL_LONG(_3, 4);
 			ZEPHIR_INIT_NVAR(_5);
 			ZVAL_STRING(_5, "Action parameters must be an Array", 1);
 			ZEPHIR_INIT_NVAR(status);
@@ -655,7 +661,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			ZEPHIR_INIT_LNVAR(_11);
 			ZEPHIR_CONCAT_VS(_11, _10, "'");
 			ZEPHIR_INIT_NVAR(_9);
-			zephir_get_class_constant(_9, phalcon_dispatcher_ce, SS("EXCEPTION_ACTION_NOT_FOUND") TSRMLS_CC);
+			ZEPHIR_INIT_NVAR(_9);
+			ZVAL_LONG(_9, 5);
 			ZEPHIR_INIT_NVAR(status);
 			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _11, _9);
 			if (ZEPHIR_IS_FALSE(status)) {

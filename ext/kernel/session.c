@@ -1,18 +1,19 @@
+
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team  (http://www.zephir-lang.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
@@ -22,46 +23,46 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/session.h"
 
-#ifdef PHALCON_USE_PHP_SESSION
+#ifdef ZEPHIR_USE_PHP_SESSION
 #include "ext/session/php_session.h"
 #endif
 
-void phalcon_session_start(TSRMLS_D)
+void zephir_session_start(TSRMLS_D)
 {
-#ifdef PHALCON_USE_PHP_SESSION
+#ifdef ZEPHIR_USE_PHP_SESSION
 	php_session_start(TSRMLS_C);
 #else
-	phalcon_call_func_params(NULL, NULL, SL("session_start") TSRMLS_CC, 0);
+	zephir_call_func_params(NULL, NULL, SL("session_start") TSRMLS_CC, 0);
 #endif
 }
 
-void phalcon_session_destroy(TSRMLS_D)
+void zephir_session_destroy(TSRMLS_D)
 {
-	phalcon_call_func_params(NULL, NULL, SL("session_destroy") TSRMLS_CC, 0);
+	zephir_call_func_params(NULL, NULL, SL("session_destroy") TSRMLS_CC, 0);
 }
 
-void phalcon_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC)
+void zephir_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_DC)
 {
-#ifdef PHALCON_USE_PHP_SESSION
+#ifdef ZEPHIR_USE_PHP_SESSION
 	if (PS(id)) {
 		RETURN_STRING(PS(id), 1);
 	}
 
 	RETURN_EMPTY_STRING();
 #else
-	phalcon_call_func_params(return_value, return_value_ptr, SL("session_id") TSRMLS_CC, 0);
+	zephir_call_func_params(return_value, return_value_ptr, SL("session_id") TSRMLS_CC, 0);
 #endif
 }
 
-void phalcon_set_session_id(zval *sid TSRMLS_DC)
+void zephir_set_session_id(zval *sid TSRMLS_DC)
 {
-#ifdef PHALCON_USE_PHP_SESSION
+#ifdef ZEPHIR_USE_PHP_SESSION
 	zval copy;
 	int use_copy = 0;
 
@@ -82,6 +83,6 @@ void phalcon_set_session_id(zval *sid TSRMLS_DC)
 		zval_dtor(&copy);
 	}
 #else
-	phalcon_call_func_params(NULL, NULL, SL("session_id") TSRMLS_CC, 1, sid);
+	zephir_call_func_params(NULL, NULL, SL("session_id") TSRMLS_CC, 1, sid);
 #endif
 }

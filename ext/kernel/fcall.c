@@ -1,19 +1,19 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -22,7 +22,7 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 
 #include "Zend/zend_API.h"
 #include "Zend/zend_exceptions.h"
@@ -37,13 +37,12 @@
 
 #include "kernel/alternative/fcall.h"
 
-int phalcon_has_constructor_ce(zend_class_entry *ce) {
+int zephir_has_constructor_ce(zend_class_entry *ce) {
 
 	while (ce) {
 		if (ce->constructor) {
 			return 1;
 		}
-
 		ce = ce->parent;
 	}
 
@@ -53,54 +52,52 @@ int phalcon_has_constructor_ce(zend_class_entry *ce) {
 /**
  * Check if an object has a constructor
  */
-int phalcon_has_constructor(const zval *object TSRMLS_DC){
-
-	return phalcon_has_constructor_ce(Z_OBJCE_P(object));
+int zephir_has_constructor(const zval *object TSRMLS_DC){
+	return zephir_has_constructor_ce(Z_OBJCE_P(object));
 }
 
 /**
  * Calls a function/method in the PHP userland
  */
-static int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zval **retval_ptr_ptr, zend_uint param_count, zval *params[] TSRMLS_DC) {
+static int zephir_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zval **retval_ptr_ptr, zend_uint param_count, zval *params[] TSRMLS_DC) {
 
 	zval ***params_array = NULL;
-	zval **static_params_array[5];
+	zval **static_params_array[10];
 	zval ***params_ptr;
 	zval *local_retval_ptr = NULL;
 	zend_uint i;
-	int ex_retval, use_heap;
+	int ex_retval;
 	zend_fcall_info fci;
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+	zend_zephir_globals *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 
 	if (retval_ptr_ptr && *retval_ptr_ptr) {
 		zval_ptr_dtor(retval_ptr_ptr);
 		*retval_ptr_ptr = NULL;
 	}
 
-	phalcon_globals_ptr->recursive_lock++;
+	zephir_globals_ptr->recursive_lock++;
 
-	if (unlikely(phalcon_globals_ptr->recursive_lock > 2048)) {
+	if (unlikely(zephir_globals_ptr->recursive_lock > 2048)) {
 		ex_retval = FAILURE;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");
 	} else {
 
 		if (param_count) {
-			if (param_count > 5) {
-				params_array = (zval ***) do_alloca(sizeof(zval **) * param_count, use_heap);
+			if (unlikely(param_count > 10)) {
+				params_array = (zval ***) emalloc(param_count * sizeof(zval**));
+				params_ptr   = params_array;
 				for (i = 0; i < param_count; i++) {
 					params_array[i] = &params[i];
 				}
 			} else {
+				params_ptr = static_params_array;
 				for (i = 0; i < param_count; i++) {
 					static_params_array[i] = &params[i];
 				}
 			}
 		}
-
-		if (unlikely(param_count > 5)) {
-			params_ptr = params_array;
-		} else {
-			params_ptr = static_params_array;
+		else {
+			params_ptr = NULL;
 		}
 
 		fci.size           = sizeof(fci);
@@ -113,7 +110,7 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 		fci.no_separation  = 1;
 		fci.symbol_table   = NULL;
 
-		ex_retval = PHALCON_ZEND_CALL_FUNCTION_WRAPPER(&fci, NULL TSRMLS_CC);
+		ex_retval = ZEPHIR_ZEND_CALL_FUNCTION_WRAPPER(&fci, NULL TSRMLS_CC);
 
 		if (local_retval_ptr) {
 			if (Z_TYPE_P(local_retval_ptr) == IS_NULL) {
@@ -127,65 +124,80 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 			INIT_ZVAL(*retval_ptr);
 		}
 
-		if (params_array) {
-			free_alloca(params_array, use_heap);
+		if (unlikely(params_array != NULL)) {
+			efree(params_array);
 		}
 	}
 
-	phalcon_globals_ptr->recursive_lock--;
+	zephir_globals_ptr->recursive_lock--;
 
 	return ex_retval;
 }
 
 
-static void phalcon_check_return_value(zval *return_value) {
-#ifndef PHALCON_RELEASE
+static void zephir_check_return_value(zval *return_value) {
+#ifndef ZEPHIR_RELEASE
 	int valid_return_value = 1;
 
 	assert(return_value != NULL);
 
 	if (Z_REFCOUNT_P(return_value) > 1) {
 		valid_return_value = 0;
-		fprintf(stderr, "return_value has %d references, expect crashes!\n", Z_REFCOUNT_P(return_value));
+		fprintf(stderr, "return_value has %u references, expect crashes!\n", Z_REFCOUNT_P(return_value));
 	} else if (Z_TYPE_P(return_value) > IS_BOOL) {
 		valid_return_value = 0;
-		fprintf(stderr, "return_value is of complex type (%d), expect memory leaks!\n", Z_TYPE_P(return_value));
+		fprintf(stderr, "return_value is of complex type (%d), expect memory leaks (refcnt=%u)!\n", Z_TYPE_P(return_value), Z_REFCOUNT_P(return_value));
 	}
 
 	if (!valid_return_value) {
-		phalcon_print_backtrace();
+		zephir_print_backtrace();
+		abort();
 	}
 #endif
 }
 
-static int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr, zval *func TSRMLS_DC, int param_count, va_list ap)
+static int zephir_call_func_vparams(zval *return_value, zval **return_value_ptr, zval *func TSRMLS_DC, int param_count, va_list ap)
 {
-	zval **params = NULL;
-	int use_heap = -1, i, status, caller_wants_result = 1;
+	zval **params_ptr, **params = NULL;
+	zval *static_params[10];
+	int free_params = 0, i, status, caller_wants_result = 1;
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
 		caller_wants_result = 0;
-	}
-	else {
-		phalcon_check_return_value(return_value);
+	} else {
+		zephir_check_return_value(return_value);
 	}
 
 	if (param_count < 0) {
 		params      = va_arg(ap, zval**);
 		param_count = -param_count;
-	}
-	else if (param_count > 0) {
-		params = (zval**)do_alloca(sizeof(zval*) * param_count, use_heap);
-		for (i=0; i<param_count; ++i) {
-			params[i] = va_arg(ap, zval*);
+		params_ptr  = params;
+	} else {
+		if (param_count > 0 && param_count <= 10) {
+			params_ptr = static_params;
+			for (i = 0; i < param_count; ++i) {
+				static_params[i] = va_arg(ap, zval*);
+			}
+		} else {
+			if (unlikely(param_count > 10)) {
+				free_params = 1;
+				params      = (zval**)emalloc(param_count * sizeof(zval*));
+				params_ptr  = params;
+				for (i = 0; i < param_count; ++i) {
+					params[i] = va_arg(ap, zval*);
+				}
+			} else {
+				params_ptr = NULL;
+			}
 		}
 	}
 
-	status = phalcon_call_user_function(EG(function_table), NULL, func, return_value, return_value_ptr, param_count, params TSRMLS_CC);
 
-	if (-1 != use_heap) {
-		free_alloca(params, use_heap);
+	status = zephir_call_user_function(EG(function_table), NULL, func, return_value, return_value_ptr, param_count, params_ptr TSRMLS_CC);
+
+	if (unlikely(free_params)) {
+		efree(params);
 	}
 
 	if (status == FAILURE) {
@@ -202,11 +214,12 @@ static int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr
 	return status;
 }
 
-int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
+int zephir_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
 
-	int i, status, use_heap = -1, caller_wants_result = 1;
+	int i, status, free_params = -0, caller_wants_result = 1;
 	zend_class_entry *ce, *active_scope = NULL;
-	zval **params = NULL;
+	zval **params_ptr, **params = NULL;
+	zval *static_params[10];
 
 	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
@@ -216,38 +229,50 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
 		caller_wants_result = 0;
-	}
-	else {
-		phalcon_check_return_value(return_value);
+	} else {
+		zephir_check_return_value(return_value);
 	}
 
 	if (param_count < 0) {
 		params      = va_arg(ap, zval**);
 		param_count = -param_count;
+		params_ptr  = params;
 	}
-	else if (param_count > 0) {
-		params = (zval**)do_alloca(sizeof(zval*) * param_count, use_heap);
+	else if (param_count > 0 && param_count <= 10) {
+		params_ptr = static_params;
+		for (i=0; i<param_count; ++i) {
+			static_params[i] = va_arg(ap, zval*);
+		}
+	}
+	else if (unlikely(param_count > 10)) {
+		free_params = 1;
+		params      = (zval**)emalloc(param_count * sizeof(zval*));
+		params_ptr  = params;
 		for (i=0; i<param_count; ++i) {
 			params[i] = va_arg(ap, zval*);
 		}
+	}
+	else {
+		params_ptr = NULL;
 	}
 
 	ce           = Z_OBJCE_P(object);
 	active_scope = EG(scope);
 	EG(scope)    = ce;
-	status       = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, return_value_ptr, param_count, params, method_key TSRMLS_CC);
+	status       = zephir_alt_call_user_method(ce, &object, method_name, method_len, return_value, return_value_ptr, param_count, params_ptr, method_key TSRMLS_CC);
 	EG(scope)    = active_scope;
 
-	if (-1 != use_heap) {
-		free_alloca(params, use_heap);
+	if (unlikely(free_params)) {
+		efree(params);
 	}
 
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s::%s()", ce->name, method_name);
 		status = FAILURE;
-	}
-	else if (EG(exception)) {
-		status = FAILURE;
+	} else {
+		if (EG(exception)) {
+			status = FAILURE;
+		}
 	}
 
 	if (!caller_wants_result) {
@@ -260,17 +285,18 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 /**
  * Call single static function on a zval which requires parameters
  */
-static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **return_value_ptr, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, va_list ap) {
+static int zephir_call_static_zval_str_func_vparams(zval *return_value, zval **return_value_ptr, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, va_list ap) {
 
-	zval **params = NULL, *fn;
-	int use_heap = -1, i, status, caller_wants_result = 1;
+	zval **params_ptr, **params = NULL, *fn;
+	zval *static_params[10];
+	int free_params = 0, i, status, caller_wants_result = 1;
 
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
 		caller_wants_result = 0;
 	}
 	else {
-		phalcon_check_return_value(return_value);
+		zephir_check_return_value(return_value);
 	}
 
 	Z_ADDREF_P(mixed_name);
@@ -283,18 +309,29 @@ static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **
 	if (param_count < 0) {
 		params      = va_arg(ap, zval**);
 		param_count = -param_count;
+		params_ptr  = params;
+	} else if (param_count > 0 && param_count <= 10) {
+		params_ptr = static_params;
+		for (i=0; i<param_count; ++i) {
+			static_params[i] = va_arg(ap, zval*);
+		}
 	}
-	else if (param_count > 0) {
-		params = (zval**)do_alloca(sizeof(zval*) * param_count, use_heap);
+	else if (unlikely(param_count > 10)) {
+		free_params = 1;
+		params      = (zval**)emalloc(param_count * sizeof(zval*));
+		params_ptr  = params;
 		for (i=0; i<param_count; ++i) {
 			params[i] = va_arg(ap, zval*);
 		}
 	}
+	else {
+		params_ptr = NULL;
+	}
 
-	status = phalcon_call_user_function(EG(function_table), NULL, fn, return_value, return_value_ptr, param_count, params TSRMLS_CC);
+	status = zephir_call_user_function(EG(function_table), NULL, fn, return_value, return_value_ptr, param_count, params_ptr TSRMLS_CC);
 
-	if (-1 != use_heap) {
-		free_alloca(params, use_heap);
+	if (unlikely(free_params)) {
+		efree(params);
 	}
 
 	if (status == FAILURE) {
@@ -328,7 +365,7 @@ static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **
  * @retval @c SUCCESS
  * @retval @c FAILURE
  */
-int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const char *func_name, int func_length TSRMLS_DC, int param_count, ...) {
+int zephir_call_func_params(zval *return_value, zval **return_value_ptr, const char *func_name, int func_length TSRMLS_DC, int param_count, ...) {
 	zval fn;
 	int status;
 	va_list ap;
@@ -337,7 +374,7 @@ int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const 
 	ZVAL_STRINGL(&fn, func_name, func_length, 0);
 
 	va_start(ap, param_count);
-	status = phalcon_call_func_vparams(return_value, return_value_ptr, &fn TSRMLS_CC, param_count, ap);
+	status = zephir_call_func_vparams(return_value, return_value_ptr, &fn TSRMLS_CC, param_count, ap);
 	va_end(ap);
 
 	return status;
@@ -355,19 +392,19 @@ int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const 
  * @retval @c SUCCESS
  * @retval @c FAILURE
  */
-int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, ...) {
+int zephir_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, ...) {
 
 	int status;
 	va_list ap;
 
 	va_start(ap, param_count);
-	status = phalcon_call_method_vparams(return_value, return_value_ptr, object, method_name, method_len, method_key TSRMLS_CC, param_count, ap);
+	status = zephir_call_method_vparams(return_value, return_value_ptr, object, method_name, method_len, method_key TSRMLS_CC, param_count, ap);
 	va_end(ap);
 
 	return status;
 }
 
-int phalcon_call_method_zval_params(zval *return_value, zval **return_value_ptr, zval *object, zval *method TSRMLS_DC, int param_count, ...)
+int zephir_call_method_zval_params(zval *return_value, zval **return_value_ptr, zval *object, zval *method TSRMLS_DC, int param_count, ...)
 {
 	if (likely(Z_TYPE_P(method) == IS_STRING)) {
 		va_list ap;
@@ -375,7 +412,7 @@ int phalcon_call_method_zval_params(zval *return_value, zval **return_value_ptr,
 		char *m = Z_STRVAL_P(method);
 
 		va_start(ap, param_count);
-		status = phalcon_call_method_vparams(return_value, return_value_ptr, object, m, Z_STRLEN_P(method), (IS_INTERNED(m) ? INTERNED_HASH(m) : 0) TSRMLS_CC, param_count, ap);
+		status = zephir_call_method_vparams(return_value, return_value_ptr, object, m, Z_STRLEN_P(method), (IS_INTERNED(m) ? INTERNED_HASH(m) : 0) TSRMLS_CC, param_count, ap);
 		va_end(ap);
 
 		return status;
@@ -389,7 +426,7 @@ int phalcon_call_method_zval_params(zval *return_value, zval **return_value_ptr,
 /**
  * Call single static function that requires an arbitrary number of parameters
  */
-int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr, char *class_name, int class_length, char *method_name, int method_length TSRMLS_DC, int param_count, ...) {
+int zephir_call_static_func_params(zval *return_value, zval **return_value_ptr, char *class_name, int class_length, char *method_name, int method_length TSRMLS_DC, int param_count, ...) {
 
 	zval cls;
 	va_list ap;
@@ -399,7 +436,7 @@ int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr,
 	ZVAL_STRINGL(&cls, class_name, class_length, 0);
 
 	va_start(ap, param_count);
-	status = phalcon_call_static_zval_str_func_vparams(return_value, return_value_ptr, &cls, method_name, method_length TSRMLS_CC, param_count, ap);
+	status = zephir_call_static_zval_str_func_vparams(return_value, return_value_ptr, &cls, method_name, method_length TSRMLS_CC, param_count, ap);
 	va_end(ap);
 
 	assert(!Z_ISREF_P(&cls));
@@ -410,14 +447,14 @@ int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr,
 /**
  * Call parent static function that requires an arbitrary number of parameters
  */
-int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
+int zephir_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
 
 	zval cls;
 	int status;
 	zend_class_entry *active_scope;
 	va_list ap;
 
-	if (object) {
+	if (active_class_ce) {
 		active_scope = EG(scope);
 		EG(scope)    = active_class_ce;
 	}
@@ -426,10 +463,10 @@ int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr,
 	ZVAL_STRING(&cls, "parent", 0);
 
 	va_start(ap, param_count);
-	status = phalcon_call_static_zval_str_func_vparams(return_value, return_value_ptr, &cls, method_name, method_len TSRMLS_CC, param_count, ap);
+	status = zephir_call_static_zval_str_func_vparams(return_value, return_value_ptr, &cls, method_name, method_len TSRMLS_CC, param_count, ap);
 	va_end(ap);
 
-	if (object) {
+	if (active_class_ce) {
 		EG(scope) = active_scope;
 	}
 
@@ -439,7 +476,7 @@ int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr,
 /**
  * Call self-class static function which requires parameters
  */
-int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
+int zephir_call_self_func_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
 
 	int status;
 	zend_class_entry *active_scope;
@@ -455,7 +492,7 @@ int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, z
 	ZVAL_STRING(&cls, "self", 0);
 
 	va_start(ap, param_count);
-	status = phalcon_call_static_zval_str_func_vparams(return_value, return_value_ptr, &cls, method_name, method_len TSRMLS_CC, param_count, ap);
+	status = zephir_call_static_zval_str_func_vparams(return_value, return_value_ptr, &cls, method_name, method_len TSRMLS_CC, param_count, ap);
 	va_end(ap);
 
 	if (object) {
@@ -468,14 +505,14 @@ int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, z
 /**
  * Call single static function on a zval which requires parameters
  */
-int phalcon_call_static_zval_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, zval *method TSRMLS_DC, int param_count, ...) {
+int zephir_call_static_zval_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, zval *method TSRMLS_DC, int param_count, ...) {
 
 	if (likely(Z_TYPE_P(method) == IS_STRING)) {
 		int status;
 		va_list ap;
 
 		va_start(ap, param_count);
-		status = phalcon_call_static_zval_str_func_vparams(return_value, return_value_ptr, mixed_name, Z_STRVAL_P(method), Z_STRLEN_P(method) TSRMLS_CC, param_count, ap);
+		status = zephir_call_static_zval_str_func_vparams(return_value, return_value_ptr, mixed_name, Z_STRVAL_P(method), Z_STRLEN_P(method) TSRMLS_CC, param_count, ap);
 		va_end(ap);
 
 		return status;
@@ -485,13 +522,13 @@ int phalcon_call_static_zval_func_params(zval *return_value, zval **return_value
 	return FAILURE;
 }
 
-int phalcon_call_static_zval_str_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
+int zephir_call_static_zval_str_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
 
 	int status;
 	va_list ap;
 
 	va_start(ap, param_count);
-	status = phalcon_call_static_zval_str_func_vparams(return_value, return_value_ptr, mixed_name, method_name, method_len TSRMLS_CC, param_count, ap);
+	status = zephir_call_static_zval_str_func_vparams(return_value, return_value_ptr, mixed_name, method_name, method_len TSRMLS_CC, param_count, ap);
 	va_end(ap);
 
 	return status;
@@ -501,9 +538,9 @@ int phalcon_call_static_zval_str_func_params(zval *return_value, zval **return_v
 /**
  * Replaces call_user_func_array avoiding function lookup
  */
-int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params TSRMLS_DC){
+int zephir_call_user_func_array(zval *return_value, zval *handler, zval *params TSRMLS_DC){
 
-	int status = phalcon_call_user_func_array_noex(return_value, handler, params TSRMLS_CC);
+	int status = zephir_call_user_func_array_noex(return_value, handler, params TSRMLS_CC);
 
 	if (EG(exception)) {
 		status = FAILURE;
@@ -516,7 +553,7 @@ int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params
  * Replaces call_user_func_array avoiding function lookup
  * This function does not return FAILURE if an exception has ocurred
  */
-int phalcon_call_user_func_array_noex(zval *return_value, zval *handler, zval *params TSRMLS_DC){
+int zephir_call_user_func_array_noex(zval *return_value, zval *handler, zval *params TSRMLS_DC){
 
 	zval *retval_ptr = NULL;
 	zend_fcall_info fci;
@@ -526,7 +563,7 @@ int phalcon_call_user_func_array_noex(zval *return_value, zval *handler, zval *p
 
 	if (params && Z_TYPE_P(params) != IS_ARRAY) {
 		ZVAL_NULL(return_value);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_call_user_func_array_noex()");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for zephir_call_user_func_array_noex()");
 		return FAILURE;
 	}
 
@@ -568,7 +605,7 @@ int phalcon_call_user_func_array_noex(zval *return_value, zval *handler, zval *p
 
 #if PHP_VERSION_ID <= 50309
 
-int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC) {
+int zephir_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC) {
 
 	zend_uint i;
 	zval **original_return_value;
@@ -596,7 +633,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 		case sizeof(zend_fcall_info):
 			break; /* nothing to do currently */
 		default:
-			zend_error(E_ERROR, "Corrupted fcall_info provided to phalcon_call_function()");
+			zend_error(E_ERROR, "Corrupted fcall_info provided to zephir_call_function()");
 			break;
 	}
 
@@ -850,7 +887,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 	EG(current_execute_data) = EX(prev_execute_data);
 
 	if (EG(exception)) {
-		phalcon_throw_exception_internal(NULL TSRMLS_CC);
+		zephir_throw_exception_internal(NULL TSRMLS_CC);
 	}
 	return SUCCESS;
 }

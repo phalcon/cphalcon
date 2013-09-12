@@ -1,19 +1,19 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -22,11 +22,11 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 
 #include "kernel/memory.h"
 
-int phalcon_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
+int zephir_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 {
 	ulong h;
 	uint nIndex;
@@ -47,7 +47,7 @@ int phalcon_hash_exists(const HashTable *ht, const char *arKey, uint nKeyLength)
 	return 0;
 }
 
-int phalcon_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h)
+int zephir_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h)
 {
 	uint nIndex;
 	Bucket *p;
@@ -70,7 +70,7 @@ int phalcon_hash_quick_exists(const HashTable *ht, const char *arKey, uint nKeyL
 	return 0;
 }
 
-int phalcon_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, void **pData)
+int zephir_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, void **pData)
 {
 	ulong h;
 	uint nIndex;
@@ -92,7 +92,7 @@ int phalcon_hash_find(const HashTable *ht, const char *arKey, uint nKeyLength, v
 	return FAILURE;
 }
 
-int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h, void **pData)
+int zephir_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLength, ulong h, void **pData)
 {
 	uint nIndex;
 	Bucket *p;
@@ -119,11 +119,11 @@ int phalcon_hash_quick_find(const HashTable *ht, const char *arKey, uint nKeyLen
 /**
  * Assigns the current value in a hash traversing to a zval
  */
-void phalcon_get_current_key(zval **key, const HashTable *hash_table, HashPosition *hash_position TSRMLS_DC)
+void zephir_get_current_key(zval **key, const HashTable *hash_table, HashPosition *hash_position TSRMLS_DC)
 {
 	Bucket *p;
 
-	PHALCON_INIT_NVAR_PNULL(*key);
+	ZEPHIR_INIT_NVAR_PNULL(*key);
 
 	p = hash_position ? (*hash_position) : hash_table->pInternalPointer;
 
@@ -137,7 +137,7 @@ void phalcon_get_current_key(zval **key, const HashTable *hash_table, HashPositi
 
 }
 
-zval phalcon_get_current_key_w(const HashTable *hash_table, HashPosition *hash_position)
+zval zephir_get_current_key_w(const HashTable *hash_table, HashPosition *hash_position)
 {
 	Bucket *p;
 	zval result;
@@ -159,7 +159,7 @@ zval phalcon_get_current_key_w(const HashTable *hash_table, HashPosition *hash_p
 /**
  * Traverses the hash checking if at least one of the keys is numeric
  */
-int phalcon_has_numeric_keys(const zval *data)
+int zephir_has_numeric_keys(const zval *data)
 {
 	HashTable *ht;
 
@@ -189,7 +189,7 @@ int phalcon_has_numeric_keys(const zval *data)
  * @note If @a key is @c NULL or is @c IS_NULL, @a value is appended to @a ht
  * @throw E_WARNING if @a key type is not supported
  */
-void phalcon_hash_update_or_insert(HashTable *ht, zval *key, zval *value)
+void zephir_hash_update_or_insert(HashTable *ht, zval *key, zval *value)
 {
 	if (!key || Z_TYPE_P(key) == IS_NULL) {
 		zend_hash_next_index_insert(ht, (void**)&value, sizeof(zval*), NULL);
@@ -230,7 +230,7 @@ void phalcon_hash_update_or_insert(HashTable *ht, zval *key, zval *value)
  * @note The implementation is suitable for @c read_property, @c get_property_ptr_ptr and @c read_dimension object handlers
  * @warning If @a type is @c BP_VAR_W or @c BP_VAR_RW and @a key was not found, it is added to @a ht and its value is set to @c IS_NULL
  */
-zval** phalcon_hash_get(HashTable *ht, zval *key, int type)
+zval** zephir_hash_get(HashTable *ht, zval *key, int type)
 {
 	zval **ret = NULL;
 
@@ -310,7 +310,7 @@ zval** phalcon_hash_get(HashTable *ht, zval *key, int type)
  * @param key
  * @return
  */
-int phalcon_hash_unset(HashTable *ht, zval *key)
+int zephir_hash_unset(HashTable *ht, zval *key)
 {
 	switch (Z_TYPE_P(key)) {
 		case IS_LONG:

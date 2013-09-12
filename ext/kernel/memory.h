@@ -1,70 +1,82 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
   +------------------------------------------------------------------------+
 */
 
+#ifndef ZEPHIR_KERNEL_MEMORY_H
+#define ZEPHIR_KERNEL_MEMORY_H
+
 /* Variable Tracking */
-extern void phalcon_init_nvar(zval **var TSRMLS_DC);
-extern void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
-extern void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
+extern void zephir_init_nvar(zval **var TSRMLS_DC);
+extern void zephir_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
+extern void zephir_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
+
+extern void zephir_value_dtor(zval *zvalue ZEND_FILE_LINE_DC);
 
 /* Memory Frames */
-#ifndef PHALCON_RELEASE
-void PHALCON_FASTCALL phalcon_memory_grow_stack(const char *func TSRMLS_DC);
-int PHALCON_FASTCALL phalcon_memory_restore_stack(const char *func TSRMLS_DC);
+#ifndef ZEPHIR_RELEASE
+void ZEPHIR_FASTCALL zephir_memory_grow_stack(const char *func TSRMLS_DC);
+int ZEPHIR_FASTCALL zephir_memory_restore_stack(const char *func TSRMLS_DC);
 
-#define PHALCON_MM_GROW() phalcon_memory_grow_stack(__func__ TSRMLS_CC)
-#define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(__func__ TSRMLS_CC)
+#define ZEPHIR_MM_GROW() zephir_memory_grow_stack(NULL TSRMLS_CC)
+#define ZEPHIR_MM_RESTORE() zephir_memory_restore_stack(NULL TSRMLS_CC)
 
 #else
-void PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D);
-int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
+void ZEPHIR_FASTCALL zephir_memory_grow_stack(TSRMLS_D);
+int ZEPHIR_FASTCALL zephir_memory_restore_stack(TSRMLS_D);
 
-#define PHALCON_MM_GROW() phalcon_memory_grow_stack(TSRMLS_C)
-#define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(TSRMLS_C)
+#define ZEPHIR_MM_GROW() zephir_memory_grow_stack(TSRMLS_C)
+#define ZEPHIR_MM_RESTORE() zephir_memory_restore_stack(TSRMLS_C)
 
 #endif
 
-extern void PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC);
-extern void PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC);
-extern void PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
-extern void PHALCON_FASTCALL phalcon_memory_alloc_pnull(zval **var TSRMLS_DC);
+extern void ZEPHIR_FASTCALL zephir_memory_observe(zval **var TSRMLS_DC);
+extern void ZEPHIR_FASTCALL zephir_memory_remove(zval **var TSRMLS_DC);
+extern void ZEPHIR_FASTCALL zephir_memory_alloc(zval **var TSRMLS_DC);
+extern void ZEPHIR_FASTCALL zephir_memory_alloc_pnull(zval **var TSRMLS_DC);
 
-extern int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
+extern int ZEPHIR_FASTCALL zephir_clean_restore_stack(TSRMLS_D);
 
 /* Virtual symbol tables */
-extern void phalcon_create_symbol_table(TSRMLS_D);
-/*extern void phalcon_restore_symbol_table(TSRMLS_D);*/
-extern void phalcon_clean_symbol_tables(TSRMLS_D);
+extern void zephir_create_symbol_table(TSRMLS_D);
+/*extern void zephir_restore_symbol_table(TSRMLS_D);*/
+extern void zephir_clean_symbol_tables(TSRMLS_D);
 
 /** Export symbols to active symbol table */
-extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
-extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
+extern int zephir_set_symbol(zval *key_name, zval *value TSRMLS_DC);
+extern int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
 
-extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
+extern void ZEPHIR_FASTCALL zephir_copy_ctor(zval *destiny, zval *origin);
 
 /* Memory macros */
-#define PHALCON_ALLOC_ZVAL(z) \
+#define ZEPHIR_ALLOC_ZVAL(z) \
 	ALLOC_INIT_ZVAL(z)
 
-#define PHALCON_INIT_VAR(z) \
-	phalcon_memory_alloc(&z TSRMLS_CC)
+#define ZEPHIR_SINIT_VAR(z) \
+	INIT_PZVAL(&z); \
+	ZVAL_NULL(&z);
 
-#define PHALCON_INIT_NVAR(z)\
+#define ZEPHIR_SINIT_NVAR(z)
+
+#define ZEPHIR_INIT_VAR(z) \
+	zephir_memory_alloc(&z TSRMLS_CC)
+
+#define ZEPHIR_INIT_NVAR(z)\
 	if (z) { \
 		if (Z_REFCOUNT_P(z) > 1) { \
 			Z_DELREF_P(z); \
@@ -74,13 +86,29 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 			ZVAL_NULL(z); \
 		} else {\
 			zval_ptr_dtor(&z); \
-			PHALCON_ALLOC_ZVAL(z); \
+			ZEPHIR_ALLOC_ZVAL(z); \
 		} \
 	} else { \
-		phalcon_memory_alloc(&z TSRMLS_CC); \
+		zephir_memory_alloc(&z TSRMLS_CC); \
 	}
 
-#define PHALCON_INIT_NVAR_PNULL(z)\
+/**
+ * Second allocation, assumes the variable was allocated for the first time
+ * in the branch zero
+ */
+#define ZEPHIR_INIT_BNVAR(z) \
+	if (Z_REFCOUNT_P(z) > 1) { \
+		Z_DELREF_P(z); \
+		ALLOC_ZVAL(z); \
+		Z_SET_REFCOUNT_P(z, 1); \
+		Z_UNSET_ISREF_P(z); \
+		ZVAL_NULL(z); \
+	} else {\
+		zval_ptr_dtor(&z); \
+		ZEPHIR_ALLOC_ZVAL(z); \
+	}
+
+#define ZEPHIR_INIT_NVAR_PNULL(z)\
 	if (z) { \
 		if (Z_REFCOUNT_P(z) > 1) { \
 			Z_DELREF_P(z); \
@@ -94,30 +122,47 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		} else {\
 			ZVAL_NULL(z); \
 			zval_ptr_dtor(&z); \
-			PHALCON_ALLOC_ZVAL(z); \
+			ZEPHIR_ALLOC_ZVAL(z); \
 		} \
 	} else { \
-		phalcon_memory_alloc_pnull(&z TSRMLS_CC); \
+		zephir_memory_alloc_pnull(&z TSRMLS_CC); \
 	}
 
-#define PHALCON_CPY_WRT(d, v) \
+/* only removes the value body of the zval */
+#define ZEPHIR_INIT_LNVAR(z)\
+	if (z) { \
+		if (Z_REFCOUNT_P(z) > 1) { \
+			Z_DELREF_P(z); \
+			ALLOC_ZVAL(z); \
+			Z_SET_REFCOUNT_P(z, 1); \
+			Z_UNSET_ISREF_P(z); \
+			ZVAL_NULL(z); \
+		} else {\
+			zephir_value_dtor(z ZEND_FILE_LINE_CC); \
+			ZVAL_NULL(z); \
+		} \
+	} else { \
+		zephir_memory_alloc(&z TSRMLS_CC); \
+	}
+
+#define ZEPHIR_CPY_WRT(d, v) \
 	if (d) { \
 		if (Z_REFCOUNT_P(d) > 0) { \
 			zval_ptr_dtor(&d); \
 		} \
 	} else { \
-		phalcon_memory_observe(&d TSRMLS_CC); \
+		zephir_memory_observe(&d TSRMLS_CC); \
 	} \
 	Z_ADDREF_P(v); \
 	d = v;
 
-#define PHALCON_CPY_WRT_CTOR(d, v) \
+#define ZEPHIR_CPY_WRT_CTOR(d, v) \
 	if (d) { \
 		if (Z_REFCOUNT_P(d) > 0) { \
 			zval_ptr_dtor(&d); \
 		} \
 	} else { \
-		phalcon_memory_observe(&d TSRMLS_CC); \
+		zephir_memory_observe(&d TSRMLS_CC); \
 	} \
 	ALLOC_ZVAL(d); \
 	*d = *v; \
@@ -126,10 +171,10 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 	Z_UNSET_ISREF_P(d);
 
 /* */
-#define PHALCON_OBS_VAR(z) \
-	phalcon_memory_observe(&z TSRMLS_CC)
+#define ZEPHIR_OBS_VAR(z) \
+	zephir_memory_observe(&z TSRMLS_CC)
 
-#define PHALCON_OBS_NVAR(z)\
+#define ZEPHIR_OBS_NVAR(z)\
 	if (z) { \
 		if (Z_REFCOUNT_P(z) > 1) { \
 			Z_DELREF_P(z); \
@@ -138,10 +183,10 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 			z = NULL; \
 		} \
 	} else { \
-		phalcon_memory_observe(&z TSRMLS_CC); \
+		zephir_memory_observe(&z TSRMLS_CC); \
 	}
 
-#define PHALCON_SEPARATE_ARRAY(a) \
+#define ZEPHIR_SEPARATE_ARRAY(a) \
 	{ \
 		if (Z_REFCOUNT_P(a) > 1) { \
 			zval *new_zv; \
@@ -153,13 +198,13 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		} \
 	}
 
-#define PHALCON_SEPARATE(z) SEPARATE_ZVAL(&z)
+#define ZEPHIR_SEPARATE(z) SEPARATE_ZVAL(&z)
 
-#define PHALCON_SEPARATE_PARAM(z) \
+#define ZEPHIR_SEPARATE_PARAM(z) \
 	{\
 		zval *orig_ptr = z;\
 		if (Z_REFCOUNT_P(orig_ptr) > 1) {\
-			phalcon_memory_observe(&z TSRMLS_CC);\
+			zephir_memory_observe(&z TSRMLS_CC);\
 			ALLOC_ZVAL(z);\
 			*z = *orig_ptr;\
 			zval_copy_ctor(z);\
@@ -168,7 +213,7 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		}\
 	}
 
-#define PHALCON_SEPARATE_PARAM_NMO(z) { \
+#define ZEPHIR_SEPARATE_PARAM_NMO(z) { \
 		zval *orig_ptr = z; \
 		if (Z_REFCOUNT_P(orig_ptr) > 1) { \
 			ALLOC_ZVAL(z); \
@@ -179,3 +224,4 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 		} \
 	}
 
+#endif

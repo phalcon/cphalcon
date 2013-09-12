@@ -1,37 +1,35 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
-
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 #include "ext/standard/php_string.h"
-#include "phalcon.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/concat.h"
 
-void phalcon_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC){
+void zephir_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *op2, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy;
 	int use_copy = 0, use_copy2 = 0;
@@ -50,7 +48,7 @@ void phalcon_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -78,7 +76,7 @@ void phalcon_concat_sv(zval **result, const char *op1, zend_uint op1_len, zval *
 
 }
 
-void phalcon_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
+void zephir_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy;
 	int use_copy = 0, use_copy2 = 0;
@@ -97,7 +95,7 @@ void phalcon_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval 
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -126,7 +124,7 @@ void phalcon_concat_svs(zval **result, const char *op1, zend_uint op1_len, zval 
 
 }
 
-void phalcon_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
+void zephir_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0;
@@ -152,7 +150,7 @@ void phalcon_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -186,7 +184,7 @@ void phalcon_concat_svsv(zval **result, const char *op1, zend_uint op1_len, zval
 
 }
 
-void phalcon_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, int self_var TSRMLS_DC){
+void zephir_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0;
@@ -212,7 +210,7 @@ void phalcon_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zva
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -247,7 +245,7 @@ void phalcon_concat_svsvs(zval **result, const char *op1, zend_uint op1_len, zva
 
 }
 
-void phalcon_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, int self_var TSRMLS_DC){
+void zephir_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op6_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy6 = 0;
@@ -280,7 +278,7 @@ void phalcon_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zv
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -320,7 +318,7 @@ void phalcon_concat_svsvsv(zval **result, const char *op1, zend_uint op1_len, zv
 
 }
 
-void phalcon_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, int self_var TSRMLS_DC){
+void zephir_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, const char *op5, zend_uint op5_len, zval *op6, const char *op7, zend_uint op7_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op6_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy6 = 0;
@@ -353,7 +351,7 @@ void phalcon_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, z
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -394,7 +392,7 @@ void phalcon_concat_svsvsvs(zval **result, const char *op1, zend_uint op1_len, z
 
 }
 
-void phalcon_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC){
+void zephir_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zval *op2, const char *op3, zend_uint op3_len, zval *op4, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op4_copy, op5_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy4 = 0, use_copy5 = 0;
@@ -427,7 +425,7 @@ void phalcon_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zva
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -466,7 +464,7 @@ void phalcon_concat_svsvv(zval **result, const char *op1, zend_uint op1_len, zva
 
 }
 
-void phalcon_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC){
+void zephir_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op3_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy3 = 0;
@@ -492,7 +490,7 @@ void phalcon_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval 
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -525,7 +523,7 @@ void phalcon_concat_svv(zval **result, const char *op1, zend_uint op1_len, zval 
 
 }
 
-void phalcon_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
+void zephir_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval *op2, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op2_copy, op3_copy;
 	int use_copy = 0, use_copy2 = 0, use_copy3 = 0;
@@ -551,7 +549,7 @@ void phalcon_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -585,7 +583,7 @@ void phalcon_concat_svvs(zval **result, const char *op1, zend_uint op1_len, zval
 
 }
 
-void phalcon_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_len, int self_var TSRMLS_DC){
+void zephir_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy;
 	int use_copy = 0, use_copy1 = 0;
@@ -604,7 +602,7 @@ void phalcon_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -632,7 +630,7 @@ void phalcon_concat_vs(zval **result, zval *op1, const char *op2, zend_uint op2_
 
 }
 
-void phalcon_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC){
+void zephir_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0;
@@ -658,7 +656,7 @@ void phalcon_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -691,7 +689,7 @@ void phalcon_concat_vsv(zval **result, zval *op1, const char *op2, zend_uint op2
 
 }
 
-void phalcon_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
+void zephir_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0;
@@ -717,7 +715,7 @@ void phalcon_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -751,7 +749,7 @@ void phalcon_concat_vsvs(zval **result, zval *op1, const char *op2, zend_uint op
 
 }
 
-void phalcon_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
+void zephir_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy5 = 0;
@@ -784,7 +782,7 @@ void phalcon_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint o
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -823,7 +821,7 @@ void phalcon_concat_vsvsv(zval **result, zval *op1, const char *op2, zend_uint o
 
 }
 
-void phalcon_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, int self_var TSRMLS_DC){
+void zephir_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy5 = 0;
@@ -856,7 +854,7 @@ void phalcon_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint 
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -896,7 +894,7 @@ void phalcon_concat_vsvsvs(zval **result, zval *op1, const char *op2, zend_uint 
 
 }
 
-void phalcon_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC){
+void zephir_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, const char *op6, zend_uint op6_len, zval *op7, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op5_copy, op7_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy5 = 0, use_copy7 = 0;
@@ -936,7 +934,7 @@ void phalcon_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -981,7 +979,7 @@ void phalcon_concat_vsvsvsv(zval **result, zval *op1, const char *op2, zend_uint
 
 }
 
-void phalcon_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, int self_var TSRMLS_DC){
+void zephir_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op4_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy4 = 0;
@@ -1014,7 +1012,7 @@ void phalcon_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -1052,7 +1050,7 @@ void phalcon_concat_vsvv(zval **result, zval *op1, const char *op2, zend_uint op
 
 }
 
-void phalcon_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC){
+void zephir_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op3_copy, op4_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy3 = 0, use_copy4 = 0, use_copy5 = 0;
@@ -1092,7 +1090,7 @@ void phalcon_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint o
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -1135,7 +1133,7 @@ void phalcon_concat_vsvvv(zval **result, zval *op1, const char *op2, zend_uint o
 
 }
 
-void phalcon_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_DC){
+void zephir_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0;
@@ -1161,7 +1159,7 @@ void phalcon_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -1193,7 +1191,7 @@ void phalcon_concat_vv(zval **result, zval *op1, zval *op2, int self_var TSRMLS_
 
 }
 
-void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
+void zephir_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0;
@@ -1219,7 +1217,7 @@ void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, ze
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -1252,7 +1250,7 @@ void phalcon_concat_vvs(zval **result, zval *op1, zval *op2, const char *op3, ze
 
 }
 
-void phalcon_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
+void zephir_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, zend_uint op3_len, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op4_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy4 = 0;
@@ -1285,7 +1283,7 @@ void phalcon_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, z
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -1323,7 +1321,7 @@ void phalcon_concat_vvsv(zval **result, zval *op1, zval *op2, const char *op3, z
 
 }
 
-void phalcon_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self_var TSRMLS_DC){
+void zephir_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0;
@@ -1356,7 +1354,7 @@ void phalcon_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -1393,7 +1391,7 @@ void phalcon_concat_vvv(zval **result, zval *op1, zval *op2, zval *op3, int self
 
 }
 
-void phalcon_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
+void zephir_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0, use_copy5 = 0;
@@ -1433,7 +1431,7 @@ void phalcon_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const 
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -1476,7 +1474,7 @@ void phalcon_concat_vvvsv(zval **result, zval *op1, zval *op2, zval *op3, const 
 
 }
 
-void phalcon_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, int self_var TSRMLS_DC){
+void zephir_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy, op4_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0, use_copy4 = 0;
@@ -1516,7 +1514,7 @@ void phalcon_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *o
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -1558,7 +1556,7 @@ void phalcon_concat_vvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *o
 
 }
 
-void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, const char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC){
+void zephir_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, const char *op5, zend_uint op5_len, zval *op6, zval *op7, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy, op4_copy, op6_copy, op7_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0, use_copy4 = 0, use_copy6 = 0, use_copy7 = 0;
@@ -1612,7 +1610,7 @@ void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 
@@ -1665,7 +1663,7 @@ void phalcon_concat_vvvvsvv(zval **result, zval *op1, zval *op2, zval *op3, zval
 
 }
 
-void phalcon_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC){
+void zephir_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *op4, zval *op5, int self_var TSRMLS_DC){
 
 	zval result_copy, op1_copy, op2_copy, op3_copy, op4_copy, op5_copy;
 	int use_copy = 0, use_copy1 = 0, use_copy2 = 0, use_copy3 = 0, use_copy4 = 0, use_copy5 = 0;
@@ -1712,7 +1710,7 @@ void phalcon_concat_vvvvv(zval **result, zval *op1, zval *op2, zval *op3, zval *
 		if (Z_TYPE_PP(result) != IS_STRING) {
 			zend_make_printable_zval(*result, &result_copy, &use_copy);
 			if (use_copy) {
-				PHALCON_CPY_WRT_CTOR(*result, (&result_copy));
+				ZEPHIR_CPY_WRT_CTOR(*result, (&result_copy));
 			}
 		}
 

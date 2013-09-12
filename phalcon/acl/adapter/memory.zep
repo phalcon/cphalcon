@@ -364,7 +364,7 @@ class Memory extends Phalcon\Acl\Adapter
 
 		let rolesNames = this->_rolesNames;
 		if isset rolesNames[roleName] {
-			throw new Phalcon\Acl\Exception("Role \"" . roleName . "\" does not exist in ACL");
+			throw new Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in ACL");
 		}
 
 		let resourcesNames = this->_resourcesNames;

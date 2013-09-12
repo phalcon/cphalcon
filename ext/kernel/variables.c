@@ -1,19 +1,19 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -22,7 +22,7 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 
 #include "ext/standard/php_smart_str.h"
 #include "ext/standard/php_var.h"
@@ -30,7 +30,7 @@
 /**
  * Serializes php variables without using the PHP userland
  */
-void phalcon_serialize(zval *return_value, zval **var TSRMLS_DC) {
+void zephir_serialize(zval *return_value, zval **var TSRMLS_DC) {
 
 	php_serialize_data_t var_hash;
 	smart_str buf = {0};
@@ -54,7 +54,7 @@ void phalcon_serialize(zval *return_value, zval **var TSRMLS_DC) {
 /**
  * Unserializes php variables without using the PHP userland
  */
-void phalcon_unserialize(zval *return_value, zval *var TSRMLS_DC) {
+void zephir_unserialize(zval *return_value, zval *var TSRMLS_DC) {
 
 	const unsigned char *p;
 	php_unserialize_data_t var_hash;

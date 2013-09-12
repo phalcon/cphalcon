@@ -1,4 +1,7 @@
 
+#ifndef ZEPHIR_CLASS_ENTRIES_H
+#define ZEPHIR_CLASS_ENTRIES_H
+
 #include "phalcon/acl.h"
 #include "phalcon/acl/adapter.h"
 #include "phalcon/acl/adapter/memory.h"
@@ -312,3 +315,5 @@
 #include "phalcon/validation/validator/stringlength.h"
 #include "phalcon/validation/validatorinterface.h"
 #include "phalcon/version.h"
+
+#endif

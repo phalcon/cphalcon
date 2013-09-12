@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "ext_config.h"
 #endif
 
 #include "php.h"
-#include "php_test.h"
-#include "test.h"
+#include "../php_ext.h"
+#include "../ext.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -331,7 +331,7 @@ PHP_METHOD(Phalcon_DI_Service, setParameter) {
  */
 PHP_METHOD(Phalcon_DI_Service, getParameter) {
 
-	zval *position_param = NULL, *definition, arguments, *parameter;
+	zval *position_param = NULL, *definition, *arguments, *parameter;
 	int position;
 
 	ZEPHIR_MM_GROW();

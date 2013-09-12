@@ -4,7 +4,7 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 #include "phalcon.h"
 
 #include "ext/standard/info.h"
@@ -707,20 +707,20 @@ static PHP_GINIT_FUNCTION(phalcon)
 	phalcon_globals->start_memory = start;
 
 	/* Global Constants */
-	ALLOC_PERMANENT_ZVAL(test_globals->global_false);
-	INIT_PZVAL(test_globals->global_false);
-	ZVAL_FALSE(test_globals->global_false);
-	Z_ADDREF_P(test_globals->global_false);
+	ALLOC_PERMANENT_ZVAL(phalcon_globals->global_false);
+	INIT_PZVAL(phalcon_globals->global_false);
+	ZVAL_FALSE(phalcon_globals->global_false);
+	Z_ADDREF_P(phalcon_globals->global_false);
 
-	ALLOC_PERMANENT_ZVAL(test_globals->global_true);
-	INIT_PZVAL(test_globals->global_true);
-	ZVAL_TRUE(test_globals->global_true);
-	Z_ADDREF_P(test_globals->global_true);
+	ALLOC_PERMANENT_ZVAL(phalcon_globals->global_true);
+	INIT_PZVAL(phalcon_globals->global_true);
+	ZVAL_TRUE(phalcon_globals->global_true);
+	Z_ADDREF_P(phalcon_globals->global_true);
 
-	ALLOC_PERMANENT_ZVAL(test_globals->global_null);
-	INIT_PZVAL(test_globals->global_null);
-	ZVAL_NULL(test_globals->global_null);
-	Z_ADDREF_P(test_globals->global_null);
+	ALLOC_PERMANENT_ZVAL(phalcon_globals->global_null);
+	INIT_PZVAL(phalcon_globals->global_null);
+	ZVAL_NULL(phalcon_globals->global_null);
+	Z_ADDREF_P(phalcon_globals->global_null);
 }
 
 static PHP_GSHUTDOWN_FUNCTION(phalcon)

@@ -4,8 +4,8 @@
 
 #include "kernel/globals.h"
 
-#define PHP_TEST_VERSION "0.0.1"
-#define PHP_TEST_EXTNAME "phalcon"
+#define PHP_PHALCON_VERSION "0.0.1"
+#define PHP_PHALCON_EXTNAME "phalcon"
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 

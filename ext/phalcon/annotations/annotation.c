@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "ext_config.h"
 #endif
 
 #include "php.h"
-#include "php_test.h"
-#include "test.h"
+#include "../php_ext.h"
+#include "../ext.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 
 	HashTable *_2;
 	HashPosition _1;
-	zval *reflectionData, name = zval_used_for_init, *exprArguments, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3, *_4 = NULL;
+	zval *reflectionData, *name = NULL, *exprArguments, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &reflectionData);
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 
 	HashTable *_3;
 	HashPosition _2;
-	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, name = zval_used_for_init, *_0, *_1, **_4, *_5 = NULL, *_6, *_7, *_8;
+	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *_0, *_1, **_4, *_5 = NULL, *_6, *_7, *_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr);

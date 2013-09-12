@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "ext_config.h"
 #endif
 
 #include "php.h"
-#include "php_test.h"
-#include "test.h"
+#include "../php_ext.h"
+#include "../ext.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Http_Request, getScheme) {
 	zephir_call_method_p1(https, this_ptr, "getserver", _0);
 	if (zend_is_true(https)) {
 		ZEPHIR_INIT_VAR(scheme);
-		if ((ZEPHIR_IS_STRING(https, "off"))) {
+		if (ZEPHIR_IS_STRING(https, "off")) {
 			ZVAL_STRING(scheme, "http", 1);
 		} else {
 			ZVAL_STRING(scheme, "https", 1);

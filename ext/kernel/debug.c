@@ -1,19 +1,19 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -22,28 +22,28 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 #include "kernel/debug.h"
 #include "kernel/string.h"
 
-#ifndef PHALCON_RELEASE
+#ifndef ZEPHIR_RELEASE
 
-FILE *phalcon_log = NULL;
-int phalcon_debug_trace = 0;
-phalcon_debug_entry *start = NULL;
-phalcon_debug_entry *active = NULL;
+FILE *zephir_log = NULL;
+int zephir_debug_trace = 0;
+static zephir_debug_entry *start = NULL;
+static zephir_debug_entry *active = NULL;
 
 /**
  * Stars debug on file pipe
  */
-int phalcon_start_debug(){
-	if(!phalcon_log){
-		/*//phalcon_log = fopen("/home/gutierrezandresfelipe/phalcon-debug.a", "w");
-		phalcon_log = fopen("/tmp/phalcon-debug.a", "w");
-		if(!phalcon_log){
+int zephir_start_debug(){
+	if(!zephir_log){
+		/*//zephir_log = fopen("/home/gutierrezandresfelipe/phalcon-debug.a", "w");
+		zephir_log = fopen("/tmp/phalcon-debug.a", "w");
+		if(!zephir_log){
 			fprintf(stderr, "Can't open debug log\n");
 		}*/
-		phalcon_log = stderr;
+		zephir_log = stderr;
 	}
 	return SUCCESS;
 }
@@ -51,23 +51,23 @@ int phalcon_start_debug(){
 /**
  * Stops debug process
  */
-int phalcon_stop_debug(){
-	phalcon_debug_entry *ptr = active;
-	phalcon_debug_entry *this_entry = NULL;
+int zephir_stop_debug(){
+	zephir_debug_entry *ptr = active;
+	zephir_debug_entry *this_entry = NULL;
 	while(ptr){
 		this_entry = ptr;
 		ptr = ptr->prev;
 		efree(this_entry);
 	}
-	//fclose(phalcon_log);
-	phalcon_log = NULL;
+	//fclose(zephir_log);
+	zephir_log = NULL;
 	return SUCCESS;
 }
 
 /**
  * Executes a print_r on an interal zval
  */
-int phalcon_print_r(zval *userval TSRMLS_DC){
+int zephir_print_r(zval *userval TSRMLS_DC){
 	zend_print_zval_r(userval, 0 TSRMLS_CC);
 	return SUCCESS;
 }
@@ -75,74 +75,74 @@ int phalcon_print_r(zval *userval TSRMLS_DC){
 /**
  * Internal fast zval dump
  */
-int phalcon_vdump(zval *uservar TSRMLS_DC){
-	phalcon_start_debug();
+int zephir_vdump(zval *uservar TSRMLS_DC){
+	zephir_start_debug();
     if(!uservar){
-		fprintf(phalcon_log, "Null pointer\n");
+		fprintf(zephir_log, "Null pointer\n");
 		return SUCCESS;
 	}
     switch(Z_TYPE_P(uservar)){
         case IS_NULL:
-            fprintf(phalcon_log, "NULL \n");
+            fprintf(zephir_log, "NULL \n");
             break;
         case IS_BOOL:
-            fprintf(phalcon_log, "Boolean: %s\n", Z_LVAL_P(uservar) ? "TRUE" : "FALSE");
+            fprintf(zephir_log, "Boolean: %s\n", Z_LVAL_P(uservar) ? "TRUE" : "FALSE");
             break;
         case IS_LONG:
-            fprintf(phalcon_log, "Long: %ld at %p, refcount=%d\n", Z_LVAL_P(uservar), uservar, Z_REFCOUNT_P(uservar));
+            fprintf(zephir_log, "Long: %ld at %p, refcount=%d\n", Z_LVAL_P(uservar), uservar, Z_REFCOUNT_P(uservar));
             break;
         case IS_DOUBLE:
-            fprintf(phalcon_log, "Double: %f\n", Z_DVAL_P(uservar));
+            fprintf(zephir_log, "Double: %f\n", Z_DVAL_P(uservar));
             break;
         case IS_STRING:
-			fprintf(phalcon_log, "String: %s(%d) at %p, refcount=%d\n", Z_STRVAL_P(uservar), Z_STRLEN_P(uservar), uservar, Z_REFCOUNT_P(uservar));
+			fprintf(zephir_log, "String: %s(%d) at %p, refcount=%d\n", Z_STRVAL_P(uservar), Z_STRLEN_P(uservar), uservar, Z_REFCOUNT_P(uservar));
             break;
         case IS_RESOURCE:
-            fprintf(phalcon_log, "Resource\n");
+            fprintf(zephir_log, "Resource\n");
             break;
         case IS_ARRAY:
-            fprintf(phalcon_log, "Array at %p, refcount=%d\n", uservar, Z_REFCOUNT_P(uservar));
+            fprintf(zephir_log, "Array at %p, refcount=%d\n", uservar, Z_REFCOUNT_P(uservar));
             break;
         case IS_OBJECT:
-            fprintf(phalcon_log, "Object <%s> at %p\n", Z_OBJCE_P(uservar)->name, uservar);
+            fprintf(zephir_log, "Object <%s> at %p\n", Z_OBJCE_P(uservar)->name, uservar);
             break;
         default:
-            fprintf(phalcon_log, "Unknown\n");
+            fprintf(zephir_log, "Unknown\n");
     }
     return SUCCESS;
 }
 
-int phalcon_dump_ce(zend_class_entry *ce TSRMLS_DC){
+int zephir_dump_ce(zend_class_entry *ce TSRMLS_DC){
 	char *message = emalloc(sizeof(char *)*120);
 	if(ce){
 		sprintf(message, "- ClassType => %d", ce->type);
-		phalcon_step_over(message);
+		zephir_step_over(message);
 		if(ce->name){
 			sprintf(message, "- ClassName => %s", ce->name);
-			phalcon_step_over(message);
+			zephir_step_over(message);
 		} else {
-			phalcon_step_over("- ClassName => NULL");
+			zephir_step_over("- ClassName => NULL");
 		}
 	} else {
-		phalcon_step_over("- NULL class entry :(");
+		zephir_step_over("- NULL class entry :(");
 	}
 	return SUCCESS;
 }
 
-int phalcon_class_debug(zval *val TSRMLS_DC){
+int zephir_class_debug(zval *val TSRMLS_DC){
 	char *message = emalloc(sizeof(char *)*120);
 	zend_class_entry *ce;
 	if(val){
 		ce = Z_OBJCE_P(val);
 		if(ce){
 			sprintf(message, "- MemoryAddress => %p", val);
-			phalcon_step_over(message);
-			phalcon_dump_ce(ce TSRMLS_CC);
+			zephir_step_over(message);
+			zephir_dump_ce(ce TSRMLS_CC);
 		} else {
-			phalcon_step_over("- No class entry :(");
+			zephir_step_over("- No class entry :(");
 		}
 	} else {
-		phalcon_step_over("- this_ptr is null :(");
+		zephir_step_over("- this_ptr is null :(");
 	}
 	return SUCCESS;
 }
@@ -150,106 +150,106 @@ int phalcon_class_debug(zval *val TSRMLS_DC){
 /**
  * Append debug information to file
  */
-int phalcon_debug_str(char *what, char *message){
-	fprintf(phalcon_log, "%s", what);
-	fprintf(phalcon_log, "%s", message);
-	fprintf(phalcon_log, "\n");
+int zephir_debug_str(char *what, char *message){
+	fprintf(zephir_log, "%s", what);
+	fprintf(zephir_log, "%s", message);
+	fprintf(zephir_log, "\n");
 	return SUCCESS;
 }
 
-int phalcon_debug_long(char *what, uint vlong){
-	fprintf(phalcon_log, "%s", what);
-	fprintf(phalcon_log, "%u", vlong);
-	fprintf(phalcon_log, "\n");
+int zephir_debug_long(char *what, uint vlong){
+	fprintf(zephir_log, "%s", what);
+	fprintf(zephir_log, "%u", vlong);
+	fprintf(zephir_log, "\n");
 	return SUCCESS;
 }
 
-int phalcon_debug_screen(char *message){
-	phalcon_debug_space();
-	fprintf(phalcon_log, "%s\n", message);
+int zephir_debug_screen(char *message){
+	zephir_debug_space();
+	fprintf(zephir_log, "%s\n", message);
 	return SUCCESS;
 }
 
-int phalcon_debug_method_call(zval *obj, char *method_name TSRMLS_DC){
+int zephir_debug_method_call(zval *obj, char *method_name TSRMLS_DC){
 	if(Z_TYPE_P(obj)==IS_OBJECT){
-		phalcon_debug_space();
+		zephir_debug_space();
 	} else {
-		phalcon_error_space();
+		zephir_error_space();
 	}
 	if(Z_TYPE_P(obj)==IS_OBJECT){
-		fprintf(phalcon_log, "Calling method %s::%s on Object at %p\n", Z_OBJCE_P(obj)->name, method_name, obj);
+		fprintf(zephir_log, "Calling method %s::%s on Object at %p\n", Z_OBJCE_P(obj)->name, method_name, obj);
 	} else {
-		fprintf(phalcon_log, "Calling method %s on non object :(\n", method_name);
+		fprintf(zephir_log, "Calling method %s on non object :(\n", method_name);
 	}
 	return SUCCESS;
 }
 
-int phalcon_error_space(){
+int zephir_error_space(){
 	int i;
-	fprintf(phalcon_log, "[ERROR] ");
-	for(i=0;i<phalcon_debug_trace;i++){
-		fprintf(phalcon_log, " ");
+	fprintf(zephir_log, "[ERROR] ");
+	for(i=0;i<zephir_debug_trace;i++){
+		fprintf(zephir_log, " ");
 	}
 	return SUCCESS;
 }
 
-int phalcon_debug_space(){
+int zephir_debug_space(){
 	int i;
-	fprintf(phalcon_log, "[DEBUG] ");
-	for(i=0;i<phalcon_debug_trace;i++){
-		fprintf(phalcon_log, " ");
+	fprintf(zephir_log, "[DEBUG] ");
+	for(i=0;i<zephir_debug_trace;i++){
+		fprintf(zephir_log, " ");
 	}
 	return SUCCESS;
 }
 
-int phalcon_debug_param(zval *param TSRMLS_DC){
-	phalcon_debug_space();
-	fprintf(phalcon_log, "Push method Param > ");
-	phalcon_vdump(param TSRMLS_CC);
+int zephir_debug_param(zval *param TSRMLS_DC){
+	zephir_debug_space();
+	fprintf(zephir_log, "Push method Param > ");
+	zephir_vdump(param TSRMLS_CC);
 	return SUCCESS;
 }
 
-int phalcon_debug_vdump(char *preffix, zval *value TSRMLS_DC){
-	phalcon_debug_space();
-	fprintf(phalcon_log, "%s", preffix);
-	phalcon_vdump(value TSRMLS_CC);
+int zephir_debug_vdump(char *preffix, zval *value TSRMLS_DC){
+	zephir_debug_space();
+	fprintf(zephir_log, "%s", preffix);
+	zephir_vdump(value TSRMLS_CC);
 	return SUCCESS;
 }
 
-int phalcon_debug_assign(char *name, zval *value TSRMLS_DC){
-	phalcon_debug_space();
-	fprintf(phalcon_log, "Assign on %s with ", name);
-	phalcon_vdump(value TSRMLS_CC);
+int zephir_debug_assign(char *name, zval *value TSRMLS_DC){
+	zephir_debug_space();
+	fprintf(zephir_log, "Assign on %s with ", name);
+	zephir_vdump(value TSRMLS_CC);
 	return SUCCESS;
 }
 
-int phalcon_step_over(char *message){
-	phalcon_debug_screen(message);
+int zephir_step_over(char *message){
+	zephir_debug_screen(message);
 	return SUCCESS;
 }
 
-int phalcon_step_into(char *message){
-	phalcon_debug_trace++;
-	phalcon_debug_screen(message);
+int zephir_step_into(char *message){
+	zephir_debug_trace++;
+	zephir_debug_screen(message);
 	return SUCCESS;
 }
 
-int phalcon_step_out(char *message){
-	phalcon_debug_screen(message);
-	phalcon_debug_trace--;
+int zephir_step_out(char *message){
+	zephir_debug_screen(message);
+	zephir_debug_trace--;
 	return SUCCESS;
 }
 
 /**
  * Prints internal debug backtrace
  */
-int phalcon_debug_backtrace_internal(){
+int zephir_debug_backtrace_internal(){
 	int step = 0;
 	char *message;
-	phalcon_debug_entry *ptr = active;
+	zephir_debug_entry *ptr = active;
 	while(ptr){
-		phalcon_spprintf(&message, 0, "#%d %s::%s", step, ptr->class_name, ptr->method_name);
-		phalcon_debug_screen(message);
+		zephir_spprintf(&message, 0, "#%d %s::%s", step, ptr->class_name, ptr->method_name);
+		zephir_debug_screen(message);
 		efree(message);
 		ptr = ptr->prev;
 		step++;
@@ -260,13 +260,13 @@ int phalcon_debug_backtrace_internal(){
 /**
  * Appends a debug entry to internal execution scope
  */
-int phalcon_step_into_entry(char *class_name, char *method_name, int lineno){
+int zephir_step_into_entry(char *class_name, char *method_name, int lineno){
 
 	char *message;
-	phalcon_debug_entry *entry;
+	zephir_debug_entry *entry;
 
 	if (!start) {
-		start = (phalcon_debug_entry *) emalloc(sizeof(phalcon_debug_entry));
+		start = (zephir_debug_entry *) emalloc(sizeof(zephir_debug_entry));
 		start->class_name = "__main__";
 		start->method_name = "__init__";
 		start->lineno = 0;
@@ -275,18 +275,18 @@ int phalcon_step_into_entry(char *class_name, char *method_name, int lineno){
 		active = start;
 	}
 
-	phalcon_spprintf(&message, 0, "Step Into %s::%s", class_name, method_name);
-	phalcon_debug_screen(message);
+	zephir_spprintf(&message, 0, "Step Into %s::%s", class_name, method_name);
+	zephir_debug_screen(message);
 	efree(message);
 
-	entry = emalloc(sizeof(phalcon_debug_entry));
+	entry = emalloc(sizeof(zephir_debug_entry));
 	entry->class_name = class_name;
 	entry->method_name = method_name;
 	entry->lineno = lineno;
 	entry->prev = active;
 	active->next = entry;
 	active = entry;
-	phalcon_debug_trace++;
+	zephir_debug_trace++;
 
 	return SUCCESS;
 }
@@ -294,16 +294,16 @@ int phalcon_step_into_entry(char *class_name, char *method_name, int lineno){
 /**
  * Steps out current stack
  */
-int phalcon_step_out_entry(){
+int zephir_step_out_entry(){
 
 	char *message;
-	phalcon_debug_entry *prev;
+	zephir_debug_entry *prev;
 	if(active){
 
-		phalcon_debug_trace--;
+		zephir_debug_trace--;
 
-		phalcon_spprintf(&message, 0, "Step out %s::%s", active->class_name, active->method_name);
-		phalcon_debug_screen(message);
+		zephir_spprintf(&message, 0, "Step out %s::%s", active->class_name, active->method_name);
+		zephir_debug_screen(message);
 		efree(message);
 
 		prev = active->prev;
@@ -311,7 +311,7 @@ int phalcon_step_out_entry(){
 		active = prev;
 
 	} else {
-		fprintf(phalcon_log, "Problem, stack?");
+		fprintf(zephir_log, "Problem, stack?");
 		return FAILURE;
 	}
 	return SUCCESS;

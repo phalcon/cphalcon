@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "ext_config.h"
 #endif
 
 #include "php.h"
-#include "php_test.h"
-#include "test.h"
+#include "../php_ext.h"
+#include "../ext.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
  */
 PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 
-	zval *type = NULL, *remove = NULL, *messages, returnMessages;
+	zval *type = NULL, *remove = NULL, *messages, *returnMessages;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &type, &remove);

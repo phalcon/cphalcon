@@ -21,7 +21,7 @@
 #include "main/php_main.h"
 #include "ext/standard/url.h"
 
-#include "php_phalcon.h"
+#include "php_ext.h"
 
 
 void phalcon_get_uri(zval *return_value, zval *path) {

@@ -1,19 +1,19 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -22,8 +22,7 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
-
+#include "php_ext.h"
 #include "ext/standard/php_smart_str.h"
 
 #include "Zend/zend_API.h"
@@ -42,11 +41,11 @@
 /**
  * Checks if a method is callable
  */
-static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_flags, char *method_name, unsigned int method_len, zend_fcall_info_cache *fcc, char **error, unsigned long method_key TSRMLS_DC)
+static int zephir_alt_is_callable_check_method(zend_class_entry *ce, int check_flags, char *method_name, unsigned int method_len, zend_fcall_info_cache *fcc, char **error, unsigned long method_key TSRMLS_DC)
 {
 	int retval = 0;
 
-	#ifndef PHALCON_RELEASE
+	#ifndef ZEPHIR_RELEASE
 	int call_via_handler = 0;
 	#endif
 
@@ -59,15 +58,15 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 	}
 
 	/* Try to fetch find static method of given class. */
-	if (likely(phalcon_hash_quick_find(&ce->function_table, method_name, method_len + 1, method_key, (void**) &fcc->function_handler) == SUCCESS)) {
+	if (likely(zephir_hash_quick_find(&ce->function_table, method_name, method_len + 1, method_key, (void**) &fcc->function_handler) == SUCCESS)) {
 		retval = 1;
-		if ((fcc->function_handler->op_array.fn_flags & ZEND_ACC_CHANGED) && PHALCON_EG(scope) && instanceof_function(fcc->function_handler->common.scope, EG(scope) TSRMLS_CC)) {
+		if ((fcc->function_handler->op_array.fn_flags & ZEND_ACC_CHANGED) && ZEPHIR_EG(scope) && instanceof_function(fcc->function_handler->common.scope, EG(scope) TSRMLS_CC)) {
 			zend_function *priv_fbc;
-			if (phalcon_hash_quick_find(&PHALCON_EG(scope)->function_table, method_name, method_len + 1, method_key, (void **) &priv_fbc)==SUCCESS && (priv_fbc->common.fn_flags & ZEND_ACC_PRIVATE) && priv_fbc->common.scope == EG(scope)) {
+			if (zephir_hash_quick_find(&ZEPHIR_EG(scope)->function_table, method_name, method_len + 1, method_key, (void **) &priv_fbc)==SUCCESS && (priv_fbc->common.fn_flags & ZEND_ACC_PRIVATE) && priv_fbc->common.scope == EG(scope)) {
 				fcc->function_handler = priv_fbc;
 			}
 		}
-		#ifndef PHALCON_RELEASE
+		#ifndef ZEPHIR_RELEASE
 		if ((check_flags & IS_CALLABLE_CHECK_NO_ACCESS) == 0 && (fcc->calling_scope && (fcc->calling_scope->__call || fcc->calling_scope->__callstatic))) {
 			if (fcc->function_handler->op_array.fn_flags & ZEND_ACC_PRIVATE) {
 				if (!zend_check_private(fcc->function_handler, ce, method_name, method_len TSRMLS_CC)) {
@@ -77,7 +76,7 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 				}
 			} else {
 				if (fcc->function_handler->common.fn_flags & ZEND_ACC_PROTECTED) {
-					if (!zend_check_protected(fcc->function_handler->common.scope, PHALCON_EG(scope))) {
+					if (!zend_check_protected(fcc->function_handler->common.scope, ZEPHIR_EG(scope))) {
 						retval = 0;
 						fcc->function_handler = NULL;
 						goto get_function_via_handler;
@@ -87,7 +86,7 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 		}
 		#endif
 	} else {
-		#ifndef PHALCON_RELEASE
+		#ifndef ZEPHIR_RELEASE
 		get_function_via_handler:
 		if (Z_OBJ_HT_P(fcc->object_ptr)->get_method) {
 			#if PHP_VERSION_ID < 50400
@@ -104,11 +103,11 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 	}
 
 	if (retval) {
-		#ifndef PHALCON_RELEASE
+		#ifndef ZEPHIR_RELEASE
 		if (fcc->calling_scope && !call_via_handler) {
 			if (!fcc->object_ptr && (fcc->function_handler->common.fn_flags & ZEND_ACC_ABSTRACT)) {
 				if (error) {
-					phalcon_spprintf(error, 0, "cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+					zephir_spprintf(error, 0, "cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 					retval = 0;
 				} else {
 					zend_error(E_ERROR, "Cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
@@ -121,7 +120,7 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 							if (*error) {
 								efree(*error);
 							}
-							phalcon_spprintf(error, 0, "cannot access private method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+							zephir_spprintf(error, 0, "cannot access private method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 						}
 						retval = 0;
 					}
@@ -132,7 +131,7 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 								if (*error) {
 									efree(*error);
 								}
-								phalcon_spprintf(error, 0, "cannot access protected method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+								zephir_spprintf(error, 0, "cannot access protected method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 							}
 							retval = 0;
 						}
@@ -145,11 +144,11 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 		if (error && !(check_flags & IS_CALLABLE_CHECK_SILENT)) {
 			if (fcc->calling_scope) {
 				if (error) {
-					phalcon_spprintf(error, 0, "class '%s' does not have a method '%s'", fcc->calling_scope->name, method_name);
+					zephir_spprintf(error, 0, "class '%s' does not have a method '%s'", fcc->calling_scope->name, method_name);
 				}
 			} else {
 				if (error) {
-					phalcon_spprintf(error, 0, "function '%s' does not exist", method_name);
+					zephir_spprintf(error, 0, "function '%s' does not exist", method_name);
 				}
 			}
 		}
@@ -164,7 +163,7 @@ static int phalcon_alt_is_callable_check_method(zend_class_entry *ce, int check_
 /**
  * Check if a method is callable only if it's not checked before
  */
-static inline zend_bool phalcon_alt_is_callable_method_ex(zend_class_entry *ce, char *method_name, unsigned int method_len, zval *object_ptr, uint check_flags, zend_fcall_info_cache *fcc, char **error, int exists, unsigned long method_key TSRMLS_DC) {
+static inline zend_bool zephir_alt_is_callable_method_ex(zend_class_entry *ce, char *method_name, unsigned int method_len, zval *object_ptr, uint check_flags, zend_fcall_info_cache *fcc, char **error, int exists, unsigned long method_key TSRMLS_DC) {
 
 	if (error) {
 		*error = NULL;
@@ -177,7 +176,7 @@ static inline zend_bool phalcon_alt_is_callable_method_ex(zend_class_entry *ce, 
 	if (!exists) {
 		fcc->initialized = 0;
 		fcc->function_handler = NULL;
-		return phalcon_alt_is_callable_check_method(ce, check_flags, method_name, method_len, fcc, error, method_key TSRMLS_CC);
+		return zephir_alt_is_callable_check_method(ce, check_flags, method_name, method_len, fcc, error, method_key TSRMLS_CC);
 	} else {
 		fcc->initialized = 1;
 	}
@@ -190,10 +189,10 @@ static inline zend_bool phalcon_alt_is_callable_method_ex(zend_class_entry *ce, 
 /**
  * Call a method caching its function pointer address
  */
-int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
+int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
 {
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
-	zend_uint i, exists = 0, is_phalcon_function = 0;
+	zend_zephir_globals *zephir_globals_ptr = ZEPHIR_VGLOBAL;
+	zend_uint i, exists = 0, is_zephir_function = 0;
 	zend_class_entry *current_scope;
 	zend_class_entry *current_called_scope;
 	zend_class_entry *calling_scope = NULL;
@@ -218,17 +217,17 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (hash_key > 0 && phalcon_globals_ptr->function_cache) {
-		if (zend_hash_index_find(phalcon_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
+	if (hash_key > 0 && zephir_globals_ptr->function_cache) {
+		if (zend_hash_index_find(zephir_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
-			is_phalcon_function = 1;
+			is_zephir_function = 1;
 		}
 	}
 
 	/** Check if it's a Phalcon function */
-	if (!is_phalcon_function) {
-		is_phalcon_function = ce->type == ZEND_INTERNAL_CLASS && ce->name_length > 10 && !memcmp(ce->name, SL("Phalcon\\"));
+	if (!is_zephir_function) {
+		is_zephir_function = ce->type == ZEND_INTERNAL_CLASS && ce->name_length > 10 && !memcmp(ce->name, SL("Phalcon\\"));
 	}
 
 	/* The fci_cache doesn't exist, so we check it */
@@ -237,10 +236,10 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 		char *callable_name;
 		char *error = NULL;
 
-		if (is_phalcon_function) {
+		if (is_zephir_function) {
 
 			/** Use the Phalcon optimized version */
-			if (!phalcon_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
+			if (!zephir_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
 				if (error) {
 					zend_error(E_WARNING, "Invalid callback %s, %s", method_name, error);
 					efree(error);
@@ -250,7 +249,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 
 		} else {
 
-			PHALCON_ALLOC_ZVAL(fci->function_name);
+			ZEPHIR_ALLOC_ZVAL(fci->function_name);
 			ZVAL_STRINGL(fci->function_name, method_name, method_len, 0);
 
 			/** Use the slow function instead */
@@ -273,16 +272,16 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 		}
 
 		/* Store the function in the cache only if it is a zend internal function */
-		if (is_phalcon_function) {
+		if (is_zephir_function) {
 			if (fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION) {
 
-				if (!phalcon_globals_ptr->function_cache) {
-					ALLOC_HASHTABLE(phalcon_globals_ptr->function_cache);
-					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
+				if (!zephir_globals_ptr->function_cache) {
+					ALLOC_HASHTABLE(zephir_globals_ptr->function_cache);
+					zend_hash_init(zephir_globals_ptr->function_cache, 0, NULL, NULL, 0);
 				}
 
 				zend_hash_index_update(
-					phalcon_globals_ptr->function_cache,
+					zephir_globals_ptr->function_cache,
 					hash_key,
 					&fci_cache->function_handler,
 					sizeof(zend_function *),
@@ -304,7 +303,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	fci->object_ptr = fci_cache->object_ptr;
 	EX(object) = fci->object_ptr;
 
-	if (!is_phalcon_function) {
+	if (!is_zephir_function) {
 
 		if (fci->object_ptr && Z_TYPE_P(fci->object_ptr) == IS_OBJECT && (!EG(objects_store).object_buckets || !EG(objects_store).object_buckets[Z_OBJ_HANDLE_P(fci->object_ptr)].valid)) {
 			return FAILURE;
@@ -338,7 +337,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			INIT_PZVAL(param);
 			zval_copy_ctor(param);
 		} else {
-			if (!is_phalcon_function && ARG_SHOULD_BE_SENT_BY_REF(EX(function_state).function, i + 1) && !PZVAL_IS_REF(*fci->params[i])) {
+			if (!is_zephir_function && ARG_SHOULD_BE_SENT_BY_REF(EX(function_state).function, i + 1) && !PZVAL_IS_REF(*fci->params[i])) {
 
 				if (Z_REFCOUNT_PP(fci->params[i]) > 1) {
 					zval *new_zval;
@@ -521,7 +520,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	EG(current_execute_data) = EX(prev_execute_data);
 
 	if (EG(exception)) {
-		phalcon_throw_exception_internal(NULL TSRMLS_CC);
+		zephir_throw_exception_internal(NULL TSRMLS_CC);
 	}
 
 	return SUCCESS;
@@ -532,11 +531,11 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 /**
  * Call a method caching its function pointer address
  */
-int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
+int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC)
 {
 	zend_uint i;
-	zend_executor_globals *executor_globals_ptr = PHALCON_VEG;
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+	zend_executor_globals *executor_globals_ptr = ZEPHIR_VEG;
+	zend_zephir_globals *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 	zval **original_return_value;
 	HashTable *calling_symbol_table;
 	zend_op_array *original_op_array;
@@ -549,7 +548,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	zend_execute_data execute_data;
 	zend_fcall_info_cache *fci_cache, fci_local;
 	zend_function **function_handler;
-	int exists = 0, is_phalcon_function = 0;
+	int exists = 0, is_zephir_function = 0;
 
 	fci_cache = &fci_local;
 
@@ -563,19 +562,19 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (hash_key > 0 && phalcon_globals_ptr->function_cache) {
-		if (zend_hash_index_find(phalcon_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
+	if (hash_key > 0 && zephir_globals_ptr->function_cache) {
+		if (zend_hash_index_find(zephir_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
-			is_phalcon_function = 1;
+			is_zephir_function = 1;
 		}
 	}
 
 	/** Check if it's a Phalcon function */
-	if (!is_phalcon_function) {
+	if (!is_zephir_function) {
 		if (ce->type == ZEND_INTERNAL_CLASS) {
 			if (ce->name_length > 10) {
-				is_phalcon_function =  !memcmp(ce->name, SL("Phalcon\\"));
+				is_zephir_function =  !memcmp(ce->name, SL("Phalcon\\"));
 			}
 		}
 	}
@@ -586,10 +585,10 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 		char *callable_name;
 		char *error = NULL;
 
-		if (is_phalcon_function) {
+		if (is_zephir_function) {
 
 			/** Use the Phalcon optimized version */
-			if (unlikely(!phalcon_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC))) {
+			if (unlikely(!zephir_alt_is_callable_method_ex(ce, method_name, method_len, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC))) {
 				if (error) {
 					zend_error(E_WARNING, "Invalid callback %s, %s", method_name, error);
 					efree(error);
@@ -603,7 +602,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			}
 		} else {
 
-			PHALCON_ALLOC_ZVAL(fci->function_name);
+			ZEPHIR_ALLOC_ZVAL(fci->function_name);
 			ZVAL_STRINGL(fci->function_name, method_name, method_len, 0);
 
 			/** Use the slow function instead */
@@ -626,16 +625,16 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 		}
 
 		/* Store the function in the cache only if it is a zend internal function */
-		if (is_phalcon_function) {
+		if (is_zephir_function) {
 			if (likely(fci_cache->function_handler->type == ZEND_INTERNAL_FUNCTION)) {
 
-				if (!phalcon_globals_ptr->function_cache) {
-					ALLOC_HASHTABLE(phalcon_globals_ptr->function_cache);
-					zend_hash_init(phalcon_globals_ptr->function_cache, 0, NULL, NULL, 0);
+				if (!zephir_globals_ptr->function_cache) {
+					ALLOC_HASHTABLE(zephir_globals_ptr->function_cache);
+					zend_hash_init(zephir_globals_ptr->function_cache, 0, NULL, NULL, 0);
 				}
 
 				zend_hash_index_update(
-					phalcon_globals_ptr->function_cache,
+					zephir_globals_ptr->function_cache,
 					hash_key,
 					&fci_cache->function_handler,
 					sizeof(zend_function *),
@@ -657,7 +656,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	fci->object_ptr = fci_cache->object_ptr;
 	EX(object) = fci->object_ptr;
 
-	if (!is_phalcon_function) {
+	if (!is_zephir_function) {
 
 		if (fci->object_ptr && Z_TYPE_P(fci->object_ptr) == IS_OBJECT &&
 			(!executor_globals_ptr->objects_store.object_buckets || !executor_globals_ptr->objects_store.object_buckets[Z_OBJ_HANDLE_P(fci->object_ptr)].valid)) {
@@ -831,7 +830,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			{
 				INIT_PZVAL(*fci->retval_ptr_ptr);
 			}*/
-			if (executor_globals_ptr->exception && fci->retval_ptr_ptr) {
+			if (executor_globals_ptr->exception && fci->retval_ptr_ptr && *fci->retval_ptr_ptr) {
 				zval_ptr_dtor(fci->retval_ptr_ptr);
 				*fci->retval_ptr_ptr = NULL;
 			}
@@ -855,7 +854,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 			}
 			efree(EX(function_state).function);
 
-			if (executor_globals_ptr->exception && fci->retval_ptr_ptr) {
+			if (executor_globals_ptr->exception && fci->retval_ptr_ptr && *fci->retval_ptr_ptr) {
 				zval_ptr_dtor(fci->retval_ptr_ptr);
 				*fci->retval_ptr_ptr = NULL;
 			}
@@ -876,7 +875,7 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 	executor_globals_ptr->current_execute_data = EX(prev_execute_data);
 
 	if (executor_globals_ptr->exception) {
-		phalcon_throw_exception_internal(NULL TSRMLS_CC);
+		zephir_throw_exception_internal(NULL TSRMLS_CC);
 	}
 
 	return SUCCESS;
@@ -887,9 +886,9 @@ int phalcon_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned
 /**
  * Calls a method caching its function handler
  */
-int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zval **retval_ptr_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
+int zephir_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zval **retval_ptr_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
 {
-	zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL;
+	zend_zephir_globals *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 	zval ***params_array = NULL;
 	zval **static_params_array[5];
 	zend_uint i;
@@ -898,9 +897,9 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 	zend_fcall_info fci;
 	unsigned long hash_key = 0;
 
-	phalcon_globals_ptr->recursive_lock++;
+	zephir_globals_ptr->recursive_lock++;
 
-	if (unlikely(phalcon_globals_ptr->recursive_lock > 2048)) {
+	if (unlikely(zephir_globals_ptr->recursive_lock > 2048)) {
 		ex_retval = FAILURE;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Maximum recursion depth exceeded");
 	} else {
@@ -952,15 +951,19 @@ int phalcon_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *m
 			fci.params = static_params_array;
 		}
 
-		ex_retval = phalcon_alt_call_method(&fci, ce, hash_key, method_name, method_len, method_key TSRMLS_CC);
+		ex_retval = zephir_alt_call_method(&fci, ce, hash_key, method_name, method_len, method_key TSRMLS_CC);
 
 		if (fci.function_name) {
-			ZVAL_NULL(fci.function_name);
+			if (Z_REFCOUNT_P(fci.function_name) == 1) {
+				ZVAL_NULL(fci.function_name);
+			} else {
+				zval_copy_ctor(fci.function_name);
+			}
 			zval_ptr_dtor(&fci.function_name);
 		}
 	}
 
-	phalcon_globals_ptr->recursive_lock--;
+	zephir_globals_ptr->recursive_lock--;
 
 	if (local_retval_ptr) {
 		COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);

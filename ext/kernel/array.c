@@ -1,19 +1,19 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -22,7 +22,7 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 #include "ext/standard/php_array.h"
 
 #include "kernel/main.h"
@@ -45,20 +45,23 @@
  * @note $arr[$index] is returned as is: no copying occurs, reference copunt is not updated
  * @throw E_WARNING if @a offset is not a scalar
  */
-int phalcon_array_isset_fetch(zval **fetched, const zval *arr, zval *index) {
+int zephir_array_isset_fetch(zval **fetched, const zval *arr, zval *index) {
 
 	HashTable *h;
 	zval **val;
 	int result;
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
+		TSRMLS_FETCH();
+		*fetched = ZEPHIR_GLOBAL(global_null);
+		Z_ADDREF_P(*fetched);
 		return 0;
 	}
 
 	h = Z_ARRVAL_P(arr);
 	switch (Z_TYPE_P(index)) {
 		case IS_NULL:
-			result = phalcon_hash_find(h, ZEND_STRS(""), (void**)&val);
+			result = zephir_hash_find(h, ZEND_STRS(""), (void**)&val);
 			break;
 
 		case IS_DOUBLE:
@@ -77,47 +80,62 @@ int phalcon_array_isset_fetch(zval **fetched, const zval *arr, zval *index) {
 
 		default:
 			zend_error(E_WARNING, "Illegal offset type");
+			TSRMLS_FETCH();
+			*fetched = ZEPHIR_GLOBAL(global_null);
+			Z_ADDREF_P(*fetched);
 			return 0;
 	}
 
 	if (result == SUCCESS) {
 		*fetched = *val;
+		Z_ADDREF_P(*fetched);
 		return 1;
 	}
 
+	TSRMLS_FETCH();
+	*fetched = ZEPHIR_GLOBAL(global_null);
+	Z_ADDREF_P(*fetched);
 	return 0;
 }
 
-int phalcon_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key) {
+int zephir_array_isset_quick_string_fetch(zval **fetched, zval *arr, char *index, uint index_length, unsigned long key) {
 
 	zval **zv;
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if (phalcon_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
+		if (zephir_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
 			*fetched = *zv;
+			Z_ADDREF_P(*fetched);
 			return 1;
 		}
 	}
 
+	TSRMLS_FETCH();
+	*fetched = ZEPHIR_GLOBAL(global_null);
+	Z_ADDREF_P(*fetched);
 	return 0;
 }
 
-int phalcon_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length) {
+int zephir_array_isset_string_fetch(zval **fetched, zval *arr, char *index, uint index_length) {
 
-	return phalcon_array_isset_quick_string_fetch(fetched, arr, index, index_length, zend_inline_hash_func(index, index_length));
+	return zephir_array_isset_quick_string_fetch(fetched, arr, index, index_length, zend_inline_hash_func(index, index_length));
 }
 
-int phalcon_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index) {
+int zephir_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long index) {
 
 	zval **zv;
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		if (zend_hash_index_find(Z_ARRVAL_P(arr), index, (void**)&zv) == SUCCESS) {
 			*fetched = *zv;
+			Z_ADDREF_P(*fetched);
 			return 1;
 		}
 	}
 
+	TSRMLS_FETCH();
+	*fetched = ZEPHIR_GLOBAL(global_null);
+	Z_ADDREF_P(*fetched);
 	return 0;
 }
 
@@ -131,7 +149,7 @@ int phalcon_array_isset_long_fetch(zval **fetched, zval *arr, unsigned long inde
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  * @throw E_WARNING if @a offset is not a scalar
  */
-int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
+int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index) {
 
 	HashTable *h;
 
@@ -142,7 +160,7 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
 	h = Z_ARRVAL_P(arr);
 	switch (Z_TYPE_P(index)) {
 		case IS_NULL:
-			return phalcon_hash_exists(h, ZEND_STRS(""));
+			return zephir_hash_exists(h, ZEND_STRS(""));
 
 		case IS_DOUBLE:
 			return zend_hash_index_exists(h, (ulong)Z_DVAL_P(index));
@@ -169,12 +187,12 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
  * @return isset($arr[$index])
  * @retval 0 Not exists, @a arr is not an array
  * @retval 1 Exists
- * @note The function is a wrapper around phalcon_array_isset_quick_string()
- * @see phalcon_array_isset_quick_string()
+ * @note The function is a wrapper around zephir_array_isset_quick_string()
+ * @see zephir_array_isset_quick_string()
  */
-int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length) {
+int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index, uint index_length) {
 
-	return phalcon_array_isset_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length));
+	return zephir_array_isset_quick_string(arr, index, index_length, zend_inline_hash_func(index, index_length));
 }
 
 /**
@@ -187,7 +205,7 @@ int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, ui
  * @retval 0 Not exists or @a arr is not an array
  * @retval 1 Exists
  */
-int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, unsigned long key) {
+int ZEPHIR_FASTCALL zephir_array_isset_quick_string(const zval *arr, const char *index, uint index_length, unsigned long key) {
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_quick_exists(Z_ARRVAL_P(arr), index, index_length, key);
@@ -204,7 +222,7 @@ int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *ind
  * @retval 0 Not exists or @a arr is not an array
  * @retval 1 Exists
  */
-int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long index) {
+int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index) {
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
@@ -224,7 +242,7 @@ int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long ind
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  * @throw @c E_WARNING if @a offset is not a scalar
  */
-int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags) {
+int ZEPHIR_FASTCALL zephir_array_unset(zval **arr, zval *index, int flags) {
 
 	HashTable *ht;
 
@@ -269,7 +287,7 @@ int PHALCON_FASTCALL phalcon_array_unset(zval **arr, zval *index, int flags) {
  * @retval @c FAILURE Failure or @a arr is not an array
  * @retval @c SUCCESS Success
  */
-int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, char *index, uint index_length, int flags) {
+int ZEPHIR_FASTCALL zephir_array_unset_string(zval **arr, const char *index, uint index_length, int flags) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
@@ -291,7 +309,7 @@ int PHALCON_FASTCALL phalcon_array_unset_string(zval **arr, char *index, uint in
  * @retval @c FAILURE Failure or @a arr is not an array
  * @retval @c SUCCESS Success
  */
-int PHALCON_FASTCALL phalcon_array_unset_long(zval **arr, unsigned long index, int flags) {
+int ZEPHIR_FASTCALL zephir_array_unset_long(zval **arr, unsigned long index, int flags) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		return 0;
@@ -314,7 +332,7 @@ int PHALCON_FASTCALL phalcon_array_unset_long(zval **arr, unsigned long index, i
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a is not an array
  */
-int phalcon_array_append(zval **arr, zval *value, int flags) {
+int zephir_array_append(zval **arr, zval *value, int flags) {
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array");
@@ -338,11 +356,11 @@ int phalcon_array_append(zval **arr, zval *value, int flags) {
  * @retval @c FAILURE Failure or @a arr is not an array
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a is not an array
- * @see phalcon_array_append()
+ * @see zephir_array_append()
  *
  * Equivalent to <tt>$arr[] = $value</tt> in PHP, where @c $value is an integer.
  */
-int phalcon_array_append_long(zval **arr, long value, int separate) {
+int zephir_array_append_long(zval **arr, long value, int separate) {
 
 	zval *zvalue;
 
@@ -350,7 +368,7 @@ int phalcon_array_append_long(zval **arr, long value, int separate) {
 	Z_SET_REFCOUNT_P(zvalue, 0);
 	ZVAL_LONG(zvalue, value);
 
-	return phalcon_array_append(arr, zvalue, separate);
+	return zephir_array_append(arr, zvalue, separate);
 }
 
 /**
@@ -363,11 +381,11 @@ int phalcon_array_append_long(zval **arr, long value, int separate) {
  * @retval @c FAILURE Failure or @a arr is not an array
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a is not an array
- * @see phalcon_array_append()
+ * @see zephir_array_append()
  *
  * Equivalent to <tt>$arr[] = $value</tt> in PHP, where @c $value is a string.
  */
-int phalcon_array_append_string(zval **arr, char *value, uint value_length, int separate) {
+int zephir_array_append_string(zval **arr, char *value, uint value_length, int separate) {
 
 	zval *zvalue;
 
@@ -375,7 +393,7 @@ int phalcon_array_append_string(zval **arr, char *value, uint value_length, int 
 	Z_SET_REFCOUNT_P(zvalue, 0);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
-	return phalcon_array_append(arr, zvalue, separate);
+	return zephir_array_append(arr, zvalue, separate);
 }
 
 /**
@@ -396,7 +414,7 @@ int phalcon_array_append_string(zval **arr, char *value, uint value_length, int 
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags) {
+int zephir_array_update_zval(zval **arr, zval *index, zval **value, int flags) {
 
 	HashTable *ht;
 
@@ -455,7 +473,7 @@ int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags) 
  * @retval @c FAILURE Failure, @a arr is not an array or @a index is of not supported type
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a arr is not an array
- * @see phalcon_array_update_zval()
+ * @see zephir_array_update_zval()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $value is a boolean.
  * Flags may be a bitwise OR of the following values:
@@ -465,14 +483,14 @@ int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags) 
  *
  * Only @c PH_SEPARATE is meaningful with this function
  */
-int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags) {
+int zephir_array_update_zval_bool(zval **arr, zval *index, int value, int flags) {
 
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
 	ZVAL_BOOL(zvalue, value);
 
-	return phalcon_array_update_zval(arr, index, &zvalue, flags);
+	return zephir_array_update_zval(arr, index, &zvalue, flags);
 }
 
 /**
@@ -486,7 +504,7 @@ int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags
  * @retval @c FAILURE Failure, @a arr is not an array or @a index is of not supported type
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a arr is not an array
- * @see phalcon_array_update_zval()
+ * @see zephir_array_update_zval()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $value is a string.
  * Flags may be a bitwise OR of the following values:
@@ -496,14 +514,14 @@ int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags
  *
  * Only @c PH_SEPARATE is meaningful with this function
  */
-int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint value_length, int flags) {
+int zephir_array_update_zval_string(zval **arr, zval *index, char *value, uint value_length, int flags) {
 
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
-	return phalcon_array_update_zval(arr, index, &zvalue, flags);
+	return zephir_array_update_zval(arr, index, &zvalue, flags);
 }
 
 /**
@@ -516,7 +534,7 @@ int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint 
  * @retval @c FAILURE Failure, @a arr is not an array or @a index is of not supported type
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a arr is not an array
- * @see phalcon_array_update_zval()
+ * @see zephir_array_update_zval()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $value is an integer.
  * Flags may be a bitwise OR of the following values:
@@ -526,14 +544,14 @@ int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint 
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flags) {
+int zephir_array_update_zval_long(zval **arr, zval *index, long value, int flags) {
 
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
 	ZVAL_LONG(zvalue, value);
 
-	return phalcon_array_update_zval(arr, index, &zvalue, flags);
+	return zephir_array_update_zval(arr, index, &zvalue, flags);
 }
 
 /**
@@ -556,7 +574,7 @@ int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flag
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length, unsigned long key, zval **value, int flags){
+int zephir_array_update_quick_string(zval **arr, const char *index, uint index_length, unsigned long key, zval **value, int flags){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array");
@@ -594,18 +612,18 @@ int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length
  * @retval @c FAILURE Failure, @a arr is not an array
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a arr is not an array
- * @see phalcon_array_update_quick_string()
+ * @see zephir_array_update_quick_string()
  *
- * The function is a wrapper over @c phalcon_array_update_quick_string()
+ * The function is a wrapper over @c zephir_array_update_quick_string()
  *
  * Flags may be a bitwise OR of the following values:
  * @arg @c PH_CTOR: create a copy of @a value and work with that copy; @c *value will be updated with the newly constructed value
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags) {
+int zephir_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags) {
 
-	return phalcon_array_update_quick_string(arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), value, flags);
+	return zephir_array_update_quick_string(arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), value, flags);
 }
 
 /**
@@ -619,7 +637,7 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
  * @retval @c FAILURE Failure, @a arr is not an array
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a arr is not an array
- * @see phalcon_array_update_string()
+ * @see zephir_array_update_string()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $index is a string key and $value is a boolean.
  *
@@ -630,14 +648,14 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length, int value, int flags){
+int zephir_array_update_string_bool(zval **arr, const char *index, uint index_length, int value, int flags){
 
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
 	ZVAL_BOOL(zvalue, value);
 
-	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags);
+	return zephir_array_update_string(arr, index, index_length, &zvalue, flags);
 }
 
 /**
@@ -651,7 +669,7 @@ int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length,
  * @retval @c FAILURE Failure, @a arr is not an array
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a arr is not an array
- * @see phalcon_array_update_string()
+ * @see zephir_array_update_string()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $index is a string key and $value is an integer.
  *
@@ -662,14 +680,14 @@ int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length,
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_string_long(zval **arr, char *index, uint index_length, long value, int flags){
+int zephir_array_update_string_long(zval **arr, const char *index, uint index_length, long value, int flags){
 
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
 	ZVAL_LONG(zvalue, value);
 
-	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags);
+	return zephir_array_update_string(arr, index, index_length, &zvalue, flags);
 }
 
 /**
@@ -684,7 +702,7 @@ int phalcon_array_update_string_long(zval **arr, char *index, uint index_length,
  * @retval @c FAILURE Failure, @a arr is not an array
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @a arr is not an array
- * @see phalcon_array_update_string()
+ * @see zephir_array_update_string()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP, where @c $index is a string key and $value is a boolean.
  *
@@ -695,14 +713,14 @@ int phalcon_array_update_string_long(zval **arr, char *index, uint index_length,
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_string_string(zval **arr, char *index, uint index_length, char *value, uint value_length, int flags){
+int zephir_array_update_string_string(zval **arr, const char *index, uint index_length, char *value, uint value_length, int flags){
 
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
-	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags);
+	return zephir_array_update_string(arr, index, index_length, &zvalue, flags);
 }
 
 /**
@@ -722,7 +740,7 @@ int phalcon_array_update_string_string(zval **arr, char *index, uint index_lengt
  * @arg @c PH_SEPARATE: separate @a arr if its reference count is greater than 1; @c *arr will contain the separated version
  * @arg @c PH_COPY: increment the reference count on @c **value
  */
-int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int flags){
+int zephir_array_update_long(zval **arr, unsigned long index, zval **value, int flags){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array");
@@ -760,7 +778,7 @@ int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int
  * @retval @c FAILURE Failure, @a arr is not an array
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @c arr is not an array
- * @see phalcon_array_update_long()
+ * @see zephir_array_update_long()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP where @c $index is an integer and @c $value is a string.
  * Flags may be a bitwise OR of the following values:
@@ -770,14 +788,14 @@ int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_long_string(zval **arr, unsigned long index, char *value, uint value_length, int flags){
+int zephir_array_update_long_string(zval **arr, unsigned long index, char *value, uint value_length, int flags){
 
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
-	return phalcon_array_update_long(arr, index, &zvalue, flags);
+	return zephir_array_update_long(arr, index, &zvalue, flags);
 }
 
 /**
@@ -790,7 +808,7 @@ int phalcon_array_update_long_string(zval **arr, unsigned long index, char *valu
  * @retval @c FAILURE Failure, @a arr is not an array
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @c arr is not an array
- * @see phalcon_array_update_long()
+ * @see zephir_array_update_long()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP where @c $index is an integer and @c $value is an integer.
  * Flags may be a bitwise OR of the following values:
@@ -800,14 +818,14 @@ int phalcon_array_update_long_string(zval **arr, unsigned long index, char *valu
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_long_long(zval **arr, unsigned long index, long value, int flags){
+int zephir_array_update_long_long(zval **arr, unsigned long index, long value, int flags){
 
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
 	ZVAL_LONG(zvalue, value);
 
-	return phalcon_array_update_long(arr, index, &zvalue, flags);
+	return zephir_array_update_long(arr, index, &zvalue, flags);
 }
 
 /**
@@ -820,7 +838,7 @@ int phalcon_array_update_long_long(zval **arr, unsigned long index, long value, 
  * @retval @c FAILURE Failure, @a arr is not an array
  * @retval @c SUCCESS Success
  * @throw @c E_WARNING if @c arr is not an array
- * @see phalcon_array_update_long()
+ * @see zephir_array_update_long()
  *
  * Equivalent to <tt>$arr[$index] = $value</tt> in PHP where @c $index is an integer and @c $value is an integer.
  * Flags may be a bitwise OR of the following values:
@@ -830,14 +848,14 @@ int phalcon_array_update_long_long(zval **arr, unsigned long index, long value, 
  *
  * Only @c PH_SEPARATE is meaningful with this function.
  */
-int phalcon_array_update_long_bool(zval **arr, unsigned long index, int value, int flags){
+int zephir_array_update_long_bool(zval **arr, unsigned long index, int value, int flags){
 
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
 	ZVAL_BOOL(zvalue, value);
 
-	return phalcon_array_update_long(arr, index, &zvalue, flags);
+	return zephir_array_update_long(arr, index, &zvalue, flags);
 }
 
 /**
@@ -855,7 +873,7 @@ int phalcon_array_update_long_bool(zval **arr, unsigned long index, int value, i
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  * @note @c index will be handled as follows: @c NULL is treated as an empty string, @c double values are cast to @c integer, @c bool or @c resource are treated as @c integer
  */
-int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent){
+int zephir_array_fetch(zval **return_value, zval *arr, zval *index, int silent){
 
 	zval **zv;
 	HashTable *ht;
@@ -867,7 +885,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent)
 		ht = Z_ARRVAL_P(arr);
 		switch (Z_TYPE_P(index)) {
 			case IS_NULL:
-				result = phalcon_hash_find(ht, ZEND_STRS(""), (void**) &zv);
+				result = zephir_hash_find(ht, ZEND_STRS(""), (void**) &zv);
 				sidx   = "";
 				break;
 
@@ -931,12 +949,12 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent)
  * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  */
-int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index, uint index_length, unsigned long key, int silent){
+int zephir_array_fetch_quick_string(zval **return_value, zval *arr, const char *index, uint index_length, unsigned long key, int silent){
 
 	zval **zv;
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if (phalcon_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
+		if (zephir_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv) == SUCCESS) {
 			*return_value = *zv;
 			Z_ADDREF_PP(return_value);
 			return SUCCESS;
@@ -969,13 +987,13 @@ int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index
  * @throw @c E_WARNING if @c arr is not an array and @c silent = @c PH_NOISY
  * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
- * @see phalcon_array_fetch_quick_string()
+ * @see zephir_array_fetch_quick_string()
  *
- * The function is a wrapper over @c phalcon_array_fetch_quick_string()
+ * The function is a wrapper over @c zephir_array_fetch_quick_string()
  */
-int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent){
+int zephir_array_fetch_string(zval **return_value, zval *arr, const char *index, uint index_length, int silent){
 
-	return phalcon_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), silent);
+	return zephir_array_fetch_quick_string(return_value, arr, index, index_length + 1, zend_inline_hash_func(index, index_length + 1), silent);
 }
 
 /**
@@ -991,7 +1009,7 @@ int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint
  * @throw @c E_NOTICE if @c index does not exist and @c silent = @c PH_NOISY
  * @warning @c *return_value should be either @c NULL (preferred) or point to not initialized memory; if @c *return_value points to a valid variable, mmemory leak is possible
  */
-int phalcon_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int silent){
+int zephir_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int silent){
 
 	zval **zv;
 
@@ -1019,20 +1037,20 @@ int phalcon_array_fetch_long(zval **return_value, zval *arr, unsigned long index
 /**
  * Append a zval to a multi-dimensional array with two indexes
  */
-void phalcon_array_append_multi_2(zval **arr, zval *index, zval *value, int flags){
+void zephir_array_append_multi_2(zval **arr, zval *index, zval *value, int flags){
 
 	zval *temp;
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch(&temp, *arr, index, PH_SILENT);
+		zephir_array_fetch(&temp, *arr, index, PH_SILENT);
 		if (Z_REFCOUNT_P(temp) > 1) {
-			phalcon_array_update_zval(arr, index, &temp, PH_COPY | PH_CTOR);
+			zephir_array_update_zval(arr, index, &temp, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp) != IS_ARRAY) {
 			convert_to_array(temp);
-			phalcon_array_update_zval(arr, index, &temp, PH_COPY);
+			zephir_array_update_zval(arr, index, &temp, PH_COPY);
 		}
-		phalcon_array_append(&temp, value, flags);
+		zephir_array_append(&temp, value, flags);
 		zval_ptr_dtor(&temp);
 	}
 
@@ -1041,20 +1059,20 @@ void phalcon_array_append_multi_2(zval **arr, zval *index, zval *value, int flag
 /**
  * Updates multi-dimensional array with two zval indexes
  */
-void phalcon_array_update_multi_2(zval **arr, zval *index1, zval *index2, zval **value, int flags){
+void zephir_array_update_multi_2(zval **arr, zval *index1, zval *index2, zval **value, int flags){
 
 	zval *temp;
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch(&temp, *arr, index1, PH_SILENT);
+		zephir_array_fetch(&temp, *arr, index1, PH_SILENT);
 		if (Z_REFCOUNT_P(temp) > 1) {
-			phalcon_array_update_zval(arr, index1, &temp, PH_COPY | PH_CTOR);
+			zephir_array_update_zval(arr, index1, &temp, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp) != IS_ARRAY) {
 			convert_to_array(temp);
-			phalcon_array_update_zval(arr, index1, &temp, PH_COPY);
+			zephir_array_update_zval(arr, index1, &temp, PH_COPY);
 		}
-		phalcon_array_update_zval(&temp, index2, value, flags | PH_COPY);
+		zephir_array_update_zval(&temp, index2, value, flags | PH_COPY);
 		zval_ptr_dtor(&temp);
 	}
 
@@ -1063,20 +1081,20 @@ void phalcon_array_update_multi_2(zval **arr, zval *index1, zval *index2, zval *
 /**
  * Updates multi-dimensional array with two zval indexes
  */
-void phalcon_array_update_string_multi_2(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags){
+void zephir_array_update_string_multi_2(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags){
 
 	zval *temp;
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch(&temp, *arr, index1, PH_SILENT);
+		zephir_array_fetch(&temp, *arr, index1, PH_SILENT);
 		if (Z_REFCOUNT_P(temp) > 1) {
-			phalcon_array_update_zval(arr, index1, &temp, PH_COPY | PH_CTOR);
+			zephir_array_update_zval(arr, index1, &temp, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp) != IS_ARRAY) {
 			convert_to_array(temp);
-			phalcon_array_update_zval(arr, index1, &temp, PH_COPY);
+			zephir_array_update_zval(arr, index1, &temp, PH_COPY);
 		}
-		phalcon_array_update_string(&temp, index2, index2_length, value, flags | PH_COPY);
+		zephir_array_update_string(&temp, index2, index2_length, value, flags | PH_COPY);
 		zval_ptr_dtor(&temp);
 	}
 
@@ -1087,20 +1105,20 @@ void phalcon_array_update_string_multi_2(zval **arr, zval *index1, char *index2,
  *
  * $foo[10][4] = $x
  */
-void phalcon_array_update_long_long_multi_2(zval **arr, long index1, long index2, zval **value, int flags){
+void zephir_array_update_long_long_multi_2(zval **arr, long index1, long index2, zval **value, int flags){
 
 	zval *temp = NULL;
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch_long(&temp, *arr, index1, PH_SILENT);
+		zephir_array_fetch_long(&temp, *arr, index1, PH_SILENT);
 		if (Z_REFCOUNT_P(temp) > 1) {
-			phalcon_array_update_long(arr, index1, &temp, PH_COPY | PH_CTOR);
+			zephir_array_update_long(arr, index1, &temp, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp) != IS_ARRAY) {
 			convert_to_array(temp);
-			phalcon_array_update_long(arr, index1, &temp, PH_COPY);
+			zephir_array_update_long(arr, index1, &temp, PH_COPY);
 		}
-		phalcon_array_update_long(&temp, index2, value, flags | PH_COPY);
+		zephir_array_update_long(&temp, index2, value, flags | PH_COPY);
 		zval_ptr_dtor(&temp);
 	}
 
@@ -1111,20 +1129,20 @@ void phalcon_array_update_long_long_multi_2(zval **arr, long index1, long index2
  *
  * $foo[10]["lol"] = $x
  */
-void phalcon_array_update_long_string_multi_2(zval **arr, long index1, char *index2, uint index2_length, zval **value, int flags){
+void zephir_array_update_long_string_multi_2(zval **arr, long index1, char *index2, uint index2_length, zval **value, int flags){
 
 	zval *temp;
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch_long(&temp, *arr, index1, PH_SILENT);
+		zephir_array_fetch_long(&temp, *arr, index1, PH_SILENT);
 		if (Z_REFCOUNT_P(temp) > 1) {
-			phalcon_array_update_long(arr, index1, &temp, PH_COPY | PH_CTOR);
+			zephir_array_update_long(arr, index1, &temp, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp) != IS_ARRAY) {
 			convert_to_array(temp);
-			phalcon_array_update_long(arr, index1, &temp, PH_COPY);
+			zephir_array_update_long(arr, index1, &temp, PH_COPY);
 		}
-		phalcon_array_update_string(&temp, index2, index2_length, value, flags | PH_COPY);
+		zephir_array_update_string(&temp, index2, index2_length, value, flags | PH_COPY);
 		zval_ptr_dtor(&temp);
 	}
 
@@ -1133,20 +1151,20 @@ void phalcon_array_update_long_string_multi_2(zval **arr, long index1, char *ind
 /**
  * $x[$a][] = 1
  */
-void phalcon_array_update_append_multi_2(zval **arr, zval *index1, zval *value, int flags){
+void zephir_array_update_append_multi_2(zval **arr, zval *index1, zval *value, int flags){
 
 	zval *temp;
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch(&temp, *arr, index1, PH_SILENT);
+		zephir_array_fetch(&temp, *arr, index1, PH_SILENT);
 		if (Z_REFCOUNT_P(temp) > 1) {
-			phalcon_array_update_zval(arr, index1, &temp, PH_COPY | PH_CTOR);
+			zephir_array_update_zval(arr, index1, &temp, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp) != IS_ARRAY) {
 			convert_to_array(temp);
-			phalcon_array_update_zval(arr, index1, &temp, PH_COPY);
+			zephir_array_update_zval(arr, index1, &temp, PH_COPY);
 		}
-		phalcon_array_append(&temp, value, flags);
+		zephir_array_append(&temp, value, flags);
 		zval_ptr_dtor(&temp);
 	}
 
@@ -1155,31 +1173,31 @@ void phalcon_array_update_append_multi_2(zval **arr, zval *index1, zval *value, 
 /**
  * $x[$a]["hello"][] = $v
  */
-void phalcon_array_update_zval_string_append_multi_3(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags){
+void zephir_array_update_zval_string_append_multi_3(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags){
 
 	zval *temp1 = NULL, *temp2 = NULL;
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
 
-		phalcon_array_fetch(&temp1, *arr, index1, PH_SILENT);
+		zephir_array_fetch(&temp1, *arr, index1, PH_SILENT);
 		if (Z_REFCOUNT_P(temp1) > 1) {
-			phalcon_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR);
+			zephir_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp1) != IS_ARRAY) {
 			convert_to_array(temp1);
-			phalcon_array_update_zval(arr, index1, &temp1, PH_COPY);
+			zephir_array_update_zval(arr, index1, &temp1, PH_COPY);
 		}
 
-		phalcon_array_fetch_string(&temp2, temp1, index2, index2_length, PH_SILENT);
+		zephir_array_fetch_string(&temp2, temp1, index2, index2_length, PH_SILENT);
 		if (Z_REFCOUNT_P(temp2) > 1) {
-			phalcon_array_update_string(&temp1, index2, index2_length, &temp2, PH_COPY | PH_CTOR);
+			zephir_array_update_string(&temp1, index2, index2_length, &temp2, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp2) != IS_ARRAY) {
 			convert_to_array(temp2);
-			phalcon_array_update_string(&temp1, index2, index2_length, &temp2, PH_COPY);
+			zephir_array_update_string(&temp1, index2, index2_length, &temp2, PH_COPY);
 		}
 
-		phalcon_array_append(&temp2, *value, flags);
+		zephir_array_append(&temp2, *value, flags);
 	}
 
 	if (temp1 != NULL) {
@@ -1194,31 +1212,31 @@ void phalcon_array_update_zval_string_append_multi_3(zval **arr, zval *index1, c
 /**
  * $x[$a][$b][$c] = $v
  */
-void phalcon_array_update_zval_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, zval *index3, zval **value, int flags){
+void zephir_array_update_zval_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, zval *index3, zval **value, int flags){
 
 	zval *temp1 = NULL, *temp2 = NULL;
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
 
-		phalcon_array_fetch(&temp1, *arr, index1, PH_SILENT);
+		zephir_array_fetch(&temp1, *arr, index1, PH_SILENT);
 		if (Z_REFCOUNT_P(temp1) > 1) {
-			phalcon_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR);
+			zephir_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp1) != IS_ARRAY) {
 			convert_to_array(temp1);
-			phalcon_array_update_zval(arr, index1, &temp1, PH_COPY);
+			zephir_array_update_zval(arr, index1, &temp1, PH_COPY);
 		}
 
-		phalcon_array_fetch(&temp2, temp1, index2, PH_SILENT);
+		zephir_array_fetch(&temp2, temp1, index2, PH_SILENT);
 		if (Z_REFCOUNT_P(temp2) > 1) {
-			phalcon_array_update_zval(&temp1, index2, &temp2, PH_COPY | PH_CTOR);
+			zephir_array_update_zval(&temp1, index2, &temp2, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp2) != IS_ARRAY) {
 			convert_to_array(temp2);
-			phalcon_array_update_zval(&temp1, index2, &temp2, PH_COPY);
+			zephir_array_update_zval(&temp1, index2, &temp2, PH_COPY);
 		}
 
-		phalcon_array_update_zval(&temp2, index3, value, PH_COPY);
+		zephir_array_update_zval(&temp2, index3, value, PH_COPY);
 	}
 
 	if (temp1 != NULL) {
@@ -1233,31 +1251,31 @@ void phalcon_array_update_zval_zval_zval_multi_3(zval **arr, zval *index1, zval 
 /**
  * $x[$a][$b]["str"] = $v
  */
-void phalcon_array_update_string_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, char *index3, uint index3_length, zval **value, int flags){
+void zephir_array_update_string_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, char *index3, uint index3_length, zval **value, int flags){
 
 	zval *temp1 = NULL, *temp2 = NULL;
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
 
-		phalcon_array_fetch(&temp1, *arr, index1, PH_SILENT);
+		zephir_array_fetch(&temp1, *arr, index1, PH_SILENT);
 		if (Z_REFCOUNT_P(temp1) > 1) {
-			phalcon_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR);
+			zephir_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp1) != IS_ARRAY) {
 			convert_to_array(temp1);
-			phalcon_array_update_zval(arr, index1, &temp1, PH_COPY);
+			zephir_array_update_zval(arr, index1, &temp1, PH_COPY);
 		}
 
-		phalcon_array_fetch(&temp2, temp1, index2, PH_SILENT);
+		zephir_array_fetch(&temp2, temp1, index2, PH_SILENT);
 		if (Z_REFCOUNT_P(temp2) > 1) {
-			phalcon_array_update_zval(&temp1, index2, &temp2, PH_COPY | PH_CTOR);
+			zephir_array_update_zval(&temp1, index2, &temp2, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp2) != IS_ARRAY) {
 			convert_to_array(temp2);
-			phalcon_array_update_zval(&temp1, index2, &temp2, PH_COPY);
+			zephir_array_update_zval(&temp1, index2, &temp2, PH_COPY);
 		}
 
-		phalcon_array_update_string(&temp2, index3, index3_length, value, PH_COPY);
+		zephir_array_update_string(&temp2, index3, index3_length, value, PH_COPY);
 	}
 
 	if (temp1 != NULL) {
@@ -1272,31 +1290,31 @@ void phalcon_array_update_string_zval_zval_multi_3(zval **arr, zval *index1, zva
 /**
  * $x[$a]["a-str"]["str"] = 1
  */
-void phalcon_array_update_zval_string_string_multi_3(zval **arr, zval *index1, char *index2, uint index2_length, char *index3, uint index3_length, zval **value, int flags){
+void zephir_array_update_zval_string_string_multi_3(zval **arr, zval *index1, char *index2, uint index2_length, char *index3, uint index3_length, zval **value, int flags){
 
 	zval *temp1 = NULL, *temp2 = NULL;
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
 
-		phalcon_array_fetch(&temp1, *arr, index1, PH_SILENT);
+		zephir_array_fetch(&temp1, *arr, index1, PH_SILENT);
 		if (Z_REFCOUNT_P(temp1) > 1) {
-			phalcon_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR);
+			zephir_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp1) != IS_ARRAY) {
 			convert_to_array(temp1);
-			phalcon_array_update_zval(arr, index1, &temp1, PH_COPY);
+			zephir_array_update_zval(arr, index1, &temp1, PH_COPY);
 		}
 
-		phalcon_array_fetch_string(&temp2, temp1, index2, index2_length, PH_SILENT);
+		zephir_array_fetch_string(&temp2, temp1, index2, index2_length, PH_SILENT);
 		if (Z_REFCOUNT_P(temp2) > 1) {
-			phalcon_array_update_string(&temp1, index2, index2_length, &temp2, PH_COPY | PH_CTOR);
+			zephir_array_update_string(&temp1, index2, index2_length, &temp2, PH_COPY | PH_CTOR);
 		}
 		if (Z_TYPE_P(temp2) != IS_ARRAY) {
 			convert_to_array(temp2);
-			phalcon_array_update_string(&temp1, index2, index2_length, &temp2, PH_COPY);
+			zephir_array_update_string(&temp1, index2, index2_length, &temp2, PH_COPY);
 		}
 
-		phalcon_array_update_string(&temp2, index3, index3_length, value, PH_COPY);
+		zephir_array_update_string(&temp2, index3, index3_length, value, PH_COPY);
 	}
 
 	if (temp1 != NULL) {
@@ -1310,14 +1328,14 @@ void phalcon_array_update_zval_string_string_multi_3(zval **arr, zval *index1, c
 /**
  * Appends every element of an array at the end of the left array
  */
-void phalcon_merge_append(zval *left, zval *values){
+void zephir_merge_append(zval *left, zval *values){
 
 	zval         **tmp;
 	HashTable      *arr_values;
 	HashPosition   pos;
 
 	if (Z_TYPE_P(left) != IS_ARRAY) {
-		zend_error(E_NOTICE, "First parameter of phalcon_merge_append must be an array");
+		zend_error(E_NOTICE, "First parameter of zephir_merge_append must be an array");
 		return;
 	}
 
@@ -1343,7 +1361,7 @@ void phalcon_merge_append(zval *left, zval *values){
 /**
  * Gets the current element in a zval hash
  */
-void phalcon_array_get_current(zval *return_value, zval *array){
+void zephir_array_get_current(zval *return_value, zval *array){
 
 	zval **entry;
 
@@ -1360,7 +1378,7 @@ void phalcon_array_get_current(zval *return_value, zval *array){
 /**
  * Gets the current element in a zval hash
  */
-void phalcon_array_next(zval *array){
+void zephir_array_next(zval *array){
 	if (Z_TYPE_P(array) == IS_ARRAY) {
 		zend_hash_move_forward(Z_ARRVAL_P(array));
 	}
@@ -1369,7 +1387,7 @@ void phalcon_array_next(zval *array){
 /**
  * Fast in_array function
  */
-int phalcon_fast_in_array(zval *needle, zval *haystack TSRMLS_DC) {
+int zephir_fast_in_array(zval *needle, zval *haystack TSRMLS_DC) {
 
 	zval         **tmp;
 	HashTable      *arr;
@@ -1390,7 +1408,7 @@ int phalcon_fast_in_array(zval *needle, zval *haystack TSRMLS_DC) {
 	zend_hash_internal_pointer_reset_ex(arr, &pos);
 
 	while (zend_hash_get_current_data_ex(arr, (void **) &tmp, &pos) == SUCCESS) {
-		if (PHALCON_IS_EQUAL(needle, *tmp)) {
+		if (ZEPHIR_IS_EQUAL(needle, *tmp)) {
 			return 1;
 		}
 		zend_hash_move_forward_ex(arr, &pos);
@@ -1402,7 +1420,7 @@ int phalcon_fast_in_array(zval *needle, zval *haystack TSRMLS_DC) {
 /**
  * Fast array merge
  */
-void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 TSRMLS_DC) {
+void zephir_fast_array_merge(zval *return_value, zval **array1, zval **array2 TSRMLS_DC) {
 
 	int init_size, num;
 
@@ -1439,7 +1457,7 @@ void phalcon_fast_array_merge(zval *return_value, zval **array1, zval **array2 T
  * Equivalent to <tt>$a1 = array_merge_recursive($a1, $a2)</tt> in PHP with the only exception
  * that Phalcon's version preserves numeric keys
  */
-void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
+void zephir_array_merge_recursive_n(zval **a1, zval *a2)
 {
 	HashPosition hp;
 	zval **value, key, *tmp1, *tmp2;
@@ -1452,14 +1470,14 @@ void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
 		zend_hash_get_current_data_ex(Z_ARRVAL_P(a2), (void**) &value, &hp) == SUCCESS;
 		zend_hash_move_forward_ex(Z_ARRVAL_P(a2), &hp)
 	) {
-		key = phalcon_get_current_key_w(Z_ARRVAL_P(a2), &hp);
+		key = zephir_get_current_key_w(Z_ARRVAL_P(a2), &hp);
 
-		if (!phalcon_array_isset(*a1, &key) || Z_TYPE_PP(value) != IS_ARRAY) {
-			phalcon_array_update_zval(a1, &key, value, PH_COPY | PH_SEPARATE);
+		if (!zephir_array_isset(*a1, &key) || Z_TYPE_PP(value) != IS_ARRAY) {
+			zephir_array_update_zval(a1, &key, value, PH_COPY | PH_SEPARATE);
 		} else {
-			phalcon_array_fetch(&tmp1, *a1, &key, PH_NOISY);
-			phalcon_array_fetch(&tmp2, a2, &key, PH_NOISY);
-			phalcon_array_merge_recursive_n(&tmp1, tmp2);
+			zephir_array_fetch(&tmp1, *a1, &key, PH_NOISY);
+			zephir_array_fetch(&tmp2, a2, &key, PH_NOISY);
+			zephir_array_merge_recursive_n(&tmp1, tmp2);
 			zval_ptr_dtor(&tmp1);
 			zval_ptr_dtor(&tmp2);
 		}
@@ -1472,7 +1490,7 @@ void phalcon_array_merge_recursive_n(zval **a1, zval *a2)
  * @param arg
  * @note Reference count of @c arg will be incremented
  */
-void phalcon_array_unshift(zval *arr, zval *arg)
+void zephir_array_unshift(zval *arr, zval *arg)
 {
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		zval** args[1]      = { &arg };
@@ -1485,7 +1503,7 @@ void phalcon_array_unshift(zval *arr, zval *arg)
 	}
 }
 
-void phalcon_array_keys(zval *return_value, zval *arr) {
+void zephir_array_keys(zval *return_value, zval *arr) {
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		HashPosition pos;
@@ -1517,7 +1535,7 @@ void phalcon_array_keys(zval *return_value, zval *arr) {
 	}
 }
 
-void phalcon_array_values(zval *return_value, zval *arr)
+void zephir_array_values(zval *return_value, zval *arr)
 {
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		zval **entry;
@@ -1535,7 +1553,7 @@ void phalcon_array_values(zval *return_value, zval *arr)
 	}
 }
 
-int phalcon_array_key_exists(zval *arr, zval *key TSRMLS_DC)
+int zephir_array_key_exists(zval *arr, zval *key TSRMLS_DC)
 {
 	HashTable *h = HASH_OF(arr);
 	if (h) {
@@ -1558,7 +1576,7 @@ int phalcon_array_key_exists(zval *arr, zval *key TSRMLS_DC)
 	return 0;
 }
 
-int phalcon_array_is_associative(zval *arr) {
+int zephir_array_is_associative(zval *arr) {
 
 	if (likely(Z_TYPE_P(arr) == IS_ARRAY)) {
 		HashPosition pos;

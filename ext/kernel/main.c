@@ -1,19 +1,19 @@
 
 /*
   +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
+  | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
   +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
   +------------------------------------------------------------------------+
 */
 
@@ -22,7 +22,7 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 #include "php_main.h"
 #include "ext/spl/spl_exceptions.h"
 
@@ -37,51 +37,31 @@
 /**
  * Initialize globals on each request or each thread started
  */
-void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
+void php_zephir_init_globals(zend_zephir_globals *zephir_globals TSRMLS_DC) {
 
 	/* Memory options */
-	phalcon_globals->active_memory = NULL;
+	zephir_globals->active_memory = NULL;
 
 	/* Virtual Symbol Tables */
-	phalcon_globals->active_symbol_table = NULL;
+	zephir_globals->active_symbol_table = NULL;
 
 	/* Cache options */
-	phalcon_globals->function_cache = NULL;
+	zephir_globals->function_cache = NULL;
 
 	/* Recursive Lock */
-	phalcon_globals->recursive_lock = 0;
-
-	/* ORM options*/
-	phalcon_globals->orm.events = 1;
-	phalcon_globals->orm.virtual_foreign_keys = 1;
-	phalcon_globals->orm.column_renaming = 1;
-	phalcon_globals->orm.not_null_validations = 1;
-	phalcon_globals->orm.exception_on_failed_save = 0;
-	phalcon_globals->orm.enable_literals = 1;
-	phalcon_globals->orm.cache_level = 3;
-	phalcon_globals->orm.unique_cache_id = 0;
-	phalcon_globals->orm.parser_cache = NULL;
-	phalcon_globals->orm.ast_cache = NULL;
-
-	/* DB options */
-	phalcon_globals->db.escape_identifiers = 1;
-
+	zephir_globals->recursive_lock = 0;
 }
 
 /**
  * Initializes internal interface with extends
  */
-zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC) {
+zend_class_entry *zephir_register_internal_interface_ex(zend_class_entry *orig_ce, zend_class_entry *parent_ce TSRMLS_DC) {
 
-	zend_class_entry *ce, **pce;
+	zend_class_entry *ce;
 
-	if (zend_hash_find(CG(class_table), parent_name, strlen(parent_name) + 1, (void **) &pce) == FAILURE) {
-		return NULL;
-	}
-
-	ce = zend_register_internal_interface(orig_class_entry TSRMLS_CC);
-	if (*pce) {
-		zend_do_inheritance(ce, *pce TSRMLS_CC);
+	ce = zend_register_internal_interface(orig_ce TSRMLS_CC);
+	if (parent_ce) {
+		zend_do_inheritance(ce, parent_ce TSRMLS_CC);
 	}
 
 	return ce;
@@ -90,7 +70,7 @@ zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_
 /**
  * Initilializes super global variables if doesn't
  */
-int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
+int zephir_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
@@ -109,7 +89,7 @@ int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 /**
  * Gets the global zval into PG macro
  */
-int phalcon_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC) {
+int zephir_get_global(zval **arr, const char *global, unsigned int global_length TSRMLS_DC) {
 
 	zval **gv;
 
@@ -123,18 +103,18 @@ int phalcon_get_global(zval **arr, const char *global, unsigned int global_lengt
 			if (Z_TYPE_PP(gv) == IS_ARRAY) {
 				*arr = *gv;
 				if (!*arr) {
-					PHALCON_INIT_VAR(*arr);
+					ZEPHIR_INIT_VAR(*arr);
 					array_init(*arr);
 				}
 			} else {
-				PHALCON_INIT_VAR(*arr);
+				ZEPHIR_INIT_VAR(*arr);
 				array_init(*arr);
 			}
 			return SUCCESS;
 		}
 	}
 
-	PHALCON_INIT_VAR(*arr);
+	ZEPHIR_INIT_VAR(*arr);
 	array_init(*arr);
 
 	return SUCCESS;
@@ -143,7 +123,7 @@ int phalcon_get_global(zval **arr, const char *global, unsigned int global_lengt
 /**
  * Makes fast count on implicit array types
  */
-void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
+void zephir_fast_count(zval *result, zval *value TSRMLS_DC) {
 
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
@@ -190,7 +170,7 @@ void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
 /**
  * Makes fast count on implicit array types without creating a return zval value
  */
-int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
+int zephir_fast_count_ev(zval *value TSRMLS_DC) {
 
 	long count = 0;
 
@@ -233,11 +213,56 @@ int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 }
 
 /**
+ * Makes fast count on implicit array types without creating a return zval value
+ */
+int zephir_fast_count_int(zval *value TSRMLS_DC) {
+
+	long count = 0;
+
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		return (int) zend_hash_num_elements(Z_ARRVAL_P(value));
+	}
+
+	if (Z_TYPE_P(value) == IS_OBJECT) {
+
+		#ifdef HAVE_SPL
+		zval *retval = NULL;
+		#endif
+
+		if (Z_OBJ_HT_P(value)->count_elements) {
+			Z_OBJ_HT(*value)->count_elements(value, &count TSRMLS_CC);
+			return (int) count;
+		}
+
+		#ifdef HAVE_SPL
+		if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
+			zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
+			if (retval) {
+				convert_to_long_ex(&retval);
+				count = Z_LVAL_P(retval);
+				zval_ptr_dtor(&retval);
+				return (int) count;
+			}
+			return 0;
+		}
+		#endif
+
+		return 0;
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		return 0;
+	}
+
+	return 1;
+}
+
+/**
  * Check if a function exists
  */
-int phalcon_function_exists(const zval *function_name TSRMLS_DC) {
+int zephir_function_exists(const zval *function_name TSRMLS_DC) {
 
-	return phalcon_function_quick_exists_ex(
+	return zephir_function_quick_exists_ex(
 		Z_STRVAL_P(function_name),
 		Z_STRLEN_P(function_name) + 1,
 		zend_inline_hash_func(Z_STRVAL_P(function_name), Z_STRLEN_P(function_name) + 1) TSRMLS_CC
@@ -250,15 +275,15 @@ int phalcon_function_exists(const zval *function_name TSRMLS_DC) {
  * @param function_name
  * @param function_len strlen(function_name)+1
  */
-int phalcon_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC) {
+int zephir_function_exists_ex(const char *function_name, unsigned int function_len TSRMLS_DC) {
 
-	return phalcon_function_quick_exists_ex(function_name, function_len, zend_inline_hash_func(function_name, function_len) TSRMLS_CC);
+	return zephir_function_quick_exists_ex(function_name, function_len, zend_inline_hash_func(function_name, function_len) TSRMLS_CC);
 }
 
 /**
  * Check if a function exists using explicit char param (using precomputed hash key)
  */
-int phalcon_function_quick_exists_ex(const char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
+int zephir_function_quick_exists_ex(const char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
 
 	if (zend_hash_quick_exists(CG(function_table), method_name, method_len, key)) {
 		return SUCCESS;
@@ -270,7 +295,7 @@ int phalcon_function_quick_exists_ex(const char *method_name, unsigned int metho
 /**
  * Checks if a zval is callable
  */
-int phalcon_is_callable(zval *var TSRMLS_DC) {
+int zephir_is_callable(zval *var TSRMLS_DC) {
 
 	char *error = NULL;
 	zend_bool retval;
@@ -286,7 +311,7 @@ int phalcon_is_callable(zval *var TSRMLS_DC) {
 /**
  * Initialize an array to start an iteration over it
  */
-int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse) {
+int zephir_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse) {
 
 	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
 		return 0;
@@ -309,17 +334,17 @@ int phalcon_is_iterable_ex(zval *arr, HashTable **arr_hash, HashPosition *hash_p
 	return 1;
 }
 
-/**
- * Generates error when inherited class isn't found
- */
-void phalcon_inherit_not_found(const char *class_name, const char *inherit_name) {
-	fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", class_name, inherit_name);
+void zephir_safe_zval_ptr_dtor(zval *pzval)
+{
+	if (pzval) {
+		zval_ptr_dtor(&pzval);
+	}
 }
 
 /**
  * Parses method parameters with minimum overhead
  */
-int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
+int zephir_fetch_parameters(int num_args TSRMLS_DC, int required_args, int optional_args, ...)
 {
 	va_list va;
 	int arg_count = (int) (zend_uintptr_t) *(zend_vm_stack_top(TSRMLS_C) - 1);
@@ -327,12 +352,12 @@ int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, int opti
 	int i;
 
 	if (num_args < required_args || (num_args > (required_args + optional_args))) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_BadMethodCallException, SL("Wrong number of parameters") TSRMLS_CC);
 		return FAILURE;
 	}
 
 	if (num_args > arg_count) {
-		phalcon_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_BadMethodCallException, SL("Could not obtain parameters for parsing") TSRMLS_CC);
 		return FAILURE;
 	}
 

@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "ext_config.h"
 #endif
 
 #include "php.h"
-#include "php_test.h"
-#include "test.h"
+#include "../php_ext.h"
+#include "../ext.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		ZEPHIR_INIT_NVAR(_3);
 		zephir_call_func_p2(_3, "method_exists", entity, method);
 		if (zend_is_true(_3)) {
-			zephir_call_method_p1_noret(entity, "method", filteredValue);
+			zephir_call_method_zval_p1_noret(entity, method, filteredValue);
 			continue;
 		}
 	}
@@ -665,7 +665,7 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
  */
 PHP_METHOD(Phalcon_Forms_Form, label) {
 
-	zval *name, *elements, element, *_0, *_1, *_2;
+	zval *name, *elements, *element, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name);
@@ -755,7 +755,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p2(_0, "method_exists", entity, method);
 		if (zend_is_true(_0)) {
-			zephir_call_method(return_value, entity, "method");
+			zephir_call_method_zval(return_value, entity, method);
 			RETURN_MM();
 		}
 		ZEPHIR_OBS_VAR(value);
