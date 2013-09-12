@@ -314,11 +314,9 @@ PHP_METHOD(Phalcon_Validation_Message_Group, count) {
 
 	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_messages"), PH_NOISY_CC);
-	RETURN_MM_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
+	RETURN_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
 }
 
@@ -352,8 +350,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, current) {
 	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(message);
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_position"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&message, messages, _0)) {
 		RETURN_CCTOR(message);
 	}
@@ -396,8 +393,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, valid) {
 
 	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_position"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(messages, _0));
 
 }

@@ -877,11 +877,9 @@ PHP_METHOD(Phalcon_Forms_Form, count) {
 
 	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_elements"), PH_NOISY_CC);
-	RETURN_MM_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
+	RETURN_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
 }
 
@@ -897,8 +895,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
-	ZEPHIR_OBS_VAR(_1);
-	zephir_read_property_this(&_1, this_ptr, SL("_elements"), PH_NOISY_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_elements"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func_p1(_2, "array_values", _1);
 	zephir_update_property_this(this_ptr, SL("_elementsIndexed"), _2 TSRMLS_CC);
@@ -920,8 +917,7 @@ PHP_METHOD(Phalcon_Forms_Form, current) {
 	ZEPHIR_OBS_VAR(elements);
 	zephir_read_property_this(&elements, this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(element);
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_position"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	if (zephir_array_isset_fetch(&element, elements, _0)) {
 		RETURN_CCTOR(element);
 	}
@@ -964,8 +960,7 @@ PHP_METHOD(Phalcon_Forms_Form, valid) {
 
 	ZEPHIR_OBS_VAR(elements);
 	zephir_read_property_this(&elements, this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_position"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(elements, _0));
 
 }

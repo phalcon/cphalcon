@@ -250,11 +250,9 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments) {
 
 	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_arguments"), PH_NOISY_CC);
-	RETURN_MM_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_arguments"), PH_NOISY_CC);
+	RETURN_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
 
 }
 
