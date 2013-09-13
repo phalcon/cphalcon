@@ -293,12 +293,12 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 				ZEPHIR_INIT_VAR(_2);
 				zephir_call_func_p2(_2, "join", &_1, typeClasses);
 				ZEPHIR_INIT_VAR(_3);
-				ZEPHIR_CONCAT_SV(_3, " class=\\\"", _2);
-				ZEPHIR_CONCAT_VS(cssClasses, _3, "\\\"");
+				ZEPHIR_CONCAT_SV(_3, " class=\"", _2);
+				ZEPHIR_CONCAT_VS(cssClasses, _3, "\"");
 			} else {
 				ZEPHIR_INIT_LNVAR(_3);
-				ZEPHIR_CONCAT_SV(_3, " class=\\\"", typeClasses);
-				ZEPHIR_CONCAT_VS(cssClasses, _3, "\\\"");
+				ZEPHIR_CONCAT_SV(_3, " class=\"", typeClasses);
+				ZEPHIR_CONCAT_VS(cssClasses, _3, "\"");
 			}
 		} else {
 			ZEPHIR_INIT_NVAR(cssClasses);

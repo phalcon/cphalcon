@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			zephir_call_method_p1_noret(moduleObject, "registerautoloaders", dependencyInjector);
 			zephir_call_method_p1_noret(moduleObject, "registerservices", dependencyInjector);
 		} else {
-			if (0) {
+			if (zephir_is_instance_of(module, SL("closure") TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(_4);
 				array_init(_4);
 				zephir_array_append(&_4, dependencyInjector, 0);
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEPHIR_INIT_VAR(possibleResponse);
 	zephir_call_method(possibleResponse, dispatcher, "getreturnedvalue");
 	if (Z_TYPE_P(possibleResponse) == IS_OBJECT) {
-		returnedResponse = 0;
+		returnedResponse = zephir_is_instance_of(possibleResponse, SL("phalcon\http\responseinterface") TSRMLS_CC);
 	} else {
 		returnedResponse = 0;
 	}

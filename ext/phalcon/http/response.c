@@ -342,39 +342,12 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders) {
  */
 PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
-	zend_class_entry *_1;
-	zval *datetime, *headers, date, *_0, *_2, *_3, *_4;
+	zval *datetime;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &datetime);
+	zephir_fetch_params(0, 1, 0, &datetime);
 
 
 
-	if (Z_TYPE_P(datetime) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "datetime parameter must be an instance of DateTime");
-		return;
-	}
-	ZEPHIR_INIT_VAR(headers);
-	zephir_call_method(headers, this_ptr, "getheaders");
-	ZEPHIR_SINIT_VAR(date);
-	ZVAL_NULL(&date);
-	ZEPHIR_INIT_VAR(_0);
-	_1 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	object_init_ex(_0, _1);
-	ZEPHIR_INIT_VAR(_2);
-	ZVAL_STRING(_2, "UTC", 1);
-	zephir_call_method_p1_noret(_0, "__construct", _2);
-	zephir_call_method_p1_noret(date, "settimezone", _0);
-	ZEPHIR_INIT_BNVAR(_2);
-	ZEPHIR_INIT_VAR(_3);
-	ZVAL_STRING(_3, "D, d M Y H:i:s", 1);
-	zephir_call_method_p1(_2, date, "format", _3);
-	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_VS(_4, _2, " GMT");
-	ZEPHIR_INIT_BNVAR(_3);
-	ZVAL_STRING(_3, "Expires", 1);
-	zephir_call_method_p2_noret(this_ptr, "setheader", _3, _4);
-	RETURN_THIS();
 
 }
 

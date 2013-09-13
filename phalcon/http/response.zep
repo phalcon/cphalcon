@@ -243,26 +243,26 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 */
 	public function setExpires(datetime)
 	{
-		var headers, date, timezone;
+		//var headers, date, timezone;
 
-		if typeof datetime != "object" {
-			throw new Phalcon\Http\Response\Exception("datetime parameter must be an instance of DateTime");
-		}
+		//if typeof datetime != "object" {
+		//	throw new Phalcon\Http\Response\Exception("datetime parameter must be an instance of DateTime");
+		//}
 
-		let headers = this->getHeaders(),
-			date = clone datetime;
+		//let headers = this->getHeaders(),
+		//	date = clone datetime;
 
 		/**
 		 * All the expiration times are sent in UTC
 		 * Change the timezone to utc
 		 */
-		date->setTimezone(new DateTimeZone("UTC"));
+		//date->setTimezone(new DateTimeZone("UTC"));
 
 		/**
 		 * The 'Expires' header set this info
 		 */
-		this->setHeader("Expires", date->format("D, d M Y H:i:s") . " GMT");
-		return this;
+		//this->setHeader("Expires", date->format("D, d M Y H:i:s") . " GMT");
+		//return this;
 	}
 
 	/**

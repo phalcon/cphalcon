@@ -114,6 +114,7 @@ class Router
 		}
 
 		let this->_params = [],
+			this->_defaultParams = [],
 			this->_routes = routes;
 	}
 
@@ -318,7 +319,7 @@ class Router
 		var realUri, request, currentHostName, routeFound, parts,
 			params, matches, notFoundPaths,
 			vnamespace, module,  controller, action, paramsStr, strParams,
-			paramsMerge, route, methods, dependencyInjector,
+			route, methods, dependencyInjector,
 			hostname, regexHostName, matched, pattern, handledUri, beforeMatch,
 			paths, converters, part, position, matchPosition;
 
@@ -556,12 +557,10 @@ class Router
 			}
 
 			if count(params) {
-				let paramsMerge = array_merge(params, parts);
+				let this->_params = array_merge(params, parts);
 			} else {
-				let paramsMerge = parts;
+				let this->_params = parts;
 			}
-
-			let this->_params = paramsMerge;
 
 		} else {
 

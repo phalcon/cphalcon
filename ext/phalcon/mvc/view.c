@@ -310,21 +310,18 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel) {
  */
 PHP_METHOD(Phalcon_Mvc_View, disableLevel) {
 
-	zval *level, *_0;
+	zval *level;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &level);
+	zephir_fetch_params(0, 1, 0, &level);
 
 
 
 	if (Z_TYPE_P(level) == IS_ARRAY) {
 		zephir_update_property_this(this_ptr, SL("_disabledLevels"), level TSRMLS_CC);
 	} else {
-		ZEPHIR_INIT_VAR(_0);
-		ZVAL_BOOL(_0, 1);
-		zephir_update_property_array(this_ptr, SL("_disabledLevels"), level, _0 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("_disabledLevels"), level, ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	}
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 
@@ -703,7 +700,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines) {
 				ZEPHIR_GET_HMKEY(extension, _2, _1);
 				ZEPHIR_GET_HVALUE(engineService, _3);
 				if (Z_TYPE_P(engineService) == IS_OBJECT) {
-					if (0) {
+					if (zephir_is_instance_of(engineService, SL("closure") TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(_0);
 						zephir_call_func_p2(_0, "call_user_func_array", engineService, arguments);
 						zephir_array_update_zval(&engines, extension, &_0, PH_COPY | PH_SEPARATE);

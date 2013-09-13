@@ -91,4 +91,94 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 		return this->_handlerName;
 	}
 
+	/**
+	 * Throws an internal exception
+	 *
+	 * @param string message
+	 * @param int exceptionCode
+	 */
+	protected function _throwDispatchException(message, exceptionCode=0)
+	{
+		var eventsManager, dependencyInjector, response, exception;
+
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector != "object" {
+			throw new Phalcon\Mvc\Dispatcher\Exception(
+				"A dependency injection container is required to access the 'response' service",
+				Phalcon\Dispatcher::EXCEPTION_NO_DI
+			);
+		}
+
+		let response = dependencyInjector->getShared("response");
+
+		/**
+		 * Dispatcher exceptions automatically sends 404 status
+		 */
+		response->setStatusCode(404, "Not Found");
+
+		/**
+		 * Create the real exception
+		 */
+		let exception = new Phalcon\Mvc\Dispatcher\Exception(message, exceptionCode);
+
+		let eventsManager = this->_eventsManager;
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
+				return false;
+			}
+		}
+
+		/**
+		 * Throw the exception if it wasn't handled
+		 */
+		throw exception;
+	}
+
+	/**
+	 * Handles a user exception
+	 *
+	 * @param \Exception exception
+	 */
+	protected function _handleException(exception)
+	{
+		var eventsManager;
+		let eventsManager = this->_eventsManager;
+		if typeof eventsManager == "object" {
+			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
+				return false;
+			}
+		}
+
+	}
+
+	/**
+	 * Possible controller class name that will be located to dispatch the request
+	 *
+	 * @return string
+	 */
+	public function getControllerClass()
+	{
+		return this->{"getHandlerName"}();
+	}
+
+	/**
+	 * Returns the lastest dispatched controller
+	 *
+	 * @return Phalcon\Mvc\ControllerInterface
+	 */
+	public function getLastController()
+	{
+		return this->_lastHandler;
+	}
+
+	/**
+	 * Returns the active controller in the dispatcher
+	 *
+	 * @return Phalcon\Mvc\ControllerInterface
+	 */
+	public function getActiveController()
+	{
+		return this->_activeHandler;
+	}
+
 }

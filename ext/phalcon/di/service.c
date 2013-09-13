@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		}
 	} else {
 		if (Z_TYPE_P(definition) == IS_OBJECT) {
-			if (0) {
+			if (zephir_is_instance_of(definition, SL("closure") TSRMLS_CC)) {
 				ZEPHIR_INIT_BNVAR(instance);
 				if (Z_TYPE_P(parameters) == IS_ARRAY) {
 					zephir_call_func_p2(instance, "call_user_func_array", definition, parameters);
