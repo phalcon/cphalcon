@@ -1,8 +1,8 @@
 <?php
 namespace Phalcon\Build;
 
-include_once 'Build\Util.php';
-include_once 'Build\Autoloader.php';
+require_once 'Build/Util.php';
+require_once 'Build/Autoloader.php';
 
 $baseDir = Util::normalize(__DIR__ . '/..');
 $autoloader = new Autoloader($baseDir);
