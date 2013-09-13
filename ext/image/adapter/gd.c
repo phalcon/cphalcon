@@ -650,7 +650,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
 	}
 
 	PHALCON_INIT_NVAR(tmp_amount);
-	ZVAL_LONG(tmp_amount, round(a*100)/100);
+	ZVAL_LONG(tmp_amount, floor(a*100+0.5)/100);
 
 	PHALCON_INIT_VAR(matrix);
 	array_init_size(matrix, 3);
