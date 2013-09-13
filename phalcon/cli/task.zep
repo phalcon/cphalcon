@@ -49,7 +49,7 @@ namespace Phalcon\CLI;
  *
  *</code>
  */
- class Task extends Phalcon\DI\Injectable
+ class Task extends Phalcon\Di\Injectable
  {
 
  	/**

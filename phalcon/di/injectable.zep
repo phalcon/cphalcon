@@ -17,15 +17,15 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\DI;
+namespace Phalcon\Di;
 
 /**
- * Phalcon\DI\Injectable
+ * Phalcon\Di\Injectable
  *
  * This class allows to access services in the services container by just only accessing a public property
  * with the same name of a registered service
  */
-abstract class Injectable implements Phalcon\DI\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
+abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
 {
 
 	/**
@@ -50,7 +50,7 @@ abstract class Injectable implements Phalcon\DI\InjectionAwareInterface, Phalcon
 	public function setDI(<Phalcon\DiInterface> dependencyInjector)
 	{
 		if typeof dependencyInjector != "object" {
-			throw new Phalcon\DI\Exception("Dependency Injector is invalid");
+			throw new Phalcon\Di\Exception("Dependency Injector is invalid");
 		}
 		let this->_dependencyInjector = dependencyInjector;
 	}
@@ -66,7 +66,7 @@ abstract class Injectable implements Phalcon\DI\InjectionAwareInterface, Phalcon
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = Phalcon\DI::getDefault();
+			let dependencyInjector = Phalcon\Di::getDefault();
 		}
 		return dependencyInjector;
 	}
@@ -102,9 +102,9 @@ abstract class Injectable implements Phalcon\DI\InjectionAwareInterface, Phalcon
 
 		let dependencyInjector = this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
-			let dependencyInjector = Phalcon\DI::getDefault();
+			let dependencyInjector = Phalcon\Di::getDefault();
 			if typeof dependencyInjector != "object" {
-				throw new Phalcon\DI\Exception("A dependency injection object is required to access the application services");
+				throw new Phalcon\Di\Exception("A dependency injection object is required to access the application services");
 			}
 		}
 

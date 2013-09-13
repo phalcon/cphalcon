@@ -1,14 +1,14 @@
 
 extern zend_class_entry *phalcon_di_injectionawareinterface_ce;
 
-ZEPHIR_INIT_CLASS(Phalcon_DI_InjectionAwareInterface);
+ZEPHIR_INIT_CLASS(Phalcon_Di_InjectionAwareInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectionawareinterface_setdi, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_injectionawareinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_DI_InjectionAwareInterface, setDI, arginfo_phalcon_di_injectionawareinterface_setdi)
-	PHP_ABSTRACT_ME(Phalcon_DI_InjectionAwareInterface, getDI, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Di_InjectionAwareInterface, setDI, arginfo_phalcon_di_injectionawareinterface_setdi)
+	PHP_ABSTRACT_ME(Phalcon_Di_InjectionAwareInterface, getDI, NULL)
 	PHP_FE_END
 };

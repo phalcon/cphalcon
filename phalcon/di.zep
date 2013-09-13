@@ -26,7 +26,7 @@ namespace Phalcon;
  * Phalcon\Di is a component that implements Dependency Injection/Service Location
  * of services and it"s itself a container for them.
  *
- * Since Phalcon is highly decoupled, Phalcon\DI is essential to integrate the different
+ * Since Phalcon is highly decoupled, Phalcon\Di is essential to integrate the different
  * components of the framework. The developer can also use this component to inject dependencies
  * and manage global instances of the different classes used in the application.
  *
@@ -38,7 +38,7 @@ namespace Phalcon;
  * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
  *
  *<code>
- * $di = new Phalcon\DI();
+ * $di = new Phalcon\Di();
  *
  * //Using a string definition
  * $di->set("request", "Phalcon\Http\Request", true);
@@ -64,7 +64,7 @@ class Di implements Phalcon\DiInterface
 	protected static _default;
 
 	/**
-	 * Phalcon\DI constructor
+	 * Phalcon\Di constructor
 	 *
 	 */
 	public function __construct()
@@ -83,16 +83,16 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @param mixed definition
 	 * @param boolean shared
-	 * @return Phalcon\DI\ServiceInterface
+	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function set(name, definition, shared=false)
 	{
 		var service;
 
 		if typeof name != "string" {
-			throw new Phalcon\DI\Exception("The service name must be a string");
+			throw new Phalcon\Di\Exception("The service name must be a string");
 		}
-		let service = new Phalcon\DI\Service(name, definition, shared),
+		let service = new Phalcon\Di\Service(name, definition, shared),
 			this->_services[name] = service;
 		return service;
 	}
@@ -102,16 +102,16 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @param string name
 	 * @param mixed definition
-	 * @return Phalcon\DI\ServiceInterface
+	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function setShared(name, definition)
 	{
 		var service;
 
 		if typeof name != "string" {
-			throw new Phalcon\DI\Exception("The service name must be a string");
+			throw new Phalcon\Di\Exception("The service name must be a string");
 		}
-		let service = new Phalcon\DI\Service(name, definition, true),
+		let service = new Phalcon\Di\Service(name, definition, true),
 			this->_services[name] = service;
 		return service;
 	}
@@ -124,7 +124,7 @@ class Di implements Phalcon\DiInterface
 	public function remove(name)
 	{
 		if typeof name != "string" {
-			throw new Phalcon\DI\Exception("The service name must be a string");
+			throw new Phalcon\Di\Exception("The service name must be a string");
 		}
 		//unset this->_services[name];
 	}
@@ -137,19 +137,19 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @param mixed definition
 	 * @param boolean shared
-	 * @return Phalcon\DI\ServiceInterface
+	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function attempt(name, definition, shared=false)
 	{
 		var services, service;
 
 		if typeof name != "string" {
-			throw new Phalcon\DI\Exception("The service name must be a string");
+			throw new Phalcon\Di\Exception("The service name must be a string");
 		}
 
 		let services = this->_services;
 		if !isset services[name] {
-			let service = new Phalcon\DI\Service(name, definition, shared),
+			let service = new Phalcon\Di\Service(name, definition, shared),
 				this->_services[name] = service;
 			return service;
 		}
@@ -158,21 +158,21 @@ class Di implements Phalcon\DiInterface
 	}
 
 	/**
-	 * Sets a service using a raw Phalcon\DI\Service definition
+	 * Sets a service using a raw Phalcon\Di\Service definition
 	 *
 	 * @param string name
-	 * @param Phalcon\DI\ServiceInterface rawDefinition
-	 * @return Phalcon\DI\ServiceInterface
+	 * @param Phalcon\Di\ServiceInterface rawDefinition
+	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setRaw(name, <Phalcon\DI\ServiceInterface> rawDefinition)
+	public function setRaw(name, <Phalcon\Di\ServiceInterface> rawDefinition)
 	{
 
 		if typeof name != "string" {
-			throw new Phalcon\DI\Exception("The service name must be a string");
+			throw new Phalcon\Di\Exception("The service name must be a string");
 		}
 
 		if typeof rawDefinition != "object" {
-			throw new Phalcon\DI\Exception("The service definition must be an object");
+			throw new Phalcon\Di\Exception("The service definition must be an object");
 		}
 
 		let this->_services[name] = rawDefinition;
@@ -190,7 +190,7 @@ class Di implements Phalcon\DiInterface
 		var services, service;
 
 		if typeof name != "string" {
-			throw new Phalcon\DI\Exception("The service name must be a string");
+			throw new Phalcon\Di\Exception("The service name must be a string");
 		}
 
 		let services = this->_services;
@@ -199,21 +199,21 @@ class Di implements Phalcon\DiInterface
 			return service->getDefinition();
 		}
 
-		throw new Phalcon\DI\Exception("Service '" . name . "' wasn't found in the dependency injection container");
+		throw new Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
 	}
 
 	/**
-	 * Returns a Phalcon\DI\Service instance
+	 * Returns a Phalcon\Di\Service instance
 	 *
 	 * @param string name
-	 * @return Phalcon\DI\ServiceInterface
+	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function getService(name)
 	{
 		var services, service;
 
 		if typeof name != "string" {
-			throw new Phalcon\DI\Exception("The service name must be a string");
+			throw new Phalcon\Di\Exception("The service name must be a string");
 		}
 
 		let services = this->_services;
@@ -221,7 +221,7 @@ class Di implements Phalcon\DiInterface
 			return service;
 		}
 
-		throw new Phalcon\DI\Exception("Service '" . name . "' wasn't found in the dependency injection container");
+		throw new Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
 	}
 
 	/**
@@ -239,7 +239,7 @@ class Di implements Phalcon\DiInterface
 		 * A valid service alias is a string
 		 */
 		if typeof name != "string" {
-			throw new Phalcon\DI\Exception("The service name must be a string");
+			throw new Phalcon\Di\Exception("The service name must be a string");
 		}
 
 		let services = this->_services;
@@ -263,12 +263,12 @@ class Di implements Phalcon\DiInterface
 					let instance = create_instance(name);
 				}
 			} else {
-				throw new Phalcon\DI\Exception("Service '" . name . "' wasn't found in the dependency injection container");
+				throw new Phalcon\Di\Exception("Service '" . name . "' wasn't found in the dependency injection container");
 			}
 		}
 
 		/**
-		 * Pass the DI itself if the instance implements Phalcon\DI\InjectionAwareInterface
+		 * Pass the DI itself if the instance implements Phalcon\Di\InjectionAwareInterface
 		 */
 		if typeof instance == "object" {
 			if method_exists(instance, "setDI") {
@@ -291,14 +291,14 @@ class Di implements Phalcon\DiInterface
 		var instance, sharedInstances;
 
 		if typeof name != "string" {
-			throw new Phalcon\DI\Exception("The service name must be a string");
+			throw new Phalcon\Di\Exception("The service name must be a string");
 		}
 
 		/**
 		 * This method provides a first level to shared instances allowing to use non-shared services as shared
 		 */
 		let sharedInstances = this->_sharedInstances;
-		if !fetch instance, sharedInstances[name] {
+		if fetch instance, sharedInstances[name] {
 			let this->_freshInstance = false;
 		} else {
 
@@ -328,7 +328,7 @@ class Di implements Phalcon\DiInterface
 		var services;
 
 		if typeof name != "string" {
-			throw new Phalcon\DI\Exception("The service name must be a string");
+			throw new Phalcon\Di\Exception("The service name must be a string");
 		}
 
 		let services = this->_services;
@@ -348,7 +348,7 @@ class Di implements Phalcon\DiInterface
 	/**
 	 * Return the services registered in the DI
 	 *
-	 * @return Phalcon\DI\Service[]
+	 * @return Phalcon\Di\Service[]
 	 */
 	public function getServices()
 	{
@@ -415,7 +415,7 @@ class Di implements Phalcon\DiInterface
 	 */
 	public function __call(method, arguments=null)
 	{
-		var instance, possibleService, services;
+		var instance, possibleService, services, definition;
 
 		/**
 		 * If the magic method starts with "get" we try to get a service with that name
@@ -437,8 +437,8 @@ class Di implements Phalcon\DiInterface
 		 * If the magic method starts with "set" we try to set a service using that name
 		 */
 		if starts_with(method, "set") {
-			if isset arguments[0] {
-				this->set(lcfirst(substr(method, 3)), arguments[0]);
+			if fetch definition, arguments[0] {
+				this->set(lcfirst(substr(method, 3)), definition);
 				return null;
 			}
 		}
@@ -446,7 +446,7 @@ class Di implements Phalcon\DiInterface
 		/**
 		 * The method doesn't start with set/get throw an exception
 		 */
-		throw new Phalcon\DI\Exception("Call to undefined method or service '" . method . "'");
+		throw new Phalcon\Di\Exception("Call to undefined method or service '" . method . "'");
 	}
 
 	/**

@@ -24,7 +24,7 @@ namespace Phalcon\Flash;
  *
  * Temporarily stores the messages in session, then messages can be printed in the next request
  */
-class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\DI\InjectionAwareInterface
+class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;

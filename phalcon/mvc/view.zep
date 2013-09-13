@@ -40,7 +40,7 @@ namespace Phalcon\Mvc;
  * echo $view->getContent();
  * </code>
  */
-class View extends Phalcon\DI\Injectable implements Phalcon\Mvc\ViewInterface
+class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 {
 
 	/**

@@ -40,13 +40,13 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\DI\Service\Builder
+ * Phalcon\Di\Service\Builder
  *
  * This class builds instances based on complex definitions
  */
-ZEPHIR_INIT_CLASS(Phalcon_DI_Service_Builder) {
+ZEPHIR_INIT_CLASS(Phalcon_Di_Service_Builder) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\DI\\Service, Builder, phalcon, di_service_builder, phalcon_di_service_builder_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Di\\Service, Builder, phalcon, di_service_builder, phalcon_di_service_builder_method_entry, 0);
 
 
 	return SUCCESS;
@@ -61,7 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_Service_Builder) {
  * @param array argument
  * @return mixed
  */
-PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter) {
+PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 
 	zend_class_entry *_3, *_4;
 	zval *dependencyInjector, *position, *argument, *type, *name = NULL, *value, *instanceArguments, *_0 = NULL, *_1 = NULL, *_2 = NULL;
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter) {
  * @param array arguments
  * @return array
  */
-PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters) {
+PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters) {
 
 	HashTable *_1;
 	HashPosition _0;
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters) {
  * @param array parameters
  * @return mixed
  */
-PHP_METHOD(Phalcon_DI_Service_Builder, build) {
+PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 
 	HashTable *_2, *_6;
 	HashPosition _1, _5;

@@ -39,7 +39,7 @@ namespace Phalcon\CLI;
  *</code>
  *
  */
-class Router implements Phalcon\DI\InjectionAwareInterface
+class Router implements Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;

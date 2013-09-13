@@ -24,7 +24,7 @@ namespace Phalcon;
  *
  * Allows to validate data using validators
  */
-class Validation extends Phalcon\DI\Injectable
+class Validation extends Phalcon\Di\Injectable
 {
 	protected _data;
 
@@ -342,7 +342,7 @@ class Validation extends Phalcon\DI\Injectable
 
 						let dependencyInjector = this->getDI();
 						if typeof dependencyInjector != "object" {
-							let dependencyInjector = Phalcon\DI::getDefault();
+							let dependencyInjector = Phalcon\Di::getDefault();
 							if typeof dependencyInjector != "object" {
 								throw new Phalcon\Validation\Exception("A dependency injector is required to obtain the 'filter' service");
 							}

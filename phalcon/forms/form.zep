@@ -24,7 +24,7 @@ namespace Phalcon\Forms;
  *
  * This component allows to build forms using an object-oriented interface
  */
-class Form extends Phalcon\DI\Injectable implements Countable, Iterator
+class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 {
 
 	protected _position;

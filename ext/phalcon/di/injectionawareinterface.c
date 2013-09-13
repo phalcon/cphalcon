@@ -30,13 +30,13 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\DI\InjectionAwareInterface
+ * Phalcon\Di\InjectionAwareInterface
  *
- * This interface must be implemented in those classes that uses internally the Phalcon\DI that creates them
+ * This interface must be implemented in those classes that uses internally the Phalcon\Di that creates them
  */
-ZEPHIR_INIT_CLASS(Phalcon_DI_InjectionAwareInterface) {
+ZEPHIR_INIT_CLASS(Phalcon_Di_InjectionAwareInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\DI, InjectionAwareInterface, phalcon, di_injectionawareinterface, phalcon_di_injectionawareinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Di, InjectionAwareInterface, phalcon, di_injectionawareinterface, phalcon_di_injectionawareinterface_method_entry);
 
 
 	return SUCCESS;
@@ -48,12 +48,12 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_InjectionAwareInterface) {
  *
  * @param Phalcon\DiInterface dependencyInjector
  */
-ZEPHIR_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, setDI);
+ZEPHIR_DOC_METHOD(Phalcon_Di_InjectionAwareInterface, setDI);
 
 /**
  * Returns the internal dependency injector
  *
  * @return Phalcon\DiInterface
  */
-ZEPHIR_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, getDI);
+ZEPHIR_DOC_METHOD(Phalcon_Di_InjectionAwareInterface, getDI);
 

@@ -35,15 +35,15 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\DI\FactoryDefault
+ * Phalcon\Di\FactoryDefault
  *
- * This is a variant of the standard Phalcon\DI. By default it automatically
+ * This is a variant of the standard Phalcon\Di. By default it automatically
  * registers all the services provided by the framework. Thanks to this, the developer does not need
  * to register each service individually providing a full stack framework
  */
-ZEPHIR_INIT_CLASS(Phalcon_DI_FactoryDefault) {
+ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DI, FactoryDefault, phalcon, di_factorydefault, phalcon_di_ce, phalcon_di_factorydefault_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Di, FactoryDefault, phalcon, di_factorydefault, phalcon_di_ce, phalcon_di_factorydefault_method_entry, 0);
 
 
 	return SUCCESS;
@@ -51,9 +51,9 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_FactoryDefault) {
 }
 
 /**
- * Phalcon\DI\FactoryDefault constructor
+ * Phalcon\Di\FactoryDefault constructor
  */
-PHP_METHOD(Phalcon_DI_FactoryDefault, __construct) {
+PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 
 	zval *_0, *_1, *_2, *_3;
 	zend_bool shared = 1;

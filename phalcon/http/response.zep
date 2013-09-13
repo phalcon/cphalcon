@@ -33,7 +33,7 @@ namespace Phalcon\Http;
  *	$response->send();
  *</code>
  */
-class Response implements Phalcon\Http\ResponseInterface, Phalcon\DI\InjectionAwareInterface
+class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _sent = false;

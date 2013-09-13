@@ -17,12 +17,12 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\DI;
+namespace Phalcon\Di;
 
 /**
- * Phalcon\DI\InjectionAwareInterface
+ * Phalcon\Di\InjectionAwareInterface
  *
- * This interface must be implemented in those classes that uses internally the Phalcon\DI that creates them
+ * This interface must be implemented in those classes that uses internally the Phalcon\Di that creates them
  */
 interface InjectionAwareInterface
 {

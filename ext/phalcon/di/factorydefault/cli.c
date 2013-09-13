@@ -35,16 +35,16 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\DI\FactoryDefault\CLI
+ * Phalcon\Di\FactoryDefault\CLI
  *
- * This is a variant of the standard Phalcon\DI. By default it automatically
+ * This is a variant of the standard Phalcon\Di. By default it automatically
  * registers all the services provided by the framework.
  * Thanks to this, the developer does not need to register each service individually.
  * This class is specially suitable for CLI applications
  */
-ZEPHIR_INIT_CLASS(Phalcon_DI_FactoryDefault_Cli) {
+ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault_Cli) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DI\\FactoryDefault, Cli, phalcon, di_factorydefault_cli, phalcon_di_factorydefault_ce, phalcon_di_factorydefault_cli_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Di\\FactoryDefault, Cli, phalcon, di_factorydefault_cli, phalcon_di_factorydefault_ce, phalcon_di_factorydefault_cli_method_entry, 0);
 
 
 	return SUCCESS;
@@ -52,9 +52,9 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_FactoryDefault_Cli) {
 }
 
 /**
- * Phalcon\DI\FactoryDefault\CLI constructor
+ * Phalcon\Di\FactoryDefault\CLI constructor
  */
-PHP_METHOD(Phalcon_DI_FactoryDefault_Cli, __construct) {
+PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct) {
 
 	zval *_0, *_1, *_2, *_3;
 	zend_bool shared = 1;

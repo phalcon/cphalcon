@@ -30,7 +30,7 @@ namespace Phalcon\Mvc\View;
  *</code>
  *
  */
-class Simple extends Phalcon\DI\Injectable
+class Simple extends Phalcon\Di\Injectable
 {
 
 	protected _options;

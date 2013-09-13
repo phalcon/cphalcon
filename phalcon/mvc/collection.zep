@@ -26,7 +26,7 @@ namespace Phalcon\Mvc;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\DI\InjectionAwareInterface, Serializable
+class Collection implements Phalcon\Mvc\CollectionInterface, Phalcon\Di\InjectionAwareInterface, Serializable
 {
 
 	public _id;

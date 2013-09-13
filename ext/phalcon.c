@@ -344,8 +344,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	ZEPHIR_INIT(Phalcon_Cache_BackendInterface);
 	ZEPHIR_INIT(Phalcon_Cache_FrontendInterface);
 	ZEPHIR_INIT(Phalcon_CryptInterface);
-	ZEPHIR_INIT(Phalcon_DI_InjectionAwareInterface);
-	ZEPHIR_INIT(Phalcon_DI_ServiceInterface);
 	ZEPHIR_INIT(Phalcon_Db_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Db_ColumnInterface);
 	ZEPHIR_INIT(Phalcon_Db_DialectInterface);
@@ -353,6 +351,8 @@ PHP_MINIT_FUNCTION(phalcon){
 	ZEPHIR_INIT(Phalcon_Db_ReferenceInterface);
 	ZEPHIR_INIT(Phalcon_Db_ResultInterface);
 	ZEPHIR_INIT(Phalcon_DiInterface);
+	ZEPHIR_INIT(Phalcon_Di_InjectionAwareInterface);
+	ZEPHIR_INIT(Phalcon_Di_ServiceInterface);
 	ZEPHIR_INIT(Phalcon_EscaperInterface);
 	ZEPHIR_INIT(Phalcon_Events_EventsAwareInterface);
 	ZEPHIR_INIT(Phalcon_Events_ManagerInterface);
@@ -400,7 +400,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	ZEPHIR_INIT(Phalcon_Translate_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Validation_ValidatorInterface);
 	ZEPHIR_INIT(Phalcon_Exception);
-	ZEPHIR_INIT(Phalcon_DI_Injectable);
+	ZEPHIR_INIT(Phalcon_Di_Injectable);
 	ZEPHIR_INIT(Phalcon_Cache_Backend);
 	ZEPHIR_INIT(Phalcon_Db_Adapter);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo);
@@ -414,7 +414,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	ZEPHIR_INIT(Phalcon_Validation_Validator);
 	ZEPHIR_INIT(Phalcon_Acl_Adapter);
 	ZEPHIR_INIT(Phalcon_Cache_Frontend_Data);
-	ZEPHIR_INIT(Phalcon_DI_FactoryDefault);
+	ZEPHIR_INIT(Phalcon_Di_FactoryDefault);
 	ZEPHIR_INIT(Phalcon_Mvc_Router);
 	ZEPHIR_INIT(Phalcon_Session_Adapter);
 	ZEPHIR_INIT(Phalcon_Acl);
@@ -467,10 +467,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	ZEPHIR_INIT(Phalcon_Config_Exception);
 	ZEPHIR_INIT(Phalcon_Crypt);
 	ZEPHIR_INIT(Phalcon_Crypt_Exception);
-	ZEPHIR_INIT(Phalcon_DI_Exception);
-	ZEPHIR_INIT(Phalcon_DI_FactoryDefault_Cli);
-	ZEPHIR_INIT(Phalcon_DI_Service);
-	ZEPHIR_INIT(Phalcon_DI_Service_Builder);
 	ZEPHIR_INIT(Phalcon_Db);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo_Mysql);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_Pdo_Oracle);
@@ -489,6 +485,10 @@ PHP_MINIT_FUNCTION(phalcon){
 	ZEPHIR_INIT(Phalcon_Db_Reference);
 	ZEPHIR_INIT(Phalcon_Db_Result_Pdo);
 	ZEPHIR_INIT(Phalcon_Debug);
+	ZEPHIR_INIT(Phalcon_Di_Exception);
+	ZEPHIR_INIT(Phalcon_Di_FactoryDefault_Cli);
+	ZEPHIR_INIT(Phalcon_Di_Service);
+	ZEPHIR_INIT(Phalcon_Di_Service_Builder);
 	ZEPHIR_INIT(Phalcon_Escaper);
 	ZEPHIR_INIT(Phalcon_Escaper_Exception);
 	ZEPHIR_INIT(Phalcon_Events_Event);

@@ -17,20 +17,20 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\DI;
+namespace Phalcon\Di;
 
 /**
- * Phalcon\DI\Service
+ * Phalcon\Di\Service
  *
  * Represents individually a service in the services container
  *
  *<code>
- * $service = new Phalcon\DI\Service('request', 'Phalcon\Http\Request');
+ * $service = new Phalcon\Di\Service('request', 'Phalcon\Http\Request');
  * $request = service->resolve();
  *<code>
  *
  */
-class Service implements Phalcon\DI\ServiceInterface
+class Service implements Phalcon\Di\ServiceInterface
 {
 
 	protected _name;
@@ -42,7 +42,7 @@ class Service implements Phalcon\DI\ServiceInterface
 	protected _sharedInstance;
 
 	/**
-	 * Phalcon\DI\Service
+	 * Phalcon\Di\Service
 	 *
 	 * @param string name
 	 * @param mixed definition
@@ -182,7 +182,7 @@ class Service implements Phalcon\DI\ServiceInterface
 				 * Array definitions require a 'className' parameter
 				 */
 				if typeof definition == "array" {
-					let builder = new Phalcon\DI\Service\Builder(),
+					let builder = new Phalcon\Di\Service\Builder(),
 						instance = builder->build(dependencyInjector, definition, parameters);
 				} else {
 					let found = false;
@@ -194,7 +194,7 @@ class Service implements Phalcon\DI\ServiceInterface
 		 * If the service can't be built, we must throw an exception
 		 */
 		if found === false  {
-			throw new Phalcon\DI\Exception("Service '" . this->_name . "' cannot be resolved");
+			throw new Phalcon\Di\Exception("Service '" . this->_name . "' cannot be resolved");
 		}
 
 		/**
@@ -212,7 +212,7 @@ class Service implements Phalcon\DI\ServiceInterface
 	 *
 	 * @param long position
 	 * @param array parameter
-	 * @return Phalcon\DI\Service
+	 * @return Phalcon\Di\Service
 	 */
 	public function setParameter(int position, parameter)
 	{
@@ -220,11 +220,11 @@ class Service implements Phalcon\DI\ServiceInterface
 
 		let definition = this->_definition;
 		if typeof definition != "array" {
-			throw new Phalcon\DI\Exception("Definition must be an array to update its parameters");
+			throw new Phalcon\Di\Exception("Definition must be an array to update its parameters");
 		}
 
 		if typeof parameter != "array" {
-			throw new Phalcon\DI\Exception("The parameter must be an array");
+			throw new Phalcon\Di\Exception("The parameter must be an array");
 		}
 
 		/**
@@ -261,7 +261,7 @@ class Service implements Phalcon\DI\ServiceInterface
 
 		let definition = this->_definition;
 		if typeof definition != "array" {
-			throw new Phalcon\DI\Exception("Definition must be an array to obtain its parameters");
+			throw new Phalcon\Di\Exception("Definition must be an array to obtain its parameters");
 		}
 
 		/**
@@ -280,22 +280,22 @@ class Service implements Phalcon\DI\ServiceInterface
 	 * Restore the internal state of a service
 	 *
 	 * @param array attributes
-	 * @return Phalcon\DI\Service
+	 * @return Phalcon\Di\Service
 	 */
 	public static function __set_state(attributes)
 	{
 		var name, definition, shared;
 
 		if !fetch name, attributes["_name"] {
-			throw new Phalcon\DI\Exception("The attribute '_name' is required");
+			throw new Phalcon\Di\Exception("The attribute '_name' is required");
 		}
 
 		if !fetch definition, attributes["_definition"] {
-			throw new Phalcon\DI\Exception("The attribute '_name' is required");
+			throw new Phalcon\Di\Exception("The attribute '_name' is required");
 		}
 
 		if !fetch shared, attributes["_shared"] {
-			throw new Phalcon\DI\Exception("The attribute '_shared' is required");
+			throw new Phalcon\Di\Exception("The attribute '_shared' is required");
 		}
 
 		return new self(name, definition, shared);

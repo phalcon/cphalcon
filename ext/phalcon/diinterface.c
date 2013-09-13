@@ -32,7 +32,7 @@
 /**
  * Phalcon\DiInterface
  *
- * Interface for Phalcon\DI (extends ArrayAccess)
+ * Interface for Phalcon\Di (extends ArrayAccess)
  */
 ZEPHIR_INIT_CLASS(Phalcon_DiInterface) {
 
@@ -49,7 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DiInterface) {
  * @param string name
  * @param mixed definition
  * @param boolean shared
- * @return Phalcon\DI\ServiceInterface
+ * @return Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, set);
 
@@ -58,7 +58,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, set);
  *
  * @param string name
  * @param mixed definition
- * @return Phalcon\DI\ServiceInterface
+ * @return Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setShared);
 
@@ -77,7 +77,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, remove);
  * @param string name
  * @param mixed definition
  * @param boolean shared
- * @return Phalcon\DI\ServiceInterface
+ * @return Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, attempt);
 
@@ -100,11 +100,11 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, get);
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getShared);
 
 /**
- * Sets a service using a raw Phalcon\DI\Service definition
+ * Sets a service using a raw Phalcon\Di\Service definition
  *
  * @param string name
- * @param Phalcon\DI\ServiceInterface rawDefinition
- * @return Phalcon\DI\ServiceInterface
+ * @param Phalcon\Di\ServiceInterface rawDefinition
+ * @return Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setRaw);
 
@@ -120,7 +120,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getRaw);
  * Returns the corresponding Phalcon\Di\Service instance for a service
  *
  * @param string name
- * @return Phalcon\DI\ServiceInterface
+ * @return Phalcon\Di\ServiceInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getService);
 

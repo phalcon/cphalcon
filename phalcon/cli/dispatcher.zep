@@ -29,7 +29,7 @@ namespace Phalcon\CLI;
  *
  *<code>
  *
- *	$di = new Phalcon\DI();
+ *	$di = new Phalcon\Di();
  *
  *	$dispatcher = new Phalcon\CLI\Dispatcher();
  *

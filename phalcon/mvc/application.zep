@@ -62,7 +62,7 @@ namespace Phalcon\Mvc;
  *
  *</code>
  */
-class Application extends Phalcon\DI\Injectable
+class Application extends Phalcon\Di\Injectable
 {
 
 	protected _defaultModule;

@@ -22,7 +22,7 @@ namespace Phalcon;
 /**
  * Phalcon\DiInterface
  *
- * Interface for Phalcon\DI (extends ArrayAccess)
+ * Interface for Phalcon\Di (extends ArrayAccess)
  */
 interface DiInterface
 {
@@ -33,7 +33,7 @@ interface DiInterface
 	 * @param string name
 	 * @param mixed definition
 	 * @param boolean shared
-	 * @return Phalcon\DI\ServiceInterface
+	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function set(name, definition, shared=false);
 
@@ -42,7 +42,7 @@ interface DiInterface
 	 *
 	 * @param string name
 	 * @param mixed definition
-	 * @return Phalcon\DI\ServiceInterface
+	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function setShared(name, definition);
 
@@ -61,7 +61,7 @@ interface DiInterface
 	 * @param string name
 	 * @param mixed definition
 	 * @param boolean shared
-	 * @return Phalcon\DI\ServiceInterface
+	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function attempt(name, definition, shared=false);
 
@@ -84,11 +84,11 @@ interface DiInterface
 	public function getShared(name, parameters=null);
 
 	/**
-	 * Sets a service using a raw Phalcon\DI\Service definition
+	 * Sets a service using a raw Phalcon\Di\Service definition
 	 *
 	 * @param string name
-	 * @param Phalcon\DI\ServiceInterface rawDefinition
-	 * @return Phalcon\DI\ServiceInterface
+	 * @param Phalcon\Di\ServiceInterface rawDefinition
+	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function setRaw(name, rawDefinition);
 
@@ -104,7 +104,7 @@ interface DiInterface
 	 * Returns the corresponding Phalcon\Di\Service instance for a service
 	 *
 	 * @param string name
-	 * @return Phalcon\DI\ServiceInterface
+	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public function getService(name);
 

@@ -30,13 +30,13 @@
  +------------------------------------------------------------------------+
 */
 /**
- * Phalcon\DI\ServiceInterface
+ * Phalcon\Di\ServiceInterface
  *
  * Represents a service in the services container
  */
-ZEPHIR_INIT_CLASS(Phalcon_DI_ServiceInterface) {
+ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\DI, ServiceInterface, phalcon, di_serviceinterface, phalcon_di_serviceinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Di, ServiceInterface, phalcon, di_serviceinterface, phalcon_di_serviceinterface_method_entry);
 
 
 	return SUCCESS;
@@ -44,48 +44,48 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_ServiceInterface) {
 }
 
 /**
- * Phalcon\DI\ServiceInterface
+ * Phalcon\Di\ServiceInterface
  *
  * @param string name
  * @param mixed definition
  * @param boolean shared
  */
-ZEPHIR_DOC_METHOD(Phalcon_DI_ServiceInterface, __construct);
+ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, __construct);
 
 /**
  * Returns the service's name
  *
  * @param string
  */
-ZEPHIR_DOC_METHOD(Phalcon_DI_ServiceInterface, getName);
+ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, getName);
 
 /**
  * Sets if the service is shared or not
  *
  * @param boolean shared
  */
-ZEPHIR_DOC_METHOD(Phalcon_DI_ServiceInterface, setShared);
+ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, setShared);
 
 /**
  * Check whether the service is shared or not
  *
  * @return boolean
  */
-ZEPHIR_DOC_METHOD(Phalcon_DI_ServiceInterface, isShared);
+ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, isShared);
 
 /**
  * Set the service definition
  *
  * @param mixed definition
  */
-ZEPHIR_DOC_METHOD(Phalcon_DI_ServiceInterface, setDefinition);
+ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, setDefinition);
 
 /**
  * Returns the service definition
  *
  * @return mixed
  */
-ZEPHIR_DOC_METHOD(Phalcon_DI_ServiceInterface, getDefinition);
+ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, getDefinition);
 
 /**
  * Resolves the service
@@ -94,13 +94,13 @@ ZEPHIR_DOC_METHOD(Phalcon_DI_ServiceInterface, getDefinition);
  * @param Phalcon\DiInterface dependencyInjector
  * @return mixed
  */
-ZEPHIR_DOC_METHOD(Phalcon_DI_ServiceInterface, resolve);
+ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, resolve);
 
 /**
  * Restore the interal state of a service
  *
  * @param array attributes
- * @return Phalcon\DI\ServiceInterface
+ * @return Phalcon\Di\ServiceInterface
  */
-ZEPHIR_DOC_METHOD(Phalcon_DI_ServiceInterface, __set_state);
+ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, __set_state);
 

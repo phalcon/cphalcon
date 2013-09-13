@@ -39,19 +39,19 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\DI\Service
+ * Phalcon\Di\Service
  *
  * Represents individually a service in the services container
  *
  *<code>
- * $service = new Phalcon\DI\Service('request', 'Phalcon\Http\Request');
+ * $service = new Phalcon\Di\Service('request', 'Phalcon\Http\Request');
  * $request = service->resolve();
  *<code>
  *
  */
-ZEPHIR_INIT_CLASS(Phalcon_DI_Service) {
+ZEPHIR_INIT_CLASS(Phalcon_Di_Service) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, Service, phalcon, di_service, phalcon_di_service_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Di, Service, phalcon, di_service, phalcon_di_service_method_entry, 0);
 
 	zend_declare_property_null(phalcon_di_service_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_di_service_ce, SL("_definition"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -63,13 +63,13 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_Service) {
 }
 
 /**
- * Phalcon\DI\Service
+ * Phalcon\Di\Service
  *
  * @param string name
  * @param mixed definition
  * @param boolean shared
  */
-PHP_METHOD(Phalcon_DI_Service, __construct) {
+PHP_METHOD(Phalcon_Di_Service, __construct) {
 
 	zend_bool shared;
 	zval *name_param = NULL, *definition, *shared_param = NULL, *_0;
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_DI_Service, __construct) {
  *
  * @param string
  */
-PHP_METHOD(Phalcon_DI_Service, getName) {
+PHP_METHOD(Phalcon_Di_Service, getName) {
 
 
 	RETURN_MEMBER(this_ptr, "_name");
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_DI_Service, getName) {
  *
  * @param boolean shared
  */
-PHP_METHOD(Phalcon_DI_Service, setShared) {
+PHP_METHOD(Phalcon_Di_Service, setShared) {
 
 	zval *shared;
 
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_DI_Service, setShared) {
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_DI_Service, isShared) {
+PHP_METHOD(Phalcon_Di_Service, isShared) {
 
 
 	RETURN_MEMBER(this_ptr, "_shared");
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_DI_Service, isShared) {
  *
  * @param mixed sharedInstance
  */
-PHP_METHOD(Phalcon_DI_Service, setSharedInstance) {
+PHP_METHOD(Phalcon_Di_Service, setSharedInstance) {
 
 	zval *sharedInstance;
 
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_DI_Service, setSharedInstance) {
  *
  * @param mixed definition
  */
-PHP_METHOD(Phalcon_DI_Service, setDefinition) {
+PHP_METHOD(Phalcon_Di_Service, setDefinition) {
 
 	zval *definition;
 
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_DI_Service, setDefinition) {
  *
  * @return mixed
  */
-PHP_METHOD(Phalcon_DI_Service, getDefinition) {
+PHP_METHOD(Phalcon_Di_Service, getDefinition) {
 
 
 	RETURN_MEMBER(this_ptr, "_definition");
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_DI_Service, getDefinition) {
  * @param Phalcon\DiInterface dependencyInjector
  * @return mixed
  */
-PHP_METHOD(Phalcon_DI_Service, resolve) {
+PHP_METHOD(Phalcon_Di_Service, resolve) {
 
 	zend_bool found;
 	zval *parameters = NULL, *dependencyInjector = NULL, *shared, *definition, *sharedInstance, *instance = NULL, *builder, *_0 = NULL, *_1, *_2, *_3;
@@ -292,9 +292,9 @@ PHP_METHOD(Phalcon_DI_Service, resolve) {
  *
  * @param long position
  * @param array parameter
- * @return Phalcon\DI\Service
+ * @return Phalcon\Di\Service
  */
-PHP_METHOD(Phalcon_DI_Service, setParameter) {
+PHP_METHOD(Phalcon_Di_Service, setParameter) {
 
 	zval *position_param = NULL, *parameter, *definition, *arguments;
 	int position;
@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_DI_Service, setParameter) {
  * @param int position
  * @return array
  */
-PHP_METHOD(Phalcon_DI_Service, getParameter) {
+PHP_METHOD(Phalcon_Di_Service, getParameter) {
 
 	zval *position_param = NULL, *definition, *arguments, *parameter;
 	int position;
@@ -367,9 +367,9 @@ PHP_METHOD(Phalcon_DI_Service, getParameter) {
  * Restore the internal state of a service
  *
  * @param array attributes
- * @return Phalcon\DI\Service
+ * @return Phalcon\Di\Service
  */
-PHP_METHOD(Phalcon_DI_Service, __set_state) {
+PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
 	zval *attributes, *name, *definition, *shared;
 

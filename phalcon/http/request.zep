@@ -37,7 +37,7 @@ namespace Phalcon\Http;
  *</code>
  *
  */
-class Request implements Phalcon\Http\RequestInterface, Phalcon\DI\InjectionAwareInterface
+class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;

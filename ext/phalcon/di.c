@@ -45,7 +45,7 @@
  * Phalcon\Di is a component that implements Dependency Injection/Service Location
  * of services and it"s itself a container for them.
  *
- * Since Phalcon is highly decoupled, Phalcon\DI is essential to integrate the different
+ * Since Phalcon is highly decoupled, Phalcon\Di is essential to integrate the different
  * components of the framework. The developer can also use this component to inject dependencies
  * and manage global instances of the different classes used in the application.
  *
@@ -57,7 +57,7 @@
  * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
  *
  *<code>
- * $di = new Phalcon\DI();
+ * $di = new Phalcon\Di();
  *
  * //Using a string definition
  * $di->set("request", "Phalcon\Http\Request", true);
@@ -85,7 +85,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di) {
 }
 
 /**
- * Phalcon\DI constructor
+ * Phalcon\Di constructor
  *
  */
 PHP_METHOD(Phalcon_Di, __construct) {
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Di, __construct) {
  * @param string name
  * @param mixed definition
  * @param boolean shared
- * @return Phalcon\DI\ServiceInterface
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_Di, set) {
 
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Di, set) {
  *
  * @param string name
  * @param mixed definition
- * @return Phalcon\DI\ServiceInterface
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_Di, setShared) {
 
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Di, remove) {
  * @param string name
  * @param mixed definition
  * @param boolean shared
- * @return Phalcon\DI\ServiceInterface
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_Di, attempt) {
 
@@ -220,11 +220,11 @@ PHP_METHOD(Phalcon_Di, attempt) {
 }
 
 /**
- * Sets a service using a raw Phalcon\DI\Service definition
+ * Sets a service using a raw Phalcon\Di\Service definition
  *
  * @param string name
- * @param Phalcon\DI\ServiceInterface rawDefinition
- * @return Phalcon\DI\ServiceInterface
+ * @param Phalcon\Di\ServiceInterface rawDefinition
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_Di, setRaw) {
 
@@ -288,10 +288,10 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 }
 
 /**
- * Returns a Phalcon\DI\Service instance
+ * Returns a Phalcon\Di\Service instance
  *
  * @param string name
- * @return Phalcon\DI\ServiceInterface
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_Di, getService) {
 
@@ -427,7 +427,7 @@ PHP_METHOD(Phalcon_Di, getShared) {
 	ZEPHIR_OBS_VAR(sharedInstances);
 	zephir_read_property_this(&sharedInstances, this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(instance);
-	if (!(zephir_array_isset_fetch(&instance, sharedInstances, name))) {
+	if (zephir_array_isset_fetch(&instance, sharedInstances, name)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZVAL_BOOL(_0, 0);
 		zephir_update_property_this(this_ptr, SL("_freshInstance"), _0 TSRMLS_CC);
@@ -483,7 +483,7 @@ PHP_METHOD(Phalcon_Di, wasFreshInstance) {
 /**
  * Return the services registered in the DI
  *
- * @return Phalcon\DI\Service[]
+ * @return Phalcon\Di\Service[]
  */
 PHP_METHOD(Phalcon_Di, getServices) {
 
@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Di, __call) {
 
-	zval *method, *arguments = NULL, *instance, *possibleService, *services, _0 = zval_used_for_init, *_1 = NULL, *_2, *_3, *_4, *_5;
+	zval *method, *arguments = NULL, *instance, *possibleService, *services, *definition, _0 = zval_used_for_init, *_1 = NULL, *_2, *_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &method, &arguments);
@@ -616,26 +616,25 @@ PHP_METHOD(Phalcon_Di, __call) {
 		}
 	}
 	if (zephir_start_with_str(method, SL("set"))) {
-		if (zephir_array_isset_long(arguments, 0)) {
+		ZEPHIR_OBS_VAR(definition);
+		if (zephir_array_isset_long_fetch(&definition, arguments, 0)) {
 			ZEPHIR_SINIT_NVAR(_0);
 			ZVAL_LONG(&_0, 3);
 			ZEPHIR_INIT_NVAR(_1);
 			zephir_call_func_p2(_1, "substr", method, &_0);
 			ZEPHIR_INIT_VAR(_2);
 			zephir_call_func_p1(_2, "lcfirst", _1);
-			ZEPHIR_OBS_VAR(_3);
-			zephir_array_fetch_long(&_3, arguments, 0, PH_NOISY);
-			zephir_call_method_p2_noret(this_ptr, "set", _2, _3);
+			zephir_call_method_p2_noret(this_ptr, "set", _2, definition);
 			RETURN_MM_NULL();
 		}
 	}
 	ZEPHIR_INIT_NVAR(_1);
 	object_init_ex(_1, phalcon_di_exception_ce);
+	ZEPHIR_INIT_VAR(_3);
+	ZEPHIR_CONCAT_SV(_3, "Call to undefined method or service '", method);
 	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_SV(_4, "Call to undefined method or service '", method);
-	ZEPHIR_INIT_VAR(_5);
-	ZEPHIR_CONCAT_VS(_5, _4, "'");
-	zephir_call_method_p1_noret(_1, "__construct", _5);
+	ZEPHIR_CONCAT_VS(_4, _3, "'");
+	zephir_call_method_p1_noret(_1, "__construct", _4);
 	zephir_throw_exception(_1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;

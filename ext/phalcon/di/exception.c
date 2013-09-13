@@ -32,13 +32,13 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\DI\Exception
+ * Phalcon\Di\Exception
  *
- * Exceptions thrown in Phalcon\DI will use this class
+ * Exceptions thrown in Phalcon\Di will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_DI_Exception) {
+ZEPHIR_INIT_CLASS(Phalcon_Di_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DI, Exception, phalcon, di_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Di, Exception, phalcon, di_exception, phalcon_exception_ce, NULL, 0);
 
 
 	return SUCCESS;

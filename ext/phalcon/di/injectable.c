@@ -38,14 +38,14 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\DI\Injectable
+ * Phalcon\Di\Injectable
  *
  * This class allows to access services in the services container by just only accessing a public property
  * with the same name of a registered service
  */
-ZEPHIR_INIT_CLASS(Phalcon_DI_Injectable) {
+ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\DI, Injectable, phalcon, di_injectable, phalcon_di_injectable_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Di, Injectable, phalcon, di_injectable, phalcon_di_injectable_method_entry, 0);
 
 /**
  * Dependency Injector
@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DI_Injectable) {
  *
  * @param Phalcon\DiInterface dependencyInjector
  */
-PHP_METHOD(Phalcon_DI_Injectable, setDI) {
+PHP_METHOD(Phalcon_Di_Injectable, setDI) {
 
 	zval *dependencyInjector;
 
@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI) {
  *
  * @return Phalcon\DiInterface
  */
-PHP_METHOD(Phalcon_DI_Injectable, getDI) {
+PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 
 	zval *dependencyInjector;
 
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_DI_Injectable, getDI) {
  *
  * @param Phalcon\Events\ManagerInterface $eventsManager
  */
-PHP_METHOD(Phalcon_DI_Injectable, setEventsManager) {
+PHP_METHOD(Phalcon_Di_Injectable, setEventsManager) {
 
 	zval *eventsManager;
 
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_DI_Injectable, setEventsManager) {
  *
  * @return Phalcon\Events\ManagerInterface
  */
-PHP_METHOD(Phalcon_DI_Injectable, getEventsManager) {
+PHP_METHOD(Phalcon_Di_Injectable, getEventsManager) {
 
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_DI_Injectable, getEventsManager) {
  *
  * @param string propertyName
  */
-PHP_METHOD(Phalcon_DI_Injectable, __get) {
+PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
 	zval *propertyName, *dependencyInjector, *hasService, *service, *persistent, *_0, *_1 = NULL;
 

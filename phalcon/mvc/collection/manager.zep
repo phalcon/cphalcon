@@ -25,10 +25,10 @@ namespace Phalcon\Mvc\Collection;
  * This components controls the initialization of models, keeping record of relations
  * between the different models of the application.
  *
- * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\DI.
+ * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
  *
  * <code>
- * $di = new Phalcon\DI();
+ * $di = new Phalcon\Di();
  *
  * $di->set('collectionManager', function(){
  *      return new Phalcon\Mvc\Collection\Manager();
@@ -37,7 +37,7 @@ namespace Phalcon\Mvc\Collection;
  * $robot = new Robots($di);
  * </code>
  */
-class Manager implements Phalcon\DI\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
+class Manager implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
 {
 
 	protected _dependencyInjector;

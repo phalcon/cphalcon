@@ -17,10 +17,10 @@
  +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\DI;
+namespace Phalcon\Di;
 
 /**
- * Phalcon\DI\ServiceInterface
+ * Phalcon\Di\ServiceInterface
  *
  * Represents a service in the services container
  */
@@ -28,7 +28,7 @@ interface ServiceInterface
 {
 
 	/**
-	 * Phalcon\DI\ServiceInterface
+	 * Phalcon\Di\ServiceInterface
 	 *
 	 * @param string name
 	 * @param mixed definition
@@ -84,7 +84,7 @@ interface ServiceInterface
 	 * Restore the interal state of a service
 	 *
 	 * @param array attributes
-	 * @return Phalcon\DI\ServiceInterface
+	 * @return Phalcon\Di\ServiceInterface
 	 */
 	public static function __set_state(attributes);
 
