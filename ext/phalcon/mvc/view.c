@@ -959,7 +959,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 		concat_function(renderView, _2, actionName);
 	} else {
 		ZEPHIR_OBS_NVAR(renderView);
-		zephir_array_fetch_long(&renderView, pickView, 0, PH_NOISY);
+		zephir_array_fetch_long(&renderView, pickView, 0, PH_NOISY TSRMLS_CC);
 		ZEPHIR_OBS_VAR(pickViewAction);
 		if (zephir_array_isset_long_fetch(&pickViewAction, pickView, 1)) {
 			ZEPHIR_CPY_WRT(layoutName, pickViewAction);
@@ -1156,7 +1156,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
 			ZEPHIR_INIT_VAR(parts);
 			zephir_call_func_p2(parts, "explode", &_2, renderView);
 			ZEPHIR_OBS_NVAR(layout);
-			zephir_array_fetch_long(&layout, parts, 0, PH_NOISY);
+			zephir_array_fetch_long(&layout, parts, 0, PH_NOISY TSRMLS_CC);
 		}
 		ZEPHIR_INIT_VAR(pickView);
 		array_init(pickView);
@@ -1312,7 +1312,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache) {
 		if (zephir_array_isset_string_fetch(&cacheOptions, viewOptions, SS("cache"))) {
 			if (zephir_array_isset_string(cacheOptions, SS("service"))) {
 				ZEPHIR_OBS_NVAR(cacheService);
-				zephir_array_fetch_string(&cacheService, cacheOptions, SL("service"), PH_NOISY);
+				zephir_array_fetch_string(&cacheService, cacheOptions, SL("service"), PH_NOISY TSRMLS_CC);
 			}
 		}
 	}
@@ -1335,11 +1335,9 @@ PHP_METHOD(Phalcon_Mvc_View, isCaching) {
 
 	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
-	RETURN_MM_BOOL(ZEPHIR_GT_LONG(_0, 0));
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
+	RETURN_BOOL(ZEPHIR_GT_LONG(_0, 0));
 
 }
 

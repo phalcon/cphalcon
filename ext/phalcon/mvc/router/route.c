@@ -404,23 +404,23 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 				_4 = zephir_fast_count_int(parts TSRMLS_CC);
 				if ((_4 == 3)) {
 					ZEPHIR_OBS_NVAR(moduleName);
-					zephir_array_fetch_long(&moduleName, parts, 0, PH_NOISY);
+					zephir_array_fetch_long(&moduleName, parts, 0, PH_NOISY TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(controllerName);
-					zephir_array_fetch_long(&controllerName, parts, 1, PH_NOISY);
+					zephir_array_fetch_long(&controllerName, parts, 1, PH_NOISY TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(actionName);
-					zephir_array_fetch_long(&actionName, parts, 2, PH_NOISY);
+					zephir_array_fetch_long(&actionName, parts, 2, PH_NOISY TSRMLS_CC);
 					break;
 				}
 				if ((_4 == 2)) {
 					ZEPHIR_OBS_NVAR(controllerName);
-					zephir_array_fetch_long(&controllerName, parts, 0, PH_NOISY);
+					zephir_array_fetch_long(&controllerName, parts, 0, PH_NOISY TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(actionName);
-					zephir_array_fetch_long(&actionName, parts, 1, PH_NOISY);
+					zephir_array_fetch_long(&actionName, parts, 1, PH_NOISY TSRMLS_CC);
 					break;
 				}
 				if ((_4 == 1)) {
 					ZEPHIR_OBS_NVAR(controllerName);
-					zephir_array_fetch_long(&controllerName, parts, 0, PH_NOISY);
+					zephir_array_fetch_long(&controllerName, parts, 0, PH_NOISY TSRMLS_CC);
 					break;
 				}
 			} while(0);
@@ -472,9 +472,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 			ZEPHIR_INIT_VAR(extracted);
 			zephir_call_method_p1(extracted, this_ptr, "extractnamedparams", pattern);
 			ZEPHIR_OBS_VAR(pcrePattern);
-			zephir_array_fetch_long(&pcrePattern, extracted, 0, PH_NOISY);
+			zephir_array_fetch_long(&pcrePattern, extracted, 0, PH_NOISY TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(_0);
-			zephir_array_fetch_long(&_6, extracted, 1, PH_NOISY|PH_READONLY);
+			zephir_array_fetch_long(&_6, extracted, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_fast_array_merge(_0, &(routePaths), &(_6) TSRMLS_CC);
 			ZEPHIR_CPY_WRT(routePaths, _0);
 		} else {

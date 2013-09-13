@@ -84,11 +84,11 @@ class Builder
 			case "instance":
 
 				if !fetch name, argument["className"] {
-					throw new Phalcon_DI_Exception("Service 'className' is required in parameter on position ".position);
+					throw new Phalcon\Di\Exception("Service 'className' is required in parameter on position " . position);
 				}
 
 				if typeof dependencyInjector != "object" {
-					throw new Phalcon_DI_Exception("The dependency injector container is not valid");
+					throw new Phalcon\Di\Exception("The dependency injector container is not valid");
 				}
 
 				if fetch instanceArguments, argument["arguments"] {

@@ -63,7 +63,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service_Builder) {
  */
 PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 
-	zend_class_entry *_3, *_4;
 	zval *dependencyInjector, *position, *argument, *type, *name = NULL, *value, *instanceArguments, *_0 = NULL, *_1 = NULL, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -134,18 +133,16 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 			ZEPHIR_OBS_NVAR(name);
 			if (!(zephir_array_isset_string_fetch(&name, argument, SS("className")))) {
 				ZEPHIR_INIT_NVAR(_0);
-				_3 = zend_fetch_class(SL("Phalcon_DI_Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-				object_init_ex(_0, _3);
+				object_init_ex(_0, phalcon_di_exception_ce);
+				ZEPHIR_INIT_LNVAR(_1);
+				ZEPHIR_CONCAT_SV(_1, "Service 'className' is required in parameter on position ", position);
+				zephir_call_method_p1_noret(_0, "__construct", _1);
 				zephir_throw_exception(_0 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-				ZEPHIR_INIT_NVAR(_0);
-				_4 = zend_fetch_class(SL("Phalcon_DI_Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-				object_init_ex(_0, _4);
-				zephir_throw_exception(_0 TSRMLS_CC);
-				ZEPHIR_MM_RESTORE();
+				ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The dependency injector container is not valid");
 				return;
 			}
 			ZEPHIR_OBS_VAR(instanceArguments);

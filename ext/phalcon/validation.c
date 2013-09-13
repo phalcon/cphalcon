@@ -159,9 +159,9 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			return;
 		}
 		ZEPHIR_OBS_NVAR(attribute);
-		zephir_array_fetch_long(&attribute, scope, 0, PH_NOISY);
+		zephir_array_fetch_long(&attribute, scope, 0, PH_NOISY TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(validator);
-		zephir_array_fetch_long(&validator, scope, 1, PH_NOISY);
+		zephir_array_fetch_long(&validator, scope, 1, PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(validator) != IS_OBJECT) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "One of the validators is not valid");
 			return;
@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 	if (Z_TYPE_P(data) == IS_ARRAY) {
 		if (zephir_array_isset(data, attribute)) {
 			ZEPHIR_OBS_NVAR(value);
-			zephir_array_fetch(&value, data, attribute, PH_NOISY);
+			zephir_array_fetch(&value, data, attribute, PH_NOISY TSRMLS_CC);
 		}
 	} else {
 		if (Z_TYPE_P(data) == IS_OBJECT) {

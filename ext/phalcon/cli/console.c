@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			return;
 		}
 		ZEPHIR_OBS_VAR(module);
-		zephir_array_fetch(&module, modules, moduleName, PH_NOISY);
+		zephir_array_fetch(&module, modules, moduleName, PH_NOISY TSRMLS_CC);
 		if (Z_TYPE_P(module) != IS_ARRAY) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Invalid module definition path");
 			return;

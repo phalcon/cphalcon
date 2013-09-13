@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 			}
 		}
 		ZEPHIR_OBS_NVAR(element);
-		zephir_array_fetch(&element, elements, key, PH_NOISY);
+		zephir_array_fetch(&element, elements, key, PH_NOISY TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(filters);
 		zephir_call_method(filters, element, "getfilters");
 		if (zend_is_true(filters)) {
@@ -617,7 +617,7 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(element);
-	zephir_array_fetch(&element, elements, name, PH_NOISY);
+	zephir_array_fetch(&element, elements, name, PH_NOISY TSRMLS_CC);
 	zephir_call_method_p1(return_value, element, "render", attributes);
 	RETURN_MM();
 
@@ -722,7 +722,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(element);
-	zephir_array_fetch(&element, elements, name, PH_NOISY);
+	zephir_array_fetch(&element, elements, name, PH_NOISY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(label);
 	zephir_call_method(label, element, "getlabel");
 	if (!(zend_is_true(label))) {

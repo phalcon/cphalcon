@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __set_state) {
 
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
 	ZEPHIR_OBS_VAR(_0);
-	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY);
+	zephir_array_fetch_string(&_0, group, SL("_messages"), PH_NOISY TSRMLS_CC);
 	zephir_call_method_p1_noret(return_value, "__construct", _0);
 	RETURN_MM();
 

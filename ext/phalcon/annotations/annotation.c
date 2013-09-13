@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(_0);
-	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY);
+	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_name"), _0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(exprArguments);
 	if (zephir_array_isset_string_fetch(&exprArguments, reflectionData, SS("arguments"))) {
@@ -99,13 +99,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 		) {
 			ZEPHIR_GET_HVALUE(argument, _3);
 			ZEPHIR_OBS_NVAR(_4);
-			zephir_array_fetch_string(&_4, argument, SL("expr"), PH_NOISY);
+			zephir_array_fetch_string(&_4, argument, SL("expr"), PH_NOISY TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(resolvedArgument);
 			zephir_call_method_p1(resolvedArgument, this_ptr, "getexpression", _4);
 			ZEPHIR_OBS_NVAR(name);
 			if (zephir_array_isset_string_fetch(&name, argument, SS("name"))) {
 				ZEPHIR_OBS_NVAR(arguments);
-				zephir_array_fetch(&arguments, name, resolvedArgument, PH_NOISY);
+				zephir_array_fetch(&arguments, name, resolvedArgument, PH_NOISY TSRMLS_CC);
 			} else {
 				ZEPHIR_CPY_WRT(arguments, resolvedArgument);
 			}
@@ -151,11 +151,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(type);
-	zephir_array_fetch_string(&type, expr, SL("type"), PH_NOISY);
+	zephir_array_fetch_string(&type, expr, SL("type"), PH_NOISY TSRMLS_CC);
 	do {
 		if (ZEPHIR_IS_LONG(type, 301) || ZEPHIR_IS_LONG(type, 302) || ZEPHIR_IS_LONG(type, 303) || ZEPHIR_IS_LONG(type, 307)) {
 			ZEPHIR_OBS_VAR(value);
-			zephir_array_fetch_string(&value, expr, SL("value"), PH_NOISY);
+			zephir_array_fetch_string(&value, expr, SL("value"), PH_NOISY TSRMLS_CC);
 			break;
 		}
 		if (ZEPHIR_IS_LONG(type, 304)) {
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			break;
 		}
 		if (ZEPHIR_IS_LONG(type, 308)) {
-			zephir_array_fetch_string(&_0, expr, SL("items"), PH_NOISY|PH_READONLY);
+			zephir_array_fetch_string(&_0, expr, SL("items"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			zephir_is_iterable(_0, &_2, &_1, 0, 0);
 			for (
 				; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -182,13 +182,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			) {
 				ZEPHIR_GET_HVALUE(item, _3);
 				ZEPHIR_OBS_NVAR(_4);
-				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY);
+				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(resolvedItem);
 				zephir_call_method_p1(resolvedItem, this_ptr, "getexpression", _4);
 				ZEPHIR_OBS_NVAR(name);
 				if (zephir_array_isset_string_fetch(&name, item, SS("name"))) {
 					ZEPHIR_OBS_NVAR(arrayValue);
-					zephir_array_fetch(&arrayValue, name, resolvedItem, PH_NOISY);
+					zephir_array_fetch(&arrayValue, name, resolvedItem, PH_NOISY TSRMLS_CC);
 				} else {
 					zephir_array_append(&arrayValue, resolvedItem, PH_SEPARATE);
 				}
@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 	ZEPHIR_OBS_VAR(arguments);
 	zephir_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	if (zephir_array_isset_long(arguments, position)) {
-		zephir_array_fetch_long(&return_value, arguments, position, PH_NOISY);
+		zephir_array_fetch_long(&return_value, arguments, position, PH_NOISY TSRMLS_CC);
 		RETURN_MM();
 	}
 	ZEPHIR_MM_RESTORE();

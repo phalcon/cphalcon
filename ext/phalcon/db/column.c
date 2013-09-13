@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	}
 	object_init_ex(return_value, phalcon_db_column_ce);
 	ZEPHIR_OBS_VAR(_0);
-	zephir_array_fetch_string(&_0, data, SL("_columnName"), PH_NOISY);
+	zephir_array_fetch_string(&_0, data, SL("_columnName"), PH_NOISY TSRMLS_CC);
 	zephir_call_method_p2_noret(return_value, "__construct", _0, definition);
 	RETURN_MM();
 

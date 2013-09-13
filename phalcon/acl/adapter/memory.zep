@@ -191,7 +191,7 @@ class Memory extends Phalcon\Acl\Adapter
 		var roleInheritName, rolesInherits, rolesNames;
 
 		let rolesNames = this->_rolesNames;
-		if !rolesNames[roleName] {
+		if !isset rolesNames[roleName] {
 			throw new Phalcon\Acl\Exception("Role '" . roleName . "' does not exist in the role list");
 		}
 
