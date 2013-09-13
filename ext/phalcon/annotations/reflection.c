@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations) {
 			zephir_update_property_this(this_ptr, SL("_classAnnotations"), collection TSRMLS_CC);
 			RETURN_CCTOR(collection);
 		}
-		zephir_update_property_this(this_ptr, SL("_classAnnotations"), ZEPHIR_GLOBAL(golbal_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_classAnnotations"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_CCTOR(annotations);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 				RETURN_CCTOR(collections);
 			}
 		}
-		zephir_update_property_this(this_ptr, SL("_methodAnnotations"), ZEPHIR_GLOBAL(golbal_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_methodAnnotations"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_CCTOR(annotations);
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 				RETURN_CCTOR(collections);
 			}
 		}
-		zephir_update_property_this(this_ptr, SL("_propertyAnnotations"), ZEPHIR_GLOBAL(golbal_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_propertyAnnotations"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_CCTOR(annotations);

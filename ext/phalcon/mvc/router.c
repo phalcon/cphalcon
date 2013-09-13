@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 	array_init(params);
 	ZEPHIR_INIT_VAR(matches);
 	ZVAL_NULL(matches);
-	zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(golbal_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_matchedRoute"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_routes"), PH_NOISY_CC);
@@ -578,9 +578,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		}
 	}
 	if (zend_is_true(routeFound)) {
-		zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(golbal_true) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	} else {
-		zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(golbal_false) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_wasMatched"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
 	if (!(zend_is_true(routeFound))) {
 		ZEPHIR_OBS_VAR(notFoundPaths);

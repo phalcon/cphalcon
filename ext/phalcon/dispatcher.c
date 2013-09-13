@@ -497,7 +497,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	zephir_read_property_this(&handlerSuffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(actionSuffix);
 	zephir_read_property_this(&actionSuffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
-	zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(golbal_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	while (1) {
 		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
 		if (!(!(zend_is_true(_2)))) {
@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			zephir_call_method_p2_noret(this_ptr, "_throwdispatchexception", _1, _0);
 			break;
 		}
-		zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(golbal_true) TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(namespaceName);
 		zephir_read_property_this(&namespaceName, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
 		if (!(zend_is_true(namespaceName))) {
@@ -803,8 +803,8 @@ PHP_METHOD(Phalcon_Dispatcher, forward) {
 	if (zephir_array_isset_string_fetch(&params, forward, SS("params"))) {
 		zephir_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	}
-	zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(golbal_false) TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_forwarded"), ZEPHIR_GLOBAL(golbal_true) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_forwarded"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
