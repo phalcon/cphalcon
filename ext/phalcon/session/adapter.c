@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Session_Adapter, start) {
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "headers_sent");
 	if (zend_is_true(_0)) {
-		//missing fcall
+		zephir_call_func_noret("session_start");
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_BOOL(_1, 1);
 		zephir_update_property_this(this_ptr, SL("_started"), _1 TSRMLS_CC);
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Session_Adapter, getOptions) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, get) {
 
-	zval *index, *defaultValue = NULL, *value, *_SESSION, *_0, *_1, *_2;
+	zval *index, *defaultValue = NULL, *value, *_SESSION, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &index, &defaultValue);
@@ -173,9 +173,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	ZEPHIR_INIT_VAR(_1);
 	concat_function(_1, _0, index);
 	if (zephir_array_isset_fetch(&value, _SESSION, _1)) {
-		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p1(_2, "is_empty", value);
-		if (!(zend_is_true(_2))) {
+		if (!(0)) {
 			RETURN_CCTOR(value);
 		}
 	}

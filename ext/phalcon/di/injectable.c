@@ -18,6 +18,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 
 
 /*
@@ -140,7 +141,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
-	zval *propertyName, *dependencyInjector, *hasService, *service, *persistent, *_0, *_1 = NULL;
+	zval *propertyName, *dependencyInjector, *hasService, *service, *persistent, *_0, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &propertyName);
@@ -177,7 +178,9 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		zephir_call_method_p2(persistent, dependencyInjector, "get", _1, _0);
 		RETURN_CCTOR(persistent);
 	}
-	//missing fcall
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_SV(_2, "Access to undefined property ", propertyName);
+	zephir_call_func_p1_noret("trigger_error", _2);
 	RETURN_MM_NULL();
 
 }

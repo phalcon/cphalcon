@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getTargetPath) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 
-	zval *basePath = NULL, *sourcePath = NULL, *completePath, *content, *_0, *_1, *_2 = NULL, *_3, *_4 = NULL, *_5 = NULL;
+	zval *basePath = NULL, *sourcePath = NULL, *completePath, *content, *_0, *_1 = NULL, *_2, *_3 = NULL, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &basePath);
@@ -370,27 +370,25 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 
 	ZEPHIR_OBS_VAR(sourcePath);
 	zephir_read_property_this(&sourcePath, this_ptr, SL("_sourcePath"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "is_empty", sourcePath);
-	if (zend_is_true(_0)) {
+	if (0) {
 		ZEPHIR_OBS_NVAR(sourcePath);
 		zephir_read_property_this(&sourcePath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
 	ZEPHIR_INIT_VAR(completePath);
 	concat_function(completePath, basePath, sourcePath);
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
-	if (zend_is_true(_1)) {
-		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p1(_2, "file_exists", completePath);
-		if (!(zend_is_true(_2))) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
+	if (zend_is_true(_0)) {
+		ZEPHIR_INIT_VAR(_1);
+		zephir_call_func_p1(_1, "file_exists", completePath);
+		if (!(zend_is_true(_1))) {
+			ZEPHIR_INIT_VAR(_2);
+			object_init_ex(_2, phalcon_assets_exception_ce);
 			ZEPHIR_INIT_VAR(_3);
-			object_init_ex(_3, phalcon_assets_exception_ce);
+			ZEPHIR_CONCAT_SV(_3, "Resource's content for '", completePath);
 			ZEPHIR_INIT_VAR(_4);
-			ZEPHIR_CONCAT_SV(_4, "Resource's content for '", completePath);
-			ZEPHIR_INIT_VAR(_5);
-			ZEPHIR_CONCAT_VS(_5, _4, "' cannot be read");
-			zephir_call_method_p1_noret(_3, "__construct", _5);
-			zephir_throw_exception(_3 TSRMLS_CC);
+			ZEPHIR_CONCAT_VS(_4, _3, "' cannot be read");
+			zephir_call_method_p1_noret(_2, "__construct", _4);
+			zephir_throw_exception(_2 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -398,14 +396,14 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 	ZEPHIR_INIT_VAR(content);
 	zephir_call_func_p1(content, "file_get_contents", completePath);
 	if (ZEPHIR_IS_FALSE(content)) {
-		ZEPHIR_INIT_NVAR(_2);
-		object_init_ex(_2, phalcon_assets_exception_ce);
+		ZEPHIR_INIT_NVAR(_1);
+		object_init_ex(_1, phalcon_assets_exception_ce);
+		ZEPHIR_INIT_LNVAR(_3);
+		ZEPHIR_CONCAT_SV(_3, "Resource's content for '", completePath);
 		ZEPHIR_INIT_LNVAR(_4);
-		ZEPHIR_CONCAT_SV(_4, "Resource's content for '", completePath);
-		ZEPHIR_INIT_LNVAR(_5);
-		ZEPHIR_CONCAT_VS(_5, _4, "' cannot be read");
-		zephir_call_method_p1_noret(_2, "__construct", _5);
-		zephir_throw_exception(_2 TSRMLS_CC);
+		ZEPHIR_CONCAT_VS(_4, _3, "' cannot be read");
+		zephir_call_method_p1_noret(_1, "__construct", _4);
+		zephir_throw_exception(_1 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -420,15 +418,13 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri) {
 
-	zval *targetUri = NULL, *_0;
+	zval *targetUri = NULL;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(targetUri);
 	zephir_read_property_this(&targetUri, this_ptr, SL("_targetUri"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "is_empty", targetUri);
-	if (zend_is_true(_0)) {
+	if (0) {
 		ZEPHIR_OBS_NVAR(targetUri);
 		zephir_read_property_this(&targetUri, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
@@ -444,7 +440,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 
-	zval *basePath = NULL, *sourcePath = NULL, *_0, *_1, *_2;
+	zval *basePath = NULL, *sourcePath = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &basePath);
@@ -456,17 +452,15 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 
 	ZEPHIR_OBS_VAR(sourcePath);
 	zephir_read_property_this(&sourcePath, this_ptr, SL("_sourcePath"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "is_empty", sourcePath);
-	if (zend_is_true(_0)) {
+	if (0) {
 		ZEPHIR_OBS_NVAR(sourcePath);
 		zephir_read_property_this(&sourcePath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
-	if (zend_is_true(_1)) {
-		ZEPHIR_INIT_VAR(_2);
-		concat_function(_2, basePath, sourcePath);
-		zephir_call_func_p1(return_value, "realpath", _2);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
+	if (zend_is_true(_0)) {
+		ZEPHIR_INIT_VAR(_1);
+		concat_function(_1, basePath, sourcePath);
+		zephir_call_func_p1(return_value, "realpath", _1);
 		RETURN_MM();
 	}
 	RETURN_CCTOR(sourcePath);
@@ -481,7 +475,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 
-	zval *basePath = NULL, *targetPath = NULL, *completePath, *_0, *_1, *_2;
+	zval *basePath = NULL, *targetPath = NULL, *completePath, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &basePath);
@@ -493,19 +487,17 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 
 	ZEPHIR_OBS_VAR(targetPath);
 	zephir_read_property_this(&targetPath, this_ptr, SL("_targetPath"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_0);
-	zephir_call_func_p1(_0, "is_empty", targetPath);
-	if (zend_is_true(_0)) {
+	if (0) {
 		ZEPHIR_OBS_NVAR(targetPath);
 		zephir_read_property_this(&targetPath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
-	if (zend_is_true(_1)) {
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
+	if (zend_is_true(_0)) {
 		ZEPHIR_INIT_VAR(completePath);
 		concat_function(completePath, basePath, targetPath);
-		ZEPHIR_INIT_VAR(_2);
-		zephir_call_func_p1(_2, "file_exists", completePath);
-		if (zend_is_true(_2)) {
+		ZEPHIR_INIT_VAR(_1);
+		zephir_call_func_p1(_1, "file_exists", completePath);
+		if (zend_is_true(_1)) {
 			zephir_call_func_p1(return_value, "realpath", completePath);
 			RETURN_MM();
 		}

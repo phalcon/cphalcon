@@ -322,11 +322,13 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 					return;
 				}
 				if (zephir_fast_count_int(arguments TSRMLS_CC)) {
-					//missing fcall
+					ZEPHIR_INIT_NVAR(_0);
+					zephir_call_method_p2(_0, this_ptr, "_buildparameters", dependencyInjector, arguments);
+					zephir_call_func_p2_noret("call_user_func_array", methodCall, _0);
 					continue;
 				}
 			}
-			//missing fcall
+			zephir_call_func_p1_noret("call_user_func", methodCall);
 		}
 	}
 	ZEPHIR_OBS_NVAR(paramCalls);

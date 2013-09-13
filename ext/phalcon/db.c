@@ -15,6 +15,7 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 
 
 /*
@@ -90,7 +91,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db) {
  */
 PHP_METHOD(Phalcon_Db, setup) {
 
-	zval *options, *escapeIdentifiers;
+	zval *options, *escapeIdentifiers, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options);
@@ -103,7 +104,9 @@ PHP_METHOD(Phalcon_Db, setup) {
 	}
 	ZEPHIR_OBS_VAR(escapeIdentifiers);
 	if (zephir_array_isset_string_fetch(&escapeIdentifiers, options, SS("escapeSqlIdentifiers"))) {
-		//missing fcall
+		ZEPHIR_INIT_VAR(_0);
+		ZVAL_STRING(_0, "db.escape_identifiers", 1);
+		zephir_call_func_p2_noret("globals_set", _0, escapeIdentifiers);
 	}
 	ZEPHIR_MM_RESTORE();
 

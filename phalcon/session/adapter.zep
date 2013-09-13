@@ -107,7 +107,7 @@ abstract class Adapter
 	{
 		var value;
 		if fetch value, _SESSION[this->_uniqueId . index] {
-			if !is_empty(value) {
+			if !empty value {
 				return value;
 			}
 		}

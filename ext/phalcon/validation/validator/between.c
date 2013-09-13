@@ -68,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 
-	zval *validator, *attribute, *value, *minimum, *maximum, *message = NULL, *_0, *_1;
+	zval *validator, *attribute, *value, *minimum, *maximum, *message = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validator, &attribute);
@@ -90,15 +90,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		ZVAL_STRING(_0, "message", 1);
 		ZEPHIR_INIT_VAR(message);
 		zephir_call_method_p1(message, this_ptr, "getoption", _0);
-		ZEPHIR_INIT_BNVAR(_0);
-		zephir_call_func_p1(_0, "is_empty", message);
-		if (zend_is_true(_0)) {
+		if (0) {
 			ZEPHIR_INIT_NVAR(message);
 			ZEPHIR_CONCAT_VS(message, attribute, " is not between a valid range");
 		}
-		ZEPHIR_INIT_VAR(_1);
-		object_init_ex(_1, phalcon_validation_message_ce);
-		zephir_call_method_p1_noret(validator, "appendmessage", _1);
+		ZEPHIR_INIT_BNVAR(_0);
+		object_init_ex(_0, phalcon_validation_message_ce);
+		zephir_call_method_p1_noret(validator, "appendmessage", _0);
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);

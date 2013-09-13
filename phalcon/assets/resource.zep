@@ -255,7 +255,7 @@ namespace Phalcon\Assets;
 		var sourcePath, completePath, content;
 
 		let sourcePath = this->_sourcePath;
-		if is_empty(sourcePath) {
+		if empty sourcePath {
 			let sourcePath = this->_path;
 		}
 
@@ -299,7 +299,7 @@ namespace Phalcon\Assets;
 		var targetUri;
 
 		let targetUri = this->_targetUri;
-		if is_empty(targetUri) {
+		if empty targetUri {
 			let targetUri = this->_path;
 		}
 		return targetUri;
@@ -316,7 +316,7 @@ namespace Phalcon\Assets;
 		var sourcePath;
 
 		let sourcePath = this->_sourcePath;
-		if is_empty(sourcePath) {
+		if empty sourcePath {
 			let sourcePath = this->_path;
 		}
 
@@ -341,7 +341,7 @@ namespace Phalcon\Assets;
 		var targetPath, completePath;
 
 		let targetPath = this->_targetPath;
-		if is_empty(targetPath) {
+		if empty targetPath {
 			let targetPath = this->_path;
 		}
 

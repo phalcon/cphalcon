@@ -54,7 +54,7 @@ class Confirmation extends Phalcon\Validation\Validator implements Phalcon\Valid
 		if value != withValue {
 
 			let message = this->getOption("message");
-			if is_empty(message) {
+			if empty message {
 				let message = "Value of '" . attribute . "' and '" . withAttribute . "' don\'t match";
 			}
 

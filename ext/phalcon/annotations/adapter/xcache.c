@@ -93,13 +93,21 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 
-	zval *key, *data;
+	zval *key, *data, *_0, *_1, *_2;
 
-	zephir_fetch_params(0, 2, 0, &key, &data);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &key, &data);
 
 
 
-	//missing fcall
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_CONCAT_SV(_0, "_PHAN", key);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_func_p1(_1, "strtolower", _0);
+	ZEPHIR_INIT_VAR(_2);
+	zephir_call_func_p1(_2, "serialize", data);
+	zephir_call_func_p2_noret("xcache_set", _1, _2);
+	ZEPHIR_MM_RESTORE();
 
 }
 
