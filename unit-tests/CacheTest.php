@@ -151,8 +151,39 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		//Delete
 		$this->assertTrue($cache->delete('test-data'));
-
 	}
+
+    public function testDataFileCacheIncrement()
+    {
+
+        $frontCache = new Phalcon\Cache\Frontend\Data();
+
+        $cache = new Phalcon\Cache\Backend\File($frontCache, array(
+            'cacheDir' => 'unit-tests/cache/'
+        ));
+        $cache->delete('foo');
+        $cache->save('foo', "1");
+        $this->assertEquals(2, $cache->increment('foo'));
+
+        $this->assertEquals($cache->get('foo'), 2);
+
+        $this->assertEquals($cache->increment('foo', 5), 7);
+    }
+
+    public function testDataFileCacheDecrement()
+    {
+
+        $frontCache = new Phalcon\Cache\Frontend\Data();
+
+        $cache = new Phalcon\Cache\Backend\File($frontCache, array(
+            'cacheDir' => 'unit-tests/cache/'
+        ));
+        $cache->delete('foo');
+        $cache->save('foo', "100");
+        $this->assertEquals(99, $cache->decrement('foo'));
+
+        $this->assertEquals(95, $cache->decrement('foo', 4));
+    }
 
 	private function _prepareIgbinary()
 	{

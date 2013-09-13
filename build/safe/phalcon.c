@@ -75995,6 +75995,10 @@ static PHP_METHOD(Phalcon_Cache_Backend_File, get){
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_cache_exception_ce, exception_message);
 				return;
 			}
+
+			if (phalcon_is_numeric(cached_content)) {
+				RETURN_CCTOR(cached_content);
+			}
 	
 			phalcon_call_method_p1(return_value, frontend, "afterretrieve", cached_content);
 			RETURN_MM();
@@ -76065,11 +76069,18 @@ static PHP_METHOD(Phalcon_Cache_Backend_File, save){
 		PHALCON_CPY_WRT(cached_content, content);
 	}
 	
-	PHALCON_INIT_VAR(prepared_content);
-	phalcon_call_method_p1(prepared_content, frontend, "beforestore", cached_content);
-	
+	if (!phalcon_is_numeric(cached_content)) {
+		PHALCON_INIT_VAR(prepared_content);
+		phalcon_call_method_p1(prepared_content, frontend, "beforestore", cached_content);
+	}
+
 	PHALCON_INIT_VAR(status);
-	phalcon_file_put_contents(status, cache_file, prepared_content TSRMLS_CC);
+	if (!phalcon_is_numeric(cached_content)) {
+		phalcon_file_put_contents(status, cache_file, prepared_content TSRMLS_CC);
+	} else {
+		phalcon_file_put_contents(status, cache_file, cached_content TSRMLS_CC);
+	}
+
 	if (PHALCON_IS_FALSE(status)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory can't be written");
 		return;
@@ -76258,6 +76269,205 @@ static PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 	RETURN_MM_FALSE;
 }
 
+static PHP_METHOD(Phalcon_Cache_Backend_File, increment){
+
+	zval *key_name, *value = NULL, *lifetime = NULL, *options, *prefix, *prefixed_key, *result, *status;
+	zval *cache_dir, *cache_file, *frontend, *timestamp;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
+	zval *cached_content, *exception_message;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &key_name, &value);
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	} else {
+		PHALCON_SEPARATE_PARAM(value);
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+	
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(prefixed_key);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
+	phalcon_update_property_this(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(cache_dir);
+	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY);
+	
+	PHALCON_INIT_VAR(cache_file);
+	PHALCON_CONCAT_VV(cache_file, cache_dir, prefixed_key);
+	
+	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
+	
+		PHALCON_OBS_VAR(frontend);
+		phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(timestamp);
+		ZVAL_LONG(timestamp, (long) time(NULL));
+	
+		PHALCON_INIT_VAR(lifetime);
+		if (Z_TYPE_P(lifetime) == IS_NULL) {
+			
+			PHALCON_OBS_NVAR(lifetime);
+			phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+			if (Z_TYPE_P(lifetime) == IS_NULL) {
+				PHALCON_INIT_VAR(ttl);
+				phalcon_call_method(ttl, frontend, "getlifetime");
+			} else {
+				PHALCON_CPY_WRT(ttl, lifetime);
+			}
+		} else {
+			PHALCON_CPY_WRT(ttl, lifetime);
+		}
+	
+		PHALCON_INIT_VAR(modified_time);
+		phalcon_call_func_p1(modified_time, "filemtime", cache_file);
+	
+		PHALCON_INIT_VAR(difference);
+		sub_function(difference, timestamp, ttl TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(not_expired);
+		is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
+	
+		if (PHALCON_IS_TRUE(not_expired)) {
+	
+			PHALCON_INIT_VAR(cached_content);
+			phalcon_file_get_contents(cached_content, cache_file TSRMLS_CC);
+			if (PHALCON_IS_FALSE(cached_content)) {
+				PHALCON_INIT_VAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Cache file ", cache_file, " could not be opened");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_cache_exception_ce, exception_message);
+				return;
+			}
+	
+			if (phalcon_is_numeric(cached_content)) {
+				PHALCON_INIT_VAR(result);
+				add_function(result, value, cached_content TSRMLS_CC);
+
+				PHALCON_INIT_VAR(status);
+				phalcon_file_put_contents(status, cache_file, result TSRMLS_CC);
+
+				if (PHALCON_IS_FALSE(status)) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory can't be written");
+					return;
+				}
+
+				RETURN_ZVAL(result, 1, 0);
+			}
+		}
+	}
+	
+	RETURN_MM_NULL();
+}
+
+static PHP_METHOD(Phalcon_Cache_Backend_File, decrement){
+
+	zval *key_name, *value = NULL, *lifetime = NULL, *options, *prefix, *prefixed_key, *result, *status;
+	zval *cache_dir, *cache_file, *frontend, *timestamp;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
+	zval *cached_content, *exception_message;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &key_name, &value);
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	} else {
+		PHALCON_SEPARATE_PARAM(value);
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+	
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property_this(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(prefixed_key);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
+	phalcon_update_property_this(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(cache_dir);
+	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY);
+	
+	PHALCON_INIT_VAR(cache_file);
+	PHALCON_CONCAT_VV(cache_file, cache_dir, prefixed_key);
+	
+	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
+	
+		PHALCON_OBS_VAR(frontend);
+		phalcon_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(timestamp);
+		ZVAL_LONG(timestamp, (long) time(NULL));
+	
+		PHALCON_INIT_VAR(lifetime);
+		if (Z_TYPE_P(lifetime) == IS_NULL) {
+			
+			PHALCON_OBS_NVAR(lifetime);
+			phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+			if (Z_TYPE_P(lifetime) == IS_NULL) {
+				PHALCON_INIT_VAR(ttl);
+				phalcon_call_method(ttl, frontend, "getlifetime");
+			} else {
+				PHALCON_CPY_WRT(ttl, lifetime);
+			}
+		} else {
+			PHALCON_CPY_WRT(ttl, lifetime);
+		}
+	
+		PHALCON_INIT_VAR(modified_time);
+		phalcon_call_func_p1(modified_time, "filemtime", cache_file);
+	
+		PHALCON_INIT_VAR(difference);
+		sub_function(difference, timestamp, ttl TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(not_expired);
+		is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
+	
+		if (PHALCON_IS_TRUE(not_expired)) {
+	
+			PHALCON_INIT_VAR(cached_content);
+			phalcon_file_get_contents(cached_content, cache_file TSRMLS_CC);
+			if (PHALCON_IS_FALSE(cached_content)) {
+				PHALCON_INIT_VAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Cache file ", cache_file, " could not be opened");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_cache_exception_ce, exception_message);
+				return;
+			}
+	
+			if (phalcon_is_numeric(cached_content)) {
+				PHALCON_INIT_VAR(result);
+				sub_function(result, cached_content, value TSRMLS_CC);
+
+				PHALCON_INIT_VAR(status);
+				phalcon_file_put_contents(status, cache_file, result TSRMLS_CC);
+
+				if (PHALCON_IS_FALSE(status)) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory can't be written");
+					return;
+				}
+
+				RETURN_ZVAL(result, 1, 0);
+			}
+		}
+	}
+	
+	RETURN_MM_NULL();
+}
 
 
 
