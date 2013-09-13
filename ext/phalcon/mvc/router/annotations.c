@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "ext_config.h"
+#include "../../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../php_ext.h"
-#include "../ext.h"
+#include "../../../php_ext.h"
+#include "../../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>

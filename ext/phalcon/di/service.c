@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "ext_config.h"
+#include "../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../php_ext.h"
-#include "../ext.h"
+#include "../../php_ext.h"
+#include "../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -16,7 +16,6 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
-#include "kernel/string.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
@@ -79,13 +78,13 @@ PHP_METHOD(Phalcon_DI_Service, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared_param);
 
-	zephir_get_strval(name, name_param);
-
+		zephir_get_strval(name, name_param);
 	if (!shared_param) {
 		shared = 0;
 	} else {
 		shared = zephir_get_boolval(shared_param);
 	}
+
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);

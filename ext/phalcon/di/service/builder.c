@@ -1,11 +1,11 @@
 
 #ifdef HAVE_CONFIG_H
-#include "ext_config.h"
+#include "../../../ext_config.h"
 #endif
 
 #include <php.h>
-#include "../php_ext.h"
-#include "../ext.h"
+#include "../../../php_ext.h"
+#include "../../../ext.h"
 
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
@@ -19,7 +19,7 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
-#include "kernel/string.h"
+#include "kernel/object.h"
 
 
 /*
@@ -244,11 +244,11 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build) {
 	if (Z_TYPE_P(parameters) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(instance);
 		if (zephir_fast_count_int(parameters TSRMLS_CC)) {
-			if (phalcon_create_instance_params(instance, className, parameters TSRMLS_CC) == FAILURE) {
+			if (zephir_create_instance_params(instance, className, parameters TSRMLS_CC) == FAILURE) {
 				return;
 			}
 		} else {
-			if (phalcon_create_instance(instance, className TSRMLS_CC) == FAILURE) {
+			if (zephir_create_instance(instance, className TSRMLS_CC) == FAILURE) {
 				return;
 			}
 		}
@@ -258,11 +258,11 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build) {
 		if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"))) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_call_method_p2(_0, this_ptr, "_buildparameters", dependencyInjector, arguments);
-			if (phalcon_create_instance_params(instance, className, _0 TSRMLS_CC) == FAILURE) {
+			if (zephir_create_instance_params(instance, className, _0 TSRMLS_CC) == FAILURE) {
 				return;
 			}
 		} else {
-			if (phalcon_create_instance(instance, className TSRMLS_CC) == FAILURE) {
+			if (zephir_create_instance(instance, className TSRMLS_CC) == FAILURE) {
 				return;
 			}
 		}

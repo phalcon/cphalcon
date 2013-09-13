@@ -1,6 +1,6 @@
 
 #ifdef HAVE_CONFIG_H
-#include "ext_config.h"
+#include "../ext_config.h"
 #endif
 
 #include <php.h>
