@@ -22,9 +22,9 @@ namespace Phalcon;
 /**
  * Phalcon\DiInterface
  *
- * Interface for Phalcon\DI
+ * Interface for Phalcon\DI (extends ArrayAccess)
  */
-interface DiInterface extends ArrayAccess
+interface DiInterface
 {
 
 	/**

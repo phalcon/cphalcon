@@ -25,7 +25,8 @@ namespace Phalcon\Acl;
  *
  * Interface for Phalcon\Acl\Resource
  */
-interface ResourceInterface {
+interface ResourceInterface
+{
 
 	/**
 	 * Phalcon\Acl\ResourceInterface constructor

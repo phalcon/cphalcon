@@ -97,7 +97,7 @@ class Version
 	public static function getId()
 	{
 		var version, major, medium, minor,
-			special, specialNumber, real;
+			special, specialNumber;
 
 		let version       = self::_getVersion();
 

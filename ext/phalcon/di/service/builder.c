@@ -19,6 +19,7 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/hash.h"
+#include "kernel/string.h"
 
 
 /*
@@ -243,9 +244,13 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build) {
 	if (Z_TYPE_P(parameters) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(instance);
 		if (zephir_fast_count_int(parameters TSRMLS_CC)) {
-			zephir_call_func_p2(instance, "create_instance_params", className, parameters);
+			if (phalcon_create_instance_params(instance, className, parameters TSRMLS_CC) == FAILURE) {
+				return;
+			}
 		} else {
-			zephir_call_func_p1(instance, "create_instance", className);
+			if (phalcon_create_instance(instance, className TSRMLS_CC) == FAILURE) {
+				return;
+			}
 		}
 	} else {
 		ZEPHIR_INIT_NVAR(instance);
@@ -253,9 +258,13 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build) {
 		if (zephir_array_isset_string_fetch(&arguments, definition, SS("arguments"))) {
 			ZEPHIR_INIT_VAR(_0);
 			zephir_call_method_p2(_0, this_ptr, "_buildparameters", dependencyInjector, arguments);
-			zephir_call_func_p2(instance, "create_instance_params", className, _0);
+			if (phalcon_create_instance_params(instance, className, _0 TSRMLS_CC) == FAILURE) {
+				return;
+			}
 		} else {
-			zephir_call_func_p1(instance, "create_instance", className);
+			if (phalcon_create_instance(instance, className TSRMLS_CC) == FAILURE) {
+				return;
+			}
 		}
 	}
 	ZEPHIR_OBS_VAR(paramCalls);

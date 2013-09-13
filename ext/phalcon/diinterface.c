@@ -32,11 +32,11 @@
 /**
  * Phalcon\DiInterface
  *
- * Interface for Phalcon\DI
+ * Interface for Phalcon\DI (extends ArrayAccess)
  */
 ZEPHIR_INIT_CLASS(Phalcon_DiInterface) {
 
-	ZEPHIR_REGISTER_INTERFACE_EX(Phalcon, DiInterface, phalcon, diinterface, zend_exception_get_default(TSRMLS_C), phalcon_diinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon, DiInterface, phalcon, diinterface, phalcon_diinterface_method_entry);
 
 
 	return SUCCESS;

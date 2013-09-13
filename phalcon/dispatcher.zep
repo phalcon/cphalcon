@@ -26,7 +26,8 @@ namespace Phalcon;
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
  * This class can"t be instantiated directly, you can use it to create your own dispatchers
  */
-abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface {
+abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\DI\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
+{
 
 	protected _dependencyInjector;
 

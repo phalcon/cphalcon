@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
@@ -226,13 +227,19 @@ PHP_METHOD(Phalcon_DI_Service, resolve) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) {
 				ZEPHIR_INIT_BNVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
-					zephir_call_func_p2(instance, "create_instance_params", definition, parameters);
+					if (phalcon_create_instance_params(instance, definition, parameters TSRMLS_CC) == FAILURE) {
+						return;
+					}
 				} else {
-					zephir_call_func_p1(instance, "create_instance", definition);
+					if (phalcon_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
+						return;
+					}
 				}
 			} else {
 				ZEPHIR_INIT_BNVAR(instance);
-				zephir_call_func_p1(instance, "create_instance", definition);
+				if (phalcon_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
+					return;
+				}
 			}
 		} else {
 			found = 0;

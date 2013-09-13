@@ -24,7 +24,8 @@ namespace Phalcon\Cache;
  *
  * Interface for Phalcon\Cache\Frontend adapters
  */
-interface FrontendInterface {
+interface FrontendInterface
+{
 
 	/**
 	 * Returns the cache lifetime
