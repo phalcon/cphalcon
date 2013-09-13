@@ -1,4 +1,5 @@
 <?php
 
 $d = new Phalcon\DI\FactoryDefault();
-var_dump($d);
+
+var_dump($d->getShared('response'));

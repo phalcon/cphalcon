@@ -79,13 +79,13 @@ PHP_METHOD(Phalcon_DI_Service, __construct) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared_param);
 
-		zephir_get_strval(name, name_param);
+	zephir_get_strval(name, name_param);
+
 	if (!shared_param) {
 		shared = 0;
 	} else {
 		shared = zephir_get_boolval(shared_param);
 	}
-
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
@@ -227,17 +227,17 @@ PHP_METHOD(Phalcon_DI_Service, resolve) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) {
 				ZEPHIR_INIT_BNVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
-					if (phalcon_create_instance_params(instance, definition, parameters TSRMLS_CC) == FAILURE) {
+					if (zephir_create_instance_params(instance, definition, parameters TSRMLS_CC) == FAILURE) {
 						return;
 					}
 				} else {
-					if (phalcon_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
+					if (zephir_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
 						return;
 					}
 				}
 			} else {
 				ZEPHIR_INIT_BNVAR(instance);
-				if (phalcon_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
+				if (zephir_create_instance(instance, definition TSRMLS_CC) == FAILURE) {
 					return;
 				}
 			}

@@ -361,17 +361,17 @@ PHP_METHOD(Phalcon_Di, get) {
 			if (Z_TYPE_P(parameters) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
-					if (phalcon_create_instance_params(instance, name, parameters TSRMLS_CC) == FAILURE) {
+					if (zephir_create_instance_params(instance, name, parameters TSRMLS_CC) == FAILURE) {
 						return;
 					}
 				} else {
-					if (phalcon_create_instance(instance, name TSRMLS_CC) == FAILURE) {
+					if (zephir_create_instance(instance, name TSRMLS_CC) == FAILURE) {
 						return;
 					}
 				}
 			} else {
 				ZEPHIR_INIT_NVAR(instance);
-				if (phalcon_create_instance(instance, name TSRMLS_CC) == FAILURE) {
+				if (zephir_create_instance(instance, name TSRMLS_CC) == FAILURE) {
 					return;
 				}
 			}
