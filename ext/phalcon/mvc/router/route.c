@@ -474,8 +474,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 			ZEPHIR_OBS_VAR(pcrePattern);
 			zephir_array_fetch_long(&pcrePattern, extracted, 0, PH_NOISY);
 			ZEPHIR_INIT_NVAR(_0);
-			ZEPHIR_OBS_VAR(_6);
-			zephir_array_fetch_long(&_6, extracted, 1, PH_NOISY);
+			zephir_array_fetch_long(&_6, extracted, 1, PH_NOISY|PH_READONLY);
 			zephir_fast_array_merge(_0, &(routePaths), &(_6) TSRMLS_CC);
 			ZEPHIR_CPY_WRT(routePaths, _0);
 		} else {
@@ -626,8 +625,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths) {
 
 	ZEPHIR_INIT_VAR(reversed);
 	array_init(reversed);
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_paths"), PH_NOISY_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_paths"), PH_NOISY_CC);
 	zephir_is_iterable(_0, &_2, &_1, 0, 0);
 	for (
 		; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS

@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
@@ -235,8 +235,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 
 	ZEPHIR_OBS_VAR(rolesNames);
 	zephir_read_property_this(&rolesNames, this_ptr, SL("_rolesNames"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(_0);
-	zephir_array_fetch(&_0, rolesNames, roleName, PH_NOISY);
+	zephir_array_fetch(&_0, rolesNames, roleName, PH_NOISY|PH_READONLY);
 	if (!(zend_is_true(_0))) {
 		ZEPHIR_INIT_VAR(_1);
 		object_init_ex(_1, phalcon_acl_exception_ce);
