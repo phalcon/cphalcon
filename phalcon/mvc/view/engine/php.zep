@@ -19,7 +19,47 @@
 
 namespace Phalcon\Mvc\View\Engine;
 
-class Php
+/**
+ * Phalcon\Mvc\View\Engine\Php
+ *
+ * Adapter to use PHP itself as templating engine
+ */
+class Php extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInterface
 {
+
+	/**
+	 * Renders a view using the template engine
+	 *
+	 * @param string path
+	 * @param array params
+	 * @param boolean mustClean
+	 */
+	public function render(path, params, mustClean=false)
+	{
+		var status, view;
+
+		if mustClean === true {
+			ob_clean();
+		}
+
+		/**
+		 * Create the variables in local symbol table
+		 */
+		if typeof params == "array" {
+			//for key, value in params {
+				//let {key} = value;
+			//}
+		}
+
+		/**
+		 * Require the file
+		 */
+		let status = require path;
+
+		if mustClean === true {
+			let view = this->_view;
+			view->setContent(ob_get_contents());
+		}
+	}
 
 }

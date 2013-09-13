@@ -30,4 +30,52 @@ abstract class Engine extends Phalcon\Di\Injectable
 
 	protected _view;
 
+	/**
+	 * Phalcon\Mvc\View\Engine constructor
+	 *
+	 * @param Phalcon\Mvc\ViewInterface view
+	 * @param Phalcon\DiInterface dependencyInjector
+	 */
+	public function __construct(view, dependencyInjector=null)
+	{
+		let this->_view = view;
+		let this->_dependencyInjector = dependencyInjector;
+	}
+
+	/**
+	 * Returns cached ouput on another view stage
+	 *
+	 * @return array
+	 */
+	public function getContent()
+	{
+		var view;
+		let view = this->_view;
+		return view->getContent();
+	}
+
+	/**
+	 * Renders a partial inside another view
+	 *
+	 * @param string partialPath
+	 * @param array params
+	 * @return string
+	 */
+	public function partial(partialPath, params=null)
+	{
+		var view;
+		let view = this->_view;
+		return view->partial(partialPath, params);
+	}
+
+	/**
+	 * Returns the view component related to the adapter
+	 *
+	 * @return Phalcon\Mvc\ViewInterface
+	 */
+	public function getView()
+	{
+		return this->_view;
+	}
+
 }

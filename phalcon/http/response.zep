@@ -48,4 +48,481 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 
 	protected _dependencyInjector;
 
+	/**
+	 * Phalcon\Http\Response constructor
+	 *
+	 * @param string content
+	 * @param int code
+	 * @param string status
+	 */
+	public function __construct(content=null, code=null, status=null)
+	{
+		if content !== null {
+			let this->_content = content;
+		}
+		if code !== null {
+			this->setStatusCode(code, status);
+		}
+	}
+
+	/**
+	 * Sets the dependency injector
+	 *
+	 * @param Phalcon\DiInterface dependencyInjector
+	 */
+	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	{
+		let this->_dependencyInjector = dependencyInjector;
+	}
+
+	/**
+	 * Returns the internal dependency injector
+	 *
+	 * @return Phalcon\DiInterface
+	 */
+	public function getDI()
+	{
+		var dependencyInjector;
+		let dependencyInjector = this->_dependencyInjector;
+		if typeof dependencyInjector == "object" {
+			let dependencyInjector = Phalcon\DI::getDefault();
+			if typeof dependencyInjector != "object" {
+				throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'url' service");
+			}
+			let this->_dependencyInjector = dependencyInjector;
+		}
+		return dependencyInjector;
+	}
+
+	/**
+	 * Sets the HTTP response code
+	 *
+	 *<code>
+	 *	$response->setStatusCode(404, "Not Found");
+	 *</code>
+	 *
+	 * @param int code
+	 * @param string message
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function setStatusCode(code, message)
+	{
+		var headers;
+
+		let headers = this->getHeaders();
+
+		/**
+		 * We use HTTP/1.1 instead of HTTP/1.0
+		 */
+		headers->setRaw("HTTP/1.1 " . code . " " . message);
+
+		/**
+		 * We also define a 'Status' header with the HTTP status
+		 */
+		headers->set(code . " " . message, "Status");
+
+		let this->_headers = headers;
+		return this;
+	}
+
+	/**
+	 * Sets a headers bag for the response externally
+	 *
+	 * @param Phalcon\Http\Response\HeadersInterface headers
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function setHeaders(headers)
+	{
+		let this->_headers = headers;
+		return this;
+	}
+
+	/**
+	 * Returns headers set by the user
+	 *
+	 * @return Phalcon\Http\Response\HeadersInterface
+	 */
+	public function getHeaders()
+	{
+		var headers;
+		let headers = this->_headers;
+		if headers === null {
+			/**
+			 * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers before sent them to the client
+			 */
+			let headers = new Phalcon\Http\Response\Headers(),
+				this->_headers = headers;
+		}
+		return headers;
+	}
+
+	/**
+	 * Sets a cookies bag for the response externally
+	 *
+	 * @param Phalcon\Http\Response\CookiesInterface cookies
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function setCookies(cookies)
+	{
+		if typeof cookies != "object" {
+			throw new Phalcon\Http\Response\Exception("The cookies bag is not valid");
+		}
+		let this->_cookies = cookies;
+		return this;
+	}
+
+	/**
+	 * Returns coookies set by the user
+	 *
+	 * @return Phalcon\Http\Response\CookiesInterface
+	 */
+	public function getCookies()
+	{
+		return this->_cookies;
+	}
+
+	/**
+	 * Overwrites a header in the response
+	 *
+	 *<code>
+	 *	$response->setHeader("Content-Type", "text/plain");
+	 *</code>
+	 *
+	 * @param string name
+	 * @param string value
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function setHeader(name, value)
+	{
+		var headers;
+		let headers = this->getHeaders();
+		headers->set(name, value);
+		return this;
+	}
+
+	/**
+	 * Send a raw header to the response
+	 *
+	 *<code>
+	 *	response->setRawHeader("HTTP/1.1 404 Not Found");
+	 *</code>
+	 *
+	 * @param string header
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function setRawHeader(header)
+	{
+		var headers;
+		let headers = this->getHeaders();
+		headers->setRaw(header);
+		return this;
+	}
+
+	/**
+	 * Resets all the stablished headers
+	 *
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function resetHeaders()
+	{
+		var headers;
+		let headers = this->getHeaders();
+		headers->reset();
+		return this;
+	}
+
+	/**
+	 * Sets a Expires header to use HTTP cache
+	 *
+	 *<code>
+	 *	$this->response->setExpires(new DateTime());
+	 *</code>
+	 *
+	 * @param DateTime datetime
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function setExpires(datetime)
+	{
+		var headers, date, timezone;
+
+		if typeof datetime != "object" {
+			throw new Phalcon\Http\Response\Exception("datetime parameter must be an instance of DateTime");
+		}
+
+		let headers = this->getHeaders(),
+			date = clone datetime;
+
+		/**
+		 * All the expiration times are sent in UTC
+		 * Change the timezone to utc
+		 */
+		date->setTimezone(new DateTimeZone("UTC"));
+
+		/**
+		 * The 'Expires' header set this info
+		 */
+		this->setHeader("Expires", date->format("D, d M Y H:i:s") . " GMT");
+		return this;
+	}
+
+	/**
+	 * Sends a Not-Modified response
+	 *
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function setNotModified()
+	{
+		this->setStatusCode("Not modified", 304);
+		return this;
+	}
+
+	/**
+	 * Sets the response content-type mime, optionally the charset
+	 *
+	 *<code>
+	 *	$response->setContentType('application/pdf');
+	 *	$response->setContentType('text/plain', 'UTF-8');
+	 *</code>
+	 *
+	 * @param string contentType
+	 * @param string charset
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function setContentType(contentType, charset=null)
+	{
+		var headers, name;
+		let headers = this->getHeaders();
+		let name = "Content-Type";
+		if charset === null {
+			headers->set(name, contentType);
+		} else {
+			headers->set(name, contentType . "; charset=" . charset);
+		}
+		return this;
+	}
+
+	/**
+	 * Set a custom ETag
+	 *
+	 *<code>
+	 *	$response->setEtag(md5(time()));
+	 *</code>
+	 *
+	 * @param string etag
+	 */
+	public function setEtag(etag)
+	{
+		var headers;
+		let headers = this->getHeaders();
+		headers->set("Etag", etag);
+		return this;
+	}
+
+	/**
+	 * Redirect by HTTP to another action or URL
+	 *
+	 *<code>
+	 *  //Using a string redirect (internal/external)
+	 *	$response->redirect("posts/index");
+	 *	$response->redirect("http://en.wikipedia.org", true);
+	 *	$response->redirect("http://www.example.com/new-location", true, 301);
+	 *
+	 *	//Making a redirection based on a named route
+	 *	$response->redirect(array(
+	 *		"for" => "index-lang",
+	 *		"lang" => "jp",
+	 *		"controller" => "index"
+	 *	));
+	 *</code>
+	 *
+	 * @param string location
+	 * @param boolean externalRedirect
+	 * @param int statusCode
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function redirect(location=null, externalRedirect=false, statusCode=302)
+	{
+		var header, url, dependencyInjector;
+
+		if externalRedirect {
+			let header = location;
+		} else {
+			let dependencyInjector = this->getDI(),
+				url = dependencyInjector->getShared("url"),
+				header = url->get(location);
+		}
+
+		/**
+		 * The HTTP status is 302 by default, a temporary redirection
+		 */
+		this->setStatusCode(statusCode, "Redirect");
+
+		/**
+		 * Change the current location using 'Location'
+		 */
+		this->setHeader("Location", header);
+
+		return this;
+	}
+
+	/**
+	 * Sets HTTP response body
+	 *
+	 *<code>
+	 *	response->setContent("<h1>Hello!</h1>");
+	 *</code>
+	 *
+	 * @param string content
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function setContent(content)
+	{
+		let this->_content = content;
+		return this;
+	}
+
+	/**
+	 * Sets HTTP response body. The parameter is automatically converted to JSON
+	 *
+	 *<code>
+	 *	response->setJsonContent(array("status" => "OK"));
+	 *</code>
+	 *
+	 * @param string content
+	 * @param int jsonOptions
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function setJsonContent(content, jsonOptions=0)
+	{
+		let this->_content = json_encode(content, jsonOptions);
+		return this;
+	}
+
+	/**
+	 * Appends a string to the HTTP response body
+	 *
+	 * @param string content
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function appendContent(content)
+	{
+		//let this->_content .= content;
+		return this;
+	}
+
+	/**
+	 * Gets the HTTP response body
+	 *
+	 * @return string
+	 */
+	public function getContent()
+	{
+		return this->_content;
+	}
+
+	/**
+	 * Check if the response is already sent
+	 *
+	 * @return boolean
+	 */
+	public function isSent()
+	{
+		return this->_sent;
+	}
+
+	/**
+	 * Sends headers to the client
+	 *
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function sendHeaders()
+	{
+		var headers;
+		let headers = this->_headers;
+		if typeof headers == "object" {
+			headers->send();
+		}
+		return this;
+	}
+
+	/**
+	 * Sends cookies to the client
+	 *
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function sendCookies()
+	{
+		var cookies;
+		let cookies = this->_cookies;
+		if typeof cookies == "object" {
+			cookies->send();
+		}
+		return this;
+	}
+
+	/**
+	 * Prints out HTTP response to the client
+	 *
+	 * @return Phalcon\Http\ResponseInterface
+	 */
+	public function send()
+	{
+		var headers, cookies;
+
+		if this->_sent {
+			throw new Phalcon\Http\Response\Exception("Response was already sent");
+		}
+
+		/**
+		 * Send headers
+		 */
+		let headers = this->_headers;
+		if typeof cookies == "object" {
+			headers->send();
+		}
+
+		/**
+		 * Send Cookies/comment>
+		 */
+		let cookies = this->_cookies;
+		if typeof cookies == "object" {
+			cookies->send();
+		}
+
+		/**
+		 * Output the response body
+		 */
+		echo this->_content;
+
+		let this->_sent = true;
+		return this;
+	}
+
+	/**
+	 * Sets an attached file to be sent at the end of the request
+	 *
+	 * @param string filePath
+	 * @param string attachmentName
+	 */
+	public function setFileToSend(filePath, attachmentName=null)
+	{
+		var basePath, headers;
+
+		if typeof attachmentName == "string" {
+			let basePath = basename(filePath);
+		} else {
+			let basePath = attachmentName;
+		}
+
+		let headers = this->getHeaders();
+
+		headers->setRaw("Content-Description: File Transfer");
+		headers->setRaw("Content-Disposition: attachment; filename=" . basePath);
+		headers->setRaw("Content-Transfer-Encoding: binary");
+
+		let this->_file = filePath;
+
+		return this;
+	}
+
 }

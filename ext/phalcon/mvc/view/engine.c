@@ -12,6 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
 
 
 /*
@@ -39,11 +42,91 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, Engine, phalcon, mvc_view_engine, phalcon_di_injectable_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, Engine, phalcon, mvc_view_engine, phalcon_di_injectable_ce, phalcon_mvc_view_engine_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_view_engine_ce, SL("_view"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Phalcon\Mvc\View\Engine constructor
+ *
+ * @param Phalcon\Mvc\ViewInterface view
+ * @param Phalcon\DiInterface dependencyInjector
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine, __construct) {
+
+	zval *view, *dependencyInjector = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &view, &dependencyInjector);
+
+	if (!dependencyInjector) {
+		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	zephir_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Returns cached ouput on another view stage
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
+
+	zval *view;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(view);
+	zephir_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+	zephir_call_method(return_value, view, "getcontent");
+	RETURN_MM();
+
+}
+
+/**
+ * Renders a partial inside another view
+ *
+ * @param string partialPath
+ * @param array params
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
+
+	zval *partialPath, *params = NULL, *view;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &partialPath, &params);
+
+	if (!params) {
+		ZEPHIR_CPY_WRT(params, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_OBS_VAR(view);
+	zephir_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+	zephir_call_method_p2(return_value, view, "partial", partialPath, params);
+	RETURN_MM();
+
+}
+
+/**
+ * Returns the view component related to the adapter
+ *
+ * @return Phalcon\Mvc\ViewInterface
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine, getView) {
+
+
+	RETURN_MEMBER(this_ptr, "_view");
 
 }
 
