@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Di, get) {
  */
 PHP_METHOD(Phalcon_Di, getShared) {
 
-	zval *name, *parameters = NULL, *instance, *sharedInstances, *_0 = NULL;
+	zval *name, *parameters = NULL, *instance, *sharedInstances;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name, &parameters);
@@ -428,16 +428,12 @@ PHP_METHOD(Phalcon_Di, getShared) {
 	zephir_read_property_this(&sharedInstances, this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(instance);
 	if (zephir_array_isset_fetch(&instance, sharedInstances, name)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZVAL_BOOL(_0, 0);
-		zephir_update_property_this(this_ptr, SL("_freshInstance"), _0 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_freshInstance"), ZEPHIR_GLOBAL(golbal_false) TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_BNVAR(instance);
 		zephir_call_method_p2(instance, this_ptr, "get", name, parameters);
 		zephir_update_property_array(this_ptr, SL("_sharedInstances"), name, instance TSRMLS_CC);
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_BOOL(_0, 1);
-		zephir_update_property_this(this_ptr, SL("_freshInstance"), _0 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_freshInstance"), ZEPHIR_GLOBAL(golbal_true) TSRMLS_CC);
 	}
 	RETURN_CCTOR(instance);
 

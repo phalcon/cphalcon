@@ -193,20 +193,16 @@ PHP_METHOD(Phalcon_Events_Event, getCancelable) {
  */
 PHP_METHOD(Phalcon_Events_Event, stop) {
 
-	zval *_0, *_1;
+	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_cancelable"), PH_NOISY_CC);
 	if (zend_is_true(_0)) {
-		ZEPHIR_INIT_VAR(_1);
-		ZVAL_BOOL(_1, 1);
-		zephir_update_property_this(this_ptr, SL("_stopped"), _1 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_stopped"), ZEPHIR_GLOBAL(golbal_true) TSRMLS_CC);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event");
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event");
 		return;
 	}
-	ZEPHIR_MM_RESTORE();
 
 }
 

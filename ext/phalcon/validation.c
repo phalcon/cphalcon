@@ -102,9 +102,9 @@ PHP_METHOD(Phalcon_Validation, __construct) {
  */
 PHP_METHOD(Phalcon_Validation, validate) {
 
-	HashTable *_5;
-	HashPosition _4;
-	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *cancelOnFail, *scope = NULL, *attribute = NULL, *validator = NULL, *_0, _1 = zval_used_for_init, *_2, *_3 = NULL, **_6, *_7 = NULL;
+	HashTable *_4;
+	HashPosition _3;
+	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *cancelOnFail, *scope = NULL, *attribute = NULL, *validator = NULL, _0 = zval_used_for_init, *_1, *_2 = NULL, **_5, *_6 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
@@ -123,19 +123,18 @@ PHP_METHOD(Phalcon_Validation, validate) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "There are no validators to validate");
 		return;
 	}
-	ZEPHIR_INIT_VAR(_0);
-	zephir_update_property_this(this_ptr, SL("_values"), _0 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_values"), ZEPHIR_GLOBAL(global_null) TSRMLS_CC);
 	ZEPHIR_INIT_VAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
 	zephir_call_method_noret(messages, "__construct");
-	ZEPHIR_SINIT_VAR(_1);
-	ZVAL_STRING(&_1, "beforeValidation", 0);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p2(_2, "method_exists", this_ptr, &_1);
-	if (zend_is_true(_2)) {
-		ZEPHIR_INIT_VAR(_3);
-		zephir_call_method_p3(_3, this_ptr, "beforevalidation", data, entity, messages);
-		if (ZEPHIR_IS_FALSE(_3)) {
+	ZEPHIR_SINIT_VAR(_0);
+	ZVAL_STRING(&_0, "beforeValidation", 0);
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_func_p2(_1, "method_exists", this_ptr, &_0);
+	if (zend_is_true(_1)) {
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_method_p3(_2, this_ptr, "beforevalidation", data, entity, messages);
+		if (ZEPHIR_IS_FALSE(_2)) {
 			RETURN_MM_BOOL(0);
 		}
 	}
@@ -149,12 +148,12 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	}
 	ZEPHIR_INIT_VAR(cancelOnFail);
 	ZVAL_STRING(cancelOnFail, "cancelOnFail", 1);
-	zephir_is_iterable(validators, &_5, &_4, 0, 0);
+	zephir_is_iterable(validators, &_4, &_3, 0, 0);
 	for (
-		; zend_hash_get_current_data_ex(_5, (void**) &_6, &_4) == SUCCESS
-		; zend_hash_move_forward_ex(_5, &_4)
+		; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
+		; zend_hash_move_forward_ex(_4, &_3)
 	) {
-		ZEPHIR_GET_HVALUE(scope, _6);
+		ZEPHIR_GET_HVALUE(scope, _5);
 		if (Z_TYPE_P(scope) != IS_ARRAY) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The validator scope is not valid");
 			return;
@@ -167,23 +166,23 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "One of the validators is not valid");
 			return;
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_method_p2(_3, validator, "validate", this_ptr, attribute);
-		if (ZEPHIR_IS_FALSE(_3)) {
-			ZEPHIR_INIT_NVAR(_7);
-			zephir_call_method_p1(_7, validator, "getoption", cancelOnFail);
-			if (zend_is_true(_7)) {
+		ZEPHIR_INIT_NVAR(_2);
+		zephir_call_method_p2(_2, validator, "validate", this_ptr, attribute);
+		if (ZEPHIR_IS_FALSE(_2)) {
+			ZEPHIR_INIT_NVAR(_6);
+			zephir_call_method_p1(_6, validator, "getoption", cancelOnFail);
+			if (zend_is_true(_6)) {
 				break;
 			}
 		}
 	}
 	ZEPHIR_OBS_NVAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	ZEPHIR_SINIT_NVAR(_1);
-	ZVAL_STRING(&_1, "afterValidation", 0);
-	ZEPHIR_INIT_NVAR(_3);
-	zephir_call_func_p2(_3, "method_exists", this_ptr, &_1);
-	if (zend_is_true(_3)) {
+	ZEPHIR_SINIT_NVAR(_0);
+	ZVAL_STRING(&_0, "afterValidation", 0);
+	ZEPHIR_INIT_NVAR(_2);
+	zephir_call_func_p2(_2, "method_exists", this_ptr, &_0);
+	if (zend_is_true(_2)) {
 		zephir_call_method_p3_noret(this_ptr, "aftervalidation", data, entity, messages);
 	}
 	RETURN_CCTOR(messages);
