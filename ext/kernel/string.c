@@ -23,15 +23,15 @@
 
 #include <ctype.h>
 
-#include "php.h"
+#include <php.h>
 #include "php_ext.h"
 #include "php_main.h"
 
-#include "ext/standard/php_smart_str.h"
-#include "ext/standard/php_string.h"
-#include "ext/standard/php_rand.h"
-#include "ext/standard/php_lcg.h"
-#include "ext/standard/php_http.h"
+#include <ext/standard/php_smart_str.h>
+#include <ext/standard/php_string.h>
+#include <ext/standard/php_rand.h>
+#include <ext/standard/php_lcg.h>
+#include <ext/standard/php_http.h>
 #include "ext/standard/base64.h"
 #include "ext/standard/md5.h"
 #include "ext/standard/url.h"
@@ -376,10 +376,14 @@ void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_
 /**
  * Check if a string is contained into another
  */
-int zephir_memnstr(const zval *haystack, const zval *needle) {
+int zephir_memnstr(const zval *haystack, const zval *needle ZEPHIR_DEBUG_PARAMS) {
 
 	if (Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING) {
+		#ifndef ZEPHIR_RELEASE
+		zend_error(E_WARNING, "Invalid arguments supplied for memnstr in %s on line %d", file, line);
+		#else
 		zend_error(E_WARNING, "Invalid arguments supplied for memnstr()");
+		#endif
 		return 0;
 	}
 
@@ -393,10 +397,14 @@ int zephir_memnstr(const zval *haystack, const zval *needle) {
 /**
  * Check if a string is contained into another
  */
-int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length) {
+int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length ZEPHIR_DEBUG_PARAMS) {
 
 	if (Z_TYPE_P(haystack) != IS_STRING) {
+		#ifndef ZEPHIR_RELEASE
+		zend_error(E_WARNING, "Invalid arguments supplied for memnstr in %s on line %d", file, line);
+		#else
 		zend_error(E_WARNING, "Invalid arguments supplied for memnstr()");
+		#endif
 		return 0;
 	}
 

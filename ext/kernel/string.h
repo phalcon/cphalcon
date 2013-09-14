@@ -20,15 +20,15 @@
 #ifndef ZEPHIR_KERNEL_STRING_H
 #define ZEPHIR_KERNEL_STRING_H
 
-#include "Zend/zend.h"
+#include <Zend/zend.h>
 
 #define ZEPHIR_TRIM_LEFT  1
 #define ZEPHIR_TRIM_RIGHT 2
 #define ZEPHIR_TRIM_BOTH  3
 
 /** Fast char position */
-int zephir_memnstr(const zval *haystack, const zval *needle);
-int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length);
+int zephir_memnstr(const zval *haystack, const zval *needle ZEPHIR_DEBUG_PARAMS);
+int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_length ZEPHIR_DEBUG_PARAMS);
 
 /** Function replacement */
 void zephir_fast_strlen(zval *return_value, zval *str);

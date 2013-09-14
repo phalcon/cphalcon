@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested) {
 	} else {
 		ZEPHIR_OBS_VAR(contentType);
 		if (zephir_array_isset_string_fetch(&contentType, server, SS("CONTENT_TYPE"))) {
-			RETURN_MM_BOOL(zephir_memnstr_str(contentType, SL("application/soap+xml")));
+			RETURN_MM_BOOL(zephir_memnstr_str(contentType, SL("application/soap+xml"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/http/request.zep", 330));
 		}
 	}
 	RETURN_MM_BOOL(0);

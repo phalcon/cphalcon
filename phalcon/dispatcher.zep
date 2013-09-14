@@ -382,6 +382,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 			 * If the handler is null we use the set in this->_defaultHandler
 			 */
 			let handlerName = this->_handlerName;
+			var_dump(handlerName);
 			if !handlerName {
 				let this->_handlerName = this->_defaultHandler;
 			}

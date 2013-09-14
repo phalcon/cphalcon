@@ -523,6 +523,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		ZEPHIR_OBS_NVAR(handlerName);
 		zephir_read_property_this(&handlerName, this_ptr, SL("_handlerName"), PH_NOISY_CC);
+		zephir_call_func_p1_noret("var_dump", handlerName);
 		if (!(zend_is_true(handlerName))) {
 			ZEPHIR_OBS_NVAR(_3);
 			zephir_read_property_this(&_3, this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
@@ -548,7 +549,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				continue;
 			}
 		}
-		if (!(zephir_memnstr_str(handlerName, SL("\\")))) {
+		if (!(zephir_memnstr_str(handlerName, SL("\\"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/dispatcher.zep", 418))) {
 			ZEPHIR_INIT_NVAR(camelizedClass);
 			zephir_camelize(camelizedClass, handlerName);
 		} else {
