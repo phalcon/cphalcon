@@ -207,13 +207,27 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$request = new \Phalcon\Http\Request();
 		$request->setDI($di);
 
-		$_GET = array(
+		$_REQUEST = $_GET = $_POST = array(
 			'id' => 1,
 			'num' => 'a1a',
 			'age' => 'aa',
 			'phone' => ''
 		);
 
+		// get
+		$this->assertEquals($request->getQuery('id', 'int', 100), 1);
+
+		$this->assertEquals($request->getQuery('num', 'int', 100), 1);
+
+		$age = $request->get('age', 'int', 100);
+		$this->assertTrue(empty($age));
+		$this->assertEquals($request->get('age', 'int', 100, FALSE), 100);
+
+		$phone = $request->get('phone', 'int', 100);
+		$this->assertTrue(empty($phone));
+		$this->assertEquals($request->get('phone', 'int', 100, FALSE), 100);
+
+		// getQuery
 		$this->assertEquals($request->getQuery('id', 'int', 100), 1);
 
 		$this->assertEquals($request->getQuery('num', 'int', 100), 1);
@@ -225,5 +239,18 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$phone = $request->getQuery('phone', 'int', 100);
 		$this->assertTrue(empty($phone));
 		$this->assertEquals($request->getQuery('phone', 'int', 100, FALSE), 100);
+
+		// getPost
+		$this->assertEquals($request->getPost('id', 'int', 100), 1);
+
+		$this->assertEquals($request->getPost('num', 'int', 100), 1);
+
+		$age = $request->getPost('age', 'int', 100);
+		$this->assertTrue(empty($age));
+		$this->assertEquals($request->getPost('age', 'int', 100, FALSE), 100);
+
+		$phone = $request->getPost('phone', 'int', 100);
+		$this->assertTrue(empty($phone));
+		$this->assertEquals($request->getPost('phone', 'int', 100, FALSE), 100);
 	}
 }
