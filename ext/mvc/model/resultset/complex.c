@@ -335,9 +335,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	
 						PHALCON_OBS_NVAR(value);
 						phalcon_array_fetch(&value, row, sql_alias, PH_NOISY);
-					} else if (phalcon_array_isset(row, alias)) {
+					} else {
 						PHALCON_OBS_NVAR(value);
-						phalcon_array_fetch(&value, row, alias, PH_NOISY);
+						if (phalcon_array_isset(row, alias)) {
+							phalcon_array_fetch(&value, row, alias, PH_NOISY);
+						}
 					}
 	
 					/** 
