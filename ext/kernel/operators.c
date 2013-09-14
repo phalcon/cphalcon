@@ -258,8 +258,10 @@ long phalcon_get_intval(const zval *op) {
 		case IS_STRING: {
 			long long_value;
 			double double_value;
+			zend_uchar type;
+			
 			ASSUME(Z_STRVAL_P(op) != NULL);
-			zend_uchar type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0);
+			type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0);
 			if (type == IS_LONG) {
 				return long_value;
 			}
