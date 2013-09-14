@@ -322,7 +322,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					 * the model name
 					 */
 					PHALCON_OBS_NVAR(attribute);
-					phalcon_array_fetch_string(&attribute, column, SL("balias"), PH_NOISY);
+					if (phalcon_array_isset_string(column, SS("balias"))) {
+						phalcon_array_fetch_string(&attribute, column, SL("balias"), PH_NOISY);
+					}
 				} else {
 					/** 
 					 * Scalar columns are simply assigned to the result object
@@ -333,7 +335,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	
 						PHALCON_OBS_NVAR(value);
 						phalcon_array_fetch(&value, row, sql_alias, PH_NOISY);
-					} else {
+					} else if (phalcon_array_isset(row, alias)) {
 						PHALCON_OBS_NVAR(value);
 						phalcon_array_fetch(&value, row, alias, PH_NOISY);
 					}
