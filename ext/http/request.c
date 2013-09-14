@@ -123,17 +123,18 @@ PHP_METHOD(Phalcon_Http_Request, getDI){
  * @param string $name
  * @param string|array $filters
  * @param mixed $defaultValue
+ * @param boolean $allowEmpty
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, get){
 
-	zval *name = NULL, *filters = NULL, *default_value = NULL, *request = NULL;
+	zval *name = NULL, *filters = NULL, *default_value = NULL, *allow_empty = NULL, *request = NULL;
 	zval *_REQUEST, *value, *filter = NULL, *dependency_injector;
 	zval *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 3, &name, &filters, &default_value);
+	phalcon_fetch_params(1, 0, 4, &name, &filters, &default_value, &allow_empty);
 	
 	if (!name) {
 		PHALCON_INIT_VAR(name);
@@ -145,6 +146,11 @@ PHP_METHOD(Phalcon_Http_Request, get){
 	
 	if (!default_value) {
 		PHALCON_INIT_VAR(default_value);
+	}
+	
+	if (!allow_empty) {
+		PHALCON_INIT_VAR(allow_empty);
+		ZVAL_TRUE(allow_empty);
 	}
 	
 	phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
@@ -177,9 +183,18 @@ PHP_METHOD(Phalcon_Http_Request, get){
 				}
 	
 				phalcon_call_method_p2(return_value, filter, "sanitize", value, filters);
-				RETURN_MM();
+
+				if (PHALCON_IS_EMPTY(return_value) && !zend_is_true(allow_empty)) {
+					RETURN_CCTOR(default_value);
+				} else {
+					RETURN_MM();
+				}
 			} else {
-				RETURN_CCTOR(value);
+				if (PHALCON_IS_EMPTY(value) && !zend_is_true(allow_empty)) {
+					RETURN_CCTOR(default_value);
+				} else {
+					RETURN_CCTOR(value);
+				}
 			}
 		}
 	
@@ -204,16 +219,17 @@ PHP_METHOD(Phalcon_Http_Request, get){
  * @param string $name
  * @param string|array $filters
  * @param mixed $defaultValue
+ * @param boolean $allowEmpty
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, getPost){
 
-	zval *name = NULL, *filters = NULL, *default_value = NULL, *post = NULL, *_POST;
+	zval *name = NULL, *filters = NULL, *default_value = NULL, *allow_empty = NULL, *post = NULL, *_POST;
 	zval *value, *filter = NULL, *dependency_injector, *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 3, &name, &filters, &default_value);
+	phalcon_fetch_params(1, 0, 4, &name, &filters, &default_value, &allow_empty);
 	
 	if (!name) {
 		PHALCON_INIT_VAR(name);
@@ -225,6 +241,11 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 	
 	if (!default_value) {
 		PHALCON_INIT_VAR(default_value);
+	}
+	
+	if (!allow_empty) {
+		PHALCON_INIT_VAR(allow_empty);
+		ZVAL_TRUE(allow_empty);
 	}
 	
 	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
@@ -257,9 +278,18 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 				}
 	
 				phalcon_call_method_p2(return_value, filter, "sanitize", value, filters);
-				RETURN_MM();
+
+				if (PHALCON_IS_EMPTY(return_value) && !zend_is_true(allow_empty)) {
+					RETURN_CCTOR(default_value);
+				} else {
+					RETURN_MM();
+				}
 			} else {
-				RETURN_CCTOR(value);
+				if (PHALCON_IS_EMPTY(value) && !zend_is_true(allow_empty)) {
+					RETURN_CCTOR(default_value);
+				} else {
+					RETURN_CCTOR(value);
+				}
 			}
 		}
 	
@@ -287,16 +317,17 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
  * @param string $name
  * @param string|array $filters
  * @param mixed $defaultValue
+ * @param boolean $allowEmpty
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, getQuery){
 
-	zval *name = NULL, *filters = NULL, *default_value = NULL, *get = NULL, *_GET;
+	zval *name = NULL, *filters = NULL, *default_value = NULL, *allow_empty = NULL, *get = NULL, *_GET;
 	zval *value, *filter = NULL, *dependency_injector, *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 3, &name, &filters, &default_value);
+	phalcon_fetch_params(1, 0, 4, &name, &filters, &default_value, &allow_empty);
 	
 	if (!name) {
 		PHALCON_INIT_VAR(name);
@@ -308,6 +339,11 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 	
 	if (!default_value) {
 		PHALCON_INIT_VAR(default_value);
+	}
+	
+	if (!allow_empty) {
+		PHALCON_INIT_VAR(allow_empty);
+		ZVAL_TRUE(allow_empty);
 	}
 	
 	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
@@ -340,9 +376,18 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 				}
 	
 				phalcon_call_method_p2(return_value, filter, "sanitize", value, filters);
-				RETURN_MM();
+
+				if (PHALCON_IS_EMPTY(return_value) && !zend_is_true(allow_empty)) {
+					RETURN_CCTOR(default_value);
+				} else {
+					RETURN_MM();
+				}
 			} else {
-				RETURN_CCTOR(value);
+				if (PHALCON_IS_EMPTY(value) && !zend_is_true(allow_empty)) {
+					RETURN_CCTOR(default_value);
+				} else {
+					RETURN_CCTOR(value);
+				}
 			}
 		}
 	

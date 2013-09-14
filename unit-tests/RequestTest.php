@@ -199,4 +199,31 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($successful[2]->getTempName(), 't2');
 		$this->assertEquals($successful[3]->getTempName(), 't3');
 	}
+
+	public function testIssues1226()
+	{
+		$di = new Phalcon\DI\FactoryDefault();
+
+		$request = new \Phalcon\Http\Request();
+		$request->setDI($di);
+
+		$_GET = array(
+			'id' => 1,
+			'num' => 'a1a',
+			'age' => 'aa',
+			'phone' => ''
+		);
+
+		$this->assertEquals($request->getQuery('id', 'int', 100), 1);
+
+		$this->assertEquals($request->getQuery('num', 'int', 100), 1);
+
+		$age = $request->getQuery('age', 'int', 100);
+		$this->assertTrue(empty($age));
+		$this->assertEquals($request->getQuery('age', 'int', 100, FALSE), 100);
+
+		$phone = $request->getQuery('phone', 'int', 100);
+		$this->assertTrue(empty($phone));
+		$this->assertEquals($request->getQuery('phone', 'int', 100, FALSE), 100);
+	}
 }
