@@ -1887,10 +1887,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		PHALCON_INIT_NVAR(complete_source);
 		array_init_size(complete_source, 2);
 		phalcon_array_append(&complete_source, source, PH_SEPARATE);
-
-		if (!zend_is_true(schema)) {
-			PHALCON_INIT_NVAR(schema);
-		}
 		phalcon_array_append(&complete_source, schema, 0);
 	
 		/** 
