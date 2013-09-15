@@ -18,6 +18,22 @@
 	+------------------------------------------------------------------------+
 */
 
+class TrimFilter implements \Phalcon\Assets\FilterInterface
+{
+	public function filter($s)
+	{
+		return str_replace(array("\n", "\r", " ", "\t"), '', $s);
+	}
+}
+
+class UppercaseFilter implements \Phalcon\Assets\FilterInterface
+{
+	public function filter($s)
+	{
+		return strtoupper($s);
+	}
+}
+
 class AssetsTest extends PHPUnit_Framework_TestCase
 {
 
@@ -484,4 +500,22 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($assets->outputJs('js'), '<script src="/production/combined-3.js" type="text/javascript"></script>' . PHP_EOL);
 	}
 
+	public function testIssue1198()
+	{
+		@unlink(__DIR__ . '/assets/production/1198.css');
+		$di = new \Phalcon\DI\FactoryDefault();
+		$assets = new \Phalcon\Assets\Manager();
+		$assets->useImplicitOutput(false);
+		$css = $assets->collection('css');
+		$css->setTargetPath(__DIR__ . '/assets/production/1198.css');
+		$css->addCss(__DIR__ . '/assets/1198.css');
+		$css->addFilter(new UppercaseFilter());
+		$css->addFilter(new TrimFilter());
+		$css->join(true);
+		$assets->outputCss('css');
+
+		$this->assertEquals(file_get_contents(__DIR__ . '/assets/production/1198.css'), 'A{TEXT-DECORATION:NONE;}B{FONT-WEIGHT:BOLD;}');
+		@unlink(__DIR__ . '/assets/production/1198.css');
+	}
 }
+
