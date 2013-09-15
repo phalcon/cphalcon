@@ -22,7 +22,7 @@ namespace Phalcon\Annotations;
 /**
  * Phalcon\Annotations\AdapterInterface
  *
- * This interface must be implemented for adapters in Phalcon\Annotations
+ * This interface must be implemented by adapters in Phalcon\Annotations
  */
 interface AdapterInterface
 {

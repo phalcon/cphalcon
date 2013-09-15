@@ -27,13 +27,13 @@ namespace Phalcon\Acl;
 class Role
 {
 	/**
-	 * Role's name
+	 * Role name
 	 * @var string
 	 */
 	protected _name;
 
 	/**
-	 * Role's description
+	 * Role description
 	 * @var string
 	 */
 	protected _description;

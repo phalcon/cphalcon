@@ -20,7 +20,7 @@
 namespace Phalcon\Crypt;
 
 /**
- * Phalcon\Escaper\Crypt
+ * Phalcon\Crypt\Exception
  *
  * Exceptions thrown in Phalcon\Crypt use this class
  *
