@@ -77631,7 +77631,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 			PHALCON_CPY_WRT(ttl, lifetime);
 		}
 
-	
 		if (!phalcon_array_isset_string(document, SS("time"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
 			return;
