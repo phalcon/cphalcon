@@ -212,12 +212,13 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 
 			if (phalcon_is_numeric(cached_content)) {
 				RETURN_CCTOR(cached_content);
+			} else {
+				/** 
+				 * Use the frontend to process the content of the cache
+				 */
+				phalcon_call_method_p1(return_value, frontend, "afterretrieve", cached_content);
 			}
-	
-			/** 
-			 * Use the frontend to process the content of the cache
-			 */
-			phalcon_call_method_p1(return_value, frontend, "afterretrieve", cached_content);
+
 			RETURN_MM();
 		}
 	}

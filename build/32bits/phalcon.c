@@ -75998,9 +75998,10 @@ static PHP_METHOD(Phalcon_Cache_Backend_File, get){
 
 			if (phalcon_is_numeric(cached_content)) {
 				RETURN_CCTOR(cached_content);
+			} else {
+				phalcon_call_method_p1_key(return_value, frontend, "afterretrieve", cached_content, 3229641981UL);
 			}
-	
-			phalcon_call_method_p1_key(return_value, frontend, "afterretrieve", cached_content, 3229641981UL);
+
 			RETURN_MM();
 		}
 	}
@@ -77446,7 +77447,225 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	
 			PHALCON_OBS_VAR(cached_content);
 			phalcon_array_fetch_quick_string(&cached_content, document, SS("data"), 256359743UL, PH_NOISY);
-			phalcon_call_method_p1_key(return_value, frontend, "afterretrieve", cached_content, 3229641981UL);
+			if (phalcon_is_numeric(cached_content)) {
+				RETURN_CCTOR(cached_content);
+			} else {
+				phalcon_call_method_p1_key(return_value, frontend, "afterretrieve", cached_content, 3229641981UL);
+			}
+			RETURN_MM();
+		}
+	}
+	
+	RETURN_MM_NULL();
+}
+
+static PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
+
+	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key, *value;
+	zval *collection, *conditions, *document, *timestamp;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
+	zval *cached_content;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &key_name, &value);
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	} else {
+		PHALCON_SEPARATE_PARAM(value);
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+
+	if (Z_TYPE_P(value) != IS_LONG) {
+		convert_to_long_ex(&value);
+	}
+
+	PHALCON_OBS_VAR(frontend);
+	phalcon_read_property_this_quick(&frontend, this_ptr, SL("_frontend"), 3187914628UL, PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property_this_quick(&prefix, this_ptr, SL("_prefix"), 3873791314UL, PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(prefixed_key);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
+	phalcon_update_property_this_quick(this_ptr, SL("_lastKey"), prefixed_key, 394299009UL TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(collection);
+	phalcon_call_method_key(collection, this_ptr, "_getcollection", 4161728624UL);
+	
+	PHALCON_INIT_VAR(conditions);
+	array_init_size(conditions, 1);
+	phalcon_array_update_quick_string(&conditions, SS("key"), 2090432846UL, &prefixed_key, PH_COPY | PH_SEPARATE);
+	
+	PHALCON_INIT_VAR(document);
+	phalcon_call_method_p1_key(document, collection, "findone", conditions, 947441000UL);
+
+	if (Z_TYPE_P(document) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(timestamp);
+		PHALCON_INIT_VAR(lifetime);
+		ZVAL_LONG(timestamp, (long) time(NULL));
+
+		if (Z_TYPE_P(lifetime) == IS_NULL) {
+	
+			PHALCON_OBS_NVAR(lifetime);
+			phalcon_read_property_this_quick(&lifetime, this_ptr, SL("_lastLifetime"), 3936785351UL, PH_NOISY_CC);
+			if (Z_TYPE_P(lifetime) == IS_NULL) {
+				PHALCON_INIT_VAR(ttl);
+				phalcon_call_method_key(ttl, frontend, "getlifetime", 673603636UL);
+			} else {
+				PHALCON_CPY_WRT(ttl, lifetime);
+			}
+		} else {
+			PHALCON_CPY_WRT(ttl, lifetime);
+		}
+
+	
+		if (!phalcon_array_isset_quick_string(document, SS("time"), 275614484UL)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
+			return;
+		}
+	
+		PHALCON_OBS_VAR(modified_time);
+		phalcon_array_fetch_quick_string(&modified_time, document, SS("time"), 275614484UL, PH_NOISY);
+	
+		PHALCON_INIT_VAR(difference);
+		sub_function(difference, timestamp, ttl TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(not_expired);
+		is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
+	
+		if (PHALCON_IS_TRUE(not_expired)) {
+			if (!phalcon_array_isset_quick_string(document, SS("data"), 256359743UL)) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
+				return;
+			}
+	
+			PHALCON_OBS_VAR(cached_content);
+			phalcon_array_fetch_quick_string(&cached_content, document, SS("data"), 256359743UL, PH_NOISY);
+			if (phalcon_is_numeric(cached_content)) {
+				add_function(return_value, value, cached_content TSRMLS_CC);
+				
+				PHALCON_INIT_NVAR(ttl);
+				phalcon_add_function(ttl, lifetime, timestamp TSRMLS_CC);
+				phalcon_array_update_quick_string(&document, SS("key"), 2090432846UL, &prefixed_key, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_quick_string(&document, SS("time"), 275614484UL, &ttl, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_quick_string(&document, SS("data"), 256359743UL, &return_value, PH_COPY | PH_SEPARATE);
+				
+				phalcon_call_method_p1_key(NULL, collection, "save", document, 274150868UL);
+			}
+
+			RETURN_MM();
+		}
+	}
+	
+	RETURN_MM_NULL();
+}
+
+static PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
+
+	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key, *value;
+	zval *collection, *conditions, *document, *timestamp;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
+	zval *cached_content;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &key_name, &value);
+	
+	if (!value) {
+		PHALCON_INIT_VAR(value);
+	} else {
+		PHALCON_SEPARATE_PARAM(value);
+	}
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
+	}
+
+	if (Z_TYPE_P(value) != IS_LONG) {
+		convert_to_long_ex(&value);
+	}
+
+	PHALCON_OBS_VAR(frontend);
+	phalcon_read_property_this_quick(&frontend, this_ptr, SL("_frontend"), 3187914628UL, PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(prefix);
+	phalcon_read_property_this_quick(&prefix, this_ptr, SL("_prefix"), 3873791314UL, PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(prefixed_key);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
+	phalcon_update_property_this_quick(this_ptr, SL("_lastKey"), prefixed_key, 394299009UL TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(collection);
+	phalcon_call_method_key(collection, this_ptr, "_getcollection", 4161728624UL);
+	
+	PHALCON_INIT_VAR(conditions);
+	array_init_size(conditions, 1);
+	phalcon_array_update_quick_string(&conditions, SS("key"), 2090432846UL, &prefixed_key, PH_COPY | PH_SEPARATE);
+	
+	PHALCON_INIT_VAR(document);
+	phalcon_call_method_p1_key(document, collection, "findone", conditions, 947441000UL);
+
+	if (Z_TYPE_P(document) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(timestamp);
+		PHALCON_INIT_VAR(lifetime);
+		ZVAL_LONG(timestamp, (long) time(NULL));
+
+		if (Z_TYPE_P(lifetime) == IS_NULL) {
+	
+			PHALCON_OBS_NVAR(lifetime);
+			phalcon_read_property_this_quick(&lifetime, this_ptr, SL("_lastLifetime"), 3936785351UL, PH_NOISY_CC);
+			if (Z_TYPE_P(lifetime) == IS_NULL) {
+				PHALCON_INIT_VAR(ttl);
+				phalcon_call_method_key(ttl, frontend, "getlifetime", 673603636UL);
+			} else {
+				PHALCON_CPY_WRT(ttl, lifetime);
+			}
+		} else {
+			PHALCON_CPY_WRT(ttl, lifetime);
+		}
+
+	
+		if (!phalcon_array_isset_quick_string(document, SS("time"), 275614484UL)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
+			return;
+		}
+	
+		PHALCON_OBS_VAR(modified_time);
+		phalcon_array_fetch_quick_string(&modified_time, document, SS("time"), 275614484UL, PH_NOISY);
+	
+		PHALCON_INIT_VAR(difference);
+		sub_function(difference, timestamp, ttl TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(not_expired);
+		is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
+	
+		if (PHALCON_IS_TRUE(not_expired)) {
+			if (!phalcon_array_isset_quick_string(document, SS("data"), 256359743UL)) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
+				return;
+			}
+	
+			PHALCON_OBS_VAR(cached_content);
+			phalcon_array_fetch_quick_string(&cached_content, document, SS("data"), 256359743UL, PH_NOISY);
+			if (phalcon_is_numeric(cached_content)) {
+				sub_function(return_value, cached_content, value TSRMLS_CC);
+				
+				PHALCON_INIT_NVAR(ttl);
+				phalcon_add_function(ttl, lifetime, timestamp TSRMLS_CC);
+				phalcon_array_update_quick_string(&document, SS("key"), 2090432846UL, &prefixed_key, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_quick_string(&document, SS("time"), 275614484UL, &ttl, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_quick_string(&document, SS("data"), 256359743UL, &return_value, PH_COPY | PH_SEPARATE);
+				
+				phalcon_call_method_p1_key(NULL, collection, "save", document, 274150868UL);
+			}
+
 			RETURN_MM();
 		}
 	}
@@ -77506,8 +77725,10 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 		PHALCON_CPY_WRT(cached_content, content);
 	}
 	
-	PHALCON_INIT_VAR(prepared_content);
-	phalcon_call_method_p1_key(prepared_content, frontend, "beforestore", cached_content, 2051590149UL);
+	if (!phalcon_is_numeric(cached_content)) {
+		PHALCON_INIT_VAR(prepared_content);
+		phalcon_call_method_p1_key(prepared_content, frontend, "beforestore", cached_content, 2051590149UL);
+	}
 	if (Z_TYPE_P(lifetime) == IS_NULL) {
 		PHALCON_INIT_VAR(ttl);
 		phalcon_call_method_key(ttl, frontend, "getlifetime", 673603636UL);
@@ -77533,13 +77754,18 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 	if (Z_TYPE_P(document) == IS_ARRAY) { 
 		phalcon_array_update_quick_string(&document, SS("time"), 275614484UL, &ttl, PH_COPY | PH_SEPARATE);
 		phalcon_array_update_quick_string(&document, SS("data"), 256359743UL, &prepared_content, PH_COPY | PH_SEPARATE);
+
 		phalcon_call_method_p1_key(NULL, collection, "save", document, 274150868UL);
 	} else {
 		PHALCON_INIT_VAR(data);
 		array_init_size(data, 3);
 		phalcon_array_update_quick_string(&data, SS("key"), 2090432846UL, &last_key, PH_COPY | PH_SEPARATE);
 		phalcon_array_update_quick_string(&data, SS("time"), 275614484UL, &ttl, PH_COPY | PH_SEPARATE);
-		phalcon_array_update_quick_string(&data, SS("data"), 256359743UL, &prepared_content, PH_COPY | PH_SEPARATE);
+		if (!phalcon_is_numeric(cached_content)) {
+			phalcon_array_update_quick_string(&data, SS("data"), 256359743UL, &prepared_content, PH_COPY | PH_SEPARATE);
+		} else {
+			phalcon_array_update_quick_string(&data, SS("data"), 256359743UL, &cached_content, PH_COPY | PH_SEPARATE);
+		}
 		phalcon_call_method_p1_key(NULL, collection, "save", data, 274150868UL);
 	}
 	
