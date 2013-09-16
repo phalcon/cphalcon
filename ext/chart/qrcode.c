@@ -685,7 +685,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, save){
 }
 
 #ifdef PHALCON_USE_ZBAR
-static zbar_image_t *_php_zbarcode_image_create(unsigned long width, unsigned long height, unsigned char *image_data)
+static zbar_image_t *qrcode_php_zbarcode_image_create(unsigned long width, unsigned long height, unsigned char *image_data)
 {
 	zbar_image_t *image = zbar_image_create();
 	
@@ -698,7 +698,7 @@ static zbar_image_t *_php_zbarcode_image_create(unsigned long width, unsigned lo
 	return image;
 }
 
-static zbar_image_t *_php_zbarcode_get_page(MagickWand *wand) 
+static zbar_image_t *qrcode_php_zbarcode_get_page(MagickWand *wand) 
 {
 	unsigned long width, height;
 	unsigned char *image_data;
@@ -720,10 +720,10 @@ static zbar_image_t *_php_zbarcode_get_page(MagickWand *wand)
 		return NULL;
 	}
 	
-	return _php_zbarcode_image_create(width, height, image_data);
+	return qrcode_php_zbarcode_image_create(width, height, image_data);
 }
 
-static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
+static void *qrcode_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
 {
 	zval *symbol_array = NULL, *loc_array = NULL, *coords = NULL;
 	const zbar_symbol_t *symbol;
@@ -853,7 +853,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, scan){
 		}
 
 		/* Read page */
-		zbar_page = _php_zbarcode_get_page(magick_wand);
+		zbar_page = qrcode_php_zbarcode_get_page(magick_wand);
 	
 		if (!zbar_page) {
 			zbar_image_scanner_destroy(zbar_scanner);
@@ -863,7 +863,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, scan){
 		}
 
 		/* Scan the page for barcodes */
-		_php_zbarcode_scan_page(zbar_scanner, zbar_page, ext, return_value TSRMLS_CC);
+		qrcode_php_zbarcode_scan_page(zbar_scanner, zbar_page, ext, return_value TSRMLS_CC);
 	} else {
 		array_init(return_value);
 		
@@ -872,7 +872,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, scan){
 			zval *page_array;
 
 			/* Read the current page */
-			zbar_page = _php_zbarcode_get_page(magick_wand);
+			zbar_page = qrcode_php_zbarcode_get_page(magick_wand);
 
 			/* Reading current page failed */
 			if (!zbar_page) {
@@ -882,7 +882,7 @@ PHP_METHOD(Phalcon_Chart_QRcode, scan){
 			/* Scan the page for barcodes */
 			MAKE_STD_ZVAL(page_array);
 
-			_php_zbarcode_scan_page(zbar_scanner, zbar_page, ext, page_array TSRMLS_CC);
+			qrcode_php_zbarcode_scan_page(zbar_scanner, zbar_page, ext, page_array TSRMLS_CC);
 			add_index_zval(return_value, i++, page_array);
 		}
 	}
