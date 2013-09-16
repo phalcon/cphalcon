@@ -1,0 +1,130 @@
+diff --git a/ext/mvc/view/engine/volt.c b/ext/mvc/view/engine/volt.c
+index 4cbe2c7..7bdd9a0 100644
+--- a/ext/mvc/view/engine/volt.c
++++ b/ext/mvc/view/engine/volt.c
+@@ -345,6 +345,73 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
+ }
+ 
+ /**
++ * Call function
++ *
++ * @param string $func_name
++ * @param int $postion
++ * @param mixed $value
++ * @param mixed $...
++ * @return mixed
++ */
++PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, fcall){
++
++	int i, j = 0, postion, argc = ZEND_NUM_ARGS();
++	zval *func_name, *params;
++    zval ***args;
++
++	PHALCON_MM_GROW();
++
++	if (argc < 3) {
++		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("Wrong number of parameters") TSRMLS_CC);
++		return;
++	}
++
++    args = (zval ***)safe_emalloc(argc, sizeof(zval **), 0);
++
++    if (zend_get_parameters_array_ex(argc, args) == FAILURE) {
++		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("Wrong number of parameters") TSRMLS_CC);
++		goto end;
++    }
++
++	if (Z_TYPE_P(*args[1]) != IS_STRING) {
++		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("func_name must be string") TSRMLS_CC);
++		goto end;
++	}
++
++	if (Z_TYPE_P(*args[2]) != IS_LONG) {
++		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("postion must be int") TSRMLS_CC);
++		goto end;
++	}
++
++	PHALCON_INIT_VAR(func_name);
++	ZVAL_STRING(func_name, Z_STRVAL_P(*args[1]), 1);
++
++	postion = Z_LVAL_P(*args[2]);
++
++	PHALCON_INIT_VAR(params);
++	array_init_size(params, argc - 2);
++	zend_printf("argc:%d,%d\n", argc, postion);
++
++	for (i=3; i < argc; i++) {
++		zend_printf("i:%d\n", i);
++		phalcon_array_append(&params, *args[i], PH_COPY | PH_SEPARATE);
++		j++;
++        if (j == postion) {
++			phalcon_array_append(&params, *args[0], PH_COPY | PH_SEPARATE);
++        }
++    }
++
++	zend_print_zval_r(params, 0);
++
++	PHALCON_CALL_USER_FUNC_ARRAY(return_value, func_name, params);
++
++end:
++    efree(args);
++
++	RETURN_MM();
++}
++
++/**
+  * Extracts a slice from a string/array/traversable object value
+  *
+  * @param mixed $value
+diff --git a/ext/mvc/view/engine/volt.h b/ext/mvc/view/engine/volt.h
+index 64c64a1..936fc16 100644
+--- a/ext/mvc/view/engine/volt.h
++++ b/ext/mvc/view/engine/volt.h
+@@ -28,6 +28,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
+ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length);
+ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded);
+ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding);
++PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, fcall);
+ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice);
+ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort);
+ 
+@@ -56,6 +57,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_convertencoding, 0,
+ 	ZEND_ARG_INFO(0, to)
+ ZEND_END_ARG_INFO()
+ 
++ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_fcall, 0, 0, 3)
++	ZEND_ARG_INFO(0, func_name)
++	ZEND_ARG_INFO(0, postion)
++	ZEND_ARG_INFO(0, value)
++ZEND_END_ARG_INFO()
++
+ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_slice, 0, 0, 2)
+ 	ZEND_ARG_INFO(0, value)
+ 	ZEND_ARG_INFO(0, start)
+@@ -74,6 +81,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry){
+ 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, length, arginfo_phalcon_mvc_view_engine_volt_length, ZEND_ACC_PUBLIC) 
+ 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, isIncluded, arginfo_phalcon_mvc_view_engine_volt_isincluded, ZEND_ACC_PUBLIC) 
+ 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, convertEncoding, arginfo_phalcon_mvc_view_engine_volt_convertencoding, ZEND_ACC_PUBLIC) 
++	PHP_ME(Phalcon_Mvc_View_Engine_Volt, fcall, arginfo_phalcon_mvc_view_engine_volt_fcall, ZEND_ACC_PUBLIC) 
+ 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, slice, arginfo_phalcon_mvc_view_engine_volt_slice, ZEND_ACC_PUBLIC) 
+ 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, sort, arginfo_phalcon_mvc_view_engine_volt_sort, ZEND_ACC_PUBLIC) 
+ 	PHP_FE_END
+diff --git a/ext/mvc/view/engine/volt/compiler.c b/ext/mvc/view/engine/volt/compiler.c
+index 1f39770..657f156 100644
+--- a/ext/mvc/view/engine/volt/compiler.c
++++ b/ext/mvc/view/engine/volt/compiler.c
+@@ -1443,6 +1443,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
+ 	}
+ 	
+ 	/** 
++	 * Call user function
++	 */
++	if (PHALCON_IS_STRING(name, "fcall")) {
++		PHALCON_CONCAT_SVS(return_value, "$this->fcall(", arguments, ")");
++		RETURN_MM();
++	}
++	
++	/** 
+ 	 * Unknown filter throw an exception
+ 	 */
+ 	PHALCON_OBS_NVAR(line);
