@@ -97,7 +97,14 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
  * $params = array(
  *    'models'     => array('Users'),
  *    'columns'    => array('id', 'name', 'status'),
- *    'conditions' => "created > '2013-01-01' AND created < '2014-01-01'",
+ *    'conditions' => array(
+ *        array(
+ *            "created > :min: AND created < :max:",
+ *            array("min" => '2013-01-01',   'max' => '2014-01-01'),
+ *            array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR),
+ *        ),
+ *    ),
+ *    // or 'conditions' => "created > '2013-01-01' AND created < '2014-01-01'",
  *    'group'      => array('id', 'name'),
  *    'having'     => "name = 'Kamil'",
  *    'order'      => array('name', 'id'),
