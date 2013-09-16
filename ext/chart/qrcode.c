@@ -893,3 +893,4 @@ PHP_METHOD(Phalcon_Chart_QRcode, scan){
 	RETURN_MM();
 }
 #endif
+
