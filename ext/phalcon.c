@@ -771,6 +771,19 @@ zend_module_dep phalcon_deps[] = {
 #if PHALCON_USE_PHP_PCRE
 	ZEND_MOD_REQUIRED("pcre")
 #endif
+	ZEND_MOD_OPTIONAL("apc")
+	ZEND_MOD_OPTIONAL("apcu")
+	ZEND_MOD_OPTIONAL("XCache")
+	ZEND_MOD_OPTIONAL("memcache")
+	ZEND_MOD_OPTIONAL("memcached")
+	ZEND_MOD_OPTIONAL("mongo")
+	ZEND_MOD_OPTIONAL("filter")
+	ZEND_MOD_OPTIONAL("iconv")
+	ZEND_MOD_OPTIONAL("libxml")
+	ZEND_MOD_OPTIONAL("mbstring")
+	ZEND_MOD_OPTIONAL("mcrypt")
+	ZEND_MOD_OPTIONAL("openssl")
+	ZEND_MOD_OPTIONAL("pdo")
 	ZEND_MOD_END
 };
 
