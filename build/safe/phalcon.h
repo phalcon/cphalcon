@@ -23,6 +23,7 @@
 
 #include "main/php.h"
 
+const char *phalcon_interned_action;
 const char *phalcon_interned_alias;
 const char *phalcon_interned_all;
 const char *phalcon_interned_arguments;
@@ -31,6 +32,7 @@ const char *phalcon_interned_binary_op;
 const char *phalcon_interned_column;
 const char *phalcon_interned_columns;
 const char *phalcon_interned_conditions;
+const char *phalcon_interned_controller;
 const char *phalcon_interned_delete;
 const char *phalcon_interned_distinct;
 const char *phalcon_interned_domain;
@@ -51,13 +53,17 @@ const char *phalcon_interned_models;
 const char *phalcon_interned_modelsCache;
 const char *phalcon_interned_modelsManager;
 const char *phalcon_interned_modelsMetadata;
+const char *phalcon_interned_module;
 const char *phalcon_interned_name;
+const char *phalcon_interned_namespace;
 const char *phalcon_interned_ns_alias;
 const char *phalcon_interned_number;
 const char *phalcon_interned_offset;
 const char *phalcon_interned_op;
 const char *phalcon_interned_order;
 const char *phalcon_interned_orderBy;
+const char *phalcon_interned_params;
+const char *phalcon_interned_paths;
 const char *phalcon_interned_qualified;
 const char *phalcon_interned_qualifiedName;
 const char *phalcon_interned_right;
@@ -2859,6 +2865,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_routerinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getRoutes, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getRouteById, arginfo_phalcon_mvc_routerinterface_getroutebyid)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getRouteByName, arginfo_phalcon_mvc_routerinterface_getroutebyname)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, isExactControllerName, NULL)
 	PHP_FE_END
 };
 
@@ -5378,6 +5385,7 @@ static PHP_METHOD(Phalcon_Mvc_Router, wasMatched);
 static PHP_METHOD(Phalcon_Mvc_Router, getRoutes);
 static PHP_METHOD(Phalcon_Mvc_Router, getRouteById);
 static PHP_METHOD(Phalcon_Mvc_Router, getRouteByName);
+static PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, defaultRoutes)
@@ -5515,10 +5523,10 @@ PHALCON_INIT_FUNCS(phalcon_mvc_router_method_entry){
 	PHP_ME(Phalcon_Mvc_Router, wasMatched, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getRoutes, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getRouteById, arginfo_phalcon_mvc_router_getroutebyid, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Router, getRouteByName, arginfo_phalcon_mvc_router_getroutebyname, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Router, getRouteByName, arginfo_phalcon_mvc_router_getroutebyname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, isExactControllerName, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
-
 
 
 zend_class_entry *phalcon_acl_adapter_ce;
@@ -14901,6 +14909,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, fcall);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort);
 
@@ -14929,6 +14938,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_convertencoding, 0, 
 	ZEND_ARG_INFO(0, to)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_fcall, 0, 0, 3)
+	ZEND_ARG_INFO(0, func_name)
+	ZEND_ARG_INFO(0, postion)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_slice, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 	ZEND_ARG_INFO(0, start)
@@ -14947,6 +14962,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry){
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, length, arginfo_phalcon_mvc_view_engine_volt_length, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, isIncluded, arginfo_phalcon_mvc_view_engine_volt_isincluded, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, convertEncoding, arginfo_phalcon_mvc_view_engine_volt_convertencoding, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, fcall, arginfo_phalcon_mvc_view_engine_volt_fcall, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, slice, arginfo_phalcon_mvc_view_engine_volt_slice, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, sort, arginfo_phalcon_mvc_view_engine_volt_sort, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
@@ -15880,6 +15896,29 @@ PHALCON_INIT_FUNCS(phalcon_image_adapter_imagick_method_entry) {
 };
 
 #endif /* PHALCON_IMAGE_ADAPTER_IMAGICK_H */
+#ifndef PHALCON_UTILS_SLUG_H
+#define PHALCON_UTILS_SLUG_H
+
+#include "php_phalcon.h"
+
+zend_class_entry *phalcon_utils_slug_ce;
+
+PHALCON_INIT_CLASS(Phalcon_Utils_Slug);
+
+static PHP_METHOD(Phalcon_Utils_Slug, generate);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_slug_generate, 0, 0, 1)
+	ZEND_ARG_INFO(0, string)
+	ZEND_ARG_INFO(0, replace)
+	ZEND_ARG_INFO(0, delimiter)
+ZEND_END_ARG_INFO()
+
+PHALCON_INIT_FUNCS(phalcon_utils_slug_method_entry) {
+	PHP_ME(Phalcon_Utils_Slug, generate, arginfo_phalcon_utils_slug_generate, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+	PHP_FE_END
+};
+
+#endif /* PHALCON_UTILS_SLUG_H */
 
 #ifndef PHALCON_UTILS_DATE_H
 #define PHALCON_UTILS_DATE_H

@@ -55,6 +55,9 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($width <= 200);
 		$this->assertTrue($height <= 200);
 
+		$this->assertTrue($image->getWidth() <= 200);
+		$this->assertTrue($image->getHeight() <= 200);
+
 		// Resize to 200x200 pixels, keeping aspect ratio
 		//$image->resize(200, 200, Phalcon\Image::INVERSE);
 
@@ -78,10 +81,16 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($width, 200);
 		$this->assertEquals($height, 200);
 
+		$this->assertTrue($image->getWidth() == 200);
+		$this->assertTrue($image->getHeight() == 200);
+
 
 		// Rotate 45 degrees clockwise
 		$image->rotate(45)->save('unit-tests/assets/production/gd-rotate.jpg');
 		$this->assertTrue(file_exists('unit-tests/assets/production/gd-rotate.jpg'));
+
+		$this->assertTrue($image->getWidth() > 200);
+		$this->assertTrue($image->getHeight() > 200);
 
 		// Rotate 90% counter-clockwise
 		//$image->rotate(-90);
@@ -177,6 +186,8 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		 // Resize to 200 pixels on the shortest side
 		$image->resize(200, 200)->save('unit-tests/assets/production/imagick-resize.jpg');
 		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-resize.jpg'));
+		$this->assertTrue($image->getWidth() <= 200);
+		$this->assertTrue($image->getHeight() <= 200);
 
 		// Resize to 200x200 pixels, keeping aspect ratio
 		//$image->resize(200, 200, Phalcon\Image::INVERSE);
@@ -193,18 +204,27 @@ class ImageTest extends PHPUnit_Framework_TestCase
 		 // The images using liquid rescaling resize to 200x200
 		$image->liquidRescale(200, 200)->save('unit-tests/assets/production/imagick-liquidRescale.jpg');
 		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-liquidRescale.jpg'));
+		$this->assertTrue($image->getWidth() == 200);
+		$this->assertTrue($image->getHeight() == 200);
 
 		 // The images using liquid rescaling resize to 500x500
 		//$image->liquidRescale(500, 500, 3, 25);
 
 		// Crop the image to 200x200 pixels, from the center
+
+		$image = new Phalcon\Image\Adapter\Imagick('unit-tests/assets/phalconphp.jpg');
 		$image->crop(200, 200)->save('unit-tests/assets/production/imagick-crop.jpg');
 		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-crop.jpg'));
 
+		$this->assertTrue($image->getWidth() == 200);
+		$this->assertTrue($image->getHeight() == 200);
 
 		// Rotate 45 degrees clockwise
 		$image->rotate(45)->save('unit-tests/assets/production/imagick-rotate.jpg');
 		$this->assertTrue(file_exists('unit-tests/assets/production/imagick-rotate.jpg'));
+
+		$this->assertTrue($image->getWidth() > 200);
+		$this->assertTrue($image->getHeight() > 200);
 
 		// Rotate 90% counter-clockwise
 		//$image->rotate(-90);

@@ -35,7 +35,9 @@ typedef struct _phalcon_memory_entry {
 	zval ***hash_addresses;
 	struct _phalcon_memory_entry *prev;
 	struct _phalcon_memory_entry *next;
+#ifndef PHALCON_RELEASE
 	const char *func;
+#endif
 } phalcon_memory_entry;
 
 /** Virtual Symbol Table */

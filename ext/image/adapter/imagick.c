@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _liquidRescale){
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, _crop) {
 
-	zval *width, *height, *offset_x, *offset_y;
+	zval *width, *height, *offset_x, *offset_y, *w, *h;
 	zval *im, *ret = NULL, *index, *next = NULL, *type, *tmp;
 
 	PHALCON_MM_GROW();
@@ -416,6 +416,15 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _crop) {
 
 		phalcon_call_method_p4_noret(im, "setImagePage", width, height, tmp, tmp);
 	}
+
+	PHALCON_INIT_VAR(w);
+	phalcon_call_method(w, im, "getImageWidth");
+
+	PHALCON_INIT_VAR(h);
+	phalcon_call_method(h, im, "getImageHeight");
+
+	phalcon_update_property_this(this_ptr, SL("_width"), w TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_height"), h TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
 }
@@ -1553,7 +1562,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(constant);
-	if (zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC) == FAILURE) {
+	if (!zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC)) {
 		RETURN_MM();
 	}
 
