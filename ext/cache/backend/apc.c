@@ -73,6 +73,12 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Apc){
 
 	if (-1 == phalcon_cache_backend_is_apcu) {
 		phalcon_cache_backend_is_apcu = zend_hash_exists(&module_registry, SS("apcu"));
+		if (phalcon_cache_backend_is_apcu) {
+			zend_constant *c;
+			if (zend_hash_find(EG(zend_constants), SS("APCU_APC_FULL_BC"), (void**)&c) == SUCCESS) {
+				phalcon_cache_backend_is_apcu = !zend_is_true(&c->value);
+			}
+		}
 	}
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Apc, cache_backend_apc, phalcon_cache_backend_ce, phalcon_cache_backend_apc_method_entry, 0);

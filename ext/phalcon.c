@@ -821,11 +821,19 @@ zend_module_dep phalcon_deps[] = {
 #else
 	ZEND_MOD_OPTIONAL("pcre")
 #endif
+
 #if PHALCON_USE_PHP_CURL
 	ZEND_MOD_REQUIRED("curl")
 #else
 	ZEND_MOD_OPTIONAL("curl")
 #endif
+
+	ZEND_MOD_OPTIONAL("apc")
+	ZEND_MOD_OPTIONAL("apcu")
+	ZEND_MOD_OPTIONAL("XCache")
+	ZEND_MOD_OPTIONAL("memcache")
+	ZEND_MOD_OPTIONAL("memcached")
+	ZEND_MOD_OPTIONAL("mongo")
 	ZEND_MOD_OPTIONAL("filter")
 	ZEND_MOD_OPTIONAL("iconv")
 	ZEND_MOD_OPTIONAL("libxml")
