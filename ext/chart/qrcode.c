@@ -780,7 +780,7 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 		phalcon_array_append(&return_array, symbol_array, PH_COPY | PH_SEPARATE);
 	}
 
-	PHALCON_MM_RESTORE();
+	PHALCON_MM();
 }
 
 /**
