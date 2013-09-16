@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	zval *having_clause, *order_clause, *limit_clause;
 	zval *offset_clause, *for_update, *shared_lock;
 	zval *limit, *offset, *single_condition_array;
-	zval *condition_string, *bind_params, *bind_types;	
+	zval *condition_string, *bind_params, *bind_types = NULL;	
 	zval *merged_conditions, *merged_bind_params, *merged_bind_types;
 	zval *new_condition_string, *temp_merged_params, *temp_merged_types;	
 	HashTable *ah0;
@@ -203,9 +203,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 						phalcon_array_append(&merged_conditions, condition_string, 0);
 						PHALCON_CPY_WRT(temp_merged_params, merged_bind_params);
 						phalcon_add_function(merged_bind_params, temp_merged_params, bind_params TSRMLS_CC);
-						
+
 						phalcon_array_isset_long_fetch(&bind_types, single_condition_array, 2);
-						if (Z_TYPE_P(bind_types) == IS_ARRAY) {
+						if (bind_types && Z_TYPE_P(bind_types) == IS_ARRAY) {
 							PHALCON_CPY_WRT(temp_merged_types, merged_bind_types);
 							phalcon_add_function(merged_bind_types, temp_merged_types, bind_types TSRMLS_CC);
 						}
