@@ -723,7 +723,7 @@ static zbar_image_t *qrcode_php_zbarcode_get_page(MagickWand *wand)
 	return qrcode_php_zbarcode_image_create(width, height, image_data);
 }
 
-static void *qrcode_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
+static void qrcode_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t *image, zend_bool extended, zval *return_array TSRMLS_DC)
 {
 	zval *symbol_array = NULL, *loc_array = NULL, *coords = NULL;
 	const zbar_symbol_t *symbol;
