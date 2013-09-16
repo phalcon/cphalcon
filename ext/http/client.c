@@ -2048,14 +2048,6 @@ PHP_METHOD(Phalcon_Http_Client, send){
 		PHALCON_INIT_NVAR(constant0);
 		CURL_CONSTANT(constant0, CURLOPT_POSTFIELDS);
 		CURL_SETOPT(NULL, ch, constant0, body, 0, 0);
-
-		if (!PHALCON_IS_STRING(upper_method, "POST")) {
-			if (Z_TYPE_P(headers) != IS_ARRAY) {
-				array_init(headers);
-			}
-
-			phalcon_array_update_string_long(&headers, SL("Content-Length"), Z_STRLEN_P(body), PH_SEPARATE);
-		}
 	} else {
 		PHALCON_INIT_NVAR(constant0);
 		CURL_CONSTANT(constant0, CURLOPT_POSTFIELDS);
