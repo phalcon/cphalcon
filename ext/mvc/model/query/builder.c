@@ -146,29 +146,31 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 		} else if (phalcon_array_isset_string_fetch(&conditions, params, SS("conditions"))) {
 			if (Z_TYPE_P(conditions) == IS_ARRAY) {
 			
-				// ----------- INITIALIZING LOOP VARIABLES -----------
+				/* ----------- INITIALIZING LOOP VARIABLES ----------- */
 
-				// array containing single condition for example:
-				// array(
-				//      'status = :status:',
-				//      array('status' => 5),
-				//      array('status' => PDO::PARAM_INT),
-				// )
+				/*
+				 * array containing single condition for example:
+				 * array(
+				 *      'status = :status:',
+				 *      array('status' => 5),
+				 *      array('status' => PDO::PARAM_INT),
+				 * )
+				 */
 				PHALCON_INIT_VAR(single_condition_array);
 				array_init(single_condition_array);
 
-				// holds first param of single_condition_array
+				/* holds first param of single_condition_array */
 				PHALCON_INIT_VAR(condition_string);
 
-				// holds second param of single_condition_array
+				/* holds second param of single_condition_array */
 				PHALCON_INIT_VAR(bind_params);
 				array_init(bind_params);
 
-				// holds third param of single_condition_array
+				/* holds third param of single_condition_array */
 				PHALCON_INIT_VAR(bind_types);
 				array_init(bind_types);
 
-				// ----------- INITIALIZING MERGED VARIABLES -----------
+				/* ----------- INITIALIZING MERGED VARIABLES ----------- */
 
 				PHALCON_INIT_VAR(merged_conditions);
 				array_init(merged_conditions);
@@ -179,7 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 				PHALCON_INIT_VAR(merged_bind_types);
 				array_init(merged_bind_types);
 
-				// ------------ INITIALIZING TEMP VARIABLES -----------
+				/* ------------ INITIALIZING TEMP VARIABLES ----------- */
 
 				PHALCON_INIT_VAR(temp_merged_types);
 				array_init(temp_merged_types);
