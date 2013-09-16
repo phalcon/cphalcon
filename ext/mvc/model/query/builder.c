@@ -125,6 +125,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	HashPosition hp0;
 	zval **hd;
 
+	PHALCON_MM_GROW();
+
 	phalcon_fetch_params(0, 0, 2, &params, &dependency_injector);
 	
 	if (params && Z_TYPE_P(params) == IS_ARRAY) {
@@ -295,6 +297,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
+	
+	PHALCON_MM_RESTORE();	
 }
 
 /**
