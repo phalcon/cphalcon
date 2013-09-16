@@ -1443,6 +1443,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 	}
 	
 	/** 
+	 * Call user function
+	 */
+	if (PHALCON_IS_STRING(name, "fcall")) {
+		PHALCON_CONCAT_SVS(return_value, "$this->fcall(", arguments, ")");
+		RETURN_MM();
+	}
+	
+	/** 
 	 * Unknown filter throw an exception
 	 */
 	PHALCON_OBS_NVAR(line);

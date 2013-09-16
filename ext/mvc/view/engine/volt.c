@@ -345,6 +345,69 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 }
 
 /**
+ * Call function
+ *
+ * @param string $func_name
+ * @param int $postion
+ * @param mixed $value
+ * @param mixed $...
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, fcall){
+
+	int i, j = 0, postion, argc = ZEND_NUM_ARGS();
+	zval *func_name, *params;
+    zval ***args;
+
+	PHALCON_MM_GROW();
+
+	if (argc < 3) {
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("Wrong number of parameters") TSRMLS_CC);
+		return;
+	}
+
+    args = (zval ***)safe_emalloc(argc, sizeof(zval **), 0);
+
+    if (zend_get_parameters_array_ex(argc, args) == FAILURE) {
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("Wrong number of parameters") TSRMLS_CC);
+		goto end;
+    }
+
+	if (Z_TYPE_P(*args[1]) != IS_STRING) {
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("func_name must be string") TSRMLS_CC);
+		goto end;
+	}
+
+	if (Z_TYPE_P(*args[2]) != IS_LONG) {
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("postion must be int") TSRMLS_CC);
+		goto end;
+	}
+
+	PHALCON_INIT_VAR(func_name);
+	ZVAL_STRING(func_name, Z_STRVAL_P(*args[1]), 1);
+
+	postion = Z_LVAL_P(*args[2]);
+
+	PHALCON_INIT_VAR(params);
+	array_init_size(params, argc - 2);
+
+	for (i=3; i < argc; i++) {
+		phalcon_array_append(&params, *args[i], PH_COPY | PH_SEPARATE);
+		j++;
+        if (j == postion) {
+			phalcon_array_append(&params, *args[0], PH_COPY | PH_SEPARATE);
+        }
+    }
+
+	PHALCON_CALL_USER_FUNC_ARRAY(return_value, func_name, params);
+
+end:
+    efree(args);
+
+	RETURN_MM();
+}
+
+/**
  * Extracts a slice from a string/array/traversable object value
  *
  * @param mixed $value
