@@ -68,7 +68,7 @@ static void _php_curl_close(zend_rsrc_list_entry *rsrc TSRMLS_DC);
 #define CURL_ERROR(return_value, ch) phalcon_call_func_p1(return_value, "curl_error", ch);
 #define CURL_CLOSE(return_value, ch) phalcon_call_func_p1_noret("curl_close", ch);
 #define CURL_CONSTANT(return_value, constant) \
-	if (zend_get_constant(SL( #constant ), return_value TSRMLS_CC) == FAILURE) { \
+	if (zend_get_constant(SL( #constant ), return_value TSRMLS_CC)) { \
 		RETURN_MM_FALSE; \
 	}
 
