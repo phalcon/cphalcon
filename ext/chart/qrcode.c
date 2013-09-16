@@ -781,7 +781,6 @@ static void *_php_zbarcode_scan_page(zbar_image_scanner_t *scanner, zbar_image_t
 	}
 
 	PHALCON_MM_RESTORE();
-	return;
 }
 
 /**
