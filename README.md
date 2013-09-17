@@ -31,13 +31,13 @@ We need some packages previously installed.
 Ubuntu:
 
 ```bash
-sudo apt-get install php5-dev php5-mysql gcc make
+sudo apt-get install php5-dev php5-mysql gcc make libpcre3-dev
 ```
 
 Suse:
 
 ```bash
-yast2 -i php5-pear php5-devel libmysqlclient gcc make autoconf2.13
+yast2 -i php5-pear php5-devel libmysqlclient gcc make libpcre3-dev autoconf2.13
 ```
 
 Compilation
