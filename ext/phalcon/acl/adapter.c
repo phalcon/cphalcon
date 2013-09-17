@@ -45,27 +45,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
 /**
  * Events manager
- * "@var mixed
+ * @var mixed
  */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Default access
- * "@var bool
+ * @var bool
  */
 	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_defaultAccess"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Access Granted
- * "@var bool
+ * @var bool
  */
 	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Events manager
- * "@var mixed
+ * @var mixed
  */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Active resource
- * "@var mixed
+ * @var mixed
  */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeResource"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**

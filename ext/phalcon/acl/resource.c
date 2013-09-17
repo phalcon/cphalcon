@@ -45,12 +45,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Resource) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Resource, phalcon, acl_resource, phalcon_acl_resource_method_entry, 0);
 
 /**
- * Resource's name
+ * Resource name
  * @var string
  */
 	zend_declare_property_null(phalcon_acl_resource_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Resource's description
+ * Resource description
  * @var string
  */
 	zend_declare_property_null(phalcon_acl_resource_ce, SL("_description"), ZEND_ACC_PROTECTED TSRMLS_CC);

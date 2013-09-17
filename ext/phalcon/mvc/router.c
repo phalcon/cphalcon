@@ -652,6 +652,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			}
 			//missing unset
 		}
+		zephir_call_func_p1_noret("print_r", parts);
 		if (zephir_fast_count_int(params TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(_6);
 			zephir_fast_array_merge(_6, &(params), &(parts) TSRMLS_CC);

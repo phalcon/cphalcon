@@ -32,7 +32,7 @@
 /**
  * Phalcon\Annotations\AdapterInterface
  *
- * This interface must be implemented for adapters in Phalcon\Annotations
+ * This interface must be implemented by adapters in Phalcon\Annotations
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_AdapterInterface) {
 

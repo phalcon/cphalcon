@@ -556,6 +556,8 @@ class Router
 				unset parts["params"];
 			}
 
+			print_r(parts);
+
 			if count(params) {
 				let this->_params = array_merge(params, parts);
 			} else {

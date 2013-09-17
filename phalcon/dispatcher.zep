@@ -24,7 +24,7 @@ namespace Phalcon;
  * Phalcon\Dispatcher
  *
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
- * This class can"t be instantiated directly, you can use it to create your own dispatchers
+ * This class can't be instantiated directly, you can use it to create your own dispatchers
  */
 abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\InjectionAwareInterface, Phalcon\Events\EventsAwareInterface
 {
@@ -375,24 +375,26 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 			 */
 			let namespaceName = this->_namespaceName;
 			if !namespaceName {
-				let this->_namespaceName = this->_defaultNamespace;
+				let namespaceName = this->_defaultNamespace;
+				let this->_namespaceName = namespaceName;
 			}
 
 			/**
 			 * If the handler is null we use the set in this->_defaultHandler
 			 */
 			let handlerName = this->_handlerName;
-			var_dump(handlerName);
 			if !handlerName {
-				let this->_handlerName = this->_defaultHandler;
+				let handlerName = this->_defaultHandler;
+				let this->_handlerName = handlerName;
 			}
 
 			/**
-			 * If the action is null we use the set in this_ptr::_defaultAction
+			 * If the action is null we use the set in this->_defaultAction
 			 */
 			let actionName = this->_actionName;
 			if !actionName {
-				let this->_actionName = this->_defaultAction;
+				let actionName = this->_defaultAction;
+				let this->_actionName = actionName;
 			}
 
 			/**
@@ -413,7 +415,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 			}
 
 			/**
-			 * We don"t camelize the classes if they are in namespaces
+			 * We don't camelize the classes if they are in namespaces
 			 */
 			if !memstr(handlerName, "\\") {
 				let camelizedClass = camelize(handlerName);
@@ -517,7 +519,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 				}
 
 				/**
-				 * Try to throw an exception when an action isn"t defined on the object
+				 * Try to throw an exception when an action isn't defined on the object
 				 */
 				let status = this->{"_throwDispatchException"}("Action '" . actionName . "' was not found on handler '" . handlerName . "'", self::EXCEPTION_ACTION_NOT_FOUND);
 				if status === false {
