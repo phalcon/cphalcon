@@ -658,6 +658,27 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody){
 }
 
 /**
+ * Gets decoded BSON HTTP raw request body
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getBsonRawBody){
+
+	zval *raw_body;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(raw_body);
+	phalcon_call_method(raw_body, this_ptr, "getrawbody");
+	if (Z_TYPE_P(raw_body) == IS_STRING) {
+		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, "bson_decode", 1, raw_body);
+		RETURN_MM();
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Gets active server address IP
  *
  * @return string

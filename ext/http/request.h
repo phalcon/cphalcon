@@ -38,6 +38,7 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested);
 PHP_METHOD(Phalcon_Http_Request, isSecureRequest);
 PHP_METHOD(Phalcon_Http_Request, getRawBody);
 PHP_METHOD(Phalcon_Http_Request, getJsonRawBody);
+PHP_METHOD(Phalcon_Http_Request, getBsonRawBody);
 PHP_METHOD(Phalcon_Http_Request, getServerAddress);
 PHP_METHOD(Phalcon_Http_Request, getServerName);
 PHP_METHOD(Phalcon_Http_Request, getHttpHost);
@@ -145,6 +146,7 @@ PHALCON_INIT_FUNCS(phalcon_http_request_method_entry){
 	PHP_ME(Phalcon_Http_Request, isSecureRequest, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getRawBody, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getJsonRawBody, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, getBsonRawBody, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getServerAddress, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getServerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getHttpHost, NULL, ZEND_ACC_PUBLIC) 
