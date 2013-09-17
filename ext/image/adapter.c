@@ -1063,7 +1063,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 		}
 	} else {
 		PHALCON_INIT_VAR(constant);
-		if (zend_get_constant(SL("PATHINFO_DIRNAME"), constant TSRMLS_CC) == FAILURE) {
+		if (!zend_get_constant(SL("PATHINFO_DIRNAME"), constant TSRMLS_CC)) {
 			RETURN_MM();
 		}
 
@@ -1118,7 +1118,7 @@ PHP_METHOD(Phalcon_Image_Adapter, render){
 		file = phalcon_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
 
 		PHALCON_INIT_VAR(constant);
-		if (zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC) == FAILURE) {
+		if (!zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC)) {
 			RETURN_MM();
 		}
 
