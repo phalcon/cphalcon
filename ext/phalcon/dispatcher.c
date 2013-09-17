@@ -461,8 +461,9 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue) {
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
-	zval *value, *handler = NULL, *dependencyInjector, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *hasService = NULL, *params = NULL, *eventsManager, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3 = NULL, *_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11, _12 = zval_used_for_init, *_13 = NULL;
+	zval *value, *handler = NULL, *dependencyInjector, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params = NULL, *eventsManager, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3 = NULL, *_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11, _12 = zval_used_for_init, *_13 = NULL;
 	int numberDispatches;
+	zend_bool hasService;
 
 	ZEPHIR_MM_GROW();
 
@@ -548,7 +549,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				continue;
 			}
 		}
-		if (!(zephir_memnstr_str(handlerName, SL("\\"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/dispatcher.zep", 420))) {
+		if (!(zephir_memnstr_str(handlerName, SL("\\"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/dispatcher.zep", 421))) {
 			ZEPHIR_INIT_NVAR(camelizedClass);
 			zephir_camelize(camelizedClass, handlerName);
 		} else {
@@ -571,13 +572,15 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			ZEPHIR_INIT_NVAR(handlerClass);
 			concat_function(handlerClass, camelizedClass, handlerSuffix);
 		}
-		ZEPHIR_INIT_NVAR(hasService);
-		zephir_call_method_p1(hasService, dependencyInjector, "has", handlerClass);
-		if (!(zend_is_true(hasService))) {
-			ZEPHIR_INIT_NVAR(hasService);
-			zephir_call_func_p1(hasService, "class_exists", handlerClass);
+		ZEPHIR_INIT_NVAR(_3);
+		zephir_call_method_p1(_3, dependencyInjector, "has", handlerClass);
+		hasService = (zephir_get_boolval(_3)) ? 1 : 0;
+		if (!(hasService)) {
+			ZEPHIR_INIT_NVAR(_7);
+			zephir_call_func_p1(_7, "class_exists", handlerClass);
+			hasService = (zephir_get_boolval(_7)) ? 1 : 0;
 		}
-		if (!(zend_is_true(hasService))) {
+		if (!(hasService)) {
 			ZEPHIR_INIT_LNVAR(_5);
 			ZEPHIR_CONCAT_VS(_5, handlerClass, " handler class cannot be loaded");
 			ZEPHIR_INIT_NVAR(_3);

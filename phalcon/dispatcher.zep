@@ -326,9 +326,10 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 */
 	public function dispatch()
 	{
+		boolean hasService;
 		int numberDispatches;
 		var value, handler, dependencyInjector, namespaceName, handlerName,
-			actionName, camelizedClass, hasService, params, eventsManager,
+			actionName, camelizedClass, params, eventsManager,
 			handlerSuffix, actionSuffix, handlerClass, status, actionMethod;
 
 		let dependencyInjector = this->_dependencyInjector;
@@ -439,12 +440,12 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 			/**
 			 * Handlers are retrieved as shared instances from the Service Container
 			 */
-			let hasService = dependencyInjector->has(handlerClass);
+			let hasService = (bool) dependencyInjector->has(handlerClass);
 			if !hasService {
 				/**
 				 * DI doesn't have a service with that name, try to load it using an autoloader
 				 */
-				let hasService = class_exists(handlerClass);
+				let hasService = (bool) class_exists(handlerClass);
 			}
 
 			/**

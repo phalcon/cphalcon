@@ -743,8 +743,8 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 
 	HashTable *_6;
 	HashPosition _5;
-	zend_bool notExists;
 	int renderLevel, cacheLevel;
+	zend_bool notExists;
 	zval *engines, *viewPath, *silence, *mustClean, *cache, *key = NULL, *lifetime, *viewsDir, *basePath, *viewsDirPath, *viewOptions, *cacheOptions, *cachedView, *viewParams, *eventsManager, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *_0, *_1, *_2, *_3 = NULL, *_4 = NULL, **_7, *_8 = NULL, *_9, *_10;
 
 	ZEPHIR_MM_GROW();
@@ -869,7 +869,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
  *<code>
  *$this->view->registerEngines(array(
  *  ".phtml" => "Phalcon\Mvc\View\Engine\Php",
- *  ".volt" => "Phalcon\Mvc\View\Engine\Volt",
+ *  ".volt"  => "Phalcon\Mvc\View\Engine\Volt",
  *  ".mhtml" => "MyCustomEngine"
  *));
  *</code>
@@ -924,7 +924,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_disabled"), PH_NOISY_CC);
-	if (ZEPHIR_IS_FALSE(_0)) {
+	if (!ZEPHIR_IS_FALSE(_0)) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_call_func(_1, "ob_get_contents");
 		zephir_update_property_this(this_ptr, SL("_content"), _1 TSRMLS_CC);

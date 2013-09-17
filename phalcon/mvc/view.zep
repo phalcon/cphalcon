@@ -587,8 +587,9 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 */
 	protected function _engineRender(engines, viewPath, silence, mustClean, cache)
 	{
+		boolean notExists;
 		int renderLevel, cacheLevel;
-		var key, notExists, lifetime, viewsDir, basePath, viewsDirPath,
+		var key, lifetime, viewsDir, basePath, viewsDirPath,
 			viewOptions, cacheOptions, cachedView, viewParams, eventsManager,
 			extension, engine, viewEnginePath;
 
@@ -708,7 +709,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 *<code>
 	 *$this->view->registerEngines(array(
      *  ".phtml" => "Phalcon\Mvc\View\Engine\Php",
-     *  ".volt" => "Phalcon\Mvc\View\Engine\Volt",
+     *  ".volt"  => "Phalcon\Mvc\View\Engine\Volt",
      *  ".mhtml" => "MyCustomEngine"
      *));
      *</code>
