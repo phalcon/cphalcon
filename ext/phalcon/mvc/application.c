@@ -428,7 +428,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					ZEPHIR_INIT_NVAR(renderStatus);
 					zephir_call_method_p3(renderStatus, eventsManager, "fire", _0, this_ptr, view);
 				}
-				if (ZEPHIR_IS_FALSE(renderStatus)) {
+				if (!ZEPHIR_IS_FALSE(renderStatus)) {
 					ZEPHIR_INIT_NVAR(_0);
 					zephir_call_method(_0, dispatcher, "getcontrollername");
 					ZEPHIR_INIT_NVAR(_1);
