@@ -440,7 +440,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 			 * Handlers are retrieved as shared instances from the Service Container
 			 */
 			let hasService = dependencyInjector->has(handlerClass);
-			if hasService {
+			if !hasService {
 				/**
 				 * DI doesn't have a service with that name, try to load it using an autoloader
 				 */

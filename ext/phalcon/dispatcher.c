@@ -573,7 +573,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		ZEPHIR_INIT_NVAR(hasService);
 		zephir_call_method_p1(hasService, dependencyInjector, "has", handlerClass);
-		if (zend_is_true(hasService)) {
+		if (!(zend_is_true(hasService))) {
 			ZEPHIR_INIT_NVAR(hasService);
 			zephir_call_func_p1(hasService, "class_exists", handlerClass);
 		}
