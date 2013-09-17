@@ -668,7 +668,7 @@ PHP_METHOD(Phalcon_Http_Response, setBsonContent){
 	phalcon_fetch_params(1, 1, 1, &content);
 
 	PHALCON_INIT_VAR(content_type);
-	ZVAL_STRING(content_type, "bson", 1);
+	ZVAL_STRING(content_type, "application/bson", 1);
 	phalcon_call_method_p1_noret(this_ptr, "setContentType", content_type);
 	
 	PHALCON_OBS_VAR(bson_content);
