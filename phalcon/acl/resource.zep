@@ -28,13 +28,13 @@ class Resource
 {
 
 	/**
-	 * Resource's name
+	 * Resource name
 	 * @var string
 	 */
 	protected _name;
 
 	/**
-	 * Resource's description
+	 * Resource description
 	 * @var string
 	 */
 	protected _description;

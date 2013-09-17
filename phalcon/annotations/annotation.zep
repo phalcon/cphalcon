@@ -28,19 +28,19 @@ class Annotation
 {
 
 	/**
-	 * Annotations's Name
+	 * Annotation Name
 	 * @var string
 	 */
 	protected _name;
 
 	/**
-	 * Annotations's Arguments
+	 * Annotation Arguments
 	 * @var string
 	 */
 	protected _arguments;
 
 	/**
-	 * Annotations's ExprArguments
+	 * Annotation ExprArguments
 	 * @var string
 	 */
 	protected _exprArguments;
@@ -109,7 +109,7 @@ class Annotation
 			case 307:
 				let value = expr["value"];
 				break;
-   			case 304:
+			case 304:
 				let value = null;
 				break;
 			case 305:
@@ -206,8 +206,8 @@ class Annotation
 		var arguments, argument;
 		let arguments = this->_arguments;
 		if fetch argument, arguments[name] {
-   			return argument;
-  		}
- 	}
+ 			return argument;
+		}
+	}
 
 }

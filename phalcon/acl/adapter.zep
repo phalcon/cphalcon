@@ -29,31 +29,31 @@ class Adapter
 {
 	/**
 	 * Events manager
-	 * "@var mixed
+	 * @var mixed
 	 */
 	protected _eventsManager;
 
 	/**
 	 * Default access
-	 * "@var bool
+	 * @var bool
 	 */
 	protected _defaultAccess = true;
 
 	/**
 	 * Access Granted
-	 * "@var bool
+	 * @var bool
 	 */
 	protected _accessGranted = false;
 
 	/**
 	 * Events manager
-	 * "@var mixed
+	 * @var mixed
 	 */
 	protected _activeRole;
 
 	/**
 	 * Active resource
-	 * "@var mixed
+	 * @var mixed
 	 */
 	protected _activeResource;
 
