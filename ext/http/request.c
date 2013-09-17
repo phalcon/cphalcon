@@ -684,18 +684,26 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 /**
  * Gets decoded JSON HTTP raw request body
  *
+ * @param bool $assoc
  * @return string
  */
 PHP_METHOD(Phalcon_Http_Request, getJsonRawBody){
 
-	zval *raw_body;
+	zval *raw_body, *assoc = NULL;
+	int ac = 0;
 
 	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 0, 1, &assoc);
+
+	if (assoc && zend_is_true(assoc)) {
+		ac = 1;
+	}
 
 	PHALCON_INIT_VAR(raw_body);
 	phalcon_call_method(raw_body, this_ptr, "getrawbody");
 	if (Z_TYPE_P(raw_body) == IS_STRING) {
-		phalcon_json_decode(return_value, return_value_ptr, raw_body, 0 TSRMLS_CC);
+		phalcon_json_decode(return_value, return_value_ptr, raw_body, ac TSRMLS_CC);
 		RETURN_MM();
 	}
 	
