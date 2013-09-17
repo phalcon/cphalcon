@@ -137,7 +137,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	}
 
 	/**
-	 * Sets views directory. Depending of your platform, always add a trailing slash or backslash
+	 * Sets the views directory. Depending of your platform, always add a trailing slash or backslash
 	 *
 	 * @param string viewsDir
 	 * @return Phalcon\Mvc\View
@@ -321,7 +321,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	}
 
 	/**
-	 * Appends template before controller layout
+	 * Sets a template before the controller layout
 	 *
 	 * @param string|array templateBefore
 	 * @return Phalcon\Mvc\View
@@ -337,7 +337,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	}
 
 	/**
-	 * Resets any template before layouts
+	 * Resets any "template before" layouts
 	 *
 	 * @return Phalcon\Mvc\View
 	 */
@@ -348,7 +348,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	}
 
 	/**
-	 * Appends template after controller layout
+	 * Sets a "template after" controller layout
 	 *
 	 * @param string|array templateAfter
 	 * @return Phalcon\Mvc\View
@@ -828,7 +828,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 		}
 
 		/**
-		 * Get the current content in the buffer maybe some output from the controller
+		 * Get the current content in the buffer maybe some output from the controller?
 		 */
 		let this->_content = ob_get_contents();
 

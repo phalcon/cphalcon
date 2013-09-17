@@ -54,7 +54,6 @@ extern int ZEPHIR_FASTCALL zephir_clean_restore_stack(TSRMLS_D);
 
 /* Virtual symbol tables */
 extern void zephir_create_symbol_table(TSRMLS_D);
-/*extern void zephir_restore_symbol_table(TSRMLS_D);*/
 extern void zephir_clean_symbol_tables(TSRMLS_D);
 
 /** Export symbols to active symbol table */

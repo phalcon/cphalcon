@@ -14,11 +14,14 @@
 #  Authors: Andres Gutierrez <andres@phalconphp.com>
 #            Eduar Carvajal <eduar@phalconphp.com>
 
+export CC="gcc"
+export CFLAGS="-O2 -finline-functions -fno-builtin-memcmp -fvisibility=hidden -fomit-frame-pointer"
+
+#Clean current compilation
 if [ -f Makefile ]; then
-	make distclean
+	make clean
 	phpize55 --clean
 fi
 
-phpize55
-CFLAGS="-g -O0 -fno-delete-null-pointer-checks -Wall" ./configure --enable-phalcon --with-php-config=/opt/local/bin/php-config55 && make && make install && echo "Notice: Phalcon was compiled in debug mode.\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
-
+#Perform the compilation
+phpize55 && ./configure --enable-phalcon --with-php-config=/opt/local/bin/php-config55 && make && make install && echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"

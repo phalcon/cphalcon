@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Mvc_View, __construct) {
 }
 
 /**
- * Sets views directory. Depending of your platform, always add a trailing slash or backslash
+ * Sets the views directory. Depending of your platform, always add a trailing slash or backslash
  *
  * @param string viewsDir
  * @return Phalcon\Mvc\View
@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Mvc_View, getLayout) {
 }
 
 /**
- * Appends template before controller layout
+ * Sets a template before the controller layout
  *
  * @param string|array templateBefore
  * @return Phalcon\Mvc\View
@@ -424,7 +424,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore) {
 }
 
 /**
- * Resets any template before layouts
+ * Resets any "template before" layouts
  *
  * @return Phalcon\Mvc\View
  */
@@ -437,7 +437,7 @@ PHP_METHOD(Phalcon_Mvc_View, cleanTemplateBefore) {
 }
 
 /**
- * Appends template after controller layout
+ * Sets a "template after" controller layout
  *
  * @param string|array templateAfter
  * @return Phalcon\Mvc\View
@@ -974,7 +974,8 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
 	}
 	ZEPHIR_OBS_VAR(eventsManager);
 	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	zephir_call_func_noret("create_symbol_table");
+	zephir_create_symbol_table(TSRMLS_C);
+	
 	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(_1);
 		ZEPHIR_INIT_VAR(_4);
@@ -1206,7 +1207,8 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
 		} else {
 			zephir_update_property_this(this_ptr, SL("_viewParams"), params TSRMLS_CC);
 		}
-		zephir_call_func_noret("create_symbol_table");
+		zephir_create_symbol_table(TSRMLS_C);
+		
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	zephir_call_method(_0, this_ptr, "_loadtemplateengines");
