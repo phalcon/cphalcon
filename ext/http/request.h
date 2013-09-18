@@ -38,11 +38,13 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested);
 PHP_METHOD(Phalcon_Http_Request, isSecureRequest);
 PHP_METHOD(Phalcon_Http_Request, getRawBody);
 PHP_METHOD(Phalcon_Http_Request, getJsonRawBody);
+PHP_METHOD(Phalcon_Http_Request, getBsonRawBody);
 PHP_METHOD(Phalcon_Http_Request, getServerAddress);
 PHP_METHOD(Phalcon_Http_Request, getServerName);
 PHP_METHOD(Phalcon_Http_Request, getHttpHost);
 PHP_METHOD(Phalcon_Http_Request, getClientAddress);
 PHP_METHOD(Phalcon_Http_Request, getMethod);
+PHP_METHOD(Phalcon_Http_Request, getURI);
 PHP_METHOD(Phalcon_Http_Request, getUserAgent);
 PHP_METHOD(Phalcon_Http_Request, isMethod);
 PHP_METHOD(Phalcon_Http_Request, isPost);
@@ -64,6 +66,8 @@ PHP_METHOD(Phalcon_Http_Request, getClientCharsets);
 PHP_METHOD(Phalcon_Http_Request, getBestCharset);
 PHP_METHOD(Phalcon_Http_Request, getLanguages);
 PHP_METHOD(Phalcon_Http_Request, getBestLanguage);
+PHP_METHOD(Phalcon_Http_Request, getBasicAuth);
+PHP_METHOD(Phalcon_Http_Request, getDigestAuth);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -148,11 +152,13 @@ PHALCON_INIT_FUNCS(phalcon_http_request_method_entry){
 	PHP_ME(Phalcon_Http_Request, isSecureRequest, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getRawBody, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getJsonRawBody, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, getBsonRawBody, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getServerAddress, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getServerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getHttpHost, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getClientAddress, arginfo_phalcon_http_request_getclientaddress, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getMethod, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, getURI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getUserAgent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, isMethod, arginfo_phalcon_http_request_ismethod, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, isPost, NULL, ZEND_ACC_PUBLIC) 
@@ -174,6 +180,8 @@ PHALCON_INIT_FUNCS(phalcon_http_request_method_entry){
 	PHP_ME(Phalcon_Http_Request, getBestCharset, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getLanguages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getBestLanguage, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, getBasicAuth, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, getDigestAuth, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
