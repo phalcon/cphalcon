@@ -1740,3 +1740,58 @@ PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
 	RETURN_MM();
 }
 
+/**
+ * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER'] / $_SERVER['PHP_AUTH_DIGEST']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, getAuth){
+
+	zval *auth, *_SERVER, *server_value, *pattern, *matches, *ret, *tmp1, *tmp2;
+
+	PHALCON_MM_GROW();
+
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	if (phalcon_array_isset_string(_SERVER, SS("PHP_AUTH_USER"))) {
+		PHALCON_INIT_VAR(auth);
+		array_init(auth);
+
+		PHALCON_OBS_VAR(server_value);
+		phalcon_array_fetch_string(&server_value, _SERVER, SL("PHP_AUTH_USER"), PH_NOISY);
+
+		phalcon_array_update_string(&auth, SL("username"), &server_value, PH_COPY | PH_SEPARATE);
+
+		PHALCON_OBS_NVAR(server_value);
+		phalcon_array_fetch_string(&server_value, _SERVER, SL("PHP_AUTH_PW"), PH_NOISY);
+		phalcon_array_update_string(&auth, SL("password"), &server_value, PH_COPY | PH_SEPARATE);
+
+		phalcon_array_update_string_string(&auth, SL("type"), SL("basic"), PH_SEPARATE);
+
+		RETURN_CCTOR(auth);
+	} else if (phalcon_array_isset_string(_SERVER, SS("PHP_AUTH_DIGEST"))) {
+		PHALCON_OBS_VAR(server_value);
+		phalcon_array_fetch_string(&server_value, _SERVER, SL("PHP_AUTH_DIGEST"), PH_NOISY);
+
+		PHALCON_INIT_VAR(pattern);
+		ZVAL_STRING(pattern, "/(username|realm|qop|algorithm|uri|nonce|nc|cnonce|opaque|response)=['\"]?([^'\",]+)/", 1);
+
+		PHALCON_INIT_VAR(matches);
+		PHALCON_INIT_VAR(ret);
+
+		Z_SET_ISREF_P(matches);
+		phalcon_call_func_p3(ret, "preg_match_all", pattern, server_value, matches);
+		Z_UNSET_ISREF_P(matches);
+
+		if (zend_is_true(ret) && phalcon_array_isset_long_fetch(&tmp1, matches, 1) && phalcon_array_isset_long_fetch(&tmp2, matches, 2)) {
+			PHALCON_INIT_VAR(auth);
+			phalcon_call_func_p2(auth, "array_combine", tmp1, tmp2);
+			
+			phalcon_array_update_string_string(&auth, SL("type"), SL("digest"), PH_SEPARATE);
+
+			RETURN_CCTOR(auth);
+		}
+	}
+
+	RETURN_MM_NULL();
+}
+
