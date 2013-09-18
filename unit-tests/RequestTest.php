@@ -200,6 +200,45 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($successful[3]->getTempName(), 't3');
 	}
 
+	public function testGetAuth()
+	{
+		$request = new \Phalcon\Http\Request();
+
+		$_SERVER = array(
+			'PHP_AUTH_USER'	=> 'myleft',
+			'PHP_AUTH_PW'	=> '123456'
+		);
+
+		$data = array('username' => 'myleft', 'password' => '123456');
+
+		$auth = $request->getBasicAuth();
+
+		$this->assertEquals($auth, $data);
+
+		$_SERVER = array(
+			'PHP_AUTH_DIGEST' => 'Digest username="myleft", realm="myleft", qop="auth", algorithm="MD5", uri="/", nonce="nonce", nc=nc, cnonce="cnonce", opaque="opaque", response="response"'
+		);
+
+		$data = array('username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => '/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response');
+
+		$auth = $request->getDigestAuth();
+		$this->assertEquals($auth, $data);
+
+		$_SERVER = array(
+			'PHP_AUTH_DIGEST' => 'Digest username=myleft, realm=myleft, qop=auth, algorithm=MD5, uri=/, nonce=nonce, nc=nc, cnonce=cnonce, opaque=opaque, response=response'
+		);
+
+		$auth = $request->getDigestAuth();
+		$this->assertEquals($auth, $data);
+
+		$_SERVER = array(
+			'PHP_AUTH_DIGEST' => 'Digest username=myleft realm=myleft qop=auth algorithm=MD5 uri=/ nonce=nonce nc=nc cnonce=cnonce opaque=opaque response=response'
+		);
+
+		$auth = $request->getDigestAuth();
+		$this->assertEquals($auth, $data);
+	}
+
 	public function testIssues1226()
 	{
 		$di = new Phalcon\DI\FactoryDefault();
@@ -254,3 +293,4 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($request->getPost('phone', 'int', 100, FALSE), 100);
 	}
 }
+
