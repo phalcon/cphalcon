@@ -65,6 +65,13 @@ if ($ret) {
 } 
 ```
 
+Volt Filters
+------------
+```php
+{{ "PhalconPHP"|fcall('str_replace', 2, 'PHP', '') }} // Phalcon
+{{ "PhalconPHP"|fcall('str_pad', 0, 5, '=') }}	// PhalconPHP=====
+```
+
 关闭QRcode支持
 ```shell
 phpize
