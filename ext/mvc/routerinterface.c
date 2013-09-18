@@ -213,3 +213,9 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRouteById);
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRouteByName);
 
+/**
+ * Returns whether controller name should not be mangled
+ *
+ * @return bool
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_RouterInterface, isExactControllerName);

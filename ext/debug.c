@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity){
 	add_next_index_stringl(handler, SL("onUncaughtLowSeverity"), 1);
 	phalcon_call_func_p1_noret("set_exception_handler", handler);
 */
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -1043,7 +1043,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	 * Use the exception info as document's title
 	 */
 	PHALCON_INIT_VAR(html);
-	PHALCON_CONCAT_SVSVS(html, "<html><head><title>", class_name, ": ", escaped_message, "</title>");
+	PHALCON_CONCAT_SVSVS(html, "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/><title>", class_name, ": ", escaped_message, "</title>");
 	PHALCON_SCONCAT_VS(html, css_sources, "</head><body>");
 	
 	/** 

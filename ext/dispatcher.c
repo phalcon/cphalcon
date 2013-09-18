@@ -608,6 +608,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		if (!phalcon_memnstr_str(handler_name, SL("\\"))) {
 			PHALCON_INIT_NVAR(camelized_class);
 			phalcon_camelize(camelized_class, handler_name);
+		} else if (phalcon_start_with_str(handler_name, SL("\\"))) {
+			PHALCON_INIT_NVAR(camelized_class);
+			ZVAL_STRINGL(camelized_class, Z_STRVAL_P(handler_name)+1, Z_STRLEN_P(handler_name)-1, 1);
 		} else {
 			PHALCON_CPY_WRT(camelized_class, handler_name);
 		}
@@ -1108,6 +1111,9 @@ PHP_METHOD(Phalcon_Dispatcher, getHandlerClass){
 	if (!phalcon_memnstr_str(handler_name, SL("\\"))) {
 		PHALCON_INIT_VAR(camelized_class);
 		phalcon_camelize(camelized_class, handler_name);
+	} else if (phalcon_start_with_str(handler_name, SL("\\"))) {
+		PHALCON_INIT_VAR(camelized_class);
+		ZVAL_STRINGL(camelized_class, Z_STRVAL_P(handler_name)+1, Z_STRLEN_P(handler_name)-1, 1);
 	} else {
 		PHALCON_CPY_WRT(camelized_class, handler_name);
 	}

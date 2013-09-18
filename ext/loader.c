@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -213,7 +212,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 /**
  * Return current namespaces registered in the autoloader
  *
- * @param array
+ * @return array
  */
 PHP_METHOD(Phalcon_Loader, getNamespaces){
 
