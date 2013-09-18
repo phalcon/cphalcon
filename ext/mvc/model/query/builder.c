@@ -199,12 +199,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 				phalcon_update_property_this(this_ptr, SL("_conditions"), new_condition_string TSRMLS_CC);
 				phalcon_update_property_this(this_ptr, SL("_bindParams"), merged_bind_params TSRMLS_CC);
 				phalcon_update_property_this(this_ptr, SL("_bindTypes"), merged_bind_types TSRMLS_CC);
-
 			} else {
 				phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);		
 			}	
 		}
-
 
 		/** 
 		 * Assign 'FROM' clause
@@ -279,6 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 			phalcon_update_property_this(this_ptr, SL("_sharedLock"), shared_lock TSRMLS_CC);
 		}
 	}
+
 	/** 
 	 * Update the dependency injector if any
 	 */
