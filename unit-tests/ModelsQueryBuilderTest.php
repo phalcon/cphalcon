@@ -439,13 +439,21 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped("Test skipped");
 			return;
 		}
+		
+		$standardBuilder = new Builder();
+		$standardBuilder->from('Robots')
+			->where(
+				"year > :min: AND year < :max:",
+				array("min" => '2013-01-01',   'max' => '2014-01-01'),
+				array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR)
+			);
 
 		// test for single condition
 		$params = array(
 			'models'     => 'Robots',
 			'conditions' => array(
 				array(
-					"created > :min: AND created < :max:",
+					"year > :min: AND year < :max:",
 					array("min" => '2013-01-01',   'max' => '2014-01-01'),
 					array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR),
 				),
@@ -458,14 +466,14 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 			'models'     => 'Robots',
 			'conditions' => array(
 				array(
-					"created > :min:",
-					array("min" => '2013-01-01'),
+					"year > :min:",
+					array("min" => '2000-01-01'),
 					array("min" => PDO::PARAM_STR),
 				),
 				array(
-					"created < :max:",
+					"year < :max:",
 					array('max' => '2014-01-01'),
-					// test without optional bind types
+					array("max" => PDO::PARAM_STR),
 				),				
 			),
 		);		
@@ -473,8 +481,9 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$builderMultipleConditions = new Builder($params);
 
 		$expectedPhql = "SELECT [Robots].* FROM [Robots] "
-			. "WHERE created > :min: AND created < :max:";
+			. "WHERE year > :min: AND year < :max:";
 
+		$this->assertEquals($expectedPhql, $standardBuilder->getPhql());
 		$this->assertEquals($expectedPhql, $builderWithSingleCondition->getPhql());
 		$this->assertEquals($expectedPhql, $builderMultipleConditions->getPhql());
     }
