@@ -144,6 +144,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 			phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 		} else if (phalcon_array_isset_string_fetch(&conditions, params, SS("conditions"))) {
 			if (Z_TYPE_P(conditions) == IS_ARRAY) {
+
 				/* ----------- INITIALIZING LOOP VARIABLES ----------- */
 
 				/*
@@ -180,10 +181,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 						&& Z_TYPE_P(bind_params) == IS_ARRAY
 					) {	
 						phalcon_array_append(&merged_conditions, condition_string, PH_COPY | PH_SEPARATE);
-						phalcon_merge_append(merged_bind_params, bind_params TSRMLS_CC);
+						phalcon_merge_append(merged_bind_params, bind_params);
 
 						if (phalcon_array_isset_long_fetch(&bind_types, single_condition_array, 2) && Z_TYPE_P(bind_types) == IS_ARRAY) {
-							phalcon_merge_append(merged_bind_types, bind_types TSRMLS_CC);
+							phalcon_merge_append(merged_bind_types, bind_types);
 						}
 					}
 					
