@@ -439,28 +439,35 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped("Test skipped");
 			return;
 		}
+
+		// ------------- test for setters(classic) way ----------------
 		
 		$standardBuilder = new Builder();
 		$standardBuilder->from('Robots')
 			->where(
 				"year > :min: AND year < :max:",
-				array("min" => '2013-01-01',   'max' => '2014-01-01'),
+				array("min" => '2013-01-01',   'max' => '2100-01-01'),
 				array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR)
 			);
 
-		// test for single condition
+		$standardResult = $standardBuilder->getQuery()->execute();
+
+		// --------------- test for single condition ------------------
 		$params = array(
 			'models'     => 'Robots',
 			'conditions' => array(
 				array(
 					"year > :min: AND year < :max:",
-					array("min" => '2013-01-01',   'max' => '2014-01-01'),
+					array("min" => '2013-01-01',   'max' => '2100-01-01'),
 					array("min" => PDO::PARAM_STR, 'max' => PDO::PARAM_STR),
 				),
 			),
 		);
 
 		$builderWithSingleCondition = new Builder($params);
+		$singleConditionResult      = $builderWithSingleCondition->getQuery()->execute();		
+
+		// ------------- test for multiple conditions ----------------
 
 		$params = array(
 			'models'     => 'Robots',
@@ -472,19 +479,28 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 				),
 				array(
 					"year < :max:",
-					array('max' => '2014-01-01'),
+					array('max' => '2100-01-01'),
 					array("max" => PDO::PARAM_STR),
 				),				
 			),
 		);		
+		
 		// conditions are merged!
 		$builderMultipleConditions = new Builder($params);
+		$multipleConditionResult   = $builderMultipleConditions->getQuery()->execute();				
 
 		$expectedPhql = "SELECT [Robots].* FROM [Robots] "
 			. "WHERE year > :min: AND year < :max:";
 
+		/* ------------ ASSERTING --------- */
+
 		$this->assertEquals($expectedPhql, $standardBuilder->getPhql());
+		$this->assertInstanceOf("Phalcon\Mvc\Model\Resultset\Simple", $standardResult);
+
 		$this->assertEquals($expectedPhql, $builderWithSingleCondition->getPhql());
+		$this->assertInstanceOf("Phalcon\Mvc\Model\Resultset\Simple", $singleConditionResult);
+
 		$this->assertEquals($expectedPhql, $builderMultipleConditions->getPhql());
+		$this->assertInstanceOf("Phalcon\Mvc\Model\Resultset\Simple", $multipleConditionResult);		
     }
 }
