@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
  */
 PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
-	zval *file, *width = NULL, *height = NULL, *exception_message;
+	zval *file, *file_content, *width = NULL, *height = NULL, *exception_message;
 	zval *checked = NULL, *realpath, *type, *mime, *image, *imageinfo;
 	zval *saveflag, *blendmode;
 
@@ -211,8 +211,11 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 				break;
 
 			case 3: // PNG
+				PHALCON_INIT_VAR(file_content);
+				phalcon_file_get_contents(file_content, realpath TSRMLS_CC);
+
 				PHALCON_OBS_VAR(image);
-				phalcon_call_func_p1_ex(image, &image, "imagecreatefrompng", realpath);
+				phalcon_call_func_p1_ex(image, &image, "imagecreatefromstring", file_content);
 				break;
 
 			default:
