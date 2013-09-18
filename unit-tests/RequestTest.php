@@ -209,9 +209,9 @@ class RequestTest extends PHPUnit_Framework_TestCase
 			'PHP_AUTH_PW'	=> '123456'
 		);
 
-		$data = array('username' => 'myleft', 'password' => '123456', 'type' => 'basic');
+		$data = array('username' => 'myleft', 'password' => '123456');
 
-		$auth = $request->getAuth();
+		$auth = $request->getBasicAuth();
 
 		$this->assertEquals($auth, $data);
 
@@ -219,23 +219,23 @@ class RequestTest extends PHPUnit_Framework_TestCase
 			'PHP_AUTH_DIGEST' => 'Digest username="myleft", realm="myleft", qop="auth", algorithm="MD5", uri="/", nonce="nonce", nc=nc, cnonce="cnonce", opaque="opaque", response="response"'
 		);
 
-		$data = array('username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => '/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response', 'type' => 'digest');
+		$data = array('username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => '/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response');
 
-		$auth = $request->getAuth();
+		$auth = $request->getDigestAuth();
 		$this->assertEquals($auth, $data);
 
 		$_SERVER = array(
 			'PHP_AUTH_DIGEST' => 'Digest username=myleft, realm=myleft, qop=auth, algorithm=MD5, uri=/, nonce=nonce, nc=nc, cnonce=cnonce, opaque=opaque, response=response'
 		);
 
-		$auth = $request->getAuth();
+		$auth = $request->getDigestAuth();
 		$this->assertEquals($auth, $data);
 
 		$_SERVER = array(
 			'PHP_AUTH_DIGEST' => 'Digest username=myleft realm=myleft qop=auth algorithm=MD5 uri=/ nonce=nonce nc=nc cnonce=cnonce opaque=opaque response=response'
 		);
 
-		$auth = $request->getAuth();
+		$auth = $request->getDigestAuth();
 		$this->assertEquals($auth, $data);
 	}
 

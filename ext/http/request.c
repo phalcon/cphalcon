@@ -1819,15 +1819,15 @@ PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Http_Request, getAuth){
+PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
 
 	zval *auth, *_SERVER, *key;
 	zval **value;
 
 	PHALCON_MM_GROW();
 
-	const char *auth_user = SG(request_info).auth_user;
-	const char *auth_password = SG(request_info).auth_user;
+	char *auth_user = SG(request_info).auth_user;
+	char *auth_password = SG(request_info).auth_user;
 
 	if (unlikely(!auth_user)) {
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
@@ -1840,7 +1840,7 @@ PHP_METHOD(Phalcon_Http_Request, getAuth){
 			auth_user = Z_STRVAL_PP(value);
 		}
 
-		ZVAL_STRING(&key, "PHP_AUTH_PW", 0);
+		ZVAL_STRING(key, "PHP_AUTH_PW", 1);
 
 		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), key, BP_VAR_NA);
 		if (value && Z_TYPE_PP(value) == IS_STRING) {
