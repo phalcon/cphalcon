@@ -220,21 +220,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 			phalcon_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 		}
 	
-
+		/** 
+		 * Assign GROUP clause
+		 */
 		if (phalcon_array_isset_string_fetch(&group_clause, params, SS("group"))) {
 			phalcon_update_property_this(this_ptr, SL("_group"), group_clause TSRMLS_CC);
 		}
 	
-	
+		/** 
+		 * Assign HAVING clause
+		 */
 		if (phalcon_array_isset_string_fetch(&having_clause, params, SS("having"))) {
 			phalcon_update_property_this(this_ptr, SL("_having"), having_clause TSRMLS_CC);
 		}
 	
+		/** 
+		 * Assign ORDER clause
+		 */
 		if (phalcon_array_isset_string_fetch(&order_clause, params, SS("order"))) {
 			phalcon_update_property_this(this_ptr, SL("_order"), order_clause TSRMLS_CC);
 		}
 	
-		
+		/** 
+		 * Assign LIMIT clause
+		 */
 		if (phalcon_array_isset_string_fetch(&limit_clause, params, SS("limit"))) {
 			if (Z_TYPE_P(limit_clause) == IS_ARRAY
 				&& phalcon_array_isset_long_fetch(&limit, limit_clause, 0)
@@ -248,16 +257,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 				phalcon_update_property_this(this_ptr, SL("_limit"), limit_clause TSRMLS_CC);
 			}
 		}
-
+		
+		/** 
+		 * Assign OFFSET clause
+		 */
 		if (phalcon_array_isset_string_fetch(&offset_clause, params, SS("offset"))) {
 			phalcon_update_property_this(this_ptr, SL("_offset"), offset_clause TSRMLS_CC);
 		}
 
-	
+		/** 
+		 * Assign FOR UPDATE clause
+		 */
 		if (phalcon_array_isset_string_fetch(&for_update, params, SS("for_update"))) {
 			phalcon_update_property_this(this_ptr, SL("_forUpdate"), for_update TSRMLS_CC);
 		}
 	
+		/** 
+		 * Assign SHARED LOCK clause
+		 */
 		if (phalcon_array_isset_string_fetch(&shared_lock, params, SS("shared_lock"))) {
 			phalcon_update_property_this(this_ptr, SL("_sharedLock"), shared_lock TSRMLS_CC);
 		}
