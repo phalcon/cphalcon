@@ -193,6 +193,9 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
 		if (phalcon_array_isset_long_fetch(&type, imageinfo, 2)) {
 			phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
+		} else {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Can't get type");
+			return;
 		}
 
 		if (phalcon_array_isset_string_fetch(&mime, imageinfo, SS("mime"))) {
