@@ -239,3 +239,4 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($auth, $data);
 	}
 }
+
