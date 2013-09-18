@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
 			case 3: // PNG
 				PHALCON_OBS_VAR(file_content);
-				phalcon_call_func_p1_ex(file_content, &file_content, "imagecreatefromstring", realpath);
+				phalcon_call_func_p1_ex(file_content, &file_content, "file_get_contents", realpath);
 
 				PHALCON_OBS_VAR(image);
 				phalcon_call_func_p1_ex(image, &image, "imagecreatefromstring", file_content);
