@@ -125,9 +125,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	zval *having_clause, *order_clause, *limit_clause;
 	zval *offset_clause, *for_update, *shared_lock;
 	zval *limit, *offset, *single_condition_array;
-	zval *condition_string, *bind_params, *bind_types = NULL;	
+	zval *condition_string = NULL, *bind_params, *bind_types;	
 	zval *merged_conditions, *merged_bind_params, *merged_bind_types;
-	zval *new_condition_string, *temp_merged_params, *temp_merged_types;	
+	zval *new_condition_string;	
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -137,7 +137,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	phalcon_fetch_params(0, 0, 2, &params, &dependency_injector);
 	
 	if (params && Z_TYPE_P(params) == IS_ARRAY) {
-	
 		/** 
 		 * Process conditions
 		 */
@@ -145,7 +144,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 			phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 		} else if (phalcon_array_isset_string_fetch(&conditions, params, SS("conditions"))) {
 			if (Z_TYPE_P(conditions) == IS_ARRAY) {
-			
+
 				/* ----------- INITIALIZING LOOP VARIABLES ----------- */
 
 				/*
@@ -159,17 +158,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 				PHALCON_INIT_VAR(single_condition_array);
 				array_init(single_condition_array);
 
-				/* holds first param of single_condition_array */
-				PHALCON_INIT_VAR(condition_string);
-
-				/* holds second param of single_condition_array */
-				PHALCON_INIT_VAR(bind_params);
-				array_init(bind_params);
-
-				/* holds third param of single_condition_array */
-				PHALCON_INIT_VAR(bind_types);
-				array_init(bind_types);
-
 				/* ----------- INITIALIZING MERGED VARIABLES ----------- */
 
 				PHALCON_INIT_VAR(merged_conditions);
@@ -179,15 +167,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 				array_init(merged_bind_params);
 
 				PHALCON_INIT_VAR(merged_bind_types);
-				array_init(merged_bind_types);
-
-				/* ------------ INITIALIZING TEMP VARIABLES ----------- */
-
-				PHALCON_INIT_VAR(temp_merged_types);
-				array_init(temp_merged_types);
-
-				PHALCON_INIT_VAR(temp_merged_params);
-				array_init(temp_merged_params);				
+				array_init(merged_bind_types);			
 				
 				phalcon_is_iterable(conditions, &ah0, &hp0, 0, 0);
 				
@@ -199,15 +179,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 						&& phalcon_array_isset_long_fetch(&bind_params, single_condition_array, 1)
 						&& Z_TYPE_P(condition_string) == IS_STRING
 						&& Z_TYPE_P(bind_params) == IS_ARRAY
-					) {					
-						phalcon_array_append(&merged_conditions, condition_string, 0);
-						PHALCON_CPY_WRT(temp_merged_params, merged_bind_params);
-						phalcon_add_function(merged_bind_params, temp_merged_params, bind_params TSRMLS_CC);
+					) {	
+						phalcon_array_append(&merged_conditions, condition_string, PH_COPY | PH_SEPARATE);
+						phalcon_merge_append(merged_bind_params, bind_params);
 
-						phalcon_array_isset_long_fetch(&bind_types, single_condition_array, 2);
-						if (bind_types && Z_TYPE_P(bind_types) == IS_ARRAY) {
-							PHALCON_CPY_WRT(temp_merged_types, merged_bind_types);
-							phalcon_add_function(merged_bind_types, temp_merged_types, bind_types TSRMLS_CC);
+						if (phalcon_array_isset_long_fetch(&bind_types, single_condition_array, 2) && Z_TYPE_P(bind_types) == IS_ARRAY) {
+							phalcon_merge_append(merged_bind_types, bind_types);
 						}
 					}
 					
@@ -219,11 +196,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 				phalcon_update_property_this(this_ptr, SL("_conditions"), new_condition_string TSRMLS_CC);
 				phalcon_update_property_this(this_ptr, SL("_bindParams"), merged_bind_params TSRMLS_CC);
 				phalcon_update_property_this(this_ptr, SL("_bindTypes"), merged_bind_types TSRMLS_CC);
-
 			} else {
 				phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);		
-			}
-	
+			}	
 		}
 
 		/** 
@@ -299,7 +274,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 			phalcon_update_property_this(this_ptr, SL("_sharedLock"), shared_lock TSRMLS_CC);
 		}
 	}
-	
+
 	/** 
 	 * Update the dependency injector if any
 	 */
