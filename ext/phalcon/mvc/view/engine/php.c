@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	if (ZEPHIR_IS_TRUE(mustClean)) {
 		zephir_call_func_noret("ob_clean");
 	}
-	if (Z_TYPE_P(params) == IS_ARRAY) {
+	if ((Z_TYPE_P(params) == IS_ARRAY)) {
 	}
 	ZEPHIR_SINIT_VAR(status);
 	ZVAL_NULL(&status);

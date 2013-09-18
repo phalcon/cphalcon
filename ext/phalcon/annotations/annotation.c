@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 
 
 
-	if (Z_TYPE_P(reflectionData) != IS_ARRAY) {
+	if ((Z_TYPE_P(reflectionData) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
 		return;
 	}
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	zephir_array_fetch_string(&_0, reflectionData, SL("name"), PH_NOISY TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_name"), _0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(exprArguments);
-	if (zephir_array_isset_string_fetch(&exprArguments, reflectionData, SS("arguments"))) {
+	if (zephir_array_isset_string_fetch(&exprArguments, reflectionData, SS("arguments") TSRMLS_CC)) {
 		zephir_is_iterable(exprArguments, &_2, &_1, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 			ZEPHIR_INIT_NVAR(resolvedArgument);
 			zephir_call_method_p1(resolvedArgument, this_ptr, "getexpression", _4);
 			ZEPHIR_OBS_NVAR(name);
-			if (zephir_array_isset_string_fetch(&name, argument, SS("name"))) {
+			if (zephir_array_isset_string_fetch(&name, argument, SS("name") TSRMLS_CC)) {
 				ZEPHIR_OBS_NVAR(arguments);
 				zephir_array_fetch(&arguments, name, resolvedArgument, PH_NOISY TSRMLS_CC);
 			} else {
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 
 
 
-	if (Z_TYPE_P(expr) != IS_ARRAY) {
+	if ((Z_TYPE_P(expr) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The expression is not valid");
 		return;
 	}
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 				ZEPHIR_INIT_NVAR(resolvedItem);
 				zephir_call_method_p1(resolvedItem, this_ptr, "getexpression", _4);
 				ZEPHIR_OBS_NVAR(name);
-				if (zephir_array_isset_string_fetch(&name, item, SS("name"))) {
+				if (zephir_array_isset_string_fetch(&name, item, SS("name") TSRMLS_CC)) {
 					ZEPHIR_OBS_NVAR(arrayValue);
 					zephir_array_fetch(&arrayValue, name, resolvedItem, PH_NOISY TSRMLS_CC);
 				} else {
@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 	ZEPHIR_OBS_VAR(arguments);
 	zephir_read_property_this(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(argument);
-	if (zephir_array_isset_fetch(&argument, arguments, name)) {
+	if (zephir_array_isset_fetch(&argument, arguments, name TSRMLS_CC)) {
 		RETURN_CCTOR(argument);
 	}
 	ZEPHIR_MM_RESTORE();

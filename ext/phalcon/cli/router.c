@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle) {
 	}
 
 
-	if (Z_TYPE_P(arguments) != IS_ARRAY) {
+	if ((Z_TYPE_P(arguments) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_router_exception_ce, "Arguments must be an Array");
 		return;
 	}
@@ -181,15 +181,15 @@ PHP_METHOD(Phalcon_CLI_Router, handle) {
 	ZEPHIR_INIT_VAR(actionName);
 	ZVAL_NULL(actionName);
 	ZEPHIR_OBS_NVAR(moduleName);
-	if (zephir_array_isset_string_fetch(&moduleName, arguments, SS("module"))) {
+	if (zephir_array_isset_string_fetch(&moduleName, arguments, SS("module") TSRMLS_CC)) {
 		//missing unset
 	}
 	ZEPHIR_OBS_NVAR(taskName);
-	if (zephir_array_isset_string_fetch(&taskName, arguments, SS("task"))) {
+	if (zephir_array_isset_string_fetch(&taskName, arguments, SS("task") TSRMLS_CC)) {
 		//missing unset
 	}
 	ZEPHIR_OBS_NVAR(actionName);
-	if (zephir_array_isset_string_fetch(&actionName, arguments, SS("action"))) {
+	if (zephir_array_isset_string_fetch(&actionName, arguments, SS("action") TSRMLS_CC)) {
 		//missing unset
 	}
 	zephir_update_property_this(this_ptr, SL("_module"), moduleName TSRMLS_CC);

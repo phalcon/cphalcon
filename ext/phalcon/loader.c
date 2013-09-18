@@ -15,6 +15,9 @@
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
+#include "kernel/operators.h"
+#include "kernel/fcall.h"
 
 
 /*
@@ -91,6 +94,374 @@ PHP_METHOD(Phalcon_Loader, __construct) {
 	zephir_array_append(&_0, _1, 0);
 	zephir_update_property_this(this_ptr, SL("_extensions"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Sets the events manager
+ *
+ * @param Phalcon\Events\ManagerInterface eventsManager
+ */
+PHP_METHOD(Phalcon_Loader, setEventsManager) {
+
+	zval *eventsManager;
+
+	zephir_fetch_params(0, 1, 0, &eventsManager);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_eventsManager"), eventsManager TSRMLS_CC);
+
+}
+
+/**
+ * Returns the internal event manager
+ *
+ * @return Phalcon\Events\ManagerInterface
+ */
+PHP_METHOD(Phalcon_Loader, getEventsManager) {
+
+
+	RETURN_MEMBER(this_ptr, "_eventsManager");
+
+}
+
+/**
+ * Sets an array of extensions that the loader must try in each attempt to locate the file
+ *
+ * @param array extensions
+ * @param boolean merge
+ * @return Phalcon\Loader
+ */
+PHP_METHOD(Phalcon_Loader, setExtensions) {
+
+	zval *extensions;
+
+	zephir_fetch_params(0, 1, 0, &extensions);
+
+
+
+	if ((Z_TYPE_P(extensions) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_loader_exception_ce, "Parameter extensions must be an array");
+		return;
+	}
+	zephir_update_property_this(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
+	RETURN_THISW();
+
+}
+
+/**
+ * Return file extensions registered in the loader
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Loader, getExtensions) {
+
+
+	RETURN_MEMBER(this_ptr, "_extensions");
+
+}
+
+/**
+ * Register namespaces and their related directories
+ *
+ * @param array namespaces
+ * @param boolean merge
+ * @return Phalcon\Loader
+ */
+PHP_METHOD(Phalcon_Loader, registerNamespaces) {
+
+	zval *namespaces, *merge = NULL, *currentNamespaces, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &namespaces, &merge);
+
+	if (!merge) {
+		ZEPHIR_CPY_WRT(merge, ZEPHIR_GLOBAL(global_false));
+	}
+
+
+	if ((Z_TYPE_P(namespaces) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter namespaces must be an array");
+		return;
+	}
+	if (zend_is_true(merge)) {
+		ZEPHIR_OBS_VAR(currentNamespaces);
+		zephir_read_property_this(&currentNamespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
+		if ((Z_TYPE_P(currentNamespaces) == IS_ARRAY)) {
+			ZEPHIR_INIT_VAR(_0);
+			zephir_fast_array_merge(_0, &(currentNamespaces), &(namespaces) TSRMLS_CC);
+			zephir_update_property_this(this_ptr, SL("_namespaces"), _0 TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_namespaces"), namespaces TSRMLS_CC);
+		}
+	} else {
+		zephir_update_property_this(this_ptr, SL("_namespaces"), namespaces TSRMLS_CC);
+	}
+	RETURN_THIS();
+
+}
+
+/**
+ * Return current namespaces registered in the autoloader
+ *
+ * @param array
+ */
+PHP_METHOD(Phalcon_Loader, getNamespaces) {
+
+
+	RETURN_MEMBER(this_ptr, "_namespaces");
+
+}
+
+/**
+ * Register directories on which "not found" classes could be found
+ *
+ * @param array prefixes
+ * @param boolean merge
+ * @return Phalcon\Loader
+ */
+PHP_METHOD(Phalcon_Loader, registerPrefixes) {
+
+	zval *prefixes, *merge = NULL, *currentPrefixes, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &prefixes, &merge);
+
+	if (!merge) {
+		ZEPHIR_CPY_WRT(merge, ZEPHIR_GLOBAL(global_false));
+	}
+
+
+	if ((Z_TYPE_P(prefixes) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter prefixes must be an array");
+		return;
+	}
+	if (zend_is_true(merge)) {
+		ZEPHIR_OBS_VAR(currentPrefixes);
+		zephir_read_property_this(&currentPrefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
+		if ((Z_TYPE_P(currentPrefixes) == IS_ARRAY)) {
+			ZEPHIR_INIT_VAR(_0);
+			zephir_fast_array_merge(_0, &(currentPrefixes), &(prefixes) TSRMLS_CC);
+			zephir_update_property_this(this_ptr, SL("_prefixes"), _0 TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_prefixes"), prefixes TSRMLS_CC);
+		}
+	} else {
+		zephir_update_property_this(this_ptr, SL("_prefixes"), prefixes TSRMLS_CC);
+	}
+	RETURN_THIS();
+
+}
+
+/**
+ * Return current prefixes registered in the autoloader
+ *
+ * @param array
+ */
+PHP_METHOD(Phalcon_Loader, getPrefixes) {
+
+
+	RETURN_MEMBER(this_ptr, "_prefixes");
+
+}
+
+/**
+ * Register directories on which "not found" classes could be found
+ *
+ * @param array directories
+ * @param boolean merge
+ * @return Phalcon\Loader
+ */
+PHP_METHOD(Phalcon_Loader, registerDirs) {
+
+	zval *directories, *merge = NULL, *currentDirectories, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &directories, &merge);
+
+	if (!merge) {
+		ZEPHIR_CPY_WRT(merge, ZEPHIR_GLOBAL(global_false));
+	}
+
+
+	if ((Z_TYPE_P(directories) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter directories must be an array");
+		return;
+	}
+	if (zend_is_true(merge)) {
+		ZEPHIR_OBS_VAR(currentDirectories);
+		zephir_read_property_this(&currentDirectories, this_ptr, SL("_directories"), PH_NOISY_CC);
+		if ((Z_TYPE_P(currentDirectories) == IS_ARRAY)) {
+			ZEPHIR_INIT_VAR(_0);
+			zephir_fast_array_merge(_0, &(currentDirectories), &(directories) TSRMLS_CC);
+			zephir_update_property_this(this_ptr, SL("_directories"), _0 TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_directories"), directories TSRMLS_CC);
+		}
+	} else {
+		zephir_update_property_this(this_ptr, SL("_directories"), directories TSRMLS_CC);
+	}
+	RETURN_THIS();
+
+}
+
+/**
+ * Return current directories registered in the autoloader
+ *
+ * @param array
+ */
+PHP_METHOD(Phalcon_Loader, getDirs) {
+
+
+	RETURN_MEMBER(this_ptr, "_directories");
+
+}
+
+/**
+ * Register classes and their locations
+ *
+ * @param array classes
+ * @param boolean merge
+ * @return Phalcon\Loader
+ */
+PHP_METHOD(Phalcon_Loader, registerClasses) {
+
+	zval *classes, *merge = NULL, *currentClasses, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &classes, &merge);
+
+	if (!merge) {
+		ZEPHIR_CPY_WRT(merge, ZEPHIR_GLOBAL(global_false));
+	}
+
+
+	if ((Z_TYPE_P(classes) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter directories must be an array");
+		return;
+	}
+	if (zend_is_true(merge)) {
+		ZEPHIR_OBS_VAR(currentClasses);
+		zephir_read_property_this(&currentClasses, this_ptr, SL("_classes"), PH_NOISY_CC);
+		if ((Z_TYPE_P(currentClasses) == IS_ARRAY)) {
+			ZEPHIR_INIT_VAR(_0);
+			zephir_fast_array_merge(_0, &(currentClasses), &(classes) TSRMLS_CC);
+			zephir_update_property_this(this_ptr, SL("_classes"), _0 TSRMLS_CC);
+		} else {
+			zephir_update_property_this(this_ptr, SL("_classes"), classes TSRMLS_CC);
+		}
+	} else {
+		zephir_update_property_this(this_ptr, SL("_classes"), classes TSRMLS_CC);
+	}
+	RETURN_THIS();
+
+}
+
+/**
+ * Return the current class-map registered in the autoloader
+ *
+ * @param array
+ */
+PHP_METHOD(Phalcon_Loader, getClasses) {
+
+
+	RETURN_MEMBER(this_ptr, "_classes");
+
+}
+
+/**
+ * Register the autoload method
+ *
+ * @return Phalcon\Loader
+ */
+PHP_METHOD(Phalcon_Loader, register) {
+
+	zval *registered, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(registered);
+	zephir_read_property_this(&registered, this_ptr, SL("_registered"), PH_NOISY_CC);
+	if (ZEPHIR_IS_FALSE(registered)) {
+		ZEPHIR_INIT_VAR(_0);
+		array_init(_0);
+		zephir_array_append(&_0, this_ptr, 0);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "autoLoad", 1);
+		zephir_array_append(&_0, _1, 0);
+		zephir_call_func_p1_noret("spl_autoload_register", _0);
+		zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	}
+	RETURN_THIS();
+
+}
+
+/**
+ * Unregister the autoload method
+ *
+ * @return Phalcon\Loader
+ */
+PHP_METHOD(Phalcon_Loader, unregister) {
+
+	zval *registered, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(registered);
+	zephir_read_property_this(&registered, this_ptr, SL("_registered"), PH_NOISY_CC);
+	if (ZEPHIR_IS_FALSE(registered)) {
+		ZEPHIR_INIT_VAR(_0);
+		array_init(_0);
+		zephir_array_append(&_0, this_ptr, 0);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "autoLoad", 1);
+		zephir_array_append(&_0, _1, 0);
+		zephir_call_func_p1_noret("spl_autoload_unregister", _0);
+		zephir_update_property_this(this_ptr, SL("_registered"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
+	}
+	RETURN_THIS();
+
+}
+
+/**
+ * Makes the work of autoload registered classes
+ *
+ * @param string className
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Loader, autoLoad) {
+
+	zval *className;
+
+	zephir_fetch_params(0, 1, 0, &className);
+
+
+
+
+}
+
+/**
+ * Get the path when a class was found
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Loader, getFoundPath) {
+
+
+	RETURN_MEMBER(this_ptr, "_foundPath");
+
+}
+
+/**
+ * Get the path the loader is checking for a path
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Loader, getCheckedPath) {
+
+
+	RETURN_MEMBER(this_ptr, "_checkedPath");
 
 }
 

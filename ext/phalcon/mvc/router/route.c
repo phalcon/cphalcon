@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 	}
 
 
-	if (Z_TYPE_P(pattern) != IS_STRING) {
+	if ((Z_TYPE_P(pattern) != IS_STRING)) {
 		ZEPHIR_INIT_VAR(_0);
 		_1 = zend_fetch_class(SL("Test\Router\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_0, _1);
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 		return;
 	}
 	if ((Z_TYPE_P(paths) != IS_NULL)) {
-		if (Z_TYPE_P(paths) == IS_STRING) {
+		if ((Z_TYPE_P(paths) == IS_STRING)) {
 			ZEPHIR_INIT_VAR(moduleName);
 			ZVAL_NULL(moduleName);
 			ZEPHIR_INIT_VAR(controllerName);
@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 		ZEPHIR_INIT_NVAR(routePaths);
 		array_init(routePaths);
 	}
-	if (Z_TYPE_P(routePaths) != IS_ARRAY) {
+	if ((Z_TYPE_P(routePaths) != IS_ARRAY)) {
 		ZEPHIR_INIT_NVAR(_0);
 		_5 = zend_fetch_class(SL("Test\Router\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_0, _5);

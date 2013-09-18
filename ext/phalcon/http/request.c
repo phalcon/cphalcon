@@ -137,14 +137,14 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 	ZEPHIR_CPY_WRT(request, _REQUEST);
 	if ((Z_TYPE_P(name) != IS_NULL)) {
 		ZEPHIR_OBS_VAR(value);
-		if (zephir_array_isset_fetch(&value, request, name)) {
+		if (zephir_array_isset_fetch(&value, request, name TSRMLS_CC)) {
 			if ((Z_TYPE_P(filters) != IS_NULL)) {
 				ZEPHIR_OBS_VAR(filter);
 				zephir_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
-				if (Z_TYPE_P(filter) != IS_OBJECT) {
+				if ((Z_TYPE_P(filter) != IS_OBJECT)) {
 					ZEPHIR_OBS_VAR(dependencyInjector);
 					zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 						ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
 						return;
 					}
@@ -205,14 +205,14 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 	ZEPHIR_CPY_WRT(post, _POST);
 	if ((Z_TYPE_P(name) != IS_NULL)) {
 		ZEPHIR_OBS_VAR(value);
-		if (zephir_array_isset_fetch(&value, post, name)) {
+		if (zephir_array_isset_fetch(&value, post, name TSRMLS_CC)) {
 			if ((Z_TYPE_P(filters) != IS_NULL)) {
 				ZEPHIR_OBS_VAR(filter);
 				zephir_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
-				if (Z_TYPE_P(filter) != IS_OBJECT) {
+				if ((Z_TYPE_P(filter) != IS_OBJECT)) {
 					ZEPHIR_OBS_VAR(dependencyInjector);
 					zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 						ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
 						return;
 					}
@@ -276,14 +276,14 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 	ZEPHIR_CPY_WRT(get, _GET);
 	if ((Z_TYPE_P(name) != IS_NULL)) {
 		ZEPHIR_OBS_VAR(value);
-		if (zephir_array_isset_fetch(&value, get, name)) {
+		if (zephir_array_isset_fetch(&value, get, name TSRMLS_CC)) {
 			if ((Z_TYPE_P(filters) != IS_NULL)) {
 				ZEPHIR_OBS_VAR(filter);
 				zephir_read_property_this(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
-				if (Z_TYPE_P(filter) != IS_OBJECT) {
+				if ((Z_TYPE_P(filter) != IS_OBJECT)) {
 					ZEPHIR_OBS_VAR(dependencyInjector);
 					zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-					if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 						ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
 						return;
 					}
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Http_Request, getServer) {
 
 	ZEPHIR_OBS_VAR(serverValue);
 	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-	if (zephir_array_isset_fetch(&serverValue, _SERVER, name)) {
+	if (zephir_array_isset_fetch(&serverValue, _SERVER, name TSRMLS_CC)) {
 		RETURN_CCTOR(serverValue);
 	}
 	RETURN_MM_NULL();
@@ -422,13 +422,13 @@ PHP_METHOD(Phalcon_Http_Request, getHeader) {
 
 	ZEPHIR_OBS_VAR(serverValue);
 	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-	if (zephir_array_isset_fetch(&serverValue, _SERVER, header)) {
+	if (zephir_array_isset_fetch(&serverValue, _SERVER, header TSRMLS_CC)) {
 		RETURN_CCTOR(serverValue);
 	} else {
 		ZEPHIR_OBS_VAR(headerValue);
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "HTTP_", header);
-		if (zephir_array_isset_fetch(&headerValue, _SERVER, _0)) {
+		if (zephir_array_isset_fetch(&headerValue, _SERVER, _0 TSRMLS_CC)) {
 			RETURN_CCTOR(headerValue);
 		}
 	}
@@ -502,7 +502,7 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested) {
 		RETURN_MM_BOOL(1);
 	} else {
 		ZEPHIR_OBS_VAR(contentType);
-		if (zephir_array_isset_string_fetch(&contentType, server, SS("CONTENT_TYPE"))) {
+		if (zephir_array_isset_string_fetch(&contentType, server, SS("CONTENT_TYPE") TSRMLS_CC)) {
 			RETURN_MM_BOOL(zephir_memnstr_str(contentType, SL("application/soap+xml"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/http/request.zep", 330));
 		}
 	}

@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Di, set) {
 	}
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Di, setShared) {
 
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Di, remove) {
 
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Di, attempt) {
 	}
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -234,11 +234,11 @@ PHP_METHOD(Phalcon_Di, setRaw) {
 
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
-	if (Z_TYPE_P(rawDefinition) != IS_OBJECT) {
+	if ((Z_TYPE_P(rawDefinition) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "The service definition must be an object");
 		return;
 	}
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
 
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -302,14 +302,14 @@ PHP_METHOD(Phalcon_Di, getService) {
 
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
 	ZEPHIR_OBS_VAR(services);
 	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(service);
-	if (zephir_array_isset_fetch(&service, services, name)) {
+	if (zephir_array_isset_fetch(&service, services, name TSRMLS_CC)) {
 		RETURN_CCTOR(service);
 	}
 	ZEPHIR_INIT_VAR(_0);
@@ -344,21 +344,21 @@ PHP_METHOD(Phalcon_Di, get) {
 	}
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
 	ZEPHIR_OBS_VAR(services);
 	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(service);
-	if (zephir_array_isset_fetch(&service, services, name)) {
+	if (zephir_array_isset_fetch(&service, services, name TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(instance);
 		zephir_call_method_p2(instance, service, "resolve", parameters, this_ptr);
 	} else {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "class_exists", name);
 		if (zend_is_true(_0)) {
-			if (Z_TYPE_P(parameters) == IS_STRING) {
+			if ((Z_TYPE_P(parameters) == IS_STRING)) {
 				ZEPHIR_INIT_NVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
 					if (zephir_create_instance_params(instance, name, parameters TSRMLS_CC) == FAILURE) {
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Di, get) {
 			return;
 		}
 	}
-	if (Z_TYPE_P(instance) == IS_OBJECT) {
+	if ((Z_TYPE_P(instance) == IS_OBJECT)) {
 		ZEPHIR_SINIT_VAR(_4);
 		ZVAL_STRING(&_4, "setDI", 0);
 		ZEPHIR_INIT_NVAR(_0);
@@ -420,14 +420,14 @@ PHP_METHOD(Phalcon_Di, getShared) {
 	}
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
 	ZEPHIR_OBS_VAR(sharedInstances);
 	zephir_read_property_this(&sharedInstances, this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(instance);
-	if (zephir_array_isset_fetch(&instance, sharedInstances, name)) {
+	if (zephir_array_isset_fetch(&instance, sharedInstances, name TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_freshInstance"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_BNVAR(instance);
@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Di, has) {
 
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
 		return;
 	}
@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Di, __call) {
 	}
 	if (zephir_start_with_str(method, SL("set"))) {
 		ZEPHIR_OBS_VAR(definition);
-		if (zephir_array_isset_long_fetch(&definition, arguments, 0)) {
+		if (zephir_array_isset_long_fetch(&definition, arguments, 0 TSRMLS_CC)) {
 			ZEPHIR_SINIT_NVAR(_0);
 			ZVAL_LONG(&_0, 3);
 			ZEPHIR_INIT_NVAR(_1);

@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct) {
 	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_local"), local TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
-	if (Z_TYPE_P(attributes) == IS_ARRAY) {
+	if ((Z_TYPE_P(attributes) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_attributes"), attributes TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();

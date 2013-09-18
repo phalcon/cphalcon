@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Cli_Console, __construct) {
 	}
 
 
-	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
+	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 		zephir_update_property_this(this_ptr, SL("_dependencyInjector"), dependencyInjector TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Cli_Console, setDI) {
 
 
 
-	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cli_console_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Cli_Console, registerModules) {
 
 
 
-	if (Z_TYPE_P(modules) != IS_ARRAY) {
+	if ((Z_TYPE_P(modules) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_cli_console_exception_ce, "Modules must be an Array");
 		return;
 	}
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Cli_Console, addModules) {
 
 
 
-	if (Z_TYPE_P(modules) != IS_ARRAY) {
+	if ((Z_TYPE_P(modules) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Modules must be an Array");
 		return;
 	}
@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "A dependency injection object is required to access internal services");
 		return;
 	}
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_INIT_VAR(moduleName);
 	zephir_call_method(moduleName, router, "getmodulename");
 	if (zend_is_true(moduleName)) {
-		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 			ZEPHIR_INIT_BNVAR(_0);
 			ZEPHIR_INIT_VAR(_1);
 			ZVAL_STRING(_1, "console:beforeStartModule", 1);
@@ -281,12 +281,12 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		}
 		ZEPHIR_OBS_VAR(module);
 		zephir_array_fetch(&module, modules, moduleName, PH_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(module) != IS_ARRAY) {
+		if ((Z_TYPE_P(module) != IS_ARRAY)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Invalid module definition path");
 			return;
 		}
 		ZEPHIR_OBS_VAR(path);
-		if (zephir_array_isset_string_fetch(&path, module, SS("path"))) {
+		if (zephir_array_isset_string_fetch(&path, module, SS("path") TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(_1);
 			zephir_call_func_p1(_1, "file_exists", path);
 			if (!(zend_is_true(_1))) {
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 			}
 		}
 		ZEPHIR_OBS_VAR(className);
-		if (!(zephir_array_isset_string_fetch(&className, module, SS("className")))) {
+		if (!(zephir_array_isset_string_fetch(&className, module, SS("className") TSRMLS_CC))) {
 			ZEPHIR_INIT_NVAR(className);
 			ZVAL_STRING(className, "Module", 1);
 		}
@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		zephir_call_method_p1(moduleObject, dependencyInjector, "get", className);
 		zephir_call_method_noret(moduleObject, "registerautoloaders");
 		zephir_call_method_p1_noret(moduleObject, "registerservices", dependencyInjector);
-		if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 			zephir_update_property_this(this_ptr, SL("_moduleObject"), moduleObject TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(_1);
 			ZEPHIR_INIT_NVAR(_4);
@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	ZEPHIR_INIT_VAR(_5);
 	zephir_call_method(_5, router, "getparams");
 	zephir_call_method_p1_noret(dispatcher, "setparams", _5);
-	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_6);
 		ZEPHIR_INIT_VAR(_7);
 		ZVAL_STRING(_7, "console:beforeHandleTask", 1);
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 	}
 	ZEPHIR_INIT_VAR(task);
 	zephir_call_method(task, dispatcher, "dispatch");
-	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_STRING(_1, "console:afterHandleTask", 1);
 		zephir_call_method_p3_noret(eventsManager, "fire", _1, this_ptr, task);

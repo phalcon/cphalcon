@@ -76,9 +76,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
 	}
 
 
-	if (Z_TYPE_P(options) != IS_ARRAY) {
+	if ((Z_TYPE_P(options) != IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(annotationsDir);
-		if (zephir_array_isset_string_fetch(&annotationsDir, options, SS("annotationsDir"))) {
+		if (zephir_array_isset_string_fetch(&annotationsDir, options, SS("annotationsDir") TSRMLS_CC)) {
 			zephir_update_property_this(this_ptr, SL("_annotationsDir"), annotationsDir TSRMLS_CC);
 		}
 	}

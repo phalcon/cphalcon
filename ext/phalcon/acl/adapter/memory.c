@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole) {
 
 
 
-	if (Z_TYPE_P(role) == IS_OBJECT) {
+	if ((Z_TYPE_P(role) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(roleName);
 		zephir_call_method(roleName, role, "getname");
 		ZEPHIR_CPY_WRT(object, role);
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (Z_TYPE_P(roleToInherit) == IS_OBJECT) {
+	if ((Z_TYPE_P(roleToInherit) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(roleInheritName);
 		zephir_call_method(roleInheritName, roleToInherit, "getname");
 	} else {
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource) {
 
 
 
-	if (Z_TYPE_P(resource) == IS_OBJECT) {
+	if ((Z_TYPE_P(resource) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(resourceName);
 		zephir_call_method(resourceName, resource, "getname");
 		ZEPHIR_CPY_WRT(object, resource);
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 		return;
 	}
 	exists = 1;
-	if (Z_TYPE_P(accessList) == IS_ARRAY) {
+	if ((Z_TYPE_P(accessList) == IS_ARRAY)) {
 		zephir_is_iterable(accessList, &_4, &_3, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
@@ -421,7 +421,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 			}
 		}
 	} else {
-		if (Z_TYPE_P(accessList) == IS_STRING) {
+		if ((Z_TYPE_P(accessList) == IS_STRING)) {
 			ZEPHIR_INIT_LNVAR(_1);
 			ZEPHIR_CONCAT_VS(_1, resourceName, "!");
 			ZEPHIR_INIT_NVAR(accessKey);
@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 
 
 
-	if (Z_TYPE_P(accessList) == IS_ARRAY) {
+	if ((Z_TYPE_P(accessList) == IS_ARRAY)) {
 		zephir_is_iterable(accessList, &_1, &_0, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
@@ -469,7 +469,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 			}
 		}
 	} else {
-		if (Z_TYPE_P(accessList) == IS_STRING) {
+		if ((Z_TYPE_P(accessList) == IS_STRING)) {
 			ZEPHIR_INIT_LNVAR(_3);
 			ZEPHIR_CONCAT_VS(_3, resourceName, "!");
 			ZEPHIR_INIT_NVAR(accessKey);
@@ -533,7 +533,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 	zephir_read_property_this(&defaultAccess, this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(accessList);
 	zephir_read_property_this(&accessList, this_ptr, SL("_access"), PH_NOISY_CC);
-	if (Z_TYPE_P(access) == IS_ARRAY) {
+	if ((Z_TYPE_P(access) == IS_ARRAY)) {
 		zephir_is_iterable(access, &_4, &_3, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_4, (void**) &_5, &_3) == SUCCESS
@@ -755,7 +755,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 	zephir_read_property_this(&accessList, this_ptr, SL("_access"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(eventsManager);
 	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_VAR(_1);
 		ZVAL_STRING(_1, "acl:beforeCheckAccess", 1);
@@ -785,8 +785,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 		ZEPHIR_OBS_VAR(roleInherits);
 		zephir_read_property_this(&roleInherits, this_ptr, SL("_roleInherits"), PH_NOISY_CC);
 		ZEPHIR_OBS_VAR(inheritedRoles);
-		if (zephir_array_isset_fetch(&inheritedRoles, roleInherits, role)) {
-			if (Z_TYPE_P(inheritedRoles) == IS_ARRAY) {
+		if (zephir_array_isset_fetch(&inheritedRoles, roleInherits, role TSRMLS_CC)) {
+			if ((Z_TYPE_P(inheritedRoles) == IS_ARRAY)) {
 				zephir_is_iterable(inheritedRoles, &_6, &_5, 0, 0);
 				for (
 					; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
@@ -820,7 +820,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 			ZEPHIR_OBS_NVAR(haveAccess);
 			zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY TSRMLS_CC);
 		} else {
-			if (Z_TYPE_P(inheritedRoles) == IS_ARRAY) {
+			if ((Z_TYPE_P(inheritedRoles) == IS_ARRAY)) {
 				zephir_is_iterable(inheritedRoles, &_12, &_11, 0, 0);
 				for (
 					; zend_hash_get_current_data_ex(_12, (void**) &_13, &_11) == SUCCESS
@@ -849,7 +849,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 			ZEPHIR_OBS_NVAR(haveAccess);
 			zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY TSRMLS_CC);
 		} else {
-			if (Z_TYPE_P(inheritedRoles) == IS_ARRAY) {
+			if ((Z_TYPE_P(inheritedRoles) == IS_ARRAY)) {
 				zephir_is_iterable(inheritedRoles, &_16, &_15, 0, 0);
 				for (
 					; zend_hash_get_current_data_ex(_16, (void**) &_17, &_15) == SUCCESS
@@ -868,7 +868,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 		}
 	}
 	zephir_update_property_this(this_ptr, SL("_accessGranted"), haveAccess TSRMLS_CC);
-	if (Z_TYPE_P(eventsManager) == IS_OBJECT) {
+	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_STRING(_0, "acl:afterCheckAccess", 1);
 		zephir_call_method_p2_noret(eventsManager, "fire", _0, this_ptr);

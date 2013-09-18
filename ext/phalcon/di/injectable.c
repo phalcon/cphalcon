@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
 
 
 
-	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_di_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 	}
 	RETURN_CCTOR(dependencyInjector);
 
@@ -150,8 +150,8 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
-		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
 			return;
 		}

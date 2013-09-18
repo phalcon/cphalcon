@@ -105,8 +105,8 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct) {
 	}
 
 
-	if (Z_TYPE_P(backends) != IS_NULL) {
-		if (Z_TYPE_P(backends) != IS_ARRAY) {
+	if ((Z_TYPE_P(backends) != IS_NULL)) {
+		if ((Z_TYPE_P(backends) != IS_ARRAY)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backends must be an array");
 			return;
 		}

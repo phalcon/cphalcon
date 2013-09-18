@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Escaper, setEncoding) {
 
 
 
-	if (Z_TYPE_P(encoding) != IS_STRING) {
+	if ((Z_TYPE_P(encoding) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The character set must be string");
 		return;
 	}
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
 
 
-	if (Z_TYPE_P(quoteType) != IS_LONG) {
+	if ((Z_TYPE_P(quoteType) != IS_LONG)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The quoting type is not valid");
 		return;
 	}

@@ -67,8 +67,8 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
 	}
 
 
-	if (Z_TYPE_P(options) != IS_ARRAY) {
-		if (Z_TYPE_P(options) != IS_NULL) {
+	if ((Z_TYPE_P(options) != IS_ARRAY)) {
+		if ((Z_TYPE_P(options) != IS_NULL)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be a string");
 			return;
 		}
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 
 	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) {
+	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		RETURN_MM_BOOL(zephir_array_isset(options, key));
 	}
 	RETURN_MM_BOOL(0);
@@ -121,9 +121,9 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
 	ZEPHIR_OBS_VAR(options);
 	zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) {
+	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(value);
-		if (zephir_array_isset_fetch(&value, options, key)) {
+		if (zephir_array_isset_fetch(&value, options, key TSRMLS_CC)) {
 			RETURN_CCTOR(value);
 		}
 	}

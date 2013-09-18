@@ -86,13 +86,13 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 	}
 
 
-	if (Z_TYPE_P(reflectionData) != IS_NULL) {
-		if (Z_TYPE_P(reflectionData) != IS_ARRAY) {
+	if ((Z_TYPE_P(reflectionData) != IS_NULL)) {
+		if ((Z_TYPE_P(reflectionData) != IS_ARRAY)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
 			return;
 		}
 	}
-	if (Z_TYPE_P(reflectionData) == IS_ARRAY) {
+	if ((Z_TYPE_P(reflectionData) == IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(annotations);
 		array_init(annotations);
 		zephir_is_iterable(reflectionData, &_1, &_0, 0, 0);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, current) {
 	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(annotation);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
-	if (zephir_array_isset_fetch(&annotation, annotations, _0)) {
+	if (zephir_array_isset_fetch(&annotation, annotations, _0 TSRMLS_CC)) {
 		RETURN_CCTOR(annotation);
 	}
 	RETURN_MM_NULL();
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 
 	ZEPHIR_OBS_VAR(annotations);
 	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
-	if (Z_TYPE_P(annotations) == IS_ARRAY) {
+	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 	array_init(found);
 	ZEPHIR_OBS_VAR(annotations);
 	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
-	if (Z_TYPE_P(annotations) == IS_ARRAY) {
+	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 
 	ZEPHIR_OBS_VAR(annotations);
 	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
-	if (Z_TYPE_P(annotations) == IS_ARRAY) {
+	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		zephir_is_iterable(annotations, &_1, &_0, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS

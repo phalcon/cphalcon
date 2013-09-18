@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get) {
 	ZEPHIR_OBS_VAR(headers);
 	zephir_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(headerValue);
-	if (zephir_array_isset_fetch(&headerValue, headers, name)) {
+	if (zephir_array_isset_fetch(&headerValue, headers, name TSRMLS_CC)) {
 		RETURN_CCTOR(headerValue);
 	}
 	RETURN_MM_BOOL(0);
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 	ZEPHIR_INIT_VAR(headers);
 	object_init_ex(headers, phalcon_http_response_headers_ce);
 	ZEPHIR_OBS_VAR(dataHeaders);
-	if (zephir_array_isset_string_fetch(&dataHeaders, data, SS("_headers"))) {
+	if (zephir_array_isset_string_fetch(&dataHeaders, data, SS("_headers") TSRMLS_CC)) {
 		zephir_is_iterable(dataHeaders, &_1, &_0, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS

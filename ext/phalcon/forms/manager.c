@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 	}
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_forms_exception_ce, "The form name must be string");
 		return;
 	}
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
 	ZEPHIR_OBS_VAR(forms);
 	zephir_read_property_this(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(form);
-	if (!(zephir_array_isset_fetch(&form, forms, name))) {
+	if (!(zephir_array_isset_fetch(&form, forms, name TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_forms_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
@@ -151,11 +151,11 @@ PHP_METHOD(Phalcon_Forms_Manager, set) {
 
 
 
-	if (Z_TYPE_P(name) != IS_STRING) {
+	if ((Z_TYPE_P(name) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "The form name must be string");
 		return;
 	}
-	if (Z_TYPE_P(form) != IS_OBJECT) {
+	if ((Z_TYPE_P(form) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "The form is not valid");
 		return;
 	}

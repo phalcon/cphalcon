@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages) {
 
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages) {
 
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
 		return;
 	}
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 
 	ZEPHIR_INIT_VAR(messages);
 	zephir_call_method_p1(messages, this_ptr, "_getsessionmessages", ZEPHIR_GLOBAL(global_false));
-	if (Z_TYPE_P(messages) != IS_ARRAY) {
+	if ((Z_TYPE_P(messages) != IS_ARRAY)) {
 		ZEPHIR_INIT_BNVAR(messages);
 		array_init(messages);
 	}
@@ -208,10 +208,10 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 
 	ZEPHIR_INIT_VAR(messages);
 	zephir_call_method_p1(messages, this_ptr, "_getsessionmessages", remove);
-	if (Z_TYPE_P(messages) == IS_ARRAY) {
-		if (Z_TYPE_P(type) == IS_STRING) {
+	if ((Z_TYPE_P(messages) == IS_ARRAY)) {
+		if ((Z_TYPE_P(type) == IS_STRING)) {
 			ZEPHIR_OBS_VAR(returnMessages);
-			if (zephir_array_isset_fetch(&returnMessages, messages, type)) {
+			if (zephir_array_isset_fetch(&returnMessages, messages, type TSRMLS_CC)) {
 				zephir_array_fetch(&return_value, messages, type, PH_NOISY TSRMLS_CC);
 				RETURN_MM();
 			}
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 
 	ZEPHIR_INIT_VAR(messages);
 	zephir_call_method_p1(messages, this_ptr, "_getsessionmessages", remove);
-	if (Z_TYPE_P(messages) == IS_ARRAY) {
+	if ((Z_TYPE_P(messages) == IS_ARRAY)) {
 		zephir_is_iterable(messages, &_1, &_0, 0, 0);
 		for (
 			; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS

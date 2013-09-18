@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, setReader) {
 
 
 
-	if (Z_TYPE_P(reader) != IS_OBJECT) {
+	if ((Z_TYPE_P(reader) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_annotations_exception_ce, "Invalid annotations reader");
 		return;
 	}
@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getReader) {
 
 	ZEPHIR_OBS_VAR(reader);
 	zephir_read_property_this(&reader, this_ptr, SL("_reader"), PH_NOISY_CC);
-	if (Z_TYPE_P(reader) != IS_OBJECT) {
+	if ((Z_TYPE_P(reader) != IS_OBJECT)) {
 		ZEPHIR_INIT_BNVAR(reader);
 		object_init_ex(reader, phalcon_annotations_reader_ce);
 		zephir_update_property_this(this_ptr, SL("_reader"), reader TSRMLS_CC);
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 
 
 
-	if (Z_TYPE_P(className) == IS_OBJECT) {
+	if ((Z_TYPE_P(className) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(realClassName);
 		zephir_call_func_p1(realClassName, "get_class", className);
 	} else {
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 	}
 	ZEPHIR_OBS_VAR(annotations);
 	zephir_read_property_this(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
-	if (Z_TYPE_P(annotations) == IS_ARRAY) {
+	if ((Z_TYPE_P(annotations) == IS_ARRAY)) {
 		if (zephir_array_isset(annotations, realClassName)) {
 			zephir_array_fetch(&return_value, annotations, realClassName, PH_NOISY TSRMLS_CC);
 			RETURN_MM();
@@ -128,12 +128,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
 	}
 	ZEPHIR_INIT_VAR(classAnnotations);
 	zephir_call_method_p1(classAnnotations, this_ptr, "read", realClassName);
-	if (Z_TYPE_P(classAnnotations) == IS_NULL) {
+	if ((Z_TYPE_P(classAnnotations) == IS_NULL)) {
 		ZEPHIR_INIT_VAR(reader);
 		zephir_call_method(reader, this_ptr, "getreader");
 		ZEPHIR_INIT_VAR(parsedAnnotations);
 		zephir_call_method_p1(parsedAnnotations, reader, "parse", realClassName);
-		if (Z_TYPE_P(parsedAnnotations) == IS_ARRAY) {
+		if ((Z_TYPE_P(parsedAnnotations) == IS_ARRAY)) {
 			ZEPHIR_INIT_BNVAR(classAnnotations);
 			object_init_ex(classAnnotations, phalcon_annotations_reflection_ce);
 			zephir_call_method_p1_noret(classAnnotations, "__construct", parsedAnnotations);
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethods) {
 
 	ZEPHIR_INIT_VAR(classAnnotations);
 	zephir_call_method_p1(classAnnotations, this_ptr, "get", className);
-	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
+	if ((Z_TYPE_P(classAnnotations) == IS_OBJECT)) {
 		zephir_call_method(return_value, classAnnotations, "getmethodsannotations");
 		RETURN_MM();
 	}
@@ -191,10 +191,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 
 	ZEPHIR_INIT_VAR(classAnnotations);
 	zephir_call_method_p1(classAnnotations, this_ptr, "get", className);
-	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
+	if ((Z_TYPE_P(classAnnotations) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(methods);
 		zephir_call_method(methods, classAnnotations, "getmethodsannotations");
-		if (Z_TYPE_P(methods) == IS_ARRAY) {
+		if ((Z_TYPE_P(methods) == IS_ARRAY)) {
 			zephir_is_iterable(methods, &_1, &_0, 0, 0);
 			for (
 				; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperties) {
 
 	ZEPHIR_INIT_VAR(classAnnotations);
 	zephir_call_method_p1(classAnnotations, this_ptr, "get", className);
-	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
+	if ((Z_TYPE_P(classAnnotations) == IS_OBJECT)) {
 		zephir_call_method(return_value, classAnnotations, "getpropertiesannotations");
 		RETURN_MM();
 	}
@@ -260,10 +260,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 
 	ZEPHIR_INIT_VAR(classAnnotations);
 	zephir_call_method_p1(classAnnotations, this_ptr, "get", className);
-	if (Z_TYPE_P(classAnnotations) == IS_OBJECT) {
+	if ((Z_TYPE_P(classAnnotations) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(properties);
 		zephir_call_method(properties, classAnnotations, "getpropertyannotations");
-		if (Z_TYPE_P(properties) == IS_ARRAY) {
+		if ((Z_TYPE_P(properties) == IS_ARRAY)) {
 			zephir_is_iterable(properties, &_1, &_0, 0, 0);
 			for (
 				; zend_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS

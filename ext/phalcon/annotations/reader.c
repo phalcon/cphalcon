@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 
 
 
-	if (Z_TYPE_P(className) != IS_STRING) {
+	if ((Z_TYPE_P(className) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The class name must be an object");
 		return;
 	}
@@ -81,14 +81,14 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 	zephir_call_method_p1_noret(reflection, "__construct", className);
 	ZEPHIR_INIT_VAR(comment);
 	zephir_call_method(comment, reflection, "getdoccomment");
-	if (Z_TYPE_P(comment) == IS_STRING) {
+	if ((Z_TYPE_P(comment) == IS_STRING)) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_call_method(_1, reflection, "getfilename");
 		ZEPHIR_INIT_VAR(_2);
 		zephir_call_method(_2, reflection, "getstartline");
 		ZEPHIR_INIT_VAR(classAnnotations);
 		zephir_call_func_p3(classAnnotations, "phannot_parse_annotations", comment, _1, _2);
-		if (Z_TYPE_P(classAnnotations) == IS_ARRAY) {
+		if ((Z_TYPE_P(classAnnotations) == IS_ARRAY)) {
 			zephir_array_update_string(&annotations, SL("class"), &classAnnotations, PH_COPY | PH_SEPARATE);
 		}
 	}
@@ -106,14 +106,14 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 			ZEPHIR_GET_HVALUE(property, _5);
 			ZEPHIR_INIT_NVAR(comment);
 			zephir_call_method(comment, property, "getdoccomment");
-			if (Z_TYPE_P(comment) == IS_STRING) {
+			if ((Z_TYPE_P(comment) == IS_STRING)) {
 				ZEPHIR_INIT_NVAR(_1);
 				zephir_call_method(_1, reflection, "getfilename");
 				ZEPHIR_INIT_NVAR(_2);
 				ZVAL_LONG(_2, line);
 				ZEPHIR_INIT_NVAR(propertyAnnotations);
 				zephir_call_func_p3(propertyAnnotations, "phannot_parse_annotations", comment, _1, _2);
-				if (Z_TYPE_P(propertyAnnotations) == IS_ARRAY) {
+				if ((Z_TYPE_P(propertyAnnotations) == IS_ARRAY)) {
 					ZEPHIR_OBS_NVAR(_6);
 					zephir_read_property(&_6, property, SL("name"), PH_NOISY_CC);
 					zephir_array_update_zval(&annotationsProperties, _6, &propertyAnnotations, PH_COPY | PH_SEPARATE);
@@ -137,14 +137,14 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 			ZEPHIR_GET_HVALUE(method, _9);
 			ZEPHIR_INIT_NVAR(comment);
 			zephir_call_method(comment, method, "getdoccomment");
-			if (Z_TYPE_P(comment) == IS_STRING) {
+			if ((Z_TYPE_P(comment) == IS_STRING)) {
 				ZEPHIR_INIT_NVAR(_1);
 				zephir_call_method(_1, method, "getfilename");
 				ZEPHIR_INIT_NVAR(_2);
 				zephir_call_method(_2, method, "getstartline");
 				ZEPHIR_INIT_NVAR(methodAnnotations);
 				zephir_call_func_p3(methodAnnotations, "phannot_parse_annotations", comment, _1, _2);
-				if (Z_TYPE_P(methodAnnotations) == IS_ARRAY) {
+				if ((Z_TYPE_P(methodAnnotations) == IS_ARRAY)) {
 					ZEPHIR_OBS_NVAR(_6);
 					zephir_read_property(&_6, method, SL("name"), PH_NOISY_CC);
 					zephir_array_update_zval(&annotationsMethods, _6, &methodAnnotations, PH_COPY | PH_SEPARATE);
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 	}
 
 
-	if (Z_TYPE_P(file) != IS_STRING) {
+	if ((Z_TYPE_P(file) != IS_STRING)) {
 		ZEPHIR_INIT_NVAR(file);
 		ZVAL_STRING(file, "eval code", 1);
 	}

@@ -131,8 +131,8 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
 
 	ZEPHIR_OBS_VAR(dependencyInjector);
 	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependencyInjector) == IS_OBJECT) {
-		if (Z_TYPE_P(dependencyInjector) != IS_OBJECT) {
+	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
+		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
 			return;
 		}
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Http_Response, setCookies) {
 
 
 
-	if (Z_TYPE_P(cookies) != IS_OBJECT) {
+	if ((Z_TYPE_P(cookies) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_http_response_exception_ce, "The cookies bag is not valid");
 		return;
 	}
@@ -342,12 +342,39 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders) {
  */
 PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
-	zval *datetime;
+	zend_class_entry *_1;
+	zval *datetime, *headers, date, *_0, *_2, *_3, *_4;
 
-	zephir_fetch_params(0, 1, 0, &datetime);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &datetime);
 
 
 
+	if ((Z_TYPE_P(datetime) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "datetime parameter must be an instance of DateTime");
+		return;
+	}
+	ZEPHIR_INIT_VAR(headers);
+	zephir_call_method(headers, this_ptr, "getheaders");
+	ZEPHIR_SINIT_VAR(date);
+	ZVAL_NULL(&date);
+	ZEPHIR_INIT_VAR(_0);
+	_1 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	object_init_ex(_0, _1);
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_STRING(_2, "UTC", 1);
+	zephir_call_method_p1_noret(_0, "__construct", _2);
+	zephir_call_method_p1_noret(date, "settimezone", _0);
+	ZEPHIR_INIT_BNVAR(_2);
+	ZEPHIR_INIT_VAR(_3);
+	ZVAL_STRING(_3, "D, d M Y H:i:s", 1);
+	zephir_call_method_p1(_2, date, "format", _3);
+	ZEPHIR_INIT_VAR(_4);
+	ZEPHIR_CONCAT_VS(_4, _2, " GMT");
+	ZEPHIR_INIT_BNVAR(_3);
+	ZVAL_STRING(_3, "Expires", 1);
+	zephir_call_method_p2_noret(this_ptr, "setheader", _3, _4);
+	RETURN_THIS();
 
 }
 
@@ -611,7 +638,7 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders) {
 
 	ZEPHIR_OBS_VAR(headers);
 	zephir_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if (Z_TYPE_P(headers) == IS_OBJECT) {
+	if ((Z_TYPE_P(headers) == IS_OBJECT)) {
 		zephir_call_method_noret(headers, "send");
 	}
 	RETURN_THIS();
@@ -631,7 +658,7 @@ PHP_METHOD(Phalcon_Http_Response, sendCookies) {
 
 	ZEPHIR_OBS_VAR(cookies);
 	zephir_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
-	if (Z_TYPE_P(cookies) == IS_OBJECT) {
+	if ((Z_TYPE_P(cookies) == IS_OBJECT)) {
 		zephir_call_method_noret(cookies, "send");
 	}
 	RETURN_THIS();
@@ -656,12 +683,12 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 	}
 	ZEPHIR_OBS_VAR(headers);
 	zephir_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if (Z_TYPE_P(cookies) == IS_OBJECT) {
+	if ((Z_TYPE_P(cookies) == IS_OBJECT)) {
 		zephir_call_method_noret(headers, "send");
 	}
 	ZEPHIR_OBS_VAR(cookies);
 	zephir_read_property_this(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
-	if (Z_TYPE_P(cookies) == IS_OBJECT) {
+	if ((Z_TYPE_P(cookies) == IS_OBJECT)) {
 		zephir_call_method_noret(cookies, "send");
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_content"), PH_NOISY_CC);
@@ -689,7 +716,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 	}
 
 
-	if (Z_TYPE_P(attachmentName) == IS_STRING) {
+	if ((Z_TYPE_P(attachmentName) == IS_STRING)) {
 		ZEPHIR_INIT_VAR(basePath);
 		zephir_call_func_p1(basePath, "basename", filePath);
 	} else {

@@ -74,10 +74,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 	zephir_call_func_p1(_1, "strtolower", _0);
 	ZEPHIR_INIT_VAR(serialized);
 	zephir_call_func_p1(serialized, "xcache_get", _1);
-	if (Z_TYPE_P(serialized) == IS_STRING) {
+	if ((Z_TYPE_P(serialized) == IS_STRING)) {
 		ZEPHIR_INIT_VAR(data);
 		zephir_call_func_p1(data, "unserialize", serialized);
-		if (Z_TYPE_P(data) == IS_OBJECT) {
+		if ((Z_TYPE_P(data) == IS_OBJECT)) {
 			RETURN_CCTOR(data);
 		}
 	}

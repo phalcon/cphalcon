@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct) {
 	}
 
 
-	if (Z_TYPE_P(options) == IS_ARRAY) {
+	if ((Z_TYPE_P(options) == IS_ARRAY)) {
 		zephir_call_method_p1_noret(this_ptr, "setoptions", options);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -120,12 +120,12 @@ PHP_METHOD(Phalcon_Session_Adapter, setOptions) {
 
 
 
-	if (Z_TYPE_P(options) != IS_ARRAY) {
+	if ((Z_TYPE_P(options) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "Options must be an Array");
 		return;
 	}
 	ZEPHIR_OBS_VAR(uniqueId);
-	if (zephir_array_isset_string_fetch(&uniqueId, options, SS("uniqueId"))) {
+	if (zephir_array_isset_string_fetch(&uniqueId, options, SS("uniqueId") TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_uniqueId"), uniqueId TSRMLS_CC);
 	}
 	zephir_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	zephir_read_property_this(&_0, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	concat_function(_1, _0, index);
-	if (zephir_array_isset_fetch(&value, _SESSION, _1)) {
+	if (zephir_array_isset_fetch(&value, _SESSION, _1 TSRMLS_CC)) {
 		if (!(0)) {
 			RETURN_CCTOR(value);
 		}
