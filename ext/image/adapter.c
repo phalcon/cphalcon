@@ -877,13 +877,21 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 		PHALCON_INIT_NVAR(tmp_color);
 		phalcon_substr(tmp_color, color, 1, 0);
 	} else {
-		PHALCON_CPY_WRT(tmp_color, color);
+		PHALCON_CPY_WRT_CTOR(tmp_color, color);
 	}
 
 	if (Z_STRLEN_P(tmp_color) == 3) {
 		/* Convert RGB to RRGGBB */
 		c = Z_STRVAL_P(tmp_color);
-		STR_REALLOC(c, 7);
+		if (!IS_INTERNED(c)) {
+			STR_REALLOC(c, 7);
+		}
+		else {
+			char* tmp = ecalloc(7, 1);
+			memcpy(tmp, c, Z_STRLEN_P(tmp_color));
+			c = tmp;
+		}
+
 		c[6] = '\0';
 		c[5] = c[2];
 		c[4] = c[2];
@@ -892,10 +900,10 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 		c[1] = c[0];
 	}
 
-	ZVAL_STRING(tmp_color, c, 1);
+	ZVAL_STRING(tmp_color, c, 0);
 
 	if (Z_STRLEN_P(tmp_color) < 6) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "color is not valid");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Color is not valid");
 		return;
 	}
 
@@ -914,7 +922,6 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 	Z_STRVAL(tmp) += 2;
 	PHALCON_INIT_NVAR(b);
 	_php_math_basetozval(&tmp, 16, b);
-		
 
 	if (!opacity) {
 		PHALCON_INIT_NVAR(opacity);
