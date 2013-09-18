@@ -721,12 +721,6 @@ PHP_METHOD(Phalcon_Http_Request, getBsonRawBody){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &assoc);
-
-	if (assoc && zend_is_true(assoc)) {
-		ac = 1;
-	}
-
 	PHALCON_INIT_VAR(raw_body);
 	phalcon_call_method(raw_body, this_ptr, "getrawbody");
 	if (Z_TYPE_P(raw_body) == IS_STRING) {
