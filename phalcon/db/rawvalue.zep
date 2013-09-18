@@ -38,4 +38,32 @@ class RawValue
 
 	protected _value;
 
+	/**
+	 * Phalcon\Db\RawValue constructor
+	 *
+	 * @param string value
+	 */
+	public function __construct(value)
+	{
+		let this->_value = value;
+	}
+
+	/**
+	 * Returns internal raw value without quoting or formating
+	 *
+	 * @return string
+	 */
+	public function getValue()
+	{
+		return this->_value;
+	}
+
+	/**
+	 * Magic method __toString returns raw value without quoting or formating
+	 */
+	public function __toString()
+	{
+		return this->_value;
+	}
+
 }

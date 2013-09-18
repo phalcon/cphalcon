@@ -12,6 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/memory.h"
+#include "kernel/array.h"
+#include "kernel/exception.h"
+#include "kernel/fcall.h"
 
 
 /*
@@ -40,7 +45,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Index, phalcon, db_index, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Index, phalcon, db_index, phalcon_db_index_method_entry, 0);
 
 /**
  * Index name
@@ -51,6 +56,84 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Phalcon\Db\Index constructor
+ *
+ * @param string indexName
+ * @param array columns
+ */
+PHP_METHOD(Phalcon_Db_Index, __construct) {
+
+	zval *indexName, *columns;
+
+	zephir_fetch_params(0, 2, 0, &indexName, &columns);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_indexName"), indexName TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
+
+}
+
+/**
+ * Gets the index name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Index, getName) {
+
+
+	RETURN_MEMBER(this_ptr, "_indexName");
+
+}
+
+/**
+ * Gets the columns that comprends the index
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Db_Index, getColumns) {
+
+
+	RETURN_MEMBER(this_ptr, "_columns");
+
+}
+
+/**
+ * Restore a Phalcon\Db\Index object from export
+ *
+ * @param array data
+ * @return Phalcon\Db\IndexInterface
+ */
+PHP_METHOD(Phalcon_Db_Index, __set_state) {
+
+	zval *data, *indexName, *columns, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data);
+
+
+
+	ZEPHIR_OBS_VAR(indexName);
+	if (!(zephir_array_isset_string_fetch(&indexName, data, SS("_indexName") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_indexName parameter is required");
+		return;
+	}
+	ZEPHIR_OBS_VAR(columns);
+	if (!(zephir_array_isset_string_fetch(&columns, data, SS("_columns") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_columns parameter is required");
+		return;
+	}
+	object_init_ex(return_value, phalcon_db_index_ce);
+	ZEPHIR_OBS_VAR(_0);
+	zephir_array_fetch_string(&_0, data, SL("_indexName"), PH_NOISY TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_1);
+	zephir_array_fetch_string(&_1, data, SL("_columns"), PH_NOISY TSRMLS_CC);
+	zephir_call_method_p2_noret(return_value, "__construct", _0, _1);
+	RETURN_MM();
 
 }
 

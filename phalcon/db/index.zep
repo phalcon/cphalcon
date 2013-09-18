@@ -38,4 +38,60 @@ class Index implements Phalcon\Db\IndexInterface
 
 	protected _columns;
 
+	/**
+	 * Phalcon\Db\Index constructor
+	 *
+	 * @param string indexName
+	 * @param array columns
+	 */
+	public function __construct(indexName, columns)
+	{
+		let this->_indexName = indexName;
+		let this->_columns = columns;
+	}
+
+	/**
+	 * Gets the index name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return this->_indexName;
+	}
+
+	/**
+	 * Gets the columns that comprends the index
+	 *
+	 * @return array
+	 */
+	public function getColumns()
+	{
+		return this->_columns;
+	}
+
+	/**
+	 * Restore a Phalcon\Db\Index object from export
+	 *
+	 * @param array data
+	 * @return Phalcon\Db\IndexInterface
+	 */
+	public static function __set_state(data)
+	{
+		var indexName, columns;
+
+		if !fetch indexName, data["_indexName"] {
+			throw new Phalcon\Db\Exception("_indexName parameter is required");
+		}
+
+		if !fetch columns, data["_columns"] {
+			throw new Phalcon\Db\Exception("_columns parameter is required");
+		}
+
+		/**
+		 * Return a Phalcon\Db\Index as part of the returning state
+		 */
+		return new Phalcon\Db\Index(data["_indexName"], data["_columns"]);
+	}
+
 }
