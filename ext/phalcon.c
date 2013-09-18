@@ -821,7 +821,6 @@ zend_module_dep phalcon_deps[] = {
 #else
 	ZEND_MOD_OPTIONAL("pcre")
 #endif
-<<<<<<< HEAD
 
 #if PHALCON_USE_PHP_CURL
 	ZEND_MOD_REQUIRED("curl")
@@ -829,8 +828,6 @@ zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_OPTIONAL("curl")
 #endif
 
-=======
->>>>>>> b728a9914b580def9bbec5901b185698c3a1cfa0
 	ZEND_MOD_OPTIONAL("apc")
 	ZEND_MOD_OPTIONAL("apcu")
 	ZEND_MOD_OPTIONAL("XCache")
