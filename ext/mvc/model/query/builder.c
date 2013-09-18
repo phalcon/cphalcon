@@ -90,15 +90,29 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
 /**
  * Phalcon\Mvc\Model\Query\Builder constructor
  *
+ *<code>
+ * $params = array(
+ *    'models'     => array('Users'),
+ *    'columns'    => array('id', 'name', 'status'),
+ *    'conditions' => "created > '2013-01-01' AND created < '2014-01-01'",
+ *    'group'      => array('id', 'name'),
+ *    'having'     => "name = 'Kamil'",
+ *    'order'      => array('name', 'id'),
+ *    'limit'      => 20,
+ *    'offset'     => 20,
+ *);
+ *$queryBuilder = new Phalcon\Mvc\Model\Query\Builder($params);
+ *</code> 
+ *
  * @param array $params
  * @param Phalcon\DI $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 
 	zval *params = NULL, *dependency_injector = NULL, *conditions = NULL;
-	zval *columns, *group_clause, *having_clause;
-	zval *order_clause, *limit_clause, *for_update;
-	zval *shared_lock;
+	zval *models, *columns, *group_clause;
+	zval *having_clause, *order_clause, *limit_clause;
+	zval *offset_clause, *for_update, *shared_lock;
 
 	PHALCON_MM_GROW();
 
@@ -128,7 +142,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 				phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 			}
 		}
-	
+
+		/** 
+		 * Assign 'FROM' clause
+		 */
+		if (phalcon_array_isset_string(params, SS("models"))) {
+			PHALCON_OBS_VAR(models);
+			phalcon_array_fetch_string(&models, params, SL("models"), PH_NOISY);
+			phalcon_update_property_this(this_ptr, SL("_models"), models TSRMLS_CC);
+		}
+
 		/** 
 		 * Assign COLUMNS clause
 		 */
@@ -173,7 +196,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 			phalcon_array_fetch_string(&limit_clause, params, SL("limit"), PH_NOISY);
 			phalcon_update_property_this(this_ptr, SL("_limit"), limit_clause TSRMLS_CC);
 		}
-	
+		
+		/** 
+		 * Assign OFFSET clause
+		 */
+		if (phalcon_array_isset_string(params, SS("offset"))) {
+			PHALCON_OBS_VAR(offset_clause);
+			phalcon_array_fetch_string(&offset_clause, params, SL("offset"), PH_NOISY);
+			phalcon_update_property_this(this_ptr, SL("_offset"), offset_clause TSRMLS_CC);
+		}
+
 		/** 
 		 * Assign FOR UPDATE clause
 		 */

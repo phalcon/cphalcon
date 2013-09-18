@@ -249,10 +249,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *module_object = NULL, *modules, *exception_msg = NULL;
 	zval *module, *class_name = NULL, *path, *module_params;
 	zval *implicit_view, *view, *namespace_name;
-	zval *controller_name = NULL, *action_name = NULL, *params = NULL;
+	zval *controller_name = NULL, *action_name = NULL, *params = NULL, *exact;
 	zval *dispatcher, *controller, *returned_response = NULL;
 	zval *possible_response, *render_status = NULL, *response = NULL;
-	zval *content;
+	zval *content, *real_controller_name;
 
 	PHALCON_MM_GROW();
 
@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			if (phalcon_is_instance_of(module, SL("Closure") TSRMLS_CC)) {
 				PHALCON_INIT_VAR(module_params);
 				array_init_size(module_params, 1);
-				phalcon_array_append(&module_params, dependency_injector, PH_SEPARATE);
+				phalcon_array_append(&module_params, dependency_injector, 0);
 	
 				PHALCON_INIT_NVAR(status);
 				PHALCON_CALL_USER_FUNC_ARRAY(status, module, module_params);
@@ -463,6 +463,17 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_INIT_VAR(params);
 	phalcon_call_method(params, router, "getparams");
 	
+	PHALCON_INIT_VAR(exact);
+	phalcon_call_method(exact, router, "isexactcontrollername");
+
+	if (zend_is_true(exact)) {
+		PHALCON_INIT_VAR(real_controller_name);
+		PHALCON_CONCAT_SV(real_controller_name, "\\", controller_name);
+	}
+	else {
+		real_controller_name = controller_name;
+	}
+
 	PHALCON_INIT_NVAR(service);
 	ZVAL_STRING(service, "dispatcher", 1);
 	
@@ -474,7 +485,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 */
 	phalcon_call_method_p1_noret(dispatcher, "setmodulename", module_name);
 	phalcon_call_method_p1_noret(dispatcher, "setnamespacename", namespace_name);
-	phalcon_call_method_p1_noret(dispatcher, "setcontrollername", controller_name);
+	phalcon_call_method_p1_noret(dispatcher, "setcontrollername", real_controller_name);
 	phalcon_call_method_p1_noret(dispatcher, "setactionname", action_name);
 	phalcon_call_method_p1_noret(dispatcher, "setparams", params);
 	
