@@ -137,14 +137,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	phalcon_fetch_params(0, 0, 2, &params, &dependency_injector);
 	
 	if (params && Z_TYPE_P(params) == IS_ARRAY) {
-	
-		zend_printf("\nwhile:%d\n", __LINE__);
-		zend_print_zval_r(params, 0);
 		/** 
 		 * Process conditions
 		 */
 		if (phalcon_array_isset_long_fetch(&conditions, params, 0)) {
-			zend_printf("\nwhile:%d\n", __LINE__);
 			phalcon_update_property_this(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 		} else if (phalcon_array_isset_string_fetch(&conditions, params, SS("conditions"))) {
 			if (Z_TYPE_P(conditions) == IS_ARRAY) {
