@@ -661,7 +661,6 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 PHP_METHOD(Phalcon_Http_Response, setBsonContent){
 
 	zval *content, *bson_content, *content_type;
-	int options = 0;
 
 	PHALCON_MM_GROW();
 
