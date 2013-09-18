@@ -10664,6 +10664,7 @@ static PHP_METHOD(Phalcon_Http_Request, isSoapRequested);
 static PHP_METHOD(Phalcon_Http_Request, isSecureRequest);
 static PHP_METHOD(Phalcon_Http_Request, getRawBody);
 static PHP_METHOD(Phalcon_Http_Request, getJsonRawBody);
+static PHP_METHOD(Phalcon_Http_Request, getBsonRawBody);
 static PHP_METHOD(Phalcon_Http_Request, getServerAddress);
 static PHP_METHOD(Phalcon_Http_Request, getServerName);
 static PHP_METHOD(Phalcon_Http_Request, getHttpHost);
@@ -10690,6 +10691,7 @@ static PHP_METHOD(Phalcon_Http_Request, getClientCharsets);
 static PHP_METHOD(Phalcon_Http_Request, getBestCharset);
 static PHP_METHOD(Phalcon_Http_Request, getLanguages);
 static PHP_METHOD(Phalcon_Http_Request, getBestLanguage);
+static PHP_METHOD(Phalcon_Http_Request, getAuth);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -10699,18 +10701,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_get, 0, 0, 0)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, filters)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, allowEmpty)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_getpost, 0, 0, 0)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, filters)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, allowEmpty)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_getquery, 0, 0, 0)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, filters)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, allowEmpty)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_getserver, 0, 0, 1)
@@ -10771,6 +10776,7 @@ PHALCON_INIT_FUNCS(phalcon_http_request_method_entry){
 	PHP_ME(Phalcon_Http_Request, isSecureRequest, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getRawBody, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getJsonRawBody, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, getBsonRawBody, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getServerAddress, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getServerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getHttpHost, NULL, ZEND_ACC_PUBLIC) 
@@ -10797,6 +10803,7 @@ PHALCON_INIT_FUNCS(phalcon_http_request_method_entry){
 	PHP_ME(Phalcon_Http_Request, getBestCharset, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getLanguages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getBestLanguage, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, getAuth, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -10924,6 +10931,7 @@ static PHP_METHOD(Phalcon_Http_Response, setEtag);
 static PHP_METHOD(Phalcon_Http_Response, redirect);
 static PHP_METHOD(Phalcon_Http_Response, setContent);
 static PHP_METHOD(Phalcon_Http_Response, setJsonContent);
+static PHP_METHOD(Phalcon_Http_Response, setBsonContent);
 static PHP_METHOD(Phalcon_Http_Response, appendContent);
 static PHP_METHOD(Phalcon_Http_Response, getContent);
 static PHP_METHOD(Phalcon_Http_Response, isSent);
@@ -10992,6 +11000,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setjsoncontent, 0, 0, 1)
 	ZEND_ARG_INFO(0, jsonOptions)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_setbsoncontent, 0, 0, 1)
+	ZEND_ARG_INFO(0, content)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_appendcontent, 0, 0, 1)
 	ZEND_ARG_INFO(0, content)
 ZEND_END_ARG_INFO()
@@ -11021,6 +11033,7 @@ PHALCON_INIT_FUNCS(phalcon_http_response_method_entry){
 	PHP_ME(Phalcon_Http_Response, redirect, arginfo_phalcon_http_response_redirect, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, setContent, arginfo_phalcon_http_response_setcontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, setJsonContent, arginfo_phalcon_http_response_setjsoncontent, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Response, setBsonContent, arginfo_phalcon_http_response_setbsoncontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, appendContent, arginfo_phalcon_http_response_appendcontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, getContent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Response, isSent, NULL, ZEND_ACC_PUBLIC) 

@@ -708,6 +708,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 	zval *tmp_color = NULL, *r, *g, *b;
 	int i;
 	char *c;
+	zval tmp;
 
 	PHALCON_MM_GROW();
 
@@ -806,7 +807,6 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 		return;
 	}
 
-	zval tmp;
 	INIT_ZVAL(tmp);
 
 	Z_TYPE(tmp) = IS_STRING;
@@ -860,6 +860,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 	zval *tmp_color = NULL, *r = NULL, *g = NULL, *b = NULL;
 	int i;
 	char *c;
+	zval tmp;
 
 	PHALCON_MM_GROW();
 
@@ -898,7 +899,6 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 		return;
 	}
 
-	zval tmp;
 	INIT_ZVAL(tmp);
 
 	Z_TYPE(tmp) = IS_STRING;
