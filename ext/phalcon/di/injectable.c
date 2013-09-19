@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	}
 	ZEPHIR_INIT_VAR(hasService);
 	zephir_call_method_p1(hasService, dependencyInjector, "has", propertyName);
-	if (zend_is_true(hasService)) {
+	if (zephir_is_true(hasService)) {
 		ZEPHIR_INIT_VAR(service);
 		zephir_call_method_p1(service, dependencyInjector, "getshared", propertyName);
 		RETURN_CCTOR(service);

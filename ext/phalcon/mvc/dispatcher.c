@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
-	zval *message, *exceptionCode = NULL, eventsManager = zval_used_for_init, *dependencyInjector, *response, *exception, *_0 = NULL, *_1 = NULL, *_2, *_3;
+	zval *message, *exceptionCode = NULL, *eventsManager = NULL, *dependencyInjector, *response, *exception, *_0 = NULL, *_1 = NULL, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message, &exceptionCode);

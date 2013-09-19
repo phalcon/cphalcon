@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 			ZVAL_STRING(&_3, "getField", 0);
 			ZEPHIR_INIT_NVAR(_4);
 			zephir_call_func_p2(_4, "method_exists", message, &_3);
-			if (zend_is_true(_4)) {
+			if (zephir_is_true(_4)) {
 				ZEPHIR_INIT_NVAR(_5);
 				zephir_call_method(_5, message, "getfield");
 				if (ZEPHIR_IS_EQUAL(fieldName, _5)) {

@@ -25,4 +25,4 @@
 extern int zephir_assert_class(zval *object, char *class_name TSRMLS_DC);
 
 #endif
-#endif
+#endif /* ZEPHIR_KERNEL_ASSERT_H */

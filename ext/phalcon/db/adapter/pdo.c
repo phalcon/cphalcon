@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 			ZEPHIR_INIT_LNVAR(_3);
 			ZEPHIR_CONCAT_VS(_3, key, "=");
 			ZEPHIR_INIT_LNVAR(_4);
-			concat_function(_4, _3, value);
+			concat_function(_4, _3, value TSRMLS_CC);
 			zephir_array_append(&dsnParts, _4, PH_SEPARATE);
 		}
 		ZEPHIR_SINIT_VAR(_5);
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 	zephir_array_update_long(&options, 10, &_8, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_VAR(persistent);
 	if (zephir_array_isset_string_fetch(&persistent, descriptor, SS("persistent") TSRMLS_CC)) {
-		if (zend_is_true(persistent)) {
+		if (zephir_is_true(persistent)) {
 			zephir_array_update_long(&options, 12, &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		}
 	}
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 	ZEPHIR_INIT_LNVAR(_3);
 	ZEPHIR_CONCAT_VS(_3, _11, ":");
 	ZEPHIR_INIT_LNVAR(_4);
-	concat_function(_4, _3, dsnAttributes);
+	concat_function(_4, _3, dsnAttributes TSRMLS_CC);
 	zephir_call_method_p4_noret(_9, "__construct", _4, username, password, options);
 	zephir_update_property_this(this_ptr, SL("_pdo"), _9 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 
-	zval *sqlStatement, *bindParams = NULL, *bindTypes = NULL, eventsManager = zval_used_for_init, pdo = zval_used_for_init, *statement = NULL, *_0 = NULL, *_1 = NULL, *_2;
+	zval *sqlStatement, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *pdo = NULL, *statement = NULL, *_0 = NULL, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &sqlStatement, &bindParams, &bindTypes);
@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 
-	zval *sqlStatement, *bindParams = NULL, *bindTypes = NULL, eventsManager = zval_used_for_init, *affectedRows, *pdo, *newStatement, *statement, *_0, *_1 = NULL, *_2;
+	zval *sqlStatement, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *affectedRows, *pdo, *newStatement, *statement, *_0, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &sqlStatement, &bindParams, &bindTypes);
@@ -536,7 +536,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeIdentifier) {
 		ZEPHIR_OBS_VAR(_3);
 		zephir_array_fetch_long(&_3, identifier, 1, PH_NOISY TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_4);
-		concat_function(_4, _2, _3);
+		concat_function(_4, _2, _3 TSRMLS_CC);
 		ZEPHIR_CONCAT_VS(return_value, _4, "\"");
 		RETURN_MM();
 	}
@@ -621,7 +621,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
 
-	zval *nesting = NULL, *pdo, *transactionLevel, eventsManager = zval_used_for_init, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
+	zval *nesting = NULL, *pdo, *transactionLevel, *eventsManager = NULL, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &nesting);
@@ -650,11 +650,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
 		zephir_call_method(return_value, pdo, "begintransaction");
 		RETURN_MM();
 	} else {
-		if (zend_is_true(transactionLevel)) {
-			if (zend_is_true(nesting)) {
+		if (zephir_is_true(transactionLevel)) {
+			if (zephir_is_true(nesting)) {
 				ZEPHIR_INIT_NVAR(_1);
 				zephir_call_method(_1, this_ptr, "isnestedtransactionswithsavepoints");
-				if (zend_is_true(_1)) {
+				if (zephir_is_true(_1)) {
 					ZEPHIR_OBS_NVAR(_0);
 					zephir_read_property_this(&_0, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(eventsManager, _0);
@@ -683,7 +683,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 
-	zval *nesting = NULL, *pdo, *transactionLevel, eventsManager = zval_used_for_init, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
+	zval *nesting = NULL, *pdo, *transactionLevel, *eventsManager = NULL, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &nesting);
@@ -700,7 +700,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 	}
 	ZEPHIR_OBS_VAR(transactionLevel);
 	zephir_read_property_this(&transactionLevel, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
-	if (!(zend_is_true(transactionLevel))) {
+	if (!(zephir_is_true(transactionLevel))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "There is no active transaction");
 		return;
 	}
@@ -716,11 +716,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 		zephir_call_method(return_value, pdo, "rollback");
 		RETURN_MM();
 	} else {
-		if (zend_is_true(transactionLevel)) {
-			if (zend_is_true(nesting)) {
+		if (zephir_is_true(transactionLevel)) {
+			if (zephir_is_true(nesting)) {
 				ZEPHIR_INIT_NVAR(_1);
 				zephir_call_method(_1, this_ptr, "isnestedtransactionswithsavepoints");
-				if (zend_is_true(_1)) {
+				if (zephir_is_true(_1)) {
 					ZEPHIR_INIT_VAR(savepointName);
 					zephir_call_method(savepointName, this_ptr, "getnestedtransactionsavepointname");
 					ZEPHIR_OBS_NVAR(_0);
@@ -751,7 +751,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 
-	zval *nesting = NULL, *pdo, *transactionLevel, eventsManager = zval_used_for_init, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
+	zval *nesting = NULL, *pdo, *transactionLevel, *eventsManager = NULL, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &nesting);
@@ -768,7 +768,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 	}
 	ZEPHIR_OBS_VAR(transactionLevel);
 	zephir_read_property_this(&transactionLevel, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
-	if (!(zend_is_true(transactionLevel))) {
+	if (!(zephir_is_true(transactionLevel))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "There is no active transaction");
 		return;
 	}
@@ -784,11 +784,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 		zephir_call_method(return_value, pdo, "commit");
 		RETURN_MM();
 	} else {
-		if (zend_is_true(transactionLevel)) {
-			if (zend_is_true(nesting)) {
+		if (zephir_is_true(transactionLevel)) {
+			if (zephir_is_true(nesting)) {
 				ZEPHIR_INIT_NVAR(_1);
 				zephir_call_method(_1, this_ptr, "isnestedtransactionswithsavepoints");
-				if (zend_is_true(_1)) {
+				if (zephir_is_true(_1)) {
 					ZEPHIR_OBS_NVAR(_0);
 					zephir_read_property_this(&_0, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 					ZEPHIR_CPY_WRT(eventsManager, _0);

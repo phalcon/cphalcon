@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
 
@@ -127,7 +128,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "headers_sent");
-	if (!(zend_is_true(_0))) {
+	if (!(zephir_is_true(_0))) {
 		_1 = zephir_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
 		zephir_is_iterable(_1, &_3, &_2, 0, 0);
 		for (
@@ -140,7 +141,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 				ZEPHIR_INIT_LNVAR(_5);
 				ZEPHIR_CONCAT_VS(_5, header, ": ");
 				ZEPHIR_INIT_LNVAR(_6);
-				concat_function(_6, _5, value);
+				concat_function(_6, _5, value TSRMLS_CC);
 				zephir_call_func_p2_noret("header", _6, ZEPHIR_GLOBAL(global_true));
 			} else {
 				zephir_call_func_p2_noret("header", header, ZEPHIR_GLOBAL(global_true));

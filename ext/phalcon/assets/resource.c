@@ -15,9 +15,9 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 
 
 /*
@@ -375,12 +375,12 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent) {
 		zephir_read_property_this(&sourcePath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
 	ZEPHIR_INIT_VAR(completePath);
-	concat_function(completePath, basePath, sourcePath);
+	concat_function(completePath, basePath, sourcePath TSRMLS_CC);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
-	if (zend_is_true(_0)) {
+	if (zephir_is_true(_0)) {
 		ZEPHIR_INIT_VAR(_1);
 		zephir_call_func_p1(_1, "file_exists", completePath);
-		if (!(zend_is_true(_1))) {
+		if (!(zephir_is_true(_1))) {
 			ZEPHIR_INIT_VAR(_2);
 			object_init_ex(_2, phalcon_assets_exception_ce);
 			ZEPHIR_INIT_VAR(_3);
@@ -457,9 +457,9 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath) {
 		zephir_read_property_this(&sourcePath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
-	if (zend_is_true(_0)) {
+	if (zephir_is_true(_0)) {
 		ZEPHIR_INIT_VAR(_1);
-		concat_function(_1, basePath, sourcePath);
+		concat_function(_1, basePath, sourcePath TSRMLS_CC);
 		zephir_call_func_p1(return_value, "realpath", _1);
 		RETURN_MM();
 	}
@@ -492,12 +492,12 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath) {
 		zephir_read_property_this(&targetPath, this_ptr, SL("_path"), PH_NOISY_CC);
 	}
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_local"), PH_NOISY_CC);
-	if (zend_is_true(_0)) {
+	if (zephir_is_true(_0)) {
 		ZEPHIR_INIT_VAR(completePath);
-		concat_function(completePath, basePath, targetPath);
+		concat_function(completePath, basePath, targetPath TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_1);
 		zephir_call_func_p1(_1, "file_exists", completePath);
-		if (zend_is_true(_1)) {
+		if (zephir_is_true(_1)) {
 			zephir_call_func_p1(return_value, "realpath", completePath);
 			RETURN_MM();
 		}

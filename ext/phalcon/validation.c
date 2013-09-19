@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 	ZVAL_STRING(&_0, "initialize", 0);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p2(_1, "method_exists", this_ptr, &_0);
-	if (zend_is_true(_1)) {
+	if (zephir_is_true(_1)) {
 		zephir_call_method_noret(this_ptr, "initialize");
 	}
 	ZEPHIR_MM_RESTORE();
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	ZVAL_STRING(&_0, "beforeValidation", 0);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p2(_1, "method_exists", this_ptr, &_0);
-	if (zend_is_true(_1)) {
+	if (zephir_is_true(_1)) {
 		ZEPHIR_INIT_VAR(_2);
 		zephir_call_method_p3(_2, this_ptr, "beforevalidation", data, entity, messages);
 		if (ZEPHIR_IS_FALSE(_2)) {
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 		if (ZEPHIR_IS_FALSE(_2)) {
 			ZEPHIR_INIT_NVAR(_6);
 			zephir_call_method_p1(_6, validator, "getoption", cancelOnFail);
-			if (zend_is_true(_6)) {
+			if (zephir_is_true(_6)) {
 				break;
 			}
 		}
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	ZVAL_STRING(&_0, "afterValidation", 0);
 	ZEPHIR_INIT_NVAR(_2);
 	zephir_call_func_p2(_2, "method_exists", this_ptr, &_0);
-	if (zend_is_true(_2)) {
+	if (zephir_is_true(_2)) {
 		zephir_call_method_p3_noret(this_ptr, "aftervalidation", data, entity, messages);
 	}
 	RETURN_CCTOR(messages);
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		ZEPHIR_CONCAT_SV(method, "get", attribute);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p2(_0, "method_exists", entity, method);
-		if (zend_is_true(_0)) {
+		if (zephir_is_true(_0)) {
 			ZEPHIR_INIT_VAR(value);
 			zephir_call_method_zval(value, entity, method);
 		} else {
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			ZVAL_STRING(&_1, "readAttribute", 0);
 			ZEPHIR_INIT_VAR(_2);
 			zephir_call_func_p2(_2, "method_exists", entity, &_1);
-			if (zend_is_true(_2)) {
+			if (zephir_is_true(_2)) {
 				ZEPHIR_INIT_NVAR(value);
 				zephir_call_method_p1(value, entity, "readattribute", attribute);
 			} else {
@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		if ((Z_TYPE_P(filters) == IS_ARRAY)) {
 			ZEPHIR_OBS_VAR(fieldFilters);
 			if (zephir_array_isset_fetch(&fieldFilters, filters, attribute TSRMLS_CC)) {
-				if (zend_is_true(fieldFilters)) {
+				if (zephir_is_true(fieldFilters)) {
 					ZEPHIR_INIT_VAR(dependencyInjector);
 					zephir_call_method(dependencyInjector, this_ptr, "getdi");
 					if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {

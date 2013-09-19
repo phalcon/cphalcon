@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
 		while (1) {
 			ZEPHIR_INIT_NVAR(row);
 			zephir_call_method(row, result, "fetch");
-			if (!(zend_is_true(row))) {
+			if (!(zephir_is_true(row))) {
 				break;
 			} else {
 				zephir_array_append(&results, row, PH_SEPARATE);
@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 	ZVAL_STRING(_0, "db.escape_identifiers", 1);
 	ZEPHIR_INIT_NVAR(_6);
 	zephir_call_func_p1(_6, "globals_get", _0);
-	if (zend_is_true(_6)) {
+	if (zephir_is_true(_6)) {
 		ZEPHIR_INIT_VAR(escapedTable);
 		zephir_call_method_p1(escapedTable, this_ptr, "escapeidentifier", table);
 	} else {
@@ -428,7 +428,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 		ZVAL_STRING(_0, "db.escape_identifiers", 1);
 		ZEPHIR_INIT_VAR(_8);
 		zephir_call_func_p1(_8, "globals_get", _0);
-		if (zend_is_true(_8)) {
+		if (zephir_is_true(_8)) {
 			ZEPHIR_INIT_VAR(escapedFields);
 			array_init(escapedFields);
 			zephir_is_iterable(fields, &_10, &_9, 0, 0);
@@ -453,11 +453,11 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 		ZEPHIR_INIT_NVAR(_6);
 		zephir_call_func_p2(_6, "join", &_7, escapedFields);
 		ZEPHIR_INIT_VAR(_12);
-		concat_function(_12, _2, _6);
+		concat_function(_12, _2, _6 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(_13);
 		ZEPHIR_CONCAT_VS(_13, _12, ") VALUES (");
 		ZEPHIR_INIT_VAR(_14);
-		concat_function(_14, _13, joinedValues);
+		concat_function(_14, _13, joinedValues TSRMLS_CC);
 		ZEPHIR_CONCAT_VS(insertSql, _14, ")");
 	} else {
 		ZEPHIR_INIT_LNVAR(_1);
@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_VS(_2, _1, " VALUES (");
 		ZEPHIR_INIT_LNVAR(_12);
-		concat_function(_12, _2, joinedValues);
+		concat_function(_12, _2, joinedValues TSRMLS_CC);
 		ZEPHIR_CONCAT_VS(insertSql, _12, ")");
 	}
 	zephir_call_method_p3(return_value, this_ptr, "execute", insertSql, insertValues, bindDataTypes);
@@ -539,7 +539,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 		ZVAL_STRING(_3, "db.escape_identifiers", 1);
 		ZEPHIR_INIT_NVAR(_4);
 		zephir_call_func_p1(_4, "globals_get", _3);
-		if (zend_is_true(_4)) {
+		if (zephir_is_true(_4)) {
 			ZEPHIR_INIT_NVAR(escapedField);
 			zephir_call_method_p1(escapedField, this_ptr, "escapeidentifier", field);
 		} else {
@@ -549,7 +549,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 			ZEPHIR_INIT_LNVAR(_5);
 			ZEPHIR_CONCAT_VS(_5, escapedField, " = ");
 			ZEPHIR_INIT_LNVAR(_6);
-			concat_function(_6, _5, value);
+			concat_function(_6, _5, value TSRMLS_CC);
 			zephir_array_append(&placeholders, _6, PH_SEPARATE);
 		} else {
 			if ((Z_TYPE_P(value) == IS_NULL)) {
@@ -576,7 +576,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 	ZVAL_STRING(_3, "db.escape_identifiers", 1);
 	ZEPHIR_INIT_NVAR(_4);
 	zephir_call_func_p1(_4, "globals_get", _3);
-	if (zend_is_true(_4)) {
+	if (zephir_is_true(_4)) {
 		ZEPHIR_INIT_VAR(escapedTable);
 		zephir_call_method_p1(escapedTable, this_ptr, "escapeidentifier", table);
 	} else {
@@ -593,10 +593,10 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 		ZEPHIR_INIT_LNVAR(_6);
 		ZEPHIR_CONCAT_VS(_6, _5, " SET ");
 		ZEPHIR_INIT_VAR(_8);
-		concat_function(_8, _6, setClause);
+		concat_function(_8, _6, setClause TSRMLS_CC);
 		ZEPHIR_CONCAT_VS(updateSql, _8, " WHERE ");
 		if ((Z_TYPE_P(whereCondition) == IS_ARRAY)) {
-			zephir_concat_self(&updateSql, whereCondition);
+			zephir_concat_self(&updateSql, whereCondition TSRMLS_CC);
 		} else {
 			if ((Z_TYPE_P(whereCondition) != IS_ARRAY)) {
 				ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid WHERE clause conditions");
@@ -604,7 +604,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 			}
 			ZEPHIR_OBS_VAR(conditions);
 			if (zephir_array_isset_string_fetch(&conditions, whereCondition, SS("conditions") TSRMLS_CC)) {
-				zephir_concat_self(&updateSql, conditions);
+				zephir_concat_self(&updateSql, conditions TSRMLS_CC);
 			}
 			ZEPHIR_OBS_VAR(whereBind);
 			if (zephir_array_isset_string_fetch(&whereBind, whereCondition, SS("bind") TSRMLS_CC)) {
@@ -620,7 +620,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 		ZEPHIR_CONCAT_SV(_5, "UPDATE ", escapedTable);
 		ZEPHIR_INIT_LNVAR(_6);
 		ZEPHIR_CONCAT_VS(_6, _5, " SET ");
-		concat_function(updateSql, _6, setClause);
+		concat_function(updateSql, _6, setClause TSRMLS_CC);
 	}
 	zephir_call_method_p3(return_value, this_ptr, "execute", updateSql, updateValues, bindDataTypes);
 	RETURN_MM();
@@ -669,7 +669,7 @@ PHP_METHOD(Phalcon_Db_Adapter, delete) {
 	ZVAL_STRING(_0, "db.escape_identifiers", 1);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p1(_1, "globals_get", _0);
-	if (zend_is_true(_1)) {
+	if (zephir_is_true(_1)) {
 		ZEPHIR_INIT_VAR(escapedTable);
 		zephir_call_method_p1(escapedTable, this_ptr, "escapeidentifier", table);
 	} else {
@@ -681,7 +681,7 @@ PHP_METHOD(Phalcon_Db_Adapter, delete) {
 		ZEPHIR_CONCAT_SV(_2, "DELETE FROM ", escapedTable);
 		ZEPHIR_INIT_VAR(_3);
 		ZEPHIR_CONCAT_VS(_3, _2, " WHERE ");
-		concat_function(sql, _3, whereCondition);
+		concat_function(sql, _3, whereCondition TSRMLS_CC);
 	} else {
 		ZEPHIR_CONCAT_SV(sql, "DELETE FROM ", escapedTable);
 	}
@@ -1553,7 +1553,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableOptions) {
 	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(sql);
 	zephir_call_method_p2(sql, dialect, "tableoptions", tableName, schemaName);
-	if (zend_is_true(sql)) {
+	if (zephir_is_true(sql)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_INIT_NVAR(_0);
 		ZVAL_LONG(_0, 3);
@@ -1586,7 +1586,7 @@ PHP_METHOD(Phalcon_Db_Adapter, createSavepoint) {
 	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
-	if (!(zend_is_true(_0))) {
+	if (!(zephir_is_true(_0))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter.");
 		return;
 	}
@@ -1616,13 +1616,13 @@ PHP_METHOD(Phalcon_Db_Adapter, releaseSavepoint) {
 	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
-	if (zend_is_true(_0)) {
+	if (zephir_is_true(_0)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter");
 		return;
 	}
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_method(_1, dialect, "supportsreleasesavepoints");
-	if (zend_is_true(_1)) {
+	if (zephir_is_true(_1)) {
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_INIT_VAR(_2);
@@ -1651,7 +1651,7 @@ PHP_METHOD(Phalcon_Db_Adapter, rollbackSavepoint) {
 	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_method(_0, dialect, "supportssavepoints");
-	if (zend_is_true(_0)) {
+	if (zephir_is_true(_0)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter");
 		return;
 	}
@@ -1686,7 +1686,7 @@ PHP_METHOD(Phalcon_Db_Adapter, setNestedTransactionsWithSavepoints) {
 	zephir_read_property_this(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_method(_1, dialect, "supportssavepoints");
-	if (!(zend_is_true(_1))) {
+	if (!(zephir_is_true(_1))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Savepoints are not supported by this database adapter");
 		return;
 	}

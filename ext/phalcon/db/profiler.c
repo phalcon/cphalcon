@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /*
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 	ZVAL_STRING(&_1, "beforeStartProfile", 0);
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func_p2(_2, "method_exists", this_ptr, &_1);
-	if (zend_is_true(_2)) {
+	if (zephir_is_true(_2)) {
 		zephir_call_method_p1_noret(this_ptr, "beforestartprofile", activeProfile);
 	}
 	zephir_update_property_this(this_ptr, SL("_activeProfile"), activeProfile TSRMLS_CC);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	ZVAL_STRING(&_4, "afterEndProfile", 0);
 	ZEPHIR_INIT_VAR(_5);
 	zephir_call_func_p2(_5, "method_exists", this_ptr, &_4);
-	if (zend_is_true(_5)) {
+	if (zephir_is_true(_5)) {
 		zephir_call_method_p1_noret(this_ptr, "afterendprofile", activeProfile);
 	}
 	RETURN_THIS();

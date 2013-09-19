@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
@@ -95,7 +96,7 @@ PHP_METHOD(Phalcon_Di, __construct) {
 
 	ZEPHIR_SINIT_VAR(defaultDi);
 	ZVAL_NULL(&defaultDi);
-	if (!(zend_is_true(&defaultDi))) {
+	if (!(zephir_is_true(&defaultDi))) {
 	}
 
 }
@@ -357,7 +358,7 @@ PHP_METHOD(Phalcon_Di, get) {
 	} else {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p1(_0, "class_exists", name);
-		if (zend_is_true(_0)) {
+		if (zephir_is_true(_0)) {
 			if ((Z_TYPE_P(parameters) == IS_STRING)) {
 				ZEPHIR_INIT_NVAR(instance);
 				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
@@ -393,7 +394,7 @@ PHP_METHOD(Phalcon_Di, get) {
 		ZVAL_STRING(&_4, "setDI", 0);
 		ZEPHIR_INIT_NVAR(_0);
 		zephir_call_func_p2(_0, "method_exists", instance, &_4);
-		if (zend_is_true(_0)) {
+		if (zephir_is_true(_0)) {
 			zephir_call_method_p1_noret(instance, "setdi", this_ptr);
 		}
 	}

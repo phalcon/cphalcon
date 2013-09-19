@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Version, get) {
 	ZEPHIR_OBS_VAR(specialNumber);
 	zephir_array_fetch_long(&specialNumber, version, 4, PH_NOISY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_0);
-	concat_function(_0, major, medium);
+	concat_function(_0, major, medium TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_1);
-	concat_function(_1, _0, minor);
+	concat_function(_1, _0, minor TSRMLS_CC);
 	ZEPHIR_INIT_VAR(result);
 	ZEPHIR_CONCAT_VS(result, _1, " ");
 	do {
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Version, get) {
 		break;
 	} while(0);
 
-	zephir_concat_self(&result, suffix);
+	zephir_concat_self(&result, suffix TSRMLS_CC);
 	zephir_call_func_p1(return_value, "trim", result);
 	RETURN_MM();
 
@@ -179,16 +179,16 @@ PHP_METHOD(Phalcon_Version, getId) {
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p2(_1, "sprintf", &_0, medium);
 	ZEPHIR_INIT_VAR(_2);
-	concat_function(_2, major, _1);
+	concat_function(_2, major, _1 TSRMLS_CC);
 	ZEPHIR_SINIT_NVAR(_0);
 	ZVAL_STRING(&_0, "%02s", 0);
 	ZEPHIR_INIT_VAR(_3);
 	zephir_call_func_p2(_3, "sprintf", &_0, minor);
 	ZEPHIR_INIT_VAR(_4);
-	concat_function(_4, _2, _3);
+	concat_function(_4, _2, _3 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_5);
-	concat_function(_5, _4, special);
-	concat_function(return_value, _5, specialNumber);
+	concat_function(_5, _4, special TSRMLS_CC);
+	concat_function(return_value, _5, specialNumber TSRMLS_CC);
 	RETURN_MM();
 
 }

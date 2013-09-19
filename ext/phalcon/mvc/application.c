@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule) {
 PHP_METHOD(Phalcon_Mvc_Application, handle) {
 
 	zend_bool returnedResponse;
-	zval *uri = NULL, *dependencyInjector, eventsManager = zval_used_for_init, *router, *dispatcher, *response = NULL, *view, *module, *modules, *moduleObject, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller, *possibleResponse, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7, *_8;
+	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router, *dispatcher, *response = NULL, *view, *module, *modules, *moduleObject, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller, *possibleResponse, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7, *_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -278,13 +278,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_call_method_p1_noret(router, "handle", uri);
 	ZEPHIR_INIT_VAR(moduleName);
 	zephir_call_method(moduleName, router, "getmodulename");
-	if (!(zend_is_true(moduleName))) {
+	if (!(zephir_is_true(moduleName))) {
 		ZEPHIR_OBS_NVAR(moduleName);
 		zephir_read_property_this(&moduleName, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 	}
 	ZEPHIR_INIT_VAR(moduleObject);
 	ZVAL_NULL(moduleObject);
-	if (zend_is_true(moduleName)) {
+	if (zephir_is_true(moduleName)) {
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 			ZEPHIR_INIT_NVAR(_1);
 			ZEPHIR_INIT_NVAR(_2);
@@ -325,10 +325,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			if (zephir_array_isset_string_fetch(&path, module, SS("path") TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(_2);
 				zephir_call_func_p2(_2, "class_exists", className, ZEPHIR_GLOBAL(global_false));
-				if (!(zend_is_true(_2))) {
+				if (!(zephir_is_true(_2))) {
 					ZEPHIR_INIT_VAR(_5);
 					zephir_call_func_p1(_5, "file_exists", path);
-					if (zend_is_true(_5)) {
+					if (zephir_is_true(_5)) {
 					} else {
 						ZEPHIR_INIT_VAR(_6);
 						object_init_ex(_6, phalcon_mvc_application_exception_ce);

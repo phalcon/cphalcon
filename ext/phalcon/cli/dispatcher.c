@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName) {
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException) {
 
-	zval *message, *exceptionCode = NULL, *exception, eventsManager = zval_used_for_init, *_0, *_1, *_2;
+	zval *message, *exceptionCode = NULL, *exception, *eventsManager = NULL, *_0, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message, &exceptionCode);

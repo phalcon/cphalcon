@@ -169,12 +169,12 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VS(_1, _0, " ");
 	ZEPHIR_INIT_VAR(_2);
-	concat_function(_2, _1, message);
+	concat_function(_2, _1, message TSRMLS_CC);
 	zephir_call_method_p1_noret(headers, "setraw", _2);
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_CONCAT_VS(_3, code, " ");
 	ZEPHIR_INIT_VAR(_4);
-	concat_function(_4, _3, message);
+	concat_function(_4, _3, message TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_5);
 	ZVAL_STRING(_5, "Status", 1);
 	zephir_call_method_p2_noret(headers, "set", _4, _5);
@@ -432,7 +432,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_VS(_0, contentType, "; charset=");
 		ZEPHIR_INIT_VAR(_1);
-		concat_function(_1, _0, charset);
+		concat_function(_1, _0, charset TSRMLS_CC);
 		zephir_call_method_p2_noret(headers, "set", name, _1);
 	}
 	RETURN_THIS();
@@ -507,7 +507,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 	}
 
 
-	if (zend_is_true(externalRedirect)) {
+	if (zephir_is_true(externalRedirect)) {
 		ZEPHIR_CPY_WRT(header, location);
 	} else {
 		ZEPHIR_INIT_VAR(dependencyInjector);
@@ -677,7 +677,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_sent"), PH_NOISY_CC);
-	if (zend_is_true(_0)) {
+	if (zephir_is_true(_0)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "Response was already sent");
 		return;
 	}

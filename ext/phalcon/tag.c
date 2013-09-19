@@ -340,7 +340,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 		if ((Z_TYPE_P(params) == IS_ARRAY)) {
 			ZEPHIR_OBS_VAR(autoescape);
 			if (zephir_array_isset_string_fetch(&autoescape, params, SS("escape") TSRMLS_CC)) {
-				if (zend_is_true(autoescape)) {
+				if (zephir_is_true(autoescape)) {
 					ZEPHIR_INIT_NVAR(escaper);
 					zephir_call_self(escaper, this_ptr, "getescaperservice");
 					zephir_call_method_p1(return_value, escaper, "escapehtmlattr", value);
@@ -455,17 +455,17 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 			ZEPHIR_INIT_LNVAR(_6);
 			ZEPHIR_CONCAT_VS(_6, _5, "=\"");
 			ZEPHIR_INIT_LNVAR(_7);
-			concat_function(_7, _6, value);
+			concat_function(_7, _6, value TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(code);
 			ZEPHIR_CONCAT_VS(code, _7, "\"");
-			zephir_concat_self(&code, code);
+			zephir_concat_self(&code, code TSRMLS_CC);
 		}
 	}
 	ZEPHIR_INIT_LNVAR(_5);
 	ZEPHIR_CONCAT_SV(_5, ">", text);
 	ZEPHIR_INIT_BNVAR(code);
 	ZEPHIR_CONCAT_VS(code, _5, "</a>");
-	zephir_concat_self(&code, code);
+	zephir_concat_self(&code, code TSRMLS_CC);
 	RETURN_CCTOR(code);
 
 }

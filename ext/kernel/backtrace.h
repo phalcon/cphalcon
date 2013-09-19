@@ -31,4 +31,4 @@ extern void zephir_print_backtrace(void);
 #endif
 
 #endif
-#endif
+#endif /* ZEPHIR_KERNEL_BACKTRACE_H */

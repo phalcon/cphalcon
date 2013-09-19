@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Dispatcher, getActiveMethod) {
 	zephir_read_property_this(&_0, this_ptr, SL("_actionName"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(_1);
 	zephir_read_property_this(&_1, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
-	concat_function(return_value, _0, _1);
+	concat_function(return_value, _0, _1 TSRMLS_CC);
 	RETURN_MM();
 
 }
@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue) {
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
-	zval *value, *handler = NULL, *dependencyInjector, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params = NULL, eventsManager = zval_used_for_init, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3, *_4 = NULL, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11 = NULL, *_12, _13 = zval_used_for_init, *_14 = NULL;
+	zval *value, *handler = NULL, *dependencyInjector, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params = NULL, *eventsManager = NULL, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3, *_4 = NULL, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11 = NULL, *_12, _13 = zval_used_for_init, *_14 = NULL;
 	int numberDispatches;
 	zend_bool hasService;
 
@@ -502,7 +502,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	while (1) {
 		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-		if (!(!(zend_is_true(_3)))) {
+		if (!(!(zephir_is_true(_3)))) {
 			break;
 		}
 		numberDispatches++;
@@ -518,21 +518,21 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(namespaceName);
 		zephir_read_property_this(&namespaceName, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
-		if (!(zend_is_true(namespaceName))) {
+		if (!(zephir_is_true(namespaceName))) {
 			ZEPHIR_OBS_NVAR(namespaceName);
 			zephir_read_property_this(&namespaceName, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
 			zephir_update_property_this(this_ptr, SL("_namespaceName"), namespaceName TSRMLS_CC);
 		}
 		ZEPHIR_OBS_NVAR(handlerName);
 		zephir_read_property_this(&handlerName, this_ptr, SL("_handlerName"), PH_NOISY_CC);
-		if (!(zend_is_true(handlerName))) {
+		if (!(zephir_is_true(handlerName))) {
 			ZEPHIR_OBS_NVAR(handlerName);
 			zephir_read_property_this(&handlerName, this_ptr, SL("_defaultHandler"), PH_NOISY_CC);
 			zephir_update_property_this(this_ptr, SL("_handlerName"), handlerName TSRMLS_CC);
 		}
 		ZEPHIR_OBS_NVAR(actionName);
 		zephir_read_property_this(&actionName, this_ptr, SL("_actionName"), PH_NOISY_CC);
-		if (!(zend_is_true(actionName))) {
+		if (!(zephir_is_true(actionName))) {
 			ZEPHIR_OBS_NVAR(actionName);
 			zephir_read_property_this(&actionName, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
 			zephir_update_property_this(this_ptr, SL("_actionName"), actionName TSRMLS_CC);
@@ -556,22 +556,22 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		} else {
 			ZEPHIR_CPY_WRT(camelizedClass, handlerName);
 		}
-		if (zend_is_true(namespaceName)) {
+		if (zephir_is_true(namespaceName)) {
 			ZEPHIR_INIT_NVAR(handlerClass);
 			if (zephir_end_with_str(namespaceName, SL("\\"))) {
 				ZEPHIR_INIT_LNVAR(_6);
-				concat_function(_6, namespaceName, camelizedClass);
-				concat_function(handlerClass, _6, handlerSuffix);
+				concat_function(_6, namespaceName, camelizedClass TSRMLS_CC);
+				concat_function(handlerClass, _6, handlerSuffix TSRMLS_CC);
 			} else {
 				ZEPHIR_INIT_LNVAR(_6);
 				ZEPHIR_CONCAT_VS(_6, namespaceName, "\\");
 				ZEPHIR_INIT_LNVAR(_7);
-				concat_function(_7, _6, camelizedClass);
-				concat_function(handlerClass, _7, handlerSuffix);
+				concat_function(_7, _6, camelizedClass TSRMLS_CC);
+				concat_function(handlerClass, _7, handlerSuffix TSRMLS_CC);
 			}
 		} else {
 			ZEPHIR_INIT_NVAR(handlerClass);
-			concat_function(handlerClass, camelizedClass, handlerSuffix);
+			concat_function(handlerClass, camelizedClass, handlerSuffix TSRMLS_CC);
 		}
 		ZEPHIR_INIT_NVAR(_4);
 		zephir_call_method_p1(_4, dependencyInjector, "has", handlerClass);
@@ -635,10 +635,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			break;
 		}
 		ZEPHIR_INIT_NVAR(actionMethod);
-		concat_function(actionMethod, actionName, actionSuffix);
+		concat_function(actionMethod, actionName, actionSuffix TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_4);
 		zephir_call_func_p2(_4, "method_exists", handler, actionMethod);
-		if (!(zend_is_true(_4))) {
+		if (!(zephir_is_true(_4))) {
 			if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 				ZEPHIR_INIT_NVAR(_8);
 				ZEPHIR_INIT_NVAR(_9);
@@ -657,7 +657,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			ZEPHIR_INIT_LNVAR(_7);
 			ZEPHIR_CONCAT_VS(_7, _6, "' was not found on handler '");
 			ZEPHIR_INIT_LNVAR(_10);
-			concat_function(_10, _7, handlerName);
+			concat_function(_10, _7, handlerName TSRMLS_CC);
 			ZEPHIR_INIT_LNVAR(_11);
 			ZEPHIR_CONCAT_VS(_11, _10, "'");
 			ZEPHIR_INIT_NVAR(_9);
@@ -690,7 +690,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		ZVAL_STRING(&_13, "beforeExecuteRoute", 0);
 		ZEPHIR_INIT_NVAR(_4);
 		zephir_call_func_p2(_4, "method_exists", handler, &_13);
-		if (zend_is_true(_4)) {
+		if (zephir_is_true(_4)) {
 			ZEPHIR_INIT_NVAR(_8);
 			zephir_call_method_p1(_8, handler, "beforeexecuteroute", this_ptr);
 			if (ZEPHIR_IS_FALSE(_8)) {
@@ -708,7 +708,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			ZVAL_STRING(&_13, "initialize", 0);
 			ZEPHIR_INIT_NVAR(_8);
 			zephir_call_func_p2(_8, "method_exists", handler, &_13);
-			if (zend_is_true(_8)) {
+			if (zephir_is_true(_8)) {
 				zephir_call_method_noret(handler, "initialize");
 			}
 		}
@@ -740,7 +740,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		ZVAL_STRING(&_13, "afterExecuteRoute", 0);
 		ZEPHIR_INIT_NVAR(_4);
 		zephir_call_func_p2(_4, "method_exists", handler, &_13);
-		if (zend_is_true(_4)) {
+		if (zephir_is_true(_4)) {
 			ZEPHIR_INIT_NVAR(_8);
 			zephir_call_method_p2(_8, handler, "afterexecuteroute", this_ptr, value);
 			if (ZEPHIR_IS_FALSE(_8)) {

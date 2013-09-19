@@ -327,18 +327,18 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 				ZEPHIR_INIT_LNVAR(_8);
 				ZEPHIR_CONCAT_VS(_8, _3, ">");
 				ZEPHIR_INIT_LNVAR(_9);
-				concat_function(_9, _8, msg);
+				concat_function(_9, _8, msg TSRMLS_CC);
 				ZEPHIR_INIT_LNVAR(_10);
 				ZEPHIR_CONCAT_VS(_10, _9, "</div>");
 				ZEPHIR_INIT_NVAR(htmlMessage);
-				concat_function(htmlMessage, _10, eol);
+				concat_function(htmlMessage, _10, eol TSRMLS_CC);
 			} else {
 				ZEPHIR_CPY_WRT(htmlMessage, msg);
 			}
 			if ((implicitFlush == 1)) {
 				zend_print_zval(htmlMessage, 0);
 			} else {
-				zephir_concat_self(&content, htmlMessage);
+				zephir_concat_self(&content, htmlMessage TSRMLS_CC);
 			}
 		}
 		if ((implicitFlush == 0)) {
@@ -351,11 +351,11 @@ PHP_METHOD(Phalcon_Flash, outputMessage) {
 			ZEPHIR_INIT_LNVAR(_8);
 			ZEPHIR_CONCAT_VS(_8, _3, ">");
 			ZEPHIR_INIT_LNVAR(_9);
-			concat_function(_9, _8, message);
+			concat_function(_9, _8, message TSRMLS_CC);
 			ZEPHIR_INIT_LNVAR(_10);
 			ZEPHIR_CONCAT_VS(_10, _9, "</div>");
 			ZEPHIR_INIT_NVAR(htmlMessage);
-			concat_function(htmlMessage, _10, eol);
+			concat_function(htmlMessage, _10, eol TSRMLS_CC);
 		} else {
 			ZEPHIR_CPY_WRT(htmlMessage, message);
 		}

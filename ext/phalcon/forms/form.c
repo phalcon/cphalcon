@@ -16,10 +16,10 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 
 
 /*
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 	ZVAL_STRING(&_0, "initialize", 0);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p2(_1, "method_exists", this_ptr, &_0);
-	if (zend_is_true(_1)) {
+	if (zephir_is_true(_1)) {
 		zephir_call_method_p2_noret(this_ptr, "initialize", entity, userOptions);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -309,7 +309,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		if ((Z_TYPE_P(whitelist) == IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_3);
 			zephir_call_func_p2(_3, "in_array", key, whitelist);
-			if (!(zend_is_true(_3))) {
+			if (!(zephir_is_true(_3))) {
 				continue;
 			}
 		}
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		zephir_array_fetch(&element, elements, key, PH_NOISY TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(filters);
 		zephir_call_method(filters, element, "getfilters");
-		if (zend_is_true(filters)) {
+		if (zephir_is_true(filters)) {
 			if ((Z_TYPE_P(filter) != IS_OBJECT)) {
 				ZEPHIR_INIT_NVAR(dependencyInjector);
 				zephir_call_method(dependencyInjector, this_ptr, "getdi");
@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		ZEPHIR_CONCAT_SV(method, "set", key);
 		ZEPHIR_INIT_NVAR(_3);
 		zephir_call_func_p2(_3, "method_exists", entity, method);
-		if (zend_is_true(_3)) {
+		if (zephir_is_true(_3)) {
 			zephir_call_method_zval_p1_noret(entity, method, filteredValue);
 			continue;
 		}
@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	ZVAL_STRING(&_0, "beforeValidation", 0);
 	ZEPHIR_INIT_VAR(_1);
 	zephir_call_func_p2(_1, "method_exists", this_ptr, &_0);
-	if (zend_is_true(_1)) {
+	if (zephir_is_true(_1)) {
 		ZEPHIR_INIT_VAR(_2);
 		zephir_call_method_p2(_2, this_ptr, "beforevalidation", data, entity);
 		if (ZEPHIR_IS_FALSE(_2)) {
@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	ZVAL_STRING(&_0, "afterValidation", 0);
 	ZEPHIR_INIT_NVAR(_2);
 	zephir_call_func_p2(_2, "method_exists", this_ptr, &_0);
-	if (zend_is_true(_2)) {
+	if (zephir_is_true(_2)) {
 		zephir_call_method_p1_noret(this_ptr, "aftervalidation", messages);
 	}
 	RETURN_MM_BOOL(notFailed);
@@ -480,7 +480,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 
 	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (zend_is_true(byItemName)) {
+	if (zephir_is_true(byItemName)) {
 		if ((Z_TYPE_P(messages) != IS_ARRAY)) {
 			object_init_ex(return_value, phalcon_validation_message_group_ce);
 			zephir_call_method_noret(return_value, "__construct");
@@ -725,7 +725,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 	zephir_array_fetch(&element, elements, name, PH_NOISY TSRMLS_CC);
 	ZEPHIR_INIT_VAR(label);
 	zephir_call_method(label, element, "getlabel");
-	if (!(zend_is_true(label))) {
+	if (!(zephir_is_true(label))) {
 		RETURN_CCTOR(name);
 	}
 	RETURN_CCTOR(label);
@@ -754,7 +754,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 		ZEPHIR_CONCAT_SV(method, "get", name);
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_func_p2(_0, "method_exists", entity, method);
-		if (zend_is_true(_0)) {
+		if (zephir_is_true(_0)) {
 			zephir_call_method_zval(return_value, entity, method);
 			RETURN_MM();
 		}
@@ -857,7 +857,7 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 				zephir_call_method(_3, element, "getname");
 				ZEPHIR_INIT_NVAR(_4);
 				zephir_call_func_p2(_4, "in_array", _3, fields);
-				if (zend_is_true(_4)) {
+				if (zephir_is_true(_4)) {
 					zephir_call_method_noret(element, "clear");
 				}
 			}

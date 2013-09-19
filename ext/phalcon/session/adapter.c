@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
@@ -91,7 +92,7 @@ PHP_METHOD(Phalcon_Session_Adapter, start) {
 
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func(_0, "headers_sent");
-	if (zend_is_true(_0)) {
+	if (zephir_is_true(_0)) {
 		zephir_call_func_noret("session_start");
 		zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 		RETURN_MM_BOOL(1);
@@ -169,7 +170,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
-	concat_function(_1, _0, index);
+	concat_function(_1, _0, index TSRMLS_CC);
 	if (zephir_array_isset_fetch(&value, _SESSION, _1 TSRMLS_CC)) {
 		if (!(0)) {
 			RETURN_CCTOR(value);
@@ -202,7 +203,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
-	concat_function(_1, _0, index);
+	concat_function(_1, _0, index TSRMLS_CC);
 	zephir_array_update_zval(&_SESSION, _1, &value, PH_COPY | PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
@@ -231,7 +232,7 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
-	concat_function(_1, _0, index);
+	concat_function(_1, _0, index TSRMLS_CC);
 	if (zephir_array_isset(_SESSION, _1)) {
 		RETURN_MM_BOOL(1);
 	}

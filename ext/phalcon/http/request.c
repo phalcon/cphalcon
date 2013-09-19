@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Http_Request, getScheme) {
 	ZVAL_STRING(_0, "HTTPS", 1);
 	ZEPHIR_INIT_VAR(https);
 	zephir_call_method_p1(https, this_ptr, "getserver", _0);
-	if (zend_is_true(https)) {
+	if (zephir_is_true(https)) {
 		ZEPHIR_INIT_VAR(scheme);
 		if (ZEPHIR_IS_STRING(https, "off")) {
 			ZVAL_STRING(scheme, "http", 1);

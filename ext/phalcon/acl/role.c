@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	if (zend_is_true(description)) {
+	if (zephir_is_true(description)) {
 		zephir_update_property_this(this_ptr, SL("_description"), description TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();

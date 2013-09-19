@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 			ZEPHIR_INIT_VAR(_2);
 			ZEPHIR_CONCAT_VS(_2, _1, "' and '");
 			ZEPHIR_INIT_VAR(_3);
-			concat_function(_3, _2, withAttribute);
+			concat_function(_3, _2, withAttribute TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(message);
 			ZEPHIR_CONCAT_VS(message, _3, "' don\'t match");
 		}

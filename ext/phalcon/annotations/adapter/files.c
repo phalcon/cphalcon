@@ -108,12 +108,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func_p2(_2, "prepare_virtual_path", key, _1);
 	ZEPHIR_INIT_VAR(_3);
-	concat_function(_3, _0, _2);
+	concat_function(_3, _0, _2 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VS(path, _3, ".php");
 	ZEPHIR_INIT_BNVAR(_1);
 	zephir_call_func_p1(_1, "file_exists", path);
-	if (zend_is_true(_1)) {
+	if (zephir_is_true(_1)) {
 		RETURN_MM_NULL();
 	}
 	RETURN_MM_NULL();
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 	ZEPHIR_INIT_VAR(_2);
 	zephir_call_func_p2(_2, "prepare_virtual_path", key, _1);
 	ZEPHIR_INIT_VAR(_3);
-	concat_function(_3, _0, _2);
+	concat_function(_3, _0, _2 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VS(path, _3, ".php");
 	ZEPHIR_INIT_BNVAR(_1);

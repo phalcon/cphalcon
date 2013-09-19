@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 					zephir_call_func_p1(realClassName, "get_class_ns", controllerName);
 					ZEPHIR_INIT_VAR(namespaceName);
 					zephir_call_func_p1(namespaceName, "get_ns_class", controllerName);
-					if (zend_is_true(namespaceName)) {
+					if (zephir_is_true(namespaceName)) {
 						zephir_array_update_string(&routePaths, SL("namespace"), &namespaceName, PH_COPY | PH_SEPARATE);
 					}
 				} else {

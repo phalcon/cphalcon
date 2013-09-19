@@ -15,10 +15,10 @@
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/string.h"
-#include "kernel/operators.h"
 
 
 /*
@@ -92,26 +92,26 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier) {
 		ZVAL_STRING(_0, "db.escape_identifiers", 1);
 		ZEPHIR_INIT_VAR(_1);
 		zephir_call_func_p1(_1, "globals_get", _0);
-		if (zend_is_true(_1)) {
+		if (zephir_is_true(_1)) {
 			ZEPHIR_INIT_VAR(_2);
 			ZEPHIR_CONCAT_SV(_2, "`", domain);
 			ZEPHIR_INIT_VAR(_3);
 			ZEPHIR_CONCAT_VS(_3, _2, "`.`");
 			ZEPHIR_INIT_VAR(_4);
-			concat_function(_4, _3, name);
+			concat_function(_4, _3, name TSRMLS_CC);
 			ZEPHIR_CONCAT_VS(return_value, _4, "`");
 			RETURN_MM();
 		}
 		ZEPHIR_INIT_LNVAR(_2);
 		ZEPHIR_CONCAT_VS(_2, domain, ".");
-		concat_function(return_value, _2, name);
+		concat_function(return_value, _2, name TSRMLS_CC);
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_STRING(_0, "db.escape_identifiers", 1);
 	ZEPHIR_INIT_NVAR(_1);
 	zephir_call_func_p1(_1, "globals_get", _0);
-	if (zend_is_true(_1)) {
+	if (zephir_is_true(_1)) {
 		ZEPHIR_INIT_LNVAR(_3);
 		ZEPHIR_CONCAT_SV(_3, "`", identifier);
 		ZEPHIR_CONCAT_VS(return_value, _3, "`");
@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 			ZVAL_STRING(&_7, "float", 0);
 			ZEPHIR_INIT_NVAR(_5);
 			zephir_call_func_p2(_5, "strpos", columnType, &_7);
-			if (zend_is_true(_5)) {
+			if (zephir_is_true(_5)) {
 				ZEPHIR_INIT_NVAR(_6);
 				ZEPHIR_INIT_NVAR(_6);
 				ZVAL_LONG(_6, 7);
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 			Z_SET_ISREF_P(matches);
 			ZEPHIR_INIT_NVAR(_6);
 			zephir_call_func_p3(_6, "preg_match", sizePattern, columnType, matches);
-			if (zend_is_true(_6)) {
+			if (zephir_is_true(_6)) {
 				ZEPHIR_OBS_NVAR(matchOne);
 				if (zephir_array_isset_long_fetch(&matchOne, matches, 1 TSRMLS_CC)) {
 					zephir_array_update_string(&definition, SL("size"), &matchOne, PH_COPY | PH_SEPARATE);
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 		if (zephir_memnstr_str(columnType, SL("unsigned"), "phalcon/db/adapter/pdo/mysql.zep", 220)) {
 			zephir_array_update_string(&definition, SL("unsigned"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		}
-		if (!(zend_is_true(oldColumn))) {
+		if (!(zephir_is_true(oldColumn))) {
 			zephir_array_update_string(&definition, SL("first"), &ZEPHIR_GLOBAL(global_true), PH_COPY | PH_SEPARATE);
 		} else {
 			zephir_array_update_string(&definition, SL("after"), &oldColumn, PH_COPY | PH_SEPARATE);

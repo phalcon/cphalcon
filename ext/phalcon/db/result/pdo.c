@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				Z_SET_ISREF_P(matches);
 				ZEPHIR_INIT_VAR(_1);
 				zephir_call_func_p3(_1, "preg_match", _0, sqlStatement, matches);
-				if (zend_is_true(_1)) {
+				if (zephir_is_true(_1)) {
 					ZEPHIR_OBS_VAR(_2);
 					zephir_array_fetch_long(&_2, matches, 1, PH_NOISY TSRMLS_CC);
 					ZEPHIR_INIT_VAR(_3);

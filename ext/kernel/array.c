@@ -1092,7 +1092,7 @@ void zephir_array_merge_recursive_n(zval **a1, zval *a2 TSRMLS_DC)
 		} else {
 			zephir_array_fetch(&tmp1, *a1, &key, PH_NOISY TSRMLS_CC);
 			zephir_array_fetch(&tmp2, a2, &key, PH_NOISY TSRMLS_CC);
-			zephir_array_merge_recursive_n(&tmp1, tmp2);
+			zephir_array_merge_recursive_n(&tmp1, tmp2 TSRMLS_CC);
 			zval_ptr_dtor(&tmp1);
 			zval_ptr_dtor(&tmp2);
 		}
@@ -1208,8 +1208,7 @@ int zephir_array_is_associative(zval *arr) {
 				if (expected != nkey) {
 					return 1;
 				}
-			}
-			else {
+			} else {
 				return 1;
 			}
 

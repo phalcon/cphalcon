@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 			ZEPHIR_INIT_LNVAR(_1);
 			ZEPHIR_CONCAT_VS(_1, resourceName, "!");
 			ZEPHIR_INIT_NVAR(accessKey);
-			concat_function(accessKey, _1, accessName);
+			concat_function(accessKey, _1, accessName TSRMLS_CC);
 			if (zephir_array_isset(accessList, accessKey)) {
 				ZEPHIR_INIT_NVAR(_0);
 				ZVAL_BOOL(_0, exists);
@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess) {
 			ZEPHIR_INIT_LNVAR(_1);
 			ZEPHIR_CONCAT_VS(_1, resourceName, "!");
 			ZEPHIR_INIT_NVAR(accessKey);
-			concat_function(accessKey, _1, accessName);
+			concat_function(accessKey, _1, accessName TSRMLS_CC);
 			if (zephir_array_isset(accessList, accessKey)) {
 				ZEPHIR_INIT_NVAR(_0);
 				ZVAL_BOOL(_0, exists);
@@ -464,7 +464,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 			ZEPHIR_INIT_LNVAR(_3);
 			ZEPHIR_CONCAT_VS(_3, resourceName, "!");
 			ZEPHIR_INIT_NVAR(accessKey);
-			concat_function(accessKey, _3, accessName);
+			concat_function(accessKey, _3, accessName TSRMLS_CC);
 			if (zephir_array_isset(accessList, accessKey)) {
 			}
 		}
@@ -473,7 +473,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess) {
 			ZEPHIR_INIT_LNVAR(_3);
 			ZEPHIR_CONCAT_VS(_3, resourceName, "!");
 			ZEPHIR_INIT_NVAR(accessKey);
-			concat_function(accessKey, _3, accessName);
+			concat_function(accessKey, _3, accessName TSRMLS_CC);
 			if (zephir_array_isset(accessList, accessKey)) {
 			}
 		}
@@ -543,7 +543,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 			ZEPHIR_INIT_LNVAR(_1);
 			ZEPHIR_CONCAT_VS(_1, resourceName, "!");
 			ZEPHIR_INIT_NVAR(accessKey);
-			concat_function(accessKey, _1, accessName);
+			concat_function(accessKey, _1, accessName TSRMLS_CC);
 			if (!(zephir_array_isset(accessList, accessKey))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_acl_exception_ce);
@@ -552,7 +552,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 				ZEPHIR_INIT_LNVAR(_6);
 				ZEPHIR_CONCAT_VS(_6, _2, "' does not exist in resource '");
 				ZEPHIR_INIT_LNVAR(_7);
-				concat_function(_7, _6, resourceName);
+				concat_function(_7, _6, resourceName TSRMLS_CC);
 				ZEPHIR_INIT_LNVAR(_8);
 				ZEPHIR_CONCAT_VS(_8, _7, "'");
 				zephir_call_method_p1_noret(_0, "__construct", _8);
@@ -570,17 +570,17 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 			ZEPHIR_INIT_LNVAR(_6);
 			ZEPHIR_CONCAT_VS(_6, roleName, "!");
 			ZEPHIR_INIT_LNVAR(_7);
-			concat_function(_7, _6, resourceName);
+			concat_function(_7, _6, resourceName TSRMLS_CC);
 			ZEPHIR_INIT_LNVAR(_8);
 			ZEPHIR_CONCAT_VS(_8, _7, "!");
 			ZEPHIR_INIT_NVAR(accessKey);
-			concat_function(accessKey, _8, accessName);
+			concat_function(accessKey, _8, accessName TSRMLS_CC);
 			zephir_update_property_array(this_ptr, SL("_access"), accessKey, action TSRMLS_CC);
 			if (!ZEPHIR_IS_STRING(accessName, "*")) {
 				ZEPHIR_INIT_LNVAR(_12);
 				ZEPHIR_CONCAT_VS(_12, roleName, "!");
 				ZEPHIR_INIT_LNVAR(_13);
-				concat_function(_13, _12, resourceName);
+				concat_function(_13, _12, resourceName TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(accessKeyAll);
 				ZEPHIR_CONCAT_VS(accessKeyAll, _13, "!*");
 				if (zephir_array_isset(accessList, accessKeyAll)) {
@@ -593,7 +593,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 			ZEPHIR_INIT_LNVAR(_1);
 			ZEPHIR_CONCAT_VS(_1, resourceName, "!");
 			ZEPHIR_INIT_NVAR(accessKey);
-			concat_function(accessKey, _1, access);
+			concat_function(accessKey, _1, access TSRMLS_CC);
 			if (!(zephir_array_isset(accessList, accessKey))) {
 				ZEPHIR_INIT_NVAR(_0);
 				object_init_ex(_0, phalcon_acl_exception_ce);
@@ -602,7 +602,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 				ZEPHIR_INIT_LNVAR(_6);
 				ZEPHIR_CONCAT_VS(_6, _2, "' does not exist in resource '");
 				ZEPHIR_INIT_LNVAR(_7);
-				concat_function(_7, _6, resourceName);
+				concat_function(_7, _6, resourceName TSRMLS_CC);
 				ZEPHIR_INIT_LNVAR(_8);
 				ZEPHIR_CONCAT_VS(_8, _7, "'");
 				zephir_call_method_p1_noret(_0, "__construct", _8);
@@ -614,17 +614,17 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 		ZEPHIR_INIT_LNVAR(_6);
 		ZEPHIR_CONCAT_VS(_6, roleName, "!");
 		ZEPHIR_INIT_LNVAR(_7);
-		concat_function(_7, _6, resourceName);
+		concat_function(_7, _6, resourceName TSRMLS_CC);
 		ZEPHIR_INIT_LNVAR(_8);
 		ZEPHIR_CONCAT_VS(_8, _7, "!");
 		ZEPHIR_INIT_NVAR(accessKey);
-		concat_function(accessKey, _8, access);
+		concat_function(accessKey, _8, access TSRMLS_CC);
 		zephir_update_property_array(this_ptr, SL("_access"), accessKey, action TSRMLS_CC);
 		if (!ZEPHIR_IS_STRING(access, "*")) {
 			ZEPHIR_INIT_LNVAR(_12);
 			ZEPHIR_CONCAT_VS(_12, roleName, "!");
 			ZEPHIR_INIT_LNVAR(_13);
-			concat_function(_13, _12, resourceName);
+			concat_function(_13, _12, resourceName TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(accessKey);
 			ZEPHIR_CONCAT_VS(accessKey, _13, "!*");
 			if (!(zephir_array_isset(accessList, accessKey))) {
@@ -741,7 +741,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 
 	HashTable *_7, *_13, *_17;
 	HashPosition _6, _12, _16;
-	zval *role, *resource, *access, eventsManager = zval_used_for_init, *accessList, *accessKey = NULL, *haveAccess = NULL, *roleInherits, *inheritedRole = NULL, *rolesNames, *inheritedRoles, *_0, *_1 = NULL, *_2, *_3, *_4, *_5, **_8, *_9 = NULL, *_10 = NULL, *_11 = NULL, **_14, *_15 = NULL, **_18;
+	zval *role, *resource, *access, *eventsManager = NULL, *accessList, *accessKey = NULL, *haveAccess = NULL, *roleInherits, *inheritedRole = NULL, *rolesNames, *inheritedRoles, *_0, *_1 = NULL, *_2, *_3, *_4, *_5, **_8, *_9 = NULL, *_10 = NULL, *_11 = NULL, **_14, *_15 = NULL, **_18;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &role, &resource, &access);
@@ -774,11 +774,11 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_CONCAT_VS(_3, role, "!");
 	ZEPHIR_INIT_VAR(_4);
-	concat_function(_4, _3, resource);
+	concat_function(_4, _3, resource TSRMLS_CC);
 	ZEPHIR_INIT_VAR(_5);
 	ZEPHIR_CONCAT_VS(_5, _4, "!");
 	ZEPHIR_INIT_VAR(accessKey);
-	concat_function(accessKey, _5, access);
+	concat_function(accessKey, _5, access TSRMLS_CC);
 	if (zephir_array_isset(accessList, accessKey)) {
 		ZEPHIR_OBS_VAR(haveAccess);
 		zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY TSRMLS_CC);
@@ -798,11 +798,11 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 					ZEPHIR_INIT_LNVAR(_9);
 					ZEPHIR_CONCAT_VS(_9, inheritedRole, "!");
 					ZEPHIR_INIT_LNVAR(_10);
-					concat_function(_10, _9, resource);
+					concat_function(_10, _9, resource TSRMLS_CC);
 					ZEPHIR_INIT_LNVAR(_11);
 					ZEPHIR_CONCAT_VS(_11, _10, "!");
 					ZEPHIR_INIT_NVAR(accessKey);
-					concat_function(accessKey, _11, access);
+					concat_function(accessKey, _11, access TSRMLS_CC);
 					if (zephir_array_isset(accessList, accessKey)) {
 						ZEPHIR_OBS_NVAR(haveAccess);
 						zephir_array_fetch(&haveAccess, accessList, accessKey, PH_NOISY TSRMLS_CC);
@@ -815,7 +815,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 		ZEPHIR_INIT_LNVAR(_9);
 		ZEPHIR_CONCAT_VS(_9, role, "!");
 		ZEPHIR_INIT_LNVAR(_10);
-		concat_function(_10, _9, resource);
+		concat_function(_10, _9, resource TSRMLS_CC);
 		ZEPHIR_INIT_BNVAR(accessKey);
 		ZEPHIR_CONCAT_VS(accessKey, _10, "!*");
 		if (zephir_array_isset(accessList, accessKey)) {
@@ -832,7 +832,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed) {
 					ZEPHIR_INIT_LNVAR(_11);
 					ZEPHIR_CONCAT_VS(_11, inheritedRole, "!");
 					ZEPHIR_INIT_LNVAR(_15);
-					concat_function(_15, _11, resource);
+					concat_function(_15, _11, resource TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(accessKey);
 					ZEPHIR_CONCAT_VS(accessKey, _15, "!*");
 					if (zephir_array_isset(accessList, accessKey)) {
