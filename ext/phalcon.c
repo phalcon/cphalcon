@@ -354,12 +354,6 @@ zend_class_entry *phalcon_image_adapter_imagick_ce;
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
 #if PHP_VERSION_ID >= 50500
-static void (*orig_execute_internal)(zend_execute_data *, zend_fcall_info *, int TSRMLS_DC) = NULL;
-#else
-static void (*orig_execute_internal)(zend_execute_data *, int TSRMLS_DC) = NULL;
-#endif
-
-#if PHP_VERSION_ID >= 50500
 
 static void phalcon_execute_internal(zend_execute_data *execute_data_ptr, zend_fcall_info *fci, int return_value_used TSRMLS_DC)
 {
@@ -703,7 +697,6 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Image_Adapter_GD);
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
 
-	orig_execute_internal = zend_execute_internal;
 	if (!zend_execute_internal && !getenv("PHALCON_NO_RVO")) {
 		zend_execute_internal = phalcon_execute_internal;
 	}
@@ -711,16 +704,19 @@ static PHP_MINIT_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
-#ifndef PHALCON_RELEASE
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
+	if (zend_execute_internal == phalcon_execute_internal) {
+		zend_execute_internal = NULL;
+	}
 
+#ifndef PHALCON_RELEASE
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
+#endif
 
 	return SUCCESS;
 }
-#endif
 
 static PHP_RINIT_FUNCTION(phalcon){
 
