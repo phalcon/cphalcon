@@ -971,7 +971,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 		} else {
 
 			let layout = null;
-			if memchr(renderView, "/") {
+			if memstr(renderView, "/") {
 				let parts = explode("/", renderView), layout = parts[0];
 			}
 

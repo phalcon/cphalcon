@@ -20,6 +20,7 @@
 #include "kernel/operators.h"
 #include "kernel/hash.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 
 
 /*
@@ -1135,7 +1136,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
  */
 PHP_METHOD(Phalcon_Mvc_View, pick) {
 
-	zval *renderView, *pickView = NULL, *layout = NULL, *parts, *_0, *_1, _2;
+	zval *renderView, *pickView = NULL, *layout = NULL, *parts, _0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &renderView);
@@ -1147,15 +1148,11 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
 	} else {
 		ZEPHIR_INIT_VAR(layout);
 		ZVAL_NULL(layout);
-		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "/", 1);
-		ZEPHIR_INIT_VAR(_1);
-		zephir_call_func_p2(_1, "memchr", renderView, _0);
-		if (zend_is_true(_1)) {
-			ZEPHIR_SINIT_VAR(_2);
-			ZVAL_STRING(&_2, "/", 0);
+		if (zephir_memnstr_str(renderView, SL("/"), "phalcon/mvc/view.zep", 974)) {
+			ZEPHIR_SINIT_VAR(_0);
+			ZVAL_STRING(&_0, "/", 0);
 			ZEPHIR_INIT_VAR(parts);
-			zephir_call_func_p2(parts, "explode", &_2, renderView);
+			zephir_call_func_p2(parts, "explode", &_0, renderView);
 			ZEPHIR_OBS_NVAR(layout);
 			zephir_array_fetch_long(&layout, parts, 0, PH_NOISY TSRMLS_CC);
 		}

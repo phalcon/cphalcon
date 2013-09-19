@@ -508,8 +508,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 				continue;
 			}
 			ZEPHIR_INIT_NVAR(matched);
-			if (zephir_memnstr_str(hostname, SL("("), "/Users/gutierrezandresfelipe/cphalcon/phalcon/mvc/router.zep", 399)) {
-				if (zephir_memnstr_str(hostname, SL("#"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/mvc/router.zep", 400)) {
+			if (zephir_memnstr_str(hostname, SL("("), "phalcon/mvc/router.zep", 399)) {
+				if (zephir_memnstr_str(hostname, SL("#"), "phalcon/mvc/router.zep", 400)) {
 					ZEPHIR_INIT_LNVAR(_7);
 					ZEPHIR_CONCAT_SV(_7, "#^", hostname);
 					ZEPHIR_INIT_NVAR(regexHostName);
@@ -528,7 +528,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 		ZEPHIR_INIT_NVAR(pattern);
 		zephir_call_method(pattern, route, "getcompiledpattern");
 		ZEPHIR_INIT_NVAR(routeFound);
-		if (zephir_memnstr_str(pattern, SL("^"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/mvc/router.zep", 418)) {
+		if (zephir_memnstr_str(pattern, SL("^"), "phalcon/mvc/router.zep", 418)) {
 			Z_SET_ISREF_P(matches);
 			zephir_call_func_p3(routeFound, "preg_match", pattern, handledUri, matches);
 		} else {
