@@ -745,7 +745,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	HashPosition _5;
 	int renderLevel, cacheLevel;
 	zend_bool notExists;
-	zval *engines, *viewPath, *silence, *mustClean, *cache, *key = NULL, *lifetime, *viewsDir, *basePath, *viewsDirPath, *viewOptions, *cacheOptions, *cachedView, *viewParams, *eventsManager, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *_0, *_1, *_2, *_3 = NULL, *_4 = NULL, **_7, *_8 = NULL, *_9, *_10;
+	zval *engines, *viewPath, *silence, *mustClean, *cache, *key = NULL, *lifetime, *viewsDir, *basePath, *viewsDirPath, *viewOptions, *cacheOptions, *cachedView, *viewParams, eventsManager = zval_used_for_init, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *_0, *_1 = NULL, *_2, *_3 = NULL, *_4 = NULL, **_7, *_8 = NULL, *_9, *_10;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 5, 0, &engines, &viewPath, &silence, &mustClean, &cache);
@@ -805,8 +805,10 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	}
 	ZEPHIR_OBS_VAR(viewParams);
 	zephir_read_property_this(&viewParams, this_ptr, SL("_viewParams"), PH_NOISY_CC);
-	ZEPHIR_OBS_VAR(eventsManager);
-	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_NVAR(_1);
+	zephir_read_property_this(&_1, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(eventsManager, _1);
+	//missing empty
 	zephir_is_iterable(engines, &_6, &_5, 0, 0);
 	for (
 		; zend_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS

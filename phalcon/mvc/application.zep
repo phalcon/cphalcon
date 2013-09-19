@@ -191,7 +191,7 @@ class Application extends Phalcon\Di\Injectable
 			throw new Phalcon\Mvc\Application\Exception("A dependency injection object is required to access internal services");
 		}
 
-		let eventsManager = this->_eventsManager;
+		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
 
 		/**
 		 * Call boot event, this allow the developer to perform initialization actions

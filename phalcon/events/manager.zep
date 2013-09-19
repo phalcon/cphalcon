@@ -38,4 +38,22 @@ class Manager implements Phalcon\Events\ManagerInterface
 
 	protected _responses;
 
+	/**
+	 * Fires an event in the events manager causing that active listeners be notified about it
+	 *
+	 *<code>
+	 *	$eventsManager->fire('db', $connection);
+	 *</code>
+	 *
+	 * @param string eventType
+	 * @param object source
+	 * @param mixed  data
+	 * @param int cancelable
+	 * @return mixed
+	 */
+	public function fire(eventType, source, data=null, cancelable=true)
+	{
+
+	}
+
 }

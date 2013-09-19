@@ -654,7 +654,7 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 		}
 
 		let viewParams = this->_viewParams,
-			eventsManager = this->_eventsManager;
+			eventsManager = <Phalcon\Events\Manager> this->_eventsManager;;
 
 		/**
 		 * Views are rendered in each engine

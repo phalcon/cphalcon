@@ -104,7 +104,7 @@ class Dispatcher extends Phalcon\Dispatcher
 
 		let exception = new Phalcon\CLI\Dispatcher\Exception(message, exceptionCode);
 
-		let eventsManager = this->_eventsManager;
+		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
 		if typeof eventsManager != "object" {
 			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
 				return false;

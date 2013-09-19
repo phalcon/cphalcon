@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue) {
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
-	zval *value, *handler = NULL, *dependencyInjector, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params = NULL, *eventsManager, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3 = NULL, *_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11, _12 = zval_used_for_init, *_13 = NULL;
+	zval *value, *handler = NULL, *dependencyInjector, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params = NULL, eventsManager = zval_used_for_init, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0 = NULL, *_1 = NULL, *_2, *_3, *_4 = NULL, *_5, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11 = NULL, *_12, _13 = zval_used_for_init, *_14 = NULL;
 	int numberDispatches;
 	zend_bool hasService;
 
@@ -478,8 +478,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		zephir_call_method_p2_noret(this_ptr, "_throwdispatchexception", _1, _0);
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_OBS_VAR(eventsManager);
-	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(_2);
+	zephir_read_property_this(&_2, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(eventsManager, _2);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_NVAR(_0);
 		ZEPHIR_INIT_NVAR(_1);
@@ -500,8 +501,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 	zephir_read_property_this(&actionSuffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
 	zephir_update_property_this(this_ptr, SL("_finished"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	while (1) {
-		_2 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-		if (!(!(zend_is_true(_2)))) {
+		_3 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+		if (!(!(zend_is_true(_3)))) {
 			break;
 		}
 		numberDispatches++;
@@ -538,14 +539,14 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 			ZEPHIR_INIT_NVAR(_1);
-			ZEPHIR_INIT_NVAR(_3);
-			ZVAL_STRING(_3, "dispatch:beforeDispatch", 1);
-			zephir_call_method_p2(_1, eventsManager, "fire", _3, this_ptr);
+			ZEPHIR_INIT_NVAR(_4);
+			ZVAL_STRING(_4, "dispatch:beforeDispatch", 1);
+			zephir_call_method_p2(_1, eventsManager, "fire", _4, this_ptr);
 			if (ZEPHIR_IS_FALSE(_1)) {
 				continue;
 			}
-			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (ZEPHIR_IS_FALSE(_4)) {
+			_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (ZEPHIR_IS_FALSE(_5)) {
 				continue;
 			}
 		}
@@ -558,39 +559,39 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		if (zend_is_true(namespaceName)) {
 			ZEPHIR_INIT_NVAR(handlerClass);
 			if (zephir_end_with_str(namespaceName, SL("\\"))) {
-				ZEPHIR_INIT_LNVAR(_5);
-				concat_function(_5, namespaceName, camelizedClass);
-				concat_function(handlerClass, _5, handlerSuffix);
-			} else {
-				ZEPHIR_INIT_LNVAR(_5);
-				ZEPHIR_CONCAT_VS(_5, namespaceName, "\\");
 				ZEPHIR_INIT_LNVAR(_6);
-				concat_function(_6, _5, camelizedClass);
+				concat_function(_6, namespaceName, camelizedClass);
 				concat_function(handlerClass, _6, handlerSuffix);
+			} else {
+				ZEPHIR_INIT_LNVAR(_6);
+				ZEPHIR_CONCAT_VS(_6, namespaceName, "\\");
+				ZEPHIR_INIT_LNVAR(_7);
+				concat_function(_7, _6, camelizedClass);
+				concat_function(handlerClass, _7, handlerSuffix);
 			}
 		} else {
 			ZEPHIR_INIT_NVAR(handlerClass);
 			concat_function(handlerClass, camelizedClass, handlerSuffix);
 		}
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_method_p1(_3, dependencyInjector, "has", handlerClass);
-		hasService = (zephir_get_boolval(_3)) ? 1 : 0;
+		ZEPHIR_INIT_NVAR(_4);
+		zephir_call_method_p1(_4, dependencyInjector, "has", handlerClass);
+		hasService = (zephir_get_boolval(_4)) ? 1 : 0;
 		if (!(hasService)) {
-			ZEPHIR_INIT_NVAR(_7);
-			zephir_call_func_p1(_7, "class_exists", handlerClass);
-			hasService = (zephir_get_boolval(_7)) ? 1 : 0;
+			ZEPHIR_INIT_NVAR(_8);
+			zephir_call_func_p1(_8, "class_exists", handlerClass);
+			hasService = (zephir_get_boolval(_8)) ? 1 : 0;
 		}
 		if (!(hasService)) {
-			ZEPHIR_INIT_LNVAR(_5);
-			ZEPHIR_CONCAT_VS(_5, handlerClass, " handler class cannot be loaded");
-			ZEPHIR_INIT_NVAR(_3);
-			ZEPHIR_INIT_NVAR(_3);
-			ZVAL_LONG(_3, 2);
+			ZEPHIR_INIT_LNVAR(_6);
+			ZEPHIR_CONCAT_VS(_6, handlerClass, " handler class cannot be loaded");
+			ZEPHIR_INIT_NVAR(_4);
+			ZEPHIR_INIT_NVAR(_4);
+			ZVAL_LONG(_4, 2);
 			ZEPHIR_INIT_NVAR(status);
-			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _5, _3);
+			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _6, _4);
 			if (ZEPHIR_IS_FALSE(status)) {
-				_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (ZEPHIR_IS_FALSE(_4)) {
+				_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (ZEPHIR_IS_FALSE(_5)) {
 					continue;
 				}
 			}
@@ -599,16 +600,16 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		ZEPHIR_INIT_NVAR(handler);
 		zephir_call_method_p1(handler, dependencyInjector, "getshared", handlerClass);
 		if ((Z_TYPE_P(handler) != IS_OBJECT)) {
-			ZEPHIR_INIT_NVAR(_3);
-			ZEPHIR_INIT_NVAR(_3);
-			ZVAL_LONG(_3, 3);
-			ZEPHIR_INIT_NVAR(_7);
-			ZVAL_STRING(_7, "Invalid handler returned from the services container", 1);
+			ZEPHIR_INIT_NVAR(_4);
+			ZEPHIR_INIT_NVAR(_4);
+			ZVAL_LONG(_4, 3);
+			ZEPHIR_INIT_NVAR(_8);
+			ZVAL_STRING(_8, "Invalid handler returned from the services container", 1);
 			ZEPHIR_INIT_NVAR(status);
-			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _7, _3);
+			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _8, _4);
 			if (ZEPHIR_IS_FALSE(status)) {
-				_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (ZEPHIR_IS_FALSE(_4)) {
+				_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (ZEPHIR_IS_FALSE(_5)) {
 					continue;
 				}
 			}
@@ -618,16 +619,16 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		ZEPHIR_OBS_NVAR(params);
 		zephir_read_property_this(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 		if ((Z_TYPE_P(params) != IS_ARRAY)) {
-			ZEPHIR_INIT_NVAR(_3);
-			ZEPHIR_INIT_NVAR(_3);
-			ZVAL_LONG(_3, 4);
-			ZEPHIR_INIT_NVAR(_7);
-			ZVAL_STRING(_7, "Action parameters must be an Array", 1);
+			ZEPHIR_INIT_NVAR(_4);
+			ZEPHIR_INIT_NVAR(_4);
+			ZVAL_LONG(_4, 4);
+			ZEPHIR_INIT_NVAR(_8);
+			ZVAL_STRING(_8, "Action parameters must be an Array", 1);
 			ZEPHIR_INIT_NVAR(status);
-			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _7, _3);
+			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _8, _4);
 			if (ZEPHIR_IS_FALSE(status)) {
-				_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (ZEPHIR_IS_FALSE(_4)) {
+				_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (ZEPHIR_IS_FALSE(_5)) {
 					continue;
 				}
 			}
@@ -635,118 +636,118 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		}
 		ZEPHIR_INIT_NVAR(actionMethod);
 		concat_function(actionMethod, actionName, actionSuffix);
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_func_p2(_3, "method_exists", handler, actionMethod);
-		if (!(zend_is_true(_3))) {
+		ZEPHIR_INIT_NVAR(_4);
+		zephir_call_func_p2(_4, "method_exists", handler, actionMethod);
+		if (!(zend_is_true(_4))) {
 			if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
-				ZEPHIR_INIT_NVAR(_7);
 				ZEPHIR_INIT_NVAR(_8);
-				ZVAL_STRING(_8, "dispatch:beforeNotFoundAction", 1);
-				zephir_call_method_p2(_7, eventsManager, "fire", _8, this_ptr);
-				if (ZEPHIR_IS_FALSE(_7)) {
+				ZEPHIR_INIT_NVAR(_9);
+				ZVAL_STRING(_9, "dispatch:beforeNotFoundAction", 1);
+				zephir_call_method_p2(_8, eventsManager, "fire", _9, this_ptr);
+				if (ZEPHIR_IS_FALSE(_8)) {
 					continue;
 				}
-				_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (ZEPHIR_IS_FALSE(_4)) {
+				_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (ZEPHIR_IS_FALSE(_5)) {
 					continue;
 				}
 			}
-			ZEPHIR_INIT_LNVAR(_5);
-			ZEPHIR_CONCAT_SV(_5, "Action '", actionName);
 			ZEPHIR_INIT_LNVAR(_6);
-			ZEPHIR_CONCAT_VS(_6, _5, "' was not found on handler '");
-			ZEPHIR_INIT_LNVAR(_9);
-			concat_function(_9, _6, handlerName);
+			ZEPHIR_CONCAT_SV(_6, "Action '", actionName);
+			ZEPHIR_INIT_LNVAR(_7);
+			ZEPHIR_CONCAT_VS(_7, _6, "' was not found on handler '");
 			ZEPHIR_INIT_LNVAR(_10);
-			ZEPHIR_CONCAT_VS(_10, _9, "'");
-			ZEPHIR_INIT_NVAR(_8);
-			ZEPHIR_INIT_NVAR(_8);
-			ZVAL_LONG(_8, 5);
+			concat_function(_10, _7, handlerName);
+			ZEPHIR_INIT_LNVAR(_11);
+			ZEPHIR_CONCAT_VS(_11, _10, "'");
+			ZEPHIR_INIT_NVAR(_9);
+			ZEPHIR_INIT_NVAR(_9);
+			ZVAL_LONG(_9, 5);
 			ZEPHIR_INIT_NVAR(status);
-			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _10, _8);
+			zephir_call_method_p2(status, this_ptr, "_throwdispatchexception", _11, _9);
 			if (ZEPHIR_IS_FALSE(status)) {
-				_11 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-				if (ZEPHIR_IS_FALSE(_11)) {
+				_12 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (ZEPHIR_IS_FALSE(_12)) {
 					continue;
 				}
 			}
 			break;
 		}
 		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
-			ZEPHIR_INIT_NVAR(_3);
-			ZEPHIR_INIT_NVAR(_7);
-			ZVAL_STRING(_7, "dispatch:beforeExecuteRoute", 1);
-			zephir_call_method_p2(_3, eventsManager, "fire", _7, this_ptr);
-			if (ZEPHIR_IS_FALSE(_3)) {
-				continue;
-			}
-			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (ZEPHIR_IS_FALSE(_4)) {
-				continue;
-			}
-		}
-		ZEPHIR_SINIT_NVAR(_12);
-		ZVAL_STRING(&_12, "beforeExecuteRoute", 0);
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_func_p2(_3, "method_exists", handler, &_12);
-		if (zend_is_true(_3)) {
-			ZEPHIR_INIT_NVAR(_7);
-			zephir_call_method_p1(_7, handler, "beforeexecuteroute", this_ptr);
-			if (ZEPHIR_IS_FALSE(_7)) {
-				continue;
-			}
-			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (ZEPHIR_IS_FALSE(_4)) {
-				continue;
-			}
-		}
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_method(_3, dependencyInjector, "wasfreshinstance");
-		if (ZEPHIR_IS_TRUE(_3)) {
-			ZEPHIR_SINIT_NVAR(_12);
-			ZVAL_STRING(&_12, "initialize", 0);
-			ZEPHIR_INIT_NVAR(_7);
-			zephir_call_func_p2(_7, "method_exists", handler, &_12);
-			if (zend_is_true(_7)) {
-				zephir_call_method_noret(handler, "initialize");
-			}
-		}
-		ZEPHIR_INIT_NVAR(_3);
-		array_init(_3);
-		zephir_array_append(&_3, handler, 0);
-		zephir_array_append(&_3, actionMethod, 0);
-		ZEPHIR_INIT_NVAR(_7);
-		zephir_call_func_p2(_7, "call_user_func_array", _3, params);
-		zephir_update_property_this(this_ptr, SL("_returnedValue"), _7 TSRMLS_CC);
-		zephir_update_property_this(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
-		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
+			ZEPHIR_INIT_NVAR(_4);
 			ZEPHIR_INIT_NVAR(_8);
-			ZEPHIR_INIT_NVAR(_13);
-			ZVAL_STRING(_13, "dispatch:afterExecuteRoute", 1);
-			zephir_call_method_p3(_8, eventsManager, "fire", _13, this_ptr, value);
+			ZVAL_STRING(_8, "dispatch:beforeExecuteRoute", 1);
+			zephir_call_method_p2(_4, eventsManager, "fire", _8, this_ptr);
+			if (ZEPHIR_IS_FALSE(_4)) {
+				continue;
+			}
+			_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (ZEPHIR_IS_FALSE(_5)) {
+				continue;
+			}
+		}
+		ZEPHIR_SINIT_NVAR(_13);
+		ZVAL_STRING(&_13, "beforeExecuteRoute", 0);
+		ZEPHIR_INIT_NVAR(_4);
+		zephir_call_func_p2(_4, "method_exists", handler, &_13);
+		if (zend_is_true(_4)) {
+			ZEPHIR_INIT_NVAR(_8);
+			zephir_call_method_p1(_8, handler, "beforeexecuteroute", this_ptr);
 			if (ZEPHIR_IS_FALSE(_8)) {
 				continue;
 			}
-			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (ZEPHIR_IS_FALSE(_4)) {
+			_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (ZEPHIR_IS_FALSE(_5)) {
 				continue;
 			}
-			ZEPHIR_INIT_NVAR(_8);
-			ZVAL_STRING(_8, "dispatch:afterDispatch", 1);
-			zephir_call_method_p2_noret(eventsManager, "fire", _8, this_ptr);
 		}
-		ZEPHIR_SINIT_NVAR(_12);
-		ZVAL_STRING(&_12, "afterExecuteRoute", 0);
-		ZEPHIR_INIT_NVAR(_3);
-		zephir_call_func_p2(_3, "method_exists", handler, &_12);
-		if (zend_is_true(_3)) {
-			ZEPHIR_INIT_NVAR(_7);
-			zephir_call_method_p2(_7, handler, "afterexecuteroute", this_ptr, value);
-			if (ZEPHIR_IS_FALSE(_7)) {
+		ZEPHIR_INIT_NVAR(_4);
+		zephir_call_method(_4, dependencyInjector, "wasfreshinstance");
+		if (ZEPHIR_IS_TRUE(_4)) {
+			ZEPHIR_SINIT_NVAR(_13);
+			ZVAL_STRING(&_13, "initialize", 0);
+			ZEPHIR_INIT_NVAR(_8);
+			zephir_call_func_p2(_8, "method_exists", handler, &_13);
+			if (zend_is_true(_8)) {
+				zephir_call_method_noret(handler, "initialize");
+			}
+		}
+		ZEPHIR_INIT_NVAR(_4);
+		array_init(_4);
+		zephir_array_append(&_4, handler, 0);
+		zephir_array_append(&_4, actionMethod, 0);
+		ZEPHIR_INIT_NVAR(_8);
+		zephir_call_func_p2(_8, "call_user_func_array", _4, params);
+		zephir_update_property_this(this_ptr, SL("_returnedValue"), _8 TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
+		if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
+			ZEPHIR_INIT_NVAR(_9);
+			ZEPHIR_INIT_NVAR(_14);
+			ZVAL_STRING(_14, "dispatch:afterExecuteRoute", 1);
+			zephir_call_method_p3(_9, eventsManager, "fire", _14, this_ptr, value);
+			if (ZEPHIR_IS_FALSE(_9)) {
 				continue;
 			}
-			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
-			if (ZEPHIR_IS_FALSE(_4)) {
+			_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (ZEPHIR_IS_FALSE(_5)) {
+				continue;
+			}
+			ZEPHIR_INIT_NVAR(_9);
+			ZVAL_STRING(_9, "dispatch:afterDispatch", 1);
+			zephir_call_method_p2_noret(eventsManager, "fire", _9, this_ptr);
+		}
+		ZEPHIR_SINIT_NVAR(_13);
+		ZVAL_STRING(&_13, "afterExecuteRoute", 0);
+		ZEPHIR_INIT_NVAR(_4);
+		zephir_call_func_p2(_4, "method_exists", handler, &_13);
+		if (zend_is_true(_4)) {
+			ZEPHIR_INIT_NVAR(_8);
+			zephir_call_method_p2(_8, handler, "afterexecuteroute", this_ptr, value);
+			if (ZEPHIR_IS_FALSE(_8)) {
+				continue;
+			}
+			_5 = zephir_fetch_nproperty_this(this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (ZEPHIR_IS_FALSE(_5)) {
 				continue;
 			}
 		}

@@ -76,4 +76,102 @@ class Profiler
 	 */
 	protected _totalSeconds = 0;
 
+	/**
+	 * Starts the profile of a SQL sentence
+	 *
+	 * @param string sqlStatement
+	 * @return Phalcon\Db\Profiler
+	 */
+	public function startProfile(sqlStatement)
+	{
+		var activeProfile;
+
+		let activeProfile = new Phalcon\Db\Profiler\Item();
+		activeProfile->setSqlStatement(sqlStatement);
+		activeProfile->setInitialTime(microtime(true));
+
+		if method_exists(this, "beforeStartProfile") {
+			this->{"beforeStartProfile"}(activeProfile);
+		}
+
+		let this->_activeProfile = activeProfile;
+		return this;
+	}
+
+	/**
+	 * Stops the active profile
+	 *
+	 * @return Phalcon\Db\Profiler
+	 */
+	public function stopProfile()
+	{
+		var finalTime, initialTime, activeProfile;
+
+		let finalTime = microtime(true),
+			activeProfile = <Phalcon\Db\Profiler\Item> this->_activeProfile;
+
+		activeProfile->setFinalTime(finalTime);
+
+		let initialTime = activeProfile->getInitialTime(),
+			this->_totalSeconds = this->_totalSeconds + (finalTime - initialTime),
+			this->_allProfiles[] = activeProfile;
+
+		if method_exists(this, "afterEndProfile") {
+			this->{"afterEndProfile"}(activeProfile);
+		}
+
+		return this;
+	}
+
+	/**
+     * Returns the total number of SQL statements processed
+	 *
+	 * @return integer
+	 */
+	public function getNumberTotalStatements()
+	{
+		return count(this->_allProfiles);
+	}
+
+	/**
+	 * Returns the total time in seconds spent by the profiles
+	 *
+	 * @return double
+	 */
+	public function getTotalElapsedSeconds()
+	{
+		return this->_totalSeconds;
+	}
+
+	/**
+	 * Returns all the processed profiles
+	 *
+	 * @return Phalcon\Db\Profiler\Item[]
+	 */
+	public function getProfiles()
+	{
+		return this->_allProfiles;
+	}
+
+	/**
+	 * Resets the profiler, cleaning up all the profiles
+	 *
+	 * @return Phalcon\Db\Profiler
+	 */
+	public function reset()
+	{
+		let this->_allProfiles = [];
+		return this;
+	}
+
+	/**
+	 * Returns the last profile executed in the profiler
+	 *
+	 * @return	Phalcon\Db\Profiler\Item
+	 */
+	public function getLastProfile()
+	{
+		return this->_activeProfile;
+	}
+
 }

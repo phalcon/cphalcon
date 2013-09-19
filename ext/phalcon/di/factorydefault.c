@@ -57,7 +57,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault) {
 PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 
 	zval *_0, *_1, *_2, *_3;
-	zend_bool shared = 1;
 
 	ZEPHIR_MM_GROW();
 
@@ -70,7 +69,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "router", 1);
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Mvc\\Router", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("router"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -78,7 +77,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "dispatcher", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Mvc\\Dispatcher", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("dispatcher"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -86,7 +85,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "url", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Mvc\\Url", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("url"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -94,7 +93,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "modelsManager", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Mvc\\Model\\Manager", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("modelsManager"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -102,7 +101,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "modelsMetadata", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Mvc\\Model\\MetaData\\Memory", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("modelsMetadata"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -110,7 +109,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "response", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Http\\Response", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("response"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -118,7 +117,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "cookies", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Http\\Response\\Cookies", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("cookies"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -126,7 +125,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "request", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Http\\Request", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("request"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -134,7 +133,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "filter", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Filter", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("filter"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -142,7 +141,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "escaper", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Escaper", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("escaper"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -150,7 +149,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "security", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Security", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("security"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -158,7 +157,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "crypt", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Crypt", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("crypt"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -166,7 +165,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "annotations", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Annotations\\Adapter\\Memory", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("annotations"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -174,7 +173,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "flash", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Flash\\Direct", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("flash"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -182,7 +181,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "flashSession", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Flash\\Session", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("flashSession"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -190,7 +189,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "tag", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Tag", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("tag"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -198,7 +197,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "session", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Session\\Adapter\\Files", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("session"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -214,7 +213,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "eventsManager", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Events\\Manager", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("eventsManager"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -222,7 +221,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "transactions", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Mvc\\Model\\Transaction\\Manager", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("transactionManager"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_BNVAR(_1);
 	object_init_ex(_1, phalcon_di_service_ce);
@@ -230,7 +229,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZVAL_STRING(_2, "assets", 1);
 	ZEPHIR_INIT_BNVAR(_3);
 	ZVAL_STRING(_3, "Phalcon\\Assets\\Manager", 1);
-	zephir_call_method_p3_noret(_1, "__construct", _2, _3, (shared ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)));
+	zephir_call_method_p3_noret(_1, "__construct", _2, _3, ZEPHIR_GLOBAL(global_true));
 	zephir_array_update_string(&_0, SL("assets"), &_1, PH_COPY | PH_SEPARATE);
 	zephir_update_property_this(this_ptr, SL("_services"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

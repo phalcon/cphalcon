@@ -36,8 +36,6 @@ class Cli extends Phalcon\Di\FactoryDefault
 	public function __construct()
 	{
 
-		var shared = true;
-
 		parent::__construct();
 
 		let this->_services = [
@@ -45,12 +43,12 @@ class Cli extends Phalcon\Di\FactoryDefault
 			"dispatcher": new Phalcon\Di\Service("dispatcher", "Phalcon\\CLI\\Dispatcher"),
 			"modelsManager": new Phalcon\Di\Service("modelsManager", "Phalcon\\Mvc\\Model\\Manager"),
 			"modelsMetadata": new Phalcon\Di\Service("modelsMetadata", "Phalcon\\Mvc\\Model\\Metadata\\Memory"),
-			"filter": new Phalcon\Di\Service("filter", "Phalcon\\Filter", shared),
-			"escaper": new Phalcon\Di\Service("escaper", "Phalcon\\Escaper", shared),
-			"annotations": new Phalcon\Di\Service("annotations", "Phalcon\\Annotations\\Adapter\\Memory", shared),
-			"security": new Phalcon\Di\Service("security", "Phalcon\\Security", shared),
-			"eventsManager": new Phalcon\Di\Service("eventsManager", "Phalcon\\Events\\Manage", shared),
-			"transactionManager": new Phalcon\Di\Service("transactionManager", "Phalcon\\Mvc\\Model\\Transaction\\Manager", shared)
+			"filter": new Phalcon\Di\Service("filter", "Phalcon\\Filter", true),
+			"escaper": new Phalcon\Di\Service("escaper", "Phalcon\\Escaper", true),
+			"annotations": new Phalcon\Di\Service("annotations", "Phalcon\\Annotations\\Adapter\\Memory", true),
+			"security": new Phalcon\Di\Service("security", "Phalcon\\Security", true),
+			"eventsManager": new Phalcon\Di\Service("eventsManager", "Phalcon\\Events\\Manage", true),
+			"transactionManager": new Phalcon\Di\Service("transactionManager", "Phalcon\\Mvc\\Model\\Transaction\\Manager", true)
 		];
 	}
 

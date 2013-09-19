@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
-	zval *message, *exceptionCode = NULL, *eventsManager, *dependencyInjector, *response, *exception, *_0 = NULL, *_1 = NULL, *_2;
+	zval *message, *exceptionCode = NULL, eventsManager = zval_used_for_init, *dependencyInjector, *response, *exception, *_0 = NULL, *_1 = NULL, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message, &exceptionCode);
@@ -180,8 +180,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	ZEPHIR_INIT_VAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 	zephir_call_method_p2_noret(exception, "__construct", message, exceptionCode);
-	ZEPHIR_OBS_VAR(eventsManager);
-	zephir_read_property_this(&eventsManager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(_3);
+	zephir_read_property_this(&_3, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(eventsManager, _3);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_NVAR(_0);
 		ZEPHIR_INIT_NVAR(_1);

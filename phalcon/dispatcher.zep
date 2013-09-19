@@ -341,7 +341,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 		/**
 		 * Calling beforeDispatchLoop
 		 */
-		let eventsManager = this->_eventsManager;
+		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("dispatch:beforeDispatchLoop", this) === false {
 				return false;

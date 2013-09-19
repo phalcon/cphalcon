@@ -164,7 +164,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 			throw new Phalcon\CLI\Console\Exception("A dependency injection object is required to access internal services");
 		}
 
-		let eventsManager = this->_eventsManager;
+		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
 
 		let router = dependencyInjector->getShared("router");
 		router->handle(arguments);

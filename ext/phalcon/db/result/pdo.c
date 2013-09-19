@@ -174,10 +174,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch) {
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
  *<code>
- *	result = connection->query("SELECT * FROM robots ORDER BY name");
- *	result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *	while (robot = result->fetchArray()) {
- *		print_r(robot);
+ *	$result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
+ *	while ($robot = result->fetchArray()) {
+ *		print_r($robot);
  *	}
  *</code>
  *
@@ -201,8 +201,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray) {
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
  *<code>
- *	result = connection->query("SELECT * FROM robots ORDER BY name");
- *	robots = result->fetchAll();
+ *	$result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	$robots = result->fetchAll();
  *</code>
  *
  * @return array
@@ -224,8 +224,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
  * Gets number of rows returned by a resulset
  *
  *<code>
- *	result = connection->query("SELECT * FROM robots ORDER BY name");
- *	echo 'There are ', result->numRows(), ' rows in the resulset';
+ *	$result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	echo 'There are ', $result->numRows(), ' rows in the resulset';
  *</code>
  *
  * @return int
@@ -293,9 +293,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
  * Moves internal resulset cursor to another position letting us to fetch a certain row
  *
  *<code>
- *	result = connection->query("SELECT * FROM robots ORDER BY name");
- *	result->dataSeek(2); // Move to third row on result
- *	row = result->fetch(); // Fetch third row
+ *	$result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result->dataSeek(2); // Move to third row on result
+ *	$row = $result->fetch(); // Fetch third row
  *</code>
  *
  * @param int number
@@ -340,16 +340,16 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
  *
  *<code>
  *	//Return array with integer indexes
- *	result->setFetchMode(Phalcon\Db::FETCH_NUM);
+ *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
  *
  *	//Return associative array without integer indexes
- *	result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
+ *	$result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
  *
  *	//Return associative array together with integer indexes
- *	result->setFetchMode(Phalcon\Db::FETCH_BOTH);
+ *	$result->setFetchMode(Phalcon\Db::FETCH_BOTH);
  *
  *	//Return an object
- *	result->setFetchMode(Phalcon\Db::FETCH_OBJ);
+ *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
  *</code>
  *
  * @param int fetchMode

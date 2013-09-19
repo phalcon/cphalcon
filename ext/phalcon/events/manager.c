@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -41,7 +42,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Manager) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Manager, phalcon, events_manager, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Manager, phalcon, events_manager, phalcon_events_manager_method_entry, 0);
 
 	zend_declare_property_null(phalcon_events_manager_ce, SL("_events"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_events_manager_ce, SL("_collect"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -49,6 +50,37 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager) {
 	zend_declare_property_null(phalcon_events_manager_ce, SL("_responses"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Fires an event in the events manager causing that active listeners be notified about it
+ *
+ *<code>
+ *	$eventsManager->fire('db', $connection);
+ *</code>
+ *
+ * @param string eventType
+ * @param object source
+ * @param mixed  data
+ * @param int cancelable
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Events_Manager, fire) {
+
+	zval *eventType, *source, *data = NULL, *cancelable = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 2, &eventType, &source, &data, &cancelable);
+
+	if (!data) {
+		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!cancelable) {
+		ZEPHIR_CPY_WRT(cancelable, ZEPHIR_GLOBAL(global_true));
+	}
+
+
 
 }
 

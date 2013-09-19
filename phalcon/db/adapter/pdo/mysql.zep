@@ -45,4 +45,221 @@ class Mysql extends Phalcon\Db\Adapter\Pdo implements Phalcon\Db\AdapterInterfac
 
 	protected _dialectType = "mysql";
 
+	/**
+	 * Escapes a column/table/schema name
+	 *
+	 * @param string identifier
+	 * @return string
+	 */
+	public function escapeIdentifier(identifier)
+	{
+		var domain, name;
+
+		if typeof identifier == "array" {
+			let domain = identifier[0],
+				name = identifier[1];
+			if globals_get("db.escape_identifiers") {
+				return "`" . domain . "`.`" . name . "`";
+			}
+			return domain . "." . name;
+		}
+
+		if globals_get("db.escape_identifiers") {
+			return "`" . identifier . "`";
+		}
+
+		return identifier;
+	}
+
+	/**
+	 * Returns an array of Phalcon\Db\Column objects describing a table
+	 *
+	 * <code>
+	 * print_r($connection->describeColumns("posts")); ?>
+	 * </code>
+	 *
+	 * @param string table
+	 * @param string schema
+	 * @return Phalcon\Db\Column[]
+	 */
+	public function describeColumns(table, schema=null)
+	{
+		var describe, columns, columnType, field, definition,
+			oldColumn, dialect, sizePattern, matches, matchOne, columnName;
+
+		/**
+		 * Get the SQL to describe a table
+		 * We're using FETCH_NUM to fetch the columns
+		 * Get the describe
+		 */
+		let dialect = this->_dialect,
+			describe = this->fetchAll(dialect->describeColumns(table, schema), Phalcon\Db::FETCH_NUM);
+
+		let oldColumn = null,
+			sizePattern = "#\\(([0-9]+)(,[0-9]+)*\\)#";
+
+		let columns = [];
+
+		/**
+		 * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
+		 */
+		for field in describe {
+
+			/**
+			 * By default the bind types is two
+			 */
+			let definition = ["bindType": 2];
+
+			/**
+			 * By checking every column type we convert it to a Phalcon\Db\Column
+			 */
+			let columnType = field[1];
+
+			loop {
+
+				/**
+				 * Enum are treated as char
+				 */
+				if memstr(columnType, "enum") {
+					let definition["type"] = Phalcon\Db\Column::BIND_PARAM_STR;
+					break;
+				}
+
+				/**
+				 * Smallint/Bigint/Integers/Int are int
+				 */
+				if memstr(columnType, "int") {
+					let definition["type"] = 0,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Phalcon\Db\Column::BIND_PARAM_INT;
+					break;
+				}
+
+				/**
+				 * Varchar are varchars
+				 */
+				if memstr(columnType, "varchar") {
+					let definition["type"] = Phalcon\Db\Column::BIND_PARAM_STR;
+					break;
+				}
+
+				/**
+				 * Special type for datetime
+				 */
+				if memstr(columnType, "datetime") {
+					let definition["type"] = Phalcon\Db\Column::TYPE_DATETIME;
+					break;
+				}
+
+				/**
+				 * Decimals are floats
+				 */
+				if memstr(columnType, "decimal") {
+					let definition["type"] = Phalcon\Db\Column::TYPE_DECIMAL,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Phalcon\Db\Column::BIND_PARAM_DECIMAL;
+					break;
+				}
+
+				/**
+				 * Chars are chars
+				 */
+				if memstr(columnType, "char") {
+					let definition["type"] = Phalcon\Db\Column::TYPE_CHAR;
+					break;
+				}
+
+				/**
+				 * Date/Datetime are varchars
+				 */
+				if memstr(columnType, "date") {
+					let definition["type"] = Phalcon\Db\Column::TYPE_DATE;
+					break;
+				}
+
+				/**
+				 * Text are varchars
+				 */
+				if memstr(columnType, "text") {
+					let definition["type"] = Phalcon\Db\Column::TYPE_TEXT;
+					break;
+				}
+
+				/**
+				 * Float/Smallfloats/Decimals are float
+				 */
+				if strpos(columnType, "float") {
+					let definition["type"] = Phalcon\Db\Column::TYPE_FLOAT,
+						definition["isNumeric"] = true,
+						definition["bindType"] = Phalcon\Db\Column::TYPE_DECIMAL;
+					break;
+				}
+
+				/**
+				 * By default is string
+				 */
+				let definition["type"] = Phalcon\Db\Column::TYPE_VARCHAR;
+				break;
+			}
+
+			/**
+			 * If the column type has a parentheses we try to get the column size from it
+			 */
+			if memstr(columnType, "(") {
+				let matches = null;
+				if preg_match(sizePattern, columnType, matches) {
+					if fetch matchOne, matches[1] {
+						let definition["size"] = matchOne;
+					}
+				}
+			}
+
+			/**
+			 * Check if the column is unsigned, only MySQL support this
+			 */
+			if memstr(columnType, "unsigned") {
+				let definition["unsigned"] = true;
+			}
+
+			/**
+			 * Positions
+			 */
+			if !oldColumn {
+				let definition["first"] = true;
+			} else {
+				let definition["after"] = oldColumn;
+			}
+
+			/**
+			 * Check if the field is primary key
+			 */
+			if field[3] == "PRI" {
+				let definition["primary"] = true;
+			}
+
+			/**
+			 * Check if the column allows null values
+			 */
+			if field[2] == "NO" {
+				let definition["notNull"] = true;
+			}
+
+			/**
+			 * Check if the column is auto increment
+			 */
+			if field[5] == "auto_increment" {
+				let definition["autoIncrement"] = true;
+			}
+
+			/**
+			 * Every route is stored as a Phalcon\Db\Column
+			 */
+			let columnName = field[0],
+				columns[] = new Phalcon\Db\Column(columnName, definition),
+				oldColumn = columnName;
+		}
+
+		return columns;
+	}
+
 }

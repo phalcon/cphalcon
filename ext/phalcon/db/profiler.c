@@ -12,6 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/object.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -66,7 +70,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Profiler, phalcon, db_profiler, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Profiler, phalcon, db_profiler, phalcon_db_profiler_method_entry, 0);
 
 /**
  * All the Phalcon\Db\Profiler\Item in the active profile
@@ -88,6 +92,145 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler) {
 	zend_declare_property_long(phalcon_db_profiler_ce, SL("_totalSeconds"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Starts the profile of a SQL sentence
+ *
+ * @param string sqlStatement
+ * @return Phalcon\Db\Profiler
+ */
+PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
+
+	zval *sqlStatement, *activeProfile, *_0, _1, *_2;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &sqlStatement);
+
+
+
+	ZEPHIR_INIT_VAR(activeProfile);
+	object_init_ex(activeProfile, phalcon_db_profiler_item_ce);
+	zephir_call_method_p1_noret(activeProfile, "setsqlstatement", sqlStatement);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "microtime", ZEPHIR_GLOBAL(global_true));
+	zephir_call_method_p1_noret(activeProfile, "setinitialtime", _0);
+	ZEPHIR_SINIT_VAR(_1);
+	ZVAL_STRING(&_1, "beforeStartProfile", 0);
+	ZEPHIR_INIT_VAR(_2);
+	zephir_call_func_p2(_2, "method_exists", this_ptr, &_1);
+	if (zend_is_true(_2)) {
+		zephir_call_method_p1_noret(this_ptr, "beforestartprofile", activeProfile);
+	}
+	zephir_update_property_this(this_ptr, SL("_activeProfile"), activeProfile TSRMLS_CC);
+	RETURN_THIS();
+
+}
+
+/**
+ * Stops the active profile
+ *
+ * @return Phalcon\Db\Profiler
+ */
+PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
+
+	zval *finalTime, *initialTime, *activeProfile = NULL, *_0, *_1, *_2, *_3, _4, *_5;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(finalTime);
+	zephir_call_func_p1(finalTime, "microtime", ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_activeProfile"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(activeProfile, _0);
+	zephir_call_method_p1_noret(activeProfile, "setfinaltime", finalTime);
+	ZEPHIR_INIT_VAR(initialTime);
+	zephir_call_method(initialTime, activeProfile, "getinitialtime");
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("_totalSeconds"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_2);
+	sub_function(_2, finalTime, initialTime TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_3);
+	zephir_add_function(_3, _1, _2 TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_totalSeconds"), _3 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("_allProfiles"), activeProfile TSRMLS_CC);
+	ZEPHIR_SINIT_VAR(_4);
+	ZVAL_STRING(&_4, "afterEndProfile", 0);
+	ZEPHIR_INIT_VAR(_5);
+	zephir_call_func_p2(_5, "method_exists", this_ptr, &_4);
+	if (zend_is_true(_5)) {
+		zephir_call_method_p1_noret(this_ptr, "afterendprofile", activeProfile);
+	}
+	RETURN_THIS();
+
+}
+
+/**
+ * Returns the total number of SQL statements processed
+ *
+ * @return integer
+ */
+PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements) {
+
+	zval *_0;
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_allProfiles"), PH_NOISY_CC);
+	RETURN_LONG(zephir_fast_count_int(_0 TSRMLS_CC));
+
+}
+
+/**
+ * Returns the total time in seconds spent by the profiles
+ *
+ * @return double
+ */
+PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds) {
+
+
+	RETURN_MEMBER(this_ptr, "_totalSeconds");
+
+}
+
+/**
+ * Returns all the processed profiles
+ *
+ * @return Phalcon\Db\Profiler\Item[]
+ */
+PHP_METHOD(Phalcon_Db_Profiler, getProfiles) {
+
+
+	RETURN_MEMBER(this_ptr, "_allProfiles");
+
+}
+
+/**
+ * Resets the profiler, cleaning up all the profiles
+ *
+ * @return Phalcon\Db\Profiler
+ */
+PHP_METHOD(Phalcon_Db_Profiler, reset) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	zephir_update_property_this(this_ptr, SL("_allProfiles"), _0 TSRMLS_CC);
+	RETURN_THIS();
+
+}
+
+/**
+ * Returns the last profile executed in the profiler
+ *
+ * @return	Phalcon\Db\Profiler\Item
+ */
+PHP_METHOD(Phalcon_Db_Profiler, getLastProfile) {
+
+
+	RETURN_MEMBER(this_ptr, "_activeProfile");
 
 }
 

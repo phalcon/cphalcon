@@ -510,7 +510,7 @@ class Memory extends Phalcon\Acl\Adapter
 		let this->_activeResource = resource;
 		let this->_activeAccess = resource;
 		let accessList = this->_access;
-		let eventsManager = this->_eventsManager;
+		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;;
 
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("acl:beforeCheckAccess", this) === false {

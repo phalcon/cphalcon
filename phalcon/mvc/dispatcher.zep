@@ -112,7 +112,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 		let response = dependencyInjector->getShared("response");
 
 		/**
-		 * Dispatcher exceptions automatically sends 404 status
+		 * Dispatcher exceptions automatically sends a 404 status
 		 */
 		response->setStatusCode(404, "Not Found");
 
@@ -121,7 +121,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 		 */
 		let exception = new Phalcon\Mvc\Dispatcher\Exception(message, exceptionCode);
 
-		let eventsManager = this->_eventsManager;
+		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
 		if typeof eventsManager == "object" {
 			if eventsManager->fire("dispatch:beforeException", this, exception) === false {
 				return false;
