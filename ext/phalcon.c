@@ -704,16 +704,19 @@ static PHP_MINIT_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
-#ifndef PHALCON_RELEASE
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
+	if (zend_execute_internal == phalcon_execute_internal) {
+		zend_execute_internal = NULL;
+	}
 
+#ifndef PHALCON_RELEASE
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
+#endif
 
 	return SUCCESS;
 }
-#endif
 
 static PHP_RINIT_FUNCTION(phalcon){
 
