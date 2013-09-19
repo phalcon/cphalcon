@@ -963,6 +963,35 @@ PHP_METHOD(Phalcon_Http_Request, getMethod){
 }
 
 /**
+ * Gets HTTP URI which request has been made
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getURI){
+
+	zval **value;
+	const char *uri = SG(request_info).request_uri;
+	if (unlikely(!uri)) {
+		zval *_SERVER, key;
+
+		INIT_ZVAL(key);
+		ZVAL_STRING(&key, "REQUEST_URI", 0);
+
+		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA);
+		if (value && Z_TYPE_PP(value) == IS_STRING) {
+			uri = Z_STRVAL_PP(value);
+		}
+	}
+
+	if (uri) {
+		RETURN_STRING(uri, 1);
+	}
+
+	RETURN_EMPTY_STRING();
+}
+
+/**
  * Gets HTTP user agent used to made the request
  *
  * @return string
@@ -1762,5 +1791,119 @@ PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
 	ZVAL_STRING(quality_index, "language", 1);
 	phalcon_call_method_p2(return_value, this_ptr, "_getbestquality", languages, quality_index);
 	RETURN_MM();
+}
+
+/**
+ * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_USER']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
+
+	zval *auth, *_SERVER, *key;
+	zval **value;
+
+	PHALCON_MM_GROW();
+
+	char *auth_user = SG(request_info).auth_user;
+	char *auth_password = SG(request_info).auth_user;
+
+	if (unlikely(!auth_user)) {
+		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+
+		PHALCON_INIT_VAR(key);
+		ZVAL_STRING(key, "PHP_AUTH_USER", 1);
+
+		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), key, BP_VAR_NA);
+		if (value && Z_TYPE_PP(value) == IS_STRING) {
+			auth_user = Z_STRVAL_PP(value);
+		}
+
+		ZVAL_STRING(key, "PHP_AUTH_PW", 1);
+
+		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), key, BP_VAR_NA);
+		if (value && Z_TYPE_PP(value) == IS_STRING) {
+			auth_password = Z_STRVAL_PP(value);
+		}
+	}
+
+	if (!auth_user) {
+		RETURN_MM_NULL();
+	}
+	
+	PHALCON_INIT_VAR(auth);
+	array_init(auth);	
+
+	phalcon_array_update_string_string(&auth, SL("username"), auth_user, strlen(auth_user), PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string_string(&auth, SL("password"), auth_password, strlen(auth_password), PH_COPY | PH_SEPARATE);
+
+	RETURN_CCTOR(auth);
+}
+
+/**
+ * Gets auth info accepted by the browser/client from $_SERVER['PHP_AUTH_DIGEST']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, getDigestAuth){
+
+	zval *auth, *_SERVER, *key, *digest, *pattern, *set_order, *matches, *match = NULL, *ret, *tmp1, *tmp2;
+	zval **value;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	const char *auth_digest = SG(request_info).auth_digest;
+
+	if (unlikely(!auth_digest)) {
+		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+
+		PHALCON_INIT_VAR(key);
+		ZVAL_STRING(key, "PHP_AUTH_DIGEST", 1);
+
+		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), key, BP_VAR_NA);
+		if (value && Z_TYPE_PP(value) == IS_STRING) {
+			auth_digest = Z_STRVAL_PP(value);
+		}
+	}
+
+	if (auth_digest) {
+		PHALCON_INIT_VAR(digest);
+		ZVAL_STRING(digest, auth_digest, 1);
+
+		PHALCON_INIT_VAR(pattern);
+		ZVAL_STRING(pattern, "#(\\w+)=(['\"]?)([a-zA-Z0-9=./\\_-]+)\\2#", 1);
+
+		PHALCON_INIT_VAR(set_order);
+		ZVAL_LONG(set_order, 2);
+
+		PHALCON_INIT_VAR(matches);
+		PHALCON_INIT_VAR(ret);
+
+		Z_SET_ISREF_P(matches);
+		phalcon_call_func_p4(ret, "preg_match_all", pattern, digest, matches, set_order);
+		Z_UNSET_ISREF_P(matches);
+
+		if (zend_is_true(ret) && Z_TYPE_P(matches) == IS_ARRAY) {
+			PHALCON_INIT_VAR(auth);
+			array_init(auth);
+
+			phalcon_is_iterable(matches, &ah0, &hp0, 0, 0);				
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+				PHALCON_GET_HVALUE(match);
+
+				if (Z_TYPE_P(match) == IS_ARRAY && phalcon_array_isset_long_fetch(&tmp1, match, 1) && phalcon_array_isset_long_fetch(&tmp2, match, 3)) {
+					phalcon_array_update_zval(&auth, tmp1, &tmp2, PH_COPY | PH_SEPARATE);
+				}
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+
+			RETURN_CCTOR(auth);
+		}
+	}
+
+	RETURN_MM_NULL();
 }
 
