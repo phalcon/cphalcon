@@ -41,6 +41,7 @@
 #include "kernel/string.h"
 #include "kernel/file.h"
 #include "kernel/hash.h"
+#include "ext/standard/php_array.h"
 
 #include "interned-strings.h"
 
@@ -181,10 +182,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 						&& Z_TYPE_P(bind_params) == IS_ARRAY
 					) {	
 						phalcon_array_append(&merged_conditions, condition_string, PH_COPY | PH_SEPARATE);
-						phalcon_merge_append(merged_bind_params, bind_params);
+						php_array_merge(Z_ARRVAL_P(merged_bind_params), Z_ARRVAL_PP(&bind_params), 0 TSRMLS_CC);
 
 						if (phalcon_array_isset_long_fetch(&bind_types, single_condition_array, 2) && Z_TYPE_P(bind_types) == IS_ARRAY) {
-							phalcon_merge_append(merged_bind_types, bind_types);
+							php_array_merge(Z_ARRVAL_P(merged_bind_types), Z_ARRVAL_PP(&bind_types), 0 TSRMLS_CC);
 						}
 					}
 					
