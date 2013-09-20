@@ -25,6 +25,7 @@ before_script:
  - ulimit -c unlimited || true
 
 script:
+ - (cd ext; NO_INTERACTION=1 make test)
  - $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
 
 after_failure:
@@ -36,3 +37,4 @@ notifications:
     - andres@phalconphp.com
     - eduar@phalconphp.com
     - nikos@phalconphp.com
+    - vladimir@phalconphp.com
