@@ -4,6 +4,7 @@ Form.render doesn't escape value attributes on TextFields - https://github.com/p
 <?php include('skipif.inc'); ?>
 --FILE--
 <?php
+$di = new \Phalcon\DI\FactoryDefault();
 $object = new stdClass();
 $object->title = 'Hello "world!"';
 $form = new \Phalcon\Forms\Form($object);
