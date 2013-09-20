@@ -1,7 +1,7 @@
 --TEST--
 Crash while rendering element's label - https://github.com/phalcon/cphalcon/issues/1210
 --SKIPIF--
-<?php if (!extension_loaded("phalcon")) print "skip"; ?>
+<?php include('skipif.inc'); ?>
 --FILE--
 <?php
 $e = new \Phalcon\Forms\Element\Text('test');
