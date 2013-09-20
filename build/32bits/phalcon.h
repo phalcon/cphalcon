@@ -10661,6 +10661,7 @@ static PHP_METHOD(Phalcon_Http_Request, getServerName);
 static PHP_METHOD(Phalcon_Http_Request, getHttpHost);
 static PHP_METHOD(Phalcon_Http_Request, getClientAddress);
 static PHP_METHOD(Phalcon_Http_Request, getMethod);
+static PHP_METHOD(Phalcon_Http_Request, getURI);
 static PHP_METHOD(Phalcon_Http_Request, getUserAgent);
 static PHP_METHOD(Phalcon_Http_Request, isMethod);
 static PHP_METHOD(Phalcon_Http_Request, isPost);
@@ -10682,6 +10683,8 @@ static PHP_METHOD(Phalcon_Http_Request, getClientCharsets);
 static PHP_METHOD(Phalcon_Http_Request, getBestCharset);
 static PHP_METHOD(Phalcon_Http_Request, getLanguages);
 static PHP_METHOD(Phalcon_Http_Request, getBestLanguage);
+static PHP_METHOD(Phalcon_Http_Request, getBasicAuth);
+static PHP_METHOD(Phalcon_Http_Request, getDigestAuth);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -10691,18 +10694,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_get, 0, 0, 0)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, filters)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, allowEmpty)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_getpost, 0, 0, 0)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, filters)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, allowEmpty)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_getquery, 0, 0, 0)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, filters)
 	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, allowEmpty)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_getserver, 0, 0, 1)
@@ -10768,6 +10774,7 @@ PHALCON_INIT_FUNCS(phalcon_http_request_method_entry){
 	PHP_ME(Phalcon_Http_Request, getHttpHost, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getClientAddress, arginfo_phalcon_http_request_getclientaddress, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getMethod, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, getURI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getUserAgent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, isMethod, arginfo_phalcon_http_request_ismethod, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, isPost, NULL, ZEND_ACC_PUBLIC) 
@@ -10789,6 +10796,8 @@ PHALCON_INIT_FUNCS(phalcon_http_request_method_entry){
 	PHP_ME(Phalcon_Http_Request, getBestCharset, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getLanguages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, getBestLanguage, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, getBasicAuth, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, getDigestAuth, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
