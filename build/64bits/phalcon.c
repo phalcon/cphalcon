@@ -96796,7 +96796,7 @@ static PHP_METHOD(Phalcon_Tag, getValue){
 		} else {
 			if (phalcon_array_isset_quick_string(params, SS("value"), 6954126163842UL)) {
 				PHALCON_OBS_NVAR(value);
-				phalcon_array_fetch_string(&value, params, SS("value"), PH_NOISY);
+				phalcon_array_fetch_quick_string(&value, params, SS("value"), 6954126163842UL, PH_NOISY);
 			} else {
 				RETURN_MM_NULL();
 			}
@@ -97374,14 +97374,8 @@ static PHP_METHOD(Phalcon_Tag, textArea){
 		phalcon_array_update_quick_string(&params, SS("id"), 193494642UL, &id, PH_COPY | PH_SEPARATE);
 	}
 
-	if (phalcon_array_isset_quick_string(params, SS("value"), 6954126163842UL)) {
-		PHALCON_OBS_VAR(content);
-		phalcon_array_fetch_quick_string(&content, params, SS("value"), 6954126163842UL, PH_NOISY);
-		phalcon_array_unset_string(&params, SS("value"), PH_SEPARATE);
-	} else {
-		PHALCON_INIT_NVAR(content);
-		PHALCON_CALL_SELF_PARAMS_2(content, this_ptr, "getvalue", id, params);
-	}
+	PHALCON_INIT_NVAR(content);
+	PHALCON_CALL_SELF_PARAMS_2(content, this_ptr, "getvalue", id, params);
 
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<textarea", 1);

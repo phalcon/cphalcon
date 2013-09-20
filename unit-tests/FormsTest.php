@@ -166,8 +166,8 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element1 = new Text("name");
 		$element1->setAttributes(array('class' => 'big-input'));
 
-		$this->assertEquals($element1->render(), '<input type="text" class="big-input" name="name" id="name" value="" />');
-		$this->assertEquals((string) $element1, '<input type="text" class="big-input" name="name" id="name" value="" />');
+		$this->assertEquals($element1->render(), '<input type="text" class="big-input" name="name" id="name" />');
+		$this->assertEquals((string) $element1, '<input type="text" class="big-input" name="name" id="name" />');
 	}
 
 	public function testForm()
@@ -191,7 +191,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$form->add(new Text("name"));
 
 		$this->assertEquals($form->render('name'), '<input type="text" name="name" id="name" value="" />');
-		$this->assertEquals($form->render('name', array('class' => 'big-input')), '<input type="text" class="big-input" name="name" id="name" value="" />');
+		$this->assertEquals($form->render('name', array('class' => 'big-input')), '<input type="text" class="big-input" name="name" id="name" />');
 	}
 
 	public function testFormLabels()

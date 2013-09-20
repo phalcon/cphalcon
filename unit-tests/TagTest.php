@@ -101,4 +101,5 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$pos = strpos($html, 'checked="checked"');
 		$this->assertTrue($pos !== FALSE);
         }
+
 }
