@@ -91,13 +91,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Di) {
  */
 PHP_METHOD(Phalcon_Di, __construct) {
 
-	zval defaultDi;
+	zval *defaultDi;
 
+	ZEPHIR_MM_GROW();
 
-	ZEPHIR_SINIT_VAR(defaultDi);
-	ZVAL_NULL(&defaultDi);
-	if (!(zephir_is_true(&defaultDi))) {
+	ZEPHIR_INIT_VAR(defaultDi);
+	ZVAL_NULL(defaultDi);
+	if (!(zephir_is_true(defaultDi))) {
 	}
+	ZEPHIR_MM_RESTORE();
 
 }
 

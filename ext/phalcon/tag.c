@@ -280,23 +280,24 @@ PHP_METHOD(Phalcon_Tag, displayTo) {
  */
 PHP_METHOD(Phalcon_Tag, hasValue) {
 
-	zval *name, displayValues, *_POST;
+	zval *name, *displayValues, *_POST;
 
-	zephir_fetch_params(0, 1, 0, &name);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name);
 
 
 
-	ZEPHIR_SINIT_VAR(displayValues);
-	ZVAL_NULL(&displayValues);
+	ZEPHIR_INIT_VAR(displayValues);
+	ZVAL_NULL(displayValues);
 	if (zephir_array_isset(displayValues, name)) {
-		RETURN_BOOL(1);
+		RETURN_MM_BOOL(1);
 	} else {
 		zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
 		if (zephir_array_isset(_POST, name)) {
-			RETURN_BOOL(1);
+			RETURN_MM_BOOL(1);
 		}
 	}
-	RETURN_BOOL(0);
+	RETURN_MM_BOOL(0);
 
 }
 
@@ -310,7 +311,7 @@ PHP_METHOD(Phalcon_Tag, hasValue) {
  */
 PHP_METHOD(Phalcon_Tag, getValue) {
 
-	zval *name, *params = NULL, *value = NULL, *autoescape, displayValues, *escaper = NULL, *_POST;
+	zval *name, *params = NULL, *value = NULL, *autoescape, *displayValues, *escaper = NULL, *_POST;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name, &params);
@@ -320,8 +321,8 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 	}
 
 
-	ZEPHIR_SINIT_VAR(displayValues);
-	ZVAL_NULL(&displayValues);
+	ZEPHIR_INIT_VAR(displayValues);
+	ZVAL_NULL(displayValues);
 	ZEPHIR_OBS_VAR(value);
 	if (!(zephir_array_isset_fetch(&value, displayValues, name TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(value);
