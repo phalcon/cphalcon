@@ -1,7 +1,7 @@
 --TEST--
 Phalcon\Mvc\Model\Validator\Email validates malformed emails as correct - https://github.com/phalcon/cphalcon/issues/1243
 --SKIPIF--
-<?php if (!extension_loaded("phalcon")) die("skip"); ?>
+<?php include('skipif.inc'); ?>
 --FILE--
 <?php
 class FakeModel
