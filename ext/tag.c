@@ -371,15 +371,7 @@ PHP_METHOD(Phalcon_Tag, getValue){
 			PHALCON_OBS_NVAR(value);
 			phalcon_array_fetch(&value, _POST, name, PH_NOISY);
 		} else {
-			/**
-			 * Check if there is a parameter with the 'value'
-			 */
-			if (phalcon_array_isset_string(params, SS("value"))) {
-				PHALCON_OBS_NVAR(value);
-				phalcon_array_fetch_string(&value, params, SL("value"), PH_NOISY);
-			} else {
-				RETURN_MM_NULL();
-			}
+			RETURN_MM_NULL();
 		}
 	}
 
