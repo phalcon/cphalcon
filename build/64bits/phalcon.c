@@ -36931,7 +36931,7 @@ static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		}
 	}
 
-	PHALCON_INIT_VAR(have_access);
+	PHALCON_INIT_NVAR(have_access);
 	ZVAL_BOOL(have_access, allow_access);
 
 	phalcon_update_property_this_quick(this_ptr, SL("_accessGranted"), have_access, 8897148297292111771UL TSRMLS_CC);
@@ -92800,12 +92800,27 @@ static PHP_METHOD(Phalcon_Security, hash){
 
 static PHP_METHOD(Phalcon_Security, checkHash){
 
-	zval *password, *password_hash, *hash;
+	zval *password, *password_hash, *hash, *max_pass_length = NULL;
+
+	phalcon_fetch_params(0, 2, 1, &password, &password_hash, &max_pass_length);
+	
+	if (Z_TYPE_P(password) != IS_STRING) {
+		PHALCON_SEPARATE_PARAM_NMO(password);
+		convert_to_string(password);
+	}
+
+	if (max_pass_length) {
+		if (Z_TYPE_P(max_pass_length) != IS_LONG) {
+			PHALCON_SEPARATE_PARAM_NMO(max_pass_length);
+			convert_to_long(max_pass_length);
+		}
+
+		if (Z_LVAL_P(max_pass_length) > 0 && Z_STRLEN_P(password) > Z_LVAL_P(max_pass_length)) {
+			RETURN_FALSE;
+		}
+	}
 
 	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &password, &password_hash);
-	
 	PHALCON_INIT_VAR(hash);
 	phalcon_call_func_p2(hash, "crypt", password, password_hash);
 	is_equal_function(return_value, hash, password_hash TSRMLS_CC);
