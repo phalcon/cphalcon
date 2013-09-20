@@ -36931,7 +36931,7 @@ static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		}
 	}
 
-	PHALCON_INIT_VAR(have_access);
+	PHALCON_INIT_NVAR(have_access);
 	ZVAL_BOOL(have_access, allow_access);
 
 	phalcon_update_property_this_quick(this_ptr, SL("_accessGranted"), have_access, 8897148297292111771UL TSRMLS_CC);
