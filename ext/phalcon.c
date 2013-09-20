@@ -711,16 +711,15 @@ static PHP_MINIT_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
-#ifndef PHALCON_RELEASE
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
 
+	zend_execute_internal = orig_execute_internal;
 	return SUCCESS;
 }
-#endif
 
 static PHP_RINIT_FUNCTION(phalcon){
 
@@ -832,11 +831,7 @@ zend_module_entry phalcon_module_entry = {
 	PHP_PHALCON_EXTNAME,
 	NULL,
 	PHP_MINIT(phalcon),
-#ifndef PHALCON_RELEASE
 	PHP_MSHUTDOWN(phalcon),
-#else
-	NULL,
-#endif
 	PHP_RINIT(phalcon),
 	PHP_RSHUTDOWN(phalcon),
 	PHP_MINFO(phalcon),
