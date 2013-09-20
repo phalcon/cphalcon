@@ -606,8 +606,8 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		/**
 		 * Update the value set by the user
 		 */
-		PHALCON_CALL_SELF_PARAMS_2(value, this_ptr, "getvalue", id, params);
-		if (Z_TYPE_P(value) != IS_NULL) {
+		if (!phalcon_array_isset_string(params, SS("value"))) {
+			PHALCON_CALL_SELF_PARAMS_2(value, this_ptr, "getvalue", id, params);
 			phalcon_array_update_string(&params, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		}
 
@@ -641,7 +641,10 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		PHALCON_GET_HVALUE(value);
 
 		if (Z_TYPE_P(key) != IS_LONG) {
-			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", value, "\"");
+			phalcon_htmlspecialchars(escaped, value, NULL, NULL TSRMLS_CC);
+			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", escaped, "\"");
+			zval_dtor(escaped);
+			ZVAL_NULL(escaped);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -762,7 +765,10 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 		PHALCON_GET_HVALUE(value);
 
 		if (Z_TYPE_P(key) != IS_LONG) {
-			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", value, "\"");
+			phalcon_htmlspecialchars(escaped, value, NULL, NULL TSRMLS_CC);
+			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", escaped, "\"");
+			zval_dtor(escaped);
+			ZVAL_NULL(escaped);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1205,7 +1211,10 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		PHALCON_GET_HVALUE(avalue);
 
 		if (Z_TYPE_P(key) != IS_LONG) {
-			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", avalue, "\"");
+			phalcon_htmlspecialchars(escaped, avalue, NULL, NULL TSRMLS_CC);
+			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", escaped, "\"");
+			zval_dtor(escaped);
+			ZVAL_NULL(escaped);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
