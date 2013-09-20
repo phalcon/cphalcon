@@ -725,13 +725,12 @@ static int phalcon_role_adapter_memory_check_inheritance(zval *role, zval *resou
 		if (phalcon_array_isset(access_list, access_key)) {
 			phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
 			found = Z_TYPE_P(have_access) != IS_NULL;
+			zval_ptr_dtor(&have_access);
+			have_access = NULL;
 		}
 		else {
 			found = 0;
 		}
-
-		zval_ptr_dtor(&have_access);
-		have_access = NULL;
 
 		zval_dtor(access_key);
 		ZVAL_NULL(access_key);
