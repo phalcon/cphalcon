@@ -567,7 +567,6 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 
 	PHALCON_INIT_VAR(value);
 	if (PHALCON_IS_FALSE(as_value)) {
-
 		if (!phalcon_array_isset_long(params, 0)) {
 			PHALCON_OBS_VAR(id);
 			phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY);
@@ -596,13 +595,12 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		}
 
 		/**
-		 * Update the value set by the user
+		 * Use the parameter 'value' if the developer had set it
 		 */
 		if (!phalcon_array_isset_string(params, SS("value"))) {
 			PHALCON_CALL_SELF_PARAMS_2(value, this_ptr, "getvalue", id, params);
 			phalcon_array_update_string(&params, SL("value"), &value, PH_COPY | PH_SEPARATE);
 		}
-
 	} else {
 		/**
 		 * Use the 'id' as value if the user hadn't set it
