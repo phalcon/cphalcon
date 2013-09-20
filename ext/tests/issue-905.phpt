@@ -1,7 +1,7 @@
 --TEST--
 ACL inheritance is broken in 1.2.X - https://github.com/phalcon/cphalcon/issues/905
 --SKIPIF--
-<?php //include('skipif.inc'); ?>
+<?php include('skipif.inc'); ?>
 --FILE--
 <?php
 $acl = new \Phalcon\Acl\Adapter\Memory();
