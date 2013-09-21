@@ -599,7 +599,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			if (!(zephir_is_numeric(vnamespace))) {
 				zephir_update_property_this(this_ptr, SL("_namespace"), vnamespace TSRMLS_CC);
 			}
-			//missing unset
+			zephir_array_unset_string(&parts, SS("namespace"), PH_SEPARATE);
 		} else {
 			ZEPHIR_OBS_NVAR(_5);
 			zephir_read_property_this(&_5, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
@@ -610,7 +610,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			if (!(zephir_is_numeric(module))) {
 				zephir_update_property_this(this_ptr, SL("_module"), module TSRMLS_CC);
 			}
-			//missing unset
+			zephir_array_unset_string(&parts, SS("module"), PH_SEPARATE);
 		} else {
 			ZEPHIR_OBS_NVAR(_5);
 			zephir_read_property_this(&_5, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
@@ -621,7 +621,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			if (!(zephir_is_numeric(controller))) {
 				zephir_update_property_this(this_ptr, SL("_controller"), controller TSRMLS_CC);
 			}
-			//missing unset
+			zephir_array_unset_string(&parts, SS("controller"), PH_SEPARATE);
 		} else {
 			ZEPHIR_OBS_NVAR(_5);
 			zephir_read_property_this(&_5, this_ptr, SL("_defaultController"), PH_NOISY_CC);
@@ -632,7 +632,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 			if (!(zephir_is_numeric(action))) {
 				zephir_update_property_this(this_ptr, SL("_action"), action TSRMLS_CC);
 			}
-			//missing unset
+			zephir_array_unset_string(&parts, SS("action"), PH_SEPARATE);
 		} else {
 			ZEPHIR_OBS_NVAR(_5);
 			zephir_read_property_this(&_5, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
@@ -650,7 +650,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 				ZEPHIR_INIT_BNVAR(params);
 				zephir_call_func_p2(params, "explode", &_11, strParams);
 			}
-			//missing unset
+			zephir_array_unset_string(&parts, SS("params"), PH_SEPARATE);
 		}
 		zephir_call_func_p1_noret("print_r", parts);
 		if (zephir_fast_count_int(params TSRMLS_CC)) {

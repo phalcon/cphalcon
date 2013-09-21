@@ -20,5 +20,5 @@ if [ -f Makefile ]; then
 fi
 
 phpize
-CC="gcc" CFLAGS="-O2 -fno-delete-null-pointer-checks -Wall" ./configure --enable-phalcon && make && make install && echo "Notice: Phalcon was compiled in debug mode.\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+CC="gcc" CFLAGS="-O0 -fno-delete-null-pointer-checks -Wall" ./configure --enable-phalcon && make && make install && echo "Notice: Phalcon was compiled in debug mode.\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
 

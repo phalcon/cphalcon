@@ -365,9 +365,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 
-	int _3;
-	zend_class_entry *_1, *_4;
-	zval *pattern, *paths = NULL, *moduleName = NULL, *controllerName = NULL, *actionName = NULL, *parts, *routePaths = NULL, *realClassName = NULL, *namespaceName, *pcrePattern = NULL, *compiledPattern = NULL, *extracted, *_0 = NULL, _2, *_5;
+	int _4;
+	zend_class_entry *_1, *_5;
+	zval *pattern, *paths = NULL, *moduleName = NULL, *controllerName = NULL, *actionName = NULL, *parts, *routePaths = NULL, *realClassName = NULL, *namespaceName, *pcrePattern = NULL, *compiledPattern = NULL, *extracted, *_0 = NULL, *_2 = NULL, _3, *_6;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pattern, &paths);
@@ -381,6 +381,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 		ZEPHIR_INIT_VAR(_0);
 		_1 = zend_fetch_class(SL("Test\Router\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		object_init_ex(_0, _1);
+		ZEPHIR_INIT_VAR(_2);
+		ZVAL_STRING(_2, "The pattern must be string", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _2);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -393,13 +396,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 			ZVAL_NULL(controllerName);
 			ZEPHIR_INIT_VAR(actionName);
 			ZVAL_NULL(actionName);
-			ZEPHIR_SINIT_VAR(_2);
-			ZVAL_STRING(&_2, "::", 0);
+			ZEPHIR_SINIT_VAR(_3);
+			ZVAL_STRING(&_3, "::", 0);
 			ZEPHIR_INIT_VAR(parts);
-			zephir_call_func_p2(parts, "explode", &_2, paths);
+			zephir_call_func_p2(parts, "explode", &_3, paths);
 			do {
-				_3 = zephir_fast_count_int(parts TSRMLS_CC);
-				if ((_3 == 3)) {
+				_4 = zephir_fast_count_int(parts TSRMLS_CC);
+				if ((_4 == 3)) {
 					ZEPHIR_OBS_NVAR(moduleName);
 					zephir_array_fetch_long(&moduleName, parts, 0, PH_NOISY TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(controllerName);
@@ -408,14 +411,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 					zephir_array_fetch_long(&actionName, parts, 2, PH_NOISY TSRMLS_CC);
 					break;
 				}
-				if ((_3 == 2)) {
+				if ((_4 == 2)) {
 					ZEPHIR_OBS_NVAR(controllerName);
 					zephir_array_fetch_long(&controllerName, parts, 0, PH_NOISY TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(actionName);
 					zephir_array_fetch_long(&actionName, parts, 1, PH_NOISY TSRMLS_CC);
 					break;
 				}
-				if ((_3 == 1)) {
+				if ((_4 == 1)) {
 					ZEPHIR_OBS_NVAR(controllerName);
 					zephir_array_fetch_long(&controllerName, parts, 0, PH_NOISY TSRMLS_CC);
 					break;
@@ -455,8 +458,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 	}
 	if ((Z_TYPE_P(routePaths) != IS_ARRAY)) {
 		ZEPHIR_INIT_NVAR(_0);
-		_4 = zend_fetch_class(SL("Test\Router\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _4);
+		_5 = zend_fetch_class(SL("Test\Router\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		object_init_ex(_0, _5);
+		ZEPHIR_INIT_NVAR(_2);
+		ZVAL_STRING(_2, "The route contains invalid paths", 1);
+		zephir_call_method_p1_noret(_0, "__construct", _2);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -468,8 +474,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 			ZEPHIR_OBS_VAR(pcrePattern);
 			zephir_array_fetch_long(&pcrePattern, extracted, 0, PH_NOISY TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(_0);
-			zephir_array_fetch_long(&_5, extracted, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
-			zephir_fast_array_merge(_0, &(routePaths), &(_5) TSRMLS_CC);
+			zephir_array_fetch_long(&_6, extracted, 1, PH_NOISY | PH_READONLY TSRMLS_CC);
+			zephir_fast_array_merge(_0, &(routePaths), &(_6) TSRMLS_CC);
 			ZEPHIR_CPY_WRT(routePaths, _0);
 		} else {
 			ZEPHIR_CPY_WRT(pcrePattern, pattern);

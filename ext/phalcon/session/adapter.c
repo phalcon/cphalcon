@@ -251,13 +251,20 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, remove) {
 
-	zval *index;
+	zval *index, *_SESSION, *_0, *_1;
 
-	zephir_fetch_params(0, 1, 0, &index);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &index);
 
 
 
-	//missing unset
+	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_uniqueId"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	concat_function(_1, _0, index TSRMLS_CC);
+	zephir_array_unset(_SESSION, _1, PH_SEPARATE TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

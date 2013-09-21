@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Tag, resetInput) {
 	) {
 		ZEPHIR_GET_HMKEY(key, _2, _1);
 		ZEPHIR_GET_HVALUE(value, _3);
-		//missing unset
+		zephir_array_unset(_POST, key, PH_SEPARATE TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -422,7 +422,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 			ZEPHIR_INIT_BNVAR(action);
 			ZVAL_STRING(action, "", 1);
 		} else {
-			//missing unset
+			zephir_array_unset_string(&params, SS("action"), PH_SEPARATE);
 		}
 	}
 	ZEPHIR_OBS_NVAR(text);
@@ -432,7 +432,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 			ZEPHIR_INIT_BNVAR(text);
 			ZVAL_STRING(text, "", 1);
 		} else {
-			//missing unset
+			zephir_array_unset_string(&params, SS("text"), PH_SEPARATE);
 		}
 	}
 	ZEPHIR_INIT_VAR(url);

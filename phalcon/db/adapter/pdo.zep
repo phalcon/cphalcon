@@ -120,7 +120,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 		 * Check if the developer has defined custom options or create one from scratch
 		 */
 		if fetch options, descriptor["options"] {
-			unset descriptor['options'] ;
+			unset descriptor["options"] ;
 		} else {
 			let options = [];
 		}
