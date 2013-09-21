@@ -284,18 +284,7 @@ PHP_METHOD(Phalcon_Tag, setDefaults){
  * @param string $id
  * @param string $value
  */
-PHP_METHOD(Phalcon_Tag, displayTo){
-
-	zval *id, *value, *default_value;
-
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &id, &value);
-
-	PHALCON_INIT_VAR(default_value);
-	PHALCON_CALL_SELF_PARAMS_2(default_value, this_ptr, "setdefault", id, value);
-	RETURN_CCTOR(default_value);
-}
+PHALCON_DOC_METHOD(Phalcon_Tag, displayTo)
 
 /**
  * Check if a helper has a default value set using Phalcon\Tag::setDefault or value from $_POST
