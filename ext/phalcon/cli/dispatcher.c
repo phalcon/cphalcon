@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException) {
 	ZEPHIR_OBS_VAR(_0);
 	zephir_read_property_this(&_0, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _0);
-	if ((Z_TYPE_P(eventsManager) != IS_OBJECT)) {
+	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(_1);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "dispatch:beforeException", 1);
