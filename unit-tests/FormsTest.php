@@ -166,8 +166,8 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$element1 = new Text("name");
 		$element1->setAttributes(array('class' => 'big-input'));
 
-		$this->assertEquals($element1->render(), '<input type="text" class="big-input" name="name" id="name" value="" />');
-		$this->assertEquals((string) $element1, '<input type="text" class="big-input" name="name" id="name" value="" />');
+		$this->assertEquals($element1->render(), '<input class="big-input" name="name" id="name" value="" type="text" />');
+		$this->assertEquals((string) $element1, '<input class="big-input" name="name" id="name" value="" type="text" />');
 	}
 
 	public function testForm()
@@ -190,8 +190,8 @@ class FormsTest extends PHPUnit_Framework_TestCase
 
 		$form->add(new Text("name"));
 
-		$this->assertEquals($form->render('name'), '<input type="text" name="name" id="name" value="" />');
-		$this->assertEquals($form->render('name', array('class' => 'big-input')), '<input type="text" class="big-input" name="name" id="name" value="" />');
+		$this->assertEquals($form->render('name'), '<input name="name" id="name" value="" type="text" />');
+		$this->assertEquals($form->render('name', array('class' => 'big-input')), '<input class="big-input" name="name" id="name" value="" type="text" />');
 	}
 
 	public function testFormLabels()
@@ -331,8 +331,8 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$form->add($address);
 		$form->add($telephone);
 
-		$this->assertEquals($form->render('address'), '<input type="text" value="Cr. 12 #12-82" name="address" id="address" />');
-		$this->assertEquals($form->render('telephone'), '<input type="text" value="+44 124 82122" name="telephone" id="telephone" />');
+		$this->assertEquals($form->render('address'), '<input value="Cr. 12 #12-82" name="address" id="address" type="text" />');
+		$this->assertEquals($form->render('telephone'), '<input value="+44 124 82122" name="telephone" id="telephone" type="text" />');
 	}
 
 	public function testFormRenderEntityGetters()
@@ -355,8 +355,8 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$form->add($address);
 		$form->add($telephone);
 
-		$this->assertEquals($form->render('address'), '<input type="text" value="Cr. 12 #12-82" name="address" id="address" />');
-		$this->assertEquals($form->render('telephone'), '<input type="text" value="+44 124 82122" name="telephone" id="telephone" />');
+		$this->assertEquals($form->render('address'), '<input value="Cr. 12 #12-82" name="address" id="address" type="text" />');
+		$this->assertEquals($form->render('telephone'), '<input value="+44 124 82122" name="telephone" id="telephone" type="text" />');
 	}
 
 	public function testFormValidatorEntity()
@@ -459,7 +459,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$form = new Phalcon\Forms\Form($object);
 		$form->add(new Phalcon\Forms\Element\Text("title"));
 		$actual   = $form->render('title');
-		$expected = '<input type="text" value="Hello &#x22;world!&#x22;" name="title" id="title" />';
+		$expected = '<input value="Hello &#x22;world!&#x22;" name="title" id="title" type="text" />';
 		$this->assertEquals($actual, $expected);
 	}
 

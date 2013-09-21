@@ -19,9 +19,9 @@ echo \Phalcon\Tag\Select::selectField(array('name' => '<', 'value' => '>', 'id' 
 echo "DONE", PHP_EOL;
 ?>
 --EXPECT--
-<a href="/tests/url&#x22;" class="class&#x22;"><></a>
-<input type="text" class="class&#x22;" name="name&#x22;" id="name&#x22;" value="" />
-<input type="checkbox" class="class&#x22;" name="name&#x22;" id="name&#x22;" value="" />
+<a class="class&#x22;" href="/tests/url&#x22;"><></a>
+<input class="class&#x22;" name="name&#x22;" id="name&#x22;" value="" type="text" />
+<input class="class&#x22;" name="name&#x22;" id="name&#x22;" value="" type="checkbox" />
 <form method="&#x3e;" action="/tests/&#x3c;">
 <textarea cols="&#x3c;" name="&#x3c;" id="&#x3c;"></textarea>
 <link rel="stylesheet" href="&#x3c;" type="&#x3e;" />

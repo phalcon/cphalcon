@@ -12,6 +12,6 @@ echo \Phalcon\Tag::radioField(array('test', 'value' => 0)), PHP_EOL;
 echo \Phalcon\Tag::radioField(array('test', 'value' => 0)), PHP_EOL;
 ?>
 --EXPECT--
-<input type="radio" value="1" checked="checked" name="test" id="test" />
-<input type="radio" value="0" name="test" id="test" />
-<input type="radio" value="0" name="test" id="test" checked="checked" />
+<input checked="checked" name="test" id="test" value="1" type="radio" />
+<input name="test" id="test" value="0" type="radio" />
+<input name="test" id="test" checked="checked" value="0" type="radio" />
