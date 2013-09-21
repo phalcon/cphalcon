@@ -38,7 +38,7 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\CLI\Dispatcher
+ * Phalcon\Cli\Dispatcher
  *
  * Dispatching is the process of taking the command-line arguments, extracting the module name,
  * task name, action name, and optional parameters contained in it, and then
@@ -48,9 +48,9 @@
  *
  *	$di = new Phalcon\Di();
  *
- *	$dispatcher = new Phalcon\CLI\Dispatcher();
+ *	$dispatcher = new Phalcon\Cli\Dispatcher();
  *
- *  $dispatcher->setDI(di);
+ *  $dispatcher->setDi(di);
  *
  *	$dispatcher->setTaskName('posts');
  *	$dispatcher->setActionName('index');
@@ -60,9 +60,9 @@
  *
  *</code>
  */
-ZEPHIR_INIT_CLASS(Phalcon_CLI_Dispatcher) {
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI, Dispatcher, phalcon, cli_dispatcher, phalcon_dispatcher_ce, phalcon_cli_dispatcher_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli, Dispatcher, phalcon, cli_dispatcher, phalcon_dispatcher_ce, phalcon_cli_dispatcher_method_entry, 0);
 
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_handlerSuffix"), "Task", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultHandler"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -77,7 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_CLI_Dispatcher) {
  *
  * @param string taskSuffix
  */
-PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskSuffix) {
+PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskSuffix) {
 
 	zval *taskSuffix;
 
@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskSuffix) {
  *
  * @param string taskName
  */
-PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask) {
+PHP_METHOD(Phalcon_Cli_Dispatcher, setDefaultTask) {
 
 	zval *taskName;
 
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask) {
  *
  * @param string taskName
  */
-PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName) {
+PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskName) {
 
 	zval *taskName;
 
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName) {
  *
  * @return string
  */
-PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName) {
+PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskName) {
 
 
 	RETURN_MEMBER(this_ptr, "_handlerName");
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName) {
  * @param string message
  * @param int exceptionCode
  */
-PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException) {
+PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 
 	zval *message, *exceptionCode = NULL, *exception, *eventsManager = NULL, *_0, *_1, *_2;
 
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException) {
  *
  * @return Phalcon\CLI\Task
  */
-PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask) {
+PHP_METHOD(Phalcon_Cli_Dispatcher, getLastTask) {
 
 
 	RETURN_MEMBER(this_ptr, "_lastHandler");
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask) {
  *
  * @return Phalcon\CLI\Task
  */
-PHP_METHOD(Phalcon_CLI_Dispatcher, getActiveTask) {
+PHP_METHOD(Phalcon_Cli_Dispatcher, getActiveTask) {
 
 
 	RETURN_MEMBER(this_ptr, "_activeHandler");

@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_dispatcher_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Dispatcher);
 
+PHP_METHOD(Phalcon_Dispatcher, __construct);
 PHP_METHOD(Phalcon_Dispatcher, setDI);
 PHP_METHOD(Phalcon_Dispatcher, getDI);
 PHP_METHOD(Phalcon_Dispatcher, setEventsManager);
@@ -85,6 +86,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_forward, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_dispatcher_method_entry) {
+	PHP_ME(Phalcon_Dispatcher, __construct, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, setDI, arginfo_phalcon_dispatcher_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, getDI, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher, setEventsManager, arginfo_phalcon_dispatcher_seteventsmanager, ZEND_ACC_PUBLIC)

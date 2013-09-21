@@ -18,18 +18,18 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\CLI;
+namespace Phalcon\Cli;
 
 /**
- * Phalcon\CLI\Router
+ * Phalcon\Cli\Router
  *
- * <p>Phalcon\CLI\Router is the standard framework router. Routing is the
+ * <p>Phalcon\Cli\Router is the standard framework router. Routing is the
  * process of taking a command-line arguments and
  * decomposing it into parameters to determine which module, task, and
  * action of that task should receive the request</p>
  *
  *<code>
- *	$router = new Phalcon\CLI\Router();
+ *	$router = new Phalcon\Cli\Router();
  *	$router->handle(array(
  *		'module' => 'main',
  *		'task' => 'videos',
@@ -120,7 +120,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 		var moduleName, taskName, actionName;
 
 		if typeof arguments != "array" {
-			throw new Phalcon\CLI\Router\Exception("Arguments must be an Array");
+			throw new Phalcon\Cli\Router\Exception("Arguments must be an Array");
 		}
 
 		let moduleName = null,

@@ -37,15 +37,15 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\CLI\Router
+ * Phalcon\Cli\Router
  *
- * <p>Phalcon\CLI\Router is the standard framework router. Routing is the
+ * <p>Phalcon\Cli\Router is the standard framework router. Routing is the
  * process of taking a command-line arguments and
  * decomposing it into parameters to determine which module, task, and
  * action of that task should receive the request</p>
  *
  *<code>
- *	$router = new Phalcon\CLI\Router();
+ *	$router = new Phalcon\Cli\Router();
  *	$router->handle(array(
  *		'module' => 'main',
  *		'task' => 'videos',
@@ -55,9 +55,9 @@
  *</code>
  *
  */
-ZEPHIR_INIT_CLASS(Phalcon_CLI_Router) {
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Router) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\CLI, Router, phalcon, cli_router, phalcon_cli_router_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Cli, Router, phalcon, cli_router, phalcon_cli_router_method_entry, 0);
 
 	zend_declare_property_null(phalcon_cli_router_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_cli_router_ce, SL("_module"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -78,7 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_CLI_Router) {
  *
  * @param Phalcon\DiInterface dependencyInjector
  */
-PHP_METHOD(Phalcon_CLI_Router, setDI) {
+PHP_METHOD(Phalcon_Cli_Router, setDI) {
 
 	zval *dependencyInjector;
 
@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDI) {
  *
  * @return Phalcon\DiInterface
  */
-PHP_METHOD(Phalcon_CLI_Router, getDI) {
+PHP_METHOD(Phalcon_Cli_Router, getDI) {
 
 
 	RETURN_MEMBER(this_ptr, "_dependencyInjector");
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_CLI_Router, getDI) {
  *
  * @param string moduleName
  */
-PHP_METHOD(Phalcon_CLI_Router, setDefaultModule) {
+PHP_METHOD(Phalcon_Cli_Router, setDefaultModule) {
 
 	zval *moduleName;
 
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultModule) {
  *
  * @param string taskName
  */
-PHP_METHOD(Phalcon_CLI_Router, setDefaultTask) {
+PHP_METHOD(Phalcon_Cli_Router, setDefaultTask) {
 
 	zval *taskName;
 
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultTask) {
  *
  * @param string actionName
  */
-PHP_METHOD(Phalcon_CLI_Router, setDefaultAction) {
+PHP_METHOD(Phalcon_Cli_Router, setDefaultAction) {
 
 	zval *actionName;
 
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultAction) {
  *
  * @param array arguments
  */
-PHP_METHOD(Phalcon_CLI_Router, handle) {
+PHP_METHOD(Phalcon_Cli_Router, handle) {
 
 	zval *arguments = NULL, *moduleName = NULL, *taskName = NULL, *actionName = NULL;
 
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_CLI_Router, handle) {
  *
  * @return string
  */
-PHP_METHOD(Phalcon_CLI_Router, getModuleName) {
+PHP_METHOD(Phalcon_Cli_Router, getModuleName) {
 
 
 	RETURN_MEMBER(this_ptr, "_module");
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_CLI_Router, getModuleName) {
  *
  * @return string
  */
-PHP_METHOD(Phalcon_CLI_Router, getTaskName) {
+PHP_METHOD(Phalcon_Cli_Router, getTaskName) {
 
 
 	RETURN_MEMBER(this_ptr, "_task");
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_CLI_Router, getTaskName) {
  *
  * @return string
  */
-PHP_METHOD(Phalcon_CLI_Router, getActionName) {
+PHP_METHOD(Phalcon_Cli_Router, getActionName) {
 
 
 	RETURN_MEMBER(this_ptr, "_action");
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_CLI_Router, getActionName) {
  *
  * @return array
  */
-PHP_METHOD(Phalcon_CLI_Router, getParams) {
+PHP_METHOD(Phalcon_Cli_Router, getParams) {
 
 
 	RETURN_MEMBER(this_ptr, "_params");

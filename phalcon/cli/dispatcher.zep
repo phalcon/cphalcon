@@ -18,10 +18,10 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\CLI;
+namespace Phalcon\Cli;
 
 /**
- * Phalcon\CLI\Dispatcher
+ * Phalcon\Cli\Dispatcher
  *
  * Dispatching is the process of taking the command-line arguments, extracting the module name,
  * task name, action name, and optional parameters contained in it, and then
@@ -31,9 +31,9 @@ namespace Phalcon\CLI;
  *
  *	$di = new Phalcon\Di();
  *
- *	$dispatcher = new Phalcon\CLI\Dispatcher();
+ *	$dispatcher = new Phalcon\Cli\Dispatcher();
  *
- *  $dispatcher->setDI(di);
+ *  $dispatcher->setDi(di);
  *
  *	$dispatcher->setTaskName('posts');
  *	$dispatcher->setActionName('index');
@@ -102,7 +102,7 @@ class Dispatcher extends Phalcon\Dispatcher
 	{
 		var exception, eventsManager;
 
-		let exception = new Phalcon\CLI\Dispatcher\Exception(message, exceptionCode);
+		let exception = new Phalcon\Cli\Dispatcher\Exception(message, exceptionCode);
 
 		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
 		if typeof eventsManager == "object" {

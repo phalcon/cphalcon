@@ -32,14 +32,14 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\CLI\Router\Exception
+ * Phalcon\Cli\Router\Exception
  *
- * Exceptions thrown in Phalcon\CLI\Router will use this class
+ * Exceptions thrown in Phalcon\Cli\Router will use this class
  *
  */
-ZEPHIR_INIT_CLASS(Phalcon_CLI_Router_Exception) {
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI\\Router, Exception, phalcon, cli_router_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli\\Router, Exception, phalcon, cli_router_exception, phalcon_exception_ce, NULL, 0);
 
 
 	return SUCCESS;

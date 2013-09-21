@@ -40,7 +40,7 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\CLI\Console
+ * Phalcon\Cli\Console
  *
  * This component allows to create CLI applications using Phalcon
  */
@@ -58,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Console) {
 }
 
 /**
- * Phalcon\CLI\Console constructor
+ * Phalcon\Cli\Console constructor
  */
 PHP_METHOD(Phalcon_Cli_Console, __construct) {
 

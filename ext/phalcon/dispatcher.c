@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
@@ -74,6 +74,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Dispatcher) {
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_ACTION_NOT_FOUND"), 5 TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Phalcon\Dispatcher constructor
+ *
+ */
+PHP_METHOD(Phalcon_Dispatcher, __construct) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	zephir_update_property_this(this_ptr, SL("_params"), _0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -550,7 +567,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				continue;
 			}
 		}
-		if (!(zephir_memnstr_str(handlerName, SL("\\"), "phalcon/dispatcher.zep", 421))) {
+		if (!(zephir_memnstr_str(handlerName, SL("\\"), "phalcon/dispatcher.zep", 430))) {
 			ZEPHIR_INIT_NVAR(camelizedClass);
 			zephir_camelize(camelizedClass, handlerName);
 		} else {
