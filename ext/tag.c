@@ -196,6 +196,21 @@ PHP_METHOD(Phalcon_Tag, getEscaperService){
 }
 
 /**
+ * Get current autoescape mode
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Tag, getAutoescape) {
+
+	zval *autoescape;
+
+	PHALCON_MM_GROW();
+	PHALCON_OBS_VAR(autoescape);
+	phalcon_read_static_property(&autoescape, SL("phalcon\\tag"), SL("_autoEscape") TSRMLS_CC);
+	RETURN_CCTOR(autoescape);
+}
+
+/**
  * Set autoescape mode in generated html
  *
  * @param boolean $autoescape
