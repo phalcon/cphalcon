@@ -33,7 +33,7 @@
  +------------------------------------------------------------------------+
  */
 /**
- * Phalcon\CLI\Task
+ * Phalcon\Cli\Task
  *
  * Every command-line task should extend this class that encapsulates all the task functionality
  *
@@ -42,8 +42,7 @@
  *
  *<code>
  *
- *
- *class HelloTask extends \Phalcon\CLI\Task
+ *class HelloTask extends \Phalcon\Cli\Task
  *{
  *
  *  //This action will be executed by default
@@ -61,9 +60,9 @@
  *
  *</code>
  */
-ZEPHIR_INIT_CLASS(Phalcon_CLI_Task) {
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Task) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\CLI, Task, phalcon, cli_task, phalcon_di_injectable_ce, phalcon_cli_task_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli, Task, phalcon, cli_task, phalcon_di_injectable_ce, phalcon_cli_task_method_entry, 0);
 
 
 	return SUCCESS;
@@ -71,9 +70,9 @@ ZEPHIR_INIT_CLASS(Phalcon_CLI_Task) {
 }
 
 /**
- * Phalcon\CLI\Task constructor
+ * Phalcon\Cli\Task constructor
  */
-PHP_METHOD(Phalcon_CLI_Task, __construct) {
+PHP_METHOD(Phalcon_Cli_Task, __construct) {
 
 
 

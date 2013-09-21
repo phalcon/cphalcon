@@ -441,12 +441,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	ZEPHIR_INIT(Phalcon_Assets_Manager);
 	ZEPHIR_INIT(Phalcon_Assets_Resource_Css);
 	ZEPHIR_INIT(Phalcon_Assets_Resource_Js);
-	ZEPHIR_INIT(Phalcon_CLI_Console_Exception);
-	ZEPHIR_INIT(Phalcon_CLI_Dispatcher);
-	ZEPHIR_INIT(Phalcon_CLI_Dispatcher_Exception);
-	ZEPHIR_INIT(Phalcon_CLI_Router);
-	ZEPHIR_INIT(Phalcon_CLI_Router_Exception);
-	ZEPHIR_INIT(Phalcon_CLI_Task);
 	ZEPHIR_INIT(Phalcon_Cache_Backend_Apc);
 	ZEPHIR_INIT(Phalcon_Cache_Backend_File);
 	ZEPHIR_INIT(Phalcon_Cache_Backend_Libmemcached);
@@ -462,6 +456,12 @@ PHP_MINIT_FUNCTION(phalcon){
 	ZEPHIR_INIT(Phalcon_Cache_Frontend_Output);
 	ZEPHIR_INIT(Phalcon_Cache_Multiple);
 	ZEPHIR_INIT(Phalcon_Cli_Console);
+	ZEPHIR_INIT(Phalcon_Cli_Console_Exception);
+	ZEPHIR_INIT(Phalcon_Cli_Dispatcher);
+	ZEPHIR_INIT(Phalcon_Cli_Dispatcher_Exception);
+	ZEPHIR_INIT(Phalcon_Cli_Router);
+	ZEPHIR_INIT(Phalcon_Cli_Router_Exception);
+	ZEPHIR_INIT(Phalcon_Cli_Task);
 	ZEPHIR_INIT(Phalcon_Config);
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Ini);
 	ZEPHIR_INIT(Phalcon_Config_Adapter_Json);

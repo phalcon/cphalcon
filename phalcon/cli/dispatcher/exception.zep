@@ -17,12 +17,12 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\CLI\Dispatcher;
+namespace Phalcon\Cli\Dispatcher;
 
 /**
- * Phalcon\CLI\Dispatcher\Exception
+ * Phalcon\Cli\Dispatcher\Exception
  *
- * Exceptions thrown in Phalcon\CLI\Dispatcher will use this class
+ * Exceptions thrown in Phalcon\Cli\Dispatcher will use this class
  */
 class Exception extends \Phalcon\Exception {
 

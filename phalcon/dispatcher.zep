@@ -76,6 +76,15 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	const EXCEPTION_ACTION_NOT_FOUND = 5;
 
 	/**
+	 * Phalcon\Dispatcher constructor
+	 *
+	 */
+	public function __construct()
+	{
+		let this->_params = [];
+	}
+
+	/**
 	 * Sets the dependency injector
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector

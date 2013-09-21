@@ -18,10 +18,10 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Phalcon\CLI;
+namespace Phalcon\Cli;
 
 /**
- * Phalcon\CLI\Task
+ * Phalcon\Cli\Task
  *
  * Every command-line task should extend this class that encapsulates all the task functionality
  *
@@ -30,8 +30,7 @@ namespace Phalcon\CLI;
  *
  *<code>
  *
- *
- *class HelloTask extends \Phalcon\CLI\Task
+ *class HelloTask extends \Phalcon\Cli\Task
  *{
  *
  *  //This action will be executed by default
@@ -53,7 +52,7 @@ namespace Phalcon\CLI;
  {
 
  	/**
- 	 * Phalcon\CLI\Task constructor
+ 	 * Phalcon\Cli\Task constructor
  	 */
  	public final function __construct()
  	{
