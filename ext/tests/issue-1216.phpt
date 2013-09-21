@@ -19,17 +19,17 @@ echo \Phalcon\Tag\Select::selectField(array('name' => '<', 'value' => '>', 'id' 
 echo "DONE", PHP_EOL;
 ?>
 --EXPECT--
-<a href="/tests/url&quot;" class="class&quot;"><></a>
-<input type="text" class="class&quot;" name="name&quot;" id="name&quot;" value="" />
-<input type="checkbox" class="class&quot;" name="name&quot;" id="name&quot;" value="" />
-<form method="&gt;" action="/tests/&lt;">
-<textarea cols="&lt;" name="&lt;" id="&lt;"></textarea>
-<link rel="stylesheet" href="&lt;" type="&gt;" />
+<a href="/tests/url&#x22;" class="class&#x22;"><></a>
+<input type="text" class="class&#x22;" name="name&#x22;" id="name&#x22;" value="" />
+<input type="checkbox" class="class&#x22;" name="name&#x22;" id="name&#x22;" value="" />
+<form method="&#x3e;" action="/tests/&#x3c;">
+<textarea cols="&#x3c;" name="&#x3c;" id="&#x3c;"></textarea>
+<link rel="stylesheet" href="&#x3c;" type="&#x3e;" />
 
-<script src="&lt;" type="&gt;"></script>
+<script src="&#x3c;" type="&#x3e;"></script>
 
-<img src="&lt;" alt="&gt;" />
-<br class="&lt;" />
+<img src="&#x3c;" alt="&#x3e;" />
+<br class="&#x3c;" />
 <select name="&lt;" id="">
 	<option value="&quot;">"</option>
 	<option selected="selected" value="&gt;">test</option>

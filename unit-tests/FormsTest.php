@@ -459,7 +459,7 @@ class FormsTest extends PHPUnit_Framework_TestCase
 		$form = new Phalcon\Forms\Form($object);
 		$form->add(new Phalcon\Forms\Element\Text("title"));
 		$actual   = $form->render('title');
-		$expected = '<input type="text" value="Hello &quot;world!&quot;" name="title" id="title" />';
+		$expected = '<input type="text" value="Hello &#x22;world!&#x22;" name="title" id="title" />';
 		$this->assertEquals($actual, $expected);
 	}
 
