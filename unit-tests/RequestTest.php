@@ -292,5 +292,24 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(empty($phone));
 		$this->assertEquals($request->getPost('phone', 'int', 100, FALSE), 100);
 	}
+
+	public function testIssues1265()
+	{
+		$di = new Phalcon\DI\FactoryDefault();
+
+		$request = new \Phalcon\Http\Request();
+		$request->setDI($di);
+
+		$_REQUEST = $_GET = $_POST = array(
+			'string' => 'hello',
+			'array' => array('string' => 'world')
+		);
+
+		$this->assertEquals($request->getQuery('string', 'string'), 'hello');
+		$this->assertEquals($request->getQuery('string', 'string', NULL, TRUE, TRUE), 'hello');
+
+		$this->assertEquals($request->getQuery('array', 'string'), array('string' => 'world'));
+		$this->assertEquals($request->getQuery('array', 'string', NULL, TRUE, TRUE), NULL);
+	}
 }
 

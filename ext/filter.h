@@ -34,6 +34,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitize, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 	ZEND_ARG_INFO(0, filters)
+	ZEND_ARG_INFO(0, norecursive)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_filter_method_entry){
