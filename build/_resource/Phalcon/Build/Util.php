@@ -29,7 +29,7 @@ class Util
             if ($entry->isDot()) {
                 continue;
             }
-            if ($entry->isDir()) {
+            if ($entry->isDir() && !$entry->isLink()) {
                 self::cleanDirectory($entry->getPathname());
                 if (file_exists($entry->getPathname())) rmdir(realpath($entry->getPathname()));
             } else {
