@@ -259,6 +259,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($request->getQuery('num', 'int', 100), 1);
 
 		$age = $request->get('age', 'int', 100);
+
 		$this->assertTrue(empty($age));
 		$this->assertEquals($request->get('age', 'int', 100, TRUE), 100);
 
@@ -272,6 +273,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($request->getQuery('num', 'int', 100), 1);
 
 		$age = $request->getQuery('age', 'int', 100);
+
 		$this->assertTrue(empty($age));
 		$this->assertEquals($request->getQuery('age', 'int', 100, TRUE), 100);
 
@@ -285,6 +287,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($request->getPost('num', 'int', 100), 1);
 
 		$age = $request->getPost('age', 'int', 100);
+
 		$this->assertTrue(empty($age));
 		$this->assertEquals($request->getPost('age', 'int', 100, TRUE), 100);
 
