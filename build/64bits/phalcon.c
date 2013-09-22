@@ -17710,12 +17710,27 @@ static PHP_METHOD(Phalcon_Security, hash){
 
 static PHP_METHOD(Phalcon_Security, checkHash){
 
-	zval *password, *password_hash, *hash;
+	zval *password, *password_hash, *hash, *max_pass_length = NULL;
+
+	phalcon_fetch_params(0, 2, 1, &password, &password_hash, &max_pass_length);
+	
+	if (Z_TYPE_P(password) != IS_STRING) {
+		PHALCON_SEPARATE_PARAM_NMO(password);
+		convert_to_string(password);
+	}
+
+	if (max_pass_length) {
+		if (Z_TYPE_P(max_pass_length) != IS_LONG) {
+			PHALCON_SEPARATE_PARAM_NMO(max_pass_length);
+			convert_to_long(max_pass_length);
+		}
+
+		if (Z_LVAL_P(max_pass_length) > 0 && Z_STRLEN_P(password) > Z_LVAL_P(max_pass_length)) {
+			RETURN_FALSE;
+		}
+	}
 
 	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &password, &password_hash);
-	
 	PHALCON_INIT_VAR(hash);
 	phalcon_call_func_p2(hash, "crypt", password, password_hash);
 	is_equal_function(return_value, hash, password_hash TSRMLS_CC);
@@ -79140,29 +79155,29 @@ static PHP_METHOD(Phalcon_Image_Adapter, text){
 	phalcon_fetch_params(1, 1, 6, &text, &offset_x, &offset_y, &opacity, &color, &size, &fontfile);
 
 	if (!offset_x) {
-		PHALCON_INIT_NVAR(offset_x);
+		PHALCON_INIT_VAR(offset_x);
 	} else {
 		PHALCON_SEPARATE_PARAM(offset_x);
 	}
 	
 	if (!offset_y) {
-		PHALCON_INIT_NVAR(offset_y);
+		PHALCON_INIT_VAR(offset_y);
 	} else {
 		PHALCON_SEPARATE_PARAM(offset_y);
 	}
 
-	if (Z_TYPE_P(offset_x) == IS_NULL ) {
+	if (Z_TYPE_P(offset_x) == IS_NULL) {
 		PHALCON_INIT_NVAR(offset_x);
-		ZVAL_BOOL(offset_x, 0);
+		ZVAL_FALSE(offset_x);
 	}
 
 	if (Z_TYPE_P(offset_y) == IS_NULL) {
 		PHALCON_INIT_NVAR(offset_y);
-		ZVAL_BOOL(offset_y, 0);
+		ZVAL_FALSE(offset_y);
 	}
 
 	if (!opacity) {
-		PHALCON_INIT_NVAR(opacity);
+		PHALCON_INIT_VAR(opacity);
 		ZVAL_LONG(opacity, 100);
 	} else if (Z_TYPE_P(opacity) == IS_NULL) {
 		PHALCON_SEPARATE_PARAM(opacity);
@@ -79192,7 +79207,7 @@ static PHP_METHOD(Phalcon_Image_Adapter, text){
 	}
 
 	if (!size) {
-		PHALCON_INIT_NVAR(size);
+		PHALCON_INIT_VAR(size);
 		ZVAL_LONG(size, 12);
 	} else if (Z_TYPE_P(size) == IS_NULL) {
 		PHALCON_SEPARATE_PARAM(size);
@@ -79201,7 +79216,7 @@ static PHP_METHOD(Phalcon_Image_Adapter, text){
 	}
 
 	if (!fontfile) {
-		PHALCON_INIT_NVAR(fontfile);
+		PHALCON_INIT_VAR(fontfile);
 	}
 
 	c = Z_STRVAL_P(color);
@@ -79210,12 +79225,13 @@ static PHP_METHOD(Phalcon_Image_Adapter, text){
 		PHALCON_INIT_NVAR(tmp_color);
 		phalcon_substr(tmp_color, color, 1, 0);
 	} else {
-		PHALCON_CPY_WRT(tmp_color, color);
+		PHALCON_CPY_WRT_CTOR(tmp_color, color);
 	}
 
 	if (Z_STRLEN_P(tmp_color) == 3) {
 		/* Convert RGB to RRGGBB */
 		c = Z_STRVAL_P(tmp_color);
+		assert(!IS_INTERNED(c));
 		STR_REALLOC(c, 7);
 		c[6] = '\0';
 		c[5] = c[2];
@@ -79223,9 +79239,8 @@ static PHP_METHOD(Phalcon_Image_Adapter, text){
 		c[3] = c[1];
 		c[2] = c[1];
 		c[1] = c[0];
+		ZVAL_STRING(tmp_color, c, 0);
 	}
-
-	ZVAL_STRING(tmp_color, c, 1);
 
 	if (Z_STRLEN_P(tmp_color) < 6) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "color is not valid");
@@ -79287,25 +79302,32 @@ static PHP_METHOD(Phalcon_Image_Adapter, background){
 		PHALCON_INIT_NVAR(tmp_color);
 		phalcon_substr(tmp_color, color, 1, 0);
 	} else {
-		PHALCON_CPY_WRT(tmp_color, color);
+		PHALCON_CPY_WRT_CTOR(tmp_color, color);
 	}
 
 	if (Z_STRLEN_P(tmp_color) == 3) {
 		/* Convert RGB to RRGGBB */
 		c = Z_STRVAL_P(tmp_color);
-		STR_REALLOC(c, 7);
+		if (!IS_INTERNED(c)) {
+			STR_REALLOC(c, 7);
+		}
+		else {
+			char* tmp = ecalloc(7, 1);
+			memcpy(tmp, c, Z_STRLEN_P(tmp_color));
+			c = tmp;
+		}
+
 		c[6] = '\0';
 		c[5] = c[2];
 		c[4] = c[2];
 		c[3] = c[1];
 		c[2] = c[1];
 		c[1] = c[0];
+		ZVAL_STRING(tmp_color, c, 0);
 	}
 
-	ZVAL_STRING(tmp_color, c, 1);
-
 	if (Z_STRLEN_P(tmp_color) < 6) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "color is not valid");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Color is not valid");
 		return;
 	}
 
@@ -79324,7 +79346,6 @@ static PHP_METHOD(Phalcon_Image_Adapter, background){
 	Z_STRVAL(tmp) += 2;
 	PHALCON_INIT_NVAR(b);
 	_php_math_basetozval(&tmp, 16, b);
-		
 
 	if (!opacity) {
 		PHALCON_INIT_NVAR(opacity);
@@ -79703,6 +79724,9 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
 		if (phalcon_array_isset_long_fetch(&type, imageinfo, 2)) {
 			phalcon_update_property_this_quick(this_ptr, SL("_type"), type, 6953249044038UL TSRMLS_CC);
+		} else {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Can't get type");
+			return;
 		}
 
 		if (phalcon_array_isset_string_fetch(&mime, imageinfo, SS("mime"))) {
@@ -79838,8 +79862,8 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 		PHALCON_OBS_VAR(tmp_image);
 		phalcon_call_method_p2_ex(tmp_image, &tmp_image, this_ptr, "_create", pre_width, pre_height);
 
-		PHALCON_OBS_NVAR(ret);
-		PHALCON_CALL_FUNCTION(ret, &ret, "imagecopyresized", 10, tmp_image, image, dst, dst, dst, dst, pre_width, pre_height, ori_width, ori_height);
+		PHALCON_INIT_NVAR(ret);
+		PHALCON_CALL_FUNCTION(ret, NULL, "imagecopyresized", 10, tmp_image, image, dst, dst, dst, dst, pre_width, pre_height, ori_width, ori_height);
 		
 		if (zend_is_true(ret)) {
 			phalcon_call_func_p1_noret("imagedestroy", image);
@@ -79853,11 +79877,11 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 		ZVAL_LONG(pre_height, tmp_pre_height);
 	}
 
-	PHALCON_OBS_NVAR(tmp_image);
-	phalcon_call_method_p2_ex(tmp_image, &tmp_image, this_ptr, "_create", width, height);
+	PHALCON_INIT_NVAR(tmp_image);
+	phalcon_call_method_p2_ex(tmp_image, NULL, this_ptr, "_create", width, height);
 
-	PHALCON_OBS_NVAR(ret);
-	PHALCON_CALL_FUNCTION(ret, &ret, "imagecopyresampled", 10, tmp_image, image, dst, dst, dst, dst, width, height, pre_width, pre_height);
+	PHALCON_INIT_NVAR(ret);
+	PHALCON_CALL_FUNCTION(ret, NULL, "imagecopyresampled", 10, tmp_image, image, dst, dst, dst, dst, width, height, pre_width, pre_height);
 
 	if (zend_is_true(ret)) {
 		phalcon_call_func_p1_noret("imagedestroy", image);
@@ -79867,8 +79891,8 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 		phalcon_update_property_this_quick(this_ptr, SL("_height"), height, 7572071920521405UL TSRMLS_CC);
 	}
 #else
-	PHALCON_OBS_NVAR(tmp_image);
-	PHALCON_CALL_FUNCTION(tmp_image, &tmp_image, "imagescale", 3, image, width, height);
+	PHALCON_INIT_NVAR(tmp_image);
+	PHALCON_CALL_FUNCTION(tmp_image, NULL, "imagescale", 3, image, width, height);
 
 	phalcon_call_func_p1_noret("imagedestroy", image);
 	phalcon_update_property_this_quick(this_ptr, SL("_image"), tmp_image, 229456773199335UL TSRMLS_CC);
@@ -79876,8 +79900,6 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _resize) {
 	phalcon_update_property_this_quick(this_ptr, SL("_width"), width, 229457316473220UL TSRMLS_CC);
 	phalcon_update_property_this_quick(this_ptr, SL("_height"), height, 7572071920521405UL TSRMLS_CC);
 #endif
-
-	
 
 	PHALCON_MM_RESTORE();
 }
@@ -80177,11 +80199,11 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _sharpen) {
 
 	if (zend_is_true(ret)) {
 
-		PHALCON_OBS_NVAR(width);
-		phalcon_call_func_p1_ex(width, &width, "imagesx", image);
+		PHALCON_INIT_NVAR(width);
+		phalcon_call_func_p1(width, "imagesx", image);
 
-		PHALCON_OBS_NVAR(height);
-		phalcon_call_func_p1_ex(height, &height, "imagesy", image);
+		PHALCON_INIT_NVAR(height);
+		phalcon_call_func_p1(height, "imagesy", image);
 
 		phalcon_update_property_this_quick(this_ptr, SL("_width"), width, 229457316473220UL TSRMLS_CC);
 		phalcon_update_property_this_quick(this_ptr, SL("_height"), height, 7572071920521405UL TSRMLS_CC);
@@ -80263,8 +80285,8 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _reflection) {
 			ZVAL_LONG(dst_opacity, int_opacity);
 		}
 
-		PHALCON_OBS_NVAR(line);
-		phalcon_call_method_p2_ex(line, &line, this_ptr, "_create", image_width, tmp);
+		PHALCON_INIT_NVAR(line);
+		phalcon_call_method_p2_key(line, this_ptr, "_create", 7572065966994936UL, image_width, tmp);
 
 		phalcon_call_func_p8_noret("imagecopy", line, image, dst, dst, dst, src_y, image_width, tmp);
 		phalcon_call_func_p6_noret("imagefilter", line, filtertype, dst, dst, dst, dst_opacity);
@@ -80366,7 +80388,8 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _watermark) {
 
 static PHP_METHOD(Phalcon_Image_Adapter_GD, _text) {
 	zval *text, *offset_x, *offset_y, *opacity, *r, *g, *b, *size, *fontfile = NULL;
-	zval *image, *image_width, *image_height, *tmp = NULL, *space, *s0 = NULL, *s1 = NULL, *s4 = NULL, *s5 = NULL, *width, *height, *color;
+	zval *image, *image_width, *image_height, *tmp = NULL, *space;
+	zval *s0 = NULL, *s1 = NULL, *s4 = NULL, *s5 = NULL, *width, *height, *color;
 	int w, h, w1, h1, x, y, i;
 
 	PHALCON_MM_GROW();
@@ -80408,31 +80431,19 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _text) {
 		PHALCON_OBS_VAR(space);
 		phalcon_call_func_p4_ex(space, &space, "imagettfbbox", size, tmp, fontfile, text);
 
-		if (phalcon_array_isset_long(space, 0)) {
-			PHALCON_OBS_NVAR(s0);
-			phalcon_array_fetch_long(&s0, space, 0, PH_NOISY);
-		}
-		if (phalcon_array_isset_long(space, 1)) {
-			PHALCON_OBS_NVAR(s1);
-			phalcon_array_fetch_long(&s1, space, 1, PH_NOISY);
-		}
-		if (phalcon_array_isset_long(space, 4)) {
-			PHALCON_OBS_NVAR(s4);
-			phalcon_array_fetch_long(&s4, space, 4, PH_NOISY);
-		}
-		if (phalcon_array_isset_long(space, 5)) {
-			PHALCON_OBS_NVAR(s5);
-			phalcon_array_fetch_long(&s5, space, 5, PH_NOISY);
-		}
+		phalcon_array_isset_long_fetch(&s0, space, 0);
+		phalcon_array_isset_long_fetch(&s1, space, 1);
+		phalcon_array_isset_long_fetch(&s4, space, 4);
+		phalcon_array_isset_long_fetch(&s5, space, 5);
 
 		if (!s0 || !s1 || !s4 || !s5) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Call imagettfbbox fail");
+			PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Call to imagettfbbox() failed");
 			return;
 		}
 
 		w1 = phalcon_get_intval(s4) - phalcon_get_intval(s0);
 		if (w1 < 0) {
-			w1 *= -1;
+			w1 = -w1;
 		}
 		w1 += 10;
 
@@ -80441,7 +80452,7 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _text) {
 
 		h1 = phalcon_get_intval(s5) - phalcon_get_intval(s1);
 		if (h1 < 0) {
-			h1 *= -1;
+			h1 = -h1;
 		}
 		h1 += 10;
 
@@ -80492,10 +80503,10 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _text) {
 		w1 =  phalcon_get_intval(width) * i;
 		h1 =  phalcon_get_intval(height);
 
-		PHALCON_INIT_VAR(width);
+		PHALCON_INIT_NVAR(width);
 		ZVAL_LONG(width, w1);
 
-		PHALCON_INIT_VAR(height);
+		PHALCON_INIT_NVAR(height);
 		ZVAL_LONG(height, h1);
 
 		if (Z_TYPE_P(offset_x) == IS_LONG ) {
@@ -80606,11 +80617,11 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 			PHALCON_INIT_NVAR(zy);
 			ZVAL_LONG(zy, y);
 
-			PHALCON_OBS_NVAR(index);
-			phalcon_call_func_p3_ex(index, &index, "imagecolorat", mask_image, zx, zy);
+			PHALCON_INIT_NVAR(index);
+			phalcon_call_func_p3(index, "imagecolorat", mask_image, zx, zy);
 
-			PHALCON_OBS_NVAR(alpha);
-			phalcon_call_func_p2_ex(alpha, &alpha, "imagecolorsforindex", mask_image, index);
+			PHALCON_INIT_NVAR(alpha);
+			phalcon_call_func_p2(alpha, "imagecolorsforindex", mask_image, index);
 
 			if (phalcon_array_isset_string_fetch(&red, alpha, SS("red"))) {
 				i = (int)(127 - (phalcon_get_intval(red) / 2));
@@ -80619,29 +80630,18 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _mask){
 				ZVAL_LONG(alpha, i);
 			}
 
-			PHALCON_OBS_NVAR(index2);
-			phalcon_call_func_p3_ex(index2, &index2, "imagecolorat", image, zx, zy);
+			PHALCON_INIT_NVAR(index2);
+			phalcon_call_func_p3(index2, "imagecolorat", image, zx, zy);
 
-			PHALCON_OBS_NVAR(c);
-			phalcon_call_func_p2_ex(c, &c, "imagecolorsforindex", image, index2);
+			PHALCON_INIT_NVAR(c);
+			phalcon_call_func_p2(c, "imagecolorsforindex", image, index2);
 
-			if (phalcon_array_isset_quick_string(c, SS("red"), 6385651008UL)) {
-				PHALCON_OBS_VAR(r);
-				phalcon_array_fetch_quick_string(&r, c, SS("red"), 6385651008UL, PH_NOISY);
-			}
-			
-			if (phalcon_array_isset_quick_string(c, SS("green"), 6953559024918UL)) {
-				PHALCON_OBS_VAR(g);
-				phalcon_array_fetch_quick_string(&g, c, SS("green"), 6953559024918UL, PH_NOISY);
-			}
-			
-			if (phalcon_array_isset_quick_string(c, SS("blue"), 210707781933UL)) {
-				PHALCON_OBS_VAR(b);
-				phalcon_array_fetch_quick_string(&b, c, SS("blue"), 210707781933UL, PH_NOISY);
-			}
+			phalcon_array_isset_string_fetch(&r, c, SS("red"));
+			phalcon_array_isset_string_fetch(&g, c, SS("green"));
+			phalcon_array_isset_string_fetch(&b, c, SS("blue"));
 
-			PHALCON_OBS_VAR(color);
-			phalcon_call_func_p5_ex(color, &color, "imagecolorallocatealpha", newimage, r, g, b, alpha);
+			PHALCON_INIT_NVAR(color);
+			phalcon_call_func_p5(color, "imagecolorallocatealpha", newimage, r, g, b, alpha);
 
 			phalcon_call_func_p4_noret("imagesetpixel", newimage, zx, zy, color);
 		}
@@ -80764,8 +80764,8 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _pixelate){
 			PHALCON_INIT_NVAR(tmp2);
 			ZVAL_LONG(tmp2, y1)
 
-			PHALCON_OBS_NVAR(color);
-			phalcon_call_func_p3_ex(color, &color, "imagecolorat", image, tmp1, tmp2);
+			PHALCON_INIT_NVAR(color);
+			phalcon_call_func_p3(color, "imagecolorat", image, tmp1, tmp2);
 
 			PHALCON_INIT_NVAR(tmp1);
 			ZVAL_LONG(tmp1, x)
@@ -80844,11 +80844,11 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, _save) {
 	
 	image = phalcon_fetch_nproperty_this(this_ptr, SL("_image"), PH_NOISY_CC);
 
-	PHALCON_OBS_NVAR(ret);
+	PHALCON_INIT_NVAR(ret);
 	if (Z_TYPE_P(quality) == IS_LONG) {
-		phalcon_call_func_p3_ex(ret, &ret, func_name, image, file, q);
+		phalcon_call_func_p3(ret, func_name, image, file, q);
 	} else {
-		phalcon_call_func_p2_ex(ret, &ret, func_name, image, file);
+		phalcon_call_func_p2(ret, func_name, image, file);
 	}
 
 	if (zend_is_true(ret)) {
@@ -80984,7 +80984,6 @@ static PHP_METHOD(Phalcon_Image_Adapter_GD, __destruct){
 
 
 
-
 #ifdef HAVE_CONFIG_H
 #endif
 
@@ -81005,25 +81004,21 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_Imagick){
 
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, check){
 
-	zval *class_name, *ret = NULL;
+	zval class_name, *ret = NULL;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(class_name);
-	ZVAL_STRING(class_name, "imagick", 1);
+	INIT_ZVAL(class_name);
+	ZVAL_STRING(&class_name, "imagick", 0);
 
-	PHALCON_INIT_NVAR(ret);
-	phalcon_call_func_p1(ret, "class_exists", class_name);
-
-	if (!zend_is_true(ret)) {
+	if (!phalcon_class_exists(&class_name, 0 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Imagick is not installed, or the extension is not loaded");
 		return;
 	}
 
 	phalcon_update_static_property(SL("phalcon\\image\\adapter\\imagick"), SL("_checked"), ret TSRMLS_CC);
 
-	ZVAL_BOOL(return_value, 1);
-
+	RETVAL_TRUE;
 	RETURN_MM();
 }
 
@@ -83984,17 +83979,72 @@ static PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny){
 	RETURN_MM();
 }
 
+static int phalcon_role_adapter_memory_check_inheritance(zval *role, zval *resource, zval *access, zval *access_list, zval* this_ptr TSRMLS_DC)
+{
+	zval *role_inherits, *inherited_roles, *access_key, *have_access = NULL;
+	zval **parent_role;
+	zval one = zval_used_for_init;
+	HashPosition hp;
+
+	ZVAL_LONG(&one, 1);
+
+	assert(Z_TYPE_P(role) == IS_STRING);
+	assert(Z_TYPE_P(resource) == IS_STRING);
+	assert(Z_TYPE_P(access) == IS_STRING);
+	assert(Z_TYPE_P(access_list) == IS_ARRAY);
+
+	role_inherits = phalcon_fetch_nproperty_this(this_ptr, SL("_roleInherits"), PH_NOISY TSRMLS_CC);
+	if (!phalcon_array_isset_fetch(&inherited_roles, role_inherits, role)) {
+		return 0;
+	}
+
+	if (Z_TYPE_P(inherited_roles) != IS_ARRAY) {
+		return 0;
+	}
+
+	ALLOC_INIT_ZVAL(access_key);
+	for (
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(inherited_roles), &hp);
+		zend_hash_get_current_data_ex(Z_ARRVAL_P(inherited_roles), (void**)&parent_role, &hp) == SUCCESS;
+		zend_hash_move_forward_ex(Z_ARRVAL_P(inherited_roles), &hp)
+	) {
+		int found;
+
+		phalcon_concat_vsvsv(&access_key, *parent_role, SL("!"), resource, SL("!"), access, 0 TSRMLS_CC);
+		found = phalcon_array_isset_fetch(&have_access, access_list, access_key);
+		zval_dtor(access_key);
+		ZVAL_NULL(access_key);
+
+		if (found && Z_TYPE_P(have_access) != IS_NULL) {
+			break;
+		}
+
+		have_access = NULL; /* To be safe */
+		if (phalcon_role_adapter_memory_check_inheritance(*parent_role, resource, access, access_list, this_ptr TSRMLS_CC)) {
+			have_access = &one;
+			break;
+		}
+	}
+
+	zval_ptr_dtor(&access_key);
+	return (have_access && Z_TYPE_P(have_access) != IS_NULL) ? 1 : 0;
+}
+
 static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 
 	zval *role, *resource, *access, *events_manager;
 	zval *event_name = NULL, *status, *default_access, *roles_names;
 	zval *have_access = NULL, *access_list, *access_key = NULL;
-	zval *role_inherits, *inherited_roles = NULL, *inherited_role = NULL;
-	HashTable *ah0, *ah1, *ah2;
-	HashPosition hp0, hp1, hp2;
-	zval **hd;
+	zval resource_star, access_star;
+	int allow_access;
 
 	PHALCON_MM_GROW();
+
+	INIT_ZVAL(access_star);
+	ZVAL_STRING(&access_star, "*", 0);
+
+	INIT_ZVAL(resource_star);
+	ZVAL_STRING(&resource_star, "*", 0);
 
 	phalcon_fetch_params(1, 3, 0, &role, &resource, &access);
 	
@@ -84002,8 +84052,7 @@ static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	phalcon_update_property_this_quick(this_ptr, SL("_activeResource"), resource, 8571494653749384712UL TSRMLS_CC);
 	phalcon_update_property_this_quick(this_ptr, SL("_activeAccess"), access, 14829635018488858002UL TSRMLS_CC);
 	
-	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property_this_quick(&events_manager, this_ptr, SL("_eventsManager"), 2608963092886932692UL, PH_NOISY_CC);
+	events_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -84016,137 +84065,59 @@ static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		}
 	}
 	
-	PHALCON_OBS_VAR(default_access);
-	phalcon_read_property_this_quick(&default_access, this_ptr, SL("_defaultAccess"), 11478877480478932987UL, PH_NOISY_CC);
+	default_access = phalcon_fetch_nproperty_this(this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
 	
-	PHALCON_OBS_VAR(roles_names);
-	phalcon_read_property_this_quick(&roles_names, this_ptr, SL("_rolesNames"), 14777268285346754397UL, PH_NOISY_CC);
+	roles_names = phalcon_fetch_nproperty_this(this_ptr, SL("_rolesNames"), PH_NOISY_CC);
 	if (!phalcon_array_isset(roles_names, role)) {
 		RETURN_CCTOR(default_access);
 	}
 	
-	PHALCON_INIT_VAR(have_access);
-	
-	PHALCON_OBS_VAR(access_list);
-	phalcon_read_property_this_quick(&access_list, this_ptr, SL("_access"), 7572062794799382UL, PH_NOISY_CC);
+	access_list = phalcon_fetch_nproperty_this(this_ptr, SL("_access"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(access_key);
 	PHALCON_CONCAT_VSVSV(access_key, role, "!", resource, "!", access);
 	
-	if (phalcon_array_isset(access_list, access_key)) {
-		PHALCON_OBS_NVAR(have_access);
-		phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
+	phalcon_array_isset_fetch(&have_access, access_list, access_key);
+	allow_access = have_access && Z_TYPE_P(have_access) != IS_NULL;
+	
+	if (!allow_access && phalcon_role_adapter_memory_check_inheritance(role, resource, access, access_list, getThis() TSRMLS_CC)) {
+		allow_access = 1;
 	}
 	
-	if (Z_TYPE_P(have_access) == IS_NULL) {
-	
-		PHALCON_OBS_VAR(role_inherits);
-		phalcon_read_property_this_quick(&role_inherits, this_ptr, SL("_roleInherits"), 6884272771257118684UL, PH_NOISY_CC);
-		if (phalcon_array_isset(role_inherits, role)) {
-			PHALCON_OBS_VAR(inherited_roles);
-			phalcon_array_fetch(&inherited_roles, role_inherits, role, PH_NOISY);
-		} else {
-			PHALCON_INIT_NVAR(inherited_roles);
-		}
-	
-		if (Z_TYPE_P(inherited_roles) == IS_ARRAY) { 
-	
-			phalcon_is_iterable(inherited_roles, &ah0, &hp0, 0, 0);
-	
-			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-				PHALCON_GET_HVALUE(inherited_role);
-	
-				PHALCON_INIT_NVAR(access_key);
-				PHALCON_CONCAT_VSVSV(access_key, inherited_role, "!", resource, "!", access);
-	
-				if (phalcon_array_isset(access_list, access_key)) {
-					PHALCON_OBS_NVAR(have_access);
-					phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
-					break;
-				}
-	
-				zend_hash_move_forward_ex(ah0, &hp0);
-			}
-	
-		}
-	}
-	
-	if (Z_TYPE_P(have_access) == IS_NULL) {
+	if (!allow_access) {
 	
 		PHALCON_INIT_NVAR(access_key);
 		PHALCON_CONCAT_VSVS(access_key, role, "!", resource, "!*");
 	
-		if (phalcon_array_isset(access_list, access_key)) {
-			PHALCON_OBS_NVAR(have_access);
-			phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
-		} else {
-			if (Z_TYPE_P(inherited_roles) == IS_ARRAY) { 
-	
-				phalcon_is_iterable(inherited_roles, &ah1, &hp1, 0, 0);
-	
-				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-	
-					PHALCON_GET_HVALUE(inherited_role);
-	
-					PHALCON_INIT_NVAR(access_key);
-					PHALCON_CONCAT_VSVS(access_key, inherited_role, "!", resource, "!*");
-	
-					if (phalcon_array_isset(access_list, access_key)) {
-						PHALCON_OBS_NVAR(have_access);
-						phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
-						break;
-					}
-	
-					zend_hash_move_forward_ex(ah1, &hp1);
-				}
-	
-			}
+		phalcon_array_isset_fetch(&have_access, access_list, access_key);
+		allow_access = have_access && Z_TYPE_P(have_access) != IS_NULL;
+
+		if (!allow_access && phalcon_role_adapter_memory_check_inheritance(role, resource, &access_star, access_list, getThis() TSRMLS_CC)) {
+			allow_access = 1;
 		}
 	}
 	
-	if (Z_TYPE_P(have_access) == IS_NULL) {
+	if (!allow_access) {
 	
 		PHALCON_INIT_NVAR(access_key);
 		PHALCON_CONCAT_VS(access_key, role, "!*!*");
 	
-		if (phalcon_array_isset(access_list, access_key)) {
-			PHALCON_OBS_NVAR(have_access);
-			phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
-		} else {
-			if (Z_TYPE_P(inherited_roles) == IS_ARRAY) { 
-	
-				phalcon_is_iterable(inherited_roles, &ah2, &hp2, 0, 0);
-	
-				while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
-	
-					PHALCON_GET_HVALUE(inherited_role);
-	
-					PHALCON_INIT_NVAR(access_key);
-					PHALCON_CONCAT_VS(access_key, inherited_role, "!*!*");
-					if (phalcon_array_isset(access_list, access_key)) {
-						PHALCON_OBS_NVAR(have_access);
-						phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
-						break;
-					}
-	
-					zend_hash_move_forward_ex(ah2, &hp2);
-				}
-	
-			}
+		phalcon_array_isset_fetch(&have_access, access_list, access_key);
+		allow_access = have_access && Z_TYPE_P(have_access) != IS_NULL;
+
+		if (!allow_access && phalcon_role_adapter_memory_check_inheritance(role, &resource_star, &access_star, access_list, getThis() TSRMLS_CC)) {
+			allow_access = 1;
 		}
 	}
-	
+
+	PHALCON_INIT_VAR(have_access);
+	ZVAL_BOOL(have_access, allow_access);
+
 	phalcon_update_property_this_quick(this_ptr, SL("_accessGranted"), have_access, 8897148297292111771UL TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "acl:afterCheckAccess", 1);
 		phalcon_call_method_p3_key(NULL, events_manager, "fire", 210712414539UL, event_name, this_ptr, have_access);
-	}
-	
-	if (Z_TYPE_P(have_access) == IS_NULL) {
-		PHALCON_MM_RESTORE();
-		RETURN_LONG(0);
 	}
 	
 	RETURN_CCTOR(have_access);
@@ -95139,12 +95110,6 @@ static PHP_METHOD(Phalcon_Http_Request, getBsonRawBody){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 1, &assoc);
-
-	if (assoc && zend_is_true(assoc)) {
-		ac = 1;
-	}
-
 	PHALCON_INIT_VAR(raw_body);
 	phalcon_call_method_key(raw_body, this_ptr, "getrawbody", 13875266445789157405UL);
 	if (Z_TYPE_P(raw_body) == IS_STRING) {
@@ -95346,6 +95311,30 @@ static PHP_METHOD(Phalcon_Http_Request, getMethod){
 	const char *method = phalcon_http_request_getmethod_helper(TSRMLS_C);
 	if (method) {
 		RETURN_STRING(method, 1);
+	}
+
+	RETURN_EMPTY_STRING();
+}
+
+static PHP_METHOD(Phalcon_Http_Request, getURI){
+
+	zval **value;
+	const char *uri = SG(request_info).request_uri;
+	if (unlikely(!uri)) {
+		zval *_SERVER, key;
+
+		INIT_ZVAL(key);
+		ZVAL_STRING(&key, "REQUEST_URI", 0);
+
+		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA);
+		if (value && Z_TYPE_PP(value) == IS_STRING) {
+			uri = Z_STRVAL_PP(value);
+		}
+	}
+
+	if (uri) {
+		RETURN_STRING(uri, 1);
 	}
 
 	RETURN_EMPTY_STRING();
@@ -96042,35 +96031,73 @@ static PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
 	RETURN_MM();
 }
 
-static PHP_METHOD(Phalcon_Http_Request, getAuth){
+static PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
 
-	zval *auth, *_SERVER, *server_value, *pattern, *set_order, *matches, *match = NULL, *ret, *tmp1, *tmp2;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	zval *auth, *_SERVER, *key;
+	zval **value;
+	char *auth_user = SG(request_info).auth_user;
+	char *auth_password = SG(request_info).auth_user;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-	if (phalcon_array_isset_quick_string(_SERVER, SS("PHP_AUTH_USER"), 13529691938326663868UL)) {
-		PHALCON_INIT_VAR(auth);
-		array_init(auth);
+	if (unlikely(!auth_user)) {
+		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 
-		PHALCON_OBS_VAR(server_value);
-		phalcon_array_fetch_quick_string(&server_value, _SERVER, SS("PHP_AUTH_USER"), 13529691938326663868UL, PH_NOISY);
+		PHALCON_INIT_VAR(key);
+		ZVAL_STRING(key, "PHP_AUTH_USER", 1);
 
-		phalcon_array_update_quick_string(&auth, SS("username"), 249909783529944549UL, &server_value, PH_COPY | PH_SEPARATE);
+		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), key, BP_VAR_NA);
+		if (value && Z_TYPE_PP(value) == IS_STRING) {
+			auth_user = Z_STRVAL_PP(value);
+		}
 
-		PHALCON_OBS_NVAR(server_value);
-		phalcon_array_fetch_quick_string(&server_value, _SERVER, SS("PHP_AUTH_PW"), 13953351758127898788UL, PH_NOISY);
-		phalcon_array_update_quick_string(&auth, SS("password"), 249902002485748536UL, &server_value, PH_COPY | PH_SEPARATE);
+		ZVAL_STRING(key, "PHP_AUTH_PW", 1);
 
-		phalcon_array_update_string_string(&auth, SL("type"), SL("basic"), PH_SEPARATE);
+		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), key, BP_VAR_NA);
+		if (value && Z_TYPE_PP(value) == IS_STRING) {
+			auth_password = Z_STRVAL_PP(value);
+		}
+	}
 
-		RETURN_CCTOR(auth);
-	} else if (phalcon_array_isset_quick_string(_SERVER, SS("PHP_AUTH_DIGEST"), 13332749995170451101UL)) {
-		PHALCON_OBS_VAR(server_value);
-		phalcon_array_fetch_quick_string(&server_value, _SERVER, SS("PHP_AUTH_DIGEST"), 13332749995170451101UL, PH_NOISY);
+	if (!auth_user) {
+		RETURN_MM_NULL();
+	}
+	
+	PHALCON_INIT_VAR(auth);
+	array_init(auth);	
+
+	phalcon_array_update_string_string(&auth, SL("username"), auth_user, strlen(auth_user), PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string_string(&auth, SL("password"), auth_password, strlen(auth_password), PH_COPY | PH_SEPARATE);
+
+	RETURN_CCTOR(auth);
+}
+
+static PHP_METHOD(Phalcon_Http_Request, getDigestAuth){
+
+	zval *auth, *_SERVER, *key, *digest, *pattern, *set_order, *matches, *match = NULL, *ret, *tmp1, *tmp2;
+	zval **value;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	const char *auth_digest = SG(request_info).auth_digest;
+
+	PHALCON_MM_GROW();
+
+	if (unlikely(!auth_digest)) {
+		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+
+		PHALCON_INIT_VAR(key);
+		ZVAL_STRING(key, "PHP_AUTH_DIGEST", 1);
+
+		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), key, BP_VAR_NA);
+		if (value && Z_TYPE_PP(value) == IS_STRING) {
+			auth_digest = Z_STRVAL_PP(value);
+		}
+	}
+
+	if (auth_digest) {
+		PHALCON_INIT_VAR(digest);
+		ZVAL_STRING(digest, auth_digest, 1);
 
 		PHALCON_INIT_VAR(pattern);
 		ZVAL_STRING(pattern, "#(\\w+)=(['\"]?)([a-zA-Z0-9=./\\_-]+)\\2#", 1);
@@ -96082,7 +96109,7 @@ static PHP_METHOD(Phalcon_Http_Request, getAuth){
 		PHALCON_INIT_VAR(ret);
 
 		Z_SET_ISREF_P(matches);
-		phalcon_call_func_p4(ret, "preg_match_all", pattern, server_value, matches, set_order);
+		phalcon_call_func_p4(ret, "preg_match_all", pattern, digest, matches, set_order);
 		Z_UNSET_ISREF_P(matches);
 
 		if (zend_is_true(ret) && Z_TYPE_P(matches) == IS_ARRAY) {
@@ -96098,8 +96125,6 @@ static PHP_METHOD(Phalcon_Http_Request, getAuth){
 				}
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
-
-			phalcon_array_update_string_string(&auth, SL("type"), SL("digest"), PH_SEPARATE);
 
 			RETURN_CCTOR(auth);
 		}
@@ -96584,7 +96609,6 @@ static PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 static PHP_METHOD(Phalcon_Http_Response, setBsonContent){
 
 	zval *content, *bson_content, *content_type;
-	int options = 0;
 
 	PHALCON_MM_GROW();
 
@@ -107023,16 +107047,15 @@ static PHP_MINIT_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
-#ifndef PHALCON_RELEASE
 static PHP_MSHUTDOWN_FUNCTION(phalcon){
 
 	assert(PHALCON_GLOBAL(function_cache) == NULL);
 	assert(PHALCON_GLOBAL(orm).parser_cache == NULL);
 	assert(PHALCON_GLOBAL(orm).ast_cache == NULL);
 
+	zend_execute_internal = orig_execute_internal;
 	return SUCCESS;
 }
-#endif
 
 static PHP_RINIT_FUNCTION(phalcon){
 
@@ -107119,7 +107142,6 @@ zend_module_dep phalcon_deps[] = {
 #else
 	ZEND_MOD_OPTIONAL("pcre")
 #endif
-<<<<<<< HEAD
 
 #if PHALCON_USE_PHP_CURL
 	ZEND_MOD_REQUIRED("curl")
@@ -107127,8 +107149,6 @@ zend_module_dep phalcon_deps[] = {
 	ZEND_MOD_OPTIONAL("curl")
 #endif
 
-=======
->>>>>>> b728a9914b580def9bbec5901b185698c3a1cfa0
 	ZEND_MOD_OPTIONAL("apc")
 	ZEND_MOD_OPTIONAL("apcu")
 	ZEND_MOD_OPTIONAL("XCache")
@@ -107154,11 +107174,7 @@ zend_module_entry phalcon_module_entry = {
 	PHP_PHALCON_EXTNAME,
 	NULL,
 	PHP_MINIT(phalcon),
-#ifndef PHALCON_RELEASE
 	PHP_MSHUTDOWN(phalcon),
-#else
-	NULL,
-#endif
 	PHP_RINIT(phalcon),
 	PHP_RSHUTDOWN(phalcon),
 	PHP_MINFO(phalcon),

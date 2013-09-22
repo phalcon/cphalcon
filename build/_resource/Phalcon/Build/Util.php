@@ -31,7 +31,7 @@ class Util
             }
             if ($entry->isDir()) {
                 self::cleanDirectory($entry->getPathname());
-                rmdir($entry->getPathname());
+                if (file_exists($entry->getPathname())) rmdir(realpath($entry->getPathname()));
             } else {
                 unlink($entry->getPathname());
             }
