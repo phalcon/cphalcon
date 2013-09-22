@@ -1802,11 +1802,10 @@ PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
 
 	zval *auth, *_SERVER, *key;
 	zval **value;
-
-	PHALCON_MM_GROW();
-
 	char *auth_user = SG(request_info).auth_user;
 	char *auth_password = SG(request_info).auth_user;
+
+	PHALCON_MM_GROW();
 
 	if (unlikely(!auth_user)) {
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
@@ -1852,10 +1851,9 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
+	const char *auth_digest = SG(request_info).auth_digest;
 
 	PHALCON_MM_GROW();
-
-	const char *auth_digest = SG(request_info).auth_digest;
 
 	if (unlikely(!auth_digest)) {
 		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
