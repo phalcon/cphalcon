@@ -45,6 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reader) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Reader, phalcon, annotations_reader, phalcon_annotations_reader_method_entry, 0);
 
+	zend_class_implements(phalcon_annotations_reader_ce TSRMLS_CC, 1, phalcon_annotations_readerinterface_ce);
 
 	return SUCCESS;
 

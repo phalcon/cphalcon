@@ -26,6 +26,6 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_headersinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, setRaw, arginfo_phalcon_http_response_headersinterface_setraw)
 	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, send, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, reset, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Http_Response_HeadersInterface, __set_state, arginfo_phalcon_http_response_headersinterface___set_state)
+	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_http_response_headersinterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

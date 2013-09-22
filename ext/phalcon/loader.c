@@ -73,6 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Loader) {
 	zend_declare_property_null(phalcon_loader_ce, SL("_namespaces"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_loader_ce, SL("_directories"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_loader_ce, SL("_registered"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_class_implements(phalcon_loader_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
 
 	return SUCCESS;
 

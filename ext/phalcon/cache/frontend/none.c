@@ -72,6 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_None) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Frontend, None, phalcon, cache_frontend_none, phalcon_cache_frontend_none_method_entry, 0);
 
+	zend_class_implements(phalcon_cache_frontend_none_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
 	return SUCCESS;
 

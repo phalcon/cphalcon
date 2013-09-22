@@ -72,6 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Dispatcher) {
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_INVALID_HANDLER"), 3 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_INVALID_PARAMS"), 4 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_ACTION_NOT_FOUND"), 5 TSRMLS_CC);
+	zend_class_implements(phalcon_dispatcher_ce TSRMLS_CC, 3, phalcon_dispatcherinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
 	return SUCCESS;
 

@@ -43,6 +43,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_routeinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getCompiledPattern, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getPaths, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getHttpMethods, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, reset, NULL)
+	ZEND_FENTRY(reset, NULL, NULL, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

@@ -27,6 +27,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_columninterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, isFirst, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getAfterPosition, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getBindType, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, __set_state, arginfo_phalcon_db_columninterface___set_state)
+	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_db_columninterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

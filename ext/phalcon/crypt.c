@@ -51,6 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Crypt) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Crypt, phalcon, crypt, NULL, 0);
 
+	zend_class_implements(phalcon_crypt_ce TSRMLS_CC, 1, phalcon_cryptinterface_ce);
 
 	return SUCCESS;
 

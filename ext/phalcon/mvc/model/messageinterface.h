@@ -34,6 +34,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_messageinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, setField, arginfo_phalcon_mvc_model_messageinterface_setfield)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, getField, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, __toString, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MessageInterface, __set_state, arginfo_phalcon_mvc_model_messageinterface___set_state)
+	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_mvc_model_messageinterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

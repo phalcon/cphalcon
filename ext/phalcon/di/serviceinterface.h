@@ -34,6 +34,6 @@ ZEPHIR_INIT_FUNCS(phalcon_di_serviceinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, setDefinition, arginfo_phalcon_di_serviceinterface_setdefinition)
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, getDefinition, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, resolve, arginfo_phalcon_di_serviceinterface_resolve)
-	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, __set_state, arginfo_phalcon_di_serviceinterface___set_state)
+	ZEND_FENTRY(__set_state, NULL, arginfo_phalcon_di_serviceinterface___set_state, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

@@ -59,6 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Xcache) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Xcache, phalcon, cache_backend_xcache, phalcon_cache_backend_ce, phalcon_cache_backend_xcache_method_entry, 0);
 
+	zend_class_implements(phalcon_cache_backend_xcache_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
 
 	return SUCCESS;
 

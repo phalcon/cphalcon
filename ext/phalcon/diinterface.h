@@ -68,8 +68,8 @@ ZEPHIR_INIT_FUNCS(phalcon_diinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_DiInterface, has, arginfo_phalcon_diinterface_has)
 	PHP_ABSTRACT_ME(Phalcon_DiInterface, wasFreshInstance, NULL)
 	PHP_ABSTRACT_ME(Phalcon_DiInterface, getServices, NULL)
-	PHP_ABSTRACT_ME(Phalcon_DiInterface, setDefault, arginfo_phalcon_diinterface_setdefault)
-	PHP_ABSTRACT_ME(Phalcon_DiInterface, getDefault, NULL)
-	PHP_ABSTRACT_ME(Phalcon_DiInterface, reset, NULL)
+	ZEND_FENTRY(setDefault, NULL, arginfo_phalcon_diinterface_setdefault, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(getDefault, NULL, NULL, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(reset, NULL, NULL, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

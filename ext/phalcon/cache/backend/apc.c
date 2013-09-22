@@ -58,6 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Apc) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Apc, phalcon, cache_backend_apc, phalcon_cache_backend_ce, NULL, 0);
 
+	zend_class_implements(phalcon_cache_backend_apc_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
 
 	return SUCCESS;
 
