@@ -254,9 +254,9 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		);
 
 		// get
-		$this->assertEquals($request->getQuery('id', 'int', 100), 1);
+		$this->assertEquals($request->get('id', 'int', 100), 1);
 
-		$this->assertEquals($request->getQuery('num', 'int', 100), 1);
+		$this->assertEquals($request->get('num', 'int', 100), 1);
 
 		$age = $request->get('age', 'int', 100);
 		$this->assertTrue(empty($age));
@@ -305,11 +305,26 @@ class RequestTest extends PHPUnit_Framework_TestCase
 			'array' => array('string' => 'world')
 		);
 
+		// get
+		$this->assertEquals($request->get('string', 'string'), 'hello');
+		$this->assertEquals($request->get('string', 'string', NULL, TRUE, TRUE), 'hello');
+
+		$this->assertEquals($request->get('array', 'string'), array('string' => 'world'));
+		$this->assertEquals($request->get('array', 'string', NULL, TRUE, TRUE), NULL);
+
+		// getQuery
 		$this->assertEquals($request->getQuery('string', 'string'), 'hello');
 		$this->assertEquals($request->getQuery('string', 'string', NULL, TRUE, TRUE), 'hello');
 
 		$this->assertEquals($request->getQuery('array', 'string'), array('string' => 'world'));
 		$this->assertEquals($request->getQuery('array', 'string', NULL, TRUE, TRUE), NULL);
+
+		// getPost
+		$this->assertEquals($request->getPost('string', 'string'), 'hello');
+		$this->assertEquals($request->getPost('string', 'string', NULL, TRUE, TRUE), 'hello');
+
+		$this->assertEquals($request->getPost('array', 'string'), array('string' => 'world'));
+		$this->assertEquals($request->getPost('array', 'string', NULL, TRUE, TRUE), NULL);
 	}
 }
 
