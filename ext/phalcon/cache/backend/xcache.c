@@ -86,3 +86,120 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, __construct) {
 
 }
 
+/**
+ * Returns a cached content
+ *
+ * @param int|string keyName
+ * @param   long lifetime
+ * @return  mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, get) {
+
+	zval *keyName, *lifetime = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
+
+	if (!lifetime) {
+		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+
+}
+
+/**
+ * Stores cached content into the file backend and stops the frontend
+ *
+ * @param int|string keyName
+ * @param string content
+ * @param long lifetime
+ * @param boolean stopBuffer
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, save) {
+
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
+
+	if (!keyName) {
+		ZEPHIR_CPY_WRT(keyName, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!content) {
+		ZEPHIR_CPY_WRT(content, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!lifetime) {
+		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!stopBuffer) {
+		ZEPHIR_CPY_WRT(stopBuffer, ZEPHIR_GLOBAL(global_true));
+	}
+
+
+
+}
+
+/**
+ * Deletes a value from the cache by its key
+ *
+ * @param int|string keyName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete) {
+
+	zval *keyName;
+
+	zephir_fetch_params(0, 1, 0, &keyName);
+
+
+
+
+}
+
+/**
+ * Query the existing cached keys
+ *
+ * @param string prefix
+ * @return array
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, queryKeys) {
+
+	zval *prefix = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &prefix);
+
+	if (!prefix) {
+		ZEPHIR_CPY_WRT(prefix, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+
+}
+
+/**
+ * Checks if cache exists and it isn't expired
+ *
+ * @param string keyName
+ * @param   long lifetime
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists) {
+
+	zval *keyName = NULL, *lifetime = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
+
+	if (!keyName) {
+		ZEPHIR_CPY_WRT(keyName, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!lifetime) {
+		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+
+}
+

@@ -333,4 +333,301 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 		return false;
 	}
 
+	/**
+	 * Checks whether request has been made using any secure layer
+	 *
+	 * @return boolean
+	 */
+	public function isSecureRequest()
+	{
+
+	}
+
+	/**
+	 * Gets HTTP raw request body
+	 *
+	 * @return string
+	 */
+	public function getRawBody()
+	{
+
+	}
+
+	/**
+	 * Gets decoded JSON HTTP raw request body
+	 *
+	 * @return string
+	 */
+	public function getJsonRawBody()
+	{
+
+	}
+
+	/**
+	 * Gets active server address IP
+	 *
+	 * @return string
+	 */
+	public function getServerAddress()
+	{
+
+	}
+
+	/**
+	 * Gets active server name
+	 *
+	 * @return string
+	 */
+	public function getServerName()
+	{
+
+	}
+
+	/**
+	 * Gets information about schema, host and port used by the request
+	 *
+	 * @return string
+	 */
+	public function getHttpHost()
+	{
+
+
+	}
+
+	/**
+	 * Gets most possible client IPv4 Address. This method search in _SERVER['REMOTE_ADDR'] and optionally in _SERVER['HTTP_X_FORWARDED_FOR']
+	 *
+	 * @param boolean trustForwardedHeader
+	 * @return string
+	 */
+	public function getClientAddress(trustForwardedHeader=false)
+	{
+
+	}
+
+	/**
+	 * Gets HTTP method which request has been made
+	 *
+	 * @return string
+	 */
+	public function getMethod()
+	{
+
+	}
+
+	/**
+	 * Gets HTTP user agent used to made the request
+	 *
+	 * @return string
+	 */
+	public function getUserAgent()
+	{
+
+	}
+
+	/**
+	 * Check if HTTP method match any of the passed methods
+	 *
+	 * @param string|array methods
+	 * @return boolean
+	 */
+	public function isMethod(methods)
+	{
+
+	}
+
+	/**
+	 * Checks whether HTTP method is POST. if _SERVER["REQUEST_METHOD"]=="POST"
+	 *
+	 * @return boolean
+	 */
+	public function isPost()
+	{
+		return this->getMethod() == "POST";
+	}
+
+	/**
+	 *
+	 * Checks whether HTTP method is GET. if _SERVER["REQUEST_METHOD"]=="GET"
+	 *
+	 * @return boolean
+	 */
+	public function isGet()
+	{
+		return this->getMethod() == "GET";
+	}
+
+	/**
+	 * Checks whether HTTP method is PUT. if _SERVER["REQUEST_METHOD"]=="PUT"
+	 *
+	 * @return boolean
+	 */
+	public function isPut()
+	{
+		return this->getMethod() == "PUT";
+	}
+
+	/**
+	 * Checks whether HTTP method is PATCH. if _SERVER["REQUEST_METHOD"]=="PATCH"
+	 *
+	 * @return boolean
+	 */
+	public function isPatch()
+	{
+		return this->getMethod() == "PATCH";
+	}
+
+	/**
+	 * Checks whether HTTP method is HEAD. if _SERVER["REQUEST_METHOD"]=="HEAD"
+	 *
+	 * @return boolean
+	 */
+	public function isHead(){
+		return this->getMethod() == "HEAD";
+	}
+
+	/**
+	 * Checks whether HTTP method is DELETE. if _SERVER["REQUEST_METHOD"]=="DELETE"
+	 *
+	 * @return boolean
+	 */
+	public function isDelete()
+	{
+		return this->getMethod() == "DELETE";
+	}
+
+	/**
+	 * Checks whether HTTP method is OPTIONS. if _SERVER["REQUEST_METHOD"]=="OPTIONS"
+	 *
+	 * @return boolean
+	 */
+	public function isOptions()
+	{
+		return this->getMethod() == "OPTIONS";
+	}
+
+	/**
+	 * Checks whether request include attached files
+	 *
+	 * @return boolean
+	 */
+	public function hasFiles(notErrored=false)
+	{
+
+	}
+
+	/**
+	 * Gets attached files as Phalcon\Http\Request\File instances
+	 *
+	 * @param boolean notErrored
+	 * @return Phalcon\Http\Request\File[]
+	 */
+	public function getUploadedFiles(notErrored=false)
+	{
+	}
+
+	/**
+	 * Returns the available headers in the request
+	 *
+	 * @return array
+	 */
+	public function getHeaders()
+	{
+
+	}
+
+	/**
+	 * Gets web page that refers active request. ie: http://www.google.com
+	 *
+	 * @return string
+	 */
+	public function getHTTPReferer()
+	{
+
+	}
+
+	/**
+	 * Process a request header and return an array of values with their qualities
+	 *
+	 * @param string serverIndex
+	 * @param string name
+	 * @return array
+	 */
+	protected function _getQualityHeader(serverIndex, name)
+	{
+
+	}
+
+	/**
+	 * Process a request header and return the one with best quality
+	 *
+	 * @param array qualityParts
+	 * @param string name
+	 * @return string
+	 */
+	protected function _getBestQuality(qualityParts, name)
+	{
+
+	}
+
+	/**
+	 * Gets array with mime/types and their quality accepted by the browser/client from _SERVER['HTTP_ACCEPT']
+	 *
+	 * @return array
+	 */
+	public function getAcceptableContent()
+	{
+
+	}
+
+	/**
+	 * Gets best mime/type accepted by the browser/client from _SERVER['HTTP_ACCEPT']
+	 *
+	 * @return array
+	 */
+	public function getBestAccept()
+	{
+
+	}
+
+	/**
+	 * Gets charsets array and their quality accepted by the browser/client from _SERVER['HTTP_ACCEPT_CHARSET']
+	 *
+	 * @return array
+	 */
+	public function getClientCharsets()
+	{
+
+	}
+
+	/**
+	 * Gets best charset accepted by the browser/client from _SERVER['HTTP_ACCEPT_CHARSET']
+	 *
+	 * @return string
+	 */
+	public function getBestCharset()
+	{
+
+	}
+
+	/**
+	 * Gets languages array and their quality accepted by the browser/client from _SERVER['HTTP_ACCEPT_LANGUAGE']
+	 *
+	 * @return array
+	 */
+	public function getLanguages()
+	{
+
+	}
+
+	/**
+	 * Gets best language accepted by the browser/client from _SERVER['HTTP_ACCEPT_LANGUAGE']
+	 *
+	 * @return string
+	 */
+	public function getBestLanguage()
+	{
+
+	}
+
 }

@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
 
 
 /*
@@ -113,6 +114,105 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct) {
 
 	zephir_update_property_this(this_ptr, SL("_frontendOptions"), frontendOptions TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Returns the cache lifetime
+ *
+ * @return integer
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime) {
+
+	zval *options, *lifetime;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(options);
+	zephir_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
+	if ((Z_TYPE_P(options) == IS_ARRAY)) {
+		ZEPHIR_OBS_VAR(lifetime);
+		if (zephir_array_isset_string_fetch(&lifetime, options, SS("lifetime") TSRMLS_CC)) {
+			RETURN_CCTOR(lifetime);
+		}
+	}
+	RETURN_MM_LONG(1);
+
+}
+
+/**
+ * Check whether if frontend is buffering output
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering) {
+
+
+	RETURN_BOOL(0);
+
+}
+
+/**
+ * Starts output frontend. Actually, does nothing
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Output, start) {
+
+
+
+}
+
+/**
+ * Returns output cached content
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent) {
+
+
+	RETURN_NULL();
+
+}
+
+/**
+ * Stops output frontend
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Output, stop) {
+
+
+
+}
+
+/**
+ * Serializes data before storing them
+ *
+ * @param mixed data
+ * @return string
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore) {
+
+	zval *data;
+
+	zephir_fetch_params(0, 1, 0, &data);
+
+
+
+
+}
+
+/**
+ * Unserializes data after retrieval
+ *
+ * @param mixed data
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve) {
+
+	zval *data;
+
+	zephir_fetch_params(0, 1, 0, &data);
+
+
+
 
 }
 

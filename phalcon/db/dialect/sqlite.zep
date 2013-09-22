@@ -25,7 +25,7 @@ namespace Phalcon\Db\Dialect;
  *
  * Generates database specific SQL for the Sqlite RBDM
  */
-class Sqlite extends Phalcon\Db\Dialect implements Phalcon\Db\DialectInterface
+class Sqlite extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 {
 
 	protected _escapeChar = '"';

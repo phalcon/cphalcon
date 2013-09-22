@@ -47,7 +47,7 @@ namespace Phalcon\Mvc\Model;
  *
  */
 abstract class Resultset
-	implements Phalcon\Mvc\Model\ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, Serializable
+	//implements Phalcon\Mvc\Model\ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, Serializable
 {
 
 	protected _type = 0;

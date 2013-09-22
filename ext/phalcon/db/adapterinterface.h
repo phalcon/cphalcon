@@ -181,11 +181,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_escapestring, 0, 0, 0
 	ZEND_ARG_INFO(0, str)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_convertboundparams, 0, 0, 0)
-	ZEND_ARG_INFO(0, sqlStatement)
-	ZEND_ARG_INFO(0, params)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_lastinsertid, 0, 0, 0)
 	ZEND_ARG_INFO(0, sequenceName)
 ZEND_END_ARG_INFO()
@@ -271,7 +266,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, close, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, escapeIdentifier, arginfo_phalcon_db_adapterinterface_escapeidentifier)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, escapeString, arginfo_phalcon_db_adapterinterface_escapestring)
-	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, convertBoundParams, arginfo_phalcon_db_adapterinterface_convertboundparams)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, lastInsertId, arginfo_phalcon_db_adapterinterface_lastinsertid)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, begin, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_AdapterInterface, rollback, NULL)

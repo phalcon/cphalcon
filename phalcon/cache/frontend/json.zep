@@ -66,4 +66,78 @@ class Json implements Phalcon\Cache\FrontendInterface
 		let this->_frontendOptions = frontendOptions;
 	}
 
+	/**
+	 * Returns the cache lifetime
+	 *
+	 * @return integer
+	 */
+	public function getLifetime()
+	{
+		var options, lifetime;
+		let options = this->_frontendOptions;
+		if typeof options == "array" {
+			if fetch lifetime, options["lifetime"] {
+				return lifetime;
+			}
+		}
+		return 1;
+	}
+
+	/**
+	 * Check whether if frontend is buffering output
+	 *
+	 * @return boolean
+	 */
+	public function isBuffering()
+	{
+		return false;
+	}
+
+	/**
+	 * Starts output frontend. Actually, does nothing
+	 */
+	public function start()
+	{
+
+	}
+
+	/**
+	 * Returns output cached content
+	 *
+	 * @return string
+	 */
+	public function getContent(){
+		return null;
+	}
+
+	/**
+	 * Stops output frontend
+	 */
+	public function stop()
+	{
+
+	}
+
+	/**
+	 * Serializes data before storing them
+	 *
+	 * @param mixed data
+	 * @return string
+	 */
+	public function beforeStore(data)
+	{
+
+	}
+
+	/**
+	 * Unserializes data after retrieval
+	 *
+	 * @param mixed data
+	 * @return mixed
+	 */
+	public function afterRetrieve(data)
+	{
+
+	}
+
 }

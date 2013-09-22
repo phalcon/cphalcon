@@ -24,7 +24,7 @@ namespace Phalcon\Forms\Element;
  *
  * Component INPUT[type=date] for forms
  */
-class Date extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
+class Date extends Phalcon\Forms\Element //implements Phalcon\Forms\ElementInterface
 {
 
 	/**

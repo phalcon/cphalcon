@@ -42,7 +42,7 @@ namespace Phalcon\Http\Request;
  *	}
  *</code>
  */
-class File implements Phalcon\Http\Request\FileInterface
+class File //implements Phalcon\Http\Request\FileInterface
 {
 
 	protected _name;

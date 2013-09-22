@@ -39,7 +39,7 @@ namespace Phalcon\Mvc\Micro;
  *</code>
  *
  */
-class Collection implements Phalcon\Mvc\Micro\CollectionInterface
+class Collection //implements Phalcon\Mvc\Micro\CollectionInterface
 {
 
 	protected _prefix;

@@ -34,7 +34,8 @@ namespace Phalcon\Db\Adapter\Pdo;
  *
  * </code>
  */
-class Sqlite extends Phalcon\Db\Adapter\Pdo implements Phalcon\Db\AdapterInterface
+class Sqlite extends Phalcon\Db\Adapter\Pdo
+	//implements Phalcon\Db\AdapterInterface
 {
 
 	protected _type = "sqlite";

@@ -36,7 +36,8 @@ namespace Phalcon\Db\Adapter\Pdo;
  *
  * </code>
  */
-class Oracle extends Phalcon\Db\Adapter\Pdo implements Phalcon\Db\AdapterInterface
+class Oracle extends Phalcon\Db\Adapter\Pdo
+	//implements Phalcon\Db\AdapterInterface
 {
 
 	protected _type = "oci";

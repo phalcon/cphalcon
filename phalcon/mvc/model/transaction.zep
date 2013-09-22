@@ -56,7 +56,7 @@ namespace Phalcon\Mvc\Model;
  *
  *</code>
  */
-class Transaction implements Phalcon\Mvc\Model\TransactionInterface
+class Transaction //implements Phalcon\Mvc\Model\TransactionInterface
 {
 
 	protected _connection;

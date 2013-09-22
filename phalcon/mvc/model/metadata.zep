@@ -35,7 +35,7 @@ namespace Phalcon\Mvc\Model;
  * </code>
  *
  */
-abstract class MetaData implements Phalcon\Di\InjectionAwareInterface
+abstract class MetaData //implements Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;

@@ -45,7 +45,7 @@ namespace Phalcon\Mvc\Model;
  * </code>
  *
  */
-class Message implements Phalcon\Mvc\Model\MessageInterface
+class Message //implements Phalcon\Mvc\Model\MessageInterface
 {
 
 	protected _type;

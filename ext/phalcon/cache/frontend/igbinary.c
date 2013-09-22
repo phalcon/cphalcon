@@ -12,6 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/memory.h"
+#include "kernel/array.h"
 
 
 /*
@@ -72,11 +75,132 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Frontend_Igbinary) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Igbinary, phalcon, cache_frontend_igbinary, phalcon_cache_frontend_data_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Frontend, Igbinary, phalcon, cache_frontend_igbinary, phalcon_cache_frontend_data_ce, phalcon_cache_frontend_igbinary_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_frontend_igbinary_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Phalcon\Cache\Frontend\Data constructor
+ *
+ * @param array frontendOptions
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, __construct) {
+
+	zval *frontendOptions = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &frontendOptions);
+
+	if (!frontendOptions) {
+		ZEPHIR_CPY_WRT(frontendOptions, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	zephir_update_property_this(this_ptr, SL("_frontendOptions"), frontendOptions TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Returns the cache lifetime
+ *
+ * @return integer
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getLifetime) {
+
+	zval *options, *lifetime;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(options);
+	zephir_read_property_this(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
+	if ((Z_TYPE_P(options) == IS_ARRAY)) {
+		ZEPHIR_OBS_VAR(lifetime);
+		if (zephir_array_isset_string_fetch(&lifetime, options, SS("lifetime") TSRMLS_CC)) {
+			RETURN_CCTOR(lifetime);
+		}
+	}
+	RETURN_MM_LONG(1);
+
+}
+
+/**
+ * Check whether if frontend is buffering output
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, isBuffering) {
+
+
+	RETURN_BOOL(0);
+
+}
+
+/**
+ * Starts output frontend. Actually, does nothing
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, start) {
+
+
+
+}
+
+/**
+ * Returns output cached content
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, getContent) {
+
+
+	RETURN_NULL();
+
+}
+
+/**
+ * Stops output frontend
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, stop) {
+
+
+
+}
+
+/**
+ * Serializes data before storing them
+ *
+ * @param mixed data
+ * @return string
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, beforeStore) {
+
+	zval *data;
+
+	zephir_fetch_params(0, 1, 0, &data);
+
+
+
+
+}
+
+/**
+ * Unserializes data after retrieval
+ *
+ * @param mixed data
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Igbinary, afterRetrieve) {
+
+	zval *data;
+
+	zephir_fetch_params(0, 1, 0, &data);
+
+
+
 
 }
 

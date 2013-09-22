@@ -513,3 +513,414 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested) {
 
 }
 
+/**
+ * Checks whether request has been made using any secure layer
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, isSecureRequest) {
+
+
+
+}
+
+/**
+ * Gets HTTP raw request body
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getRawBody) {
+
+
+
+}
+
+/**
+ * Gets decoded JSON HTTP raw request body
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
+
+
+
+}
+
+/**
+ * Gets active server address IP
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getServerAddress) {
+
+
+
+}
+
+/**
+ * Gets active server name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getServerName) {
+
+
+
+}
+
+/**
+ * Gets information about schema, host and port used by the request
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
+
+
+
+}
+
+/**
+ * Gets most possible client IPv4 Address. This method search in _SERVER['REMOTE_ADDR'] and optionally in _SERVER['HTTP_X_FORWARDED_FOR']
+ *
+ * @param boolean trustForwardedHeader
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getClientAddress) {
+
+	zval *trustForwardedHeader = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &trustForwardedHeader);
+
+	if (!trustForwardedHeader) {
+		ZEPHIR_CPY_WRT(trustForwardedHeader, ZEPHIR_GLOBAL(global_false));
+	}
+
+
+
+}
+
+/**
+ * Gets HTTP method which request has been made
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getMethod) {
+
+
+
+}
+
+/**
+ * Gets HTTP user agent used to made the request
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getUserAgent) {
+
+
+
+}
+
+/**
+ * Check if HTTP method match any of the passed methods
+ *
+ * @param string|array methods
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, isMethod) {
+
+	zval *methods;
+
+	zephir_fetch_params(0, 1, 0, &methods);
+
+
+
+
+}
+
+/**
+ * Checks whether HTTP method is POST. if _SERVER["REQUEST_METHOD"]=="POST"
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, isPost) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method(_0, this_ptr, "getmethod");
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "POST"));
+
+}
+
+/**
+ *
+ * Checks whether HTTP method is GET. if _SERVER["REQUEST_METHOD"]=="GET"
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, isGet) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method(_0, this_ptr, "getmethod");
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "GET"));
+
+}
+
+/**
+ * Checks whether HTTP method is PUT. if _SERVER["REQUEST_METHOD"]=="PUT"
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, isPut) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method(_0, this_ptr, "getmethod");
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "PUT"));
+
+}
+
+/**
+ * Checks whether HTTP method is PATCH. if _SERVER["REQUEST_METHOD"]=="PATCH"
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, isPatch) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method(_0, this_ptr, "getmethod");
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "PATCH"));
+
+}
+
+/**
+ * Checks whether HTTP method is HEAD. if _SERVER["REQUEST_METHOD"]=="HEAD"
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, isHead) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method(_0, this_ptr, "getmethod");
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "HEAD"));
+
+}
+
+/**
+ * Checks whether HTTP method is DELETE. if _SERVER["REQUEST_METHOD"]=="DELETE"
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, isDelete) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method(_0, this_ptr, "getmethod");
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "DELETE"));
+
+}
+
+/**
+ * Checks whether HTTP method is OPTIONS. if _SERVER["REQUEST_METHOD"]=="OPTIONS"
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, isOptions) {
+
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method(_0, this_ptr, "getmethod");
+	RETURN_MM_BOOL(ZEPHIR_IS_STRING(_0, "OPTIONS"));
+
+}
+
+/**
+ * Checks whether request include attached files
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, hasFiles) {
+
+	zval *notErrored = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &notErrored);
+
+	if (!notErrored) {
+		ZEPHIR_CPY_WRT(notErrored, ZEPHIR_GLOBAL(global_false));
+	}
+
+
+
+}
+
+/**
+ * Gets attached files as Phalcon\Http\Request\File instances
+ *
+ * @param boolean notErrored
+ * @return Phalcon\Http\Request\File[]
+ */
+PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
+
+	zval *notErrored = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &notErrored);
+
+	if (!notErrored) {
+		ZEPHIR_CPY_WRT(notErrored, ZEPHIR_GLOBAL(global_false));
+	}
+
+
+
+}
+
+/**
+ * Returns the available headers in the request
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, getHeaders) {
+
+
+
+}
+
+/**
+ * Gets web page that refers active request. ie: http://www.google.com
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getHTTPReferer) {
+
+
+
+}
+
+/**
+ * Process a request header and return an array of values with their qualities
+ *
+ * @param string serverIndex
+ * @param string name
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, _getQualityHeader) {
+
+	zval *serverIndex, *name;
+
+	zephir_fetch_params(0, 2, 0, &serverIndex, &name);
+
+
+
+
+}
+
+/**
+ * Process a request header and return the one with best quality
+ *
+ * @param array qualityParts
+ * @param string name
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, _getBestQuality) {
+
+	zval *qualityParts, *name;
+
+	zephir_fetch_params(0, 2, 0, &qualityParts, &name);
+
+
+
+
+}
+
+/**
+ * Gets array with mime/types and their quality accepted by the browser/client from _SERVER['HTTP_ACCEPT']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, getAcceptableContent) {
+
+
+
+}
+
+/**
+ * Gets best mime/type accepted by the browser/client from _SERVER['HTTP_ACCEPT']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, getBestAccept) {
+
+
+
+}
+
+/**
+ * Gets charsets array and their quality accepted by the browser/client from _SERVER['HTTP_ACCEPT_CHARSET']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, getClientCharsets) {
+
+
+
+}
+
+/**
+ * Gets best charset accepted by the browser/client from _SERVER['HTTP_ACCEPT_CHARSET']
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getBestCharset) {
+
+
+
+}
+
+/**
+ * Gets languages array and their quality accepted by the browser/client from _SERVER['HTTP_ACCEPT_LANGUAGE']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Http_Request, getLanguages) {
+
+
+
+}
+
+/**
+ * Gets best language accepted by the browser/client from _SERVER['HTTP_ACCEPT_LANGUAGE']
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Request, getBestLanguage) {
+
+
+
+}
+

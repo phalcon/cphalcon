@@ -27,7 +27,7 @@ namespace Phalcon\Events;
  * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
  *
  */
-class Manager implements Phalcon\Events\ManagerInterface
+class Manager //implements Phalcon\Events\ManagerInterface
 {
 
 	protected _events = null;

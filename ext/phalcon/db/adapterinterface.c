@@ -433,15 +433,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeIdentifier);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeString);
 
 /**
- * Converts bound params like :name: or ?1 into ? bind params
- *
- * @param string sqlStatement
- * @param array params
- * @return array
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, convertBoundParams);
-
-/**
  * Returns insert id for the auto_increment column inserted in the last SQL statement
  *
  * @param string sequenceName

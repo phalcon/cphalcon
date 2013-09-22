@@ -37,7 +37,8 @@ namespace Phalcon\Db\Adapter\Pdo;
  *
  * </code>
  */
-class Postgresql extends Phalcon\Db\Adapter\Pdo implements Phalcon\Db\AdapterInterface
+class Postgresql extends Phalcon\Db\Adapter\Pdo
+	//implements Phalcon\Db\AdapterInterface
 {
 
 	protected _type = "pgsql";

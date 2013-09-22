@@ -417,15 +417,6 @@ interface AdapterInterface
 	public function escapeString(str);
 
 	/**
-	 * Converts bound params like :name: or ?1 into ? bind params
-	 *
-	 * @param string sqlStatement
-	 * @param array params
-	 * @return array
-	 */
-	public function convertBoundParams(sqlStatement, params);
-
-	/**
 	 * Returns insert id for the auto_increment column inserted in the last SQL statement
 	 *
 	 * @param string sequenceName

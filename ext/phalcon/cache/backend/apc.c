@@ -12,6 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
+#include "kernel/object.h"
+#include "kernel/concat.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
+#include "kernel/exception.h"
 
 
 /*
@@ -56,11 +62,219 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Apc) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Apc, phalcon, cache_backend_apc, phalcon_cache_backend_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Apc, phalcon, cache_backend_apc, phalcon_cache_backend_ce, phalcon_cache_backend_apc_method_entry, 0);
 
 	zend_class_implements(phalcon_cache_backend_apc_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Returns a cached content
+ *
+ * @param 	string keyName
+ * @param   long lifetime
+ * @return  mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Apc, get) {
+
+	zval *keyName, *lifetime = NULL, *frontend, *prefixedKey, *cachedContent, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
+
+	if (!lifetime) {
+		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_OBS_VAR(frontend);
+	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_SV(_1, "_PHCA", _0);
+	ZEPHIR_INIT_VAR(prefixedKey);
+	concat_function(prefixedKey, _1, keyName TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_lastKey"), prefixedKey TSRMLS_CC);
+	ZEPHIR_INIT_VAR(cachedContent);
+	zephir_call_func_p1(cachedContent, "apc_fetch", prefixedKey);
+	if (ZEPHIR_IS_FALSE(cachedContent)) {
+		RETURN_MM_NULL();
+	}
+	zephir_call_method_p1(return_value, frontend, "afterretrieve", cachedContent);
+	RETURN_MM();
+
+}
+
+/**
+ * Stores cached content into the APC backend and stops the frontend
+ *
+ * @param string keyName
+ * @param string content
+ * @param long lifetime
+ * @param boolean stopBuffer
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Apc, save) {
+
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL, *lastKey, *frontend, *cachedContent = NULL, *preparedContent, *ttl = NULL, *isBuffering, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
+
+	if (!keyName) {
+		ZEPHIR_CPY_WRT(keyName, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!content) {
+		ZEPHIR_CPY_WRT(content, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!lifetime) {
+		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+	}
+	ZEPHIR_SEPARATE_PARAM(lifetime);
+	if (!stopBuffer) {
+		ZEPHIR_CPY_WRT(stopBuffer, ZEPHIR_GLOBAL(global_true));
+	}
+
+
+	ZEPHIR_INIT_VAR(lastKey);
+	if ((Z_TYPE_P(keyName) == IS_NULL)) {
+		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		ZEPHIR_OBS_VAR(_0);
+		zephir_read_property_this(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_CONCAT_SV(_1, "_PHCA", _0);
+		concat_function(lastKey, _1, keyName TSRMLS_CC);
+	}
+	if (!(zephir_is_true(lastKey))) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
+		return;
+	}
+	ZEPHIR_OBS_VAR(frontend);
+	zephir_read_property_this(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+	if ((Z_TYPE_P(content) == IS_NULL)) {
+		ZEPHIR_INIT_VAR(cachedContent);
+		zephir_call_method(cachedContent, frontend, "getcontent");
+	} else {
+		ZEPHIR_CPY_WRT(cachedContent, content);
+	}
+	ZEPHIR_INIT_VAR(preparedContent);
+	zephir_call_method_p1(preparedContent, frontend, "beforestore", cachedContent);
+	if ((Z_TYPE_P(lifetime) == IS_NULL)) {
+		ZEPHIR_OBS_NVAR(lifetime);
+		zephir_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+		if ((Z_TYPE_P(lifetime) == IS_NULL)) {
+			ZEPHIR_INIT_VAR(ttl);
+			zephir_call_method(ttl, frontend, "getlifetime");
+		} else {
+			ZEPHIR_CPY_WRT(ttl, lifetime);
+		}
+	} else {
+		ZEPHIR_CPY_WRT(ttl, lifetime);
+	}
+	zephir_call_func_p3_noret("apc_store", lastKey, preparedContent, ttl);
+	ZEPHIR_INIT_VAR(isBuffering);
+	zephir_call_method(isBuffering, frontend, "isbuffering");
+	if (ZEPHIR_IS_TRUE(stopBuffer)) {
+		zephir_call_method_noret(frontend, "stop");
+	}
+	if (ZEPHIR_IS_TRUE(isBuffering)) {
+		zend_print_zval(cachedContent, 0);
+	}
+	zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Deletes a value from the cache by its key
+ *
+ * @param string keyName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Apc, delete) {
+
+	zval *keyName, *_0, *_1, *_2;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &keyName);
+
+
+
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_CONCAT_SV(_1, "_PHCA", _0);
+	ZEPHIR_INIT_VAR(_2);
+	concat_function(_2, _1, keyName TSRMLS_CC);
+	zephir_call_func_p1(return_value, "apc_delete", _2);
+	RETURN_MM();
+
+}
+
+/**
+ * Query the existing cached keys
+ *
+ * @param string prefix
+ * @return array
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys) {
+
+	zval *prefix = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &prefix);
+
+	if (!prefix) {
+		ZEPHIR_CPY_WRT(prefix, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+
+}
+
+/**
+ * Checks if cache exists and it hasn't expired
+ *
+ * @param  string keyName
+ * @param  long lifetime
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Apc, exists) {
+
+	zval *keyName = NULL, *lifetime = NULL, *lastKey, *_0, *_1, *_2;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
+
+	if (!keyName) {
+		ZEPHIR_CPY_WRT(keyName, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!lifetime) {
+		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_INIT_VAR(lastKey);
+	if ((Z_TYPE_P(keyName) == IS_NULL)) {
+		zephir_read_property_this(&lastKey, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		ZEPHIR_OBS_VAR(_0);
+		zephir_read_property_this(&_0, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_CONCAT_SV(_1, "_PHCA", _0);
+		concat_function(lastKey, _1, keyName TSRMLS_CC);
+	}
+	if (zephir_is_true(lastKey)) {
+		ZEPHIR_INIT_VAR(_2);
+		zephir_call_func_p1(_2, "apc_exists", lastKey);
+		if (!ZEPHIR_IS_FALSE(_2)) {
+			RETURN_MM_BOOL(1);
+		}
+	}
+	RETURN_MM_BOOL(0);
 
 }
 

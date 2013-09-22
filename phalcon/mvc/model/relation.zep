@@ -24,7 +24,7 @@ namespace Phalcon\Mvc\Model;
  *
  * This class represents a relationship between two models
  */
-class Relation implements Phalcon\Mvc\Model\RelationInterface
+class Relation //implements Phalcon\Mvc\Model\RelationInterface
 {
 
 	protected _type;

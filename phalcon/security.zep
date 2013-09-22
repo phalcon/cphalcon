@@ -36,7 +36,7 @@ namespace Phalcon;
  *	}
  *</code>
  */
-class Security implements Phalcon\Di\InjectionAwareInterface
+class Security //implements Phalcon\Di\InjectionAwareInterface
 {
 
 	protected _dependencyInjector;

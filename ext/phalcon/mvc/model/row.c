@@ -41,7 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Row, phalcon, mvc_model_row, NULL, 0);
 
-	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, phalcon_mvc_model_resultinterface_ce);
 
 	return SUCCESS;
 

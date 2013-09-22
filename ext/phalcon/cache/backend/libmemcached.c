@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -31,12 +32,188 @@
  |          Eduar Carvajal <eduar@phalconphp.com>                         |
  +------------------------------------------------------------------------+
  */
+/**
+ * Phalcon\Cache\Backend\Libmemcached
+ *
+ * Allows to cache output fragments, PHP data or raw data to a libmemcached backend
+ *
+ * This adapter uses the special memcached key "_PHCM" to store all the keys internally used by the adapter
+ *
+ *<code>
+ *
+ * // Cache data for 2 days
+ * $frontCache = new Phalcon\Cache\Frontend\Data(array(
+ *    "lifetime" => 172800
+ * ));
+ *
+ * //Create the Cache setting memcached connection options
+ * $cache = new Phalcon\Cache\Backend\Libmemcached($frontCache, array(
+ *     'servers' => array(
+ *         array('host' => 'localhost',
+ *               'port' => 11211,
+ *               'weight' => 1),
+ *     ),
+ *     'client' => array(
+ *         Memcached::OPT_HASH => Memcached::HASH_MD5,
+ *         Memcached::OPT_PREFIX_KEY => 'prefix.',
+ *     )
+ * ));
+ *
+ * //Cache arbitrary data
+ * $cache->save('my-data', array(1, 2, 3, 4, 5));
+ *
+ * //Get data
+ * $data = $cache->get('my-data');
+ *
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend_Libmemcached) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache\\Backend, Libmemcached, phalcon, cache_backend_libmemcached, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Libmemcached, phalcon, cache_backend_libmemcached, phalcon_cache_backend_ce, phalcon_cache_backend_libmemcached_method_entry, 0);
 
+	zend_declare_property_null(phalcon_cache_backend_libmemcached_ce, SL("_memcache"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_cache_backend_libmemcached_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Phalcon\Cache\Backend\Memcache constructor
+ *
+ * @param	Phalcon\Cache\FrontendInterface frontend
+ * @param	array options
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, __construct) {
+
+	zval *frontend, *options = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &frontend, &options);
+
+	if (!options) {
+		ZEPHIR_CPY_WRT(options, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+
+}
+
+/**
+ * Returns a cached content
+ *
+ * @param int|string keyName
+ * @param   long lifetime
+ * @return  mixed
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, get) {
+
+	zval *keyName, *lifetime = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &keyName, &lifetime);
+
+	if (!lifetime) {
+		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+
+}
+
+/**
+ * Stores cached content into the file backend and stops the frontend
+ *
+ * @param int|string keyName
+ * @param string content
+ * @param long lifetime
+ * @param boolean stopBuffer
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, save) {
+
+	zval *keyName = NULL, *content = NULL, *lifetime = NULL, *stopBuffer = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 4, &keyName, &content, &lifetime, &stopBuffer);
+
+	if (!keyName) {
+		ZEPHIR_CPY_WRT(keyName, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!content) {
+		ZEPHIR_CPY_WRT(content, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!lifetime) {
+		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!stopBuffer) {
+		ZEPHIR_CPY_WRT(stopBuffer, ZEPHIR_GLOBAL(global_true));
+	}
+
+
+
+}
+
+/**
+ * Deletes a value from the cache by its key
+ *
+ * @param int|string keyName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, delete) {
+
+	zval *keyName;
+
+	zephir_fetch_params(0, 1, 0, &keyName);
+
+
+
+
+}
+
+/**
+ * Query the existing cached keys
+ *
+ * @param string prefix
+ * @return array
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, queryKeys) {
+
+	zval *prefix = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &prefix);
+
+	if (!prefix) {
+		ZEPHIR_CPY_WRT(prefix, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+
+}
+
+/**
+ * Checks if cache exists and it isn't expired
+ *
+ * @param string keyName
+ * @param   long lifetime
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, exists) {
+
+	zval *keyName = NULL, *lifetime = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 2, &keyName, &lifetime);
+
+	if (!keyName) {
+		ZEPHIR_CPY_WRT(keyName, ZEPHIR_GLOBAL(global_null));
+	}
+	if (!lifetime) {
+		ZEPHIR_CPY_WRT(lifetime, ZEPHIR_GLOBAL(global_null));
+	}
+
+
 
 }
 
