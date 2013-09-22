@@ -24,7 +24,7 @@ namespace Phalcon\Assets;
  *
  * Represents a collection of resources
  */
-class Collection implements Countable, Iterator
+class Collection //implements Countable, Iterator
 {
 
     protected _prefix;

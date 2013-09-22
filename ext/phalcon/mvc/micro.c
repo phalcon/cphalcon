@@ -65,7 +65,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro) {
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_finishHandlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_returnedValue"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-
 	return SUCCESS;
 
 }

@@ -44,7 +44,7 @@
  *</code>
  *
  */
-class Config implements ArrayAccess
+class Config //implements ArrayAccess
 {
 
 }

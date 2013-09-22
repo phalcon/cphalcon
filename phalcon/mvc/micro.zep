@@ -38,7 +38,7 @@ namespace Phalcon\Mvc;
  *
  *</code>
  */
-class Micro extends Phalcon\Di\Injectable implements ArrayAccess
+class Micro extends Phalcon\Di\Injectable //implements ArrayAccess
 {
 
 	protected _dependencyInjector;

@@ -93,7 +93,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 				if filters !== null {
 					let filter = this->_filter;
 					if typeof filter != "object" {
-						let dependencyInjector = this->_dependencyInjector;
+						let dependencyInjector = <Phalcon\Di> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
 							throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
 						}
@@ -137,7 +137,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 				if filters !== null {
 					let filter = this->_filter;
 					if typeof filter != "object" {
-						let dependencyInjector = this->_dependencyInjector;
+						let dependencyInjector = <Phalcon\Di> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
 							throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
 						}
@@ -184,7 +184,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 				if filters !== null {
 					let filter = this->_filter;
 					if typeof filter != "object" {
-						let dependencyInjector = this->_dependencyInjector;
+						let dependencyInjector = <Phalcon\Di> this->_dependencyInjector;
 						if typeof dependencyInjector != "object" {
 							throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
 						}
@@ -292,7 +292,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 
 		let https = this->getServer("HTTPS");
 		if https {
-			if (https == "off") {
+			if https == "off" {
 				let scheme = "http";
 			} else {
 				let scheme = "https";

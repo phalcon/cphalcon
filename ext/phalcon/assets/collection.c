@@ -51,7 +51,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_targetPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_sourcePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-
 	return SUCCESS;
 
 }

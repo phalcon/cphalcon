@@ -58,7 +58,7 @@ namespace Phalcon\Cache\Frontend;
  *	}
  *</code>
  */
-class Data implements FrontendInterface
+class Data implements Phalcon\Cache\FrontendInterface
 {
 
 	protected _frontendOptions;
