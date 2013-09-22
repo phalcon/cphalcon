@@ -43,6 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Sqlite) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Sqlite, phalcon, db_dialect_sqlite, phalcon_db_dialect_ce, NULL, 0);
 
 	zend_declare_property_null(phalcon_db_dialect_sqlite_ce, SL("_escapeChar"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_class_implements(phalcon_db_dialect_sqlite_ce TSRMLS_CC, 1, phalcon_db_dialectinterface_ce);
 
 	return SUCCESS;

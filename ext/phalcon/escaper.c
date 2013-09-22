@@ -55,6 +55,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Escaper) {
 	zend_declare_property_null(phalcon_escaper_ce, SL("_encoding"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_escaper_ce, SL("_htmlEscapeMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_escaper_ce, SL("_htmlQuoteType"), 3, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_class_implements(phalcon_escaper_ce TSRMLS_CC, 1, phalcon_escaperinterface_ce);
 
 	return SUCCESS;

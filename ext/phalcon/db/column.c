@@ -205,6 +205,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
  * Skip binding by type
  */
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_SKIP"), 1024 TSRMLS_CC);
+
 	zend_class_implements(phalcon_db_column_ce TSRMLS_CC, 1, phalcon_db_columninterface_ce);
 
 	return SUCCESS;

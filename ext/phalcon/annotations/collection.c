@@ -63,6 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
 	zend_declare_property_long(phalcon_annotations_collection_ce, SL("_position"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_annotations_collection_ce, SL("_annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+
 	return SUCCESS;
 
 }

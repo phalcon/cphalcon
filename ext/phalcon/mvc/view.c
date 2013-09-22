@@ -117,6 +117,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View) {
  *
  */
 	zend_declare_class_constant_long(phalcon_mvc_view_ce, SL("LEVEL_NO_RENDER"), 0 TSRMLS_CC);
+
 	zend_class_implements(phalcon_mvc_view_ce TSRMLS_CC, 1, phalcon_mvc_viewinterface_ce);
 
 	return SUCCESS;

@@ -49,6 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Message_Group) {
 	zend_declare_property_null(phalcon_validation_message_group_ce, SL("_position"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_validation_message_group_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+
 	return SUCCESS;
 
 }

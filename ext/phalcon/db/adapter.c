@@ -102,6 +102,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
  * Connection ID
  */
 	zend_declare_property_long(phalcon_db_adapter_ce, SL("_connectionConsecutive"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
 	zend_class_implements(phalcon_db_adapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
 
 	return SUCCESS;

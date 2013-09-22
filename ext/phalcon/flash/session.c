@@ -48,7 +48,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Session) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Flash, Session, phalcon, flash_session, phalcon_flash_ce, phalcon_flash_session_method_entry, 0);
 
 	zend_declare_property_null(phalcon_flash_session_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_class_implements(phalcon_flash_session_ce TSRMLS_CC, 2, phalcon_flashinterface_ce, phalcon_di_injectionawareinterface_ce);
+
+	zend_class_implements(phalcon_flash_session_ce TSRMLS_CC, 1, phalcon_flashinterface_ce);
+	zend_class_implements(phalcon_flash_session_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 
 	return SUCCESS;
 

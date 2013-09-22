@@ -57,6 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Form) {
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_forms_form_ce, SL("_action"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+
 	return SUCCESS;
 
 }

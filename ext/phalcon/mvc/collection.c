@@ -55,7 +55,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection) {
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_CREATE"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_UPDATE"), 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_DELETE"), 3 TSRMLS_CC);
-	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 2, phalcon_mvc_collectioninterface_ce, phalcon_di_injectionawareinterface_ce);
+
+	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 1, phalcon_mvc_collectioninterface_ce);
+	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 
 	return SUCCESS;
 
