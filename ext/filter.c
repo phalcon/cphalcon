@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Filter, add){
  */
 PHP_METHOD(Phalcon_Filter, sanitize){
 
-	zval *value, *filters, *new_value = NULL, *filter = NULL, *array_value = NULL;
+	zval *value, *filters, *norecursive = NULL, *new_value = NULL, *filter = NULL, *array_value = NULL;
 	zval *item_value = NULL, *item_key = NULL, *filter_value = NULL, *sanizited_value = NULL;
 	zval *key = NULL;
 	HashTable *ah0, *ah1, *ah2;
@@ -118,7 +118,12 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 2, 0, &value, &filters);
+	phalcon_fetch_params(1, 2, 1, &value, &filters, &norecursive);
+
+	if (!norecursive) {
+		PHALCON_INIT_VAR(norecursive);
+		ZVAL_FALSE(norecursive);
+	}
 	
 	/** 
 	 * Apply an array of filters
@@ -136,7 +141,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 				/** 
 				 * If the value to filter is an array we apply the filters recursively
 				 */
-				if (Z_TYPE_P(new_value) == IS_ARRAY) { 
+				if (Z_TYPE_P(new_value) == IS_ARRAY && !zend_is_true(norecursive)) { 
 	
 					PHALCON_INIT_NVAR(array_value);
 					array_init(array_value);
@@ -173,8 +178,9 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	/** 
 	 * Apply a single filter value
 	 */
-	if (Z_TYPE_P(value) == IS_ARRAY) { 
-	
+	if (Z_TYPE_P(value) == IS_ARRAY && !zend_is_true(norecursive)) { 
+
+		zend_print_zval(norecursive, 0);
 		PHALCON_INIT_VAR(sanizited_value);
 		array_init(sanizited_value);
 	
