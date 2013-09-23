@@ -17,6 +17,7 @@
  - Redirects use status descriptions from RFC 2616 (#1175)
  - \Phalcon\Config::merge now works with derived classes (#1024)
  - \Phalcon\Security::checkHash() allows to restrict the length of the password to avoid attacks like https://www.djangoproject.com/weblog/2013/sep/15/security/
+ - \Phalcon\Config can now be cloned (#1277)
  - Other bug fixes (#947, #1040, backported patches from 1.3.0 etc)
 
 1.2.3
