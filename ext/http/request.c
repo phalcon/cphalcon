@@ -191,6 +191,7 @@ PHP_METHOD(Phalcon_Http_Request, get){
 				phalcon_call_method_p3(return_value, filter, "sanitize", value, filters, norecursive);
 
 				if (PHALCON_IS_EMPTY(return_value) && !zend_is_true(allow_empty)) {
+					zval_dtor(return_value);
 					RETURN_CCTOR(default_value);
 				} else {
 					RETURN_MM();
@@ -292,6 +293,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 				phalcon_call_method_p3(return_value, filter, "sanitize", value, filters, norecursive);
 
 				if (PHALCON_IS_EMPTY(return_value) && !zend_is_true(allow_empty)) {
+					zval_dtor(return_value);
 					RETURN_CCTOR(default_value);
 				} else {
 					RETURN_MM();
@@ -396,6 +398,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 				phalcon_call_method_p3(return_value, filter, "sanitize", value, filters, norecursive);
 
 				if (PHALCON_IS_EMPTY(return_value) && !zend_is_true(allow_empty)) {
+					zval_dtor(return_value);
 					RETURN_CCTOR(default_value);
 				} else {
 					RETURN_MM();
@@ -1818,10 +1821,10 @@ PHP_METHOD(Phalcon_Http_Request, getBestLanguage){
  */
 PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
 
-	zval *auth, *_SERVER, *key;
+	zval *_SERVER, *key;
 	zval **value;
 	char *auth_user = SG(request_info).auth_user;
-	char *auth_password = SG(request_info).auth_user;
+	char *auth_password = SG(request_info).auth_password;
 
 	PHALCON_MM_GROW();
 
@@ -1836,6 +1839,7 @@ PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
 			auth_user = Z_STRVAL_PP(value);
 		}
 
+		zval_dtor(key);
 		ZVAL_STRING(key, "PHP_AUTH_PW", 1);
 
 		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), key, BP_VAR_NA);
@@ -1848,13 +1852,12 @@ PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
 		RETURN_MM_NULL();
 	}
 	
-	PHALCON_INIT_VAR(auth);
-	array_init(auth);	
+	array_init_size(return_value, 2);
 
-	phalcon_array_update_string_string(&auth, SL("username"), auth_user, strlen(auth_user), PH_COPY | PH_SEPARATE);
-	phalcon_array_update_string_string(&auth, SL("password"), auth_password, strlen(auth_password), PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string_string(&return_value, SL("username"), auth_user, strlen(auth_user), 0);
+	phalcon_array_update_string_string(&return_value, SL("password"), auth_password, strlen(auth_password), 0);
 
-	RETURN_CCTOR(auth);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -1864,7 +1867,7 @@ PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
  */
 PHP_METHOD(Phalcon_Http_Request, getDigestAuth){
 
-	zval *auth, *_SERVER, *key, *digest, *pattern, *set_order, *matches, *match = NULL, *ret, *tmp1, *tmp2;
+	zval *_SERVER, *key, *digest, *pattern, *set_order, *matches, *match = NULL, *ret, *tmp1, *tmp2;
 	zval **value;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1903,20 +1906,20 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth){
 		Z_UNSET_ISREF_P(matches);
 
 		if (zend_is_true(ret) && Z_TYPE_P(matches) == IS_ARRAY) {
-			PHALCON_INIT_VAR(auth);
-			array_init(auth);
+			array_init(return_value);
 
 			phalcon_is_iterable(matches, &ah0, &hp0, 0, 0);				
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 				PHALCON_GET_HVALUE(match);
 
 				if (Z_TYPE_P(match) == IS_ARRAY && phalcon_array_isset_long_fetch(&tmp1, match, 1) && phalcon_array_isset_long_fetch(&tmp2, match, 3)) {
-					phalcon_array_update_zval(&auth, tmp1, &tmp2, PH_COPY | PH_SEPARATE);
+					phalcon_array_update_zval(&return_value, tmp1, &tmp2, PH_COPY);
 				}
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
 
-			RETURN_CCTOR(auth);
+			PHALCON_MM_RESTORE();
+			return;
 		}
 	}
 
