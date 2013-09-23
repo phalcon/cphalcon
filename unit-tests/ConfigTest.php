@@ -331,4 +331,13 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 			),
 		);
 	}
+
+	public function testIssue1277()
+	{
+		$c1 = new \Phalcon\Config();
+		$c1["test"] = 1;
+		$c2 = clone $c1;
+		$this->assertEquals($c1, $c2);
+		$this->assertEquals($c1->toArray(), $c2->toArray());
+	}
 }
