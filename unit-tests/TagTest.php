@@ -108,15 +108,15 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$di = new \Phalcon\DI\FactoryDefault();
 
 		$actual   = \Phalcon\Tag::linkTo(array('url"', '<>', 'class' => 'class"'));
-		$expected = '<a href="/url&quot;" class="class&quot;"><></a>';
+		$expected = '<a class="class&quot;" href="/url&quot;"><></a>';
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag::textField(array('name"'));
-		$expected = '<input type="text" name="name&quot;" id="name&quot;" value="" />';
+		$expected = '<input name="name&quot;" id="name&quot;" value="" type="text" />';
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag::checkField(array('name"'));
-		$expected = '<input type="checkbox" name="name&quot;" id="name&quot;" value="" />';
+		$expected = '<input name="name&quot;" id="name&quot;" value="" type="checkbox" />';
 		$this->assertEquals($expected, $actual);
 
 		$actual   = \Phalcon\Tag::form(array('<', 'method' => '>'));
