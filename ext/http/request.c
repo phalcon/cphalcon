@@ -123,19 +123,19 @@ PHP_METHOD(Phalcon_Http_Request, getDI){
  * @param string $name
  * @param string|array $filters
  * @param mixed $defaultValue
- * @param boolean $allowEmpty
+ * @param boolean $notAllowEmpty
  * @param boolean $noRecursive
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, get){
 
-	zval *name = NULL, *filters = NULL, *default_value = NULL, *allow_empty = NULL, *norecursive = NULL, *request = NULL;
+	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *norecursive = NULL, *request = NULL;
 	zval *_REQUEST, *value, *filter = NULL, *dependency_injector;
 	zval *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &allow_empty, &norecursive);
+	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &not_allow_empty, &norecursive);
 	
 	if (!name) {
 		PHALCON_INIT_VAR(name);
@@ -149,9 +149,9 @@ PHP_METHOD(Phalcon_Http_Request, get){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	if (!allow_empty) {
-		PHALCON_INIT_VAR(allow_empty);
-		ZVAL_TRUE(allow_empty);
+	if (!not_allow_empty) {
+		PHALCON_INIT_VAR(not_allow_empty);
+		ZVAL_FALSE(not_allow_empty);
 	}
 	
 	if (!norecursive) {
@@ -190,13 +190,13 @@ PHP_METHOD(Phalcon_Http_Request, get){
 	
 				phalcon_call_method_p3(return_value, filter, "sanitize", value, filters, norecursive);
 
-				if (PHALCON_IS_EMPTY(return_value) && !zend_is_true(allow_empty)) {
+				if (PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) {
 					RETURN_CCTOR(default_value);
 				} else {
 					RETURN_MM();
 				}
 			} else {
-				if (PHALCON_IS_EMPTY(value) && !zend_is_true(allow_empty)) {
+				if (PHALCON_IS_EMPTY(value) && zend_is_true(not_allow_empty)) {
 					RETURN_CCTOR(default_value);
 				} else {
 					RETURN_CCTOR(value);
@@ -225,18 +225,18 @@ PHP_METHOD(Phalcon_Http_Request, get){
  * @param string $name
  * @param string|array $filters
  * @param mixed $defaultValue
- * @param boolean $allowEmpty
+ * @param boolean $notAllowEmpty
  * @param boolean $noRecursive
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, getPost){
 
-	zval *name = NULL, *filters = NULL, *default_value = NULL, *allow_empty = NULL, *norecursive = NULL, *post = NULL, *_POST;
+	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *norecursive = NULL, *post = NULL, *_POST;
 	zval *value, *filter = NULL, *dependency_injector, *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &allow_empty, &norecursive);
+	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &not_allow_empty, &norecursive);
 	
 	if (!name) {
 		PHALCON_INIT_VAR(name);
@@ -250,9 +250,9 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	if (!allow_empty) {
-		PHALCON_INIT_VAR(allow_empty);
-		ZVAL_TRUE(allow_empty);
+	if (!not_allow_empty) {
+		PHALCON_INIT_VAR(not_allow_empty);
+		ZVAL_FALSE(not_allow_empty);
 	}
 	
 	if (!norecursive) {
@@ -291,13 +291,13 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 	
 				phalcon_call_method_p3(return_value, filter, "sanitize", value, filters, norecursive);
 
-				if (PHALCON_IS_EMPTY(return_value) && !zend_is_true(allow_empty)) {
+				if (PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) {
 					RETURN_CCTOR(default_value);
 				} else {
 					RETURN_MM();
 				}
 			} else {
-				if (PHALCON_IS_EMPTY(value) && !zend_is_true(allow_empty)) {
+				if (PHALCON_IS_EMPTY(value) && zend_is_true(not_allow_empty)) {
 					RETURN_CCTOR(default_value);
 				} else {
 					RETURN_CCTOR(value);
@@ -329,18 +329,18 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
  * @param string $name
  * @param string|array $filters
  * @param mixed $defaultValue
- * @param boolean $allowEmpty
+ * @param boolean $notAllowEmpty
  * @param boolean $noRecursive
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, getQuery){
 
-	zval *name = NULL, *filters = NULL, *default_value = NULL, *allow_empty = NULL, *norecursive = NULL, *get = NULL, *_GET;
+	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *norecursive = NULL, *get = NULL, *_GET;
 	zval *value, *filter = NULL, *dependency_injector, *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &allow_empty, &norecursive);
+	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &not_allow_empty, &norecursive);
 	
 	if (!name) {
 		PHALCON_INIT_VAR(name);
@@ -354,9 +354,9 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	if (!allow_empty) {
-		PHALCON_INIT_VAR(allow_empty);
-		ZVAL_TRUE(allow_empty);
+	if (!not_allow_empty) {
+		PHALCON_INIT_VAR(not_allow_empty);
+		ZVAL_FALSE(not_allow_empty);
 	}
 	
 	if (!norecursive) {
@@ -395,13 +395,13 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 	
 				phalcon_call_method_p3(return_value, filter, "sanitize", value, filters, norecursive);
 
-				if (PHALCON_IS_EMPTY(return_value) && !zend_is_true(allow_empty)) {
+				if (PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) {
 					RETURN_CCTOR(default_value);
 				} else {
 					RETURN_MM();
 				}
 			} else {
-				if (PHALCON_IS_EMPTY(value) && !zend_is_true(allow_empty)) {
+				if (PHALCON_IS_EMPTY(value) && zend_is_true(not_allow_empty)) {
 					RETURN_CCTOR(default_value);
 				} else {
 					RETURN_CCTOR(value);
