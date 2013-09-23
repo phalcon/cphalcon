@@ -1885,7 +1885,7 @@ PHP_METHOD(Phalcon_Http_Request, getBasicAuth){
  */
 PHP_METHOD(Phalcon_Http_Request, getDigestAuth){
 
-	zval *auth, *_SERVER, *key, *digest, *pattern, *matches, *ret, *tmp1, *tmp2;
+	zval *auth, *_SERVER, *key, *digest, *pattern, *set_order, *matches, *match = NULL, *ret, *tmp1, *tmp2;
 	zval **value;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1911,22 +1911,33 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth){
 		ZVAL_STRING(digest, auth_digest, 1);
 
 		PHALCON_INIT_VAR(pattern);
-		ZVAL_STRING(pattern, "#(username|nonce|uri|nc|cnonce|qop|response|opaque)=['\"]?([^'\",]+)#", 1);
+		ZVAL_STRING(pattern, "#(\\w+)=(['\"]?)([a-zA-Z0-9=.:/\\_-]+)\\2#", 1);
+
+		PHALCON_INIT_VAR(set_order);
+		ZVAL_LONG(set_order, 2);
 
 		PHALCON_INIT_VAR(matches);
 		PHALCON_INIT_VAR(ret);
 
 		Z_SET_ISREF_P(matches);
-		phalcon_call_func_p3(ret, "preg_match_all", pattern, digest, matches);
+		phalcon_call_func_p4(ret, "preg_match_all", pattern, digest, matches, set_order);
 		Z_UNSET_ISREF_P(matches);
 
 		if (zend_is_true(ret) && Z_TYPE_P(matches) == IS_ARRAY) {
-			if (phalcon_array_isset_long_fetch(&tmp1, matches, 1) && phalcon_array_isset_long_fetch(&tmp2, matches, 2)) {
-				PHALCON_INIT_VAR(auth);
-				phalcon_call_func_p2(auth, "array_combine", tmp1, tmp2);
+			PHALCON_INIT_VAR(auth);
+			array_init(auth);
 
-				RETURN_CCTOR(auth);
+			phalcon_is_iterable(matches, &ah0, &hp0, 0, 0);				
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+				PHALCON_GET_HVALUE(match);
+
+				if (Z_TYPE_P(match) == IS_ARRAY && phalcon_array_isset_long_fetch(&tmp1, match, 1) && phalcon_array_isset_long_fetch(&tmp2, match, 3)) {
+					phalcon_array_update_zval(&auth, tmp1, &tmp2, PH_COPY | PH_SEPARATE);
+				}
+				zend_hash_move_forward_ex(ah0, &hp0);
 			}
+
+			RETURN_CCTOR(auth);
 		}
 	}
 
