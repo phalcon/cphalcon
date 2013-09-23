@@ -123,12 +123,8 @@ PHP_METHOD(Phalcon_Http_Request, getDI){
  * @param string $name
  * @param string|array $filters
  * @param mixed $defaultValue
-<<<<<<< HEAD
  * @param boolean $notAllowEmpty
-=======
- * @param boolean $allowEmpty
  * @param boolean $noRecursive
->>>>>>> phalcon/1.3.0
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, get){
