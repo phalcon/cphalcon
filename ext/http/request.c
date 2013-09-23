@@ -123,18 +123,23 @@ PHP_METHOD(Phalcon_Http_Request, getDI){
  * @param string $name
  * @param string|array $filters
  * @param mixed $defaultValue
+<<<<<<< HEAD
  * @param boolean $notAllowEmpty
+=======
+ * @param boolean $allowEmpty
+ * @param boolean $noRecursive
+>>>>>>> phalcon/1.3.0
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, get){
 
-	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *request = NULL;
+	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *norecursive = NULL, *request = NULL;
 	zval *_REQUEST, *value, *filter = NULL, *dependency_injector;
 	zval *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 4, &name, &filters, &default_value, &not_allow_empty);
+	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &not_allow_empty, &norecursive);
 	
 	if (!name) {
 		PHALCON_INIT_VAR(name);
@@ -151,6 +156,11 @@ PHP_METHOD(Phalcon_Http_Request, get){
 	if (!not_allow_empty) {
 		PHALCON_INIT_VAR(not_allow_empty);
 		ZVAL_FALSE(not_allow_empty);
+	}
+	
+	if (!norecursive) {
+		PHALCON_INIT_VAR(norecursive);
+		ZVAL_FALSE(norecursive);
 	}
 	
 	phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
@@ -182,7 +192,7 @@ PHP_METHOD(Phalcon_Http_Request, get){
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
-				phalcon_call_method_p2(return_value, filter, "sanitize", value, filters);
+				phalcon_call_method_p3(return_value, filter, "sanitize", value, filters, norecursive);
 
 				if (PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) {
 					RETURN_CCTOR(default_value);
@@ -220,16 +230,17 @@ PHP_METHOD(Phalcon_Http_Request, get){
  * @param string|array $filters
  * @param mixed $defaultValue
  * @param boolean $notAllowEmpty
+ * @param boolean $noRecursive
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, getPost){
 
-	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *post = NULL, *_POST;
+	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *norecursive = NULL, *post = NULL, *_POST;
 	zval *value, *filter = NULL, *dependency_injector, *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 4, &name, &filters, &default_value, &not_allow_empty);
+	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &not_allow_empty, &norecursive);
 	
 	if (!name) {
 		PHALCON_INIT_VAR(name);
@@ -246,6 +257,11 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 	if (!not_allow_empty) {
 		PHALCON_INIT_VAR(not_allow_empty);
 		ZVAL_FALSE(not_allow_empty);
+	}
+	
+	if (!norecursive) {
+		PHALCON_INIT_VAR(norecursive);
+		ZVAL_FALSE(norecursive);
 	}
 	
 	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
@@ -277,7 +293,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
-				phalcon_call_method_p2(return_value, filter, "sanitize", value, filters);
+				phalcon_call_method_p3(return_value, filter, "sanitize", value, filters, norecursive);
 
 				if (PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) {
 					RETURN_CCTOR(default_value);
@@ -318,16 +334,17 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
  * @param string|array $filters
  * @param mixed $defaultValue
  * @param boolean $notAllowEmpty
+ * @param boolean $noRecursive
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Request, getQuery){
 
-	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *get = NULL, *_GET;
+	zval *name = NULL, *filters = NULL, *default_value = NULL, *not_allow_empty = NULL, *norecursive = NULL, *get = NULL, *_GET;
 	zval *value, *filter = NULL, *dependency_injector, *service;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 0, 4, &name, &filters, &default_value, &not_allow_empty);
+	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &not_allow_empty, &norecursive);
 	
 	if (!name) {
 		PHALCON_INIT_VAR(name);
@@ -344,6 +361,11 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 	if (!not_allow_empty) {
 		PHALCON_INIT_VAR(not_allow_empty);
 		ZVAL_FALSE(not_allow_empty);
+	}
+	
+	if (!norecursive) {
+		PHALCON_INIT_VAR(norecursive);
+		ZVAL_FALSE(norecursive);
 	}
 	
 	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
@@ -375,7 +397,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 					phalcon_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 	
-				phalcon_call_method_p2(return_value, filter, "sanitize", value, filters);
+				phalcon_call_method_p3(return_value, filter, "sanitize", value, filters, norecursive);
 
 				if (PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) {
 					RETURN_CCTOR(default_value);
