@@ -991,22 +991,15 @@ PHP_METHOD(Phalcon_Http_Request, getMethod){
 PHP_METHOD(Phalcon_Http_Request, getURI){
 
 	zval **value;
-	const char *uri = SG(request_info).request_uri;
-	if (unlikely(!uri)) {
-		zval *_SERVER, key;
+	zval *_SERVER, key;
 
-		INIT_ZVAL(key);
-		ZVAL_STRING(&key, "REQUEST_URI", 0);
+	INIT_ZVAL(key);
+	ZVAL_STRING(&key, "REQUEST_URI", 0);
 
-		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-		value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA);
-		if (value && Z_TYPE_PP(value) == IS_STRING) {
-			uri = Z_STRVAL_PP(value);
-		}
-	}
-
-	if (uri) {
-		RETURN_STRING(uri, 1);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	value = phalcon_hash_get(Z_ARRVAL_P(_SERVER), &key, BP_VAR_NA);
+	if (value && Z_TYPE_PP(value) == IS_STRING) {
+		RETURN_ZVAL(*value, 1, 0);
 	}
 
 	RETURN_EMPTY_STRING();
