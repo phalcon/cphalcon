@@ -20,7 +20,7 @@
 namespace Phalcon\Mvc\Router;
 
 /**
- * Test\Router\Route
+ * Phalcon\Mvc\Router\Route
  *
  * This class represents every route added to the router
  */
@@ -46,7 +46,7 @@ class Route
 	protected _beforeMatch;
 
 	/**
-	 * Test\Router\Route constructor
+	 * Phalcon\Mvc\Router\Route constructor
 	 *
 	 * @param string pattern
 	 * @param array paths
@@ -130,7 +130,7 @@ class Route
 	 *</code>
 	 *
 	 * @param string|array httpMethods
-	 * @return Test\Router\Route
+	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function via(httpMethods)
 	{
@@ -288,7 +288,7 @@ class Route
 			pcrePattern, compiledPattern, extracted;
 
 		if typeof pattern != "string" {
-			throw new Test\Router\Exception("The pattern must be string");
+			throw new Phalcon\Mvc\Router\Exception("The pattern must be string");
 		}
 
 		if paths !== null {
@@ -360,7 +360,7 @@ class Route
 		}
 
 		if typeof routePaths !== "array" {
-			throw new Test\Router\Exception("The route contains invalid paths");
+			throw new Phalcon\Mvc\Router\Exception("The route contains invalid paths");
 		}
 
 		// If the route starts with '#' we assume that it is a regular expression
@@ -411,7 +411,7 @@ class Route
 	 *</code>
 	 *
 	 * @param string name
-	 * @return Test\Router\Route
+	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function setName(name)
 	{
@@ -425,7 +425,7 @@ class Route
 	 * If the callback returns false the route is treaded as not matched
 	 *
 	 * @param callback callback
-	 * @return Test\Router\Route
+	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function beforeMatch(callback)
 	{
@@ -508,7 +508,7 @@ class Route
 	 *</code>
 	 *
 	 * @param string|array httpMethods
-	 * @return Test\Router\Route
+	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function setHttpMethods(httpMethods)
 	{
@@ -534,7 +534,7 @@ class Route
 	 *</code>
 	 *
 	 * @param string|array httpMethods
-	 * @return Test\Router\Route
+	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function setHostname(hostname)
 	{
@@ -557,7 +557,7 @@ class Route
 	 *
 	 * @param string name
 	 * @param callable converter
-	 * @return Test\Router\Route
+	 * @return Phalcon\Mvc\Router\Route
 	 */
 	public function convert(name, converter)
 	{
@@ -573,6 +573,14 @@ class Route
 	public function getConverters()
 	{
 		return this->_converters;
+	}
+
+	/**
+	 * Resets the internal route id generator
+	 */
+	public static function reset()
+	{
+		let self::_uniqueId = 0;
 	}
 
 }

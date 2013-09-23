@@ -321,7 +321,8 @@ class Router
 			vnamespace, module,  controller, action, paramsStr, strParams,
 			route, methods, dependencyInjector,
 			hostname, regexHostName, matched, pattern, handledUri, beforeMatch,
-			paths, converters, part, position, matchPosition;
+			paths, converters, part, position, matchPosition, converter,
+			convertedPart;
 
 		if !uri {
 			// If 'uri' isn't passed as parameter it reads _GET['_url']
@@ -433,7 +434,7 @@ class Router
 					}
 
 					// Call the function in the PHP userland
-					//let routeFound = {beforeMatch}([handledUri, route, this]);
+					//let routeFound = {beforeMatch}(handledUri, route, this);
 				}
 			}
 
@@ -455,11 +456,8 @@ class Router
 
 							// Check if the part has a converter
 							if typeof converters == "array" {
-								if isset converters[part] {
-									//let parameters = [matchPosition],
-									//	converter = converters[part],
-									//	convertedPart = {converter}(parameters),
-									//	parts[part] = convertedPart;
+								if fetch converter, converters[part] {
+									let parts[part] = {converter}(matchPosition);
 									continue;
 								}
 							}
@@ -470,11 +468,8 @@ class Router
 
 							// Apply the converters anyway
 							if typeof converters == "array" {
-								if isset converters[part] {
-									//let parameters = [matchPosition],
-									//	converter = converters[part],
-									//	convertedPart = {converter}(parameters),
-									//	parts[part] = convertedPart;
+								if fetch converter, converters[part] {
+									let parts[part] = {converter}(matchPosition);
 								}
 							}
 						}
@@ -550,13 +545,11 @@ class Router
 			// Check for parameters
 			if fetch paramsStr, parts["params"] {
 				let strParams = substr(paramsStr, 1);
-				if (strParams) {
+				if strParams {
 					let params = explode("/", strParams);
 				}
 				unset parts["params"];
 			}
-
-			print_r(parts);
 
 			if count(params) {
 				let this->_params = array_merge(params, parts);
