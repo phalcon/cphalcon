@@ -180,7 +180,6 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	 */
 	if (Z_TYPE_P(value) == IS_ARRAY && !zend_is_true(norecursive)) { 
 
-		zend_print_zval(norecursive, 0);
 		PHALCON_INIT_VAR(sanizited_value);
 		array_init(sanizited_value);
 	
