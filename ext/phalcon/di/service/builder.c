@@ -379,6 +379,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 			}
 			ZEPHIR_INIT_NVAR(_0);
 			zephir_call_method_p3(_0, this_ptr, "_buildparameter", dependencyInjector, propertyPosition, propertyValue);
+			zephir_update_property_zval_zval(instance, propertyName, _0 TSRMLS_CC);
 		}
 	}
 	RETURN_CCTOR(instance);
