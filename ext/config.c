@@ -319,7 +319,7 @@ static void phalcon_config_object_dtor(void* v TSRMLS_DC)
  */
 static zend_object_value phalcon_config_object_ctor(zend_class_entry* ce TSRMLS_DC)
 {
-	phalcon_config_object* obj = ecalloc(1, sizeof(phalcon_config_object));
+	phalcon_config_object *obj = ecalloc(1, sizeof(phalcon_config_object));
 	zend_object_value retval;
 
 	zend_object_std_init(&obj->obj, ce TSRMLS_CC);
@@ -334,12 +334,25 @@ static zend_object_value phalcon_config_object_ctor(zend_class_entry* ce TSRMLS_
 		obj,
 		(zend_objects_store_dtor_t)zend_objects_destroy_object,
 		phalcon_config_object_dtor,
-		NULL TSRMLS_CC
+		NULL
+		TSRMLS_CC
 	);
 
 	retval.handlers = &phalcon_config_object_handlers;
 
 	return retval;
+}
+
+static zend_object_value phalcon_config_clone_obj(zval *object TSRMLS_DC)
+{
+	phalcon_config_object *orig  = fetchPhalconConfigObject(object TSRMLS_CC);
+	zend_object_value result     = phalcon_config_object_ctor(Z_OBJCE_P(object) TSRMLS_CC);
+	phalcon_config_object *clone = zend_object_store_get_object_by_handle(result.handle TSRMLS_CC);
+
+	zend_objects_clone_members(&clone->obj, result, &orig->obj, Z_OBJ_HANDLE_P(object) TSRMLS_CC);
+	zend_hash_copy(clone->props, orig->props, (copy_ctor_func_t)zval_add_ref, NULL, sizeof(zval*));
+
+	return result;
 }
 
 /**
@@ -363,6 +376,7 @@ PHALCON_INIT_CLASS(Phalcon_Config){
 	phalcon_config_object_handlers.has_dimension   = phalcon_config_has_dimension;
 	phalcon_config_object_handlers.get_properties  = phalcon_config_get_properties;
 	phalcon_config_object_handlers.compare_objects = phalcon_config_compare_objects;
+	phalcon_config_object_handlers.clone_obj       = phalcon_config_clone_obj;
 
 	zend_class_implements(phalcon_config_ce TSRMLS_CC, 2, zend_ce_arrayaccess, spl_ce_Countable);
 
