@@ -111,6 +111,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_arr_flatten, 0, 0, 1)
 	ZEND_ARG_INFO(0, array)
 ZEND_END_ARG_INFO()
+
 PHP_METHOD(Phalcon_Utils_Arr, is_assoc);
 PHP_METHOD(Phalcon_Utils_Arr, is_array);
 PHP_METHOD(Phalcon_Utils_Arr, path);
