@@ -324,11 +324,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &key_name, &value);
-	
+
 	if (!value) {
 		PHALCON_INIT_VAR(value);
-	} else {
-		PHALCON_SEPARATE_PARAM(value);
 	}
 
 	if (Z_TYPE_P(value) == IS_NULL) {
@@ -336,6 +334,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 	}
 
 	if (Z_TYPE_P(value) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(value);
 		convert_to_long_ex(&value);
 	}
 
@@ -447,11 +446,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &key_name, &value);
-	
+
 	if (!value) {
 		PHALCON_INIT_VAR(value);
-	} else {
-		PHALCON_SEPARATE_PARAM(value);
 	}
 
 	if (Z_TYPE_P(value) == IS_NULL) {
@@ -459,6 +456,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 	}
 
 	if (Z_TYPE_P(value) != IS_LONG) {
+		PHALCON_SEPARATE_PARAM(value);
 		convert_to_long_ex(&value);
 	}
 
@@ -505,6 +503,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 			PHALCON_CPY_WRT(ttl, lifetime);
 		}
 
+		/*
+		 * phalcon_add_function(newlifetime, ttl, timestamp TSRMLS_CC);
+		 */
+	
 		if (!phalcon_array_isset_string(document, SS("time"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache is currupted");
 			return;
