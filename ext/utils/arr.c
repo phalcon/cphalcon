@@ -925,7 +925,7 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
 			PHALCON_INIT_NVAR(arr);
 			phalcon_call_self_p1(arr, this_ptr, "flatten", value);
 
-			php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(arr), 0 TSRMLS_CC);
+			php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_P(arr), 0 TSRMLS_CC);
 		} else {
 			if (zend_is_true(is_assoc)) {
 				phalcon_array_update_zval(&return_value, key, &value, PH_COPY);
