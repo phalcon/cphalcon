@@ -25,7 +25,7 @@
 
 #include "php.h"
 #include "php_phalcon.h"
-#include "phalcon.h"
+#include "ext/standard/php_array.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
@@ -902,7 +902,7 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
  */
  PHP_METHOD(Phalcon_Utils_Arr, flatten){
 
-	zval *array, *is_assoc, *key = NULL, *value = NULL, *arr = NULL, *tmp = NULL;
+	zval *array, *is_assoc, *key = NULL, *value = NULL, *arr = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -925,10 +925,7 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
 			PHALCON_INIT_NVAR(arr);
 			phalcon_call_self_p1(arr, this_ptr, "flatten", value);
 
-			PHALCON_INIT_NVAR(tmp);
-			phalcon_call_func_p2(tmp, "array_merge", return_value, arr);
-
-			PHALCON_CPY_WRT_CTOR(return_value, tmp);
+			php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_PP(arr), 0 TSRMLS_CC);
 		} else {
 			if (zend_is_true(is_assoc)) {
 				phalcon_array_update_zval(&return_value, key, &value, PH_COPY);
