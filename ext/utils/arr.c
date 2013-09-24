@@ -26,6 +26,7 @@
 #include "php.h"
 #include "php_phalcon.h"
 #include "ext/standard/php_array.h"
+#include "ext/pcre/php_pcre.h"
 #include "phalcon.h"
 
 #include "Zend/zend_operators.h"
@@ -826,6 +827,7 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
 
 	zval *str, *pattern, *matches, *match, *command, *command_parts, *params, *search, *replace;
 	zval *ret, *tmp;
+	pcre_cache_entry *pce;
 
 	PHALCON_MM_GROW();
 
@@ -849,11 +851,12 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
 			PHALCON_OBS_VAR(match);
 			phalcon_array_fetch_long(&match, matches, 2, PH_NOISY);
 
-			PHALCON_INIT_NVAR(pattern);
-			ZVAL_STRING(pattern, "#(?<!\\\\\\\\),#", 1);
+			if ((pce = pcre_get_compiled_regex_cache(SL("#(?<!\\\\\\\\),#") TSRMLS_CC)) == NULL) {
+				RETURN_MM_FALSE;
+			}
 
 			PHALCON_INIT_VAR(tmp);
-			phalcon_call_func_p2(tmp, "preg_split", pattern, match);
+			php_pcre_split_impl(pce, Z_STRVAL_P(match), Z_STRLEN_P(match), tmp, -1, 0 TSRMLS_CC);
 
 			PHALCON_INIT_VAR(search);
 			ZVAL_STRING(search, "\\,", 1);
