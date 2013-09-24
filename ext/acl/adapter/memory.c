@@ -710,6 +710,7 @@ static int phalcon_role_adapter_memory_check_inheritance(zval *role, zval *resou
 	zval_ptr_dtor(&role_inherits);
 
 	if (Z_TYPE_P(inherited_roles) != IS_ARRAY) {
+		zval_ptr_dtor(&inherited_roles);
 		return 0;
 	}
 
@@ -746,6 +747,7 @@ static int phalcon_role_adapter_memory_check_inheritance(zval *role, zval *resou
 	}
 
 	zval_ptr_dtor(&access_key);
+	zval_ptr_dtor(&inherited_roles);
 	return (have_access && Z_TYPE_P(have_access) != IS_NULL) ? 1 : 0;
 }
 
