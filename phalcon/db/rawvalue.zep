@@ -29,14 +29,30 @@ namespace Phalcon\Db;
  *<code>
  *	$subscriber = new Subscribers();
  *	$subscriber->email = 'andres@phalconphp.com';
- *	$subscriber->created_at = new Phalcon\Db\RawValue('now()');
+ *	$subscriber->createdAt = new Phalcon\Db\RawValue('now()');
  *	$subscriber->save();
  *</code>
  */
 class RawValue
 {
 
-	protected _value;
+	protected _value {
+
+		/**
+		 * Returns internal raw value without quoting or formating
+		 *
+		 * @return string
+		 */
+		get,
+
+		/**
+		 * Magic method __toString returns raw value without quoting or formating
+		 *
+		 * @return string
+		 */
+		__toString
+
+	};
 
 	/**
 	 * Phalcon\Db\RawValue constructor
@@ -46,24 +62,6 @@ class RawValue
 	public function __construct(value)
 	{
 		let this->_value = value;
-	}
-
-	/**
-	 * Returns internal raw value without quoting or formating
-	 *
-	 * @return string
-	 */
-	public function getValue()
-	{
-		return this->_value;
-	}
-
-	/**
-	 * Magic method __toString returns raw value without quoting or formating
-	 */
-	public function __toString()
-	{
-		return this->_value;
 	}
 
 }
