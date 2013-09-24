@@ -26,6 +26,7 @@
 #include "php.h"
 #include "php_phalcon.h"
 #include "ext/standard/php_array.h"
+#include "phalcon.h"
 
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
