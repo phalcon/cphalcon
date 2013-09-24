@@ -587,7 +587,7 @@ int phalcon_array_update_quick_string(zval **arr, const char *index, uint index_
  * @brief Updates value in @a arr at position @a index with @a value
  * @param[in,out] arr Array
  * @param index Index
- * @param index_length Length of the index, should include the trailing zero
+ * @param index_length Length of the index, should NOT include the trailing zero
  * @param value Value
  * @param flags Flags
  * @return Whether the operation succeeded
