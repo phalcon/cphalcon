@@ -327,9 +327,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 
 	if (!value) {
 		PHALCON_INIT_VAR(value);
-	}
-
-	if (Z_TYPE_P(value) == IS_NULL) {
 		ZVAL_LONG(value, 1);
 	}
 
@@ -364,19 +361,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 		PHALCON_INIT_VAR(lifetime);
 		ZVAL_LONG(timestamp, (long) time(NULL));
 
-		/** 
-		 * Take the lifetime from the frontend or read it from the set in start()
-		 */
+		PHALCON_OBS_NVAR(lifetime);
+		phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if (Z_TYPE_P(lifetime) == IS_NULL) {
-	
-			PHALCON_OBS_NVAR(lifetime);
-			phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
-			if (Z_TYPE_P(lifetime) == IS_NULL) {
-				PHALCON_INIT_VAR(ttl);
-				phalcon_call_method(ttl, frontend, "getlifetime");
-			} else {
-				PHALCON_CPY_WRT(ttl, lifetime);
-			}
+			PHALCON_INIT_VAR(ttl);
+			phalcon_call_method(ttl, frontend, "getlifetime");
 		} else {
 			PHALCON_CPY_WRT(ttl, lifetime);
 		}
@@ -411,7 +400,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 			PHALCON_OBS_VAR(cached_content);
 			phalcon_array_fetch_string(&cached_content, document, SL("data"), PH_NOISY);
 			if (phalcon_is_numeric(cached_content)) {
-				add_function(return_value, value, cached_content TSRMLS_CC);
+				add_function(return_value, cached_content, value TSRMLS_CC);
 				
 				PHALCON_INIT_NVAR(ttl);
 				phalcon_add_function(ttl, lifetime, timestamp TSRMLS_CC);
@@ -449,9 +438,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 
 	if (!value) {
 		PHALCON_INIT_VAR(value);
-	}
-
-	if (Z_TYPE_P(value) == IS_NULL) {
 		ZVAL_LONG(value, 1);
 	}
 
@@ -486,19 +472,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 		PHALCON_INIT_VAR(lifetime);
 		ZVAL_LONG(timestamp, (long) time(NULL));
 
-		/** 
-		 * Take the lifetime from the frontend or read it from the set in start()
-		 */
+		PHALCON_OBS_NVAR(lifetime);
+		phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
 		if (Z_TYPE_P(lifetime) == IS_NULL) {
-	
-			PHALCON_OBS_NVAR(lifetime);
-			phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
-			if (Z_TYPE_P(lifetime) == IS_NULL) {
-				PHALCON_INIT_VAR(ttl);
-				phalcon_call_method(ttl, frontend, "getlifetime");
-			} else {
-				PHALCON_CPY_WRT(ttl, lifetime);
-			}
+			PHALCON_INIT_VAR(ttl);
+			phalcon_call_method(ttl, frontend, "getlifetime");
 		} else {
 			PHALCON_CPY_WRT(ttl, lifetime);
 		}
