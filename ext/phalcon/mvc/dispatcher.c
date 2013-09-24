@@ -161,11 +161,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		ZEPHIR_INIT_VAR(_0);
 		object_init_ex(_0, phalcon_mvc_dispatcher_exception_ce);
 		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_LONG(_1, 0);
+		ZVAL_STRING(_1, "A dependency injection container is required to access the 'response' service", 1);
 		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "A dependency injection container is required to access the 'response' service", 1);
-		zephir_call_method_p2_noret(_0, "__construct", _2, _1);
+		ZVAL_LONG(_2, 0);
+		zephir_call_method_p2_noret(_0, "__construct", _1, _2);
 		zephir_throw_exception(_0 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;

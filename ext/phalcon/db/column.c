@@ -220,7 +220,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
  */
 PHP_METHOD(Phalcon_Db_Column, __construct) {
 
-	zval *columnName, *definition, *type, *notNull, *primary, *size, *scale, *dunsigned, *first, *after, *bindType, *isNumeric, *autoIncrement, *_0 = NULL, *_1 = NULL;
+	zval *columnName, *definition, *type, *notNull, *primary, *size, *scale, *dunsigned, *first, *after, *bindType, *isNumeric, *autoIncrement;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &columnName, &definition);
@@ -249,13 +249,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	}
 	ZEPHIR_OBS_VAR(scale);
 	if (zephir_array_isset_string_fetch(&scale, definition, SS("scale") TSRMLS_CC)) {
-		ZEPHIR_INIT_VAR(_0);
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_LONG(_0, 0);
-		ZEPHIR_INIT_VAR(_1);
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_LONG(_1, 7);
-		if ((ZEPHIR_IS_EQUAL(type, _0) || ZEPHIR_IS_EQUAL(type, _1))) {
+		if ((ZEPHIR_IS_LONG(type, 0) || ZEPHIR_IS_LONG(type, 7))) {
 			zephir_update_property_this(this_ptr, SL("_scale"), scale TSRMLS_CC);
 		} else {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type does not support scale parameter");
@@ -272,10 +266,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	}
 	ZEPHIR_OBS_VAR(autoIncrement);
 	if (zephir_array_isset_string_fetch(&autoIncrement, definition, SS("autoIncrement") TSRMLS_CC)) {
-		ZEPHIR_INIT_NVAR(_0);
-		ZEPHIR_INIT_NVAR(_0);
-		ZVAL_LONG(_0, 0);
-		if (ZEPHIR_IS_EQUAL(type, _0)) {
+		if (ZEPHIR_IS_LONG(type, 0)) {
 			zephir_update_property_this(this_ptr, SL("_autoIncrement"), autoIncrement TSRMLS_CC);
 		} else {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment");

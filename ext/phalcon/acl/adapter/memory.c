@@ -672,7 +672,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_LONG(_0, 1);
 	zephir_call_method_p4(return_value, this_ptr, "_allowordeny", roleName, resourceName, access, _0);
 	RETURN_MM();
@@ -714,7 +713,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny) {
 
 
 	ZEPHIR_INIT_VAR(_0);
-	ZEPHIR_INIT_BNVAR(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_call_method_p4(return_value, this_ptr, "_allowordeny", roleName, resourceName, access, _0);
 	RETURN_MM();

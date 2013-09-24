@@ -136,16 +136,14 @@ abstract class Pdo extends Phalcon\Db\Adapter
 			let dsnAttributes = join(";", dsnParts);
 		}
 
-		let options[3] = 0,
-			options[8] = 2,
-			options[10] = 1;
+		let options[Pdo::ATTR_ERRMODE] = Pdo::ERRMODE_EXCEPTION;
 
 		/**
 		 * Check if the connection must be persistent
 		 */
 		if fetch persistent, descriptor["persistent"] {
 			if persistent {
-				let options[12] = true;
+				let options[Pdo::ATTR_PERSISTENT] = true;
 			}
 		}
 
