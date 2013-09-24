@@ -22,9 +22,6 @@
 
 #include "main/php.h"
 
-<<<<<<< HEAD
-extern const char *phalcon_interned_action;
-=======
 extern const char *phalcon_interned_DELETE;
 extern const char *phalcon_interned_GET;
 extern const char *phalcon_interned_HEAD;
@@ -32,7 +29,6 @@ extern const char *phalcon_interned_OPTIONS;
 extern const char *phalcon_interned_PATCH;
 extern const char *phalcon_interned_POST;
 extern const char *phalcon_interned_PUT;
->>>>>>> 4ae45b7d24fae217af97a91f737cddc65fcd7753
 extern const char *phalcon_interned_alias;
 extern const char *phalcon_interned_all;
 extern const char *phalcon_interned_arguments;
