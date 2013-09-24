@@ -27,6 +27,13 @@
 
 #include "interned-strings.h"
 
+const char *phalcon_interned_DELETE         = NULL;
+const char *phalcon_interned_GET            = NULL;
+const char *phalcon_interned_HEAD           = NULL;
+const char *phalcon_interned_OPTIONS        = NULL;
+const char *phalcon_interned_PATCH          = NULL;
+const char *phalcon_interned_POST           = NULL;
+const char *phalcon_interned_PUT            = NULL;
 const char *phalcon_interned_alias          = NULL;
 const char *phalcon_interned_all            = NULL;
 const char *phalcon_interned_arguments      = NULL;
@@ -79,6 +86,13 @@ const char *phalcon_interned_where          = NULL;
 
 PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 {
+	phalcon_interned_DELETE         = zend_new_interned_string(SS("DELETE"), 0 TSRMLS_CC);
+	phalcon_interned_GET            = zend_new_interned_string(SS("GET"), 0 TSRMLS_CC);
+	phalcon_interned_HEAD           = zend_new_interned_string(SS("HEAD"), 0 TSRMLS_CC);
+	phalcon_interned_OPTIONS        = zend_new_interned_string(SS("OPTIONS"), 0 TSRMLS_CC);
+	phalcon_interned_PATCH          = zend_new_interned_string(SS("PATCH"), 0 TSRMLS_CC);
+	phalcon_interned_POST           = zend_new_interned_string(SS("POST"), 0 TSRMLS_CC);
+	phalcon_interned_PUT            = zend_new_interned_string(SS("PUT"), 0 TSRMLS_CC);
 	phalcon_interned_alias          = zend_new_interned_string(SS("alias"), 0 TSRMLS_CC);
 	phalcon_interned_all            = zend_new_interned_string(SS("all"), 0 TSRMLS_CC);
 	phalcon_interned_arguments      = zend_new_interned_string(SS("arguments"), 0 TSRMLS_CC);
