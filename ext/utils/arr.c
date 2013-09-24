@@ -762,6 +762,11 @@ PHP_METHOD(Phalcon_Utils_Arr, set_path){
 
 	PHALCON_CPY_WRT_CTOR(return_value, array1);
 
+	if (Z_TYPE_P(array2) != IS_ARRAY) {
+		PHALCON_SEPARATE_PARAM(array2);
+		convert_to_array(array2);
+	}
+
 	PHALCON_INIT_VAR(array);
 	phalcon_call_func_p2(array, "array_intersect_key", array2, return_value);
 
