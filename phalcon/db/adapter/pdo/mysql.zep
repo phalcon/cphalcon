@@ -38,7 +38,7 @@ namespace Phalcon\Db\Adapter\Pdo;
  *
  *</code>
  */
-class Mysql extends Phalcon\Db\Adapter\Pdo implements Phalcon\Db\AdapterInterface
+class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterface
 {
 
 	protected _type = "mysql";

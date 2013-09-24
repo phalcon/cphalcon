@@ -45,7 +45,7 @@
  * Encapsulates the resultset internals
  *
  * <code>
- *	$result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
  *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
  *	while ($robot = $result->fetchArray()) {
  *		print_r($robot);
@@ -147,9 +147,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute) {
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
  *<code>
- *	result = connection->query("SELECT * FROM robots ORDER BY name");
- *	result->setFetchMode(Phalcon\Db::FETCH_OBJ);
- *	while (robot = result->fetch()) {
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
+ *	while ($robot = $result->fetch()) {
  *		echo robot->name;
  *	}
  *</code>
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch) {
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
  *<code>
- *	$result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
  *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
  *	while ($robot = result->fetchArray()) {
  *		print_r($robot);
@@ -201,8 +201,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray) {
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
  *<code>
- *	$result = connection->query("SELECT * FROM robots ORDER BY name");
- *	$robots = result->fetchAll();
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *	$robots = $result->fetchAll();
  *</code>
  *
  * @return array
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
  * Gets number of rows returned by a resulset
  *
  *<code>
- *	$result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
  *	echo 'There are ', $result->numRows(), ' rows in the resulset';
  *</code>
  *
@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
  * Moves internal resulset cursor to another position letting us to fetch a certain row
  *
  *<code>
- *	$result = connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
  *	$result->dataSeek(2); // Move to third row on result
  *	$row = $result->fetch(); // Fetch third row
  *</code>
