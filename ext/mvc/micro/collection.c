@@ -31,7 +31,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-
+#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "GET", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_GET);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "POST", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_POST);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "PUT", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_PUT);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "PATCH", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_PATCH);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "HEAD", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_HEAD);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "DELETE", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_DELETE);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options){
 	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
 	ALLOC_INIT_ZVAL(method);
-	ZVAL_STRING(method, "OPTIONS", 1);
+	PHALCON_ZVAL_MAYBE_INTERNED_STRING(method, phalcon_interned_OPTIONS);
 	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
 	zval_ptr_dtor(&method);
 	RETURN_ZVAL(getThis(), 1, 0);

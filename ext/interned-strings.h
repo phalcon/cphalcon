@@ -22,6 +22,13 @@
 
 #include "main/php.h"
 
+extern const char *phalcon_interned_DELETE;
+extern const char *phalcon_interned_GET;
+extern const char *phalcon_interned_HEAD;
+extern const char *phalcon_interned_OPTIONS;
+extern const char *phalcon_interned_PATCH;
+extern const char *phalcon_interned_POST;
+extern const char *phalcon_interned_PUT;
 extern const char *phalcon_interned_alias;
 extern const char *phalcon_interned_all;
 extern const char *phalcon_interned_arguments;
