@@ -259,12 +259,13 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($request->get('num', 'int', 100), 1);
 
 		$age = $request->get('age', 'int', 100);
+
 		$this->assertTrue(empty($age));
-		$this->assertEquals($request->get('age', 'int', 100, FALSE), 100);
+		$this->assertEquals($request->get('age', 'int', 100, TRUE), 100);
 
 		$phone = $request->get('phone', 'int', 100);
 		$this->assertTrue(empty($phone));
-		$this->assertEquals($request->get('phone', 'int', 100, FALSE), 100);
+		$this->assertEquals($request->get('phone', 'int', 100, TRUE), 100);
 
 		// getQuery
 		$this->assertEquals($request->getQuery('id', 'int', 100), 1);
@@ -272,12 +273,13 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($request->getQuery('num', 'int', 100), 1);
 
 		$age = $request->getQuery('age', 'int', 100);
+
 		$this->assertTrue(empty($age));
-		$this->assertEquals($request->getQuery('age', 'int', 100, FALSE), 100);
+		$this->assertEquals($request->getQuery('age', 'int', 100, TRUE), 100);
 
 		$phone = $request->getQuery('phone', 'int', 100);
 		$this->assertTrue(empty($phone));
-		$this->assertEquals($request->getQuery('phone', 'int', 100, FALSE), 100);
+		$this->assertEquals($request->getQuery('phone', 'int', 100, TRUE), 100);
 
 		// getPost
 		$this->assertEquals($request->getPost('id', 'int', 100), 1);
@@ -285,12 +287,13 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($request->getPost('num', 'int', 100), 1);
 
 		$age = $request->getPost('age', 'int', 100);
+
 		$this->assertTrue(empty($age));
-		$this->assertEquals($request->getPost('age', 'int', 100, FALSE), 100);
+		$this->assertEquals($request->getPost('age', 'int', 100, TRUE), 100);
 
 		$phone = $request->getPost('phone', 'int', 100);
 		$this->assertTrue(empty($phone));
-		$this->assertEquals($request->getPost('phone', 'int', 100, FALSE), 100);
+		$this->assertEquals($request->getPost('phone', 'int', 100, TRUE), 100);
 	}
 
 	public function testIssues1265()
