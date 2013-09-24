@@ -77473,10 +77473,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 	if (!value) {
 		PHALCON_INIT_VAR(value);
 		ZVAL_LONG(value, 1);
+	} else {
+		PHALCON_SEPARATE_PARAM(value);
 	}
 
-	if (Z_TYPE_P(value) != IS_LONG) {
-		PHALCON_SEPARATE_PARAM(value);
+	if (Z_TYPE_P(value) != IS_LONG) {	
 		convert_to_long_ex(&value);
 	}
 
@@ -77571,10 +77572,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 	if (!value) {
 		PHALCON_INIT_VAR(value);
 		ZVAL_LONG(value, 1);
+	} else {
+		PHALCON_SEPARATE_PARAM(value);
 	}
 
 	if (Z_TYPE_P(value) != IS_LONG) {
-		PHALCON_SEPARATE_PARAM(value);
 		convert_to_long_ex(&value);
 	}
 
