@@ -56,9 +56,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 
 PHP_METHOD(Phalcon_Events_Event, setType) {
 
-	zval *_type;
+	zval *type;
 
-	zephir_fetch_params(0, 1, 0, &_type);
+	zephir_fetch_params(0, 1, 0, &type);
 
 
 
@@ -79,9 +79,9 @@ PHP_METHOD(Phalcon_Events_Event, getSource) {
 
 PHP_METHOD(Phalcon_Events_Event, setData) {
 
-	zval *_data;
+	zval *data;
 
-	zephir_fetch_params(0, 1, 0, &_data);
+	zephir_fetch_params(0, 1, 0, &data);
 
 
 

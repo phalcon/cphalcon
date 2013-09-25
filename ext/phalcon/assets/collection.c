@@ -38,7 +38,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Collection, phalcon, assets_collection, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets, Collection, phalcon, assets_collection, phalcon_assets_collection_method_entry, 0);
 
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_assets_collection_ce, SL("_local"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -52,6 +52,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("_sourcePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+PHP_METHOD(Phalcon_Assets_Collection, getPrefix) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Assets_Collection, getResources) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Assets_Collection, getFilters) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Assets_Collection, getSourcePath) {
+
+
 
 }
 

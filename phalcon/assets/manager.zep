@@ -28,19 +28,21 @@ class Manager
 {
 
 	/**
-	* Options configure
-	* @var array
-	*/
+	 * Options configure
+	 * @var array
+	 */
 	protected _options;
-
 
 	protected _collections;
 
-
 	protected _implicitOutput = true;
 
-
-	public function __construct(options) 
+	/**
+	 * Phalcon\Assets\Manager
+	 *
+	 * @param array options
+	 */
+	public function __construct(options)
 	{
 		if  typeof options == "array" {
 			let this->_options = options;
@@ -48,38 +50,40 @@ class Manager
 	}
 
 	/**
-	* Sets the manager's options
-	*
-	* @param array $options
-	* @return Phalcon\Assets\Manager
-	*/
-	public function setOptions(options)
+	 * Sets the manager's options
+	 *
+	 * @param array $options
+	 * @return Phalcon\Assets\Manager
+	 */
+	public function setOptions(options) -> <Phalcon\Assets\Manager>
 	{
-		if  !typeof options == "array" {
+		if  typeof options != "array" {
 			throw new \Phalcon\Assets\Exception("Options must be an array");
 		}
 		let this->_options = options;
+		return this;
 	}
 
 	/**
-	* Returns the manager's options
-	*
-	* @return array
-	*/
+	 * Returns the manager's options
+	 *
+	 * @return array
+	 */
 	public function getOptions()
 	{
 		return this->_options;
 	}
 
 	/**
-	* Sets if the HTML generated must be directly printed or returned
-	*
-	* @param boolean $implicitOutput
-	* @return Phalcon\Assets\Manager
-	*/
-	public function useImplicitOutput(implicitOutput)
+	 * Sets if the HTML generated must be directly printed or returned
+	 *
+	 * @param boolean implicitOutput
+	 * @return Phalcon\Assets\Manager
+	 */
+	public function useImplicitOutput(boolean implicitOutput) -> <Phalcon\Assets\Manager>
 	{
 		let this->_implicitOutput = implicitOutput;
+		return this;
 	}
 
 
@@ -91,68 +95,54 @@ class Manager
 	*	$assets->addCss('http://bootstrap.my-cdn.com/style.css', false);
 	*</code>
 	*
-	* @param string $path
-	* @param boolean $local
-	* @param boolean $filter
-	* @param array $attributes
+	* @param string path
+	* @param boolean local
+	* @param boolean filter
+	* @param array attributes
 	* @return Phalcon\Assets\Manager
 	*/
-	public function addCss(path, local, filter, attributes)
+	public function addCss(string path, local=true, filter=true, attributes)
 	{
-		var resource;
-
-		if !loca {
-			local = 1
-		}
-
-		if !filter {
-			filter = 1
-		}
-
-		let resource  = new \Phalcon\Assets\Resource\Js(path, local, filter, attributes);
-		this->addResourceByType("js",resource);
+		this->addResourceByType("css", new \Phalcon\Assets\Resource\Js(path, local, filter, attributes));
 	}
 
 	/**
-	* Adds a resource by its type
-	*
-	*<code>
-	*	$assets->addResourceByType('css', new Phalcon\Assets\Resource\Css('css/style.css'));
-	*</code>
-	*
-	* @param string $type
-	* @param Phalcon\Assets\Resource $resource
-	* @return Phalcon\Assets\Manager
-	*/
-	public function addResourceByType(type, resource)
+	 * Adds a resource by its type
+	 *
+	 *<code>
+	 *	$assets->addResourceByType('css', new Phalcon\Assets\Resource\Css('css/style.css'));
+	 *</code>
+	 *
+	 * @param string type
+	 * @param Phalcon\Assets\Resource resource
+	 * @return Phalcon\Assets\Manager
+	 */
+	public function addResourceByType(string type, <Phalcon\Assets\Resource> resource)
 	{
 		var collections, collection;
 
 		let collections = this->_collections;
-
-		if isset collections[type] {
-			let collection = collections[type]; 
-		} else {
-			let collection = new \Phalcon\Assets\Collection();
-			let this->_collections[type] = collection;
+		if !fetch collection, collections[type] {
+			let this->_collections[type] = new \Phalcon\Assets\Collection();
 		}
-		/** 
-		* Add the resource to the collection
-		*/
+
+		/**
+		 * Add the resource to the collection
+		 */
 		collection->add(resource);
 	}
 
 	/**
-	* Adds a raw resource to the manager
-	*
-	*<code>
-	* $assets->addResource(new Phalcon\Assets\Resource('css', 'css/style.css'));
-	*</code>
-	*
-	* @param Phalcon\Assets\Resource $resource
-	* @return Phalcon\Assets\Manager
-	*/
-	public function addResource(resource)
+	 * Adds a raw resource to the manager
+	 *
+	 *<code>
+	 * $assets->addResource(new Phalcon\Assets\Resource('css', 'css/style.css'));
+	 *</code>
+	 *
+	 * @param Phalcon\Assets\Resource resource
+	 * @return Phalcon\Assets\Manager
+	 */
+	public function addResource(<Phalcon\Assets\Resource> resource) -> <halcon\Assets\Manager>
 	{
 		var type;
 
@@ -162,24 +152,25 @@ class Manager
 
 		let type = resource->getType();
 
-		/** 
-		* Adds the resource by its type
-		*/
-		this->addResourceByType(type, resource); 
+		/**
+		 * Adds the resource by its type
+		 */
+		this->addResourceByType(type, resource);
+		return this;
 	}
 
 	/**
-	* Sets a collection in the Assets Manager
-	*
-	*<code>
-	* $assets->set('js', $collection);
-	*</code>
-	*
-	* @param string $id
-	* @param Phalcon\Assets\Collection $collection
-	* @return Phalcon\Assets\Manager
-	*/
-	public function set(id, collection)
+	 * Sets a collection in the Assets Manager
+	 *
+	 *<code>
+	 * $assets->set('js', $collection);
+	 *</code>
+	 *
+	 * @param string id
+	 * @param Phalcon\Assets\Collection collection
+	 * @return Phalcon\Assets\Manager
+	 */
+	public function set(string id, <Phalcon\Assets\Collection> collection) -> <Phalcon\Assets\Manager>
 	{
 		if typeof id != "string" {
 			throw new \Phalcon\Assets\Exception("Collection-Id must be a string");
@@ -187,9 +178,8 @@ class Manager
 		if typeof collection != "object" {
 			throw new \Phalcon\Assets\Exception("Collection must be an object");
 		}
-
 		let this->_collections[id] = collection;
-
+		return this;
 	}
 
 	/**
@@ -199,82 +189,77 @@ class Manager
 	* $scripts = $assets->get('js');
 	*</code>
 	*
-	* @param string $id
+	* @param string id
 	* @return Phalcon\Assets\Collection
 	*/
-	public function get(id)
+	public function get(string id) -> <Phalcon\Assets\Collection>
 	{
-		var collections;
+		var collections, collection;
 
 		if typeof id != "string" {
 			throw new \Phalcon\Assets\Exception("Collection-Id must be a string");
 		}
 
 		let collections = this->_collections;
-		if !isset collections[id] {
+		if !fetch collection, collections[id] {
 			throw new \Phalcon\Assets\Exception("The collection does not exist in the manager");
 		}
 
-		return collections[id];
+		return collection;
 	}
 
 	/**
-	* Returns the CSS collection of assets
-	*
-	* @return Phalcon\Assets\Collection
-	*/
-	public function getCss()
+	 * Returns the CSS collection of assets
+	 *
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function getCss() -> <Phalcon\Assets\Collection>
 	{
-		var collections;
+		var collection, collections;
 
+		/**
+		 * Check if the collection does not exist and create an implicit collection
+		 */
 		let collections = this->_collections;
-
-		/** 
-		* Check if the collection does not exist and create an implicit collection
-		*/
-		if !isset collections["css"] {
+		if !fetch collection, collections["css"] {
 			return new \Phalcon\Assets\Collection();
 		}
-
-		return collections["css"];
+		return collection;
 	}
 
 	/**
-	* Returns the CSS collection of assets
-	*
-	* @return Phalcon\Assets\Collection
-	*/
-	public function getJs()
+	 * Returns the CSS collection of assets
+	 *
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function getJs() -> <Phalcon\Assets\Collection>
 	{
-		var collections;
+		var collections, collection;
 
+		/**
+		 * Check if the collection does not exist and create an implicit collection
+		 */
 		let collections = this->_collections;
-
-		/** 
-		* Check if the collection does not exist and create an implicit collection
-		*/
-		if !isset collections["js"] {
+		if !fetch collection, collections["js"] {
 			return new \Phalcon\Assets\Collection();
 		}
 
-		return collections["js"];
+		return collection;
 	}
 
-	**
-	* Creates/Returns a collection of resources
-	*
-	* @param string $name
-	* @return Phalcon\Assets\Collection
-	*/
-	public function collection(name)
+	/**
+	 * Creates/Returns a collection of resources
+	 *
+	 * @param string name
+	 * @return Phalcon\Assets\Collection
+	 */
+	public function collection(string name) -> <Phalcon\Assets\Collection>
 	{
 		var collections, collection;
 
 		let collections = this->_collections;
 
-		if isset collections[name] {
-			let collection = colelctions[name];
-		} else {
+		if !fetch collection, collections[name] {
 			let collection = new \Phalcon\Assets\Collection();
 			let this->_collections[name] = collection;
 		}
@@ -283,76 +268,75 @@ class Manager
 	}
 
 	/**
-	* Traverses a collection calling the callback to generate its HTML
-	*
-	* @param Phalcon\Assets\Collection $collection
-	* @param callback $callback
-	*/
-	public function output(collection, callback, type)
+	 * Traverses a collection calling the callback to generate its HTML
+	 *
+	 * @param Phalcon\Assets\Collection collection
+	 * @param callback callback
+	 */
+	public function output(<Phalcon\Assets\Collection> collection, callback, type)
 	{
 		var output, implicitOutput, resources, filters, prefix, sourceBasePath, targetBasePath, options,
-			collectionSourcePath;
+			collectionSourcePath, completeSourcePath;
 
 		let implicitOutput = this->_implicitOutput;
 
-		/** 
-		* Get the resources as an array
-		*/
+		/**
+		 * Get the resources as an array
+		 */
 		let resources = collection->getResources();
 
-		/** 
-		* Get filters in the collection
-		*/
+		/**
+		 * Get filters in the collection
+		 */
 		let filters = collection->getFilters();
 
-		/** 
-		* Get the collection's prefix
-		*/
+		/**
+		 * Get the collection's prefix
+		 */
 		let prefix = collection->getPrefix();
 
-		let type_css = "css";
-
-		/** 
-		* Prepare options if the collection must be filtered
-		*/
+		/**
+		 * Prepare options if the collection must be filtered
+		 */
 		if typeof filter == "array" {
-			
+
 			let options = this->_options;
 
-			/** 
-			* Check for global options in the assets manager
-			*/
+			/**
+			 * Check for global options in the assets manager
+			 */
 			if typeof options == "array" {
-				/** 
-				* The source base path is a global location where all resources are located
-				*/
+
+				/**
+				 * The source base path is a global location where all resources are located
+				 */
 				if isset options["sourceBasePath"] {
 					let sourceBasePath = options["sourceBasePath"];
 				}
 
-				/** 
-				* The target base path is a global location where all resources are written
-				*/
+				/**
+			 	 * The target base path is a global location where all resources are written
+				 */
 				if isset options["targetBasePath"] {
 					let targetBasePath = options["targetBasePath"];
 				}
 			}
 		}
 
-		/** 
-		* Check if the collection have its own source base path
-		*/
+		/**
+		 * Check if the collection have its own source base path
+		 */
 		let collectionSourcePath = collection->getSourcePath();
 
-		/** 
-		* Concatenate the global base source path with the collection one
-		*/
+		/**
+		 * Concatenate the global base source path with the collection one
+		 */
 		if collectionSourcePath {
 			let completeSourcePath = sourceBasePath . collectionSourcePath;
 		} else {
 			let completeSourcePath = sourceBasePath;
 		}
-		
-		
+
+
 	}
 }

@@ -74,9 +74,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement) {
 
-	zval *_sqlStatement;
+	zval *sqlStatement;
 
-	zephir_fetch_params(0, 1, 0, &_sqlStatement);
+	zephir_fetch_params(0, 1, 0, &sqlStatement);
 
 
 
@@ -101,9 +101,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime) {
 
-	zval *_initialTime;
+	zval *initialTime;
 
-	zephir_fetch_params(0, 1, 0, &_initialTime);
+	zephir_fetch_params(0, 1, 0, &initialTime);
 
 
 
@@ -128,9 +128,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime) {
 
-	zval *_finalTime;
+	zval *finalTime;
 
-	zephir_fetch_params(0, 1, 0, &_finalTime);
+	zephir_fetch_params(0, 1, 0, &finalTime);
 
 
 

@@ -13,11 +13,11 @@ PHP_METHOD(Phalcon_Events_Event, stop);
 PHP_METHOD(Phalcon_Events_Event, isStopped);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event_settype, 0, 0, 0)
-	ZEND_ARG_INFO(0, _type)
+	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event_setdata, 0, 0, 0)
-	ZEND_ARG_INFO(0, _data)
+	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event___construct, 0, 0, 0)
