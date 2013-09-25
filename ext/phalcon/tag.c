@@ -111,9 +111,11 @@ PHP_METHOD(Phalcon_Tag, setDI) {
  */
 PHP_METHOD(Phalcon_Tag, getDI) {
 
+	zval *_0;
 
-	return_value = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC););
-	return;
+
+	_0 = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC););
+	RETURN_CCTORW(_0);
 
 }
 
@@ -340,7 +342,6 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 		}
 	}
 	if ((Z_TYPE_P(value) == IS_STRING)) {
-		ZEPHIR_INIT_VAR(_0);
 		_0 = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_autoEscape") TSRMLS_CC););
 		if (zephir_is_true(_0)) {
 			ZEPHIR_INIT_VAR(escaper);
