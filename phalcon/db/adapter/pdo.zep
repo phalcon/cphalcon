@@ -129,7 +129,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 		 * Check if the user has defined a custom dsn
 		 */
 		 if !fetch dsnAttributes, descriptor["dsn"] {
-		 	let dsnParts = [];
+			let dsnParts = [];
 			for key, value in descriptor {
 				let dsnParts[] = key . "=" . value;
 			}
@@ -161,7 +161,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * $result = $connection->executePrepared($statement, array('name' => 'Voltron'));
 	 *</code>
 	 *
-	 * @param string $sqlStatement
+	 * @param string sqlStatement
 	 * @return \PDOStatement
 	 */
 	public function prepare(string sqlStatement) -> <PDOStatement>
@@ -242,7 +242,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * Sends SQL statements to the database server returning the success state.
 	 * Use this method only when the SQL statement sent to the server is returning rows
 	 *
-     *<code>
+	 *<code>
 	 *	//Querying data
 	 *	$resultset = $connection->query("SELECT * FROM robots WHERE type='mechanical'");
 	 *	$resultset = $connection->query("SELECT * FROM robots WHERE type=?", array("mechanical"));
@@ -452,11 +452,11 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	}
 
 	/**
-     * Starts a transaction in the connection
-     *
-     * @param boolean nesting
-     * @return boolean
-     */
+	 * Starts a transaction in the connection
+	 *
+	 * @param boolean nesting
+	 * @return boolean
+	 */
 	public function begin(boolean nesting=true) -> boolean
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
@@ -514,12 +514,12 @@ abstract class Pdo extends Phalcon\Db\Adapter
 		return false;
 	}
 
-    /**
-     * Rollbacks the active transaction in the connection
-     *
-     * @param boolean nesting
-     * @return boolean
-     */
+	/**
+	 * Rollbacks the active transaction in the connection
+	 *
+	 * @param boolean nesting
+	 * @return boolean
+	 */
 	public function rollback(boolean nesting=true) -> boolean
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
@@ -593,12 +593,12 @@ abstract class Pdo extends Phalcon\Db\Adapter
 		return false;
 	}
 
-    /**
-     * Commits the active transaction in the connection
-     *
-     * @param boolean nesting
-     * @return boolean
-     */
+	/**
+	 * Commits the active transaction in the connection
+	 *
+	 * @param boolean nesting
+	 * @return boolean
+	 */
 	public function commit(boolean nesting=true) -> boolean
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;

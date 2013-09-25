@@ -16,6 +16,7 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -53,14 +54,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Reference, phalcon, db_reference, phalcon_db_reference_method_entry, 0);
 
-	zend_declare_property_null(phalcon_db_reference_ce, SL("_schemaName"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedSchema"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Constraint name
  *
  * @var string
  */
-	zend_declare_property_null(phalcon_db_reference_ce, SL("_referenceName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_schemaName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedSchema"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Referenced Table
  *
@@ -87,21 +88,79 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 }
 
 /**
+ * Constraint name
+ *
+ * @var string
+ */
+PHP_METHOD(Phalcon_Db_Reference, getName) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Db_Reference, getSchemaName) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema) {
+
+
+
+}
+
+/**
+ * Referenced Table
+ *
+ * @var string
+ */
+PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
+
+
+
+}
+
+/**
+ * Local reference columns
+ *
+ * @var array
+ */
+PHP_METHOD(Phalcon_Db_Reference, getColumns) {
+
+
+
+}
+
+/**
+ * Referenced Columns
+ *
+ * @var array
+ */
+PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns) {
+
+
+
+}
+
+/**
  * Phalcon\Db\Reference constructor
  *
- * @param string referenceName
+ * @param string name
  * @param array definition
  */
 PHP_METHOD(Phalcon_Db_Reference, __construct) {
 
-	zval *referenceName, *definition, *columns, *schema, *referencedTable, *referencedSchema, *referencedColumns;
+	zval *name_param = NULL, *definition, *columns, *schema, *referencedTable, *referencedSchema, *referencedColumns;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &referenceName, &definition);
+	zephir_fetch_params(1, 2, 0, &name_param, &definition);
+
+		zephir_get_strval(name, name_param);
 
 
-
-	zephir_update_property_this(this_ptr, SL("_referenceName"), referenceName TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	ZEPHIR_OBS_VAR(referencedTable);
 	if (zephir_array_isset_string_fetch(&referencedTable, definition, SS("referencedTable") TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_referencedTable"), referencedTable TSRMLS_CC);
@@ -140,78 +199,6 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 }
 
 /**
- * Gets the index name
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Reference, getName) {
-
-
-	RETURN_MEMBER(this_ptr, "_referenceName");
-
-}
-
-/**
- * Gets the schema where referenced table is
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Reference, getSchemaName) {
-
-
-	RETURN_MEMBER(this_ptr, "_schemaName");
-
-}
-
-/**
- * Gets the schema where referenced table is
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema) {
-
-
-	RETURN_MEMBER(this_ptr, "_referencedSchema");
-
-}
-
-/**
- * Gets local columns which reference is based
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Db_Reference, getColumns) {
-
-
-	RETURN_MEMBER(this_ptr, "_columns");
-
-}
-
-/**
- * Gets the referenced table
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
-
-
-	RETURN_MEMBER(this_ptr, "_referencedTable");
-
-}
-
-/**
- * Gets referenced columns
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns) {
-
-
-	RETURN_MEMBER(this_ptr, "_referencedColumns");
-
-}
-
-/**
  * Restore a Phalcon\Db\Reference object from export
  *
  * @param array data
@@ -227,8 +214,8 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 
 
 	ZEPHIR_OBS_VAR(constraintName);
-	if (!(zephir_array_isset_string_fetch(&constraintName, data, SS("_referenceName") TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_referenceName parameter is required");
+	if (!(zephir_array_isset_string_fetch(&constraintName, data, SS("_name") TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_name parameter is required");
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

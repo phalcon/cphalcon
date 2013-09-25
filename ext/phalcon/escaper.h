@@ -7,11 +7,11 @@ PHP_METHOD(Phalcon_Escaper, setEncoding);
 PHP_METHOD(Phalcon_Escaper, getEncoding);
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_setencoding, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_setencoding, 0, 0, 1)
 	ZEND_ARG_INFO(0, encoding)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_sethtmlquotetype, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_sethtmlquotetype, 0, 0, 1)
 	ZEND_ARG_INFO(0, quoteType)
 ZEND_END_ARG_INFO()
 

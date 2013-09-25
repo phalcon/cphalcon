@@ -3,7 +3,7 @@ extern zend_class_entry *phalcon_mvc_moduledefinitioninterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModuleDefinitionInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_moduledefinitioninterface_registerservices, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_moduledefinitioninterface_registerservices, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 

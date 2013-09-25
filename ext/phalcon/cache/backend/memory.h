@@ -9,7 +9,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, delete);
 PHP_METHOD(Phalcon_Cache_Backend_Memory, queryKeys);
 PHP_METHOD(Phalcon_Cache_Backend_Memory, exists);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memory_get, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memory_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, keyName)
 	ZEND_ARG_INFO(0, lifetime)
 ZEND_END_ARG_INFO()
@@ -21,7 +21,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memory_save, 0, 0, 0)
 	ZEND_ARG_INFO(0, stopBuffer)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memory_delete, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memory_delete, 0, 0, 1)
 	ZEND_ARG_INFO(0, keyName)
 ZEND_END_ARG_INFO()
 

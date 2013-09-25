@@ -6,11 +6,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Mysql);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_escapeidentifier, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_escapeidentifier, 0, 0, 1)
 	ZEND_ARG_INFO(0, identifier)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_describecolumns, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_describecolumns, 0, 0, 1)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()

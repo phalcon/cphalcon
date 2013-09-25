@@ -3,7 +3,7 @@ extern zend_class_entry *phalcon_mvc_model_relationinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_RelationInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relationinterface___construct, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relationinterface___construct, 0, 0, 4)
 	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_INFO(0, referencedModel)
 	ZEND_ARG_INFO(0, fields)
@@ -11,7 +11,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relationinterface___construct, 
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relationinterface_setintermediaterelation, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relationinterface_setintermediaterelation, 0, 0, 3)
 	ZEND_ARG_INFO(0, intermediateFields)
 	ZEND_ARG_INFO(0, intermediateModel)
 	ZEND_ARG_INFO(0, intermediateReferencedFields)

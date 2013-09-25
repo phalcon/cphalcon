@@ -5,7 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct);
 
 PHP_METHOD(Phalcon_Flash_Direct, message);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_direct_message, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_direct_message, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()

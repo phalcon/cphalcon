@@ -11,7 +11,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getProfiles);
 PHP_METHOD(Phalcon_Db_Profiler, reset);
 PHP_METHOD(Phalcon_Db_Profiler, getLastProfile);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_startprofile, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_startprofile, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
 ZEND_END_ARG_INFO()
 

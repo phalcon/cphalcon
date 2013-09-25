@@ -431,7 +431,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param string|array methods
 	 * @return boolean
 	 */
-	public function isMethod(methods)
+	public function isMethod(methods) -> boolean
 	{
 
 	}
@@ -441,7 +441,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return boolean
 	 */
-	public function isPost()
+	public function isPost() -> boolean
 	{
 		return this->getMethod() == "POST";
 	}
@@ -452,7 +452,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return boolean
 	 */
-	public function isGet()
+	public function isGet() -> boolean
 	{
 		return this->getMethod() == "GET";
 	}
@@ -462,7 +462,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return boolean
 	 */
-	public function isPut()
+	public function isPut() -> boolean
 	{
 		return this->getMethod() == "PUT";
 	}
@@ -472,7 +472,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return boolean
 	 */
-	public function isPatch()
+	public function isPatch() -> boolean
 	{
 		return this->getMethod() == "PATCH";
 	}
@@ -482,7 +482,8 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return boolean
 	 */
-	public function isHead(){
+	public function isHead() -> boolean
+	{
 		return this->getMethod() == "HEAD";
 	}
 
@@ -491,7 +492,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return boolean
 	 */
-	public function isDelete()
+	public function isDelete() -> boolean
 	{
 		return this->getMethod() == "DELETE";
 	}
@@ -501,7 +502,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return boolean
 	 */
-	public function isOptions()
+	public function isOptions() -> boolean
 	{
 		return this->getMethod() == "OPTIONS";
 	}
@@ -511,7 +512,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return boolean
 	 */
-	public function hasFiles(notErrored=false)
+	public function hasFiles(boolean notErrored=false)
 	{
 
 	}
@@ -531,7 +532,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return array
 	 */
-	public function getHeaders()
+	public function getHeaders() -> boolean
 	{
 
 	}
@@ -541,7 +542,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return string
 	 */
-	public function getHTTPReferer()
+	public function getHTTPReferer() -> boolean
 	{
 
 	}

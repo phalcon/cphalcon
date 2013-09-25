@@ -248,11 +248,13 @@ PHP_METHOD(Phalcon_Db_Adapter, getDialect) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, fetchOne) {
 
-	zval *sqlQuery, *fetchMode = NULL, *bindParams = NULL, *bindTypes = NULL, *result;
+	zval *sqlQuery_param = NULL, *fetchMode = NULL, *bindParams = NULL, *bindTypes = NULL, *result;
+	zval *sqlQuery = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &sqlQuery, &fetchMode, &bindParams, &bindTypes);
+	zephir_fetch_params(1, 1, 3, &sqlQuery_param, &fetchMode, &bindParams, &bindTypes);
 
+		zephir_get_strval(sqlQuery, sqlQuery_param);
 	if (!fetchMode) {
 		ZEPHIR_INIT_VAR(fetchMode);
 		ZVAL_LONG(fetchMode, 2);
@@ -307,11 +309,13 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
 
-	zval *sqlQuery, *fetchMode = NULL, *bindParams = NULL, *bindTypes = NULL, *results, *result, *row = NULL;
+	zval *sqlQuery_param = NULL, *fetchMode = NULL, *bindParams = NULL, *bindTypes = NULL, *results, *result, *row = NULL;
+	zval *sqlQuery = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &sqlQuery, &fetchMode, &bindParams, &bindTypes);
+	zephir_fetch_params(1, 1, 3, &sqlQuery_param, &fetchMode, &bindParams, &bindTypes);
 
+		zephir_get_strval(sqlQuery, sqlQuery_param);
 	if (!fetchMode) {
 		ZEPHIR_INIT_VAR(fetchMode);
 		ZVAL_LONG(fetchMode, 2);

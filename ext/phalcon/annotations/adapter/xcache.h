@@ -6,11 +6,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache);
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read);
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_xcache_read, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_xcache_read, 0, 0, 1)
 	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_xcache_write, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_xcache_write, 0, 0, 2)
 	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()

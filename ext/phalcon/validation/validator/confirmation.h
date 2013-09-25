@@ -5,7 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Confirmation);
 
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_confirmation_validate, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_confirmation_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, validator)
 	ZEND_ARG_INFO(0, attribute)
 ZEND_END_ARG_INFO()

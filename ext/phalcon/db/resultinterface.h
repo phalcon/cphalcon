@@ -3,7 +3,7 @@ extern zend_class_entry *phalcon_db_resultinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Db_ResultInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface___construct, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, connection)
 	ZEND_ARG_INFO(0, result)
 	ZEND_ARG_INFO(0, sqlStatement)
@@ -11,11 +11,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, bindTypes)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface_dataseek, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface_dataseek, 0, 0, 1)
 	ZEND_ARG_INFO(0, number)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface_setfetchmode, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_resultinterface_setfetchmode, 0, 0, 1)
 	ZEND_ARG_INFO(0, fetchMode)
 ZEND_END_ARG_INFO()
 

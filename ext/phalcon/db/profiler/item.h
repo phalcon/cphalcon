@@ -11,15 +11,15 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime);
 PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime);
 PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlstatement, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setsqlstatement, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setinitialtime, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setinitialtime, 0, 0, 1)
 	ZEND_ARG_INFO(0, initialTime)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setfinaltime, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setfinaltime, 0, 0, 1)
 	ZEND_ARG_INFO(0, finalTime)
 ZEND_END_ARG_INFO()
 

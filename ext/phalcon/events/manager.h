@@ -5,7 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager);
 
 PHP_METHOD(Phalcon_Events_Manager, fire);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_fire, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_fire, 0, 0, 2)
 	ZEND_ARG_INFO(0, eventType)
 	ZEND_ARG_INFO(0, source)
 	ZEND_ARG_INFO(0, data)

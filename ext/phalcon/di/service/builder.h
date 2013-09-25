@@ -7,18 +7,18 @@ PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter);
 PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters);
 PHP_METHOD(Phalcon_Di_Service_Builder, build);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder__buildparameter, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder__buildparameter, 0, 0, 3)
 	ZEND_ARG_INFO(0, dependencyInjector)
 	ZEND_ARG_INFO(0, position)
 	ZEND_ARG_INFO(0, argument)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder__buildparameters, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder__buildparameters, 0, 0, 2)
 	ZEND_ARG_INFO(0, dependencyInjector)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder_build, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder_build, 0, 0, 2)
 	ZEND_ARG_INFO(0, dependencyInjector)
 	ZEND_ARG_INFO(0, definition)
 	ZEND_ARG_INFO(0, parameters)

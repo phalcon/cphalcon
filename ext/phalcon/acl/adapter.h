@@ -11,11 +11,11 @@ PHP_METHOD(Phalcon_Acl_Adapter, getEventsManager);
 PHP_METHOD(Phalcon_Acl_Adapter, setDefaultAction);
 PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_seteventsmanager, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_INFO(0, eventsManager)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_setdefaultaction, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_setdefaultaction, 0, 0, 1)
 	ZEND_ARG_INFO(0, defaultAccess)
 ZEND_END_ARG_INFO()
 

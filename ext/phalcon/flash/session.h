@@ -11,19 +11,19 @@ PHP_METHOD(Phalcon_Flash_Session, message);
 PHP_METHOD(Phalcon_Flash_Session, getMessages);
 PHP_METHOD(Phalcon_Flash_Session, output);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_setdi, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session__getsessionmessages, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session__getsessionmessages, 0, 0, 1)
 	ZEND_ARG_INFO(0, remove)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session__setsessionmessages, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session__setsessionmessages, 0, 0, 1)
 	ZEND_ARG_INFO(0, messages)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_message, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_message, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()

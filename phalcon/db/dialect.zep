@@ -42,7 +42,7 @@ abstract class Dialect
 	 * @param int number
 	 * @return string
 	 */
-	public function limit(string sqlQuery, int number)
+	public function limit(string sqlQuery, int number) -> string
 	{
 		if is_numeric(number) {
 			return sqlQuery . " LIMIT " . number;
@@ -61,7 +61,7 @@ abstract class Dialect
 	 * @param	string sqlQuery
 	 * @return	string
 	 */
-	public function forUpdate(string sqlQuery)
+	public function forUpdate(string sqlQuery) -> string
 	{
 		return sqlQuery . " FOR UPDATE";
 	}
@@ -77,7 +77,7 @@ abstract class Dialect
 	 * @param	string sqlQuery
 	 * @return	string
 	 */
-	public function sharedLock(string sqlQuery)
+	public function sharedLock(string sqlQuery) -> string
 	{
 		return sqlQuery . " LOCK IN SHARE MODE";
 	}
@@ -92,7 +92,7 @@ abstract class Dialect
 	 * @param	array columnList
 	 * @return	string
 	 */
-	public function getColumnList(columnList)
+	public function getColumnList(columnList) -> string
 	{
 		var strList, escapeChar, column;
 		let strList = [],
@@ -110,7 +110,7 @@ abstract class Dialect
 	 * @param string escapeChar
 	 * @return string
 	 */
-	public function getSqlExpression(expression, string escapeChar=null)
+	public function getSqlExpression(expression, string escapeChar=null) -> string
 	{
 		var type, domain, operator, left, right, name, sqlItems,
 			escapedName, sqlArguments, arguments, argument, items, item;

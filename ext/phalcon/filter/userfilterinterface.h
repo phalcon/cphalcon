@@ -3,7 +3,7 @@ extern zend_class_entry *phalcon_filter_userfilterinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Filter_UserFilterInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_userfilterinterface_filter, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_userfilterinterface_filter, 0, 0, 1)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 

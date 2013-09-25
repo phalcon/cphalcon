@@ -3,11 +3,11 @@ extern zend_class_entry *phalcon_mvc_urlinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_UrlInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_urlinterface_setbaseuri, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_urlinterface_setbaseuri, 0, 0, 1)
 	ZEND_ARG_INFO(0, baseUri)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_urlinterface_setbasepath, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_urlinterface_setbasepath, 0, 0, 1)
 	ZEND_ARG_INFO(0, basePath)
 ZEND_END_ARG_INFO()
 

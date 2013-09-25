@@ -36,50 +36,50 @@ namespace Phalcon\Db;
 class Reference implements Phalcon\Db\ReferenceInterface
 {
 
-	protected _schemaName;
-
-	protected _referencedSchema;
-
 	/**
 	 * Constraint name
 	 *
 	 * @var string
 	 */
-	protected _referenceName;
+	protected _name  { get };
+
+	protected _schemaName { get };
+
+	protected _referencedSchema { get };
 
 	/**
 	 * Referenced Table
 	 *
 	 * @var string
 	 */
-	protected _referencedTable;
+	protected _referencedTable { get };
 
 	/**
 	 * Local reference columns
 	 *
 	 * @var array
 	 */
-	protected _columns;
+	protected _columns { get };
 
 	/**
 	 * Referenced Columns
 	 *
 	 * @var array
 	 */
-	protected _referencedColumns;
+	protected _referencedColumns { get };
 
 	/**
 	 * Phalcon\Db\Reference constructor
 	 *
-	 * @param string referenceName
+	 * @param string name
 	 * @param array definition
 	 */
-	public function __construct(referenceName, definition)
+	public function __construct(string name, definition)
 	{
 		var columns, schema, referencedTable,
 			referencedSchema, referencedColumns;
 
-		let this->_referenceName = referenceName;
+		let this->_name = name;
 
 		if fetch referencedTable, definition["referencedTable"] {
 			let this->_referencedTable = referencedTable;
@@ -113,78 +113,18 @@ class Reference implements Phalcon\Db\ReferenceInterface
 	}
 
 	/**
-	 * Gets the index name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return this->_referenceName;
-	}
-
-	/**
-	 * Gets the schema where referenced table is
-	 *
-	 * @return string
-	 */
-	public function getSchemaName()
-	{
-		return this->_schemaName;
-	}
-
-	/**
-	 * Gets the schema where referenced table is
-	 *
-	 * @return string
-	 */
-	public function getReferencedSchema()
-	{
-		return this->_referencedSchema;
-	}
-
-	/**
-	 * Gets local columns which reference is based
-	 *
-	 * @return array
-	 */
-	public function getColumns()
-	{
-		return this->_columns;
-	}
-
-	/**
-	 * Gets the referenced table
-	 *
-	 * @return string
-	 */
-	public function getReferencedTable()
-	{
-		return this->_referencedTable;
-	}
-
-	/**
-	 * Gets referenced columns
-	 *
-	 * @return array
-	 */
-	public function getReferencedColumns()
-	{
-		return this->_referencedColumns;
-	}
-
-	/**
 	 * Restore a Phalcon\Db\Reference object from export
 	 *
 	 * @param array data
 	 * @return Phalcon\Db\Reference
 	 */
-	public static function __set_state(data)
+	public static function __set_state(data) -> <Phalcon\Db\Reference>
 	{
 		var referencedSchema, referencedTable, columns,
 			referencedColumns, constraintName;
 
-		if !fetch constraintName, data["_referenceName"] {
-			throw new Phalcon\Db\Exception("_referenceName parameter is required");
+		if !fetch constraintName, data["_name"] {
+			throw new Phalcon\Db\Exception("_name parameter is required");
 		}
 
 		//fetch referencedSchema, data["_referencedSchema"]

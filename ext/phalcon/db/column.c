@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
  *
  * @var string
  */
-	zend_declare_property_null(phalcon_db_column_ce, SL("_columnName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_column_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
  * Schema which table related is
  *
@@ -213,6 +213,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 }
 
 /**
+ * Column's name
+ *
+ * @var string
+ */
+PHP_METHOD(Phalcon_Db_Column, getName) {
+
+
+
+}
+
+/**
+ * Schema which table related is
+ *
+ * @var string
+ */
+PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
+
+
+
+}
+
+/**
  * Column data type
  *
  * @var int
@@ -248,21 +270,21 @@ PHP_METHOD(Phalcon_Db_Column, getScale) {
 /**
  * Phalcon\Db\Column constructor
  *
- * @param string columnName
+ * @param string name
  * @param array definition
  */
 PHP_METHOD(Phalcon_Db_Column, __construct) {
 
-	zval *columnName_param = NULL, *definition, *type, *notNull, *primary, *size, *scale, *dunsigned, *first, *after, *bindType, *isNumeric, *autoIncrement;
-	zval *columnName = NULL;
+	zval *name_param = NULL, *definition, *type, *notNull, *primary, *size, *scale, *dunsigned, *first, *after, *bindType, *isNumeric, *autoIncrement;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &columnName_param, &definition);
+	zephir_fetch_params(1, 2, 0, &name_param, &definition);
 
-		zephir_get_strval(columnName, columnName_param);
+		zephir_get_strval(name, name_param);
 
 
-	zephir_update_property_this(this_ptr, SL("_columnName"), columnName TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	ZEPHIR_OBS_VAR(type);
 	if (zephir_array_isset_string_fetch(&type, definition, SS("type") TSRMLS_CC)) {
 		zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
@@ -321,30 +343,6 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 		zephir_update_property_this(this_ptr, SL("_bindType"), bindType TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
- * Returns schema's table related to column
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
-
-
-	RETURN_MEMBER(this_ptr, "_schemaName");
-
-}
-
-/**
- * Returns column name
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Column, getName) {
-
-
-	RETURN_MEMBER(this_ptr, "_columnName");
 
 }
 
@@ -463,7 +461,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column state must be an array");
 		return;
 	}
-	if (!(zephir_array_isset_string(data, SS("_columnName")))) {
+	if (!(zephir_array_isset_string(data, SS("_name")))) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column name is required");
 		return;
 	}
@@ -507,7 +505,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	}
 	object_init_ex(return_value, phalcon_db_column_ce);
 	ZEPHIR_OBS_VAR(_0);
-	zephir_array_fetch_string(&_0, data, SL("_columnName"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&_0, data, SL("_name"), PH_NOISY TSRMLS_CC);
 	zephir_call_method_p2_noret(return_value, "__construct", _0, definition);
 	RETURN_MM();
 

@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
  * $result = $connection->executePrepared($statement, array('name' => 'Voltron'));
  *</code>
  *
- * @param string $sqlStatement
+ * @param string sqlStatement
  * @return \PDOStatement
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {

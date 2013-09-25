@@ -134,14 +134,14 @@ class Column implements Phalcon\Db\ColumnInterface
 	 *
 	 * @var string
 	 */
-	protected _columnName;
+	protected _name { get };
 
 	/**
 	 * Schema which table related is
 	 *
 	 * @var string
 	 */
-	protected _schemaName;
+	protected _schemaName { get };
 
 	/**
 	 * Column data type
@@ -217,15 +217,15 @@ class Column implements Phalcon\Db\ColumnInterface
 	/**
 	 * Phalcon\Db\Column constructor
 	 *
-	 * @param string columnName
+	 * @param string name
 	 * @param array definition
 	 */
-	public function __construct(string columnName, definition)
+	public function __construct(string name, definition)
 	{
 		var type, notNull, primary, size, scale, dunsigned, first,
 			after, bindType, isNumeric, autoIncrement;
 
-		let this->_columnName = columnName;
+		let this->_name = name;
 
 		/**
 		 * Get the column type, one of the TYPE_* constants
@@ -311,26 +311,6 @@ class Column implements Phalcon\Db\ColumnInterface
 			let this->_bindType = bindType;
 		}
 
-	}
-
-	/**
-	 * Returns schema's table related to column
-	 *
-	 * @return string
-	 */
-	public function getSchemaName()
-	{
-		return this->_schemaName;
-	}
-
-	/**
-	 * Returns column name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return this->_columnName;
 	}
 
 	/**
@@ -428,7 +408,7 @@ class Column implements Phalcon\Db\ColumnInterface
 			throw new Phalcon\Db\Exception("Column state must be an array");
 		}
 
-		if !isset data["_columnName"] {
+		if !isset data["_name"] {
 			throw new Phalcon\Db\Exception("Column name is required");
 		}
 
@@ -470,7 +450,7 @@ class Column implements Phalcon\Db\ColumnInterface
 			let definition["bindType"] = bindType;
 		}
 
-		return new self(data["_columnName"], definition);
+		return new self(data["_name"], definition);
 	}
 
 }

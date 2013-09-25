@@ -5,7 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db);
 
 PHP_METHOD(Phalcon_Db, setup);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_setup, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_setup, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 

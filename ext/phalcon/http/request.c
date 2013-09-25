@@ -798,13 +798,15 @@ PHP_METHOD(Phalcon_Http_Request, isOptions) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 
-	zval *notErrored = NULL;
+	zval *notErrored_param = NULL;
+	zend_bool notErrored;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &notErrored);
+	zephir_fetch_params(0, 0, 1, &notErrored_param);
 
-	if (!notErrored) {
-		ZEPHIR_CPY_WRT(notErrored, ZEPHIR_GLOBAL(global_false));
+	if (!notErrored_param) {
+		notErrored = 0;
+	} else {
+		notErrored = zephir_get_boolval(notErrored_param);
 	}
 
 

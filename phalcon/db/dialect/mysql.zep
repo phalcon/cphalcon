@@ -189,7 +189,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return	string
 	 */
-	public function addIndex(string tableName, string schemaName, <Phalcon\Db\IndexInterface> index)
+	public function addIndex(string tableName, string schemaName, <Phalcon\Db\IndexInterface> index) -> string
 	{
 		var sql;
 
@@ -259,7 +259,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string schemaName
 	 * @return	string
 	 */
-	public function dropPrimaryKey(string tableName, string schemaName)
+	public function dropPrimaryKey(string tableName, string schemaName) -> string
 	{
 		var sql;
 
@@ -279,7 +279,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\ReferenceInterface reference
 	 * @return	string
 	 */
-	public function addForeignKey(tableName, schemaName, <Phalcon\Db\ReferenceInterface> reference)
+	public function addForeignKey(tableName, schemaName, <Phalcon\Db\ReferenceInterface> reference) -> string
 	{
 		var sql, referencedSchema;
 
@@ -315,7 +315,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string referenceName
 	 * @return	string
 	 */
-	public function dropForeignKey(tableName, schemaName, referenceName)
+	public function dropForeignKey(tableName, schemaName, referenceName) -> string
 	{
 		var sql;
 		if schemaName {
@@ -333,7 +333,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	array definition
 	 * @return	array
 	 */
-	protected function _getTableOptions(definition)
+	protected function _getTableOptions(definition) -> string
 	{
 		var options, engine, autoIncrement, tableCollation,
 			collationParts, tableOptions;
@@ -387,7 +387,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	array definition
 	 * @return 	string
 	 */
-	public function createTable(tableName, schemaName, definition)
+	public function createTable(tableName, schemaName, definition) -> string
 	{
 		var temporary, options, table, createLines, columns,
 			column, indexes, index, reference, references, indexName,
@@ -494,7 +494,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param  boolean ifExists
 	 * @return string
 	 */
-	public function dropTable(tableName, schemaName, ifExists=true)
+	public function dropTable(tableName, schemaName, ifExists=true) -> string
 	{
 		var sql, table;
 
@@ -521,7 +521,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function createView(viewName, definition, schemaName)
+	public function createView(viewName, definition, schemaName) -> string
 	{
 		var view, viewSql;
 
@@ -546,7 +546,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param boolean ifExists
 	 * @return string
 	 */
-	public function dropView(viewName, schemaName, ifExists=true)
+	public function dropView(viewName, schemaName, ifExists=true) -> string
 	{
 		var sql, view;
 
@@ -577,7 +577,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param string schemaName
 	 * @return string
 	 */
-	public function tableExists(tableName, schemaName=null)
+	public function tableExists(tableName, schemaName=null) -> string
 	{
 		if schemaName {
 			return "SELECT IF(COUNT(*)>0, 1 , 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '" . tableName . "' AND `TABLE_SCHEMA` = '" . schemaName . "'";
@@ -611,7 +611,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param string schema
 	 * @return string
 	 */
-	public function describeColumns(table, schema=null)
+	public function describeColumns(table, schema=null) -> string
 	{
 		if schema {
 			return "DESCRIBE `" . schema . "`.`" . table . "`";
@@ -629,7 +629,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param       string schemaName
 	 * @return      array
 	 */
-	public function listTables(schemaName=null)
+	public function listTables(schemaName=null) -> string
 	{
 		if schemaName {
 			return "SHOW TABLES FROM `" . schemaName . "`";
@@ -643,7 +643,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param string schemaName
 	 * @return array
 	 */
-	public function listViews(schemaName=null)
+	public function listViews(schemaName=null) -> string
 	{
 		if schemaName {
 			return "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '" . schemaName . "' ORDER BY view_name";
@@ -658,7 +658,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function describeIndexes(table, schema=null)
+	public function describeIndexes(table, schema=null) -> string
 	{
 		if schema {
 			return "SHOW INDEXES FROM `" . schema . "`.`" . table . "`";
@@ -673,7 +673,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function describeReferences(table, schema=null)
+	public function describeReferences(table, schema=null) -> string
 	{
 		var sql;
 		let sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ";
@@ -692,7 +692,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string schema
 	 * @return	string
 	 */
-	public function tableOptions(table, schema=null)
+	public function tableOptions(table, schema=null) -> string
 	{
 		var sql;
 		let sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ";

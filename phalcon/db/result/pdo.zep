@@ -96,7 +96,7 @@ class Pdo
 	 *
 	 * @return boolean
 	 */
-	public function execute()
+	public function execute() -> boolean
 	{
 		var pdoStatement;
 		let pdoStatement = this->_pdoStatement;
