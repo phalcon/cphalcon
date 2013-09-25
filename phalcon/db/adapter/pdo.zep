@@ -253,7 +253,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param  array bindTypes
 	 * @return Phalcon\Db\ResultInterface
 	 */
-	public function query(sqlStatement, bindParams=null, bindTypes=null)
+	public function query(sqlStatement, bindParams=null, bindTypes=null) -> <Phalcon\Db\ResultInterface>
 	{
 		var eventsManager, pdo, statement;
 
@@ -309,7 +309,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param  array bindTypes
 	 * @return boolean
 	 */
-	public function execute(sqlStatement, bindParams=null, bindTypes=null)
+	public function execute(sqlStatement, bindParams=null, bindTypes=null) -> boolean
 	{
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 
@@ -365,7 +365,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 *
 	 * @return int
 	 */
-	public function affectedRows()
+	public function affectedRows() -> int
 	{
 		return this->_affectedRows;
 	}
@@ -376,7 +376,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 *
 	 * @return boolean
 	 */
-	public function close()
+	public function close() -> boolean
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -398,7 +398,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param string identifier
 	 * @return string
 	 */
-	public function escapeIdentifier(identifier)
+	public function escapeIdentifier(identifier) -> string
 	{
 		if typeof identifier == "array" {
 			return "\"" . identifier[0] . "\".\"" . identifier[1] . "\"";
@@ -416,7 +416,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param string str
 	 * @return string
 	 */
-	public function escapeString(str)
+	public function escapeString(str) -> string
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -441,7 +441,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param string sequenceName
 	 * @return int
 	 */
-	public function lastInsertId(sequenceName=null)
+	public function lastInsertId(sequenceName=null) -> int
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -457,7 +457,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
      * @param boolean nesting
      * @return boolean
      */
-	public function begin(nesting=true)
+	public function begin(boolean nesting=true) -> boolean
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
@@ -520,7 +520,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
      * @param boolean nesting
      * @return boolean
      */
-	public function rollback(nesting=true)
+	public function rollback(boolean nesting=true) -> boolean
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
@@ -599,7 +599,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
      * @param boolean nesting
      * @return boolean
      */
-	public function commit(nesting=true)
+	public function commit(boolean nesting=true) -> boolean
 	{
 		var pdo, transactionLevel, eventsManager, savepointName;
 
@@ -679,7 +679,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 *
 	 * @return int
 	 */
-	public function getTransactionLevel()
+	public function getTransactionLevel() -> int
 	{
 		return this->_transactionLevel;
 	}
@@ -694,7 +694,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 *
 	 * @return boolean
 	 */
-	public function isUnderTransaction()
+	public function isUnderTransaction() -> boolean
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -707,9 +707,9 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	/**
 	 * Return internal PDO handler
 	 *
-	 * @return \PDO
+	 * @return \Pdo
 	 */
-	public function getInternalHandler()
+	public function getInternalHandler() -> <Pdo>
 	{
 		return this->_pdo;
 	}

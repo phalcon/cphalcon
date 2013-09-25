@@ -210,11 +210,11 @@ class Service implements Phalcon\Di\ServiceInterface
 	/**
 	 * Changes a parameter in the definition without resolve the service
 	 *
-	 * @param long position
+	 * @param int position
 	 * @param array parameter
 	 * @return Phalcon\Di\Service
 	 */
-	public function setParameter(int position, parameter)
+	public function setParameter(int position, parameter) -> <Phalcon\Di\Service>
 	{
 		var definition, arguments;
 

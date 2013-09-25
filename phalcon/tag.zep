@@ -94,7 +94,7 @@ class Tag
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public static function getDI()
+	public static function getDI() -> <Phalcon\DiInterface>
 	{
 		return self::_dependencyInjector;
 	}
@@ -104,7 +104,7 @@ class Tag
      *
 	 * @return Phalcon\Mvc\UrlInterface
 	 */
-	public static function getUrlService()
+	public static function getUrlService() -> <Phalcon\Mvc\UrlInterface>
 	{
 		var url, dependencyInjector;
 
@@ -113,7 +113,7 @@ class Tag
 
 			let dependencyInjector = self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
-				let dependencyInjector = Phalcon\DI::getDefault();
+				let dependencyInjector = Phalcon\Di::getDefault();
 			}
 
 			if typeof dependencyInjector != "object" {

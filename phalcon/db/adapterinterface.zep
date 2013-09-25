@@ -538,7 +538,7 @@ interface AdapterInterface
 	 * @param boolean nestedTransactionsWithSavepoints
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function setNestedTransactionsWithSavepoints(nestedTransactionsWithSavepoints);
+	public function setNestedTransactionsWithSavepoints(nestedTransactionsWithSavepoints) -> <Phalcon\Db\AdapterInterface>;
 
 	/**
 	 * Returns if nested transactions should use savepoints

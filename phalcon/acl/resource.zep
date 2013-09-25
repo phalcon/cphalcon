@@ -31,13 +31,13 @@ class Resource
 	 * Resource name
 	 * @var string
 	 */
-	protected _name;
+	protected _name { get, __toString };
 
 	/**
 	 * Resource description
 	 * @var string
 	 */
-	protected _description;
+	protected _description { get };
 
 	/**
 	 * Phalcon\Acl\Resource constructor
@@ -45,7 +45,7 @@ class Resource
 	 * @param string name
 	 * @param string description
 	 */
-	public function __construct(name, description=null)
+	public function __construct(string name, string description=null)
 	{
 		if name == "*" {
 			throw new Phalcon\Acl\Exception("Resource name cannot be '*'");
@@ -55,36 +55,6 @@ class Resource
 		if description {
 			let this->_description = description;
 		}
-	}
-
-	/**
-	 * Returns the resource name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return this->_name;
-	}
-
-	/**
-	 * Returns resource description
-	 *
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return this->_description;
-	}
-
-	/**
-	 * Magic method __toString
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return this->_name;
 	}
 
 }

@@ -56,7 +56,7 @@ interface AdapterInterface
 	 * @param string roleName
 	 * @param string roleToInherit
 	 */
-	public function addInherit(roleName, roleToInherit);
+	public function addInherit(string roleName, roleToInherit);
 
 	/**
 	 * Check whether role exist in the roles list

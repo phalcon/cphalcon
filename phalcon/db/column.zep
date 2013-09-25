@@ -148,7 +148,7 @@ class Column implements Phalcon\Db\ColumnInterface
 	 *
 	 * @var int
 	 */
-	protected _type;
+	protected _type { get };
 
 	/**
 	 * The column have some numeric type?
@@ -160,14 +160,14 @@ class Column implements Phalcon\Db\ColumnInterface
 	 *
 	 * @var int
 	 */
-	protected _size = 0;
+	protected _size = 0 { get };
 
 	/**
 	 * Integer column number scale
 	 *
 	 * @var int
 	 */
-	protected _scale = 0;
+	protected _scale = 0 { get };
 
 	/**
 	 * Integer column unsigned?
@@ -220,7 +220,7 @@ class Column implements Phalcon\Db\ColumnInterface
 	 * @param string columnName
 	 * @param array definition
 	 */
-	public function __construct(columnName, definition)
+	public function __construct(string columnName, definition)
 	{
 		var type, notNull, primary, size, scale, dunsigned, first,
 			after, bindType, isNumeric, autoIncrement;
@@ -334,36 +334,6 @@ class Column implements Phalcon\Db\ColumnInterface
 	}
 
 	/**
-	 * Returns column type
-	 *
-	 * @return int
-	 */
-	public function getType()
-	{
-		return this->_type;
-	}
-
-	/**
-	 * Returns column size
-	 *
-	 * @return int
-	 */
-	public function getSize()
-	{
-		return this->_size;
-	}
-
-	/**
-	 * Returns column scale
-	 *
-	 * @return int
-	 */
-	public function getScale()
-	{
-		return this->_scale;
-	}
-
-	/**
 	 * Returns true if number column is unsigned
 	 *
 	 * @return boolean
@@ -449,7 +419,7 @@ class Column implements Phalcon\Db\ColumnInterface
 	 * @param array data
 	 * @return \Phalcon\Db\Column
 	 */
-	public static function __set_state(data)
+	public static function __set_state(data) -> <Phalcon\Db\Column>
 	{
 		var definition, columnType, notNull, size, dunsigned, after,
 			isNumeric, first, bindType, primary;

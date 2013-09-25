@@ -60,7 +60,7 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI()
+	public function getDI() -> <Phalcon\DiInterface>
 	{
 		var dependencyInjector;
 
@@ -74,7 +74,7 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	/**
 	 * Sets the event manager
 	 *
-	 * @param Phalcon\Events\ManagerInterface $eventsManager
+	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
 	public function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager)
 	{
@@ -86,7 +86,7 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager()
+	public function getEventsManager() -> <Phalcon\Events\ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -96,7 +96,7 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	 *
 	 * @param string propertyName
 	 */
-	public function __get(propertyName)
+	public function __get(string propertyName)
 	{
 		var dependencyInjector, hasService, service, persistent;
 

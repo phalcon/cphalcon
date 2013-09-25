@@ -61,7 +61,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI()
+	public function getDI() -> <Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -83,7 +83,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function get(name=null, filters=null, defaultValue=null)
+	public function get(string name=null, filters=null, defaultValue=null)
 	{
 		var request, value, filter, dependencyInjector;
 
@@ -127,7 +127,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getPost(name=null, filters=null, defaultValue=null)
+	public function getPost(string name=null, filters=null, defaultValue=null)
 	{
 		var post, value, filter, dependencyInjector;
 
@@ -174,7 +174,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function getQuery(name=null, filters=null, defaultValue=null)
+	public function getQuery(string name=null, filters=null, defaultValue=null)
 	{
 		var get, value, filter, dependencyInjector;
 
@@ -207,7 +207,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param string name
 	 * @return mixed
 	 */
-	public function getServer(name)
+	public function getServer(string name)
 	{
 		var serverValue;
 
@@ -223,7 +223,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param string name
 	 * @return boolean
 	 */
-	public function has(name)
+	public function has(string name)
 	{
 		return isset _REQUEST[name];
 	}
@@ -234,7 +234,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param string $name
 	 * @return boolean
 	 */
-	public function hasPost(name)
+	public function hasPost(string name) -> boolean
 	{
 		return isset _POST[name];
 	}
@@ -245,7 +245,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param string name
 	 * @return boolean
 	 */
-	public function hasQuery(name)
+	public function hasQuery(string name) -> boolean
 	{
 		return isset _GET[name];
 	}
@@ -256,7 +256,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param string name
 	 * @return mixed
 	 */
-	public function hasServer(name)
+	public function hasServer(string name) -> boolean
 	{
 		return isset _SERVER[name];
 	}
@@ -267,7 +267,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param string header
 	 * @return string
 	 */
-	public function getHeader(header)
+	public function getHeader(string header) -> boolean
 	{
 		var serverValue, headerValue;
 
@@ -286,7 +286,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return string
 	 */
-	public function getScheme()
+	public function getScheme() -> string
 	{
 		var https, scheme;
 
@@ -318,7 +318,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return boolean
 	 */
-	public function isSoapRequested()
+	public function isSoapRequested() -> boolean
 	{
 		var server, contentType;
 
@@ -400,7 +400,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param boolean trustForwardedHeader
 	 * @return string
 	 */
-	public function getClientAddress(trustForwardedHeader=false)
+	public function getClientAddress(boolean trustForwardedHeader=false)
 	{
 
 	}
@@ -522,7 +522,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param boolean notErrored
 	 * @return Phalcon\Http\Request\File[]
 	 */
-	public function getUploadedFiles(notErrored=false)
+	public function getUploadedFiles(boolean notErrored=false)
 	{
 	}
 
@@ -553,7 +553,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param string name
 	 * @return array
 	 */
-	protected function _getQualityHeader(serverIndex, name)
+	protected function _getQualityHeader(serverIndex, name) -> string
 	{
 
 	}
@@ -565,7 +565,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 * @param string name
 	 * @return string
 	 */
-	protected function _getBestQuality(qualityParts, name)
+	protected function _getBestQuality(qualityParts, name) -> string
 	{
 
 	}
@@ -605,7 +605,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return string
 	 */
-	public function getBestCharset()
+	public function getBestCharset() -> string
 	{
 
 	}
@@ -625,7 +625,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 	 *
 	 * @return string
 	 */
-	public function getBestLanguage()
+	public function getBestLanguage() -> string
 	{
 
 	}

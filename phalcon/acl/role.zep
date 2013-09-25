@@ -30,13 +30,13 @@ class Role
 	 * Role name
 	 * @var string
 	 */
-	protected _name;
+	protected _name { get, __toString };
 
 	/**
 	 * Role description
 	 * @var string
 	 */
-	protected _description;
+	protected _description { get };
 
 	/**
 	 * Phalcon\Acl\Role constructor
@@ -44,7 +44,7 @@ class Role
 	 * @param string name
 	 * @param string description
 	 */
-	public function __construct(name, description=null)
+	public function __construct(string name, string description=null)
 	{
 		if name == "*" {
 			throw new Phalcon\Acl\Exception("Role name cannot be '*'");
@@ -54,36 +54,6 @@ class Role
 		if description {
 			let this->_description = description;
 		}
-	}
-
-	/**
-	 * Returns the role name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return this->_name;
-	}
-
-	/**
-	 * Returns role description
-	 *
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return this->_description;
-	}
-
-	/**
-	 * Magic method __toString
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return this->_name;
 	}
 
 }

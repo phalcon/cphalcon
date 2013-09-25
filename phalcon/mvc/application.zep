@@ -92,7 +92,7 @@ class Application extends Phalcon\Di\Injectable
 	 * @param boolean $implicitView
 	 * @return Phalcon\Mvc\Application
 	 */
-	public function useImplicitView(implicitView)
+	public function useImplicitView(implicitView) -> <Phalcon\Mvc\Application>
 	{
 		let this->_implicitView = implicitView;
 		return this;
@@ -118,7 +118,7 @@ class Application extends Phalcon\Di\Injectable
 	 * @param boolean merge
 	 * @param Phalcon\Mvc\Application
 	 */
-	public function registerModules(modules, merge=false)
+	public function registerModules(modules, merge=false) -> <Phalcon\Mvc\Application>
 	{
 		var registeredModules;
 
@@ -156,7 +156,7 @@ class Application extends Phalcon\Di\Injectable
 	 * @param string defaultModule
 	 * @return Phalcon\Mvc\Application
 	 */
-	public function setDefaultModule(defaultModule)
+	public function setDefaultModule(defaultModule) -> <Phalcon\Mvc\Application>
 	{
 		let this->_defaultModule = defaultModule;
 		return this;
@@ -178,7 +178,7 @@ class Application extends Phalcon\Di\Injectable
 	 * @param string uri
 	 * @return Phalcon\Http\ResponseInterface
 	 */
-	public function handle(uri=null)
+	public function handle(uri=null) -> <Phalcon\Http\ResponseInterface>
 	{
 
 		var dependencyInjector, eventsManager, router, dispatcher, response, view,

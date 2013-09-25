@@ -35,7 +35,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param Phalcon\Db\ColumnInterface column
 	 * @return string
 	 */
-	public function getColumnDefinition(<Phalcon\Db\ColumnInterface> column)
+	public function getColumnDefinition(<Phalcon\Db\ColumnInterface> column) -> string
 	{
 		var columnSql, size, scale;
 
@@ -99,9 +99,8 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string tableName
 	 * @param	string schemaName
 	 * @param	Phalcon\Db\ColumnInterface column
-	 * @return	string
 	 */
-	public function addColumn(tableName, schemaName, <Phalcon\Db\ColumnInterface> column)
+	public function addColumn(string tableName, string schemaName, <Phalcon\Db\ColumnInterface> column) -> string
 	{
 		var afterPosition, sql;
 
@@ -140,7 +139,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\ColumnInterface column
 	 * @return	string
 	 */
-	public function modifyColumn(tableName, schemaName, <Phalcon\Db\ColumnInterface> column)
+	public function modifyColumn(string tableName, string schemaName, <Phalcon\Db\ColumnInterface> column) -> string
 	{
 		var sql;
 
@@ -169,7 +168,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string columnName
 	 * @return 	string
 	 */
-	public function dropColumn(tableName, schemaName, columnName)
+	public function dropColumn(string tableName, string schemaName, string columnName) -> string
 	{
 		var sql;
 
@@ -190,7 +189,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return	string
 	 */
-	public function addIndex(tableName, schemaName, <Phalcon\Db\IndexInterface> index)
+	public function addIndex(string tableName, string schemaName, <Phalcon\Db\IndexInterface> index)
 	{
 		var sql;
 
@@ -216,7 +215,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string indexName
 	 * @return	string
 	 */
-	public function dropIndex(tableName, schemaName, indexName)
+	public function dropIndex(string tableName, string schemaName, string indexName) -> string
 	{
 		var sql;
 		if schemaName {
@@ -236,7 +235,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	Phalcon\Db\IndexInterface index
 	 * @return	string
 	 */
-	public function addPrimaryKey(tableName, schemaName, <Phalcon\Db\IndexInterface> index)
+	public function addPrimaryKey(string tableName, string schemaName, <Phalcon\Db\IndexInterface> index) -> string
 	{
 		var sql;
 
@@ -260,7 +259,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 * @param	string schemaName
 	 * @return	string
 	 */
-	public function dropPrimaryKey(tableName, schemaName)
+	public function dropPrimaryKey(string tableName, string schemaName)
 	{
 		var sql;
 

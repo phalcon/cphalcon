@@ -33,88 +33,28 @@ class Item
 	 *
 	 * @var string
 	 */
-	protected _sqlStatement;
+	protected _sqlStatement { set, get };
 
 	/**
 	 * Timestamp when the profile started
 	 *
 	 * @var double
 	 */
-	protected _initialTime;
+	protected _initialTime { set, get };
 
 	/**
 	 * Timestamp when the profile ended
 	 *
 	 * @var double
 	 */
-	protected _finalTime;
-
-	/**
-	 * Sets the SQL statement related to the profile
-	 *
-	 * @param string sqlStatement
-	 */
-	public function setSQLStatement(sqlStatement)
-	{
-		let this->_sqlStatement = sqlStatement;
-	}
-
-	/**
-	 * Returns the SQL statement related to the profile
-	 *
-	 * @return string
-	 */
-	public function getSQLStatement()
-	{
-		return this->_sqlStatement;
-	}
-
-	/**
-	 * Sets the timestamp on when the profile started
-	 *
-	 * @param int initialTime
-	 */
-	public function setInitialTime(initialTime)
-	{
-		let this->_initialTime = initialTime;
-	}
-
-	/**
-	 * Sets the timestamp on when the profile ended
-	 *
-	 * @param int finalTime
-	 */
-	public function setFinalTime(finalTime)
-	{
-		let this->_finalTime = finalTime;
-	}
-
-	/**
-	 * Returns the initial time in milseconds on when the profile started
-	 *
-	 * @return double
-	 */
-	public function getInitialTime()
-	{
-		return this->_initialTime;
-	}
-
-	/**
-	 * Returns the initial time in milseconds on when the profile ended
-	 *
-	 * @return double
-	 */
-	public function getFinalTime()
-	{
-		return this->_finalTime;
-	}
+	protected _finalTime { set, get };
 
 	/**
 	 * Returns the total time in seconds spent by the profile
 	 *
 	 * @return double
 	 */
-	public function getTotalElapsedSeconds()
+	public function getTotalElapsedSeconds() -> double
 	{
 		return this->_finalTime - this->_initialTime;
 	}

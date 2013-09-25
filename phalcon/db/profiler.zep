@@ -82,7 +82,7 @@ class Profiler
 	 * @param string sqlStatement
 	 * @return Phalcon\Db\Profiler
 	 */
-	public function startProfile(sqlStatement)
+	public function startProfile(sqlStatement) -> <Phalcon\Db\Profiler>
 	{
 		var activeProfile;
 
@@ -103,7 +103,7 @@ class Profiler
 	 *
 	 * @return Phalcon\Db\Profiler
 	 */
-	public function stopProfile()
+	public function stopProfile() -> <Phalcon\Db\Profiler>
 	{
 		var finalTime, initialTime, activeProfile;
 
@@ -128,7 +128,7 @@ class Profiler
 	 *
 	 * @return integer
 	 */
-	public function getNumberTotalStatements()
+	public function getNumberTotalStatements() -> int
 	{
 		return count(this->_allProfiles);
 	}
@@ -138,7 +138,7 @@ class Profiler
 	 *
 	 * @return double
 	 */
-	public function getTotalElapsedSeconds()
+	public function getTotalElapsedSeconds() -> double
 	{
 		return this->_totalSeconds;
 	}
@@ -158,7 +158,7 @@ class Profiler
 	 *
 	 * @return Phalcon\Db\Profiler
 	 */
-	public function reset()
+	public function reset() -> <Phalcon\Db\Profiler>
 	{
 		let this->_allProfiles = [];
 		return this;
@@ -169,7 +169,7 @@ class Profiler
 	 *
 	 * @return	Phalcon\Db\Profiler\Item
 	 */
-	public function getLastProfile()
+	public function getLastProfile() -> <Phalcon\Db\Profiler\Item>
 	{
 		return this->_activeProfile;
 	}

@@ -51,7 +51,7 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 	 * @param string identifier
 	 * @return string
 	 */
-	public function escapeIdentifier(identifier)
+	public function escapeIdentifier(string identifier) -> string
 	{
 		var domain, name;
 
@@ -75,14 +75,14 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 	 * Returns an array of Phalcon\Db\Column objects describing a table
 	 *
 	 * <code>
-	 * print_r($connection->describeColumns("posts")); ?>
+	 * print_r($connection->describeColumns("posts"));
 	 * </code>
 	 *
 	 * @param string table
 	 * @param string schema
 	 * @return Phalcon\Db\Column[]
 	 */
-	public function describeColumns(table, schema=null)
+	public function describeColumns(string table, string schema=null)
 	{
 		var describe, columns, columnType, field, definition,
 			oldColumn, dialect, sizePattern, matches, matchOne, columnName;

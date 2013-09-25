@@ -49,19 +49,46 @@ class Adapter
 	 * Events manager
 	 * @var mixed
 	 */
-	protected _activeRole;
+	protected _activeRole {
+
+		/**
+		 * Returns the role which the list is checking if it's allowed to certain resource/access
+		 *
+		 * @return string
+		 */
+		get
+
+	};
 
 	/**
 	 * Active resource
 	 * @var mixed
 	 */
-	protected _activeResource;
+	protected _activeResource {
+
+		/**
+		 * Returns the resource which the list is checking if some role can access it
+		 *
+		 * @return string
+		 */
+		get
+
+	};
 
 	/**
 	 * Active Access
 	 * "@var mixed
 	 */
-	protected _activeAccess;
+	protected _activeAccess {
+
+		/**
+		 * Returns the access which the list is checking if some role can access it
+		 *
+		 * @return string
+		 */
+		get
+
+	};
 
 	/**
 	 * Sets the events manager
@@ -78,7 +105,7 @@ class Adapter
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager()
+	public function getEventsManager() -> <Px\X>
 	{
 		return this->_eventsManager;
 	}
@@ -103,33 +130,4 @@ class Adapter
 		return this->_defaultAccess;
 	}
 
-	/**
-	 * Returns the role which the list is checking if it's allowed to certain resource/access
-	 *
-	 * @return string
-	 */
-	public function getActiveRole()
-	{
-		return this->_activeRole;
-	}
-
-	/**
-	 * Returns the resource which the list is checking if some role can access it
-	 *
-	 * @return string
-	 */
-	public function getActiveResource()
-	{
-		return this->_activeResource;
-	}
-
-	/**
-	 * Returns the access which the list is checking if some role can access it
-	 *
-	 * @return string
-	 */
-	public function getActiveAccess()
-	{
-		return this->_activeAccess;
-	}
 }

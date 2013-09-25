@@ -49,7 +49,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param object entity
 	 * @param array userOptions
 	 */
-	public function __construct(entity=null, userOptions=null)
+	public function __construct(var entity=null, userOptions=null)
 	{
 		if typeof entity != "null" {
 			if typeof entity != "object" {
@@ -79,7 +79,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string action
 	 * @return Phalcon\Forms\Form
 	 */
-	public function setAction(action)
+	public function setAction(action) -> <Phalcon\Forms\Form>
 	{
 		let this->_action = action;
 		return this;
@@ -90,7 +90,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 *
 	 * @return string
 	 */
-	public function getAction()
+	public function getAction() -> string
 	{
 		return this->_action;
 	}
@@ -102,7 +102,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param mixed value
 	 * @return Phalcon\Forms\Form
 	 */
-	public function setUserOption(option, value)
+	public function setUserOption(option, value) -> <Phalcon\Forms\Form>
 	{
 		let this->_options[option] = value;
 		return this;
@@ -129,9 +129,9 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * Sets options for the element
 	 *
 	 * @param array options
-	 * @return Phalcon\Forms\ElementInterface
+	 * @return Phalcon\Forms\Form
 	 */
-	public function setUserOptions(options)
+	public function setUserOptions(options) -> <Phalcon\Forms\Form>
 	{
 		if typeof options != "array" {
 			throw new Phalcon\Forms\Exception("Parameter 'options' must be an array");
@@ -156,7 +156,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param object entity
 	 * @return Phalcon\Forms\Form
 	 */
-	public function setEntity(entity)
+	public function setEntity(entity) -> <Phalcon\Forms\Form>
 	{
 		let this->_entity = entity;
 		return this;
@@ -190,7 +190,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param array whitelist
 	 * @return Phalcon\Forms\Form
 	 */
-	public function bind(data, entity, whitelist=null)
+	public function bind(data, entity, whitelist=null) -> <Phalcon\Forms\Form>
 	{
 		var elements, filter, key, value, element, filters,
 			dependencyInjector, filteredValue, method;
@@ -274,7 +274,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param object entity
 	 * @return boolean
 	 */
-	public function isValid(data=null, entity=null)
+	public function isValid(data=null, entity=null) -> boolean
 	{
 		var elements, notFailed, messages, message, element,
 			validators, name, preparedValidators, filters,
@@ -432,7 +432,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 *
 	 * @return boolean
 	 */
-	public function hasMessagesFor(name)
+	public function hasMessagesFor(name) -> boolean
 	{
 		var messages;
 		let messages = this->_messages;
@@ -445,7 +445,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param Phalcon\Forms\ElementInterface element
 	 * @return Phalcon\Forms\Form
 	 */
-	public function add(element)
+	public function add(<Phalcon\Forms\ElementInterface> element) -> <Phalcon\Forms\Form>
 	{
 		var name;
 
@@ -477,7 +477,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param array attributes
 	 * @return string
 	 */
-	public function render(name, attributes=null)
+	public function render(string name, attributes=null)
 	{
 		var elements, element;
 
@@ -500,7 +500,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function get(name)
+	public function get(string name) -> <Phalcon\Forms\ElementInterface>
 	{
 		var elements, element;
 
@@ -518,7 +518,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return string
 	 */
-	public function label(name)
+	public function label(string name) -> string
 	{
 		var elements, element;
 
@@ -536,7 +536,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return string
 	 */
-	public function getLabel(name)
+	public function getLabel(string name) -> string
 	{
 		var elements, element, label;
 
@@ -564,7 +564,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return mixed
 	 */
-	public function getValue(name)
+	public function getValue(string name)
 	{
 		var entity, method, value, data;
 
@@ -607,7 +607,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return boolean
 	 */
-	public function has(name)
+	public function has(string name) -> boolean
 	{
 		var elements;
 
@@ -625,7 +625,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string name
 	 * @return boolean
 	 */
-	public function remove(name)
+	public function remove(string name) -> boolean
 	{
 		var elements;
 
@@ -677,7 +677,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count() -> int
 	{
 		return count(this->_elements);
 	}
@@ -694,9 +694,9 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	/**
 	 * Returns the current element in the iterator
 	 *
-	 * @return Phalcon\Validation\Message
+	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function current()
+	public function current() -> <Phalcon\Forms\ElementInterface>
 	{
 		var elements, element;
 
@@ -712,7 +712,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 *
 	 * @return int
 	 */
-	public function key()
+	public function key() -> int
 	{
 		return this->_position;
 	}
@@ -731,7 +731,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 *
 	 * @return boolean
 	 */
-	public function valid()
+	public function valid() -> boolean
 	{
 		var elements;
 		let elements = this->_elementsIndexed;

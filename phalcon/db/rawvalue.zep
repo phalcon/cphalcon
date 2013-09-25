@@ -36,23 +36,12 @@ namespace Phalcon\Db;
 class RawValue
 {
 
-	protected _value {
-
-		/**
-		 * Returns internal raw value without quoting or formating
-		 *
-		 * @return string
-		 */
-		get,
-
-		/**
-		 * Magic method __toString returns raw value without quoting or formating
-		 *
-		 * @return string
-		 */
-		__toString
-
-	};
+	/**
+	 * Raw value without quoting or formating
+	 *
+	 * @var string
+	 */
+	protected _value { get, __toString };
 
 	/**
 	 * Phalcon\Db\RawValue constructor

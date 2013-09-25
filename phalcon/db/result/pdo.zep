@@ -63,12 +63,13 @@ class Pdo
 	 * Phalcon\Db\Result\Pdo constructor
 	 *
 	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param \PDOStatement result
 	 * @param string sqlStatement
 	 * @param array bindParams
 	 * @param array bindTypes
-	 * @param \PDOStatement result
 	 */
-	public function __construct(connection, result, sqlStatement=null, bindParams=null, bindTypes=null)
+	public function __construct(<Phalcon\Db\AdapterInterface> connection, <PDOStatement> result,
+		sqlStatement=null, bindParams=null, bindTypes=null)
 	{
 
 		if typeof result != "object" {
@@ -90,7 +91,7 @@ class Pdo
 	}
 
 	/**
-	 * Allows to executes the statement again. Some database systems don't support scrollable cursors,
+	 * Allows to execute the statement again. Some database systems don't support scrollable cursors,
 	 * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
 	 *
 	 * @return boolean
@@ -172,7 +173,7 @@ class Pdo
 	 *
 	 * @return int
 	 */
-	public function numRows()
+	public function numRows() -> int
 	{
 		var sqlStatement, rowCount, connection, type,
 			pdoStatement, matches, result, row;
