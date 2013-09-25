@@ -40,6 +40,8 @@
 #include "kernel/string.h"
 #include "kernel/file.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Http\Response
  *
@@ -564,7 +566,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		phalcon_call_method(dependency_injector, this_ptr, "getdi");
 	
 		PHALCON_INIT_VAR(service);
-		ZVAL_STRING(service, "url", 1);
+		PHALCON_ZVAL_MAYBE_INTERNED_STRING(service, phalcon_interned_url);
 	
 		PHALCON_INIT_VAR(url);
 		phalcon_call_method_p1(url, dependency_injector, "getshared", service);

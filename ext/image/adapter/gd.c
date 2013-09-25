@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 
 	PHALCON_INIT_NVAR(ret);
 	ZVAL_TRUE(ret);
-	phalcon_update_static_property(SL("phalcon\\image\\adapter\\gd"), SL("_checked"), ret TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked"), ret TSRMLS_CC);
 
 	RETURN_MM_TRUE;
 }
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, check){
 PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 
 	zval *file, *width = NULL, *height = NULL, *exception_message;
-	zval *checked = NULL, *realpath, *type, *mime, *image, *imageinfo;
+	zval *checked, *realpath, *type, *mime, *image, *imageinfo;
 	zval *saveflag, *blendmode;
 
 	PHALCON_MM_GROW();
@@ -158,8 +158,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, __construct){
 		return;
 	}
 
-	PHALCON_OBS_VAR(checked);
-	phalcon_read_static_property(&checked, SL("phalcon\\image\\adapter\\gd"), SL("_checked") TSRMLS_CC);
+	checked = phalcon_fetch_static_property_ce(phalcon_image_adapter_gd_ce, SL("_checked") TSRMLS_CC);
 
 	if (!zend_is_true(checked)) {
 		phalcon_call_static_noret("phalcon\\image\\adapter\\gd", "check");

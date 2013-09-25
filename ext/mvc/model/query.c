@@ -3442,7 +3442,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 			array_init(ir_phql_cache);
 		}
 		phalcon_array_update_zval(&ir_phql_cache, unique_id, &ir_phql, PH_COPY | PH_SEPARATE);
-		phalcon_update_static_property(SL("phalcon\\mvc\\model\\query"), SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
+		phalcon_update_static_property_ce(phalcon_mvc_model_query_ce, SL("_irPhqlCache"), ir_phql_cache TSRMLS_CC);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_intermediate"), ir_phql TSRMLS_CC);

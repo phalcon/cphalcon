@@ -25,7 +25,7 @@ before_script:
  - ulimit -c unlimited || true
 
 script:
- - (cd ext; NO_INTERACTION=1 make test)
+ - (cd ext; REPORT_EXIT_STATUS=1 NO_INTERACTION=1 make test)
  - $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
  - PHALCON_NO_RVO=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
 
