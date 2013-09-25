@@ -96,12 +96,11 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 	 * Every new connection created obtain a consecutive number from the static
 	 * property self::$_connectionConsecutive
 	 */
-	PHALCON_OBS_VAR(connection_consecutive);
-	phalcon_read_static_property(&connection_consecutive, SL("phalcon\\db\\adapter"), SL("_connectionConsecutive") TSRMLS_CC);
+	connection_consecutive = phalcon_fetch_static_property_ce(phalcon_db_adapter_ce, SL("_connectionConsecutive") TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(next_consecutive);
 	phalcon_add_function(next_consecutive, connection_consecutive, one TSRMLS_CC);
-	phalcon_update_static_property(SL("phalcon\\db\\adapter"), SL("_connectionConsecutive"), next_consecutive TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_db_adapter_ce, SL("_connectionConsecutive"), next_consecutive TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_connectionId"), connection_consecutive TSRMLS_CC);
 	
 	/** 

@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_DI, __construct){
 
 	default_di = phalcon_fetch_static_property_ce(phalcon_di_ce, SL("_default") TSRMLS_CC);
 	if (!zend_is_true(default_di)) {
-		phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), this_ptr TSRMLS_CC);
+		phalcon_update_static_property_ce(phalcon_di_ce, SL("_default"), this_ptr TSRMLS_CC);
 	}
 }
 
@@ -607,7 +607,7 @@ PHP_METHOD(Phalcon_DI, setDefault){
 
 	phalcon_fetch_params(0, 1, 0, &dependency_injector);
 	
-	phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), dependency_injector TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_di_ce, SL("_default"), dependency_injector TSRMLS_CC);
 	
 }
 
@@ -632,7 +632,7 @@ PHP_METHOD(Phalcon_DI, reset){
 	zval *null_value;
 
 	ALLOC_INIT_ZVAL(null_value);
-	phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), null_value TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_di_ce, SL("_default"), null_value TSRMLS_CC);
 	zval_ptr_dtor(&null_value);
 }
 
