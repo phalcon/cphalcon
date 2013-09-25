@@ -49,7 +49,7 @@ abstract class Adapter
 	 *
 	 * @return Phalcon\Annotations\ReaderInterface
 	 */
-	public function getReader()
+	public function getReader() -> <Phalcon\Annotations\ReaderInterface>
 	{
 		var reader;
 		let reader = this->_reader;
@@ -66,7 +66,7 @@ abstract class Adapter
 	 * @param string|object className
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function get(className)
+	public function get(var className) -> <Phalcon\Annotations\Reflection>
 	{
 
 		var annotations, classAnnotations, parsedAnnotations, realClassName, reader;
@@ -118,7 +118,7 @@ abstract class Adapter
 	 * @param string className
 	 * @return array
 	 */
-	public function getMethods(className)
+	public function getMethods(string className)
 	{
 		var classAnnotations;
 
@@ -144,7 +144,7 @@ abstract class Adapter
 	 * @param string methodName
 	 * @return Phalcon\Annotations\Collection
 	 */
-	public function getMethod(className, methodName)
+	public function getMethod(string className, string methodName) -> <Phalcon\Annotations\Collection>
 	{
 		var classAnnotations, methods, name, method;
 
@@ -179,7 +179,7 @@ abstract class Adapter
 	 * @param string className
 	 * @return array
 	 */
-	public function getProperties(className)
+	public function getProperties(string className)
 	{
 		var classAnnotations;
 
@@ -205,7 +205,7 @@ abstract class Adapter
 	 * @param string propertyName
 	 * @return Phalcon\Annotations\Collection
 	 */
-	public function getProperty(className, propertyName)
+	public function getProperty(string className, string propertyName) -> <Phalcon\Annotations\Collection>
 	{
 		var classAnnotations, properties, name, property;
 

@@ -55,7 +55,7 @@ class Files
 	 * @param string key
 	 * @return Phalcon\Annotations\Reflection
 	 */
-	public function read(key)
+	public function read(string key) -> <Phalcon\Annotations\Reflection>
 	{
 		var path;
 
@@ -76,7 +76,7 @@ class Files
 	 * @param string key
 	 * @param Phalcon\Annotations\Reflection data
 	 */
-	public function write(key, data)
+	public function write(string key, <Phalcon\Annotations\Reflection> data)
 	{
 		var path;
 

@@ -31,25 +31,26 @@ namespace Phalcon\Annotations\Adapter;
 class Apc
 {
 
-  /**
-  * Reads parsed annotations from APC
-  *
-  * @param string $key
-  * @return Phalcon\Annotations\Reflection
-  */
-  public function read(key)
-  {
-    return apc_fetch(strtolower("_PHAN" . key));
-  }
+	/**
+	 * Reads parsed annotations from APC
+	 *
+	 * @param string $key
+	 * @return Phalcon\Annotations\Reflection
+	 */
+	public function read(string key) -> <Phalcon\Annotations\Reflection>
+	{
+		return apc_fetch(strtolower("_PHAN" . key));
+	}
 
-  /**
-  * Writes parsed annotations to APC
-  *
-  * @param string $key
-  * @param Phalcon\Annotations\Reflection $data
-  */
-  public function write(key, data)
-  {
-    return apc_store(strtolower("_PHAN" . key), data);
-  }
+	/**
+	 * Writes parsed annotations to APC
+	 *
+ 	 * @param string $key
+	 * @param Phalcon\Annotations\Reflection $data
+	 */
+	public function write(string key, <Phalcon\Annotations\Reflection> data)
+	{
+		return apc_store(strtolower("_PHAN" . key), data);
+	}
+
 }

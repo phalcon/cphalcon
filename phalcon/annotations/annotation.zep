@@ -201,7 +201,7 @@ class Annotation
 	 * @param string name
 	 * @return mixed
 	 */
-	public function getNamedArgument(name)
+	public function getNamedArgument(string name)
 	{
 		var arguments, argument;
 		let arguments = this->_arguments;

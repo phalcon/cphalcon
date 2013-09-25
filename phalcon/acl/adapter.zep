@@ -46,49 +46,22 @@ class Adapter
 	protected _accessGranted = false;
 
 	/**
-	 * Events manager
+	 * Role which the list is checking if it's allowed to certain resource/access
 	 * @var mixed
 	 */
-	protected _activeRole {
-
-		/**
-		 * Returns the role which the list is checking if it's allowed to certain resource/access
-		 *
-		 * @return string
-		 */
-		get
-
-	};
+	protected _activeRole { get };
 
 	/**
-	 * Active resource
+	 * Resource which the list is checking if some role can access it
 	 * @var mixed
 	 */
-	protected _activeResource {
-
-		/**
-		 * Returns the resource which the list is checking if some role can access it
-		 *
-		 * @return string
-		 */
-		get
-
-	};
+	protected _activeResource { get };
 
 	/**
-	 * Active Access
+	 * Active access which the list is checking if some role can access it
 	 * "@var mixed
 	 */
-	protected _activeAccess {
-
-		/**
-		 * Returns the access which the list is checking if some role can access it
-		 *
-		 * @return string
-		 */
-		get
-
-	};
+	protected _activeAccess { get };
 
 	/**
 	 * Sets the events manager
@@ -105,7 +78,7 @@ class Adapter
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager() -> <Px\X>
+	public function getEventsManager() -> <Phalcon\Events\ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -125,7 +98,7 @@ class Adapter
 	 *
 	 * @return int
 	 */
-	public function getDefaultAction()
+	public function getDefaultAction() -> int
 	{
 		return this->_defaultAccess;
 	}

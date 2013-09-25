@@ -72,7 +72,7 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count() -> int
 	{
 		return count(this->_annotations);
 	}
@@ -90,7 +90,7 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @return Phalcon\Annotations\Annotation
 	 */
-	public function current()
+	public function current() -> <Phalcon\Annotations\Annotation>
 	{
 		var annotation, annotations;
 		let annotations = this->_annotations;
@@ -105,7 +105,7 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @return int
 	 */
-	public function key()
+	public function key() -> int
 	{
 		return this->_position;
 	}
@@ -124,7 +124,7 @@ class Collection implements \Iterator, \Countable
 	 *
 	 * @return boolean
 	 */
-	public function valid()
+	public function valid() -> boolean
 	{
 		var annotations;
 		let annotations = this->_annotations;
@@ -147,7 +147,7 @@ class Collection implements \Iterator, \Countable
 	 * @param string name
 	 * @return Phalcon\Annotations\Annotation
 	 */
-	public function get(name)
+	public function get(string name) -> <Phalcon\Annotations\Annotation>
 	{
 		var annotation, annotations;
 		let annotations = this->_annotations;
@@ -168,7 +168,7 @@ class Collection implements \Iterator, \Countable
 	 * @param string name
 	 * @return Phalcon\Annotations\Annotation[]
 	 */
-	public function getAll(name)
+	public function getAll(string name)
 	{
 		var annotations, found, annotation;
 
@@ -191,7 +191,7 @@ class Collection implements \Iterator, \Countable
 	 * @param string name
 	 * @return boolean
 	 */
-	public function has(name)
+	public function has(string name) -> boolean
 	{
 		var annotations, annotation;
 

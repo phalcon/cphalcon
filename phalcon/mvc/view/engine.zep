@@ -36,7 +36,7 @@ abstract class Engine extends Phalcon\Di\Injectable
 	 * @param Phalcon\Mvc\ViewInterface view
 	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(view, dependencyInjector=null)
+	public function __construct(<Phalcon\Mvc\ViewInterface> view, <Phalcon\DiInterface> dependencyInjector=null)
 	{
 		let this->_view = view;
 		let this->_dependencyInjector = dependencyInjector;
@@ -61,7 +61,7 @@ abstract class Engine extends Phalcon\Di\Injectable
 	 * @param array params
 	 * @return string
 	 */
-	public function partial(partialPath, params=null)
+	public function partial(string partialPath, params=null) -> string
 	{
 		var view;
 		let view = this->_view;
@@ -73,7 +73,7 @@ abstract class Engine extends Phalcon\Di\Injectable
 	 *
 	 * @return Phalcon\Mvc\ViewInterface
 	 */
-	public function getView()
+	public function getView() -> <Phalcon\Mvc\ViewInterface>
 	{
 		return this->_view;
 	}

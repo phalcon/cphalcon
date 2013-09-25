@@ -56,7 +56,7 @@ namespace Phalcon\Assets;
 	 * @param boolean filter
 	 * @param array attributes
 	 */
-	public function __construct(type, path, local=true, filter=true, attributes=null)
+	public function __construct(string type, string path, boolean local=true, boolean filter=true, attributes=null)
 	{
 		let this->_type = type,
 			this->_path = path,
@@ -73,7 +73,7 @@ namespace Phalcon\Assets;
 	 * @param string type
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setType(type)
+	public function setType(string type) -> <Phalcon\Assets\Resource>
 	{
 		let this->_type = type;
 		return this;
@@ -84,7 +84,7 @@ namespace Phalcon\Assets;
 	 *
 	 * @return string
 	 */
-	public function getType()
+	public function getType() -> string
 	{
 		return this->_type;
 	}
@@ -95,7 +95,7 @@ namespace Phalcon\Assets;
 	 * @param string path
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setPath(path)
+	public function setPath(string path) -> <Phalcon\Assets\Resource>
 	{
 		let this->_path = path;
 		return this;
@@ -106,7 +106,7 @@ namespace Phalcon\Assets;
 	 *
 	 * @return string
 	 */
-	public function getPath()
+	public function getPath() -> string
 	{
 		return this->_path;
 	}
@@ -117,7 +117,7 @@ namespace Phalcon\Assets;
 	 * @param boolean local
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setLocal(local)
+	public function setLocal(boolean local) -> <Phalcon\Assets\Resource>
 	{
 		let this->_local = local;
 		return this;
@@ -128,7 +128,7 @@ namespace Phalcon\Assets;
 	 *
 	 * @return boolean
 	 */
-	public function getLocal()
+	public function getLocal() -> boolean
 	{
 		return this->_local;
 	}
@@ -139,7 +139,7 @@ namespace Phalcon\Assets;
 	 * @param boolean filter
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setFilter(filter)
+	public function setFilter(boolean filter) -> <Phalcon\Assets\Resource>
 	{
 		let this->_filter = filter;
 		return this;
@@ -150,7 +150,7 @@ namespace Phalcon\Assets;
 	 *
 	 * @return boolean
 	 */
-	public function getFilter()
+	public function getFilter() -> boolean
 	{
 		return this->_filter;
 	}
@@ -183,7 +183,7 @@ namespace Phalcon\Assets;
      * @param string targetUri
      * @return Phalcon\Assets\Resource
      */
-    public function setTargetUri(targetUri)
+    public function setTargetUri(string targetUri) -> <Phalcon\Assets\Resource>
     {
         let this->_targetUri = targetUri;
         return this;
@@ -194,7 +194,7 @@ namespace Phalcon\Assets;
      *
      * @return string
      */
-    public function getTargetUri()
+    public function getTargetUri() -> string
     {
         return this->_targetUri;
     }
@@ -205,7 +205,7 @@ namespace Phalcon\Assets;
 	 * @param string sourcePath
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setSourcePath(sourcePath)
+	public function setSourcePath(string sourcePath) -> <Phalcon\Assets\Resource>
 	{
 		let this->_sourcePath = sourcePath;
 		return this;
@@ -216,7 +216,7 @@ namespace Phalcon\Assets;
 	 *
 	 * @return string
 	 */
-	public function getSourcePath()
+	public function getSourcePath() -> string
 	{
 		return this->_targetPath;
 	}
@@ -227,7 +227,7 @@ namespace Phalcon\Assets;
 	 * @param string targetPath
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setTargetPath(targetPath)
+	public function setTargetPath(string targetPath) -> <Phalcon\Assets\Resource>
 	{
 		let this->_targetPath = targetPath;
 		return this;
@@ -238,7 +238,7 @@ namespace Phalcon\Assets;
 	 *
 	 * @return string
 	 */
-	public function getTargetPath()
+	public function getTargetPath() -> string
 	{
 		return this->_sourcePath;
 	}
@@ -250,7 +250,7 @@ namespace Phalcon\Assets;
 	 * @param string basePath
 	 * @return string
 	 */
-	public function getContent(basePath = null)
+	public function getContent(string basePath=null) -> string
 	{
 		var sourcePath, completePath, content;
 
@@ -294,7 +294,7 @@ namespace Phalcon\Assets;
 	 *
 	 * @return string
 	 */
-	public function getRealTargetUri()
+	public function getRealTargetUri() -> string
 	{
 		var targetUri;
 
@@ -311,7 +311,7 @@ namespace Phalcon\Assets;
 	 * @param string basePath
 	 * @return string
 	 */
-	public function getRealSourcePath(basePath=null)
+	public function getRealSourcePath(string basePath=null) -> string
 	{
 		var sourcePath;
 
@@ -336,7 +336,7 @@ namespace Phalcon\Assets;
 	 * @param string basePath
 	 * @return string
 	 */
-	public function getRealTargetPath(basePath=null)
+	public function getRealTargetPath(stirng basePath=null) -> string
 	{
 		var targetPath, completePath;
 

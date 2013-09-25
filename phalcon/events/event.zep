@@ -27,11 +27,11 @@ namespace Phalcon\Events;
 class Event
 {
 
-	protected _type;
+	protected _type { set, get };
 
-	protected _source;
+	protected _source { get };
 
-	protected _data;
+	protected _data { set, get };
 
 	protected _stopped = false;
 
@@ -58,76 +58,6 @@ class Event
 		if cancelable !== true {
 			let this->_cancelable = cancelable;
 		}
-	}
-
-	/**
-	 * Set the event's type
-	 *
-	 * @param string eventType
-	 */
-	public function setType(eventType)
-	{
-		let this->_type = eventType;
-	}
-
-	/**
-	 * Returns the event's type
-	 *
-	 * @return string
-	 */
-	public function getType()
-	{
-		return this->_type;
-	}
-
-	/**
-	 * Returns the event's source
-	 *
-	 * @return object
-	 */
-	public function getSource()
-	{
-		return this->_source;
-	}
-
-	/**
-	 * Set the event's data
-	 *
-	 * @param string data
-	 */
-	public function setData(data)
-	{
-		let this->_data = data;
-	}
-
-	/**
-	 * Returns the event's data
-	 *
-	 * @return mixed
-	 */
-	public function getData()
-	{
-		return this->_data;
-	}
-
-	/**
-	 * Sets if the event is cancelable
-	 *
-	 * @param boolean cancelable
-	 */
-	public function setCancelable(cancelable)
-	{
-		let this->_cancelable = cancelable;
-	}
-
-	/**
-	 * Check whether the event is cancelable
-	 *
-	 * @return boolean
-	 */
-	public function getCancelable()
-	{
-		return this->_cancelable;
 	}
 
 	/**

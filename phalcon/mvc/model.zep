@@ -101,7 +101,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param Phalcon\DiInterface dependencyInjector
 	 * @param Phalcon\Mvc\Model\ManagerInterface modelsManager
 	 */
-	public final function __construct(dependencyInjector=null, modelsManager=null)
+	public final function __construct(<Phalcon\DiInterface> dependencyInjector=null, <Phalcon\Mvc\Model\ManagerInterface> modelsManager=null)
 	{
 
 	}

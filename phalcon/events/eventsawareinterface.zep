@@ -32,7 +32,7 @@ interface EventsAwareInterface
 	 *
 	 * @param Phalcon\Events\ManagerInterface eventsManager
 	 */
-	public function setEventsManager(eventsManager);
+	public function setEventsManager(<Phalcon\Events\ManagerInterface> eventsManager);
 
 	/**
 	 * Returns the internal event manager

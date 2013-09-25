@@ -30,10 +30,10 @@ class Date extends Phalcon\Forms\Element //implements Phalcon\Forms\ElementInter
 	/**
 	 * Renders the element widget returning html
 	 *
-	 * @param array $attributes
+	 * @param array attributes
 	 * @return string
 	 */
-	public function render($attributes=null)
+	public function render(attributes=null)
 	{
 	}
 

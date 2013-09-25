@@ -62,7 +62,7 @@ abstract class Flash
 	 * @param boolean implicitFlush
 	 * @return Phalcon\FlashInterface
 	 */
-	public function setImplicitFlush(implicitFlush)
+	public function setImplicitFlush(boolean implicitFlush) -> <Phalcon\FlashInterface>
 	{
 		let this->_implicitFlush = implicitFlush;
 		return this;
@@ -74,7 +74,7 @@ abstract class Flash
 	 * @param boolean automaticHtml
 	 * @return Phalcon\FlashInterface
 	 */
-	public function setAutomaticHtml(automaticHtml)
+	public function setAutomaticHtml(boolean automaticHtml) -> <Phalcon\FlashInterface>
 	{
 		let this->_automaticHtml = automaticHtml;
 		return this;
@@ -86,7 +86,7 @@ abstract class Flash
 	 * @param array cssClasses
 	 * @return Phalcon\FlashInterface
 	 */
-	public function setCssClasses(cssClasses)
+	public function setCssClasses(cssClasses) -> <Phalcon\FlashInterface>
 	{
 		if typeof cssClasses == "array" {
 			let this->_cssClasses = cssClasses;
@@ -105,7 +105,7 @@ abstract class Flash
 	 * @param string message
 	 * @return string
 	 */
-	public function error(message)
+	public function error(string message) -> string
 	{
 		return this->{"message"}("error", message);
 	}
@@ -120,7 +120,7 @@ abstract class Flash
 	 * @param string message
 	 * @return string
 	 */
-	public function notice(message)
+	public function notice(string message) -> string
 	{
 		return this->{"message"}("notice", message);
 	}
@@ -135,7 +135,7 @@ abstract class Flash
 	 * @param string message
 	 * @return string
 	 */
-	public function success(message)
+	public function success(string message) -> string
 	{
 		return this->{"message"}("success", message);
 	}
@@ -150,7 +150,7 @@ abstract class Flash
 	 * @param string message
 	 * @return string
 	 */
-	public function warning(message)
+	public function warning(string message) -> string
 	{
 		return this->{"message"}("warning", message);
 	}
@@ -165,7 +165,7 @@ abstract class Flash
 	 * @param string type
 	 * @param string message
 	 */
-	public function outputMessage(type, message)
+	public function outputMessage(string type, string message)
 	{
 		boolean automaticHtml, implicitFlush;
 		var content, cssClasses, classes, typeClasses, eol, msg,

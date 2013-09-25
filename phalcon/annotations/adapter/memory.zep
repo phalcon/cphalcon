@@ -26,40 +26,40 @@ namespace Phalcon\Annotations\Adapter;
 */
 class Memory
 {
-  /**
-  * Data
-  * @var mixed
-  */
-  protected _data;
+	/**
+	* Data
+	* @var mixed
+	*/
+	protected _data;
 
-  /**
-  * Reads parsed annotations from memory
-  *
-  * @param string $key
-  * @return Phalcon\Annotations\Reflection
-  */
-  public function read(key)
-  {
-    var data, lowercasedKey;
+	/**
+	* Reads parsed annotations from memory
+	*
+	* @param string key
+	* @return Phalcon\Annotations\Reflection
+	*/
+	public function read(string key) -> <Phalcon\Annotations\Reflection>
+	{
+		var data, lowercasedKey;
 
-    let data = this->_data;
-    let lowercasedKey = strtolower(key);
-    if isset data[lowercasedKey] {
-      return data[lowercasedKey];
-    }
-  }
+		let data = this->_data;
+		let lowercasedKey = strtolower(key);
+		if isset data[lowercasedKey] {
+			return data[lowercasedKey];
+		}
+	}
 
-  /**
-  * Writes parsed annotations to memory
-  *
-  * @param string $key
-  * @param Phalcon\Annotations\Reflection $data
-  */
-  public function write(key, data)
-  {
-    var lowercasedKey;
+	/**
+	* Writes parsed annotations to memory
+	*
+	* @param string key
+	* @param Phalcon\Annotations\Reflection data
+	*/
+	public function write(string key, <Phalcon\Annotations\Reflection> data)
+	{
+		var lowercasedKey;
 
-    let lowercasedKey = strtolower(key);
-    let this->_data[lowercasedKey] = data;
-  }
+		let lowercasedKey = strtolower(key);
+		let this->_data[lowercasedKey] = data;
+	}
 }

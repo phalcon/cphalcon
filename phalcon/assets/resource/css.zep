@@ -35,7 +35,7 @@ class Css extends Phalcon\Assets\Resource
 	 * @param boolean filter
 	 * @param array attributes
 	 */
-	public function __construct(path, local=true, filter=true, attributes=null)
+	public function __construct(string path, boolean local=true, boolean filter=true, attributes=null)
 	{
 		parent::__construct("css", path, local, filter, attributes);
 	}

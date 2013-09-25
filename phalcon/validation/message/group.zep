@@ -53,7 +53,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param string index
 	 * @return Phalcon\Validation\Message
 	 */
-	public function offsetGet(index)
+	public function offsetGet(int index) -> <Phalcon\Validation\Message>
 	{
 		var messages, message;
 		let messages = this->_messages;
@@ -73,7 +73,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param string index
 	 * @param Phalcon\Validation\Message message
 	 */
-	public function offsetSet(index, message)
+	public function offsetSet(string index, <Phalcon\Validation\Message> message)
 	{
 		if typeof message != "object" {
 			throw new Phalcon\Validation\Exception("The message must be an object");
@@ -91,7 +91,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param string index
 	 * @return boolean
 	 */
-	public function offsetExists(index)
+	public function offsetExists(string index)
 	{
 		var messages;
 		let messages = this->_messages;
@@ -182,7 +182,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param string fieldName
 	 * @return array
 	 */
-	public function filter(fieldName)
+	public function filter(string fieldName)
 	{
 		var filtered, messages, message;
 
@@ -215,7 +215,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count() -> int
 	{
 		return count(this->_messages);
 	}
@@ -233,7 +233,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 *
 	 * @return Phalcon\Validation\Message
 	 */
-	public function current()
+	public function current() -> <Phalcon\Validation\Message>
 	{
 		var messages, message;
 		let messages = this->_messages;
@@ -248,7 +248,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 *
 	 * @return int
 	 */
-	public function key()
+	public function key() -> int
 	{
 		return this->_position;
 	}
@@ -267,7 +267,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 *
 	 * @return boolean
 	 */
-	public function valid()
+	public function valid() -> boolean
 	{
 		var messages;
 		let messages = this->_messages;
@@ -280,7 +280,7 @@ class Group implements Countable, ArrayAccess, Iterator
 	 * @param array group
 	 * @return Phalcon\Mvc\Model\Message\Group
 	 */
-	public static function __set_state(group)
+	public static function __set_state(group) -> <Phalcon\Mvc\Model\Message\Group>
 	{
 		return new self(group["_messages"]);
 	}

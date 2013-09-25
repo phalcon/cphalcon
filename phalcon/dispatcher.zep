@@ -99,7 +99,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI()
+	public function getDI() -> <Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -119,7 +119,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager()
+	public function getEventsManager() -> <Phalcon\Events\ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -129,7 +129,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @param string actionSuffix
 	 */
-	public function setActionSuffix(var actionSuffix)
+	public function setActionSuffix(string actionSuffix)
 	{
 		let this->_actionSuffix = actionSuffix;
 	}
@@ -139,7 +139,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @param string moduleName
 	 */
-	public function setModuleName(var moduleName)
+	public function setModuleName(sting moduleName)
 	{
 		let this->_moduleName = moduleName;
 	}
@@ -149,7 +149,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @return string
 	 */
-	public function getModuleName()
+	public function getModuleName() -> string
 	{
 		return this->_moduleName;
 	}
@@ -159,7 +159,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @param string namespaceName
 	 */
-	public function setNamespaceName(namespaceName)
+	public function setNamespaceName(string namespaceName)
 	{
 		let this->_namespaceName = namespaceName;
 	}
@@ -169,7 +169,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @return string
 	 */
-	public function getNamespaceName()
+	public function getNamespaceName() -> string
 	{
 		return this->_namespaceName;
 	}
@@ -179,7 +179,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @param string namespaceName
 	 */
-	public function setDefaultNamespace(namespaceName)
+	public function setDefaultNamespace(string namespaceName)
 	{
 		let this->_defaultNamespace = namespaceName;
 	}
@@ -189,7 +189,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @return string
 	 */
-	public function getDefaultNamespace()
+	public function getDefaultNamespace() -> string
 	{
 		return this->_defaultNamespace;
 	}
@@ -199,7 +199,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @param string actionName
 	 */
-	public function setDefaultAction(actionName)
+	public function setDefaultAction(string actionName)
 	{
 		let this->_defaultAction = actionName;
 	}
@@ -209,7 +209,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @param string actionName
 	 */
-	public function setActionName(var actionName)
+	public function setActionName(string actionName)
 	{
 		let this->_actionName = actionName;
 	}
@@ -219,7 +219,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @return string
 	 */
-	public function getActionName()
+	public function getActionName() -> string
 	{
 		return this->_actionName;
 	}
@@ -279,7 +279,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 				if typeof dependencyInjector != "object" {
 					this->{"_throwDispatchException"}("A dependency injection object is required to access the 'filter' service", self::EXCEPTION_NO_DI);
 				}
-				let filter = dependencyInjector->getShared("filter");
+				let filter = <Phalcon\Filter> dependencyInjector->getShared("filter");
 				return filter->sanitize(paramValue, filters);
 			} else {
 				return paramValue;
@@ -293,7 +293,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @return string
 	 */
-	public function getActiveMethod()
+	public function getActiveMethod() -> string
 	{
 		return this->_actionName . this->_actionSuffix;
 	}
@@ -303,7 +303,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @return boolean
 	 */
-	public function isFinished()
+	public function isFinished() -> boolean
 	{
 		return this->_finished;
 	}
@@ -313,7 +313,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @param mixed value
 	 */
-	public function setReturnedValue(value)
+	public function setReturnedValue(var value)
 	{
 		let this->_returnedValue = value;
 	}
@@ -341,7 +341,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 			actionName, camelizedClass, params, eventsManager,
 			handlerSuffix, actionSuffix, handlerClass, status, actionMethod;
 
-		let dependencyInjector = this->_dependencyInjector;
+		let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			this->{"_throwDispatchException"}("A dependency injection container is required to access related dispatching services", self::EXCEPTION_NO_DI);
 			return false;
@@ -695,7 +695,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @return boolean
 	 */
-	public function wasForwarded()
+	public function wasForwarded() -> boolean
 	{
 		return this->_forwarded;
 	}

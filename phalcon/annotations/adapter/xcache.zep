@@ -20,42 +20,43 @@
 namespace Phalcon\Annotations\Adapter;
 
 /**
-* Phalcon\Annotations\Adapter\Xcache
-*
-* Stores the parsed annotations to XCache. This adapter is suitable for production
-*
-*<code>
-* $annotations = new \Phalcon\Annotations\Adapter\Xcache();
-*</code>
-*/
+ * Phalcon\Annotations\Adapter\Xcache
+ *
+ * Stores the parsed annotations to XCache. This adapter is suitable for production
+ *
+ *<code>
+ * $annotations = new \Phalcon\Annotations\Adapter\Xcache();
+ *</code>
+ */
 class Xcache
 {
-  /**
-  * Reads parsed annotations from XCache
-  *
-  * @param string $key
-  * @return Phalcon\Annotations\Reflection
-  */
-  public function read(key)
-  {
-    var serialized, data;
-    let serialized = xcache_get(strtolower("_PHAN" . key));
-    if typeof serialized == "string" {
-      let data = unserialize(serialized);
-      if typeof data == "object" {
-        return data;
-      }
-    }
-  }
+	/**
+	 * Reads parsed annotations from XCache
+	 *
+	 * @param string key
+	 * @return Phalcon\Annotations\Reflection
+	 */
+	public function read(string key) -> <Phalcon\Annotations\Reflection>
+	{
+		var serialized, data;
+		let serialized = xcache_get(strtolower("_PHAN" . key));
+		if typeof serialized == "string" {
+			let data = unserialize(serialized);
+			if typeof data == "object" {
+				return data;
+			}
+		}
+	}
 
-  /**
-  * Writes parsed annotations to XCache
-  *
-  * @param string $key
-  * @param Phalcon\Annotations\Reflection $data
-  */
-  public function write(key, data)
-  {
-    xcache_set(strtolower("_PHAN" . key), serialize(data));
-  }
+	/**
+	* Writes parsed annotations to XCache
+	*
+	* @param string key
+	* @param Phalcon\Annotations\Reflection $data
+	*/
+	public function write(string key, <Phalcon\Annotations\Reflection> data)
+	{
+		xcache_set(strtolower("_PHAN" . key), serialize(data));
+	}
+
 }

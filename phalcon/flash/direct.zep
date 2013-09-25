@@ -34,7 +34,7 @@ class Direct extends Phalcon\Flash implements Phalcon\FlashInterface
 	 * @param  string message
 	 * @return string
 	 */
-	public function message(type, message)
+	public function message(string type, string message) -> string
 	{
 		return this->outputMessage(type, message);
 	}

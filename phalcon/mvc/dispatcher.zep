@@ -56,7 +56,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @param string controllerSuffix
 	 */
-	public function setControllerSuffix(controllerSuffix)
+	public function setControllerSuffix(string controllerSuffix)
 	{
 		let this->_handlerSuffix = controllerSuffix;
 	}
@@ -66,7 +66,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
      *
 	 * @param string controllerName
 	 */
-	public function setDefaultController(controllerName)
+	public function setDefaultController(string controllerName)
 	{
 		let this->_defaultHandler = controllerName;
 	}
@@ -76,7 +76,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @param string controllerName
 	 */
-	public function setControllerName(controllerName)
+	public function setControllerName(string controllerName)
 	{
 		let this->_handlerName = controllerName;
 	}
@@ -86,7 +86,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @return string
 	 */
-	public function getControllerName()
+	public function getControllerName() -> string
 	{
 		return this->_handlerName;
 	}
@@ -97,7 +97,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 * @param string message
 	 * @param int exceptionCode
 	 */
-	protected function _throwDispatchException(message, exceptionCode=0)
+	protected function _throwDispatchException(string message, int exceptionCode=0)
 	{
 		var eventsManager, dependencyInjector, response, exception;
 
@@ -109,7 +109,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 			);
 		}
 
-		let response = dependencyInjector->getShared("response");
+		let response = <Phalcon\Http\ResponseInterface> dependencyInjector->getShared("response");
 
 		/**
 		 * Dispatcher exceptions automatically sends a 404 status
@@ -139,7 +139,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @param \Exception exception
 	 */
-	protected function _handleException(exception)
+	protected function _handleException(<Exception> exception)
 	{
 		var eventsManager;
 		let eventsManager = this->_eventsManager;
@@ -156,7 +156,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @return string
 	 */
-	public function getControllerClass()
+	public function getControllerClass() -> string
 	{
 		return this->{"getHandlerName"}();
 	}
@@ -166,7 +166,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @return Phalcon\Mvc\ControllerInterface
 	 */
-	public function getLastController()
+	public function getLastController() -> <Phalcon\Mvc\ControllerInterface>
 	{
 		return this->_lastHandler;
 	}
@@ -176,7 +176,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 	 *
 	 * @return Phalcon\Mvc\ControllerInterface
 	 */
-	public function getActiveController()
+	public function getActiveController() -> <Phalcon\Mvc\ControllerInterface>
 	{
 		return this->_activeHandler;
 	}

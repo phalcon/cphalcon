@@ -35,10 +35,9 @@ class Builder
 	 * @param array argument
 	 * @return mixed
 	 */
-	private function _buildParameter(<Phalcon\Di> dependencyInjector, position, argument)
+	private function _buildParameter(<Phalcon\DiInterface> dependencyInjector, int position, argument)
 	{
 
-		// @todo use <Phalcon\DiInterface> instead
 		var type, name, value, instanceArguments;
 
 		/**

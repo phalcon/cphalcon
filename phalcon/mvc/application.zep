@@ -202,7 +202,7 @@ class Application extends Phalcon\Di\Injectable
 			}
 		}
 
-		let router = dependencyInjector->getShared("router");
+		let router = <Phalcon\Mvc\RouterInterface> dependencyInjector->getShared("router");
 
 		/**
 		 * Handle the URI pattern (if any)
@@ -312,14 +312,14 @@ class Application extends Phalcon\Di\Injectable
 		let implicitView = this->_implicitView;
 
 		if implicitView === true {
-			let view = $dependencyInjector->getShared("view");
+			let view = <Phalcon\Mvc\ViewInterface> dependencyInjector->getShared("view");
 		}
 
 		/**
 		 * We get the parameters from the router and assign them to the dispatcher
 		 * Assign the values passed from the router
 		 */
-		let dispatcher = dependencyInjector->getShared("dispatcher");
+		let dispatcher = <Phalcon\Mvc\DispatcherInterface> dependencyInjector->getShared("dispatcher");
 		dispatcher->setModuleName(router->getModuleName());
 		dispatcher->setNamespaceName(router->getNamespaceName());
 		dispatcher->setControllerName(router->getControllerName());
@@ -407,7 +407,7 @@ class Application extends Phalcon\Di\Injectable
 
 		if returnedResponse === false {
 
-			let response = dependencyInjector->getShared("response");
+			let response = <Phalcon\Http\ResponseInterface> dependencyInjector->getShared("response");
 			if implicitView === true {
 
 				/**

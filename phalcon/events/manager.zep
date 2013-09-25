@@ -51,7 +51,7 @@ class Manager //implements Phalcon\Events\ManagerInterface
 	 * @param int cancelable
 	 * @return mixed
 	 */
-	public function fire(eventType, source, data=null, cancelable=true)
+	public function fire(string eventType, source, data=null, boolean cancelable=true)
 	{
 
 	}

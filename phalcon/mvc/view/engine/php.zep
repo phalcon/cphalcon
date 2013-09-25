@@ -34,7 +34,7 @@ class Php extends Phalcon\Mvc\View\Engine implements Phalcon\Mvc\View\EngineInte
 	 * @param array params
 	 * @param boolean mustClean
 	 */
-	public function render(path, params, mustClean=false)
+	public function render(string path, params, boolean mustClean=false)
 	{
 		var status, view;
 

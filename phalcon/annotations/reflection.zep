@@ -64,7 +64,7 @@ class Reflection
 	 *
 	 * @return Phalcon\Annotations\Collection
 	 */
-	public function getClassAnnotations()
+	public function getClassAnnotations() -> <Phalcon\Annotations\Collection>
 	{
 
 		var annotations, reflectionData, reflectionClass, collection;

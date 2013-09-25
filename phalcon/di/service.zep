@@ -70,7 +70,7 @@ class Service implements Phalcon\Di\ServiceInterface
 	 *
 	 * @param boolean shared
 	 */
-	public function setShared(shared)
+	public function setShared(boolean shared)
 	{
 		let this->_shared = shared;
 	}
@@ -80,7 +80,7 @@ class Service implements Phalcon\Di\ServiceInterface
 	 *
 	 * @return boolean
 	 */
-	public function isShared()
+	public function isShared() -> booelan
 	{
 		return this->_shared;
 	}
@@ -282,7 +282,7 @@ class Service implements Phalcon\Di\ServiceInterface
 	 * @param array attributes
 	 * @return Phalcon\Di\Service
 	 */
-	public static function __set_state(attributes)
+	public static function __set_state(attributes) -> <Phalcon\Di\Service>
 	{
 		var name, definition, shared;
 

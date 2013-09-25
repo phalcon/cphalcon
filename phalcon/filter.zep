@@ -46,7 +46,7 @@ class Filter //implements Phalcon\FilterInterface
 	 * @param callable $handler
 	 * @return Phalcon\Filter
 	 */
-	public function add(name, handler)
+	public function add(string name, handler) -> <Phalcon\Filter>
 	{
 
 		if typeof name != "string" {

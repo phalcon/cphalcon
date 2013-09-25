@@ -33,7 +33,7 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 	 * @param string className
 	 * @return array
 	 */
-	public function parse(className)
+	public function parse(string className)
 	{
 
 		var annotations, reflection, comment,
@@ -144,7 +144,7 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 	 * @param string docBlock
 	 * @return array
 	 */
-	public static function parseDocBlock(docBlock, file=null, line=null)
+	public static function parseDocBlock(string docBlock, file=null, line=null)
 	{
 		if typeof file != "string" {
 			let file = "eval code";

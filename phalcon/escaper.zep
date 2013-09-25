@@ -51,11 +51,8 @@ class Escaper //implements Phalcon\EscaperInterface
 	 *
 	 * @param string encoding
 	 */
-	public function setEncoding(encoding)
+	public function setEncoding(string encoding)
 	{
-		if typeof encoding != "string" {
-			throw new Phalcon\Escaper\Exception("The character set must be string");
-		}
 		let this->_encoding = encoding;
 	}
 
@@ -64,7 +61,7 @@ class Escaper //implements Phalcon\EscaperInterface
 	 *
 	 * @return string
 	 */
-	public function getEncoding()
+	public function getEncoding() -> string
 	{
 		return this->_encoding;
 	}
@@ -78,11 +75,8 @@ class Escaper //implements Phalcon\EscaperInterface
 	 *
 	 * @param int quoteType
 	 */
-	public function setHtmlQuoteType(quoteType)
+	public function setHtmlQuoteType(int quoteType)
 	{
-		if typeof quoteType != "integer" {
-			throw new Phalcon\Escaper\Exception("The quoting type is not valid");
-		}
 		let this->_htmlQuoteType = quoteType;
 	}
 

@@ -52,7 +52,7 @@ class Route
 	 * @param array paths
 	 * @param array|string httpMethods
 	 */
-	public function __construct(pattern, paths=null, httpMethods=null)
+	public function __construct(string pattern, paths=null, httpMethods=null)
 	{
 		// Configure the route (extract parameters, paths, etc)
 		this->reConfigure(pattern, paths);
@@ -67,7 +67,7 @@ class Route
 	 * @param string pattern
 	 * @return string
 	 */
-	public function compilePattern(pattern)
+	public function compilePattern(string pattern)
 	{
 		var idPattern;
 
@@ -143,7 +143,7 @@ class Route
 	 *
 	 * @param string pattern
 	 */
-	public function extractNamedParams(string pattern)
+	public function extractNamedParams(string pattern) -> string
 	{
 
 		char ch;
@@ -281,7 +281,7 @@ class Route
 	 * @param string pattern
 	 * @param array paths
 	 */
-	public function reConfigure(pattern, paths=null)
+	public function reConfigure(string pattern, paths=null)
 	{
 		var moduleName, controllerName, actionName,
 			parts, routePaths, realClassName, namespaceName,
@@ -396,7 +396,7 @@ class Route
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName() -> string
 	{
 		return this->_name;
 	}
@@ -413,7 +413,7 @@ class Route
 	 * @param string name
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function setName(name)
+	public function setName(string name) -> <Phalcon\Mvc\Router\Route>
 	{
 		let this->_name = name;
 		return this;
@@ -427,7 +427,7 @@ class Route
 	 * @param callback callback
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function beforeMatch(callback)
+	public function beforeMatch(callback) -> <Phalcon\Mvc\Router\Route>
 	{
 		let this->_beforeMatch = callback;
 		return this;
@@ -448,7 +448,7 @@ class Route
 	 *
 	 * @return string
 	 */
-	public function getRouteId()
+	public function getRouteId() -> string
 	{
 		return this->_id;
 	}
@@ -458,7 +458,7 @@ class Route
 	 *
 	 * @return string
 	 */
-	public function getPattern()
+	public function getPattern() -> string
 	{
 		return this->_pattern;
 	}
@@ -468,7 +468,7 @@ class Route
 	 *
 	 * @return string
 	 */
-	public function getCompiledPattern()
+	public function getCompiledPattern() -> string
 	{
 		return this->_compiledPattern;
 	}
@@ -510,7 +510,7 @@ class Route
 	 * @param string|array httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function setHttpMethods(httpMethods)
+	public function setHttpMethods(httpMethods) -> <Phalcon\Mvc\Router\Route>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -536,7 +536,7 @@ class Route
 	 * @param string|array httpMethods
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function setHostname(hostname)
+	public function setHostname(hostname) -> <Phalcon\Mvc\Router\Route>
 	{
 		let this->_hostname = hostname;
 		return this;
@@ -547,7 +547,7 @@ class Route
 	 *
 	 * @return string
 	 */
-	public function getHostname()
+	public function getHostname() -> string
 	{
 		return this->_hostname;
 	}
@@ -559,7 +559,7 @@ class Route
 	 * @param callable converter
 	 * @return Phalcon\Mvc\Router\Route
 	 */
-	public function convert(name, converter)
+	public function convert(string name, converter) -> <Phalcon\Mvc\Router\Route>
 	{
 		let this->_converters[name] = converter;
 		return this;

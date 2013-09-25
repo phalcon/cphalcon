@@ -31,7 +31,7 @@ class Manager
 	 * @param object entity
 	 * @return Phalcon\Forms\Form
 	 */
-	public function create(name=null, entity=null)
+	public function create(name=null, entity=null) -> <Phalcon\Forms\Form>
 	{
 		var form;
 
@@ -50,7 +50,7 @@ class Manager
 	 * @param string name
 	 * @return Phalcon\Forms\Form
 	 */
-	public function get(name)
+	public function get(string name) -> <Phalcon\Forms\Form>
 	{
 		var form, forms;
 
@@ -67,7 +67,7 @@ class Manager
 	 * @param string name
 	 * @return boolean
 	 */
-	public function has(name)
+	public function has(string name) -> boolean
 	{
 		var forms;
 		let forms = this->_forms;
@@ -81,7 +81,7 @@ class Manager
 	 * @param Phalcon\Forms\Form form
 	 * @return Phalcon\Forms\Form
 	 */
-	public function set(name, form)
+	public function set(string name, <Phalcon\Forms\Form> form) -> Phalcon\Forms\Form
 	{
 
 		if typeof name != "string" {

@@ -30,10 +30,10 @@ class Check extends Phalcon\Forms\Element //implements Phalcon\Forms\ElementInte
 	/**
 	 * Renders the element widget returning html
 	 *
-	 * @param array $attributes
+	 * @param array attributes
 	 * @return string
 	 */
-	public function render($attributes=null)
+	public function render(attributes=null)
 	{
 
 	}

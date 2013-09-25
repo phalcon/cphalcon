@@ -44,7 +44,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI()
+	public function getDI() -> <Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -64,7 +64,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 			throw new Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = dependencyInjector->getShared("session");
+		let session = <Phalcon\Session\AdapterInterface> dependencyInjector->getShared("session");
 		let messages = session->get("_flashMessages");
 
 		if remove === true {
@@ -88,7 +88,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 			throw new Phalcon\Flash\Exception("A dependency injection container is required to access the 'session' service");
 		}
 
-		let session = dependencyInjector->getShared("session");
+		let session = <Phalcon\Session\AdapterInterface> dependencyInjector->getShared("session");
 		session->set("_flashMessages", messages);
 		return messages;
 	}
@@ -99,7 +99,7 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 	 * @param string type
 	 * @param string message
 	 */
-	public function message(type, message)
+	public function message(string type, string message)
 	{
 		var messages;
 
@@ -142,10 +142,9 @@ class Session extends Phalcon\Flash implements Phalcon\FlashInterface, Phalcon\D
 	/**
 	 * Prints the messages in the session flasher
 	 *
-	 * @param string type
 	 * @param boolean remove
 	 */
-	public function output(remove=true)
+	public function output(boolean remove=true)
 	{
 		var type, message, messages;
 
