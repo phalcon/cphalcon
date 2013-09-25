@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 
 	zval *queue, *event, *status = NULL, *arguments = NULL, *event_name;
 	zval *source, *data, *cancelable, *collect, *iterator;
-	zval *handler = NULL, *is_stopped = NULL, *handler_referenced = NULL, *handler_embeded = NULL;
+	zval *handler = NULL, *is_stopped = NULL;
 	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -356,39 +356,13 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 			/** 
 			 * Get the current data
 			 */
-			PHALCON_INIT_NVAR(handler_embeded);
-			phalcon_call_method(handler_embeded, iterator, "current");
+			PHALCON_INIT_NVAR(handler);
+			phalcon_call_method(handler, iterator, "current");
 	
 			/** 
 			 * Only handler objects are valid
 			 */
-			if (Z_TYPE_P(handler_embeded) == IS_OBJECT) {
-
-				/**
-				 * Check if the event is a weak reference.
-				 */
-				if (phalcon_is_instance_of(handler_embeded, SL("WeakRef") TSRMLS_CC)) {
-					/**
-					 * Checks whether the object referenced still exists.
-					 */
-					PHALCON_INIT_NVAR(handler_referenced);
-					phalcon_call_method(handler_referenced, handler_embeded, "valid");
-
-					if (zend_is_true(handler_referenced)) {
-						PHALCON_INIT_NVAR(handler);
-						phalcon_call_method(handler, handler_embeded, "get");
-					} else {
-						/**
-						 * Move the queue to the next handler
-						 */
-						phalcon_call_method_noret(iterator, "next");
-						continue;
-					}
-
-				} else {
-					PHALCON_INIT_NVAR(handler);
-					PHALCON_CPY_WRT(handler, handler_embeded);
-				}
+			if (likely(Z_TYPE_P(handler) == IS_OBJECT)) {
 	
 				/** 
 				 * Check if the event is a closure
@@ -475,35 +449,12 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_HVALUE(handler_embeded);
+			PHALCON_GET_HVALUE(handler);
 	
 			/** 
 			 * Only handler objects are valid
 			 */
-			if (Z_TYPE_P(handler_embeded) == IS_OBJECT) {
-
-				/**
-				  * Check if the event is a weak reference.
-				  */
-				if (phalcon_is_instance_of(handler_embeded, SL("WeakRef") TSRMLS_CC)) {
-					/**
-					 * Checks whether the object referenced still exists.
-					 */
-					PHALCON_INIT_NVAR(handler_referenced);
-					phalcon_call_method(handler_referenced, handler_embeded, "valid");
-
-					if (zend_is_true(handler_referenced)) {
-						PHALCON_INIT_NVAR(handler);
-						phalcon_call_method(handler, handler_embeded, "get");
-					} else {
-						zend_hash_move_forward_ex(ah0, &hp0);
-						continue;
-					}
-
-				} else {
-					PHALCON_INIT_NVAR(handler);
-					PHALCON_CPY_WRT(handler, handler_embeded);
-				}
+			if (likely(Z_TYPE_P(handler) == IS_OBJECT)) {
 	
 				/** 
 				 * Check if the event is a closure

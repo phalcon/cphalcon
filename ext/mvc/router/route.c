@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	PHALCON_CPY_WRT_CTOR(route_id, unique_id); /* route_id is now separated from unique_id */
 	phalcon_update_property_this(this_ptr, SL("_id"), route_id TSRMLS_CC);
 	
-	/* increment_function() will increment the value of the static property as well */
+	/* increment_function() will increment the value of the statis property as well */
 	increment_function(unique_id);
 	
 	PHALCON_MM_RESTORE();
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 
 	zval *pattern, *compiled_pattern = NULL, *id_pattern;
-	zval wildcard, *pattern_copy = NULL, *params_pattern;
+	zval *wildcard = NULL, *pattern_copy = NULL, *params_pattern;
 	zval *int_pattern;
 
 	PHALCON_MM_GROW();
@@ -157,78 +157,78 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 		 * Replace the module part
 		 */
 		if (phalcon_memnstr_str(pattern, SL("/:module"))) {
-			INIT_ZVAL(wildcard);
-			ZVAL_STRING(&wildcard, "/:module", 0);
+			PHALCON_INIT_VAR(wildcard);
+			ZVAL_STRING(wildcard, "/:module", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, &wildcard, id_pattern, pattern_copy);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy);
 		}
 	
 		/** 
 		 * Replace the controller placeholder
 		 */
 		if (phalcon_memnstr_str(pattern, SL("/:controller"))) {
-			INIT_ZVAL(wildcard);
-			ZVAL_STRING(&wildcard, "/:controller", 0);
+			PHALCON_INIT_NVAR(wildcard);
+			ZVAL_STRING(wildcard, "/:controller", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, &wildcard, id_pattern, pattern_copy);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy);
 		}
 	
 		/** 
 		 * Replace the namespace placeholder
 		 */
 		if (phalcon_memnstr_str(pattern, SL("/:namespace"))) {
-			INIT_ZVAL(wildcard)
-			ZVAL_STRING(&wildcard, "/:namespace", 0);
+			PHALCON_INIT_NVAR(wildcard);
+			ZVAL_STRING(wildcard, "/:namespace", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, &wildcard, id_pattern, pattern_copy);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy);
 		}
 	
 		/** 
 		 * Replace the action placeholder
 		 */
 		if (phalcon_memnstr_str(pattern, SL("/:action"))) {
-			INIT_ZVAL(wildcard);
-			ZVAL_STRING(&wildcard, "/:action", 0);
+			PHALCON_INIT_NVAR(wildcard);
+			ZVAL_STRING(wildcard, "/:action", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, &wildcard, id_pattern, pattern_copy);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy);
 		}
 	
 		/** 
 		 * Replace the params placeholder
 		 */
 		if (phalcon_memnstr_str(pattern, SL("/:params"))) {
-			INIT_ZVAL(wildcard);
-			ZVAL_STRING(&wildcard, "/:params", 0);
+			PHALCON_INIT_NVAR(wildcard);
+			ZVAL_STRING(wildcard, "/:params", 1);
 	
 			PHALCON_INIT_VAR(params_pattern);
 			ZVAL_STRING(params_pattern, "(/.*+)?+", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, &wildcard, params_pattern, pattern_copy);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, params_pattern, pattern_copy);
 		}
 	
 		/** 
 		 * Replace the int placeholder
 		 */
 		if (phalcon_memnstr_str(pattern, SL("/:int"))) {
-			INIT_ZVAL(wildcard);
-			ZVAL_STRING(&wildcard, "/:int", 0);
+			PHALCON_INIT_NVAR(wildcard);
+			ZVAL_STRING(wildcard, "/:int", 1);
 	
 			PHALCON_INIT_VAR(int_pattern);
 			ZVAL_STRING(int_pattern, "/([0-9]++)", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
 	
 			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, &wildcard, int_pattern, pattern_copy);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, int_pattern, pattern_copy);
 		}
 	}
 	
@@ -707,3 +707,4 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reset){
 	
 	PHALCON_MM_RESTORE();
 }
+
