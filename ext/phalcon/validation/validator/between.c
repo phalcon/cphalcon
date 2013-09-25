@@ -69,11 +69,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 
-	zval *validator, *attribute, *value, *minimum, *maximum, *message = NULL, *_0;
+	zval *attribute = NULL;
+	zval *validator, *attribute_param = NULL, *value, *minimum, *maximum, *message = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &validator, &attribute);
+	zephir_fetch_params(1, 2, 0, &validator, &attribute_param);
 
+		zephir_get_strval(attribute, attribute_param);
 
 
 	ZEPHIR_INIT_VAR(value);

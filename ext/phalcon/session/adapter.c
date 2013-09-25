@@ -155,11 +155,13 @@ PHP_METHOD(Phalcon_Session_Adapter, getOptions) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, get) {
 
-	zval *index, *defaultValue = NULL, *value, *_SESSION, *_0, *_1;
+	zval *index_param = NULL, *defaultValue = NULL, *value, *_SESSION, *_0, *_1;
+	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &index, &defaultValue);
+	zephir_fetch_params(1, 1, 1, &index_param, &defaultValue);
 
+		zephir_get_strval(index, index_param);
 	if (!defaultValue) {
 		ZEPHIR_CPY_WRT(defaultValue, ZEPHIR_GLOBAL(global_null));
 	}
@@ -192,11 +194,13 @@ PHP_METHOD(Phalcon_Session_Adapter, get) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, set) {
 
-	zval *index, *value, *_SESSION, *_0, *_1;
+	zval *index_param = NULL, *value, *_SESSION, *_0, *_1;
+	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &index, &value);
+	zephir_fetch_params(1, 2, 0, &index_param, &value);
 
+		zephir_get_strval(index, index_param);
 
 
 	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
@@ -213,7 +217,7 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
  * Check whether a session variable is set in an application context
  *
  *<code>
- *	var_dump(session->has('auth'));
+ *	var_dump($session->has('auth'));
  *</code>
  *
  * @param string index
@@ -221,11 +225,13 @@ PHP_METHOD(Phalcon_Session_Adapter, set) {
  */
 PHP_METHOD(Phalcon_Session_Adapter, has) {
 
-	zval *index, *_SESSION, *_0, *_1;
+	zval *index_param = NULL, *_SESSION, *_0, *_1;
+	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &index);
+	zephir_fetch_params(1, 1, 0, &index_param);
 
+		zephir_get_strval(index, index_param);
 
 
 	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
@@ -244,18 +250,20 @@ PHP_METHOD(Phalcon_Session_Adapter, has) {
  * Removes a session variable from an application context
  *
  *<code>
- *	session->remove('auth');
+ *	$session->remove('auth');
  *</code>
  *
  * @param string index
  */
 PHP_METHOD(Phalcon_Session_Adapter, remove) {
 
-	zval *index, *_SESSION, *_0, *_1;
+	zval *index_param = NULL, *_SESSION, *_0, *_1;
+	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &index);
+	zephir_fetch_params(1, 1, 0, &index_param);
 
+		zephir_get_strval(index, index_param);
 
 
 	zephir_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
@@ -272,7 +280,7 @@ PHP_METHOD(Phalcon_Session_Adapter, remove) {
  * Returns active session id
  *
  *<code>
- *	echo session->getId();
+ *	echo $session->getId();
  *</code>
  *
  * @return string
@@ -290,7 +298,7 @@ PHP_METHOD(Phalcon_Session_Adapter, getId) {
  * Check whether the session has been started
  *
  *<code>
- *	var_dump(session->isStarted());
+ *	var_dump($session->isStarted());
  *</code>
  *
  * @return boolean

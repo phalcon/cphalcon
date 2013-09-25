@@ -60,7 +60,7 @@ class Index implements Phalcon\Db\IndexInterface
 	 *
 	 * @param array data
 	 */
-	public static function __set_state(var data) -> <Phalcon\Db\IndexInterface>
+	public static function __set_state(var data) -> <Phalcon\Db\Index>
 	{
 		var indexName, columns;
 

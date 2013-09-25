@@ -82,6 +82,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_routerinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, addHead, arginfo_phalcon_mvc_routerinterface_addhead)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, clear, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getModuleName, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getNamespaceName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getControllerName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getActionName, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_RouterInterface, getParams, NULL)

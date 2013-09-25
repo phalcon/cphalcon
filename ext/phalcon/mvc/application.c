@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule) {
 PHP_METHOD(Phalcon_Mvc_Application, handle) {
 
 	zend_bool returnedResponse;
-	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router, *dispatcher, *response = NULL, *view, *module, *modules, *moduleObject, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller, *possibleResponse, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7, *_8;
+	zval *uri = NULL, *dependencyInjector, *eventsManager = NULL, *router = NULL, *dispatcher = NULL, *response = NULL, *view = NULL, *module, *modules, *moduleObject, *moduleName = NULL, *className = NULL, *path, *implicitView, *controller, *possibleResponse, *renderStatus = NULL, *_0, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL, *_7, *_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &uri);
@@ -272,9 +272,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		}
 	}
 	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "router", 1);
-	ZEPHIR_INIT_VAR(router);
-	zephir_call_method_p1(router, dependencyInjector, "getshared", _1);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "router", 1);
+	zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+	ZEPHIR_CPY_WRT(router, _1);
 	zephir_call_method_p1_noret(router, "handle", uri);
 	ZEPHIR_INIT_VAR(moduleName);
 	zephir_call_method(moduleName, router, "getmodulename");
@@ -369,14 +370,16 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_read_property_this(&implicitView, this_ptr, SL("_implicitView"), PH_NOISY_CC);
 	if (ZEPHIR_IS_TRUE(implicitView)) {
 		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "view", 1);
-		ZEPHIR_INIT_VAR(view);
-		zephir_call_method_p1(view, dependencyInjector, "getshared", _1);
+		ZEPHIR_INIT_NVAR(_2);
+		ZVAL_STRING(_2, "view", 1);
+		zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+		ZEPHIR_CPY_WRT(view, _1);
 	}
 	ZEPHIR_INIT_NVAR(_1);
-	ZVAL_STRING(_1, "dispatcher", 1);
-	ZEPHIR_INIT_VAR(dispatcher);
-	zephir_call_method_p1(dispatcher, dependencyInjector, "getshared", _1);
+	ZEPHIR_INIT_NVAR(_2);
+	ZVAL_STRING(_2, "dispatcher", 1);
+	zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+	ZEPHIR_CPY_WRT(dispatcher, _1);
 	ZEPHIR_INIT_NVAR(_1);
 	zephir_call_method(_1, router, "getmodulename");
 	zephir_call_method_p1_noret(dispatcher, "setmodulename", _1);
@@ -446,9 +449,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	}
 	if ((returnedResponse == 0)) {
 		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "response", 1);
-		ZEPHIR_INIT_VAR(response);
-		zephir_call_method_p1(response, dependencyInjector, "getshared", _1);
+		ZEPHIR_INIT_NVAR(_2);
+		ZVAL_STRING(_2, "response", 1);
+		zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+		ZEPHIR_CPY_WRT(response, _1);
 		if (ZEPHIR_IS_TRUE(implicitView)) {
 			ZEPHIR_INIT_NVAR(_1);
 			zephir_call_method(_1, view, "getcontent");

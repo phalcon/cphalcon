@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
-#include "kernel/memory.h"
 #include "kernel/exception.h"
 
 
@@ -54,6 +54,46 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 
 }
 
+PHP_METHOD(Phalcon_Events_Event, setType) {
+
+	zval *_type;
+
+	zephir_fetch_params(0, 1, 0, &_type);
+
+
+
+
+}
+
+PHP_METHOD(Phalcon_Events_Event, getType) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Events_Event, getSource) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Events_Event, setData) {
+
+	zval *_data;
+
+	zephir_fetch_params(0, 1, 0, &_data);
+
+
+
+
+}
+
+PHP_METHOD(Phalcon_Events_Event, getData) {
+
+
+
+}
+
 /**
  * Phalcon\Events\Event constructor
  *
@@ -86,105 +126,6 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 		zephir_update_property_this(this_ptr, SL("_cancelable"), cancelable TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
- * Set the event's type
- *
- * @param string eventType
- */
-PHP_METHOD(Phalcon_Events_Event, setType) {
-
-	zval *eventType;
-
-	zephir_fetch_params(0, 1, 0, &eventType);
-
-
-
-	zephir_update_property_this(this_ptr, SL("_type"), eventType TSRMLS_CC);
-
-}
-
-/**
- * Returns the event's type
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Events_Event, getType) {
-
-
-	RETURN_MEMBER(this_ptr, "_type");
-
-}
-
-/**
- * Returns the event's source
- *
- * @return object
- */
-PHP_METHOD(Phalcon_Events_Event, getSource) {
-
-
-	RETURN_MEMBER(this_ptr, "_source");
-
-}
-
-/**
- * Set the event's data
- *
- * @param string data
- */
-PHP_METHOD(Phalcon_Events_Event, setData) {
-
-	zval *data;
-
-	zephir_fetch_params(0, 1, 0, &data);
-
-
-
-	zephir_update_property_this(this_ptr, SL("_data"), data TSRMLS_CC);
-
-}
-
-/**
- * Returns the event's data
- *
- * @return mixed
- */
-PHP_METHOD(Phalcon_Events_Event, getData) {
-
-
-	RETURN_MEMBER(this_ptr, "_data");
-
-}
-
-/**
- * Sets if the event is cancelable
- *
- * @param boolean cancelable
- */
-PHP_METHOD(Phalcon_Events_Event, setCancelable) {
-
-	zval *cancelable;
-
-	zephir_fetch_params(0, 1, 0, &cancelable);
-
-
-
-	zephir_update_property_this(this_ptr, SL("_cancelable"), cancelable TSRMLS_CC);
-
-}
-
-/**
- * Check whether the event is cancelable
- *
- * @return boolean
- */
-PHP_METHOD(Phalcon_Events_Event, getCancelable) {
-
-
-	RETURN_MEMBER(this_ptr, "_cancelable");
 
 }
 

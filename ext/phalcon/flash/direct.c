@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -57,11 +58,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
  */
 PHP_METHOD(Phalcon_Flash_Direct, message) {
 
-	zval *type, *message;
+	zval *type_param = NULL, *message_param = NULL;
+	zval *type = NULL, *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &type, &message);
+	zephir_fetch_params(1, 2, 0, &type_param, &message_param);
 
+		zephir_get_strval(type, type_param);
+		zephir_get_strval(message, message_param);
 
 
 	zephir_call_method_p2(return_value, this_ptr, "outputmessage", type, message);

@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 
 
@@ -68,89 +68,83 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item) {
 }
 
 /**
- * Sets the SQL statement related to the profile
+ * SQL statement related to the profile
  *
- * @param string sqlStatement
+ * @var string
  */
-PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement) {
+PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement) {
 
-	zval *sqlStatement;
+	zval *_sqlStatement;
 
-	zephir_fetch_params(0, 1, 0, &sqlStatement);
+	zephir_fetch_params(0, 1, 0, &_sqlStatement);
 
 
 
-	zephir_update_property_this(this_ptr, SL("_sqlStatement"), sqlStatement TSRMLS_CC);
 
 }
 
 /**
- * Returns the SQL statement related to the profile
+ * SQL statement related to the profile
  *
- * @return string
+ * @var string
  */
-PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement) {
+PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement) {
 
 
-	RETURN_MEMBER(this_ptr, "_sqlStatement");
 
 }
 
 /**
- * Sets the timestamp on when the profile started
+ * Timestamp when the profile started
  *
- * @param int initialTime
+ * @var double
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime) {
 
-	zval *initialTime;
+	zval *_initialTime;
 
-	zephir_fetch_params(0, 1, 0, &initialTime);
-
-
-
-	zephir_update_property_this(this_ptr, SL("_initialTime"), initialTime TSRMLS_CC);
-
-}
-
-/**
- * Sets the timestamp on when the profile ended
- *
- * @param int finalTime
- */
-PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime) {
-
-	zval *finalTime;
-
-	zephir_fetch_params(0, 1, 0, &finalTime);
+	zephir_fetch_params(0, 1, 0, &_initialTime);
 
 
 
-	zephir_update_property_this(this_ptr, SL("_finalTime"), finalTime TSRMLS_CC);
 
 }
 
 /**
- * Returns the initial time in milseconds on when the profile started
+ * Timestamp when the profile started
  *
- * @return double
+ * @var double
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime) {
 
 
-	RETURN_MEMBER(this_ptr, "_initialTime");
 
 }
 
 /**
- * Returns the initial time in milseconds on when the profile ended
+ * Timestamp when the profile ended
  *
- * @return double
+ * @var double
+ */
+PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime) {
+
+	zval *_finalTime;
+
+	zephir_fetch_params(0, 1, 0, &_finalTime);
+
+
+
+
+}
+
+/**
+ * Timestamp when the profile ended
+ *
+ * @var double
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime) {
 
 
-	RETURN_MEMBER(this_ptr, "_finalTime");
 
 }
 

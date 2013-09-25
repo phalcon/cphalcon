@@ -128,12 +128,13 @@ PHP_METHOD(Phalcon_Http_Response, setDI) {
  */
 PHP_METHOD(Phalcon_Http_Response, getDI) {
 
-	zval *dependencyInjector;
+	zval *dependencyInjector = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(dependencyInjector);
-	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if ((Z_TYPE_P(dependencyInjector) == IS_OBJECT)) {
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
@@ -158,11 +159,14 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
  */
 PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 
-	zval *code, *message, *headers, *_0, *_1, *_2, *_3, *_4, *_5;
+	zval *code_param = NULL, *message_param = NULL, *headers, *_0, *_1, *_2, *_3, *_4, *_5;
+	zval *code = NULL, *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &code, &message);
+	zephir_fetch_params(1, 2, 0, &code_param, &message_param);
 
+		zephir_get_strval(code, code_param);
+		zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(headers);
@@ -275,11 +279,13 @@ PHP_METHOD(Phalcon_Http_Response, getCookies) {
  */
 PHP_METHOD(Phalcon_Http_Response, setHeader) {
 
-	zval *name, *value, *headers;
+	zval *name_param = NULL, *value, *headers;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &name, &value);
+	zephir_fetch_params(1, 2, 0, &name_param, &value);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_INIT_VAR(headers);
@@ -301,11 +307,13 @@ PHP_METHOD(Phalcon_Http_Response, setHeader) {
  */
 PHP_METHOD(Phalcon_Http_Response, setRawHeader) {
 
-	zval *header, *headers;
+	zval *header_param = NULL, *headers;
+	zval *header = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &header);
+	zephir_fetch_params(1, 1, 0, &header_param);
 
+		zephir_get_strval(header, header_param);
 
 
 	ZEPHIR_INIT_VAR(headers);
@@ -353,10 +361,6 @@ PHP_METHOD(Phalcon_Http_Response, setExpires) {
 
 
 
-	if ((Z_TYPE_P(datetime) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "datetime parameter must be an instance of DateTime");
-		return;
-	}
 	ZEPHIR_INIT_VAR(headers);
 	zephir_call_method(headers, this_ptr, "getheaders");
 	ZEPHIR_INIT_VAR(date);
@@ -415,11 +419,13 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified) {
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType) {
 
-	zval *contentType, *charset = NULL, *headers, *name, *_0, *_1;
+	zval *contentType_param = NULL, *charset = NULL, *headers, *name, *_0, *_1;
+	zval *contentType = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &contentType, &charset);
+	zephir_fetch_params(1, 1, 1, &contentType_param, &charset);
 
+		zephir_get_strval(contentType, contentType_param);
 	if (!charset) {
 		ZEPHIR_CPY_WRT(charset, ZEPHIR_GLOBAL(global_null));
 	}
@@ -450,14 +456,17 @@ PHP_METHOD(Phalcon_Http_Response, setContentType) {
  *</code>
  *
  * @param string etag
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setEtag) {
 
-	zval *etag, *headers, *_0;
+	zval *etag_param = NULL, *headers, *_0;
+	zval *etag = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &etag);
+	zephir_fetch_params(1, 1, 0, &etag_param);
 
+		zephir_get_strval(etag, etag_param);
 
 
 	ZEPHIR_INIT_VAR(headers);
@@ -486,14 +495,14 @@ PHP_METHOD(Phalcon_Http_Response, setEtag) {
  *	));
  *</code>
  *
- * @param string location
+ * @param string|array location
  * @param boolean externalRedirect
  * @param int statusCode
  * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, redirect) {
 
-	zval *location = NULL, *externalRedirect = NULL, *statusCode = NULL, *header = NULL, *url, *dependencyInjector, *_0 = NULL;
+	zval *location = NULL, *externalRedirect = NULL, *statusCode = NULL, *header = NULL, *url = NULL, *dependencyInjector, *_0 = NULL, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &location, &externalRedirect, &statusCode);
@@ -516,9 +525,10 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		ZEPHIR_INIT_VAR(dependencyInjector);
 		zephir_call_method(dependencyInjector, this_ptr, "getdi");
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "url", 1);
-		ZEPHIR_INIT_VAR(url);
-		zephir_call_method_p1(url, dependencyInjector, "getshared", _0);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "url", 1);
+		zephir_call_method_p1(_0, dependencyInjector, "getshared", _1);
+		ZEPHIR_CPY_WRT(url, _0);
 		ZEPHIR_INIT_VAR(header);
 		zephir_call_method_p1(header, url, "get", location);
 	}
@@ -544,10 +554,12 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
  */
 PHP_METHOD(Phalcon_Http_Response, setContent) {
 
-	zval *content;
+	zval *content_param = NULL;
+	zval *content = NULL;
 
-	zephir_fetch_params(0, 1, 0, &content);
+	zephir_fetch_params(0, 1, 0, &content_param);
 
+		zephir_get_strval(content, content_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);
@@ -562,7 +574,7 @@ PHP_METHOD(Phalcon_Http_Response, setContent) {
  *	response->setJsonContent(array("status" => "OK"));
  *</code>
  *
- * @param string content
+ * @param mixed content
  * @param int jsonOptions
  * @return Phalcon\Http\ResponseInterface
  */
@@ -706,14 +718,17 @@ PHP_METHOD(Phalcon_Http_Response, send) {
  *
  * @param string filePath
  * @param string attachmentName
+ * @return <Phalcon\Http\ResponseInterface>
  */
 PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 
-	zval *filePath, *attachmentName = NULL, *basePath = NULL, *headers, *_0, *_1;
+	zval *filePath_param = NULL, *attachmentName = NULL, *basePath = NULL, *headers, *_0, *_1;
+	zval *filePath = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &filePath, &attachmentName);
+	zephir_fetch_params(1, 1, 1, &filePath_param, &attachmentName);
 
+		zephir_get_strval(filePath, filePath_param);
 	if (!attachmentName) {
 		ZEPHIR_CPY_WRT(attachmentName, ZEPHIR_GLOBAL(global_null));
 	}

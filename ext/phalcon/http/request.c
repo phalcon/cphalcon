@@ -120,13 +120,17 @@ PHP_METHOD(Phalcon_Http_Request, getDI) {
  */
 PHP_METHOD(Phalcon_Http_Request, get) {
 
-	zval *name = NULL, *filters = NULL, *defaultValue = NULL, *request = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_REQUEST, *_0, *_1;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *request = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_REQUEST, *_0, *_1, *_2;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 3, &name, &filters, &defaultValue);
+	zephir_fetch_params(1, 0, 3, &name_param, &filters, &defaultValue);
 
-	if (!name) {
-		ZEPHIR_CPY_WRT(name, ZEPHIR_GLOBAL(global_null));
+	if (!name_param) {
+		ZEPHIR_INIT_VAR(name);
+		ZVAL_EMPTY_STRING(name);
+	} else {
+		zephir_get_strval(name, name_param);
 	}
 	if (!filters) {
 		ZEPHIR_CPY_WRT(filters, ZEPHIR_GLOBAL(global_null));
@@ -138,7 +142,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 
 	zephir_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
 	ZEPHIR_CPY_WRT(request, _REQUEST);
-	if ((Z_TYPE_P(name) != IS_NULL)) {
+	if (!ZEPHIR_IS_STRING(name, "")) {
 		ZEPHIR_OBS_VAR(value);
 		if (zephir_array_isset_fetch(&value, request, name TSRMLS_CC)) {
 			if ((Z_TYPE_P(filters) != IS_NULL)) {
@@ -153,9 +157,10 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 						return;
 					}
 					ZEPHIR_INIT_VAR(_1);
-					ZVAL_STRING(_1, "filter", 1);
-					ZEPHIR_INIT_NVAR(filter);
-					zephir_call_method_p1(filter, dependencyInjector, "getshared", _1);
+					ZEPHIR_INIT_VAR(_2);
+					ZVAL_STRING(_2, "filter", 1);
+					zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+					ZEPHIR_CPY_WRT(filter, _1);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
@@ -189,13 +194,17 @@ PHP_METHOD(Phalcon_Http_Request, get) {
  */
 PHP_METHOD(Phalcon_Http_Request, getPost) {
 
-	zval *name = NULL, *filters = NULL, *defaultValue = NULL, *post = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_POST, *_0, *_1;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *post = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_POST, *_0, *_1, *_2;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 3, &name, &filters, &defaultValue);
+	zephir_fetch_params(1, 0, 3, &name_param, &filters, &defaultValue);
 
-	if (!name) {
-		ZEPHIR_CPY_WRT(name, ZEPHIR_GLOBAL(global_null));
+	if (!name_param) {
+		ZEPHIR_INIT_VAR(name);
+		ZVAL_EMPTY_STRING(name);
+	} else {
+		zephir_get_strval(name, name_param);
 	}
 	if (!filters) {
 		ZEPHIR_CPY_WRT(filters, ZEPHIR_GLOBAL(global_null));
@@ -207,7 +216,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 
 	zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
 	ZEPHIR_CPY_WRT(post, _POST);
-	if ((Z_TYPE_P(name) != IS_NULL)) {
+	if (!ZEPHIR_IS_STRING(name, "")) {
 		ZEPHIR_OBS_VAR(value);
 		if (zephir_array_isset_fetch(&value, post, name TSRMLS_CC)) {
 			if ((Z_TYPE_P(filters) != IS_NULL)) {
@@ -222,9 +231,10 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
 						return;
 					}
 					ZEPHIR_INIT_VAR(_1);
-					ZVAL_STRING(_1, "filter", 1);
-					ZEPHIR_INIT_NVAR(filter);
-					zephir_call_method_p1(filter, dependencyInjector, "getshared", _1);
+					ZEPHIR_INIT_VAR(_2);
+					ZVAL_STRING(_2, "filter", 1);
+					zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+					ZEPHIR_CPY_WRT(filter, _1);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
@@ -261,13 +271,17 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
  */
 PHP_METHOD(Phalcon_Http_Request, getQuery) {
 
-	zval *name = NULL, *filters = NULL, *defaultValue = NULL, *get = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_GET, *_0, *_1;
+	zval *name_param = NULL, *filters = NULL, *defaultValue = NULL, *get = NULL, *value, *filter = NULL, *dependencyInjector = NULL, *_GET, *_0, *_1, *_2;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 3, &name, &filters, &defaultValue);
+	zephir_fetch_params(1, 0, 3, &name_param, &filters, &defaultValue);
 
-	if (!name) {
-		ZEPHIR_CPY_WRT(name, ZEPHIR_GLOBAL(global_null));
+	if (!name_param) {
+		ZEPHIR_INIT_VAR(name);
+		ZVAL_EMPTY_STRING(name);
+	} else {
+		zephir_get_strval(name, name_param);
 	}
 	if (!filters) {
 		ZEPHIR_CPY_WRT(filters, ZEPHIR_GLOBAL(global_null));
@@ -279,7 +293,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 
 	zephir_get_global(&_GET, SS("_GET") TSRMLS_CC);
 	ZEPHIR_CPY_WRT(get, _GET);
-	if ((Z_TYPE_P(name) != IS_NULL)) {
+	if (!ZEPHIR_IS_STRING(name, "")) {
 		ZEPHIR_OBS_VAR(value);
 		if (zephir_array_isset_fetch(&value, get, name TSRMLS_CC)) {
 			if ((Z_TYPE_P(filters) != IS_NULL)) {
@@ -294,9 +308,10 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 						return;
 					}
 					ZEPHIR_INIT_VAR(_1);
-					ZVAL_STRING(_1, "filter", 1);
-					ZEPHIR_INIT_NVAR(filter);
-					zephir_call_method_p1(filter, dependencyInjector, "getshared", _1);
+					ZEPHIR_INIT_VAR(_2);
+					ZVAL_STRING(_2, "filter", 1);
+					zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
+					ZEPHIR_CPY_WRT(filter, _1);
 					zephir_update_property_this(this_ptr, SL("_filter"), filter TSRMLS_CC);
 				}
 				zephir_call_method_p2(return_value, filter, "sanitize", value, filters);
@@ -319,11 +334,13 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
  */
 PHP_METHOD(Phalcon_Http_Request, getServer) {
 
-	zval *name, *serverValue, *_SERVER;
+	zval *name_param = NULL, *serverValue, *_SERVER;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(serverValue);
@@ -343,10 +360,12 @@ PHP_METHOD(Phalcon_Http_Request, getServer) {
  */
 PHP_METHOD(Phalcon_Http_Request, has) {
 
-	zval *name, *_REQUEST;
+	zval *name_param = NULL, *_REQUEST;
+	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name);
+	zephir_fetch_params(0, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	zephir_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
@@ -362,10 +381,12 @@ PHP_METHOD(Phalcon_Http_Request, has) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasPost) {
 
-	zval *name, *_POST;
+	zval *name_param = NULL, *_POST;
+	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name);
+	zephir_fetch_params(0, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
@@ -381,10 +402,12 @@ PHP_METHOD(Phalcon_Http_Request, hasPost) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasQuery) {
 
-	zval *name, *_GET;
+	zval *name_param = NULL, *_GET;
+	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name);
+	zephir_fetch_params(0, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	zephir_get_global(&_GET, SS("_GET") TSRMLS_CC);
@@ -400,10 +423,12 @@ PHP_METHOD(Phalcon_Http_Request, hasQuery) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasServer) {
 
-	zval *name, *_SERVER;
+	zval *name_param = NULL, *_SERVER;
+	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name);
+	zephir_fetch_params(0, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
@@ -419,11 +444,13 @@ PHP_METHOD(Phalcon_Http_Request, hasServer) {
  */
 PHP_METHOD(Phalcon_Http_Request, getHeader) {
 
-	zval *header, *serverValue, *headerValue, *_SERVER, *_0;
+	zval *header_param = NULL, *serverValue, *headerValue, *_SERVER, *_0;
+	zval *header = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &header);
+	zephir_fetch_params(1, 1, 0, &header_param);
 
+		zephir_get_strval(header, header_param);
 
 
 	ZEPHIR_OBS_VAR(serverValue);
@@ -590,13 +617,15 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
  */
 PHP_METHOD(Phalcon_Http_Request, getClientAddress) {
 
-	zval *trustForwardedHeader = NULL;
+	zval *trustForwardedHeader_param = NULL;
+	zend_bool trustForwardedHeader;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &trustForwardedHeader);
+	zephir_fetch_params(0, 0, 1, &trustForwardedHeader_param);
 
-	if (!trustForwardedHeader) {
-		ZEPHIR_CPY_WRT(trustForwardedHeader, ZEPHIR_GLOBAL(global_false));
+	if (!trustForwardedHeader_param) {
+		trustForwardedHeader = 0;
+	} else {
+		trustForwardedHeader = zephir_get_boolval(trustForwardedHeader_param);
 	}
 
 
@@ -790,13 +819,15 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
  */
 PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 
-	zval *notErrored = NULL;
+	zval *notErrored_param = NULL;
+	zend_bool notErrored;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &notErrored);
+	zephir_fetch_params(0, 0, 1, &notErrored_param);
 
-	if (!notErrored) {
-		ZEPHIR_CPY_WRT(notErrored, ZEPHIR_GLOBAL(global_false));
+	if (!notErrored_param) {
+		notErrored = 0;
+	} else {
+		notErrored = zephir_get_boolval(notErrored_param);
 	}
 
 

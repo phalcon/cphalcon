@@ -193,16 +193,18 @@ PHP_METHOD(Phalcon_Validation, validate) {
  * Adds a validator to a field
  *
  * @param string attribute
- * @param Phalcon\Validation\ValidatorInterface
+ * @param Phalcon\Validation\ValidatorInterface validator
  * @return Phalcon\Validation
  */
 PHP_METHOD(Phalcon_Validation, add) {
 
-	zval *attribute, *validator, *_0;
+	zval *attribute_param = NULL, *validator, *_0;
+	zval *attribute = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &attribute, &validator);
+	zephir_fetch_params(1, 2, 0, &attribute_param, &validator);
 
+		zephir_get_strval(attribute, attribute_param);
 
 
 	if ((Z_TYPE_P(attribute) != IS_STRING)) {
@@ -231,10 +233,12 @@ PHP_METHOD(Phalcon_Validation, add) {
  */
 PHP_METHOD(Phalcon_Validation, setFilters) {
 
-	zval *attribute, *filters;
+	zval *attribute_param = NULL, *filters;
+	zval *attribute = NULL;
 
-	zephir_fetch_params(0, 2, 0, &attribute, &filters);
+	zephir_fetch_params(0, 2, 0, &attribute_param, &filters);
 
+		zephir_get_strval(attribute, attribute_param);
 
 
 	zephir_update_property_array(this_ptr, SL("_filters"), attribute, filters TSRMLS_CC);
@@ -250,13 +254,17 @@ PHP_METHOD(Phalcon_Validation, setFilters) {
  */
 PHP_METHOD(Phalcon_Validation, getFilters) {
 
-	zval *attribute = NULL, *filters, *attributeFilters;
+	zval *attribute_param = NULL, *filters, *attributeFilters;
+	zval *attribute = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &attribute);
+	zephir_fetch_params(1, 0, 1, &attribute_param);
 
-	if (!attribute) {
-		ZEPHIR_CPY_WRT(attribute, ZEPHIR_GLOBAL(global_null));
+	if (!attribute_param) {
+		ZEPHIR_INIT_VAR(attribute);
+		ZVAL_EMPTY_STRING(attribute);
+	} else {
+		zephir_get_strval(attribute, attribute_param);
 	}
 
 
@@ -371,11 +379,13 @@ PHP_METHOD(Phalcon_Validation, bind) {
  */
 PHP_METHOD(Phalcon_Validation, getValue) {
 
-	zval *attribute, *entity, *method, *value = NULL, *data, *values, *filters, *fieldFilters, *dependencyInjector, *filterService, *_0 = NULL, _1, *_2;
+	zval *attribute_param = NULL, *entity, *method, *value = NULL, *data, *values, *filters, *fieldFilters, *dependencyInjector, *filterService, *_0 = NULL, _1, *_2;
+	zval *attribute = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &attribute);
+	zephir_fetch_params(1, 1, 0, &attribute_param);
 
+		zephir_get_strval(attribute, attribute_param);
 
 
 	ZEPHIR_OBS_VAR(entity);

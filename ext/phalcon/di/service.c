@@ -116,13 +116,19 @@ PHP_METHOD(Phalcon_Di_Service, getName) {
  */
 PHP_METHOD(Phalcon_Di_Service, setShared) {
 
-	zval *shared;
+	zval *shared_param = NULL, *_0;
+	zend_bool shared;
 
-	zephir_fetch_params(0, 1, 0, &shared);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &shared_param);
+
+		shared = zephir_get_boolval(shared_param);
 
 
-
-	zephir_update_property_this(this_ptr, SL("_shared"), shared TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_BOOL(_0, shared);
+	zephir_update_property_this(this_ptr, SL("_shared"), _0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -292,7 +298,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 /**
  * Changes a parameter in the definition without resolve the service
  *
- * @param long position
+ * @param int position
  * @param array parameter
  * @return Phalcon\Di\Service
  */

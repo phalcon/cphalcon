@@ -13,10 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 
 
 /*
@@ -80,10 +80,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 
-	zval *controllerSuffix;
+	zval *controllerSuffix_param = NULL;
+	zval *controllerSuffix = NULL;
 
-	zephir_fetch_params(0, 1, 0, &controllerSuffix);
+	zephir_fetch_params(0, 1, 0, &controllerSuffix_param);
 
+		zephir_get_strval(controllerSuffix, controllerSuffix_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_handlerSuffix"), controllerSuffix TSRMLS_CC);
@@ -97,10 +99,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 
-	zval *controllerName;
+	zval *controllerName_param = NULL;
+	zval *controllerName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &controllerName);
+	zephir_fetch_params(0, 1, 0, &controllerName_param);
 
+		zephir_get_strval(controllerName, controllerName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultHandler"), controllerName TSRMLS_CC);
@@ -114,10 +118,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 
-	zval *controllerName;
+	zval *controllerName_param = NULL;
+	zval *controllerName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &controllerName);
+	zephir_fetch_params(0, 1, 0, &controllerName_param);
 
+		zephir_get_strval(controllerName, controllerName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_handlerName"), controllerName TSRMLS_CC);
@@ -144,14 +150,17 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 
-	zval *message, *exceptionCode = NULL, *eventsManager = NULL, *dependencyInjector, *response, *exception, *_0 = NULL, *_1 = NULL, *_2, *_3;
+	int exceptionCode;
+	zval *message_param = NULL, *exceptionCode_param = NULL, *eventsManager = NULL, *dependencyInjector, *response = NULL, *exception, *_0 = NULL, *_1 = NULL, *_2, *_3;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message, &exceptionCode);
+	zephir_fetch_params(1, 1, 1, &message_param, &exceptionCode_param);
 
-	if (!exceptionCode) {
-		ZEPHIR_INIT_VAR(exceptionCode);
-		ZVAL_LONG(exceptionCode, 0);
+		zephir_get_strval(message, message_param);
+	if (!exceptionCode_param) {
+		exceptionCode = 0;	} else {
+		exceptionCode = zephir_get_intval(exceptionCode_param);
 	}
 
 
@@ -170,9 +179,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 		return;
 	}
 	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_STRING(_0, "response", 1);
-	ZEPHIR_INIT_VAR(response);
-	zephir_call_method_p1(response, dependencyInjector, "getshared", _0);
+	ZEPHIR_INIT_NVAR(_1);
+	ZVAL_STRING(_1, "response", 1);
+	zephir_call_method_p1(_0, dependencyInjector, "getshared", _1);
+	ZEPHIR_CPY_WRT(response, _0);
 	ZEPHIR_INIT_NVAR(_0);
 	ZVAL_LONG(_0, 404);
 	ZEPHIR_INIT_NVAR(_1);
@@ -180,7 +190,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException) {
 	zephir_call_method_p2_noret(response, "setstatuscode", _0, _1);
 	ZEPHIR_INIT_VAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
-	zephir_call_method_p2_noret(exception, "__construct", message, exceptionCode);
+	ZEPHIR_INIT_NVAR(_0);
+	ZVAL_LONG(_0, exceptionCode);
+	zephir_call_method_p2_noret(exception, "__construct", message, _0);
 	ZEPHIR_OBS_VAR(_3);
 	zephir_read_property_this(&_3, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(eventsManager, _3);

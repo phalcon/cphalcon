@@ -42,8 +42,8 @@ class Filter //implements Phalcon\FilterInterface
 	/**
 	 * Adds a user-defined filter
 	 *
-	 * @param string $name
-	 * @param callable $handler
+	 * @param string name
+	 * @param callable handler
 	 * @return Phalcon\Filter
 	 */
 	public function add(string name, handler) -> <Phalcon\Filter>
@@ -59,6 +59,17 @@ class Filter //implements Phalcon\FilterInterface
 
 		let this->_filters[name] = handler;
 		return this;
+	}
+
+	/**
+	 * Sanitizes a value with a specified single or set of filters
+	 *
+	 * @param  value
+	 * @param  filters
+	 * @return mixed
+	 */
+	public function sanitize(var value, var filters)
+	{
 	}
 
 }

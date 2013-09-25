@@ -164,7 +164,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param string $sqlStatement
 	 * @return \PDOStatement
 	 */
-	public function prepare(sqlStatement)
+	public function prepare(string sqlStatement) -> <PDOStatement>
 	{
 		var pdo;
 		let pdo = this->_pdo;
@@ -184,7 +184,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param array dataTypes
 	 * @return \PDOStatement
 	 */
-	public function executePrepared(statement, placeholders, dataTypes)
+	public function executePrepared(<PDOStatement> statement, placeholders, dataTypes) -> <PDOStatement>
 	{
 		var wildcard, value, type, castValue, parameter;
 
@@ -309,7 +309,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param  array bindTypes
 	 * @return boolean
 	 */
-	public function execute(sqlStatement, bindParams=null, bindTypes=null) -> boolean
+	public function execute(string sqlStatement, bindParams=null, bindTypes=null) -> boolean
 	{
 		var eventsManager, affectedRows, pdo, newStatement, statement;
 
@@ -398,7 +398,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param string identifier
 	 * @return string
 	 */
-	public function escapeIdentifier(identifier) -> string
+	public function escapeIdentifier(var identifier) -> string
 	{
 		if typeof identifier == "array" {
 			return "\"" . identifier[0] . "\".\"" . identifier[1] . "\"";
@@ -416,7 +416,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param string str
 	 * @return string
 	 */
-	public function escapeString(str) -> string
+	public function escapeString(string str) -> string
 	{
 		var pdo;
 		let pdo = this->_pdo;

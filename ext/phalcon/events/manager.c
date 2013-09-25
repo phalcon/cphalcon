@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -68,16 +69,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager) {
  */
 PHP_METHOD(Phalcon_Events_Manager, fire) {
 
-	zval *eventType, *source, *data = NULL, *cancelable = NULL;
+	zend_bool cancelable;
+	zval *eventType_param = NULL, *source, *data = NULL, *cancelable_param = NULL;
+	zval *eventType = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 2, &eventType, &source, &data, &cancelable);
+	zephir_fetch_params(1, 2, 2, &eventType_param, &source, &data, &cancelable_param);
 
+		zephir_get_strval(eventType, eventType_param);
 	if (!data) {
 		ZEPHIR_CPY_WRT(data, ZEPHIR_GLOBAL(global_null));
 	}
-	if (!cancelable) {
-		ZEPHIR_CPY_WRT(cancelable, ZEPHIR_GLOBAL(global_true));
+	if (!cancelable_param) {
+		cancelable = 1;
+	} else {
+		cancelable = zephir_get_boolval(cancelable_param);
 	}
 
 

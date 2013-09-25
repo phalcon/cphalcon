@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -59,24 +59,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
-	zval *path, *params, *mustClean = NULL, *status, *view, *_0;
+	zend_bool mustClean;
+	zval *path_param = NULL, *params, *mustClean_param = NULL, *status, *view, *_0;
+	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &path, &params, &mustClean);
+	zephir_fetch_params(1, 2, 1, &path_param, &params, &mustClean_param);
 
-	if (!mustClean) {
-		ZEPHIR_CPY_WRT(mustClean, ZEPHIR_GLOBAL(global_false));
+		zephir_get_strval(path, path_param);
+	if (!mustClean_param) {
+		mustClean = 0;
+	} else {
+		mustClean = zephir_get_boolval(mustClean_param);
 	}
 
 
-	if (ZEPHIR_IS_TRUE(mustClean)) {
+	if ((mustClean == 1)) {
 		zephir_call_func_noret("ob_clean");
 	}
 	if ((Z_TYPE_P(params) == IS_ARRAY)) {
 	}
 	ZEPHIR_INIT_VAR(status);
 	ZVAL_NULL(status);
-	if (ZEPHIR_IS_TRUE(mustClean)) {
+	if ((mustClean == 1)) {
 		ZEPHIR_OBS_VAR(view);
 		zephir_read_property_this(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(_0);

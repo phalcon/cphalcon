@@ -49,6 +49,20 @@ interface DispatcherInterface
 	public function setDefaultAction(actionName);
 
 	/**
+	 * Sets the namespace which the controller belongs to
+	 *
+	 * @param string namespaceName
+	 */
+	public function setNamespaceName(namespaceName);
+
+	/**
+	 * Sets the module name which the application belongs to
+	 *
+	 * @param string moduleName
+	 */
+	public function setModuleName(moduleName);
+
+	/**
 	 * Sets the action name to be dispatched
 	 *
 	 * @param string actionName

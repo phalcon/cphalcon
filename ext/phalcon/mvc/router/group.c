@@ -71,7 +71,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Router, Group, phalcon, mvc_router_group, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Router, Group, phalcon, mvc_router_group, phalcon_mvc_router_group_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_hostname"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -80,6 +80,36 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group) {
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("_beforeMatch"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Group, getPaths) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes) {
+
+
+
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Group, getBeforeMatch) {
+
+
 
 }
 

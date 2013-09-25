@@ -163,9 +163,9 @@ abstract class Flash
 	 *</code>
 	 *
 	 * @param string type
-	 * @param string message
+	 * @param string|array message
 	 */
-	public function outputMessage(string type, string message)
+	public function outputMessage(string type, var message)
 	{
 		boolean automaticHtml, implicitFlush;
 		var content, cssClasses, classes, typeClasses, eol, msg,

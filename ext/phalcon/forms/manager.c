@@ -18,6 +18,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -89,11 +90,13 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, get) {
 
-	zval *name, *form, *forms, *_0, *_1, *_2;
+	zval *name_param = NULL, *form, *forms, *_0, *_1, *_2;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(forms);
@@ -123,11 +126,13 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, has) {
 
-	zval *name, *forms;
+	zval *name_param = NULL, *forms;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(forms);
@@ -145,20 +150,14 @@ PHP_METHOD(Phalcon_Forms_Manager, has) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, set) {
 
-	zval *name, *form;
+	zval *name_param = NULL, *form;
+	zval *name = NULL;
 
-	zephir_fetch_params(0, 2, 0, &name, &form);
+	zephir_fetch_params(0, 2, 0, &name_param, &form);
+
+		zephir_get_strval(name, name_param);
 
 
-
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "The form name must be string");
-		return;
-	}
-	if ((Z_TYPE_P(form) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_forms_exception_ce, "The form is not valid");
-		return;
-	}
 	zephir_update_property_array(this_ptr, SL("_forms"), name, form TSRMLS_CC);
 	RETURN_THISW();
 

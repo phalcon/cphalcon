@@ -63,11 +63,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service_Builder) {
  */
 PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter) {
 
-	zval *dependencyInjector, *position, *argument, *type, *name = NULL, *value, *instanceArguments, *_0 = NULL, *_1 = NULL, *_2 = NULL;
+	int position;
+	zval *dependencyInjector, *position_param = NULL, *argument, *type, *name = NULL, *value, *instanceArguments, *_0 = NULL, *_1 = NULL, *_2 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &dependencyInjector, &position, &argument);
+	zephir_fetch_params(1, 3, 0, &dependencyInjector, &position_param, &argument);
 
+		position = zephir_get_intval(position_param);
 
 
 	if ((Z_TYPE_P(argument) != IS_ARRAY)) {

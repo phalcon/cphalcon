@@ -65,6 +65,20 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setDefaultNamespace);
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setDefaultAction);
 
 /**
+ * Sets the namespace which the controller belongs to
+ *
+ * @param string namespaceName
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setNamespaceName);
+
+/**
+ * Sets the module name which the application belongs to
+ *
+ * @param string moduleName
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, setModuleName);
+
+/**
  * Sets the action name to be dispatched
  *
  * @param string actionName

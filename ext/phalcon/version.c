@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Version, get) {
  * echo Phalcon\Version::getId();
  * </code>
  *
- * @return int
+ * @return string
  */
 PHP_METHOD(Phalcon_Version, getId) {
 

@@ -123,7 +123,7 @@ interface RouterInterface {
 	 * @param string/array paths
 	 * @return Phalcon\Mvc\Router\RouteInterface
 	 */
-	public function addHead(pattern, paths=null);
+	public function addHead(string pattern, paths=null);
 
 	/**
 	 * Removes all the defined routes
@@ -136,6 +136,13 @@ interface RouterInterface {
 	 * @return string
 	 */
 	public function getModuleName();
+
+	/**
+	 * Returns processed namespace name
+	 *
+	 * @return string
+	 */
+	public function getNamespaceName();
 
 	/**
 	 * Returns processed controller name

@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -71,16 +71,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Escaper) {
  */
 PHP_METHOD(Phalcon_Escaper, setEncoding) {
 
-	zval *encoding;
+	zval *encoding_param = NULL;
+	zval *encoding = NULL;
 
-	zephir_fetch_params(0, 1, 0, &encoding);
+	zephir_fetch_params(0, 1, 0, &encoding_param);
+
+		zephir_get_strval(encoding, encoding_param);
 
 
-
-	if ((Z_TYPE_P(encoding) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The character set must be string");
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
 
 }
@@ -108,17 +106,19 @@ PHP_METHOD(Phalcon_Escaper, getEncoding) {
  */
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
-	zval *quoteType;
+	zval *quoteType_param = NULL, *_0;
+	int quoteType;
 
-	zephir_fetch_params(0, 1, 0, &quoteType);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &quoteType_param);
+
+		quoteType = zephir_get_intval(quoteType_param);
 
 
-
-	if ((Z_TYPE_P(quoteType) != IS_LONG)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_escaper_exception_ce, "The quoting type is not valid");
-		return;
-	}
-	zephir_update_property_this(this_ptr, SL("_htmlQuoteType"), quoteType TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, quoteType);
+	zephir_update_property_zval(this_ptr, SL("_htmlQuoteType"), _0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

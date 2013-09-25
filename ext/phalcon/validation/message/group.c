@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 
 
@@ -93,17 +93,19 @@ PHP_METHOD(Phalcon_Validation_Message_Group, __construct) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
 
-	zval *index, *messages, *message;
+	zval *index_param = NULL, *messages, *message;
+	int index;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &index);
+	zephir_fetch_params(1, 1, 0, &index_param);
 
+		index = zephir_get_intval(index_param);
 
 
 	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(message);
-	if (zephir_array_isset_fetch(&message, messages, index TSRMLS_CC)) {
+	if (zephir_array_isset_long_fetch(&message, messages, index TSRMLS_CC)) {
 		RETURN_CCTOR(message);
 	}
 	RETURN_MM_NULL();
@@ -122,10 +124,12 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetGet) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 
-	zval *index, *message;
+	zval *index_param = NULL, *message;
+	zval *index = NULL;
 
-	zephir_fetch_params(0, 2, 0, &index, &message);
+	zephir_fetch_params(0, 2, 0, &index_param, &message);
 
+		zephir_get_strval(index, index_param);
 
 
 	if ((Z_TYPE_P(message) != IS_OBJECT)) {
@@ -148,11 +152,13 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
  */
 PHP_METHOD(Phalcon_Validation_Message_Group, offsetExists) {
 
-	zval *index, *messages;
+	zval *index_param = NULL, *messages;
+	zval *index = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &index);
+	zephir_fetch_params(1, 1, 0, &index_param);
 
+		zephir_get_strval(index, index_param);
 
 
 	ZEPHIR_OBS_VAR(messages);
@@ -274,11 +280,13 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *fieldName, *filtered, *messages, *message = NULL, **_2, _3 = zval_used_for_init, *_4 = NULL, *_5 = NULL;
+	zval *fieldName_param = NULL, *filtered, *messages, *message = NULL, **_2, _3 = zval_used_for_init, *_4 = NULL, *_5 = NULL;
+	zval *fieldName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &fieldName);
+	zephir_fetch_params(1, 1, 0, &fieldName_param);
 
+		zephir_get_strval(fieldName, fieldName_param);
 
 
 	ZEPHIR_INIT_VAR(filtered);

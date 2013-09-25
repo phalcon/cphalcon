@@ -15,6 +15,7 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -101,11 +102,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, partial) {
 
-	zval *partialPath, *params = NULL, *view;
+	zval *partialPath_param = NULL, *params = NULL, *view;
+	zval *partialPath = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &partialPath, &params);
+	zephir_fetch_params(1, 1, 1, &partialPath_param, &params);
 
+		zephir_get_strval(partialPath, partialPath_param);
 	if (!params) {
 		ZEPHIR_CPY_WRT(params, ZEPHIR_GLOBAL(global_null));
 	}

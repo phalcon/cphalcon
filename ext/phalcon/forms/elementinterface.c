@@ -100,6 +100,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, getFilters);
  * Adds a group of validators
  *
  * @param Phalcon\Validation\ValidatorInterface[]
+ * @param boolean merge
  * @return Phalcon\Forms\ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_ElementInterface, addValidators);

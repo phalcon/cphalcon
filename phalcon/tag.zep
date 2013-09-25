@@ -111,7 +111,8 @@ class Tag
 		let url = self::_urlService;
 		if typeof url != "object" {
 
-			let dependencyInjector = <Phalcon\DiInterface> self::_dependencyInjector;
+			//let dependencyInjector = <Phalcon\DiInterface> self::_dependencyInjector;
+			let dependencyInjector = self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
 				let dependencyInjector = Phalcon\Di::getDefault();
 			}
@@ -138,7 +139,8 @@ class Tag
 		let escaper = self::_escaperService;
 		if typeof escaper != "object" {
 
-			let dependencyInjector = <Phalcon\DiInterface> self::_dependencyInjector;
+			//let dependencyInjector = <Phalcon\DiInterface> self::_dependencyInjector;
+			let dependencyInjector = self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
 				let dependencyInjector = Phalcon\DI::getDefault();
 			}

@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
  * Sets options for the element
  *
  * @param array options
- * @return Phalcon\Forms\ElementInterface
+ * @return Phalcon\Forms\Form
  */
 PHP_METHOD(Phalcon_Forms_Form, setUserOptions) {
 
@@ -592,11 +592,13 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
  */
 PHP_METHOD(Phalcon_Forms_Form, render) {
 
-	zval *name, *attributes = NULL, *elements, *element, *_0, *_1, *_2;
+	zval *name_param = NULL, *attributes = NULL, *elements, *element, *_0, *_1, *_2;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &name, &attributes);
+	zephir_fetch_params(1, 1, 1, &name_param, &attributes);
 
+		zephir_get_strval(name, name_param);
 	if (!attributes) {
 		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
 	}
@@ -635,11 +637,13 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
  */
 PHP_METHOD(Phalcon_Forms_Form, get) {
 
-	zval *name, *elements, *element, *_0, *_1, *_2;
+	zval *name_param = NULL, *elements, *element, *_0, *_1, *_2;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(elements);
@@ -669,11 +673,13 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
  */
 PHP_METHOD(Phalcon_Forms_Form, label) {
 
-	zval *name, *elements, *element, *_0, *_1, *_2;
+	zval *name_param = NULL, *elements, *element, *_0, *_1, *_2;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(elements);
@@ -704,11 +710,13 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
  */
 PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 
-	zval *name, *elements, *element, *label, *_0, *_1, *_2;
+	zval *name_param = NULL, *elements, *element, *label, *_0, *_1, *_2;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(elements);
@@ -730,7 +738,7 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 	ZEPHIR_INIT_VAR(label);
 	zephir_call_method(label, element, "getlabel");
 	if (!(zephir_is_true(label))) {
-		RETURN_CCTOR(name);
+		RETURN_CTOR(name);
 	}
 	RETURN_CCTOR(label);
 
@@ -744,11 +752,13 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
  */
 PHP_METHOD(Phalcon_Forms_Form, getValue) {
 
-	zval *name, *entity, *method, *value = NULL, *data, *_0;
+	zval *name_param = NULL, *entity, *method, *value = NULL, *data, *_0;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(entity);
@@ -787,11 +797,13 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
  */
 PHP_METHOD(Phalcon_Forms_Form, has) {
 
-	zval *name, *elements;
+	zval *name_param = NULL, *elements;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(elements);
@@ -808,11 +820,13 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
  */
 PHP_METHOD(Phalcon_Forms_Form, remove) {
 
-	zval *name, *elements;
+	zval *name_param = NULL, *elements;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(elements);
@@ -909,7 +923,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 /**
  * Returns the current element in the iterator
  *
- * @return Phalcon\Validation\Message
+ * @return Phalcon\Forms\ElementInterface
  */
 PHP_METHOD(Phalcon_Forms_Form, current) {
 

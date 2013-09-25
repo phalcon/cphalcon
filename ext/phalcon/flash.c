@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 
@@ -99,14 +99,19 @@ PHP_METHOD(Phalcon_Flash, __construct) {
  */
 PHP_METHOD(Phalcon_Flash, setImplicitFlush) {
 
-	zval *implicitFlush;
+	zval *implicitFlush_param = NULL, *_0;
+	zend_bool implicitFlush;
 
-	zephir_fetch_params(0, 1, 0, &implicitFlush);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &implicitFlush_param);
+
+		implicitFlush = zephir_get_boolval(implicitFlush_param);
 
 
-
-	zephir_update_property_this(this_ptr, SL("_implicitFlush"), implicitFlush TSRMLS_CC);
-	RETURN_THISW();
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_BOOL(_0, implicitFlush);
+	zephir_update_property_this(this_ptr, SL("_implicitFlush"), _0 TSRMLS_CC);
+	RETURN_THIS();
 
 }
 
@@ -118,14 +123,19 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush) {
  */
 PHP_METHOD(Phalcon_Flash, setAutomaticHtml) {
 
-	zval *automaticHtml;
+	zval *automaticHtml_param = NULL, *_0;
+	zend_bool automaticHtml;
 
-	zephir_fetch_params(0, 1, 0, &automaticHtml);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &automaticHtml_param);
+
+		automaticHtml = zephir_get_boolval(automaticHtml_param);
 
 
-
-	zephir_update_property_this(this_ptr, SL("_automaticHtml"), automaticHtml TSRMLS_CC);
-	RETURN_THISW();
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_BOOL(_0, automaticHtml);
+	zephir_update_property_this(this_ptr, SL("_automaticHtml"), _0 TSRMLS_CC);
+	RETURN_THIS();
 
 }
 
@@ -164,11 +174,13 @@ PHP_METHOD(Phalcon_Flash, setCssClasses) {
  */
 PHP_METHOD(Phalcon_Flash, error) {
 
-	zval *message, *_0;
+	zval *message_param = NULL, *_0;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message);
+	zephir_fetch_params(1, 1, 0, &message_param);
 
+		zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -190,11 +202,13 @@ PHP_METHOD(Phalcon_Flash, error) {
  */
 PHP_METHOD(Phalcon_Flash, notice) {
 
-	zval *message, *_0;
+	zval *message_param = NULL, *_0;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message);
+	zephir_fetch_params(1, 1, 0, &message_param);
 
+		zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -216,11 +230,13 @@ PHP_METHOD(Phalcon_Flash, notice) {
  */
 PHP_METHOD(Phalcon_Flash, success) {
 
-	zval *message, *_0;
+	zval *message_param = NULL, *_0;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message);
+	zephir_fetch_params(1, 1, 0, &message_param);
 
+		zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -242,11 +258,13 @@ PHP_METHOD(Phalcon_Flash, success) {
  */
 PHP_METHOD(Phalcon_Flash, warning) {
 
-	zval *message, *_0;
+	zval *message_param = NULL, *_0;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message);
+	zephir_fetch_params(1, 1, 0, &message_param);
 
+		zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -264,18 +282,20 @@ PHP_METHOD(Phalcon_Flash, warning) {
  *</code>
  *
  * @param string type
- * @param string message
+ * @param string|array message
  */
 PHP_METHOD(Phalcon_Flash, outputMessage) {
 
 	HashTable *_6;
 	HashPosition _5;
 	zend_bool automaticHtml, implicitFlush;
-	zval *type, *message, *content, *cssClasses = NULL, *classes, *typeClasses, *eol, *msg = NULL, *htmlMessage = NULL, *_0, _1, *_2, *_3 = NULL, *_4, **_7, *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zval *type_param = NULL, *message, *content, *cssClasses = NULL, *classes, *typeClasses, *eol, *msg = NULL, *htmlMessage = NULL, *_0, _1, *_2, *_3 = NULL, *_4, **_7, *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zval *type = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &type, &message);
+	zephir_fetch_params(1, 2, 0, &type_param, &message);
 
+		zephir_get_strval(type, type_param);
 
 
 	ZEPHIR_OBS_VAR(_0);

@@ -155,6 +155,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, clear);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getModuleName);
 
 /**
+ * Returns processed namespace name
+ *
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getNamespaceName);
+
+/**
  * Returns processed controller name
  *
  * @return string

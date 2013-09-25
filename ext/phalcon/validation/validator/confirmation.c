@@ -68,11 +68,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Confirmation) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 
-	zval *validator, *attribute, *withAttribute, *value, *withValue, *message = NULL, *_0, *_1, *_2, *_3;
+	zval *attribute = NULL;
+	zval *validator, *attribute_param = NULL, *withAttribute, *value, *withValue, *message = NULL, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &validator, &attribute);
+	zephir_fetch_params(1, 2, 0, &validator, &attribute_param);
 
+		zephir_get_strval(attribute, attribute_param);
 
 
 	ZEPHIR_INIT_VAR(_0);

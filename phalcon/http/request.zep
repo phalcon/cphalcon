@@ -97,7 +97,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 						if typeof dependencyInjector != "object" {
 							throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
 						}
-						let filter = dependencyInjector->getShared("filter");
+						let filter = <Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
 					}
 					return filter->sanitize(value, filters);
@@ -141,7 +141,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 						if typeof dependencyInjector != "object" {
 							throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
 						}
-						let filter = dependencyInjector->getShared("filter");
+						let filter = <Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
 					}
 					return filter->sanitize(value, filters);
@@ -188,7 +188,7 @@ class Request implements Phalcon\Http\RequestInterface, Phalcon\Di\InjectionAwar
 						if typeof dependencyInjector != "object" {
 							throw new Phalcon\Http\Request\Exception("A dependency injection object is required to access the 'filter' service");
 						}
-						let filter = dependencyInjector->getShared("filter");
+						let filter = <Phalcon\Filter> dependencyInjector->getShared("filter");
 						let this->_filter = filter;
 					}
 					return filter->sanitize(value, filters);

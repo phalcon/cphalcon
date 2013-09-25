@@ -219,11 +219,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
 
-	zval *sqlStatement, *pdo;
+	zval *sqlStatement_param = NULL, *pdo;
+	zval *sqlStatement = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &sqlStatement);
+	zephir_fetch_params(1, 1, 0, &sqlStatement_param);
 
+		zephir_get_strval(sqlStatement, sqlStatement_param);
 
 
 	ZEPHIR_OBS_VAR(pdo);
@@ -397,11 +399,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute) {
 
-	zval *sqlStatement, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *affectedRows, *pdo, *newStatement, *statement, *_0, *_1 = NULL, *_2;
+	zval *sqlStatement_param = NULL, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *affectedRows, *pdo, *newStatement, *statement, *_0, *_1 = NULL, *_2;
+	zval *sqlStatement = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &sqlStatement, &bindParams, &bindTypes);
+	zephir_fetch_params(1, 1, 2, &sqlStatement_param, &bindParams, &bindTypes);
 
+		zephir_get_strval(sqlStatement, sqlStatement_param);
 	if (!bindParams) {
 		ZEPHIR_CPY_WRT(bindParams, ZEPHIR_GLOBAL(global_null));
 	}
@@ -546,11 +550,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeIdentifier) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString) {
 
-	zval *str, *pdo;
+	zval *str_param = NULL, *pdo;
+	zval *str = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &str);
+	zephir_fetch_params(1, 1, 0, &str_param);
 
+		zephir_get_strval(str, str_param);
 
 
 	ZEPHIR_OBS_VAR(pdo);

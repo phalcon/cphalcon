@@ -173,13 +173,16 @@ PHP_METHOD(Phalcon_Loader, getExtensions) {
  */
 PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 
-	zval *namespaces, *merge = NULL, *currentNamespaces, *_0;
+	zend_bool merge;
+	zval *namespaces, *merge_param = NULL, *currentNamespaces, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &namespaces, &merge);
+	zephir_fetch_params(1, 1, 1, &namespaces, &merge_param);
 
-	if (!merge) {
-		ZEPHIR_CPY_WRT(merge, ZEPHIR_GLOBAL(global_false));
+	if (!merge_param) {
+		merge = 0;
+	} else {
+		merge = zephir_get_boolval(merge_param);
 	}
 
 
@@ -187,7 +190,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter namespaces must be an array");
 		return;
 	}
-	if (zephir_is_true(merge)) {
+	if (merge) {
 		ZEPHIR_OBS_VAR(currentNamespaces);
 		zephir_read_property_this(&currentNamespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentNamespaces) == IS_ARRAY)) {
@@ -225,13 +228,16 @@ PHP_METHOD(Phalcon_Loader, getNamespaces) {
  */
 PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 
-	zval *prefixes, *merge = NULL, *currentPrefixes, *_0;
+	zend_bool merge;
+	zval *prefixes, *merge_param = NULL, *currentPrefixes, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &prefixes, &merge);
+	zephir_fetch_params(1, 1, 1, &prefixes, &merge_param);
 
-	if (!merge) {
-		ZEPHIR_CPY_WRT(merge, ZEPHIR_GLOBAL(global_false));
+	if (!merge_param) {
+		merge = 0;
+	} else {
+		merge = zephir_get_boolval(merge_param);
 	}
 
 
@@ -239,7 +245,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter prefixes must be an array");
 		return;
 	}
-	if (zephir_is_true(merge)) {
+	if (merge) {
 		ZEPHIR_OBS_VAR(currentPrefixes);
 		zephir_read_property_this(&currentPrefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentPrefixes) == IS_ARRAY)) {
@@ -277,13 +283,16 @@ PHP_METHOD(Phalcon_Loader, getPrefixes) {
  */
 PHP_METHOD(Phalcon_Loader, registerDirs) {
 
-	zval *directories, *merge = NULL, *currentDirectories, *_0;
+	zend_bool merge;
+	zval *directories, *merge_param = NULL, *currentDirectories, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &directories, &merge);
+	zephir_fetch_params(1, 1, 1, &directories, &merge_param);
 
-	if (!merge) {
-		ZEPHIR_CPY_WRT(merge, ZEPHIR_GLOBAL(global_false));
+	if (!merge_param) {
+		merge = 0;
+	} else {
+		merge = zephir_get_boolval(merge_param);
 	}
 
 
@@ -291,7 +300,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter directories must be an array");
 		return;
 	}
-	if (zephir_is_true(merge)) {
+	if (merge) {
 		ZEPHIR_OBS_VAR(currentDirectories);
 		zephir_read_property_this(&currentDirectories, this_ptr, SL("_directories"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentDirectories) == IS_ARRAY)) {
@@ -329,13 +338,16 @@ PHP_METHOD(Phalcon_Loader, getDirs) {
  */
 PHP_METHOD(Phalcon_Loader, registerClasses) {
 
-	zval *classes, *merge = NULL, *currentClasses, *_0;
+	zend_bool merge;
+	zval *classes, *merge_param = NULL, *currentClasses, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &classes, &merge);
+	zephir_fetch_params(1, 1, 1, &classes, &merge_param);
 
-	if (!merge) {
-		ZEPHIR_CPY_WRT(merge, ZEPHIR_GLOBAL(global_false));
+	if (!merge_param) {
+		merge = 0;
+	} else {
+		merge = zephir_get_boolval(merge_param);
 	}
 
 
@@ -343,7 +355,7 @@ PHP_METHOD(Phalcon_Loader, registerClasses) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter directories must be an array");
 		return;
 	}
-	if (zephir_is_true(merge)) {
+	if (merge) {
 		ZEPHIR_OBS_VAR(currentClasses);
 		zephir_read_property_this(&currentClasses, this_ptr, SL("_classes"), PH_NOISY_CC);
 		if ((Z_TYPE_P(currentClasses) == IS_ARRAY)) {
@@ -434,10 +446,12 @@ PHP_METHOD(Phalcon_Loader, unregister) {
  */
 PHP_METHOD(Phalcon_Loader, autoLoad) {
 
-	zval *className;
+	zval *className_param = NULL;
+	zval *className = NULL;
 
-	zephir_fetch_params(0, 1, 0, &className);
+	zephir_fetch_params(0, 1, 0, &className_param);
 
+		zephir_get_strval(className, className_param);
 
 
 

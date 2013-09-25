@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -62,16 +63,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter) {
 /**
  * Adds a user-defined filter
  *
- * @param string $name
- * @param callable $handler
+ * @param string name
+ * @param callable handler
  * @return Phalcon\Filter
  */
 PHP_METHOD(Phalcon_Filter, add) {
 
-	zval *name, *handler;
+	zval *name_param = NULL, *handler;
+	zval *name = NULL;
 
-	zephir_fetch_params(0, 2, 0, &name, &handler);
+	zephir_fetch_params(0, 2, 0, &name_param, &handler);
 
+		zephir_get_strval(name, name_param);
 
 
 	if ((Z_TYPE_P(name) != IS_STRING)) {
@@ -84,6 +87,24 @@ PHP_METHOD(Phalcon_Filter, add) {
 	}
 	zephir_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);
 	RETURN_THISW();
+
+}
+
+/**
+ * Sanitizes a value with a specified single or set of filters
+ *
+ * @param  value
+ * @param  filters
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Filter, sanitize) {
+
+	zval *value, *filters;
+
+	zephir_fetch_params(0, 2, 0, &value, &filters);
+
+
+
 
 }
 

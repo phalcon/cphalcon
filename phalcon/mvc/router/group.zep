@@ -60,15 +60,14 @@ namespace Phalcon\Mvc\Router;
 class Group
 {
 
-	protected _prefix;
+	protected _prefix { get };
 
-	protected _hostname;
+	protected _hostname { get };
 
-	protected _paths;
+	protected _paths { get };
 
-	protected _routes;
+	protected _routes { get };
 
-	protected _beforeMatch;
-
+	protected _beforeMatch { get };
 
 }

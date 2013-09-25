@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Tag, getDI) {
  */
 PHP_METHOD(Phalcon_Tag, getUrlService) {
 
-	zval *url, *dependencyInjector, *_0;
+	zval *url = NULL, *dependencyInjector, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
@@ -138,9 +138,10 @@ PHP_METHOD(Phalcon_Tag, getUrlService) {
 			return;
 		}
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "url", 1);
-		ZEPHIR_INIT_BNVAR(url);
-		zephir_call_method_p1(url, dependencyInjector, "getshared", _0);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "url", 1);
+		zephir_call_method_p1(_0, dependencyInjector, "getshared", _1);
+		ZEPHIR_CPY_WRT(url, _0);
 	}
 	RETURN_CCTOR(url);
 
@@ -153,7 +154,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService) {
  */
 PHP_METHOD(Phalcon_Tag, getEscaperService) {
 
-	zval *escaper, *dependencyInjector, *_0;
+	zval *escaper = NULL, *dependencyInjector, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 
@@ -169,9 +170,10 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
 			return;
 		}
 		ZEPHIR_INIT_VAR(_0);
-		ZVAL_STRING(_0, "escaper", 1);
-		ZEPHIR_INIT_BNVAR(escaper);
-		zephir_call_method_p1(escaper, dependencyInjector, "getshared", _0);
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "escaper", 1);
+		zephir_call_method_p1(_0, dependencyInjector, "getshared", _1);
+		ZEPHIR_CPY_WRT(escaper, _0);
 	}
 	RETURN_CCTOR(escaper);
 
@@ -184,10 +186,12 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
  */
 PHP_METHOD(Phalcon_Tag, setAutoescape) {
 
-	zval *autoescape;
+	zval *autoescape_param = NULL;
+	zend_bool autoescape;
 
-	zephir_fetch_params(0, 1, 0, &autoescape);
+	zephir_fetch_params(0, 1, 0, &autoescape_param);
 
+		autoescape = zephir_get_boolval(autoescape_param);
 
 
 
@@ -209,10 +213,12 @@ PHP_METHOD(Phalcon_Tag, setAutoescape) {
  */
 PHP_METHOD(Phalcon_Tag, setDefault) {
 
-	zval *id, *value;
+	zval *id_param = NULL, *value;
+	zval *id = NULL;
 
-	zephir_fetch_params(0, 2, 0, &id, &value);
+	zephir_fetch_params(0, 2, 0, &id_param, &value);
 
+		zephir_get_strval(id, id_param);
 
 
 	if ((Z_TYPE_P(value) != IS_NULL)) {

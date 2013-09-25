@@ -16,6 +16,7 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -87,11 +88,13 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
 
-	zval *key, *options;
+	zval *key_param = NULL, *options;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &key);
+	zephir_fetch_params(1, 1, 0, &key_param);
 
+		zephir_get_strval(key, key_param);
 
 
 	ZEPHIR_OBS_VAR(options);
@@ -112,11 +115,13 @@ PHP_METHOD(Phalcon_Validation_Validator, isSetOption) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
-	zval *key, *options, *value;
+	zval *key_param = NULL, *options, *value;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &key);
+	zephir_fetch_params(1, 1, 0, &key_param);
 
+		zephir_get_strval(key, key_param);
 
 
 	ZEPHIR_OBS_VAR(options);
@@ -139,10 +144,12 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 
-	zval *key, *value;
+	zval *key_param = NULL, *value;
+	zval *key = NULL;
 
-	zephir_fetch_params(0, 2, 0, &key, &value);
+	zephir_fetch_params(0, 2, 0, &key_param, &value);
 
+		zephir_get_strval(key, key_param);
 
 
 	zephir_update_property_array(this_ptr, SL("_options"), key, value TSRMLS_CC);

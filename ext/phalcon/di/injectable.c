@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 /**
  * Sets the event manager
  *
- * @param Phalcon\Events\ManagerInterface $eventsManager
+ * @param Phalcon\Events\ManagerInterface eventsManager
  */
 PHP_METHOD(Phalcon_Di_Injectable, setEventsManager) {
 
@@ -144,11 +144,13 @@ PHP_METHOD(Phalcon_Di_Injectable, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
-	zval *propertyName, *dependencyInjector, *hasService, *service, *persistent, *_0, *_1 = NULL, *_2;
+	zval *propertyName_param = NULL, *dependencyInjector, *hasService, *service, *persistent, *_0, *_1 = NULL, *_2;
+	zval *propertyName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &propertyName);
+	zephir_fetch_params(1, 1, 0, &propertyName_param);
 
+		zephir_get_strval(propertyName, propertyName_param);
 
 
 	ZEPHIR_OBS_VAR(dependencyInjector);

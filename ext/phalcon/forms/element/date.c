@@ -49,7 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Date) {
 /**
  * Renders the element widget returning html
  *
- * @param array $attributes
+ * @param array attributes
  * @return string
  */
 PHP_METHOD(Phalcon_Forms_Element_Date, render) {
