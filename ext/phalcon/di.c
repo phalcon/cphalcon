@@ -13,10 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Di, __construct) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(defaultDi);
-	ZVAL_NULL(defaultDi);
+	defaultDi = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC););
 	if (!(zephir_is_true(defaultDi))) {
 	}
 	ZEPHIR_MM_RESTORE();
@@ -666,7 +666,8 @@ PHP_METHOD(Phalcon_Di, setDefault) {
 PHP_METHOD(Phalcon_Di, getDefault) {
 
 
-	RETURN_NULL();
+	return_value = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC););
+	return;
 
 }
 

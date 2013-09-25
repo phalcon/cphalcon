@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
@@ -111,7 +112,8 @@ PHP_METHOD(Phalcon_Tag, setDI) {
 PHP_METHOD(Phalcon_Tag, getDI) {
 
 
-	RETURN_NULL();
+	return_value = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC););
+	return;
 
 }
 
@@ -127,10 +129,10 @@ PHP_METHOD(Phalcon_Tag, getUrlService) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(url);
-	ZVAL_NULL(url);
+	url = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_urlService") TSRMLS_CC););
 	if ((Z_TYPE_P(url) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(dependencyInjector);
-		ZVAL_NULL(dependencyInjector);
+		dependencyInjector = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC););
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		}
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -159,10 +161,10 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(escaper);
-	ZVAL_NULL(escaper);
+	escaper = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_escaperService") TSRMLS_CC););
 	if ((Z_TYPE_P(escaper) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(dependencyInjector);
-		ZVAL_NULL(dependencyInjector);
+		dependencyInjector = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC););
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		}
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
@@ -294,7 +296,7 @@ PHP_METHOD(Phalcon_Tag, hasValue) {
 
 
 	ZEPHIR_INIT_VAR(displayValues);
-	ZVAL_NULL(displayValues);
+	displayValues = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_displayValues") TSRMLS_CC););
 	if (zephir_array_isset(displayValues, name)) {
 		RETURN_MM_BOOL(1);
 	} else {
@@ -317,7 +319,7 @@ PHP_METHOD(Phalcon_Tag, hasValue) {
  */
 PHP_METHOD(Phalcon_Tag, getValue) {
 
-	zval *name, *params = NULL, *value = NULL, *autoescape, *displayValues, *escaper = NULL, *_POST;
+	zval *name, *params = NULL, *value = NULL, *autoescape, *displayValues, *escaper = NULL, *_POST, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name, &params);
@@ -328,7 +330,7 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 
 
 	ZEPHIR_INIT_VAR(displayValues);
-	ZVAL_NULL(displayValues);
+	displayValues = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_displayValues") TSRMLS_CC););
 	ZEPHIR_OBS_VAR(value);
 	if (!(zephir_array_isset_fetch(&value, displayValues, name TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(value);
@@ -338,7 +340,9 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 		}
 	}
 	if ((Z_TYPE_P(value) == IS_STRING)) {
-		if (0) {
+		ZEPHIR_INIT_VAR(_0);
+		_0 = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_autoEscape") TSRMLS_CC););
+		if (zephir_is_true(_0)) {
 			ZEPHIR_INIT_VAR(escaper);
 			zephir_call_self(escaper, this_ptr, "getescaperservice");
 			zephir_call_method_p1(return_value, escaper, "escapehtmlattr", value);
