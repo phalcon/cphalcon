@@ -527,7 +527,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 		 */
 		PHALCON_OBS_VAR(schema_name);
 		phalcon_array_fetch_long(&schema_name, table, 1, PH_NOISY);
-		if (Z_TYPE_P(schema_name) != IS_NULL) {
+		if (PHALCON_IS_NOT_EMPTY(schema_name)) {
 			if (PHALCON_GLOBAL(db).escape_identifiers) {
 				PHALCON_INIT_VAR(sql_schema);
 				PHALCON_CONCAT_VVVSV(sql_schema, escape_char, schema_name, escape_char, ".", sql_table);
