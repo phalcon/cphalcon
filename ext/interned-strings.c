@@ -48,6 +48,7 @@ const char *phalcon_interned_domain         = NULL;
 const char *phalcon_interned_expr           = NULL;
 const char *phalcon_interned_fields         = NULL;
 const char *phalcon_interned_file           = NULL;
+const char *phalcon_interned_filter         = NULL;
 const char *phalcon_interned_functionCall   = NULL;
 const char *phalcon_interned_group          = NULL;
 const char *phalcon_interned_groupBy        = NULL;
@@ -107,6 +108,7 @@ PHALCON_STATIC void phalcon_init_interned_strings(TSRMLS_D)
 	phalcon_interned_expr           = zend_new_interned_string(SS("expr"), 0 TSRMLS_CC);
 	phalcon_interned_fields         = zend_new_interned_string(SS("fields"), 0 TSRMLS_CC);
 	phalcon_interned_file           = zend_new_interned_string(SS("file"), 0 TSRMLS_CC);
+	phalcon_interned_filter         = zend_new_interned_string(SS("filter"), 0 TSRMLS_CC);
 	phalcon_interned_functionCall   = zend_new_interned_string(SS("functionCall"), 0 TSRMLS_CC);
 	phalcon_interned_group          = zend_new_interned_string(SS("group"), 0 TSRMLS_CC);
 	phalcon_interned_groupBy        = zend_new_interned_string(SS("groupBy"), 0 TSRMLS_CC);
