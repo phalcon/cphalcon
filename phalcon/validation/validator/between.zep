@@ -44,7 +44,7 @@ class Between extends Phalcon\Validation\Validator implements Phalcon\Validation
 	 * @param string attribute
 	 * @return boolean
 	 */
-	public function validate(validator, attribute)
+	public function validate(<Phalcon\Validation> validator, string attribute) -> boolean
 	{
 		var value, minimum, maximum, message;
 

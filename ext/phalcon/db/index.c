@@ -108,7 +108,6 @@ PHP_METHOD(Phalcon_Db_Index, getColumns) {
  * Restore a Phalcon\Db\Index object from export
  *
  * @param array data
- * @return Phalcon\Db\IndexInterface
  */
 PHP_METHOD(Phalcon_Db_Index, __set_state) {
 

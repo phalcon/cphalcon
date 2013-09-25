@@ -52,7 +52,7 @@ class Version
 	 *
 	 * @return string
 	 */
-	public static function get()
+	public static function get() -> string
 	{
 		var version, major, medium, minor,
 			special, specialNumber, result, suffix;
@@ -92,9 +92,9 @@ class Version
 	 * echo Phalcon\Version::getId();
 	 * </code>
 	 *
-	 * @return int
+	 * @return string
 	 */
-	public static function getId()
+	public static function getId() -> string
 	{
 		var version, major, medium, minor,
 			special, specialNumber;

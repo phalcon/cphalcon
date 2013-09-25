@@ -60,7 +60,7 @@ class Service implements Phalcon\Di\ServiceInterface
 	 *
 	 * @param string
 	 */
-	public function getName()
+	public function getName() -> string
 	{
 		return this->_name;
 	}

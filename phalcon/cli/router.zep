@@ -75,7 +75,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI()
+	public function getDI() -> <Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -85,7 +85,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @param string moduleName
 	 */
-	public function setDefaultModule(moduleName)
+	public function setDefaultModule(string moduleName)
 	{
 		let this->_defaultModule = moduleName;
 	}
@@ -95,7 +95,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @param string taskName
 	 */
-	public function setDefaultTask(taskName)
+	public function setDefaultTask(string taskName)
 	{
 		let this->_defaultTask = taskName;
 	}
@@ -105,7 +105,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @param string actionName
 	 */
-	public function setDefaultAction(actionName)
+	public function setDefaultAction(string actionName)
 	{
 		let this->_defaultAction = actionName;
 	}
@@ -159,7 +159,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @return string
 	 */
-	public function getModuleName()
+	public function getModuleName() -> string
 	{
 		return this->_module;
 	}
@@ -169,7 +169,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @return string
 	 */
-	public function getTaskName()
+	public function getTaskName() -> string
 	{
 		return this->_task;
 	}
@@ -179,7 +179,7 @@ class Router implements Phalcon\Di\InjectionAwareInterface
 	 *
 	 * @return string
 	 */
-	public function getActionName()
+	public function getActionName() -> string
 	{
 		return this->_action;
 	}

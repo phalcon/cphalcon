@@ -34,6 +34,6 @@ interface FormatterInterface
 	 * @param int type
 	 * @param int timestamp
 	 */
-	public function format(message, type, timestamp);
+	public function format(string message, int type, int timestamp);
 
 }

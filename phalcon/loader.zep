@@ -86,7 +86,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager()
+	public function getEventsManager() -> <Phalcon\Events\ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -98,7 +98,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function setExtensions(extensions)
+	public function setExtensions(extensions) -> <Phalcon\Loader>
 	{
 		if typeof extensions != "array" {
 			throw new Phalcon\Loader\Exception("Parameter extensions must be an array");
@@ -124,7 +124,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerNamespaces(namespaces, merge=false)
+	public function registerNamespaces(namespaces, boolean merge=false) -> <Phalcon\Loader>
 	{
 		var currentNamespaces;
 
@@ -163,7 +163,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerPrefixes(prefixes, merge=false)
+	public function registerPrefixes(prefixes, boolean merge=false) -> <Phalcon\Loader>
 	{
 		var currentPrefixes;
 
@@ -202,7 +202,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerDirs(directories, merge=false)
+	public function registerDirs(directories, boolean merge=false) -> <Phalcon\Loader>
 	{
 		var currentDirectories;
 
@@ -240,7 +240,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param boolean merge
 	 * @return Phalcon\Loader
 	 */
-	public function registerClasses(classes, merge=false)
+	public function registerClasses(classes, boolean merge=false) -> <Phalcon\Loader>
 	{
 		var currentClasses;
 
@@ -276,7 +276,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Loader
 	 */
-	public function register()
+	public function register() -> <Phalcon\Loader>
 	{
 		var registered;
 		let registered = this->_registered;
@@ -292,7 +292,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return Phalcon\Loader
 	 */
-	public function unregister()
+	public function unregister() -> <Phalcon\Loader>
 	{
 		var registered;
 		let registered = this->_registered;
@@ -309,7 +309,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 * @param string className
 	 * @return boolean
 	 */
-	public function autoLoad(className)
+	public function autoLoad(string className) -> boolean
 	{
 	}
 
@@ -318,7 +318,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return string
 	 */
-	public function getFoundPath()
+	public function getFoundPath() -> string
 	{
 		return this->_foundPath;
 	}
@@ -328,7 +328,7 @@ class Loader implements Phalcon\Events\EventsAwareInterface
 	 *
 	 * @return string
 	 */
-	public function getCheckedPath()
+	public function getCheckedPath() -> string
 	{
 		return this->_checkedPath;
 	}

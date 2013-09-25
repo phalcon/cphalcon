@@ -38,8 +38,10 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 
 	/**
 	 * Phalcon\Cli\Console constructor
+	 *
+	 * @param Phalcon\DiInterface dependencyInjector
 	 */
-	public function __construct(dependencyInjector=null)
+	public function __construct(<Phalcon\DiInterface> dependencyInjector=null)
 	{
 		if typeof dependencyInjector == "object" {
 			let this->_dependencyInjector = dependencyInjector;
@@ -64,7 +66,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public function getDI()
+	public function getDI() -> <Phalcon\DiInterface>
 	{
 		return this->_dependencyInjector;
 	}
@@ -84,7 +86,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 	 *
 	 * @return Phalcon\Events\ManagerInterface
 	 */
-	public function getEventsManager()
+	public function getEventsManager() -> <Phalcon\Events\ManagerInterface>
 	{
 		return this->_eventsManager;
 	}
@@ -166,7 +168,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 
 		let eventsManager = <Phalcon\Events\Manager> this->_eventsManager;
 
-		let router = dependencyInjector->getShared("router");
+		let router = <Phalcon\Cli\Router> dependencyInjector->getShared("router");
 		router->handle(arguments);
 
 		let moduleName = router->getModuleName();
@@ -213,7 +215,7 @@ class Console implements Phalcon\Di\InjectionAwareInterface, Phalcon\Events\Even
 
 		}
 
-		let dispatcher = dependencyInjector->getShared("dispatcher");
+		let dispatcher = <Phalcon\Cli\Dispatcher> dependencyInjector->getShared("dispatcher");
 
 		dispatcher->setTaskName(router->getTaskName());
 		dispatcher->setActionName(router->getActionName());

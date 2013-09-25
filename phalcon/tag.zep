@@ -111,7 +111,7 @@ class Tag
 		let url = self::_urlService;
 		if typeof url != "object" {
 
-			let dependencyInjector = self::_dependencyInjector;
+			let dependencyInjector = <Phalcon\DiInterface> self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
 				let dependencyInjector = Phalcon\Di::getDefault();
 			}
@@ -120,7 +120,7 @@ class Tag
 				throw new Phalcon\Tag\Exception("A dependency injector container is required to obtain the 'url' service");
 			}
 
-			let url = dependencyInjector->getShared("url"),
+			let url = <Phalcon\Mvc\UrlInterface> dependencyInjector->getShared("url"),
 				self::_urlService = url;
 		}
 		return url;
@@ -131,14 +131,14 @@ class Tag
 	 *
 	 * @return Phalcon\EscaperInterface
 	 */
-	public static function getEscaperService()
+	public static function getEscaperService() -> <Phalcon\EscaperInterface>
 	{
 		var escaper, dependencyInjector;
 
 		let escaper = self::_escaperService;
 		if typeof escaper != "object" {
 
-			let dependencyInjector = self::_dependencyInjector;
+			let dependencyInjector = <Phalcon\DiInterface> self::_dependencyInjector;
 			if typeof dependencyInjector != "object" {
 				let dependencyInjector = Phalcon\DI::getDefault();
 			}
@@ -147,7 +147,7 @@ class Tag
 				throw new Phalcon\Tag\Exception("A dependency injector container is required to obtain the 'escaper' service");
 			}
 
-			let escaper = dependencyInjector->getShared("escaper"),
+			let escaper = <Phalcon\EscaperInterface> dependencyInjector->getShared("escaper"),
 				self::_escaperService = escaper;
 		}
 		return escaper;
@@ -158,7 +158,7 @@ class Tag
 	 *
 	 * @param boolean autoescape
 	 */
-	public static function setAutoescape(autoescape)
+	public static function setAutoescape(boolean autoescape)
 	{
 		let self::_autoEscape = autoescape;
 	}
@@ -177,7 +177,7 @@ class Tag
 	 * @param string id
 	 * @param string value
 	 */
-	public static function setDefault(id, value){
+	public static function setDefault(string id, value){
 		if value !== null {
 			if typeof value == "array" || typeof value == "object" {
 				throw new Phalcon\Tag\Exception("Only scalar values can be assigned to UI components");

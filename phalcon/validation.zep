@@ -68,7 +68,7 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param object entity
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public function validate(data=null, entity=null)
+	public function validate(data=null, entity=null) -> <Phalcon\Validation\Message\Group>
 	{
 		var validators, messages, cancelOnFail, scope,
 			attribute, validator;
@@ -147,10 +147,10 @@ class Validation extends Phalcon\Di\Injectable
 	 * Adds a validator to a field
 	 *
 	 * @param string attribute
-	 * @param Phalcon\Validation\ValidatorInterface
+	 * @param Phalcon\Validation\ValidatorInterface validator
 	 * @return Phalcon\Validation
 	 */
-	public function add(attribute, validator)
+	public function add(string attribute, <Phalcon\Validation\ValidatorInterface> validator) -> <Phalcon\Validation>
 	{
 
 		if typeof attribute != "string" {
@@ -172,7 +172,7 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param array|string attribute
 	 * @return Phalcon\Validation
 	 */
-	public function setFilters(attribute, filters)
+	public function setFilters(string attribute, filters) -> <Phalcon\Validation>
 	{
 		let this->_filters[attribute] = filters;
 		return this;
@@ -184,7 +184,7 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param string attribute
 	 * @return mixed
 	 */
-	public function getFilters(attribute=null)
+	public function getFilters(string attribute=null)
 	{
 		var filters, attributeFilters;
 		let filters = this->_filters;
@@ -222,7 +222,7 @@ class Validation extends Phalcon\Di\Injectable
 	 *
 	 * @return Phalcon\Validation\Message\Group
 	 */
-	public function getMessages()
+	public function getMessages() -> <Phalcon\Validation\Message\Group>
 	{
 		return this->_messages;
 	}
@@ -233,7 +233,7 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param Phalcon\Validation\MessageInterface message
 	 * @return Phalcon\Validation
 	 */
-	public function appendMessage(<Phalcon\Validation\MessageInterface> message)
+	public function appendMessage(<Phalcon\Validation\MessageInterface> message) -> <Phalcon\Validation>
 	{
 		var messages;
 		let messages = this->_messages;
@@ -249,7 +249,7 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param string data
 	 * @return Phalcon\Validation
 	 */
-	public function bind(entity, data)
+	public function bind(entity, data) -> <Phalcon\Validation>
 	{
 		if typeof entity != "object" {
 			throw new Phalcon\Validation\Exception("The entity must be an object");
@@ -273,7 +273,7 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param string attribute
 	 * @return mixed
 	 */
-	public function getValue(attribute)
+	public function getValue(string attribute)
 	{
 		var entity, method, value, data, values,
 			filters, fieldFilters, dependencyInjector,

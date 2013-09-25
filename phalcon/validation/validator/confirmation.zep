@@ -43,7 +43,7 @@ class Confirmation extends Phalcon\Validation\Validator implements Phalcon\Valid
 	 * @param string attribute
 	 * @return boolean
 	 */
-	public function validate(validator, attribute)
+	public function validate(<Phalcon\Validation> validator, string attribute) -> boolean
 	{
 		var withAttribute, value, withValue, message;
 

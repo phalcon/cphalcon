@@ -33,7 +33,7 @@ interface AdapterInterface
 	 * @param Phalcon\Logger\FormatterInterface formatter
 	 * @return Phalcon\Logger\Adapter
 	 */
-	public function setFormatter(formatter);
+	public function setFormatter(<Phalcon\Logger\FormatterInterface> formatter);
 
 	/**
 	 * Returns the internal formatter
@@ -48,7 +48,7 @@ interface AdapterInterface
 	 * @param int level
 	 * @return Phalcon\Logger\Adapter
 	 */
-	public function setLogLevel(level);
+	public function setLogLevel(int level);
 
 	/**
 	 * Returns the current log level
@@ -64,7 +64,7 @@ interface AdapterInterface
 	 * @param int type
 	 * @return Phalcon\Logger\Adapter
 	 */
-	public function log(message, type=7);
+	public function log(string message, int type=7);
 
 	/**
  	 * Starts a transaction
@@ -101,7 +101,7 @@ interface AdapterInterface
  	 * @param ing type
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function debug(message);
+	public function debug(string message);
 
 	/**
  	 * Sends/Writes an error message to the log
@@ -110,7 +110,7 @@ interface AdapterInterface
  	 * @param ing type
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function error(message);
+	public function error(string message);
 
 	/**
  	 * Sends/Writes an info message to the log
@@ -119,7 +119,7 @@ interface AdapterInterface
  	 * @param ing type
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function info(message);
+	public function info(string message);
 
 	/**
  	 * Sends/Writes a notice message to the log
@@ -128,7 +128,7 @@ interface AdapterInterface
  	 * @param ing type
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function notice(message);
+	public function notice(string message);
 
 	/**
  	 * Sends/Writes a warning message to the log
@@ -137,7 +137,7 @@ interface AdapterInterface
  	 * @param ing type
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function warning(message);
+	public function warning(string message);
 
 	/**
  	 * Sends/Writes an alert message to the log
@@ -146,7 +146,7 @@ interface AdapterInterface
  	 * @param ing type
  	 * @return Phalcon\Logger\Adapter
  	 */
-	public function alert(message);
+	public function alert(string message);
 
 }
 

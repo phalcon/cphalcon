@@ -79,6 +79,36 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 }
 
 /**
+ * Events manager
+ * @var mixed
+ */
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
+
+
+
+}
+
+/**
+ * Active resource
+ * @var mixed
+ */
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
+
+
+
+}
+
+/**
+ * Active Access
+ * "@var mixed
+ */
+PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
+
+
+
+}
+
+/**
  * Sets the events manager
  *
  * @param Phalcon\Events\ManagerInterface eventsManager
@@ -139,42 +169,6 @@ PHP_METHOD(Phalcon_Acl_Adapter, getDefaultAction) {
 
 
 	RETURN_MEMBER(this_ptr, "_defaultAccess");
-
-}
-
-/**
- * Returns the role which the list is checking if it's allowed to certain resource/access
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
-
-
-	RETURN_MEMBER(this_ptr, "_activeRole");
-
-}
-
-/**
- * Returns the resource which the list is checking if some role can access it
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
-
-
-	RETURN_MEMBER(this_ptr, "_activeResource");
-
-}
-
-/**
- * Returns the access which the list is checking if some role can access it
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
-
-
-	RETURN_MEMBER(this_ptr, "_activeAccess");
 
 }
 

@@ -213,6 +213,39 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 }
 
 /**
+ * Column data type
+ *
+ * @var int
+ */
+PHP_METHOD(Phalcon_Db_Column, getType) {
+
+
+
+}
+
+/**
+ * Integer column size
+ *
+ * @var int
+ */
+PHP_METHOD(Phalcon_Db_Column, getSize) {
+
+
+
+}
+
+/**
+ * Integer column number scale
+ *
+ * @var int
+ */
+PHP_METHOD(Phalcon_Db_Column, getScale) {
+
+
+
+}
+
+/**
  * Phalcon\Db\Column constructor
  *
  * @param string columnName
@@ -220,11 +253,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
  */
 PHP_METHOD(Phalcon_Db_Column, __construct) {
 
-	zval *columnName, *definition, *type, *notNull, *primary, *size, *scale, *dunsigned, *first, *after, *bindType, *isNumeric, *autoIncrement;
+	zval *columnName_param = NULL, *definition, *type, *notNull, *primary, *size, *scale, *dunsigned, *first, *after, *bindType, *isNumeric, *autoIncrement;
+	zval *columnName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &columnName, &definition);
+	zephir_fetch_params(1, 2, 0, &columnName_param, &definition);
 
+		zephir_get_strval(columnName, columnName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_columnName"), columnName TSRMLS_CC);
@@ -310,42 +345,6 @@ PHP_METHOD(Phalcon_Db_Column, getName) {
 
 
 	RETURN_MEMBER(this_ptr, "_columnName");
-
-}
-
-/**
- * Returns column type
- *
- * @return int
- */
-PHP_METHOD(Phalcon_Db_Column, getType) {
-
-
-	RETURN_MEMBER(this_ptr, "_type");
-
-}
-
-/**
- * Returns column size
- *
- * @return int
- */
-PHP_METHOD(Phalcon_Db_Column, getSize) {
-
-
-	RETURN_MEMBER(this_ptr, "_size");
-
-}
-
-/**
- * Returns column scale
- *
- * @return int
- */
-PHP_METHOD(Phalcon_Db_Column, getScale) {
-
-
-	RETURN_MEMBER(this_ptr, "_scale");
 
 }
 

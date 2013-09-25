@@ -57,7 +57,7 @@ class Dispatcher extends Phalcon\Dispatcher
 	 *
 	 * @param string taskSuffix
 	 */
-	public function setTaskSuffix(taskSuffix)
+	public function setTaskSuffix(string taskSuffix)
 	{
 		let this->_handlerSuffix = taskSuffix;
 	}
@@ -67,7 +67,7 @@ class Dispatcher extends Phalcon\Dispatcher
      *
 	 * @param string taskName
 	 */
-	public function setDefaultTask(taskName)
+	public function setDefaultTask(string taskName)
 	{
 		let this->_defaultHandler = taskName;
 	}
@@ -87,7 +87,7 @@ class Dispatcher extends Phalcon\Dispatcher
 	 *
 	 * @return string
 	 */
-	public function getTaskName()
+	public function getTaskName() -> string
 	{
 		return this->_handlerName;
 	}
@@ -98,7 +98,7 @@ class Dispatcher extends Phalcon\Dispatcher
 	 * @param string message
 	 * @param int exceptionCode
 	 */
-	protected function _throwDispatchException(message, exceptionCode=0)
+	protected function _throwDispatchException(string message, int exceptionCode=0)
 	{
 		var exception, eventsManager;
 
@@ -119,7 +119,7 @@ class Dispatcher extends Phalcon\Dispatcher
 	 *
 	 * @return Phalcon\CLI\Task
 	 */
-	public function getLastTask()
+	public function getLastTask() -> <Phalcon\CLI\Task>
 	{
 		return this->_lastHandler;
 	}
@@ -129,7 +129,7 @@ class Dispatcher extends Phalcon\Dispatcher
 	 *
 	 * @return Phalcon\CLI\Task
 	 */
-	public function getActiveTask()
+	public function getActiveTask() -> <Phalcon\CLI\Task>
 	{
 		return this->_activeHandler;
 	}

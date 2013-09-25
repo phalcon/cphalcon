@@ -50,7 +50,7 @@ abstract class Adapter
 	 *
 	 * @return boolean
 	 */
-	public function start()
+	public function start() -> boolean
 	{
 		if headers_sent() {
 			session_start();
@@ -103,7 +103,7 @@ abstract class Adapter
 	 * @param mixed defaultValue
 	 * @return mixed
 	 */
-	public function get(index, defaultValue=null)
+	public function get(string index, defaultValue=null)
 	{
 		var value;
 		if fetch value, _SESSION[this->_uniqueId . index] {
@@ -124,7 +124,7 @@ abstract class Adapter
 	 * @param string index
 	 * @param string value
 	 */
-	public function set(index, value)
+	public function set(string index, value)
 	{
 		let _SESSION[this->_uniqueId . index] = value;
 	}
@@ -133,13 +133,13 @@ abstract class Adapter
 	 * Check whether a session variable is set in an application context
 	 *
 	 *<code>
-	 *	var_dump(session->has('auth'));
+	 *	var_dump($session->has('auth'));
 	 *</code>
 	 *
 	 * @param string index
 	 * @return boolean
 	 */
-	public function has(index)
+	public function has(string index) -> boolean
 	{
 		if isset _SESSION[this->_uniqueId . index] {
 			return true;
@@ -151,12 +151,12 @@ abstract class Adapter
 	 * Removes a session variable from an application context
 	 *
 	 *<code>
-	 *	session->remove('auth');
+	 *	$session->remove('auth');
 	 *</code>
 	 *
 	 * @param string index
 	 */
-	public function remove(index)
+	public function remove(string index)
 	{
 		unset _SESSION[this->_uniqueId . index];
 	}
@@ -165,12 +165,12 @@ abstract class Adapter
 	 * Returns active session id
 	 *
 	 *<code>
-	 *	echo session->getId();
+	 *	echo $session->getId();
 	 *</code>
 	 *
 	 * @return string
 	 */
-	public function getId()
+	public function getId() -> string
 	{
 		return session_id();
 	}
@@ -179,12 +179,12 @@ abstract class Adapter
 	 * Check whether the session has been started
 	 *
 	 *<code>
-	 *	var_dump(session->isStarted());
+	 *	var_dump($session->isStarted());
 	 *</code>
 	 *
 	 * @return boolean
 	 */
-	public function isStarted()
+	public function isStarted() -> boolean
 	{
 		return this->_started;
 	}
@@ -198,7 +198,7 @@ abstract class Adapter
 	 *
 	 * @return boolean
 	 */
-	public function destroy()
+	public function destroy() -> boolean
 	{
 		var destroyed;
 		let destroyed = session_destroy(),

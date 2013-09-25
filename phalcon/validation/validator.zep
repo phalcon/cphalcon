@@ -50,7 +50,7 @@ abstract class Validator
 	 * @param string key
 	 * @return mixed
 	 */
-	public function isSetOption(key)
+	public function isSetOption(string key)
 	{
 		var options;
 		let options = this->_options;
@@ -67,7 +67,7 @@ abstract class Validator
 	 * @param string key
 	 * @return mixed
 	 */
-	public function getOption(key)
+	public function getOption(string key)
 	{
 		var options, value;
 		let options = this->_options;
@@ -85,7 +85,7 @@ abstract class Validator
 	 * @param string key
 	 * @param mixed value
 	 */
-	public function setOption(key, value)
+	public function setOption(string key, value)
 	{
 		let this->_options[key] = value;
 	}
