@@ -357,6 +357,7 @@ zend_class_entry *phalcon_http_client_ce;
 zend_class_entry *phalcon_http_client_exception_ce;
 zend_class_entry *phalcon_chart_qrcode_ce;
 zend_class_entry *phalcon_chart_exception_ce;
+zend_class_entry *phalcon_validation_validator_json_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
@@ -716,6 +717,7 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Http_Client_Exception);
 	PHALCON_INIT(Phalcon_Chart_QRcode);
 	PHALCON_INIT(Phalcon_Chart_Exception);
+	PHALCON_INIT(Phalcon_Validation_Validator_Json);
 
 	orig_execute_internal = zend_execute_internal;
 	if (!zend_execute_internal && !getenv("PHALCON_NO_RVO")) {

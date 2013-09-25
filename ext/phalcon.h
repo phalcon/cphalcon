@@ -338,3 +338,4 @@
 #include "http/client/exception.h"
 #include "chart/qrcode.h"
 #include "chart/exception.h"
+#include "validation/validator/json.h"
