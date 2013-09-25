@@ -77461,7 +77461,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 
 static PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 
-	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key, *value;
+	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key, *value = NULL;
 	zval *collection, *conditions, *document, *timestamp;
 	zval *ttl = NULL, *modified_time, *difference, *not_expired;
 	zval *cached_content;
@@ -77473,11 +77473,14 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 	if (!value) {
 		PHALCON_INIT_VAR(value);
 		ZVAL_LONG(value, 1);
-	} else {
-		PHALCON_SEPARATE_PARAM(value);
+	} 
+
+	if(Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
 	}
 
 	if (Z_TYPE_P(value) != IS_LONG) {	
+		PHALCON_SEPARATE_PARAM(value);
 		convert_to_long_ex(&value);
 	}
 
@@ -77539,6 +77542,12 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 	
 			PHALCON_OBS_VAR(cached_content);
 			phalcon_array_fetch_string(&cached_content, document, SL("data"), PH_NOISY);
+
+			if(Z_TYPE_P(cached_content) != IS_LONG) {
+				PHALCON_SEPARATE_PARAM(cached_content);
+				convert_to_long_ex(&cached_content);
+			}
+
 			if (phalcon_is_numeric(cached_content)) {
 				add_function(return_value, cached_content, value TSRMLS_CC);
 				
@@ -77560,7 +77569,7 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, increment){
 
 static PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 
-	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key, *value;
+	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key, *value = NULL;
 	zval *collection, *conditions, *document, *timestamp;
 	zval *ttl = NULL, *modified_time, *difference, *not_expired;
 	zval *cached_content;
@@ -77572,11 +77581,14 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 	if (!value) {
 		PHALCON_INIT_VAR(value);
 		ZVAL_LONG(value, 1);
-	} else {
-		PHALCON_SEPARATE_PARAM(value);
+	} 
+
+	if(Z_TYPE_P(value) == IS_NULL) {
+		ZVAL_LONG(value, 1);
 	}
 
-	if (Z_TYPE_P(value) != IS_LONG) {
+	if (Z_TYPE_P(value) != IS_LONG) {	
+		PHALCON_SEPARATE_PARAM(value);
 		convert_to_long_ex(&value);
 	}
 
@@ -77638,6 +77650,12 @@ static PHP_METHOD(Phalcon_Cache_Backend_Mongo, decrement){
 	
 			PHALCON_OBS_VAR(cached_content);
 			phalcon_array_fetch_string(&cached_content, document, SL("data"), PH_NOISY);
+
+			if(Z_TYPE_P(cached_content) != IS_LONG) {
+				PHALCON_SEPARATE_PARAM(cached_content);
+				convert_to_long_ex(&cached_content);
+			}
+
 			if (phalcon_is_numeric(cached_content)) {
 				sub_function(return_value, cached_content, value TSRMLS_CC);
 				
