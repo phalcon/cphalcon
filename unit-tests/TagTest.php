@@ -74,11 +74,10 @@ class TagTest extends PHPUnit_Framework_TestCase
 
 	public function testIssue947()
         {
-		use Phalcon\Tag;
 		$di = new Phalcon\DI\FactoryDefault();
-		Tag::setDI($di);
+		\Phalcon\Tag::setDI($di);
 
-		$html = Tag::radioField(array(
+		$html = \Phalcon\Tag::radioField(array(
 		    'test',
 		    'value' => 1,
 		    'checked' => 'checked'
@@ -86,20 +85,19 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$pos = strpos($html, 'checked="checked"');
 		$this->assertTrue($pos !== FALSE);
 
-		$html = Tag::radioField(array(
+		$html = \Phalcon\Tag::radioField(array(
 		    'test',
 		    'value' => 0
 		));
 		$pos = strpos($html, 'checked="checked"');
 		$this->assertTrue($pos === FALSE);
 
-		Tag::setDefault("test", "0");
-		$html = Tag::radioField(array(
+		\Phalcon\Tag::setDefault("test", "0");
+		$html = \Phalcon\Tag::radioField(array(
 		    'test',
 		    'value' => 0
 		));
 		$pos = strpos($html, 'checked="checked"');
 		$this->assertTrue($pos !== FALSE);
-        }
-
+	 }
 }
