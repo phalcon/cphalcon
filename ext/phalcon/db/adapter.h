@@ -3,6 +3,9 @@ extern zend_class_entry *phalcon_db_adapter_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter);
 
+PHP_METHOD(Phalcon_Db_Adapter, getDialectType);
+PHP_METHOD(Phalcon_Db_Adapter, getType);
+PHP_METHOD(Phalcon_Db_Adapter, getSqlVariables);
 PHP_METHOD(Phalcon_Db_Adapter, __construct);
 PHP_METHOD(Phalcon_Db_Adapter, setEventsManager);
 PHP_METHOD(Phalcon_Db_Adapter, getEventsManager);
@@ -51,10 +54,7 @@ PHP_METHOD(Phalcon_Db_Adapter, getDescriptor);
 PHP_METHOD(Phalcon_Db_Adapter, getConnectionId);
 PHP_METHOD(Phalcon_Db_Adapter, getSQLStatement);
 PHP_METHOD(Phalcon_Db_Adapter, getRealSQLStatement);
-PHP_METHOD(Phalcon_Db_Adapter, getSQLVariables);
 PHP_METHOD(Phalcon_Db_Adapter, getSQLBindTypes);
-PHP_METHOD(Phalcon_Db_Adapter, getType);
-PHP_METHOD(Phalcon_Db_Adapter, getDialectType);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, descriptor)
@@ -252,6 +252,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_setnestedtransactionswithsavep
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_adapter_method_entry) {
+	PHP_ME(Phalcon_Db_Adapter, getDialectType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter, getType, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter, getSqlVariables, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, __construct, arginfo_phalcon_db_adapter___construct, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, setEventsManager, arginfo_phalcon_db_adapter_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getEventsManager, NULL, ZEND_ACC_PUBLIC)
@@ -300,9 +303,6 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter, getConnectionId, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getSQLStatement, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getRealSQLStatement, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter, getSQLVariables, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter, getSQLBindTypes, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter, getType, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter, getDialectType, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

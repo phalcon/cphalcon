@@ -61,11 +61,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
  */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Dialect Type
+ * Name of the dialect used
  */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_dialectType"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Type of database backend
+ * Type of database system the adapter is used for
  */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
@@ -85,7 +85,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
  */
 	zend_declare_property_null(phalcon_db_adapter_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Active SQL Variables
+ * Active SQL bound parameter variables
  *
  * @var string
  */
@@ -106,6 +106,35 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter) {
 	zend_class_implements(phalcon_db_adapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Name of the dialect used
+ */
+PHP_METHOD(Phalcon_Db_Adapter, getDialectType) {
+
+
+
+}
+
+/**
+ * Type of database system the adapter is used for
+ */
+PHP_METHOD(Phalcon_Db_Adapter, getType) {
+
+
+
+}
+
+/**
+ * Active SQL bound parameter variables
+ *
+ * @var string
+ */
+PHP_METHOD(Phalcon_Db_Adapter, getSqlVariables) {
+
+
 
 }
 
@@ -1875,46 +1904,10 @@ PHP_METHOD(Phalcon_Db_Adapter, getRealSQLStatement) {
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Db_Adapter, getSQLVariables) {
-
-
-	RETURN_MEMBER(this_ptr, "_sqlVariables");
-
-}
-
-/**
- * Active SQL statement in the object
- *
- * @return array
- */
 PHP_METHOD(Phalcon_Db_Adapter, getSQLBindTypes) {
 
 
 	RETURN_MEMBER(this_ptr, "_sqlBindTypes");
-
-}
-
-/**
- * Returns type of database system the adapter is used for
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter, getType) {
-
-
-	RETURN_MEMBER(this_ptr, "_type");
-
-}
-
-/**
- * Returns the name of the dialect used
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter, getDialectType) {
-
-
-	RETURN_MEMBER(this_ptr, "_dialectType");
 
 }
 

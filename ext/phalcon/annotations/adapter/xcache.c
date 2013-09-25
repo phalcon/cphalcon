@@ -15,6 +15,7 @@
 #include "kernel/concat.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -36,14 +37,14 @@
 +------------------------------------------------------------------------+
 */
 /**
-* Phalcon\Annotations\Adapter\Xcache
-*
-* Stores the parsed annotations to XCache. This adapter is suitable for production
-*
-*<code>
-* $annotations = new \Phalcon\Annotations\Adapter\Xcache();
-*</code>
-*/
+ * Phalcon\Annotations\Adapter\Xcache
+ *
+ * Stores the parsed annotations to XCache. This adapter is suitable for production
+ *
+ *<code>
+ * $annotations = new \Phalcon\Annotations\Adapter\Xcache();
+ *</code>
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations\\Adapter, Xcache, phalcon, annotations_adapter_xcache, phalcon_annotations_adapter_xcache_method_entry, 0);
@@ -56,16 +57,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Xcache) {
 /**
  * Reads parsed annotations from XCache
  *
- * @param string $key
+ * @param string key
  * @return Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 
-	zval *key, *serialized, *data, *_0, *_1;
+	zval *key_param = NULL, *serialized, *data, *_0, *_1;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &key);
+	zephir_fetch_params(1, 1, 0, &key_param);
 
+		zephir_get_strval(key, key_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -88,16 +91,18 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, read) {
 /**
  * Writes parsed annotations to XCache
  *
- * @param string $key
+ * @param string key
  * @param Phalcon\Annotations\Reflection $data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Xcache, write) {
 
-	zval *key, *data, *_0, *_1, *_2;
+	zval *key_param = NULL, *data, *_0, *_1, *_2;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &key, &data);
+	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
+		zephir_get_strval(key, key_param);
 
 
 	ZEPHIR_INIT_VAR(_0);

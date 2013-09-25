@@ -48,10 +48,10 @@ class Mysql extends Phalcon\Db\Adapter\Pdo //implements Phalcon\Db\AdapterInterf
 	/**
 	 * Escapes a column/table/schema name
 	 *
-	 * @param string identifier
+	 * @param string|array identifier
 	 * @return string
 	 */
-	public function escapeIdentifier(string identifier) -> string
+	public function escapeIdentifier(var identifier) -> string
 	{
 		var domain, name;
 

@@ -15,6 +15,7 @@
 #include "kernel/concat.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -60,11 +61,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apc) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
 
-	zval *key, *_0, *_1;
+	zval *key_param = NULL, *_0, *_1;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &key);
+	zephir_fetch_params(1, 1, 0, &key_param);
 
+		zephir_get_strval(key, key_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -84,11 +87,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apc, write) {
 
-	zval *key, *data, *_0, *_1;
+	zval *key_param = NULL, *data, *_0, *_1;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &key, &data);
+	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
+		zephir_get_strval(key, key_param);
 
 
 	ZEPHIR_INIT_VAR(_0);

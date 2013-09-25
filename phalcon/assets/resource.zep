@@ -161,7 +161,7 @@ namespace Phalcon\Assets;
 	 * @param array attributes
 	 * @return Phalcon\Assets\Resource
 	 */
-	public function setAttributes(attributes)
+	public function setAttributes(attributes) -> <Phalcon\Assets\Resource>
 	{
 		let this->_attributes = attributes;
 		return this;
@@ -178,26 +178,26 @@ namespace Phalcon\Assets;
 	}
 
 	/**
-     * Sets a target uri for the generated HTML
-     *
-     * @param string targetUri
-     * @return Phalcon\Assets\Resource
-     */
-    public function setTargetUri(string targetUri) -> <Phalcon\Assets\Resource>
-    {
-        let this->_targetUri = targetUri;
-        return this;
-    }
+	 * Sets a target uri for the generated HTML
+	 *
+	 * @param string targetUri
+	 * @return Phalcon\Assets\Resource
+	 */
+	public function setTargetUri(string targetUri) -> <Phalcon\Assets\Resource>
+	{
+		let this->_targetUri = targetUri;
+		return this;
+	}
 
-    /**
-     * Returns the target uri for the generated HTML
-     *
-     * @return string
-     */
-    public function getTargetUri() -> string
-    {
-        return this->_targetUri;
-    }
+	/**
+	 * Returns the target uri for the generated HTML
+	 *
+	 * @return string
+	 */
+	public function getTargetUri() -> string
+	{
+		return this->_targetUri;
+	}
 
 	/**
 	 * Sets the resource's source path
@@ -336,7 +336,7 @@ namespace Phalcon\Assets;
 	 * @param string basePath
 	 * @return string
 	 */
-	public function getRealTargetPath(stirng basePath=null) -> string
+	public function getRealTargetPath(string basePath=null) -> string
 	{
 		var targetPath, completePath;
 

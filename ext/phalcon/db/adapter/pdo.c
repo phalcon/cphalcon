@@ -608,13 +608,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
 
-	zval *nesting = NULL, *pdo, *transactionLevel, *eventsManager = NULL, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
+	zval *nesting_param = NULL, *pdo, *transactionLevel, *eventsManager = NULL, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
+	zend_bool nesting;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &nesting);
+	zephir_fetch_params(1, 0, 1, &nesting_param);
 
-	if (!nesting) {
-		ZEPHIR_CPY_WRT(nesting, ZEPHIR_GLOBAL(global_true));
+	if (!nesting_param) {
+		nesting = 1;
+	} else {
+		nesting = zephir_get_boolval(nesting_param);
 	}
 
 
@@ -638,7 +641,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
 		RETURN_MM();
 	} else {
 		if (zephir_is_true(transactionLevel)) {
-			if (zephir_is_true(nesting)) {
+			if (nesting) {
 				ZEPHIR_INIT_NVAR(_1);
 				zephir_call_method(_1, this_ptr, "isnestedtransactionswithsavepoints");
 				if (zephir_is_true(_1)) {
@@ -670,13 +673,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 
-	zval *nesting = NULL, *pdo, *transactionLevel, *eventsManager = NULL, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
+	zval *nesting_param = NULL, *pdo, *transactionLevel, *eventsManager = NULL, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
+	zend_bool nesting;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &nesting);
+	zephir_fetch_params(1, 0, 1, &nesting_param);
 
-	if (!nesting) {
-		ZEPHIR_CPY_WRT(nesting, ZEPHIR_GLOBAL(global_true));
+	if (!nesting_param) {
+		nesting = 1;
+	} else {
+		nesting = zephir_get_boolval(nesting_param);
 	}
 
 
@@ -704,7 +710,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
 		RETURN_MM();
 	} else {
 		if (zephir_is_true(transactionLevel)) {
-			if (zephir_is_true(nesting)) {
+			if (nesting) {
 				ZEPHIR_INIT_NVAR(_1);
 				zephir_call_method(_1, this_ptr, "isnestedtransactionswithsavepoints");
 				if (zephir_is_true(_1)) {
@@ -738,13 +744,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 
-	zval *nesting = NULL, *pdo, *transactionLevel, *eventsManager = NULL, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
+	zval *nesting_param = NULL, *pdo, *transactionLevel, *eventsManager = NULL, *savepointName, *_0 = NULL, *_1 = NULL, *_2;
+	zend_bool nesting;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &nesting);
+	zephir_fetch_params(1, 0, 1, &nesting_param);
 
-	if (!nesting) {
-		ZEPHIR_CPY_WRT(nesting, ZEPHIR_GLOBAL(global_true));
+	if (!nesting_param) {
+		nesting = 1;
+	} else {
+		nesting = zephir_get_boolval(nesting_param);
 	}
 
 
@@ -772,7 +781,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit) {
 		RETURN_MM();
 	} else {
 		if (zephir_is_true(transactionLevel)) {
-			if (zephir_is_true(nesting)) {
+			if (nesting) {
 				ZEPHIR_INIT_NVAR(_1);
 				zephir_call_method(_1, this_ptr, "isnestedtransactionswithsavepoints");
 				if (zephir_is_true(_1)) {
@@ -839,7 +848,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction) {
 /**
  * Return internal PDO handler
  *
- * @return \PDO
+ * @return \Pdo
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler) {
 

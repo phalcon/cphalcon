@@ -94,11 +94,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
 
-	zval *key, *path, *_0, *_1, *_2, *_3;
+	zval *key_param = NULL, *path, *_0, *_1, *_2, *_3;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &key);
+	zephir_fetch_params(1, 1, 0, &key_param);
 
+		zephir_get_strval(key, key_param);
 
 
 	ZEPHIR_OBS_VAR(_0);
@@ -128,11 +130,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Files, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Files, write) {
 
-	zval *key, *data, *path, *_0, *_1, *_2, *_3, *_4, *_5, *_6;
+	zval *key_param = NULL, *data, *path, *_0, *_1, *_2, *_3, *_4, *_5, *_6;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &key, &data);
+	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
+		zephir_get_strval(key, key_param);
 
 
 	ZEPHIR_OBS_VAR(_0);

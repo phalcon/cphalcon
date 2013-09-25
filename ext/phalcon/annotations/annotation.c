@@ -313,11 +313,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 
-	zval *name, *arguments, *argument;
+	zval *name_param = NULL, *arguments, *argument;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(arguments);

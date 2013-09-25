@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -57,16 +58,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Resource_Css) {
  */
 PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 
-	zval *path, *local = NULL, *filter = NULL, *attributes = NULL, *_0;
+	zend_bool local, filter;
+	zval *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes = NULL, *_0;
+	zval *path = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &path, &local, &filter, &attributes);
+	zephir_fetch_params(1, 1, 3, &path_param, &local_param, &filter_param, &attributes);
 
-	if (!local) {
-		ZEPHIR_CPY_WRT(local, ZEPHIR_GLOBAL(global_true));
+		zephir_get_strval(path, path_param);
+	if (!local_param) {
+		local = 1;
+	} else {
+		local = zephir_get_boolval(local_param);
 	}
-	if (!filter) {
-		ZEPHIR_CPY_WRT(filter, ZEPHIR_GLOBAL(global_true));
+	if (!filter_param) {
+		filter = 1;
+	} else {
+		filter = zephir_get_boolval(filter_param);
 	}
 	if (!attributes) {
 		ZEPHIR_CPY_WRT(attributes, ZEPHIR_GLOBAL(global_null));
@@ -75,7 +83,7 @@ PHP_METHOD(Phalcon_Assets_Resource_Css, __construct) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_STRING(_0, "css", 1);
-	zephir_call_parent_p5_noret(this_ptr, phalcon_assets_resource_css_ce, "__construct", _0, path, local, filter, attributes);
+	zephir_call_parent_p5_noret(this_ptr, phalcon_assets_resource_css_ce, "__construct", _0, path, (local ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), (filter ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false)), attributes);
 	ZEPHIR_MM_RESTORE();
 
 }

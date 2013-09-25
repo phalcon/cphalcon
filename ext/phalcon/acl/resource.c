@@ -60,6 +60,36 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Resource) {
 }
 
 /**
+ * Resource name
+ * @var string
+ */
+PHP_METHOD(Phalcon_Acl_Resource, getName) {
+
+
+
+}
+
+/**
+ * Resource name
+ * @var string
+ */
+PHP_METHOD(Phalcon_Acl_Resource, __toString) {
+
+
+
+}
+
+/**
+ * Resource description
+ * @var string
+ */
+PHP_METHOD(Phalcon_Acl_Resource, getDescription) {
+
+
+
+}
+
+/**
  * Phalcon\Acl\Resource constructor
  *
  * @param string name
@@ -67,13 +97,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Resource) {
  */
 PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 
-	zval *name, *description = NULL;
+	zval *name_param = NULL, *description_param = NULL;
+	zval *name = NULL, *description = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &name, &description);
+	zephir_fetch_params(1, 1, 1, &name_param, &description_param);
 
-	if (!description) {
-		ZEPHIR_CPY_WRT(description, ZEPHIR_GLOBAL(global_null));
+		zephir_get_strval(name, name_param);
+	if (!description_param) {
+		ZEPHIR_INIT_VAR(description);
+		ZVAL_EMPTY_STRING(description);
+	} else {
+		zephir_get_strval(description, description_param);
 	}
 
 
@@ -82,46 +117,10 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct) {
 		return;
 	}
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	if (zephir_is_true(description)) {
+	if (description && Z_STRLEN_P(description)) {
 		zephir_update_property_this(this_ptr, SL("_description"), description TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
- * Returns the resource name
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Acl_Resource, getName) {
-
-
-	RETURN_MEMBER(this_ptr, "_name");
-
-}
-
-/**
- * Returns resource description
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Acl_Resource, getDescription) {
-
-
-	RETURN_MEMBER(this_ptr, "_description");
-
-}
-
-/**
- * Magic method __toString
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Acl_Resource, __toString) {
-
-
-	RETURN_MEMBER(this_ptr, "_name");
 
 }
 

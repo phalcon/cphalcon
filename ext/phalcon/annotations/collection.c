@@ -232,11 +232,13 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *name, *annotation = NULL, *annotations, **_2, *_3 = NULL, *_4, *_5;
+	zval *name_param = NULL, *annotation = NULL, *annotations, **_2, *_3 = NULL, *_4, *_5;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(annotations);
@@ -278,11 +280,13 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *name, *annotations, *found, *annotation = NULL, **_2, *_3 = NULL;
+	zval *name_param = NULL, *annotations, *found, *annotation = NULL, **_2, *_3 = NULL;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_INIT_VAR(found);
@@ -317,11 +321,13 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *name, *annotations, *annotation = NULL, **_2, *_3 = NULL;
+	zval *name_param = NULL, *annotations, *annotation = NULL, **_2, *_3 = NULL;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_OBS_VAR(annotations);

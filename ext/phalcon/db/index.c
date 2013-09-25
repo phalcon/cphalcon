@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
@@ -52,7 +53,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
  *
  * @var string
  */
-	zend_declare_property_null(phalcon_db_index_ce, SL("_indexName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+/**
+ * Index columns
+ *
+ * @var array
+ */
 	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_db_index_ce TSRMLS_CC, 1, phalcon_db_indexinterface_ce);
@@ -62,45 +68,45 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 }
 
 /**
- * Phalcon\Db\Index constructor
+ * Index name
  *
- * @param string indexName
- * @param array columns
- */
-PHP_METHOD(Phalcon_Db_Index, __construct) {
-
-	zval *indexName, *columns;
-
-	zephir_fetch_params(0, 2, 0, &indexName, &columns);
-
-
-
-	zephir_update_property_this(this_ptr, SL("_indexName"), indexName TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
-
-}
-
-/**
- * Gets the index name
- *
- * @return string
+ * @var string
  */
 PHP_METHOD(Phalcon_Db_Index, getName) {
 
 
-	RETURN_MEMBER(this_ptr, "_indexName");
 
 }
 
 /**
- * Gets the columns that comprends the index
+ * Index columns
  *
- * @return array
+ * @var array
  */
 PHP_METHOD(Phalcon_Db_Index, getColumns) {
 
 
-	RETURN_MEMBER(this_ptr, "_columns");
+
+}
+
+/**
+ * Phalcon\Db\Index constructor
+ *
+ * @param string name
+ * @param array columns
+ */
+PHP_METHOD(Phalcon_Db_Index, __construct) {
+
+	zval *name_param = NULL, *columns;
+	zval *name = NULL;
+
+	zephir_fetch_params(0, 2, 0, &name_param, &columns);
+
+		zephir_get_strval(name, name_param);
+
+
+	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
 
 }
 

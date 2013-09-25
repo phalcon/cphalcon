@@ -59,17 +59,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
  */
 	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("_accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Events manager
+ * Role which the list is checking if it's allowed to certain resource/access
  * @var mixed
  */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Active resource
+ * Resource which the list is checking if some role can access it
  * @var mixed
  */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeResource"), ZEND_ACC_PROTECTED TSRMLS_CC);
 /**
- * Active Access
+ * Active access which the list is checking if some role can access it
  * "@var mixed
  */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("_activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -79,7 +79,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 }
 
 /**
- * Events manager
+ * Role which the list is checking if it's allowed to certain resource/access
  * @var mixed
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
 }
 
 /**
- * Active resource
+ * Resource which the list is checking if some role can access it
  * @var mixed
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveResource) {
 }
 
 /**
- * Active Access
+ * Active access which the list is checking if some role can access it
  * "@var mixed
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {

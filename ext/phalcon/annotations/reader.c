@@ -17,6 +17,7 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -63,11 +64,13 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 	HashPosition _3, _7;
 	zend_class_entry *_0;
 	int line;
-	zval *className, *annotations, *reflection, *comment = NULL, *properties, *methods, *property = NULL, *method = NULL, *classAnnotations, *annotationsProperties, *propertyAnnotations = NULL, *annotationsMethods, *methodAnnotations = NULL, *_1 = NULL, *_2 = NULL, **_5, *_6 = NULL, **_9;
+	zval *className_param = NULL, *annotations, *reflection, *comment = NULL, *properties, *methods, *property = NULL, *method = NULL, *classAnnotations, *annotationsProperties, *propertyAnnotations = NULL, *annotationsMethods, *methodAnnotations = NULL, *_1 = NULL, *_2 = NULL, **_5, *_6 = NULL, **_9;
+	zval *className = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &className);
+	zephir_fetch_params(1, 1, 0, &className_param);
 
+		zephir_get_strval(className, className_param);
 
 
 	if ((Z_TYPE_P(className) != IS_STRING)) {
@@ -168,11 +171,13 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 
-	zval *docBlock, *file = NULL, *line = NULL;
+	zval *docBlock_param = NULL, *file = NULL, *line = NULL;
+	zval *docBlock = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &docBlock, &file, &line);
+	zephir_fetch_params(1, 1, 2, &docBlock_param, &file, &line);
 
+		zephir_get_strval(docBlock, docBlock_param);
 	if (!file) {
 		ZEPHIR_CPY_WRT(file, ZEPHIR_GLOBAL(global_null));
 	}

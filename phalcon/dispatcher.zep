@@ -139,7 +139,7 @@ abstract class Dispatcher implements Phalcon\DispatcherInterface, Phalcon\Di\Inj
 	 *
 	 * @param string moduleName
 	 */
-	public function setModuleName(sting moduleName)
+	public function setModuleName(string moduleName)
 	{
 		let this->_moduleName = moduleName;
 	}

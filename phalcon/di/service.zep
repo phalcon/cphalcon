@@ -80,7 +80,7 @@ class Service implements Phalcon\Di\ServiceInterface
 	 *
 	 * @return boolean
 	 */
-	public function isShared() -> booelan
+	public function isShared() -> boolean
 	{
 		return this->_shared;
 	}

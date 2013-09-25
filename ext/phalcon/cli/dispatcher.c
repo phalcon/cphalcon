@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/exception.h"
 
 
@@ -79,10 +79,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskSuffix) {
 
-	zval *taskSuffix;
+	zval *taskSuffix_param = NULL;
+	zval *taskSuffix = NULL;
 
-	zephir_fetch_params(0, 1, 0, &taskSuffix);
+	zephir_fetch_params(0, 1, 0, &taskSuffix_param);
 
+		zephir_get_strval(taskSuffix, taskSuffix_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_handlerSuffix"), taskSuffix TSRMLS_CC);
@@ -96,10 +98,12 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskSuffix) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, setDefaultTask) {
 
-	zval *taskName;
+	zval *taskName_param = NULL;
+	zval *taskName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &taskName);
+	zephir_fetch_params(0, 1, 0, &taskName_param);
 
+		zephir_get_strval(taskName, taskName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultHandler"), taskName TSRMLS_CC);
@@ -143,29 +147,34 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskName) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, _throwDispatchException) {
 
-	zval *message, *exceptionCode = NULL, *exception, *eventsManager = NULL, *_0, *_1, *_2;
+	int exceptionCode;
+	zval *message_param = NULL, *exceptionCode_param = NULL, *exception, *eventsManager = NULL, *_0, *_1, *_2;
+	zval *message = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message, &exceptionCode);
+	zephir_fetch_params(1, 1, 1, &message_param, &exceptionCode_param);
 
-	if (!exceptionCode) {
-		ZEPHIR_INIT_VAR(exceptionCode);
-		ZVAL_LONG(exceptionCode, 0);
+		zephir_get_strval(message, message_param);
+	if (!exceptionCode_param) {
+		exceptionCode = 0;	} else {
+		exceptionCode = zephir_get_intval(exceptionCode_param);
 	}
 
 
 	ZEPHIR_INIT_VAR(exception);
 	object_init_ex(exception, phalcon_cli_dispatcher_exception_ce);
-	zephir_call_method_p2_noret(exception, "__construct", message, exceptionCode);
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(eventsManager, _0);
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, exceptionCode);
+	zephir_call_method_p2_noret(exception, "__construct", message, _0);
+	ZEPHIR_OBS_VAR(_1);
+	zephir_read_property_this(&_1, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(eventsManager, _1);
 	if ((Z_TYPE_P(eventsManager) == IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(_1);
+		ZEPHIR_INIT_BNVAR(_0);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "dispatch:beforeException", 1);
-		zephir_call_method_p3(_1, eventsManager, "fire", _2, this_ptr, exception);
-		if (ZEPHIR_IS_FALSE(_1)) {
+		zephir_call_method_p3(_0, eventsManager, "fire", _2, this_ptr, exception);
+		if (ZEPHIR_IS_FALSE(_0)) {
 			RETURN_MM_BOOL(0);
 		}
 	}

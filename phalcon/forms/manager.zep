@@ -81,17 +81,8 @@ class Manager
 	 * @param Phalcon\Forms\Form form
 	 * @return Phalcon\Forms\Form
 	 */
-	public function set(string name, <Phalcon\Forms\Form> form) -> Phalcon\Forms\Form
+	public function set(string name, <Phalcon\Forms\Form> form) -> <Phalcon\Forms\Form>
 	{
-
-		if typeof name != "string" {
-			throw new Phalcon\Forms\Exception("The form name must be string");
-		}
-
-		if typeof form != "object" {
-			throw new Phalcon\Forms\Exception("The form is not valid");
-		}
-
 		let this->_forms[name] = form;
 		return this;
 	}

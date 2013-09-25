@@ -34,7 +34,7 @@ class Index implements Phalcon\Db\IndexInterface
 	 *
 	 * @var string
 	 */
-	protected _indexName { get };
+	protected _name { get };
 
 	/**
 	 * Index columns

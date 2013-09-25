@@ -17,8 +17,8 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/hash.h"
 #include "kernel/operators.h"
+#include "kernel/hash.h"
 
 
 /*
@@ -153,11 +153,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethods) {
 
-	zval *className, *classAnnotations;
+	zval *className_param = NULL, *classAnnotations;
+	zval *className = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &className);
+	zephir_fetch_params(1, 1, 0, &className_param);
 
+		zephir_get_strval(className, className_param);
 
 
 	ZEPHIR_INIT_VAR(classAnnotations);
@@ -182,11 +184,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *className, *methodName, *classAnnotations, *methods, *name = NULL, *method = NULL, **_2;
+	zval *className_param = NULL, *methodName_param = NULL, *classAnnotations, *methods, *name = NULL, *method = NULL, **_2;
+	zval *className = NULL, *methodName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &className, &methodName);
+	zephir_fetch_params(1, 2, 0, &className_param, &methodName_param);
 
+		zephir_get_strval(className, className_param);
+		zephir_get_strval(methodName, methodName_param);
 
 
 	ZEPHIR_INIT_VAR(classAnnotations);
@@ -222,11 +227,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter, getProperties) {
 
-	zval *className, *classAnnotations;
+	zval *className_param = NULL, *classAnnotations;
+	zval *className = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &className);
+	zephir_fetch_params(1, 1, 0, &className_param);
 
+		zephir_get_strval(className, className_param);
 
 
 	ZEPHIR_INIT_VAR(classAnnotations);
@@ -251,11 +258,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *className, *propertyName, *classAnnotations, *properties, *name = NULL, *property = NULL, **_2;
+	zval *className_param = NULL, *propertyName_param = NULL, *classAnnotations, *properties, *name = NULL, *property = NULL, **_2;
+	zval *className = NULL, *propertyName = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &className, &propertyName);
+	zephir_fetch_params(1, 2, 0, &className_param, &propertyName_param);
 
+		zephir_get_strval(className, className_param);
+		zephir_get_strval(propertyName, propertyName_param);
 
 
 	ZEPHIR_INIT_VAR(classAnnotations);

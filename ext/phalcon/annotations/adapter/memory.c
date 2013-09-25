@@ -16,6 +16,7 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -57,16 +58,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
 /**
  * Reads parsed annotations from memory
  *
- * @param string $key
+ * @param string key
  * @return Phalcon\Annotations\Reflection
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 
-	zval *key, *data, *lowercasedKey;
+	zval *key_param = NULL, *data, *lowercasedKey;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &key);
+	zephir_fetch_params(1, 1, 0, &key_param);
 
+		zephir_get_strval(key, key_param);
 
 
 	ZEPHIR_OBS_VAR(data);
@@ -84,16 +87,18 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 /**
  * Writes parsed annotations to memory
  *
- * @param string $key
- * @param Phalcon\Annotations\Reflection $data
+ * @param string key
+ * @param Phalcon\Annotations\Reflection data
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
-	zval *key, *data, *lowercasedKey;
+	zval *key_param = NULL, *data, *lowercasedKey;
+	zval *key = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &key, &data);
+	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
+		zephir_get_strval(key, key_param);
 
 
 	ZEPHIR_INIT_VAR(lowercasedKey);

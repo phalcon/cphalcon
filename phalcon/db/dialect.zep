@@ -117,7 +117,7 @@ abstract class Dialect
 
 		if globals_get("db.escape_identifiers") {
 			if escapeChar === null{
-				let escapeChar = this->_escapeChar;
+				let escapeChar = (string) this->_escapeChar;
 			}
 		}
 
@@ -285,7 +285,7 @@ abstract class Dialect
 			schemaName, tableName;
 
 		if escapeChar === null{
-			let escapeChar = this->_escapeChar;
+			let escapeChar = (string) this->_escapeChar;
 		}
 
 		if typeof table == "array" {
