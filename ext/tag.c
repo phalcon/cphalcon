@@ -87,6 +87,7 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	zval *autoescape, *result = NULL;
 
 	PHALCON_MM_GROW();
+	*return_value_ptr = NULL;
 
 	if (phalcon_array_isset_string(params, SS("escape"))) {
 		PHALCON_OBS_VAR(autoescape);
@@ -99,8 +100,9 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	}
 
 	if (zend_is_true(autoescape)) {
-		ALLOC_INIT_ZVAL(result);
+		PHALCON_INIT_VAR(result);
 		PHALCON_CALL_SELF(result, NULL, "getescaperservice");
+		Z_ADDREF_P(result);
 	}
 
 	*return_value_ptr = result;
@@ -109,7 +111,7 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 
 static void phalcon_tag_write_attributes(zval *code, zval *attributes TSRMLS_DC)
 {
-	zval *escaper;
+	zval *escaper, *escaped = NULL;
 	zval **value;
 	HashPosition hp;
 
@@ -119,8 +121,6 @@ static void phalcon_tag_write_attributes(zval *code, zval *attributes TSRMLS_DC)
 	phalcon_tag_get_escaper(&escaper, attributes TSRMLS_CC);
 
 	if (escaper) {
-		zval* escaped = NULL;
-
 		for (
 			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(attributes), &hp);
 			zend_hash_get_current_data_ex(Z_ARRVAL_P(attributes), (void**)&value, &hp) == SUCCESS;
