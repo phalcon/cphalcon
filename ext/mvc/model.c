@@ -1995,6 +1995,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator must be an Object");
 		return;
 	}
+	zend_printf("allow_empty");
 
 	if (zend_is_true(allow_empty)) {
 		zend_printf("allow_empty");
