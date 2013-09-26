@@ -237,7 +237,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 
 				if typeof filter != "object" {
 					let dependencyInjector = this->getDI(),
-						filter = dependencyInjector->getShared("filter");
+						filter = <Phalcon\FilterInterface> dependencyInjector->getShared("filter");
 				}
 
 				/**
@@ -388,7 +388,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param boolean byItemName
 	 * @return array
 	 */
-	public function getMessages(byItemName=false)
+	public function getMessages(boolean byItemName=false)
 	{
 		var messages, group, element, elementMessages;
 
@@ -653,7 +653,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param array fields
 	 * @return Phalcon\Forms\Form
 	 */
-	public function clear(fields=null)
+	public function clear(fields=null) -> <Phalcon\Forms\Form>
 	{
 		var elements, element;
 

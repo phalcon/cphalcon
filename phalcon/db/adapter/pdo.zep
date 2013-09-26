@@ -253,7 +253,7 @@ abstract class Pdo extends Phalcon\Db\Adapter
 	 * @param  array bindTypes
 	 * @return Phalcon\Db\ResultInterface
 	 */
-	public function query(sqlStatement, bindParams=null, bindTypes=null) -> <Phalcon\Db\ResultInterface>
+	public function query(string sqlStatement, bindParams=null, bindTypes=null) -> <Phalcon\Db\ResultInterface>
 	{
 		var eventsManager, pdo, statement;
 

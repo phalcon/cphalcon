@@ -27,9 +27,9 @@ namespace Phalcon\Logger;
  class Multiple
  {
 
-	protected _loggers { get };
+	protected _loggers { get };
 
-	protected _formatter { get };
+	protected _formatter { get };
 
 	/**
 	 * Pushes a logger to the logger tail
@@ -94,7 +94,7 @@ namespace Phalcon\Logger;
  	 */
 	public function debug(string message)
 	{
-		this->log(message, PhalconºLogger::DEBUG);
+		this->log(message, Phalcon\Logger::DEBUG);
 	}
 
 	/**

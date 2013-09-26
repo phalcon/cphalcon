@@ -24,7 +24,7 @@ namespace Phalcon\Logger\Formatter;
  *
  * Formats messages using an one-line string
  */
-class Phalcon\Logger\Formatter\Line extends Phalcon\Logger\Formatter implements Phalcon\Logger\FormatterInterface
+class Line extends Phalcon\Logger\Formatter implements Phalcon\Logger\FormatterInterface
 {
 
 	/**
@@ -32,14 +32,14 @@ class Phalcon\Logger\Formatter\Line extends Phalcon\Logger\Formatter implements 
 	 *
 	 * @var string
 	 */
-	protected _dateFormat = "D, d M y H:i:s O" { get, set };
+	protected _dateFormat = "D, d M y H:i:s O"{get,set};
 
 	/**
 	 * Format applied to each message
 	 *
 	 * @var string
 	 */
-	protected _format = "[%date%][%type%] %message%" { get, set };
+	protected _format = "[%date%][%type%] %message%"{get,set};
 
 	/**
 	 * Phalcon\Logger\Formatter\Line construct

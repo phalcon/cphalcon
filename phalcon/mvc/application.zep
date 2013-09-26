@@ -89,7 +89,7 @@ class Application extends Phalcon\Di\Injectable
 	 * By default. The view is implicitly buffering all the output
 	 * You can full disable the view component using this method
 	 *
-	 * @param boolean $implicitView
+	 * @param boolean implicitView
 	 * @return Phalcon\Mvc\Application
 	 */
 	public function useImplicitView(implicitView) -> <Phalcon\Mvc\Application>
@@ -118,7 +118,7 @@ class Application extends Phalcon\Di\Injectable
 	 * @param boolean merge
 	 * @param Phalcon\Mvc\Application
 	 */
-	public function registerModules(modules, merge=false) -> <Phalcon\Mvc\Application>
+	public function registerModules(modules, boolean merge=false) -> <Phalcon\Mvc\Application>
 	{
 		var registeredModules;
 
@@ -167,7 +167,7 @@ class Application extends Phalcon\Di\Injectable
 	 *
 	 * @return string
 	 */
-	public function getDefaultModule()
+	public function getDefaultModule() -> string
 	{
 		return this->_defaultModule;
 	}
@@ -208,11 +208,6 @@ class Application extends Phalcon\Di\Injectable
 		 * Handle the URI pattern (if any)
 		 */
 		router->handle(uri);
-
-		/**
-		 * Load module config
-		 */
-
 
 		/**
 		 * If the router doesn't return a valid module we use the default module
@@ -419,7 +414,7 @@ class Application extends Phalcon\Di\Injectable
 		} else {
 
 			/**
-			 * We don't need to create a response because there is a one already created
+			 * We don't need to create a response because there is one already created
 			 */
 			let response = possibleResponse;
 		}

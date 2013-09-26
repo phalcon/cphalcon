@@ -244,7 +244,7 @@ abstract class Adapter {
 
 		let transaction = this->_transaction;
 		if transaction {
-			this->_queue[] = new Phalcon\Logger\Item(message, type, timestamp);
+			let this->_queue[] = new Phalcon\Logger\Item(message, type, timestamp);
 			return this;
 		}
 

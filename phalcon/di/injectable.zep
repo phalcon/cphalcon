@@ -100,7 +100,7 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 	{
 		var dependencyInjector, hasService, service, persistent;
 
-		let dependencyInjector = this->_dependencyInjector;
+		let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
 		if typeof dependencyInjector != "object" {
 			let dependencyInjector = Phalcon\Di::getDefault();
 			if typeof dependencyInjector != "object" {
@@ -127,7 +127,7 @@ abstract class Injectable implements Phalcon\Di\InjectionAwareInterface, Phalcon
 		 * Accessing the persistent property will create a session bag in any class
 		 */
 		if propertyName == "persistent" {
-			let persistent = dependencyInjector->get("sessionBag", [get_class(this)]),
+			let persistent = <Phalcon\Session\BagInterface> dependencyInjector->get("sessionBag", [get_class(this)]),
 				this->{"persistent"} = persistent;
 			return persistent;
 		}
