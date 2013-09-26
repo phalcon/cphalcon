@@ -289,27 +289,26 @@ PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes){
 
-	zval *reserved = NULL, *dummy;
+	zval *reserved, *dummy;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(reserved);
-	phalcon_read_static_property(&reserved, SL("phalcon\\mvc\\collection"), SL("_reserved") TSRMLS_CC);
+	reserved = phalcon_fetch_static_property_ce(phalcon_mvc_collection_ce, SL("_reserved") TSRMLS_CC);
 	if (Z_TYPE_P(reserved) == IS_NULL) {
-		PHALCON_INIT_VAR(dummy);
-		ZVAL_BOOL(dummy, 1);
+		MAKE_STD_ZVAL(dummy);
+		ZVAL_TRUE(dummy);
+		Z_SET_REFCOUNT_P(dummy, 5);
 	
-		PHALCON_INIT_NVAR(reserved);
 		array_init_size(reserved, 5);
-		phalcon_array_update_string(&reserved, SL("_connection"), &dummy, PH_COPY);
-		phalcon_array_update_string(&reserved, SL("_dependencyInjector"), &dummy, PH_COPY);
-		phalcon_array_update_string(&reserved, SL("_source"), &dummy, PH_COPY);
-		phalcon_array_update_string(&reserved, SL("_operationMade"), &dummy, PH_COPY);
-		phalcon_array_update_string(&reserved, SL("_errorMessages"), &dummy, PH_COPY);
-		phalcon_update_static_property(SL("phalcon\\mvc\\collection"), SL("_reserved"), reserved TSRMLS_CC);
+		add_assoc_zval_ex(reserved, SS("_connection"), dummy);
+		add_assoc_zval_ex(reserved, SS("_dependencyInjector"), dummy);
+		add_assoc_zval_ex(reserved, SS("_source"), dummy);
+		add_assoc_zval_ex(reserved, SS("_operationMade"), dummy);
+		add_assoc_zval_ex(reserved, SS("_errorMessages"), dummy);
+		/* reserved is a reference, no need to update the property
+		phalcon_update_static_property_ce(phalcon_mvc_collection_ce, SL("_reserved"), reserved TSRMLS_CC);
+		*/
 	}
-	
-	RETURN_CCTOR(reserved);
+
+	RETURN_CCTORW(reserved);
 }
 
 /**
@@ -1340,8 +1339,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	 */
 	phalcon_update_property_this(this_ptr, SL("_errorMessages"), empty_array TSRMLS_CC);
 	
-	PHALCON_OBS_VAR(disable_events);
-	phalcon_read_static_property(&disable_events, SL("phalcon\\mvc\\collection"), SL("_disableEvents") TSRMLS_CC);
+	disable_events = phalcon_fetch_static_property_ce(phalcon_mvc_collection_ce, SL("_disableEvents") TSRMLS_CC);
 	
 	/** 
 	 * Execute the preSave hook
@@ -1863,8 +1861,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 		return;
 	}
 	
-	PHALCON_OBS_VAR(disable_events);
-	phalcon_read_static_property(&disable_events, SL("phalcon\\mvc\\collection"), SL("_disableEvents") TSRMLS_CC);
+	disable_events = phalcon_fetch_static_property_ce(phalcon_mvc_collection_ce, SL("_disableEvents") TSRMLS_CC);
 	if (!zend_is_true(disable_events)) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -1920,7 +1917,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 	
 	PHALCON_INIT_VAR(id_condition);
 	array_init_size(id_condition, 1);
-	phalcon_array_update_string(&id_condition, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&id_condition, SL("_id"), &mongo_id, PH_COPY);
 	
 	PHALCON_INIT_VAR(success);
 	ZVAL_BOOL(success, 0);

@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check){
 		return;
 	}
 
-	phalcon_update_static_property(SL("phalcon\\image\\adapter\\imagick"), SL("_checked"), ret TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked"), ret TSRMLS_CC);
 
 	RETVAL_TRUE;
 	RETURN_MM();
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, check){
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 
 	zval *file, *width = NULL, *height = NULL, *exception_message;
-	zval *checked = NULL, *realpath, *format, *type = NULL, *mime = NULL, *im, *ret = NULL, *mode, *imagickpixel, *color;
+	zval *checked, *realpath, *format, *type = NULL, *mime = NULL, *im, *ret = NULL, *mode, *imagickpixel, *color;
 	zend_class_entry *ce0, *ce1;
 
 	PHALCON_MM_GROW();
@@ -114,8 +114,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct){
 
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
-	PHALCON_OBS_VAR(checked);
-	phalcon_read_static_property(&checked, SL("phalcon\\image\\adapter\\imagick"), SL("_checked") TSRMLS_CC);
+	checked = phalcon_fetch_static_property_ce(phalcon_image_adapter_imagick_ce, SL("_checked") TSRMLS_CC);
 
 	if (!zend_is_true(checked)) {
 		phalcon_call_static_noret("phalcon\\image\\adapter\\imagick", "check");

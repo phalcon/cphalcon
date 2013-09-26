@@ -120,8 +120,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 	PHALCON_INIT_VAR(formatter);
 	phalcon_call_method(formatter, this_ptr, "getformatter");
 
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_static_property(&initialized, SL("phalcon\\logger\\adapter\\firephp"), SL("_initialized") TSRMLS_CC);
+	initialized = phalcon_fetch_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_initialized") TSRMLS_CC);
 	if (!zend_is_true(initialized)) {
 		/**
 		 * Send the required initialization headers.
@@ -151,8 +150,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		return;
 	}
 
-	PHALCON_OBS_VAR(index);
-	phalcon_read_static_property(&index, SL("phalcon\\logger\\adapter\\firephp"), SL("_index") TSRMLS_CC);
+	index = phalcon_fetch_static_property_ce(phalcon_logger_adapter_firephp_ce, SL("_index") TSRMLS_CC);
+	assert(Z_TYPE_P(index) == IS_LONG);
 
 	size   = Z_STRLEN_P(applied_format);
 	offset = 0;
@@ -192,7 +191,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Firephp, logInternal){
 		h.line_len = str.len;
 		sapi_header_op(SAPI_HEADER_REPLACE, &h TSRMLS_CC);
 
-		/* Update header index; this will update Phalcon\Logger\Adapter\Firephp as well */
+		/* Update header index; this will update Phalcon\Logger\Adapter\Firephp::$index as well */
 		ZVAL_LONG(index, Z_LVAL_P(index)+1);
 
 		/**
