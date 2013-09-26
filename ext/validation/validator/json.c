@@ -73,7 +73,7 @@ PHALCON_INIT_CLASS(Phalcon_Validation_Validator_Json){
 PHP_METHOD(Phalcon_Validation_Validator_Json, validate){
 
 	zval *validator, *attribute, *value, *assoc, *keys, *ret;
-	zval *validation, *option, *message_str = NULL, *type;
+	zval *validation, *option = NULL, *message_str = NULL, *type;
 	zval *message, *is_set_code, *code;
 
 	PHALCON_MM_GROW();
@@ -98,13 +98,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Json, validate){
 		if (Z_TYPE_P(keys) == IS_ARRAY) {
 			PHALCON_INIT_VAR(ret);
 			phalcon_call_func_p2(ret, "array_key_exists", keys, validation);
-			if (zend_is_true(validation)) {
+			if (zend_is_true(ret)) {
 				RETURN_MM_TRUE;
 			}
 		}
 	}
 	
-	PHALCON_INIT_VAR(option);
+	PHALCON_INIT_NVAR(option);
 	ZVAL_STRING(option, "message", 1);
 
 	PHALCON_INIT_VAR(message_str);
