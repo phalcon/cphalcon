@@ -2000,10 +2000,13 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 		PHALCON_INIT_VAR(field_name);
 		phalcon_call_method(field_name, validator, "getFieldName");
 
-		PHALCON_INIT_VAR(value);
-		phalcon_call_method_p1(value, this_ptr, "readattribute", field_name);
-
-		if (PHALCON_IS_EMPTY(value)) {
+		if (phalcon_isset_property_zval(this_ptr, field_name TSRMLS_CC)) {
+			PHALCON_OBS_VAR(value);
+			phalcon_read_property_zval(&value, this_ptr, field_name, PH_NOISY_CC);
+			if (PHALCON_IS_EMPTY(value)) {
+				RETURN_THIS();
+			}
+		} else {
 			RETURN_THIS();
 		}
 	}
