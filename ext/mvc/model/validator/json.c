@@ -108,6 +108,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 	PHALCON_INIT_VAR(value);
 	phalcon_call_method_p1(value, record, "readattribute", field_name);
 
+	PHALCON_INIT_NVAR(field);
+	ZVAL_STRING(field, "keys", 1);
+
+	PHALCON_INIT_VAR(keys);
+	phalcon_call_method_p1(keys, this_ptr, "getoption", field);
+
 	PHALCON_INIT_VAR(assoc);
 	ZVAL_TRUE(assoc);
 
@@ -115,12 +121,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 	phalcon_call_func_p2(json, "json_decode", value, assoc);
 
 	if (zend_is_true(json)) {
-		PHALCON_INIT_NVAR(field);
-		ZVAL_STRING(field, "keys", 1);
-		
-		PHALCON_INIT_VAR(keys);
-		phalcon_call_method_p1(keys, this_ptr, "getoption", field);
-
 		if (Z_TYPE_P(keys) == IS_ARRAY) {
 			PHALCON_INIT_VAR(ret);
 			phalcon_call_func_p2(ret, "array_key_exists", keys, json);
