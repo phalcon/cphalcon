@@ -708,35 +708,36 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 	zval *tmp_color = NULL, *r, *g, *b;
 	int i;
 	char *c;
+	zval tmp;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 6, &text, &offset_x, &offset_y, &opacity, &color, &size, &fontfile);
 
 	if (!offset_x) {
-		PHALCON_INIT_NVAR(offset_x);
+		PHALCON_INIT_VAR(offset_x);
 	} else {
 		PHALCON_SEPARATE_PARAM(offset_x);
 	}
 	
 	if (!offset_y) {
-		PHALCON_INIT_NVAR(offset_y);
+		PHALCON_INIT_VAR(offset_y);
 	} else {
 		PHALCON_SEPARATE_PARAM(offset_y);
 	}
 
-	if (Z_TYPE_P(offset_x) == IS_NULL ) {
+	if (Z_TYPE_P(offset_x) == IS_NULL) {
 		PHALCON_INIT_NVAR(offset_x);
-		ZVAL_BOOL(offset_x, 0);
+		ZVAL_FALSE(offset_x);
 	}
 
 	if (Z_TYPE_P(offset_y) == IS_NULL) {
 		PHALCON_INIT_NVAR(offset_y);
-		ZVAL_BOOL(offset_y, 0);
+		ZVAL_FALSE(offset_y);
 	}
 
 	if (!opacity) {
-		PHALCON_INIT_NVAR(opacity);
+		PHALCON_INIT_VAR(opacity);
 		ZVAL_LONG(opacity, 100);
 	} else if (Z_TYPE_P(opacity) == IS_NULL) {
 		PHALCON_SEPARATE_PARAM(opacity);
@@ -766,7 +767,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 	}
 
 	if (!size) {
-		PHALCON_INIT_NVAR(size);
+		PHALCON_INIT_VAR(size);
 		ZVAL_LONG(size, 12);
 	} else if (Z_TYPE_P(size) == IS_NULL) {
 		PHALCON_SEPARATE_PARAM(size);
@@ -775,7 +776,7 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 	}
 
 	if (!fontfile) {
-		PHALCON_INIT_NVAR(fontfile);
+		PHALCON_INIT_VAR(fontfile);
 	}
 
 	c = Z_STRVAL_P(color);
@@ -784,12 +785,13 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 		PHALCON_INIT_NVAR(tmp_color);
 		phalcon_substr(tmp_color, color, 1, 0);
 	} else {
-		PHALCON_CPY_WRT(tmp_color, color);
+		PHALCON_CPY_WRT_CTOR(tmp_color, color);
 	}
 
 	if (Z_STRLEN_P(tmp_color) == 3) {
 		/* Convert RGB to RRGGBB */
 		c = Z_STRVAL_P(tmp_color);
+		assert(!IS_INTERNED(c));
 		STR_REALLOC(c, 7);
 		c[6] = '\0';
 		c[5] = c[2];
@@ -797,16 +799,14 @@ PHP_METHOD(Phalcon_Image_Adapter, text){
 		c[3] = c[1];
 		c[2] = c[1];
 		c[1] = c[0];
+		ZVAL_STRING(tmp_color, c, 0);
 	}
-
-	ZVAL_STRING(tmp_color, c, 1);
 
 	if (Z_STRLEN_P(tmp_color) < 6) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "color is not valid");
 		return;
 	}
 
-	zval tmp;
 	INIT_ZVAL(tmp);
 
 	Z_TYPE(tmp) = IS_STRING;
@@ -860,6 +860,7 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 	zval *tmp_color = NULL, *r = NULL, *g = NULL, *b = NULL;
 	int i;
 	char *c;
+	zval tmp;
 
 	PHALCON_MM_GROW();
 
@@ -876,29 +877,35 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 		PHALCON_INIT_NVAR(tmp_color);
 		phalcon_substr(tmp_color, color, 1, 0);
 	} else {
-		PHALCON_CPY_WRT(tmp_color, color);
+		PHALCON_CPY_WRT_CTOR(tmp_color, color);
 	}
 
 	if (Z_STRLEN_P(tmp_color) == 3) {
 		/* Convert RGB to RRGGBB */
 		c = Z_STRVAL_P(tmp_color);
-		STR_REALLOC(c, 7);
+		if (!IS_INTERNED(c)) {
+			STR_REALLOC(c, 7);
+		}
+		else {
+			char* tmp = ecalloc(7, 1);
+			memcpy(tmp, c, Z_STRLEN_P(tmp_color));
+			c = tmp;
+		}
+
 		c[6] = '\0';
 		c[5] = c[2];
 		c[4] = c[2];
 		c[3] = c[1];
 		c[2] = c[1];
 		c[1] = c[0];
+		ZVAL_STRING(tmp_color, c, 0);
 	}
 
-	ZVAL_STRING(tmp_color, c, 1);
-
 	if (Z_STRLEN_P(tmp_color) < 6) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "color is not valid");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Color is not valid");
 		return;
 	}
 
-	zval tmp;
 	INIT_ZVAL(tmp);
 
 	Z_TYPE(tmp) = IS_STRING;
@@ -914,7 +921,6 @@ PHP_METHOD(Phalcon_Image_Adapter, background){
 	Z_STRVAL(tmp) += 2;
 	PHALCON_INIT_NVAR(b);
 	_php_math_basetozval(&tmp, 16, b);
-		
 
 	if (!opacity) {
 		PHALCON_INIT_NVAR(opacity);
@@ -1063,7 +1069,7 @@ PHP_METHOD(Phalcon_Image_Adapter, save){
 		}
 	} else {
 		PHALCON_INIT_VAR(constant);
-		if (zend_get_constant(SL("PATHINFO_DIRNAME"), constant TSRMLS_CC) == FAILURE) {
+		if (!zend_get_constant(SL("PATHINFO_DIRNAME"), constant TSRMLS_CC)) {
 			RETURN_MM();
 		}
 
@@ -1118,7 +1124,7 @@ PHP_METHOD(Phalcon_Image_Adapter, render){
 		file = phalcon_fetch_nproperty_this(this_ptr, SL("_file"), PH_NOISY_CC);
 
 		PHALCON_INIT_VAR(constant);
-		if (zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC) == FAILURE) {
+		if (!zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC)) {
 			RETURN_MM();
 		}
 

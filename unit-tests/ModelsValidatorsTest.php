@@ -122,7 +122,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 
 	protected function _testValidatorsNormal($di)
 	{
-
 		$connection = $di->getShared('db');
 
 		$success = $connection->delete("subscriptores");
@@ -224,11 +223,17 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($messages[0]->getField(), "email");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' is less than the minimum 7 characters");
 
+		// Issue 1243
+		$subscriptor->email = 'user.@domain.com';
+		$this->assertFalse($subscriptor->save());
+		$messages = $subscriptor->getMessages();
+		$this->assertEquals($messages[0]->getType(), "Email");
+		$this->assertEquals($messages[0]->getField(), "email");
+		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' must have a valid e-mail format");
 	}
 
 	protected function _testValidatorsRenamed($di)
 	{
-
 		$connection = $di->getShared('db');
 
 		$success = $connection->delete("subscriptores");
@@ -359,7 +364,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($messages[0]->getType(), "Email");
 		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
 		$this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
-
 	}
 
 }

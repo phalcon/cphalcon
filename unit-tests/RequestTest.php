@@ -199,4 +199,135 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($successful[2]->getTempName(), 't2');
 		$this->assertEquals($successful[3]->getTempName(), 't3');
 	}
+
+	public function testGetAuth()
+	{
+		$request = new \Phalcon\Http\Request();
+
+		$_SERVER = array(
+			'PHP_AUTH_USER'	=> 'myleft',
+			'PHP_AUTH_PW'	=> '123456'
+		);
+
+		$data = array('username' => 'myleft', 'password' => '123456');
+
+		$auth = $request->getBasicAuth();
+
+		$this->assertEquals($auth, $data);
+
+		$_SERVER = array(
+			'PHP_AUTH_DIGEST' => 'Digest username="myleft", realm="myleft", qop="auth", algorithm="MD5", uri="/", nonce="nonce", nc=nc, cnonce="cnonce", opaque="opaque", response="response"'
+		);
+
+		$data = array('username' => 'myleft', 'realm' => 'myleft', 'qop' => 'auth', 'algorithm' => 'MD5', 'uri' => '/', 'nonce' => 'nonce', 'nc' => 'nc', 'cnonce' => 'cnonce', 'opaque' => 'opaque', 'response' => 'response');
+
+		$auth = $request->getDigestAuth();
+		$this->assertEquals($auth, $data);
+
+		$_SERVER = array(
+			'PHP_AUTH_DIGEST' => 'Digest username=myleft, realm=myleft, qop=auth, algorithm=MD5, uri=/, nonce=nonce, nc=nc, cnonce=cnonce, opaque=opaque, response=response'
+		);
+
+		$auth = $request->getDigestAuth();
+		$this->assertEquals($auth, $data);
+
+		$_SERVER = array(
+			'PHP_AUTH_DIGEST' => 'Digest username=myleft realm=myleft qop=auth algorithm=MD5 uri=/ nonce=nonce nc=nc cnonce=cnonce opaque=opaque response=response'
+		);
+
+		$auth = $request->getDigestAuth();
+		$this->assertEquals($auth, $data);
+	}
+
+	public function testIssues1226()
+	{
+		$di = new Phalcon\DI\FactoryDefault();
+
+		$request = new \Phalcon\Http\Request();
+		$request->setDI($di);
+
+		$_REQUEST = $_GET = $_POST = array(
+			'id' => 1,
+			'num' => 'a1a',
+			'age' => 'aa',
+			'phone' => ''
+		);
+
+		// get
+		$this->assertEquals($request->get('id', 'int', 100), 1);
+
+		$this->assertEquals($request->get('num', 'int', 100), 1);
+
+		$age = $request->get('age', 'int', 100);
+
+		$this->assertTrue(empty($age));
+		$this->assertEquals($request->get('age', 'int', 100, TRUE), 100);
+
+		$phone = $request->get('phone', 'int', 100);
+		$this->assertTrue(empty($phone));
+		$this->assertEquals($request->get('phone', 'int', 100, TRUE), 100);
+
+		// getQuery
+		$this->assertEquals($request->getQuery('id', 'int', 100), 1);
+
+		$this->assertEquals($request->getQuery('num', 'int', 100), 1);
+
+		$age = $request->getQuery('age', 'int', 100);
+
+		$this->assertTrue(empty($age));
+		$this->assertEquals($request->getQuery('age', 'int', 100, TRUE), 100);
+
+		$phone = $request->getQuery('phone', 'int', 100);
+		$this->assertTrue(empty($phone));
+		$this->assertEquals($request->getQuery('phone', 'int', 100, TRUE), 100);
+
+		// getPost
+		$this->assertEquals($request->getPost('id', 'int', 100), 1);
+
+		$this->assertEquals($request->getPost('num', 'int', 100), 1);
+
+		$age = $request->getPost('age', 'int', 100);
+
+		$this->assertTrue(empty($age));
+		$this->assertEquals($request->getPost('age', 'int', 100, TRUE), 100);
+
+		$phone = $request->getPost('phone', 'int', 100);
+		$this->assertTrue(empty($phone));
+		$this->assertEquals($request->getPost('phone', 'int', 100, TRUE), 100);
+	}
+
+	public function testIssues1265()
+	{
+		$di = new Phalcon\DI\FactoryDefault();
+
+		$request = new \Phalcon\Http\Request();
+		$request->setDI($di);
+
+		$_REQUEST = $_GET = $_POST = array(
+			'string' => 'hello',
+			'array' => array('string' => 'world')
+		);
+
+		// get
+		$this->assertEquals($request->get('string', 'string'), 'hello');
+		$this->assertEquals($request->get('string', 'string', NULL, TRUE, TRUE), 'hello');
+
+		$this->assertEquals($request->get('array', 'string'), array('string' => 'world'));
+		$this->assertEquals($request->get('array', 'string', NULL, TRUE, TRUE), NULL);
+
+		// getQuery
+		$this->assertEquals($request->getQuery('string', 'string'), 'hello');
+		$this->assertEquals($request->getQuery('string', 'string', NULL, TRUE, TRUE), 'hello');
+
+		$this->assertEquals($request->getQuery('array', 'string'), array('string' => 'world'));
+		$this->assertEquals($request->getQuery('array', 'string', NULL, TRUE, TRUE), NULL);
+
+		// getPost
+		$this->assertEquals($request->getPost('string', 'string'), 'hello');
+		$this->assertEquals($request->getPost('string', 'string', NULL, TRUE, TRUE), 'hello');
+
+		$this->assertEquals($request->getPost('array', 'string'), array('string' => 'world'));
+		$this->assertEquals($request->getPost('array', 'string', NULL, TRUE, TRUE), NULL);
+	}
 }
+

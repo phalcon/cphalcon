@@ -79,25 +79,21 @@ PHALCON_INIT_CLASS(Phalcon_Image_Adapter_Imagick){
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, check){
 
-	zval *class_name, *ret = NULL;
+	zval class_name, *ret = NULL;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(class_name);
-	ZVAL_STRING(class_name, "imagick", 1);
+	INIT_ZVAL(class_name);
+	ZVAL_STRING(&class_name, "imagick", 0);
 
-	PHALCON_INIT_NVAR(ret);
-	phalcon_call_func_p1(ret, "class_exists", class_name);
-
-	if (!zend_is_true(ret)) {
+	if (!phalcon_class_exists(&class_name, 0 TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_image_exception_ce, "Imagick is not installed, or the extension is not loaded");
 		return;
 	}
 
 	phalcon_update_static_property(SL("phalcon\\image\\adapter\\imagick"), SL("_checked"), ret TSRMLS_CC);
 
-	ZVAL_BOOL(return_value, 1);
-
+	RETVAL_TRUE;
 	RETURN_MM();
 }
 
@@ -1562,7 +1558,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 	ce0 = zend_fetch_class(SL("Imagick"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(constant);
-	if (zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC) == FAILURE) {
+	if (!zend_get_constant(SL("PATHINFO_EXTENSION"), constant TSRMLS_CC)) {
 		RETURN_MM();
 	}
 
