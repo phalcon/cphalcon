@@ -127,6 +127,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 			if (zend_is_true(ret)) {
 				RETURN_MM_TRUE;
 			}
+		} else {
+			RETURN_MM_TRUE;
 		}
 	}
 
@@ -136,11 +138,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 	PHALCON_INIT_VAR(message);
 	phalcon_call_method_p1(message, this_ptr, "getoption", option);
 	if (!zend_is_true(message)) {
-		PHALCON_INIT_VAR(joined_keys);
-		phalcon_fast_join_str(joined_keys, SL(", "), keys TSRMLS_CC);
+		if (Z_TYPE_P(keys) == IS_ARRAY) {
+			PHALCON_INIT_VAR(joined_keys);
+			phalcon_fast_join_str(joined_keys, SL(", "), keys TSRMLS_CC);
 
-		PHALCON_INIT_NVAR(message);
-		PHALCON_CONCAT_SVSV(message, "Value of field '", field_name, "' must contain the following properties: ", joined_keys);
+			PHALCON_INIT_NVAR(message);
+			PHALCON_CONCAT_SVSV(message, "Value of field '", field_name, "' must contain the following properties: ", joined_keys);
+		} else {
+			PHALCON_INIT_NVAR(message);
+			PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' must have a valid json format");
+		}
 	}
 
 	PHALCON_INIT_VAR(type);
