@@ -27,6 +27,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages);
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions);
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption);
 PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption);
+PHP_METHOD(Phalcon_Mvc_Model_Validator, getFieldName);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
@@ -39,6 +40,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_validator_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Validator, getOptions, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Validator, getOption, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Validator, isSetOption, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model_Validator, getFieldName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
