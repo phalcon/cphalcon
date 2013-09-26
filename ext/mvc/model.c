@@ -1995,15 +1995,10 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator must be an Object");
 		return;
 	}
-	zend_printf("allow_empty");
 
 	if (zend_is_true(allow_empty)) {
-		zend_printf("allow_empty");
 		PHALCON_INIT_VAR(field_name);
 		phalcon_call_method(field_name, validator, "getFieldName");
-
-		
-		zend_print_zval_r(field_name, 0);
 
 		PHALCON_INIT_VAR(value);
 		phalcon_call_method_p1(value, this_ptr, "readattribute", field_name);
