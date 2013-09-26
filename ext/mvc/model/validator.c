@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getFieldName){
 
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (phalcon_array_isset_string_fetch(options, SS("field"))) {
+	if (phalcon_array_isset_string(options, SS("field"))) {
 		PHALCON_OBS_VAR(field_name);
 		phalcon_array_fetch_string(&field_name, options, SL("field"), PH_NOISY);
 		RETURN_CCTOR(field_name);
