@@ -103,23 +103,19 @@ PHP_METHOD(Phalcon_Cache_Multiple, __construct){
 
 	zval *backends = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &backends);
+	phalcon_fetch_params(0, 0, 1, &backends);
 	
 	if (!backends) {
-		PHALCON_INIT_VAR(backends);
+		backends = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(backends) != IS_NULL) {
 		if (Z_TYPE_P(backends) != IS_ARRAY) { 
-			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backends must be an array");
+			PHALCON_THROW_EXCEPTION_STRW(phalcon_cache_exception_ce, "The backends must be an array");
 			return;
 		}
 		phalcon_update_property_this(this_ptr, SL("_backends"), backends TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -163,11 +159,10 @@ PHP_METHOD(Phalcon_Cache_Multiple, get){
 	phalcon_fetch_params(1, 1, 1, &key_name, &lifetime);
 	
 	if (!lifetime) {
-		PHALCON_INIT_VAR(lifetime);
+		lifetime = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_OBS_VAR(backends);
-	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
+	backends = phalcon_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	
 	phalcon_is_iterable(backends, &ah0, &hp0, 0, 0);
 	
@@ -206,11 +201,10 @@ PHP_METHOD(Phalcon_Cache_Multiple, start){
 	phalcon_fetch_params(1, 1, 1, &key_name, &lifetime);
 	
 	if (!lifetime) {
-		PHALCON_INIT_VAR(lifetime);
+		lifetime = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_OBS_VAR(backends);
-	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
+	backends = phalcon_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	
 	phalcon_is_iterable(backends, &ah0, &hp0, 0, 0);
 	
@@ -248,24 +242,22 @@ PHP_METHOD(Phalcon_Cache_Multiple, save){
 	phalcon_fetch_params(1, 0, 4, &key_name, &content, &lifetime, &stop_buffer);
 	
 	if (!key_name) {
-		PHALCON_INIT_VAR(key_name);
+		key_name = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!content) {
-		PHALCON_INIT_VAR(content);
+		content = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_VAR(lifetime);
+		lifetime = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!stop_buffer) {
-		PHALCON_INIT_VAR(stop_buffer);
-		ZVAL_BOOL(stop_buffer, 1);
+		stop_buffer = PHALCON_GLOBAL(z_true);
 	}
 	
-	PHALCON_OBS_VAR(backends);
-	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
+	backends = phalcon_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	
 	phalcon_is_iterable(backends, &ah0, &hp0, 0, 0);
 	
@@ -299,8 +291,7 @@ PHP_METHOD(Phalcon_Cache_Multiple, delete){
 
 	phalcon_fetch_params(1, 1, 0, &key_name);
 	
-	PHALCON_OBS_VAR(backends);
-	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
+	backends = phalcon_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	
 	phalcon_is_iterable(backends, &ah0, &hp0, 0, 0);
 	
@@ -337,15 +328,14 @@ PHP_METHOD(Phalcon_Cache_Multiple, exists){
 	phalcon_fetch_params(1, 0, 2, &key_name, &lifetime);
 	
 	if (!key_name) {
-		PHALCON_INIT_VAR(key_name);
+		key_name = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_VAR(lifetime);
+		lifetime = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_OBS_VAR(backends);
-	phalcon_read_property_this(&backends, this_ptr, SL("_backends"), PH_NOISY_CC);
+	backends = phalcon_fetch_nproperty_this(this_ptr, SL("_backends"), PH_NOISY_CC);
 	
 	phalcon_is_iterable(backends, &ah0, &hp0, 0, 0);
 	

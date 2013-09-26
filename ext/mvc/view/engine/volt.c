@@ -163,8 +163,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	phalcon_fetch_params(1, 2, 1, &template_path, &params, &must_clean);
 	
 	if (!must_clean) {
-		PHALCON_INIT_VAR(must_clean);
-		ZVAL_BOOL(must_clean, 0);
+		must_clean = PHALCON_GLOBAL(z_false);
 	}
 	
 	if (PHALCON_IS_TRUE(must_clean)) {
@@ -352,7 +351,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 
 	zval *value, *start, *end = NULL, *slice, *length = NULL, *position;
-	zval *current = NULL, *one, *range;
+	zval *current = NULL, *range;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -360,7 +359,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	phalcon_fetch_params(1, 2, 1, &value, &start, &end);
 	
 	if (!end) {
-		PHALCON_INIT_VAR(end);
+		end = PHALCON_GLOBAL(z_null);
 	}
 	
 	/** 
@@ -409,14 +408,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice){
 	 * Calculate the slice length
 	 */
 	if (Z_TYPE_P(end) != IS_NULL) {
-		PHALCON_INIT_VAR(one);
-		ZVAL_LONG(one, 1);
-	
 		PHALCON_INIT_VAR(range);
 		sub_function(range, end, start TSRMLS_CC);
 	
 		PHALCON_INIT_NVAR(length);
-		phalcon_add_function(length, range, one TSRMLS_CC);
+		phalcon_add_function(length, range, PHALCON_GLOBAL(z_one) TSRMLS_CC);
 	} else {
 		PHALCON_INIT_NVAR(length);
 	}

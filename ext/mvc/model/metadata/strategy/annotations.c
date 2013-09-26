@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	zval *primary_annot_name, *id_annot_name;
 	zval *column_type_name, *column_nullable_name;
 	zval *prop_annotations = NULL, *property = NULL, *has_annotation = NULL;
-	zval *column_annotation = NULL, *feature = NULL, *model_metadata;
+	zval *column_annotation = NULL, *feature = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	array_init(automatic_default);
 	
 	PHALCON_INIT_VAR(identity_field);
-	ZVAL_BOOL(identity_field, 0);
+	ZVAL_FALSE(identity_field);
 	
 	PHALCON_INIT_VAR(column_annot_name);
 	ZVAL_STRING(column_annot_name, "Column", 1);
@@ -258,20 +258,19 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
 	/** 
 	 * Create an array using the MODELS_* constants as indexes
 	 */
-	PHALCON_INIT_VAR(model_metadata);
-	array_init(model_metadata);
-	phalcon_array_update_long(&model_metadata, 0, &attributes, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 1, &primary_keys, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 2, &non_primary_keys, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 3, &not_null, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 4, &field_types, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 5, &numeric_typed, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 8, &identity_field, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 9, &field_bind_types, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 10, &automatic_default, PH_COPY | PH_SEPARATE);
-	phalcon_array_update_long(&model_metadata, 11, &automatic_default, PH_COPY | PH_SEPARATE);
+	array_init_size(return_value, 10);
+	phalcon_array_update_long(&return_value, 0, &attributes, PH_COPY);
+	phalcon_array_update_long(&return_value, 1, &primary_keys, PH_COPY);
+	phalcon_array_update_long(&return_value, 2, &non_primary_keys, PH_COPY);
+	phalcon_array_update_long(&return_value, 3, &not_null, PH_COPY);
+	phalcon_array_update_long(&return_value, 4, &field_types, PH_COPY);
+	phalcon_array_update_long(&return_value, 5, &numeric_typed, PH_COPY);
+	phalcon_array_update_long(&return_value, 8, &identity_field, PH_COPY);
+	phalcon_array_update_long(&return_value, 9, &field_bind_types, PH_COPY);
+	phalcon_array_update_long(&return_value, 10, &automatic_default, PH_COPY);
+	phalcon_array_update_long(&return_value, 11, &automatic_default, PH_COPY);
 	
-	RETURN_CTOR(model_metadata);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -280,6 +279,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData){
  * @param Phalcon\Mvc\ModelInterface $model
  * @param Phalcon\DiInterface $dependencyInjector
  * @return array
+ * @todo Not implemented
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps){
 

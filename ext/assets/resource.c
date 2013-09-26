@@ -88,17 +88,15 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct){
 	phalcon_fetch_params(1, 2, 3, &type, &path, &local, &filter, &attributes);
 	
 	if (!local) {
-		PHALCON_INIT_VAR(local);
-		ZVAL_BOOL(local, 1);
+		local = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (!filter) {
-		PHALCON_INIT_VAR(filter);
-		ZVAL_BOOL(filter, 1);
+		filter = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (!attributes) {
-		PHALCON_INIT_VAR(attributes);
+		attributes = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
@@ -345,7 +343,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent){
 	phalcon_fetch_params(1, 0, 1, &base_path);
 	
 	if (!base_path) {
-		PHALCON_INIT_VAR(base_path);
+		base_path = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(source_path);
@@ -431,7 +429,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealSourcePath){
 	phalcon_fetch_params(1, 0, 1, &base_path);
 	
 	if (!base_path) {
-		PHALCON_INIT_VAR(base_path);
+		base_path = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(source_path);
@@ -475,7 +473,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getRealTargetPath){
 	phalcon_fetch_params(1, 0, 1, &base_path);
 	
 	if (!base_path) {
-		PHALCON_INIT_VAR(base_path);
+		base_path = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(target_path);

@@ -594,7 +594,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64){
 	phalcon_fetch_params(1, 1, 1, &text, &key);
 	
 	if (!key) {
-		PHALCON_INIT_VAR(key);
+		key = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(encrypted);
@@ -619,7 +619,7 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 	phalcon_fetch_params(1, 1, 1, &text, &key);
 	
 	if (!key) {
-		PHALCON_INIT_VAR(key);
+		key = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(decrypt_text);
@@ -636,10 +636,7 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64){
 PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
 
 
-	PHALCON_MM_GROW();
-
-	phalcon_call_func(return_value, "mcrypt_list_algorithms");
-	RETURN_MM();
+	phalcon_call_func_params(return_value, return_value_ptr, SL("mcrypt_list_algorithms") TSRMLS_CC, 0);
 }
 
 /**
@@ -650,8 +647,5 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
 PHP_METHOD(Phalcon_Crypt, getAvailableModes){
 
 
-	PHALCON_MM_GROW();
-
-	phalcon_call_func(return_value, "mcrypt_list_modes");
-	RETURN_MM();
+	phalcon_call_func_params(return_value, return_value_ptr, SL("mcrypt_list_modes") TSRMLS_CC, 0);
 }

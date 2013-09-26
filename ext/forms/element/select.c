@@ -72,11 +72,11 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct){
 	phalcon_fetch_params(1, 1, 2, &name, &options, &attributes);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!attributes) {
-		PHALCON_INIT_VAR(attributes);
+		attributes = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_optionsValues"), options TSRMLS_CC);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render){
 	phalcon_fetch_params(1, 0, 1, &attributes);
 	
 	if (!attributes) {
-		PHALCON_INIT_VAR(attributes);
+		attributes = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(options);

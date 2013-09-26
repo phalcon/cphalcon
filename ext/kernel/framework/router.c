@@ -121,7 +121,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 	}
 
 	if (Z_STRLEN_P(pattern) <= 0) {
-		ZVAL_BOOL(return_value, 0);
+		ZVAL_FALSE(return_value);
 		return;
 	}
 
@@ -275,18 +275,8 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 	char *item, *variable = NULL, *regexp = NULL;
 	smart_str route_str = {0};
 
-	if (Z_TYPE_P(str) != IS_STRING) {
-		ZVAL_BOOL(return_value, 0);
-		return;
-	}
-
-	if (Z_STRLEN_P(str) <= 0) {
-		ZVAL_BOOL(return_value, 0);
-		return;
-	}
-
-	if (Z_TYPE_P(matches) != IS_ARRAY) {
-		ZVAL_BOOL(return_value, 0);
+	if (Z_TYPE_P(str) != IS_STRING || Z_STRLEN_P(str) <= 0 || Z_TYPE_P(matches) != IS_ARRAY) {
+		ZVAL_FALSE(return_value);
 		return;
 	}
 

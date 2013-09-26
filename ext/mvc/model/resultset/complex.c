@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 	phalcon_fetch_params(1, 2, 1, &columns_types, &result, &cache);
 	
 	if (!cache) {
-		PHALCON_INIT_VAR(cache);
+		cache = PHALCON_GLOBAL(z_null);
 	}
 	
 	/** 

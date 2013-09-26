@@ -472,15 +472,15 @@
 #define phalcon_call_zval_str_static_p1(return_value, class_zval, method, p1) PHALCON_CALL_ZSTATIC_STR(return_value, NULL, class_zval, method, 1, p1)
 
 int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const char *func_name, int func_length TSRMLS_DC, int param_count, ...);
-int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, ...);
+int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, ...);
 int phalcon_call_method_zval_params(zval *return_value, zval **return_value_ptr, zval *object, zval *method TSRMLS_DC, int param_count, ...);
-int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, char *method_name, int method_len TSRMLS_DC, int param_count, ...);
-int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len TSRMLS_DC, int param_count, ...);
-int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr, char *class_name, int class_length, char *method_name, int method_length TSRMLS_DC, int param_count, ...);
+int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, const char *method_name, int method_len TSRMLS_DC, int param_count, ...);
+int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len TSRMLS_DC, int param_count, ...);
+int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr, const char *class_name, int class_length, const char *method_name, int method_length TSRMLS_DC, int param_count, ...);
 int phalcon_call_static_zval_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, zval *method TSRMLS_DC, int param_count, ...);
-int phalcon_call_static_zval_str_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, ...);
+int phalcon_call_static_zval_str_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, const char *method_name, int method_len TSRMLS_DC, int param_count, ...);
 
-int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap);
+int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap);
 
 /** Fast call_user_func_array/call_user_func */
 int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params TSRMLS_DC);

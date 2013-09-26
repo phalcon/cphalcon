@@ -74,11 +74,11 @@ PHP_METHOD(Phalcon_Forms_Manager, create){
 	phalcon_fetch_params(1, 0, 2, &name, &entity);
 	
 	if (!name) {
-		PHALCON_INIT_VAR(name);
+		name = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!entity) {
-		PHALCON_INIT_VAR(entity);
+		entity = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {

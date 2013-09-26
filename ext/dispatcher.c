@@ -512,7 +512,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	/** 
 	 * Do at least one dispatch
 	 */
-	phalcon_update_property_bool(this_ptr, SL("_finished"), 0 TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_finished"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 	
 	while (1) {
 	
@@ -539,7 +539,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			break;
 		}
 	
-		phalcon_update_property_bool(this_ptr, SL("_finished"), 1 TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_finished"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
 	
 		/** 
 		 * If the current namespace is null we used the set in this_ptr::_defaultNamespace
@@ -1024,8 +1024,8 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		phalcon_update_property_this(this_ptr, SL("_params"), params TSRMLS_CC);
 	}
 	
-	phalcon_update_property_bool(this_ptr, SL("_finished"), 0 TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_forwarded"), 1 TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_finished"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_forwarded"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
 }
 
 /**

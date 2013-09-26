@@ -215,7 +215,7 @@ static int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr
 	return status;
 }
 
-int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
+int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
 
 	int i, status, free_params = -0, caller_wants_result = 1;
 	zend_class_entry *ce, *active_scope = NULL;
@@ -261,7 +261,7 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 	ce           = Z_OBJCE_P(object);
 	active_scope = EG(scope);
 	EG(scope)    = ce;
-	status       = phalcon_alt_call_user_method(ce, &object, method_name, method_len, return_value, return_value_ptr, param_count, params_ptr, method_key TSRMLS_CC);
+	status       = phalcon_alt_call_user_method(ce, &object, (char*)method_name, method_len, return_value, return_value_ptr, param_count, params_ptr, method_key TSRMLS_CC);
 	EG(scope)    = active_scope;
 
 	if (unlikely(free_params)) {
@@ -285,7 +285,7 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 /**
  * Call single static function on a zval which requires parameters
  */
-static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **return_value_ptr, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, va_list ap) {
+static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **return_value_ptr, zval *mixed_name, const char *method_name, int method_len TSRMLS_DC, int param_count, va_list ap) {
 
 	zval **params_ptr, **params = NULL, *fn;
 	zval *static_params[10];
@@ -393,7 +393,7 @@ int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const 
  * @retval @c SUCCESS
  * @retval @c FAILURE
  */
-int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, ...) {
+int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, ...) {
 
 	int status;
 	va_list ap;
@@ -427,7 +427,7 @@ int phalcon_call_method_zval_params(zval *return_value, zval **return_value_ptr,
 /**
  * Call single static function that requires an arbitrary number of parameters
  */
-int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr, char *class_name, int class_length, char *method_name, int method_length TSRMLS_DC, int param_count, ...) {
+int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr, const char *class_name, int class_length, const char *method_name, int method_length TSRMLS_DC, int param_count, ...) {
 
 	zval cls;
 	va_list ap;
@@ -448,7 +448,7 @@ int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr,
 /**
  * Call parent static function that requires an arbitrary number of parameters
  */
-int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
+int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, const char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
 
 	zval cls;
 	int status;
@@ -477,7 +477,7 @@ int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr,
 /**
  * Call self-class static function which requires parameters
  */
-int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
+int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
 
 	int status;
 	zend_class_entry *active_scope;
@@ -523,7 +523,7 @@ int phalcon_call_static_zval_func_params(zval *return_value, zval **return_value
 	return FAILURE;
 }
 
-int phalcon_call_static_zval_str_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
+int phalcon_call_static_zval_str_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, const char *method_name, int method_len TSRMLS_DC, int param_count, ...) {
 
 	int status;
 	va_list ap;

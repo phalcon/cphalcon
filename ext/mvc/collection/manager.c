@@ -248,23 +248,16 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize){
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized){
 
 	zval *model_name, *initialized, *lowercased;
-	zval *is_intitialized = NULL;
-	zval *r0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &model_name);
+	phalcon_fetch_params(0, 1, 0, &model_name);
 	
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(lowercased);
+	ALLOC_INIT_ZVAL(lowercased);
 	phalcon_fast_strtolower(lowercased, model_name);
 	
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(initialized, lowercased));
-	PHALCON_CPY_WRT(is_intitialized, r0);
-	RETURN_NCTOR(is_intitialized);
+	RETVAL_BOOL(phalcon_array_isset(initialized, lowercased));
+	zval_ptr_dtor(&lowercased);
 }
 
 /**

@@ -289,26 +289,30 @@ PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes){
 
-	zval *reserved, *dummy;
+	zval *reserved;
 
 	reserved = phalcon_fetch_static_property_ce(phalcon_mvc_collection_ce, SL("_reserved") TSRMLS_CC);
 	if (Z_TYPE_P(reserved) == IS_NULL) {
-		MAKE_STD_ZVAL(dummy);
-		ZVAL_TRUE(dummy);
-		Z_SET_REFCOUNT_P(dummy, 5);
+		zval *dummy = PHALCON_GLOBAL(z_true);
 	
-		array_init_size(reserved, 5);
-		add_assoc_zval_ex(reserved, SS("_connection"), dummy);
-		add_assoc_zval_ex(reserved, SS("_dependencyInjector"), dummy);
-		add_assoc_zval_ex(reserved, SS("_source"), dummy);
-		add_assoc_zval_ex(reserved, SS("_operationMade"), dummy);
-		add_assoc_zval_ex(reserved, SS("_errorMessages"), dummy);
+		array_init_size(return_value, 5);
+		Z_ADDREF_P(dummy);
+		add_assoc_zval_ex(return_value, SS("_connection"), dummy);
+		Z_ADDREF_P(dummy);
+		add_assoc_zval_ex(return_value, SS("_dependencyInjector"), dummy);
+		Z_ADDREF_P(dummy);
+		add_assoc_zval_ex(return_value, SS("_source"), dummy);
+		Z_ADDREF_P(dummy);
+		add_assoc_zval_ex(return_value, SS("_operationMade"), dummy);
+		Z_ADDREF_P(dummy);
+		add_assoc_zval_ex(return_value, SS("_errorMessages"), dummy);
 		/* reserved is a reference, no need to update the property
 		phalcon_update_static_property_ce(phalcon_mvc_collection_ce, SL("_reserved"), reserved TSRMLS_CC);
 		*/
+		return;
 	}
 
-	RETURN_CCTORW(reserved);
+	RETURN_ZVAL(reserved, 1, 0);
 }
 
 /**
@@ -1529,7 +1533,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	phalcon_fetch_params(1, 0, 1, &parameters);
 	
 	if (!parameters) {
-		PHALCON_INIT_VAR(parameters);
+		parameters = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_NULL) {
@@ -1551,9 +1555,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	
 	PHALCON_INIT_VAR(connection);
 	phalcon_call_method(connection, collection, "getconnection");
-	
-	PHALCON_INIT_VAR(unique);
-	ZVAL_BOOL(unique, 1);
+
+	unique = PHALCON_GLOBAL(z_true);
 	phalcon_call_self_p4(return_value, this_ptr, "_getresultset", parameters, collection, connection, unique);
 	RETURN_MM();
 }
@@ -1607,7 +1610,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	phalcon_fetch_params(1, 0, 1, &parameters);
 	
 	if (!parameters) {
-		PHALCON_INIT_VAR(parameters);
+		parameters = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_NULL) {
@@ -1630,8 +1633,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	PHALCON_INIT_VAR(connection);
 	phalcon_call_method(connection, collection, "getconnection");
 	
-	PHALCON_INIT_VAR(unique);
-	ZVAL_BOOL(unique, 0);
+	unique = PHALCON_GLOBAL(z_false);
 	phalcon_call_self_p4(return_value, this_ptr, "_getresultset", parameters, collection, connection, unique);
 	RETURN_MM();
 }
@@ -1656,7 +1658,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	phalcon_fetch_params(1, 0, 1, &parameters);
 	
 	if (!parameters) {
-		PHALCON_INIT_VAR(parameters);
+		parameters = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_NULL) {
@@ -1752,11 +1754,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory){
 	phalcon_fetch_params(1, 1, 2, &field, &conditions, &finalize);
 	
 	if (!conditions) {
-		PHALCON_INIT_VAR(conditions);
+		conditions = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!finalize) {
-		PHALCON_INIT_VAR(finalize);
+		finalize = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(field) != IS_STRING) {

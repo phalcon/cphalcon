@@ -408,7 +408,7 @@ void phalcon_fast_strpos(zval *return_value, const zval *haystack, const zval *n
 	if (found) {
 		ZVAL_LONG(return_value, found-Z_STRVAL_P(haystack));
 	} else {
-		ZVAL_BOOL(return_value, 0);
+		ZVAL_FALSE(return_value);
 	}
 
 }
@@ -431,7 +431,7 @@ void phalcon_fast_strpos_str(zval *return_value, const zval *haystack, char *nee
 	if (found) {
 		ZVAL_LONG(return_value, found-Z_STRVAL_P(haystack));
 	} else {
-		ZVAL_BOOL(return_value, 0);
+		ZVAL_FALSE(return_value);
 	}
 
 }
@@ -464,7 +464,7 @@ void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, 
 	if (found) {
 		ZVAL_LONG(return_value, found-Z_STRVAL_P(haystack));
 	} else {
-		ZVAL_BOOL(return_value, 0);
+		ZVAL_FALSE(return_value);
 	}
 
 }

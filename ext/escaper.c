@@ -165,8 +165,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	/**
 	 * Strict encoding detection with fallback to non-strict detection.
 	 */
-	PHALCON_INIT_VAR(strict_check);
-	ZVAL_BOOL(strict_check, 1);
+	strict_check = PHALCON_GLOBAL(z_true);
 
 	PHALCON_INIT_NVAR(charset);
 	ZVAL_STRING(charset, "UTF-32", 1);

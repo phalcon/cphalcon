@@ -66,7 +66,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 
-	zval *type, *model, *options, *skip, *value, *field, *actual_value;
+	zval *type, *model, *options, *value, *field, *actual_value;
 	zval *update_model, *status, *messages, *message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -90,13 +90,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			return;
 		}
 	
-		PHALCON_INIT_VAR(skip);
-		ZVAL_BOOL(skip, 1);
-	
 		/** 
 		 * Skip the current operation
 		 */
-		phalcon_call_method_p1_noret(model, "skipoperation", skip);
+		phalcon_call_method_p1_noret(model, "skipoperation", PHALCON_GLOBAL(z_true));
 	
 		/** 
 		 * 'value' is the value to be updated instead of delete the record

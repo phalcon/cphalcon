@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate){
 		is_not_equal_function(failed, match_zero, value TSRMLS_CC);
 	} else {
 		PHALCON_INIT_NVAR(failed);
-		ZVAL_BOOL(failed, 1);
+		ZVAL_TRUE(failed);
 	}
 	
 	if (PHALCON_IS_TRUE(failed)) {

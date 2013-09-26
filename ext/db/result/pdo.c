@@ -94,15 +94,15 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 	phalcon_fetch_params(1, 2, 3, &connection, &result, &sql_statement, &bind_params, &bind_types);
 	
 	if (!sql_statement) {
-		PHALCON_INIT_VAR(sql_statement);
+		sql_statement = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!bind_params) {
-		PHALCON_INIT_VAR(bind_params);
+		bind_params = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_VAR(bind_types);
+		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(result) != IS_OBJECT) {

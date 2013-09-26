@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	phalcon_fetch_params(1, 1, 1, &table, &schema);
 	
 	if (!schema) {
-		PHALCON_INIT_VAR(schema);
+		schema = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(columns);

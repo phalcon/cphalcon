@@ -608,11 +608,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 	phalcon_fetch_params(1, 0, 1, &condition_callback);
 	
 	if (!condition_callback) {
-		PHALCON_INIT_VAR(condition_callback);
+		condition_callback = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(transaction);
-	ZVAL_BOOL(transaction, 0);
+	ZVAL_FALSE(transaction);
 	phalcon_call_method_noret(this_ptr, "rewind");
 	
 	while (1) {
@@ -641,7 +641,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
 			phalcon_call_method_noret(connection, "begin");
 	
 			PHALCON_INIT_NVAR(transaction);
-			ZVAL_BOOL(transaction, 1);
+			ZVAL_TRUE(transaction);
 		}
 	
 		/** 

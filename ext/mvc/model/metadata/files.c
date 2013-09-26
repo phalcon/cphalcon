@@ -82,13 +82,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
 	phalcon_fetch_params(1, 0, 1, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("metaDataDir"))) {
-			PHALCON_OBS_VAR(meta_data_dir);
-			phalcon_array_fetch_string(&meta_data_dir, options, SL("metaDataDir"), PH_NOISY);
+		if (phalcon_array_isset_string_fetch(&meta_data_dir, options, SS("metaDataDir"))) {
 			phalcon_update_property_this(this_ptr, SL("_metaDataDir"), meta_data_dir TSRMLS_CC);
 		}
 	}
@@ -147,7 +145,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 
 	zval *key, *data, *separator, *meta_data_dir, *virtual_key;
-	zval *path, *to_string, *export, *php_export, *status;
+	zval *path, *export, *php_export, *status;
 
 	PHALCON_MM_GROW();
 
@@ -165,11 +163,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 	PHALCON_INIT_VAR(path);
 	PHALCON_CONCAT_VVS(path, meta_data_dir, virtual_key, ".php");
 	
-	PHALCON_INIT_VAR(to_string);
-	ZVAL_BOOL(to_string, 1);
-	
 	PHALCON_INIT_VAR(export);
-	phalcon_call_func_p2(export, "var_export", data, to_string);
+	phalcon_call_func_p2(export, "var_export", data, PHALCON_GLOBAL(z_true));
 	
 	PHALCON_INIT_VAR(php_export);
 	PHALCON_CONCAT_SVS(php_export, "<?php return ", export, "; ");
@@ -183,4 +178,3 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 	
 	PHALCON_MM_RESTORE();
 }
-

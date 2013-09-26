@@ -124,18 +124,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 
 	phalcon_fetch_params(1, 0, 2, &phql, &dependency_injector);
 	
-	if (!phql) {
-		PHALCON_INIT_VAR(phql);
-	}
-	
-	if (!dependency_injector) {
-		PHALCON_INIT_VAR(dependency_injector);
-	}
-	
-	if (Z_TYPE_P(phql) != IS_NULL) {
+	if (phql && Z_TYPE_P(phql) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_phql"), phql TSRMLS_CC);
 	}
-	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+
+	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 		phalcon_call_method_p1_noret(this_ptr, "setdi", dependency_injector);
 	}
 	
@@ -595,8 +588,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	phalcon_fetch_params(1, 1, 1, &expr, &quoting);
 	
 	if (!quoting) {
-		PHALCON_INIT_VAR(quoting);
-		ZVAL_TRUE(quoting);
+		quoting = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (phalcon_array_isset_string(expr, ISS(type))) {
@@ -4721,11 +4713,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	phalcon_fetch_params(1, 0, 2, &bind_params, &bind_types);
 	
 	if (!bind_params) {
-		PHALCON_INIT_VAR(bind_params);
+		bind_params = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_VAR(bind_types);
+		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(unique_row);
@@ -4926,11 +4918,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult){
 	phalcon_fetch_params(1, 0, 2, &bind_params, &bind_types);
 	
 	if (!bind_params) {
-		PHALCON_INIT_VAR(bind_params);
+		bind_params = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_VAR(bind_types);
+		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
 	unique_row = phalcon_fetch_nproperty_this(this_ptr, SL("_uniqueRow"), PH_NOISY_CC);

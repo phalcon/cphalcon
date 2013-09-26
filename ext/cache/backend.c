@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 	phalcon_fetch_params(1, 1, 1, &key_name, &lifetime);
 	
 	if (!lifetime) {
-		PHALCON_INIT_VAR(lifetime);
+		lifetime = PHALCON_GLOBAL(z_null);
 	}
 	
 	/** 
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_fresh"), fresh TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_started"), 1 TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_started"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
 	
 	/** 
 	 * Update the last lifetime to be used in save()

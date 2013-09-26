@@ -87,12 +87,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct){
 	zval *type, *referenced_model, *fields, *referenced_fields;
 	zval *options = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 4, 1, &type, &referenced_model, &fields, &referenced_fields, &options);
+	phalcon_fetch_params(0, 4, 1, &type, &referenced_model, &fields, &referenced_fields, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
@@ -100,8 +98,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct){
 	phalcon_update_property_this(this_ptr, SL("_fields"), fields TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_referencedFields"), referenced_fields TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**

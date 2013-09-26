@@ -97,10 +97,10 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		return;
 	}
 	
-	PHALCON_OBS_VAR(events);
-	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
-	if (Z_TYPE_P(events) != IS_ARRAY) { 
-		PHALCON_INIT_NVAR(events);
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
+	if (Z_TYPE_P(events) != IS_ARRAY) {
+		SEPARATE_ZVAL_IF_NOT_REF(&events);
+		zval_dtor(events);
 		array_init(events);
 	}
 	
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 	phalcon_fetch_params(1, 0, 1, &type);
 	
 	if (!type) {
-		PHALCON_INIT_VAR(type);
+		type = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(events);
@@ -611,12 +611,11 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	phalcon_fetch_params(1, 2, 2, &event_type, &source, &data, &cancelable);
 	
 	if (!data) {
-		PHALCON_INIT_VAR(data);
+		data = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!cancelable) {
-		PHALCON_INIT_VAR(cancelable);
-		ZVAL_BOOL(cancelable, 1);
+		cancelable = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (unlikely(Z_TYPE_P(event_type) != IS_STRING)) {
@@ -624,8 +623,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		return;
 	}
 	
-	PHALCON_OBS_VAR(events);
-	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) != IS_ARRAY) { 
 		RETURN_MM_NULL();
 	}
@@ -652,10 +650,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	PHALCON_INIT_VAR(status);
 	
 	/** 
-	 * Responses must be traced?
+	 * Should responses be traced?
 	 */
-	PHALCON_OBS_VAR(collect);
-	phalcon_read_property_this(&collect, this_ptr, SL("_collect"), PH_NOISY_CC);
+	collect = phalcon_fetch_nproperty_this(this_ptr, SL("_collect"), PH_NOISY_CC);
 	if (zend_is_true(collect)) {
 		phalcon_update_property_null(this_ptr, SL("_responses") TSRMLS_CC);
 	}
@@ -665,10 +662,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	/** 
 	 * Check if events are grouped by type
 	 */
-	if (phalcon_array_isset(events, type)) {
-	
-		PHALCON_OBS_VAR(fire_events);
-		phalcon_array_fetch(&fire_events, events, type, PH_NOISY);
+	if (phalcon_array_isset_fetch(&fire_events, events, type)) {
 		if (Z_TYPE_P(fire_events) == IS_ARRAY || Z_TYPE_P(fire_events) == IS_OBJECT) {
 			/** 
 			 * Create the event context
@@ -686,12 +680,8 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	/** 
 	 * Check if there are listeners for the event type itself
 	 */
-	if (phalcon_array_isset(events, event_type)) {
-	
-		PHALCON_OBS_NVAR(fire_events);
-		phalcon_array_fetch(&fire_events, events, event_type, PH_NOISY);
+	if (phalcon_array_isset_fetch(&fire_events, events, event_type)) {
 		if (Z_TYPE_P(fire_events) == IS_ARRAY || Z_TYPE_P(fire_events) == IS_OBJECT) {
-	
 			/** 
 			 * Create the event if it wasn't created before
 			 */
@@ -723,19 +713,14 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners){
 
 	zval *type, *events;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &type);
+	phalcon_fetch_params(0, 1, 0, &type);
 	
-	PHALCON_OBS_VAR(events);
-	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
-	if (Z_TYPE_P(events) == IS_ARRAY) { 
-		if (phalcon_array_isset(events, type)) {
-			RETURN_MM_TRUE;
-		}
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
+	if (phalcon_array_isset(events, type)) {
+		RETURN_TRUE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -748,20 +733,12 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners){
 
 	zval *type, *events, *fire_events;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &type);
+	phalcon_fetch_params(0, 1, 0, &type);
 	
-	PHALCON_OBS_VAR(events);
-	phalcon_read_property_this(&events, this_ptr, SL("_events"), PH_NOISY_CC);
-	if (Z_TYPE_P(events) == IS_ARRAY) { 
-		if (phalcon_array_isset(events, type)) {
-			PHALCON_OBS_VAR(fire_events);
-			phalcon_array_fetch(&fire_events, events, type, PH_NOISY);
-			RETURN_CCTOR(fire_events);
-		}
+	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&fire_events, events, type)) {
+		RETURN_ZVAL(fire_events, 1, 0);
 	}
 	
-	RETURN_MM_EMPTY_ARRAY();
+	array_init(return_value);
 }
-

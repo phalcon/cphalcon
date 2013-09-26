@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Forms_Element_Text, render){
 	phalcon_fetch_params(1, 0, 1, &attributes);
 	
 	if (!attributes) {
-		PHALCON_INIT_VAR(attributes);
+		attributes = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(widget_attributes);

@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct){
 	phalcon_fetch_params(1, 1, 1, &frontend, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!phalcon_array_isset_string(options, SS("mongo"))) {

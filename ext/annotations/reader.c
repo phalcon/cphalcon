@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
 	}
 	
 	if (!line) {
-		PHALCON_INIT_VAR(line);
+		line = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(file) != IS_STRING) {
@@ -281,8 +281,9 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
 		ZVAL_STRING(file, "eval code", 1);
 	}
 	if (phannot_parse_annotations(return_value, doc_block, file, line TSRMLS_CC) == FAILURE) {
-		return;
+		RETURN_MM();
 	}
+
 	RETURN_MM();
 }
 

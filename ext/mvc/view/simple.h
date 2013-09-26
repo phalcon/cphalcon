@@ -37,7 +37,6 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, cache);
 PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView);
 PHP_METHOD(Phalcon_Mvc_View_Simple, setVars);
 PHP_METHOD(Phalcon_Mvc_View_Simple, setVar);
-PHP_METHOD(Phalcon_Mvc_View_Simple, getVar);
 PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView);
 PHP_METHOD(Phalcon_Mvc_View_Simple, setContent);
 PHP_METHOD(Phalcon_Mvc_View_Simple, getContent);
@@ -90,10 +89,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_simple_setvar, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_simple_getvar, 0, 0, 1)
-	ZEND_ARG_INFO(0, key)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_simple_setcontent, 0, 0, 1)
 	ZEND_ARG_INFO(0, content)
 ZEND_END_ARG_INFO()
@@ -124,7 +119,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_simple_method_entry){
 	PHP_ME(Phalcon_Mvc_View_Simple, setParamToView, arginfo_phalcon_mvc_view_simple_setparamtoview, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Simple, setVars, arginfo_phalcon_mvc_view_simple_setvars, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Simple, setVar, arginfo_phalcon_mvc_view_simple_setvar, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View_Simple, getVar, arginfo_phalcon_mvc_view_simple_getvar, ZEND_ACC_PUBLIC) 
+	PHP_MALIAS(Phalcon_Mvc_View_Simple, getVar, __get, arginfo_phalcon_mvc_view_simple___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getParamsToView, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Simple, setContent, arginfo_phalcon_mvc_view_simple_setcontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Simple, getContent, NULL, ZEND_ACC_PUBLIC) 

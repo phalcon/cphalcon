@@ -1631,9 +1631,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, _save) {
 
 		phalcon_update_property_this(this_ptr, SL("_mime"), mime TSRMLS_CC);
 
-		ZVAL_BOOL(return_value, 1);
+		RETVAL_TRUE;
 	} else {
-		ZVAL_BOOL(return_value, 0);
+		RETVAL_FALSE;
 	}
 
 	PHALCON_MM_RESTORE();

@@ -79,14 +79,14 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	phalcon_fetch_params(1, 1, 1, &parameters, &data);
 	
 	if (!data) {
-		PHALCON_INIT_VAR(data);
+		data = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 2);
-		phalcon_array_append(&params, parameters, PH_SEPARATE);
-		phalcon_array_append(&params, data, PH_SEPARATE);
+		phalcon_array_append(&params, parameters, 0);
+		phalcon_array_append(&params, data, 0);
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	}
 	
 	PHALCON_INIT_VAR(use_empty);
-	ZVAL_BOOL(use_empty, 0);
+	ZVAL_FALSE(use_empty);
 	if (phalcon_array_isset_string(params, SS("useEmpty"))) {
 		if (!phalcon_array_isset_string(params, SS("emptyValue"))) {
 			PHALCON_INIT_VAR(empty_value);
