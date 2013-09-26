@@ -339,3 +339,4 @@
 #include "chart/qrcode.h"
 #include "chart/exception.h"
 #include "validation/validator/json.h"
+#include "mvc/model/validator/json.h"

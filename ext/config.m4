@@ -355,7 +355,8 @@ http/client.c \
 http/client/exception.c \
 chart/qrcode.c \
 chart/exception.c \
-validation/validator/json.c"
+validation/validator/json.c \
+mvc/model/validator/json.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
 	PHP_ADD_EXTENSION_DEP([phalcon], [spl])
