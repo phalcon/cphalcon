@@ -296,6 +296,8 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 			return $url;
 		};
 
+		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
+
 		$assets = new Phalcon\Assets\Manager();
 
 		$assets->useImplicitOutput(false);
@@ -340,6 +342,8 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 			return $url;
 		};
 
+		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
+
 		$assets = new Phalcon\Assets\Manager();
 
 		$assets->useImplicitOutput(false);
@@ -383,6 +387,8 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 			return $url;
 		};
 
+		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
+
 		$assets = new Phalcon\Assets\Manager();
 
 		$assets->useImplicitOutput(false);
@@ -421,6 +427,8 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 			$url->setStaticBaseUri('/');
 			return $url;
 		};
+
+		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
 
 		$assets = new Phalcon\Assets\Manager();
 
@@ -472,6 +480,8 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 			return $url;
 		};
 
+		$di->set('escaper', function() { return new \Phalcon\Escaper(); });
+
 		$assets = new Phalcon\Assets\Manager();
 
 		$assets->useImplicitOutput(false);
@@ -520,4 +530,3 @@ class AssetsTest extends PHPUnit_Framework_TestCase
 		@unlink(__DIR__ . '/assets/production/1198.css');
 	}
 }
-
