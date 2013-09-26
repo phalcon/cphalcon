@@ -1997,12 +1997,12 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 	}
 
 	if (zend_is_true(allow_empty)) {
-		zprint_printf("allow_empty");
+		zend_printf("allow_empty");
 		PHALCON_INIT_VAR(field_name);
 		phalcon_call_method(field_name, validator, "getFieldName");
 
 		
-		zprint_print_zval_r(field_name, 0);
+		zend_print_zval_r(field_name, 0);
 
 		PHALCON_INIT_VAR(value);
 		phalcon_call_method_p1(value, this_ptr, "readattribute", field_name);
