@@ -109,6 +109,13 @@ interface RouteInterface
 	public function getPaths();
 
 	/**
+	 * Returns the paths using positions as keys and names as values
+	 *
+	 * @return array
+	 */
+	public function getReversedPaths();
+
+	/**
 	 * Returns the HTTP methods that constraint matching the route
 	 *
 	 * @return string|array

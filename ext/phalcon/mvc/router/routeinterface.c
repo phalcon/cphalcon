@@ -125,6 +125,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getCompiledPattern);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getPaths);
 
 /**
+ * Returns the paths using positions as keys and names as values
+ *
+ * @return array
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getReversedPaths);
+
+/**
  * Returns the HTTP methods that constraint matching the route
  *
  * @return string|array
