@@ -43,6 +43,7 @@ extern const char *phalcon_interned_domain;
 extern const char *phalcon_interned_expr;
 extern const char *phalcon_interned_fields;
 extern const char *phalcon_interned_file;
+extern const char *phalcon_interned_filter;
 extern const char *phalcon_interned_functionCall;
 extern const char *phalcon_interned_group;
 extern const char *phalcon_interned_groupBy;

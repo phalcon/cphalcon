@@ -96,6 +96,7 @@ void phalcon_mvc_collection_addmap(zval *this_ptr, zval *method, zval *route_pat
 	add_next_index_zval(handler_definition, route_pattern);
 	add_next_index_zval(handler_definition, handler);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), handler_definition TSRMLS_CC);
+	zval_ptr_dtor(&handler_definition);
 }
 
 /**
