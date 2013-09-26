@@ -87,7 +87,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Json){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 
-	zval *record, *field = NULL, *field_name, *is_set, *value, *assoc, *json, *keys;
+	zval *record, *field = NULL, *field_name, *is_set, *value, *assoc, *json, *keys, *ret;
 	zval *option, *message = NULL, *joined_keys, *is_set_code, *code;
 	zval *type;
 
