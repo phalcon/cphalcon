@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -103,7 +103,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler) {
  */
 PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 
-	zval *sqlStatement, *activeProfile, *_0, _1, *_2;
+	zval *sqlStatement, *activeProfile, *_0, _1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlStatement);
@@ -118,9 +118,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 	zephir_call_method_p1_noret(activeProfile, "setinitialtime", _0);
 	ZEPHIR_SINIT_VAR(_1);
 	ZVAL_STRING(&_1, "beforeStartProfile", 0);
-	ZEPHIR_INIT_VAR(_2);
-	zephir_call_func_p2(_2, "method_exists", this_ptr, &_1);
-	if (zephir_is_true(_2)) {
+	if (zephir_method_exists(this_ptr, &_1)) {
 		zephir_call_method_p1_noret(this_ptr, "beforestartprofile", activeProfile);
 	}
 	zephir_update_property_this(this_ptr, SL("_activeProfile"), activeProfile TSRMLS_CC);
@@ -135,7 +133,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
  */
 PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 
-	zval *finalTime, *initialTime, *activeProfile = NULL, *_0, *_1, *_2, *_3, _4, *_5;
+	zval *finalTime, *initialTime, *activeProfile = NULL, *_0, *_1, *_2, *_3, _4;
 
 	ZEPHIR_MM_GROW();
 
@@ -156,9 +154,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	zephir_update_property_array_append(this_ptr, SL("_allProfiles"), activeProfile TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_STRING(&_4, "afterEndProfile", 0);
-	ZEPHIR_INIT_VAR(_5);
-	zephir_call_func_p2(_5, "method_exists", this_ptr, &_4);
-	if (zephir_is_true(_5)) {
+	if (zephir_method_exists(this_ptr, &_4)) {
 		zephir_call_method_p1_noret(this_ptr, "afterendprofile", activeProfile);
 	}
 	RETURN_THIS();

@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 
 
 /*
@@ -85,15 +85,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller) {
  */
 PHP_METHOD(Phalcon_Mvc_Controller, __construct) {
 
-	zval _0, *_1;
+	zval _0;
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "onConstruct", 0);
-	ZEPHIR_INIT_VAR(_1);
-	zephir_call_func_p2(_1, "method_exists", this_ptr, &_0);
-	if (zephir_is_true(_1)) {
+	if (zephir_method_exists(this_ptr, &_0)) {
 		zephir_call_method_noret(this_ptr, "onconstruct");
 	}
 	ZEPHIR_MM_RESTORE();

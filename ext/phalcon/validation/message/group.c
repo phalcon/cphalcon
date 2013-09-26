@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *fieldName_param = NULL, *filtered, *messages, *message = NULL, **_2, _3 = zval_used_for_init, *_4 = NULL, *_5 = NULL;
+	zval *fieldName_param = NULL, *filtered, *messages, *message = NULL, **_2, _3 = zval_used_for_init, *_4 = NULL;
 	zval *fieldName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -302,12 +302,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 			ZEPHIR_GET_HVALUE(message, _2);
 			ZEPHIR_SINIT_NVAR(_3);
 			ZVAL_STRING(&_3, "getField", 0);
-			ZEPHIR_INIT_NVAR(_4);
-			zephir_call_func_p2(_4, "method_exists", message, &_3);
-			if (zephir_is_true(_4)) {
-				ZEPHIR_INIT_NVAR(_5);
-				zephir_call_method(_5, message, "getfield");
-				if (ZEPHIR_IS_EQUAL(fieldName, _5)) {
+			if (zephir_method_exists(message, &_3)) {
+				ZEPHIR_INIT_NVAR(_4);
+				zephir_call_method(_4, message, "getfield");
+				if (ZEPHIR_IS_EQUAL(fieldName, _4)) {
 					zephir_array_append(&filtered, message, PH_SEPARATE);
 				}
 			}
