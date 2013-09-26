@@ -85,7 +85,7 @@ class Di implements Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function set(name, definition, shared=false)
+	public function set(name, definition, shared=false) -> <Phalcon\Di\ServiceInterface>
 	{
 		var service;
 
@@ -104,7 +104,7 @@ class Di implements Phalcon\DiInterface
 	 * @param mixed definition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setShared(name, definition)
+	public function setShared(name, definition) -> <Phalcon\Di\ServiceInterface>
 	{
 		var service;
 
@@ -139,7 +139,7 @@ class Di implements Phalcon\DiInterface
 	 * @param boolean shared
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function attempt(name, definition, shared=false)
+	public function attempt(name, definition, shared=false) -> <Phalcon\Di\ServiceInterface>
 	{
 		var services, service;
 
@@ -164,7 +164,7 @@ class Di implements Phalcon\DiInterface
 	 * @param Phalcon\Di\ServiceInterface rawDefinition
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function setRaw(name, <Phalcon\Di\ServiceInterface> rawDefinition)
+	public function setRaw(name, <Phalcon\Di\ServiceInterface> rawDefinition) -> <Phalcon\Di\ServiceInterface>
 	{
 
 		if typeof name != "string" {
@@ -208,7 +208,7 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @return Phalcon\Di\ServiceInterface
 	 */
-	public function getService(name)
+	public function getService(name) -> <Phalcon\Di\ServiceInterface>
 	{
 		var services, service;
 
@@ -323,14 +323,9 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @return boolean
 	 */
-	public function has(name)
+	public function has(string name) -> boolean
 	{
 		var services;
-
-		if typeof name != "string" {
-			throw new Phalcon\Di\Exception("The service name must be a string");
-		}
-
 		let services = this->_services;
 		return isset services[name];
 	}
@@ -340,7 +335,7 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @return boolean
 	 */
-	public function wasFreshInstance()
+	public function wasFreshInstance() -> boolean
 	{
 		return this->_freshInstance;
 	}
@@ -361,7 +356,7 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @return boolean
 	 */
-	public function offsetExists(name)
+	public function offsetExists(string name) -> boolean
 	{
 		return this->has(name);
 	}
@@ -376,7 +371,7 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @param mixed definition
 	 */
-	public function offsetSet(name, definition)
+	public function offsetSet(string name, definition) -> boolean
 	{
 		this->setShared(name, definition);
 	}
@@ -391,7 +386,7 @@ class Di implements Phalcon\DiInterface
 	 * @param string name
 	 * @return mixed
 	 */
-	public function offsetGet(name)
+	public function offsetGet(string name) -> boolean
 	{
 		return this->getShared(name);
 	}
@@ -401,7 +396,7 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @param string name
 	 */
-	public function offsetUnset(name)
+	public function offsetUnset(name) -> boolean
 	{
 		return name;
 	}
@@ -464,7 +459,7 @@ class Di implements Phalcon\DiInterface
 	 *
 	 * @return Phalcon\DiInterface
 	 */
-	public static function getDefault()
+	public static function getDefault() -> <Phalcon\DiInterface>
 	{
 		return self::_default;
 	}

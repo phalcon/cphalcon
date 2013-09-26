@@ -307,7 +307,7 @@ abstract class Dialect
 			let schemaName = table[1];
 			if typeof schemaName != "array" {
 				if globals_get("db.escape_identifiers") {
-					let sqlSchema = escapeChar . schemaName.escapeChar . "." . sqlTable;
+					let sqlSchema = escapeChar . schemaName . escapeChar . "." . sqlTable;
 				} else {
 					let sqlSchema = schemaName . "." . sqlTable;
 				}

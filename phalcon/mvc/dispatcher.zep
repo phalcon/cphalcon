@@ -63,7 +63,7 @@ class Dispatcher extends Phalcon\Dispatcher implements Phalcon\Mvc\DispatcherInt
 
 	/**
 	 * Sets the default controller name
-     *
+	 *
 	 * @param string controllerName
 	 */
 	public function setDefaultController(string controllerName)

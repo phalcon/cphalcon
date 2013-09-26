@@ -114,10 +114,12 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
  */
 PHP_METHOD(Phalcon_Forms_Form, setAction) {
 
-	zval *action;
+	zval *action_param = NULL;
+	zval *action = NULL;
 
-	zephir_fetch_params(0, 1, 0, &action);
+	zephir_fetch_params(0, 1, 0, &action_param);
 
+		zephir_get_strval(action, action_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_action"), action TSRMLS_CC);

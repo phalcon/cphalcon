@@ -156,7 +156,7 @@ class Router
 			}
 		} else {
 			// Otherwise use the standard $_SERVER['REQUEST_URI']
-		 	if fetch url, _SERVER["REQUEST_URI"] {
+			if fetch url, _SERVER["REQUEST_URI"] {
 				let urlParts = explode("?", url),
 					realUri = urlParts[0];
 				if !realUri {

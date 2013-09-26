@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Di, __construct) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(defaultDi);
-	defaultDi = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC););
+	defaultDi = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC);
 	if (!(zephir_is_true(defaultDi))) {
 	}
 	ZEPHIR_MM_RESTORE();
@@ -452,17 +452,15 @@ PHP_METHOD(Phalcon_Di, getShared) {
  */
 PHP_METHOD(Phalcon_Di, has) {
 
-	zval *name, *services;
+	zval *name_param = NULL, *services;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+		zephir_get_strval(name, name_param);
 
 
-
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
-		return;
-	}
 	ZEPHIR_OBS_VAR(services);
 	zephir_read_property_this(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_array_isset(services, name));
@@ -501,11 +499,13 @@ PHP_METHOD(Phalcon_Di, getServices) {
  */
 PHP_METHOD(Phalcon_Di, offsetExists) {
 
-	zval *name;
+	zval *name_param = NULL;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	zephir_call_method_p1(return_value, this_ptr, "has", name);
@@ -525,11 +525,13 @@ PHP_METHOD(Phalcon_Di, offsetExists) {
  */
 PHP_METHOD(Phalcon_Di, offsetSet) {
 
-	zval *name, *definition;
+	zval *name_param = NULL, *definition;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &name, &definition);
+	zephir_fetch_params(1, 2, 0, &name_param, &definition);
 
+		zephir_get_strval(name, name_param);
 
 
 	zephir_call_method_p2_noret(this_ptr, "setshared", name, definition);
@@ -549,11 +551,13 @@ PHP_METHOD(Phalcon_Di, offsetSet) {
  */
 PHP_METHOD(Phalcon_Di, offsetGet) {
 
-	zval *name;
+	zval *name_param = NULL;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
 
+		zephir_get_strval(name, name_param);
 
 
 	zephir_call_method_p1(return_value, this_ptr, "getshared", name);
@@ -668,7 +672,7 @@ PHP_METHOD(Phalcon_Di, getDefault) {
 	zval *_0;
 
 
-	_0 = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC););
+	_0 = zephir_fetch_static_property_ce(phalcon_di_ce , SL("_default") TSRMLS_CC);
 	RETURN_CCTORW(_0);
 
 }

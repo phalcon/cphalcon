@@ -174,13 +174,11 @@ PHP_METHOD(Phalcon_Flash, setCssClasses) {
  */
 PHP_METHOD(Phalcon_Flash, error) {
 
-	zval *message_param = NULL, *_0;
-	zval *message = NULL;
+	zval *message, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message_param);
+	zephir_fetch_params(1, 1, 0, &message);
 
-		zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -202,13 +200,11 @@ PHP_METHOD(Phalcon_Flash, error) {
  */
 PHP_METHOD(Phalcon_Flash, notice) {
 
-	zval *message_param = NULL, *_0;
-	zval *message = NULL;
+	zval *message, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message_param);
+	zephir_fetch_params(1, 1, 0, &message);
 
-		zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -258,13 +254,11 @@ PHP_METHOD(Phalcon_Flash, success) {
  */
 PHP_METHOD(Phalcon_Flash, warning) {
 
-	zval *message_param = NULL, *_0;
-	zval *message = NULL;
+	zval *message, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message_param);
+	zephir_fetch_params(1, 1, 0, &message);
 
-		zephir_get_strval(message, message_param);
 
 
 	ZEPHIR_INIT_VAR(_0);

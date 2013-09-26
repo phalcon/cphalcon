@@ -105,7 +105,7 @@ abstract class Flash
 	 * @param string message
 	 * @return string
 	 */
-	public function error(string message) -> string
+	public function error(var message) -> string
 	{
 		return this->{"message"}("error", message);
 	}
@@ -120,7 +120,7 @@ abstract class Flash
 	 * @param string message
 	 * @return string
 	 */
-	public function notice(string message) -> string
+	public function notice(var message) -> string
 	{
 		return this->{"message"}("notice", message);
 	}
@@ -150,7 +150,7 @@ abstract class Flash
 	 * @param string message
 	 * @return string
 	 */
-	public function warning(string message) -> string
+	public function warning(var message) -> string
 	{
 		return this->{"message"}("warning", message);
 	}

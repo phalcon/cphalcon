@@ -124,7 +124,7 @@ class Profiler
 	}
 
 	/**
-     * Returns the total number of SQL statements processed
+	 * Returns the total number of SQL statements processed
 	 *
 	 * @return integer
 	 */

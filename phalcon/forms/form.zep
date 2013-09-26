@@ -79,7 +79,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param string action
 	 * @return Phalcon\Forms\Form
 	 */
-	public function setAction(action) -> <Phalcon\Forms\Form>
+	public function setAction(string action) -> <Phalcon\Forms\Form>
 	{
 		let this->_action = action;
 		return this;
@@ -102,7 +102,7 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	 * @param mixed value
 	 * @return Phalcon\Forms\Form
 	 */
-	public function setUserOption(option, value) -> <Phalcon\Forms\Form>
+	public function setUserOption(var option, var value) -> <Phalcon\Forms\Form>
 	{
 		let this->_options[option] = value;
 		return this;
