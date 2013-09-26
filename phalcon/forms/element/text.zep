@@ -19,7 +19,23 @@
 
 namespace Phalcon\Forms\Element;
 
-class Text
+/**
+ * Phalcon\Forms\Element\Text
+ *
+ * Component INPUT[type=text] for forms
+ */
+class Text extends Phalcon\Forms\Element implements Phalcon\Forms\ElementInterface
 {
+
+	/**
+	 * Renders the element widget
+	 *
+	 * @param array attributes
+	 * @return string
+	 */
+	public function render(attributes=null)
+	{
+		return Phalcon\Tag::textField(this->prepareAttributes(attributes));
+	}
 
 }

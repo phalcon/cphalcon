@@ -122,6 +122,7 @@ abstract class Element {
 	 */
 	public function addFilter(string filter) -> <Phalcon\Forms\ElementInterface>
 	{
+		var filters;
 		let filters = this->_filters;
 		if typeof filters == "array" {
 			let this->_filters[] = filter;
@@ -147,10 +148,11 @@ abstract class Element {
 	 * @param Phalcon\Validation\ValidatorInterface[]
 	 * @return Phalcon\Forms\ElementInterface
 	 */
-	public function addValidators(validators, boolean merge=true)
+	public function addValidators(validators, boolean merge=true) -> <Phalcon\Forms\ElementInterface>
 	{
+		var currentValidators, mergedValidators;
 		if typeof validators != "array" {
-			throw new Phalcon_Forms_Exception("The validators parameter must be an array");
+			throw new Phalcon\Forms\Exception("The validators parameter must be an array");
 		}
 		if merge {
 			let currentValidators = this->_validators;
@@ -172,7 +174,7 @@ abstract class Element {
 	 */
 	public function addValidator(validator) -> <Phalcon\Forms\ElementInterface>
 	{
-		if (!is_object(validator)) {
+		if typeof validator != "object" {
 			throw new Phalcon\Forms\Exception("The validators parameter must be an object");
 		}
 		let this->_validators[] = validator;
@@ -199,6 +201,8 @@ abstract class Element {
 	 */
 	public function prepareAttributes(attributes=null, useChecked=false)
 	{
+		var value, name, widgetAttributes, mergedAttributes, 
+			defaultAttributes, currentValue;
 
 		let name = this->_name;
 
@@ -279,6 +283,7 @@ abstract class Element {
 	 */
 	public function getAttribute(string attribute, defaultValue=null)
 	{
+		var attributes, value;
 		let attributes = this->_attributes;
 		if fetch value, attributes[attribute] {
 			return value;
@@ -308,9 +313,10 @@ abstract class Element {
 	 */
 	public function getAttributes()
 	{
+		var attributes;
 		let attributes = this->_attributes;
 		if typeof attributes != "array" {
-			return array();
+			return [];
 		}
 		return attributes;
 	}
@@ -337,6 +343,7 @@ abstract class Element {
 	 */
 	public function getUserOption(option, defaultValue=null)
 	{
+		var value, options;
 		let options = this->_options;
 		if fetch value, options[option] {
 			return value;
@@ -395,6 +402,7 @@ abstract class Element {
 	 */
 	public function label() -> string
 	{
+		var attributes, label, name;
 
 		/**
 		 * Check if there is an "id" attribute defined
@@ -444,6 +452,8 @@ abstract class Element {
 	 */
 	public function getValue()
 	{
+		var name, form, value;
+
 		let name = this->_name,
 			value = null;
 
@@ -484,6 +494,7 @@ abstract class Element {
 	 */
 	public function getMessages() -> <Phalcon\Validation\Message\Group>
 	{
+		var messages;
 
 		let messages = this->_messages;
 		if typeof messages == "object" {
@@ -502,6 +513,8 @@ abstract class Element {
 	 */
 	public function hasMessages() -> boolean
 	{
+		var messages;
+
 		/**
 		 * Get the related form
 		 */
@@ -533,6 +546,8 @@ abstract class Element {
 	 */
 	public function appendMessage(<Phalcon\Validation\Message> message) -> <Phalcon\Forms\ElementInterface>
 	{
+		var messages;
+
 		let messages = this->_messages;
 		if typeof messages != "object" {
 			let this->_messages = new Phalcon\Validation\Message\Group();
@@ -559,7 +574,7 @@ abstract class Element {
 	 */
 	public function __toString()
 	{
-		return this->render();
+		return this->{"render"}();
 	}
 
 }

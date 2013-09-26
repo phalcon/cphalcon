@@ -106,6 +106,7 @@ abstract class Adapter {
  	 */
 	public function commit() -> <Phalcon\Logger\Adapter>
 	{
+		var transaction, queue, message;
 
 		let transaction = this->_transaction;
 		if !transaction {
@@ -120,7 +121,7 @@ abstract class Adapter {
 		let queue = this->_queue;
 		if typeof queue == "array" {
 			for message in queue {
-				this->logInternal(message->getMessage(), message->getType(), message->getTime());
+				this->{"logInternal"}(message->getMessage(), message->getType(), message->getTime());
 			}
 		}
 
@@ -134,6 +135,7 @@ abstract class Adapter {
  	 */
 	public function rollback() -> <Phalcon\Logger\Adapter>
 	{
+		var transaction;
 
 		let transaction = this->_transaction;
 		if !transaction {
@@ -239,6 +241,7 @@ abstract class Adapter {
 	 */
 	public function log(string message, int type=7) -> <Phalcon\Logger\Adapter>
 	{
+		var timestamp, transaction;
 
 		let timestamp = time();
 
@@ -252,7 +255,7 @@ abstract class Adapter {
 		 * Checks if the log is valid respecting the current log level
 		 */
 		if this->_logLevel >= type {
-			this->logInternal(message, type, timestamp);
+			this->{"logInternal"}(message, type, timestamp);
 		}
 
 		return this;

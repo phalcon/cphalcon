@@ -362,4 +362,19 @@ class Tag
 		return code;
 	}
 
+	/**
+	 * Builds a HTML input[type="text"] tag
+	 *
+	 * <code>
+	 *	echo Phalcon\Tag::textField(array("name", "size" => 30));
+	 * </code>
+	 *
+	 * @param	array parameters
+	 * @return	string
+	 */
+	static public function textField(parameters)
+	{
+
+	}
+
 }

@@ -60,6 +60,7 @@ class File extends Phalcon\Logger\Adapter implements Phalcon\Logger\AdapterInter
 	 */
 	public function __construct(string name, options=null)
 	{
+		var mode, handler;
 
 		if typeof options == "array" {
 			if fetch mode, options["mode"] {
@@ -91,6 +92,8 @@ class File extends Phalcon\Logger\Adapter implements Phalcon\Logger\AdapterInter
 	 */
 	public function getFormatter() -> <Phalcon\Logger\Formatter\Line>
 	{
+		var formatter;
+
 		let formatter = this->_formatter;
 		if typeof formatter != "object" {
 			let formatter = new Phalcon\Logger\Formatter\Line(),
@@ -108,6 +111,7 @@ class File extends Phalcon\Logger\Adapter implements Phalcon\Logger\AdapterInter
 	 */
 	public function logInternal(string message, int type, int time)
 	{
+		var fileHandler, formatter;
 
 		let fileHandler = this->_fileHandler;
 		if !fileHandler {
@@ -115,7 +119,7 @@ class File extends Phalcon\Logger\Adapter implements Phalcon\Logger\AdapterInter
 		}
 
 		let formatter = this->getFormatter();
-		fwrite(fileHandler,formatter->format(message, type, time));
+		fwrite(fileHandler, formatter->format(message, type, time));
 	}
 
 	/**
@@ -134,6 +138,7 @@ class File extends Phalcon\Logger\Adapter implements Phalcon\Logger\AdapterInter
 	 */
 	public function __wakeup()
 	{
+		var path, options, mode;
 
 		let path = this->_path;
 		if typeof path != "string" {
@@ -141,8 +146,8 @@ class File extends Phalcon\Logger\Adapter implements Phalcon\Logger\AdapterInter
 		}
 
 		let options = this->_options;
-		if !fetch mode, options['mode'] {
-			let mode = 'ab';
+		if !fetch mode, options["mode"] {
+			let mode = "ab";
 		}
 
 		if typeof mode != "string" {

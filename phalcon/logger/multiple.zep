@@ -51,6 +51,8 @@ namespace Phalcon\Logger;
 	 */
 	public function setFormatter(<Phalcon\Logger\FormatterInterface> formatter)
 	{
+		var loggers, logger;
+
 		let loggers = this->_loggers;
 		if typeof loggers == "array" {
 			for logger in loggers {
@@ -68,6 +70,8 @@ namespace Phalcon\Logger;
 	 */
 	public function log(string message, int type=7)
 	{
+		var loggers, logger;
+
 		let loggers = this->_loggers;
 		if typeof loggers == "array" {
 			for logger in loggers {

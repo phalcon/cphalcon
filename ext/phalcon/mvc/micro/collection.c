@@ -38,15 +38,15 @@
  *
  *<code>
  *
- * app = new Phalcon\Mvc\Micro();
+ * $app = new Phalcon\Mvc\Micro();
  *
- * collection = new Phalcon\Mvc\Micro\Collection();
+ * $collection = new Phalcon\Mvc\Micro\Collection();
  *
- * collection->setHandler(new PostsController());
+ * $collection->setHandler(new PostsController());
  *
- * collection->get('/posts/edit/{id}', 'edit');
+ * $collection->get('/posts/edit/{id}', 'edit');
  *
- * app->mount(collection);
+ * $app->mount($collection);
  *
  *</code>
  *

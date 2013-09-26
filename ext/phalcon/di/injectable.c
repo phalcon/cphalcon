@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
-	zval *propertyName_param = NULL, *dependencyInjector, *hasService, *service, *persistent, *_0, *_1 = NULL, *_2;
+	zval *propertyName_param = NULL, *dependencyInjector = NULL, *hasService, *service, *persistent = NULL, *_0, *_1, *_2, *_3 = NULL, *_4;
 	zval *propertyName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -153,8 +153,9 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		zephir_get_strval(propertyName, propertyName_param);
 
 
-	ZEPHIR_OBS_VAR(dependencyInjector);
-	zephir_read_property_this(&dependencyInjector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(dependencyInjector, _0);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 			ZEPHIR_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
@@ -173,20 +174,21 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		RETURN_CCTOR(dependencyInjector);
 	}
 	if (ZEPHIR_IS_STRING(propertyName, "persistent")) {
-		ZEPHIR_INIT_VAR(_0);
-		array_init(_0);
 		ZEPHIR_INIT_VAR(_1);
-		zephir_call_func_p1(_1, "get_class", this_ptr);
-		zephir_array_append(&_0, _1, 0);
-		ZEPHIR_INIT_NVAR(_1);
-		ZVAL_STRING(_1, "sessionBag", 1);
-		ZEPHIR_INIT_VAR(persistent);
-		zephir_call_method_p2(persistent, dependencyInjector, "get", _1, _0);
+		ZEPHIR_INIT_VAR(_2);
+		array_init(_2);
+		ZEPHIR_INIT_VAR(_3);
+		zephir_call_func_p1(_3, "get_class", this_ptr);
+		zephir_array_append(&_2, _3, 0);
+		ZEPHIR_INIT_NVAR(_3);
+		ZVAL_STRING(_3, "sessionBag", 1);
+		zephir_call_method_p2(_1, dependencyInjector, "get", _3, _2);
+		ZEPHIR_CPY_WRT(persistent, _1);
 		RETURN_CCTOR(persistent);
 	}
-	ZEPHIR_INIT_VAR(_2);
-	ZEPHIR_CONCAT_SV(_2, "Access to undefined property ", propertyName);
-	zephir_call_func_p1_noret("trigger_error", _2);
+	ZEPHIR_INIT_VAR(_4);
+	ZEPHIR_CONCAT_SV(_4, "Access to undefined property ", propertyName);
+	zephir_call_func_p1_noret("trigger_error", _4);
 	RETURN_MM_NULL();
 
 }

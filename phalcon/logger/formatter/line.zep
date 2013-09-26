@@ -32,14 +32,14 @@ class Line extends Phalcon\Logger\Formatter implements Phalcon\Logger\FormatterI
 	 *
 	 * @var string
 	 */
-	protected _dateFormat = "D, d M y H:i:s O"{get,set};
+	protected _dateFormat = "D, d M y H:i:s O" { get, set };
 
 	/**
 	 * Format applied to each message
 	 *
 	 * @var string
 	 */
-	protected _format = "[%date%][%type%] %message%"{get,set};
+	protected _format = "[%date%][%type%] %message%" { get, set };
 
 	/**
 	 * Phalcon\Logger\Formatter\Line construct
@@ -67,6 +67,7 @@ class Line extends Phalcon\Logger\Formatter implements Phalcon\Logger\FormatterI
 	 */
 	public function format(message, type, int timestamp) -> string
 	{
+		var format;
 
 		let format = this->_format;
 
@@ -81,7 +82,7 @@ class Line extends Phalcon\Logger\Formatter implements Phalcon\Logger\FormatterI
 		 * Check if the format has the %type% placeholder
 		 */
 		if memstr(format, "%type%") {
-			let format = str_replace("%type%", this->getTypeString(type), newFormat);
+			let format = str_replace("%type%", this->getTypeString(type), format);
 		}
 
 		return str_replace("%message%", message, format) . PHP_EOL;

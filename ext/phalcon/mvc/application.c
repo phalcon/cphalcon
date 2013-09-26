@@ -15,8 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct) {
  * By default. The view is implicitly buffering all the output
  * You can full disable the view component using this method
  *
- * @param boolean $implicitView
+ * @param boolean implicitView
  * @return Phalcon\Mvc\Application
  */
 PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
@@ -160,13 +160,16 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
  */
 PHP_METHOD(Phalcon_Mvc_Application, registerModules) {
 
-	zval *modules, *merge = NULL, *registeredModules, *_0;
+	zend_bool merge;
+	zval *modules, *merge_param = NULL, *registeredModules, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &modules, &merge);
+	zephir_fetch_params(1, 1, 1, &modules, &merge_param);
 
-	if (!merge) {
-		ZEPHIR_CPY_WRT(merge, ZEPHIR_GLOBAL(global_false));
+	if (!merge_param) {
+		merge = 0;
+	} else {
+		merge = zephir_get_boolval(merge_param);
 	}
 
 
@@ -174,7 +177,7 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Modules must be an Array");
 		return;
 	}
-	if (ZEPHIR_IS_FALSE(merge)) {
+	if ((merge == 0)) {
 		zephir_update_property_this(this_ptr, SL("_modules"), modules TSRMLS_CC);
 	} else {
 		ZEPHIR_OBS_VAR(registeredModules);

@@ -482,3 +482,24 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 
 }
 
+/**
+ * Builds a HTML input[type="text"] tag
+ *
+ * <code>
+ *	echo Phalcon\Tag::textField(array("name", "size" => 30));
+ * </code>
+ *
+ * @param	array parameters
+ * @return	string
+ */
+PHP_METHOD(Phalcon_Tag, textField) {
+
+	zval *parameters;
+
+	zephir_fetch_params(0, 1, 0, &parameters);
+
+
+
+
+}
+

@@ -326,11 +326,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 
-	zval *sqlStatement, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *pdo = NULL, *statement = NULL, *_0 = NULL, *_1 = NULL, *_2;
+	zval *sqlStatement_param = NULL, *bindParams = NULL, *bindTypes = NULL, *eventsManager = NULL, *pdo = NULL, *statement = NULL, *_0 = NULL, *_1 = NULL, *_2;
+	zval *sqlStatement = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &sqlStatement, &bindParams, &bindTypes);
+	zephir_fetch_params(1, 1, 2, &sqlStatement_param, &bindParams, &bindTypes);
 
+		zephir_get_strval(sqlStatement, sqlStatement_param);
 	if (!bindParams) {
 		ZEPHIR_CPY_WRT(bindParams, ZEPHIR_GLOBAL(global_null));
 	}

@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL, *key = NULL, *value = NULL, *element = NULL, *filters = NULL, *dependencyInjector = NULL, *filteredValue = NULL, *method = NULL, **_2, *_3 = NULL;
+	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL, *key = NULL, *value = NULL, *element = NULL, *filters = NULL, *dependencyInjector = NULL, *filteredValue = NULL, *method = NULL, **_2, *_3 = NULL, *_4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &data, &entity, &whitelist);
@@ -323,9 +323,10 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 				ZEPHIR_INIT_NVAR(dependencyInjector);
 				zephir_call_method(dependencyInjector, this_ptr, "getdi");
 				ZEPHIR_INIT_NVAR(_3);
-				ZVAL_STRING(_3, "filter", 1);
-				ZEPHIR_INIT_NVAR(filter);
-				zephir_call_method_p1(filter, dependencyInjector, "getshared", _3);
+				ZEPHIR_INIT_NVAR(_4);
+				ZVAL_STRING(_4, "filter", 1);
+				zephir_call_method_p1(_3, dependencyInjector, "getshared", _4);
+				ZEPHIR_CPY_WRT(filter, _3);
 			}
 			ZEPHIR_INIT_NVAR(filteredValue);
 			zephir_call_method_p2(filteredValue, filter, "sanitize", value, filters);
@@ -460,19 +461,22 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *byItemName = NULL, *messages, *group, *element = NULL, *elementMessages = NULL, **_2;
+	zval *byItemName_param = NULL, *messages, *group, *element = NULL, *elementMessages = NULL, **_2;
+	zend_bool byItemName;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &byItemName);
+	zephir_fetch_params(1, 0, 1, &byItemName_param);
 
-	if (!byItemName) {
-		ZEPHIR_CPY_WRT(byItemName, ZEPHIR_GLOBAL(global_false));
+	if (!byItemName_param) {
+		byItemName = 0;
+	} else {
+		byItemName = zephir_get_boolval(byItemName_param);
 	}
 
 
 	ZEPHIR_OBS_VAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (zephir_is_true(byItemName)) {
+	if (byItemName) {
 		if ((Z_TYPE_P(messages) != IS_ARRAY)) {
 			object_init_ex(return_value, phalcon_validation_message_group_ce);
 			zephir_call_method_noret(return_value, "__construct");

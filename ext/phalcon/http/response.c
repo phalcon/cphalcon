@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeader) {
  * Send a raw header to the response
  *
  *<code>
- *	response->setRawHeader("HTTP/1.1 404 Not Found");
+ *	$response->setRawHeader("HTTP/1.1 404 Not Found");
  *</code>
  *
  * @param string header
@@ -571,7 +571,7 @@ PHP_METHOD(Phalcon_Http_Response, setContent) {
  * Sets HTTP response body. The parameter is automatically converted to JSON
  *
  *<code>
- *	response->setJsonContent(array("status" => "OK"));
+ *	$response->setJsonContent(array("status" => "OK"));
  *</code>
  *
  * @param mixed content
@@ -718,7 +718,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
  *
  * @param string filePath
  * @param string attachmentName
- * @return <Phalcon\Http\ResponseInterface>
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 

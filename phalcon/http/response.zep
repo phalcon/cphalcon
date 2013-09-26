@@ -204,7 +204,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * Send a raw header to the response
 	 *
 	 *<code>
-	 *	response->setRawHeader("HTTP/1.1 404 Not Found");
+	 *	$response->setRawHeader("HTTP/1.1 404 Not Found");
 	 *</code>
 	 *
 	 * @param string header
@@ -382,7 +382,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 * Sets HTTP response body. The parameter is automatically converted to JSON
 	 *
 	 *<code>
-	 *	response->setJsonContent(array("status" => "OK"));
+	 *	$response->setJsonContent(array("status" => "OK"));
 	 *</code>
 	 *
 	 * @param mixed content
@@ -500,7 +500,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 	 *
 	 * @param string filePath
 	 * @param string attachmentName
-	 * @return <Phalcon\Http\ResponseInterface>
+	 * @return Phalcon\Http\ResponseInterface
 	 */
 	public function setFileToSend(string filePath, attachmentName=null) -> <Phalcon\Http\ResponseInterface>
 	{
