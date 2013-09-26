@@ -54,4 +54,208 @@ abstract class Adapter {
 	 */
 	protected _logLevel = 9;
 
+	/**
+	 * Filters the logs sent to the handlers that are less or equal than a specific level
+	 *
+	 * @param int level
+	 * @return Phalcon\Logger\Adapter
+	 */
+	public function setLogLevel(int level) -> <Phalcon\Logger\Adapter>
+	{
+		let this->_logLevel = level;
+		return this;
+	}
+
+	/**
+	 * Returns the current log level
+	 *
+	 * @return int
+	 */
+	public function getLogLevel()
+	{
+		return this->_logLevel;
+	}
+
+	/**
+	 * Sets the message formatter
+	 *
+	 * @param Phalcon\Logger\FormatterInterface formatter
+	 * @return Phalcon\Logger\Adapter
+	 */
+	public function setFormatter(<Phalcon\Logger\FormatterInterface> formatter) -> <Phalcon\Logger\Adapter>
+	{
+		let this->_formatter = formatter;
+		return this;
+	}
+
+	/**
+ 	 * Starts a transaction
+ 	 *
+ 	 * @return Phalcon\Logger\Adapter
+ 	 */
+	public function begin() -> <Phalcon\Logger\Adapter>
+	{
+		let this->_transaction = true;
+		return this;
+	}
+
+	/**
+ 	 * Commits the internal transaction
+ 	 *
+ 	 * @return Phalcon\Logger\Adapter
+ 	 */
+	public function commit() -> <Phalcon\Logger\Adapter>
+	{
+
+		let transaction = this->_transaction;
+		if !transaction {
+			throw new Phalcon\Logger\Exception("There is no active transaction");
+		}
+
+		let this->_transaction = false;
+
+		/**
+		 * Check if the queue has something to log
+		 */
+		let queue = this->_queue;
+		if typeof queue == "array" {
+			for message in queue {
+				this->logInternal(message->getMessage(), message->getType(), message->getTime());
+			}
+		}
+
+		return this;
+	}
+
+	/**
+ 	 * Rollbacks the internal transaction
+ 	 *
+ 	 * @return Phalcon\Logger\Adapter
+ 	 */
+	public function rollback() -> <Phalcon\Logger\Adapter>
+	{
+
+		let transaction = this->_transaction;
+		if !transaction {
+			throw new Phalcon\Logger\Exception("There is no active transaction");
+		}
+
+		let this->_transaction = false,
+			this->_queue = [];
+
+		return this;
+	}
+
+	/**
+ 	 * Sends/Writes an emergence message to the log
+ 	 *
+ 	 * @param string message
+ 	 * @return Phalcon\Logger\Adapter
+ 	 */
+	public function emergence(string message) -> <Phalcon\Logger\Adapter>
+	{
+		this->log(message, Phalcon\Logger::EMERGENCE);
+		return this;
+	}
+
+	/**
+ 	 * Sends/Writes a debug message to the log
+ 	 *
+ 	 * @param string message
+ 	 * @return Phalcon\Logger\Adapter
+ 	 */
+	public function debug(string message) -> <Phalcon\Logger\Adapter>
+	{
+		this->log(message, Phalcon\Logger::DEBUG);
+		return this;
+	}
+
+	/**
+ 	 * Sends/Writes an error message to the log
+ 	 *
+ 	 * @param string message
+ 	 * @return Phalcon\Logger\Adapter
+ 	 */
+	public function error(string message) -> <Phalcon\Logger\Adapter>
+	{
+		this->log(message, Phalcon\Logger::ERROR);
+		return this;
+	}
+
+	/**
+ 	 * Sends/Writes an info message to the log
+ 	 *
+ 	 * @param string message
+ 	 * @return Phalcon\Logger\Adapter
+ 	 */
+	public function info(message) -> <Phalcon\Logger\Adapter>
+	{
+		this->log(message, Phalcon\Logger::INFO);
+		return this;
+	}
+
+	/**
+ 	 * Sends/Writes a notice message to the log
+ 	 *
+ 	 * @param string message
+ 	 * @return Phalcon\Logger\Adapter
+ 	 */
+	public function notice(string message) -> <Phalcon\Logger\Adapter>
+	{
+		this->log(message, Phalcon\Logger::NOTICE);
+		return this;
+	}
+
+	/**
+ 	 * Sends/Writes a warning message to the log
+ 	 *
+ 	 * @param string message
+ 	 * @return Phalcon\Logger\Adapter
+ 	 */
+	public function warning(string message) -> <Phalcon\Logger\Adapter>
+	{
+		this->log(message, Phalcon\Logger::WARNING);
+		return this;
+	}
+
+	/**
+ 	 * Sends/Writes an alert message to the log
+ 	 *
+ 	 * @param string message
+ 	 * @return Phalcon\Logger\Adapter
+ 	 */
+	public function alert(string message) -> <Phalcon\Logger\Adapter>
+	{
+		this->log(message, Phalcon\Logger::ALERT);
+		return this;
+	}
+
+	/**
+	 * Logs messages to the internal loggger. Appends logs to the
+	 *
+	 * @param string message
+	 * @param int type
+	 * @return Phalcon\Logger\Adapter
+	 */
+	public function log(string message, int type=7) -> <Phalcon\Logger\Adapter>
+	{
+
+		let timestamp = time();
+
+		let transaction = this->_transaction;
+		if transaction {
+			this->_queue[] = new Phalcon\Logger\Item(message, type, timestamp);
+			return this;
+		}
+
+		/**
+		 * Checks if the log is valid respecting the current log level
+		 */
+		if this->_logLevel >= type {
+			this->logInternal(message, type, timestamp);
+		}
+
+		return this;
+	}
+
 }

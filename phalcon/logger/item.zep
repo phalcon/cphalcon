@@ -33,20 +33,34 @@ class Item
 	 *
 	 * @var integer
 	 */
-	protected _type;
+	protected _type { get };
 
 	/**
 	 * Log message
 	 *
 	 * @var string
 	 */
-	protected _message;
+	protected _message { get };
 
 	/**
 	 * Log timestamp
 	 *
 	 * @var integer
 	 */
-	protected _time;
+	protected _time { get };
+
+	/**
+	 * Phalcon\Logger\Item constructor
+	 *
+	 * @param string $message
+	 * @param integer $type
+	 * @param integer $time
+	 */
+	public function __construct(string message, int type, int time=0)
+	{
+		let this->_message = message,
+			this->_type = type,
+			this->_time = time;
+	}
 
 }
