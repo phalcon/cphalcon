@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Di, getService) {
  */
 PHP_METHOD(Phalcon_Di, get) {
 
-	zval *name, *parameters = NULL, *services, *service, *instance = NULL, *_0, *_1, *_2, *_3, _4;
+	zval *name, *parameters = NULL, *services, *service, *instance = NULL, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name, &parameters);
@@ -394,9 +394,7 @@ PHP_METHOD(Phalcon_Di, get) {
 		}
 	}
 	if ((Z_TYPE_P(instance) == IS_OBJECT)) {
-		ZEPHIR_SINIT_VAR(_4);
-		ZVAL_STRING(&_4, "setDI", 0);
-		if (zephir_method_exists(instance, &_4)) {
+		if (zephir_method_exists(instance, SS("setDI") TSRMLS_CC)) {
 			zephir_call_method_p1_noret(instance, "setdi", this_ptr);
 		}
 	}

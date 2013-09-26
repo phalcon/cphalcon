@@ -133,16 +133,15 @@ PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput) {
 	zval *implicitOutput_param = NULL, *_0;
 	zend_bool implicitOutput;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &implicitOutput_param);
+	zephir_fetch_params(0, 1, 0, &implicitOutput_param);
 
 		implicitOutput = zephir_get_boolval(implicitOutput_param);
 
 
-	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_BOOL(_0, implicitOutput);
 	zephir_update_property_this(this_ptr, SL("_implicitOutput"), _0 TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 

@@ -356,7 +356,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 
-	zval *fetchMode_param = NULL, *pdoStatement, *_0 = NULL;
+	zval *fetchMode_param = NULL, *pdoStatement, *_0 = NULL, *_1;
 	int fetchMode;
 
 	ZEPHIR_MM_GROW();
@@ -372,36 +372,36 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 			ZEPHIR_INIT_VAR(_0);
 			ZVAL_LONG(_0, 4);
 			zephir_call_method_p1_noret(pdoStatement, "setfetchmode", _0);
-			ZEPHIR_INIT_NVAR(_0);
-			ZVAL_LONG(_0, 4);
-			zephir_update_property_this(this_ptr, SL("_fetchMode"), _0 TSRMLS_CC);
+			ZEPHIR_INIT_ZVAL_NREF(_1);
+			ZVAL_LONG(_1, 4);
+			zephir_update_property_this(this_ptr, SL("_fetchMode"), _1 TSRMLS_CC);
 			break;
 		}
 		if ((fetchMode == 1)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_LONG(_0, 2);
 			zephir_call_method_p1_noret(pdoStatement, "setfetchmode", _0);
-			ZEPHIR_INIT_NVAR(_0);
-			ZVAL_LONG(_0, 2);
-			zephir_update_property_this(this_ptr, SL("_fetchMode"), _0 TSRMLS_CC);
+			ZEPHIR_INIT_ZVAL_NREF(_1);
+			ZVAL_LONG(_1, 2);
+			zephir_update_property_this(this_ptr, SL("_fetchMode"), _1 TSRMLS_CC);
 			break;
 		}
 		if ((fetchMode == 3)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_LONG(_0, 3);
 			zephir_call_method_p1_noret(pdoStatement, "setfetchmode", _0);
-			ZEPHIR_INIT_NVAR(_0);
-			ZVAL_LONG(_0, 3);
-			zephir_update_property_this(this_ptr, SL("_fetchMode"), _0 TSRMLS_CC);
+			ZEPHIR_INIT_ZVAL_NREF(_1);
+			ZVAL_LONG(_1, 3);
+			zephir_update_property_this(this_ptr, SL("_fetchMode"), _1 TSRMLS_CC);
 			break;
 		}
 		if ((fetchMode == 4)) {
 			ZEPHIR_INIT_NVAR(_0);
 			ZVAL_LONG(_0, 5);
 			zephir_call_method_p1_noret(pdoStatement, "setfetchmode", _0);
-			ZEPHIR_INIT_NVAR(_0);
-			ZVAL_LONG(_0, 5);
-			zephir_update_property_this(this_ptr, SL("_fetchMode"), _0 TSRMLS_CC);
+			ZEPHIR_INIT_ZVAL_NREF(_1);
+			ZVAL_LONG(_1, 5);
+			zephir_update_property_this(this_ptr, SL("_fetchMode"), _1 TSRMLS_CC);
 			break;
 		}
 	} while(0);

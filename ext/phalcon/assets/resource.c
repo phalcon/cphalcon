@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
@@ -100,10 +100,10 @@ PHP_METHOD(Phalcon_Assets_Resource, __construct) {
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_BOOL(_0, local);
 	zephir_update_property_this(this_ptr, SL("_local"), _0 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_1);
+	ZEPHIR_INIT_ZVAL_NREF(_1);
 	ZVAL_BOOL(_1, filter);
 	zephir_update_property_this(this_ptr, SL("_filter"), _1 TSRMLS_CC);
 	if ((Z_TYPE_P(attributes) == IS_ARRAY)) {
@@ -190,16 +190,15 @@ PHP_METHOD(Phalcon_Assets_Resource, setLocal) {
 	zval *local_param = NULL, *_0;
 	zend_bool local;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &local_param);
+	zephir_fetch_params(0, 1, 0, &local_param);
 
 		local = zephir_get_boolval(local_param);
 
 
-	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_BOOL(_0, local);
 	zephir_update_property_this(this_ptr, SL("_local"), _0 TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 
@@ -226,16 +225,15 @@ PHP_METHOD(Phalcon_Assets_Resource, setFilter) {
 	zval *filter_param = NULL, *_0;
 	zend_bool filter;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &filter_param);
+	zephir_fetch_params(0, 1, 0, &filter_param);
 
 		filter = zephir_get_boolval(filter_param);
 
 
-	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_BOOL(_0, filter);
 	zephir_update_property_this(this_ptr, SL("_filter"), _0 TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 

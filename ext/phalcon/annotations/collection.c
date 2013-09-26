@@ -137,12 +137,10 @@ PHP_METHOD(Phalcon_Annotations_Collection, rewind) {
 
 	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 

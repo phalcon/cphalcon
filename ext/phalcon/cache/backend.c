@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start) {
 	} else {
 		fresh = 0;
 	}
-	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_BOOL(_0, fresh);
 	zephir_update_property_this(this_ptr, SL("_fresh"), _0 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_started"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);

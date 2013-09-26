@@ -434,7 +434,7 @@ class Router
 					}
 
 					// Call the function in the PHP userland
-					//let routeFound = {beforeMatch}(handledUri, route, this);
+					let routeFound = {beforeMatch}(handledUri, route, this);
 				}
 			}
 

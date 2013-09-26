@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
@@ -77,8 +77,7 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 	zval *name_param = NULL, *definition, *shared_param = NULL, *_0;
 	zval *name = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared_param);
+	zephir_fetch_params(0, 2, 1, &name_param, &definition, &shared_param);
 
 		zephir_get_strval(name, name_param);
 	if (!shared_param) {
@@ -90,10 +89,9 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_BOOL(_0, shared);
 	zephir_update_property_this(this_ptr, SL("_shared"), _0 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -119,16 +117,14 @@ PHP_METHOD(Phalcon_Di_Service, setShared) {
 	zval *shared_param = NULL, *_0;
 	zend_bool shared;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &shared_param);
+	zephir_fetch_params(0, 1, 0, &shared_param);
 
 		shared = zephir_get_boolval(shared_param);
 
 
-	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_BOOL(_0, shared);
 	zephir_update_property_this(this_ptr, SL("_shared"), _0 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 

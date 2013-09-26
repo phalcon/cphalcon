@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *fieldName_param = NULL, *filtered, *messages, *message = NULL, **_2, _3 = zval_used_for_init, *_4 = NULL;
+	zval *fieldName_param = NULL, *filtered, *messages, *message = NULL, **_2, *_3 = NULL;
 	zval *fieldName = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -300,12 +300,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(message, _2);
-			ZEPHIR_SINIT_NVAR(_3);
-			ZVAL_STRING(&_3, "getField", 0);
-			if (zephir_method_exists(message, &_3)) {
-				ZEPHIR_INIT_NVAR(_4);
-				zephir_call_method(_4, message, "getfield");
-				if (ZEPHIR_IS_EQUAL(fieldName, _4)) {
+			if (zephir_method_exists(message, SS("getField") TSRMLS_CC)) {
+				ZEPHIR_INIT_NVAR(_3);
+				zephir_call_method(_3, message, "getfield");
+				if (ZEPHIR_IS_EQUAL(fieldName, _3)) {
 					zephir_array_append(&filtered, message, PH_SEPARATE);
 				}
 			}
@@ -337,12 +335,10 @@ PHP_METHOD(Phalcon_Validation_Message_Group, rewind) {
 
 	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_position"), _0 TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
 
 }
 

@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 
 
 
-	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, 0);
 	zephir_update_property_this(this_ptr, SL("_connectionId"), _0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(dialectClass);

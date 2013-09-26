@@ -551,6 +551,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 					ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "Before-Match callback is not callable in matched route");
 					return;
 				}
+				ZEPHIR_INIT_NVAR(routeFound);
+				zephir_call_func_p3(routeFound, "beforematch", handledUri, route, this_ptr);
 			}
 		}
 		if (zephir_is_true(routeFound)) {

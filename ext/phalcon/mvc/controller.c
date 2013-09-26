@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -85,13 +85,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller) {
  */
 PHP_METHOD(Phalcon_Mvc_Controller, __construct) {
 
-	zval _0;
-
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "onConstruct", 0);
-	if (zephir_method_exists(this_ptr, &_0)) {
+	if (zephir_method_exists(this_ptr, SS("onConstruct") TSRMLS_CC)) {
 		zephir_call_method_noret(this_ptr, "onconstruct");
 	}
 	ZEPHIR_MM_RESTORE();

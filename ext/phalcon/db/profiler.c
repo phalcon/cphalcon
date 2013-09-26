@@ -103,7 +103,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler) {
  */
 PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 
-	zval *sqlStatement, *activeProfile, *_0, _1;
+	zval *sqlStatement, *activeProfile, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlStatement);
@@ -116,9 +116,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "microtime", ZEPHIR_GLOBAL(global_true));
 	zephir_call_method_p1_noret(activeProfile, "setinitialtime", _0);
-	ZEPHIR_SINIT_VAR(_1);
-	ZVAL_STRING(&_1, "beforeStartProfile", 0);
-	if (zephir_method_exists(this_ptr, &_1)) {
+	if (zephir_method_exists(this_ptr, SS("beforeStartProfile") TSRMLS_CC)) {
 		zephir_call_method_p1_noret(this_ptr, "beforestartprofile", activeProfile);
 	}
 	zephir_update_property_this(this_ptr, SL("_activeProfile"), activeProfile TSRMLS_CC);
@@ -133,7 +131,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
  */
 PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 
-	zval *finalTime, *initialTime, *activeProfile = NULL, *_0, *_1, *_2, *_3, _4;
+	zval *finalTime, *initialTime, *activeProfile = NULL, *_0, *_1, *_2, *_3;
 
 	ZEPHIR_MM_GROW();
 
@@ -152,9 +150,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	zephir_add_function(_3, _1, _2 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_totalSeconds"), _3 TSRMLS_CC);
 	zephir_update_property_array_append(this_ptr, SL("_allProfiles"), activeProfile TSRMLS_CC);
-	ZEPHIR_SINIT_VAR(_4);
-	ZVAL_STRING(&_4, "afterEndProfile", 0);
-	if (zephir_method_exists(this_ptr, &_4)) {
+	if (zephir_method_exists(this_ptr, SS("afterEndProfile") TSRMLS_CC)) {
 		zephir_call_method_p1_noret(this_ptr, "afterendprofile", activeProfile);
 	}
 	RETURN_THIS();
