@@ -309,7 +309,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
 
-	zend_function **_0 = NULL;
+	zend_function *_0 = NULL;
 	zval *sqlQuery_param = NULL, *fetchMode = NULL, *bindParams = NULL, *bindTypes = NULL, *results, *result, *row = NULL;
 	zval *sqlQuery = NULL;
 
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
 		}
 		while (1) {
 			ZEPHIR_INIT_NVAR(row);
-			zephir_call_method_cache(row, result, "fetch", _0);
+			zephir_call_method_cache(row, result, "fetch", &_0);
 			if (!(zephir_is_true(row))) {
 				break;
 			} else {

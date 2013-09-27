@@ -208,8 +208,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, via) {
 PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams) {
 
 	zend_bool notValid;
-	int tmp, cursor, cursorVar, marker, bracketCount = 0, parenthesesCount = 0, foundPattern = 0, intermediate = 0, numberMatches = 0, _0, _5, _10;
-	char ch;
+	int tmp, cursor = NULL, cursorVar = NULL, marker, bracketCount = 0, parenthesesCount = 0, foundPattern = 0, intermediate = 0, numberMatches = 0, _0, _5, _10;
+	char ch = NULL;
 	zval *pattern_param = NULL, *matches, _1 = zval_used_for_init, _2 = zval_used_for_init, *_3 = NULL, *_6 = NULL, *_8 = NULL;
 	zval *pattern = NULL, *route, *item = NULL, *variable = NULL, *regexp = NULL, *_4 = NULL, *_7 = NULL, *_9 = NULL;
 

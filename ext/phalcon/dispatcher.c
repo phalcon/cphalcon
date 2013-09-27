@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue) {
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 
-	zend_function **_12 = NULL, **_13 = NULL;
+	zend_function *_12 = NULL, *_13 = NULL;
 	zval *value, *handler = NULL, *dependencyInjector = NULL, *namespaceName = NULL, *handlerName = NULL, *actionName = NULL, *camelizedClass = NULL, *params = NULL, *eventsManager = NULL, *handlerSuffix, *actionSuffix, *handlerClass = NULL, *status = NULL, *actionMethod = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3, *_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_10 = NULL, *_11, *_14 = NULL, *_15 = NULL;
 	int numberDispatches;
 	zend_bool hasService;
@@ -737,10 +737,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			}
 		}
 		ZEPHIR_INIT_NVAR(_7);
-		zephir_call_method_cache(_7, dependencyInjector, "wasfreshinstance", _12);
+		zephir_call_method_cache(_7, dependencyInjector, "wasfreshinstance", &_12);
 		if (ZEPHIR_IS_TRUE(_7)) {
 			if (zephir_method_exists_str(handler, SS("initialize") TSRMLS_CC)) {
-				zephir_call_method_cache_noret(handler, "initialize", _13);
+				zephir_call_method_cache_noret(handler, "initialize", &_13);
 			}
 		}
 		ZEPHIR_INIT_NVAR(_7);

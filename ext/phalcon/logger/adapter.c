@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, begin) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 
-	zend_function **_4 = NULL, **_6 = NULL, **_8 = NULL;
+	zend_function *_4 = NULL, *_6 = NULL, *_8 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *transaction, *queue, *message = NULL, **_2, *_3 = NULL, *_5 = NULL, *_7 = NULL;
@@ -172,11 +172,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 		) {
 			ZEPHIR_GET_HVALUE(message, _2);
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method_cache(_3, message, "getmessage", _4);
+			zephir_call_method_cache(_3, message, "getmessage", &_4);
 			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_method_cache(_5, message, "gettype", _6);
+			zephir_call_method_cache(_5, message, "gettype", &_6);
 			ZEPHIR_INIT_NVAR(_7);
-			zephir_call_method_cache(_7, message, "gettime", _8);
+			zephir_call_method_cache(_7, message, "gettime", &_8);
 			zephir_call_method_p3_noret(this_ptr, "loginternal", _3, _5, _7);
 		}
 	}
