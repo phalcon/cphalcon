@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, _connect){
 
 	phalcon_array_isset_string_fetch(&client, options, SS("client"));
 
-	phalcon_call_method_p1_ex(return_value, return_value_ptr, memcache, "addservers", servers);
+	phalcon_return_call_method_p1(memcache, "addservers", servers);
 	if ((return_value_ptr && !zend_is_true(*return_value_ptr)) || (!return_value_ptr && !zend_is_true(return_value))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cannot connect to Memcached server");
 		return;
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, get){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_call_method_p1_ex(return_value, return_value_ptr, frontend, "afterretrieve", cached_content);
+	phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
 	RETURN_MM();
 }
 
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Libmemcached, delete){
 	/** 
 	 * Delete the key from memcached
 	 */
-	phalcon_call_method_p1_ex(return_value, return_value_ptr, memcache, "delete", prefixed_key);
+	phalcon_return_call_method_p1(memcache, "delete", prefixed_key);
 	RETURN_MM();
 }
 

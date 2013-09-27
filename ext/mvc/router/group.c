@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct){
 	phalcon_fetch_params(1, 0, 1, &paths);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(paths) == IS_ARRAY) { 
@@ -254,18 +254,18 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes){
 PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 
 	zval *pattern, *paths = NULL, *http_methods = NULL, *prefix, *prefix_pattern;
-	zval *default_paths, *merged_paths = NULL, *route;
+	zval *default_paths, *merged_paths = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 2, &pattern, &paths, &http_methods);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!http_methods) {
-		PHALCON_INIT_VAR(http_methods);
+		http_methods = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(prefix);
@@ -300,13 +300,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, _addRoute){
 	/** 
 	 * Every route is internally stored as a Phalcon\Mvc\Router\Route
 	 */
-	PHALCON_INIT_VAR(route);
-	object_init_ex(route, phalcon_mvc_router_route_ce);
-	phalcon_call_method_p3_noret(route, "__construct", prefix_pattern, merged_paths, http_methods);
+	object_init_ex(return_value, phalcon_mvc_router_route_ce);
+	phalcon_call_method_p3_noret(return_value, "__construct", prefix_pattern, merged_paths, http_methods);
 	
-	phalcon_update_property_array_append(this_ptr, SL("_routes"), route TSRMLS_CC);
+	phalcon_update_property_array_append(this_ptr, SL("_routes"), return_value TSRMLS_CC);
 	
-	RETURN_CTOR(route);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -330,11 +329,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add){
 	phalcon_fetch_params(1, 1, 2, &pattern, &paths, &http_methods);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!http_methods) {
-		PHALCON_INIT_VAR(http_methods);
+		http_methods = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_call_method_p3(return_value, this_ptr, "_addroute", pattern, paths, http_methods);
@@ -357,7 +356,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addGet){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -382,7 +381,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPost){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -407,7 +406,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPut){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -432,7 +431,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -457,7 +456,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -482,7 +481,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -507,7 +506,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addHead){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(method);

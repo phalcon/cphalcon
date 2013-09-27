@@ -140,25 +140,23 @@ PHP_METHOD(Phalcon_Http_Request, get){
 	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &not_allow_empty, &norecursive);
 	
 	if (!name) {
-		PHALCON_INIT_VAR(name);
+		name = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!filters) {
-		PHALCON_INIT_VAR(filters);
+		filters = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_VAR(default_value);
+		default_value = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!not_allow_empty) {
-		PHALCON_INIT_VAR(not_allow_empty);
-		ZVAL_FALSE(not_allow_empty);
+		not_allow_empty = PHALCON_GLOBAL(z_false);
 	}
 	
 	if (!norecursive) {
-		PHALCON_INIT_VAR(norecursive);
-		ZVAL_FALSE(norecursive);
+		norecursive = PHALCON_GLOBAL(z_false);
 	}
 	
 	phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
@@ -242,25 +240,23 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &not_allow_empty, &norecursive);
 	
 	if (!name) {
-		PHALCON_INIT_VAR(name);
+		name = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!filters) {
-		PHALCON_INIT_VAR(filters);
+		filters = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_VAR(default_value);
+		default_value = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!not_allow_empty) {
-		PHALCON_INIT_VAR(not_allow_empty);
-		ZVAL_FALSE(not_allow_empty);
+		not_allow_empty = PHALCON_GLOBAL(z_false);
 	}
 	
 	if (!norecursive) {
-		PHALCON_INIT_VAR(norecursive);
-		ZVAL_FALSE(norecursive);
+		norecursive = PHALCON_GLOBAL(z_false);
 	}
 	
 	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
@@ -347,25 +343,23 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 	phalcon_fetch_params(1, 0, 5, &name, &filters, &default_value, &not_allow_empty, &norecursive);
 	
 	if (!name) {
-		PHALCON_INIT_VAR(name);
+		name = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!filters) {
-		PHALCON_INIT_VAR(filters);
+		filters = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_VAR(default_value);
+		default_value = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!not_allow_empty) {
-		PHALCON_INIT_VAR(not_allow_empty);
-		ZVAL_FALSE(not_allow_empty);
+		not_allow_empty = PHALCON_GLOBAL(z_false);
 	}
 	
 	if (!norecursive) {
-		PHALCON_INIT_VAR(norecursive);
-		ZVAL_FALSE(norecursive);
+		norecursive = PHALCON_GLOBAL(z_false);
 	}
 	
 	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
@@ -900,8 +894,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	phalcon_fetch_params(1, 0, 1, &trust_forwarded_header);
 	
 	if (!trust_forwarded_header) {
-		PHALCON_INIT_VAR(trust_forwarded_header);
-		ZVAL_FALSE(trust_forwarded_header);
+		trust_forwarded_header = PHALCON_GLOBAL(z_false);
 	}
 	
 	PHALCON_INIT_VAR(address);

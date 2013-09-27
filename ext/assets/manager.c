@@ -70,19 +70,11 @@ PHP_METHOD(Phalcon_Assets_Manager, __construct){
 
 	zval *options = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &options);
+	phalcon_fetch_params(0, 0, 1, &options);
 	
-	if (!options) {
-		PHALCON_INIT_VAR(options);
-	}
-	
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
+	if (options && Z_TYPE_P(options) == IS_ARRAY) {
 		phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -156,17 +148,15 @@ PHP_METHOD(Phalcon_Assets_Manager, addCss){
 	phalcon_fetch_params(1, 1, 3, &path, &local, &filter, &attributes);
 	
 	if (!local) {
-		PHALCON_INIT_VAR(local);
-		ZVAL_BOOL(local, 1);
+		local = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (!filter) {
-		PHALCON_INIT_VAR(filter);
-		ZVAL_BOOL(filter, 1);
+		filter = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (!attributes) {
-		PHALCON_INIT_VAR(attributes);
+		attributes = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(type);
@@ -203,17 +193,15 @@ PHP_METHOD(Phalcon_Assets_Manager, addJs){
 	phalcon_fetch_params(1, 1, 3, &path, &local, &filter, &attributes);
 	
 	if (!local) {
-		PHALCON_INIT_VAR(local);
-		ZVAL_BOOL(local, 1);
+		local = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (!filter) {
-		PHALCON_INIT_VAR(filter);
-		ZVAL_BOOL(filter, 1);
+		filter = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (!attributes) {
-		PHALCON_INIT_VAR(attributes);
+		attributes = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(type);
@@ -666,7 +654,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 					 * resources paths are always filtered
 					 */
 					PHALCON_INIT_NVAR(filter_needed);
-					ZVAL_BOOL(filter_needed, 1);
+					ZVAL_TRUE(filter_needed);
 				}
 	
 				/** 
@@ -987,17 +975,12 @@ PHP_METHOD(Phalcon_Assets_Manager, output){
 PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 
 	zval *collection_name = NULL, *collection = NULL, *callback, *type = NULL;
-	zval *output;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 0, 1, &collection_name);
 	
-	if (!collection_name) {
-		PHALCON_INIT_VAR(collection_name);
-	}
-	
-	if (PHALCON_IS_EMPTY(collection_name)) {
+	if (!collection_name || PHALCON_IS_EMPTY(collection_name)) {
 		PHALCON_INIT_VAR(collection);
 		phalcon_call_method(collection, this_ptr, "getcss");
 	} else {
@@ -1013,10 +996,9 @@ PHP_METHOD(Phalcon_Assets_Manager, outputCss){
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "css", 1);
 	
-	PHALCON_INIT_VAR(output);
-	phalcon_call_method_p3(output, this_ptr, "output", collection, callback, type);
+	phalcon_call_method_p3(return_value, this_ptr, "output", collection, callback, type);
 	
-	RETURN_CCTOR(output);
+	PHALCON_MM_RESTORE();
 }
 
 /**

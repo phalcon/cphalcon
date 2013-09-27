@@ -81,19 +81,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct){
 
 	zval *reflection_data = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &reflection_data);
+	phalcon_fetch_params(0, 0, 1, &reflection_data);
 	
-	if (!reflection_data) {
-		PHALCON_INIT_VAR(reflection_data);
-	}
-	
-	if (Z_TYPE_P(reflection_data) == IS_ARRAY) { 
+	if (reflection_data && Z_TYPE_P(reflection_data) == IS_ARRAY) {
 		phalcon_update_property_this(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -126,7 +118,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
 			RETURN_CTOR(collection);
 		}
 	
-		phalcon_update_property_bool(this_ptr, SL("_classAnnotations"), 0 TSRMLS_CC);
+		phalcon_update_property_this(this_ptr, SL("_classAnnotations"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 		RETURN_MM_FALSE;
 	}
 	

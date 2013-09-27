@@ -69,24 +69,17 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 
 	zval *name, *description = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &name, &description);
-	
-	if (!description) {
-		PHALCON_INIT_VAR(description);
-	}
+	phalcon_fetch_params(0, 1, 1, &name, &description);
 	
 	if (PHALCON_IS_STRING(name, "*")) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Resource name cannot be \"*\"");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_acl_exception_ce, "Resource name cannot be \"*\"");
 		return;
 	}
+
 	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	if (Z_TYPE_P(description) != IS_NULL) {
+	if (description && Z_TYPE_P(description) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_description"), description TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**

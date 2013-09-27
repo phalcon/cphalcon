@@ -114,19 +114,18 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate){
 	/** 
 	 * Check if mbstring is available to calculate the correct length
 	 */
+	PHALCON_INIT_VAR(length);
 	if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(length);
 		phalcon_call_func_p1(length, "mb_strlen", value);
 	} else {
-		PHALCON_INIT_NVAR(length);
 		phalcon_fast_strlen(length, value);
 	}
 	
 	PHALCON_INIT_VAR(invalid_maximum);
-	ZVAL_BOOL(invalid_maximum, 0);
+	ZVAL_FALSE(invalid_maximum);
 	
 	PHALCON_INIT_VAR(invalid_minimum);
-	ZVAL_BOOL(invalid_minimum, 0);
+	ZVAL_FALSE(invalid_minimum);
 	
 	/** 
 	 * Maximum length

@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 	zval *data;
 
 	phalcon_fetch_params(0, 1, 0, &data);
-	phalcon_serialize((return_value_ptr ? *return_value_ptr : return_value), &data TSRMLS_CC);
+	phalcon_serialize(return_value, &data TSRMLS_CC);
 }
 
 /**
@@ -199,5 +199,5 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 	zval *data;
 
 	phalcon_fetch_params(0, 1, 0, &data);
-	phalcon_unserialize((return_value_ptr ? *return_value_ptr : return_value), data TSRMLS_CC);
+	phalcon_unserialize(return_value, data TSRMLS_CC);
 }

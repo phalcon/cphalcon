@@ -121,8 +121,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	phalcon_fetch_params(1, 2, 1, &value, &filters, &norecursive);
 
 	if (!norecursive) {
-		PHALCON_INIT_VAR(norecursive);
-		ZVAL_FALSE(norecursive);
+		norecursive = PHALCON_GLOBAL(z_false);
 	}
 	
 	/** 

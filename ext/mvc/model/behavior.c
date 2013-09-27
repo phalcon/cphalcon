@@ -63,17 +63,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct){
 
 	zval *options = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &options);
+	phalcon_fetch_params(0, 0, 1, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -85,17 +81,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction){
 
 	zval *event_name, *options;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &event_name);
+	phalcon_fetch_params(0, 1, 0, &event_name);
 	
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset(options, event_name)) {
-		RETURN_MM_TRUE;
+		RETURN_TRUE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -108,26 +101,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions){
 
 	zval *event_name = NULL, *options, *event_options;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &event_name);
+	phalcon_fetch_params(0, 0, 1, &event_name);
 	
-	if (!event_name) {
-		PHALCON_INIT_VAR(event_name);
-	}
-	
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(event_name) != IS_NULL) {
-		if (phalcon_array_isset(options, event_name)) {
-			PHALCON_OBS_VAR(event_options);
-			phalcon_array_fetch(&event_options, options, event_name, PH_NOISY);
-			RETURN_CCTOR(event_options);
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	if (event_name && Z_TYPE_P(event_name) != IS_NULL) {
+		if (phalcon_array_isset_fetch(&event_options, options, event_name)) {
+			RETURN_ZVAL(event_options, 1, 0);
 		}
-		RETURN_MM_NULL();
+		RETURN_NULL();
 	}
 	
-	RETURN_CCTOR(options);
+	RETURN_ZVAL(options, 1, 0);
 }
 
 /**
@@ -156,14 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod){
 
 	zval *model, *method, *arguments = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &model, &method, &arguments);
+	phalcon_fetch_params(0, 2, 1, &model, &method, &arguments);
 	
-	if (!arguments) {
-		PHALCON_INIT_VAR(arguments);
-	}
-	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
-

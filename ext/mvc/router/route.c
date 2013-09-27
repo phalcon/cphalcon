@@ -89,11 +89,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	phalcon_fetch_params(1, 1, 2, &pattern, &paths, &http_methods);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!http_methods) {
-		PHALCON_INIT_VAR(http_methods);
+		http_methods = PHALCON_GLOBAL(z_null);
 	}
 	
 	/** 
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 	
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(pattern) != IS_STRING) {

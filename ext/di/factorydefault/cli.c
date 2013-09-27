@@ -72,8 +72,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
 	phalcon_call_parent_noret(this_ptr, phalcon_di_factorydefault_cli_ce, "__construct");
 	
-	PHALCON_INIT_VAR(shared);
-	ZVAL_BOOL(shared, 1);
+	shared = PHALCON_GLOBAL(z_true);
 	
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "router", 1);

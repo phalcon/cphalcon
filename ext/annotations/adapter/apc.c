@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apc, read){
 		return_value_ptr = &return_value;
 	}
 
-	phalcon_call_func_p1_ex(return_value, return_value_ptr, "apc_fetch", prefixed_key);
+	phalcon_return_call_func_p1("apc_fetch", prefixed_key);
 	if (Z_TYPE_PP(return_value_ptr) != IS_OBJECT) {
 		zval_dtor(*return_value_ptr);
 		ZVAL_NULL(*return_value_ptr);

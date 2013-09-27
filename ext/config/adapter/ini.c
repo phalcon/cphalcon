@@ -135,7 +135,7 @@ PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
-	zval *file_path, *process_sections, *ini_config;
+	zval *file_path, *ini_config;
 	zval *exception_message, *config, *directives = NULL;
 	zval *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL;
 	HashTable *ah0, *ah1;
@@ -146,14 +146,11 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
 	phalcon_fetch_params(1, 1, 0, &file_path);
 	
-	PHALCON_INIT_VAR(process_sections);
-	ZVAL_BOOL(process_sections, 1);
-	
 	/** 
 	 * Use the standard parse_ini_file
 	 */
 	PHALCON_INIT_VAR(ini_config);
-	phalcon_call_func_p2(ini_config, "parse_ini_file", file_path, process_sections);
+	phalcon_call_func_p2(ini_config, "parse_ini_file", file_path, PHALCON_GLOBAL(z_true));
 	
 	/** 
 	 * Check if the file had errors

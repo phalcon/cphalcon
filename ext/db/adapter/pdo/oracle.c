@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, describeColumns){
 	phalcon_fetch_params(1, 1, 1, &table, &schema);
 	
 	if (!schema) {
-		PHALCON_INIT_VAR(schema);
+		schema = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(columns);
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Oracle, lastInsertId){
 	phalcon_fetch_params(1, 0, 1, &sequence_name);
 	
 	if (!sequence_name) {
-		PHALCON_INIT_VAR(sequence_name);
+		sequence_name = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(sql);

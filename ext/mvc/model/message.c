@@ -95,25 +95,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
 
 	zval *message, *field = NULL, *type = NULL, *model = NULL, *code = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 4, &message, &field, &type, &code, &model);
+	phalcon_fetch_params(0, 1, 4, &message, &field, &type, &code, &model);
 	
 	if (!field) {
-		PHALCON_INIT_VAR(field);
+		field = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!type) {
-		PHALCON_INIT_VAR(type);
+		type = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!model) {
-		PHALCON_INIT_VAR(model);
+		model = PHALCON_GLOBAL(z_null);
 	}
 
 	if (!code) {
-		PHALCON_INIT_VAR(code);
-		ZVAL_LONG(code, 0);
+		code = PHALCON_GLOBAL(z_zero);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
@@ -123,8 +120,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
 		phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
 	}
 	phalcon_update_property_this(this_ptr, SL("_code"), code TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**

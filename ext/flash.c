@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 		 */
 		if (!flag_implicit_flush) {
 			PHALCON_INIT_VAR(content);
-			ZVAL_STRING(content, "", 1);
+			ZVAL_EMPTY_STRING(content);
 		}
 
 		/**

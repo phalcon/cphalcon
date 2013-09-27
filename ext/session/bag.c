@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 	phalcon_fetch_params(1, 1, 1, &property, &default_value);
 	
 	if (!default_value) {
-		PHALCON_INIT_VAR(default_value);
+		default_value = PHALCON_GLOBAL(z_null);
 	}
 	
 	/** 

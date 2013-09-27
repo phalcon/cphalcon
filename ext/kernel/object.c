@@ -758,12 +758,7 @@ int phalcon_update_property_string(zval *object, char *property_name, unsigned i
  */
 int phalcon_update_property_bool(zval *object, char *property_name, unsigned int property_length, int value TSRMLS_DC) {
 
-	zval *v;
-
-	ALLOC_ZVAL(v);
-	Z_UNSET_ISREF_P(v);
-	Z_SET_REFCOUNT_P(v, 0);
-	ZVAL_BOOL(v, value ? 1 : 0);
+	zval *v = value ? PHALCON_GLOBAL(z_true) : PHALCON_GLOBAL(z_false);
 
 	return phalcon_update_property_zval(object, property_name, property_length, v TSRMLS_CC);
 }
@@ -773,12 +768,7 @@ int phalcon_update_property_bool(zval *object, char *property_name, unsigned int
  */
 int phalcon_update_property_null(zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
-	zval *v;
-
-	ALLOC_ZVAL(v);
-	Z_UNSET_ISREF_P(v);
-	Z_SET_REFCOUNT_P(v, 0);
-	ZVAL_NULL(v);
+	zval *v = PHALCON_GLOBAL(z_null);
 
 	return phalcon_update_property_zval(object, property_name, property_length, v TSRMLS_CC);
 }

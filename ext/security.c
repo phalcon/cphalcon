@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	}
 	
 	if (!token_value) {
-		PHALCON_INIT_VAR(token_value);
+		token_value = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);

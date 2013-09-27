@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct){
 	phalcon_fetch_params(1, 0, 1, &reflection_data);
 	
 	if (!reflection_data) {
-		PHALCON_INIT_VAR(reflection_data);
+		reflection_data = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(reflection_data) != IS_NULL) {

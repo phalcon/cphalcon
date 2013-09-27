@@ -152,20 +152,11 @@ PHP_METHOD(Phalcon_Debug, listen){
 
 	phalcon_fetch_params(1, 0, 2, &exceptions, &low_severity);
 	
-	if (!exceptions) {
-		PHALCON_INIT_VAR(exceptions);
-		ZVAL_BOOL(exceptions, 1);
-	}
-	
-	if (!low_severity) {
-		PHALCON_INIT_VAR(low_severity);
-		ZVAL_BOOL(low_severity, 0);
-	}
-	
-	if (zend_is_true(exceptions)) {
+	if (!exceptions || zend_is_true(exceptions)) {
 		phalcon_call_method_noret(this_ptr, "listenexceptions");
 	}
-	if (zend_is_true(low_severity)) {
+
+	if (low_severity && zend_is_true(low_severity)) {
 		phalcon_call_method_noret(this_ptr, "listenlowseverity");
 	}
 	
@@ -227,7 +218,7 @@ PHP_METHOD(Phalcon_Debug, debugVar){
 	phalcon_fetch_params(1, 1, 1, &var, &key);
 	
 	if (!key) {
-		PHALCON_INIT_VAR(key);
+		key = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(ztime);
@@ -307,7 +298,7 @@ PHP_METHOD(Phalcon_Debug, _escapeString){
  */
 PHP_METHOD(Phalcon_Debug, _getArrayDump){
 
-	zval *argument, *n = NULL, *number_arguments, *one, *dump;
+	zval *argument, *n = NULL, *number_arguments, *dump;
 	zval *v = NULL, *k = NULL, *var_dump = NULL, *escaped_string = NULL, *next = NULL, *array_dump = NULL;
 	zval *class_name = NULL, *joined_dump;
 	HashTable *ah0;
@@ -328,9 +319,6 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump){
 	if (PHALCON_LT_LONG(n, 3)) {
 		if (PHALCON_GT_LONG(number_arguments, 0)) {
 			if (PHALCON_LT_LONG(number_arguments, 10)) {
-	
-				PHALCON_INIT_VAR(one);
-				ZVAL_LONG(one, 1);
 	
 				PHALCON_INIT_VAR(dump);
 				array_init(dump);
@@ -357,7 +345,7 @@ PHP_METHOD(Phalcon_Debug, _getArrayDump){
 					} else {
 						if (Z_TYPE_P(v) == IS_ARRAY) { 
 							PHALCON_INIT_NVAR(next);
-							phalcon_add_function(next, n, one TSRMLS_CC);
+							phalcon_add_function(next, n, PHALCON_GLOBAL(z_one) TSRMLS_CC);
 	
 							PHALCON_INIT_NVAR(array_dump);
 							phalcon_call_method_p2(array_dump, this_ptr, "_getarraydump", v, next);
@@ -994,13 +982,10 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 		zend_print_zval(message, 0);
 	}
 	
-	PHALCON_INIT_VAR(is_active);
-	ZVAL_TRUE(is_active);
-	
 	/** 
 	 * Globally block the debug component to avoid other exceptions must be shown
 	 */
-	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), is_active TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), PHALCON_GLOBAL(z_true) TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, exception, 0 TSRMLS_CC);
@@ -1219,13 +1204,10 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException){
 	 */
 	zend_print_zval(html, 0);
 	
-	PHALCON_INIT_NVAR(is_active);
-	ZVAL_BOOL(is_active, 0);
-	
 	/** 
 	 * Unlock the exception renderer
 	 */
-	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), is_active TSRMLS_CC);
+	phalcon_update_static_property_ce(phalcon_debug_ce, SL("_isActive"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 	RETURN_MM_TRUE;
 }
 

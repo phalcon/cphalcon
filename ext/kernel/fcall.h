@@ -41,6 +41,28 @@
 		} \
 	} while (0)
 
+#define PHALCON_RETURN_CALL_FUNCTION(func_name, nparams, ...) \
+	do { \
+		if (__builtin_constant_p(func_name)) { \
+			if (phalcon_call_func_params(return_value, return_value_ptr, func_name, sizeof(func_name)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+		else { \
+			if (phalcon_call_func_params(return_value, return_value_ptr, func_name, strlen(func_name) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+	} while (0)
+
 #define PHALCON_CALL_METHOD(return_value, return_value_ptr, object, method, key, nparams, ...) \
 	do { \
 		register ulong _key = key; \
@@ -58,6 +80,29 @@
 		} \
 	} while (0)
 
+#define PHALCON_RETURN_CALL_METHOD(object, method, key, nparams, ...) \
+	do { \
+		register ulong _key = key; \
+		if (__builtin_constant_p(method)) { \
+			if (phalcon_call_method_params(return_value, return_value_ptr, object, method, sizeof(method)-1, (_key ? _key : zend_inline_hash_func(method, sizeof(method))) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+		else { \
+			if (phalcon_call_method_params(return_value, return_value_ptr, object, method, strlen(method), (_key ? _key : (IS_INTERNED(method) ? INTERNED_HASH(method) : 0)) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+	} while (0)
+
 #define PHALCON_CALL_STATIC(return_value, return_value_ptr, class_name, method, nparams, ...) \
 	do { \
 		if (__builtin_constant_p(class_name) && __builtin_constant_p(method)) { \
@@ -67,7 +112,29 @@
 			} \
 		} \
 		else { \
-			if (phalcon_call_static_func_params(return_value, return_value_ptr, class_name, strlen(class_name), method, strlen(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			if (phalcon_call_static_func_params(return_value, return_value_ptr, class_name, strlen(class_name), method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_STATIC(class_name, method, nparams, ...) \
+	do { \
+		if (__builtin_constant_p(class_name) && __builtin_constant_p(method)) { \
+			if (phalcon_call_static_func_params(return_value, return_value_ptr, class_name, sizeof(class_name)-1, method, sizeof(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+		else { \
+			if (phalcon_call_static_func_params(return_value, return_value_ptr, class_name, strlen(class_name), method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
 				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
@@ -90,6 +157,28 @@
 		} \
 	} while (0)
 
+#define PHALCON_RETURN_CALL_PARENT(this_ptr, class_entry, method, nparams, ...) \
+	do { \
+		if (__builtin_constant_p(method)) { \
+			if (phalcon_call_parent_func_params(return_value, return_value_ptr, this_ptr, class_entry, method, sizeof(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+		else { \
+			if (phalcon_call_parent_func_params(return_value, return_value_ptr, this_ptr, class_entry, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+	} while (0)
+
 #define PHALCON_CALL_SELF(return_value, return_value_ptr, this_ptr, method, nparams, ...) \
 	do { \
 		if (__builtin_constant_p(method)) { \
@@ -100,6 +189,28 @@
 		} \
 		else { \
 			if (phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_SELF(this_ptr, method, nparams, ...) \
+	do { \
+		if (__builtin_constant_p(method)) { \
+			if (phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, method, sizeof(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+		else { \
+			if (phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
 				PHALCON_MM_RESTORE(); \
 				return; \
 			} \
@@ -122,6 +233,28 @@
 		} \
 	} while (0)
 
+#define PHALCON_RETURN_CALL_ZSTATIC_STR(zclass, method, nparams, ...) \
+	do { \
+		if (__builtin_constant_p(method)) { \
+			if (phalcon_call_static_zval_str_func_params(return_value, return_value_ptr, zclass, method, sizeof(method)-1 TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+		else { \
+			if (phalcon_call_static_zval_str_func_params(return_value, return_value_ptr, zclass, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+				if (return_value_ptr && EG(exception)) { \
+					ALLOC_INIT_ZVAL(*return_value_ptr); \
+				} \
+				PHALCON_MM_RESTORE(); \
+				return; \
+			} \
+		} \
+	} while (0)
+
 #else
 
 #define PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func_name, nparams, ...) \
@@ -132,10 +265,31 @@
 		} \
 	} while (0)
 
+#define PHALCON_RETURN_CALL_FUNCTION(func_name, nparams, ...) \
+	do { \
+		if (phalcon_call_func_params(return_value, return_value_ptr, func_name, strlen(func_name) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			if (return_value_ptr && EG(exception)) { \
+				ALLOC_INIT_ZVAL(*return_value_ptr); \
+			} \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
+
 #define PHALCON_CALL_METHOD(return_value, return_value_ptr, object, method, key, nparams, ...) \
 	do { \
-		register ulong _key = key; \
-		if (phalcon_call_method_params(return_value, return_value_ptr, object, method, strlen(method), (_key ? _key : (IS_INTERNED(method) ? INTERNED_HASH(method) : 0)) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+		if (phalcon_call_method_params(return_value, return_value_ptr, object, method, strlen(method), key TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_METHOD(object, method, key, nparams, ...) \
+	do { \
+		if (phalcon_call_method_params(return_value, return_value_ptr, object, method, strlen(method), key TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			if (return_value_ptr && EG(exception)) { \
+				ALLOC_INIT_ZVAL(*return_value_ptr); \
+			} \
 			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
@@ -149,9 +303,31 @@
 		} \
 	} while (0)
 
+#define PHALCON_RETURN_CALL_STATIC(class_name, method, nparams, ...) \
+	do { \
+		if (phalcon_call_static_func_params(return_value, return_value_ptr, class_name, strlen(class_name), method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			if (return_value_ptr && EG(exception)) { \
+				ALLOC_INIT_ZVAL(*return_value_ptr); \
+			} \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
+
 #define PHALCON_CALL_PARENT(return_value, return_value_ptr, this_ptr, class_entry, method, nparams, ...) \
 	do { \
 		if (phalcon_call_parent_func_params(return_value, return_value_ptr, this_ptr, class_entry, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_PARENT(this_ptr, class_entry, method, nparams, ...) \
+	do { \
+		if (phalcon_call_parent_func_params(return_value, return_value_ptr, this_ptr, class_entry, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			if (return_value_ptr && EG(exception)) { \
+				ALLOC_INIT_ZVAL(*return_value_ptr); \
+			} \
 			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
@@ -165,9 +341,31 @@
 		} \
 	} while (0)
 
+#define PHALCON_RETURN_CALL_SELF(return_value, return_value_ptr, this_ptr, method, nparams, ...) \
+	do { \
+		if (phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			if (return_value_ptr && EG(exception)) { \
+				ALLOC_INIT_ZVAL(*return_value_ptr); \
+			} \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
+
 #define PHALCON_CALL_ZSTATIC_STR(return_value, return_value_ptr, zclass, method, nparams, ...) \
 	do { \
 		if (phalcon_call_static_zval_str_func_params(return_value, return_value_ptr, zclass, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
+
+#define PHALCON_RETURN_CALL_ZSTATIC_STR(zclass, method, nparams, ...) \
+	do { \
+		if (phalcon_call_static_zval_str_func_params(return_value, return_value_ptr, zclass, method, strlen(method) TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			if (return_value_ptr && EG(exception)) { \
+				ALLOC_INIT_ZVAL(*return_value_ptr); \
+			} \
 			PHALCON_MM_RESTORE(); \
 			return; \
 		} \
@@ -183,6 +381,17 @@
 		} \
 	} while (0)
 
+#define PHALCON_RETURN_CALL_ZMETHOD(object, method, nparams, ...) \
+	do { \
+		if (phalcon_call_method_zval_params(return_value, return_value_ptr, object, method TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			if (return_value_ptr && EG(exception)) { \
+				ALLOC_INIT_ZVAL(*return_value_ptr); \
+			} \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
+
 #define PHALCON_CALL_ZSTATIC(return_value, return_value_ptr, object, method, nparams, ...) \
 	do { \
 		if (phalcon_call_static_zval_func_params(return_value, return_value_ptr, object, method TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
@@ -191,6 +400,16 @@
 		} \
 	} while (0)
 
+#define PHALCON_RETURN_CALL_ZSTATIC(return_value, return_value_ptr, object, method, nparams, ...) \
+	do { \
+		if (phalcon_call_static_zval_func_params(return_value, return_value_ptr, object, method TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
+			if (return_value_ptr && EG(exception)) { \
+				ALLOC_INIT_ZVAL(*return_value_ptr); \
+			} \
+			PHALCON_MM_RESTORE(); \
+			return; \
+		} \
+	} while (0)
 
 /** Use these functions to call functions in the PHP userland using an arbitrary zval as callable */
 #define PHALCON_CALL_USER_FUNC(return_value, handler) PHALCON_CALL_USER_FUNC_ARRAY(return_value, handler, NULL)
@@ -309,6 +528,13 @@
 		PHALCON_CALL_FUNCTION(return_value, return_value_ptr, func, 8, p1, p2, p3, p4, p5, p6, p7, p8); \
 	} while (0)
 
+#define phalcon_return_call_func_p0(func)                                                       PHALCON_RETURN_CALL_FUNCTION(func, 0, NULL)
+#define phalcon_return_call_func_p1(func, p1)                                                   PHALCON_RETURN_CALL_FUNCTION(func, 1, p1)
+#define phalcon_return_call_func_p2(func, p1, p2)                                               PHALCON_RETURN_CALL_FUNCTION(func, 2, p1, p2)
+#define phalcon_return_call_func_p3(func, p1, p2, p3)                                           PHALCON_RETURN_CALL_FUNCTION(func, 3, p1, p2, p3)
+#define phalcon_return_call_func_p4(func, p1, p2, p3, p4)                                       PHALCON_RETURN_CALL_FUNCTION(func, 4, p1, p2, p3, p4)
+#define phalcon_return_call_func_p5(func, p1, p2, p3, p4, p5)                                   PHALCON_RETURN_CALL_FUNCTION(func, 5, p1, p2, p3, p4, p5)
+
 #define phalcon_call_func(return_value, func)                                                          phalcon_call_func_p0_ex(return_value, NULL, func)
 #define phalcon_call_func_p1(return_value, func, p1)                                                   phalcon_call_func_p1_ex(return_value, NULL, func, p1)
 #define phalcon_call_func_p2(return_value, func, p1, p2)                                               phalcon_call_func_p2_ex(return_value, NULL, func, p1, p2)
@@ -385,6 +611,20 @@
 		PHALCON_CALL_METHOD(return_value, return_value_ptr, object, method_name, key, 5, p1, p2, p3, p4, p5); \
 	} while (0)
 
+#define phalcon_return_call_method_p0_key(object, method_name, key)                               PHALCON_RETURN_CALL_METHOD(object, method_name, key, 0, NULL)
+#define phalcon_return_call_method_p1_key(object, method_name, key, p1)                           PHALCON_RETURN_CALL_METHOD(object, method_name, key, 1, p1)
+#define phalcon_return_call_method_p2_key(object, method_name, key, p1, p2)                       PHALCON_RETURN_CALL_METHOD(object, method_name, key, 2, p1, p2)
+#define phalcon_return_call_method_p3_key(object, method_name, key, p1, p2, p3)                   PHALCON_RETURN_CALL_METHOD(object, method_name, key, 3, p1, p2, p3)
+#define phalcon_return_call_method_p4_key(object, method_name, key, p1, p2, p3, p4)               PHALCON_RETURN_CALL_METHOD(object, method_name, key, 4, p1, p2, p3, p4)
+#define phalcon_return_call_method_p5_key(object, method_name, key, p1, p2, p3, p4, p5)           PHALCON_RETURN_CALL_METHOD(object, method_name, key, 5, p1, p2, p3, p4, p5)
+
+#define phalcon_return_call_method_p0(object, method_name)                                        phalcon_return_call_method_p0_key(object, method_name, 0)
+#define phalcon_return_call_method_p1(object, method_name, p1)                                    phalcon_return_call_method_p1_key(object, method_name, 0, p1)
+#define phalcon_return_call_method_p2(object, method_name, p1, p2)                                phalcon_return_call_method_p2_key(object, method_name, 0, p1, p2)
+#define phalcon_return_call_method_p3(object, method_name, p1, p2, p3)                            phalcon_return_call_method_p3_key(object, method_name, 0, p1, p2, p3)
+#define phalcon_return_call_method_p4(object, method_name, p1, p2, p3, p4)                        phalcon_return_call_method_p4_key(object, method_name, 0, p1, p2, p3, p4)
+#define phalcon_return_call_method_p5(object, method_name, p1, p2, p3, p4, p5)                    phalcon_return_call_method_p5_key(object, method_name, 0, p1, p2, p3, p4, p5)
+
 #define phalcon_call_method_p0_ex(return_value, return_value_ptr, object, method_name)                               phalcon_call_method_p0_key_ex(return_value, return_value_ptr, object, method_name, 0)
 #define phalcon_call_method_p1_ex(return_value, return_value_ptr, object, method_name, p1)                           phalcon_call_method_p1_key_ex(return_value, return_value_ptr, object, method_name, 0, p1)
 #define phalcon_call_method_p2_ex(return_value, return_value_ptr, object, method_name, p1, p2)                       phalcon_call_method_p2_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2)
@@ -451,6 +691,13 @@
 #define phalcon_call_self_p4_noret(object, method, p1, p2, p3, p4)          PHALCON_CALL_SELF(NULL, NULL, object, method, 4, p1, p2, p3, p4)
 
 /** Use these macros to call functions statically  */
+#define phalcon_return_call_static_p0(class_name, method_name)                             PHALCON_RETURN_CALL_STATIC(class_name, method_name, 0, NULL)
+#define phalcon_return_call_static_p1(class_name, method_name, p1)                         PHALCON_RETURN_CALL_STATIC(class_name, method_name, 1, p1)
+#define phalcon_return_call_static_p2(class_name, method_name, p1, p2)                     PHALCON_RETURN_CALL_STATIC(class_name, method_name, 2, p1, p2)
+#define phalcon_return_call_static_p3(class_name, method_name, p1, p2, p3)                 PHALCON_RETURN_CALL_STATIC(class_name, method_name, 3, p1, p2, p3)
+#define phalcon_return_call_static_p4(class_name, method_name, p1, p2, p3, p4)             PHALCON_RETURN_CALL_STATIC(class_name, method_name, 4, p1, p2, p3, p4)
+#define phalcon_return_call_static_p5(class_name, method_name, p1, p2, p3, p4, p5)         PHALCON_RETURN_CALL_STATIC(class_name, method_name, 5, p1, p2, p3, p4, p5)
+
 #define phalcon_call_static(return_value, class_name, method_name)                         PHALCON_CALL_STATIC(return_value, NULL, class_name, method_name, 0, NULL)
 #define phalcon_call_static_p1(return_value, class_name, method_name, p1)                  PHALCON_CALL_STATIC(return_value, NULL, class_name, method_name, 1, p1)
 #define phalcon_call_static_p2(return_value, class_name, method_name, p1, p2)              PHALCON_CALL_STATIC(return_value, NULL, class_name, method_name, 2, p1, p2)
@@ -472,15 +719,15 @@
 #define phalcon_call_zval_str_static_p1(return_value, class_zval, method, p1) PHALCON_CALL_ZSTATIC_STR(return_value, NULL, class_zval, method, 1, p1)
 
 int phalcon_call_func_params(zval *return_value, zval **return_value_ptr, const char *func_name, int func_length TSRMLS_DC, int param_count, ...);
-int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, ...);
+int phalcon_call_method_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, ...);
 int phalcon_call_method_zval_params(zval *return_value, zval **return_value_ptr, zval *object, zval *method TSRMLS_DC, int param_count, ...);
-int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, char *method_name, int method_len TSRMLS_DC, int param_count, ...);
-int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len TSRMLS_DC, int param_count, ...);
-int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr, char *class_name, int class_length, char *method_name, int method_length TSRMLS_DC, int param_count, ...);
+int phalcon_call_parent_func_params(zval *return_value, zval **return_value_ptr, zval *object, zend_class_entry *active_class_ce, const char *method_name, int method_len TSRMLS_DC, int param_count, ...);
+int phalcon_call_self_func_params(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len TSRMLS_DC, int param_count, ...);
+int phalcon_call_static_func_params(zval *return_value, zval **return_value_ptr, const char *class_name, int class_length, const char *method_name, int method_length TSRMLS_DC, int param_count, ...);
 int phalcon_call_static_zval_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, zval *method TSRMLS_DC, int param_count, ...);
-int phalcon_call_static_zval_str_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, char *method_name, int method_len TSRMLS_DC, int param_count, ...);
+int phalcon_call_static_zval_str_func_params(zval *return_value, zval **return_value_ptr, zval *mixed_name, const char *method_name, int method_len TSRMLS_DC, int param_count, ...);
 
-int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap);
+int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, const char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap);
 
 /** Fast call_user_func_array/call_user_func */
 int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params TSRMLS_DC);

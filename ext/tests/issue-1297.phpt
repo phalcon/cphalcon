@@ -1,5 +1,5 @@
 --TEST--
-Misleading diagnostocs on exception - https://github.com/phalcon/cphalcon/pull/1297
+Misleading diagnostics on exception - https://github.com/phalcon/cphalcon/pull/1297
 --SKIPIF--
 <?php include('skipif.inc'); ?>
 --FILE--

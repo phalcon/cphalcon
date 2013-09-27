@@ -254,8 +254,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 	phalcon_fetch_params(1, 0, 1, &auto_begin);
 	
 	if (!auto_begin) {
-		PHALCON_INIT_VAR(auto_begin);
-		ZVAL_BOOL(auto_begin, 1);
+		auto_begin = PHALCON_GLOBAL(z_true);
 	}
 	
 	PHALCON_OBS_VAR(initialized);
@@ -299,8 +298,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 	phalcon_fetch_params(1, 0, 1, &auto_begin);
 	
 	if (!auto_begin) {
-		PHALCON_INIT_VAR(auto_begin);
-		ZVAL_BOOL(auto_begin, 1);
+		auto_begin = PHALCON_GLOBAL(z_true);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -325,8 +323,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction){
 				PHALCON_GET_HVALUE(transaction);
 	
 				if (Z_TYPE_P(transaction) == IS_OBJECT) {
-					PHALCON_INIT_NVAR(false_value);
-					ZVAL_BOOL(false_value, 0);
+					false_value = PHALCON_GLOBAL(z_false);
 					phalcon_call_method_p1_noret(transaction, "setisnewtransaction", false_value);
 					RETURN_CCTOR(transaction);
 				}
@@ -425,8 +422,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback){
 	phalcon_fetch_params(1, 0, 1, &collect);
 	
 	if (!collect) {
-		PHALCON_INIT_VAR(collect);
-		ZVAL_BOOL(collect, 1);
+		collect = PHALCON_GLOBAL(z_true);
 	}
 	
 	PHALCON_OBS_VAR(transactions);

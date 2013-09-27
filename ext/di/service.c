@@ -81,20 +81,15 @@ PHP_METHOD(Phalcon_DI_Service, __construct){
 
 	zval *name, *definition, *shared = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &name, &definition, &shared);
+	phalcon_fetch_params(0, 2, 1, &name, &definition, &shared);
 	
 	if (!shared) {
-		PHALCON_INIT_VAR(shared);
-		ZVAL_BOOL(shared, 0);
+		shared = PHALCON_GLOBAL(z_false);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_definition"), definition TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_shared"), shared TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -193,11 +188,11 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	phalcon_fetch_params(1, 0, 2, &parameters, &dependency_injector);
 	
 	if (!parameters) {
-		PHALCON_INIT_VAR(parameters);
+		parameters = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!dependency_injector) {
-		PHALCON_INIT_VAR(dependency_injector);
+		dependency_injector = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(shared);
@@ -215,13 +210,11 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		}
 	}
 	
-	PHALCON_INIT_VAR(found);
-	ZVAL_BOOL(found, 1);
+	found = PHALCON_GLOBAL(z_true);
 	
 	PHALCON_INIT_VAR(instance);
 	
-	PHALCON_OBS_VAR(definition);
-	phalcon_read_property_this(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
+	definition = phalcon_fetch_nproperty_this(this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) == IS_STRING) {
 	
 		/** 
@@ -238,7 +231,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 				}
 			}
 		} else {
-			ZVAL_BOOL(found, 0);
+			found = PHALCON_GLOBAL(z_false);
 		}
 	} else {
 		/** 
@@ -264,8 +257,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	
 				phalcon_call_method_p3(instance, builder, "build", dependency_injector, definition, parameters);
 			} else {
-				PHALCON_INIT_NVAR(found);
-				ZVAL_BOOL(found, 0);
+				found = PHALCON_GLOBAL(z_false);
 			}
 		}
 	}

@@ -67,20 +67,15 @@ PHP_METHOD(Phalcon_Logger_Item, __construct){
 
 	zval *message, *type, *time = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &message, &type, &time);
+	phalcon_fetch_params(0, 2, 1, &message, &type, &time);
 	
 	if (!time) {
-		PHALCON_INIT_VAR(time);
-		ZVAL_LONG(time, 0);
+		time = PHALCON_GLOBAL(z_zero);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_message"), message TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_time"), time TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**

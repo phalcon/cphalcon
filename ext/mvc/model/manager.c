@@ -277,23 +277,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized){
 
 	zval *model_name, *initialized, *lowercased;
-	zval *is_intitialized = NULL;
-	zval *r0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &model_name);
+	phalcon_fetch_params(0, 1, 0, &model_name);
 	
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	initialized = phalcon_fetch_nproperty_this(this_ptr, SL("_initialized"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(lowercased);
+	ALLOC_INIT_ZVAL(lowercased);
 	phalcon_fast_strtolower(lowercased, model_name);
 	
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(initialized, lowercased));
-	PHALCON_CPY_WRT(is_intitialized, r0);
-	RETURN_NCTOR(is_intitialized);
+	RETVAL_BOOL(phalcon_array_isset(initialized, lowercased));
+	zval_ptr_dtor(&lowercased);
 }
 
 /**
@@ -326,8 +319,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 	phalcon_fetch_params(1, 1, 1, &model_name, &new_instance);
 	
 	if (!new_instance) {
-		PHALCON_INIT_VAR(new_instance);
-		ZVAL_BOOL(new_instance, 0);
+		new_instance = PHALCON_GLOBAL(z_false);
 	}
 	
 	PHALCON_OBS_VAR(initialized);
@@ -1127,7 +1119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 	phalcon_fetch_params(1, 4, 1, &model, &fields, &referenced_model, &referenced_fields, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(entity_name);
@@ -1258,7 +1250,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 	phalcon_fetch_params(1, 4, 1, &model, &fields, &referenced_model, &referenced_fields, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(entity_name);
@@ -1388,7 +1380,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	phalcon_fetch_params(1, 4, 1, &model, &fields, &referenced_model, &referenced_fields, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(entity_name);
@@ -1523,7 +1515,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany){
 	phalcon_fetch_params(1, 7, 1, &model, &fields, &intermediate_model, &intermediate_fields, &intermediate_referenced_fields, &referenced_model, &referenced_fields, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(entity_name);
@@ -2293,7 +2285,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
 	phalcon_fetch_params(1, 4, 1, &method, &model_name, &model_relation, &record, &parameters);
 	
 	if (!parameters) {
-		PHALCON_INIT_VAR(parameters);
+		parameters = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(belongs_to);
@@ -2358,7 +2350,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
 	phalcon_fetch_params(1, 4, 1, &method, &model_name, &model_relation, &record, &parameters);
 	
 	if (!parameters) {
-		PHALCON_INIT_VAR(parameters);
+		parameters = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(has_many);
@@ -2423,7 +2415,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 	phalcon_fetch_params(1, 4, 1, &method, &model_name, &model_relation, &record, &parameters);
 	
 	if (!parameters) {
-		PHALCON_INIT_VAR(parameters);
+		parameters = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(has_one);
@@ -2838,11 +2830,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	phalcon_fetch_params(1, 1, 2, &phql, &placeholders, &types);
 	
 	if (!placeholders) {
-		PHALCON_INIT_VAR(placeholders);
+		placeholders = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!types) {
-		PHALCON_INIT_VAR(types);
+		types = PHALCON_GLOBAL(z_null);
 	}
 
 	PHALCON_OBS_VAR(dependency_injector);
@@ -2884,7 +2876,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 	phalcon_fetch_params(1, 0, 1, &params);
 	
 	if (!params) {
-		PHALCON_INIT_VAR(params);
+		params = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);

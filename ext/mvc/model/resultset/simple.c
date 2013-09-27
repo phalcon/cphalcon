@@ -83,11 +83,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	phalcon_fetch_params(1, 3, 2, &column_map, &model, &result, &cache, &keep_snapshots);
 	
 	if (!cache) {
-		PHALCON_INIT_VAR(cache);
+		cache = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!keep_snapshots) {
-		PHALCON_INIT_VAR(keep_snapshots);
+		keep_snapshots = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_model"), model TSRMLS_CC);
@@ -272,8 +272,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray){
 	phalcon_fetch_params(1, 0, 1, &rename_columns);
 	
 	if (!rename_columns) {
-		PHALCON_INIT_VAR(rename_columns);
-		ZVAL_BOOL(rename_columns, 1);
+		rename_columns = PHALCON_GLOBAL(z_true);
 	}
 	
 	PHALCON_OBS_VAR(type);
