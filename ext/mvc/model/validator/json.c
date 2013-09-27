@@ -87,7 +87,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Json){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 
-	zval *record, *field = NULL, *field_name, *is_set, *value, *assoc, *json, *keys, *ret;
+	zval *record, *field = NULL, *field_name, *is_set, *value, *assoc, *json, *constant, *keys, *ret;
 	zval *option, *message = NULL, *joined_keys, *is_set_code, *code;
 	zval *type;
 
@@ -120,7 +120,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 	PHALCON_INIT_VAR(json);
 	phalcon_call_func_p2(json, "json_decode", value, assoc);
 
-	if (zend_is_true(json)) {
+	if (Z_TYPE_P(json) == IS_NULL) {
+		PHALCON_INIT_VAR(constant);
+		if (zend_get_constant(SL("JSON_ERROR_NONE"), constant TSRMLS_CC)) {
+		 
+			PHALCON_INIT_VAR(ret);
+			phalcon_call_func(ret, "json_last_error");
+
+			if (PHALCON_IS_EQUAL(ret, constant)) {
+				RETURN_MM_TRUE;
+			}
+		}
+	} else {
 		if (Z_TYPE_P(keys) == IS_ARRAY) {
 			PHALCON_INIT_VAR(ret);
 			phalcon_call_func_p2(ret, "array_key_exists", keys, json);
