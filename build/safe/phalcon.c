@@ -36766,32 +36766,32 @@ static PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny){
 	RETURN_MM();
 }
 
-static int phalcon_role_adapter_memory_check_inheritance(zval *role, zval *resource, zval *access, zval *access_list, zval* this_ptr TSRMLS_DC)
-{
-	zval *role_inherits, *inherited_roles, *access_key, *have_access = NULL;
-	zval **parent_role;
-	zval one = zval_used_for_init;
-	HashPosition hp;
+#define PHALCON_ACL_NO      0
+#define PHALCON_ACL_YES     1
+#define PHALCON_ACL_DUNNO  -1
 
-	ZVAL_LONG(&one, 1);
+static int phalcon_role_adapter_memory_check_inheritance(zval *role, zval *resource, zval *access, zval *access_list, zval* role_inherits TSRMLS_DC)
+{
+	zval *inherited_roles, *access_key;
+	zval **parent_role;
+	int result = PHALCON_ACL_DUNNO;
+	HashPosition hp;
 
 	assert(Z_TYPE_P(role) == IS_STRING);
 	assert(Z_TYPE_P(resource) == IS_STRING);
 	assert(Z_TYPE_P(access) == IS_STRING);
 	assert(Z_TYPE_P(access_list) == IS_ARRAY);
 
-	phalcon_read_property_this(&role_inherits, this_ptr, SL("_roleInherits"), PH_NOISY TSRMLS_CC);
-	if (!phalcon_array_isset(role_inherits, role)) {
-		zval_ptr_dtor(&role_inherits);
-		return 0;
+	if (phalcon_array_isset(role_inherits, role)) {
+		phalcon_array_fetch(&inherited_roles, role_inherits, role, PH_NOISY);
+		Z_DELREF_P(inherited_roles);
+
+		if (Z_TYPE_P(inherited_roles) != IS_ARRAY) {
+			return PHALCON_ACL_DUNNO;
+		}
 	}
-
-	phalcon_array_fetch(&inherited_roles, role_inherits, role, PH_NOISY);
-	zval_ptr_dtor(&role_inherits);
-
-	if (Z_TYPE_P(inherited_roles) != IS_ARRAY) {
-		zval_ptr_dtor(&inherited_roles);
-		return 0;
+	else {
+		return PHALCON_ACL_DUNNO;
 	}
 
 	ALLOC_INIT_ZVAL(access_key);
@@ -36800,52 +36800,43 @@ static int phalcon_role_adapter_memory_check_inheritance(zval *role, zval *resou
 		zend_hash_get_current_data_ex(Z_ARRVAL_P(inherited_roles), (void**)&parent_role, &hp) == SUCCESS;
 		zend_hash_move_forward_ex(Z_ARRVAL_P(inherited_roles), &hp)
 	) {
-		int found;
+		zval *have_access;
+
+		assert(result == PHALCON_ACL_DUNNO);
 
 		phalcon_concat_vsvsv(&access_key, *parent_role, SL("!"), resource, SL("!"), access, 0 TSRMLS_CC);
 		if (phalcon_array_isset(access_list, access_key)) {
 			phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
-			found = Z_TYPE_P(have_access) != IS_NULL;
-			zval_ptr_dtor(&have_access);
-			have_access = NULL;
-		}
-		else {
-			found = 0;
+			result = zend_is_true(have_access) ? PHALCON_ACL_YES : PHALCON_ACL_NO;
+			Z_DELREF_P(have_access);
+			break;
 		}
 
 		zval_dtor(access_key);
 		ZVAL_NULL(access_key);
 
-		if (found) {
-			break;
-		}
-
-		if (phalcon_role_adapter_memory_check_inheritance(*parent_role, resource, access, access_list, this_ptr TSRMLS_CC)) {
-			have_access = &one;
+		result = phalcon_role_adapter_memory_check_inheritance(*parent_role, resource, access, access_list, role_inherits TSRMLS_CC);
+		if (PHALCON_ACL_DUNNO != result) {
 			break;
 		}
 	}
 
 	zval_ptr_dtor(&access_key);
-	zval_ptr_dtor(&inherited_roles);
-	return (have_access && Z_TYPE_P(have_access) != IS_NULL) ? 1 : 0;
+	return result;
 }
 
 static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 
-	zval *role, *resource, *access, *events_manager;
+	zval *role, *resource, *access, *events_manager, *role_inherits;
 	zval *event_name = NULL, *status, *default_access, *roles_names;
 	zval *have_access = NULL, *access_list, *access_key = NULL;
-	zval resource_star, access_star;
+	zval star;
 	int allow_access;
 
 	PHALCON_MM_GROW();
 
-	INIT_ZVAL(access_star);
-	ZVAL_STRING(&access_star, "*", 0);
-
-	INIT_ZVAL(resource_star);
-	ZVAL_STRING(&resource_star, "*", 0);
+	INIT_ZVAL(star);
+	ZVAL_STRING(&star, "*", 0);
 
 	phalcon_fetch_params(1, 3, 0, &role, &resource, &access);
 	
@@ -36885,17 +36876,19 @@ static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	if (phalcon_array_isset(access_list, access_key)) {
 		PHALCON_OBS_VAR(have_access);
 		phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
-		allow_access = Z_TYPE_P(have_access) != IS_NULL;
+		allow_access = zend_is_true(have_access) ? PHALCON_ACL_YES : PHALCON_ACL_NO;
 	}
 	else {
-		allow_access = 0;
+		allow_access = PHALCON_ACL_DUNNO;
+	}
+
+	if (PHALCON_ACL_DUNNO == allow_access) {
+		PHALCON_OBS_VAR(role_inherits);
+		phalcon_read_property_this(&role_inherits, this_ptr, SL("_roleInherits"), PH_NOISY TSRMLS_CC);
+		allow_access  = phalcon_role_adapter_memory_check_inheritance(role, resource, access, access_list, role_inherits TSRMLS_CC);
 	}
 	
-	if (!allow_access && phalcon_role_adapter_memory_check_inheritance(role, resource, access, access_list, getThis() TSRMLS_CC)) {
-		allow_access = 1;
-	}
-	
-	if (!allow_access) {
+	if (PHALCON_ACL_DUNNO == allow_access) {
 	
 		PHALCON_INIT_NVAR(access_key);
 		PHALCON_CONCAT_VSVS(access_key, role, "!", resource, "!*");
@@ -36903,18 +36896,18 @@ static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		if (phalcon_array_isset(access_list, access_key)) {
 			PHALCON_OBS_VAR(have_access);
 			phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
-			allow_access = Z_TYPE_P(have_access) != IS_NULL;
+			allow_access = zend_is_true(have_access) ? PHALCON_ACL_YES : PHALCON_ACL_NO;
 		}
 		else {
-			allow_access = 0;
+			allow_access = PHALCON_ACL_DUNNO;
 		}
 
-		if (!allow_access && phalcon_role_adapter_memory_check_inheritance(role, resource, &access_star, access_list, getThis() TSRMLS_CC)) {
-			allow_access = 1;
+		if (PHALCON_ACL_DUNNO == allow_access) {
+			allow_access = phalcon_role_adapter_memory_check_inheritance(role, resource, &star, access_list, role_inherits TSRMLS_CC);
 		}
 	}
 	
-	if (!allow_access) {
+	if (PHALCON_ACL_DUNNO == allow_access) {
 	
 		PHALCON_INIT_NVAR(access_key);
 		PHALCON_CONCAT_VS(access_key, role, "!*!*");
@@ -36922,19 +36915,24 @@ static PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		if (phalcon_array_isset(access_list, access_key)) {
 			PHALCON_OBS_VAR(have_access);
 			phalcon_array_fetch(&have_access, access_list, access_key, PH_NOISY);
-			allow_access = Z_TYPE_P(have_access) != IS_NULL;
+			allow_access = zend_is_true(have_access) ? PHALCON_ACL_YES : PHALCON_ACL_NO;
 		}
 		else {
-			allow_access = 0;
+			allow_access = PHALCON_ACL_DUNNO;
 		}
 
-		if (!allow_access && phalcon_role_adapter_memory_check_inheritance(role, &resource_star, &access_star, access_list, getThis() TSRMLS_CC)) {
-			allow_access = 1;
+		if (PHALCON_ACL_DUNNO == allow_access) {
+			allow_access = phalcon_role_adapter_memory_check_inheritance(role, &star, &star, access_list, role_inherits TSRMLS_CC);
 		}
 	}
 
 	PHALCON_INIT_NVAR(have_access);
-	ZVAL_BOOL(have_access, allow_access);
+	if (PHALCON_ACL_DUNNO == allow_access) {
+		ZVAL_FALSE(have_access);
+	}
+	else {
+		ZVAL_BOOL(have_access, PHALCON_ACL_YES == allow_access);
+	}
 
 	phalcon_update_property_this(this_ptr, SL("_accessGranted"), have_access TSRMLS_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -78592,22 +78590,21 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Collection){
 	return SUCCESS;
 }
 
-static PHP_METHOD(Phalcon_Mvc_Micro_Collection, _addMap){
+static void phalcon_mvc_collection_addmap(zval *this_ptr, zval *method, zval *route_pattern, zval *handler TSRMLS_DC) {
 
-	zval *method, *route_pattern, *handler, *handler_definition;
+	zval *handler_definition;
 
-	PHALCON_MM_GROW();
+	Z_ADDREF_P(method);
+	Z_ADDREF_P(route_pattern);
+	Z_ADDREF_P(handler);
 
-	phalcon_fetch_params(1, 3, 0, &method, &route_pattern, &handler);
-	
-	PHALCON_INIT_VAR(handler_definition);
+	MAKE_STD_ZVAL(handler_definition);
 	array_init_size(handler_definition, 3);
-	phalcon_array_append(&handler_definition, method, PH_SEPARATE);
-	phalcon_array_append(&handler_definition, route_pattern, PH_SEPARATE);
-	phalcon_array_append(&handler_definition, handler, PH_SEPARATE);
+	add_next_index_zval(handler_definition, method);
+	add_next_index_zval(handler_definition, route_pattern);
+	add_next_index_zval(handler_definition, handler);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), handler_definition TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	zval_ptr_dtor(&handler_definition);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix){
@@ -78642,7 +78639,7 @@ static PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler){
 	
 	if (!lazy) {
 		PHALCON_INIT_VAR(lazy);
-		ZVAL_BOOL(lazy, 0);
+		ZVAL_FALSE(lazy);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_handler"), handler TSRMLS_CC);
@@ -78676,113 +78673,104 @@ static PHP_METHOD(Phalcon_Mvc_Micro_Collection, map){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	ALLOC_INIT_ZVAL(method);
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, get){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "GET", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, post){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "POST", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, put){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "PUT", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "PATCH", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, head){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "HEAD", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "DELETE", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
 
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, options){
 
 	zval *route_pattern, *handler, *method;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 0, &route_pattern, &handler);
+	phalcon_fetch_params(0, 2, 0, &route_pattern, &handler);
 	
-	PHALCON_INIT_VAR(method);
+	ALLOC_INIT_ZVAL(method);
 	ZVAL_STRING(method, "OPTIONS", 1);
-	phalcon_call_method_p3(return_value, this_ptr, "_addmap", method, route_pattern, handler);
-	RETURN_MM();
+	phalcon_mvc_collection_addmap(getThis(), method, route_pattern, handler TSRMLS_CC);
+	zval_ptr_dtor(&method);
+	RETURN_ZVAL(getThis(), 1, 0);
 }
-
 
 
 
@@ -97336,6 +97324,7 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	zval *autoescape, *result = NULL;
 
 	PHALCON_MM_GROW();
+	*return_value_ptr = NULL;
 
 	if (phalcon_array_isset_string(params, SS("escape"))) {
 		PHALCON_OBS_VAR(autoescape);
@@ -97348,8 +97337,9 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	}
 
 	if (zend_is_true(autoescape)) {
-		ALLOC_INIT_ZVAL(result);
+		PHALCON_INIT_VAR(result);
 		PHALCON_CALL_SELF(result, NULL, "getescaperservice");
+		Z_ADDREF_P(result);
 	}
 
 	*return_value_ptr = result;
@@ -97358,7 +97348,7 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 
 static void phalcon_tag_write_attributes(zval *code, zval *attributes TSRMLS_DC)
 {
-	zval *escaper;
+	zval *escaper, *escaped = NULL;
 	zval **value;
 	HashPosition hp;
 
@@ -97368,8 +97358,6 @@ static void phalcon_tag_write_attributes(zval *code, zval *attributes TSRMLS_DC)
 	phalcon_tag_get_escaper(&escaper, attributes TSRMLS_CC);
 
 	if (escaper) {
-		zval* escaped = NULL;
-
 		for (
 			zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(attributes), &hp);
 			zend_hash_get_current_data_ex(Z_ARRVAL_P(attributes), (void**)&value, &hp) == SUCCESS;
