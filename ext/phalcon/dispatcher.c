@@ -736,10 +736,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			}
 		}
 		ZEPHIR_INIT_NVAR(_7);
-		zephir_call_method_cache(_7, dependencyInjector, "wasfreshinstance");
+		zephir_call_method(_7, dependencyInjector, "wasfreshinstance");
 		if (ZEPHIR_IS_TRUE(_7)) {
 			if (zephir_method_exists_str(handler, SS("initialize") TSRMLS_CC)) {
-				zephir_call_method_cache_noret(handler, "initialize");
+				zephir_call_method_noret(handler, "initialize");
 			}
 		}
 		ZEPHIR_INIT_NVAR(_7);

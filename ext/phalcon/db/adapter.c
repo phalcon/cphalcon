@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll) {
 		}
 		while (1) {
 			ZEPHIR_INIT_NVAR(row);
-			zephir_call_method_cache(row, result, "fetch");
+			zephir_call_method(row, result, "fetch");
 			if (!(zephir_is_true(row))) {
 				break;
 			} else {

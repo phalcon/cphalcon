@@ -171,11 +171,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 		) {
 			ZEPHIR_GET_HVALUE(message, _2);
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method_cache(_3, message, "getmessage");
+			zephir_call_method(_3, message, "getmessage");
 			ZEPHIR_INIT_NVAR(_4);
-			zephir_call_method_cache(_4, message, "gettype");
+			zephir_call_method(_4, message, "gettype");
 			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_method_cache(_5, message, "gettime");
+			zephir_call_method(_5, message, "gettime");
 			zephir_call_method_p3_noret(this_ptr, "loginternal", _3, _4, _5);
 		}
 	}
