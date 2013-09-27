@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Forms_Form, getElements) {
  */
 PHP_METHOD(Phalcon_Forms_Form, bind) {
 
-	zend_function *_4 = NULL, *_5 = NULL;
+	zend_function *_4 = NULL, *_5 = NULL, *_7 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *data, *entity, *whitelist = NULL, *elements, *filter = NULL, *key = NULL, *value = NULL, *element = NULL, *filters = NULL, *dependencyInjector = NULL, *filteredValue = NULL, *method = NULL, **_2, *_3 = NULL, *_6 = NULL;
@@ -327,11 +327,11 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 				ZEPHIR_INIT_NVAR(_3);
 				ZEPHIR_INIT_NVAR(_6);
 				ZVAL_STRING(_6, "filter", 1);
-				zephir_call_method_p1(_3, dependencyInjector, "getshared", _6);
+				zephir_call_method_p1_cache(_3, dependencyInjector, "getshared", _6, &_7);
 				ZEPHIR_CPY_WRT(filter, _3);
 			}
 			ZEPHIR_INIT_NVAR(filteredValue);
-			zephir_call_method_p2(filteredValue, filter, "sanitize", value, filters);
+			zephir_call_method_p2_cache(filteredValue, filter, "sanitize", value, filters, &_5);
 		} else {
 			ZEPHIR_CPY_WRT(filteredValue, value);
 		}
@@ -357,11 +357,11 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
  */
 PHP_METHOD(Phalcon_Forms_Form, isValid) {
 
-	zend_function *_4 = NULL, *_5 = NULL, *_9 = NULL, *_11 = NULL;
+	zend_function *_4 = NULL, *_5 = NULL, *_9 = NULL, *_10 = NULL, *_12 = NULL, *_13 = NULL;
 	HashTable *_2, *_7;
 	HashPosition _1, _6;
 	zend_bool notFailed;
-	zval *data = NULL, *entity = NULL, *elements, *messages, *element = NULL, *validators = NULL, *name = NULL, *preparedValidators = NULL, *filters = NULL, *validator = NULL, *validation = NULL, *elementMessages = NULL, *_0 = NULL, **_3, **_8, *_10 = NULL;
+	zval *data = NULL, *entity = NULL, *elements, *messages, *element = NULL, *validators = NULL, *name = NULL, *preparedValidators = NULL, *filters = NULL, *validator = NULL, *validation = NULL, *elementMessages = NULL, *_0 = NULL, **_3, **_8, *_11 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
@@ -425,20 +425,20 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 				}
 				ZEPHIR_INIT_NVAR(validation);
 				object_init_ex(validation, phalcon_validation_ce);
-				zephir_call_method_p1_noret(validation, "__construct", preparedValidators);
+				zephir_call_method_p1_cache_noret(validation, "__construct", preparedValidators, &_9);
 				ZEPHIR_INIT_NVAR(filters);
-				zephir_call_method_cache(filters, element, "getfilters", &_9);
+				zephir_call_method_cache(filters, element, "getfilters", &_10);
 				if ((Z_TYPE_P(filters) == IS_ARRAY)) {
-					ZEPHIR_INIT_NVAR(_10);
-					zephir_call_method_cache(_10, element, "getname", &_11);
-					zephir_call_method_p2_noret(validation, "setfilters", _10, filters);
+					ZEPHIR_INIT_NVAR(_11);
+					zephir_call_method_cache(_11, element, "getname", &_12);
+					zephir_call_method_p2_cache_noret(validation, "setfilters", _11, filters, &_13);
 				}
 				ZEPHIR_INIT_NVAR(elementMessages);
-				zephir_call_method_p2(elementMessages, validation, "validate", data, entity);
+				zephir_call_method_p2_cache(elementMessages, validation, "validate", data, entity, &_12);
 				if (zephir_fast_count_int(elementMessages TSRMLS_CC)) {
-					ZEPHIR_INIT_NVAR(_10);
-					zephir_call_method_cache(_10, element, "getname", &_11);
-					zephir_array_update_zval(&messages, _10, &elementMessages, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(_11);
+					zephir_call_method_cache(_11, element, "getname", &_13);
+					zephir_array_update_zval(&messages, _11, &elementMessages, PH_COPY | PH_SEPARATE);
 					notFailed = 0;
 				}
 			}
@@ -462,6 +462,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
  */
 PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 
+	zend_function *_3 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *byItemName_param = NULL, *messages, *group, *element = NULL, *elementMessages = NULL, **_2;
@@ -497,7 +498,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	) {
 		ZEPHIR_GET_HMKEY(element, _1, _0);
 		ZEPHIR_GET_HVALUE(elementMessages, _2);
-		zephir_call_method_p1_noret(group, "appendmessages", elementMessages);
+		zephir_call_method_p1_cache_noret(group, "appendmessages", elementMessages, &_3);
 	}
 	RETURN_CCTOR(group);
 

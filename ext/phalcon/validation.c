@@ -98,9 +98,10 @@ PHP_METHOD(Phalcon_Validation, __construct) {
  */
 PHP_METHOD(Phalcon_Validation, validate) {
 
+	zend_function *_4 = NULL, *_6 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *cancelOnFail, *scope = NULL, *attribute = NULL, *validator = NULL, *_0 = NULL, **_3, *_4 = NULL;
+	zval *data = NULL, *entity = NULL, *validators, *messages = NULL, *cancelOnFail, *scope = NULL, *attribute = NULL, *validator = NULL, *_0 = NULL, **_3, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
@@ -159,11 +160,11 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			return;
 		}
 		ZEPHIR_INIT_NVAR(_0);
-		zephir_call_method_p2(_0, validator, "validate", this_ptr, attribute);
+		zephir_call_method_p2_cache(_0, validator, "validate", this_ptr, attribute, &_4);
 		if (ZEPHIR_IS_FALSE(_0)) {
-			ZEPHIR_INIT_NVAR(_4);
-			zephir_call_method_p1(_4, validator, "getoption", cancelOnFail);
-			if (zephir_is_true(_4)) {
+			ZEPHIR_INIT_NVAR(_5);
+			zephir_call_method_p1_cache(_5, validator, "getoption", cancelOnFail, &_6);
+			if (zephir_is_true(_5)) {
 				break;
 			}
 		}
