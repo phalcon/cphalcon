@@ -45,7 +45,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Security_Exception){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Security, Exception, security_exception, phalcon_di_exception_ce, NULL, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Security, Exception, security_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
 }
