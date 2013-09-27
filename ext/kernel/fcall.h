@@ -158,7 +158,7 @@
 		} \
 	} while (0)
 
-#define ZEPHIR_CALL_METHOD_CACHE(return_value, return_value_ptr, object, method, key, nparams, ...) \
+#define ZEPHIR_CALL_METHOD_CACHE(return_value, return_value_ptr, object, method, key, cache, nparams, ...) \
 	do { \
 		register ulong _key = key; \
 		if (zephir_call_method_cache_params(return_value, return_value_ptr, object, method, strlen(method), (_key ? _key : (IS_INTERNED(method) ? INTERNED_HASH(method) : 0)), cache TSRMLS_CC, nparams, __VA_ARGS__) == FAILURE) { \
@@ -417,7 +417,7 @@
 		ZEPHIR_CALL_METHOD_CACHE(return_value, return_value_ptr, object, method_name, key, cache, 0, NULL); \
 	} while (0)
 
-#define zephir_call_method_p1_cache_key_ex(return_value, return_value_ptr, object, method_name, key, p1, cache) \
+#define zephir_call_method_p1_cache_key_ex(return_value, return_value_ptr, object, method_name, key, cache, p1) \
 	do { \
 		if (0) { \
 			if (Z_TYPE_P(p1)) {} \
@@ -467,19 +467,19 @@
 		ZEPHIR_CALL_METHOD_CACHE(return_value, return_value_ptr, object, method_name, key, cache, 5, p1, p2, p3, p4, p5); \
 	} while (0)
 
-#define zephir_call_method_p0_ex(return_value, return_value_ptr, object, method_name)                               zephir_call_method_p0_key_ex(return_value, return_value_ptr, object, method_name, 0)
-#define zephir_call_method_p1_ex(return_value, return_value_ptr, object, method_name, p1)                           zephir_call_method_p1_key_ex(return_value, return_value_ptr, object, method_name, 0, p1)
-#define zephir_call_method_p2_ex(return_value, return_value_ptr, object, method_name, p1, p2)                       zephir_call_method_p2_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2)
-#define zephir_call_method_p3_ex(return_value, return_value_ptr, object, method_name, p1, p2, p3)                   zephir_call_method_p3_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2, p3)
-#define zephir_call_method_p4_ex(return_value, return_value_ptr, object, method_name, p1, p2, p3, p4)               zephir_call_method_p4_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2, p3, p4)
-#define zephir_call_method_p5_ex(return_value, return_value_ptr, object, method_name, p1, p2, p3, p4, p5)           zephir_call_method_p5_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2, p3, p4, p5)
+#define zephir_call_method_p0_ex(return_value, return_value_ptr, object, method_name)                                   zephir_call_method_p0_key_ex(return_value, return_value_ptr, object, method_name, 0)
+#define zephir_call_method_p1_ex(return_value, return_value_ptr, object, method_name, p1)                               zephir_call_method_p1_key_ex(return_value, return_value_ptr, object, method_name, 0, p1)
+#define zephir_call_method_p2_ex(return_value, return_value_ptr, object, method_name, p1, p2)                           zephir_call_method_p2_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2)
+#define zephir_call_method_p3_ex(return_value, return_value_ptr, object, method_name, p1, p2, p3)                       zephir_call_method_p3_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2, p3)
+#define zephir_call_method_p4_ex(return_value, return_value_ptr, object, method_name, p1, p2, p3, p4)                   zephir_call_method_p4_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2, p3, p4)
+#define zephir_call_method_p5_ex(return_value, return_value_ptr, object, method_name, p1, p2, p3, p4, p5)               zephir_call_method_p5_key_ex(return_value, return_value_ptr, object, method_name, 0, p1, p2, p3, p4, p5)
 
-#define zephir_call_method_p0_cache_ex(return_value, return_value_ptr, object, method_name, cache)                      zephir_call_method_p0_cache_key_ex(return_value, return_value_ptr, object, method_name, cache, 0)
-#define zephir_call_method_p1_cache_ex(return_value, return_value_ptr, object, method_name, cache, p1)                  zephir_call_method_p1_cache_key_ex(return_value, return_value_ptr, object, method_name, cache, 0, p1)
-#define zephir_call_method_p2_cache_ex(return_value, return_value_ptr, object, method_name, cache, p1, p2)              zephir_call_method_p2_cache_key_ex(return_value, return_value_ptr, object, method_name, cache, 0, p1, p2)
-#define zephir_call_method_p3_cache_ex(return_value, return_value_ptr, object, method_name, cache, p1, p2, p3)          zephir_call_method_p3_cache_key_ex(return_value, return_value_ptr, object, method_name, cache, 0, p1, p2, p3)
-#define zephir_call_method_p4_cache_ex(return_value, return_value_ptr, object, method_name, cache, p1, p2, p3, p4)      zephir_call_method_p4_cache_key_ex(return_value, return_value_ptr, object, method_name, cache, 0, p1, p2, p3, p4)
-#define zephir_call_method_p5_cache_ex(return_value, return_value_ptr, object, method_name, cache, p1, p2, p3, p4, p5)  zephir_call_method_p5_cache_key_ex(return_value, return_value_ptr, object, method_name, cache, 0, p1, p2, p3, p4, p5)
+#define zephir_call_method_p0_cache_ex(return_value, return_value_ptr, object, method_name, cache)                      zephir_call_method_p0_cache_key_ex(return_value, return_value_ptr, object, method_name, 0, cache)
+#define zephir_call_method_p1_cache_ex(return_value, return_value_ptr, object, method_name, cache, p1)                  zephir_call_method_p1_cache_key_ex(return_value, return_value_ptr, object, method_name, 0, cache, p1)
+#define zephir_call_method_p2_cache_ex(return_value, return_value_ptr, object, method_name, cache, p1, p2)              zephir_call_method_p2_cache_key_ex(return_value, return_value_ptr, object, method_name, 0, cache, p1, p2)
+#define zephir_call_method_p3_cache_ex(return_value, return_value_ptr, object, method_name, cache, p1, p2, p3)          zephir_call_method_p3_cache_key_ex(return_value, return_value_ptr, object, method_name, 0, cache, p1, p2, p3)
+#define zephir_call_method_p4_cache_ex(return_value, return_value_ptr, object, method_name, cache, p1, p2, p3, p4)      zephir_call_method_p4_cache_key_ex(return_value, return_value_ptr, object, method_name, 0, cache, p1, p2, p3, p4)
+#define zephir_call_method_p5_cache_ex(return_value, return_value_ptr, object, method_name, cache, p1, p2, p3, p4, p5)  zephir_call_method_p5_cache_key_ex(return_value, return_value_ptr, object, method_name, 0, cache, p1, p2, p3, p4, p5)
 
 #define zephir_call_method(return_value, object, method_name)                                                       zephir_call_method_p0_ex(return_value, NULL, object, method_name)
 #define zephir_call_method_p1(return_value, object, method_name, p1)                                                zephir_call_method_p1_ex(return_value, NULL, object, method_name, p1)

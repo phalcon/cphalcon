@@ -238,8 +238,7 @@ int zephir_call_method_vparams(zval *return_value, zval **return_value_ptr, zval
 		params      = va_arg(ap, zval**);
 		param_count = -param_count;
 		params_ptr  = params;
-	}
-	else if (param_count > 0 && param_count <= 10) {
+	} else if (param_count > 0 && param_count <= 10) {
 		params_ptr = static_params;
 		for (i = 0; i < param_count; ++i) {
 			static_params[i] = va_arg(ap, zval*);
@@ -405,7 +404,9 @@ int zephir_call_method_params(zval *return_value, zval **return_value_ptr, zval 
 	return status;
 }
 
-int zephir_call_method_cache_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key, zend_function **prepared_function TSRMLS_DC, int param_count, ...) {
+int zephir_call_method_cache_params(zval *return_value, zval **return_value_ptr, zval *object,
+	char *method_name, int method_len, ulong method_key, zend_function **prepared_function TSRMLS_DC,
+	int param_count, ...) {
 
 	int status;
 	va_list ap;
