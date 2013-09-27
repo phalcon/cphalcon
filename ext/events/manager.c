@@ -99,8 +99,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 	
 	events = phalcon_fetch_nproperty_this(this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) != IS_ARRAY) {
-		SEPARATE_ZVAL_IF_NOT_REF(&events);
-		zval_dtor(events);
+		PHALCON_INIT_VAR(events);
 		array_init(events);
 	}
 	
