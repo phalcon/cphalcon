@@ -35,6 +35,7 @@
 
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Validation\Validator\Json
