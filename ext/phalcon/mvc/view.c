@@ -1466,10 +1466,6 @@ PHP_METHOD(Phalcon_Mvc_View, setContent) {
 		zephir_get_strval(content, content_param);
 
 
-	if ((Z_TYPE_P(content) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, "Content must be a string");
-		return;
-	}
 	zephir_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);
 	RETURN_THISW();
 

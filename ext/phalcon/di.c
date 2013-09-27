@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Di, get) {
 		}
 	}
 	if ((Z_TYPE_P(instance) == IS_OBJECT)) {
-		if (zephir_method_exists(instance, SS("setDI") TSRMLS_CC)) {
+		if (zephir_method_exists_str(instance, SS("setDI") TSRMLS_CC)) {
 			zephir_call_method_p1_noret(instance, "setdi", this_ptr);
 		}
 	}

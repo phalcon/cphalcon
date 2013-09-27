@@ -153,10 +153,6 @@ class Validation extends Phalcon\Di\Injectable
 	public function add(string attribute, <Phalcon\Validation\ValidatorInterface> validator) -> <Phalcon\Validation>
 	{
 
-		if typeof attribute != "string" {
-			throw new Phalcon\Validation\Exception("The attribute must be a string");
-		}
-
 		if typeof validator != "object" {
 			throw new Phalcon\Validation\Exception("The validator must be an object");
 		}
@@ -184,7 +180,7 @@ class Validation extends Phalcon\Di\Injectable
 	 * @param string attribute
 	 * @return mixed
 	 */
-	public function getFilters(string attribute=null)
+	public function getFilters(var attribute=null)
 	{
 		var filters, attributeFilters;
 		let filters = this->_filters;

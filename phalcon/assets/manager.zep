@@ -172,12 +172,6 @@ class Manager
 	 */
 	public function set(string id, <Phalcon\Assets\Collection> collection) -> <Phalcon\Assets\Manager>
 	{
-		if typeof id != "string" {
-			throw new \Phalcon\Assets\Exception("Collection-Id must be a string");
-		}
-		if typeof collection != "object" {
-			throw new \Phalcon\Assets\Exception("Collection must be an object");
-		}
 		let this->_collections[id] = collection;
 		return this;
 	}
@@ -195,10 +189,6 @@ class Manager
 	public function get(string id) -> <Phalcon\Assets\Collection>
 	{
 		var collections, collection;
-
-		if typeof id != "string" {
-			throw new \Phalcon\Assets\Exception("Collection-Id must be a string");
-		}
 
 		let collections = this->_collections;
 		if !fetch collection, collections[id] {
@@ -275,8 +265,8 @@ class Manager
 	 */
 	public function output(<Phalcon\Assets\Collection> collection, callback, type)
 	{
-		var output, implicitOutput, resources, filters, prefix, sourceBasePath, targetBasePath, options,
-			collectionSourcePath, completeSourcePath;
+		var output, implicitOutput, resources, filters, prefix, sourceBasePath, 
+			targetBasePath, options, collectionSourcePath, completeSourcePath;
 
 		let implicitOutput = this->_implicitOutput;
 
@@ -298,7 +288,7 @@ class Manager
 		/**
 		 * Prepare options if the collection must be filtered
 		 */
-		if typeof filter == "array" {
+		if typeof filters == "array" {
 
 			let options = this->_options;
 

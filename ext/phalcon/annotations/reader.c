@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -73,10 +72,6 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		zephir_get_strval(className, className_param);
 
 
-	if ((Z_TYPE_P(className) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The class name must be an object");
-		return;
-	}
 	ZEPHIR_INIT_VAR(annotations);
 	array_init(annotations);
 	ZEPHIR_INIT_VAR(reflection);

@@ -474,7 +474,7 @@ class Response implements Phalcon\Http\ResponseInterface, Phalcon\Di\InjectionAw
 		 * Send headers
 		 */
 		let headers = this->_headers;
-		if typeof cookies == "object" {
+		if typeof headers == "object" {
 			headers->send();
 		}
 

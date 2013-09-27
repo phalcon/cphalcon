@@ -712,7 +712,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				continue;
 			}
 		}
-		if (zephir_method_exists(handler, SS("beforeExecuteRoute") TSRMLS_CC)) {
+		if (zephir_method_exists_str(handler, SS("beforeExecuteRoute") TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(_7);
 			zephir_call_method_p1(_7, handler, "beforeexecuteroute", this_ptr);
 			if (ZEPHIR_IS_FALSE(_7)) {
@@ -726,7 +726,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 		ZEPHIR_INIT_NVAR(_7);
 		zephir_call_method(_7, dependencyInjector, "wasfreshinstance");
 		if (ZEPHIR_IS_TRUE(_7)) {
-			if (zephir_method_exists(handler, SS("initialize") TSRMLS_CC)) {
+			if (zephir_method_exists_str(handler, SS("initialize") TSRMLS_CC)) {
 				zephir_call_method_noret(handler, "initialize");
 			}
 		}
@@ -754,7 +754,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			ZVAL_STRING(_13, "dispatch:afterDispatch", 1);
 			zephir_call_method_p2_noret(eventsManager, "fire", _13, this_ptr);
 		}
-		if (zephir_method_exists(handler, SS("afterExecuteRoute") TSRMLS_CC)) {
+		if (zephir_method_exists_str(handler, SS("afterExecuteRoute") TSRMLS_CC)) {
 			ZEPHIR_INIT_NVAR(_7);
 			zephir_call_method_p2(_7, handler, "afterexecuteroute", this_ptr, value);
 			if (ZEPHIR_IS_FALSE(_7)) {

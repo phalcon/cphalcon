@@ -296,12 +296,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 				ZEPHIR_CPY_WRT(castValue, value);
 			}
 			if (ZEPHIR_IS_LONG(type, 1024)) {
+				Z_SET_ISREF_P(castValue);
 				zephir_call_method_p2_noret(statement, "bindparam", parameter, castValue);
+				Z_UNSET_ISREF_P(castValue);
 			} else {
+				Z_SET_ISREF_P(castValue);
 				zephir_call_method_p3_noret(statement, "bindparam", parameter, castValue, type);
+				Z_UNSET_ISREF_P(castValue);
 			}
 		} else {
+			Z_SET_ISREF_P(value);
 			zephir_call_method_p2_noret(statement, "bindparam", parameter, value);
+			Z_UNSET_ISREF_P(value);
 		}
 	}
 	zephir_call_method_noret(statement, "execute");

@@ -1253,9 +1253,6 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 	 */
 	public function setContent(string content) -> <Phalcon\Mvc\View>
 	{
-		if typeof content != "string" {
-			throw new Phalcon\Mvc\View\Exception("Content must be a string");
-		}
 		let this->_content = content;
 		return this;
 	}

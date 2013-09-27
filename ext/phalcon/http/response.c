@@ -698,7 +698,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 	}
 	ZEPHIR_OBS_VAR(headers);
 	zephir_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if ((Z_TYPE_P(cookies) == IS_OBJECT)) {
+	if ((Z_TYPE_P(headers) == IS_OBJECT)) {
 		zephir_call_method_noret(headers, "send");
 	}
 	ZEPHIR_OBS_VAR(cookies);

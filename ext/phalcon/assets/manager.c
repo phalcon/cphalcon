@@ -276,40 +276,16 @@ PHP_METHOD(Phalcon_Assets_Manager, addResource) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, set) {
 
-	zend_class_entry *_1, *_3;
-	zval *id_param = NULL, *collection, *_0 = NULL, *_2 = NULL;
+	zval *id_param = NULL, *collection;
 	zval *id = NULL;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &id_param, &collection);
+	zephir_fetch_params(0, 2, 0, &id_param, &collection);
 
 		zephir_get_strval(id, id_param);
 
 
-	if ((Z_TYPE_P(id) != IS_STRING)) {
-		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("\Phalcon\Assets\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _1);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Collection-Id must be a string", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _2);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	if ((Z_TYPE_P(collection) != IS_OBJECT)) {
-		ZEPHIR_INIT_NVAR(_0);
-		_3 = zend_fetch_class(SL("\Phalcon\Assets\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _3);
-		ZEPHIR_INIT_NVAR(_2);
-		ZVAL_STRING(_2, "Collection must be an object", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _2);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
 	zephir_update_property_array(this_ptr, SL("_collections"), id, collection TSRMLS_CC);
-	RETURN_THIS();
+	RETURN_THISW();
 
 }
 
@@ -325,8 +301,8 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
  */
 PHP_METHOD(Phalcon_Assets_Manager, get) {
 
-	zend_class_entry *_1, *_3;
-	zval *id_param = NULL, *collections, *collection, *_0 = NULL, *_2 = NULL;
+	zend_class_entry *_1;
+	zval *id_param = NULL, *collections, *collection, *_0, *_2;
 	zval *id = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -335,25 +311,14 @@ PHP_METHOD(Phalcon_Assets_Manager, get) {
 		zephir_get_strval(id, id_param);
 
 
-	if ((Z_TYPE_P(id) != IS_STRING)) {
-		ZEPHIR_INIT_VAR(_0);
-		_1 = zend_fetch_class(SL("\Phalcon\Assets\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _1);
-		ZEPHIR_INIT_VAR(_2);
-		ZVAL_STRING(_2, "Collection-Id must be a string", 1);
-		zephir_call_method_p1_noret(_0, "__construct", _2);
-		zephir_throw_exception(_0 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
 	ZEPHIR_OBS_VAR(collections);
 	zephir_read_property_this(&collections, this_ptr, SL("_collections"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(collection);
 	if (!(zephir_array_isset_fetch(&collection, collections, id TSRMLS_CC))) {
-		ZEPHIR_INIT_NVAR(_0);
-		_3 = zend_fetch_class(SL("\Phalcon\Assets\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_0, _3);
-		ZEPHIR_INIT_NVAR(_2);
+		ZEPHIR_INIT_VAR(_0);
+		_1 = zend_fetch_class(SL("\Phalcon\Assets\Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		object_init_ex(_0, _1);
+		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "The collection does not exist in the manager", 1);
 		zephir_call_method_p1_noret(_0, "__construct", _2);
 		zephir_throw_exception(_0 TSRMLS_CC);
@@ -466,7 +431,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output) {
 	zephir_call_method(filters, collection, "getfilters");
 	ZEPHIR_INIT_VAR(prefix);
 	zephir_call_method(prefix, collection, "getprefix");
-	if ((Z_TYPE_P(filter) == IS_ARRAY)) {
+	if ((Z_TYPE_P(filters) == IS_ARRAY)) {
 		ZEPHIR_OBS_VAR(options);
 		zephir_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 		if ((Z_TYPE_P(options) == IS_ARRAY)) {

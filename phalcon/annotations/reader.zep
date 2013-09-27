@@ -41,10 +41,6 @@ class Reader implements Phalcon\Annotations\ReaderInterface
 			classAnnotations, line, annotationsProperties,
 			propertyAnnotations, annotationsMethods, methodAnnotations;
 
-		if typeof className != "string" {
-			throw new Phalcon\Annotations\Exception("The class name must be an object");
-		}
-
 		let annotations = [];
 
 		/**

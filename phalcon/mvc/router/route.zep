@@ -287,10 +287,6 @@ class Route
 			parts, routePaths, realClassName, namespaceName,
 			pcrePattern, compiledPattern, extracted;
 
-		if typeof pattern != "string" {
-			throw new Phalcon\Mvc\Router\Exception("The pattern must be string");
-		}
-
 		if paths !== null {
 			if typeof paths == "string" {
 

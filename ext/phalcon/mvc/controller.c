@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Controller, __construct) {
 
 	ZEPHIR_MM_GROW();
 
-	if (zephir_method_exists(this_ptr, SS("onConstruct") TSRMLS_CC)) {
+	if (zephir_method_exists_str(this_ptr, SS("onConstruct") TSRMLS_CC)) {
 		zephir_call_method_noret(this_ptr, "onconstruct");
 	}
 	ZEPHIR_MM_RESTORE();

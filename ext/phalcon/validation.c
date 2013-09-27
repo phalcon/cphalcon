@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 		}
 		zephir_update_property_this(this_ptr, SL("_validators"), validators TSRMLS_CC);
 	}
-	if (zephir_method_exists(this_ptr, SS("initialize") TSRMLS_CC)) {
+	if (zephir_method_exists_str(this_ptr, SS("initialize") TSRMLS_CC)) {
 		zephir_call_method_noret(this_ptr, "initialize");
 	}
 	ZEPHIR_MM_RESTORE();
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	ZEPHIR_INIT_VAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
 	zephir_call_method_noret(messages, "__construct");
-	if (zephir_method_exists(this_ptr, SS("beforeValidation") TSRMLS_CC)) {
+	if (zephir_method_exists_str(this_ptr, SS("beforeValidation") TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_method_p3(_0, this_ptr, "beforevalidation", data, entity, messages);
 		if (ZEPHIR_IS_FALSE(_0)) {
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	}
 	ZEPHIR_OBS_NVAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (zephir_method_exists(this_ptr, SS("afterValidation") TSRMLS_CC)) {
+	if (zephir_method_exists_str(this_ptr, SS("afterValidation") TSRMLS_CC)) {
 		zephir_call_method_p3_noret(this_ptr, "aftervalidation", data, entity, messages);
 	}
 	RETURN_CCTOR(messages);
@@ -195,10 +195,6 @@ PHP_METHOD(Phalcon_Validation, add) {
 		zephir_get_strval(attribute, attribute_param);
 
 
-	if ((Z_TYPE_P(attribute) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The attribute must be a string");
-		return;
-	}
 	if ((Z_TYPE_P(validator) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The validator must be an object");
 		return;
@@ -242,17 +238,13 @@ PHP_METHOD(Phalcon_Validation, setFilters) {
  */
 PHP_METHOD(Phalcon_Validation, getFilters) {
 
-	zval *attribute_param = NULL, *filters, *attributeFilters;
-	zval *attribute = NULL;
+	zval *attribute = NULL, *filters, *attributeFilters;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &attribute_param);
+	zephir_fetch_params(1, 0, 1, &attribute);
 
-	if (!attribute_param) {
-		ZEPHIR_INIT_VAR(attribute);
-		ZVAL_EMPTY_STRING(attribute);
-	} else {
-		zephir_get_strval(attribute, attribute_param);
+	if (!attribute) {
+		ZEPHIR_CPY_WRT(attribute, ZEPHIR_GLOBAL(global_null));
 	}
 
 
@@ -385,7 +377,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			ZEPHIR_INIT_VAR(value);
 			zephir_call_method_zval(value, entity, method);
 		} else {
-			if (zephir_method_exists(entity, SS("readAttribute") TSRMLS_CC)) {
+			if (zephir_method_exists_str(entity, SS("readAttribute") TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(value);
 				zephir_call_method_p1(value, entity, "readattribute", attribute);
 			} else {

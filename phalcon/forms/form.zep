@@ -481,10 +481,6 @@ class Form extends Phalcon\Di\Injectable implements Countable, Iterator
 	{
 		var elements, element;
 
-		if typeof name != "string" {
-			throw new Phalcon\Forms\Exception("The name must be a string");
-		}
-
 		let elements = this->_elements;
 		if !isset elements[name] {
 			throw new Phalcon\Forms\Exception("Element with ID=" . name . " is not part of the form");

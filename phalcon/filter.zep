@@ -49,10 +49,6 @@ class Filter //implements Phalcon\FilterInterface
 	public function add(string name, handler) -> <Phalcon\Filter>
 	{
 
-		if typeof name != "string" {
-			throw new Phalcon\Filter\Exception("Filter name must be string");
-		}
-
 		if typeof handler != "object" {
 			throw new Phalcon\Filter\Exception("Filter must be an object");
 		}

@@ -381,10 +381,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 	}
 
 
-	if ((Z_TYPE_P(pattern) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The pattern must be string");
-		return;
-	}
 	if ((Z_TYPE_P(paths) != IS_NULL)) {
 		if ((Z_TYPE_P(paths) == IS_STRING)) {
 			ZEPHIR_INIT_VAR(moduleName);
@@ -428,7 +424,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 				zephir_array_update_string(&routePaths, SL("module"), &moduleName, PH_COPY | PH_SEPARATE);
 			}
 			if ((Z_TYPE_P(controllerName) != IS_NULL)) {
-				if (zephir_memnstr_str(controllerName, SL("\\"), "phalcon/mvc/router/route.zep", 331)) {
+				if (zephir_memnstr_str(controllerName, SL("\\"), "phalcon/mvc/router/route.zep", 327)) {
 					ZEPHIR_INIT_VAR(realClassName);
 					zephir_call_func_p1(realClassName, "get_class_ns", controllerName);
 					ZEPHIR_INIT_VAR(namespaceName);
@@ -458,7 +454,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure) {
 		return;
 	}
 	if (!(zephir_start_with_str(pattern, SL("#")))) {
-		if (zephir_memnstr_str(pattern, SL("{"), "phalcon/mvc/router/route.zep", 369)) {
+		if (zephir_memnstr_str(pattern, SL("{"), "phalcon/mvc/router/route.zep", 365)) {
 			ZEPHIR_INIT_VAR(extracted);
 			zephir_call_method_p1(extracted, this_ptr, "extractnamedparams", pattern);
 			ZEPHIR_OBS_VAR(pcrePattern);

@@ -77,10 +77,6 @@ PHP_METHOD(Phalcon_Filter, add) {
 		zephir_get_strval(name, name_param);
 
 
-	if ((Z_TYPE_P(name) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter name must be string");
-		return;
-	}
 	if ((Z_TYPE_P(handler) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter must be an object");
 		return;
