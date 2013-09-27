@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_5);
 		object_init_ex(_5, phalcon_db_column_ce);
-		zephir_call_method_p2_cache_noret(_5, "__construct", columnName, definition, &_12);
+		zephir_call_method_p2_cache_noret(_5, "__construct", &_12, columnName, definition);
 		zephir_array_append(&columns, _5, PH_SEPARATE);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);
 	}

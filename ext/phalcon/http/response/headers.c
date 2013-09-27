@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state) {
 		) {
 			ZEPHIR_GET_HMKEY(key, _1, _0);
 			ZEPHIR_GET_HVALUE(value, _2);
-			zephir_call_method_p2_cache_noret(headers, "set", key, value, &_3);
+			zephir_call_method_p2_cache_noret(headers, "set", &_3, key, value);
 		}
 	}
 	RETURN_CCTOR(headers);

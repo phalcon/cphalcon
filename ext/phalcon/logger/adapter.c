@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit) {
 			zephir_call_method_cache(_5, message, "gettype", &_6);
 			ZEPHIR_INIT_NVAR(_7);
 			zephir_call_method_cache(_7, message, "gettime", &_8);
-			zephir_call_method_p3_cache_noret(this_ptr, "loginternal", _3, _5, _7, &_9);
+			zephir_call_method_p3_cache_noret(this_ptr, "loginternal", &_9, _3, _5, _7);
 		}
 	}
 	RETURN_THIS();

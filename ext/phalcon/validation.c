@@ -160,10 +160,10 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			return;
 		}
 		ZEPHIR_INIT_NVAR(_0);
-		zephir_call_method_p2_cache(_0, validator, "validate", this_ptr, attribute, &_4);
+		zephir_call_method_p2_cache(_0, validator, "validate", &_4, this_ptr, attribute);
 		if (ZEPHIR_IS_FALSE(_0)) {
 			ZEPHIR_INIT_NVAR(_5);
-			zephir_call_method_p1_cache(_5, validator, "getoption", cancelOnFail, &_6);
+			zephir_call_method_p1_cache(_5, validator, "getoption", &_6, cancelOnFail);
 			if (zephir_is_true(_5)) {
 				break;
 			}

@@ -477,7 +477,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert) {
 			) {
 				ZEPHIR_GET_HVALUE(field, _11);
 				ZEPHIR_INIT_NVAR(_0);
-				zephir_call_method_p1_cache(_0, this_ptr, "escapeidentifier", field, &_12);
+				zephir_call_method_p1_cache(_0, this_ptr, "escapeidentifier", &_12, field);
 				zephir_array_append(&escapedFields, _0, PH_SEPARATE);
 			}
 		} else {
@@ -583,7 +583,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update) {
 		zephir_call_func_p1(_4, "globals_get", _3);
 		if (zephir_is_true(_4)) {
 			ZEPHIR_INIT_NVAR(escapedField);
-			zephir_call_method_p1_cache(escapedField, this_ptr, "escapeidentifier", field, &_5);
+			zephir_call_method_p1_cache(escapedField, this_ptr, "escapeidentifier", &_5, field);
 		} else {
 			ZEPHIR_CPY_WRT(escapedField, field);
 		}
@@ -1500,7 +1500,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeIndexes) {
 		ZEPHIR_GET_HVALUE(indexColumns, _8);
 		ZEPHIR_INIT_NVAR(_9);
 		object_init_ex(_9, phalcon_db_index_ce);
-		zephir_call_method_p2_cache_noret(_9, "__construct", name, indexColumns, &_10);
+		zephir_call_method_p2_cache_noret(_9, "__construct", &_10, name, indexColumns);
 		zephir_array_update_zval(&indexObjects, name, &_9, PH_COPY | PH_SEPARATE);
 	}
 	RETURN_CCTOR(indexObjects);
@@ -1597,7 +1597,7 @@ PHP_METHOD(Phalcon_Db_Adapter, describeReferences) {
 		ZEPHIR_OBS_NVAR(_6);
 		zephir_array_fetch_string(&_6, arrayReference, SL("referencedColumns"), PH_NOISY TSRMLS_CC);
 		zephir_array_update_string(&_11, SL("referencedColumns"), &_6, PH_COPY | PH_SEPARATE);
-		zephir_call_method_p2_cache_noret(_10, "__construct", name, _11, &_12);
+		zephir_call_method_p2_cache_noret(_10, "__construct", &_12, name, _11);
 		zephir_array_update_zval(&referenceObjects, name, &_10, PH_COPY | PH_SEPARATE);
 	}
 	RETURN_CCTOR(referenceObjects);

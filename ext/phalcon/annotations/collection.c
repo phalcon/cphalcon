@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			ZEPHIR_GET_HVALUE(annotationData, _2);
 			ZEPHIR_INIT_NVAR(_3);
 			object_init_ex(_3, phalcon_annotations_annotation_ce);
-			zephir_call_method_p1_cache_noret(_3, "__construct", annotationData, &_4);
+			zephir_call_method_p1_cache_noret(_3, "__construct", &_4, annotationData);
 			zephir_array_append(&annotations, _3, PH_SEPARATE);
 		}
 		zephir_update_property_this(this_ptr, SL("_annotations"), annotations TSRMLS_CC);

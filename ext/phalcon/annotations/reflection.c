@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 					ZEPHIR_GET_HVALUE(reflectionMethod, _2);
 					ZEPHIR_INIT_NVAR(_3);
 					object_init_ex(_3, phalcon_annotations_collection_ce);
-					zephir_call_method_p1_cache_noret(_3, "__construct", reflectionMethod, &_4);
+					zephir_call_method_p1_cache_noret(_3, "__construct", &_4, reflectionMethod);
 					zephir_array_update_zval(&collections, methodName, &_3, PH_COPY | PH_SEPARATE);
 				}
 				zephir_update_property_this(this_ptr, SL("_methodAnnotations"), collections TSRMLS_CC);
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 					ZEPHIR_GET_HVALUE(reflectionProperty, _2);
 					ZEPHIR_INIT_NVAR(_3);
 					object_init_ex(_3, phalcon_annotations_collection_ce);
-					zephir_call_method_p1_cache_noret(_3, "__construct", reflectionProperty, &_4);
+					zephir_call_method_p1_cache_noret(_3, "__construct", &_4, reflectionProperty);
 					zephir_array_update_zval(&collections, property, &_3, PH_COPY | PH_SEPARATE);
 				}
 				zephir_update_property_this(this_ptr, SL("_propertyAnnotations"), collections TSRMLS_CC);

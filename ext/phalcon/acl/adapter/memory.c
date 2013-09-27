@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny) {
 				concat_function(_7, _6, resourceName TSRMLS_CC);
 				ZEPHIR_INIT_LNVAR(_8);
 				ZEPHIR_CONCAT_VS(_8, _7, "'");
-				zephir_call_method_p1_cache_noret(_0, "__construct", _8, &_9);
+				zephir_call_method_p1_cache_noret(_0, "__construct", &_9, _8);
 				zephir_throw_exception(_0 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
