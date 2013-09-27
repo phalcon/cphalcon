@@ -26,5 +26,9 @@
 # define ZEPHIR_VEG (&executor_globals)
 #endif
 
-int zephir_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name, unsigned int method_len, zval *retval_ptr, zval **retval_ptr_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC);
-int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned long hash_key, char *method_name, unsigned int method_len, unsigned long method_key TSRMLS_DC);
+int zephir_alt_call_user_method(zend_class_entry *ce, zval **object_pp, char *method_name,
+  unsigned int method_len, zval *retval_ptr, zval **retval_ptr_ptr, zend_uint param_count,
+  zval *params[], unsigned long method_key, zend_function **prepared_function TSRMLS_DC);
+
+int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned long hash_key, char *method_name,
+  unsigned int method_len, unsigned long method_key, zend_function **prepared_function TSRMLS_DC);

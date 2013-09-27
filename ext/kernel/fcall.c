@@ -22,7 +22,7 @@
 #endif
 
 #include "php.h"
-#include "php_phalcon.h"
+#include "php_ext.h"
 
 #include "Zend/zend_API.h"
 #include "Zend/zend_exceptions.h"
@@ -43,7 +43,6 @@ int zephir_has_constructor_ce(zend_class_entry *ce) {
 		if (ce->constructor) {
 			return 1;
 		}
-
 		ce = ce->parent;
 	}
 
@@ -54,7 +53,6 @@ int zephir_has_constructor_ce(zend_class_entry *ce) {
  * Check if an object has a constructor
  */
 int zephir_has_constructor(const zval *object TSRMLS_DC){
-
 	return zephir_has_constructor_ce(Z_OBJCE_P(object));
 }
 
@@ -167,8 +165,7 @@ static int zephir_call_func_vparams(zval *return_value, zval **return_value_ptr,
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
 		caller_wants_result = 0;
-	}
-	else {
+	} else {
 		zephir_check_return_value(return_value);
 	}
 
@@ -176,24 +173,26 @@ static int zephir_call_func_vparams(zval *return_value, zval **return_value_ptr,
 		params      = va_arg(ap, zval**);
 		param_count = -param_count;
 		params_ptr  = params;
-	}
-	else if (param_count > 0 && param_count <= 10) {
-		params_ptr = static_params;
-		for (i=0; i<param_count; ++i) {
-			static_params[i] = va_arg(ap, zval*);
+	} else {
+		if (param_count > 0 && param_count <= 10) {
+			params_ptr = static_params;
+			for (i = 0; i < param_count; ++i) {
+				static_params[i] = va_arg(ap, zval*);
+			}
+		} else {
+			if (unlikely(param_count > 10)) {
+				free_params = 1;
+				params      = (zval**)emalloc(param_count * sizeof(zval*));
+				params_ptr  = params;
+				for (i = 0; i < param_count; ++i) {
+					params[i] = va_arg(ap, zval*);
+				}
+			} else {
+				params_ptr = NULL;
+			}
 		}
 	}
-	else if (unlikely(param_count > 10)) {
-		free_params = 1;
-		params      = (zval**)emalloc(param_count * sizeof(zval*));
-		params_ptr  = params;
-		for (i=0; i<param_count; ++i) {
-			params[i] = va_arg(ap, zval*);
-		}
-	}
-	else {
-		params_ptr = NULL;
-	}
+
 
 	status = zephir_call_user_function(EG(function_table), NULL, func, return_value, return_value_ptr, param_count, params_ptr TSRMLS_CC);
 
@@ -215,7 +214,8 @@ static int zephir_call_func_vparams(zval *return_value, zval **return_value_ptr,
 	return status;
 }
 
-int zephir_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key TSRMLS_DC, int param_count, va_list ap) {
+int zephir_call_method_vparams(zval *return_value, zval **return_value_ptr, zval *object, char *method_name,
+	int method_len, ulong method_key, zend_function **prepared_function TSRMLS_DC, int param_count, va_list ap) {
 
 	int i, status, free_params = -0, caller_wants_result = 1;
 	zend_class_entry *ce, *active_scope = NULL;
@@ -230,8 +230,7 @@ int zephir_call_method_vparams(zval *return_value, zval **return_value_ptr, zval
 	if (!return_value) {
 		ALLOC_INIT_ZVAL(return_value);
 		caller_wants_result = 0;
-	}
-	else {
+	} else {
 		zephir_check_return_value(return_value);
 	}
 
@@ -242,15 +241,15 @@ int zephir_call_method_vparams(zval *return_value, zval **return_value_ptr, zval
 	}
 	else if (param_count > 0 && param_count <= 10) {
 		params_ptr = static_params;
-		for (i=0; i<param_count; ++i) {
+		for (i = 0; i < param_count; ++i) {
 			static_params[i] = va_arg(ap, zval*);
 		}
 	}
 	else if (unlikely(param_count > 10)) {
 		free_params = 1;
-		params      = (zval**)emalloc(param_count * sizeof(zval*));
+		params      = (zval**) emalloc(param_count * sizeof(zval*));
 		params_ptr  = params;
-		for (i=0; i<param_count; ++i) {
+		for (i = 0; i < param_count; ++i) {
 			params[i] = va_arg(ap, zval*);
 		}
 	}
@@ -261,7 +260,7 @@ int zephir_call_method_vparams(zval *return_value, zval **return_value_ptr, zval
 	ce           = Z_OBJCE_P(object);
 	active_scope = EG(scope);
 	EG(scope)    = ce;
-	status       = zephir_alt_call_user_method(ce, &object, method_name, method_len, return_value, return_value_ptr, param_count, params_ptr, method_key TSRMLS_CC);
+	status       = zephir_alt_call_user_method(ce, &object, method_name, method_len, return_value, return_value_ptr, param_count, params_ptr, method_key, prepared_function TSRMLS_CC);
 	EG(scope)    = active_scope;
 
 	if (unlikely(free_params)) {
@@ -271,9 +270,10 @@ int zephir_call_method_vparams(zval *return_value, zval **return_value_ptr, zval
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s::%s()", ce->name, method_name);
 		status = FAILURE;
-	}
-	else if (EG(exception)) {
-		status = FAILURE;
+	} else {
+		if (EG(exception)) {
+			status = FAILURE;
+		}
 	}
 
 	if (!caller_wants_result) {
@@ -311,8 +311,7 @@ static int zephir_call_static_zval_str_func_vparams(zval *return_value, zval **r
 		params      = va_arg(ap, zval**);
 		param_count = -param_count;
 		params_ptr  = params;
-	}
-	else if (param_count > 0 && param_count <= 10) {
+	} else if (param_count > 0 && param_count <= 10) {
 		params_ptr = static_params;
 		for (i=0; i<param_count; ++i) {
 			static_params[i] = va_arg(ap, zval*);
@@ -400,7 +399,19 @@ int zephir_call_method_params(zval *return_value, zval **return_value_ptr, zval 
 	va_list ap;
 
 	va_start(ap, param_count);
-	status = zephir_call_method_vparams(return_value, return_value_ptr, object, method_name, method_len, method_key TSRMLS_CC, param_count, ap);
+	status = zephir_call_method_vparams(return_value, return_value_ptr, object, method_name, method_len, method_key, NULL TSRMLS_CC, param_count, ap);
+	va_end(ap);
+
+	return status;
+}
+
+int zephir_call_method_cache_params(zval *return_value, zval **return_value_ptr, zval *object, char *method_name, int method_len, ulong method_key, zend_function **prepared_function TSRMLS_DC, int param_count, ...) {
+
+	int status;
+	va_list ap;
+
+	va_start(ap, param_count);
+	status = zephir_call_method_vparams(return_value, return_value_ptr, object, method_name, method_len, method_key, prepared_function TSRMLS_CC, param_count, ap);
 	va_end(ap);
 
 	return status;
@@ -414,7 +425,7 @@ int zephir_call_method_zval_params(zval *return_value, zval **return_value_ptr, 
 		char *m = Z_STRVAL_P(method);
 
 		va_start(ap, param_count);
-		status = zephir_call_method_vparams(return_value, return_value_ptr, object, m, Z_STRLEN_P(method), (IS_INTERNED(m) ? INTERNED_HASH(m) : 0) TSRMLS_CC, param_count, ap);
+		status = zephir_call_method_vparams(return_value, return_value_ptr, object, m, Z_STRLEN_P(method), (IS_INTERNED(m) ? INTERNED_HASH(m) : 0), NULL TSRMLS_CC, param_count, ap);
 		va_end(ap);
 
 		return status;
