@@ -123,7 +123,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Json, validate){
 	if (Z_TYPE_P(json) == IS_NULL) {
 		PHALCON_INIT_VAR(constant);
 		if (zend_get_constant(SL("JSON_ERROR_NONE"), constant TSRMLS_CC)) {
-		 
 			PHALCON_INIT_VAR(ret);
 			phalcon_call_func(ret, "json_last_error");
 
