@@ -502,6 +502,13 @@
 #define zephir_call_method_p4_cache(return_value, object, method_name, cache, p1, p2, p3, p4)                       zephir_call_method_p4_cache_ex(return_value, NULL, object, method_name, cache, p1, p2, p3, p4)
 #define zephir_call_method_p5_cache(return_value, object, method_name, cache, p1, p2, p3, p4, p5)                   zephir_call_method_p5_cache_ex(return_value, NULL, object, method_name, cache, p1, p2, p3, p4, p5)
 
+#define zephir_call_method_cache_noret(object, method_name, cache)                                                  zephir_call_method_p0_cache_ex(NULL, NULL, object, method_name, cache)
+#define zephir_call_method_p1_cache_noret(object, method_name, cache, p1)                                           zephir_call_method_p1_cache_ex(NULL, NULL, object, method_name, cache, p1)
+#define zephir_call_method_p2_cache_noret(object, method_name, cache, p1, p2)                                       zephir_call_method_p2_cache_ex(NULL, NULL, object, method_name, cache, p1, p2)
+#define zephir_call_method_p3_cache_noret(object, method_name, cache, p1, p2, p3)                                   zephir_call_method_p3_cache_ex(NULL, NULL, object, method_name, cache, p1, p2, p3)
+#define zephir_call_method_p4_cache_noret(object, method_name, cache, p1, p2, p3, p4)                               zephir_call_method_p4_cache_ex(NULL, NULL, object, method_name, cache, p1, p2, p3, p4)
+#define zephir_call_method_p5_cache_noret(object, method_name, cache, p1, p2, p3, p4, p5)                           zephir_call_method_p5_cache_ex(NULL, NULL, object, method_name, cache, p1, p2, p3, p4, p5)
+
 #define zephir_call_method_key(return_value, object, method_name, key)                                              zephir_call_method_p0_key_ex(return_value, NULL, object, method_name, key)
 #define zephir_call_method_p1_key(return_value, object, method_name, key, p1)                                       zephir_call_method_p1_key_ex(return_value, NULL, object, method_name, key, p1)
 #define zephir_call_method_p2_key(return_value, object, method_name, key, p1, p2)                                   zephir_call_method_p2_key_ex(return_value, NULL, object, method_name, key, p1, p2)
