@@ -238,6 +238,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
  */
 PHP_METHOD(Phalcon_Flash_Session, output) {
 
+	zend_function *_3 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *remove_param = NULL, *type = NULL, *message = NULL, *messages, **_2;
@@ -263,7 +264,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 		) {
 			ZEPHIR_GET_HMKEY(type, _1, _0);
 			ZEPHIR_GET_HVALUE(message, _2);
-			zephir_call_method_p2_noret(this_ptr, "outputmessage", type, message);
+			zephir_call_method_p2_cache_noret(this_ptr, "outputmessage", &_3, type, message);
 		}
 	}
 	ZEPHIR_MM_RESTORE();

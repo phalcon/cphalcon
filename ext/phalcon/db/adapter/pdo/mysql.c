@@ -134,6 +134,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 
+	zend_function *_12 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	zval *table_param = NULL, *schema_param = NULL, *describe, *columns, *columnType = NULL, *field = NULL, *definition = NULL, *oldColumn = NULL, *dialect, *sizePattern, *matches = NULL, *matchOne = NULL, *columnName = NULL, *_0, *_1 = NULL, **_4, *_5 = NULL, *_6 = NULL, _7 = zval_used_for_init, *_8 = NULL, *_9, *_10, *_11;
@@ -289,7 +290,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 		zephir_array_fetch_long(&columnName, field, 0, PH_NOISY TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(_5);
 		object_init_ex(_5, phalcon_db_column_ce);
-		zephir_call_method_p2_noret(_5, "__construct", columnName, definition);
+		zephir_call_method_p2_cache_noret(_5, "__construct", &_12, columnName, definition);
 		zephir_array_append(&columns, _5, PH_SEPARATE);
 		ZEPHIR_CPY_WRT(oldColumn, columnName);
 	}

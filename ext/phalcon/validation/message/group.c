@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, appendMessages) {
 			; zend_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(message, _3);
-			zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", message, &_4);
+			zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_4, message);
 		}
 	}
 	ZEPHIR_MM_RESTORE();
