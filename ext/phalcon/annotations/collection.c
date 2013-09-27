@@ -77,7 +77,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 
-	zend_function *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *reflectionData = NULL, *annotations, *annotationData = NULL, **_2, *_3 = NULL;
@@ -107,7 +106,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			ZEPHIR_GET_HVALUE(annotationData, _2);
 			ZEPHIR_INIT_NVAR(_3);
 			object_init_ex(_3, phalcon_annotations_annotation_ce);
-			zephir_call_method_p1_cache_noret(_3, "__construct", &_4, annotationData);
+			zephir_call_method_p1_noret(_3, "__construct", annotationData);
 			zephir_array_append(&annotations, _3, PH_SEPARATE);
 		}
 		zephir_update_property_this(this_ptr, SL("_annotations"), annotations TSRMLS_CC);

@@ -218,7 +218,7 @@ abstract class Adapter
 		 * A valid annotations reflection is an object
 		 */
 		if typeof classAnnotations == "object" {
-			let properties = classAnnotations->getPropertyAnnotations();
+			let properties = classAnnotations->getPropertiesAnnotations();
 			if typeof properties == "array" {
 				for name, property in properties {
 					if name == propertyName {

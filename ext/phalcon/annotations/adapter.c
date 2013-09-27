@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty) {
 	zephir_call_method_p1(classAnnotations, this_ptr, "get", className);
 	if ((Z_TYPE_P(classAnnotations) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(properties);
-		zephir_call_method(properties, classAnnotations, "getpropertyannotations");
+		zephir_call_method(properties, classAnnotations, "getpropertiesannotations");
 		if ((Z_TYPE_P(properties) == IS_ARRAY)) {
 			zephir_is_iterable(properties, &_1, &_0, 0, 0);
 			for (

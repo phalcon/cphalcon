@@ -874,4 +874,23 @@ class Router
 		return null;
 	}
 
+	public function testMethod1()
+	{
+		return "[hello]";
+	}
+
+	public function testCall()
+	{
+		int i = 0; var s = "";
+		loop {
+			let s.= this->testMethod1();
+			if i == 5 {
+				break;
+			} else {
+				let i++;
+			}
+		}
+		return [s, i];
+	}
+
 }

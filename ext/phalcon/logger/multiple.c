@@ -92,7 +92,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, push) {
  */
 PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 
-	zend_function *_3 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *formatter, *loggers, *logger = NULL, **_2;
@@ -111,7 +110,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(logger, _2);
-			zephir_call_method_p1_cache_noret(logger, "setformatter", &_3, formatter);
+			zephir_call_method_p1_noret(logger, "setformatter", formatter);
 		}
 	}
 	zephir_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
@@ -127,7 +126,6 @@ PHP_METHOD(Phalcon_Logger_Multiple, setFormatter) {
  */
 PHP_METHOD(Phalcon_Logger_Multiple, log) {
 
-	zend_function *_4 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	int type;
@@ -155,7 +153,7 @@ PHP_METHOD(Phalcon_Logger_Multiple, log) {
 			ZEPHIR_GET_HVALUE(logger, _2);
 			ZEPHIR_INIT_NVAR(_3);
 			ZVAL_LONG(_3, type);
-			zephir_call_method_p2_cache_noret(logger, "log", &_4, message, _3);
+			zephir_call_method_p2_noret(logger, "log", message, _3);
 		}
 	}
 	ZEPHIR_MM_RESTORE();

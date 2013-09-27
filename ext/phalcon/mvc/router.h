@@ -38,6 +38,8 @@ PHP_METHOD(Phalcon_Mvc_Router, wasMatched);
 PHP_METHOD(Phalcon_Mvc_Router, getRoutes);
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById);
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName);
+PHP_METHOD(Phalcon_Mvc_Router, testMethod1);
+PHP_METHOD(Phalcon_Mvc_Router, testCall);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, defaultRoutes)
@@ -176,5 +178,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, getRoutes, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getRouteById, arginfo_phalcon_mvc_router_getroutebyid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getRouteByName, arginfo_phalcon_mvc_router_getroutebyname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, testMethod1, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, testCall, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

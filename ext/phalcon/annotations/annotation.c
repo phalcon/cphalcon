@@ -74,7 +74,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 
-	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
 	zval *reflectionData, *name = NULL, *exprArguments, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3, *_4 = NULL;
@@ -102,7 +101,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 			ZEPHIR_OBS_NVAR(_4);
 			zephir_array_fetch_string(&_4, argument, SL("expr"), PH_NOISY TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(resolvedArgument);
-			zephir_call_method_p1_cache(resolvedArgument, this_ptr, "getexpression", &_5, _4);
+			zephir_call_method_p1(resolvedArgument, this_ptr, "getexpression", _4);
 			ZEPHIR_OBS_NVAR(name);
 			if (zephir_array_isset_string_fetch(&name, argument, SS("name") TSRMLS_CC)) {
 				ZEPHIR_OBS_NVAR(arguments);
@@ -138,10 +137,9 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getName) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 
-	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type, *_0, **_3, *_4 = NULL, *_6, *_7, *_8;
+	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type, *_0, **_3, *_4 = NULL, *_5, *_6, *_7;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr);
@@ -186,7 +184,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 				ZEPHIR_OBS_NVAR(_4);
 				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(resolvedItem);
-				zephir_call_method_p1_cache(resolvedItem, this_ptr, "getexpression", &_5, _4);
+				zephir_call_method_p1(resolvedItem, this_ptr, "getexpression", _4);
 				ZEPHIR_OBS_NVAR(name);
 				if (zephir_array_isset_string_fetch(&name, item, SS("name") TSRMLS_CC)) {
 					ZEPHIR_OBS_NVAR(arrayValue);
@@ -202,14 +200,14 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 			zephir_call_method_p1_noret(return_value, "__construct", expr);
 			RETURN_MM();
 		}
+		ZEPHIR_INIT_VAR(_5);
+		object_init_ex(_5, phalcon_annotations_exception_ce);
 		ZEPHIR_INIT_VAR(_6);
-		object_init_ex(_6, phalcon_annotations_exception_ce);
+		ZEPHIR_CONCAT_SV(_6, "The expression ", type);
 		ZEPHIR_INIT_VAR(_7);
-		ZEPHIR_CONCAT_SV(_7, "The expression ", type);
-		ZEPHIR_INIT_VAR(_8);
-		ZEPHIR_CONCAT_VS(_8, _7, " is unknown");
-		zephir_call_method_p1_noret(_6, "__construct", _8);
-		zephir_throw_exception(_6 TSRMLS_CC);
+		ZEPHIR_CONCAT_VS(_7, _6, " is unknown");
+		zephir_call_method_p1_noret(_5, "__construct", _7);
+		zephir_throw_exception(_5 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);

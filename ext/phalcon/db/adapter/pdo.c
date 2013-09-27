@@ -250,7 +250,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, prepare) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 
-	zend_function *_3 = NULL, *_4 = NULL, *_5 = NULL;
 	HashTable *_1;
 	HashPosition _0;
 	zval *statement, *placeholders, *dataTypes, *wildcard = NULL, *value = NULL, *type = NULL, *castValue = NULL, *parameter = NULL, **_2;
@@ -298,16 +297,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 			}
 			if (ZEPHIR_IS_LONG(type, 1024)) {
 				Z_SET_ISREF_P(castValue);
-				zephir_call_method_p2_cache_noret(statement, "bindparam", &_3, parameter, castValue);
+				zephir_call_method_p2_noret(statement, "bindparam", parameter, castValue);
 				Z_UNSET_ISREF_P(castValue);
 			} else {
 				Z_SET_ISREF_P(castValue);
-				zephir_call_method_p3_cache_noret(statement, "bindparam", &_4, parameter, castValue, type);
+				zephir_call_method_p3_noret(statement, "bindparam", parameter, castValue, type);
 				Z_UNSET_ISREF_P(castValue);
 			}
 		} else {
 			Z_SET_ISREF_P(value);
-			zephir_call_method_p2_cache_noret(statement, "bindparam", &_5, parameter, value);
+			zephir_call_method_p2_noret(statement, "bindparam", parameter, value);
 			Z_UNSET_ISREF_P(value);
 		}
 	}
