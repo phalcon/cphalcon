@@ -49,7 +49,7 @@ extern int zephir_is_instance_of(zval *object, const char *class_name, unsigned 
 
 /** Method exists */
 extern int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC);
-extern int zephir_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC);
+extern int zephir_method_exists_str(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC);
 extern int zephir_method_quick_exists_ex(const zval *object, const char *method_name, unsigned int method_len, unsigned long hash TSRMLS_DC);
 
 /** Isset properties */

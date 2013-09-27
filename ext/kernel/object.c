@@ -1168,7 +1168,7 @@ int zephir_unset_property_array(zval *object, char *property, unsigned int prope
 int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC){
 
 	char *lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
-	int res = zephir_method_exists_ex(object, lcname, Z_STRLEN_P(method_name)+1 TSRMLS_CC);
+	int res = zephir_method_exists_str(object, lcname, Z_STRLEN_P(method_name)+1 TSRMLS_CC);
 	efree(lcname);
 	return res;
 }
@@ -1180,7 +1180,7 @@ int zephir_method_exists(const zval *object, const zval *method_name TSRMLS_DC){
  * @param method_name
  * @param method_length strlen(method_name)+1
  */
-int zephir_method_exists_ex(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC){
+int zephir_method_exists_str(const zval *object, const char *method_name, unsigned int method_len TSRMLS_DC){
 
 	return zephir_method_quick_exists_ex(object, method_name, method_len, zend_inline_hash_func(method_name, method_len) TSRMLS_CC);
 }
