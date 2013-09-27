@@ -97,7 +97,7 @@ static void phalcon_tag_get_escaper(zval **return_value_ptr, zval *params TSRMLS
 	if (zend_is_true(autoescape)) {
 		phalcon_call_self_func_params(result, &result, NULL, SL("getescaperservice") TSRMLS_CC, 0);
 		if (EG(exception)) {
-			result = NULL;
+			assert(result == NULL);
 		}
 	}
 
@@ -114,6 +114,11 @@ static void phalcon_tag_write_attributes(zval *code, zval *attributes TSRMLS_DC)
 
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, attributes TSRMLS_CC);
+	if (EG(exception)) {
+		assert(escaper == NULL);
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	if (escaper) {
 		for (
@@ -512,6 +517,10 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	ZVAL_STRING(code, "<a", 1);
 
 	phalcon_tag_write_attributes(code, params TSRMLS_CC);
+	if (EG(exception)) {
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	PHALCON_CONCAT_VSVS(return_value, code, ">", link_text, "</a>");
 	
@@ -544,7 +553,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		array_init_size(params, 1);
 		phalcon_array_append(&params, parameters, 0);
 	} else {
-		PHALCON_CPY_WRT(params, parameters);
+		PHALCON_CPY_WRT_CTOR(params, parameters);
 	}
 	
 	PHALCON_INIT_VAR(value);
@@ -552,16 +561,16 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		if (!phalcon_array_isset_long_fetch(&id, params, 0)) {
 			PHALCON_OBS_VAR(id);
 			phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY);
-			phalcon_array_update_long(&params, 0, &id, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_long(&params, 0, &id, PH_COPY);
 		}
 
 		if (phalcon_array_isset_string_fetch(&name, params, SS("name"))) {
 			if (!zend_is_true(name)) {
-				phalcon_array_update_string(&params, ISL(name), &id, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&params, ISL(name), &id, PH_COPY);
 			}
 		}
 		else {
-			phalcon_array_update_string(&params, ISL(name), &id, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&params, ISL(name), &id, PH_COPY);
 		}
 	
 		/** 
@@ -569,32 +578,41 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		 */
 		if (!phalcon_memnstr_str(id, SL("["))) {
 			if (!phalcon_array_isset_string(params, SS("id"))) {
-				phalcon_array_update_string(&params, SL("id"), &id, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&params, SL("id"), &id, PH_COPY);
 			}
 		}
 
 		phalcon_call_self_p2(value, this_ptr, "getvalue", id, params);
-		phalcon_array_update_string(&params, ISL(value), &value, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&params, ISL(value), &value, PH_COPY);
 	} else {
 		/** 
 		 * Use the 'id' as value if the user hadn't set it
 		 */
 		if (!phalcon_array_isset_string(params, SS("value"))) {
 			if (phalcon_array_isset_long_fetch(&value, params, 0)) {
-				phalcon_array_update_string(&params, ISL(value), &value, PH_COPY | PH_SEPARATE);
+				phalcon_array_update_string(&params, ISL(value), &value, PH_COPY);
 			}
 		}
 	}
 
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, params TSRMLS_CC);
+	if (EG(exception)) {
+		assert(escaper == NULL);
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
-	phalcon_array_update_string(&params, ISL(type), &type, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&params, ISL(type), &type, PH_COPY);
 
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<input", 1);
 
 	phalcon_tag_write_attributes(code, params TSRMLS_CC);
+	if (EG(exception)) {
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	doctype = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentType") TSRMLS_CC);
 	
@@ -629,23 +647,22 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
-		phalcon_array_append(&params, parameters, PH_SEPARATE);
+		phalcon_array_append(&params, parameters, 0);
 	} else {
-		PHALCON_CPY_WRT(params, parameters);
+		PHALCON_CPY_WRT_CTOR(params, parameters);
 	}
 	
-	PHALCON_INIT_VAR(value);
 	if (!phalcon_array_isset_long_fetch(&id, params, 0)) {
 		PHALCON_OBS_VAR(id);
 		phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY);
-		phalcon_array_update_long(&params, 0, &id, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_long(&params, 0, &id, PH_COPY);
 	}
 	
 	if (!phalcon_array_isset_string_fetch(&name, params, SS("name"))) {
-		phalcon_array_update_string(&params, ISL(name), &id, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&params, ISL(name), &id, PH_COPY);
 	} else {
 		if (!zend_is_true(name)) {
-			phalcon_array_update_string(&params, ISL(name), &id, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&params, ISL(name), &id, PH_COPY);
 		}
 	}
 	
@@ -654,15 +671,16 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 	 */
 	if (!phalcon_memnstr_str(id, SL("["))) {
 		if (!phalcon_array_isset_string(params, SS("id"))) {
-			phalcon_array_update_string(&params, SL("id"), &id, PH_COPY | PH_SEPARATE);
+			phalcon_array_update_string(&params, SL("id"), &id, PH_COPY);
 		}
 	}
 
 	/**
 	 * Automatically check inputs
 	 */
+	PHALCON_INIT_VAR(value);
 	if (phalcon_array_isset_string_fetch(&current_value, params, SS("value"))) {
-		phalcon_array_unset_string(&params, SS("value"), PH_SEPARATE);
+		phalcon_array_unset_string(&params, SS("value"), 0);
 
 		phalcon_call_self_p2(value, this_ptr, "getvalue", id, params);
 
@@ -678,18 +696,22 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 		 * Evaluate the value in POST
 		 */
 		if (zend_is_true(value)) {
-			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE);
+			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), 0);
 		}
 
-		phalcon_array_update_string(&params, ISL(value), &value, PH_COPY | PH_SEPARATE);
+		phalcon_array_update_string(&params, ISL(value), &value, PH_COPY);
 	}
 
-	phalcon_array_update_string(&params, ISL(type), &type, PH_COPY | PH_SEPARATE);
+	phalcon_array_update_string(&params, ISL(type), &type, PH_COPY);
 
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<input", 1);
 
 	phalcon_tag_write_attributes(code, params TSRMLS_CC);
+	if (EG(exception)) {
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	doctype = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentType") TSRMLS_CC);
 	
@@ -705,6 +727,45 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
 	PHALCON_MM_RESTORE();
 }
 
+static void phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAMETERS, const char* type, int as_value)
+{
+	zval *parameters, *name;
+
+	phalcon_fetch_params(0, 1, 0, &parameters);
+
+	MAKE_STD_ZVAL(name);
+	ZVAL_STRING(name, type, 1);
+
+	if (as_value) {
+		phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 3, name, parameters, PHALCON_GLOBAL(z_true));
+	}
+	else {
+		phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 2, name, parameters);
+	}
+
+	if (return_value_ptr && EG(exception)) {
+		ALLOC_INIT_ZVAL(*return_value_ptr);
+	}
+
+	zval_ptr_dtor(&name);
+}
+
+static void phalcon_tag_generic_field_checked(INTERNAL_FUNCTION_PARAMETERS, const char* type)
+{
+	zval *parameters, *name;
+
+	phalcon_fetch_params(0, 1, 0, &parameters);
+
+	MAKE_STD_ZVAL(name);
+	ZVAL_STRING(name, type, 1);
+	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfieldchecked") TSRMLS_CC, 2, name, parameters);
+	if (return_value_ptr && EG(exception)) {
+		ALLOC_INIT_ZVAL(*return_value_ptr);
+	}
+
+	zval_ptr_dtor(&name);
+}
+
 /**
  * Builds a HTML input[type="text"] tag
  *
@@ -717,14 +778,7 @@ PHP_METHOD(Phalcon_Tag, _inputFieldChecked){
  */
 PHP_METHOD(Phalcon_Tag, textField){
 
-	zval *parameters, *name;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
-	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "text", 1);
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 2, name, parameters);
-	zval_ptr_dtor(&name);
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "text", 0);
 }
 
 /**
@@ -739,14 +793,7 @@ PHP_METHOD(Phalcon_Tag, textField){
  */
 PHP_METHOD(Phalcon_Tag, numericField){
 
-	zval *parameters, *name;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
-	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "number", 1);
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 2, name, parameters);
-	zval_ptr_dtor(&name);
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "number", 0);
 }
 
 /**
@@ -760,15 +807,8 @@ PHP_METHOD(Phalcon_Tag, numericField){
  * @return string
  */
 PHP_METHOD(Phalcon_Tag, emailField){
-
-	zval *parameters, *name;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
 	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "email", 1);
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 2, name, parameters);
-	zval_ptr_dtor(&name);
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "email", 0);
 }
 
 /**
@@ -783,14 +823,7 @@ PHP_METHOD(Phalcon_Tag, emailField){
  */
 PHP_METHOD(Phalcon_Tag, dateField){
 
-	zval *parameters, *name;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
-	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "date", 1);
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 2, name, parameters);
-	zval_ptr_dtor(&name);
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "date", 0);
 }
 
 /**
@@ -805,14 +838,7 @@ PHP_METHOD(Phalcon_Tag, dateField){
  */
 PHP_METHOD(Phalcon_Tag, passwordField){
 
-	zval *parameters, *name;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
-	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "password", 1);
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 2, name, parameters);
-	zval_ptr_dtor(&name);
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "password", 0);
 }
 
 /**
@@ -827,14 +853,7 @@ PHP_METHOD(Phalcon_Tag, passwordField){
  */
 PHP_METHOD(Phalcon_Tag, hiddenField){
 
-	zval *parameters, *name;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
-	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "hidden", 1);
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 2, name, parameters);
-	zval_ptr_dtor(&name);
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "hidden", 0);
 }
 
 /**
@@ -849,14 +868,7 @@ PHP_METHOD(Phalcon_Tag, hiddenField){
  */
 PHP_METHOD(Phalcon_Tag, fileField){
 
-	zval *parameters, *name;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
-	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "file", 1);
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 2, name, parameters);
-	zval_ptr_dtor(&name);
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "file", 0);
 }
 
 /**
@@ -871,14 +883,7 @@ PHP_METHOD(Phalcon_Tag, fileField){
  */
 PHP_METHOD(Phalcon_Tag, checkField){
 
-	zval *parameters, *name;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
-	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "checkbox", 1);
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfieldchecked") TSRMLS_CC, 2, name, parameters);
-	zval_ptr_dtor(&name);
+	phalcon_tag_generic_field_checked(INTERNAL_FUNCTION_PARAM_PASSTHRU, "checkbox");
 }
 
 /**
@@ -898,14 +903,7 @@ PHP_METHOD(Phalcon_Tag, checkField){
  */
 PHP_METHOD(Phalcon_Tag, radioField){
 
-	zval *parameters, *name;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
-	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "radio", 1);
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfieldchecked") TSRMLS_CC, 2, name, parameters);
-	zval_ptr_dtor(&name);
+	phalcon_tag_generic_field_checked(INTERNAL_FUNCTION_PARAM_PASSTHRU, "radio");
 }
 
 /**
@@ -925,19 +923,7 @@ PHP_METHOD(Phalcon_Tag, radioField){
  */
 PHP_METHOD(Phalcon_Tag, imageInput){
 
-	zval *parameters, *name, *as_value;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
-	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "image", 1);
-	
-	MAKE_STD_ZVAL(as_value);
-	ZVAL_TRUE(as_value);
-
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 3, name, parameters, as_value);
-	zval_ptr_dtor(&name);
-	zval_ptr_dtor(&as_value);
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "image", 1);
 }
 
 /**
@@ -957,19 +943,7 @@ PHP_METHOD(Phalcon_Tag, imageInput){
  */
 PHP_METHOD(Phalcon_Tag, submitButton){
 
-	zval *parameters, *name, *as_value;
-
-	phalcon_fetch_params(0, 1, 0, &parameters);
-	
-	MAKE_STD_ZVAL(name);
-	ZVAL_STRING(name, "submit", 1);
-	
-	MAKE_STD_ZVAL(as_value);
-	ZVAL_TRUE(as_value);
-
-	phalcon_call_self_func_params(return_value, return_value_ptr, this_ptr, SL("_inputfield") TSRMLS_CC, 3, name, parameters, as_value);
-	zval_ptr_dtor(&name);
-	zval_ptr_dtor(&as_value);
+	phalcon_tag_generic_field(INTERNAL_FUNCTION_PARAM_PASSTHRU, "submit", 1);
 }
 
 /**
@@ -995,7 +969,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 		data = PHALCON_GLOBAL(z_null);
 	}
 	
-	phalcon_call_static_p2(return_value, "phalcon\\tag\\select", "selectfield", parameters, data);
+	phalcon_return_call_static_p2("phalcon\\tag\\select", "selectfield", parameters, data);
 	RETURN_MM();
 }
 
@@ -1089,6 +1063,10 @@ PHP_METHOD(Phalcon_Tag, textArea){
 
 	PHALCON_OBS_VAR(escaper);
 	phalcon_tag_get_escaper(&escaper, params TSRMLS_CC);
+	if (EG(exception)) {
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	if (escaper) {
 		PHALCON_INIT_VAR(escaped);
@@ -1102,6 +1080,10 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	ZVAL_STRING(code, "<textarea", 1);
 
 	phalcon_tag_write_attributes(code, params TSRMLS_CC);
+	if (EG(exception)) {
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	PHALCON_CONCAT_VSVS(return_value, code, ">", escaped, "</textarea>");
 
@@ -1186,6 +1168,10 @@ PHP_METHOD(Phalcon_Tag, form){
 	ZVAL_STRING(code, "<form", 1);
 
 	phalcon_tag_write_attributes(code, params TSRMLS_CC);
+	if (EG(exception)) {
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	PHALCON_CONCAT_VS(return_value, code, ">");
 	
@@ -1367,6 +1353,10 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
 
 	phalcon_tag_write_attributes(code, params TSRMLS_CC);
+	if (EG(exception)) {
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	doctype = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentType") TSRMLS_CC);
 	
@@ -1461,6 +1451,10 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	ZVAL_STRING(code, "<script", 1);
 
 	phalcon_tag_write_attributes(code, params TSRMLS_CC);
+	if (EG(exception)) {
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	PHALCON_CONCAT_VS(return_value, code, "></script>" PHP_EOL);
 	PHALCON_MM_RESTORE();
@@ -1542,6 +1536,10 @@ PHP_METHOD(Phalcon_Tag, image){
 	ZVAL_STRING(code, "<img", 1);
 
 	phalcon_tag_write_attributes(code, params TSRMLS_CC);
+	if (EG(exception)) {
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	doctype = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentType") TSRMLS_CC);
 	
@@ -1698,6 +1696,10 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 	PHALCON_CONCAT_SV(local_code, "<", tag_name);
 
 	phalcon_tag_write_attributes(local_code, params TSRMLS_CC);
+	if (EG(exception)) {
+		PHALCON_MM_RESTORE();
+		return;
+	}
 
 	doctype = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_documentType") TSRMLS_CC);
 	

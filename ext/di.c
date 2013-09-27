@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_DI, getRaw){
 
 	services = phalcon_fetch_nproperty_this(this_ptr, SL("_services"), PH_NOISY_CC);
 	if (phalcon_array_isset_fetch(&service, services, name)) {
-		phalcon_call_method_p0_ex(return_value, return_value_ptr, service, "getdefinition");
+		phalcon_return_call_method_p0(service, "getdefinition");
 		RETURN_MM();
 	}
 	

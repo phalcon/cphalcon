@@ -1173,21 +1173,28 @@ void phalcon_json_encode(zval *return_value, zval **return_value_ptr, zval *v, i
 {
 	zval *zopts;
 
-	ALLOC_INIT_ZVAL(zopts);
+	MAKE_STD_ZVAL(zopts);
 	ZVAL_LONG(zopts, opts);
 
-	phalcon_call_func_params(return_value, return_value_ptr, ZEND_STRL("json_encode") TSRMLS_CC, 2, v, zopts);
+	if (FAILURE == phalcon_call_func_params(return_value, return_value_ptr, ZEND_STRL("json_encode") TSRMLS_CC, 2, v, zopts)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+	}
+
 	zval_ptr_dtor(&zopts);
 }
 
 void phalcon_json_decode(zval *return_value, zval **return_value_ptr, zval *v, zend_bool assoc TSRMLS_DC)
 {
-	zval *zassoc;
+	zval *zassoc = assoc ? PHALCON_GLOBAL(z_true) : PHALCON_GLOBAL(z_false);
 
-	ALLOC_INIT_ZVAL(zassoc);
-	ZVAL_BOOL(zassoc, assoc);
+	if (FAILURE == phalcon_call_func_params(return_value, return_value_ptr, ZEND_STRL("json_decode") TSRMLS_CC, 2, v, zassoc)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+	}
 
-	phalcon_call_func_params(return_value, return_value_ptr, ZEND_STRL("json_decode") TSRMLS_CC, 2, v, zassoc);
 	zval_ptr_dtor(&zassoc);
 }
 

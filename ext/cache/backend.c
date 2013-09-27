@@ -117,16 +117,14 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 	/** 
 	 * Get the cache content verifying if it was expired
 	 */
-	PHALCON_INIT_VAR(fresh);
-
-	phalcon_call_method_p2_ex(return_value, return_value_ptr, this_ptr, "get", key_name, lifetime);
+	phalcon_return_call_method_p2(this_ptr, "get", key_name, lifetime);
 	if ((return_value_ptr && Z_TYPE_PP(return_value_ptr) == IS_NULL) || (!return_value_ptr && Z_TYPE_P(return_value) == IS_NULL)) {
-		ZVAL_TRUE(fresh);
+		fresh = PHALCON_GLOBAL(z_true);
 	
 		frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
 		phalcon_call_method_noret(frontend, "start");
 	} else {
-		ZVAL_FALSE(fresh);
+		fresh = PHALCON_GLOBAL(z_false);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_fresh"), fresh TSRMLS_CC);

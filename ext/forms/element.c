@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Forms_Element, prepareAttributes){
 		PHALCON_INIT_VAR(merged_attributes);
 		phalcon_fast_array_merge(merged_attributes, &default_attributes, &widget_attributes TSRMLS_CC);
 	} else {
-		merged_attributes = widget_attributes;
+		PHALCON_CPY_WRT(merged_attributes, widget_attributes);
 	}
 	
 	/** 
@@ -810,7 +810,11 @@ PHP_METHOD(Phalcon_Forms_Element, clear){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Forms_Element, __toString){
+PHP_METHOD(Phalcon_Forms_Element, __toString) {
 
-	phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("render"), zend_inline_hash_func(SS("render")) TSRMLS_CC, 0);
+	if (FAILURE == phalcon_call_method_params(return_value, return_value_ptr, this_ptr, SL("render"), zend_inline_hash_func(SS("render")) TSRMLS_CC, 0)) {
+		if (EG(exception) && return_value_ptr) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+	}
 }

@@ -61,7 +61,7 @@ PHALCON_INIT_CLASS(Phalcon_Forms_Element_Text){
  */
 PHP_METHOD(Phalcon_Forms_Element_Text, render){
 
-	zval *attributes = NULL, *widget_attributes;
+	zval *attributes = NULL, *widget_attributes, *rv;
 
 	PHALCON_MM_GROW();
 
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Forms_Element_Text, render){
 	
 	PHALCON_INIT_VAR(widget_attributes);
 	phalcon_call_method_p1(widget_attributes, this_ptr, "prepareattributes", attributes);
-	phalcon_call_static_p1(return_value, "phalcon\\tag", "textfield", widget_attributes);
-	RETURN_MM();
+	PHALCON_INIT_VAR(rv);
+	phalcon_call_static_p1(rv, "phalcon\\tag", "textfield", widget_attributes);
+	RETURN_CTOR(rv);
 }
-

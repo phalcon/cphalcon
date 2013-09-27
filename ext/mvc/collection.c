@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnectionService){
 	PHALCON_MM_GROW();
 
 	models_manager = phalcon_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	phalcon_call_method_p1_ex(return_value, return_value_ptr, models_manager, "getconnectionservice", this_ptr);
+	phalcon_return_call_method_p1(models_manager, "getconnectionservice", this_ptr);
 	RETURN_MM();
 }
 

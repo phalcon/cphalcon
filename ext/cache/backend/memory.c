@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memory, get){
 	if (phalcon_array_isset_fetch(&cached_content, data, last_key)) {
 		if (Z_TYPE_P(cached_content) != IS_NULL) {
 			frontend = phalcon_fetch_nproperty_this(this_ptr, SL("_frontend"), PH_NOISY_CC);
-			phalcon_call_method_p1_ex(return_value, return_value_ptr, frontend, "afterretrieve", cached_content);
+			phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
 		}
 	}
 

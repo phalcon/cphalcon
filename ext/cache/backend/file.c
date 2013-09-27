@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 			/** 
 			 * Use the frontend to process the content of the cache
 			 */
-			phalcon_call_method_p1_ex(return_value, return_value_ptr, frontend, "afterretrieve", cached_content);
+			phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
 			RETURN_MM();
 		}
 	}

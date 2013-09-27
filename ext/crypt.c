@@ -637,6 +637,9 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers){
 
 
 	phalcon_call_func_params(return_value, return_value_ptr, SL("mcrypt_list_algorithms") TSRMLS_CC, 0);
+	if (return_value_ptr && EG(exception)) {
+		ALLOC_INIT_ZVAL(*return_value_ptr);
+	}
 }
 
 /**
@@ -648,4 +651,7 @@ PHP_METHOD(Phalcon_Crypt, getAvailableModes){
 
 
 	phalcon_call_func_params(return_value, return_value_ptr, SL("mcrypt_list_modes") TSRMLS_CC, 0);
+	if (return_value_ptr && EG(exception)) {
+		ALLOC_INIT_ZVAL(*return_value_ptr);
+	}
 }

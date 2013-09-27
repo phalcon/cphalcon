@@ -5343,10 +5343,9 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany){
 
 	phalcon_fetch_params(1, 6, 1, &fields, &intermediate_model, &intermediate_fields, &intermediate_referenced_fields, &reference_model, &referenced_fields, &options);
 	
-	PHALCON_OBS_VAR(manager);
-	phalcon_read_property_this(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	manager = phalcon_fetch_nproperty_this(this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
-	PHALCON_CALL_METHOD(return_value, return_value_ptr, manager, "addhasmanytomany", zend_inline_hash_func(SS("addhasmanytomany")), (options ? 8 : 7), this_ptr, fields, intermediate_model, intermediate_fields, intermediate_referenced_fields, reference_model, referenced_fields, options);
+	PHALCON_RETURN_CALL_METHOD(manager, "addhasmanytomany", zend_inline_hash_func(SS("addhasmanytomany")), (options ? 8 : 7), this_ptr, fields, intermediate_model, intermediate_fields, intermediate_referenced_fields, reference_model, referenced_fields, options);
 	RETURN_MM();
 }
 

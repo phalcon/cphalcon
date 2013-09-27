@@ -77,6 +77,8 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 		*retval_ptr_ptr = NULL;
 	}
 
+	assert(retval_ptr != NULL);
+
 	phalcon_globals_ptr->recursive_lock++;
 
 	if (unlikely(phalcon_globals_ptr->recursive_lock > 2048)) {
@@ -115,12 +117,7 @@ static int phalcon_call_user_function(HashTable *function_table, zval **object_p
 		ex_retval = PHALCON_ZEND_CALL_FUNCTION_WRAPPER(&fci, NULL TSRMLS_CC);
 
 		if (local_retval_ptr) {
-			if (Z_TYPE_P(local_retval_ptr) == IS_NULL) {
-				zval_ptr_dtor(&local_retval_ptr);
-			}
-			else {
-				COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);
-			}
+			COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);
 		}
 		else if (!retval_ptr_ptr) {
 			INIT_ZVAL(*retval_ptr);

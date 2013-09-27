@@ -192,10 +192,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 		PHALCON_OBS_VAR(mongo_database);
 		phalcon_call_method_p1_ex(mongo_database, &mongo_database, mongo, "selectdb", database);
 	
-		phalcon_call_method_p1_ex(return_value, return_value_ptr, mongo_database, "selectcollection", collection);
+		phalcon_return_call_method_p1(mongo_database, "selectcollection", collection);
 	}
 	else {
-		ZVAL_ZVAL(return_value, mongo_collection, 1, 0);
+		RETVAL_ZVAL(mongo_collection, 1, 0);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	phalcon_call_method_p1_ex(document, &document, collection, "findone", conditions);
 	if (Z_TYPE_P(document) == IS_ARRAY) { 
 		if (likely(phalcon_array_isset_string_fetch(&cached_content, document, SS("data")))) {
-			phalcon_call_method_p1_ex(return_value, return_value_ptr, frontend, "afterretrieve", cached_content);
+			phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
 			RETURN_MM();
 		}
 		else {

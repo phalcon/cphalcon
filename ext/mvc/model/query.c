@@ -694,11 +694,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				break;
 	
 			case PHQL_T_QUALIFIED:
-				phalcon_call_method_p1_ex(return_value, return_value_ptr, this_ptr, "_getqualified", expr);
+				phalcon_return_call_method_p1(this_ptr, "_getqualified", expr);
 				break;
 	
 			case 359: /** @todo Is this code returned anywhere? */
-				phalcon_call_method_p1_ex(return_value, return_value_ptr, this_ptr, "_getaliased", expr);
+				phalcon_return_call_method_p1(this_ptr, "_getaliased", expr);
 				break;
 	
 			case PHQL_T_ADD:
@@ -993,7 +993,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				break;
 	
 			case PHQL_T_FCALL:
-				phalcon_call_method_p1_ex(return_value, return_value_ptr, this_ptr, "_getfunctioncall", expr);
+				phalcon_return_call_method_p1(this_ptr, "_getfunctioncall", expr);
 				break;
 	
 			default:
@@ -1011,7 +1011,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	 * Is a qualified column
 	 */
 	if (phalcon_array_isset_string(expr, SS("domain"))) {
-		phalcon_call_method_p1_ex(return_value, return_value_ptr, this_ptr, "_getqualified", expr);
+		phalcon_return_call_method_p1(this_ptr, "_getqualified", expr);
 		RETURN_MM();
 	}
 	
@@ -4894,11 +4894,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	 * Check if only the first row must be returned
 	 */
 	if (zend_is_true(unique_row)) {
-		phalcon_call_method_p0_ex(return_value, return_value_ptr, result, "getfirst");
+		phalcon_return_call_method_p0(result, "getfirst");
 		RETURN_MM();
-	} else {
-		RETURN_CCTOR(result);
 	}
+
+	RETURN_CCTOR(result);
 }
 
 /**
@@ -4931,11 +4931,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult){
 	 * The query is already programmed to return just one row
 	 */
 	if (zend_is_true(unique_row)) {
-		phalcon_call_method_p2_ex(return_value, return_value_ptr, this_ptr, "execute", bind_params, bind_types);
+		phalcon_return_call_method_p2(this_ptr, "execute", bind_params, bind_types);
 		RETURN_MM();
 	}
 	
-	phalcon_call_method_p2_ex(return_value, return_value_ptr, this_ptr, "execute", bind_params, bind_types);
+	phalcon_return_call_method_p2(this_ptr, "execute", bind_params, bind_types);
 	
 	PHALCON_INIT_VAR(first_result);
 	phalcon_call_method(first_result, return_value, "getfirst");

@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, get){
 		RETURN_MM_NULL();
 	}
 	
-	phalcon_call_method_p1_ex(return_value, return_value_ptr, frontend, "afterretrieve", cached_content);
+	phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
 	RETURN_MM();
 }
 
@@ -275,7 +275,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, delete){
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_SVV(prefixed_key, "_PHCX", prefix, key_name);
 	
-	phalcon_call_func_p1_ex(return_value, return_value_ptr, "xcache_unset", prefixed_key);
+	phalcon_return_call_func_p1("xcache_unset", prefixed_key);
 	
 	if (unlikely(!phalcon_array_isset_string_fetch(&special_key, options, SS("statsKey")))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Unexpected inconsistency in options");
@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache, exists){
 	}
 
 	if (zend_is_true(last_key)) {
-		phalcon_call_func_p1_ex(return_value, return_value_ptr, "xcache_isset", last_key);
+		phalcon_return_call_func_p1("xcache_isset", last_key);
 	}
 	else {
 		RETVAL_FALSE;
