@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 			; zend_hash_move_forward_ex(_1, &_0)
 		) {
 			ZEPHIR_GET_HVALUE(message, _2);
-			if (zephir_method_exists_str(message, SS("getfield") TSRMLS_CC)) {
+			if ((zephir_method_exists_str(message, SS("getfield") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_INIT_NVAR(_3);
 				zephir_call_method_cache(_3, message, "getfield", &_4);
 				if (ZEPHIR_IS_EQUAL(fieldName, _3)) {

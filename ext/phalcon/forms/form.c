@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 	if ((Z_TYPE_P(userOptions) == IS_ARRAY)) {
 		zephir_update_property_this(this_ptr, SL("_options"), userOptions TSRMLS_CC);
 	}
-	if (zephir_method_exists_str(this_ptr, SS("initialize") TSRMLS_CC)) {
+	if ((zephir_method_exists_str(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_p2_noret(this_ptr, "initialize", entity, userOptions);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 		}
 		ZEPHIR_INIT_NVAR(method);
 		ZEPHIR_CONCAT_SV(method, "set", key);
-		if (zephir_method_exists(entity, method TSRMLS_CC)) {
+		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
 			zephir_call_method_zval_p1_noret(entity, method, filteredValue);
 			continue;
 		}
@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 		ZEPHIR_OBS_NVAR(data);
 		zephir_read_property_this(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	}
-	if (zephir_method_exists_str(this_ptr, SS("beforevalidation") TSRMLS_CC)) {
+	if ((zephir_method_exists_str(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_method_p2(_0, this_ptr, "beforevalidation", data, entity);
 		if (ZEPHIR_IS_FALSE(_0)) {
@@ -447,7 +447,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	if (!(notFailed)) {
 		zephir_update_property_this(this_ptr, SL("_messages"), messages TSRMLS_CC);
 	}
-	if (zephir_method_exists_str(this_ptr, SS("aftervalidation") TSRMLS_CC)) {
+	if ((zephir_method_exists_str(this_ptr, SS("aftervalidation") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_p1_noret(this_ptr, "aftervalidation", messages);
 	}
 	RETURN_MM_BOOL(notFailed);
@@ -758,7 +758,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	if ((Z_TYPE_P(entity) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(method);
 		ZEPHIR_CONCAT_SV(method, "get", name);
-		if (zephir_method_exists(entity, method TSRMLS_CC)) {
+		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
 			zephir_call_method_zval(return_value, entity, method);
 			RETURN_MM();
 		}

@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 		}
 		zephir_update_property_this(this_ptr, SL("_validators"), validators TSRMLS_CC);
 	}
-	if (zephir_method_exists_str(this_ptr, SS("initialize") TSRMLS_CC)) {
+	if ((zephir_method_exists_str(this_ptr, SS("initialize") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_noret(this_ptr, "initialize");
 	}
 	ZEPHIR_MM_RESTORE();
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	ZEPHIR_INIT_VAR(messages);
 	object_init_ex(messages, phalcon_validation_message_group_ce);
 	zephir_call_method_noret(messages, "__construct");
-	if (zephir_method_exists_str(this_ptr, SS("beforevalidation") TSRMLS_CC)) {
+	if ((zephir_method_exists_str(this_ptr, SS("beforevalidation") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(_0);
 		zephir_call_method_p3(_0, this_ptr, "beforevalidation", data, entity, messages);
 		if (ZEPHIR_IS_FALSE(_0)) {
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	}
 	ZEPHIR_OBS_NVAR(messages);
 	zephir_read_property_this(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	if (zephir_method_exists_str(this_ptr, SS("aftervalidation") TSRMLS_CC)) {
+	if ((zephir_method_exists_str(this_ptr, SS("aftervalidation") TSRMLS_CC) == SUCCESS)) {
 		zephir_call_method_p3_noret(this_ptr, "aftervalidation", data, entity, messages);
 	}
 	RETURN_CCTOR(messages);
@@ -375,11 +375,11 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 	if ((Z_TYPE_P(entity) == IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(method);
 		ZEPHIR_CONCAT_SV(method, "get", attribute);
-		if (zephir_method_exists(entity, method TSRMLS_CC)) {
+		if ((zephir_method_exists(entity, method TSRMLS_CC)  == SUCCESS)) {
 			ZEPHIR_INIT_VAR(value);
 			zephir_call_method_zval(value, entity, method);
 		} else {
-			if (zephir_method_exists_str(entity, SS("readattribute") TSRMLS_CC)) {
+			if ((zephir_method_exists_str(entity, SS("readattribute") TSRMLS_CC) == SUCCESS)) {
 				ZEPHIR_INIT_NVAR(value);
 				zephir_call_method_p1(value, entity, "readattribute", attribute);
 			} else {
