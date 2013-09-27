@@ -147,12 +147,14 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 	zval *key_param = NULL, *value;
 	zval *key = NULL;
 
-	zephir_fetch_params(0, 2, 0, &key_param, &value);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
 		zephir_get_strval(key, key_param);
 
 
 	zephir_update_property_array(this_ptr, SL("_options"), key, value TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

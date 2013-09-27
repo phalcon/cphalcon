@@ -77,7 +77,8 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 	zval *name_param = NULL, *definition, *shared_param = NULL, *_0;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 2, 1, &name_param, &definition, &shared_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 1, &name_param, &definition, &shared_param);
 
 		zephir_get_strval(name, name_param);
 	if (!shared_param) {
@@ -92,6 +93,7 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_BOOL(_0, shared);
 	zephir_update_property_this(this_ptr, SL("_shared"), _0 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

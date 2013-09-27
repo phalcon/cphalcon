@@ -112,7 +112,8 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri) {
 	zval *baseUri_param = NULL, *_0;
 	zval *baseUri = NULL;
 
-	zephir_fetch_params(0, 1, 0, &baseUri_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &baseUri_param);
 
 		zephir_get_strval(baseUri, baseUri_param);
 
@@ -122,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri) {
 	if ((Z_TYPE_P(_0) == IS_NULL)) {
 		zephir_update_property_this(this_ptr, SL("_staticBaseUri"), baseUri TSRMLS_CC);
 	}
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -141,13 +142,14 @@ PHP_METHOD(Phalcon_Mvc_Url, setStaticBaseUri) {
 	zval *staticBaseUri_param = NULL;
 	zval *staticBaseUri = NULL;
 
-	zephir_fetch_params(0, 1, 0, &staticBaseUri_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &staticBaseUri_param);
 
 		zephir_get_strval(staticBaseUri, staticBaseUri_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_staticBaseUri"), staticBaseUri TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -223,13 +225,14 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath) {
 	zval *basePath_param = NULL;
 	zval *basePath = NULL;
 
-	zephir_fetch_params(0, 1, 0, &basePath_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &basePath_param);
 
 		zephir_get_strval(basePath, basePath_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_basePath"), basePath TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 

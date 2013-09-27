@@ -127,16 +127,18 @@ PHP_METHOD(Phalcon_Validation_Message_Group, offsetSet) {
 	zval *index_param = NULL, *message;
 	zval *index = NULL;
 
-	zephir_fetch_params(0, 2, 0, &index_param, &message);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &index_param, &message);
 
 		zephir_get_strval(index, index_param);
 
 
 	if ((Z_TYPE_P(message) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_validation_exception_ce, "The message must be an object");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_validation_exception_ce, "The message must be an object");
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("_messages"), index, message TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -302,7 +304,7 @@ PHP_METHOD(Phalcon_Validation_Message_Group, filter) {
 			ZEPHIR_GET_HVALUE(message, _2);
 			if (zephir_method_exists_str(message, SS("getField") TSRMLS_CC)) {
 				ZEPHIR_INIT_NVAR(_3);
-				zephir_call_method(_3, message, "getfield");
+				zephir_call_method_cache(_3, message, "getfield");
 				if (ZEPHIR_IS_EQUAL(fieldName, _3)) {
 					zephir_array_append(&filtered, message, PH_SEPARATE);
 				}

@@ -72,17 +72,18 @@ PHP_METHOD(Phalcon_Filter, add) {
 	zval *name_param = NULL, *handler;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 2, 0, &name_param, &handler);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &name_param, &handler);
 
 		zephir_get_strval(name, name_param);
 
 
 	if ((Z_TYPE_P(handler) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_filter_exception_ce, "Filter must be an object");
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_filter_exception_ce, "Filter must be an object");
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 

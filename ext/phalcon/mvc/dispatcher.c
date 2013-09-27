@@ -83,12 +83,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 	zval *controllerSuffix_param = NULL;
 	zval *controllerSuffix = NULL;
 
-	zephir_fetch_params(0, 1, 0, &controllerSuffix_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &controllerSuffix_param);
 
 		zephir_get_strval(controllerSuffix, controllerSuffix_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_handlerSuffix"), controllerSuffix TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -102,12 +104,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 	zval *controllerName_param = NULL;
 	zval *controllerName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &controllerName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &controllerName_param);
 
 		zephir_get_strval(controllerName, controllerName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultHandler"), controllerName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -121,12 +125,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 	zval *controllerName_param = NULL;
 	zval *controllerName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &controllerName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &controllerName_param);
 
 		zephir_get_strval(controllerName, controllerName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_handlerName"), controllerName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

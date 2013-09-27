@@ -220,13 +220,14 @@ PHP_METHOD(Phalcon_Validation, setFilters) {
 	zval *attribute_param = NULL, *filters;
 	zval *attribute = NULL;
 
-	zephir_fetch_params(0, 2, 0, &attribute_param, &filters);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &attribute_param, &filters);
 
 		zephir_get_strval(attribute, attribute_param);
 
 
 	zephir_update_property_array(this_ptr, SL("_filters"), attribute, filters TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 

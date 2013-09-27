@@ -124,13 +124,14 @@ PHP_METHOD(Phalcon_Assets_Resource, setType) {
 	zval *type_param = NULL;
 	zval *type = NULL;
 
-	zephir_fetch_params(0, 1, 0, &type_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &type_param);
 
 		zephir_get_strval(type, type_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -157,13 +158,14 @@ PHP_METHOD(Phalcon_Assets_Resource, setPath) {
 	zval *path_param = NULL;
 	zval *path = NULL;
 
-	zephir_fetch_params(0, 1, 0, &path_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &path_param);
 
 		zephir_get_strval(path, path_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_path"), path TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -291,13 +293,14 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetUri) {
 	zval *targetUri_param = NULL;
 	zval *targetUri = NULL;
 
-	zephir_fetch_params(0, 1, 0, &targetUri_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &targetUri_param);
 
 		zephir_get_strval(targetUri, targetUri_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_targetUri"), targetUri TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -324,13 +327,14 @@ PHP_METHOD(Phalcon_Assets_Resource, setSourcePath) {
 	zval *sourcePath_param = NULL;
 	zval *sourcePath = NULL;
 
-	zephir_fetch_params(0, 1, 0, &sourcePath_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &sourcePath_param);
 
 		zephir_get_strval(sourcePath, sourcePath_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_sourcePath"), sourcePath TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -357,13 +361,14 @@ PHP_METHOD(Phalcon_Assets_Resource, setTargetPath) {
 	zval *targetPath_param = NULL;
 	zval *targetPath = NULL;
 
-	zephir_fetch_params(0, 1, 0, &targetPath_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &targetPath_param);
 
 		zephir_get_strval(targetPath, targetPath_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_targetPath"), targetPath TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 

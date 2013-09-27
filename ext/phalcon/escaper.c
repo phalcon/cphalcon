@@ -74,12 +74,14 @@ PHP_METHOD(Phalcon_Escaper, setEncoding) {
 	zval *encoding_param = NULL;
 	zval *encoding = NULL;
 
-	zephir_fetch_params(0, 1, 0, &encoding_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &encoding_param);
 
 		zephir_get_strval(encoding, encoding_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_encoding"), encoding TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

@@ -130,10 +130,8 @@ PHP_METHOD(Phalcon_Tag, getUrlService) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_VAR(url);
 	url = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_urlService") TSRMLS_CC);
 	if ((Z_TYPE_P(url) != IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(dependencyInjector);
 		dependencyInjector = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		}
@@ -162,10 +160,8 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_INIT_VAR(escaper);
 	escaper = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_escaperService") TSRMLS_CC);
 	if ((Z_TYPE_P(escaper) != IS_OBJECT)) {
-		ZEPHIR_INIT_VAR(dependencyInjector);
 		dependencyInjector = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_dependencyInjector") TSRMLS_CC);
 		if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		}
@@ -220,17 +216,19 @@ PHP_METHOD(Phalcon_Tag, setDefault) {
 	zval *id_param = NULL, *value;
 	zval *id = NULL;
 
-	zephir_fetch_params(0, 2, 0, &id_param, &value);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &id_param, &value);
 
 		zephir_get_strval(id, id_param);
 
 
 	if ((Z_TYPE_P(value) != IS_NULL)) {
 		if (((Z_TYPE_P(value) == IS_ARRAY) || (Z_TYPE_P(value) == IS_OBJECT))) {
-			ZEPHIR_THROW_EXCEPTION_STRW(phalcon_tag_exception_ce, "Only scalar values can be assigned to UI components");
+			ZEPHIR_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Only scalar values can be assigned to UI components");
 			return;
 		}
 	}
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -292,22 +290,20 @@ PHP_METHOD(Phalcon_Tag, hasValue) {
 
 	zval *name, *displayValues, *_POST;
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(0, 1, 0, &name);
 
 
 
-	ZEPHIR_INIT_VAR(displayValues);
 	displayValues = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_displayValues") TSRMLS_CC);
 	if (zephir_array_isset(displayValues, name)) {
-		RETURN_MM_BOOL(1);
+		RETURN_BOOL(1);
 	} else {
 		zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
 		if (zephir_array_isset(_POST, name)) {
-			RETURN_MM_BOOL(1);
+			RETURN_BOOL(1);
 		}
 	}
-	RETURN_MM_BOOL(0);
+	RETURN_BOOL(0);
 
 }
 
@@ -331,7 +327,6 @@ PHP_METHOD(Phalcon_Tag, getValue) {
 	}
 
 
-	ZEPHIR_INIT_VAR(displayValues);
 	displayValues = zephir_fetch_static_property_ce(phalcon_tag_ce , SL("_displayValues") TSRMLS_CC);
 	ZEPHIR_OBS_VAR(value);
 	if (!(zephir_array_isset_fetch(&value, displayValues, name TSRMLS_CC))) {

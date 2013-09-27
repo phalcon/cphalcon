@@ -449,7 +449,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 	zval *className_param = NULL;
 	zval *className = NULL;
 
-	zephir_fetch_params(0, 1, 0, &className_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &className_param);
 
 		zephir_get_strval(className, className_param);
 

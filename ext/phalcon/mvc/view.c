@@ -159,13 +159,14 @@ PHP_METHOD(Phalcon_Mvc_View, setViewsDir) {
 	zval *viewsDir_param = NULL;
 	zval *viewsDir = NULL;
 
-	zephir_fetch_params(0, 1, 0, &viewsDir_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &viewsDir_param);
 
 		zephir_get_strval(viewsDir, viewsDir_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_viewsDir"), viewsDir TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -196,13 +197,14 @@ PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir) {
 	zval *layoutsDir_param = NULL;
 	zval *layoutsDir = NULL;
 
-	zephir_fetch_params(0, 1, 0, &layoutsDir_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &layoutsDir_param);
 
 		zephir_get_strval(layoutsDir, layoutsDir_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_layoutsDir"), layoutsDir TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -233,13 +235,14 @@ PHP_METHOD(Phalcon_Mvc_View, setPartialsDir) {
 	zval *partialsDir_param = NULL;
 	zval *partialsDir = NULL;
 
-	zephir_fetch_params(0, 1, 0, &partialsDir_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &partialsDir_param);
 
 		zephir_get_strval(partialsDir, partialsDir_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_partialsDir"), partialsDir TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -270,13 +273,14 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath) {
 	zval *basePath_param = NULL;
 	zval *basePath = NULL;
 
-	zephir_fetch_params(0, 1, 0, &basePath_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &basePath_param);
 
 		zephir_get_strval(basePath, basePath_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_basePath"), basePath TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -352,13 +356,14 @@ PHP_METHOD(Phalcon_Mvc_View, setMainView) {
 	zval *viewPath_param = NULL;
 	zval *viewPath = NULL;
 
-	zephir_fetch_params(0, 1, 0, &viewPath_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &viewPath_param);
 
 		zephir_get_strval(viewPath, viewPath_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_mainView"), viewPath TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -389,13 +394,14 @@ PHP_METHOD(Phalcon_Mvc_View, setLayout) {
 	zval *layout_param = NULL;
 	zval *layout = NULL;
 
-	zephir_fetch_params(0, 1, 0, &layout_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &layout_param);
 
 		zephir_get_strval(layout, layout_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_layout"), layout TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -507,13 +513,14 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView) {
 	zval *key_param = NULL, *value;
 	zval *key = NULL;
 
-	zephir_fetch_params(0, 2, 0, &key_param, &value);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
 		zephir_get_strval(key, key_param);
 
 
 	zephir_update_property_array(this_ptr, SL("_viewParams"), key, value TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -580,13 +587,14 @@ PHP_METHOD(Phalcon_Mvc_View, setVar) {
 	zval *key_param = NULL, *value;
 	zval *key = NULL;
 
-	zephir_fetch_params(0, 2, 0, &key_param, &value);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
 		zephir_get_strval(key, key_param);
 
 
 	zephir_update_property_array(this_ptr, SL("_viewParams"), key, value TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -1461,13 +1469,14 @@ PHP_METHOD(Phalcon_Mvc_View, setContent) {
 	zval *content_param = NULL;
 	zval *content = NULL;
 
-	zephir_fetch_params(0, 1, 0, &content_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &content_param);
 
 		zephir_get_strval(content, content_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -1562,12 +1571,14 @@ PHP_METHOD(Phalcon_Mvc_View, __set) {
 	zval *key_param = NULL, *value;
 	zval *key = NULL;
 
-	zephir_fetch_params(0, 2, 0, &key_param, &value);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
 		zephir_get_strval(key, key_param);
 
 
 	zephir_update_property_array(this_ptr, SL("_viewParams"), key, value TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

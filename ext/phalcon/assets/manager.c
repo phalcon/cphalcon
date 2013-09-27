@@ -279,13 +279,14 @@ PHP_METHOD(Phalcon_Assets_Manager, set) {
 	zval *id_param = NULL, *collection;
 	zval *id = NULL;
 
-	zephir_fetch_params(0, 2, 0, &id_param, &collection);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &id_param, &collection);
 
 		zephir_get_strval(id, id_param);
 
 
 	zephir_update_property_array(this_ptr, SL("_collections"), id, collection TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 

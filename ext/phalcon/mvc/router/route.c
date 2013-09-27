@@ -507,13 +507,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setName) {
 	zval *name_param = NULL;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
 
 		zephir_get_strval(name, name_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_name"), name TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 
@@ -710,13 +711,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, convert) {
 	zval *name_param = NULL, *converter;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 2, 0, &name_param, &converter);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &name_param, &converter);
 
 		zephir_get_strval(name, name_param);
 
 
 	zephir_update_property_array(this_ptr, SL("_converters"), name, converter TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 

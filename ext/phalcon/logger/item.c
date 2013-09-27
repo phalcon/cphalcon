@@ -113,7 +113,8 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 	zval *message_param = NULL, *type_param = NULL, *time_param = NULL, *_0, *_1;
 	zval *message = NULL;
 
-	zephir_fetch_params(0, 2, 1, &message_param, &type_param, &time_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 1, &message_param, &type_param, &time_param);
 
 		zephir_get_strval(message, message_param);
 		type = zephir_get_intval(type_param);
@@ -130,6 +131,7 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 	ZEPHIR_INIT_ZVAL_NREF(_1);
 	ZVAL_LONG(_1, time);
 	zephir_update_property_zval(this_ptr, SL("_time"), _1 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

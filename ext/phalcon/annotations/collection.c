@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method(_3, annotation, "getname");
+			zephir_call_method_cache(_3, annotation, "getname");
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				RETURN_CCTOR(annotation);
 			}
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method(_3, annotation, "getname");
+			zephir_call_method_cache(_3, annotation, "getname");
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				zephir_array_append(&found, annotation, PH_SEPARATE);
 			}
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 		) {
 			ZEPHIR_GET_HVALUE(annotation, _2);
 			ZEPHIR_INIT_NVAR(_3);
-			zephir_call_method(_3, annotation, "getname");
+			zephir_call_method_cache(_3, annotation, "getname");
 			if (ZEPHIR_IS_EQUAL(name, _3)) {
 				RETURN_MM_BOOL(1);
 			}

@@ -557,13 +557,14 @@ PHP_METHOD(Phalcon_Http_Response, setContent) {
 	zval *content_param = NULL;
 	zval *content = NULL;
 
-	zephir_fetch_params(0, 1, 0, &content_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &content_param);
 
 		zephir_get_strval(content, content_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_content"), content TSRMLS_CC);
-	RETURN_THISW();
+	RETURN_THIS();
 
 }
 

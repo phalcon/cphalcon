@@ -166,12 +166,14 @@ PHP_METHOD(Phalcon_Dispatcher, setActionSuffix) {
 	zval *actionSuffix_param = NULL;
 	zval *actionSuffix = NULL;
 
-	zephir_fetch_params(0, 1, 0, &actionSuffix_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &actionSuffix_param);
 
 		zephir_get_strval(actionSuffix, actionSuffix_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_actionSuffix"), actionSuffix TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -185,12 +187,14 @@ PHP_METHOD(Phalcon_Dispatcher, setModuleName) {
 	zval *moduleName_param = NULL;
 	zval *moduleName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &moduleName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &moduleName_param);
 
 		zephir_get_strval(moduleName, moduleName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_moduleName"), moduleName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -216,12 +220,14 @@ PHP_METHOD(Phalcon_Dispatcher, setNamespaceName) {
 	zval *namespaceName_param = NULL;
 	zval *namespaceName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &namespaceName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &namespaceName_param);
 
 		zephir_get_strval(namespaceName, namespaceName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_namespaceName"), namespaceName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -247,12 +253,14 @@ PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace) {
 	zval *namespaceName_param = NULL;
 	zval *namespaceName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &namespaceName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &namespaceName_param);
 
 		zephir_get_strval(namespaceName, namespaceName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultNamespace"), namespaceName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -278,12 +286,14 @@ PHP_METHOD(Phalcon_Dispatcher, setDefaultAction) {
 	zval *actionName_param = NULL;
 	zval *actionName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &actionName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &actionName_param);
 
 		zephir_get_strval(actionName, actionName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultAction"), actionName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -297,12 +307,14 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName) {
 	zval *actionName_param = NULL;
 	zval *actionName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &actionName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &actionName_param);
 
 		zephir_get_strval(actionName, actionName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_actionName"), actionName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -724,10 +736,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			}
 		}
 		ZEPHIR_INIT_NVAR(_7);
-		zephir_call_method(_7, dependencyInjector, "wasfreshinstance");
+		zephir_call_method_cache(_7, dependencyInjector, "wasfreshinstance");
 		if (ZEPHIR_IS_TRUE(_7)) {
 			if (zephir_method_exists_str(handler, SS("initialize") TSRMLS_CC)) {
-				zephir_call_method_noret(handler, "initialize");
+				zephir_call_method_cache_noret(handler, "initialize");
 			}
 		}
 		ZEPHIR_INIT_NVAR(_7);

@@ -115,12 +115,14 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultModule) {
 	zval *moduleName_param = NULL;
 	zval *moduleName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &moduleName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &moduleName_param);
 
 		zephir_get_strval(moduleName, moduleName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultModule"), moduleName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -134,12 +136,14 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultTask) {
 	zval *taskName_param = NULL;
 	zval *taskName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &taskName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &taskName_param);
 
 		zephir_get_strval(taskName, taskName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultTask"), taskName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -153,12 +157,14 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultAction) {
 	zval *actionName_param = NULL;
 	zval *actionName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &actionName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &actionName_param);
 
 		zephir_get_strval(actionName, actionName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultAction"), actionName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

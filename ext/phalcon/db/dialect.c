@@ -107,13 +107,14 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
 	zval *sqlQuery_param = NULL;
 	zval *sqlQuery = NULL;
 
-	zephir_fetch_params(0, 1, 0, &sqlQuery_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
 
 		zephir_get_strval(sqlQuery, sqlQuery_param);
 
 
 	ZEPHIR_CONCAT_VS(return_value, sqlQuery, " FOR UPDATE");
-	return;
+	RETURN_MM();
 
 }
 
@@ -133,13 +134,14 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock) {
 	zval *sqlQuery_param = NULL;
 	zval *sqlQuery = NULL;
 
-	zephir_fetch_params(0, 1, 0, &sqlQuery_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
 
 		zephir_get_strval(sqlQuery, sqlQuery_param);
 
 
 	ZEPHIR_CONCAT_VS(return_value, sqlQuery, " LOCK IN SHARE MODE");
-	return;
+	RETURN_MM();
 
 }
 
@@ -898,13 +900,14 @@ PHP_METHOD(Phalcon_Db_Dialect, createSavepoint) {
 	zval *name_param = NULL;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
 
 		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_CONCAT_SV(return_value, "SAVEPOINT ", name);
-	return;
+	RETURN_MM();
 
 }
 
@@ -919,13 +922,14 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
 	zval *name_param = NULL;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
 
 		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_CONCAT_SV(return_value, "RELEASE SAVEPOINT ", name);
-	return;
+	RETURN_MM();
 
 }
 
@@ -940,13 +944,14 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint) {
 	zval *name_param = NULL;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
 
 		zephir_get_strval(name, name_param);
 
 
 	ZEPHIR_CONCAT_SV(return_value, "ROLLBACK TO SAVEPOINT ", name);
-	return;
+	RETURN_MM();
 
 }
 

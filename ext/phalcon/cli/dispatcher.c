@@ -82,12 +82,14 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskSuffix) {
 	zval *taskSuffix_param = NULL;
 	zval *taskSuffix = NULL;
 
-	zephir_fetch_params(0, 1, 0, &taskSuffix_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &taskSuffix_param);
 
 		zephir_get_strval(taskSuffix, taskSuffix_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_handlerSuffix"), taskSuffix TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -101,12 +103,14 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setDefaultTask) {
 	zval *taskName_param = NULL;
 	zval *taskName = NULL;
 
-	zephir_fetch_params(0, 1, 0, &taskName_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &taskName_param);
 
 		zephir_get_strval(taskName, taskName_param);
 
 
 	zephir_update_property_this(this_ptr, SL("_defaultHandler"), taskName TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
 
 }
 

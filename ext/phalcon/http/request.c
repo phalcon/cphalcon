@@ -363,13 +363,14 @@ PHP_METHOD(Phalcon_Http_Request, has) {
 	zval *name_param = NULL, *_REQUEST;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
 
 		zephir_get_strval(name, name_param);
 
 
 	zephir_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
-	RETURN_BOOL(zephir_array_isset(_REQUEST, name));
+	RETURN_MM_BOOL(zephir_array_isset(_REQUEST, name));
 
 }
 
@@ -384,13 +385,14 @@ PHP_METHOD(Phalcon_Http_Request, hasPost) {
 	zval *name_param = NULL, *_POST;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
 
 		zephir_get_strval(name, name_param);
 
 
 	zephir_get_global(&_POST, SS("_POST") TSRMLS_CC);
-	RETURN_BOOL(zephir_array_isset(_POST, name));
+	RETURN_MM_BOOL(zephir_array_isset(_POST, name));
 
 }
 
@@ -405,13 +407,14 @@ PHP_METHOD(Phalcon_Http_Request, hasQuery) {
 	zval *name_param = NULL, *_GET;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
 
 		zephir_get_strval(name, name_param);
 
 
 	zephir_get_global(&_GET, SS("_GET") TSRMLS_CC);
-	RETURN_BOOL(zephir_array_isset(_GET, name));
+	RETURN_MM_BOOL(zephir_array_isset(_GET, name));
 
 }
 
@@ -426,13 +429,14 @@ PHP_METHOD(Phalcon_Http_Request, hasServer) {
 	zval *name_param = NULL, *_SERVER;
 	zval *name = NULL;
 
-	zephir_fetch_params(0, 1, 0, &name_param);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
 
 		zephir_get_strval(name, name_param);
 
 
 	zephir_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
-	RETURN_BOOL(zephir_array_isset(_SERVER, name));
+	RETURN_MM_BOOL(zephir_array_isset(_SERVER, name));
 
 }
 
