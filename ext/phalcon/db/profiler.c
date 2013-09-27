@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 	ZEPHIR_INIT_VAR(_0);
 	zephir_call_func_p1(_0, "microtime", ZEPHIR_GLOBAL(global_true));
 	zephir_call_method_p1_noret(activeProfile, "setinitialtime", _0);
-	if (zephir_method_exists_str(this_ptr, SS("beforeStartProfile") TSRMLS_CC)) {
+	if (zephir_method_exists_str(this_ptr, SS("beforestartprofile") TSRMLS_CC)) {
 		zephir_call_method_p1_noret(this_ptr, "beforestartprofile", activeProfile);
 	}
 	zephir_update_property_this(this_ptr, SL("_activeProfile"), activeProfile TSRMLS_CC);
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	zephir_add_function(_3, _1, _2 TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("_totalSeconds"), _3 TSRMLS_CC);
 	zephir_update_property_array_append(this_ptr, SL("_allProfiles"), activeProfile TSRMLS_CC);
-	if (zephir_method_exists_str(this_ptr, SS("afterEndProfile") TSRMLS_CC)) {
+	if (zephir_method_exists_str(this_ptr, SS("afterendprofile") TSRMLS_CC)) {
 		zephir_call_method_p1_noret(this_ptr, "afterendprofile", activeProfile);
 	}
 	RETURN_THIS();
