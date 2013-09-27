@@ -1,7 +1,12 @@
 --TEST--
 Ability to restrict the maximum password length for Phalcon\Security::checkHash() - https://github.com/phalcon/cphalcon/pull/1261
 --SKIPIF--
-<?php include('skipif.inc'); ?>
+<?php
+	include('skipif.inc');
+	if (!extension_loaded('openssl')) {
+		die('skip openssl extension is not available');
+	}
+?>
 --FILE--
 <?php
 $s = new \Phalcon\Security();
