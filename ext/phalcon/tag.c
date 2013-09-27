@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 
 	HashTable *_3;
 	HashPosition _2;
-	zval *parameters, *text = NULL, *key = NULL, *value = NULL, *params = NULL, *action = NULL, *url, *code = NULL, *_0, *_1, **_4, *_5 = NULL, *_6 = NULL, *_7 = NULL;
+	zval *parameters, *text = NULL, *key = NULL, *value = NULL, *params = NULL, *action = NULL, *url, *code, *_0, *_1, **_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &parameters, &text);
@@ -463,16 +463,16 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 			ZEPHIR_CONCAT_VS(_6, _5, "=\"");
 			ZEPHIR_INIT_LNVAR(_7);
 			concat_function(_7, _6, value TSRMLS_CC);
-			ZEPHIR_INIT_NVAR(code);
-			ZEPHIR_CONCAT_VS(code, _7, "\"");
-			zephir_concat_self(&code, code TSRMLS_CC);
+			ZEPHIR_INIT_LNVAR(_8);
+			ZEPHIR_CONCAT_VS(_8, _7, "\"");
+			zephir_concat_self(&code, _8 TSRMLS_CC);
 		}
 	}
 	ZEPHIR_INIT_LNVAR(_5);
 	ZEPHIR_CONCAT_SV(_5, ">", text);
-	ZEPHIR_INIT_BNVAR(code);
-	ZEPHIR_CONCAT_VS(code, _5, "</a>");
-	zephir_concat_self(&code, code TSRMLS_CC);
+	ZEPHIR_INIT_LNVAR(_6);
+	ZEPHIR_CONCAT_VS(_6, _5, "</a>");
+	zephir_concat_self(&code, _6 TSRMLS_CC);
 	RETURN_CCTOR(code);
 
 }

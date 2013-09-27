@@ -219,7 +219,7 @@ int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned 
 	EX(object) = NULL;
 
 	/* Check if a fci_cache is already loaded for this method */
-	if (!prepared_function) {
+	if (!prepared_function || !*prepared_function) {
 
 		if (hash_key > 0 && zephir_globals_ptr->function_cache) {
 			if (zend_hash_index_find(zephir_globals_ptr->function_cache, hash_key, (void**) &function_handler) == SUCCESS) {
@@ -293,6 +293,11 @@ int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned 
 					);
 				}
 			}
+
+			if (prepared_function) {
+				*prepared_function = fci_cache->function_handler;
+			}
+
 		} else {
 			fci_cache->called_scope = ce;
 			fci_cache->object_ptr = fci->object_ptr;
@@ -300,10 +305,11 @@ int zephir_alt_call_method(zend_fcall_info *fci, zend_class_entry *ce, unsigned 
 			fci_cache->initialized = 1;
 		}
 	} else {
-		fci_cache->function_handler = *prepared_function;
+		fci_cache->called_scope = ce;
 		fci_cache->object_ptr = fci->object_ptr;
 		fci_cache->calling_scope = ce;
 		fci_cache->initialized = 1;
+		fci_cache->function_handler = *prepared_function;
 		exists = 1;
 		is_zephir_function = 1;
 	}

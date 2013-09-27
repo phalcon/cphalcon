@@ -553,9 +553,9 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, select) {
 
-	HashTable *_3, *_11, *_14, *_20, *_24, *_29;
-	HashPosition _2, _10, _13, _19, _23, _28;
-	zval *definition, *tables, *columns = NULL, *escapeChar, *columnItem = NULL, *column = NULL, *selectedColumns, *columnSql = NULL, *columnDomainSql = NULL, *columnAlias = NULL, *selectedTables, *sqlJoin = NULL, *joinExpressions = NULL, *joinCondition = NULL, *joinConditionsArray = NULL, *tablesSql = NULL, *columnDomain = NULL, *columnAliasSql = NULL, *columnsSql = NULL, *table = NULL, *sql, *joins, *join = NULL, *sqlTable = NULL, *whereConditions, *groupFields, *groupField = NULL, *groupItems, *havingConditions, *orderFields, *orderItem = NULL, *orderItems, *orderSqlItem = NULL, *sqlOrderType = NULL, *orderSqlItemType = NULL, *limitValue, *number, *offset, *_0 = NULL, *_1, **_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, _9 = zval_used_for_init, **_12, **_15, *_16 = NULL, *_17 = NULL, *_18 = NULL, **_21, *_22 = NULL, **_25, *_26 = NULL, *_27, **_30;
+	HashTable *_3, *_11, *_14, *_20, *_24, *_30;
+	HashPosition _2, _10, _13, _19, _23, _29;
+	zval *definition, *tables, *columns = NULL, *escapeChar, *columnItem = NULL, *column = NULL, *selectedColumns, *columnSql = NULL, *columnDomainSql = NULL, *columnAlias = NULL, *selectedTables, *sqlJoin = NULL, *joinExpressions = NULL, *joinCondition = NULL, *joinConditionsArray = NULL, *tablesSql = NULL, *columnDomain = NULL, *columnAliasSql = NULL, *columnsSql = NULL, *table = NULL, *sql, *joins, *join = NULL, *sqlTable = NULL, *whereConditions, *groupFields, *groupField = NULL, *groupItems, *havingConditions, *orderFields, *orderItem = NULL, *orderItems, *orderSqlItem = NULL, *sqlOrderType = NULL, *orderSqlItemType = NULL, *limitValue, *number, *offset, *_0 = NULL, *_1, **_4, *_5 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, _9 = zval_used_for_init, **_12, **_15, *_16 = NULL, *_17 = NULL, *_18 = NULL, **_21, *_22 = NULL, **_25, *_26 = NULL, *_27, *_28 = NULL, **_31, *_32 = NULL, *_33;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &definition);
@@ -751,9 +751,9 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 					zephir_call_func_p2(_22, "join", &_9, joinExpressions);
 					ZEPHIR_INIT_LNVAR(_6);
 					ZEPHIR_CONCAT_SV(_6, " ON ", _22);
-					ZEPHIR_INIT_NVAR(sqlJoin);
-					ZEPHIR_CONCAT_VS(sqlJoin, _6, " ");
-					zephir_concat_self(&sqlJoin, sqlJoin TSRMLS_CC);
+					ZEPHIR_INIT_LNVAR(_7);
+					ZEPHIR_CONCAT_VS(_7, _6, " ");
+					zephir_concat_self(&sqlJoin, _7 TSRMLS_CC);
 				}
 			}
 			zephir_concat_self(&sql, sqlJoin TSRMLS_CC);
@@ -765,11 +765,13 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 		if ((Z_TYPE_P(whereConditions) == IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_5);
 			zephir_call_method_p2(_5, this_ptr, "getsqlexpression", whereConditions, escapeChar);
-			ZEPHIR_CONCAT_SV(sql, " WHERE ", _5);
-			zephir_concat_self(&sql, sql TSRMLS_CC);
+			ZEPHIR_INIT_LNVAR(_8);
+			ZEPHIR_CONCAT_SV(_8, " WHERE ", _5);
+			zephir_concat_self(&sql, _8 TSRMLS_CC);
 		} else {
-			ZEPHIR_CONCAT_SV(sql, " WHERE ", whereConditions);
-			zephir_concat_self(&sql, sql TSRMLS_CC);
+			ZEPHIR_INIT_LNVAR(_18);
+			ZEPHIR_CONCAT_SV(_18, " WHERE ", whereConditions);
+			zephir_concat_self(&sql, _18 TSRMLS_CC);
 		}
 	}
 	ZEPHIR_OBS_VAR(groupFields);
@@ -790,38 +792,38 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 		ZVAL_STRING(&_9, ", ", 0);
 		ZEPHIR_INIT_VAR(_26);
 		zephir_call_func_p2(_26, "join", &_9, groupItems);
-		ZEPHIR_INIT_BNVAR(sql);
-		ZEPHIR_CONCAT_SV(sql, " GROUP BY ", _26);
-		zephir_concat_self(&sql, sql TSRMLS_CC);
+		ZEPHIR_INIT_LNVAR(_18);
+		ZEPHIR_CONCAT_SV(_18, " GROUP BY ", _26);
+		zephir_concat_self(&sql, _18 TSRMLS_CC);
 		ZEPHIR_OBS_VAR(havingConditions);
 		if (zephir_array_isset_string_fetch(&havingConditions, definition, SS("having") TSRMLS_CC)) {
 			ZEPHIR_INIT_VAR(_27);
 			zephir_call_method_p2(_27, this_ptr, "getsqlexpression", havingConditions, escapeChar);
-			ZEPHIR_INIT_BNVAR(sql);
-			ZEPHIR_CONCAT_SV(sql, " HAVING ", _27);
-			zephir_concat_self(&sql, sql TSRMLS_CC);
+			ZEPHIR_INIT_VAR(_28);
+			ZEPHIR_CONCAT_SV(_28, " HAVING ", _27);
+			zephir_concat_self(&sql, _28 TSRMLS_CC);
 		}
 	}
 	ZEPHIR_OBS_VAR(orderFields);
 	if (zephir_array_isset_string_fetch(&orderFields, definition, SS("order") TSRMLS_CC)) {
 		ZEPHIR_INIT_VAR(orderItems);
 		array_init(orderItems);
-		zephir_is_iterable(orderFields, &_29, &_28, 0, 0);
+		zephir_is_iterable(orderFields, &_30, &_29, 0, 0);
 		for (
-			; zend_hash_get_current_data_ex(_29, (void**) &_30, &_28) == SUCCESS
-			; zend_hash_move_forward_ex(_29, &_28)
+			; zend_hash_get_current_data_ex(_30, (void**) &_31, &_29) == SUCCESS
+			; zend_hash_move_forward_ex(_30, &_29)
 		) {
-			ZEPHIR_GET_HVALUE(orderItem, _30);
+			ZEPHIR_GET_HVALUE(orderItem, _31);
 			ZEPHIR_OBS_NVAR(_16);
 			zephir_array_fetch_long(&_16, orderItem, 0, PH_NOISY TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(orderSqlItem);
 			zephir_call_method_p2(orderSqlItem, this_ptr, "getsqlexpression", _16, escapeChar);
 			ZEPHIR_OBS_NVAR(sqlOrderType);
 			if (zephir_array_isset_long_fetch(&sqlOrderType, orderItem, 1 TSRMLS_CC)) {
-				ZEPHIR_INIT_LNVAR(_7);
-				ZEPHIR_CONCAT_VS(_7, orderSqlItem, " ");
+				ZEPHIR_INIT_LNVAR(_18);
+				ZEPHIR_CONCAT_VS(_18, orderSqlItem, " ");
 				ZEPHIR_INIT_NVAR(orderSqlItemType);
-				concat_function(orderSqlItemType, _7, sqlOrderType TSRMLS_CC);
+				concat_function(orderSqlItemType, _18, sqlOrderType TSRMLS_CC);
 			} else {
 				ZEPHIR_CPY_WRT(orderSqlItemType, orderSqlItem);
 			}
@@ -831,32 +833,33 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 		ZVAL_STRING(&_9, ", ", 0);
 		ZEPHIR_INIT_NVAR(_26);
 		zephir_call_func_p2(_26, "join", &_9, orderItems);
-		ZEPHIR_INIT_BNVAR(sql);
-		ZEPHIR_CONCAT_SV(sql, " ORDER BY ", _26);
-		zephir_concat_self(&sql, sql TSRMLS_CC);
+		ZEPHIR_INIT_LNVAR(_18);
+		ZEPHIR_CONCAT_SV(_18, " ORDER BY ", _26);
+		zephir_concat_self(&sql, _18 TSRMLS_CC);
 	}
 	ZEPHIR_OBS_VAR(limitValue);
 	if (zephir_array_isset_string_fetch(&limitValue, definition, SS("limit") TSRMLS_CC)) {
 		if ((Z_TYPE_P(limitValue) == IS_ARRAY)) {
 			ZEPHIR_OBS_VAR(number);
 			zephir_array_fetch_string(&number, limitValue, SL("number"), PH_NOISY TSRMLS_CC);
-			ZEPHIR_INIT_BNVAR(sql);
 			ZEPHIR_OBS_VAR(offset);
 			if (zephir_array_isset_string_fetch(&offset, limitValue, SS("offset") TSRMLS_CC)) {
-				ZEPHIR_INIT_LNVAR(_8);
-				ZEPHIR_CONCAT_SV(_8, " LIMIT ", number);
-				ZEPHIR_INIT_LNVAR(_18);
-				ZEPHIR_CONCAT_VS(_18, _8, " OFFSET ");
-				concat_function(sql, _18, offset TSRMLS_CC);
-				zephir_concat_self(&sql, sql TSRMLS_CC);
+				ZEPHIR_INIT_LNVAR(_28);
+				ZEPHIR_CONCAT_SV(_28, " LIMIT ", number);
+				ZEPHIR_INIT_VAR(_32);
+				ZEPHIR_CONCAT_VS(_32, _28, " OFFSET ");
+				ZEPHIR_INIT_VAR(_33);
+				concat_function(_33, _32, offset TSRMLS_CC);
+				zephir_concat_self(&sql, _33 TSRMLS_CC);
 			} else {
-				ZEPHIR_CONCAT_SV(sql, " LIMIT ", number);
-				zephir_concat_self(&sql, sql TSRMLS_CC);
+				ZEPHIR_INIT_LNVAR(_32);
+				ZEPHIR_CONCAT_SV(_32, " LIMIT ", number);
+				zephir_concat_self(&sql, _32 TSRMLS_CC);
 			}
 		} else {
-			ZEPHIR_INIT_BNVAR(sql);
-			ZEPHIR_CONCAT_SV(sql, " LIMIT ", limitValue);
-			zephir_concat_self(&sql, sql TSRMLS_CC);
+			ZEPHIR_INIT_LNVAR(_18);
+			ZEPHIR_CONCAT_SV(_18, " LIMIT ", limitValue);
+			zephir_concat_self(&sql, _18 TSRMLS_CC);
 		}
 	}
 	RETURN_CCTOR(sql);
