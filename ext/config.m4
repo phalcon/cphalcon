@@ -420,7 +420,7 @@ utils/scws.c"
 
 	CPPFLAGS=$old_CPPFLAGS
 
-	if test "$enable_qrcode" != "no"; then
+	if test "$enable_scws" != "yes"; then
 		for i in /usr/local /usr /opt/local /usr/local/scws; do
 			if test -r $i/include/scws/scws.h; then
 				SCWS_DIR=$i
