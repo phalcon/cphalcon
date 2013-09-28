@@ -96,13 +96,13 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	/**
 	 * Sets the cache parameters of the query
 	 *
-	 * @param array $cacheOptions
+	 * @param array cacheOptions
 	 * @return Phalcon\Mvc\Model\Query
 	 */
 	public function cache(cacheOptions) -> <Phalcon\Mvc\Model\Query>
 	{
 		let this->_cacheOptions = cacheOptions;
-		return $this;
+		return this;
 	}
 
 	/**
@@ -113,6 +113,28 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 	public function getCacheOptions()
 	{
 		return this->_cacheOptions;
+	}
+
+	/**
+	 * Tells to the query if only the first row in the resultset must be returned
+	 *
+	 * @param boolean uniqueRow
+	 * @return Phalcon\Mvc\Model\Query
+	 */
+	public function setUniqueRow(boolean uniqueRow) -> <Phalcon\Mvc\Model\Query>
+	{
+		let this->_uniqueRow = uniqueRow;
+		return this;
+	}
+
+	/**
+	 * Check if the query is programmed to get only the first row in the resultset
+	 *
+	 * @return boolean
+	 */
+	public function getUniqueRow() -> boolean
+	{
+		return this->_uniqueRow;
 	}
 
 }

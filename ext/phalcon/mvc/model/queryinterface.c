@@ -74,6 +74,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, cache);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, getCacheOptions);
 
 /**
+ * Tells to the query if only the first row in the resultset must be returned
+ *
+ * @param boolean uniqueRow
+ * @return Phalcon\Mvc\Model\Query
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, setUniqueRow);
+
+/**
+ * Check if the query is programmed to get only the first row in the resultset
+ *
+ * @return boolean
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, getUniqueRow);
+
+/**
  * Executes a parsed PHQL statement
  *
  * @param array bindParams

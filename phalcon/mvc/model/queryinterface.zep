@@ -58,6 +58,21 @@ interface QueryInterface
 	public function getCacheOptions();
 
 	/**
+	 * Tells to the query if only the first row in the resultset must be returned
+	 *
+	 * @param boolean uniqueRow
+	 * @return Phalcon\Mvc\Model\Query
+	 */
+	public function setUniqueRow(boolean uniqueRow);
+
+	/**
+	 * Check if the query is programmed to get only the first row in the resultset
+	 *
+	 * @return boolean
+	 */
+	public function getUniqueRow();
+
+	/**
 	 * Executes a parsed PHQL statement
 	 *
 	 * @param array bindParams

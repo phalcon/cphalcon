@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -92,7 +93,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query) {
 /**
  * Sets the cache parameters of the query
  *
- * @param array $cacheOptions
+ * @param array cacheOptions
  * @return Phalcon\Mvc\Model\Query
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, cache) {
@@ -117,6 +118,41 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getCacheOptions) {
 
 
 	RETURN_MEMBER(this_ptr, "_cacheOptions");
+
+}
+
+/**
+ * Tells to the query if only the first row in the resultset must be returned
+ *
+ * @param boolean uniqueRow
+ * @return Phalcon\Mvc\Model\Query
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow) {
+
+	zval *uniqueRow_param = NULL, *_0;
+	zend_bool uniqueRow;
+
+	zephir_fetch_params(0, 1, 0, &uniqueRow_param);
+
+		uniqueRow = zephir_get_boolval(uniqueRow_param);
+
+
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_BOOL(_0, uniqueRow);
+	zephir_update_property_this(this_ptr, SL("_uniqueRow"), _0 TSRMLS_CC);
+	RETURN_THISW();
+
+}
+
+/**
+ * Check if the query is programmed to get only the first row in the resultset
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow) {
+
+
+	RETURN_MEMBER(this_ptr, "_uniqueRow");
 
 }
 

@@ -86,11 +86,54 @@ class Builder
 	}
 
 	/**
+	 * Sets the columns to be queried
+	 *
+	 *<code>
+	 *	$builder->columns(array('id', 'name'));
+	 *</code>
+	 *
+	 * @param string|array columns
+	 * @return Phalcon\Mvc\Model\Query\Builder
+	 */
+	public function columns(columns) -> <Phalcon\Mvc\Model\Query\Builder>
+	{
+		let this->_columns = columns;
+		return this;
+	}
+
+	/**
+	 * Return the columns to be queried
+	 *
+	 * @return string|array
+	 */
+	public function getColumns()
+	{
+		return this->_columns;
+	}
+
+	/**
 	 * Returns the query built
 	 *
 	 * @return Phalcon\Mvc\Model\Query
 	 */
 	public function getQuery() -> <Phalcon\Mvc\Model\QueryInterface>
+	{
+
+	}
+
+	/**
+	 * Sets a LIMIT clause, optionally a offset clause
+	 *
+	 *<code>
+	 *	$builder->limit(100);
+	 *	$builder->limit(100, 20);
+	 *</code>
+	 *
+	 * @param int limit
+	 * @param int offset
+	 * @return Phalcon\Mvc\Model\Query\Builder
+	 */
+	public function limit(int limit, offset=null) -> <Phalcon\Mvc\Model\Query\Builder>
 	{
 
 	}

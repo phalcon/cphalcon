@@ -971,3 +971,574 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
 
 }
 
+/**
+ * Allows to query the first record that match the specified conditions
+ *
+ * <code>
+ *
+ * //What's the first robot in robots table?
+ * $robot = Robots::findFirst();
+ * echo "The robot name is ", $robot->name;
+ *
+ * //What's the first mechanical robot in robots table?
+ * $robot = Robots::findFirst("type='mechanical'");
+ * echo "The first mechanical robot name is ", $robot->name;
+ *
+ * //Get first virtual robot ordered by name
+ * $robot = Robots::findFirst(array("type='virtual'", "order" => "name"));
+ * echo "The first virtual robot name is ", $robot->name;
+ *
+ * </code>
+ *
+ * @param array parameters
+ * @return Phalcon\Mvc\Model
+ */
+PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
+
+	zval *parameters = NULL, *params = NULL, *builder, *query, *bindParams = NULL, *bindTypes, *cache, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &parameters);
+
+	if (!parameters) {
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(params);
+		array_init(params);
+		if ((Z_TYPE_P(parameters) != IS_NULL)) {
+			zephir_array_append(&params, parameters, PH_SEPARATE);
+		}
+	} else {
+		ZEPHIR_CPY_WRT(params, parameters);
+	}
+	ZEPHIR_INIT_VAR(builder);
+	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func(_0, "get_called_class");
+	zephir_call_method_p1_noret(builder, "from", _0);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_LONG(_1, 1);
+	zephir_call_method_p1_noret(builder, "limit", _1);
+	ZEPHIR_INIT_VAR(query);
+	zephir_call_method(query, builder, "getquery");
+	ZEPHIR_INIT_VAR(bindParams);
+	ZVAL_NULL(bindParams);
+	ZEPHIR_INIT_VAR(bindTypes);
+	ZVAL_NULL(bindTypes);
+	ZEPHIR_OBS_NVAR(bindParams);
+	if (zephir_array_isset_string_fetch(&bindParams, params, SS("bind") TSRMLS_CC)) {
+	}
+	ZEPHIR_OBS_VAR(cache);
+	if (zephir_array_isset_string_fetch(&cache, params, SS("cache") TSRMLS_CC)) {
+		zephir_call_method_p1_noret(query, "cache", cache);
+	}
+	zephir_call_method_p1_noret(query, "setuniquerow", ZEPHIR_GLOBAL(global_true));
+	zephir_call_method_p2(return_value, query, "execute", bindParams, bindTypes);
+	RETURN_MM();
+
+}
+
+/**
+ * Create a criteria for a specific model
+ *
+ * @param Phalcon\DiInterface dependencyInjector
+ * @return Phalcon\Mvc\Model\Criteria
+ */
+PHP_METHOD(Phalcon_Mvc_Model, query) {
+
+	zval *dependencyInjector = NULL, *criteria, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &dependencyInjector);
+
+	if (!dependencyInjector) {
+		ZEPHIR_CPY_WRT(dependencyInjector, ZEPHIR_GLOBAL(global_null));
+	}
+	ZEPHIR_SEPARATE_PARAM(dependencyInjector);
+
+
+	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
+	}
+	ZEPHIR_INIT_VAR(criteria);
+	object_init_ex(criteria, phalcon_mvc_model_criteria_ce);
+	zephir_call_method_p1_noret(criteria, "setdi", dependencyInjector);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func(_0, "get_called_class");
+	zephir_call_method_p1_noret(criteria, "setmodelname", _0);
+	RETURN_CCTOR(criteria);
+
+}
+
+/**
+ * Checks if the current record already exists or not
+ *
+ * @param Phalcon\Mvc\Model\MetadataInterface metaData
+ * @param Phalcon\Db\AdapterInterface connection
+ * @param string|array table
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, _exists) {
+
+	zend_function *_7 = NULL, *_8 = NULL, *_9 = NULL;
+	HashTable *_3;
+	HashPosition _2;
+	int numberEmpty, numberPrimary;
+	zval *metaData, *connection, *table = NULL, *uniqueParams = NULL, *uniqueTypes = NULL, *uniqueKey = NULL, *columnMap, *primaryKeys, *wherePk, *field = NULL, *attributeField = NULL, *value = NULL, *bindDataTypes, *joinWhere, *num, *type = NULL, *schema, *source, *_0 = NULL, *_1, **_4, *_5 = NULL, *_6 = NULL, *_10 = NULL, _11, *_12, *_13, *_14, *_15, *_16;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 1, &metaData, &connection, &table);
+
+	if (!table) {
+		ZEPHIR_CPY_WRT(table, ZEPHIR_GLOBAL(global_null));
+	}
+	ZEPHIR_SEPARATE_PARAM(table);
+
+
+	ZEPHIR_INIT_VAR(uniqueParams);
+	ZVAL_NULL(uniqueParams);
+	ZEPHIR_INIT_VAR(uniqueTypes);
+	ZVAL_NULL(uniqueTypes);
+	ZEPHIR_OBS_VAR(uniqueKey);
+	zephir_read_property_this(&uniqueKey, this_ptr, SL("_uniqueKey"), PH_NOISY_CC);
+	if ((Z_TYPE_P(uniqueKey) == IS_NULL)) {
+		ZEPHIR_INIT_VAR(primaryKeys);
+		zephir_call_method_p1(primaryKeys, metaData, "getprimarykeyattributes", this_ptr);
+		ZEPHIR_INIT_VAR(bindDataTypes);
+		zephir_call_method_p1(bindDataTypes, metaData, "getbindtypes", this_ptr);
+		numberPrimary = zephir_fast_count_int(primaryKeys TSRMLS_CC);
+		if (!(numberPrimary)) {
+			RETURN_MM_BOOL(0);
+		}
+		ZEPHIR_INIT_VAR(columnMap);
+		ZEPHIR_INIT_VAR(_0);
+		ZVAL_STRING(_0, "orm.column_renaming", 1);
+		ZEPHIR_INIT_VAR(_1);
+		zephir_call_func_p1(_1, "globals_get", _0);
+		if (zephir_is_true(_1)) {
+			zephir_call_method_p1(columnMap, metaData, "getcolumnmap", this_ptr);
+		} else {
+			ZVAL_NULL(columnMap);
+		}
+		numberEmpty = 0;
+		ZEPHIR_INIT_VAR(wherePk);
+		array_init(wherePk);
+		ZEPHIR_INIT_BNVAR(uniqueParams);
+		array_init(uniqueParams);
+		ZEPHIR_INIT_BNVAR(uniqueTypes);
+		array_init(uniqueTypes);
+		zephir_is_iterable(primaryKeys, &_3, &_2, 0, 0);
+		for (
+			; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+			; zend_hash_move_forward_ex(_3, &_2)
+		) {
+			ZEPHIR_GET_HVALUE(field, _4);
+			if ((Z_TYPE_P(columnMap) == IS_ARRAY)) {
+				ZEPHIR_OBS_NVAR(attributeField);
+				if (!(zephir_array_isset_fetch(&attributeField, columnMap, field TSRMLS_CC))) {
+					ZEPHIR_INIT_NVAR(_0);
+					object_init_ex(_0, phalcon_mvc_model_exception_ce);
+					ZEPHIR_INIT_LNVAR(_5);
+					ZEPHIR_CONCAT_SV(_5, "Column '", field);
+					ZEPHIR_INIT_LNVAR(_6);
+					ZEPHIR_CONCAT_VS(_6, _5, "' isn't part of the column map");
+					zephir_call_method_p1_cache_noret(_0, "__construct", &_7, _6);
+					zephir_throw_exception(_0 TSRMLS_CC);
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+			} else {
+				ZEPHIR_CPY_WRT(attributeField, field);
+			}
+			ZEPHIR_INIT_NVAR(value);
+			ZVAL_NULL(value);
+			if (1) {
+				if (0) {
+					numberEmpty++;
+				}
+				zephir_array_append(&uniqueParams, value, PH_SEPARATE);
+			} else {
+				zephir_array_append(&uniqueParams, ZEPHIR_GLOBAL(global_null), PH_SEPARATE);
+				numberEmpty++;
+			}
+			ZEPHIR_OBS_NVAR(type);
+			if (!(zephir_array_isset_fetch(&type, bindDataTypes, field TSRMLS_CC))) {
+				ZEPHIR_INIT_NVAR(_0);
+				object_init_ex(_0, phalcon_mvc_model_exception_ce);
+				ZEPHIR_INIT_LNVAR(_5);
+				ZEPHIR_CONCAT_SV(_5, "Column '", field);
+				ZEPHIR_INIT_LNVAR(_6);
+				ZEPHIR_CONCAT_VS(_6, _5, "' isn't part of the table columns");
+				zephir_call_method_p1_cache_noret(_0, "__construct", &_8, _6);
+				zephir_throw_exception(_0 TSRMLS_CC);
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_array_append(&uniqueTypes, type, PH_SEPARATE);
+			ZEPHIR_INIT_NVAR(_0);
+			zephir_call_method_p1_cache(_0, connection, "escapeidentifier", &_9, field);
+			ZEPHIR_INIT_LNVAR(_10);
+			ZEPHIR_CONCAT_VS(_10, _0, " = ?");
+			zephir_array_append(&wherePk, _10, PH_SEPARATE);
+		}
+		if ((numberPrimary == numberEmpty)) {
+			RETURN_MM_BOOL(0);
+		}
+		ZEPHIR_SINIT_VAR(_11);
+		ZVAL_STRING(&_11, " AND ", 0);
+		ZEPHIR_INIT_VAR(joinWhere);
+		zephir_call_func_p2(joinWhere, "join", &_11, wherePk);
+		zephir_update_property_this(this_ptr, SL("_uniqueKey"), joinWhere TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_uniqueParams"), uniqueParams TSRMLS_CC);
+		zephir_update_property_this(this_ptr, SL("_uniqueTypes"), uniqueTypes TSRMLS_CC);
+		ZEPHIR_CPY_WRT(uniqueKey, joinWhere);
+	}
+	_12 = zephir_fetch_nproperty_this(this_ptr, SL("_dirtyState"), PH_NOISY_CC);
+	if (!(zephir_is_true(_12))) {
+		RETURN_MM_BOOL(1);
+	}
+	if ((Z_TYPE_P(uniqueKey) == IS_NULL)) {
+		ZEPHIR_OBS_NVAR(uniqueKey);
+		zephir_read_property_this(&uniqueKey, this_ptr, SL("_uniqueKey"), PH_NOISY_CC);
+	}
+	if ((Z_TYPE_P(uniqueParams) == IS_NULL)) {
+		ZEPHIR_OBS_NVAR(uniqueParams);
+		zephir_read_property_this(&uniqueParams, this_ptr, SL("_uniqueParams"), PH_NOISY_CC);
+	}
+	if ((Z_TYPE_P(uniqueTypes) == IS_NULL)) {
+		ZEPHIR_OBS_NVAR(uniqueTypes);
+		zephir_read_property_this(&uniqueTypes, this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
+	}
+	ZEPHIR_INIT_VAR(schema);
+	zephir_call_method(schema, this_ptr, "getschema");
+	ZEPHIR_INIT_VAR(source);
+	zephir_call_method(source, this_ptr, "getsource");
+	if (zephir_is_true(schema)) {
+		ZEPHIR_INIT_NVAR(table);
+		array_init(table);
+		zephir_array_append(&table, schema, 0);
+		zephir_array_append(&table, source, 0);
+	} else {
+		ZEPHIR_CPY_WRT(table, source);
+	}
+	ZEPHIR_INIT_NVAR(_0);
+	zephir_call_method_p1(_0, connection, "escapeidentifier", table);
+	ZEPHIR_INIT_LNVAR(_10);
+	ZEPHIR_CONCAT_SV(_10, "SELECT COUNT(*) \"rowcount\" FROM ", _0);
+	ZEPHIR_INIT_VAR(_13);
+	ZEPHIR_CONCAT_VS(_13, _10, " WHERE ");
+	ZEPHIR_INIT_VAR(_14);
+	concat_function(_14, _13, uniqueKey TSRMLS_CC);
+	ZEPHIR_INIT_VAR(num);
+	zephir_call_method_p4(num, connection, "fetchone", _14, ZEPHIR_GLOBAL(global_null), uniqueParams, uniqueTypes);
+	zephir_array_fetch_string(&_15, num, SL("rowcount"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	if (zephir_is_true(_15)) {
+		ZEPHIR_INIT_ZVAL_NREF(_16);
+		ZVAL_LONG(_16, 0);
+		zephir_update_property_this(this_ptr, SL("_dirtyState"), _16 TSRMLS_CC);
+		RETURN_MM_BOOL(1);
+	} else {
+		ZEPHIR_INIT_ZVAL_NREF(_16);
+		ZVAL_LONG(_16, 1);
+		zephir_update_property_this(this_ptr, SL("_dirtyState"), _16 TSRMLS_CC);
+	}
+	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Generate a PHQL SELECT statement for an aggregate
+ *
+ * @param string function
+ * @param string alias
+ * @param array parameters
+ * @return Phalcon\Mvc\Model\ResultsetInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
+
+	zval *functionName_param = NULL, *alias_param = NULL, *parameters, *params = NULL, *distinctColumn, *groupColumn, *columns = NULL, *bindParams = NULL, *bindTypes, *resultset, *cache, *firstRow, *groupColumns, *builder, *query, *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5, *_6;
+	zval *functionName = NULL, *alias = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &functionName_param, &alias_param, &parameters);
+
+		zephir_get_strval(functionName, functionName_param);
+		zephir_get_strval(alias, alias_param);
+
+
+	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(params);
+		array_init(params);
+		if ((Z_TYPE_P(parameters) != IS_NULL)) {
+			zephir_array_append(&params, parameters, PH_SEPARATE);
+		}
+	} else {
+		ZEPHIR_CPY_WRT(params, parameters);
+	}
+	ZEPHIR_OBS_VAR(groupColumn);
+	if (!(zephir_array_isset_string_fetch(&groupColumn, params, SS("column") TSRMLS_CC))) {
+		ZEPHIR_INIT_BNVAR(groupColumn);
+		ZVAL_LONG(groupColumn, '*');
+	}
+	ZEPHIR_OBS_VAR(distinctColumn);
+	if (zephir_array_isset_string_fetch(&distinctColumn, params, SS("distinct") TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(_0);
+		ZEPHIR_CONCAT_VS(_0, functionName, "(DISTINCT ");
+		ZEPHIR_INIT_VAR(_1);
+		concat_function(_1, _0, distinctColumn TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_2);
+		ZEPHIR_CONCAT_VS(_2, _1, ") AS ");
+		ZEPHIR_INIT_VAR(columns);
+		concat_function(columns, _2, alias TSRMLS_CC);
+	} else {
+		ZEPHIR_INIT_NVAR(columns);
+		ZEPHIR_OBS_VAR(groupColumns);
+		if (zephir_array_isset_string_fetch(&groupColumns, params, SS("group") TSRMLS_CC)) {
+			ZEPHIR_INIT_LNVAR(_0);
+			ZEPHIR_CONCAT_VS(_0, groupColumns, ", ");
+			ZEPHIR_INIT_LNVAR(_1);
+			concat_function(_1, _0, functionName TSRMLS_CC);
+			ZEPHIR_INIT_LNVAR(_2);
+			ZEPHIR_CONCAT_VS(_2, _1, "(");
+			ZEPHIR_INIT_VAR(_3);
+			concat_function(_3, _2, groupColumn TSRMLS_CC);
+			ZEPHIR_INIT_VAR(_4);
+			ZEPHIR_CONCAT_VS(_4, _3, ") AS ");
+			concat_function(columns, _4, alias TSRMLS_CC);
+		} else {
+			ZEPHIR_INIT_LNVAR(_3);
+			ZEPHIR_CONCAT_VS(_3, functionName, "(");
+			ZEPHIR_INIT_LNVAR(_4);
+			concat_function(_4, _3, groupColumn TSRMLS_CC);
+			ZEPHIR_INIT_VAR(_5);
+			ZEPHIR_CONCAT_VS(_5, _4, ") AS ");
+			concat_function(columns, _5, alias TSRMLS_CC);
+		}
+	}
+	ZEPHIR_INIT_VAR(builder);
+	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
+	zephir_call_method_p1_noret(builder, "columns", columns);
+	ZEPHIR_INIT_VAR(_6);
+	zephir_call_func(_6, "get_called_class");
+	zephir_call_method_p1_noret(builder, "from", _6);
+	ZEPHIR_INIT_VAR(query);
+	zephir_call_method(query, builder, "getquery");
+	ZEPHIR_INIT_VAR(bindParams);
+	ZVAL_NULL(bindParams);
+	ZEPHIR_INIT_VAR(bindTypes);
+	ZVAL_NULL(bindTypes);
+	ZEPHIR_OBS_NVAR(bindParams);
+	if (zephir_array_isset_string_fetch(&bindParams, params, SS("bind") TSRMLS_CC)) {
+	}
+	ZEPHIR_INIT_VAR(resultset);
+	zephir_call_method_p2(resultset, query, "execute", bindParams, bindTypes);
+	ZEPHIR_OBS_VAR(cache);
+	if (zephir_array_isset_string_fetch(&cache, params, SS("cache") TSRMLS_CC)) {
+		zephir_call_method_p1_noret(query, "cache", cache);
+	}
+	if (zephir_array_isset_string(params, SS("group"))) {
+		RETURN_CCTOR(resultset);
+	}
+	ZEPHIR_INIT_VAR(firstRow);
+	zephir_call_method(firstRow, resultset, "getfirst");
+	RETURN_MM_NULL();
+
+}
+
+/**
+ * Allows to count how many records match the specified conditions
+ *
+ * <code>
+ *
+ * //How many robots are there?
+ * $number = Robots::count();
+ * echo "There are ", $number, "\n";
+ *
+ * //How many mechanical robots are there?
+ * $number = Robots::count("type='mechanical'");
+ * echo "There are ", $number, " mechanical robots\n";
+ *
+ * </code>
+ *
+ * @param array parameters
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Model, count) {
+
+	zval *parameters = NULL, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &parameters);
+
+	if (!parameters) {
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "COUNT", 1);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "rowcount", 1);
+	zephir_call_self_p3(return_value, this_ptr, "_groupresult", _0, _1, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Allows to calculate a summatory on a column that match the specified conditions
+ *
+ * <code>
+ *
+ * //How much are all robots?
+ * $sum = Robots::sum(array('column' => 'price'));
+ * echo "The total price of robots is ", $sum, "\n";
+ *
+ * //How much are mechanical robots?
+ * $sum = Robots::sum(array("type='mechanical'", 'column' => 'price'));
+ * echo "The total price of mechanical robots is  ", $sum, "\n";
+ *
+ * </code>
+ *
+ * @param array parameters
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Model, sum) {
+
+	zval *parameters = NULL, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &parameters);
+
+	if (!parameters) {
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "SUM", 1);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "sumatory", 1);
+	zephir_call_self_p3(return_value, this_ptr, "_groupresult", _0, _1, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Allows to get the maximum value of a column that match the specified conditions
+ *
+ * <code>
+ *
+ * //What is the maximum robot id?
+ * $id = Robots::maximum(array('column' => 'id'));
+ * echo "The maximum robot id is: ", $id, "\n";
+ *
+ * //What is the maximum id of mechanical robots?
+ * $sum = Robots::maximum(array("type='mechanical'", 'column' => 'id'));
+ * echo "The maximum robot id of mechanical robots is ", $id, "\n";
+ *
+ * </code>
+ *
+ * @param array $parameters
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Model, maximum) {
+
+	zval *parameters = NULL, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &parameters);
+
+	if (!parameters) {
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "MAX", 1);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "maximum", 1);
+	zephir_call_self_p3(return_value, this_ptr, "_groupresult", _0, _1, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Allows to get the minimum value of a column that match the specified conditions
+ *
+ * <code>
+ *
+ * //What is the minimum robot id?
+ * $id = Robots::minimum(array('column' => 'id'));
+ * echo "The minimum robot id is: ", $id;
+ *
+ * //What is the minimum id of mechanical robots?
+ * $sum = Robots::minimum(array("type='mechanical'", 'column' => 'id'));
+ * echo "The minimum robot id of mechanical robots is ", $id;
+ *
+ * </code>
+ *
+ * @param array parameters
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Model, minimum) {
+
+	zval *parameters = NULL, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &parameters);
+
+	if (!parameters) {
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "MIN", 1);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "minimum", 1);
+	zephir_call_self_p3(return_value, this_ptr, "_groupresult", _0, _1, parameters);
+	RETURN_MM();
+
+}
+
+/**
+ * Allows to calculate the average value on a column matching the specified conditions
+ *
+ * <code>
+ *
+ * //What's the average price of robots?
+ * $average = Robots::average(array('column' => 'price'));
+ * echo "The average price is ", $average, "\n";
+ *
+ * //What's the average price of mechanical robots?
+ * $average = Robots::average(array("type='mechanical'", 'column' => 'price'));
+ * echo "The average price of mechanical robots is ", $average, "\n";
+ *
+ * </code>
+ *
+ * @param array $parameters
+ * @return double
+ */
+PHP_METHOD(Phalcon_Mvc_Model, average) {
+
+	zval *parameters = NULL, *_0, *_1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &parameters);
+
+	if (!parameters) {
+		ZEPHIR_CPY_WRT(parameters, ZEPHIR_GLOBAL(global_null));
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_STRING(_0, "AVG", 1);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_STRING(_1, "average", 1);
+	zephir_call_self_p3(return_value, this_ptr, "_groupresult", _0, _1, parameters);
+	RETURN_MM();
+
+}
+

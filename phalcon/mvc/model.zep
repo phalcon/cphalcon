@@ -770,4 +770,450 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		return resultset;
 	}
 
+	/**
+	 * Allows to query the first record that match the specified conditions
+	 *
+	 * <code>
+	 *
+	 * //What's the first robot in robots table?
+	 * $robot = Robots::findFirst();
+	 * echo "The robot name is ", $robot->name;
+	 *
+	 * //What's the first mechanical robot in robots table?
+	 * $robot = Robots::findFirst("type='mechanical'");
+	 * echo "The first mechanical robot name is ", $robot->name;
+	 *
+	 * //Get first virtual robot ordered by name
+	 * $robot = Robots::findFirst(array("type='virtual'", "order" => "name"));
+	 * echo "The first virtual robot name is ", $robot->name;
+	 *
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return Phalcon\Mvc\Model
+	 */
+	public static function findFirst(parameters=null) -> <Phalcon\Mvc\Model>
+	{
+		var params, builder, query, bindParams, bindTypes, cache;
+
+		if typeof parameters != "array" {
+			let params = [];
+			if parameters !== null {
+				let params[] = parameters;
+			}
+		} else {
+			let params = parameters;
+		}
+
+		/**
+		 * Builds a query with the passed parameters
+		 */
+		let builder = new Phalcon\Mvc\Model\Query\Builder(params);
+		builder->from(get_called_class());
+
+		/**
+		 * We only want the first record
+		 */
+		builder->limit(1);
+		let query = builder->getQuery();
+
+		/**
+		 * Check for bind parameters
+		 */
+		let bindParams = null, bindTypes = null;
+		if fetch bindParams, params["bind"] {
+			//fetch bindTypes, params["bindTypes"];
+		}
+
+		/**
+		 * Pass the cache options to the query
+		 */
+		if fetch cache, params["cache"] {
+			query->cache(cache);
+		}
+
+		/**
+		 * Return only the first row
+		 */
+		query->setUniqueRow(true);
+
+		/**
+		 * Execute the query passing the bind-params and casting-types
+		 */
+		return query->execute(bindParams, bindTypes);
+	}
+
+	/**
+	 * Create a criteria for a specific model
+	 *
+	 * @param Phalcon\DiInterface dependencyInjector
+	 * @return Phalcon\Mvc\Model\Criteria
+	 */
+	public static function query(dependencyInjector=null)
+	{
+		var criteria;
+
+		/**
+		 * Use the global dependency injector if there is no one defined
+		 */
+		if typeof dependencyInjector != "object" {
+			let dependencyInjector = Phalcon\Di::getDefault();
+		}
+
+		let criteria = new Phalcon\Mvc\Model\Criteria();
+		criteria->setDI(dependencyInjector);
+		criteria->setModelName(get_called_class());
+
+		return criteria;
+	}
+
+	/**
+	 * Checks if the current record already exists or not
+	 *
+	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param string|array table
+	 * @return boolean
+	 */
+	protected function _exists(<Phalcon\Mvc\Model\MetadataInterface> metaData,
+		<Phalcon\Db\AdapterInterface> connection, var table=null) -> boolean
+	{
+		int numberEmpty, numberPrimary;
+		var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
+			wherePk, field, attributeField, value, bindDataTypes,
+			joinWhere, num, type, schema, source;
+
+		let uniqueParams = null,
+			uniqueTypes = null;
+
+		/**
+		 * Builds a unique primary key condition
+		 */
+		let uniqueKey = this->_uniqueKey;
+		if uniqueKey === null {
+
+			let primaryKeys = metaData->getPrimaryKeyAttributes(this),
+				bindDataTypes = metaData->getBindTypes(this);
+
+			let numberPrimary = count(primaryKeys);
+			if !numberPrimary {
+				return false;
+			}
+
+			/**
+			 * Check if column renaming is globally activated
+			 */
+			if globals_get("orm.column_renaming") {
+				let columnMap = metaData->getColumnMap(this);
+			} else {
+				let columnMap = null;
+			}
+
+			let numberEmpty = 0,
+				wherePk = [],
+				uniqueParams = [],
+				uniqueTypes = [];
+
+			/**
+			 * We need to create a primary key based on the current data
+			 */
+			for field in primaryKeys {
+
+				if typeof columnMap == "array" {
+					if !fetch attributeField, columnMap[field] {
+						throw new Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the column map");
+					}
+				} else {
+					let attributeField = field;
+				}
+
+				/**
+				 * If the primary key attribute is set append it to the conditions
+				 */
+				let value = null;
+				if 1 { //@todo fetch value, this->{attributeField}
+
+					/**
+					 * We count how many fields are empty, if all fields are empy we don't perform an 'exist' check
+					 */
+					if empty value {
+						let numberEmpty++;
+					}
+					let uniqueParams[] = value;
+
+				} else {
+					let uniqueParams[] = null,
+						numberEmpty++;
+				}
+
+				if !fetch type, bindDataTypes[field] {
+					throw new Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the table columns");
+				}
+
+				let uniqueTypes[] = type,
+					wherePk[] = connection->escapeIdentifier(field) . " = ?";
+			}
+
+			/**
+			 * There are no primary key fields defined, assume the record does not exist
+			 */
+			if numberPrimary == numberEmpty {
+				return false;
+			}
+
+			let joinWhere = join(" AND ", wherePk);
+
+			/**
+			 * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
+			 */
+			let this->_uniqueKey = joinWhere,
+				this->_uniqueParams = uniqueParams,
+				this->_uniqueTypes = uniqueTypes,
+				uniqueKey = joinWhere;
+		}
+
+		/**
+		 * If we already know if the record exists we don't check it
+		 */
+		if !this->_dirtyState {
+			return true;
+		}
+
+		if uniqueKey === null {
+			let uniqueKey = this->_uniqueKey;
+		}
+
+		if uniqueParams === null {
+			let uniqueParams = this->_uniqueParams;
+		}
+
+		if uniqueTypes === null {
+			let uniqueTypes = this->_uniqueTypes;
+		}
+
+		let schema = this->getSchema(), source = this->getSource();
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		/**
+		 * Here we use a single COUNT(*) without PHQL to make the execution faster
+		 */
+		let num = connection->fetchOne(
+			"SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
+			null,
+			uniqueParams,
+			uniqueTypes
+		);
+		if num["rowcount"] {
+			let this->_dirtyState = 0;
+			return true;
+		} else {
+			let this->_dirtyState = 1;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Generate a PHQL SELECT statement for an aggregate
+	 *
+	 * @param string function
+	 * @param string alias
+	 * @param array parameters
+	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 */
+	protected static function _groupResult(string functionName, string alias, var parameters) -> <Phalcon\Mvc\Model\ResultsetInterface>
+	{
+		var params, distinctColumn, groupColumn, columns,
+			bindParams, bindTypes, resultset, cache, firstRow, groupColumns,
+			builder, query;
+
+		if typeof parameters != "array" {
+			let params = [];
+			if parameters !== null {
+				let params[] = parameters;
+			}
+		} else {
+			let params = parameters;
+		}
+
+		if !fetch groupColumn, params["column"] {
+			let groupColumn = '*';
+		}
+
+		/**
+		 * Builds the columns to query according to the received parameters
+		 */
+		if fetch distinctColumn, params["distinct"] {
+			let columns = functionName . "(DISTINCT " . distinctColumn . ") AS " . alias;
+		} else {
+			if fetch groupColumns, params["group"] {
+				let columns = groupColumns . ", " . functionName . "(" . groupColumn . ") AS " . alias;
+			} else {
+				let columns = functionName . "(" . groupColumn . ") AS " . alias;
+			}
+		}
+
+		/**
+		 * Builds a query with the passed parameters
+		 */
+		let builder = new Phalcon\Mvc\Model\Query\Builder(params);
+		builder->columns(columns);
+		builder->from(get_called_class());
+
+		let query = builder->getQuery();
+
+		/**
+		 * Check for bind parameters
+		 */
+		let bindParams = null, bindTypes = null;
+		if fetch bindParams, params["bind"] {
+			//fetch bindTypes, params["bindTypes"];
+		}
+
+		/**
+		 * Execute the query
+		 */
+		let resultset = query->execute(bindParams, bindTypes);
+
+		/**
+		 * Pass the cache options to the query
+		 */
+		if fetch cache, params["cache"] {
+			query->cache(cache);
+		}
+
+		/**
+		 * Return the full resultset if the query is grouped
+		 */
+		if isset params["group"] {
+			return resultset;
+		}
+
+		/**
+		 * Return only the value in the first result
+		 */
+		let firstRow = resultset->getFirst();
+		//@todo return firstRow->{alias};
+		return null;
+	}
+
+	/**
+	 * Allows to count how many records match the specified conditions
+	 *
+	 * <code>
+	 *
+	 * //How many robots are there?
+	 * $number = Robots::count();
+	 * echo "There are ", $number, "\n";
+	 *
+	 * //How many mechanical robots are there?
+	 * $number = Robots::count("type='mechanical'");
+	 * echo "There are ", $number, " mechanical robots\n";
+	 *
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public static function count(parameters=null)
+	{
+		return self::_groupResult("COUNT", "rowcount", parameters);
+	}
+
+	/**
+	 * Allows to calculate a summatory on a column that match the specified conditions
+	 *
+	 * <code>
+	 *
+	 * //How much are all robots?
+	 * $sum = Robots::sum(array('column' => 'price'));
+	 * echo "The total price of robots is ", $sum, "\n";
+	 *
+	 * //How much are mechanical robots?
+	 * $sum = Robots::sum(array("type='mechanical'", 'column' => 'price'));
+	 * echo "The total price of mechanical robots is  ", $sum, "\n";
+	 *
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public static function sum(parameters=null)
+	{
+		return self::_groupResult("SUM", "sumatory", parameters);
+	}
+
+	/**
+	 * Allows to get the maximum value of a column that match the specified conditions
+	 *
+	 * <code>
+	 *
+	 * //What is the maximum robot id?
+	 * $id = Robots::maximum(array('column' => 'id'));
+	 * echo "The maximum robot id is: ", $id, "\n";
+	 *
+	 * //What is the maximum id of mechanical robots?
+	 * $sum = Robots::maximum(array("type='mechanical'", 'column' => 'id'));
+	 * echo "The maximum robot id of mechanical robots is ", $id, "\n";
+	 *
+	 * </code>
+	 *
+	 * @param array $parameters
+	 * @return mixed
+	 */
+	public static function maximum($parameters=null)
+	{
+		return self::_groupResult("MAX", "maximum", parameters);
+	}
+
+	/**
+	 * Allows to get the minimum value of a column that match the specified conditions
+	 *
+	 * <code>
+	 *
+	 * //What is the minimum robot id?
+	 * $id = Robots::minimum(array('column' => 'id'));
+	 * echo "The minimum robot id is: ", $id;
+	 *
+	 * //What is the minimum id of mechanical robots?
+	 * $sum = Robots::minimum(array("type='mechanical'", 'column' => 'id'));
+	 * echo "The minimum robot id of mechanical robots is ", $id;
+	 *
+	 * </code>
+	 *
+	 * @param array parameters
+	 * @return mixed
+	 */
+	public static function minimum(parameters=null)
+	{
+		return self::_groupResult("MIN", "minimum", parameters);
+	}
+
+	/**
+	 * Allows to calculate the average value on a column matching the specified conditions
+	 *
+	 * <code>
+	 *
+	 * //What's the average price of robots?
+	 * $average = Robots::average(array('column' => 'price'));
+	 * echo "The average price is ", $average, "\n";
+	 *
+	 * //What's the average price of mechanical robots?
+	 * $average = Robots::average(array("type='mechanical'", 'column' => 'price'));
+	 * echo "The average price of mechanical robots is ", $average, "\n";
+	 *
+	 * </code>
+	 *
+	 * @param array $parameters
+	 * @return double
+	 */
+	public static function average(parameters=null)
+	{
+		return self::_groupResult("AVG", "average", parameters);
+	}
+
 }

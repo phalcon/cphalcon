@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 
 
 /*
@@ -97,11 +98,75 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from) {
 }
 
 /**
+ * Sets the columns to be queried
+ *
+ *<code>
+ *	$builder->columns(array('id', 'name'));
+ *</code>
+ *
+ * @param string|array columns
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns) {
+
+	zval *columns;
+
+	zephir_fetch_params(0, 1, 0, &columns);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_columns"), columns TSRMLS_CC);
+	RETURN_THISW();
+
+}
+
+/**
+ * Return the columns to be queried
+ *
+ * @return string|array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getColumns) {
+
+
+	RETURN_MEMBER(this_ptr, "_columns");
+
+}
+
+/**
  * Returns the query built
  *
  * @return Phalcon\Mvc\Model\Query
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery) {
+
+
+
+}
+
+/**
+ * Sets a LIMIT clause, optionally a offset clause
+ *
+ *<code>
+ *	$builder->limit(100);
+ *	$builder->limit(100, 20);
+ *</code>
+ *
+ * @param int limit
+ * @param int offset
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit) {
+
+	zval *limit_param = NULL, *offset = NULL;
+	int limit;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &limit_param, &offset);
+
+		limit = zephir_get_intval(limit_param);
+	if (!offset) {
+		ZEPHIR_CPY_WRT(offset, ZEPHIR_GLOBAL(global_null));
+	}
 
 
 

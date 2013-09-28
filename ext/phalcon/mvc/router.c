@@ -1218,39 +1218,3 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 
 }
 
-PHP_METHOD(Phalcon_Mvc_Router, testMethod1) {
-
-
-	RETURN_STRING("[hello]", 1);
-
-}
-
-PHP_METHOD(Phalcon_Mvc_Router, testCall) {
-
-	zend_function *_1 = NULL;
-	zval *s, *_0 = NULL;
-	int i = 0;
-
-	ZEPHIR_MM_GROW();
-	ZEPHIR_INIT_VAR(s);
-	ZVAL_STRING(s, "", 1);
-
-	while (1) {
-		ZEPHIR_INIT_NVAR(_0);
-		zephir_call_method_cache(_0, this_ptr, "testmethod1", &_1);
-		zephir_concat_self(&s, _0 TSRMLS_CC);
-		if ((i == 5)) {
-			break;
-		} else {
-			i++;
-		}
-	}
-	array_init(return_value);
-	zephir_array_append(&return_value, s, 0);
-	ZEPHIR_INIT_NVAR(_0);
-	ZVAL_LONG(_0, i);
-	zephir_array_append(&return_value, _0, 0);
-	RETURN_MM();
-
-}
-

@@ -19,7 +19,80 @@
 
 namespace Phalcon\Mvc\Model;
 
+/**
+ * Phalcon\Mvc\Model\Criteria
+ *
+ * This class allows to build the array parameter required by Phalcon\Mvc\Model::find
+ * and Phalcon\Mvc\Model::findFirst using an object-oriented interface
+ *
+ *<code>
+ *$robots = Robots::query()
+ *    ->where("type = :type:")
+ *    ->andWhere("year < 2000")
+ *    ->bind(array("type" => "mechanical"))
+ *    ->order("name")
+ *    ->execute();
+ *</code>
+ */
 class Criteria
+//implements Phalcon_Mvc_Model_CriteriaInterface, Phalcon_DI_InjectionAwareInterface
 {
+
+	protected _model;
+
+	protected _params;
+
+	protected _bindParams;
+
+	protected _bindTypes;
+
+	protected _hiddenParamNumber = 0;
+
+	/**
+	 * Sets the DependencyInjector container
+	 *
+	 * @param Phalcon\DiInterface dependencyInjector
+	 */
+	public function setDI(<Phalcon\DiInterface> dependencyInjector)
+	{
+		let this->_params["di"] = dependencyInjector;
+	}
+
+	/**
+	 * Returns the DependencyInjector container
+	 *
+	 * @return Phalcon\DiInterface
+	 */
+	public function getDI() -> <Phalcon\DiInterface>
+	{
+		var params, dependencyInjector;
+		let params = this->_params;
+		if fetch dependencyInjector, params["di"] {
+			return dependencyInjector;
+		}
+		return null;
+	}
+
+	/**
+	 * Set a model on which the query will be executed
+	 *
+	 * @param string modelName
+	 * @return Phalcon\Mvc\Model\Criteria
+	 */
+	public function setModelName(string modelName) -> <Phalcon\Mvc\Model\Criteria>
+	{
+		let this->_model = modelName;
+		return this;
+	}
+
+	/**
+	 * Returns an internal model name on which the criteria will be applied
+	 *
+	 * @return string
+	 */
+	public function getModelName() -> string
+	{
+		return this->_model;
+	}
 
 }
