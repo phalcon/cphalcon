@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Utils_Scws, add_dict){
 	xmode = (int) scws_add_dict(ps->s, Z_STRVAL_P(realpath), xmode);
 
 	if (xmode != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Failed to add the dict file");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Failed to add the dict file: No operation permissions");
 		RETURN_MM_FALSE;
 	}
 
@@ -249,6 +249,7 @@ PHP_METHOD(Phalcon_Utils_Scws, set_dict){
 	phalcon_fetch_params(1, 1, 1, &dict_path, &mode);
 
 	if (phalcon_file_exists(dict_path TSRMLS_CC) == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "File does not exist ");
 		RETURN_MM_FALSE;
 	}
 
@@ -270,7 +271,7 @@ PHP_METHOD(Phalcon_Utils_Scws, set_dict){
 	xmode = (int) scws_set_dict(ps->s, Z_STRVAL_P(realpath), xmode);
 
 	if (xmode != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Failed to set the dict file");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Failed to set the dict file: No operation permissions");
 		RETURN_MM_FALSE;
 	}
 
@@ -311,7 +312,7 @@ PHP_METHOD(Phalcon_Utils_Scws, set_rule){
 	scws_set_rule(ps->s, Z_STRVAL_P(realpath));
 
 	if (ps->s->r == NULL) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Failed to load the ruleset file");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Failed to load the ruleset file: No operation permissions");
 		RETURN_MM_FALSE;
 	}
 
