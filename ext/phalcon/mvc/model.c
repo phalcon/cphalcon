@@ -1542,3 +1542,392 @@ PHP_METHOD(Phalcon_Mvc_Model, average) {
 
 }
 
+/**
+ * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ *
+ * @param string eventName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, fireEvent) {
+
+	zval *eventName_param = NULL, *modelsManager = NULL, *_0;
+	zval *eventName = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &eventName_param);
+
+		zephir_get_strval(eventName, eventName_param);
+
+
+	if ((zephir_method_exists(this_ptr, eventName TSRMLS_CC)  == SUCCESS)) {
+		zephir_call_method_zval_noret(this_ptr, eventName);
+	}
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(modelsManager, _0);
+	zephir_call_method_p2(return_value, modelsManager, "notifyevent", eventName, this_ptr);
+	RETURN_MM();
+
+}
+
+/**
+ * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ * This method stops if one of the callbacks/listeners returns boolean false
+ *
+ * @param string eventName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel) {
+
+	zval *eventName_param = NULL, *modelsManager = NULL, *_0 = NULL, *_1;
+	zval *eventName = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &eventName_param);
+
+		zephir_get_strval(eventName, eventName_param);
+
+
+	if ((zephir_method_exists(this_ptr, eventName TSRMLS_CC)  == SUCCESS)) {
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_method_zval(_0, this_ptr, eventName);
+		if (ZEPHIR_IS_FALSE(_0)) {
+			RETURN_MM_BOOL(0);
+		}
+	}
+	ZEPHIR_OBS_VAR(_1);
+	zephir_read_property_this(&_1, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(modelsManager, _1);
+	ZEPHIR_INIT_NVAR(_0);
+	zephir_call_method_p2(_0, modelsManager, "notifyevent", eventName, this_ptr);
+	if (ZEPHIR_IS_FALSE(_0)) {
+		RETURN_MM_BOOL(0);
+	}
+	RETURN_MM_BOOL(1);
+
+}
+
+/**
+ * Cancel the current operation
+ *
+ */
+PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation) {
+
+	zval *_0, *_1 = NULL;
+
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("_operationMade"), PH_NOISY_CC);
+	if (ZEPHIR_IS_LONG(_0, 3)) {
+		ZEPHIR_INIT_VAR(_1);
+		ZVAL_STRING(_1, "notDeleted", 1);
+		zephir_call_method_p1_noret(this_ptr, "fireevent", _1);
+	} else {
+		ZEPHIR_INIT_NVAR(_1);
+		ZVAL_STRING(_1, "notSaved", 1);
+		zephir_call_method_p1_noret(this_ptr, "fireevent", _1);
+	}
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Appends a customized message on the validation process
+ *
+ * <code>
+ * use \Phalcon\Mvc\Model\Message as Message;
+ *
+ * class Robots extends Phalcon\Mvc\Model
+ * {
+ *
+ *   public function beforeSave()
+ *   {
+ *     if ($this->name == 'Peter') {
+ *        $message = new Message("Sorry, but a robot cannot be named Peter");
+ *        $this->appendMessage($message);
+ *     }
+ *   }
+ * }
+ * </code>
+ *
+ * @param Phalcon\Mvc\Model\MessageInterface $message
+ * @return Phalcon\Mvc\Model
+ */
+PHP_METHOD(Phalcon_Mvc_Model, appendMessage) {
+
+	zval *message;
+
+	zephir_fetch_params(0, 1, 0, &message);
+
+
+
+	zephir_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
+	RETURN_THISW();
+
+}
+
+/**
+ * Executes validators on every validation call
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *	public function validation()
+ *  {
+ * 		$this->validate(new ExclusionIn(array(
+ *			'field' => 'status',
+ *			'domain' => array('A', 'I')
+ *		)));
+ *		if ($this->validationHasFailed() == true) {
+ *			return false;
+ *		}
+ *	}
+ *
+ *}
+ *</code>
+ *
+ * @param object validator
+ * @return Phalcon\Mvc\Model
+ */
+PHP_METHOD(Phalcon_Mvc_Model, validate) {
+
+	HashTable *_3;
+	HashPosition _2;
+	zval *validator, *message = NULL, *_0, *_1, **_4;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &validator);
+
+
+
+	if ((Z_TYPE_P(validator) != IS_OBJECT)) {
+		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator must be an Object");
+		return;
+	}
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_method_p1(_0, validator, "validate", this_ptr);
+	if (ZEPHIR_IS_FALSE(_0)) {
+		ZEPHIR_INIT_VAR(_1);
+		zephir_call_method(_1, validator, "getmessages");
+		zephir_is_iterable(_1, &_3, &_2, 0, 0);
+		for (
+			; zend_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+			; zend_hash_move_forward_ex(_3, &_2)
+		) {
+			ZEPHIR_GET_HVALUE(message, _4);
+			zephir_update_property_array_append(this_ptr, SL("_errorMessages"), message TSRMLS_CC);
+		}
+	}
+	RETURN_THIS();
+
+}
+
+/**
+ * Check whether validation process has generated any messages
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *	public function validation()
+ *  {
+ * 		$this->validate(new ExclusionIn(array(
+ *			'field' => 'status',
+ *			'domain' => array('A', 'I')
+ *		)));
+ *		if ($this->validationHasFailed() == true) {
+ *			return false;
+ *		}
+ *	}
+ *
+ *}
+ *</code>
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed) {
+
+	zval *errorMessages;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(errorMessages);
+	zephir_read_property_this(&errorMessages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+	if ((Z_TYPE_P(errorMessages) == IS_ARRAY)) {
+		if (zephir_fast_count_int(errorMessages TSRMLS_CC)) {
+			RETURN_MM_BOOL(1);
+		}
+	}
+	RETURN_MM_BOOL(0);
+
+}
+
+/**
+ * Returns all the validation messages
+ *
+ *<code>
+ *	$robot = new Robots();
+ *	$robot->type = 'mechanical';
+ *	$robot->name = 'Astro Boy';
+ *	$robot->year = 1952;
+ *	if ($robot->save() == false) {
+ *  	echo "Umh, We can't store robots right now ";
+ *  	foreach ($robot->getMessages() as $message) {
+ *			echo $message;
+ *		}
+ *	} else {
+ *  	echo "Great, a new robot was saved successfully!";
+ *	}
+ * </code>
+ *
+ * @return Phalcon\Mvc\Model\MessageInterface[]
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getMessages) {
+
+
+	RETURN_MEMBER(this_ptr, "_errorMessages");
+
+}
+
+/**
+ * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
+ * to verify that inserted/updated values are present in the related entity
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
+
+	zend_function *_4 = NULL, *_6 = NULL, *_7 = NULL, *_8 = NULL, *_9 = NULL, *_20 = NULL, *_23 = NULL;
+	HashTable *_2, *_11;
+	HashPosition _1, _10;
+	zend_bool error;
+	zval *manager = NULL, *belongsTo, *foreignKey = NULL, *relation = NULL, *conditions = NULL, *position = NULL, *bindParams = NULL, *extraConditions = NULL, *message = NULL, *fields = NULL, *referencedFields = NULL, *field = NULL, action = zval_used_for_init, *referencedModel = NULL, *value = NULL, *_0 = NULL, **_3, *_5 = NULL, **_12, *_13 = NULL, *_14 = NULL, *_15 = NULL, *_16 = NULL, *_17 = NULL, _18 = zval_used_for_init, *_19 = NULL, *_21 = NULL, *_22 = NULL;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(manager, _0);
+	ZEPHIR_INIT_VAR(belongsTo);
+	zephir_call_method_p1(belongsTo, manager, "getbelongsto", this_ptr);
+	if (zephir_fast_count_int(belongsTo TSRMLS_CC)) {
+		error = 0;
+		zephir_is_iterable(belongsTo, &_2, &_1, 0, 0);
+		for (
+			; zend_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+			; zend_hash_move_forward_ex(_2, &_1)
+		) {
+			ZEPHIR_GET_HVALUE(relation, _3);
+			ZEPHIR_INIT_NVAR(foreignKey);
+			zephir_call_method_cache(foreignKey, relation, "getforeignkey", &_4);
+			if (!ZEPHIR_IS_FALSE(foreignKey)) {
+				ZEPHIR_SINIT_NVAR(action);
+				ZVAL_LONG(&action, 1);
+				if ((Z_TYPE_P(foreignKey) == IS_ARRAY)) {
+				}
+				if (ZEPHIR_IS_LONG(&action, 1)) {
+					ZEPHIR_INIT_NVAR(_5);
+					zephir_call_method_cache(_5, relation, "getreferencedmodel", &_6);
+					ZEPHIR_INIT_NVAR(referencedModel);
+					zephir_call_method_p1_cache(referencedModel, manager, "load", &_7, _5);
+					ZEPHIR_INIT_NVAR(conditions);
+					array_init(conditions);
+					ZEPHIR_INIT_NVAR(bindParams);
+					array_init(bindParams);
+					ZEPHIR_INIT_NVAR(fields);
+					zephir_call_method_cache(fields, relation, "getfields", &_8);
+					ZEPHIR_INIT_NVAR(referencedFields);
+					zephir_call_method_cache(referencedFields, relation, "getreferencedfields", &_9);
+					if ((Z_TYPE_P(fields) == IS_ARRAY)) {
+						zephir_is_iterable(fields, &_11, &_10, 0, 0);
+						for (
+							; zend_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
+							; zend_hash_move_forward_ex(_11, &_10)
+						) {
+							ZEPHIR_GET_HMKEY(position, _11, _10);
+							ZEPHIR_GET_HVALUE(field, _12);
+							ZEPHIR_INIT_NVAR(value);
+							ZVAL_NULL(value);
+							ZEPHIR_OBS_NVAR(_0);
+							zephir_array_fetch(&_0, referencedFields, position, PH_NOISY TSRMLS_CC);
+							ZEPHIR_INIT_LNVAR(_13);
+							ZEPHIR_CONCAT_SV(_13, "[", _0);
+							ZEPHIR_INIT_LNVAR(_14);
+							ZEPHIR_CONCAT_VS(_14, _13, "] = ?");
+							ZEPHIR_INIT_LNVAR(_15);
+							concat_function(_15, _14, position TSRMLS_CC);
+							zephir_array_append(&conditions, _15, PH_SEPARATE);
+							zephir_array_append(&bindParams, value, PH_SEPARATE);
+						}
+					} else {
+						ZEPHIR_INIT_LNVAR(_13);
+						ZEPHIR_CONCAT_SV(_13, "[", referencedFields);
+						ZEPHIR_INIT_LNVAR(_14);
+						ZEPHIR_CONCAT_VS(_14, _13, "] = ?0");
+						zephir_array_append(&conditions, _14, PH_SEPARATE);
+						zephir_array_append(&bindParams, value, PH_SEPARATE);
+					}
+					ZEPHIR_OBS_NVAR(extraConditions);
+					if (zephir_array_isset_string_fetch(&extraConditions, foreignKey, SS("conditions") TSRMLS_CC)) {
+						zephir_array_append(&conditions, extraConditions, PH_SEPARATE);
+					}
+					ZEPHIR_INIT_NVAR(_16);
+					ZEPHIR_INIT_NVAR(_17);
+					array_init(_17);
+					ZEPHIR_SINIT_NVAR(_18);
+					ZVAL_STRING(&_18, " AND ", 0);
+					ZEPHIR_INIT_NVAR(_19);
+					zephir_call_func_p2(_19, "join", &_18, conditions);
+					zephir_array_append(&_17, _19, 0);
+					zephir_array_update_string(&_17, SL("bind"), &bindParams, PH_COPY | PH_SEPARATE);
+					zephir_call_method_p1_cache(_16, referencedModel, "count", &_20, _17);
+					if (!(zephir_is_true(_16))) {
+						ZEPHIR_OBS_NVAR(message);
+						if (!(zephir_array_isset_string_fetch(&message, foreignKey, SS("message") TSRMLS_CC))) {
+							ZEPHIR_INIT_NVAR(message);
+							if ((Z_TYPE_P(fields) == IS_ARRAY)) {
+								ZEPHIR_SINIT_NVAR(_18);
+								ZVAL_STRING(&_18, ", ", 0);
+								ZEPHIR_INIT_NVAR(_19);
+								zephir_call_func_p2(_19, "join", &_18, fields);
+								ZEPHIR_INIT_LNVAR(_15);
+								ZEPHIR_CONCAT_SV(_15, "Value of fields '", _19);
+								ZEPHIR_CONCAT_VS(message, _15, "' does not exist on referenced table");
+							} else {
+								ZEPHIR_INIT_LNVAR(_21);
+								ZEPHIR_CONCAT_SV(_21, "Value of field '", fields);
+								ZEPHIR_CONCAT_VS(message, _21, "' does not exist on referenced table");
+							}
+						}
+						ZEPHIR_INIT_NVAR(_22);
+						object_init_ex(_22, phalcon_mvc_model_message_ce);
+						zephir_call_method_p1_cache_noret(this_ptr, "appendmessage", &_23, _22);
+						error = 1;
+						break;
+					}
+				}
+			}
+		}
+		if ((error == 1)) {
+			ZEPHIR_INIT_NVAR(_5);
+			ZVAL_STRING(_5, "orm.events", 1);
+			ZEPHIR_INIT_NVAR(_16);
+			zephir_call_func_p1(_16, "globals_get", _5);
+			if (zephir_is_true(_16)) {
+				ZEPHIR_INIT_NVAR(_5);
+				ZVAL_STRING(_5, "onValidationFails", 1);
+				zephir_call_method_p1_noret(this_ptr, "fireevent", _5);
+				zephir_call_method_noret(this_ptr, "_canceloperation");
+			}
+			RETURN_MM_BOOL(0);
+		}
+	}
+	RETURN_MM_BOOL(1);
+
+}
+

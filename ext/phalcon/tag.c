@@ -417,7 +417,9 @@ PHP_METHOD(Phalcon_Tag, linkTo) {
 
 	if ((Z_TYPE_P(parameters) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(params);
-		zephir_call_func_p2(params, "array", parameters, text);
+		array_init(params);
+		zephir_array_append(&params, parameters, 0);
+		zephir_array_append(&params, text, 0);
 	} else {
 		ZEPHIR_CPY_WRT(params, parameters);
 	}

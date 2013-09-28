@@ -329,7 +329,7 @@ class Tag
 		var key, value, params, action, url, code;
 
 		if typeof parameters != "array" {
-			let params = array(parameters, text);
+			let params = [parameters, text];
 		} else {
 			let params = parameters;
 		}

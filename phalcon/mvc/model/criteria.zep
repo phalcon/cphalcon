@@ -35,7 +35,7 @@ namespace Phalcon\Mvc\Model;
  *</code>
  */
 class Criteria
-//implements Phalcon_Mvc_Model_CriteriaInterface, Phalcon_DI_InjectionAwareInterface
+//implements Phalcon\Mvc\Model\CriteriaInterface, Phalcon\DI\InjectionAwareInterface
 {
 
 	protected _model;

@@ -133,11 +133,11 @@ interface ManagerInterface
 	/**
 	 * Loads a model throwing an exception if it doesn't exist
 	 *
-	 * @param string modelName
-	 * @param boolean newInstance
+	 * @param  string modelName
+	 * @param  boolean newInstance
 	 * @return Phalcon\Mvc\ModelInterface
 	 */
-	public function load(modelName, newInstance);
+	public function load(string modelName, boolean newInstance=false);
 
 	/**
 	 * Setup a 1-1 relation between two models

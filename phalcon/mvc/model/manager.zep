@@ -125,13 +125,6 @@ class Manager
 	protected _keepSnapshots;
 
 	/**
-	 *
-	 */
-	protected _dynamicUpdate;
-
-	protected _namespaceAliases;
-
-	/**
 	 * Sets the DependencyInjector container
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
@@ -218,6 +211,64 @@ class Manager
 		}
 
 		return true;
+	}
+
+	/**
+	 * Check whether a model is already initialized
+	 *
+	 * @param string modelName
+	 * @return bool
+	 */
+	public function isInitialized(modelName) -> boolean
+	{
+		var initialized;
+		let initialized = this->_initialized;
+		return isset initialized[strtolower(modelName)];
+	}
+
+	/**
+	 * Get last initialized model
+	 *
+	 * @return Phalcon\Mvc\ModelInterface
+	 */
+	public function getLastInitialized() -> <Phalcon\Mvc\ModelInterface>
+	{
+		return this->_lastInitialized;
+	}
+
+	/**
+	 * Loads a model throwing an exception if it doesn't exist
+	 *
+	 * @param  string modelName
+	 * @param  boolean newInstance
+	 * @return Phalcon\Mvc\ModelInterface
+	 */
+	public function load(string modelName, boolean newInstance=false) -> <Phalcon\Mvc\ModelInterface>
+	{
+		var initialized, model;
+
+		/**
+		 * Check if a model with the same is already loaded
+		 */
+		let initialized = this->_initialized;
+		if fetch model, initialized[strtolower(modelName)] {
+			if newInstance {
+				return clone model;
+			}
+			return model;
+		}
+
+		/**
+		 * Load it using an autoloader
+		 */
+		if class_exists(modelName) {
+			//return new {modelName}(this->_dependencyInjector, this);
+		}
+
+		/**
+		 * The model doesn't exist throw an exception
+		 */
+		throw new Phalcon\Mvc\Model\Exception("Model '" . modelName . "' could not be loaded");
 	}
 
 	/**

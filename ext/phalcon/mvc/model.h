@@ -38,6 +38,14 @@ PHP_METHOD(Phalcon_Mvc_Model, sum);
 PHP_METHOD(Phalcon_Mvc_Model, maximum);
 PHP_METHOD(Phalcon_Mvc_Model, minimum);
 PHP_METHOD(Phalcon_Mvc_Model, average);
+PHP_METHOD(Phalcon_Mvc_Model, fireEvent);
+PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel);
+PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation);
+PHP_METHOD(Phalcon_Mvc_Model, appendMessage);
+PHP_METHOD(Phalcon_Mvc_Model, validate);
+PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed);
+PHP_METHOD(Phalcon_Mvc_Model, getMessages);
+PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -149,6 +157,22 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_average, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_fireevent, 0, 0, 1)
+	ZEND_ARG_INFO(0, eventName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_fireeventcancel, 0, 0, 1)
+	ZEND_ARG_INFO(0, eventName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_appendmessage, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validate, 0, 0, 1)
+	ZEND_ARG_INFO(0, validator)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, __construct, arginfo_phalcon_mvc_model___construct, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model, setDI, arginfo_phalcon_mvc_model_setdi, ZEND_ACC_PUBLIC)
@@ -185,5 +209,13 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, maximum, arginfo_phalcon_mvc_model_maximum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, minimum, arginfo_phalcon_mvc_model_minimum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, average, arginfo_phalcon_mvc_model_average, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, fireEvent, arginfo_phalcon_mvc_model_fireevent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, fireEventCancel, arginfo_phalcon_mvc_model_fireeventcancel, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, _cancelOperation, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, appendMessage, arginfo_phalcon_mvc_model_appendmessage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, validate, arginfo_phalcon_mvc_model_validate, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, validationHasFailed, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, getMessages, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysRestrict, NULL, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

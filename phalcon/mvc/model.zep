@@ -1216,4 +1216,338 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		return self::_groupResult("AVG", "average", parameters);
 	}
 
+	/**
+	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+	 *
+	 * @param string eventName
+	 * @return boolean
+	 */
+	public function fireEvent(string eventName) -> boolean
+	{
+		var modelsManager;
+
+		/**
+		 * Check if there is a method with the same name of the event
+		 */
+		if method_exists(this, eventName) {
+			this->{eventName}();
+		}
+
+		/**
+		 * Send a notification to the events manager
+		 */
+		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
+		return modelsManager->notifyEvent(eventName, this);
+	}
+
+	/**
+	 * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+	 * This method stops if one of the callbacks/listeners returns boolean false
+	 *
+	 * @param string eventName
+	 * @return boolean
+	 */
+	public function fireEventCancel(string eventName)
+	{
+		var modelsManager;
+
+		/**
+		 * Check if there is a method with the same name of the event
+		 */
+		if method_exists(this, eventName) {
+			if this->{eventName}() === false {
+				return false;
+			}
+		}
+
+		/**
+		 * Send a notification to the events manager
+		 */
+		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
+		if modelsManager->notifyEvent(eventName, this) === false {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Cancel the current operation
+	 *
+	 */
+	protected function _cancelOperation()
+	{
+		if this->_operationMade == self::OP_DELETE {
+			this->fireEvent("notDeleted");
+		} else {
+			this->fireEvent("notSaved");
+		}
+	}
+
+	/**
+	 * Appends a customized message on the validation process
+	 *
+	 * <code>
+	 * use \Phalcon\Mvc\Model\Message as Message;
+	 *
+	 * class Robots extends Phalcon\Mvc\Model
+	 * {
+	 *
+	 *   public function beforeSave()
+	 *   {
+	 *     if ($this->name == 'Peter') {
+	 *        $message = new Message("Sorry, but a robot cannot be named Peter");
+	 *        $this->appendMessage($message);
+	 *     }
+	 *   }
+	 * }
+	 * </code>
+	 *
+	 * @param Phalcon\Mvc\Model\MessageInterface $message
+	 * @return Phalcon\Mvc\Model
+	 */
+	public function appendMessage(<Phalcon\Mvc\Model\MessageInterface> message) -> <Phalcon\Mvc\Model>
+	{
+		let this->_errorMessages[] = message;
+		return this;
+	}
+
+	/**
+	 * Executes validators on every validation call
+	 *
+	 *<code>
+	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 *
+	 *class Subscriptors extends Phalcon\Mvc\Model
+	 *{
+	 *
+	 *	public function validation()
+	 *  {
+	 * 		$this->validate(new ExclusionIn(array(
+	 *			'field' => 'status',
+	 *			'domain' => array('A', 'I')
+	 *		)));
+	 *		if ($this->validationHasFailed() == true) {
+	 *			return false;
+	 *		}
+	 *	}
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param object validator
+	 * @return Phalcon\Mvc\Model
+	 */
+	protected function validate(validator) -> <Phalcon\Mvc\Model>
+	{
+		var message;
+
+		/**
+		 * Valid validators are objects
+		 */
+		if typeof validator != "object" {
+			throw new Phalcon\Mvc\Model\Exception("Validator must be an Object");
+		}
+
+		/**
+		 * Call the validation, if it returns false we append the messages to the current object
+		 */
+		if validator->validate(this) === false {
+			for message in validator->getMessages() {
+				let this->_errorMessages[] = message;
+			}
+		}
+
+		return this;
+	}
+
+	/**
+	 * Check whether validation process has generated any messages
+	 *
+	 *<code>
+	 *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+	 *
+	 *class Subscriptors extends Phalcon\Mvc\Model
+	 *{
+	 *
+	 *	public function validation()
+	 *  {
+	 * 		$this->validate(new ExclusionIn(array(
+	 *			'field' => 'status',
+	 *			'domain' => array('A', 'I')
+	 *		)));
+	 *		if ($this->validationHasFailed() == true) {
+	 *			return false;
+	 *		}
+	 *	}
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @return boolean
+	 */
+	public function validationHasFailed() -> boolean
+	{
+		var errorMessages;
+		let errorMessages = this->_errorMessages;
+		if typeof errorMessages == "array" {
+			if count(errorMessages) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns all the validation messages
+	 *
+	 *<code>
+	 *	$robot = new Robots();
+	 *	$robot->type = 'mechanical';
+	 *	$robot->name = 'Astro Boy';
+	 *	$robot->year = 1952;
+	 *	if ($robot->save() == false) {
+	 *  	echo "Umh, We can't store robots right now ";
+	 *  	foreach ($robot->getMessages() as $message) {
+	 *			echo $message;
+	 *		}
+	 *	} else {
+	 *  	echo "Great, a new robot was saved successfully!";
+	 *	}
+	 * </code>
+	 *
+	 * @return Phalcon\Mvc\Model\MessageInterface[]
+	 */
+	public function getMessages()
+	{
+		return this->_errorMessages;
+	}
+
+	/**
+	 * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
+	 * to verify that inserted/updated values are present in the related entity
+	 *
+	 * @return boolean
+	 */
+	protected function _checkForeignKeysRestrict() -> boolean
+	{
+		var manager, belongsTo, foreignKey, relation, conditions,
+			position, bindParams, extraConditions, message, fields,
+			referencedFields, field, action, referencedModel, value;
+		boolean error;
+
+		/**
+		 * Get the models manager
+		 */
+		let manager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
+
+		/**
+		 * We check if some of the belongsTo relations act as virtual foreign key
+		 */
+		let belongsTo = manager->getBelongsTo(this);
+		if count(belongsTo) {
+
+			let error = false;
+			for relation in belongsTo {
+
+				let foreignKey = relation->getForeignKey();
+				if foreignKey !== false {
+
+					/**
+					 * By default action is restrict
+					 */
+					let action = Phalcon\Mvc\Model\Relation::ACTION_RESTRICT;
+
+					/**
+					 * Try to find a different action in the foreign key's options
+					 */
+					if typeof foreignKey == "array" {
+						//fetch action, foreignKey["action"];
+					}
+
+					/**
+					 * Check only if the operation is restrict
+					 */
+					if action == Phalcon\Mvc\Model\Relation::ACTION_RESTRICT {
+
+						/**
+						 * Load the referenced model if needed
+						 */
+						let referencedModel = manager->load(relation->getReferencedModel());
+
+						/**
+						 * Since relations can have multiple columns or a single one, we need to build a condition for each of these cases
+						 */
+						let conditions = [], bindParams = [];
+
+						let fields = relation->getFields(),
+							referencedFields = relation->getReferencedFields();
+
+						if typeof fields == "array" {
+							/**
+							 * Create a compound condition
+							 */
+							for position, field in fields {
+								//fetch value, this->{field}
+								let value = null;
+								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+									bindParams[] = value;
+							}
+						} else {
+							//fetch value, this->{fields};
+							let conditions[] = "[" . referencedFields . "] = ?0",
+								bindParams[] = value;
+						}
+
+						/**
+						 * Check if the virtual foreign key has extra conditions
+						 */
+						if fetch extraConditions, foreignKey["conditions"] {
+							let conditions[] = extraConditions;
+						}
+
+						/**
+						 * We don't trust the actual values in the object and pass the values using bound parameters
+						 * Let's make the checking
+						 */
+						if !referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+							/**
+							 * Get the user message or produce a new one
+							 */
+							if !fetch message, foreignKey["message"] {
+								if typeof fields == "array" {
+									let message = "Value of fields '" . join(", ", fields) . "' does not exist on referenced table";
+								} else {
+									let message = "Value of field '" . fields . "' does not exist on referenced table";
+								}
+							}
+
+							/**
+							 * Create a message
+							 */
+							this->appendMessage(new Phalcon\Mvc\Model\Message(message, fields, "ConstraintViolation"));
+							let error = true;
+							break;
+						}
+
+					}
+				}
+			}
+
+			/**
+			 * Call 'onValidationFails' if the validation fails
+			 */
+			if error === true {
+				if globals_get("orm.events") {
+					this->fireEvent("onValidationFails");
+					this->_cancelOperation();
+				}
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 }

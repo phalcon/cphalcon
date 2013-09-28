@@ -16,9 +16,10 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/string.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
+#include "kernel/concat.h"
+#include "kernel/string.h"
 
 
 /*
@@ -121,11 +122,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Manager) {
  */
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_reusable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_keepSnapshots"), ZEND_ACC_PROTECTED TSRMLS_CC);
-/**
- *
- */
-	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_dynamicUpdate"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_namespaceAliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -225,6 +221,93 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize) {
 		zephir_call_method_p3_noret(eventsManager, "fire", _1, this_ptr, model);
 	}
 	RETURN_MM_BOOL(1);
+
+}
+
+/**
+ * Check whether a model is already initialized
+ *
+ * @param string modelName
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized) {
+
+	zval *modelName, *initialized, *_0;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &modelName);
+
+
+
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "strtolower", modelName);
+	RETURN_MM_BOOL(zephir_array_isset(initialized, _0));
+
+}
+
+/**
+ * Get last initialized model
+ *
+ * @return Phalcon\Mvc\ModelInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized) {
+
+
+	RETURN_MEMBER(this_ptr, "_lastInitialized");
+
+}
+
+/**
+ * Loads a model throwing an exception if it doesn't exist
+ *
+ * @param  string modelName
+ * @param  boolean newInstance
+ * @return Phalcon\Mvc\ModelInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
+
+	zend_bool newInstance;
+	zval *modelName_param = NULL, *newInstance_param = NULL, *initialized, *model, *_0, *_1, *_2, *_3, *_4;
+	zval *modelName = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &modelName_param, &newInstance_param);
+
+		zephir_get_strval(modelName, modelName_param);
+	if (!newInstance_param) {
+		newInstance = 0;
+	} else {
+		newInstance = zephir_get_boolval(newInstance_param);
+	}
+
+
+	ZEPHIR_OBS_VAR(initialized);
+	zephir_read_property_this(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	ZEPHIR_OBS_VAR(model);
+	ZEPHIR_INIT_VAR(_0);
+	zephir_call_func_p1(_0, "strtolower", modelName);
+	if (zephir_array_isset_fetch(&model, initialized, _0 TSRMLS_CC)) {
+		if (newInstance) {
+			RETURN_MM_NULL();
+		}
+		RETURN_CCTOR(model);
+	}
+	ZEPHIR_INIT_VAR(_1);
+	zephir_call_func_p1(_1, "class_exists", modelName);
+	if (zephir_is_true(_1)) {
+	}
+	ZEPHIR_INIT_VAR(_2);
+	object_init_ex(_2, phalcon_mvc_model_exception_ce);
+	ZEPHIR_INIT_VAR(_3);
+	ZEPHIR_CONCAT_SV(_3, "Model '", modelName);
+	ZEPHIR_INIT_VAR(_4);
+	ZEPHIR_CONCAT_VS(_4, _3, "' could not be loaded");
+	zephir_call_method_p1_noret(_2, "__construct", _4);
+	zephir_throw_exception(_2 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+	return;
 
 }
 
