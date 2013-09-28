@@ -51,6 +51,87 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ManagerInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, initialize);
 
 /**
+ * Returns the mapped source for a model
+ *
+ * @param Phalcon\Mvc\Model model
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getModelSource);
+
+/**
+ * Sets the mapped schema for a model
+ *
+ * @param Phalcon\Mvc\Model model
+ * @param string schema
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setModelSchema);
+
+/**
+ * Returns the mapped schema for a model
+ *
+ * @param Phalcon\Mvc\Model model
+ * @return string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getModelSchema);
+
+/**
+ * Sets both write and read connection service for a model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param string connectionService
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setConnectionService);
+
+/**
+ * Sets read connection service for a model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param string connectionService
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setReadConnectionService);
+
+/**
+ * Returns the connection service name used to read data related to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getReadConnectionService);
+
+/**
+ * Sets write connection service for a model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param string connectionService
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, setWriteConnectionService);
+
+/**
+ * Returns the connection service name used to write data related to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @param string
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getWriteConnectionService);
+
+/**
+ * Returns the connection to read data related to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @return Phalcon\Db\AdapterInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getReadConnection);
+
+/**
+ * Returns the connection to write data related to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface model
+ * @return Phalcon\Db\AdapterInterface
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getWriteConnection);
+
+/**
  * Check of a model is already initialized
  *
  * @param string modelName

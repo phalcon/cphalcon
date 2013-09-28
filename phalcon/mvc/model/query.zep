@@ -93,4 +93,26 @@ class Query //implements Phalcon\Mvc\Model\QueryInterface, Phalcon\Di\InjectionA
 
 	const TYPE_DELETE = 303;
 
+	/**
+	 * Sets the cache parameters of the query
+	 *
+	 * @param array $cacheOptions
+	 * @return Phalcon\Mvc\Model\Query
+	 */
+	public function cache(cacheOptions) -> <Phalcon\Mvc\Model\Query>
+	{
+		let this->_cacheOptions = cacheOptions;
+		return $this;
+	}
+
+	/**
+	 * Returns the current cache options
+	 *
+	 * @param array
+	 */
+	public function getCacheOptions()
+	{
+		return this->_cacheOptions;
+	}
+
 }

@@ -12,6 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 /*
@@ -56,7 +58,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Query, phalcon, mvc_model_query, NULL, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Query, phalcon, mvc_model_query, phalcon_mvc_model_query_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_manager"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -84,6 +86,37 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query) {
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_DELETE"), 303 TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Sets the cache parameters of the query
+ *
+ * @param array $cacheOptions
+ * @return Phalcon\Mvc\Model\Query
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, cache) {
+
+	zval *cacheOptions;
+
+	zephir_fetch_params(0, 1, 0, &cacheOptions);
+
+
+
+	zephir_update_property_this(this_ptr, SL("_cacheOptions"), cacheOptions TSRMLS_CC);
+	RETURN_THISW();
+
+}
+
+/**
+ * Returns the current cache options
+ *
+ * @param array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, getCacheOptions) {
+
+
+	RETURN_MEMBER(this_ptr, "_cacheOptions");
 
 }
 

@@ -59,6 +59,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, __construct);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, parse);
 
 /**
+ * Sets the cache parameters of the query
+ *
+ * @param array cacheOptions
+ * @return Phalcon\Mvc\Model\Query
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, cache);
+
+/**
+ * Returns the current cache options
+ *
+ * @param array
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, getCacheOptions);
+
+/**
  * Executes a parsed PHQL statement
  *
  * @param array bindParams

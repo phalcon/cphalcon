@@ -35,6 +35,87 @@ interface ManagerInterface
 	public function initialize(model);
 
 	/**
+	 * Returns the mapped source for a model
+	 *
+	 * @param Phalcon\Mvc\Model model
+	 * @return string
+	 */
+	public function getModelSource(<Phalcon\Mvc\ModelInterface> model);
+
+	/**
+	 * Sets the mapped schema for a model
+	 *
+	 * @param Phalcon\Mvc\Model model
+	 * @param string schema
+	 * @return string
+	 */
+	public function setModelSchema(<Phalcon\Mvc\ModelInterface> model, schema);
+
+	/**
+	 * Returns the mapped schema for a model
+	 *
+	 * @param Phalcon\Mvc\Model model
+	 * @return string
+	 */
+	public function getModelSchema(<Phalcon\Mvc\ModelInterface> model);
+
+	/**
+	 * Sets both write and read connection service for a model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param string connectionService
+	 */
+	public function setConnectionService(<Phalcon\Mvc\ModelInterface> model, string connectionService);
+
+	/**
+	 * Sets read connection service for a model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param string connectionService
+	 */
+	public function setReadConnectionService(<Phalcon\Mvc\ModelInterface> model, string connectionService);
+
+	/**
+	 * Returns the connection service name used to read data related to a model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param string
+	 */
+	public function getReadConnectionService(<Phalcon\Mvc\ModelInterface> model);
+
+	/**
+	 * Sets write connection service for a model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param string connectionService
+	 */
+	public function setWriteConnectionService(<Phalcon\Mvc\ModelInterface> model, string connectionService);
+
+	/**
+	 * Returns the connection service name used to write data related to a model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @param string
+	 */
+	public function getWriteConnectionService(<Phalcon\Mvc\ModelInterface> model);
+
+	/**
+	 * Returns the connection to read data related to a model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @return Phalcon\Db\AdapterInterface
+	 */
+	public function getReadConnection(<Phalcon\Mvc\ModelInterface> model);
+
+	/**
+	 * Returns the connection to write data related to a model
+	 *
+	 * @param Phalcon\Mvc\ModelInterface model
+	 * @return Phalcon\Db\AdapterInterface
+	 */
+	public function getWriteConnection(<Phalcon\Mvc\ModelInterface> model);
+
+	/**
 	 * Check of a model is already initialized
 	 *
 	 * @param string modelName

@@ -147,7 +147,9 @@ class Router
 	{
 		var url, urlParts, realUri;
 
-		// By default we use $_GET['url'] to obtain the rewrite information
+		/**
+		 * By default we use $_GET['url'] to obtain the rewrite information
+		 */
 		if !this->_uriSource {
 			if fetch url, _GET["_url"] {
 				if !url {
@@ -155,7 +157,9 @@ class Router
 				}
 			}
 		} else {
-			// Otherwise use the standard $_SERVER['REQUEST_URI']
+			/**
+			 * Otherwise use the standard $_SERVER['REQUEST_URI']
+			 */
 			if fetch url, _SERVER["REQUEST_URI"] {
 				let urlParts = explode("?", url),
 					realUri = urlParts[0];
@@ -325,13 +329,17 @@ class Router
 			convertedPart;
 
 		if !uri {
-			// If 'uri' isn't passed as parameter it reads _GET['_url']
+			/**
+			 * If 'uri' isn't passed as parameter it reads _GET['_url']
+			 */
 			let realUri = this->getRewriteUri();
 		} else {
 			let realUri = uri;
 		}
 
-		// Remove extra slashes in the route
+		/**
+		 * Remove extra slashes in the route
+		 */
 		if this->_removeExtraSlashes {
 			let handledUri = this->doRemoveExtraSlashes(realUri);
 		} else {
@@ -347,14 +355,20 @@ class Router
 			this->_wasMatched = false,
 			this->_matchedRoute = null;
 
-		// Routes are traversed in reversed order
+		/**
+		 * Routes are traversed in reversed order
+		 */
 		for route in reverse this->_routes {
 
-			// Look for HTTP method constraints
+			/**
+			 * Look for HTTP method constraints
+			 */
 			let methods = route->getHttpMethods();
 			if methods !== null {
 
-				// Retrieve the request service from the container
+				/**
+				 * Retrieve the request service from the container
+				 */
 				if request === null {
 
 					let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
@@ -365,17 +379,23 @@ class Router
 					let request = <Phalcon\Http\RequestInterface> dependencyInjector->getShared("request");
 				}
 
-				// Check if the current method is allowed by the route
+				/**
+				 * Check if the current method is allowed by the route
+				 */
 				if request->isMethod(methods) === false {
 					continue;
 				}
 			}
 
-			// Look for hostname constraints
+			/**
+			 * Look for hostname constraints
+			 */
 			let hostname = route->getHostName();
 			if hostname !== null {
 
-				// Retrieve the request service from the container
+				/**
+				 * Retrieve the request service from the container
+				 */
 				if request === null {
 
 					let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
@@ -386,17 +406,23 @@ class Router
 					let request = <Phalcon\Http\RequestInterface> dependencyInjector->getShared("request");
 				}
 
-				// Check if the current hostname is the same as the route
+				/**
+				 * Check if the current hostname is the same as the route
+				 */
 				if typeof currentHostName != "object" {
 					let currentHostName = request->getHttpHost();
 				}
 
-				// No HTTP_HOST, maybe in CLI mode?
+				/**
+				 * No HTTP_HOST, maybe in CLI mode?
+				 */
 				if typeof currentHostName != "null" {
 					continue;
 				}
 
-				// Check if the hostname restriction is the same as the current in the route
+				/**
+				 * Check if the hostname restriction is the same as the current in the route
+				 */
 				if memstr(hostname, "(") {
 					if memstr(hostname, "#") {
 						let regexHostName = "#^" . hostname . "$#";
@@ -414,7 +440,9 @@ class Router
 
 			}
 
-			// If the route has parentheses use preg_match
+			/**
+			 * If the route has parentheses use preg_match
+			 */
 			let pattern = route->getCompiledPattern();
 			if memstr(pattern, "^") {
 				let routeFound = preg_match(pattern, handledUri, matches);
@@ -422,39 +450,53 @@ class Router
 				let routeFound = pattern == handledUri;
 			}
 
-			// Check for beforeMatch conditions
+			/**
+			 * Check for beforeMatch conditions
+			 */
 			if routeFound {
 
 				let beforeMatch = route->getBeforeMatch();
 				if beforeMatch !== null {
 
-					// Check first if the callback is callable
+					/**
+					 * Check first if the callback is callable
+					 */
 					if is_callable(beforeMatch) {
 						throw new Phalcon\Mvc\Router\Exception("Before-Match callback is not callable in matched route");
 					}
 
-					// Call the function in the PHP userland
+					/**
+					 * Check first if the callback is callable
+					 */
 					let routeFound = {beforeMatch}(handledUri, route, this);
 				}
 			}
 
 			if routeFound {
 
-				// Start from the default paths
+				/**
+				 * Start from the default paths
+				 */
 				let paths = route->getPaths(),
 					parts = paths;
 
-				// Check if the matches has variables
+				/**
+				 * Check if the matches has variables
+				 */
 				if typeof matches == "array" {
 
-					// Get the route converters if any
+					/**
+					 * Get the route converters if any
+					 */
 					let converters = route->getConverters();
 
 					for part, position in paths {
 
 						if fetch matchPosition, matches[position] {
 
-							// Check if the part has a converter
+							/**
+							 * Check if the part has a converter
+							 */
 							if typeof converters == "array" {
 								if fetch converter, converters[part] {
 									let parts[part] = {converter}(matchPosition);
@@ -462,11 +504,15 @@ class Router
 								}
 							}
 
-							// Update the parts if there is no converter
+							/**
+							 * Update the parts if there is no converter
+							 */
 							let parts[part] = matchPosition;
 						} else {
 
-							// Apply the converters anyway
+							/**
+							 * Apply the converters anyway
+							 */
 							if typeof converters == "array" {
 								if fetch converter, converters[part] {
 									let parts[part] = {converter}(matchPosition);
@@ -475,7 +521,9 @@ class Router
 						}
 					}
 
-					// Update the matches generated by preg_match
+					/**
+					 * Update the matches generated by preg_match
+					 */
 					let this->_matches = matches;
 				}
 
@@ -484,14 +532,18 @@ class Router
 			}
 		}
 
-		// Update the wasMatched property indicating if the route was matched
+		/**
+		 * Update the wasMatched property indicating if the route was matched
+		 */
 		if routeFound {
 			let this->_wasMatched = true;
 		} else {
 			let this->_wasMatched = false;
 		}
 
-		// The route wasn't found, try to use the not-found paths
+		/**
+		 * The route wasn't found, try to use the not-found paths
+		 */
 		if !routeFound {
 			let notFoundPaths = this->_notFoundPaths;
 			if notFoundPaths !== null {
@@ -502,7 +554,9 @@ class Router
 
 		if routeFound {
 
-			// Check for a namespace
+			/**
+			 * Check for a namespace
+			 */
 			if fetch vnamespace, parts["namespace"] {
 				if !is_numeric(vnamespace) {
 					let this->_namespace = vnamespace;
@@ -512,7 +566,9 @@ class Router
 				let this->_namespace = this->_defaultNamespace;
 			}
 
-			// Check for a module
+			/**
+			 * Check for a module
+			 */
 			if fetch module, parts["module"] {
 				if !is_numeric(module) {
 					let this->_module = module;
@@ -522,7 +578,9 @@ class Router
 				let this->_module = this->_defaultModule;
 			}
 
-			// Check for a controller
+			/**
+			 * Check for a controller
+			 */
 			if fetch controller, parts["controller"] {
 				if !is_numeric(controller) {
 					let this->_controller = controller;
@@ -532,7 +590,9 @@ class Router
 				let this->_controller = this->_defaultController;
 			}
 
-			// Check for an action
+			/**
+			 * Check for an action
+			 */
 			if fetch action, parts["action"] {
 				if !is_numeric(action) {
 					let this->_action = action;
@@ -542,7 +602,9 @@ class Router
 				let this->_action = this->_defaultAction;
 			}
 
-			// Check for parameters
+			/**
+			 * Check for parameters
+			 */
 			if fetch paramsStr, parts["params"] {
 				let strParams = substr(paramsStr, 1);
 				if strParams {
@@ -559,7 +621,9 @@ class Router
 
 		} else {
 
-			// Use default values if the route hasn't matched
+			/**
+			 * Use default values if the route hasn't matched
+			 */
 			let this->_namespace = this->_defaultNamespace,
 				this->_module = this->_defaultModule,
 				this->_controller = this->_defaultController,
@@ -584,7 +648,9 @@ class Router
 	{
 		var route;
 
-		// Every route is internally stored as a Phalcon\Mvc\Router\Route
+		/**
+		 * Every route is internally stored as a Phalcon\Mvc\Router\Route
+		 */
 		let route = new Phalcon\Mvc\Router\Route(pattern, paths, httpMethods),
 			this->_routes[] = route;
 		return route;
@@ -694,7 +760,9 @@ class Router
 			throw new Phalcon\Mvc\Router\Exception("The group of routes does not contain any routes");
 		}
 
-		// Get the before-match condition
+		/**
+		 * Get the before-match condition
+		 */
 		let beforeMatch = group->getBeforeMatch();
 
 		if beforeMatch !== null {

@@ -158,7 +158,8 @@ int zephir_greater_equal_long(zval *op1, long op2 TSRMLS_DC);
 			INIT_ZVAL(right_tmp); \
 			zephir_make_printable_zval(right, &right_tmp, &use_copy_right); \
 			if (use_copy_right) { \
-				ZEPHIR_CPY_WRT_CTOR(left, &right_tmp); \
+				ZEPHIR_INIT_NVAR(left); \
+				ZVAL_STRINGL(left, Z_STRVAL_P(&right_tmp), Z_STRLEN_P(&right_tmp), 0); \
 			} \
 		} \
 	}

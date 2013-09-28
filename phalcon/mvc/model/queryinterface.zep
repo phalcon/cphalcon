@@ -43,6 +43,21 @@ interface QueryInterface
 	public function parse();
 
 	/**
+	 * Sets the cache parameters of the query
+	 *
+	 * @param array cacheOptions
+	 * @return Phalcon\Mvc\Model\Query
+	 */
+	public function cache(cacheOptions);
+
+	/**
+	 * Returns the current cache options
+	 *
+	 * @param array
+	 */
+	public function getCacheOptions();
+
+	/**
 	 * Executes a parsed PHQL statement
 	 *
 	 * @param array bindParams
