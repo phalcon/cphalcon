@@ -82,6 +82,13 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/** Virtual Symbol Tables */
 	phalcon_symbol_table *active_symbol_table;
 
+	/** Frequently used zvals */
+	zval *z_null;
+	zval *z_true;
+	zval *z_false;
+	zval *z_zero;
+	zval *z_one;
+
 	/** Function cache */
 	HashTable *function_cache;
 
