@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Utils_Scws, __destruct){
 }
 
 /**
- * �趨�ִʴʵ䡢���򼯡������ı��ַ������ַ�����
+ * 设定分词词典、规则集、欲分文本字符串的字符集。
  *
  * @param string charset
  *
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Utils_Scws, set_charset){
 }
 
 /**
- * ���ӷִ����õĴʵ䣬�¼�������Ȳ��ҡ�
+ * 添加分词所用的词典，新加入的优先查找。
  *
  * @param string dict_path
  *
@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Utils_Scws, add_dict){
 }
 
 /**
- * �趨�ִ����õĴʵ䲢����Ѵ��ڵĴʵ��б���
+ * 设定分词所用的词典并清除已存在的词典列表。
  *
  * @param string dict_path
  *
