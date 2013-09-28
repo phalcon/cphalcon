@@ -201,7 +201,7 @@ static int phalcon_call_func_vparams(zval *return_value, zval **return_value_ptr
 		efree(params);
 	}
 
-	if (status == FAILURE) {
+	if (status == FAILURE && !EG(exception)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", Z_STRVAL_P(func));
 	}
 	else if (EG(exception)) {
@@ -268,9 +268,8 @@ int phalcon_call_method_vparams(zval *return_value, zval **return_value_ptr, zva
 		efree(params);
 	}
 
-	if (status == FAILURE) {
+	if (status == FAILURE && !EG(exception)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s::%s()", ce->name, method_name);
-		status = FAILURE;
 	}
 	else if (EG(exception)) {
 		status = FAILURE;
@@ -336,7 +335,7 @@ static int phalcon_call_static_zval_str_func_vparams(zval *return_value, zval **
 		efree(params);
 	}
 
-	if (status == FAILURE) {
+	if (status == FAILURE && !EG(exception)) {
 		if (Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
 		} else {
