@@ -46,9 +46,6 @@ class Generator_File_ConfigM4
             $originalContent
         );
 
-        // Remove inclusion of Makefile.frag, which is needed only for dev-building
-        $generatedContent = preg_replace('/^\s*PHP_ADD_MAKEFILE_FRAGMENT\s*$/m', '', $generatedContent);
-
         file_put_contents($this->outputFile, $generatedContent);
     }
 }
