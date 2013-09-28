@@ -347,7 +347,9 @@ image/adapter.c \
 image/adapterinterface.c \
 image/exception.c \
 image/adapter/gd.c \
-image/adapter/imagick.c"
+image/adapter/imagick.c \
+utils/exception.c \
+utils/scws.c"
 
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared)
 	PHP_ADD_EXTENSION_DEP([phalcon], [spl])
@@ -417,6 +419,24 @@ image/adapter/imagick.c"
 	)
 
 	CPPFLAGS=$old_CPPFLAGS
+
+	if test "$enable_qrcode" != "no"; then
+		for i in /usr/local /usr /opt/local /usr/local/scws; do
+			if test -r $i/include/scws/scws.h; then
+				SCWS_DIR=$i
+
+				CPPFLAGS="${CPPFLAGS} -I${SCWS_DIR}/include/scws -L${SCWS_DIR}/lib -lscws -lm"
+
+				AC_MSG_RESULT("scws found ${CPPFLAGS}")
+				break
+			fi
+		done
+
+		if test -z $SCWS_DIR; then
+			AC_MSG_RESULT("scws not found")
+			AC_MSG_ERROR("Please check your scws installation.")
+		fi
+	fi
 
 	PHP_ADD_MAKEFILE_FRAGMENT
 fi

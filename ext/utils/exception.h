@@ -18,8 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHALCON_IMAGE_EXCEPTION
-#define PHALCON_IMAGE_EXCEPTION
+#ifndef PHALCON_UTILS_EXCEPTION
+#define PHALCON_UTILS_EXCEPTION
 
 #include "php_phalcon.h"
 

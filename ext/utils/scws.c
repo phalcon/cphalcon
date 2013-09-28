@@ -45,17 +45,56 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 
-
 #include "utils/scws.h"
+#include "utils/exception.h"
+#include <scws.h>
+
+#define	PHALCON_SCWS_OBJECT_TAG "scws handler"
+
+static int le_scws;
+
+struct php_scws
+{
+	scws_t s;
+	zval *zt;
+	char charset[8];
+	int rsrc_id;
+};
+
+static ZEND_RSRC_DTOR_FUNC(php_scws_dtor)
+{
+	if (rsrc->ptr) 
+	{
+		struct php_scws *ps = (struct php_scws *) rsrc->ptr;
+
+		scws_free(ps->s);
+		//DELREF_SCWS(ps->zt);
+		efree(ps);
+		rsrc->ptr = NULL;
+	}
+}
 
 /**
  * Phalcon\Utils\Scws
  *
  * Phalcon\Utils\Scws is a simple Chinese word segmentation tool.
  */
-static int le_scws;
 
-static void *phalcon_php_create_scws(char * charset TSRMLS_D)
+
+/**
+ * Phalcon\Utils\Scws initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Utils_Scws){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Utils, Scws, utils_scws, phalcon_utils_scws_method_entry, 0);
+
+	le_scws = zend_register_list_destructors_ex(php_scws_dtor, NULL, PHALCON_SCWS_OBJECT_TAG, module_number);
+	zend_declare_property_null(phalcon_utils_scws_ce, SL("_scws"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+static void *phalcon_php_create_scws(zval *return_value, char* charset TSRMLS_DC)
 {
 	struct php_scws *ps;
 	char *ini_cs;
@@ -69,7 +108,7 @@ static void *phalcon_php_create_scws(char * charset TSRMLS_D)
 	ps->s = s;
 	ps->zt = NULL;
 	ps->charset[0] = '\0';
-	ps->rsrc_id = ZEND_REGISTER_RESOURCE(NULL, ps, le_scws);
+	ps->rsrc_id = ZEND_REGISTER_RESOURCE(return_value, ps, le_scws);
 	if (charset) {	
 		memset(ps->charset, 0, sizeof(ps->charset));
 		strncpy(ps->charset, charset, sizeof(ps->charset)-1);		
@@ -77,20 +116,6 @@ static void *phalcon_php_create_scws(char * charset TSRMLS_D)
 	}
 
 	return ((void *)ps);
-}
-
-
-/**
- * Phalcon\Utils\Scws initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Utils_Scws){
-
-	PHALCON_REGISTER_CLASS(Phalcon\\Utils, Scws, utils_scws, phalcon_utils_scws_method_entry, 0);
-
-	le_scws = zend_register_list_destructors_ex(php_scws_dtor, NULL, PHP_SCWS_OBJECT_TAG, module_number);
-	zend_declare_property_null(phalcon_image_adapter_ce, SL("_scws"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	return SUCCESS;
 }
 
 /**
@@ -108,13 +133,13 @@ PHP_METHOD(Phalcon_Utils_Scws, __construct){
 		str = Z_STRVAL_P(charset);
 	}
 	
-	ps = (struct php_scws *)phalcon_php_create_scws(str TSRMLS_C);
+	ps = (struct php_scws *)phalcon_php_create_scws(return_value, str TSRMLS_CC);
 	if (ps == NULL) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_utils_exception_ce, "Can't create new scws object");
 		return;
 	}
-	
-	phalcon_update_property_long(this_ptr, SL("_scws"), ps->rsrc_id TSRMLS_CC);
+
+	phalcon_update_property_this(this_ptr, SL("_scws"), return_value TSRMLS_CC);
 }
 
 /**
@@ -127,7 +152,7 @@ PHP_METHOD(Phalcon_Utils_Scws, __destruct){
 	
 	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
 
-	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHP_SCWS_OBJECT_TAG, le_scws);
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
 	
 	zend_list_delete(ps->rsrc_id);
 }
@@ -151,7 +176,7 @@ PHP_METHOD(Phalcon_Utils_Scws, set_charset){
 	
 	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
 
-	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHP_SCWS_OBJECT_TAG, le_scws);
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
 	
 	memset(ps->charset, 0, sizeof(ps->charset));
 	strncpy(ps->charset, Z_STRVAL_P(charset), sizeof(ps->charset)-1);
@@ -163,7 +188,7 @@ PHP_METHOD(Phalcon_Utils_Scws, set_charset){
 /**
  * 添加分词所用的词典，新加入的优先查找。
  *
- * @param string dict_path
+ * @param string $dict_path
  *
  * @return Phalcon\Utils\Scws
  */
@@ -172,13 +197,12 @@ PHP_METHOD(Phalcon_Utils_Scws, add_dict){
 	zval *dict_path, *mode = NULL, *scws, *realpath;
 	struct php_scws *ps;
 	long xmode = 0;
-	int cs_len;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &dict_path, &mode);
 
-	if (phalcon_file_exists(file TSRMLS_CC) == FAILURE) {
+	if (phalcon_file_exists(dict_path TSRMLS_CC) == FAILURE) {
 		RETURN_MM_FALSE;
 	}
 
@@ -188,10 +212,14 @@ PHP_METHOD(Phalcon_Utils_Scws, add_dict){
 	
 	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
 
-	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHP_SCWS_OBJECT_TAG, le_scws);
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
 
 	PHALCON_INIT_VAR(realpath);
 	phalcon_realpath(realpath, dict_path TSRMLS_CC);
+	
+	if (php_check_open_basedir(Z_STRVAL_P(realpath) TSRMLS_CC)) {
+		RETURN_MM_FALSE;
+	}
 	
 	xmode = (int) scws_add_dict(ps->s, Z_STRVAL_P(realpath), xmode);
 
@@ -206,7 +234,7 @@ PHP_METHOD(Phalcon_Utils_Scws, add_dict){
 /**
  * 设定分词所用的词典并清除已存在的词典列表。
  *
- * @param string dict_path
+ * @param string $dict_path
  *
  * @return Phalcon\Utils\Scws
  */
@@ -215,13 +243,12 @@ PHP_METHOD(Phalcon_Utils_Scws, set_dict){
 	zval *dict_path, *mode = NULL, *scws, *realpath;
 	struct php_scws *ps;
 	long xmode = 0;
-	int cs_len;
 
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 1, &dict_path, &mode);
 
-	if (phalcon_file_exists(file TSRMLS_CC) == FAILURE) {
+	if (phalcon_file_exists(dict_path TSRMLS_CC) == FAILURE) {
 		RETURN_MM_FALSE;
 	}
 
@@ -231,10 +258,14 @@ PHP_METHOD(Phalcon_Utils_Scws, set_dict){
 	
 	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
 
-	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHP_SCWS_OBJECT_TAG, le_scws);
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
 
 	PHALCON_INIT_VAR(realpath);
 	phalcon_realpath(realpath, dict_path TSRMLS_CC);
+	
+	if (php_check_open_basedir(Z_STRVAL_P(realpath) TSRMLS_CC)) {
+		RETURN_MM_FALSE;
+	}
 	
 	xmode = (int) scws_set_dict(ps->s, Z_STRVAL_P(realpath), xmode);
 
@@ -244,5 +275,323 @@ PHP_METHOD(Phalcon_Utils_Scws, set_dict){
 	}
 
 	RETURN_MM_TRUE;
+}
+
+/**
+ * 设定分词所用的新词识别规则集（用于人名、地名、数字时间年代等识别）。
+ *
+ * @param string $rule_path
+ *
+ * @return Phalcon\Utils\Scws
+ */
+PHP_METHOD(Phalcon_Utils_Scws, set_rule){
+	
+	zval *rule_path, *scws, *realpath;
+	struct php_scws *ps;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &rule_path);
+
+	if (phalcon_file_exists(rule_path TSRMLS_CC) == FAILURE) {
+		RETURN_MM_FALSE;
+	}
+	
+	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
+
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
+
+	PHALCON_INIT_VAR(realpath);
+	phalcon_realpath(realpath, rule_path TSRMLS_CC);
+	
+	if (php_check_open_basedir(Z_STRVAL_P(realpath) TSRMLS_CC)) {
+		RETURN_MM_FALSE;
+	}
+
+	scws_set_rule(ps->s, Z_STRVAL_P(realpath));
+
+	if (ps->s->r == NULL) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Failed to load the ruleset file");
+		RETURN_MM_FALSE;
+	}
+
+	RETURN_MM_TRUE;
+}
+
+/**
+ * 设定分词返回结果时是否去除一些特殊的标点符号之类。
+ *
+ * @param bool $ignore
+ *
+ * @return Phalcon\Utils\Scws
+ */
+PHP_METHOD(Phalcon_Utils_Scws, set_ignore){
+	
+	zval *ignore, *scws;
+	struct php_scws *ps;
+
+	phalcon_fetch_params(0, 1, 0, &ignore);
+	
+	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
+
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
+
+	scws_set_ignore(ps->s, zend_is_true(ignore) ? SCWS_YEA : SCWS_NA);
+
+	RETURN_TRUE;
+}
+
+/**
+ * 设定分词返回结果时是否去除一些特殊的标点符号之类。
+ *
+ * @param int $mode
+ *
+ * @return Phalcon\Utils\Scws
+ */
+PHP_METHOD(Phalcon_Utils_Scws, set_multi){
+	
+	zval *mode, *scws;
+	struct php_scws *ps;
+	long multi = 0;
+
+	phalcon_fetch_params(0, 1, 0, &mode);
+
+	if (Z_TYPE_P(mode) == IS_LONG) {
+		multi = Z_LVAL_P(mode);
+	} else {
+		multi = phalcon_get_intval(mode);
+	}
+	
+	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
+
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
+
+	if (multi < 0 || (multi & 0x10))
+		RETURN_FALSE;
+
+	scws_set_multi(ps->s, (multi<<12));
+
+	RETURN_TRUE;
+}
+
+/**
+ * 设定是否将闲散文字自动以二字分词法聚合。
+ *
+ * @param bool $duality
+ *
+ * @return Phalcon\Utils\Scws
+ */
+PHP_METHOD(Phalcon_Utils_Scws, set_duality){
+	
+	zval *duality, *scws;
+	struct php_scws *ps;
+
+	phalcon_fetch_params(0, 1, 0, &duality);
+	
+	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
+
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
+
+	scws_set_duality(ps->s, zend_is_true(duality) ? SCWS_YEA : SCWS_NA);
+
+	RETURN_TRUE;
+}
+
+/**
+ * 发送设定分词所要切割的文本。
+ *
+ * @param string $text
+ *
+ * @return Phalcon\Utils\Scws
+ */
+PHP_METHOD(Phalcon_Utils_Scws, send_text){
+	
+	zval *text, *scws;
+	struct php_scws *ps;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(0, 1, 0, &text);
+
+	if (Z_TYPE_P(text) != IS_STRING) {
+		PHALCON_SEPARATE_PARAM(text);
+		convert_to_string_ex(&text);
+	}
+	
+	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
+
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
+
+	PHALCON_CPY_WRT_CTOR(ps->zt, text);
+
+	scws_send_text(ps->s, Z_STRVAL_P(ps->zt), Z_STRLEN_P(ps->zt));
+
+	RETURN_MM_TRUE;
+}
+
+/**
+ * 发送设定分词所要切割的文本。
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Utils_Scws, get_result){
+	
+	zval *row, *scws;
+	struct php_scws *ps;
+	scws_res_t res, cur;
+
+	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
+
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
+
+	cur = res = scws_get_result(ps->s);
+	if (res == NULL)		
+		RETURN_FALSE;
+	
+	array_init(return_value);
+	while (cur != NULL) {
+		MAKE_STD_ZVAL(row);
+		array_init(row);
+		add_assoc_stringl(row, "word", ps->s->txt + cur->off, cur->len, 1);
+		add_assoc_long(row, "off", cur->off);
+		add_assoc_long(row, "len", cur->len);
+		add_assoc_double(row, "idf", (double) cur->idf);
+		add_assoc_stringl(row, "attr", cur->attr, (cur->attr[1] == '\0' ? 1 : 2), 1);
+		
+		cur = cur->next;
+		add_next_index_zval(return_value, row);
+	}
+	scws_free_result(res);
+}
+
+/**
+ * 根据 send_text 设定的文本内容，返回系统计算出来最主要的词汇列表。
+ *
+ * @param int $limit
+ * @param string $option
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Utils_Scws, get_tops){
+	
+	zval *limit, *options = NULL, *scws, *row;
+	struct php_scws *ps;
+	scws_top_t top, cur;
+	long num = 10;
+	char *attr = NULL;
+
+	phalcon_fetch_params(0, 1, 1, &limit, &options);
+
+	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
+
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
+
+	if (options) {
+		if (Z_TYPE_P(options) != IS_STRING) {
+			PHALCON_SEPARATE_PARAM(options);
+			convert_to_string_ex(&options);
+		}
+
+		attr = Z_STRVAL_P(options);
+	}
+
+	if (Z_TYPE_P(limit) == IS_LONG && Z_LVAL_P(limit) > 0) {
+		num = Z_LVAL_P(limit);
+	}
+	
+	cur = top = scws_get_tops(ps->s, num, attr);
+	array_init(return_value);
+	while (cur != NULL)
+	{
+		MAKE_STD_ZVAL(row);
+		array_init(row);
+
+		add_assoc_string(row, "word", cur->word, 1);
+		add_assoc_long(row, "times", cur->times);
+		add_assoc_double(row, "weight", (double) cur->weight);
+		add_assoc_stringl(row, "attr", cur->attr, (cur->attr[1] == '\0' ? 1 : 2), 1);
+
+		cur = cur->next;
+		add_next_index_zval(return_value, row);
+	}
+	scws_free_tops(top);
+}
+
+/**
+ * 根据 send_text 设定的文本内容，返回系统中是否包括符合词性要求的关键词。
+ *
+ * @param string $option
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Utils_Scws, has_word){
+	
+	zval *options, *scws;
+	struct php_scws *ps;
+	char *attr = NULL;
+
+	phalcon_fetch_params(0, 1, 0, &options);
+
+	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
+
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
+
+	if (Z_TYPE_P(options) != IS_STRING) {
+		PHALCON_SEPARATE_PARAM(options);
+		convert_to_string_ex(&options);
+	}
+
+	attr = Z_STRVAL_P(options);
+
+	if (scws_has_word(ps->s, attr) == 0) {
+		RETURN_FALSE;
+	}
+
+	RETURN_TRUE;
+}
+
+/**
+ * 根据 send_text 设定的文本内容，返回系统中词性符合要求的关键词汇。
+ *
+ * @param string $option
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Utils_Scws, get_words){
+	
+	zval *options, *scws, *row;
+	struct php_scws *ps;
+	scws_top_t top, cur;
+	long num = 10;
+	char *attr = NULL;
+
+	phalcon_fetch_params(0, 1, 0, &options);
+
+	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
+
+	ZEND_FETCH_RESOURCE(ps, struct php_scws *, &scws, -1, PHALCON_SCWS_OBJECT_TAG, le_scws);
+
+	if (Z_TYPE_P(options) != IS_STRING) {
+		PHALCON_SEPARATE_PARAM(options);
+		convert_to_string_ex(&options);
+	}
+
+	attr = Z_STRVAL_P(options);
+
+	array_init(return_value);
+	cur = top = scws_get_words(ps->s, attr);
+	while (cur != NULL)
+	{
+		MAKE_STD_ZVAL(row);
+		array_init(row);
+		add_assoc_string(row, "word", cur->word, 1);
+		add_assoc_long(row, "times", cur->times);
+		add_assoc_double(row, "weight", (double) cur->weight);
+		add_assoc_stringl(row, "attr", cur->attr, (cur->attr[1] == '\0' ? 1 : 2), 1);
+
+		cur = cur->next;
+		add_next_index_zval(return_value, row);
+	}
+	scws_free_tops(top);
 }
 

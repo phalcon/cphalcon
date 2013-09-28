@@ -19,12 +19,17 @@
   +------------------------------------------------------------------------+
 */
 
+#ifndef PHALCON_UTILS_SCWS_H
+#define PHALCON_UTILS_SCWS_H
+
+#include "php_phalcon.h"
+
 extern zend_class_entry *phalcon_utils_scws_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Utils_Scws);
 
 PHP_METHOD(Phalcon_Utils_Scws, __construct);
-PHP_METHOD(Phalcon_Utils_Scws, close);
+PHP_METHOD(Phalcon_Utils_Scws, __destruct);
 PHP_METHOD(Phalcon_Utils_Scws, set_charset);
 PHP_METHOD(Phalcon_Utils_Scws, add_dict);
 PHP_METHOD(Phalcon_Utils_Scws, set_dict);
@@ -37,7 +42,6 @@ PHP_METHOD(Phalcon_Utils_Scws, get_result);
 PHP_METHOD(Phalcon_Utils_Scws, get_tops);
 PHP_METHOD(Phalcon_Utils_Scws, has_word);
 PHP_METHOD(Phalcon_Utils_Scws, get_words);
-PHP_METHOD(Phalcon_Utils_Scws, version);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_scws_set_charset, 0, 0, 1)
 	ZEND_ARG_INFO(0, charset)
@@ -62,7 +66,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_scws_set_ignore, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_scws_set_multi, 0, 0, 1)
-	ZEND_ARG_INFO(0, mode)
+	ZEND_ARG_INFO(0, multi)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_scws_set_duality, 0, 0, 1)
@@ -75,15 +79,15 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_scws_get_tops, 0, 0, 0)
 	ZEND_ARG_INFO(0, limit)
-	ZEND_ARG_INFO(0, options)
+	ZEND_ARG_INFO(0, option)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_scws_has_words, 0, 0, 1)
-	ZEND_ARG_INFO(0, options)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_scws_has_word, 0, 0, 1)
+	ZEND_ARG_INFO(0, option)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_utils_scws_get_words, 0, 0, 1)
-	ZEND_ARG_INFO(0, options)
+	ZEND_ARG_INFO(0, option)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_utils_scws_method_entry){
@@ -91,7 +95,6 @@ PHALCON_INIT_FUNCS(phalcon_utils_scws_method_entry){
 	PHP_ME(Phalcon_Utils_Scws, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Utils_Scws, set_charset, arginfo_phalcon_utils_scws_set_charset, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Utils_Scws, add_dict, arginfo_phalcon_utils_scws_add_dict, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Utils_Scws, set_path, arginfo_phalcon_utils_scws_set_path, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Utils_Scws, set_dict, arginfo_phalcon_utils_scws_set_dict, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Utils_Scws, set_rule, arginfo_phalcon_utils_scws_set_rule, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Utils_Scws, set_ignore, arginfo_phalcon_utils_scws_set_ignore, ZEND_ACC_PUBLIC) 
@@ -102,14 +105,7 @@ PHALCON_INIT_FUNCS(phalcon_utils_scws_method_entry){
 	PHP_ME(Phalcon_Utils_Scws, get_tops, arginfo_phalcon_utils_scws_get_tops, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Utils_Scws, has_word, arginfo_phalcon_utils_scws_has_word, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Utils_Scws, get_words, arginfo_phalcon_utils_scws_get_words, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Utils_Scws, version, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
-struct php_scws
-{
-	scws_t s;
-	zval *zt;
-	char charset[8];
-	int rsrc_id;
-};
+#endif /* PHALCON_UTILS_SCWS_H */
