@@ -55,7 +55,11 @@ void phalcon_get_session_id(zval *return_value, zval **return_value_ptr TSRMLS_D
 
 	RETURN_EMPTY_STRING();
 #else
-	phalcon_call_func_params(return_value, return_value_ptr, SL("session_id") TSRMLS_CC, 0);
+	if (FAILURE == phalcon_call_func_params(return_value, return_value_ptr, SL("session_id") TSRMLS_CC, 0)) {
+		if (return_value_ptr && EG(exception)) {
+			ALLOC_INIT_ZVAL(*return_value_ptr);
+		}
+	}
 #endif
 }
 

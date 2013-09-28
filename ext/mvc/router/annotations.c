@@ -41,6 +41,8 @@
 #include "kernel/hash.h"
 #include "kernel/operators.h"
 
+#include "interned-strings.h"
+
 /**
  * Phalcon\Mvc\Router\Annotations
  *
@@ -94,7 +96,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
 	phalcon_fetch_params(1, 1, 1, &handler, &prefix);
 	
 	if (!prefix) {
-		PHALCON_INIT_VAR(prefix);
+		prefix = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(handler) != IS_STRING) {
@@ -104,10 +106,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
 	
 	PHALCON_INIT_VAR(scope);
 	array_init_size(scope, 2);
-	phalcon_array_append(&scope, prefix, PH_SEPARATE);
-	phalcon_array_append(&scope, handler, PH_SEPARATE);
+	phalcon_array_append(&scope, prefix, 0);
+	phalcon_array_append(&scope, handler, 0);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), scope TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_processed"), 0 TSRMLS_CC);
+	phalcon_update_property_this(this_ptr, SL("_processed"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 	
 	RETURN_THIS();
 }
@@ -126,32 +128,32 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource){
 
 	zval *module, *handler, *prefix = NULL, *scope;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &module, &handler, &prefix);
+	phalcon_fetch_params(0, 2, 1, &module, &handler, &prefix);
 	
 	if (!prefix) {
-		PHALCON_INIT_VAR(prefix);
+		prefix = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(module) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The module is not a valid string");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_router_exception_ce, "The module is not a valid string");
 		return;
 	}
 	if (Z_TYPE_P(handler) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The handler must be a class name");
+		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_router_exception_ce, "The handler must be a class name");
 		return;
 	}
 	
-	PHALCON_INIT_VAR(scope);
+	MAKE_STD_ZVAL(scope);
 	array_init_size(scope, 3);
-	phalcon_array_append(&scope, prefix, PH_SEPARATE);
-	phalcon_array_append(&scope, handler, PH_SEPARATE);
-	phalcon_array_append(&scope, module, PH_SEPARATE);
+	phalcon_array_append(&scope, prefix, 0);
+	phalcon_array_append(&scope, handler, 0);
+	phalcon_array_append(&scope, module, 0);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), scope TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_processed"), 0 TSRMLS_CC);
+	zval_ptr_dtor(&scope);
+
+	phalcon_update_property_this(this_ptr, SL("_processed"), PHALCON_GLOBAL(z_false) TSRMLS_CC);
 	
-	RETURN_THIS();
+	RETURN_THISW();
 }
 
 /**
@@ -178,7 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 	phalcon_fetch_params(1, 0, 1, &uri);
 	
 	if (!uri) {
-		PHALCON_INIT_VAR(uri);
+		uri = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!zend_is_true(uri)) {
@@ -400,8 +402,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 	 * @RoutePrefix add a prefix for all the routes defined in the model
 	 */
 	if (PHALCON_IS_STRING(name, "RoutePrefix")) {
-		PHALCON_INIT_VAR(position);
-		ZVAL_LONG(position, 0);
+		position = PHALCON_GLOBAL(z_zero);
 	
 		PHALCON_INIT_VAR(value);
 		phalcon_call_method_p1(value, annotation, "getargument", position);
@@ -437,7 +438,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	phalcon_fetch_params(1, 5, 0, &module, &namespace, &controller, &action, &annotation);
 	
 	PHALCON_INIT_VAR(is_route);
-	ZVAL_BOOL(is_route, 0);
 	
 	PHALCON_INIT_VAR(methods);
 	
@@ -448,38 +448,22 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	 * Find if the route is for adding routes
 	 */
 	if (PHALCON_IS_STRING(name, "Route")) {
-		ZVAL_BOOL(is_route, 1);
-	} else {
-		if (PHALCON_IS_STRING(name, "Get")) {
-			PHALCON_INIT_NVAR(is_route);
-			ZVAL_BOOL(is_route, 1);
-	
-			ZVAL_STRING(methods, "GET", 1);
-		} else {
-			if (PHALCON_IS_STRING(name, "Post")) {
-				PHALCON_INIT_NVAR(is_route);
-				ZVAL_BOOL(is_route, 1);
-	
-				PHALCON_INIT_NVAR(methods);
-				ZVAL_STRING(methods, "POST", 1);
-			} else {
-				if (PHALCON_IS_STRING(name, "Put")) {
-					PHALCON_INIT_NVAR(is_route);
-					ZVAL_BOOL(is_route, 1);
-	
-					PHALCON_INIT_NVAR(methods);
-					ZVAL_STRING(methods, "PUT", 1);
-				} else {
-					if (PHALCON_IS_STRING(name, "Options")) {
-						PHALCON_INIT_NVAR(is_route);
-						ZVAL_BOOL(is_route, 1);
-	
-						PHALCON_INIT_NVAR(methods);
-						ZVAL_STRING(methods, "OPTIONS", 1);
-					}
-				}
-			}
-		}
+		ZVAL_TRUE(is_route);
+	} else if (PHALCON_IS_STRING(name, "Get")) {
+		ZVAL_TRUE(is_route);
+		ZVAL_STRING(methods, phalcon_interned_GET, !IS_INTERNED(phalcon_interned_GET));
+	} else if (PHALCON_IS_STRING(name, "Post")) {
+		ZVAL_TRUE(is_route);
+		ZVAL_STRING(methods, phalcon_interned_POST, !IS_INTERNED(phalcon_interned_POST));
+	} else if (PHALCON_IS_STRING(name, "Put")) {
+		ZVAL_TRUE(is_route);
+		ZVAL_STRING(methods, phalcon_interned_PUT, !IS_INTERNED(phalcon_interned_PUT));
+	} else if (PHALCON_IS_STRING(name, "Options")) {
+		ZVAL_TRUE(is_route);
+		ZVAL_STRING(methods, phalcon_interned_OPTIONS, !IS_INTERNED(phalcon_interned_OPTIONS));
+	}
+	else {
+		ZVAL_FALSE(is_route);
 	}
 	
 	if (PHALCON_IS_TRUE(is_route)) {

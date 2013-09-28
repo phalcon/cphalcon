@@ -197,19 +197,13 @@ PHP_METHOD(Phalcon_Text, startsWith){
 
 	zval *str, *start, *ignore_case = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &str, &start, &ignore_case);
+	phalcon_fetch_params(0, 2, 1, &str, &start, &ignore_case);
 	
-	if (!ignore_case) {
-		PHALCON_INIT_VAR(ignore_case);
-		ZVAL_BOOL(ignore_case, 1);
+	if (phalcon_start_with(str, start, ignore_case ? ignore_case : PHALCON_GLOBAL(z_true))) {
+		RETURN_TRUE;
 	}
 	
-	if (phalcon_start_with(str, start, ignore_case)) {
-		RETURN_MM_TRUE;
-	}
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -230,19 +224,13 @@ PHP_METHOD(Phalcon_Text, endsWith){
 
 	zval *str, *end, *ignore_case = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 2, 1, &str, &end, &ignore_case);
+	phalcon_fetch_params(0, 2, 1, &str, &end, &ignore_case);
 	
-	if (!ignore_case) {
-		PHALCON_INIT_VAR(ignore_case);
-		ZVAL_BOOL(ignore_case, 1);
+	if (phalcon_end_with(str, end, ignore_case ? ignore_case : PHALCON_GLOBAL(z_true))) {
+		RETURN_TRUE;
 	}
 	
-	if (phalcon_end_with(str, end, ignore_case)) {
-		RETURN_MM_TRUE;
-	}
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**

@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, __construct){
 	phalcon_fetch_params(1, 0, 1, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, put){
 	phalcon_fetch_params(1, 1, 1, &data, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	/** 
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, reserve){
 	phalcon_fetch_params(1, 0, 1, &timeout);
 	
 	if (!timeout) {
-		PHALCON_INIT_VAR(timeout);
+		timeout = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (zend_is_true(timeout)) {
@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Queue_Beanstalk, read){
 	phalcon_fetch_params(1, 0, 1, &length);
 	
 	if (!length) {
-		PHALCON_INIT_VAR(length);
+		length = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(connection);

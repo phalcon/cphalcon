@@ -124,18 +124,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 
 	phalcon_fetch_params(1, 0, 2, &phql, &dependency_injector);
 	
-	if (!phql) {
-		PHALCON_INIT_VAR(phql);
-	}
-	
-	if (!dependency_injector) {
-		PHALCON_INIT_VAR(dependency_injector);
-	}
-	
-	if (Z_TYPE_P(phql) != IS_NULL) {
+	if (phql && Z_TYPE_P(phql) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_phql"), phql TSRMLS_CC);
 	}
-	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+
+	if (dependency_injector && Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 		phalcon_call_method_p1_noret(this_ptr, "setdi", dependency_injector);
 	}
 	
@@ -595,8 +588,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	phalcon_fetch_params(1, 1, 1, &expr, &quoting);
 	
 	if (!quoting) {
-		PHALCON_INIT_VAR(quoting);
-		ZVAL_TRUE(quoting);
+		quoting = PHALCON_GLOBAL(z_true);
 	}
 	
 	if (phalcon_array_isset_string(expr, ISS(type))) {
@@ -702,11 +694,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				break;
 	
 			case PHQL_T_QUALIFIED:
-				phalcon_call_method_p1_ex(return_value, return_value_ptr, this_ptr, "_getqualified", expr);
+				phalcon_return_call_method_p1(this_ptr, "_getqualified", expr);
 				break;
 	
 			case 359: /** @todo Is this code returned anywhere? */
-				phalcon_call_method_p1_ex(return_value, return_value_ptr, this_ptr, "_getaliased", expr);
+				phalcon_return_call_method_p1(this_ptr, "_getaliased", expr);
 				break;
 	
 			case PHQL_T_ADD:
@@ -1001,7 +993,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 				break;
 	
 			case PHQL_T_FCALL:
-				phalcon_call_method_p1_ex(return_value, return_value_ptr, this_ptr, "_getfunctioncall", expr);
+				phalcon_return_call_method_p1(this_ptr, "_getfunctioncall", expr);
 				break;
 	
 			default:
@@ -1019,7 +1011,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	 * Is a qualified column
 	 */
 	if (phalcon_array_isset_string(expr, SS("domain"))) {
-		phalcon_call_method_p1_ex(return_value, return_value_ptr, this_ptr, "_getqualified", expr);
+		phalcon_return_call_method_p1(this_ptr, "_getqualified", expr);
 		RETURN_MM();
 	}
 	
@@ -4721,11 +4713,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	phalcon_fetch_params(1, 0, 2, &bind_params, &bind_types);
 	
 	if (!bind_params) {
-		PHALCON_INIT_VAR(bind_params);
+		bind_params = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_VAR(bind_types);
+		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(unique_row);
@@ -4902,11 +4894,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	 * Check if only the first row must be returned
 	 */
 	if (zend_is_true(unique_row)) {
-		phalcon_call_method_p0_ex(return_value, return_value_ptr, result, "getfirst");
+		phalcon_return_call_method_p0(result, "getfirst");
 		RETURN_MM();
-	} else {
-		RETURN_CCTOR(result);
 	}
+
+	RETURN_CCTOR(result);
 }
 
 /**
@@ -4926,11 +4918,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult){
 	phalcon_fetch_params(1, 0, 2, &bind_params, &bind_types);
 	
 	if (!bind_params) {
-		PHALCON_INIT_VAR(bind_params);
+		bind_params = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_VAR(bind_types);
+		bind_types = PHALCON_GLOBAL(z_null);
 	}
 	
 	unique_row = phalcon_fetch_nproperty_this(this_ptr, SL("_uniqueRow"), PH_NOISY_CC);
@@ -4939,11 +4931,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSingleResult){
 	 * The query is already programmed to return just one row
 	 */
 	if (zend_is_true(unique_row)) {
-		phalcon_call_method_p2_ex(return_value, return_value_ptr, this_ptr, "execute", bind_params, bind_types);
+		phalcon_return_call_method_p2(this_ptr, "execute", bind_params, bind_types);
 		RETURN_MM();
 	}
 	
-	phalcon_call_method_p2_ex(return_value, return_value_ptr, this_ptr, "execute", bind_params, bind_types);
+	phalcon_return_call_method_p2(this_ptr, "execute", bind_params, bind_types);
 	
 	PHALCON_INIT_VAR(first_result);
 	phalcon_call_method(first_result, return_value, "getfirst");

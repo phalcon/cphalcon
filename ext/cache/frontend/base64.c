@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore){
 	zval *data;
 
 	phalcon_fetch_params(0, 1, 0, &data);
-	phalcon_base64_encode((return_value_ptr ? *return_value_ptr : return_value), data);
+	phalcon_base64_encode(return_value, data);
 }
 
 /**
@@ -113,5 +113,5 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve){
 	zval *data;
 
 	phalcon_fetch_params(0, 1, 0, &data);
-	phalcon_base64_decode((return_value_ptr ? *return_value_ptr : return_value), data);
+	phalcon_base64_decode(return_value, data);
 }

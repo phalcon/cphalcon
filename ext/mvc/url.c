@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	phalcon_fetch_params(1, 0, 2, &uri, &args);
 	
 	if (!uri) {
-		PHALCON_INIT_VAR(uri);
+		uri = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_INIT_VAR(base_uri);
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getStatic){
 	phalcon_fetch_params(1, 0, 1, &uri);
 	
 	if (!uri) {
-		PHALCON_INIT_VAR(uri);
+		uri = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(static_base_uri);
@@ -405,17 +405,13 @@ PHP_METHOD(Phalcon_Mvc_Url, path){
 
 	zval *path = NULL, *base_path;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &path);
+	phalcon_fetch_params(0, 0, 1, &path);
 	
 	if (!path) {
-		PHALCON_INIT_VAR(path);
+		path = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_OBS_VAR(base_path);
-	phalcon_read_property_this(&base_path, this_ptr, SL("_basePath"), PH_NOISY_CC);
+	base_path = phalcon_fetch_nproperty_this(this_ptr, SL("_basePath"), PH_NOISY_CC);
 	PHALCON_CONCAT_VV(return_value, base_path, path);
-	RETURN_MM();
 }
 

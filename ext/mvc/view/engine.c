@@ -65,18 +65,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 
 	zval *view, *dependency_injector = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 1, &view, &dependency_injector);
+	phalcon_fetch_params(0, 1, 1, &view, &dependency_injector);
 	
 	if (!dependency_injector) {
-		PHALCON_INIT_VAR(dependency_injector);
+		dependency_injector = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_update_property_this(this_ptr, SL("_view"), view TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -112,7 +108,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 	phalcon_fetch_params(1, 1, 1, &partial_path, &params);
 	
 	if (!params) {
-		PHALCON_INIT_VAR(params);
+		params = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(view);

@@ -67,24 +67,17 @@ PHP_METHOD(Phalcon_Assets_Resource_Js, __construct){
 
 	phalcon_fetch_params(1, 1, 3, &path, &local, &filter, &attributes);
 	
-	if (!local) {
-		PHALCON_INIT_VAR(local);
-		ZVAL_BOOL(local, 1);
-	}
-	
-	if (!filter) {
-		PHALCON_INIT_VAR(filter);
-		ZVAL_BOOL(filter, 1);
-	}
-	
-	if (!attributes) {
-		PHALCON_INIT_VAR(attributes);
-	}
-	
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "js", 1);
 	
-	phalcon_call_parent_p5_noret(this_ptr, phalcon_assets_resource_js_ce, "__construct", type, path, local, filter, attributes);
+	phalcon_call_parent_p5_noret(
+		this_ptr,
+		phalcon_assets_resource_js_ce, "__construct",
+		type, path,
+		(local ? local : PHALCON_GLOBAL(z_true)),
+		(filter ? filter : PHALCON_GLOBAL(z_true)),
+		(attributes ? attributes : PHALCON_GLOBAL(z_null))
+	);
 	
 	PHALCON_MM_RESTORE();
 }

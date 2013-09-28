@@ -113,8 +113,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 	phalcon_fetch_params(1, 1, 2, &dependency_injector, &auto_begin, &service);
 	
 	if (!auto_begin) {
-		PHALCON_INIT_VAR(auto_begin);
-		ZVAL_BOOL(auto_begin, 0);
+		auto_begin = PHALCON_GLOBAL(z_false);
 	}
 	
 	if (!service) {

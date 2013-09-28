@@ -95,12 +95,11 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct){
 	phalcon_fetch_params(1, 1, 6, &name, &value, &expire, &path, &secure, &domain, &http_only);
 	
 	if (!value) {
-		PHALCON_INIT_VAR(value);
+		value = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!expire) {
-		PHALCON_INIT_VAR(expire);
-		ZVAL_LONG(expire, 0);
+		expire = PHALCON_GLOBAL(z_zero);
 	}
 	
 	if (!path) {
@@ -199,11 +198,11 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	phalcon_fetch_params(1, 0, 2, &filters, &default_value);
 	
 	if (!filters) {
-		PHALCON_INIT_VAR(filters);
+		filters = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_VAR(default_value);
+		default_value = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(restored);

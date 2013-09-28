@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Validation, __construct){
 	phalcon_fetch_params(1, 0, 1, &validators);
 	
 	if (!validators) {
-		PHALCON_INIT_VAR(validators);
+		validators = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(validators) != IS_NULL) {
@@ -119,11 +119,11 @@ PHP_METHOD(Phalcon_Validation, validate){
 	phalcon_fetch_params(1, 0, 2, &data, &entity);
 	
 	if (!data) {
-		PHALCON_INIT_VAR(data);
+		data = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (!entity) {
-		PHALCON_INIT_VAR(entity);
+		entity = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(validators);
@@ -280,26 +280,18 @@ PHP_METHOD(Phalcon_Validation, getFilters){
 
 	zval *attribute = NULL, *filters, *attribute_filters;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &attribute);
+	phalcon_fetch_params(0, 0, 1, &attribute);
 	
-	if (!attribute) {
-		PHALCON_INIT_VAR(attribute);
-	}
-	
-	PHALCON_OBS_VAR(filters);
-	phalcon_read_property_this(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
-	if (Z_TYPE_P(attribute) == IS_STRING) {
-		if (phalcon_array_isset(filters, attribute)) {
-			PHALCON_OBS_VAR(attribute_filters);
-			phalcon_array_fetch(&attribute_filters, filters, attribute, PH_NOISY);
-			RETURN_CCTOR(attribute_filters);
+	filters = phalcon_fetch_nproperty_this(this_ptr, SL("_filters"), PH_NOISY_CC);
+	if (attribute && Z_TYPE_P(attribute) == IS_STRING) {
+		if (phalcon_array_isset_fetch(&attribute_filters, filters, attribute)) {
+			RETURN_ZVAL(attribute_filters, 1, 0);
 		}
-		RETURN_MM_NULL();
+
+		RETURN_NULL();
 	}
 	
-	RETURN_CCTOR(filters);
+	RETURN_ZVAL(filters, 1, 0);
 }
 
 /**

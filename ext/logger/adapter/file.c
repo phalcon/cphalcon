@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	phalcon_fetch_params(1, 1, 1, &name, &options);
 	
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		options = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (phalcon_array_isset_string(options, SS("mode"))) {

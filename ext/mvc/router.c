@@ -121,8 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 	phalcon_fetch_params(1, 0, 1, &default_routes);
 
 	if (!default_routes) {
-		PHALCON_INIT_VAR(default_routes);
-		ZVAL_BOOL(default_routes, 1);
+		default_routes = PHALCON_GLOBAL(z_true);
 	}
 
 	PHALCON_INIT_VAR(routes);
@@ -552,7 +551,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	PHALCON_INIT_VAR(current_host_name);
 
 	PHALCON_INIT_VAR(route_found);
-	ZVAL_BOOL(route_found, 0);
+	ZVAL_FALSE(route_found);
 
 	PHALCON_INIT_VAR(parts);
 	array_init(parts);
@@ -814,7 +813,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			PHALCON_CPY_WRT(parts, tmp);
 
 			PHALCON_INIT_NVAR(route_found);
-			ZVAL_BOOL(route_found, 1);
+			ZVAL_TRUE(route_found);
 		}
 	}
 
@@ -961,11 +960,11 @@ PHP_METHOD(Phalcon_Mvc_Router, add){
 	phalcon_fetch_params(1, 1, 2, &pattern, &paths, &http_methods);
 
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 
 	if (!http_methods) {
-		PHALCON_INIT_VAR(http_methods);
+		http_methods = PHALCON_GLOBAL(z_null);
 	}
 
 	/**
@@ -994,7 +993,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addGet){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 
 	PHALCON_INIT_VAR(method);
@@ -1019,7 +1018,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPost){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 
 	PHALCON_INIT_VAR(method);
@@ -1044,7 +1043,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 
 	PHALCON_INIT_VAR(method);
@@ -1069,7 +1068,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPatch){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 
 	PHALCON_INIT_VAR(method);
@@ -1094,7 +1093,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addDelete){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 
 	PHALCON_INIT_VAR(method);
@@ -1119,7 +1118,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addOptions){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 
 	PHALCON_INIT_VAR(method);
@@ -1144,7 +1143,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead){
 	phalcon_fetch_params(1, 1, 1, &pattern, &paths);
 
 	if (!paths) {
-		PHALCON_INIT_VAR(paths);
+		paths = PHALCON_GLOBAL(z_null);
 	}
 
 	PHALCON_INIT_VAR(method);

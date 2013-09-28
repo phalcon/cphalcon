@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get){
 		RETURN_MM_NULL();
 	}
 	
-	phalcon_call_method_p1_ex(return_value, return_value_ptr, frontend, "afterretrieve", cached_content);
+	phalcon_return_call_method_p1(frontend, "afterretrieve", cached_content);
 	RETURN_MM();
 }
 
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_SVV(key, "_PHCA", prefix, key_name);
 	
-	phalcon_call_func_p1_ex(return_value, return_value_ptr, "apc_delete", key);
+	phalcon_return_call_func_p1("apc_delete", key);
 	PHALCON_MM_RESTORE();
 }
 

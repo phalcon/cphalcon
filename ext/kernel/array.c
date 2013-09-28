@@ -469,7 +469,7 @@ int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	ZVAL_BOOL(zvalue, value);
 
 	return phalcon_array_update_zval(arr, index, &zvalue, flags);
@@ -530,7 +530,7 @@ int phalcon_array_update_zval_long(zval **arr, zval *index, long value, int flag
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	ZVAL_LONG(zvalue, value);
 
 	return phalcon_array_update_zval(arr, index, &zvalue, flags);
@@ -634,7 +634,7 @@ int phalcon_array_update_string_bool(zval **arr, const char *index, uint index_l
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	ZVAL_BOOL(zvalue, value);
 
 	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags);
@@ -666,7 +666,7 @@ int phalcon_array_update_string_long(zval **arr, const char *index, uint index_l
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	ZVAL_LONG(zvalue, value);
 
 	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags);
@@ -699,7 +699,7 @@ int phalcon_array_update_string_string(zval **arr, const char *index, uint index
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
 	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags);
@@ -774,7 +774,7 @@ int phalcon_array_update_long_string(zval **arr, unsigned long index, char *valu
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
 
 	return phalcon_array_update_long(arr, index, &zvalue, flags);
@@ -804,7 +804,7 @@ int phalcon_array_update_long_long(zval **arr, unsigned long index, long value, 
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	ZVAL_LONG(zvalue, value);
 
 	return phalcon_array_update_long(arr, index, &zvalue, flags);
@@ -834,7 +834,7 @@ int phalcon_array_update_long_bool(zval **arr, unsigned long index, int value, i
 
 	zval *zvalue;
 
-	ALLOC_INIT_ZVAL(zvalue);
+	MAKE_STD_ZVAL(zvalue);
 	ZVAL_BOOL(zvalue, value);
 
 	return phalcon_array_update_long(arr, index, &zvalue, flags);

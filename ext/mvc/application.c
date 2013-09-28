@@ -111,19 +111,15 @@ PHP_METHOD(Phalcon_Mvc_Application, __construct){
 
 	zval *dependency_injector = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 1, &dependency_injector);
+	phalcon_fetch_params(0, 0, 1, &dependency_injector);
 	
 	if (!dependency_injector) {
-		PHALCON_INIT_VAR(dependency_injector);
+		dependency_injector = PHALCON_GLOBAL(z_null);
 	}
 	
 	if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 		phalcon_update_property_this(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -172,8 +168,7 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 	phalcon_fetch_params(1, 1, 1, &modules, &merge);
 	
 	if (!merge) {
-		PHALCON_INIT_VAR(merge);
-		ZVAL_BOOL(merge, 0);
+		merge = PHALCON_GLOBAL(z_false);
 	}
 	
 	if (Z_TYPE_P(modules) != IS_ARRAY) { 
@@ -259,7 +254,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	phalcon_fetch_params(1, 0, 1, &uri);
 	
 	if (!uri) {
-		PHALCON_INIT_VAR(uri);
+		uri = PHALCON_GLOBAL(z_null);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -510,7 +505,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	phalcon_call_method(controller, dispatcher, "dispatch");
 	
 	PHALCON_INIT_VAR(returned_response);
-	ZVAL_BOOL(returned_response, 0);
 	
 	/** 
 	 * Get the latest value returned by an action
@@ -522,6 +516,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		 * Check if the returned object is already a response
 		 */
 		phalcon_instance_of(returned_response, possible_response, phalcon_http_responseinterface_ce TSRMLS_CC);
+	}
+	else {
+		ZVAL_FALSE(returned_response);
 	}
 	
 	/** 
@@ -543,7 +540,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			if (Z_TYPE_P(controller) == IS_OBJECT) {
 	
 				PHALCON_INIT_VAR(render_status);
-				ZVAL_BOOL(render_status, 1);
 	
 				/** 
 				 * This allows to make a custom view render
@@ -553,6 +549,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 					ZVAL_STRING(event_name, "application:viewRender", 1);
 	
 					phalcon_call_method_p3(render_status, events_manager, "fire", event_name, this_ptr, view);
+				}
+				else {
+					ZVAL_TRUE(render_status);
 				}
 	
 				/** 

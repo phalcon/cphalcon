@@ -78,8 +78,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	phalcon_fetch_params(1, 2, 1, &path, &params, &must_clean);
 	
 	if (!must_clean) {
-		PHALCON_INIT_VAR(must_clean);
-		ZVAL_BOOL(must_clean, 0);
+		must_clean = PHALCON_GLOBAL(z_false);
 	}
 	
 	if (PHALCON_IS_TRUE(must_clean)) {

@@ -414,6 +414,7 @@ static void phalcon_config_toarray_internal(zval **return_value_ptr, zval *this_
 {
 	phalcon_config_object *obj = fetchPhalconConfigObject(this_ptr TSRMLS_CC);
 
+	assert(!EG(exception));
 	if (likely(obj->obj.ce == phalcon_config_ce)) {
 		zval *tmp;
 		array_init_size(*return_value_ptr, zend_hash_num_elements(obj->props));
@@ -424,6 +425,10 @@ static void phalcon_config_toarray_internal(zval **return_value_ptr, zval *this_
 	}
 	else {
 		phalcon_call_func_params(*return_value_ptr, return_value_ptr, SL("get_object_vars") TSRMLS_CC, 1, this_ptr);
+	}
+
+	if (EG(exception)) {
+		ALLOC_INIT_ZVAL(*return_value_ptr);
 	}
 }
 

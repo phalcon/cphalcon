@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, _){
 	phalcon_fetch_params(1, 1, 1, &translate_key, &placeholders);
 	
 	if (!placeholders) {
-		PHALCON_INIT_VAR(placeholders);
+		placeholders = PHALCON_GLOBAL(z_null);
 	}
 	
 	phalcon_call_method_p2(return_value, this_ptr, "query", translate_key, placeholders);

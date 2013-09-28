@@ -71,26 +71,15 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct){
 
 	zval *format = NULL, *date_format = NULL;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 0, 2, &format, &date_format);
+	phalcon_fetch_params(0, 0, 2, &format, &date_format);
 	
-	if (!format) {
-		PHALCON_INIT_VAR(format);
-	}
-	
-	if (!date_format) {
-		PHALCON_INIT_VAR(date_format);
-	}
-	
-	if (Z_TYPE_P(format) != IS_NULL) {
+	if (format && Z_TYPE_P(format) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_format"), format TSRMLS_CC);
 	}
-	if (Z_TYPE_P(date_format) != IS_NULL) {
+
+	if (date_format && Z_TYPE_P(date_format) != IS_NULL) {
 		phalcon_update_property_this(this_ptr, SL("_dateFormat"), date_format TSRMLS_CC);
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
