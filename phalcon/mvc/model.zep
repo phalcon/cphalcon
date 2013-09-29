@@ -1893,4 +1893,336 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		return false;
 	}
 
+	/**
+	 * Sends a pre-build INSERT SQL statement to the relational database system
+	 *
+	 * @param Phalcon\Mvc\Model\MetadataInterface $metaData
+	 * @param Phalcon\Db\AdapterInterface $connection
+	 * @param string $table
+	 * @return boolean
+	 */
+	protected function _doLowInsert($metaData, $connection, $table, $identityField)
+	{
+		var bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes,
+			field, columnMap, value, attributeField, success, bindType, defaultValue, sequenceName;
+		boolean useExplicitIdentity;
+
+		let bindSkip = Phalcon\Db\Column::BIND_SKIP;
+
+		let fields = [],
+			values = [],
+			bindTypes = [];
+
+		let attributes = metaData->getAttributes(this),
+			bindDataTypes = metaData->getBindTypes(this),
+			automaticAttributes = metaData->getAutomaticCreateAttributes(this);
+
+		if globals_get("orm.column_renaming") {
+			let columnMap = metaData->getColumnMap(this);
+		} else {
+			let columnMap = null;
+		}
+
+		/**
+		 * All fields in the model makes part or the INSERT
+		 */
+		for field in attributes {
+
+			if !isset automaticAttributes[field] {
+
+				/**
+				 * Check if the model has a column map
+				 */
+				if typeof columnMap == "array" {
+					if !fetch attributeField, columnMap[field] {
+						throw new Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the column map");
+					}
+				} else {
+					let attributeField = field;
+				}
+
+				/**
+				 * Check every attribute in the model except identity field
+				 */
+				if field != identityField {
+
+					let fields[] = field;
+
+					/**
+					 * This isset checks that the property be defined in the model
+					 */
+					if fetch value, this->{attributeField} {
+
+						/**
+						 * Every column must have a bind data type defined
+						 */
+						if !fetch bindType, bindDataTypes[field] {
+							throw new Phalcon\Mvc\Model\Exception("Column '" . field . "' have not defined a bind data type");
+						}
+
+						let values[] = value, bindTypes[] = bindType;
+					} else {
+						let values[] = null, bindTypes[] = bindSkip;
+					}
+				}
+			}
+		}
+
+		/**
+		 * If there is an identity field we add it using "null" or "default"
+		 */
+		if identityField !== false {
+
+			let defaultValue = connection->getDefaultIdValue();
+
+			/**
+			 * Not all the database systems require an explicit value for identity columns
+			 */
+			let useExplicitIdentity = (boolean) connection->useExplicitIdValue();
+			if useExplicitIdentity {
+				let fields[] = identityField;
+			}
+
+			/**
+			 * Check if the model has a column map
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[identityField] {
+					throw new Phalcon\Mvc\Model\Exception("Identity column '" . identityField . "' isn't part of the column map");
+				}
+			} else {
+				let attributeField = identityField;
+			}
+
+			/**
+			 * Check if the developer set an explicit value for the column
+			 */
+			if fetch value, this->{attributeField} {
+
+				if empty value {
+					if useExplicitIdentity {
+						let values[] = defaultValue, bindTypes[] = bindSkip;
+					}
+				} else {
+
+					/**
+					 * Add the explicit value to the field list if the user has defined a value for it
+					 */
+					if !useExplicitIdentity {
+						let fields[] = identityField;
+					}
+
+					/**
+					 * The field is valid we look for a bind value (normally int)
+					 */
+					if !fetch bindType, bindDataTypes[identityField] {
+						throw new Phalcon\Mvc\Model\Exception("Identity column '" . identityField . "' isn\'t part of the table columns");
+					}
+
+					let values[] = value, bindTypes[] = bindType;
+				}
+			} else {
+				if useExplicitIdentity {
+					let values[] = defaultValue, bindTypes[] = bindSkip;
+				}
+			}
+		}
+
+		/**
+		 * The low level insert is performed
+		 */
+		let success = connection->insert(table, values, fields, bindTypes);
+		if success && identityField !== false {
+
+			/**
+			 * We check if the model have sequences
+			 */
+			let sequenceName = null;
+			if connection->supportSequences() === true {
+				if method_exists(this, "getSequenceName") {
+					let sequenceName = this->{"getSequenceName"}();
+				} else {
+					let sequenceName = this->getSource() . "_" . identityField . "_seq";
+				}
+			}
+
+			/**
+			 * Recover the last "insert id" and assign it to the object
+			 */
+			let this->{attributeField} = connection->lastInsertId(sequenceName);
+
+			/**
+			 * Since the primary key was modified, we delete the _uniqueParams to force any future update to re-build the primary key
+			 */
+			let this->_uniqueParams = null;
+		}
+
+		return success;
+	}
+
+	/**
+	 * Sends a pre-build UPDATE SQL statement to the relational database system
+	 *
+	 * @param Phalcon\Mvc\Model\MetaDataInterface metaData
+	 * @param Phalcon\Db\AdapterInterface connection
+	 * @param string|array table
+	 * @return boolean
+	 */
+	protected function _doLowUpdate(<Phalcon\Mvc\Model\MetaDataInterface> metaData, <Phalcon\Db\AdapterInterface> connection, var table) -> boolean
+	{
+		var bindSkip, fields, values, bindTypes, manager, bindDataTypes, field,
+			automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes,
+			snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys;
+		boolean useDynamicUpdate, changed;
+
+		let bindSkip = Phalcon\Db\Column::BIND_SKIP,
+			fields = [],
+			values = [],
+			bindTypes = [],
+			manager = this->_modelsManager;
+
+		/**
+		 * Check if the model must use dynamic update
+		 */
+		let useDynamicUpdate = (boolean) manager->isUsingDynamicUpdate(this);
+
+		if useDynamicUpdate {
+			let snapshot = this->_snapshot;
+			if typeof snapshot != "array" {
+				let useDynamicUpdate = false;
+			}
+		}
+
+		let bindDataTypes = metaData->getBindTypes(this),
+			nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
+			automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
+
+		if globals_get("orm.column_renaming") {
+			let columnMap = metaData->getColumnMap(this);
+		} else {
+			let columnMap = null;
+		}
+
+		/**
+		 * We only make the update based on the non-primary attributes, values in primary key attributes are ignored
+		 */
+		for field in nonPrimary {
+
+			if !isset automaticAttributes[field] {
+
+				/**
+				 * Check a bind type for field to update
+				 */
+				if !isset bindDataTypes[field] {
+					throw new Phalcon\Mvc\Model\Exception("Column '" . field . "' have not defined a bind data type");
+				}
+
+				/**
+				 * Check if the model has a column map
+				 */
+				if typeof columnMap == "array" {
+					if !fetch attributeField, columnMap[field] {
+						throw new Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the column map");
+					}
+				} else {
+					let attributeField = field;
+				}
+
+				/**
+				 * Get the field's value
+				 * If a field isn't set we pass a null value
+				 */
+				if fetch value, this->{attributeField} {
+
+					/**
+					 * When dynamic update is not used we pass every field to the update
+					 */
+					if !useDynamicUpdate {
+						let fields[] = field, values[] = value;
+						let bindTypes[] = bindDataTypes[field];
+					} else {
+
+						/**
+						 * If the field is not part of the snapshot we add them as changed
+						 */
+						if !fetch snapshotValue, snapshot[attributeField] {
+							let changed = true;
+						} else {
+							let changed = value != snapshotValue;
+						}
+
+						/**
+						 * Only changed values are added to the SQL Update
+						 */
+						if changed {
+							let fields[] = field, values[] = value;
+							let bindTypes[] = bindDataTypes[field];
+						}
+					}
+
+				} else {
+					let fields[] = field, values[] = null, bindTypes[] = bindSkip;
+				}
+			}
+		}
+
+		/**
+		 * If there is no fields to update we return true
+		 */
+		if !count(fields) {
+			return true;
+		}
+
+		let uniqueKey = this->_uniqueKey,
+			uniqueParams = this->_uniqueParams,
+			uniqueTypes = this->_uniqueTypes;
+
+		/**
+		 * When unique params is null we need to rebuild the bind params
+		 */
+		if typeof uniqueParams != "array" {
+
+			let primaryKeys = metaData->getPrimaryKeyAttributes(this);
+
+			/**
+			 * We can't create dynamic SQL without a primary key
+			 */
+			if !count(primaryKeys) {
+				throw new Phalcon_Mvc_Model_Exception("A primary key must be defined in the model in order to perform the operation");
+			}
+
+			let uniqueParams = [];
+			for field in primaryKeys {
+
+				/**
+				 * Check if the model has a column map
+				 */
+				if typeof columnMap == "array" {
+					if !fetch attributeField, columnMap[field] {
+						throw new Phalcon_Mvc_Model_Exception("Column '" . field . "' isn't part of the column map");
+					}
+				} else {
+					let attributeField = field;
+				}
+
+				if fetch value, this->{attributeField} {
+					let uniqueParams[] = value;
+				} else {
+					let uniqueParams[] = null;
+				}
+
+			}
+		}
+
+		/**
+		 * We build the conditions as an array
+		 * Perform the low level update
+		 */
+		return connection->update(table, fields, values, [
+			"conditions": uniqueKey,
+			"bind"      : uniqueParams,
+			"bindTypes" : uniqueTypes
+		], bindTypes);
+	}
+
 }

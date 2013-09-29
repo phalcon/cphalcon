@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 				continue;
 			}
 		}
-		if (!(zephir_memnstr_str(handlerName, SL("\\"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/dispatcher.zep", 430))) {
+		if (!(zephir_memnstr_str(handlerName, SL("\\"), "phalcon/dispatcher.zep", 430))) {
 			ZEPHIR_INIT_NVAR(camelizedClass);
 			zephir_camelize(camelizedClass, handlerName);
 		} else {

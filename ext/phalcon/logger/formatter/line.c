@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
 	ZEPHIR_OBS_VAR(format);
 	zephir_read_property_this(&format, this_ptr, SL("_format"), PH_NOISY_CC);
-	if (zephir_memnstr_str(format, SL("%date%"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/logger/formatter/line.zep", 77)) {
+	if (zephir_memnstr_str(format, SL("%date%"), "phalcon/logger/formatter/line.zep", 77)) {
 		_0 = zephir_fetch_nproperty_this(this_ptr, SL("_dateFormat"), PH_NOISY_CC);
 		ZEPHIR_SINIT_VAR(_1);
 		ZVAL_LONG(&_1, timestamp);
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		zephir_call_func_p3(_3, "str_replace", &_1, _2, format);
 		ZEPHIR_CPY_WRT(format, _3);
 	}
-	if (zephir_memnstr_str(format, SL("%type%"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/logger/formatter/line.zep", 84)) {
+	if (zephir_memnstr_str(format, SL("%type%"), "phalcon/logger/formatter/line.zep", 84)) {
 		ZEPHIR_INIT_NVAR(_2);
 		zephir_call_method_p1(_2, this_ptr, "gettypestring", type);
 		ZEPHIR_SINIT_NVAR(_1);
