@@ -316,14 +316,39 @@ extern int phalcon_fetch_parameters(int num_args TSRMLS_DC, int required_args, i
 #define PHALCON_DOC_METHOD(class_name, method)
 
 /** Low overhead parse/fetch parameters */
+#ifndef PHALCON_RELEASE
+
+#define phalcon_fetch_params(memory_grow, required_params, optional_params, ...) \
+	if (memory_grow) { \
+		zend_phalcon_globals *phalcon_globals_ptr = PHALCON_VGLOBAL; \
+		if (unlikely(phalcon_globals_ptr->active_memory == NULL)) { \
+			fprintf(stderr, "phalcon_fetch_params is called with memory_grow=1 but there is no active memory frame!\n"); \
+			phalcon_print_backtrace(); \
+		} \
+		if (unlikely(phalcon_globals_ptr->active_memory->func != __func__)) { \
+			fprintf(stderr, "phalcon_fetch_params is called with memory_grow=1 but the memory frame was not created!\n"); \
+			fprintf(stderr, "The frame was created by %s\n", phalcon_globals_ptr->active_memory->func); \
+			fprintf(stderr, "Calling function: %s\n", __func__); \
+			phalcon_print_backtrace(); \
+		} \
+	} \
+	if (phalcon_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+		if (memory_grow) { \
+			RETURN_MM_NULL(); \
+		} \
+		RETURN_NULL(); \
+	} \
+
+#else
+
 #define phalcon_fetch_params(memory_grow, required_params, optional_params, ...) \
 	if (phalcon_fetch_parameters(ZEND_NUM_ARGS() TSRMLS_CC, required_params, optional_params, __VA_ARGS__) == FAILURE) { \
 		if (memory_grow) { \
 			RETURN_MM_NULL(); \
-		} else { \
-			RETURN_NULL(); \
 		} \
+		RETURN_NULL(); \
 	}
+#endif
 
 #define PHALCON_VERIFY_INTERFACE(instance, interface_ce) \
 	do { \
