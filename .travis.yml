@@ -25,7 +25,6 @@ before_script:
  - ulimit -c unlimited || true
 
 script:
- - ./unit-tests/ci/run_php_tests.sh
  - $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
  - PHALCON_NO_RVO=1 $(phpenv which php) ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
 
