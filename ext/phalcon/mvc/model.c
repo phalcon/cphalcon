@@ -3093,7 +3093,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 
 	HashTable *_1;
 	HashPosition _0;
-	zval *data = NULL, *whiteList = NULL, *metaData, *attribute = NULL, *attributes = NULL, *related, *schema, *possibleSetter = NULL, *value = NULL, *writeConnection, *readConnection, *source, *table = NULL, *identityField, *exists, *success = NULL, **_2, *_3 = NULL, *_4, *_5, *_6, *_7 = NULL, *_8 = NULL, *_9;
+	zval *data = NULL, *whiteList = NULL, *metaData, *attribute = NULL, *attributes = NULL, *related, *schema, *possibleSetter = NULL, *value = NULL, *writeConnection, *readConnection, *source, *table = NULL, *identityField, *exists, *success = NULL, **_2, *_3 = NULL, *_4, *_5, *_6, *_7 = NULL, *_8 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &whiteList);
@@ -3198,9 +3198,8 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 		if (zephir_is_true(_8)) {
 			ZEPHIR_INIT_NVAR(_7);
 			object_init_ex(_7, phalcon_mvc_model_validationfailed_ce);
-			ZEPHIR_OBS_VAR(_9);
-			zephir_read_property_this(&_9, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
-			zephir_call_method_p2_noret(_7, "__construct", this_ptr, _9);
+			_4 = zephir_fetch_nproperty_this(this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+			zephir_call_method_p2_noret(_7, "__construct", this_ptr, _4);
 			zephir_throw_exception(_7 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -3765,8 +3764,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	zephir_array_update_string(&_5, SL("tables"), &_6, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_5, SL("where"), &uniqueKey, PH_COPY | PH_SEPARATE);
 	zephir_call_method_p1(_1, dialect, "select", _5);
-	ZEPHIR_OBS_VAR(_7);
-	zephir_read_property_this(&_7, this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
+	_7 = zephir_fetch_nproperty_this(this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
 	ZEPHIR_INIT_BNVAR(_6);
 	ZVAL_LONG(_6, 1);
 	ZEPHIR_INIT_VAR(row);
