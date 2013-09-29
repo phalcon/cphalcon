@@ -1639,7 +1639,7 @@ PHP_METHOD(Phalcon_Tag, getDocType){
 		/* no break */
 		case 3:  RETURN_STRING("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" PHP_EOL "\t\"http://www.w3.org/TR/html4/loose.dtd\">" PHP_EOL, 1);
 		/* no break */
-		case 4:  RETVAL_STRING("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" PHP_EOL"\t\"http://www.w3.org/TR/html4/frameset.dtd\">" PHP_EOL, 1);
+		case 4:  RETURN_STRING("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"" PHP_EOL"\t\"http://www.w3.org/TR/html4/frameset.dtd\">" PHP_EOL, 1);
 		/* no break */
 		case 5:  RETURN_STRING("<!DOCTYPE html>" PHP_EOL, 1);
 		/* no break */
@@ -1653,7 +1653,7 @@ PHP_METHOD(Phalcon_Tag, getDocType){
 		/* no break */
 		case 10: RETURN_STRING("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"" PHP_EOL "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">" PHP_EOL, 1);
 		/* no break */
-		default: RETURN_NULL();
+		default: RETURN_EMPTY_STRING();
 	}
 }
 
