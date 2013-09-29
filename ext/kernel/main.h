@@ -21,6 +21,8 @@
 #include "ext/spl/spl_exceptions.h"
 #include "ext/spl/spl_iterators.h"
 
+#include "kernel/backtrace.h"
+
 /** Main macros */
 #define PH_DEBUG 0
 
