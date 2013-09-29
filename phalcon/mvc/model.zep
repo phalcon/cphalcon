@@ -1654,6 +1654,129 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	}
 
 	/**
+	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (restrict) when deleting records
+	 *
+	 * @return boolean
+	 */
+	protected function _checkForeignKeysReverseRestrict() -> boolean
+	{
+		var manager, relations, foreignKey, action, relation,
+			relationClass, referencedModel, fields, referencedFields,
+			conditions, bindParams, bindTypes, position, field,
+			value, extraConditions, message;
+		boolean error;
+
+		/**
+		 * Get the models manager
+		 */
+		let manager = this->_modelsManager;
+
+		/**
+		 * We check if some of the hasOne/hasMany relations is a foreign key
+		 */
+		let relations = manager->getHasOneAndHasMany(this);
+		if count(relations) {
+
+			let error = false;
+			for relation in relations {
+
+				/**
+				 * Check if the relation has a virtual foreign key
+				 */
+				let foreignKey = relation->getForeignKey();
+				if foreignKey !== false {
+
+					/**
+					 * By default action is restrict
+					 */
+					let action = 1;
+
+					/**
+					 * Try to find a different action in the foreign key's options
+					 */
+					if typeof foreignKey == "array" {
+						fetch action, foreignKey["action"];
+					}
+
+					/**
+					 * Check only if the operation is restrict
+					 */
+					if action == 1 {
+
+						let relationClass = relation->getReferencedModel();
+
+						/**
+						 * Load a plain instance from the models manager
+						 */
+						let referencedModel = manager->load(relationClass);
+
+						let fields = relation->getFields(),
+							referencedFields = relation->getReferencedFields();
+
+						/**
+						 * Create the checking conditions. A relation can has many fields or a single one
+						 */
+						let conditions = [], bindParams = [];
+
+						if typeof fields == "array" {
+							for position, field in fields {
+								fetch value, this->{field};
+								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
+									bindParams[] = value;
+							}
+						} else {
+							fetch value, this->{fields};
+							let conditions[] = "[" . referencedFields . "] = ?0",
+								bindParams[] = value;
+						}
+
+						/**
+						 * Check if the virtual foreign key has extra conditions
+						 */
+						if fetch extraConditions, foreignKey["conditions"] {
+							let conditions[] = extraConditions;
+						}
+
+						/**
+						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+						 * Let's make the checking
+						 */
+						if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+
+							/**
+							 * Create a new message
+							 */
+							if !fetch message, foreignKey["message"] {
+								let message = "Record is referenced by model " . relationClass;
+							}
+
+							/**
+							 * Create a message
+							 */
+							this->appendMessage(new Phalcon\Mvc\Model\Message(message, fields, "ConstraintViolation"));
+							let error = true;
+							break;
+						}
+					}
+				}
+			}
+
+			/**
+			 * Call validation fails event
+			 */
+			if error === true {
+				if globals_get("orm.events") {
+					this->fireEvent("onValidationFails");
+					this->_cancelOperation();
+				}
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Executes internal hooks before save a record
 	 *
 	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
@@ -2509,6 +2632,581 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		 */
 		connection->commit(nesting);
 		return true;
+	}
+
+	/**
+	 * Inserts or updates a model instance. Returning true on success or false otherwise.
+	 *
+	 *<code>
+	 *	//Creating a new robot
+	 *	$robot = new Robots();
+	 *	$robot->type = 'mechanical';
+	 *	$robot->name = 'Astro Boy';
+	 *	$robot->year = 1952;
+	 *	$robot->save();
+	 *
+	 *	//Updating a robot name
+	 *	$robot = Robots::findFirst("id=100");
+	 *	$robot->name = "Biomass";
+	 *	$robot->save();
+	 *</code>
+	 *
+	 * @param array data
+	 * @param array whiteList
+	 * @return boolean
+	 */
+	public function save(data=null, whiteList=null) -> boolean
+	{
+		var metaData, attribute, attributes, related,
+			schema, possibleSetter, value, writeConnection, readConnection,
+			source, table, identityField, exists, success;
+
+		let metaData = this->getModelsMetaData();
+
+		/**
+		 * Assign the values passed
+		 */
+		if data !== null {
+
+			if typeof data != "array" {
+				throw new Phalcon\Mvc\Model\Exception("Data passed to save() must be an array");
+			}
+
+			/**
+			 * Get the reversed column map for future renamings
+			 */
+			let attributes = metaData->getColumnMap(this);
+			if typeof attributes == "array" {
+				/**
+				 * Use the standard column map if there are no renamings
+				 */
+				let attributes = metaData->getAttributes(this);
+			}
+
+			for attribute in attributes {
+
+				if fetch value, data[attribute] {
+
+					/**
+					 * If the white-list is an array check if the attribute is on that list
+					 */
+					if typeof whiteList == "array" {
+						if !in_array(attribute, whiteList) {
+							continue;
+						}
+					}
+
+					/**
+					 * We check if the field has a setter
+					 */
+					let possibleSetter = "set" . attribute;
+					if method_exists(this, possibleSetter) {
+						this->{possibleSetter}(value);
+					} else {
+						/**
+						 * Otherwise we assign the attribute directly
+						 */
+						let this->{attribute} = value;
+					}
+				}
+
+			}
+		}
+
+		/**
+		 * Create/Get the current database connection
+		 */
+		let writeConnection = this->getWriteConnection();
+
+		/**
+		 * Save related records in belongsTo relationships
+		 */
+		let related = this->_related;
+		if typeof related == "array" {
+			if this->_preSaveRelatedRecords(writeConnection, related) === false {
+				return false;
+			}
+		}
+
+		let schema = this->getSchema(),
+			source = this->getSource();
+
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		/**
+		 * Create/Get the current database connection
+		 */
+		let readConnection = this->getReadConnection();
+
+		/**
+		 * We need to check if the record exists
+		 */
+		let exists = this->_exists(metaData, readConnection, table);
+		if exists {
+			let this->_operationMade = self::OP_UPDATE;
+		} else {
+			let this->_operationMade = self::OP_CREATE;
+		}
+
+		/**
+		 * Clean the messages
+		 */
+		let this->_errorMessages = [];
+
+		/**
+		 * Query the identity field
+		 */
+		let identityField = metaData->getIdentityField(this);
+
+		/**
+		 * _preSave() makes all the validations
+		 */
+		if this->_preSave(metaData, exists, identityField) === false {
+
+			/**
+			 * Rollback the current transaction if there was validation errors
+			 */
+			if typeof related == "array" {
+				writeConnection->rollback(false);
+			}
+
+			/**
+			 * Throw exceptions on failed saves?
+			 */
+			if globals_get("orm.exception_on_failed_save") {
+				/**
+				 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that the save failed
+				 */
+				throw new Phalcon\Mvc\Model\ValidationFailed(this, this->_errorMessages);
+			}
+
+			return false;
+		}
+
+		/**
+		 * Depending if the record exists we do an update or an insert operation
+		 */
+		if exists {
+			let success = this->_doLowUpdate(metaData, writeConnection, table);
+		} else {
+			let success = this->_doLowInsert(metaData, writeConnection, table, identityField);
+		}
+
+		/**
+		 * Change the dirty state to persistent
+		 */
+		if success {
+			let this->_dirtyState = self::DIRTY_STATE_PERSISTENT;
+		}
+
+		/**
+		 * _postSave() makes all the validations
+		 */
+		if globals_get("orm.events") {
+			let success = this->_postSave(success, exists);
+		}
+
+		if typeof related == "array" {
+
+			/**
+			 * Rollbacks the implicit transaction if the master save has failed
+			 */
+			if success === false {
+				writeConnection->rollback(false);
+				return false;
+			}
+
+			/**
+			 * Save the post-related records
+			 */
+			if this->_postSaveRelatedRecords(writeConnection, related) === false {
+				return false;
+			}
+		}
+
+		return success;
+	}
+
+	/**
+	 * Inserts a model instance. If the instance already exists in the persistance it will throw an exception
+	 * Returning true on success or false otherwise.
+	 *
+	 *<code>
+	 *	//Creating a new robot
+	 *	$robot = new Robots();
+	 *	$robot->type = 'mechanical';
+	 *	$robot->name = 'Astro Boy';
+	 *	$robot->year = 1952;
+	 *	$robot->create();
+	 *
+	 *  //Passing an array to create
+	 *  $robot = new Robots();
+	 *  $robot->create(array(
+	 *      'type' => 'mechanical',
+	 *      'name' => 'Astroy Boy',
+	 *      'year' => 1952
+	 *  ));
+	 *</code>
+	 *
+	 * @param array data
+	 * @param array whiteList
+	 * @return boolean
+	 */
+	public function create(data=null, whiteList=null)
+	{
+		var metaData, attribute, attributes, related,
+			schema, possibleSetter, value, writeConnection, readConnection,
+			source, table, identityField, exists, success, columnMap,
+			attributeField;
+
+		let metaData = this->getModelsMetaData();
+
+		/**
+		 * Assign the values passed
+		 */
+		if data !== null {
+
+			if typeof data != "array" {
+				throw new Phalcon\Mvc\Model\Exception("Data passed to create() must be an array");
+			}
+
+			if globals_get("orm.column_renaming") {
+				let columnMap = metaData->getColumnMap(this);
+			} else {
+				let columnMap = null;
+			}
+
+			/**
+			 * We assign the fields starting from the current attributes in the model
+			 */
+			for attribute in metaData->getAttributes(this) {
+
+				/**
+				 * Check if we need to rename the field
+				 */
+				if typeof columnMap == "array" {
+					if !fetch attributeField, columnMap[attribute]{
+						throw new Phalcon\Mvc\Model\Exception("Column '" . attribute . "' isn't part of the column map");
+					}
+				} else {
+					let attributeField = attribute;
+				}
+
+				/**
+				 * The value in the array passed
+				 * Check if we there is data for the field
+				 */
+				if fetch value, data[attributeField] {
+
+					/**
+					 * If the white-list is an array check if the attribute is on that list
+					 */
+					if typeof whiteList == "array" {
+						if !in_array(attributeField, whiteList) {
+							continue;
+						}
+					}
+
+					/**
+					 * Check if the field has a posible setter
+					 */
+					let possibleSetter = "set" . attributeField;
+					if method_exists(this, possibleSetter) {
+						this->{possibleSetter}(value);
+					} else {
+						let this->{attributeField} = value;
+					}
+				}
+			}
+		}
+
+		/**
+		 * Get the current connection
+		 * If the record already exists we must throw an exception
+		 */
+		if this->_exists(metaData, this->getReadConnection()) {
+			let this->_errorMessages = [
+				new Phalcon\Mvc\Model\Message("Record cannot be created because it already exists", null, 'InvalidCreateAttempt')
+			];
+			return false;
+		}
+
+		/**
+		 * Using save() anyways
+		 */
+		return this->save();
+	}
+
+	/**
+	 * Updates a model instance. If the instance doesn't exist in the persistance it will throw an exception
+	 * Returning true on success or false otherwise.
+	 *
+	 *<code>
+	 *	//Updating a robot name
+	 *	$robot = Robots::findFirst("id=100");
+	 *	$robot->name = "Biomass";
+	 *	$robot->update();
+	 *</code>
+	 *
+	 * @param array data
+	 * @param array whiteList
+	 * @return boolean
+	 */
+	public function update(data=null, whiteList=null) -> boolean
+	{
+		var metaData, columnMap, attribute, attributeField,
+			possibleSetter, value;
+
+		let metaData = null;
+
+		/**
+		 * Assign the values bassed on the passed
+		 */
+		if data !== null {
+
+			if typeof data != "array" {
+				throw new Phalcon\Mvc\Model\Exception("Data passed to update() must be an array");
+			}
+
+			let metaData = this->getModelsMetaData();
+			if globals_get("orm.column_renaming") {
+				let columnMap = metaData->getColumnMap(this);
+			} else {
+				let columnMap = null;
+			}
+
+			/**
+			 * We assign the fields starting from the current attributes in the model
+			 */
+			for attribute in metaData->getAttributes(this) {
+
+				/**
+				 * Check if we need to rename the field
+				 */
+				if typeof columnMap == "array" {
+					if !fetch attributeField, columnMap[attribute] {
+						throw new Phalcon\Mvc\Model\Exception("Column '" . attribute . "' isn't part of the column map");
+					}
+				} else {
+					let attributeField = attribute;
+				}
+
+				/**
+				 * Check if we there is data for the field
+				 * Reads the attribute from the data
+				 */
+				if fetch value, data[attributeField] {
+
+					/**
+					 * If the white-list is an array check if the attribute is on that list
+					 */
+					if typeof whiteList == "array" {
+						if !in_array(attributeField, whiteList) {
+							continue;
+						}
+					}
+
+					/**
+					 * Try to find a possible getter
+					 */
+					let possibleSetter = "set" . attributeField;
+					if method_exists(this, possibleSetter) {
+						this->{possibleSetter}(value);
+					} else {
+						let this->{attributeField} = value;
+					}
+				}
+			}
+
+		}
+
+		/**
+		 * We don't check if the record exists if the record is already checked
+		 */
+		if this->_dirtyState {
+
+			if metaData === null {
+				let metaData = this->getModelsMetaData();
+			}
+
+			if this->_exists(metaData, this->getReadConnection()) {
+				let this->_errorMessages = [new Phalcon\Mvc\Model\Message("Record cannot be updated because it does not exist", null, "InvalidUpdateAttempt")];
+				return false;
+			}
+		}
+
+		/**
+		 * Call save() anyways
+		 */
+		return this->save();
+	}
+
+	/**
+	 * Deletes a model instance. Returning true on success or false otherwise.
+	 *
+	 * <code>
+	 *$robot = Robots::findFirst("id=100");
+	 *$robot->delete();
+	 *
+	 *foreach (Robots::find("type = 'mechanical'") as $robot) {
+	 *   $robot->delete();
+	 *}
+	 * </code>
+	 *
+	 * @return boolean
+	 */
+	public function delete() -> boolean
+	{
+		var metaData, writeConnection, values, bindTypes, primaryKeys,
+			bindDataTypes, columnMap, attributeField, conditions, primaryKey,
+			bindType, value, schema, source, table, success;
+
+		let metaData = this->getModelsMetaData(),
+			writeConnection = this->getWriteConnection();
+
+		/**
+		 * Operation made is OP_DELETE
+		 */
+		let this->_operationMade = self::OP_DELETE,
+			this->_errorMessages = [];
+
+		/**
+		 * Check if deleting the record violates a virtual foreign key
+		 */
+		if globals_get("orm.virtual_foreign_keys") {
+			if this->_checkForeignKeysReverseRestrict() === false {
+				return false;
+			}
+		}
+
+		let values = [],
+			bindTypes = [],
+			conditions = [];
+
+		let primaryKeys = metaData->getPrimaryKeyAttributes(this),
+			bindDataTypes = metaData->getBindTypes(this);
+
+		if globals_get("orm.column_renaming") {
+			let columnMap = metaData->getColumnMap(this);
+		} else {
+			let columnMap = null;
+		}
+
+		/**
+		 * We can't create dynamic SQL without a primary key
+		 */
+		if !count(primaryKeys) {
+			throw new Phalcon\Mvc\Model\Exception("A primary key must be defined in the model in order to perform the operation");
+		}
+
+		/**
+		 * Create a condition from the primary keys
+		 */
+		for primaryKey in primaryKeys {
+
+			/**
+			 * Every column part of the primary key must be in the bind data types
+			 */
+			if !fetch bindType, bindDataTypes[primaryKey] {
+				throw new Phalcon\Mvc\Model\Exception("Column '" . primaryKey . "' have not defined a bind data type");
+			}
+
+			/**
+			 * Take the column values based on the column map if any
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[primaryKey] {
+					throw new Phalcon\Mvc\Model\Exception("Column '" . primaryKey . "' isn't part of the column map");
+				}
+			} else {
+				let attributeField = primaryKey;
+			}
+
+			/**
+			 * If the attribute is currently set in the object add it to the conditions
+			 */
+			if !fetch value, this->{attributeField} {
+				throw new Phalcon\Mvc\Model\Exception("Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set");
+			}
+
+			/**
+			 * Escape the column identifier
+			 */
+			let values[] = value,
+				conditions[] = writeConnection->escapeIdentifier(primaryKey) . " = ?",
+				bindTypes[] = bindType;
+		}
+
+		if globals_get("orm.events") {
+
+			let this->_skipped = false;
+
+			/**
+			 * Fire the beforeDelete event
+			 */
+			if this->fireEventCancel("beforeDelete") === false {
+				return false;
+			} else {
+				/**
+				 * The operation can be skipped
+				 */
+				if this->_skipped === true {
+					return true;
+				}
+			}
+		}
+
+		let schema = this->getSchema(),
+			source = this->getSource();
+
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		/**
+		 * Join the conditions in the array using an AND operator
+		 * Do the deletion
+		 */
+		let success = writeConnection->delete(table, join(" AND ", $conditions), values, bindTypes);
+
+		/**
+		 * Check if there is virtual foreign keys with cascade action
+		 */
+		if globals_get("orm.virtual_foreign_keys") {
+			if this->_checkForeignKeysReverseCascade() === false {
+				return false;
+			}
+		}
+
+		if globals_get("orm.events") {
+			if success {
+				this->fireEvent("afterDelete");
+			}
+		}
+
+		/**
+		 * Force perform the record existence checking again
+		 */
+		let this->_dirtyState = self::DIRTY_STATE_DETACHED;
+
+		return success;
+	}
+
+	/**
+	 * Returns the type of the latest operation performed by the ORM
+	 * Returns one of the OP_* class constants
+	 *
+	 * @return int
+	 */
+	public function getOperationMade()
+	{
+		return this->_operationMade;
 	}
 
 }

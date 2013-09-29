@@ -309,7 +309,7 @@ class Manager
 	 * @param string schema
 	 * @return string
 	 */
-	public function setModelSchema(<Phalcon\Mvc\ModelInterface> model, schema) -> string
+	public function setModelSchema(<Phalcon\Mvc\ModelInterface> model, string schema) -> string
 	{
 		let this->_schemas[get_class_lower(model)] = schema;
 	}
@@ -338,7 +338,7 @@ class Manager
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setConnectionService(<Phalcon\Mvc\ModelInterface> model, connectionService)
+	public function setConnectionService(<Phalcon\Mvc\ModelInterface> model, string connectionService)
 	{
 		var entityName;
 		let entityName = get_class_lower(model),
@@ -352,7 +352,7 @@ class Manager
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @param string connectionService
 	 */
-	public function setWriteConnectionService(<Phalcon\Mvc\ModelInterface> model, connectionService)
+	public function setWriteConnectionService(<Phalcon\Mvc\ModelInterface> model, string connectionService)
 	{
 		let this->_writeConnectionServices[get_class_lower(model)] = connectionService;
 	}

@@ -359,11 +359,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema) {
 
-	zval *model, *schema, *_0;
+	zval *schema = NULL;
+	zval *model, *schema_param = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &model, &schema);
+	zephir_fetch_params(1, 2, 0, &model, &schema_param);
 
+		zephir_get_strval(schema, schema_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
@@ -410,11 +412,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService) {
 
-	zval *model, *connectionService, *entityName;
+	zval *connectionService = NULL;
+	zval *model, *connectionService_param = NULL, *entityName;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &model, &connectionService);
+	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
 
+		zephir_get_strval(connectionService, connectionService_param);
 
 
 	ZEPHIR_INIT_VAR(entityName);
@@ -433,11 +437,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService) {
 
-	zval *model, *connectionService, *_0;
+	zval *connectionService = NULL;
+	zval *model, *connectionService_param = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &model, &connectionService);
+	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
 
+		zephir_get_strval(connectionService, connectionService_param);
 
 
 	ZEPHIR_INIT_VAR(_0);
