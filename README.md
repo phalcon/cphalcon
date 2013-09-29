@@ -7,6 +7,7 @@ Phalcon Framework
 * \Phalcon\Utils\Date -- Useful date functions and constants. Time between two dates, convert between am/pm and military, date offset, etc.
 * \Phalcon\Http\Client -- HTTP protocol client.
 * \Phalcon\Chart\QRcode -- QR Code Generator and Scanner.
+* \Phalcon\Utils\Scws -- Chinese word segmentation.
 
 ```php
 // Example 1: HTTP Request
@@ -62,7 +63,28 @@ if ($ret) {
 	$qr->save('qr.png', NULL, NULL, 'FFCC00', '000000');
 	header("Content-type: image/PNG");
 	echo $qr->render(NULL, NULL, 'FFCC00', '000000');
-} 
+}
+
+// Example 5: Chinese word segmentation
+$scws = new Phalcon\Utils\Scws('utf8');
+$scws->set_dict("/var/www/dict.utf8.xdb");
+$scws->set_rule("/var/www/rule.utf8.ini");
+$scws->send_text("我是一个中国人,我会C++语言,我也有很多T恤衣服");
+$tops = $scws->get_tops(5);
+$tmp = '';
+foreach($tops as $top) {
+	$tmp = $tmp ? $tmp.'|'.$top['word'] : $top['word'];
+}
+print_r($tmp);
+$tmp = '';
+while ($tops = $scws->get_result())
+{
+	foreach($tops as $top) {
+	    $tmp = $tmp ? $tmp.'|'.$top['word'] : $top['word'];
+	}
+}
+print_r($tmp);
+exit;
 ```
 
 Volt Filters
