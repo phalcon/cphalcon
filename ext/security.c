@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 PHP_METHOD(Phalcon_Security, getSessionToken){
 
 	zval *dependency_injector, *service, *session;
-	zval *key, *session_token;
+	zval *key;
 
 	PHALCON_MM_GROW();
 
@@ -527,9 +527,8 @@ PHP_METHOD(Phalcon_Security, getSessionToken){
 	PHALCON_INIT_VAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
 	
-	PHALCON_INIT_VAR(session_token);
-	phalcon_call_method_p1(session_token, session, "get", key);
+	phalcon_return_call_method_p1(session, "get", key);
 	
-	RETURN_CCTOR(session_token);
+	PHALCON_MM_RESTORE();
 }
 

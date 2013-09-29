@@ -116,21 +116,14 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption){
 
 	zval *key, *options, *value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &key);
+	phalcon_fetch_params(0, 1, 0, &key);
 	
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset(options, key)) {
-			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch(&value, options, key, PH_NOISY);
-			RETURN_CCTOR(value);
-		}
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&value, options, key)) {
+		RETURN_ZVAL(value, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 /**

@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource){
 		phalcon_update_property_this(this_ptr, SL("_source"), source TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(source);
+	RETURN_CTOR(source);
 }
 
 /**
@@ -431,7 +431,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnection){
 		phalcon_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(connection);
+	RETURN_CTOR(connection);
 }
 
 /**
@@ -455,7 +455,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute){
 	if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		PHALCON_OBS_VAR(attribute_value);
 		phalcon_read_property_zval(&attribute_value, this_ptr, attribute, PH_NOISY_CC);
-		RETURN_CCTOR(attribute_value);
+		RETURN_CTOR(attribute_value);
 	}
 	RETURN_MM_NULL();
 }
@@ -525,7 +525,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	RETURN_CCTOR(cloned_collection);
+	RETURN_CTOR(cloned_collection);
 }
 
 /**
@@ -936,7 +936,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave){
 			phalcon_call_method_p1_noret(this_ptr, "fireevent", event_name);
 		}
 	
-		RETURN_CCTOR(success);
+		RETURN_CTOR(success);
 	}
 	if (!zend_is_true(disable_events)) {
 		PHALCON_INIT_NVAR(event_name);
@@ -1821,13 +1821,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory){
 			if (phalcon_array_isset_string(first_retval, SS("summatory"))) {
 				PHALCON_OBS_VAR(summatory);
 				phalcon_array_fetch_string(&summatory, first_retval, SL("summatory"), PH_NOISY);
-				RETURN_CCTOR(summatory);
+				RETURN_CTOR(summatory);
 			}
 	
-			RETURN_CCTOR(first_retval);
+			RETURN_CTOR(first_retval);
 		}
 	
-		RETURN_CCTOR(retval);
+		RETURN_CTOR(retval);
 	}
 	
 	PHALCON_MM_RESTORE();

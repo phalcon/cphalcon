@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 
 	phalcon_call_method_noret(statement, "execute");
 
-	RETURN_CCTOR(statement);
+	RETURN_CTOR(statement);
 }
 
 /**
@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(statement);
+	RETURN_CTOR(statement);
 }
 
 /**

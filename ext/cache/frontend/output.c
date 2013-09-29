@@ -202,16 +202,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
 
-	if (return_value_ptr) {
-		zval_ptr_dtor(return_value_ptr);
-		phalcon_fetch_params(0, 1, 0, return_value_ptr);
-		Z_ADDREF_PP(return_value_ptr);
-	}
-	else {
-		zval *data;
-		phalcon_fetch_params(0, 1, 0, &data);
-		RETURN_CCTORW(data);
-	}
+	zval *data;
+
+	phalcon_fetch_params(0, 1, 0, &data);
+	RETURN_ZVAL(data, 1, 0);
 }
 
 /**
@@ -222,14 +216,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve){
 
-	if (return_value_ptr) {
-		zval_ptr_dtor(return_value_ptr);
-		phalcon_fetch_params(0, 1, 0, return_value_ptr);
-		Z_ADDREF_PP(return_value_ptr);
-	}
-	else {
-		zval *data;
-		phalcon_fetch_params(0, 1, 0, &data);
-		RETURN_CCTORW(data);
-	}
+	zval *data;
+
+	phalcon_fetch_params(0, 1, 0, &data);
+	RETURN_ZVAL(data, 1, 0);
 }

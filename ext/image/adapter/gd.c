@@ -1539,7 +1539,7 @@ PHP_METHOD(Phalcon_Image_Adapter_GD, _create) {
 	phalcon_call_func_p2_noret("imagealphablending", image, blendmode);
 	phalcon_call_func_p2_noret("imagesavealpha", image, saveflag);
 
-	RETURN_CCTOR(image);
+	RETURN_CTOR(image);
 }
 
 /**

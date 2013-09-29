@@ -462,10 +462,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort){
 	PHALCON_MM_GROW();
 
 	phalcon_fetch_params(1, 1, 0, &value);
+	PHALCON_SEPARATE_PARAM(value);
 	
 	Z_SET_ISREF_P(value);
 	phalcon_call_func_p1_noret("asort", value);
 	Z_UNSET_ISREF_P(value);
-	RETURN_CCTOR(value);
+	RETURN_CTOR(value);
 }
 

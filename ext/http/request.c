@@ -192,23 +192,23 @@ PHP_METHOD(Phalcon_Http_Request, get){
 
 				if (PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) {
 					zval_dtor(return_value);
-					RETURN_CCTOR(default_value);
+					RETURN_CTOR(default_value);
 				}
 
 				RETURN_MM();
 			}
 
 			if (PHALCON_IS_EMPTY(value) && zend_is_true(not_allow_empty)) {
-				RETURN_CCTOR(default_value);
+				RETURN_CTOR(default_value);
 			}
 
-			RETURN_CCTOR(value);
+			RETURN_CTOR(value);
 		}
 	
-		RETURN_CCTOR(default_value);
+		RETURN_CTOR(default_value);
 	}
 	
-	RETURN_CCTOR(request);
+	RETURN_CTOR(request);
 }
 
 /**
@@ -292,23 +292,23 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 
 				if (PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) {
 					zval_dtor(return_value);
-					RETURN_CCTOR(default_value);
+					RETURN_CTOR(default_value);
 				} else {
 					RETURN_MM();
 				}
 			} else {
 				if (PHALCON_IS_EMPTY(value) && zend_is_true(not_allow_empty)) {
-					RETURN_CCTOR(default_value);
+					RETURN_CTOR(default_value);
 				} else {
-					RETURN_CCTOR(value);
+					RETURN_CTOR(value);
 				}
 			}
 		}
 	
-		RETURN_CCTOR(default_value);
+		RETURN_CTOR(default_value);
 	}
 	
-	RETURN_CCTOR(post);
+	RETURN_CTOR(post);
 }
 
 /**
@@ -395,23 +395,23 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 
 				if (PHALCON_IS_EMPTY(return_value) && zend_is_true(not_allow_empty)) {
 					zval_dtor(return_value);
-					RETURN_CCTOR(default_value);
+					RETURN_CTOR(default_value);
 				} else {
 					RETURN_MM();
 				}
 			} else {
 				if (PHALCON_IS_EMPTY(value) && zend_is_true(not_allow_empty)) {
-					RETURN_CCTOR(default_value);
+					RETURN_CTOR(default_value);
 				} else {
-					RETURN_CCTOR(value);
+					RETURN_CTOR(value);
 				}
 			}
 		}
 	
-		RETURN_CCTOR(default_value);
+		RETURN_CTOR(default_value);
 	}
 	
-	RETURN_CCTOR(get);
+	RETURN_CTOR(get);
 }
 
 /**
@@ -432,7 +432,7 @@ PHP_METHOD(Phalcon_Http_Request, getServer){
 	if (phalcon_array_isset(_SERVER, name)) {
 		PHALCON_OBS_VAR(server_value);
 		phalcon_array_fetch(&server_value, _SERVER, name, PH_NOISY);
-		RETURN_CCTOR(server_value);
+		RETURN_CTOR(server_value);
 	}
 	RETURN_MM_NULL();
 }
@@ -531,14 +531,14 @@ PHP_METHOD(Phalcon_Http_Request, getHeader){
 	if (phalcon_array_isset(_SERVER, header)) {
 		PHALCON_OBS_VAR(server_value);
 		phalcon_array_fetch(&server_value, _SERVER, header, PH_NOISY);
-		RETURN_CCTOR(server_value);
+		RETURN_CTOR(server_value);
 	} else {
 		PHALCON_INIT_VAR(key);
 		PHALCON_CONCAT_SV(key, "HTTP_", header);
 		if (phalcon_array_isset(_SERVER, key)) {
 			PHALCON_OBS_NVAR(server_value);
 			phalcon_array_fetch(&server_value, _SERVER, key, PH_NOISY);
-			RETURN_CCTOR(server_value);
+			RETURN_CTOR(server_value);
 		}
 	}
 	RETURN_MM_EMPTY_STRING();
@@ -740,7 +740,7 @@ PHP_METHOD(Phalcon_Http_Request, getServerAddress){
 	if (phalcon_array_isset_string(server, SS("SERVER_ADDR"))) {
 		PHALCON_OBS_VAR(server_addr);
 		phalcon_array_fetch_string(&server_addr, server, SL("SERVER_ADDR"), PH_NOISY);
-		RETURN_CCTOR(server_addr);
+		RETURN_CTOR(server_addr);
 	}
 	
 	PHALCON_INIT_VAR(localhost);
@@ -765,7 +765,7 @@ PHP_METHOD(Phalcon_Http_Request, getServerName){
 	if (phalcon_array_isset_string(server, SS("SERVER_NAME"))) {
 		PHALCON_OBS_VAR(server_name);
 		phalcon_array_fetch_string(&server_name, server, SL("SERVER_NAME"), PH_NOISY);
-		RETURN_CCTOR(server_name);
+		RETURN_CTOR(server_name);
 	}
 	
 	RETVAL_STRING("localhost", 1);
@@ -796,7 +796,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 	PHALCON_INIT_VAR(http_host);
 	phalcon_call_method_p1(http_host, this_ptr, "getserver", host);
 	if (zend_is_true(http_host)) {
-		RETURN_CCTOR(http_host);
+		RETURN_CTOR(http_host);
 	}
 	
 	/** 
@@ -863,14 +863,14 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 	 * If is standard http we return the server name only
 	 */
 	if (PHALCON_IS_TRUE(is_std_http)) {
-		RETURN_CCTOR(name);
+		RETURN_CTOR(name);
 	}
 	
 	/** 
 	 * If is standard secure http we return the server name only
 	 */
 	if (PHALCON_IS_TRUE(is_secure_http)) {
-		RETURN_CCTOR(name);
+		RETURN_CTOR(name);
 	}
 	
 	PHALCON_CONCAT_VSV(return_value, name, ":", port);
@@ -927,10 +927,10 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	
 			PHALCON_OBS_VAR(first);
 			phalcon_array_fetch_long(&first, addresses, 0, PH_NOISY);
-			RETURN_CCTOR(first);
+			RETURN_CTOR(first);
 		}
 	
-		RETURN_CCTOR(address);
+		RETURN_CTOR(address);
 	}
 	
 	RETURN_MM_FALSE;
@@ -1010,7 +1010,7 @@ PHP_METHOD(Phalcon_Http_Request, getUserAgent){
 	if (phalcon_array_isset_string(server, SS("HTTP_USER_AGENT"))) {
 		PHALCON_OBS_VAR(user_agent);
 		phalcon_array_fetch_string(&user_agent, server, SL("HTTP_USER_AGENT"), PH_NOISY);
-		RETURN_CCTOR(user_agent);
+		RETURN_CTOR(user_agent);
 	}
 	
 	RETVAL_EMPTY_STRING();
@@ -1542,7 +1542,7 @@ PHP_METHOD(Phalcon_Http_Request, getHTTPReferer){
 	if (phalcon_array_isset_string(_SERVER, SS("HTTP_REFERER"))) {
 		PHALCON_OBS_VAR(http_referer);
 		phalcon_array_fetch_string(&http_referer, _SERVER, SL("HTTP_REFERER"), PH_NOISY);
-		RETURN_CCTOR(http_referer);
+		RETURN_CTOR(http_referer);
 	}
 	RETURN_MM_EMPTY_STRING();
 }
@@ -1669,7 +1669,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	RETURN_CCTOR(selected_name);
+	RETURN_CTOR(selected_name);
 }
 
 /**

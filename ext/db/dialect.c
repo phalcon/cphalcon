@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(sql_query);
+	RETURN_CTOR(sql_query);
 }
 
 /**
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 			RETURN_CTOR(escaped_domain);
 		}
 	
-		RETURN_CCTOR(escaped_name);
+		RETURN_CTOR(escaped_name);
 	}
 	
 	/** 
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	if (PHALCON_IS_STRING(type, "literal")) {
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch_string(&value, expression, SL("value"), PH_NOISY);
-		RETURN_CCTOR(value);
+		RETURN_CTOR(value);
 	}
 	
 	/** 
@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	if (PHALCON_IS_STRING(type, "placeholder")) {
 		PHALCON_OBS_NVAR(value);
 		phalcon_array_fetch_string(&value, expression, SL("value"), PH_NOISY);
-		RETURN_CCTOR(value);
+		RETURN_CTOR(value);
 	}
 	
 	/** 
@@ -557,7 +557,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 			PHALCON_CPY_WRT(sql_table_alias, sql_schema);
 		}
 	
-		RETURN_CCTOR(sql_table_alias);
+		RETURN_CTOR(sql_table_alias);
 	}
 	
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
@@ -565,7 +565,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(table);
+	RETURN_CTOR(table);
 }
 
 /**

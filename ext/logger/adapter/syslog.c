@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, getFormatter){
 		phalcon_update_property_this(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(formatter);
+	RETURN_CTOR(formatter);
 }
 
 /**

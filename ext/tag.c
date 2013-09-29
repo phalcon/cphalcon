@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Tag, getDI){
 	zval *dependency_injector;
 
 	dependency_injector = phalcon_fetch_static_property_ce(phalcon_tag_ce, SL("_dependencyInjector") TSRMLS_CC);
-	RETURN_CCTORW(dependency_injector);
+	RETURN_CTORW(dependency_injector);
 }
 
 /**
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 		phalcon_update_static_property_ce(phalcon_tag_ce, SL("_urlService"), url TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(url);
+	RETURN_CTOR(url);
 }
 
 /**
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService){
 		phalcon_update_static_property_ce(phalcon_tag_ce, SL("_escaperService"), escaper TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(escaper);
+	RETURN_CTOR(escaper);
 }
 
 /**
@@ -1300,11 +1300,15 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	phalcon_fetch_params(1, 0, 2, &parameters, &local);
 	
+	if (!parameters) {
+		parameters = PHALCON_GLOBAL(z_null);
+	}
+
 	if (!local) {
 		local = PHALCON_GLOBAL(z_true);
 	}
 	
-	if (!parameters || Z_TYPE_P(parameters) != IS_ARRAY) {
+	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 2);
 		phalcon_array_append(&params, parameters, 0);
@@ -1399,11 +1403,15 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
 	phalcon_fetch_params(1, 0, 2, &parameters, &local);
 	
+	if (!parameters) {
+		parameters = PHALCON_GLOBAL(z_null);
+	}
+
 	if (!local) {
 		local = PHALCON_GLOBAL(z_true);
 	}
 	
-	if (!parameters || Z_TYPE_P(parameters) != IS_ARRAY) {
+	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 2);
 		phalcon_array_append(&params, parameters, 0);
@@ -1672,6 +1680,10 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 
 	phalcon_fetch_params(1, 1, 4, &tag_name, &parameters, &self_close, &only_start, &use_eol);
 	
+	if (!parameters) {
+		parameters = PHALCON_GLOBAL(z_null);
+	}
+
 	if (!self_close) {
 		self_close = PHALCON_GLOBAL(z_false);
 	}
@@ -1684,7 +1696,7 @@ PHP_METHOD(Phalcon_Tag, tagHtml){
 		use_eol = PHALCON_GLOBAL(z_false);
 	}
 	
-	if (!parameters || Z_TYPE_P(parameters) != IS_ARRAY) {
+	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		PHALCON_INIT_VAR(params);
 		array_init_size(params, 1);
 		phalcon_array_append(&params, parameters, 0);

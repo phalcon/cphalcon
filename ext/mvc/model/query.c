@@ -1253,7 +1253,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable){
 			RETURN_MM();
 		}
 	
-		RETURN_CCTOR(source);
+		RETURN_CTOR(source);
 	}
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Corrupted SELECT AST");
 	return;
@@ -2199,7 +2199,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		zend_hash_move_forward_ex(ah2, &hp2);
 	}
 	
-	RETURN_CCTOR(sql_joins);
+	RETURN_CTOR(sql_joins);
 }
 
 /**
@@ -3324,7 +3324,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	PHALCON_OBS_VAR(intermediate);
 	phalcon_read_property_this(&intermediate, this_ptr, SL("_intermediate"), PH_NOISY_CC);
 	if (Z_TYPE_P(intermediate) == IS_ARRAY) { 
-		RETURN_CCTOR(intermediate);
+		RETURN_CTOR(intermediate);
 	}
 	
 	PHALCON_OBS_VAR(phql);
@@ -3370,7 +3370,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 					PHALCON_OBS_VAR(type);
 					phalcon_array_fetch_string(&type, ast, ISL(type), PH_NOISY);
 					phalcon_update_property_this(this_ptr, SL("_type"), type TSRMLS_CC);
-					RETURN_CCTOR(ir_phql);
+					RETURN_CTOR(ir_phql);
 				}
 			}
 		}
@@ -3439,7 +3439,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	
 	phalcon_update_property_this(this_ptr, SL("_intermediate"), ir_phql TSRMLS_CC);
 	
-	RETURN_CCTOR(ir_phql);
+	RETURN_CTOR(ir_phql);
 }
 
 /**
@@ -4322,7 +4322,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords){
 	PHALCON_INIT_VAR(records);
 	phalcon_call_method_p2(records, query, "execute", bind_params, bind_types);
 	
-	RETURN_CCTOR(records);
+	RETURN_CTOR(records);
 }
 
 /**
@@ -4798,7 +4798,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 				PHALCON_CPY_WRT(prepared_result, result);
 			}
 	
-			RETURN_CCTOR(prepared_result);
+			RETURN_CTOR(prepared_result);
 		}
 	
 		phalcon_update_property_this(this_ptr, SL("_cache"), cache TSRMLS_CC);
@@ -4898,7 +4898,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		RETURN_MM();
 	}
 
-	RETURN_CCTOR(result);
+	RETURN_CTOR(result);
 }
 
 /**

@@ -179,10 +179,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager){
 	
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, model, 1 TSRMLS_CC);
-		if (phalcon_array_isset(custom_events_manager, class_name)) {
-			PHALCON_OBS_VAR(events_manager);
-			phalcon_array_fetch(&events_manager, custom_events_manager, class_name, PH_NOISY);
-			RETURN_CCTOR(events_manager);
+		if (phalcon_array_isset_fetch(&events_manager, custom_events_manager, class_name)) {
+			RETURN_CTOR(events_manager);
 		}
 	}
 	
@@ -351,10 +349,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds){
 	 */
 	PHALCON_OBS_VAR(implicit_objects_ids);
 	phalcon_read_property_this(&implicit_objects_ids, this_ptr, SL("_implicitObjectsIds"), PH_NOISY_CC);
-	if (phalcon_array_isset(implicit_objects_ids, entity_name)) {
-		PHALCON_OBS_VAR(implicit);
-		phalcon_array_fetch(&implicit, implicit_objects_ids, entity_name, PH_NOISY);
-		RETURN_CCTOR(implicit);
+	if (phalcon_array_isset_fetch(&implicit, implicit_objects_ids, entity_name)) {
+		RETURN_CTOR(implicit);
 	}
 	
 	RETURN_MM_TRUE;

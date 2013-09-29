@@ -149,10 +149,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 			}
 		}
 	
-		RETURN_CCTOR(translation);
+		RETURN_CTOR(translation);
 	}
 	
-	RETURN_CCTOR(index);
+	RETURN_CTOR(index);
 }
 
 /**

@@ -105,23 +105,17 @@ PHP_METHOD(Phalcon_Forms_Manager, get){
 
 	zval *name, *forms, *exception_message, *form;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
-	PHALCON_OBS_VAR(forms);
-	phalcon_read_property_this(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
-	if (!phalcon_array_isset(forms, name)) {
+	forms = phalcon_fetch_nproperty_this(this_ptr, SL("_forms"), PH_NOISY_CC);
+	if (!phalcon_array_isset_fetch(&form, forms, name)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "There is no form with name='", name, "'");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_forms_exception_ce, exception_message);
 		return;
 	}
 	
-	PHALCON_OBS_VAR(form);
-	phalcon_array_fetch(&form, forms, name, PH_NOISY);
-	
-	RETURN_CCTOR(form);
+	RETURN_ZVAL(form, 1, 0);
 }
 
 /**
@@ -134,17 +128,14 @@ PHP_METHOD(Phalcon_Forms_Manager, has){
 
 	zval *name, *forms;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
-	PHALCON_OBS_VAR(forms);
-	phalcon_read_property_this(&forms, this_ptr, SL("_forms"), PH_NOISY_CC);
-	if (!phalcon_array_isset(forms, name)) {
-		RETURN_MM_TRUE;
+	forms = phalcon_fetch_nproperty_this(this_ptr, SL("_forms"), PH_NOISY_CC);
+	if (phalcon_array_isset(forms, name)) {
+		RETURN_TRUE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
