@@ -26,9 +26,10 @@ class Util
         $iterator = new \DirectoryIterator($dir);
         foreach ($iterator as $entry) {
             /** @var $entry \DirectoryIterator */
-            if ($entry->isDot()) {
+            if ($entry->isDot() || $entry->getBasename() == 'tests') {
                 continue;
             }
+
             if ($entry->isDir() && !$entry->isLink()) {
                 self::cleanDirectory($entry->getPathname());
                 rmdir($entry->getPathname());

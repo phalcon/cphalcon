@@ -49,6 +49,13 @@ class Generator_Safe
     protected $configW32;
 
     /**
+     * Generator for Makefile.frag
+     *
+     * @var Generator_File_MakefileFrag
+     */
+    protected $makefileFrag;
+
+    /**
      * @param string $rootDir
      * @param string $outputDir
      */
@@ -63,6 +70,7 @@ class Generator_Safe
         $this->phalconC = new Generator_File_PhalconC($rootDir, $this->sourceDir, $configDir, $outputDir);
         $this->configM4 = new Generator_File_ConfigM4($this->sourceDir, $outputDir);
         $this->configW32 = new Generator_File_ConfigW32($this->sourceDir, $outputDir);
+        $this->makefileFrag = new Generator_File_MakefileFrag($this->sourceDir, $outputDir);
     }
 
     /**
@@ -88,6 +96,7 @@ class Generator_Safe
 
         $this->configM4->generate();
         $this->configW32->generate();
+        $this->makefileFrag->generate();
 
         copy($this->sourceDir . '/php_phalcon.h', $this->outputDir . '/php_phalcon.h');
     }
