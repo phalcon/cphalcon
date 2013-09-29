@@ -71,7 +71,12 @@ static ZEND_RSRC_DTOR_FUNC(php_scws_dtor)
 		scws_free(ps->s);
 		
 		if (ps->zt) {
-			zval_ptr_dtor(ps->zt);
+			ZVAL_DELREF(ps->zt);
+			if (ZVAL_REFCOUNT(ps->zt) <= 0) {
+				zval_dtor(ps->zt);
+				FREE_ZVAL(ps->zt);
+			}
+
 			ps->zt = NULL;
 		}
 		efree(ps);
@@ -464,7 +469,7 @@ PHP_METHOD(Phalcon_Utils_Scws, get_result){
 		PHALCON_INIT_NVAR(row);
 		array_init(row);
 
-		phalcon_array_update_string_string(&row, SL("word"), ps->s->txt + cur->off, cur->len, PH_COPY);
+		phalcon_array_update_string_string(&row, SL("word"), (char*)(ps->s->txt + cur->off), cur->len, PH_COPY);
 		phalcon_array_update_string_long(&row, SL("off"), cur->off, 0);
 		phalcon_array_update_string_long(&row, SL("len"), cur->len, 0);
 		phalcon_array_update_string_double(&row, SL("idf"), (double) cur->idf, 0);
