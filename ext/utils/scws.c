@@ -71,7 +71,7 @@ static ZEND_RSRC_DTOR_FUNC(php_scws_dtor)
 		scws_free(ps->s);
 		
 		if (ps->zt != NULL) {
-			zval_ptr_dtor(ps->zt);
+			ZVAL_DELREF(x);
 			ps->zt = NULL;
 		}
 		efree(ps);
@@ -458,14 +458,15 @@ PHP_METHOD(Phalcon_Utils_Scws, get_result){
 	while (cur != NULL) {
 		PHALCON_INIT_NVAR(row);
 		array_init(row);
-		add_assoc_stringl(row, "word", ps->s->txt + cur->off, cur->len, 1);
-		add_assoc_long(row, "off", cur->off);
-		add_assoc_long(row, "len", cur->len);
-		add_assoc_double(row, "idf", (double) cur->idf);
-		add_assoc_stringl(row, "attr", cur->attr, (cur->attr[1] == '\0' ? 1 : 2), 1);
+
+		phalcon_array_update_string_string(&row, SL("word"), SL(cur->word), PH_COPY);
+		phalcon_array_update_string_long(&row, SL("times"), cur->times, 0);
+		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
+		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
+
+		phalcon_array_append(&return_value, row, 0)
 		
 		cur = cur->next;
-		add_next_index_zval(return_value, row);
 	}
 	scws_free_result(res);
 
@@ -488,7 +489,9 @@ PHP_METHOD(Phalcon_Utils_Scws, get_tops){
 	long num = 10;
 	char *attr = NULL;
 
-	phalcon_fetch_params(0, 1, 1, &limit, &options);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &limit, &options);
 
 	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
 
@@ -511,18 +514,21 @@ PHP_METHOD(Phalcon_Utils_Scws, get_tops){
 	array_init(return_value);
 	while (cur != NULL)
 	{
-		MAKE_STD_ZVAL(row);
+		PHALCON_INIT_NVAR(row);
 		array_init(row);
 
-		add_assoc_string(row, "word", cur->word, 1);
-		add_assoc_long(row, "times", cur->times);
-		add_assoc_double(row, "weight", (double) cur->weight);
-		add_assoc_stringl(row, "attr", cur->attr, (cur->attr[1] == '\0' ? 1 : 2), 1);
+		phalcon_array_update_string_string(&row, SL("word"), SL(cur->word), PH_COPY);
+		phalcon_array_update_string_long(&row, SL("times"), cur->times, 0);
+		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
+		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
+		phalcon_array_append(&return_value, row, 0)
+		
 		cur = cur->next;
-		add_next_index_zval(return_value, row);
 	}
 	scws_free_tops(top);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -572,7 +578,9 @@ PHP_METHOD(Phalcon_Utils_Scws, get_words){
 	scws_top_t top, cur;
 	char *attr = NULL;
 
-	phalcon_fetch_params(0, 1, 0, &options);
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 0, &options);
 
 	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
 
@@ -589,7 +597,7 @@ PHP_METHOD(Phalcon_Utils_Scws, get_words){
 	cur = top = scws_get_words(ps->s, attr);
 	while (cur != NULL)
 	{
-		MAKE_STD_ZVAL(row);
+		PHALCON_INIT_NVAR(row);
 		array_init(row);
 
 		phalcon_array_update_string_string(&row, SL("word"), SL(cur->word), PH_COPY);
@@ -602,5 +610,7 @@ PHP_METHOD(Phalcon_Utils_Scws, get_words){
 		cur = cur->next;
 	}
 	scws_free_tops(top);
+
+	PHALCON_MM_RESTORE();
 }
 
