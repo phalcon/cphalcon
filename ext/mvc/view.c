@@ -523,19 +523,14 @@ PHP_METHOD(Phalcon_Mvc_View, getVar){
 
 	zval *key, *params, *value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &key);
+	phalcon_fetch_params(0, 1, 0, &key);
 	
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
-	if (phalcon_array_isset(params, key)) {
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, params, key, PH_NOISY);
-		RETURN_CCTOR(value);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&value, params, key)) {
+		RETURN_ZVAL(value, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 /**
@@ -1377,7 +1372,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 PHP_METHOD(Phalcon_Mvc_View, getRender){
 
 	zval *controller_name, *action_name, *params = NULL;
-	zval *config_callback = NULL, *view, *status, *content;
+	zval *config_callback = NULL, *view, *status;
 
 	PHALCON_MM_GROW();
 
@@ -1443,10 +1438,9 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	/** 
 	 * Get the processed content
 	 */
-	PHALCON_INIT_VAR(content);
-	phalcon_call_method(content, view, "getcontent");
+	phalcon_return_call_method_p0(view, "getcontent");
 	
-	RETURN_CCTOR(content);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -1776,19 +1770,14 @@ PHP_METHOD(Phalcon_Mvc_View, __get){
 
 	zval *key, *params, *value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &key);
+	phalcon_fetch_params(0, 1, 0, &key);
 	
-	PHALCON_OBS_VAR(params);
-	phalcon_read_property_this(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
-	if (phalcon_array_isset(params, key)) {
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, params, key, PH_NOISY);
-		RETURN_CCTOR(value);
+	params = phalcon_fetch_nproperty_this(this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&value, params, key)) {
+		RETURN_ZVAL(value, 1, 0);
 	}
 	
-	RETURN_MM_NULL();
+	RETURN_NULL();
 }
 
 

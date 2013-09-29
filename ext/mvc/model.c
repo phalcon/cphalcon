@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 		phalcon_update_property_this(this_ptr, SL("_modelsMetaData"), meta_data TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(meta_data);
+	RETURN_CTOR(meta_data);
 }
 
 /**
@@ -820,7 +820,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 		phalcon_call_method_noret(object, "afterfetch");
 	}
 	
-	RETURN_CCTOR(object);
+	RETURN_CTOR(object);
 }
 
 /**
@@ -854,7 +854,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate){
 	 */
 	if (Z_TYPE_P(column_map) != IS_ARRAY) { 
 		if (PHALCON_IS_LONG(hydration_mode, 1)) {
-			RETURN_CCTOR(data);
+			RETURN_CTOR(data);
 		}
 	}
 	
@@ -908,7 +908,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	RETURN_CCTOR(hydrate);
+	RETURN_CTOR(hydrate);
 }
 
 /**
@@ -984,7 +984,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 		phalcon_call_method_noret(object, "afterfetch");
 	}
 	
-	RETURN_CCTOR(object);
+	RETURN_CTOR(object);
 }
 
 /**
@@ -1098,7 +1098,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 		}
 	}
 	
-	RETURN_CCTOR(resultset);
+	RETURN_CTOR(resultset);
 }
 
 /**
@@ -1587,7 +1587,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	 * Return the full resultset if the query is grouped
 	 */
 	if (phalcon_array_isset_string(params, SS("group"))) {
-		RETURN_CCTOR(resultset);
+		RETURN_CTOR(resultset);
 	}
 	
 	/** 
@@ -1602,7 +1602,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	PHALCON_OBS_VAR(value);
 	phalcon_read_property_zval(&value, first_row, alias, PH_NOISY_CC);
 	
-	RETURN_CCTOR(value);
+	RETURN_CTOR(value);
 }
 
 /**
@@ -3066,7 +3066,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave){
 		ZVAL_STRING(event_name, "afterSave", 1);
 		phalcon_call_method_p1_noret(this_ptr, "fireevent", event_name);
 	
-		RETURN_CCTOR(success);
+		RETURN_CTOR(success);
 	}
 	
 	PHALCON_INIT_NVAR(event_name);
@@ -3323,7 +3323,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 		phalcon_update_property_null(this_ptr, SL("_uniqueParams") TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(success);
+	RETURN_CTOR(success);
 }
 
 /**
@@ -4202,7 +4202,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		}
 	}
 	
-	RETURN_CCTOR(new_success);
+	RETURN_CTOR(new_success);
 }
 
 /**
@@ -4776,7 +4776,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	 */
 	phalcon_update_property_long(this_ptr, SL("_dirtyState"), 2 TSRMLS_CC);
 	
-	RETURN_CCTOR(success);
+	RETURN_CTOR(success);
 }
 
 /**
@@ -4961,7 +4961,7 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute){
 	if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		PHALCON_OBS_VAR(attribute_value);
 		phalcon_read_property_zval(&attribute_value, this_ptr, attribute, PH_NOISY_CC);
-		RETURN_CCTOR(attribute_value);
+		RETURN_CTOR(attribute_value);
 	}
 	RETURN_MM_NULL();
 }
@@ -6016,7 +6016,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	PHALCON_INIT_VAR(records);
 	phalcon_call_method_p3(records, this_ptr, "_getrelatedrecords", model_name, method, arguments);
 	if (Z_TYPE_P(records) != IS_NULL) {
-		RETURN_CCTOR(records);
+		RETURN_CTOR(records);
 	}
 	
 	PHALCON_OBS_VAR(models_manager);
@@ -6028,7 +6028,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	PHALCON_INIT_VAR(status);
 	phalcon_call_method_p3(status, models_manager, "missingmethod", this_ptr, method, arguments);
 	if (Z_TYPE_P(status) != IS_NULL) {
-		RETURN_CCTOR(status);
+		RETURN_CTOR(status);
 	}
 	
 	/** 
@@ -6226,7 +6226,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 			phalcon_update_property_zval_zval(this_ptr, lower_property, value TSRMLS_CC);
 			phalcon_update_property_array(this_ptr, SL("_related"), lower_property, value TSRMLS_CC);
 			phalcon_update_property_long(this_ptr, SL("_dirtyState"), 1 TSRMLS_CC);
-			RETURN_CCTOR(value);
+			RETURN_CTOR(value);
 		}
 	}
 	
@@ -6238,7 +6238,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 		phalcon_fast_strtolower(lower_property, property);
 		phalcon_update_property_array(this_ptr, SL("_related"), lower_property, value TSRMLS_CC);
 		phalcon_update_property_long(this_ptr, SL("_dirtyState"), 1 TSRMLS_CC);
-		RETURN_CCTOR(value);
+		RETURN_CTOR(value);
 	}
 	
 	/** 
@@ -6246,7 +6246,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	 */
 	phalcon_update_property_zval_zval(this_ptr, property, value TSRMLS_CC);
 	
-	RETURN_CCTOR(value);
+	RETURN_CTOR(value);
 }
 
 /**
@@ -6319,7 +6319,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 			}
 		}
 	
-		RETURN_CCTOR(result);
+		RETURN_CTOR(result);
 	}
 	
 	/** 

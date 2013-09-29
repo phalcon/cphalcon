@@ -87,19 +87,14 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
 
 	zval *name, *headers, *header_value;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &name);
+	phalcon_fetch_params(0, 1, 0, &name);
 	
-	PHALCON_OBS_VAR(headers);
-	phalcon_read_property_this(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if (phalcon_array_isset(headers, name)) {
-		PHALCON_OBS_VAR(header_value);
-		phalcon_array_fetch(&header_value, headers, name, PH_NOISY);
-		RETURN_CCTOR(header_value);
+	headers = phalcon_fetch_nproperty_this(this_ptr, SL("_headers"), PH_NOISY_CC);
+	if (phalcon_array_isset_fetch(&header_value, headers, name)) {
+		RETURN_ZVAL(header_value, 1, 0);
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -109,16 +104,11 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
 
-	zval *header, *zval_null;
+	zval *header;
 
-	PHALCON_MM_GROW();
-
-	phalcon_fetch_params(1, 1, 0, &header);
+	phalcon_fetch_params(0, 1, 0, &header);
 	
-	PHALCON_INIT_VAR(zval_null);
-	phalcon_update_property_array(this_ptr, SL("_headers"), header, zval_null TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
+	phalcon_update_property_array(this_ptr, SL("_headers"), header, PHALCON_GLOBAL(z_null) TSRMLS_CC);
 }
 
 /**

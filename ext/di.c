@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_DI, setRaw){
 	
 	phalcon_update_property_array(this_ptr, SL("_services"), name, raw_definition TSRMLS_CC);
 	
-	RETURN_CCTORW(raw_definition);
+	RETURN_CTORW(raw_definition);
 }
 
 /**

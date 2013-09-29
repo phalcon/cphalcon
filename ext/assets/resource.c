@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Assets_Resource, getTargetPath){
 PHP_METHOD(Phalcon_Assets_Resource, getContent){
 
 	zval *base_path = NULL, *source_path = NULL, *complete_path;
-	zval *local, *exception_message = NULL, *content;
+	zval *local, *exception_message = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -381,16 +381,15 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent){
 	/** 
 	 * Use file_get_contents to respect the openbase_dir. Access urls must be enabled
 	 */
-	PHALCON_INIT_VAR(content);
-	phalcon_file_get_contents(content, complete_path TSRMLS_CC);
-	if (PHALCON_IS_FALSE(content)) {
+	phalcon_file_get_contents(return_value, complete_path TSRMLS_CC);
+	if (PHALCON_IS_FALSE(return_value)) {
 		PHALCON_INIT_NVAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Resource's content for \"", complete_path, "\" cannot be read");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_assets_exception_ce, exception_message);
 		return;
 	}
 	
-	RETURN_CCTOR(content);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -400,18 +399,14 @@ PHP_METHOD(Phalcon_Assets_Resource, getContent){
  */
 PHP_METHOD(Phalcon_Assets_Resource, getRealTargetUri){
 
-	zval *target_uri = NULL;
+	zval *target_uri;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(target_uri);
-	phalcon_read_property_this(&target_uri, this_ptr, SL("_targetUri"), PH_NOISY_CC);
+	target_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_targetUri"), PH_NOISY_CC);
 	if (PHALCON_IS_EMPTY(target_uri)) {
-		PHALCON_OBS_NVAR(target_uri);
-		phalcon_read_property_this(&target_uri, this_ptr, SL("_path"), PH_NOISY_CC);
+		target_uri = phalcon_fetch_nproperty_this(this_ptr, SL("_path"), PH_NOISY_CC);
 	}
 	
-	RETURN_CCTOR(target_uri);
+	RETURN_ZVAL(target_uri, 1, 0);
 }
 
 /**

@@ -177,7 +177,6 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption){
 		default_value = PHALCON_GLOBAL(z_null);
 	}
 	
-	PHALCON_OBS_VAR(options);
 	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 	if (phalcon_array_isset_fetch(&value, options, option)) {
 		RETURN_ZVAL(value, 1, 0);
@@ -435,7 +434,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid){
 		PHALCON_INIT_VAR(status);
 		phalcon_call_method_p2(status, this_ptr, "beforevalidation", data, entity);
 		if (PHALCON_IS_FALSE(status)) {
-			RETURN_CCTOR(status);
+			RETURN_CTOR(status);
 		}
 	}
 	
@@ -574,7 +573,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages){
 			RETURN_MM();
 		}
 	
-		RETURN_CCTOR(messages);
+		RETURN_CTOR(messages);
 	}
 	
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
@@ -610,7 +609,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor){
 	
 	messages = phalcon_fetch_nproperty_this(this_ptr, SL("_messages"), PH_NOISY_CC);
 	if (phalcon_array_isset_fetch(&element_messages, messages, name)) {
-		RETURN_CCTOR(element_messages);
+		RETURN_CTOR(element_messages);
 	}
 	
 	object_init_ex(return_value, phalcon_validation_message_group_ce);
@@ -801,10 +800,10 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel){
 	 * Use the element's name as label if the label is not available
 	 */
 	if (!zend_is_true(label)) {
-		RETURN_CCTOR(name);
+		RETURN_CTOR(name);
 	}
 	
-	RETURN_CCTOR(label);
+	RETURN_CTOR(label);
 }
 
 /**
@@ -839,7 +838,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
 		if (phalcon_isset_property_zval(entity, name TSRMLS_CC)) {
 			PHALCON_OBS_VAR(value);
 			phalcon_read_property_zval(&value, entity, name, PH_NOISY_CC);
-			RETURN_CCTOR(value);
+			RETURN_CTOR(value);
 		}
 	}
 	
@@ -850,7 +849,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue){
 		 * Check if the data is in the data array
 		 */
 		if (phalcon_array_isset_fetch(&value, data, name)) {
-			RETURN_CCTOR(value);
+			RETURN_CTOR(value);
 		}
 	}
 	
@@ -1003,7 +1002,7 @@ PHP_METHOD(Phalcon_Forms_Form, current){
 	position = phalcon_fetch_nproperty_this(this_ptr, SL("_position"), PH_NOISY_CC);
 	elements = phalcon_fetch_nproperty_this(this_ptr, SL("_elementsIndexed"), PH_NOISY_CC);
 	if (phalcon_array_isset_fetch(&element, elements, position)) {
-		RETURN_CCTORW(element);
+		RETURN_CTORW(element);
 	}
 	
 	RETURN_NULL();

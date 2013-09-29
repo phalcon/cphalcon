@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
 		RETURN_MM();
 	}
 	
-	RETURN_CCTOR(identifier);
+	RETURN_CTOR(identifier);
 }
 
 /**

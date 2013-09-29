@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
 	PHALCON_INIT_VAR(lowercased_key);
 	phalcon_fast_strtolower(lowercased_key, key);
 	if (phalcon_array_isset_fetch(&annotations, data, lowercased_key)) {
-		RETURN_CCTOR(annotations);
+		RETURN_CTOR(annotations);
 	}
 	
 	RETURN_MM_NULL();

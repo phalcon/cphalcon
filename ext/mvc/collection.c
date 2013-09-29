@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource){
 		phalcon_update_property_this(this_ptr, SL("_source"), source TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(source);
+	RETURN_CTOR(source);
 }
 
 /**
@@ -431,7 +431,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnection){
 		phalcon_update_property_this(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(connection);
+	RETURN_CTOR(connection);
 }
 
 /**
@@ -455,7 +455,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute){
 	if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
 		PHALCON_OBS_VAR(attribute_value);
 		phalcon_read_property_zval(&attribute_value, this_ptr, attribute, PH_NOISY_CC);
-		RETURN_CCTOR(attribute_value);
+		RETURN_CTOR(attribute_value);
 	}
 	RETURN_MM_NULL();
 }
@@ -525,7 +525,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	RETURN_CCTOR(cloned_collection);
+	RETURN_CTOR(cloned_collection);
 }
 
 /**
@@ -936,7 +936,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave){
 			phalcon_call_method_p1_noret(this_ptr, "fireevent", event_name);
 		}
 	
-		RETURN_CCTOR(success);
+		RETURN_CTOR(success);
 	}
 	if (!zend_is_true(disable_events)) {
 		PHALCON_INIT_NVAR(event_name);
@@ -1288,7 +1288,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, appendMessage){
 }
 
 /**
- * Creates/Updates a collection based on the values in the atributes
+ * Creates/Updates a collection based on the values in the attributes
  *
  * @return boolean
  */
@@ -1300,12 +1300,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	zval *success = NULL, *options;
 	HashPosition hp0;
 	zval **hd;
-	zval *dependency_injector, *ok, *id, *tmp;
+	zval *dependency_injector, *ok, *id;
 	zval *params[2];
 	zval func;
 
 	dependency_injector = phalcon_fetch_property_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (!dependency_injector || Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
@@ -1360,7 +1360,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_INIT_VAR(properties);
 	phalcon_call_func_p1(properties, "get_object_vars", this_ptr);
 
-	ALLOC_INIT_ZVAL(data);
+	MAKE_STD_ZVAL(data);
 	if (Z_TYPE_P(properties) == IS_ARRAY) {
 		array_init_size(data, zend_hash_num_elements(Z_ARRVAL_P(properties)));
 
@@ -1396,12 +1396,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	/**
 	 * We always use safe stores to get the success state
 	 */
-	ALLOC_INIT_ZVAL(options);
+	MAKE_STD_ZVAL(options);
 	array_init_size(options, 1);
 
-	ALLOC_INIT_ZVAL(tmp);
-	ZVAL_LONG(tmp, 1);
-	add_assoc_zval_ex(options, SS("w"), tmp);
+	add_assoc_long_ex(options, SS("w"), 1);
 
 	params[0] = data;
 	params[1] = options;
@@ -1821,13 +1819,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory){
 			if (phalcon_array_isset_string(first_retval, SS("summatory"))) {
 				PHALCON_OBS_VAR(summatory);
 				phalcon_array_fetch_string(&summatory, first_retval, SL("summatory"), PH_NOISY);
-				RETURN_CCTOR(summatory);
+				RETURN_CTOR(summatory);
 			}
 	
-			RETURN_CCTOR(first_retval);
+			RETURN_CTOR(first_retval);
 		}
 	
-		RETURN_CCTOR(retval);
+		RETURN_CTOR(retval);
 	}
 	
 	PHALCON_MM_RESTORE();

@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy){
 		phalcon_update_property_this(this_ptr, SL("_strategy"), strategy TSRMLS_CC);
 	}
 	
-	RETURN_CCTOR(strategy);
+	RETURN_CTOR(strategy);
 }
 
 /**
@@ -367,7 +367,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
 	PHALCON_OBS_VAR(data);
 	phalcon_array_fetch(&data, meta_data, key, PH_NOISY);
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -429,7 +429,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 	PHALCON_OBS_VAR(attributes);
 	phalcon_array_fetch(&attributes, meta_data_index, index, PH_NOISY);
 	
-	RETURN_CCTOR(attributes);
+	RETURN_CTOR(attributes);
 }
 
 /**
@@ -562,7 +562,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
 	PHALCON_OBS_VAR(data);
 	phalcon_array_fetch(&data, column_map, key_name, PH_NOISY);
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -612,7 +612,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 	PHALCON_OBS_VAR(attributes);
 	phalcon_array_fetch(&attributes, column_map_model, index, PH_NOISY);
 	
-	RETURN_CCTOR(attributes);
+	RETURN_CTOR(attributes);
 }
 
 /**
@@ -643,7 +643,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes){
 		return;
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -674,7 +674,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes){
 		return;
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -705,7 +705,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes){
 		return;
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes){
 		return;
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -767,7 +767,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes){
 		return;
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -798,7 +798,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric){
 		return;
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -824,7 +824,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField){
 	
 	PHALCON_INIT_VAR(data);
 	phalcon_call_method_p2(data, this_ptr, "readmetadataindex", model, index);
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -855,7 +855,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes){
 		return;
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -886,7 +886,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes){
 		return;
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -917,7 +917,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes){
 		return;
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -1000,7 +1000,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap){
 		}
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**
@@ -1033,7 +1033,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap){
 		}
 	}
 	
-	RETURN_CCTOR(data);
+	RETURN_CTOR(data);
 }
 
 /**

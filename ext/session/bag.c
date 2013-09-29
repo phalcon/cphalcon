@@ -296,11 +296,11 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch(&value, data, property, PH_NOISY);
 		if (PHALCON_IS_NOT_EMPTY(value)) {
-			RETURN_CCTOR(value);
+			RETURN_CTOR(value);
 		}
 	}
 	
-	RETURN_CCTOR(default_value);
+	RETURN_CTOR(default_value);
 }
 
 /**

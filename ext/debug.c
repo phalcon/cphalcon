@@ -280,14 +280,14 @@ PHP_METHOD(Phalcon_Debug, _escapeString){
 		INIT_ZVAL(escaped_line_break);
 		ZVAL_STRING(&escaped_line_break, "\\n", 0);
 
-		PHALCON_MM_GROW();
-		PHALCON_INIT_VAR(replaced_value);
+		ALLOC_INIT_ZVAL(replaced_value);
 		phalcon_fast_str_replace(replaced_value, &line_break, &escaped_line_break, value);
 		phalcon_htmlentities(return_value, replaced_value, NULL, charset TSRMLS_CC);
-		RETURN_MM();
+		zval_ptr_dtor(&replaced_value);
+		return;
 	}
 	
-	RETURN_CCTORW(value);
+	RETURN_ZVAL(value, 1, 0);
 }
 
 /**
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Debug, _getVarDump){
 		 * Other scalar variables are just converted to strings
 		 */
 	
-		RETURN_CCTOR(variable);
+		RETURN_CTOR(variable);
 	}
 	
 	/** 

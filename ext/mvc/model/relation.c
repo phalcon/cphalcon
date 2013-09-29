@@ -206,22 +206,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey){
 
 	zval *options, *foreign_key;
 
-	PHALCON_MM_GROW();
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("foreignKey"))) {
-	
-			PHALCON_OBS_VAR(foreign_key);
-			phalcon_array_fetch_string(&foreign_key, options, SL("foreignKey"), PH_NOISY);
-			if (zend_is_true(foreign_key)) {
-				RETURN_CCTOR(foreign_key);
-			}
+	if (phalcon_array_isset_string_fetch(&foreign_key, options, SS("foreignKey"))) {
+		if (zend_is_true(foreign_key)) {
+			RETURN_ZVAL(foreign_key, 1, 0);
 		}
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -233,19 +226,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough){
 
 	zval *type;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(type);
-	phalcon_read_property_this(&type, this_ptr, SL("_type"), PH_NOISY_CC);
-	if (PHALCON_IS_LONG(type, 3)) {
-		RETURN_MM_TRUE;
-	} else {
-		if (PHALCON_IS_LONG(type, 4)) {
-			RETURN_MM_TRUE;
-		}
+	type = phalcon_fetch_nproperty_this(this_ptr, SL("_type"), PH_NOISY_CC);
+	if (PHALCON_IS_LONG(type, 3) || PHALCON_IS_LONG(type, 4)) {
+		RETURN_TRUE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
@@ -257,19 +243,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable){
 
 	zval *options, *reusable;
 
-	PHALCON_MM_GROW();
+	options = phalcon_fetch_nproperty_this(this_ptr, SL("_options"), PH_NOISY_CC);
 
-	PHALCON_OBS_VAR(options);
-	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		if (phalcon_array_isset_string(options, SS("reusable"))) {
-			PHALCON_OBS_VAR(reusable);
-			phalcon_array_fetch_string(&reusable, options, SL("reusable"), PH_NOISY);
-			RETURN_CCTOR(reusable);
-		}
+	if (phalcon_array_isset_string_fetch(&reusable, options, SS("reusable"))) {
+		RETURN_ZVAL(reusable, 1, 0);
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_FALSE;
 }
 
 /**
