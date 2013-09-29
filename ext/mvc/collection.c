@@ -1288,7 +1288,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, appendMessage){
 }
 
 /**
- * Creates/Updates a collection based on the values in the atributes
+ * Creates/Updates a collection based on the values in the attributes
  *
  * @return boolean
  */
@@ -1300,12 +1300,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	zval *success = NULL, *options;
 	HashPosition hp0;
 	zval **hd;
-	zval *dependency_injector, *ok, *id, *tmp;
+	zval *dependency_injector, *ok, *id;
 	zval *params[2];
 	zval func;
 
 	dependency_injector = phalcon_fetch_property_this(this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (!dependency_injector || Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
@@ -1360,7 +1360,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_INIT_VAR(properties);
 	phalcon_call_func_p1(properties, "get_object_vars", this_ptr);
 
-	ALLOC_INIT_ZVAL(data);
+	MAKE_STD_ZVAL(data);
 	if (Z_TYPE_P(properties) == IS_ARRAY) {
 		array_init_size(data, zend_hash_num_elements(Z_ARRVAL_P(properties)));
 
@@ -1396,12 +1396,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	/**
 	 * We always use safe stores to get the success state
 	 */
-	ALLOC_INIT_ZVAL(options);
+	MAKE_STD_ZVAL(options);
 	array_init_size(options, 1);
 
-	ALLOC_INIT_ZVAL(tmp);
-	ZVAL_LONG(tmp, 1);
-	add_assoc_zval_ex(options, SS("w"), tmp);
+	add_assoc_long_ex(options, SS("w"), 1);
 
 	params[0] = data;
 	params[1] = options;

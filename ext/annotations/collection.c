@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct){
 			object_init_ex(annotation, phalcon_annotations_annotation_ce);
 			phalcon_call_method_p1_noret(annotation, "__construct", annotation_data);
 	
-			phalcon_array_append(&annotations, annotation, PH_SEPARATE);
+			phalcon_array_append(&annotations, annotation, 0);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
