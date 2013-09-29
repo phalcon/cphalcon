@@ -464,7 +464,7 @@ PHP_METHOD(Phalcon_Utils_Scws, get_result){
 		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
 		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
-		phalcon_array_append(&return_value, row, 0)
+		phalcon_array_append(&return_value, row, 0);
 		
 		cur = cur->next;
 	}
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Utils_Scws, get_tops){
 		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
 		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
-		phalcon_array_append(&return_value, row, 0)
+		phalcon_array_append(&return_value, row, 0);
 		
 		cur = cur->next;
 	}
@@ -605,7 +605,7 @@ PHP_METHOD(Phalcon_Utils_Scws, get_words){
 		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
 		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
-		phalcon_array_append(&return_value, row, 0)
+		phalcon_array_append(&return_value, row, 0);
 
 		cur = cur->next;
 	}
