@@ -597,8 +597,9 @@ PHP_METHOD(Phalcon_Utils_Scws, get_words){
 		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
 		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
+		phalcon_array_append(&return_value, row, 0)
+
 		cur = cur->next;
-		add_next_index_zval(return_value, row);
 	}
 	scws_free_tops(top);
 }
