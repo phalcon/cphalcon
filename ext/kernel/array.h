@@ -56,6 +56,7 @@ int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint 
 int phalcon_array_update_string(zval **arr, const char *index, uint index_length, zval **value, int flags);
 int phalcon_array_update_string_bool(zval **arr, const char *index, uint index_length, int value, int flags);
 int phalcon_array_update_string_long(zval **arr, const char *index, uint index_length, long value, int flags);
+int phalcon_array_update_string_double(zval **arr, const char *index, uint index_length, double value, int flags);
 int phalcon_array_update_string_string(zval **arr, const char *index, uint index_length, char *value, uint value_length, int flags);
 
 int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int flags);

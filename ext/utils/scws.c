@@ -44,6 +44,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
 
 #include "utils/scws.h"
 #include "utils/exception.h"
@@ -68,7 +69,11 @@ static ZEND_RSRC_DTOR_FUNC(php_scws_dtor)
 		struct php_scws *ps = (struct php_scws *) rsrc->ptr;
 
 		scws_free(ps->s);
-		//DELREF_SCWS(ps->zt);
+		
+		if (ps->zt != NULL) {
+			zval_ptr_dtor(ps->zt);
+			ps->zt = NULL;
+		}
 		efree(ps);
 		rsrc->ptr = NULL;
 	}
@@ -97,7 +102,6 @@ PHALCON_INIT_CLASS(Phalcon_Utils_Scws){
 static void *phalcon_php_create_scws(zval *return_value, char* charset TSRMLS_DC)
 {
 	struct php_scws *ps;
-	char *ini_cs;
 	scws_t s;
 
 	s = scws_new();
@@ -168,7 +172,6 @@ PHP_METHOD(Phalcon_Utils_Scws, set_charset){
 	
 	zval *charset, *scws;
 	struct php_scws *ps;
-	int cs_len;
 
 	PHALCON_MM_GROW();
 
@@ -412,7 +415,7 @@ PHP_METHOD(Phalcon_Utils_Scws, send_text){
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(0, 1, 0, &text);
+	phalcon_fetch_params(1, 1, 0, &text);
 
 	if (Z_TYPE_P(text) != IS_STRING) {
 		PHALCON_SEPARATE_PARAM(text);
@@ -437,9 +440,11 @@ PHP_METHOD(Phalcon_Utils_Scws, send_text){
  */
 PHP_METHOD(Phalcon_Utils_Scws, get_result){
 	
-	zval *row, *scws;
+	zval *row = NULL, *scws;
 	struct php_scws *ps;
 	scws_res_t res, cur;
+
+	PHALCON_MM_GROW();
 
 	scws  = phalcon_fetch_nproperty_this(this_ptr, SL("_scws"), PH_NOISY_CC);
 
@@ -451,7 +456,7 @@ PHP_METHOD(Phalcon_Utils_Scws, get_result){
 	
 	array_init(return_value);
 	while (cur != NULL) {
-		MAKE_STD_ZVAL(row);
+		PHALCON_INIT_NVAR(row);
 		array_init(row);
 		add_assoc_stringl(row, "word", ps->s->txt + cur->off, cur->len, 1);
 		add_assoc_long(row, "off", cur->off);
@@ -463,6 +468,8 @@ PHP_METHOD(Phalcon_Utils_Scws, get_result){
 		add_next_index_zval(return_value, row);
 	}
 	scws_free_result(res);
+
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -563,7 +570,6 @@ PHP_METHOD(Phalcon_Utils_Scws, get_words){
 	zval *options, *scws, *row;
 	struct php_scws *ps;
 	scws_top_t top, cur;
-	long num = 10;
 	char *attr = NULL;
 
 	phalcon_fetch_params(0, 1, 0, &options);
@@ -585,10 +591,11 @@ PHP_METHOD(Phalcon_Utils_Scws, get_words){
 	{
 		MAKE_STD_ZVAL(row);
 		array_init(row);
-		add_assoc_string(row, "word", cur->word, 1);
-		add_assoc_long(row, "times", cur->times);
-		add_assoc_double(row, "weight", (double) cur->weight);
-		add_assoc_stringl(row, "attr", cur->attr, (cur->attr[1] == '\0' ? 1 : 2), 1);
+
+		phalcon_array_update_string_string(&row, SL("word"), SL(cur->word), PH_COPY);
+		phalcon_array_update_string_long(&row, SL("times"), cur->times, 0);
+		phalcon_array_update_string_double(&row, SL("weight"), (double) cur->weight, 0);
+		phalcon_array_update_string_string(&row, SL("attr"), SL(cur->attr), PH_COPY);
 
 		cur = cur->next;
 		add_next_index_zval(return_value, row);

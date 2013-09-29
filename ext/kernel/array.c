@@ -672,6 +672,16 @@ int phalcon_array_update_string_long(zval **arr, const char *index, uint index_l
 	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags);
 }
 
+int phalcon_array_update_string_double(zval **arr, const char *index, uint index_length, double value, int flags){
+
+	zval *zvalue;
+
+	ALLOC_INIT_ZVAL(zvalue);
+	ZVAL_DOUBLE(zvalue, value);
+
+	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags);
+}
+
 /**
  * @brief Updates value in @a arr at position @a index with string @a value
  * @param[in,out] arr Array
