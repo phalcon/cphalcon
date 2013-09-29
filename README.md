@@ -31,7 +31,14 @@ We need some packages previously installed.
 Ubuntu:
 
 ```bash
-sudo apt-get install php5-dev php5-mysql gcc make
+sudo apt-get install build-essential php5-dev autoconf automake libpcre3-dev
+```
+
+or
+
+```bash
+sudo apt-get install build-essential php5-dev
+sudo apt-get build-dep php5-dev
 ```
 
 Suse:
