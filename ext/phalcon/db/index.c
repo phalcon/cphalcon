@@ -137,10 +137,8 @@ PHP_METHOD(Phalcon_Db_Index, __set_state) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_db_index_ce);
-	ZEPHIR_OBS_VAR(_0);
-	zephir_array_fetch_string(&_0, data, SL("_indexName"), PH_NOISY TSRMLS_CC);
-	ZEPHIR_OBS_VAR(_1);
-	zephir_array_fetch_string(&_1, data, SL("_columns"), PH_NOISY TSRMLS_CC);
+	zephir_array_fetch_string(&_0, data, SL("_indexName"), PH_NOISY | PH_READONLY TSRMLS_CC);
+	zephir_array_fetch_string(&_1, data, SL("_columns"), PH_NOISY | PH_READONLY TSRMLS_CC);
 	zephir_call_method_p2_noret(return_value, "__construct", _0, _1);
 	RETURN_MM();
 

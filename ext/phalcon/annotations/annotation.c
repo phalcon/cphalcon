@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *reflectionData, *name = NULL, *exprArguments, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3, *_4 = NULL;
+	zval *reflectionData, *name = NULL, *exprArguments, *argument = NULL, *resolvedArgument = NULL, *arguments = NULL, *_0, **_3, *_4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &reflectionData);
@@ -99,8 +99,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 			; zend_hash_move_forward_ex(_2, &_1)
 		) {
 			ZEPHIR_GET_HVALUE(argument, _3);
-			ZEPHIR_OBS_NVAR(_4);
-			zephir_array_fetch_string(&_4, argument, SL("expr"), PH_NOISY TSRMLS_CC);
+			zephir_array_fetch_string(&_4, argument, SL("expr"), PH_NOISY | PH_READONLY TSRMLS_CC);
 			ZEPHIR_INIT_NVAR(resolvedArgument);
 			zephir_call_method_p1_cache(resolvedArgument, this_ptr, "getexpression", &_5, _4);
 			ZEPHIR_OBS_NVAR(name);
@@ -141,7 +140,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 	zend_function *_5 = NULL;
 	HashTable *_2;
 	HashPosition _1;
-	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type, *_0, **_3, *_4 = NULL, *_6, *_7, *_8;
+	zval *expr, *value = NULL, *item = NULL, *resolvedItem = NULL, *arrayValue = NULL, *name = NULL, *type, *_0, **_3, *_4, *_6, *_7, *_8;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr);
@@ -183,8 +182,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 				; zend_hash_move_forward_ex(_2, &_1)
 			) {
 				ZEPHIR_GET_HVALUE(item, _3);
-				ZEPHIR_OBS_NVAR(_4);
-				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY TSRMLS_CC);
+				zephir_array_fetch_string(&_4, item, SL("expr"), PH_NOISY | PH_READONLY TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(resolvedItem);
 				zephir_call_method_p1_cache(resolvedItem, this_ptr, "getexpression", &_5, _4);
 				ZEPHIR_OBS_NVAR(name);
