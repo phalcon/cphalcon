@@ -3209,4 +3209,1241 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		return this->_operationMade;
 	}
 
+	/**
+	 * Refreshes the model attributes re-querying the record from the database
+	 */
+	public function refresh()
+	{
+		var metaData, readConnection, schema, source, table,
+			uniqueKey, uniqueParams, dialect, row, fields, attribute;
+
+		if this->_dirtyState != 0 {
+			throw new Phalcon\Mvc\Model\Exception("The record cannot be refreshed because it does not exist or is deleted");
+		}
+
+		let metaData = this->getModelsMetaData(),
+			readConnection = this->getReadConnection();
+
+		let schema = this->getSchema(),
+			source = this->getSource();
+
+		if schema {
+			let table = [schema, source];
+		} else {
+			let table = source;
+		}
+
+		let uniqueKey = this->_uniqueKey;
+		if !uniqueKey {
+
+			/**
+			 * We need to check if the record exists
+			 */
+			if this->_exists(metaData, readConnection, table) {
+				throw new Phalcon\Mvc\Model\Exception("The record cannot be refreshed because it does not exist or is deleted");
+			}
+
+			let uniqueKey = this->_uniqueKey;
+		}
+
+		let uniqueParams = this->_uniqueParams;
+		if typeof uniqueParams != "array" {
+			throw new Phalcon\Mvc\Model\Exception("The record cannot be refreshed because it does not exist or is deleted");
+		}
+
+		/**
+		 * We only refresh the attributes in the model's metadata
+		 */
+		let fields = [];
+		for attribute in metaData->getAttributes(this) {
+			let fields[] = [attribute];
+		}
+
+		/**
+		 * We directly build the SELECT to save resources
+		 */
+		let dialect = readConnection->getDialect(),
+			row = readConnection->fetchOne(dialect->select([
+				"columns": fields,
+				"tables": readConnection->escapeIdentifier(table),
+				"where": uniqueKey
+			]), Phalcon\Db::FETCH_ASSOC, uniqueParams, this->_uniqueTypes);
+
+		/**
+		 * Get a column map if any
+		 * Assign the resulting array to the this object
+		 */
+		if typeof row == "array" {
+			this->assign(row, metaData->getColumnMap(this));
+		}
+	}
+
+	/**
+	 * Skips the current operation forcing a success state
+	 *
+	 * @param boolean $skip
+	 */
+	public function skipOperation(boolean skip)
+	{
+		let this->_skipped = skip;
+	}
+
+	/**
+	 * Reads an attribute value by its name
+	 *
+	 * <code>
+	 * echo $robot->readAttribute('name');
+	 * </code>
+	 *
+	 * @param string attribute
+	 * @return mixed
+	 */
+	public function readAttribute(string attribute)
+	{
+		if isset this->attribute {
+			return this->{attribute};
+		}
+		return null;
+	}
+
+	/**
+	 * Writes an attribute value by its name
+	 *
+	 * <code>
+	 * 	$robot->writeAttribute('name', 'Rosey');
+	 * </code>
+	 *
+	 * @param string $attribute
+	 * @param mixed $value
+	 */
+	public function writeAttribute(string attribute, value)
+	{
+		let this->{attribute} = value;
+	}
+
+	/**
+	 * Sets a list of attributes that must be skipped from the
+	 * generated INSERT/UPDATE statement
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *       $this->skipAttributes(array('price'));
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param array $attributes
+	 */
+	protected function skipAttributes(attributes)
+	{
+		var keysAttributes, metaData, attribute;
+
+		if typeof attributes != "array" {
+			throw new Phalcon\Mvc\Model\Exception("Attributes must be an array");
+		}
+
+		let keysAttributes = [];
+		for attribute in attributes {
+			let keysAttributes[attribute] = null;
+		}
+
+		let metaData = this->getModelsMetaData();
+		metaData->setAutomaticCreateAttributes(this, keysAttributes);
+		metaData->setAutomaticUpdateAttributes(this, keysAttributes);
+	}
+
+	/**
+	 * Sets a list of attributes that must be skipped from the
+	 * generated INSERT statement
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *       $this->skipAttributesOnCreate(array('created_at'));
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param array attributes
+	 */
+	protected function skipAttributesOnCreate(attributes)
+	{
+		var keysAttributes, metaData, attribute;
+
+		if typeof attributes != "array" {
+			throw new Phalcon\Mvc\Model\Exception("Attributes must be an array");
+		}
+
+		let keysAttributes = [];
+		for attribute in attributes {
+			let keysAttributes[attribute] = null;
+		}
+
+		let metaData = this->getModelsMetaData();
+		metaData->setAutomaticCreateAttributes(this, keysAttributes);
+	}
+
+	/**
+	 * Sets a list of attributes that must be skipped from the
+	 * generated UPDATE statement
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *       $this->skipAttributesOnUpdate(array('modified_in'));
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param array attributes
+	 */
+	protected function skipAttributesOnUpdate(attributes)
+	{
+		var keysAttributes, metaData, attribute;
+
+		if typeof attributes != "array" {
+			throw new Phalcon\Mvc\Model\Exception("Attributes must be an array");
+		}
+
+		let keysAttributes = [];
+		for attribute in attributes {
+			let keysAttributes[attribute] = null;
+		}
+
+		let metaData = this->getModelsMetaData();
+		metaData->setAutomaticUpdateAttributes(this, keysAttributes);
+	}
+
+	/**
+	 * Setup a 1-1 relation between two models
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *       $this->hasOne('id', 'RobotsDescription', 'robots_id');
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param	mixed fields
+	 * @param	string referenceModel
+	 * @param	mixed referencedFields
+	 * @param   array options
+	 * @return  Phalcon\Mvc\Model\Relation
+	 */
+	protected function hasOne(fields, string referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
+	{
+		var manager;
+		let manager = this->_modelsManager;
+		return manager->addHasOne(this, fields, referenceModel, referencedFields, options);
+	}
+
+	/**
+	 * Setup a relation reverse 1-1  between two models
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *class RobotsParts extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *       $this->belongsTo('robots_id', 'Robots', 'id');
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param	mixed fields
+	 * @param	string referenceModel
+	 * @param	mixed referencedFields
+	 * @param   array options
+	 * @return  Phalcon\Mvc\Model\Relation
+	 */
+	protected function belongsTo(fields, referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
+	{
+		var manager;
+		let manager = this->_modelsManager;
+		return manager->addBelongsTo(this, fields, referenceModel, referencedFields, options);
+	}
+
+	/**
+	 * Setup a relation 1-n between two models
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *       $this->hasMany('id', 'RobotsParts', 'robots_id');
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param	mixed fields
+	 * @param	string referenceModel
+	 * @param	mixed referencedFields
+	 * @param   array options
+	 * @return  Phalcon\Mvc\Model\Relation
+	 */
+	protected function hasMany(fields, string referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
+	{
+		var manager;
+		let manager = this->_modelsManager;
+		return manager->addHasMany(this, fields, referenceModel, referencedFields, options);
+	}
+
+	/**
+	 * Setup a relation n-n between two models through an intermediate relation
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *       //Setup a many-to-many relation to Parts through RobotsParts
+	 *       $this->hasManyToMany(
+	 *			'id',
+	 *			'RobotsParts',
+	 *			'robots_id',
+	 *			'parts_id',
+	 *			'Parts',
+	 *			'id'
+	 *		);
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param	string|array fields
+	 * @param	string intermediateModel
+	 * @param	string|array intermediateFields
+	 * @param	string|array intermediateReferencedFields
+	 * @param	string referencedModel
+	 * @param   string|array referencedFields
+	 * @param   array options
+	 * @return  Phalcon\Mvc\Model\Relation
+	 */
+	protected function hasManyToMany(fields, string intermediateModel, intermediateFields, intermediateReferencedFields,
+		string referenceModel, referencedFields, options=null) -> <Phalcon\Mvc\Model\Relation>
+	{
+		var manager;
+		let manager = this->_modelsManager;
+		return manager->addHasManyToMany(
+			this,
+			fields,
+			intermediateModel,
+			intermediateFields,
+			intermediateReferencedFields,
+			referenceModel,
+			referencedFields,
+			options
+		);
+	}
+
+	/**
+	 * Setups a behavior in a model
+	 *
+	 *<code>
+	 *<?php
+	 *
+	 *use Phalcon\Mvc\Model\Behavior\Timestampable;
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *		$this->addBehavior(new Timestampable(array(
+	 *			'onCreate' => array(
+	 *				'field' => 'created_at',
+	 *				'format' => 'Y-m-d'
+	 *			)
+	 *		)));
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param Phalcon\Mvc\Model\BehaviorInterface behavior
+	 */
+	protected function addBehavior(<Phalcon\Mvc\Model\BehaviorInterface> behavior)
+	{
+		var manager;
+		let manager = this->_modelsManager;
+		manager->addBehavior(this, behavior);
+	}
+
+	/**
+	 * Sets if the model must keep the original record snapshot in memory
+     *
+	 *<code>
+	 *<?php
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *		$this->keepSnapshots(true);
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param boolean keepSnapshots
+	 */
+	protected function keepSnapshots(boolean keepSnapshot)
+	{
+		var manager;
+		let manager = this->_modelsManager;
+		manager->keepSnapshots(this, keepSnapshot);
+	}
+
+	/**
+	 * Sets the record's snapshot data.
+	 * This method is used internally to set snapshot data when the model was set up to keep snapshot data
+	 *
+	 * @param array data
+	 * @param array columnMap
+	 */
+	public function setSnapshotData(data, columnMap=null)
+	{
+		var key, value, snapshot, attribute;
+
+		if typeof data == "array" {
+			throw new Phalcon\Mvc\Model\Exception("The snapshot data must be an array");
+		}
+
+		/**
+		 * Build the snapshot based on a column map
+		 */
+		if typeof columnMap == "array" {
+
+			let snapshot = [];
+			for key, value in data {
+
+				/**
+				 * Use only strings
+				 */
+				if typeof key != "string" {
+					continue;
+				}
+
+				/**
+				 * Every field must be part of the column map
+				 */
+				if !fetch attribute, columnMap[key] {
+					throw new Phalcon\Mvc\Model\Exception("Column '" . key . "' doesn't make part of the column map");
+				}
+
+				let snapshot[attribute] = value;
+			}
+
+			let this->_snapshot = snapshot;
+			return null;
+		}
+
+		let this->_snapshot = data;
+	}
+
+	/**
+	 * Checks if the object has internal snapshot data
+	 *
+	 * @return boolean
+	 */
+	public function hasSnapshotData() -> boolean
+	{
+		var snapshot;
+		let snapshot = this->_snapshot;
+		if typeof snapshot == "array" {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Returns the internal snapshot data
+	 *
+	 * @return array
+	 */
+	public function getSnapshotData()
+	{
+		return this->_snapshot;
+	}
+
+	/**
+	 * Check if a specific attribute has changed
+	 * This only works if the model is keeping data snapshots
+	 *
+	 * @param string|array fieldName
+	 */
+	public function hasChanged(var fieldName=null) -> boolean
+	{
+		var snapshot, metaData, columnMap, allAttributes, value,
+			originalValue, name, type, attributes;
+
+		let snapshot = this->_snapshot;
+		if typeof snapshot != "array" {
+			throw new Phalcon\Mvc\Model\Exception("The record doesn't have a valid data snapshot");
+		}
+
+		/**
+		 * Dirty state must be DIRTY_PERSISTENT to make the checking
+		 */
+		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
+			throw new Phalcon\Mvc\Model\Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
+		}
+
+		/**
+		 * Return the models meta-data
+		 */
+		let metaData = this->getModelsMetaData();
+
+		/**
+		 * The reversed column map is an array if the model has a column map
+		 */
+		let columnMap = metaData->getReverseColumnMap(this);
+
+		/**
+		 * Data types are field indexed
+		 */
+		if typeof columnMap != "array" {
+			let allAttributes = metaData->getDataTypes(this);
+		} else {
+			let allAttributes = columnMap;
+		}
+
+		/**
+		 * If a field was specified we only check it
+		 */
+		if typeof fieldName == "array" {
+
+			/**
+			 * We only make this validation over valid fields
+			 */
+			if typeof columnMap == "array" {
+				if !isset columnMap[fieldName] {
+					throw new Phalcon\Mvc\Model\Exception("The field '" . fieldName . "' is not part of the model");
+				}
+			} else {
+				if !isset allAttributes[fieldName] {
+					throw new Phalcon\Mvc\Model\Exception("The field '" . fieldName . "' is not part of the model");
+				}
+			}
+
+			/**
+			 * The field is not part of the model, throw exception
+			 */
+			if !fetch value, this->{fieldName} {
+				throw new Phalcon\Mvc\Model\Exception("The field '" . fieldName . "' is not defined on the model");
+			}
+
+			/**
+			 * The field is not part of the data snapshot, throw exception
+			 */
+			if !fetch originalValue, snapshot[fieldName] {
+				throw new Phalcon\Mvc\Model\Exception("The field '" . fieldName . "' was not found in the snapshot");
+			}
+
+			/**
+			 * Check if the field has changed
+			 */
+			return value != originalValue;
+		}
+
+		/**
+		 * Check every attribute in the model
+		 */
+		for name, type in allAttributes {
+
+			/**
+			 * If some attribute is not present in the snapshot, we assume the record as changed
+			 */
+			if !fetch originalValue, snapshot[name] {
+				return true;
+			}
+
+			/**
+			 * If some attribute is not present in the model, we assume the record as changed
+			 */
+			if !fetch value, this->{name} {
+				return true;
+			}
+
+			/**
+			 * Check if the field has changed
+			 */
+			if value != originalValue {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns a list of changed values
+	 *
+	 * @return array
+	 */
+	public function getChangedFields()
+	{
+		var metaData, changed, name, type, snapshot,
+			columnMap, allAttributes, value;
+
+		let snapshot = this->_snapshot;
+		if typeof snapshot != "array" {
+			throw new Phalcon\Mvc\Model\Exception("The record doesn't have a valid data snapshot");
+		}
+
+		/**
+		 * Dirty state must be DIRTY_PERSISTENT to make the checking
+		 */
+		if this->_dirtyState != self::DIRTY_STATE_PERSISTENT {
+			throw new Phalcon\Mvc\Model\Exception("Change checking cannot be performed because the object has not been persisted or is deleted");
+		}
+
+		/**
+		 * Return the models meta-data
+		 */
+		let metaData = this->getModelsMetaData();
+
+		/**
+		 * The reversed column map is an array if the model has a column map
+		 */
+		let columnMap = metaData->getReverseColumnMap(this);
+
+		/**
+		 * Data types are field indexed
+		 */
+		if typeof columnMap != "array" {
+			let allAttributes = metaData->getDataTypes(this);
+		} else {
+			let allAttributes = columnMap;
+		}
+
+		/**
+		 * Check every attribute in the model
+		 */
+		let changed = [];
+		for name, type in allAttributes {
+
+			/**
+			 * If some attribute is not present in the snapshot, we assume the record as changed
+			 */
+			if !isset snapshot[name] {
+				let changed[] = name;
+				continue;
+			}
+
+			/**
+			 * If some attribute is not present in the model, we assume the record as changed
+			 */
+			if !fetch value, this->{name} {
+				let changed[] = name;
+				continue;
+			}
+
+			/**
+			 * Check if the field has changed
+			 */
+			if value != snapshot[name] {
+				let changed[] = name;
+				continue;
+			}
+
+		}
+
+		return changed;
+	}
+
+	/**
+	 * Sets if a model must use dynamic update instead of the all-field update
+     *
+	 *<code>
+	 *<?php
+	 *
+	 *class Robots extends \Phalcon\Mvc\Model
+	 *{
+	 *
+	 *   public function initialize()
+	 *   {
+	 *		$this->useDynamicUpdate(true);
+	 *   }
+	 *
+	 *}
+	 *</code>
+	 *
+	 * @param boolean dynamicUpdate
+	 */
+	protected function useDynamicUpdate(boolean dynamicUpdate)
+	{
+		var manager;
+		let manager = this->_modelsManager;
+		manager->useDynamicUpdate(this, dynamicUpdate);
+	}
+
+	/**
+	 * Returns related records based on defined relations
+	 *
+	 * @param string alias
+	 * @param array arguments
+	 * @return Phalcon\Mvc\Model\ResultsetInterface
+	 */
+	public function getRelated(string alias, arguments=null) -> <Phalcon\Mvc\Model\ResultsetInterface>
+	{
+		var manager, relation, className;
+
+		let manager = this->_modelsManager;
+
+		/**
+		 * Query the relation by alias
+		 */
+		let className = get_class(this),
+			relation = manager->getRelationByAlias(className, alias);
+		if typeof relation != "object" {
+			throw new Phalcon\Mvc\Model\Exception("There is no defined relations for the model '" . className . "' using alias '" . alias . "'");
+		}
+
+		/**
+		 * Call the 'getRelationRecords' in the models manager
+		 */
+		return call_user_func_array(
+			[manager, "getRelationRecords"],
+			[relation, null, this, arguments]
+		);
+	}
+
+	/**
+	 * Returns related records defined relations depending on the method name
+	 *
+	 * @param string modelName
+	 * @param string method
+	 * @param array arguments
+	 * @return mixed
+	 */
+	protected function _getRelatedRecords(string modelName, string method, arguments)
+	{
+		var manager, relation, queryMethod, extraArgs;
+
+		let manager = this->_modelsManager;
+
+		let relation = false,
+			queryMethod = null;
+
+		/**
+		 * Calling find/findFirst if the method starts with "get"
+		 */
+		if starts_with(method, "get") {
+			let relation = manager->getRelationByAlias(modelName, substr(method, 3));
+		}
+
+		/**
+		 * Calling count if the method starts with "count"
+		 */
+		if typeof relation != "object" {
+			if starts_with(method, "count") {
+				let queryMethod = "count",
+					relation = manager->getRelationByAlias("count", substr(method, 5));
+			}
+		}
+
+		/**
+		 * If the relation was found perform the query via the models manager
+		 */
+		if typeof relation == "object" {
+			fetch extraArgs, arguments[0];
+			return call_user_func_array(
+				[manager, "getRelationRecords"],
+				[relation, queryMethod, this, extraArgs]
+			);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Handles method calls when a method is not implemented
+	 *
+	 * @param	string method
+	 * @param	array arguments
+	 * @return	mixed
+	 */
+	public function __call(string method, arguments=null)
+	{
+		var modelName, modelsManager, status, records;
+
+		let modelName = get_class(this);
+
+		/**
+		 * Check if there is a default action using the magic getter
+		 */
+		let records = this->_getRelatedRecords(modelName, method, arguments);
+		if records!==null {
+			return records;
+		}
+
+		/**
+		 * Try to find a replacement for the missing method in a behavior/listener
+		 */
+		let modelsManager = this->_modelsManager,
+			status = modelsManager->missingMethod(this, method, arguments);
+		if status !== null {
+			return status;
+		}
+
+		/**
+		 * The method doesn't exist throw an exception
+		 */
+		throw new Phalcon\Mvc\Model\Exception("The method '" . method . "' doesn't exist on model '" . modelName . "'");
+	}
+
+	/**
+	 * Handles method calls when a static method is not implemented
+	 *
+	 * @param	string method
+	 * @param	array arguments
+	 * @return	mixed
+	 */
+	public static function __callStatic(string method, arguments=null)
+	{
+		var extraMethod, type, modelName, value, model,
+			attributes, field, extraMethodFirst, metaData;
+
+		let extraMethod = null;
+
+		/**
+		 * Check if the method starts with "findFirst"
+		 */
+		if start_with(method, "findFirstBy") {
+			let type = "findFirst",
+				extraMethod = substr(method, 11);
+		}
+
+		/**
+		 * Check if the method starts with "find"
+		 */
+		if extraMethod === null {
+			if starts_with(method, "findBy") {
+				let type = "find",
+					extraMethod = substr(method, 6);
+			}
+		}
+
+		/**
+		 * Check if the method starts with "count"
+		 */
+		if extraMethod === null {
+			if starts_with(method, "countBy") {
+				let type = "count",
+					extraMethod = substr(method, 7);
+			}
+		}
+
+		/**
+		 * The called class is the model
+		 */
+		let modelName = get_called_class();
+
+		if extraMethod {
+			throw new Phalcon\Mvc\Model\Exception("The static method '" . method . "' doesn't exist on model '" . modelName . "'");
+		}
+
+		if !fetch value, arguments[0] {
+			throw new Phalcon\Mvc\Model\Exception("The static method '" . method . "' requires one argument");
+		}
+
+		let model = new {modelName}(),
+			metaData = model->getModelsMetaData();
+
+		/**
+		 * Get the attributes
+		 */
+		let attributes = metaData->getReverseColumnMap(model);
+		if typeof attributes != "array" {
+			let attributes = metaData->getDataTypes(model);
+		}
+
+		/**
+		 * Check if the extra-method is an attribute
+		 */
+		if isset attributes[extraMethod] {
+			let field = extraMethod;
+		} else {
+
+			/**
+			 * Lowercase the first letter of the extra-method
+			 */
+			let extraMethodFirst = lcfirst(extraMethod);
+			if isset attributes[extraMethodFirst] {
+				let field = extraMethodFirst;
+			} else {
+
+				/**
+				 * Get the possible real method name
+				 */
+				let field = uncamelize(extraMethod);
+				if !isset attributes[field] {
+					throw new Phalcon\Mvc\Model\Exception("Cannot resolve attribute '" . extraMethod . "' in the model");
+				}
+			}
+		}
+
+		/**
+		 * Execute the query
+		 */
+		return {modelName}::{type}([
+			"conditions": field . " = ?0",
+			"bind"      : [value]
+		]);
+	}
+
+	/**
+	 * Magic method to assign values to the the model
+	 *
+	 * @param string property
+	 * @param mixed value
+	 */
+	public function __set(string property, value)
+	{
+		var lowerProperty;
+
+		/**
+		 * Values are probably relationships if they are objects
+		 */
+		if typeof value == "object" {
+			if value instanceof Phalcon\Mvc\ModelInterface {
+				let lowerProperty = strtolower(property),
+					this->{lowerProperty} = value,
+					this->_related[lowerProperty] = value,
+					this->_dirtyState = 1;
+				return value;
+			}
+		}
+
+		/**
+		 * Check if the value is an array
+		 */
+		if typeof value == "array" {
+			let lowerProperty = strtolower(property),
+				this->_related[lowerProperty] = value,
+				this->_dirtyState = 1;
+			return value;
+		}
+
+		/**
+		 * Fallback assigning the value to the instance
+		 */
+		let this->{property} = value;
+
+		return value;
+	}
+
+	/**
+	 * Magic method to get related records using the relation alias as a property
+	 *
+	 * @param string property
+	 * @return Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
+	 */
+	public function __get(string property)
+	{
+		var modelName, manager, lowerProperty, relation, result;
+
+		let modelName = get_class(this),
+			manager = this->getModelsManager(),
+			lowerProperty = strtolower(property);
+
+		/**
+		 * Check if the property is a relationship
+		 */
+		let relation = manager->getRelationByAlias(modelName, lowerProperty);
+		if typeof relation == "object" {
+
+			/**
+			 * Get the related records
+			 */
+			let result = call_user_func_array(
+				[manager, "getRelationRecords"],
+				[relation, null, this, null]
+			);
+
+			/**
+			 * Assign the result to the object
+			 */
+			if typeof result == "object" {
+
+				/**
+				 * We assign the result to the instance avoiding future queries
+				 */
+				let this->{lowerProperty} = result;
+
+				/**
+				 * For belongs-to relations we store the object in the related bag
+				 */
+				if result instanceof Phalcon\Mvc\ModelInterface {
+					let this->_related[lowerProperty] = result;
+				}
+			}
+
+			return result;
+		}
+
+		/**
+		 * A notice is shown if the property is not defined and it isn't a relationship
+		 */
+		trigger_error("Access to undefined property " . modelName . "::" . property);
+		return null;
+	}
+
+	/**
+	 * Magic method to check if a property is a valid relation
+	 *
+	 * @param string property
+	 */
+	public function __isset(string property)
+	{
+		var modelName, manager, relation;
+
+		let modelName = get_class(this),
+			manager = this->getModelsManager();
+
+		/**
+		 * Check if the property is a relationship
+		 */
+		let relation = manager->getRelationByAlias(modelName, property);
+		if typeof relation == "object" {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Serializes the object ignoring connections, services, related objects or static properties
+	 *
+	 * @return string
+	 */
+	public function serialize() -> string
+	{
+		var data, metaData, value, attribute;
+
+		let data = [],
+			metaData = this->getModelsMetaData();
+		for attribute in metaData->getAttributes(this) {
+			if fetch value, this->attribute {
+				let data[attribute] = value;
+			} else {
+				let data[attribute] = null;
+			}
+		}
+
+		/**
+		 * Use the standard serialize function to serialize the array data
+		 */
+		return serialize(data);
+	}
+
+	/**
+	 * Unserializes the object from a serialized string
+	 *
+	 * @param string data
+	 */
+	public function unserialize(var data)
+	{
+		var attributes, dependencyInjector, manager, key, value;
+
+		if typeof data == "string" {
+			let attributes = unserialize(data);
+			if typeof attributes == "array" {
+
+				/**
+				 * Obtain the default DI
+				 */
+				let dependencyInjector = Phalcon\Di::getDefault();
+				if typeof dependencyInjector != "object" {
+					throw new Phalcon\Mvc\Model\Exception("A dependency injector container is required to obtain the services related to the ORM");
+				}
+
+				/**
+				 * Update the dependency injector
+				 */
+				let this->_dependencyInjector = dependencyInjector;
+
+				/**
+				 * Gets the default modelsManager service
+				 */
+				let manager = dependencyInjector->getShared("modelsManager");
+				if typeof manager != "object" {
+					throw new Phalcon\Mvc\Model\Exception("The injected service 'modelsManager' is not valid");
+				}
+
+				/**
+				 * Update the models manager
+				 */
+				let this->_modelsManager = manager;
+
+				/**
+				 * Try to initialize the model
+				 */
+				manager->initialize(this);
+
+				/**
+				 * Update the objects attributes
+				 */
+				for key, value in attributes {
+					let this->{key} = value;
+				}
+
+				return null;
+			}
+		}
+		throw new Phalcon\Mvc\Model\Exception("Invalid serialization data");
+	}
+
+	/**
+	 * Returns a simple representation of the object that can be used with var_dump
+	 *
+	 *<code>
+	 * var_dump($robot->dump());
+	 *</code>
+	 *
+	 * @return array
+	 */
+	public function dump()
+	{
+		return get_object_vars(this);
+	}
+
+	/**
+	 * Returns the instance as an array representation
+	 *
+	 *<code>
+	 * print_r($robot->toArray());
+	 *</code>
+	 *
+	 * @return array
+	 */
+	public function toArray()
+	{
+		var data, metaData, columnMap, attribute,
+			attributeField, value;
+
+		let data = [],
+			metaData = this->getModelsMetaData(),
+			columnMap = metaData->getColumnMap(this);
+		for attribute in metaData->getAttributes(this) {
+
+			/**
+			 * Check if the columns must be renamed
+			 */
+			if typeof columnMap == "array" {
+				if !fetch attributeField, columnMap[attribute] {
+					throw new Phalcon\Mvc\Model\Exception("Column '" . attribute . "' doesn't make part of the column map");
+				}
+			} else {
+				let attributeField = attribute;
+			}
+
+			if fetch value, this->{attributeField} {
+				let data[attributeField] = value;
+			} else {
+				let data[attributeField] = null;
+			}
+		}
+
+		return data;
+	}
+
+	/**
+	 * Enables/disables options in the ORM
+	 *
+	 * @param array options
+	 */
+	public static function setup(var options)
+	{
+		var disableEvents, columnRenaming, notNullValidations,
+			exceptionOnFailedSave, phqlLiterals, virtualForeignKeys;
+
+		if typeof options != "array" {
+			throw new Phalcon\Mvc\Model\Exception("Options must be an array");
+		}
+
+		/**
+		 * Enables/Disables globally the internal events
+		 */
+		if fetch disableEvents, options["events"] {
+			globals_set("orm.events", disableEvents);
+		}
+
+		/**
+		 * Enables/Disables virtual foreign keys
+		 */
+		if fetch virtualForeignKeys, options["virtualForeignKeys"] {
+			globals_set("orm.virtual_foreign_keys", virtualForeignKeys);
+		}
+
+		/**
+		 * Enables/Disables column renaming
+		 */
+		if fetch columnRenaming, options["columnRenaming"] {
+			globals_set("orm.column_renaming", columnRenaming);
+		}
+
+		/**
+		 * Enables/Disables automatic not null validation
+		 */
+		if fetch notNullValidations, options["notNullValidations"] {
+			globals_set("orm.not_null_validations", notNullValidations);
+		}
+
+		/**
+		 * Enables/Disables throws an exception if the saving process fails
+		 */
+		if fetch exceptionOnFailedSave, options["exceptionOnFailedSave"] {
+			globals_set("orm.exception_on_failed_save", exceptionOnFailedSave);
+		}
+
+		/**
+		 * Enables/Disables literals in PHQL this improves the security of applications
+		 */
+		if fetch phqlLiterals, options["phqlLiterals"] {
+			globals_set("orm.enable_literals", phqlLiterals);
+		}
+
+	}
+
 }
