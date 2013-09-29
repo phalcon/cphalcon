@@ -110,5 +110,8 @@
 			<!-- Image -->
 			<file>unit-tests/ImageTest.php</file>
 		</testsuite>
+		<testsuite name="PHPT">
+			<directory suffix=".phpt">../ext/tests/</directory>
+		</testsuite>
 	</testsuites>
 </phpunit>
