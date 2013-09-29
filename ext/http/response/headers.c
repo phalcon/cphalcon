@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
 
 	zval *header;
 
-	phalcon_fetch_params(1, 1, 0, &header);
+	phalcon_fetch_params(0, 1, 0, &header);
 	
 	phalcon_update_property_array(this_ptr, SL("_headers"), header, PHALCON_GLOBAL(z_null) TSRMLS_CC);
 }
