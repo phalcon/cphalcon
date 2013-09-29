@@ -74,7 +74,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
 		return;
 	}
 	phalcon_update_property_this(this_ptr, SL("_options"), options TSRMLS_CC);
-	
+}
+
+/**
+ * Phalcon\Mvc\Model\Validator getFieldName
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Validator, getFieldName){
+
+	zval *options, *field_name;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (phalcon_array_isset_string(options, SS("field"))) {
+		PHALCON_OBS_VAR(field_name);
+		phalcon_array_fetch_string(&field_name, options, SL("field"), PH_NOISY);
+		RETURN_CCTOR(field_name);
+	}
+
+	RETURN_MM_NULL();
 }
 
 /**

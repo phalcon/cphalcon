@@ -352,6 +352,15 @@ zend_class_entry *phalcon_image_adapter_gd_ce;
 zend_class_entry *phalcon_image_adapter_imagick_ce;
 zend_class_entry *phalcon_utils_exception_ce;
 zend_class_entry *phalcon_utils_scws_ce;
+zend_class_entry *phalcon_utils_slug_ce;
+zend_class_entry *phalcon_utils_date_ce;
+zend_class_entry *phalcon_utils_arr_ce;
+zend_class_entry *phalcon_http_client_ce;
+zend_class_entry *phalcon_http_client_exception_ce;
+zend_class_entry *phalcon_chart_qrcode_ce;
+zend_class_entry *phalcon_chart_exception_ce;
+zend_class_entry *phalcon_validation_validator_json_ce;
+zend_class_entry *phalcon_mvc_model_validator_json_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
@@ -706,6 +715,15 @@ static PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Image_Adapter_Imagick);
 	PHALCON_INIT(Phalcon_Utils_Scws);
 	PHALCON_INIT(Phalcon_Utils_Exception);
+	PHALCON_INIT(Phalcon_Utils_Slug);
+	PHALCON_INIT(Phalcon_Utils_Date);
+	PHALCON_INIT(Phalcon_Utils_Arr);
+	PHALCON_INIT(Phalcon_Http_Client);
+	PHALCON_INIT(Phalcon_Http_Client_Exception);
+	PHALCON_INIT(Phalcon_Chart_QRcode);
+	PHALCON_INIT(Phalcon_Chart_Exception);
+	PHALCON_INIT(Phalcon_Validation_Validator_Json);
+	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Json);
 
 	orig_execute_internal = zend_execute_internal;
 	if (!zend_execute_internal && !getenv("PHALCON_NO_RVO")) {
@@ -908,6 +926,13 @@ zend_module_dep phalcon_deps[] = {
 #else
 	ZEND_MOD_OPTIONAL("pcre")
 #endif
+
+#if PHALCON_USE_PHP_CURL
+	ZEND_MOD_REQUIRED("curl")
+#else
+	ZEND_MOD_OPTIONAL("curl")
+#endif
+
 	ZEND_MOD_OPTIONAL("apc")
 	ZEND_MOD_OPTIONAL("apcu")
 	ZEND_MOD_OPTIONAL("XCache")

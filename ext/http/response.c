@@ -618,7 +618,7 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
  *	$response->setJsonContent(array("status" => "OK"), JSON_NUMERIC_CHECK);
 *</code>
  *
- * @param string $content
+ * @param mixed $content
  * @param int $jsonOptions bitmask consisting on http://www.php.net/manual/en/json.constants.php
  * @return Phalcon\Http\ResponseInterface
  */
@@ -638,6 +638,35 @@ PHP_METHOD(Phalcon_Http_Response, setJsonContent){
 	PHALCON_INIT_VAR(json_content);
 	phalcon_json_encode(json_content, NULL, content, options TSRMLS_CC);
 	phalcon_update_property_this(this_ptr, SL("_content"), json_content TSRMLS_CC);
+	RETURN_THIS();
+}
+
+/**
+ * Sets HTTP response body. The parameter is automatically converted to BSON
+ *
+ *<code>
+ *	$response->setBsonContent(array("status" => "OK", "pic" => new MongoBinData(file_get_contents("/var/www/phalconphp.jpg")));
+*</code>
+ *
+ * @param mixed $content
+ * @return Phalcon\Http\ResponseInterface
+ */
+PHP_METHOD(Phalcon_Http_Response, setBsonContent){
+
+	zval *content, *bson_content, *content_type;
+
+	PHALCON_MM_GROW();
+
+	phalcon_fetch_params(1, 1, 1, &content);
+
+	PHALCON_INIT_VAR(content_type);
+	ZVAL_STRING(content_type, "application/bson", 1);
+	phalcon_call_method_p1_noret(this_ptr, "setContentType", content_type);
+	
+	PHALCON_OBS_VAR(bson_content);
+	PHALCON_CALL_FUNCTION(bson_content, &bson_content, "bson_encode", 1, content);
+
+	phalcon_update_property_this(this_ptr, SL("_content"), bson_content TSRMLS_CC);
 	RETURN_THIS();
 }
 

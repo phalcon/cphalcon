@@ -1971,14 +1971,19 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model, validate){
 
-	zval *validator, *status, *messages, *message = NULL;
+	zval *validator, *allow_empty = NULL, *field_name, *value, *status, *messages, *message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_fetch_params(1, 1, 0, &validator);
+	phalcon_fetch_params(1, 1, 1, &validator, &allow_empty);
+
+	if (!allow_empty) {
+		PHALCON_INIT_VAR(allow_empty);
+		ZVAL_FALSE(allow_empty);
+	}
 	
 	/** 
 	 * Valid validators are objects
@@ -1986,6 +1991,21 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 	if (Z_TYPE_P(validator) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator must be an Object");
 		return;
+	}
+
+	if (zend_is_true(allow_empty)) {
+		PHALCON_INIT_VAR(field_name);
+		phalcon_call_method(field_name, validator, "getFieldName");
+
+		if (phalcon_isset_property_zval(this_ptr, field_name TSRMLS_CC)) {
+			PHALCON_OBS_VAR(value);
+			phalcon_read_property_zval(&value, this_ptr, field_name, PH_NOISY_CC);
+			if (PHALCON_IS_EMPTY(value)) {
+				RETURN_THIS();
+			}
+		} else {
+			RETURN_THIS();
+		}
 	}
 	
 	/** 
