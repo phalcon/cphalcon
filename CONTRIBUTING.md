@@ -27,7 +27,7 @@ Please supply any information that may be useful in fixing the bug:
 If you are reporting a crash, please try to build Phalcon in the debug mode and try to get the backtrace.
 
 
-# How to Build Phalcon in Debug Mode
+## How to Build Phalcon in Debug Mode
 
 ```bash
 cd ext
@@ -38,7 +38,7 @@ sudo make install
 ```
 
 
-# How to Generate Backtrace (Linux)
+## How to Generate Backtrace (Linux)
 
 To generate a meaningful backtrace, please build Phalcon in the debug mode (see above).
 
@@ -67,7 +67,7 @@ or
 gdb /usr/sbin/apache2 /path/to/core
 ```
 
-Than, at the gdb prompt, type
+Then, at the gdb prompt, please type
 
 ```
 bt full
@@ -79,5 +79,5 @@ Use `quit` to exit gdb.
 
 
 
-Thanks!
+Thanks!  
 Phalcon Team
