@@ -405,7 +405,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 
 		let temporary = false;
 		if fetch options, definition["options"] {
-			//fetch temporary, options["temporary"]
+			fetch temporary, options["temporary"];
 		}
 
 		/**
@@ -675,8 +675,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 */
 	public function describeReferences(table, schema=null) -> string
 	{
-		var sql;
-		let sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ";
+		var sql = "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ";
 		if schema {
 			let sql .= "CONSTRAINT_SCHEMA = '" . schema . "' AND TABLE_NAME = '" . table . "'";
 		} else {
@@ -694,8 +693,7 @@ class MySQL extends Phalcon\Db\Dialect //implements Phalcon\Db\DialectInterface
 	 */
 	public function tableOptions(table, schema=null) -> string
 	{
-		var sql;
-		let sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ";
+		var sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ";
 		if schema {
 			let sql .= "TABLES.TABLE_SCHEMA = '" . schema . "' AND TABLES.TABLE_NAME = '" . table . "'";
 		} else {

@@ -17,6 +17,7 @@
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 
 
 /*
@@ -206,7 +207,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
  */
 PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 
-	zval *data, *constraintName;
+	zval *data, *referencedSchema, *referencedTable, *columns, *referencedColumns, *constraintName, *_0;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data);
@@ -218,7 +219,19 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_name parameter is required");
 		return;
 	}
-	ZEPHIR_MM_RESTORE();
+	ZEPHIR_OBS_VAR(referencedSchema);
+	ZEPHIR_OBS_VAR(referencedTable);
+	ZEPHIR_OBS_VAR(columns);
+	ZEPHIR_OBS_VAR(referencedColumns);
+	object_init_ex(return_value, phalcon_db_reference_ce);
+	ZEPHIR_INIT_VAR(_0);
+	array_init(_0);
+	zephir_array_update_string(&_0, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_0, SL("referencedTable"), &referencedTable, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_0, SL("columns"), &columns, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_0, SL("referencedColumns"), &referencedColumns, PH_COPY | PH_SEPARATE);
+	zephir_call_method_p2_noret(return_value, "__construct", constraintName, _0);
+	RETURN_MM();
 
 }
 

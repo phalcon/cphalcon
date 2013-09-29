@@ -122,6 +122,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Manager) {
  */
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_reusable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_keepSnapshots"), ZEND_ACC_PROTECTED TSRMLS_CC);
+/**
+ *
+ */
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_dynamicUpdate"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_namespaceAliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -472,7 +477,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
 
-	zval *model, *connectionServices, *dependencyInjector = NULL, *service, *connection = NULL, *_0, *_1 = NULL, *_2;
+	zval *model, *connectionServices, *dependencyInjector = NULL, *service, *connection = NULL, *_0 = NULL, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -482,27 +487,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
 	ZEPHIR_OBS_VAR(connectionServices);
 	zephir_read_property_this(&connectionServices, this_ptr, SL("_readConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(service);
-		ZVAL_NULL(service);
+		ZEPHIR_OBS_VAR(service);
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
 	}
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(dependencyInjector, _0);
+	ZEPHIR_OBS_VAR(_1);
+	zephir_read_property_this(&_1, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(dependencyInjector, _1);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
 	ZEPHIR_INIT_VAR(connection);
 	if (zephir_is_true(service)) {
-		ZEPHIR_INIT_VAR(_1);
-		zephir_call_method_p1(_1, dependencyInjector, "getshared", service);
-		ZEPHIR_CPY_WRT(connection, _1);
+		ZEPHIR_INIT_NVAR(_0);
+		zephir_call_method_p1(_0, dependencyInjector, "getshared", service);
+		ZEPHIR_CPY_WRT(connection, _0);
 	} else {
-		ZEPHIR_INIT_NVAR(_1);
+		ZEPHIR_INIT_NVAR(_0);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "db", 1);
-		zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
-		ZEPHIR_CPY_WRT(connection, _1);
+		zephir_call_method_p1(_0, dependencyInjector, "getshared", _2);
+		ZEPHIR_CPY_WRT(connection, _0);
 	}
 	if ((Z_TYPE_P(connection) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid injected connection service");
@@ -520,7 +526,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection) {
 
-	zval *model, *connectionServices, *dependencyInjector = NULL, *service, *connection = NULL, *_0, *_1 = NULL, *_2;
+	zval *model, *connectionServices, *dependencyInjector = NULL, *service, *connection = NULL, *_0 = NULL, *_1, *_2;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -530,27 +536,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection) {
 	ZEPHIR_OBS_VAR(connectionServices);
 	zephir_read_property_this(&connectionServices, this_ptr, SL("_writeConnectionServices"), PH_NOISY_CC);
 	if ((Z_TYPE_P(connectionServices) == IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(service);
-		ZVAL_NULL(service);
+		ZEPHIR_OBS_VAR(service);
+		ZEPHIR_INIT_VAR(_0);
+		zephir_call_func_p1(_0, "get_class_lower", model);
 	}
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	ZEPHIR_CPY_WRT(dependencyInjector, _0);
+	ZEPHIR_OBS_VAR(_1);
+	zephir_read_property_this(&_1, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	ZEPHIR_CPY_WRT(dependencyInjector, _1);
 	if ((Z_TYPE_P(dependencyInjector) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
 	ZEPHIR_INIT_VAR(connection);
 	if (zephir_is_true(service)) {
-		ZEPHIR_INIT_VAR(_1);
-		zephir_call_method_p1(_1, dependencyInjector, "getshared", service);
-		ZEPHIR_CPY_WRT(connection, _1);
+		ZEPHIR_INIT_NVAR(_0);
+		zephir_call_method_p1(_0, dependencyInjector, "getshared", service);
+		ZEPHIR_CPY_WRT(connection, _0);
 	} else {
-		ZEPHIR_INIT_NVAR(_1);
+		ZEPHIR_INIT_NVAR(_0);
 		ZEPHIR_INIT_VAR(_2);
 		ZVAL_STRING(_2, "db", 1);
-		zephir_call_method_p1(_1, dependencyInjector, "getshared", _2);
-		ZEPHIR_CPY_WRT(connection, _1);
+		zephir_call_method_p1(_0, dependencyInjector, "getshared", _2);
+		ZEPHIR_CPY_WRT(connection, _0);
 	}
 	if ((Z_TYPE_P(connection) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid injected connection service");

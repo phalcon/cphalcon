@@ -127,17 +127,17 @@ class Reference implements Phalcon\Db\ReferenceInterface
 			throw new Phalcon\Db\Exception("_name parameter is required");
 		}
 
-		//fetch referencedSchema, data["_referencedSchema"]
-		//fetch referencedTable, data["_referencedTable"];
-		//fetch columns, data["_columns"];
-		//fetch referencedColumns, data["_referencedColumns"];
+		fetch referencedSchema, data["_referencedSchema"];
+		fetch referencedTable, data["_referencedTable"];
+		fetch columns, data["_columns"];
+		fetch referencedColumns, data["_referencedColumns"];
 
-		/*return new Phalcon\Db\Reference(constraintName, [
+		return new Phalcon\Db\Reference(constraintName, [
 			"referencedSchema"  : referencedSchema,
 			"referencedTable"   : referencedTable,
 			"columns"           : columns,
 			"referencedColumns" : referencedColumns
-		]);*/
+		]);
 	}
 
 }

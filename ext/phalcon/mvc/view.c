@@ -781,7 +781,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 	int renderLevel, cacheLevel;
 	zend_bool silence, mustClean, notExists;
 	zval *viewPath = NULL;
-	zval *engines, *viewPath_param = NULL, *silence_param = NULL, *mustClean_param = NULL, *cache, *key = NULL, *lifetime, *viewsDir, *basePath, *viewsDirPath, *viewOptions, *cacheOptions, *cachedView, *viewParams, *eventsManager = NULL, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *_0, *_1 = NULL, *_2, *_3 = NULL, *_4 = NULL, **_7, *_8 = NULL, *_12, *_13;
+	zval *engines, *viewPath_param = NULL, *silence_param = NULL, *mustClean_param = NULL, *cache, *key = NULL, *lifetime = NULL, *viewsDir, *basePath, *viewsDirPath, *viewOptions, *cacheOptions, *cachedView, *viewParams, *eventsManager = NULL, *extension = NULL, *engine = NULL, *viewEnginePath = NULL, *_0, *_1 = NULL, *_2, *_3 = NULL, *_4 = NULL, **_7, *_8 = NULL, *_12, *_13;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 5, 0, &engines, &viewPath_param, &silence_param, &mustClean_param, &cache);
@@ -821,6 +821,8 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender) {
 					ZEPHIR_OBS_VAR(cacheOptions);
 					if (zephir_array_isset_string_fetch(&cacheOptions, viewOptions, SS("cache") TSRMLS_CC)) {
 						if ((Z_TYPE_P(cacheOptions) == IS_ARRAY)) {
+							ZEPHIR_OBS_NVAR(key);
+							ZEPHIR_OBS_NVAR(lifetime);
 						}
 					}
 				}
@@ -1160,7 +1162,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
 	} else {
 		ZEPHIR_INIT_VAR(layout);
 		ZVAL_NULL(layout);
-		if (zephir_memnstr_str(renderView, SL("/"), "phalcon/mvc/view.zep", 972)) {
+		if (zephir_memnstr_str(renderView, SL("/"), "/Users/gutierrezandresfelipe/cphalcon/phalcon/mvc/view.zep", 972)) {
 			ZEPHIR_SINIT_VAR(_0);
 			ZVAL_STRING(&_0, "/", 0);
 			ZEPHIR_INIT_VAR(parts);

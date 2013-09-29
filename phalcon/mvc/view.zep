@@ -619,8 +619,8 @@ class View extends Phalcon\Di\Injectable implements Phalcon\Mvc\ViewInterface
 					if typeof viewOptions == "array" {
 						if fetch cacheOptions, viewOptions["cache"] {
 							if typeof cacheOptions == "array" {
-								//fetch key, cacheOptions["key"];
-								//fetch lifetime, cacheOptions["lifetime"];
+								fetch key, cacheOptions["key"];
+								fetch lifetime, cacheOptions["lifetime"];
 							}
 						}
 					}

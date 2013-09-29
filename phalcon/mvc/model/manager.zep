@@ -125,6 +125,13 @@ class Manager
 	protected _keepSnapshots;
 
 	/**
+	 *
+	 */
+	protected _dynamicUpdate;
+
+	protected _namespaceAliases;
+
+	/**
 	 * Sets the DependencyInjector container
 	 *
 	 * @param Phalcon\DiInterface dependencyInjector
@@ -377,8 +384,7 @@ class Manager
 		 * Check if the model has a custom connection service
 		 */
 		if typeof connectionServices == "array" {
-			//fetch service, connectionServices[get_class_lower(model)];
-			let service = null;
+			fetch service, connectionServices[get_class_lower(model)];
 		}
 
 		let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;
@@ -407,7 +413,7 @@ class Manager
 	 * @param Phalcon\Mvc\ModelInterface model
 	 * @return Phalcon\Db\AdapterInterface
 	 */
-	public function getWriteConnection(<Phalcon\Mvc\ModelInterface> model)
+	public function getWriteConnection(<Phalcon\Mvc\ModelInterface> model) -> <Phalcon\Db\AdapterInterface>
 	{
 		var connectionServices, dependencyInjector, service, connection;
 
@@ -417,8 +423,7 @@ class Manager
 		 * Check if the model has a custom connection service
 		 */
 		if typeof connectionServices == "array" {
-			//fetch service, connectionServices[get_class_lower(model)];
-			let service = null;
+			fetch service, connectionServices[get_class_lower(model)];
 		}
 
 		let dependencyInjector = <Phalcon\DiInterface> this->_dependencyInjector;

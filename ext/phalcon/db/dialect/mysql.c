@@ -733,8 +733,7 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 	zend_function *_7 = NULL, *_9 = NULL, *_11 = NULL, *_13 = NULL, *_15 = NULL, *_19 = NULL, *_20 = NULL, *_21 = NULL, *_22 = NULL, *_23 = NULL, *_28 = NULL, *_29 = NULL, *_31 = NULL, *_34 = NULL, *_35 = NULL;
 	HashTable *_4, *_17, *_26;
 	HashPosition _3, _16, _25;
-	zend_bool temporary;
-	zval *tableName, *schemaName, *definition, *options, *table, *createLines, *columns, *column = NULL, *indexes, *index = NULL, *reference = NULL, *references, *indexName = NULL, *indexSql = NULL, *sql, *columnLine = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_6 = NULL, *_8 = NULL, *_10 = NULL, *_12 = NULL, *_14 = NULL, **_18, *_24 = NULL, **_27, *_30 = NULL, *_32 = NULL, *_33 = NULL, *_36 = NULL, *_37 = NULL, _38;
+	zval *tableName, *schemaName, *definition, *temporary = NULL, *options, *table, *createLines, *columns, *column = NULL, *indexes, *index = NULL, *reference = NULL, *references, *indexName = NULL, *indexSql = NULL, *sql, *columnLine = NULL, *_0 = NULL, *_1 = NULL, *_2 = NULL, **_5, *_6 = NULL, *_8 = NULL, *_10 = NULL, *_12 = NULL, *_14 = NULL, **_18, *_24 = NULL, **_27, *_30 = NULL, *_32 = NULL, *_33 = NULL, *_36 = NULL, *_37 = NULL, _38;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName, &schemaName, &definition);
@@ -760,12 +759,14 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, createTable) {
 		ZEPHIR_CONCAT_SV(_0, "`", tableName);
 		ZEPHIR_CONCAT_VS(table, _0, "`");
 	}
-	temporary = 0;
+	ZEPHIR_INIT_VAR(temporary);
+	ZVAL_BOOL(temporary, 0);
 	ZEPHIR_OBS_VAR(options);
 	if (zephir_array_isset_string_fetch(&options, definition, SS("options") TSRMLS_CC)) {
+		ZEPHIR_OBS_NVAR(temporary);
 	}
 	ZEPHIR_INIT_VAR(sql);
-	if (temporary) {
+	if (zephir_is_true(temporary)) {
 		ZEPHIR_INIT_LNVAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "CREATE TEMPORARY TABLE ", table);
 		ZEPHIR_CONCAT_VS(sql, _0, " (\n\t");
@@ -1258,11 +1259,11 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeReferences) {
 	if (!schema) {
 		ZEPHIR_CPY_WRT(schema, ZEPHIR_GLOBAL(global_null));
 	}
+	ZEPHIR_INIT_VAR(sql);
+	ZVAL_STRING(sql, "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ", 1);
 
 
 	ZEPHIR_INIT_VAR(sql);
-	ZVAL_STRING(sql, "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ", 1);
-	ZEPHIR_INIT_BNVAR(sql);
 	if (zephir_is_true(schema)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "CONSTRAINT_SCHEMA = '", schema);
@@ -1301,11 +1302,11 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableOptions) {
 	if (!schema) {
 		ZEPHIR_CPY_WRT(schema, ZEPHIR_GLOBAL(global_null));
 	}
+	ZEPHIR_INIT_VAR(sql);
+	ZVAL_STRING(sql, "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ", 1);
 
 
 	ZEPHIR_INIT_VAR(sql);
-	ZVAL_STRING(sql, "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ", 1);
-	ZEPHIR_INIT_BNVAR(sql);
 	if (zephir_is_true(schema)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "TABLES.TABLE_SCHEMA = '", schema);

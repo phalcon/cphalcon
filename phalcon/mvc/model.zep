@@ -290,7 +290,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string source
 	 * @return Phalcon\Mvc\Model
 	 */
-	protected function setSource(source) -> <Phalcon\Mvc\Model>
+	protected function setSource(string source) -> <Phalcon\Mvc\Model>
 	{
 		var modelsManager;
 		let modelsManager = this->_modelsManager;
@@ -316,7 +316,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 	 * @param string schema
 	 * @return Phalcon\Mvc\Model
 	 */
-	protected function setSchema(schema) -> <Phalcon\Mvc\Model>
+	protected function setSchema(string schema) -> <Phalcon\Mvc\Model>
 	{
 		var modelsManager;
 		let modelsManager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
@@ -743,7 +743,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		 * Check for bind parameters
 		 */
 		if fetch bindParams, params["bind"] {
-			//fetch bindTypes, params["bindTypes"];
+			fetch bindTypes, params["bindTypes"];
 		}
 
 		/**
@@ -822,7 +822,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		 */
 		let bindParams = null, bindTypes = null;
 		if fetch bindParams, params["bind"] {
-			//fetch bindTypes, params["bindTypes"];
+			fetch bindTypes, params["bindTypes"];
 		}
 
 		/**
@@ -1071,7 +1071,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		 */
 		let bindParams = null, bindTypes = null;
 		if fetch bindParams, params["bind"] {
-			//fetch bindTypes, params["bindTypes"];
+			fetch bindTypes, params["bindTypes"];
 		}
 
 		/**
@@ -1462,7 +1462,7 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 					 * Try to find a different action in the foreign key's options
 					 */
 					if typeof foreignKey == "array" {
-						//fetch action, foreignKey["action"];
+						fetch action, foreignKey["action"];
 					}
 
 					/**
@@ -1488,13 +1488,12 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 							 * Create a compound condition
 							 */
 							for position, field in fields {
-								//fetch value, this->{field}
-								let value = null;
+								fetch value, this->{field};
 								let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
 									bindParams[] = value;
 							}
 						} else {
-							//fetch value, this->{fields};
+							fetch value, this->{fields};
 							let conditions[] = "[" . referencedFields . "] = ?0",
 								bindParams[] = value;
 						}
@@ -1548,6 +1547,350 @@ abstract class Model //implements Phalcon\Mvc\ModelInterface, Phalcon\Mvc\Model\
 		}
 
 		return true;
+	}
+
+	/**
+	 * Reads both "hasMany" and "hasOne" relations and checks the virtual foreign keys (cascade) when deleting records
+	 *
+	 * @return boolean
+	 */
+	protected function _checkForeignKeysReverseCascade() -> boolean
+	{
+
+		var manager, relations, relation, foreignKey,
+			resulset, conditions, bindParams, bindTypes, referencedModel,
+			referencedFields, action, fields, field, position, value,
+			extraConditions;
+
+		/**
+		 * Get the models manager
+		 */
+		let manager = <Phalcon\Mvc\Model\ManagerInterface> this->_modelsManager;
+
+		/**
+		 * We check if some of the hasOne/hasMany relations is a foreign key
+		 */
+		let relations = manager->getHasOneAndHasMany(this);
+
+		if count(relations) {
+
+			for relation in relations {
+
+				/**
+				 * Check if the relation has a virtual foreign key
+				 */
+				let foreignKey = relation->getForeignKey();
+				if foreignKey !== false {
+
+					/**
+					 * By default action is restrict
+					 */
+					let action = Phalcon\Mvc\Model\Relation::NO_ACTION;
+
+					/**
+					 * Try to find a different action in the foreign key's options
+					 */
+					if typeof foreignKey == "array" {
+						fetch action, foreignKey["action"];
+					}
+
+					/**
+					 * Check only if the operation is restrict
+					 */
+					if action == Phalcon\Mvc\Model\Relation::ACTION_CASCADE {
+
+						/**
+						 * Load a plain instance from the models manager
+						 */
+						let referencedModel = manager->load(relation->getReferencedModel());
+
+						let fields = relation->getFields(),
+							referencedFields = relation->getReferencedFields();
+
+						/**
+						 * Create the checking conditions. A relation can has many fields or a single one
+						 */
+						let conditions = [], bindParams = [];
+
+						if typeof fields == "array" {
+							for position, field in fields {
+								fetch value, this->{field};
+								let conditions[] = "[". referencedFields[position] . "] = ?" . position,
+									bindParams[] = value;
+							}
+						} else {
+							fetch value, this->{fields};
+							let conditions[] = "[" . referencedFields . "] = ?0",
+								bindParams[] = value;
+						}
+
+						/**
+						 * Check if the virtual foreign key has extra conditions
+						 */
+						if fetch extraConditions, foreignKey["conditions"] {
+							let conditions[] = extraConditions;
+						}
+
+						/**
+						 * We don't trust the actual values in the object and then we're passing the values using bound parameters
+						 * Let's make the checking
+						 */
+						let resulset = referencedModel->find([join(" AND ", conditions), "bind": bindParams]);
+
+						/**
+						 * Delete the resultset
+						 * Stop the operation if needed
+						 */
+						if resulset->delete() === false {
+							return false;
+						}
+					}
+				}
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
+	 * Executes internal hooks before save a record
+	 *
+	 * @param Phalcon\Mvc\Model\MetadataInterface metaData
+	 * @param boolean exists
+	 * @param string identityField
+	 * @return boolean
+	 */
+	protected function _preSave(<Phalcon\Mvc\Model\MetadataInterface> metaData, boolean exists, var identityField) -> boolean
+	{
+
+		var notNull, columnMap, dataTypeNumeric, automaticAttributes, field, attributeField, value;
+		boolean error, isNull;
+
+		/**
+		 * Run Validation Callbacks Before
+		 */
+		if globals_get("orm.events") {
+
+			/**
+			 * Call the beforeValidation
+			 */
+			if this->fireEventCancel("beforeValidation") ===false {
+				return false;
+			}
+
+			/**
+			 * Call the specific beforeValidation event for the current action
+			 */
+			if exists {
+				if this->fireEventCancel("beforeValidationOnCreate") === false {
+					return false;
+				}
+			} else {
+				if this->fireEventCancel("beforeValidationOnUpdate") === false {
+					return false;
+				}
+			}
+		}
+
+		/**
+		 * Check for Virtual foreign keys
+		 */
+		if globals_get("orm.virtual_foreign_keys") {
+			if this->_checkForeignKeysRestrict() === false {
+				return false;
+			}
+		}
+
+		/**
+		 * Columns marked as not null are automatically validated by the ORM
+		 */
+		if globals_get("orm.not_null_validations") {
+
+			let notNull = metaData->getNotNullAttributes(this);
+			if typeof notNull == "array" {
+
+				/**
+				 * Gets the fields that are numeric, these are validated in a diferent way
+				 */
+				let dataTypeNumeric = metaData->getDataTypesNumeric(this);
+
+				if globals_get("orm.column_renaming") {
+					let columnMap = metaData->getColumnMap(this);
+				} else {
+					let columnMap = null;
+				}
+
+				/**
+				 * Get fields that must be omitted from the SQL generation
+				 */
+				if exists {
+					let automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
+				} else {
+					let automaticAttributes = metaData->getAutomaticCreateAttributes(this);
+				}
+
+				let error = false;
+				for field in notNull {
+
+					/**
+					 * We don"t check fields that must be omitted
+					 */
+					if !isset automaticAttributes[field] {
+
+						let isNull = false;
+
+						if typeof columnMap == "array" {
+							if !fetch attributeField, columnMap[field] {
+								throw new Phalcon\Mvc\Model\Exception("Column '" . field . "' isn't part of the column map");
+							}
+						} else {
+							let attributeField = field;
+						}
+
+						/**
+						 * Field is null when: 1) is not set, 2) is numeric but its value is not numeric, 3) is null or 4) is empty string
+						 * Read the attribute from the this_ptr using the real or renamed name
+						 */
+						if fetch value, this->{attributeField} {
+
+							/**
+							 * Objects are never treated as null, numeric fields must be numeric to be accepted as not null
+							 */
+							if typeof value != "object" {
+								if !isset dataTypeNumeric[field] {
+									if empty value {
+										let isNull = true;
+									}
+								} else {
+									if !is_numeric(value) {
+										let isNull = true;
+									}
+								}
+							}
+						} else {
+							let isNull = true;
+						}
+
+						if isNull === true {
+
+							if !exists {
+								/**
+								 * The identity field can be null
+								 */
+								if field == identityField {
+									continue;
+								}
+							}
+
+							/**
+							 * A implicit PresenceOf message is created
+							 */
+							let this->_errorMessages[] = new Phalcon\Mvc\Model\Message(attributeField . " is required", attributeField, "PresenceOf"),
+								error = true;
+						}
+					}
+				}
+
+				if error === true {
+					if globals_get("orm.events") {
+						this->fireEvent("onValidationFails");
+						this->_cancelOperation();
+					}
+					return false;
+				}
+			}
+		}
+
+		/**
+		 * Call the main validation event
+		 */
+		if this->fireEventCancel("validation") === false {
+			if globals_get("orm.events") {
+				this->fireEvent("onValidationFails");
+			}
+			return false;
+		}
+
+		/**
+		 * Run Validation
+		 */
+		if globals_get("orm.events") {
+
+			/**
+			 * Run Validation Callbacks After
+			 */
+			if !exists {
+				if this->fireEventCancel("afterValidationOnCreate") === false {
+					return false;
+				}
+			} else {
+				if this->fireEventCancel("afterValidationOnUpdate") === false {
+					return false;
+				}
+			}
+
+			if this->fireEventCancel("afterValidation") === false {
+				return false;
+			}
+
+			/**
+			 * Run Before Callbacks
+			 */
+			if this->fireEventCancel("beforeSave") === false {
+				return false;
+			}
+
+			let this->_skipped = false;
+
+			/**
+			 * The operation can be skipped here
+			 */
+			if exists {
+				if this->fireEventCancel("beforeUpdate") === false {
+					return false;
+				}
+			} else {
+				if this->fireEventCancel("beforeCreate") === false {
+					return false;
+				}
+			}
+
+			/**
+			 * Always return true if the operation is skipped
+			 */
+			if this->_skipped === true {
+				return true;
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
+	 * Executes internal events after save a record
+	 *
+	 * @param boolean success
+	 * @param boolean exists
+	 * @return boolean
+	 */
+	protected function _postSave(boolean success, boolean exists) -> boolean
+	{
+
+		if success === true {
+			if exists {
+				this->fireEvent("afterUpdate");
+			} else {
+				this->fireEvent("afterCreate");
+			}
+			this->fireEvent("afterSave");
+			return success;
+		}
+
+		this->fireEvent("notSave");
+		this->_cancelOperation();
+		return false;
 	}
 
 }
