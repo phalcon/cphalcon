@@ -152,7 +152,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, getColumnDefinition) {
 				ZEPHIR_INIT_LNVAR(_2);
 				ZEPHIR_CONCAT_SV(_2, "(", size);
 				zephir_concat_self(&columnSql, _2 TSRMLS_CC);
-				ZEPHIR_INIT_NVAR(columnSql);
 				if (zephir_is_true(scale)) {
 					ZEPHIR_INIT_LNVAR(_4);
 					ZEPHIR_CONCAT_SV(_4, ",", scale);
@@ -1263,7 +1262,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeReferences) {
 	ZVAL_STRING(sql, "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ", 1);
 
 
-	ZEPHIR_INIT_VAR(sql);
 	if (zephir_is_true(schema)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "CONSTRAINT_SCHEMA = '", schema);
@@ -1306,7 +1304,6 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableOptions) {
 	ZVAL_STRING(sql, "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ", 1);
 
 
-	ZEPHIR_INIT_VAR(sql);
 	if (zephir_is_true(schema)) {
 		ZEPHIR_INIT_VAR(_0);
 		ZEPHIR_CONCAT_SV(_0, "TABLES.TABLE_SCHEMA = '", schema);

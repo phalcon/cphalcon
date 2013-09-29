@@ -763,7 +763,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select) {
 	}
 	ZEPHIR_OBS_VAR(whereConditions);
 	if (zephir_array_isset_string_fetch(&whereConditions, definition, SS("where") TSRMLS_CC)) {
-		ZEPHIR_INIT_BNVAR(sql);
 		if ((Z_TYPE_P(whereConditions) == IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_6);
 			zephir_call_method_p2(_6, this_ptr, "getsqlexpression", whereConditions, escapeChar);
